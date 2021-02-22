@@ -891,6 +891,8 @@ void machine_specific_reset(void)
     datasette_reset();
 
     sampler_reset();
+
+    cartridge_reset();
 }
 
 void machine_specific_powerup(void)

@@ -1,6 +1,6 @@
 
 /*
- * magiccart.h - c264 magic cart handling
+ * jacint1mb.h - 1MB Cartridge handling
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -25,18 +25,18 @@
  *
  */
 
-#ifndef VICE_MAGICCART_H
-#define VICE_MAGICCART_H
+#ifndef VICE_1MBJACINT_H
+#define VICE_1MBJACINT_H
 
 #include "types.h"
 
-extern uint8_t magiccart_c1lo_read(uint16_t addr);
+extern uint8_t jacint1mb_c1lo_read(uint16_t addr);
 
-extern void magiccart_config_setup(uint8_t *rawcart);
-extern int magiccart_bin_attach(const char *filename, uint8_t *rawcart);
+extern void jacint1mb_config_setup(uint8_t *rawcart);
+extern int jacint1mb_bin_attach(const char *filename, uint8_t *rawcart);
 
-extern void magiccart_detach(void);
+extern void jacint1mb_detach(void);
 
-extern void magiccart_reset(void);
+extern void jacint1mb_reset(void);
 
 #endif

@@ -11421,6 +11421,75 @@ Specify @file{NAME} as the cartridge image to attach.
 @section PLUS4-specific commands and settings
 
 @c @node FIXME
+@subsection Using cartridge images
+
+As with the C64 (@pxref{C64 cartridges}), it is possible to attach
+several types of cartridge images:
+
+@c @node FIXME
+@subsection PLUS4 cartridge settings
+
+@c @node FIXME
+@subsubsection PLUS4 cartridge resources
+
+@table @code
+
+@vindex CartridgeReset
+@item CartridgeReset
+Boolean specifying whether the machine should be reset when a cartridge is changed.
+
+@vindex c1loName
+@item c1loName
+String specifying the filename of cartridge 1 Lo ROM.
+
+@vindex c1hiName
+@item c1hiName
+String specifying the filename of cartridge 1 High ROM.
+
+@end table
+
+@c @node FIXME
+@subsubsection PLUS4 cartridge command-line options
+
+@table @code
+
+@findex -cartreset, +cartreset
+@item -cartreset
+@itemx +cartreset
+Do/don't reset machine if a cartridge is attached or detached
+(@code{CartridgeReset=1}, @code{CartridgeReset}).
+
+@findex -c1lo
+@item -c1lo <name>
+Specify name of Cartridge 1 low ROM image
+(@code{c1loName}).
+
+@findex -c1hi
+@item -c1hi <name>
+Specify name of Cartridge 1 high ROM image
+(@code{c1HiName}).
+
+@findex -cart, +cart
+@item -cart <Name>
+@itemx +cart
+Smart-attach cartridge image / Start without cartridge
+
+@findex -cartjacint
+@item -cartjacint <name>
+Attach a 1MiB "1MB Cartridge" image
+
+@findex -cartmagic
+@item -cartmagic <name>
+Attach a 512kiB/1MiB/2MiB "c264 magic cart" image
+
+@findex -cartmulti
+@item -cartmulti <name>
+Attach a 1MiB/2MiB "Plus4 multi cart" image. The binary should contain all c1lo
+banks first, then all c1hi banks.
+
+@end table
+
+@c @node FIXME
 @subsection TED settings
 
 @c @node FIXME
@@ -11619,10 +11688,6 @@ Enable/disable video to audio leak emulation
 
 @table @code
 
-@vindex CartridgeReset
-@item CartridgeReset
-Boolean specifying whether the machine should be reset when a cartridge is changed.
-
 @vindex DIGIBLASTER
 @item DIGIBLASTER
 Boolean to enable/disable the Digiblaster emulation.
@@ -11655,17 +11720,6 @@ Boolean to enable/disable the emulation of the SID-Cart control port.
 @subsubsection PLUS4 I/O extension command-line options
 
 @table @code
-
-@findex -cartreset, +cartreset
-@item -cartreset
-@itemx +cartreset
-Do/don't reset machine if a cartridge is attached or detached
-(@code{CartridgeReset=1}, @code{CartridgeReset}).
-
-@findex -cart, +cart
-@item -cart <Name>
-@itemx +cart
-Smart-attach cartridge image / Start without cartridge
 
 @findex -digiblaster, +digiblaster
 @item -digiblaster
@@ -11729,14 +11783,6 @@ String specifying the filename of the Lo Function ROM.
 @item FunctionHighName
 String specifying the filename of the High Function ROM.
 
-@vindex c1loName
-@item c1loName
-String specifying the filename of cartridge 1 Lo ROM.
-
-@vindex c1hiName
-@item c1hiName
-String specifying the filename of cartridge 1 High ROM.
-
 @vindex c2loName
 @item c2loName
 String specifying the filename of cartridge 2 Lo ROM.
@@ -11771,16 +11817,6 @@ Specify name of Function low ROM image
 @item -functionhi <name>
 Specify name of Function high ROM image
 (@code{FunctionHighName}).
-
-@findex -c1lo
-@item -c1lo <name>
-Specify name of Cartridge 1 low ROM image
-(@code{c1loName}).
-
-@findex -c1hi
-@item -c1hi <name>
-Specify name of Cartridge 1 high ROM image
-(@code{c1HiName}).
 
 @findex -c2lo
 @item -c2lo <name>

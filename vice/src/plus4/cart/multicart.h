@@ -1,6 +1,6 @@
 
 /*
- * magiccart.h - c264 magic cart handling
+ * multicart.h - plus4 multi cart handling
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -25,18 +25,19 @@
  *
  */
 
-#ifndef VICE_MAGICCART_H
-#define VICE_MAGICCART_H
+#ifndef VICE_MULTICART_H
+#define VICE_MULTICART_H
 
 #include "types.h"
 
-extern uint8_t magiccart_c1lo_read(uint16_t addr);
+extern uint8_t multicart_c1lo_read(uint16_t addr);
+extern uint8_t multicart_c1hi_read(uint16_t addr);
 
-extern void magiccart_config_setup(uint8_t *rawcart);
-extern int magiccart_bin_attach(const char *filename, uint8_t *rawcart);
+extern void multicart_config_setup(uint8_t *rawcart);
+extern int multicart_bin_attach(const char *filename, uint8_t *rawcart);
 
-extern void magiccart_detach(void);
+extern void multicart_detach(void);
 
-extern void magiccart_reset(void);
+extern void multicart_reset(void);
 
 #endif

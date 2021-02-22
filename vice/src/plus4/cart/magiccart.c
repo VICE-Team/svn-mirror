@@ -95,6 +95,12 @@ uint8_t magiccart_c1lo_read(uint16_t addr)
     return magiccartrom[offset];
 }
 
+void magiccart_reset(void)
+{
+    DBG(("magiccart_reset\n"));
+    bankreg = 0;
+}
+
 void magiccart_config_setup(uint8_t *rawcart)
 {
     DBG(("magiccart_config_setup\n"));
@@ -118,7 +124,7 @@ int magiccart_bin_attach(const char *filename, uint8_t *rawcart)
     magiccart_filesize = 0;
 
     DBG(("magiccart_bin_attach '%s'\n", filename));
-    
+
     fd = fopen(filename, MODE_READ);
     if (fd == NULL) {
         return -1;
@@ -128,7 +134,7 @@ int magiccart_bin_attach(const char *filename, uint8_t *rawcart)
 
     DBG(("magiccart_bin_attach len: %04x\n", len));
 
-    memset(rawcart, 0xff, 0x20000); /* FIXME */
+    memset(rawcart, 0xff, 0x200000); /* FIXME */
 
     /* we accept 512KiB/1MiB/2MiB images */
     switch (len) {
@@ -158,5 +164,6 @@ int magiccart_bin_attach(const char *filename, uint8_t *rawcart)
 
 void magiccart_detach(void)
 {
+    DBG(("magiccart_detach\n"));
     io_source_unregister(magiccart_list_item);
 }

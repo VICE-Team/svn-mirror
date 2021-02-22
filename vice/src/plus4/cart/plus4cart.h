@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-/* Cartridge ROM limit = 2MB */
-#define PLUS4CART_ROM_LIMIT (1024 * 1024 * 2)
+/* Cartridge ROM limit = 4MB */
+#define PLUS4CART_ROM_LIMIT (1024 * 1024 * 4)
 /* Cartridge RAM limit = 32kB */
 #define PLUS4CART_RAM_LIMIT (32 * 1024)
 /* maximum size of a full "all inclusive" cartridge image */

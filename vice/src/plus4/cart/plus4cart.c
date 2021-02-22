@@ -46,7 +46,9 @@
 #include "sysfile.h"
 
 #include "debugcart.h"
+#include "jacint1mb.h"
 #include "magiccart.h"
+#include "multicart.h"
 #include "plus4-generic.h"
 
 #ifdef DEBUGCART
@@ -81,7 +83,7 @@ static int plus4cartridge_reset; /* (resource) hardreset system after cart was a
 
 static int mem_cartridge_type;  /* Type of the cartridge attached. */
 
-static unsigned char *rawcart;  /* raw cartridge data while loading/attaching */
+static unsigned char *rawcartdata;  /* raw cartridge data while loading/attaching */
 
 /* ---------------------------------------------------------------------*/
 
@@ -111,9 +113,15 @@ static const cmdline_option_t cmdline_options[] =
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_DETECT, NULL, NULL,
       "<Name>", "Smart-attach cartridge image" },
     /* seperate cartridge types */
+    { "-cartjacint", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_JACINT1MB, NULL, NULL,
+      "<Name>", "Attach 1MiB " CARTRIDGE_PLUS4_NAME_JACINT1MB " image" },
     { "-cartmagic", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_MAGIC, NULL, NULL,
-      "<Name>", "Smart-attach cartridge image" },
+      "<Name>", "Attach 512kiB/1MiB/2MiB " CARTRIDGE_PLUS4_NAME_MAGIC " image" },
+    { "-cartmulti", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_MULTI, NULL, NULL,
+      "<Name>", "Attach 1MiB/2MiB " CARTRIDGE_PLUS4_NAME_MULTI " image" },
     /* no cartridge */
     { "+cart", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cart_attach_cmdline, NULL, NULL, NULL,
@@ -130,6 +138,10 @@ int cartridge_cmdline_options_init(void)
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
     mon_cart_cmd.export_dump = plus4export_dump;
 #endif
+    if (generic_cmdline_options_init() < 0) {
+        return -1;
+    }
+
     return cmdline_register_options(cmdline_options);
 }
 
@@ -159,11 +171,15 @@ int cartridge_resources_init(void)
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
+    if (generic_resources_init() < 0) {
+        return -1;
+    }
     return 0;
 }
 
 void cartridge_resources_shutdown(void)
 {
+    generic_resources_shutdown();
 }
 
 void cartridge_unset_default(void)
@@ -175,14 +191,24 @@ void cartridge_unset_default(void)
 uint8_t plus4cart_c1lo_read(uint16_t addr)
 {
     switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_JACINT1MB:
+            return jacint1mb_c1lo_read(addr);
         case CARTRIDGE_PLUS4_MAGIC:
             return magiccart_c1lo_read(addr);
+        case CARTRIDGE_PLUS4_MULTI:
+            return multicart_c1lo_read(addr);
     }
+    /* FIXME: when no cartridge is attached, we will probably read open i/o */
     return generic_c1lo_read(addr);
 }
 
 uint8_t plus4cart_c1hi_read(uint16_t addr)
 {
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_MULTI:
+            return multicart_c1hi_read(addr);
+    }
+    /* FIXME: when no cartridge is attached, we will probably read open i/o */
     return generic_c1hi_read(addr);
 }
 
@@ -194,6 +220,22 @@ void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
 }
 
 /* ---------------------------------------------------------------------*/
+/*
+    called by plus4.c:machine_specific_reset (calls XYZ_reset)
+*/
+void cartridge_reset(void)
+{
+    /* cart_unset_alarms(); */
+    /* cart_reset_memptr(); */
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_JACINT1MB:
+            return jacint1mb_reset();
+        case CARTRIDGE_PLUS4_MAGIC:
+            return magiccart_reset();
+        case CARTRIDGE_PLUS4_MULTI:
+            return multicart_reset();
+    }
+}
 
 static void cart_power_off(void)
 {
@@ -204,6 +246,7 @@ static void cart_power_off(void)
 }
 /* ---------------------------------------------------------------------*/
 
+/* FIXME: get rid of this ugly hack */
 extern int plus4_rom_loaded;
 
 int plus4cart_load_func_lo(const char *rom_name)
@@ -246,96 +289,7 @@ int plus4cart_load_func_hi(const char *rom_name)
     return 0;
 }
 
-/*
-    FIXME: make these 4 non public and replace by cartridge_attach_image() in UIs (win32, amigaos)
-*/
-
-/* c1lo is always external cartridge */
-int plus4cart_load_c1lo(const char *rom_name)
-{
-    unsigned char *rawcartdata; /* FIXME: should happen in cartridge_attach_image */
-    unsigned int len;
-    FILE *fd;
-
-    if (!plus4_rom_loaded) {
-        return 0;
-    }
-    DBG(("plus4cart_load_c1lo '%s'\n", rom_name));
-
-    DBG(("clearing c1lo"));
-    memset(extromlo2, 0xff, PLUS4_CART16K_SIZE);
-
-    if ((rom_name == NULL) || (*rom_name == 0)) {
-        return 0;
-    }
-
-    fd = fopen(rom_name, MODE_READ);
-    if (fd == NULL) {
-        return -1;
-    }
-    len = util_file_length(fd);
-    fclose(fd);
-
-    /* allocate temporary array */
-    /* FIXME: should happen in cartridge_attach_image */
-    rawcartdata = lib_malloc(PLUS4CART_ROM_LIMIT);
-
-    DBG(("plus4cart_load_c1lo len: %02x\n", len));
-
-    /* Load c1 low ROM.  */
-    switch (len) {
-        case 0x2000: /* 8K */
-            if (util_file_load(rom_name, rawcartdata, PLUS4_CART8K_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                return -1;
-            }
-            /* create a mirror for 8k ROM */
-            memcpy(extromlo2, rawcartdata, PLUS4_CART8K_SIZE);
-            memcpy(&extromlo2[PLUS4_CART8K_SIZE], rawcartdata, PLUS4_CART8K_SIZE);
-            break;
-        case 0x4000: /* 16K */
-            if (util_file_load(rom_name, rawcartdata, PLUS4_CART16K_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                return -1;
-            }
-            memcpy(extromlo2, rawcartdata, PLUS4_CART16K_SIZE);
-            break;
-        case 0x8000: /* 32K */ /* FIXME: this doesnt seem to work */
-            if (util_file_load(rom_name, rawcartdata, PLUS4_CART16K_SIZE * 2, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                return -1;
-            }
-            memcpy(extromlo2, rawcartdata, PLUS4_CART16K_SIZE);
-            memcpy(extromhi2, &rawcartdata[PLUS4_CART16K_SIZE], PLUS4_CART16K_SIZE);
-            break;
-        default:
-            return -1;
-    }
-
-    lib_free(rawcartdata); /* FIXME: should happen in cartridge_attach_image */
-
-    return 0;
-}
-
-/* c1hi is always external cartridge */
-int plus4cart_load_c1hi(const char *rom_name)
-{
-    if (!plus4_rom_loaded) {
-        return 0;
-    }
-
-    /* Load c1 high ROM.  */
-    if (*rom_name != 0) {
-        if (sysfile_load(rom_name, machine_name, extromhi2, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
-                      "Couldn't load cartridge 1 high ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    } else {
-        DBG(("clearing c1hi\n"));
-        memset(extromhi2, 0, PLUS4_CART16K_SIZE);
-    }
-    return 0;
-}
-
+/* FIXME: c2lo/hi can be external or internal */
 int plus4cart_load_c2lo(const char *rom_name)
 {
     if (!plus4_rom_loaded) {
@@ -356,6 +310,7 @@ int plus4cart_load_c2lo(const char *rom_name)
     return 0;
 }
 
+/* FIXME: c2lo/hi can be external or internal */
 int plus4cart_load_c2hi(const char *rom_name)
 {
     if (!plus4_rom_loaded) {
@@ -378,14 +333,15 @@ int plus4cart_load_c2hi(const char *rom_name)
 
 void plus4cart_detach_cartridges(void)
 {
-    resources_set_string("c1loName", "");
-    resources_set_string("c1hiName", "");
     resources_set_string("c2loName", "");
     resources_set_string("c2hiName", "");
-    memset(extromlo2, 0, PLUS4_CART16K_SIZE);
-    memset(extromhi2, 0, PLUS4_CART16K_SIZE);
     memset(extromlo3, 0, PLUS4_CART16K_SIZE);
     memset(extromhi3, 0, PLUS4_CART16K_SIZE);
+
+    generic_detach();
+    jacint1mb_detach();
+    magiccart_detach();
+    multicart_detach();
 
     mem_cartridge_type = CARTRIDGE_NONE;
 
@@ -397,8 +353,8 @@ void cartridge_detach_image(int type)
     if (type < 0) {
         plus4cart_detach_cartridges();
     } else {
-        /* FIXME: we probably shouldnt be able to detach these individually */
         switch (type) {
+            /* FIXME: we probably shouldnt be able to detach these individually */
             case CARTRIDGE_PLUS4_16KB_C1LO:
                 resources_set_string("c1loName", "");
                 break;
@@ -411,8 +367,15 @@ void cartridge_detach_image(int type)
             case CARTRIDGE_PLUS4_16KB_C2HI:
                 resources_set_string("c2hiName", "");
                 break;
+
+            case CARTRIDGE_PLUS4_JACINT1MB:
+                jacint1mb_detach();
+                break;
             case CARTRIDGE_PLUS4_MAGIC:
                 magiccart_detach();
+                break;
+            case CARTRIDGE_PLUS4_MULTI:
+                multicart_detach();
                 break;
         }
         cart_power_off();
@@ -454,47 +417,24 @@ int cartridge_detect(const char *filename)
 
     fclose (fd);
 
-    DBG(("detected cartridge type: %04x", type));
+    DBG(("detected cartridge type: %04x", (unsigned int)type));
 
     return type;
-}
-
-static int cart_load_generic(int type, const char *filename)
-{
-    FILE *fd;
-    unsigned char *blocks[6] = {
-        extromlo1, extromhi1, extromlo2, extromhi2, extromlo3, extromhi3
-    };
-    int i;
-
-    fd = fopen(filename, "rb");
-    if (fd == NULL) {
-        return -1;
-    }
-    for (i = 0; i < 6; i++) {
-        if (type & 1) {
-            memset(blocks[i], 0, PLUS4_CART16K_SIZE);
-            log_debug("loading block %d", i);
-            if (fread(blocks[i], 1, PLUS4_CART16K_SIZE, fd) < PLUS4_CART16K_SIZE) {
-                break;
-            }
-        }
-        type >>= 1;
-    }
-    fclose (fd);
-
-    return 0;
 }
 
 int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
 {
     if ((type & 0xff00) == CARTRIDGE_PLUS4_DETECT) {
-        return cart_load_generic(type, filename);
+        return generic_bin_attach(type, filename);
     }
 
     switch (type) {
+        case CARTRIDGE_PLUS4_JACINT1MB:
+            return jacint1mb_bin_attach(filename, rawcart);
         case CARTRIDGE_PLUS4_MAGIC:
             return magiccart_bin_attach(filename, rawcart);
+        case CARTRIDGE_PLUS4_MULTI:
+            return multicart_bin_attach(filename, rawcart);
     }
     log_error(LOG_DEFAULT,
               "cartridge_attach_image: unsupported type (%04x)", (unsigned int)type);
@@ -510,9 +450,14 @@ void cart_attach(int type, uint8_t *rawcart)
 {
     /* cart_detach_conflicting(type); */
     switch (type) {
-        /* "Slot 0" */
+        case CARTRIDGE_PLUS4_JACINT1MB:
+            jacint1mb_config_setup(rawcart);
+            break;
         case CARTRIDGE_PLUS4_MAGIC:
             magiccart_config_setup(rawcart);
+            break;
+        case CARTRIDGE_PLUS4_MULTI:
+            multicart_config_setup(rawcart);
             break;
     }
 }
@@ -547,26 +492,27 @@ int cartridge_attach_image(int type, const char *filename)
     DBG(("CART: cartridge_attach_image type: %d ID: %d\n", type, cartid));
 
     /* allocate temporary array */
-    rawcart = lib_malloc(PLUS4CART_IMAGE_LIMIT);
+    rawcartdata = lib_malloc(PLUS4CART_IMAGE_LIMIT);
 
     cart_power_off();
 
-    if (cart_bin_attach(cartid, filename, rawcart) < 0) {
+    if (cart_bin_attach(cartid, filename, rawcartdata) < 0) {
         goto exiterror;
     }
 
     mem_cartridge_type = cartid;
 
-    cart_attach(type, rawcart);
+    cart_attach(type, rawcartdata);
 
     DBG(("CART: cartridge_attach_image type: %d ID: %d done.\n", type, cartid));
-    lib_free(rawcart);
+    lib_free(rawcartdata);
     log_message(LOG_DEFAULT, "CART: attached '%s' as ID %d.", filename, cartid);
     return 0;
 
 exiterror:
     DBG(("CART: error\n"));
-    lib_free(rawcart);
+    lib_free(rawcartdata);
     log_message(LOG_DEFAULT, "CART: could not attach '%s'.", filename);
     return -1;
 }
+

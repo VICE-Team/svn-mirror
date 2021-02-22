@@ -75,9 +75,11 @@ uint8_t extromlo1[PLUS4_BASIC_ROM_SIZE];
 uint8_t extromhi1[PLUS4_KERNAL_ROM_SIZE];
 #endif
 
-uint8_t extromlo2[PLUS4_BASIC_ROM_SIZE];
+/* FIXME: these live in plus4-generic.c */
+extern uint8_t extromlo2[PLUS4_BASIC_ROM_SIZE];
+extern uint8_t extromhi2[PLUS4_KERNAL_ROM_SIZE];
+
 uint8_t extromlo3[PLUS4_BASIC_ROM_SIZE];
-uint8_t extromhi2[PLUS4_KERNAL_ROM_SIZE];
 uint8_t extromhi3[PLUS4_KERNAL_ROM_SIZE];
 
 /* Pointers to the currently used memory read and write tables.  */
@@ -143,6 +145,8 @@ static uint8_t *chargen_tab[8][16] = {
             RAM4, RAM4, RAM4, RAM4,
             RAM4, RAM4, RAM4, RAM4 },
     /* 8000-bfff, ROM selected  */
+    /* FIXME: we cant directly point to cartridge ROM here, we need a better
+              (indirect) way to do this */
     {  plus4memrom_basic_rom, extromlo1, extromlo2, extromlo3,
        plus4memrom_basic_rom, extromlo1, extromlo2, extromlo3,
        plus4memrom_basic_rom, extromlo1, extromlo2, extromlo3,
@@ -1191,10 +1195,12 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
             break;
         case 4:                   /* cart1rom */
             if (addr >= 0x8000 && addr <= 0xbfff) {
-                return extromlo2[addr & 0x3fff];
+                /* return extromlo2[addr & 0x3fff]; */
+                return plus4cart_c1lo_read(addr);
             }
             if (addr >= 0xc000) {
-                return extromhi2[addr & 0x3fff];
+                /* return extromhi2[addr & 0x3fff]; */
+                return plus4cart_c1hi_read(addr);
             }
             break;
         case 5:                   /* cart2rom */

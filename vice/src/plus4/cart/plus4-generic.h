@@ -31,4 +31,12 @@
 extern uint8_t generic_c1lo_read(uint16_t addr);
 extern uint8_t generic_c1hi_read(uint16_t addr);
 
+extern int generic_bin_attach(int type, const char *filename);
+extern void generic_detach(void);
+
+extern int generic_resources_init(void);
+extern void generic_resources_shutdown(void);
+
+extern int generic_cmdline_options_init(void);
+
 #endif
