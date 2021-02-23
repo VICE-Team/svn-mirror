@@ -39,4 +39,7 @@ extern void jacint1mb_detach(void);
 
 extern void jacint1mb_reset(void);
 
+extern int jacint1mb_snapshot_write_module(snapshot_t *s);
+extern int jacint1mb_snapshot_read_module(snapshot_t *s);
+
 #endif

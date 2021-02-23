@@ -42,8 +42,11 @@
 #include "archdep.h"
 #include "cartridge.h"
 #include "cartio.h"
+#include "lib.h"
+#include "monitor.h"
 #include "plus4cart.h"
 #include "plus4mem.h"
+#include "snapshot.h"
 #include "util.h"
 
 #include "multicart.h"
@@ -58,30 +61,37 @@ static int bankreg = 0;
 static int multicart_filesize = 0;
 static int multicart_filetype = 0;
 
-static unsigned char multicartromlo[0x200000]; /* FIXME: dynamically allocate this */
-static unsigned char multicartromhi[0x200000]; /* FIXME: dynamically allocate this */
+static unsigned char *multicartromlo = NULL;
+static unsigned char *multicartromhi = NULL;
 
 /* a prototype is needed */
 static void multicart_store(uint16_t addr, uint8_t value);
+static int multicart_dump(void);
 
 /* This is not a real cartridge, it is only used for debugging purposes */
 static io_source_t multicart_device = {
     CARTRIDGE_PLUS4_NAME_MULTI, /* name of the device */
-    IO_DETACH_CART,           /* use cartridge ID to detach the device when involved in a read-collision */
-    IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
-    0xfda0, 0xfda0, 0xff,     /* range for the device, reg:$fda0 */
-    0,                        /* read is never valid, device is write only */
-    multicart_store,          /* store function */
-    NULL,                     /* NO poke function */
-    NULL,                     /* NO read function */
-    NULL,                     /* NO peek function */
-    NULL,                     /* nothing to dump */
-    CARTRIDGE_PLUS4_MULTI,    /* cartridge ID */
-    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
-    0                         /* insertion order, gets filled in by the registration function */
+    IO_DETACH_CART,             /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,      /* does not use a resource for detach */
+    0xfda0, 0xfda0, 0xff,       /* range for the device, reg:$fda0 */
+    0,                          /* read is never valid, device is write only */
+    multicart_store,            /* store function */
+    NULL,                       /* NO poke function */
+    NULL,                       /* NO read function */
+    NULL,                       /* NO peek function */
+    multicart_dump,             /* dump function for the monitor */
+    CARTRIDGE_PLUS4_MULTI,      /* cartridge ID */
+    IO_PRIO_NORMAL,             /* normal priority, device read needs to be checked for collisions */
+    0                           /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *multicart_list_item = NULL;
+
+static int multicart_dump(void)
+{
+    mon_out("ROM bank: %d\n", bankreg);
+    return 0;
+}
 
 static void multicart_store(uint16_t addr, uint8_t value)
 {
@@ -120,6 +130,14 @@ void multicart_config_setup(uint8_t *rawcart)
 static int multicart_common_attach(void)
 {
     DBG(("multicart_common_attach\n"));
+
+    if(!(multicartromlo = lib_malloc(multicart_filesize / 2))) {
+        return -1;
+    }
+    if(!(multicartromhi = lib_malloc(multicart_filesize / 2))) {
+        return -1;
+    }
+
     multicart_list_item = io_source_register(&multicart_device);
 
     return 0;
@@ -171,4 +189,104 @@ void multicart_detach(void)
 {
     DBG(("multicart_detach\n"));
     io_source_unregister(multicart_list_item);
+    lib_free(multicartromlo);
+    lib_free(multicartromhi);
+    multicartromlo = NULL;
+    multicartromhi = NULL;
 }
+
+/* ---------------------------------------------------------------------*/
+
+/* CARTMULTI snapshot module format:
+
+   type  | name              | version | description
+   -------------------------------------------------
+   BYTE  | bankreg           |   0.1+  | state of banking register
+   DWORD | filesize          |   0.1+  | size of the ROM (combined)
+   ARRAY | ROM C1LO          |   0.1+  | 1MiB/2MiB of ROM data
+   ARRAY | ROM C1HI          |   0.1+  | 1MiB/2MiB of ROM data
+ */
+
+/* FIXME: since we cant actually make snapshots due to TED bugs, the following
+          is completely untested */
+
+static const char snap_module_name[] = "CARTMULTI";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   1
+
+int multicart_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    DBG(("multicart_snapshot_write_module\n"));
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_B(m, (uint8_t)bankreg) < 0
+        || SMW_DW(m, (uint32_t)multicart_filesize) < 0
+        || SMW_BA(m, multicartromlo, multicart_filesize / 2)
+        || SMW_BA(m, multicartromhi, multicart_filesize / 2) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+int multicart_snapshot_read_module(snapshot_t *s)
+{
+    uint8_t vmajor, vminor;
+    snapshot_module_t *m;
+    uint32_t temp_filesize;
+
+    DBG(("multicart_snapshot_read_module\n"));
+
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(vmajor, vminor, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || SMR_B_INT(m, &bankreg) < 0
+        || SMR_DW(m, &temp_filesize) < 0
+        ) {
+        goto fail;
+    }
+
+    multicart_filesize = temp_filesize;
+
+    if (0
+        || SMR_BA(m, multicartromlo, multicart_filesize / 2)
+        || SMR_BA(m, multicartromhi, multicart_filesize / 2) < 0) {
+        goto fail;
+    }
+
+    snapshot_module_close(m);
+
+    multicart_common_attach();
+
+    /* set filetype to none */
+    multicart_filetype = 0;
+
+    return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+

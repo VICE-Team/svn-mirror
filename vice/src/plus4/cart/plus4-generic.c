@@ -60,8 +60,8 @@ static char *c1lo_rom_name = NULL;
 static char *c1hi_rom_name = NULL;
 
 /* FIXME: allocate dynamically */
-uint8_t extromlo2[PLUS4_BASIC_ROM_SIZE];
-uint8_t extromhi2[PLUS4_KERNAL_ROM_SIZE];
+uint8_t extromlo2[PLUS4_C1LO_ROM_SIZE];
+uint8_t extromhi2[PLUS4_C1HI_ROM_SIZE];
 
 uint8_t generic_c1lo_read(uint16_t addr)
 {
@@ -231,6 +231,23 @@ int generic_resources_init(void)
     /* return resources_register_int(resources_int); */
     return 0;
 }
+
+/* FIXME: load c1 cartridge at startup when it is default */
+#if 0
+    if (resources_get_string("c1loName", &rom_name) < 0) {
+        return -1;
+    }
+    if (plus4cart_load_c1lo(rom_name) < 0) {
+        return -1;
+    }
+
+    if (resources_get_string("c1hiName", &rom_name) < 0) {
+        return -1;
+    }
+    if (plus4cart_load_c1hi(rom_name) < 0) {
+        return -1;
+    }
+#endif
 
 void generic_resources_shutdown(void)
 {

@@ -29,8 +29,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cartridge.h"
 #include "log.h"
 #include "mem.h"
+#include "plus4cart.h"
 #include "plus4mem.h"
 #include "plus4memrom.h"
 #include "plus4memsnapshot.h"
@@ -71,10 +73,10 @@ static int plus4_snapshot_write_rom_module(snapshot_t *s)
     if (SMW_BA(m, plus4memrom_kernal_rom, PLUS4_KERNAL_ROM_SIZE) < 0
         || SMW_BA(m, plus4memrom_basic_rom, PLUS4_BASIC_ROM_SIZE) < 0
         || SMW_BA(m, extromlo1, PLUS4_BASIC_ROM_SIZE) < 0
-        || SMW_BA(m, extromlo2, PLUS4_BASIC_ROM_SIZE) < 0
+        /*|| SMW_BA(m, extromlo2, PLUS4_BASIC_ROM_SIZE) < 0*/
         || SMW_BA(m, extromlo3, PLUS4_BASIC_ROM_SIZE) < 0
         || SMW_BA(m, extromhi1, PLUS4_KERNAL_ROM_SIZE) < 0
-        || SMW_BA(m, extromhi2, PLUS4_KERNAL_ROM_SIZE) < 0
+        /*|| SMW_BA(m, extromhi2, PLUS4_KERNAL_ROM_SIZE) < 0*/
         || SMW_BA(m, extromhi3, PLUS4_KERNAL_ROM_SIZE) < 0
         ) {
         goto fail;
@@ -124,10 +126,10 @@ static int plus4_snapshot_read_rom_module(snapshot_t *s)
     if (SMR_BA(m, plus4memrom_kernal_rom, PLUS4_KERNAL_ROM_SIZE) < 0
         || SMR_BA(m, plus4memrom_basic_rom, PLUS4_BASIC_ROM_SIZE) < 0
         || SMR_BA(m, extromlo1, PLUS4_BASIC_ROM_SIZE) < 0
-        || SMR_BA(m, extromlo2, PLUS4_BASIC_ROM_SIZE) < 0
+        /*|| SMR_BA(m, extromlo2, PLUS4_BASIC_ROM_SIZE) < 0*/
         || SMR_BA(m, extromlo3, PLUS4_BASIC_ROM_SIZE) < 0
         || SMR_BA(m, extromhi1, PLUS4_KERNAL_ROM_SIZE) < 0
-        || SMR_BA(m, extromhi2, PLUS4_KERNAL_ROM_SIZE) < 0
+        /*|| SMR_BA(m, extromhi2, PLUS4_KERNAL_ROM_SIZE) < 0*/
         || SMR_BA(m, extromhi3, PLUS4_KERNAL_ROM_SIZE) < 0
         ) {
         goto fail;
@@ -184,11 +186,9 @@ int plus4_snapshot_write_module(snapshot_t *s, int save_roms)
     if (save_roms && plus4_snapshot_write_rom_module(s) < 0) {
         goto fail;
     }
-#if 0
     if (cartridge_snapshot_write_modules(s) < 0) {
         goto fail;
     }
-#endif
     return 0;
 
 fail:
@@ -239,11 +239,9 @@ int plus4_snapshot_read_module(snapshot_t *s)
     if (plus4_snapshot_read_rom_module(s) < 0) {
         goto fail;
     }
-#if 0
     if (cartridge_snapshot_read_modules(s) < 0) {
         goto fail;
     }
-#endif
     return 0;
 
 fail:

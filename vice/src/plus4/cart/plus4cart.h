@@ -3,6 +3,7 @@
  *
  * Written by
  *  Tibor Biczo <crown@axelero.hu>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,16 +37,17 @@
 /* maximum size of a full "all inclusive" cartridge image */
 #define PLUS4CART_IMAGE_LIMIT (PLUS4CART_ROM_LIMIT + PLUS4CART_RAM_LIMIT)
 
-/* expansion port memory read/write hooks */
+#define PLUS4_C1LO_ROM_SIZE (16 * 0x400)
+#define PLUS4_C1HI_ROM_SIZE (16 * 0x400)
+
+/* expansion port access functions */
 extern uint8_t plus4cart_c1lo_read(uint16_t addr);
 extern uint8_t plus4cart_c1hi_read(uint16_t addr);
 
-extern int plus4cart_load_func_lo(const char *rom_name);
-extern int plus4cart_load_func_hi(const char *rom_name);
-extern int plus4cart_load_c1lo(const char *rom_name);
-extern int plus4cart_load_c1hi(const char *rom_name);
-extern int plus4cart_load_c2lo(const char *rom_name);
-extern int plus4cart_load_c2hi(const char *rom_name);
-extern void plus4cart_detach_cartridges(void);
+/* FIXME: these live in plus4-generic.c */
+/* FIXME: we need this because of a reference in plus4mem.c that should be
+          replaced by a better, indirect, access mechanism */
+extern uint8_t extromlo2[PLUS4_C1LO_ROM_SIZE];
+extern uint8_t extromhi2[PLUS4_C1HI_ROM_SIZE];
 
 #endif /* _PLUS4CART_H */

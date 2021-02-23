@@ -36,6 +36,7 @@
 #include "mem.h"
 #include "plus4-resources.h"
 #include "plus4mem.h"
+#include "plus4memrom.h"
 #include "plus4memcsory256k.h"
 #include "plus4memhacks.h"
 #include "plus4memhannes256k.h"

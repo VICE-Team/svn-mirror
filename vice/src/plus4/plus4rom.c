@@ -130,7 +130,7 @@ int mem_load(void)
     if (plus4cart_load_func_hi(rom_name) < 0) {
         return -1;
     }
-
+#if 0
     if (resources_get_string("c1loName", &rom_name) < 0) {
         return -1;
     }
@@ -144,7 +144,7 @@ int mem_load(void)
     if (plus4cart_load_c1hi(rom_name) < 0) {
         return -1;
     }
-
+#endif
     if (resources_get_string("c2loName", &rom_name) < 0) {
         return -1;
     }

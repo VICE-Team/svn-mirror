@@ -444,7 +444,7 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Attach raw 16KiB Westermann Learning cartridge image" },
     { "-cartws", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_WARPSPEED, NULL, NULL,
-      "<Name>", "Attach raw 8KiB Warp Speed cartridge image" },
+      "<Name>", "Attach raw 16KiB " CARTRIDGE_NAME_WARPSPEED " cartridge image" },
     { "-cartzaxxon", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_ZAXXON, NULL, NULL,
       "<Name>", "Attach raw 16KiB Zaxxon cartridge image" },

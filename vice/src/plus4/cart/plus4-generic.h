@@ -39,4 +39,8 @@ extern void generic_resources_shutdown(void);
 
 extern int generic_cmdline_options_init(void);
 
+/* FIXME: do we still need these? */
+extern int plus4cart_load_c1lo(const char *rom_name);
+extern int plus4cart_load_c1hi(const char *rom_name);
+
 #endif

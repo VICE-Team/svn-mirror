@@ -43,6 +43,7 @@
 #include "machine.h"
 #include "monitor.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "sysfile.h"
 
 #include "debugcart.h"
@@ -159,8 +160,8 @@ int cartridge_cmdline_options_init(void)
 {
     mon_cart_cmd.cartridge_attach_image = cartridge_attach_image;
     mon_cart_cmd.cartridge_detach_image = cartridge_detach_image;
-#if 0
     mon_cart_cmd.cartridge_trigger_freeze = cartridge_trigger_freeze;
+#if 0
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
     mon_cart_cmd.export_dump = plus4export_dump;
 #endif
@@ -370,100 +371,25 @@ static void cart_power_off(void)
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     }
 }
-/* ---------------------------------------------------------------------*/
 
-/* FIXME: get rid of this ugly hack */
-extern int plus4_rom_loaded;
+/*
+    Attach cartridge from snapshot
 
-int plus4cart_load_func_lo(const char *rom_name)
+    Sets static variables related to the "Main Slot".
+*/
+static void cart_attach_from_snapshot(int type)
 {
-    if (!plus4_rom_loaded) {
-        return 0;
-    }
-
-    /* Load 3plus1 low ROM.  */
-    if (*rom_name != 0) {
-        if (sysfile_load(rom_name, machine_name, extromlo1, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
-                      "Couldn't load 3plus1 low ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    } else {
-        memset(extromlo1, 0, PLUS4_CART16K_SIZE);
-    }
-    return 0;
+    plus4cart_type = type;
 }
 
-int plus4cart_load_func_hi(const char *rom_name)
+
+static void plus4cart_detach_cartridges(void)
 {
-    if (!plus4_rom_loaded) {
-        return 0;
-    }
-
-    /* Load 3plus1 high ROM.  */
-    if (*rom_name != 0) {
-        if (sysfile_load(rom_name, machine_name, extromhi1, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
-                      "Couldn't load 3plus1 high ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    } else {
-        memset(extromhi1, 0, PLUS4_CART16K_SIZE);
-    }
-    return 0;
-}
-
-/* FIXME: c2lo/hi can be external or internal */
-int plus4cart_load_c2lo(const char *rom_name)
-{
-    if (!plus4_rom_loaded) {
-        return 0;
-    }
-
-    /* Load c2 low ROM.  */
-    if (*rom_name != 0) {
-        if (sysfile_load(rom_name, machine_name, extromlo3, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
-                      "Couldn't load cartridge 2 low ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    } else {
-        memset(extromlo3, 0, PLUS4_CART16K_SIZE);
-    }
-    return 0;
-}
-
-/* FIXME: c2lo/hi can be external or internal */
-int plus4cart_load_c2hi(const char *rom_name)
-{
-    if (!plus4_rom_loaded) {
-        return 0;
-    }
-
-    /* Load c2 high ROM.  */
-    if (*rom_name != 0) {
-        if (sysfile_load(rom_name, machine_name, extromhi3, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
-                      "Couldn't load cartridge 2 high ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    } else {
-        memset(extromhi3, 0, PLUS4_CART16K_SIZE);
-    }
-    return 0;
-}
-
-void plus4cart_detach_cartridges(void)
-{
+#if 0
     resources_set_string("c2loName", "");
     resources_set_string("c2hiName", "");
     memset(extromlo3, 0, PLUS4_CART16K_SIZE);
     memset(extromhi3, 0, PLUS4_CART16K_SIZE);
-#if 0
     generic_detach();
     jacint1mb_detach();
     magiccart_detach();
@@ -739,4 +665,206 @@ void cartridge_trigger_freeze(void)
     alarm_set(cartridge_freeze_alarm, cart_freeze_alarm_time);
 #endif
     DBG(("cartridge_trigger_freeze delay %d cycles\n", delay));
+}
+
+/* ------------------------------------------------------------------------- */
+
+/*
+    Snapshot reading and writing
+*/
+
+#define PLUS4CART_DUMP_MAX_CARTS  1
+
+#define PLUS4CART_DUMP_VER_MAJOR   0
+#define PLUS4CART_DUMP_VER_MINOR   1
+#define SNAP_MODULE_NAME  "PLUS4CART"
+
+int cartridge_snapshot_write_modules(struct snapshot_s *s)
+{
+    snapshot_module_t *m;
+
+    uint8_t i;
+    uint8_t number_of_carts = 0;
+    int cart_ids[PLUS4CART_DUMP_MAX_CARTS];
+
+    memset(cart_ids, 0, sizeof(cart_ids));
+
+    if (mem_cartridge_type != CARTRIDGE_NONE) {
+        cart_ids[number_of_carts++] = mem_cartridge_type;
+    }
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                               PLUS4CART_DUMP_VER_MAJOR, PLUS4CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_B(m, number_of_carts) < 0) {
+        goto fail;
+    }
+
+    /* Not much to do if no carts present */
+    if (number_of_carts == 0) {
+        return snapshot_module_close(m);
+    }
+
+    /* Save "global" cartridge things */
+    if (0
+        || SMW_DW(m, (uint32_t)mem_cartridge_type) < 0
+        /* || SMW_DW(m, (uint32_t)cart_freeze_alarm_time) < 0 */
+        /* || SMW_DW(m, (uint32_t)cart_nmi_alarm_time) < 0 */
+        ) {
+        goto fail;
+    }
+
+    /* Save cart IDs */
+    for (i = 0; i < number_of_carts; i++) {
+        if (SMW_DW(m, (uint32_t)cart_ids[i]) < 0) {
+            goto fail;
+        }
+    }
+
+    /* Main module done */
+    snapshot_module_close(m);
+    m = NULL;
+
+    /* Save individual cart data */
+    for (i = 0; i < number_of_carts; i++) {
+        switch (cart_ids[i]) {
+
+            case CARTRIDGE_PLUS4_JACINT1MB:
+                if (jacint1mb_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_PLUS4_MAGIC:
+                if (magiccart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_PLUS4_MULTI:
+                if (multicart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            default:
+                /* If the cart cannot be saved, we obviously can't load it either.
+                   Returning an error at this point is better than failing at later. */
+                DBG(("CART snapshot save: cart %i handler missing\n", cart_ids[i]));
+                return -1;
+        }
+    }
+
+    return 0;
+
+fail:
+    if (m != NULL) {
+        snapshot_module_close(m);
+    }
+    return -1;
+}
+
+int cartridge_snapshot_read_modules(struct snapshot_s *s)
+{
+    snapshot_module_t *m;
+    uint8_t vmajor, vminor;
+
+    uint8_t i;
+    uint8_t number_of_carts;
+    int cart_ids[PLUS4CART_DUMP_MAX_CARTS];
+    int local_cartridge_reset;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != PLUS4CART_DUMP_VER_MAJOR) || (vminor != PLUS4CART_DUMP_VER_MINOR)) {
+        goto fail;
+    }
+
+    /* disable cartridge reset while detaching old cart */
+    resources_get_int("CartridgeReset", &local_cartridge_reset);
+    resources_set_int("CartridgeReset", 0);
+    cartridge_detach_image(-1);
+    resources_set_int("CartridgeReset", local_cartridge_reset);
+
+    if (SMR_B(m, &number_of_carts) < 0) {
+        goto fail;
+    }
+
+    /* Not much to do if no carts in snapshot */
+    if (number_of_carts == 0) {
+        return snapshot_module_close(m);
+    }
+
+    if (number_of_carts > PLUS4CART_DUMP_MAX_CARTS) {
+        DBG(("CART snapshot read: carts %i > max %i\n", number_of_carts, PLUS4CART_DUMP_MAX_CARTS));
+        goto fail;
+    }
+
+    /* Read "global" cartridge things */
+    if (0
+        || SMR_DW_INT(m, &mem_cartridge_type) < 0
+        /* || SMR_DW(m, &cart_freeze_alarm_time) < 0 */
+        /* || SMR_DW(m, &cart_nmi_alarm_time) < 0 */
+        ) {
+        goto fail;
+    }
+
+    /* cart ID */
+    for (i = 0; i < number_of_carts; i++) {
+        if (SMR_DW_INT(m, &cart_ids[i]) < 0) {
+            goto fail;
+        }
+    }
+
+    /* Main module done */
+    snapshot_module_close(m);
+    m = NULL;
+
+    /* Read individual cart data */
+    for (i = 0; i < number_of_carts; i++) {
+        switch (cart_ids[i]) {
+            case CARTRIDGE_PLUS4_JACINT1MB:
+                if (jacint1mb_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_PLUS4_MAGIC:
+                if (magiccart_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_PLUS4_MULTI:
+                if (multicart_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+
+            default:
+                DBG(("CART snapshot read: cart %i handler missing\n", cart_ids[i]));
+                goto fail2;
+        }
+    }
+
+    cart_attach_from_snapshot(cart_ids[i]);
+
+    /* set up config */
+    /* machine_update_memory_ptrs(); */
+
+    /* restore alarms */
+    /* cart_undump_alarms(); */
+
+    return 0;
+
+fail:
+    if (m != NULL) {
+        snapshot_module_close(m);
+    }
+fail2:
+    mem_cartridge_type = CARTRIDGE_NONE; /* Failed to load cartridge! */
+    return -1;
 }

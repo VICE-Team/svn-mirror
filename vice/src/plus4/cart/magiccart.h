@@ -39,4 +39,7 @@ extern void magiccart_detach(void);
 
 extern void magiccart_reset(void);
 
+extern int magiccart_snapshot_write_module(snapshot_t *s);
+extern int magiccart_snapshot_read_module(snapshot_t *s);
+
 #endif

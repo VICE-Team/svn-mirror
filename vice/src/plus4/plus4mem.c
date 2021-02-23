@@ -42,6 +42,7 @@
 #include "plus4iec.h"
 #include "plus4cart.h"
 #include "plus4mem.h"
+#include "plus4memrom.h"
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"
 #include "plus4memhacks.h"
@@ -66,21 +67,6 @@ static int hard_reset_flag = 1;
 
 /* The Plus4 memory.  */
 uint8_t mem_ram[PLUS4_RAM_SIZE];
-
-#ifdef USE_EMBEDDED
-#include "plus43plus1lo.h"
-#include "plus43plus1hi.h"
-#else
-uint8_t extromlo1[PLUS4_BASIC_ROM_SIZE];
-uint8_t extromhi1[PLUS4_KERNAL_ROM_SIZE];
-#endif
-
-/* FIXME: these live in plus4-generic.c */
-extern uint8_t extromlo2[PLUS4_BASIC_ROM_SIZE];
-extern uint8_t extromhi2[PLUS4_KERNAL_ROM_SIZE];
-
-uint8_t extromlo3[PLUS4_BASIC_ROM_SIZE];
-uint8_t extromhi3[PLUS4_KERNAL_ROM_SIZE];
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
@@ -1116,39 +1102,39 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                 $0000-$7fff   RAM
                 $8000-$9fff   RAM / BASIC / Function LO
                 $a000-$bfff   RAM / Kernal / Function HI
-                
+
                 $c000-$cfff   RAM / Basic Extension
-                
+
                 $d000-$d7ff   RAM / character ROM / Function HI
                 $d800-$fbff   RAM / operating system
-              
+
                 $FC00-        Kernal Routines for switching banks
-              
+
                 $FD00-$FF3F always I/O:
 
                     $FD00-FD0F: 6551  (only on the +4.  4 registers.)
                     $FD10-FD1F: 6529B (1 register)
                     $FD30-FD3F: 6529B (1 register)
-                
+
                 $FDD0-$FDDF ROM bank select
-                
+
                     a0 a1 bank
                     0  0  BASIC (low internal #1)
                     0  1  Function LO (low internal #2)
                     1  0  Cartridge LO (low external #1)
                     1  1  reserved
-                
+
                     a2 a3 bank
                     0  0  Kernal (hi internal #1)
                     0  1  Function HI (hi internal #2)
                     1  0  Cartridge HI (hi external #1)
                     1  1  reserved
-                
+
                 $FF00-  TED registers
-                
+
                 $FF3E   ROM select, Write switches on ROM bank
                 $FF3F   RAM select, Write switches on RAM bank                
-                
+
                 $FF40-$FFFF RAM / Kernal / Function HI
             */
             if ((addr >= 0xfd00) && (addr <= 0xfd3f)) {
@@ -1358,8 +1344,8 @@ static mem_config_t mem_config_table[] = {
 
 static int memconfig_dump(void)
 {
-    mon_out("$8000-$BFFF: %s", (mem_config & 1) ? mem_config_table[mem_config >> 1].mem_8000 : "RAM");
-    mon_out("$C000-$FFFF: %s", (mem_config & 1) ? mem_config_table[mem_config >> 1].mem_c000 : "RAM");
+    mon_out("$8000-$BFFF: %s\n", (mem_config & 1) ? mem_config_table[mem_config >> 1].mem_8000 : "RAM");
+    mon_out("$C000-$FFFF: %s\n", (mem_config & 1) ? mem_config_table[mem_config >> 1].mem_c000 : "RAM");
 
     return 0;
 }

@@ -40,4 +40,7 @@ extern void multicart_detach(void);
 
 extern void multicart_reset(void);
 
+extern int multicart_snapshot_write_module(snapshot_t *s);
+extern int multicart_snapshot_read_module(snapshot_t *s);
+
 #endif
