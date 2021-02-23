@@ -129,7 +129,7 @@ int magiccart_bin_attach(const char *filename, uint8_t *rawcart)
     if (fd == NULL) {
         return -1;
     }
-    len = util_file_length(fd);
+    len = (unsigned int)util_file_length(fd);
     fclose(fd);
 
     DBG(("magiccart_bin_attach len: %04x\n", len));

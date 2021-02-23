@@ -125,7 +125,7 @@ int plus4cart_load_c1lo(const char *rom_name)
     if (fd == NULL) {
         return -1;
     }
-    len = util_file_length(fd);
+    len = (unsigned int)util_file_length(fd);
     fclose(fd);
 
     /* allocate temporary array */
