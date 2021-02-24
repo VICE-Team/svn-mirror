@@ -466,7 +466,7 @@ static ui_menu_item_t file_menu_tape[] = {
 static ui_menu_item_t file_menu_tail[] = {
     /* cart */
     { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION,
-        "cart-attach", ui_cart_show_dialog, NULL,
+        "cart-attach", ui_cart_show_dialog, GINT_TO_POINTER(0),
         GDK_KEY_C, VICE_MOD_MASK, true },
     { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
         "cart-detach", (void *)ui_cart_detach, NULL,

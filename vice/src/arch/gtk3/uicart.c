@@ -928,9 +928,11 @@ static GtkWidget *create_cart_id_combo_box_vic20(void)
 #ifndef SANDBOX_MODE
 /** \brief  Create the 'extra' widget for the dialog
  *
+ * \param[in]   set_default initial state of the 'set as default' checkbox
+ *
  * \return  GtkGrid
  */
-static GtkWidget *create_extra_widget(void)
+static GtkWidget *create_extra_widget(gboolean set_default)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -955,7 +957,7 @@ static GtkWidget *create_extra_widget(void)
             cart_set_default_widget = gtk_check_button_new_with_label(
                     "Set cartridge as default");
             gtk_toggle_button_set_active(
-                    GTK_TOGGLE_BUTTON(cart_set_default_widget), FALSE);
+                    GTK_TOGGLE_BUTTON(cart_set_default_widget), set_default);
 
             gtk_grid_attach(GTK_GRID(grid), cart_set_default_widget, 0, 1, 4, 1);
             break;
@@ -1199,7 +1201,7 @@ gboolean ui_cart_detach(void)
 /** \brief  Pop up the cart-attach dialog
  *
  * \param[in]   widget  parent widget (unused)
- * \param[in]   data    extra event data (unused)
+ * \param[in]   data    initial state of the 'set as default' checkbox
  *
  * \return  TRUE
  */
@@ -1224,7 +1226,7 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
 
     /* add extra widget */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
-            create_extra_widget());
+            create_extra_widget(GPOINTER_TO_INT(data)));
 
     /* add preview widget */
     cart_preview_widget = create_preview_widget();
