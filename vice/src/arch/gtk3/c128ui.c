@@ -176,7 +176,10 @@ int c128ui_init(void)
             cartridge_enable,
             cartridge_disable,
             cartridge_can_save_image,
-            cartridge_can_flush_image);
+            cartridge_can_flush_image,
+            cartridge_set_default,
+            cartridge_unset_default,
+            cartridge_get_info_list);
 
     /* ui_cart_set_detect_func(cartridge_detect); only cbm2/plus4 */
     ui_cart_set_list_func(cartridge_get_info_list);

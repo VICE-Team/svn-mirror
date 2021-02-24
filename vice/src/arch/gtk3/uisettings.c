@@ -114,6 +114,7 @@
 #include "ltkernalwidget.h"
 #include "ramlinkwidget.h"
 #include "netplaywidget.h"
+#include "settings_default_cart.h"
 
 #ifdef HAVE_RAWNET
 # include "ethernetcartwidget.h"
@@ -263,6 +264,9 @@ enum {
  */
 static ui_settings_tree_node_t c64_cartridges[] = {
 
+    { "Default cartridge",
+      "default-cart",
+      settings_default_cart_widget_create, NULL },
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
@@ -353,6 +357,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 /** \brief  List of SuperCPU64 extensions (xscpu64)
  */
 static ui_settings_tree_node_t scpu64_cartridges[] = {
+    { "Default cartridge",
+      "default-cart",
+      settings_default_cart_widget_create, NULL },
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
@@ -438,6 +445,9 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
 /** \brief  I/O extensions for C128
  */
 static ui_settings_tree_node_t c128_cartridges[] = {
+    { "Default cartridge",
+      "default-cart",
+      settings_default_cart_widget_create, NULL },
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
@@ -529,6 +539,9 @@ static ui_settings_tree_node_t c128_cartridges[] = {
 /** \brief  List of VIC-20 I/O extensions
  */
 static ui_settings_tree_node_t vic20_cartridges[] = {
+    { "Default cartridge",
+      "default-cart",
+      settings_default_cart_widget_create, NULL },
     { "Mega Cart",
       "mega-cart",
       mega_cart_widget_create, NULL },
@@ -578,6 +591,9 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
 /** \brief  List of Plus4 I/O extensions
  */
 static ui_settings_tree_node_t plus4_io_extensions[] = {
+    { "Default cartridge",
+      "default-cart",
+      settings_default_cart_widget_create, NULL },
     { "Digiblaster add-on",
       "digiblaster",
       plus4_digiblaster_widget_create, NULL },

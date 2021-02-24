@@ -132,7 +132,12 @@ int vic20ui_init(void)
             NULL, /* cartridge_enable */
             NULL, /* cartridge_disable */
             cartridge_can_save_image,
-            cartridge_can_flush_image);
+            cartridge_can_flush_image,
+            cartridge_set_default,
+            cartridge_unset_default,
+            /* FIXME: xvic should also have a cartridge_get_info_list()
+             *        function at some point */
+            NULL);
 
     /* ui_cart_set_detect_func(cartridge_detect); only cbm2/plus4 */
 /*    ui_cart_set_list_func(cartridge_get_info_list); */

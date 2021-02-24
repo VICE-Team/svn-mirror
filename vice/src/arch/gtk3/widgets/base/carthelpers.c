@@ -46,6 +46,9 @@ int (*carthelpers_enable_func)(int type);
 int (*carthelpers_disable_func)(int type);
 int (*carthelpers_can_save_func)(int type);
 int (*carthelpers_can_flush_func)(int type);
+void (*carthelpers_set_default_func)(void);
+void (*carthelpers_unset_default_func)(void);
+cartridge_info_t * (*carthelpers_info_list_func)(void);
 
 
 /** \brief  Set cartridge helper functions
@@ -57,20 +60,21 @@ int (*carthelpers_can_flush_func)(int type);
  * Passing in pointers to the cart functions in ${emu}ui.c (except vsidui.c)
  * 'solves' this problem.
  *
- * I wish Hans Andersen or the Brother Grimm had written some allegory about
- * perhaps not pretending vsid is a full emulator and linking as such.
- *
  * Normally \a save_func should be cartridge_save_image(), \a flush_func should
  * be cartridge_flush_image() and \a enabled_func should be
  * \a cartridge_type_enabled.
  * These are the functions used by many/all(?) cartridge widgets
  *
- * \param[in]   save_func       cartridge image save-as function
- * \param[in]   flush_func      cartridge image flush/save function
- * \param[in]   is_enabled_func cartridge enabled state function
- * \param[in]   enable_func     cartridge enable function
- * \param[in]   disable_func    cartridge disable function
- * \param[in]   filename_func   cartridge filename function
+ * \param[in]   save_func           cart image save-as function
+ * \param[in]   flush_func          cart image flush/save function
+ * \param[in]   is_enabled_func     cart enabled state function
+ * \param[in]   enable_func         cart enable function
+ * \param[in]   disable_func        cart disable function
+ * \param[in]   can_save_func       cart-can-save function
+ * \param[in]   can_flush_func      cart-can-flush function
+ * \param[in]   set_default_func    set default cart function
+ * \param[in]   unset_default_func  unset default cart function
+ * \param[in]   info_list_func      function to retrieve list of cart info
  */
 void carthelpers_set_functions(
         int (*save_func)(int, const char *),
@@ -79,7 +83,10 @@ void carthelpers_set_functions(
         int (*enable_func)(int),
         int (*disable_func)(int),
         int (*can_save_func)(int),
-        int (*can_flush_func)(int))
+        int (*can_flush_func)(int),
+        void (*set_default_func)(void),
+        void (*unset_default_func)(void),
+        cartridge_info_t * (*info_list_func)(void))
 {
     carthelpers_save_func = save_func;
     carthelpers_flush_func = flush_func;
@@ -88,6 +95,9 @@ void carthelpers_set_functions(
     carthelpers_disable_func = disable_func;
     carthelpers_can_save_func = can_save_func;
     carthelpers_can_flush_func = can_flush_func;
+    carthelpers_set_default_func = set_default_func;
+    carthelpers_unset_default_func = unset_default_func;
+    carthelpers_info_list_func = info_list_func;
 }
 
 

@@ -30,6 +30,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include "cartridge.h"
 
 extern int (*carthelpers_save_func)(int type, const char *filename);
 extern int (*carthelpers_flush_func)(int type);
@@ -38,6 +39,9 @@ extern int (*carthelpers_enable_func)(int type);
 extern int (*carthelpers_disable_func)(int type);
 extern int (*carthelpers_can_save_func)(int type);
 extern int (*carthelpers_can_flush_func)(int type);
+extern void (*carthelpers_set_default_func)(void);
+extern void (*carthelpers_unset_default_func)(void);
+extern cartridge_info_t * (*carthelpers_info_list_func)(void);
 
 
 void carthelpers_set_functions(
@@ -47,7 +51,10 @@ void carthelpers_set_functions(
         int (*enable_func)(int),
         int (*disable_func)(int),
         int (*can_save_func)(int),
-        int (*can_flush_func)(int));
+        int (*can_flush_func)(int),
+        void (*set_default_func)(void),
+        void (*unset_default_func)(void),
+        cartridge_info_t * (*info_list_func)(void));
 
 GtkWidget *carthelpers_create_enable_check_button(const char *cart_name,
                                                   int cart_id);

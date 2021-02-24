@@ -137,6 +137,7 @@ libwidgets_a_SOURCES = \
 	settings_autostart.c \
 	settings_controlport.c \
 	settings_crt.c \
+	settings_default_cart.c \
 	settings_drive.c \
 	settings_ethernet.c \
 	settings_fsdevice.c \
@@ -296,6 +297,7 @@ EXTRA_DIST = \
 	settings_autostart.h \
 	settings_controlport.h \
 	settings_crt.h \
+	settings_default_cart.h \
 	settings_drive.h \
 	settings_ethernet.h \
 	settings_fsdevice.h \
