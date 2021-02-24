@@ -199,15 +199,7 @@ static void on_unset_default_clicked(GtkWidget *widget, gpointer data)
 
 static void on_attach_clicked(GtkWidget *widget, gpointer data)
 {
-    /* we need to set this callback every time, since the dialog code will
-     * remove it to avoid triggering the callback when the dialog is used from
-     * the menu. (I know)
-     *
-     * Possible fix: add extra argument (callback) to ui_cart_show_dialog()
-     * and have the menu call a wrapper that passes NULL as the callback.
-     */
-    ui_cart_set_extra_attach_callback(browse_callback);
-    ui_cart_show_dialog(widget, GINT_TO_POINTER(1));
+    ui_cart_default_attach(widget, browse_callback);
 }
 
 

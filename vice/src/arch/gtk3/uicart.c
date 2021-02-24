@@ -1213,15 +1213,18 @@ gboolean ui_cart_detach(void)
 }
 
 
-#ifndef SANDBOX_MODE
-/** \brief  Pop up the cart-attach dialog
+
+/** \brief  Create attach dialog
  *
- * \param[in]   widget  parent widget (unused)
- * \param[in]   data    initial state of the 'set as default' checkbox
+ * \param[in]   widget          parent widget
+ * \param[in]   set_as_default  initial state of the 'set as default' checkbox
+ * \param[in]   callback        extra callback when attach succeeds
  *
- * \return  TRUE
+ * \return  GtkDialog
  */
-gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
+static GtkWidget *cart_dialog_internal(GtkWidget *widget,
+                                       gboolean set_as_default,
+                                       void (*callback)(void))
 {
     GtkWidget *dialog;
 
@@ -1242,7 +1245,7 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
 
     /* add extra widget */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
-            create_extra_widget(GPOINTER_TO_INT(data)));
+            create_extra_widget(set_as_default));
 
     /* add preview widget */
     cart_preview_widget = create_preview_widget();
@@ -1275,6 +1278,7 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
             break;
     }
 
+    extra_attach_callback = callback;
     cart_dialog = dialog;
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
@@ -1288,9 +1292,46 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
         gtk_widget_hide(cart_id_widget);
     }
 
+    return dialog;
+}
+
+
+
+
+#ifndef SANDBOX_MODE
+/** \brief  Pop up the cart-attach dialog
+ *
+ * \param[in]   widget  parent widget (unused)
+ * \param[in]   data    initial state of the 'set as default' checkbox
+ *
+ * \return  TRUE
+ */
+gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
+{
+    GtkWidget *dialog;
+
+    dialog = cart_dialog_internal(widget, GPOINTER_TO_INT(data), NULL);
+
     gtk_widget_show(dialog);
     return TRUE;
 }
+
+
+/** \brief  Attach dialog for the settings->default cart page
+ *
+ * \param[in]   widget      parent widget (unused)
+ * \param[in]   callback    function to call on succesfull attach
+ *
+ */
+void ui_cart_default_attach(GtkWidget *widget, void (*callback)(void))
+{
+    GtkWidget *dialog;
+
+    dialog = cart_dialog_internal(widget, GPOINTER_TO_INT(1), callback);
+    gtk_widget_show(dialog);
+}
+
+
 
 #else
 
@@ -1313,18 +1354,6 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 #endif
-
-
-/** \brief  Set extra callback for the attach dialog
- *
- * This callback is triggered after the attach code in the response handler.
- *
- * \param[in]   callback    function to trigger after attaching
- */
-void ui_cart_set_extra_attach_callback(void (*callback)(void))
-{
-    extra_attach_callback = callback;
-}
 
 
 /** \brief  Clean up the last directory string
