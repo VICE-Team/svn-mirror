@@ -316,7 +316,9 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     set_default_button = gtk_button_new_with_label("Set cartridge as default");
     gtk_widget_set_hexpand(set_default_button, FALSE);
     gtk_widget_set_halign(set_default_button, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), set_default_button, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), set_default_button, 0, 3, 2, 1);
+    /* make some space */
+    g_object_set(set_default_button, "margin-top", 32, NULL);
 
     /* set sensitivity of buttons (ie grey-out or not) */
     update_buttons();
