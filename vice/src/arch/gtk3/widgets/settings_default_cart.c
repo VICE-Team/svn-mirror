@@ -37,6 +37,7 @@
 #include "carthelpers.h"
 #include "resources.h"
 #include "machine.h"
+#include "uicart.h"
 
 #include "settings_default_cart.h"
 
@@ -64,6 +65,11 @@ static GtkWidget *set_default_button = NULL;
 /** \brief  Button used to unset the default cartridge
  */
 static GtkWidget *unset_default_button = NULL;
+
+
+
+static GtkWidget *attach_button = NULL;
+static GtkWidget *remove_button = NULL;
 
 
 
@@ -144,6 +150,19 @@ static void update_buttons(void)
 }
 
 
+/** \brief  Callback triggered from the attach dialog
+ */
+static void browse_callback(void)
+{
+    debug_gtk3("Called!");
+
+    update_cart_file_widget();
+    update_cart_type_widget();
+    update_buttons();
+}
+
+
+
 /** \brief  Handler for the 'clicked' event of the 'set default' button
  *
  * \param[in]   widget  button triggering the event
@@ -178,6 +197,30 @@ static void on_unset_default_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+static void on_attach_clicked(GtkWidget *widget, gpointer data)
+{
+    /* we need to set this callback every time, since the dialog code will
+     * remove it to avoid triggering the callback when the dialog is used from
+     * the menu. (I know)
+     *
+     * Possible fix: add extra argument (callback) to ui_cart_show_dialog()
+     * and have the menu call a wrapper that passes NULL as the callback.
+     */
+    ui_cart_set_extra_attach_callback(browse_callback);
+    ui_cart_show_dialog(widget, GINT_TO_POINTER(1));
+}
+
+
+
+static void on_remove_clicked(GtkWidget *widget, gpointer data)
+{
+    if (carthelpers_unset_default_func != NULL) {
+        carthelpers_unset_default_func();
+        update_cart_file_widget();
+        update_cart_type_widget();
+        update_buttons();
+    }
+}
 
 
 /** \brief  Create a default cart settings widget for the settings UI
@@ -196,7 +239,7 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
             VICE_GTK3_DEFAULT,
             VICE_GTK3_DEFAULT,
             "Default cartridge",
-            2);
+            4);
 
     if (cart_info_list == NULL) {
         if (carthelpers_info_list_func != NULL) {
@@ -214,6 +257,16 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), cart_file_widget, 1, 1, 1, 1);
     update_cart_file_widget();
+
+    attach_button = gtk_button_new_with_label("Attach");
+    g_signal_connect(attach_button, "clicked",
+            G_CALLBACK(on_attach_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), attach_button, 2, 1, 1, 1);
+
+    remove_button = gtk_button_new_with_label("Remove");
+    g_signal_connect(remove_button, "clicked",
+            G_CALLBACK(on_remove_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), remove_button, 3, 1, 1, 1);
 
 
     /* resource CartridgeType */

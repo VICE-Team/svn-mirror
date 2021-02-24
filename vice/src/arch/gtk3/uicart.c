@@ -400,6 +400,11 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 #endif
             break;
     }
+
+    /* FIXME: hack to avoid the 'normal' dialog (via the menu) triggering the
+     *        extra callback meant for the default cart setting page.
+     */
+    extra_attach_callback = NULL;
 }
 
 
