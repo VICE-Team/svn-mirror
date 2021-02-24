@@ -62,12 +62,6 @@ static GtkWidget *cart_type_widget = NULL;
 static GtkWidget *set_default_button = NULL;
 
 
-/** \brief  Button used to unset the default cartridge
- */
-static GtkWidget *unset_default_button = NULL;
-
-
-
 static GtkWidget *attach_button = NULL;
 static GtkWidget *remove_button = NULL;
 
@@ -108,7 +102,10 @@ static void update_cart_file_widget(void)
     const char *filename;
 
     if (resources_get_string("CartridgeFile", &filename) >= 0) {
+        gtk_label_set_text(GTK_LABEL(cart_file_widget), filename);
+#if 0
         gtk_entry_set_text(GTK_ENTRY(cart_file_widget), filename);
+#endif
     }
 }
 
@@ -126,7 +123,7 @@ static void update_cart_type_widget(void)
             if (type != 0) {
                 name = get_cart_name_by_id(type);
             }
-            gtk_entry_set_text(GTK_ENTRY(cart_type_widget), name);
+            gtk_label_set_text(GTK_LABEL(cart_type_widget), name);
         }
     }
 }
@@ -142,17 +139,17 @@ static void update_buttons(void)
     if (filename != NULL && *filename != '\0') {
         /* default cart is set */
         gtk_widget_set_sensitive(set_default_button, FALSE);
-        gtk_widget_set_sensitive(unset_default_button, TRUE);
+        gtk_widget_set_sensitive(remove_button, TRUE);
     } else {
         gtk_widget_set_sensitive(set_default_button, TRUE);
-        gtk_widget_set_sensitive(unset_default_button, FALSE);
+        gtk_widget_set_sensitive(remove_button, FALSE);
     }
 }
 
 
 /** \brief  Callback triggered from the attach dialog
  */
-static void browse_callback(void)
+static void attach_callback(void)
 {
     debug_gtk3("Called!");
 
@@ -180,6 +177,7 @@ static void on_set_default_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+#if 0
 /** \brief  Handler for the 'clicked' event of the 'unset default' button
  *
  * \param[in]   widget  button triggering the event
@@ -195,15 +193,28 @@ static void on_unset_default_clicked(GtkWidget *widget, gpointer data)
         update_buttons();
     }
 }
+#endif
 
 
+/** \brief  Callback for the attach dialog
+ *
+ * \param[in]   widget  parent widget
+ * \param[in]   data    extra even data (unused)
+ */
 static void on_attach_clicked(GtkWidget *widget, gpointer data)
 {
-    ui_cart_default_attach(widget, browse_callback);
+    ui_cart_default_attach(widget, attach_callback);
 }
 
 
 
+/** \brief  Handler for the 'clicked' event of the 'Remove' button
+ *
+ * Unsets the current default cart.
+ *
+ * \param[in]   widget  button triggering the event
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_remove_clicked(GtkWidget *widget, gpointer data)
 {
     if (carthelpers_unset_default_func != NULL) {
@@ -213,6 +224,33 @@ static void on_remove_clicked(GtkWidget *widget, gpointer data)
         update_buttons();
     }
 }
+
+
+
+static GtkWidget *create_cart_file_widget(void)
+{
+    GtkWidget *widget;
+
+    widget = gtk_label_new(NULL);
+    gtk_widget_set_hexpand(widget, TRUE);
+    gtk_widget_set_halign(widget, GTK_ALIGN_START);
+    return widget;
+}
+
+
+static GtkWidget *create_cart_type_widget(void)
+{
+    GtkWidget *widget;
+
+    widget = gtk_label_new(NULL);
+    gtk_widget_set_hexpand(widget, TRUE);
+    gtk_widget_set_halign(widget, GTK_ALIGN_START);
+    return widget;
+}
+
+
+
+
 
 
 /** \brief  Create a default cart settings widget for the settings UI
@@ -225,7 +263,6 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *wrapper;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT,
@@ -243,9 +280,12 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     /* resource CartridgeFile */
     label = gtk_label_new("File");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
+#if 0
     cart_file_widget = gtk_entry_new();
     g_object_set(cart_file_widget, "editable", FALSE, NULL);
     gtk_widget_set_hexpand(cart_file_widget, TRUE);
+#endif
+    cart_file_widget = create_cart_file_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), cart_file_widget, 1, 1, 1, 1);
     update_cart_file_widget();
@@ -265,9 +305,7 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     if (cart_info_list != NULL) {
         label = gtk_label_new("Type");
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-        cart_type_widget = gtk_entry_new();
-        g_object_set(cart_file_widget, "editable", FALSE, NULL);
-        gtk_widget_set_hexpand(cart_type_widget, TRUE);
+        cart_type_widget = create_cart_type_widget();
         gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), cart_type_widget, 1, 2, 1, 1);
         update_cart_type_widget();
@@ -275,12 +313,10 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
 
 
     /* buttons */
-    wrapper = gtk_grid_new();
     set_default_button = gtk_button_new_with_label("Set cartridge as default");
-    unset_default_button = gtk_button_new_with_label("Unset default cartridge");
-    gtk_grid_attach(GTK_GRID(wrapper), set_default_button, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), unset_default_button, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 3, 1, 1);
+    gtk_widget_set_hexpand(set_default_button, FALSE);
+    gtk_widget_set_halign(set_default_button, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), set_default_button, 1, 3, 1, 1);
 
     /* set sensitivity of buttons (ie grey-out or not) */
     update_buttons();
@@ -288,8 +324,6 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     /* connect signal handlers */
     g_signal_connect(set_default_button, "clicked",
             G_CALLBACK(on_set_default_clicked), NULL);
-    g_signal_connect(unset_default_button, "clicked",
-            G_CALLBACK(on_unset_default_clicked), NULL);
 
     gtk_widget_show_all(grid);
     return grid;
