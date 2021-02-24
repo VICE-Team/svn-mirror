@@ -333,6 +333,10 @@ static GtkListStore *create_cart_id_model_vic20(void);
 #endif
 
 
+static void (*extra_attach_callback)(void) = NULL;
+
+
+
 /** \brief  Callback for the detach confirm dialog
  *
  * If \a result is TRUE, detach all carts.
@@ -367,21 +371,28 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             if (filename != NULL) {
                 gchar *filename_locale = file_chooser_convert_to_locale(filename);
+                gboolean result;
 
 #ifndef SANDBOX_MODE
-                if (!attach_cart_image(get_cart_type(), get_cart_id(),
-                            filename_locale)) {
+                result = attach_cart_image(get_cart_type(), get_cart_id(),
+                        filename_locale);
+                if (!result) {
 #else
-                /* FIXME: probably only works for C64/C128 */
-                if (!attach_cart_image(UICART_C64_SMART, 0,
-                            filename_locale)) {
+                result = attach_cart_image(UICART_C64_SMART, 0, filename_locale);
+                if (!result) {
 #endif
                     vice_gtk3_message_error("VICE Error",
                             "Failed to smart-attach '%s'", filename);
+                } else {
+                    /* call optional extra callback */
+                    if (extra_attach_callback != NULL) {
+                        extra_attach_callback();
+                    }
                 }
                 g_free(filename);
                 g_free(filename_locale);
-            }
+
+           }
 #ifndef SANDBOX_MODE
             gtk_widget_destroy(dialog);
 #else
@@ -1297,6 +1308,18 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 #endif
+
+
+/** \brief  Set extra callback for the attach dialog
+ *
+ * This callback is triggered after the attach code in the response handler.
+ *
+ * \param[in]   callback    function to trigger after attaching
+ */
+void ui_cart_set_extra_attach_callback(void (*callback)(void))
+{
+    extra_attach_callback = callback;
+}
 
 
 /** \brief  Clean up the last directory string
