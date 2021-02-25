@@ -882,7 +882,7 @@ GtkWidget *ui_machine_menu_bar_create(void)
     snapshot_submenu = ui_menu_submenu_create(menu_bar, "Snapshot");
 
     /* create the top-level 'Settings' menu */
-    settings_submenu = ui_menu_submenu_create(menu_bar, "Settings");
+    settings_submenu = ui_menu_submenu_create(menu_bar, "Preferences");
 
 #ifdef DEBUG
     /* create the top-level 'Debug' menu (when --enable-debug is used) */
