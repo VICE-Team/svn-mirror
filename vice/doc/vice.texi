@@ -17318,6 +17318,8 @@ mentioned above.
 
 Reads a chunk of memory from a start address to an end address (inclusive).
 
+Minimum VICE version: 3.5
+
 Command body:
 
 @table @strong
@@ -17364,6 +17366,8 @@ Response body:
 
 Writes a chunk of memory from a start address to an end address (inclusive).
 
+Minimum VICE version: 3.5
+
 Command body:
 
 @table @strong
@@ -17406,6 +17410,8 @@ Currently empty.
 @subsection Checkpoint get (0x11)
 
 Gets any type of checkpoint. (break, watch, trace)
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17453,6 +17459,8 @@ Command body:
 
 Deletes any type of checkpoint. (break, watch, trace)
 
+Minimum VICE version: 3.5
+
 Command body:
 
 @table @strong
@@ -17470,6 +17478,8 @@ Currently empty.
 
 @node MON_CMD_CHECKPOINT_LIST
 @subsection Checkpoint list (0x14)
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17491,6 +17501,8 @@ Response body:
 
 @node MON_CMD_CHECKPOINT_TOGGLE
 @subsection Checkpoint toggle (0x15)
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17515,6 +17527,8 @@ Currently empty.
 
 Sets a condition on an existing checkpoint. It is not currently possible to
 retrieve conditions after setting them.
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17541,6 +17555,8 @@ Currently empty.
 
 Get details about the registers
 
+Minimum VICE version: 3.5
+
 Command body:
 
 @table @strong
@@ -17563,6 +17579,8 @@ Describes which part of the computer you want to read:
 @subsection Registers set (0x32)
 
 Set the register values
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17594,6 +17612,8 @@ Describes which part of the computer you want to write:
 
 Saves the machine state to a file.
 
+Minimum VICE version: 3.5
+
 Command body:
 
 @table @strong
@@ -17623,6 +17643,8 @@ Currently empty.
 
 Loads the machine state from a file.
 
+Minimum VICE version: 3.5
+
 Command body:
 
 @table @strong
@@ -17648,6 +17670,8 @@ Response body:
 @subsection Resource Get (0x51)
 
 Get a resource value from the emulator. @xref{Resource files, Resources and command-line, Settings and resources, Settings and resources}.
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17679,6 +17703,8 @@ Response body:
 
 Set a resource value in the emulator. @xref{Resource files, Resources and command-line, Settings and resources, Settings and resources}.
 
+Minimum VICE version: 3.5
+
 Command body:
 
 @table @strong
@@ -17709,6 +17735,8 @@ Currently empty.
 
 Step over a certain number of instructions.
 
+Minimum VICE version: 3.5
+
 Command body:
 
 @table @strong
@@ -17731,6 +17759,8 @@ Currently empty.
 @subsection Keyboard feed (0x72)
 
 Add text to the keyboard buffer.
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17757,6 +17787,8 @@ Continues execution and returns to the monitor just after the next RTS or RTI is
 
 This command is the same as "return" in the text monitor.
 
+Minimum VICE version: 3.5
+
 Command body:
 
 Currently empty.
@@ -17774,6 +17806,8 @@ Currently empty.
 
 Get an empty response
 
+Minimum VICE version: 3.5
+
 Command body:
 
 Always empty
@@ -17790,6 +17824,8 @@ Always empty
 @subsection Banks available (0x82)
 
 Gives a listing of all the bank IDs for the running machine with their names.
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17822,6 +17858,8 @@ Response body:
 @subsection Registers available (0x83)
 
 Gives a listing of all the registers for the running machine with their names.
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17870,6 +17908,8 @@ Response body:
 @subsection Display Get (0x84)
 
 Gets the current screen in a requested bit format.
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -17944,6 +17984,8 @@ is contained inside another object instead of before the buffer.
 
 Get general information about VICE. Currently returns the versions.
 
+Minimum VICE version: 3.6
+
 Command body:
 
 Always empty
@@ -17972,6 +18014,8 @@ In little endian format. Returns zero if it's not an SVN build.
 
 Exit the monitor until the next breakpoint.
 
+Minimum VICE version: 3.5
+
 Command body:
 
 Currently empty.
@@ -17989,6 +18033,8 @@ Currently empty.
 
 Quits VICE.
 
+Minimum VICE version: 3.5
+
 Command body:
 
 Currently empty.
@@ -18005,6 +18051,8 @@ Currently empty.
 @subsection Reset (0xcc)
 
 Reset the system or a drive
+
+Minimum VICE version: 3.5
 
 Command body:
 
@@ -18031,6 +18079,8 @@ Currently empty.
 @subsection Autostart / autoload (0xdd)
 
 Load a program then return to the monitor
+
+Minimum VICE version: 3.5
 
 Command body:
 
