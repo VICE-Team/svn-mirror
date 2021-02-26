@@ -102,8 +102,9 @@ static void update_cart_file_widget(void)
     const char *filename;
 
     if (resources_get_string("CartridgeFile", &filename) >= 0) {
-        gtk_label_set_text(GTK_LABEL(cart_file_widget), filename);
 #if 0
+        gtk_label_set_text(GTK_LABEL(cart_file_widget), filename);
+#else
         gtk_entry_set_text(GTK_ENTRY(cart_file_widget), filename);
 #endif
     }
@@ -123,7 +124,7 @@ static void update_cart_type_widget(void)
             if (type != 0) {
                 name = get_cart_name_by_id(type);
             }
-            gtk_label_set_text(GTK_LABEL(cart_type_widget), name);
+            gtk_entry_set_text(GTK_ENTRY(cart_type_widget), name);
         }
     }
 }
@@ -230,10 +231,13 @@ static void on_remove_clicked(GtkWidget *widget, gpointer data)
 static GtkWidget *create_cart_file_widget(void)
 {
     GtkWidget *widget;
-
+#if 0
     widget = gtk_label_new(NULL);
+#endif
+    widget = gtk_entry_new();
     gtk_widget_set_hexpand(widget, TRUE);
-    gtk_widget_set_halign(widget, GTK_ALIGN_START);
+    gtk_widget_set_sensitive(widget, FALSE);
+    g_object_set(widget, "editable", FALSE, NULL);
     return widget;
 }
 
@@ -242,15 +246,12 @@ static GtkWidget *create_cart_type_widget(void)
 {
     GtkWidget *widget;
 
-    widget = gtk_label_new(NULL);
+    widget = gtk_entry_new();
     gtk_widget_set_hexpand(widget, TRUE);
-    gtk_widget_set_halign(widget, GTK_ALIGN_START);
+    gtk_widget_set_sensitive(widget, FALSE);
+    g_object_set(widget, "editable", FALSE, NULL);
     return widget;
 }
-
-
-
-
 
 
 /** \brief  Create a default cart settings widget for the settings UI
