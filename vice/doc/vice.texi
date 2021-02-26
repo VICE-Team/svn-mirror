@@ -17306,6 +17306,7 @@ mentioned above.
 * MON_CMD_BANKS_AVAILABLE::
 * MON_CMD_REGISTERS_AVAILABLE::
 * MON_CMD_DISPLAY_GET::
+* MON_CMD_VICE_INFO::
 * MON_CMD_EXIT::
 * MON_CMD_QUIT::
 * MON_CMD_RESET::
@@ -17935,6 +17936,34 @@ is contained inside another object instead of before the buffer.
     @end table
 
 @item (*buffer) bytes: Display buffer data
+
+@end table
+
+@node MON_CMD_VICE_INFO
+@subsection VICE info (0x85)
+
+Get general information about VICE. Currently returns the versions.
+
+Command body:
+
+Always empty
+
+Response type:
+
+0x85: MON_RESPONSE_VICE_INFO
+
+Response body:
+
+@table @strong
+@item 1 byte: Length of main version = (&main)
+
+@item (*main) bytes: Main version
+In linear format. For example 0x03, 0x05, 0x00, 0x00 for 3.5.0.0
+
+@item 1 byte: Length of SVN revision = (&rev)
+
+@item (*rev) bytes: SVN revision
+In little endian format. Returns zero if it's not an SVN build.
 
 @end table
 

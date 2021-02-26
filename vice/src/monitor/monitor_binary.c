@@ -50,6 +50,12 @@
 #include "mon_file.h"
 #include "mon_register.h"
 
+#include "version.h"
+
+#ifdef USE_SVN_REVISION
+# include "svnversion.h"
+#endif
+
 #ifdef HAVE_NETWORK
 
 #define ADDR_LIMIT(x) ((uint16_t)(addr_mask(x)))
@@ -91,6 +97,7 @@ enum t_binary_command {
     e_MON_CMD_BANKS_AVAILABLE = 0x82,
     e_MON_CMD_REGISTERS_AVAILABLE = 0x83,
     e_MON_CMD_DISPLAY_GET = 0x84,
+    e_MON_CMD_VICE_INFO = 0x85,
 
     e_MON_CMD_EXIT = 0xaa,
     e_MON_CMD_QUIT = 0xbb,
@@ -131,6 +138,7 @@ enum t_binary_response {
     e_MON_RESPONSE_BANKS_AVAILABLE = 0x82,
     e_MON_RESPONSE_REGISTERS_AVAILABLE = 0x83,
     e_MON_RESPONSE_DISPLAY_GET = 0x84,
+    e_MON_RESPONSE_VICE_INFO = 0x85,
 
     e_MON_RESPONSE_EXIT = 0xaa,
     e_MON_RESPONSE_QUIT = 0xbb,
@@ -1289,6 +1297,20 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     lib_free(screenshot.color_map);
 }
 
+static void monitor_binary_process_vice_info(binary_command_t *command)
+{
+    unsigned char response[10] = { 
+        4, VERSION_RC_NUMBER,
+        4, 0, 0, 0, 0,
+    };
+
+    #ifdef USE_SVN_REVISION
+        write_uint32(VICE_SVN_REV_NUMBER, &response[6]);
+    #endif
+
+    monitor_binary_response(sizeof(response), e_MON_RESPONSE_VICE_INFO, e_MON_ERR_OK, command->request_id, response);
+}
+
 static unsigned char* reserved_data(screenshot_t* screenshot, unsigned char *response_cursor, DISPLAY_GET_MODE mode)
 {
     uint8_t depth;
@@ -1547,6 +1569,8 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
         monitor_binary_process_registers_available(command);
     } else if (command_type == e_MON_CMD_DISPLAY_GET) {
         monitor_binary_process_display_get(command);
+    } else if (command_type == e_MON_CMD_VICE_INFO) {
+        monitor_binary_process_vice_info(command);
     } else {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_TYPE, command->request_id);
         log_message(LOG_DEFAULT,
