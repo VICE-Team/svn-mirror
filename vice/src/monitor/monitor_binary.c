@@ -1383,7 +1383,7 @@ static void monitor_binary_process_mem_get(binary_command_t *command)
     uint8_t requested_memspace = body[5];
     uint16_t requested_banknum = little_endian_to_uint16(&body[6]);
 
-    uint16_t length = endaddress - startaddress + 1;
+    uint32_t length = endaddress - startaddress + 1;
 
     if (startaddress > endaddress) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
@@ -1450,7 +1450,7 @@ static void monitor_binary_process_mem_set(binary_command_t *command)
     uint8_t requested_memspace = body[5];
     uint16_t requested_banknum = little_endian_to_uint16(&body[6]);
 
-    uint16_t length = endaddress - startaddress + 1;
+    uint32_t length = endaddress - startaddress + 1;
 
     if (startaddress > endaddress) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
