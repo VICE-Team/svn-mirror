@@ -1528,11 +1528,13 @@ result can be obtained with
 x64sc -autostart "lovelygame.d64:run me"
 @end example
 
-If you specify a raw CBM or P00 file, the emulator will setup the file
-system based drive emulation so that it is enabled and accesses the
-directory containing the file first.  This is a very convenient way to
-start multi-file programs stored in file system directories and not
-requiring ``true'' drive emulation.
+Note that if you specify a raw CBM or P00 file, the emulator will load the file,
+and after doing so revert all settings to what they were before autostarting.
+
+If you want to allow the started program to access the host file system, you will
+have to enable "virtual device traps". If you want the autostart logic to disable
+true drive emulation temporarily to speed up the autostart, then enable "handle
+TDE at autostart.
 
 @xref{Disk and tape images}. for more information about images and
 autostart.
@@ -2268,18 +2270,15 @@ last commands tries to guess the type of the image you are attaching
 from its name and size, and attaches it to the most reasonable device.
 
 Supported formats are @code{D64}, @code{G64}, @code{P64} for disk images
-(devices 8, 9 and 10) and @code{T64} and @code{TAP} for tape images.  
+(devices 8, 9, 10 and 11) and @code{T64} and @code{TAP} for tape images.  
 
 The ancient @code{X64} format is deprecated and subject for removal.
 
 Notice that @code{T64} support is @emph{read-only}, and that the cassette is 
-automatically rewound when you reach its end. For actually emulating tape, the
+automatically rewound when you reach its end. Most importantly @code{T64} support
+is only available via virtual device traps, which have to be permanently enabled
+for multiload programs running from these containers. For actually emulating tape, the
 @code{TAP} format is highly recommended.
-
-Another important feature is that raw Commodore BASIC binary files and
-.P00 files can be attached as tapes.  As you can autostart a
-tape image when it is attached (@pxref{Autostart}), this allows you to
-autostart these particular files as well.
 
 You can attach a disk for which you do not have write permissions: when this
 happens, the 1541 emulator will emulate a write-protected disk.  This is
@@ -8085,7 +8084,7 @@ Attach raw 32KiB Super Snapshot V4 cartridge image.
 
 @findex -cartss5
 @item -cartss5 <name>
-Attach raw 64KiB Super Snapshot V5 cartridge image.
+Attach raw 64KiB or 128KiB Super Snapshot V5 cartridge image.
 
 @findex -ssramexpansion, +ssramexpansion
 @item -ssramexpansion
@@ -26191,9 +26190,9 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64KiB (4 banks of 16KiB each)
+@tab 64KiB or 128KiB (4 or 8 banks of 16KiB each)
 @item EXROM
-@tab active (lo) (0)
+@tab inactive (hi) (1)
 @item GAME
 @tab active (lo) (0)
 @item Load address
@@ -26228,7 +26227,8 @@ C080: 50 DE BC FE C3 C2 CD 38 30 85 07 20 1A AD A5 76  P......80.. ...v
 @example
     bit  meaning
     ---  -------
-    7-5  unused
+    7-6  unused
+    5    ROM/RAM bank bit 2 (usually unused, for 128KiB ROM)
     4    ROM/RAM bank bit 1
     3    ROM enable
     2    ROM/RAM bank bit 0
