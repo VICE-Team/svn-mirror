@@ -34,9 +34,9 @@ if [[ "$1" = -psn_* ]]; then
     shift
 fi
 
-cd "$(dirname "$0")"
-source bin/common-runtime.sh
-source bin/ui-runtime.sh
+ROOT_DIR="$(dirname "$0")"
+source "$ROOT_DIR/bin/common-runtime.sh"
+source "$ROOT_DIR/bin/ui-runtime.sh"
 
 # --- find VICE binary ---
 # if not provided via $PROGRAM, derive emu name from executing script name
@@ -80,7 +80,7 @@ if [ -z "$PROGRAM" ]; then
 fi
 
 if [ "$PROGRAM" != "" ]; then
-  "./bin/$PROGRAM" "$@"
+  "$ROOT_DIR/bin/$PROGRAM" "$@"
 fi
 
 exit 0
