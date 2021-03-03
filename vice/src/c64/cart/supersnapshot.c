@@ -143,8 +143,11 @@ static void supersnapshot_v5_io1_store(uint16_t addr, uint8_t value)
         }
 
         romconfig = ((value & 1) ^ 1) | ((value & 2) ^ 2);
-        currbank = ((value >> 2) & 0x1) | (((value >> 4) & 0x1) << 1) | (((value >> 5) & 0x1) << 2);
+        currbank = ((value >> 2) & 0x1) | (((value >> 4) & 0x1) << 1);
         ram_bank = ss_32k_enabled ? currbank : 0; /* Select RAM banknr. */
+        if (ss_rom_banks == 8) {
+            currbank |= (((value >> 5) & 0x1) << 2);
+        }
         ss_rom_disabled = ((value >> 3) & 0x1);
         romconfig |= (currbank << CMODE_BANK_SHIFT);
         if (((value >> 1) & 1) == 0) {
@@ -158,8 +161,8 @@ static int supersnapshot_v5_dump(void)
 {
     mon_out("Register: $%02x (%s)\n", (unsigned int)currreg, (ss_rom_disabled) ? "disabled" : "enabled");
     mon_out(" EXROM: %d GAME: %d (%s)\n", ((romconfig >> 1) & 1), (romconfig & 1) ^ 1, cart_config_string((uint8_t)(romconfig & 3)));
-    mon_out(" ROM %s, Bank: %d\n", (ss_rom_disabled) ? "disabled" : "enabled", currbank);
-    mon_out(" RAM %s, Bank: %d\n", (export_ram) ? "enabled" : "disabled", ram_bank);
+    mon_out(" ROM %s, Bank: %d of %d\n", (ss_rom_disabled) ? "disabled" : "enabled", currbank, ss_rom_banks);
+    mon_out(" RAM %s, Bank: %d of %d\n", (export_ram) ? "enabled" : "disabled", ram_bank, ss_32k_enabled ? 4 : 1);
     return 0;
 }
 
