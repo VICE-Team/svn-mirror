@@ -424,12 +424,13 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "GEORAM", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &georam_enabled, set_georam_enabled, NULL },
     { "GEORAMsize", 512, RES_EVENT_NO, NULL,
       &georam_size_kb, set_georam_size, NULL },
     { "GEORAMImageWrite", 0, RES_EVENT_NO, NULL,
       &georam_write_image, set_georam_image_write, NULL },
+    /* CAUTION: the order matters here, enable must happen last */
+    { "GEORAM", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &georam_enabled, set_georam_enabled, NULL },
     RESOURCE_INT_LIST_END
 };
 
