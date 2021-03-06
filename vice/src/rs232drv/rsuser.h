@@ -44,6 +44,7 @@ extern int rsuser_enabled;
 
 extern void rsuser_init(long cycles_per_sec, void (*start_bit_trigger)(void),
                         void (*byte_rx_func)(uint8_t));
+extern void rsuser_change_timing(long cycles_per_sec);
 extern int rsuser_resources_init(void);
 extern int rsuser_cmdline_options_init(void);
 

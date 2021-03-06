@@ -1168,6 +1168,8 @@ void machine_change_timing(int timeval, int border_mode)
 
     fmopl_set_machine_parameter(machine_timing.cycles_per_sec);
 
+    rsuser_change_timing(machine_timing.cycles_per_sec);
+
     mem_patch_kernal();
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);

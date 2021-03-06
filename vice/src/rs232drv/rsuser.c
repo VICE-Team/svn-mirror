@@ -236,6 +236,12 @@ static const unsigned int masks[] =
     0x1000, 0x2000, 0x4000, 0x8000
 };
 
+void rsuser_change_timing(long cycles)
+{
+    cycles_per_sec = cycles;
+    calculate_baudrate();
+}
+
 void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(uint8_t))
 {
     int i, j;
@@ -245,8 +251,7 @@ void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(uint8_t)
 
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
-    cycles_per_sec = cycles;
-    calculate_baudrate();
+    rsuser_change_timing(cycles);
 
     start_bit_trigger = startfunc;
     byte_rx_func = bytefunc;
