@@ -156,15 +156,16 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     filename_locale = file_chooser_convert_to_locale(filename);
 
-    /* Smart attach for C64/C128
+    /* Smart attach for C64/C128/Plus4
         *
         * This tries to attach a file as a cartridge image, which is only
-        * valid for C64/C128
+        * valid for C64/C128/Plus4
         */
     if ((machine_class == VICE_MACHINE_C64)
             || (machine_class == VICE_MACHINE_C64SC)
             || (machine_class == VICE_MACHINE_SCPU64)
-            || (machine_class == VICE_MACHINE_C128)) {
+            || (machine_class == VICE_MACHINE_C128)
+            || (machine_class == VICE_MACHINE_PLUS4)) {
         if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0
