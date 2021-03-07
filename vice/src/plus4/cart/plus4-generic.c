@@ -41,6 +41,7 @@
 #include "plus4cart.h"
 #include "plus4mem.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "sysfile.h"
 #include "util.h"
 
@@ -54,6 +55,9 @@
 
 /* FIXME: get rid of this ugly hack */
 extern int plus4_rom_loaded;
+
+static int generic_type = 0;
+static int generic_filetype = 0;
 
 /* Name of the external cartridge ROMs.  */
 static char *c1lo_rom_name = NULL;
@@ -71,6 +75,21 @@ uint8_t generic_c1lo_read(uint16_t addr)
 uint8_t generic_c1hi_read(uint16_t addr)
 {
     return extromhi2[addr & 0x3fff];
+}
+
+/*
+    called by cartridge_attach_image after cart_crt/bin_attach
+    XYZ_config_setup should copy the raw cart image into the
+    individual implementations array.
+*/
+
+/* FIXME: this function must check the actual generic type and then
+          update c1lo/c2hi accordingly */
+void generic_config_setup(uint8_t *rawcart)
+{
+    DBG(("generic_config_setup\n"));
+    memcpy(extromlo2, rawcart, PLUS4_C1LO_ROM_SIZE);
+    memcpy(extromhi2, rawcart, PLUS4_C1HI_ROM_SIZE);
 }
 
 /* FIXME: this is totally wrong, we should only use c1lo/c1hi for generic */
@@ -190,10 +209,13 @@ int plus4cart_load_c1hi(const char *rom_name)
 
 void generic_detach(void)
 {
+    /* FIXME: this is broken */
     resources_set_string("c1loName", "");
     resources_set_string("c1hiName", "");
     memset(extromlo2, 0, PLUS4_CART16K_SIZE);
     memset(extromhi2, 0, PLUS4_CART16K_SIZE);
+
+    generic_type = 0;
 }
 
 static int set_c1lo_rom_name(const char *val, void *param)
@@ -271,3 +293,82 @@ int generic_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
+/* ---------------------------------------------------------------------*/
+
+/* CARTGENERIC snapshot module format:
+
+   type  | name              | version | description
+   -------------------------------------------------
+   ARRAY | ROM C1LO          |   0.1+  | 16kiB of ROM data
+   ARRAY | ROM C1HI          |   0.1+  | 16kiB of ROM data
+ */
+
+/* FIXME: since we cant actually make snapshots due to TED bugs, the following
+          is completely untested */
+
+static const char snap_module_name[] = "CARTGENERIC";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   1
+
+int generic_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    DBG(("generic_snapshot_write_module\n"));
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || SMW_BA(m, extromlo2, PLUS4_C1LO_ROM_SIZE)
+        || SMW_BA(m, extromhi2, PLUS4_C1HI_ROM_SIZE) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+int generic_snapshot_read_module(snapshot_t *s)
+{
+    uint8_t vmajor, vminor;
+    snapshot_module_t *m;
+
+    DBG(("generic_snapshot_read_module\n"));
+
+    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(vmajor, vminor, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || SMR_BA(m, extromlo2, PLUS4_C1LO_ROM_SIZE)
+        || SMR_BA(m, extromhi2, PLUS4_C1HI_ROM_SIZE) < 0) {
+        goto fail;
+    }
+
+    snapshot_module_close(m);
+
+    /* generic_common_attach(); */
+
+    /* set filetype to none */
+    generic_filetype = 0;
+
+    return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}

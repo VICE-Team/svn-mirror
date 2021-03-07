@@ -467,20 +467,22 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_PLUS4_MULTI           2   /* plus4 multi cart */
 #define CARTRIDGE_PLUS4_JACINT1MB       3   /* 1MB Cartridge */
 
-#define CARTRIDGE_V364_SPEECH           0x8100
+#define CARTRIDGE_PLUS4_LAST            3
+
+#define CARTRIDGE_V364_SPEECH           0x8100  /* c2lo+c2hi */
 
 #define CARTRIDGE_PLUS4_DETECT          0x8200 /* low byte must be 0x00 */
 
-#define CARTRIDGE_PLUS4_16KB_C0LO       0x8201
-#define CARTRIDGE_PLUS4_16KB_C0HI       0x8202
+/* #define CARTRIDGE_PLUS4_16KB_C0LO       0x8201
+#define CARTRIDGE_PLUS4_16KB_C0HI       0x8202 */
 #define CARTRIDGE_PLUS4_16KB_C1LO       0x8204
 #define CARTRIDGE_PLUS4_16KB_C1HI       0x8208
 #define CARTRIDGE_PLUS4_16KB_C2LO       0x8210
 #define CARTRIDGE_PLUS4_16KB_C2HI       0x8220
 
-#define CARTRIDGE_PLUS4_32KB_C0         0x8203
-#define CARTRIDGE_PLUS4_32KB_C1         0x820c
-#define CARTRIDGE_PLUS4_32KB_C2         0x8230
+/* #define CARTRIDGE_PLUS4_32KB_C0       (CARTRIDGE_PLUS4_16KB_C0LO | CARTRIDGE_PLUS4_16KB_C0HI) */
+#define CARTRIDGE_PLUS4_32KB_C1         (CARTRIDGE_PLUS4_16KB_C1LO | CARTRIDGE_PLUS4_16KB_C1HI)
+#define CARTRIDGE_PLUS4_32KB_C2         (CARTRIDGE_PLUS4_16KB_C2LO | CARTRIDGE_PLUS4_16KB_C2HI)
 
 #define CARTRIDGE_PLUS4_NEWROM          0x8207 /* c0lo,c0hi,c1lo (48k) */
 

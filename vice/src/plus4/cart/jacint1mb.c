@@ -42,6 +42,7 @@
 #include "archdep.h"
 #include "cartridge.h"
 #include "cartio.h"
+#include "crt.h"
 #include "lib.h"
 #include "monitor.h"
 #include "plus4cart.h"
@@ -102,7 +103,7 @@ static void jacint1mb_store(uint16_t addr, uint8_t value)
 uint8_t jacint1mb_c1lo_read(uint16_t addr)
 {
     unsigned int offset = ((addr & 0x3fff) + (bankreg * 0x4000)) & (JACINT1MBROMSIZE - 1);
-    /* DBG(("jacint1mb_c1lo_read %06x bank: %d\n", offset, bankreg)); */
+    /* DBG(("jacint1mb_c1lo_read %06x bank: %d value: %02x\n", offset, bankreg, jacint1mbrom[offset])); */
     return jacint1mbrom[offset];
 }
 
@@ -146,10 +147,39 @@ int jacint1mb_bin_attach(const char *filename, uint8_t *rawcart)
     return jacint1mb_common_attach();
 }
 
+int jacint1mb_crt_attach(FILE *fd, uint8_t *rawcart)
+{
+    crt_chip_header_t chip;
+    int i;
+
+    DBG(("jacint1mb_crt_attach\n"));
+
+    for (i = 0; i < 64; i++) {
+        if (crt_read_chip_header(&chip, fd)) {
+            return -1;
+        }
+
+        if ((chip.bank >= 64) || (chip.size != 0x4000)) {
+            return -1;
+        }
+        /* DBG(("bank: %d offset: %06x \n", chip.bank, chip.bank << 14)); */
+
+        if (crt_read_chip(rawcart, chip.bank << 14, &chip, fd)) {
+            return -1;
+        }
+    }
+
+    jacint1mb_filetype = CARTRIDGE_FILETYPE_CRT;
+    return jacint1mb_common_attach();
+}
+
 void jacint1mb_detach(void)
 {
     DBG(("jacint1mb_detach\n"));
-    io_source_unregister(jacint1mb_list_item);
+    if (jacint1mb_list_item) {
+        io_source_unregister(jacint1mb_list_item);
+    }
+    jacint1mb_list_item = NULL;
     lib_free(jacint1mbrom);
     jacint1mbrom = NULL;
 }

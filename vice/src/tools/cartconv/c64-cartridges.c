@@ -17,13 +17,14 @@
     1       1    -  ram/off
 */
 const cart_t cart_info[] = {
-/*  {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Generic 8KiB", NULL, NULL}, */ /* 8k game config */
-/*  {0, 0, CARTRIDGE_SIZE_12KB, 0x3000, 0x8000, 1, 0, "Generic 12KiB", NULL, NULL}, */ /* 16k game config */
-/*  {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Generic 16KiB", NULL, NULL}, */ /* 16k game config */
-/*  {1, 0, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_16KB, 0, 0, 1, 0, "Ultimax", NULL, NULL}, */ /* ultimax config */
+/*  {0, 1, CARTRIDGE_SIZE_8KB,     0x2000, 0x8000,   1, 0, "Generic 8KiB", NULL, NULL}, */ /* 8k game config */
+/*  {0, 0, CARTRIDGE_SIZE_12KB,    0x3000, 0x8000,   1, 0, "Generic 12KiB", NULL, NULL}, */ /* 16k game config */
+/*  {0, 0, CARTRIDGE_SIZE_16KB,    0x4000, 0x8000,   1, 0, "Generic 16KiB", NULL, NULL}, */ /* 16k game config */
+/*  {1, 0, CARTRIDGE_SIZE_4KB |
+           CARTRIDGE_SIZE_16KB,         0,      0,   1, 0, "Ultimax", NULL, NULL}, */ /* ultimax config */
 
 /* FIXME: initial exrom/game values are often wrong in this table
- *        don't forget to also update vice.texi accordingly */
+          don't forget to also update vice.texi accordingly */
 
     {0, 1, CARTRIDGE_SIZE_4KB |
            CARTRIDGE_SIZE_8KB |

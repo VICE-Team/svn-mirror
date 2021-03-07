@@ -42,6 +42,7 @@
 #include "archdep.h"
 #include "cartridge.h"
 #include "cartio.h"
+#include "crt.h"
 #include "lib.h"
 #include "monitor.h"
 #include "plus4cart.h"
@@ -114,7 +115,7 @@ void magiccart_reset(void)
 void magiccart_config_setup(uint8_t *rawcart)
 {
     DBG(("magiccart_config_setup\n"));
-    memcpy(magiccartrom, rawcart, 0x200000);
+    memcpy(magiccartrom, rawcart, magiccart_filesize);
 }
 
 static int magiccart_common_attach(void)
@@ -177,10 +178,44 @@ int magiccart_bin_attach(const char *filename, uint8_t *rawcart)
     return magiccart_common_attach();
 }
 
+int magiccart_crt_attach(FILE *fd, uint8_t *rawcart)
+{
+    crt_chip_header_t chip;
+    int i;
+
+    DBG(("magiccart_crt_attach\n"));
+
+    for (i = 0; i < 128; i++) {
+        if (crt_read_chip_header(&chip, fd)) {
+            break;
+        }
+
+        if ((chip.bank >= 128) || (chip.size != 0x4000)) {
+            return -1;
+        }
+        /* DBG(("bank: %d offset: %06x \n", chip.bank, chip.bank << 14)); */
+
+        if (crt_read_chip(rawcart, chip.bank << 14, &chip, fd)) {
+            return -1;
+        }
+    }
+
+    if ((i != 32) && (i != 64) && (i != 128)) {
+        return -1;
+    }
+
+    magiccart_filesize = i * 0x4000;
+    magiccart_filetype = CARTRIDGE_FILETYPE_CRT;
+    return magiccart_common_attach();
+}
+
 void magiccart_detach(void)
 {
     DBG(("magiccart_detach\n"));
-    io_source_unregister(magiccart_list_item);
+    if (magiccart_list_item) {
+        io_source_unregister(magiccart_list_item);
+    }
+    magiccart_list_item = NULL;
     lib_free(magiccartrom);
     magiccartrom = NULL;
 }

@@ -31,6 +31,8 @@ cartconv_SOURCES = \
 	cartconv.c \
 	c64-cartridges.c \
 	c64-saver.c \
+	plus4-cartridges.c \
+	plus4-saver.c \
 	vic20-cartridges.c \
 	vic20-saver.c \
 	crt.c \
@@ -41,6 +43,8 @@ EXTRA_DIST = \
 	cartconv.h \
 	c64-cartridges.h \
 	c64-saver.h \
+	plus4-cartridges.h \
+	plus4-saver.h \
 	vic20-cartridges.h \
 	vic20-saver.h \
 	crt.h

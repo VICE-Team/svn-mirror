@@ -55,6 +55,7 @@
 #include "c64-cartridges.h"
 #include "c64-saver.h"
 #include "crt.h"
+#include "plus4-cartridges.h"
 #include "vic20-cartridges.h"
 
 unsigned int loadfile_size = 0;
@@ -224,12 +225,50 @@ static int load_easyflash_crt(void)
             return -1;
         }
         if (load_address == 0) {
-            load_address = (chipbuffer[0xc] << 8) + chipbuffer[0xd];
+            load_address = (chipbuffer[CRT_CHIP_OFFS_LOAD_HI] << 8) + chipbuffer[CRT_CHIP_OFFS_LOAD_LO];
         }
-        load_position = (unsigned int)((chipbuffer[0xb] * 0x4000) + ((chipbuffer[0xc] == 0x80) ? 0 : 0x2000));
+        load_position = (unsigned int)((chipbuffer[CRT_CHIP_OFFS_BANK_LO] * 0x4000) + ((chipbuffer[CRT_CHIP_OFFS_LOAD_HI] == 0x80) ? 0 : 0x2000));
         if (fread(filebuffer + load_position, 1, 0x2000, infile) != 0x2000) {
             return -1;
         }
+    }
+}
+
+static int load_multicart_crt(void)
+{
+    unsigned int load_position;
+    unsigned int size = 0;
+    memset(filebuffer, 0xff, 0x400000);
+    while (1) {
+        loadfile_size = size;
+        if (fread(chipbuffer, 1, 16, infile) != 16) {
+            if (loadfile_size == 0) {
+                return -1;
+            } else {
+                if (size == 0x200000) {
+                    memcpy(&filebuffer[0x100000], &filebuffer[0x200000], 0x100000);
+                    memset(&filebuffer[0x200000], 0xff, 0x100000);
+                }
+                return 0;
+            }
+        }
+        if (chipbuffer[0] != 'C' ||
+            chipbuffer[1] != 'H' ||
+            chipbuffer[2] != 'I' ||
+            chipbuffer[3] != 'P') {
+            return -1;
+        }
+        if (load_address == 0) {
+            load_address = (chipbuffer[CRT_CHIP_OFFS_LOAD_HI] << 8) +
+                            chipbuffer[CRT_CHIP_OFFS_LOAD_LO];
+        }
+        load_position = (unsigned int)((chipbuffer[CRT_CHIP_OFFS_BANK_LO] * 0x4000) +
+                                      ((chipbuffer[CRT_CHIP_OFFS_LOAD_HI] == 0x80) ? 0 : 0x200000));
+        if (fread(filebuffer + load_position, 1, 0x4000, infile) != 0x4000) {
+            return -1;
+        }
+        size += 0x4000;
+        /*printf("size: %06x load_position: %06x load_address: %04x\n", size, load_position, load_address);*/
     }
 }
 
@@ -239,6 +278,10 @@ static int load_all_banks(void)
 
     if (loadfile_cart_type == CARTRIDGE_EASYFLASH) {
         return load_easyflash_crt();
+    }
+
+    if (loadfile_cart_type == CARTRIDGE_PLUS4_MULTI) {
+        return load_multicart_crt();
     }
 
     while (1) {
@@ -312,6 +355,9 @@ void bin2crt_ok(void)
         } else if (machine_class == VICE_MACHINE_VIC20) {
             printf("Conversion from binary format to VIC20 %s .crt successful.\n", 
                 cart_info_vic20[(unsigned char)cart_type].name);
+        } else if (machine_class == VICE_MACHINE_PLUS4) {
+            printf("Conversion from binary format to Plus4 %s .crt successful.\n", 
+                cart_info_plus4[(unsigned char)cart_type].name);
         }
     }
 }
@@ -332,6 +378,9 @@ void crt2bin_ok(void)
         } else if (machine_class == VICE_MACHINE_VIC20) {
             printf("Conversion from VIC20 %s .crt to binary format successful.\n",
                 cart_info_vic20[loadfile_cart_type].name);
+        } else if (machine_class == VICE_MACHINE_PLUS4) {
+            printf("Conversion from Plus4 %s .crt to binary format successful.\n",
+                cart_info_plus4[loadfile_cart_type].name);
         }
     }
 }
@@ -368,10 +417,10 @@ static int save_binary_output_file(void)
     printf("save_binary_output_file mode:%s addr:%04x size:%04x\n",
            convert_to_prg ? "prg" : "bin", load_address, loadfile_size);
 */
-    /* handle vic20 bins that contain a gap between two blocks */
     if ((machine_class == VICE_MACHINE_VIC20) &&
         (output_filenames == 2) &&
         (loadfile_size == 0x4000)) {
+        /* handle vic20 bins that contain a gap between two blocks */
         if (save_binary(filebuffer, output_filename[0], load_address, 0x2000) < 0) {
             return -1;
         }
@@ -527,7 +576,7 @@ int load_input_file(char *filename)
         if (headerbuffer[0x10] != 0 ||
             headerbuffer[0x11] != 0 ||
             headerbuffer[0x12] != 0 ||
-            headerbuffer[0x13] != 0x40) {
+            headerbuffer[0x13] != CRT_HEADER_LEN) {
             fprintf(stderr, "Error: Illegal header size in %s\n", filename);
             if (!repair_mode) {
                 fclose(infile);
@@ -561,6 +610,12 @@ int load_input_file(char *filename)
                 fclose(infile);
                 return -1;
             }
+        } else if (machine_class == VICE_MACHINE_PLUS4) {
+            if (!((loadfile_cart_type >= 0) && (loadfile_cart_type <= CARTRIDGE_PLUS4_LAST))) {
+                fprintf(stderr, "Error: Unknown CRT ID: %d\n", loadfile_cart_type);
+                fclose(infile);
+                return -1;
+            }
         }
 
         loadfile_size = 0;
@@ -582,7 +637,7 @@ int load_input_file(char *filename)
         loadfile_is_crt = 0;
         /* read the rest of the file */
         loadfile_size = (unsigned int)fread(filebuffer + 0x10, 1, CARTRIDGE_SIZE_MAX - 14, infile) + 0x10;
-
+        printf("loadfile_size: %06x\n", loadfile_size);
         switch (loadfile_size) {
             case CARTRIDGE_SIZE_2KB:
             case CARTRIDGE_SIZE_4KB:
@@ -671,6 +726,9 @@ static const cart_t *find_cartinfo_from_crtid(int crtid, int machine)
     if (machine == VICE_MACHINE_VIC20) {
         info = cart_info_vic20;
     }
+    if (machine == VICE_MACHINE_PLUS4) {
+        info = cart_info_plus4;
+    }
 
     for (i = 0; info[i].name != NULL; i++) {
         if (i == crtid) {
@@ -754,29 +812,37 @@ static void printinfo(char *name)
             crtid -= 0x10000;
         }
 
-        if (machine_class == VICE_MACHINE_C64) {
-            if ((crtid >= 0) && (crtid <= CARTRIDGE_LAST)) {
-                idname = cart_info[crtid].name;
-            }
-            if ((headerbuffer[0x18] == 1) && (headerbuffer[0x19] == 0)) {
-                modename = "ultimax";
-            } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 0)) {
-                modename = "16k Game";
-            } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 1)) {
-                modename = "8k Game";
-            } else {
-                modename = "?";
-            }
-            if (crtid && headerbuffer[0x18] != cart_info[crtid].exrom) {
-                exrom_warning = "Warning: exrom in crt image set incorrectly.\n";
-            }
-            if (crtid && headerbuffer[0x19] != cart_info[crtid].game) {
-                game_warning = "Warning: game in crt image set incorrectly.\n";
-            }
-        } else if (machine_class == VICE_MACHINE_VIC20) {
-            if ((crtid >= 0) && (crtid <= CARTRIDGE_VIC20_LAST)) {
-                idname = cart_info_vic20[crtid].name;
-            }
+        switch (machine_class) {
+            case VICE_MACHINE_C64:
+                if ((crtid >= 0) && (crtid <= CARTRIDGE_LAST)) {
+                    idname = cart_info[crtid].name;
+                }
+                if ((headerbuffer[0x18] == 1) && (headerbuffer[0x19] == 0)) {
+                    modename = "ultimax";
+                } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 0)) {
+                    modename = "16k Game";
+                } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 1)) {
+                    modename = "8k Game";
+                } else {
+                    modename = "?";
+                }
+                if (crtid && headerbuffer[0x18] != cart_info[crtid].exrom) {
+                    exrom_warning = "Warning: exrom in crt image set incorrectly.\n";
+                }
+                if (crtid && headerbuffer[0x19] != cart_info[crtid].game) {
+                    game_warning = "Warning: game in crt image set incorrectly.\n";
+                }
+            break;
+            case VICE_MACHINE_VIC20:
+                if ((crtid >= 0) && (crtid <= CARTRIDGE_VIC20_LAST)) {
+                    idname = cart_info_vic20[crtid].name;
+                }
+            break;
+            case VICE_MACHINE_PLUS4:
+                if ((crtid >= 0) && (crtid <= CARTRIDGE_PLUS4_LAST)) {
+                    idname = cart_info_plus4[crtid].name;
+                }
+            break;
         }
 
         memcpy(systemname, &headerbuffer[0], 0x10); systemname[0x10] = 0;
@@ -815,9 +881,9 @@ static void printoptions(char *inputname, char *optionsname)
     FILE *f;
     int crtid;
     int i;
-    
+
     f = fopen(optionsname, "w");
-    
+
 #if 1
     if (detect_input_file(inputname) < 0) {
         printf("Error: can not detect file type.\n\n");
@@ -859,6 +925,13 @@ static void printoptions(char *inputname, char *optionsname)
                 }
             } else if (machine_class == VICE_MACHINE_VIC20) {
                 fprintf(f,"-t,vic20,");
+                if (convert_to_bin) {
+                    unsigned int loadaddr = 0;
+                    detect_load_address(inputname, &loadaddr);
+                    fprintf(f,"-l,%u,", loadaddr);
+                }
+            } else if (machine_class == VICE_MACHINE_PLUS4) {
+                fprintf(f,"-t,plus4,");
                 if (convert_to_bin) {
                     unsigned int loadaddr = 0;
                     detect_load_address(inputname, &loadaddr);
@@ -996,6 +1069,11 @@ static void usage_types(void)
     );
     print_types(VICE_MACHINE_VIC20, cart_info_vic20);
 
+    printf("\nPlus4 cartridge types:\n\n"
+           "plus4    Generic 4KiB/8KiB/16KiB/32KiB .crt file\n"
+    );
+    print_types(VICE_MACHINE_PLUS4, cart_info_plus4);
+
     exit(1);
 }
 
@@ -1123,6 +1201,13 @@ static int checkflag(char *flg, char *arg)
                                 machine_class = VICE_MACHINE_VIC20;
                             }
                         }
+                        if (cart_type == -1) {
+                            cart_type = find_crtid_from_type(cart_info_plus4, arg);
+                            if (cart_type != -1) {
+                                /* found plus4 cartridge */
+                                machine_class = VICE_MACHINE_PLUS4;
+                            }
+                        }
                     }
 
                     if (cart_type == -1) {
@@ -1138,6 +1223,9 @@ static int checkflag(char *flg, char *arg)
                         } else if (!strcmp(arg, "vic20")) {
                             cart_type = CARTRIDGE_CRT;
                             machine_class = VICE_MACHINE_VIC20;
+                        } else if (!strcmp(arg, "plus4")) {
+                            cart_type = CARTRIDGE_CRT;
+                            machine_class = VICE_MACHINE_PLUS4;
                         } else {
                             usage();
                         }
@@ -1240,42 +1328,56 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (machine_class == VICE_MACHINE_C64) {
-        printf("c64 input_filenames: %d output_filenames: %d\n",
-               input_filenames, output_filenames);
-        /* some formats allow more than one input file */
-        if ((input_filenames > 1) &&
-            (cart_type != CARTRIDGE_DELA_EP64) && (loadfile_cart_type != CARTRIDGE_DELA_EP64) &&
-            (cart_type != CARTRIDGE_DELA_EP256) && (loadfile_cart_type != CARTRIDGE_DELA_EP256) &&
-            (cart_type != CARTRIDGE_DELA_EP7x8) && (loadfile_cart_type != CARTRIDGE_DELA_EP7x8) &&
-            (cart_type != CARTRIDGE_REX_EP256) && (loadfile_cart_type != CARTRIDGE_REX_EP256)
-            ) {
-            too_many_inputs();
-        }
-        if (((cart_type == CARTRIDGE_DELA_EP64) || (loadfile_cart_type == CARTRIDGE_DELA_EP64)) &&
-            (input_filenames > 3)) {
-            too_many_inputs();
-        }
-        if (((cart_type == CARTRIDGE_DELA_EP7x8) || (loadfile_cart_type == CARTRIDGE_DELA_EP7x8)) && 
-            (input_filenames > 8)) {
-            too_many_inputs();
-        }
-        /* some formats allow more than one output file */
-        if (output_filenames > 1) {
-            too_many_outputs();
-        }
-    }
-    if (machine_class == VICE_MACHINE_VIC20) {
-        printf("vic20 input_filenames: %d output_filenames: %d cart_type: %d loadfile_cart_type: %d\n",
-               input_filenames, output_filenames, cart_type, loadfile_cart_type);
-        /* some formats allow more than one input file */
-        if ((input_filenames > 1) && (cart_type != CARTRIDGE_CRT)) {
-            too_many_inputs();
-        }
-        /* some formats allow more than one output file */
-        if ((output_filenames > 1) && (loadfile_cart_type != CARTRIDGE_CRT)) {
-            too_many_outputs();
-        }
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+            printf("c64 input_filenames: %d output_filenames: %d\n",
+                input_filenames, output_filenames);
+            /* some formats allow more than one input file */
+            if ((input_filenames > 1) &&
+                (cart_type != CARTRIDGE_DELA_EP64) && (loadfile_cart_type != CARTRIDGE_DELA_EP64) &&
+                (cart_type != CARTRIDGE_DELA_EP256) && (loadfile_cart_type != CARTRIDGE_DELA_EP256) &&
+                (cart_type != CARTRIDGE_DELA_EP7x8) && (loadfile_cart_type != CARTRIDGE_DELA_EP7x8) &&
+                (cart_type != CARTRIDGE_REX_EP256) && (loadfile_cart_type != CARTRIDGE_REX_EP256)
+                ) {
+                too_many_inputs();
+            }
+            if (((cart_type == CARTRIDGE_DELA_EP64) || (loadfile_cart_type == CARTRIDGE_DELA_EP64)) &&
+                (input_filenames > 3)) {
+                too_many_inputs();
+            }
+            if (((cart_type == CARTRIDGE_DELA_EP7x8) || (loadfile_cart_type == CARTRIDGE_DELA_EP7x8)) && 
+                (input_filenames > 8)) {
+                too_many_inputs();
+            }
+            /* some formats allow more than one output file */
+            if (output_filenames > 1) {
+                too_many_outputs();
+            }
+        break;
+        case VICE_MACHINE_VIC20:
+            printf("vic20 input_filenames: %d output_filenames: %d cart_type: %d loadfile_cart_type: %d\n",
+                input_filenames, output_filenames, cart_type, loadfile_cart_type);
+            /* some formats allow more than one input file */
+            if ((input_filenames > 1) && (cart_type != CARTRIDGE_CRT)) {
+                too_many_inputs();
+            }
+            /* some formats allow more than one output file */
+            if ((output_filenames > 1) && (loadfile_cart_type != CARTRIDGE_CRT)) {
+                too_many_outputs();
+            }
+        break;
+        case VICE_MACHINE_PLUS4:
+            printf("plus4 input_filenames: %d output_filenames: %d cart_type: %d loadfile_cart_type: %d\n",
+                input_filenames, output_filenames, cart_type, loadfile_cart_type);
+            /* some formats allow more than one input file */
+            if ((input_filenames > 1) && (cart_type != CARTRIDGE_CRT)) {
+                too_many_inputs();
+            }
+            /* some formats allow more than one output file */
+            if ((output_filenames > 1) && (loadfile_cart_type != CARTRIDGE_CRT)) {
+                too_many_outputs();
+            }
+        break;
     }
 
     /* do the conversion */

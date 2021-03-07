@@ -35,6 +35,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "plus4cart.h"
 #include "plus4mem.h"
 #include "lib.h"
@@ -139,6 +140,10 @@ static const cmdline_option_t cmdline_options[] =
     { "-cart", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_DETECT, NULL, NULL,
       "<Name>", "Smart-attach cartridge image" },
+    /* smart-insert CRT */
+    { "-cartcrt", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_CRT, NULL, NULL,
+      "<Name>", "Attach CRT cartridge image" },
     /* seperate cartridge types */
     { "-cartjacint", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_JACINT1MB, NULL, NULL,
@@ -317,6 +322,7 @@ void cartridge_resources_shutdown(void)
 /* expansion port memory read/write hooks */
 uint8_t plus4cart_c1lo_read(uint16_t addr)
 {
+    /* DBG(("plus4cart_c1lo_read mem_cartridge_type: %d addr: %04x", mem_cartridge_type, addr)); */
     switch (mem_cartridge_type) {
         case CARTRIDGE_PLUS4_JACINT1MB:
             return jacint1mb_c1lo_read(addr);
@@ -544,6 +550,9 @@ void cart_attach(int type, uint8_t *rawcart)
 {
     /* cart_detach_conflicting(type); */
     switch (type) {
+        case CARTRIDGE_PLUS4_GENERIC:
+            generic_config_setup(rawcart);
+            break;
         case CARTRIDGE_PLUS4_JACINT1MB:
             jacint1mb_config_setup(rawcart);
             break;
@@ -554,6 +563,76 @@ void cart_attach(int type, uint8_t *rawcart)
             multicart_config_setup(rawcart);
             break;
     }
+}
+
+/*
+    returns -1 on error, else a positive CRT ID
+
+    FIXME: to simplify this function a little bit, all subfunctions should
+           also return the respective CRT ID on success
+*/
+static int crt_attach(const char *filename, uint8_t *rawcart)
+{
+    crt_header_t header;
+    int rc, new_crttype;
+    FILE *fd;
+
+    DBG(("crt_attach: %s\n", filename));
+
+    fd = crt_open(filename, &header);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    new_crttype = header.type;
+    if (new_crttype & 0x8000) {
+        /* handle our negative test IDs */
+        new_crttype -= 0x10000;
+    }
+    DBG(("crt_attach ID: %d\n", new_crttype));
+
+/*  cart should always be detached. there is no reason for doing fancy checks
+    here, and it will cause problems incase a cart MUST be detached before
+    attaching another, or even itself. (eg for initialization reasons)
+
+    most obvious reason: attaching a different ROM (software) for the same
+    cartridge (hardware) */
+
+    cartridge_detach_image(new_crttype);
+
+    switch (new_crttype) {
+#if 0
+        case CARTRIDGE_CRT:
+            rc = generic_crt_attach(fd, rawcart);
+            if (rc != CARTRIDGE_NONE) {
+                new_crttype = rc;
+            }
+            break;
+#endif
+        case CARTRIDGE_PLUS4_JACINT1MB:
+            rc = jacint1mb_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_PLUS4_MAGIC:
+            rc = magiccart_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_PLUS4_MULTI:
+            rc = multicart_crt_attach(fd, rawcart);
+            break;
+        default:
+            archdep_startup_log_error("unknown CRT ID: %d\n", new_crttype);
+            rc = -1;
+            break;
+    }
+
+    fclose(fd);
+
+    if (rc == -1) {
+        DBG(("crt_attach error (%d)\n", rc));
+        return -1;
+    }
+    DBG(("crt_attach return ID: %d\n", new_crttype));
+    return new_crttype;
 }
 
 /*
@@ -594,7 +673,7 @@ int cartridge_attach_image(int type, const char *filename)
     if (type == CARTRIDGE_PLUS4_DETECT) {
         type = cartridge_detect(filename);
     }
-#if 0 /* FIXME */
+#if 1 /* FIXME */
     if (type == CARTRIDGE_CRT) {
         carttype = crt_getid(abs_filename);
         if (carttype == -1) {
@@ -612,10 +691,10 @@ int cartridge_attach_image(int type, const char *filename)
     /* allocate temporary array */
     rawcartdata = lib_malloc(PLUS4CART_IMAGE_LIMIT);
 
-#if 0
+#if 1
     if (type == CARTRIDGE_CRT) {
         DBG(("CART: attach CRT ID: %d '%s'\n", carttype, filename));
-        cartid = crt_attach(abs_filename, rawcart);
+        cartid = crt_attach(abs_filename, rawcartdata);
         if (cartid == CARTRIDGE_NONE) {
             goto exiterror;
         }
@@ -634,7 +713,7 @@ int cartridge_attach_image(int type, const char *filename)
 
     mem_cartridge_type = cartid;
 
-    cart_attach(type, rawcartdata);
+    cart_attach(cartid, rawcartdata);
     cart_power_off();
 
     DBG(("CART: set ID: %d type: %d\n", carttype, type));
@@ -672,6 +751,9 @@ void cartridge_trigger_freeze(void)
 /*
     Snapshot reading and writing
 */
+
+/* FIXME: due to the snapshots being generally broken as a while, none of this
+          could be tested */
 
 #define PLUS4CART_DUMP_MAX_CARTS  1
 
@@ -731,6 +813,12 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
     /* Save individual cart data */
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
+
+            case CARTRIDGE_PLUS4_GENERIC:
+                if (generic_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
 
             case CARTRIDGE_PLUS4_JACINT1MB:
                 if (jacint1mb_snapshot_write_module(s) < 0) {
@@ -828,6 +916,13 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
     /* Read individual cart data */
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
+
+            case CARTRIDGE_PLUS4_GENERIC:
+                if (generic_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+
             case CARTRIDGE_PLUS4_JACINT1MB:
                 if (jacint1mb_snapshot_read_module(s) < 0) {
                     goto fail2;

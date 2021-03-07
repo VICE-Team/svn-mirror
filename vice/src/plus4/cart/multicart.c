@@ -28,7 +28,7 @@
 /*
     "Plus4 multi cart"
 
-    - 32/64 banks mapped to c1lo and c1hi
+    - 64/128 banks mapped to c1lo and c1hi
     - bank register at $FDA0
  */
 
@@ -42,6 +42,7 @@
 #include "archdep.h"
 #include "cartridge.h"
 #include "cartio.h"
+#include "crt.h"
 #include "lib.h"
 #include "monitor.h"
 #include "plus4cart.h"
@@ -57,8 +58,10 @@
 #define DBG(x)
 #endif
 
+#define MULTICART_MAX_SIZE  (4*1024*1024)   /* 4MB */
+
 static int bankreg = 0;
-static int multicart_filesize = 0;
+static unsigned int multicart_filesize = 0;
 static int multicart_filetype = 0;
 
 static unsigned char *multicartromlo = NULL;
@@ -121,15 +124,14 @@ void multicart_reset(void)
 
 void multicart_config_setup(uint8_t *rawcart)
 {
-    unsigned int half = multicart_filesize >> 1;
     DBG(("multicart_config_setup\n"));
-    memcpy(multicartromlo, rawcart, half);
-    memcpy(multicartromhi, rawcart + half, half);
+    memcpy(multicartromlo, rawcart, multicart_filesize / 2);
+    memcpy(multicartromhi, &rawcart[MULTICART_MAX_SIZE / 2], multicart_filesize / 2);
 }
 
 static int multicart_common_attach(void)
 {
-    DBG(("multicart_common_attach\n"));
+    DBG(("multicart_common_attach size: %06x\n", multicart_filesize));
 
     if(!(multicartromlo = lib_malloc(multicart_filesize / 2))) {
         return -1;
@@ -162,14 +164,14 @@ int multicart_bin_attach(const char *filename, uint8_t *rawcart)
 
     DBG(("multicart_bin_attach len: %04x\n", len));
 
-    memset(rawcart, 0xff, 0x400000); /* FIXME */
-
     /* we accept 2MiB/4MiB images */
     switch (len) {
         case 0x200000:
             if (util_file_load(filename, rawcart, 0x200000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
                 return -1;
             }
+            memcpy(&rawcart[0x200000], &rawcart[0x100000], 0x100000);
+            memset(&rawcart[0x100000], 0xff, 0x100000);
             break;
         case 0x400000:
             if (util_file_load(filename, rawcart, 0x400000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -185,10 +187,47 @@ int multicart_bin_attach(const char *filename, uint8_t *rawcart)
     return multicart_common_attach();
 }
 
+int multicart_crt_attach(FILE *fd, uint8_t *rawcart)
+{
+    crt_chip_header_t chip;
+    int i, offset;
+
+    DBG(("multicart_crt_attach\n"));
+    memset(rawcart, 0xff, MULTICART_MAX_SIZE);
+
+    for (i = 0; i < 256; i++) {
+        if (crt_read_chip_header(&chip, fd)) {
+            break;
+        }
+
+        if ((chip.bank >= 256) || (chip.size != 0x4000)) {
+            return -1;
+        }
+
+        offset = (chip.bank << 14) + ((chip.start == 0x8000) ? 0 : (MULTICART_MAX_SIZE / 2));
+        /*DBG(("bank: %d offset: %06x start: %04x\n", chip.bank, offset, chip.start));*/
+
+        if (crt_read_chip(rawcart, offset, &chip, fd)) {
+            return -1;
+        }
+    }
+
+    if ((i != 128) && (i != 256)) {
+        return -1;
+    }
+
+    multicart_filesize = i * 0x4000;
+    multicart_filetype = CARTRIDGE_FILETYPE_CRT;
+    return multicart_common_attach();
+}
+
 void multicart_detach(void)
 {
     DBG(("multicart_detach\n"));
-    io_source_unregister(multicart_list_item);
+    if (multicart_list_item) {
+        io_source_unregister(multicart_list_item);
+    }
+    multicart_list_item = NULL;
     lib_free(multicartromlo);
     lib_free(multicartromhi);
     multicartromlo = NULL;

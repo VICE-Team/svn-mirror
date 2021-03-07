@@ -35,6 +35,7 @@ extern uint8_t multicart_c1hi_read(uint16_t addr);
 
 extern void multicart_config_setup(uint8_t *rawcart);
 extern int multicart_bin_attach(const char *filename, uint8_t *rawcart);
+extern int multicart_crt_attach(FILE *fd, uint8_t *rawcart);
 
 extern void multicart_detach(void);
 

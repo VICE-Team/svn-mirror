@@ -86,6 +86,9 @@ int write_crt_header(unsigned char gameline, unsigned char exromline)
     } else if (machine_class == VICE_MACHINE_VIC20) {
         memcpy(crt_header, "VIC20 CARTRIDGE ", CRT_NAME_LEN);
         version_hi = 2;
+    } else if (machine_class == VICE_MACHINE_PLUS4) {
+        memcpy(crt_header, "PLUS4 CARTRIDGE ", CRT_NAME_LEN);
+        version_hi = 2;
     }
 
     /* header length */
@@ -142,6 +145,7 @@ int write_crt_header(unsigned char gameline, unsigned char exromline)
     return 0;
 }
 
+/* FIXME: loadfile_offset should be a parameter to this function, and not get modified by it */
 int write_chip_package(unsigned int length, unsigned int bank, unsigned int address, unsigned char type)
 {
     unsigned char chip_header[0x10] = "CHIP";
@@ -151,17 +155,17 @@ int write_chip_package(unsigned int length, unsigned int bank, unsigned int addr
     chip_header[6] = (unsigned char)((length + 0x10) >> 8);
     chip_header[7] = (unsigned char)((length + 0x10) & 0xff);
 
-    chip_header[8] = 0;
-    chip_header[9] = type;
+    chip_header[CRT_CHIP_OFFS_TYPE_HI] = 0;
+    chip_header[CRT_CHIP_OFFS_TYPE_LO] = type;
 
-    chip_header[0xa] = (unsigned char)(bank >> 8);
-    chip_header[0xb] = (unsigned char)(bank & 0xff);
+    chip_header[CRT_CHIP_OFFS_BANK_HI] = (unsigned char)(bank >> 8);
+    chip_header[CRT_CHIP_OFFS_BANK_LO] = (unsigned char)(bank & 0xff);
 
-    chip_header[0xc] = (unsigned char)(address >> 8);
-    chip_header[0xd] = (unsigned char)(address & 0xff);
+    chip_header[CRT_CHIP_OFFS_LOAD_HI] = (unsigned char)(address >> 8);
+    chip_header[CRT_CHIP_OFFS_LOAD_LO] = (unsigned char)(address & 0xff);
 
-    chip_header[0xe] = (unsigned char)(length >> 8);
-    chip_header[0xf] = (unsigned char)(length & 0xff);
+    chip_header[CRT_CHIP_OFFS_SIZE_HI] = (unsigned char)(length >> 8);
+    chip_header[CRT_CHIP_OFFS_SIZE_LO] = (unsigned char)(length & 0xff);
     if (fwrite(chip_header, 1, 0x10, outfile) != 0x10) {
         fprintf(stderr, "Error: Can't write chip header to file %s\n", output_filename);
         fclose(outfile);

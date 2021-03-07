@@ -34,6 +34,7 @@ extern uint8_t jacint1mb_c1lo_read(uint16_t addr);
 
 extern void jacint1mb_config_setup(uint8_t *rawcart);
 extern int jacint1mb_bin_attach(const char *filename, uint8_t *rawcart);
+extern int jacint1mb_crt_attach(FILE *fd, uint8_t *rawcart);
 
 extern void jacint1mb_detach(void);
 

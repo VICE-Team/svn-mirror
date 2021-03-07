@@ -31,6 +31,8 @@
 extern uint8_t generic_c1lo_read(uint16_t addr);
 extern uint8_t generic_c1hi_read(uint16_t addr);
 
+extern void generic_config_setup(uint8_t *rawcart);
+
 extern int generic_bin_attach(int type, const char *filename);
 extern void generic_detach(void);
 
@@ -38,6 +40,9 @@ extern int generic_resources_init(void);
 extern void generic_resources_shutdown(void);
 
 extern int generic_cmdline_options_init(void);
+
+extern int generic_snapshot_write_module(snapshot_t *s);
+extern int generic_snapshot_read_module(snapshot_t *s);
 
 /* FIXME: do we still need these? */
 extern int plus4cart_load_c1lo(const char *rom_name);
