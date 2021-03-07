@@ -477,7 +477,7 @@ static GtkWidget *create_tapecart_widget(void)
     gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 2, row, 1, 1);
 
     /* Flush button */
-    tapecart_flush = gtk_button_new_with_label("Flush");
+    tapecart_flush = gtk_button_new_with_label("Save image");
     gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 3, row, 1, 1);
 
     g_signal_connect(tapecart_enable, "toggled",

@@ -287,7 +287,7 @@ static GtkWidget *create_save_button(void)
  */
 static GtkWidget *create_flush_button(void)
 {
-    GtkWidget *button = gtk_button_new_with_label("Flush image");
+    GtkWidget *button = gtk_button_new_with_label("Safe image");
     g_signal_connect(button, "clicked", G_CALLBACK(on_flush_clicked), NULL);
     return button;
 }

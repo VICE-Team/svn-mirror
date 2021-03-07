@@ -289,7 +289,8 @@ void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
         return;
     }
 
-    printf("Saving file `%s'...\n", filename);
+    printf("Saving file `%s' from $%04x to $%04x\n",
+            filename, start_addr, end_addr);
 
     if (is_bsave == FALSE) {
         if (mon_file_write((uint8_t)(adr & 0xff), 1, device) < 0

@@ -106,11 +106,11 @@ static GtkWidget *create_cart_image_widget(void)
             -1, -1, "GMod3 Cartridge image", 3);
 
     write_back = vice_gtk3_resource_check_button_new("GMod3FlashWrite",
-                "Save image when changed");
+                "Safe image when changed");
     g_object_set(write_back, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
 
-    save_button = gtk_button_new_with_label("Save image as ...");
+    save_button = gtk_button_new_with_label("Safe image as ...");
     g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked),
             NULL);
     gtk_grid_attach(GTK_GRID(grid), save_button, 1, 1, 1, 1);
