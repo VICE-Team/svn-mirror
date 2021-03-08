@@ -109,8 +109,9 @@ const ui_menu_entry_t plus4cart_menu[] = {
     { "Smart attach cartridge image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_PLUS4_DETECT },
+      (ui_callback_data_t)CARTRIDGE_CRT },
     SDL_MENU_ITEM_SEPARATOR,
+/*
     { "Attach C0 low image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
@@ -119,6 +120,7 @@ const ui_menu_entry_t plus4cart_menu[] = {
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C0HI },
+*/
     { "Attach C1 low image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
