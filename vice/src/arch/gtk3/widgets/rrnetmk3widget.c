@@ -129,7 +129,7 @@ GtkWidget *rrnetmk3_widget_create(GtkWidget *parent)
             NULL);
 
     /* Flush image now */
-    flush_button = gtk_button_new_with_label("Safe image");
+    flush_button = gtk_button_new_with_label("Save image now");
     gtk_grid_attach(GTK_GRID(grid), flush_button, 1, 2, 1, 1);
     g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
             NULL);

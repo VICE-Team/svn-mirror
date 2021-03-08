@@ -237,7 +237,7 @@ GtkWidget *cart_image_widget_create(
     save_button = gtk_button_new_with_label("Save as ...");
     gtk_grid_attach(GTK_GRID(grid), save_button, 2, 2, 1, 1);
 
-    flush_button = gtk_button_new_with_label("Safe image");
+    flush_button = gtk_button_new_with_label("Save image");
     gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 3, 1, 1);
     gtk_widget_set_sensitive(flush_button, (gboolean)(func_can_flush(cart_id)));
     gtk_widget_set_sensitive(save_button, (gboolean)(func_can_save(cart_id)));

@@ -79,7 +79,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     /* TODO: retrieve filename of cart image */
 
-    vice_gtk3_save_file_dialog("Safe cartridge image",
+    vice_gtk3_save_file_dialog("Save cartridge image",
                                NULL, TRUE, NULL,
                                save_filename_callback,
                                NULL);
@@ -153,14 +153,14 @@ static GtkWidget *create_cart_image_widget(void)
     g_object_set(write_back, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
 
-    save_button = gtk_button_new_with_label("Safe image as ...");
+    save_button = gtk_button_new_with_label("Save image as ...");
     g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked),
             NULL);
     gtk_grid_attach(GTK_GRID(grid), save_button, 1, 1, 1, 1);
     gtk_widget_set_sensitive(save_button,
             (gboolean)(carthelpers_can_save_func(CARTRIDGE_GMOD2)));
 
-    flush_button = gtk_button_new_with_label("Safe image");
+    flush_button = gtk_button_new_with_label("Save image");
     g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
             NULL);
     gtk_widget_set_sensitive(flush_button,
