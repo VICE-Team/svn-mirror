@@ -12,10 +12,12 @@ endif
 
 LIBS = 
 
-# Generate svnversion.h if doesn't yet exits (for `make cartconv`)
+# Generate svnversion.h if it doesn't exist yet (for `make petcat`)
 $(top_builddir)/src/svnversion.h:
-	(cd $(top_srcdir)/src; $(MAKE) svnversion.h)
+	(cd ../..; $(MAKE) svnversion.h)
 
+# petcat.c needs to include a built header
+petcat.$(OBJEXT): $(top_builddir)/src/svnversion.h
 
 # This is the binary we want to create
 bin_PROGRAMS = petcat
@@ -30,4 +32,4 @@ AM_CPPFLAGS = \
 # Sources used for petcat
 petcat_SOURCES = petcat.c
 
-# Extra files used for cartconv that should also end up in the `make dist`
+# Extra files used for petcat that also should end up in the `make dist`

@@ -7,14 +7,16 @@
 if WIN32_COMPILE
 cartconv_LDFLAGS = -mconsole
 else
-cartconv_LD_FLAGS = 
+cartconv_LDFLAGS = 
 endif
 
 
-# Generate svnversion.h if doesn't yet exits (for `make cartconv`)
+# Generate svnversion.h if it doesn't exist yet (for `make cartconv`)
 $(top_builddir)/src/svnversion.h:
-	(cd $(top_srcdir)/src; $(MAKE) svnversion.h)
+	(cd ../..; $(MAKE) svnversion.h)
 
+# cartconv.c needs to include a built header
+cartconv.$(OBJEXT): $(top_builddir)/src/svnversion.h
 
 # This is the binary we want to create
 bin_PROGRAMS = cartconv
@@ -35,8 +37,7 @@ cartconv_SOURCES = \
 	plus4-saver.c \
 	vic20-cartridges.c \
 	vic20-saver.c \
-	crt.c \
-	$(top_builddir)/src/svnversion.h
+	crt.c
 
 # Extra files used for cartconv that should also end up in the `make dist`
 EXTRA_DIST = \
@@ -48,4 +49,3 @@ EXTRA_DIST = \
 	vic20-cartridges.h \
 	vic20-saver.h \
 	crt.h
-
