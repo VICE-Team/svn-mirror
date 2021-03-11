@@ -612,7 +612,7 @@ BUILT_SOURCES = $(EMBEDDED_H_FILES) $(SVN_VERSION_HEADER) infocontrib.h
 .PHONY: svnversion.h.indirect
 
 svnversion.h.indirect:
-	@$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVNVERSION) $(top_srcdir) vnversion.h
+	@$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVNVERSION) $(top_srcdir) svnversion.h
 
 svnversion.h: svnversion.h.indirect
 
