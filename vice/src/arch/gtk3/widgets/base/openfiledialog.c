@@ -69,9 +69,6 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 }
 
 
-
-
-#ifndef SANDBOX_MODE
 /** \brief  Create an 'open file' dialog
  *
  * \param[in]   title       dialog title
@@ -141,32 +138,8 @@ GtkWidget *vice_gtk3_open_file_dialog(
     gtk_widget_show(dialog);
     return dialog;
 }
-#else
-
-GtkWidget *vice_gtk3_open_file_dialog(
-        const char *title,
-        const char *filter_desc,
-        const char **filter_list,
-        const char *path,
-        void (*callback)(GtkDialog *dialog, char *, gpointer),
-        gpointer param)
-{
-    GtkFileChooserNative *dialog;
-
-    dialog = gtk_file_chooser_native_new(
-            title,
-            ui_get_active_window(),
-            GTK_FILE_CHOOSER_ACTION_OPEN,
-            NULL, NULL);
-
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
-    gtk_widget_show(GTK_WIDGET(dialog));
-    return GTK_WIDGET(dialog);
-}
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Create a 'open or create file' dialog
  *
  * \param[in]   title       dialog title
@@ -222,26 +195,3 @@ GtkWidget *vice_gtk3_open_create_file_dialog(
     gtk_widget_show(dialog);
     return dialog;
 }
-
-#else
-GtkWidget *vice_gtk3_open_create_file_dialog(
-        const char *title,
-        const char *proposed,
-        gboolean confirm,
-        const char *path,
-        void (*callback)(GtkDialog *dialog, gchar *, gpointer),
-        gpointer param)
-{
-    GtkFileChooserNative *dialog;
-
-    dialog = gtk_file_chooser_native_new(
-            title,
-            ui_get_active_window(),
-            GTK_FILE_CHOOSER_ACTION_SAVE,
-            NULL, NULL);
-
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
-    gtk_widget_show(GTK_WIDGET(dialog));
-    return GTK_WIDGET(dialog);
-}
-#endif

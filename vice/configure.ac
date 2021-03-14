@@ -129,8 +129,6 @@ dnl Gtk3 only.
 VICE_ARG_ENABLE_LIST(desktop-files,     [  --enable-desktop-files  enable installation of XDG desktop files (GTK3 UI only)])
 VICE_ARG_ENABLE_LIST(hidmgr,            [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
 VICE_ARG_ENABLE_LIST(hidutils,          [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
-VICE_ARG_ENABLE_LIST(sandbox-mode,      [  --enable-sandbox-mode   enable support for sandboxed mode on Linux (GTK3 UI only) [[default=no]]])
-
 
 dnl
 dnl Documentation options
@@ -3268,15 +3266,6 @@ else
   X64_INCLUDED="no"
 fi
 
-dnl Do we use sandbox mode?
-if test x"$enable_sandbox_mode" = "xyes"; then
-  USE_SANDBOX_MODE="yes"
-  AM_CONDITIONAL(SANDBOX_MODE, true)
-  AC_DEFINE(SANDBOX_MODE,,[Use Linux sandbox mode])
-else
-  AM_CONDITIONAL(SANDBOX_MODE, false)
-fi
-
 
 dnl Setup the system-specific object files.
 if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
@@ -4005,11 +3994,6 @@ echo "Debug support              : $DEBUG_SUPPORT (--enable/disable-debug)"
 echo "Threading debug support    : $DEBUG_THREADS_SUPPORT (--enable/disable-debug-threads"
 echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embedded)"
 echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
-# Enabling Gtk3 native dialogs should help with Flatpack and other container
-# formats
-if test x"$real_arch" = "xUnix"; then
-    echo "Gtk3 sandbox mode          : $USE_SANDBOX_MODE (--enable/disable-sandbox-mode)"
-fi
 echo "Install XDG .desktop files : $USE_DESKTOP_FILES"
 echo "icotool for Windows found  : $ICOTOOL"
 

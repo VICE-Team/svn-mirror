@@ -65,9 +65,6 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 }
 
 
-
-
-#ifndef SANDBOX_MODE
 /** \brief  Create a 'save file' dialog
  *
  * \param[in]   title       dialog title
@@ -125,36 +122,3 @@ GtkWidget *vice_gtk3_save_file_dialog(
     gtk_widget_show(dialog);
     return dialog;
 }
-#else
-/** \brief  Create a 'save file' dialog
- *
- * \param[in]   title       dialog title
- * \param[in]   proposed    proposed file name (optional)
- * \param[in]   confirm     confirm overwriting an existing file
- * \param[in]   path        set starting directory (optional)
- *
- * \return  filename or `NULL` on cancel
- *
- * \note    the filename returned is allocated by GLib and needs to be freed
- *          after use with g_free()
- */
-GtkWidget *vice_gtk3_save_file_dialog(
-        const char *title,
-        const char *proposed,
-        gboolean confirm,
-        const char *path,
-        void (*callback)(GtkDialog *, gchar *, gpointer),
-        gpointer param)
-{
-    GtkFileChooserNative *dialog;
-
-    dialog = gtk_file_chooser_native_new(
-            title,
-            ui_get_active_window(),
-            GTK_FILE_CHOOSER_ACTION_SAVE,
-            NULL, NULL);
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
-    gtk_widget_show(GTK_WIDGET(dialog));
-    return GTK_WIDGET(dialog);
-}
-#endif

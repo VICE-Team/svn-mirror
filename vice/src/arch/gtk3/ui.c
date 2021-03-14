@@ -1963,6 +1963,14 @@ void ui_shutdown(void)
     ui_statusbar_shutdown();
 }
 
+
+static void extend_image_callback(GtkWidget *widget, gpointer data)
+{
+    debug_gtk3("Called.");
+}
+
+
+
 /** \brief  Display the "Do you want to extend the disk image to
  *          40-track format?" dialog
  *
@@ -1974,7 +1982,12 @@ void ui_shutdown(void)
 int ui_extend_image_dialog(void)
 {
     /* FIXME: this dialog needs to be implemented. */
-    NOT_IMPLEMENTED();
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_message_error(
+            "Extending image",
+            "How about no?");
+    gtk_widget_show_all(dialog);
     return 0;
 }
 

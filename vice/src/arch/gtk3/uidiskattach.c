@@ -57,7 +57,6 @@
 
 #include "uidiskattach.h"
 
-#ifndef SANDBOX_MODE
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
@@ -66,15 +65,11 @@ static ui_file_filter_t filters[] = {
     { "All files", file_chooser_pattern_all },
     { NULL, NULL }
 };
-#endif
 
-#ifndef SANDBOX_MODE
 /** \brief  Array to keep track of drive numbers for each unit
  */
 static int unit_drive_nums[NUM_DISK_UNITS] = { 0, 0, 0, 0};
-#endif
 
-#ifndef SANDBOX_MODE
 /** \brief  Preview widget reference
  */
 static GtkWidget *preview_widget = NULL;
@@ -82,7 +77,6 @@ static GtkWidget *preview_widget = NULL;
 /** \brief  Drive number widget reference
  */
 static GtkWidget *driveno_widget = NULL;
-#endif
 
 
 /** \brief  Last directory used
@@ -94,45 +88,21 @@ static GtkWidget *driveno_widget = NULL;
 static gchar *last_dir = NULL;
 static gchar *last_file = NULL;
 
-#ifndef SANDBOX_MODE
 /** \brief  Reference to the custom 'Autostart' button
  */
 static GtkWidget *autostart_button;
-#endif
+
 
 /** \brief  Unit number to attach disk to
  */
 static int unit_number = DRIVE_UNIT_DEFAULT;
 
-#ifndef SANDBOX_MODE
 /** \brief  Drive number in unit to attach disk to
  */
 static int drive_number = 0;
-#endif
-
-#if 0
-/** \brief  Update the last directory reference
- *
- * \param[in]   widget  dialog
- */
-static void update_last_dir(GtkWidget *widget)
-{
-    gchar *new_dir;
-
-    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
-    debug_gtk3("new dir = '%s'.", new_dir);
-    if (new_dir != NULL) {
-        /* clean up previous value */
-        if (last_dir != NULL) {
-            g_free(last_dir);
-        }
-        last_dir = new_dir;
-    }
-}
-#endif
 
 
-#ifndef SANDBOX_MODE
+
 /** \brief  Handler for the 'toggled' event of the 'show hidden files' checkbox
  *
  * \param[in]   widget      checkbox triggering the event
@@ -145,10 +115,8 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Handler for the 'toggled' event of the 'attach read-only' checkbox
  *
  * \param[in]   widget      checkbox triggering the event
@@ -161,10 +129,8 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     resources_set_int_sprintf("AttachDevice%dReadonly", state, unit_number);
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Handler for the "update-preview" event
  *
  * \param[in]   chooser file chooser dialog
@@ -187,14 +153,9 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
         }
         g_object_unref(file);
     }
-#if 0
-    content_preview_widget_set_index(preview_widget, 2);
-#endif
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Callback for the drive unit widget
  *
  * Updates the drive number widget, depending on the drive unit's type:
@@ -211,10 +172,8 @@ static void on_unit_changed(int unit)
     drive_no_widget_update(driveno_widget,
                            unit_drive_nums[unit - DRIVE_UNIT_MIN]);
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Callback for the drive number widget
  *
  * Update drive number for the current unit, to later be used to restore the
@@ -227,10 +186,8 @@ static void on_drive_num_changed(int drive)
     unit_drive_nums[unit_number - DRIVE_UNIT_MIN] = drive;
 
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Trigger autostarting a disk image
  *
  * \param[in,out]   widget      dialog
@@ -266,9 +223,8 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     g_free(filename_locale);
     gtk_widget_destroy(widget);
 }
-#endif
 
-#ifndef SANDBOX_MODE
+
 /** \brief  Attach a disk image
  *
  * \param[in,out]   widget      dialog
@@ -300,6 +256,7 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
     g_free(filename_locale);
 }
 
+
 /** \brief  Handler for 'selection-changed' event of the preview widget
  *
  * Checks if a proper selection was made and activates the 'Autostart' button
@@ -320,17 +277,8 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
         gtk_widget_set_sensitive(autostart_button, FALSE);
     }
 }
-#endif
-
-#if 0
-static void on_file_activated(GtkWidget *chooser, gpointer data)
-{
-    do_autostart(chooser, data);
-}
-#endif
 
 
-#ifndef SANDBOX_MODE
 
 /** \brief  Handler for 'response' event of the dialog
  *
@@ -437,55 +385,8 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     }
 }
 
-#else
-
-static void on_response(GtkWidget *widget, gint response_id,
-                        gpointer user_data)
-{
-    gchar *filename;
-    gchar *filename_locale;
-    gchar buffer[1024];
-    GtkFileChooser *chooser = GTK_FILE_CHOOSER(widget);
 
 
-    filename = gtk_file_chooser_get_filename(chooser);
-
-    switch (response_id) {
-        case GTK_RESPONSE_ACCEPT:
-
-            lastdir_update(widget, &last_dir, &last_file);
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-            /* convert filename to current locale */
-            filename_locale = file_chooser_convert_to_locale(filename);
-
-            /* copied from Gtk2: I fail to see how brute-forcing your way
-             * through file types is 'smart', but hell, it works */
-            if (file_system_attach_disk(unit_number, 0, filename_locale) < 0) {
-                /* failed */
-                g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
-                        unit_number, filename);
-            } else {
-                g_snprintf(buffer, 1024, "Unit #%d: attached '%s'",
-                        unit_number, filename);
-            }
-            ui_display_statustext(buffer, 1);
-            g_free(filename_locale);
-            break;
-        default:
-            break;
-    }
-
-    if (filename != NULL) {
-        g_free(filename);
-    }
-    mainlock_release();
-    gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(chooser));
-    mainlock_obtain();
-}
-#endif
-
-
-#ifndef SANDBOX_MODE
 /** \brief  Create the 'extra' widget
  *
  * \param[in]   parent  parent widget
@@ -533,10 +434,8 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     gtk_widget_show_all(grid);
     return grid;
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 
 /** \brief  Create the disk attach dialog
  *
@@ -618,37 +517,9 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             G_CALLBACK(on_update_preview), NULL);
     g_signal_connect_unlocked(dialog, "selection-changed",
             G_CALLBACK(on_selection_changed), NULL);
-#if 0
-    /* Double click: autostart */
-    g_signal_connect(dialog, "file-activated",
-            G_CALLBACK(on_file_activated), NULL);
-#endif
     return dialog;
 
 }
-
-#else
-
-static GtkFileChooserNative *create_disk_attach_dialog_native(GtkWidget *parent,
-                                                              int unit)
-{
-    GtkFileChooserNative *dialog;
-
-    /* create new dialog */
-    dialog = gtk_file_chooser_native_new(
-            "Attach a disk image (NATIVE)",
-            ui_get_active_window(),
-            GTK_FILE_CHOOSER_ACTION_OPEN,
-            NULL,
-            NULL);
-
-    g_signal_connect(dialog, "response",
-            G_CALLBACK(on_response),
-            GINT_TO_POINTER(0));    /* index of file to start? */
-
-    return dialog;
-}
-#endif
 
 
 /** \brief  Callback for the "smart-attach" and "attach to #%d" menu items
@@ -663,16 +534,10 @@ static GtkFileChooserNative *create_disk_attach_dialog_native(GtkWidget *parent,
  */
 gboolean ui_disk_attach_dialog_show(GtkWidget *widget, gpointer user_data)
 {
-#ifndef SANDBOX_MODE
     GtkWidget *dialog;
 
     dialog = create_disk_attach_dialog(widget, GPOINTER_TO_INT(user_data));
     gtk_widget_show(dialog);
-#else
-    GtkFileChooserNative *dialog;
-    dialog = create_disk_attach_dialog_native(widget, GPOINTER_TO_INT(user_data));
-    gtk_native_dialog_show(GTK_NATIVE_DIALOG(dialog));
-#endif
     return TRUE;
 }
 

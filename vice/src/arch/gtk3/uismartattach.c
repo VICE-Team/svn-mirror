@@ -58,7 +58,6 @@
 
 /* #define HAVE_DEBUG_GTK3UI */
 
-#ifndef SANDBOX_MODE
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
@@ -72,14 +71,11 @@ static ui_file_filter_t filters[] = {
     { "Compressed files", file_chooser_pattern_compressed },
     { NULL, NULL }
 };
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Preview widget reference
  */
 static GtkWidget *preview_widget = NULL;
-#endif
 
 
 /** \brief  Last directory used
@@ -95,14 +91,11 @@ static gchar *last_dir = NULL;
 static gchar *last_file = NULL;
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Reference to the custom 'Autostart' button
  */
 static GtkWidget *autostart_button;
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Trigger autostart
  *
  * \param[in]   widget      dialog
@@ -139,7 +132,6 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     g_free(filename_locale);
     gtk_widget_destroy(widget);
 }
-#endif
 
 
 /** \brief  Do smart attach
@@ -199,7 +191,6 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
 }
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Handler for 'selection-changed' event of the preview widget
  *
  * Checks if a proper selection was made and activates the 'Autostart' button
@@ -220,10 +211,8 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
         gtk_widget_set_sensitive(autostart_button, FALSE);
     }
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Handler for the "update-preview" event
  *
  * \param[in]   chooser file chooser dialog
@@ -247,10 +236,8 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
         g_object_unref(file);
     }
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Handler for the 'toggled' event of the 'show hidden files' checkbox
  *
  * \param[in]   widget      checkbox triggering the event
@@ -263,10 +250,8 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Handler for the 'toggled' event of the 'attach read-only' checkbox
  *
  * \param[in]   widget      checkbox triggering the event
@@ -279,9 +264,8 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     resources_set_int_sprintf("AttachDevice%dReadonly", state, DRIVE_UNIT_DEFAULT);
 }
-#endif
 
-#ifndef SANDBOX_MODE
+
 /** \brief  Handler for 'response' event of the dialog
  *
  * This handler is called when the user clicks a button in the dialog.
@@ -386,33 +370,8 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         g_free(filename);
     }
 }
-#else
-static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
-{
-    switch (response_id) {
-        case GTK_RESPONSE_ACCEPT:
-            do_smart_attach(widget, user_data);
-
-            mainlock_release();
-            gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(widget));
-            mainlock_obtain();
-            break;
-
-        /* 'Close'/'X' button */
-        case GTK_RESPONSE_REJECT:
-            mainlock_release();
-            gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(widget));
-            mainlock_obtain();
-            break;
-        default:
-            break;
-    }
-}
-
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Create the 'extra' widget
  *
  * \param[in]   parent  parent widget (unused)
@@ -444,10 +403,8 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Wrapper around disk/tape contents readers
  *
  * First treats \a path as disk image file and when that fails it falls back
@@ -469,11 +426,8 @@ static image_contents_t *read_contents_wrapper(const char *path)
     }
     return content;
 }
-#endif
 
 
-
-#ifndef SANDBOX_MODE
 /** \brief  Create the smart-attach dialog
  *
  * \param[in]   parent  parent widget, used to get the top level window
@@ -557,38 +511,6 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
 
 }
 
-#else
-
-/** \brief  Create the smart-attach dialog
- *
- * \param[in]   parent  parent widget, used to get the top level window
- *
- * \return  GtkFileChooserNative
- *
- * \todo    Figure out how to only enable the 'Autostart' button when an actual
- *          file/image has been selected. And when I do, make sure it's somehow
- *          reusable for other 'open file' dialogs'.
- */
-static GtkFileChooserNative *create_smart_attach_dialog(void *parent)
-{
-    GtkFileChooserNative *dialog;
-
-    /* create new dialog */
-    dialog = gtk_file_chooser_native_new(
-            "Smart-attach a file",
-            ui_get_active_window(),
-            GTK_FILE_CHOOSER_ACTION_OPEN,
-            /* buttons */
-            NULL, NULL);
-
-    /* connect "reponse" handler: the `user_data` argument gets filled in when
-     * the "response" signal is emitted: a response ID */
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-
-    return dialog;
-}
-#endif
-
 
 /** \brief  Callback for the File menu's "smart-attach" item
  *
@@ -601,17 +523,10 @@ static GtkFileChooserNative *create_smart_attach_dialog(void *parent)
  */
 gboolean ui_smart_attach_dialog_show(GtkWidget *widget, gpointer user_data)
 {
-#ifndef SANDBOX_MODE
-
     GtkWidget *dialog;
 
     dialog = create_smart_attach_dialog(widget);
     gtk_widget_show(dialog);
-#else
-    GtkFileChooserNative *dialog;
-    dialog = create_smart_attach_dialog((gpointer)widget);
-    gtk_native_dialog_show(GTK_NATIVE_DIALOG(dialog));
-#endif
     return TRUE;
 
 }

@@ -47,7 +47,6 @@
 #include "uitapeattach.h"
 
 
-#ifndef SANDBOX_MODE
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
@@ -59,7 +58,6 @@ static ui_file_filter_t filters[] = {
 /** \brief  Reference to the preview widget
  */
 static GtkWidget *preview_widget = NULL;
-#endif
 
 
 /** \brief  Last directory used
@@ -71,14 +69,11 @@ static GtkWidget *preview_widget = NULL;
 static gchar *last_dir = NULL;
 static gchar *last_file = NULL;
 
-#ifndef SANDBOX_MODE
 /** \brief  Reference to the custom 'Autostart' button
  */
 static GtkWidget *autostart_button;
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Handler for the "update-preview" event
  *
  * \param[in]   chooser file chooser dialog
@@ -117,10 +112,8 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Trigger autostart
  *
  * \param[in]   widget  dialog
@@ -145,10 +138,8 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     }
     g_free(filename_locale);
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  attach image
  *
  * \param[in]   widget  dialog
@@ -171,10 +162,8 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
     }
     g_free(filename_locale);
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Handler for 'selection-changed' event of the preview widget
  *
  * Checks if a proper selection was made and activates the 'Autostart' button
@@ -195,10 +184,8 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
         gtk_widget_set_sensitive(autostart_button, FALSE);
     }
 }
-#endif
 
 
-#ifndef SANDBOX_MODE
 
 /** \brief  Handler for 'response' event of the dialog
  *
@@ -298,82 +285,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 }
 
 
-#else
 
-/** \brief  Handler for 'response' event of the dialog (sandbox mode)
- *
- * This handler is called when the user clicks a button in the dialog.
- *
- * \param[in]   widget      the dialog
- * \param[in]   response_id response ID
- * \param[in]   user_data   extra data (unused)
- *
- * TODO:    proper (error) messages, which requires implementing ui_error() and
- *          ui_message() and moving them into gtk3/widgets to avoid circular
- *          references
- */
-static void on_response_native(GtkFileChooserNative *widget,
-                               gint response_id,
-                               gpointer user_data)
-{
-    gchar *filename;
-    gchar *filename_locale;
-    int index;
-
-    index = GPOINTER_TO_INT(user_data);
-
-    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-
-    switch (response_id) {
-
-        /* 'Open' button, double-click on file */
-        case GTK_RESPONSE_ACCEPT:
-            /* ui_message("Opening file '%s' ...", filename); */
-            filename_locale = file_chooser_convert_to_locale(filename);
-            if (tape_image_attach(1, filename_locale) < 0) {
-                /* failed */
-                log_error(LOG_ERR, "attaching tape '%s' failed." filename_locale);
-            }
-            g_free(filename_locale);
-            gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(widget));
-            break;
-#if 0
-        /* 'Autostart' button clicked */
-        case VICE_RESPONSE_AUTOSTART:
-            lastdir_update(widget, &last_dir);
-            if (filename != NULL) {
-                debug_gtk3("Autostarting file '%s'.", filename);
-
-                filename_locale = file_chooser_convert_to_locale(filename);
-                if (autostart_tape(
-                            filename_locale,
-                            NULL,   /* program name */
-                            index,
-                            AUTOSTART_MODE_RUN) < 0) {
-                    /* oeps */
-                    debug_gtk3("autostart tape attach failed.");
-                }
-                g_free(filename_locale);
-                gtk_widget_destroy(widget);
-            }
-            break;
-#endif
-        /* 'Close'/'X' button */
-        case GTK_RESPONSE_REJECT:
-            gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(widget));
-            break;
-        default:
-            break;
-    }
-
-    if (filename != NULL) {
-        g_free(filename);
-    }
-}
-#endif
-
-
-#ifndef SANDBOX_MODE
 /** \brief  Create the 'extra' widget
  *
  * \param[in]   parent  parent widget
@@ -386,9 +298,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *hidden_check;
-#if 0
-    GtkWidget *readonly_check;
-#endif
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -406,7 +315,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
-#endif
 
 
 #ifndef SANDBOX_MODE
