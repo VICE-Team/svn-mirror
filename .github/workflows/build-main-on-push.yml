@@ -229,9 +229,50 @@ jobs:
           asset_name: ${{ steps.build.outputs.zip_name }}
           asset_content_type: application/zip
 
+  build_doc:
+    name: Build Documentation
+    needs: create_release
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - shell: bash
+        run: git config --global core.autocrlf input
+      
+      - name: Checkout Source
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix
+          # FIXME: should not be necessary for headless builds
+          sudo apt-get install libx11-dev
+          sudo apt-get install texinfo texlive-fonts-recommended
+          
+      - name: Build
+        id: build
+        shell: bash
+        run: |
+          cd vice
+          ./autogen.sh
+          ./configure --enable-headlessui --enable-html-docs --without-pulse --without-alsa --without-png
+          cd doc
+          make
+
+      - name: Upload
+        id: upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./vice/doc/vice.pdf
+          asset_name: vice.pdf
+          asset_content_type: application/pdf
+
   publish_release:
     name: Publish Release
-    needs: [create_release, build]
+    needs: [create_release, build, build_doc]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v3
