@@ -1516,6 +1516,7 @@ if test x"$check_sdl1" = "xyes"; then
 fi
 
 if test x"$enable_headlessui" = "xyes"; then
+  AC_DEFINE(USE_HEADLESSUI,,[Enable Headless UI support.])
   enable_native_gtk3ui=no
   enable_sdlui=no
   enable_sdlui2=no

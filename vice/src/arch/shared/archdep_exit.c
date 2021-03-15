@@ -30,9 +30,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef USE_HEADLESSUI
 #ifdef UNIX_COMPILE
 #ifndef MACOSX_SUPPORT
 #include <X11/Xlib.h>
+#endif
 #endif
 #endif
 
@@ -124,12 +126,16 @@ void archdep_set_main_thread(void)
     vice_macos_set_main_thread();
     
 #elif defined(UNIX_COMPILE)
-    
+
+#ifdef USE_NATIVE_GTK3    
     /* Our GLX OpenGL init stuff will crash if we let GDK use wayland directly */
     putenv("GDK_BACKEND=x11");
+#endif
 
+#ifndef USE_HEADLESSUI
     /* We're calling xlib from our own thread so need this to avoid problems */
     XInitThreads();
+#endif
 
     /* TODO - set UI/main thread priority for X11 */
 
