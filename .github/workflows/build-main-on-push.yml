@@ -245,8 +245,6 @@ jobs:
         shell: bash
         run: |
           sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix
-          # FIXME: should not be necessary for headless builds
-          sudo apt-get install libx11-dev
           sudo apt-get install texinfo texlive-fonts-recommended
           
       - name: Build
