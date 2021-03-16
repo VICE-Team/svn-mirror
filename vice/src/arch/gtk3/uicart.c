@@ -341,7 +341,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
                 gchar *filename_locale = file_chooser_convert_to_locale(filename);
                 gboolean result;
 
-                result = attach_cart_image(UICART_C64_SMART, 0, filename_locale);
+                result = attach_cart_image(get_cart_type(), 0, filename_locale);
                 if (!result) {
                     vice_gtk3_message_error("VICE Error",
                             "Failed to smart-attach '%s'", filename);
@@ -539,6 +539,7 @@ static int get_cart_id(void)
  */
 static int attach_cart_image(int type, int id, const char *path)
 {
+    /* printf("attach_cart_image type: %d id: %d path: %s\n", type, id, path); */
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
@@ -562,12 +563,16 @@ static int attach_cart_image(int type, int id, const char *path)
         case VICE_MACHINE_VIC20:
             switch (type) {
                 case UICART_VIC20_SMART:
-                    id = CARTRIDGE_VIC20_DETECT;
+                    /* id = CARTRIDGE_VIC20_DETECT; */
+                    id = CARTRIDGE_CRT;
                     break;
                 case UICART_VIC20_GENERIC:
                     /* we also want to select an id for generic type. some day
                        we need to fix "generic" vs "add to generic" */
                     /* id = CARTRIDGE_VIC20_GENERIC; */
+                    id = get_cart_id();
+                case UICART_VIC20_ADD_GENERIC:
+                    id = get_cart_id();
                     break;
                 case UICART_VIC20_BEHRBONZ:
                     id = CARTRIDGE_VIC20_BEHRBONZ;
@@ -585,7 +590,6 @@ static int attach_cart_image(int type, int id, const char *path)
                     id = CARTRIDGE_VIC20_FP;
                     break;
                 default:
-                    /* add to generic, id is already set */
                     debug_gtk3("error: shouldn't get here.");
                     break;
             }
@@ -669,7 +673,7 @@ static int attach_cart_image(int type, int id, const char *path)
             return 0;
             break;
     }
-
+    /* printf("id:%d path:%s\n", id, path); */
     if ((crt_attach_func(id, path) == 0)) {
         /* check 'set default' */
         if ((cart_set_default_widget != NULL)
