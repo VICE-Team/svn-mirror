@@ -123,22 +123,22 @@ notice identical to this one.
 @vskip 0pt plus 1filll
 @c section used in file generation, keep to the format used.
 @c ---vice-core-team---
-Copyright @copyright{} 1999-2020 Martin Pottendorfer
-Copyright @copyright{} 2005-2020 Marco van den Heuvel
-Copyright @copyright{} 2007-2020 Fabrizio Gennari
-Copyright @copyright{} 2009-2020 Groepaz
-Copyright @copyright{} 2009-2020 Errol Smith
-Copyright @copyright{} 2009-2020 Ingo Korb
-Copyright @copyright{} 2010-2020 Olaf Seibert
-Copyright @copyright{} 2011-2020 Marcus Sutton
-Copyright @copyright{} 2011-2020 Kajtar Zsolt
-Copyright @copyright{} 2016-2020 AreaScout
-Copyright @copyright{} 2016-2020 Bas Wassink
-Copyright @copyright{} 2017-2020 Michael C. Martin
-Copyright @copyright{} 2018-2020 Christopher Phillips
-Copyright @copyright{} 2019-2020 David Hogan
-Copyright @copyright{} 2020 Empathic Qubit
-Copyright @copyright{} 2020 Roberto Muscedere
+Copyright @copyright{} 1999-2021 Martin Pottendorfer
+Copyright @copyright{} 2005-2021 Marco van den Heuvel
+Copyright @copyright{} 2007-2021 Fabrizio Gennari
+Copyright @copyright{} 2009-2021 Groepaz
+Copyright @copyright{} 2009-2021 Errol Smith
+Copyright @copyright{} 2009-2021 Ingo Korb
+Copyright @copyright{} 2010-2021 Olaf Seibert
+Copyright @copyright{} 2011-2021 Marcus Sutton
+Copyright @copyright{} 2011-2021 Kajtar Zsolt
+Copyright @copyright{} 2016-2021 AreaScout
+Copyright @copyright{} 2016-2021 Bas Wassink
+Copyright @copyright{} 2017-2021 Michael C. Martin
+Copyright @copyright{} 2018-2021 Christopher Phillips
+Copyright @copyright{} 2019-2021 David Hogan
+Copyright @copyright{} 2020-2021 Empathic Qubit
+Copyright @copyright{} 2020-2021 Roberto Muscedere
 @c ---vice-core-team-end---
 
 @c ---ex-team---
@@ -30481,35 +30481,37 @@ for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1999-2020 Martin Pottendorfer
+Copyright @copyright{} 1999-2021 Martin Pottendorfer
 @item
-Copyright @copyright{} 2005-2020 Marco van den Heuvel
+Copyright @copyright{} 2005-2021 Marco van den Heuvel
 @item
-Copyright @copyright{} 2007-2020 Fabrizio Gennari
+Copyright @copyright{} 2007-2021 Fabrizio Gennari
 @item
-Copyright @copyright{} 2009-2020 Groepaz
+Copyright @copyright{} 2009-2021 Groepaz
 @item
-Copyright @copyright{} 2009-2020 Errol Smith
+Copyright @copyright{} 2009-2021 Errol Smith
 @item
-Copyright @copyright{} 2009-2020 Ingo Korb
+Copyright @copyright{} 2009-2021 Ingo Korb
 @item
-Copyright @copyright{} 2010-2020 Olaf Seibert
+Copyright @copyright{} 2010-2021 Olaf Seibert
 @item
-Copyright @copyright{} 2011-2020 Marcus Sutton
+Copyright @copyright{} 2011-2021 Marcus Sutton
 @item
-Copyright @copyright{} 2011-2020 Kajtar Zsolt
+Copyright @copyright{} 2011-2021 Kajtar Zsolt
 @item
-Copyright @copyright{} 2016-2020 AreaScout
+Copyright @copyright{} 2016-2021 AreaScout
 @item
-Copyright @copyright{} 2016-2020 Bas Wassink
+Copyright @copyright{} 2016-2021 Bas Wassink
 @item
-Copyright @copyright{} 2017-2020 Michael C. Martin
+Copyright @copyright{} 2017-2021 Michael C. Martin
 @item
-Copyright @copyright{} 2018-2020 Christopher Phillips
+Copyright @copyright{} 2018-2021 Christopher Phillips
 @item
-Copyright @copyright{} 2019-2020 David Hogan
+Copyright @copyright{} 2019-2021 David Hogan
 @item
-Copyright @copyright{} 2020 Empathic Qubit
+Copyright @copyright{} 2020-2021 Empathic Qubit
+@item
+Copyright @copyright{} 2020-2021 Roberto Muscedere
 
 @item
 Copyright @copyright{} 2011-2016 Stefan Haubenthal
