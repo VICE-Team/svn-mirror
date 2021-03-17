@@ -65,7 +65,7 @@ static FILE *mon_input, *mon_output;
 #undef PREFER_STDARG
 #endif
 
-#ifdef WIN32_COMPILE
+#if 0
 static int vice_ismsystty(int fd)
 {
     intptr_t h_stdin = _get_osfhandle(fd);
