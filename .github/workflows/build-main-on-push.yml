@@ -171,17 +171,6 @@ jobs:
           cd doc
           make
 
-      # - name: Upload
-      #   id: upload
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ needs.create_release.outputs.upload_url }}
-      #     asset_path: ./vice/doc/vice.pdf
-      #     asset_name: vice.pdf
-      #     asset_content_type: application/pdf
-      
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
@@ -191,7 +180,7 @@ jobs:
   
   build:
     name: Build
-    needs: build_doc
+    needs: [create_release, build_doc]
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -283,7 +272,7 @@ jobs:
 
   publish_release:
     name: Publish Release
-    needs: build
+    needs: [create_release, build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v3
