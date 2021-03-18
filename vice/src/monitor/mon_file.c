@@ -304,7 +304,8 @@ void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
         save_byte = mon_get_mem_val(mem, (uint16_t)(adr + ch));
         if (mon_file_write(save_byte, 1, device) < 0) {
             mon_out("Saving for `%s' failed.\n", filename);
-            break;
+            mon_file_close(1, device);
+            return;
         }
         ch++;
     } while ((adr + ch) <= end);
