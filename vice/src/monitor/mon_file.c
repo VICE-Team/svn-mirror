@@ -289,9 +289,6 @@ void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
         return;
     }
 
-    printf("Saving file `%s' from $%04x to $%04x\n",
-            filename, start_addr, end_addr);
-
     if (is_bsave == FALSE) {
         if (mon_file_write((uint8_t)(adr & 0xff), 1, device) < 0
             || mon_file_write((uint8_t)((adr >> 8) & 0xff), 1, device) < 0) {
@@ -311,6 +308,10 @@ void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
         }
         ch++;
     } while ((adr + ch) <= end);
+
+    mon_out("Saving file `%s' from $%04x to $%04x\n",
+            filename, addr_location(start_addr), addr_location(end_addr));
+
 
     mon_file_close(1, device);
 }
