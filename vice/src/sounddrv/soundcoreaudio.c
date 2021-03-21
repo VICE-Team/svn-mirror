@@ -689,7 +689,7 @@ static int coreaudio_init(const char *param, int *speed,
     in.mChannelsPerFrame = *channels;
     in.mSampleRate = (float)*speed;
     in.mFormatID = kAudioFormatLinearPCM;
-#if defined(__x86_64__) || defined(__i386__)
+#if defined(__arm64__) || defined(__x86_64__) || defined(__i386__)
     in.mFormatFlags = kAudioFormatFlagIsSignedInteger;
 #else
     in.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsBigEndian;
