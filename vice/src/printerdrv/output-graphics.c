@@ -105,6 +105,14 @@ static void output_graphics_line_data(screenshot_t *screenshot, uint8_t *data,
                 data[i * 4 + 3] = 0;
             }
             break;
+        case SCREENSHOT_MODE_RGB24:
+            for (i = 0; i < screenshot->width; i++) {
+                color = output_pixel_to_palette_index(line_base[i]);
+                data[i * 3] = screenshot->palette->entries[color].red;
+                data[i * 3 + 1] = screenshot->palette->entries[color].green;
+                data[i * 3 + 2] = screenshot->palette->entries[color].blue;
+            }
+            break;
         default:
             log_error(LOG_ERR, "Invalid mode %u.", mode);
     }
