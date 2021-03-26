@@ -139,6 +139,7 @@ static int relative_speed;
 static int warp_enabled;
 static tick_t warp_render_tick_interval;
 static tick_t warp_next_render_tick;
+static bool vsync_emulation_is_behind;
 
 /* Triggers the vice thread to update its priorty */
 static volatile int update_thread_priority = 1;
@@ -496,21 +497,20 @@ void vsync_do_end_of_line(void)
 
         /* deal with user input */
         joystick();
+        
+        if (!warp_enabled) {
+            /*
+             * Compare the emulated time vs host time.
+             *
+             * First, add the emulated clock cycles since last sync.
+             */
 
-        /* Do we need to slow down the emulation here or can we rely on the audio device? */
-        if (tick_based_sync_timing && !warp_enabled) {
-
-            /* add the emulated clock cycles since last sync. */
             sync_clk_delta = main_cpu_clock - last_sync_clk;
 
             /* amount of host ticks that represents the emulated duration */
             sync_emulated_ticks = (double)tick_per_second() * sync_clk_delta / emulated_clk_per_second;
-
-            /*
-             * We sleep so that our host is blocked for long enough to catch up
-             * with how long the emulated machine would have taken.
-             */
-
+            
+            /* the ideal host tick representing the emulated tick */
             sync_target_tick += sync_emulated_ticks + sync_emulated_ticks_offset;
 
             /* Preserve the fractional component for next time */
@@ -525,11 +525,38 @@ void vsync_do_end_of_line(void)
             ticks_until_target = sync_target_tick - tick_now;
 
             if (ticks_until_target < tick_per_second()) {
-                tick_sleep(ticks_until_target);
-            } else if (ticks_until_target < (tick_t)0 - tick_per_second()) {
-                /* We are more than a second behind, reset sync */
+
+                /*
+                 * Emulation timing / sync is OK.
+                 */
+
+                vsync_emulation_is_behind = false;
+
+                /* If we can't rely on the audio device for timing, slow down here. */
+                if (tick_based_sync_timing) {
+                    tick_sleep(ticks_until_target);
+                }
+
+            } else if ((tick_t)0 - ticks_until_target > tick_per_second()) {
+
+                /*
+                 * We are more than a second behind, reset sync and accept that we're not running at full speed.
+                 */
+
                 log_warning(LOG_DEFAULT, "Sync is %.3f ms behind", (double)TICK_TO_MICRO((tick_t)0 - ticks_until_target) / 1000);
                 sync_reset = true;
+                vsync_emulation_is_behind = false;
+
+            } else if ((tick_t)0 - ticks_until_target > tick_per_second() / refresh_frequency / 2) {
+
+                /*
+                 * Emulation is than a half a frame behind, ensure that we drop frames to try and catch up.
+                 *
+                 * This is particularly necessary in SDL builds if the emulated frame rate is higher than the
+                 * host video refresh rate. SDL has vsync enabled and will block until each frame can be rendered.
+                 */
+
+                vsync_emulation_is_behind = true;
             }
         }
 
@@ -613,11 +640,16 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     if (warp_enabled) {
         if (now < warp_next_render_tick) {
             skip_next_frame = 1;
-            skipped_redraw_count++;
         } else {
             warp_next_render_tick += warp_render_tick_interval;
-            skipped_redraw_count = 0;
         }
+    } else if (vsync_emulation_is_behind) {
+        /* Skip rendering to allow catch up. But enforce a minimum. */
+        if (++skipped_redraw_count <= 5) {
+            skip_next_frame = 1;
+        } else {
+            skipped_redraw_count = 0;
+        }        
     }
 
     vsyncarch_postsync();
