@@ -234,6 +234,11 @@ static int output_text_flush(unsigned int prnr)
     return 0;
 }
 
+static int output_text_formfeed(unsigned int prnr)
+{
+    return output_text_flush(prnr);
+}
+
 /* ------------------------------------------------------------------------- */
 
 int output_text_init_resources(void)
@@ -246,6 +251,7 @@ int output_text_init_resources(void)
     output_select.output_putc = output_text_putc;
     output_select.output_getc = output_text_getc;
     output_select.output_flush = output_text_flush;
+    output_select.output_formfeed = output_text_formfeed;
 
     output_select_register(&output_select);
 
