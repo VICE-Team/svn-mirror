@@ -1201,6 +1201,8 @@ static int drv_1520_formfeed(unsigned int prnr)
     if (mps->prnr == (int)prnr && mps->sheet != NULL) {
         eject(mps);
     }
+    output_select_formfeed(prnr);
+
     return 0;
 }
 

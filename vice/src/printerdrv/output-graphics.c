@@ -256,6 +256,17 @@ static int output_graphics_flush(unsigned int prnr)
     return 0;
 }
 
+static int output_graphics_formfeed(unsigned int prnr)
+{
+    /*
+     * Will finish writing current file, and leaves open
+     * the option to start a new one.
+     */
+    output_graphics_close(prnr);
+
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 void output_graphics_init(void)
@@ -292,6 +303,7 @@ int output_graphics_init_resources(void)
     output_select.output_putc = output_graphics_putc;
     output_select.output_getc = output_graphics_getc;
     output_select.output_flush = output_graphics_flush;
+    output_select.output_formfeed = output_graphics_formfeed;
 
     output_select_register(&output_select);
 
