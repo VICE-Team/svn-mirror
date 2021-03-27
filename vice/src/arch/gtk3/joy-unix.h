@@ -33,12 +33,6 @@
 
 void joystick_close(void);
 void joystick(void);
-void old_joystick_init(void);
-void old_joystick_close(void);
-void old_joystick(void);
-void new_joystick_init(void);
-void new_joystick_close(void);
-void new_joystick(void);
 
 #ifdef HAS_USB_JOYSTICK
 int usb_joystick_init(void);

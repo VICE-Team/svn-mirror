@@ -1874,18 +1874,12 @@ dnl ----- Joystick support -----
 JOY_LIBS=
 if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
   AC_CHECK_HEADER(linux/joystick.h,
-                  [ LINUX_JOYSTICK_SUPPORT="yes";
-                    AC_DEFINE(LINUX_JOYSTICK,,
-                              [Enable support for Linux style joysticks.])],)
-  if test x"$ac_cv_header_linux_joystick_h" = "xyes" ; then
-    AC_MSG_CHECKING(whether linux/joystick.h supports digital joysticks)
-    AC_TRY_COMPILE([ #include <linux/joystick.h> ],
-                   [ struct DJS_DATA_TYPE djs; ],
-                   [ HAS_DIGITAL_JOYSTICK_SUPPORT="yes";
-                     AC_DEFINE(HAS_DIGITAL_JOYSTICK,,
-                               [Enable emulation for digital joysticks.])
-                     AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
-  fi
+                  [
+                   AC_CHECK_DECL(JS_VERSION,[
+                       LINUX_JOYSTICK_SUPPORT="yes";
+                        AC_DEFINE(LINUX_JOYSTICK,,
+                              [Enable support for Linux style joysticks.])
+                   ],[],[#include <linux/joystick.h>])],)
 
   AC_CHECK_HEADER(machine/joystick.h,
                   [ BSD_JOYSTICK_SUPPORT="yes";
