@@ -195,15 +195,8 @@ int joy_arch_cmdline_options_init(void)
 #      include <linux/joystick.h>
 
 /* Compile time New 1.1.xx API presence check */
-#      ifdef JS_VERSION
 #        include <sys/ioctl.h>
 #        include <errno.h>
-#        define NEW_JOYSTICK 1
-#        undef HAS_DIGITAL_JOYSTICK
-static int use_old_api=0;       /**< FIXME: make this a #define? */
-#      else
-static int use_old_api=1;
-#      endif
 
 #    elif defined(BSD_JOYSTICK)
 #      ifdef HAVE_MACHINE_JOYSTICK_H
@@ -212,9 +205,6 @@ static int use_old_api=1;
 #      ifdef HAVE_SYS_JOYSTICK_H
 #        include <sys/joystick.h>
 #      endif
-#      define JS_DATA_TYPE joystick
-#      define JS_RETURN sizeof(struct joystick)
-int use_old_api=1;
 #    else
 #      error Unknown Joystick
 #    endif
@@ -224,8 +214,8 @@ int use_old_api=1;
 /* file handles for the joystick device files */
 
 static int ajoyfd[ANALOG_JOY_NUM] = { -1, -1, -1, -1, -1, -1, -1, -1 };
-static int djoyfd[2] = { -1, -1 };
 
+#ifdef BSD_JOYSTICK
 #    define JOYCALLOOPS 100
 #    define JOYSENSITIVITY 5
 static int joyxcal[2];
@@ -234,50 +224,11 @@ static int joyxmin[2];
 static int joyxmax[2];
 static int joyymin[2];
 static int joyymax[2];
+#endif /* BSD_JOYSTICK */
 
 log_t joystick_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
-
-/**********************************************************
- * Generic high level joy routine                         *
- **********************************************************/
-int joy_arch_init(void)
-{
-    if (use_old_api) {
-        old_joystick_init();
-    } else {
-        new_joystick_init();
-    }
-#    ifdef HAS_USB_JOYSTICK
-    usb_joystick_init();
-#    endif
-    return 0;
-}
-
-void joystick_close(void)
-{
-    if (use_old_api) {
-        old_joystick_close();
-    } else {
-        new_joystick_close();
-    }
-#    ifdef HAS_USB_JOYSTICK
-    usb_joystick_close();
-#    endif
-}
-
-void joystick(void)
-{
-    if (use_old_api) {
-        old_joystick();
-    } else {
-        new_joystick();
-    }
-#    ifdef HAS_USB_JOYSTICK
-    usb_joystick();
-#    endif
-}
 
 /** \brief  Struct containing device name and id
  */
@@ -295,10 +246,6 @@ static device_info_t predefined_device_list[] = {
     { "Analog joystick 5",  JOYDEV_ANALOG_5 },
     { "Analog joystick 6",  JOYDEV_ANALOG_6 },
     { "Analog joystick 7",  JOYDEV_ANALOG_7 },
-#ifdef HAS_DIGITAL_JOYSTICK
-    { "Digital joystick 0", JOYDEV_DIGITAL_0 },
-    { "Digital joystick 1", JOYDEV_DIGITAL_1 },
-#endif
 #ifdef HAS_USB_JOYSTICK
     { "USB joystick 0",     JOYDEV_USB_0 },
     { "USB joystick 1",     JOYDEV_USB_1 },
@@ -329,7 +276,6 @@ const char *joystick_ui_get_next_device_name(int *id)
         *id = predefined_device_list[joystickdeviceidx].id;
         joystickdeviceidx++;
 
-        if (!use_old_api) {
 #ifndef ARCHDEP_OS_BSD
             if ((*id >= JOYDEV_ANALOG_0) && (*id <= JOYDEV_ANALOG_5)) {
                 idx = *id - JOYDEV_ANALOG_0;
@@ -345,17 +291,17 @@ const char *joystick_ui_get_next_device_name(int *id)
                 }
             }
 #endif /* BSD */
-        }
         /* return name from the predefined list instead */
         return name;
     }
     return NULL;
 }
 
+#ifdef BSD_JOYSTICK
 /**********************************************************
- * Older Joystick routine 0.8x Linux/BSD driver           *
+ * Older Joystick routine BSD driver                      *
  **********************************************************/
-void old_joystick_init(void)
+static void bsd_joystick_init(void)
 {
     int i;
 
@@ -366,20 +312,13 @@ void old_joystick_init(void)
         if (ajoyfd[i] != -1) {
             close(ajoyfd[i]);
         }
-        if (djoyfd[i] != -1) {
-            close(djoyfd[i]);
-        }
     }
 
     /* open analog device files */
     for (i = 0; i < 2; i++) {
 
         const char *dev;
-#    ifdef LINUX_JOYSTICK
-        dev = (i == 0) ? "/dev/js0" : "/dev/js1";
-#    elif defined(BSD_JOYSTICK)
         dev = (i == 0) ? "/dev/joy0" : "/dev/joy1";
-#    endif
 
         ajoyfd[i] = open(dev, O_RDONLY);
         if (ajoyfd[i] < 0) {
@@ -389,10 +328,10 @@ void old_joystick_init(void)
 
             /* calibration loop */
             for (j = 0; j < JOYCALLOOPS; j++) {
-                struct JS_DATA_TYPE js;
-                ssize_t status = read(ajoyfd[i], &js, JS_RETURN);
+                struct joystick js;
+                ssize_t status = read(ajoyfd[i], &js, sizeof(struct joystick));
 
-                if (status != JS_RETURN) {
+                if (status != sizeof(struct joystick)) {
                     log_warning(joystick_log, "Error reading joystick device `%s'.", dev);
                 } else {
                     /* determine average */
@@ -416,22 +355,9 @@ void old_joystick_init(void)
             log_message(joystick_log, "  Y: min: %i , mid: %i , max: %i.", joyymin[i], joyycal[i], joyymax[i]);
         }
     }
-
-#    ifdef HAS_DIGITAL_JOYSTICK
-    /* open device files for digital joystick */
-    for (i = 0; i < 2; i++) {
-        const char *dev;
-        dev = (i == 0) ? "/dev/djs0" : "/dev/djs1";
-
-        djoyfd[i] = open(dev, O_RDONLY);
-        if (djoyfd[i] < 0) {
-            log_message(joystick_log, "Cannot open joystick device `%s'.", dev);
-        }
-    }
-#    endif
 }
 
-void old_joystick_close(void)
+static void bsd_joystick_close(void)
 {
     if (ajoyfd[0] > 0) {
         close(ajoyfd[0]);
@@ -439,48 +365,23 @@ void old_joystick_close(void)
     if (ajoyfd[1] > 0) {
         close(ajoyfd[1]);
     }
-    if (djoyfd[0] > 0) {
-        close(djoyfd[0]);
-    }
-    if (djoyfd[1] > 0) {
-        close(djoyfd[1]);
-    }
 }
 
-void old_joystick(void)
+static void bsd_joystick(void)
 {
     int i;
 
     for (i = 1; i <= 5; i++) {
         int joyport = joystick_port_map[i - 1];
 
-#    ifdef HAS_DIGITAL_JOYSTICK
-        if (joyport == JOYDEV_DIGITAL_0 || joyport == JOYDEV_DIGITAL_1) {
-            int status;
-            struct DJS_DATA_TYPE djs;
-            int djoyport = joyport - JOYDEV_DIGITAL_0;
-
-            if (djoyfd[djoyport] > 0) {
-                status = read(djoyfd[djoyport], &djs, DJS_RETURN);
-                if (status != DJS_RETURN) {
-                    log_error(joystick_log, "Error reading digital joystick device.");
-                } else {
-                    BYTE newval;
-
-                    newval = ((joystick_get_value_absolute & 0xe0) | ((~(djs.switches >> 3)) & 0x1f));
-                    joystick_set_value_absolute(i, newval);
-                }
-            }
-        } else
-#    endif
         if (joyport == JOYDEV_ANALOG_0 || joyport == JOYDEV_ANALOG_1) {
             ssize_t status;
-            struct JS_DATA_TYPE js;
+            struct joystick js;
             int ajoyport = joyport - JOYDEV_ANALOG_0;
 
             if (ajoyfd[ajoyport] > 0) {
-                status = read(ajoyfd[ajoyport], &js, JS_RETURN);
-                if (status != JS_RETURN) {
+                status = read(ajoyfd[ajoyport], &js, sizeof(struct joystick));
+                if (status != sizeof(struct joystick)) {
                     log_error(joystick_log, "Error reading joystick device.");
                 } else {
                     joystick_set_value_absolute(i, 0);
@@ -497,35 +398,17 @@ void old_joystick(void)
                     if (js.x > joyxmax[ajoyport]) {
                         joystick_set_value_or(i, 8);
                     }
-#    ifdef LINUX_JOYSTICK
-                    if (js.buttons) {
-                        joystick_set_value_or(i, 16);
-                    }
-#    elif defined(BSD_JOYSTICK)
                     if (js.b1 || js.b2) {
                         joystick_set_value_or(i, 16);
                     }
-#    endif
                 }
             }
         }
     }
 }
 
-#    ifndef NEW_JOYSTICK
-void new_joystick_init(void)
-{
-}
-
-void new_joystick_close(void)
-{
-}
-
-void new_joystick(void)
-{
-}
-#    else /* NEW_JOYSTICK */
-void new_joystick_init(void)
+#    elif defined LINUX_JOYSTICK
+static void linux_joystick_init(void)
 {
     int i;
     int ver = 0;
@@ -580,9 +463,6 @@ void new_joystick_init(void)
                 log_message(joystick_log, "Built in driver version: %d.%d.%d", JS_VERSION >> 16, (JS_VERSION >> 8) & 0xff, JS_VERSION & 0xff);
                 log_message(joystick_log, "Kernel driver version  : 0.8 ??");
                 log_message(joystick_log, "Please update your Joystick driver!");
-                log_message(joystick_log, "Fall back to old api routine");
-                use_old_api = 1;
-                old_joystick_init();
                 return;
             }
             ioctl(ajoyfd[i], JSIOCGVERSION, &ver);
@@ -599,7 +479,7 @@ void new_joystick_init(void)
     }
 }
 
-void new_joystick_close(void)
+static void linux_joystick_close(void)
 {
     int i;
 
@@ -610,7 +490,7 @@ void new_joystick_close(void)
     }
 }
 
-void new_joystick(void)
+static void linux_joystick(void)
 {
     int i;
     struct js_event e;
@@ -688,6 +568,46 @@ void new_joystick(void)
         }
     }
 }
-#    endif  /* NEW_JOYSTICK */
+#    endif  /* BSD_JOYSTICK/LINUX_JOYSTICK */
+
+/**********************************************************
+ * Generic high level joy routine                         *
+ **********************************************************/
+int joy_arch_init(void)
+{
+#ifdef BSD_JOYSTICK
+    bsd_joystick_init();
+#elif defined LINUX_JOYSTICK
+    linux_joystick_init();
+#endif
+#    ifdef HAS_USB_JOYSTICK
+    usb_joystick_init();
+#    endif
+    return 0;
+}
+
+void joystick_close(void)
+{
+#ifdef BSD_JOYSTICK
+    bsd_joystick_close();
+#elif defined LINUX_JOYSTICK
+    linux_joystick_close();
+#endif
+#    ifdef HAS_USB_JOYSTICK
+    usb_joystick_close();
+#    endif
+}
+
+void joystick(void)
+{
+#ifdef BSD_JOYSTICK
+    bsd_joystick();
+#elif defined LINUX_JOYSTICK
+    linux_joystick();
+#endif
+#    ifdef HAS_USB_JOYSTICK
+    usb_joystick();
+#    endif
+}
 
 #endif
