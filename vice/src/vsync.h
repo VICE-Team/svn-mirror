@@ -46,6 +46,7 @@ extern void vsync_reset_hook(void);
 extern int vsync_resources_init(void);
 extern int vsync_cmdline_options_init(void);
 extern void vsync_init(void (*hook)(void));
+extern void vsync_shutdown(void);
 extern void vsync_set_machine_parameter(double refresh_rate, long cycles);
 extern double vsync_get_refresh_frequency(void);
 extern void vsync_do_end_of_line(void);
