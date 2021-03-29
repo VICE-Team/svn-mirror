@@ -139,7 +139,6 @@ static int relative_speed;
 static int warp_enabled;
 static tick_t warp_render_tick_interval;
 static tick_t warp_next_render_tick;
-static bool vsync_emulation_is_behind;
 
 /* Triggers the vice thread to update its priorty */
 static volatile int update_thread_priority = 1;
@@ -528,8 +527,6 @@ void vsync_do_end_of_line(void)
                  * Emulation timing / sync is OK.
                  */
 
-                vsync_emulation_is_behind = false;
-
                 /* If we can't rely on the audio device for timing, slow down here. */
                 if (tick_based_sync_timing) {
                     tick_sleep(ticks_until_target);
@@ -543,18 +540,6 @@ void vsync_do_end_of_line(void)
 
                 log_warning(LOG_DEFAULT, "Sync is %.3f ms behind", (double)TICK_TO_MICRO((tick_t)0 - ticks_until_target) / 1000);
                 sync_reset = true;
-                vsync_emulation_is_behind = false;
-
-            } else if ((tick_t)0 - ticks_until_target > tick_per_second() * 2 / refresh_frequency) {
-
-                /*
-                 * Emulation is more than 2 frames behind, ensure that we start dropping frames to try and catch up.
-                 *
-                 * This is particularly necessary in SDL builds if the emulated frame rate is higher than the
-                 * host video refresh rate. SDL has vsync enabled and will block until each frame can be rendered.
-                 */
-
-                vsync_emulation_is_behind = true;
             }
         }
 
@@ -579,8 +564,6 @@ void vsync_do_end_of_line(void)
 /* This is called at the end of each screen frame. */
 int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 {
-    /* static unsigned long next_frame_start = 0; */
-    static int skipped_redraw_count = 0;
     static tick_t last_vsync;
 
     tick_t now;
@@ -641,13 +624,6 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         } else {
             warp_next_render_tick += warp_render_tick_interval;
         }
-    } else if (vsync_emulation_is_behind) {
-        /* Skip rendering to allow catch up. But enforce a minimum. */
-        if (++skipped_redraw_count <= 5) {
-            skip_next_frame = 1;
-        } else {
-            skipped_redraw_count = 0;
-        }        
     }
 
     vsyncarch_postsync();
