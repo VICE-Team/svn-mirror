@@ -3369,6 +3369,7 @@ out:
     vdrive_cmdfree_abbrv(&cmd);
     vdrive_cmdfree_path(&cmd);
     vdrive_cmdfree_file(&cmd);
+    vdrive_cmdfree_command(&cmd);
     vdrive_cmdfree_more(&cmd);
     lib_free(po);
 
