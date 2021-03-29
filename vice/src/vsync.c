@@ -297,6 +297,15 @@ void vsync_init(void (*hook)(void))
     vsync_suspend_speed_eval();
 }
 
+void vsync_shutdown(void)
+{
+    if (vsync_callback_queue)
+    {
+        lib_free(vsync_callback_queue);
+        vsync_callback_queue = NULL;
+    }
+}
+
 /* This should be called whenever something that has nothing to do with the
    emulation happens, so that we don't display bogus speed values. */
 void vsync_suspend_speed_eval(void)
