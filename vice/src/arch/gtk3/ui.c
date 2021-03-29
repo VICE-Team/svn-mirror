@@ -1955,6 +1955,7 @@ void ui_resources_shutdown(void)
     lib_free(ui_resources.monitor_bg);
 }
 
+
 /** \brief Clean up memory used by the UI system itself
  */
 void ui_shutdown(void)
@@ -1962,13 +1963,6 @@ void ui_shutdown(void)
     uidata_shutdown();
     ui_statusbar_shutdown();
 }
-
-
-static void extend_image_callback(GtkWidget *widget, gpointer data)
-{
-    debug_gtk3("Called.");
-}
-
 
 
 /** \brief  Display the "Do you want to extend the disk image to
