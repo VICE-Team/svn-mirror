@@ -547,10 +547,10 @@ void vsync_do_end_of_line(void)
                 sync_reset = true;
                 vsync_emulation_is_behind = false;
 
-            } else if ((tick_t)0 - ticks_until_target > tick_per_second() / refresh_frequency / 2) {
+            } else if ((tick_t)0 - ticks_until_target > tick_per_second() * 2 / refresh_frequency) {
 
                 /*
-                 * Emulation is than a half a frame behind, ensure that we drop frames to try and catch up.
+                 * Emulation is more than 2 frames behind, ensure that we start dropping frames to try and catch up.
                  *
                  * This is particularly necessary in SDL builds if the emulated frame rate is higher than the
                  * host video refresh rate. SDL has vsync enabled and will block until each frame can be rendered.
