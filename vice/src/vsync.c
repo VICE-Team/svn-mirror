@@ -341,6 +341,7 @@ void vsyncarch_get_metrics(double *cpu_percent, double *emulated_fps, int *is_wa
 #define MEASUREMENT_SMOOTH_FACTOR 0.99
 #define MEASUREMENT_FRAME_WINDOW  250
 
+static int measurement_count;
 static int next_measurement_index;
 
 /* For knowing the relevant timespan */
@@ -355,8 +356,6 @@ static uint64_t cumulative_clock_delta;
 
 static void reset_performance_metrics(tick_t frame_tick)
 {
-    int i;
-
     /*
      * The emulator is just starting, or resuming from pause, or entering
      * warp, or exiting warp. So we reset the fps calculations.
@@ -364,30 +363,16 @@ static void reset_performance_metrics(tick_t frame_tick)
 
     last_tick = frame_tick;
     last_clock = clk_guard_get_absolute_clk(maincpu_clk_guard);
+
+    measurement_count = 0;
     next_measurement_index = 0;
-
-    /*
-     * Since our emulation is bursty, it takes measurement over time to
-     * see the overall rate of emulation. We start with fake measurements
-     * showing the ideal result each time sync is reset, otherwise it
-     * fluctuates too much as it builds up enough measurement data.
-     */
-
+    
     cumulative_tick_delta = 0;
     cumulative_clock_delta = 0;
 
-    for (i = 1; i <= MEASUREMENT_FRAME_WINDOW; i++) {
-
-        tick_deltas[MEASUREMENT_FRAME_WINDOW - i]  = ticks_per_frame;
-        clock_deltas[MEASUREMENT_FRAME_WINDOW - i] = cycles_per_frame;
-
-        cumulative_tick_delta  += ticks_per_frame;
-        cumulative_clock_delta += cycles_per_frame;
-    }
-
     METRIC_LOCK();
 
-    /* The final smoothing function requires that we initialise the public metrics */
+    /* The final smoothing function requires that we initialise the public metrics. */
     if (timer_speed > 0) {
         vsync_metric_emulated_fps = (double)timer_speed * refresh_frequency / 100.0;
         vsync_metric_cpu_percent  = timer_speed;
@@ -416,9 +401,13 @@ static void update_performance_metrics(tick_t frame_tick)
         return;
     }
 
-    /* Remove the oldest measurement */
-    cumulative_tick_delta -= tick_deltas[next_measurement_index];
-    cumulative_clock_delta -= clock_deltas[next_measurement_index];
+    if (measurement_count == MEASUREMENT_FRAME_WINDOW) {
+        /* Remove the oldest measurement */
+        cumulative_tick_delta -= tick_deltas[next_measurement_index];
+        cumulative_clock_delta -= clock_deltas[next_measurement_index];
+    } else {
+        measurement_count++;
+    }
 
     /* Add this frame's measurement */
     tick_deltas[next_measurement_index] = frame_tick - last_tick;
@@ -438,7 +427,7 @@ static void update_performance_metrics(tick_t frame_tick)
 
     /* smooth and make public */
     vsync_metric_cpu_percent  = (MEASUREMENT_SMOOTH_FACTOR * vsync_metric_cpu_percent)  + (1.0 - MEASUREMENT_SMOOTH_FACTOR) * (clock_delta_seconds / frame_timespan_seconds * 100.0);
-    vsync_metric_emulated_fps = (MEASUREMENT_SMOOTH_FACTOR * vsync_metric_emulated_fps) + (1.0 - MEASUREMENT_SMOOTH_FACTOR) * ((double)MEASUREMENT_FRAME_WINDOW / frame_timespan_seconds);
+    vsync_metric_emulated_fps = (MEASUREMENT_SMOOTH_FACTOR * vsync_metric_emulated_fps) + (1.0 - MEASUREMENT_SMOOTH_FACTOR) * ((double)measurement_count / frame_timespan_seconds);
     vsync_metric_warp_enabled = warp_enabled;
 
     /* printf("%.3f seconds - %0.3f%% cpu, %.3f fps (CLOCK delta: %u)\n", frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps, clock_deltas[next_measurement_index]); fflush(stdout); */
