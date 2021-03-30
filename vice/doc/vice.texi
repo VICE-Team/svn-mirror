@@ -17939,40 +17939,33 @@ is contained inside another object instead of before the buffer.
 @table @strong
 @item 4 bytes: Length of the fields before the display buffer
 
-    @table @strong
-    @item 4 bytes: Length of fields before reserved area
+@item 4 bytes: Length of fields before reserved area
 
-        @table @strong
-        @item 4 bytes: Length of display buffer = (&buffer)
+@item 4 bytes: Length of display buffer = (&buffer)
 
-        @item 2 bytes: Debug width of display buffer (uncropped)
-        The largest width the screen gets.
+@item 2 bytes: Debug width of display buffer (uncropped)
+The largest width the screen gets.
 
-        @item 2 bytes: Debug height of display buffer (uncropped)
-        The largest height the screen gets.
+@item 2 bytes: Debug height of display buffer (uncropped)
+The largest height the screen gets.
 
-        @item 2 bytes: X offset
-        X offset to the inner part of the screen.
+@item 2 bytes: X offset
+X offset to the inner part of the screen.
 
-        @item 2 bytes: Y offset 
-        Y offset to the inner part of the screen.
+@item 2 bytes: Y offset 
+Y offset to the inner part of the screen.
 
-        @item 2 bytes: Width of the inner part of the screen.
+@item 2 bytes: Width of the inner part of the screen.
 
-        @item 2 bytes: Height of the inner part of the screen.
+@item 2 bytes: Height of the inner part of the screen.
 
-        @item 1 byte: Bits per pixel of display buffer, 8, 24 or 32
+@item 1 byte: Bits per pixel of display buffer, 8, 24 or 32
 
-        @end table
 
-    @item 4 bytes: Length of the reserved area = (&reserved)
+@item 4 bytes: Length of the reserved area = (&reserved)
 
-        @table @strong
-        @item (*reserved) bytes: Reserved TGA area
+@item (*reserved) bytes: Reserved TGA area
 
-        @end table
-
-    @end table
 
 @item (*buffer) bytes: Display buffer data
 
