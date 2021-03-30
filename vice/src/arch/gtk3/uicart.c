@@ -341,7 +341,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
                 gchar *filename_locale = file_chooser_convert_to_locale(filename);
                 gboolean result;
 
-                result = attach_cart_image(get_cart_type(), 0, filename_locale);
+                result = attach_cart_image(get_cart_type(), get_cart_id(), filename_locale);
                 if (!result) {
                     vice_gtk3_message_error("VICE Error",
                             "Failed to smart-attach '%s'", filename);
@@ -552,7 +552,7 @@ static int attach_cart_image(int type, int id, const char *path)
                 case UICART_C64_FREEZER:    /* fall through */
                 case UICART_C64_GAME:       /* fall through */
                 case UICART_C64_UTIL:
-                    /* id is correct I think */
+                    /* id is correct */
                     break;
                 default:
                     debug_gtk3("error: shouldn't get here.");
@@ -570,9 +570,9 @@ static int attach_cart_image(int type, int id, const char *path)
                     /* we also want to select an id for generic type. some day
                        we need to fix "generic" vs "add to generic" */
                     /* id = CARTRIDGE_VIC20_GENERIC; */
-                    id = get_cart_id();
+                    /* id is correct */
                 case UICART_VIC20_ADD_GENERIC:
-                    id = get_cart_id();
+                    /* id is correct */
                     break;
                 case UICART_VIC20_BEHRBONZ:
                     id = CARTRIDGE_VIC20_BEHRBONZ;
@@ -634,7 +634,7 @@ static int attach_cart_image(int type, int id, const char *path)
                 case UICART_PLUS4_FREEZER:    /* fall through */
                 case UICART_PLUS4_GAME:       /* fall through */
                 case UICART_PLUS4_UTIL:
-                    /* id is correct I think */
+                    /* id is correct */
                     break;
                 default:
                     /* oops */
