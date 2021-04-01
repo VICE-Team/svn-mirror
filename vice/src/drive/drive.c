@@ -36,6 +36,8 @@
         - check for byte ready *within* `BVC', `BVS' and `PHP'.
         - serial bus handling might be faster.  */
 
+/* #define DEBUG_DRIVE */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -72,6 +74,12 @@
 #include "drive-sound.h"
 #include "p64.h"
 #include "monitor.h"
+
+#ifdef DEBUG_DRIVE
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 static int drive_init_was_called = 0;
 
@@ -654,7 +662,7 @@ void drive_move_head(int step, drive_t *drive)
 
 void drive_gcr_data_writeback(drive_t *drive)
 {
-    unsigned int half_track, track;
+    unsigned int half_track, track, end_half_track;
     int tmp;
 
     if (drive->image == NULL) {
@@ -674,19 +682,34 @@ void drive_gcr_data_writeback(drive_t *drive)
         return;
     }
 
-    if ((drive->image->type == DISK_IMAGE_TYPE_G64)
-        || (drive->image->type == DISK_IMAGE_TYPE_G71)) {
+    /* always write track to GCR images, no need to extend the image */
+    if ((drive->image->type == DISK_IMAGE_TYPE_G64) ||
+        (drive->image->type == DISK_IMAGE_TYPE_G71)) {
         disk_image_write_half_track(drive->image, half_track,
                                     &drive->gcr->tracks[half_track - 2]);
         drive->GCR_dirty_track = 0;
         return;
     }
-
+    /* writing beyond max tracks allowed in this image is not possible */
     if (half_track > drive->image->max_half_tracks) {
         drive->GCR_dirty_track = 0;
         return;
     }
+    /* when trying beyond the image, check if we should extend the image */
+    DBG(("check track: %u > drive->image->tracks: %u\n", track, drive->image->tracks));
     if (track > drive->image->tracks) {
+        /* FIXME: doublesided images cant be extended with this logic, so
+                  never do it */
+        if ((drive->image->type == DISK_IMAGE_TYPE_D71) ||
+#ifdef HAVE_X64_IMAGE
+            (drive->image->type == DISK_IMAGE_TYPE_X64) ||
+#endif
+            (drive->image->type == DISK_IMAGE_TYPE_D81)) {
+            drive->ask_extend_disk_image = DRIVE_EXTEND_ASK;
+            drive->GCR_dirty_track = 0;
+            return;
+        }
+        /* depending on the selected extend policy, ask or never/always extend */
         switch (drive->extend_image_policy) {
             case DRIVE_EXTEND_NEVER:
                 drive->ask_extend_disk_image = DRIVE_EXTEND_ASK;
@@ -709,10 +732,30 @@ void drive_gcr_data_writeback(drive_t *drive)
                 drive->ask_extend_disk_image = DRIVE_EXTEND_ASK;
                 break;
         }
+        /* determine the desired new size of the image. usually we want either
+           35, 40 or 42 tracks */
+        if (drive->image->tracks <= 35) {
+            /* usually extend from 35 to 40 tracks */
+            end_half_track = 2 + (40 * 2);
+        } else if (drive->image->tracks <= 40) {
+            /* next size is 42 tracks (usually the maximum) */
+            end_half_track = 2 + (42 * 2);
+        } else {
+            /* beyond this, extend one track. this should never happen */
+            end_half_track = half_track + 2;
+        }
+        /* write all tracks up to the end of the image */
+        DBG(("extend track: %u drive->image->max_half_tracks: %u drive->image->tracks: %u\n", track, drive->image->max_half_tracks, drive->image->tracks));
+        while (half_track < end_half_track) {
+            DBG(("write halftrack: %u end: %u track: %u\n", half_track, end_half_track, half_track / 2));
+            disk_image_write_half_track(drive->image, half_track, &drive->gcr->tracks[half_track - 2]);
+            half_track += 2;
+        }
+    } else {
+        /* write (only) the requested track */
+        DBG(("write track: %u drive->image->max_half_tracks: %u drive->image->tracks: %u\n", track, drive->image->max_half_tracks, drive->image->tracks));
+        disk_image_write_half_track(drive->image, half_track, &drive->gcr->tracks[half_track - 2]);
     }
-
-    disk_image_write_half_track(drive->image, half_track,
-                                &drive->gcr->tracks[half_track - 2]);
 
     drive->GCR_dirty_track = 0;
 }
