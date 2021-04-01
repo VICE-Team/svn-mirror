@@ -1965,8 +1965,7 @@ void ui_shutdown(void)
 }
 
 
-/** \brief  Display the "Do you want to extend the disk image to
- *          40-track format?" dialog
+/** \brief  Display the "Do you want to extend the disk image?" dialog
  *
  * \return  nonzero to extend the image, 0 otherwise
  *
