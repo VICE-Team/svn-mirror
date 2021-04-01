@@ -156,7 +156,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit, unsigned int drv)
     if (drive->detach_clk > (CLOCK)0) {
         drive->attach_detach_clk = diskunit_clk[dnr];
     }
-    drive->ask_extend_disk_image = 1;
+    drive->ask_extend_disk_image = DRIVE_EXTEND_ASK;
 
     switch (image->type) {
         case DISK_IMAGE_TYPE_D64:

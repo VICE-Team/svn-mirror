@@ -654,7 +654,6 @@ void drive_move_head(int step, drive_t *drive)
 
 void drive_gcr_data_writeback(drive_t *drive)
 {
-    int extend;
     unsigned int half_track, track;
     int tmp;
 
@@ -690,25 +689,24 @@ void drive_gcr_data_writeback(drive_t *drive)
     if (track > drive->image->tracks) {
         switch (drive->extend_image_policy) {
             case DRIVE_EXTEND_NEVER:
-                drive->ask_extend_disk_image = 1;
+                drive->ask_extend_disk_image = DRIVE_EXTEND_ASK;
                 drive->GCR_dirty_track = 0;
                 return;
             case DRIVE_EXTEND_ASK:
-                if (drive->ask_extend_disk_image == 1) {
-                    extend = ui_extend_image_dialog();
-                    if (extend == 0) {
+                if (drive->ask_extend_disk_image == DRIVE_EXTEND_ASK) {
+                    if (ui_extend_image_dialog() == 0) {
                         drive->GCR_dirty_track = 0;
-                        drive->ask_extend_disk_image = 0;
+                        drive->ask_extend_disk_image = DRIVE_EXTEND_NEVER;
                         return;
                     }
-                    drive->ask_extend_disk_image = 2;
-                } else if (drive->ask_extend_disk_image == 0) {
+                    drive->ask_extend_disk_image = DRIVE_EXTEND_ACCESS;
+                } else if (drive->ask_extend_disk_image == DRIVE_EXTEND_NEVER) {
                     drive->GCR_dirty_track = 0;
                     return;
                 }
                 break;
             case DRIVE_EXTEND_ACCESS:
-                drive->ask_extend_disk_image = 1;
+                drive->ask_extend_disk_image = DRIVE_EXTEND_ASK;
                 break;
         }
     }
