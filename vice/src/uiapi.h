@@ -36,6 +36,10 @@ typedef enum {
 } ui_jam_action_t;
 
 typedef enum {
+    UI_EXTEND_IMAGE_INVALID = -1, UI_EXTEND_IMAGE_NEVER, UI_EXTEND_IMAGE_ALWAYS
+} ui_extendimage_action_t;
+
+typedef enum {
     UI_DRIVE_ENABLE_NONE = 0,
     UI_DRIVE_ENABLE_0 = 1 << 0,
     UI_DRIVE_ENABLE_1 = 1 << 1,

@@ -79,6 +79,7 @@
 #include "uisettings.h"
 #include "uistatusbar.h"
 #include "jamdialog.h"
+#include "extendimagedialog.h"
 #include "uicart.h"
 #include "uidiskattach.h"
 #include "uismartattach.h"
@@ -1964,26 +1965,52 @@ void ui_shutdown(void)
     ui_statusbar_shutdown();
 }
 
+/** \brief  Result of the extend image dialog
+ */
+static ui_extendimage_action_t extendimage_dialog_result;
+
+
+/** \brief  extend image dialog handler for the threaded UI
+ *
+ * \param[in]   user_data   message
+ *
+ * \return  FALSE
+ */
+gboolean ui_extendimage_dialog_impl(gpointer user_data)
+{
+    /* XXX: this probably needs a variable index into the window_widget array */
+    extendimage_dialog_result = extendimage_dialog(ui_resources.window_widget[PRIMARY_WINDOW], (char *)user_data);
+
+    return FALSE;
+}
 
 /** \brief  Display the "Do you want to extend the disk image?" dialog
  *
  * \return  nonzero to extend the image, 0 otherwise
  *
- * \warning This function is not implemented and it will intentionally
- *          crash VICE if called.
  */
 int ui_extend_image_dialog(void)
 {
-    /* FIXME: this dialog needs to be implemented. */
-    GtkWidget *dialog;
+    /*
+     * We need to use the main thread to do UI stuff. And we
+     * also need to block the VICE thread until we get the
+     * user decision.
+     */
+    extendimage_dialog_result = UI_EXTEND_IMAGE_INVALID;
+    /* FIXME: ideally we would somehow get the drive and perhaps name of the
+              mounted image and put it into the message. */
+    gdk_threads_add_timeout(0, ui_extendimage_dialog_impl,
+        "The drive has written to tracks that are not included in the currently\n"
+        "mounted image. Do you want to write those extra tracks into the current\n"
+        "image?" );
 
-    dialog = vice_gtk3_message_error(
-            "Extending image",
-            "How about no?");
-    gtk_widget_show_all(dialog);
-    return 0;
+    /* block until the result is set */
+    while (extendimage_dialog_result == UI_EXTEND_IMAGE_INVALID) {
+        tick_sleep(tick_per_second() / 60);
+    }
+
+    return extendimage_dialog_result;
 }
-
 
 /** \brief  Not used */
 void ui_dispatch_events(void)
