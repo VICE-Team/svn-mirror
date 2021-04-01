@@ -78,6 +78,7 @@ libwidgets_a_SOURCES = \
 	easyflashwidget.c \
 	ethernetcartwidget.c \
 	expertwidget.c \
+	extendimagedialog.c \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
 	georamwidget.c \
@@ -238,6 +239,7 @@ EXTRA_DIST = \
 	easyflashwidget.h \
 	ethernetcartwidget.h \
 	expertwidget.h \
+	extendimagedialog.h \
 	ffmpegwidget.h \
 	finalexpansionwidget.h \
 	georamwidget.h \
