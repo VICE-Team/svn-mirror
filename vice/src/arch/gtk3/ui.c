@@ -1978,11 +1978,16 @@ static ui_extendimage_action_t extendimage_dialog_result;
  */
 gboolean ui_extendimage_dialog_impl(gpointer user_data)
 {
-    /* XXX: this probably needs a variable index into the window_widget array */
-    extendimage_dialog_result = extendimage_dialog(ui_resources.window_widget[PRIMARY_WINDOW], (char *)user_data);
+    /* XXX: this probably needs a variable index into the window_widget array
+     *
+     *      Nope, our code is so shitty it uses ui_get_active_window(), so we
+     *      pass NULL.
+     */
+    extendimage_dialog_result = extendimage_dialog(NULL, (char *)user_data);
 
     return FALSE;
 }
+
 
 /** \brief  Display the "Do you want to extend the disk image?" dialog
  *
