@@ -31,8 +31,8 @@
 
 #include "archdep.h"
 #include "debug_gtk3.h"
+#include "ui.h"
 #include "uiapi.h"
-#include "uidata.h"
 
 #include "extendimagedialog.h"
 
@@ -60,13 +60,15 @@ ui_extendimage_action_t extendimage_dialog(GtkWidget *parent, const char *msg)
     GtkWidget *dialog;
     GtkWidget *content;
     GtkWidget *label;
-    ui_extendimage_action_t result = UI_JAM_NONE;
+    ui_extendimage_action_t result = UI_EXTEND_IMAGE_INVALID;
 
     /*
      * No point in making this asynchronous I think, the emulation is paused
      * anyway due to the CPU jam.
      */
-    dialog = gtk_dialog_new_with_buttons("Extend disk image?", GTK_WINDOW(parent),
+    dialog = gtk_dialog_new_with_buttons(
+            "Extend disk image?",
+            ui_get_active_window(),
             GTK_DIALOG_MODAL,
             "No, do not extend", RESPONSE_NEVER,
             "Yes, extend", RESPONSE_EXTEND,
@@ -83,7 +85,7 @@ ui_extendimage_action_t extendimage_dialog(GtkWidget *parent, const char *msg)
     gtk_box_pack_start(GTK_BOX(content), label, FALSE, FALSE, 16);
     gtk_widget_show_all(content);
 
- 
+
     switch (gtk_dialog_run(GTK_DIALOG(dialog))) {
         case RESPONSE_NEVER:
         case GTK_RESPONSE_DELETE_EVENT:
