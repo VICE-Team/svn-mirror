@@ -52,7 +52,6 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
-#include "rawnetarch.h"
 #include "resources.h"
 #include "util.h"
 
@@ -61,6 +60,8 @@
 #include <unistd.h>
 
 #ifdef HAVE_RAWNET
+
+#include "rawnetarch.h"
 
 #ifdef WIN32_COMPILE
 #include "rawnetarch_win32.c"
