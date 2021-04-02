@@ -44,18 +44,27 @@
 
 /** \brief  Determine if ethernet support is available for the current process
  *
- * On Unix this checks if the effective UID is root, since libpcap only works while
+ * On Unix, ethernet support is available via TUN/TAP virtual network devices.
+ * If TUN/TAP is not available, then we use libpcap - hence, this function
+ * checks that the effective UID is root, since libpcap only works while
  * having root privileges. On Windows it checks for the DLL being loaded.
- * MacOS is currently heaped together with UNIX, since I don't have a clue how pcap
- * works on MacOS, nor if it is even avaiable.
+ * MacOS is currently heaped together with UNIX; a TUN/TAP driver is available,
+ * but I don't have a clue how pcap works on MacOS, nor if it is even avaiable.
  *
  * \return  bool
  */
 bool archdep_ethernet_available(void)
 {
 #ifdef ARCHDEP_OS_UNIX
+# ifdef HAVE_TUNTAP
+    /* When TUN/TAP is available, ethernet support is available for all users */
+    return true;
+# elif defined HAVE_PCAP
     /* On Linux pcap will only work with root, so we check the EUID for root */
     return geteuid() == 0;
+# else
+    return false;
+# endif
 #elif defined ARCHDEP_OS_WINDOWS
     return GetModuleHandleA("WPCAP.DLL") != NULL;
 #else

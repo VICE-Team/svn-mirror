@@ -36,6 +36,20 @@
 #include "rawnet.h"
 #include "rawnetarch.h"
 
+int rawnet_resources_init(void)
+{
+    return rawnet_arch_resources_init();
+}
+
+int rawnet_cmdline_options_init(void)
+{
+    return rawnet_arch_cmdline_options_init();
+}
+
+void rawnet_resources_shutdown(void) {
+    rawnet_arch_resources_shutdown();
+}
+
 static int (*should_accept)(unsigned char *, int, int *, int *, int *, int *, int *) = NULL;
 
 int rawnet_should_accept(unsigned char *buffer, int length, int *phashed, int *phash_index, int *pcorrect_mac, int *pbroadcast, int *pmulticast)

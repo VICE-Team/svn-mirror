@@ -119,11 +119,11 @@ static int cs8900io_activate(void)
             case -2:
                 cs8900io_enabled = 0;
                 cs8900io_cannot_use = 1;
-                ui_error("Failed to initialize PCAP library, cannot use"
-                       " ethernet based devices.\n\n"
-                       "On Windows make sure the pcap DLL is installed,"
-                       " on Unix make sure to run VICE as root, on MacOS"
-                       " you're on your own.");
+                ui_error("Failed to initialize ethernet based devices.\n\n"
+                       "On Windows, make sure the pcap DLL is installed;"
+                       " on Unix, make sure to either have TUN/TAP support,"
+                       " or that you have the permissions to use raw net"
+                       " (if using libpcap). On MacOS you're on your own.");
                 return -1;
         }
     } else {
@@ -313,6 +313,9 @@ static const resource_int_t resources_int[] = {
 int cs8900io_resources_init(void)
 {
     if (!cs8900io_resources_init_done) {
+        if (rawnet_resources_init() < 0) {
+            return -1;
+        }
 
         /* allocated in src/arch/shared/rawnetarch_unix/win32/c */
         default_if = rawnet_get_standard_interface();
@@ -343,6 +346,8 @@ void cs8900io_resources_shutdown(void)
         lib_free(default_if);
         default_if = NULL;
     }
+
+    rawnet_resources_shutdown();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -358,6 +363,10 @@ static const cmdline_option_t cmdline_options[] =
 
 int cs8900io_cmdline_options_init(void)
 {
+    if (rawnet_cmdline_options_init() < 0) {
+        return -1;
+    }
+
     if (!cs8900io_cmdline_init_done) {
         if (cmdline_register_options(cmdline_options) < 0) {
             return -1;
