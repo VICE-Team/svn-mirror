@@ -102,6 +102,12 @@ libarchdep_a_SOURCES = \
 	rs232dev.c \
 	signals.c
 
+if UNIX_COMPILE
+libarchdep_a_SOURCES += \
+	rawnetarch_tuntap.c \
+	rawnetarch_unix.c
+endif
+
 if UNIX_MACOSX_COMPILE
 libarchdep_a_SOURCES += macOS-util.m
 endif
@@ -174,7 +180,6 @@ EXTRA_DIST = \
 	coproc.h \
 	dynlib-unix.c \
 	dynlib-win32.c \
-	rawnetarch_unix.c \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \

@@ -1,29 +1,8 @@
 /** \file   rawnetarch_unix.c
- * \brief   Raw ethernet interface, architecture-dependent stuff
+ * \brief   Raw ethernet driver for Unix, based on libpcap.
  *
  * \author  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * These functions let the UI enumerate the available interfaces.
- *
- * First, rawnet_arch_enumadapter_open() is used to start enumeration.
- *
- * rawnet_arch_enumadapter() is then used to gather information for each adapter
- * present on the system, where:
- *
- * ppname points to a pointer which will hold the name of the interface
- * ppdescription points to a pointer which will hold the description of the
- * interface
- *
- * For each of these parameters, new memory is allocated, so it has to be
- * freed with lib_free(), except ppdescription, which can be `NULL`, though
- * calling lib_free() on `NULL` is safe.
- *
- * rawnet_arch_enumadapter_close() must be used to stop processing.
- *
- * Each function returns 1 on success, and 0 on failure.
- * rawnet_arch_enumadapter() only fails if there is no more adpater; in this
- * case, *ppname and *ppdescription are not altered.
  */
 
 /*
@@ -52,13 +31,14 @@
 #include "vice.h"
 
 #ifdef HAVE_RAWNET
+#ifdef HAVE_PCAP
 
 /*
  * if we have a pcap version with either pcap_sendpacket or pcap_inject,
  * do not use libnet anymore!
  */
 #if defined(HAVE_PCAP_SENDPACKET) || defined(HAVE_PCAP_INJECT)
- #undef HAVE_LIBNET
+#undef HAVE_LIBNET
 #endif
 
 #include "pcap.h"
@@ -97,15 +77,8 @@
 #define RAWNET_ONLY_IF_UP
 #endif
 
-
-/** #define RAWNET_DEBUG_ARCH 1 **/
-/** #define RAWNET_DEBUG_PKTDUMP 1 **/
-
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
-
-static log_t rawnet_arch_log = LOG_ERR;
-
 
 /** \brief  Iterator for the list returned by pcap_findalldevs()
  */
@@ -138,33 +111,7 @@ static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
  */
 static char rawnet_pcap_errbuf[PCAP_ERRBUF_SIZE];
 
-
-#ifdef RAWNET_DEBUG_PKTDUMP
-
-static void debug_output( const char *text, uint8_t *what, int count )
-{
-    char buffer[256];
-    char *p = buffer;
-    char *pbuffer1 = what;
-    int len1 = count;
-    int i;
-
-    sprintf(buffer, "\n%s: length = %u\n", text, len1);
-    fprintf(stderr, "%s", buffer);
-    do {
-        p = buffer;
-        for (i=0; (i<8) && len1>0; len1--, i++) {
-            sprintf(p, "%02x ", (unsigned int)(unsigned char)*pbuffer1++);
-            p += 3;
-        }
-        *(p-1) = '\n'; *p = 0;
-        fprintf(stderr, "%s", buffer);
-    } while (len1>0);
-}
-#endif /* #ifdef RAWNET_DEBUG_PKTDUMP */
-
-
-int rawnet_arch_enumadapter_open(void)
+int rawnet_arch_pcap_enumadapter_open(void)
 {
     if (pcap_findalldevs(&rawnet_pcap_dev_list, rawnet_pcap_errbuf) == -1) {
         log_message(rawnet_arch_log,
@@ -198,7 +145,7 @@ int rawnet_arch_enumadapter_open(void)
  *
  * \return  bool (1 on success, 0 on failure)
  */
-int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
+int rawnet_arch_pcap_enumadapter(char **ppname, char **ppdescription)
 {
 #ifdef RAWNET_ONLY_IF_UP
     /* only select devices that are up */
@@ -226,7 +173,7 @@ int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
     return 1;
 }
 
-int rawnet_arch_enumadapter_close(void)
+int rawnet_arch_pcap_enumadapter_close(void)
 {
     if (rawnet_pcap_dev_list) {
         pcap_freealldevs(rawnet_pcap_dev_list);
@@ -278,57 +225,32 @@ static int rawnet_pcap_open_adapter(const char *interface_name)
 /* ------------------------------------------------------------------------- */
 /*    the architecture-dependend functions                                   */
 
-int rawnet_arch_init(void)
+void rawnet_arch_pcap_pre_reset(void)
 {
-    rawnet_arch_log = log_open("TFEARCH");
-
-    return 1;
 }
 
-void rawnet_arch_pre_reset(void)
+void rawnet_arch_pcap_post_reset(void)
 {
-#ifdef RAWNET_DEBUG_ARCH
-    log_message( rawnet_arch_log, "rawnet_arch_pre_reset()." );
-#endif
 }
 
-void rawnet_arch_post_reset(void)
+int rawnet_arch_pcap_activate(const char *interface_name)
 {
-#ifdef RAWNET_DEBUG_ARCH
-    log_message( rawnet_arch_log, "rawnet_arch_post_reset()." );
-#endif
-}
-
-int rawnet_arch_activate(const char *interface_name)
-{
-#ifdef RAWNET_DEBUG_ARCH
-    log_message( rawnet_arch_log, "rawnet_arch_activate()." );
-#endif
     if (!rawnet_pcap_open_adapter(interface_name)) {
         return 0;
     }
     return 1;
 }
 
-void rawnet_arch_deactivate( void )
+void rawnet_arch_pcap_deactivate( void )
 {
-#ifdef RAWNET_DEBUG_ARCH
-    log_message( rawnet_arch_log, "rawnet_arch_deactivate()." );
-#endif
 }
 
-void rawnet_arch_set_mac( const uint8_t mac[6] )
+void rawnet_arch_pcap_set_mac( const uint8_t mac[6] )
 {
-#ifdef RAWNET_DEBUG_ARCH
-    log_message( rawnet_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5] );
-#endif
 }
 
-void rawnet_arch_set_hashfilter(const uint32_t hash_mask[2])
+void rawnet_arch_pcap_set_hashfilter(const uint32_t hash_mask[2])
 {
-#ifdef RAWNET_DEBUG_ARCH
-    log_message( rawnet_arch_log, "New hash filter set: %08X:%08X.", hash_mask[1], hash_mask[0]);
-#endif
 }
 
 /* int bBroadcast   - broadcast */
@@ -338,29 +260,12 @@ void rawnet_arch_set_hashfilter(const uint32_t hash_mask[2])
 /* int bPromiscuous - promiscuous mode */
 /* int bIAHash      - accept if IA passes the hash filter */
 
-void rawnet_arch_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
+void rawnet_arch_pcap_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
 {
-#ifdef RAWNET_DEBUG_ARCH
-    log_message(rawnet_arch_log, "rawnet_arch_recv_ctl() called with the following parameters:" );
-    log_message(rawnet_arch_log, "\tbBroadcast   = %s", bBroadcast ? "TRUE" : "FALSE");
-    log_message(rawnet_arch_log, "\tbIA          = %s", bIA ? "TRUE" : "FALSE");
-    log_message(rawnet_arch_log, "\tbMulticast   = %s", bMulticast ? "TRUE" : "FALSE");
-    log_message(rawnet_arch_log, "\tbCorrect     = %s", bCorrect ? "TRUE" : "FALSE");
-    log_message(rawnet_arch_log, "\tbPromiscuous = %s", bPromiscuous ? "TRUE" : "FALSE");
-    log_message(rawnet_arch_log, "\tbIAHash      = %s", bIAHash ? "TRUE" : "FALSE");
-#endif
 }
 
-void rawnet_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver )
+void rawnet_arch_pcap_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 {
-#ifdef RAWNET_DEBUG_ARCH
-    log_message(rawnet_arch_log,
-            "rawnet_arch_line_ctl() called with the following parameters:");
-    log_message(rawnet_arch_log,
-            "\tbEnableTransmitter = %s", bEnableTransmitter ? "TRUE" : "FALSE");
-    log_message(rawnet_arch_log, 
-            "\tbEnableReceiver    = %s", bEnableReceiver ? "TRUE" : "FALSE");
-#endif
 }
 
 
@@ -408,7 +313,7 @@ static void rawnet_pcap_packet_handler(u_char *param,
  *
  * \return  number of bytes copied or -1 on failure
  */
-static int rawnet_arch_receive_frame(rawnet_pcap_internal_t *pinternal)
+static int rawnet_arch_pcap_receive_frame(rawnet_pcap_internal_t *pinternal)
 {
     int ret = -1;
 
@@ -535,24 +440,9 @@ static void rawnet_arch_transmit_pcap(int force, int onecoll, int inhibit_crc,
  * \param[in]   txlength    Frame length
  * \param[in]   txframe     Pointer to the frame to be transmitted
  */
-void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc,
-                          int tx_pad_dis, int txlength, uint8_t *txframe)
+void rawnet_arch_pcap_transmit(int force, int onecoll, int inhibit_crc,
+                               int tx_pad_dis, int txlength, uint8_t *txframe)
 {
-#ifdef RAWNET_DEBUG_ARCH
-    log_message(rawnet_arch_log,
-            "rawnet_arch_transmit() called, with: force = %s, onecoll = %s, "
-            "inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
-            force ? "TRUE" : "FALSE", 
-            onecoll ? "TRUE" : "FALSE",
-            inhibit_crc ? "TRUE" : "FALSE",
-            tx_pad_dis ? "TRUE" : "FALSE",
-            txlength);
-#endif
-
-#ifdef RAWNET_DEBUG_PKTDUMP
-    debug_output("Transmit frame: ", txframe, txlength);
-#endif /* #ifdef RAWNET_DEBUG_PKTDUMP */
-
     RAWNET_ARCH_TRANSMIT(force, onecoll, inhibit_crc, tx_pad_dis, txlength,
             txframe);
 }
@@ -596,7 +486,7 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc,
  * \param[out[      pbroadcast      set if dest. address is a broadcast address
  * \param[out]      pcrc_error      set if received frame had a CRC error
 */
-int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int  *phashed,
+int rawnet_arch_pcap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
         int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast,
         int *pcrc_error)
 {
@@ -604,20 +494,14 @@ int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int  *phashed,
 
     rawnet_pcap_internal_t internal = { *plen, pbuffer };
 
-#ifdef RAWNET_DEBUG_ARCH
-    log_message(rawnet_arch_log,
-            "rawnet_arch_receive() called, with *plen=%u.",
-            *plen);
-#endif
-
     assert((*plen & 1) == 0);
 
-    len = rawnet_arch_receive_frame(&internal);
+    len = rawnet_arch_pcap_receive_frame(&internal);
 
     if (len != -1) {
 
 #ifdef RAWNET_DEBUG_PKTDUMP
-        debug_output("Received frame: ", internal.buffer, internal.len);
+        rawnet_arch_debug_output("Received frame: ", internal.buffer, internal.len);
 #endif /* #ifdef RAWNET_DEBUG_PKTDUMP */
 
         if (len & 1) {
@@ -659,7 +543,7 @@ int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int  *phashed,
  *
  * \note    free the returned value with lib_free() if not `NULL`
  */
-char *rawnet_arch_get_standard_interface(void)
+char *rawnet_arch_pcap_get_standard_interface(void)
 {
     char *dev = NULL;
     char errbuf[PCAP_ERRBUF_SIZE];
@@ -668,12 +552,34 @@ char *rawnet_arch_get_standard_interface(void)
     if (pcap_findalldevs(&list, errbuf) == 0 && list != NULL) {
         dev = lib_strdup(list[0].name);
         pcap_freealldevs(list);
-#ifdef HAVE_TUNTAP
-    } else {
-        dev = lib_strdup("tap0");
-#endif
     }
     return dev;
 }
 
+/** Finally, let's expose the driver interface */
+rawnet_arch_driver_t rawnet_arch_driver_pcap = {
+    "pcap",
+    rawnet_arch_pcap_pre_reset,
+    rawnet_arch_pcap_post_reset,
+    rawnet_arch_pcap_activate,
+    rawnet_arch_pcap_deactivate,
+    rawnet_arch_pcap_set_mac,
+    rawnet_arch_pcap_set_hashfilter,
+
+    rawnet_arch_pcap_recv_ctl,
+
+    rawnet_arch_pcap_line_ctl,
+
+    rawnet_arch_pcap_transmit,
+
+    rawnet_arch_pcap_receive,
+
+    rawnet_arch_pcap_enumadapter_open,
+    rawnet_arch_pcap_enumadapter,
+    rawnet_arch_pcap_enumadapter_close,
+
+    rawnet_arch_pcap_get_standard_interface
+};
+
+#endif /* #ifdef HAVE_PCAP */
 #endif /* #ifdef HAVE_RAWNET */

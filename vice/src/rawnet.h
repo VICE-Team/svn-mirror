@@ -32,6 +32,10 @@
 #ifndef VICE_RAWNET_H
 #define VICE_RAWNET_H
 
+extern int rawnet_resources_init(void);
+extern int rawnet_cmdline_options_init(void);
+extern void rawnet_resources_shutdown(void);
+
 /*
  This is a helper for the _receive() function of the emulated ethernet chip to determine
  if the received frame should be accepted according to the settings.
