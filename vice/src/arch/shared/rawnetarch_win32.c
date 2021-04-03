@@ -552,19 +552,19 @@ char *rawnet_arch_get_standard_interface(void)
     return dev;
 }
 
-int rawnet_resources_init(void)
+int rawnet_arch_resources_init(void)
 {
     return 0;
 }
 
-int rawnet_cmdline_options_init(void)
+int rawnet_arch_cmdline_options_init(void)
 {
     return 0;
 }
 
-void rawnet_resources_shutdown(void)
+void rawnet_arch_resources_shutdown(void)
 {
-    return 0;
+
 }
 
 #endif /* #ifdef HAVE_RAWNET */
