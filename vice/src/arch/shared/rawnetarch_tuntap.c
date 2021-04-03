@@ -116,7 +116,7 @@ int rawnet_arch_tuntap_enumadapter_close(void)
     return 1;
 }
 
-static int rawnet_tuntap_open_adapter(const char *interface_name) 
+static int rawnet_tuntap_open_adapter(const char *interface_name)
 {
     struct ifreq ifr;
     const char *tundev = "/dev/net/tun";
@@ -261,19 +261,19 @@ int rawnet_arch_tuntap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
     assert((*plen & 1) == 0);
 
     pollres = poll(pfd, 1, 0);
-    
+
     if (pollres == 0) {
         return 0;
     } else if (pollres < 0) {
         log_message(rawnet_arch_log, "ERROR polling for new frames: '%s'", strerror(errno));
         return 0;
     }
-    
+
     if ((pfd[0].revents & (POLLERR | POLLHUP | POLLNVAL)) != 0) {
         log_message(rawnet_arch_log, "WARNING: unexpected event while polling for new frames");
         return 0;
     }
-    
+
     len = read(rawnet_arch_tuntap_tun_fd, pbuffer, *plen);
     if (len == -1) {
         log_message(rawnet_arch_log, "ERROR receiving frame: '%s'", strerror(errno));
@@ -288,15 +288,15 @@ int rawnet_arch_tuntap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
         /* This is needed by cs8900.c */
         ++len;
     }
-    *plen = len;
+    *plen = (int)len;
 
     /* We don't decide if this frame fits the needs;
      * by setting all zero, we let tfe.c do the work for us
      */
-    *phashed =
-    *phash_index =
-    *pbroadcast = 
-    *pcorrect_mac =
+    *phashed = 0;
+    *phash_index = 0;
+    *pbroadcast = 0;
+    *pcorrect_mac = 0;
     *pcrc_error = 0;
     /* This frame has been received correctly */
     *prx_ok = 1;
