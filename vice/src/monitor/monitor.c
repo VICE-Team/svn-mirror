@@ -2915,8 +2915,17 @@ static int monitor_process(char *cmd)
                 lib_free(trimmed_command);
                 trimmed_command = NULL;
             }
+            
+            /*
+             * HACK? Closing the monitor window injects an "x" command to exit the monitor,
+             * but not all parse states support an x command. Therefore we handle it globally here.
+             */
 
-            parse_and_execute_line(cmd);
+            if (strcmp(cmd, "x") == 0) {
+                mon_exit();
+            } else {
+                parse_and_execute_line(cmd);
+            }
         }
     }
     lib_free(last_cmd);
