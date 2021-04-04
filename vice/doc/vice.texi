@@ -9000,6 +9000,11 @@ Boolean that specifies whether the CS8900 ethernet interface emulation is active
 @vindex ETHERNET_INTERFACE
 @item ETHERNET_INTERFACE
 String specifying the device name of the ethernet device to use for the emulation.
+@vindex ETHERNET_DRIVER
+@item ETHERNET_DRIVER
+String specifying the low-level ethernet driver for Ethernet Cartridge emulation
+(tuntap, pcap).
+
 @vindex ETHERNET_DISABLED
 @item ETHERNET_DISABLED
 Boolean that specified whether ethernet emulation has been disabled because it is
@@ -9211,22 +9216,34 @@ Set YM chip type
 Enable/disable the SFX Sound Sampler cartridge
 (@code{SFXSoundSampler=1}, @code{SFXSoundSampler=0}).
 
-@findex -cs8900ioif
-@item -cs8900ioif <name>
+@findex -ethernetioif
+@item -ethernetioif <name>
 Set the system ethernet interface for Ethernet Cartridge emulation
+(@code{ETHERNET_INTERFACE}).
+
+@findex -ethernetiodriver
+@item -ethernetiodriver <name>
+Set the low-level ethernet driver for Ethernet Cartridge emulation
+(@code{ETHERNET_DRIVER}).
+(tuntap, pcap)
 
 @findex -ethernetcart, +ethernetcart
 @item -ethernetcart
 @itemx +ethernetcart
-Disable/Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)
+Disable/Enable the Ethernet Cartridge 
+(@code{ETHERNETCART_ACTIVE}).
+(TFE/RR-Net/64NIC/FB-NET)
 
 @findex -ethernetcartmode
 @item -ethernetcartmode <Mode>
-Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)
+Mode of Ethernet Cartridge
+(@code{ETHERNETCARTMode}).
+(0: TFE, 1: RR-Net)
 
 @findex -ethernetcartbase
 @item -ethernetcartbase <Base address>
-Base address of the Ethernet Cartridge. (0xDE00, 0xDE10, 0xDE20, 0xDE30, 0xDE40,
+Base address of the Ethernet Cartridge. 
+(@code{ETHERNETCARTBase}) (0xDE00, 0xDE10, 0xDE20, 0xDE30, 0xDE40,
 0xDE50, 0xDE60, 0xDE70, 0xDE80, 0xDE90, 0xDEA0, 0xDEB0, 0xDEC0, 0xDED0, 0xDEE0,
 0xDEF0, 0xDF00, 0xDF10, 0xDF20, 0xDF30, 0xDF40, 0xDF50, 0xDF60, 0xDF70, 0xDF80,
 0xDF90, 0xDFA0, 0xDFB0, 0xDFC0, 0xDFD0, 0xDFE0, 0xDFF0)
@@ -10871,22 +10888,34 @@ Specify clock of the SID Cartridge
 (@code{SidClock}).
 (0: C64, 1: VIC20)
 
-@findex -cs8900ioif
-@item -cs8900ioif <name>
+@findex -ethernetioif
+@item -ethernetioif <name>
 Set the system ethernet interface for Ethernet Cartridge emulation
+(@code{ETHERNET_INTERFACE}).
+
+@findex -ethernetiodriver
+@item -ethernetiodriver <name>
+Set the low-level ethernet driver for Ethernet Cartridge emulation
+(@code{ETHERNET_DRIVER}).
+(tuntap, pcap)
 
 @findex -ethernetcart, +ethernetcart
 @item -ethernetcart
 @itemx +ethernetcart
-Disable/Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)
+Disable/Enable the Ethernet Cartridge 
+(@code{ETHERNETCART_ACTIVE}).
+(TFE/RR-Net/64NIC/FB-NET)
 
 @findex -ethernetcartmode
 @item -ethernetcartmode <Mode>
-Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)
+Mode of Ethernet Cartridge
+(@code{ETHERNETCARTMode}).
+(0: TFE, 1: RR-Net)
 
 @findex -ethernetcartbase
 @item -ethernetcartbase <Base address>
-Base address of the Ethernet Cartridge. (0x9800, 0x9810, 0x9820, 0x9830, 0x9840,
+Base address of the Ethernet Cartridge.
+(@code{ETHERNETCARTBase}) (0x9800, 0x9810, 0x9820, 0x9830, 0x9840,
 0x9850, 0x9860, 0x9870, 0x9880, 0x9890, 0x98A0, 0x98B0, 0x98C0, 0x98D0, 0x98E0,
 0x98F0, 0x9C00, 0x9C10, 0x9C20, 0x9C30, 0x9C40, 0x9C50, 0x9C60, 0x9C70, 0x9C80,
 0x9C90, 0x9CA0, 0x9CB0, 0x9CC0, 0x9CD0, 0x9CE0, 0x9CF0)

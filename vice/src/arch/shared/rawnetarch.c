@@ -174,9 +174,9 @@ void rawnet_arch_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-cs8900iodriver", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+    { "-ethernetiodriver", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ETHERNET_DRIVER", NULL,
-      "<Name>", "Set the low-level driver for Ethernet emulation" },
+      "<Name>", "Set the low-level driver for Ethernet emulation (tuntap, pcap)." },
     CMDLINE_LIST_END
 };
 
