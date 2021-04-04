@@ -952,7 +952,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         ret_string = lib_strdup(p);
         free(p);
     } else {
-        ret_string = lib_strdup("x");
+        ret_string = NULL;
     }
 
     return ret_string;
