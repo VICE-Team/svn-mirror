@@ -369,12 +369,6 @@ char *rawnet_arch_get_standard_interface(void)
     return NULL;
 }
 
-#ifdef HAVE_TUNTAP
-#include "rawnetarch_tuntap.c"
-#else
-#include "rawnetarch_unix.c"
-#endif
-
 #endif /* ifdef UNIX_COMPILE */
 
 #endif  /* ifdef HAVE_RAWNET */
