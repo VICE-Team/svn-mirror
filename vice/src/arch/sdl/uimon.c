@@ -178,10 +178,6 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         input = sdl_ui_readline(NULL, x_off, y);
         sdl_ui_scroll_screen_up();
 
-        if (input == NULL) {
-            input = lib_strdup("x");
-        }
-
         return input;
     } else {
         return native_console_in(console_log_local, prompt);
