@@ -251,20 +251,16 @@ static int georam_activate(void)
     log_message(georam_log, "%dKiB unit installed.", georam_size >> 10);
 
     if (!util_check_null_string(georam_filename)) {
-        /* if file does not exits, create a new one. else load the existing one */
-        if (!util_file_exists(georam_filename)) {
+        if (util_file_load(georam_filename, georam_ram, (size_t)georam_size, UTIL_FILE_LOAD_RAW) < 0) {
+            log_message(georam_log, "Reading GEORAM image %s failed.", georam_filename);
             if (util_file_save(georam_filename, georam_ram, georam_size) < 0) {
-                log_error(georam_log, "Creating GEORAM image %s failed.", georam_filename);
+                log_message(georam_log, "Creating GEORAM image %s failed.", georam_filename);
                 return -1;
             }
             log_message(georam_log, "Creating GEORAM image %s.", georam_filename);
-        } else {
-            if (util_file_load(georam_filename, georam_ram, (size_t)georam_size, UTIL_FILE_LOAD_RAW) < 0) {
-                log_error(georam_log, "Reading GEORAM image %s failed.", georam_filename);
-                return -1;
-            }
-            log_message(georam_log, "Reading GEORAM image %s.", georam_filename);
+            return 0;
         }
+        log_message(georam_log, "Reading GEORAM image %s.", georam_filename);
     }
 
     georam_reset();
