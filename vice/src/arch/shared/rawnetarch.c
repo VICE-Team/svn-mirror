@@ -91,8 +91,9 @@ static int set_ethernet_driver(const char *name, void *param)
     }
 
 #ifdef HAVE_PCAP
-    /* On Linux pcap will only work with root, so we check the EUID for root */
-    if ((strcmp(name, rawnet_arch_driver_pcap.name) == 0) && (geteuid() == 0)) {
+    /* FIXME: we should do a capability check for "CAP_NET_RAW" here, and
+              only set pcap if the current user has it */
+    if (strcmp(name, rawnet_arch_driver_pcap.name) == 0) {
         rawnet_arch_driver = &rawnet_arch_driver_pcap;
     }
 #endif
@@ -142,18 +143,15 @@ int rawnet_arch_resources_init(void)
     if (!rawnet_arch_resources_init_done) {
         const char *default_driver = NULL;
 
-#ifdef HAVE_PCAP
-        /* On Linux pcap will only work with root, so we check the EUID for root */
-        if (geteuid() == 0) {
-            default_driver = rawnet_arch_driver_pcap.name;
 #ifdef HAVE_TUNTAP
-        } else {
-            /* Default fallback: we are not root, and tuntap is available */
-            default_driver = rawnet_arch_driver_tuntap.name;
-#endif
-        }
-#elif defined HAVE_TUNTAP
+        /* Default fallback if tuntap is available */
         default_driver = rawnet_arch_driver_tuntap.name;
+#endif
+
+#ifdef HAVE_PCAP
+        /* FIXME: we should do a capability check for "CAP_NET_RAW" here, and
+                  only set pcap default if the current user has it */
+        default_driver = rawnet_arch_driver_pcap.name;
 #endif
         resources_string[0].factory_value = default_driver;
 
