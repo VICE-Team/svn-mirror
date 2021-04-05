@@ -390,6 +390,14 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+#if defined(UNIX) /* (unix) */
+    { "HAVE_CAPABILITIES", "Support for Capabilities",
+#ifndef HAVE_CAPABILITIES
+        0 },
+#else
+        1 },
+#endif
+#endif
 /* (all) */
     { "HAVE_X64_IMAGE", "Support for X64 image files",
 #ifndef HAVE_X64_IMAGE

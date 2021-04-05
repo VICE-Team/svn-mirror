@@ -1,5 +1,5 @@
 /** \file   archdep_ethernet_available.c
- * \brief   Determine if ethernet support (libpcap) will actually work
+ * \brief   Determine if ethernet support is available for the current process
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -40,15 +40,16 @@
 #endif
 
 #include "archdep_ethernet_available.h"
+#include "archdep_rawnet_capability.h"
 
 
 /** \brief  Determine if ethernet support is available for the current process
  *
- * On Unix, ethernet support is available via TUN/TAP virtual network devices.
- * If TUN/TAP is not available, then we can use libpcap.
- * On Windows it checks for the DLL being loaded.
+ * On Unix, ethernet support is available via TUN/TAP virtual network devices,
+ * if TUN/TAP is not available, then we can use libpcap if the user/process has
+ * the permission to use rawnet.On Windows it checks for the DLL being loaded.
  * MacOS is currently heaped together with UNIX; a TUN/TAP driver is available,
- * but I don't have a clue how pcap works on MacOS, nor if it is even avaiable.
+ * but I don't have a clue how pcap works on MacOS, nor if it is even available.
  *
  * \return  bool
  */
@@ -59,13 +60,13 @@ bool archdep_ethernet_available(void)
     /* When TUN/TAP is available, ethernet support is available for all users */
     return true;
 # elif defined HAVE_PCAP
-    /* FIXME: we should do a capability check for "CAP_NET_RAW" here, and return
-       false if the current user doesnt have it */
-    return true;
+    /* When PCAP is available, check if we have the permission to use rawnet */
+    return archdep_rawnet_capability();
 # else
     return false;
 # endif
 #elif defined ARCHDEP_OS_WINDOWS
+    /* check if the wpcap .dll is loaded */
     return GetModuleHandleA("WPCAP.DLL") != NULL;
 #else
     return false;
