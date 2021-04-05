@@ -61,6 +61,7 @@
 
 #ifdef HAVE_RAWNET
 
+#include "archdep_rawnet_capability.h"
 #include "rawnetarch.h"
 
 #ifdef WIN32_COMPILE
@@ -91,9 +92,7 @@ static int set_ethernet_driver(const char *name, void *param)
     }
 
 #ifdef HAVE_PCAP
-    /* FIXME: we should do a capability check for "CAP_NET_RAW" here, and
-              only set pcap if the current user has it */
-    if (strcmp(name, rawnet_arch_driver_pcap.name) == 0) {
+    if (archdep_rawnet_capability() && (strcmp(name, rawnet_arch_driver_pcap.name) == 0)) {
         rawnet_arch_driver = &rawnet_arch_driver_pcap;
     }
 #endif
@@ -149,9 +148,9 @@ int rawnet_arch_resources_init(void)
 #endif
 
 #ifdef HAVE_PCAP
-        /* FIXME: we should do a capability check for "CAP_NET_RAW" here, and
-                  only set pcap default if the current user has it */
-        default_driver = rawnet_arch_driver_pcap.name;
+        if (archdep_rawnet_capability()) {
+            default_driver = rawnet_arch_driver_pcap.name;
+        }
 #endif
         resources_string[0].factory_value = default_driver;
 

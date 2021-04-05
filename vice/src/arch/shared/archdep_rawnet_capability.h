@@ -1,7 +1,7 @@
-/** \file   archdep_ethernet_available.h
- * \brief   Determine if ethernet support is available for the current process
+/** \file   archdep_rawnet_capability.h
+ * \brief   Determine if ethernet support (libpcap) will actually work - header
  *
- * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  groepaz <groepaz@gmx.net>
  */
 
 /*
@@ -25,11 +25,11 @@
  *
  */
 
-#ifndef HAVE_ARCHEP_ETHERNET_AVAILABLE_H
-#define HAVE_ARCHEP_ETHERNET_AVAILABLE_H
+#ifndef HAVE_ARCHEP_RAWNET_CAPABILITY_H
+#define HAVE_ARCHEP_RAWNET_CAPABILITY_H
 
 #include <stdbool.h>
 
-bool archdep_ethernet_available(void);
+bool archdep_rawnet_capability(void);
 
 #endif

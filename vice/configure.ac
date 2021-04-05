@@ -2499,6 +2499,14 @@ if test x"$enable_ethernet" = "xyes"; then
           CFLAGS="$CFLAGS $libnet_cflags"
         fi
       fi
+    dnl check for capabilites
+    dnl FIXME: perhaps this should be a toplevel check, ie always done for
+    dnl unix platforms - in that case we should add the -lcap to LIBS perhaps
+    AC_CHECK_HEADER(sys/capability.h,,)
+    if test x"$ac_cv_header_sys_capability_h" = "xyes" ; then
+        AC_DEFINE(HAVE_CAPABILITIES,,[Support for capabilites.])
+        TFE_LIBS="$TFE_LIBS -lcap"
+    fi
     dnl check for tuntap
       AC_CHECK_HEADER(linux/if_tun.h,[AC_DEFINE(HAVE_TUNTAP,, [TUN/TAP support using <linux/if_tun.h>])
                       AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])

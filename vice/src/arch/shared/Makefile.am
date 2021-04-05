@@ -79,6 +79,7 @@ libarchdep_a_SOURCES = \
 	archdep_program_path.c \
 	archdep_quote_parameter.c \
 	archdep_quote_unzip.c \
+	archdep_rawnet_capability.c \
 	archdep_rename.c \
 	archdep_require_vkbd.c \
 	archdep_rmdir.c \
@@ -156,6 +157,7 @@ EXTRA_DIST = \
 	archdep_program_path.h \
 	archdep_quote_parameter.h \
 	archdep_quote_unzip.h \
+	archdep_rawnet_capability.h \
 	archdep_rename.h \
 	archdep_require_vkbd.h \
 	archdep_rmdir.h \
