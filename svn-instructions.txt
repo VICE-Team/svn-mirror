@@ -14,7 +14,7 @@ it is not intended to be. Please, read the SVN book
 ------------------------------
 
 The base name of the URL to retrieve working copies (cf. 1.2 below) is 
-   https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/
+   https://svn.code.sf.net/p/vice-emu/code/
 
 This will be called $BASE in the sequel.
 
@@ -65,9 +65,8 @@ patches v0.14.2.73 -> v0.14.2.74 as well as the patch v0.14.2.75 ->
 v0.15.0 are missing, too.
 
 
-The directory "devel" is used for development work. In branches/,
-every user should create his own working directory with his name (spiro,
-andreasm, tibor, ...). In this directory, additional directories are
+In branches/, every user should create his own working directory with his name
+(spiro, andreasm, tibor, ...). In this directory, additional directories are
 created that resemble actual work.
 
 In tags/, every user should have his own working directory, too
@@ -81,16 +80,16 @@ Whenever you are in doubt about the directory structure, it might be a
 good idea to have a look into the online browseable directory on
 SourceForge:
 
-  http://vice-emu.svn.sourceforge.net/viewvc/vice-emu/tags/
+  https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
 or the complete repository:
 
-  http://vice-emu.svn.sourceforge.net/viewvc/vice-emu/
+  https://sourceforge.net/p/vice-emu/code/HEAD/tree/
 
 You can also use the "svn ls" command to see the contents of a
 directory. For example,
 
-$ svn ls https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/
+$ svn ls https://svn.code.sf.net/p/vice-emu/code/tags/
 
 will print out everything that is in the tags/ subdirectory.
 
@@ -103,18 +102,18 @@ If you want to start working on VICE, you first have to check out a
 working version of VICE. For example, to get the latest version of VICE,
 just enter:
 
-~/$ svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk/ vice
+~/$ svn co https://svn.code.sf.net/p/vice-emu/code/trunk/ vice
 
 This will check out the "trunk" version of VICE - that is, always the
 latest - into a new directory called vice (last parameter). If you want
 to get a different version (for example, v1.22.3), just change the URL
 part of the command to:
 
-https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.22/v1.22.3
+https://svn.code.sf.net/p/vice-emu/code/tags/v1.22/v1.22.3
 
 That is, the full command is:
 
-~/$ svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.22/v1.22.3 vice
+~/$ svn co https://svn.code.sf.net/p/vice-emu/code/tags/v1.22/v1.22.3 vice
 
 to put everything into a new directory named "vice".
 
@@ -133,7 +132,7 @@ Instead, you might want to change a specific directory to another one.
 This can be done with the "svn switch" statement. Take, for example, you
 want to change to v1.20.5. You can do this with:
 
-~/vice$ svn switch https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.20/v1.20.5
+~/vice$ svn switch https://svn.code.sf.net/p/vice-emu/code/tags/v1.20/v1.20.5
 
 Note that you must be IN the directory where you previously checked out
 VICE!
@@ -146,7 +145,7 @@ working set as soon as possible.
 
 You can switch back to the trunk using:
 
-~/vice$ svn switch https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk/
+~/vice$ svn switch https://svn.code.sf.net/p/vice-emu/code/trunk/
 
 
 Note: If you have made local changes, svn switch will try to merge your
@@ -206,8 +205,12 @@ For both commands, have a look at the SVN book, or to the online help
 2. Making your changes
 ======================
 
-If you want to start development, you have to perform the following
+If you want to start development in a branch, you have to perform the following
 steps:
+
+Note that usually we will develop in trunk, and only use branches for large(r)
+changes that will take more than a few days and would leave trunk in a non
+working state if work in progress would be committed.
 
 a. Create your own workspace in a branch
 b. Change to this branch
@@ -223,19 +226,16 @@ Whenever you want to make a change to VICE, you should perform these
 steps in your own branch. For this, generate a copy of the latest
 version. For this, generate a branch to work on:
 
-~/$ svn copy https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.22/v1.22.10 https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/branches/spiro/v1.22.10-MYFEATURE
+~/$ svn copy https://svn.code.sf.net/p/vice-emu/code/tags/v1.22/v1.22.10 https://svn.code.sf.net/p/vice-emu/code/branches/MYUSERNAME/v1.22.10-MYFEATURE
 
 This is too long for you? If you are in a working copy, you can also
 abbreviate this:
 
-~/vice$ svn copy tags/v1.22/v1.22.10 branches/spiro/v1.22.10-MYFEATURE
+~/vice$ svn copy tags/v1.22/v1.22.10 branches/MYUSERNAME/v1.22.10-MYFEATURE
 
-Of course, replace my name "spiro" with you own, and replace the version
+Of course, replace MYUSERNAME with you own, and replace the version
 (v1.22, v1.22.10) with the latest version, and replace MYFEATURE with
 something that makes more sense - that is, with what you are doing.
-
-The above naming would be equivalent to what was named
-spiro-1.22.10-MYFEATURE.diff with our old naming scheme.
 
 
 Make sure you have generated your own working directory before
@@ -243,17 +243,17 @@ performing the above step, however. That is, for the first time you want
 to create a branch, you have to perform:
 
 
-~/vice$ svn mkdir branches/spiro
+~/vice$ svn mkdir branches/MYUSERNAME
 
 or
 
-~/$ svn mkdir https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/branches/spiro
+~/$ svn mkdir https://svn.code.sf.net/p/vice-emu/code/branches/MYUSERNAME
 
 Note that you must give a revision message; that is, a message where you
 are describing what you have done. You can do this either after pressing
 enter, or append it directly to the command:
 
-~/vice$ svn mkdir branches/spiro -m "Generated Spiro's working branch"
+~/vice$ svn mkdir branches/MYUSERNAME -m "Generated MYUSERNAME's working branch"
 
 
 NOTE: While one may be tempted to use the trunk to branch from, I would
@@ -271,11 +271,11 @@ is better to use the tags to branch from!
 Now, either checkout a new working copy (cf. 1.2) or revert your current
 one (cf. 1.3.):
 
-~/$ svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/branches/spiro/v1.22.10-MYFEATURE/
+~/$ svn co https://svn.code.sf.net/p/vice-emu/code/branches/MYUSERNAME/v1.22.10-MYFEATURE/
 
 or 
 
-~/vice$ svn switch branches/spiro/v1.22.10-MYFEATURE/
+~/vice$ svn switch branches/MYUSERNAME/v1.22.10-MYFEATURE/
 
 
 2.3 Make your local changes
@@ -329,9 +329,9 @@ just a convenient way to remember the state you were working on.
 
 To create a tag, you must create a (virtual) copy of your current
 workspace. First, make sure you have committed any changes (by issuing a
-"cvs status" command). Then, tag your workspace by:
+"svn status" command). Then, tag your workspace by:
 
-~/vice$ svn copy branches/spiro/v1.22.10-MYFEATURE tags/spiro/v1.22.10-MYFEATURE
+~/vice$ svn copy branches/MYUSERNAME/v1.22.10-MYFEATURE tags/MYUSERNAME/v1.22.10-MYFEATURE
 
 (you can use the full URL, too)
 
@@ -347,27 +347,12 @@ mail on the mailing list, mentioning the full path to the tag.
 3. Some maintainance work documentation
 =======================================
 
-(to be continued, just some snippets so far)
+Make sure to respect the VICE codestyle:
+-> see vice/doc/coding-guidelines.txt
 
-3.1 Creating a source distribution
-----------------------------------
+Some hints on how to update the documentation:
+-> see vice/doc/Documentation-Howto.txt
 
-a. Add all patches to be included
-b. Change the version number of the distribution in configure.in,
-   VICE_VERSION_MAJOR, VICE_VERSION_MINOR, VICE_VERSION_BUILD. Also,
-   define/undefine UNSTABLE there if this is a release, or not.
-c. Add entries in ChangeLog, src/ChangeLog
-d. Execute: autoreconf; ./configure; make dist
-e. svn commit
-f. svn copy https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk/ https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/vX.YY/vX.YY.ZZ
-g. copy vice-X.YY.ZZ to viceteam.org/devel/
+Creating a source distribution:
+-> see vice/doc/Release-Howto.txt
 
-
-
-4. Misc
-=======
-
-Make sure that the code you change:
-- has proper line endings (svn properties set correctly)
-- only uses C style comments (/* ... */), not C++ style - at least for
-  platform independant ("common") code.
