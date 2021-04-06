@@ -1840,6 +1840,18 @@ AC_CHECK_HEADER(regexp.h,,,
 ])
 AC_DECL_SYS_SIGLIST
 
+
+dnl Check for capabilities support.
+dnl
+dnl Currently only makes sense on Linux/BSD for rawnet support.
+AC_CHECK_HEADER(sys/capability.h,
+                [ LIBS="$LIBS -lcap";
+                  AC_DEFINE(HAVE_CAPABILITIES,,
+                            [Support for POSIX capabilities.])
+                  HAVE_CAPABILITIES_SUPPORT="yes"
+                ])
+
+
 dnl ----- Dynamic Lib Loading Support -----
 dynlib_support=no
 DYNLIB_LIBS=
@@ -2500,20 +2512,13 @@ if test x"$enable_ethernet" = "xyes"; then
           CFLAGS="$CFLAGS $libnet_cflags"
         fi
       fi
-    dnl check for capabilites
-    dnl FIXME: perhaps this should be a toplevel check, ie always done for
-    dnl unix platforms - in that case we should add the -lcap to LIBS perhaps
-    AC_CHECK_HEADER(sys/capability.h,,)
-    if test x"$ac_cv_header_sys_capability_h" = "xyes" ; then
-        AC_DEFINE(HAVE_CAPABILITIES,,[Support for capabilites.])
-        HAVE_CAPABILITIES_SUPPORT="yes"
-        TFE_LIBS="$TFE_LIBS -lcap"
-    fi
     dnl check for tuntap
-      AC_CHECK_HEADER(linux/if_tun.h,[AC_DEFINE(HAVE_TUNTAP,, [TUN/TAP support using <linux/if_tun.h>])
-                      AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
-                      have_tuntap=yes
-                      HAVE_RAWNET_SUPPORT="yes"])
+    AC_CHECK_HEADER(linux/if_tun.h,
+                    [AC_DEFINE(HAVE_TUNTAP,,
+                     [TUN/TAP support using <linux/if_tun.h>])
+                     AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+                     have_tuntap=yes
+                     HAVE_RAWNET_SUPPORT="yes"])
     fi
   fi
   if test x"$TFE_LIBS" = "x" -a x"$is_win32" = "xno" -a x"$is_win32_gtk3" = "xno" -a x"$have_tuntap" = "xno"; then
@@ -3955,17 +3960,17 @@ echo "LIBS"
 echo "----"
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xOSX" -o x"$real_arch" = "xWin32"; then
-    echo "Dynamic linking support: $HAVE_DYNLIB_SUPPORT_TOO"
+    echo "Dynamic linking support           : $HAVE_DYNLIB_SUPPORT_TOO"
 fi
 
 if test x"$real_arch" = "xUnix"; then
-    echo "Capabilities support   : $HAVE_CAPABILITIES_SUPPORT"
+    echo "POSIX 1003.1e capabilities support: $HAVE_CAPABILITIES_SUPPORT"
 fi
 
-echo "Zlib support           : $HAVE_ZLIB_SUPPORT (--with/without-zlib)"
+echo "zlib support                      : $HAVE_ZLIB_SUPPORT (--with/without-zlib)"
 
 if test x"$real_arch" = "xUnix"; then
-    echo "Libieee1284 support    : $HAVE_LIBIEEE1284_SUPPORT"
+    echo "libieee1284 support               : $HAVE_LIBIEEE1284_SUPPORT"
 fi
 
 if test x"$real_arch" = "xAmiga"; then
