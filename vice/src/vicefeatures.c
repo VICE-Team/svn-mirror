@@ -391,7 +391,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #if defined(UNIX) /* (unix) */
-    { "HAVE_CAPABILITIES", "Support for Capabilities",
+    { "HAVE_CAPABILITIES", "Support for POSIX 1003.1e capabilities",
 #ifndef HAVE_CAPABILITIES
         0 },
 #else
