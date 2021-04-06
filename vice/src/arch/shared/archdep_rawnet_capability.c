@@ -60,7 +60,7 @@ static bool cap_check(cap_value_t cap_flag)
     cap = cap_get_proc();
 
     if (cap == NULL) {
-        return false; 
+        return false;
     }
 
     if (cap_set_flag(cap, CAP_EFFECTIVE, 1, &cap_flag, CAP_SET) == -1) {
