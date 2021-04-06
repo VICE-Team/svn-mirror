@@ -508,6 +508,7 @@ USE_VORBIS_SUPPORT="no "
 USE_NEW_8580_FILTER="no "
 USE_DESKTOP_FILES="no "
 HAVE_X64_IMAGE_SUPPORT="no "
+HAVE_CAPABILITIES_SUPPORT="no "
 
 
 dnl Why do we have this?
@@ -2505,6 +2506,7 @@ if test x"$enable_ethernet" = "xyes"; then
     AC_CHECK_HEADER(sys/capability.h,,)
     if test x"$ac_cv_header_sys_capability_h" = "xyes" ; then
         AC_DEFINE(HAVE_CAPABILITIES,,[Support for capabilites.])
+        HAVE_CAPABILITIES_SUPPORT="yes"
         TFE_LIBS="$TFE_LIBS -lcap"
     fi
     dnl check for tuntap
@@ -3954,6 +3956,10 @@ echo "----"
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xOSX" -o x"$real_arch" = "xWin32"; then
     echo "Dynamic linking support: $HAVE_DYNLIB_SUPPORT_TOO"
+fi
+
+if test x"$real_arch" = "xUnix"; then
+    echo "Capabilities support   : $HAVE_CAPABILITIES_SUPPORT"
 fi
 
 echo "Zlib support           : $HAVE_ZLIB_SUPPORT (--with/without-zlib)"
