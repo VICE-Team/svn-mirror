@@ -1530,6 +1530,12 @@ if test x"$found_gui" = "x"; then
 fi
 
 
+dnl Check if --enable-debug-gtk3ui was requested but the UI isn't gtk3
+if test x"$enable_debug_gtk3ui" = "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
+    AC_MSG_ERROR([Requested Gtk3 UI debugging, but the requested UI isn't Gtk3.])
+fi
+
+
 dnl Check if --disable-hwscale was requested for the Gtk3 UI
 if test x"$enable_native_gtk3ui" = "xyes" -a x"$enable_hwscale" = "xno"; then
   AC_MSG_ERROR([The option `--disable-hwscale` is illegal for the Gtk3 UI. Please remove the option and make sure the OpenGL development headers are installed.])
