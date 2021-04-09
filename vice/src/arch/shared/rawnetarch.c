@@ -91,6 +91,11 @@ static int set_ethernet_driver(const char *name, void *param)
         return 0;
     }
 
+    if (strcmp(name, "none") == 0) {
+        /* If we have found no drivers at all, use "none". */
+        rawnet_arch_driver = NULL;
+        return 0;
+    }
 #ifdef HAVE_PCAP
     if (archdep_rawnet_capability() && (strcmp(name, rawnet_arch_driver_pcap.name) == 0)) {
         rawnet_arch_driver = &rawnet_arch_driver_pcap;
@@ -140,7 +145,7 @@ static int rawnet_arch_resources_init_done = 0;
 int rawnet_arch_resources_init(void)
 {
     if (!rawnet_arch_resources_init_done) {
-        const char *default_driver = NULL;
+        const char *default_driver = "none";
 
 #ifdef HAVE_TUNTAP
         /* Default fallback if tuntap is available */
