@@ -77,6 +77,8 @@
 const rawnet_arch_driver_t *rawnet_arch_driver = NULL;
 char *rawnet_arch_driver_name = NULL;
 
+#define DRIVER_NAME_NONE        "none"
+
 /* Resources configuration ***************************************************/
 
 static int set_ethernet_driver(const char *name, void *param)
@@ -91,9 +93,13 @@ static int set_ethernet_driver(const char *name, void *param)
         return 0;
     }
 
-    if (strcmp(name, "none") == 0) {
+    if (strcmp(name, DRIVER_NAME_NONE) == 0) {
+        if (old_driver) {
+            old_driver->deactivate();
+        }
         /* If we have found no drivers at all, use "none". */
         rawnet_arch_driver = NULL;
+        util_string_set(&rawnet_arch_driver_name, DRIVER_NAME_NONE);
         return 0;
     }
 #ifdef HAVE_PCAP
@@ -145,7 +151,7 @@ static int rawnet_arch_resources_init_done = 0;
 int rawnet_arch_resources_init(void)
 {
     if (!rawnet_arch_resources_init_done) {
-        const char *default_driver = "none";
+        const char *default_driver = DRIVER_NAME_NONE;
 
 #ifdef HAVE_TUNTAP
         /* Default fallback if tuntap is available */
@@ -349,17 +355,26 @@ int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int *phashed, int *phash_in
 
 int rawnet_arch_enumadapter_open(void)
 {
-    return rawnet_arch_driver->enumadapter_open();
+    if (rawnet_arch_driver != NULL) {
+        return rawnet_arch_driver->enumadapter_open();
+    }
+    return 0;
 }
 
 int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
 {
-    return rawnet_arch_driver->enumadapter(ppname, ppdescription);
+    if (rawnet_arch_driver != NULL) {
+        return rawnet_arch_driver->enumadapter(ppname, ppdescription);
+    }
+    return 0;
 }
 
 int rawnet_arch_enumadapter_close(void)
 {
-    return rawnet_arch_driver->enumadapter_close();
+    if (rawnet_arch_driver != NULL) {
+        return rawnet_arch_driver->enumadapter_close();
+    }
+    return 0;
 }
 
 char *rawnet_arch_get_standard_interface(void)
