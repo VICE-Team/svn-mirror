@@ -68,14 +68,6 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#ifdef UNIX /* (unix) */
-    { "HAS_DIGITAL_JOYSTICK", "Enable emulation for digital joysticks.",
-#ifndef HAS_DIGITAL_JOYSTICK
-        0 },
-#else
-        1 },
-#endif
-#endif
 #ifdef MACOSX_SUPPORT /* (osx) */
     { "HAS_HIDMGR", "Enable Mac IOHIDManager Joystick driver.",
 #ifndef HAS_HIDMGR

@@ -64,9 +64,6 @@
 /* Enable SDL GP2X compilation */
 /* #undef GP2X_SDL */
 
-/* Enable emulation for digital joysticks. */
-/* #undef HAS_DIGITAL_JOYSTICK */
-
 /* Enable Mac IOHIDManager Joystick driver. */
 /* #undef HAS_HIDMGR */
 
