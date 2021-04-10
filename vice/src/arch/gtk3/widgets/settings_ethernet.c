@@ -52,6 +52,14 @@
 #include "settings_ethernet.h"
 
 
+static const vice_gtk3_combo_entry_str_t driver_list[] = {
+    { "none", "none" },
+    { "tuntap", "tuntap" },
+    { "pcap", "pcap" },
+    { NULL, NULL }
+};
+
+
 #ifdef HAVE_RAWNET
 static void clean_iface_list(void);
 #endif
@@ -158,6 +166,16 @@ static void clean_iface_list(void)
 }
 
 
+static GtkWidget *create_driver_combo(void)
+{
+    GtkWidget *combo;
+
+    combo = vice_gtk3_resource_combo_box_str_new(
+            "ETHERNET_DRIVER",
+            driver_list);
+    return combo;
+}
+
 
 /** \brief  Create combo box to select the ethernet interface
  *
@@ -191,7 +209,8 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     GtkWidget *label;
     char *text;
 #ifdef HAVE_RAWNET
-    GtkWidget *combo;
+    GtkWidget *iface_combo;
+    GtkWidget *driver_combo;
     bool available = archdep_ethernet_available();
 #endif
 
@@ -221,15 +240,21 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     }
 
 #ifdef HAVE_RAWNET
+    label = gtk_label_new("Ethernet drivert:");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    driver_combo = create_driver_combo();
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), driver_combo, 1, 0, 1, 1);
+
     label = gtk_label_new("Ethernet device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
-    combo = create_device_combo();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
+    iface_combo = create_device_combo();
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), iface_combo, 1, 1, 1, 1);
 
     if (!available) {
-        gtk_widget_set_sensitive(combo, FALSE);
+        gtk_widget_set_sensitive(iface_combo, FALSE);
         label = gtk_label_new(NULL);
 # ifdef ARCHDEP_OS_UNIX
         gtk_label_set_markup(GTK_LABEL(label),
