@@ -68,16 +68,21 @@ char *input_filename[MAX_INPUT_FILES];
 int input_filenames = 0;
 char loadfile_is_crt = 0;
 int load_address = 0;
-char loadfile_is_ultimax = 0;
 int loadfile_cart_type = 0;
 unsigned char extra_buffer_32kb[0x8000];
-char convert_to_ultimax = 0;
 unsigned char cart_subtype = 0;
 signed char cart_type = -1;
 char *cart_name = NULL;
 
 static unsigned char chipbuffer[16];
 static FILE *infile;
+
+/* c64 flags */
+char loadfile_is_ultimax = 0;
+char convert_to_ultimax = 0;
+
+/* plus4 flags */
+int convert_to_c2 = 0;
 
 /* options given on commandline */
 int omit_empty_banks = 1;
@@ -272,7 +277,7 @@ static int load_multicart_crt(void)
     }
 }
 
-static int load_all_banks(void)
+static int load_all_banks_from_crt(void)
 {
     unsigned int length, datasize, loadsize, pad;
 
@@ -286,7 +291,7 @@ static int load_all_banks(void)
 
     while (1) {
         /* get CHIP header */
-        if (fread(chipbuffer, 1, 16, infile) != 16) {
+        if (fread(chipbuffer, 1, CRT_CHIP_HEADER_LEN, infile) != CRT_CHIP_HEADER_LEN) {
             if (loadfile_size == 0) {
                 fprintf(stderr, "Error: could not read data from file.\n");
                 return -1;
@@ -294,20 +299,20 @@ static int load_all_banks(void)
                 return 0;
             }
         }
-        if (chipbuffer[0] != 'C' ||
-            chipbuffer[1] != 'H' ||
-            chipbuffer[2] != 'I' ||
-            chipbuffer[3] != 'P') {
+        if (chipbuffer[CRT_CHIP_OFFS_C] != 'C' ||
+            chipbuffer[CRT_CHIP_OFFS_H] != 'H' ||
+            chipbuffer[CRT_CHIP_OFFS_I] != 'I' ||
+            chipbuffer[CRT_CHIP_OFFS_P] != 'P') {
             fprintf(stderr, "Error: CHIP tag not found.\n");
             return -1;
         }
         /* set load address to the load address of first CHIP in the file. this is not quite
            correct, but works ok for the few cases when it matters */
         if (load_address == 0) {
-            load_address = (chipbuffer[0xc] << 8) + chipbuffer[0xd];
+            load_address = (chipbuffer[CRT_CHIP_OFFS_LOAD_HI] << 8) + chipbuffer[CRT_CHIP_OFFS_LOAD_LO];
         }
         length = (unsigned int)((chipbuffer[4] << 24) + (chipbuffer[5] << 16) + (chipbuffer[6] << 8) + chipbuffer[7]);
-        datasize = (unsigned int)((chipbuffer[14] * 0x100) + chipbuffer[15]);
+        datasize = (unsigned int)((chipbuffer[CRT_CHIP_OFFS_SIZE_HI] * 0x100) + chipbuffer[CRT_CHIP_OFFS_SIZE_LO]);
         loadsize = datasize;
         if ((datasize + 0x10) > length) {
             if (repair_mode) {
@@ -507,7 +512,7 @@ int detect_input_file(char *filename)
     return 0;
 }
 
-static int detect_load_address(char *filename, unsigned int *loadaddress)
+static int detect_load_address(char *filename, unsigned int *loadaddress, unsigned int *firstbank)
 {
     FILE *f;
     unsigned char buffer[0x10];
@@ -535,7 +540,8 @@ static int detect_load_address(char *filename, unsigned int *loadaddress)
         }
         /* set load address to the load address of first CHIP in the file. this is not quite
            correct, but works ok for the few cases when it matters */
-        *loadaddress = (buffer[0xc] << 8) + buffer[0xd];
+        *loadaddress = (buffer[CRT_CHIP_OFFS_LOAD_HI] << 8) + buffer[CRT_CHIP_OFFS_LOAD_LO];
+        *firstbank = (buffer[CRT_CHIP_OFFS_BANK_HI] << 8) + buffer[CRT_CHIP_OFFS_BANK_LO];
         fclose(f);
         return 0;
     }
@@ -619,7 +625,7 @@ int load_input_file(char *filename)
         }
 
         loadfile_size = 0;
-        if (load_all_banks() < 0) {
+        if (load_all_banks_from_crt() < 0) {
             if (repair_mode) {
                 fprintf(stderr, "Warning: Can't load all banks of %s\n", filename);
                 fclose(infile);
@@ -718,7 +724,7 @@ static int find_crtid_from_type(const cart_t *info, char *type)
     return -1;
 }
 
-static const cart_t *find_cartinfo_from_crtid(int crtid, int machine)
+const cart_t *find_cartinfo_from_crtid(int crtid, int machine)
 {
     const cart_t *info = cart_info;
     int i;
@@ -745,7 +751,7 @@ static void printbanks(char *name)
     long len, filelen;
     long pos;
     unsigned int type, bank, start, size;
-    char *typestr[4] = { "ROM", "RAM", "FLASH", "UNK" };
+    char *typestr[CRT_CHIP_TYPES_NUM + 1] = { "ROM", "RAM", "FLASH", "EEPROM", "UNK" };
     unsigned int numbanks;
     unsigned long tsize;
 
@@ -755,8 +761,8 @@ static void printbanks(char *name)
 
     tsize = 0; numbanks = 0;
     if (f) {
-        fseek(f, 0x40, SEEK_SET); /* skip crt header */
-        pos = 0x40;
+        fseek(f, CRT_HEADER_LEN, SEEK_SET); /* skip crt header */
+        pos = CRT_HEADER_LEN;
         printf("\noffset  sig  type  bank start size  chunklen\n");
         while (!feof(f)) {
             fseek(f, pos, SEEK_SET);
@@ -769,8 +775,8 @@ static void printbanks(char *name)
             bank = (unsigned int)((b[10] * 0x100) + b[11]);
             start = (unsigned int)((b[12] * 0x100) + b[13]);
             size = (unsigned int)((b[14] * 0x100) + b[15]);
-            if (type > 2) {
-                type = 3; /* invalid */
+            if (type > CRT_CHIP_TYPES_MAX) {
+                type = CRT_CHIP_TYPES_MAX + 1; /* invalid */
             }
             printf("$%06lx %-1c%-1c%-1c%-1c %-5s #%03u $%04x $%04x $%04lx\n",
                     (unsigned long)pos, b[0], b[1], b[2], b[3],
@@ -904,7 +910,7 @@ static void printoptions(char *inputname, char *optionsname)
     memcpy(cartname, &headerbuffer[0x20], 0x20); cartname[0x20] = 0;
 /*
     printf("crtid: %d exrom: %d game: %d machine: %d name '%s'\n",
-            crtid, headerbuffer[0x18], headerbuffer[0x19], machine_class, inputname);
+            crtid, headerbuffer[CRT_HEADER_EXROM], headerbuffer[CRT_HEADER_GAME], machine_class, inputname);
 */
     if (loadfile_is_crt == 1) {
         if (crtid > 0) {
@@ -914,11 +920,11 @@ static void printoptions(char *inputname, char *optionsname)
         } else {
             /* generic cartridges */
             if (machine_class == VICE_MACHINE_C64) {
-                if ((headerbuffer[0x18] == 1) && (headerbuffer[0x19] == 0)) {
+                if ((headerbuffer[CRT_HEADER_EXROM] == 1) && (headerbuffer[CRT_HEADER_GAME] == 0)) {
                     fprintf(f,"-t,ulti,");
-                } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 0)) {
+                } else if ((headerbuffer[CRT_HEADER_EXROM] == 0) && (headerbuffer[CRT_HEADER_GAME] == 0)) {
                     fprintf(f,"-t,normal,"); /* 16k */
-                } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 1)) {
+                } else if ((headerbuffer[CRT_HEADER_EXROM] == 0) && (headerbuffer[CRT_HEADER_GAME] == 1)) {
                     fprintf(f,"-t,normal,"); /* 8k */
                 } else {
                     fprintf(f,"-t,normal,"); /* invalid (off) */
@@ -926,15 +932,23 @@ static void printoptions(char *inputname, char *optionsname)
             } else if (machine_class == VICE_MACHINE_VIC20) {
                 fprintf(f,"-t,vic20,");
                 if (convert_to_bin) {
-                    unsigned int loadaddr = 0;
-                    detect_load_address(inputname, &loadaddr);
+                    unsigned int loadaddr = 0, firstbank = 0;
+                    detect_load_address(inputname, &loadaddr, &firstbank);
                     fprintf(f,"-l,%u,", loadaddr);
                 }
             } else if (machine_class == VICE_MACHINE_PLUS4) {
-                fprintf(f,"-t,plus4,");
+                unsigned int loadaddr = 0, firstbank = 0;
+                detect_load_address(inputname, &loadaddr, &firstbank);
+                if (firstbank == 1) {
+                    if (loadaddr >= 0xc000) {
+                        fprintf(f,"-t,c2hi,");
+                    } else {
+                        fprintf(f,"-t,c2lo,");
+                    }
+                } else {
+                    fprintf(f,"-t,plus4,");
+                }
                 if (convert_to_bin) {
-                    unsigned int loadaddr = 0;
-                    detect_load_address(inputname, &loadaddr);
                     fprintf(f,"-l,%u,", loadaddr);
                 }
             }
@@ -1071,6 +1085,10 @@ static void usage_types(void)
 
     printf("\nPlus4 cartridge types:\n\n"
            "plus4    Generic 4KiB/8KiB/16KiB/32KiB .crt file\n"
+           "c1lo     Generic 4KiB/8KiB/16KiB C1LO .crt file\n"
+           "c1hi     Generic 4KiB/8KiB/16KiB C1HI .crt file\n"
+           "c2lo     Generic 4KiB/8KiB/16KiB C2LO .crt file\n"
+           "c2hi     Generic 4KiB/8KiB/16KiB C2HI .crt file\n"
     );
     print_types(VICE_MACHINE_PLUS4, cart_info_plus4);
 
@@ -1165,12 +1183,7 @@ static int checkflag(char *flg, char *arg)
                 return 2;
             case 'l':
                 checkarg(arg);
-                if (load_address == 0) {
-                    /* load_address = atoi(arg); */
-                    load_address = (int)strtoul(arg, NULL, 0);
-                } else {
-                    usage();
-                }
+                load_address = (int)strtoul(arg, NULL, 0);
                 return 2;
             case 's':
                 checkarg(arg);
@@ -1205,6 +1218,9 @@ static int checkflag(char *flg, char *arg)
                             cart_type = find_crtid_from_type(cart_info_plus4, arg);
                             if (cart_type != -1) {
                                 /* found plus4 cartridge */
+                                if (load_address == 0) {
+                                    load_address = 0x8000;
+                                }
                                 machine_class = VICE_MACHINE_PLUS4;
                             }
                         }
@@ -1225,6 +1241,35 @@ static int checkflag(char *flg, char *arg)
                             machine_class = VICE_MACHINE_VIC20;
                         } else if (!strcmp(arg, "plus4")) {
                             cart_type = CARTRIDGE_CRT;
+                            if (load_address == 0) {
+                                load_address = 0x8000;
+                            }
+                            machine_class = VICE_MACHINE_PLUS4;
+                        } else if (!strcmp(arg, "c1lo")) {
+                            cart_type = CARTRIDGE_CRT;
+                            if (load_address == 0) {
+                                load_address = 0x8000;
+                            }
+                            machine_class = VICE_MACHINE_PLUS4;
+                        } else if (!strcmp(arg, "c1hi")) {
+                            cart_type = CARTRIDGE_CRT;
+                            if (load_address == 0) {
+                                load_address = 0xc000;
+                            }
+                            machine_class = VICE_MACHINE_PLUS4;
+                        } else if (!strcmp(arg, "c2lo")) {
+                            cart_type = CARTRIDGE_CRT;
+                            if (load_address == 0) {
+                                load_address = 0x8000;
+                            }
+                            convert_to_c2 = 1;
+                            machine_class = VICE_MACHINE_PLUS4;
+                        } else if (!strcmp(arg, "c2hi")) {
+                            cart_type = CARTRIDGE_CRT;
+                            if (load_address == 0) {
+                                load_address = 0xc000;
+                            }
+                            convert_to_c2 = 1;
                             machine_class = VICE_MACHINE_PLUS4;
                         } else {
                             usage();

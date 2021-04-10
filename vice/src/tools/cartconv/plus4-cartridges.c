@@ -17,7 +17,8 @@ const cart_t cart_info_plus4[] = {
 
     {0, 0, CARTRIDGE_SIZE_4KB |
            CARTRIDGE_SIZE_8KB |
-           CARTRIDGE_SIZE_16KB,    0x4000, 0x8000,   0, CRT_CHIP_ROM, "Generic Plus4 Cartridge",            "plus4", save_regular_crt /*save_generic_plus4_crt*/},
+           CARTRIDGE_SIZE_16KB |
+           CARTRIDGE_SIZE_32KB,    0x4000, 0x8000,   0, CRT_CHIP_ROM, "Generic Plus4 Cartridge",            "plus4", save_generic_plus4_crt},
     {0, 0, CARTRIDGE_SIZE_512KB |
            CARTRIDGE_SIZE_1MB |
            CARTRIDGE_SIZE_2MB,     0x4000, 0x8000,   0, CRT_CHIP_ROM, CARTRIDGE_PLUS4_NAME_MAGIC,           "magic", save_regular_crt},

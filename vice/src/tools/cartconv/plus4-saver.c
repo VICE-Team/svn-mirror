@@ -17,10 +17,13 @@ extern char *input_filename[MAX_INPUT_FILES];
 extern unsigned char input_filenames;
 extern char loadfile_is_crt;
 
-static int save_generic_plus4_bank(unsigned int length, unsigned int banks, unsigned int address, unsigned int type)
+extern int convert_to_c2;
+
+static int save_generic_plus4_bank(unsigned int length, unsigned int banks, unsigned int address, unsigned int isc2)
 {
     unsigned int i;
     unsigned int real_banks = banks;
+    unsigned int chipbank = isc2 ? 1 : 0; /* in generic cart, C2 uses bank 1 */
     if (real_banks == 0) {
         /* handle the case when a chip of half/4th the regular size
            is used on an otherwise identical hardware (eg 2k/4k
@@ -35,22 +38,24 @@ static int save_generic_plus4_bank(unsigned int length, unsigned int banks, unsi
     }
 
     for (i = 0; i < real_banks; i++) {
-        if (write_chip_package(length, 0, address, 0) < 0) {
+        if (chipbank > 1) {
+            fprintf(stderr, "Error: too many banks\n");
             return -1;
         }
-        address &= ~0x1fff;
+        if (write_chip_package(length, chipbank, address, CRT_CHIP_ROM) < 0) {
+            return -1;
+        }
         switch (address) {
-            case 0x2000:    /* block 1 */
-            case 0x4000:    /* block 2 */
-                address += 0x2000;
+            case 0x8000:    /* lo */
+                address = 0xc000;
                 break;
-            case 0x6000:    /* block 3 */
-                address += 0x4000;
+            case 0xc000:    /* hi */
+                address = 0x8000;
+                chipbank++;
                 break;
-            case 0xa000:    /* block 5 */
             default:
                 if ((i + 1) < real_banks) {
-                    fprintf(stderr, "Error: invalid block address\n");
+                    fprintf(stderr, "Error: invalid block address 0x%04x\n", address);
                     return -1;
                 }
                 break;
@@ -59,19 +64,19 @@ static int save_generic_plus4_bank(unsigned int length, unsigned int banks, unsi
     return 0;
 }
 
-static void save_generic_plus4(unsigned int length, unsigned int banks, unsigned int address, unsigned int type, unsigned char game, unsigned char exrom)
+static void save_generic_plus4(unsigned int length, unsigned int banks, unsigned int address, unsigned int isc2, unsigned char game, unsigned char exrom)
 {
     unsigned int i;
 /*
-    printf("save_generic_plus4  loadfile_size: %x cart length:%x banks:%u load@:%02x chiptype:%u\n",
-            loadfile_size, length, banks, address, type);
+    printf("save_generic_plus4  loadfile_size: %x cart length:%x banks:%u load@:%02x isc2:%u\n",
+            loadfile_size, length, banks, address, isc2);
 */
     if (write_crt_header(0, 0) < 0) {
         cleanup();
         exit(1);
     }
 
-    if (save_generic_plus4_bank(length, banks, address, type) < 0) {
+    if (save_generic_plus4_bank(length, banks, address, isc2) < 0) {
         goto exiterror;
     }
 
@@ -86,7 +91,7 @@ static void save_generic_plus4(unsigned int length, unsigned int banks, unsigned
                 fprintf(stderr, "Error: extra file must be a binary\n");
                 goto exiterror;
             }
-            if (save_generic_plus4_bank(length, banks, load_address, type) < 0) {
+            if (save_generic_plus4_bank(length, banks, load_address, isc2) < 0) {
                 goto exiterror;
             }
         }
@@ -101,31 +106,25 @@ exiterror:
 
 void save_generic_plus4_crt(unsigned int length, unsigned int banks, unsigned int address, unsigned int type, unsigned char game, unsigned char exrom)
 {
-    /* printf("save_generic_plus4_crt size:%04x addr:%04x\n", loadfile_size, load_address); */
+    printf("save_generic_plus4_crt size:%04x addr:%04x\n", loadfile_size, (unsigned)load_address);
     switch (loadfile_size) {
         case CARTRIDGE_SIZE_2KB:
-            save_generic_plus4(0x0800, 0, load_address, 0, 0, 0);
+            save_generic_plus4(0x0800, 0, load_address, convert_to_c2, 0, 0);
             break;
         case CARTRIDGE_SIZE_4KB:
-            save_generic_plus4(0x1000, 0, load_address, 0, 0, 0);
+            save_generic_plus4(0x1000, 0, load_address, convert_to_c2, 0, 0);
             break;
         case CARTRIDGE_SIZE_8KB:
-            save_generic_plus4(0x2000, 1, load_address, 0, 0, 0);
-            break;
-        case CARTRIDGE_SIZE_12KB:
-            save_generic_plus4(0x2000, 2, load_address, 0, 0, 0);
+            save_generic_plus4(0x2000, 1, load_address, convert_to_c2, 0, 0);
             break;
         case CARTRIDGE_SIZE_16KB:
-            save_generic_plus4(0x2000, 2, load_address, 0, 0, 0);
-            break;
-        case CARTRIDGE_SIZE_24KB:
-            save_generic_plus4(0x2000, 3, load_address, 0, 0, 0);
+            save_generic_plus4(0x4000, 1, load_address, convert_to_c2, 0, 0);
             break;
         case CARTRIDGE_SIZE_32KB:
-            save_generic_plus4(0x2000, 4, load_address, 0, 0, 0);
+            save_generic_plus4(0x4000, 2, load_address, convert_to_c2, 0, 0);
             break;
         default:
-            fprintf(stderr, "Error: invalid size for generic VIC20 cartridge\n");
+            fprintf(stderr, "Error: invalid size for generic PLUS4 cartridge\n");
             cleanup();
             exit(1);
             break;
