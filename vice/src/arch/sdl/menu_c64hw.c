@@ -59,7 +59,6 @@
 
 #ifdef HAVE_RAWNET
 #include "menu_ethernet.h"
-#include "menu_ethernetcart.h"
 #endif
 
 #include "uimenu.h"
@@ -186,10 +185,6 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernet_menu },
-    { "Ethernet Cart settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ethernetcart_menu },
 #endif
     { "Burst Mode Modification",
       MENU_ENTRY_SUBMENU,
@@ -264,10 +259,6 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernet_menu },
-    { CARTRIDGE_NAME_TFE " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ethernetcart_menu },
 #endif
     { "Burst Mode Modification",
       MENU_ENTRY_SUBMENU,

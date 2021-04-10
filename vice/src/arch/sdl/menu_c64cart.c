@@ -41,6 +41,7 @@
 #include "menu_common.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_c64cart.h"
+#include "menu_ethernetcart.h"
 #include "resources.h"
 #include "ui.h"
 #include "uifilereq.h"
@@ -1305,6 +1306,12 @@ ui_menu_entry_t c64cart_menu[] = {
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Cartridge specific settings"),
+#ifdef HAVE_RAWNET
+    { "Ethernet Cartridge",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ethernetcart_menu },
+#endif
     { CARTRIDGE_NAME_RAMCART,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1425,6 +1432,12 @@ ui_menu_entry_t c128cart_menu[] = {
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Cartridge specific settings"),
+#ifdef HAVE_RAWNET
+    { "Ethernet Cartridge",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ethernetcart_menu },
+#endif
     { CARTRIDGE_NAME_RAMCART,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1525,6 +1538,12 @@ ui_menu_entry_t scpu64cart_menu[] = {
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Cartridge specific settings"),
+#ifdef HAVE_RAWNET
+    { "Ethernet Cartridge",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ethernetcart_menu },
+#endif
     { CARTRIDGE_NAME_RAMCART,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
