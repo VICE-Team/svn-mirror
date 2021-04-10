@@ -52,16 +52,9 @@
 #include "settings_ethernet.h"
 
 
-static const vice_gtk3_combo_entry_str_t driver_list[] = {
-    { "none", "none" },
-    { "tuntap", "tuntap" },
-    { "pcap", "pcap" },
-    { NULL, NULL }
-};
-
-
 #ifdef HAVE_RAWNET
 static void clean_iface_list(void);
+static void clean_driver_list(void);
 #endif
 
 
@@ -75,6 +68,7 @@ static void on_settings_ethernet_destroy(GtkWidget *widget, gpointer data)
 {
 #ifdef HAVE_RAWNET
     clean_iface_list();
+    clean_driver_list();
 #endif
 }
 
@@ -88,6 +82,13 @@ static void on_settings_ethernet_destroy(GtkWidget *widget, gpointer data)
  * is destroyed.
  */
 static vice_gtk3_combo_entry_str_t *iface_list;
+
+/** \brief  List of available drivers
+ *
+ * This list is dynamically generated and destroyed when the main widget
+ * is destroyed.
+ */
+static vice_gtk3_combo_entry_str_t *driver_list;
 
 
 /** \brief  Build interface list for the combo box
@@ -148,6 +149,63 @@ static gboolean build_iface_list(void)
     return TRUE;
 }
 
+/** \brief  Build driver list for the combo box
+ *
+ * \return  bool
+ */
+static gboolean build_driver_list(void)
+{
+    int num = 0;
+    char *driver_name;
+    char *driver_desc;
+
+    /* get number of adapters */
+    if (!rawnet_enumdriver_open()) {
+        return FALSE;
+    }
+    while (rawnet_enumdriver(&driver_name, &driver_desc)) {
+        lib_free(driver_name);
+        if (driver_desc != NULL) {
+            lib_free(driver_desc);
+        }
+        num++;
+    }
+    rawnet_enumdriver_close();
+
+    /* allocate memory for list */
+    driver_list = lib_malloc((size_t)(num + 1) * sizeof *driver_list);
+
+    /* now add the list items */
+    if (!rawnet_enumdriver_open()) {
+        lib_free(driver_list);
+        driver_list = NULL;
+        return FALSE;
+    }
+
+    num = 0;
+    while (rawnet_enumdriver(&driver_name, &driver_desc)) {
+        driver_list[num].id = lib_strdup(driver_name);
+        /*
+         * On Windows, the description string seems to be always present, on
+         * Unix this isn't the case and NULL can be returned.
+         */
+        if (driver_desc == NULL) {
+            driver_list[num].name = lib_strdup(driver_name);
+        } else {
+            driver_list[num].name = lib_msprintf("%s (%s)", driver_name, driver_desc);
+        }
+        lib_free(driver_name);
+        if (driver_desc != NULL) {
+            lib_free(driver_desc);
+        }
+
+        num++;
+    }
+    driver_list[num].id = NULL;
+    driver_list[num].name = NULL;
+    rawnet_enumdriver_close();
+    return TRUE;
+}
 
 /** \brief  Free memory used by the interface list
  */
@@ -165,14 +223,34 @@ static void clean_iface_list(void)
     }
 }
 
+/** \brief  Free memory used by the driver list
+ */
+static void clean_driver_list(void)
+{
+    if (driver_list != NULL) {
+        int num = 0;
+        while (driver_list[num].id != NULL) {
+            lib_free(driver_list[num].id);
+            lib_free(driver_list[num].name);
+            num++;
+        }
+        lib_free(driver_list);
+        driver_list = NULL;
+    }
+}
+
 
 static GtkWidget *create_driver_combo(void)
 {
     GtkWidget *combo;
 
-    combo = vice_gtk3_resource_combo_box_str_new(
-            "ETHERNET_DRIVER",
-            driver_list);
+    if (build_driver_list()) {
+        combo = vice_gtk3_resource_combo_box_str_new(
+                "ETHERNET_DRIVER",
+                driver_list);
+    } else {
+        combo = gtk_combo_box_text_new();
+    }
     return combo;
 }
 
@@ -240,13 +318,13 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     }
 
 #ifdef HAVE_RAWNET
-    label = gtk_label_new("Ethernet drivert:");
+    label = gtk_label_new("Ethernet driver:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     driver_combo = create_driver_combo();
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), driver_combo, 1, 0, 1, 1);
 
-    label = gtk_label_new("Ethernet device");
+    label = gtk_label_new("Ethernet interface:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
     iface_combo = create_device_combo();
