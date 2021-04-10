@@ -379,7 +379,7 @@ static const resource_int_t resources_int[] = {
       &ethernetcart_enabled, set_ethernetcart_enabled, NULL },
     { "ETHERNETCARTBase", 0xffff, RES_EVENT_STRICT, (resource_value_t)0xffff,
       &ethernetcart_base, set_ethernetcart_base, NULL },
-    { "ETHERNETCARTMode", ETHERNETCART_MODE_TFE, RES_EVENT_STRICT, (resource_value_t)ETHERNETCART_MODE_TFE,
+    { "ETHERNETCARTMode", ETHERNETCART_MODE_RRNET, RES_EVENT_STRICT, (resource_value_t)ETHERNETCART_MODE_RRNET,
       &ethernetcart_mode, set_ethernetcart_mode, NULL },
     RESOURCE_INT_LIST_END
 };
