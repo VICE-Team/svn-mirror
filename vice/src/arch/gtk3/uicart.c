@@ -75,17 +75,14 @@ typedef enum ui_cart_type_e {
     UICART_VIC20_FLASHPLUGIN,
     UICART_VIC20_GENERIC,
     UICART_VIC20_ADD_GENERIC,
+    /* FIXME: add the groups */
 
     /* Plus4 cart types */
     UICART_PLUS4_SMART,
-    /* UICART_PLUS4_NEWROM, */
-    /* UICART_PLUS4_16KB_C0LO, */
-    /* UICART_PLUS4_16KB_C0HI, */
     UICART_PLUS4_16KB_C1LO,
     UICART_PLUS4_16KB_C1HI,
     UICART_PLUS4_16KB_C2LO,
     UICART_PLUS4_16KB_C2HI,
-    /* UICART_PLUS4_32KB_C0, */
     UICART_PLUS4_32KB_C1,
     UICART_PLUS4_32KB_C2,
     UICART_PLUS4_FREEZER,
@@ -98,6 +95,7 @@ typedef enum ui_cart_type_e {
     UICART_CBM2_8KB_2000,
     UICART_CBM2_16KB_4000,
     UICART_CBM2_16KB_6000
+    /* FIXME: add the groups */
 
 } ui_cart_type_t;
 
@@ -150,6 +148,7 @@ static const cart_type_list_t vic20_cart_types[] = {
     { "Vic Flash Plugin",           UICART_VIC20_FLASHPLUGIN },
     { "Generic",                    UICART_VIC20_GENERIC },
     { "Add to generic cartridge",   UICART_VIC20_ADD_GENERIC },
+    /* FIXME: add the groups */
     { NULL, -1 }
 };
 
@@ -158,16 +157,12 @@ static const cart_type_list_t vic20_cart_types[] = {
  */
 static const cart_type_list_t plus4_cart_types[] = {
     { "Smart-attach",               UICART_PLUS4_SMART },
-    /* { "NewROM",                     UICART_PLUS4_NEWROM }, */
-    /* { "16KiB C0 Low",               UICART_PLUS4_16KB_C0LO }, */
-    /* { "16KiB C0 High",              UICART_PLUS4_16KB_C0HI }, */
-    { "16KiB C1 Low",               UICART_PLUS4_16KB_C1LO },
-    { "16KiB C1 High",              UICART_PLUS4_16KB_C1HI },
-    { "16KiB C2 Low",               UICART_PLUS4_16KB_C2LO },
-    { "16KiB C2 High",              UICART_PLUS4_16KB_C2HI },
-    /* { "32KiB C0",                   UICART_PLUS4_32KB_C0 }, */
-    { "32KiB C1",                   UICART_PLUS4_32KB_C1 },
-    { "32KiB C2",                   UICART_PLUS4_32KB_C2 },
+    { "Raw 16KiB C1 Low",           UICART_PLUS4_16KB_C1LO },
+    { "Raw 16KiB C1 High",          UICART_PLUS4_16KB_C1HI },
+    { "Raw 16KiB C2 Low",           UICART_PLUS4_16KB_C2LO },
+    { "Raw 16KiB C2 High",          UICART_PLUS4_16KB_C2HI },
+    { "Raw 32KiB C1",               UICART_PLUS4_32KB_C1 },
+    { "Raw 32KiB C2",               UICART_PLUS4_32KB_C2 },
     { "Freezer",                    UICART_PLUS4_FREEZER },
     { "Games",                      UICART_PLUS4_GAME },
     { "Utilities",                  UICART_PLUS4_UTIL },
@@ -183,6 +178,7 @@ static const cart_type_list_t cbm2_cart_types[] = {
     { "8KiB at $2000",              UICART_CBM2_8KB_2000 },
     { "16KiB at $4000",             UICART_CBM2_16KB_4000 },
     { "16KiB at $6000",             UICART_CBM2_16KB_6000 },
+    /* FIXME: add the groups */
     { NULL, -1 }
 };
 
@@ -211,6 +207,7 @@ static const char *pattern_bin[] = { "*.bin", NULL };
 /** \brief  File filter pattern for raw images */
 static const char *pattern_bin_prg[] = { "*.bin", "*.prg", NULL };
 
+/* FIXME: for vic20 we should add .vrt(?), for plus4 .prt(?) */
 
 /** \brief  File type filters for the dialog
  */
@@ -589,6 +586,7 @@ static int attach_cart_image(int type, int id, const char *path)
                case UICART_VIC20_FLASHPLUGIN:
                     id = CARTRIDGE_VIC20_FP;
                     break;
+                /* FIXME: add groups */
                 default:
                     debug_gtk3("error: shouldn't get here.");
                     break;
@@ -599,37 +597,24 @@ static int attach_cart_image(int type, int id, const char *path)
             switch (type) {
                 case UICART_PLUS4_SMART:
                     id = CARTRIDGE_CRT;
-                /*    id = CARTRIDGE_PLUS4_DETECT; */
                     break;
-                /* case UICART_PLUS4_NEWROM:
-                    id = CARTRIDGE_PLUS4_NEWROM;
-                    break; */
-                /* case UICART_PLUS4_16KB_C0LO:
-                    id = CARTRIDGE_PLUS4_16KB_C0LO;
-                    break; */
-                /* case UICART_PLUS4_16KB_C0HI:
-                    id = CARTRIDGE_PLUS4_16KB_C0HI;
-                    break; */
                 case UICART_PLUS4_16KB_C1LO:
-                    id = CARTRIDGE_PLUS4_16KB_C1LO;
+                    id = CARTRIDGE_PLUS4_GENERIC_C1LO;
                     break;
                 case UICART_PLUS4_16KB_C1HI:
-                    id = CARTRIDGE_PLUS4_16KB_C1HI;
+                    id = CARTRIDGE_PLUS4_GENERIC_C1HI;
                     break;
                 case UICART_PLUS4_16KB_C2LO:
-                    id = CARTRIDGE_PLUS4_16KB_C2LO;
+                    id = CARTRIDGE_PLUS4_GENERIC_C2LO;
                     break;
                 case UICART_PLUS4_16KB_C2HI:
-                    id = CARTRIDGE_PLUS4_16KB_C2HI;
+                    id = CARTRIDGE_PLUS4_GENERIC_C2HI;
                     break;
-                /* case UICART_PLUS4_32KB_C0:
-                    id = CARTRIDGE_PLUS4_32KB_C0;
-                    break; */
                 case UICART_PLUS4_32KB_C1:
-                    id = CARTRIDGE_PLUS4_32KB_C1;
+                    id = CARTRIDGE_PLUS4_GENERIC_C1;
                     break;
                 case UICART_PLUS4_32KB_C2:
-                    id = CARTRIDGE_PLUS4_32KB_C2;
+                    id = CARTRIDGE_PLUS4_GENERIC_C2;
                     break;
                 case UICART_PLUS4_FREEZER:    /* fall through */
                 case UICART_PLUS4_GAME:       /* fall through */
@@ -660,6 +645,7 @@ static int attach_cart_image(int type, int id, const char *path)
                 case UICART_CBM2_16KB_6000:
                     id = CARTRIDGE_CBM2_16KB_6000;
                     break;
+                /* FIXME: add groups */
                 default:
                     /* oops */
                     debug_gtk3("error: shouldn't get here.");

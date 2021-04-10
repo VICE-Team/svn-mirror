@@ -26,6 +26,7 @@
  */
 
 #define DEBUGCART
+/* #define DEBUGCARTRW */
 
 #include "vice.h"
 
@@ -57,6 +58,12 @@
 #define DBG(x)  log_debug x
 #else
 #define DBG(x)
+#endif
+
+#ifdef DEBUGCARTRW
+#define DBGRW(x)  log_debug x
+#else
+#define DBGRW(x)
 #endif
 
 /*
@@ -98,8 +105,12 @@ static int mem_cartridge_type = CARTRIDGE_NONE;  /* Type of the cartridge attach
 
 static cartridge_info_t cartlist[] = {
     /* standard cartridges with CRT ID = 0 */
-    /* { CARTRIDGE_NAME_GENERIC_8KB,         CARTRIDGE_GENERIC_8KB,         CARTRIDGE_GROUP_GENERIC }, */
-
+/*
+    { "Raw 16KiB C1LO",                       CARTRIDGE_PLUS4_GENERIC_C1LO,      CARTRIDGE_GROUP_GENERIC },
+    { "Raw 16KiB C1HI",                       CARTRIDGE_PLUS4_GENERIC_C1HI,      CARTRIDGE_GROUP_GENERIC },
+    { "Raw 16KiB C2LO",                       CARTRIDGE_PLUS4_GENERIC_C2LO,      CARTRIDGE_GROUP_GENERIC },
+    { "Raw 16KiB C2HI",                       CARTRIDGE_PLUS4_GENERIC_C2HI,      CARTRIDGE_GROUP_GENERIC },
+*/
     /* all cartridges with a CRT ID > 0, alphabetically sorted */
     { CARTRIDGE_PLUS4_NAME_JACINT1MB,         CARTRIDGE_PLUS4_JACINT1MB,         CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_PLUS4_NAME_MAGIC,             CARTRIDGE_PLUS4_MAGIC,             CARTRIDGE_GROUP_UTIL },
@@ -206,7 +217,7 @@ static int try_cartridge_attach(int type, const char *filename)
                 return cartridge_attach_image(type, filename);
             }
         } else {
-            DBG(("cartridge_file does not exist: '%s'\n", filename));
+            DBG(("cartridge_file does not exist: '%s'", filename));
         }
     }
 
@@ -227,9 +238,9 @@ static int set_cartridge_type(int val, void *param)
             return -1;
     }
 
-/*    DBG(("cartridge_type: %d\n", val)); */
+    DBG(("set_cartridge_type: %d", val));
     if (cartridge_type != val) {
-        DBG(("cartridge_type changed: %d\n", val));
+        DBG(("cartridge_type changed: %d", val));
         cartridge_type = val;
         return try_cartridge_attach(cartridge_type, cartridge_file);
     }
@@ -241,7 +252,7 @@ static int set_cartridge_type(int val, void *param)
 */
 static int set_cartridge_file(const char *name, void *param)
 {
-/*    DBG(("cartridge_file: '%s'\n", name)); */
+    DBG(("set_cartridge_file: '%s'", name));
     if (cartridge_file == NULL) {
         util_string_set(&cartridge_file, ""); /* resource value modified */
     }
@@ -255,13 +266,13 @@ static int set_cartridge_file(const char *name, void *param)
         return 0;
     }
 
-    DBG(("cartridge_file changed: '%s'\n", name));
+    DBG(("cartridge_file changed: '%s'", name));
 
     if (util_file_exists(name)) {
         util_string_set(&cartridge_file, name); /* resource value modified */
         return try_cartridge_attach(cartridge_type, cartridge_file);
     } else {
-        DBG(("cartridge_file does not exist: '%s'\n", name));
+        DBG(("cartridge_file does not exist: '%s'", name));
         cartridge_type = CARTRIDGE_NONE; /* resource value modified */
         util_string_set(&cartridge_file, ""); /* resource value modified */
     }
@@ -273,7 +284,7 @@ static int set_cartridge_reset(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-/*    DBG(("plus4cartridge_reset: %d", val)); */
+    DBG(("set_cartridge_reset: %d", val));
     if (plus4cartridge_reset != val) {
         DBG(("plus4cartridge_reset changed: %d", val));
         plus4cartridge_reset = val; /* resource value modified */
@@ -322,8 +333,16 @@ void cartridge_resources_shutdown(void)
 /* expansion port memory read/write hooks */
 uint8_t plus4cart_c1lo_read(uint16_t addr)
 {
-    /* DBG(("plus4cart_c1lo_read mem_cartridge_type: %d addr: %04x", mem_cartridge_type, addr)); */
+    DBGRW(("plus4cart_c1lo_read mem_cartridge_type: %04x addr: %04x", (unsigned)mem_cartridge_type, addr));
+    if (CARTRIDGE_PLUS4_IS_GENERIC(mem_cartridge_type)) {
+        if ((mem_cartridge_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C1LO) {
+            return generic_c1lo_read(addr);
+        }
+    }
+
     switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_GENERIC:
+            return generic_c1lo_read(addr);
         case CARTRIDGE_PLUS4_JACINT1MB:
             return jacint1mb_c1lo_read(addr);
         case CARTRIDGE_PLUS4_MAGIC:
@@ -332,17 +351,26 @@ uint8_t plus4cart_c1lo_read(uint16_t addr)
             return multicart_c1lo_read(addr);
     }
     /* FIXME: when no cartridge is attached, we will probably read open i/o */
-    return generic_c1lo_read(addr);
+    return 0xff;
 }
 
 uint8_t plus4cart_c1hi_read(uint16_t addr)
 {
+    DBGRW(("plus4cart_c1hi_read mem_cartridge_type: %04x addr: %04x", (unsigned)mem_cartridge_type, addr));
+    if (CARTRIDGE_PLUS4_IS_GENERIC(mem_cartridge_type)) {
+        if ((mem_cartridge_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C1HI) {
+            return generic_c1hi_read(addr);
+        }
+    }
+
     switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_GENERIC:
+            return generic_c1hi_read(addr);
         case CARTRIDGE_PLUS4_MULTI:
             return multicart_c1hi_read(addr);
     }
     /* FIXME: when no cartridge is attached, we will probably read open i/o */
-    return generic_c1hi_read(addr);
+    return 0xff;
 }
 
 void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
@@ -391,12 +419,15 @@ static void cart_attach_from_snapshot(int type)
 
 static void plus4cart_detach_cartridges(void)
 {
-#if 0
+    DBG(("plus4cart_detach_cartridges"));
+#if 1
+    resources_set_string("c1loName", "");
+    resources_set_string("c1hiName", "");
     resources_set_string("c2loName", "");
     resources_set_string("c2hiName", "");
-    memset(extromlo3, 0, PLUS4_CART16K_SIZE);
-    memset(extromhi3, 0, PLUS4_CART16K_SIZE);
-    generic_detach();
+#endif
+#if 1
+    generic_detach(CARTRIDGE_PLUS4_GENERIC_C1 | CARTRIDGE_PLUS4_GENERIC_C2);
     jacint1mb_detach();
     magiccart_detach();
     multicart_detach();
@@ -408,33 +439,24 @@ static void plus4cart_detach_cartridges(void)
 
 void cartridge_detach_image(int type)
 {
+    DBG(("cartridge_detach_image type %04x", (unsigned)type));
     if (type < 0) {
         plus4cart_detach_cartridges();
     } else {
-        switch (type) {
-            /* FIXME: we probably shouldnt be able to detach these individually */
-            case CARTRIDGE_PLUS4_16KB_C1LO:
-                resources_set_string("c1loName", "");
-                break;
-            case CARTRIDGE_PLUS4_16KB_C1HI:
-                resources_set_string("c1hiName", "");
-                break;
-            case CARTRIDGE_PLUS4_16KB_C2LO:
-                resources_set_string("c2loName", "");
-                break;
-            case CARTRIDGE_PLUS4_16KB_C2HI:
-                resources_set_string("c2hiName", "");
-                break;
-
-            case CARTRIDGE_PLUS4_JACINT1MB:
-                jacint1mb_detach();
-                break;
-            case CARTRIDGE_PLUS4_MAGIC:
-                magiccart_detach();
-                break;
-            case CARTRIDGE_PLUS4_MULTI:
-                multicart_detach();
-                break;
+        if (CARTRIDGE_PLUS4_IS_GENERIC(type)) {
+            generic_detach(type);
+        } else {
+            switch (type) {
+                case CARTRIDGE_PLUS4_JACINT1MB:
+                    jacint1mb_detach();
+                    break;
+                case CARTRIDGE_PLUS4_MAGIC:
+                    magiccart_detach();
+                    break;
+                case CARTRIDGE_PLUS4_MULTI:
+                    multicart_detach();
+                    break;
+            }
         }
         cart_power_off();
     }
@@ -458,12 +480,12 @@ void cartridge_set_default(void)
                 type = plus4cart_type;
             }
         } else {
-            DBG(("cartridge_set_default: file does not exist: '%s'\n", cartfile ? cartfile : "NULL"));
+            DBG(("cartridge_set_default: file does not exist: '%s'", cartfile ? cartfile : "NULL"));
         }
     } else {
         DBG(("cartridge_set_default: no filename\n"));
     }
-    DBG(("cartridge_set_default: id %d '%s'\n", type, cartfile ? cartfile : "NULL"));
+    DBG(("cartridge_set_default: id %d '%s'", type, cartfile ? cartfile : "NULL"));
 
     if (type == CARTRIDGE_NONE) {
         util_string_set(&cartridge_file, ""); /* resource value modified */
@@ -487,7 +509,6 @@ int cartridge_detect(const char *filename)
     int type = CARTRIDGE_NONE;
     FILE *fd;
     size_t len;
-    unsigned char b[0x100];
 
     fd = fopen(filename, "rb");
     if (fd == NULL) {
@@ -495,24 +516,12 @@ int cartridge_detect(const char *filename)
     }
     len = util_file_length(fd);
 
-    /* there are so few carts that this little thing actually works :) */
     if (len == 8192) {
-        type = CARTRIDGE_PLUS4_16KB_C1LO;
+        type = CARTRIDGE_PLUS4_GENERIC_C1LO;
     } else if (len == 16384) {
-        type = CARTRIDGE_PLUS4_16KB_C1LO;
-        fseek(fd, 10, SEEK_SET);
-        if (fread(b, 1, 0x100, fd) < 0x100) {
-            fclose(fd);
-            return CARTRIDGE_NONE;
-        }
-        /* Octasoft Basic v7 */
-        if (!strncmp("SYS1546: BASIC V7.0 ON KEY F2", (const char*)b, 29)) {
-            type = CARTRIDGE_PLUS4_16KB_C2LO;
-        }
+        type = CARTRIDGE_PLUS4_GENERIC_C1LO;
     } else if (len == 32768) {
-        type = CARTRIDGE_PLUS4_32KB_C1;
-    } else if (len == 49152) {
-        type = CARTRIDGE_PLUS4_NEWROM;
+        type = CARTRIDGE_PLUS4_GENERIC_C1;
     }
 
     fclose (fd);
@@ -524,8 +533,8 @@ int cartridge_detect(const char *filename)
 
 int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
 {
-    if ((type & 0xff00) == CARTRIDGE_PLUS4_DETECT) {
-        return generic_bin_attach(type, filename);
+    if (CARTRIDGE_PLUS4_IS_GENERIC(type)) {
+        return generic_bin_attach(type, filename, rawcart);
     }
 
     switch (type) {
@@ -546,22 +555,23 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
     XYZ_config_setup should copy the raw cart image into the
     individual implementations array.
 */
-void cart_attach(int type, uint8_t *rawcart)
+static void cart_attach(int type, uint8_t *rawcart)
 {
     /* cart_detach_conflicting(type); */
-    switch (type) {
-        case CARTRIDGE_PLUS4_GENERIC:
-            generic_config_setup(rawcart);
-            break;
-        case CARTRIDGE_PLUS4_JACINT1MB:
-            jacint1mb_config_setup(rawcart);
-            break;
-        case CARTRIDGE_PLUS4_MAGIC:
-            magiccart_config_setup(rawcart);
-            break;
-        case CARTRIDGE_PLUS4_MULTI:
-            multicart_config_setup(rawcart);
-            break;
+    if (CARTRIDGE_PLUS4_IS_GENERIC(type)) {
+        generic_config_setup(rawcart);
+    } else {
+        switch (type) {
+            case CARTRIDGE_PLUS4_JACINT1MB:
+                jacint1mb_config_setup(rawcart);
+                break;
+            case CARTRIDGE_PLUS4_MAGIC:
+                magiccart_config_setup(rawcart);
+                break;
+            case CARTRIDGE_PLUS4_MULTI:
+                multicart_config_setup(rawcart);
+                break;
+        }
     }
 }
 
@@ -577,7 +587,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
     int rc, new_crttype;
     FILE *fd;
 
-    DBG(("crt_attach: %s\n", filename));
+    DBG(("crt_attach: %s", filename));
 
     fd = crt_open(filename, &header);
 
@@ -590,7 +600,8 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
         /* handle our negative test IDs */
         new_crttype -= 0x10000;
     }
-    DBG(("crt_attach ID: %d\n", new_crttype));
+
+    DBG(("crt_attach ID: %d", new_crttype));
 
 /*  cart should always be detached. there is no reason for doing fancy checks
     here, and it will cause problems incase a cart MUST be detached before
@@ -602,14 +613,12 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
     cartridge_detach_image(new_crttype);
 
     switch (new_crttype) {
-#if 0
         case CARTRIDGE_CRT:
             rc = generic_crt_attach(fd, rawcart);
             if (rc != CARTRIDGE_NONE) {
                 new_crttype = rc;
             }
             break;
-#endif
         case CARTRIDGE_PLUS4_JACINT1MB:
             rc = jacint1mb_crt_attach(fd, rawcart);
             break;
@@ -620,7 +629,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             rc = multicart_crt_attach(fd, rawcart);
             break;
         default:
-            archdep_startup_log_error("unknown CRT ID: %d\n", new_crttype);
+            archdep_startup_log_error("unknown CRT ID: %d", new_crttype);
             rc = -1;
             break;
     }
@@ -628,10 +637,10 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
     fclose(fd);
 
     if (rc == -1) {
-        DBG(("crt_attach error (%d)\n", rc));
+        DBG(("crt_attach error (%d)", rc));
         return -1;
     }
-    DBG(("crt_attach return ID: %d\n", new_crttype));
+    DBG(("crt_attach return ID: %d", new_crttype));
     return new_crttype;
 }
 
@@ -667,13 +676,13 @@ int cartridge_attach_image(int type, const char *filename)
         abs_filename = lib_strdup(filename);
     }
 
-    DBG(("CART: detach slot main ID: %d\n", mem_cartridge_type));
+    DBG(("CART: detach slot main ID: %d", mem_cartridge_type));
     cartridge_detach_image(mem_cartridge_type);
 
     if (type == CARTRIDGE_PLUS4_DETECT) {
         type = cartridge_detect(filename);
     }
-#if 1 /* FIXME */
+
     if (type == CARTRIDGE_CRT) {
         carttype = crt_getid(abs_filename);
         if (carttype == -1) {
@@ -681,30 +690,25 @@ int cartridge_attach_image(int type, const char *filename)
             lib_free(abs_filename);
             return -1;
         }
-    } else 
-#endif
-    {
+    } else {
         carttype = type;
     }
-    DBG(("CART: cartridge_attach_image type: %d ID: %d\n", type, cartid));
+    DBG(("CART: cartridge_attach_image type: %d ID: %d", type, cartid));
 
     /* allocate temporary array */
     rawcartdata = lib_malloc(PLUS4CART_IMAGE_LIMIT);
 
-#if 1
     if (type == CARTRIDGE_CRT) {
-        DBG(("CART: attach CRT ID: %d '%s'\n", carttype, filename));
+        DBG(("CART: attach CRT ID: %d '%s'", carttype, filename));
         cartid = crt_attach(abs_filename, rawcartdata);
         if (cartid == CARTRIDGE_NONE) {
             goto exiterror;
         }
         if (type < 0) {
-            DBG(("CART: attach generic CRT ID: %d\n", type));
+            DBG(("CART: attach generic CRT ID: %d", type));
         }
-    } else 
-#endif
-    {
-       DBG(("CART: attach BIN ID: %d '%s'\n", carttype, filename));
+    } else {
+       DBG(("CART: attach BIN ID: %d '%s'", carttype, filename));
         cartid = carttype;
         if (cart_bin_attach(cartid, abs_filename, rawcartdata) < 0) {
             goto exiterror;
@@ -716,14 +720,14 @@ int cartridge_attach_image(int type, const char *filename)
     cart_attach(cartid, rawcartdata);
     cart_power_off();
 
-    DBG(("CART: set ID: %d type: %d\n", carttype, type));
+    DBG(("CART: set ID: %d type: %d", carttype, type));
     plus4cart_type = type;
     if (type == CARTRIDGE_CRT) {
         crttype = carttype;
     }
     util_string_set(&cartfile, abs_filename);
 
-    DBG(("CART: cartridge_attach_image type: %d ID: %d done.\n", type, cartid));
+    DBG(("CART: cartridge_attach_image type: %d ID: %d done.", type, cartid));
     lib_free(rawcartdata);
     log_message(LOG_DEFAULT, "CART: attached '%s' as ID %d.", filename, cartid);
     return 0;
@@ -743,7 +747,7 @@ void cartridge_trigger_freeze(void)
     cart_freeze_alarm_time = maincpu_clk + delay;
     alarm_set(cartridge_freeze_alarm, cart_freeze_alarm_time);
 #endif
-    DBG(("cartridge_trigger_freeze delay %d cycles\n", delay));
+    DBG(("cartridge_trigger_freeze delay %d cycles", delay));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -839,7 +843,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
             default:
                 /* If the cart cannot be saved, we obviously can't load it either.
                    Returning an error at this point is better than failing at later. */
-                DBG(("CART snapshot save: cart %i handler missing\n", cart_ids[i]));
+                DBG(("CART snapshot save: cart %i handler missing", cart_ids[i]));
                 return -1;
         }
     }
@@ -889,7 +893,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
     }
 
     if (number_of_carts > PLUS4CART_DUMP_MAX_CARTS) {
-        DBG(("CART snapshot read: carts %i > max %i\n", number_of_carts, PLUS4CART_DUMP_MAX_CARTS));
+        DBG(("CART snapshot read: carts %i > max %i", number_of_carts, PLUS4CART_DUMP_MAX_CARTS));
         goto fail;
     }
 
@@ -940,7 +944,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
 
             default:
-                DBG(("CART snapshot read: cart %i handler missing\n", cart_ids[i]));
+                DBG(("CART snapshot read: cart %i handler missing", cart_ids[i]));
                 goto fail2;
         }
     }
