@@ -202,8 +202,10 @@ static int alsa_bufferspace(void)
 
 static void alsa_close(void)
 {
-    snd_pcm_close(handle);
-    handle = NULL;
+    if (handle) {
+        snd_pcm_close(handle);
+        handle = NULL;
+    }
     alsa_bufsize = 0;
     alsa_fragsize = 0;
 }
