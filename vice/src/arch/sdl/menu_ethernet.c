@@ -101,13 +101,13 @@ static UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
     } else {
         for (i = 0; (rawnet_enumadapter(&pname, &pdescription)) && (i < MAXINTERFACES); i++) {
             if (pdescription) {
-                ethernet_interface_dyn_menu[i].string = (char *)lib_strdup(pdescription);
+                ethernet_interface_dyn_menu[i].string = pdescription;
             } else {
-                ethernet_interface_dyn_menu[i].string = (char *)lib_strdup(pname);
+                ethernet_interface_dyn_menu[i].string = lib_strdup(pname);
             }
             ethernet_interface_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
             ethernet_interface_dyn_menu[i].callback = radio_ETHERNET_INTERFACE_callback;
-            ethernet_interface_dyn_menu[i].data = (ui_callback_data_t)(char *)lib_strdup(pname);
+            ethernet_interface_dyn_menu[i].data = (ui_callback_data_t)pname;
         }
         ethernet_interface_dyn_menu[i].string = NULL;
         ethernet_interface_dyn_menu[i].type = 0;
@@ -142,13 +142,13 @@ static UI_MENU_CALLBACK(ETHERNET_DRIVER_dynmenu_callback)
     } else {
         for (i = 0; (rawnet_enumdriver(&pname, &pdescription)) && (i < MAXDRIVERS); i++) {
             if (pdescription) {
-                ethernet_driver_dyn_menu[i].string = (char *)lib_strdup(pdescription);
+                ethernet_driver_dyn_menu[i].string = pdescription;
             } else {
-                ethernet_driver_dyn_menu[i].string = (char *)lib_strdup(pname);
+                ethernet_driver_dyn_menu[i].string = lib_strdup(pname);
             }
             ethernet_driver_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
             ethernet_driver_dyn_menu[i].callback = radio_ETHERNET_DRIVER_callback;
-            ethernet_driver_dyn_menu[i].data = (ui_callback_data_t)(char *)lib_strdup(pname);
+            ethernet_driver_dyn_menu[i].data = (ui_callback_data_t)pname;
         }
         ethernet_driver_dyn_menu[i].string = NULL;
         ethernet_driver_dyn_menu[i].type = 0;
