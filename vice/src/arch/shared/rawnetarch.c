@@ -168,6 +168,10 @@ int rawnet_arch_resources_init(void)
         if (resources_register_string(resources_string) < 0) {
             return -1;
         }
+        /* make sure the respective function pointers are initialized, so the
+           ETHERNET_INTERFACE init can use rawnet_get_standard_interface() to
+           set the proper default value */
+        set_ethernet_driver(default_driver, NULL);
         rawnet_arch_resources_init_done = 1;
     }
     return 0;
