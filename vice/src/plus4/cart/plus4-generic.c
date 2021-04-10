@@ -26,6 +26,7 @@
  */
 
 #define DEBUGGENERIC
+/* #define DEBUGGENERICRW */
 
 #include "vice.h"
 
@@ -35,6 +36,7 @@
 #include "cartridge.h"
 #include "cartio.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -53,6 +55,12 @@
 #define DBG(x)
 #endif
 
+#ifdef DEBUGGENERICRW
+#define DBGRW(x)  log_debug x
+#else
+#define DBGRW(x)
+#endif
+
 /* FIXME: get rid of this ugly hack */
 extern int plus4_rom_loaded;
 
@@ -69,11 +77,13 @@ uint8_t extromhi2[PLUS4_C1HI_ROM_SIZE];
 
 uint8_t generic_c1lo_read(uint16_t addr)
 {
+    DBGRW(("generic_c1lo_read %04x %02x", addr, extromlo2[addr & 0x3fff]));
     return extromlo2[addr & 0x3fff];
 }
 
 uint8_t generic_c1hi_read(uint16_t addr)
 {
+    DBGRW(("generic_c1hi_read %04x %02x", addr, extromhi2[addr & 0x3fff]));
     return extromhi2[addr & 0x3fff];
 }
 
@@ -87,139 +97,220 @@ uint8_t generic_c1hi_read(uint16_t addr)
           update c1lo/c2hi accordingly */
 void generic_config_setup(uint8_t *rawcart)
 {
-    DBG(("generic_config_setup\n"));
-    memcpy(extromlo2, rawcart, PLUS4_C1LO_ROM_SIZE);
-    memcpy(extromhi2, rawcart, PLUS4_C1HI_ROM_SIZE);
+    DBG(("generic_config_setup"));
+    if ((generic_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C1LO) {
+        memcpy(extromlo2, rawcart, PLUS4_C1LO_ROM_SIZE);
+        DBG(("generic_config_setup c1lo"));
+    }
+    if ((generic_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C1HI) {
+        memcpy(extromhi2, rawcart + 0x4000, PLUS4_C1HI_ROM_SIZE);
+        DBG(("generic_config_setup c1hi"));
+    }
+    if ((generic_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C2LO) {
+        memcpy(extromlo3, rawcart + 0x8000, PLUS4_C2LO_ROM_SIZE);
+        DBG(("generic_config_setup c2lo"));
+    }
+    if ((generic_type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) & CARTRIDGE_PLUS4_GENERIC_C2HI) {
+        memcpy(extromhi3, rawcart + 0xc000, PLUS4_C2HI_ROM_SIZE);
+        DBG(("generic_config_setup c2hi"));
+    }
 }
 
-/* FIXME: this is totally wrong, we should only use c1lo/c1hi for generic */
-/* FIXME: also use rawcart */
-int generic_bin_attach(int type, const char *filename)
+/* FIXME: alloc ROMs here */
+static int generic_common_attach(void)
+{
+    DBG(("generic_common_attach (type :%04x)", (unsigned)generic_type));
+
+    return generic_type;
+}
+
+/* since we also need to handle adding to existing carts, copy the old
+   content to the new rawcart first */
+static void prepare_rawcart(uint8_t *rawcart)
+{
+    memcpy(rawcart, extromlo2, PLUS4_C1LO_ROM_SIZE);
+    memcpy(rawcart + 0x4000, extromhi2, PLUS4_C1HI_ROM_SIZE);
+    memcpy(rawcart + 0x8000, extromlo3, PLUS4_C2LO_ROM_SIZE);
+    memcpy(rawcart + 0xc000, extromhi3, PLUS4_C2HI_ROM_SIZE);
+}
+
+/* FIXME: handle mirroring of 4k/8k ROMs */
+int generic_bin_attach(int type, const char *filename, uint8_t *rawcart)
 {
     FILE *fd;
-    unsigned char *blocks[6] = {
-        extromlo1, extromhi1, extromlo2, extromhi2, extromlo3, extromhi3
-    };
     int i;
+    int offset = 0;
+
+    DBG(("generic_bin_attach type: %04x", (unsigned)type));
 
     fd = fopen(filename, "rb");
     if (fd == NULL) {
         return -1;
     }
-    for (i = 0; i < 6; i++) {
-        if (type & 1) {
-            memset(blocks[i], 0, PLUS4_CART16K_SIZE);
-            log_debug("loading block %d", i);
-            if (fread(blocks[i], 1, PLUS4_CART16K_SIZE, fd) < PLUS4_CART16K_SIZE) {
-                break;
-            }
+
+    prepare_rawcart(rawcart);
+
+    /* get offset of first block */
+    switch (type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK) {
+        case CARTRIDGE_PLUS4_GENERIC_C1LO & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK:
+            offset = 0;
+            break;
+        case CARTRIDGE_PLUS4_GENERIC_C1HI & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK:
+            offset = 0x4000;
+            break;
+        case CARTRIDGE_PLUS4_GENERIC_C2LO & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK:
+            offset = 0x8000;
+            break;
+        case CARTRIDGE_PLUS4_GENERIC_C2HI & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK:
+            offset = 0xc000;
+            break;
+    }
+    for (i = 0; i < 4; i++) {
+        memset(&rawcart[offset], 0xff, PLUS4_CART16K_SIZE);
+        if (fread(&rawcart[offset], 1, PLUS4_CART16K_SIZE, fd) < PLUS4_CART16K_SIZE) {
+            break;
         }
-        type >>= 1;
+        DBG(("loaded block %d offset %04x", i, (unsigned)offset));
+        offset += PLUS4_CART16K_SIZE;
     }
     fclose (fd);
+    /*return type;*/
+    generic_type |= type;
 
-    return 0;
+    DBG(("generic_bin_attach generic_type: %04x", (unsigned)generic_type));
+
+    return generic_common_attach();
+}
+
+/* FIXME: handle mirroring of 4k/8k ROMs */
+int generic_crt_attach(FILE *fd, uint8_t *rawcart)
+{
+    crt_chip_header_t chip;
+    int i;
+    int offset = 0, newtype = 0;
+
+    DBG(("generic_crt_attach"));
+
+    prepare_rawcart(rawcart);
+
+    for (i = 0; i < 4; i++) {
+        if (crt_read_chip_header(&chip, fd)) {
+            break;
+        }
+
+        DBG(("bank: %d start: %04x size: %04x", chip.bank, chip.start, chip.size));
+
+        if (chip.bank == 0) {
+            /* c1 rom */
+            if (chip.start == 0x8000) {
+                /* c1lo */
+                offset = 0;
+                newtype = CARTRIDGE_PLUS4_GENERIC_C1LO;
+            } else if (chip.start == 0xc000) {
+                /* c1hi */
+                offset = 0x4000;
+                newtype = CARTRIDGE_PLUS4_GENERIC_C1HI;
+            } else {
+                return -1;
+            }
+        } else if (chip.bank == 1) {
+            /* c2 rom */
+            if (chip.start == 0x8000) {
+                /* c2lo */
+                offset = 0x8000;
+                newtype = CARTRIDGE_PLUS4_GENERIC_C2LO;
+            } else if (chip.start == 0xc000) {
+                /* c2hi */
+                offset = 0xc000;
+                newtype = CARTRIDGE_PLUS4_GENERIC_C2HI;
+            } else {
+                return -1;
+            }
+        } else {
+            return -1;
+        }
+
+        /* accept 4k,8k,16k banks */
+        if (!((chip.size == 0x1000) || (chip.size == 0x2000) || (chip.size == 0x4000))) {
+            return -1;
+        }
+
+        generic_type &= ~newtype;
+        DBG(("offset: %04x size: %04x", (unsigned)offset, chip.size));
+        memset(&rawcart[offset], 0xff, 0x4000);
+        if (crt_read_chip(rawcart, offset, &chip, fd)) {
+            return -1;
+        }
+        generic_type |= newtype;
+        DBG(("generic_type: %04x", (unsigned)generic_type));
+        DBG(("%02x %02x %02x %02x", rawcart[offset+0], rawcart[offset+1], rawcart[offset+2], rawcart[offset+3]));
+    }
+
+    return generic_common_attach();
 }
 
 /* c1lo is always external cartridge */
 int plus4cart_load_c1lo(const char *rom_name)
 {
-    unsigned char *rawcartdata; /* FIXME: should happen in cartridge_attach_image */
-    unsigned int len;
-    FILE *fd;
+#if 0
 
     if (!plus4_rom_loaded) {
         return 0;
     }
-    DBG(("plus4cart_load_c1lo '%s'\n", rom_name));
-
-    DBG(("clearing c1lo"));
-    memset(extromlo2, 0xff, PLUS4_CART16K_SIZE);
+#endif
+    DBG(("plus4cart_load_c1lo '%s'", rom_name));
 
     if ((rom_name == NULL) || (*rom_name == 0)) {
         return 0;
     }
 
-    fd = fopen(rom_name, MODE_READ);
-    if (fd == NULL) {
-        return -1;
-    }
-    len = (unsigned int)util_file_length(fd);
-    fclose(fd);
-
-    /* allocate temporary array */
-    /* FIXME: should happen in cartridge_attach_image */
-    rawcartdata = lib_malloc(PLUS4CART_ROM_LIMIT);
-
-    DBG(("plus4cart_load_c1lo len: %02x\n", len));
-
-    /* Load c1 low ROM.  */
-    switch (len) {
-        case 0x2000: /* 8K */
-            if (util_file_load(rom_name, rawcartdata, PLUS4_CART8K_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                return -1;
-            }
-            /* create a mirror for 8k ROM */
-            memcpy(extromlo2, rawcartdata, PLUS4_CART8K_SIZE);
-            memcpy(&extromlo2[PLUS4_CART8K_SIZE], rawcartdata, PLUS4_CART8K_SIZE);
-            break;
-        case 0x4000: /* 16K */
-            if (util_file_load(rom_name, rawcartdata, PLUS4_CART16K_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                return -1;
-            }
-            memcpy(extromlo2, rawcartdata, PLUS4_CART16K_SIZE);
-            break;
-        case 0x8000: /* 32K */ /* FIXME: this doesnt seem to work */
-            if (util_file_load(rom_name, rawcartdata, PLUS4_CART16K_SIZE * 2, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                return -1;
-            }
-            memcpy(extromlo2, rawcartdata, PLUS4_CART16K_SIZE);
-            memcpy(extromhi2, &rawcartdata[PLUS4_CART16K_SIZE], PLUS4_CART16K_SIZE);
-            break;
-        default:
-            return -1;
-    }
-
-    lib_free(rawcartdata); /* FIXME: should happen in cartridge_attach_image */
-
-    return 0;
+    return cartridge_attach_image(CARTRIDGE_PLUS4_GENERIC_C1LO, rom_name);
 }
 
 /* c1hi is always external cartridge */
 int plus4cart_load_c1hi(const char *rom_name)
 {
+#if 0
     if (!plus4_rom_loaded) {
         return 0;
     }
+#endif
+    DBG(("plus4cart_load_c1hi '%s'", rom_name));
 
-    /* Load c1 high ROM.  */
-    if (*rom_name != 0) {
-        if (sysfile_load(rom_name, machine_name, extromhi2, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
-            log_error(LOG_ERR,
-                      "Couldn't load cartridge 1 high ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    } else {
-        DBG(("clearing c1hi\n"));
-        memset(extromhi2, 0, PLUS4_CART16K_SIZE);
+    if ((rom_name == NULL) || (*rom_name == 0)) {
+        return 0;
     }
-    return 0;
+
+    return cartridge_attach_image(CARTRIDGE_PLUS4_GENERIC_C1HI, rom_name);
 }
 
-void generic_detach(void)
+void generic_detach(int type)
 {
-    /* FIXME: this is broken */
-    resources_set_string("c1loName", "");
-    resources_set_string("c1hiName", "");
-    memset(extromlo2, 0, PLUS4_CART16K_SIZE);
-    memset(extromhi2, 0, PLUS4_CART16K_SIZE);
+    DBG(("generic_detach type: '%04x'", (unsigned)type));
+    if (type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK & CARTRIDGE_PLUS4_GENERIC_C1LO) {
+        resources_set_string("c1loName", "");
+        memset(extromlo2, 0xff, PLUS4_CART16K_SIZE);
+    }
+    if (type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK & CARTRIDGE_PLUS4_GENERIC_C1HI) {
+        resources_set_string("c1hiName", "");
+        memset(extromhi2, 0xff, PLUS4_CART16K_SIZE);
+    }
+    if (type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK & CARTRIDGE_PLUS4_GENERIC_C2LO) {
+        resources_set_string("c2loName", "");
+        memset(extromlo3, 0xff, PLUS4_CART16K_SIZE);
+    }
+    if (type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK & CARTRIDGE_PLUS4_GENERIC_C2HI) {
+        resources_set_string("c2hiName", "");
+        memset(extromhi3, 0xff, PLUS4_CART16K_SIZE);
+    }
 
-    generic_type = 0;
+    generic_type &= ~(type & CARTRIDGE_PLUS4_GENERIC_TYPE_MASK);
 }
 
+#if 1
 static int set_c1lo_rom_name(const char *val, void *param)
 {
+    DBG(("set_c1lo_rom_name '%s'", val));
     if (util_string_set(&c1lo_rom_name, val)) {
         return 0;
     }
@@ -229,6 +320,7 @@ static int set_c1lo_rom_name(const char *val, void *param)
 
 static int set_c1hi_rom_name(const char *val, void *param)
 {
+    DBG(("set_c1hi_rom_name '%s'", val));
     if (util_string_set(&c1hi_rom_name, val)) {
         return 0;
     }
@@ -236,6 +328,7 @@ static int set_c1hi_rom_name(const char *val, void *param)
     return plus4cart_load_c1hi(c1hi_rom_name);
 }
 
+/* FIXME: this clashes with the general default cartridge name */
 static const resource_string_t resources_string[] = {
     { "c1loName", "", RES_EVENT_NO, NULL,
       &c1lo_rom_name, set_c1lo_rom_name, NULL },
@@ -243,33 +336,18 @@ static const resource_string_t resources_string[] = {
       &c1hi_rom_name, set_c1hi_rom_name, NULL },
     RESOURCE_STRING_LIST_END
 };
+#endif
 
 int generic_resources_init(void)
 {
+#if 1
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
-
+#endif
     /* return resources_register_int(resources_int); */
     return 0;
 }
-
-/* FIXME: load c1 cartridge at startup when it is default */
-#if 0
-    if (resources_get_string("c1loName", &rom_name) < 0) {
-        return -1;
-    }
-    if (plus4cart_load_c1lo(rom_name) < 0) {
-        return -1;
-    }
-
-    if (resources_get_string("c1hiName", &rom_name) < 0) {
-        return -1;
-    }
-    if (plus4cart_load_c1hi(rom_name) < 0) {
-        return -1;
-    }
-#endif
 
 void generic_resources_shutdown(void)
 {
@@ -314,7 +392,7 @@ int generic_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    DBG(("generic_snapshot_write_module\n"));
+    DBG(("generic_snapshot_write_module"));
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
@@ -339,7 +417,7 @@ int generic_snapshot_read_module(snapshot_t *s)
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
-    DBG(("generic_snapshot_read_module\n"));
+    DBG(("generic_snapshot_read_module"));
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 

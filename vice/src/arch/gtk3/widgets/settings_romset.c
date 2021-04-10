@@ -224,8 +224,8 @@ static const romset_entry_t plus4_machine_roms[] = {
     { "BasicName",          "Basic",            NULL },
     { "FunctionLowName",    "3 Plus 1 LO ROM",  NULL },
     { "FunctionHighName",   "3 Plus 1 HI ROM",  NULL },
-    { "c1loName",           "c1 LO ROM",        NULL },
-    { "c1hiName",           "c1 HI ROM",        NULL },
+/*  { "c1loName",           "c1 LO ROM",        NULL },
+    { "c1hiName",           "c1 HI ROM",        NULL }, */
     { "c2loName",           "c2 LO ROM",        NULL },
     { "c2hiName",           "c2 HI ROM",        NULL },
     { NULL,                 NULL,               NULL }

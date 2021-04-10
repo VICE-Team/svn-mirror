@@ -33,8 +33,9 @@ extern uint8_t generic_c1hi_read(uint16_t addr);
 
 extern void generic_config_setup(uint8_t *rawcart);
 
-extern int generic_bin_attach(int type, const char *filename);
-extern void generic_detach(void);
+extern int generic_crt_attach(FILE *fd, uint8_t *rawcart);
+extern int generic_bin_attach(int type, const char *filename, uint8_t *rawcart);
+extern void generic_detach(int type);
 
 extern int generic_resources_init(void);
 extern void generic_resources_shutdown(void);

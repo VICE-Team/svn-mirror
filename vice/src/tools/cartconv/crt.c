@@ -10,6 +10,7 @@
 
 #include "crt.h"
 
+#include "cartconv.h"
 extern unsigned char cart_subtype;
 extern signed char cart_type;
 extern char *cart_name;
@@ -72,6 +73,7 @@ int read_crt_header(char *filename)
 
 int write_crt_header(unsigned char gameline, unsigned char exromline)
 {
+    const cart_t *cartinfo;
     unsigned char crt_header[CRT_HEADER_LEN] = "C64 CARTRIDGE   ";
     int endofname = 0;
     int version_hi = 1;
@@ -116,7 +118,12 @@ int write_crt_header(unsigned char gameline, unsigned char exromline)
     crt_header[0x1f] = 0;
 
     if (cart_name == NULL) {
-        cart_name = strdup("VICE CART");
+        /* cart_name = strdup("VICE CART"); */
+        cartinfo = find_cartinfo_from_crtid(cart_type, machine_class);
+        cart_name = strdup(cartinfo->name);
+        if (strlen(cart_name) > 32) {
+            cart_name[32] = 0;
+        }
     }
 
     for (i = 0; i < 32; i++) {

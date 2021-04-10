@@ -146,7 +146,7 @@ int plus4cart_load_func_lo(const char *rom_name)
             return -1;
         }
     } else {
-        memset(extromlo1, 0, PLUS4_CART16K_SIZE);
+        memset(extromlo1, 0xff, PLUS4_CART16K_SIZE);
     }
     return 0;
 }
@@ -166,7 +166,7 @@ int plus4cart_load_func_hi(const char *rom_name)
             return -1;
         }
     } else {
-        memset(extromhi1, 0, PLUS4_CART16K_SIZE);
+        memset(extromhi1, 0xff, PLUS4_CART16K_SIZE);
     }
     return 0;
 }
@@ -187,7 +187,7 @@ int plus4cart_load_c2lo(const char *rom_name)
             return -1;
         }
     } else {
-        memset(extromlo3, 0, PLUS4_CART16K_SIZE);
+        /* memset(extromlo3, 0xff, PLUS4_CART16K_SIZE); */
     }
     return 0;
 }
@@ -208,7 +208,7 @@ int plus4cart_load_c2hi(const char *rom_name)
             return -1;
         }
     } else {
-        memset(extromhi3, 0, PLUS4_CART16K_SIZE);
+        /* memset(extromhi3, 0xff, PLUS4_CART16K_SIZE); */
     }
     return 0;
 }
