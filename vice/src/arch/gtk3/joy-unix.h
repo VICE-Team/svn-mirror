@@ -64,11 +64,7 @@ void usb_joystick(void);
 #ifdef HAS_USB_JOYSTICK
 #  define JOYDEV_MAX          JOYDEV_USB_1
 #else
-#  ifdef HAS_DIGITAL_JOYSTICK
-#    define JOYDEV_MAX        JOYDEV_DIGITAL_1
-#  else
 #    define JOYDEV_MAX        JOYDEV_ANALOG_7
-#  endif
 #endif
 
 void joystick_ui_reset_device_list(void);

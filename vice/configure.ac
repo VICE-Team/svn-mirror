@@ -447,7 +447,6 @@ BSD_JOYSTICK_SUPPORT="no "
 DEBUG_SUPPORT="no "
 DEBUG_THREADS_SUPPORT="no "
 FEATURE_CPUMEMHISTORY_SUPPORT="no "
-HAS_DIGITAL_JOYSTICK_SUPPORT="no "
 HAS_HIDMGR_SUPPORT="no "
 HAS_USB_JOYSTICK_SUPPORT="no "
 HAVE_AUDIO_UNIT_SUPPORT="no "
@@ -3912,7 +3911,6 @@ if test x"$real_arch" = "xUnix"; then
     if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
         echo "Linux style joystick support: $LINUX_JOYSTICK_SUPPORT"
         echo "BSD style joystick support  : $BSD_JOYSTICK_SUPPORT"
-        echo "Digital joystick support    : $HAS_DIGITAL_JOYSTICK_SUPPORT"
         echo "USB joystick support        : $HAS_USB_JOYSTICK_SUPPORT"
     fi
 fi
