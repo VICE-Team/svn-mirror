@@ -89,4 +89,27 @@ char *rawnet_get_standard_interface(void)
 {
     return rawnet_arch_get_standard_interface();
 }
+
+int rawnet_enumdriver_open(void)
+{
+    if (!rawnet_arch_enumdriver_open()) {
+        return 0;
+    }
+    return 1;
+}
+
+int rawnet_enumdriver(char **ppname, char **ppdescription)
+{
+    return rawnet_arch_enumdriver(ppname, ppdescription);
+}
+
+int rawnet_enumdriver_close(void)
+{
+    return rawnet_arch_enumdriver_close();
+}
+
+char *rawnet_get_standard_driver(void)
+{
+    return rawnet_arch_get_standard_driver();
+}
 #endif /* #ifdef HAVE_RAWNET */

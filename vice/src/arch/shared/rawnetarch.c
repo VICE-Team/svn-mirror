@@ -388,4 +388,87 @@ char *rawnet_arch_get_standard_interface(void)
 
 #endif /* ifdef UNIX_COMPILE */
 
+static int rawnetdriverindex = -1;
+static char *rawnetdrivernames[] = {
+    "none",
+#ifdef HAVE_TUNTAP
+    "tuntap",
+#endif
+#ifdef HAVE_PCAP
+    "pcap",
+#endif
+    NULL
+};
+
+static char *rawnetdriverdescs[] = {
+    "none",
+#ifdef HAVE_TUNTAP
+    "tun/tap",
+#endif
+#ifdef HAVE_PCAP
+    "PCAP",
+#endif
+    NULL
+};
+
+int rawnet_arch_enumdriver_open(void)
+{
+    rawnetdriverindex = 0;
+    /* HACK! remove pcap from the list when its not available */
+#ifdef HAVE_PCAP
+    if (!archdep_rawnet_capability()) {
+#ifdef HAVE_TUNTAP
+        rawnetdrivernames[2] = NULL;
+        rawnetdriverdescs[2] = NULL;
+#else
+        rawnetdrivernames[1] = NULL;
+        rawnetdriverdescs[1] = NULL;
+#endif
+    }
+#endif
+    return 1;
+}
+
+int rawnet_arch_enumdriver(char **ppname, char **ppdescription)
+{
+    char *name, *desc;
+    if (rawnetdriverindex >= 0) {
+        name = rawnetdrivernames[rawnetdriverindex];
+        desc = rawnetdriverdescs[rawnetdriverindex];
+        if ((name == NULL) || (desc == NULL)) {
+            rawnetdriverindex = -1;
+            return 0;
+        }
+        if (ppname) {
+            *ppname = lib_strdup(name);
+        }
+        if (ppdescription) {
+            *ppdescription = lib_strdup(desc);
+        }
+        rawnetdriverindex++;
+        return 1;
+    }
+    return 0;
+}
+
+int rawnet_arch_enumdriver_close(void)
+{
+    rawnetdriverindex = -1;
+    return 1;
+}
+
+char *rawnet_arch_get_standard_driver(void)
+{
+#ifdef HAVE_PCAP
+    if (archdep_rawnet_capability()) {
+        return "pcap";
+    }
+#endif
+#ifdef HAVE_TUNTAP
+    return "tuntap";
+#endif
+    /* we should never come here */
+    return "none";
+}
+
 #endif  /* ifdef HAVE_RAWNET */

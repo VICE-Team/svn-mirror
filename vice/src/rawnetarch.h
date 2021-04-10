@@ -67,8 +67,12 @@ extern int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int *phashed, int *p
 extern int rawnet_arch_enumadapter_open(void);
 extern int rawnet_arch_enumadapter(char **ppname, char **ppdescription);
 extern int rawnet_arch_enumadapter_close(void);
-
 extern char *rawnet_arch_get_standard_interface(void);
+
+extern int rawnet_arch_enumdriver_open(void);
+extern int rawnet_arch_enumdriver(char **ppname, char **ppdescription);
+extern int rawnet_arch_enumdriver_close(void);
+extern char *rawnet_arch_get_standard_driver(void);
 
 #ifdef UNIX_COMPILE
 
