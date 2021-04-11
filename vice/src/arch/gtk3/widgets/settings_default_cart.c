@@ -134,6 +134,8 @@ static void update_cart_type_widget(void)
  */
 static void update_buttons(void)
 {
+    /* Faulty logic: */
+#if 0
     const char *filename = NULL;
 
     resources_get_string("CartridgeFile", &filename);
@@ -145,6 +147,7 @@ static void update_buttons(void)
         gtk_widget_set_sensitive(set_default_button, TRUE);
         gtk_widget_set_sensitive(remove_button, FALSE);
     }
+#endif
 }
 
 
