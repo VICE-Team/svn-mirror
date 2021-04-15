@@ -278,7 +278,10 @@ static void update_model_widget(int model)
  */
 static GtkWidget *create_runtime_widget(void)
 {
-    GtkWidget *label = gtk_label_new("0:00:00.000 / 0:00:00.000");
+    GtkWidget *label;
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<tt>0:00:00.000 / 0:00:00.000</tt>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     return label;
 }
@@ -315,12 +318,15 @@ static void update_runtime_widget(unsigned int dsec)
         unsigned int th = (unsigned int)(total / 1000 / 60 / 60);
 
 
-        g_snprintf(buffer, 256, "%u:%02u:%02u.%03u / %u:%02u:%02u.%03u",
+        g_snprintf(buffer, sizeof(buffer),
+                "<tt>%u:%02u:%02u.%03u / %u:%02u:%02u.%03u</tt>",
                 h, m, s, f, th, tm, ts, tf);
     } else {
-        g_snprintf(buffer, 256, "%u:%02u:%02u.%03u", h, m, s, f);
+        g_snprintf(buffer, sizeof(buffer),
+                "<tt>%u:%02u:%02u.%03u</tt>",
+                h, m, s, f);
     }
-    gtk_label_set_text(GTK_LABEL(runtime_widget), buffer);
+    gtk_label_set_markup(GTK_LABEL(runtime_widget), buffer);
 }
 
 
