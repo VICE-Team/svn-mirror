@@ -86,6 +86,7 @@
 #include "gs.h"
 #include "hero.h"
 #include "ide64.h"
+#include "ieeeflash64.h"
 #include "isepic.h"
 #include "kcs.h"
 #include "kingsoft.h"
@@ -262,6 +263,14 @@ void cart_config_changed_slot0(uint8_t mode_phi1, uint8_t mode_phi2, unsigned in
     assert((wflag & CMODE_PHI2_RAM) == 0);
     assert((wflag & CMODE_EXPORT_RAM) == 0);
 
+#ifdef DEBUGCART
+    static int old1 = 0, old2 = 0, old3 = 0;
+    if ((mode_phi1 != old1) || (mode_phi2 != old2) || (wflag != old3)) {
+        DBG(("CARTMEM: cart_config_changed_slot0 phi1:%d phi2:%d bank: %d flags:%02x\n", mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
+    }
+    old1 = mode_phi1; old2 = mode_phi2; old3 = wflag;
+#endif
+
 #ifndef USESLOTS
     cart_config_changed(0, mode_phi1, mode_phi2, wflag);
 #else
@@ -320,6 +329,9 @@ void cart_passthrough_changed(void)
             break;
         case CARTRIDGE_IEEE488:
             tpi_passthrough_changed(&export_passthrough);
+            break;
+        case CARTRIDGE_IEEEFLASH64:
+            ieeeflash64_passthrough_changed(&export_passthrough);
             break;
         default:
             /* no slot 0 cartridge */
@@ -536,6 +548,7 @@ void cart_romlbank_set_slotmain(unsigned int bank)
         capture
         magicformel
         mmcreplay
+        ieeeflash64
 
     carts that use "unusual" mapping:
 
@@ -724,6 +737,9 @@ uint8_t roml_read(uint16_t addr)
         if ((res = tpi_roml_read(addr, &value)) == CART_READ_VALID) {
             return value;
         }
+    } else if (ieeeflash64_cart_enabled()) {
+        /* fake ultimax hack */
+        return mem_read_without_ultimax(addr);
     }
 
     switch (res) {
@@ -747,7 +763,8 @@ void roml_store(uint16_t addr, uint8_t value)
         mmc64_roml_store(addr, value);
         return;
     }
-    if (magicvoice_cart_enabled()) {
+    if (magicvoice_cart_enabled() ||
+        ieeeflash64_cart_enabled()) {
         /* fake ultimax hack */
         mem_store_without_ultimax(addr, value);
         return;
@@ -922,6 +939,11 @@ uint8_t romh_read(uint16_t addr)
             return value;
         }
     }
+    if (ieeeflash64_cart_enabled()) {
+        /* fake ultimax hack */
+        return ieeeflash64_romh_read_hirom(addr);
+    }
+
     switch (res) {
         case CART_READ_C64MEM:
             return mem_read_without_ultimax(addr);
@@ -1035,6 +1057,10 @@ uint8_t ultimax_romh_read_hirom(uint16_t addr)
             return value;
         }
     }
+    if (ieeeflash64_cart_enabled()) {
+        return ieeeflash64_romh_read_hirom(addr);
+    }
+
     switch (res) {
         case CART_READ_C64MEM:
             return mem_read_without_ultimax(addr);
@@ -1053,7 +1079,8 @@ void romh_store(uint16_t addr, uint8_t value)
     /* DBG(("ultimax w e000: %04x %02x\n", addr, value)); */
 
     /* "Slot 0" */
-    if (magicvoice_cart_enabled()) {
+    if (magicvoice_cart_enabled() ||
+        ieeeflash64_cart_enabled()) {
         /* fake ultimax hack, c64 ram */
         mem_store_without_ultimax(addr, value);
     }
@@ -1083,6 +1110,7 @@ void romh_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_GMOD3:
+        case CARTRIDGE_IEEEFLASH64:
         case CARTRIDGE_MAGIC_FORMEL: /* ? */
         case CARTRIDGE_RAMLINK:
         case CARTRIDGE_STARDOS:
@@ -1349,6 +1377,7 @@ static uint8_t ultimax_1000_7fff_read_slot1(uint16_t addr)
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_GMOD2:
         case CARTRIDGE_GMOD3:
+        case CARTRIDGE_IEEEFLASH64:
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
@@ -1378,6 +1407,10 @@ uint8_t ultimax_1000_7fff_read(uint16_t addr)
             return value;
         }
     }
+    if (ieeeflash64_cart_enabled()) {
+        /* fake ultimax hack */
+        res = CART_READ_C64MEM;
+    }
 
     switch (res) {
         case CART_READ_C64MEM:
@@ -1396,7 +1429,8 @@ uint8_t ultimax_1000_7fff_read(uint16_t addr)
 void ultimax_1000_7fff_store(uint16_t addr, uint8_t value)
 {
     /* "Slot 0" */
-    if (magicvoice_cart_enabled()) {
+    if (magicvoice_cart_enabled() ||
+        ieeeflash64_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
     }
     /* "Slot 1" */
@@ -1495,6 +1529,10 @@ uint8_t ultimax_a000_bfff_read(uint16_t addr)
             return value;
         }
     }
+    if (ieeeflash64_cart_enabled()) {
+        /* fake ultimax hack */
+        res = CART_READ_C64MEM;
+    }
     switch (res) {
         case CART_READ_C64MEM:
             /* fake ultimax hack, c64 basic, ram */
@@ -1511,7 +1549,8 @@ uint8_t ultimax_a000_bfff_read(uint16_t addr)
 void ultimax_a000_bfff_store(uint16_t addr, uint8_t value)
 {
     /* "Slot 0" */
-    if (magicvoice_cart_enabled()) {
+    if (magicvoice_cart_enabled() ||
+        ieeeflash64_cart_enabled()) {
         /* fake ultimax hack, c64 ram */
         mem_store_without_ultimax(addr, value);
     }
@@ -1575,6 +1614,7 @@ static uint8_t ultimax_c000_cfff_read_slot1(uint16_t addr)
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_GMOD2:
         case CARTRIDGE_GMOD3:
+        case CARTRIDGE_IEEEFLASH64:
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
@@ -1603,6 +1643,10 @@ uint8_t ultimax_c000_cfff_read(uint16_t addr)
             return value;
         }
     }
+    if (ieeeflash64_cart_enabled()) {
+        /* fake ultimax hack */
+        res = CART_READ_C64MEM;
+    }
 
     switch (res) {
         case CART_READ_C64MEM:
@@ -1621,7 +1665,8 @@ uint8_t ultimax_c000_cfff_read(uint16_t addr)
 void ultimax_c000_cfff_store(uint16_t addr, uint8_t value)
 {
     /* "Slot 0" */
-    if (magicvoice_cart_enabled()) {
+    if (magicvoice_cart_enabled() ||
+        ieeeflash64_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
     }
     /* "Slot 1" */
@@ -1703,6 +1748,10 @@ uint8_t ultimax_d000_dfff_read(uint16_t addr)
             return value;
         }
     }
+    if (ieeeflash64_cart_enabled()) {
+        /* fake ultimax hack */
+        res = CART_READ_C64MEM;
+    }
 
     switch (res) {
         case CART_READ_C64MEM:
@@ -1721,7 +1770,8 @@ uint8_t ultimax_d000_dfff_read(uint16_t addr)
 void ultimax_d000_dfff_store(uint16_t addr, uint8_t value)
 {
     /* "Slot 0" */
-    if (magicvoice_cart_enabled()) {
+    if (magicvoice_cart_enabled() ||
+        ieeeflash64_cart_enabled()) {
         /* fake ultimax hack, c64 io,colram,ram */
         mem_store_without_ultimax(addr, value);
         return;
@@ -1861,6 +1911,11 @@ int ultimax_romh_phi1_read(uint16_t addr, uint8_t *value)
             return 1;
         }
     }
+    if (ieeeflash64_cart_enabled()) {
+        if ((res = ieeeflash64_romh_phi1_read(addr, value)) == CART_READ_VALID) {
+            return 1;
+        }
+    }
 
     switch (res) {
         case CART_READ_C64MEM:
@@ -1964,6 +2019,11 @@ int ultimax_romh_phi2_read(uint16_t addr, uint8_t *value)
 
     if (magicvoice_cart_enabled()) {
         if ((res = magicvoice_romh_phi2_read(addr, value)) == CART_READ_VALID) {
+            return 1;
+        }
+    }
+    if (ieeeflash64_cart_enabled()) {
+        if ((res = ieeeflash64_romh_phi2_read(addr, value)) == CART_READ_VALID) {
             return 1;
         }
     }
@@ -2233,6 +2293,10 @@ uint8_t cartridge_peek_mem(uint16_t addr)
         }
     } else if (tpi_cart_enabled()) {
         if ((res = tpi_peek_mem(addr, &value)) == CART_READ_VALID) {
+            return value;
+        }
+    } else if (ieeeflash64_cart_enabled()) {
+        if ((res = ieeeflash64_peek_mem(addr, &value)) == CART_READ_VALID) {
             return value;
         }
     }

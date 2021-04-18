@@ -232,8 +232,8 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_LT_KERNAL            72 /* ltkernal.c */
 #define CARTRIDGE_RAMLINK              73 /* ramlink.c */
 #define CARTRIDGE_HERO                 74 /* hero.c */
-
-#define CARTRIDGE_LAST                 74 /* cartconv: last cartridge in list */
+#define CARTRIDGE_IEEEFLASH64          75 /* ieeeflash64.c */
+#define CARTRIDGE_LAST                 75 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -296,6 +296,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_HERO               "H.E.R.O. (Drean)"
 #define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
 #define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
+#define CARTRIDGE_NAME_IEEEFLASH64        "IEEE Flash! 64"
 #define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */
 #define CARTRIDGE_NAME_KCS_POWER          "KCS Power Cartridge" /* http://rr.pokefinder.org/wiki/Power_Cartridge */
 #define CARTRIDGE_NAME_KINGSOFT           "Kingsoft"

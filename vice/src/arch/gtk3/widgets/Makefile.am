@@ -88,6 +88,7 @@ libwidgets_a_SOURCES = \
 	hvscstilwidget.c \
 	ide64widget.c \
 	ieee488widget.c \
+	ieeeflash64widget.c \
 	isepicwidget.c \
 	jamactionwidget.c \
 	jamdialog.c \
@@ -249,6 +250,7 @@ EXTRA_DIST = \
 	hvscstilwidget.h \
 	ide64widget.h \
 	ieee488widget.h \
+	ieeeflash64widget.h \
 	isepicwidget.h \
 	jamactionwidget.h \
 	jamdialog.h \

@@ -6458,6 +6458,8 @@ H.E.R.O. bootleg
 @item
 IDE64 (@uref{http://www.ide64.org})
 @item
+IEEE Flash! 64
+@item
 KCS Power Cartridge
 @item
 Kingsoft
@@ -6870,6 +6872,8 @@ The following cartridge types are valid:
 73: RAMLink
 @item
 74: H.E.R.O. bootleg
+@item
+75: IEEE Flash! 64
 @end itemize
 
 @vindex CartridgeFile
@@ -7652,6 +7656,10 @@ Enable/disable emulation of the IEEE488 interface
 @item -ieee488image <name>
 Set IEEE488 interface image name
 (@code{IEEE488Image}).
+
+@findex -cartieeeflash64
+@item -cartieeeflash64
+Attach IEEE Flash! 64 interface ROM image.
 
 @findex -isepic, +isepic
 @item -isepic
@@ -18727,6 +18735,8 @@ C64 Games System .crt file
 IDE64 .crt file
 @item ieee
 IEEE-488 Interface .crt file
+@item ieeeflash64
+IEEE Flash! 64 interface .crt file
 @item kcs
 KCS Power Cartridge .crt file
 @item ks
@@ -25125,6 +25135,7 @@ Camels"@dots{}
                       72 - Lt. Kernal Host Adaptor
                       73 - RAMLink
                       74 - H.E.R.O.
+                      75 - IEEE Flash! 64
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -29060,6 +29071,36 @@ the IO lines all the time.
     Banks are selected by writing to the lower 2 bits of the register, bit 5
     disables the cartridge.
 
+@c @node FIXME
+@subsubsection 75 - IEEE Flash! 64
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8KiB (1 bank of 8KiB)
+@item EXROM
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $E000-$FFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 2D 01 00 00 00 00 00 00 00  ...@@...,........
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP.. ....... .
+0050: 85 56 20 0F BC A5 61 C9 88 90 03 20 D4 BA 20 CC  .V ...a.... .. .
+@end example
+
+
+    This cart has 8KiB of ROM, mapped in at $E000-$FFFF only when hirom  is
+    selected. The cart uses a clip that needs to be installed  inside  the
+    C64.
+    
 @c @node FIXME
 @section The PSID image format for ripped SID tunes
 
