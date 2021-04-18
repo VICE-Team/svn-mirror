@@ -29,7 +29,7 @@ $ # vim /etc/passwd
 For example, change "/home/David Hogan" to "/home/dqh". You also can change
 the username at the start of the entry if you like.
 
-Finally, rename your existing homedir folder, and exit and relaunch the
+Finally, rename your existing homedir folder and exit and relaunch the
 MSYS2 shell:
 
 $ cd /home
@@ -59,7 +59,7 @@ it might be a good idea to edit the mirror files:
 Get updated mirror lists:
 $ pacman -S pacman-mirrors
 
-Now, edit four files: /etc/pacman.d/mirrorlist.{mingw32,mingw64,msys,ucrt64}.
+Now edit four files: /etc/pacman.d/mirrorlist.{mingw32,mingw64,msys,ucrt64}.
 I commented out the first few (msys2 is slow, sourceforge seems out-of-data,
 and I don't trust .ru or .cn stuff).
 Exit and restart the shell you use, and see if you get a decent download speed.
@@ -75,7 +75,7 @@ $ pacboy sync pkg-config gcc ntldd zip: p7zip: subversion: gtk3 glew giflib icou
  to download and install.)
 
 
-4. Then, you need the xa 6502 cross-assembler, which is used to assemble the
+4. Then you need the xa 6502 cross-assembler, which is used to assemble the
 "driver" program for vsid (the SID player that comes with VICE). It can be found
 here: http://www.floodgap.com/retrotech/xa/
 
@@ -98,7 +98,7 @@ NOTE: if fetching the above mentioned tarball fails, then probably XA was
       updated, have a look at http://www.floodgap.com/retrotech/xa/dists/ and
       change the name of the tarball accordingly.
 
-Then, build and install it:
+Then build and install it:
 
 $ cd xa-2.3.11
 $ make mingw install
@@ -124,9 +124,9 @@ Also, add this line to your "~/.bash_profile" file:
 export OSTYPE="MSYS"
 
 (It works around a current bug that makes it impossible to build the PDF
-document, without that line.)
+document without that line.)
 
-If you change your ".bash_profile", then exit from the shell, and relaunch that
+If you change your ".bash_profile" exit from the shell and relaunch that
 shell (it will use your updated profile).
 
 
@@ -172,7 +172,7 @@ $ make -s --no-print-dir bindist
 
 
 10. If you want the distribution in a ZIP or a 7z archive instead of a
-subdirectory, then use one of these commands (instead of "make -s --no-print-dir bindist").
+subdirectory then use one of these commands (instead of "make -s --no-print-dir bindist").
 Use this for a ZIP-format bindist:
 
 $ make -s --no-print-dir bindistzip
@@ -183,7 +183,7 @@ $ make -s --no-print-dir bindist7zip
 
 
 Note:  You can install other packages if you want to add features to VICE.
-(If you install any of these packages after you have built VICE, then rerun
+(If you install any of these packages after you have built VICE, rerun
 the last four commands in step 9.  That will make VICE use the
 newly-installed libraries.)
 
