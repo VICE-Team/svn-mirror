@@ -613,10 +613,6 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-    if (drive_resources_init() < 0) {
-        init_resource_fail("drive");
-        return -1;
-    }
     /*
      * This needs to be called before tapeport_resources_init(), otherwise
      * the tapecart will fail to initialize due to the Datasette resource
@@ -662,6 +658,15 @@ int machine_resources_init(void)
     }
     if (cartio_resources_init() < 0) {
         init_resource_fail("cartio");
+        return -1;
+    }
+    /* Must be called after initializing cartridge resources. Some carts provide
+     * additional busses.  The drive resources check the validity of the drive
+     * type against the available busses on the system.  So if you had e.g. an
+     * IEEE cart enabled and an IEEE defined, on startup the drive code would
+     * reset the drive type to the default for the IEC bus. */
+    if (drive_resources_init() < 0) {
+        init_resource_fail("drive");
         return -1;
     }
     return 0;

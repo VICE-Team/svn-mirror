@@ -563,10 +563,6 @@ int machine_resources_init(void)
     }
 #endif
 #endif
-    if (drive_resources_init() < 0) {
-        init_resource_fail("drive");
-        return -1;
-    }
     if (scpu64_glue_resources_init() < 0) {
         init_resource_fail("scpu64 glue");
         return -1;
@@ -605,6 +601,15 @@ int machine_resources_init(void)
     }
     if (cartridge_resources_init() < 0) {
         init_resource_fail("cartridge");
+        return -1;
+    }
+    /* Must be called after initializing cartridge resources. Some carts provide
+     * additional busses.  The drive resources check the validity of the drive
+     * type against the available busses on the system.  So if you had e.g. an
+     * IEEE cart enabled and an IEEE defined, on startup the drive code would
+     * reset the drive type to the default for the IEC bus. */
+    if (drive_resources_init() < 0) {
+        init_resource_fail("drive");
         return -1;
     }
     return 0;
