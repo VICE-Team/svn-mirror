@@ -119,11 +119,18 @@ static int cs8900io_activate(void)
             case -2:
                 cs8900io_enabled = 0;
                 cs8900io_cannot_use = 1;
-                ui_error("Failed to initialize ethernet based devices.\n\n"
-                       "On Windows, make sure the pcap DLL is installed;"
-                       " on Unix, make sure to either have TUN/TAP support,"
+
+                ui_error("Failed to initialize ethernet cartridge emulation"
+                       " using the system interface '%s'.\n\n"
+                       "Troubleshooting:\n\n"
+                       " - is '%s' the correct system interface for ethernet cartridge emulation?"
+                       " If not, you need to change the ethernet device settings;\n\n"
+                       " - if you are on Windows, make sure the pcap DLL is installed;\n\n"
+                       " - if you are on Unix, make sure to either have TUN/TAP support,"
                        " or that you have the permissions to use raw net"
-                       " (if using libpcap). On MacOS you're on your own.");
+                       " (if using libpcap);\n\n"
+                       " - if you are on MacOS, you're on your own.",
+                       cs8900io_interface, cs8900io_interface);
                 return -1;
         }
     } else {
