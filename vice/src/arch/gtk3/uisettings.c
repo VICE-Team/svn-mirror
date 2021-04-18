@@ -147,6 +147,7 @@
 #include "vicflashwidget.h"
 #include "ultimemwidget.h"
 #include "vicieee488widget.h"
+#include "ieeeflash64widget.h"
 #include "vicioramwidget.h"
 #include "vfliwidget.h"
 #include "petdiagpinwidget.h"
@@ -326,6 +327,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
+    { "IEEE Flash! 64 Interface",
+      "ieee-flash-64",
+      ieeeflash64_widget_create, NULL },
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },

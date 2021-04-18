@@ -1189,6 +1189,37 @@ static const ui_menu_entry_t soundexpander_menu[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_TOGGLE(IEEEFlash64)
+UI_MENU_DEFINE_FILE_STRING(IEEEFlash64Image)
+UI_MENU_DEFINE_TOGGLE(IEEEFlash64Dev8)
+UI_MENU_DEFINE_TOGGLE(IEEEFlash64Dev910)
+UI_MENU_DEFINE_TOGGLE(IEEEFlash64Dev4)
+
+static const ui_menu_entry_t ieeeflash64_menu[] = {
+    SDL_MENU_ITEM_TITLE("IEEE Flash! 64 settings"),
+    { "Enable " CARTRIDGE_NAME_IEEEFLASH64,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IEEEFlash64_callback,
+      NULL },
+    { "Route device 8 to IEEE",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IEEEFlash64Dev8_callback,
+      NULL },
+    { "Route devices 9/10 to IEEE",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IEEEFlash64Dev910_callback,
+      NULL },
+    { "Route device 4 to IEEE",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IEEEFlash64Dev4_callback,
+      NULL },
+    { "ROM image file",
+      MENU_ENTRY_DIALOG,
+      file_string_IEEEFlash64Image_callback,
+      (ui_callback_data_t)"Select " CARTRIDGE_NAME_IEEEFLASH64 " ROM image" },
+    SDL_MENU_LIST_END
+};
+
 UI_MENU_DEFINE_RADIO(IOCollisionHandling)
 
 static const ui_menu_entry_t iocollision_menu[] = {
@@ -1396,6 +1427,10 @@ ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SSRamExpansion_callback,
       NULL },
+    { CARTRIDGE_NAME_IEEEFLASH64 " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ieeeflash64_menu },
     SDL_MENU_LIST_END
 };
 
@@ -1506,6 +1541,10 @@ ui_menu_entry_t c128cart_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SFXSoundSampler_callback,
       NULL },
+    { CARTRIDGE_NAME_IEEEFLASH64 " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ieeeflash64_menu },
     SDL_MENU_LIST_END
 };
 

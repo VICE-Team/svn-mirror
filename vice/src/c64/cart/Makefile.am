@@ -122,6 +122,10 @@ libc64cart_a_SOURCES = \
 	hero.h \
 	ide64.c \
 	ide64.h \
+	ieeeflash64.c \
+	ieeeflash64.h \
+	ieeeflash64pia.c \
+	ieeeflash64pia.h \
 	isepic.c \
 	isepic.h \
 	kcs.c \

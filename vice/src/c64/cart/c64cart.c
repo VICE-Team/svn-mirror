@@ -94,6 +94,7 @@
 #include "gs.h"
 #include "hero.h"
 #include "ide64.h"
+#include "ieeeflash64.h"
 #include "isepic.h"
 #include "kcs.h"
 #include "kingsoft.h"
@@ -267,6 +268,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_HERO,                CARTRIDGE_HERO,                CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_IDE64,               CARTRIDGE_IDE64,               CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_IEEE488,             CARTRIDGE_IEEE488,             CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_NAME_IEEEFLASH64,         CARTRIDGE_IEEEFLASH64,         CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_KCS_POWER,           CARTRIDGE_KCS_POWER,           CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_KINGSOFT,            CARTRIDGE_KINGSOFT,            CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_LT_KERNAL,           CARTRIDGE_LT_KERNAL,           CARTRIDGE_GROUP_UTIL },
@@ -398,6 +400,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_GS:
         case CARTRIDGE_HERO:
         case CARTRIDGE_IEEE488:
+        case CARTRIDGE_IEEEFLASH64:
         case CARTRIDGE_IDE64:
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_KCS_POWER:
@@ -774,6 +777,9 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_IEEE488:
             rc = tpi_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_IEEEFLASH64:
+            rc = ieeeflash64_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_ISEPIC:
             rc = isepic_crt_attach(fd, rawcart, filename);
