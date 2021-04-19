@@ -6347,6 +6347,8 @@ The following cartridges are emulated in this slot:
 IEEE-488 Interface 
 (@uref{http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin})
 @item
+IEEE Flash 64! interface
+@item
 Magic Voice
 @item
 MMC64
@@ -6457,8 +6459,6 @@ GMod3
 H.E.R.O. bootleg
 @item
 IDE64 (@uref{http://www.ide64.org})
-@item
-IEEE Flash! 64
 @item
 KCS Power Cartridge
 @item
@@ -6621,8 +6621,11 @@ it much easier to locate certain problems.
 @c @node FIXME
 @subsubsection IEEE-488 interface
 
-To be able to use an IEEE drive, you need to enable IEEE emulation for the
-emulator. To do this, follow the following steps:
+To be able to use an IEEE drive, you need to enable an IEEE interface for the
+emulator. You can use the Commodore IEEE-488 interface, or the Skyles Electric
+Works IEEE Flash! 64 interface.
+
+To use the Commodore interface, follow these steps:
 
 Download the IEEE 488 ROM image from the CBM archives (formerly known as FUNET)
 Attach that image with File/Attach cartridge image/IEEE488 interface image.
@@ -6632,6 +6635,15 @@ Setting, uncheck "use IEC device" for all devices, go to Settings/Drive Settings
 and select "Floppy type" as "none" for all drives other than drive 8.
 
 After this, all drives can be selected in x64 and x128.
+
+To use the IEEE Flash! 64 interface, follow these steps:
+
+Download the IEEE Flash! 64 ROM image (uploaded to the CBM archives but not yet
+in place).  Set the path to the ROM image using the UI under Cartridges/IEEE
+Flash! 64 settings, the commandline argument -ieeeflash64image, or the
+IEEEFlash64Image resource setting.  Then you can Enable the interface and choose
+which devices to route to the IEEE bus using the other IEEE Flash! 64 settings.
+With this interface, you can mix and match IEC and IEEE drives.
 
 @c @node FIXME
 @subsubsection The Final Cartridge 3
@@ -7038,6 +7050,23 @@ Boolean specifying whether the IEEE488 interface should be emulated or not.
 @vindex IEEE488Image
 @item IEEE488Image
 String specifying the filename of the IEEE488 ROM image.
+
+@vindex IEEEFlash64
+@item IEEEFlash64
+Boolean specifying whether the IEEE Flash! 64 interface should be emulated or not.
+
+@vindex IEEEFlash64Image
+@item IEEEFlash64Image
+String specifying the filename of the IEEE Flash! 64 KERNAL ROM image.
+
+@vindex IEEEFlash64Dev8
+@vindex IEEEFlash64Dev910
+@vindex IEEEFlash64Dev4
+@item IEEEFlash64Dev8
+@itemx IEEEFlash64Dev910
+@itemx IEEEFlash64Dev4
+Booleans indicating whether to route devices 8, 9 and 10, and 4 respectively to the
+IEEE bus (1) or IEC bus (0).
 
 @vindex IsepicCartridgeEnabled
 @item IsepicCartridgeEnabled
@@ -7657,9 +7686,31 @@ Enable/disable emulation of the IEEE488 interface
 Set IEEE488 interface image name
 (@code{IEEE488Image}).
 
-@findex -cartieeeflash64
-@item -cartieeeflash64
-Attach IEEE Flash! 64 interface ROM image.
+@findex -ieeeflash64, +ieeeflash64
+@item -ieeeflash64
+@itemx +ieeeflash64
+Enable/disable IEEE Flash! 64 interface
+(@code{IEEEFlash64}).
+
+@findex -ieeeflash64image
+@item -ieeeflash64image
+Set IEEE Flash! 64 ROM image name
+(@code{IEEEFlash64Image}).
+
+@findex -ieeeflash64dev8
+@item -ieeeflash64dev8
+Route device 8 to IEEE bus of IEEE Flash! 64 interface
+(@code{IEEEFlash64Dev8}).
+
+@findex -ieeeflash64dev910
+@item -ieeeflash64dev910
+Route devices 9 and 10 to IEEE bus of IEEE Flash! 64 interface
+(@code{IEEEFlash64Dev910}).
+
+@findex -ieeeflash64dev4
+@item -ieeeflash64dev4
+Route device 4 to IEEE bus of IEEE Flash! 64 interface
+(@code{IEEEFlash64Dev4}).
 
 @findex -isepic, +isepic
 @item -isepic
