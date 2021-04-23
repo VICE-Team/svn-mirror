@@ -1605,6 +1605,10 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
                         log_error(LOG_ERR, "Failed to set drive type.");
                     }
                 }
+
+                /* detach disk before reattaching */
+                file_system_detach_disk(unit, drive);
+
                 if (file_system_attach_disk(unit, drive, file_name) < 0) {
                     goto exiterror;
                 }
