@@ -31,6 +31,9 @@
 #include "archdep_boot_path.h"
 #include "archdep_defs.h"
 
+#include "archdep_is_macos_bindist.h"
+
+
 int archdep_is_macos_bindist(void) {
 #ifdef ARCHDEP_OS_MACOS
     static char *BINDIST_BOOT_PATH = "/VICE.app/Contents/Resources/bin";
