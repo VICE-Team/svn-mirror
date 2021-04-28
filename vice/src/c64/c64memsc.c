@@ -940,7 +940,7 @@ void store_bank_io(uint16_t addr, uint8_t byte)
     return;
 }
 
-void poke_bank_io(uint16_t addr, uint8_t byte)
+static void poke_bank_io(uint16_t addr, uint8_t byte)
 {
     /* FIXME: open ends */
     switch (addr & 0xff00) {
