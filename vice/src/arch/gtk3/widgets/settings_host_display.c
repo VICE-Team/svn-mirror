@@ -48,11 +48,11 @@
 #include "resources.h"
 #include "machine.h"
 #include "videoarch.h"
-
 #include "canvasrenderbackendwidget.h"
 #include "canvasrenderfilterwidget.h"
-
 #include "settings_misc.h"
+
+#include "settings_host_display.h"
 
 
 /** \brief  Reference to the 'StartMinimized' checkbox */
