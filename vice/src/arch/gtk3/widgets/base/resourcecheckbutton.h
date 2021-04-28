@@ -44,6 +44,7 @@ gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest);
 gboolean vice_gtk3_resource_check_button_reset(GtkWidget *widget);
 gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget);
 gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget);
+gboolean vice_gtk3_resource_check_button_apply(GtkWidget *widget);
 
 void vice_gtk3_resource_check_button_add_callback(
         GtkWidget *widget,
