@@ -30,9 +30,6 @@
 
 #include "archdep_defs.h"
 
-#ifdef ARCHDEP_OS_BEOS
-
 int archdep_is_haiku(void);
 
-#endif
 #endif

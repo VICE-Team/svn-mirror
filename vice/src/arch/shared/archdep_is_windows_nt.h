@@ -31,10 +31,9 @@
 #include "archdep_defs.h"
 
 #ifdef ARCHDEP_OS_WINDOWS
-
 #include <windows.h>
+#endif
 
 int archdep_is_windows_nt(void);
 
-#endif
 #endif
