@@ -63,6 +63,9 @@ static pthread_t main_thread;
 #include "macOS-util.h"
 #endif
 
+#include "archdep_exit.h"
+
+
 static volatile bool is_exiting;
 
 bool archdep_is_exiting(void) {
