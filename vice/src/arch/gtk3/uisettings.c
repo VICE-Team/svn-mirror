@@ -2775,6 +2775,7 @@ static GtkWidget *dialog_create_helper(void)
 }
 
 
+#if 0
 /** \brief  Callback to create the main settings dialog from the menu
  *
  * \param[in]   widget      (direct) parent widget, the menu item
@@ -2789,13 +2790,14 @@ static GtkWidget *dialog_create_helper(void)
  *
  * \return  TRUE (avoids the key press getting passed to the emulated machine)
  */
-gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
+static gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 {
 
     ui_settings_dialog_create_and_activate_node(NULL);
 
     return TRUE;
 }
+#endif
 
 
 /** \brief  Clean up resources used on emu exit
@@ -2930,7 +2932,7 @@ gboolean ui_settings_dialog_activate_node(const char *path)
  *
  * \return  FALSE
  */
-gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_data)
+static gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_data)
 {
     const char *path = (const char *)user_data;
     GtkWidget *dialog;
