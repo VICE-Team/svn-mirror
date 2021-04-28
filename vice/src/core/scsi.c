@@ -239,7 +239,7 @@ int32_t scsi_image_write(struct scsi_context_s *context)
 
 /* default format handler */
 /* We don't actually format the disk, we just zero out the first sector */
-void scsi_format_sector0(struct scsi_context_s *context)
+static void scsi_format_sector0(struct scsi_context_s *context)
 {
     int32_t i;
 

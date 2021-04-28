@@ -24,7 +24,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/core \
 	-I$(top_srcdir)/src/rs232drv \
-	-I$(top_srcdir)/src/hvsc
+	-I$(top_srcdir)/src/hvsc \
+	-I$(top_srcdir)/src/vdrive \
+	-I$(top_srcdir)/src/fsdevice \
+	-I$(top_srcdir)/src/imagecontents
 
 AM_CFLAGS = @VICE_CFLAGS@
 
