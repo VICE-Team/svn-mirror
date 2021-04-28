@@ -34,7 +34,7 @@
 /*
  * Obtains the vice lock before the signal handler is called.
  */
-void vice_gtk3_lock(gpointer data, GClosure *closure)
+static void vice_gtk3_lock(gpointer data, GClosure *closure)
 {
     /* printf("locking: %s\n", (const char *)data); fflush(stdout); */
     mainlock_obtain();
@@ -43,7 +43,7 @@ void vice_gtk3_lock(gpointer data, GClosure *closure)
 /*
  * Releases the vice lock after the signal handler is called.
  */
-void vice_gtk3_unlock(gpointer data, GClosure *closure)
+static void vice_gtk3_unlock(gpointer data, GClosure *closure)
 {
     /* printf("unlocking: %s\n", (const char *)data); */
     mainlock_release();
