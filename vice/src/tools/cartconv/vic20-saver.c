@@ -8,6 +8,7 @@
 
 #include "cartconv.h"
 #include "crt.h"
+#include "vic20-saver.h"
 
 extern unsigned int loadfile_size;
 extern int load_address;

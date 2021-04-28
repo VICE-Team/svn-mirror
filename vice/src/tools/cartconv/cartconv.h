@@ -21,7 +21,9 @@ typedef struct cart_s {
 const cart_t *find_cartinfo_from_crtid(int crtid, int machine);
 
 extern void cleanup(void);
+extern void crt2bin_ok(void);
 extern void bin2crt_ok(void);
+
 extern void save_regular_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 extern int load_input_file(char *filename);
 
