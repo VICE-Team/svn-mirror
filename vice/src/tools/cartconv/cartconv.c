@@ -97,6 +97,8 @@ int machine_class = VICE_MACHINE_C64;
 
 int verbose = 0;
 
+static int detect_input_file(char *filename);
+
 /*****************************************************************************/
 
 /* this is POSIX only */
@@ -480,7 +482,7 @@ void save_regular_crt(unsigned int length, unsigned int banks, unsigned int addr
     exit(0);
 }
 
-int detect_input_file(char *filename)
+static int detect_input_file(char *filename)
 {
     loadfile_offset = 0;
     loadfile_is_crt = 0;

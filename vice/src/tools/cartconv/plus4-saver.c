@@ -8,6 +8,7 @@
 
 #include "cartconv.h"
 #include "crt.h"
+#include "plus4-saver.h"
 
 extern unsigned int loadfile_size;
 extern int loadfile_offset;

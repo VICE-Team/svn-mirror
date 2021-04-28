@@ -8,6 +8,7 @@
 
 #include "cartconv.h"
 #include "crt.h"
+#include "c64-saver.h"
 
 extern unsigned int loadfile_size;
 extern unsigned char filebuffer[CARTRIDGE_SIZE_MAX + 2];
