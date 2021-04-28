@@ -531,7 +531,12 @@ int cartridge_detect(const char *filename)
     return type;
 }
 
-int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
+
+/* XXX: This is public for the C64, with the prototype contained in
+ *      src/c64/cart/c64cartsystem.h. There's no such prototype for this, so
+ *      I made the function static for now. --compyx
+ */
+static int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
 {
     if (CARTRIDGE_PLUS4_IS_GENERIC(type)) {
         return generic_bin_attach(type, filename, rawcart);
