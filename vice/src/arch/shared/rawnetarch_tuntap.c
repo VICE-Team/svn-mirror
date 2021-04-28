@@ -65,7 +65,7 @@ static int rawnet_arch_tuntap_tun_fd = -1;
 struct if_nameindex *enum_interfaces = NULL;
 int enum_interfaces_idx = -1;
 
-int rawnet_arch_tuntap_enumadapter_open(void)
+static int rawnet_arch_tuntap_enumadapter_open(void)
 {
     assert((enum_interfaces == NULL) && (enum_interfaces_idx == -1));
     enum_interfaces = if_nameindex();
@@ -88,7 +88,7 @@ int rawnet_arch_tuntap_enumadapter_open(void)
  *
  * \return  bool (1 on success, 0 on failure)
  */
-int rawnet_arch_tuntap_enumadapter(char **ppname, char **ppdescription)
+static int rawnet_arch_tuntap_enumadapter(char **ppname, char **ppdescription)
 {
     const struct if_nameindex *i = &enum_interfaces[enum_interfaces_idx];
 
@@ -105,7 +105,7 @@ int rawnet_arch_tuntap_enumadapter(char **ppname, char **ppdescription)
     }
 }
 
-int rawnet_arch_tuntap_enumadapter_close(void)
+static int rawnet_arch_tuntap_enumadapter_close(void)
 {
     assert((enum_interfaces != NULL) && (enum_interfaces_idx != -1));
 
@@ -146,15 +146,15 @@ static int rawnet_tuntap_open_adapter(const char *interface_name)
 /* ------------------------------------------------------------------------- */
 /*    the architecture-dependend functions                                   */
 
-void rawnet_arch_tuntap_pre_reset(void)
+static void rawnet_arch_tuntap_pre_reset(void)
 {
 }
 
-void rawnet_arch_tuntap_post_reset(void)
+static void rawnet_arch_tuntap_post_reset(void)
 {
 }
 
-int rawnet_arch_tuntap_activate(const char *interface_name)
+static int rawnet_arch_tuntap_activate(const char *interface_name)
 {
     if (!rawnet_tuntap_open_adapter(interface_name)) {
         return 0;
@@ -162,17 +162,17 @@ int rawnet_arch_tuntap_activate(const char *interface_name)
     return 1;
 }
 
-void rawnet_arch_tuntap_deactivate(void)
+static void rawnet_arch_tuntap_deactivate(void)
 {
     close(rawnet_arch_tuntap_tun_fd);
     rawnet_arch_tuntap_tun_fd = -1;
 }
 
-void rawnet_arch_tuntap_set_mac(const uint8_t mac[6])
+static void rawnet_arch_tuntap_set_mac(const uint8_t mac[6])
 {
 }
 
-void rawnet_arch_tuntap_set_hashfilter(const uint32_t hash_mask[2])
+static void rawnet_arch_tuntap_set_hashfilter(const uint32_t hash_mask[2])
 {
 }
 
@@ -183,11 +183,11 @@ void rawnet_arch_tuntap_set_hashfilter(const uint32_t hash_mask[2])
 /* int bPromiscuous - promiscuous mode */
 /* int bIAHash      - accept if IA passes the hash filter */
 
-void rawnet_arch_tuntap_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
+static void rawnet_arch_tuntap_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
 {
 }
 
-void rawnet_arch_tuntap_line_ctl(int bEnableTransmitter, int bEnableReceiver )
+static void rawnet_arch_tuntap_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 {
 }
 
@@ -200,7 +200,7 @@ void rawnet_arch_tuntap_line_ctl(int bEnableTransmitter, int bEnableReceiver )
  * \param[in]   txlength    Frame length
  * \param[in]   txframe     Pointer to the frame to be transmitted
  */
-void rawnet_arch_tuntap_transmit(int force, int onecoll, int inhibit_crc,
+static void rawnet_arch_tuntap_transmit(int force, int onecoll, int inhibit_crc,
                                  int tx_pad_dis, int txlength, uint8_t *txframe)
 {
     ssize_t res = write(rawnet_arch_tuntap_tun_fd, txframe, txlength);
@@ -250,7 +250,7 @@ void rawnet_arch_tuntap_transmit(int force, int onecoll, int inhibit_crc,
  * \param[out]      pbroadcast      set if dest. address is a broadcast address
  * \param[out]      pcrc_error      set if received frame had a CRC error
 */
-int rawnet_arch_tuntap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
+static int rawnet_arch_tuntap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
         int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast,
         int *pcrc_error)
 {
@@ -308,7 +308,7 @@ int rawnet_arch_tuntap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
  *
  * \return  name of standard interface
  */
-char *rawnet_arch_tuntap_get_standard_interface(void)
+static char *rawnet_arch_tuntap_get_standard_interface(void)
 {
     return NULL; /* Use the interface configured for cs89000io */
 }
