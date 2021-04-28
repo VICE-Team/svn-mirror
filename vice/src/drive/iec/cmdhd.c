@@ -141,7 +141,7 @@ simplify the interface */
 
 #include "log.h"
 
-void my_debug_iec_drv_write(unsigned int data)
+static void my_debug_iec_drv_write(unsigned int data)
 {
     if (debug.iec) {
         uint8_t value = data;
@@ -159,7 +159,7 @@ void my_debug_iec_drv_write(unsigned int data)
     }
 }
 
-void my_debug_iec_drv_read(unsigned int data)
+static void my_debug_iec_drv_read(unsigned int data)
 {
     if (debug.iec) {
         uint8_t value = data;
