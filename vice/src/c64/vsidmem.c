@@ -798,7 +798,7 @@ static const char *banknames[MAXBANKS + 1] = {
     NULL
 };
 
-static const int banknums[MAXBANKS + 1] = { 1, 0, 1, 2, 3, -1 };
+static const int banknums[MAXBANKS + 1] = { 0, 0, 1, 2, 3, -1 };
 static const int bankindex[MAXBANKS + 1] = { -1, -1, -1, -1, -1, -1 };
 static const int bankflags[MAXBANKS + 1] = { 0, 0, 0, 0, 0, -1 };
 

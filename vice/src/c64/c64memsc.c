@@ -1043,16 +1043,16 @@ static uint8_t peek_bank_io(uint16_t addr)
 
 static const char *banknames[] = {
     "default",
-    "cpu",
-    "ram",
-    "rom",
-    "io",
-    "cart",
+    "cpu",   /* #0 */
+    "ram",   /* #1 */
+    "rom",   /* #2 */
+    "io",    /* #3 */
+    "cart",  /* #4 */
     /* by convention, a "bank array" has a 2-hex-digit bank index appended */
     NULL
 };
 
-static const int banknums[] = { 1, 0, 1, 2, 3, 4, -1 };
+static const int banknums[] = { 0, 0, 1, 2, 3, 4, -1 };
 static const int bankindex[] = { -1, -1, -1, -1, -1, -1, -1 };
 static const int bankflags[] = { 0, 0, 0, 0, 0, 0, -1 };
 
