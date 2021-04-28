@@ -217,7 +217,7 @@ static GtkWidget *create_sidcart_clock_widget(void)
  *
  * \return  GtkCheckButton
  */
-GtkWidget *create_sidcart_joy_widget(void)
+static GtkWidget *create_sidcart_joy_widget(void)
 {
     return vice_gtk3_resource_check_button_new(
             "SIDCartJoy", "Enable joystick port emulation");

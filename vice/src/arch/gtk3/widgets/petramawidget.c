@@ -36,8 +36,9 @@
 
 #include "vice_gtk3.h"
 #include "resources.h"
-
 #include "petiosizewidget.h"
+
+#include "petramawidget.h"
 
 
 /** \brief  Available I/O sizes
