@@ -815,10 +815,12 @@ const char *mon_get_current_bank_name(MEMSPACE mem)
     return mon_get_bank_name_for_bank(mem, mon_interfaces[mem]->current_bank);
 }
 
-const int mon_get_current_bank_index(MEMSPACE mem)
+#if 0
+static const int mon_get_current_bank_index(MEMSPACE mem)
 {
     return mon_get_bank_index_for_bank(mem, mon_interfaces[mem]->current_bank);
 }
+#endif
 
 /*
     main entry point for the monitor to read a value from memory

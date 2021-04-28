@@ -369,7 +369,7 @@ static MEMSPACE get_requested_memspace(uint8_t requested_memspace) {
     }
 }
 
-void monitor_binary_response_register_info(uint32_t request_id, MEMSPACE memspace)
+static void monitor_binary_response_register_info(uint32_t request_id, MEMSPACE memspace)
 {
     mon_reg_list_t *regs;
     mon_reg_list_t *regs_cursor;
