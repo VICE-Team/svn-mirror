@@ -1183,7 +1183,11 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
-        case 0:                   /* current */
+        case 0: /* CPU */
+            /* special case to read the CPU port of the 6510 */
+            if (addr < 2) {
+                return mem_read(addr);
+            }
             /* we must check for which bank is currently active */
             if (c64meminit_io_config[mem_config]) {
                 if ((addr >= 0xd000) && (addr < 0xe000)) {
@@ -1225,14 +1229,14 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                 }
             }
             break;
-        case 3:                   /* io */
+        case 3: /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return peek_bank_io(addr);
             }
             /* FALL THROUGH */
-        case 4:                   /* cart */
+        case 4: /* cart */
             return cartridge_peek_mem(addr);
-        case 2:                   /* rom */
+        case 2: /* rom */
             if (addr >= 0xa000 && addr <= 0xbfff) {
                 return c64memrom_basic64_rom[addr & 0x1fff];
             }
@@ -1243,7 +1247,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                 return c64memrom_kernal64_rom[addr & 0x1fff];
             }
             /* FALL THROUGH */
-        case 1:                   /* ram */
+        case 1: /* ram */
             break;
     }
     return mem_ram[addr];
