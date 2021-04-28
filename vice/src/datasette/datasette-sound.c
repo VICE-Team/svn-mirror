@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "sound.h"
+#include "datasette-sound.h"
 #include "maincpu.h"
 
 static sound_chip_t datasette_sound;
