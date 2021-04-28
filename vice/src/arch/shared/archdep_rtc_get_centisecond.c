@@ -27,13 +27,13 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#if defined(ARCHDEP_OS_WINDOWS)
-
+#ifdef ARCHDEP_OS_WINDOWS
 #include <windows.h>
+#endif
 
 #include "archdep_rtc_get_centisecond.h"
 
-
+#ifdef ARCHDEP_OS_WINDOWS
 int archdep_rtc_get_centisecond(void)
 {
     SYSTEMTIME t;
