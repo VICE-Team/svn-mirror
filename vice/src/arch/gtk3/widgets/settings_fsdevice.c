@@ -62,7 +62,7 @@ static GtkWidget *fsdevice_widgets[NUM_DISK_UNITS];
  *
  * \return  GtkGrid
  */
-GtkWidget *create_stack_child_widget(int unit)
+static GtkWidget *create_stack_child_widget(int unit)
 {
     GtkWidget *layout;
 
