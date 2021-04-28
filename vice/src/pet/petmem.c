@@ -1700,12 +1700,21 @@ static const char *banknames[MAXBANKS + 1] = {
 };
 
 enum {
-    bank_default, bank_cpu = 0, bank_ram, bank_rom, bank_io, bank_extram,
+    bank_cpu = 0,
+    bank_ram,
+    bank_rom,
+    bank_io,
+    bank_extram,
     bank_cpu6809
 };
 
 static const int banknums[MAXBANKS + 1] = {
-    bank_default, bank_cpu, bank_ram, bank_rom, bank_io, bank_extram,
+    bank_cpu, /* default */
+    bank_cpu,
+    bank_ram,
+    bank_rom,
+    bank_io,
+    bank_extram,
     bank_cpu6809, -1
 };
 
@@ -1765,7 +1774,7 @@ int mem_bank_flags_from_bank(int bank)
 uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
-        case bank_default:      /* current */
+        case bank_cpu:      /* current */
             return mem_read(addr);
             break;
         case bank_extram:       /* extended RAM area (8x96, SuperPET) */
@@ -1799,7 +1808,7 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
-        case bank_default:      /* current */
+        case bank_cpu:      /* current */
             return mem_read(addr); /* FIXME */
             break;
         case bank_io:           /* io */
@@ -1823,7 +1832,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
     switch (bank) {
-        case bank_default:      /* current */
+        case bank_cpu:      /* current */
             mem_store(addr, byte);
             return;
         case bank_extram:       /* extended RAM area (8x96, SuperPET) */
@@ -1851,7 +1860,7 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
         case bank_cpu6809:      /* rom */
             mem6809_store(addr, byte);
             return;
-        case 1:                 /* ram */
+        case bank_ram:                 /* ram */
             break;
     }
     mem_ram[addr] = byte;

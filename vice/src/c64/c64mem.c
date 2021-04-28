@@ -1091,7 +1091,7 @@ static const char *banknames[] = {
     NULL
 };
 
-static const int banknums[] = { 1, 0, 1, 2, 3, 4, -1 };
+static const int banknums[] = { 0, 0, 1, 2, 3, 4, -1 };
 static const int bankindex[] = { -1, -1, -1, -1, -1, -1, -1 };
 static const int bankflags[] = { 0, 0, 0, 0, 0, 0, -1 };
 

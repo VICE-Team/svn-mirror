@@ -1197,7 +1197,7 @@ enum {
 };
 
 static const int banknums[MAXBANKS + 1] = {
-    bank_ram, /* default */
+    bank_cpu, /* default */
     bank_cpu,
     bank_ram,
     bank_rom,
