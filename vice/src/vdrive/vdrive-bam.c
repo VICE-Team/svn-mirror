@@ -346,12 +346,15 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
 }
 
 /* add interleave to current sector and adjust for overflow */
-int vdrive_bam_alloc_add_interleave(vdrive_t *vdrive,
-                                    unsigned int track,
-                                    unsigned int sector,
-                                    unsigned int interleave)
+static int vdrive_bam_alloc_add_interleave(vdrive_t *vdrive,
+                                           unsigned int track,
+                                           unsigned int sector,
+                                           unsigned int interleave)
 {
-    unsigned int max_sector, max_sector_all, s, h;
+    unsigned int max_sector;
+    unsigned int max_sector_all;
+    unsigned int s;
+    unsigned int h;
 
     /* Calculate the next sector for the current interleave */
     max_sector = vdrive_get_max_sectors_per_head(vdrive, track);
