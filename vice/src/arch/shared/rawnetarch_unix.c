@@ -111,7 +111,7 @@ static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
  */
 static char rawnet_pcap_errbuf[PCAP_ERRBUF_SIZE];
 
-int rawnet_arch_pcap_enumadapter_open(void)
+static int rawnet_arch_pcap_enumadapter_open(void)
 {
     if (pcap_findalldevs(&rawnet_pcap_dev_list, rawnet_pcap_errbuf) == -1) {
         log_message(rawnet_arch_log,
@@ -145,7 +145,7 @@ int rawnet_arch_pcap_enumadapter_open(void)
  *
  * \return  bool (1 on success, 0 on failure)
  */
-int rawnet_arch_pcap_enumadapter(char **ppname, char **ppdescription)
+static int rawnet_arch_pcap_enumadapter(char **ppname, char **ppdescription)
 {
 #ifdef RAWNET_ONLY_IF_UP
     /* only select devices that are up */
@@ -173,7 +173,7 @@ int rawnet_arch_pcap_enumadapter(char **ppname, char **ppdescription)
     return 1;
 }
 
-int rawnet_arch_pcap_enumadapter_close(void)
+static int rawnet_arch_pcap_enumadapter_close(void)
 {
     if (rawnet_pcap_dev_list) {
         pcap_freealldevs(rawnet_pcap_dev_list);
@@ -225,15 +225,15 @@ static int rawnet_pcap_open_adapter(const char *interface_name)
 /* ------------------------------------------------------------------------- */
 /*    the architecture-dependend functions                                   */
 
-void rawnet_arch_pcap_pre_reset(void)
+static void rawnet_arch_pcap_pre_reset(void)
 {
 }
 
-void rawnet_arch_pcap_post_reset(void)
+static void rawnet_arch_pcap_post_reset(void)
 {
 }
 
-int rawnet_arch_pcap_activate(const char *interface_name)
+static int rawnet_arch_pcap_activate(const char *interface_name)
 {
     if (!rawnet_pcap_open_adapter(interface_name)) {
         return 0;
@@ -241,15 +241,15 @@ int rawnet_arch_pcap_activate(const char *interface_name)
     return 1;
 }
 
-void rawnet_arch_pcap_deactivate( void )
+static void rawnet_arch_pcap_deactivate( void )
 {
 }
 
-void rawnet_arch_pcap_set_mac( const uint8_t mac[6] )
+static void rawnet_arch_pcap_set_mac( const uint8_t mac[6] )
 {
 }
 
-void rawnet_arch_pcap_set_hashfilter(const uint32_t hash_mask[2])
+static void rawnet_arch_pcap_set_hashfilter(const uint32_t hash_mask[2])
 {
 }
 
@@ -260,11 +260,11 @@ void rawnet_arch_pcap_set_hashfilter(const uint32_t hash_mask[2])
 /* int bPromiscuous - promiscuous mode */
 /* int bIAHash      - accept if IA passes the hash filter */
 
-void rawnet_arch_pcap_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
+static void rawnet_arch_pcap_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
 {
 }
 
-void rawnet_arch_pcap_line_ctl(int bEnableTransmitter, int bEnableReceiver )
+static void rawnet_arch_pcap_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 {
 }
 
@@ -440,7 +440,7 @@ static void rawnet_arch_transmit_pcap(int force, int onecoll, int inhibit_crc,
  * \param[in]   txlength    Frame length
  * \param[in]   txframe     Pointer to the frame to be transmitted
  */
-void rawnet_arch_pcap_transmit(int force, int onecoll, int inhibit_crc,
+static void rawnet_arch_pcap_transmit(int force, int onecoll, int inhibit_crc,
                                int tx_pad_dis, int txlength, uint8_t *txframe)
 {
     RAWNET_ARCH_TRANSMIT(force, onecoll, inhibit_crc, tx_pad_dis, txlength,
@@ -486,7 +486,7 @@ void rawnet_arch_pcap_transmit(int force, int onecoll, int inhibit_crc,
  * \param[out[      pbroadcast      set if dest. address is a broadcast address
  * \param[out]      pcrc_error      set if received frame had a CRC error
 */
-int rawnet_arch_pcap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
+static int rawnet_arch_pcap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
         int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast,
         int *pcrc_error)
 {
@@ -543,7 +543,7 @@ int rawnet_arch_pcap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
  *
  * \note    free the returned value with lib_free() if not `NULL`
  */
-char *rawnet_arch_pcap_get_standard_interface(void)
+static char *rawnet_arch_pcap_get_standard_interface(void)
 {
     char *dev = NULL;
     char errbuf[PCAP_ERRBUF_SIZE];
