@@ -1869,7 +1869,7 @@ static ui_jam_action_t jam_dialog_result;
  *
  * \return  FALSE
  */
-gboolean ui_jam_dialog_impl(gpointer user_data)
+static gboolean ui_jam_dialog_impl(gpointer user_data)
 {
     /* XXX: this probably needs a variable index into the window_widget array */
     jam_dialog_result = jam_dialog(ui_resources.window_widget[PRIMARY_WINDOW], (char *)user_data);
@@ -1976,7 +1976,7 @@ static ui_extendimage_action_t extendimage_dialog_result;
  *
  * \return  FALSE
  */
-gboolean ui_extendimage_dialog_impl(gpointer user_data)
+static gboolean ui_extendimage_dialog_impl(gpointer user_data)
 {
     /* XXX: this probably needs a variable index into the window_widget array
      *
