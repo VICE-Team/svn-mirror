@@ -51,6 +51,7 @@
 #include <limits.h>
 #include <string.h>
 
+#include "attach.h"
 #include "diskimage.h"
 #include "fsimage.h"
 #include "diskcontents-block.h"

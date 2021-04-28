@@ -64,4 +64,7 @@ void kbd_hotkey_shutdown(void);
 gboolean kbd_hotkey_add(guint code, guint mask, void (*callback)(void));
 gboolean kbd_hotkey_add_list(kbd_gtk3_hotkey_t *list);
 
+/* Only here for c1541-stubs.c, not used in the Gtk3 UI */
+const char *kbd_get_menu_keyname(void);
+
 #endif
