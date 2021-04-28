@@ -1300,7 +1300,7 @@ static void monitor_binary_process_display_get(binary_command_t *command)
 static void monitor_binary_process_vice_info(binary_command_t *command)
 {
     unsigned char response[10] = { 
-        4, VERSION_RC_NUMBER,
+        4, VERSION_RC_NUMBER, /* this expands to something like 3,5,0,0 */
         4, 0, 0, 0, 0,
     };
 
