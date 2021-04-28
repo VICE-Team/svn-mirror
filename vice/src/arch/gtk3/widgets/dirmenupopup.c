@@ -137,7 +137,7 @@ static gboolean create_css_providers(void)
  *
  * \param[in,out]   item    direct list item
  */
-void dir_item_apply_style(GtkWidget *item)
+static void dir_item_apply_style(GtkWidget *item)
 {
     GtkWidget *label;
 
