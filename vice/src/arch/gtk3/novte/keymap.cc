@@ -753,8 +753,14 @@ void _vte_keymap_map(guint keyval,
             if ((modifiers & entries[i].mod_mask) == entries[i].mod_mask) {
                 if (entries[i].normal_length != -1) {
                     *normal_length = entries[i].normal_length;
+/* g_memdup2() is only available in GLib 2.67.3 and later */
+#if GLIB_CHECK_VERSION(2,67,3)
                     *normal = (char*)g_memdup2(entries[i].normal,
                                             entries[i].normal_length);
+#else
+                    *normal = (char*)g_memdup(entries[i].normal,
+                                            entries[i].normal_length);
+#endif
                 } else {
                     *normal_length = strlen(entries[i].normal);
                     *normal = g_strdup(entries[i].normal);
