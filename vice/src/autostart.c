@@ -322,13 +322,15 @@ static int set_autostart_prg_disk_image(const char *val, void *param)
 
 /*! \brief string resources used by autostart */
 static resource_string_t resources_string[] = {
+    /* caution: position is hardcoded below */
     { "AutostartPrgDiskImage", NULL, RES_EVENT_NO, NULL,
       &AutostartPrgDiskImage, set_autostart_prg_disk_image, NULL },
     RESOURCE_STRING_LIST_END
 };
 
 /*! \brief integer resources used by autostart */
-static const resource_int_t resources_int[] = {
+static resource_int_t resources_int[] = {
+    /* caution: position is hardcoded below */
     { "AutostartBasicLoad", 0, RES_EVENT_NO, (resource_value_t)0,
       &autostart_basic_load, set_autostart_basic_load, NULL },
     { "AutostartTapeBasicLoad", 1, RES_EVENT_NO, (resource_value_t)1,
@@ -360,10 +362,14 @@ int autostart_resources_init(void)
     autostart_default_diskimage = archdep_default_autostart_disk_image_file_name();
     resources_string[0].factory_value = autostart_default_diskimage;
 
+    if ((machine_class == VICE_MACHINE_VIC20) ||
+        (machine_class == VICE_MACHINE_PET)) {
+        resources_int[0].factory_value = 1;
+    }
+
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
-
     return resources_register_int(resources_int);
 }
 
