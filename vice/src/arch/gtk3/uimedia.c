@@ -14,6 +14,9 @@
  * $VICERES KoalaOversizeHandling       -vsid
  * $VICERES KoalaUndersizeHandling      -vsid
  * $VICERES KoalaTEDLumHandling         -vsid
+ * $VICERES MinipaintOversizeHandling   -vsid
+ * $VICERES MinipaintUndersizeHandling  -vsid
+ * $VICERES MinipaintTEDLumHandling     -vsid
  */
 
 /*
@@ -738,6 +741,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     int row;
     int artstudio = 0;
     int koala = 0;
+    int minipaint = 0;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
@@ -757,9 +761,12 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     } else if (strcmp(prefix, "KOALA") == 0) {
         prefix = "Koala";
         koala = 1;
+    } else if (strcmp(prefix, "MINIPAINT") == 0) {
+        prefix = "Minipaint";
+        minipaint = 1;
     }
 
-    if (!koala && !artstudio) {
+    if (!koala && !artstudio && !minipaint) {
         label = gtk_label_new("No parameters required");
         g_object_set(label, "margin-left", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);

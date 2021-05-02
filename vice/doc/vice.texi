@@ -16087,6 +16087,27 @@ Integer specifying the way the TED luminosity should be handled
 (all emulators except vsid).
 (0: ignore, 1: dither)
 
+@vindex MinipaintOversizeHandling
+@item MinipaintOversizeHandling
+Integer specifying the way the oversized input should be handled
+(all emulators except vsid).
+(0: scale down, 1: crop left top, 2: crop center top,
+3: crop right top, 4: crop left center, 5: crop center,
+6: crop right center, 7: crop left bottom, 8: crop center bottom,
+9: crop right bottom)
+
+@vindex MinipaintUndersizeHandling
+@item MinipaintUndersizeHandling
+Integer specifying the way the undersized input should be handled
+(all emulators except vsid).
+(0: scale, 1: borderize)
+
+@vindex MinipaintTEDLumHandling
+@item MinipaintTEDLumHandling
+Integer specifying the way the TED luminosity should be handled
+(all emulators except vsid).
+(0: ignore, 1: dither)
+
 @vindex FFMPEGFormat
 @item FFMPEGFormat
 String specifying the current FFMPEG output driver.
@@ -16165,6 +16186,30 @@ Select the way the undersized input should be handled
 @item -koalatedlum <method>
 Select the way the TED luminosity should be handled
 (@code{KoalaTEDLumHandling})
+(all emulators except vsid).
+(0: ignore, 1: dither)
+
+@findex -minipaintoversize
+@item -minipaintoversize <method>
+Select the way the oversized input should be handled
+(@code{MinipaintOversizeHandling})
+(all emulators except vsid).
+(0: scale down, 1: crop left top, 2: crop center top,
+3: crop right top, 4: crop left center, 5: crop center,
+6: crop right center, 7: crop left bottom,
+8: crop center bottom, 9: crop right bottom)
+
+@findex -minipaintundersize
+@item -minipaintundersize <method>
+Select the way the undersized input should be handled
+(@code{MinipaintUndersizeHandling})
+(all emulators except vsid).
+(0: scale, 1: borderize)
+
+@findex -minipainttedlum
+@item -minipainttedlum <method>
+Select the way the TED luminosity should be handled
+(@code{MinipaintTEDLumHandling})
 (all emulators except vsid).
 (0: ignore, 1: dither)
 
