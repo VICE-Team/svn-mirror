@@ -106,6 +106,7 @@
 #include "userport.h"
 #include "userport_dac.h"
 #include "userport_joystick.h"
+#include "userport_snespad.h"
 #include "vice-event.h"
 #include "video.h"
 #include "video-sound.h"
@@ -470,6 +471,10 @@ int machine_resources_init(void)
         init_resource_fail("userport dac");
         return -1;
     }
+    if (userport_snespad_resources_init() < 0) {
+        init_resource_fail("userport snes pad");
+        return -1;
+    }
     if (gfxoutput_resources_init() < 0) {
         init_resource_fail("gfxoutput");
         return -1;
@@ -653,6 +658,10 @@ int machine_cmdline_options_init(void)
     }
     if (userport_dac_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport dac");
+        return -1;
+    }
+    if (userport_snespad_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport snes pad");
         return -1;
     }
     if (gfxoutput_cmdline_options_init() < 0) {

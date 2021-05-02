@@ -125,6 +125,7 @@
 #include "userport_joystick.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
+#include "userport_snespad.h"
 #include "vdc.h"
 #include "vdc-mem.h"
 #include "vice-event.h"
@@ -777,6 +778,10 @@ int machine_resources_init(void)
         init_resource_fail("userport 8bit stereo sampler");
         return -1;
     }
+    if (userport_snespad_resources_init() < 0) {
+        init_resource_fail("userport snes pad");
+        return -1;
+    }
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     if (userport_diag_586220_harness_resources_init() < 0) {
         init_resource_fail("userport diag 586220 harness");
@@ -994,6 +999,10 @@ int machine_cmdline_options_init(void)
     }
     if (userport_8bss_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport 8bit stereo sampler");
+        return -1;
+    }
+    if (userport_snespad_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport snes pad");
         return -1;
     }
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
