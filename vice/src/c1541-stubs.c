@@ -103,6 +103,7 @@ void main_exit(void)
 
 }
 
+#ifdef USE_VICE_THREAD
 bool mainlock_is_vice_thread(void)
 {
 
@@ -111,8 +112,8 @@ bool mainlock_is_vice_thread(void)
 
 void mainlock_initiate_shutdown(void)
 {
-
 }
+#endif
 
 #if 0
 void enable_text(void)
