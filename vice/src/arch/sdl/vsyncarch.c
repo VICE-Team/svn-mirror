@@ -50,6 +50,7 @@
 #define VICE_SDL_TICKS_SCALE 1000
 static int pause_pending = 0;
 
+#if 0 /* FIXME: dead code? */
 /* FIXME: this function should be a constant */
 /* Number of timer units per second. */
 unsigned long vsyncarch_frequency(void)
@@ -57,25 +58,32 @@ unsigned long vsyncarch_frequency(void)
     /* Milliseconds resolution. */
     return 1000 * VICE_SDL_TICKS_SCALE;
 }
+#endif
 
+#if 0 /* FIXME: dead code? */
 /* Get time in timer units. */
 unsigned long vsyncarch_gettime(void)
 {
     return SDL_GetTicks() * (unsigned long)VICE_SDL_TICKS_SCALE;
 }
+#endif
 
+#if 0 /* FIXME: dead code? */
 void vsyncarch_init(void)
 {
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif
 }
+#endif
 
+#if 0 /* FIXME: dead code? */
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(unsigned long delay)
 {
     SDL_Delay((int)(delay / VICE_SDL_TICKS_SCALE));
 }
+#endif
 
 void vsyncarch_presync(void)
 {
