@@ -1852,11 +1852,14 @@ dnl Check for capabilities support.
 dnl
 dnl Currently only makes sense on Linux/BSD for rawnet support.
 AC_CHECK_HEADER(sys/capability.h,
+  AC_CHECK_LIB(cap,cap_init,
                 [ LIBS="$LIBS -lcap";
                   AC_DEFINE(HAVE_CAPABILITIES,,
                             [Support for POSIX capabilities.])
                   HAVE_CAPABILITIES_SUPPORT="yes"
-                ])
+                ]
+  )
+)
 
 
 dnl ----- Dynamic Lib Loading Support -----
