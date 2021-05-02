@@ -43,9 +43,9 @@
 
    cport | SNES PAD | I/O
    -------------------------
-     1   |   DATA1  |  I
+     1   |   DATA   |  I
      4   |   CLOCK  |  O
-     6   |   RESET  |  O
+     6   |   LATCH  |  O
  */
 
 
@@ -54,7 +54,7 @@ static int snespad_enabled = 0;
 static int counter = 0;
 
 static uint8_t clock_line = 0;
-static uint8_t reset_line = 0;
+static uint8_t latch_line = 0;
 
 /* Change this to change the default fire button */
 #define SNESPAD_FIRE_BUTTON    SNESPAD_BUTTON_B
@@ -81,22 +81,23 @@ static int joyport_snespad_enable(int port, int value)
 static uint8_t snespad_read(int port)
 {
     uint8_t retval;
+    uint8_t joyval = get_joystick_value(port + 1);
 
     switch (counter) {
         case SNESPAD_FIRE_BUTTON:
-            retval = (get_joystick_value(port + 1) & 0x10) >> 4;
+            retval = (joyval & 0x10) >> 4;
             break;
         case SNESPAD_UP:
-            retval = (get_joystick_value(port + 1) & 1);
+            retval = (joyval & 1);
             break;
         case SNESPAD_DOWN:
-            retval = (get_joystick_value(port + 1) & 2) >> 1;
+            retval = (joyval & 2) >> 1;
             break;
         case SNESPAD_LEFT:
-            retval = (get_joystick_value(port + 1) & 4) >> 2;
+            retval = (joyval & 4) >> 2;
             break;
         case SNESPAD_RIGHT:
-            retval = (get_joystick_value(port + 1) & 8) >> 3;
+            retval = (joyval & 8) >> 3;
             break;
         case SNESPAD_EOS:
             retval = 1;
@@ -111,9 +112,9 @@ static uint8_t snespad_read(int port)
 static void snespad_store(uint8_t val)
 {
     uint8_t new_clock = (val & 0x08) >> 3;
-    uint8_t new_reset = (val & 0x10) >> 4;
+    uint8_t new_latch = (val & 0x10) >> 4;
 
-    if (reset_line && !new_reset) {
+    if (latch_line && !new_latch) {
         counter = 0;
     }
 
@@ -123,7 +124,7 @@ static void snespad_store(uint8_t val)
         }
     }
 
-    reset_line = new_reset;
+    latch_line = new_latch;
     clock_line = new_clock;
 }
 
