@@ -54,6 +54,9 @@
 #define DBG(_x_)
 #endif
 
+#define VIC_NUM_COLORS      16
+#define VICII_NUM_COLORS    16
+
 /*
     TODO:
 
@@ -492,7 +495,7 @@ int native_is_colormap_multicolor(native_data_t *source)
     return multicolor;
 }
 
-static uint8_t vicii_color_bw_translate[16] = {
+static uint8_t vicii_color_bw_translate[VICII_NUM_COLORS] = {
     0,    /* vicii black       (0) -> vicii black (0) */
     1,    /* vicii white       (1) -> vicii white (1) */
     0,    /* vicii red         (2) -> vicii black (0) */
@@ -527,7 +530,7 @@ void vicii_color_to_vicii_bw_colormap(native_data_t *source)
     }
 }
 
-static uint8_t vicii_color_gray_translate[16] = {
+static uint8_t vicii_color_gray_translate[VICII_NUM_COLORS] = {
     0x0,    /* vicii black       (0) -> vicii black       (0) */
     0xF,    /* vicii white       (1) -> vicii light gray  (F) */
     0xB,    /* vicii red         (2) -> vicii dark gray   (B) */
@@ -562,54 +565,87 @@ void vicii_color_to_vicii_gray_colormap(native_data_t *source)
     }
 }
 
-static uint8_t vicii_closest_color[16][16] = {
+/* most similar -> least similar color */
+static uint8_t vicii_closest_color[VICII_NUM_COLORS][VICII_NUM_COLORS] = {
     /* vicii black (0) */
     { 0, 9, 11, 2, 6, 8, 5, 12, 4, 10, 14, 3, 13, 15, 7, 1 },
-
     /* vicii white (1) */
     { 1, 15, 13, 7, 3, 10, 14, 12, 4, 5, 11, 8, 6, 2, 9, 0 },
-
     /* vicii red (2) */
     { 2, 8, 9, 11, 0, 10, 12, 5, 4, 6, 7, 14, 15, 3, 13, 1 },
-
     /* vicii cyan (3) */
     { 3, 13, 14, 15, 12, 10, 5, 7, 4, 11, 1, 6, 8, 9, 2, 0 },
-
     /* vicii purple (4) */
     { 4, 10, 12, 11, 15, 14, 6, 8, 2, 3, 13, 9, 7, 5, 1, 0 },
-
     /* vicii green (5) */
     { 5, 11, 12, 8, 9, 3, 10, 2, 13, 7, 14, 15, 0, 4, 6, 1 },
-
     /* vicii blue (6) */
     { 6, 11, 9, 0, 4, 12, 14, 2, 8, 10, 3, 5, 13, 15, 7, 1 },
-
     /* vicii yellow (7) */
     { 7, 13, 15, 10, 3, 12, 1, 5, 8, 4, 14, 11, 2, 9, 6, 0 },
-
     /* vicii orange (8) */
     { 8, 2, 9, 11, 10, 5, 12, 4, 0, 7, 6, 15, 3, 14, 13, 1 },
-
     /* vicii brown (9) */
     { 9, 11, 2, 0, 8, 6, 5, 12, 4, 10, 14, 3, 15, 13, 7, 1 },
-
     /* vicii light red (10) */
     { 10, 12, 4, 15, 7, 8, 3, 11, 13, 14, 2, 5, 9, 1, 6, 0 },
-
     /* vicii dark gray (11) */
     { 11, 9, 12, 6, 2, 8, 5, 0, 4, 10, 14, 3, 15, 13, 7, 1 },
-
     /* vicii medium gray (12) */
     { 12, 10, 4, 3, 14, 11, 15, 5, 13, 8, 9, 6, 7, 2, 1, 0 },
-
     /* vicii light green (13) */
     { 13, 3, 15, 7, 12, 15, 1, 10, 5, 4, 11, 8, 9, 2, 6, 0 },
-
     /* vicii light blue (14) */
     { 14, 3, 12, 11, 4, 13, 6, 11, 10, 5, 9, 1, 7, 8, 2, 0 },
-
     /* vicii light gray (15) */
     { 15, 13, 3, 12, 14, 10, 7, 1, 4, 5, 11, 8, 6, 9, 2, 0 }
+};
+/*
+    0 - black         8 - orange
+    1 - white         9 - light orange  (brown)
+    2 - red          10 - pink
+    3 - cyan         11 - light cyan    (dark gray)
+    4 - magenta      12 - light magenta (medium gray)
+    5 - green        13 - light green
+    6 - blue         14 - light blue
+    7 - yellow       15 - light yellow  (light gray)
+
+    FIXME: this table needs tweaking/fixing
+*/
+/* most similar -> least similar color */
+static uint8_t vic_closest_color[VIC_NUM_COLORS][VIC_NUM_COLORS] = {
+    /* vicii black (0) */
+    { 0, 11, 2, 6, 8, 5, 12, 4, 10, 9, 14, 3, 13, 15, 7, 1 },
+    /* vicii white (1) */
+    { 1, 15, 9, 13, 7, 3, 10, 14, 12, 4, 5, 11, 8, 6, 2, 0 },
+    /* vicii red (2) */
+    { 2, 8, 9, 11, 0, 10, 12, 5, 4, 6, 7, 14, 15, 3, 13, 1 },
+    /* vicii cyan (3) */
+    { 3, 13, 14, 15, 12, 10, 5, 7, 4, 11, 1, 6, 8, 9, 2, 0 },
+    /* vicii purple (4) */
+    { 4, 10, 12, 11, 15, 14, 6, 8, 2, 3, 13, 9, 7, 5, 1, 0 },
+    /* vicii green (5) */
+    { 5, 11, 12, 8, 9, 3, 10, 2, 13, 7, 14, 15, 0, 4, 6, 1 },
+    /* vicii blue (6) */
+    { 6, 11, 9, 0, 4, 12, 14, 2, 8, 10, 3, 5, 13, 15, 7, 1 },
+    /* vicii yellow (7) */
+    { 7, 13, 15, 10, 3, 12, 1, 5, 8, 4, 14, 11, 2, 9, 6, 0 },
+    /* vicii orange (8) */
+    { 8, 2, 9, 11, 10, 5, 12, 4, 0, 7, 6, 15, 3, 14, 13, 1 },
+    /* vicii brown (9) */
+    { 9, 11, 2, 0, 8, 6, 5, 12, 4, 10, 14, 3, 15, 13, 7, 1 },
+    /* vicii light red (10) */
+    { 10, 12, 4, 15, 7, 8, 3, 11, 13, 14, 2, 5, 9, 1, 6, 0 },
+    /* vicii dark gray (11) */
+    { 11, 9, 12, 6, 2, 8, 5, 0, 4, 10, 14, 3, 15, 13, 7, 1 },
+    /* vicii medium gray (12) */
+    { 12, 10, 4, 3, 14, 11, 15, 5, 13, 8, 9, 6, 7, 2, 1, 0 },
+    /* vicii light green (13) */
+    { 13, 3, 15, 7, 12, 15, 1, 10, 5, 4, 11, 8, 9, 2, 6, 0 },
+    /* vicii light blue (14) */
+    { 14, 3, 12, 11, 4, 13, 6, 11, 10, 5, 9, 1, 7, 8, 2, 0 },
+    /* vicii light yellow (15) */
+    { 15, 13, 3, 7, 1, 12, 14, 10, 4, 5, 11, 8, 6, 9, 2, 0 }
 };
 
 /* altcolors[n].color == 255 marks the end of the list */
@@ -617,7 +653,7 @@ static inline uint8_t vicii_color_to_nearest_color(uint8_t color, native_color_s
 {
     int i, j;
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < VICII_NUM_COLORS; i++) {
         for (j = 0; altcolors[j].color != 255; j++) {
             if (vicii_closest_color[color][i] == altcolors[j].color) {
                 return vicii_closest_color[color][i];
@@ -635,6 +671,33 @@ void vicii_color_to_nearest_vicii_color_colormap(native_data_t *source, native_c
         for (j = 0; j < source->xsize; j++) {
             source->colormap[(i * source->xsize) + j] =
                 vicii_color_to_nearest_color(source->colormap[(i * source->xsize) + j], colors);
+        }
+    }
+}
+
+/* altcolors[n].color == 255 marks the end of the list */
+static inline uint8_t vic_color_to_nearest_color(uint8_t color, native_color_sort_t *altcolors)
+{
+    int i, j;
+
+    for (i = 0; i < VIC_NUM_COLORS; i++) {
+        for (j = 0; altcolors[j].color != 255; j++) {
+            if (vic_closest_color[color][i] == altcolors[j].color) {
+                return vic_closest_color[color][i];
+            }
+        }
+    }
+    return 0;
+}
+
+void vic_color_to_nearest_vic_color_colormap(native_data_t *source, native_color_sort_t *colors)
+{
+    int i, j;
+
+    for (i = 0; i < source->ysize; i++) {
+        for (j = 0; j < source->xsize; j++) {
+            source->colormap[(i * source->xsize) + j] =
+                vic_color_to_nearest_color(source->colormap[(i * source->xsize) + j], colors);
         }
     }
 }
@@ -1133,9 +1196,33 @@ static uint8_t ted_vicii_translate[16] = {
     0xD     /* ted light green  (F) -> vicii light green (D) */
 };
 
+static uint8_t ted_vic_translate[16] = {
+    0x0,    /* ted black        (0) -> vic black       (0) */
+    0x1,    /* ted white        (1) -> vic white       (1) */
+    0x2,    /* ted red          (2) -> vic red         (2) */
+    0x3,    /* ted cyan         (3) -> vic cyan        (3) */
+    0x4,    /* ted purple       (4) -> vic purple      (4) */
+    0x5,    /* ted green        (5) -> vic green       (5) */
+    0x6,    /* ted blue         (6) -> vic blue        (6) */
+    0x7,    /* ted yellow       (7) -> vic yellow      (7) */
+    0x8,    /* ted orange       (8) -> vic orange      (8) */
+    0x9,    /* ted brown        (9) -> vic brown       (9) */
+    0xF,    /* ted yellow-green (A) -> vic light yellow(F) */
+    0xA,    /* ted pink         (B) -> vic light red   (A) */
+    0xB,    /* ted blue-green   (C) -> vic light cyan  (B) */
+    0xE,    /* ted light blue   (D) -> vic light blue  (E) */
+    0x6,    /* ted dark blue    (E) -> vic blue        (6) */
+    0xD     /* ted light green  (F) -> vic light green (D) */
+};
+
 static uint8_t ted_to_vicii_color(uint8_t color)
 {
     return ted_vicii_translate[color];
+}
+
+static uint8_t ted_to_vic_color(uint8_t color)
+{
+    return ted_vic_translate[color];
 }
 
 static uint8_t ted_lum_vicii_translate[16 * 8] = {
@@ -1276,6 +1363,145 @@ static uint8_t ted_lum_vicii_translate[16 * 8] = {
     0xD     /* ted light green L7  (F) -> vicii light green (D) */
 };
 
+/* TODO: this table needs more tweaking */
+static uint8_t ted_lum_vic_translate[16 * 8] = {
+    0x0,    /* ted black L0        (0) -> vic black     (0) */
+    0x0,    /* ted white L0        (1) -> vic black     (0) */
+    0x2,    /* ted red L0          (2) -> vic red       (2) */
+    0x3,    /* ted cyan L0         (3) -> vic cyan      (3) */
+    0x6,    /* ted purple L0       (4) -> vic blue      (6) */
+    0x0,    /* ted green L0        (5) -> vic black     (0) */
+    0x6,    /* ted blue L0         (6) -> vic blue      (6) */
+    0x0,    /* ted yellow L0       (7) -> vic black     (0) */
+    0x0,    /* ted orange L0       (8) -> vic black     (0) */
+    0x0,    /* ted brown L0        (9) -> vic black     (0) */
+    0x0,    /* ted yellow-green L0 (A) -> vic black     (0) */
+    0x0,    /* ted pink L0         (B) -> vic black     (0) */
+    0x0,    /* ted blue-green L0   (C) -> vic black     (0) */
+    0x6,    /* ted light blue L0   (D) -> vic blue      (6) */
+    0x6,    /* ted dark blue L0    (E) -> vic blue      (6) */
+    0x0,    /* ted light green L0  (F) -> vic black     (0) */
+
+    0x0,    /* ted black L1        (0) -> vic black     (0) */
+    0x0,    /* ted white L1        (1) -> vic black     (0) */
+    0x2,    /* ted red L1          (2) -> vic red       (2) */
+    0x3,    /* ted cyan L1         (3) -> vic cyan      (C) */
+    0x6,    /* ted purple L1       (4) -> vic blue      (6) */
+    0x0,    /* ted green L1        (5) -> vic black     (0) */
+    0x6,    /* ted blue L1         (6) -> vic blue      (6) */
+    0x0,    /* ted yellow L1       (7) -> vic black     (0) */
+    0x2,    /* ted orange L1       (8) -> vic red       (2) */
+    0x0,    /* ted brown L1        (9) -> vic black     (0) */
+    0x0,    /* ted yellow-green L1 (A) -> vic black     (0) */
+    0x2,    /* ted pink L1         (B) -> vic red       (2) */
+    0x6,    /* ted blue-green L1   (C) -> vic blue      (6) */
+    0x6,    /* ted light blue L1   (D) -> vic blue      (6) */
+    0x6,    /* ted dark blue L1    (E) -> vic blue      (6) */
+    0x5,    /* ted light green L1  (F) -> vic green     (5) */
+
+    0x0,    /* ted black L2        (0) -> vic black     (0) */
+    0x0,    /* ted white L2        (1) -> vic black     (0) */
+    0x2,    /* ted red L2          (2) -> vic red       (2) */
+    0x3,    /* ted cyan L2         (3) -> vic cyan      (3) */
+    0x4,    /* ted purple L2       (4) -> vic purple    (4) */
+    0x9,    /* ted green L2        (5) -> vic black     (0) */
+    0x6,    /* ted blue L2         (6) -> vic blue      (6) */
+    0x0,    /* ted yellow L2       (7) -> vic black     (0) */
+    0x2,    /* ted orange L2       (8) -> vic red       (2) */
+    0x0,    /* ted brown L2        (9) -> vic black     (0) */
+    0x0,    /* ted yellow-green L2 (A) -> vic black     (0) */
+    0x2,    /* ted pink L2         (B) -> vic red       (2) */
+    0x6,    /* ted blue-green L2   (C) -> vic blue      (6) */
+    0x6,    /* ted light blue L2   (D) -> vic blue      (6) */
+    0x6,    /* ted dark blue L2    (E) -> vic blue      (6) */
+    0x5,    /* ted light green L2  (F) -> vic green     (5) */
+
+    0x0,    /* ted black L3        (0) -> vic black       (0) */
+    0x0,    /* ted white L3        (1) -> vic black       (0) */
+    0x2,    /* ted red L3          (2) -> vic red         (2) */
+    0x3,    /* ted cyan L3         (3) -> vic cyan        (3) */
+    0x4,    /* ted purple L3       (4) -> vic purple      (4) */
+    0x0,    /* ted green L3        (5) -> vic black       (0) */
+    0x6,    /* ted blue L3         (6) -> vic blue        (6) */
+    0x0,    /* ted yellow L3       (7) -> vic black       (0) */
+    0x8,    /* ted orange L3       (8) -> vic orange      (8) */
+    0x8,    /* ted brown L3        (9) -> vic orange      (8) */
+    0x0,    /* ted yellow-green L3 (A) -> vic black       (0) */
+    0x4,    /* ted pink L3         (B) -> vic purple      (4) */
+    0x6,    /* ted blue-green L3   (C) -> vic blue        (6) */
+    0x6,    /* ted light blue L3   (D) -> vic blue        (6) */
+    0x6,    /* ted dark blue L3    (E) -> vic blue        (6) */
+    0x5,    /* ted light green L3  (F) -> vic green       (5) */
+
+    0x0,    /* ted black L4        (0) -> vic black       (0) */
+    0x1,    /* ted white L4        (1) -> vic white       (1) */
+    0xA,    /* ted red L4          (2) -> vic pink        (A) */
+    0xE,    /* ted cyan L4         (3) -> vic light blue  (E) */
+    0x4,    /* ted purple L4       (4) -> vic purple      (4) */
+    0x5,    /* ted green L4        (5) -> vic green       (5) */
+    0xE,    /* ted blue L4         (6) -> vic light blue  (E) */
+    0x5,    /* ted yellow L4       (7) -> vic green       (5) */
+    0xA,    /* ted orange L4       (8) -> vic pink        (A) */
+    0x8,    /* ted brown L4        (9) -> vic orange      (8) */
+    0x5,    /* ted yellow-green L4 (A) -> vic green       (5) */
+    0x4,    /* ted pink L4         (B) -> vic purple      (4) */
+    0x3,    /* ted blue-green L4   (C) -> vic cyan        (3) */
+    0xE,    /* ted light blue L4   (D) -> vic light blue  (E) */
+    0xE,    /* ted dark blue L4    (E) -> vic light blue  (E) */
+    0x5,    /* ted light green L4  (F) -> vic green       (5) */
+
+    0x0,    /* ted black L5        (0) -> vic black       (0) */
+    0x1,    /* ted white L5        (1) -> vic white       (1) */
+    0xA,    /* ted red L5          (2) -> vic pink        (A) */
+    0x3,    /* ted cyan L5         (3) -> vic cyan        (3) */
+    0xC,    /* ted purple L5       (4) -> vic light purple(C) */
+    0x5,    /* ted green L5        (5) -> vic green       (5) */
+    0xE,    /* ted blue L5         (6) -> vic light blue  (E) */
+    0x5,    /* ted yellow L5       (7) -> vic green       (5) */
+    0xA,    /* ted orange L5       (8) -> vic pink        (A) */
+    0xA,    /* ted brown L5        (9) -> vic pink        (A) */
+    0x5,    /* ted yellow-green L5 (A) -> vic green       (5) */
+    0xA,    /* ted pink L5         (B) -> vic pink        (A) */
+    0x3,    /* ted blue-green L5   (C) -> vic cyan        (3) */
+    0xE,    /* ted light blue L5   (D) -> vic light blue  (E) */
+    0xE,    /* ted dark blue L5    (E) -> vic light blue  (E) */
+    0x5,    /* ted light green L5  (F) -> vic green       (5) */
+
+    0x0,    /* ted black L6        (0) -> vic black       (0) */
+    0x1,    /* ted white L6        (1) -> vic white       (1) */
+    0xA,    /* ted red L6          (2) -> vic pink        (A) */
+    0x3,    /* ted cyan L6         (3) -> vic cyan        (3) */
+    0xC,    /* ted purple L6       (4) -> vic light purple(C) */
+    0xD,    /* ted green L6        (5) -> vic light green (D) */
+    0xE,    /* ted blue L6         (6) -> vic light blue  (E) */
+    0x7,    /* ted yellow L6       (7) -> vic yellow      (7) */
+    0xA,    /* ted orange L6       (8) -> vic pink        (A) */
+    0xA,    /* ted brown L6        (9) -> vic pink        (A) */
+    0x7,    /* ted yellow-green L6 (A) -> vic yellow      (7) */
+    0xA,    /* ted pink L6         (B) -> vic pink        (A) */
+    0x3,    /* ted blue-green L6   (C) -> vic cyan        (3) */
+    0xE,    /* ted light blue L6   (D) -> vic light blue  (E) */
+    0xE,    /* ted dark blue L6    (E) -> vic light blue  (E) */
+    0x7,    /* ted light green L6  (F) -> vic yellow      (7) */
+
+    0x0,    /* ted black L7        (0) -> vic black       (0) */
+    0x1,    /* ted white L7        (1) -> vic white       (1) */
+    0x1,    /* ted red L7          (2) -> vic white       (1) */
+    0x1,    /* ted cyan L7         (3) -> vic white       (1) */
+    0x1,    /* ted purple L7       (4) -> vic white       (1) */
+    0xD,    /* ted green L7        (5) -> vic light green (D) */
+    0x1,    /* ted blue L7         (6) -> vic white       (1) */
+    0x7,    /* ted yellow L7       (7) -> vic yellow      (7) */
+    0x9,    /* ted orange L7       (8) -> vic light orange(9) */
+    0x7,    /* ted brown L7        (9) -> vic yellow      (7) */
+    0x7,    /* ted yellow-green L7 (A) -> vic yellow      (7) */
+    0x1,    /* ted pink L7         (B) -> vic white       (1) */
+    0xD,    /* ted blue-green L7   (C) -> vic light green (D) */
+    0x1,    /* ted light blue L7   (D) -> vic white       (1) */
+    0x1,    /* ted dark blue L7    (E) -> vic white       (1) */
+    0xD     /* ted light green L7  (F) -> vic light green (D) */
+};
+
 static uint8_t ted_lum_to_vicii_color(uint8_t color, uint8_t lum)
 {
     return ted_lum_vicii_translate[(lum * 16) + color];
@@ -1295,6 +1521,30 @@ void ted_color_to_vicii_color_colormap(native_data_t *source, int ted_lum_handli
             } else {
                 source->colormap[(i * source->xsize) + j] =
                     ted_to_vicii_color((uint8_t)(colorbyte & 0xf));
+            }
+        }
+    }
+}
+
+static uint8_t ted_lum_to_vic_color(uint8_t color, uint8_t lum)
+{
+    return ted_lum_vic_translate[(lum * 16) + color];
+}
+
+void ted_color_to_vic_color_colormap(native_data_t *source, int ted_lum_handling)
+{
+    int i, j;
+    uint8_t colorbyte;
+
+    for (i = 0; i < source->ysize; i++) {
+        for (j = 0; j < source->xsize; j++) {
+            colorbyte = source->colormap[(i * source->xsize) + j];
+            if (ted_lum_handling == NATIVE_SS_TED_LUM_DITHER) {
+                source->colormap[(i * source->xsize) + j] =
+                    ted_lum_to_vic_color((uint8_t)(colorbyte & 0xf), (uint8_t)(colorbyte >> 4));
+            } else {
+                source->colormap[(i * source->xsize) + j] =
+                    ted_to_vic_color((uint8_t)(colorbyte & 0xf));
             }
         }
     }
@@ -1509,7 +1759,7 @@ native_data_t *native_ted_multicolor_bitmap_mode_render(screenshot_t *screenshot
 
 /* ------------------------------------------------------------------------ */
 
-static uint8_t vic_vicii_translate[16] = {
+static uint8_t vic_vicii_translate[VIC_NUM_COLORS] = {
     0x0,    /* vic black        (0) -> vicii black       (0) */
     0x1,    /* vic white        (1) -> vicii white       (1) */
     0x2,    /* vic red          (2) -> vicii red         (2) */
@@ -1520,12 +1770,31 @@ static uint8_t vic_vicii_translate[16] = {
     0x7,    /* vic yellow       (7) -> vicii yellow      (7) */
     0x8,    /* vic orange       (8) -> vicii orange      (8) */
     0x8,    /* vic light orange (9) -> vicii orange      (8) */
-    0x8,    /* vic pink         (A) -> vicii orange      (8) */
+    0xa,    /* vic pink         (A) -> vicii light red   (a) */
     0xD,    /* vic light cyan   (B) -> vicii light green (D) */
     0x4,    /* vic light purple (C) -> vicii purple      (4) */
     0xD,    /* vic light green  (D) -> vicii light green (D) */
     0xE,    /* vic light blue   (E) -> vicii light blue  (E) */
-    0x7     /* vic light yellow (F) -> vicii yellow      (7) */
+    0xF     /* vic light yellow (F) -> vicii light grey  (F) */
+};
+
+static uint8_t vicii_vic_translate[VICII_NUM_COLORS] = {
+    0x0,    /* vicii black       (0) -> vic black        (0) */
+    0x1,    /* vicii white       (1) -> vic white        (1) */
+    0x2,    /* vicii red         (2) -> vic red          (2) */
+    0x3,    /* vicii cyan        (3) -> vic cyan         (3) */
+    0x4,    /* vicii purple      (4) -> vic purple       (4) */
+    0x5,    /* vicii green       (5) -> vic green        (5) */
+    0x6,    /* vicii blue        (6) -> vic blue         (6) */
+    0x7,    /* vicii yellow      (7) -> vic yellow       (7) */
+    0x9,    /* vicii orange      (8) -> vic light orange (9) */
+    0x8,    /* vicii brown       (9) -> vic orange       (8) */
+    0xa,    /* vicii light red   (A) -> vic pink         (a) */
+    0x2,    /* vicii dark gray   (B) -> vic red          (2) */
+    0x8,    /* vicii medium gray (C) -> vic orange       (8) */
+    0xd,    /* vicii light green (D) -> vic light green  (d) */
+    0xe,    /* vicii light blue  (E) -> vic light blue   (e) */
+    0xf     /* vicii light gray  (F) -> vic light yellow (f) */
 };
 
 static inline uint8_t vic_to_vicii_color(uint8_t color)
@@ -1544,6 +1813,24 @@ void vic_color_to_vicii_color_colormap(native_data_t *source)
         }
     }
 }
+
+static inline uint8_t vicii_to_vic_color(uint8_t color)
+{
+    return vicii_vic_translate[color];
+}
+
+void vicii_color_to_vic_color_colormap(native_data_t *source)
+{
+    int i, j;
+
+    for (i = 0; i < source->ysize; i++) {
+        for (j = 0; j < source->xsize; j++) {
+            source->colormap[(i * source->xsize) + j] =
+                vicii_to_vic_color(source->colormap[(i * source->xsize) + j]);
+        }
+    }
+}
+
 #if 0
 native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename)
 {
@@ -1814,6 +2101,25 @@ static uint8_t vdc_vicii_translate[16] = {
     0x1     /* vdc white        (F) -> vicii white       (1) */
 };
 
+static uint8_t vdc_vic_translate[16] = {
+    0x0,    /* vdc black        (0) -> vic black       (0) */
+    0x0,    /* vdc dark gray    (1) -> vic black       (0) */
+    0x6,    /* vdc dark blue    (2) -> vic blue        (6) */
+    0xe,    /* vdc light blue   (3) -> vic light blue  (e) */
+    0x5,    /* vdc dark green   (4) -> vic green       (5) */
+    0xd,    /* vdc light green  (5) -> vic light green (d) */
+    0x3,    /* vdc dark cyan    (6) -> vic cyan        (3) */
+    0xb,    /* vdc light cyan   (7) -> vic light cyan  (b) */
+    0x2,    /* vdc dark red     (8) -> vic red         (2) */
+    0xa,    /* vdc light red    (9) -> vic pink        (a) */
+    0x4,    /* vdc dark purple  (A) -> vic purple      (4) */
+    0xc,    /* vdc light purple (B) -> vic light purple(c) */
+    0x7,    /* vdc dark yellow  (C) -> vic yellow      (7) */
+    0xe,    /* vdc light yellow (D) -> vic light yellow(e) */
+    0xe,    /* vdc light gray   (E) -> vic light yellow(e) */
+    0x1     /* vdc white        (F) -> vic white       (1) */
+};
+
 static inline uint8_t vdc_to_vicii_color(uint8_t color)
 {
     return vdc_vicii_translate[color];
@@ -1827,6 +2133,23 @@ void vdc_color_to_vicii_color_colormap(native_data_t *source)
         for (j = 0; j < source->xsize; j++) {
             source->colormap[(i * source->xsize) + j] =
                 vdc_to_vicii_color(source->colormap[(i * source->xsize) + j]);
+        }
+    }
+}
+
+static inline uint8_t vdc_to_vic_color(uint8_t color)
+{
+    return vdc_vic_translate[color];
+}
+
+void vdc_color_to_vic_color_colormap(native_data_t *source)
+{
+    int i, j;
+
+    for (i = 0; i < source->ysize; i++) {
+        for (j = 0; j < source->xsize; j++) {
+            source->colormap[(i * source->xsize) + j] =
+                vdc_to_vic_color(source->colormap[(i * source->xsize) + j]);
         }
     }
 }

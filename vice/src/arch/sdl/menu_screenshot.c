@@ -49,10 +49,13 @@ UI_MENU_DEFINE_RADIO(OCPTEDLumHandling)
 UI_MENU_DEFINE_RADIO(KoalaOversizeHandling)
 UI_MENU_DEFINE_RADIO(KoalaUndersizeHandling)
 UI_MENU_DEFINE_RADIO(KoalaTEDLumHandling)
+UI_MENU_DEFINE_RADIO(MinipaintOversizeHandling)
+UI_MENU_DEFINE_RADIO(MinipaintUndersizeHandling)
+UI_MENU_DEFINE_RADIO(MinipaintTEDLumHandling)
 
 static UI_MENU_CALLBACK(save_screenshot_callback)
 {
-    char title[20];
+    char title[32];
     char *name = NULL;
     int width;
     int height;
@@ -140,6 +143,74 @@ static const ui_menu_entry_t koala_oversize_handling_menu[] = {
     { "Crop right bottom",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_KoalaOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t minipaint_tedlum_handling_menu[] = {
+    { "Ignore",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintTEDLumHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_TED_LUM_IGNORE },
+    { "Best cell colors",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintTEDLumHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_TED_LUM_DITHER },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t minipaint_undersize_handling_menu[] = {
+    { "Scale",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintUndersizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_UNDERSIZE_SCALE },
+    { "Borderize",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintUndersizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_UNDERSIZE_BORDERIZE },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t minipaint_oversize_handling_menu[] = {
+    { "Scale",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_SCALE },
+    { "Crop left top",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_TOP },
+    { "Crop middle top",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_TOP },
+    { "Crop right top",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_TOP },
+    { "Crop left center",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_CENTER },
+    { "Crop middle center",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER },
+    { "Crop right center",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_CENTER },
+    { "Crop left bottom",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM },
+    { "Crop middle bottom",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
+      (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM },
+    { "Crop right bottom",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MinipaintOversizeHandling_callback,
       (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM },
     SDL_MENU_LIST_END
 };
@@ -276,6 +347,46 @@ static const ui_menu_entry_t koala_settings_crtc_menu[] = {
     SDL_MENU_LIST_END
 };
 
+static const ui_menu_entry_t minipaint_settings_vic_vicii_vdc_menu[] = {
+    { "Oversize handling",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)minipaint_oversize_handling_menu },
+    { "Undersize handling",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)minipaint_undersize_handling_menu },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t minipaint_settings_ted_menu[] = {
+    { "Oversize handling",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)minipaint_oversize_handling_menu },
+    { "Undersize handling",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)minipaint_undersize_handling_menu },
+    { "TED luminosity handling",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)minipaint_tedlum_handling_menu },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t minipaint_settings_crtc_menu[] = {
+    { "Oversize handling",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)minipaint_oversize_handling_menu },
+    { "Undersize handling",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)minipaint_undersize_handling_menu },
+    SDL_MENU_LIST_END
+};
+
 static const ui_menu_entry_t artstudio_settings_vic_vicii_vdc_menu[] = {
     { "Oversize handling",
       MENU_ENTRY_SUBMENU,
@@ -336,6 +447,10 @@ const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)koala_settings_vic_vicii_vdc_menu },
+    { "Minipaint screenshot settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)minipaint_settings_vic_vicii_vdc_menu },
 
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -352,6 +467,10 @@ const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"4BT" },
+    { "Save Minipaint screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"MINIPAINT" },
 
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -404,6 +523,10 @@ const ui_menu_entry_t screenshot_ted_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)koala_settings_ted_menu },
+    { "Minipaint screenshot settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)minipaint_settings_ted_menu },
 
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -419,6 +542,10 @@ const ui_menu_entry_t screenshot_ted_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"4BT" },
+    { "Save Minipaint screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"MINIPAINT" },
 
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -470,6 +597,10 @@ const ui_menu_entry_t screenshot_crtc_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)koala_settings_crtc_menu },
+    { "Minipaint screenshot settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)minipaint_settings_crtc_menu },
 
     SDL_MENU_ITEM_SEPARATOR,
 
@@ -485,6 +616,10 @@ const ui_menu_entry_t screenshot_crtc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"4BT" },
+    { "Save Minipaint screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"MINIPAINT" },
 
     SDL_MENU_ITEM_SEPARATOR,
 

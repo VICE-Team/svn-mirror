@@ -131,6 +131,8 @@ int gfxoutput_early_init(int help)
     gfxoutput_init_godot(help);
     gfxoutput_init_artstudio(help);
     gfxoutput_init_koala(help);
+    /* VIC20 formats */
+    gfxoutput_init_minipaint(help);
     return 0;
 }
 
