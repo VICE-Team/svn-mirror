@@ -23,7 +23,15 @@ then
     popd
 fi
 
+# NOTE: --disable-catweasel, --disable-hardsid, --disable-parsid, --disable-ssi2001 added to try to workaround
+# the reported Windows need for one-time admin permissions to launch
+
 ARGS="\
+    --disable-catweasel \
+    --disable-hardsid \
+    --disable-parsid \
+    --disable-ssi2001 \
+\
     --disable-arch \
     --disable-pdf-docs \
     --enable-ethernet \
