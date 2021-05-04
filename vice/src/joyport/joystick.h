@@ -54,6 +54,8 @@ extern void joystick_event_playback(CLOCK offset, void *data);
 extern void joystick_event_delayed_playback(void *data);
 extern void joystick_register_delay(unsigned int delay);
 
+extern void linux_joystick_init(void);
+
 extern uint8_t get_joystick_value(int index);
 
 typedef void (*joystick_machine_func_t)(void);
@@ -104,5 +106,36 @@ typedef enum {
     JOYSTICK_KEYSET_FIRE3
 } joystick_direction_t;
 #endif
+
+/* standard devices */
+#define JOYDEV_NONE      0
+#define JOYDEV_NUMPAD    1
+#define JOYDEV_KEYSET1   2
+#define JOYDEV_KEYSET2   3
+
+#define JOYDEV_REALJOYSTICK_MIN (JOYDEV_KEYSET2 + 1)
+
+typedef struct joystick_driver_s {
+    void (*poll)(int, void*);
+    void (*close)(void*);
+} joystick_driver_t;
+
+extern void register_joystick_driver(
+   struct joystick_driver_s *driver,
+   const char *jname,
+   void *priv,
+   int num_axes,
+   int num_buttons,
+   int num_hats);
+
+typedef enum joystick_axis_value_e {
+   JOY_AXIS_MIDDLE,
+   JOY_AXIS_POSITIVE,
+   JOY_AXIS_NEGATIVE
+} joystick_axis_value_t;
+
+
+extern void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
+extern void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value);
 
 #endif

@@ -749,6 +749,8 @@ else
   AM_CONDITIONAL(USE_SVN_REVISION, false)
 fi
 
+JOYSTICK_DRIVERS = ""
+
 dnl Setup crosscompiling.
 
 if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc" -o x"$is_win32_gtk3" = "xyes"; then
@@ -1902,6 +1904,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
                        LINUX_JOYSTICK_SUPPORT="yes";
                         AC_DEFINE(LINUX_JOYSTICK,,
                               [Enable support for Linux style joysticks.])
+                        JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_linux.o";
                    ],[],[#include <linux/joystick.h>])],)
 
   AC_CHECK_HEADER(machine/joystick.h,
@@ -3182,6 +3185,7 @@ LIBS="$old_LIBS"
 AC_SUBST(GFXOUTPUT_DRIVERS)
 AC_SUBST(GFXOUTPUT_LIBS)
 
+AC_SUBST(JOYSTICK_DRIVERS)
 
 dnl PortAudio support checks
 
@@ -3692,6 +3696,7 @@ AC_OUTPUT([Makefile
            src/imagecontents/Makefile
            src/iodrv/Makefile
            src/joyport/Makefile
+           src/joystickdrv/Makefile
            src/lib/Makefile
            src/lib/ffmpeg/Makefile
            src/lib/p64/Makefile
