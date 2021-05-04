@@ -41,6 +41,7 @@ SUBDIRS = \
 	@RESID_DTV_DIR@ \
 	samplerdrv \
 	joyport \
+	joystickdrv \
 	sounddrv \
 	mididrv \
 	socketdrv \
@@ -97,6 +98,7 @@ DIST_SUBDIRS = \
 	iodrv \
 	samplerdrv \
 	joyport \
+	joystickdrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -982,6 +984,7 @@ iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 iodrv_lib = $(top_builddir)/src/iodrv/libiodrv.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
+joystickdrv_lib = $(top_builddir)/src/joystickdrv/libjoystickdrv.a
 linenoise_ng_lib = $(top_builddir)/src/lib/linenoise-ng/liblinenoiseng.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
 mididrv_lib = $(top_builddir)/src/mididrv/libmididrv.a
@@ -1026,7 +1029,7 @@ ffmpeg_libs = @FFMPEG_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @ARCH_LIBS@ $(archdep_lib)
 
-driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(joystickdrv_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if SUPPORT_X64
 x64_bin = x64
@@ -1062,6 +1065,7 @@ vsid_libs =  \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(joyport_lib) \
+	$(joystickdrv_lib) \
 	$(hvsc_lib) \
 	$(datasette_lib)
 
@@ -1094,6 +1098,7 @@ vsid-all: \
 	libserial \
 	libcore \
 	libjoyport \
+	libjoystickdrv \
 	libdatasette \
 	vsid$(EXEEXT)
 
@@ -1161,6 +1166,7 @@ x64-all: \
 	libsid \
 	libsamplerdrv \
 	libjoyport \
+	libjoystickdrv \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
@@ -1250,6 +1256,7 @@ x64sc-all: \
 	libsid \
 	libsamplerdrv \
 	libjoyport \
+	libjoystickdrv \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
@@ -1305,6 +1312,7 @@ x64dtv_libs =  \
 	$(ffmpeg_libs) \
 	$(c64dtvstubs_lib) \
 	$(joyport_lib) \
+	$(joystickdrv_lib) \
 	$(rtc_lib) \
 	$(hvsc_lib)
 
@@ -1336,6 +1344,7 @@ x64dtv-all: \
 	libsid_dtv \
 	libsamplerdrv \
 	libjoyport \
+	libjoystickdrv \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
@@ -1410,6 +1419,7 @@ xscpu64-all: \
 	libdatasette \
 	libsamplerdrv \
 	libjoyport \
+	libjoystickdrv \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
@@ -1502,6 +1512,7 @@ x128-all: \
 	libdatasette \
 	libsamplerdrv \
 	libjoyport \
+	libjoystickdrv \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
@@ -1596,6 +1607,7 @@ xvic-all: \
 	libraster \
 	libsamplerdrv \
 	libjoyport \
+	libjoystickdrv \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
@@ -1652,6 +1664,7 @@ xpet_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
+	$(joystickdrv_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(rtc_lib) \
@@ -1702,6 +1715,7 @@ xpet-all: \
 	libuserport \
 	libtapeport \
 	libjoyport \
+	libjoystickdrv \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	xpet$(EXEEXT)
@@ -1735,6 +1749,7 @@ xplus4_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
+	$(joystickdrv_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(hvsc_lib)
@@ -1761,6 +1776,7 @@ xplus4-all: \
 	libraster \
 	libsamplerdrv \
 	libjoyport \
+	libjoystickdrv \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
@@ -1815,6 +1831,7 @@ xcbm2_libs = \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
+	$(joystickdrv_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(rtc_lib) \
@@ -1866,6 +1883,7 @@ xcbm2-all: \
 	libuserport \
 	libtapeport \
 	libjoyport \
+	libjoystickdrv \
 	xcbm2$(EXEEXT)
 
 # xcbm5x0
@@ -1894,6 +1912,7 @@ xcbm5x0_libs = \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
+	$(joystickdrv_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(hvsc_lib)
@@ -1909,6 +1928,7 @@ xcbm5x0-all: \
 	libcbm5x0 \
 	libsamplerdrv \
 	libjoyport \
+	libjoystickdrv \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
@@ -2166,6 +2186,9 @@ libsamplerdrv:
 libjoyport:
 	@echo "making all in joyport"
 	@(cd joyport && $(MAKE))
+libjoyport:
+	@echo "making all in joystickdrv"
+	@(cd joystickdrv && $(MAKE))
 libserial:
 	@echo "making all in serial"
 	@(cd serial && $(MAKE))
