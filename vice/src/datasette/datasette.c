@@ -720,7 +720,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
     }
 
     if (current_image->mode == DATASETTE_CONTROL_START) {
-        datasette_sound_add_to_circular_buffer(gap);
+        datasette_sound_add_to_circular_buffer((CLOCK)gap);
     }
 
     gap -= offset;
