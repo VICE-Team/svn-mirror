@@ -2034,7 +2034,7 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 	libtape libarch libtoolarch libarchdep libvicii libviciisc libviciidtv \
 	libviciivsid libvdc libsid libcrtc libvideo libserial libparallel \
 	libcore libiecbus libfileio librtc libuserport libtapeport libp64 \
-	libscpu64 libdiag libdatasette \
+	libscpu64 libdiag libdatasette libjoystickdrv \
 	@RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
