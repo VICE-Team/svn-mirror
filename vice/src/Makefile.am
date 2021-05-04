@@ -2186,7 +2186,7 @@ libsamplerdrv:
 libjoyport:
 	@echo "making all in joyport"
 	@(cd joyport && $(MAKE))
-libjoyport:
+libjoystickdrv:
 	@echo "making all in joystickdrv"
 	@(cd joystickdrv && $(MAKE))
 libserial:
