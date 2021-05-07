@@ -2052,9 +2052,10 @@ void ui_display_drive_led(unsigned int drive_number,
 
     /* Ok to call from VICE thread */
 
-    if (drive_number < 0 || drive_number > NUM_DISK_UNITS - 1) {
+    if (drive_number > NUM_DISK_UNITS - 1) {
         /* TODO: Fatal error? */
-        return;
+        debug_gtk3("Error: illegal drive number %u.", drive_number);
+        abort();
     }
 
     sb_state = lock_sb_state();
