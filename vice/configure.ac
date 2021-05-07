@@ -101,7 +101,6 @@ VICE_ARG_ENABLE_LIST(no-pic,            [  --enable-no-pic         enable the us
 VICE_ARG_ENABLE_LIST(realdevice,        [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(rs232,             [  --disable-rs232         disable RS232 support])
 
-
 dnl
 dnl Developer options
 dnl
@@ -112,7 +111,9 @@ VICE_ARG_ENABLE_LIST(debug-threads,     [  --enable-debug-threads  enable debug 
 VICE_ARG_ENABLE_LIST(embedded,          [  --enable-embedded       enable embedding of emulation data files])
 VICE_ARG_ENABLE_LIST(x64,               [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
 VICE_ARG_ENABLE_LIST(x64-image,         [  --enable-x64-image      enable X64 image support [[default=no]]])
-VICE_ARG_ENABLE_LIST(optimization,      [  --disable-optimization   disable code optimization by passing -O0 [[default=no]]])
+VICE_ARG_ENABLE_LIST(optimization,      [  --disable-optimization  disable code optimization by passing -O0 [[default=no]]])
+VICE_ARG_ENABLE_LIST(all-warnings,      [  --enable-all-warnings   enable anal warnings [[default=no]]])
+
 
 
 dnl
@@ -238,7 +239,6 @@ m4_foreach([flag],
             [-Wstrict-prototypes],
             [-Wuninitialized],
             [-Wunreachable-code],
-            [-Wno-unused-parameter],
             [-Wmacro-redefined],
             [-Werror=implicit-function-declaration],
             [-Wfatal-errors],
@@ -248,6 +248,30 @@ m4_foreach([flag],
            [TEST_FLAG=flag
             VICE_CFLAG_REQUEST([$TEST_FLAG])
            ])
+
+dnl Warnings we never want to have
+dnl (the -Wunused-parameter warning will trigger hundreds of warnings in Gtk3
+dnl  code)
+m4_foreach([flag],
+           [[-Wno-unused-parameter]],
+           [TEST_FLAG=flag
+            VICE_CFLAG_REQUEST([$TEST_FLAG])
+            ])
+
+dnl Disable warnings if requested
+dnl
+dnl Enabled by default, disable with `--disable-all-warnings`
+if test x"$enable_all_warnings" != "xyes"; then
+    m4_foreach([flag],
+               [[-Wno-sign-compare],
+                [-Wno-missing-field-initializers],
+                [-Wno-ignored-qualifiers]],
+               [TEST_FLAG=flag
+                VICE_CFLAG_REQUEST([$TEST_FLAG])
+               ])
+fi
+
+
 AC_LANG_PUSH([C++])
 m4_foreach([flag],
            [[-Wall],
