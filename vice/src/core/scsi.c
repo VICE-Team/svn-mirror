@@ -483,23 +483,38 @@ void scsi_process_ack(struct scsi_context_s *context)
                 context->command = context->cmd_buf[0];
                 switch (context->command) {
                 case SCSI_COMMAND_TEST_UNIT_READY:
+                    /* fall through */
                 case SCSI_COMMAND_REZERO_UNIT:
+                    /* fall through */
                 case SCSI_COMMAND_REQUEST_SENSE:
+                    /* fall through */
                 case SCSI_COMMAND_FORMAT_UNIT:
+                    /* fall through */
                 case SCSI_COMMAND_REASSIGN_BLOCKS:
+                    /* fall through */
                 case SCSI_COMMAND_READ_6:
+                    /* fall through */
                 case SCSI_COMMAND_WRITE_6:
+                    /* fall through */
                 case SCSI_COMMAND_INQUIRY:
+                    /* fall through */
                 case SCSI_COMMAND_MODE_SENSE:
+                    /* fall through */
                 case SCSI_COMMAND_START_STOP:
+                    /* fall through */
                 case SCSI_COMMAND_SEND_DIAGNOSTIC:
                     context->cmd_size = 6;
                     break;
                 case SCSI_COMMAND_READ_CAPACITY:
+                    /* fall through */
                 case SCSI_COMMAND_READ_10:
+                    /* fall through */
                 case SCSI_COMMAND_WRITE_10:
+                    /* fall through */
                 case SCSI_COMMAND_MODE_SENSE_10:
+                    /* fall through */
                 case SCSI_COMMAND_WRITE_VERIFY:
+                    /* fall through */
                 case SCSI_COMMAND_VERIFY:
                     context->cmd_size = 10;
                     break;
@@ -551,7 +566,9 @@ void scsi_process_ack(struct scsi_context_s *context)
                     context->state = SCSI_STATE_DATAOUT;
                     context->data_max = 4;
                     context->seq = 0;
+                    break;
                 case SCSI_COMMAND_READ_6:
+                    /* fall through */
                 case SCSI_COMMAND_READ_10:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
                     if (context->command == SCSI_COMMAND_READ_6) {
@@ -594,7 +611,9 @@ void scsi_process_ack(struct scsi_context_s *context)
                     }
                     break;
                 case SCSI_COMMAND_WRITE_6:
+                    /* fall through */
                 case SCSI_COMMAND_WRITE_10:
+                    /* fall through */
                 case SCSI_COMMAND_WRITE_VERIFY:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
                     if (context->command == SCSI_COMMAND_WRITE_6) {
@@ -698,6 +717,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                     context->seq = 0;
                     break;
                 case SCSI_COMMAND_MODE_SENSE:
+                    /* fall through */
                 case SCSI_COMMAND_MODE_SENSE_10:
                     context->state = SCSI_STATE_DATAIN;
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
@@ -757,7 +777,9 @@ void scsi_process_ack(struct scsi_context_s *context)
                     }
                     break;
                 case SCSI_COMMAND_REZERO_UNIT:
+                    /* fall through */
                 case SCSI_COMMAND_START_STOP:
+                    /* fall through */
                 case SCSI_COMMAND_SEND_DIAGNOSTIC:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
                     context->link = context->cmd_buf[5] & 1;
