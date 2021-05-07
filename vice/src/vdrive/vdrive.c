@@ -1054,10 +1054,12 @@ int vdrive_find_sys(vdrive_t *vdrive)
     switch (vdrive->image->type) {
         case DISK_IMAGE_TYPE_D1M:
             vdrive->current_offset = 0x640;
+            /* fall through */
         case DISK_IMAGE_TYPE_D2M:
             if (!vdrive->current_offset) {
                 vdrive->current_offset = 0xc80;
             }
+            /* fall through */
         case DISK_IMAGE_TYPE_D4M:
             if (!vdrive->current_offset) {
                 vdrive->current_offset = 0x1900;
