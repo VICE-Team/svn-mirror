@@ -184,7 +184,7 @@ static void joystick_event_record(void)
 void joystick_event_playback(CLOCK offset, void *data)
 {
     memcpy(latch_joystick_value, data, sizeof(joystick_value));
-  
+
     joystick_latch_matrix(offset);
 }
 
@@ -620,10 +620,15 @@ typedef struct joystick_hat_mapping_s {
 
 static int num_joystick_devices = 0;
 
+
+/** \brief  Joystick device name length (including 0)
+ */
+#define JOYDEV_NAME_SIZE    0x80
+
 /* device structure */
 typedef struct joystick_device_s {
     struct joystick_driver_s *driver;
-    char jname[0x80];
+    char jname[JOYDEV_NAME_SIZE];
     int joyport;
     void *priv;
     joystick_axis_mapping_t *axis_mapping;
@@ -971,18 +976,21 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port)
 
 #ifdef LINUX_JOYSTICK
 void register_joystick_driver(
-   struct joystick_driver_s *driver,
-   const char *jname,
-   void *priv,
-   int num_axes,
-   int num_buttons,
-   int num_hats) {
+    struct joystick_driver_s *driver,
+    const char *jname,
+    void *priv,
+    int num_axes,
+    int num_buttons,
+    int num_hats)
+{
     struct joystick_device_s *new_joystick_device;
 
-    joystick_devices = lib_realloc (joystick_devices, sizeof(struct joystick_device_s) * (num_joystick_devices + 1));
+    joystick_devices = lib_realloc(joystick_devices,
+            sizeof(struct joystick_device_s) * (num_joystick_devices + 1));
     new_joystick_device = &joystick_devices[num_joystick_devices++];
     new_joystick_device->driver = driver;
-    strncpy(new_joystick_device->jname, jname, sizeof(new_joystick_device->jname));
+    strncpy(new_joystick_device->jname, jname, JOYDEV_NAME_SIZE - 1);
+    new_joystick_device->jname[JOYDEV_NAME_SIZE - 1] = '\0';
     new_joystick_device->axis_mapping = (joystick_axis_mapping_t*)lib_calloc(num_axes, sizeof(joystick_axis_mapping_t));
     if (num_axes > 1) {
         new_joystick_device->axis_mapping[0].positive_direction.action = JOYSTICK;
