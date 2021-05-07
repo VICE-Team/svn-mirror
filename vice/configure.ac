@@ -256,7 +256,8 @@ if test x"$enable_extra_warnings" != "xyes"; then
     m4_foreach([flag],
                [[-Wno-sign-compare],
                 [-Wno-missing-field-initializers],
-                [-Wno-ignored-qualifiers]],
+                [-Wno-ignored-qualifiers],
+                [-Wno-unused-parameter]],
                [TEST_FLAG=flag
                 VICE_CFLAG_REQUEST([$TEST_FLAG])
                ])
