@@ -699,22 +699,11 @@ static void file_system_detach_disk_internal(unsigned int unit, unsigned int dri
 {
     char event_data[2];
 
-    if (unit < 0) {
-        unsigned int i, j;
-
-        for (i = 8; i < 8 + NUM_DISK_UNITS; i++) {
-            for (j = 0; j < NUM_DRIVES; j++) {
-                file_system_detach_disk_single(i, j);
-            }
-            file_system_set_serial_hooks(i+8, ATTACH_DEVICE_FS);
-        }
+    if ((unit >= 8) && (unit < 8 + NUM_DISK_UNITS)) {
+        file_system_detach_disk_single(unit, drive);
+        file_system_set_serial_hooks(unit, ATTACH_DEVICE_FS);
     } else {
-        if (unit >= 8 && unit < 8 + NUM_DISK_UNITS) {
-            file_system_detach_disk_single((unsigned int)unit, drive);
-            file_system_set_serial_hooks(unit, ATTACH_DEVICE_FS);
-        } else {
-            log_error(attach_log, "Cannot detach unit %u drive %u.", unit, drive);
-        }
+        log_error(attach_log, "Cannot detach unit %u drive %u.", unit, drive);
     }
 
     /* TODO: drive 1 for EVENT_ATTACHDISK */
