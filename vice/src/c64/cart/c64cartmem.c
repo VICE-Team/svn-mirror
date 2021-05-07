@@ -941,7 +941,7 @@ uint8_t romh_read(uint16_t addr)
     }
     if (ieeeflash64_cart_enabled()) {
         /* fake ultimax hack */
-        return ieeeflash64_romh_read_hirom(addr);
+        res = CART_READ_C64MEM;
     }
 
     switch (res) {
