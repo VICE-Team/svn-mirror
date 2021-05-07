@@ -40,7 +40,10 @@
 #include "cmdline.h"
 #include "ieeeflash64.h"
 #include "export.h"
-#include "ieeeflash64pia.h"
+#include "maincpu.h"
+#include "drive.h"
+#include "parallel.h"
+#include "mc6821core.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -82,17 +85,22 @@
 #define DBG(x)
 #endif
 
-/* public so the PIA code can read them
-   (maybe move all the resources to the
-   PIA code instead? or make accessor funcs)  */
-int ieeeflash64_switch8 = 0;
-int ieeeflash64_switch910 = 0;
-int ieeeflash64_switch4 = 0;
+static int ieeeflash64_switch8 = 0;
+static int ieeeflash64_switch910 = 0;
+static int ieeeflash64_switch4 = 0;
 
 static int ieeeflash64_enabled = 0;
 
 static int ieeeflash64_extexrom = 0;
 static int ieeeflash64_extgame = 0;
+
+static mc6821_state ieeeflash64_6821;
+
+/* bit positions in PIA port B for IEEE signals */
+#define PIA_EOI_BIT 0x10
+#define PIA_DAV_BIT 0x20
+#define PIA_NRFD_BIT 0x40
+#define PIA_NDAC_BIT 0x80
 
 /* private ROM storage for slot0 API */
 #define IEEEFLASH64_ROM_SIZE 0x2000
@@ -283,28 +291,128 @@ static const export_resource_t export_res = {
 
 static void ieeeflash64_io1_store(uint16_t addr, uint8_t data)
 {
+    int port, reg;
+
     /* DBG(("PIA io1 w %02x (%02x)\n", addr, data)); */
-    pia_if64_store(addr, data);
+    port = (addr >> 1) & 1; /* rs1 */
+    reg = (addr >> 0) & 1;  /* rs0 */
+
+    mc6821core_store(&ieeeflash64_6821, port, reg, data);
 }
 
 static uint8_t ieeeflash64_io1_read(uint16_t addr)
 {
+    int port, reg;
+
     /* DBG(("PIA io1 r %02x\n", addr)); */
-    return pia_if64_read(addr);
+    port = (addr >> 1) & 1; /* rs1 */
+    reg = (addr >> 0) & 1;  /* rs0 */
+    return mc6821core_read(&ieeeflash64_6821, port, reg);
 }
 
 static uint8_t ieeeflash64_io1_peek(uint16_t addr)
 {
-    return pia_if64_peek(addr);
+    int port, reg;
+
+    port = (addr >> 1) & 1; /* rs1 */
+    reg = (addr >> 0) & 1;  /* rs0 */
+    return mc6821core_peek(&ieeeflash64_6821, port, reg);
 }
 
 static int ieeeflash64_io1_dump(void)
 {
     mon_out("PIA io1\n");
-    pia_if64_dump();
+    mc6821core_dump(&ieeeflash64_6821);
     return 0;
 }
 /* ---------------------------------------------------------------------*/
+
+static void pia_set_ca2(mc6821_state *ctx)
+{
+    parallel_cpu_set_atn((uint8_t)((ctx->CA2) ? 0 : 1));
+}
+
+static void pia_reset(void)
+{
+   /* assuming input after reset */
+    parallel_cpu_set_atn(0);
+    parallel_cpu_set_ndac(0);
+    parallel_cpu_set_nrfd(0);
+    parallel_cpu_set_dav(0);
+    parallel_cpu_set_eoi(0);
+    parallel_cpu_set_bus(0xff);
+}
+
+static uint8_t oldpa;
+
+static void pia_set_pa(mc6821_state *ctx)
+{
+    if (ctx->dataA != oldpa) {
+        parallel_cpu_set_bus(ctx->dataA);
+        oldpa = ctx->dataA;
+    }
+}
+
+static void pia_set_pb(mc6821_state *ctx)
+{
+    uint8_t tmp = ~(ctx->dataB);
+
+    DBG(("IEEEFLASH64: PIA write port B %02x [EOI=%d DAV=%d NRFD=%d NDAC=%d]\n", tmp,
+        tmp & PIA_EOI_BIT, tmp & PIA_DAV_BIT, tmp & PIA_NRFD_BIT, tmp & PIA_NDAC_BIT));
+
+    parallel_cpu_set_eoi((uint8_t)(tmp & PIA_EOI_BIT & ctx->ddrB));
+    parallel_cpu_set_dav((uint8_t)(tmp & PIA_DAV_BIT & ctx->ddrB));
+    parallel_cpu_set_nrfd((uint8_t)(tmp & PIA_NRFD_BIT & ctx->ddrB));
+    parallel_cpu_set_ndac((uint8_t)(tmp & PIA_NDAC_BIT & ctx->ddrB));
+}
+
+static uint8_t pia_get_pa(mc6821_state *ctx)
+{
+    uint8_t byte;
+
+    drive_cpu_execute_all(maincpu_clk);
+
+    byte = (parallel_bus & ~ctx->ddrA) | (ctx->dataA & ctx->ddrA);
+
+#ifdef DEBUG
+/*    if (debug.ieee) {
+        printf("IEEEFlash64: read pia port A %x, parallel_bus=%x, gives %x.\n",
+                    ctx->dataA, parallel_bus, (unsigned int)byte);
+    } */
+#endif
+
+    return byte;
+}
+
+static uint8_t pia_get_pb(mc6821_state *ctx)
+{
+    uint8_t byte;
+
+    drive_cpu_execute_all(maincpu_clk);
+
+    byte = 0xf8;
+    if (parallel_ndac) {
+        byte &= ~PIA_NDAC_BIT;
+    }
+    if (parallel_nrfd) {
+        byte &= ~PIA_NRFD_BIT;
+    }
+    if (parallel_dav) {
+        byte &= ~PIA_DAV_BIT;
+    }
+    if (parallel_eoi) {
+        byte &= ~PIA_EOI_BIT;
+    }
+
+    /* reflect device routing switches 0 = "off" 1 = "on" */
+    byte |= ieeeflash64_switch8;
+    byte |= ieeeflash64_switch910 << 1;
+    byte |= ieeeflash64_switch4 << 2;
+
+    return byte;
+}
+
+/* ------------------------------------------------------------------------- */
 
 uint8_t ieeeflash64_romh_read_hirom(uint16_t addr)
 {
@@ -449,6 +557,20 @@ void ieeeflash64_config_init(export_t *ex)
         DBG(("IEEEFlash64: rom is defined, fffc=%02x%02x\n", ieeeflash64_rom[0x1ffd], ieeeflash64_rom[0x1ffc]));
     }
 #endif
+
+    /* stop 6821 from calling CA2 during reset */
+    ieeeflash64_6821.set_ca2 = NULL;
+    ieeeflash64_6821.set_pa = NULL;
+    ieeeflash64_6821.set_pb = NULL;
+    ieeeflash64_6821.get_pa = NULL;
+    ieeeflash64_6821.get_pb = NULL;
+    mc6821core_reset(&ieeeflash64_6821);
+    ieeeflash64_6821.set_ca2 = pia_set_ca2;
+    ieeeflash64_6821.set_pa = pia_set_pa;
+    ieeeflash64_6821.set_pb = pia_set_pb;
+    ieeeflash64_6821.get_pa = pia_get_pa;
+    ieeeflash64_6821.get_pb = pia_get_pb;
+    pia_reset();
 }
 
 void ieeeflash64_config_setup(uint8_t *rawcart)
@@ -546,6 +668,11 @@ int ieeeflash64_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
+    if (mc6821core_snapshot_write_data(&ieeeflash64_6821, m) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
     return snapshot_module_close(m);
 }
 
@@ -568,6 +695,10 @@ int ieeeflash64_snapshot_read_module(snapshot_t *s)
 
     /* TODO: malloc */
     if (SMR_BA(m, ieeeflash64_rom, 0x2000) < 0) {
+        goto fail;
+    }
+
+    if (mc6821core_snapshot_read_data(&ieeeflash64_6821, m) < 0) {
         goto fail;
     }
 

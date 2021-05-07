@@ -34,10 +34,6 @@
 
 struct snapshot_s;
 
-extern int ieeeflash64_switch8;
-extern int ieeeflash64_switch910;
-extern int ieeeflash64_switch4;
-
 extern int ieeeflash64_cart_enabled(void);
 extern int ieeeflash64_resources_init(void);
 extern void ieeeflash64_resources_shutdown(void);
