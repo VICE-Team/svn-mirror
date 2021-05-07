@@ -226,7 +226,9 @@ dnl     -Waddress-of-packed-member  (novte warnings)
 dnl     -Wchar-subscripts           (novte warnings)
 dnl
 m4_foreach([flag],
-           [[-Wall],
+           [[-W],
+            [-Wall],
+            [-Wextra],
             [-Wformat],
             [-Wformat-signedness],
             [-Wformat-pedantic],
