@@ -1167,7 +1167,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
             }
             if (c64meminit_io_config[mem_config] == 2) {
                 /* ultimax mode */
-                if (addr >= 0x0000 && addr <= 0x0fff) {
+                if (/*addr >= 0x0000 &&*/ addr <= 0x0fff) {
                     return mem_ram[addr];
                 }
                 return cartridge_peek_mem(addr);
