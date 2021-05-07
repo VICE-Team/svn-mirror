@@ -112,7 +112,7 @@ VICE_ARG_ENABLE_LIST(embedded,          [  --enable-embedded       enable embedd
 VICE_ARG_ENABLE_LIST(x64,               [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
 VICE_ARG_ENABLE_LIST(x64-image,         [  --enable-x64-image      enable X64 image support [[default=no]]])
 VICE_ARG_ENABLE_LIST(optimization,      [  --disable-optimization  disable code optimization by passing -O0 [[default=no]]])
-VICE_ARG_ENABLE_LIST(all-warnings,      [  --enable-all-warnings   enable anal warnings [[default=no]]])
+VICE_ARG_ENABLE_LIST(extra-warnings,    [  --enable-extra-warnings enable anal warnings [[default=no]]])
 
 
 
@@ -249,19 +249,10 @@ m4_foreach([flag],
             VICE_CFLAG_REQUEST([$TEST_FLAG])
            ])
 
-dnl Warnings we never want to have
-dnl (the -Wunused-parameter warning will trigger hundreds of warnings in Gtk3
-dnl  code)
-m4_foreach([flag],
-           [[-Wno-unused-parameter]],
-           [TEST_FLAG=flag
-            VICE_CFLAG_REQUEST([$TEST_FLAG])
-            ])
-
-dnl Disable warnings if requested
+dnl Disable extra warnings if requested
 dnl
-dnl Enabled by default, disable with `--disable-all-warnings`
-if test x"$enable_all_warnings" != "xyes"; then
+dnl Enabled by default, disable with `--disable-extra-warnings`
+if test x"$enable_extra_warnings" != "xyes"; then
     m4_foreach([flag],
                [[-Wno-sign-compare],
                 [-Wno-missing-field-initializers],
