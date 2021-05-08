@@ -992,13 +992,18 @@ darwin*)
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
 
-  dnl Set CPPFLAGS rather than VICE_CPPFLAGS for the macports / homebrew dep search paths.
+  dnl Set CPPFLAGS as well as VICE_CPPFLAGS for the macports / homebrew dep search paths.
   dnl If we don't, then various header / compile checks won't succeed.
 
-  CPPFLAGS="$CPPFLAGS -I/opt/local/include -I/usr/local/include"
-  LDFLAGS="$LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib -L/usr/local/lib -Wl,-rpath,/usr/local/lib -headerpad_max_install_names"
-  FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit -framework CoreGraphics"
-  LIBS="$LIBS $FRAMEWORKS"
+  MAC_CCPFLAGS="-I/opt/local/include -I/usr/local/include"
+  MAC_LDFLAGS="-L/opt/local/lib -Wl,-rpath,/opt/local/lib -L/usr/local/lib -Wl,-rpath,/usr/local/lib -headerpad_max_install_names"
+  MAC_FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit -framework CoreGraphics"
+
+  CPPFLAGS="$CPPFLAGS $MAC_CCPFLAGS"
+  VICE_CPPFLAGS="$VICE_CPPFLAGS $MAC_CCPFLAGS"
+  LDFLAGS="$LDFLAGS $MAC_LDFLAGS"
+  VICE_LDFLAGS="$VICE_LDFLAGS $MAC_LDFLAGS"
+  LIBS="$LIBS $MAC_FRAMEWORKS"
   ;;
 
 dnl All other UN*X systems
