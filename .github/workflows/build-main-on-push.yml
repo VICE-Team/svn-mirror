@@ -21,7 +21,7 @@ jobs:
             brew install autoconf automake pkg-config dos2unix
             brew install sdl2 sdl2_image
             brew install gtk+3 librsvg adwaita-icon-theme
-            brew install ffmpeg glew libpng xa lame libvorbis flac jpeg
+            brew install ffmpeg glew xa lame libvorbis flac jpeg-turbo
 
         - name: Checkout Source
           uses: actions/checkout@v2
