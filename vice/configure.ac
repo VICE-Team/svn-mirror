@@ -768,7 +768,7 @@ else
   AM_CONDITIONAL(USE_SVN_REVISION, false)
 fi
 
-JOYSTICK_DRIVERS = ""
+JOYSTICK_DRIVERS=""
 
 dnl Setup crosscompiling.
 
