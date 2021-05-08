@@ -3186,7 +3186,7 @@ fi
 dnl check for jpeg support
 if test x"$with_jpeg" = "xyes" ; then
   dnl Check for the JPEG library.
-  AC_CHECK_HEADER(jpeglib.h,,)
+  AC_CHECK_HEADER(jpeglib.h,,,-)
 
   if test x"$ac_cv_header_jpeglib_h" = "xyes" ; then
     AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [
