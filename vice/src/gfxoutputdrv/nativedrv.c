@@ -46,7 +46,7 @@
 #include "util.h"
 #include "vsync.h"
 
-#define DEBUGNATIVEDRV
+/* #define DEBUGNATIVEDRV */
 
 #ifdef  DEBUGNATIVEDRV
 #define DBG(_x_)    printf _x_
@@ -704,14 +704,14 @@ void vic_color_to_nearest_vic_color_colormap(native_data_t *source, native_color
 
 /* ------------------------------------------------------------------------ */
 
-static native_data_t *native_generic_render(screenshot_t *screenshot, const char *filename, int xsize, int ysize)
+static native_data_t *native_generic_render(screenshot_t *screenshot, const char *filename, int xsize, int ysize, int xstep)
 {
     native_data_t *data = lib_malloc(sizeof(native_data_t));
     int i, j;
     int leftborder, topborder;
     uint8_t *linebuffer;
 
-    DBG(("native_generic_render xsize: %d ysize: %d\n", xsize, ysize));
+    DBG(("native_generic_render xsize: %d ysize: %d xstep: %d\n", xsize, ysize, xstep));
     data->filename = filename;
 
     /* size of the native picture */
@@ -746,17 +746,18 @@ static native_data_t *native_generic_render(screenshot_t *screenshot, const char
     for (i = 0; i < data->ysize; i++) {
         for (j = 0; j < data->xsize; j++) {
             data->colormap[(i * data->xsize) + (j)] =
-            linebuffer[(i * screenshot->width) + (j + leftborder)]; 
+            linebuffer[(i * screenshot->width) + ((j * xstep) + leftborder)]; 
         }
     }
     data->mc_data_present = native_is_colormap_multicolor(data);
     DBG(("                      mc_data_present: %d\n", data->mc_data_present));
+
     return data;
 }
 
 native_data_t *native_vicii_render(screenshot_t *screenshot, const char *filename)
 {
-    native_data_t *data = native_generic_render(screenshot, filename, 320, 200);
+    native_data_t *data = native_generic_render(screenshot, filename, 320, 200, 1);
 #if 0
     uint8_t *regs = screenshot->video_regs;
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
@@ -768,7 +769,7 @@ native_data_t *native_vicii_render(screenshot_t *screenshot, const char *filenam
 
 native_data_t *native_ted_render(screenshot_t *screenshot, const char *filename)
 {
-    native_data_t *data = native_generic_render(screenshot, filename, 320, 200);
+    native_data_t *data = native_generic_render(screenshot, filename, 320, 200, 1);
 #if 0
     uint8_t *regs = screenshot->video_regs;
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
@@ -783,12 +784,14 @@ native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename)
     native_data_t *data;
     uint8_t *regs = screenshot->video_regs;
     int xsize, ysize;
-    xsize = (regs[0x02] & 0x7f) * 16; /* columns */
+    xsize = (regs[0x02] & 0x7f) * 8; /* columns */
     ysize = ((regs[0x03] & 0x7e) >> 1) * 8; /* rows */
     if (regs[0x03] & 1) {
         ysize <<= 1; /* 16 pixel high chars */
     }
-    data = native_generic_render(screenshot, filename, xsize, ysize);
+    DBG(("native_vic_render columns: %d rows: %d char height: %d\n",
+         regs[0x02] & 0x7f, (regs[0x03] & 0x7e) >> 1, (regs[0x03] & 1) ? 16 : 8));
+    data = native_generic_render(screenshot, filename, xsize, ysize, 2);
     return data;
 }
 
@@ -874,7 +877,7 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
     }
     screenshot->gfx_position.x = 33;
 
-    data = native_generic_render(screenshot, filename, xsize, ysize);
+    data = native_generic_render(screenshot, filename, xsize, ysize, 1);
     return data;
 }
 
@@ -890,14 +893,14 @@ native_data_t *native_vdc_render(screenshot_t *screenshot, const char *filename)
     uint8_t displayed_chars_v = regs[6];
     uint8_t scanlines_per_char = (regs[9] & 0x1f) + 1;
     /* uint8_t char_h_size_alloc = regs[22] & 0xf; */
-    uint8_t char_h_size_displayed = (regs[22] & 0xf0) >> 4;
+    /* uint8_t char_h_size_displayed = (regs[22] & 0xf0) >> 4; */
     uint8_t char_h_size = (regs[22] & 0x0f);
     uint8_t char_h_double_pixel = ((regs[25] & 0x10) ? 2 : 1);
     uint8_t top_border_chars_h;
 
     DBG(("native_vdc_render displayed_chars_h: %u\n", displayed_chars_h));
     DBG(("                  displayed_chars_v: %u\n", displayed_chars_v));
-    DBG(("                  char_h_size_displayed: %u\n", char_h_size_displayed));
+    DBG(("                  char_h_size_displayed: %u\n", (regs[22] & 0xf0) >> 4));
     DBG(("                  char_h_size: %u\n", char_h_size));
     DBG(("                  scanlines_per_char: %u\n", scanlines_per_char));
     DBG(("                  char_h_double_pixel: %u\n", char_h_double_pixel));
@@ -916,7 +919,7 @@ native_data_t *native_vdc_render(screenshot_t *screenshot, const char *filename)
     top_border_chars_h = ((regs[4] - displayed_chars_v) / 2) - 1;   /* FIXME: is this correct? */
     screenshot->gfx_position.y = top_border_chars_h * scanlines_per_char;
 
-    data = native_generic_render(screenshot, filename, xsize, ysize);
+    data = native_generic_render(screenshot, filename, xsize, ysize, 1);
     return data;
 }
 

@@ -46,6 +46,14 @@
 #include "util.h"
 #include "vsync.h"
 
+/* #define DEBUGMINIPAINT */
+
+#ifdef  DEBUGMINIPAINT
+#define DBG(_x_)    printf _x_
+#else
+#define DBG(_x_)
+#endif
+
 /*
     Minipaint format saver, this uses a standard vic20 screen with 16 pixel
     high characters in the following configuration:
@@ -114,6 +122,9 @@ static unsigned char displaycode[120] = {
     0x4A, 0x4A, 0x99, 0x00, 0x94, 0xC8, 0xC0, 0xF0, 0xD0, 0xEC, 0x20, 0xE4, 0xFF, 0xF0, 0xFB, 0x4C,
     0x32, 0xFD, 0x02, 0xFE, 0xFE, 0xEB, 0x00, 0x0C
 };
+
+static unsigned char hiresmap[MINIPAINT_SCREEN_CHARS_HEIGHT][MINIPAINT_SCREEN_CHARS_WIDTH];
+static int containshires;
 
 /* ------------------------------------------------------------------------ */
 
@@ -234,20 +245,106 @@ static int minipaintdrv_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------ */
 
-/* make all pixels double pixels */
-static void minipaint_multicolorize_colormap(native_data_t *source)
-{
-    int i, j;
+#define UNASSIGNED_COLOR    16
 
-    for (i = 0; i < MINIPAINT_SCREEN_PIXEL_HEIGHT; i++) {
-        for (j = 0; j < (MINIPAINT_SCREEN_PIXEL_WIDTH / 2); j++) {
-            source->colormap[(i * MINIPAINT_SCREEN_PIXEL_WIDTH) + (j * 2) + 1] =
-            source->colormap[(i * MINIPAINT_SCREEN_PIXEL_WIDTH) + (j * 2)];
+/* a block is considered a hires block if not all odd and even pixels are the
+   same color, we have exactly two colors in this block, and no color index
+   is > 7 */
+static void minipaint_find_hires_colors(native_data_t *source, uint8_t *bgcolor)
+{
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
+    native_color_sort_t *blockcolors = NULL;
+    native_color_sort_t bgcolors[VIC_NUM_COLORS_BG_AUX];
+    int screeny, screenx, blocky, blockx, c, c1, c2, ishires;
+    uint8_t amount;
+
+    /* color map for one block */
+    dest->xsize = MINIPAINT_BLOCK_WIDTH;
+    dest->ysize = MINIPAINT_BLOCK_HEIGHT;
+    dest->colormap = lib_malloc(MINIPAINT_BLOCK_WIDTH * MINIPAINT_BLOCK_HEIGHT);
+
+    for (c = 0; c < VIC_NUM_COLORS_BG_AUX; c++) {
+        bgcolors[c].amount = 0;
+        bgcolors[c].color = c;
+    }
+
+    for (screeny = 0; screeny < MINIPAINT_SCREEN_CHARS_HEIGHT; screeny++) {
+        for (screenx = 0; screenx < MINIPAINT_SCREEN_CHARS_WIDTH; screenx++) {
+            /* get block */
+            for (blocky = 0; (blocky < MINIPAINT_BLOCK_HEIGHT); blocky++) {
+                for (blockx = 0; (blockx < MINIPAINT_BLOCK_WIDTH); blockx++) {
+                    dest->colormap[(blocky * MINIPAINT_BLOCK_WIDTH) + blockx] =
+                        source->colormap[(screeny * MINIPAINT_BLOCK_HEIGHT * MINIPAINT_SCREEN_PIXEL_WIDTH) +
+                                         (screenx * MINIPAINT_BLOCK_WIDTH) +
+                                         (blocky * MINIPAINT_SCREEN_PIXEL_WIDTH) + blockx];
+                }
+            }
+
+            /* check all pixels in the block, if we find an odd and even pixel
+               with different color, then this can be a hires block */
+            ishires = 0;
+            for (blocky = 0; (blocky < MINIPAINT_BLOCK_HEIGHT) && (ishires == 0); blocky++) {
+                for (blockx = 0; (blockx < MINIPAINT_BLOCK_WIDTH) && (ishires == 0); blockx++) {
+                    c1 = dest->colormap[(blocky * MINIPAINT_BLOCK_WIDTH) + blockx];
+                    blockx++;
+                    c2 = dest->colormap[(blocky * MINIPAINT_BLOCK_WIDTH) + blockx];
+                    if (c1 != c2) {
+                        ishires = 1;
+                    }
+                }
+            }
+
+            if (ishires) {
+                blockcolors = native_sort_colors_colormap(dest, VIC_NUM_COLORS_BG_AUX);
+                if ((blockcolors[1].amount > 0) && (blockcolors[2].amount == 0)) {
+                    /* exactly two colors in this block */
+
+                    /* if both colors are > 7, then this can not be a hires block */
+                    if (!((blockcolors[1].color > 7) && (blockcolors[0].color > 7))) {
+                        containshires = 1;
+                        hiresmap[screeny][screenx] = (blockcolors[1].color << 4) | blockcolors[0].color;
+
+                        /* add them to the pool of colors we pick the background color from */
+                        for (c = 0; c < VIC_NUM_COLORS_BG_AUX; c++) {
+                            /* skip if the color was already assigned in a previous pass */
+                            if ((*bgcolor != UNASSIGNED_COLOR) && (blockcolors[c].color == *bgcolor)){
+                                continue;
+                            }
+                            if (blockcolors[c].amount != 0) {
+                                bgcolors[blockcolors[c].color].amount++;
+                            }
+                        }
+                    }
+                }
+                lib_free(blockcolors);
+            }
         }
     }
-}
 
-#define UNASSIGNED_COLOR    16
+    /* pick the most used colors from the pool */
+    if (*bgcolor == UNASSIGNED_COLOR) {
+        amount = 0;
+        for (c = 0; c < VIC_NUM_COLORS_BG_AUX; c++) {
+            if (amount < bgcolors[c].amount) {
+                amount = bgcolors[c].amount;
+                *bgcolor = c;
+            } else if ((amount == bgcolors[c].amount) && (c > *bgcolor)) {
+                /* if we find another color that has been used exactly
+                   as often, prefer the color with higher color index -
+                   this will pick colors > 7 for background in this case */
+                *bgcolor = c;
+            }
+        }
+        if (*bgcolor != UNASSIGNED_COLOR) {
+            bgcolors[*bgcolor].amount = 0;
+        }
+    }
+
+   DBG(("selected hires bg: %d\n", *bgcolor));
+
+    lib_free(dest->colormap);
+    lib_free(dest);
+}
 
 /* find the best shared colors. for this we pick the colors that appear
    most often in blocks that contain (pass), or more, colors */
@@ -272,41 +369,44 @@ static void minipaint_find_shared_colors_pass(native_data_t *source,
 
     for (i = 0; i < MINIPAINT_SCREEN_CHARS_HEIGHT; i++) {
         for (j = 0; j < MINIPAINT_SCREEN_CHARS_WIDTH; j++) {
-            /* get block */
-            for (k = 0; k < MINIPAINT_BLOCK_HEIGHT; k++) {
-                for (l = 0; l < MINIPAINT_BLOCK_WIDTH; l++) {
-                    dest->colormap[(k * MINIPAINT_BLOCK_WIDTH) + l] = 
-                    source->colormap[(i * 8 * MINIPAINT_SCREEN_PIXEL_WIDTH) + (j * MINIPAINT_BLOCK_WIDTH)
-                                        + (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + l];
-                }
-            }
-            blockcolors = native_sort_colors_colormap(dest, VIC_NUM_COLORS_BG_AUX);
-            if (blockcolors[pass - 1].amount != 0) {
-                /* (pass-1) or more colors in this block, add them to the pool of
-                    colors we pick the background color from */
-                for (c = 0; c < VIC_NUM_COLORS_BG_AUX; c++) {
-                    /* skip if the color was already assigned in a previous pass */
-                    if (((*bordercolor != UNASSIGNED_COLOR) && (blockcolors[c].color == *bordercolor)) ||
-                        ((*bgcolor != UNASSIGNED_COLOR) && (blockcolors[c].color == *bgcolor)) ||
-                        ((*auxcolor != UNASSIGNED_COLOR) && (blockcolors[c].color == *auxcolor))){
-                        continue;
-                    }
-                    /* if we are looking for an aux/bg color, skip if the color
-                       index is less than 8 */
-                    if (auxbg && (blockcolors[c].color < 8)) {
-                        continue;
-                    }
-                    if (blockcolors[c].amount != 0) {
-                        bgcolors[blockcolors[c].color].amount++;
+            if (hiresmap[i][j] == 0) {
+                /* get block */
+                for (k = 0; k < MINIPAINT_BLOCK_HEIGHT; k++) {
+                    for (l = 0; l < MINIPAINT_BLOCK_WIDTH; l++) {
+                        dest->colormap[(k * MINIPAINT_BLOCK_WIDTH) + l] = 
+                        source->colormap[(i * MINIPAINT_BLOCK_HEIGHT * MINIPAINT_SCREEN_PIXEL_WIDTH) +
+                                         (j * MINIPAINT_BLOCK_WIDTH) +
+                                         (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + l];
                     }
                 }
+                blockcolors = native_sort_colors_colormap(dest, VIC_NUM_COLORS_BG_AUX);
+                if (blockcolors[pass - 1].amount != 0) {
+                    /* (pass-1) or more colors in this block, add them to the pool of
+                        colors we pick the background color from */
+                    for (c = 0; c < VIC_NUM_COLORS_BG_AUX; c++) {
+                        /* skip if the color was already assigned in a previous pass */
+                        if (((*bordercolor != UNASSIGNED_COLOR) && (blockcolors[c].color == *bordercolor)) ||
+                            ((*bgcolor != UNASSIGNED_COLOR) && (blockcolors[c].color == *bgcolor)) ||
+                            ((*auxcolor != UNASSIGNED_COLOR) && (blockcolors[c].color == *auxcolor))){
+                            continue;
+                        }
+                        /* if we are looking for an aux/bg color, skip if the color
+                        index is less than 8 */
+                        if (auxbg && (blockcolors[c].color < 8)) {
+                            continue;
+                        }
+                        if (blockcolors[c].amount != 0) {
+                            bgcolors[blockcolors[c].color].amount++;
+                        }
+                    }
+                }
+                lib_free(blockcolors);
             }
-            lib_free(blockcolors);
         }
     }
-#if 0
+#ifdef DEBUGMINIPAINT
     for (c = 0; c < VIC_NUM_COLORS_BG_AUX; c++) {
-        printf("%d col: %d amount :%d\n", c, bgcolors[c].color, bgcolors[c].amount);
+        DBG(("%d col: %d amount :%d\n", c, bgcolors[c].color, bgcolors[c].amount));
     }
 #endif
     /* pick the most used colors from the pool */
@@ -349,7 +449,7 @@ static void minipaint_find_shared_colors_pass(native_data_t *source,
         }
     }
 
-    /* printf("pass %d - border: %d bg: %d aux: %d\n", pass, *bordercolor, *bgcolor, *auxcolor); */
+    DBG(("pass %d - border: %d bg: %d aux: %d\n", pass, *bordercolor, *bgcolor, *auxcolor));
 
     lib_free(dest->colormap);
     lib_free(dest);
@@ -360,6 +460,8 @@ static void minipaint_find_shared_colors(native_data_t *source, uint8_t *bgcolor
     uint8_t color0, color1, color2;
     color0 = color1 = color2 = UNASSIGNED_COLOR;
 
+    /* test for hires blocks and bg color */
+    minipaint_find_hires_colors(source, &color0);
     /* test blocks for colors > 8 first to find bg- and aux color */
     minipaint_find_shared_colors_pass(source, &color0, &color1, &color2, 4, 1);
     minipaint_find_shared_colors_pass(source, &color0, &color1, &color2, 3, 1);
@@ -378,9 +480,8 @@ static void minipaint_find_shared_colors(native_data_t *source, uint8_t *bgcolor
 }
 
 /* fix/re-render the picture according to the multicolor restrictions,
-   three shared colors, plus one colors per block */
+   (three shared colors, plus one colors per block) or in hires */
 
-/* FIXME: this will need special case handling for HIRES blocks */
 static void minipaint_check_and_correct_cell(native_data_t *source, uint8_t bgcolor, uint8_t auxcolor, uint8_t bordercolor)
 {
     native_data_t *dest = lib_malloc(sizeof(native_data_t));
@@ -398,36 +499,60 @@ static void minipaint_check_and_correct_cell(native_data_t *source, uint8_t bgco
             for (k = 0; k < MINIPAINT_BLOCK_HEIGHT; k++) {
                 for (l = 0; l < MINIPAINT_BLOCK_WIDTH; l++) {
                     dest->colormap[(k * MINIPAINT_BLOCK_WIDTH) + l] =
-                        source->colormap[(i * 8 * MINIPAINT_SCREEN_PIXEL_WIDTH) + (j * MINIPAINT_BLOCK_WIDTH)
-                                            + (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + l];
+                        source->colormap[(i * MINIPAINT_BLOCK_HEIGHT * MINIPAINT_SCREEN_PIXEL_WIDTH) +
+                                         (j * MINIPAINT_BLOCK_WIDTH) +
+                                         (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + l];
                 }
             }
             colors = native_sort_colors_colormap(dest, VIC_NUM_COLORS_BG_AUX);
-            /* the first color is expected to be the background color in the
-               next step. so put it first, followed by the other colors */
-            cellcolors[0].amount = MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_SCREEN_PIXEL_HEIGHT;
-            cellcolors[0].color = bgcolor;
-            cellcolors[1].amount = MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_SCREEN_PIXEL_HEIGHT;
-            cellcolors[1].color = auxcolor;
-            cellcolors[2].amount = MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_SCREEN_PIXEL_HEIGHT;
-            cellcolors[2].color = bordercolor;
-            for (l = 0, k = 3; l < VIC_NUM_COLORS_BG_AUX; l++) {
-                if ((colors[l].color != bordercolor) &&
-                    (colors[l].color != bgcolor) &&
-                    (colors[l].color != auxcolor)) {
-                    cellcolors[k].color = colors[l].color;
-                    cellcolors[k].amount = colors[l].amount;
-                    k++;
+
+            if (hiresmap[i][j]) {
+                /* the first color is expected to be the background color in the
+                next step. so put it first, followed by the other colors */
+                cellcolors[0].amount = MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_SCREEN_PIXEL_HEIGHT;
+                cellcolors[0].color = bgcolor;
+
+                for (l = 0, k = 1; k < VIC_NUM_COLORS_BG_AUX; l++) {
+                    if (colors[l].color != bgcolor) {
+                        cellcolors[k].color = colors[l].color;
+                        cellcolors[k].amount = colors[l].amount;
+                        k++;
+                    }
                 }
+                /* re-render the block using the background color and the most
+                used color in that block */
+                cellcolors[2].color = 255; /* mark end of list */
+            } else {
+                /* the first color is expected to be the background color in the
+                next step. so put it first, followed by the other colors */
+                cellcolors[0].amount = MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_SCREEN_PIXEL_HEIGHT;
+                cellcolors[0].color = bgcolor;
+                cellcolors[1].amount = MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_SCREEN_PIXEL_HEIGHT;
+                cellcolors[1].color = auxcolor;
+                cellcolors[2].amount = MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_SCREEN_PIXEL_HEIGHT;
+                cellcolors[2].color = bordercolor;
+
+                for (l = 0, k = 3; k < VIC_NUM_COLORS_BG_AUX; l++) {
+                    if ((colors[l].color != bordercolor) &&
+                        (colors[l].color != bgcolor) &&
+                        (colors[l].color != auxcolor)) {
+                        cellcolors[k].color = colors[l].color;
+                        cellcolors[k].amount = colors[l].amount;
+                        k++;
+                    }
+                }
+                /* re-render the block using the background color and the 3 most
+                used color in that block */
+                cellcolors[4].color = 255; /* mark end of list */
             }
-            /* re-render the block using the background color and the 3 most
-               used color in that block */
-            cellcolors[4].color = 255; /* mark end of list */
+
+            /* do the rendering */
             vic_color_to_nearest_vic_color_colormap(dest, cellcolors);
             for (k = 0; k < MINIPAINT_BLOCK_HEIGHT; k++) {
                 for (l = 0; l < MINIPAINT_BLOCK_WIDTH; l++) {
-                    source->colormap[(i * 8 * MINIPAINT_SCREEN_PIXEL_WIDTH) + (j * MINIPAINT_BLOCK_WIDTH)
-                                        + (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + l] =
+                    source->colormap[(i * MINIPAINT_BLOCK_HEIGHT * MINIPAINT_SCREEN_PIXEL_WIDTH) +
+                                        (j * MINIPAINT_BLOCK_WIDTH) +
+                                        (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + l] =
                         dest->colormap[(k * MINIPAINT_BLOCK_WIDTH) + l];
                 }
             }
@@ -438,7 +563,6 @@ static void minipaint_check_and_correct_cell(native_data_t *source, uint8_t bgco
     lib_free(dest);
 }
 
-/* FIXME: this will need special case handling for HIRES blocks */
 static int minipaint_render_and_save(native_data_t *source, int original_bordercolor)
 {
     FILE *fd;
@@ -462,23 +586,32 @@ static int minipaint_render_and_save(native_data_t *source, int original_borderc
     /* clear filebuffer */
     memset(filebuffer, 0, MINIPAINT_SIZE);
 
-    /* make all pixels multicolor */
-    minipaint_multicolorize_colormap(source);
+    memset(hiresmap, 0, MINIPAINT_SCREEN_CHARS_HEIGHT * MINIPAINT_SCREEN_CHARS_WIDTH);
+    containshires = 0;
 
     /* find best shared colors to use */
     minipaint_find_shared_colors(source, &bgcolor, &auxcolor, &bordercolor);
-    /* when its safe to do so, use the original bordercolor */
+
+    /* when its safe to do so, use the original bordercolor. since we are trying
+       a best effort generic conversion, we can't directly use the real border
+       color and only use it as a hint. */
+    DBG(("bordercolor: %d original bordercolor: %d\n", bordercolor, original_bordercolor));
     if (original_bordercolor != bordercolor) {
         if (auxcolor == original_bordercolor) {
             auxcolor = bordercolor;
             bordercolor = original_bordercolor;
+            DBG(("auxcolor == original_bordercolor, aux: %d border: %d\n", auxcolor, bordercolor));
         } else if (bgcolor == original_bordercolor) {
-            /* FIXME: if the picture contains hires blocks, then we can not
-                      change the bgcolor */
-            bgcolor = bordercolor;
-            bordercolor = original_bordercolor;
+            /* if the picture contains hires blocks, then we can not change the bgcolor */
+            if (containshires == 0) {
+                bgcolor = bordercolor;
+                bordercolor = original_bordercolor;
+                DBG(("bgcolor == original_bordercolor, bgcolor: %d border: %d\n", bgcolor, bordercolor));
+            }
         } 
     }
+    DBG(("using bg: %d border: %d aux: %d\n", bgcolor, bordercolor, auxcolor));
+
     /* check and correct cells */
     minipaint_check_and_correct_cell(source, bgcolor, auxcolor, bordercolor);
 
@@ -487,29 +620,49 @@ static int minipaint_render_and_save(native_data_t *source, int original_borderc
             /* one block */
             n = (i * MINIPAINT_SCREEN_CHARS_WIDTH) + j;
             color1 = 0;
-            for (k = 0; k < MINIPAINT_BLOCK_HEIGHT; k++) {
-                gfxbits = 0;
-                for (l = 0; l < (MINIPAINT_BLOCK_WIDTH / 2); l++) {
-                    gfxbits <<= 2;
-                    colorbyte = source->colormap[(i * MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_BLOCK_HEIGHT) + (j * 8)
-                                                    + (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + (l * 2)];
-                    /* assign the bits */
-                    if (colorbyte == bordercolor) {
-                        gfxbits |= 1;
-                    } else if (colorbyte == auxcolor) {
-                        gfxbits |= 3;
-                    } else if (colorbyte != bgcolor) {
-                        gfxbits |= 2;
-                        color1 = colorbyte;
+            if (hiresmap[i][j]) {
+                for (k = 0; k < MINIPAINT_BLOCK_HEIGHT; k++) {
+                    gfxbits = 0;
+                    for (l = 0; l < MINIPAINT_BLOCK_WIDTH; l++) {
+                        gfxbits <<= 1;
+                        colorbyte = source->colormap[(i * MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_BLOCK_HEIGHT) +
+                                                     (j * MINIPAINT_BLOCK_WIDTH) +
+                                                     (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + l];
+                        /* assign the bits */
+                        if (colorbyte != bgcolor) {
+                            gfxbits |= 1;
+                            color1 = colorbyte;
+                        }
                     }
+                    filebuffer[BITMAP_OFFSET + m] = gfxbits;
+                    m++;
                 }
-                filebuffer[BITMAP_OFFSET + m] = gfxbits;
-                m++;
+            } else {
+                for (k = 0; k < MINIPAINT_BLOCK_HEIGHT; k++) {
+                    gfxbits = 0;
+                    for (l = 0; l < (MINIPAINT_BLOCK_WIDTH / 2); l++) {
+                        gfxbits <<= 2;
+                        colorbyte = source->colormap[(i * MINIPAINT_SCREEN_PIXEL_WIDTH * MINIPAINT_BLOCK_HEIGHT) +
+                                                     (j * MINIPAINT_BLOCK_WIDTH) +
+                                                     (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + (l * 2)];
+                        /* assign the bits */
+                        if (colorbyte == bordercolor) {
+                            gfxbits |= 1;
+                        } else if (colorbyte == auxcolor) {
+                            gfxbits |= 3;
+                        } else if (colorbyte != bgcolor) {
+                            gfxbits |= 2;
+                            color1 = colorbyte;
+                        }
+                    }
+                    filebuffer[BITMAP_OFFSET + m] = gfxbits;
+                    m++;
+                }
             }
             if (n & 1) {
-                filebuffer[VIDEORAM_OFFSET + (n >> 1)] |= ((color1 & 0x7) << 4) | 0x80;
+                filebuffer[VIDEORAM_OFFSET + (n >> 1)] |= ((color1 & 0x7) << 4) | (hiresmap[i][j] ? 0 : 0x80);
             } else {
-                filebuffer[VIDEORAM_OFFSET + (n >> 1)] |= ((color1 & 0x7) << 0) | 0x08;
+                filebuffer[VIDEORAM_OFFSET + (n >> 1)] |= ((color1 & 0x7) << 0) | (hiresmap[i][j] ? 0 : 0x08);
             }
         }
     }
@@ -588,9 +741,12 @@ static int minipaint_ted_save(screenshot_t *screenshot, const char *filename)
 static int minipaint_vic_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
-    native_data_t *data = native_vic_render(screenshot, filename);
+    native_data_t *data;
     uint8_t bordercolor = regs[0xf] & 7;
 
+    DBG(("original VIC colors: background: %d border: %d aux: %d\n", regs[0xf] >> 4, regs[0xf] & 7, regs[0xe] >> 4));
+
+    data = native_vic_render(screenshot, filename);
     if (data == NULL) {
         return -1;
     }
@@ -599,7 +755,6 @@ static int minipaint_vic_save(screenshot_t *screenshot, const char *filename)
         data = native_resize_colormap(data, MINIPAINT_SCREEN_PIXEL_WIDTH, MINIPAINT_SCREEN_PIXEL_HEIGHT, 
                                         bordercolor, oversize_handling, undersize_handling);
     }
-
     return minipaint_render_and_save(data, bordercolor);
 }
 
