@@ -21,6 +21,10 @@ noinst_LIBRARIES = libjoystickdrv.a
 libjoystickdrv_a_SOURCES = \
 	joystick_linux.c
 
+# These sources are conditionally linked
+EXTRA_libjoystickdrv_a_SOURCES = \
+	joystick_bsd.c
+
 
 libjoystickdrv_a_DEPENDENCIES = \
 	@JOYSTICK_DRIVERS@

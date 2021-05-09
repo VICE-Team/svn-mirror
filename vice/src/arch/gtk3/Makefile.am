@@ -67,8 +67,6 @@ libarch_a_SOURCES = \
 	joy-osx-hidmgr.c \
 	joy-osx-hidutil.c \
 	joy-osx.c \
-	joy-unix-usb.c \
-	joy-unix.c \
 	joy-win32-dinput-handle.c \
 	joy-win32.c \
 	kbd.c \
@@ -138,7 +136,6 @@ EXTRA_DIST = \
 	joy-osx-hid.h \
 	joy-osx-hidlib.h \
 	joy-osx.h \
-	joy-unix.h \
 	joy-win32-dinput-handle.h \
 	joy-win32.h \
 	joy.h \

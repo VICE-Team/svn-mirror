@@ -1985,6 +1985,9 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
       fi
     fi
   fi
+  if test x"$HAS_USB_JOYSTICK_SUPPORT" = "xyes"; then
+    JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_bsd.o";
+  fi
 fi
 
 if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then

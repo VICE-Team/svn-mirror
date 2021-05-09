@@ -55,6 +55,7 @@ extern void joystick_event_delayed_playback(void *data);
 extern void joystick_register_delay(unsigned int delay);
 
 extern void linux_joystick_init(void);
+extern void usb_joystick_init(void);
 
 extern uint16_t get_joystick_value(int index);
 
@@ -142,5 +143,11 @@ typedef enum joystick_axis_value_e {
 
 extern void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
 extern void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value);
+extern void joy_hat_event(uint8_t joynum, uint8_t button, uint8_t value);
+
+#define JOYSTICK_DIRECTION_DOWN  1
+#define JOYSTICK_DIRECTION_UP    2
+#define JOYSTICK_DIRECTION_LEFT  4
+#define JOYSTICK_DIRECTION_RIGHT 8
 
 #endif
