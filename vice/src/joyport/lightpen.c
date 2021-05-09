@@ -223,7 +223,7 @@ static inline void lightpen_check_button_mask(uint8_t mask, int pressed)
     if (id == -1) {
         return;
     }
-    joyport_display_joyport(id, lightpen_value);
+    joyport_display_joyport(id, (uint16_t)lightpen_value);
 }
 
 static inline void lightpen_update_buttons(int buttons)

@@ -220,7 +220,7 @@ static uint8_t cx85_read_dig(int port)
 
     retval |= 0xe0;
 
-    joyport_display_joyport(JOYPORT_ID_CX85_KEYPAD, (uint8_t)~retval);
+    joyport_display_joyport(JOYPORT_ID_CX85_KEYPAD, (uint16_t)~retval);
 
     return (uint8_t)retval;
 }

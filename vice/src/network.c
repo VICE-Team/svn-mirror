@@ -571,7 +571,7 @@ static void network_client_connect_trap(uint16_t addr, void *data)
 void network_event_record(unsigned int type, void *data, unsigned int size)
 {
     unsigned int control = 0;
-    uint8_t joyport;
+    uint16_t joyport;
 
     switch (type) {
         case EVENT_KEYBOARD_MATRIX:
@@ -590,7 +590,7 @@ void network_event_record(unsigned int type, void *data, unsigned int size)
             control = NETWORK_CONTROL_RSRC;
             break;
         case EVENT_JOYSTICK_VALUE:
-            joyport = ((uint8_t *)data)[0];
+            joyport = ((uint16_t *)data)[0];
             if (joyport == 1) {
                 control = NETWORK_CONTROL_JOY1;
             }

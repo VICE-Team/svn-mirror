@@ -135,7 +135,7 @@ void ui_display_volume(int vol)
  *      data encoded in the joyport array. Note that current_joyports
  *      is 0-indexed as is typical for C arrays.
  */
-void ui_display_joyport(uint8_t *joyport)
+void ui_display_joyport(uint16_t *joyport)
 {
     /* printf("%s\n", __func__); */
 }

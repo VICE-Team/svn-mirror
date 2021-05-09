@@ -86,7 +86,7 @@ static uint8_t bbrtc_read(int port)
     uint8_t retval;
 
     retval = (ds1602_read_data_line(bbrtc_context) ? 0 : 1) << 1;
-    joyport_display_joyport(JOYPORT_ID_BBRTC, retval);
+    joyport_display_joyport(JOYPORT_ID_BBRTC, (uint16_t)retval);
     return (uint8_t)(~retval);
 }
 

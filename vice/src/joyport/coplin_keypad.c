@@ -174,7 +174,7 @@ static uint8_t coplin_keypad_read(int port)
 
     retval |= 0xe0;
 
-    joyport_display_joyport(JOYPORT_ID_COPLIN_KEYPAD, (uint8_t)~retval);
+    joyport_display_joyport(JOYPORT_ID_COPLIN_KEYPAD, (uint16_t)~retval);
 
     return (uint8_t)retval;
 }

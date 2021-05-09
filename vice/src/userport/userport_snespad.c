@@ -171,23 +171,23 @@ static void userport_snespad_store_pbx(uint8_t value)
 static void userport_snespad_read_pbx(void)
 {
     uint8_t retval;
-    uint8_t portval = get_joystick_value(3);
+    uint16_t portval = get_joystick_value(3);
 
     switch (counter) {
         case USERPORT_SNESPAD_FIRE_BUTTON:
-            retval = (portval & 0x10) >> 4;
+            retval = (uint8_t)((portval & 0x10) >> 4);
             break;
         case USERPORT_SNESPAD_UP:
-            retval = (portval & 1);
+            retval = (uint8_t)(portval & 1);
             break;
         case USERPORT_SNESPAD_DOWN:
-            retval = (portval & 2) >> 1;
+            retval = (uint8_t)((portval & 2) >> 1);
             break;
         case USERPORT_SNESPAD_LEFT:
-            retval = (portval & 4) >> 2;
+            retval = (uint8_t)((portval & 4) >> 2);
             break;
         case USERPORT_SNESPAD_RIGHT:
-            retval = (portval & 8) >> 3;
+            retval = (uint8_t)((portval & 8) >> 3);
             break;
         case USERPORT_SNESPAD_EOS:
             retval = 1;

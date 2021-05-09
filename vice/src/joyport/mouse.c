@@ -807,7 +807,7 @@ static uint8_t joyport_mouse_neos_value(int port)
             retval &= ~0x0f;
         }
         if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(mt_to_id(mouse_type), (uint8_t)(~retval));
+            joyport_display_joyport(mt_to_id(mouse_type), (uint16_t)(~retval));
         }
     }
     return retval;
@@ -843,7 +843,7 @@ static uint8_t joyport_mouse_poll_value(int port)
     if (_mouse_enabled) {
         retval = (uint8_t)((~mouse_digital_val) & mouse_poll());
         if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(mt_to_id(mouse_type), (uint8_t)(~retval));
+            joyport_display_joyport(mt_to_id(mouse_type), (uint16_t)(~retval));
         }
     }
     return retval;
@@ -916,7 +916,7 @@ static uint8_t joyport_mouse_smart_value(int port)
     if (_mouse_enabled) {
         retval = (uint8_t)((~mouse_digital_val) & smart_mouse_read());
         if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(mt_to_id(mouse_type), (uint8_t)(~retval));
+            joyport_display_joyport(mt_to_id(mouse_type), (uint16_t)(~retval));
         }
     }
     return retval;
@@ -946,7 +946,7 @@ static uint8_t joyport_mouse_micromys_value(int port)
 
     if (_mouse_enabled) {
         retval = (uint8_t)((~mouse_digital_val) & micromys_mouse_read());
-        joyport_display_joyport(mt_to_id(mouse_type), (uint8_t)(~retval));
+        joyport_display_joyport(mt_to_id(mouse_type), (uint16_t)(~retval));
     }
     return retval;
 }
@@ -1174,7 +1174,7 @@ static void mouse_button_left(int pressed)
     if (old_val == mouse_digital_val || mouse_type == -1) {
         return;
     }
-    joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
+    joyport_display_joyport(mt_to_id(mouse_type), (uint16_t)mouse_digital_val);
 }
 
 static void mouse_button_right(int pressed)
@@ -1216,7 +1216,7 @@ static void mouse_button_right(int pressed)
     if (old_val == mouse_digital_val || mouse_type == -1) {
         return;
     }
-    joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
+    joyport_display_joyport(mt_to_id(mouse_type), (uint16_t)mouse_digital_val);
 }
 
 static void mouse_button_middle(int pressed)
@@ -1245,7 +1245,7 @@ static void mouse_button_middle(int pressed)
     if (old_val == mouse_digital_val || mouse_type == -1) {
         return;
     }
-    joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
+    joyport_display_joyport(mt_to_id(mouse_type), (uint16_t)mouse_digital_val);
 }
 
 static void mouse_button_up(int pressed)

@@ -180,7 +180,7 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
     }
 
     if (c64dtv_hummer_adc_enabled && (!(msk & 1))) {
-        val &= ~(joystick_value[3] & 3);
+        val &= ~((uint8_t)joystick_value[3] & 3);
     }
 
     byte = (val & (cia_context->c_cia[CIA_PRB]
