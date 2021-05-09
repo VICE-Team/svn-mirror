@@ -44,7 +44,7 @@
 #endif
 
 static joyport_t joyport_device[JOYPORT_MAX_DEVICES];
-static uint8_t joyport_display[6] = { 0, 0, 0, 0, 0, 0};
+static uint16_t joyport_display[6] = { 0, 0, 0, 0, 0, 0};
 
 static int joy_port[JOYPORT_MAX_PORTS];
 static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
@@ -437,7 +437,7 @@ joyport_desc_t *joyport_get_valid_devices(int port)
     return retval;
 }
 
-void joyport_display_joyport(int id, uint8_t status)
+void joyport_display_joyport(int id, uint16_t status)
 {
     if (id == JOYPORT_ID_JOY1 || id == JOYPORT_ID_JOY2 || id == JOYPORT_ID_JOY3 || id == JOYPORT_ID_JOY4 || id == JOYPORT_ID_JOY5) {
         if (id == JOYPORT_ID_JOY1 && joy_port[0] == JOYPORT_ID_JOYSTICK) {

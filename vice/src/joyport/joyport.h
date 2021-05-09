@@ -146,7 +146,7 @@ extern int joyport_port_register(int port, joyport_port_props_t *props);
 
 extern joyport_desc_t *joyport_get_valid_devices(int port);
 
-extern void joyport_display_joyport(int id, uint8_t status);
+extern void joyport_display_joyport(int id, uint16_t status);
 
 extern char *joyport_get_port_name(int port);
 

@@ -122,7 +122,7 @@ static uint8_t paperclip64_read(int port)
 
     if (output_enable) {
         retval &= (keys[counter] | 0xfc);
-        joyport_display_joyport(JOYPORT_ID_BBRTC, (uint8_t)(~retval & 3));
+        joyport_display_joyport(JOYPORT_ID_BBRTC, (uint16_t)(~retval & 3));
     }
     return retval;
 }

@@ -311,13 +311,13 @@ void usb_joystick(void)
             if (it->type == ITEM_HAT) {
                 val -= it->min_val;
                 if (val >= 0 && val <= 7) {
-                    joystick_set_value_or(i + 1, hat_or[val]);
+                    joystick_set_value_or(i + 1, (uint16_t)hat_or[val]);
                 }
             } else {
                 if (val <= it->min_val) {
-                    joystick_set_value_or(i + 1, it->min_or);
+                    joystick_set_value_or(i + 1, (uint16_t)it->min_or);
                 } else if (val > it->max_val) {
-                    joystick_set_value_or(i + 1, it->max_or);
+                    joystick_set_value_or(i + 1, (uint16_t)it->max_or);
                 }
             }
         }

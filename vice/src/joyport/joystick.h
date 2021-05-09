@@ -44,9 +44,9 @@ extern int joystick_check_set(signed long key, int keysetnum, unsigned int joypo
 extern int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport);
 extern void joystick_joypad_clear(void);
 
-extern void joystick_set_value_absolute(unsigned int joyport, uint8_t value);
-extern void joystick_set_value_or(unsigned int joyport, uint8_t value);
-extern void joystick_set_value_and(unsigned int joyport, uint8_t value);
+extern void joystick_set_value_absolute(unsigned int joyport, uint16_t value);
+extern void joystick_set_value_or(unsigned int joyport, uint16_t value);
+extern void joystick_set_value_and(unsigned int joyport, uint16_t value);
 extern void joystick_clear(unsigned int joyport);
 extern void joystick_clear_all(void);
 
@@ -56,7 +56,7 @@ extern void joystick_register_delay(unsigned int delay);
 
 extern void linux_joystick_init(void);
 
-extern uint8_t get_joystick_value(int index);
+extern uint16_t get_joystick_value(int index);
 
 typedef void (*joystick_machine_func_t)(void);
 extern void joystick_register_machine(joystick_machine_func_t func);
@@ -68,7 +68,7 @@ extern void joystick_register_machine(joystick_machine_func_t func);
 FIXME: this is only an extern because of
 src/c64dtv/c64dtvcia1.c and
 src/c64dtv/hummeradc.c */
-extern uint8_t joystick_value[JOYSTICK_NUM + 1];
+extern uint16_t joystick_value[JOYSTICK_NUM + 1];
 
 /* the mapping of real devices to emulated joystick ports */
 extern int joystick_port_map[JOYSTICK_NUM];

@@ -81,23 +81,23 @@ static int joyport_snespad_enable(int port, int value)
 static uint8_t snespad_read(int port)
 {
     uint8_t retval;
-    uint8_t joyval = get_joystick_value(port + 1);
+    uint16_t joyval = get_joystick_value(port + 1);
 
     switch (counter) {
         case SNESPAD_FIRE_BUTTON:
-            retval = (joyval & 0x10) >> 4;
+            retval = (uint8_t)((joyval & 0x10) >> 4);
             break;
         case SNESPAD_UP:
-            retval = (joyval & 1);
+            retval = (uint8_t)(joyval & 1);
             break;
         case SNESPAD_DOWN:
-            retval = (joyval & 2) >> 1;
+            retval = (uint8_t)((joyval & 2) >> 1);
             break;
         case SNESPAD_LEFT:
-            retval = (joyval & 4) >> 2;
+            retval = (uint8_t)((joyval & 4) >> 2);
             break;
         case SNESPAD_RIGHT:
-            retval = (joyval & 8) >> 3;
+            retval = (uint8_t)((joyval & 8) >> 3);
             break;
         case SNESPAD_EOS:
             retval = 1;

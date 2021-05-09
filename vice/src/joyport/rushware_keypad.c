@@ -197,7 +197,7 @@ static uint8_t rushware_keypad_read(int port)
         retval = 0xef;
     }
 
-    joyport_display_joyport(JOYPORT_ID_RUSHWARE_KEYPAD, (uint8_t)~retval);
+    joyport_display_joyport(JOYPORT_ID_RUSHWARE_KEYPAD, (uint16_t)~retval);
 
     return retval;
 }

@@ -808,7 +808,7 @@ static BYTE joystick_di5_update(int joy_no)
 
 void joystick(void)
 {
-    BYTE value;
+    WORD value;
     MMRESULT result;
     int idx;
     DWORD addflag;
@@ -824,7 +824,7 @@ void joystick(void)
         int i;
         for (i = 0; i < 5; i++) {
             if (joystick_port_map[i] >= JOYDEV_HW1) {
-                joystick_set_value_absolute(i + 1, joystick_di5_update(i));
+                joystick_set_value_absolute(i + 1, (uint16_t)joystick_di5_update(i));
             }
         }
     } else
@@ -950,7 +950,7 @@ void joystick(void)
                             value |= (maincpu_clk / (joystick_fire_speed[idx] * 0x100)) & 16;
                         }
                     }
-                    joystick_set_value_absolute(idx + 1, value);
+                    joystick_set_value_absolute(idx + 1, (uint16_t)value);
                 }
             }
             current_joy = current_joy->next;

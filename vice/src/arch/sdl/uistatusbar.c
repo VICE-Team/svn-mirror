@@ -318,10 +318,10 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 }
 
 /* Joystick UI */
-void ui_display_joyport(uint8_t *joyport)
+void ui_display_joyport(uint16_t *joyport)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %02x %02x %02x %02x %02x\n", __func__, joyport[0], joyport[1], joyport[2], joyport[3], joyport[4]);
+    fprintf(stderr, "%s: %04x %04x %04x %04x %04x\n", __func__, joyport[0], joyport[1], joyport[2], joyport[3], joyport[4]);
 #endif
 }
 

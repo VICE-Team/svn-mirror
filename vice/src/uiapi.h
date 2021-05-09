@@ -96,7 +96,7 @@ extern void ui_display_recording(int recording_status);
 extern void ui_display_event_time(unsigned int current, unsigned int total);
 
 /* Joystick UI */
-extern void ui_display_joyport(uint8_t *joyport);
+extern void ui_display_joyport(uint16_t *joyport);
 
 /* Volume UI */
 void ui_display_volume(int vol);

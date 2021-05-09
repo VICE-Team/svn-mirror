@@ -71,7 +71,7 @@ static uint8_t joyport_sampler_read(int port)
 
     if (sampler_enabled) {
         retval = sampler_get_sample(SAMPLER_CHANNEL_DEFAULT) >> 6;
-        joyport_display_joyport(JOYPORT_ID_SAMPLER_2BIT, retval);
+        joyport_display_joyport(JOYPORT_ID_SAMPLER_2BIT, (uint16_t)retval);
         return (uint8_t)(~retval);
     }
     return 0xff;
