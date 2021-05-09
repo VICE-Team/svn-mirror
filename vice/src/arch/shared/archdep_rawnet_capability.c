@@ -53,7 +53,8 @@
 #endif
 
 #ifdef ARCHDEP_OS_UNIX
-# ifdef HAVE_CAPABILITIES
+# ifdef HAVE_PCAP
+#  ifdef HAVE_CAPABILITIES
 static bool cap_check(cap_value_t cap_flag)
 {
     cap_t cap;
@@ -75,6 +76,7 @@ static bool cap_check(cap_value_t cap_flag)
     }
     return true;
 }
+#  endif
 # endif
 #endif
 
@@ -85,7 +87,7 @@ static bool cap_check(cap_value_t cap_flag)
 bool archdep_rawnet_capability(void)
 {
 #ifdef ARCHDEP_OS_UNIX
-# if defined HAVE_PCAP
+# ifdef HAVE_PCAP
     /* if we are root then rawnet works, regardless of capabilities */
     if (geteuid() == 0) {
         return true;
