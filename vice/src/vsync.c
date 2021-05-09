@@ -53,7 +53,7 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "debug.h"
-#include "joy.h"
+#include "joystick.h"
 #include "kbdbuf.h"
 #include "lib.h"
 #include "log.h"

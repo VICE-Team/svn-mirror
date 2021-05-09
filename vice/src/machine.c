@@ -45,7 +45,7 @@
 #include "gfxoutput.h"
 #include "initcmdline.h"
 #include "interrupt.h"
-#include "joy.h"
+#include "joystick.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "lib.h"
