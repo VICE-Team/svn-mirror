@@ -28,10 +28,6 @@
 #ifndef VICE_JOY_H
 #define VICE_JOY_H
 
-#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
-#include "joy-unix.h"
-#endif
-
 #ifdef MACOSX_SUPPORT
 #include "joy-osx.h"
 #endif
