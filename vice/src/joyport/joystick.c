@@ -80,6 +80,11 @@
 
 #define JOYPAD_FIRE2 0x20
 #define JOYPAD_FIRE3 0x40
+#define JOYPAD_FIRE4 0x80
+#define JOYPAD_FIRE5 0x100
+#define JOYPAD_FIRE6 0x200
+#define JOYPAD_FIRE7 0x400
+#define JOYPAD_FIRE8 0x800
 #define JOYPAD_FIRE 0x10
 #define JOYPAD_E    0x08
 #define JOYPAD_W    0x04
@@ -306,7 +311,12 @@ static int joypad_bits[JOYSTICK_KEYSET_NUM_KEYS] = {
     JOYPAD_N,
     JOYPAD_NE,
     JOYPAD_FIRE2,
-    JOYPAD_FIRE3
+    JOYPAD_FIRE3,
+    JOYPAD_FIRE4,
+    JOYPAD_FIRE5,
+    JOYPAD_FIRE6,
+    JOYPAD_FIRE7,
+    JOYPAD_FIRE8
 };
 
 static int joypad_status[JOYSTICK_KEYSET_NUM][JOYSTICK_KEYSET_NUM_KEYS];

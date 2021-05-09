@@ -50,9 +50,6 @@ C64/C128 |   PET   |  VIC20  |  PLUS4 | SNES PAD | I/O
 
 #include "log.h"
 
-/* Change this to change the default fire button */
-#define USERPORT_SNESPAD_FIRE_BUTTON    USERPORT_SNESPAD_BUTTON_B
-
 static int userport_snespad_enabled = 0;
 
 static int counter = 0;
@@ -174,8 +171,29 @@ static void userport_snespad_read_pbx(void)
     uint16_t portval = get_joystick_value(3);
 
     switch (counter) {
-        case USERPORT_SNESPAD_FIRE_BUTTON:
+        case USERPORT_SNESPAD_BUTTON_A:
             retval = (uint8_t)((portval & 0x10) >> 4);
+            break;
+        case USERPORT_SNESPAD_BUTTON_B:
+            retval = (uint8_t)((portval & 0x20) >> 5);
+            break;
+        case USERPORT_SNESPAD_BUTTON_X:
+            retval = (uint8_t)((portval & 0x40) >> 6);
+            break;
+        case USERPORT_SNESPAD_BUTTON_Y:
+            retval = (uint8_t)((portval & 0x80) >> 7);
+            break;
+        case USERPORT_SNESPAD_BUMPER_LEFT:
+            retval = (uint8_t)((portval & 0x100) >> 8);
+            break;
+        case USERPORT_SNESPAD_BUMPER_RIGHT:
+            retval = (uint8_t)((portval & 0x200) >> 9);
+            break;
+        case USERPORT_SNESPAD_BUTTON_SELECT:
+            retval = (uint8_t)((portval & 0x400) >> 10);
+            break;
+        case USERPORT_SNESPAD_BUTTON_START:
+            retval = (uint8_t)((portval & 0x800) >> 11);
             break;
         case USERPORT_SNESPAD_UP:
             retval = (uint8_t)(portval & 1);
