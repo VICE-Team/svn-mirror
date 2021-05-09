@@ -220,20 +220,19 @@ static const ui_menu_entry_t define_keyset_menu[] = {
 };
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
-/* FIXME: Do something about the naming of the buttons */
 static const char *joy_pin[] = {
     "Up",
     "Down",
     "Left",
     "Right",
-    "Fire",
-    "Fire 2 (POTX)",
-    "Fire 3 (POTY)",
-    "Fire 4",
-    "Fire 5",
-    "Fire 6",
-    "Fire 7",
-    "Fire 8"
+    "Fire (| SNES-A)",
+    "Fire 2 (POTX | SNES-B)",
+    "Fire 3 (POTY | SNES-X)",
+    "Fire 4 (SNES-Y)",
+    "Fire 5 (SNES-LB)",
+    "Fire 6 (SNES-RB)",
+    "Fire 7 (SNES-SELECT)",
+    "Fire 8 (SNES-START)"
 };
 
 static UI_MENU_CALLBACK(custom_joymap_callback)
