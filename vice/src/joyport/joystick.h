@@ -144,6 +144,10 @@ typedef enum joystick_axis_value_e {
 extern void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
 extern void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value);
 extern void joy_hat_event(uint8_t joynum, uint8_t button, uint8_t value);
+extern void joystick(void);
+extern void joystick_close(void);
+extern void joystick_ui_reset_device_list(void);
+extern const char *joystick_ui_get_next_device_name(int *id);
 
 #define JOYSTICK_DIRECTION_DOWN  1
 #define JOYSTICK_DIRECTION_UP    2
