@@ -220,6 +220,7 @@ static const ui_menu_entry_t define_keyset_menu[] = {
 };
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
+/* FIXME: Do something about the naming of the buttons */
 static const char *joy_pin[] = {
     "Up",
     "Down",
@@ -227,7 +228,12 @@ static const char *joy_pin[] = {
     "Right",
     "Fire",
     "Fire 2 (POTX)",
-    "Fire 3 (POTY)"
+    "Fire 3 (POTY)",
+    "Fire 4",
+    "Fire 5",
+    "Fire 6",
+    "Fire 7",
+    "Fire 8"
 };
 
 static UI_MENU_CALLBACK(custom_joymap_callback)
@@ -237,8 +243,8 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     int pin, port;
 
     if (activated) {
-        pin = (vice_ptr_to_int(param)) & 7;
-        port = (vice_ptr_to_int(param)) >> 4;
+        pin = (vice_ptr_to_int(param)) & 15;
+        port = (vice_ptr_to_int(param)) >> 5;
 
         target = lib_msprintf("Port %i %s", port + 1, joy_pin[pin]);
         e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK, 5);
@@ -263,31 +269,51 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
         { "Up",                                                    \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
-          (ui_callback_data_t)(0 | ((port - 1) << 4)) },           \
+          (ui_callback_data_t)(0 | ((port - 1) << 5)) },           \
         { "Down",                                                  \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
-          (ui_callback_data_t)(1 | ((port - 1) << 4)) },           \
+          (ui_callback_data_t)(1 | ((port - 1) << 5)) },           \
         { "Left",                                                  \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
-          (ui_callback_data_t)(2 | ((port - 1) << 4)) },           \
+          (ui_callback_data_t)(2 | ((port - 1) << 5)) },           \
         { "Right",                                                 \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
-          (ui_callback_data_t)(3 | ((port - 1) << 4)) },           \
+          (ui_callback_data_t)(3 | ((port - 1) << 5)) },           \
         { "Fire",                                                  \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
-          (ui_callback_data_t)(4 | ((port - 1) << 4)) },           \
+          (ui_callback_data_t)(4 | ((port - 1) << 5)) },           \
         { "Fire 2 (POTX)",                                         \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
-          (ui_callback_data_t)(5 | ((port - 1) << 4)) },           \
+          (ui_callback_data_t)(5 | ((port - 1) << 5)) },           \
         { "Fire 3 (POTY)",                                         \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
-          (ui_callback_data_t)(6 | ((port - 1) << 4)) },           \
+          (ui_callback_data_t)(6 | ((port - 1) << 5)) },           \
+        { "Fire 4",                                                \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(7 | ((port - 1) << 5)) },           \
+        { "Fire 5",                                                \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(8 | ((port - 1) << 5)) },           \
+        { "Fire 6",                                                \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(9 | ((port - 1) << 5)) },           \
+        { "Fire 7",                                                \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(10 | ((port - 1) << 5)) },          \
+        { "Fire 8",                                                \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(11 | ((port - 1) << 5)) },          \
         SDL_MENU_LIST_END                                          \
     };
 
