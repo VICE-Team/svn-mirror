@@ -122,7 +122,7 @@ struct sdljoystick_mapping_s {
 
     union {
         /* joy[0] = port number (0,1), joy[1] = pin number */
-        uint8_t joy[2];
+        uint16_t joy[2];
 
         /* key[0] = row, key[1] = column */
         int key[2];
@@ -1116,8 +1116,8 @@ void sdljoy_set_joystick(SDL_Event e, int port, int bits)
 
     if (joyevent != NULL) {
         joyevent->action = JOYSTICK;
-        joyevent->value.joy[0] = (uint8_t)port;
-        joyevent->value.joy[1] = (uint8_t)bits;
+        joyevent->value.joy[0] = (uint16_t)port;
+        joyevent->value.joy[1] = (uint16_t)bits;
     }
 }
 
