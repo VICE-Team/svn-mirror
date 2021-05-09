@@ -281,35 +281,35 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(3 | ((port - 1) << 5)) },           \
-        { "Fire",                                                  \
+        { "Fire (| SNES-A)",                                       \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(4 | ((port - 1) << 5)) },           \
-        { "Fire 2 (POTX)",                                         \
+        { "Fire 2 (POTX | SNES-B)",                                \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(5 | ((port - 1) << 5)) },           \
-        { "Fire 3 (POTY)",                                         \
+        { "Fire 3 (POTY | SNES-X)",                                \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(6 | ((port - 1) << 5)) },           \
-        { "Fire 4",                                                \
+        { "Fire 4 (SNES-Y)",                                       \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(7 | ((port - 1) << 5)) },           \
-        { "Fire 5",                                                \
+        { "Fire 5 (SNES-LB)",                                      \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(8 | ((port - 1) << 5)) },           \
-        { "Fire 6",                                                \
+        { "Fire 6 (SNES-RB)",                                      \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(9 | ((port - 1) << 5)) },           \
-        { "Fire 7",                                                \
+        { "Fire 7 (SNES-SELECT)",                                  \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(10 | ((port - 1) << 5)) },          \
-        { "Fire 8",                                                \
+        { "Fire 8 (SNES-START)",                                   \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(11 | ((port - 1) << 5)) },          \
