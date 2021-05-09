@@ -40,7 +40,7 @@
 #define SNESPAD_BUTTON_A        8
 #define SNESPAD_BUTTON_X        9
 #define SNESPAD_BUMPER_LEFT    10
-#define SNESPAD_BUMBER_RIGHT   11
+#define SNESPAD_BUMPER_RIGHT   11
 
 /* End Of Sequence */
 #define SNESPAD_EOS            12

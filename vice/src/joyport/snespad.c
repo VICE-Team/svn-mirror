@@ -48,6 +48,21 @@
      6   |   LATCH  |  O
  */
 
+/* TODO: expand to support the following:
+
+          cport        | SNES PADS | I/O
+   -------------------------------------
+   port 1 pin 1 (joy0) | PAD1 DATA |  I
+   port 1 pin 2 (joy1) | PAD2 DATA |  I
+   port 1 pin 3 (joy2) | PAD3 DATA |  I
+   port 1 pin 4 (joy3) |   CLOCK   |  O
+   port 1 pin 6 (joy4) |   LATCH   |  O
+   port 2 pin 1 (joy0) | PAD4 DATA |  I
+   port 2 pin 2 (joy1) | PAD5 DATA |  I
+   port 2 pin 3 (joy2) | PAD6 DATA |  I
+   port 2 pin 4 (joy3) | PAD7 DATA |  I
+   port 2 pin 6 (joy4) | PAD8 DATA |  I
+ */
 
 static int snespad_enabled = 0;
 
@@ -55,9 +70,6 @@ static int counter = 0;
 
 static uint8_t clock_line = 0;
 static uint8_t latch_line = 0;
-
-/* Change this to change the default fire button */
-#define SNESPAD_FIRE_BUTTON    SNESPAD_BUTTON_B
 
 /* ------------------------------------------------------------------------- */
 
@@ -84,8 +96,29 @@ static uint8_t snespad_read(int port)
     uint16_t joyval = get_joystick_value(port + 1);
 
     switch (counter) {
-        case SNESPAD_FIRE_BUTTON:
+        case SNESPAD_BUTTON_A:
             retval = (uint8_t)((joyval & 0x10) >> 4);
+            break;
+        case SNESPAD_BUTTON_B:
+            retval = (uint8_t)((joyval & 0x20) >> 5);
+            break;
+        case SNESPAD_BUTTON_X:
+            retval = (uint8_t)((joyval & 0x40) >> 6);
+            break;
+        case SNESPAD_BUTTON_Y:
+            retval = (uint8_t)((joyval & 0x80) >> 7);
+            break;
+        case SNESPAD_BUMPER_LEFT:
+            retval = (uint8_t)((joyval & 0x100) >> 8);
+            break;
+        case SNESPAD_BUMPER_RIGHT:
+            retval = (uint8_t)((joyval & 0x200) >> 9);
+            break;
+        case SNESPAD_BUTTON_SELECT:
+            retval = (uint8_t)((joyval & 0x400) >> 10);
+            break;
+        case SNESPAD_BUTTON_START:
+            retval = (uint8_t)((joyval & 0x800) >> 11);
             break;
         case SNESPAD_UP:
             retval = (uint8_t)(joyval & 1);
