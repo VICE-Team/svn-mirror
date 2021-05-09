@@ -1190,6 +1190,7 @@ void joystick(void)
 void joystick_close(void)
 {
     int i;
+
     for (i = 0; i < num_joystick_devices; i++) {
         joystick_devices[i].driver->close(joystick_devices[i].priv);
         lib_free(joystick_devices[i].axis_mapping);

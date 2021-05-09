@@ -626,7 +626,7 @@ static void joystick_release_winmm_joysticks(void)
     }
 }
 
-int joystick_close(void)
+void joystick_close(void)
 {
 #ifdef HAVE_DINPUT
     if ((joystick_inited == WIN_JOY_DINPUT) && (joystick_port_map[0] >= JOYDEV_HW1)) {
@@ -649,7 +649,6 @@ int joystick_close(void)
 
     joystick_release_winmm_joysticks();
     joystick_inited = WIN_JOY_UNINIT;
-    return 0;
 }
 
 static JOYINFOEX joy_info;

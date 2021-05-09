@@ -41,12 +41,12 @@ typedef int joystick_device_t;
 
 #define JOYDEV_DEFAULT   JOYDEV_NUMPAD
 
-int joystick_close(void);
-void joystick(void);
+extern void joystick_close(void);
+extern void joystick(void);
 
-int joystick_uses_direct_input(void);
+extern int joystick_uses_direct_input(void);
 
-void joystick_ui_reset_device_list(void);
-const char *joystick_ui_get_next_device_name(int *id);
+extern void joystick_ui_reset_device_list(void);
+extern const char *joystick_ui_get_next_device_name(int *id);
 
 #endif
