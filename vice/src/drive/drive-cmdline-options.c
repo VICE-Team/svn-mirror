@@ -130,7 +130,6 @@ int drive_cmdline_options_init(void)
     int has_iec;
 
     switch (machine_class) {
-        case VICE_MACHINE_NONE:
         case VICE_MACHINE_PET:
         case VICE_MACHINE_CBM5x0:
         case VICE_MACHINE_CBM6x0:
