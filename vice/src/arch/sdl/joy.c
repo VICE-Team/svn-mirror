@@ -905,9 +905,9 @@ static ui_menu_action_t sdljoy_perform_event(sdljoystick_mapping_t *event, int v
             t = event->value.joy[0];
             if (joystick_port_map[t] == JOYDEV_JOYSTICK) {
                 if (value) {
-                    joystick_set_value_or(t + 1, (uint16_t)event->value.joy[1]);
+                    joystick_set_value_or(t, (uint16_t)event->value.joy[1]);
                 } else {
-                    joystick_set_value_and(t + 1, (uint16_t) ~(event->value.joy[1]));
+                    joystick_set_value_and(t, (uint16_t) ~(event->value.joy[1]));
                 }
             }
             break;

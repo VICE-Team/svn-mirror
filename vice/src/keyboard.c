@@ -630,7 +630,7 @@ void keyboard_key_pressed(signed long key, int mod)
     }
 
 #ifdef COMMON_JOYKEYS
-    for (i = 0; i < JOYSTICK_NUM; ++i) {
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         if (joystick_port_map[i] == JOYDEV_NUMPAD
             || joystick_port_map[i] == JOYDEV_KEYSET1
             || joystick_port_map[i] == JOYDEV_KEYSET2) {
@@ -817,7 +817,7 @@ void keyboard_key_released(signed long key, int mod)
     }
 
 #ifdef COMMON_JOYKEYS
-    for (i = 0; i < JOYSTICK_NUM; ++i) {
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         if (joystick_port_map[i] == JOYDEV_NUMPAD
             || joystick_port_map[i] == JOYDEV_KEYSET1
             || joystick_port_map[i] == JOYDEV_KEYSET2) {

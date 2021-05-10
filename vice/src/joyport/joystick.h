@@ -29,6 +29,7 @@
 #define VICE_JOYSTICK_H
 
 #include "types.h"
+#include "joyport.h" /* for JOYPORT_MAX_PORTS */
 
 extern int joystick_init(void);
 extern int joystick_resources_init(void);
@@ -62,17 +63,8 @@ extern uint16_t get_joystick_value(int index);
 typedef void (*joystick_machine_func_t)(void);
 extern void joystick_register_machine(joystick_machine_func_t func);
 
-/*! the number of joysticks that can be attached to the emu */
-#define JOYSTICK_NUM 8
-
-/* the values used internally to represent joystick state
-FIXME: this is only an extern because of
-src/c64dtv/c64dtvcia1.c and
-src/c64dtv/hummeradc.c */
-extern uint16_t joystick_value[JOYSTICK_NUM + 1];
-
 /* the mapping of real devices to emulated joystick ports */
-extern int joystick_port_map[JOYSTICK_NUM];
+extern int joystick_port_map[JOYPORT_MAX_PORTS];
 
 
 /** \brief  Use keypad as predefined keys for joystick emulation

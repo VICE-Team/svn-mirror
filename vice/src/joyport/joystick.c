@@ -98,14 +98,20 @@ static int joyport_joystick[5] = { 0, 0, 0, 0, 0 };
 
 /* Global joystick value.  */
 /*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */
-uint16_t joystick_value[JOYSTICK_NUM + 1] = { 0 };
-static uint16_t network_joystick_value[JOYSTICK_NUM + 1] = { 0 };
+static uint16_t joystick_value[JOYPORT_MAX_PORTS] = { 0 };
+
+typedef struct joystick_values_s {
+    unsigned int last_used_joyport;
+    uint16_t values[JOYPORT_MAX_PORTS];
+} joystick_values_t;
+
+static joystick_values_t network_joystick_value = { .last_used_joyport = JOYPORT_MAX_PORTS };
 
 /* Latched joystick status.  */
-static uint16_t latch_joystick_value[JOYSTICK_NUM + 1] = { 0 };
+static joystick_values_t latch_joystick_value = { .last_used_joyport = JOYPORT_MAX_PORTS };
 
 /* mapping of the joystick ports */
-int joystick_port_map[JOYSTICK_NUM] = { 0 };
+int joystick_port_map[JOYPORT_MAX_PORTS] = { 0 };
 
 /* to prevent illegal direction combinations */
 static int joystick_opposite_enable = 0;
@@ -147,14 +153,14 @@ static void joystick_latch_matrix(CLOCK offset)
     uint8_t idx;
 
     if (network_connected()) {
-        idx = network_joystick_value[0];
-        if (idx > 0) {
-            joystick_value[idx] = network_joystick_value[idx];
+        idx = network_joystick_value.last_used_joyport;
+        if (idx < JOYPORT_MAX_PORTS) {
+            joystick_value[idx] = network_joystick_value.values[idx];
         } else {
-            memcpy(joystick_value, network_joystick_value, sizeof(joystick_value));
+            memcpy(joystick_value, network_joystick_value.values, sizeof(joystick_value));
         }
     } else {
-        memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
+        memcpy(joystick_value, latch_joystick_value.values, sizeof(joystick_value));
     }
 
     if (joystick_machine_func != NULL) {
@@ -162,19 +168,19 @@ static void joystick_latch_matrix(CLOCK offset)
     }
 
     if (joyport_joystick[0]) {
-        joyport_display_joyport(JOYPORT_ID_JOY1, joystick_value[1]);
+        joyport_display_joyport(JOYPORT_ID_JOY1, joystick_value[JOYPORT_1]);
     }
     if (joyport_joystick[1]) {
-        joyport_display_joyport(JOYPORT_ID_JOY2, joystick_value[2]);
+        joyport_display_joyport(JOYPORT_ID_JOY2, joystick_value[JOYPORT_2]);
     }
     if (joyport_joystick[2]) {
-        joyport_display_joyport(JOYPORT_ID_JOY3, joystick_value[3]);
+        joyport_display_joyport(JOYPORT_ID_JOY3, joystick_value[JOYPORT_3]);
     }
     if (joyport_joystick[3]) {
-        joyport_display_joyport(JOYPORT_ID_JOY4, joystick_value[4]);
+        joyport_display_joyport(JOYPORT_ID_JOY4, joystick_value[JOYPORT_4]);
     }
     if (joyport_joystick[4]) {
-        joyport_display_joyport(JOYPORT_ID_JOY5, joystick_value[5]);
+        joyport_display_joyport(JOYPORT_ID_JOY5, joystick_value[JOYPORT_5]);
     }
 }
 
@@ -187,7 +193,7 @@ static void joystick_event_record(void)
 
 void joystick_event_playback(CLOCK offset, void *data)
 {
-    memcpy(latch_joystick_value, data, sizeof(joystick_value));
+    memcpy(latch_joystick_value.values, data, sizeof(latch_joystick_value.values));
 
     joystick_latch_matrix(offset);
 }
@@ -208,7 +214,7 @@ void joystick_event_delayed_playback(void *data)
      * and why sizeof latch_joystick_value,
      * if the target is network_joystick_value?
      */
-    memcpy(network_joystick_value, data, sizeof(latch_joystick_value));
+    memcpy(&network_joystick_value, data, sizeof(latch_joystick_value));
     alarm_set(joystick_alarm, maincpu_clk + joystick_delay);
 }
 
@@ -228,7 +234,7 @@ static void joystick_process_latch(void)
 
     if (network_connected()) {
         network_event_record(EVENT_JOYSTICK_DELAY, (void *)&delay, sizeof(delay));
-        network_event_record(EVENT_JOYSTICK_VALUE, (void *)latch_joystick_value, sizeof(latch_joystick_value));
+        network_event_record(EVENT_JOYSTICK_VALUE, (void *)&latch_joystick_value, sizeof(latch_joystick_value));
     } else {
         alarm_set(joystick_alarm, maincpu_clk + delay);
     }
@@ -240,9 +246,9 @@ void joystick_set_value_absolute(unsigned int joyport, uint16_t value)
         return;
     }
 
-    if (latch_joystick_value[joyport] != value) {
-        latch_joystick_value[joyport] = value;
-        latch_joystick_value[0] = (uint16_t)joyport;
+    if (latch_joystick_value.values[joyport] != value) {
+        latch_joystick_value.values[joyport] = value;
+        latch_joystick_value.last_used_joyport = joyport;
         joystick_process_latch();
     }
 }
@@ -254,13 +260,13 @@ void joystick_set_value_or(unsigned int joyport, uint16_t value)
         return;
     }
 
-    latch_joystick_value[joyport] |= value;
+    latch_joystick_value.values[joyport] |= value;
 
     if (!joystick_opposite_enable) {
-        latch_joystick_value[joyport] &= (uint16_t)(~joystick_opposite_direction[value & 0xf]);
+        latch_joystick_value.values[joyport] &= (uint16_t)(~joystick_opposite_direction[value & 0xf]);
     }
 
-    latch_joystick_value[0] = (uint16_t)joyport;
+    latch_joystick_value.last_used_joyport = joyport;
     joystick_process_latch();
 }
 
@@ -271,21 +277,22 @@ void joystick_set_value_and(unsigned int joyport, uint16_t value)
         return;
     }
 
-    latch_joystick_value[joyport] &= value;
-    latch_joystick_value[0] = (uint16_t)joyport;
+    latch_joystick_value.values[joyport] &= value;
+    latch_joystick_value.last_used_joyport = joyport;
     joystick_process_latch();
 }
 
 void joystick_clear(unsigned int joyport)
 {
-    latch_joystick_value[joyport] = 0;
-    latch_joystick_value[0] = (uint16_t)joyport;
+    latch_joystick_value.values[joyport] = 0;
+    latch_joystick_value.last_used_joyport = joyport;
     joystick_latch_matrix(0);
 }
 
 void joystick_clear_all(void)
 {
-    memset(latch_joystick_value, 0, sizeof latch_joystick_value);
+    memset(latch_joystick_value.values, 0, sizeof latch_joystick_value.values);
+    latch_joystick_value.last_used_joyport = JOYPORT_MAX_PORTS;
     joystick_latch_matrix(0);
 }
 
@@ -563,17 +570,17 @@ static int joyport_enable_joystick(int port, int val)
 
 static uint8_t read_joystick(int port)
 {
-    return (uint8_t)(~(joystick_value[port + 1] & 0x1f));
+    return (uint8_t)(~(joystick_value[port] & 0x1f));
 }
 
 static uint8_t read_potx(int port) {
     /* printf("read_potx %d %02x %02x %02x\n", port, joystick_value[port + 1]); */
-    return joystick_value[port + 1] & JOYPAD_FIRE2 ? 0x00 : 0xff;
+    return joystick_value[port] & JOYPAD_FIRE2 ? 0x00 : 0xff;
 }
 
 static uint8_t read_poty(int port) {
     /* printf("read_poty %d %02x %02x %02x\n", port, joystick_value[port + 1]); */
-    return joystick_value[port + 1] & JOYPAD_FIRE3 ? 0x00 : 0xff;
+    return joystick_value[port] & JOYPAD_FIRE3 ? 0x00 : 0xff;
 }
 
 /* Some prototypes are needed */
@@ -981,7 +988,7 @@ static int joystick_snapshot_write_module(snapshot_t *s, int port)
         return -1;
     }
 
-    if (SMW_W(m, joystick_value[port + 1]) < 0) {
+    if (SMW_W(m, joystick_value[port]) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -1097,7 +1104,7 @@ void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value)
         return;
     }
 
-    joyport = joystick_devices[joynum].joyport + 1;
+    joyport = joystick_devices[joynum].joyport;
 
     if (value == JOY_AXIS_POSITIVE) {
         if (prev == JOY_AXIS_NEGATIVE) {
@@ -1121,7 +1128,7 @@ void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value)
 }
 
 void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value) {
-    joy_perform_event(&(joystick_devices[joynum].button_mapping[button]), joystick_devices[joynum].joyport + 1, value);
+    joy_perform_event(&(joystick_devices[joynum].button_mapping[button]), joystick_devices[joynum].joyport, value);
 }
 
 void joy_hat_event(uint8_t joynum, uint8_t hat, uint8_t value) {
@@ -1133,7 +1140,7 @@ void joy_hat_event(uint8_t joynum, uint8_t hat, uint8_t value) {
         return;
     }
 
-    joyport = joystick_devices[joynum].joyport + 1;
+    joyport = joystick_devices[joynum].joyport;
 
     if (!(value & JOYSTICK_DIRECTION_UP) && (prev & JOYSTICK_DIRECTION_UP)) {
         joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].up, joyport, 0);
