@@ -573,15 +573,18 @@ static uint8_t read_joystick(int port)
     return (uint8_t)(~(joystick_value[port] & 0x1f));
 }
 
-static uint8_t read_potx(int port) {
+static uint8_t read_potx(int port)
+{
     /* printf("read_potx %d %02x %02x %02x\n", port, joystick_value[port + 1]); */
     return joystick_value[port] & JOYPAD_FIRE2 ? 0x00 : 0xff;
 }
 
-static uint8_t read_poty(int port) {
+static uint8_t read_poty(int port)
+{
     /* printf("read_poty %d %02x %02x %02x\n", port, joystick_value[port + 1]); */
     return joystick_value[port] & JOYPAD_FIRE3 ? 0x00 : 0xff;
 }
+
 
 /* Some prototypes are needed */
 static int joystick_snapshot_write_module(snapshot_t *s, int port);
@@ -824,8 +827,7 @@ int joystick_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static const cmdline_option_t cmdline_options[] =
-{
+static const cmdline_option_t cmdline_options[] = {
     { "-joyopposite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "JoyOpposite", (resource_value_t)1,
       NULL, "Enable opposite joystick directions" },
@@ -845,8 +847,7 @@ static const cmdline_option_t cmdline_options[] =
 
 /* Per-joystick command-line options.  */
 
-static const cmdline_option_t joydev1cmdline_options[] =
-{
+static const cmdline_option_t joydev1cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice1", NULL,
 #ifdef HAS_USB_JOYSTICK
@@ -857,8 +858,7 @@ static const cmdline_option_t joydev1cmdline_options[] =
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev2cmdline_options[] =
-{
+static const cmdline_option_t joydev2cmdline_options[] = {
     { "-joydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice2", NULL,
 #ifdef HAS_USB_JOYSTICK
@@ -869,8 +869,7 @@ static const cmdline_option_t joydev2cmdline_options[] =
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev3cmdline_options[] =
-{
+static const cmdline_option_t joydev3cmdline_options[] = {
     { "-extrajoydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice3", NULL,
 
@@ -882,8 +881,7 @@ static const cmdline_option_t joydev3cmdline_options[] =
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev4cmdline_options[] =
-{
+static const cmdline_option_t joydev4cmdline_options[] = {
     { "-extrajoydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice4", NULL,
 #ifdef HAS_USB_JOYSTICK
@@ -894,8 +892,7 @@ static const cmdline_option_t joydev4cmdline_options[] =
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev5cmdline_options[] =
-{
+static const cmdline_option_t joydev5cmdline_options[] = {
     { "-extrajoydev3", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice5", NULL,
 #ifdef HAS_USB_JOYSTICK
@@ -1127,11 +1124,14 @@ void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value)
     joystick_devices[joynum].axis_mapping[axis].prev = value;
 }
 
-void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value) {
-    joy_perform_event(&(joystick_devices[joynum].button_mapping[button]), joystick_devices[joynum].joyport, value);
+void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value)
+{
+    joy_perform_event(&(joystick_devices[joynum].button_mapping[button]),
+                      joystick_devices[joynum].joyport, value);
 }
 
-void joy_hat_event(uint8_t joynum, uint8_t hat, uint8_t value) {
+void joy_hat_event(uint8_t joynum, uint8_t hat, uint8_t value)
+{
     uint8_t prev;
     int joyport;
 
