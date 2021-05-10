@@ -62,6 +62,11 @@
 
 #include "keysetdialog.h"
 
+
+#define ROWS    6
+#define COLS    3
+
+
 /*
  * Forward declarations
  */
@@ -79,7 +84,7 @@ static int keyset_index = 0;
 
 /** \brief  GDK key codes for the current keyset
  */
-static guint keyset_codes[4][3];
+static guint keyset_codes[6][3];
 
 
 /** \brief  Names of the directions of the keyset keys
@@ -88,11 +93,13 @@ static guint keyset_codes[4][3];
  * Capitalization can be changed if required, since resources are not
  * case-sensitive.
  */
-static const char *keyset_labels[4][3] = {
-    { "NorthWest", "North", "NorthEast" },
-    { "West",      "Fire",       "East" },
-    { "SouthWest", "South", "SouthEast" },
-    { NULL,        "Fire2",     "Fire3" }
+static const char *keyset_labels[ROWS][COLS] = {
+    { "NorthWest",  "North",    "NorthEast" },
+    { "West",       NULL,       "East"      },
+    { "SouthWest",  "South",    "SouthEast" },
+    { "Fire",       "Fire2",    "Fire3"     },
+    { "Fire4",      "Fire5",    "Fire6"     },
+    { "Fire7",      "Fire8",    NULL        }
 };
 
 
@@ -100,7 +107,7 @@ static const char *keyset_labels[4][3] = {
  *
  * There can be only one (active)
  */
-static GtkWidget *keyset_buttons[3][3];
+static GtkWidget *keyset_buttons[ROWS][COLS];
 
 
 /** \brief  Handler for the 'response' event of the dialog
@@ -144,8 +151,8 @@ static void on_button_toggled(GtkWidget *button, gpointer data)
          * inactive (untoggled) */
         int row;
         int col;
-        for (row = 0; row < 4; row++) {
-            for (col = 0; col < 3; col++) {
+        for (row = 0; row < ROWS; row++) {
+            for (col = 0; col < COLS; col++) {
                 if (keyset_labels[row][col]) {
                     if (keyset_buttons[row][col] != button) {
                         gtk_toggle_button_set_active(
@@ -185,8 +192,8 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEventKey *event,
         key = 0;
     }
 
-    for (row = 0; row < 4; row++) {
-        for (col = 0; col < 3; col++) {
+    for (row = 0; row < ROWS; row++) {
+        for (col = 0; col < COLS; col++) {
             if (keyset_labels[row][col]) {
                 GtkWidget *button = keyset_buttons[row][col];
                 if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) {
@@ -212,8 +219,8 @@ static gboolean get_keyset_resources(void)
     int row;
     int col;
 
-    for (row = 0; row < 4; row++) {
-        for (col = 0; col < 3; col++) {
+    for (row = 0; row < ROWS; row++) {
+        for (col = 0; col < COLS; col++) {
             int value = -1;
             if (keyset_labels[row][col]) {
                 if (resources_get_int_sprintf("KeySet%d%s", &value, keyset_index,
@@ -240,8 +247,8 @@ static gboolean set_keyset_resources(void)
     int row;
     int col;
 
-    for (row = 0; row < 4; row++) {
-        for (col = 0; col < 3; col++) {
+    for (row = 0; row < ROWS; row++) {
+        for (col = 0; col < COLS; col++) {
             int value = (int)keyset_codes[row][col];
             if (keyset_labels[row][col]) {
                 if (resources_set_int_sprintf("KeySet%d%s", value, keyset_index,
@@ -327,8 +334,8 @@ static GtkWidget *create_content_widget(void)
     gtk_grid_set_row_homogeneous(GTK_GRID(grid), TRUE);
 
     /* add buttons for each direction */
-    for (row = 0; row < 4; row++) {
-        for (col = 0; col < 3; col++) {
+    for (row = 0; row < ROWS; row++) {
+        for (col = 0; col < COLS; col++) {
             if (keyset_labels[row][col]) {
                 GtkWidget *button = create_button(row, col);
                 keyset_buttons[row][col] = button;
