@@ -381,7 +381,6 @@ int drive_resources_init(void)
     int i;
 
     switch (machine_class) {
-        case VICE_MACHINE_NONE:
         case VICE_MACHINE_PET:
         case VICE_MACHINE_CBM5x0:
         case VICE_MACHINE_CBM6x0:
