@@ -170,6 +170,7 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
     uint8_t msk;
     uint8_t m;
     int i;
+    uint16_t joyport_3_joystick_value;
 
     msk = cia_context->old_pa & read_joyport_dig(JOYPORT_2);
 
@@ -180,7 +181,8 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
     }
 
     if (c64dtv_hummer_adc_enabled && (!(msk & 1))) {
-        val &= ~((uint8_t)joystick_value[3] & 3);
+        joyport_3_joystick_value = get_joystick_value(JOYPORT_3);
+        val &= ~((uint8_t)joyport_3_joystick_value & 3);
     }
 
     byte = (val & (cia_context->c_cia[CIA_PRB]

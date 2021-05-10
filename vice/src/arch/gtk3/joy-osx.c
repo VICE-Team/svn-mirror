@@ -1110,14 +1110,14 @@ void joystick(void)
         if (joy_port == JOYDEV_HID_0) {
             if (joy_a.mapped) {
                 uint8_t joy_bits = read_joystick(&joy_a);
-                joystick_set_value_absolute(i + 1, (uint16_t)joy_bits);
+                joystick_set_value_absolute(i, (uint16_t)joy_bits);
             }
         }
         /* is HID joystick B mapped? */
         else if (joy_port == JOYDEV_HID_1) {
             if (joy_b.mapped) {
                 uint8_t joy_bits = read_joystick(&joy_b);
-                joystick_set_value_absolute(i + 1, (uint16_t)joy_bits);
+                joystick_set_value_absolute(i, (uint16_t)joy_bits);
             }
         }
     }
