@@ -13,6 +13,7 @@
  * $VICERES Userport58321aSave  x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES UserportDS1307      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES UserportDS1307Save  x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES UserportSNESPad     x64 x64sc xscpu64 x128 xvic xpet xplus4
  */
 
 /*
@@ -179,6 +180,17 @@ static GtkWidget *create_rtc_ds1307_save_widget(void)
 }
 
 
+/** \brief  Create widget for the "UserportSNESPad" resource
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_snespad_widget(void)
+{
+    return vice_gtk3_resource_check_button_new(
+            "UserportSNESPad", "Enable Userport SNES Pad");
+}
+
+
 
 /** \brief  Create layout for x64/x64sc/xscpu64/x128/xcbm2
  *
@@ -211,6 +223,10 @@ static void create_c64_cbm2_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), rtc_ds1307, 0, 6, 1, 1);
     g_object_set(rtc_ds1307_save, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rtc_ds1307_save, 0, 7, 1, 1);
+
+    if (machine_class != VICE_MACHINE_CBM6x0) {
+        gtk_grid_attach(GTK_GRID(grid), create_snespad_widget(), 0, 8, 1, 1);
+    }
 }
 
 
@@ -241,6 +257,8 @@ static void create_vic20_pet_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), rtc_ds1307, 0, 3, 1, 1);
     g_object_set(rtc_ds1307_save, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rtc_ds1307_save, 0, 4, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), create_snespad_widget(), 0, 5, 1, 1);
 }
 
 
@@ -251,6 +269,7 @@ static void create_vic20_pet_layout(GtkWidget *grid)
 static void create_plus4_layout(GtkWidget *grid)
 {
     gtk_grid_attach(GTK_GRID(grid), create_dac_widget(), 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_snespad_widget(), 0, 1, 1, 1);
 }
 
 
