@@ -634,7 +634,7 @@ void keyboard_key_pressed(signed long key, int mod)
         if (joystick_port_map[i] == JOYDEV_NUMPAD
             || joystick_port_map[i] == JOYDEV_KEYSET1
             || joystick_port_map[i] == JOYDEV_KEYSET2) {
-            if (joystick_check_set(key, joystick_port_map[i] - JOYDEV_NUMPAD, 1 + i)) {
+            if (joystick_check_set(key, joystick_port_map[i] - JOYDEV_NUMPAD, i)) {
                 return;
             }
         }
@@ -821,7 +821,7 @@ void keyboard_key_released(signed long key, int mod)
         if (joystick_port_map[i] == JOYDEV_NUMPAD
             || joystick_port_map[i] == JOYDEV_KEYSET1
             || joystick_port_map[i] == JOYDEV_KEYSET2) {
-            if (joystick_check_clr(key, joystick_port_map[i] - JOYDEV_NUMPAD, 1 + i)) {
+            if (joystick_check_clr(key, joystick_port_map[i] - JOYDEV_NUMPAD, i)) {
                 return;
             }
         }
