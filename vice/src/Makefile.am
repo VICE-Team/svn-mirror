@@ -1019,6 +1019,7 @@ viciivsid_lib = $(top_builddir)/src/viciivsid/libviciivsid.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 vsid_lib = $(top_builddir)/src/c64/libvsid.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
+cbm2cart_lib = $(top_builddir)/src/cbm2/cart/libcbm2cart.a
 xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
@@ -1812,6 +1813,7 @@ xcbm2_libs = \
 	$(tapeport_lib) \
 	$(datasette_lib) \
 	$(xcbm2_lib) \
+	$(cbm2cart_lib) \
 	$(diag_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
@@ -1846,6 +1848,7 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xcbm2-all: \
 	$(BUILT_SOURCES) \
 	libcbm2 \
+	libcbm2cart \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
@@ -1891,6 +1894,7 @@ xcbm5x0_libs = \
 	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(xcbm5x0_lib) \
+	$(cbm2cart_lib) \
 	$(datasette_lib) \
 	$(diag_lib) \
 	$(driveiecieee_lib) \
@@ -1926,6 +1930,7 @@ xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
 xcbm5x0-all: \
 	$(BUILT_SOURCES) \
 	libcbm5x0 \
+	libcbm2cart \
 	libsamplerdrv \
 	libjoyport \
 	libjoystickdrv \
