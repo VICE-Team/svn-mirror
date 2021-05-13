@@ -3701,6 +3701,7 @@ AC_OUTPUT([Makefile
            src/c64dtv/Makefile
            src/scpu64/Makefile
            src/cbm2/Makefile
+           src/cbm2/cart/Makefile
            src/core/Makefile
            src/crtc/Makefile
            src/datasette/Makefile
