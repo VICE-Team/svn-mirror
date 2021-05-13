@@ -111,6 +111,8 @@ typedef enum {
 #define JOYDEV_KEYSET1   2
 #define JOYDEV_KEYSET2   3
 
+#define JOYDEV_DEFAULT   JOYDEV_NUMPAD
+
 #define JOYDEV_REALJOYSTICK_MIN (JOYDEV_KEYSET2 + 1)
 
 typedef struct joystick_driver_s {
