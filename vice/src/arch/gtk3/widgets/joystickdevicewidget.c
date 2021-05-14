@@ -44,6 +44,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "filechooserhelpers.h"
 
 #include "joystickdevicewidget.h"
 
@@ -139,17 +140,22 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
     joystick_ui_reset_device_list();
     for (i2 = 0; (device_list[i2].name = joystick_ui_get_next_device_name(&id)) != NULL; i2++) {
         char idstr[32];
+        gchar *utf8;
 
         if (i2 >= MAX_EXTRA_DEVICES) {
             break;
         }
+
+        /* convert name from locale to UTF-8 to be used in the list */
+        utf8 = file_chooser_convert_from_locale(device_list[i2].name);
 
         device_list[i2].id = id;
         g_snprintf(idstr, 32, "%d", device_list[i2].id);
 
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
                                   idstr,
-                                  device_list[i2].name);
+                                  utf8);
+        g_free(utf8);
         if (device_list[i2].id == current) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i1+i2);
         }
