@@ -1,4 +1,4 @@
-/* vim: set et ts=4 sw=4 sts=4 fdm=marker syntax=c.doxygen: */
+/* vim: set et ts=4 sw=4 sts=4 fdm=marker: */
 
 /** \file   src/lib/base.c
  * \brief   Base library code
@@ -8,7 +8,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2020  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -703,7 +703,7 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
             return -1;
         }
     }
-    printf("HVSC: got %ld seconds.", s);
+    /* printf("HVSC: got %ld seconds.", s); */
 
     /* milliseconds */
     if (*t == '.') {
@@ -719,14 +719,14 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
         }
         if (fd == 0) {
             hvsc_errno = HVSC_ERR_TIMESTAMP;
-            printf("HSVC: parsing msecs failed.");
+            /* printf("HVSC: parsing msecs failed."); */
             return -1;
         }
         /* update fraction to milliseconds */
         while (fd++ < 3) {
             f *= 10;
         }
-        printf("HVSC: got milliseconds: %ld", f);
+        /* printf("HVSC: got milliseconds: %ld", f); */
     }
 
     /* done */
