@@ -1,4 +1,4 @@
-/* vim: set et ts=4 sw=4 sts=4 fdm=marker syntax=c.doxygen: */
+/* vim: set et ts=4 sw=4 sts=4 fdm=marker: */
 
 /** \file   src/lib/sldb.c
  * \brief   Songlength database handling
@@ -8,7 +8,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2020  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@
 #ifdef HVSC_USE_MD5
 # include <gcrypt.h>
 #endif
+
+#include "log.h"
 
 #include "hvsc.h"
 
@@ -150,7 +152,9 @@ static char *find_sldb_entry_txt(const char *path)
     size_t plen;
     const char *line;
 
+    log_message(LOG_DEFAULT, "Vsid: Opening '%s'.", hvsc_sldb_path);
     if (!hvsc_text_file_open(hvsc_sldb_path, &handle)) {
+        log_warning(LOG_DEFAULT, "Vsid: Failed to open the SLDB.");
         return NULL;
     }
 
@@ -160,6 +164,8 @@ static char *find_sldb_entry_txt(const char *path)
         line = hvsc_text_file_read(&handle);
         if (line == NULL) {
             hvsc_text_file_close(&handle);
+            log_warning(LOG_DEFAULT,
+                    "Vsid: Could not find song length data for current SID.");
             return NULL;
         }
 
@@ -309,7 +315,8 @@ char *hvsc_sldb_get_entry_txt(const char *psid)
     entry = find_sldb_entry_txt(path);
     free(path);
     if (entry != NULL) {
-        hvsc_dbg("Got it: %s\n", entry);
+        /* hvsc_dbg("Got it: %s\n", entry); */
+        log_message(LOG_DEFAULT, "Vsid: Song length(s): %s.", entry);
     }
     return entry;
 }

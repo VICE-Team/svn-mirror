@@ -1,4 +1,4 @@
-/* vim: set et ts=4 sw=4 sts=4 fdm=marker syntax=c.doxygen: */
+/* vim: set et ts=4 sw=4 sts=4 fdm=marker: */
 
 /** \file   src/lib/stil.c
  * \brief   Sid Tune Information List handling
@@ -8,7 +8,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2020  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 #include <inttypes.h>
 #include <string.h>
 #include <ctype.h>
+#include "log.h"
 
 #include "hvsc.h"
 
@@ -509,10 +510,13 @@ int hvsc_stil_open(const char *psid, hvsc_stil_t *handle)
     handle->entry_bufmax = HVSC_STIL_BUFFER_INIT;
     handle->entry_bufused = 0;
 
+    log_message(LOG_DEFAULT, "Vsid: Opening '%s'.", hvsc_stil_path);
     if (!hvsc_text_file_open(hvsc_stil_path, &(handle->stil))) {
+        log_warning(LOG_DEFAULT, "Vsid: Failed to open STIL.");
         hvsc_stil_close(handle);
         return 0;
     }
+
 
     /* make copy of psid, ripping off the HVSC root directory */
     handle->psid_path = hvsc_path_strip_root(psid);
@@ -534,6 +538,7 @@ int hvsc_stil_open(const char *psid, hvsc_stil_t *handle)
             if (feof(handle->stil.fp)) {
                 /* EOF, so simply not found */
                 hvsc_errno = HVSC_ERR_NOT_FOUND;
+                log_message(LOG_DEFAULT, "Vsid: No STIL entry found.");
             }
             hvsc_stil_close(handle);
             /* I/O error is already set */
@@ -541,7 +546,8 @@ int hvsc_stil_open(const char *psid, hvsc_stil_t *handle)
         }
 
         if (strcmp(line, handle->psid_path) == 0) {
-            hvsc_dbg("Found '%s' at line %ld\n", line, handle->stil.lineno);
+            log_message(LOG_DEFAULT,
+                    "Vsid: Found '%s' at line %ld.", line, handle->stil.lineno);
             return 1;
         }
     }

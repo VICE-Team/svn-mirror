@@ -1,4 +1,4 @@
-/* vim: set et ts=4 sw=4 sts=4 fdm=marker syntax=c.doxygen: */
+/* vim: set et ts=4 sw=4 sts=4 fdm=marker: */
 
 /** \file   src/lib/main.c
  * \brief   Main/shared library code
@@ -12,7 +12,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2020  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
