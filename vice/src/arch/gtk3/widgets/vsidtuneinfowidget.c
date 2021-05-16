@@ -214,13 +214,21 @@ static GtkWidget *create_tune_num_widget(void)
  */
 static void update_tune_num_widget(void)
 {
-    gchar buffer[256];
+    /* avoid trying to update the widget while the UI isn't up
+     * (happens when running vsid from the command line with an argument)
+     *
+     * FIXME:   temporary workaround, the proper solution is to make sure the
+     *          UI is up before loading a PSID/MUS file.
+     */
+    if (tune_num_widget != NULL) {
+        gchar buffer[256];
 
-    g_snprintf(buffer, 256,
-            "%d of %d (default: %d)",
-            tune_current, tune_count, tune_default);
+        g_snprintf(buffer, 256,
+                "%d of %d (default: %d)",
+                tune_current, tune_count, tune_default);
 
-    gtk_label_set_text(GTK_LABEL(tune_num_widget), buffer);
+        gtk_label_set_text(GTK_LABEL(tune_num_widget), buffer);
+    }
 }
 
 
