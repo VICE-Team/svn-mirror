@@ -151,8 +151,11 @@ GtkWidget *machine_model_widget_create(void)
     GSList *group;
     const char **list;
     int i;
+    GtkWidget *title;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Model", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "Model", 1);
+    title = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    g_object_set(title, "margin-bottom", 8, NULL);
 
     /* add 'unknown' model radio */
     group = NULL;

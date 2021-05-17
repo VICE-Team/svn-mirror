@@ -142,11 +142,14 @@ GtkWidget *cia_model_widget_create(GtkWidget *machine_model_widget, int count)
     GtkWidget *grid;
     GtkWidget *cia1_widget;
     GtkWidget *cia2_widget;
+    GtkWidget *title;
 
     machine_widget = machine_model_widget;
     cia_model_callback = NULL;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, 1, "CIA model", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "CIA model", 1);
+    title = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    g_object_set(title, "margin-bottom", 8, NULL);
 
     cia1_widget = create_cia_widget(1);
     gtk_grid_attach(GTK_GRID(grid), cia1_widget, 0, 1, 1, 1);

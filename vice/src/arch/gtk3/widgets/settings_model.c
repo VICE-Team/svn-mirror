@@ -1437,6 +1437,9 @@ static GtkWidget *create_layout(void)
 {
     GtkWidget *grid = gtk_grid_new();
 
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
+
     /* Can't add the machine model widget here, since it differs a lot in size
      * depending on the machine, which may result in odd layouts. So we need
      * to determine per machine how many grid rows the machine model widget
