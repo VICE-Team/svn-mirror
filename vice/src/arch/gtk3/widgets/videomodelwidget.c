@@ -134,10 +134,13 @@ GtkWidget *video_model_widget_create(GtkWidget *machine)
     GtkRadioButton *last = NULL;
     GSList *group = NULL;
     int i;
+    GtkWidget *title;
 
     machine_widget = machine;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, widget_title, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, widget_title, 1);
+    title = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    g_object_set(title, "margin-bottom", 8, NULL);
 
     if (model_list != NULL) {
         for (i = 0; model_list[i].name != NULL; i++) {
