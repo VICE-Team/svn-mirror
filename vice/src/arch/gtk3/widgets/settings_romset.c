@@ -348,11 +348,14 @@ static const romset_entry_t plus4_drive_roms[] = {
 };
 
 
+#if 0
 /** \brief  ROM file name matching patterns
  */
 static const char *rom_file_patterns[] = {
     "*.rom", "*.bin", "*.raw", NULL
 };
+#endif
+
 
 static GtkWidget *layout = NULL;
 static GtkWidget *stack = NULL;
@@ -457,7 +460,7 @@ static GtkWidget* create_roms_widget(const romset_entry_t *roms)
         label = gtk_label_new(roms[row].label);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
         browser = vice_gtk3_resource_browser_new(roms[row].resource,
-                rom_file_patterns, "ROM files", "Select ROM file",
+                NULL, NULL, "Select ROM file",
                 NULL /* no label, so the labels get aligned properly */,
                 NULL);
         gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1,  1);
@@ -596,7 +599,7 @@ static GtkWidget *create_pet_roms_widget(void)
         g_snprintf(text, 256, "$%c000-$%cFFF ROM:", mod[9], mod[9]);
         label = gtk_label_new(text);
         browser = vice_gtk3_resource_browser_new(mod,
-                rom_file_patterns, "ROM files", "Attach new ROM", NULL, NULL);
+                NULL, NULL, "Attach new ROM", NULL, NULL);
         unload = gtk_button_new_with_label("Unload");
         g_signal_connect(unload, "clicked", G_CALLBACK(unload_pet_rom),
                 (gpointer)browser);
