@@ -71,10 +71,8 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
         char *first = files->data;
         gchar *dir = g_path_get_dirname(first);
 
-        lastdir_update_raw(dir, &last_used_dir);
-
-        /* do not free dir, that gets freed in lastdir.c */
-
+        lastdir_update_raw(dir, &last_used_dir, first, &last_used_file);
+        g_free(dir);    /* lastdir_update makes a copy */
         dialog_cb(files);
     }
 

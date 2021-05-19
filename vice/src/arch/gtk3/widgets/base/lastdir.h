@@ -34,7 +34,8 @@
 
 void lastdir_set(GtkWidget *widget, gchar **last_dir, gchar **last_file);
 void lastdir_update(GtkWidget *widget, gchar **last_dir, gchar **last_file);
-void lastdir_update_raw(char *path, char **last);
+void lastdir_update_raw(char *dirname, char **last_dir,
+                        char *filename, char **last_file);
 void lastdir_shutdown(gchar **last_dir, gchar **last_file);
 
 #endif
