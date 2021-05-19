@@ -123,21 +123,45 @@ void lastdir_update(GtkWidget *widget, gchar **last_dir, gchar **last_file)
 }
 
 
-void lastdir_update_raw(char *path, char **last)
+/** \brief  Update \a last with \a path
+ *
+ * Store new values for dir and filename freeing the old data.
+ *
+ * If `NULL` is passed the related object will only be freed and set to `NULL`.
+ *
+ * \param[in]   dirname     new directory
+ * \param[in]   last_dir    object to copy \a dirname to
+ * \param[in]   filename    new filename
+ * \param[in]   last_file   object to copy \a filename to
+ */
+void lastdir_update_raw(char *dirname, char **last_dir,
+                        char *filename, char **last_file)
 {
-    if (*last != NULL) {
-        g_free(*last);
+    if (*last_dir != NULL) {
+        g_free(*last_dir);
+        *last_dir = NULL;
     }
-    *last = path;
+    if (dirname != NULL) {
+        *last_dir = g_strdup(dirname);
+    }
+
+    if (*last_file != NULL) {
+        g_free(*last_file);
+        *last_file = NULL;
+    }
+    if (filename != NULL) {
+        *last_file = g_strdup(filename);
+    }
 }
 
 
 
-/** \brief  Free memory used by *\a last
+/** \brief  Free memory used by *\a last_dir and \a last_file
  *
- * Clean up memory used by last used directory string, if any.
+ * Clean up memory used by last used directory and filename.
  *
- * \param[in,out]   last    pointer to string pointer to free
+ * \param[in]   last_dir    location of last used directory
+ * \param[in]   last_file   location of last used filename
  */
 void lastdir_shutdown(gchar **last_dir, gchar **last_file)
 {
