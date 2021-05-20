@@ -101,11 +101,12 @@ const char *file_chooser_pattern_program[] = {
 };
 
 
-/** \brief  Patterns for PSID/SID files
+/** \brief  Patterns for PSID/SID/MUS files
  */
 const char *file_chooser_pattern_sid[] = {
     "*.[sD][iI][dD]",
     "*.[pP][sD][iI][dD]",
+    "*.[mM][uU][sS]",
     NULL
 };
 

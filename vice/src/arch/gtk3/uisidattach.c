@@ -44,7 +44,7 @@
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
-    { "SID/PSID files", file_chooser_pattern_sid },
+    { "SID/MUS files", file_chooser_pattern_sid },
     { "All files", file_chooser_pattern_all },
     { NULL, NULL }
 };
