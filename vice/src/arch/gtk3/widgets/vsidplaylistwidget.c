@@ -871,30 +871,46 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
         vice_gtk3_message_error("VSID",
                 "Failed to parse PSID header of '%s'.",
                 path);
-        return FALSE;
+
+
+         debug_gtk3("Perhaps it's a MUS?");
+        /* append MUS to playlist
+         *
+         * TODO: somehow parse the .mus file for author/tune name,
+         *       which is pretty much impossible.
+         */
+        gtk_list_store_append(playlist_model, &iter);
+        gtk_list_store_set(playlist_model, &iter,
+                0, "Balls",
+                1, "Pimmel",
+                2, path,
+                -1);
+
+
+    } else {
+
+        /* get SID name and author */
+        memcpy(name, psid.name, HVSC_PSID_TEXT_LEN);
+        name[HVSC_PSID_TEXT_LEN] = '\0';
+        memcpy(author, psid.author, HVSC_PSID_TEXT_LEN);
+        author[HVSC_PSID_TEXT_LEN] = '\0';
+
+        name_utf8 = convert_to_utf8(name);
+        author_utf8 = convert_to_utf8(author);
+
+        /* append SID to playlist */
+        gtk_list_store_append(playlist_model, &iter);
+        gtk_list_store_set(playlist_model, &iter,
+                0, name_utf8,
+                1, author_utf8,
+                2, path,
+                -1);
+
+        /* clean up */
+        g_free(name_utf8);
+        g_free(author_utf8);
+        hvsc_psid_close(&psid);
     }
-
-    /* get SID name and author */
-    memcpy(name, psid.name, HVSC_PSID_TEXT_LEN);
-    name[HVSC_PSID_TEXT_LEN] = '\0';
-    memcpy(author, psid.author, HVSC_PSID_TEXT_LEN);
-    author[HVSC_PSID_TEXT_LEN] = '\0';
-
-    name_utf8 = convert_to_utf8(name);
-    author_utf8 = convert_to_utf8(author);
-
-    /* append SID to playlist */
-    gtk_list_store_append(playlist_model, &iter);
-    gtk_list_store_set(playlist_model, &iter,
-            0, name_utf8,
-            1, author_utf8,
-            2, path,
-            -1);
-
-    /* clean up */
-    g_free(name_utf8);
-    g_free(author_utf8);
-    hvsc_psid_close(&psid);
 
     update_title();
     return TRUE;
