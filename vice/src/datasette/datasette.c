@@ -269,10 +269,14 @@ static const resource_int_t resources_int[] = {
     { "DatasetteZeroGapDelay", 20000, RES_EVENT_SAME, NULL,
       &datasette_zero_gap_delay,
       set_datasette_zero_gap_delay, NULL },
-    { "DatasetteSpeedTuning", 0, RES_EVENT_SAME, NULL,
+    /* .tap v0 gap tuning value - apparently needs to be 1 for some .tap files,
+       see bug #1477 https://sourceforge.net/p/vice-emu/bugs/1477/ */
+    { "DatasetteSpeedTuning", 1, RES_EVENT_SAME, NULL,
       &datasette_speed_tuning,
       set_datasette_speed_tuning, NULL },
-    { "DatasetteTapeWobble", 10, RES_EVENT_SAME, NULL,
+    /* value tweaked to make certain sensitive images load, see bug #1477 
+       https://sourceforge.net/p/vice-emu/bugs/1477/ */
+    { "DatasetteTapeWobble", 3, RES_EVENT_SAME, NULL,
       &datasette_tape_wobble,
       set_datasette_tape_wobble, NULL },
     { "DatasetteSound", 0, RES_EVENT_SAME, NULL,
@@ -311,10 +315,10 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Disable automatic Datasette-Reset" },
     { "-dszerogapdelay", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteZeroGapDelay", NULL,
-      "<value>", "Set delay in cycles for a zero in the tap" },
+      "<value>", "Set delay in cycles for a zero in a v0 tap file" },
     { "-dsspeedtuning", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteSpeedTuning", NULL,
-      "<value>", "Set number of cycles added to each gap in the tap" },
+      "<value>", "Set number of cycles added to each gap in a v0 tap file" },
     { "-dstapewobble", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteTapeWobble", NULL,
       "<value>", "Set maximum random number of cycles added to each gap in the tap" },
@@ -429,6 +433,11 @@ inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
     *gap = tap_buffer[read_tap];
 
     if ((current_image->version == 0) || *gap) {
+        /* in v0 tap files gaps > 255 produced an overflow and generally
+           produced 0 - which needs to be reinterpreted as a "long" gap. The
+           "commonly agreed on" value for this seems to be 20000 cycles.
+           We also add a constant number of cycles (default:1) to compensate
+           for tape speed variations. */
         *gap = (*gap ? (CLOCK)(*gap * 8) : (CLOCK)datasette_zero_gap_delay)
                + (CLOCK)datasette_speed_tuning;
     } else {
@@ -443,6 +452,11 @@ inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
             *gap = (CLOCK)datasette_zero_gap_delay;
         }
     }
+    /* FIXME: this is wrong - what we really should do is modulating the tape
+       speed in a slow sinus-like way, which then results in ALL pulses becoming
+       shorter/longer over time.
+       In any case, we should not only add the wobble to the gap lengths.
+    */
     /* add some random wobble */
     if (datasette_tape_wobble) {
         wobble = lib_unsigned_rand(-datasette_tape_wobble, datasette_tape_wobble);

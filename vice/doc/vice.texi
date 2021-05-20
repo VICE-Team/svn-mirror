@@ -3598,11 +3598,12 @@ Boolean specifying whether to reset (rewind) the tape when resetting the CPU.
 
 @vindex DatasetteZeroGapDelay
 @item DatasetteZeroGapDelay
-Integer specifying the delay in cycles for a zero in the tap.
+Integer specifying the delay in cycles for a zero gap length in the tap. Mostly
+relevant for v0 .tap files which could not properly encode gaps > 255.
 
 @vindex DatasetteSpeedTuning
 @item DatasetteSpeedTuning
-Integer specifying the number of cycles added to each gap in the tap.
+Integer specifying the number of cycles added to each gap in a v0 tap file.
 
 @vindex DatasetteTapeWobble
 @item DatasetteTapeWobble
@@ -3635,12 +3636,13 @@ Enable/disable automatic Datasette-Reset
 
 @findex -dszerogapdelay
 @item -dszerogapdelay <value>
-Set delay in cycles for a zero in the tap
+Set delay in cycles for a zero gap in the tap. Mostly relevant for v0 .tap files
+which could not properly encode gaps > 255.
 (@code{DatasetteZeroGapDelay}).
 
 @findex -dsspeedtuning
 @item -dsspeedtuning <value>
-Set number of cycles added to each gap in the tap
+Set number of cycles added to each gap in a v0 tap file.
 (@code{DatasetteSpeedTuning}).
 
 @findex -dstapewobble
