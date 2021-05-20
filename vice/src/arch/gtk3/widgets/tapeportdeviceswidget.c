@@ -287,15 +287,15 @@ static GtkWidget *create_datasette_widget(void)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_zerogap = vice_gtk3_resource_spin_int_new("DatasetteZeroGapDelay",
-            0, 50000, 1000);
+            0, 50000, 100);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_zerogap, 1, 3, 1, 1);
 
-    label = gtk_label_new("Speed tuning:");
+    label = gtk_label_new("TAP v0 gap speed tuning:");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_speed = vice_gtk3_resource_spin_int_new("DatasetteSpeedTuning",
-            0, 50000, 1000);
+            0, 50, 1);
     gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_speed, 3, 3, 1, 1);
 
@@ -303,7 +303,7 @@ static GtkWidget *create_datasette_widget(void)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_wobble = vice_gtk3_resource_spin_int_new("DatasetteTapeWobble",
-            0, 100, 10);
+            0, 50, 1);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_wobble, 1, 4, 1, 1);
 
