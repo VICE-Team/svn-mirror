@@ -188,6 +188,7 @@ static void save_filename_callback(GtkDialog *dialog,
  * If the connected resource value contains a valid filename/path, the dialog's
  * directory is set to that file's directory. If only a filename is given, such
  * as the default KERNAL, $datadir/$machine_name is used for the directory.
+ * In the dialog's directory listing the current file is selected.
  *
  * \param[in]   widget  browse button
  * \param[in]   data    unused
@@ -223,26 +224,22 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
         debug_gtk3("dirname = '%s', basename = '%s'", dirname, basename);
 
         /* if no path is present in the resource value, set the directory to
-         * the VICE datadir + machine */
+         * the VICE datadir + machine and the file to the current filename */
         if (strcmp(dirname, ".") == 0) {
             char *datadir = archdep_get_vice_datadir();
-            char *machinedir = archdep_join_paths(datadir, machine_name, NULL);
+            char *fullpath = archdep_join_paths(datadir,
+                                                machine_name,
+                                                basename,
+                                                NULL);
 
-            debug_gtk3("machinedir = '%s'", machinedir);
-            gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
-                                                machinedir);
+            debug_gtk3("fullpath = '%s'", fullpath);
+            gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), fullpath);
             lib_free(datadir);
-            lib_free(machinedir);
+            lib_free(fullpath);
         } else {
-            gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
-                                                dirname);
+            gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), res_value);
         }
-#if 0
-        /* if a filename is present, select that file in the dialog */
-        if (strcmp(basename, ".") != 0) {
-            gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), basename);
-        }
-#endif
+
         /* clean up */
         g_free(dirname);
         g_free(basename);
