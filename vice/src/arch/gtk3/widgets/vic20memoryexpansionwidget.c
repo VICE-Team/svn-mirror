@@ -78,8 +78,8 @@ static const common_config_t common_configs[] = {
     { "No expansion memory",    { 0, 0, 0, 0, 0 } },
     { "3KiB (block 0)",         { 1, 0, 0, 0, 0 } },
     { "8KiB (block 1)",         { 0, 1, 0, 0, 0 } },
-    { "12KiB (block 1/2)",      { 0, 1, 1, 0, 0 } },
-    { "16KiB (block 1/2/3)",    { 0, 1, 1, 1, 0 } },
+    { "16KiB (block 1/2)",      { 0, 1, 1, 0, 0 } },
+    { "24KiB (block 1/2/3)",    { 0, 1, 1, 1, 0 } },
     { "All (block 0/1/2/3/5)",  { 1 ,1 ,1 ,1 ,1 } },
     { NULL,                     { 0, 0, 0, 0, 0 } }
 };
