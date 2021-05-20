@@ -204,6 +204,7 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
     state = g_object_get_data(G_OBJECT(parent), "ViceState");
     /* get the filename/path in the resource */
     resources_get_string(state->res_name, &res_value);
+    debug_gtk3("resource '%s' = '%s'", state->res_name, res_value);
 
     dialog = vice_gtk3_open_file_dialog(
             state->browser_title,
@@ -219,11 +220,15 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
         gchar *dirname = g_path_get_dirname(res_value);
         gchar *basename = g_path_get_basename(res_value);
 
+        debug_gtk3("dirname = '%s', basename = '%s'", dirname, basename);
+
         /* if no path is present in the resource value, set the directory to
          * the VICE datadir + machine */
         if (strcmp(dirname, ".") == 0) {
             char *datadir = archdep_get_vice_datadir();
             char *machinedir = archdep_join_paths(datadir, machine_name, NULL);
+
+            debug_gtk3("machinedir = '%s'", machinedir);
             gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
                                                 machinedir);
             lib_free(datadir);
@@ -232,12 +237,12 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
             gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
                                                 dirname);
         }
-
+#if 0
         /* if a filename is present, select that file in the dialog */
         if (strcmp(basename, ".") != 0) {
             gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), basename);
         }
-
+#endif
         /* clean up */
         g_free(dirname);
         g_free(basename);
