@@ -340,28 +340,10 @@ int joy_arch_set_device(int port_idx, int new_dev)
 {
     int old_dev = joystick_port_map[port_idx];
 
-#if 1
-    /*  FIXME: this assumes there are 8 hardware joysticks when
-     *  the real number may be more or less.
-     */
-    switch (new_dev) {
-        case JOYDEV_NONE:
-        case JOYDEV_NUMPAD:
-        case JOYDEV_KEYSET1:
-        case JOYDEV_KEYSET2:
-        case JOYDEV_HW1:
-        case JOYDEV_HW2:
-        case JOYDEV_HW3:
-        case JOYDEV_HW4:
-        case JOYDEV_HW5:
-        case JOYDEV_HW6:
-        case JOYDEV_HW7:
-        case JOYDEV_HW8:
-            break;
-        default:
-            return -1;
+    /* device numbers can't be negative */
+    if (new_dev < 0) {
+        return -1;
     }
-#endif
 
     if (joystick_inited == WIN_JOY_UNINIT) {
         joy_arch_init();
