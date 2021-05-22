@@ -1685,7 +1685,6 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 .PHONY: xpet-all
 xpet-all: \
 	$(BUILT_SOURCES) \
-	$(XPET_RES) \
 	libdatasette \
 	libdiag \
 	libdriveiec \
@@ -1707,6 +1706,7 @@ xpet-all: \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
+	libsamplerdrv \
 	libpet \
 	libvideo \
 	libsid \
