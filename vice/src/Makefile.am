@@ -2036,6 +2036,7 @@ c1541-all: \
 	libimagecontents \
 	libfileio \
 	libsocketdrv \
+	liblinenoise_ng \
 	c1541$(EXEEXT)
 
 # distclean
@@ -2166,6 +2167,9 @@ libimagecontents:
 libiodrv:
 	@echo "making all in iodrv"
 	@(cd iodrv && $(MAKE))
+liblinenoise_ng:
+	@echo "making liblinenoise_ng.a in lib/linenoise-ng"
+	@(cd lib/linenoise-ng && $(MAKE))
 libmascuerade:
 	@echo "making libmascuerade.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libmascuerade.a)
