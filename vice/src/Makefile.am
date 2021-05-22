@@ -1172,6 +1172,7 @@ x64-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libhvsc \
 	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1262,6 +1263,7 @@ x64sc-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libhvsc \
 	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1350,6 +1352,7 @@ x64dtv-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libhvsc \
 	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1425,6 +1428,7 @@ xscpu64-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libhvsc \
 	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1518,6 +1522,7 @@ x128-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libhvsc \
 	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1697,6 +1702,7 @@ xpet-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libhvsc \
 	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1783,6 +1789,7 @@ xplus4-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libhvsc \
 	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1887,6 +1894,7 @@ xcbm2-all: \
 	libuserport \
 	libtapeport \
 	libjoyport \
+	libhvsc \
 	libjoystickdrv \
 	xcbm2$(EXEEXT)
 
@@ -1939,6 +1947,7 @@ xcbm5x0-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libhvsc \
 	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
