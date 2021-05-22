@@ -1613,6 +1613,7 @@ xvic-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libhvsc \
 	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -2091,12 +2092,18 @@ libcbm2:
 libcbm5x0:
 	@echo "making libcbm5x0.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm5x0.a)
+libcbm2cart:
+	@echo "making libcbm2cart in cbm2"
+	@(cd cbm2 && $(MAKE) libcbm2cart)
 libcore:
 	@echo "making all in core"
 	@(cd core && $(MAKE))
 libcrtc:
 	@echo "making all in crtc"
 	@(cd crtc && $(MAKE))
+libdatasette:
+	@echo "making all in datasette"
+	@(cd datasette && $(MAKE))
 libdiag:
 	@echo "making all in diag"
 	@(cd diag && $(MAKE))
