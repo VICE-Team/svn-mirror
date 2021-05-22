@@ -1079,7 +1079,6 @@ vsid_LDFLAGS = @vsid_LDFLAGS@
 .PHONY: vsid-all
 vsid-all: \
 	$(BUILT_SOURCES) \
-	$(VSID_RES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	libvsid \
