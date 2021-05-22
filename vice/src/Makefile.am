@@ -2185,6 +2185,9 @@ libpet:
 libplus4:
 	@echo "making all in plus4"
 	@(cd plus4 && $(MAKE))
+libplus4cart:
+	@echo "making libplus4cart.a in plus4/cart"
+	@(cd plus4/cart && $(MAKE) libplus4cart.a)
 libprinterdrv:
 	@echo "making all in printerdrv"
 	@(cd printerdrv && $(MAKE))
