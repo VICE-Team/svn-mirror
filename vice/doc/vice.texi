@@ -3605,9 +3605,17 @@ relevant for v0 .tap files which could not properly encode gaps > 255.
 @item DatasetteSpeedTuning
 Integer specifying the number of cycles added to each gap in a v0 tap file.
 
-@vindex DatasetteTapeWobble
-@item DatasetteTapeWobble
-Integer specifying the maximum random number of cycles added to each gap in the tap.
+@vindex DatasetteTapeWobbleFrequency
+@item DatasetteTapeWobbleFrequency
+Integer specifying the tape wobble frequency
+
+@vindex DatasetteTapeWobbleAmplitude
+@item DatasetteTapeWobbleAmplitude
+Integer specifying the tape wobble amplitude
+
+@vindex DatasetteTapeAzimuthError
+@item DatasetteTapeAzimuthError
+Integer specifying the amount of azimuth alignment error
 
 @vindex DatasetteSound
 @item DatasetteSound
@@ -3645,10 +3653,20 @@ which could not properly encode gaps > 255.
 Set number of cycles added to each gap in a v0 tap file.
 (@code{DatasetteSpeedTuning}).
 
-@findex -dstapewobble
-@item -dstapewobble <value>
-Set maximum random number of cycles added to each gap in the tap
-(@code{DatasetteTapeWobble}).
+@findex -dstapewobblefreq
+@item -dstapewobblefreq <value>
+Set tape wobble frequency
+(@code{DatasetteTapeWobbleFrequency}).
+
+@findex -dstapewobbleamp
+@item -dstapewobbleamp <value>
+Set tape wobble amplitude
+(@code{DatasetteTapeWobbleAmplitude}).
+
+@findex -dstapeerror
+@item -dstapeerror <value>
+Set tape alignment error
+(@code{DatasetteTapeAzimuthError}).
 
 @findex -datasettesound, +datasettesound
 @item -datasettesound

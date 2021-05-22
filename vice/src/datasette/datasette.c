@@ -117,8 +117,11 @@ static int notape_mode = DATASETTE_CONTROL_STOP;
 static unsigned int fullwave = 0;
 static CLOCK fullwave_gap;
 
-/* random wobble to be added to tape pulses */
-static int datasette_tape_wobble = 0;
+/* tape wobble parameters */
+static int datasette_tape_wobble_amplitude = 1000;
+static int datasette_tape_wobble_frequency = 1000;
+/* amount of random azimuth error */
+static int datasette_tape_azimuth_error = 1000;
 
 /* datasette device enable */
 static int datasette_enable = 0;
@@ -205,13 +208,35 @@ static int set_datasette_speed_tuning(int val, void *param)
     return 0;
 }
 
-static int set_datasette_tape_wobble(int val, void *param)
+static int set_datasette_tape_wobble_frequency(int val, void *param)
 {
     if (val < 0) {
         return -1;
     }
 
-    datasette_tape_wobble = val;
+    datasette_tape_wobble_frequency = val;
+
+    return 0;
+}
+
+static int set_datasette_tape_wobble_amplitude(int val, void *param)
+{
+    if (val < 0) {
+        return -1;
+    }
+
+    datasette_tape_wobble_amplitude = val;
+
+    return 0;
+}
+
+static int set_datasette_tape_azimuth_error(int val, void *param)
+{
+    if (val < 0) {
+        return -1;
+    }
+
+    datasette_tape_azimuth_error = val;
 
     return 0;
 }
@@ -274,11 +299,15 @@ static const resource_int_t resources_int[] = {
     { "DatasetteSpeedTuning", 1, RES_EVENT_SAME, NULL,
       &datasette_speed_tuning,
       set_datasette_speed_tuning, NULL },
-    /* value tweaked to make certain sensitive images load, see bug #1477 
-       https://sourceforge.net/p/vice-emu/bugs/1477/ */
-    { "DatasetteTapeWobble", 3, RES_EVENT_SAME, NULL,
-      &datasette_tape_wobble,
-      set_datasette_tape_wobble, NULL },
+    { "DatasetteTapeWobbleFrequency", 1000, RES_EVENT_SAME, NULL,
+      &datasette_tape_wobble_frequency,
+      set_datasette_tape_wobble_frequency, NULL },
+    { "DatasetteTapeWobbleAmplitude", 1000, RES_EVENT_SAME, NULL,
+      &datasette_tape_wobble_amplitude,
+      set_datasette_tape_wobble_amplitude, NULL },
+    { "DatasetteTapeAzimuthError", 0, RES_EVENT_SAME, NULL,
+      &datasette_tape_azimuth_error,
+      set_datasette_tape_azimuth_error, NULL },
     { "DatasetteSound", 0, RES_EVENT_SAME, NULL,
       &datasette_sound_emulation,
       set_datasette_sound_emulation, NULL },
@@ -319,9 +348,15 @@ static const cmdline_option_t cmdline_options[] =
     { "-dsspeedtuning", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteSpeedTuning", NULL,
       "<value>", "Set number of cycles added to each gap in a v0 tap file" },
-    { "-dstapewobble", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "DatasetteTapeWobble", NULL,
-      "<value>", "Set maximum random number of cycles added to each gap in the tap" },
+    { "-dstapewobblefreq", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "DatasetteTapeWobbleFrequency", NULL,
+      "<value>", "Set tape wobble frequency" },
+    { "-dstapewobbleamp", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "DatasetteTapeWobbleAmplitude", NULL,
+      "<value>", "Set tape wobble amplitude" },
+    { "-dstapeerror", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "DatasetteTapeAzimuthError", NULL,
+      "<value>", "Set amount of azimuth error (misalignment)" },
     { "-datasettesound", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DatasetteSound", (resource_value_t)1,
       NULL, "Enable Datasette sound" },
@@ -422,10 +457,75 @@ inline static int datasette_move_buffer_back(int offset)
     return 1;
 }
 
+/* calculate tape wobble */
+static CLOCK tape_do_wobble(CLOCK gap)
+{
+    /* cpu cycles since last call */
+    static CLOCK last_cycle_counter;
+    static float wobble_sin_count;
+    float wobble_factor;
+    CLOCK curr_cycle_counter = current_image->cycle_counter_total;
+    CLOCK cpu_cycles;
+    signed long newgap;
+    float newgapf;
+    static float restf = 0.0f;
+    float amplitude = (float)datasette_tape_wobble_amplitude / 200000.0f;
+
+    /* handle wraparound */
+    if (last_cycle_counter > curr_cycle_counter) {
+        cpu_cycles = last_cycle_counter - curr_cycle_counter;
+    } else {
+        cpu_cycles = curr_cycle_counter - last_cycle_counter;
+    }
+
+    if ((cpu_cycles == 0) || (datasette_tape_wobble_frequency == 0) || (datasette_tape_wobble_amplitude == 0)) {
+        return gap;
+    }
+
+    wobble_sin_count += ((uint64_t)cpu_cycles * (datasette_tape_wobble_frequency)) / 10000000000000.0f;
+    if (wobble_sin_count > (2 * M_PI)) {
+        wobble_sin_count -= (2 * M_PI);
+    }
+    wobble_factor = 1.0f + (sinf(wobble_sin_count) * amplitude);
+
+    newgapf = restf + (wobble_factor * gap);
+    newgap = (int)(newgapf + 0.5f);
+
+    if (newgap < 1) {
+        newgap = 1;
+    }
+    restf = newgapf - newgap;
+#if 0
+    printf("gap: %4d factor: % 1.4f newgapf: % 3.2f rest: % 3.2f newgap: %4d cycles: %8d sincnt: % 2.2f\n",
+           (int)gap, (float)wobble_factor, (float)newgapf, (float)restf, (int)newgap, (int)cpu_cycles, (float)wobble_sin_count);
+#endif
+    return newgap;
+}
+
+static CLOCK tape_do_misalignment(CLOCK gap)
+{
+    static int resterror = 0;
+    int newgap, newgapf, tapeerror;
+
+    if (datasette_tape_azimuth_error == 0) {
+        return gap;
+    }
+
+    tapeerror = lib_unsigned_rand(-datasette_tape_azimuth_error, datasette_tape_azimuth_error);
+    newgapf = (gap * 1000) + tapeerror + resterror;
+    newgap = (newgapf + 500) / 1000;
+    if (newgap < 1) {
+        newgap = 1;
+    }
+    resterror = newgapf - (newgap * 1000);
+#if 0
+    printf("gap: %4d tapeerror: % 4d resterror: % 4d newgap: %4d\n", (int)gap, tapeerror, resterror, newgap);
+#endif
+    return newgap;
+}
+
 inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
 {
-    int wobble;
-
     if ((read_tap >= last_tap) || (read_tap < 0)) {
         return -1;
     }
@@ -452,20 +552,9 @@ inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
             *gap = (CLOCK)datasette_zero_gap_delay;
         }
     }
-    /* FIXME: this is wrong - what we really should do is modulating the tape
-       speed in a slow sinus-like way, which then results in ALL pulses becoming
-       shorter/longer over time.
-       In any case, we should not only add the wobble to the gap lengths.
-    */
-    /* add some random wobble */
-    if (datasette_tape_wobble) {
-        wobble = lib_unsigned_rand(-datasette_tape_wobble, datasette_tape_wobble);
-        if ((wobble >= 0) || (*gap > (CLOCK)-wobble)) {
-            *gap += wobble;
-        } else {
-            *gap = 1;
-        }
-    }
+
+    *gap = tape_do_wobble(*gap);
+    *gap = tape_do_misalignment(*gap);
     return 0;
 }
 
@@ -1176,7 +1265,7 @@ void datasette_event_playback(CLOCK offset, void *data)
  ******************************************************************************/
 
 #define DATASETTE_SNAP_MAJOR 1
-#define DATASETTE_SNAP_MINOR 3
+#define DATASETTE_SNAP_MINOR 4
 
 static int datasette_write_snapshot(snapshot_t *s, int write_image)
 {
@@ -1207,7 +1296,9 @@ static int datasette_write_snapshot(snapshot_t *s, int write_image)
         || SMW_B(m, (uint8_t)reset_datasette_with_maincpu) < 0
         || SMW_DW(m, datasette_zero_gap_delay) < 0
         || SMW_DW(m, datasette_speed_tuning) < 0
-        || SMW_DW(m, datasette_tape_wobble) < 0
+        || SMW_DW(m, datasette_tape_wobble_frequency) < 0
+        || SMW_DW(m, datasette_tape_wobble_amplitude) < 0
+        || SMW_DW(m, datasette_tape_azimuth_error) < 0
         || SMW_B(m, (uint8_t)fullwave) < 0
         || SMW_DW(m, fullwave_gap) < 0) {
         snapshot_module_close(m);
@@ -1250,7 +1341,9 @@ static int datasette_read_snapshot(snapshot_t *s)
         || SMR_B_INT(m, &reset_datasette_with_maincpu) < 0
         || SMR_DW_INT(m, &datasette_zero_gap_delay) < 0
         || SMR_DW_INT(m, &datasette_speed_tuning) < 0
-        || SMR_DW_INT(m, &datasette_tape_wobble) < 0
+        || SMR_DW_INT(m, &datasette_tape_wobble_frequency) < 0
+        || SMR_DW_INT(m, &datasette_tape_wobble_amplitude) < 0
+        || SMR_DW_INT(m, &datasette_tape_azimuth_error) < 0
         || SMR_B_INT(m, (int *)&fullwave) < 0
         || SMR_DW(m, &fullwave_gap) < 0) {
         snapshot_module_close(m);

@@ -104,7 +104,9 @@ static UI_MENU_CALLBACK(create_tape_image_callback)
 UI_MENU_DEFINE_INT(DatasetteSpeedTuning)
 UI_MENU_DEFINE_INT(DatasetteZeroGapDelay)
 UI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
-UI_MENU_DEFINE_INT(DatasetteTapeWobble)
+UI_MENU_DEFINE_INT(DatasetteTapeWobbleFrequency)
+UI_MENU_DEFINE_INT(DatasetteTapeWobbleAmplitude)
+UI_MENU_DEFINE_INT(DatasetteTapeAzimuthError)
 UI_MENU_DEFINE_TOGGLE(DatasetteSound)
 
 const ui_menu_entry_t tape_menu[] = {
@@ -155,10 +157,18 @@ const ui_menu_entry_t tape_menu[] = {
       MENU_ENTRY_RESOURCE_INT,
       int_DatasetteZeroGapDelay_callback,
       (ui_callback_data_t)"Set datasette zero gap delay" },
-    { "Datasette tape wobble",
+    { "Datasette tape wobble frequency",
       MENU_ENTRY_RESOURCE_INT,
-      int_DatasetteTapeWobble_callback,
-      (ui_callback_data_t)"Set datasette tape wobble" },
+      int_DatasetteTapeWobbleFrequency_callback,
+      (ui_callback_data_t)"Set datasette tape wobble frequency" },
+    { "Datasette tape wobble amplitude",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteTapeWobbleAmplitude_callback,
+      (ui_callback_data_t)"Set datasette tape wobble amplitude" },
+    { "Datasette tape alignment",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteTapeAzimuthError_callback,
+      (ui_callback_data_t)"Set datasette alignment error" },
     { "Reset Datasette on CPU Reset",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DatasetteResetWithCPU_callback,
