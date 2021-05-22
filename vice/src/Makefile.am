@@ -1979,6 +1979,7 @@ xcbm5x0-all: \
 	libfileio \
 	libcore \
 	librtc \
+	libuserport \
 	libtapeport \
 	xcbm5x0$(EXEEXT)
 
