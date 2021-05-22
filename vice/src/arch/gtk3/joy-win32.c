@@ -341,7 +341,7 @@ int joy_arch_set_device(int port_idx, int new_dev)
     int old_dev = joystick_port_map[port_idx];
 
 #if 1
-    /*  FIXME: this assumes there are 2 hardware joysticks when
+    /*  FIXME: this assumes there are 8 hardware joysticks when
      *  the real number may be more or less.
      */
     switch (new_dev) {
@@ -351,6 +351,12 @@ int joy_arch_set_device(int port_idx, int new_dev)
         case JOYDEV_KEYSET2:
         case JOYDEV_HW1:
         case JOYDEV_HW2:
+        case JOYDEV_HW3:
+        case JOYDEV_HW4:
+        case JOYDEV_HW5:
+        case JOYDEV_HW6:
+        case JOYDEV_HW7:
+        case JOYDEV_HW8:
             break;
         default:
             return -1;
