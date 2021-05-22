@@ -1894,6 +1894,7 @@ xcbm2-all: \
 	libuserport \
 	libtapeport \
 	libjoyport \
+	libsamplerdrv \
 	libhvsc \
 	libjoystickdrv \
 	xcbm2$(EXEEXT)
