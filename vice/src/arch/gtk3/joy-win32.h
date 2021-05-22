@@ -37,6 +37,7 @@ typedef int joystick_device_t;
 #define JOYDEV_KEYSET2 3
 /* extra devices */
 #define JOYDEV_HW1     4
+#if 0
 #define JOYDEV_HW2     5
 #define JOYDEV_HW3     6
 #define JOYDEV_HW4     7
@@ -44,6 +45,7 @@ typedef int joystick_device_t;
 #define JOYDEV_HW6     9
 #define JOYDEV_HW7     10
 #define JOYDEV_HW8     11
+#endif
 
 #define JOYDEV_DEFAULT   JOYDEV_NUMPAD
 
