@@ -78,7 +78,9 @@ static vice_gtk3_combo_entry_int_t tcrt_loglevels[] = {
 static GtkWidget *ds_reset = NULL;
 static GtkWidget *ds_zerogap = NULL;
 static GtkWidget *ds_speed = NULL;
-static GtkWidget *ds_wobble = NULL;
+static GtkWidget *ds_wobblefreq = NULL;
+static GtkWidget *ds_wobbleamp = NULL;
+static GtkWidget *ds_align = NULL;
 static GtkWidget *ds_sound = NULL;
 
 static GtkWidget *tape_log = NULL;
@@ -112,7 +114,9 @@ static void on_datasette_toggled(GtkWidget *widget, gpointer data)
     gtk_widget_set_sensitive(ds_reset, state);
     gtk_widget_set_sensitive(ds_zerogap, state);
     gtk_widget_set_sensitive(ds_speed, state);
-    gtk_widget_set_sensitive(ds_wobble, state);
+    gtk_widget_set_sensitive(ds_wobblefreq, state);
+    gtk_widget_set_sensitive(ds_wobbleamp, state);
+    gtk_widget_set_sensitive(ds_align, state);
     gtk_widget_set_sensitive(ds_sound, state);
 }
 
@@ -299,13 +303,30 @@ static GtkWidget *create_datasette_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_speed, 3, 3, 1, 1);
 
-    label = gtk_label_new("Tape wobble:");
+    label = gtk_label_new("Tape wobble frequency:");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    ds_wobble = vice_gtk3_resource_spin_int_new("DatasetteTapeWobble",
-            0, 50, 1);
+    ds_wobblefreq = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleFrequency",
+            0, 5000, 10);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ds_wobble, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_wobblefreq, 1, 4, 1, 1);
+
+    label = gtk_label_new("Tape wobble amplitude:");
+    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    ds_wobbleamp = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleAmplitude",
+            0, 5000, 10);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_wobbleamp, 3, 4, 1, 1);
+
+    label = gtk_label_new("Tape alignment error");
+    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    ds_align = vice_gtk3_resource_spin_int_new("DatasetteTapeAzimuthError",
+            0, 25000, 1ß0);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_align, 1, 5, 1, 1);
+
 
     /* enble/disable sub widgets */
     on_datasette_toggled(ds_enable, NULL);
