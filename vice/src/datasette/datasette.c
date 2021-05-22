@@ -118,10 +118,10 @@ static unsigned int fullwave = 0;
 static CLOCK fullwave_gap;
 
 /* tape wobble parameters */
-static int datasette_tape_wobble_amplitude = 1000;
-static int datasette_tape_wobble_frequency = 1000;
+static int datasette_tape_wobble_amplitude;
+static int datasette_tape_wobble_frequency;
 /* amount of random azimuth error */
-static int datasette_tape_azimuth_error = 1000;
+static int datasette_tape_azimuth_error;
 
 /* datasette device enable */
 static int datasette_enable = 0;
