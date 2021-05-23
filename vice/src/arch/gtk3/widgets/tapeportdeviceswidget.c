@@ -323,7 +323,7 @@ static GtkWidget *create_datasette_widget(void)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_align = vice_gtk3_resource_spin_int_new("DatasetteTapeAzimuthError",
-            0, 25000, 1ß0);
+            0, 25000, 100);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_align, 1, 5, 1, 1);
 
