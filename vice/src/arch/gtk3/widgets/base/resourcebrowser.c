@@ -75,6 +75,8 @@ typedef struct resource_browser_state_s {
     char *pattern_name;         /**< name to display for the file patterns */
     char *browser_title;        /**< title to display for the file browser */
     char *proposed;
+    char *append_dir;           /**< directory to use when the resource only
+                                     contains a filename and not a path */
     void (*callback)(GtkWidget *,
                      gpointer); /**< optional callback */
     GtkWidget *entry;           /**< GtkEntry reference */
@@ -111,6 +113,9 @@ static void on_resource_browser_destroy(GtkWidget *widget, gpointer data)
     }
     if (state->browser_title != NULL) {
         lib_free(state->browser_title);
+    }
+    if (state->append_dir != NULL) {
+        lib_free(state->append_dir);
     }
     lib_free(state);
     resource_widget_free_resource_name(widget);
@@ -225,16 +230,11 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
 
         /* if no path is present in the resource value, set the directory to
          * the VICE datadir + machine and the file to the current filename */
-        if (strcmp(dirname, ".") == 0) {
-            char *datadir = archdep_get_vice_datadir();
-            char *fullpath = archdep_join_paths(datadir,
-                                                machine_name,
-                                                basename,
-                                                NULL);
+        if (strcmp(dirname, ".") == 0 && state->append_dir != NULL) {
+            char *fullpath = archdep_join_paths(state->append_dir, basename);
 
             debug_gtk3("fullpath = '%s'", fullpath);
             gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), fullpath);
-            lib_free(datadir);
             lib_free(fullpath);
         } else {
             gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), res_value);
@@ -392,6 +392,9 @@ GtkWidget *vice_gtk3_resource_browser_new(
     } else {
         state->browser_title = lib_strdup(browser_title);
     }
+
+    /* set append dir to `NULL` */
+    state->append_dir = NULL;
 
     /*
      * add widgets to the grid
@@ -632,3 +635,27 @@ GtkWidget *vice_gtk3_resource_browser_save_new(
     gtk_widget_show_all(grid);
     return grid;
 }
+
+
+
+/** \brief  Set the directory to use when the resource only contains a filename
+ *
+ * \param[in]   widget  resource browser widget
+ * \param[in]   path    directory to use
+ */
+void vice_gtk3_resource_browser_set_append_dir(GtkWidget *widget,
+                                               const char *path)
+{
+    resource_browser_state_t *state;
+
+    state = g_object_get_data(G_OBJECT(widget), "ViceState");
+    if (state->append_dir != NULL) {
+        lib_free(state->append_dir);
+        state->append_dir = NULL;
+    }
+    if (path != NULL && *path != '\0') {
+        state->append_dir = lib_strdup(path);
+    }
+}
+
+

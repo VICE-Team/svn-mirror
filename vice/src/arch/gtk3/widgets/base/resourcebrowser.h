@@ -53,4 +53,7 @@ gboolean vice_gtk3_resource_browser_reset(GtkWidget *widget);
 gboolean vice_gtk3_resource_browser_sync(GtkWidget *widget);
 gboolean vice_gtk3_resource_browser_factory(GtkWidget *widget);
 
+void vice_gtk3_resource_browser_set_append_dir(GtkWidget *widget,
+                                               const char *path);
+
 #endif
