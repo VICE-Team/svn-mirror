@@ -499,7 +499,7 @@ static CLOCK tape_do_wobble(CLOCK gap)
     printf("gap: %4d factor: % 1.4f newgapf: % 3.2f rest: % 3.2f newgap: %4d cycles: %8d sincnt: % 2.2f\n",
            (int)gap, (float)wobble_factor, (float)newgapf, (float)restf, (int)newgap, (int)cpu_cycles, (float)wobble_sin_count);
 #endif
-    return newgap;
+    return (CLOCK)newgap;
 }
 
 static CLOCK tape_do_misalignment(CLOCK gap)
