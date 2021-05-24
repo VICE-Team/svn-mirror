@@ -53,9 +53,11 @@
 
 #include "vice_gtk3.h"
 #include "archdep.h"
+#include "archdep_defs.h"
 #include "debug_gtk3.h"
 #include "datasette.h"
 #include "debug.h"
+#include "lib.h"
 #include "machine.h"
 #include "mainlock.h"
 #include "resources.h"
@@ -129,6 +131,38 @@ static GtkWidget *debug_submenu = NULL;
 static GtkWidget *help_submenu = NULL;
 
 
+/** \brief  Generate full path and name of the current vice config file
+ *
+ * \return  heap-allocated path to the current config file, free with lib_free()
+ */
+static char *get_config_file_path(void)
+{
+    char *path;
+
+    if (vice_config_file != NULL) {
+        /* -config used */
+
+        /* check for relative path */
+        if (archdep_path_is_relative(vice_config_file)) {
+            char *cwd = g_get_current_dir();
+
+            path = archdep_join_paths(cwd, vice_config_file, NULL);
+            g_free(cwd);
+        } else {
+            path = lib_strdup(vice_config_file);
+        }
+    } else {
+        /* default vicerc or vice.ini */
+        path = archdep_join_paths(archdep_user_config_path(),
+                                  ARCHDEP_VICERC_NAME,
+                                  NULL);
+    }
+    return path;
+}
+
+
+
+
 /** \brief  Load settings from default file
  *
  * \param[in]   widget  menu item triggering the event (ignored)
@@ -181,11 +215,20 @@ static void settings_load_filename_callback(GtkDialog *dialog,
  */
 static gboolean settings_load_custom_callback(GtkWidget *widget, gpointer data)
 {
-    vice_gtk3_open_file_dialog(
+    GtkWidget *dialog;
+    char *path;
+
+    path = get_config_file_path();
+
+    dialog = vice_gtk3_open_file_dialog(
             "Load settings file",
             NULL, NULL, NULL,
             settings_load_filename_callback,
             data);
+
+    gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), path);
+    lib_free(path);
+
     return TRUE;
 }
 
@@ -242,11 +285,18 @@ static void on_settings_save_custom_filename(GtkDialog *dialog,
  */
 static gboolean settings_save_custom_callback(GtkWidget *widget, gpointer data)
 {
-    vice_gtk3_save_file_dialog(
+    GtkWidget *dialog;
+    char *path;
+
+    path = get_config_file_path();
+
+    dialog = vice_gtk3_save_file_dialog(
             "Save settings as ...",
             NULL, TRUE, NULL,
             on_settings_save_custom_filename,
             NULL);
+    gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), path);
+    lib_free(path);
 
     return TRUE;
 }
