@@ -371,21 +371,6 @@ static GtkWidget *child_drive_exp_roms = NULL;
 static GtkWidget *child_rom_archives = NULL;
 
 
-/** \brief  Generate path '$VICE_DATADIR/$MACHINE_NAME'
- *
- * \return  heap allocate string, free with lib_free()
- */
-static char *create_machine_roms_path(void)
-{
-    char *path;
-    char *vice_datadir;
-
-    vice_datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(vice_datadir, machine_name, NULL);
-    lib_free(vice_datadir);
-    return path;
-}
-
 
 static void on_pet_select_chargen(GtkWidget *widget, gpointer data)
 {
@@ -502,7 +487,7 @@ static GtkWidget *create_c64_vic20_roms_widget(void)
     GtkWidget *grid;
     char *path;
 
-    path = create_machine_roms_path();
+    path = archdep_get_vice_machinedir();
     grid = create_roms_widget(c64_vic20_machine_roms, path);
     lib_free(path);
     return grid;
@@ -514,7 +499,7 @@ static GtkWidget *create_scpu64_roms_widget(void)
     GtkWidget *grid;
     char *path;
 
-    path = create_machine_roms_path();
+    path = archdep_get_vice_machinedir();
     grid = create_roms_widget(scpu64_machine_roms, path);
     lib_free(path);
     return grid;
@@ -526,7 +511,7 @@ static GtkWidget *create_c128_roms_widget(void)
     GtkWidget *grid;
     char *path;
 
-    path = create_machine_roms_path();
+    path = archdep_get_vice_machinedir();
     grid = create_roms_widget(c128_machine_roms, path);
     lib_free(path);
     return grid;
@@ -537,7 +522,7 @@ static GtkWidget *create_c128_chargen_widget(void)
     GtkWidget *grid;
     char *path;
 
-    path = create_machine_roms_path();
+    path = archdep_get_vice_machinedir();
     grid = create_roms_widget(c128_chargen_roms, path);
     lib_free(path);
     return grid;
@@ -549,7 +534,7 @@ static GtkWidget *create_plus4_roms_widget(void)
     GtkWidget *grid;
     char *path;
 
-    path = create_machine_roms_path();
+    path = archdep_get_vice_machinedir();
     grid = create_roms_widget(plus4_machine_roms, path);
     lib_free(path);
     return grid;
@@ -561,7 +546,7 @@ static GtkWidget *create_cbm2_roms_widget(void)
     GtkWidget *grid;
     char *path;
 
-    path = create_machine_roms_path();
+    path = archdep_get_vice_machinedir();
     grid = create_roms_widget(cbm2_machine_roms, path);
     lib_free(path);
     return grid;
@@ -607,7 +592,7 @@ static GtkWidget *create_pet_roms_widget(void)
         "RomModuleBName"
     };
 
-    path = create_machine_roms_path();
+    path = archdep_get_vice_machinedir();
     grid = create_roms_widget(pet_machine_roms, path);
     lib_free(path);
 
@@ -710,7 +695,6 @@ static GtkWidget *create_drive_roms_widget(void)
     GtkWidget *widget;
     const romset_entry_t *entries;
     char *path;
-    char *vice_datadir;
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
@@ -737,10 +721,7 @@ static GtkWidget *create_drive_roms_widget(void)
     }
 
     /* create path to $VICE_DATADIR/DRIVES */
-    vice_datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(vice_datadir, "DRIVES", NULL);
-    lib_free(vice_datadir);
-
+    path = archdep_get_vice_drivesdir();
     widget = create_roms_widget(entries, path);
     lib_free(path);
     return widget;
@@ -758,7 +739,7 @@ static GtkWidget *create_drive_exp_roms_widget(void)
     GtkWidget *widget;
     char *path;
 
-    path = create_machine_roms_path();
+    path = archdep_get_vice_machinedir();
     widget = create_roms_widget(c64_c128_drive_exp_roms, path);
     lib_free(path);
     return widget;
