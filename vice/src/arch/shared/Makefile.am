@@ -61,6 +61,8 @@ libarchdep_a_SOURCES = \
 	archdep_get_runtime_info.c \
 	archdep_get_vice_datadir.c \
 	archdep_get_vice_docsdir.c \
+	archdep_get_vice_drivesdir.c \
+	archdep_get_vice_machinedir.c \
 	archdep_home_path.c \
 	archdep_icon_path.c \
 	archdep_is_haiku.c \
@@ -140,6 +142,8 @@ EXTRA_DIST = \
 	archdep_get_runtime_info.h \
 	archdep_get_vice_datadir.h \
 	archdep_get_vice_docsdir.h \
+	archdep_get_vice_drivesdir.h \
+	archdep_get_vice_machinedir.h \
 	archdep_home_path.h \
 	archdep_icon_path.h \
 	archdep_is_haiku.h \
