@@ -231,7 +231,7 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
         /* if no path is present in the resource value, set the directory to
          * the VICE datadir + machine and the file to the current filename */
         if (strcmp(dirname, ".") == 0 && state->append_dir != NULL) {
-            char *fullpath = archdep_join_paths(state->append_dir, basename);
+            char *fullpath = archdep_join_paths(state->append_dir, basename, NULL);
 
             debug_gtk3("fullpath = '%s'", fullpath);
             gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), fullpath);
