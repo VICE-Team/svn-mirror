@@ -35,6 +35,7 @@
 
 #include <gtk/gtk.h>
 
+#include "archdep.h"
 #include "basewidgets.h"
 #include "debug_gtk3.h"
 #include "keyboard.h"
@@ -100,13 +101,21 @@ static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_symbolic_keymap_browser(void)
 {
-    GtkWidget *browser = vice_gtk3_resource_browser_new(
+    GtkWidget *browser;
+    char *path;
+
+    /* determine path to machine dir */
+    path = archdep_get_vice_machinedir();
+
+    browser = vice_gtk3_resource_browser_new(
             "KeymapUserSymFile",
             keymap_patterns,
             "VICE keymap files",
             "Select user-defined symbolic keymap",
             NULL,
             open_sym_file_callback);
+    vice_gtk3_resource_browser_set_append_dir(browser, path);
+    lib_free(path);
     return browser;
 }
 
@@ -117,13 +126,21 @@ static GtkWidget *create_symbolic_keymap_browser(void)
  */
 static GtkWidget *create_positional_keymap_browser(void)
 {
-    GtkWidget *browser = vice_gtk3_resource_browser_new(
+    GtkWidget *browser;
+    char *path;
+
+    /* determine path to machine dir */
+    path = archdep_get_vice_machinedir();
+
+    browser = vice_gtk3_resource_browser_new(
             "KeymapUserPosFile",
             keymap_patterns,
             "VICE keymap files",
             "Select user-defined positional keymap",
             NULL,
             open_pos_file_callback);
+    vice_gtk3_resource_browser_set_append_dir(browser, path);
+    lib_free(path);
     return browser;
 }
 
