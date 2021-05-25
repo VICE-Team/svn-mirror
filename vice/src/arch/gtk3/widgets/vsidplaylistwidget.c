@@ -881,8 +881,8 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
          */
         gtk_list_store_append(playlist_model, &iter);
         gtk_list_store_set(playlist_model, &iter,
-                0, "Balls",
-                1, "Pimmel",
+                0, "n/a",
+                1, "n/a",
                 2, path,
                 -1);
 
