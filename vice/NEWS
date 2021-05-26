@@ -2142,7 +2142,7 @@ SDL changes
 - The VICEplus project has been joined with VICE. Thus, x64dtv is now
   part of VICE.
 
-- We can be contacted via IRC: #vice-dev on freenode
+- We can be contacted via IRC: #vice-dev on libera.chat
 
 - Added a more accurate ReSID engine using floating point math (ReSID-FP).
 

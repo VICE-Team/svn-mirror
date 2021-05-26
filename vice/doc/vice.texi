@@ -30841,7 +30841,7 @@ general questions, bug reports, suggestions.
 
 @end itemize
 
-You can also contact (some of) us on IRC, at #vice-dev on freenode.
+You can also contact (some of) us on IRC, at #vice-dev on libera.chat.
 
 It's always nice to receive feedback and/or bugreports about VICE, but
 please read these few notes before sending mail to anybody in the
