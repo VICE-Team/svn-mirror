@@ -28,10 +28,6 @@
 #ifndef VICE_JOY_H
 #define VICE_JOY_H
 
-#ifdef MACOSX_SUPPORT
-#include "joy-osx.h"
-#endif
-
 #ifdef WIN32_COMPILE
 #include "joy-win32.h"
 #endif

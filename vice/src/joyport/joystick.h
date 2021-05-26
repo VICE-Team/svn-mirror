@@ -57,6 +57,8 @@ extern void joystick_register_delay(unsigned int delay);
 
 extern void linux_joystick_init(void);
 extern void usb_joystick_init(void);
+extern void joy_hidlib_init(void);
+extern void joy_hidlib_exit(void);
 
 extern uint16_t get_joystick_value(int index);
 
@@ -66,6 +68,7 @@ extern void joystick_register_machine(joystick_machine_func_t func);
 /* the mapping of real devices to emulated joystick ports */
 extern int joystick_port_map[JOYPORT_MAX_PORTS];
 
+extern const uint8_t hat_map[9];
 
 /** \brief  Use keypad as predefined keys for joystick emulation
  *

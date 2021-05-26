@@ -88,18 +88,6 @@ static log_t bsd_joystick_log;
 
 #define MAX_DEV 4   /* number of uhid devices to try */
 
-static const uint8_t hat_map[9] = {
-    0,
-    JOYSTICK_DIRECTION_UP,
-    JOYSTICK_DIRECTION_UP|JOYSTICK_DIRECTION_RIGHT,
-    JOYSTICK_DIRECTION_RIGHT,
-    JOYSTICK_DIRECTION_RIGHT|JOYSTICK_DIRECTION_DOWN,
-    JOYSTICK_DIRECTION_DOWN,
-    JOYSTICK_DIRECTION_DOWN|JOYSTICK_DIRECTION_LEFT,
-    JOYSTICK_DIRECTION_LEFT,
-    JOYSTICK_DIRECTION_LEFT|JOYSTICK_DIRECTION_UP
-};
-
 struct usb_joy_item {
     struct hid_item item;
     struct usb_joy_item *next;
@@ -194,7 +182,6 @@ static void usb_joystick(int jp, void* priv)
         val = hid_get_data(joypriv->usb_joy_buf, &it->item);
         if (it->type == ITEM_HAT) {
             if (val >= 0 && val <= 8) {
-                printf("ordinal %d val %d map %u\n",it->ordinal_number, val,hat_map[val]);
                 joy_hat_event(jp, it->ordinal_number, hat_map[val]);
             }
         } else {

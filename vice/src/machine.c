@@ -320,7 +320,7 @@ void machine_shutdown(void)
         /* happens at the -help command line command*/
         return;
     }
-    
+
     /*
      * Avoid SoundRecordDeviceName being written to vicerc when save-on-exit
      * is enabled. If recording is/was active vicerc will contain some setting
@@ -348,6 +348,9 @@ void machine_shutdown(void)
     autostart_shutdown();
 
     joystick_close();
+#ifdef MAC_JOYSTICK
+    joy_hidlib_exit();
+#endif
 
     sound_close();
 

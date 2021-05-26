@@ -40,7 +40,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "joy.h"
+#include "joyport.h"
 #include "joystick.h"
 #include "log.h"
 #include "types.h"
