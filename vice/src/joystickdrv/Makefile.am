@@ -23,8 +23,8 @@ libjoystickdrv_a_SOURCES = \
 
 # These sources are conditionally linked
 EXTRA_libjoystickdrv_a_SOURCES = \
-	joystick_bsd.c
-
+	joystick_bsd.c \
+	joystick_osx.c
 
 libjoystickdrv_a_DEPENDENCIES = \
 	@JOYSTICK_DRIVERS@

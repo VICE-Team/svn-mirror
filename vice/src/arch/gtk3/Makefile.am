@@ -63,10 +63,6 @@ libarch_a_SOURCES = \
 	cbm2ui.c \
 	cbm5x0ui.c \
 	gtk3main.c \
-	joy-osx-hid.c \
-	joy-osx-hidmgr.c \
-	joy-osx-hidutil.c \
-	joy-osx.c \
 	joy-win32-dinput-handle.c \
 	joy-win32.c \
 	kbd.c \

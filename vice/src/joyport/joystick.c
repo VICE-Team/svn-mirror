@@ -135,6 +135,18 @@ static const uint16_t joystick_opposite_direction[] = {
     JOYPAD_E | JOYPAD_W | JOYPAD_S | JOYPAD_N  /* + + + + */
 };
 
+const uint8_t hat_map[9] = {
+    0,
+    JOYSTICK_DIRECTION_UP,
+    JOYSTICK_DIRECTION_UP|JOYSTICK_DIRECTION_RIGHT,
+    JOYSTICK_DIRECTION_RIGHT,
+    JOYSTICK_DIRECTION_RIGHT|JOYSTICK_DIRECTION_DOWN,
+    JOYSTICK_DIRECTION_DOWN,
+    JOYSTICK_DIRECTION_DOWN|JOYSTICK_DIRECTION_LEFT,
+    JOYSTICK_DIRECTION_LEFT,
+    JOYSTICK_DIRECTION_LEFT|JOYSTICK_DIRECTION_UP
+};
+
 /* Callback to machine specific joystick routines, needed for lightpen triggering */
 static joystick_machine_func_t joystick_machine_func = NULL;
 
@@ -618,7 +630,7 @@ static int set_joystick_opposite_enable(int val, void *param)
     return 0;
 }
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK)
+#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
 /* Actions to perform on joystick input */
 typedef enum {
     NONE = 0,
@@ -685,7 +697,7 @@ static int set_joystick_device(int val, void *param)
 {
     int port_idx = vice_ptr_to_int(param);
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK)
+#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
     if (joystick_port_map[port_idx] >= JOYDEV_REALJOYSTICK_MIN) {
         int olddev = joystick_port_map[port_idx] - JOYDEV_REALJOYSTICK_MIN;
         if (olddev < num_joystick_devices) {
@@ -700,7 +712,7 @@ static int set_joystick_device(int val, void *param)
 
     joystick_port_map[port_idx] = val;
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK)
+#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
     if (joystick_port_map[port_idx] >= JOYDEV_REALJOYSTICK_MIN) {
         int newdev = joystick_port_map[port_idx] - JOYDEV_REALJOYSTICK_MIN;
         if (newdev < num_joystick_devices) {
@@ -818,7 +830,7 @@ int joystick_resources_init(void)
         }
     }
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK)
+#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
     return 1;
 #else
     return joy_arch_resources_init();
@@ -939,7 +951,7 @@ int joystick_cmdline_options_init(void)
         }
     }
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK)
+#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
     return 1;
 #else
     return joy_arch_cmdline_options_init();
@@ -962,6 +974,9 @@ int joystick_init(void)
     return 1;
 #elif defined HAS_USB_JOYSTICK
     usb_joystick_init();
+    return 1;
+#elif defined MAC_JOYSTICK
+    joy_hidlib_init();
     return 1;
 #else
     return joy_arch_init();
@@ -1021,7 +1036,7 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port)
 
 /* ------------------------------------------------------------------------- */
 
-#if (defined LINUX_JOYSTICK || defined BSD_JOYSTICK)
+#if (defined LINUX_JOYSTICK || defined BSD_JOYSTICK || defined MAC_JOYSTICK)
 void register_joystick_driver(
     struct joystick_driver_s *driver,
     const char *jname,
@@ -1207,4 +1222,4 @@ void joystick_close(void)
 
     lib_free(joystick_devices);
 }
-#endif //LINUX_JOYSTICK||BSD_JOYSTICK
+#endif //LINUX_JOYSTICK||BSD_JOYSTICK||MAC_JOYSTICK

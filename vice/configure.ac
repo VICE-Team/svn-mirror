@@ -129,7 +129,6 @@ dnl from a desktop menu. Only supported for Unix with the exception of MacOS.
 dnl Gtk3 only.
 VICE_ARG_ENABLE_LIST(desktop-files,     [  --enable-desktop-files  enable installation of XDG desktop files (GTK3 UI only)])
 VICE_ARG_ENABLE_LIST(hidmgr,            [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
-VICE_ARG_ENABLE_LIST(hidutils,          [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
 
 dnl
 dnl Documentation options
@@ -2007,28 +2006,8 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                    MAC_JOYSTICK_SUPPORT="yes";
                    HAS_HIDMGR_SUPPORT="yes";
                    AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])
-                   AC_DEFINE(HAS_HIDMGR,,[Enable Mac IOHIDManager Joystick driver.])
-                   enable_hidutils=no
+                   JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_osx.o";
                    ],
-                  [AC_MSG_RESULT(no);
-                   LIBS=${old_LIBS}])
-      LIBS="${old_LIBS}"
-    fi
-  fi
-
-  dnl check for HID utility library
-  if test x"$enable_hidutils" != "xno" ; then
-    AC_CHECK_HEADER(HID_Utilities_External.h,,)
-    if test x"$ac_cv_header_HID_Utilities_External_h" = "xyes" ; then
-      AC_MSG_CHECKING(whether we can link the (mac) HIDUtilities library)
-      old_LIBS="${LIBS}"
-      LIBS="$LIBS -lHIDUtilities -framework IOKit -framework CoreServices"
-      AC_TRY_LINK([#include <HID_Utilities_External.h>],
-                  [HIDCountDevices()],
-                  [AC_MSG_RESULT(yes);
-                   JOY_LIBS="-lHIDUtilities -framework IOKit -framework CoreServices";
-                   MAC_JOYSTICK_SUPPORT="yes";
-                   AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])],
                   [AC_MSG_RESULT(no);
                    LIBS=${old_LIBS}])
       LIBS="${old_LIBS}"
