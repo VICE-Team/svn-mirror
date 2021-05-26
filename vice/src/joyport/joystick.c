@@ -717,6 +717,12 @@ static int set_joystick_device(int val, void *param)
         int newdev = joystick_port_map[port_idx] - JOYDEV_REALJOYSTICK_MIN;
         if (newdev < num_joystick_devices) {
             joystick_devices[newdev].joyport = port_idx;
+            int i;
+            for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
+                if (i != port_idx && joystick_port_map[port_idx] == joystick_port_map[i]) {
+                    joystick_port_map[i] = JOYDEV_NONE;
+                }
+            }
         }
     }
 #endif
