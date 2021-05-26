@@ -987,6 +987,7 @@ int joystick_init(void)
     return joy_arch_init();
 #endif
 
+#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
         if (joystick_port_map[i] >= JOYDEV_REALJOYSTICK_MIN) {
             if (joystick_port_map[i] - JOYDEV_REALJOYSTICK_MIN < num_joystick_devices) {
@@ -998,6 +999,7 @@ int joystick_init(void)
     }
     
     return 1;
+#endif
 }
 
 /*--------------------------------------------------------------------------*/
