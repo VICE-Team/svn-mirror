@@ -968,8 +968,6 @@ int joystick_cmdline_options_init(void)
 
 int joystick_init(void)
 {
-    int i;
-
     joystick_alarm = alarm_new(maincpu_alarm_context, "Joystick",
                                joystick_latch_handler, NULL);
 
@@ -988,6 +986,7 @@ int joystick_init(void)
 #endif
 
 #if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
+    int i;
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
         if (joystick_port_map[i] >= JOYDEV_REALJOYSTICK_MIN) {
             if (joystick_port_map[i] - JOYDEV_REALJOYSTICK_MIN < num_joystick_devices) {
