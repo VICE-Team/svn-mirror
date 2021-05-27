@@ -39,16 +39,37 @@
 #include "autostart.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "console.h"
+#include "drive.h"
+#include "fliplist.h"
+#include "fsdevice.h"
+#include "gfxoutput.h"
 #include "initcmdline.h"
 #include "ioutil.h"
+#include "kbdbuf.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "monitor.h"
+#include "monitor_binary.h"
+#include "monitor_network.h"
+#include "network.h"
+#include "printer.h"
 #include "resources.h"
+#include "romset.h"
+#include "sysfile.h"
 #include "tape.h"
+#include "traps.h"
+#include "uiapi.h"
 #include "util.h"
+#include "vice-event.h"
 #include "vicefeatures.h"
+#include "video.h"
+#include "vsync.h"
+#include "zfile.h"
+
 
 #ifdef DEBUG_CMDLINE
 #define DBG(x)  printf x
@@ -104,6 +125,99 @@ void initcmdline_shutdown(void)
 static int cmdline_help(const char *param, void *extra_param)
 {
     cmdline_show_help(NULL);
+
+    /*
+     * Clean up memory.
+     *
+     * (Once this works properly it should be refactored into a separate function
+     *  so cmdline_features() can also use this code.
+     *
+     * Currently still leaks in various drive-related code, such as ieee and
+     * drive CPUs, alarm/clock code and drive-related monitor interface(s).
+     *
+     * Looks like the drive contexts are only half initialized, because when
+     * I remove the `if (!drive_init_was_called)` from drive/drive.c I get a
+     * nice segfault:
+     *
+     * wd1770_shutdown (drv=0x0) at ../../../../vice/src/drive/iec/wd1770.c:211
+     * 211          lib_free(drv->myname);
+     *
+     * This can be avoided by properly setting drv->myname to NULL and checking
+     * for NULL before calling lib_free(), but I fear there will be a lot of
+     * this in the drive code.
+     *
+     * --compyx
+     */
+
+#if 0
+    file_system_detach_disk_shutdown();
+#endif
+    machine_specific_shutdown();
+    printer_shutdown();
+    gfxoutput_shutdown();
+#if 0
+    fliplist_shutdown();
+    file_system_shutdown();
+    fsdevice_shutdown();
+    tape_shutdown();
+    traps_shutdown();
+    kbdbuf_shutdown();
+#endif
+    keyboard_shutdown();
+
+    monitor_shutdown();
+
+    console_close_all();
+
+    cmdline_shutdown();
+    initcmdline_shutdown();
+
+    resources_shutdown();
+    drive_shutdown();
+
+    machine_maincpu_shutdown();
+#if 0
+    video_shutdown();
+    if (!console_mode) {
+        ui_shutdown();
+    }
+#endif
+
+    sysfile_shutdown();
+    log_close_all();
+
+    event_shutdown();
+
+    network_shutdown();
+
+    autostart_resources_shutdown();
+    sound_resources_shutdown();
+#if 0
+    video_resources_shutdown();
+#endif
+    machine_resources_shutdown();
+    machine_common_resources_shutdown();
+
+    vsync_shutdown();
+
+    sysfile_resources_shutdown();
+#if 0
+    zfile_shutdown();
+#endif
+
+    ui_resources_shutdown();
+    log_resources_shutdown();
+    fliplist_resources_shutdown();
+#if 0
+    romset_resources_shutdown();
+#endif
+#ifdef HAVE_NETWORK
+    monitor_network_resources_shutdown();
+    monitor_binary_resources_shutdown();
+#endif
+    monitor_resources_shutdown();
+
+    archdep_shutdown();
     archdep_vice_exit(0);
     return 0;   /* OSF1 cc complains */
 }

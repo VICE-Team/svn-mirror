@@ -101,6 +101,8 @@ extern void machine_early_init(void);
 
 /* Initialize the main CPU of the machine.  */
 extern void machine_maincpu_init(void);
+/* Shutdown the main CPU of the machine. */
+extern void machine_maincpu_shutdown(void);
 
 /* Reset the machine.  */
 #define MACHINE_RESET_MODE_SOFT 0
