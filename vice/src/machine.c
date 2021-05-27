@@ -274,7 +274,7 @@ int machine_init(void)
     return machine_specific_init();
 }
 
-static void machine_maincpu_shutdown(void)
+void machine_maincpu_shutdown(void)
 {
     if (maincpu_alarm_context != NULL) {
         alarm_context_destroy(maincpu_alarm_context);
