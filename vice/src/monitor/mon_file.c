@@ -361,7 +361,11 @@ void mon_file_verify(const char *filename, int device, MON_ADDR start_addr, bool
     }
 
     do {
-        uint8_t load_byte, mem_byte;
+        /* initialize to avoid false positive with clang static initializer
+         * about using a garbage load_byte in the if() below
+         */
+        uint8_t load_byte = 0;
+        uint8_t mem_byte;
 
         if (mon_file_read(&load_byte, 0, device) < 0) {
             break;
