@@ -36,6 +36,9 @@
 #include "basedialogs.h"
 
 
+/*
+ * Forward declarations
+ */
 static gboolean entry_get_int(GtkWidget *entry, int *value);
 
 
@@ -43,6 +46,8 @@ static gboolean entry_get_int(GtkWidget *entry, int *value);
  */
 static void (*confirm_cb)(GtkDialog *, gboolean);
 
+/** \brief  Callback function for the integer input dialog
+ */
 static void (*integer_cb)(GtkDialog *, int, gboolean);
 
 
@@ -204,7 +209,7 @@ GtkWidget *vice_gtk3_message_info(const char *title,
  *
  * \param[in]   callback    callback function to accept the dialog's result
  * \param[out]  result      location to store result
- * \param[in[   title       dialog title
+ * \param[in]   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
  * \return  dialog

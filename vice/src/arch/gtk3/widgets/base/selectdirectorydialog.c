@@ -47,7 +47,7 @@
 static void (*filename_cb)(GtkDialog *, gchar *, gpointer);
 
 
-/** \brief  Response handler for the directory-select dialog
+/** \brief  Handler for 'response' event of the directory-select dialog
  *
  * \param[in]   dialog      directory-select dialog
  * \param[in]   response_id response ID
@@ -67,7 +67,6 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
         filename_cb(dialog, NULL, data);
     }
 }
-
 
 
 /** \brief  Create a 'select directory' dialog

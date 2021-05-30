@@ -54,7 +54,14 @@ typedef struct clockport_dev_s {
 static clockport_dev_t *clockport_devices;
 
 
-static void on_destroy(GtkWidget *widget, gpointer user_data)
+/** \brief  Handler for the 'destroy' event of the widget
+ *
+ * Frees memory used by the resource name.
+ *
+ * \param[in,out]   widget  clockport device widget
+ * \param[in]       data    extra event data (unused)
+ */
+static void on_destroy(GtkWidget *widget, gpointer data)
 {
     resource_widget_free_resource_name(widget);
 }

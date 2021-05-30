@@ -75,11 +75,13 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
  * \param[in]   filter_desc file filter name
  * \param[in]   filter_list list of file type filters, NULL-terminated
  * \param[in]   path        directory to use (optional)
+ * \param[in]   callback    callback to trigger on response
+ * \param[in]   param       extra data for \a callback (optional)
  *
- * \return  filename or `NULL` on cancel
+ * \return  GtkDialog
  *
- * \note    the filename returned is allocated by GLib and needs to be freed
- *          after use with g_free()
+ * \note    the filename passed to the \a callback is allocated by GLib and
+ *          needs to be freed after use with g_free()
  */
 GtkWidget *vice_gtk3_open_file_dialog(
         const char *title,
@@ -124,16 +126,6 @@ GtkWidget *vice_gtk3_open_file_dialog(
         gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
     }
 
-    /* NO: */
-#if 0
-    result = gtk_dialog_run(GTK_DIALOG(dialog));
-    if (result == GTK_RESPONSE_ACCEPT) {
-        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    } else {
-        filename = NULL;
-    }
-#endif
-    /* YES: */
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
     gtk_widget_show(dialog);
     return dialog;
@@ -146,11 +138,13 @@ GtkWidget *vice_gtk3_open_file_dialog(
  * \param[in]   proposed    proposed file name (optional)
  * \param[in]   confirm     confirm overwriting an existing file
  * \param[in]   path        set starting directory (optional)
+ * \param[in]   callback    callback to trigger on response
+ * \param[in]   param       extra data for \a callback (optional)
  *
- * \return  filename or `NULL` on cancel
+ * \return  GtkDialog
  *
- * \note    the filename returned is allocated by GLib and needs to be freed
- *          after use with g_free()
+ * \note    the filename passed to the \a callback is allocated by GLib and
+ *          needs to be freed after use with g_free()
  */
 GtkWidget *vice_gtk3_open_create_file_dialog(
         const char *title,

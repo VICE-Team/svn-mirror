@@ -42,7 +42,7 @@
 #include "resourceradiogroup.h"
 
 
-/** \brief  Handler for the "destroy" event of the widget
+/** \brief  Handler for the 'destroy' event of the widget
  *
  * Frees the heap-allocated copy of the resource name
  *
@@ -55,7 +55,7 @@ static void on_radiogroup_destroy(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "toggled" event of a radio button
+/** \brief  Handler for the 'toggled' event of a radio button
  *
  * \param[in]   radio       radio button triggering the event
  * \param[in]   user_data   new value for the radio group (`int`)
@@ -99,9 +99,9 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 
 /** \brief  Helper function for the new() functions
  *
- * \param[in]   grid        containing grid
- * \param[in]   entries     list of entries for the group
- * \param[in]   orientation layout direction of the radio buttons
+ * \param[in,out]   grid        containing grid
+ * \param[in]       entries     list of entries for the group
+ * \param[in]       orientation layout direction of the radio buttons
  *
  * \return  GtkGrid
  */
@@ -284,7 +284,7 @@ gboolean vice_gtk3_resource_radiogroup_set(GtkWidget *widget, int id)
  * \param[in]   widget  resource radio group
  * \param[out]  id      object to store resource value
  *
- * \return  bool
+ * \return  TRUE if \a id was set
  */
 gboolean vice_gtk3_resource_radiogroup_get(GtkWidget *widget, int *id)
 {
@@ -300,12 +300,16 @@ gboolean vice_gtk3_resource_radiogroup_get(GtkWidget *widget, int *id)
 /** \brief  Set sensitive flag of item at index
  *
  * \param[in,out]   widget     radiogroup widget
- * \param[in]       index      
+ * \param[in]       index      item index
  * \param[in]       sensitive  sensitive flag for item at index
  *
- * \return  bool
+ * \return  TRUE
+ *
+ * \todo    Perhaps make void since it only ever returns TRUE?
  */
-gboolean vice_gtk3_resource_radiogroup_item_set_sensitive(GtkWidget *widget, int index, int sensitive)
+gboolean vice_gtk3_resource_radiogroup_item_set_sensitive(GtkWidget *widget,
+                                                          int index,
+                                                          int sensitive)
 {
     int orientation;
     int i;
@@ -348,7 +352,7 @@ gboolean vice_gtk3_resource_radiogroup_item_set_sensitive(GtkWidget *widget, int
  *
  * \param[in,out]   widget  radiogroup widget
  *
- * \return  bool
+ * \return  TRUE if widget was synchronized
  */
 gboolean vice_gtk3_resource_radiogroup_sync(GtkWidget *widget)
 {
@@ -367,7 +371,7 @@ gboolean vice_gtk3_resource_radiogroup_sync(GtkWidget *widget)
  *
  * \param[in,out]   widget  resource radio group
  *
- * \return  bool
+ * \return  TRUE if widget is set to its factory value
  */
 gboolean vice_gtk3_resource_radiogroup_factory(GtkWidget *widget)
 {
@@ -386,7 +390,7 @@ gboolean vice_gtk3_resource_radiogroup_factory(GtkWidget *widget)
  *
  * \param[in,out]   widget  resource radio group
  *
- * \return  bool
+ * \return  TRUE is widget is reset to its original value
  */
 gboolean vice_gtk3_resource_radiogroup_reset(GtkWidget *widget)
 {

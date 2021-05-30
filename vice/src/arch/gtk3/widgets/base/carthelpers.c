@@ -38,7 +38,10 @@
 
 #include "carthelpers.h"
 
-
+/*
+ * Function pointers, used by various other source files. These need to remain
+ * public.
+ */
 int (*carthelpers_save_func)(int type, const char *filename);
 int (*carthelpers_flush_func)(int type);
 int (*carthelpers_is_enabled_func)(int type);
@@ -105,13 +108,14 @@ void carthelpers_set_functions(
  *
  * Frees the cartridge name stored as a property in the check button.
  *
- * \param[in]   check   check button
- * \param[in]   data    unused
+ * \param[in,out]   check   check button
+ * \param[in]       data    unused
  */
 static void on_cart_enable_check_button_destroy(GtkCheckButton *check,
                                                 gpointer data)
 {
     char *name = g_object_get_data(G_OBJECT(check), "CartridgeName");
+
     if (name != NULL) {
         lib_free(name);
     }

@@ -77,8 +77,8 @@
  *
  * Frees the heap-allocated copy of the resource name.
  *
- * \param[in]   check       check button
- * \param[in]   user_data   extra event data (unused)
+ * \param[in,out]   check       check button
+ * \param[in]       user_data   extra event data (unused)
  */
 static void on_check_button_destroy(GtkWidget *check, gpointer user_data)
 {
@@ -86,7 +86,7 @@ static void on_check_button_destroy(GtkWidget *check, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "toggled" event of the check button
+/** \brief  Handler for the 'toggled' event of the check button
  *
  * \param[in]   check       check button
  * \param[in]   user_data   resource name
@@ -121,7 +121,7 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
  * resource_check_button_create_printf() to finish setting up the resource
  * check button \a check
  *
- * \param[in]   check   check button
+ * \param[in,out]   check   check button
  *
  * \return  new check button
  */
@@ -166,7 +166,6 @@ static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
 }
 
 
-
 /** \brief  Create check button to toggle \a resource
  *
  * Creates a check button to toggle \a resource. Makes a heap-allocated copy
@@ -208,7 +207,7 @@ GtkWidget *vice_gtk3_resource_check_button_new(const char *resource,
  * printf() format string.
  *
  * \param[in]   fmt         resource name format string
- * \param[in]   label       label of the check button
+ * \param[in]   label       label of the check button and optional printf args
  *
  * \note    The resource name is stored in the "ResourceName" property.
  *
@@ -283,7 +282,6 @@ gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget)
     }
     return vice_gtk3_resource_check_button_set(widget, (gboolean)value);
 }
-
 
 
 /** \brief  Reset \a widget to the state it was when it was created

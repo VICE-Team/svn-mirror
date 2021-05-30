@@ -31,16 +31,18 @@
 
 #include <limits.h>
 
+
 /** \brief  The value to signal to VICE Gtk3 code a default should be used
  */
 #define VICE_GTK3_DEFAULT   INT_MIN
 
-/** \brief  Default column spacing for `GtkGrid`'s
+
+/** \brief  Default column spacing for GtkGrids
  */
 #define VICE_GTK3_GRID_COLUMN_SPACING   16
 
 
-/** \brief  Default row spacing for `GtkGrid`'s
+/** \brief  Default row spacing for GtkGrids
  */
 #define VICE_GTK3_GRID_ROW_SPACING      8
 

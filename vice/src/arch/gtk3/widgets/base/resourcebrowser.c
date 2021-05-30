@@ -92,8 +92,8 @@ static void free_patterns(char **patterns);
 
 /** \brief  Clean up memory used by the main widget
  *
- * \param[in]   widget  resource browser widget
- * \param[in]   data    unused
+ * \param[in,out]   widget  resource browser widget
+ * \param[in]       data    unused
  */
 static void on_resource_browser_destroy(GtkWidget *widget, gpointer data)
 {
@@ -184,8 +184,6 @@ static void save_filename_callback(GtkDialog *dialog,
 }
 
 
-
-
 /** \brief  Handler for the "clicked" event of the browse button
  *
  * Shows a file open dialog to select a file.
@@ -252,7 +250,6 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
  *
  * \param[in]   widget  save button
  * \param[in]   data    unused
- *
  */
 static void on_resource_browser_save_clicked(GtkWidget *widget, gpointer data)
 {
@@ -261,15 +258,7 @@ static void on_resource_browser_save_clicked(GtkWidget *widget, gpointer data)
 
     parent = gtk_widget_get_parent(widget);
     state = g_object_get_data(G_OBJECT(parent), "ViceState");
-#if 0
-    vice_gtk3_open_file_dialog(
-            state->browser_title,
-            state->pattern_name,
-            (const char **)(state->patterns),
-            NULL,
-            browse_filename_callback,
-            state);
-#else
+
     vice_gtk3_save_file_dialog(
             state->browser_title,
             NULL,
@@ -277,9 +266,8 @@ static void on_resource_browser_save_clicked(GtkWidget *widget, gpointer data)
             NULL,
             save_filename_callback,
             state);
-#endif
-
 }
+
 
 /** \brief  Create a heap allocated copy of \a patterns
  *
@@ -312,7 +300,7 @@ static char **copy_patterns(const char * const *patterns)
 
 /** \brief  Clean up copies of the file name patterns
  *
- * \param[in]   patterns    list of file name matching patterns
+ * \param[in,out]   patterns    list of file name matching patterns
  */
 static void free_patterns(char **patterns)
 {
@@ -472,7 +460,7 @@ gboolean vice_gtk3_resource_browser_set(GtkWidget *widget, const char *new)
  * \param[in]   widget  resource browser widget
  * \param[out]  dest    destination of value
  *
- * \return  bool
+ * \return  TRUE when the resource value was retrieved
  */
 gboolean vice_gtk3_resource_browser_get(GtkWidget *widget, const char **dest)
 {
@@ -516,7 +504,7 @@ gboolean vice_gtk3_resource_browser_reset(GtkWidget *widget)
  *
  * \param[in,out]   widget  resource browser widget
  *
- * \return  bool
+ * \return  TRUE if the resource value was retrieved
  */
 gboolean vice_gtk3_resource_browser_sync(GtkWidget *widget)
 {
@@ -552,7 +540,6 @@ gboolean vice_gtk3_resource_browser_factory(GtkWidget *widget)
     }
     return vice_gtk3_resource_browser_set(widget, value);
 }
-
 
 
 /** \brief  Resource browser widget to select a file to save
@@ -637,11 +624,10 @@ GtkWidget *vice_gtk3_resource_browser_save_new(
 }
 
 
-
 /** \brief  Set the directory to use when the resource only contains a filename
  *
- * \param[in]   widget  resource browser widget
- * \param[in]   path    directory to use
+ * \param[in,out]   widget  resource browser widget
+ * \param[in]       path    directory to use
  */
 void vice_gtk3_resource_browser_set_append_dir(GtkWidget *widget,
                                                const char *path)
@@ -657,5 +643,4 @@ void vice_gtk3_resource_browser_set_append_dir(GtkWidget *widget,
         state->append_dir = lib_strdup(path);
     }
 }
-
 
