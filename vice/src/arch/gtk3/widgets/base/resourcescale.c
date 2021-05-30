@@ -43,12 +43,12 @@
 #include "resourcescale.h"
 
 
-/** \brief  Handler for the "destroy" event of the \a scale widget
+/** \brief  Handler for the 'destroy' event of the \a scale widget
  *
  * Frees memory used by the copy of the resource name
  *
- * \param[in]   widget      integer scale widget
- * \param[in]   user_data   extra event data (unused)
+ * \param[in,out]   widget      integer scale widget
+ * \param[in]       user_data   extra event data (unused)
  */
 static void on_scale_int_destroy(GtkWidget *widget, gpointer user_data)
 {
@@ -56,7 +56,7 @@ static void on_scale_int_destroy(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "value-changed" event of the \a scale widget
+/** \brief  Handler for the 'value-changed' event of the \a scale widget
  *
  * Updates resource value
  *
@@ -85,11 +85,11 @@ static void on_scale_int_changed(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Create a scale for an integer resource - helper
  *
- * \param[in]   widget      interger scale widget
- * \param[in]   orientation scale orientation (\see GtkOrientation)
- * \param[in]   low         lowest value for scale
- * \param[in]   high        highest value for scale
- * \param[in]   step        value to incr/decr value with cursor keys
+ * \param[in,out]   widget      interger scale widget
+ * \param[in]       orientation scale orientation (\see GtkOrientation)
+ * \param[in]       low         lowest value for scale
+ * \param[in]       high        highest value for scale
+ * \param[in]       step        value to incr/decr value with cursor keys
  *
  * \return  GtkScale
  */
@@ -128,6 +128,7 @@ static GtkWidget *resource_scale_int_new_helper(GtkWidget *widget)
     gtk_widget_show(widget);
     return widget;
 }
+
 
 /** \brief  Create a scale for an integer resource
  *
@@ -213,6 +214,8 @@ void vice_gtk3_resource_scale_int_set_marks(GtkWidget *widget, int step)
  *
  * \param[in,out]   widget  integer scale widget
  * \param[in]       value   new value for \a scale
+ *
+ * \return  TRUE
  */
 gboolean vice_gtk3_resource_scale_int_set(GtkWidget *widget, int value)
 {
@@ -226,6 +229,8 @@ gboolean vice_gtk3_resource_scale_int_set(GtkWidget *widget, int value)
  * Restores the widget to the resource value on instanciantion.
  *
  * \param[in,out]   widget  integer scale widget
+ *
+ * \return  TRUE if the widget was reset to its original value
  */
 gboolean vice_gtk3_resource_scale_int_reset(GtkWidget *widget)
 {
@@ -239,7 +244,7 @@ gboolean vice_gtk3_resource_scale_int_reset(GtkWidget *widget)
  *
  * \param[in,out]   widget  integer scale widget
  *
- * \return  bool
+ * \return  TRUE if the widget was restored to its factory value
  */
 gboolean vice_gtk3_resource_scale_int_factory(GtkWidget *widget)
 {
@@ -258,7 +263,7 @@ gboolean vice_gtk3_resource_scale_int_factory(GtkWidget *widget)
  *
  * \param[in,out]   integer scale widget
  *
- * \return  bool
+ * \return  TRUE if the widget was synchronized with its resource
  */
 gboolean vice_gtk3_resource_scale_int_sync(GtkWidget *widget)
 {

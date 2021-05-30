@@ -30,6 +30,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+
 /** \brief  Object to construct a GtkFileFilter with
  */
 typedef struct ui_file_filter_s {
@@ -38,8 +39,8 @@ typedef struct ui_file_filter_s {
 } ui_file_filter_t;
 
 
-/* these need extern, so now I'm wondering if this the correct approach
- * perhaps some 'getters' would be better, avoiding problems -- compyx */
+/* These need extern, so now I'm wondering if this is the correct approach.
+ * Perhaps some 'getters' would be better, avoiding problems -- compyx */
 extern const char *file_chooser_pattern_all[];
 extern const char *file_chooser_pattern_cart[];
 extern const char *file_chooser_pattern_disk[];

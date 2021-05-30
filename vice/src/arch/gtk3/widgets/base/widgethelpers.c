@@ -84,7 +84,7 @@ int vice_gtk3_radiogroup_get_list_index(
  * So it might need some refactoring
  *
  * \param[in]   grid    GtkGrid containing radio buttons
- * \param[in[   index   index of the radio button (the actual index of the
+ * \param[in]   index   index of the radio button (the actual index of the
  *                      radio button, other widgets are skipped)
  */
 void vice_gtk3_radiogroup_set_index(GtkWidget *grid, int index)
@@ -119,7 +119,7 @@ void vice_gtk3_radiogroup_set_index(GtkWidget *grid, int index)
  *
  * \param[in]   text    label text
  *
- * \return  label
+ * \return  GtkLabel
   */
 GtkWidget *vice_gtk3_create_indented_label(const char *text)
 {
@@ -136,7 +136,7 @@ GtkWidget *vice_gtk3_create_indented_label(const char *text)
  * \param[in]   column_spacing  column spacing (< 0 to use default)
  * \param[in]   row_spacing     row spacing (< 0 to use default)
  *
- * \return  new `GtkGrid` instance
+ * \return  GtkGrid
  */
 GtkWidget *vice_gtk3_grid_new_spaced(int column_spacing, int row_spacing)
 {
@@ -157,7 +157,7 @@ GtkWidget *vice_gtk3_grid_new_spaced(int column_spacing, int row_spacing)
  * \param[in]   label           label text
  * \param[in]   span            number of columns for the \a label to span
  *
- * \return  new `GtkGrid` instance
+ * \return  GtkGrid
  */
 GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
                                                 int row_spacing,
@@ -168,7 +168,7 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
     GtkWidget *lbl = gtk_label_new(NULL);
     char *temp;
 
-    if (span <= 0) {
+    if (span < 1) {
         span = 1;
     }
 
@@ -226,6 +226,11 @@ void vice_gtk3_grid_set_margins(GtkWidget *grid,
  * \param[in]   s           PETSCII string to convert to UTF-8
  * \param[in]   inverted    use inverted mode
  * \param[in]   lowercase   use the lowercase chargen
+ *
+ * \return  heap-allocated UTF-8 string, free with lib_free()
+ *
+ * \note    only valid for the "C64_Pro_Mono-STYLE.ttf" font, not the old
+ *          "CBM.ttf" font.
  */
 unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
                                          bool inverted,

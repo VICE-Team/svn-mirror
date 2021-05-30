@@ -110,8 +110,8 @@ void resource_widget_free_string(GtkWidget *widget, const char *key)
  *
  * Stores a copy of \a resource in \a widget using lib_strdup()
  *
- * \param[in]   widget      widget
- * \param[in]   resource    resource name
+ * \param[in,out]   widget      widget
+ * \param[in]       resource    resource name
  */
 void resource_widget_set_resource_name(GtkWidget *widget, const char *resource)
 {
@@ -173,6 +173,8 @@ void resource_widget_register_methods(
  * \param[in]   method  name of the method (ie "MethodSync", "MethodReset", etc)
  *
  * \return  bool
+ *
+ * FIXME:   Unfinished for some reason
  */
 static gboolean resource_widget_get_method_helper(
         GtkWidget *widget,

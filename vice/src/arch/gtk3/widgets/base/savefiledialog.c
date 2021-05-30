@@ -36,12 +36,12 @@
 #include "savefiledialog.h"
 
 
-/** \brief  Callback for the "response" event
+/** \brief  Callback for the 'response' event
  */
 static void (*filename_cb)(GtkDialog *, char *, gpointer);
 
 
-/** \brief  Handler for the dialog's "response" event
+/** \brief  Handler for the dialog's 'response' event
  *
  * \param[in,out]   dialog      save-file dialog
  * \param[in]       response_id response ID

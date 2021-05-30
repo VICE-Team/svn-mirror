@@ -155,7 +155,6 @@ void lastdir_update_raw(char *dirname, char **last_dir,
 }
 
 
-
 /** \brief  Free memory used by *\a last_dir and \a last_file
  *
  * Clean up memory used by last used directory and filename.

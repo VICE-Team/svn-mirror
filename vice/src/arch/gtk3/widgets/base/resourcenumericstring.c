@@ -204,7 +204,6 @@ static gboolean input_is_valid(GtkWidget *widget, gpointer data)
 }
 
 
-
 /** \brief  Event handler for the 'changed' event
  *
  * Get's triggered after accepting/refusing any key input. so we check the input
@@ -217,14 +216,12 @@ static void on_entry_changed(GtkWidget *widget, gpointer data)
 {
     GtkCssProvider *provider;
 
-    debug_gtk3("Called");
     provider = g_object_get_data(G_OBJECT(widget), "CSSProvider");
     if (!input_is_valid(widget, NULL)) {
         vice_gtk3_css_provider_add(widget, provider);
     } else {
         vice_gtk3_css_provider_remove(widget, provider);
     }
-
 }
 
 
@@ -244,7 +241,6 @@ static gboolean on_focus_out_event(
     const char *value;
     const char *resource;
 
-    debug_gtk3("Triggered!");
     value = gtk_entry_get_text(GTK_ENTRY(entry));
     resource = resource_widget_get_resource_name(GTK_WIDGET(entry));
 
@@ -257,8 +253,7 @@ static gboolean on_focus_out_event(
 }
 
 
-
-/** \brief  Handler for the "on-key-press" event
+/** \brief  Handler for the 'on-key-press' event
  *
  * \param[in]   entry   entry box
  * \param[in]   event   event object
@@ -395,8 +390,7 @@ GtkWidget *vice_gtk3_resource_numeric_string_new(const char *resource)
  * \param[in,out]   widget      resource numeric string widget
  * \param[in]       min         minimum value
  * \param[in]       max         maximum value
- * \param[in        allow_zero  allow zero as a special (Nul) value
- *
+ * \param[in]       allow_zero  allow zero as a special (Nul) value
  */
 void vice_gtk3_resource_numeric_string_set_limits(GtkWidget *widget,
                                                   uint64_t min,
