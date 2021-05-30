@@ -699,7 +699,9 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
             /****************************************************************************************************************************************/
             {
                 /* Clock logic */
-
+                
+                /* update UE7 before a possible reset of decoder to start with requested speedzone instead of todo value */
+				rptr->ue7_counter += ToDo;
                 /* 2.5 microseconds filter */
                 rptr->filter_counter += (rptr->filter_counter < 40) ? ToDo : 0;
                 if (((rptr->filter_counter >= 40) && (rptr->filter_state != rptr->filter_last_state))) {
@@ -719,7 +721,7 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                 /* Increment the pulse divider clock until the speed zone pulse divider clock threshold value is reached, which is:
                 ** 16-(CurrentSpeedZone & 3), and each overflow, increment the pulse counter clock until the 4th pulse is reached
                 */
-                rptr->ue7_counter += ToDo;
+                
                 if (rptr->ue7_counter == 16) {
                     rptr->ue7_counter = rptr->ue7_dcba;
 
