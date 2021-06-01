@@ -844,13 +844,17 @@ if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "x
 
   AC_CHECK_HEADER(dinput.h,
               [ HAVE_DINPUT_SUPPORT="yes";
+                JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_win32_directinput.o";
                 AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
-              [ AC_MSG_CHECKING(for -ldinput) ]
-              [SAVELIBS="$LIBS"] [ LIBS="-ldinput $LIBS" ]
+              [ AC_MSG_CHECKING(for -ldinput8) ]
+              [SAVELIBS="$LIBS"] [ LIBS="-ldinput8 $LIBS" ]
               [ AC_LINK_IFELSE([
-                               AC_LANG_PROGRAM([#include <dinput.h>],[return DirectInputCreateA(0,0,0,0);])
+                               AC_LANG_PROGRAM([
+							   #define DIRECTINPUT_VERSION 0x800
+							   #include <dinput.h>
+							   ],[return DirectInput8Create(0,0,0,0,0);])
                                ],
-                            [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput.lib or libdinput.a are present]) ]
+                            [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput8.lib or libdinput8.a are present]) ]
                             [ AC_MSG_RESULT(yes) ],
                             [ dinput_header_no_lib="yes" ]
                             [ LIBS="$SAVELIBS" ]

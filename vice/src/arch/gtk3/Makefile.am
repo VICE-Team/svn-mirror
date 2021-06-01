@@ -63,8 +63,6 @@ libarch_a_SOURCES = \
 	cbm2ui.c \
 	cbm5x0ui.c \
 	gtk3main.c \
-	joy-win32-dinput-handle.c \
-	joy-win32.c \
 	kbd.c \
 	linenoise.c \
 	mousedrv.c \
@@ -129,12 +127,6 @@ EXTRA_DIST = \
 	debug_gtk3.h \
 	directx_renderer.h \
 	directx_renderer_impl.h \
-	joy-osx-hid.h \
-	joy-osx-hidlib.h \
-	joy-osx.h \
-	joy-win32-dinput-handle.h \
-	joy-win32.h \
-	joy.h \
 	kbd.h \
 	linenoise.h \
 	macOS-ui-runtime.sh \

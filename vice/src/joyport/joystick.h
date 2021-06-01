@@ -35,11 +35,10 @@ extern int joystick_init(void);
 extern int joystick_resources_init(void);
 extern int joystick_cmdline_options_init(void);
 
-/* These joy_arch_* functions need to be defined in every port. */
-extern int joy_arch_init(void);
-extern int joy_arch_resources_init(void);
-extern int joy_arch_cmdline_options_init(void);
-extern int joy_arch_set_device(int port_idx, int new_dev);
+/* SDL-specific functions. */
+extern int joy_sdl_init(void);
+extern int joy_sdl_resources_init(void);
+extern int joy_sdl_cmdline_options_init(void);
 
 extern int joystick_check_set(signed long key, int keysetnum, unsigned int joyport);
 extern int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport);
@@ -59,6 +58,7 @@ extern void linux_joystick_init(void);
 extern void usb_joystick_init(void);
 extern void joy_hidlib_init(void);
 extern void joy_hidlib_exit(void);
+extern int win32_directinput_joystick_init(void);
 
 extern uint16_t get_joystick_value(int index);
 

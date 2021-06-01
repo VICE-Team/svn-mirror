@@ -153,15 +153,6 @@ static char *joymap_factory = NULL;
 
 /* ------------------------------------------------------------------------- */
 
-int joy_arch_set_device(int port_idx, int new_dev)
-{
-    if (new_dev < 0 || new_dev > JOYDEV_MAX) {
-        return -1;
-    }
-
-    return 0;
-}
-
 /* Resources.  */
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
@@ -270,7 +261,7 @@ static const cmdline_option_t joydev5cmdline_options[] =
 };
 #endif
 
-int joy_arch_resources_init(void)
+int joy_sdl_resources_init(void)
 {
     /* Init the keyboard resources here before resources_set_defaults is called */
     if (sdlkbd_init_resources() < 0) {
@@ -306,7 +297,7 @@ void joy_arch_resources_shutdown(void)
 #endif
 }
 
-int joy_arch_cmdline_options_init(void)
+int joy_sdl_cmdline_options_init(void)
 {
 #ifdef HAVE_SDL_NUMJOYSTICKS
     if (cmdline_register_options(cmdline_options) < 0) {
@@ -354,7 +345,7 @@ int joy_arch_cmdline_options_init(void)
 /**********************************************************
  * Generic high level joy routine                         *
  **********************************************************/
-int joy_arch_init(void)
+int joy_sdl_init(void)
 {
     int i, axis, button, hat, ball;
     sdljoystick_input_t j;

@@ -46,7 +46,6 @@
 #include "archdep_kbd_get_host_mapping.h"
 #include "cmdline.h"
 #include "joystick.h"
-#include "joy.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"

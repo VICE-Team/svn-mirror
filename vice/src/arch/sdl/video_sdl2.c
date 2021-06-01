@@ -412,7 +412,7 @@ int video_arch_resources_init(void)
     DBG(("%s", __func__));
 
     if (machine_class == VICE_MACHINE_VSID) {
-        if (joy_arch_resources_init() < 0) {
+        if (joy_sdl_resources_init() < 0) {
             return -1;
         }
     }
