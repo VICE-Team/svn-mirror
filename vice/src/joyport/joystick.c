@@ -40,7 +40,6 @@
 #include "alarm.h"
 #include "cmdline.h"
 #include "keyboard.h"
-#include "joy.h"
 #include "joyport.h"
 #include "joystick.h"
 #include "kbd.h"
@@ -630,7 +629,6 @@ static int set_joystick_opposite_enable(int val, void *param)
     return 0;
 }
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
 /* Actions to perform on joystick input */
 typedef enum {
     NONE = 0,
@@ -691,28 +689,23 @@ typedef struct joystick_device_s {
 } joystick_device_t;
 
 static struct joystick_device_s *joystick_devices = NULL;
-#endif
 
 static int set_joystick_device(int val, void *param)
 {
     int port_idx = vice_ptr_to_int(param);
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
+#ifndef HAVE_SDL_NUMJOYSTICKS
     if (joystick_port_map[port_idx] >= JOYDEV_REALJOYSTICK_MIN) {
         int olddev = joystick_port_map[port_idx] - JOYDEV_REALJOYSTICK_MIN;
         if (olddev < num_joystick_devices) {
             joystick_devices[olddev].joyport = -1;
         }
     }
-#else
-    if (joy_arch_set_device(port_idx, val) < 0) {
-        return -1;
-    }
 #endif
 
     joystick_port_map[port_idx] = val;
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
+#ifndef HAVE_SDL_NUMJOYSTICKS
     if (joystick_port_map[port_idx] >= JOYDEV_REALJOYSTICK_MIN) {
         int newdev = joystick_port_map[port_idx] - JOYDEV_REALJOYSTICK_MIN;
         if (newdev < num_joystick_devices) {
@@ -836,10 +829,10 @@ int joystick_resources_init(void)
         }
     }
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
-    return 1;
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    return joy_sdl_resources_init();
 #else
-    return joy_arch_resources_init();
+    return 1;
 #endif
 }
 
@@ -957,10 +950,10 @@ int joystick_cmdline_options_init(void)
         }
     }
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
-    return 1;
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    return joy_sdl_cmdline_options_init();
 #else
-    return joy_arch_cmdline_options_init();
+    return 1;
 #endif
 }
 
@@ -981,11 +974,13 @@ int joystick_init(void)
     usb_joystick_init();
 #elif defined MAC_JOYSTICK
     joy_hidlib_init();
-#else
-    return joy_arch_init();
+#elif defined HAVE_DINPUT
+    if (win32_directinput_joystick_init()) {
+	}
+#elif defined HAVE_SDL_NUMJOYSTICKS
+    joy_sdl_init();
 #endif
 
-#if (defined LINUX_JOYSTICK || defined HAS_USB_JOYSTICK || defined MAC_JOYSTICK)
     int i;
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
         if (joystick_port_map[i] >= JOYDEV_REALJOYSTICK_MIN) {
@@ -998,7 +993,6 @@ int joystick_init(void)
     }
     
     return 1;
-#endif
 }
 
 /*--------------------------------------------------------------------------*/
@@ -1054,7 +1048,7 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port)
 
 /* ------------------------------------------------------------------------- */
 
-#if (defined LINUX_JOYSTICK || defined BSD_JOYSTICK || defined MAC_JOYSTICK)
+#ifndef HAVE_SDL_NUMJOYSTICKS
 void register_joystick_driver(
     struct joystick_driver_s *driver,
     const char *jname,
@@ -1240,4 +1234,5 @@ void joystick_close(void)
 
     lib_free(joystick_devices);
 }
-#endif //LINUX_JOYSTICK||BSD_JOYSTICK||MAC_JOYSTICK
+#endif
+

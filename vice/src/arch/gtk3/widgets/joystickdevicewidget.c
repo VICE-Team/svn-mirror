@@ -39,7 +39,6 @@
 #include <stdlib.h>
 
 #include "vice_gtk3.h"
-#include "joy.h"
 #include "joystick.h"
 #include "lib.h"
 #include "machine.h"
