@@ -840,28 +840,6 @@ if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "x
     HAVE_RS232DEV_SUPPORT="yes"
   fi
 
-  dinput_header_no_lib="no"
-
-  AC_CHECK_HEADER(dinput.h,
-              [ HAVE_DINPUT_SUPPORT="yes";
-                JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_win32_directinput.o";
-                AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
-              [ AC_MSG_CHECKING(for -ldinput8) ]
-              [SAVELIBS="$LIBS"] [ LIBS="-ldinput8 $LIBS" ]
-              [ AC_LINK_IFELSE([
-                               AC_LANG_PROGRAM([
-							   #define DIRECTINPUT_VERSION 0x800
-							   #include <dinput.h>
-							   ],[return DirectInput8Create(0,0,0,0,0);])
-                               ],
-                            [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput8.lib or libdinput8.a are present]) ]
-                            [ AC_MSG_RESULT(yes) ],
-                            [ dinput_header_no_lib="yes" ]
-                            [ LIBS="$SAVELIBS" ]
-                            [ AC_MSG_RESULT(no) ]
-              )]
-     )
-
   dnl warnings_cxx="-Wall -W -Wno-unused-parameter -Wno-missing-field-initializers -Wno-sign-compare"
   dnl (Didn't we already check this?
   if test x"$nowarnings" != "xyes"; then
@@ -1601,6 +1579,30 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
 
 else
   show_multithreaded="no"
+fi
+
+if test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+  dinput_header_no_lib="no"
+
+  AC_CHECK_HEADER(dinput.h,
+              [ HAVE_DINPUT_SUPPORT="yes";
+                JOYSTICK_DRIVERS="$JOYSTICK_DRIVERS joystick_win32_directinput.o";
+                AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
+              [ AC_MSG_CHECKING(for -ldinput8) ]
+              [SAVELIBS="$LIBS"] [ LIBS="-ldinput8 $LIBS" ]
+              [ AC_LINK_IFELSE([
+                               AC_LANG_PROGRAM([
+							   #define DIRECTINPUT_VERSION 0x800
+							   #include <dinput.h>
+							   ],[return DirectInput8Create(0,0,0,0,0);])
+                               ],
+                            [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput8.lib or libdinput8.a are present]) ]
+                            [ AC_MSG_RESULT(yes) ],
+                            [ dinput_header_no_lib="yes" ]
+                            [ LIBS="$SAVELIBS" ]
+                            [ AC_MSG_RESULT(no) ]
+              )]
+     )
 fi
 
 
