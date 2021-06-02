@@ -35,6 +35,7 @@ palettes = \
 	cjam.vpl \
 	rgb.vpl \
 	vice.vpl \
+	palette.vpl \
 	amber.vpl \
 	green.vpl \
 	white.vpl
