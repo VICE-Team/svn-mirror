@@ -233,7 +233,8 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_RAMLINK              73 /* ramlink.c */
 #define CARTRIDGE_HERO                 74 /* hero.c */
 #define CARTRIDGE_IEEEFLASH64          75 /* ieeeflash64.c */
-#define CARTRIDGE_LAST                 75 /* cartconv: last cartridge in list */
+#define CARTRIDGE_TURTLE_GRAPHICS_II   76 /* turtlegraphics.c */
+#define CARTRIDGE_LAST                 76 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -342,6 +343,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_SUPER_SNAPSHOT     "Super Snapshot V4" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
 #define CARTRIDGE_NAME_SUPER_SNAPSHOT_V5  "Super Snapshot V5" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
 #define CARTRIDGE_NAME_SWIFTLINK          "Swiftlink" /* http://mikenaberezny.com/hardware/peripherals/swiftlink-rs232-interface/ */
+#define CARTRIDGE_NAME_TURTLE_GRAPHICS_II "HES Turtle Graphics II"
 #define CARTRIDGE_NAME_TURBO232           "Turbo232" /* also: "ACIA/SWIFTLINK" */ /*http://www.retroport.de/C64_C128_Hardware2.html */
 #define CARTRIDGE_NAME_WARPSPEED          "Warp Speed" /* see manual http://rr.pokefinder.org/wiki/WarpSpeed */
 #define CARTRIDGE_NAME_WESTERMANN         "Westermann Learning"

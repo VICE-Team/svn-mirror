@@ -121,6 +121,7 @@
 #include "superexplode5.h"
 #include "supersnapshot.h"
 #include "supersnapshot4.h"
+#include "turtlegraphics.h"
 #include "warpspeed.h"
 #include "westermann.h"
 #include "zaxxon.h"

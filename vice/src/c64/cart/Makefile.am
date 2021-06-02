@@ -202,6 +202,8 @@ libc64cart_a_SOURCES = \
 	supersnapshot.h \
 	supersnapshot4.c \
 	supersnapshot4.h \
+	turtlegraphics.c \
+	turtlegraphics.h \
 	warpspeed.c \
 	warpspeed.h \
 	westermann.c \
