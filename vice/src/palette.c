@@ -300,7 +300,6 @@ static const palette_info_t palettelist[] = {
     { "VICII", "Pepto (NTSC, Sony)", "pepto-ntsc-sony"},
     { "VICII", "Pepto (NTSC)",       "pepto-ntsc"},
     { "VICII", "Colodore (PAL)",     "colodore"},
-    { "VICII", "ChristopherJam",     "cjam"},
     { "VICII", "VICE",               "vice"},
     { "VICII", "C64HQ",              "c64hq"},
     { "VICII", "C64S",               "c64s"},
@@ -309,7 +308,9 @@ static const palette_info_t palettelist[] = {
     { "VICII", "Godot",              "godot"},
     { "VICII", "PC64",               "pc64"},
     { "VICII", "RGB",                "rgb"},
+    { "VICII", "ChristopherJam",     "cjam"},
     { "VICII", "Deekay",             "deekay"},
+    { "VICII", "PALette",            "palette"},
     { "VICII", "Ptoing",             "ptoing"},
     { "VICII", "Community Colors",   "community-colors"},
     /* data/C128/ */

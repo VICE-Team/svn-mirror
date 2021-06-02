@@ -1,0 +1,40 @@
+#
+# VICE Palette file
+#
+# Syntax:
+# Red Green Blue Dither
+#
+# VIC-II palette created by PAL/Offence
+
+# Black
+00 00 00 0
+# White
+d5 d5 d5 E
+# Red
+72 35 2c 4
+# Cyan
+65 9f a6 C
+# Purple
+73 3a 91 8
+# Green
+56 8d 35 4
+# Blue
+2e 23 7d 4
+# Yellow
+ae b7 5e C
+# Orange
+77 4f 1e 4
+# Brown
+4b 3c 00 4
+# Light Red
+9c 63 5a 8
+# Dark Gray
+47 47 47 4
+# Medium Gray
+6b 6b 6b 8
+# Light Green
+8f c2 71 8
+# Light Blue
+67 5d b6 8
+# Light Gray
+8f 8f 8f C

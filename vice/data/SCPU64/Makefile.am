@@ -25,6 +25,7 @@ palettes = \
 	ptoing.vpl \
 	deekay.vpl \
 	cjam.vpl \
+	palette.vpl \
 	rgb.vpl
 
 gtk3_keymaps = \
