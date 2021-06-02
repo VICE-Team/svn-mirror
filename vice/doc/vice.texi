@@ -2972,19 +2972,19 @@ Set the device attached to:
 userport joystick adapter port 1 (x64, x64sc, xscpu64, x128, xcbm2, xpet, xvic)
 userport joystick adapter port (x64dtv)
 sidcart control port (xplus4).
-(x64, x64sc, x64dtv, xscpu, x128, xcbm2, xpet, xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
-(xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
+(x64, x64sc, x64dtv, xscpu, x128, xcbm2, xpet, xvic, xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @vindex JoyPort4Device
 @item JoyPort4Device
 Set the device attached to:
 userport joystick adapter port 2 (x64, x64sc, xscpu64, x128, xcbm2, xpet, xvic)
-(x64, x64sc, xscpu, x128, xcbm2, xpet, xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+(x64, x64sc, xscpu, x128, xcbm2, xpet, xvic, xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @vindex JoyPort5Device
 @item JoyPort5Device
 Set the device attached to:
 SidCart on the Plus4 (xplus4)
+(xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
 
 @vindex BBRTCSave
 @item BBRTCSave
