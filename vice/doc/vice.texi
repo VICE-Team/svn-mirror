@@ -6560,6 +6560,8 @@ Super Snapshot V4
 @item
 Super Snapshot V5
 @item
+Turtle Graphics II
+@item
 Warp Speed
 @item
 Westermann Learning
@@ -6926,6 +6928,8 @@ The following cartridge types are valid:
 74: H.E.R.O. bootleg
 @item
 75: IEEE Flash! 64
+@item
+76: Turtle Graphics II
 @end itemize
 
 @vindex CartridgeFile
@@ -8194,6 +8198,10 @@ Enable/disable 32KiB addon RAM.
 @findex -cartstar
 @item -cartstar <name>
 Attach raw 16KiB Stardos cartridge image.
+
+@findex -cartturtle
+@item -cartturtle <name>
+Attach raw 16KiB Turtle Graphics II cartridge image.
 
 @findex -cartwl
 @item -cartwl <name>
@@ -18937,6 +18945,8 @@ Super Snapshot V4 .crt file
 Super Snapshot V5 .crt file
 @item star
 Stardos .crt file
+@item turtle
+Turtle Graphics II .crt file
 @item wl
 Westermann Learning .crt file
 @item ws
@@ -25272,6 +25282,7 @@ Camels"@dots{}
                       73 - RAMLink
                       74 - H.E.R.O.
                       75 - IEEE Flash! 64
+                      76 - Turtle Graphics II
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -29236,7 +29247,43 @@ the IO lines all the time.
     This cart has 8KiB of ROM, mapped in at $E000-$FFFF only when hirom  is
     selected. The cart uses a clip that needs to be installed  inside  the
     C64.
-    
+
+@c @node FIXME
+@subsubsection 76 - Turtle Graphics II
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB (2 banks of 8KiB each)
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 4c 00 01 00 00 00 00 00 00  ...@...L........
+0020: 48 45 53 20 54 75 72 74 6c 65 20 47 72 61 70 68  HES Turtle Graph
+0030: 69 63 73 20 49 49 00 00 00 00 00 00 00 00 00 00  ics II..........
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+0050: 09 80 bc fe c3 c2 cd 38 30 78 a9 80 85 11 a9 30  .......80x.....0
+0060: 85 10 a9 0e 85 13 a9 00 85 12 aa a8 b1 10 91 12  ................
+0070: c8 d0 f9 e6 11 e6 13 e8 e0 09 d0 f0 4c 90 15 ea  ............L...
+0080: 01 c0 00 01 a0 00 01 90 00 03 88 00 03 84 00 05  ................
+0090: 82 00 05 81 00 09 80 80 09 80 40 11 80 20 11 80  ............. ..
+@dots{}
+4040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+4050: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+@end example
+
+    Any read/write access to IO1 area will  switch  to  bank  1.  Reset will
+    switch to bank 0.
+
+
 @c @node FIXME
 @section The PSID image format for ripped SID tunes
 

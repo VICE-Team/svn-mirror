@@ -129,6 +129,7 @@
 #include "supersnapshot4.h"
 #include "supersnapshot.h"
 #include "superexplode5.h"
+#include "turtlegraphics.h"
 #include "warpspeed.h"
 #include "westermann.h"
 #include "zaxxon.h"
@@ -304,6 +305,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_SUPER_GAMES,         CARTRIDGE_SUPER_GAMES,         CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_SUPER_SNAPSHOT,      CARTRIDGE_SUPER_SNAPSHOT,      CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_SUPER_SNAPSHOT_V5,   CARTRIDGE_SUPER_SNAPSHOT_V5,   CARTRIDGE_GROUP_FREEZER },
+    { CARTRIDGE_NAME_TURTLE_GRAPHICS_II,  CARTRIDGE_TURTLE_GRAPHICS_II,  CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_WARPSPEED,           CARTRIDGE_WARPSPEED,           CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_WESTERMANN,          CARTRIDGE_WESTERMANN,          CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_ZAXXON,              CARTRIDGE_ZAXXON,              CARTRIDGE_GROUP_GAME },
@@ -434,6 +436,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_SUPER_GAMES:
         case CARTRIDGE_SUPER_SNAPSHOT:
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        case CARTRIDGE_TURTLE_GRAPHICS_II:
         case CARTRIDGE_WARPSPEED:
         case CARTRIDGE_WESTERMANN:
         case CARTRIDGE_ZAXXON:
@@ -884,6 +887,9 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_SUPER_EXPLODE_V5:
             rc = se5_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_TURTLE_GRAPHICS_II:
+            rc = turtlegraphics_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_WARPSPEED:
             rc = warpspeed_crt_attach(fd, rawcart);
