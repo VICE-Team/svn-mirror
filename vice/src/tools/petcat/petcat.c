@@ -85,6 +85,12 @@
 #define DBG(x)
 #endif
 
+#ifdef main
+#  if main == SDL_main
+#    undef main
+#  endif
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 #define B_1              1
