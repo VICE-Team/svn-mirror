@@ -58,6 +58,12 @@
 #include "plus4-cartridges.h"
 #include "vic20-cartridges.h"
 
+#ifdef main
+#  if main == SDL_main
+#    undef main
+#  endif
+#endif
+
 unsigned int loadfile_size = 0;
 unsigned char filebuffer[CARTRIDGE_SIZE_MAX + 2];
 FILE *outfile;
