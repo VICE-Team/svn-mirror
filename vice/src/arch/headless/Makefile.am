@@ -49,7 +49,6 @@ noinst_LIBRARIES = libarch.a libtoolarch.a
 
 libarch_a_SOURCES = \
 	archdep.c \
-	joy.c \
 	kbd.c \
 	console.c \
 	ui.c \
@@ -78,7 +77,6 @@ EXTRA_DIST = \
 	archdep.h \
 	coproc.h \
 	debug_headless.h \
-	joy.h \
 	kbd.h \
 	mousedrv.h \
 	ui.h \

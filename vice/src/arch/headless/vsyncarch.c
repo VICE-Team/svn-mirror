@@ -36,7 +36,7 @@
 #include "vsyncapi.h"
 #include "videoarch.h"
 
-#include "joy.h"
+#include "joystick.h"
 
 #ifdef WIN32_COMPILE
 #   include "windows.h"
