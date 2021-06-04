@@ -630,7 +630,7 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port4_device_menu },
-    { "Joystick device in SIDcart joytick port",
+    { "Joystick device in SIDcart joystick port",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port5_device_menu },
