@@ -372,6 +372,7 @@ int cbm2ui_init(void)
     uikeyboard_menu_create();
     uipalette_menu_create("Crtc", NULL);
     uisid_menu_create();
+    uidrive_menu_create();
 
     sdl_ui_set_menu_params = cbm2ui_set_menu_params;
     sdl_ui_set_main_menu(xcbm6x0_7x0_main_menu);
