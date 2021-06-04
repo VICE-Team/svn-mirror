@@ -115,17 +115,12 @@ static const ui_menu_entry_t v364speech_menu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(UserportDAC)
-UI_MENU_DEFINE_TOGGLE(UserportSNESPad)
 
 static const ui_menu_entry_t userport_menu[] = {
     SDL_MENU_ITEM_TITLE("Userport devices"),
     { "8 bit DAC enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportDAC_callback,
-      NULL },
-    { "SNES Pad enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportSNESPad_callback,
       NULL },
     SDL_MENU_LIST_END
 };
