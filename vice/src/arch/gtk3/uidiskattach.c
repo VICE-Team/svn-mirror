@@ -221,7 +221,6 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     }
     g_free(filename);
     g_free(filename_locale);
-    gtk_widget_destroy(widget);
 }
 
 
