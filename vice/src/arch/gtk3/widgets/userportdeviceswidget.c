@@ -13,7 +13,7 @@
  * $VICERES Userport58321aSave  x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES UserportDS1307      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES UserportDS1307Save  x64 x64sc xscpu64 x128 xcbm2 xvic xpet
- * $VICERES UserportSNESPad     x64 x64sc xscpu64 x128 xvic xpet xplus4
+ * $VICERES UserportSNESPad     x64 x64sc xscpu64 x128 xvic xpet xcbm2
  */
 
 /*
@@ -224,7 +224,7 @@ static void create_c64_cbm2_layout(GtkWidget *grid)
     g_object_set(rtc_ds1307_save, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rtc_ds1307_save, 0, 7, 1, 1);
 
-    if (machine_class != VICE_MACHINE_CBM6x0) {
+    if (machine_class != VICE_MACHINE_CBM5x0) {
         gtk_grid_attach(GTK_GRID(grid), create_snespad_widget(), 0, 8, 1, 1);
     }
 }
@@ -269,7 +269,6 @@ static void create_vic20_pet_layout(GtkWidget *grid)
 static void create_plus4_layout(GtkWidget *grid)
 {
     gtk_grid_attach(GTK_GRID(grid), create_dac_widget(), 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_snespad_widget(), 0, 1, 1, 1);
 }
 
 
