@@ -1343,11 +1343,11 @@ void uidrive_menu_create(void)
     memset(&drive_10_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
     memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
 
-    if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
-        memset(&drive_8_menu[10], 0, sizeof(ui_menu_entry_t));
-        memset(&drive_9_menu[10], 0, sizeof(ui_menu_entry_t));
-        memset(&drive_10_menu[10], 0, sizeof(ui_menu_entry_t));
-        memset(&drive_11_menu[10], 0, sizeof(ui_menu_entry_t));
+    if ((machine_class == VICE_MACHINE_CBM6x0) || (machine_class == VICE_MACHINE_CBM5x0)) {
+        memset(&drive_8_menu[12], 0, sizeof(ui_menu_entry_t));
+        memset(&drive_9_menu[12], 0, sizeof(ui_menu_entry_t));
+        memset(&drive_10_menu[12], 0, sizeof(ui_menu_entry_t));
+        memset(&drive_11_menu[12], 0, sizeof(ui_menu_entry_t));
     }
 
     /* depending on the active drive type, enable the attach and detach
