@@ -976,10 +976,16 @@ darwin*)
   dnl Set CPPFLAGS as well as VICE_CPPFLAGS for the macports / homebrew dep search paths.
   dnl If we don't, then various header / compile checks won't succeed.
 
-  MAC_CCPFLAGS="-I/opt/local/include -I/usr/local/include"
-  MAC_LDFLAGS="-L/opt/local/lib -Wl,-rpath,/opt/local/lib -L/usr/local/lib -Wl,-rpath,/usr/local/lib -headerpad_max_install_names"
+  MAC_CCPFLAGS=""
+  MAC_LDFLAGS="-headerpad_max_install_names"
   MAC_FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit -framework CoreGraphics"
 
+  AC_CHECK_FILE(/opt/local/include, [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/local/include" ])
+  AC_CHECK_FILE(/opt/local/lib,     [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib" ])
+
+  AC_CHECK_FILE(/usr/local/include, [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include" ])
+  AC_CHECK_FILE(/usr/local/lib,     [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib -Wl,-rpath,/usr/local/lib" ])
+  
   CPPFLAGS="$CPPFLAGS $MAC_CCPFLAGS"
   VICE_CPPFLAGS="$VICE_CPPFLAGS $MAC_CCPFLAGS"
   LDFLAGS="$LDFLAGS $MAC_LDFLAGS"
