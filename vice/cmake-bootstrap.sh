@@ -263,6 +263,15 @@ function extract_sources {
 		| sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
 }
 
+function extract_object_sources {
+	for object_file_basename in $(extract_make_var $1 | tr " " "\n" | grep '\.o$' | sed 's/\.o$//')
+	do
+		ls -1 \
+			| grep "^${object_file_basename}\.\(c\|cc\|cpp\|m\)$" \
+			| tr "\n" " "
+	done
+}
+
 function extract_headers {
 	extract_make_var $1 \
 		| tr " " "\n" \
@@ -336,8 +345,8 @@ function process_source_makefile {
 			    PRIVATE
 			        $(extract_sources ${lib_to_build}_a_SOURCES)
 			        $(extract_headers ${lib_to_build}_a_SOURCES)
-			        $(extract_sources EXTRA_${lib_to_build}_a_SOURCES)
-			        $(extract_headers EXTRA_${lib_to_build}_a_SOURCES)
+			        $(extract_object_sources ${lib_to_build}_a_DEPENDENCIES)
+			        $(extract_object_sources ${lib_to_build}_a_LIBADD)
 			        $(extract_sources BUILT_SOURCES)
 			        $(extract_headers BUILT_SOURCES)
 			        $(extract_headers noinst_HEADERS)
