@@ -541,46 +541,6 @@ UI_MENU_DEFINE_SLIDER(Drive11WobbleFrequency, 0, 10000)
 
 extern ui_menu_entry_t reset_menu[];
 
-/* patch some things that are slightly different in the emulators */
-void uidrive_menu_create(void)
-{
-    int newend = 4;
-    int i, d0, d1;
-
-    if (machine_class == VICE_MACHINE_VIC20) {
-        newend = 1;
-    } else if (machine_class == VICE_MACHINE_PLUS4) {
-        newend = 2;
-    }
-    memset(&drive_8_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
-    memset(&drive_9_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
-    memset(&drive_10_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
-    memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
-
-    /* depending on the active drive type, enable the attach and detach
-       menu items in the drive menu */
-    for (i = 0; i < 4; i++) {
-        d0 = d1 = MENU_STATUS_INACTIVE;
-        if (drive_get_type_by_devnr(8 + i) != 0) {
-            d0 = MENU_STATUS_ACTIVE;
-            if (drive_is_dualdrive_by_devnr(8 + i)) {
-                d1 = MENU_STATUS_ACTIVE;
-            }
-        }
-        drive_menu[0 + (i * 2)].status = d0;
-        drive_menu[1 + (i * 2)].status = d1;
-        drive_menu[9 + (i * 2)].status = d0;
-        drive_menu[10 + (i * 2)].status = d1;
-
-        d0 = MENU_STATUS_INACTIVE;
-        if (drive_get_type_by_devnr(8 + i) == DRIVE_TYPE_CMDHD) {
-            d0 = MENU_STATUS_ACTIVE;
-        }
-        reset_menu[7 + (i * 2) + 0].status = d0;
-        reset_menu[7 + (i * 2) + 1].status = d0;
-    }
-}
-
 static UI_MENU_CALLBACK(set_expand_callback)
 {
     int drive;
@@ -1030,8 +990,9 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
 
+/* CAUTION: the position of the menu items is hardcoded in uidrive_menu_create() */
 #define DRIVE_MENU(x)                                           \
-    static const ui_menu_entry_t drive_##x##_menu[] = {         \
+    static ui_menu_entry_t drive_##x##_menu[] = {               \
         { "Drive " #x " type",                                  \
           MENU_ENTRY_SUBMENU,                                   \
           drive_##x##_show_type_callback,                       \
@@ -1365,3 +1326,50 @@ ui_menu_entry_t drive_menu[] = {
       (ui_callback_data_t)fliplist_menu },
     SDL_MENU_LIST_END
 };
+
+/* patch some things that are slightly different in the emulators */
+void uidrive_menu_create(void)
+{
+    int newend = 4;
+    int i, d0, d1;
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        newend = 1;
+    } else if (machine_class == VICE_MACHINE_PLUS4) {
+        newend = 2;
+    }
+    memset(&drive_8_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+    memset(&drive_9_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+    memset(&drive_10_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+    memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+
+    if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
+        memset(&drive_8_menu[10], 0, sizeof(ui_menu_entry_t));
+        memset(&drive_9_menu[10], 0, sizeof(ui_menu_entry_t));
+        memset(&drive_10_menu[10], 0, sizeof(ui_menu_entry_t));
+        memset(&drive_11_menu[10], 0, sizeof(ui_menu_entry_t));
+    }
+
+    /* depending on the active drive type, enable the attach and detach
+       menu items in the drive menu */
+    for (i = 0; i < 4; i++) {
+        d0 = d1 = MENU_STATUS_INACTIVE;
+        if (drive_get_type_by_devnr(8 + i) != 0) {
+            d0 = MENU_STATUS_ACTIVE;
+            if (drive_is_dualdrive_by_devnr(8 + i)) {
+                d1 = MENU_STATUS_ACTIVE;
+            }
+        }
+        drive_menu[0 + (i * 2)].status = d0;
+        drive_menu[1 + (i * 2)].status = d1;
+        drive_menu[9 + (i * 2)].status = d0;
+        drive_menu[10 + (i * 2)].status = d1;
+
+        d0 = MENU_STATUS_INACTIVE;
+        if (drive_get_type_by_devnr(8 + i) == DRIVE_TYPE_CMDHD) {
+            d0 = MENU_STATUS_ACTIVE;
+        }
+        reset_menu[7 + (i * 2) + 0].status = d0;
+        reset_menu[7 + (i * 2) + 1].status = d0;
+    }
+}
