@@ -581,6 +581,7 @@ GtkWidget *vice_gtk3_resource_browser_save_new(
     state->res_orig = lib_strdup(orig);
     state->patterns = NULL;
     state->pattern_name = NULL;
+    state->append_dir = NULL;
 
     /* copy browser title */
     if (browser_title != NULL) {
