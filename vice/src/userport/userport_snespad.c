@@ -24,13 +24,13 @@
  *
  */
 
-/* - SNES PAD (C64/C128/PET/VIC20/PLUS4)
+/* - SNES PAD (C64/C128/PET/VIC20)
 
-C64/C128 |   PET   |  VIC20  |  PLUS4 | SNES PAD | I/O
+C64/C128 |   PET   |  VIC20  | CBM2 | SNES PAD | I/O
 -------------------------------------------------------
- F (PB3) | F (PA3) | F (PB3) | F (D7) |   CLOCK  |  O
- J (PB5) | J (PA5) | J (PB5) | J (D6) |   LATCH  |  O
- K (PB6) | K (PA6) | K (PB6) | K (D1) |   DATA   |  I
+ F (PB3) | F (PA3) | F (PB3) |  11  |   CLOCK  |  O
+ J (PB5) | J (PA5) | J (PB5) |   9  |   LATCH  |  O
+ K (PB6) | K (PA6) | K (PB6) |   8  |   DATA   |  I
 */
 
 #include "vice.h"
@@ -143,13 +143,8 @@ static void userport_snespad_store_pbx(uint8_t value)
     uint8_t new_clock = 0;
     uint8_t new_latch = 0;
 
-    if (machine_class == VICE_MACHINE_PLUS4) {
-        new_clock = (value & 0x80) >> 7;
-        new_latch = (value & 0x40) >> 6;
-    } else {
-        new_clock = (value & 0x08) >> 3;
-        new_latch = (value & 0x20) >> 4;
-    }
+    new_clock = (value & 0x08) >> 3;
+    new_latch = (value & 0x20) >> 4;
 
     if (latch_line && !new_latch) {
         counter = 0;
@@ -214,11 +209,7 @@ static void userport_snespad_read_pbx(void)
             retval = 0;
     }
     
-    if (machine_class == VICE_MACHINE_PLUS4) {
-        retval <<= 1;
-    } else {
-        retval <<= 6;
-    }
+    retval <<= 6;
 
     userport_snespad_device.retval = ~retval;
 }
