@@ -43,6 +43,7 @@ palettes = \
 	deekay.vpl \
 	cjam.vpl \
 	palette.vpl \
+	pixcen.vpl \
 	rgb.vpl
 
 gtk3_keymaps = \

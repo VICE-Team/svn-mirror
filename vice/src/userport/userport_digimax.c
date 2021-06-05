@@ -38,6 +38,7 @@
 #include "snapshot.h"
 #include "sound.h"
 #include "uiapi.h"
+#include "joyport.h"
 #include "userport.h"
 #include "userport_digimax.h"
 #include "util.h"
@@ -75,6 +76,7 @@ static int userport_digimax_read_snapshot_module(snapshot_t *s);
 static userport_device_t digimax_device = {
     USERPORT_DEVICE_DIGIMAX,    /* device id */
     "Userport DigiMAX",         /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,   /* NOT a joystick adapter */
     NULL,                       /* NO read pb0-pb7 function */
     userport_digimax_store_pbx, /* store pb0-pb7 function */
     NULL,                       /* NO read pa2 pin function */

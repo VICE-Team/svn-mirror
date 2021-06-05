@@ -1,0 +1,40 @@
+#
+# VICE Palette file
+#
+# Syntax:
+# Red Green Blue Dither
+#
+# VIC-II default palette taken from the pixcen editor
+
+# Black
+00 00 00 0
+# White
+FF FF FF E
+# Red
+89 40 36 4
+# Cyan
+7a bf c7 c
+# Purple
+8a 46 ae 8
+# Green
+68 a9 41 4
+# Blue
+3e 31 a2 4
+# Yellow
+d0 dc 71 c
+# Orange
+90 5f 25 4
+# Brown
+5c 47 00 4
+# Light Red
+bb 77 6d 8
+# Dark Gray
+55 55 55 4
+# Medium Gray
+80 80 80 8
+# Light Green
+ac ea 88 8
+# Light Blue
+7c 70 da 8
+# Light Gray
+ab ab ab c

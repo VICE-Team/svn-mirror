@@ -233,6 +233,7 @@ static joyport_t joyport_cardkey_device = {
     JOYPORT_RES_ID_KEYPAD,     /* device is a keypad, only 1 keypad can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,      /* device uses the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     joyport_cardkey_enable,    /* device enable function */
     cardkey_read_dig,          /* digital line read function */
     NULL,                      /* NO digital line store function */

@@ -515,27 +515,19 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
  */
 void kbd_connect_handlers(GtkWidget *widget, void *data)
 {
-    /*
-     * g_signal_connect_unlocked is used here so that key events are
-     * directly visible to the emulator - no waiting / locking.
-     *
-     * That is, assuming that some other event isn't already waiting
-     * for the vice lock, however this is rare.
-     */
-    
-    g_signal_connect_unlocked(
+    g_signal_connect(
             G_OBJECT(widget),
             "key-press-event",
             G_CALLBACK(kbd_event_handler), data);
-    g_signal_connect_unlocked(
+    g_signal_connect(
             G_OBJECT(widget),
             "key-release-event",
             G_CALLBACK(kbd_event_handler), data);
-    g_signal_connect_unlocked(
+    g_signal_connect(
             G_OBJECT(widget),
             "enter-notify-event",
             G_CALLBACK(kbd_event_handler), data);
-    g_signal_connect_unlocked(
+    g_signal_connect(
             G_OBJECT(widget),
             "leave-notify-event",
             G_CALLBACK(kbd_event_handler), data);

@@ -231,6 +231,9 @@ void vice_gtk3_grid_set_margins(GtkWidget *grid,
  *
  * \note    only valid for the "C64_Pro_Mono-STYLE.ttf" font, not the old
  *          "CBM.ttf" font.
+ *
+ * \note    Somehow the inverted space has a line on top on at least Linux,
+ *          the codepoint seems fine though, so perhaps a bug in Pango?
  */
 unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
                                          bool inverted,
@@ -240,7 +243,16 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
     unsigned int codepoint;
 
     r = d = lib_malloc((size_t)(strlen((char *)s) * 3 + 1));
-
+#if 0
+    debug_gtk3("Input: '%s'", s);
+#ifdef HAVE_DEBUG_GTK3UI
+    unsigned char *t = s;
+    while (*t) {
+        printf(" %02x", *t++);
+    }
+    putchar('\n');
+#endif
+#endif
     while (*s) {
 
         /* 0xe000-0xe0ff codepoints cover the regular, uppercase, petscii codes
@@ -256,7 +268,7 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
         /* first convert petscii to utf8 codepoint */
         if (*s < 0x20) {
             /* petscii 0x00-0x1f  control codes (inverted @ABC..etc) */
-            codepoint  = *s + 0xe240;           /* 0xe240-0xe25f */
+            codepoint = *s + 0xe240;            /* 0xe240-0xe25f */
         } else if (*s < 0x80) {
             /* petscii 0x20-0x7f  printable petscii codes */
             codepoint = *s + 0xe000;            /* 0xe020-0xe07f */
@@ -276,34 +288,30 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
         }
         s++;
 
-        /* now copy to the destination string and convert to utf8 */
 #if 0
-        if (codepoint < 0x80) {
-            /* one byte form - 0xxxxxxx */
-            *d = codepoint;
-        } else if (codepoint < 0x800) {
-            /* two byte form - 110xxxxx 10xxxxxx */
-
-            /* for some reason 0xad will not result in output in the popup
-             * menu, so we remap it to 0xed, which works */
-            if (codepoint == 0xad) { /* Unicode U+00AD SOFT HYPHEN */
-                codepoint = 0xed;
-            }
-
-            *d++ = 0xc0 | (codepoint >> 6);
-            *d = (codepoint & ~0xc0) | 0x80;
-        } else
-#endif
-        /* we can get away with just this, because all codepoints are > 4095 */
-        {
-            /* three byte form - 1110xxxx 10xxxxxx 10xxxxxx */
-            *d++ = 0xe0 | ((codepoint >> 12) & 0x0f);
-            *d++ = 0x80 | ((codepoint >> (6)) & 0x3f);
-            *d   = 0x80 | ((codepoint >> (0)) & 0x3f);
+        if (codepoint == 0xe220) {
+            codepoint = 0xeee4;
         }
+#endif
+        /* now copy to the destination string and convert to utf8 */
+        /* we can get away with just this, because all codepoints are > 4095 */
+        /* three byte form - 1110xxxx 10xxxxxx 10xxxxxx */
+        *d++ = 0xe0 | ((codepoint >> 12) & 0x0f);
+        *d++ = 0x80 | ((codepoint >> (6)) & 0x3f);
+        *d   = 0x80 | ((codepoint >> (0)) & 0x3f);
         d++;
     }
     *d = '\0';
+#if 0
+    debug_gtk3("Result: ");
+#ifdef HAVE_DEBUG_GTK3UI
+    t = r;
+    while (*t) {
+        printf(" %02x", *t++);
+    }
+    putchar('\n');
+#endif
+#endif
     return r;
 }
 

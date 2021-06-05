@@ -59,7 +59,6 @@ static GtkWidget *resource_widget;
 
 /** \brief  Create widget to select the Gtk render filter method
  *
- *
  * \return  GtkGrid
  */
 GtkWidget *canvas_render_filter_widget_create(void)
@@ -81,7 +80,6 @@ GtkWidget *canvas_render_filter_widget_create(void)
 
     gtk_grid_attach(GTK_GRID(grid), header, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), resource_widget, 0, 1, 1, 1);
-    
     return grid;
 }
 

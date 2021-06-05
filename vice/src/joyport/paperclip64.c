@@ -169,6 +169,7 @@ static joyport_t joyport_paperclip64_device = {
     JOYPORT_RES_ID_PAPERCLIP64, /* device is of the paperclip64 type, only 1 device of this kind can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,       /* device does NOT use the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
     joyport_paperclip64_enable, /* device enable function */
     paperclip64_read,           /* digital line read function */
     paperclip64_store,          /* digital line store function */

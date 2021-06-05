@@ -90,7 +90,8 @@ GtkWidget *cbm2_hardwired_switches_widget_create(void)
  *
  * The \a callback is called with the ModelLine as its argument
  *
- * \param[in]   callback    user-defined callback
+ * \param[in,out]   widget      ModelLine widget
+ * \param[in]       callback    user-defined callback
  */
 void cbm2_hardwired_switches_widget_set_callback(
         GtkWidget *widget,

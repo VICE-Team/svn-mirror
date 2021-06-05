@@ -2,8 +2,7 @@
  * \file    src/arch/gtk3/widgets/contentpreviewwidget.c
  * \brief   GTK3 disk/tape/archive preview widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -112,7 +111,7 @@ static void on_row_activated(
 /** \brief  Create the model for the view
  *
  * The model created has two columns, a string representing a file:
- * '<blocks> "<filename>" <filetype-and-flags>' and an integer which indicates
+ * '\<block\s> "\<filename\>" \<filetype-and-flags\>' and an integer which indicates
  * the file's index in the image's "directory".
  *
  * \param[in]   path    path to image file
@@ -243,8 +242,9 @@ static GtkWidget *create_view(const char *path)
  * If this argument is `NULL`, no image contents will be displayed in the
  * widget.
  *
- * \param[in]   func        function to use to retrieve image contents
- * \param[in]   selected    callback used when the user double-clicked a file
+ * \param[in,out]   dialog      parent dialog
+ * \param[in]       func        function to use to retrieve image contents
+ * \param[in]       response    dialog response callback
  *
  * \return  GtkGrid
  */

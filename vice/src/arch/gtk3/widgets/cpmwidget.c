@@ -43,7 +43,7 @@
 
 /** \brief  Create widget to control Super Snapshot v5 resources
  *
- * \param[in]   parent  parent widget, used for dialogs
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */

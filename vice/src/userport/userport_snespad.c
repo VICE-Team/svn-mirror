@@ -47,6 +47,7 @@ C64/C128 |   PET   |  VIC20  | CBM2 | SNES PAD | I/O
 #include "userport.h"
 #include "userport_snespad.h"
 #include "machine.h"
+#include "uiapi.h"
 
 #include "log.h"
 
@@ -62,24 +63,25 @@ static void userport_snespad_read_pbx(void);
 static void userport_snespad_store_pbx(uint8_t value);
 
 static userport_device_t userport_snespad_device = {
-    USERPORT_DEVICE_SNESPAD,    /* device id */
-    "Userport SNES pad",        /* device name */
-    userport_snespad_read_pbx,  /* read pb0-pb7 function */
-    userport_snespad_store_pbx, /* store pb0-pb7 function */
-    NULL,                       /* NO read pa2 pin function */
-    NULL,                       /* NO store pa2 pin function */
-    NULL,                       /* NO read pa3 pin function */
-    NULL,                       /* NO store pa3 pin function */
-    0,                          /* pc pin is NOT needed */
-    NULL,                       /* NO store sp1 pin function */
-    NULL,                       /* NO read sp1 pin function */
-    NULL,                       /* NO store sp2 pin function */
-    NULL,                       /* NO read sp2 pin function */
-    "UserportSNESPad",          /* resource used by the device */
-    0xff,                       /* return value from a read, to be filled in by the device */
-    0xff,                       /* validity mask of the device, to be filled in at read */
-    0,                          /* device involved in a read collision, to be filled in by the collision detection system */
-    0                           /* a tag to indicate the order of insertion */
+    USERPORT_DEVICE_SNESPAD,           /* device id */
+    "Userport SNES pad",               /* device name */
+    JOYSTICK_ADAPTER_ID_USERPORT_SNES, /* this is a joystick adapter */
+    userport_snespad_read_pbx,         /* read pb0-pb7 function */
+    userport_snespad_store_pbx,        /* store pb0-pb7 function */
+    NULL,                              /* NO read pa2 pin function */
+    NULL,                              /* NO store pa2 pin function */
+    NULL,                              /* NO read pa3 pin function */
+    NULL,                              /* NO store pa3 pin function */
+    0,                                 /* pc pin is NOT needed */
+    NULL,                              /* NO store sp1 pin function */
+    NULL,                              /* NO read sp1 pin function */
+    NULL,                              /* NO store sp2 pin function */
+    NULL,                              /* NO read sp2 pin function */
+    "UserportSNESPad",                 /* resource used by the device */
+    0xff,                              /* return value from a read, to be filled in by the device */
+    0xff,                              /* validity mask of the device, to be filled in at read */
+    0,                                 /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                  /* a tag to indicate the order of insertion */
 };
 
 static userport_device_list_t *userport_snespad_list_item = NULL;
@@ -95,14 +97,21 @@ static int set_userport_snespad_enabled(int value, void *param)
     }
 
     if (val) {
+        /* check if a different joystick adapter is already active */
+        if (joystick_adapter_get_id()) {
+            ui_error("%s is a joystick adapter, but joystick adapter %s is already active", userport_snespad_device.name, joystick_adapter_get_name());
+            return -1;
+        }
         counter = 0;
         userport_snespad_list_item = userport_device_register(&userport_snespad_device);
         if (userport_snespad_list_item == NULL) {
             return -1;
         }
+        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_USERPORT_SNES, userport_snespad_device.name);
     } else {
         userport_device_unregister(userport_snespad_list_item);
         userport_snespad_list_item = NULL;
+        joystick_adapter_deactivate();
     }
 
     userport_snespad_enabled = val;

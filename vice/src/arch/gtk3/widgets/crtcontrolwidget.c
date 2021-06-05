@@ -142,11 +142,11 @@
 
 /** \brief  Number of valid resources for PAL */
 #define RESOURCE_COUNT_PAL  9
-/** \broef  Number of valid resources for NTSC */
+
+/** \brief  Number of valid resources for NTSC */
 #define RESOURCE_COUNT_NTSC 5
 
-/** \brief  Size of array required for all resources
- */
+/** \brief  Size of array required for all resources */
 #define RESOURCE_COUNT_MAX  RESOURCE_COUNT_PAL
 
 
@@ -368,11 +368,14 @@ static GtkWidget *create_label(const char *text, gboolean minimal)
  * \param[in]   low         lower bound
  * \param[in]   high        upper bound
  * \param[in]   step        step used to increase/decrease slider value
+ * \param[in]   minimal     reduced size (for the statusbar widget)
  *
  * \return  GtkScale
  */
-static GtkWidget *create_slider(const char *resource, const char *chip,
-        int low, int high, int step, gboolean minimal)
+static GtkWidget *create_slider(
+        const char *resource, const char *chip,
+        int low, int high, int step,
+        gboolean minimal)
 {
     GtkWidget *scale;
 
@@ -414,6 +417,7 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
  * \param[in]   low         spinbox lowest value
  * \param[in]   high        spinbox highest value
  * \param[in]   step        spinbox stepping
+ * \param[in]   minimal     reduced size (for the statusbar widget)
  *
  * \return  spinbox widget
  */

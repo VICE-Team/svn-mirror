@@ -1025,7 +1025,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 1, 1, 1, 1);
 
     /* CIA1 & CIA2 widget */
-    cia_widget = cia_model_widget_create(machine_widget, 2);
+    cia_widget = cia_model_widget_create(2);
     cia_model_widget_set_callback(cia_widget, cia_model_callback);
     gtk_grid_attach(GTK_GRID(grid), cia_widget, 0, 2, 2, 1);
 
@@ -1089,7 +1089,7 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(col2_wrapper), vdc_widget, 0, 1, 1, 1);
 
     /* CIA1 & CIA2 widget */
-    cia_widget = cia_model_widget_create(machine_widget, 2);
+    cia_widget = cia_model_widget_create(2);
     cia_model_widget_set_callback(cia_widget, cia_model_callback);
     gtk_grid_attach(GTK_GRID(col2_wrapper), cia_widget, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), col2_wrapper, 1, 0, 1, 1);
@@ -1335,7 +1335,7 @@ static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 1, 1, 1, 1);
 
     /* CIA1 widget */
-    cia_widget = cia_model_widget_create(machine_widget, 1);
+    cia_widget = cia_model_widget_create(1);
     cia_model_widget_set_callback(cia_widget, cia_model_callback);
     gtk_grid_attach(GTK_GRID(grid), cia_widget, 2, 0, 1, 1);
 
@@ -1390,7 +1390,7 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), switches_widget, 2, 0, 1, 1);
 
     /* CIA1 widget */
-    cia_widget = cia_model_widget_create(machine_widget, 1);
+    cia_widget = cia_model_widget_create(1);
     cia_model_widget_set_callback(cia_widget, cia_model_callback);
     gtk_grid_attach(GTK_GRID(grid), cia_widget, 1, 1, 2, 1);
 

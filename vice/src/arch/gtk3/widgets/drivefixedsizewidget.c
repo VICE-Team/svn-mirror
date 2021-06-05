@@ -42,7 +42,6 @@
 #include "vice_gtk3.h"
 #include "resources.h"
 
-
 #include "drivefixedsizewidget.h"
 
 

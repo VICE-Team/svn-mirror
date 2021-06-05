@@ -137,6 +137,19 @@ static int joyport_set_device(int port, int id)
         return -1;
     }
 
+    /* check if device is a joystick adapter and a different joystick adapter is already active */
+    if (id != JOYPORT_ID_NONE && joyport_device[id].joystick_adapter_id) {
+        if (!joyport_device[joy_port[port]].joystick_adapter_id) {
+            /* if the current device in this port is not a joystick adapter
+               we need to check if a different joystick adapter is already
+               active */
+            if (joystick_adapter_get_id()) {
+                ui_error("Selected control port device %s is a joystick adapter, but joystick adapter %s is already active.", joyport_device[id].name, joystick_adapter_get_name());
+                return -1;
+            }
+        }
+    }
+
     /* all checks done, now disable the current device and enable the new device */
     if (joyport_device[joy_port[port]].enable) {
         joyport_device[joy_port[port]].enable(port, 0);
@@ -356,6 +369,7 @@ int joyport_device_register(int id, joyport_t *device)
     joyport_device[id].resource_id = device->resource_id;
     joyport_device[id].is_lp = device->is_lp;
     joyport_device[id].pot_optional = device->pot_optional;
+    joyport_device[id].joystick_adapter_id = device->joystick_adapter_id;
     joyport_device[id].enable = device->enable;
     joyport_device[id].read_digital = device->read_digital;
     joyport_device[id].store_digital = device->store_digital;
@@ -486,6 +500,45 @@ void joyport_display_joyport(int id, uint16_t status)
 char *joyport_get_port_name(int port)
 {
     return port_props[port].name;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static uint8_t joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
+static char *joystick_adapter_name = NULL;
+
+char *joystick_adapter_get_name(void)
+{
+    return joystick_adapter_name;
+}
+
+uint8_t joystick_adapter_get_id(void)
+{
+    return joystick_adapter_id;
+}
+
+/* returns 1 on success */
+uint8_t joystick_adapter_activate(uint8_t id, char *name)
+{
+    if (joystick_adapter_id) {
+        if (id == joystick_adapter_id) {
+            joystick_adapter_name = name;
+            return 1;
+        } else {
+            ui_error("Joystick adapter %s already active", joystick_adapter_name);
+            return 0;
+        }
+    }
+
+    joystick_adapter_id = id;
+    joystick_adapter_name = name;
+    return 1;
+}
+
+void joystick_adapter_deactivate(void)
+{
+    joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
+    joystick_adapter_name = NULL;
 }
 
 /* ------------------------------------------------------------------------- */
