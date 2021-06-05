@@ -58,7 +58,7 @@ void vice_directx_destroy_context_impl(vice_directx_renderer_context_t *context)
 static void build_render_target(vice_directx_renderer_context_t *context)
 {
     HRESULT result = S_OK;
-    
+
     if (!context->factory)
     {
         result = D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, &context->factory);
@@ -152,7 +152,7 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
 
     if (keepaspect) {
         float viewport_aspect;
-        float emulated_aspect;       
+        float emulated_aspect;
 
         viewport_aspect = (float)context->viewport_width / (float)context->viewport_height;
         emulated_aspect = (float)context->bitmap_width   / (float)context->bitmap_height;
@@ -191,7 +191,7 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
     /*
      * Direct2D thinks in terms of device indepenent pixels,
      * but GTK gives us pixel sizes in device dependent pixel sizes.
-     * 
+     *
      * When rendering, we convert from DDP to DIP, this ensures that
      * our filter choice is applied rather than whatever D2D is doing
      * under the hood when you set dpi on the bitmap itself.
@@ -232,7 +232,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         log_message(LOG_DEFAULT, "Render thread initialised");
         return;
     }
-    
+
     if (job == render_thread_shutdown) {
         archdep_thread_shutdown();
         log_message(LOG_DEFAULT, "Render thread shutdown");
@@ -255,7 +255,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     recalculate_layout(canvas, context);
 
     CANVAS_UNLOCK();
-    
+
     if (backbuffer && context->render_bitmap)
     {
         /* Copy the emulated screen to the Bitmap */
@@ -305,7 +305,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
             context->render_bitmap->Release();
             context->render_bitmap = NULL;
         }
-        
+
         if (context->render_target) {
             context->render_target->Release();
             context->render_target = NULL;
