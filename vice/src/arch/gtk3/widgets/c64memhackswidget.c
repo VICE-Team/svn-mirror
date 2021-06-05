@@ -83,10 +83,16 @@ static const vice_gtk3_radiogroup_entry_t plus_60k_base_addresses[] = {
  * References to widget that need to be enabled/disabled, depending on the 
  * memory expansion hack selected
  */
+
+/** \brief  256K I/O base widget reference */
 static GtkWidget *c64_256k_base = NULL;
+/** \brief  256K image widget reference */
 static GtkWidget *c64_256k_image = NULL;
+/** \brief  Plus60K I/O base widget reference */
 static GtkWidget *plus_60k_base = NULL;
+/** \brief  Plus60K image widget reference */
 static GtkWidget *plus_60k_image = NULL;
+/** \brief  Plus256K image widget reference */
 static GtkWidget *plus_256k_image = NULL;
 
 
@@ -94,7 +100,7 @@ static GtkWidget *plus_256k_image = NULL;
  *
  * \param[in]       dialog      open-file dialog
  * \param[in]       filename    image filename
- * \param[in,out]   entry       target GtkEntry for image filename
+ * \param[in,out]   data        target GtkEntry for image filename
  */
 static void c64_256k_filename_callback(GtkDialog *dialog,
                                        gchar *filename,
@@ -127,7 +133,7 @@ static void on_256k_image_browse_clicked(GtkWidget *button, gpointer user_data)
  *
  * \param[in]       dialog      open-file dialog
  * \param[in]       filename    image filename
- * \param[in,out]   entry       target GtkEntry for image filename
+ * \param[in,out]   data        target GtkEntry for image filename
  */
 static void browse_plus60k_filename_callback(GtkDialog *dialog,
                                              gchar *filename,
@@ -161,7 +167,7 @@ static void on_plus60k_image_browse_clicked(GtkWidget *button, gpointer user_dat
  *
  * \param[in]       dialog      open-file dialog
  * \param[in]       filename    image filename
- * \param[in,out]   entry       target GtkEntry for image filename
+ * \param[in,out]   data        target GtkEntry for image filename
  */
 static void browse_plus256k_filename_callback(GtkDialog *dialog,
                                               gchar *filename,

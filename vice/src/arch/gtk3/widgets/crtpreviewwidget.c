@@ -90,7 +90,7 @@ static void load_to_hex(GtkTreeViewColumn *column,
                         GtkCellRenderer *renderer,
                         GtkTreeModel *model,
                         GtkTreeIter *iter,
-                        gpointer userdata)
+                        gpointer user_data)
 {
     gchar buffer[0x10];
     guint value;
@@ -113,7 +113,7 @@ static void size_to_hex(GtkTreeViewColumn *column,
                         GtkCellRenderer *renderer,
                         GtkTreeModel *model,
                         GtkTreeIter *iter,
-                        gpointer userdata)
+                        gpointer user_data)
 {
     gchar buffer[0x10];
     guint value;

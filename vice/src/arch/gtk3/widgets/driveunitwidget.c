@@ -53,7 +53,7 @@ static int *unit_target;
 static void (*unit_callback)(int) = NULL;
 
 
-/** \brief  Handler for the "toggled" events of the radio buttons
+/** \brief  Handler for the 'toggled' events of the radio buttons
  *
  * \param[in]   widget      radio button triggering the event
  * \param[in]   user_data   unit number (int)
@@ -89,8 +89,7 @@ static GtkWidget *create_radio_group(int unit)
     GSList *group = NULL;
     int i;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
     last = NULL;
     for (i = DRIVE_UNIT_MIN; i <= DRIVE_UNIT_MAX; i++) {
@@ -120,8 +119,9 @@ static GtkWidget *create_radio_group(int unit)
 
 /** \brief  Create a unit#-selection widget
  *
- * \param[in]   unit    currently selected unit number (8-11)
- * \param[out]  target  destination of the unit number on radio button clicks
+ * \param[in]   unit        currently selected unit number (8-11)
+ * \param[out]  target      destination of the unit number on radio button clicks
+ * \param[in]   callback    function to call on unit number changes
  *
  * \return  GtkGrid
  */
@@ -139,8 +139,7 @@ GtkWidget *drive_unit_widget_create(int unit, int *target, void (*callback)(int)
         *target = unit; /* make sure we don't end up with unintialized data */
     }
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
     label = gtk_label_new("Unit #:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -152,7 +151,7 @@ GtkWidget *drive_unit_widget_create(int unit, int *target, void (*callback)(int)
     for (i = 0; i < NUM_DISK_UNITS; i++) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(group), i, 0);
         g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
-            GINT_TO_POINTER(i + 8));
+            GINT_TO_POINTER(i + DRIVE_UNIT_MIN));
     }
 
     gtk_widget_show_all(grid);

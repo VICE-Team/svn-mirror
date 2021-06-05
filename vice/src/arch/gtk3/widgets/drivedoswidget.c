@@ -62,7 +62,8 @@
  *
  * \return  GtkCheckButton
  */
-static GtkWidget *create_dos_check_button(int unit, const char *dos,
+static GtkWidget *create_dos_check_button(int unit,
+                                          const char *dos,
                                           const char *label)
 {
     GtkWidget *check;
@@ -101,7 +102,6 @@ GtkWidget *drive_dos_widget_create(int unit)
     gtk_widget_set_sensitive(profdos, drive_check_profdos(model));
     gtk_widget_set_sensitive(stardos, drive_check_stardos(model));
     gtk_widget_set_sensitive(supercard, drive_check_supercard(model));
-
 
     gtk_grid_attach(GTK_GRID(grid), profdos, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), stardos, 0, 2, 1, 1);

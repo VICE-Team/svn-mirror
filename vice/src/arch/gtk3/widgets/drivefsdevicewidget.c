@@ -81,25 +81,13 @@ static void fsdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer p
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-/** \brief  Handler for the "clicked" event of the fs dir browse button
+/** \brief  Handler for the 'clicked' event of the FS directory browse button
  *
  * \param[in]   widget      fs dir browse button
  * \param[in]   user_data   extra event data (entry widget)
  */
 static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-#if 0
-    GtkWidget *entry = GTK_WIDGET(user_data);
-    gchar *filename;
-
-    filename = vice_gtk3_select_directory_dialog("Select file system directory",
-            NULL, TRUE, NULL);
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(entry, filename);
-        g_free(filename);
-    }
-#endif
-
     GtkWidget *dialog;
 
     dialog = vice_gtk3_select_directory_dialog(
@@ -115,7 +103,7 @@ static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Create text entry for file system directory for \a unit
  *
- * \param[in]   unit    unit number
+ * \param[in]   unit    unit number (8-11)
  *
  * \return  GtkEntry
  */
@@ -135,7 +123,7 @@ static GtkWidget *create_fsdir_entry_widget(int unit)
 
 /** \brief  Create widget to control P00-settings
  *
- * \param[in]   unit    unit number
+ * \param[in]   unit    unit number (8-11)
  *
  * \return  GtkGrid
  */
@@ -146,8 +134,7 @@ static GtkWidget *create_p00_widget(int unit)
     GtkWidget *p00_only;
     GtkWidget *p00_save;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
 
     /* Label texts have been converted to shorter strings, using vice.texi
      * So don't blame me.
@@ -190,8 +177,7 @@ GtkWidget *drive_fsdevice_widget_create(int unit)
     GtkWidget *p00;
 
     grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     label = gtk_label_new("Directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);

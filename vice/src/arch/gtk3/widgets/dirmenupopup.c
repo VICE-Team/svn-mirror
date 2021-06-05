@@ -228,10 +228,10 @@ GtkWidget *dir_menu_popup_create(
         util_fname_split(autostart_diskimage, NULL, &tmp);
     }
     if (dev >= 0) {
-        g_snprintf(buffer, 1024, "Directory of unit %d drive %u (%s):",
+        g_snprintf(buffer, sizeof(buffer), "Directory of unit %d drive %u (%s):",
                    dev + DRIVE_UNIT_MIN, drive, tmp ? tmp : "n/a");
     } else {
-        g_snprintf(buffer, 1024, "Directory of attached tape: (%s)",
+        g_snprintf(buffer, sizeof(buffer), "Directory of attached tape: (%s)",
             tmp ? tmp : "n/a");
     }
     item = gtk_menu_item_new_with_label(buffer);
@@ -257,13 +257,6 @@ GtkWidget *dir_menu_popup_create(
             utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 1, false);
             item = gtk_menu_item_new_with_label(utf8);
 
-#if 0
-            g_object_set(item, "margin-top", 0,
-                    "margin-bottom", 0, NULL);
-            label = gtk_bin_get_child(GTK_BIN(item));
-            vice_gtk3_css_provider_add(label, menulabel_css_provider);
-            vice_gtk3_css_provider_add(item, menuitem_css_provider);
-#endif
             dir_item_apply_style(item);
 
             gtk_container_add(GTK_CONTAINER(menu), item);
@@ -290,12 +283,6 @@ GtkWidget *dir_menu_popup_create(
                                   "DriveNumber",
                                   GUINT_TO_POINTER(drive));
 
-#if 0
-                g_object_set(item, "margin-top", 0, "margin-bottom", 0, NULL);
-                label = gtk_bin_get_child(GTK_BIN(item));
-                vice_gtk3_css_provider_add(label, menulabel_css_provider);
-                vice_gtk3_css_provider_add(item, menuitem_css_provider);
-#endif
                 dir_item_apply_style(item);
 
                 gtk_container_add(GTK_CONTAINER(menu), item);

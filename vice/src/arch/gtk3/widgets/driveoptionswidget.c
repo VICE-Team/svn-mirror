@@ -58,6 +58,13 @@
 #include "driveoptionswidget.h"
 
 
+/** \brief  Handler for the 'toggled' event of the IEC checkbox
+ *
+ * Triggers the user-provided callback function on toggle.
+ *
+ * \param[in]   widget  IEC checkbox
+ * \param[in]   data    unit number
+ */
 static void on_iec_toggled(GtkWidget *widget, gpointer data)
 {
     if (machine_class != VICE_MACHINE_PET &&
@@ -134,8 +141,8 @@ static GtkWidget *create_rtc_check_button(int unit)
 
 /** \brief  Create drive options widget for \a unit
  *
- * \param[in]   unit        drive unit number
- * \param[in]   callback    custom callback
+ * \param[in]   unit            drive unit number
+ * \param[in]   iec_callback    custom callback for IEC checkbox toggle events
  *
  * \return GtkGrid
  */

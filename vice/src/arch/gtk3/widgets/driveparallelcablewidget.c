@@ -68,7 +68,7 @@ static const vice_gtk3_combo_entry_int_t parallel_cables_plus4[] = {
 
 /** \brief  Create drive parallel cable widget
  *
- * \param[in]   unit    drive unit
+ * \param[in]   unit    drive unit (8-11)
  *
  * \return  GtkGrid
  */
@@ -84,7 +84,7 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
         list = parallel_cables_c64;
     }
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Parallel cable", -1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Parallel cable", 1);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
     combo = vice_gtk3_resource_combo_box_int_new_sprintf(

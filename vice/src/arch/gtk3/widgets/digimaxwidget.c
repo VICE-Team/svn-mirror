@@ -64,7 +64,7 @@ static void on_digimax_toggled(GtkWidget *widget, gpointer user_data)
 /** \brief  Handler for the "changed" event of the DIGImax combo box
  *
  * \param[in]   widget      combo box
- * \param[in]   unused
+ * \param[in]   user_data   extra event data (unused)
  */
 static void on_combo_changed(GtkWidget *widget, gpointer user_data)
 {
@@ -99,9 +99,7 @@ GtkWidget *digimax_widget_create(GtkWidget *parent)
     char id_str[80];
 
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     digimax = vice_gtk3_resource_check_button_new("DIGIMAX", "Enable DIGIMAX");
     gtk_grid_attach(GTK_GRID(grid), digimax, 0, 0, 1, 1);

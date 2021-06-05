@@ -46,9 +46,9 @@
 
 /** \brief  Callback for the directory-select dialog
  *
- * \param[in]   dialog      directory-select dialog
- * \param[in]   filename    filename (NULL if canceled)
- * \param[in]   param       text entry for the filename
+ * \param[in,out]   dialog      directory-select dialog
+ * \param[in,out]   filename    filename (NULL if canceled)
+ * \param[in]       param       text entry for the filename
  */
 static void flash_browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
 {
@@ -65,7 +65,7 @@ static void flash_browse_callback(GtkDialog *dialog, gchar *filename, gpointer p
  * Opens a directory selection/creating dialog and sets the resource
  * 'FSFlashDir' trough the GtkEntry \a data.
  *
- * \param[in]       widget  browse button
+ * \param[in]       widget  browse button (unused)
  * \param[in,out]   data    reference to the GtkEntry controlling the resource
  */
 static void on_flash_dir_browse_clicked(GtkWidget *widget, gpointer data)

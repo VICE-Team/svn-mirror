@@ -51,6 +51,8 @@
 
 /** \brief  Create widget to load/save Double Quick Brown Box image file
  *
+ * \param[in]   parent  parent widget
+ *
  * \return  GtkGrid
  */
 static GtkWidget *create_dqbb_image_widget(GtkWidget *parent)
@@ -75,9 +77,7 @@ GtkWidget *dqbb_widget_create(GtkWidget *parent)
     GtkWidget *dqbb_enable_widget; /* dqbb_enable shadows */
     GtkWidget *dqbb_image;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     dqbb_enable_widget = carthelpers_create_enable_check_button(
             CARTRIDGE_NAME_DQBB, CARTRIDGE_DQBB);

@@ -48,7 +48,6 @@
 #include "resources.h"
 #include "machine.h"
 #include "videoarch.h"
-#include "canvasrenderbackendwidget.h"
 #include "canvasrenderfilterwidget.h"
 #include "settings_misc.h"
 
@@ -116,8 +115,7 @@ static GtkWidget *create_fullscreen_widget(int index)
 }
 
 
-
-/** \brief  Die UI ist ganz Schrott
+/** \brief  Create synchronization method widget
  *
  * \return  GtkGrid
  */
@@ -152,9 +150,6 @@ static GtkWidget *create_sync_widget(void)
 GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 {
     GtkWidget *grid;
-#if 0
-    GtkWidget *backend_widget = canvas_render_backend_widget_create();
-#endif
     GtkWidget *filter_widget = canvas_render_filter_widget_create();
     GtkWidget *restore_window_widget;
     GtkWidget *sync_widget;
@@ -184,10 +179,6 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 
         gtk_grid_attach(GTK_GRID(grid), filter_widget, col++, 1, 2, 1);
         g_object_set(filter_widget, "margin-left",8, NULL);
-#if 0
-        gtk_grid_attach(GTK_GRID(grid), backend_widget, 1, 1, 2, 1);
-#endif
-        g_object_set(minimized_widget, "margin-top", 16, NULL);
 
         gtk_grid_attach(GTK_GRID(grid), sync_widget, col++, 1, 2, 1);
 

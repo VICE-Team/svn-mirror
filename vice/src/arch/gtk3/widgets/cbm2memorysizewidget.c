@@ -94,8 +94,8 @@ GtkWidget *cbm2_memory_size_widget_create(void)
 
 /** \brief  Set used-defined callback to trigger when the RAM size changes
  *
- * \param[in,out]   widget  cbm2 memory size widget
- * \param[in]       user-defined callback
+ * \param[in,out]   widget      cbm2 memory size widget
+ * \param[in]       callback    user-defined callback
  */
 void cbm2_memory_size_widget_set_callback(
         GtkWidget *widget,

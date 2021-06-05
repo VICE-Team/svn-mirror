@@ -127,9 +127,7 @@ GtkWidget *ds12c887_widget_create(GtkWidget *parent)
     GtkWidget *enable_widget;
     GtkWidget *label;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     enable_widget = vice_gtk3_resource_check_button_new("DS12C887RTC",
             "Enable DS12C877 Real Time Clock");
@@ -144,7 +142,6 @@ GtkWidget *ds12c887_widget_create(GtkWidget *parent)
     g_object_set(rtc_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), oscil_widget, 0, 1, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), rtc_widget, 0, 2, 2, 1);
-
 
     label = gtk_label_new("Base address");
     g_object_set(label, "margin-left", 16, NULL);
