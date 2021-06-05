@@ -356,6 +356,7 @@ int joyport_device_register(int id, joyport_t *device)
     joyport_device[id].resource_id = device->resource_id;
     joyport_device[id].is_lp = device->is_lp;
     joyport_device[id].pot_optional = device->pot_optional;
+    joyport_device[id].joystick_adapter_id = device->joystick_adapter_id;
     joyport_device[id].enable = device->enable;
     joyport_device[id].read_digital = device->read_digital;
     joyport_device[id].store_digital = device->store_digital;
