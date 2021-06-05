@@ -137,6 +137,19 @@ static int joyport_set_device(int port, int id)
         return -1;
     }
 
+    /* check if device is a joystick adapter and a different joystick adapter is already active */
+    if (id != JOYPORT_ID_NONE && joyport_device[id].joystick_adapter_id) {
+        if (!joyport_device[joy_port[port]].joystick_adapter_id) {
+            /* if the current device in this port is not a joystick adapter
+               we need to check if a different joystick adapter is already
+               active */
+            if (joystick_adapter_get_id()) {
+                ui_error("Selected control port device %s is a joystick adapter, but joystick adapter %s is already active.", joyport_device[id].name, joystick_adapter_get_name());
+                return -1;
+            }
+        }
+    }
+
     /* all checks done, now disable the current device and enable the new device */
     if (joyport_device[joy_port[port]].enable) {
         joyport_device[joy_port[port]].enable(port, 0);

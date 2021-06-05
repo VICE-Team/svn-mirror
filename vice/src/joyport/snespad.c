@@ -73,6 +73,8 @@ static uint8_t latch_line = 0;
 
 /* ------------------------------------------------------------------------- */
 
+static joyport_t joyport_snespad_device;
+
 static int joyport_snespad_enable(int port, int value)
 {
     int val = value ? 1 : 0;
@@ -82,7 +84,10 @@ static int joyport_snespad_enable(int port, int value)
     }
 
     if (val) {
+        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_JOYPORT_SNES, joyport_snespad_device.name);
         counter = 0;
+    } else {
+        joystick_adapter_deactivate();
     }
 
     snespad_enabled = val;

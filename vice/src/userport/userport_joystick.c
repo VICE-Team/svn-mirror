@@ -39,6 +39,7 @@
 #include "types.h"
 #include "userport.h"
 #include "userport_joystick.h"
+#include "uiapi.h"
 
 /* CGA userport joystick adapter (C64/C128/CBM2/PET/VIC20)
 
@@ -448,12 +449,19 @@ static int set_userport_joystick_enable(int value, void *param)
     }
 
     if (val) {
+        /* check if a different joystick adapter is already active */
+        if (joystick_adapter_get_id()) {
+            ui_error("Joystick adapter %s is already active", joystick_adapter_get_name());
+            return -1;
+        }
         if (register_userport_adapter(userport_joystick_type) < 0) {
             return -1;
         }
+        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport joystick adapter");
     } else {
         userport_device_unregister(userport_joystick_list_item);
         userport_joystick_list_item = NULL;
+        joystick_adapter_deactivate();
     }
 
     userport_joystick_enable = val;

@@ -47,6 +47,7 @@ C64/C128 |   PET   |  VIC20  | CBM2 | SNES PAD | I/O
 #include "userport.h"
 #include "userport_snespad.h"
 #include "machine.h"
+#include "uiapi.h"
 
 #include "log.h"
 
@@ -96,14 +97,21 @@ static int set_userport_snespad_enabled(int value, void *param)
     }
 
     if (val) {
+        /* check if a different joystick adapter is already active */
+        if (joystick_adapter_get_id()) {
+            ui_error("%s is a joystick adapter, but joystick adapter %s is already active", userport_snespad_device.name, joystick_adapter_get_name());
+            return -1;
+        }
         counter = 0;
         userport_snespad_list_item = userport_device_register(&userport_snespad_device);
         if (userport_snespad_list_item == NULL) {
             return -1;
         }
+        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_USERPORT_SNES, userport_snespad_device.name);
     } else {
         userport_device_unregister(userport_snespad_list_item);
         userport_snespad_list_item = NULL;
+        joystick_adapter_deactivate();
     }
 
     userport_snespad_enabled = val;
