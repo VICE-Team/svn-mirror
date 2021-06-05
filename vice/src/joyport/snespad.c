@@ -41,27 +41,13 @@
 
 /* Control port <--> SNES PAD connections:
 
-   cport | SNES PAD | I/O
+   cport |   SNES PAD   | I/O
    -------------------------
-     1   |   DATA   |  I
-     4   |   CLOCK  |  O
-     6   |   LATCH  |  O
- */
-
-/* TODO: expand to support the following:
-
-          cport        | SNES PADS | I/O
-   -------------------------------------
-   port 1 pin 1 (joy0) | PAD1 DATA |  I
-   port 1 pin 2 (joy1) | PAD2 DATA |  I
-   port 1 pin 3 (joy2) | PAD3 DATA |  I
-   port 1 pin 4 (joy3) |   CLOCK   |  O
-   port 1 pin 6 (joy4) |   LATCH   |  O
-   port 2 pin 1 (joy0) | PAD4 DATA |  I
-   port 2 pin 2 (joy1) | PAD5 DATA |  I
-   port 2 pin 3 (joy2) | PAD6 DATA |  I
-   port 2 pin 4 (joy3) | PAD7 DATA |  I
-   port 2 pin 6 (joy4) | PAD8 DATA |  I
+     1   |   DATA PAD 1 |  I
+     2   |   DATA PAD 2 |  I
+     3   |   DATA PAD 3 |  I
+     4   |     CLOCK    |  O
+     6   |     LATCH    |  O
  */
 
 static int snespad_enabled = 0;
@@ -98,44 +84,70 @@ static int joyport_snespad_enable(int port, int value)
 static uint8_t snespad_read(int port)
 {
     uint8_t retval;
-    uint16_t joyval = get_joystick_value(port);
+    uint16_t joyval1 = get_joystick_value(port);
+    uint16_t joyval2 = get_joystick_value(JOYPORT_3);
+    uint16_t joyval3 = get_joystick_value(JOYPORT_4);
 
     switch (counter) {
         case SNESPAD_BUTTON_A:
-            retval = (uint8_t)((joyval & 0x10) >> 4);
+            retval = (uint8_t)((joyval1 & 0x10) >> 4);
+            retval |= (uint8_t)((joyval2 & 0x10) >> 3);
+            retval |= (uint8_t)((joyval3 & 0x10) >> 2);
             break;
         case SNESPAD_BUTTON_B:
-            retval = (uint8_t)((joyval & 0x20) >> 5);
+            retval = (uint8_t)((joyval1 & 0x20) >> 5);
+            retval |= (uint8_t)((joyval2 & 0x20) >> 4);
+            retval |= (uint8_t)((joyval3 & 0x20) >> 3);
             break;
         case SNESPAD_BUTTON_X:
-            retval = (uint8_t)((joyval & 0x40) >> 6);
+            retval = (uint8_t)((joyval1 & 0x40) >> 6);
+            retval |= (uint8_t)((joyval2 & 0x40) >> 5);
+            retval |= (uint8_t)((joyval3 & 0x40) >> 4);
             break;
         case SNESPAD_BUTTON_Y:
-            retval = (uint8_t)((joyval & 0x80) >> 7);
+            retval = (uint8_t)((joyval1 & 0x80) >> 7);
+            retval |= (uint8_t)((joyval2 & 0x80) >> 6);
+            retval |= (uint8_t)((joyval3 & 0x80) >> 5);
             break;
         case SNESPAD_BUMPER_LEFT:
-            retval = (uint8_t)((joyval & 0x100) >> 8);
+            retval = (uint8_t)((joyval1 & 0x100) >> 8);
+            retval |= (uint8_t)((joyval2 & 0x100) >> 7);
+            retval |= (uint8_t)((joyval3 & 0x100) >> 6);
             break;
         case SNESPAD_BUMPER_RIGHT:
-            retval = (uint8_t)((joyval & 0x200) >> 9);
+            retval = (uint8_t)((joyval1 & 0x200) >> 9);
+            retval |= (uint8_t)((joyval2 & 0x200) >> 8);
+            retval |= (uint8_t)((joyval3 & 0x200) >> 7);
             break;
         case SNESPAD_BUTTON_SELECT:
-            retval = (uint8_t)((joyval & 0x400) >> 10);
+            retval = (uint8_t)((joyval1 & 0x400) >> 10);
+            retval |= (uint8_t)((joyval2 & 0x400) >> 9);
+            retval |= (uint8_t)((joyval3 & 0x400) >> 8);
             break;
         case SNESPAD_BUTTON_START:
-            retval = (uint8_t)((joyval & 0x800) >> 11);
+            retval = (uint8_t)((joyval1 & 0x800) >> 11);
+            retval |= (uint8_t)((joyval2 & 0x800) >> 10);
+            retval |= (uint8_t)((joyval3 & 0x800) >> 9);
             break;
         case SNESPAD_UP:
-            retval = (uint8_t)(joyval & 1);
+            retval = (uint8_t)(joyval1 & 1);
+            retval |= (uint8_t)((joyval2 & 1) << 1);
+            retval |= (uint8_t)((joyval3 & 1) << 2);
             break;
         case SNESPAD_DOWN:
-            retval = (uint8_t)((joyval & 2) >> 1);
+            retval = (uint8_t)((joyval1 & 2) >> 1);
+            retval |= (uint8_t)(joyval2 & 2);
+            retval |= (uint8_t)((joyval3 & 2) << 1);
             break;
         case SNESPAD_LEFT:
-            retval = (uint8_t)((joyval & 4) >> 2);
+            retval = (uint8_t)((joyval1 & 4) >> 2);
+            retval |= (uint8_t)((joyval2 & 4) >> 1);
+            retval |= (uint8_t)(joyval3 & 4);
             break;
         case SNESPAD_RIGHT:
-            retval = (uint8_t)((joyval & 8) >> 3);
+            retval = (uint8_t)((joyval1 & 8) >> 3);
+            retval |= (uint8_t)((joyval2 & 8) >> 2);
+            retval |= (uint8_t)((joyval3 & 8) >> 1);
             break;
         case SNESPAD_EOS:
             retval = 1;
