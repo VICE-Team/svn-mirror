@@ -38,6 +38,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
+#include "joyport.h"
 #include "userport.h"
 
 /* 
@@ -66,6 +67,7 @@ static int userport_printer_read_snapshot_module(snapshot_t *s);
 static userport_device_t printer_device = {
     USERPORT_DEVICE_PRINTER,    /* device id */
     "Userport printer",         /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,   /* NOT a joystick adapter */
     NULL,                       /* NO read pb0-pb7 function */
     userport_printer_store_pbx, /* store pb0-pb7 function */
     NULL,                       /* NO read pa2 pin function */
