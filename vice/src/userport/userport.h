@@ -66,6 +66,9 @@ typedef struct userport_device_s {
     /* Name of the device */
     char *name;
 
+    /* flag to indicate that the device is a joystick/pad adapter */
+    int joystick_adapter_id;
+
     /* Read pb0-7 pins */
     void (*read_pbx)(void);
 

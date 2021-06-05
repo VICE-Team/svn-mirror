@@ -53,6 +53,7 @@ C64/C128 | CBM2 | PET | PLUS4 | VIC20 | NAME
 #include "snapshot.h"
 #include "sound.h"
 #include "uiapi.h"
+#include "joyport.h"
 #include "userport.h"
 #include "userport_dac.h"
 
@@ -106,24 +107,25 @@ static int userport_dac_write_snapshot_module(snapshot_t *s);
 static int userport_dac_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t dac_device = {
-    USERPORT_DEVICE_DAC,    /* device id */
-    "Userport DAC",         /* device name */
-    NULL,                   /* NO read pb0-pb7 function */
-    userport_dac_store_pbx, /* store pb0-pb7 function */
-    NULL,                   /* NO read pa2 pin function */
-    NULL,                   /* NO store pa2 pin function */
-    NULL,                   /* NO read pa3 pin function */
-    NULL,                   /* NO store pa3 pin function */
-    0,                      /* pc pin is NOT needed */
-    NULL,                   /* NO store sp1 pin function */
-    NULL,                   /* NO read sp1 pin function */
-    NULL,                   /* NO store sp2 pin function */
-    NULL,                   /* NO read sp2 pin function */
-    "UserportDAC",          /* resource used by the device */
-    0xff,                   /* return value from a read, not used since the device is write only */
-    0,                      /* validity mask of the device, not used since the device is write only */
-    0,                      /* device involved in a read collision, to be filled in by the collision detection system */
-    0                       /* a tag to indicate the order of insertion */
+    USERPORT_DEVICE_DAC,      /* device id */
+    "Userport DAC",           /* device name */
+    JOYSTICK_ADAPTER_ID_NONE, /* NOT a joystick adapter */
+    NULL,                     /* NO read pb0-pb7 function */
+    userport_dac_store_pbx,   /* store pb0-pb7 function */
+    NULL,                     /* NO read pa2 pin function */
+    NULL,                     /* NO store pa2 pin function */
+    NULL,                     /* NO read pa3 pin function */
+    NULL,                     /* NO store pa3 pin function */
+    0,                        /* pc pin is NOT needed */
+    NULL,                     /* NO store sp1 pin function */
+    NULL,                     /* NO read sp1 pin function */
+    NULL,                     /* NO store sp2 pin function */
+    NULL,                     /* NO read sp2 pin function */
+    "UserportDAC",            /* resource used by the device */
+    0xff,                     /* return value from a read, not used since the device is write only */
+    0,                        /* validity mask of the device, not used since the device is write only */
+    0,                        /* device involved in a read collision, to be filled in by the collision detection system */
+    0                         /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t dac_snapshot = {

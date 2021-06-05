@@ -119,17 +119,18 @@ static int bbrtc_write_snapshot(struct snapshot_s *s, int port);
 static int bbrtc_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t joyport_bbrtc_device = {
-    "BBRTC",                 /* name of the device */
-    JOYPORT_RES_ID_RTC,      /* device is an RTC */
-    JOYPORT_IS_NOT_LIGHTPEN, /* device is NOT a lightpen */
-    JOYPORT_POT_OPTIONAL,    /* device does not use the potentiometer lines */
-    joyport_bbrtc_enable,    /* device enable function */
-    bbrtc_read,              /* digital line read function */
-    bbrtc_store,             /* digital line store function */
-    NULL,                    /* NO pot-x read function */
-    NULL,                    /* NO pot-y read function */
-    bbrtc_write_snapshot,    /* device snapshot write function */
-    bbrtc_read_snapshot      /* device snapshot read function */
+    "BBRTC",                  /* name of the device */
+    JOYPORT_RES_ID_RTC,       /* device is an RTC */
+    JOYPORT_IS_NOT_LIGHTPEN,  /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,     /* device does NOT use the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
+    joyport_bbrtc_enable,     /* device enable function */
+    bbrtc_read,               /* digital line read function */
+    bbrtc_store,              /* digital line store function */
+    NULL,                     /* NO pot-x read function */
+    NULL,                     /* NO pot-y read function */
+    bbrtc_write_snapshot,     /* device snapshot write function */
+    bbrtc_read_snapshot       /* device snapshot read function */
 };
 
 /* ------------------------------------------------------------------------- */

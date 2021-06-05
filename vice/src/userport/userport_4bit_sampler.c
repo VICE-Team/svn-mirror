@@ -45,6 +45,7 @@ C64/C128 | CBM2 | ADC | NOTES
 #include "resources.h"
 #include "sampler.h"
 #include "snapshot.h"
+#include "joyport.h"
 #include "userport.h"
 #include "userport_4bit_sampler.h"
 
@@ -63,6 +64,7 @@ static int userport_4bit_sampler_read_snapshot_module(snapshot_t *s);
 static userport_device_t sampler_device = {
     USERPORT_DEVICE_4BIT_SAMPLER,    /* device id */
     "Userport 4bit sampler",         /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,        /* NOT a joystick adapter */
     userport_4bit_sampler_read_pbx,  /* read pb0-pb7 function */
     NULL,                            /* NO store pb0-pb7 function */
     NULL,                            /* NO read pa2 pin function */

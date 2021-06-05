@@ -50,6 +50,7 @@ C64/C128 | CBM2 | ADC0820-1 | ADC0820-2 | NOTES
 #include "resources.h"
 #include "sampler.h"
 #include "snapshot.h"
+#include "joyport.h"
 #include "userport.h"
 #include "userport_8bss.h"
 
@@ -68,6 +69,7 @@ static int userport_8bss_read_snapshot_module(snapshot_t *s);
 static userport_device_t sampler_device = {
     USERPORT_DEVICE_8BSS,           /* device id */
     "Userport 8bit stereo sampler", /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,       /* NOT a joystick adapter */
     userport_8bss_read_pbx,         /* read pb0-pb7 function */
     NULL,                           /* NO store pb0-pb7 function */
     NULL,                           /* NO read pa2 pin function */

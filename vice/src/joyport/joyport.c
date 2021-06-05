@@ -490,6 +490,45 @@ char *joyport_get_port_name(int port)
 
 /* ------------------------------------------------------------------------- */
 
+static uint8_t joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
+static char *joystick_adapter_name = NULL;
+
+char *joystick_adapter_get_name(void)
+{
+    return joystick_adapter_name;
+}
+
+uint8_t joystick_adapter_get_id(void)
+{
+    return joystick_adapter_id;
+}
+
+/* returns 1 on success */
+uint8_t joystick_adapter_activate(uint8_t id, char *name)
+{
+    if (joystick_adapter_id) {
+        if (id == joystick_adapter_id) {
+            joystick_adapter_name = name;
+            return 1;
+        } else {
+            ui_error("Joystick adapter %s already active", joystick_adapter_name);
+            return 0;
+        }
+    }
+
+    joystick_adapter_id = id;
+    joystick_adapter_name = name;
+    return 1;
+}
+
+void joystick_adapter_deactivate(void)
+{
+    joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
+    joystick_adapter_name = NULL;
+}
+
+/* ------------------------------------------------------------------------- */
+
 static int set_joyport_device(int val, void *param)
 {
     int port = vice_ptr_to_int(param);

@@ -102,12 +102,18 @@ enum {
 #define JOYPORT_POT_REQUIRED   0
 #define JOYPORT_POT_OPTIONAL   1
 
+#define JOYSTICK_ADAPTER_ID_NONE             0
+#define JOYSTICK_ADAPTER_ID_GENERIC_USERPORT 1
+#define JOYSTICK_ADAPTER_ID_JOYPORT_SNES     2
+#define JOYSTICK_ADAPTER_ID_USERPORT_SNES    3
+
 /* this structure is used for control port devices */
 typedef struct joyport_s {
     char *name;                                            /* name of the device */
     int resource_id;                                       /* type of device, to determine if there can be multiple instances of the type of device */
     int is_lp;                                             /* flag to indicate the device is a lightpen */
     int pot_optional;                                      /* flag to indicate that the device can work without a potentiometer */
+    int joystick_adapter_id;                               /* flag to indicate that the device is a joystick/pad adapter */
     int (*enable)(int port, int val);                      /* pointer to the device enable function */
     uint8_t (*read_digital)(int port);                     /* pointer to the device digital lines read function */
     void (*store_digital)(uint8_t val);                    /* pointer to the device digital lines store function */
@@ -151,6 +157,11 @@ extern void joyport_display_joyport(int id, uint16_t status);
 extern char *joyport_get_port_name(int port);
 
 extern void joyport_clear_devices(void);
+
+extern char *joystick_adapter_get_name(void);
+extern uint8_t joystick_adapter_get_id(void);
+extern uint8_t joystick_adapter_activate(uint8_t id, char *name);
+extern void joystick_adapter_deactivate(void);
 
 extern int joyport_snapshot_write_module(struct snapshot_s *s, int port);
 extern int joyport_snapshot_read_module(struct snapshot_s *s, int port);

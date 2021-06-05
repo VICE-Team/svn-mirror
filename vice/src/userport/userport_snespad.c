@@ -62,24 +62,25 @@ static void userport_snespad_read_pbx(void);
 static void userport_snespad_store_pbx(uint8_t value);
 
 static userport_device_t userport_snespad_device = {
-    USERPORT_DEVICE_SNESPAD,    /* device id */
-    "Userport SNES pad",        /* device name */
-    userport_snespad_read_pbx,  /* read pb0-pb7 function */
-    userport_snespad_store_pbx, /* store pb0-pb7 function */
-    NULL,                       /* NO read pa2 pin function */
-    NULL,                       /* NO store pa2 pin function */
-    NULL,                       /* NO read pa3 pin function */
-    NULL,                       /* NO store pa3 pin function */
-    0,                          /* pc pin is NOT needed */
-    NULL,                       /* NO store sp1 pin function */
-    NULL,                       /* NO read sp1 pin function */
-    NULL,                       /* NO store sp2 pin function */
-    NULL,                       /* NO read sp2 pin function */
-    "UserportSNESPad",          /* resource used by the device */
-    0xff,                       /* return value from a read, to be filled in by the device */
-    0xff,                       /* validity mask of the device, to be filled in at read */
-    0,                          /* device involved in a read collision, to be filled in by the collision detection system */
-    0                           /* a tag to indicate the order of insertion */
+    USERPORT_DEVICE_SNESPAD,           /* device id */
+    "Userport SNES pad",               /* device name */
+    JOYSTICK_ADAPTER_ID_USERPORT_SNES, /* this is a joystick adapter */
+    userport_snespad_read_pbx,         /* read pb0-pb7 function */
+    userport_snespad_store_pbx,        /* store pb0-pb7 function */
+    NULL,                              /* NO read pa2 pin function */
+    NULL,                              /* NO store pa2 pin function */
+    NULL,                              /* NO read pa3 pin function */
+    NULL,                              /* NO store pa3 pin function */
+    0,                                 /* pc pin is NOT needed */
+    NULL,                              /* NO store sp1 pin function */
+    NULL,                              /* NO read sp1 pin function */
+    NULL,                              /* NO store sp2 pin function */
+    NULL,                              /* NO read sp2 pin function */
+    "UserportSNESPad",                 /* resource used by the device */
+    0xff,                              /* return value from a read, to be filled in by the device */
+    0xff,                              /* validity mask of the device, to be filled in at read */
+    0,                                 /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                  /* a tag to indicate the order of insertion */
 };
 
 static userport_device_list_t *userport_snespad_list_item = NULL;

@@ -50,6 +50,7 @@ C64/C128 | CBM2 | PET | VIC20 | NAME
 #include "rtc-58321a.h"
 #include "snapshot.h"
 #include "uiapi.h"
+#include "joyport.h"
 #include "userport.h"
 #include "userport_rtc_58321a.h"
 
@@ -74,6 +75,7 @@ static int userport_rtc_read_snapshot_module(snapshot_t *s);
 static userport_device_t rtc_device = {
     USERPORT_DEVICE_RTC_58321A, /* device id */
     "Userport RTC (RTC58321A)", /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,   /* NOT a joystick adapter */
     userport_rtc_read_pbx,      /* read pb0-pb7 function */
     userport_rtc_store_pbx,     /* store pb0-pb7 function */
     NULL,                       /* NO read pa2 pin function */

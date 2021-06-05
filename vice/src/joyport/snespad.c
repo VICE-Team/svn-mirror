@@ -164,17 +164,18 @@ static void snespad_store(uint8_t val)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_snespad_device = {
-    "SNES PAD",              /* name of the device */
-    JOYPORT_RES_ID_NONE,     /* device can be used in multiple ports at the same time */
-    JOYPORT_IS_NOT_LIGHTPEN, /* device is NOT a lightpen */
-    JOYPORT_POT_OPTIONAL,    /* device does NOT use the potentiometer lines */
-    joyport_snespad_enable,  /* device enable function */
-    snespad_read,            /* digital line read function */
-    snespad_store,           /* digital line store function */
-    NULL,                    /* NO pot-x read function */
-    NULL,                    /* NO pot-y read function */
-    NULL,                    /* NO device write snapshot function */
-    NULL                     /* NO device read snapshot function */
+    "SNES PAD",                       /* name of the device */
+    JOYPORT_RES_ID_NONE,              /* device can be used in multiple ports at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,             /* device does NOT use the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_JOYPORT_SNES, /* device is a joystick adapter */
+    joyport_snespad_enable,           /* device enable function */
+    snespad_read,                     /* digital line read function */
+    snespad_store,                    /* digital line store function */
+    NULL,                             /* NO pot-x read function */
+    NULL,                             /* NO pot-y read function */
+    NULL,                             /* NO device write snapshot function */
+    NULL                              /* NO device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */

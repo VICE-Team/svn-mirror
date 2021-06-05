@@ -55,6 +55,7 @@ PIN | PIN | NOTES
 #include "c64_diag_586220_harness.h"
 #include "cmdline.h"
 #include "resources.h"
+#include "joyport.h"
 #include "userport.h"
 #include "userport_diag_586220_harness.h"
 
@@ -79,6 +80,7 @@ static void userport_diag_586220_harness_store_sp2(uint8_t value);
 static userport_device_t diag_586220_harness_device = {
     USERPORT_DEVICE_RTC_58321A,             /* device id */
     "Userport diag 586220 harness",         /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,               /* NOT a joystick adapter */
     userport_diag_586220_harness_read_pbx,  /* read pb0-pb7 function */
     userport_diag_586220_harness_store_pbx, /* store pb0-pb7 function */
     userport_diag_586220_harness_read_pa2,  /* read pa2 pin function */

@@ -606,6 +606,7 @@ static joyport_t joystick_device = {
     JOYPORT_RES_ID_NONE,            /* device doesn't have a class, multiple deviced of this kind can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,        /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,           /* device does NOT use the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,       /* device is NOT a joystick adapter */
     joyport_enable_joystick,        /* device enable function */
     read_joystick,                  /* digital line read function */
     NULL,                           /* NO digital line store function */
