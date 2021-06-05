@@ -93,7 +93,7 @@ static int joyport_snespad_enable(int port, int value)
 static uint8_t snespad_read(int port)
 {
     uint8_t retval;
-    uint16_t joyval = get_joystick_value(port + 1);
+    uint16_t joyval = get_joystick_value(port);
 
     switch (counter) {
         case SNESPAD_BUTTON_A:
