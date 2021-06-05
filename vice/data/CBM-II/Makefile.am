@@ -36,6 +36,7 @@ palettes = \
 	rgb.vpl \
 	vice.vpl \
 	palette.vpl \
+	pixcen.vpl \
 	amber.vpl \
 	green.vpl \
 	white.vpl

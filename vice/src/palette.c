@@ -313,6 +313,7 @@ static const palette_info_t palettelist[] = {
     { "VICII", "PALette",            "palette"},
     { "VICII", "Ptoing",             "ptoing"},
     { "VICII", "Community Colors",   "community-colors"},
+    { "VICII", "Pixcen",             "pixcen"},
     /* data/C128/ */
     { "VDC",   "RGB",                "vdc_deft"}, /* default */
     { "VDC",   "Composite",          "vdc_comp"},
