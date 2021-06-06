@@ -178,28 +178,94 @@ kbdtype_info_t *machine_get_keyboard_info_list(void)
 
 /* ------------------------------------------------------------------------ */
 
-static joyport_port_props_t userport_joy_control_port_1 =
+static joyport_port_props_t joy_adapter_control_port_1 =
 {
-    "Userport joystick adapter port 1",
-    0,                  /* NO potentiometer connected to this port */
-    0,                  /* has NO lightpen support on this port */
-    0                   /* port can be switched on/off */
+    "Joystick adapter port 1",
+    0,                      /* has NO potentiometer connected to this port */
+    0,                      /* has NO lightpen support on this port */
+    0                       /* port can be switched on/off */
 };
 
-static joyport_port_props_t userport_joy_control_port_2 =
+static joyport_port_props_t joy_adapter_control_port_2 =
 {
-    "Userport joystick adapter port 2",
-    0,                  /* has NO potentiometer connected to this port */
-    0,                  /* has NO lightpen support on this port */
-    0                   /* port can be switched on/off */
+    "Joystick adapter port 2",
+    0,                      /* has NO potentiometer connected to this port */
+    0,                      /* has NO lightpen support on this port */
+    0                       /* port can be switched on/off */
+};
+
+static joyport_port_props_t joy_adapter_control_port_3 =
+{
+    "Joystick adapter port 3",
+    0,                      /* has NO potentiometer connected to this port */
+    0,                      /* has NO lightpen support on this port */
+    0                       /* port can be switched on/off */
+};
+
+static joyport_port_props_t joy_adapter_control_port_4 =
+{
+    "Joystick adapter port 4",
+    0,                      /* has NO potentiometer connected to this port */
+    0,                      /* has NO lightpen support on this port */
+    0                       /* port can be switched on/off */
+};
+
+static joyport_port_props_t joy_adapter_control_port_5 =
+{
+    "Joystick adapter port 5",
+    0,                      /* has NO potentiometer connected to this port */
+    0,                      /* has NO lightpen support on this port */
+    0                       /* port can be switched on/off */
+};
+
+static joyport_port_props_t joy_adapter_control_port_6 =
+{
+    "Joystick adapter port 6",
+    0,                      /* has NO potentiometer connected to this port */
+    0,                      /* has NO lightpen support on this port */
+    0                       /* port can be switched on/off */
+};
+
+static joyport_port_props_t joy_adapter_control_port_7 =
+{
+    "Joystick adapter port 7",
+    0,                      /* has NO potentiometer connected to this port */
+    0,                      /* has NO lightpen support on this port */
+    0                       /* port can be switched on/off */
+};
+
+static joyport_port_props_t joy_adapter_control_port_8 =
+{
+    "Joystick adapter port 8",
+    0,                      /* has NO potentiometer connected to this port */
+    0,                      /* has NO lightpen support on this port */
+    0                       /* port can be switched on/off */
 };
 
 static int init_joyport_ports(void)
 {
-    if (joyport_port_register(JOYPORT_3, &userport_joy_control_port_1) < 0) {
+    if (joyport_port_register(JOYPORT_3, &joy_adapter_control_port_1) < 0) {
         return -1;
     }
-    return joyport_port_register(JOYPORT_4, &userport_joy_control_port_2);
+    if (joyport_port_register(JOYPORT_4, &joy_adapter_control_port_2) < 0) {
+        return -1;
+    }
+    if (joyport_port_register(JOYPORT_5, &joy_adapter_control_port_3) < 0) {
+        return -1;
+    }
+    if (joyport_port_register(JOYPORT_6, &joy_adapter_control_port_4) < 0) {
+        return -1;
+    }
+    if (joyport_port_register(JOYPORT_7, &joy_adapter_control_port_5) < 0) {
+        return -1;
+    }
+    if (joyport_port_register(JOYPORT_8, &joy_adapter_control_port_6) < 0) {
+        return -1;
+    }
+    if (joyport_port_register(JOYPORT_9, &joy_adapter_control_port_7) < 0) {
+        return -1;
+    }
+    return joyport_port_register(JOYPORT_10, &joy_adapter_control_port_8);
 }
 
 /* PET-specific resource initialization.  This is called before initializing
