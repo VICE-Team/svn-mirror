@@ -35,6 +35,11 @@
 #define JOYPORT_ID_JOY3               -3
 #define JOYPORT_ID_JOY4               -4
 #define JOYPORT_ID_JOY5               -5
+#define JOYPORT_ID_JOY6               -6
+#define JOYPORT_ID_JOY7               -7
+#define JOYPORT_ID_JOY8               -8
+#define JOYPORT_ID_JOY9               -9
+#define JOYPORT_ID_JOY10              -10
 
 /* #define JOYPORT_EXPERIMENTAL_DEVICES */
 
@@ -93,8 +98,13 @@ enum {
 #define JOYPORT_4   3   /**< c64/c128/scpu64/cbm2/pet/plus4/vic20 userport
                              joystick adapter port 2 */
 #define JOYPORT_5   4   /**< plus4 sidcart control port */
+#define JOYPORT_6   5
+#define JOYPORT_7   6
+#define JOYPORT_8   7
+#define JOYPORT_9   8
+#define JOYPORT_10  9
 
-#define JOYPORT_MAX_PORTS     5
+#define JOYPORT_MAX_PORTS     10
 
 #define JOYPORT_IS_NOT_LIGHTPEN   0
 #define JOYPORT_IS_LIGHTPEN       1

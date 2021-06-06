@@ -67,7 +67,7 @@
  * These references are used to update the UI when swapping joysticks
  */
 static GtkWidget *device_widgets[JOYPORT_MAX_PORTS] = {
-    NULL, NULL, NULL, NULL, NULL
+    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 };
 
 
