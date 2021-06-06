@@ -43,20 +43,22 @@
 
 /** \brief  Create widget to control Final Expansion resources
  *
- * \param[in]   parent  parent widget, used for dialogs
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
 GtkWidget *final_expansion_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *check;
 
-    grid = gtk_grid_new();
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    check = vice_gtk3_resource_check_button_new(
+            "FinalExpansionWriteBack",
+            "Enable Final Expansion image write back"),
 
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("FinalExpansionWriteBack",
-                "Enable Final Expansion image write back"),
-            0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), check, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
+
     return grid;
 }

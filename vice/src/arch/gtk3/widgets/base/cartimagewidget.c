@@ -179,7 +179,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Create widget to load/save/flush cart image file
  *
- * \param[in]   parent          parent widget (used for dialogs)
+ * \param[in]   parent          parent widget (unused)
  * \param[in]   title           widget title
  * \param[in]   resource_fname  resource for the image file name
  * \param[in]   resource_fwrite resource controlling flush-on-exit/detach

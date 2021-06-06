@@ -59,8 +59,12 @@
 static gfxoutputdrv_t *driver_info = NULL;
 
 /* references to combo boxes, used in various event handlers */
+
+/** \brief  File format combo box reference */
 static GtkWidget *format_widget = NULL;
+/** \brief  Video codec combo box reference */
 static GtkWidget *video_widget = NULL;
+/** \brief  Audio codec combo box reference */
 static GtkWidget *audio_widget = NULL;
 
 /* forward declarations of functions */
@@ -99,7 +103,6 @@ static void on_format_changed(GtkWidget *widget, gpointer data)
     if (fmt_name != NULL && *fmt_name != '\0') {
         resources_set_string("FFMPEGFormat", fmt_name);
     }
-
 
     video = create_video_model(fmt_id);
     gtk_combo_box_set_active(GTK_COMBO_BOX(video_widget), 0);
@@ -221,6 +224,8 @@ static GtkListStore *create_format_model(void)
 
 /** \brief  Create a model for the video codecs of \a fmt
  *
+ * \param[in]   fmt format index
+ *
  * \return  GtkListStore
  */
 static GtkListStore *create_video_model(int fmt)
@@ -255,6 +260,8 @@ static GtkListStore *create_video_model(int fmt)
 
 
 /** \brief  Create a GtkListStore for the audio codecs of \a fmt
+ *
+ * \param[in]   fmt format index
  *
  * \return  GtkListStore
  */
@@ -332,7 +339,7 @@ static GtkWidget *create_format_combo_box(void)
  *
  * \param[in]   fmt FFMPEG driver format name
  */
-static void update_format_combo_box(const char * fmt)
+static void update_format_combo_box(const char *fmt)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -424,8 +431,9 @@ static void update_audio_combo_box(int id)
 
 /** \brief  Create combo box with supported video codecs for \a fmt
  *
+ * \param[in]   fmt format index
+ *
  * \return  GtkComboBox
- * ne
  */
 static GtkWidget *create_video_combo_box(int fmt)
 {
@@ -449,6 +457,8 @@ static GtkWidget *create_video_combo_box(int fmt)
 
 
 /** \brief  Create combo box with supported audio codecs for \a fmt
+ *
+ * \param[in]   fmt format index
  *
  * \return  GtkComboBox
  */
@@ -502,9 +512,7 @@ GtkWidget *ffmpeg_widget_create(void)
     /* get index in table of format */
     fmt_index = get_format_index_by_name(current_format);
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* format selection */
     label = create_indented_label("format");

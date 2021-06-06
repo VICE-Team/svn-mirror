@@ -2,12 +2,15 @@
  * \brief   Widget to control Expert Cartridge resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * Controls the following resource(s):
- *  ExpertCartridgeEnabled  (x64/x64sc/xscpu64/x128)
- *  ExpertCartridgeMode     (x64/x64sc/xscpu64/x128)
- *  Expertfilename          (x64/x64sc/xscpu64/x128)
- *  ExpertImageWrite        (x64/x64sc/xscpu64/x128)
+ *
+ * $VICERES     ExpertCartridgeEnabled  x64 x64sc xscpu64 x128
+ * $VICERES     ExpertCartridgeMode     x64 x64sc xscpu64 x128
+ * $VICERES     Expertfilename          x64 x64sc xscpu64 x128
+ * $VICERES     ExpertImageWrite        x64 x64sc xscpu64 x128
  */
 
 /*
@@ -79,9 +82,10 @@ static GtkWidget *create_expert_mode_widget(void)
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_expert_image_widget(GtkWidget *parent)
+static GtkWidget *create_expert_image_widget(void)
 {
-    return cart_image_widget_create(parent, "Expert Cartridge image",
+    return cart_image_widget_create(
+            NULL, "Expert Cartridge image",
             "Expertfilename", "ExpertImageWrite",
             carthelpers_save_func, carthelpers_flush_func,
             carthelpers_can_save_func, carthelpers_can_flush_func,
@@ -91,7 +95,7 @@ static GtkWidget *create_expert_image_widget(GtkWidget *parent)
 
 /** \brief  Create widget to control Expert Cartridge resources
  *
- * \param[in]   parent  parent widget, used for dialogs
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -102,10 +106,7 @@ GtkWidget *expert_widget_create(GtkWidget *parent)
     GtkWidget *expert_image;
     GtkWidget *expert_mode;
 
-
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     expert_enable_widget = carthelpers_create_enable_check_button(
             CARTRIDGE_NAME_EXPERT, CARTRIDGE_EXPERT);
@@ -114,7 +115,7 @@ GtkWidget *expert_widget_create(GtkWidget *parent)
     expert_mode = create_expert_mode_widget();
     gtk_grid_attach(GTK_GRID(grid), expert_mode, 0, 1, 1, 1);
 
-    expert_image = create_expert_image_widget(parent);
+    expert_image = create_expert_image_widget();
     gtk_grid_attach(GTK_GRID(grid), expert_image, 0, 2, 1, 1);
 
     gtk_widget_show_all(grid);

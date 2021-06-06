@@ -32,7 +32,5 @@
 #include <gtk/gtk.h>
 
 GtkWidget * easyflash_widget_create(GtkWidget *parent);
-void easyflash_widget_set_save_func(int (*func)(int, const char *));
-void easyflash_widget_set_flush_func(int (*func)(int));
 
 #endif
