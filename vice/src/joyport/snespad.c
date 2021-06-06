@@ -84,9 +84,9 @@ static int joyport_snespad_enable(int port, int value)
 static uint8_t snespad_read(int port)
 {
     uint8_t retval;
-    uint16_t joyval1 = get_joystick_value(port);
-    uint16_t joyval2 = get_joystick_value(JOYPORT_3);
-    uint16_t joyval3 = get_joystick_value(JOYPORT_4);
+    uint16_t joyval1 = get_joystick_value(JOYPORT_3);
+    uint16_t joyval2 = get_joystick_value(JOYPORT_4);
+    uint16_t joyval3 = get_joystick_value(JOYPORT_5);
 
     switch (counter) {
         case SNESPAD_BUTTON_A:
@@ -181,7 +181,7 @@ static void snespad_store(uint8_t val)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_snespad_device = {
-    "SNES PAD",                       /* name of the device */
+    "Joystick port SNES PAD",         /* name of the device */
     JOYPORT_RES_ID_NONE,              /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,             /* device does NOT use the potentiometer lines */
