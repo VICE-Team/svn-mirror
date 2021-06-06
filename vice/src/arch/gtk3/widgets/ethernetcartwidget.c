@@ -115,8 +115,8 @@ static GtkWidget *create_cartridge_base_widget(void)
 
             index = 0;
             for (base = 0xde00; base < 0xe000; base += 0x10) {
-                g_snprintf(text, 256, "$%04X", base);
-                g_snprintf(id, 80, "%u", base);
+                g_snprintf(text, sizeof(text), "$%04X", base);
+                g_snprintf(id, sizeof(id), "%u", base);
                 gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), id, text);
                 if (current == base) {
                     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
@@ -130,8 +130,8 @@ static GtkWidget *create_cartridge_base_widget(void)
             index = 0;
             /* add range $9800-$98f0 */
             for (base = 0x9800; base < 0x9900; base += 0x10) {
-                g_snprintf(text, 256, "$%04X", base);
-                g_snprintf(id, 80, "%u", base);
+                g_snprintf(text, sizeof(text), "$%04X", base);
+                g_snprintf(id, sizeof(id), "%u", base);
                 gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), id, text);
                 if (current == base) {
                     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
@@ -140,8 +140,8 @@ static GtkWidget *create_cartridge_base_widget(void)
             }
             /* add range $9c00-$9cf0 */
             for (base = 0x9c00; base < 0x9d00; base += 0x10) {
-                g_snprintf(text, 256, "$%04X", base);
-                g_snprintf(id, 80, "%u", base);
+                g_snprintf(text, sizeof(text), "$%04X", base);
+                g_snprintf(id, sizeof(id), "%u", base);
                 gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), id, text);
                 if (current == base) {
                     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
@@ -175,9 +175,7 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
     GtkWidget *base_label;
     int row;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     enable_widget = vice_gtk3_resource_check_button_new(
             "ETHERNETCART_ACTIVE", "Enable ethernet cartridge");

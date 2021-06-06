@@ -50,9 +50,8 @@ static GtkWidget *stil_view;
 
 /** \brief  Create tags for the textview displaying info on a SID via STIL
  *
- * \return  1
  */
-static int hvsc_stil_widget_create_tags(void)
+static void hvsc_stil_widget_create_tags(void)
 {
 
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(stil_view));
@@ -115,11 +114,6 @@ static int hvsc_stil_widget_create_tags(void)
             "foreground", "darkgreen",
             "weight", PANGO_WEIGHT_MEDIUM,
             NULL);
-
-
-    return 1;
-
-
 }
 
 
@@ -163,7 +157,6 @@ GtkWidget *hvsc_stil_widget_create(void)
     /* add view */
     stil_view = create_view();
 
-
     hvsc_stil_widget_create_tags();
 
     scroll = gtk_scrolled_window_new(NULL, NULL);
@@ -174,22 +167,6 @@ GtkWidget *hvsc_stil_widget_create(void)
             GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scroll), stil_view);
     gtk_grid_attach(GTK_GRID(grid), scroll, 0, 1, 1, 1);
-
-    /* XXX: needs to be handled somewhere else */
-#if 0
-    /* set up drag-drop */
-    gtk_drag_dest_set(
-            stil_view,
-            GTK_DEST_DEFAULT_ALL,
-            ui_drag_targets,
-            UI_DRAG_TARGETS_COUNT,
-            GDK_ACTION_COPY);
-    g_signal_connect(stil_view, "drag-data-received",
-                     G_CALLBACK(ui_on_drag_data_received), NULL);
-    g_signal_connect(stil_view, "drag-drop",
-                     G_CALLBACK(ui_on_drag_drop), NULL);
-#endif
-
     gtk_widget_set_vexpand(grid, TRUE);
     gtk_widget_show_all(grid);
     return grid;

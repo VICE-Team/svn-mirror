@@ -100,6 +100,12 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Callback for the EEPROM file selection dialog
+ *
+ * \param[in,out]   dialog      file chooser dialog
+ * \param[in,out]   filename    name of the EEPROM file
+ * \param[in]       data        extra data (unused)
+ */
 static void eeprom_filename_callback(GtkDialog *dialog,
                                      gchar *filename,
                                      gpointer data)
@@ -126,11 +132,14 @@ static void eeprom_filename_callback(GtkDialog *dialog,
  */
 static void on_eeprom_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    vice_gtk3_open_file_dialog(
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_open_file_dialog(
             "Open EEMPROM image",
-             NULL, NULL, NULL,
-             eeprom_filename_callback,
-             NULL);
+            NULL, NULL, NULL,
+            eeprom_filename_callback,
+            NULL);
+    gtk_widget_show(dialog);
 }
 
 
@@ -221,9 +230,7 @@ GtkWidget *gmod2_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     gtk_grid_attach(GTK_GRID(grid), create_cart_image_widget(), 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_eeprom_image_widget(), 0, 1, 1, 1);

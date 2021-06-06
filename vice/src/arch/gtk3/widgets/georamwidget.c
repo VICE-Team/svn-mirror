@@ -97,10 +97,10 @@ static GtkWidget *create_georam_size_widget(void)
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_georam_image_widget(GtkWidget *parent)
+static GtkWidget *create_georam_image_widget(void)
 {
-    /* TODO: add reset()/sync()/factory() methods to whatever is used here */
-    return cart_image_widget_create(parent, "GEORAM Image",
+    return cart_image_widget_create(
+            NULL, "GEORAM Image",
             "GEORAMfilename", "GEORAMImageWrite",
             carthelpers_save_func, carthelpers_flush_func,
             carthelpers_can_save_func, carthelpers_can_flush_func,
@@ -110,7 +110,7 @@ static GtkWidget *create_georam_image_widget(GtkWidget *parent)
 
 /** \brief  Create widget to control GEORAM resources
  *
- * \param[in]   parent  parent widget, used for dialogs
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -122,11 +122,8 @@ GtkWidget *georam_widget_create(GtkWidget *parent)
     GtkWidget *georam_ioswap;
     GtkWidget *georam_image;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
-    /*    georam_enable = create_georam_enable_widget(); */
     georam_enable = carthelpers_create_enable_check_button(
             CARTRIDGE_NAME_GEORAM, CARTRIDGE_GEORAM);
     gtk_grid_attach(GTK_GRID(grid), georam_enable, 0, 0, 2, 1);
@@ -139,7 +136,7 @@ GtkWidget *georam_widget_create(GtkWidget *parent)
     georam_size = create_georam_size_widget();
     gtk_grid_attach(GTK_GRID(grid), georam_size, 0, 1, 1, 1);
 
-    georam_image = create_georam_image_widget(parent);
+    georam_image = create_georam_image_widget();
     gtk_grid_attach(GTK_GRID(grid), georam_image, 1, 1, 1, 1);
 
     gtk_widget_show_all(grid);
