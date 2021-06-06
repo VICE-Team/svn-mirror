@@ -982,6 +982,7 @@ int joystick_init(void)
     joy_sdl_init();
 #endif
 
+#ifndef HAVE_SDL_NUMJOYSTICKS
     int i;
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
         if (joystick_port_map[i] >= JOYDEV_REALJOYSTICK_MIN) {
@@ -992,7 +993,8 @@ int joystick_init(void)
             }
         }
     }
-    
+#endif
+
     return 1;
 }
 
