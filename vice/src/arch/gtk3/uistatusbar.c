@@ -1268,13 +1268,14 @@ static void update_joyport_layout(ui_sb_state_t *state_snapshot)
         }
     }
 
-    /* For now disable ports 6-10, re-enable once handling of those ports
+    /* For now disable ports 6-11, re-enable once handling of those ports
        has been added. */
     ok[5] = 0;
     ok[6] = 0;
     ok[7] = 0;
     ok[8] = 0;
     ok[9] = 0;
+    ok[10] = 0;
 
     /* Now that we have a list of disabled/enabled ports, let's check
      * to see if anything has changed */
