@@ -671,8 +671,9 @@ typedef struct joystick_hat_mapping_s {
     struct joystick_mapping_s right;
 } joystick_hat_mapping_t;
 
+#ifndef HAVE_SDL_NUMJOYSTICKS
 static int num_joystick_devices = 0;
-
+#endif
 
 /** \brief  Joystick device name length (including 0)
  */
@@ -689,7 +690,10 @@ typedef struct joystick_device_s {
     joystick_hat_mapping_t *hat_mapping;
 } joystick_device_t;
 
+
+#ifndef HAVE_SDL_NUMJOYSTICKS
 static struct joystick_device_s *joystick_devices = NULL;
+#endif
 
 static int set_joystick_device(int val, void *param)
 {
