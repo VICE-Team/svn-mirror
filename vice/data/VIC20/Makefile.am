@@ -3,6 +3,7 @@ vic20dir = $(VICE_DATADIR)/VIC20
 roms = \
 	basic \
 	chargen \
+	chargen-jp \
 	kernal
 
 romsets = \
