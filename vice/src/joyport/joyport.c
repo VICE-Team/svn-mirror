@@ -580,6 +580,42 @@ static const resource_int_t resources_int_port5[] = {
     RESOURCE_INT_LIST_END
 };
 
+static const resource_int_t resources_int_port6[] = {
+    { "JoyPort6Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
+      &joy_port[JOYPORT_6], set_joyport_device, (void *)JOYPORT_6 },
+    RESOURCE_INT_LIST_END
+};
+
+static const resource_int_t resources_int_port7[] = {
+    { "JoyPort7Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
+      &joy_port[JOYPORT_7], set_joyport_device, (void *)JOYPORT_7 },
+    RESOURCE_INT_LIST_END
+};
+
+static const resource_int_t resources_int_port8[] = {
+    { "JoyPort8Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
+      &joy_port[JOYPORT_8], set_joyport_device, (void *)JOYPORT_8 },
+    RESOURCE_INT_LIST_END
+};
+
+static const resource_int_t resources_int_port9[] = {
+    { "JoyPort9Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
+      &joy_port[JOYPORT_9], set_joyport_device, (void *)JOYPORT_9 },
+    RESOURCE_INT_LIST_END
+};
+
+static const resource_int_t resources_int_port10[] = {
+    { "JoyPort10Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
+      &joy_port[JOYPORT_10], set_joyport_device, (void *)JOYPORT_10 },
+    RESOURCE_INT_LIST_END
+};
+
+static const resource_int_t resources_int_port11[] = {
+    { "JoyPort11Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
+      &joy_port[JOYPORT_11], set_joyport_device, (void *)JOYPORT_11 },
+    RESOURCE_INT_LIST_END
+};
+
 int joyport_resources_init(void)
 {
     int i;
@@ -589,6 +625,42 @@ int joyport_resources_init(void)
     joyport_device[0].is_lp = JOYPORT_IS_NOT_LIGHTPEN;
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         joy_port[i] = JOYPORT_ID_NONE;
+    }
+
+    if (port_props[JOYPORT_11].name) {
+        if (resources_register_int(resources_int_port11) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_10].name) {
+        if (resources_register_int(resources_int_port10) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_9].name) {
+        if (resources_register_int(resources_int_port9) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_8].name) {
+        if (resources_register_int(resources_int_port8) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_7].name) {
+        if (resources_register_int(resources_int_port7) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_6].name) {
+        if (resources_register_int(resources_int_port6) < 0) {
+            return -1;
+        }
     }
 
     if (port_props[JOYPORT_5].name) {
@@ -785,6 +857,54 @@ static cmdline_option_t cmdline_options_port5[] =
     CMDLINE_LIST_END
 };
 
+static cmdline_option_t cmdline_options_port6[] =
+{
+    { "-controlport6device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_joyport_cmdline_device, (void *)JOYPORT_6, NULL, NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+
+static cmdline_option_t cmdline_options_port7[] =
+{
+    { "-controlport7device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_joyport_cmdline_device, (void *)JOYPORT_7, NULL, NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+
+static cmdline_option_t cmdline_options_port8[] =
+{
+    { "-controlport8device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_joyport_cmdline_device, (void *)JOYPORT_8, NULL, NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+
+static cmdline_option_t cmdline_options_port9[] =
+{
+    { "-controlport9device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_joyport_cmdline_device, (void *)JOYPORT_9, NULL, NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+
+static cmdline_option_t cmdline_options_port10[] =
+{
+    { "-controlport10device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_joyport_cmdline_device, (void *)JOYPORT_10, NULL, NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+
+static cmdline_option_t cmdline_options_port11[] =
+{
+    { "-controlport11device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_joyport_cmdline_device, (void *)JOYPORT_11, NULL, NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+
 int joyport_cmdline_options_init(void)
 {
     union char_func cf;
@@ -830,6 +950,60 @@ int joyport_cmdline_options_init(void)
         cmdline_options_port5[0].description = cf.c;
         cmdline_options_port5[0].attributes |= (JOYPORT_5 << 8);
         if (cmdline_register_options(cmdline_options_port5) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_6].name) {
+        cf.f = build_joyport_string;
+        cmdline_options_port6[0].description = cf.c;
+        cmdline_options_port6[0].attributes |= (JOYPORT_6 << 8);
+        if (cmdline_register_options(cmdline_options_port6) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_7].name) {
+        cf.f = build_joyport_string;
+        cmdline_options_port7[0].description = cf.c;
+        cmdline_options_port7[0].attributes |= (JOYPORT_7 << 8);
+        if (cmdline_register_options(cmdline_options_port7) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_8].name) {
+        cf.f = build_joyport_string;
+        cmdline_options_port8[0].description = cf.c;
+        cmdline_options_port8[0].attributes |= (JOYPORT_8 << 8);
+        if (cmdline_register_options(cmdline_options_port8) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_9].name) {
+        cf.f = build_joyport_string;
+        cmdline_options_port9[0].description = cf.c;
+        cmdline_options_port9[0].attributes |= (JOYPORT_9 << 8);
+        if (cmdline_register_options(cmdline_options_port9) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_10].name) {
+        cf.f = build_joyport_string;
+        cmdline_options_port10[0].description = cf.c;
+        cmdline_options_port10[0].attributes |= (JOYPORT_10 << 8);
+        if (cmdline_register_options(cmdline_options_port10) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[JOYPORT_11].name) {
+        cf.f = build_joyport_string;
+        cmdline_options_port11[0].description = cf.c;
+        cmdline_options_port11[0].attributes |= (JOYPORT_11 << 8);
+        if (cmdline_register_options(cmdline_options_port11) < 0) {
             return -1;
         }
     }
