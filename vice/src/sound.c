@@ -856,7 +856,8 @@ static int sid_init(void)
         }
     }
 
-    snddata.clkstep = SOUNDCLK_CONSTANT(cycles_per_sec) / sample_rate;
+    /* Sample based sound engines rely on clkstep for timing */
+    snddata.clkstep = SOUNDCLK_CONSTANT(speed_percent / 100 * cycles_per_sec) / sample_rate;
 
     snddata.origclkstep = snddata.clkstep;
     snddata.clkfactor = SOUNDCLK_CONSTANT(1.0);
