@@ -164,6 +164,10 @@ static const ui_menu_entry_t vic20_model_submenu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       custom_VIC20Model_callback,
       (ui_callback_data_t)VIC20MODEL_VIC21 },
+    { "VIC1001",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_VIC20Model_callback,
+      (ui_callback_data_t)VIC20MODEL_VIC1001 },
     SDL_MENU_LIST_END
 };
 

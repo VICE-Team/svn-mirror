@@ -58,6 +58,7 @@ static const char *vic20_model_list[] = {
     "VIC20 PAL",
     "VIC20 NTSC",
     "VIC21",
+    "VIC1001",
     NULL
 };
 
