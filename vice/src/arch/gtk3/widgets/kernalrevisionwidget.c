@@ -184,7 +184,7 @@ void kernal_revision_widget_sync(GtkWidget *widget)
 
 /** \brief  Add extra callback
  *
- * \param[in[   callback    extra callback for widget changes
+ * \param[in]   callback    extra callback for widget changes
  */
 void kernal_revision_widget_add_callback(void (*callback)(int))
 {

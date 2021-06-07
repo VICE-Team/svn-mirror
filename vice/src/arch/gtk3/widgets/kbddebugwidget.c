@@ -110,6 +110,4 @@ void kdb_debug_widget_update(GdkEvent *event)
             );
 
     gtk_label_set_markup(GTK_LABEL(keymod_widget), buffer);
-
-
 }

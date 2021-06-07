@@ -109,9 +109,6 @@ static void on_adapter_changed(GtkComboBoxText *combo, gpointer user_data)
 
 /** \brief  Create joystick device selection widget
  *
- * \param[in]   device  device number (0-4)
- * \param[in]   title   widget title
- *
  * \return  GtkGrid
  */
 GtkWidget *joystick_userport_adapter_widget_create(void)
@@ -156,7 +153,7 @@ GtkWidget *joystick_userport_adapter_widget_create(void)
     for (i = 0; list[i].name != NULL; i++) {
         char id[32];
 
-        g_snprintf(id, 32, "%d", list[i].id);
+        g_snprintf(id, sizeof(id), "%d", list[i].id);
 
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
                 id, list[i].name);

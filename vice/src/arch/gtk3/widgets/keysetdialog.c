@@ -63,7 +63,10 @@
 #include "keysetdialog.h"
 
 
+/** \brief  Number of rows in the grid */
 #define ROWS    6
+
+/** \brief  Number of columns in the grid */
 #define COLS    3
 
 

@@ -66,7 +66,7 @@ static void on_destroy(GtkWidget *widget, gpointer data)
  *
  * Frees memory used by radio buttons list
  *
- * \param[in]   widget  widget (unused)
+ * \param[in]   widget      widget (unused)
  * \param[in]   event       extra event data (unused)
  * \param[in]   user_data   extra user data (unused)
  */
@@ -75,6 +75,7 @@ static void on_changed(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
     /* update widget so sym/pos is greyed out correctly */
     kbdmapping_widget_update();
 }
+
 
 /** \brief  Create a keyboard layout selection widget
  *

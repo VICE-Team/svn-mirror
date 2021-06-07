@@ -51,7 +51,7 @@
 static GtkWidget *entry_widget;
 
 
-/** \brief  Handler for the "toggled" event of the 'enable' check button
+/** \brief  Handler for the 'toggled' event of the 'enable' check button
  *
  * Toggles the 'enabled' state of the IEEE-488 adapter/cart, but only if an
  * EEPROM image has been specified, otherwise when trying to set the check
@@ -160,9 +160,7 @@ GtkWidget *ieee488_widget_create(GtkWidget *parent)
     }
     enable_state = carthelpers_is_enabled_func(CARTRIDGE_IEEE488);
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* we can't use a `resource_check_button` here, since toggling the resource
      * depends on whether an image file is specified

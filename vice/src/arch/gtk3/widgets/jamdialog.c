@@ -89,9 +89,8 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
     gtk_box_pack_start(GTK_BOX(content), label, FALSE, FALSE, 16);
     gtk_widget_show_all(content);
 
- 
     switch (gtk_dialog_run(GTK_DIALOG(dialog))) {
-        case RESPONSE_NONE:
+        case RESPONSE_NONE:             /* fall through */
         case GTK_RESPONSE_DELETE_EVENT:
             result = UI_JAM_NONE;
             break;
@@ -105,6 +104,7 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
             result = UI_JAM_MONITOR;
             break;
         case RESPONSE_QUIT:
+            gtk_widget_destroy(dialog);
             archdep_vice_exit(0);
             break;
         default:
