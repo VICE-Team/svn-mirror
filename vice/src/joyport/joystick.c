@@ -93,7 +93,7 @@
 #define JOYPAD_NW   (JOYPAD_N | JOYPAD_W)
 #define JOYPAD_NE   (JOYPAD_N | JOYPAD_E)
 
-static int joyport_joystick[5] = { 0, 0, 0, 0, 0 };
+static int joyport_joystick[JOYPORT_MAX_PORTS] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 /* Global joystick value.  */
 /*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */
@@ -192,6 +192,24 @@ static void joystick_latch_matrix(CLOCK offset)
     }
     if (joyport_joystick[4]) {
         joyport_display_joyport(JOYPORT_ID_JOY5, joystick_value[JOYPORT_5]);
+    }
+    if (joyport_joystick[5]) {
+        joyport_display_joyport(JOYPORT_ID_JOY6, joystick_value[JOYPORT_6]);
+    }
+    if (joyport_joystick[6]) {
+        joyport_display_joyport(JOYPORT_ID_JOY7, joystick_value[JOYPORT_7]);
+    }
+    if (joyport_joystick[7]) {
+        joyport_display_joyport(JOYPORT_ID_JOY8, joystick_value[JOYPORT_8]);
+    }
+    if (joyport_joystick[8]) {
+        joyport_display_joyport(JOYPORT_ID_JOY9, joystick_value[JOYPORT_9]);
+    }
+    if (joyport_joystick[9]) {
+        joyport_display_joyport(JOYPORT_ID_JOY10, joystick_value[JOYPORT_10]);
+    }
+    if (joyport_joystick[10]) {
+        joyport_display_joyport(JOYPORT_ID_JOY11, joystick_value[JOYPORT_11]);
     }
 }
 
