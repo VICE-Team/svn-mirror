@@ -90,6 +90,8 @@ static uint16_t sdl_monitor_translation[256];
  * Used to properly clean up when 'Quit emu' is triggered
  */
 static uint8_t *draw_buffer_backup = NULL;
+static unsigned int draw_buffer_backup_width = 0;
+static unsigned int draw_buffer_backup_height = 0;
 
 /** \brief  Reference to menu offsets allocated in sdl_ui_menu_get_offsets()
  *
@@ -727,8 +729,11 @@ void sdl_ui_create_draw_buffer_backup(void)
 {
     unsigned int width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     unsigned int height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+
     draw_buffer_backup = lib_malloc(width * height);
     memcpy(draw_buffer_backup, sdl_active_canvas->draw_buffer->draw_buffer, width * height);
+    draw_buffer_backup_width = width;
+    draw_buffer_backup_height = height;
 }
 
 /* copy the backup of the emulator output back to the canvas */
@@ -736,7 +741,8 @@ void sdl_ui_restore_draw_buffer_backup(void)
 {
     unsigned int width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     unsigned int height = sdl_active_canvas->draw_buffer->draw_buffer_height;
-    if (draw_buffer_backup) {
+
+    if (draw_buffer_backup && draw_buffer_backup_width == width && draw_buffer_backup_height == height) {
         memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
     }
 }
