@@ -184,6 +184,7 @@ static char *ln_strdup(const char *s)
 
 #include "linenoise.h"
 #include "ConvertUTF.h"
+#include "wcwidth.h"
 
 #include <string>
 #include <vector>

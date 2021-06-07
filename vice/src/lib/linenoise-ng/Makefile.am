@@ -18,5 +18,6 @@ liblinenoiseng_a_SOURCES = \
 
 EXTRA_DIST = \
 	     ConvertUTF.h \
-	     linenoise.h
+	     linenoise.h \
+	     wcwidth.h
 

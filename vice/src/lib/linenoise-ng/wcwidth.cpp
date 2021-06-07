@@ -63,6 +63,8 @@
 #include <string>
 #include <memory>
 
+#include "wcwidth.h"
+
 namespace linenoise_ng {
 
 struct interval {
