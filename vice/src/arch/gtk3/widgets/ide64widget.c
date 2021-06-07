@@ -100,6 +100,9 @@ static const vice_gtk3_combo_entry_int_t etfe_addresses[] = {
 };
 #endif
 
+
+/** \brief  References to the image filename entry boxes
+ */
 static GtkWidget *image_entry[4];
 
 
@@ -290,7 +293,8 @@ static GtkWidget *create_ide64_clockport_widget(void)
  */
 static GtkWidget *create_ide64_rtc_widget(void)
 {
-    return vice_gtk3_resource_check_button_new("IDE64RTCSave",
+    return vice_gtk3_resource_check_button_new(
+            "IDE64RTCSave",
             "Enable RTC saving");
 }
 
@@ -456,7 +460,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
 
 /** \brief  Create widget to control IDE64 resources
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */

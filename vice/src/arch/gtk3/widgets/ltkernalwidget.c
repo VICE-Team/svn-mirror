@@ -125,11 +125,11 @@ static GtkWidget *create_io_address_widget(void)
 
 
 
-/** \brief  Handler for the "focus-out" event of the serial number entry
+/** \brief  Handler for the 'focus-out' event of the serial number entry
  *
  * \param[in]   entry   entry box
  * \param[in]   event   event object
- * \param[in]   data    unused
+ * \param[in]   data    extra event data (unused)
  *
  * \return  TRUE
  */
@@ -154,11 +154,11 @@ static gboolean on_serial_focus_out_event(
 }
 
 
-/** \brief  Handler for the "on-key-press" event for the serial number entry
+/** \brief  Handler for the 'on-key-press' event for the serial number entry
  *
  * \param[in]   entry   entry box
  * \param[in]   event   event object
- * \param[in]   data    unused
+ * \param[in]   data    extra event data (unused)
  *
  * \return  TRUE if Enter was pushed, FALSE otherwise (makes the pushed key
  *          propagate to the entry)
@@ -199,7 +199,7 @@ static gboolean on_serial_key_press_event(
  *
  * The serial number should be a string of 8 decimal digits.
  *
- * TODO: check input and set resource on focus loss or Enter pressed
+ * TODO:    Check input and set resource on focus loss or Enter pressed
  *
  * \return  GtkWidget
  */
@@ -317,4 +317,3 @@ GtkWidget *ltkernal_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
-

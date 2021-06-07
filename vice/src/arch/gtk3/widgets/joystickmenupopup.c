@@ -124,6 +124,13 @@ static gboolean userport_joystick_adapter_enabled(void)
 }
 
 
+/** \brief  Handler for the 'activate' event of the "configure ..." menu item
+ *
+ * Opens the joystick configuration settings page.
+ *
+ * \param[in]   widget      menu item (unused)
+ * \param[in]   user_data   extra event data (unused)
+ */
 static void on_configure_activate(GtkWidget *widget, gpointer user_data)
 {
     ui_settings_dialog_create_and_activate_node("input/joystick");
@@ -209,7 +216,6 @@ GtkWidget *joystick_menu_popup_create(void)
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "toggled", G_CALLBACK(on_mousegrab_toggled), NULL);
 
- 
     item = gtk_separator_menu_item_new();
     gtk_container_add(GTK_CONTAINER(menu), item);
 

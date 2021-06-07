@@ -122,7 +122,7 @@ static GtkWidget *create_symbolic_keymap_browser(void)
 
 /** \brief  Create resource browser widget for the user-defined positional keymap
  *
- * \return  resource browser widget
+ * \return  GtkGrid
  */
 static GtkWidget *create_positional_keymap_browser(void)
 {
@@ -146,7 +146,6 @@ static GtkWidget *create_positional_keymap_browser(void)
 
 
 /** \brief  Update the widget depending on external dependencies
- *
  */
 void kbdmapping_widget_update(void)
 {
@@ -170,12 +169,14 @@ void kbdmapping_widget_update(void)
 
 /** \brief  Create a keyboard mapping selection widget
  *
+ * \param[in]   parent  parent widget (unused)
+ *
  * \return  GtkWidget
  *
- * \fixme   I'm not really satisfied with the 'select file' buttons, perhaps
+ * \todo    I'm not really satisfied with the 'select file' buttons, perhaps
  *          they should be placed next to the radio buttons?
  */
-GtkWidget *kbdmapping_widget_create(GtkWidget *widget)
+GtkWidget *kbdmapping_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *browser_sym;
