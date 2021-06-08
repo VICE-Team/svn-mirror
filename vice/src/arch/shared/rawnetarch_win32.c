@@ -547,9 +547,14 @@ char *rawnet_arch_get_standard_interface(void)
         return NULL;
     }
 
-    dev = lib_strdup((*p_pcap_lookupdev)(errbuf));
+    dev = (*p_pcap_lookupdev)(errbuf);
 
-    return dev;
+    if (!dev) {
+        log_message(rawnet_arch_log, "Failed to get standard network interface: %s\n", errbuf);
+        return NULL;
+    }
+
+    return lib_strdup(dev);
 }
 
 int rawnet_arch_resources_init(void)
