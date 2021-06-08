@@ -176,9 +176,9 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
 
 
 /** \brief  Create 'info' dialog
- * \param[in]   parent      parent widget
- * \param[in[   title       dialog title
- * \param[in]   fmt         message format string and arguments
+ *
+ * \param[in]   title   dialog title
+ * \param[in]   fmt     message format string and arguments
  *
  * \return  dialog
  */
@@ -208,7 +208,6 @@ GtkWidget *vice_gtk3_message_info(const char *title,
 /** \brief  Create 'confirm' dialog
  *
  * \param[in]   callback    callback function to accept the dialog's result
- * \param[out]  result      location to store result
  * \param[in]   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
@@ -245,13 +244,13 @@ GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
 
 /** \brief  Create 'error' dialog
  *
- * \param[in[   title       dialog title
+ * \param[in]   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
  * \return  dialog
  */
 GtkWidget *vice_gtk3_message_error(const char *title,
-                                 const char *fmt, ...)
+                                   const char *fmt, ...)
 {
     GtkWidget *dialog;
     va_list args;

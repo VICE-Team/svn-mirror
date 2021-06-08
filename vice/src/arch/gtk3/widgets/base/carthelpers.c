@@ -42,15 +42,35 @@
  * Function pointers, used by various other source files. These need to remain
  * public.
  */
+
+/** \brief  Cartridge save function pointer */
 int (*carthelpers_save_func)(int type, const char *filename);
+
+/** \brief  Cartridge flush function pointer */
 int (*carthelpers_flush_func)(int type);
+
+/** \brief  Cartridge is-enabled function pointer */
 int (*carthelpers_is_enabled_func)(int type);
+
+/** \brief  Cartridge enable function pointer */
 int (*carthelpers_enable_func)(int type);
+
+/** \brief  Cartridge disable function pointer */
 int (*carthelpers_disable_func)(int type);
+
+/** \brief  Cartridge can-save function pointer */
 int (*carthelpers_can_save_func)(int type);
+
+/** \brief  Cartridge can-flush function pointer */
 int (*carthelpers_can_flush_func)(int type);
+
+/** \brief  Cartridge set-default function pointer */
 void (*carthelpers_set_default_func)(void);
+
+/** \brief  Cartridge unset-default function pointer */
 void (*carthelpers_unset_default_func)(void);
+
+/** \brief  Cartridge info-list function pointer */
 cartridge_info_t * (*carthelpers_info_list_func)(void);
 
 

@@ -42,12 +42,31 @@
 #include "cartimagewidget.h"
 
 
+/** \brief  Cartridge save function pointer */
 static int (*save_func)(int, const char *) = NULL;
+
+/** \brief  Cartridge flush function pointer */
 static int (*flush_func)(int) = NULL;
-static const char *crt_name;   /**< cartridge name used in messages */
+
+/** \brief  Cartridge name
+ *
+ * Used in messages.
+ */
+static const char *crt_name;
+
+/** \brief  Cartridge ID
+ *
+ * Used for various cartridge functions
+ */
 static int crt_id;  /**< cartridge ID in cartridge_*() calls */
+
+/** \brief  Name of resource containing the cartridge filename */
 static const char *res_fname;
+
+/** \brief  Name of resource containing the flush-on-write setting */
 static const char *res_write;
+
+/** \brief  Reference to the filename entry widget */
 static GtkWidget *filename_entry;
 
 
@@ -122,17 +141,16 @@ static void save_filename_callback(GtkDialog *dialog,
 }
 
 
-/** \brief  Handler for the "clicked" event of the "save" button
+/** \brief  Handler for the 'clicked' event of the "save" button
  *
- * Save cart image file. Uses dirname()/basename() on the GEORAMfilename
- * resource to act as a "Save" button, but also allows changing filename/dir
- * to act as a "Save As" button.
+ * Opens a file chooser to save the cartridge.
  *
  * \param[in]   button      save button
- * \param[in]   user_data   unused
+ * \param[in]   user_data   extra event data (unused)
  */
 static void on_save_clicked(GtkWidget *button, gpointer user_data)
 {
+    GtkWidget *dialog;
     gchar *fname = NULL;
     gchar *dname = NULL;
     char buffer[256];
@@ -150,12 +168,14 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
 
     g_snprintf(buffer, sizeof(buffer), "Save %s image file", crt_name);
 
-    vice_gtk3_save_file_dialog(buffer,
-                              fname,
-                              TRUE,
-                              dname,
-                              save_filename_callback,
-                              NULL);
+    dialog = vice_gtk3_save_file_dialog(
+            buffer,
+            fname,
+            TRUE,
+            dname,
+            save_filename_callback,
+            NULL);
+    gtk_widget_show(dialog);
 }
 
 
@@ -182,9 +202,11 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  * \param[in]   parent          parent widget (unused)
  * \param[in]   title           widget title
  * \param[in]   resource_fname  resource for the image file name
- * \param[in]   resource_fwrite resource controlling flush-on-exit/detach
+ * \param[in]   resource_write  resource controlling flush-on-exit/detach
  * \param[in]   func_save       function to save the image via dialog
  * \param[in]   func_flush      function to flush current image to host
+ * \param[in]   func_can_save   function to check if the cart can be saved
+ * \param[in]   func_can_flush  function to check if the cart cam be flushed
  * \param[in]   cart_name       cartridge name to use in dialogs
  * \param[in]   cart_id         cartridge ID to use in save/flush callbacks
  *
