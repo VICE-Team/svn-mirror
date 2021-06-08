@@ -40,6 +40,7 @@ typedef struct vice_gtk3_combo_entry_int_s {
     int   id;       /**< ID for the entry in the combo box */
 } vice_gtk3_combo_entry_int_t;
 
+/** \brief  combo box int entry list terminator */
 #define VICE_GTK3_COMBO_ENTRY_INT_LIST_END { NULL, -1 }
 
 
@@ -50,6 +51,7 @@ typedef struct vice_gtk3_combo_entry_str_s {
     char *id;       /**< ID for the entry in the combo box */
 } vice_gtk3_combo_entry_str_t;
 
+/** \brief  combo box string entry list terminator */
 #define VICE_GTK3_COMBO_ENTRY_STR_LIST_END { NULL, NULL }
 
 
@@ -60,6 +62,7 @@ typedef struct vice_gtk3_radiogroup_entry_s {
     int   id;       /**< ID for the radio button */
 } vice_gtk3_radiogroup_entry_t;
 
+/** \brief  radiogroup entry list terminator */
 #define VICE_GTK3_RADIOGROUP_ENTRY_LIST_END { NULL, -1 }
 
 
