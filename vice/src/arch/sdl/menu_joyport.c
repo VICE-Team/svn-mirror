@@ -392,7 +392,7 @@ static UI_MENU_CALLBACK(JoyPort8Device_dynmenu_callback)
         joyport8_dyn_menu[i].string = (char *)lib_strdup(devices[i].name);
         joyport8_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport8_dyn_menu[i].callback = radio_JoyPort8Device_callback;
-        joyport5_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+        joyport8_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
     }
 
     joyport8_dyn_menu[i].string = NULL;
