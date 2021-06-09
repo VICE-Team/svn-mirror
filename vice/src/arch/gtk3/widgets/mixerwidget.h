@@ -31,7 +31,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment);
-void mixer_widget_sid_type_changed(void);
+GtkWidget * mixer_widget_create(gboolean minimal, GtkAlign alignment);
+void        mixer_widget_sid_type_changed(void);
 
 #endif

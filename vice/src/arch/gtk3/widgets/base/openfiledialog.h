@@ -35,7 +35,7 @@ GtkWidget *vice_gtk3_open_file_dialog(
         const char *filter_desc,
         const char **filter_list,
         const char *path,
-        void (*callback)(GtkDialog *dialog, gchar *, gpointer),
+        void (*callback)(GtkDialog *, gchar *, gpointer),
         gpointer param);
 
 GtkWidget *vice_gtk3_open_create_file_dialog(
@@ -43,7 +43,7 @@ GtkWidget *vice_gtk3_open_create_file_dialog(
         const char *proposed,
         gboolean confirm,
         const char *path,
-        void (*callback)(GtkDialog *dialog, gchar *, gpointer),
+        void (*callback)(GtkDialog *, gchar *, gpointer),
         gpointer param);
 
 #endif

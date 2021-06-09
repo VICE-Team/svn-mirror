@@ -48,10 +48,10 @@ GtkWidget *vice_gtk3_resource_scale_int_new_sprintf(
         ...);
 
 gboolean vice_gtk3_resource_scale_int_set(GtkWidget *widget, int value);
+gboolean vice_gtk3_resource_scale_int_get(GtkWidget *widget, int *value);
 
 void vice_gtk3_resource_scale_int_set_marks(GtkWidget *widget, int step);
 
-gboolean vice_gtk3_resource_scale_int_get(GtkWidget *widget, int value);
 gboolean vice_gtk3_resource_scale_int_reset(GtkWidget *widget);
 gboolean vice_gtk3_resource_scale_int_factory(GtkWidget *widget);
 gboolean vice_gtk3_resource_scale_int_sync(GtkWidget *widget);

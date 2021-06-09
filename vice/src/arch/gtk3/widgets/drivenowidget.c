@@ -181,8 +181,8 @@ GtkWidget *drive_no_widget_create(int number,
 
 /** \brief  Update widget by setting a \a drive number
  *
- * \param[in,out]   drive number widget
- * \param[in]       drive number
+ * \param[in,out]   widget  drive number widget
+ * \param[in]       drive   drive number
  */
 void drive_no_widget_update(GtkWidget *widget, int drive)
 {

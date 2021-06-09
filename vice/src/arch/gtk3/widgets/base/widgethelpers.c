@@ -190,10 +190,11 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
  *
  * Set margins on a GtkGrid. passing a value of <0 means skipping that property.
  *
- * \param[in]   top     top margin
- * \param[in]   bottom  bottom margin
- * \param[in]   left    left margin
- * \param[in]   right   right margin
+ * \param[in,out]   grid    GtkGrid instance
+ * \param[in]       top     top margin
+ * \param[in]       bottom  bottom margin
+ * \param[in]       left    left margin
+ * \param[in]       right   right margin
  *
  */
 void vice_gtk3_grid_set_margins(GtkWidget *grid,

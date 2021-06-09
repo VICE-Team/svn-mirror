@@ -60,14 +60,20 @@
 static GtkWidget *midi_enable;
 /** \brief  MIDI mode combobox */
 static GtkWidget *midi_mode;
+/** \brief  MIDI in device  */
 static GtkWidget *midi_in_entry;
+/** \brief  MIDI out device */
 static GtkWidget *midi_out_entry;
 #ifdef ARCHDEP_OS_UNIX
 # ifdef ARCHDEP_OS_MACOS
+/** \brief  MIDI name entry */
 static GtkWidget *midi_name_entry;
 # else
+/** \brief  MIDI driver widget */
 static GtkWidget *midi_driver;
+/** \brief  MIDI in file browser */
 static GtkWidget *midi_in_browse;
+/** \brief  MIDI out file browser */
 static GtkWidget *midi_out_browse;
 # endif
 #endif
@@ -169,7 +175,7 @@ static void midi_out_filename_callback(GtkDialog *dialog,
 }
 
 
-/** \brief  Handler for the "clicked" event of the MIDI-Out "Browse" button
+/** \brief  Handler for the 'clicked' event of the MIDI-Out "Browse" button
  *
  * \param[in]   widget      button
  * \param[in]   user_data   text entry to store new filename
@@ -227,7 +233,7 @@ static GtkWidget *create_midi_driver_widget(void)
 
 /** \brief  Create MIDI settings widget
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -237,9 +243,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     GtkWidget *label;
     int row;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     midi_enable = create_midi_enable_widget();
     gtk_grid_attach(GTK_GRID(grid), midi_enable, 0, 0, 3, 1);

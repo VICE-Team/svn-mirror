@@ -70,17 +70,40 @@ static const vice_gtk3_radiogroup_entry_t card_types[] = {
 };
 
 
+/** \brief  Enable checkbox */
 static GtkWidget *enable_widget = NULL;
+
+/** \brief  Jumper switch */
 static GtkWidget *jumper_widget = NULL;
+
+/** \brief  Revision radiogroup */
 static GtkWidget *revision_widget = NULL;
+
+/** \brief  Clockport device widget */
 static GtkWidget *clockport_widget = NULL;
+
+/** \brief  BIOS filename entry */
 static GtkWidget *bios_filename_widget = NULL;
+
+/** \brief  BIOS browse button */
 static GtkWidget *bios_browse_widget = NULL;
+
+/** \brief  BIOS write checkbox */
 static GtkWidget *bios_write_widget = NULL;
+
+/** \brief  SD card widget */
 static GtkWidget *card_widget = NULL;
+
+/** \brief  SD card widget filename entry */
 static GtkWidget *card_filename_entry = NULL;
+
+/** \brief  SD card widget type widget */
 static GtkWidget *card_type_widget = NULL;
+
+/** \brief  Save button */
 static GtkWidget *save_button = NULL;
+
+/** \brief  Flush button */
 static GtkWidget *flush_button = NULL;
 
 
@@ -144,16 +167,21 @@ static void card_filename_callback(GtkDialog *dialog,
  */
 static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
 {
-    vice_gtk3_open_file_dialog(
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_open_file_dialog(
             "Open memory card file",
             NULL, NULL, NULL,
             card_filename_callback,
             NULL);
-
+    gtk_widget_show(dialog);
 }
 
-/** \brief  Handler for the "toggled" event of the "MMC64 Enabled" widget
+
+/** \brief  Handler for the 'toggled' event of the "MMC64 Enabled" widget
  *
+ * \param[in,out]   check       check button
+ * \param[in]       user_data   extra event data (unused)
  */
 static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 {
@@ -321,11 +349,9 @@ static GtkWidget *create_mmc64_revision_widget(void)
 
 /** \brief  Create widget to control BIOS resources
  *
- * \param[in]   parent  parent widget (used for dialogs)
- *
  * \return  GtkGrid
  */
-static GtkWidget *create_bios_image_widget(GtkWidget *parent)
+static GtkWidget *create_bios_image_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -359,11 +385,9 @@ static GtkWidget *create_bios_image_widget(GtkWidget *parent)
 
 /** \brief  Create widget to control memory card image
  *
- * \param[in]   widget  parent widget (used for dialogs
- *
  * \return  GtkGrid
  */
-static GtkWidget *create_card_image_widget(GtkWidget *parent)
+static GtkWidget *create_card_image_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -372,7 +396,6 @@ static GtkWidget *create_card_image_widget(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             -1, -1, "MMC64 SD/MMC Card image", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -409,9 +432,7 @@ static GtkWidget *create_card_type_widget(void)
     GtkWidget *radio_group;
     GtkWidget *label;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     label = gtk_label_new("Card type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
@@ -456,9 +477,9 @@ static GtkWidget *create_clockport_widget(void)
 
 
 
-/** \brief  Create widget to control MMC Replay resources
+/** \brief  Create widget to control MMC64 resources
  *
- * \param[in]   parent  parent widget (used for dialogs)
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -473,9 +494,9 @@ GtkWidget *mmc64_widget_create(GtkWidget *parent)
     enable_widget = create_mmc64_enable_widget();
     gtk_grid_attach(GTK_GRID(grid), enable_widget, 0, 0, 2 ,1);
 
-    gtk_grid_attach(GTK_GRID(grid), create_bios_image_widget(parent),
+    gtk_grid_attach(GTK_GRID(grid), create_bios_image_widget(),
             0, 1, 2, 1);
-    card_widget = create_card_image_widget(parent);
+    card_widget = create_card_image_widget();
     gtk_grid_attach(GTK_GRID(grid), card_widget, 0, 2, 2, 1);
 
     card_type_widget = create_card_type_widget();

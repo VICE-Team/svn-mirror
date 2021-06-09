@@ -47,52 +47,9 @@
 #include "magicvoicewidget.h"
 
 
-/** \brief  Reference to the text entry */
-static GtkWidget *entry = NULL;
-
-/** \brief  Reference to the 'browse' button */
-static GtkWidget *browse = NULL;
-
-
-/** \brief  Callback for the open-file dialog
- *
- * \param[in,out]   dialog      open-file dialog
- * \param[in]       filename    filename or NULL on cancel
- * \param[in]       data        extra data (unused)
- */
-static void browse_filename_callback(GtkDialog *dialog,
-                                     gchar *filename,
-                                     gpointer data)
-{
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(entry, filename);
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-
-/** \brief  Handler for the "clicked" event of the browse button
- *
- * Activates a file-open dialog and stores the file name in the GtkEntry passed
- * in \a user_data if valid, triggering a resource update.
- *
- * \param[in]   widget      button
- * \param[in]   user_data   entry to store filename in
- */
-static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
-{
-    vice_gtk3_open_file_dialog(
-            "Open Magic Voice image",
-            NULL, NULL, NULL,
-            browse_filename_callback,
-            NULL);
-}
-
-
 /** \brief  Create widget to control MagicVoice cartridge
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -100,28 +57,25 @@ GtkWidget *magic_voice_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable;
-    GtkWidget *label;
+    GtkWidget *browser;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    /*    enable = create_enable_check_button(); */
-    enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_MAGIC_VOICE,
+    /* enable checkbutton */
+    enable = carthelpers_create_enable_check_button(
+            CARTRIDGE_NAME_MAGIC_VOICE,
             CARTRIDGE_MAGIC_VOICE);
-    gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 1, 1);
 
-    label = gtk_label_new("Magic Voice ROM");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    entry = vice_gtk3_resource_entry_full_new("MagicVoiceImage");
-    gtk_widget_set_hexpand(entry, TRUE);
-    browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
-            (gpointer)entry);
-
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
+    /* image browser widget */
+    browser = vice_gtk3_resource_browser_new(
+            "MagicVoiceImage",
+            NULL,
+            NULL,
+            "Select Magic Voice ROM image",
+            "Magic Voice ROM",
+            NULL);
+    gtk_grid_attach(GTK_GRID(grid), browser, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

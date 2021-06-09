@@ -132,7 +132,7 @@ static gboolean set_combo_int_id(GtkComboBox *combo, int id)
  *
  * Frees the heap-allocated copy of the resource name
  *
- * \param[im]   combo       combo box
+ * \param[in]   combo       combo box
  * \param[in]   user_data   extra event data (unused)
  */
 static void on_combo_int_destroy(GtkWidget *combo, gpointer user_data)
@@ -365,6 +365,8 @@ gboolean vice_gtk3_resource_combo_box_int_get(GtkWidget *widget, int *dest)
 /** \brief  Reset \a widget to its factory default
  *
  * \param[in,out]   widget  integer resource combo box
+ *
+ * \return  TRUE if the widget was reset to its factory value
  */
 gboolean vice_gtk3_resource_combo_box_int_factory(GtkWidget *widget)
 {
@@ -535,7 +537,7 @@ GtkWidget *vice_gtk3_resource_combo_box_str_new(
 
 /** \brief  Create a combo box to control a string resource
  *
- * \param[in]   resource    resource name
+ * \param[in]   fmt         resource name, printf-style format string
  * \param[in]   entries     list of entries for the combo box
  *
  * \return  GtkComboBoxText
@@ -596,7 +598,7 @@ GtkWidget *vice_gtk3_resource_combo_box_str_new_with_label(
  *
  * Set new ID of the combo box
  *
- * \param[in,out]   combo   string resource combo box
+ * \param[in,out]   widget  string resource combo box
  * \param[in]       id      new ID of the combo box
  *
  * \return  TRUE if the new \a id was set
@@ -623,7 +625,7 @@ gboolean vice_gtk3_resource_combo_box_str_set(GtkWidget *widget, const char *id)
  * value will be returned. On failure `FALSE` will be returned and `NULL`stored
  * in \a *dest.
  *
- * \param[in]   combo   string resource combo box
+ * \param[in]   widget  string resource combo box
  * \param[out]  dest    object to store ID
  *
  * \return  TRUE if the \a id was set
@@ -682,6 +684,8 @@ gboolean vice_gtk3_resource_combo_box_str_reset(GtkWidget *widget)
  * Updates the widget state to what its resource currently is.
  *
  * \param[in,out]   widget  string resource combo box
+ *
+ * \return  TRUE if the widget was synchronized with its resource
  */
 gboolean vice_gtk3_resource_combo_box_str_sync(GtkWidget *widget)
 {

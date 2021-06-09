@@ -62,7 +62,11 @@ static const vice_gtk3_radiogroup_entry_t card_types[] = {
 /* FIXME:   The eeprom handling uses seperate widgets to handle the entry and
  *          button while the card widget uses a widget in widgets/base, why?
  */
+
+/** \brief  EEPROM text entry widget */
 static GtkWidget *eeprom_entry;
+
+/** \brief  SD card widget */
 static GtkWidget *card_widget;
 
 
@@ -90,8 +94,8 @@ static void save_filename_callback(GtkDialog *dialog,
 
 /** \brief  Handler for the "clicked" event of the Save Image button
  *
- * \param[in]   widget      button
- * \param[in]   user_data   unused
+ * \param[in]   widget      button (unused)
+ * \param[in]   user_data   extra event data (unused)
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
@@ -116,6 +120,12 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Callback for the EEPROM file selection dialog
+ *
+ * \param[in,out]   dialog      file chooser dialog
+ * \param[in,out]   filename    filename (freed with g_free())
+ * \param[in]       data        extra data (unused)
+ */
 static void eeprom_filename_callback(GtkDialog *dialog,
                                      gchar *filename,
                                      gpointer data)
@@ -134,18 +144,32 @@ static void eeprom_filename_callback(GtkDialog *dialog,
 }
 
 
-
+/** \brief  Handler for the 'clicked' event of the EEPROM "browse" button
+ *
+ * Opens a file chooser dialog to select an EEPROM image file.
+ *
+ * \param[in]   button  browse button (unused)
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_eeprom_browse_clicked(GtkWidget *button, gpointer data)
 {
-    vice_gtk3_open_file_dialog(
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_open_file_dialog(
             "Open EEMPROM image",
              NULL, NULL, NULL,
              eeprom_filename_callback,
              NULL);
+    gtk_widget_show(dialog);
 }
 
 
-
+/** \brief  Callback for the SD card image file selection dialog
+ *
+ * \param[in,out]   dialog      file chooser dialog
+ * \param[in,out]   filename    filename (freed with g_free())
+ * \param[in]       data        extra data (unused)
+ */
 static void card_filename_callback(GtkDialog *dialog,
                                    gchar *filename,
                                    gpointer data)
@@ -158,8 +182,6 @@ static void card_filename_callback(GtkDialog *dialog,
 }
 
 
-
-
 /** \brief  Handler for the "clicked" event of the memory card browse button
  *
  * \param[in]   button      browse button
@@ -167,14 +189,15 @@ static void card_filename_callback(GtkDialog *dialog,
  */
 static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
 {
-    vice_gtk3_open_file_dialog(
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_open_file_dialog(
             "Open memory card file",
             NULL, NULL, NULL,
             card_filename_callback,
             NULL);
-
+    gtk_widget_show(dialog);
 }
-
 
 
 /** \brief  Create check button for the MMCRRescueMode resource
@@ -246,11 +269,9 @@ static GtkWidget *create_cart_image_widget(void)
 
 /** \brief  Create widget to control EEPROM resources
  *
- * \param[in]   parent  parent widget (used for dialogs)
- *
  * \return  GtkGrid
  */
-static GtkWidget *create_eeprom_image_widget(GtkWidget *parent)
+static GtkWidget *create_eeprom_image_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *readwrite;
@@ -283,19 +304,14 @@ static GtkWidget *create_eeprom_image_widget(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-
 }
-
-
 
 
 /** \brief  Create widget to control memory card image
  *
- * \param[in]   widget  parent widget (used for dialogs
- *
  * \return  GtkGrid
  */
-static GtkWidget *create_card_image_widget(GtkWidget *parent)
+static GtkWidget *create_card_image_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -371,23 +387,21 @@ GtkWidget *mmcr_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *label;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     gtk_grid_attach(GTK_GRID(grid), create_rescue_mode_widget(), 0, 0, 1, 1);
     label = gtk_label_new("ClockPort device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 1, 0, 1, 1);
+
     gtk_grid_attach(GTK_GRID(grid), create_clockport_widget(), 2, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), create_cart_image_widget(), 0, 1, 3, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), create_eeprom_image_widget(parent),
-            0, 2, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_eeprom_image_widget(), 0, 2, 3, 1);
 
-    card_widget = create_card_image_widget(parent);
+    card_widget = create_card_image_widget();
     gtk_grid_attach(GTK_GRID(grid), card_widget, 0, 3, 3, 1);
 
     gtk_grid_attach(GTK_GRID(grid), create_card_type_widget(), 0, 4, 3, 1);

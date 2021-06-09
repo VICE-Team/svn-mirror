@@ -236,6 +236,8 @@ GtkWidget *vice_gtk3_resource_check_button_new_sprintf(const char *fmt,
  *
  * \param[in,out]   widget  resource check button widget
  * \param[in]       value   new value
+ *
+ * \return  TRUE
  */
 gboolean vice_gtk3_resource_check_button_set(GtkWidget *widget, gboolean value)
 {
@@ -250,7 +252,7 @@ gboolean vice_gtk3_resource_check_button_set(GtkWidget *widget, gboolean value)
  * \param[in]   widget  resource check button widget
  * \param[out]  dest    object to store value
  *
- * \return  bool
+ * \return  TRUE if the resource value was retrieved
  */
 gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest)
 {
@@ -270,6 +272,8 @@ gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest)
 /** \brief  Reset check button to factory state
  *
  * \param[in,out]   widget  resource check button widget
+ *
+ * \return  TRUE if the resource was reset to its factory value
  */
 gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget)
 {

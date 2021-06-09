@@ -74,7 +74,6 @@ typedef struct resource_browser_state_s {
     char **patterns;            /**< file matching patterns */
     char *pattern_name;         /**< name to display for the file patterns */
     char *browser_title;        /**< title to display for the file browser */
-    char *proposed;
     char *append_dir;           /**< directory to use when the resource only
                                      contains a filename and not a path */
     void (*callback)(GtkWidget *,
@@ -270,6 +269,8 @@ static void on_resource_browser_save_clicked(GtkWidget *widget, gpointer data)
 
 
 /** \brief  Create a heap allocated copy of \a patterns
+ *
+ * \param[in]   patterns    file filter patterns
  *
  * \return  deep copy of \a patterns
  */

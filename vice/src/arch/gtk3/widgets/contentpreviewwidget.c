@@ -111,7 +111,7 @@ static void on_row_activated(
 /** \brief  Create the model for the view
  *
  * The model created has two columns, a string representing a file:
- * '\<block\s> "\<filename\>" \<filetype-and-flags\>' and an integer which indicates
+ * '\<blocks\> "\<filename\>" \<filetype-and-flags\>' and an integer which indicates
  * the file's index in the image's "directory".
  *
  * \param[in]   path    path to image file

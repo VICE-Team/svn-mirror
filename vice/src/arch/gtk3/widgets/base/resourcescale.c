@@ -86,10 +86,6 @@ static void on_scale_int_changed(GtkWidget *widget, gpointer user_data)
 /** \brief  Create a scale for an integer resource - helper
  *
  * \param[in,out]   widget      interger scale widget
- * \param[in]       orientation scale orientation (\see GtkOrientation)
- * \param[in]       low         lowest value for scale
- * \param[in]       high        highest value for scale
- * \param[in]       step        value to incr/decr value with cursor keys
  *
  * \return  GtkScale
  */
@@ -190,7 +186,7 @@ GtkWidget *vice_gtk3_resource_scale_int_new_sprintf(
 
 /** \brief  Add marks to integer \a scale widget at each \a step increment
  *
- * \param[in,out]   scale   integer scale widget
+ * \param[in,out]   widget  integer scale widget
  * \param[in]       step    distance between marks
  */
 void vice_gtk3_resource_scale_int_set_marks(GtkWidget *widget, int step)
@@ -210,7 +206,7 @@ void vice_gtk3_resource_scale_int_set_marks(GtkWidget *widget, int step)
 }
 
 
-/** \brief  Set the \a scale widget to \a value
+/** \brief  Set the integer scale \a widget to \a value
  *
  * \param[in,out]   widget  integer scale widget
  * \param[in]       value   new value for \a scale
@@ -220,6 +216,20 @@ void vice_gtk3_resource_scale_int_set_marks(GtkWidget *widget, int step)
 gboolean vice_gtk3_resource_scale_int_set(GtkWidget *widget, int value)
 {
     gtk_range_set_value(GTK_RANGE(widget), (gdouble)value);
+    return TRUE;
+}
+
+
+/** \brief  Get the value of the integer scale \a widget
+ *
+ * \param[in]   widget  integer scale widget
+ * \param[out]  value   location to store value
+ *
+ * \return  TRUE
+ */
+gboolean vice_gtk3_resource_scale_int_get(GtkWidget *widget, int *value)
+{
+    *value = gtk_range_get_value(GTK_RANGE(widget));
     return TRUE;
 }
 
@@ -261,7 +271,7 @@ gboolean vice_gtk3_resource_scale_int_factory(GtkWidget *widget)
 
 /** \brief  Synchronize \a widget with its resource
  *
- * \param[in,out]   integer scale widget
+ * \param[in,out]   widget  integer scale widget
  *
  * \return  TRUE if the widget was synchronized with its resource
  */
