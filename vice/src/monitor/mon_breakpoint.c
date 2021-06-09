@@ -569,10 +569,10 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
                 mon_interfaces[mem]->get_line_cycle(&line, &cycle, &half_cycle);
 
                 if (half_cycle == -1) {
-                    mon_out(" %3u/$%03x, %3u/$%03x\n",
+                    mon_out(" %3u/$%03x, %3u/$%02x\n",
                             line, line, cycle, cycle);
                 } else {
-                    mon_out(" %3u/$%03x, %3u/$%03x %i\n",
+                    mon_out(" %3u/$%03x, %3u/$%02x %i\n",
                             line, line, cycle, cycle, half_cycle);
                 }
             } else {
