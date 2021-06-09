@@ -254,7 +254,7 @@ gboolean vice_gtk3_resource_switch_reset(GtkWidget *widget)
 
 /** \brief  Reset switch to factory value
  *
- * \param[in,out]   check   check button
+ * \param[in,out]   widget  check button
  *
  * \return  TRUE if the widget was set to its factory value
  */

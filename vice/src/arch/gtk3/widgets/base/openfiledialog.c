@@ -88,7 +88,7 @@ GtkWidget *vice_gtk3_open_file_dialog(
         const char *filter_desc,
         const char **filter_list,
         const char *path,
-        void (*callback)(GtkDialog *, char *, gpointer),
+        void (*callback)(GtkDialog *, gchar *, gpointer),
         gpointer param)
 {
     GtkWidget *dialog;

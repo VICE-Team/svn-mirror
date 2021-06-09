@@ -69,9 +69,9 @@
  * \param[in,out]   widget      integer spin button
  * \param[in]       user_data   extra event data (unused)
  */
-static void on_spin_button_destroy(GtkWidget *spin, gpointer user_data)
+static void on_spin_button_destroy(GtkWidget *widget, gpointer user_data)
 {
-    resource_widget_free_resource_name(spin);
+    resource_widget_free_resource_name(widget);
 }
 
 
@@ -300,6 +300,8 @@ void vice_gtk3_resource_spin_int_set_fake_digits(
  *
  * \param[in,out]   widget  integer spin button
  * \param[in]       value   new value for the spin button
+ *
+ * \return  TRUE
  */
 gboolean vice_gtk3_resource_spin_int_set(GtkWidget *widget, int value)
 {

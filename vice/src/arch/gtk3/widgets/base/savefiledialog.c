@@ -84,7 +84,7 @@ GtkWidget *vice_gtk3_save_file_dialog(
         const char *proposed,
         gboolean confirm,
         const char *path,
-        void (*callback)(GtkDialog *, char *, gpointer),
+        void (*callback)(GtkDialog *, gchar *, gpointer),
         gpointer param)
 {
     GtkWidget *dialog;

@@ -29,8 +29,13 @@
 #define VICE_MIDIWIDGET_H
 
 #include "vice.h"
+
+#ifdef HAVE_MIDI
+
 #include <gtk/gtk.h>
 
 GtkWidget *midi_widget_create(GtkWidget *parent);
+
+#endif
 
 #endif

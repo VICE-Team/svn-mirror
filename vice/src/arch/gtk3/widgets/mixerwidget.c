@@ -126,7 +126,8 @@ static GtkCssProvider *scale_css_provider;
 
 
 
-/* depending on what SID type is being used, show the right widgets */
+/** \brief  Depending on what SID type is being used, show the right widgets
+ */
 void mixer_widget_sid_type_changed(void)
 {
     int model = 0;
@@ -239,14 +240,16 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Create a right-align label
+/** \brief  Create a horizontally aligned label
  *
- * \param[in]   text    text for the label
- * \param[in]   minimal use CSS to reduce size of use as statusbar widget
+ * \param[in]   text        text for the label
+ * \param[in]   minimal     use CSS to reduce size of use as statusbar widget
+ * \param[in]   alignment   label alignment (see `GtkAlingn` enum`)
  *
  * \return  GtkLabel
  */
-static GtkWidget *create_label(const char *text, gboolean minimal,
+static GtkWidget *create_label(const char *text,
+                               gboolean minimal,
                                GtkAlign alignment)
 {
     GtkWidget *label;

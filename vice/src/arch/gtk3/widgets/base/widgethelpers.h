@@ -45,9 +45,11 @@
 
 #else
 
+/** \brief  Unicode text for the VICE_MOD_MASK (Alt) modifier
+ */
 # define VICE_MOD_MASK_TEXT "Alt"
 
-/** \brief  HTML text for the VICE_MOD_MASK (Alt/Command) modifier
+/** \brief  HTML text for the VICE_MOD_MASK (Alt) modifier
  */
 # define VICE_MOD_MASK_HTML "Alt"
 
