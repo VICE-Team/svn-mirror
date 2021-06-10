@@ -99,9 +99,10 @@ static GtkWidget *create_reu_size_widget(void)
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_reu_image_widget(GtkWidget *parent)
+static GtkWidget *create_reu_image_widget(void)
 {
-    return cart_image_widget_create(parent, "REU image",
+    return cart_image_widget_create(
+            NULL, "REU image",
             "REUfilename", "REUImageWrite",
             carthelpers_save_func, carthelpers_flush_func,
             carthelpers_can_save_func, carthelpers_can_flush_func,
@@ -111,7 +112,7 @@ static GtkWidget *create_reu_image_widget(GtkWidget *parent)
 
 /** \brief  Create widget to control RAM Expansion Module resources
  *
- * \param[in]   parent  parent widget, used for dialogs
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -123,9 +124,7 @@ GtkWidget *reu_widget_create(GtkWidget *parent)
     GtkWidget *reu_ioswap;
     GtkWidget *reu_image;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     reu_enable_widget = carthelpers_create_enable_check_button(
             CARTRIDGE_NAME_REU, CARTRIDGE_REU);
@@ -139,7 +138,7 @@ GtkWidget *reu_widget_create(GtkWidget *parent)
     reu_size = create_reu_size_widget();
     gtk_grid_attach(GTK_GRID(grid), reu_size, 0, 1, 1, 1);
 
-    reu_image = create_reu_image_widget(parent);
+    reu_image = create_reu_image_widget();
     gtk_grid_attach(GTK_GRID(grid), reu_image, 1, 1, 1, 1);
 
     gtk_widget_show_all(grid);
