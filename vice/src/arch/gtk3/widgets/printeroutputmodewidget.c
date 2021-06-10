@@ -45,12 +45,12 @@
 #include "printeroutputmodewidget.h"
 
 
-/** \brief  Handler for the "destroy" event of \a widget
+/** \brief  Handler for the 'destroy' event of \a widget
  *
  * Frees memory used by the copy of the resource name.
  *
- * \param[in]   widget      widget
- * \param[in]   user_data   extra event data (unused)
+ * \param[in,out]   widget      widget
+ * \param[in]       user_data   extra event data (unused)
  */
 static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
 {
@@ -58,7 +58,7 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "toggled" event of the radio buttons
+/** \brief  Handler for the 'toggled' event of the radio buttons
  *
  * \param[in]   radio       radio button
  * \param[in]   user_data   new value for resource (`string`)
@@ -66,6 +66,7 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
 static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
+
         GtkWidget *parent;
         const char *new_val;
         const char *old_val;
