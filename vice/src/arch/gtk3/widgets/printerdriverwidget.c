@@ -3,7 +3,7 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Allows selecting drives for printers #4, #5 and #6.
+ * Allows selecting drivers for printers \#4, \#5 and \#6.
  */
 
 /*
@@ -72,6 +72,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 /** \brief  Create printer driver selection widget
  *
  * Creates a group of radio buttons to select the driver of printer # \a device.
+ *
  * Uses a custom property "DeviceNumber" for the radio buttons and the widget
  * itself to pass the device number to the event handler and to allow
  * printer_driver_widget_update() to select the proper radio button index.
@@ -187,8 +188,8 @@ GtkWidget *printer_driver_widget_create(int device)
 
 /** \brief  Update the printer driver widget
  *
- * \param[in]   widget  printer driver widget
- * \param[in]   driver  driver name
+ * \param[in,out]   widget  printer driver widget
+ * \param[in]       driver  driver name
  */
 void printer_driver_widget_update(GtkWidget *widget, const char *driver)
 {

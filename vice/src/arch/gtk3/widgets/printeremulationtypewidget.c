@@ -56,7 +56,9 @@ static const vice_gtk3_radiogroup_entry_t emu_types[] = {
 /** \brief  Create printer emulation type widget
  *
  * Creates a group of radio buttons to select the emulation type of printer
- * # \a device. Uses a custom property "DeviceNumber" for the radio buttons to
+ * # \a device.
+ *
+ * Uses a custom property "DeviceNumber" for the radio buttons to
  * pass the device number to the event handler.
  *
  * \param[in]   device  device number (4-6)
@@ -82,8 +84,8 @@ GtkWidget *printer_emulation_type_widget_create(int device)
 
 /** \brief  Update the printer emulation type widget
  *
- * \param[in]   widget  printer emulation type widget
- * \param[in]   type    emulation type (\see src/printer.h)
+ * \param[in,out]   widget  printer emulation type widget
+ * \param[in]       type    emulation type (\see src/printer.h)
  */
 void printer_emulation_type_widget_update(GtkWidget *widget, int type)
 {

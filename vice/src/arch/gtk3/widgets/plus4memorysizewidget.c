@@ -48,7 +48,7 @@ static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
 };
 
 
-
+/** \brief  Reference to the memory size widget */
 static GtkWidget *memory_size_widget = NULL;
 
 
@@ -84,6 +84,8 @@ void plus4_memory_size_widget_add_callback(void (*callback)(GtkWidget *, int))
 
 
 /** \brief  Synchronize the widget with its resource
+ *
+ * \return  TRUE if the widget was synchronized
  */
 gboolean plus4_memory_size_widget_sync(void)
 {
