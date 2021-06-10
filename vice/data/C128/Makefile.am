@@ -52,7 +52,8 @@ gtk3_keymaps = \
 
 sdl_keymaps = \
 	sdl_hotkeys.vkm \
-	sdl_pos.vkm
+	sdl_pos.vkm \
+	sdl_v128.vkm
 
 if SDL_COMPILE
 c128_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
