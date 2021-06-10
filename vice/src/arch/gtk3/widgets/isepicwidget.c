@@ -51,16 +51,17 @@
 #include "isepicwidget.h"
 
 
-/** \brief  Handler for the "state-set" event of the "IsepicSwitch" resource
+/** \brief  Handler for the 'state-set' event of the "IsepicSwitch" resource
  *
  * \param[in]   widget      switch widget
  * \param[in]   state       new state of \a widget
- * \param[in]   user_data   unused
+ * \param[in]   user_data   extra event data (unused)
  *
  * \return  FALSE
  */
-static gboolean on_isepic_switch_state_set(GtkWidget *widget, gboolean state,
-        gpointer user_data)
+static gboolean on_isepic_switch_state_set(GtkWidget *widget,
+                                           gboolean state,
+                                           gpointer user_data)
 {
     resources_set_int("IsepicSwitch", state);
     return FALSE;

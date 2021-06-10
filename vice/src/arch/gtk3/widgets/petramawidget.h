@@ -32,9 +32,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *pet_rama_widget_create(void);
-void pet_rama_widget_set_callback(GtkWidget *widget,
-                                     void (*func)(int));
-void pet_rama_widget_sync(GtkWidget *widget);
+GtkWidget * pet_rama_widget_create(void);
+void        pet_rama_widget_set_callback(void (*func)(int));
+void        pet_rama_widget_sync(GtkWidget *widget);
 
 #endif

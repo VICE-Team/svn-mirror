@@ -40,7 +40,10 @@
 #include "petmiscwidget.h"
 
 
+/** \brief  Crtc checkbox */
 static GtkWidget *crtc_widget = NULL;
+
+/** \brief  Blank-on-EOI checkbox */
 static GtkWidget *blank_widget = NULL;
 
 /** \brief  User-defined callback for changes in the Crtc resource
@@ -139,20 +142,32 @@ GtkWidget *pet_misc_widget_create(void)
 }
 
 
-void pet_misc_widget_set_crtc_callback(GtkWidget *widget,
-                                       void (*func)(int))
+/** \brief  Set function to trigger on Crtc checkbox toggle
+ *
+ * \param[in]   func    callback function
+ */
+void pet_misc_widget_set_crtc_callback(void (*func)(int))
 {
     user_callback_crtc = func;
 }
 
 
-void pet_misc_widget_set_blank_callback(GtkWidget *widget,
-                                       void (*func)(int))
+/** \brief  Set function to trigger on EOI-blank checkbox toggle
+ *
+ * \param[in]   func    callback function
+ */
+void pet_misc_widget_set_blank_callback(void (*func)(int))
 {
     user_callback_blank = func;
 }
 
 
+/** \brief  Synchronize \a widget with its resources
+ *
+ * Synchronize the PET misc widget's child widgets with their resources.
+ *
+ * \param[in,out]   widget  PET misc widget
+ */
 void pet_misc_widget_sync(GtkWidget *widget)
 {
     int state;

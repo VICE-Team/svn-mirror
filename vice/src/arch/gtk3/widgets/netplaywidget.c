@@ -1,4 +1,4 @@
-/** \file   uinetplaywidget.c
+/** \file   netplaywidget.c
  * \brief   Netplay settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -8,8 +8,6 @@
  * $VICERES NetworkServerName           -vsid
  * $VICERES NetworkServerPort           -vsid
  * $VICERES NetworkServerBindAddress    -vsid
- *
- * Not sure about this one (TODO):
  * $VICERES NetworkControl              -vsid
  */
 
@@ -88,12 +86,25 @@ static const char *net_modes[] = {
 
 /* Widget references for the glue logic */
 
+/** \brief  Server address widget */
 static GtkWidget *server_address = NULL;
+
+/** \brief  Server enable widget */
 static GtkWidget *server_enable = NULL;
+
+/** \brief  Client address widget */
 static GtkWidget *client_address = NULL;
+
+/** \brief  Client enable widget */
 static GtkWidget *client_enable = NULL;
+
+/** \brief  Client and server port number */
 static GtkWidget *port_number = NULL;
+
+/** \brief  Netplay status widget */
 static GtkWidget *netplay_status = NULL;
+
+/** \brief  Netplay controls widget */
 static GtkWidget *controls = NULL;
 
 

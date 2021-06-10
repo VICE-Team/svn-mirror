@@ -41,13 +41,23 @@
 #include "petkeyboardtypewidget.h"
 
 
+/** \brief  Function to get the number of keyboard types
+ *
+ * Required thanks to the way VSID is linked.
+ */
 static int (*get_keyboard_num)(void) = NULL;
+
+/** \brief  Function to get a list of keyboard types
+ *
+ * Required thanks to the way VSID is linked.
+ */
 static kbdtype_info_t *(*get_keyboard_list)(void) = NULL;
 
+/** \brief  Function triggered on selecting a keyboard */
 static void (*user_callback)(int) = NULL;
 
 
-/** \brief  Handler for the "toggled" event of the radio buttons
+/** \brief  Handler for the 'toggled' event of the radio buttons
  *
  * \param[in]   widget      radio button triggering the event
  * \param[in]   user_data   keyboard ID (`int`)
@@ -72,24 +82,24 @@ static void on_keyboard_type_toggled(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Set the getter function for the number of keyboard types
  *
- * This doesn't seem strictly required for PET, since the keyboard info lisr
+ * This doesn't seem strictly required for PET, since the keyboard info list
  * has a terminator
  *
- * \param[in]   f   function pointer
+ * \param[in]   func    function pointer
  */
-void pet_keyboard_type_widget_set_keyboard_num_get(int (*f)(void))
+void pet_keyboard_type_widget_set_keyboard_num_get(int (*func)(void))
 {
-    get_keyboard_num = f;
+    get_keyboard_num = func;
 }
 
 
 /** \brief  Set the getter function for the keyboard types list
  *
- * \param[in]   f   function pointer
+ * \param[in]   func    function pointer
  */
-void pet_keyboard_type_widget_set_keyboard_list_get(kbdtype_info_t *(*f)(void))
+void pet_keyboard_type_widget_set_keyboard_list_get(kbdtype_info_t *(*func)(void))
 {
-    get_keyboard_list = f;
+    get_keyboard_list = func;
 }
 
 
@@ -112,7 +122,8 @@ GtkWidget * pet_keyboard_type_widget_create(void)
     num = get_keyboard_num();
     if (num > 0) {
         GtkWidget *radio;
-        int active, i;
+        int active;
+        int i;
 
         list = get_keyboard_list();
         resources_get_int("KeyboardType", &active);

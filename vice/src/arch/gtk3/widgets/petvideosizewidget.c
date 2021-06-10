@@ -56,11 +56,11 @@ static const vice_gtk3_radiogroup_entry_t video_sizes[] = {
 static void (*user_callback)(int) = NULL;
 
 
-/** \brief  Handler for the "toggled" event of the radio buttons
+/** \brief  Handler for the 'toggled' event of the radio buttons
  *
  * Sets the VideoSize resource when it has been changed.
  *
- * \param[in]   widget      radio button triggering the event
+ * \param[in]   widget      radio button triggering the event (unused)
  * \param[in]   new_val     value for the resource (`int`)
  */
 static void on_video_size_toggled(GtkWidget *widget, int new_val)
@@ -103,7 +103,6 @@ GtkWidget *pet_video_size_widget_create(void)
     g_object_set(G_OBJECT(group), "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
-
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -111,11 +110,9 @@ GtkWidget *pet_video_size_widget_create(void)
 
 /** \brief  Set user-defined callback to be triggered when the widget changes
  *
- * \param[in]   widget  PET video size widget
  * \param[in]   func    user-defined callback
  */
-void pet_video_size_widget_set_callback(GtkWidget *widget,
-                                        void (*func)(int))
+void pet_video_size_widget_set_callback(void (*func)(int))
 {
     user_callback = func;
 }

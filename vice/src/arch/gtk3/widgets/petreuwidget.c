@@ -60,8 +60,11 @@ static const vice_gtk3_radiogroup_entry_t reu_sizes[] = {
 /* references to widgets to be able to toggle sensitive state depending on the
  * REU Enable check button
  */
-static GtkWidget *entry = NULL;
-static GtkWidget *browse = NULL;
+
+/** \brief  REU file browser */
+static GtkWidget *browser = NULL;
+
+/** \brief  REU size radio group */
 static GtkWidget *group = NULL;
 
 
@@ -70,48 +73,14 @@ static GtkWidget *group = NULL;
  * Toggles sensitive state of other widgets
  *
  * \param[in]   widget      REU check button
- * \param[in]   user_data   unused
+ * \param[in]   user_data   extra event data (unused)
  */
 static void on_reu_toggled(GtkWidget *widget, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-    gtk_widget_set_sensitive(entry, state);
-    gtk_widget_set_sensitive(browse, state);
+    gtk_widget_set_sensitive(browser, state);
     gtk_widget_set_sensitive(group, state);
-}
-
-
-
-static void browse_filename_callback(GtkDialog *dialog,
-                                     gchar *filename,
-                                     gpointer data)
-{
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(entry, filename);
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-
-
-
-/** \brief  Handler for the "clicked" event of the browse button
- *
- * Activates a file-open dialog and stores the file name in the GtkEntry passed
- * in \a user_data if valid, triggering a resource update.
- *
- * \param[in]   widget      button
- * \param[in]   user_data   entry to store filename in
- */
-static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
-{
-    vice_gtk3_open_file_dialog(
-            "Open REU image file",
-            NULL, NULL, NULL,
-            browse_filename_callback,
-            NULL);
 }
 
 
@@ -127,9 +96,7 @@ GtkWidget *pet_reu_widget_create(GtkWidget *parent)
     GtkWidget *enable;
     GtkWidget *label;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* REU enable */
     enable = vice_gtk3_resource_check_button_new("PETREU",
@@ -148,17 +115,22 @@ GtkWidget *pet_reu_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), group, 1, 1, 2, 1);
 
     /* REU filename */
+
+    /* Don't use the resourcebrowser widget's label, but a separate one to
+     * properly align with the previous widgets */
     label = gtk_label_new("REU image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    entry = vice_gtk3_resource_entry_full_new("PETREUfilename");
-    gtk_widget_set_hexpand(entry, TRUE);
-    browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
-
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), browse, 2, 2, 1, 1);
+
+    browser = vice_gtk3_resource_browser_new(
+            "PETREUfilename",
+            NULL,
+            NULL,
+            "Select REU image file",
+            NULL,
+            NULL);
+    gtk_grid_attach(GTK_GRID(grid), browser, 1, 2, 2, 1);
 
     /* set initial sensitive state of widgets */
     on_reu_toggled(enable, NULL);
