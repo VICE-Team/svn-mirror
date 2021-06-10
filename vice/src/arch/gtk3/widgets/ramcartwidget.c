@@ -99,9 +99,10 @@ static GtkWidget *create_ramcart_size_widget(void)
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_ramcart_image_widget(GtkWidget *parent)
+static GtkWidget *create_ramcart_image_widget(void)
 {
-    return cart_image_widget_create(parent, "RAMCART image",
+    return cart_image_widget_create(
+            NULL, "RAMCART image",
             "RAMCARTfilename", "RAMCARTImageWrite",
             carthelpers_save_func, carthelpers_flush_func,
             carthelpers_can_save_func, carthelpers_can_flush_func,
@@ -112,7 +113,7 @@ static GtkWidget *create_ramcart_image_widget(GtkWidget *parent)
 
 /** \brief  Create widget to control RAM Expansion Module resources
  *
- * \param[in]   parent  parent widget, used for dialogs
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -134,7 +135,7 @@ GtkWidget *ramcart_widget_create(GtkWidget *parent)
     ramcart_size = create_ramcart_size_widget();
     gtk_grid_attach(GTK_GRID(grid), ramcart_size, 0, 1, 1, 1);
 
-    ramcart_image = create_ramcart_image_widget(parent);
+    ramcart_image = create_ramcart_image_widget();
     gtk_grid_attach(GTK_GRID(grid), ramcart_image, 1, 1, 1, 1);
 
     ramcart_readonly = create_ramcart_readonly_widget();

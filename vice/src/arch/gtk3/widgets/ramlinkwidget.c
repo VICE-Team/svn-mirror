@@ -55,30 +55,6 @@ static const vice_gtk3_radiogroup_entry_t ramlink_modes[] = {
 };
 
 
-#if 0
-/** \brief  Globs for RAMLink image files
- */
-static const char * const image_patterns[] = {
-    "*.img", "*.bin", "*.raw", "*.piemel", NULL };
-#endif
-
-
-#if 0
-/** \brief  Handler for the 'clicked' event of the 'Write image' button'
- *
- * \param[in]   widget  widget triggering the event
- * \param[in]   data    extra event data (unused)
- */
-static void on_write_image_clicked(GtkWidget *widget, gpointer data)
-{
-    debug_gtk3("Attempting to write image to host OS");
-    if (carthelpers_flush_func(CARTRIDGE_RAMLINK) < 0) {
-        debug_gtk3("OOPS!");
-    }
-}
-#endif
-
-
 /** \brief  Create RAMLink widget
  *
  * \param[in]   parent  parent widget (unused)
@@ -93,11 +69,6 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     GtkWidget *rtc_save;
     GtkWidget *mode;
     GtkWidget *size;
-#if 0
-    GtkWidget *image;
-    GtkWidget *write_detach;
-    GtkWidget *write_image;
-#endif
     GtkWidget *cart_widget;
 
     /* use three columns for the label */
@@ -129,13 +100,6 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     size = vice_gtk3_resource_spin_int_new(
             "RAMLINKsize",
             0, 16, 1);
-#if 0
-    g_object_set(
-            G_OBJECT(size),
-            "max-width-chars", 4,
-            NULL);
-    gtk_entry_set_max_length(GTK_ENTRY(size), 2);
-#endif
     label = gtk_label_new("Size (MiB)");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
@@ -145,37 +109,7 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     gtk_widget_set_hexpand(size, FALSE);
     gtk_widget_set_halign(size, GTK_ALIGN_START);
 
-#if 0
-    /* create image browser */
-    image = vice_gtk3_resource_browser_new(
-            "RAMLINKfilename",
-            image_patterns,
-            "image files",
-            "Select RAMLink image file",
-            NULL,
-            NULL);
-    label = gtk_label_new("Image file");
-    g_object_set(label, "margin-left", 16, NULL);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), image, 1, 5, 1, 1);
-
-    /* create 'write-on-detach' checkbox*/
-    write_detach = vice_gtk3_resource_check_button_new("RAMLINKImageWrite",
-            "Write back image on detach and emulator exit");
-    gtk_grid_attach(GTK_GRID(grid), write_detach, 1, 6, 1, 1);
-
-    /* create 'Save now' button */
-    write_image = gtk_button_new_with_label("Write image to host OS");
-    g_signal_connect(
-            write_image,
-            "clicked",
-            G_CALLBACK(on_write_image_clicked),
-            NULL);
-    gtk_widget_set_halign(write_image, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(write_image, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), write_image, 1, 7, 1, 1);
-#else
+    /* create RAMlink image browser */
     cart_widget = cart_image_widget_create(
             parent,
             "RAMLink Image",
@@ -185,7 +119,6 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
             CARTRIDGE_NAME_RAMLINK, CARTRIDGE_RAMLINK);
 
     gtk_grid_attach(GTK_GRID(grid), cart_widget, 0, 3, 4, 1);
-#endif
     gtk_widget_show_all(grid);
     return grid;
 }

@@ -2,6 +2,8 @@
  * \brief   Widget to control RRNet MK3 resourcs
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \todo    Reimplement using cartimagehelper.c
  */
 
 /*
@@ -96,7 +98,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Create widget to control RRNet Mk3 resources
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -108,9 +110,7 @@ GtkWidget *rrnetmk3_widget_create(GtkWidget *parent)
     GtkWidget *save_button;
     GtkWidget *flush_button;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(8, 8);
 
     flash_jumper = vice_gtk3_resource_check_button_new(
             "RRNETMK3_flashjumper", "Enable flash jumper");

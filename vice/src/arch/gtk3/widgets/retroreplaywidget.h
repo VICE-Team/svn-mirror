@@ -32,7 +32,5 @@
 #include <gtk/gtk.h>
 
 GtkWidget *retroreplay_widget_create(GtkWidget *parent);
-void retroreplay_widget_set_save_func(int (*func)(int, const char *));
-void retroreplay_widget_set_flush_func(int (*func)(int));
 
 #endif

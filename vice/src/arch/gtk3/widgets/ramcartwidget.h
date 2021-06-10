@@ -32,7 +32,5 @@
 #include <gtk/gtk.h>
 
 GtkWidget * ramcart_widget_create(GtkWidget *parent);
-void        ramcart_widget_set_save_handler(int (*func)(int, const char *));
-void        ramcart_widget_set_flush_handler(int (*func)(int));
 
 #endif

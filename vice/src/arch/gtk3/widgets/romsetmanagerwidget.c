@@ -73,13 +73,24 @@ static const romset_button_t romset_buttons[] = {
 /*
  * References to widgets
  */
+
+/** \brief  Predefined ROM sets combobox */
 static GtkWidget *romset_predefs = NULL;
+
+/** \brief  ROM set treeview */
 static GtkWidget *romset_listing = NULL;
+
+/** \brief  Model of the romsets */
 static GtkTreeStore *romset_model = NULL;
+
+/** bnrief  ROM set management view */
 static GtkWidget *romset_view = NULL;
 
 
 /** \brief  Temporary event handler for buttons
+ *
+ * \param[in]   widget  button (unused)
+ * \param[in]   data    extra event data (unused)
  */
 static void not_implemented(GtkWidget *widget, gpointer data)
 {
@@ -90,7 +101,7 @@ static void not_implemented(GtkWidget *widget, gpointer data)
 /** \brief  Handler for the 'show current' button
  *
  * \param[in]   widget  button
- * \param[in]   data    unused
+ * \param[in]   data    extra event data (unused)
  */
 static void on_show_current_clicked(GtkWidget *widget, gpointer data)
 {
@@ -108,7 +119,7 @@ static void on_show_current_clicked(GtkWidget *widget, gpointer data)
 
 }
 
-/** \brief  Handler for the 'load' button
+/** \brief  Handler for the 'clicked' even of the "load" button
  *
  * \param[in]   widget  button
  * \param[in]   data    unused
