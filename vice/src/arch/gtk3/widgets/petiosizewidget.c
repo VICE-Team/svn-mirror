@@ -48,10 +48,20 @@ static const vice_gtk3_radiogroup_entry_t io_sizes[] = {
 };
 
 
+/** \brief  Function to call on 'toggle' events of the radio buttons
+ *
+ * Allows the PET settings glue logic to update related widgets.
+ */
 static void (*user_callback)(int) = NULL;
 
 
-
+/** \brief  Handler for the 'toggled' event of the radio buttons
+ *
+ * Triggers the optional callback with the current radio button ID.
+ *
+ * \param[in]   widget  radio button (unused)
+ * \param[in]   id      ID of the radio button
+ */
 static void on_io_size_changed(GtkWidget *widget, int id)
 {
     if (user_callback != NULL) {
@@ -84,19 +94,26 @@ GtkWidget *pet_io_size_widget_create(void)
 }
 
 
-void pet_io_size_widget_set_callback(GtkWidget *widget,
-                                     void (*func)(int))
+/** \brief  Set callback for radio button 'toggle' events
+ *
+ * \param[in]   func    function to trigger
+ */
+void pet_io_size_widget_set_callback(void (*func)(int))
 {
     user_callback = func;
 }
 
 
-
+/** \brief  Synchronize \a widget with its resource
+ *
+ * \param[in,out]   widget  PET I/O size widget
+ */
 void pet_io_size_widget_sync(GtkWidget *widget)
 {
+    GtkWidget *group;
     int size;
 
     resources_get_int("IOSize", &size);
-    GtkWidget *group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     vice_gtk3_resource_radiogroup_set(group, size);
 }

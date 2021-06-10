@@ -1,4 +1,4 @@
-/** \file   uinetplaywidget.h
+/** \file   netplaywidget.h
  * \brief   Netplay settings widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

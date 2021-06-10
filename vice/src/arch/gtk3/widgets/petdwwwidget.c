@@ -48,11 +48,12 @@
 /* references to widgets to be able to toggle sensitive state depending on the
  * DWW Enable check button
  */
-static GtkWidget *entry = NULL;
-static GtkWidget *browse = NULL;
+
+/** \brief  DWW image browser widget */
+static GtkWidget *browser = NULL;
 
 
-/** \brief  Handler for the "toggled" event of the DWW Enable check button
+/** \brief  Handler for the 'toggled' event of the DWW Enable check button
  *
  * Toggles sensitive state of other widgets
  *
@@ -82,8 +83,7 @@ static void on_dww_toggled(GtkWidget *widget, gpointer user_data)
         resources_set_int("PETDWW", state);
     }
 
-    gtk_widget_set_sensitive(entry, state);
-    gtk_widget_set_sensitive(browse, state);
+    gtk_widget_set_sensitive(browser, state);
 }
 
 
@@ -116,37 +116,6 @@ static GtkWidget *create_dww_check_button(void)
 }
 
 
-
-static void browse_filename_callback(GtkDialog *dialog,
-                                     gchar *filename,
-                                     gpointer data)
-{
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(entry, filename);
-        g_free(filename);
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-
-/** \brief  Handler for the "clicked" event of the browse button
- *
- * Activates a file-open dialog and stores the file name in the GtkEntry passed
- * in \a user_data if valid, triggering a resource update.
- *
- * \param[in]   widget      button
- * \param[in]   user_data   entry to store filename in
- */
-static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
-{
-    vice_gtk3_open_file_dialog(
-            "Open DWW image file",
-            NULL, NULL, NULL,
-            browse_filename_callback,
-            NULL);
-}
-
-
 /** \brief  Create widget to control PET DWW settings
  *
  * \param[in]   parent  parent widget
@@ -157,38 +126,30 @@ GtkWidget *pet_dww_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable;
-    GtkWidget *label;
     int state;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* DWW enable */
     enable = create_dww_check_button();
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 3, 1);
 
-
     /* DWW filename */
-    label = gtk_label_new("DWW image file");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
-    entry = vice_gtk3_resource_entry_full_new("PETDWWfilename");
-    gtk_widget_set_hexpand(entry, TRUE);
-    browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
-            (gpointer)entry);
-
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
+    browser = vice_gtk3_resource_browser_new(
+            "PETDWWfilename",
+            NULL,
+            NULL,
+            "Select DWW image file",
+            "DWW image file",
+            NULL);
+    g_object_set(browser, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), browser, 0, 1, 1, 1);
 
     /* set initial sensitive state of widgets */
     if (resources_get_int("PETDWW", &state) < 0) {
         state = 0;
     }
-    gtk_widget_set_sensitive(entry, state);
-    gtk_widget_set_sensitive(browse, state);
+    gtk_widget_set_sensitive(browser, state);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -84,7 +84,8 @@ static void on_iec_toggled(GtkWidget *widget, gpointer data)
 
 /** \brief  Create checkbox to toggle IEC-Device emulation for \a unit
  *
- * \param[in]   unit    unit number (8-11)
+ * \param[in]   unit        unit number (8-11)
+ * \param[in]   callback    function to call on checkbutton toggle events
  *
  * \return  GtkCheckButton
  */

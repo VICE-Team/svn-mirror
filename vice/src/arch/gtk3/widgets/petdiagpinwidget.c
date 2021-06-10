@@ -43,7 +43,7 @@
 
 /** \brief  Create widget to control PET diagnostic pin
  *
- * \param[in]   parent  parent widget, used for dialogs
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -51,8 +51,7 @@ GtkWidget *pet_diagpin_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = gtk_grid_new();
-
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     gtk_grid_attach(GTK_GRID(grid),
             vice_gtk3_resource_check_button_new("DiagPin",
                 "Enable userport diagnostic pin"),

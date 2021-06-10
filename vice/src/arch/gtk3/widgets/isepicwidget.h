@@ -32,7 +32,5 @@
 #include <gtk/gtk.h>
 
 GtkWidget * isepic_widget_create(GtkWidget *parent);
-void        isepic_widget_set_save_handler(int (*func)(int, const char *));
-void        isepic_widget_set_flush_handler(int (*func)(int));
 
 #endif

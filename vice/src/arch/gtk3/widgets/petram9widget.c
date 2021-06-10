@@ -41,9 +41,9 @@
 #include "petram9widget.h"
 
 
-/** \brief  Available I/O sizes
- * Defines values for jumper JU2/JU4
- * for details see http://www.6502.org/users/andre/petindex/local/8296desc.txt
+/** \brief  Defines values for jumper JU2/JU4
+ *
+ * For details see http://www.6502.org/users/andre/petindex/local/8296desc.txt
  */
 static const vice_gtk3_radiogroup_entry_t area_types[] = {
     { "ROM", 0 },
@@ -51,8 +51,17 @@ static const vice_gtk3_radiogroup_entry_t area_types[] = {
     { NULL, -1 }
 };
 
+
+/** \brief  Callback function for radio button toggles
+ */
 static void (*user_callback)(int) = NULL;
 
+
+/** \brief  Handler for the 'toggled' event of the radio buttons
+ *
+ * \param[in]   widget  radio button (unused)
+ * \param[in]   id      radio button ID
+ */
 static void on_ram9_changed(GtkWidget *widget, int id)
 {
     if (user_callback != NULL) {
@@ -60,7 +69,8 @@ static void on_ram9_changed(GtkWidget *widget, int id)
     }
 }
 
-/** \brief  Create PET I/O area size widget
+
+/** \brief  Create PET RAM9 widget
  *
  * \return  GtkGrid
  */
@@ -83,13 +93,11 @@ GtkWidget *pet_ram9_widget_create(void)
 }
 
 
-/** \brief  Set custom callback function for \a widget
+/** \brief  Set custom callback function for radio button toggle events
  *
- * \param[in,out]   widget  PET RAM9 widget
- * \param[in        func    callback function
+ * \param[in]       func    callback function
  */
-void pet_ram9_widget_set_callback(GtkWidget *widget,
-                                  void (*func)(int))
+void pet_ram9_widget_set_callback(void (*func)(int))
 {
     user_callback = func;
 }

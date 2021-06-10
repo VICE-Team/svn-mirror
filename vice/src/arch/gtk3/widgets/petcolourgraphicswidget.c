@@ -55,7 +55,7 @@ static const vice_gtk3_radiogroup_entry_t colour_types[] = {
 
 /** \brief  Create widget to control PET Colour graphics resources
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -66,9 +66,7 @@ GtkWidget *pet_colour_graphics_widget_create(GtkWidget *parent)
     GtkWidget *group;
     GtkWidget *spin;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* PET Colour type */
     label = gtk_label_new("PET Colour type");

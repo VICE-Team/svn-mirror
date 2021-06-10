@@ -1255,7 +1255,7 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(pet_grid), pet_keyboard_widget, 1, 0, 1, 1);
 
     pet_video_size_widget = pet_video_size_widget_create();
-    pet_video_size_widget_set_callback(pet_video_size_widget, pet_video_size_callback);
+    pet_video_size_widget_set_callback(pet_video_size_callback);
     gtk_grid_attach(GTK_GRID(pet_grid), pet_video_size_widget, 1, 1, 1, 1);
 
     ram_widget = pet_ram_size_widget_create();
@@ -1263,21 +1263,21 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(pet_grid), ram_widget, 2, 0, 1, 1);
 
     pet_io_widget = pet_io_size_widget_create();
-    pet_io_size_widget_set_callback(pet_io_widget, pet_io_callback);
+    pet_io_size_widget_set_callback(pet_io_callback);
     gtk_grid_attach(GTK_GRID(pet_grid), pet_io_widget, 2, 1, 1, 1);
 
     pet_ram9_widget = pet_ram9_widget_create();
-    pet_ram9_widget_set_callback(pet_ram9_widget, pet_ram9_callback);
+    pet_ram9_widget_set_callback(pet_ram9_callback);
     gtk_grid_attach(GTK_GRID(pet_grid), pet_ram9_widget, 3, 0, 1, 1);
 
     pet_rama_widget = pet_rama_widget_create();
-    pet_rama_widget_set_callback(pet_rama_widget, pet_rama_callback);
+    pet_rama_widget_set_callback(pet_rama_callback);
     pet_set_ram9a_sensitivity();
     gtk_grid_attach(GTK_GRID(pet_grid), pet_rama_widget, 3, 1, 1, 1);
 
     pet_misc_widget = pet_misc_widget_create();
-    pet_misc_widget_set_crtc_callback(pet_misc_widget, pet_crtc_callback);
-    pet_misc_widget_set_blank_callback(pet_misc_widget, pet_blank_callback);
+    pet_misc_widget_set_crtc_callback(pet_crtc_callback);
+    pet_misc_widget_set_blank_callback(pet_blank_callback);
     gtk_grid_attach(GTK_GRID(pet_grid), pet_misc_widget, 1, 2, 2, 1);
 
     /* SuperPET widgets */
