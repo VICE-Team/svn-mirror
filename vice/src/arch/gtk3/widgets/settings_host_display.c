@@ -98,11 +98,15 @@ static void minimized_callback(GtkWidget *widget, int value)
 }
 
 
-/** \brief  Create "fullscreen" widget
+/** \brief  Create "Switch to fullscreen on boot" widget
  *
  * Currently completely ignores C128 VDC/VCII, maybe once we can differenciate
- * between displays (ie two or more), and put the GtkWindows there, we can
+ * between displays (ie two or more) and put the GtkWindows there, we can
  * try to handle these scenarios. But for now, deh.
+ *
+ * \param[in]   index   window index (unused)
+ *
+ * \return  GtkCheckButton
  */
 static GtkWidget *create_fullscreen_widget(int index)
 {
@@ -154,7 +158,7 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
     GtkWidget *restore_window_widget;
     GtkWidget *sync_widget;
 
-    grid = gtk_grid_new();
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     if (machine_class != VICE_MACHINE_VSID) {
 
@@ -182,12 +186,9 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 
         gtk_grid_attach(GTK_GRID(grid), sync_widget, col++, 1, 2, 1);
 
-        g_object_set(fullscreen_widget, "margin-top", 32, NULL);
+        g_object_set(fullscreen_widget, "margin-top", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), fullscreen_widget, 0, 2, 2, 1);
-
-        g_object_set(minimized_widget, "margin-top", 8, NULL);
         gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 3, 2, 1);
-        g_object_set(restore_window_widget, "margin-top", 8, NULL);
         gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 4, 2, 1);
 
         resources_get_int("FullscreenEnable", &fullscreen);
@@ -207,7 +208,6 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
             /* minimized, so fullscreen cannot be active */
             gtk_widget_set_sensitive(fullscreen_widget, FALSE);
         }
-
     }
     gtk_widget_show_all(grid);
     return grid;

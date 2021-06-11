@@ -105,7 +105,9 @@ static void save_filename_callback(GtkDialog *dialog,
  */
 static void on_save_custom_keymap_clicked(GtkWidget *widget, gpointer data)
 {
-    vice_gtk3_save_file_dialog(
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_save_file_dialog(
             "Save current keymap",  /* title */
             NULL,                   /* proposed filename: might use this later */
             TRUE,                   /* query user before overwrite */
@@ -113,12 +115,13 @@ static void on_save_custom_keymap_clicked(GtkWidget *widget, gpointer data)
             save_filename_callback, /* filename callback */
             NULL                    /* extra data */
          );
+    gtk_widget_show(dialog);
 }
 
 
 /** \brief  Create keyboard settings widget
  *
- * \param[in]   widget  parent widget
+ * \param[in]   widget  parent widget (unused)
  *
  * \return  GtkGrid
  */

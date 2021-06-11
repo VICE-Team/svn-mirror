@@ -212,7 +212,7 @@ static GtkWidget *create_prg_widget(void)
 
 /** \brief  Create widget to use in the settings dialog for autostart resources
  *
- * \param[in[   parent  parent widget (unused)
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  grid
  */

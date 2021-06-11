@@ -66,9 +66,7 @@ static GtkWidget *create_stack_child_widget(int unit)
 {
     GtkWidget *layout;
 
-    layout = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(layout), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(layout), 16);
+    layout = vice_gtk3_grid_new_spaced(16, 16);
 
     fsdevice_widgets[unit - DRIVE_UNIT_MIN] = drive_fsdevice_widget_create(unit);
     gtk_grid_attach(GTK_GRID(layout), fsdevice_widgets[unit - DRIVE_UNIT_MIN],
@@ -96,9 +94,7 @@ GtkWidget *settings_fsdevice_widget_create(GtkWidget *parent)
     GtkWidget *switcher;
     int unit;
 
-    layout = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(layout), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(layout), 16);
+    layout = vice_gtk3_grid_new_spaced(16, 16);
 
     long_names = vice_gtk3_resource_check_button_new(
             "FSDeviceLongNames",

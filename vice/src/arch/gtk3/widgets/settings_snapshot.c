@@ -59,11 +59,15 @@ static GtkWidget *histdir_entry;
 
 /** \brief  Callback for the directory-select dialog
  *
- * \param[in]   dialog      directory-select dialog
- * \param[in]   filename    filename (NULL if canceled)
- * \param[in]   param       extra data (unused)
+ * \param[in,out]   dialog      directory-select dialog
+ * \param[in,out]   filename    filename (NULL if canceled)
+ * \param[in]       param       extra data (unused)
+ *
+ * \todo    Replace with resourcebrowser
  */
-static void histdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
+static void histdir_browse_callback(GtkDialog *dialog,
+                                    gchar *filename,
+                                    gpointer param)
 {
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_set(histdir_entry, filename);
@@ -73,10 +77,12 @@ static void histdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer
 }
 
 
-/** \brief  Handler for the "clicked" event of the "browse" button
+/** \brief  Handler for the 'clicked' event of the "browse" button
  *
  * \param[in]   widget      widget triggering the event
  * \param[in]   user_data   extra event data (unused)
+ *
+ * \todo    Replace with resourcebrowser
  */
 static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
@@ -101,6 +107,8 @@ static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
  * \param[in]   parent  parent widget
  *
  * \return  GtkGrid
+ *
+ * \todo    Use resourcebrowser to control "EventSnapshotDir" resource
  */
 GtkWidget *settings_snapshot_widget_create(GtkWidget *parent)
 {
@@ -110,9 +118,7 @@ GtkWidget *settings_snapshot_widget_create(GtkWidget *parent)
     GtkWidget *histdir_browse;
     GtkWidget *recmode_widget;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     label = gtk_label_new("History directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);

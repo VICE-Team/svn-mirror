@@ -74,7 +74,11 @@ enum {
 
 
 
-
+/** \brief  Handler for the 'color-set' event of the background color widget
+ *
+ * \param[in]   button  background color button
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_bg_color_set(GtkColorButton *button, gpointer data)
 {
     GdkRGBA color;
@@ -87,6 +91,11 @@ static void on_bg_color_set(GtkColorButton *button, gpointer data)
 }
 
 
+/** \brief  Handler for the 'color-set' event of the foreground color widget
+ *
+ * \param[in]   button  foreground color button
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_fg_color_set(GtkColorButton *button, gpointer data)
 {
     GdkRGBA color;
@@ -97,7 +106,6 @@ static void on_fg_color_set(GtkColorButton *button, gpointer data)
     resources_set_string("MonitorFG", repr);
     g_free(repr);
 }
-
 
 
 /** \brief  Handler for the 'font-set' event of the font chooser
@@ -183,7 +191,6 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
             "MonitorServerAddress");
     gtk_widget_set_hexpand(server_address, TRUE);
 
-
     binary_server_enable = vice_gtk3_resource_check_button_new("BinaryMonitorServer",
             "Enable binary remote monitor");
     binary_label = gtk_label_new("Server address");
@@ -200,17 +207,12 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     /* align with the rest, more or less */
     g_object_set(log_label, "margin-left", 8, NULL);
     gtk_widget_set_halign(log_label, GTK_ALIGN_START);
-#if 0
-    log_name = vice_gtk3_resource_entry_full_new(
-            "MonitorLogFileName");
-#else
     log_name = vice_gtk3_resource_browser_save_new(
             "MonitorLogFileName",
             "Select monitor log filename",
             NULL,
             NULL,
             NULL);
-#endif
     gtk_widget_set_hexpand(log_name, TRUE);
 
     scroll_label = gtk_label_new("Number of lines in scrollback buffer\n(-1 for no limit)");
@@ -290,7 +292,6 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), bg_button, 1, ROW_COLOR, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), fg_label, 0, ROW_COLOR + 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), fg_button, 1, ROW_COLOR + 1, 1, 1);
-
 
     gtk_widget_show_all(grid);
     return grid;

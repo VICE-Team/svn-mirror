@@ -32,7 +32,7 @@
 #include <gtk/gtk.h>
 #include "sampler.h"
 
-void        settings_sampler_set_devices_getter(sampler_device_t *(func)(void));
+void        settings_sampler_set_devices_getter(sampler_device_t *(*func)(void));
 GtkWidget * settings_sampler_widget_create(GtkWidget *parent);
 
 #endif

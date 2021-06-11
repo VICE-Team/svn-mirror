@@ -89,11 +89,15 @@ static const char *chip_name[2] = { NULL, NULL };
  * checkbox in VICII settings should update the checkbox in VDC settings, and
  * vice-versa. Once the resources are chip-dependent, this can be removed.
  */
+
+/** \brief  keep-aspect-ratio widgets
+ */
 static GtkWidget *keep_aspect_widget[2] = { NULL, NULL };
+
+/** \brief  true-aspect-ratio widgets
+ */
 static GtkWidget *true_aspect_widget[2] = { NULL, NULL };
 
-
-static GtkWidget *parent_widget = NULL;
 
 
 /** \brief  Handler for the "destroy" event of the main widget
@@ -115,11 +119,13 @@ static void on_destroy(GtkWidget *widget)
 }
 
 
-/* TODO: these functions might need documentation, though what they do is
- *       pretty clear (to me).
+
+/** \brief  Create "Double Size" checkbox
+ *
+ * \param[in]   index   chip index
+ *
+ * \return  GtkCheckButton
  */
-
-
 static GtkWidget *create_double_size_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
@@ -128,6 +134,12 @@ static GtkWidget *create_double_size_widget(int index)
 }
 
 
+/** \brief  Create "Double Scan" checkbox
+ *
+ * \param[in]   index   chip index
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_double_scan_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
@@ -136,16 +148,12 @@ static GtkWidget *create_double_scan_widget(int index)
 }
 
 
-#if 0
-static GtkWidget *create_video_cache_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "%sVideoCache", "Video cache",
-            chip_name[index]);
-}
-#endif
-
-
+/** \brief  Create "Vertical Stretch" checkbox
+ *
+ * \param[in]   index   chip index
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_vert_stretch_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
@@ -154,6 +162,12 @@ static GtkWidget *create_vert_stretch_widget(int index)
 }
 
 
+/** \brief  Create "Audio leak emulation" checkbox
+ *
+ * \param[in]   index   chip index
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_audio_leak_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
@@ -162,6 +176,12 @@ static GtkWidget *create_audio_leak_widget(int index)
 }
 
 
+/** \brief  Create "Sprite-sprite collisions" checkbox
+ *
+ * \param[in]   index   chip index
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_sprite_sprite_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
@@ -169,7 +189,12 @@ static GtkWidget *create_sprite_sprite_widget(int index)
             chip_name[index]);
 }
 
-
+/** \brief  Create "Sprite-background collisions" checkbox
+ *
+ * \param[in]   index   chip index
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_sprite_background_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
@@ -178,6 +203,12 @@ static GtkWidget *create_sprite_background_widget(int index)
 }
 
 
+/** \brief  Create "VSP bug emulation" checkbox
+ *
+ * \param[in]   index   chip index
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_vsp_bug_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
@@ -185,21 +216,26 @@ static GtkWidget *create_vsp_bug_widget(int index)
             chip_name[index]);
 }
 
-#if 0
-static GtkWidget *create_hw_scale_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "%sHwScale", "Hardware scaling",
-            chip_name[index]);
-}
-#endif
 
+/** \brief  Create "Keep aspect ratio" checkbox
+ *
+ * \param[in]   index   chip index
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_keep_aspect_widget(int index)
 {
     return vice_gtk3_resource_check_button_new(
             "KeepAspectRatio", "Keep aspect ratio");
 }
 
+
+/** \brief  Create "True aspect ratio" checkbox
+ *
+ * \param[in]   index   chip index
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_true_aspect_widget(int index)
 {
     return vice_gtk3_resource_check_button_new(
@@ -207,17 +243,11 @@ static GtkWidget *create_true_aspect_widget(int index)
 }
 
 
-#if 0
-static void on_hw_scale_toggled(GtkWidget *check, gpointer user_data)
-{
-    int enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-    int index = GPOINTER_TO_INT(user_data);
-
-    gtk_widget_set_sensitive(keep_aspect_widget[index], enabled);
-    gtk_widget_set_sensitive(true_aspect_widget[index], enabled);
-}
-#endif
-
+/** \brief  Handler for the 'toggled' event of the keep-aspect-ratio checkbox
+ *
+ * \param[in]   check       checkbox
+ * \param[in]   user_data   chip index (int)
+ */
 static void on_keep_aspect_toggled(GtkWidget *check, gpointer user_data)
 {
     int index = GPOINTER_TO_INT(user_data);
@@ -226,6 +256,11 @@ static void on_keep_aspect_toggled(GtkWidget *check, gpointer user_data)
 }
 
 
+/** \brief  Handler for the 'toggled' event of the true-aspect-ratio checkbox
+ *
+ * \param[in]   check       checkbox
+ * \param[in]   user_data   chip index (int)
+ */
 static void on_true_aspect_toggled(GtkWidget *check, gpointer user_data)
 {
     int index = GPOINTER_TO_INT(user_data);
@@ -396,9 +431,9 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
 
 /** \brief  Create a per-chip video settings layout
  *
- * \param[in]   parent  parent widget, required for dialogs
+ * \param[in]   parent  parent widget, required for dialogs and window switching
  * \param[in]   chip    chip name ("Crtc", "TED", "VDC", "VIC", or "VICII")
- * \param[in[   index   index in the general layout (0 or 1 (x128))
+ * \param[in]   index   index in the general layout (0 or 1 (x128))
  *
  * \return  GtkGrid
  */
@@ -488,7 +523,6 @@ GtkWidget *settings_video_create(GtkWidget *parent)
     true_aspect_widget[0] = NULL;
     true_aspect_widget[1] = NULL;
 
-
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     chip = uivideo_chip_name();
     gtk_grid_attach(GTK_GRID(grid),
@@ -513,8 +547,6 @@ GtkWidget *settings_video_create(GtkWidget *parent)
 GtkWidget *settings_video_create_vdc(GtkWidget *parent)
 {
     GtkWidget *grid;
-
-    parent_widget = parent;
 
     chip_name[0] = NULL;
     chip_name[1] = NULL;

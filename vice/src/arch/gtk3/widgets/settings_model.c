@@ -97,12 +97,26 @@ static const vice_gtk3_radiogroup_entry_t c64dtv_revisions[] = {
 };
 
 
+/*
+ * Function pointers
+ */
+
+/** \brief  Function to call to get the model for the current machine
+ */
+static int (*get_model_func)(void);
+
+/** \brief  Function to call to get the memhack name */
+static const char *(*get_memhack_func)(int hack);
+
+
 /** \brief  Machine model widget
  *
- * Used by all machines
+ * This widget controls which machine model is used.
+ *
+ * Changing the machine model means a lot of other resources being changed, and
+ * changing a resource changes the model (or invalidates it).
  */
 static GtkWidget *machine_widget = NULL;
-
 
 /** \brief  CIA model widget
  *
@@ -110,35 +124,82 @@ static GtkWidget *machine_widget = NULL;
  */
 static GtkWidget *cia_widget = NULL;
 
-
-static int (*get_model_func)(void);
-
-static const char *(*get_memhack_func)(int hack);
-
-
 /** \brief  Video model widget
  */
 static GtkWidget *video_widget = NULL;
 
+/** \brief  RAM widget */
 static GtkWidget *ram_widget = NULL;
+
+/** \brief  Memhacks widget
+ *
+ * Hardware hacks related to installed memory, x64/x64sc only.
+ */
 static GtkWidget *memhack_widget = NULL;
+
+/** \brief  ACIA widget
+ *
+ * Plus4 only.
+ */
 static GtkWidget *acia_widget = NULL;
+
+/** \brief  V364 speech widget
+ *
+ * Used only in xplus4.
+ */
 static GtkWidget *speech_widget = NULL;
+
+/** \brief  VDC display widget
+ *
+ * Used in x128.
+ */
 static GtkWidget *vdc_widget = NULL;
+
+/** \brief  SID widget */
 static GtkWidget *sid_widget = NULL;
+
+/** \brief  KERNAL widget */
 static GtkWidget *kernal_widget = NULL;
+
+/** \brief  PET video widget */
 static GtkWidget *pet_video_size_widget = NULL;
+
+/** \brief  PET keyboard widget */
 static GtkWidget *pet_keyboard_widget = NULL;
+
+/** \brief  PET miscellaneous settings widget */
 static GtkWidget *pet_misc_widget = NULL;
+
+/** \brief  PET I/O size widget */
 static GtkWidget *pet_io_widget = NULL;
+
+/** \brief  PET RAM9 ($9000-$9fff) widget */
 static GtkWidget *pet_ram9_widget = NULL;
+
+/** \brief  PET RAMA ($a000-$afff) widget */
 static GtkWidget *pet_rama_widget = NULL;
 
+/** \brief  C64 DTV revision widget */
 static GtkWidget *c64dtv_rev_widget = NULL;
+
+/** \brief  C64 DTV Hummer ADC widget */
 static GtkWidget *c64dtv_hummer_adc_widget = NULL;
+
+/** \brief  Reset with IEC checkbox */
 static GtkWidget *reset_with_iec_widget = NULL;
 
+/** \brief  C64 "discrete glue logic" radio button */
+static GtkWidget *c64_discrete_radio = NULL;
 
+/** \brief  C64 "custom glue logic" radio button */
+static GtkWidget *c64_custom_radio = NULL;
+
+
+
+/** \brief  Function called video model changes
+ *
+ * \param[in]   model   new videochip model
+ */
 static void video_model_callback(int model)
 {
     if (get_model_func != NULL) {
@@ -155,6 +216,11 @@ static void video_model_callback(int model)
  * x128-specific callbacks
  */
 
+
+/** \brief  Function called on VDC revision changes
+ *
+ * \param[in]   revision    new VDC revision (unused)
+ */
 static void vdc_revision_callback(int revision)
 {
     if (get_model_func != NULL) {
@@ -163,6 +229,10 @@ static void vdc_revision_callback(int revision)
 }
 
 
+/** \brief  Function called on VDC RAM changes
+ *
+ * \param[in]   state   new VDC RAM state (unused)
+ */
 static void vdc_ram_callback(int state)
 {
     if (get_model_func != NULL) {
@@ -172,6 +242,11 @@ static void vdc_ram_callback(int state)
 
 /* }}} */
 
+
+/** \brief  Function called on SID model changes
+ *
+ * \param[in]   model   new SID model
+ */
 static void sid_model_callback(int model)
 {
     if (get_model_func != NULL) {
@@ -193,11 +268,15 @@ static void kernal_revision_callback(int rev)
 }
 
 
+/** \brief  Function called on IEC checkbox toggles
+ *
+ * \param[in]   widget  IEC widget (unused)
+ * \param[in]   data    extra event data (unused)
+ */
 static void iec_callback(GtkWidget *widget, gpointer data)
 {
     machine_model_widget_update(machine_widget);
 }
-
 
 
 /** \brief  Callback for CIA model changes
@@ -217,7 +296,7 @@ static void cia_model_callback(int cia_num, int cia_model)
 
 /** \brief  Callback for PET RAM size changes
  *
- * \param[in]   size    RAM size in KiB
+ * \param[in]   size    RAM size in KiB (unused)
  */
 static void pet_ram_size_callback(int size)
 {
@@ -227,6 +306,10 @@ static void pet_ram_size_callback(int size)
 }
 
 
+/** \brief  Function called on PET I/O size changes
+ *
+ * \param[in]   size    new I/O size (unused)
+ */
 static void pet_video_size_callback(int size)
 {
     if (get_model_func != NULL) {
@@ -235,6 +318,10 @@ static void pet_video_size_callback(int size)
 }
 
 
+/** \brief  Function called on PET keyboard type changes
+ *
+ * \param[in]   type    new keyboard type (unused)
+ */
 static void pet_keyboard_type_callback(int type)
 {
     if (get_model_func != NULL) {
@@ -242,6 +329,11 @@ static void pet_keyboard_type_callback(int type)
     }
 }
 
+
+/** \brief  Function called on PET CRTC changes
+ *
+ * \param[in]   state   new CRTC state (unused)
+ */
 static void pet_crtc_callback(int state)
 {
     if (get_model_func != NULL) {
@@ -249,6 +341,11 @@ static void pet_crtc_callback(int state)
     }
 }
 
+
+/** \brief  Function called on PET blank-on-eoi changes
+ *
+ * \param[in]   state   new blank-on-eoi state (unused)
+ */
 static void pet_blank_callback(int state)
 {
     if (get_model_func != NULL) {
@@ -257,6 +354,10 @@ static void pet_blank_callback(int state)
 }
 
 
+/** \brief  Function called on PET I/O changes
+ *
+ * \param[in]   state   new I/O state (unused)
+ */
 static void pet_io_callback(int state)
 {
     if (get_model_func != NULL) {
@@ -264,6 +365,11 @@ static void pet_io_callback(int state)
     }
 }
 
+
+/** \brief  Function called on PET RAM9 changes
+ *
+ * \param[in]   state   new RAM9 state (unused)
+ */
 static void pet_ram9_callback(int state)
 {
     if (get_model_func != NULL) {
@@ -271,6 +377,11 @@ static void pet_ram9_callback(int state)
     }
 }
 
+
+/** \brief  Function called on PET RAMA changes
+ *
+ * \param[in]   state   new RAMA state (unused)
+ */
 static void pet_rama_callback(int state)
 {
     if (get_model_func != NULL) {
@@ -282,7 +393,8 @@ static void pet_rama_callback(int state)
 
 /* {{{ Plus4 glue logic and helpers */
 
-
+/** \brief  Debug hook: dump Plus4-related resources on stdoud
+ */
 static void plus4_debug_dump_resources(void)
 {
 #ifdef HAVE_DEBUG_GTK3UI
@@ -414,6 +526,11 @@ static void v364_speech_widget_callback(GtkWidget *widget, int value)
  */
 static void c64_misc_widget_sync(void);
 
+
+/** \brief  Callback triggered on changing machine model
+ *
+ * \param[in]   model   machine model
+ */
 static void machine_model_handler_c64(int model)
 {
     GtkWidget *sid_group;
@@ -502,7 +619,7 @@ static void machine_model_handler_c128(int model)
  * Calls model widget update
  *
  * \param[in]   widget      radio button triggering the callback (unused)
- * \param[in]   revision    new DTV revision
+ * \param[in]   revision    new DTV revision (unused)
  */
 static void dtv_revision_callback(GtkWidget *widget, int revision)
 {
@@ -516,7 +633,7 @@ static void dtv_revision_callback(GtkWidget *widget, int revision)
  *
  * Calls model widget update
  *
- * \param[in]   model   new VIC-II model
+ * \param[in]   model   new VIC-II model (unused)
  */
 static void dtv_video_callback(int model)
 {
@@ -547,7 +664,7 @@ static void c64dtv_hummer_adc_callback(GtkWidget *widget, int value)
 
 /** \brief  Callback for DTV machine model changes
  *
- * Updates the DTV revision and VIC-II model widgets
+ * Updates the DTV revision and VIC-II model widgets.
  *
  * \param[in]   model   DTV model
  */
@@ -677,7 +794,7 @@ static void machine_model_handler_plus4(int model)
 
 /** \brief  Callback for the CBM-II 5x0 VIC-II model (sync factor)
  *
- * Calls model widget update
+ * Calls model widget update.
  *
  * \param[in]   model   new VIC-II model
  */
@@ -689,7 +806,7 @@ static void cbm5x0_video_callback(int model)
 
 /** \brief  Callback for the CBM-II 6x0/7x0 CRTC model (sync factor)
  *
- * Calls model widget update
+ * Calls model widget update.
  *
  * \param[in]   model   new VIC-II model
  */
@@ -699,18 +816,36 @@ static void cbm2_video_callback(int model)
 }
 
 
+/** \brief  Callback for the CBM-II 6x0/7x0 ModelLine switches
+ *
+ * Calls model widget update.
+ *
+ * \param[in]   widget      switches widget (unused)
+ * \param[in]   model_line  new mode line value (unused)
+ */
 static void cbm2_switches_callback(GtkWidget *widget, int model_line)
 {
     machine_model_widget_update(machine_widget);
 }
 
 
+/** \brief  Callback for CBM-II 6x0/7x0 memory size changes
+ *
+ * Calls model widget update.
+ *
+ * \param[in]   widget  memory size widget (unused)
+ * \param[in]   size    new memory size (unused)
+ */
 static void cbm2_memory_size_callback(GtkWidget *widget, int size)
 {
     machine_model_widget_update(machine_widget);
 }
 
 
+/** \brief  Callback for CBM 5x0 model changes
+ *
+ * \param[in]   model   new model
+ */
 static void machine_model_handler_cbm5x0(int model)
 {
     video_model_widget_update(video_widget);
@@ -718,6 +853,10 @@ static void machine_model_handler_cbm5x0(int model)
 }
 
 
+/** \brief  Callback for CBM 6x0/7x0 model changes
+ *
+ * \param[in]   model   new model
+ */
 static void machine_model_handler_cbm6x0(int model)
 {
     video_model_widget_update(video_widget);
@@ -743,6 +882,10 @@ static void pet_set_ram9a_sensitivity(void)
 }
 
 
+/** \brief  Callback for PET model changes
+ *
+ * \param[in]   model   new model
+ */
 static void machine_model_handler_pet(int model)
 {
     pet_ram_size_widget_sync(ram_widget);
@@ -754,7 +897,6 @@ static void machine_model_handler_pet(int model)
     pet_rama_widget_sync(pet_rama_widget);
     pet_set_ram9a_sensitivity();
 }
-
 
 
 /** \brief  Generic callback for machine model changes
@@ -797,7 +939,7 @@ static void machine_model_callback(int model)
 }
 
 
-/** \brief  Handler for the "toggled" event of the C64 Glue Logic radio buttons
+/** \brief  Handler for the 'toggled' event of the C64 "Glue Logic" radio buttons
  *
  * \param[in]   widget      radio button triggering the event
  * \param[in]   user_data   glue value (int)
@@ -823,6 +965,7 @@ static void c64_reset_with_iec_sync(void)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(reset_with_iec_widget), iecreset);
 }
 
+
 /** \brief  Create widget to toggle "Reset-to-IEC"
  *
  * \return  GtkGrid
@@ -837,6 +980,7 @@ static GtkWidget *create_reset_with_iec_widget(void)
     return reset_with_iec_widget;
 }
 
+
 /** \brief  Create widget to toggle "Go64Mode"
  *
  * \return  GtkGrid
@@ -848,8 +992,6 @@ static GtkWidget *create_go64_widget(void)
 }
 
 
-GtkWidget *c64_discrete_radio = NULL;
-GtkWidget *c64_custom_radio = NULL;
 
 /** \brief  Sync "Glue Logic" widget with the associated resource
  *
@@ -1231,7 +1373,9 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
 
 /** \brief  Creat PET layout
  *
- * Uses a GtkStack and GtkStackSwitcher to reduce vertical space
+ * Create PET layout using a GtkStack and GtkStackSwitcher to reduce space.
+ *
+ * \param[in,out]   grid    main grid to add widgets to
  *
  * \return  \a grid
  */
@@ -1587,7 +1731,7 @@ void settings_model_widget_set_model_func(int (*func)(void))
  *
  * \param[in]   func    function to get a string for a memhack ID (int)
  */
-void settings_model_widget_set_memhack_func(const char *(func)(int))
+void settings_model_widget_set_memhack_func(const char *(*func)(int))
 {
     get_memhack_func = func;
 }

@@ -29,9 +29,7 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 #include "vice_gtk3.h"
 
 #include "settings_misc.h"
@@ -40,9 +38,9 @@
 /** \brief  Create miscellaneous settings widget
  *
  * Basically a widget to contain (hopefully temporarily) widgets controlling
- * resources that can't (yet) be placed in a more logical location
+ * resources that can't (yet) be placed in a more logical location.
  *
- * \param[in]   widget  parent widget (used for dialogs)
+ * \param[in]   widget  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -51,7 +49,7 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
     GtkWidget *grid;
     GtkWidget *label;
 
-    grid = gtk_grid_new();
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     label = gtk_label_new(NULL);
     gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);

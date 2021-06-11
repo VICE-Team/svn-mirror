@@ -51,6 +51,16 @@
 #include "settings_ramreset.h"
 
 
+/** \brief  Number of bytes to show for the preview
+ */
+#define PREVIEWPATTERNBYTES 0x10000
+
+/** \brief  Size of the text buffer for the preview
+ */
+#define PREVIEWTEXTBYTES    (PREVIEWPATTERNBYTES * 4)
+
+
+
 /** \brief  List of powers of two used for the widgets
  *
  * Yes, this looks silly, but allows me to use vice-gtk3 widgets.
@@ -64,13 +74,14 @@ static const vice_gtk3_combo_entry_int_t powers_of_two[] = {
     { "32768 bytes", 32768 }, { NULL, -1 }
 };
 
-#define PREVIEWPATTERNBYTES 0x10000
-#define PREVIEWTEXTBYTES    (PREVIEWPATTERNBYTES * 4)
 
 
-/** \brief  Handler for the 'value changed' event of the widgets in this dialog
+/** \brief  Handler for the 'value-changed' event of the widgets in this dialog
  *
- * Updates the preview text widget
+ * Updates the preview text widget.
+ *
+ * \param[in]   widget  widget triggering the event (unused)
+ * \param[in]   data    extra event data (unused)
  */
 static void on_value_changed(GtkWidget *widget, gpointer data)
 {
@@ -79,6 +90,7 @@ static void on_value_changed(GtkWidget *widget, gpointer data)
     ram_init_print_pattern(printbuffer, PREVIEWPATTERNBYTES, "\n");
     gtk_text_buffer_set_text (GTK_TEXT_BUFFER(data), printbuffer, -1);
 }
+
 
 /** \brief  Create widget to control RAM init settings
  *

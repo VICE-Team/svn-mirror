@@ -59,6 +59,7 @@
 #include "log.h"
 #include "resources.h"
 #include "widgethelpers.h"
+#include "ui.h"
 
 #include "keysetdialog.h"
 
@@ -293,7 +294,7 @@ static void set_button_text(GtkWidget *button, int row, int col)
 /** \brief  Create a toggle button with two rows of text
  *
  * Create a toggle button with to rows of text, a direction, and the key used
- * for that direction in bold. For example: "NorthWest\n<b>KP_9".
+ * for that direction in bold.
  *
  * \param[in]   row row in the keys matrix
  * \param[in]   col column in the keys matrix
@@ -321,9 +322,6 @@ static GtkWidget *create_button(int row, int col)
 static GtkWidget *create_content_widget(void)
 {
     GtkWidget *grid;
-#if 0
-    GtkWidget *label;
-#endif
     int row;
     int col;
 
@@ -347,18 +345,6 @@ static GtkWidget *create_content_widget(void)
         }
     }
 
-    /* this doesn't wrap but makes the dialog super wide */
-#if 0
-    /* add some help text */
-    label = gtk_label_new(NULL);
-    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
-    gtk_label_set_markup(GTK_LABEL(label),
-            "Click a direction button and press a key to use that key for that"
-            " direction. Use <b>Escape</b> to remove a key from a direction."
-            " To cancel inputting a key, simple press the same direction button"
-            " again without pressing a key.");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 3, 1);
-#endif
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -366,10 +352,9 @@ static GtkWidget *create_content_widget(void)
 
 /** \brief  Show dialog to configure keysets
  *
- * \param[in]   parent  parent window (the settings UI dialog)
  * \param[in]   keyset  keyset number (1 or 2)
  */
-void keyset_dialog_show(GtkWindow *parent, int keyset)
+void keyset_dialog_show(int keyset)
 {
     GtkWidget *dialog;
     GtkWidget *content;
@@ -387,7 +372,8 @@ void keyset_dialog_show(GtkWindow *parent, int keyset)
 
     /* create title (the joystick/userport joystick widgets in
      * settings_joystick.c use 'keyset A/B', so let's be consistent) */
-    g_snprintf(title, 256, "Configure keyset %c", keyset == 1 ? 'A' : 'B');
+    g_snprintf(title, sizeof(title),
+            "Configure keyset %c", keyset == 1 ? 'A' : 'B');
 
     /*
      * don't use ui_get_active_window() for the parent, that will break
@@ -395,15 +381,14 @@ void keyset_dialog_show(GtkWindow *parent, int keyset)
      * dialog to move in front of this one (which should not happen)
      */
     dialog = gtk_dialog_new_with_buttons(
-            title, parent, GTK_DIALOG_MODAL,
+            title, ui_get_active_window(), GTK_DIALOG_MODAL,
             "OK", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
             NULL);
 
     /* add the keyset buttons */
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-    gtk_box_pack_start(GTK_BOX(content), create_content_widget(), TRUE, TRUE,
-            16);
+    gtk_box_pack_start(GTK_BOX(content), create_content_widget(), TRUE, TRUE, 16);
 
     /* connect key events handler */
     g_signal_connect(dialog, "key-press-event", G_CALLBACK(on_key_pressed), NULL);

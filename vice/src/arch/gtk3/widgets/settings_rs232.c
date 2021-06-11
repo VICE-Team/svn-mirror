@@ -4,7 +4,7 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
-/**
+/*
  * $VICERES Acia1Enable     x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Dev        x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES Acia1Base       x64 x64sc xscpu64 x128 xvic
@@ -447,8 +447,9 @@ static GtkWidget *create_userport_widget(void)
 
 /** \brief  Create RS232 devices widget
  *
+ * XXX: only supports Unix, Windows appears do things differently.
  *
- * XXX: only supports Unix, Windows appears do things differently
+ * \return  GtkGrid
  */
 static GtkWidget *create_rs232_devices_widget(void)
 {
@@ -486,7 +487,7 @@ static GtkWidget *create_rs232_devices_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser1_baud_widget, 3, 1, 1, 1);
     ser1_ip232_widget = vice_gtk3_resource_check_button_new(
-            "RsDevice1ip232", "IP232");    
+            "RsDevice1ip232", "IP232");
     gtk_grid_attach(GTK_GRID(grid), ser1_ip232_widget, 4, 1, 1, 1);
 
     label = create_indented_label("Serial 2");
@@ -500,7 +501,7 @@ static GtkWidget *create_rs232_devices_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser2_baud_widget, 3, 2, 1, 1);
     ser2_ip232_widget = vice_gtk3_resource_check_button_new(
-            "RsDevice2ip232", "IP232");    
+            "RsDevice2ip232", "IP232");
     gtk_grid_attach(GTK_GRID(grid), ser2_ip232_widget, 4, 2, 1, 1);
 
     label = create_indented_label("Serial 3");
@@ -514,7 +515,7 @@ static GtkWidget *create_rs232_devices_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser3_baud_widget, 3, 3, 1, 1);
     ser3_ip232_widget = vice_gtk3_resource_check_button_new(
-            "RsDevice3ip232", "IP232");    
+            "RsDevice3ip232", "IP232");
     gtk_grid_attach(GTK_GRID(grid), ser3_ip232_widget, 4, 3, 1, 1);
 
     label = create_indented_label("Serial 4");
@@ -528,9 +529,9 @@ static GtkWidget *create_rs232_devices_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 2, 4, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser4_baud_widget, 3, 4, 1, 1);
     ser4_ip232_widget = vice_gtk3_resource_check_button_new(
-            "RsDevice4ip232", "IP232");    
+            "RsDevice4ip232", "IP232");
     gtk_grid_attach(GTK_GRID(grid), ser4_ip232_widget, 4, 4, 1, 1);
-    
+
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -540,7 +541,7 @@ static GtkWidget *create_rs232_devices_widget(void)
  *
  * Invalid for PET, C64DTV and VSID
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -593,4 +594,3 @@ GtkWidget *settings_rs232_widget_create(GtkWidget *parent)
 
     return grid;
 }
-
