@@ -1,4 +1,4 @@
-/** \fil    settings_joystick.c
+/** \file   settings_joystick.c
  * \brief   Widget to control settings for joysticks
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -79,8 +79,6 @@ static GtkWidget *device_widgets[JOYPORT_MAX_PORTS] = {
 static GtkWidget *adapter_widget = NULL;
 
 
-static GtkWidget *parent_widget = NULL;
-
 
 /*****************************************************************************
  *                                Event handlers                             *
@@ -143,17 +141,14 @@ static void on_swap_userport_joysticks_clicked(GtkWidget *button,
 }
 
 
-
-
-
-/** \brief  Handler for the "clicked" event of the "Configure keysets" button
+/** \brief  Handler for the 'clicked' event of the "Configure keysets" button
  *
- * \param[in]   widget  button
+ * \param[in]   widget  button (unused)
  * \param[in]   data    keyset number (`int`)
  */
 static void on_keyset_dialog_button_clicked(GtkWidget *widget, gpointer data)
 {
-    keyset_dialog_show(GTK_WINDOW(parent_widget), GPOINTER_TO_INT(data));
+    keyset_dialog_show(GPOINTER_TO_INT(data));
 }
 
 
@@ -217,9 +212,6 @@ static GtkWidget *create_opposite_enable_checkbox(void)
     return vice_gtk3_resource_check_button_new("JoyOpposite",
             "Allow opposite directions");
 }
-
-
-
 
 
 /*
@@ -439,11 +431,7 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     int rows = 0;
     int adapter_state;
 
-    parent_widget = parent;
-
-    layout = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
+    layout = vice_gtk3_grid_new_spaced(8, 8);
 
     if (machine_class != VICE_MACHINE_C64DTV
             && machine_class != VICE_MACHINE_CBM5x0) {

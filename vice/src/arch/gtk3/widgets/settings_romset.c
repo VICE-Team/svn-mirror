@@ -207,7 +207,7 @@ static const romset_entry_t c128_machine_roms[] = {
 
 /** \brief  List of C128 chargen ROMs
  *
- * Chargen's only to avoid the dialog getting too large
+ * CHARGENs only to avoid the dialog getting too large.
  */
 static const romset_entry_t c128_chargen_roms[] = {
     { "ChargenIntName", "International Chargen",    NULL },
@@ -220,6 +220,8 @@ static const romset_entry_t c128_chargen_roms[] = {
 };
 
 
+/** \brief  Plus4 machine ROMs
+ */
 static const romset_entry_t plus4_machine_roms[] = {
     { "KernalName",         "Kernal",           NULL },
     { "BasicName",          "Basic",            NULL },
@@ -233,6 +235,8 @@ static const romset_entry_t plus4_machine_roms[] = {
 };
 
 
+/** \brief  CBM-II machine ROMs
+ */
 static const romset_entry_t cbm2_machine_roms[] = {
     { "KernalName",         "Kernal",           NULL },
     { "BasicName",          "Basic",            NULL },
@@ -256,7 +260,6 @@ static const romset_entry_t pet_machine_roms[] = {
     { "ChargenName",        "Chargen",          NULL },
     { NULL,                 NULL,               NULL }
 };
-
 
 
 /** \brief  List of drive ROMs for unsupported machines
@@ -311,6 +314,10 @@ static const romset_entry_t c128_drive_roms[] = {
 };
 
 
+/** \brief  Drive expansion ROMs for C64/C128
+ *
+ * Expansion roms for 1540, 1541, 1541-II and 1571.
+ */
 static const romset_entry_t c64_c128_drive_exp_roms[] = {
     { "DriveProfDOS1571Name",   "ProfDOS 1571", NULL },
     { "DriveSuperCardName",     "Supercard",    NULL },
@@ -349,29 +356,43 @@ static const romset_entry_t plus4_drive_roms[] = {
 };
 
 
-#if 0
-/** \brief  ROM file name matching patterns
- */
-static const char *rom_file_patterns[] = {
-    "*.rom", "*.bin", "*.raw", NULL
-};
-#endif
 
-
+/** \brief  Layout grid */
 static GtkWidget *layout = NULL;
+
+/** \brief  Stack widget for the various 'pages' */
 static GtkWidget *stack = NULL;
+
+/** \brief  Stack switcher to select the 'pages' */
 static GtkWidget *switcher = NULL;
 
+/** \brief  Stack child containing the machine ROMs widget */
 static GtkWidget *child_machine_roms = NULL;
-static GtkWidget *child_chargen_roms = NULL;    /* used for C128 to avoid making
-                                                   the dialog too large */
+
+/** \brief  Stack child containing CHARGEN widgets (x128)
+ *
+ * Used to avoid making the dialog too large due to the number of C128 CHARGENs
+ */
+static GtkWidget *child_chargen_roms = NULL;
+
+/** \brief  Stack child for the drive ROMs widget */
 static GtkWidget *child_drive_roms = NULL;
-/* Drive expansion ROMS: x64 x64sc xscpu64 x128 */
+
+/** \brief  Stack child for the drive expansion ROMS
+ *
+ * For x64, x64sc, xscpu64 and x128.
+ */
 static GtkWidget *child_drive_exp_roms = NULL;
+
+/** \brief  Stack child for the ROM archives widgets */
 static GtkWidget *child_rom_archives = NULL;
 
 
-
+/** \brief  Handler for the 'clicked' event of the PET CHARGEN button
+ *
+ * \param[in]   widget  PET chargen button
+ * \param[in]   data    CHARGEN name
+ */
 static void on_pet_select_chargen(GtkWidget *widget, gpointer data)
 {
     const char *chargen = (const char*)data;
@@ -384,6 +405,10 @@ static void on_pet_select_chargen(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Create stack switcher and attach to \a grid
+ *
+ * \param[in,out]   grid    ROM sets widget
+ */
 static void create_stack_switcher(GtkWidget *grid)
 {
     stack = gtk_stack_new();
@@ -425,27 +450,11 @@ static void add_stack_child(GtkWidget *child,
 }
 
 
-#if 0
-/** \brief  Create push button to load the default ROMs for the current machine
- *
- * \return  GtkButton
- */
-static GtkWidget *button_default_romset_load_create(void)
-{
-    GtkWidget *button = gtk_button_new_with_label("Load default ROMs");
-    g_signal_connect(button, "clicked",
-            G_CALLBACK(on_default_romset_load_clicked), NULL);
-    return button;
-}
-#endif
-
-
 /** \brief  Create a list of ROM selection widgets from \a roms
  *
- * \param[in]   list    ROMs array
+ * \param[in]   roms    ROMs list
  * \param[in]   path    directory to append in the browser when only a filename
  *                      is present in the resource (optional)
- *
  * \return  GtkGrid
  */
 static GtkWidget* create_roms_widget(const romset_entry_t *roms, const char *path)
@@ -481,7 +490,10 @@ static GtkWidget* create_roms_widget(const romset_entry_t *roms, const char *pat
 }
 
 
-
+/** \brief  Create layout for C64 and VIC20
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_c64_vic20_roms_widget(void)
 {
     GtkWidget *grid;
@@ -494,6 +506,10 @@ static GtkWidget *create_c64_vic20_roms_widget(void)
 }
 
 
+/** \brief  Create layout for SCPU64
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_scpu64_roms_widget(void)
 {
     GtkWidget *grid;
@@ -506,6 +522,10 @@ static GtkWidget *create_scpu64_roms_widget(void)
 }
 
 
+/** \brief  Create layout for C128
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_c128_roms_widget(void)
 {
     GtkWidget *grid;
@@ -517,6 +537,11 @@ static GtkWidget *create_c128_roms_widget(void)
     return grid;
 }
 
+
+/** \brief  Create CHARGEN widget for C128
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_c128_chargen_widget(void)
 {
     GtkWidget *grid;
@@ -529,6 +554,10 @@ static GtkWidget *create_c128_chargen_widget(void)
 }
 
 
+/** \brief  Create layout for Plus4
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_plus4_roms_widget(void)
 {
     GtkWidget *grid;
@@ -541,6 +570,10 @@ static GtkWidget *create_plus4_roms_widget(void)
 }
 
 
+/** \brief  Create layout for CBM-II
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_cbm2_roms_widget(void)
 {
     GtkWidget *grid;
@@ -569,7 +602,7 @@ static void unload_pet_rom(GtkWidget *widget, gpointer data)
  *
  * \return  GtkGrid
  *
- * \TODO    Refactor code, too convoluted
+ * \todo    Refactor code, too convoluted
  */
 static GtkWidget *create_pet_roms_widget(void)
 {
@@ -578,7 +611,6 @@ static GtkWidget *create_pet_roms_widget(void)
     GtkWidget *wrapper;
     GtkWidget *basic1;
     GtkWidget *basic1_chars;
-
     GtkWidget *unload;
     GtkWidget *label;
     GtkWidget *browser;
@@ -625,7 +657,7 @@ static GtkWidget *create_pet_roms_widget(void)
         const char *mod = modules[i];
         gchar text[256];
 
-        g_snprintf(text, 256, "$%c000-$%cFFF ROM:", mod[9], mod[9]);
+        g_snprintf(text, sizeof(text), "$%c000-$%cFFF ROM:", mod[9], mod[9]);
         label = gtk_label_new(text);
         browser = vice_gtk3_resource_browser_new(mod,
                 NULL, NULL, "Attach new ROM", NULL, NULL);
@@ -644,7 +676,10 @@ static GtkWidget *create_pet_roms_widget(void)
 }
 
 
-
+/** \brief  Create machine ROMS widget
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_machine_roms_widget(void)
 {
     GtkWidget *grid;
@@ -683,7 +718,6 @@ static GtkWidget *create_machine_roms_widget(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-
 
 
 /** \brief  Create a stack widget with widgets for each supported drive ROM
@@ -746,7 +780,12 @@ static GtkWidget *create_drive_exp_roms_widget(void)
 }
 
 
-
+/** \brief  Create widget to manipulate ROM archives
+ *
+ * \param[in]   predefs list of predefines ROMsets
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_rom_archives_widget(
         const vice_gtk3_combo_entry_str_t *predefs)
 {
@@ -754,31 +793,16 @@ static GtkWidget *create_rom_archives_widget(
     GtkWidget *manager;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-#if 0
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>Current ROM set</b>");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-
-    /* XXX: this will be taken over by the romset manager widget */
-    current = create_current_romset_widget();
-    gtk_widget_set_size_request(current, -1, 120);
-    gtk_widget_set_hexpand(current, TRUE);
-    g_object_set(current, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), current, 0, 1, 1, 1);
-#endif
     manager = romset_manager_widget_create(predefs);
     gtk_grid_attach(GTK_GRID(grid), manager, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
-
     return grid;
 }
 
 
-
 /** \brief  Create the main ROM settings widget
  *
- * \param[in]   parent  parent widget (ignored)
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -835,4 +859,3 @@ GtkWidget *settings_romset_widget_create(GtkWidget *parent)
     gtk_widget_show_all(layout);
     return layout;
 }
-

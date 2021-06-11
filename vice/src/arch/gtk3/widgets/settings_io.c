@@ -69,9 +69,7 @@ static GtkWidget *create_collision_widget(const char *desc)
     GtkWidget *group;
     char buffer[256];
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 0);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
 
     label = gtk_label_new("I/O collision handling");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -84,7 +82,7 @@ static GtkWidget *create_collision_widget(const char *desc)
     gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);
 
     label = gtk_label_new(NULL);
-    g_snprintf(buffer, 256, "<i>(%s)</i>", desc);
+    g_snprintf(buffer, sizeof(buffer), "<i>(%s)</i>", desc);
     gtk_label_set_markup(GTK_LABEL(label), buffer);
 
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -160,12 +158,7 @@ static void create_c128_layout(GtkWidget *grid)
  */
 static void create_c64dtv_layout(GtkWidget *grid)
 {
-#if 0
-    GtkWidget *collision_widget;
-
-    collision_widget = create_collision_widget("$D000-$DFFF");
-    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
-#endif
+    /* NOP */
 }
 
 

@@ -72,6 +72,7 @@ static joyport_desc_t *joyport_devices[JOYPORT_MAX_PORTS];
 static vice_gtk3_combo_entry_int_t *joyport_combo_lists[JOYPORT_MAX_PORTS];
 
 
+/** \brief  Reference to userport widget */
 static GtkWidget *userportjoy_widget = NULL;
 
 
@@ -91,22 +92,6 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "toggled" event of the "Userport adapter" checkbox
- *
- * \param[in]   check       check button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_userportjoy_enable_toggled(GtkWidget *check, gpointer user_data)
-{
-#if 0
-    if (machine_class != VICE_MACHINE_C64DTV) {
-        int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-        gtk_widget_set_sensitive(adapter_widget, state ? TRUE: FALSE);
-    }
-#endif
-}
-
-
 /** \brief  Create a check button to enable "Userport joystick adapter"
  *
  * \return  GtkCheckButton
@@ -117,13 +102,16 @@ static GtkWidget *create_userportjoy_enable_checkbox(void)
 
     check = vice_gtk3_resource_check_button_new("UserportJoy",
             "Enable userport joysticks");
-    /* extra handler to enable/disable the userport adapter widget */
-    g_signal_connect(check, "toggled",
-            G_CALLBACK(on_userportjoy_enable_toggled), NULL);
     return check;
 }
 
 
+/** \brief  Dynamically generate a list of joyport devices for \a port
+ *
+ * \param[in]   port    port number
+ *
+ * \return  TRUE if the list was generated
+ */
 static gboolean create_combo_list(int port)
 {
     int num;

@@ -60,5 +60,3 @@ GtkWidget *settings_soundchip_widget_create(GtkWidget *parent)
     gtk_widget_show_all(layout);
     return layout;
 }
-
-

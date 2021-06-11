@@ -71,7 +71,7 @@ static void on_sound_toggled(GtkWidget *widget, gpointer data)
 
 /** \brief  Create the 'inner' grid, the one containing all the widgets
  *
- * \return  grid
+ * \return  GtkGrid
  */
 static GtkWidget *create_inner_grid(void)
 {

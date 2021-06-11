@@ -62,7 +62,10 @@ static GtkWidget *cart_type_widget = NULL;
 static GtkWidget *set_default_button = NULL;
 
 
+/** \brief  Button to attach a cart */
 static GtkWidget *attach_button = NULL;
+
+/** \brief  Button to remove the current cart */
 static GtkWidget *remove_button = NULL;
 
 
@@ -167,7 +170,7 @@ static void attach_callback(void)
 /** \brief  Handler for the 'clicked' event of the 'set default' button
  *
  * \param[in]   widget  button triggering the event
- * \param[iin]  data    extra event data (unused)
+ * \param[in]   data    extra event data (unused)
  */
 static void on_set_default_clicked(GtkWidget *widget, gpointer data)
 {
@@ -230,7 +233,10 @@ static void on_remove_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-
+/** \brief  Create cart file entry
+ *
+ * \return  GtkEntry
+ */
 static GtkWidget *create_cart_file_widget(void)
 {
     GtkWidget *widget;
@@ -245,6 +251,10 @@ static GtkWidget *create_cart_file_widget(void)
 }
 
 
+/** \brief  Create cart type entry
+ *
+ * \return  GtkEntry
+ */
 static GtkWidget *create_cart_type_widget(void)
 {
     GtkWidget *widget;
@@ -348,4 +358,3 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
-

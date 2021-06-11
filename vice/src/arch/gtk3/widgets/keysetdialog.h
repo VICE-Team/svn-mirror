@@ -31,6 +31,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-void keyset_dialog_show(GtkWindow *parent, int keyset);
+void keyset_dialog_show(int keyset);
 
 #endif

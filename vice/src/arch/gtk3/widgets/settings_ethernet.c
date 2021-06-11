@@ -149,9 +149,10 @@ static gboolean build_iface_list(void)
     return TRUE;
 }
 
+
 /** \brief  Build driver list for the combo box
  *
- * \return  bool
+ * \return  TRUE if the list was generated
  */
 static gboolean build_driver_list(void)
 {

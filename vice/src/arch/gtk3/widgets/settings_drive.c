@@ -77,74 +77,37 @@ static const vice_gtk3_combo_entry_int_t device_types[] = {
 
 
 /* FIXME: this needs proper documentation */
+
+/** \brief  Drive model widgets */
 static GtkWidget *drive_model[NUM_DISK_UNITS];
+
+/** \brief  Drive options widgets */
 static GtkWidget *drive_options[NUM_DISK_UNITS];
+
+/** \brief  Drive extend-policy widgets */
 static GtkWidget *drive_extend[NUM_DISK_UNITS];
+
+/** \brief  Drive idle-mode widgets */
 static GtkWidget *drive_idle[NUM_DISK_UNITS];
+
+/** \brief  Drive parallel port widgets */
 static GtkWidget *drive_parallel[NUM_DISK_UNITS];
+
+/** \brief  Drive RPM widgets */
 static GtkWidget *drive_rpm[NUM_DISK_UNITS];
+
+/** \brief  Drive RAM widgets */
 static GtkWidget *drive_ram[NUM_DISK_UNITS];
+
+/** \brief  Drive DOS widgets */
 static GtkWidget *drive_dos[NUM_DISK_UNITS];
+
+/** \brief  Drive device type widgets */
 static GtkWidget *drive_device_type[NUM_DISK_UNITS];
+
+/** \brief  Drive fixed-size widgets */
 static GtkWidget *drive_size[NUM_DISK_UNITS];
 
-
-/** \brief  Callback for changes in the drive type widget
- *
- * XXX: I could use gtk_widget_get_parent() on the \a widget argument to get
- *      the stack child widget, but perhaps I'll need to wrap widgets into
- *      more GtkGrid's to get the layout right, and that would make a simple
- *      parent lookup fail (it would return the wrapper grid). Then again if
- *      I do use wrappers, this code will still fail.
- *      What did I get myself into, just to avoid globals and to make the
- *      glue logic simpler?     -- compyx
- *
- * TODO:    Change behaviour, depending on machine class
- *
- * \param[in,out]   widget  drive type widget
- * \param[in,out]   data    the child widget of the GtkStack
- */
-static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
-{
-#if 0
-    GtkWidget *drive_extend;
-    GtkWidget *drive_expand;
-    GtkWidget *drive_parallel;
-    int unit;
-    int type;
-
-    debug_gtk3("called.");
-
-    unit = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "UnitNumber"));
-    resources_get_int_sprintf("Drive%dType", &type, unit);
-
-    /* determine if extend-policy is valid for current unit number and its
-     * drive type */
-    drive_extend = gtk_grid_get_child_at(GTK_GRID(data),
-            CHILD_DRIVE_EXTEND_XPOS, CHILD_DRIVE_EXTEND_YPOS);
-    if (drive_extend != NULL) {
-        gtk_widget_set_sensitive(drive_extend,
-                drive_check_extend_policy(type));
-    }
-
-    /* determine which expansions are valid for current unit number and its
-     * drive type */
-    drive_expand = gtk_grid_get_child_at(GTK_GRID(data),
-            CHILD_DRIVE_EXPAND_XPOS, CHILD_DRIVE_EXPAND_YPOS);
-    if (drive_expand != NULL) {
-        drive_expansion_widget_update(drive_expand);
-    }
-
-    /* determine which parallel cables are valid for current unit number and
-     * its drive type */
-    drive_parallel = gtk_grid_get_child_at(GTK_GRID(data),
-            CHILD_DRIVE_PARALLEL_XPOS, CHILD_DRIVE_PARALLEL_YPOS);
-    if (drive_parallel != NULL) {
-        drive_parallel_cable_widget_update(drive_parallel);
-    }
-#endif
-
-}
 
 
 /** \brief  Custom callback for the IEC widget in driveoptions.c
@@ -317,15 +280,14 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
     wrapper = gtk_grid_new();
 
     drive_model[unit - DRIVE_UNIT_MIN] = drive_model_widget_create(unit);
-    drive_model_widget_add_callback(drive_model[unit - DRIVE_UNIT_MIN],
-            stack_child_drive_type_callback,
-            (gpointer)(grid));
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_model[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
+
     drive_options[unit - DRIVE_UNIT_MIN] = drive_options_widget_create(
             unit, iec_callback);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_options[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
+
     drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
@@ -342,7 +304,7 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
     */
 
     /* row 0 & 1, column 2 */
-    wrapper = gtk_grid_new();
+    wrapper = vice_gtk3_grid_new_spaced(0, 16);
     drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
     drive_idle[unit - DRIVE_UNIT_MIN] = drive_idle_method_widget_create(unit);
     /*    drive_parallel = drive_parallel_cable_widget_create(unit); */
@@ -380,9 +342,6 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     wrapper = gtk_grid_new();
 
     drive_model[unit - DRIVE_UNIT_MIN] = drive_model_widget_create(unit);
-    drive_model_widget_add_callback(drive_model[unit - DRIVE_UNIT_MIN],
-            stack_child_drive_type_callback,
-            (gpointer)(grid));
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_model[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
 
@@ -399,13 +358,6 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     g_object_set(drive_size[unit - DRIVE_UNIT_MIN], "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(wrapper), drive_size[unit - DRIVE_UNIT_MIN],
             0, 3, 1, 1);
-
-
-/*
-    drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
-*/
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
     /* row 0, column 1 */
@@ -417,7 +369,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(grid), drive_dos[unit - DRIVE_UNIT_MIN], 1, 1, 1, 1);
 
     /* row 0 & 1, column 2 */
-    wrapper = gtk_grid_new();
+    wrapper = vice_gtk3_grid_new_spaced(0, 16);
     drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
     drive_idle[unit - DRIVE_UNIT_MIN] = drive_idle_method_widget_create(unit);
     drive_parallel[unit - DRIVE_UNIT_MIN] = drive_parallel_cable_widget_create(unit);
@@ -458,12 +410,9 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
     wrapper = gtk_grid_new();
 
     drive_model[unit - DRIVE_UNIT_MIN] = drive_model_widget_create(unit);
-    drive_model_widget_add_callback(
-            drive_model[unit - DRIVE_UNIT_MIN],
-            stack_child_drive_type_callback,
-            (gpointer)(grid));
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_model[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
+
     drive_options[unit - DRIVE_UNIT_MIN] = drive_options_widget_create(
             unit, iec_callback);
 
@@ -476,33 +425,22 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
-    /* row 0, column 1 */
-#if 0
-    drive_ram = drive_ram_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_ram, 1, 0, 1, 1);
-
-    /* row 1, column 1 */
-    drive_dos = drive_dos_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_dos, 1, 1, 1, 1);
-#endif
     /* row 0 & 1, column 2 */
-    wrapper = gtk_grid_new();
+    wrapper = vice_gtk3_grid_new_spaced(0, 16);
     drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
     drive_idle[unit - DRIVE_UNIT_MIN]  = drive_idle_method_widget_create(unit);
-
-    /* FIXME: vice.texi mentions parallel support for Plus4, the Gtk2 UI does
-     *        not provide this
+    /* XXX: vice.texi mentions parallel support for Plus4, and the resource
+     *      is there, but the implementation is missing, the files
+     *      src/drive/iec/plus4exp/ contain stubs.
      */
-#if 0
-    drive_parallel = drive_parallel_cable_widget_create(unit);
-#endif
+    drive_parallel[unit - DRIVE_UNIT_MIN] = drive_parallel_cable_widget_create(unit);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_extend[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_idle[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
-#if 0
-    gtk_grid_attach(GTK_GRID(wrapper), drive_parallel, 0, 2, 1, 1);
-#endif
+    gtk_grid_attach(GTK_GRID(wrapper),
+            drive_parallel[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+
     gtk_widget_show_all(wrapper);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
 
@@ -534,47 +472,25 @@ static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
     wrapper = gtk_grid_new();
 
     drive_model[unit - DRIVE_UNIT_MIN] = drive_model_widget_create(unit);
-    drive_model_widget_add_callback(
-            drive_model[unit - DRIVE_UNIT_MIN],
-            stack_child_drive_type_callback,
-            (gpointer)(grid));
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_model[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
+
     drive_options[unit - DRIVE_UNIT_MIN] = drive_options_widget_create(
             unit, iec_callback);
-
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_options[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
-    /* row 0, column 1 */
-#if 0
-    drive_ram = drive_ram_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_ram, 1, 0, 1, 1);
-
-    /* row 1, column 1 */
-    drive_dos = drive_dos_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_dos, 1, 1, 1, 1);
-#endif
     /* row 0 & 1, column 2 */
-    wrapper = gtk_grid_new();
+    wrapper = vice_gtk3_grid_new_spaced(0, 16);
     drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
     drive_idle[unit - DRIVE_UNIT_MIN]  = drive_idle_method_widget_create(unit);
-
-    /* FIXME: vice.texi mentions parallel support for Plus4, the Gtk2 UI does
-     *        not provide this
-     */
-#if 0
-    drive_parallel = drive_parallel_cable_widget_create(unit);
-#endif
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_extend[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_idle[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
-#if 0
-    gtk_grid_attach(GTK_GRID(wrapper), drive_parallel, 0, 2, 1, 1);
-#endif
+
     gtk_widget_show_all(wrapper);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
 

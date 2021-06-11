@@ -60,8 +60,8 @@ static GtkWidget *checkbox_warp = NULL;
 
 /** \brief  Event handler for the 'pause' checkbox
  *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   data for the event (unused)
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   data    data for the event (unused)
  */
 static void pause_callback(GtkWidget *widget, gpointer data)
 {
@@ -111,6 +111,8 @@ static GtkWidget *create_pause_checkbox(void)
  * This will create a composite widget to control emulation speed, refresh
  * rate and warp/pause settings. To be used as the 'central widget' of the
  * settings dialog.
+ *
+ * \param[in]   widget  parent widget (unused)
  *
  * \return  speed settings widget
  *
