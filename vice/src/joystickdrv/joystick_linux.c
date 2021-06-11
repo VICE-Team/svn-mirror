@@ -138,6 +138,10 @@ void linux_joystick_init(void)
             log_message(joystick_linux_log, "Built in driver version: %d.%d.%d", JS_VERSION >> 16, (JS_VERSION >> 8) & 0xff, JS_VERSION & 0xff);
             log_message(joystick_linux_log, "Kernel driver version  : %d.%d.%d", ver >> 16, (ver >> 8) & 0xff, ver & 0xff);
             fcntl(fd, F_SETFL, O_NONBLOCK);
+            if ((axes < 0) || (buttons < 0)) {
+                log_message(joystick_linux_log, "Joystick with invalid geometry found -- ignoring.");
+                continue;
+            }
             linux_joystick_priv_t *priv = lib_malloc(sizeof(linux_joystick_priv_t));
             priv->fd = fd;
             register_joystick_driver(&linux_joystick_driver, name, priv, axes, buttons, 0);
