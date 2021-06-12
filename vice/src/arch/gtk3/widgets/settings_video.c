@@ -280,7 +280,7 @@ static void on_hide_vdc_toggled(GtkWidget *check, gpointer data)
     GtkWidget *window;
 
     hide = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-    window = ui_get_window_by_index(1);    /* FIXME: constant: VDC */
+    window = ui_get_window_by_index(SECONDARY_WINDOW);  /* VDC */
     if (window != NULL) {
         if (hide) {
             /* close setting dialog on VDC window */
@@ -289,7 +289,7 @@ static void on_hide_vdc_toggled(GtkWidget *check, gpointer data)
             }
             /* hide VDC window and show VICII window */
             gtk_widget_hide(window);
-            window = ui_get_window_by_index(0);    /* FIXME: VICII */
+            window = ui_get_window_by_index(PRIMARY_WINDOW);    /* VICII */
             gtk_window_present(GTK_WINDOW(window));
         } else {
             gtk_widget_show(window);
@@ -316,15 +316,10 @@ static GtkWidget *create_render_widget(int index, const char *chip)
     double_size_widget = create_double_size_widget(index);
     g_object_set(double_size_widget, "margin-left", 16, NULL);
     double_scan_widget = create_double_scan_widget(index);
-#if 0
-    video_cache_widget = create_video_cache_widget(index);
-#endif
 
     gtk_grid_attach(GTK_GRID(grid), double_size_widget, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), double_scan_widget, 1, 0, 1, 1);
-#if 0
-    gtk_grid_attach(GTK_GRID(grid), video_cache_widget, 2, 0, 1, 1);
-#endif
+
     if (uivideo_chip_has_vert_stretch(chip)) {
         vert_stretch_widget = create_vert_stretch_widget(index);
         gtk_grid_attach(GTK_GRID(grid), vert_stretch_widget, 2, 0, 1, 1);
@@ -414,15 +409,6 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
                 GINT_TO_POINTER(index == 0 ? 1: 0));
     }
     gtk_grid_attach(GTK_GRID(grid), true_aspect_widget[index], 1, 1, 1, 1);
-#if 0
-    fullscreen = create_fullscreen_widget(index);
-    g_object_set(G_OBJECT(fullscreen), "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), fullscreen, 0, 2, 3, 1);
-#endif
-#if 0
-    g_signal_connect(hw_scale_widget, "toggled",
-            G_CALLBACK(on_hw_scale_toggled), GINT_TO_POINTER(index));
-#endif
 
     gtk_widget_show_all(grid);
     return grid;
