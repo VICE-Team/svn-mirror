@@ -100,7 +100,7 @@
 #define DRIVE_TRACK_STR_MAX_LEN 16
 
 
-/** \brief  Status bar column indici
+/** \brief  Status bar column indexes
  *
  * These values assume a proper emulator statusbar (ie not VSID).
  */

@@ -33,7 +33,7 @@
 #include "kbddebugwidget.h"
 
 
-/** \brief  Column indici of the various widgets
+/** \brief  Column indexes of the various widgets
  */
 enum {
     COL_TITLE = 0,      /**< title */
