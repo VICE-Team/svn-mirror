@@ -48,12 +48,12 @@
 /** \brief  Sound buffer fragment sizes table
  */
 static const vice_gtk3_radiogroup_entry_t fragment_sizes[] = {
-    { "Very small", 0 },
-    { "Small", 1 },
-    { "Medium", 2 },
-    { "Large", 3 },
-    { "Very large", 4 },
-    { NULL, -1 }
+    { "Very small", SOUND_FRAGMENT_VERY_SMALL },
+    { "Small",      SOUND_FRAGMENT_SMALL },
+    { "Medium",     SOUND_FRAGMENT_MEDIUM },
+    { "Large",      SOUND_FRAGMENT_LARGE },
+    { "Very large", SOUND_FRAGMENT_VERY_LARGE },
+    { NULL,         -1 }
 };
 
 
@@ -68,7 +68,7 @@ GtkWidget *sound_fragment_size_widget_create(void)
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
-            "Fragment size", 1);
+            "Fragment size", SOUND_FRAGMENT_SMALL);
     group = vice_gtk3_resource_radiogroup_new(
             "SoundFragmentSize", fragment_sizes, GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
@@ -77,4 +77,3 @@ GtkWidget *sound_fragment_size_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-

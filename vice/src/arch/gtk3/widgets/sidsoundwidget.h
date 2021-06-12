@@ -30,7 +30,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *sid_sound_widget_create(GtkWidget *parent);
-void sid_engine_model_widget_set_callback(GtkWidget *widget,
-                                          void (*callback)(int, int));
+GtkWidget * sid_sound_widget_create(GtkWidget *parent);
+
 #endif

@@ -45,13 +45,14 @@
 #include "sfxsoundsamplerwidget.h"
 
 
+/** \brief  I/O swap toggle button */
 static GtkWidget *io_swap = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the Enable check button
  *
  * \param[in]   widget      check button
- * \param[in]   user_data   unused
+ * \param[in]   user_data   extra event data (unused)
  */
 static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
@@ -63,6 +64,8 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Create SFX Sound Sampler widget (VIC-20)
  *
+ * \param[in]   parent  parent widget (unused)
+ *
  * \return  GtkGrid
  */
 GtkWidget *sfx_sound_sampler_widget_create(GtkWidget *parent)
@@ -70,9 +73,7 @@ GtkWidget *sfx_sound_sampler_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *enable;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     enable = vice_gtk3_resource_check_button_new("SFXSoundSampler",
             "Enable SFX Sound Sampler");

@@ -52,19 +52,6 @@ static const vice_gtk3_radiogroup_entry_t sid_models_none[] = {
 };
 
 
-#if 0
-/** \brief  All SID models
- */
-static const vice_gtk3_radiogroup_entry_t sid_models_all[] = {
-    { "6581", 0 },
-    { "8580", 1 },
-    { "8580D", 2 },
-    { "6581R4", 3 },
-    { "DTVSID", 4 },
-    { NULL, -1 }
-};
-#endif
-
 /** \brief  SID models used in the C64/C64SCPU, C128 and expanders for PET,
  *          VIC-20 and Plus/4
  */
@@ -96,6 +83,16 @@ static const vice_gtk3_radiogroup_entry_t sid_models_cbm5x0[] = {
     { NULL, -1 }
 };
 
+
+
+/** \brief  Reference to the machine model widget
+ *
+ * Used to update the widget when the SID model changes
+ */
+static GtkWidget *machine_widget = NULL;
+
+
+
 /** \brief  Handler for the "toggled" event of the SID type radio buttons
  *
  * \param[in]   widget      radio button triggering the event
@@ -117,18 +114,9 @@ static void on_sid_model_toggled(GtkWidget *widget, int user_data)
     parent = gtk_widget_get_parent(widget);
     callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
     if (callback != NULL) {
-        debug_gtk3("calling extra callback");
         callback(user_data);
-    } else {
-        debug_gtk3("No ExtraCallback!");
     }
 }
-
-/** \brief  Reference to the machine model widget
- *
- * Used to update the widget when the SID model changes
- */
-static GtkWidget *machine_widget = NULL;
 
 
 /** \brief  Create SID model widget
@@ -226,6 +214,10 @@ void sid_model_widget_update(GtkWidget *widget, int model)
 
 
 
+/** \brief  Synchronize the widget with its resource
+ *
+ * \param[in,out]   widget  SID model widget
+ */
 void sid_model_widget_sync(GtkWidget *widget)
 {
     int model;

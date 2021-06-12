@@ -30,9 +30,7 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *sid_engine_model_widget_create(void);
-
-void sid_engine_model_widget_set_callback(GtkWidget *widget,
-                                          void (*callback)(int, int));
+GtkWidget * sid_engine_model_widget_create(void);
+void        sid_engine_model_widget_set_callback(void (*callback)(int, int));
 
 #endif

@@ -46,13 +46,9 @@
 #include "sounddriverwidget.h"
 
 
-#define LABEL_BUFFER_SIZE   256
-
-
 /*
  * Event handlers
  */
-
 
 /** \brief  Handler for the "changed" event of the device combobox
  *
@@ -123,7 +119,8 @@ GtkWidget *sound_driver_widget_create(void)
     GtkWidget *args;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Driver", 2);
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
+            "Driver", 2);
 
     gtk_grid_attach(GTK_GRID(grid),
             vice_gtk3_create_indented_label("Device name"), 0, 1, 1, 1);

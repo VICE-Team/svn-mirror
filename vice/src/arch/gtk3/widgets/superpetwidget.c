@@ -50,14 +50,24 @@
 #include "superpetwidget.h"
 
 
+/** \brief  Number of SuperPET ROMs
+ */
 #define SUPERPET_ROM_COUNT ('F' - 'A' + 1)
 
 
+/** \brief  SuperPET enable toggle button */
 static GtkWidget *superpet_enable_widget = NULL;
+
+/** \brief  ACIA widget */
 static GtkWidget *acia1_widget = NULL;
+
+/** \brief  CPU widget */
 static GtkWidget *cpu_widget = NULL;
+
+/** \brief  ROM widget */
 static GtkWidget *rom_widget = NULL;
 
+/** \brief  References to the entries for ROMS 'A' to 'F' */
 static GtkWidget *rom_entry_list[SUPERPET_ROM_COUNT];
 
 
