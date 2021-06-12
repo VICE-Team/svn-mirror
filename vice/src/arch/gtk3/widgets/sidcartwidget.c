@@ -48,11 +48,24 @@
 
 /* References to widgets to enable/disable depending on the "SidCart" resource
  */
+
+/** \brief  SID cart enable toggle button */
 static GtkWidget *sidcart_enable = NULL;
+
+/** \brief  SID model radiogroup */
 static GtkWidget *sid_model = NULL;
+
+/** \brief  SID I/O address combobox */
 static GtkWidget *sid_address = NULL;
+
+/** \brief  SID clock radiogroup */
 static GtkWidget *sid_clock = NULL;
-static GtkWidget *sid_joy = NULL;   /* Plus4 only */
+
+/** \brief  SID cart joyport emulation checkbox
+ *
+ * Plus4 only: emulate the joyport on the SID cart.
+ */
+static GtkWidget *sid_joy = NULL;
 
 
 /** \brief  SID cart I/O base addresses for VIC-20
@@ -109,7 +122,7 @@ static const vice_gtk3_radiogroup_entry_t sid_clock_pet[] = {
 };
 
 
-/** \brief  Handler for the "toggled" event of the SidCart enable widget
+/** \brief  Handler for the 'toggled' event of the SidCart enable widget
  *
  * Enables/disables the model, address and clock widgets depending on the
  * SidCart enabled state.
@@ -235,9 +248,7 @@ GtkWidget *sidcart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     sidcart_enable = create_sidcart_enable_widget();
     gtk_grid_attach(GTK_GRID(grid), sidcart_enable, 0, 0, 3, 1);

@@ -128,7 +128,7 @@ static gboolean update_timer(gpointer data)
  * Stops all recordings.
  *
  * \param[in,out]   button  button triggering the event
- * \param[im,out]   data    statusbar recording widget (GtkGrid)
+ * \param[in,out]   data    statusbar recording widget (GtkGrid)
  */
 static void on_stop_clicked(GtkWidget *button, gpointer data)
 {
@@ -146,6 +146,12 @@ static void on_stop_clicked(GtkWidget *button, gpointer data)
 }
 
 
+/** \brief  Create "Stop" button
+ *
+ * Create a Stop button with an icon, reduced in size.
+ *
+ * \return  GtkButton
+ */
 static GtkWidget *create_stop_button(void)
 {
     GtkWidget *button;
@@ -162,7 +168,7 @@ static GtkWidget *create_stop_button(void)
 
 /** \brief  Create recording status widget
  *
- * Generate a widget to show on the statusbar to display recording state
+ * Generate a widget to show on the statusbar to display recording state.
  *
  * \return  GtkGrid
  */
@@ -256,7 +262,7 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
     /* update recording status text */
     label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TEXT, RW_ROW_TEXT);
 
-    g_snprintf(buffer, 256, "Recording %s ...", rec_types[type]);
+    g_snprintf(buffer, sizeof(buffer), "Recording %s ...", rec_types[type]);
     gtk_label_set_text(GTK_LABEL(label), buffer);
 
     /* enable/disable STOP button based on the \a status variable */
@@ -270,9 +276,9 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
 
 /** \brief  Update recording/playback time display
  *
- * \param[in,out]   statusbar   recording widget
- * \param[in]       current     current time in seconds
- * \param[in]       total       total time in seconds
+ * \param[in,out]   widget  recording widget
+ * \param[in]       current current time in seconds
+ * \param[in]       total   total time in seconds
  *
  * \note    \a total only makes sense when replaying events.
  *          I could make the time display '--:--' when \a total is 0, but it
@@ -292,10 +298,11 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
     resources_get_string("SoundRecordDeviceName", &dev);
     time = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TIME, RW_ROW_TIME);
     if (total > 0) {
-        g_snprintf(buffer, 256, "Time: %02u:%02u / %02u:%02u",
+        g_snprintf(buffer, sizeof(buffer), "Time: %02u:%02u / %02u:%02u",
                 current / 60, current % 60, total / 60, total % 60);
     } else {
-        g_snprintf(buffer, 256, "Time: %02u:%02u", current / 60, current % 60);
+        g_snprintf(buffer, sizeof(buffer), "Time: %02u:%02u",
+                current / 60, current % 60);
     }
     gtk_label_set_text(GTK_LABEL(time), buffer);
 
@@ -315,7 +322,7 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
     } else {
         type = RW_TYPE_VIDEO;
     }
-    g_snprintf(buffer, 256, "Recording %s ...", rec_types[type]);
+    g_snprintf(buffer, sizeof(buffer), "Recording %s ...", rec_types[type]);
     gtk_label_set_text(GTK_LABEL(status), buffer);
 }
 

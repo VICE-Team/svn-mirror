@@ -63,9 +63,9 @@
 /** \brief  List of log levels and their descriptions for the Tapecart
  */
 static vice_gtk3_combo_entry_int_t tcrt_loglevels[] = {
-    { "0 (errors only)", 0 },
-    { "1 (0 plus mode changes and command bytes)", 1 },
-    { "2 (1 plus command parameter details)", 2 },
+    { "0 (errors only)",                            0 },
+    { "1 (0 plus mode changes and command bytes)",  1 },
+    { "2 (1 plus command parameter details)",       2 },
     { NULL, -1 }
 };
 
@@ -75,34 +75,89 @@ static vice_gtk3_combo_entry_int_t tcrt_loglevels[] = {
  * handlers
  */
 
+/** \brief  Datasette reset toggle button */
 static GtkWidget *ds_reset = NULL;
+
+/** \brief  Datasette zerogap delay spine button */
 static GtkWidget *ds_zerogap = NULL;
+
+/** \brief  Datasette speed tuning spin button */
 static GtkWidget *ds_speed = NULL;
+
+/** \brief  Datasette wobble frequency spin button */
 static GtkWidget *ds_wobblefreq = NULL;
+
+/** \brief  Datasette wobble amplitude spin button */
 static GtkWidget *ds_wobbleamp = NULL;
+
+/** \brief  Datasette align spin button */
 static GtkWidget *ds_align = NULL;
+
+/** \brief  Datasette sound emulation toggle button */
 static GtkWidget *ds_sound = NULL;
 
+/** \brief  Tape logging enable toggle button */
 static GtkWidget *tape_log = NULL;
+
+/** \brief  Tape log destination toggle button
+ *
+ * Enables saving to user-defined file.
+ */
 static GtkWidget *tape_log_dest = NULL;
+
+/** \brief  Tape log filename entry
+ *
+ * TODO:    Replace with resourcebrowser.c
+ */
 static GtkWidget *tape_log_filename = NULL;
+
+/** \brief  Tape log browse button
+ *
+ * TODO:    Replace with resourcebrowser.c
+ */
 static GtkWidget *tape_log_browse = NULL;
 
+/** \brief  F83 enable toggle button */
 static GtkWidget *f83_enable = NULL;
+
+/** \brief  F83 RTC toggle button */
 static GtkWidget *f83_rtc = NULL;
 
+/** \brief  Tapecart enable toggle button */
 static GtkWidget *tapecart_enable = NULL;
+
+/** \brief  Tapecart save-when-changed toggle button */
 static GtkWidget *tapecart_update = NULL;
+
+/** \brief  Tapecart optimize-when-saving toggle button */
 static GtkWidget *tapecart_optimize = NULL;
+
+/** \brief  Tapecart log level radiogroup */
 static GtkWidget *tapecart_loglevel = NULL;
+
+/** \brief  Tapecart filename entry
+ *
+ * TODO:    Replace with resourcebrowser.c
+ */
 static GtkWidget *tapecart_filename = NULL;
+
+/** \brief  Tapecart browse button
+ *
+ * TODO:    Replace with resourcebrowser.c
+ */
 static GtkWidget *tapecart_browse = NULL;
+
+/** \brief  Tapecart flush button */
 static GtkWidget *tapecart_flush = NULL;
 
+/** \brief  Tapecart flush function pointer
+ *
+ * Required to work around VSID linking issues.
+ */
 static int (*tapecart_flush_func)(void) = NULL;
 
 
-/** \brief  Handler for the "toggled" event of the datasette check button
+/** \brief  Handler for the 'toggled' event of the datasette check button
  *
  * \param[in]   widget  datasette enable check button
  * \param[in]   data    unused
@@ -121,7 +176,7 @@ static void on_datasette_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Handler for the "toggled" event of the tape_log check button
+/** \brief  Handler for the 'toggled' event of the tape_log check button
  *
  * Enables/disables tape_log_dest/tape_log_file_name/tape_log_browse widgets
  *
@@ -138,7 +193,7 @@ static void on_tape_log_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "toggled" event of the tape_log_dest check button
+/** \brief  Handler for the 'toggled' event of the tape_log_dest check button
  *
  * Enables/disables tape_log_file_name/tape_log_browse widgets
  *
@@ -216,6 +271,15 @@ static void on_tapecart_enable_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+
+/** \brief  Callback for the tapecart file chooser dialog
+ *
+ * \param[in,out]   dialog      file chooser dialog
+ * \param[in,out]   filename    filename (NULL cancels)
+ * \param[in]       data        extra data (unused)
+ *
+ * TODO:    Replace with resourcebrowser.c
+ */
 static void browse_filename_callback(GtkDialog *dialog,
                                      gchar *filename,
                                      gpointer data)
@@ -229,21 +293,24 @@ static void browse_filename_callback(GtkDialog *dialog,
 
 
 
-/** \brief  Handler for the "clicked" event of the tapecart browse button
+/** \brief  Handler for the 'clicked' event of the tapecart browse button
  *
  * \param[in]   widget      tapecart browse button
  * \param[in]   user_data   unused
+ *
+ * TODO:    Replace with resourcebrowser.c
  */
 static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
+    GtkWidget *dialog;
 
     /* TODO: use existing filename, if any */
-
-    vice_gtk3_open_file_dialog(
+    dialog = vice_gtk3_open_file_dialog(
             "Select tapecart file",
             NULL, NULL, NULL,
             browse_filename_callback,
             NULL);
+    gtk_widget_show(dialog);
 }
 
 
@@ -260,7 +327,7 @@ static void on_tapecart_flush_clicked(GtkWidget *widget, gpointer data)
 
 /** \brief  Create widgets for the datasette
  *
- * \TODO    Someone needs to check the spin button bounds and steps for sane
+ * TODO:    Someone needs to check the spin button bounds and steps for sane
  *          values.
  *
  * \return  GtkGrid

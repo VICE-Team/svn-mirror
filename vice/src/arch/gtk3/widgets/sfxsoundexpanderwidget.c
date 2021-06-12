@@ -60,11 +60,15 @@ static const vice_gtk3_radiogroup_entry_t chip_models[] = {
  * Widget references to be able to enable/disable them depending on the SFX
  * Sound Expander enabled toggle button
  */
+
+/** \brief  Chip selection radiogroup */
 static GtkWidget *chip_group = NULL;
+
+/** \brief  I/O swap toggle button */
 static GtkWidget *io_swap = NULL;
 
 
-/** \brief  Handler for the "toggled" event of the SFXSE check button
+/** \brief  Handler for the 'toggled' event of the SFXSE check button
  *
  * \param[in]       widget      check button
  * \param[in,out]   user_data   unused
@@ -89,9 +93,7 @@ static GtkWidget *create_sfx_chip_widget(void)
     GtkWidget *grid;
     GtkWidget *label;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     label = gtk_label_new("YM chip model");
     g_object_set(label, "margin-left", 16, NULL);
@@ -118,9 +120,7 @@ GtkWidget *sfx_sound_expander_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *sfx_enable;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     sfx_enable = vice_gtk3_resource_check_button_new("SFXSoundExpander",
             "Enable SFX Sound Expander");

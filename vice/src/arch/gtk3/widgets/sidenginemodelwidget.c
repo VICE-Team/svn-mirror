@@ -156,11 +156,13 @@ GtkWidget *sid_engine_model_widget_create(void)
 }
 
 
-/** \brief  Set callback to be triggered on ...
+/** \brief  Set callback to be triggered on SID model or engine changes
  *
+ * The callback function will receive (engine, model).
+ *
+ * \param[in]   callback    function to call on model/engine change
  */
-void sid_engine_model_widget_set_callback(GtkWidget *widget,
-                                          void (*callback)(int, int))
+void sid_engine_model_widget_set_callback(void (*callback)(int, int))
 {
     extra_callback = callback;
 }

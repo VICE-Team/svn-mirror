@@ -47,19 +47,17 @@
 /** \brief  List of text/id pairs for the speed rates
  */
 static const vice_gtk3_radiogroup_entry_t speed_rates[] = {
-    { "200%", 200 },
-    { "150%", 150 },
-    { "100%", 100 },
-    { "50%", 50 },
-    { "20%", 20 },
-    { "10%", 10 },
-    { NULL, -1 }
+    { "200%",   200 },
+    { "150%",   150 },
+    { "100%",   100 },
+    { "50%",    50 },
+    { "20%",    20 },
+    { "10%",    10 },
+    { NULL,     -1 }
 };
 
 
 /** \brief  Create 'speed' widget
- *
- * \todo    Get current speed from resources and set proper radio button
  *
  * \return  GtkGrid
  */

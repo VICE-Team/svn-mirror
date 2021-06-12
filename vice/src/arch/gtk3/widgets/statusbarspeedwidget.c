@@ -2,6 +2,7 @@
  * \brief   CPU speed, FPS display, Pause, Warp widget for the statusbar
  *
  * Widget for the status bar that displays CPU speed, FPS and warp/pause state.
+ *
  * When primary-button-clicking on the widget a menu will pop up allowing the
  * user to control refresh rate, emulation speed, warp and pause.
  *
@@ -42,6 +43,7 @@
 #include "vsyncapi.h"
 
 #include "statusbarspeedwidget.h"
+
 
 /** \brief  Predefined emulation speeds (taken from vice.texi)
  */
@@ -112,7 +114,7 @@ static void on_pause_toggled(GtkWidget *widget, gpointer data)
 static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
 {
     int speed = GPOINTER_TO_INT(data);
-    
+
     resources_set_int("Speed", speed);
 }
 
@@ -120,7 +122,7 @@ static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
 /** \brief  Callback for custom speed
  *
  * \param[in]   dialog  integer-dialog reference
- * \param[in[   result  result from the dialog
+ * \param[in]   result  result from the dialog
  * \param[in]   valid   \a result is valid
  */
 static void speed_custom_callback(GtkDialog *dialog, int result, gboolean valid)
@@ -157,7 +159,7 @@ static void on_speed_custom_toggled(GtkWidget *widget, gpointer data)
 /** \brief  Callback for custom FPS
  *
  * \param[in]   dialog  integer-dialog reference
- * \param[in[   result  result from the dialog
+ * \param[in]   result  result from the dialog
  * \param[in]   valid   \a result is valid
  */
 static void fps_custom_callback(GtkDialog *dialog, int result, gboolean valid)
@@ -384,7 +386,9 @@ static GdkCursor *mouse_ptr;
  * \param[in]   event   event triggered
  * \param[in]   data    extra event data (unused)
  *
- * \TODO:   refactor, code can be simplified
+ * TODO: refactor, code can be simplified
+ *
+ * \return  TRUE if the event was handled
  */
 static gboolean on_widget_hover(GtkWidget *widget,
                                 GdkEvent *event,
@@ -423,6 +427,8 @@ static gboolean on_widget_hover(GtkWidget *widget,
 
 
 /** \brief  Create widget to display CPU/FPS/pause
+ *
+ * \param[in,out]   state   current widget state
  *
  * \return  GtkEventBox
  */
@@ -492,11 +498,36 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
 }
 
 
+/* Doxygen doesn't allow documenting #define's inside blocks, so we need to
+ * work around that.
+ */
+
+/** \def    CPU_DECIMAL_PLACES
+ *  \brief  CPU display decimals
+ */
+
+/** \def    FPS_DECIMAL_PLACES
+ *  \brief  FPS display decimals
+ */
+
+/** \def    STR_
+ *  \brief  Helper macro to allow concatenating string literals
+ */
+
+/** \def    STR
+ *  \brief  Helper macro to allow concatenating string literals
+ */
+
+
 /** \brief  Update the speed widget's display state
  *
- * \param[in]   widget  GtkEventBox containing the CPU/FPS widgets
+ * \param[in,out]   widget          GtkEventBox containing the CPU/FPS widgets
+ * \param[in,out]   state           current widget state
+ * \param[in]       window_identity window index (primary/secondary)
  */
-void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_state_t *state, int window_identity)
+void statusbar_speed_widget_update(GtkWidget *widget,
+                                  statusbar_speed_widget_state_t *state,
+                                  int window_identity)
 {
 #   define CPU_DECIMAL_PLACES 2
 #   define FPS_DECIMAL_PLACES 3
@@ -504,25 +535,25 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
 #   define STR(x) STR_(x)
 
     static bool jammed = false;
-    
+
     GtkWidget *grid = NULL;
     GtkWidget *label;
     char buffer[1024];
-    
+
     double vsync_metric_cpu_percent;
     double vsync_metric_emulated_fps;
     int vsync_metric_warp_enabled;
-    
+
     /*
      * Jammed machines show the jam message instead of stats
      */
-    
+
     if (machine_is_jammed()) {
         if (!jammed) {
             jammed = true;
 
             grid = gtk_bin_get_child(GTK_BIN(widget));
-            
+
             label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
             gtk_label_set_text(GTK_LABEL(label), "");
 
@@ -533,55 +564,55 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
     } else if (jammed) {
         jammed = false;
     }
-    
+
     vsyncarch_get_metrics(&vsync_metric_cpu_percent, &vsync_metric_emulated_fps, &vsync_metric_warp_enabled);
-    
+
     /*
      * Updating GTK labels is expensive and this is called each frame,
      * so we avoid updates that wouldn't actually change the text.
      */
-    
+
     int this_cpu_int = (int)(vsync_metric_cpu_percent  * pow(10, CPU_DECIMAL_PLACES) + 0.5);
     int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
     bool is_paused = ui_pause_active();
-    
+
     if (state->last_cpu_int != this_cpu_int || state->last_warp != vsync_metric_warp_enabled || state->last_paused != is_paused) {
-        
+
         /* get grid containing the two labels */
         grid = gtk_bin_get_child(GTK_BIN(widget));
-        
+
         /* get CPU/Warp label and update its text */
         label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-        
+
         g_snprintf(buffer, sizeof(buffer), "%9." STR(CPU_DECIMAL_PLACES) "f%% cpu%s",
                    vsync_metric_cpu_percent,
                    is_paused ? " (paused)" : (vsync_metric_warp_enabled ? " (warp)" : ""));
-        
+
         gtk_label_set_text(GTK_LABEL(label), buffer);
-        
+
         state->last_cpu_int = this_cpu_int;
         state->last_warp = vsync_metric_warp_enabled;
         state->last_paused = is_paused;
     }
-    
+
     if (window_identity == PRIMARY_WINDOW) {
         if (state->last_fps_int != this_fps_int) {
-            
+
             if (grid == NULL) {
                 grid = gtk_bin_get_child(GTK_BIN(widget));
             }
-            
+
             /* get FPS/Pause label and update its text */
             label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
-            
+
             g_snprintf(buffer, sizeof(buffer), "%10." STR(FPS_DECIMAL_PLACES) "f fps", vsync_metric_emulated_fps);
-            
+
             gtk_label_set_text(GTK_LABEL(label), buffer);
-            
+
             state->last_fps_int = this_fps_int;
         }
     }
-    
+
 #   undef CPU_DECIMAL_PLACES
 #   undef FPS_DECIMAL_PLACES
 #   undef STR_
