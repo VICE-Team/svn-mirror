@@ -116,6 +116,10 @@ void ui_handle_misc_sdl_event(SDL_Event e)
                 DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_FOCUS_LOST"));
                 keyboard_key_clear();
                 break;
+            case SDL_WINDOWEVENT_CLOSE:
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_CLOSE"));
+                ui_sdl_quit();
+                break;
         }
     }
 #endif
