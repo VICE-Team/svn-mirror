@@ -28,7 +28,7 @@ $ sudo port install autoconf automake pkgconfig xa lame texinfo texlive-basic do
 
 SDL2:
 
-$ sudo port install libsdl2 libpng
+$ sudo port install libsdl2 libsdl2_image libpng
 
 Gtk3:
 
@@ -44,7 +44,7 @@ $ brew cask install basictex
 
 SDL2:
 
-$ brew install sdl2 libpng
+$ brew install sdl2 sdl2_image libpng
 
 Gtk3:
 
