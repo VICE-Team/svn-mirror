@@ -189,8 +189,12 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     textview_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW(textview_widget));
     on_value_changed(NULL, textview_buffer);
     gtk_text_view_set_monospace(GTK_TEXT_VIEW(textview_widget), TRUE);
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(textview_widget), FALSE);
     scrolled = gtk_scrolled_window_new(NULL, NULL);
-    gtk_widget_set_size_request(scrolled, 400, 300);
+    /* TODO:    Look into setting the size based on the contents/font size
+     *          --compyx
+     */
+    gtk_widget_set_size_request(scrolled, 550, 300);
     gtk_container_add(GTK_CONTAINER(scrolled), textview_widget);
     g_object_set(scrolled, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), scrolled, 0, 10, 2, 1);
