@@ -241,8 +241,3 @@ GtkWidget *userport_printer_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-
-void userport_printer_widget_update(void)
-{
-}

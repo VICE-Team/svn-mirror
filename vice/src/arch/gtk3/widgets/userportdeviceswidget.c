@@ -56,13 +56,21 @@
 /*
  * Used for the event handlers
  */
+
+/** \brief  58321a enable toggle button */
 static GtkWidget *rtc_58321a = NULL;
+
+/** \brief  58321a save enable toggle button */
 static GtkWidget *rtc_58321a_save = NULL;
+
+/** \brief  ds1307 enable toggle button */
 static GtkWidget *rtc_ds1307 = NULL;
+
+/** \brief  ds1307 save enable toggle button */
 static GtkWidget *rtc_ds1307_save = NULL;
 
 
-/** \brief  Handler for the "toggled" event of the RTC58321a widget
+/** \brief  Handler for the 'toggled' event of the RTC58321a widget
  *
  * Enables/disables the related Save widget, depending on the state of the
  * RTC58321a widget.
@@ -77,7 +85,7 @@ static void on_58321a_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "toggled" event of the RTCDS1307 widget
+/** \brief  Handler for the 'toggled' event of the RTCDS1307 widget
  *
  * Enables/disables the related Save widget, depending on the state of the
  * RTCDS1307 widget
@@ -274,7 +282,7 @@ static void create_plus4_layout(GtkWidget *grid)
 
 /** \brief  Create widget to select userport devices
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -282,9 +290,7 @@ GtkWidget *userport_devices_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
