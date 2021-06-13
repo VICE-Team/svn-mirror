@@ -49,7 +49,6 @@
 #include "soundsampleratewidget.h"
 #include "soundbuffersizewidget.h"
 #include "soundfragmentsizewidget.h"
-#include "soundsuspendtimewidget.h"
 
 #include "settings_sound.h"
 
@@ -99,9 +98,6 @@ static GtkWidget *create_inner_grid(void)
    gtk_grid_attach(GTK_GRID(wrapper),
             sound_buffer_size_widget_create(),
             0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            sound_suspend_time_widget_create(),
-            0, 1, 1, 1);
     /* row 1, columm 2 */
     gtk_grid_attach(GTK_GRID(grid),
             wrapper,

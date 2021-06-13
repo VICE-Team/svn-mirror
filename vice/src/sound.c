@@ -319,7 +319,6 @@ static char *device_arg = NULL;        /* app_resources.soundDeviceArg */
 static char *recorddevice_name = NULL; /* app_resources.soundDeviceName */
 static char *recorddevice_arg = NULL;  /* app_resources.soundDeviceArg */
 static int buffer_size;                /* app_resources.soundBufferSize */
-static int suspend_time;               /* app_resources.soundSuspendTime */
 static int volume;
 static int amp;
 static int fragment_size;
@@ -456,18 +455,6 @@ static int set_fragment_size(int val, void *param)
     return 0;
 }
 
-static int set_suspend_time(int val, void *param)
-{
-    suspend_time = val;
-
-    if (suspend_time < 0) {
-        suspend_time = 0;
-    }
-
-    sound_state_changed = TRUE;
-    return 0;
-}
-
 static int set_volume(int val, void *param)
 {
     volume = val;
@@ -508,8 +495,6 @@ static const resource_int_t resources_int[] = {
       (void *)&buffer_size, set_buffer_size, NULL },
     { "SoundFragmentSize", SOUND_FRAGMENT_MEDIUM, RES_EVENT_NO, NULL,
       (void *)&fragment_size, set_fragment_size, NULL },
-    { "SoundSuspendTime", 0, RES_EVENT_NO, NULL,
-      (void *)&suspend_time, set_suspend_time, NULL },
     { "SoundVolume", 100, RES_EVENT_NO, NULL,
       (void *)&volume, set_volume, NULL },
     { "SoundOutput", ARCHDEP_SOUND_OUTPUT_MODE, RES_EVENT_NO, NULL,
@@ -558,9 +543,6 @@ static const cmdline_option_t cmdline_options[] =
     { "-soundoutput", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundOutput", NULL,
       "<output mode>", "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo)" },
-    { "-soundsuspend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SoundSuspendTime", NULL,
-      "<Seconds>", "Specify the pause interval when audio underflows (clicks) happen. 0 means no pause is done." },
     { "-soundvolume", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundVolume", NULL,
       "<Volume>", "Specify the sound volume (0..100)" },
@@ -731,22 +713,6 @@ const char *sound_device_name(unsigned int num)
     return sound_devices[num]->name;
 }
 
-
-/* code to disable sid for a given number of seconds if needed */
-static time_t disabletime;
-
-static void enablesound(void)
-{
-    time_t diff;
-    if (!disabletime) {
-        return;
-    }
-    diff = time(0) - disabletime;
-    if (diff < 0 || diff >= (time_t)suspend_time) {
-        disabletime = 0;
-    }
-}
-
 /* close sid device and show error dialog */
 static int sound_error(const char *msg)
 {
@@ -899,10 +865,6 @@ int sound_open(void)
     int fragsize;
     int fragnr;
     double bufsize;
-
-    if (suspend_time > 0 && disabletime) {
-        return 1;
-    }
 
     if (snddata.playdev) {
         /*
@@ -1155,8 +1117,7 @@ static int sound_run_sound(void)
     int delta_t = 0;
     int16_t *bufferptr;
 
-    /* XXX: implement the exact ... */
-    if (!playback_enabled || (suspend_time > 0 && disabletime)) {
+    if (!playback_enabled) {
         return 1;
     }
 
@@ -1286,9 +1247,6 @@ bool sound_flush()
         sound_state_changed = FALSE;
     }
 
-    if (suspend_time > 0) {
-        enablesound();
-    }
     if (sound_run_sound()) {
         goto done;
     }

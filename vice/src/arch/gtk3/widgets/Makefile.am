@@ -172,7 +172,6 @@ libwidgets_a_SOURCES = \
 	soundfragmentsizewidget.c \
 	soundoutputmodewidget.c \
 	soundsampleratewidget.c \
-	soundsuspendtimewidget.c \
 	speedwidget.c \
 	statusbarrecordingwidget.c \
 	statusbarspeedwidget.c \
@@ -333,7 +332,6 @@ EXTRA_DIST = \
 	soundfragmentsizewidget.h \
 	soundoutputmodewidget.h \
 	soundsampleratewidget.h \
-	soundsuspendtimewidget.h \
 	speedwidget.h \
 	statusbarrecordingwidget.h \
 	statusbarspeedwidget.h \
