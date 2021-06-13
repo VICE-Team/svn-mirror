@@ -3390,11 +3390,6 @@ frequencies, so actually the nearest candidate will be chosen).
 @item SoundBufferSize
 Integer specifying the size of the audio buffer, in milliseconds.
 
-@vindex SoundSuspendTime
-@item SoundSuspendTime
-Integer specifying the pause interval when audio underflows (``clicks'')
-happen. @code{0} means no pause is done.
-
 @vindex SoundDeviceName
 @item SoundDeviceName
 String specifying the audio driver.
@@ -3588,11 +3583,6 @@ Specify recording sound driver
 @item -soundrecarg <args>
 Specify initialization parameters for recording sound driver
 (@code{SoundRecordDeviceArg}).
-
-@findex -soundsuspend
-@item -soundsuspend <seconds>
-Specify the pause interval when audio underflows (clicks) happen. 0 means no pause is done
-(@code{SoundSuspendTime}).
 
 @findex -soundvolume
 @item -soundvolume <volume>
