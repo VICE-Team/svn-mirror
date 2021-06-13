@@ -93,15 +93,19 @@ void ui_handle_misc_sdl_event(SDL_Event e)
 {
 #ifdef USE_SDLUI2
     if (e.type == SDL_WINDOWEVENT) {
+        SDL_Window* window = SDL_GetWindowFromID(e.window.windowID);
+        video_canvas_t* canvas = (video_canvas_t*)(SDL_GetWindowData(window, VIDEO_SDL2_CANVAS_INDEX_KEY));
+
         switch (e.window.event) {
             case SDL_WINDOWEVENT_RESIZED:
                 DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d)", 
                      e.window.data1, e.window.data2));
-                sdl_video_resize_event((unsigned int)e.window.data1, (unsigned int)e.window.data2);
+                sdl2_video_resize_event(canvas->index, (unsigned int)e.window.data1, (unsigned int)e.window.data2);
                 video_canvas_refresh_all(sdl_active_canvas);
                 break;
             case SDL_WINDOWEVENT_FOCUS_GAINED:
                 DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_FOCUS_GAINED"));
+                sdl_video_canvas_switch(canvas->index);
                 video_canvas_refresh_all(sdl_active_canvas);
                 break;
             case SDL_WINDOWEVENT_EXPOSED:
