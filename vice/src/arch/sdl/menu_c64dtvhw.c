@@ -107,7 +107,7 @@ const ui_menu_entry_t c64dtv_hardware_menu[] = {
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)joystick_c64_menu },
+      (ui_callback_data_t)joystick_c64dtv_menu },
 #ifdef HAVE_MOUSE
     { "Mouse emulation",
       MENU_ENTRY_SUBMENU,
