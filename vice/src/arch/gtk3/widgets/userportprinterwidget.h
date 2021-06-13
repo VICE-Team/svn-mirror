@@ -32,6 +32,5 @@
 #include <gtk/gtk.h>
 
 GtkWidget * userport_printer_widget_create(void);
-void        userport_printer_widget_update(void);
 
 #endif
