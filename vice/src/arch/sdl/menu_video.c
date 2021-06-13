@@ -640,7 +640,7 @@ UI_MENU_DEFINE_FILE_STRING(VICPaletteFile)
 
 
 /* C128 video menu */
-
+#ifndef USE_SDLUI2
 static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
 {
     int value = vice_ptr_to_int(param);
@@ -654,6 +654,35 @@ static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
     }
     return NULL;
 }
+#else
+static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
+{
+    int value = vice_ptr_to_int(param);
+    int dual_window = 0;
+
+    resources_get_int("SDL2DualWindow", &dual_window);
+
+    if (activated) {
+        if (value < 2) {
+            sdl_video_canvas_switch(value);
+            resources_set_int("SDL2DualWindow", 0);
+            sdl2_hide_second_window();
+        } else if (value == 2) {
+            resources_set_int("SDL2DualWindow", 1);
+            sdl2_show_second_window();
+        }
+    } else {
+        if ((value == 2) && (dual_window == 1)) {
+            return sdl_menu_text_tick;
+        } else if (dual_window != 1) {
+            if (value == sdl_active_canvas->index) {
+                return sdl_menu_text_tick;
+            }
+        }
+    }
+    return NULL;
+}
+#endif /* USE_SDLUI2 */
 
 const ui_menu_entry_t c128_video_menu[] = {
     SDL_MENU_ITEM_TITLE("Video output"),
@@ -665,6 +694,12 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VideoOutput_c128_callback,
       (ui_callback_data_t)1 },
+#ifdef USE_SDLUI2
+    { "Dual Windows",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_VideoOutput_c128_callback,
+      (ui_callback_data_t)2 },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     { "VICII size settings",
       MENU_ENTRY_SUBMENU,

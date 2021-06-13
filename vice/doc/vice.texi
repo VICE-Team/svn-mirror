@@ -10130,6 +10130,10 @@ Integer that specifies the video standard of the emulated machine
 @item C128HideVDC
 Boolean to enable/disable the VDC display window.
 
+@findex SDL2DualWindow
+@item SDL2DualWindow
+Boolean to turn on dual-window rendering, opening two windows, one for each display.
+
 @end table
 
 @c @node FIXME
@@ -10189,6 +10193,11 @@ Set the C128 machine type
 @itemx +hidevdcwindow
 Hide/show the VDC display window
 (@code{C128HideVDC=1}, @code{C128HideVDC=0}).
+
+@findex -sdl2dualwindow
+@item -sdl2dualwindow
+Turn on dual-window rendering, opening two windows, one for each display.
+(@code{SDL2DualWindow}).
 
 @end table
 
@@ -30678,6 +30687,10 @@ Fixed some monitor issues.
 @item
 @b{Bjoern Odendahl}
 Created the new VICE logo and volunteered to create new icons.
+
+@item
+@b{June Tate-Gans}
+Made the dual window feature for the SDL2 UI.
 
 @end itemize
 
