@@ -172,7 +172,7 @@ static void userport_snespad_store_pbx(uint8_t value)
 static void userport_snespad_read_pbx(void)
 {
     uint8_t retval;
-    uint16_t portval = get_joystick_value(3);
+    uint16_t portval = get_joystick_value(JOYPORT_3);
 
     switch (counter) {
         case USERPORT_SNESPAD_BUTTON_A:
