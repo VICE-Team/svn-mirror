@@ -1101,10 +1101,11 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
             /* If the second window isn't visible, then both canvas lists should
                be sharing the same container. Set the other one to NULL
                directly so we don't accidentally double free. */
-            if (sdl_canvaslist[i]->container == sdl_canvaslist[i ^ 1]->container) {
-                sdl_canvaslist[i ^ 1]->container = NULL;
+            if (sdl_canvaslist[i ^ 1]) {
+                if (sdl_canvaslist[i]->container == sdl_canvaslist[i ^ 1]->container) {
+                    sdl_canvaslist[i ^ 1]->container = NULL;
+                }
             }
-
             sdl_container_destroy(sdl_canvaslist[i]->container);
             sdl_canvaslist[i]->container = NULL;
 #endif
