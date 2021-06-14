@@ -535,7 +535,9 @@ static SDL_WindowFlags sdl2_ui_generate_flags_for_canvas(const video_canvas_t* c
     int minimized = 0;
     int hide_vdc = 0;
 
-    resources_get_int("C128HideVDC", &hide_vdc);
+    if (machine_class == VICE_MACHINE_C128) {
+        resources_get_int("C128HideVDC", &hide_vdc);
+    }
     resources_get_int("StartMinimized", &minimized);
 
     if (minimized) {
@@ -1185,7 +1187,9 @@ void sdl_ui_init_finalize(void)
     video_container_t* container = NULL;
 
     resources_get_int("SDL2DualWindow", &dual_windows);
-    resources_get_int("C128HideVDC", &hide_vdc);
+    if (machine_class == VICE_MACHINE_C128) {
+        resources_get_int("C128HideVDC", &hide_vdc);
+    }
     resources_get_int("StartMinimized", &minimized);
 
     /* Setup the primary window using the active canvas */
