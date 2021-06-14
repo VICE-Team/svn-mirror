@@ -62,15 +62,15 @@
 
 /** \brief  CSS for the preview of the pattern
  *
- * XXX: The background color is fixed here, so using a different theme (such
- *      as those 'dark' themes, will make it look out of place.
- *      Gtk doesn't allow easy selection of theme colors, so I'll have to
- *      write some code to do it ourselves.  --compyx
+ * Since Gtk's CSS doesn't allow using colors from the current theme, we make
+ * the widget green text on black, like old terminals.
+ * That avoids making the widget look odd with themes other than Adwaita.
  */
 #define PREVIEW_CSS \
     "label {\n" \
     "    font-family: \"Monospace\";\n" \
-    "    background-color: #ffffff;\n" \
+    "    background-color: black;\n" \
+    "    color: limegreen;\n" \
     "}\n"
 
 
@@ -206,7 +206,6 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
      * also couldn't help me out.
      */
     view = gtk_label_new(NULL);
-    gtk_label_set_single_line_mode(GTK_LABEL(label), FALSE);
     vice_gtk3_css_add(view, PREVIEW_CSS);
 
     /* trigger setting the preview text */
