@@ -1184,8 +1184,9 @@ void sdl2_show_second_window(void)
         /* Force a recretion of the textures since we have effectively changed
            our renderer, and SDL textures can't be shared between renderers. */
         sdl_ui_recreate_textures();
-
         sdl_ui_refresh();
+
+        SDL_RaiseWindow(active_container->window);
     }
 }
 
