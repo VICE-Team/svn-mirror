@@ -69,6 +69,7 @@
 #include "vicii-phi1.h"
 #include "vicii.h"
 #include "z80mem.h"
+#include "video.h"
 
 /* #define DEBUG_MMU */
 
@@ -1474,18 +1475,26 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 
 void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, int *bank)
 {
+    int chip_idx = video_arch_get_active_chip();
+
     /* Check the 40/80 DISPLAY switch state */
-    if (peek_bank_io(0xD505) & 0x80) { /* 40 column so read VIC screen */
-        *base = ((vicii_peek(0xd018) & 0xf0) << 6) | ((~cia2_peek(0xdd00) & 0x03) << 14);
-        *rows = 25;
-        *columns = 40;
-        *bank = 0;
-    } else { /* Read VDC */
-        *base = (vdc.regs[12] << 8) | vdc.regs[13];
-        *rows = vdc.regs[6];
-        *columns = vdc.regs[1];
-        *bank = bank_vdc;
+    switch (chip_idx) {
+        case VIDEO_CHIP_VDC:
+            *base = (vdc.regs[12] << 8) | vdc.regs[13];
+            *rows = vdc.regs[6];
+            *columns = vdc.regs[1];
+            *bank = bank_vdc;
+            break;
+
+        case VIDEO_CHIP_VICII:
+        default:
+            *base = ((vicii_peek(0xd018) & 0xf0) << 6) | ((~cia2_peek(0xdd00) & 0x03) << 14);
+            *rows = 25;
+            *columns = 40;
+            *bank = 0;
+            break;
     }
+
 /*    printf("mem_get_screen_parameter (%s) base:%04x rows: %d colums: %d bank: %d\n",
            mem_ram[215] & 0x80 ? "vdc" : "vicii", *base, *rows, *columns, *bank); */
 }

@@ -263,6 +263,22 @@ static const resource_int_t resources_int_vsid[] = {
 };
 
 
+int video_arch_get_active_chip(void)
+{
+    int window_idx = ui_get_main_window_index();
+
+    switch (window_idx) {
+        case SECONDARY_WINDOW:
+            return VIDEO_CHIP_VDC;
+            break;
+
+        case PRIMARY_WINDOW:
+        default:
+            return VIDEO_CHIP_VICII;
+            break;
+    }
+}
+
 /** \brief  Arch-specific initialization for a video canvas
  *  \param[inout] canvas The canvas being initialized
  *  \sa video_canvas_create
