@@ -29,6 +29,10 @@
 
 #include "types.h"
 
+/* video chip type */
+#define VIDEO_CHIP_VICII 0
+#define VIDEO_CHIP_VDC   1
+
 /* video filter type, resource "CHIPFilter" */
 #define VIDEO_FILTER_NONE         0
 #define VIDEO_FILTER_CRT          1
@@ -228,6 +232,7 @@ extern struct video_canvas_s *video_canvas_create(struct video_canvas_s *canvas,
                                                   unsigned int *width, unsigned int *height,
                                                   int mapped);
 extern void video_arch_canvas_init(struct video_canvas_s *canvas);
+extern int video_arch_get_active_chip(void);
 extern void video_canvas_shutdown(struct video_canvas_s *canvas);
 extern struct video_canvas_s *video_canvas_init(void);
 extern void video_canvas_refresh_all_tracked(void);
