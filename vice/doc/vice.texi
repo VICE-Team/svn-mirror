@@ -16689,9 +16689,11 @@ Compare memory from the source specified by the address range to the
 destination specified by the address.  The regions may overlap.  Any
 values that miscompare are displayed using the default displaytype.
 
-@item device [c:|8:|9:]
+@item device [c:|8:|9:|10:|11:]
+@itemx dev [c:|8:|9:|10:|11:]
 Set the default address space to either the computer `c:' or the
-specified drive `8:' or `9:'
+specified drive `8:', `9:', `10:' or `11:'.
+Switches to computer when not given a device.
 
 @item fill <address_range> <data_list>
 @itemx f <address_range> <data_list>

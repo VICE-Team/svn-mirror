@@ -530,6 +530,8 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
                          mon_out("Default radix is %s\n", p);
                      }
 
+                   | CMD_DEVICE end_cmd
+                     { monitor_change_device(e_default_space); }
                    | CMD_DEVICE memspace end_cmd
                      { monitor_change_device($2); }
                    | CMD_EXPORT end_cmd

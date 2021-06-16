@@ -2772,6 +2772,10 @@ int monitor_diskspace_mem(int dnr)
 
 void monitor_change_device(MEMSPACE mem)
 {
+    /* if no argument given, switch back to computer */
+    if (mem == e_default_space) {
+        mem = e_comp_space;
+    }
     mon_out("Setting default device to `%s'\n", _mon_space_strings[(int) mem]);
     default_memspace = mem;
 }
