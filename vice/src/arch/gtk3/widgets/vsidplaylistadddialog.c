@@ -44,16 +44,30 @@
  */
 static void (*dialog_cb)(GSList *) = NULL;
 
-
+/** \brief  Last used directory of the dialog
+ *
+ * Used by the functions in lastdir.c
+ */
 static gchar *last_used_dir = NULL;
+
+/** \brief  Last used file of the dialog
+ *
+ * Used by the functions in lastdir.c
+ */
 static gchar *last_used_file = NULL;
 
 
-
+/** \brief  Handler for the 'destroy' event of the dialog
+ *
+ * \param[in]   widget  dialog (unused)
+ * \param[in]   data    extra event data (unused)
+ *
+ * XXX: Currently does nothing. Not sure what I meant to do with this --compyx
+ */
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
+    /* NOP */
 }
-
 
 
 /** \brief  Handler for the 'response' event of the dialog
@@ -142,6 +156,12 @@ void vsid_playlist_add_dialog_exec(void (*callback)(GSList *files))
 }
 
 
+/** \brief  Free memory used by the lastdir.c functions
+ *
+ * Frees the `last_used_dir` and `last_used_file` strings.
+ *
+ * Called on emulator shutdown.
+ */
 void vsid_playlist_add_dialog_free(void)
 {
     lastdir_shutdown(&last_used_dir, &last_used_file);

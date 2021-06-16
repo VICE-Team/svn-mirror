@@ -66,8 +66,6 @@
 
 
 
-
-
 /** \brief  Object containing icon and callback
  */
 typedef struct vsid_ctrl_button_s {
@@ -86,9 +84,10 @@ static int tune_current;
 /** \brief  Default subtune number */
 static int tune_default;
 
-
+/** \brief  Progress bar */
 static GtkWidget *progress = NULL;
 
+/** \brief  Repeat toggle button */
 static GtkWidget *repeat = NULL;
 
 
@@ -207,6 +206,11 @@ static void pause_callback(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Wrapper for the attach callback
+ *
+ * \param[in,out]   widget  control button
+ * \param[in]       data    icon name
+ */
 static void sid_attach_wrapper(GtkWidget *widget, gpointer data)
 {
     uisidattach_show_dialog(widget, data);

@@ -56,8 +56,6 @@
 #include "resources.h"
 #include "uiapi.h"
 #include "uivsidwindow.h"
-
-/* TODO: move and rename `convert_to_utf8()` */
 #include "vsidtuneinfowidget.h"
 #include "vsidplaylistadddialog.h"
 
@@ -211,7 +209,10 @@ static GtkListStore *playlist_model;
  */
 static GtkWidget *playlist_view;
 
-
+/** \brief  Playlist title widget
+ *
+ * Gets updated with the number of tunes in the list.
+ */
 static GtkWidget *title_widget;
 
 
@@ -402,7 +403,7 @@ static void update_title(void)
 /** \brief  Event handler for the 'destroy' event of the playlist widget
  *
  * \param[in]   widget  playlist widget
- * \param[in    data    extra event data (unused)
+ * \param[in]   data    extra event data (unused)
  */
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
@@ -482,6 +483,11 @@ static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Event handler for the 'first' button
+ *
+ * \param[in]   widget  button triggering the event
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_playlist_first_clicked(GtkWidget *widget, gpointer data)
 {
     plist_state_t state;
@@ -508,6 +514,11 @@ static void on_playlist_first_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Event handler for the 'last' button
+ *
+ * \param[in]   widget  button triggering the event
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_playlist_last_clicked(GtkWidget *widget, gpointer data)
 {
     plist_state_t state;
@@ -537,12 +548,22 @@ static void on_playlist_last_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Event handler for the 'clear' button
+ *
+ * \param[in]   widget  button triggering the event
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_playlist_clear_clicked(GtkWidget *widget, gpointer data)
 {
     delete_all_rows(NULL, NULL);
 }
 
 
+/** \brief  Event handler for the 'next' button
+ *
+ * \param[in]   widget  button triggering the event
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
 {
     plist_state_t state;
@@ -853,7 +874,7 @@ GtkWidget *vsid_playlist_widget_create(void)
 
 /** \brief  Append \a path to the playlist
  *
- * \param[in[   path    path to SID file
+ * \param[in]   path    path to SID file
  *
  * \return  TRUE on success, FALSE on failure
  */

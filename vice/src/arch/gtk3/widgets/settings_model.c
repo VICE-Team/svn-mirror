@@ -1201,7 +1201,7 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     GtkWidget *misc_widget;
 
     /* wrap machine model and machine type widgets in a single widget */
-    machine_wrapper = gtk_grid_new();
+    machine_wrapper = vice_gtk3_grid_new_spaced(0, 16);
 
     /* add machine model widget */
     gtk_grid_attach(GTK_GRID(machine_wrapper), machine_widget, 0, 0, 1, 1);
@@ -1213,7 +1213,7 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), machine_wrapper, 0, 0, 1, 1);
 
     /* wrap VIC-II, VDC and CIA1/2 in a single widget */
-    col2_wrapper = gtk_grid_new();
+    col2_wrapper = vice_gtk3_grid_new_spaced(0, 16);
 
     /* VIC-II model widget */
     video_widget = video_model_widget_create(machine_widget);
@@ -1222,10 +1222,8 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
 
     /* VDC model widget */
     vdc_widget = vdc_model_widget_create();
-    /* XXX: I'm sure I had/have a reason for this: */
-    vdc_model_widget_connect_signals(vdc_widget);
-    vdc_model_widget_set_revision_callback(vdc_widget, vdc_revision_callback);
-    vdc_model_widget_set_ram_callback(vdc_widget, vdc_ram_callback);
+    vdc_model_widget_set_revision_callback(vdc_revision_callback);
+    vdc_model_widget_set_ram_callback(vdc_ram_callback);
     /* align with other widgets */
     g_object_set(vdc_widget, "margin-left", 8, NULL);
     gtk_grid_attach(GTK_GRID(col2_wrapper), vdc_widget, 0, 1, 1, 1);
