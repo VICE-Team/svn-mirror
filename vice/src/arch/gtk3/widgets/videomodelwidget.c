@@ -44,13 +44,29 @@
 #include "videomodelwidget.h"
 
 
+/** \brief  Title for the widget
+ *
+ * Set once via ${emu}ui.c during UI initialization.
+ */
 static const char *widget_title = NULL;
+
+/** \brief  Name of the video model resource
+ *
+ * Set once via ${emu}ui.c during UI initialization.
+ */
 static const char *resource_name = NULL;
+
+/** \brief  List of video models
+ *
+ * Set once via ${emu}ui.c during UI initialization.
+ */
 static const vice_gtk3_radiogroup_entry_t *model_list = NULL;
-static GtkWidget *machine_widget = NULL;
+
 
 
 /** \brief  Get index in model list for model-ID \a model
+ *
+ * \param[in]   model   model index
  *
  * \return  index in list or -1 when not found
  */
@@ -90,6 +106,8 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 
 
 /** \brief  Set title of the widget
+ *
+ * Called from the ${emu}ui.c file.
  *
  * \param[in]   title   title for the widget
  */
@@ -136,9 +154,9 @@ GtkWidget *video_model_widget_create(GtkWidget *machine)
     int i;
     GtkWidget *title;
 
-    machine_widget = machine;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, widget_title, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, 0,
+            widget_title, 1);
     title = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
     g_object_set(title, "margin-bottom", 8, NULL);
 

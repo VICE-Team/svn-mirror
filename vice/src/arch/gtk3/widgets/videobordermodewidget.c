@@ -44,11 +44,6 @@
 #include "videobordermodewidget.h"
 
 
-/** \brief  Video chip prefix, used in the resource getting/setting
- */
-static const char *chip_prefix;
-
-
 /** \brief  List of radio buttons
  *
  * Since all ${CHIP}_[NORMAL|FULL|DEBUG|NO]_BORDER constants are the same,
@@ -57,14 +52,14 @@ static const char *chip_prefix;
  */
 static const vice_gtk3_radiogroup_entry_t modes[] = {
     { "Normal", 0 },
-    { "Full", 1 },
-    { "Debug", 2 },
-    { "None", 3 },
-    { NULL, -1 }
+    { "Full",   1 },
+    { "Debug",  2 },
+    { "None",   3 },
+    { NULL,     -1 }
 };
 
 
-/** \brief  Create widget to control render filter resources
+/** \brief  Create widget to set border mode
  *
  * \param[in]   chip    video chip prefix
  *
@@ -75,9 +70,9 @@ GtkWidget *video_border_mode_widget_create(const char *chip)
     GtkWidget *grid;
     GtkWidget *mode_widget;
 
-    chip_prefix = chip;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Border mode", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
+            "Border mode", 1);
     mode_widget = vice_gtk3_resource_radiogroup_new_sprintf(
             "%sBorderMode", modes, GTK_ORIENTATION_VERTICAL, chip);
     g_object_set(mode_widget, "margin-left", 16, NULL);

@@ -48,18 +48,39 @@
 
 #include "vsidmainwidget.h"
 
+
+/** \brief  Main widget grid */
 static GtkWidget *main_widget;
 
+/** \brief  Left pane grid */
 static GtkWidget *left_pane;
 
+/** \brief  Tune info grid */
 static GtkWidget *tune_info_widget;
+
+/** \brief  Play controls grid */
 static GtkWidget *control_widget;
+
+/** \brief  Mixer controls grid */
 static GtkWidget *mixer_widget;
+
+/** \brief  STIL view grid */
 static GtkWidget *stil_widget;
+
+/** \brief  Playlist grid */
 static GtkWidget *playlist_widget;
 
 
 /** \brief  Handler for the 'drag-motion' event
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   context drag context
+ * \param[in]   x       x coordinate of the current cursor position
+ * \param[in]   y       y coordinate of the current cursor position
+ * \param[in]   time    timestamp of the event
+ * \param[in]   data    extra event data
+ *
+ * \return  TRUE
  */
 static gboolean on_drag_motion(
         GtkWidget *widget,
@@ -67,14 +88,11 @@ static gboolean on_drag_motion(
         gint x,
         gint y,
         guint time,
-        gpointer user_data)
+        gpointer data)
 {
     gdk_drag_status(context, GDK_ACTION_COPY, time);
     return TRUE;
 }
-
-
-
 
 
 /** \brief  Handler for the 'drag-drop' event of the GtkWindow
@@ -83,10 +101,10 @@ static gboolean on_drag_motion(
  * triggering the 'drag-drop-received' event. Currently just returns TRUE
  *
  * \param[in]   widget  widget triggering the event
- * \param[in]   context gtk drag context
- * \param[in]   x       x position of drag event
- * \param[in]   y       y position of drag event
- * \param[in]   time    (I don't have a clue)
+ * \param[in]   context drag context
+ * \param[in]   x       x coordinate of the current cursor position
+ * \param[in]   y       y coordinate of the current cursor position
+ * \param[in]   time    timestamp of the event
  * \param[in]   data    extra event data (unused)
  *
  * \return  TRUE
@@ -407,14 +425,8 @@ GtkWidget *vsid_main_widget_create(void)
     g_signal_connect(playlist_widget, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
 
-
-
-
-    gtk_widget_show_all(grid);
-
-
-
     main_widget = grid;
+    gtk_widget_show_all(grid);
     return grid;
 }
 

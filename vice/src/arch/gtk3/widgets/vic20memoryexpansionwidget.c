@@ -309,5 +309,3 @@ GtkWidget *vic20_memory_expansion_widget_create(void)
     return grid;
 }
 
-
-

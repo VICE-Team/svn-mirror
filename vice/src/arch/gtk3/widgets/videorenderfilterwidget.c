@@ -37,18 +37,13 @@
 
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 #include "debug_gtk3.h"
-#include "widgethelpers.h"
 #include "resources.h"
 #include "video.h"
 
 #include "videorenderfilterwidget.h"
 
-
-/** \brief  Video chip prefix, used in the resource getting/setting
- */
-static const char *chip_prefix;
 
 
 /** \brief  List of radio buttons
@@ -71,8 +66,6 @@ GtkWidget *video_render_filter_widget_create(const char *chip)
 {
     GtkWidget *grid;
     GtkWidget *render_widget;
-
-    chip_prefix = chip;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Render filter", 1);
