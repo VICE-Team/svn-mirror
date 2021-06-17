@@ -45,9 +45,12 @@
  * \param[in]   text        text to paste into the emulated machine
  * \param[in]   data        extra event data (unused)
  */
-static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer data)
+static void paste_callback(GtkClipboard *clipboard,
+                           const gchar *text,
+                           gpointer data)
 {
     char *text_in_petscii;
+
     if (text == NULL) {
         return;
     }
@@ -71,6 +74,7 @@ static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer 
 gboolean ui_copy_callback(GtkWidget *widget, gpointer user_data)
 {
     char * text = clipboard_read_screen_output("\n");
+
     if (text != NULL) {
         gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
                 text, (gint)strlen(text));

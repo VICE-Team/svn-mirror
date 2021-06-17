@@ -183,4 +183,3 @@ void archdep_shutdown(void)
     archdep_network_shutdown();
 #endif
 }
-

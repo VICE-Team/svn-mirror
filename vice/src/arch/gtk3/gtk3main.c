@@ -93,9 +93,9 @@ int main(int argc, char **argv)
      * Because gtk_main will  never return, we call archdep_thread_shutdown()
      * for the main thread in the exit subsystem rather than here.
      */
-    
     return 0;
 }
+
 
 /** \brief  Exit handler
  */
@@ -114,6 +114,6 @@ void main_exit(void)
     ui_exit();
 
     vice_thread_shutdown();
-    
+
     machine_shutdown();
 }

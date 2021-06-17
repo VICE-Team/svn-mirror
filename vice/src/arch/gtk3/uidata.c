@@ -5,8 +5,6 @@
  * handle binary resources in Gtk3 applications.
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * \note    WORK IN PROGRESS, leave this alone for now -- compyx
  */
 
 /*
@@ -54,7 +52,7 @@ static GResource *gresource = NULL;
 
 /** \brief  Intialize the GResource binary blob handling
  *
- * \return  bool
+ * \return  non-0 on success
  */
 int uidata_init(void)
 {
@@ -117,9 +115,9 @@ void uidata_shutdown(void)
 
 /** \brief  Get a pixbuf from the GResource blob
  *
- * \param   name    virtual path to the file
+ * \param[in]   name    virtual path to the file
  *
- * \return  pixbuf or `NULL` on error
+ * \return  GdkPixbuf or `NULL` on error
  */
 GdkPixbuf * uidata_get_pixbuf(const char *name)
 {
@@ -139,11 +137,17 @@ GdkPixbuf * uidata_get_pixbuf(const char *name)
 
 /** \brief  Get a pixbuf from the GResource blob and scale it
  *
- * \param   name    virtual path to the file
+ * \param[in]   name                    path in gresource
+ * \param[in]   width                   width of rescaled pixbuf
+ * \param[in]   height                  height of rescaled pixbuf
+ * \param[in]   preserve_aspect_ratio   preserve aspect ratio
  *
  * \return  pixbuf or `NULL` on error
  */
-GdkPixbuf * uidata_get_pixbuf_at_scale(const char *name, int width, int height, gboolean preserve_aspect_ratio)
+GdkPixbuf * uidata_get_pixbuf_at_scale(const char *name,
+                                       int width,
+                                       int height,
+                                       gboolean preserve_aspect_ratio)
 {
     GdkPixbuf *buf;
     GError *err = NULL;
@@ -190,18 +194,19 @@ GdkPixbufAnimation *uidata_get_pixbuf_animated(const char *name, gboolean loop)
 
 /** \brief  Get a bytes from the GResource blob
  *
- * \param   name    virtual path to the file
+ * \param[in]   name    path in gresource
  *
  * \return  GBytes* or `NULL` on error
  */
-GBytes * uidata_get_bytes(const char *name)
+GBytes *uidata_get_bytes(const char *name)
 {
     GBytes *bytes;
     GError *err = NULL;
     char *path;
 
     path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
-    bytes = g_resource_lookup_data(gresource, path, G_RESOURCE_LOOKUP_FLAGS_NONE, &err);
+    bytes = g_resource_lookup_data(gresource, path,
+            G_RESOURCE_LOOKUP_FLAGS_NONE, &err);
     lib_free(path);
     if (bytes == NULL) {
         log_error(LOG_ERR, "failed: %s.", err->message);

@@ -113,8 +113,8 @@ enum {
 /** \brief  Simple (text,id) data structure for the cart type model
  */
 typedef struct cart_type_list_s {
-    const char *name;
-    int id;
+    const char *name;   /**< cartridge name */
+    int id;             /**< cartridge id */
 } cart_type_list_t;
 
 
@@ -223,6 +223,9 @@ static ui_file_filter_t filters[] = {
 /** \brief  Last used directory
  */
 static gchar *last_dir = NULL;
+
+/** \brief  Last used filename
+ */
 static gchar *last_file = NULL;
 
 
@@ -296,8 +299,12 @@ static GtkListStore *create_cart_id_model(unsigned int flags);
 static int get_cart_type(void);
 static int get_cart_id(void);
 static int attach_cart_image(int type, int id, const char *path);
-
 static GtkListStore *create_cart_id_model_vic20(void);
+
+/** \brief  Optional extra callback
+ *
+ * This function is triggered when a cartidge is attached.
+ */
 static void (*extra_attach_callback)(void) = NULL;
 
 

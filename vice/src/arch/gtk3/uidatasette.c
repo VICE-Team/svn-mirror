@@ -35,11 +35,11 @@
 #include <stdio.h>
 
 
-/** \brief  Handler for the "activate" event of the "Configure" menu item
+/** \brief  Handler for the 'activate' event of the "Configure" menu item
  *
  * Pop up the settings UI and select "I/O extensions" -> "Tapeport devices"
  *
- * \param[in]   widget  menu item triggering the event
+ * \param[in]   widget  menu item triggering the event (unused)
  * \param[in]   data    extra event data (unused)
  */
 static void on_configure_activate(GtkWidget *widget, gpointer data)
@@ -59,10 +59,15 @@ static void on_configure_activate(GtkWidget *widget, gpointer data)
 gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
 {
     int val = GPOINTER_TO_INT(data);
+
     if (val >= DATASETTE_CONTROL_STOP && val <= DATASETTE_CONTROL_RESET_COUNTER) {
         datasette_control(val);
     } else {
-        fprintf(stderr, "Got an impossible Datasette Control action, code %ld (valid range %d-%d)\n", (long)val, DATASETTE_CONTROL_STOP, DATASETTE_CONTROL_RESET_COUNTER);
+        fprintf(stderr,
+                "Got an impossible Datasette Control action, code %ld (valid range %d-%d)\n",
+                (long)val,
+                DATASETTE_CONTROL_STOP,
+                DATASETTE_CONTROL_RESET_COUNTER);
     }
     return TRUE;
 }

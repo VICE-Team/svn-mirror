@@ -57,9 +57,9 @@ static GtkWidget *auto_attach = NULL;
  *
  * This handler is called when the user clicks a button in the dialog.
  *
- * \param[in]   widget      the dialog
- * \param[in]   response_id response ID
- * \param[in]   data        extra data (unused)
+ * \param[in,out]   widget      the dialog
+ * \param[in]       response_id response ID
+ * \param[in]       data        extra data (unused)
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer data)
 {

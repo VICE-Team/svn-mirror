@@ -53,6 +53,9 @@ static ui_file_filter_t filters[] = {
 /** \brief  Last used directory in dialog
  */
 static gchar *last_dir = NULL;
+
+/** \brief  Last used filename in dialog
+ */
 static gchar *last_file = NULL;
 
 

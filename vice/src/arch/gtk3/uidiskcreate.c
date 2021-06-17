@@ -108,9 +108,9 @@ static GtkWidget *set_drive_type;
  *
  * This handler is called when the user clicks a button in the dialog.
  *
- * \param[in]   widget      the dialog
- * \param[in]   response_id response ID
- * \param[in]   data        extra data (unused)
+ * \param[in,out]   widget      the dialog
+ * \param[in]       response_id response ID
+ * \param[in]       data        extra data (unused)
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer data)
 {
@@ -423,8 +423,6 @@ gboolean ui_disk_create_dialog_show(GtkWidget *parent, gpointer data)
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-
     gtk_widget_show(dialog);
-
     return TRUE;
 }

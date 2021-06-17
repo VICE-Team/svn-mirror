@@ -2275,11 +2275,9 @@ static int old_pause_state;
  *
  * \param[in]   selection   GtkTreeSelection associated with the tree model
  * \param[in]   user_data   data for the event (unused for now)
- *
  */
-static void on_tree_selection_changed(
-        GtkTreeSelection *selection,
-        gpointer user_data)
+static void on_tree_selection_changed(GtkTreeSelection *selection,
+                                      gpointer user_data)
 {
     GtkTreeIter iter;
     GtkTreeModel *model;
@@ -2486,11 +2484,6 @@ static GtkWidget *create_treeview(void)
     GtkWidget *tree;
     GtkCellRenderer *text_renderer;
     GtkTreeViewColumn *text_column;
-#if 0
-    GtkCssProvider *css_provider;
-    GtkStyleContext *style_context;
-    GError *err = NULL;
-#endif
 
     create_tree_model();
     tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(populate_tree_model()));
@@ -2538,7 +2531,7 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
  *
  * \param[in]   widget  parent widget
  *
- * \return  GtkGrid (as a GtkWidget)
+ * \return  GtkGrid
  */
 static GtkWidget *create_content_widget(GtkWidget *widget)
 {
@@ -2635,15 +2628,16 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 }
 
 
-/** \brief  Handler for the "response" event of the settings dialog
+/** \brief  Handler for the 'response' event of the settings dialog
  *
  * This determines what to do based on the 'reponse ID' emitted by the dialog.
  *
- * \param[in]   widget      widget triggering the event (the dialog)
- * \param[in]   response_id response ID
- * \param[in]   user_data   extra data (unused)
+ * \param[in,out]   widget      settings dialog
+ * \param[in]       response_id response ID
+ * \param[in]       user_data   extra data (unused)
  */
-static void response_callback(GtkWidget *widget, gint response_id,
+static void response_callback(GtkWidget *widget,
+                              gint response_id,
                               gpointer user_data)
 {
     int pause_on_settings;
@@ -2683,10 +2677,11 @@ static void response_callback(GtkWidget *widget, gint response_id,
 
 /** \brief  Respond to window size changes
  *
- * This allows for quickly seeing if specific dialog is getting too large. The
- * DIALOG_WIDTH_MAX and DIALOG_HEIGHT_MAX I sucked out of my thumb, since due
- * to window managers using different themes, we can't use 'proper' values, so
- * I had to use approximate values.
+ * This allows for quickly seeing if specific dialog is getting too large.
+ *
+ * The DIALOG_WIDTH_MAX and DIALOG_HEIGHT_MAX I sucked out of my thumb, since
+ * due to window managers using different themes, we can't use 'proper' values,
+ * so I had to use approximate values.
  *
  * \param[in]   widget  a GtkWindow
  * \param[in]   event   the GDK event
@@ -2694,10 +2689,9 @@ static void response_callback(GtkWidget *widget, gint response_id,
  *
  * \return  boolean
  */
-static gboolean on_dialog_configure_event(
-        GtkWidget *widget,
-        GdkEvent *event,
-        gpointer data)
+static gboolean on_dialog_configure_event(GtkWidget *widget,
+                                          GdkEvent *event,
+                                          gpointer data)
 {
 #if 0
     if (event->type == GDK_CONFIGURE) {
@@ -2802,9 +2796,11 @@ static gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Clean up resources used on emu exit
  *
- * Do NOT call this when exiting the settings UI, the event handlers will take
- * care of cleaning up resources used by the UI. This function cleans up the
- * data used to present the user with the last used settings page.
+ * This function cleans up the data used to present the user with the last used
+ * settings page.
+ *
+ * \note    Do NOT call this when exiting the settings UI, the event handlers
+ *          will take care of cleaning up resources used by the UI.
  */
 void ui_settings_shutdown(void)
 {

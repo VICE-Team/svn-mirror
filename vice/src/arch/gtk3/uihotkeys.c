@@ -1,8 +1,9 @@
 /** \file   uihotkeys.c
  * \brief   GTK3 hotkeys dialog
  *
- * Display a list of hotkeys (keyboard shorcuts). At some point those should be
- * (partially) editable.
+ * Display a list of hotkeys (keyboard shorcuts).
+ *
+ * At some point those should be (partially) editable.
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */

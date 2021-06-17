@@ -149,7 +149,7 @@ gboolean uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
     GtkWidget *content;
     gchar title[256];
 
-    g_snprintf(title, 256, "%s command line options", machine_name);
+    g_snprintf(title, sizeof(title), "%s command line options", machine_name);
 
     dialog = gtk_dialog_new_with_buttons(title,
             ui_get_active_window(),

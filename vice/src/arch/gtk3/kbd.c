@@ -207,7 +207,7 @@ static void kbd_fix_shift_release(GdkEvent *report)
     }
 }
 
-/** \brief  Clear shift flags                    
+/** \brief  Clear shift flags
  */
 static void kbd_fix_shift_clear(void)
 {
@@ -442,7 +442,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 return TRUE;
             }
 
-/* only press keys that were not yet pressed */
+            /* only press keys that were not yet pressed */
             if (addpressedkey(report, &key, &mod)) {
 #if 0
                 printf("%2d key press,   %5u %04x %04x. lshift: %d rshift: %d slock: %d mod:  %04x\n",
@@ -479,8 +479,8 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             if (report->key.keyval == GDK_KEY_KP_Separator) {
                 key = report->key.keyval = GDK_KEY_KP_Decimal;
             }
-                
-            if(removepressedkey(report, &key, &mod)) {
+
+            if (removepressedkey(report, &key, &mod)) {
 #if 0
                 printf("%2d key release, %5u %04x %04x. lshift: %d rshift: %d slock: %d mod:  %04x\n",
                     keyspressed, report->key.keyval, report->key.state, report->key.hardware_keycode,
@@ -654,8 +654,8 @@ gboolean kbd_hotkey_add(guint code, guint mask, void (*callback)(void))
 
 /** \brief  Add multiple hotkeys at once
  *
- * Adds multiple hotkeys from \a list. Terminate the list with NULL for the
- * callback value.
+ * Adds multiple hotkeys from \a list.
+ * Terminate the list with NULL for the callback value.
  *
  * \param[in]   list    list of hotkeys
  *

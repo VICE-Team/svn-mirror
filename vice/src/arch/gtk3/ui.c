@@ -148,20 +148,20 @@ typedef struct ui_resources_s {
 
     char *monitor_font;         /**< Pango font description string of the
                                      VTE monitor font */
-    char *monitor_bg;
-    char *monitor_fg;
+    char *monitor_bg;           /**< Monitor background color */
+    char *monitor_fg;           /**< Monitor foreground color */
     int autostart_on_doubleclick;   /**< Use autostart on double-clicking in
                                          file attach dialogs (bool) */
 #if 0
     int depth;
 #endif
 
-    video_canvas_t *canvas[NUM_WINDOWS];
-    GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
-    int window_width[NUM_WINDOWS];
-    int window_height[NUM_WINDOWS];
-    int window_xpos[NUM_WINDOWS];
-    int window_ypos[NUM_WINDOWS];
+    video_canvas_t *canvas[NUM_WINDOWS];    /**< video canvases */
+    GtkWidget *window_widget[NUM_WINDOWS];  /**< the toplevel GtkWidget (Window) */
+    int window_width[NUM_WINDOWS];          /**< window widths */
+    int window_height[NUM_WINDOWS];         /**< window heights */
+    int window_xpos[NUM_WINDOWS];           /**< window x positions */
+    int window_ypos[NUM_WINDOWS];           /**< window y positions */
 
 } ui_resource_t;
 
