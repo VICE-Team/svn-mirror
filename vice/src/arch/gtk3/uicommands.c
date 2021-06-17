@@ -159,16 +159,17 @@ gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
     mouse = !mouse;
 
     if (mouse) {
-       g_snprintf(title, 256, "VICE (%s) (Use %s+M to disable mouse grab)",
+       g_snprintf(title, sizeof(title),
+               "VICE (%s) (Use %s+M to disable mouse grab)",
                machine_get_name(), VICE_MOD_MASK_TEXT);
     } else {
-       g_snprintf(title, 256, "VICE (%s)",
+       g_snprintf(title, sizeof(title),
+               "VICE (%s)",
                machine_get_name());
     }
 
     window = ui_get_active_window();
     gtk_window_set_title(window, title);
-
 
     return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }
@@ -242,15 +243,16 @@ gboolean ui_close_callback(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "delete-event" of a main window
+/** \brief  Handler for the 'delete-event' of a main window
  *
- * \param[in]   widget      window triggering the event
+ * \param[in]   widget      window triggering the event (unused)
  * \param[in]   event       event details (unused)
  * \param[in]   user_data   extra data for the event (unused)
  *
  * \return  TRUE, if the function returns at all
  */
-gboolean ui_main_window_delete_event(GtkWidget *widget, GdkEvent *event,
+gboolean ui_main_window_delete_event(GtkWidget *widget,
+                                     GdkEvent *event,
                                      gpointer user_data)
 {
     if (confirm_exit()) {
@@ -261,7 +263,7 @@ gboolean ui_main_window_delete_event(GtkWidget *widget, GdkEvent *event,
 }
 
 
-/** \brief  Callback for the "destroy" event of a main window
+/** \brief  Callback for the 'destroy' event of a main window
  *
  * \param[in]   widget      widget triggering the event
  * \param[in]   user_data   extra data for the callback (unused)

@@ -62,11 +62,13 @@ static GtkWidget *preview_widget = NULL;
 
 /** \brief  Last directory used
  *
- * When a taoe is attached, this is set to the directory of that file. Since
+ * When a tape is attached, this is set to the directory of that file. Since
  * it's heap-allocated by Gtk3, it must be freed with a call to
  * ui_tape_attach_shutdown() on emulator shutdown.
  */
 static gchar *last_dir = NULL;
+
+/** \brief  Last filename used */
 static gchar *last_file = NULL;
 
 /** \brief  Reference to the custom 'Autostart' button
@@ -116,8 +118,9 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Trigger autostart
  *
- * \param[in]   widget  dialog
- * \param[in]   data    file index in the directory preview
+ * \param[in]   widget      dialog
+ * \param[in]   index       file index in the directory preview
+ * \param[in]   autostart   issue "RUN:" after loading
  */
 static void do_autostart(GtkWidget *widget, int index, int autostart)
 {
@@ -142,8 +145,8 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
 
 /** \brief  attach image
  *
- * \param[in]   widget  dialog
- * \param[in]   data    file index in the directory preview
+ * \param[in]   widget      dialog
+ * \param[in]   user_data   file index in the directory preview
  */
 static void do_attach(GtkWidget *widget, gpointer user_data)
 {

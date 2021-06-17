@@ -1,5 +1,4 @@
-/**
- * \file video.c
+/** \file video.c
  * \brief Native GTK3 UI video stuff
  *
  * \author Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -330,13 +329,15 @@ char video_canvas_can_resize(video_canvas_t *canvas)
     return 1;
 }
 
-/** \brief Create a new video_canvas_s.
- *  \param[inout] canvas A freshly allocated canvas object.
- *  \param[in]    width  Pointer to a width value. May be NULL if canvas
- *                       size is not yet known.
- *  \param[in]    height Pointer to a height value. May be NULL if canvas
- *                       size is not yet known.
- *  \param        mapped Unused.
+/** \brief  Create a new video_canvas_s.
+ *
+ *  \param[in,out]  canvas  A freshly allocated canvas object.
+ *  \param[in]      width   Pointer to a width value. May be NULL if canvas
+ *                          size is not yet known.
+ *  \param[in]      height  Pointer to a height value. May be NULL if canvas
+ *                          size is not yet known.
+ *  \param          mapped  Unused.
+ *
  *  \return The completely initialized canvas. The window that holds
  *          it will be visible in the UI at time of return.
  */
@@ -345,7 +346,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     int mapped)
 {
     pthread_mutexattr_t lock_attributes;
-        
+
     pthread_mutexattr_init(&lock_attributes);
     pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
     pthread_mutex_init(&canvas->lock, &lock_attributes);

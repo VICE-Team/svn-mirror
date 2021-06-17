@@ -99,6 +99,13 @@
 /** \brief  Maximum length for drive track status string */
 #define DRIVE_TRACK_STR_MAX_LEN 16
 
+/** \brief  Fold unit \a U and drive \a D into int and cast to pointer
+ *
+ * \param[in]   U   unit number
+ * \param[in]   D   drive number
+ */
+#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
+
 
 /** \brief  Status bar column indexes
  *
@@ -309,6 +316,12 @@ static void disk_dir_autostart_callback(const char *image,
                                         int device,
                                         unsigned int drive);
 
+/** \brief  Trigger redraw of a widget on the UI thread
+ *
+ * \param[in,out]   user_data   widget to redraw
+ *
+ * \return  FALSE
+ */
 static gboolean redraw_widget_on_ui_thread_impl(gpointer user_data)
 {
     gtk_widget_queue_draw((GtkWidget *)user_data);
@@ -319,6 +332,8 @@ static gboolean redraw_widget_on_ui_thread_impl(gpointer user_data)
 /** \brief Queue a redraw of widget on the ui thread.
  *
  * It's not safe to ask a widget to redraw from the vice thread.
+ *
+ * \param[in,out]   widget  widget to redraw
  */
 static void redraw_widget_on_ui_thread(GtkWidget *widget)
 {
@@ -493,13 +508,13 @@ static void on_drive_reset_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Handler for the 'activate' event of the 'Reset drive #X in ... mode' item
- *  *
- *   * Triggers a reset for drive ((int)data + 8)
- *    *
- *     * \param[in]   widget  menu item triggering the event (unused)
- *      * \param[in]   data    drive number (0-3)
- *       */
+/** \brief  Handler for the 'activate' event of the 'Reset drive \#X in ... mode' item
+ *
+ * Triggers a reset for drive ((int)data + 8).
+ *
+ * \param[in]   widget  menu item triggering the event (unused)
+ * \param[in]   data    drive number (0-3)
+ */
 static void on_drive_reset_config_clicked(GtkWidget *widget, gpointer data)
 {
 #if 0
@@ -1194,9 +1209,11 @@ static GtkWidget *ui_tape_widget_create(void)
 /** \brief Alter widget visibility within the joyport widget so that
  *         only currently existing joystick ports are displayed.
  *
- *  It is safe to call this routine regularly, as it will only trigger
- *  UI refresh operations if the configuration has changed to no
- *  longer match the current layout.
+ * \param[in]   state_snaphshot previous state of the joyport widget
+ *
+ * \note    It is safe to call this routine regularly, as it will only trigger
+ *          UI refresh operations if the configuration has changed to no
+ *          longer match the current layout.
  */
 static void update_joyport_layout(ui_sb_state_t *state_snapshot)
 {
@@ -1480,7 +1497,6 @@ static GtkWidget *ui_drive_menu_create(int unit)
             GINT_TO_POINTER(unit + DRIVE_UNIT_MIN));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
-#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
 
     for (drive = 0; drive < NUM_DRIVES; drive++) {
         snprintf(buf, sizeof(buf), "Detach disk from drive #%d:%d", unit + DRIVE_UNIT_MIN, drive);
@@ -1582,6 +1598,8 @@ void ui_statusbar_shutdown(void)
  *
  *  This function should be called once as part of creating a new
  *  machine window.
+ *
+ *  \param[in]  window_identity window identity
  *
  *  \return A new status bar, as a floating reference, or NULL if all
  *          possible status bars have been allocated already.

@@ -50,11 +50,8 @@
 #include "log.h"
 #include "machine.h"
 #include "mainlock.h"
-#include "openfiledialog.h"
 #include "resources.h"
-#include "savefiledialog.h"
 #include "screenshot.h"
-#include "selectdirectorydialog.h"
 #include "sound.h"
 #include "statusbarrecordingwidget.h"
 #include "ui.h"
@@ -743,9 +740,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     int koala = 0;
     int minipaint = 0;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* according to the standard, doing a strcmp() with one or more `NULL`
      * arguments is implementation-defined, so better safe than sorry */

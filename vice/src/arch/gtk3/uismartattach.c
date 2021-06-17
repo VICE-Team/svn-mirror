@@ -33,20 +33,19 @@
 
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
 #include "drive.h"
 #include "tape.h"
 #include "debug_gtk3.h"
-#include "basedialogs.h"
 #include "contentpreviewwidget.h"
 #include "diskcontents.h"
 #include "tapecontents.h"
 #include "machine.h"
 #include "mainlock.h"
 #include "resources.h"
-#include "filechooserhelpers.h"
 #include "ui.h"
 #include "uiapi.h"
 #include "uimachinewindow.h"
@@ -61,14 +60,14 @@
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
-    { "All files", file_chooser_pattern_all },
-    { "Disk images", file_chooser_pattern_disk },
-    { "Tape images", file_chooser_pattern_tape },
-    { "Cartridge images", file_chooser_pattern_cart },
-    { "Program files", file_chooser_pattern_program },
-    { "Snapshot files", file_chooser_pattern_snapshot },
-    { "Archives files", file_chooser_pattern_archive },
-    { "Compressed files", file_chooser_pattern_compressed },
+    { "All files",          file_chooser_pattern_all },
+    { "Disk images",        file_chooser_pattern_disk },
+    { "Tape images",        file_chooser_pattern_tape },
+    { "Cartridge images",   file_chooser_pattern_cart },
+    { "Program files",      file_chooser_pattern_program },
+    { "Snapshot files",     file_chooser_pattern_snapshot },
+    { "Archives files",     file_chooser_pattern_archive },
+    { "Compressed files",   file_chooser_pattern_compressed },
     { NULL, NULL }
 };
 
@@ -80,8 +79,9 @@ static GtkWidget *preview_widget = NULL;
 
 /** \brief  Last directory used
  *
- * When an image is attached, this is set to the directory of that file. Since
- * it's heap-allocated by Gtk3, it must be freed with a call to
+ * When an image is attached, this is set to the directory of that file.
+ *
+ * Since it's heap-allocated by Gtk3, it must be freed with a call to
  * ui_smart_attach_shutdown() on emulator shutdown.
  */
 static gchar *last_dir = NULL;
@@ -384,8 +384,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     GtkWidget *readonly_check;
     int readonly_state;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(0, 8);
 
     hidden_check = gtk_check_button_new_with_label("Show hidden files");
     g_signal_connect(hidden_check, "toggled", G_CALLBACK(on_hidden_toggled),

@@ -4,7 +4,7 @@
  * \author  Fabrizio Gennari <fabrizio.ge@tiscali.it>
  * \author  David Hogan <david.q.hogan@gmail.com>
  *
- * \todo    Properly document this, please.
+ * TODO:    Properly document this, please.
  */
 
 /*

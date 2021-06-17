@@ -60,9 +60,9 @@
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
-    { "Disk images", file_chooser_pattern_disk },
-    { "Compressed files", file_chooser_pattern_compressed },
-    { "All files", file_chooser_pattern_all },
+    { "Disk images",        file_chooser_pattern_disk },
+    { "Compressed files",   file_chooser_pattern_compressed },
+    { "All files",          file_chooser_pattern_all },
     { NULL, NULL }
 };
 
@@ -86,6 +86,8 @@ static GtkWidget *driveno_widget = NULL;
  * ui_disk_attach_shutdown() on emulator shutdown.
  */
 static gchar *last_dir = NULL;
+
+/** \brief  Last filename used */
 static gchar *last_file = NULL;
 
 /** \brief  Reference to the custom 'Autostart' button
@@ -191,7 +193,8 @@ static void on_drive_num_changed(int drive)
 /** \brief  Trigger autostarting a disk image
  *
  * \param[in,out]   widget      dialog
- * \param[in]       user_data   file index in the image
+ * \param[in]       index       file index in the image's directory listing
+ * \param[in]       autostart   issue "RUN:" after loading
  */
 static void do_autostart(GtkWidget *widget, int index, int autostart)
 {
