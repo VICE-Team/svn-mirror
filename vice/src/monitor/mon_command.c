@@ -491,7 +491,7 @@ static const mon_cmds_t mon_cmd_array[] = {
     },
 
     { "device", "dev",
-      "<[c:|8:|9:|10:|11:]>",
+      "[c:|8:|9:|10:|11:]",
       "Set the default memory device to either the computer `c:' or the\n"
       "specified disk drive (`8:', `9:', `10:', `11:').\n"
       "Switches to computer when not given a device.\n",
