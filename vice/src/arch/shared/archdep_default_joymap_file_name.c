@@ -5,7 +5,7 @@
  *
  * TODO:    Once we start supporting custom joymaps in the Gtk3 port, this
  *          code needs to be updated for Windows, since Gtk3-Win binaries live
- *          in bin/, so er need to strip off 'bin/'.
+ *          in bin/, so we need to strip off 'bin/'.
  */
 
 /*
