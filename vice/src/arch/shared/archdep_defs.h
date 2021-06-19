@@ -148,6 +148,20 @@
 #endif
 
 
+/** \brief  XDG Base Directory Specifiction user cache dir
+ *
+ * This defines only the final element of the `XDG_CACHE_HOME` variable.
+ */
+#define ARCHDEP_XDG_CACHE_HOME  ".cache"
+
+
+/** \brief  XDG Base Directory Specifiction user config dir
+ *
+ * This defines only the final element of `the XDG_CONFIG_HOME` variable.
+ */
+#define ARCHDEP_XDG_CONFIG_HOME ".config"
+
+
 /*
  * Determine if we compile against SDL
  */

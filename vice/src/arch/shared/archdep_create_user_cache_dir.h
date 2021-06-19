@@ -1,5 +1,5 @@
 /** \file   archdep_create_user_cache_dir.h
- * \brief   Create user cache dir if it doesn't exist already - header
+ * \brief   Create XDG user cache dir - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */

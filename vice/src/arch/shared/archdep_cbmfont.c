@@ -184,7 +184,7 @@ int archdep_register_cbmfont(void)
 
 /** \brief  Unregister the CBM font
  *
- * Seems like only on Windows this is actually required.
+ * Unregisters the font on Windows, NOP on any other arch.
  */
 void archdep_unregister_cbmfont(void)
 {

@@ -1,5 +1,15 @@
+/** \file   archdep_default_hotkey_file_name.c
+ * \brief   Get the path to the default hotkeys file
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * TODO:    Once we start supporting custom hotkeys in the Gtk3 port, this
+ *          code needs to be updated for Windows, since Gtk3-Win binaries live
+ *          in bin/, so er need to strip off 'bin/'.
+ */
 
-/* This file is part of VICE, the Versatile Commodore Emulator.
+/*
+ * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -16,59 +26,41 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
 #include "vice.h"
 #include "archdep_defs.h"
 
-#include <stdlib.h>
-
 #include "archdep.h"
-
-#include "machine.h"
-#include "kbd.h"
-#include "lib.h"
-#include "util.h"
-
 #include "archdep_boot_path.h"
-#include "archdep_pref_path.h"
 #include "archdep_home_path.h"
+#include "archdep_join_paths.h"
+#include "archdep_user_config_path.h"
+#include "kbd.h"
+#include "machine.h"
+
 #include "archdep_default_hotkey_file_name.h"
 
-/* FIXME: includes for beos */
 
-#ifdef ARCHDEP_OS_UNIX
+/** \brief  Get path to default hotkeys file
+ *
+ * \return  Full path to hotkeys file
+ *
+ * \note    Free after use with lib_free()
+ */
 char *archdep_default_hotkey_file_name(void)
 {
-    const char *pref_path = NULL;
-    pref_path = archdep_pref_path();
-    if (pref_path == NULL) {
-        const char *home;
-
-        home = archdep_home_path();
-        return util_concat(home, "/.vice/" KBD_PORT_PREFIX "-hotkey-", machine_get_name(), ".vkm", NULL);
-    } else {
-        return util_concat(pref_path, "/" KBD_PORT_PREFIX "-hotkey-", machine_get_name(), ".vkm", NULL);
-    }
-}
-#endif
-
 #ifdef ARCHDEP_OS_WINDOWS
-char *archdep_default_hotkey_file_name(void)
-{
-    return util_concat(archdep_boot_path(),
-            "\\" KBD_PORT_PREFIX "-hotkey-", machine_get_name(), ".vkm", NULL);
-}
+    return archdep_join_paths(archdep_boot_path(),
+                              KDB_PORT_PREFIX "-hotkey-",
+                              machine_get_name(),
+                              ".vkm",
+                              NULL);
+#else
+    return archdep_join_paths(archdep_user_config_path(),
+                              KBD_PORT_PREFIX "-hotkey-",
+                              machine_get_name(),
+                              ".vkm",
+                              NULL);
 #endif
-
-#if defined(ARCHDEP_OS_BEOS)
-char *archdep_default_hotkey_file_name(void)
-{
-    static char *fname;
-
-    lib_free(fname);
-    fname = util_concat(archdep_boot_path(), "/" KBD_PORT_PREFIX "-hotkey-", machine_get_name(), ".vkm", NULL);
-    return fname;
 }
-#endif

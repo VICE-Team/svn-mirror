@@ -44,7 +44,12 @@
 #ifdef USE_NATIVE_GTK3
 #include "mainlock.h"
 
+/** \brief  Exit code for the main thread
+ */
 static int vice_exit_code;
+
+/** \brief  Main thread
+ */
 static pthread_t main_thread;
 #endif
 

@@ -1,10 +1,14 @@
+/** \file   archdep_beos.h
+ * \brief   Miscellaneous BeOS system-specific stuff
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Marcus Sutton <loggedoubt@gmail.com>
+ *
+ * TODO:    Either of these authors should properly document the defines using
+ *          Doxygen.
+ */
+
 /*
- * archdep_beos.h - Miscellaneous system-specific stuff.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *  Marcus Sutton <loggedoubt@gmail.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

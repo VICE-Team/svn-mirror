@@ -3,6 +3,8 @@
  *
  * \author  Hannu Nuotio <hannu.nuotio@tut.fi>
  * \author  Andreas Boose <viceteam@t-online.de>
+ *
+ * TODO:    Properly document this code.
  */
 
 /*
@@ -51,7 +53,8 @@
 #include "charset.h"
 
 #if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
-static FILE *mon_input, *mon_output;
+static FILE *mon_input;
+static FILE *mon_output;
 #endif
 
 #ifdef HAVE_READLINE
@@ -139,7 +142,8 @@ static int vice_isatty(int fd)
 #endif
 
 typedef struct console_private_s {
-    FILE *input, *output;
+    FILE *input;
+    FILE *output;
 } console_private_t;
 
 console_t *native_console_open(const char *id)
@@ -147,7 +151,7 @@ console_t *native_console_open(const char *id)
 #ifdef HAVE_SYS_IOCTL_H
     struct winsize w;
 #endif
-   
+
     console_t *console;
     console_private_t *conpriv;
 
@@ -156,7 +160,7 @@ console_t *native_console_open(const char *id)
     console->private = conpriv;
     conpriv->input = NULL;
     conpriv->output = NULL;
-    
+
     if (!vice_isatty(fileno(stdin))) {
         log_error(LOG_DEFAULT, "native_console_open: stdin is not a tty.");
         goto exitnull;
@@ -165,7 +169,7 @@ console_t *native_console_open(const char *id)
         log_error(LOG_DEFAULT, "native_console_open: stdout is not a tty.");
         goto exitnull;
     }
-    
+
     /* change window title for console identification purposes */
     if (getenv("WINDOWID") == NULL) {
         printf("\033]2;VICE monitor console (%d)\007", (int)getpid());
@@ -190,9 +194,9 @@ console_t *native_console_open(const char *id)
 #endif
     console->console_can_stay_open = 1;
     console->console_cannot_output = 0;
-    
+
     return console;
-    
+
 exitnull:
     lib_free(console->private);
     lib_free(console);

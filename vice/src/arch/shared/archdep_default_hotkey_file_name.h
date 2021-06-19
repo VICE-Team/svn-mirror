@@ -1,6 +1,7 @@
-/** \file   archdep_pref_path.h
- * \brief   
- * \author  groepaz <groepaz@gmx.net>
+/** \file   archdep_default_hotkey_file_name.h
+ * \brief   Get the path to the default hotkeys file - header
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
