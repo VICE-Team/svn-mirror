@@ -52,7 +52,7 @@ char *archdep_default_hotkey_file_name(void)
 {
 #ifdef ARCHDEP_OS_WINDOWS
     return archdep_join_paths(archdep_boot_path(),
-                              KDB_PORT_PREFIX "-hotkey-",
+                              KBD_PORT_PREFIX "-hotkey-",
                               machine_get_name(),
                               ".vkm",
                               NULL);
