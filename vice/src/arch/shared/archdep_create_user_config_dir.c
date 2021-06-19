@@ -1,5 +1,5 @@
 /** \file   archdep_create_user_config_dir.c
- * \brief   Create user config dir if it doesn't exist already
+ * \brief   Create XDG user config dir
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -41,15 +41,12 @@
 #include "archdep_mkdir.h"
 #include "archdep_user_config_path.h"
 
-#ifdef ARCHDEP_OS_UNIX
-# include <sys/stat.h>
-# include <sys/types.h>
-#endif
-
 #include "archdep_create_user_config_dir.h"
 
 
-/** \brief  Create user config dir if it doesn't exist
+/** \brief  Create XDG user config dir
+ *
+ * Create the XDG Base Directory Specification <tt>~/.config/vice</tt> directory.
  */
 void archdep_create_user_config_dir(void)
 {
@@ -65,7 +62,7 @@ void archdep_create_user_config_dir(void)
      * XDG is a Freedesktop spec. We use it however for vicerc and other files
      * and it expected to be there
      */
-    tmp = archdep_join_paths(home, ".config", NULL);    /* TODO: use define */
+    tmp = archdep_join_paths(home, ARCHDEP_XDG_CONFIG_HOME, NULL);
     archdep_mkdir(tmp, 0755);
     errno = 0;
     lib_free(tmp);

@@ -1,6 +1,7 @@
-/** \file   archdep_pref_path.h
- * \brief   
- * \author  groepaz <groepaz@gmx.net>
+/** \file   archdep_default_joymap_file_name.h - header
+ * \brief   Get the path to the default joymap file
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*

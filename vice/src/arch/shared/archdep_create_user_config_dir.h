@@ -1,5 +1,5 @@
 /** \file   archdep_create_user_config_dir.h
- * \brief   Create user config dir if it doesn't exist already - header
+ * \brief   Create XDG user config dir - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
