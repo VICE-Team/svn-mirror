@@ -4,11 +4,12 @@
  *
  * Get path to default portable resource file (vicerc/vice.ini)
  *
- * unlike the normal resource file, this one is located in the same
- * directory as the .exe file (on windows).
+ * Unlike the normal resource file, this one is located in the 'root' directory
+ * of the bindist (Windows) or in the user's home directory (Unix).
  *
  * OS support:
  *  - Windows
+ *  - Unix
  *
  */
 
@@ -53,6 +54,9 @@ char *archdep_default_portable_resource_file_name(void)
 {
 #ifdef ARCHDEP_OS_WINDOWS
     return archdep_join_paths(archdep_boot_path(),
+# ifdef USE_NATIVE_GTK3
+                              "..", /* Gtk-Win binaries live in bin/, so go up */
+#endif
                               ARCHDEP_VICERC_NAME,
                               NULL);
 #else
