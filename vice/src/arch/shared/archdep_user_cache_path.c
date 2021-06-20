@@ -94,7 +94,7 @@ static char *user_cache_dir = NULL;
  *
  * \return  path to VICE cache directory
  */
-char *archdep_user_cache_path(void)
+const char *archdep_user_cache_path(void)
 {
 #ifdef ARCHDEP_OS_WINDOWS
     TCHAR szPath[MAX_PATH];

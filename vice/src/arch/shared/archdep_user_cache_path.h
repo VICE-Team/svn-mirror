@@ -27,7 +27,7 @@
 #ifndef VICE_ARCHDEP_USER_CACHE_PATH_H
 #define VICE_ARCHDEP_USER_CACHE_PATH_H
 
-char *archdep_user_cache_path(void);
-void  archdep_user_cache_path_free(void);
+const char *archdep_user_cache_path(void);
+void        archdep_user_cache_path_free(void);
 
 #endif

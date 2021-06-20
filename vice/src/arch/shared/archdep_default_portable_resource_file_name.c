@@ -51,17 +51,13 @@
  */
 char *archdep_default_portable_resource_file_name(void)
 {
-    const char *cfg;
 #ifdef ARCHDEP_OS_WINDOWS
-    cfg = archdep_boot_path();
-    return archdep_join_paths(cfg, ARCHDEP_VICERC_NAME, NULL);
+    return archdep_join_paths(archdep_boot_path(),
+                              ARCHDEP_VICERC_NAME,
+                              NULL);
 #else
-    cfg = archdep_home_path();
-    /* Don't pass the leading dot of .vicerc as a separate argument, but use
-     * the preprocessor's string concatenation feature.
-     * Perhaps at some point archdep_join_paths() might be updated to normalize
-     * its path, meaning it would eat the ".".
-     */
-    return archdep_join_paths(cfg, "." ARCHDEP_VICERC_NAME, NULL);
+    return archdep_join_paths(archdep_home_path(),
+                              "." ARCHDEP_VICERC_NAME, /* ".vicerc" */
+                              NULL);
 #endif
 }

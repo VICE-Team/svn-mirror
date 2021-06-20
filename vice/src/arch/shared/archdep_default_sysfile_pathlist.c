@@ -5,10 +5,12 @@
  *
  * For some reason Gtk3/GLib checks the path of a running binary to see if it's
  * running from a bin/ dir, so it can load stuff from bin/..
+ *
  * Unfortunately this also means running a binary from, say 'C:/bin/foo/bar/vice'
  * will try to load DLL's and other data from C:/bin/{lib,share} or so, which in
- * my opinion is a seriouse bug. 
- * So we had to change the bindist script for Winows, and alter a few archdep
+ * my opinion is a seriouse bug.
+ *
+ * So we had to change the bindist script for Windows, and alter a few archdep
  * functions to support this weirdness.
  *
  * -- compyx, 2020-06-28
@@ -116,7 +118,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         paths[i] = NULL;
     }
 
-
     /* now join everything together */
     i = 0;
 
@@ -136,7 +137,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     if (datadir != NULL) {
         paths[i++] = datadir;
     }
-
 
     /* terminate list */
     paths[i] = NULL;
@@ -166,7 +166,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
  *
  * Call on emulator exit
  */
-
 void archdep_default_sysfile_pathlist_free(void)
 {
     if (sysfile_path != NULL) {
