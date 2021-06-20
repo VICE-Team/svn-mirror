@@ -1,5 +1,5 @@
 /** \file   archdep_filename_parameter.h
- * \brief   Quote filename parameters on systems the need it - header
+ * \brief   Quote filename parameters on systems that need it - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 

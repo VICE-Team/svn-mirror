@@ -43,6 +43,8 @@
 /** \brief  Get the absolute path to the VICE DRIVES directory
  *
  * \return  Path to VICE datadir/DRIVES
+ *
+ * \note    Free result after use with lib_free().
  */
 char *archdep_get_vice_drivesdir(void)
 {

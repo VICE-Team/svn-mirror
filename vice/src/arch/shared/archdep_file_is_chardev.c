@@ -47,12 +47,13 @@
  *
  * \param[in]   name    pathname
  *
- * \return  bool
+ * \return  non-0 if \a name is a character device
+ *
+ * \note    returns 0 on non-Unix
  */
 int archdep_file_is_chardev(const char *name)
 {
 #ifdef ARCHDEP_OS_UNIX
-
     struct stat buf;
 
     if (stat(name, &buf) != 0) {

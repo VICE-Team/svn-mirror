@@ -45,6 +45,8 @@
 /** \brief  Get the absolute path to the VICE data directory
  *
  * \return  Path to VICE data directory (typically /usr/local/share/vice)
+ *
+ * \note    Free result after use with lib_free().
  */
 char *archdep_get_vice_datadir(void)
 {
@@ -65,6 +67,5 @@ char *archdep_get_vice_datadir(void)
 #else
     path = lib_strdup(VICE_DATADIR);
 #endif
-
     return path;
 }
