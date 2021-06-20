@@ -74,9 +74,9 @@ static char *home_dir = NULL;
 
 /** \brief  Get user's home directory
  *
- * Free memory used on emulator exit with archdep_home_path_free()
- *
  * \return  user's home directory
+ *
+ * \note    Free memory used on emulator exit with archdep_home_path_free().
  */
 const char *archdep_home_path(void)
 {

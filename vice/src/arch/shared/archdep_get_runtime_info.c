@@ -155,8 +155,6 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
         name = "Unknown";
     }
 
-
-    
     snprintf(info->os_name, ARCHDEP_RUNTIME_STRMAX - 1U, "Windows %s", name);
     snprintf(info->os_release, ARCHDEP_RUNTIME_STRMAX -1U, "%s",
             version.szCSDVersion);

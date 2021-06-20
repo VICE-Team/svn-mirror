@@ -124,13 +124,13 @@ void archdep_set_main_thread(void)
     main_thread = pthread_self();
 
 #if defined(MACOSX_SUPPORT)
-    
+
     /* macOS specific main thread init written in objective-c */
     vice_macos_set_main_thread();
-    
+
 #elif defined(UNIX_COMPILE)
 
-#ifdef USE_NATIVE_GTK3    
+#ifdef USE_NATIVE_GTK3
     /* Our GLX OpenGL init stuff will crash if we let GDK use wayland directly */
     putenv("GDK_BACKEND=x11");
 #endif
@@ -143,13 +143,13 @@ void archdep_set_main_thread(void)
     /* TODO - set UI/main thread priority for X11 */
 
 #elif defined(WIN32_COMPILE)
-    
+
     /* Increase Windows scheduler accuracy */
     timeBeginPeriod(1);
 
     /* Of course VICE is more important than other puny Windows applications */
     SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
-    
+
 #endif
 }
 

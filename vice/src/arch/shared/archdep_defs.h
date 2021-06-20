@@ -162,6 +162,14 @@
 #define ARCHDEP_XDG_CONFIG_HOME ".config"
 
 
+/** \def    ARCHDEP_VICERC_NAME
+ * \brief   The name of the default VICE configuraton file
+ */
+
+/** \def    ARCHDEP_VICE_RTC_NAME
+ * \brief   The name of the default VICE RTC status file
+ */
+
 /*
  * Determine if we compile against SDL
  */
@@ -204,6 +212,13 @@
  * This declares PRI_SIZE_T for use on all platforms, aliasing to 'zu' on
  * anything not Windows, and using PRIu[32|64] on Windows.
  */
+
+/** \def    PRI_SIZE_T
+ * \brief   Printf type specifier alias for 'zu'
+ *
+ * Required to work around Microsoft's broken C99 support.
+ */
+
 #ifdef _WIN32
 # include <inttypes.h>
 # ifdef _WIN64

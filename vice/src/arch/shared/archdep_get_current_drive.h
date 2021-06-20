@@ -1,7 +1,6 @@
-/** \file   archdep_extra_title_text.h
- *
- * \brief   Extra text to use in the title bar - header
- * \author  Bas Wassink <b.wassink@ziggo.nl>
+/** \file   archdep_get_current_drive.h
+ * \brief   Get current drive on Windows - header
+ * \author  Unknown (probably copied from old SDL code)
  */
 
 /*
@@ -25,10 +24,9 @@
  *
  */
 
-#ifndef VICE_ARCHDEP_EXTRA_TITLE_TEXT_H
-#define VICE_ARCHDEP_EXTRA_TITLE_TEXT_H
+#ifndef VICE_ARCHDEP_GET_CURRENT_DRIVE_H
+#define VICE_ARCHDEP_GET_CURRENT_DRIVE_H
 
-const char *archdep_extra_title_text(void);
-void        archdep_extra_title_text_free(void);
+char *archdep_get_current_drive(void);
 
 #endif

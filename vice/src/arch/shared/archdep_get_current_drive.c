@@ -1,3 +1,7 @@
+/** \file   archdep_get_current_drive.c
+ * \brief   Get current drive on Windows
+ * \author  Unknown (probably copied from old SDL code)
+ */
 
 /*
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -28,10 +32,23 @@
 #include "archdep.h"
 #include "ioutil.h"
 
-#if defined(ARCHDEP_OS_WINDOWS)
+#include "archdep_get_current_drive.h"
 
+
+/** \fn     archdep_get_current_drive
+ * \brief   Get current Windows drive
+ *
+ * Gets current Windows drive and replaces '\\' with '/' for some reason.
+ *
+ * \return  Current Windows drive, including ':/'
+ *
+ * \note    free result after use with lib_free().
+ */
+
+#ifdef ARCHDEP_OS_WINDOWS
 /* FIXME: is this needed* */
-#ifdef SDL_CHOOSE_DRIVES
+# ifdef SDL_CHOOSE_DRIVES
+
 char *archdep_get_current_drive(void)
 {
     char *p = ioutil_current_dir();
@@ -40,7 +57,5 @@ char *archdep_get_current_drive(void)
     p2[1] = '\0';
     return p;
 }
+# endif
 #endif
-
-#endif
-
