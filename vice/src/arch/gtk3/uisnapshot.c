@@ -81,22 +81,16 @@ static gchar *create_datetime_string(void)
 
 /** \brief  Construct filename for quickload/quicksave snapshots
  *
- * \return  filename for the quickload/save file, heap-allocated by VICE, so
- *          free after use with lib_free()
+ * \return  filename for the quickload/save file
+ *
+ * \note    free after use with lib_free()
  */
 static char *quicksnap_filename(void)
 {
-    char *fname;
-    const char *mname;
-    char *cfg;
-
-    mname = machine_class == VICE_MACHINE_C64SC ? "c64sc" : machine_name;
-    cfg = archdep_user_config_path();
-    fname = util_concat(cfg, "/", mname, ".vsf", NULL);
-#if 0
-    lib_free(cfg);
-#endif
-    return fname;
+    return archdep_join_paths(archdep_user_config_path(),
+                              machine_get_name(),
+                              ".vsf",
+                              NULL);
 }
 
 

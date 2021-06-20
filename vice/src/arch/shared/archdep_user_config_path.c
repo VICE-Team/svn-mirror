@@ -96,7 +96,7 @@ static char *user_config_dir = NULL;
  *
  * \return  path to VICE config directory
  */
-char *archdep_user_config_path(void)
+const char *archdep_user_config_path(void)
 {
 #ifdef ARCHDEP_OS_WINDOWS
     TCHAR szPath[MAX_PATH];

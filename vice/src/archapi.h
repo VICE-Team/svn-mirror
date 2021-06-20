@@ -62,8 +62,6 @@ void        archdep_boot_path_free(void);
 const char *archdep_home_path(void);
 void        archdep_home_path_free(void);
 
-const char *archdep_pref_path(void);
-
 int         archdep_mkdir(const char *pathname, int mode);
 int         archdep_rmdir(const char *pathname);
 
@@ -99,11 +97,11 @@ char *      archdep_get_vice_drivesdir(void);
 char *      archdep_get_vice_machinedir(void);
 
 void        archdep_create_user_cache_dir(void);
-char *      archdep_user_cache_path(void);
+const char *archdep_user_cache_path(void);
 void        archdep_user_cache_path_free(void);
 
 void        archdep_create_user_config_dir(void);
-char *      archdep_user_config_path(void);
+const char *archdep_user_config_path(void);
 void        archdep_user_config_path_free(void);
 
 char *      archdep_default_hotkey_file_name(void);
