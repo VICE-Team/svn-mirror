@@ -441,10 +441,26 @@ function add_executable_target {
 }
 
 #
-# The src folder Makefile also defines all the non-tool executables and what they link to.
+# Filter the list of excutables to those in the Makefile (x64 is optional)
 #
 
-EXECUTABLES="x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 vsid"
+POSSIBLE_EXECUTABLES="x64 x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 vsid"
+EXECUTABLES=""
+
+for executable in $POSSIBLE_EXECUTABLES
+do
+    if ! grep -q "^$executable:" Makefile
+    then
+        echo "Executable $executable not present"
+        continue
+    fi
+
+    EXECUTABLES="$EXECUTABLES $executable"
+done
+
+#
+# The src folder Makefile also defines all the non-tool executables and what they link to.
+#
 
 pushdq src
 
