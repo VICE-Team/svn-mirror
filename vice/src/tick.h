@@ -45,10 +45,10 @@
 /* Using a 32-bit type for tick_t prevents wraparound bugs on platforms with 32-bit timers */
 typedef uint32_t tick_t;
 
-#define TICK_TO_MILLI(tick) ((uint32_t) ((double)(tick) * ((double)MILLI_PER_SECOND / TICK_PER_SECOND)))
-#define TICK_TO_MICRO(tick) ((uint32_t) ((double)(tick) * ((double)MICRO_PER_SECOND / TICK_PER_SECOND)))
-#define TICK_TO_NANO(tick)  ((uint64_t) ((double)(tick) * ((double)NANO_PER_SECOND  / TICK_PER_SECOND)))
-#define NANO_TO_TICK(nano)  ((tick_t)   ((double)(nano) / ((double)NANO_PER_SECOND  / TICK_PER_SECOND)))
+#define TICK_TO_MILLI(tick) ((uint32_t) (uint64_t)((double)(tick) * ((double)MILLI_PER_SECOND / TICK_PER_SECOND)))
+#define TICK_TO_MICRO(tick) ((uint32_t) (uint64_t)((double)(tick) * ((double)MICRO_PER_SECOND / TICK_PER_SECOND)))
+#define TICK_TO_NANO(tick)  ((uint64_t) (uint64_t)((double)(tick) * ((double)NANO_PER_SECOND  / TICK_PER_SECOND)))
+#define NANO_TO_TICK(nano)  ((tick_t)   (uint64_t)((double)(nano) / ((double)NANO_PER_SECOND  / TICK_PER_SECOND)))
 
 extern void tick_init(void);
 
