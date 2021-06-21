@@ -40,10 +40,23 @@
 #include "archdep_mkstemp_fd.h"
 
 
+/**
+ * \fn      archdep_mkstemp_fd
+ * \brief   Create temporary file
+ *
+ * \param[out]  filename    target of temporary file's name
+ * \param[in]   mode        file mode
+ *
+ * \return  file pointer
+ *
+ * \note    The filename must be freed with lib_free().
+ */
+
 #if defined(ARCHDEP_OS_BEOS)
 /*
  * Looks like this can be used as a fallback for some of the other functions
  */
+
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {
     char *tmp;

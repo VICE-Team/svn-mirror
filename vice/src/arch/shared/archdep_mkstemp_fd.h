@@ -31,6 +31,21 @@
 
 #include <stdio.h>
 
+/**
+ * \brief   Create temporary file
+ *
+ * Create a temporary file with a random name.
+ *
+ * \param[out]  filename    target of temporary file's name
+ * \param[in]   mode        file mode
+ *
+ * \return  file pointer
+ *
+ * \note    The filename must be freed with lib_free().
+ *
+ * FIXME:   For some reason Doxygen doesn't accept this docblock in the .c file
+ *          with '\\fn archdep_mkstemp_fd'. So I had to put it here.
+ */
 FILE *archdep_mkstemp_fd(char **filename, const char *mode);
 
 #endif

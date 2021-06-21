@@ -43,7 +43,9 @@
  *
  * \param[in]   size    size in pixels (square)
  *
- * \return  path to PNG icon, free with lib_free()
+ * \return  path to PNG icon
+ *
+ * \note    free with lib_free() after use.
  */
 char *archdep_app_icon_path_png(int size)
 {

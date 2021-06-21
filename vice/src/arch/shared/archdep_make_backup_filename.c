@@ -49,7 +49,9 @@ char *archdep_make_backup_filename(const char *fname)
  *
  * \param[in]   fname   original filename
  *
- * \return  backup filename (free with libfree())
+ * \return  backup filename
+ *
+ * \note    free result with lib_free().
  */
 char *archdep_make_backup_filename(const char *fname)
 {

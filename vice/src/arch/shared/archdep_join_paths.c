@@ -33,12 +33,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-
 #include "lib.h"
 
-
 #include "archdep_join_paths.h"
-
 
 
 /** \brief  Join multiple paths into a single path
