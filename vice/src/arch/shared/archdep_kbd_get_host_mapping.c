@@ -44,6 +44,15 @@
 
 #include "archdep_kbd_get_host_mapping.h"
 
+
+/** \fn     archdep_kbd_get_host_mapping
+ * \brief   Get host keyboard mapping
+ *
+ * \return  Host keyboard mapping
+ *
+ * \see     keyboard.h
+ */
+
 #ifdef ARCHDEP_OS_WINDOWS
 
 /* returns host keyboard mapping. used to initialize the keyboard map when

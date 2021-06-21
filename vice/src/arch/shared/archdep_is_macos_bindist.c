@@ -34,6 +34,10 @@
 #include "archdep_is_macos_bindist.h"
 
 
+/** \brief  Determine if we're running a MacOS bindist
+ *
+ * \return  0 if bindist, -1 otherwise
+ */
 int archdep_is_macos_bindist(void) {
 #ifdef ARCHDEP_OS_MACOS
     static char *BINDIST_BOOT_PATH = "/VICE.app/Contents/Resources/bin";

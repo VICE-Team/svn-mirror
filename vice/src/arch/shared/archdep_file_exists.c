@@ -46,7 +46,9 @@
 #include "archdep_file_exists.h"
 
 
-/** \brief  Check if \a path exists
+/** \brief  Check if file at \a path exists
+ *
+ * \param[in]   path    path to file
  *
  * \return  bool
  */

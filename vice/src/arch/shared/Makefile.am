@@ -138,6 +138,7 @@ EXTRA_DIST = \
 	archdep_file_is_chardev.h \
 	archdep_filename_parameter.h \
 	archdep_fix_permissions.h \
+	archdep_get_current_drive.h \
 	archdep_get_runtime_info.h \
 	archdep_get_vice_datadir.h \
 	archdep_get_vice_docsdir.h \
@@ -150,6 +151,7 @@ EXTRA_DIST = \
 	archdep_is_macos_bindist.h \
 	archdep_join_paths.h \
 	archdep_kbd_get_host_mapping.h \
+	archdep_list_drives.h \
 	archdep_make_backup_filename.h \
 	archdep_mkdir.h \
 	archdep_mkstemp_fd.h \
