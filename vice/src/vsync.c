@@ -506,9 +506,12 @@ void vsync_do_end_of_line(void)
 
             /* amount of host ticks that represents the emulated duration */
             sync_emulated_ticks = (double)tick_per_second() * sync_clk_delta / emulated_clk_per_second;
+
+            /* combine with leftover offset from last sync */
+            sync_emulated_ticks += sync_emulated_ticks_offset;
             
-            /* the ideal host tick representing the emulated tick */
-            sync_target_tick += sync_emulated_ticks + sync_emulated_ticks_offset;
+            /* calculate the ideal host tick representing the emulated tick */
+            sync_target_tick += sync_emulated_ticks;
 
             /* Preserve the fractional component for next time */
             sync_emulated_ticks_offset = sync_emulated_ticks - (tick_t)sync_emulated_ticks;

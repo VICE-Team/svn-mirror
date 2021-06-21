@@ -40,7 +40,7 @@
  * accumulation bug somewhere. For example, setting this to MILLI_PER_SECOND results in
  * CPU running at ~103%. BTW Windows can't be more accurate that (NANO_PER_SECOND / 100).
  */
-#define TICK_PER_SECOND     (NANO_PER_SECOND / 10)
+#define TICK_PER_SECOND     (MICRO_PER_SECOND)
 
 /* Using a 32-bit type for tick_t prevents wraparound bugs on platforms with 32-bit timers */
 typedef uint32_t tick_t;
