@@ -40,7 +40,8 @@
 /** \brief  Custom dialog response codes
  *
  * These are used to enumerate the response codes for the custom buttons of the
- * dialog, in turn determining which UI_JAM_ACTION to return to the emulator.
+ * dialog, in turn determining which UI_EXTEND_IMAGE* value to return to the
+ * emulator.
  */
 enum {
     RESPONSE_NEVER = 0,     /**< don't extend */
