@@ -3437,6 +3437,7 @@ static int vdrive_command_format_worker(struct vdrive_s *vdrive, uint8_t *disk_n
         goto out;
     }
     vdrive_bam_create_empty_bam(vdrive, (char*)disk_name, disk_id);
+    vdrive_bam_write_bam(vdrive);
 
     /* Validate is called to clear the BAM.  */
     status = vdrive_command_validate(vdrive);
