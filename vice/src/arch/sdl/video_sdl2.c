@@ -1096,6 +1096,12 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 #ifdef USE_SDLUI2
     canvas->container = NULL;
 #endif
+
+    /*
+     * the render output can always be read from in SDL2,
+     * it's not a direct video memory buffer.
+     */
+    canvas->videoconfig->readable = 1;
 }
 
 void video_canvas_destroy(struct video_canvas_s *canvas)
