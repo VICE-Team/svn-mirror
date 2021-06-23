@@ -470,7 +470,7 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 
 static void render(void *job_data, void *pool_data)
 {
-    render_job_t job = (render_job_t)(int)(long long int)job_data;
+    render_job_t job = (render_job_t)(int)(intptr_t)job_data;
     video_canvas_t *canvas = pool_data;
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     backbuffer_t *backbuffer;
