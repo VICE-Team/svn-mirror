@@ -32,30 +32,6 @@
 
 #include "video.h"
 
-extern void render_UYVY_1x1_pal(video_render_color_tables_t *color_tab,
-                                const uint8_t *src, uint8_t *trg,
-                                const unsigned int width, const unsigned int height,
-                                const unsigned int xs, const unsigned int ys,
-                                const unsigned int xt, const unsigned int yt,
-                                const unsigned int pitchs,
-                                const unsigned int pitcht, video_render_config_t *config);
-
-extern void render_YUY2_1x1_pal(video_render_color_tables_t *color_tab,
-                                const uint8_t *src, uint8_t *trg,
-                                const unsigned int width, const unsigned int height,
-                                const unsigned int xs, const unsigned int ys,
-                                const unsigned int xt, const unsigned int yt,
-                                const unsigned int pitchs,
-                                const unsigned int pitcht, video_render_config_t *config);
-
-extern void render_YVYU_1x1_pal(video_render_color_tables_t *color_tab,
-                                const uint8_t *src, uint8_t *trg,
-                                const unsigned int width, const unsigned int height,
-                                const unsigned int xs, const unsigned int ys,
-                                const unsigned int xt, const unsigned int yt,
-                                const unsigned int pitchs,
-                                const unsigned int pitcht, video_render_config_t *config);
-
 extern void render_32_1x1_pal(video_render_color_tables_t *color_tab,
                               const uint8_t *src, uint8_t *trg,
                               const unsigned int width, const unsigned int height,
