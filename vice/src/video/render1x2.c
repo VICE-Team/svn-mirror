@@ -32,6 +32,55 @@
 
 /* 16 color 1x2 renderer */
 
+static inline void render_source_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t *colortab,
+                                      unsigned int wstart, unsigned int wfast, unsigned int wend)
+{
+    unsigned int x;
+    
+    for (x = 0; x < wstart; x++) {
+        *tmptrg++ = colortab[*tmpsrc++];
+    }
+    for (x = 0; x < wfast; x++) {
+        tmptrg[0] = colortab[tmpsrc[0]];
+        tmptrg[1] = colortab[tmpsrc[1]];
+        tmptrg[2] = colortab[tmpsrc[2]];
+        tmptrg[3] = colortab[tmpsrc[3]];
+        tmptrg[4] = colortab[tmpsrc[4]];
+        tmptrg[5] = colortab[tmpsrc[5]];
+        tmptrg[6] = colortab[tmpsrc[6]];
+        tmptrg[7] = colortab[tmpsrc[7]];
+        tmpsrc += 8;
+        tmptrg += 8;
+    }
+    for (x = 0; x < wend; x++) {
+        *tmptrg++ = colortab[*tmpsrc++];
+    }
+}
+
+static inline void render_solid_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t color,
+                                      unsigned int wstart, unsigned int wfast, unsigned int wend)
+{
+    unsigned int x;
+    
+    for (x = 0; x < wstart; x++) {
+        *tmptrg++ = color;
+    }
+    for (x = 0; x < wfast; x++) {
+        tmptrg[0] = color;
+        tmptrg[1] = color;
+        tmptrg[2] = color;
+        tmptrg[3] = color;
+        tmptrg[4] = color;
+        tmptrg[5] = color;
+        tmptrg[6] = color;
+        tmptrg[7] = color;
+        tmptrg += 8;
+    }
+    for (x = 0; x < wend; x++) {
+        *tmptrg++ = color;
+    }
+}
+
 void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs, const unsigned int ys,
@@ -42,7 +91,8 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_
     const uint32_t *colortab = color_tab->physical_colors;
     const uint8_t *tmpsrc;
     uint32_t *tmptrg;
-    unsigned int x, y, wstart, wfast, wend, yys;
+    uint32_t *blank_line = NULL;
+    unsigned int y, wstart, wfast, wend, yys;
     uint32_t color;
     int readable = config->readable;
 
@@ -59,57 +109,55 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07;  /* do not forget the rest*/
     }
+    
     for (y = yys; y < (yys + height); y++) {
         tmpsrc = src;
         tmptrg = (uint32_t *)trg;
-        if (!(y & 1) || doublescan) {
-            if ((y & 1) && readable && y > yys) { /* copy previous line */
-                memcpy(trg, trg - pitcht, width << 2);
+        
+        if (config->interlaced) {
+            /*
+             * If it's an even line and an even frame, or if it's an odd line
+             * and an odd frame, then this line contains new pixels from the video
+             * chip. Otherwise it contains a translucent blank line to be alpha
+             * blended with the previous frame.
+             */
+            if ((y & 1) == config->interlace_odd_frame) {
+                /* New pixels */
+                render_source_line(tmptrg, tmpsrc, colortab, wstart, wfast, wend);
             } else {
-                for (x = 0; x < wstart; x++) {
-                    *tmptrg++ = colortab[*tmpsrc++];
-                }
-                for (x = 0; x < wfast; x++) {
-                    tmptrg[0] = colortab[tmpsrc[0]];
-                    tmptrg[1] = colortab[tmpsrc[1]];
-                    tmptrg[2] = colortab[tmpsrc[2]];
-                    tmptrg[3] = colortab[tmpsrc[3]];
-                    tmptrg[4] = colortab[tmpsrc[4]];
-                    tmptrg[5] = colortab[tmpsrc[5]];
-                    tmptrg[6] = colortab[tmpsrc[6]];
-                    tmptrg[7] = colortab[tmpsrc[7]];
-                    tmpsrc += 8;
-                    tmptrg += 8;
-                }
-                for (x = 0; x < wend; x++) {
-                    *tmptrg++ = colortab[*tmpsrc++];
+                /* Blank line */
+                if (blank_line) {
+                    /* Copy the first blank line we created */
+                    memcpy(tmptrg, blank_line, width * 4);
+                } else {
+                    /* Next time, memcpy this blank line as it's much faster. */
+                    blank_line = tmptrg;
+                    
+                    /* Create a blank line of color[0], with 50% alpha */
+                    color = (colortab[0] & 0x00ffffff) | 0x8000000;
+                    render_solid_line(tmptrg, tmpsrc, color, wstart, wfast, wend);
                 }
             }
         } else {
-            if (readable && y > yys + 1) { /* copy 2 lines before */
-                memcpy(trg, trg - pitcht * 2, width << 2);
+            /*
+             * Non-interlace code path, supporting doublescan
+             */
+            if (!(y & 1) || doublescan) {
+                if ((y & 1) && readable && y > yys) { /* copy previous line */
+                    memcpy(trg, trg - pitcht, width << 2);
+                } else {
+                    render_source_line(tmptrg, tmpsrc, colortab, wstart, wfast, wend);
+                }
             } else {
-                color = colortab[0];
-                for (x = 0; x < wstart; x++) {
-                    *tmptrg++ = color;
-                }
-                for (x = 0; x < wfast; x++) {
-                    tmptrg[0] = color;
-                    tmptrg[1] = color;
-                    tmptrg[2] = color;
-                    tmptrg[3] = color;
-                    tmptrg[4] = color;
-                    tmptrg[5] = color;
-                    tmptrg[6] = color;
-                    tmptrg[7] = color;
-                    tmpsrc += 8;
-                    tmptrg += 8;
-                }
-                for (x = 0; x < wend; x++) {
-                    *tmptrg++ = color;
+                if (readable && y > yys + 1) { /* copy 2 lines before */
+                    memcpy(trg, trg - pitcht * 2, width << 2);
+                } else {
+                    color = colortab[0];
+                    render_solid_line(tmptrg, tmpsrc, color, wstart, wfast, wend);
                 }
             }
         }
+        
         if (y & 1) {
             src += pitchs;
         }
