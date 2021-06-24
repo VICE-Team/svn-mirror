@@ -52,47 +52,6 @@ void yuv_to_rgb(int32_t y, int32_t u, int32_t v,
 }
 
 static inline
-void store_pixel_2(uint8_t *trg, int32_t y1, int32_t u1, int32_t v1, int32_t y2, int32_t u2, int32_t v2)
-{
-    uint16_t *tmp;
-    int32_t red;
-    int32_t grn;
-    int32_t blu;
-
-    yuv_to_rgb(y1, u1, v1, &red, &grn, &blu);
-    tmp = (uint16_t *) trg;
-    tmp[0] = (uint16_t) (gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]);
-
-    yuv_to_rgb(y2, u2, v2, &red, &grn, &blu);
-    tmp[1] = (uint16_t) (gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]);
-}
-
-static inline
-void store_pixel_3(uint8_t *trg, int32_t y1, int32_t u1, int32_t v1, int32_t y2, int32_t u2, int32_t v2)
-{
-    uint32_t tmp;
-    int32_t red;
-    int32_t grn;
-    int32_t blu;
-
-    yuv_to_rgb(y1, u1, v1, &red, &grn, &blu);
-    tmp = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
-    trg[0] = (uint8_t) tmp;
-    tmp >>= 8;
-    trg[1] = (uint8_t) tmp;
-    tmp >>= 8;
-    trg[2] = (uint8_t) tmp;
-
-    yuv_to_rgb(y2, u2, v2, &red, &grn, &blu);
-    tmp = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
-    trg[3] = (uint8_t) tmp;
-    tmp >>= 8;
-    trg[4] = (uint8_t) tmp;
-    tmp >>= 8;
-    trg[5] = (uint8_t) tmp;
-}
-
-static inline
 void store_pixel_4(uint8_t *trg, int32_t y1, int32_t u1, int32_t v1, int32_t y2, int32_t u2, int32_t v2)
 {
     uint32_t *tmp;
@@ -268,32 +227,6 @@ render_YVYU_1x1_ntsc(video_render_color_tables_t *color_tab,
     render_generic_1x1_ntsc(color_tab, src, trg, width, height, xs, ys, xt, yt,
                             pitchs, pitcht,
                             4, store_pixel_YVYU, 1);
-}
-
-void
-render_16_1x1_ntsc(video_render_color_tables_t *color_tab,
-                   const uint8_t *src, uint8_t *trg,
-                   const unsigned int width, const unsigned int height,
-                   const unsigned int xs, const unsigned int ys,
-                   const unsigned int xt, const unsigned int yt,
-                   const unsigned int pitchs, const unsigned int pitcht)
-{
-    render_generic_1x1_ntsc(color_tab, src, trg, width, height, xs, ys, xt, yt,
-                            pitchs, pitcht,
-                            4, store_pixel_2, 0);
-}
-
-void
-render_24_1x1_ntsc(video_render_color_tables_t *color_tab,
-                   const uint8_t *src, uint8_t *trg,
-                   const unsigned int width, const unsigned int height,
-                   const unsigned int xs, const unsigned int ys,
-                   const unsigned int xt, const unsigned int yt,
-                   const unsigned int pitchs, const unsigned int pitcht)
-{
-    render_generic_1x1_ntsc(color_tab, src, trg, width, height, xs, ys, xt, yt,
-                            pitchs, pitcht,
-                            6, store_pixel_3, 0);
 }
 
 void

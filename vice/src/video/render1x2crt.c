@@ -48,100 +48,6 @@ void yuv_to_rgb(int32_t y, int32_t u, int32_t v, int16_t *red, int16_t *grn, int
     *grn = (y - ((50 * u + 130 * v) >> 8)) >> 16;
 }
 
-/* Often required function that stores gamma-corrected pixel to current line,
- * averages the current rgb with the contents of previous non-scanline-line,
- * stores the gamma-corrected scanline, and updates the prevline rgb buffer.
- * The variants 4, 3, 2 refer to pixel width of output. */
-
-static inline
-void store_line_and_scanline_2(
-    uint8_t *const line, uint8_t *const scanline,
-    int16_t *const prevline, const int shade, /* ignored by RGB modes */
-    const int32_t y, const int32_t u, const int32_t v, const int32_t y2, const int32_t u2, const int32_t v2)
-{
-    int16_t red, grn, blu;
-    uint16_t *tmp1, *tmp2;
-    yuv_to_rgb(y, u, v, &red, &grn, &blu);
-
-    tmp1 = (uint16_t *) scanline;
-    tmp2 = (uint16_t *) line;
-
-    *tmp1++ = (uint16_t) (gamma_red_fac[512 + red + prevline[0]]
-                      | gamma_grn_fac[512 + grn + prevline[1]]
-                      | gamma_blu_fac[512 + blu + prevline[2]]);
-
-    *tmp2++ = (uint16_t) (gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]);
-
-    prevline[0] = red;
-    prevline[1] = grn;
-    prevline[2] = blu;
-
-    yuv_to_rgb(y2, u2, v2, &red, &grn, &blu);
-
-    *tmp1 = (uint16_t) (gamma_red_fac[512 + red + prevline[3]]
-                    | gamma_grn_fac[512 + grn + prevline[4]]
-                    | gamma_blu_fac[512 + blu + prevline[5]]);
-
-    *tmp2 = (uint16_t) (gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]);
-
-    prevline[3] = red;
-    prevline[4] = grn;
-    prevline[5] = blu;
-}
-
-static inline
-void store_line_and_scanline_3(
-    uint8_t *const line, uint8_t *const scanline,
-    int16_t *const prevline, const int shade, /* ignored by RGB modes */
-    const int32_t y, const int32_t u, const int32_t v, const int32_t y2, const int32_t u2, const int32_t v2)
-{
-    uint32_t tmp1, tmp2;
-    int16_t red, grn, blu;
-    yuv_to_rgb(y, u, v, &red, &grn, &blu);
-
-    tmp1 = gamma_red_fac[512 + red + prevline[0]]
-           | gamma_grn_fac[512 + grn + prevline[1]]
-           | gamma_blu_fac[512 + blu + prevline[2]];
-    tmp2 = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
-    scanline[0] = (uint8_t) tmp1;
-    tmp1 >>= 8;
-    scanline[1] = (uint8_t) tmp1;
-    tmp1 >>= 8;
-    scanline[2] = (uint8_t) tmp1;
-
-    line[0] = (uint8_t) tmp2;
-    tmp2 >>= 8;
-    line[1] = (uint8_t) tmp2;
-    tmp2 >>= 8;
-    line[2] = (uint8_t) tmp2;
-
-    prevline[0] = red;
-    prevline[1] = grn;
-    prevline[2] = blu;
-
-    yuv_to_rgb(y2, u2, v2, &red, &grn, &blu);
-
-    tmp1 = gamma_red_fac[512 + red + prevline[0]]
-           | gamma_grn_fac[512 + grn + prevline[1]]
-           | gamma_blu_fac[512 + blu + prevline[2]];
-    tmp2 = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
-    scanline[3] = (uint8_t) tmp1;
-    tmp1 >>= 8;
-    scanline[4] = (uint8_t) tmp1;
-    tmp1 >>= 8;
-    scanline[5] = (uint8_t) tmp1;
-
-    line[3] = (uint8_t) tmp2;
-    tmp2 >>= 8;
-    line[4] = (uint8_t) tmp2;
-    tmp2 >>= 8;
-    line[5] = (uint8_t) tmp2;
-
-    prevline[3] = red;
-    prevline[4] = grn;
-    prevline[5] = blu;
-}
-
 static inline
 void store_line_and_scanline_4(
     uint8_t *const line, uint8_t *const scanline,
@@ -505,32 +411,6 @@ void render_YVYU_1x2_crt(video_render_color_tables_t *color_tab,
     render_generic_1x2_crt(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
                            2, store_line_and_scanline_YVYU, 0, config);
-}
-
-void render_16_1x2_crt(video_render_color_tables_t *color_tab,
-                       const uint8_t *src, uint8_t *trg,
-                       unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
-{
-    render_generic_1x2_crt(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport,
-                           2, store_line_and_scanline_2, 1, config);
-}
-
-void render_24_1x2_crt(video_render_color_tables_t *color_tab,
-                       const uint8_t *src, uint8_t *trg,
-                       unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
-{
-    render_generic_1x2_crt(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport,
-                           3, store_line_and_scanline_3, 1, config);
 }
 
 void render_32_1x2_crt(video_render_color_tables_t *color_tab,
