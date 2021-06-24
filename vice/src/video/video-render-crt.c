@@ -85,172 +85,51 @@ static void video_render_crt_main(video_render_config_t *config,
 
         case VIDEO_RENDER_CRT_1X1:
             if (delayloop && depth != 8) {
-                switch (depth) {
-                    case 16:
-                        render_16_1x1_crt(colortab, src, trg, width, height,
-                                           xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                    case 24:
-                        render_24_1x1_crt(colortab, src, trg, width, height,
-                                           xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                    case 32:
-                        render_32_1x1_crt(colortab, src, trg, width, height,
-                                           xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                }
+                render_32_1x1_crt(colortab, src, trg, width, height,
+                                   xs, ys, xt, yt, pitchs, pitcht);
+                return;
             } else {
-                switch (depth) {
-                    case 8:
-                        render_08_1x1_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                    case 16:
-                        render_16_1x1_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                    case 24:
-                        render_24_1x1_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                    case 32:
-                        render_32_1x1_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                }
+                render_32_1x1_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht);
+                return;
             }
             break;
         case VIDEO_RENDER_CRT_1X2:
             if (delayloop && depth != 8) {
-                switch (depth) {
-                    case 16:
-                        render_16_1x2_crt(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht,
-                                          viewport, config);
-                        return;
-                    case 24:
-                        render_24_1x2_crt(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht,
-                                          viewport, config);
-                        return;
-                    case 32:
-                        render_32_1x2_crt(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht,
-                                          viewport, config);
-                        return;
-                }
+                render_32_1x2_crt(colortab, src, trg, width, height,
+                                  xs, ys, xt, yt, pitchs, pitcht,
+                                  viewport, config);
+                return;
             } else {
-                switch (depth) {
-                    case 8:
-                        render_08_1x2_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                    case 16:
-                        render_16_1x2_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                    case 24:
-                        render_24_1x2_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                    case 32:
-                        render_32_1x2_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                }
+                render_32_1x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
+                return;
             }
             break;
         case VIDEO_RENDER_CRT_2X2:
             if (scale2x) {
-                switch (depth) {
-                    case 8:
-                        render_08_scale2x(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                    case 16:
-                        render_16_scale2x(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                    case 24:
-                        render_24_scale2x(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                    case 32:
-                        render_32_scale2x(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht);
-                        return;
-                }
+                render_32_scale2x(colortab, src, trg, width, height,
+                                  xs, ys, xt, yt, pitchs, pitcht);
+                return;
             } else if (delayloop && depth != 8) {
-                switch (depth) {
-                    case 16:
-                        render_16_2x2_crt(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht, viewport, config);
-                        return;
-                    case 24:
-                        render_24_2x2_crt(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht, viewport, config);
-                        return;
-                    case 32:
-                        render_32_2x2_crt(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht, viewport, config);
-                        return;
-                }
+                render_32_2x2_crt(colortab, src, trg, width, height,
+                                  xs, ys, xt, yt, pitchs, pitcht, viewport, config);
+                return;
             } else {
-                switch (depth) {
-                    case 8:
-                        render_08_2x2_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                    case 16:
-                        render_16_2x2_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                    case 24:
-                        render_24_2x2_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                    case 32:
-                        render_32_2x2_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                }
+                render_32_2x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
+                return;
             }
             break;
         case VIDEO_RENDER_CRT_2X4:
             if (delayloop && depth != 8) {
-                switch (depth) {
-                    case 16:
-                        render_16_2x4_crt(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht, viewport, config);
-                        return;
-                    case 24:
-                        render_24_2x4_crt(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht, viewport, config);
-                        return;
-                    case 32:
-                        render_32_2x4_crt(colortab, src, trg, width, height,
-                                          xs, ys, xt, yt, pitchs, pitcht, viewport, config);
-                        return;
-                }
+                render_32_2x4_crt(colortab, src, trg, width, height,
+                                  xs, ys, xt, yt, pitchs, pitcht, viewport, config);
+                return;
             } else {
-                switch (depth) {
-                    case 8:
-                        render_08_2x4_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                    case 16:
-                        render_16_2x4_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                    case 24:
-                        render_24_2x4_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                    case 32:
-                        render_32_2x4_04(colortab, src, trg, width, height,
-                                         xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
-                        return;
-                }
+                render_32_2x4_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
+                return;
             }
             break;
     }
