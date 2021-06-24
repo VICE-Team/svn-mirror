@@ -38,6 +38,7 @@
 #include <fcntl.h>
 #include <linux/joystick.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
 
 #include "joyport.h"
@@ -77,7 +78,7 @@ static void linux_joystick(int joyport, void* priv)
                 dir = JOY_AXIS_POSITIVE;
             } else if (e.value < -16384) {
                 dir = JOY_AXIS_NEGATIVE;
-            } else {                    
+            } else {
                 dir = JOY_AXIS_MIDDLE;
             }
             joy_axis_event(joyport, e.number, dir);
@@ -108,7 +109,8 @@ void linux_joystick_init(void)
         char dev[40];
         int fd;
         int ver = 0;
-        char axes, buttons;
+        uint8_t axes;
+        uint8_t buttons;
         char name[60];
         struct JS_DATA_TYPE js;
 
@@ -138,7 +140,7 @@ void linux_joystick_init(void)
             log_message(joystick_linux_log, "Built in driver version: %d.%d.%d", JS_VERSION >> 16, (JS_VERSION >> 8) & 0xff, JS_VERSION & 0xff);
             log_message(joystick_linux_log, "Kernel driver version  : %d.%d.%d", ver >> 16, (ver >> 8) & 0xff, ver & 0xff);
             fcntl(fd, F_SETFL, O_NONBLOCK);
-            if ((axes < 0) || (buttons < 0)) {
+            if ((axes == 0) || (buttons == 0)) {
                 log_message(joystick_linux_log, "Joystick with invalid geometry found -- ignoring.");
                 continue;
             }
