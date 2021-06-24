@@ -42,9 +42,8 @@
 #include "vdc-mem.h"
 #include "vdc.h"
 #include "vdctypes.h"
-
-
 #include "vdc-draw.h"
+#include "videoarch.h"
 
 static CLOCK vdc_status_clear_clock = 0;
 
@@ -266,8 +265,10 @@ void vdc_store(uint16_t addr, uint8_t value)
         case 8:                 /* R08  Interlace and Skew */
             if ((vdc.regs[8] & 0x03) == 3)  {   /* interlace */
                 vdc.interlaced = 1;
+                vdc.raster.canvas->videoconfig->interlaced = 1;
             } else {
                 vdc.interlaced = 0;
+                vdc.raster.canvas->videoconfig->interlaced = 0;
             }
             /* vdc.update_geometry = 1; */
 #ifdef REG_DEBUG

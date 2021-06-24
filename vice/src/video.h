@@ -201,6 +201,8 @@ struct video_render_config_s {
     char *external_palette_name;   /* Name of the external palette.  */
     int double_buffer;             /* Double buffering enabled? */
     int readable;                  /* reading of frame buffer is safe and fast */
+    int interlaced;                /* Should interlaced rendering be used? */
+    int interlace_odd_frame;       /* 0 if next interlaced frame is even, 1 if odd */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
     struct video_render_color_tables_s color_tables;
     int fullscreen_enabled;
