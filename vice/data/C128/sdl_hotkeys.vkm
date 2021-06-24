@@ -14,7 +14,7 @@
 !CLEAR
 
 # Numlock
-300 Machine settings&Joystick settings&Swap joystick ports
+300 Machine settings&Joystick settings&Swap native joystick ports
 
 # ALT+0
 1072 Drive&Attach disk image to drive 10
@@ -46,7 +46,7 @@
 # ALT+I
 1129 Drive&Fliplist settings&Add current image to fliplist
 # ALT+J
-1130 Machine settings&Joystick settings&Swap joystick ports
+1130 Machine settings&Joystick settings&Swap native joystick ports
 # ALT+K
 1131 Drive&Fliplist settings&Remove current image from fliplist
 # ALT+L
