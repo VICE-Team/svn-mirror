@@ -57,7 +57,7 @@ static int rendermode_error = -1;
 static void video_render_crt_main(video_render_config_t *config,
                                   uint8_t *src, uint8_t *trg,
                                   int width, int height, int xs, int ys, int xt,
-                                  int yt, int pitchs, int pitcht, int depth,
+                                  int yt, int pitchs, int pitcht,
                                   viewport_t *viewport)
 {
     video_render_color_tables_t *colortab;
@@ -84,7 +84,7 @@ static void video_render_crt_main(video_render_config_t *config,
             break;
 
         case VIDEO_RENDER_CRT_1X1:
-            if (delayloop && depth != 8) {
+            if (delayloop) {
                 render_32_1x1_crt(colortab, src, trg, width, height,
                                    xs, ys, xt, yt, pitchs, pitcht);
                 return;
@@ -95,7 +95,7 @@ static void video_render_crt_main(video_render_config_t *config,
             }
             break;
         case VIDEO_RENDER_CRT_1X2:
-            if (delayloop && depth != 8) {
+            if (delayloop) {
                 render_32_1x2_crt(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
                                   viewport, config);
@@ -111,7 +111,7 @@ static void video_render_crt_main(video_render_config_t *config,
                 render_32_scale2x(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht);
                 return;
-            } else if (delayloop && depth != 8) {
+            } else if (delayloop) {
                 render_32_2x2_crt(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht, viewport, config);
                 return;
@@ -122,7 +122,7 @@ static void video_render_crt_main(video_render_config_t *config,
             }
             break;
         case VIDEO_RENDER_CRT_2X4:
-            if (delayloop && depth != 8) {
+            if (delayloop) {
                 render_32_2x4_crt(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht, viewport, config);
                 return;

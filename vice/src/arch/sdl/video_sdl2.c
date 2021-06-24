@@ -786,10 +786,10 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 
         backup = canvas->draw_buffer->draw_buffer;
         canvas->draw_buffer->draw_buffer = canvas->draw_buffer_vsid->draw_buffer;
-        video_canvas_render(canvas, (uint8_t *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch, canvas->screen->format->BitsPerPixel);
+        video_canvas_render(canvas, (uint8_t *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch);
         canvas->draw_buffer->draw_buffer = backup;
     } else {
-        video_canvas_render(canvas, (uint8_t *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch, canvas->screen->format->BitsPerPixel);
+        video_canvas_render(canvas, (uint8_t *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch);
     }
 
     if (recreate_textures) {

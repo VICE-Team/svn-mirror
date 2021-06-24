@@ -294,7 +294,7 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
 
     CANVAS_UNLOCK();
 
-    video_canvas_render(canvas, backbuffer->pixel_data, w, h, xs, ys, xi, yi, backbuffer->width * 4, 32);
+    video_canvas_render(canvas, backbuffer->pixel_data, w, h, xs, ys, xi, yi, backbuffer->width * 4);
 
     CANVAS_LOCK();
     render_queue_enqueue_for_display(context->render_queue, backbuffer);

@@ -39,8 +39,7 @@ static void video_render_2x2_main(video_render_config_t *config,
                                   const unsigned int xs, const unsigned int ys,
                                   const unsigned int xt, const unsigned int yt,
                                   const unsigned int pitchs,
-                                  const unsigned int pitcht,
-                                  int depth)
+                                  const unsigned int pitcht)
 {
     const video_render_color_tables_t *colortab;
     int doublescan, scale2x;
