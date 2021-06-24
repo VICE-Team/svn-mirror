@@ -50,17 +50,16 @@
  */
 char *archdep_default_hotkey_file_name(void)
 {
+    char filename[256];
+
+    snprintf(filename,
+             sizeof(filename),
+             KBD_PORT_PREFIX "-hotkey-%s.vkm",
+             machine_get_name());
+
 #ifdef ARCHDEP_OS_WINDOWS
-    return archdep_join_paths(archdep_boot_path(),
-                              KBD_PORT_PREFIX "-hotkey-",
-                              machine_get_name(),
-                              ".vkm",
-                              NULL);
+    return archdep_join_paths(archdep_boot_path(), filename, NULL);
 #else
-    return archdep_join_paths(archdep_user_config_path(),
-                              KBD_PORT_PREFIX "-hotkey-",
-                              machine_get_name(),
-                              ".vkm",
-                              NULL);
+    return archdep_join_paths(archdep_user_config_path(), filename, NULL);
 #endif
 }
