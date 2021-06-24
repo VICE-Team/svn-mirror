@@ -50,7 +50,7 @@
 static void video_render_pal_main(video_render_config_t *config,
                                   uint8_t *src, uint8_t *trg,
                                   int width, int height, int xs, int ys, int xt,
-                                  int yt, int pitchs, int pitcht, int depth,
+                                  int yt, int pitchs, int pitcht,
                                   viewport_t *viewport)
 {
     video_render_color_tables_t *colortab;
@@ -81,7 +81,7 @@ static void video_render_pal_main(video_render_config_t *config,
             break;
 
         case VIDEO_RENDER_PAL_1X1:
-            if (delayloop && depth != 8) {
+            if (delayloop) {
                 if (video) {
                     render_32_1x1_pal(colortab, src, trg, width, height,
                                       xs, ys, xt, yt, pitchs, pitcht, config);
@@ -98,7 +98,7 @@ static void video_render_pal_main(video_render_config_t *config,
             }
             return;
         case VIDEO_RENDER_PAL_2X2:
-            if (delayloop && depth != 8) {
+            if (delayloop) {
                 switch (video) {
                     case 0: /* NTSC */
                         render_32_2x2_ntsc(colortab, src, trg, width, height,

@@ -47,23 +47,21 @@ static void (*render_1x2_func)(video_render_config_t *, const uint8_t *, uint8_t
                                unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
-                               const unsigned int, const unsigned int,
-                               int);
+                               const unsigned int, const unsigned int);
 
 static void (*render_2x2_func)(video_render_config_t *, const uint8_t *, uint8_t *,
                                unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
-                               const unsigned int, const unsigned int,
-                               int);
+                               const unsigned int, const unsigned int);
 
 static void (*render_pal_func)(video_render_config_t *, uint8_t *, uint8_t *,
                                int, int, int, int,
-                               int, int, int, int, int, viewport_t *);
+                               int, int, int, int, viewport_t *);
 
 static void (*render_crt_func)(video_render_config_t *, uint8_t *, uint8_t *,
                                int, int, int, int,
-                               int, int, int, int, int, viewport_t *);
+                               int, int, int, int, viewport_t *);
 
 void video_render_initconfig(video_render_config_t *config)
 {
@@ -99,7 +97,7 @@ static int rendermode_error = -1;
 
 void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg,
                        int width, int height, int xs, int ys, int xt, int yt,
-                       int pitchs, int pitcht, int depth, viewport_t *viewport)
+                       int pitchs, int pitcht, viewport_t *viewport)
 {
     const video_render_color_tables_t *colortab;
     int rendermode;
@@ -126,7 +124,7 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
         case VIDEO_RENDER_PAL_1X1:
         case VIDEO_RENDER_PAL_2X2:
             (*render_pal_func)(config, src, trg, width, height, xs, ys, xt, yt,
-                               pitchs, pitcht, depth, viewport);
+                               pitchs, pitcht, viewport);
             return;
 
         case VIDEO_RENDER_CRT_1X1:
@@ -134,7 +132,7 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
         case VIDEO_RENDER_CRT_2X2:
         case VIDEO_RENDER_CRT_2X4:
             (*render_crt_func)(config, src, trg, width, height, xs, ys, xt, yt,
-                               pitchs, pitcht, depth, viewport);
+                               pitchs, pitcht, viewport);
             return;
 
         case VIDEO_RENDER_RGB_1X1:
@@ -144,12 +142,12 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
 
         case VIDEO_RENDER_RGB_1X2:
             (*render_1x2_func)(config, src, trg, width, height,
-                               xs, ys, xt, yt, pitchs, pitcht, depth);
+                               xs, ys, xt, yt, pitchs, pitcht);
             return;
 
         case VIDEO_RENDER_RGB_2X2:
             (*render_2x2_func)(config, src, trg, width, height,
-                               xs, ys, xt, yt, pitchs, pitcht, depth);
+                               xs, ys, xt, yt, pitchs, pitcht);
             return;
     }
     if (rendermode_error != rendermode) {
@@ -163,8 +161,8 @@ void video_render_1x2func_set(void (*func)(video_render_config_t *,
                                            unsigned int, const unsigned int,
                                            const unsigned int, const unsigned int,
                                            const unsigned int, const unsigned int,
-                                           const unsigned int, const unsigned int,
-                                           int))
+                                           const unsigned int, const unsigned int
+                                           ))
 {
     render_1x2_func = func;
 }
@@ -174,22 +172,22 @@ void video_render_2x2func_set(void (*func)(video_render_config_t *,
                                            unsigned int, const unsigned int,
                                            const unsigned int, const unsigned int,
                                            const unsigned int, const unsigned int,
-                                           const unsigned int, const unsigned int,
-                                           int))
+                                           const unsigned int, const unsigned int
+                                           ))
 {
     render_2x2_func = func;
 }
 
 void video_render_palfunc_set(void (*func)(video_render_config_t *,
                                            uint8_t *, uint8_t *, int, int, int, int,
-                                           int, int, int, int, int, viewport_t *))
+                                           int, int, int, int, viewport_t *))
 {
     render_pal_func = func;
 }
 
 void video_render_crtfunc_set(void (*func)(video_render_config_t *,
                                            uint8_t *, uint8_t *, int, int, int, int,
-                                           int, int, int, int, int, viewport_t *))
+                                           int, int, int, int, viewport_t *))
 {
     render_crt_func = func;
 }

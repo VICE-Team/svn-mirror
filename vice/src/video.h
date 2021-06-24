@@ -254,7 +254,7 @@ extern void video_canvas_unmap(struct video_canvas_s *canvas);
 extern void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas);
 extern void video_canvas_render(struct video_canvas_s *canvas, uint8_t *trg,
                                 int width, int height, int xs, int ys,
-                                int xt, int yt, int pitcht, int depth);
+                                int xt, int yt, int pitcht);
 extern void video_canvas_refresh_all(struct video_canvas_s *canvas);
 extern char video_canvas_can_resize(struct video_canvas_s *canvas);
 extern void video_viewport_get(struct video_canvas_s *canvas,
