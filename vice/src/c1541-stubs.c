@@ -32,6 +32,7 @@
 #include "attach.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "drive.h"
 #include "imagecontents.h"
 #include "kbd.h"
@@ -235,4 +236,9 @@ uint8_t machine_tape_behaviour(void)
 const char *kbd_get_menu_keyname(void)
 {
     return NULL;
+}
+
+int crt_getid(const char *filename)
+{
+    return -1;
 }
