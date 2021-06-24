@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "crt.h"
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "gcr.h"
@@ -699,9 +700,19 @@ static int disk_image_check_for_dhd(disk_image_t *image)
        equal 73728 bytes (which is the smallest possible running DHD image */
     /* we used to look for multiples of 512 bytes, but writes of 256 bytes
        to expanding images in vdrive might make this fail. */
+    /* FIXME: perhaps this can be made more strict to prevent false positives? */
     if ((blk % 256 != 0) || ( blk < 73728 )) {
         return 0;
     }
+
+    /* since the size check(s) are weak, check CRT header to prevent CRT files
+       being detected as DHD images (bug #1489). having a crt header at the start
+       of a DHD container seems unlikely enough for this to work fine. */
+    if (crt_getid(image->media.fsimage->name) >= 0) {
+        log_error(disk_image_probe_log, "trying to attach a CRT file as DHD image, aborting.");
+        return 0;
+    }
+    /* FIXME: perhaps other headers (g64, t64, p64...) need to be checked here */
 
     /* if the CMDHD rom is loaded, allow it regardless */
     if (!machine_drive_rom_check_loaded(DISK_IMAGE_TYPE_DHD)) {
