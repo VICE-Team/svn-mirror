@@ -139,6 +139,7 @@ Copyright @copyright{} 2018-2021 Christopher Phillips
 Copyright @copyright{} 2019-2021 David Hogan
 Copyright @copyright{} 2020-2021 Empathic Qubit
 Copyright @copyright{} 2020-2021 Roberto Muscedere
+Copyright @copyright{} 2021 June Tate-Gans
 @c ---vice-core-team-end---
 
 @c ---ex-team---
@@ -29945,6 +29946,10 @@ port.
 @b{Michael C. Martin}
 One of the driving forces behind the 'native' GTK3 port.
 
+@item
+@b{June Tate-Gans}
+Made the dual window feature for the SDL2 UI.
+
 @end itemize
 
 Former/inactive team members:
@@ -30690,10 +30695,6 @@ Fixed some monitor issues.
 @b{Bjoern Odendahl}
 Created the new VICE logo and volunteered to create new icons.
 
-@item
-@b{June Tate-Gans}
-Made the dual window feature for the SDL2 UI.
-
 @end itemize
 
 (We hope we have not forgotten anybody; if you think we have,
@@ -30805,6 +30806,8 @@ Copyright @copyright{} 2019-2021 David Hogan
 Copyright @copyright{} 2020-2021 Empathic Qubit
 @item
 Copyright @copyright{} 2020-2021 Roberto Muscedere
+@item
+Copyright @copyright{} 2021 June Tate-Gans
 
 @item
 Copyright @copyright{} 2011-2016 Stefan Haubenthal
