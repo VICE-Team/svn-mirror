@@ -59,6 +59,7 @@ void yuv_to_rgb(int32_t y, int32_t u, int32_t v, int16_t *red, int16_t *grn, int
 
 static inline
 void store_line_and_scanline_4(
+    video_render_color_tables_t *color_tab,
     uint8_t *const line, uint8_t *const scanline,
     int16_t *const prevline, const int shade, /* ignored by RGB modes */
     const int32_t y, const int32_t u, const int32_t v)
@@ -69,12 +70,14 @@ void store_line_and_scanline_4(
 
     tmp1 = (uint32_t *) scanline;
     tmp2 = (uint32_t *) line;
-    *tmp1 = gamma_red_fac[512 + red + prevline[0]]
-            | gamma_grn_fac[512 + grn + prevline[1]]
-            | gamma_blu_fac[512 + blu + prevline[2]]
-            | alpha;
-    *tmp2 = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]
-            | alpha;
+    *tmp1 = color_tab->gamma_red_fac[512 + red + prevline[0]]
+            | color_tab->gamma_grn_fac[512 + grn + prevline[1]]
+            | color_tab->gamma_blu_fac[512 + blu + prevline[2]]
+            | color_tab->alpha;
+    *tmp2 = color_tab->gamma_red[256 + red]
+            | color_tab->gamma_grn[256 + grn]
+            | color_tab->gamma_blu[256 + blu]
+            | color_tab->alpha;
 
     prevline[0] = red;
     prevline[1] = grn;
@@ -99,10 +102,6 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
                             unsigned int xt, const unsigned int yt,
                             const unsigned int pitchs, const unsigned int pitcht,
                             viewport_t *viewport, unsigned int pixelstride,
-                            void (*store_func)(
-                                uint8_t *const line, uint8_t *const scanline,
-                                int16_t *const prevline, const int shade,
-                                int32_t l, int32_t u, int32_t v),
                             const int write_interpolated_pixels, video_render_config_t *config)
 {
     int16_t *prevrgblineptr;
@@ -204,10 +203,10 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
             tmpsrc += 1;
 #if 1
             if (write_interpolated_pixels) {
-                store_func(tmptrg1, tmptrgscanline1, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
+                store_line_and_scanline_4(color_tab, tmptrg1, tmptrgscanline1, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
                 tmptrgscanline1 += pixelstride;
                 tmptrg1 += pixelstride;
-                store_func(tmptrg2, tmptrgscanline2, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
+                store_line_and_scanline_4(color_tab, tmptrg2, tmptrgscanline2, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
                 tmptrgscanline2 += pixelstride;
                 tmptrg2 += pixelstride;
                 prevrgblineptr += 3;
@@ -219,10 +218,10 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
         }
         for (x = 0; x < width; x++) {
 #if 1
-            store_func(tmptrg1, tmptrgscanline1, prevrgblineptr, shade, l, u, v);
+            store_line_and_scanline_4(color_tab, tmptrg1, tmptrgscanline1, prevrgblineptr, shade, l, u, v);
             tmptrgscanline1 += pixelstride;
             tmptrg1 += pixelstride;
-            store_func(tmptrg2, tmptrgscanline2, prevrgblineptr, shade, l, u, v);
+            store_line_and_scanline_4(color_tab, tmptrg2, tmptrgscanline2, prevrgblineptr, shade, l, u, v);
             tmptrgscanline2 += pixelstride;
             tmptrg2 += pixelstride;
             prevrgblineptr += 3;
@@ -236,10 +235,10 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
             tmpsrc += 1;
 #if 1
             if (write_interpolated_pixels) {
-                store_func(tmptrg1, tmptrgscanline1, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
+                store_line_and_scanline_4(color_tab, tmptrg1, tmptrgscanline1, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
                 tmptrgscanline1 += pixelstride;
                 tmptrg1 += pixelstride;
-                store_func(tmptrg2, tmptrgscanline2, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
+                store_line_and_scanline_4(color_tab, tmptrg2, tmptrgscanline2, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
                 tmptrgscanline2 += pixelstride;
                 tmptrg2 += pixelstride;
                 prevrgblineptr += 3;
@@ -250,8 +249,8 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
             v = v2;
         }
         if (wlast) {
-            store_func(tmptrg1, tmptrgscanline1, prevrgblineptr, shade, l, u, v);
-            store_func(tmptrg2, tmptrgscanline2, prevrgblineptr, shade, l, u, v);
+            store_line_and_scanline_4(color_tab, tmptrg1, tmptrgscanline1, prevrgblineptr, shade, l, u, v);
+            store_line_and_scanline_4(color_tab, tmptrg2, tmptrgscanline2, prevrgblineptr, shade, l, u, v);
         }
         src += pitchs;
         trg += pitcht * 4;
@@ -268,5 +267,5 @@ void render_32_2x4_crt(video_render_color_tables_t *color_tab,
 {
     render_generic_2x4_crt(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
-                           4, store_line_and_scanline_4, 1, config);
+                           4, 1, config);
 }

@@ -52,7 +52,7 @@ void yuv_to_rgb(int32_t y, int32_t u, int32_t v,
 }
 
 static inline
-void store_pixel_4(uint8_t *trg, int32_t y1, int32_t u1, int32_t v1, int32_t y2, int32_t u2, int32_t v2)
+void store_pixel_4(video_render_color_tables_t *color_tab, uint8_t *trg, int32_t y1, int32_t u1, int32_t v1, int32_t y2, int32_t u2, int32_t v2)
 {
     uint32_t *tmp;
     int32_t red;
@@ -61,10 +61,16 @@ void store_pixel_4(uint8_t *trg, int32_t y1, int32_t u1, int32_t v1, int32_t y2,
 
     yuv_to_rgb(y1, u1, v1, &red, &grn, &blu);
     tmp = (uint32_t *) trg;
-    tmp[0] = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu] | alpha;
+    tmp[0] = color_tab->gamma_red[256 + red]
+             | color_tab->gamma_grn[256 + grn]
+             | color_tab->gamma_blu[256 + blu]
+             | color_tab->alpha;
 
     yuv_to_rgb(y2, u2, v2, &red, &grn, &blu);
-    tmp[1] = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu] | alpha;
+    tmp[1] = color_tab->gamma_red[256 + red]
+             | color_tab->gamma_grn[256 + grn]
+             | color_tab->gamma_blu[256 + blu]
+             | color_tab->alpha;
 }
 
 /* NTSC 1x1 renderers */
@@ -75,9 +81,6 @@ render_generic_1x1_ntsc(video_render_color_tables_t *color_tab, const uint8_t *s
                         unsigned int xt, const unsigned int yt,
                         const unsigned int pitchs, const unsigned int pitcht,
                         const unsigned int pixelstride,
-                        void (*store_func)(uint8_t *trg,
-                                           int32_t y1, int32_t u1, int32_t v1,
-                                           int32_t y2, int32_t u2, int32_t v2),
                         int yuvtarget)
 {
     const int32_t *cbtable = color_tab->cbtable;
@@ -136,7 +139,7 @@ render_generic_1x1_ntsc(video_render_color_tables_t *color_tab, const uint8_t *s
             u2 = (unew) * off_flip;
             v2 = (vnew) * off_flip;
 
-            store_func(tmptrg, l1, u1, v1, l2, u2, v2);
+            store_pixel_4(color_tab, tmptrg, l1, u1, v1, l2, u2, v2);
             tmptrg += pixelstride;
         }
 
@@ -155,5 +158,5 @@ render_32_1x1_ntsc(video_render_color_tables_t *color_tab,
 {
     render_generic_1x1_ntsc(color_tab, src, trg, width, height, xs, ys, xt, yt,
                             pitchs, pitcht,
-                            8, store_pixel_4, 0);
+                            8, 0);
 }

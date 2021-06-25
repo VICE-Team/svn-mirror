@@ -319,11 +319,13 @@ static void vice_directx_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t 
 static void vice_directx_set_palette(video_canvas_t *canvas)
 {
     int i;
+    video_render_color_tables_t *color_tables = &canvas->videoconfig->color_tables;
     struct palette_s *palette = canvas ? canvas->palette : NULL;
+    
     if (!palette) {
         return;
     }
-
+    
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
         uint32_t color_code = color.red | (color.green << 8) | (color.blue << 16) | (0xffU << 24);
@@ -331,9 +333,9 @@ static void vice_directx_set_palette(video_canvas_t *canvas)
     }
 
     for (i = 0; i < 256; i++) {
-        video_render_setrawrgb(i, i, i << 8, i << 16);
+        video_render_setrawrgb(color_tables, i, i, i << 8, i << 16);
     }
-    video_render_setrawalpha(0xffU << 24);
+    video_render_setrawalpha(color_tables, 0xffU << 24);
     video_render_initraw(canvas->videoconfig);
 }
 
