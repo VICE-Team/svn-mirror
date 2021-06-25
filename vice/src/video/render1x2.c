@@ -26,62 +26,77 @@
 
 #include "vice.h"
 
+#include <string.h>
+
+#include "render-common.h"
 #include "render1x2.h"
 #include "types.h"
-#include <string.h>
+#include "video.h"
 
 /* 16 color 1x2 renderer */
 
-static inline void render_source_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t *colortab,
-                                      unsigned int wstart, unsigned int wfast, unsigned int wend)
+void render_32_1x2_04_interlaced(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
+                                 unsigned int width, const unsigned int height,
+                                 const unsigned int xs, const unsigned int ys,
+                                 const unsigned int xt, const unsigned int yt,
+                                 const unsigned int pitchs, const unsigned int pitcht,
+                                 video_render_config_t *config, uint32_t scanline_color)
 {
-    unsigned int x;
+    const uint32_t *colortab = color_tab->physical_colors;
+    const uint8_t *tmpsrc;
+    uint32_t *tmptrg;
+    uint32_t *scanline = NULL;
+    unsigned int y, wstart, wfast, wend, yys;
+    int interlace_odd_frame = config->interlace_odd_frame;
+
+    src = src + pitchs * ys + xs;
+    trg = trg + pitcht * yt + (xt << 2);
+    yys = (ys << 1) | (yt & 1);
+    if (width < 8) {
+        wstart = width;
+        wfast = 0;
+        wend = 0;
+    } else {
+        /* alignment: 8 pixels*/
+        wstart = (unsigned int)8 - (vice_ptr_to_uint(trg) & 7);
+        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
+        wend = (width - wstart) & 0x07;  /* do not forget the rest*/
+    }
     
-    for (x = 0; x < wstart; x++) {
-        *tmptrg++ = colortab[*tmpsrc++];
-    }
-    for (x = 0; x < wfast; x++) {
-        tmptrg[0] = colortab[tmpsrc[0]];
-        tmptrg[1] = colortab[tmpsrc[1]];
-        tmptrg[2] = colortab[tmpsrc[2]];
-        tmptrg[3] = colortab[tmpsrc[3]];
-        tmptrg[4] = colortab[tmpsrc[4]];
-        tmptrg[5] = colortab[tmpsrc[5]];
-        tmptrg[6] = colortab[tmpsrc[6]];
-        tmptrg[7] = colortab[tmpsrc[7]];
-        tmpsrc += 8;
-        tmptrg += 8;
-    }
-    for (x = 0; x < wend; x++) {
-        *tmptrg++ = colortab[*tmpsrc++];
+    for (y = yys; y < (yys + height); y++) {
+        tmpsrc = src;
+        tmptrg = (uint32_t *)trg;
+        
+        /*
+         * If it's an even line and an even frame, or if it's an odd line
+         * and an odd frame, then this line contains new pixels from the video
+         * chip. Otherwise it contains a translucent blank line to be alpha
+         * blended with the previous frame.
+         */
+        if ((y & 1) == interlace_odd_frame) {
+            /* New pixels */
+            render_source_line(tmptrg, tmpsrc, colortab, wstart, wfast, wend);
+        } else {
+            /* Blank line */
+            if (scanline) {
+                /* Copy the first blank line we created */
+                memcpy(tmptrg, scanline, width * 4);
+            } else {
+                /* Next time, memcpy this blank line as it's much faster. */
+                scanline = tmptrg;
+                render_solid_line(tmptrg, tmpsrc, scanline_color, wstart, wfast, wend);
+            }
+        }
+        
+        if (y & 1) {
+            src += pitchs;
+        }
+        trg += pitcht;
     }
 }
 
-static inline void render_solid_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t color,
-                                      unsigned int wstart, unsigned int wfast, unsigned int wend)
-{
-    unsigned int x;
-    
-    for (x = 0; x < wstart; x++) {
-        *tmptrg++ = color;
-    }
-    for (x = 0; x < wfast; x++) {
-        tmptrg[0] = color;
-        tmptrg[1] = color;
-        tmptrg[2] = color;
-        tmptrg[3] = color;
-        tmptrg[4] = color;
-        tmptrg[5] = color;
-        tmptrg[6] = color;
-        tmptrg[7] = color;
-        tmptrg += 8;
-    }
-    for (x = 0; x < wend; x++) {
-        *tmptrg++ = color;
-    }
-}
-
-void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
+static inline
+void render_32_1x2_04_non_interlaced(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
@@ -91,7 +106,6 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_
     const uint32_t *colortab = color_tab->physical_colors;
     const uint8_t *tmpsrc;
     uint32_t *tmptrg;
-    uint32_t *blank_line = NULL;
     unsigned int y, wstart, wfast, wend, yys;
     uint32_t color;
     int readable = config->readable;
@@ -114,47 +128,21 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_
         tmpsrc = src;
         tmptrg = (uint32_t *)trg;
         
-        if (config->interlaced) {
-            /*
-             * If it's an even line and an even frame, or if it's an odd line
-             * and an odd frame, then this line contains new pixels from the video
-             * chip. Otherwise it contains a translucent blank line to be alpha
-             * blended with the previous frame.
-             */
-            if ((y & 1) == config->interlace_odd_frame) {
-                /* New pixels */
-                render_source_line(tmptrg, tmpsrc, colortab, wstart, wfast, wend);
+        /*
+         * Non-interlace code path, supporting doublescan
+         */
+        if (!(y & 1) || doublescan) {
+            if ((y & 1) && readable && y > yys) { /* copy previous line */
+                memcpy(trg, trg - pitcht, width << 2);
             } else {
-                /* Blank line */
-                if (blank_line) {
-                    /* Copy the first blank line we created */
-                    memcpy(tmptrg, blank_line, width * 4);
-                } else {
-                    /* Next time, memcpy this blank line as it's much faster. */
-                    blank_line = tmptrg;
-                    
-                    /* Create a blank line of color[0], with 50% alpha */
-                    color = (colortab[0] & 0x00ffffff) | 0x8000000;
-                    render_solid_line(tmptrg, tmpsrc, color, wstart, wfast, wend);
-                }
+                render_source_line(tmptrg, tmpsrc, colortab, wstart, wfast, wend);
             }
         } else {
-            /*
-             * Non-interlace code path, supporting doublescan
-             */
-            if (!(y & 1) || doublescan) {
-                if ((y & 1) && readable && y > yys) { /* copy previous line */
-                    memcpy(trg, trg - pitcht, width << 2);
-                } else {
-                    render_source_line(tmptrg, tmpsrc, colortab, wstart, wfast, wend);
-                }
+            if (readable && y > yys + 1) { /* copy 2 lines before */
+                memcpy(trg, trg - pitcht * 2, width << 2);
             } else {
-                if (readable && y > yys + 1) { /* copy 2 lines before */
-                    memcpy(trg, trg - pitcht * 2, width << 2);
-                } else {
-                    color = colortab[0];
-                    render_solid_line(tmptrg, tmpsrc, color, wstart, wfast, wend);
-                }
+                color = colortab[0];
+                render_solid_line(tmptrg, tmpsrc, color, wstart, wfast, wend);
             }
         }
         
@@ -162,5 +150,22 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_
             src += pitchs;
         }
         trg += pitcht;
+    }
+}
+
+void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
+                      unsigned int width, const unsigned int height,
+                      const unsigned int xs, const unsigned int ys,
+                      const unsigned int xt, const unsigned int yt,
+                      const unsigned int pitchs, const unsigned int pitcht,
+                      const unsigned int doublescan, video_render_config_t *config)
+{
+    if (config->interlaced) {
+        /* interlaced render with completely transparent scanlines */
+        render_32_1x2_04_interlaced(color_tab, src, trg, width, height, xs, ys,
+                                    xt, yt, pitchs, pitcht, config, color_tab->physical_colors[0] & 0x00ffffff);
+    } else {
+        render_32_1x2_04_non_interlaced(color_tab, src, trg, width, height, xs, ys,
+                                        xt, yt, pitchs, pitcht, doublescan, config);
     }
 }
