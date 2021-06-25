@@ -1143,6 +1143,15 @@ void sdl_video_canvas_switch(int index)
     video_viewport_resize(canvas, 1);
 }
 
+int video_arch_get_active_chip(void)
+{
+    if (sdl_active_canvas_num == VIDEO_CANVAS_IDX_VDC) {
+        return VIDEO_CHIP_VDC;
+    } else {
+        return VIDEO_CHIP_VICII;
+    }
+}
+
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
     DBG(("%s: (%p, %i)", __func__, canvas, sdl_num_screens));
