@@ -44,6 +44,7 @@ void mainlock_yield_once(void);
 
 void mainlock_obtain(void);
 void mainlock_release(void);
+void mainlock_release_if_locked(void);
 
 bool mainlock_is_vice_thread(void);
 
