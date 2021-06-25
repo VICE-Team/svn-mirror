@@ -209,8 +209,9 @@
 /* Declare extra printf specifiers for Windows since Microsoft's support for
  * C99 fucking sucks.
  *
- * This declares PRI_SIZE_T for use on all platforms, aliasing to 'zu' on
- * anything not Windows, and using PRIu[32|64] on Windows.
+ * This declares PRI_SIZE_T and PRI_SSIZE_T for use on all platforms,
+ * aliasing to 'zu'/'z' on anything not Windows, and using PRI[d|u][32|64] on
+ * Windows.
  */
 
 /** \def    PRI_SIZE_T
@@ -219,15 +220,24 @@
  * Required to work around Microsoft's broken C99 support.
  */
 
+/** \def    PRI_SSIZE_T
+ * \brief   Printf type specifier alias for 'zd'
+ *
+ * Required to work around Microsoft's broken C99 support.
+ */
+
 #ifdef _WIN32
 # include <inttypes.h>
 # ifdef _WIN64
 #  define PRI_SIZE_T    PRIu64
+#  define PRI_SSIZE_T   PRId64
 # else
 #  define PRI_SIZE_T    PRIu32
+#  define PRI_SSIZE_T   PRId32
 # endif
 #else
 # define PRI_SIZE_T     "zu"
+# define PRI_SSIZE_T    "zd"
 #endif
 
 #endif
