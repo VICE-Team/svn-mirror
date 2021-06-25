@@ -321,4 +321,34 @@ void mainlock_release(void)
     pthread_mutex_unlock(&lock);
 }
 
+
+void mainlock_release_if_locked(void)
+{
+    pthread_mutex_lock(&lock);
+
+    if (pthread_equal(pthread_self(), vice_thread)) {
+        /* See detailed comment in mainlock_obtain() */
+        printf("FIXME! VICE thread is trying to release the mainlock!\n"); fflush(stdout);
+        return;
+    }
+
+    if (ui_thread_lock_count == 0) {
+        /* Not locked */
+        pthread_mutex_unlock(&lock);
+        return;
+    }
+    
+    ui_thread_lock_count--;
+
+    if (ui_thread_lock_count) {
+        /* printf("lock count now %d, (still locked)\n", ui_thread_lock_count); */
+        pthread_mutex_unlock(&lock);
+        return;
+    }
+
+    pthread_cond_signal(&return_condition);
+
+    pthread_mutex_unlock(&lock);
+}
+
 #endif /* #ifdef USE_VICE_THREAD */
