@@ -2869,7 +2869,17 @@ static int extract_cmd_common(int nargs, char **args, int geos)
 #if 0
                         printf("got index %ld\n", idx);
 #endif
-                        snprintf(total + pathlen - 2, 3, "%02d", (int)(idx + 1));
+                        /* Looks weird, but the easiest way to silence GCC's
+                         * `-Wformat-truncation` warning about idx+1 possibly
+                         * taking more than 3 bytes. Mod 100 fixes the printing
+                         * more than 2 digits, and casting to unsigned fixes
+                         * the possibility of a negative sign.
+                         * The "%2.2u" format specifier doesn't limit the number
+                         * of digits output, it'll output 2 digits for 0-99,
+                         * but 3 digits for 100.
+                         */
+                        snprintf(total + pathlen - 2, 3, "%02u",
+                                (unsigned int)((idx + 1) % 100));
 #if 0
                         printf("new name = '%s'\n", total);
 #endif
