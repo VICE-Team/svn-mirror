@@ -32,6 +32,7 @@
 #include "render1x2.h"
 #include "render1x2crt.h"
 #include "types.h"
+#include "uimenu.h"
 #include "video-color.h"
 
 /*
@@ -268,7 +269,7 @@ void render_32_1x2_crt(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport, video_render_config_t *config)
 {
-    if (config->interlaced) {
+    if (config->interlaced && !sdl_menu_state) {
         /*
          * The interlaced path doesn't currently support the CRT filter stuff,
          * other than by allowing the previous frame to partially show through
