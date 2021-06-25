@@ -164,7 +164,6 @@ void archdep_vice_exit(int exit_code)
 
     if (pthread_equal(pthread_self(), main_thread)) {
         /* The main thread is calling this, we can shut down directly */
-        mainlock_release_if_locked();
         actually_exit(exit_code);
     } else {
         /* We need the main thread to process the exit handling. */
