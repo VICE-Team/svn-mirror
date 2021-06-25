@@ -100,6 +100,9 @@ struct video_canvas_s {
 #ifdef USE_SDLUI2
     /** \brief The texture that can be rendered to for this window and renderer. */
     SDL_Texture* texture;
+    
+    /** \brief Last frame's texture, used for interlaced modes. */
+    SDL_Texture* previous_frame_texture;
 
     /** \brief The SDL2 objects that this canvas can output to. */
     video_container_t* container;

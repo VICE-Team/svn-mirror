@@ -124,21 +124,6 @@ static void sdl_correct_logical_and_minimum_size(void);
 static int set_sdl_bitdepth(int d, void *param)
 {
     switch (d) {
-        case 8:
-            texformat = SDL_PIXELFORMAT_RGB332;
-            rmask = 0x000000e0, gmask = 0x0000001c, bmask = 0x00000003, amask = 0x00000000;
-            break;
-        case 15:
-            /* Fixme: add render support for that format */
-            return -1;
-        case 16:
-            texformat = SDL_PIXELFORMAT_RGB565;
-            rmask = 0x0000f800, gmask = 0x000007e0, bmask = 0x0000001f, amask = 0x00000000;
-            break;
-        case 24:
-            texformat = SDL_PIXELFORMAT_RGB24;
-            rmask = 0x000000ff, gmask = 0x0000ff00, bmask = 0x00ff0000, amask = 0x00000000;
-            break;
         case 32:
             texformat = SDL_PIXELFORMAT_ARGB8888;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -295,38 +280,55 @@ static int set_sdl_gl_flipy(int v, void *param)
 }
 
 
-static void sdl_ui_recreate_textures(void)
+static void recreate_canvas_textures(video_canvas_t *canvas)
+{
+    SDL_Surface *surface;
+    int width, height;
+    
+    if (!canvas || !canvas->container) {
+        return;
+    }
+
+    surface = canvas->screen;
+    if (!surface) {
+        return;
+    }
+    width = surface->w;
+    height = surface->h;
+    
+    /* This hint controls the scaling mode of textures created afterwards */
+    if (sdl_gl_filter_res == SDL_FILTER_LINEAR) {
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    } else {
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+    }
+    
+    if (canvas->texture) {
+        SDL_DestroyTexture(canvas->texture);
+    }
+    canvas->texture = SDL_CreateTexture(canvas->container->renderer, texformat, SDL_TEXTUREACCESS_STREAMING, width, height);
+    if (!canvas->texture) {
+        log_error(sdlvideo_log, "SDL_CreateTexture() failed on recreation: %s\n", SDL_GetError());
+        return;
+    }
+    
+    if (canvas->previous_frame_texture) {
+        SDL_DestroyTexture(canvas->previous_frame_texture);
+    }
+    canvas->previous_frame_texture = SDL_CreateTexture(canvas->container->renderer, texformat, SDL_TEXTUREACCESS_STREAMING, width, height);
+    if (!canvas->previous_frame_texture) {
+        log_error(sdlvideo_log, "SDL_CreateTexture() failed on recreation: %s\n", SDL_GetError());
+        return;
+    }
+}
+
+
+static void recreate_all_textures(void)
 {
     int i;
+    
     for (i = 0; i < sdl_num_screens; ++i) {
-        video_canvas_t *canvas;
-        SDL_Surface *surface;
-        SDL_Texture *texture;
-        int width, height;
-        canvas = sdl_canvaslist[i];
-        if (!canvas || !canvas->container) {
-            continue;
-        }
-        surface = canvas->screen;
-        if (!surface) {
-            continue;
-        }
-        width = surface->w;
-        height = surface->h;
-        if (sdl_gl_filter_res == SDL_FILTER_LINEAR) {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-        } else {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
-        }
-        texture = SDL_CreateTexture(canvas->container->renderer, texformat, SDL_TEXTUREACCESS_STREAMING, width, height);
-        if (!texture) {
-            log_error(sdlvideo_log, "SDL_CreateTexture() failed on recreation: %s\n", SDL_GetError());
-            return;
-        }
-        if (canvas->texture) {
-            SDL_DestroyTexture(canvas->texture);
-        }
-        canvas->texture = texture;
+        recreate_canvas_textures(sdl_canvaslist[i]);
     }
 }
 
@@ -736,6 +738,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
 {
+    SDL_Texture *texture_swap;
     uint8_t *backup;
 
     /* If the canvas isn't initialized, skip this */
@@ -793,17 +796,39 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     }
 
     if (recreate_textures) {
-        sdl_ui_recreate_textures();
+        recreate_all_textures();
         recreate_textures = 0;
         /* NOTE: The texture isn't holding the screen's values
          *       here. We can get away with that because the call to
          *       SDL_UpdateTexture below updates the entire canvas */
     }
 
+    /* Upload the new frame to the GPU texture. TODO: use SDL_LockTexture for this as the docs day it's faster. */
     SDL_UpdateTexture(canvas->texture, NULL, canvas->screen->pixels, canvas->screen->pitch);
+    
+    /* Render. */
     SDL_RenderClear(canvas->container->renderer);
+    
+    if (canvas->videoconfig->interlaced && !sdl_menu_state) {
+        /*
+         * Interlaced mode: Re-render last frame to render new frame over.
+         * We don't do this if the SDL menu is showing, otherwise the first
+         * render of the menu shows the emu screen behind it!
+         */
+        SDL_SetTextureBlendMode(canvas->previous_frame_texture, SDL_BLENDMODE_NONE);
+        SDL_RenderCopyEx(canvas->container->renderer, canvas->previous_frame_texture, NULL, NULL, 0, NULL, flip);
+        SDL_SetTextureBlendMode(canvas->texture, SDL_BLENDMODE_BLEND);
+    } else {
+        SDL_SetTextureBlendMode(canvas->texture, SDL_BLENDMODE_NONE);
+    }
     SDL_RenderCopyEx(canvas->container->renderer, canvas->texture, NULL, NULL, 0, NULL, flip);
+    
     SDL_RenderPresent(canvas->container->renderer);
+    
+    /* Swap the textures references so we can easily re-render this frame under the next frame. */
+    texture_swap = canvas->previous_frame_texture;
+    canvas->previous_frame_texture = canvas->texture;
+    canvas->texture = texture_swap;
 
     if (canvas->container->leaving_fullscreen) {
         int curr_w, curr_h, flags;
@@ -954,38 +979,20 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     canvas->height = canvas->actual_height = height;
 
     if (canvas->container->renderer) {
-        SDL_Surface *new_screen = SDL_CreateRGBSurface(0, width, height, sdl_bitdepth,
-                                                       rmask, gmask, bmask, amask);
-        SDL_Texture *new_texture;
+        SDL_Surface *new_screen;
+        
+        new_screen = SDL_CreateRGBSurface(0, width, height, sdl_bitdepth, rmask, gmask, bmask, amask);
         if (!new_screen) {
             log_error(sdlvideo_log, "SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
             return;
         }
-        if (sdl_gl_filter_res == SDL_FILTER_LINEAR) {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-        } else {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
-        }
-
-        new_texture = SDL_CreateTexture(canvas->container->renderer,
-                                        texformat, SDL_TEXTUREACCESS_STREAMING, width, height);
-        if (!new_texture) {
-            log_error(sdlvideo_log, "SDL_CreateTexture() failed: %s\n", SDL_GetError());
-            SDL_FreeSurface(new_screen);
-            return;
-        }
-
         if (canvas->screen) {
             SDL_FreeSurface(canvas->screen);
         }
-
         canvas->screen = new_screen;
-
-        if (canvas->texture) {
-            SDL_DestroyTexture(canvas->texture);
-        }
-
-        canvas->texture = new_texture;
+        
+        recreate_canvas_textures(canvas);
+        
         canvas->videoconfig->hwscale = 1;
 
         log_message(sdlvideo_log, "%s (%s) %ux%u %ibpp %s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", width, height, sdl_bitdepth, (canvas->fullscreenconfig->enable) ? " (fullscreen)" : "");
@@ -1157,12 +1164,14 @@ void sdl2_hide_second_window(void)
 
         SDL_DestroyTexture(inactive_canvas->texture);
         inactive_canvas->texture = NULL;
+        SDL_DestroyTexture(inactive_canvas->previous_frame_texture);
+        inactive_canvas->previous_frame_texture = NULL;
 
         sdl_container_destroy(inactive_container);
 
         /* Force a recretion of the textures since we have effectively changed
            our renderer, and SDL textures can't be shared between renderers. */
-        sdl_ui_recreate_textures();
+        recreate_all_textures();
 
         sdl_ui_refresh();
     }
@@ -1189,7 +1198,7 @@ void sdl2_show_second_window(void)
 
         /* Force a recretion of the textures since we have effectively changed
            our renderer, and SDL textures can't be shared between renderers. */
-        sdl_ui_recreate_textures();
+        recreate_all_textures();
         sdl_ui_refresh();
 
         SDL_RaiseWindow(active_container->window);
