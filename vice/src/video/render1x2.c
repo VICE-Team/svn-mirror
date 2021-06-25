@@ -31,6 +31,7 @@
 #include "render-common.h"
 #include "render1x2.h"
 #include "types.h"
+#include "uimenu.h"
 #include "video.h"
 
 /* 16 color 1x2 renderer */
@@ -160,7 +161,7 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan, video_render_config_t *config)
 {
-    if (config->interlaced) {
+    if (config->interlaced && !sdl_menu_state) {
         /* interlaced render with completely transparent scanlines */
         render_32_1x2_04_interlaced(color_tab, src, trg, width, height, xs, ys,
                                     xt, yt, pitchs, pitcht, config, color_tab->physical_colors[0] & 0x00ffffff);
