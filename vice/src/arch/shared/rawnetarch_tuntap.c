@@ -43,6 +43,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
+#include "archdep_defs.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -208,7 +209,9 @@ static void rawnet_arch_tuntap_transmit(int force, int onecoll, int inhibit_crc,
         log_message(rawnet_arch_log, "ERROR transmitting frame: '%s'", strerror(errno));
     } else if (res != txlength) {
         /* We should never break a frame */
-        log_message(rawnet_arch_log, "ERROR transmitting frame: only %ld of %d bytes sent", res, txlength);
+        log_message(rawnet_arch_log,
+                "ERROR transmitting frame: only %" PRI_SSIZE_T " of %d bytes sent",
+                res, txlength);
     }
 }
 
