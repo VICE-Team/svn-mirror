@@ -853,6 +853,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *palette)
 {
     unsigned int i, col = 0;
+    video_render_color_tables_t *color_tables = &canvas->videoconfig->color_tables;
     SDL_PixelFormat *fmt;
 
     DBG(("video_canvas_set_palette canvas: %p", canvas));
@@ -880,7 +881,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
 
     if (canvas->depth % 8 == 0) {
         for (i = 0; i < 256; i++) {
-            video_render_setrawrgb(i, SDL_MapRGB(fmt, (Uint8)i, 0, 0), SDL_MapRGB(fmt, 0, (Uint8)i, 0), SDL_MapRGB(fmt, 0, 0, (Uint8)i));
+            video_render_setrawrgb(color_tables, i, SDL_MapRGB(fmt, (Uint8)i, 0, 0), SDL_MapRGB(fmt, 0, (Uint8)i, 0), SDL_MapRGB(fmt, 0, 0, (Uint8)i));
         }
         video_render_initraw(canvas->videoconfig);
     }

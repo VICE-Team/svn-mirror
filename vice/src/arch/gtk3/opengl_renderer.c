@@ -699,7 +699,9 @@ static void render(void *job_data, void *pool_data)
 static void vice_opengl_set_palette(video_canvas_t *canvas)
 {
     int i;
+    video_render_color_tables_t *color_tables = &canvas->videoconfig->color_tables;
     struct palette_s *palette = canvas ? canvas->palette : NULL;
+    
     if (!palette) {
         return;
     }
@@ -711,9 +713,9 @@ static void vice_opengl_set_palette(video_canvas_t *canvas)
     }
 
     for (i = 0; i < 256; i++) {
-        video_render_setrawrgb(i, i, i << 8, i << 16);
+        video_render_setrawrgb(color_tables, i, i, i << 8, i << 16);
     }
-    video_render_setrawalpha(0xffU << 24);
+    video_render_setrawalpha(color_tables, 0xffU << 24);
     video_render_initraw(canvas->videoconfig);
 }
 
