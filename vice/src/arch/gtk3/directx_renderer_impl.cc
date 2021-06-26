@@ -92,30 +92,43 @@ static void build_render_target(vice_directx_renderer_context_t *context)
             vice_directx_impl_log_windows_error("CreateHwndRenderTarget");
             return;
         }
+
+        result =
+            context->render_target->CreateSolidColorBrush(
+                D2D1::ColorF(D2D1::ColorF::Black, 1.0f),
+                &context->black_brush);
+
+        if (FAILED(result))
+        {
+            vice_directx_impl_log_windows_error("CreateSolidColorBrush");
+            context->render_target->Release();
+            context->render_target = NULL;
+            return;
+        }
     }
 }
 
-static void build_render_bitmap(vice_directx_renderer_context_t *context, backbuffer_t *backbuffer)
+static ID2D1Bitmap *build_render_bitmap(ID2D1Bitmap *render_bitmap, vice_directx_renderer_context_t *context, backbuffer_t *backbuffer)
 {
     HRESULT result = S_OK;
 
     if (context->render_target) {
         /* If we have a bitmap, is it sill the right size? */
-        if (context->render_bitmap && (context->bitmap_width != backbuffer->width || context->bitmap_height != backbuffer->height)) {
+        if (render_bitmap && (context->bitmap_width != backbuffer->width || context->bitmap_height != backbuffer->height)) {
             /* Nope, release it and let another be created */
-            context->render_bitmap->Release();
-            context->render_bitmap = NULL;
+            render_bitmap->Release();
+            render_bitmap = NULL;
         }
 
         /* Create a bitmap, if needed */
-        if (!context->render_bitmap)
+        if (!render_bitmap)
         {
             /*
              * Create the Direct2D bitmap used to get the emu display into the gpu
              */
 
             D2D1_BITMAP_PROPERTIES bitmap_properies;
-            bitmap_properies.pixelFormat = D2D1::PixelFormat(DXGI_FORMAT_R8G8B8A8_UNORM, D2D1_ALPHA_MODE_IGNORE);
+            bitmap_properies.pixelFormat = D2D1::PixelFormat(DXGI_FORMAT_R8G8B8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED);
             bitmap_properies.dpiX = 96.0f;
             bitmap_properies.dpiY = 96.0f;
 
@@ -123,18 +136,35 @@ static void build_render_bitmap(vice_directx_renderer_context_t *context, backbu
                 context->render_target->CreateBitmap(
                     D2D1::SizeU(backbuffer->width, backbuffer->height),
                     bitmap_properies,
-                    &context->render_bitmap);
+                    &render_bitmap);
 
             if (FAILED(result))
             {
                 vice_directx_impl_log_windows_error("CreateBitmap");
+                return NULL;
             }
 
             context->bitmap_width = backbuffer->width;
             context->bitmap_height = backbuffer->height;
             context->bitmap_pixel_aspect_ratio = backbuffer->pixel_aspect_ratio;
+            context->interlaced = backbuffer->interlaced;
+        }
+
+        /* Copy the emulated screen to the Bitmap */
+        D2D1_RECT_U bitmap_rect = D2D1::RectU(0, 0, backbuffer->width, backbuffer->height);
+        result =
+            render_bitmap->CopyFromMemory(
+                &bitmap_rect,
+                backbuffer->pixel_data,
+                backbuffer->width * 4);
+
+        if (FAILED(result))
+        {
+            vice_directx_impl_log_windows_error("CopyFromMemory");
         }
     }
+
+    return render_bitmap;
 }
 
 static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_context_t *context)
@@ -221,7 +251,11 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     HDC device_context;
     PAINTSTRUCT ps;
     backbuffer_t *backbuffer;
+    backbuffer_t *backbuffers[2];
+    int backbuffer_count = 0;
+    bool interlaced;
     int filter;
+    int i;
 
     if (job == render_thread_init) {
         archdep_thread_init();
@@ -243,34 +277,46 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
 
     CANVAS_LOCK();
 
-    backbuffer = render_queue_dequeue_for_display(context->render_queue);
+    /*
+     * Correct interlaced output always requires the previous frame.
+     * Find up to 2 of the most recent frames.
+     */
+
+    for (;;) {
+        backbuffer = render_queue_dequeue_for_display(context->render_queue);
+        if (!backbuffer) {
+            break;
+        }
+
+        if (backbuffer_count == 2) {
+            /* We now have a third, discard the oldest */
+            render_queue_return_to_pool(context->render_queue, backbuffers[0]);
+            backbuffers[0] = backbuffers[1];
+            backbuffers[1] = backbuffer;
+            continue;
+        }
+
+        backbuffers[backbuffer_count++] = backbuffer;
+    }
 
     RENDER_LOCK();
 
     build_render_target(context);
-    if (backbuffer) {
-        build_render_bitmap(context, backbuffer);
-    }
 
+    for (i = 0; i < backbuffer_count; i++) {
+        backbuffer = backbuffers[i];
+
+        /* Retain the previous bitmap to use in interlaced mode */
+        ID2D1Bitmap *swap_bitmap = context->previous_frame_render_bitmap;
+        context->previous_frame_render_bitmap = context->render_bitmap;
+        context->render_bitmap = build_render_bitmap(swap_bitmap, context, backbuffer);
+    }
+    
     recalculate_layout(canvas, context);
 
+    interlaced = context->interlaced;
+
     CANVAS_UNLOCK();
-
-    if (backbuffer && context->render_bitmap)
-    {
-        /* Copy the emulated screen to the Bitmap */
-        D2D1_RECT_U bitmap_rect = D2D1::RectU(0, 0, backbuffer->width, backbuffer->height);
-        result =
-            context->render_bitmap->CopyFromMemory(
-                &bitmap_rect,
-                backbuffer->pixel_data,
-                backbuffer->width * 4);
-
-        if (FAILED(result))
-        {
-            vice_directx_impl_log_windows_error("CopyFromMemory");
-        }
-    }
 
     if (!context->render_target) {
         log_message(LOG_DEFAULT, "no render target, not rendering this frame");
@@ -286,9 +332,18 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     context->render_target->BeginDraw();
     context->render_target->SetTransform(D2D1::Matrix3x2F::Identity());
     context->render_target->Clear(&context->render_bg_colour);
+    context->render_target->FillRectangle(context->render_dest_rect, context->black_brush);
 
-    if (context->render_bitmap)
-    {
+    if (interlaced) {
+        if (context->previous_frame_render_bitmap) {
+            context->render_target->DrawBitmap(
+                context->previous_frame_render_bitmap,
+                context->render_dest_rect,
+                1.0,
+                filter ? D2D1_BITMAP_INTERPOLATION_MODE_LINEAR : D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR);
+        }
+    }
+    if (context->render_bitmap) {
         context->render_target->DrawBitmap(
             context->render_bitmap,
             context->render_dest_rect,
@@ -315,9 +370,9 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
 render_unlock_and_return_backbuffer:
     RENDER_UNLOCK();
 
-    /* Return the backbuffer to the pool */
-    if (backbuffer) {
-        render_queue_return_to_pool(context->render_queue, backbuffer);
+    /* Return the backbuffers to the pool */
+    for (i = 0; i < backbuffer_count; i++) {
+        render_queue_return_to_pool(context->render_queue, backbuffers[i]);
     }
 }
 

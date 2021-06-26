@@ -294,6 +294,7 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
 
     CANVAS_UNLOCK();
 
+    backbuffer->interlaced = canvas->videoconfig->interlaced;
     video_canvas_render(canvas, backbuffer->pixel_data, w, h, xs, ys, xi, yi, backbuffer->width * 4);
 
     CANVAS_LOCK();

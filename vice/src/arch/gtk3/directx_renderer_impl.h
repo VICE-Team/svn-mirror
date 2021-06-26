@@ -72,8 +72,14 @@ typedef struct vice_directx_renderer_context_s {
     /** \brief Direct2D render target that renders on window */
     ID2D1HwndRenderTarget *render_target;
 
+    /** \brief Black brush to render behind interlaced frames*/
+    ID2D1SolidColorBrush *black_brush;
+
     /** \brief Direct2D bitmap used to get emu bitmap into the GPU */
     ID2D1Bitmap *render_bitmap;
+
+    /** \brief Direct2D bitmap used to retain the last frame */
+    ID2D1Bitmap *previous_frame_render_bitmap;
 
     /** \brief Where emu bitmap gets placed on the target surface */
     D2D1_RECT_F render_dest_rect;
@@ -110,6 +116,9 @@ typedef struct vice_directx_renderer_context_s {
 
     /** \brief pixel aspect ratio of the next emulated frame */
     float pixel_aspect_ratio_next;
+
+    /** \brief if the next render should use interlaced mode */
+    bool interlaced;
 
 } vice_directx_renderer_context_t;
 
