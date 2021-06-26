@@ -93,6 +93,7 @@
 #include "final3.h"
 #include "formel64.h"
 #include "freezeframe.h"
+#include "freezeframe2.h"
 #include "freezemachine.h"
 #include "funplay.h"
 #include "gamekiller.h"
@@ -301,6 +302,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartff", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_FREEZE_FRAME, NULL, NULL,
       "<Name>", "Attach raw 8KiB Freeze Frame image" },
+    { "-cartff2", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_FREEZE_FRAME_MK2, NULL, NULL,
+      "<Name>", "Attach raw 16KiB Freeze Frame MK2/MK3 image" },
     { "-cartfm", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_FREEZE_MACHINE, NULL, NULL,
       "<Name>", "Attach raw 32KiB Freeze Machine image" },
@@ -942,6 +946,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return formel64_bin_attach(filename, rawcart);
         case CARTRIDGE_FREEZE_FRAME:
             return freezeframe_bin_attach(filename, rawcart);
+        case CARTRIDGE_FREEZE_FRAME_MK2:
+            return freezeframe2_bin_attach(filename, rawcart);
         case CARTRIDGE_FREEZE_MACHINE:
             return freezemachine_bin_attach(filename, rawcart);
         case CARTRIDGE_FUNPLAY:
@@ -1162,6 +1168,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_config_setup(rawcart);
+            break;
+        case CARTRIDGE_FREEZE_FRAME_MK2:
+            freezeframe2_config_setup(rawcart);
             break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_config_setup(rawcart);
@@ -1740,6 +1749,9 @@ void cart_detach(int type)
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_detach();
             break;
+        case CARTRIDGE_FREEZE_FRAME_MK2:
+            freezeframe2_detach();
+            break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_detach();
             break;
@@ -2036,6 +2048,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_config_init();
             break;
+        case CARTRIDGE_FREEZE_FRAME_MK2:
+            freezeframe2_config_init();
+            break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_config_init();
             break;
@@ -2289,6 +2304,9 @@ void cartridge_reset(void)
         case CARTRIDGE_FORMEL64:
             formel64_reset();
             break;
+        case CARTRIDGE_FREEZE_FRAME_MK2:
+            freezeframe2_reset();
+            break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_reset();
             break;
@@ -2361,7 +2379,7 @@ void cartridge_reset(void)
 /* called by cart_nmi_alarm_triggered, after an alarm occured */
 static void cart_freeze(int type)
 {
-    DBG(("CART: freeze\n"));
+    DBG(("CART: freeze (type:%d)\n", type));
     switch (type) {
         /* "Slot 0" (no freezer carts) */
         /* "Slot 1" */
@@ -2405,6 +2423,9 @@ static void cart_freeze(int type)
             break;
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_freeze();
+            break;
+        case CARTRIDGE_FREEZE_FRAME_MK2:
+            freezeframe2_freeze();
             break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_freeze();
@@ -2481,6 +2502,7 @@ int cart_freeze_allowed(void)
         case CARTRIDGE_FINAL_III:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_FRAME_MK2:
         case CARTRIDGE_FREEZE_MACHINE:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_KCS_POWER:
@@ -3073,6 +3095,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_FREEZE_FRAME_MK2:
+                if (freezeframe2_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_FREEZE_MACHINE:
                 if (freezemachine_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3636,6 +3663,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_FREEZE_FRAME:
                 if (freezeframe_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_FREEZE_FRAME_MK2:
+                if (freezeframe2_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

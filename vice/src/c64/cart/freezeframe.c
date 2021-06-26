@@ -44,7 +44,7 @@
 #include "util.h"
 #include "crt.h"
 
-/* #define FFDEBUG */
+#define FFDEBUG
 
 #ifdef FFDEBUG
 #define DBG(x) printf x
@@ -99,7 +99,7 @@ static uint8_t freezeframe_io1_peek(uint16_t addr)
 
 static void freezeframe_io1_store(uint16_t addr, uint8_t value)
 {
-    DBG(("io1 %04x %02x\n", addr, value));
+    DBG(("io1 w %04x %02x\n", addr, value));
 }
 
 static uint8_t freezeframe_io2_read(uint16_t addr)
@@ -121,7 +121,7 @@ static uint8_t freezeframe_io2_peek(uint16_t addr)
 
 static void freezeframe_io2_store(uint16_t addr, uint8_t value)
 {
-    DBG(("io2 %04x %02x\n", addr, value));
+    DBG(("io2 w %04x %02x\n", addr, value));
 }
 
 static int freezeframe_dump(void)

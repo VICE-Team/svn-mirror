@@ -106,6 +106,8 @@ libc64cart_a_SOURCES = \
 	formel64.h \
 	freezeframe.c \
 	freezeframe.h \
+	freezeframe2.c \
+	freezeframe2.h \
 	freezemachine.c \
 	freezemachine.h \
 	funplay.c \

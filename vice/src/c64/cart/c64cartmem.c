@@ -77,6 +77,7 @@
 #include "final3.h"
 #include "formel64.h"
 #include "freezeframe.h"
+#include "freezeframe2.h"
 #include "freezemachine.h"
 #include "funplay.h"
 #include "gamekiller.h"
@@ -630,6 +631,8 @@ static uint8_t roml_read_slotmain(uint16_t addr)
             return final_v1_roml_read(addr);
         case CARTRIDGE_FINAL_PLUS:
             return final_plus_roml_read(addr);
+        case CARTRIDGE_FREEZE_FRAME_MK2:
+            return freezeframe2_roml_read(addr);
         case CARTRIDGE_FREEZE_MACHINE:
             return freezemachine_roml_read(addr);
         case CARTRIDGE_GMOD2:
@@ -898,6 +901,7 @@ static uint8_t romh_read_slotmain(uint16_t addr)
         case CARTRIDGE_ACTION_REPLAY4:
         case CARTRIDGE_FINAL_III:
         case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_FRAME_MK2:
         case CARTRIDGE_FREEZE_MACHINE:
         default: /* use default cartridge */
             return generic_romh_read(addr);
@@ -1015,6 +1019,7 @@ static uint8_t ultimax_romh_read_hirom_slotmain(uint16_t addr)
         case CARTRIDGE_ACTION_REPLAY4:
         case CARTRIDGE_FINAL_III:
         case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_FRAME_MK2:
         case CARTRIDGE_FREEZE_MACHINE:
         default: /* use default cartridge */
             return generic_romh_read(addr);
