@@ -18157,16 +18157,8 @@ Response type:
 
 Response body:
 
-The length-at-the-beginning format of this object is similar to other
-response types, except for being four bytes. Also the display buffer length
-is contained inside another object instead of before the buffer.
-
 @table @strong
 @item 4 bytes: Length of the fields before the display buffer
-
-@item 4 bytes: Length of fields before reserved area
-
-@item 4 bytes: Length of display buffer = (&buffer)
 
 @item 2 bytes: Debug width of display buffer (uncropped)
 The largest width the screen gets.
@@ -18187,10 +18179,7 @@ Y offset to the inner part of the screen.
 @item 1 byte: Bits per pixel of display buffer, 8, 24 or 32
 
 
-@item 4 bytes: Length of the reserved area = (&reserved)
-
-@item (*reserved) bytes: Reserved TGA area
-
+@item 4 bytes: Length of display buffer = (&buffer)
 
 @item (*buffer) bytes: Display buffer data
 

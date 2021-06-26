@@ -1192,8 +1192,6 @@ static void monitor_binary_screenshot_line_data(screenshot_t *screenshot, uint8_
     );
 }
 
-static unsigned char* reserved_data(screenshot_t* screenshot, unsigned char *response_cursor, DISPLAY_GET_MODE mode);
-
 static void monitor_binary_process_display_get(binary_command_t *command)
 {
     screenshot_t screenshot;
@@ -1203,10 +1201,7 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     uint8_t depth;
     unsigned int i;
 
-    uint32_t main_length = 17;
-    uint32_t reserved_length = 18;
-
-    uint32_t info_length = 4 + main_length + 4 + reserved_length;
+    uint32_t info_length = 13;
 
     uint8_t use_vic = !!command->body[0];
 
@@ -1261,11 +1256,6 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     /* Length of fields before display buffer */
     response_cursor = write_uint32(info_length, response_cursor);
 
-    /* Length of fields before reserved area */
-    response_cursor = write_uint32(main_length, response_cursor);
-
-    /* Length of display buffer */
-    response_cursor = write_uint32(buffer_length, response_cursor);
     /* Full width of buffer */
     response_cursor = write_uint16(screenshot.debug_width, response_cursor);
     /* Full height of buffer */
@@ -1282,8 +1272,8 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     *response_cursor = depth;
     response_cursor++;
 
-    /* PUT NEW FIELDS BEFORE THIS */
-    response_cursor = reserved_data(&screenshot, response_cursor, format);
+    /* Length of display buffer */
+    response_cursor = write_uint32(buffer_length, response_cursor);
 
     /* Buffer Data in requested format */
     screenshot.convert_line = monitor_binary_screenshot_line_data;
@@ -1310,58 +1300,6 @@ static void monitor_binary_process_vice_info(binary_command_t *command)
     #endif
 
     monitor_binary_response(sizeof(response), e_MON_RESPONSE_VICE_INFO, e_MON_ERR_OK, command->request_id, response);
-}
-
-static unsigned char* reserved_data(screenshot_t* screenshot, unsigned char *response_cursor, DISPLAY_GET_MODE mode)
-{
-    uint8_t depth;
-    uint8_t descriptor = 0x20;
-
-    if(mode == e_DISPLAY_GET_MODE_BGRA32) {
-        depth = 32;
-        descriptor |= 8;
-    } else if(mode == e_DISPLAY_GET_MODE_BGR24) {
-        depth = 24;
-    } else if(mode == e_DISPLAY_GET_MODE_RGBA32) {
-        depth = 32;
-        descriptor |= 8;
-    } else if(mode == e_DISPLAY_GET_MODE_RGB24) {
-        depth = 24;
-    } else {
-        depth = 16;
-    }
-
-    /* Length of this section */
-    response_cursor = write_uint32(18, response_cursor);
-
-    /* ID Length - None */
-    *response_cursor = 0;
-    response_cursor++;
-    /* Color map type - No map */
-    *response_cursor = 0;
-    response_cursor++;
-    /* Image type - Unmapped RGB */
-    *response_cursor = 2;
-    response_cursor++;
-    /* Color map specs - Ignored */
-    memset(response_cursor, 0x00, 5);
-    response_cursor += 5;
-    /* X Origin - Bottom left */
-    response_cursor = write_uint16(0x00, response_cursor);
-    /* Y Origin - Bottom left */
-    response_cursor = write_uint16(screenshot->debug_height, response_cursor);
-    /* Image width */
-    response_cursor = write_uint16(screenshot->debug_width / (depth == 16 ? 2 : 1), response_cursor);
-    /* Image height */
-    response_cursor = write_uint16(screenshot->debug_height, response_cursor);
-    /* Depth */
-    *response_cursor = depth;
-    response_cursor++;
-    /* Descriptor - Upper left origin, non-interleaved */
-    *response_cursor = descriptor;
-    response_cursor++;
-
-    return response_cursor;
 }
 
 static void monitor_binary_process_mem_get(binary_command_t *command)
