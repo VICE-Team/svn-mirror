@@ -475,6 +475,8 @@ static void render(void *job_data, void *pool_data)
     video_canvas_t *canvas = pool_data;
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     backbuffer_t *backbuffer;
+    backbuffer_t *backbuffers[2];
+    int backbuffer_count = 0;
     unsigned int backbuffer_width;
     unsigned int backbuffer_height;
     float backbuffer_pixel_aspect_ratio;
@@ -484,6 +486,7 @@ static void render(void *job_data, void *pool_data)
     int trueaspect = 0;
     float scale_x;
     float scale_y;
+    int i;
 
     if (job == render_thread_init) {
         archdep_thread_init();
@@ -511,11 +514,33 @@ static void render(void *job_data, void *pool_data)
     resources_get_int("KeepAspectRatio", &keepaspect);
     resources_get_int("TrueAspectRatio", &trueaspect);
 
-    backbuffer = render_queue_dequeue_for_display(context->render_queue);
-    
+    /*
+     * Correct interlaced output always requires the previous frame.
+     * Find up to 2 of the most recent frames.
+     */
+
+    for (;;) {
+        backbuffer = render_queue_dequeue_for_display(context->render_queue);
+        if (!backbuffer) {
+            break;
+        }
+
+        if (backbuffer_count == 2) {
+            /* We now have a third, discard the oldest */
+            render_queue_return_to_pool(context->render_queue, backbuffers[0]);
+            backbuffers[0] = backbuffers[1];
+            backbuffers[1] = backbuffer;
+            continue;
+        }
+
+        backbuffers[backbuffer_count++] = backbuffer;
+    }
+
     CANVAS_LOCK();
 
-    if (backbuffer) {
+    if (backbuffer_count) {
+        backbuffer = backbuffers[backbuffer_count - 1];
+
         backbuffer_width                = backbuffer->width;
         backbuffer_height               = backbuffer->height;
         backbuffer_pixel_aspect_ratio   = backbuffer->pixel_aspect_ratio;
@@ -536,8 +561,8 @@ static void render(void *job_data, void *pool_data)
     if (!backbuffer_width || !backbuffer_height) {
         CANVAS_UNLOCK();
 
-        if (backbuffer) {
-            render_queue_return_to_pool(context->render_queue, backbuffer);
+        for (i = 0; i < backbuffer_count; i++) {
+            render_queue_return_to_pool(context->render_queue, backbuffers[i]);
         }
 
         return;
@@ -597,12 +622,11 @@ static void render(void *job_data, void *pool_data)
     glClearColor(context->native_view_bg_r, context->native_view_bg_g, context->native_view_bg_b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    /* Update the OpenGL texture with the new backbuffer bitmap */
-    if (backbuffer) {
-        /*
-         * This is a new frame, not a redraw. Retain the previous texture to use
-         * in interlaced mode, if needed.
-         */
+    /* Update the OpenGL texture(s) with the new backbuffer bitmap(s) */
+    for (i = 0; i < backbuffer_count; i++) {
+        backbuffer = backbuffers[i];
+
+        /* Retain the previous texture to use in interlaced mode */
         GLuint swap_texture = context->previous_frame_texture;
         context->previous_frame_texture = context->texture;
         context->texture = swap_texture;
@@ -622,22 +646,35 @@ static void render(void *job_data, void *pool_data)
 
     if (context->gl_context_is_legacy) {
         /* Legacy renderer */
-        float u1;
-        float v1;
-        float u2;
-        float v2;
+        float u1 = 0.0f;
+        float v1 = 0.0f;
+        float u2 = 1.0f;
+        float v2 = 1.0f;
         
         glDisable(GL_LIGHTING);
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, context->texture);
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        
-        u1 = 0.0f;
-        u2 = 1.0f;
-        v1 = 0.0f;
-        v2 = 1.0f;
 
+        if (canvas->videoconfig->interlaced) {
+            glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
+
+            glBegin(GL_TRIANGLE_STRIP);
+            glTexCoord2f(u1, v2);
+            glVertex2f(-scale_x, -scale_y);
+            glTexCoord2f(u2, v2);
+            glVertex2f(scale_x, -scale_y);
+            glTexCoord2f(u1, v1);
+            glVertex2f(-scale_x, scale_y);
+            glTexCoord2f(u2, v1);
+            glVertex2f(scale_x, scale_y);
+            glEnd();
+
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+
+        glBindTexture(GL_TEXTURE_2D, context->texture);
+        
         glBegin(GL_TRIANGLE_STRIP);
         glTexCoord2f(u1, v2);
         glVertex2f(-scale_x, -scale_y);
@@ -648,6 +685,10 @@ static void render(void *job_data, void *pool_data)
         glTexCoord2f(u2, v1);
         glVertex2f(scale_x, scale_y);
         glEnd();
+
+        if(canvas->videoconfig->interlaced) {
+            glDisable(GL_BLEND);
+        }
 
         glBindTexture(GL_TEXTURE_2D, 0);
         glDisable(GL_TEXTURE_2D);
@@ -711,8 +752,8 @@ static void render(void *job_data, void *pool_data)
     
     RENDER_UNLOCK();
 
-    if (backbuffer) {
-        render_queue_return_to_pool(context->render_queue, backbuffer);
+    for (i = 0; i < backbuffer_count; i++) {
+        render_queue_return_to_pool(context->render_queue, backbuffers[i]);
     }
 }
 

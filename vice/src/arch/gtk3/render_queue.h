@@ -27,7 +27,7 @@
 #ifndef VICE_RENDER_QUEUE_H
 #define VICE_RENDER_QUEUE_H
 
-#define RENDER_QUEUE_MAX_BACKBUFFERS 2
+#define RENDER_QUEUE_MAX_BACKBUFFERS 10
 
 #include <stdbool.h>
 
