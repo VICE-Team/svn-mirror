@@ -114,7 +114,8 @@ static ID2D1Bitmap *build_render_bitmap(ID2D1Bitmap *render_bitmap, vice_directx
 
     if (context->render_target) {
         /* If we have a bitmap, is it sill the right size? */
-        if (render_bitmap && (context->bitmap_width != backbuffer->width || context->bitmap_height != backbuffer->height)) {
+        /* HACK - need to track each bitmap size */
+        if (render_bitmap) { //} && (context->bitmap_width != backbuffer->width || context->bitmap_height != backbuffer->height)) {
             /* Nope, release it and let another be created */
             render_bitmap->Release();
             render_bitmap = NULL;
