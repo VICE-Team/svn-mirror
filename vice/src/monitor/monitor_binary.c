@@ -34,6 +34,7 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
+#include "kbdbuf.h"
 #include "monitor.h"
 #include "monitor_binary.h"
 #include "montypes.h"
@@ -253,7 +254,7 @@ void monitor_check_binary(void)
 
 #define ASC_STX 0x02
 
-#define MON_BINARY_API_VERSION 0x01
+#define MON_BINARY_API_VERSION 0x02
 
 #define MON_EVENT_ID 0xffffffff
 
@@ -668,7 +669,7 @@ static void monitor_binary_process_keyboard_feed(binary_command_t *command)
 
     body[1 + length] = '\0';
 
-    mon_keyboard_feed((char *)&body[1]);
+    kbdbuf_feed((char *)&body[1]);
 
     monitor_binary_response(0, e_MON_RESPONSE_KEYBOARD_FEED, e_MON_ERR_OK, command->request_id, NULL);
 }
@@ -1496,7 +1497,7 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
 
     command->api_version = (uint8_t)pbuffer[1];
 
-    if (command->api_version != 0x01) {
+    if (command->api_version < 0x01 || command->api_version > 0x02) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_API_VERSION, command->request_id);
         return;
     }
@@ -1654,7 +1655,7 @@ int monitor_binary_get_command_line(void)
         api_version = buffer[1];
         body_length = little_endian_to_uint32(&buffer[2]);
 
-        if (api_version == 0x01) {
+        if (api_version >= 0x01 && api_version <= 0x02) {
             remaining_header_size = 5;
         } else {
             continue;
