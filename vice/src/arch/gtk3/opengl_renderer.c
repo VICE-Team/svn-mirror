@@ -197,6 +197,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     }
 
     glGenTextures(1, &context->texture);
+    glGenTextures(1, &context->previous_frame_texture);
     
     vice_opengl_renderer_clear_current(context);
     
@@ -598,6 +599,14 @@ static void render(void *job_data, void *pool_data)
 
     /* Update the OpenGL texture with the new backbuffer bitmap */
     if (backbuffer) {
+        /*
+         * This is a new frame, not a redraw. Retain the previous texture to use
+         * in interlaced mode, if needed.
+         */
+        GLuint swap_texture = context->previous_frame_texture;
+        context->previous_frame_texture = context->texture;
+        context->texture = swap_texture;
+        
         glBindTexture(GL_TEXTURE_2D, context->texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer_width);
@@ -667,9 +676,20 @@ static void render(void *job_data, void *pool_data)
         glUniform2f(tex_size_uniform, context->native_view_width, context->native_view_height);
         glUniform1i(sampler_uniform, 0);
         
+        if (canvas->videoconfig->interlaced) {
+            glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+        
         glBindTexture(GL_TEXTURE_2D, context->texture);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
+        
+        if(canvas->videoconfig->interlaced) {
+            glDisable(GL_BLEND);
+        }
         
         glDisableVertexAttribArray(context->position_index);
         glDisableVertexAttribArray(context->tex_coord_index);
