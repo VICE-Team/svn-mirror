@@ -43,7 +43,7 @@
 #include "util.h"
 #include "crt.h"
 
-/* #define FMDEBUG */
+#define FMDEBUG
 
 #ifdef FMDEBUG
 #define DBG(x) printf x
@@ -114,7 +114,7 @@ static uint8_t freezemachine_io1_peek(uint16_t addr)
 
 static void freezemachine_io1_store(uint16_t addr, uint8_t value)
 {
-    DBG(("io1 %04x %02x\n", addr, value));
+    DBG(("io1 w %04x %02x\n", addr, value));
 }
 
 static uint8_t freezemachine_io2_read(uint16_t addr)
@@ -135,7 +135,7 @@ static uint8_t freezemachine_io2_peek(uint16_t addr)
 
 static void freezemachine_io2_store(uint16_t addr, uint8_t value)
 {
-    DBG(("io2 %04x %02x\n", addr, value));
+    DBG(("io2 w %04x %02x\n", addr, value));
 }
 
 static io_source_t freezemachine_io1_device = {

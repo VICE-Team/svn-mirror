@@ -234,7 +234,8 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_HERO                 74 /* hero.c */
 #define CARTRIDGE_IEEEFLASH64          75 /* ieeeflash64.c */
 #define CARTRIDGE_TURTLE_GRAPHICS_II   76 /* turtlegraphics.c */
-#define CARTRIDGE_LAST                 76 /* cartconv: last cartridge in list */
+#define CARTRIDGE_FREEZE_FRAME_MK2     77 /* freezeframe2.c */
+#define CARTRIDGE_LAST                 77 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -288,6 +289,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_TFE                "The Final Ethernet"
 #define CARTRIDGE_NAME_FORMEL64           "Formel 64"
 #define CARTRIDGE_NAME_FREEZE_FRAME       "Freeze Frame" /* http://rr.pokefinder.org/wiki/Freeze_Frame */
+#define CARTRIDGE_NAME_FREEZE_FRAME_MK2   "Freeze Frame MK2" /* http://rr.pokefinder.org/wiki/Freeze_Frame */
 #define CARTRIDGE_NAME_FREEZE_MACHINE     "Freeze Machine" /* http://rr.pokefinder.org/wiki/Freeze_Frame */
 #define CARTRIDGE_NAME_FUNPLAY            "Fun Play" /* also: "Power Play" */ /* http://home.nomansland.biz/~zerqent/commodore_salg/CIMG2132.JPG */
 #define CARTRIDGE_NAME_GAME_KILLER        "Game Killer" /* http://rr.pokefinder.org/wiki/Game_Killer */

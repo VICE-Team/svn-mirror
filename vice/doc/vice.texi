@@ -6519,6 +6519,8 @@ Formel 64
 @item
 Freeze Frame
 @item
+Freeze Frame MK2
+@item
 Freeze Machine
 @item
 Fun Play / Powerplay
@@ -6963,6 +6965,8 @@ The following cartridge types are valid:
 75: IEEE Flash! 64
 @item
 76: Turtle Graphics II
+@item
+77: Freeze Frame MK2
 @end itemize
 
 @vindex CartridgeFile
@@ -7582,6 +7586,10 @@ Attach raw 32KiB Final Cartridge Plus image.
 @findex -cartff
 @item -cartff <name>
 Attach raw 8KiB Freeze Frame image.
+
+@findex -cartff2
+@item -cartff2 <name>
+Attach raw 16KiB Freeze Frame MK2 image.
 
 @findex -cartfm
 @item -cartfm <name>
@@ -18896,6 +18904,8 @@ The Final Cartridge III .crt file
 Final Cartridge Plus .crt file
 @item ff
 Freeze Frame .crt file
+@item ff2
+Freeze Frame MK2 .crt file
 @item fm
 Freeze Machine .crt file
 @item fp
@@ -25316,6 +25326,7 @@ Camels"@dots{}
                       74 - H.E.R.O.
                       75 - IEEE Flash! 64
                       76 - Turtle Graphics II
+                      77 - Freeze Frame MK2
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -29316,6 +29327,44 @@ the IO lines all the time.
     Any read/write access to IO1 area will  switch  to  bank  1.  Reset will
     switch to bank 0.
 
+@c @node FIXME
+@subsubsection 77 - Freeze Frame MK2
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Load address
+@tab $8000-$BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CART RIDGE   
+0010: 00 00 00 40 01 00 00 4d 00 01 00 00 00 00 00 00  ...@...M ........
+0020: 46 72 65 65 7a 65 20 46 72 61 6d 65 20 4d 4b 32  Freeze F rame MK2
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ........ ........
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@. ......@.
+0050: 10 80 0c 80 c3 c2 cd 38 30 20 00 00 40 00 00 00  .......8 0 ..@...
+@dots{}
+4030: 02 b0 02 c6 03 60 00 00 a9 ff 85 00 a4 01 68 aa  .....`.. ......h.
+4040: 68 98 09 20 48 8a 48 4c 1b ff e0 fe 10 80 10 80  h.. H.HL ........
+@end example
+
+Warning, the following information is based on guess-work and might be
+incorrect, any further information and/or corrections are appreciated.
+
+When the cart starts, the first half of the active ROM is banked to ROML ($8000-$9fff).
+When reading from  the  I/O-2  range  the second half of the active ROM  bank
+is enabled in RMH ($A000-$BFFF). When  reading from the I/O-1 range the cart is
+disabled. 
+
+When a freeze happens the first half of the ROM is mapped to ROML ($8000-$9FFF) and
+the second half to ROMH ($E000-$FFFF).
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes
