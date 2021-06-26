@@ -344,6 +344,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
 
     CANVAS_UNLOCK();
 
+    backbuffer->interlaced = canvas->videoconfig->interlaced;
     video_canvas_render(canvas, backbuffer->pixel_data, w, h, xs, ys, xi, yi, backbuffer->width * 4);
 
     CANVAS_LOCK();
@@ -477,6 +478,7 @@ static void render(void *job_data, void *pool_data)
     backbuffer_t *backbuffer;
     backbuffer_t *backbuffers[2];
     int backbuffer_count = 0;
+    bool interlaced;
     unsigned int backbuffer_width;
     unsigned int backbuffer_height;
     float backbuffer_pixel_aspect_ratio;
@@ -550,6 +552,7 @@ static void render(void *job_data, void *pool_data)
         context->emulated_height_last_rendered      = backbuffer_height;
         context->pixel_aspect_ratio_last_rendered   = backbuffer_pixel_aspect_ratio;
         context->last_render_time                   = tick_now();
+        context->interlaced                         = backbuffer->interlaced;
     } else {
         /* Use the last rendered frame size and ratio for layout */
         backbuffer_width                = context->emulated_width_last_rendered;
@@ -568,7 +571,9 @@ static void render(void *job_data, void *pool_data)
         return;
     }
     
-    /* Recalculate layout */
+    /*
+     * Recalculate layout
+     */
 
     if (keepaspect) {
         float viewport_aspect;
@@ -609,6 +614,9 @@ static void render(void *job_data, void *pool_data)
 
     RENDER_LOCK();
     
+    /* We might just be re-rendering previous textures, which is why we jump through a few hoops */
+    interlaced = context->interlaced;
+    
     CANVAS_UNLOCK();
 
     vice_opengl_renderer_make_current(context);
@@ -619,10 +627,10 @@ static void render(void *job_data, void *pool_data)
         context->cached_vsync_resource = vsync;
     }
 
-    glClearColor(context->native_view_bg_r, context->native_view_bg_g, context->native_view_bg_b, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    /* Update the OpenGL texture(s) with the new backbuffer bitmap(s) */
+    /*
+     * Update the OpenGL texture(s) with the new backbuffer bitmap(s)
+     */
+    
     for (i = 0; i < backbuffer_count; i++) {
         backbuffer = backbuffers[i];
 
@@ -643,6 +651,13 @@ static void render(void *job_data, void *pool_data)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ? GL_LINEAR : GL_NEAREST);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
+    
+    /*
+     * Render the texture(s) to the backbuffer
+     */
+    
+    glClearColor(context->native_view_bg_r, context->native_view_bg_g, context->native_view_bg_b, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     if (context->gl_context_is_legacy) {
         /* Legacy renderer */
@@ -655,7 +670,7 @@ static void render(void *job_data, void *pool_data)
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
 
-        if (canvas->videoconfig->interlaced) {
+        if (interlaced) {
             glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
 
             glBegin(GL_TRIANGLE_STRIP);
@@ -686,7 +701,7 @@ static void render(void *job_data, void *pool_data)
         glVertex2f(scale_x, scale_y);
         glEnd();
 
-        if(canvas->videoconfig->interlaced) {
+        if(interlaced) {
             glDisable(GL_BLEND);
         }
 
@@ -717,7 +732,7 @@ static void render(void *job_data, void *pool_data)
         glUniform2f(tex_size_uniform, context->native_view_width, context->native_view_height);
         glUniform1i(sampler_uniform, 0);
         
-        if (canvas->videoconfig->interlaced) {
+        if (interlaced) {
             glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
             glEnable(GL_BLEND);
@@ -728,7 +743,7 @@ static void render(void *job_data, void *pool_data)
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
         
-        if(canvas->videoconfig->interlaced) {
+        if (interlaced) {
             glDisable(GL_BLEND);
         }
         

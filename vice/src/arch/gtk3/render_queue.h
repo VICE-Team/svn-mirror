@@ -32,6 +32,7 @@
 #include <stdbool.h>
 
 typedef struct {
+    bool interlaced;
     unsigned char *pixel_data;
     unsigned int pixel_data_size_bytes;
     unsigned int width;
