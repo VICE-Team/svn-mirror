@@ -130,6 +130,9 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief The texture identifier for the GPU's copy of our  machine display. */
     GLuint texture;
 
+    /** \brief The texture identifier for the GPU's copy of our  machine display. */
+    GLuint previous_frame_texture;
+
     /** \brief size of the next frame to be emulated */
     unsigned int emulated_width_next;
     
