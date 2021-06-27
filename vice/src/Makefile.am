@@ -1610,6 +1610,8 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 	libscpu64 libdiag libdatasette libjoystickdrv \
 	@RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
+info.c: infocontrib.h
+
 $(arch_gtk3_widgets_lib):
 	@(echo "making libwidgets.a")
 	@(cd arch/gtk3/widgets && $(MAKE) libwidgets.a)
