@@ -32,5 +32,8 @@
 #include <gtk/gtk.h>
 
 GtkWidget *video_render_filter_widget_create(const char *chip);
+void video_render_filter_widget_add_callback(
+        GtkWidget *widget,
+        void (*callback)(GtkWidget *, int));
 
 #endif

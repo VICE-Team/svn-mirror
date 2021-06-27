@@ -73,6 +73,22 @@ GtkWidget *video_render_filter_widget_create(const char *chip)
             "%sFilter", filters, GTK_ORIENTATION_VERTICAL, chip);
     g_object_set(render_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), render_widget, 0, 1, 1, 1);
+
     gtk_widget_show_all(grid);
     return grid;
+}
+
+
+/** \brief  Set callback function to trigger on radio button toggles
+ *
+ * \param[in,out]   widget      render filter widget
+ * \param[in]       callback    function accepting the radio button and its value
+ */
+void video_render_filter_widget_add_callback(GtkWidget *widget,
+                                             void (*callback)(GtkWidget *, int))
+{
+    GtkWidget *group;
+
+    group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    vice_gtk3_resource_radiogroup_add_callback(group, callback);
 }
