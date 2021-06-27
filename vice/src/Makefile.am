@@ -1635,16 +1635,6 @@ endif
 .PHONY: c1541-all
 c1541-all: \
 	$(BUILT_SOURCES) \
-	libtoolarch \
-	libp64 \
-	libvdrive \
-	libdiskimage \
-	libserial \
-	libtape \
-	libimagecontents \
-	libfileio \
-	libsocketdrv \
-	liblinenoise_ng \
 	c1541$(EXEEXT)
 
 # distclean
@@ -1678,7 +1668,8 @@ $(arch_gtk3_lib):
 	@(echo "making gtk3 data")
 	@(cd arch/gtk3/data && $(MAKE))
 libtoolarch:
-	@(cd arch && $(MAKE))
+$(toolarch_lib):
+	@(cd $(ARCH_DIR) && $(MAKE) libtoolarch.a)
 libarchdep:
 ${archdep_lib}:
 	@(echo "making libarchdep.a")
@@ -1828,6 +1819,7 @@ $(iodrv_lib):
 	@echo "making all in iodrv"
 	@(cd iodrv && $(MAKE))
 liblinenoise_ng:
+$(linenoise_ng_lib):
 	@echo "making liblinenoise_ng.a in lib/linenoise-ng"
 	@(cd lib/linenoise-ng && $(MAKE))
 libmascuerade:
