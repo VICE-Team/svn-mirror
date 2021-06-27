@@ -17539,6 +17539,7 @@ mentioned above.
 * MON_CMD_REGISTERS_AVAILABLE::
 * MON_CMD_DISPLAY_GET::
 * MON_CMD_VICE_INFO::
+* MON_CMD_PALETTE_GET::
 * MON_CMD_EXIT::
 * MON_CMD_QUIT::
 * MON_CMD_RESET::
@@ -17994,13 +17995,14 @@ Add text to the keyboard buffer.
 
 Minimum VICE version: 3.5
 
+Minimum API version: 2
+
 Command body:
 
 @table @strong
 @item byte 0: Length of text
 
-@item byte 1+: The text
-Special characters such as return are escaped with backslashes.
+@item byte 1+: The text, in PETSCII
 
 @end table
 
@@ -18143,6 +18145,8 @@ Gets the current screen in a requested bit format.
 
 Minimum VICE version: 3.5
 
+Minimum API version: 2
+
 Command body:
 
 @table @strong
@@ -18152,10 +18156,6 @@ returned will be from the VIC-II. If false (0x00), it will be from the VDC.
 
 @item byte 1: Format
 0x00: Indexed, 8 bit@*
-0x01: RGB, 24 bit@*
-0x02: BGR, 24 bit@*
-0x03: RGBA, 32 bit@*
-0x04: BGRA, 32 bit@*
 
 @end table
 
@@ -18184,7 +18184,7 @@ Y offset to the inner part of the screen.
 
 @item 2 bytes: Height of the inner part of the screen.
 
-@item 1 byte: Bits per pixel of display buffer, 8, 24 or 32
+@item 1 byte: Bits per pixel of display buffer, 8
 
 
 @item 4 bytes: Length of display buffer = (&buffer)
@@ -18220,6 +18220,48 @@ In linear format. For example 0x03, 0x05, 0x00, 0x00 for 3.5.0.0
 
 @item (*rev) bytes: SVN revision
 In little endian format. Returns zero if it's not an SVN build.
+
+@end table
+
+@node MON_CMD_PALETTE_GET
+@subsection Palette get (0x91)
+
+Get the colors in the current palette
+
+Minimum VICE version: 3.6
+
+Command body:
+
+@table @strong
+@item byte 0: USE VIC-II? 
+Must be included, but ignored for all but the C128. If true, (0x01) the screen
+returned will be from the VIC-II. If false (0x00), it will be from the VDC.
+
+@end table
+
+Response type:
+
+0x91: MON_RESPONSE_PALETTE_GET
+
+Response body:
+
+@table @strong
+@item byte 0-1: The number of palette items.
+
+@item byte 2+: An array with items of structure:
+
+@table @strong
+@item byte 0: Size of the item, excluding this byte
+
+@item byte 1: Red
+
+@item byte 2: Green
+
+@item byte 3: Blue
+
+@item byte 4: Dithering value
+
+@end table
 
 @end table
 
