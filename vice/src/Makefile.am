@@ -1087,25 +1087,6 @@ vsid-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
-	libvsid \
-	libraster \
-	libsid \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhvsc \
-	libhwsiddrv \
-	libiodrv \
-	libviciivsid \
-	libvideo \
-	libarch \
-	libarchdep \
-	libmonitor \
-	libserial \
-	libcore \
-	libjoyport \
-	libjoystickdrv \
-	libdatasette \
 	vsid$(EXEEXT)
 
 # x64
@@ -2207,6 +2188,7 @@ $(viciisc_lib):
 	@echo "making libviciisc.a in viciisc"
 	@(cd viciisc && $(MAKE) libviciisc.a)
 libviciivsid:
+$(viciivsid_lib):
 	@echo "making libviciivsid.a in viciivsid"
 	@(cd viciivsid && $(MAKE) libviciivsid.a)
 libvideo:
@@ -2214,6 +2196,7 @@ $(video_lib):
 	@echo "making all in video"
 	@(cd video && $(MAKE))
 libvsid:
+$(vsid_lib):
 	@echo "making libvsid.a in c64"
 	@(cd c64 && $(MAKE) psiddrv.h libvsid.a)
 
