@@ -1540,47 +1540,6 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 .PHONY: xplus4-all
 xplus4-all: \
 	$(BUILT_SOURCES) \
-	libdatasette \
-	libdiag \
-	libdriveiec \
-	libdriveiecieee \
-	libdriveiecplus4exp \
-	libdrivetcbm \
-	libdrive \
-	libdriveieee \
-	libparallel \
-	libp64 \
-	libvdrive \
-	libraster \
-	libsamplerdrv \
-	libjoyport \
-	libjoystickdrv \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhwsiddrv \
-	libhvsc \
-	libiodrv \
-	libgfxoutputdrv \
-	libprinterdrv \
-	librs232drv \
-	libplus4 \
-	libplus4cart \
-	libvideo \
-	libsid \
-	libarch \
-	libmonitor \
-	libdiskimage \
-	libiecbus \
-	libserial \
-	libfsdevice \
-	libtape \
-	libimagecontents \
-	libfileio \
-	libcore \
-	librtc \
-	libuserport \
-	libtapeport \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	xplus4$(EXEEXT)
@@ -1867,6 +1826,7 @@ libdriveiecieee:
 $(driveiecieee_lib):
 	@(cd drive/iecieee && $(MAKE))
 libdriveiecplus4exp:
+$(driveiecplus4exp_lib):
 	@(cd drive/iec/plus4exp && $(MAKE))
 libdriveieee:
 $(driveieee_lib):
@@ -1932,9 +1892,11 @@ $(pet_lib):
 	@echo "making all in pet"
 	@(cd pet && $(MAKE))
 libplus4:
+$(plus4_lib):
 	@echo "making all in plus4"
-	@(cd plus4 && $(MAKE))
+	@(cd plus4 && $(MAKE) libplus4.a)
 libplus4cart:
+$(plus4cart_lib):
 	@echo "making libplus4cart.a in plus4/cart"
 	@(cd plus4/cart && $(MAKE) libplus4cart.a)
 libprinterdrv:
