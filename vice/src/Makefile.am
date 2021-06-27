@@ -1315,50 +1315,6 @@ xscpu64_LDFLAGS = @xscpu64_LDFLAGS@
 .PHONY: xscpu64-all
 xscpu64-all: \
 	$(BUILT_SOURCES) \
-	libscpu64 \
-	libc64scpu64 \
-	libc64cartsystem \
-	libc64cart \
-	libc64commoncart \
-	libdatasette \
-	libsamplerdrv \
-	libjoyport \
-	libjoystickdrv \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhwsiddrv \
-	libhvsc \
-	libiodrv \
-	libgfxoutputdrv \
-	libprinterdrv \
-	librs232drv \
-	libdiag \
-	libdriveiec \
-	libdriveiecieee \
-	libdriveiecc64exp \
-	libdriveieee \
-	libdrive \
-	libdrivetcbm \
-	libp64 \
-	libparallel \
-	libvdrive \
-	libarch \
-	libsid \
-	libviciisc \
-	libvideo \
-	libraster \
-	libmonitor \
-	libdiskimage \
-	libiecbus \
-	libserial \
-	libfsdevice \
-	libtape \
-	libimagecontents \
-	libfileio \
-	libcore \
-	librtc \
-	libuserport \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	xscpu64$(EXEEXT)
@@ -1938,6 +1894,7 @@ $(c64_lib):
 	@echo "making libc64.a in c64"
 	@(cd c64 && $(MAKE) libc64.a)
 libscpu64:
+$(scpu64_lib):
 	@echo "making libscpu64.a in scpu64"
 	@(cd scpu64 && $(MAKE) libscpu64.a)
 libc64sc:
@@ -1949,6 +1906,7 @@ $(c64c128_lib):
 	@echo "making libc64c128.a in c64"
 	@(cd c64 && $(MAKE) libc64c128.a)
 libc64scpu64:
+$(c64scpu64_lib):
 	@echo "making libc64scpu64.a in c64"
 	@(cd c64 && $(MAKE) libc64scpu64.a)
 libc64c64dtv:
