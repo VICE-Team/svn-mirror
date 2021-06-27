@@ -263,10 +263,15 @@ void vdc_store(uint16_t addr, uint8_t value)
             break;
 
         case 8:                 /* R08  Interlace and Skew */
-            if ((vdc.regs[8] & 0x03) == 3)  {   /* interlace */
+            if ((vdc.regs[8] & 0x03) == 3)  {   /* interlace sync and video */
                 vdc.interlaced = 1;
                 vdc.raster.canvas->videoconfig->interlaced = 1;
-            } else {
+            } else if ((vdc.regs[8] & 0x03) == 1)  {   /* interlace sync */
+                /* we don't set vdc.interlaced here because in interlace sync the fields are identical,
+                   they are just offset, so the VDC behaviour doesn't change, only the renderer */
+                vdc.interlaced = 0;
+                vdc.raster.canvas->videoconfig->interlaced = 1;
+            } else {    /* 0x00 or 0x02 are non-interlaced */
                 vdc.interlaced = 0;
                 vdc.raster.canvas->videoconfig->interlaced = 0;
             }
@@ -651,7 +656,13 @@ int vdc_dump(void *context, uint16_t addr)
     mon_out(vdc.regs[25] & 0x40 ? " & Attributes" : ", no Attributes");
     mon_out(vdc.regs[25] & 0x20 ? ", Semigraphic" : "");
     mon_out(vdc.regs[24] & 0x40 ? ", Reverse" : "");
-    mon_out(vdc.regs[8] & 0x03 ? ", Interlaced" : ", Non-Interlaced");
+    if ((vdc.regs[8] & 0x03) == 3)  {   /* interlace sync and video */
+        mon_out(", Interlaced Sync & Video");
+    } else if ((vdc.regs[8] & 0x03) == 1)  {   /* interlace sync */
+        mon_out(", Interlaced Sync");
+    } else {    /* 0x00 or 0x02 are non-interlaced */
+        mon_out(", Non-Interlaced");
+    }
     if (vdc.regs[25] & 0x10) { /* double pixel mode aka 40column mode */
         mon_out(", Pixel Double");
         mon_out("\nScreen Size    : %d x %d chars", vdc.regs[1], vdc.regs[6]);
