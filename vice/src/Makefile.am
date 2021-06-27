@@ -1600,15 +1600,7 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 \
-	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv \
-	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv \
-	libmididrv libsocketdrv libhwsiddrv libiodrv libdiskimage libfsdevice \
-	libtape libarch libtoolarch libarchdep libvicii libviciisc libviciidtv \
-	libviciivsid libvdc libsid libcrtc libvideo libserial libparallel \
-	libcore libiecbus libfileio librtc libuserport libtapeport libp64 \
-	libscpu64 libdiag libdatasette libjoystickdrv \
-	@RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
+.PHONY: @RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
 info.c: infocontrib.h
 
@@ -1621,7 +1613,6 @@ $(arch_gtk3_base_widgets_lib):
 $(arch_gtk3_novte_lib):
 	@(echo "making libnovte.a")
 	@(cd arch/gtk3/novte && $(MAKE))
-libarch:
 $(arch_gtk3_lib):
 	@(echo "making libarch.a")
 	@(cd arch && $(MAKE) libarch)
@@ -1637,294 +1628,219 @@ endif
 $(arch_headless_lib):
 	@(echo "making libarch.a")
 	@(cd arch && $(MAKE) libarch)
-libtoolarch:
 $(toolarch_lib):
 	@(cd $(ARCH_DIR) && $(MAKE) libtoolarch.a)
-libarchdep:
 ${archdep_lib}:
 	@(echo "making libarchdep.a")
 	@(cd arch/shared && $(MAKE))
-libc128:
 ${c128_lib}:
 	@echo "making all in c128"
 	@(cd c128 && $(MAKE))
-libc64:
 $(c64_lib):
 	@echo "making libc64.a in c64"
 	@(cd c64 && $(MAKE) libc64.a)
-libscpu64:
 $(scpu64_lib):
 	@echo "making libscpu64.a in scpu64"
 	@(cd scpu64 && $(MAKE) libscpu64.a)
-libc64sc:
 $(c64sc_lib):
 	@echo "making libc64sc.a in c64"
 	@(cd c64 && $(MAKE) libc64sc.a)
-libc64c128:
 $(c64c128_lib):
 	@echo "making libc64c128.a in c64"
 	@(cd c64 && $(MAKE) libc64c128.a)
-libc64scpu64:
 $(c64scpu64_lib):
 	@echo "making libc64scpu64.a in c64"
 	@(cd c64 && $(MAKE) libc64scpu64.a)
-libc64c64dtv:
 $(c64c64dtv_lib):
 	@echo "making libc64c64dtv.a in c64"
 	@(cd c64 && $(MAKE) libc64c64dtv.a)
-libc64cart:
 $(c64cart_lib):
 	@echo "making libc64cart in c64"
 	@(cd c64 && $(MAKE) libc64cart)
-libc64cartsystem:
 $(c64cartsystem_lib):
 	@echo "making libc64cartsystem in c64"
 	@(cd c64 && $(MAKE) libc64cartsystem)
-libc64commoncart:
 $(c64commoncart_lib):
 	@echo "making libc64commoncart in c64"
 	@(cd c64 && $(MAKE) libc64commoncart)
-libc64dtv:
 $(c64dtv_lib):
 	@echo "making libc64dtv.a in c64dtv"
 	@(cd c64dtv && $(MAKE) libc64dtv.a)
-libc64dtvstubs:
 $(c64dtvstubs_lib):
 	@echo "making libc64dtvstubs.a in c64dtv"
 	@(cd c64dtv && $(MAKE) libc64dtvstubs.a)
-libcbm2:
 $(xcbm2_lib):
 	@echo "making libcbm2.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm2.a)
-libcbm5x0:
 $(xcbm5x0_lib):
 	@echo "making libcbm5x0.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm5x0.a)
-libcbm2cart:
 $(cbm2cart_lib):
 	@echo "making libcbm2cart in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm2cart)
-libcore:
 $(core_lib):
 	@echo "making all in core"
 	@(cd core && $(MAKE))
-libcrtc:
 $(crtc_lib):
 	@echo "making all in crtc"
 	@(cd crtc && $(MAKE))
-libdatasette:
 $(datasette_lib):
 	@echo "making all in datasette"
 	@(cd datasette && $(MAKE))
-libdiag:
 $(diag_lib):
 	@echo "making all in diag"
 	@(cd diag && $(MAKE))
-libdiskimage:
 $(diskimage_lib):
 	@echo "making all in diskimage"
 	@(cd diskimage && $(MAKE))
-libdrive:
 $(drive_lib):
 	@echo "making all in drive"
 	@(cd drive && $(MAKE) libdrive.a)
-libp64:
 $(p64_lib):
 	@echo "making libp64 in lib"
 	@(cd lib && $(MAKE) libp64)
-libdriveiec:
 $(driveiec_lib):
 	@(cd drive/iec && $(MAKE) libdriveiec.a)
-libdriveiec128dcr:
 $(driveiec128dcr_lib):
 	@(cd drive/iec128dcr && $(MAKE))
-libdriveiecc64exp:
 $(driveiecc64exp_lib):
 	@(cd drive/iec/c64exp && $(MAKE))
-libdriveiecieee:
 $(driveiecieee_lib):
 	@(cd drive/iecieee && $(MAKE))
-libdriveiecplus4exp:
 $(driveiecplus4exp_lib):
 	@(cd drive/iec/plus4exp && $(MAKE))
-libdriveieee:
 $(driveieee_lib):
 	@(cd drive/ieee && $(MAKE))
-libdrivetcbm:
 $(drivetcbm_lib):
 	@(cd drive/tcbm && $(MAKE))
-libffmpeg:
 $(ffmpeg_libs):
 	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1)
-libfileio:
 $(fileio_lib):
 	@echo "making all in fileio"
 	@(cd fileio && $(MAKE))
-libfsdevice:
 $(fsdevice_lib):
 	@echo "making all in fsdevice"
 	@(cd fsdevice && $(MAKE))
-libgfxoutputdrv:
 $(gfxoutputdrv_lib):
 	@echo "making all in gfxoutputdrv"
 	@(cd gfxoutputdrv && $(MAKE))
-libhvsc:
 $(hvsc_lib):
 	@echo "making all in hvsc"
 	@(cd hvsc && $(MAKE))
-libhwsiddrv:
 $(hwsiddrv_lib):
 	@echo "making all in hwsiddrv"
 	@(cd hwsiddrv && $(MAKE))
-libiecbus:
 $(iecbus_lib):
 	@echo "making all in iecbus"
 	@(cd iecbus && $(MAKE))
-libimagecontents:
 $(imagecontents_lib):
 	@echo "making all in imagecontents"
 	@(cd imagecontents && $(MAKE))
-libiodrv:
 $(iodrv_lib):
 	@echo "making all in iodrv"
 	@(cd iodrv && $(MAKE))
-liblinenoise_ng:
 $(linenoise_ng_lib):
 	@echo "making liblinenoise_ng.a in lib/linenoise-ng"
 	@(cd lib/linenoise-ng && $(MAKE))
-libmascuerade:
 $(mascuerade_lib):
 	@echo "making libmascuerade.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libmascuerade.a)
-libmididrv:
 $(mididrv_lib):
 	@echo "making libmididrv.a in mididrv"
 	@(cd mididrv && $(MAKE) libmididrv.a)
-libmonitor:
 $(monitor_lib):
 	@echo "making all in monitor"
 	@(cd monitor && $(MAKE))
-libparallel:
 $(parallel_lib):
 	@echo "making all in parallel"
 	@(cd parallel && $(MAKE))
-libpet:
 $(pet_lib):
 	@echo "making all in pet"
 	@(cd pet && $(MAKE))
-libplus4:
 $(plus4_lib):
 	@echo "making all in plus4"
 	@(cd plus4 && $(MAKE) libplus4.a)
-libplus4cart:
 $(plus4cart_lib):
 	@echo "making libplus4cart.a in plus4/cart"
 	@(cd plus4/cart && $(MAKE) libplus4cart.a)
-libprinterdrv:
 $(printerdrv_lib):
 	@echo "making all in printerdrv"
 	@(cd printerdrv && $(MAKE))
-librs232drv:
 $(rs232drv_lib):
 	@echo "making all in rs232drv"
 	@(cd rs232drv && $(MAKE))
-libraster:
 $(raster_lib):
 	@echo "making libraster.a in raster"
 	@(cd raster && $(MAKE) libraster.a)
-librtc:
 $(rtc_lib):
 	@echo "making librtc.a in rtc"
 	@(cd rtc && $(MAKE) librtc.a)
-libresid:
 $(resid_lib):
 	@echo "making all in resid"
 	@(cd resid && $(MAKE))
-libresiddtv:
 $(resid_dtv_lib):
 	@echo "making libresiddtv.a in resid-dtv"
 	@(cd resid-dtv && $(MAKE) libresiddtv.a)
-libsamplerdrv:
 $(samplerdrv_lib):
 	@echo "making all in samplerdrv"
 	@(cd samplerdrv && $(MAKE))
-libjoyport:
 $(joyport_lib):
 	@echo "making all in joyport"
 	@(cd joyport && $(MAKE))
-libjoystickdrv:
 $(joystickdrv_lib):
 	@echo "making all in joystickdrv"
 	@(cd joystickdrv && $(MAKE))
-libserial:
 $(serial_lib):
 	@echo "making all in serial"
 	@(cd serial && $(MAKE))
-libsid:
 $(sid_lib):
 	@echo "making libsid.a in sid"
 	@(cd sid && $(MAKE) libsid.a)
-libsid_dtv:
 $(sid_dtv_lib):
 	@echo "making libsid_dtv.a in sid"
 	@(cd sid && $(MAKE) libsid_dtv.a)
-libsocketdrv:
 $(socketdrv_lib):
 	@echo "making libsocketdrv.a in socketdrv"
 	@(cd socketdrv && $(MAKE) libsocketdrv.a)
-libsounddrv:
 $(sounddrv_lib):
 	@echo "making all in sounddrv"
 	@(cd sounddrv && $(MAKE))
-libtape:
 $(tape_lib):
 	@echo "making all in tape"
 	@(cd tape && $(MAKE))
-libtapeport:
 $(tapeport_lib):
 	@echo "making all in tapeport"
 	@(cd tapeport && $(MAKE))
-libuserport:
 $(userport_lib):
 	@echo "making all in userport"
 	@(cd userport && $(MAKE))
-libvdc:
 $(vdc_lib):
 	@echo "making all in vdc"
 	@(cd vdc && $(MAKE))
-libvdrive:
 $(vdrive_lib):
 	@echo "making all in vdrive"
 	@(cd vdrive && $(MAKE))
-libvic20:
 $(vic20_lib):
 	@echo "making all in vic20"
 	@(cd vic20 && $(MAKE) libvic20.a)
-libvic20cart:
 $(vic20cart_lib):
 	@echo "making libvic20cart.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libvic20cart.a)
-libvicii:
 $(vicii_lib):
 	@echo "making libvicii.a in vicii"
 	@(cd vicii && $(MAKE) libvicii.a)
-libviciidtv:
 $(viciidtv_lib):
 	@echo "making libviciidtv.a in vicii"
 	@(cd vicii && $(MAKE) libviciidtv.a)
-libviciisc:
 $(viciisc_lib):
 	@echo "making libviciisc.a in viciisc"
 	@(cd viciisc && $(MAKE) libviciisc.a)
-libviciivsid:
 $(viciivsid_lib):
 	@echo "making libviciivsid.a in viciivsid"
 	@(cd viciivsid && $(MAKE) libviciivsid.a)
-libvideo:
 $(video_lib):
 	@echo "making all in video"
 	@(cd video && $(MAKE))
-libvsid:
 $(vsid_lib):
 	@echo "making libvsid.a in c64"
 	@(cd c64 && $(MAKE) psiddrv.h libvsid.a)
