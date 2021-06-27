@@ -1242,50 +1242,6 @@ x64sc-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
-	libc64sc \
-	libc64cartsystem \
-	libc64cart \
-	libc64commoncart \
-	libdatasette \
-	libdiag \
-	libdriveiec \
-	libdriveiecieee \
-	libdriveiecc64exp \
-	libdriveieee \
-	libdrive \
-	libdrivetcbm \
-	libp64 \
-	libparallel \
-	libvdrive \
-	libraster \
-	libsid \
-	libsamplerdrv \
-	libjoyport \
-	libjoystickdrv \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhwsiddrv \
-	libhvsc \
-	libiodrv \
-	libgfxoutputdrv \
-	libprinterdrv \
-	librs232drv \
-	libviciisc \
-	libvideo \
-	libarch \
-	libmonitor \
-	libdiskimage \
-	libiecbus \
-	libserial \
-	libfsdevice \
-	libtape \
-	libimagecontents \
-	libfileio \
-	libcore \
-	librtc \
-	libuserport \
-	libtapeport \
 	x64sc$(EXEEXT)
 
 # x64dtv
@@ -2037,12 +1993,14 @@ ${c128_lib}:
 	@echo "making all in c128"
 	@(cd c128 && $(MAKE))
 libc64:
+$(c64_lib):
 	@echo "making libc64.a in c64"
 	@(cd c64 && $(MAKE) libc64.a)
 libscpu64:
 	@echo "making libscpu64.a in scpu64"
 	@(cd scpu64 && $(MAKE) libscpu64.a)
 libc64sc:
+$(c64sc_lib):
 	@echo "making libc64sc.a in c64"
 	@(cd c64 && $(MAKE) libc64sc.a)
 libc64c128:
@@ -2279,6 +2237,7 @@ libviciidtv:
 	@echo "making libviciidtv.a in vicii"
 	@(cd vicii && $(MAKE) libviciidtv.a)
 libviciisc:
+$(viciisc_lib):
 	@echo "making libviciisc.a in viciisc"
 	@(cd viciisc && $(MAKE) libviciisc.a)
 libviciivsid:
