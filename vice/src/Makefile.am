@@ -1409,48 +1409,6 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 .PHONY: xvic-all
 xvic-all: \
 	$(BUILT_SOURCES) \
-	libdatasette \
-	libdiag \
-	libdriveiec \
-	libdriveiecieee \
-	libdriveieee \
-	libdrive \
-	libdrivetcbm \
-	libp64 \
-	libparallel \
-	libvdrive \
-	libraster \
-	libsamplerdrv \
-	libjoyport \
-	libjoystickdrv \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhwsiddrv \
-	libhvsc \
-	libiodrv \
-	libgfxoutputdrv \
-	libprinterdrv \
-	librs232drv \
-	libvic20 \
-	libvic20cart \
-	libc64commoncart \
-	libmascuerade \
-	libvideo \
-	libarch \
-	libmonitor \
-	libdiskimage \
-	libiecbus \
-	libserial \
-	libsid \
-	libfsdevice \
-	libtape \
-	libimagecontents \
-	libfileio \
-	libcore \
-	librtc \
-	libuserport \
-	libtapeport \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	xvic$(EXEEXT)
@@ -1873,6 +1831,7 @@ liblinenoise_ng:
 	@echo "making liblinenoise_ng.a in lib/linenoise-ng"
 	@(cd lib/linenoise-ng && $(MAKE))
 libmascuerade:
+$(mascuerade_lib):
 	@echo "making libmascuerade.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libmascuerade.a)
 libmididrv:
@@ -1976,9 +1935,11 @@ $(vdrive_lib):
 	@echo "making all in vdrive"
 	@(cd vdrive && $(MAKE))
 libvic20:
+$(vic20_lib):
 	@echo "making all in vic20"
-	@(cd vic20 && $(MAKE))
+	@(cd vic20 && $(MAKE) libvic20.a)
 libvic20cart:
+$(vic20cart_lib):
 	@echo "making libvic20cart.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libvic20cart.a)
 libvicii:
