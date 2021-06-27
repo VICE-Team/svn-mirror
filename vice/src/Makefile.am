@@ -1134,50 +1134,6 @@ x64-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
-	libc64 \
-	libc64cartsystem \
-	libc64cart \
-	libc64commoncart \
-	libdatasette \
-	libdiag \
-	libdriveiec \
-	libdriveiecieee \
-	libdriveiecc64exp \
-	libdriveieee \
-	libdrive \
-	libdrivetcbm \
-	libp64 \
-	libparallel \
-	libvdrive \
-	libraster \
-	libsid \
-	libsamplerdrv \
-	libjoyport \
-	libjoystickdrv \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhwsiddrv \
-	libhvsc \
-	libiodrv \
-	libgfxoutputdrv \
-	libprinterdrv \
-	librs232drv \
-	libvicii \
-	libvideo \
-	libarch \
-	libmonitor \
-	libdiskimage \
-	libiecbus \
-	libserial \
-	libfsdevice \
-	libtape \
-	libimagecontents \
-	libfileio \
-	libcore \
-	librtc \
-	libuserport \
-	libtapeport \
 	x64$(EXEEXT)
 
 # x64sc
