@@ -953,6 +953,7 @@ arch_gtk3_lib = $(top_builddir)/src/arch/gtk3/libarch.a
 arch_gtk3_widgets_lib = $(top_builddir)/src/arch/gtk3/widgets/libwidgets.a
 arch_gtk3_base_widgets_lib = $(top_builddir)/src/arch/gtk3/widgets/base/libbasewidgets.a
 arch_gtk3_novte_lib = $(top_builddir)/src/arch/gtk3/novte/libnovte.a
+arch_sdl_lib = $(top_builddir)/src/arch/sdl/libarch.a
 archdep_lib = $(top_builddir)/src/arch/shared/libarchdep.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
@@ -1623,6 +1624,13 @@ $(arch_gtk3_lib):
 	@(cd arch && $(MAKE) libarch)
 	@(echo "making gtk3 data")
 	@(cd arch/gtk3/data && $(MAKE))
+$(arch_sdl_lib):
+	@(echo "making libarch.a")
+	@(cd arch && $(MAKE) libarch)
+if WIN32_COMPILE
+	@(echo "making win32 res")
+	@(cd arch/gtk3/data/win32 && $(MAKE))
+endif
 libtoolarch:
 $(toolarch_lib):
 	@(cd $(ARCH_DIR) && $(MAKE) libtoolarch.a)
