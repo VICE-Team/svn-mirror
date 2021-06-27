@@ -164,7 +164,7 @@ static void double_size_callback(GtkWidget *widget, int state)
 
         /* Note:
          *
-         * We cannot `use ui_get_active_window()` here: it returns the settings
+         * We cannot use `ui_get_active_window()` here: it returns the settings
          * window, not the primary or secondary window. Even if we could get
          * the active primary/secondary window it wouldn't help since that
          * would resize the window that spawned the settings window.
