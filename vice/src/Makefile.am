@@ -999,6 +999,8 @@ pet_lib = $(top_builddir)/src/pet/libpet.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 plus4cart_lib = $(top_builddir)/src/plus4/cart/libplus4cart.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
+resid_lib = $(top_builddir)/src/resid/libresid.a
+resid_dtv_lib = $(top_builddir)/src/resid-dtv/libresiddtv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 rtc_lib = $(top_builddir)/src/rtc/librtc.a
@@ -1288,48 +1290,6 @@ x64dtv-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DTV_DEP@ \
 	@FFMPEG_DEP@ \
-	libc64dtv \
-	libc64dtvstubs \
-	libc64c64dtv \
-	libdatasette \
-	libdiag \
-	libdriveiec \
-	libdriveiecieee \
-	libdriveiecc64exp \
-	libdriveieee \
-	libdrive \
-	libdrivetcbm \
-	libp64 \
-	libparallel \
-	libvdrive \
-	libraster \
-	libsid_dtv \
-	libsamplerdrv \
-	libjoyport \
-	libjoystickdrv \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhwsiddrv \
-	libhvsc \
-	libiodrv \
-	libgfxoutputdrv \
-	libprinterdrv \
-	librs232drv \
-	libviciidtv \
-	libvideo \
-	libarch \
-	libmonitor \
-	libdiskimage \
-	libiecbus \
-	libserial \
-	libfsdevice \
-	libtape \
-	libuserport \
-	libimagecontents \
-	libfileio \
-	libcore \
-	librtc \
 	x64dtv$(EXEEXT)
 
 # xscpu64
@@ -2011,6 +1971,7 @@ libc64scpu64:
 	@echo "making libc64scpu64.a in c64"
 	@(cd c64 && $(MAKE) libc64scpu64.a)
 libc64c64dtv:
+$(c64c64dtv_lib):
 	@echo "making libc64c64dtv.a in c64"
 	@(cd c64 && $(MAKE) libc64c64dtv.a)
 libc64cart:
@@ -2026,9 +1987,11 @@ $(c64commoncart_lib):
 	@echo "making libc64commoncart in c64"
 	@(cd c64 && $(MAKE) libc64commoncart)
 libc64dtv:
+$(c64dtv_lib):
 	@echo "making libc64dtv.a in c64dtv"
 	@(cd c64dtv && $(MAKE) libc64dtv.a)
 libc64dtvstubs:
+$(c64dtvstubs_lib):
 	@echo "making libc64dtvstubs.a in c64dtv"
 	@(cd c64dtv && $(MAKE) libc64dtvstubs.a)
 libcbm2:
@@ -2166,10 +2129,11 @@ $(rtc_lib):
 	@echo "making librtc.a in rtc"
 	@(cd rtc && $(MAKE) librtc.a)
 libresid:
-$(resid_libs):
+$(resid_lib):
 	@echo "making all in resid"
 	@(cd resid && $(MAKE))
 libresiddtv:
+$(resid_dtv_lib):
 	@echo "making libresiddtv.a in resid-dtv"
 	@(cd resid-dtv && $(MAKE) libresiddtv.a)
 libsamplerdrv:
@@ -2193,6 +2157,7 @@ $(sid_lib):
 	@echo "making libsid.a in sid"
 	@(cd sid && $(MAKE) libsid.a)
 libsid_dtv:
+$(sid_dtv_lib):
 	@echo "making libsid_dtv.a in sid"
 	@(cd sid && $(MAKE) libsid_dtv.a)
 libsocketdrv:
@@ -2234,6 +2199,7 @@ $(vicii_lib):
 	@echo "making libvicii.a in vicii"
 	@(cd vicii && $(MAKE) libvicii.a)
 libviciidtv:
+$(viciidtv_lib):
 	@echo "making libviciidtv.a in vicii"
 	@(cd vicii && $(MAKE) libviciidtv.a)
 libviciisc:
