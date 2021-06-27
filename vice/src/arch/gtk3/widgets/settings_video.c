@@ -162,6 +162,19 @@ static void double_size_callback(GtkWidget *widget, int state)
         GtkWidget *window;
         int index;
 
+        /* Note:
+         *
+         * We cannot `use ui_get_active_window()` here: it returns the settings
+         * window, not the primary or secondary window. Even if we could get
+         * the active primary/secondary window it wouldn't help since that
+         * would resize the window that spawned the settings window.
+         * For example: spawning settings from the VDC window and toggling the
+         * VICII double-size off would result in the VDC window getting resized.
+         *
+         * --compyx
+         */
+
+        /* get index passed in the main widget's constructor */
         index = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "ChipIndex"));
         window = ui_get_window_by_index(index);
         if (window != NULL) {
