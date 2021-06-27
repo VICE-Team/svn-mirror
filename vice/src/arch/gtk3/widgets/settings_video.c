@@ -2,18 +2,6 @@
  * \brief   Widget to control video settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * FIXME:   Currently the index for the various widgets isn't used.
- *          A long time ago the video settings page for x128 had the settings
- *          for both VICII and VDC on the same page, which required the indexed
- *          widgets. Right now the VICII and VDC settings have their own item
- *          in the settings tree -- due to taking too much UI space when used
- *          together -- and both use index 0.
- *
- *          But perhaps keeping the indexed widgets isn't a bad idea, if we
- *          redesign the UI some time in the future.
- *
- *          --compyx
  */
 
 /*
@@ -157,6 +145,32 @@ static void render_filter_callback(GtkWidget *widget, int value)
 }
 
 
+/** \brief  Callback for changes of the "Double Size" widget
+ *
+ * Trigger a resize of the primary or secondary window if \a state is false.
+ *
+ * There's no need to trigger a resize here when \a state is true, than happens
+ * automatically by GDK to accomodate for the larger canvas.
+ *
+ * \param[in]   widget  check button (unused)
+ * \param[in]   state   check button toggle state
+ */
+static void double_size_callback(GtkWidget *widget, int state)
+{
+    if (!state && !ui_is_fullscreen()) {
+
+        GtkWidget *window;
+        int index;
+
+        index = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "ChipIndex"));
+        window = ui_get_window_by_index(index);
+        if (window != NULL) {
+            gtk_window_resize(GTK_WINDOW(window), 1, 1);
+        }
+    }
+}
+
+
 
 /** \brief  Create "Double Size" checkbox
  *
@@ -166,9 +180,14 @@ static void render_filter_callback(GtkWidget *widget, int value)
  */
 static GtkWidget *create_double_size_widget(int index)
 {
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "%sDoubleSize", "Double size",
-            chip_name[index]);
+    GtkWidget *widget;
+
+    widget = vice_gtk3_resource_check_button_new_sprintf("%sDoubleSize",
+                                                         "Double size",
+                                                         chip_name[index]);
+    vice_gtk3_resource_check_button_add_callback(widget,
+                                                 double_size_callback);
+    return widget;
 }
 
 
@@ -350,8 +369,13 @@ static GtkWidget *create_render_widget(int index, const char *chip)
     GtkWidget *vert_stretch_widget = NULL;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+
     double_size_widget[index] = create_double_size_widget(index);
+    g_object_set_data(G_OBJECT(double_size_widget[index]),
+                               "ChipIndex",
+                               GINT_TO_POINTER(index));
     g_object_set(double_size_widget[index], "margin-left", 16, NULL);
+
     double_scan_widget = create_double_scan_widget(index);
 
     gtk_grid_attach(GTK_GRID(grid), double_size_widget[index], 0, 0, 1, 1);
@@ -562,7 +586,7 @@ GtkWidget *settings_video_create(GtkWidget *parent)
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     chip = uivideo_chip_name();
     gtk_grid_attach(GTK_GRID(grid),
-            create_layout(parent, chip, 0),
+            create_layout(parent, chip, PRIMARY_WINDOW),
             0, 0, 1, 1);
 
     g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
@@ -595,7 +619,7 @@ GtkWidget *settings_video_create_vdc(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     gtk_grid_attach(GTK_GRID(grid),
-            create_layout(parent, "VDC", 0),
+            create_layout(parent, "VDC", SECONDARY_WINDOW),
             0, 0, 1, 1);
 
     g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
