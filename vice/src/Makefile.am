@@ -1494,45 +1494,6 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 .PHONY: xpet-all
 xpet-all: \
 	$(BUILT_SOURCES) \
-	libdatasette \
-	libdiag \
-	libdriveiec \
-	libdriveiecieee \
-	libdriveieee \
-	libdrive \
-	libdrivetcbm \
-	libp64 \
-	libparallel \
-	libvdrive \
-	libraster \
-	libcrtc \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhwsiddrv \
-	libhvsc \
-	libiodrv \
-	libgfxoutputdrv \
-	libprinterdrv \
-	librs232drv \
-	libsamplerdrv \
-	libpet \
-	libvideo \
-	libsid \
-	libarch \
-	libmonitor \
-	libdiskimage \
-	libserial \
-	libfsdevice \
-	libtape \
-	libimagecontents \
-	libfileio \
-	libcore \
-	librtc \
-	libuserport \
-	libtapeport \
-	libjoyport \
-	libjoystickdrv \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	xpet$(EXEEXT)
@@ -1967,6 +1928,7 @@ $(parallel_lib):
 	@echo "making all in parallel"
 	@(cd parallel && $(MAKE))
 libpet:
+$(pet_lib):
 	@echo "making all in pet"
 	@(cd pet && $(MAKE))
 libplus4:
