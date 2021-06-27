@@ -2,6 +2,18 @@
  * \brief   Widget to control video settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * FIXME:   Currently the index for the various widgets isn't used.
+ *          A long time ago the video settings page for x128 had the settings
+ *          for both VICII and VDC on the same page, which required the indexed
+ *          widgets. Right now the VICII and VDC settings have their own item
+ *          in the settings tree -- due to taking too much UI space when used
+ *          together -- and both use index 0.
+ *
+ *          But perhaps keeping the indexed widgets isn't a bad idea, if we
+ *          redesign the UI some time in the future.
+ *
+ *          --compyx
  */
 
 /*
@@ -98,6 +110,13 @@ static GtkWidget *keep_aspect_widget[2] = { NULL, NULL };
  */
 static GtkWidget *true_aspect_widget[2] = { NULL, NULL };
 
+/** \brief  double-size widgets
+ */
+static GtkWidget *double_size_widget[2] = { NULL, NULL };
+
+/** \brief  render-filter widgets
+ */
+static GtkWidget *render_filter_widget[2] = { NULL, NULL };
 
 
 /** \brief  Handler for the "destroy" event of the main widget
@@ -116,6 +135,25 @@ static void on_destroy(GtkWidget *widget)
         lib_free(widget_title[1]);
         widget_title[1] = NULL;
     }
+}
+
+
+/** \brief  Callback for changes of the render-filter widgets
+ *
+ * \param[in]   widget  radio group
+ * \param[in]   value   new resource value
+ */
+static void render_filter_callback(GtkWidget *widget, int value)
+{
+    int index;
+
+    index = GPOINTER_TO_INT(g_object_get_data(
+                G_OBJECT(gtk_widget_get_parent(widget)),
+                "ChipIndex"));
+
+    debug_gtk3("Called with value = %d, index = %d", value, index);
+
+    vice_gtk3_resource_check_button_sync(double_size_widget[index]);
 }
 
 
@@ -308,16 +346,15 @@ static void on_hide_vdc_toggled(GtkWidget *check, gpointer data)
 static GtkWidget *create_render_widget(int index, const char *chip)
 {
     GtkWidget *grid;
-    GtkWidget *double_size_widget = NULL;
     GtkWidget *double_scan_widget = NULL;
     GtkWidget *vert_stretch_widget = NULL;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-    double_size_widget = create_double_size_widget(index);
-    g_object_set(double_size_widget, "margin-left", 16, NULL);
+    double_size_widget[index] = create_double_size_widget(index);
+    g_object_set(double_size_widget[index], "margin-left", 16, NULL);
     double_scan_widget = create_double_scan_widget(index);
 
-    gtk_grid_attach(GTK_GRID(grid), double_size_widget, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), double_size_widget[index], 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), double_scan_widget, 1, 0, 1, 1);
 
     if (uivideo_chip_has_vert_stretch(chip)) {
@@ -375,7 +412,7 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
 
 /** \brief  Create widget for HW scaling and keep/true aspect ratio
  *
- * \param[in]   index   chip index (using in x128)
+ * \param[in]   index   chip index (used in x128)
  * \param[in]   chip    chip name
  *
  * \return  GtkGrid
@@ -449,8 +486,16 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
             0, 2, 3, 1);
 
     /* row 3, col 0: rendering filter */
+    render_filter_widget[index] = video_render_filter_widget_create(chip);
+    /* set chip index to use for the callback */
+    g_object_set_data(G_OBJECT(render_filter_widget[index]),
+                      "ChipIndex",
+                      GINT_TO_POINTER(index));
+    /* add callback to widget */
+    video_render_filter_widget_add_callback(render_filter_widget[index],
+                                            render_filter_callback);
     gtk_grid_attach(GTK_GRID(layout),
-            video_render_filter_widget_create(chip),
+            render_filter_widget[index],
             0, 3, 1, 1);
     /* row 3, col 1: border-mode  */
     if (uivideo_chip_has_border_mode(chip)) {
@@ -500,6 +545,7 @@ GtkWidget *settings_video_create(GtkWidget *parent)
     GtkWidget *grid;
     const char *chip;
 
+    /* XXX: is this really required anymore? */
     chip_name[0] = NULL;
     chip_name[1] = NULL;
     widget_title[0] = NULL;
@@ -508,6 +554,10 @@ GtkWidget *settings_video_create(GtkWidget *parent)
     keep_aspect_widget[1] = NULL;
     true_aspect_widget[0] = NULL;
     true_aspect_widget[1] = NULL;
+    double_size_widget[0] = NULL;
+    double_size_widget[1] = NULL;
+    render_filter_widget[0] = NULL;
+    render_filter_widget[1] = NULL;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     chip = uivideo_chip_name();
