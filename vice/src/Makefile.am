@@ -1748,48 +1748,8 @@ xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
 .PHONY: xcbm5x0-all
 xcbm5x0-all: \
 	$(BUILT_SOURCES) \
-	libcbm5x0 \
-	libcbm2cart \
-	libsamplerdrv \
-	libjoyport \
-	libjoystickdrv \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhwsiddrv \
-	libhvsc \
-	libiodrv \
-	libgfxoutputdrv \
-	libprinterdrv \
-	librs232drv \
-	libarch \
-	libsid \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
-	libdatasette \
-	libdiag \
-	libdriveiec \
-	libdriveiecieee \
-	libdriveieee \
-	libdrive \
-	libdrivetcbm \
-	libp64 \
-	libparallel \
-	libvdrive \
-	libraster \
-	libvicii \
-	libvideo \
-	libmonitor \
-	libdiskimage \
-	libserial \
-	libfsdevice \
-	libtape \
-	libimagecontents \
-	libfileio \
-	libcore \
-	librtc \
-	libuserport \
-	libtapeport \
 	xcbm5x0$(EXEEXT)
 
 # c1541
@@ -1937,9 +1897,11 @@ libcbm2:
 	@echo "making libcbm2.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm2.a)
 libcbm5x0:
+$(xcbm5x0_lib):
 	@echo "making libcbm5x0.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm5x0.a)
 libcbm2cart:
+$(cbm2cart_lib):
 	@echo "making libcbm2cart in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm2cart)
 libcore:
