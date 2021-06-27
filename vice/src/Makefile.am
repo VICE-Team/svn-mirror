@@ -1664,48 +1664,8 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 .PHONY: xcbm2-all
 xcbm2-all: \
 	$(BUILT_SOURCES) \
-	libcbm2 \
-	libcbm2cart \
-	libsounddrv \
-	libmididrv \
-	libsocketdrv \
-	libhwsiddrv \
-	libiodrv \
-	libgfxoutputdrv \
-	libprinterdrv \
-	librs232drv \
-	libarch \
-	libsid \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
-	libdatasette \
-	libdiag \
-	libdriveiec \
-	libdriveiecieee \
-	libdriveieee \
-	libdrive \
-	libdrivetcbm \
-	libp64 \
-	libparallel \
-	libvdrive \
-	libraster \
-	libcrtc \
-	libvideo \
-	libmonitor \
-	libdiskimage \
-	libserial \
-	libfsdevice \
-	libtape \
-	libimagecontents \
-	libfileio \
-	libcore \
-	librtc \
-	libuserport \
-	libtapeport \
-	libjoyport \
-	libsamplerdrv \
-	libhvsc \
-	libjoystickdrv \
 	xcbm2$(EXEEXT)
 
 # xcbm5x0
@@ -1894,6 +1854,7 @@ $(c64dtvstubs_lib):
 	@echo "making libc64dtvstubs.a in c64dtv"
 	@(cd c64dtv && $(MAKE) libc64dtvstubs.a)
 libcbm2:
+$(xcbm2_lib):
 	@echo "making libcbm2.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm2.a)
 libcbm5x0:
@@ -1909,6 +1870,7 @@ $(core_lib):
 	@echo "making all in core"
 	@(cd core && $(MAKE))
 libcrtc:
+$(crtc_lib):
 	@echo "making all in crtc"
 	@(cd crtc && $(MAKE))
 libdatasette:
