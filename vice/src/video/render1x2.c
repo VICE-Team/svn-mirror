@@ -31,7 +31,6 @@
 #include "render-common.h"
 #include "render1x2.h"
 #include "types.h"
-#include "uimenu.h"
 #include "video.h"
 
 /* 16 color 1x2 renderer */

@@ -32,7 +32,6 @@
 #include "render1x2.h"
 #include "render1x2crt.h"
 #include "types.h"
-#include "uimenu.h"
 #include "video-color.h"
 
 /*
