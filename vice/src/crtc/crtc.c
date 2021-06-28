@@ -966,7 +966,23 @@ int crtc_dump(void)
     int vsyncw,scanlines;
     int htotal, vtotal;
     double v;
+    unsigned int r, c, regnum=0;
 
+    /* Dump the internal CRTC registers */
+    mon_out("CRTC Internal Registers:\n");
+    for (r = 0; r < 2; r++) {
+        mon_out("%02x: ", regnum);
+        for (c = 0; c < 16; c++) {
+            if (regnum <= 17) {
+                mon_out("%02x ", regs[regnum]);
+            }
+            regnum++;
+            if ((c & 3) == 3) {
+                mon_out(" ");
+            }
+        }
+        mon_out("\n");
+    }
     htotal = regs[CRTC_REG_HTOTAL] + 1;
     vsyncw = ((regs[CRTC_REG_SYNCWIDTH] >> 4) & 0x0f);
     if (vsyncw == 0) vsyncw = 16;
@@ -977,26 +993,31 @@ int crtc_dump(void)
     mon_out("Horizontal total:         %3d chars.\n", htotal);
     mon_out("Horizontal sync position: %3d chars.\n", regs[CRTC_REG_HSYNC]);
     mon_out("Horizontal sync width:    %3d chars.\n", regs[CRTC_REG_SYNCWIDTH] & 0x0f);
-    mon_out("Vertical total:           %3d chars + %3d lines.\n", 
+    mon_out("Vertical total:           %3d chars +%3d lines.\n", 
            vtotal, regs[CRTC_REG_VTOTALADJ]);
     mon_out("Vertical sync position:   %3d chars.\n", regs[CRTC_REG_VSYNC]);
     mon_out("Vertical sync width:      %3d lines.\n", vsyncw);
-    mon_out("\nDisplay characters: %d x %d\n", regs[CRTC_REG_HDISP], regs[CRTC_REG_VDISP]);
-    mon_out("Scanlines per character row: %d\n", scanlines);
-    mon_out("Cursor blink mode: ");
+    mon_out("Display characters:       %3d x %2d\n", regs[CRTC_REG_HDISP], regs[CRTC_REG_VDISP]);
+    mon_out("Scanlines per char row:    %d\n", scanlines);
+    mon_out("Cursor blink mode:         ");
     switch ((regs[CRTC_REG_CURSORSTART] >> 5) & 3) {
         case 0: mon_out("display continuously\n"); break;
         case 1: mon_out("blank continuously\n"); break;
         case 2: mon_out("blink 1/16\n"); break;
         case 3: mon_out("blink 1/32\n"); break;
     }
-    mon_out("Cursor start in line: %d end in line: %d\n", 
+    mon_out("Cursor start in line:     %2d, end in line: %d\n\n",
             regs[CRTC_REG_CURSORSTART] & 0x1f, regs[CRTC_REG_CURSOREND] & 0x1f);
     mon_out("Display mode control: $%02x\n"
-            " interlaced: %s RAM addressing: %s\n"
-            " display enable skew: %s cursor skew: %s\n",
-            regs[CRTC_REG_MODECTRL],
-            (regs[CRTC_REG_MODECTRL] & 1) ? "on (do not use)" : "off",
+            " interlaced: ",
+            regs[CRTC_REG_MODECTRL]);
+    switch (regs[CRTC_REG_MODECTRL] & 3) {
+        case 1: mon_out("interlace sync"); break;
+        case 3: mon_out("interlace sync & video"); break;
+        default: mon_out("off");
+    }
+    mon_out("\n RAM addressing: %s\n"
+            " display enable skew: %s, cursor skew: %s\n",
             (regs[CRTC_REG_MODECTRL] & 4) ? "row/column" : "binary",
             (regs[CRTC_REG_MODECTRL] & 16) ? "delay one character" : "no",
             (regs[CRTC_REG_MODECTRL] & 32) ? "delay one character" : "no");
