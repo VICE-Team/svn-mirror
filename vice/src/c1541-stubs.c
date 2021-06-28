@@ -233,6 +233,13 @@ uint8_t machine_tape_behaviour(void)
     return TAPE_BEHAVIOUR_NORMAL;
 }
 
+#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+const char *kbd_get_menu_keyname(void)
+{
+    return NULL;
+}
+#endif
+
 int crt_getid(const char *filename)
 {
     return -1;
