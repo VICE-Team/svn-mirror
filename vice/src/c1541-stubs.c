@@ -233,11 +233,6 @@ uint8_t machine_tape_behaviour(void)
     return TAPE_BEHAVIOUR_NORMAL;
 }
 
-const char *kbd_get_menu_keyname(void)
-{
-    return NULL;
-}
-
 int crt_getid(const char *filename)
 {
     return -1;

@@ -183,13 +183,12 @@ static resource_int_t resources_chip_scan[] =
 
 static int set_hwscale_enabled(int val, void *param)
 {
+#ifdef HAVE_HWSCALE
     video_canvas_t *canvas = (video_canvas_t *)param;
 
-#ifdef HAVE_HWSCALE
     if (val
         && !canvas->videoconfig->hwscale
         && !hwscale_possible)
-#endif
     {
         log_message(LOG_DEFAULT, "HW scale not available, forcing to disabled");
         return 0;
@@ -199,7 +198,7 @@ static int set_hwscale_enabled(int val, void *param)
     canvas->videoconfig->color_tables.updated = 0;
 
     video_viewport_resize(canvas, 1);
-    
+#endif
     return 0;
 }
 

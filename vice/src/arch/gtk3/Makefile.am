@@ -102,10 +102,13 @@ libarch_a_SOURCES = \
 	uivsidmenu.c \
 	uivsidwindow.c \
 	vic20ui.c \
-	vice_gtk3_locking.c \
 	video.c \
 	vsidui.c \
 	vsyncarch.c
+
+if NATIVE_GTK3_COMPILE
+libarch_a_SOURCES += vice_gtk3_locking.c
+endif
 
 if WIN32_COMPILE
 libarch_a_SOURCES += directx_renderer.c directx_renderer_impl.cc

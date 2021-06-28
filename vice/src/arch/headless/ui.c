@@ -140,8 +140,6 @@ char *ui_get_file(const char *format, ...)
 void ui_init_with_args(int *argc, char **argv)
 {
     printf("Initialising headless ui with args\n");
-
-    return 0;
 }
 
 

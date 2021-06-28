@@ -52,7 +52,7 @@ static char *argv0 = NULL;
 
 /** \brief  Signal handler that initialises a clean shutdown.
  */
-void sigint_exit(int _)
+static void sigint_exit(int _)
 {
     archdep_vice_exit(0);
 }
