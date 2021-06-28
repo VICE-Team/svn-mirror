@@ -827,7 +827,7 @@ static const char *keyword[] = {
      * The following codes (0xcc- 0xfe) are for 3.5, 7.0, and 10.0 only.
      * On 10.0 gshape, sshape, and draw are replaced with paste, cut, and line
      * respectively. */
-    "rgr", "rlcr", "rlum" /* 0xce -- v7 prefix */, "joy",
+    "rgr", "rclr", "rlum" /* 0xce -- v7 prefix */, "joy",
 
     "rdot",     "dec",    "hex$",    "err$",    "instr",  "else",   "resume",    "trap",
     "tron",     "troff",  "sound",   "vol",     "auto",   "pudef",  "graphic",   "paint",
