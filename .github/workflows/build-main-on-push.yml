@@ -144,7 +144,7 @@ jobs:
           prerelease: true
 
   build_doc:
-    name: Build Documentation
+    name: Test Headless, Build Documentation
     needs: create_release
     runs-on: ubuntu-20.04
     
@@ -168,7 +168,6 @@ jobs:
           cd vice
           ./autogen.sh
           ./configure --enable-headlessui --enable-html-docs --without-pulse --without-alsa --without-png
-          cd doc
           make
 
       - name: Upload
