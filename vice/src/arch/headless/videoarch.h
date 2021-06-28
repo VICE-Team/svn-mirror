@@ -31,6 +31,8 @@
 #ifndef VICE_VIDEOARCH_H
 #define VICE_VIDEOARCH_H
 
+#include "video.h"
+
 typedef struct video_canvas_s {
 
     /** \brief Nonzero if the structure has been fully realized. */

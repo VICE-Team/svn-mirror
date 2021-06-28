@@ -53,6 +53,8 @@ void mainlock_assert_is_not_vice_thread(void);
 
 #else
 
+#include <assert.h>
+
 #define mainlock_assert_lock_obtained()
 #define mainlock_assert_is_not_vice_thread() assert(0)
 #define mainlock_yield_once()
