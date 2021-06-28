@@ -1084,8 +1084,12 @@ vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIB
 vsid_DEPENDENCIES = $(vsid_libs)
 vsid_LDFLAGS = @vsid_LDFLAGS@
 
-.PHONY: vsid-all
-vsid-all: \
+.PHONY: vsid-all vsid-program
+vsid-all:
+	@for i in $(vsid_libs); do rm -fr "$$i"; done
+	$(MAKE) vsid-program
+
+vsid-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1131,8 +1135,12 @@ x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
-.PHONY: x64-all
-x64-all: \
+.PHONY: x64-all x64-program
+x64-all:
+	@for i in $(x64_libs); do rm -fr "$$i"; done
+	$(MAKE) x64-program
+
+x64-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1178,8 +1186,12 @@ x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_L
 x64sc_DEPENDENCIES = $(x64sc_libs)
 x64sc_LDFLAGS = @x64_LDFLAGS@
 
-.PHONY: x64sc-all
-x64sc-all: \
+.PHONY: x64sc-all x64sc-program
+x64sc-all:
+	@for i in $(x64sc_libs); do rm -fr "$$i"; done
+	$(MAKE) x64sc-program
+
+x64sc-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1224,8 +1236,12 @@ x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE
 x64dtv_DEPENDENCIES = $(x64dtv_libs)
 x64dtv_LDFLAGS = @x64_LDFLAGS@
 
-.PHONY: x64dtv-all
-x64dtv-all: \
+.PHONY: x64dtv-all x64dtv-program
+x64dtv-all:
+	@for i in $(x64dtv_libs); do rm -fr "$$i"; done
+	$(MAKE) x64dtv-program
+
+x64dtv-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DTV_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1270,8 +1286,12 @@ xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLI
 xscpu64_DEPENDENCIES = $(xscpu64_libs)
 xscpu64_LDFLAGS = @xscpu64_LDFLAGS@
 
-.PHONY: xscpu64-all
-xscpu64-all: \
+.PHONY: xscpu64-all xscpu64-program
+xscpu64-all:
+	@for i in $(xscpu64_libs); do rm -fr "$$i"; done
+	$(MAKE) xscpu64-program
+
+xscpu64-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1320,8 +1340,12 @@ x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIB
 x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
-.PHONY: x128-all
-x128-all: | \
+.PHONY: x128-all x128-program
+x128-all:
+	@for i in $(x128_libs); do rm -fr "$$i"; done
+	$(MAKE) x128-program
+
+x128-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1364,8 +1388,12 @@ xvic_LDADD = $(xvic_libs) $(emu_extlibs) $(mascuerade_lib) @TFE_LIBS@ @NETPLAY_L
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-.PHONY: xvic-all
-xvic-all: \
+.PHONY: xvic-all xvic-program
+xvic-all:
+	@for i in $(xvic_libs); do rm -fr "$$i"; done
+	$(MAKE) xvic-program
+
+xvic-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1407,8 +1435,12 @@ xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIB
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
-.PHONY: xpet-all
-xpet-all: \
+.PHONY: xpet-all xpet-program
+xpet-all:
+	@for i in $(xpet_libs); do rm -fr "$$i"; done
+	$(MAKE) xpet-program
+
+xpet-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1453,8 +1485,12 @@ xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
-.PHONY: xplus4-all
-xplus4-all: \
+.PHONY: xplus4-all xplus4-program
+xplus4-all:
+	@for i in $(xplus4_libs); do rm -fr "$$i"; done
+	$(MAKE) xplus4-program
+
+xplus4-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1497,8 +1533,12 @@ xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_L
 xcbm2_DEPENDENCIES = $(xcbm2_libs)
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 
-.PHONY: xcbm2-all
-xcbm2-all: \
+.PHONY: xcbm2-all xcbm2-program
+xcbm2-all:
+	@for i in $(xcbm2_libs); do rm -fr "$$i"; done
+	$(MAKE) xcbm2-program
+
+xcbm2-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1541,8 +1581,12 @@ xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLI
 xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs) 
 xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
 
-.PHONY: xcbm5x0-all
-xcbm5x0-all: \
+.PHONY: xcbm5x0-all xcbm5x0-program
+xcbm5x0-all:
+	@for i in $(xcbm5x0_libs); do rm -fr "$$i"; done
+	$(MAKE) xcbm5x0-program
+
+xcbm5x0-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
@@ -1568,7 +1612,7 @@ c1541_SOURCES = \
 	zfile.c \
 	zipcode.c
 
-c1541_LDADD = \
+c1541_libs = \
 	$(toolarch_lib) \
 	$(archdep_lib) \
 	$(p64_lib) \
@@ -1580,7 +1624,10 @@ c1541_LDADD = \
 	$(tape_lib) \
 	$(serial_lib) \
 	$(socketdrv_lib) \
-	$(linenoise_ng_lib) \
+	$(linenoise_ng_lib)
+
+c1541_LDADD = \
+	$(c1541_libs) \
 	@SDL_EXTRA_LIBS@ \
 	@READLINE@ @READLINE_LIBS@ \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
@@ -1590,8 +1637,12 @@ c1541_LDFLAGS = -mconsole
 endif
 
 
-.PHONY: c1541-all
-c1541-all: \
+.PHONY: c1541-all c1541-program
+c1541-all:
+	@for i in $(c1541_libs); do rm -fr "$$i"; done
+	$(MAKE) c1541-program
+
+c1541-program: \
 	$(BUILT_SOURCES) \
 	c1541$(EXEEXT)
 
