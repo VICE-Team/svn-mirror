@@ -881,28 +881,18 @@ void ui_trigger_resize(void)
 gboolean ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWindow *window;
-    GdkWindow *gdk_window;
-    GdkCursor *cursor;
-    GdkDisplay *display;
 
     if (active_win_index < 0) {
         return FALSE;
     }
 
-    display = gdk_display_get_default();
     window = GTK_WINDOW(ui_resources.window_widget[active_win_index]);
-    gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
     is_fullscreen = !is_fullscreen;
 
     if (is_fullscreen) {
         gtk_window_fullscreen(window);
-        if (!fullscreen_has_decorations) {
-            cursor = gdk_cursor_new_for_display(display, GDK_BLANK_CURSOR);
-            gdk_window_set_cursor(gdk_window, cursor);
-        }
     } else {
         gtk_window_unfullscreen(window);
-        gdk_window_set_cursor(gdk_window, NULL);
     }
 
     ui_update_fullscreen_decorations();
