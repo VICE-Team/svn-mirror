@@ -1764,8 +1764,21 @@ $(driveieee_lib):
 	@(cd drive/ieee && $(MAKE))
 $(drivetcbm_lib):
 	@(cd drive/tcbm && $(MAKE))
-$(ffmpeg_libs):
-	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1)
+$(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a:
+	@echo "making libavformat.a"
+	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libavformat-static)
+$(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a:
+	@echo "making libavcodec.a"
+	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libavcodec-static)
+$(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a:
+	@echo "making libavutil.a"
+	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libavutil-static)
+$(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a:
+	@echo "making libswscale.a"
+	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libswscale-static)
+$(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a:
+	@echo "making libswresample.a"
+	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libswresample-static)
 $(fileio_lib):
 	@echo "making all in fileio"
 	@(cd fileio && $(MAKE))
@@ -1905,22 +1918,6 @@ $(top_builddir)/src/libffmpeg.a: libffmpeg
 	rm dummy.o dummy.c
 endif
 
-if HAVE_STATIC_FFMPEG
-$(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a: libffmpeg
-
-$(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a: libffmpeg
-
-$(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a: libffmpeg
-
-$(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a: libffmpeg
-
-$(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a: libffmpeg
-
-$(top_builddir)/src/lib/libffmpeg/lib/libmp3lame.a: libffmpeg
-
-$(top_builddir)/src/lib/libffmpeg/lib/libx264.a: libffmpeg
-endif
-
 clean-ffmpeg:
 	rm -f $(top_builddir)/src/libffmpeg.a
 
@@ -1935,4 +1932,3 @@ endif
 endif
 
 clean: clean-recursive $(EXTRA_CLEAN)
-
