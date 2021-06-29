@@ -1766,19 +1766,19 @@ $(drivetcbm_lib):
 	@(cd drive/tcbm && $(MAKE))
 $(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a:
 	@echo "making libavformat.a"
-	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libavformat-static)
+	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libavformat" VICEBUILD=1 install-libavformat-static)
 $(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a:
 	@echo "making libavcodec.a"
-	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libavcodec-static)
+	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libavcodec" VICEBUILD=1 install-libavcodec-static)
 $(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a:
 	@echo "making libavutil.a"
-	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libavutil-static)
+	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libavutil" VICEBUILD=1 install-libavutil-static)
 $(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a:
 	@echo "making libswscale.a"
-	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libswscale-static)
+	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libswscale" VICEBUILD=1 install-libswscale-static)
 $(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a:
 	@echo "making libswresample.a"
-	@(cd lib/libffmpeg && $(MAKE) VICEBUILD=1 install-libswresample-static)
+	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libswresample" VICEBUILD=1 install-libswresample-static)
 $(fileio_lib):
 	@echo "making all in fileio"
 	@(cd fileio && $(MAKE))
