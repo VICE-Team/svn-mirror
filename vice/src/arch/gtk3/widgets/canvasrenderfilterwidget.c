@@ -46,8 +46,11 @@
 /** \brief  List of Cairo/OpenGL render filters
  */
 static const vice_gtk3_radiogroup_entry_t filters[] = {
-    { "Nearest neighbor",   0 },
-    { "Bilinear",           1 },
+    { "Nearest neighbor",   0  },
+    { "Bilinear",           1  },
+#ifdef WIN32_COMPILE
+    { "Cubic",              2  },
+#endif
     { NULL,                 -1 }
 };
 

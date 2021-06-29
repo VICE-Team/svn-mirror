@@ -788,9 +788,9 @@ if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "x
   AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
   HAVE_RS232NET_SUPPORT="yes"
   if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-    LIBS="$LIBS -luserenv -lwinmm -lws2_32 -lntdll -ld2d1"
+    LIBS="$LIBS -luserenv -lwinmm -lws2_32 -lntdll -ld2d1 -ld3d11"
   else
-    LIBS="$LIBS -luserenv -lwinmm -lwsock32 -lmingwex -lmsvcrt -lntdll -ld2d1"
+    LIBS="$LIBS -luserenv -lwinmm -lwsock32 -lmingwex -lmsvcrt -lntdll -ld2d1 -ld3d11"
   fi
   if test x"$enable_catweasel" != "xno"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])

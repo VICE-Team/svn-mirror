@@ -14160,7 +14160,7 @@ Rendering backend to use for the Gtk3 UI
 @vindex GTKFilter
 @item GTKFilter
 Rendering filter to use for the Gtk3 UI
-(0: Nearest neighbor, 1: Bilinear interpolation).
+(0: Nearest neighbor, 1: Bilinear, 2: Cubic (Windows only)).
 
 @vindex AspectRatio
 @item AspectRatio
@@ -14435,7 +14435,7 @@ Set the Gtk3 rendering backend
 @findex -gtkfilter
 @item -gtkfilter <filter>
 (@code{GTKFilter})
-(0: Nearest neighbor, 1: Bilinear interpolation)
+(0: Nearest neighbor, 1: Bilinear 2: Cubic (Windows only)
 
 @findex -keepaspect, +keepaspect
 @item -keepaspect

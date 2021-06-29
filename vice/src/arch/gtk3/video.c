@@ -148,7 +148,19 @@ static int set_display_depth(int val, void *param)
  */
 static int set_display_filter(int val, void *param)
 {
-    display_filter = val ? 1 : 0;
+    if (val < 0) {
+        val = 0;
+    }
+#ifdef WIN32_COMPILE
+    if (val > 2) {
+        val = 2;
+    }
+#else
+    if (val > 1) {
+        val = 1;
+    }
+#endif
+    display_filter = val;
     return 0;
 }
 
@@ -201,7 +213,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Disable vsync to allow screen tearing" },
     { "-gtkfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GTKFilter", NULL,
-      "<mode>", "Set filtering mode (0 = nearest, 1 = bilinear)" },
+      "<mode>", "Set filtering mode (0 = nearest, 1 = bilinear, 2 = cubic (Windows only))" },
     { "-gtkbackend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GTKBackend", NULL,
       "<mode>", "Set rendering mode (0 = Software, 1 = OpenGL)" },
@@ -243,8 +255,13 @@ static const resource_int_t resources_int[] = {
       &vsync, set_vsync, NULL },
     { "DisplayDepth", 0, RES_EVENT_NO, NULL,
       &display_depth, set_display_depth, NULL },
+#ifdef WIN32_COMPILE
+    { "GTKFilter", 2, RES_EVENT_NO, NULL,
+      &display_filter, set_display_filter, NULL },
+#else
     { "GTKFilter", 1, RES_EVENT_NO, NULL,
       &display_filter, set_display_filter, NULL },
+#endif
     { "GTKBackend", 1, RES_EVENT_NO, NULL,
       &render_backend, set_render_backend, NULL },
     { "RestoreWindowGeometry", 1, RES_EVENT_NO, NULL,
