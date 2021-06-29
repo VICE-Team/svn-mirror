@@ -263,7 +263,7 @@ if test x"$enable_extra_warnings" != "xyes"; then
 fi
 
 
-AC_LANG_PUSH([C++])
+dnl Check C++ flags
 m4_foreach([flag],
            [[-Wall],
             [-Wformat],
@@ -281,9 +281,8 @@ m4_foreach([flag],
            [TEST_FLAG=flag
             VICE_CXXFLAG_REQUEST([$TEST_FLAG])
            ])
-AC_LANG_POP([C++])
 
-dnl VTE specific flags
+dnl VTE specific C++ flags
 VTE_CXXFLAGS=""
 m4_foreach([flag],
            [[-Wno-address-of-packed-member],
