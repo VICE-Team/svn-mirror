@@ -134,6 +134,9 @@ if test x"$CROSS" != "xtrue"; then
   # Assume MSYS2 on Windows here.
   dlls=`ntldd -R $BINDIST_DIR/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -`
   test -n "$dlls"&&cp $dlls $BINDIST_DIR
+  if grep -q '^#define EXTERNAL_FFMPEG ' $TOPBUILDDIR/src/config.h
+    then cp -u `ntldd -R $MINGW_PREFIX/bin/avfilter-*.dll|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BINDIST_DIR
+  fi
 
 else
   # Assume a cross-builder for Windows here.
