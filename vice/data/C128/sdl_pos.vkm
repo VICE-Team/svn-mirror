@@ -58,7 +58,7 @@
 #        +-----+-----+-----+-----+-----+-----+-----+-----+
 #        |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
 # +------+-----+-----+-----+-----+-----+-----+-----+-----+
-# |Bit 8 |HELP | KP 8| KP 5| TAB | KP 2| KP 4| KP 7| KP 1|
+3# |Bit 8 |HELP | KP 8| KP 5| TAB | KP 2| KP 4| KP 7| KP 1|
 # +------+-----+-----+-----+-----+-----+-----+-----+-----+
 # |Bit 9 | ESC | KP +| KP -| LF  |KP CR| KP 6| KP 9| KP 3|
 # +------+-----+-----+-----+-----+-----+-----+-----+-----+
@@ -69,6 +69,11 @@
 !LSHIFT 1 7
 !RSHIFT 6 4
 !VSHIFT RSHIFT
+!SHIFTL LSHIFT
+!LCBM 7 5
+!VCBM LCBM
+!LCTRL 7 2
+!VCTRL LCTRL
 
 27 7 7 8                /*          ESC -> Run/Stop     */
 96 7 1 8                /*            ` -> Left Arrow   */
@@ -85,7 +90,7 @@
 45 5 0 8                /*        Minus -> Plus         */
 61 5 3 8                /*        Equal -> Minus        */
 8 0 0 8                 /*    Backspace -> Del          */
-9 7 2 8                 /*          TAB -> Ctrl         */
+9 7 2 16384             /*          TAB -> Ctrl         */
 113 7 6 8               /*            Q -> Q            */
 119 1 1 8               /*            W -> W            */
 101 1 6 8               /*            E -> E            */
@@ -99,7 +104,7 @@
 91 5 6 8                /*            [ -> @            */
 93 6 1 8                /*            ] -> *            */
 13 0 1 8                /*       Return -> Return       */
-306 7 5 8               /*    Left Ctrl -> CBM          */
+306 7 5 8192            /*    Left Ctrl -> CBM          */
 97 1 2 8                /*            A -> A            */
 115 1 5 8               /*            S -> S            */
 100 2 2 8               /*            D -> D            */
