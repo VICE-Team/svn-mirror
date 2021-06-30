@@ -312,7 +312,7 @@ static GtkWidget *create_true_aspect_widget(int index)
             "TrueAspectRatio", "True aspect ratio");
 }
 
-
+#if 0
 /** \brief  Handler for the 'toggled' event of the keep-aspect-ratio checkbox
  *
  * \param[in]   check       checkbox
@@ -337,7 +337,7 @@ static void on_true_aspect_toggled(GtkWidget *check, gpointer user_data)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(true_aspect_widget[index]),
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)));
 }
-
+#endif
 
 /** \brief  Event handler for the 'Hide VDC Window' checkbox
  *
@@ -466,22 +466,30 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
     /* until per-chip KeepAspectRatio is implemented, connect the VICII and
      * VDC KeepAspectRatio checkboxes, so toggling the VICII checkbox also
      * updates the VDC checkbox, and vice-versa */
+
+    /* No longer required: VICII and VDC have separate 'pages' now */
+#if 0
     if (machine_class == VICE_MACHINE_C128) {
         g_signal_connect(keep_aspect_widget[index], "toggled",
                 G_CALLBACK(on_keep_aspect_toggled),
                 GINT_TO_POINTER(index == 0 ? 1: 0));
     }
+#endif
     gtk_grid_attach(GTK_GRID(grid), keep_aspect_widget[index], 0, 1, 1, 1);
 
     true_aspect_widget[index] = create_true_aspect_widget(index);
     /* until per-chip TrueAspectRatio is implemented, connect the VICII and
      * VDC TrueAspectRatio checkboxes, so toggling the VICII checkbox also
      * updates the VDC checkbox, and vice-versa */
+
+    /* No longer required: VICII and VDC have separate 'pages' now */
+#if 0
     if (machine_class == VICE_MACHINE_C128) {
         g_signal_connect(true_aspect_widget[index], "toggled",
                 G_CALLBACK(on_true_aspect_toggled),
                 GINT_TO_POINTER(index == 0 ? 1: 0));
     }
+#endif
     gtk_grid_attach(GTK_GRID(grid), true_aspect_widget[index], 1, 1, 1, 1);
 
     gtk_widget_show_all(grid);
