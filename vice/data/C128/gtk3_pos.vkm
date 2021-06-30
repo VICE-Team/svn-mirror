@@ -72,14 +72,19 @@
 !LSHIFT 1 7
 !RSHIFT 6 4
 !VSHIFT RSHIFT
+!SHIFTL LSHIFT
+!LCBM 7 5
+!VCBM LCBM
+!LCTRL 7 2
+!VCTRL LCTRL
 
 # Tab = CTRL
-Tab 7 2 8
+Tab 7 2 16384
 # Shift + Tab = CTRL
-ISO_Left_Tab 7 2 8
+ISO_Left_Tab 7 2 16384
 
 # Control_L = CBM
-Control_L 7 5 8
+Control_L 7 5 8192
 
 BackSpace 0 0 8
 Delete 0 0 8
