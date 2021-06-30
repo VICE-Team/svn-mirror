@@ -36,7 +36,6 @@ extern "C" {
 
 typedef enum render_job {
     render_thread_init = 1, /* Else looks like NULL when pushed to the queue */
-    render_thread_resize,
     render_thread_render,
     render_thread_shutdown
 } render_job_t;
