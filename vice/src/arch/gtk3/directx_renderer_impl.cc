@@ -53,9 +53,13 @@ extern "C"
 
 #define DX_RELEASE(x) if (x) { (x)->Release(); (x) = NULL; }
 
-static void build_device_dependent_resources(vice_directx_renderer_context_t *context)
+static void build_directx_resources(vice_directx_renderer_context_t *context)
 {
     HRESULT result = S_OK;
+
+    /*
+     * Device dependent resources
+     */
 
     /* Direct2D Factory for later */
 
@@ -132,37 +136,13 @@ static void build_device_dependent_resources(vice_directx_renderer_context_t *co
         d3d_device_context->Release();
     }
     
-    /* Get the underlying DXGI Interface */
+    /* Get the underlying DXGI Device */
 
     if (!context->dxgi_device) {
         result = context->d3d_device->QueryInterface(__uuidof(IDXGIDevice), (void **)&context->dxgi_device);
         if (FAILED(result))
         {
             vice_directx_impl_log_windows_error("QueryInterface IDXGIDevice");
-            vice_directx_destroy_context_impl(context);
-            return;
-        }
-    }
-
-    /* Get the DXGI Adapter */
-
-    if (!context->dxgi_adapter) {
-        result = context->dxgi_device->GetAdapter(&context->dxgi_adapter);
-        if (FAILED(result))
-        {
-            vice_directx_impl_log_windows_error("GetAdapter IDXGIAdapter");
-            vice_directx_destroy_context_impl(context);
-            return;
-        }
-    }
-
-    /* Don't forget the DXGI Factory! You nearly forgot didn't you. */
-
-    if (!context->dxgi_factory) {
-        result = context->dxgi_adapter->GetParent(IID_PPV_ARGS(&context->dxgi_factory));
-        if (FAILED(result))
-        {
-            vice_directx_impl_log_windows_error("dxgi_factory");
             vice_directx_destroy_context_impl(context);
             return;
         }
@@ -214,11 +194,34 @@ static void build_device_dependent_resources(vice_directx_renderer_context_t *co
 
     /* And scale up the final result */
     context->d2d_device_context->CreateEffect(CLSID_D2D1Scale, &context->d2d_effect_scale);
-}
 
-static void build_size_dependent_resources(vice_directx_renderer_context_t *context)
-{
-    HRESULT result = S_OK;
+    /*
+     * Size dependent resources
+     */
+
+    /* Get the DXGI Adapter */
+
+    if (!context->dxgi_adapter) {
+        result = context->dxgi_device->GetAdapter(&context->dxgi_adapter);
+        if (FAILED(result))
+        {
+            vice_directx_impl_log_windows_error("GetAdapter IDXGIAdapter");
+            vice_directx_destroy_context_impl(context);
+            return;
+        }
+    }
+
+    /* Don't forget the DXGI Factory! You nearly forgot didn't you. */
+
+    if (!context->dxgi_factory) {
+        result = context->dxgi_adapter->GetParent(IID_PPV_ARGS(&context->dxgi_factory));
+        if (FAILED(result))
+        {
+            vice_directx_impl_log_windows_error("dxgi_factory");
+            vice_directx_destroy_context_impl(context);
+            return;
+        }
+    }
 
     /* Now we need to create a swap chain for our hwnd */
 
@@ -234,7 +237,7 @@ static void build_size_dependent_resources(vice_directx_renderer_context_t *cont
         swap_chain_desc.BufferUsage           = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swap_chain_desc.BufferCount           = 2;                                // use double buffering to enable flip
         swap_chain_desc.Scaling               = DXGI_SCALING_STRETCH;
-        swap_chain_desc.SwapEffect            = DXGI_SWAP_EFFECT_DISCARD; // all apps must use this SwapEffect
+        swap_chain_desc.SwapEffect            = DXGI_SWAP_EFFECT_DISCARD;
         swap_chain_desc.Flags                 = 0;
 
         result =
@@ -256,10 +259,14 @@ static void build_size_dependent_resources(vice_directx_renderer_context_t *cont
         // Ensure that DXGI doesn't queue more than one frame at a time.
         context->dxgi_device->SetMaximumFrameLatency(1);
     }
+    
+    /*
+     * Frame dependant resources
+     */
 
     /* Get a DXGI surface representing the backbuffer */
 
-    if (!context->dxgi_surface) {
+    if (!context->dxgi_surface && context->d3d_swap_chain) {
         result = context->d3d_swap_chain->GetBuffer(0, IID_PPV_ARGS(&context->dxgi_surface));
         if (FAILED(result))
         {
@@ -294,10 +301,6 @@ static void build_size_dependent_resources(vice_directx_renderer_context_t *cont
             vice_directx_destroy_context_impl(context);
             return;
         }
-
-        /* FINALLY - set the backbuffer bitmap as the Direct2D render target. Fuck. */
-
-        context->d2d_device_context->SetTarget(context->dxgi_bitmap);
     }
 }
 
@@ -306,6 +309,8 @@ static void destroy_size_dependent_resources(vice_directx_renderer_context_t *co
     DX_RELEASE(context->dxgi_bitmap);
     DX_RELEASE(context->dxgi_surface);
     DX_RELEASE(context->d3d_swap_chain);
+    DX_RELEASE(context->dxgi_factory);
+    DX_RELEASE(context->dxgi_adapter);
 }
 
 static void destroy_device_dependent_resources(vice_directx_renderer_context_t *context)
@@ -319,8 +324,6 @@ static void destroy_device_dependent_resources(vice_directx_renderer_context_t *
     DX_RELEASE(context->d2d_effect_strip_alpha);
     DX_RELEASE(context->d2d_device_context);
     DX_RELEASE(context->d2d_device);
-    DX_RELEASE(context->dxgi_factory);
-    DX_RELEASE(context->dxgi_adapter);
     DX_RELEASE(context->dxgi_device);
     DX_RELEASE(context->d3d_device_context);
     DX_RELEASE(context->d3d_device);
@@ -408,8 +411,6 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
     int trueaspect = 0;
     float scale_x;
     float scale_y;
-    float dpi_x;
-    float dpi_y;
     D2D1_SIZE_U  viewport_size_ddp;
     D2D1_SIZE_U  bitmap_size_ddp;
 
@@ -446,8 +447,6 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
         scale_y = 1.0f;
     }
 
-    // printf("vw: %u vh: %u vx: %u vy: %u sx: %f sy: %f\n", context->viewport_width, context->viewport_height, context->viewport_x, context->viewport_y, scale_x, scale_y);
-
     /* Calculate the minimum drawing area size to be enforced by gtk */
     if (keepaspect && trueaspect) {
         context->window_min_width = ceil((float)context->bitmap_width * context->bitmap_pixel_aspect_ratio);
@@ -462,8 +461,6 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
     canvas->screen_display_h = (viewport_size_ddp.height * scale_y);
     canvas->screen_origin_x = ((viewport_size_ddp.width  - canvas->screen_display_w) / 2.0);
     canvas->screen_origin_y = ((viewport_size_ddp.height - canvas->screen_display_h) / 2.0);
-
-    // printf("w: %f h: %f x: %f y: %f\n", canvas->screen_display_w, canvas->screen_display_h, canvas->screen_origin_x, canvas->screen_origin_y);
 
 #if 0
     /*
@@ -522,15 +519,15 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         return;
     }
 
-    if (context->resized) {
-        destroy_size_dependent_resources(context);
-        context->resized = false;
-    }
-
     resources_get_int("VSync", &vsync);
     resources_get_int("GTKFilter", &filter);
 
     CANVAS_LOCK();
+
+    if (context->resized) {
+        destroy_size_dependent_resources(context);
+        context->resized = false;
+    }
 
     /*
      * Correct interlaced output always requires the previous frame.
@@ -556,8 +553,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
 
     RENDER_LOCK();
 
-    build_device_dependent_resources(context);
-    build_size_dependent_resources(context);
+    build_directx_resources(context);
 
     for (i = 0; i < backbuffer_count; i++) {
         build_render_bitmap(context, backbuffers[i]);
@@ -573,6 +569,9 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         log_message(LOG_DEFAULT, "no render target, not rendering this frame");
         goto render_unlock_and_return_backbuffer;
     }
+
+    /* Each frame, set the backbuffer bitmap as the Direct2D render target. */
+    context->d2d_device_context->SetTarget(context->dxgi_bitmap);
 
     context->d2d_device_context->BeginDraw();
     context->d2d_device_context->SetTransform(D2D1::Matrix3x2F::Identity());
@@ -622,7 +621,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     context->d2d_device_context->DrawImage(context->d2d_effect_scale);
     
     result = context->d2d_device_context->EndDraw();
-    
+
     if (result == D2DERR_RECREATE_TARGET) {
         printf("Must recreate resources\n");
         destroy_size_dependent_resources(context);
