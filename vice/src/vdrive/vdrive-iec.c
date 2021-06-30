@@ -238,8 +238,12 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
 
     if (slot) {
         /* file exists */
-        if (cmd_parse->command && cmd_parse->commandlength > 0
-            && cmd_parse->command[0] == '@') {
+        if ((cmd_parse->command && 
+             (cmd_parse->commandlength > 0) && 
+             (cmd_parse->command[0] == '@')) || /* overwrite with @:filename */
+            (((slot[SLOT_TYPE_OFFSET] & 0x80) == 0) &&
+             ((slot[SLOT_TYPE_OFFSET] & 7) != CBMDOS_FT_REL)) /* overwrite 'splat file' */
+            ) {
             /* replace mode: we don't want the dirent updated at all until
                 close */
             /* allocate buffers */
@@ -331,27 +335,27 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
 
 #if 1
         if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_NP) {
-        /* real drives allocate block, then added dir entry */
-        /* vice 3.5 and below added dir entry, the allocated block */
-        /* this results in inconsistencies when the drive is low on space or entries */
+            /* real drives allocate block, then added dir entry */
+            /* vice 3.5 and below added dir entry, the allocated block */
+            /* this results in inconsistencies when the drive is low on space or entries */
 
-        /* allocate the first sector */
-        retval = vdrive_bam_alloc_first_free_sector(vdrive, &track, &sector);
-        if (retval < 0) {
-            /* real drives don't return DISK FULL, they say report 67 */
-            vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_SYSTEM_T_OR_S, vdrive->num_tracks + 1, 1);
-/*            vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0); */
-            return -1;
-        }
+            /* allocate the first sector */
+            retval = vdrive_bam_alloc_first_free_sector(vdrive, &track, &sector);
+            if (retval < 0) {
+                /* real drives don't return DISK FULL, they say report 67 */
+                vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_SYSTEM_T_OR_S, vdrive->num_tracks + 1, 1);
+    /*            vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0); */
+                return -1;
+            }
 
-        /* remember track and sector */
-        p->track = track;
-        p->sector = sector;
-        slot = p->slot;
-        slot[SLOT_FIRST_TRACK] = track;
-        slot[SLOT_FIRST_SECTOR] = sector;
-        slot[SLOT_NR_BLOCKS] = 0;
-        slot[SLOT_NR_BLOCKS + 1] = 0;
+            /* remember track and sector */
+            p->track = track;
+            p->sector = sector;
+            slot = p->slot;
+            slot[SLOT_FIRST_TRACK] = track;
+            slot[SLOT_FIRST_SECTOR] = sector;
+            slot[SLOT_NR_BLOCKS] = 0;
+            slot[SLOT_NR_BLOCKS + 1] = 0;
         }
 #endif
 
