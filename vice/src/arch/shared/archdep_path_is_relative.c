@@ -42,7 +42,7 @@
  *
  * \param[in]   path    pathname
  *
- * \return  bool
+ * \return  non-0 if \a path is relative
  */
 int archdep_path_is_relative(const char *path)
 {
