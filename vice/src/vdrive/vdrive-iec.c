@@ -155,9 +155,12 @@ static int iec_open_read(vdrive_t *vdrive, unsigned int secondary)
     track = (unsigned int)slot[SLOT_FIRST_TRACK];
     sector = (unsigned int)slot[SLOT_FIRST_SECTOR];
 
-    /* Del, Seq, Prg, Usr (Rel not supported here).  */
-    if (type != CBMDOS_FT_REL) {
-        return iec_open_read_sequential(vdrive, secondary, track, sector);
+    /* we can not open files that were not properly closed ("splat files") */
+    if (slot[SLOT_TYPE_OFFSET] & 0x80) {
+        /* Del, Seq, Prg, Usr (Rel not supported here).  */
+        if (type != CBMDOS_FT_REL) {
+            return iec_open_read_sequential(vdrive, secondary, track, sector);
+        }
     }
 
     return SERIAL_ERROR;
