@@ -84,7 +84,6 @@ typedef struct vice_directx_renderer_context_s {
     IDXGISwapChain1 *d3d_swap_chain;
     IDXGISurface *dxgi_surface;
     ID2D1Bitmap1 *dxgi_bitmap;
-    ID2D1SolidColorBrush *black_brush;    
 
     /** \brief Direct2D bitmap used to get emu bitmap into the GPU */
     ID2D1Bitmap *render_bitmap;
@@ -121,6 +120,9 @@ typedef struct vice_directx_renderer_context_s {
     
     /** \brief size of the directx viewport in window pixels */
     unsigned int viewport_height;
+
+    /** \brief used to signal that the viewport has resized */
+    bool resized;
 
     /** \brief aspect ratio of each pixel in the current gpu bitmap */
     float bitmap_pixel_aspect_ratio;

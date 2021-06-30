@@ -236,7 +236,7 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
     if (context->window) {
         MoveWindow(context->window, context->viewport_x, context->viewport_y, context->viewport_width, context->viewport_height, TRUE);
         if (!render_queue_length(context->render_queue)) {
-            render_thread_push_job(context->render_thread, render_thread_resize);
+            context->resized = true;
         }
     }
 

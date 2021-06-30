@@ -299,24 +299,10 @@ static void build_size_dependent_resources(vice_directx_renderer_context_t *cont
 
         context->d2d_device_context->SetTarget(context->dxgi_bitmap);
     }
-
-    if (!context->black_brush) {
-        result =
-            context->d2d_device_context->CreateSolidColorBrush(
-                D2D1::ColorF(D2D1::ColorF::Black, 1.0f),
-                &context->black_brush);
-        if (FAILED(result))
-        {
-            vice_directx_impl_log_windows_error("black_brush");
-            vice_directx_destroy_context_impl(context);
-            return;
-        }
-    }
 }
 
 static void destroy_size_dependent_resources(vice_directx_renderer_context_t *context)
 {
-    DX_RELEASE(context->black_brush);
     DX_RELEASE(context->dxgi_bitmap);
     DX_RELEASE(context->dxgi_surface);
     DX_RELEASE(context->d3d_swap_chain);
@@ -536,9 +522,9 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         return;
     }
 
-    if (job == render_thread_resize) {
+    if (context->resized) {
         destroy_size_dependent_resources(context);
-        // fall through to a render job
+        context->resized = false;
     }
 
     resources_get_int("VSync", &vsync);
@@ -591,10 +577,6 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     context->d2d_device_context->BeginDraw();
     context->d2d_device_context->SetTransform(D2D1::Matrix3x2F::Identity());
     context->d2d_device_context->Clear(&context->render_bg_colour);
-    context->d2d_device_context->FillRectangle(
-        context->render_dest_rect,
-        context->black_brush
-        );
 
     if (interlaced && context->previous_frame_render_bitmap && context->render_bitmap) {
         /* Render the previous frame ignoring alpha */
