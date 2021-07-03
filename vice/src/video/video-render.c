@@ -136,18 +136,18 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
             return;
 
         case VIDEO_RENDER_RGB_1X1:
-            render_32_1x1_04(colortab, src, trg, width, height,
-                             xs, ys, xt, yt, pitchs, pitcht);
+            render_32_1x1_04(colortab, src, trg, width, height, xs, ys, xt, yt,
+                             pitchs, pitcht);
             return;
 
         case VIDEO_RENDER_RGB_1X2:
-            (*render_1x2_func)(config, src, trg, width, height,
-                               xs, ys, xt, yt, pitchs, pitcht);
+            (*render_1x2_func)(config, src, trg, width, height, xs, ys, xt, yt,
+                               pitchs, pitcht);
             return;
 
         case VIDEO_RENDER_RGB_2X2:
-            (*render_2x2_func)(config, src, trg, width, height,
-                               xs, ys, xt, yt, pitchs, pitcht);
+            (*render_2x2_func)(config, src, trg, width, height, xs, ys, xt, yt,
+                               pitchs, pitcht);
             return;
     }
     if (rendermode_error != rendermode) {

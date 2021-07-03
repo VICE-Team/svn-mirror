@@ -47,8 +47,8 @@ static void video_render_1x2_main(video_render_config_t *config,
     doublescan = config->doublescan;
     colortab = &config->color_tables;
 
-    render_32_1x2_04(colortab, src, trg, width, height,
-                     xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
+    render_32_1x2(colortab, src, trg, width, height,
+                  xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
 }
 
 void video_render_1x2_init(void)

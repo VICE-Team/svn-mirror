@@ -35,12 +35,12 @@
 
 /* 16 color 1x2 renderer */
 
-void render_32_1x2_04_interlaced(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
-                                 unsigned int width, const unsigned int height,
-                                 const unsigned int xs, const unsigned int ys,
-                                 const unsigned int xt, const unsigned int yt,
-                                 const unsigned int pitchs, const unsigned int pitcht,
-                                 video_render_config_t *config, uint32_t scanline_color)
+void render_32_1x2_interlaced(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
+                              unsigned int width, const unsigned int height,
+                              const unsigned int xs, const unsigned int ys,
+                              const unsigned int xt, const unsigned int yt,
+                              const unsigned int pitchs, const unsigned int pitcht,
+                              video_render_config_t *config, uint32_t scanline_color)
 {
     const uint32_t *colortab = color_tab->physical_colors;
     const uint8_t *tmpsrc;
@@ -80,7 +80,7 @@ void render_32_1x2_04_interlaced(const video_render_color_tables_t *color_tab, c
             /* Blank line */
             if (scanline) {
                 /* Copy the first blank line we created */
-                memcpy(tmptrg, scanline, width * 4);
+                memcpy(tmptrg, scanline, pitcht);
             } else {
                 /* Next time, memcpy this blank line as it's much faster. */
                 scanline = tmptrg;
@@ -96,12 +96,12 @@ void render_32_1x2_04_interlaced(const video_render_color_tables_t *color_tab, c
 }
 
 static inline
-void render_32_1x2_04_non_interlaced(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
-                      unsigned int width, const unsigned int height,
-                      const unsigned int xs, const unsigned int ys,
-                      const unsigned int xt, const unsigned int yt,
-                      const unsigned int pitchs, const unsigned int pitcht,
-                      const unsigned int doublescan, video_render_config_t *config)
+void render_32_1x2_non_interlaced(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
+                                  unsigned int width, const unsigned int height,
+                                  const unsigned int xs, const unsigned int ys,
+                                  const unsigned int xt, const unsigned int yt,
+                                  const unsigned int pitchs, const unsigned int pitcht,
+                                  const unsigned int doublescan, video_render_config_t *config)
 {
     const uint32_t *colortab = color_tab->physical_colors;
     const uint8_t *tmpsrc;
@@ -153,19 +153,19 @@ void render_32_1x2_04_non_interlaced(const video_render_color_tables_t *color_ta
     }
 }
 
-void render_32_1x2_04(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
-                      unsigned int width, const unsigned int height,
-                      const unsigned int xs, const unsigned int ys,
-                      const unsigned int xt, const unsigned int yt,
-                      const unsigned int pitchs, const unsigned int pitcht,
-                      const unsigned int doublescan, video_render_config_t *config)
+void render_32_1x2(const video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
+                   unsigned int width, const unsigned int height,
+                   const unsigned int xs, const unsigned int ys,
+                   const unsigned int xt, const unsigned int yt,
+                   const unsigned int pitchs, const unsigned int pitcht,
+                   const unsigned int doublescan, video_render_config_t *config)
 {
     if (config->interlaced) {
         /* interlaced render with completely transparent scanlines */
-        render_32_1x2_04_interlaced(color_tab, src, trg, width, height, xs, ys,
-                                    xt, yt, pitchs, pitcht, config, color_tab->physical_colors[0] & 0x00ffffff);
+        render_32_1x2_interlaced(color_tab, src, trg, width, height, xs, ys,
+                                 xt, yt, pitchs, pitcht, config, color_tab->physical_colors[0] & 0x00ffffff);
     } else {
-        render_32_1x2_04_non_interlaced(color_tab, src, trg, width, height, xs, ys,
-                                        xt, yt, pitchs, pitcht, doublescan, config);
+        render_32_1x2_non_interlaced(color_tab, src, trg, width, height, xs, ys,
+                                     xt, yt, pitchs, pitcht, doublescan, config);
     }
 }
