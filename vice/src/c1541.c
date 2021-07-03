@@ -3460,14 +3460,15 @@ static int quit_cmd(int nargs, char **args)
 
     }
 
-    /* weird: free **args */
-    for (i = 0; i < nargs; i++) {
+    /* free all elements in args */
+    for (i = 0; args[i] != NULL; i++) {
         lib_free(args[i]);
     }
 
     if (interactive_mode) {
         archdep_shutdown();
         log_close_all();    /* do we need this? */
+        linenoiseHistoryFree();
     }
     exit(0);
     return 0;   /* OSF1 cc complains */
