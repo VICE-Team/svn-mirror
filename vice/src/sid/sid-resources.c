@@ -62,6 +62,7 @@ static int sid_resid_filter_bias;
 static int sid_resid_8580_passband;
 static int sid_resid_8580_gain;
 static int sid_resid_8580_filter_bias;
+static int sid_resid_enable_raw_output;
 #endif
 int sid_stereo = 0;
 int checking_sid_stereo;
@@ -138,6 +139,15 @@ static int set_sid_engine(int set_engine, void *param)
 static int set_sid_filters_enabled(int val, void *param)
 {
     sid_filters_enabled = val ? 1 : 0;
+
+    sid_state_changed = 1;
+
+    return 0;
+}
+
+static int set_sid_resid_enable_raw_output(int val, void *param)
+{
+    sid_resid_enable_raw_output = val ? 1 : 0;
 
     sid_state_changed = 1;
 
@@ -370,6 +380,8 @@ void sid_set_enable(int value)
 
 #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 static const resource_int_t resid_resources_int[] = {
+    { "SidResidEnableRawOutput", 0, RES_EVENT_NO, NULL,
+      &sid_resid_enable_raw_output, set_sid_resid_enable_raw_output, NULL },
     { "SidResidSampling", SID_RESID_SAMPLING_RESAMPLING, RES_EVENT_NO, NULL,
       &sid_resid_sampling, set_sid_resid_sampling, NULL },
     { "SidResidPassband", 90, RES_EVENT_NO, NULL,

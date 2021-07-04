@@ -8866,6 +8866,12 @@ Integer that specifies reSID gain in percent [97] (90..100) for 8580.
 Integer that specifies reSID filter bias for 8580, which can be used to adjust DAC bias
 in millivolts. [0] (-5000..5000)
 
+@vindex SidResidEnableRawOutput
+@item SidResidEnableRawOutput
+Boolean specifying whether raw debug output is enabled. When enabled, the raw -
+ not downsampled - audio data is written to a file called resid.raw in the current
+ working directory.
+
 @end table
 
 
@@ -9052,6 +9058,13 @@ Specifies reSID gain in percent (90 - 100) for 8580.
 @findex -resid8580filterbias
 @item -residfilterbias <number>
 reSID filter bias setting for 8580, which can be used to adjust DAC bias in millivolts.
+
+@findex -residrawoutput, +residrawoutput
+@item -residrawoutput
+@itemx +residrawoutput
+Boolean specifying whether raw debug output is enabled. When enabled, the raw -
+ not downsampled - audio data is written to a file called resid.raw in the current
+ working directory.
 
 @end table
 
