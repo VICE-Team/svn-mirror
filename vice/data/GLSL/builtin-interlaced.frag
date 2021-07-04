@@ -2,7 +2,7 @@
 
 uniform sampler2D last_frame;
 uniform sampler2D this_frame;
-smooth in vec2 tex_coord;
+in vec2 tex_coord;
 out vec4 output_color;
 
 void main() {
