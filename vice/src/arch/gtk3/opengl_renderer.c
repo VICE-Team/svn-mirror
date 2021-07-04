@@ -48,6 +48,7 @@
 #include "resources.h"
 #include "tick.h"
 #include "ui.h"
+#include "util.h"
 #include "vsync.h"
 #include "vsyncapi.h"
 
@@ -69,7 +70,7 @@ static void on_widget_monitors_changed(GdkScreen *screen, gpointer data);
 static void render(void *job_data, void *pool_data);
 
 static GLuint create_shader(GLenum shader_type, const char *text);
-static void create_shader_program(context_t *context);
+static GLuint create_shader_program(char *vertex_shader_filename, char *fragment_shader_filename);
 
 /** \brief Raw geometry for the machine screen.
  *
@@ -87,35 +88,6 @@ static float vertexData[] = {
          0.0f,     0.0f,
          1.0f,     0.0f
 };
-
-/** \brief Our renderer's vertex shader.
- *
- * This simply scales the geometry it is provided and provides
- * smoothly interpolated texture coordinates between each vertex. The
- * world coordinates remain [-1, 1] in all dimensions. */
-static const char *vertexShader =
-    "#version 150\n"
-    "uniform vec4 scale;\n"
-    "uniform vec2 validTex;\n"
-    "uniform vec2 texSize;\n"
-    "in vec4 position;\n"
-    "in vec2 tex;\n"
-    "smooth out vec2 texCoord;\n"
-    "void main() {\n"
-    "  gl_Position = position * scale;\n"
-    "  texCoord = (tex * (validTex - 1.0) + 0.5) / texSize;\n"
-    "}\n";
-
-/** \brief Our renderer's fragment shader.
- *
- * This does nothing but texture lookups based on the values fed to it
- * by the vertex shader. */
-static const char *fragmentShader =
-    "#version 150\n"
-    "uniform sampler2D sampler;\n"
-    "smooth in vec2 texCoord;\n"
-    "out vec4 outputColor;\n"
-    "void main() { outputColor = texture(sampler, texCoord); }\n";
 
 /**/
 
@@ -188,7 +160,11 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     vice_opengl_renderer_make_current(context);
 
     if (!context->gl_context_is_legacy) {
-        create_shader_program(context);
+        context->shader_builtin             = create_shader_program("viewport.vert", "builtin.frag");
+        context->shader_builtin_interlaced  = create_shader_program("viewport.vert", "builtin-interlaced.frag");
+        context->shader_bicubic             = create_shader_program("viewport.vert", "bicubic.frag");
+        context->shader_bicubic_interlaced  = create_shader_program("viewport.vert", "bicubic-interlaced.frag");
+                
         glGenBuffers(1, &context->vbo);
         glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
@@ -486,6 +462,7 @@ static void render(void *job_data, void *pool_data)
     int vsync = 1;
     int keepaspect = 1;
     int trueaspect = 0;
+    GLint gl_filter;
     float scale_x;
     float scale_y;
     int i;
@@ -515,6 +492,14 @@ static void render(void *job_data, void *pool_data)
     resources_get_int("VSync", &vsync);
     resources_get_int("KeepAspectRatio", &keepaspect);
     resources_get_int("TrueAspectRatio", &trueaspect);
+    
+    if (context->gl_context_is_legacy) {
+        // We only support builtin linear and nearest on legacy contexts
+        gl_filter = filter ? GL_LINEAR : GL_NEAREST;
+    } else {
+        // For shader filters, we start with nearest neighbor. So only use linear if requested.
+        gl_filter = filter == 1 ?  GL_LINEAR : GL_NEAREST;
+    }
 
     /*
      * Correct interlaced output always requires the previous frame.
@@ -639,6 +624,7 @@ static void render(void *job_data, void *pool_data)
         context->previous_frame_texture = context->texture;
         context->texture = swap_texture;
         
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, context->texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer_width);
@@ -647,8 +633,8 @@ static void render(void *job_data, void *pool_data)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter ? GL_LINEAR : GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ? GL_LINEAR : GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_filter);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
     
@@ -669,6 +655,7 @@ static void render(void *job_data, void *pool_data)
         glDisable(GL_LIGHTING);
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
+        glActiveTexture(GL_TEXTURE0);
 
         if (interlaced) {
             glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
@@ -709,46 +696,87 @@ static void render(void *job_data, void *pool_data)
         glDisable(GL_TEXTURE_2D);
     } else {
         /* Modern renderer */
-        GLuint scale_uniform, valid_tex_uniform, tex_size_uniform;
-        GLuint sampler_uniform;
+        GLuint program;
+        GLuint position_attribute;
+        GLuint tex_coord_attribute;
+        GLuint scale_uniform;
+        GLuint view_size_uniform;
+        GLuint source_size_uniform;
+        GLuint this_frame_uniform;
+        GLuint last_frame_uniform;
         
-        glUseProgram(context->program);
+        /*
+         * Choose the appropriate shader
+         */
         
+        if (interlaced) {
+            if (filter == 2) {
+                program = context->shader_bicubic_interlaced;
+            } else {
+                program = context->shader_builtin_interlaced;
+            }
+        } else {
+            if (filter == 2) {
+                program = context->shader_bicubic;
+            } else {
+                program = context->shader_builtin;
+            }
+        }
+        
+        glUseProgram(program);
+        
+        /** \todo cache the uniform locations along with the vertex attributes */
+        position_attribute  = glGetAttribLocation(program, "position");
+        tex_coord_attribute = glGetAttribLocation(program, "tex");
+        scale_uniform       = glGetUniformLocation(program, "scale");
+        view_size_uniform   = glGetUniformLocation(program, "view_size");
+        source_size_uniform = glGetUniformLocation(program, "source_size");
+        this_frame_uniform  = glGetUniformLocation(program, "this_frame");
+        
+        if (interlaced) {
+            last_frame_uniform  = glGetUniformLocation(program, "last_frame");
+        }
+
+        glDisable(GL_BLEND);
         glBindVertexArray(context->vao);
         glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(context->position_index, 4, GL_FLOAT, GL_FALSE, 0, 0);
-        glVertexAttribPointer(context->tex_coord_index, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
-        
-        /** \todo cache the uniform locations along with the vertex attributes */
-        scale_uniform = glGetUniformLocation(context->program, "scale");
-        valid_tex_uniform = glGetUniformLocation(context->program, "validTex");
-        tex_size_uniform = glGetUniformLocation(context->program, "texSize");
-        sampler_uniform = glGetUniformLocation(context->program, "sampler");
+        glVertexAttribPointer(position_attribute,  4, GL_FLOAT, GL_FALSE, 0, 0);
+        glVertexAttribPointer(tex_coord_attribute, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
 
         glUniform4f(scale_uniform, scale_x, scale_y, 1.0f, 1.0f);
-        glUniform2f(valid_tex_uniform, context->native_view_width, context->native_view_height);
-        glUniform2f(tex_size_uniform, context->native_view_width, context->native_view_height);
-        glUniform1i(sampler_uniform, 0);
+        glUniform2f(view_size_uniform, context->native_view_width, context->native_view_height);
+        glUniform2f(source_size_uniform, backbuffer_width, backbuffer_height);
         
         if (interlaced) {
+            glUniform1i(last_frame_uniform, 0);
+            glUniform1i(this_frame_uniform, 1);
+            
+            glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, context->texture);
+        } else {
+            glUniform1i(this_frame_uniform, 0);
+            
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, context->texture);
         }
-        
-        glBindTexture(GL_TEXTURE_2D, context->texture);
+
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        
+
         if (interlaced) {
-            glDisable(GL_BLEND);
+            glBindTexture(GL_TEXTURE_2D, 0);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        } else {
+            glBindTexture(GL_TEXTURE_2D, 0);
         }
         
-        glDisableVertexAttribArray(context->position_index);
-        glDisableVertexAttribArray(context->tex_coord_index);
+        glDisableVertexAttribArray(position_attribute);
+        glDisableVertexAttribArray(tex_coord_attribute);
+        
         glUseProgram(0);
     }
 
@@ -831,27 +859,46 @@ static GLuint create_shader(GLenum shader_type, const char *text)
 
         log_error(LOG_DEFAULT, "Compile failure in %s shader:\n%s\n", shader_type_name, info_log);
         lib_free(info_log);
+        
+        archdep_vice_exit(1);
     }
 
     return shader;
 }
 
-/** \brief Compile and link the renderer's shaders.
- *
- *  If successful, the vice_opengl_renderer_context_s::program,
- *  vice_opengl_renderer_context_s::position_index, and
- *  vice_opengl_renderer_context_s::tex_coord_index fields will be
- *  filled in with values for future use.
- *
- *  \param ctx The renderer context that will receive the results.
+/** \brief Compile and return a gl program for the given vertext and fragment shader files.
  */
-static void create_shader_program(context_t *context)
+static GLuint create_shader_program(char *vertex_shader_filename, char *fragment_shader_filename)
 {
-    GLuint program = glCreateProgram();
-    GLuint vert = create_shader(GL_VERTEX_SHADER, vertexShader);
-    GLuint frag = create_shader(GL_FRAGMENT_SHADER, fragmentShader);
+    char *vertex_shader;
+    char *fragment_shader;
+    GLuint program;
+    GLuint vert;
+    GLuint frag;
     GLint status;
+    char *path;
 
+    /* Load the shader files */
+
+    path = util_file_data_path("GLSL", vertex_shader_filename);
+    if (util_file_load_string(path, &vertex_shader)) {
+        lib_free(path);
+        archdep_vice_exit(1);
+    }
+    lib_free(path);
+
+    path = util_file_data_path("GLSL", fragment_shader_filename);
+    if (util_file_load_string(path, &fragment_shader)) {
+        lib_free(path);
+        lib_free(vertex_shader);
+        archdep_vice_exit(1);
+    }
+    lib_free(path);
+
+    vert = create_shader(GL_VERTEX_SHADER, vertex_shader);
+    frag = create_shader(GL_FRAGMENT_SHADER, fragment_shader);
+
+    program = glCreateProgram();
     glAttachShader(program, vert);
     glAttachShader(program, frag);
     glLinkProgram(program);
@@ -866,13 +913,17 @@ static void create_shader_program(context_t *context)
         glGetProgramInfoLog(program, info_log_length, NULL, info_log);
         log_error(LOG_DEFAULT, "Linker failure: %s\n", info_log);
         lib_free(info_log);
+        lib_free(fragment_shader);
+        lib_free(vertex_shader);
+        archdep_vice_exit(1);
     }
 
-    glDeleteShader(vert);
     glDeleteShader(frag);
-    context->position_index = glGetAttribLocation(program, "position");
-    context->tex_coord_index = glGetAttribLocation(program, "tex");
-    context->program = program;
+    glDeleteShader(vert);
+    lib_free(fragment_shader);
+    lib_free(vertex_shader);
+
+    return program;
 }
 
 /******/

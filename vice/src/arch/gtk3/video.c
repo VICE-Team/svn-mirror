@@ -151,15 +151,9 @@ static int set_display_filter(int val, void *param)
     if (val < 0) {
         val = 0;
     }
-#ifdef WIN32_COMPILE
     if (val > 2) {
         val = 2;
     }
-#else
-    if (val > 1) {
-        val = 1;
-    }
-#endif
     display_filter = val;
     return 0;
 }
@@ -255,13 +249,8 @@ static const resource_int_t resources_int[] = {
       &vsync, set_vsync, NULL },
     { "DisplayDepth", 0, RES_EVENT_NO, NULL,
       &display_depth, set_display_depth, NULL },
-#ifdef WIN32_COMPILE
     { "GTKFilter", 2, RES_EVENT_NO, NULL,
       &display_filter, set_display_filter, NULL },
-#else
-    { "GTKFilter", 1, RES_EVENT_NO, NULL,
-      &display_filter, set_display_filter, NULL },
-#endif
     { "GTKBackend", 1, RES_EVENT_NO, NULL,
       &render_backend, set_render_backend, NULL },
     { "RestoreWindowGeometry", 1, RES_EVENT_NO, NULL,
