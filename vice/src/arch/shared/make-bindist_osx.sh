@@ -129,6 +129,7 @@ APP_RESOURCES=$APP_CONTENTS/Resources
 APP_ETC=$APP_RESOURCES/etc
 APP_SHARE=$APP_RESOURCES/share
 APP_COMMON=$APP_SHARE/vice/common
+APP_GLSL=$APP_SHARE/vice/GLSL
 APP_ICONS=$APP_SHARE/vice/icons
 APP_ROMS=$APP_SHARE/vice
 APP_DOCS=$APP_SHARE/vice/doc
@@ -544,6 +545,12 @@ if [ "$UI_TYPE" = "GTK3" ]; then
   # --- copy vice.gresource ---
   echo "  copying vice.gresource"
   cp "data/common/vice.gresource" "$APP_COMMON/"
+
+  # --- copy GLSL shaders ---
+  mkdir -p "$APP_GLSL"
+  for shader in $(find "$TOP_DIR/data/GLSL/" -type f -name '*.vert' -or -name '*.frag'); do
+    cp "$shader" "$APP_GLSL/"
+  done
 fi
 
 
