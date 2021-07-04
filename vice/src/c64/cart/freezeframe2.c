@@ -43,7 +43,7 @@
 #include "util.h"
 #include "crt.h"
 
-#define FF2DEBUG
+/* #define FF2DEBUG */
 
 #ifdef FF2DEBUG
 #define DBG(x) printf x
@@ -53,9 +53,7 @@
 
 /*
     FIXME: this implementation is based on vague guesses on how the hardware
-           really works. remaining problems are:
-           - fastloader fails
-           - freezer is shaky
+           really works.
 
     Evesham Micros "Freeze Frame MK2" and "Freeze Frame MK3 (v1)"
 
@@ -77,8 +75,8 @@
 
     - freeze
       - enables ultimax mode
-      - ROM bank 0 (2) is mapped to 8000
-      - ROM bank 0 (2) is mapped to E000
+      - ROM bank 0 is mapped to 8000
+      - ROM bank 0 is mapped to E000
 */
 
 #define FREEZE_FRAME_MK2_CART_SIZE (16 * 0x400)

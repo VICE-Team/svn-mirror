@@ -44,7 +44,7 @@
 #include "util.h"
 #include "crt.h"
 
-#define FFDEBUG
+/* #define FFDEBUG */
 
 #ifdef FFDEBUG
 #define DBG(x) printf x
