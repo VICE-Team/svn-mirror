@@ -14160,7 +14160,7 @@ Rendering backend to use for the Gtk3 UI
 @vindex GTKFilter
 @item GTKFilter
 Rendering filter to use for the Gtk3 UI
-(0: Nearest neighbor, 1: Bilinear, 2: Cubic (Windows only)).
+(0: Nearest neighbor, 1: Bilinear, 2: Bicubic).
 
 @vindex AspectRatio
 @item AspectRatio
