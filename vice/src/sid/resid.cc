@@ -126,6 +126,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
     char method_text[100];
     double passband, gain;
     int filters_enabled, model, warp_mode, sampling, passband_percentage, gain_percentage, filter_bias_mV;
+    int rawoutput;
 
     if (resources_get_int("SidFilters", &filters_enabled) < 0) {
         return 0;
@@ -136,6 +137,10 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
     }
 
     if (resources_get_int("WarpMode", &warp_mode) < 0) {
+        return 0;
+    }
+
+    if (resources_get_int("SidResidEnableRawOutput", &rawoutput) < 0) {
         return 0;
     }
 
@@ -244,10 +249,13 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
         return 0;
     }
 
-    log_message(LOG_DEFAULT, "reSID: %s, filter %s, sampling rate %dHz - %s",
+    psid->sid->enable_raw_debug_output(rawoutput);
+
+    log_message(LOG_DEFAULT, "reSID: %s, filter %s, sampling rate %dHz - %s%s",
                 model_text,
                 filters_enabled ? "on" : "off",
-                speed, method_text);
+                speed, method_text,
+                rawoutput ? ", raw debug output enabled": "");
 
     return 1;
 }

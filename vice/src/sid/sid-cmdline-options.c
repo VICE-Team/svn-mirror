@@ -197,6 +197,10 @@ static const cmdline_option_t resid_cmdline_options[] =
     { "-resid8580filterbias", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidResid8580FilterBias", NULL,
       "<number>", "reSID 8580 filter bias setting, which can be used to adjust DAC bias in millivolts.", },
+    { "-residrawoutput", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "SidResidEnableRawOutput", (void *)1, NULL, "Enable writing raw reSID output to resid.raw, 16bit little endian data (WARNING: 1MiB per second)." },
+    { "+residrawoutput", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "SidResidEnableRawOutput", (void *)0, NULL, "Disable writing raw reSID output to resid.raw." },
     CMDLINE_LIST_END
 };
 #endif

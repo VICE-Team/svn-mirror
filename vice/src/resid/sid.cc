@@ -31,6 +31,10 @@
 #define round(x) (x>=0.0?floor(x+0.5):ceil(x-0.5))
 #endif
 
+#include <iostream>
+#include <fstream>
+using namespace std;
+
 namespace reSID
 {
 
@@ -473,6 +477,41 @@ void SID::enable_external_filter(bool enable)
   extfilt.enable_filter(enable);
 }
 
+// ----------------------------------------------------------------------------
+// write raw output to a file
+// ----------------------------------------------------------------------------
+void SID::debugoutput(void)
+{
+    static int recording = -1;
+    static ofstream myFile;
+    static int lastn;
+    int n = filter.output();
+    if (recording == -1) {
+        /* the first call opens the file */
+        recording = 0;
+        myFile.open ("resid.raw", ios::out | ios::binary);
+        lastn = n;
+        std::cout << "reSID: waiting for output to change..." << std::endl;
+    } else if ((recording == 0) && (lastn != n)) {
+        /* start recording when the reSID output changes */
+        recording = 1;
+        std::cout << "reSID: starting recording..." << std::endl;
+    }
+    /* write 16bit little endian signed data */
+    if (recording) {
+        myFile.put(n & 0xff);
+        myFile.put((n >> 8) & 0xff);
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Enable raw debug output
+// ----------------------------------------------------------------------------
+void SID::enable_raw_debug_output(bool enable)
+{
+    raw_debug_output = enable;
+    printf("reSID raw output %s\n", enable ? "enabled" : "disabled");
+}
 
 // ----------------------------------------------------------------------------
 // I0() computes the 0th order modified Bessel function of the first kind.
