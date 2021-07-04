@@ -123,6 +123,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, uint8_t b)
             vicii_trigger_light_pen(maincpu_clk);
         }
     }
+    store_joyport_dig(JOYPORT_2, b, 0xff);
 }
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, uint8_t b)
@@ -135,6 +136,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
     if ((byte ^ 0x10) & cia_context->old_pb & 0x10) {
         vicii_trigger_light_pen(rclk);
     }
+    store_joyport_dig(JOYPORT_1, byte, 0xff);
 }
 
 static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
