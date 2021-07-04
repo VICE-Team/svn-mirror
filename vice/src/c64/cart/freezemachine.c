@@ -43,7 +43,7 @@
 #include "util.h"
 #include "crt.h"
 
-#define FMDEBUG
+/* #define FMDEBUG */
 
 #ifdef FMDEBUG
 #define DBG(x) printf x
@@ -53,10 +53,9 @@
 
 /*
     FIXME: this implementation is based on vague guesses on how the hardware
-           really works. remaining problems are:
-           - fastloader fails
+           really works.
 
-    Evesham Micros "Freeze Frame MK4"
+    Evesham Micros "Freeze Frame MK3 v2", "Freeze Frame MK4 LAZER"
 
     - 2 Buttons (Freeze, Reset)
     - 16k ROM
