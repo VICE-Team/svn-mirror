@@ -116,32 +116,6 @@ static uint8_t spaceballs_read(int port)
     return ~(retval);
 }
 
-static uint8_t spaceballs_potx_read(int port)
-{
-    uint8_t retval = 0xff;
-    int i;
-
-    for (i = 0; i < 8; i++) {
-        if (!((spaceballs_grounds >> i) & 1)) {
-            retval &= (get_joystick_value(JOYPORT_3 + i) & JOYPAD_FIRE2) ? 0x00 : 0xff;
-        }
-    }
-    return retval;
-}
-
-static uint8_t spaceballs_poty_read(int port)
-{
-    uint8_t retval = 0xff;
-    int i;
-
-    for (i = 0; i < 8; i++) {
-        if (!((spaceballs_grounds >> i) & 1)) {
-            retval &= (get_joystick_value(JOYPORT_3 + i) & JOYPAD_FIRE3) ? 0x00 : 0xff;
-        }
-    }
-    return retval;
-}
-
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_spaceballs_device = {
@@ -153,8 +127,8 @@ static joyport_t joyport_spaceballs_device = {
     joyport_spaceballs_enable,        /* device enable function */
     spaceballs_read,                  /* digital line read function */
     NULL,                             /* NO digital line store function */
-    spaceballs_potx_read,             /* pot-x read function */
-    spaceballs_poty_read,             /* NO pot-y read function */
+    NULL,                             /* NO pot-x read function */
+    NULL,                             /* NO pot-y read function */
     NULL,                             /* NO device write snapshot function */
     NULL                              /* NO device read snapshot function */
 };
