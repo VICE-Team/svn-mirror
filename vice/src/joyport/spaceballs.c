@@ -145,7 +145,7 @@ static uint8_t spaceballs_poty_read(int port)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_spaceballs_device = {
-    "Spaceballs",                     /* name of the device */
+    "Spaceballs 8 Player Adapter",    /* name of the device */
     JOYPORT_RES_ID_NONE,              /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,             /* device does NOT use the potentiometer lines */
@@ -177,7 +177,7 @@ static void userport_spaceballs_store_pbx(uint8_t value)
 
 static userport_device_t userport_spaceballs_device = {
     USERPORT_DEVICE_SPACEBALLS,    /* device id */
-    "Spaceballs",                  /* device name */
+    "Spaceballs 8 player adapter", /* device name */
     JOYSTICK_ADAPTER_ID_NONE,      /* NOT a joystick adapter, the joyport part is the joystick adapter */
     NULL,                          /* NO read pb0-pb7 function */
     userport_spaceballs_store_pbx, /* store pb0-pb7 function */
