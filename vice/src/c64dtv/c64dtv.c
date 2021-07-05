@@ -255,6 +255,7 @@ static joyport_port_props_t control_port_1 =
     "Control port 1",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    1,                  /* has joystick adapter on this port */
     1                   /* port is always active */
 };
 
@@ -263,6 +264,7 @@ static joyport_port_props_t control_port_2 =
     "Control port 2",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    1,                  /* has joystick adapter on this port */
     1                   /* port is always active */
 };
 
@@ -271,6 +273,7 @@ static joyport_port_props_t joy_adapter_control_port_1 =
     "Joystick adapter port 1",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    0,                  /* has NO joystick adapter on this port */
     0                   /* port can be switched on/off */
 };
 
@@ -279,6 +282,7 @@ static joyport_port_props_t joy_adapter_control_port_2 =
     "Joystick adapter port 2",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    0,                  /* has NO joystick adapter on this port */
     0                   /* port can be switched on/off */
 };
 
@@ -287,6 +291,7 @@ static joyport_port_props_t joy_adapter_control_port_3 =
     "Joystick adapter port 3",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    0,                  /* has NO joystick adapter on this port */
     0                   /* port can be switched on/off */
 };
 
@@ -295,6 +300,7 @@ static joyport_port_props_t joy_adapter_control_port_4 =
     "Joystick adapter port 4",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    0,                  /* has NO joystick adapter on this port */
     0                   /* port can be switched on/off */
 };
 
@@ -303,6 +309,7 @@ static joyport_port_props_t joy_adapter_control_port_5 =
     "Joystick adapter port 5",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    0,                  /* has NO joystick adapter on this port */
     0                   /* port can be switched on/off */
 };
 
@@ -311,6 +318,7 @@ static joyport_port_props_t joy_adapter_control_port_6 =
     "Joystick adapter port 6",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    0,                  /* has NO joystick adapter on this port */
     0                   /* port can be switched on/off */
 };
 
@@ -319,6 +327,7 @@ static joyport_port_props_t joy_adapter_control_port_7 =
     "Joystick adapter port 7",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    0,                  /* has NO joystick adapter on this port */
     0                   /* port can be switched on/off */
 };
 
@@ -327,6 +336,7 @@ static joyport_port_props_t joy_adapter_control_port_8 =
     "Joystick adapter port 8",
     0,                  /* has NO potentiometer connected to this port */
     0,                  /* has NO lightpen support on this port */
+    0,                  /* has NO joystick adapter on this port */
     0                   /* port can be switched on/off */
 };
 
