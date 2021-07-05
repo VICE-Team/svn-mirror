@@ -144,10 +144,11 @@ typedef struct joyport_desc_s {
 
 /* this structure is used for control ports */
 typedef struct joyport_port_props_s {
-    char *name;         /* name of the port */
-    int has_pot;        /* flag to indicate that the port has potentiometer support */
-    int has_lp_support; /* flag to indicate that the port has lightpen support */
-    int active;         /* flag to indicate if the port is currently active */
+    char *name;              /* name of the port */
+    int has_pot;             /* flag to indicate that the port has potentiometer support */
+    int has_lp_support;      /* flag to indicate that the port has lightpen support */
+    int has_adapter_support; /* flag to indicate that the port can handle joystick adapters */
+    int active;              /* flag to indicate if the port is currently active */
 } joyport_port_props_t;
 
 extern int joyport_device_register(int id, joyport_t *device);

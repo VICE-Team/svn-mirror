@@ -394,6 +394,7 @@ int joyport_port_register(int port, joyport_port_props_t *props)
     port_props[port].name = props->name;
     port_props[port].has_pot = props->has_pot;
     port_props[port].has_lp_support = props->has_lp_support;
+    port_props[port].has_adapter_support = props->has_adapter_support;
     port_props[port].active = props->active;
 
     return 0;
@@ -421,6 +422,17 @@ static int check_valid_pot(int port, int index)
     return 0;
 }
 
+static int check_valid_adapter(int port, int index)
+{
+    if (!joyport_device[index].joystick_adapter_id) {
+        return 1;
+    }
+    if (port_props[port].has_adapter_support) {
+        return 1;
+    }
+    return 0;
+}
+
 joyport_desc_t *joyport_get_valid_devices(int port)
 {
     joyport_desc_t *retval = NULL;
@@ -430,7 +442,7 @@ joyport_desc_t *joyport_get_valid_devices(int port)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i)) {
                 ++valid;
             }
         }
@@ -439,7 +451,7 @@ joyport_desc_t *joyport_get_valid_devices(int port)
     retval = lib_malloc(((size_t)valid + 1) * sizeof(joyport_desc_t));
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i)) {
                 retval[j].name = joyport_device[i].name;
                 retval[j].id = i;
                 ++j;
@@ -623,6 +635,7 @@ int joyport_resources_init(void)
     memset(joyport_device, 0, sizeof(joyport_device));
     joyport_device[0].name = "None";
     joyport_device[0].is_lp = JOYPORT_IS_NOT_LIGHTPEN;
+    joyport_device[0].joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         joy_port[i] = JOYPORT_ID_NONE;
     }
@@ -766,6 +779,7 @@ static const struct joyport_opt_s id_match[] = {
     { "paperclip",       JOYPORT_ID_PAPERCLIP64 },
     { "pc64",            JOYPORT_ID_PAPERCLIP64 },
     { "snespad",         JOYPORT_ID_SNESPAD },
+    { "spaceballs",      JOYPORT_ID_SPACEBALLS },
     { NULL, -1 }
 };
 
