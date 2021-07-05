@@ -105,6 +105,7 @@
 #include "sid.h"
 #include "snespad.h"
 #include "sound.h"
+#include "spaceballs.h"
 #include "tapecart.h"
 #include "traps.h"
 #include "types.h"
@@ -559,6 +560,10 @@ int machine_resources_init(void)
     }
     if (joyport_snespad_resources_init() < 0) {
         init_resource_fail("joyport snespad");
+        return -1;
+    }
+    if (joyport_spaceballs_resources_init() < 0) {
+        init_resource_fail("joyport spaceballs");
         return -1;
     }
     if (joystick_resources_init() < 0) {
