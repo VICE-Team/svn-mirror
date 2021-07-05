@@ -44,7 +44,7 @@
 #endif
 
 static joyport_t joyport_device[JOYPORT_MAX_DEVICES];
-static uint16_t joyport_display[6] = { 0, 0, 0, 0, 0, 0};
+static uint16_t joyport_display[12] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 static int joy_port[JOYPORT_MAX_PORTS];
 static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
@@ -463,9 +463,31 @@ joyport_desc_t *joyport_get_valid_devices(int port)
     return retval;
 }
 
+static int joyport_valid_joyport_display(int id)
+{
+    switch (id) {
+        case JOYPORT_ID_JOY1:
+        case JOYPORT_ID_JOY2:
+        case JOYPORT_ID_JOY3:
+        case JOYPORT_ID_JOY4:
+        case JOYPORT_ID_JOY5:
+        case JOYPORT_ID_JOY6:
+        case JOYPORT_ID_JOY7:
+        case JOYPORT_ID_JOY8:
+        case JOYPORT_ID_JOY9:
+        case JOYPORT_ID_JOY10:
+        case JOYPORT_ID_JOY11:
+            return 1;
+    }
+    return 0;
+}
+
 void joyport_display_joyport(int id, uint16_t status)
 {
-    if (id == JOYPORT_ID_JOY1 || id == JOYPORT_ID_JOY2 || id == JOYPORT_ID_JOY3 || id == JOYPORT_ID_JOY4 || id == JOYPORT_ID_JOY5) {
+    int i;
+    int all = 1;
+
+    if (joyport_valid_joyport_display(id)) {
         if (id == JOYPORT_ID_JOY1 && joy_port[0] == JOYPORT_ID_JOYSTICK) {
             joyport_display[1] = status;
         }
@@ -481,8 +503,32 @@ void joyport_display_joyport(int id, uint16_t status)
         if (id == JOYPORT_ID_JOY5 && joy_port[4] == JOYPORT_ID_JOYSTICK) {
             joyport_display[5] = status;
         }
+        if (id == JOYPORT_ID_JOY6 && joy_port[5] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[6] = status;
+        }
+        if (id == JOYPORT_ID_JOY7 && joy_port[6] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[7] = status;
+        }
+        if (id == JOYPORT_ID_JOY8 && joy_port[7] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[8] = status;
+        }
+        if (id == JOYPORT_ID_JOY9 && joy_port[8] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[9] = status;
+        }
+        if (id == JOYPORT_ID_JOY10 && joy_port[9] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[10] = status;
+        }
+        if (id == JOYPORT_ID_JOY11 && joy_port[10] == JOYPORT_ID_JOYSTICK) {
+            joyport_display[11] = status;
+        }
     } else {
-        if (id != joy_port[0] && id != joy_port[1] && id != joy_port[2] && id != joy_port[3] && id != joy_port[4]) {
+        for (i = 0; i < 11; i++) {
+            if (id == joy_port[i]) {
+                all = 0;
+            }
+        }
+
+        if (!all) {
             return;
         }
 
@@ -504,6 +550,30 @@ void joyport_display_joyport(int id, uint16_t status)
 
         if (id == joy_port[4]) {
             joyport_display[5] = status;
+        }
+
+        if (id == joy_port[5]) {
+            joyport_display[6] = status;
+        }
+
+        if (id == joy_port[6]) {
+            joyport_display[7] = status;
+        }
+
+        if (id == joy_port[7]) {
+            joyport_display[8] = status;
+        }
+
+        if (id == joy_port[8]) {
+            joyport_display[9] = status;
+        }
+
+        if (id == joy_port[9]) {
+            joyport_display[10] = status;
+        }
+
+        if (id == joy_port[10]) {
+            joyport_display[11] = status;
         }
     }
     ui_display_joyport(joyport_display);
