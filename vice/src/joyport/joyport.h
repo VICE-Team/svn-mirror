@@ -78,6 +78,7 @@ enum {
     JOYPORT_ID_VIZAWRITE64_DONGLE,
     JOYPORT_ID_WAASOFT_DONGLE,
     JOYPORT_ID_SNESPAD,
+    JOYPORT_ID_SPACEBALLS,
     JOYPORT_MAX_DEVICES
 };
 
@@ -118,6 +119,7 @@ enum {
 #define JOYSTICK_ADAPTER_ID_GENERIC_USERPORT 1
 #define JOYSTICK_ADAPTER_ID_JOYPORT_SNES     2
 #define JOYSTICK_ADAPTER_ID_USERPORT_SNES    3
+#define JOYSTICK_ADAPTER_ID_SPACEBALLS       4
 
 /* this structure is used for control port devices */
 typedef struct joyport_s {

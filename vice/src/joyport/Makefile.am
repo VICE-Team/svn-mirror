@@ -50,6 +50,8 @@ libjoyport_a_SOURCES = \
 	script64_dongle.h \
 	snespad.c \
 	snespad.h \
+	spaceballs.c \
+	spaceballs.h \
 	vizawrite64_dongle.c \
 	vizawrite64_dongle.h \
 	waasoft_dongle.c \
