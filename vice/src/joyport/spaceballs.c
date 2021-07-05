@@ -1,5 +1,5 @@
 /*
- * spaceballs.c - Single SNES PAD emulation.
+ * spaceballs.c - Spaceballs 8-player joystick adapter emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
