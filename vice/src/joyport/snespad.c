@@ -1,5 +1,5 @@
 /*
- * snespad.c - Single SNES PAD emulation.
+ * snespad.c - Joy port SNES PAD emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -48,6 +48,11 @@
      3   |   DATA PAD 3 |  I
      4   |     CLOCK    |  O
      6   |     LATCH    |  O
+ */
+
+/* Since there are currently no games that use more than 3 snes pads,
+   only 3 snes pads are emulated, this is easily extendable in the
+   future.
  */
 
 static int snespad_enabled = 0;
