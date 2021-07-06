@@ -34,9 +34,9 @@ libuserport_a_SOURCES = \
 	userport_digimax.h \
 	userport_joystick.c \
 	userport_joystick.h \
+	userport_petscii_snespad.c \
+	userport_petscii_snespad.h \
 	userport_rtc_58321a.c \
 	userport_rtc_58321a.h \
 	userport_rtc_ds1307.c \
-	userport_rtc_ds1307.h \
-	userport_snespad.c \
-	userport_snespad.h
+	userport_rtc_ds1307.h

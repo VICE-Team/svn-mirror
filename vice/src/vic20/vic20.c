@@ -95,9 +95,9 @@
 #include "userport.h"
 #include "userport_dac.h"
 #include "userport_joystick.h"
+#include "userport_petscii_snespad.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
-#include "userport_snespad.h"
 #include "via.h"
 #include "vic.h"
 #include "vic-mem.h"
@@ -741,8 +741,8 @@ int machine_resources_init(void)
         init_resource_fail("userport rtc (ds1307)");
         return -1;
     }
-    if (userport_snespad_resources_init() < 0) {
-        init_resource_fail("userport snes pad");
+    if (userport_petscii_snespad_resources_init() < 0) {
+        init_resource_fail("userport petscii snes pad");
         return -1;
     }
     if (cartio_resources_init() < 0) {
@@ -934,8 +934,8 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport rtc (ds1307)");
         return -1;
     }
-    if (userport_snespad_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport snes pad");
+    if (userport_petscii_snespad_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport petscii snes pad");
         return -1;
     }
     if (cartio_cmdline_options_init() < 0) {

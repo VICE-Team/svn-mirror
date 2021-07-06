@@ -1,5 +1,5 @@
 /*
- * userport_snespad.h: Userport single SNES pad device emulation.
+ * userport_petscii_snespad.h:
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,12 +24,12 @@
  *
  */
 
-#ifndef VICE_USERPORT_SNESPAD_H
-#define VICE_USERPORT_SNESPAD_H
+#ifndef VICE_USERPORT_PETSCII_SNESPAD_H
+#define VICE_USERPORT_PETSCII_SNESPAD_H
 
 #include "types.h"
 
-extern int userport_snespad_resources_init(void);
-extern int userport_snespad_cmdline_options_init(void);
+extern int userport_petscii_snespad_resources_init(void);
+extern int userport_petscii_snespad_cmdline_options_init(void);
 
 #endif

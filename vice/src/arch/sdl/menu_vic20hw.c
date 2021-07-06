@@ -176,7 +176,7 @@ UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
-UI_MENU_DEFINE_TOGGLE(UserportSNESPad)
+UI_MENU_DEFINE_TOGGLE(UserportPetsciiSNESPad)
 
 static const ui_menu_entry_t userport_menu[] = {
     SDL_MENU_ITEM_TITLE("Userport devices"),
@@ -202,7 +202,7 @@ static const ui_menu_entry_t userport_menu[] = {
       NULL },
     { "SNES Pad enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportSNESPad_callback,
+      toggle_UserportPetsciiSNESPad_callback,
       NULL },
     SDL_MENU_LIST_END
 };

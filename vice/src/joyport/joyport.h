@@ -116,12 +116,12 @@ enum {
 #define JOYPORT_POT_REQUIRED   0
 #define JOYPORT_POT_OPTIONAL   1
 
-#define JOYSTICK_ADAPTER_ID_NONE             0
-#define JOYSTICK_ADAPTER_ID_GENERIC_USERPORT 1
-#define JOYSTICK_ADAPTER_ID_TRAPTHEM_SNES    2
-#define JOYSTICK_ADAPTER_ID_NINJA_SNES       3
-#define JOYSTICK_ADAPTER_ID_USERPORT_SNES    4
-#define JOYSTICK_ADAPTER_ID_SPACEBALLS       5
+#define JOYSTICK_ADAPTER_ID_NONE                  0
+#define JOYSTICK_ADAPTER_ID_GENERIC_USERPORT      1
+#define JOYSTICK_ADAPTER_ID_TRAPTHEM_SNES         2
+#define JOYSTICK_ADAPTER_ID_NINJA_SNES            3
+#define JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES 4
+#define JOYSTICK_ADAPTER_ID_SPACEBALLS            5
 
 /* this structure is used for control port devices */
 typedef struct joyport_s {
