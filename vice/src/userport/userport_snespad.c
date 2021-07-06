@@ -44,6 +44,7 @@ C64/C128 |   PET   |  VIC20  | CBM2 | SNES PAD | I/O
 #include "joyport.h"
 #include "joystick.h"
 #include "snapshot.h"
+#include "snespad.h"
 #include "userport.h"
 #include "userport_snespad.h"
 #include "machine.h"
@@ -160,7 +161,7 @@ static void userport_snespad_store_pbx(uint8_t value)
     }
 
     if (clock_line && !new_clock) {
-        if (counter != USERPORT_SNESPAD_EOS) {
+        if (counter != SNESPAD_EOS) {
             counter++;
         }
     }
@@ -175,43 +176,49 @@ static void userport_snespad_read_pbx(void)
     uint16_t portval = get_joystick_value(JOYPORT_3);
 
     switch (counter) {
-        case USERPORT_SNESPAD_BUTTON_A:
+        case SNESPAD_BUTTON_A:
             retval = (uint8_t)((portval & 0x10) >> 4);
             break;
-        case USERPORT_SNESPAD_BUTTON_B:
+        case SNESPAD_BUTTON_B:
             retval = (uint8_t)((portval & 0x20) >> 5);
             break;
-        case USERPORT_SNESPAD_BUTTON_X:
+        case SNESPAD_BUTTON_X:
             retval = (uint8_t)((portval & 0x40) >> 6);
             break;
-        case USERPORT_SNESPAD_BUTTON_Y:
+        case SNESPAD_BUTTON_Y:
             retval = (uint8_t)((portval & 0x80) >> 7);
             break;
-        case USERPORT_SNESPAD_BUMPER_LEFT:
+        case SNESPAD_BUMPER_LEFT:
             retval = (uint8_t)((portval & 0x100) >> 8);
             break;
-        case USERPORT_SNESPAD_BUMPER_RIGHT:
+        case SNESPAD_BUMPER_RIGHT:
             retval = (uint8_t)((portval & 0x200) >> 9);
             break;
-        case USERPORT_SNESPAD_BUTTON_SELECT:
+        case SNESPAD_BUTTON_SELECT:
             retval = (uint8_t)((portval & 0x400) >> 10);
             break;
-        case USERPORT_SNESPAD_BUTTON_START:
+        case SNESPAD_BUTTON_START:
             retval = (uint8_t)((portval & 0x800) >> 11);
             break;
-        case USERPORT_SNESPAD_UP:
+        case SNESPAD_UP:
             retval = (uint8_t)(portval & 1);
             break;
-        case USERPORT_SNESPAD_DOWN:
+        case SNESPAD_DOWN:
             retval = (uint8_t)((portval & 2) >> 1);
             break;
-        case USERPORT_SNESPAD_LEFT:
+        case SNESPAD_LEFT:
             retval = (uint8_t)((portval & 4) >> 2);
             break;
-        case USERPORT_SNESPAD_RIGHT:
+        case SNESPAD_RIGHT:
             retval = (uint8_t)((portval & 8) >> 3);
             break;
-        case USERPORT_SNESPAD_EOS:
+        case SNESPAD_BIT_12_1:
+        case SNESPAD_BIT_13_1:
+        case SNESPAD_BIT_14_1:
+        case SNESPAD_BIT_15_1:
+            retval = 1;
+            break;
+        case SNESPAD_EOS:
             retval = 1;
             break;
         default:
