@@ -107,6 +107,7 @@
 #include "userport_petscii_snespad.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
+#include "userport_superpad64.h"
 #include "vice-event.h"
 #include "video.h"
 #include "video-sound.h"
@@ -364,6 +365,10 @@ int machine_resources_init(void)
         init_resource_fail("userport petscii snes pad");
         return -1;
     }
+    if (userport_superpad64_resources_init() < 0) {
+        init_resource_fail("userport userpad64");
+        return -1;
+    }
     if (userport_rtc_58321a_resources_init() < 0) {
         init_resource_fail("userport rtc (58321a)");
         return -1;
@@ -546,6 +551,10 @@ int machine_cmdline_options_init(void)
     }
     if (userport_petscii_snespad_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport petscii snes pad");
+        return -1;
+    }
+    if (userport_superpad64_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport superpad64");
         return -1;
     }
     if (userport_rtc_58321a_cmdline_options_init() < 0) {

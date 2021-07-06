@@ -121,7 +121,8 @@ enum {
 #define JOYSTICK_ADAPTER_ID_TRAPTHEM_SNES         2
 #define JOYSTICK_ADAPTER_ID_NINJA_SNES            3
 #define JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES 4
-#define JOYSTICK_ADAPTER_ID_SPACEBALLS            5
+#define JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64   5
+#define JOYSTICK_ADAPTER_ID_SPACEBALLS            6
 
 /* this structure is used for control port devices */
 typedef struct joyport_s {
