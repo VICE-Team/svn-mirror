@@ -104,7 +104,7 @@
 #include "userport_dac.h"
 #include "userport_digimax.h"
 #include "userport_joystick.h"
-#include "userport_snespad.h"
+#include "userport_petscii_snespad.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
 #include "vice-event.h"
@@ -360,8 +360,8 @@ int machine_resources_init(void)
         init_resource_fail("userport digimax");
         return -1;
     }
-    if (userport_snespad_resources_init() < 0) {
-        init_resource_fail("userport snes pad");
+    if (userport_petscii_snespad_resources_init() < 0) {
+        init_resource_fail("userport petscii snes pad");
         return -1;
     }
     if (userport_rtc_58321a_resources_init() < 0) {
@@ -544,8 +544,8 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport digimax");
         return -1;
     }
-    if (userport_snespad_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport snes pad");
+    if (userport_petscii_snespad_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport petscii snes pad");
         return -1;
     }
     if (userport_rtc_58321a_cmdline_options_init() < 0) {

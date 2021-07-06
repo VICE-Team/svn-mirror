@@ -5,15 +5,15 @@
  */
 
 /*
- * $VICERES Userport4bitSampler x64 x64sc xscpu64 x128 xcbm2
- * $VICERES Userport8BSS        x64 x64sc xscpu64 x128 xcbm2
- * $VICERES UserportDAC         x64 x64sc xscpu64 x128 xcbm2 xvic xpet xplus4
- * $VICERES UserportDIGIMAX     x64 x64sc xscpu64 x128 xcbm2
- * $VICERES Userport58321a      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
- * $VICERES Userport58321aSave  x64 x64sc xscpu64 x128 xcbm2 xvic xpet
- * $VICERES UserportDS1307      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
- * $VICERES UserportDS1307Save  x64 x64sc xscpu64 x128 xcbm2 xvic xpet
- * $VICERES UserportSNESPad     x64 x64sc xscpu64 x128 xvic xpet xcbm2
+ * $VICERES Userport4bitSampler     x64 x64sc xscpu64 x128 xcbm2
+ * $VICERES Userport8BSS            x64 x64sc xscpu64 x128 xcbm2
+ * $VICERES UserportDAC             x64 x64sc xscpu64 x128 xcbm2 xvic xpet xplus4
+ * $VICERES UserportDIGIMAX         x64 x64sc xscpu64 x128 xcbm2
+ * $VICERES Userport58321a          x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES Userport58321aSave      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES UserportDS1307          x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES UserportDS1307Save      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES UserportPetsciiSNESPad  x64 x64sc xscpu64 x128 xvic xpet xcbm2
  */
 
 /*
@@ -188,14 +188,14 @@ static GtkWidget *create_rtc_ds1307_save_widget(void)
 }
 
 
-/** \brief  Create widget for the "UserportSNESPad" resource
+/** \brief  Create widget for the "UserportPetsciiSNESPad" resource
  *
  * \return  GtkCheckButton
  */
 static GtkWidget *create_snespad_widget(void)
 {
     return vice_gtk3_resource_check_button_new(
-            "UserportSNESPad", "Enable Userport SNES Pad");
+            "UserportPetsciiSNESPad", "Enable Userport Petscii SNES Pad");
 }
 
 

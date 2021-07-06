@@ -1,5 +1,5 @@
 /*
- * userport_snespad_sampler.c - Userport single SNES pad emulation.
+ * userport_petscii_snespad.c - Userport Petscii SNES pad emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,7 +24,7 @@
  *
  */
 
-/* - SNES PAD (C64/C128/PET/VIC20)
+/* - PETSCII SNES PAD (C64/C128/PET/VIC20)
 
 C64/C128 |   PET   |  VIC20  | CBM2 | SNES PAD | I/O
 -------------------------------------------------------
@@ -46,7 +46,7 @@ C64/C128 |   PET   |  VIC20  | CBM2 | SNES PAD | I/O
 #include "snapshot.h"
 #include "snespad.h"
 #include "userport.h"
-#include "userport_snespad.h"
+#include "userport_petscii_snespad.h"
 #include "machine.h"
 #include "uiapi.h"
 
@@ -64,25 +64,25 @@ static void userport_snespad_read_pbx(void);
 static void userport_snespad_store_pbx(uint8_t value);
 
 static userport_device_t userport_snespad_device = {
-    USERPORT_DEVICE_SNESPAD,           /* device id */
-    "Userport SNES pad",               /* device name */
-    JOYSTICK_ADAPTER_ID_USERPORT_SNES, /* this is a joystick adapter */
-    userport_snespad_read_pbx,         /* read pb0-pb7 function */
-    userport_snespad_store_pbx,        /* store pb0-pb7 function */
-    NULL,                              /* NO read pa2 pin function */
-    NULL,                              /* NO store pa2 pin function */
-    NULL,                              /* NO read pa3 pin function */
-    NULL,                              /* NO store pa3 pin function */
-    0,                                 /* pc pin is NOT needed */
-    NULL,                              /* NO store sp1 pin function */
-    NULL,                              /* NO read sp1 pin function */
-    NULL,                              /* NO store sp2 pin function */
-    NULL,                              /* NO read sp2 pin function */
-    "UserportSNESPad",                 /* resource used by the device */
-    0xff,                              /* return value from a read, to be filled in by the device */
-    0xff,                              /* validity mask of the device, to be filled in at read */
-    0,                                 /* device involved in a read collision, to be filled in by the collision detection system */
-    0                                  /* a tag to indicate the order of insertion */
+    USERPORT_DEVICE_PETSCII_SNESPAD,           /* device id */
+    "Userport Petscii SNES pad",               /* device name */
+    JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES, /* this is a joystick adapter */
+    userport_snespad_read_pbx,                 /* read pb0-pb7 function */
+    userport_snespad_store_pbx,                /* store pb0-pb7 function */
+    NULL,                                      /* NO read pa2 pin function */
+    NULL,                                      /* NO store pa2 pin function */
+    NULL,                                      /* NO read pa3 pin function */
+    NULL,                                      /* NO store pa3 pin function */
+    0,                                         /* pc pin is NOT needed */
+    NULL,                                      /* NO store sp1 pin function */
+    NULL,                                      /* NO read sp1 pin function */
+    NULL,                                      /* NO store sp2 pin function */
+    NULL,                                      /* NO read sp2 pin function */
+    "UserportPetsciiSNESPad",                  /* resource used by the device */
+    0xff,                                      /* return value from a read, to be filled in by the device */
+    0xff,                                      /* validity mask of the device, to be filled in at read */
+    0,                                         /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                          /* a tag to indicate the order of insertion */
 };
 
 static userport_device_list_t *userport_snespad_list_item = NULL;
@@ -108,7 +108,7 @@ static int set_userport_snespad_enabled(int value, void *param)
         if (userport_snespad_list_item == NULL) {
             return -1;
         }
-        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_USERPORT_SNES, userport_snespad_device.name);
+        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES, userport_snespad_device.name);
     } else {
         userport_device_unregister(userport_snespad_list_item);
         userport_snespad_list_item = NULL;
@@ -120,28 +120,28 @@ static int set_userport_snespad_enabled(int value, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "UserportSNESPad", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "UserportPetsciiSNESPad", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &userport_snespad_enabled, set_userport_snespad_enabled, NULL },
     RESOURCE_INT_LIST_END
 };
 
-int userport_snespad_resources_init(void)
+int userport_petscii_snespad_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userportsnespad", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "UserportSNESPad", (resource_value_t)1,
-      NULL, "Enable Userport SNES pad" },
-    { "+userportsnespad", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "UserportSNESPad", (resource_value_t)0,
-      NULL, "Disable Userport SNES pad" },
+    { "-userportpetsciisnespad", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "UserportPetsciiSNESPad", (resource_value_t)1,
+      NULL, "Enable Userport Petscii SNES pad" },
+    { "+userportpetsciisnespad", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "UserportPetsciiSNESPad", (resource_value_t)0,
+      NULL, "Disable Userport Petscii SNES pad" },
     CMDLINE_LIST_END
 };
 
-int userport_snespad_cmdline_options_init(void)
+int userport_petscii_snespad_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
