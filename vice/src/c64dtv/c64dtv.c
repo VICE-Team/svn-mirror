@@ -77,6 +77,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "network.h"
+#include "ninja_snespad.h"
 #include "paperclip64.h"
 #include "parallel.h"
 #include "patchrom.h"
@@ -93,7 +94,6 @@
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
-#include "snespad.h"
 #include "sound.h"
 #include "tape.h"
 #include "tapecart.h"
@@ -444,8 +444,8 @@ int machine_resources_init(void)
         init_resource_fail("joyport rushware keypad");
         return -1;
     }
-    if (joyport_snespad_resources_init() < 0) {
-        init_resource_fail("joyport snespad");
+    if (joyport_ninja_snespad_resources_init() < 0) {
+        init_resource_fail("joyport ninja snespad");
         return -1;
     }
     if (joystick_resources_init() < 0) {

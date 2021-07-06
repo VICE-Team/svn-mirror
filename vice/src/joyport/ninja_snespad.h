@@ -1,5 +1,5 @@
 /*
- * snespad.h
+ * ninja_snespad.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,27 +24,11 @@
  *
  */
 
-#ifndef VICE_SNESPAD_H
-#define VICE_SNESPAD_H
+#ifndef VICE_NINJA_SNESPAD_H
+#define VICE_NINJA_SNESPAD_H
 
 #include "types.h"
 
-#define SNESPAD_BUTTON_B        0
-#define SNESPAD_BUTTON_Y        1
-#define SNESPAD_BUTTON_SELECT   2
-#define SNESPAD_BUTTON_START    3
-#define SNESPAD_UP              4
-#define SNESPAD_DOWN            5
-#define SNESPAD_LEFT            6
-#define SNESPAD_RIGHT           7
-#define SNESPAD_BUTTON_A        8
-#define SNESPAD_BUTTON_X        9
-#define SNESPAD_BUMPER_LEFT    10
-#define SNESPAD_BUMPER_RIGHT   11
-
-/* End Of Sequence */
-#define SNESPAD_EOS            12
-
-extern int joyport_snespad_resources_init(void);
+extern int joyport_ninja_snespad_resources_init(void);
 
 #endif
