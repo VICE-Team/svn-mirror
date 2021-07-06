@@ -2,14 +2,23 @@
  * \brief   Widget to control settings for joysticks
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \todo    Refactor adapter ports layout code, most machines now support
+ *          eight joysticks for certain adapters.
  */
 
 /*
  * $VICERES JoyDevice1      -xcbm2 -xpet -vsid
  * $VICERES JoyDevice2      -xcbm2 -xpet -xvic -vsid
- * $VICERES JoyDevice3      -xcbm5x0 -vsid
- * $VICERES JoyDevice4      -xcbm5x0 -xplus4 -vsid
- * $VICERES JoyDevice5      xplus4
+ * $VICERES JoyDevice3      -vsid
+ * $VICERES JoyDevice4      -vsid
+ * $VICERES JoyDevice5      -vsid
+ * $VICERES JoyDevice6      -xplus4 -vsid
+ * $VICERES JoyDevice7      -xplus4 -vsid
+ * $VICERES JoyDevice8      -xplus4 -vsid
+ * $VICERES JoyDevice9      -xplus4 -vsid
+ * $VICERES JoyDevice10     -xplus4 -vsid
+ *
  * $VICERES JoyOpposite     -vsid
  * $VICERES KeySetEnable    -vsid
  *
@@ -164,7 +173,7 @@ static GtkWidget *create_swap_joysticks_button(void)
 {
     GtkWidget *button;
 
-    button = gtk_button_new_with_label("Swap joysticks");
+    button = gtk_button_new_with_label("Swap Joysticks");
     g_signal_connect(button, "clicked", G_CALLBACK(on_swap_joysticks_clicked),
             NULL);
     gtk_widget_set_vexpand(button, FALSE);
@@ -182,7 +191,7 @@ static GtkWidget *create_swap_userport_joysticks_button(void)
 {
     GtkWidget *button;
 
-    button = gtk_button_new_with_label("Swap Userport joysticks");
+    button = gtk_button_new_with_label("Swap Adapter Joysticks 1 & 2");
     g_signal_connect(button, "clicked",
             G_CALLBACK(on_swap_userport_joysticks_clicked), NULL);
     gtk_widget_set_vexpand(button, FALSE);
@@ -234,26 +243,49 @@ static int create_c64_layout(GtkGrid *grid)
     device_widgets[JOYPORT_2] = joystick_device_widget_create(
             JOYPORT_2, "Joystick #2");
     device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Userport Joystick #1");
+            JOYPORT_3, "Joystick Adapter Port #1");
     device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Userport Joystick #2");
+            JOYPORT_4, "Joystick Adapter Port #2");
+    device_widgets[JOYPORT_5] = joystick_device_widget_create(
+            JOYPORT_5, "Joystick Adapter Port #3");
+    device_widgets[JOYPORT_6] = joystick_device_widget_create(
+            JOYPORT_6, "Joystick Adapter Port #4");
+    device_widgets[JOYPORT_7] = joystick_device_widget_create(
+            JOYPORT_7, "Joystick Adapter Port #5");
+    device_widgets[JOYPORT_8] = joystick_device_widget_create(
+            JOYPORT_8, "Joystick Adapter Port #6");
+    device_widgets[JOYPORT_9] = joystick_device_widget_create(
+            JOYPORT_9, "Joystick Adapter Port #7");
+    device_widgets[JOYPORT_10] = joystick_device_widget_create(
+            JOYPORT_10, "Joystick Adapter Port #8");
 
     gtk_grid_attach(grid, device_widgets[JOYPORT_1], 0, 0, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_2], 1, 0, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 3, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 3, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 4, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 4, 1, 1);
 
     swap_button1 = create_swap_joysticks_button();
-    g_object_set(swap_button1, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 2, 1, 1);
-
+    g_object_set(swap_button1,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
+    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 5, 1, 1);
     swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 2, 1, 1);
+    g_object_set(swap_button2,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
+    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 5, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 7, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 6, 1, 1);
 
-    return 3;
+    return 7;
 }
 
 
@@ -266,23 +298,54 @@ static int create_c64_layout(GtkGrid *grid)
 static int create_c64dtv_layout(GtkGrid *grid)
 {
     GtkWidget *swap_button1;
+    GtkWidget *swap_button2;
 
     device_widgets[JOYPORT_1] = joystick_device_widget_create(
             JOYPORT_1, "Joystick #1");
     device_widgets[JOYPORT_2] = joystick_device_widget_create(
             JOYPORT_2, "Joystick #2");
     device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Userport Joystick");
+            JOYPORT_3, "Joystick Adapter Port #1");
+    device_widgets[JOYPORT_4] = joystick_device_widget_create(
+            JOYPORT_4, "Joystick Adapter Port #2");
+    device_widgets[JOYPORT_5] = joystick_device_widget_create(
+            JOYPORT_5, "Joystick Adapter Port #3");
+    device_widgets[JOYPORT_6] = joystick_device_widget_create(
+            JOYPORT_6, "Joystick Adapter Port #4");
+    device_widgets[JOYPORT_7] = joystick_device_widget_create(
+            JOYPORT_7, "Joystick Adapter Port #5");
+    device_widgets[JOYPORT_8] = joystick_device_widget_create(
+            JOYPORT_8, "Joystick Adapter Port #6");
+    device_widgets[JOYPORT_9] = joystick_device_widget_create(
+            JOYPORT_9, "Joystick Adapter Port #7");
+    device_widgets[JOYPORT_10] = joystick_device_widget_create(
+            JOYPORT_10, "Joystick Adapter Port #8");
 
     gtk_grid_attach(grid, device_widgets[JOYPORT_1], 0, 0, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_2], 1, 0, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 3, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 3, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 4, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 4, 1, 1);
 
     swap_button1 = create_swap_joysticks_button();
-    g_object_set(swap_button1, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 2, 1, 1);
+    g_object_set(swap_button1,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
+    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 5, 1, 1);
+    swap_button2 = create_swap_userport_joysticks_button();
+    g_object_set(swap_button2,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
+    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 5, 1, 1);
 
-    return 3;
+    return 6;
 }
 
 
@@ -296,24 +359,46 @@ static int create_vic20_layout(GtkGrid *grid)
 {
     GtkWidget *swap_button2;
 
+    /* vic-20 has only one control port */
     device_widgets[JOYPORT_1] = joystick_device_widget_create(
             JOYPORT_1, "Joystick");
     device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Userport Joystick #1");
+            JOYPORT_3, "Joystick Adapter Port #1");
     device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Userport Joystick #2");
+            JOYPORT_4, "Joystick Adapter Port #2");
+    device_widgets[JOYPORT_5] = joystick_device_widget_create(
+            JOYPORT_5, "Joystick Adapter Port #3");
+    device_widgets[JOYPORT_6] = joystick_device_widget_create(
+            JOYPORT_6, "Joystick Adapter Port #4");
+    device_widgets[JOYPORT_7] = joystick_device_widget_create(
+            JOYPORT_7, "Joystick Adapter Port #5");
+    device_widgets[JOYPORT_8] = joystick_device_widget_create(
+            JOYPORT_8, "Joystick Adapter Port #6");
+    device_widgets[JOYPORT_9] = joystick_device_widget_create(
+            JOYPORT_9, "Joystick Adapter Port #7");
+    device_widgets[JOYPORT_10] = joystick_device_widget_create(
+            JOYPORT_10, "Joystick Adapter Port #8");
 
     gtk_grid_attach(grid, device_widgets[JOYPORT_1], 0, 0, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 3, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 3, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 4, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 4, 1, 1);
 
     swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 3, 1, 1);
+    g_object_set(swap_button2,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
+    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 5, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 7, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 6, 1, 1);
 
-    return 2;
+    return 7;
 }
 
 /** \brief  Create layout for xplus4
@@ -332,9 +417,9 @@ static int create_plus4_layout(GtkGrid *grid)
     device_widgets[JOYPORT_2] = joystick_device_widget_create(
             JOYPORT_2, "Joystick #2");
     device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Userport Joystick #1");
+            JOYPORT_3, "Joystick Adapter Port #1");
     device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Userport Joystick #2");
+            JOYPORT_4, "Joystick Adapter Port #2");
     device_widgets[JOYPORT_5] = joystick_device_widget_create(
             JOYPORT_5, "SIDCard Joystick");
 
@@ -345,15 +430,21 @@ static int create_plus4_layout(GtkGrid *grid)
     gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
 
     swap_button1 = create_swap_joysticks_button();
-    g_object_set(swap_button1, "margin-left", 16, NULL);
+    g_object_set(swap_button1,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
     gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 3, 1, 1);
     swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2, "margin-left", 16, NULL);
+    g_object_set(swap_button2,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
     gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 3, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 8, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 4, 1, 1);
 
-    return 4;
+    return 5;
 }
 
 
@@ -366,20 +457,55 @@ static int create_plus4_layout(GtkGrid *grid)
 static int create_cbm5x0_layout(GtkGrid *grid)
 {
     GtkWidget *swap_button1;
+    GtkWidget *swap_button2;
 
     device_widgets[JOYPORT_1] = joystick_device_widget_create(
             JOYPORT_1, "Joystick #1");
     device_widgets[JOYPORT_2] = joystick_device_widget_create(
             JOYPORT_2, "Joystick #2");
+    device_widgets[JOYPORT_3] = joystick_device_widget_create(
+            JOYPORT_3, "Joystick Adapter Port #1");
+    device_widgets[JOYPORT_4] = joystick_device_widget_create(
+            JOYPORT_4, "Joystick Adapter Port #2");
+    device_widgets[JOYPORT_5] = joystick_device_widget_create(
+            JOYPORT_5, "Joystick Adapter Port #3");
+    device_widgets[JOYPORT_6] = joystick_device_widget_create(
+            JOYPORT_6, "Joystick Adapter Port #4");
+    device_widgets[JOYPORT_7] = joystick_device_widget_create(
+            JOYPORT_7, "Joystick Adapter Port #5");
+    device_widgets[JOYPORT_8] = joystick_device_widget_create(
+            JOYPORT_8, "Joystick Adapter Port #6");
+    device_widgets[JOYPORT_9] = joystick_device_widget_create(
+            JOYPORT_9, "Joystick Adapter Port #7");
+    device_widgets[JOYPORT_10] = joystick_device_widget_create(
+            JOYPORT_10, "Joystick Adapter Port #8");
+
 
     gtk_grid_attach(grid, device_widgets[JOYPORT_1], 0, 0, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_2], 1, 0, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 3, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 3, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 4, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 4, 1, 1);
 
     swap_button1 = create_swap_joysticks_button();
-    g_object_set(swap_button1, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 1, 1, 1);
+    g_object_set(swap_button1,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
+    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 5, 1, 1);
+    swap_button2 = create_swap_userport_joysticks_button();
+    g_object_set(swap_button2,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
+    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 5, 1, 1);
 
-    return 2;
+    return 6;
 }
 
 
@@ -394,19 +520,41 @@ static int create_cbm6x0_layout(GtkGrid *grid)
     GtkWidget *swap_button2;
 
     device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Userport Joystick #1");
+            JOYPORT_3, "Joystick Adapter Port #1");
     device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Userport Joystick #2");
+            JOYPORT_4, "Joystick Adapter Port #2");
+    device_widgets[JOYPORT_5] = joystick_device_widget_create(
+            JOYPORT_5, "Joystick Adapter Port #3");
+    device_widgets[JOYPORT_6] = joystick_device_widget_create(
+            JOYPORT_6, "Joystick Adapter Port #4");
+    device_widgets[JOYPORT_7] = joystick_device_widget_create(
+            JOYPORT_7, "Joystick Adapter Port #5");
+    device_widgets[JOYPORT_8] = joystick_device_widget_create(
+            JOYPORT_8, "Joystick Adapter Port #6");
+    device_widgets[JOYPORT_9] = joystick_device_widget_create(
+            JOYPORT_9, "Joystick Adapter Port #7");
+    device_widgets[JOYPORT_10] = joystick_device_widget_create(
+            JOYPORT_10, "Joystick Adapter Port #8");
+
     gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 0, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 0, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 1, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 1, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 2, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 3, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 3, 1, 1);
 
     swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 1, 1, 1);
+    g_object_set(swap_button2,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
+    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 4, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 5, 1, 1);
 
-    return 2;
+    return 6;
 }
 
 
@@ -431,7 +579,7 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     int rows = 0;
     int adapter_state;
 
-    layout = vice_gtk3_grid_new_spaced(8, 8);
+    layout = vice_gtk3_grid_new_spaced(16, 8);
 
     if (machine_class != VICE_MACHINE_C64DTV
             && machine_class != VICE_MACHINE_CBM5x0) {
@@ -482,19 +630,22 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
 
     /* add buttons to active keyset dialog */
     keyset_1_button = gtk_button_new_with_label("Configure keyset A");
-    g_object_set(keyset_1_button, "margin-left", 16, NULL);
+    g_object_set(keyset_1_button,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
     gtk_grid_attach(GTK_GRID(layout), keyset_1_button, 0, rows, 1, 1);
     g_signal_connect(keyset_1_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(1));
-    rows++;
 
     keyset_2_button = gtk_button_new_with_label("Configure keyset B");
-    g_object_set(keyset_2_button, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(layout), keyset_2_button, 0, rows, 1, 1);
+    g_object_set(keyset_2_button,
+                 "margin-left", 16,
+                 "margin-top", 16,
+                 NULL);
+    gtk_grid_attach(GTK_GRID(layout), keyset_2_button, 1, rows, 1, 1);
     g_signal_connect(keyset_2_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(2));
-
-
 
     gtk_widget_show_all(layout);
     return layout;
