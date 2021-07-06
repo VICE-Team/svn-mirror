@@ -95,6 +95,7 @@
 #include "tapeport.h"
 #include "tpi.h"
 #include "traps.h"
+#include "trapthem_snespad.h"
 #include "types.h"
 #include "vice-event.h"
 #include "vicii.h"
@@ -368,6 +369,10 @@ int machine_resources_init(void)
     }
     if (joyport_paperclip64_resources_init() < 0) {
         init_resource_fail("joyport paperclip64 dongle");
+        return -1;
+    }
+    if (joyport_trapthem_snespad_resources_init() < 0) {
+        init_resource_fail("joyport trapthem snespad");
         return -1;
     }
     if (joyport_ninja_snespad_resources_init() < 0) {
