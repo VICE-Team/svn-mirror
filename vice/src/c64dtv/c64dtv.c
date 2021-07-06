@@ -99,6 +99,7 @@
 #include "tapecart.h"
 #include "tapeport.h"
 #include "traps.h"
+#include "trapthem_snespad.h"
 #include "types.h"
 #include "userport.h"
 #include "userport_joystick.h"
@@ -442,6 +443,10 @@ int machine_resources_init(void)
     }
     if (joyport_rushware_keypad_resources_init() < 0) {
         init_resource_fail("joyport rushware keypad");
+        return -1;
+    }
+    if (joyport_trapthem_snespad_resources_init() < 0) {
+        init_resource_fail("joyport trapthem snespad");
         return -1;
     }
     if (joyport_ninja_snespad_resources_init() < 0) {
