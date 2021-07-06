@@ -14,6 +14,7 @@
  * $VICERES UserportDS1307          x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES UserportDS1307Save      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES UserportPetsciiSNESPad  x64 x64sc xscpu64 x128 xvic xpet xcbm2
+ * $VICERES UserportSuperPad64      x64 x64sc xscpu64 x128 xcbm2
  */
 
 /*
@@ -199,6 +200,16 @@ static GtkWidget *create_snespad_widget(void)
 }
 
 
+/** \brief  Create widget for the "UserportSuperPad64" resource
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_superpad64_widget(void)
+{
+    return vice_gtk3_resource_check_button_new(
+            "UserportSuperPad64", "Enable Userport Super Pad 64");
+}
+
 
 /** \brief  Create layout for x64/x64sc/xscpu64/x128/xcbm2
  *
@@ -234,6 +245,7 @@ static void create_c64_cbm2_layout(GtkWidget *grid)
 
     if (machine_class != VICE_MACHINE_CBM5x0) {
         gtk_grid_attach(GTK_GRID(grid), create_snespad_widget(), 0, 8, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), create_superpad64_widget(), 0, 9, 1, 1);
     }
 }
 
