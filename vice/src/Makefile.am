@@ -273,6 +273,7 @@ noinst_HEADERS = \
 	sidcart.h \
 	signals.h \
 	snapshot.h \
+	snespad.h
 	sound.h \
 	ssi2001.h \
 	sysfile.h \

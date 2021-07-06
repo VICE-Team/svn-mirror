@@ -38,6 +38,8 @@ libjoyport_a_SOURCES = \
 	lightpen.h \
 	mouse.c \
 	mouse.h \
+	ninja_snespad.c \
+	ninja_snespad.h \
 	paperclip64.c \
 	paperclip64.h \
 	rushware_keypad.c \
@@ -48,8 +50,6 @@ libjoyport_a_SOURCES = \
 	sampler4bit.h \
 	script64_dongle.c \
 	script64_dongle.h \
-	snespad.c \
-	snespad.h \
 	spaceballs.c \
 	spaceballs.h \
 	vizawrite64_dongle.c \

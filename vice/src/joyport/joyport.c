@@ -848,7 +848,7 @@ static const struct joyport_opt_s id_match[] = {
     { "paperclip64",     JOYPORT_ID_PAPERCLIP64 },
     { "paperclip",       JOYPORT_ID_PAPERCLIP64 },
     { "pc64",            JOYPORT_ID_PAPERCLIP64 },
-    { "snespad",         JOYPORT_ID_SNESPAD },
+    { "snespad",         JOYPORT_ID_NINJA_SNESPAD },
     { "spaceballs",      JOYPORT_ID_SPACEBALLS },
     { NULL, -1 }
 };

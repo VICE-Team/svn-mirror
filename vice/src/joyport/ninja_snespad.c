@@ -1,5 +1,5 @@
 /*
- * snespad.c - Joy port SNES PAD emulation.
+ * ninja_snespad.c - Ninja SNES PAD emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -32,10 +32,10 @@
 
 #include "joyport.h"
 #include "joystick.h"
-#include "snespad.h"
+#include "ninja_snespad.h"
 #include "resources.h"
 #include "snapshot.h"
-
+#include "snespad.h"
 
 #include "log.h"
 
@@ -75,7 +75,7 @@ static int joyport_snespad_enable(int port, int value)
     }
 
     if (val) {
-        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_JOYPORT_SNES, joyport_snespad_device.name);
+        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_NINJA_SNES, joyport_snespad_device.name);
         counter = 0;
     } else {
         joystick_adapter_deactivate();
@@ -154,11 +154,17 @@ static uint8_t snespad_read(int port)
             retval |= (uint8_t)((joyval2 & 8) >> 2);
             retval |= (uint8_t)((joyval3 & 8) >> 1);
             break;
+        case SNESPAD_BIT_12_1:
+        case SNESPAD_BIT_13_1:
+        case SNESPAD_BIT_14_1:
+        case SNESPAD_BIT_15_1:
+            retval = 7;
+            break;
         case SNESPAD_EOS:
-            retval = 1;
+            retval = 0;
             break;
         default:
-            retval = 0;
+            retval = 1;
     }
 
     return ~(retval);
@@ -186,11 +192,11 @@ static void snespad_store(uint8_t val)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_snespad_device = {
-    "Joystick port SNES PAD",         /* name of the device */
+    "Ninja SNES PAD",                 /* name of the device */
     JOYPORT_RES_ID_NONE,              /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,             /* device does NOT use the potentiometer lines */
-    JOYSTICK_ADAPTER_ID_JOYPORT_SNES, /* device is a joystick adapter */
+    JOYSTICK_ADAPTER_ID_NINJA_SNES,   /* device is a joystick adapter */
     joyport_snespad_enable,           /* device enable function */
     snespad_read,                     /* digital line read function */
     snespad_store,                    /* digital line store function */
@@ -202,7 +208,7 @@ static joyport_t joyport_snespad_device = {
 
 /* ------------------------------------------------------------------------- */
 
-int joyport_snespad_resources_init(void)
+int joyport_ninja_snespad_resources_init(void)
 {
-    return joyport_device_register(JOYPORT_ID_SNESPAD, &joyport_snespad_device);
+    return joyport_device_register(JOYPORT_ID_NINJA_SNESPAD, &joyport_snespad_device);
 }

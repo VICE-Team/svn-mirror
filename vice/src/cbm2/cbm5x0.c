@@ -75,6 +75,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "network.h"
+#include "ninja_snespad.h"
 #include "paperclip64.h"
 #include "parallel.h"
 #include "printer.h"
@@ -89,7 +90,6 @@
 #include "sid-resources.h"
 #include "sid.h"
 #include "snapshot.h"
-#include "snespad.h"
 #include "sound.h"
 #include "tape.h"
 #include "tapeport.h"
@@ -370,8 +370,8 @@ int machine_resources_init(void)
         init_resource_fail("joyport paperclip64 dongle");
         return -1;
     }
-    if (joyport_snespad_resources_init() < 0) {
-        init_resource_fail("joyport snespad");
+    if (joyport_ninja_snespad_resources_init() < 0) {
+        init_resource_fail("joyport ninja snespad");
         return -1;
     }
     if (joystick_resources_init() < 0) {
