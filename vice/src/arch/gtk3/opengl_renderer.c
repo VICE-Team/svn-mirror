@@ -172,7 +172,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
         glGenVertexArrays(1, &context->vao);
     }
 
-    glGenTextures(1, &context->texture);
+    glGenTextures(1, &context->current_frame_texture);
     glGenTextures(1, &context->previous_frame_texture);
     
     vice_opengl_renderer_clear_current(context);
@@ -446,6 +446,203 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 #endif
 }
 
+static void update_frame_textures(context_t *context,
+                                  backbuffer_t **backbuffers,
+                                  int backbuffer_count)
+{
+    int i;
+    backbuffer_t *backbuffer;
+    
+    /*
+     * Update the OpenGL texture(s) with the new backbuffer bitmap(s)
+     */
+    
+    for (i = 0; i < backbuffer_count; i++) {
+        backbuffer = backbuffers[i];
+
+        /* Retain the previous texture to use in interlaced mode */
+        GLuint swap_texture             = context->previous_frame_texture;
+        
+        context->previous_frame_texture = context->current_frame_texture;
+        context->previous_frame_width   = context->current_frame_width;
+        context->previous_frame_height  = context->current_frame_height;
+        
+        context->current_frame_texture  = swap_texture;
+        context->current_frame_width    = backbuffer->width;
+        context->current_frame_height   = backbuffer->height;
+        
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, context->current_frame_texture);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer->width);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, backbuffer->width, backbuffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, backbuffer->pixel_data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+}
+
+static void legacy_render(context_t *context, float scale_x, float scale_y)
+{
+    /* Used when OpenGL 3.2+ is NOT available */
+    
+    int filter;
+    GLuint gl_filter;
+    
+    float u1 = 0.0f;
+    float v1 = 0.0f;
+    float u2 = 1.0f;
+    float v2 = 1.0f;
+    
+    resources_get_int("GTKFilter", &filter);
+    
+    /* We only support builtin linear and nearest on legacy OpenGL contexts */
+    gl_filter = filter ? GL_LINEAR : GL_NEAREST;
+    
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+    glActiveTexture(GL_TEXTURE0);
+
+    if (context->interlaced) {
+        glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter);
+
+        glBegin(GL_TRIANGLE_STRIP);
+        glTexCoord2f(u1, v2);
+        glVertex2f(-scale_x, -scale_y);
+        glTexCoord2f(u2, v2);
+        glVertex2f(scale_x, -scale_y);
+        glTexCoord2f(u1, v1);
+        glVertex2f(-scale_x, scale_y);
+        glTexCoord2f(u2, v1);
+        glVertex2f(scale_x, scale_y);
+        glEnd();
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    glBindTexture(GL_TEXTURE_2D, context->current_frame_texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter);
+    
+    glBegin(GL_TRIANGLE_STRIP);
+    glTexCoord2f(u1, v2);
+    glVertex2f(-scale_x, -scale_y);
+    glTexCoord2f(u2, v2);
+    glVertex2f(scale_x, -scale_y);
+    glTexCoord2f(u1, v1);
+    glVertex2f(-scale_x, scale_y);
+    glTexCoord2f(u2, v1);
+    glVertex2f(scale_x, scale_y);
+    glEnd();
+
+    if(context->interlaced) {
+        glDisable(GL_BLEND);
+    }
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_TEXTURE_2D);
+}
+
+static void modern_render(context_t *context, float scale_x, float scale_y)
+{
+    /* Used when OpenGL 3.2+ is available */
+    
+    int filter;
+    GLint gl_filter;
+    
+    GLuint program;
+    GLuint position_attribute;
+    GLuint tex_coord_attribute;
+    GLuint scale_uniform;
+    GLuint view_size_uniform;
+    GLuint source_size_uniform;
+    GLuint this_frame_uniform;
+    GLuint last_frame_uniform;
+    
+    resources_get_int("GTKFilter", &filter);
+    
+    /* For shader filters, we start with nearest neighbor. So only use linear if directly requested. */
+    gl_filter = filter == 1 ?  GL_LINEAR : GL_NEAREST;
+    
+    /* Choose the appropriate shader */
+    if (context->interlaced) {
+        if (filter == 2) {
+            program = context->shader_bicubic_interlaced;
+        } else {
+            program = context->shader_builtin_interlaced;
+        }
+    } else {
+        if (filter == 2) {
+            program = context->shader_bicubic;
+        } else {
+            program = context->shader_builtin;
+        }
+    }
+    
+    glUseProgram(program);
+    
+    position_attribute  = glGetAttribLocation(program, "position");
+    tex_coord_attribute = glGetAttribLocation(program, "tex");
+    scale_uniform       = glGetUniformLocation(program, "scale");
+    view_size_uniform   = glGetUniformLocation(program, "view_size");
+    source_size_uniform = glGetUniformLocation(program, "source_size");
+    this_frame_uniform  = glGetUniformLocation(program, "this_frame");
+    
+    if (context->interlaced) {
+        last_frame_uniform  = glGetUniformLocation(program, "last_frame");
+    }
+
+    glDisable(GL_BLEND);
+    glBindVertexArray(context->vao);
+    glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(position_attribute,  4, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(tex_coord_attribute, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
+
+    glUniform4f(scale_uniform, scale_x, scale_y, 1.0f, 1.0f);
+    glUniform2f(view_size_uniform, context->native_view_width, context->native_view_height);
+    glUniform2f(source_size_uniform, context->current_frame_width, context->current_frame_height);
+    
+    if (context->interlaced) {
+        glUniform1i(last_frame_uniform, 0);
+        glUniform1i(this_frame_uniform, 1);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter);
+        
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, context->current_frame_texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter);
+    } else {
+        glUniform1i(this_frame_uniform, 0);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, context->current_frame_texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter);
+    }
+
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+    if (context->interlaced) {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    } else {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+    
+    glDisableVertexAttribArray(position_attribute);
+    glDisableVertexAttribArray(tex_coord_attribute);
+    
+    glUseProgram(0);
+}
+
 static void render(void *job_data, void *pool_data)
 {
     render_job_t job = (render_job_t)(int)(intptr_t)job_data;
@@ -454,17 +651,11 @@ static void render(void *job_data, void *pool_data)
     backbuffer_t *backbuffer;
     backbuffer_t *backbuffers[2];
     int backbuffer_count = 0;
-    bool interlaced;
-    unsigned int backbuffer_width;
-    unsigned int backbuffer_height;
-    float backbuffer_pixel_aspect_ratio;
-    int filter = 1;
     int vsync = 1;
     int keepaspect = 1;
     int trueaspect = 0;
-    GLint gl_filter;
-    float scale_x;
-    float scale_y;
+    float scale_x = 1.0f;
+    float scale_y = 1.0f;
     int i;
 
     if (job == render_thread_init) {
@@ -487,20 +678,7 @@ static void render(void *job_data, void *pool_data)
         log_message(LOG_DEFAULT, "Render thread shutdown");
         return;
     }
-
-    resources_get_int("GTKFilter", &filter);
-    resources_get_int("VSync", &vsync);
-    resources_get_int("KeepAspectRatio", &keepaspect);
-    resources_get_int("TrueAspectRatio", &trueaspect);
     
-    if (context->gl_context_is_legacy) {
-        // We only support builtin linear and nearest on legacy contexts
-        gl_filter = filter ? GL_LINEAR : GL_NEAREST;
-    } else {
-        // For shader filters, we start with nearest neighbor. So only use linear if requested.
-        gl_filter = filter == 1 ?  GL_LINEAR : GL_NEAREST;
-    }
-
     /*
      * Correct interlaced output always requires the previous frame.
      * Find up to 2 of the most recent frames.
@@ -528,256 +706,77 @@ static void render(void *job_data, void *pool_data)
     if (backbuffer_count) {
         backbuffer = backbuffers[backbuffer_count - 1];
 
-        backbuffer_width                = backbuffer->width;
-        backbuffer_height               = backbuffer->height;
-        backbuffer_pixel_aspect_ratio   = backbuffer->pixel_aspect_ratio;
-
-        /* cache this backbuffer size for use during resize */
-        context->emulated_width_last_rendered       = backbuffer_width;
-        context->emulated_height_last_rendered      = backbuffer_height;
-        context->pixel_aspect_ratio_last_rendered   = backbuffer_pixel_aspect_ratio;
-        context->last_render_time                   = tick_now();
-        context->interlaced                         = backbuffer->interlaced;
-    } else {
-        /* Use the last rendered frame size and ratio for layout */
-        backbuffer_width                = context->emulated_width_last_rendered;
-        backbuffer_height               = context->emulated_height_last_rendered;
-        backbuffer_pixel_aspect_ratio   = context->pixel_aspect_ratio_last_rendered;
-    }
-
-    /* This happens during startup, before an initial frame is rendered */
-    if (!backbuffer_width || !backbuffer_height) {
-        CANVAS_UNLOCK();
-
-        for (i = 0; i < backbuffer_count; i++) {
-            render_queue_return_to_pool(context->render_queue, backbuffers[i]);
-        }
-
-        return;
-    }
+        context->last_render_time = tick_now();
+        context->interlaced       = backbuffer->interlaced;
     
-    /*
-     * Recalculate layout
-     */
+        /*
+         * Recalculate layout
+         */
+        
+        resources_get_int("KeepAspectRatio", &keepaspect);
+        resources_get_int("TrueAspectRatio", &trueaspect);
 
-    if (keepaspect) {
-        float viewport_aspect;
-        float emulated_aspect;       
+        if (keepaspect) {
+            float viewport_aspect;
+            float emulated_aspect;
 
-        viewport_aspect = (float)context->native_view_width / (float)context->native_view_height;
-        emulated_aspect = (float)backbuffer_width / (float)backbuffer_height;
+            viewport_aspect = (float)context->native_view_width / (float)context->native_view_height;
+            emulated_aspect = (float)backbuffer->width / (float)backbuffer->height;
 
-        if (trueaspect) {
-            emulated_aspect *= backbuffer_pixel_aspect_ratio;
+            if (trueaspect) {
+                emulated_aspect *= backbuffer->pixel_aspect_ratio;
+            }
+
+            if (emulated_aspect < viewport_aspect) {
+                scale_x = emulated_aspect / viewport_aspect;
+                scale_y = 1.0f;
+            } else {
+                scale_x = 1.0f;
+                scale_y = viewport_aspect / emulated_aspect;
+            }
         }
+        
+        canvas->screen_display_w = (float)context->native_view_width  * scale_x;
+        canvas->screen_display_h = (float)context->native_view_height * scale_y;
+        canvas->screen_origin_x = ((float)context->native_view_width  - canvas->screen_display_w) / 2.0;
+        canvas->screen_origin_y = ((float)context->native_view_height - canvas->screen_display_h) / 2.0;
 
-        if (emulated_aspect < viewport_aspect) {
-            scale_x = emulated_aspect / viewport_aspect;
-            scale_y = 1.0f;
+        /* Calculate the minimum drawing area size to be enforced by gtk */
+        if (keepaspect && trueaspect) {
+            context->native_view_min_width  = ceil((float)backbuffer->width * backbuffer->pixel_aspect_ratio);
+            context->native_view_min_height = backbuffer->height;
         } else {
-            scale_x = 1.0f;
-            scale_y = viewport_aspect / emulated_aspect;
+            context->native_view_min_width  = backbuffer->width;
+            context->native_view_min_height = backbuffer->height;
         }
-    } else {
-        scale_x = 1.0f;
-        scale_y = 1.0f;
-    }
-
-    canvas->screen_display_w = (float)context->native_view_width  * scale_x;
-    canvas->screen_display_h = (float)context->native_view_height * scale_y;
-    canvas->screen_origin_x = ((float)context->native_view_width  - canvas->screen_display_w) / 2.0;
-    canvas->screen_origin_y = ((float)context->native_view_height - canvas->screen_display_h) / 2.0;
-
-    /* Calculate the minimum drawing area size to be enforced by gtk */
-    if (keepaspect && trueaspect) {
-        context->native_view_min_width = ceil((float)backbuffer_width * backbuffer_pixel_aspect_ratio);
-        context->native_view_min_height = backbuffer_height;
-    } else {
-        context->native_view_min_width = backbuffer_width;
-        context->native_view_min_height = backbuffer_height;
     }
 
     RENDER_LOCK();
-    
-    /* We might just be re-rendering previous textures, which is why we jump through a few hoops */
-    interlaced = context->interlaced;
-    
     CANVAS_UNLOCK();
 
     vice_opengl_renderer_make_current(context);
     vice_opengl_renderer_set_viewport(context);
 
+    /* Enable or disable vsycn as needed */
+    resources_get_int("VSync", &vsync);
+    
     if (vsync != context->cached_vsync_resource) {
         vice_opengl_renderer_set_vsync(context, vsync ? true : false);
         context->cached_vsync_resource = vsync;
     }
 
-    /*
-     * Update the OpenGL texture(s) with the new backbuffer bitmap(s)
-     */
+    /* Upload the frame(s) to the GPU */
+    update_frame_textures(context, backbuffers, backbuffer_count);
     
-    for (i = 0; i < backbuffer_count; i++) {
-        backbuffer = backbuffers[i];
-
-        /* Retain the previous texture to use in interlaced mode */
-        GLuint swap_texture = context->previous_frame_texture;
-        context->previous_frame_texture = context->texture;
-        context->texture = swap_texture;
-        
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, context->texture);
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer_width);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, backbuffer_width, backbuffer_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, backbuffer->pixel_data);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_filter);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter);
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
-    
-    /*
-     * Render the texture(s) to the backbuffer
-     */
-    
+    /* Begin with a cleared framebuffer */
     glClearColor(context->native_view_bg_r, context->native_view_bg_g, context->native_view_bg_b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-
+    
+    /* Invoke the appropriate renderer */
     if (context->gl_context_is_legacy) {
-        /* Legacy renderer */
-        float u1 = 0.0f;
-        float v1 = 0.0f;
-        float u2 = 1.0f;
-        float v2 = 1.0f;
-        
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_TEXTURE_2D);
-        glActiveTexture(GL_TEXTURE0);
-
-        if (interlaced) {
-            glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
-
-            glBegin(GL_TRIANGLE_STRIP);
-            glTexCoord2f(u1, v2);
-            glVertex2f(-scale_x, -scale_y);
-            glTexCoord2f(u2, v2);
-            glVertex2f(scale_x, -scale_y);
-            glTexCoord2f(u1, v1);
-            glVertex2f(-scale_x, scale_y);
-            glTexCoord2f(u2, v1);
-            glVertex2f(scale_x, scale_y);
-            glEnd();
-
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        }
-
-        glBindTexture(GL_TEXTURE_2D, context->texture);
-        
-        glBegin(GL_TRIANGLE_STRIP);
-        glTexCoord2f(u1, v2);
-        glVertex2f(-scale_x, -scale_y);
-        glTexCoord2f(u2, v2);
-        glVertex2f(scale_x, -scale_y);
-        glTexCoord2f(u1, v1);
-        glVertex2f(-scale_x, scale_y);
-        glTexCoord2f(u2, v1);
-        glVertex2f(scale_x, scale_y);
-        glEnd();
-
-        if(interlaced) {
-            glDisable(GL_BLEND);
-        }
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glDisable(GL_TEXTURE_2D);
+        legacy_render(context, scale_x, scale_y);
     } else {
-        /* Modern renderer */
-        GLuint program;
-        GLuint position_attribute;
-        GLuint tex_coord_attribute;
-        GLuint scale_uniform;
-        GLuint view_size_uniform;
-        GLuint source_size_uniform;
-        GLuint this_frame_uniform;
-        GLuint last_frame_uniform;
-        
-        /*
-         * Choose the appropriate shader
-         */
-        
-        if (interlaced) {
-            if (filter == 2) {
-                program = context->shader_bicubic_interlaced;
-            } else {
-                program = context->shader_builtin_interlaced;
-            }
-        } else {
-            if (filter == 2) {
-                program = context->shader_bicubic;
-            } else {
-                program = context->shader_builtin;
-            }
-        }
-        
-        glUseProgram(program);
-        
-        /** \todo cache the uniform locations along with the vertex attributes */
-        position_attribute  = glGetAttribLocation(program, "position");
-        tex_coord_attribute = glGetAttribLocation(program, "tex");
-        scale_uniform       = glGetUniformLocation(program, "scale");
-        view_size_uniform   = glGetUniformLocation(program, "view_size");
-        source_size_uniform = glGetUniformLocation(program, "source_size");
-        this_frame_uniform  = glGetUniformLocation(program, "this_frame");
-        
-        if (interlaced) {
-            last_frame_uniform  = glGetUniformLocation(program, "last_frame");
-        }
-
-        glDisable(GL_BLEND);
-        glBindVertexArray(context->vao);
-        glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(position_attribute,  4, GL_FLOAT, GL_FALSE, 0, 0);
-        glVertexAttribPointer(tex_coord_attribute, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
-
-        glUniform4f(scale_uniform, scale_x, scale_y, 1.0f, 1.0f);
-        glUniform2f(view_size_uniform, context->native_view_width, context->native_view_height);
-        glUniform2f(source_size_uniform, backbuffer_width, backbuffer_height);
-        
-        if (interlaced) {
-            glUniform1i(last_frame_uniform, 0);
-            glUniform1i(this_frame_uniform, 1);
-            
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, context->previous_frame_texture);
-            glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, context->texture);
-        } else {
-            glUniform1i(this_frame_uniform, 0);
-            
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, context->texture);
-        }
-
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-        if (interlaced) {
-            glBindTexture(GL_TEXTURE_2D, 0);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, 0);
-        } else {
-            glBindTexture(GL_TEXTURE_2D, 0);
-        }
-        
-        glDisableVertexAttribArray(position_attribute);
-        glDisableVertexAttribArray(tex_coord_attribute);
-        
-        glUseProgram(0);
+        modern_render(context, scale_x, scale_y);
     }
 
     /*
@@ -790,7 +789,6 @@ static void render(void *job_data, void *pool_data)
     glFinish();
     
     vice_opengl_renderer_present_backbuffer(context);
-
     vice_opengl_renderer_clear_current(context);
     
     RENDER_UNLOCK();
