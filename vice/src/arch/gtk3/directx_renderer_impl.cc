@@ -174,26 +174,34 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
 
     /* Set up some image processing effects */
 
-    /* Set alpha = 1, wonder if there's a more efficient way */
-    D2D1_MATRIX_5X4_F strip_alpha_matrix =
-        D2D1::Matrix5x4F(
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 0,
-            0, 0, 0, 1
-            );
-    context->d2d_device_context->CreateEffect(CLSID_D2D1ColorMatrix, &context->d2d_effect_strip_alpha);
-    context->d2d_effect_strip_alpha->SetValue(D2D1_COLORMATRIX_PROP_COLOR_MATRIX, strip_alpha_matrix);
-        
-    /* VICE produces straight alpha images, Direct2D works with premultiplied alpha */
-    context->d2d_device_context->CreateEffect(CLSID_D2D1Premultiply, &context->d2d_effect_premultiply_alpha);
+    if (!context->d2d_effect_strip_alpha) {
+        /* Set alpha = 1, wonder if there's a more efficient way */
+        D2D1_MATRIX_5X4_F strip_alpha_matrix =
+            D2D1::Matrix5x4F(
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 1
+                );
+        context->d2d_device_context->CreateEffect(CLSID_D2D1ColorMatrix, &context->d2d_effect_strip_alpha);
+        context->d2d_effect_strip_alpha->SetValue(D2D1_COLORMATRIX_PROP_COLOR_MATRIX, strip_alpha_matrix);
+    }
 
-    /* Combine two bitmaps, used to stitch interlaced bitmaps */
-    context->d2d_device_context->CreateEffect(CLSID_D2D1Composite, &context->d2d_effect_combine);
+    if (!context->d2d_effect_premultiply_alpha) {
+        /* VICE produces straight alpha images, Direct2D works with premultiplied alpha */
+        context->d2d_device_context->CreateEffect(CLSID_D2D1Premultiply, &context->d2d_effect_premultiply_alpha);
+    }
 
-    /* And scale up the final result */
-    context->d2d_device_context->CreateEffect(CLSID_D2D1Scale, &context->d2d_effect_scale);
+    if (!context->d2d_effect_combine) {
+        /* Combine two bitmaps, used to stitch interlaced bitmaps */
+        context->d2d_device_context->CreateEffect(CLSID_D2D1Composite, &context->d2d_effect_combine);
+    }
+
+    if (!context->d2d_effect_scale) {
+        /* And scale up the final result */
+        context->d2d_device_context->CreateEffect(CLSID_D2D1Scale, &context->d2d_effect_scale);
+    }
 
     /*
      * Size dependent resources

@@ -71,8 +71,6 @@ typedef struct vice_directx_renderer_context_s {
     ID3D11Device1 *d3d_device;
     ID3D11DeviceContext1 *d3d_device_context;
     IDXGIDevice1 *dxgi_device;
-    IDXGIAdapter *dxgi_adapter;
-    IDXGIFactory2 *dxgi_factory;
     ID2D1Factory1 *d2d_factory;
     ID2D1Device *d2d_device;
     ID2D1DeviceContext *d2d_device_context;
@@ -81,6 +79,8 @@ typedef struct vice_directx_renderer_context_s {
     ID2D1Effect *d2d_effect_combine;
     ID2D1Effect *d2d_effect_scale;
     
+    IDXGIAdapter *dxgi_adapter;
+    IDXGIFactory2 *dxgi_factory;
     IDXGISwapChain1 *d3d_swap_chain;
     IDXGISurface *dxgi_surface;
     ID2D1Bitmap1 *dxgi_bitmap;
