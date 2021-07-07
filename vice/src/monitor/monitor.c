@@ -50,6 +50,7 @@
 #endif
 
 #include "archdep.h"
+#include "archdep_defs.h"
 #include "cartio.h"
 #include "charset.h"
 #include "cmdline.h"
@@ -1172,7 +1173,7 @@ void mon_show_dir(const char *path)
             if (isdir) {
                 mon_out("     <dir> %s\n", name);
             } else {
-                mon_out("%"FMT_ZU" %s\n", len, name);
+                mon_out("%"PRI_SIZE_T" %s\n", len, name);
             }
         } else {
             mon_out("%-20s?????\n", name);

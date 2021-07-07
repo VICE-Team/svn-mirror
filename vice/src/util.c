@@ -50,6 +50,7 @@
 #endif
 
 #include "archdep.h"
+#include "archdep_defs.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
@@ -505,7 +506,7 @@ int util_file_load_string(const char *name, char **dest)
 
     if (r < size) {
         lib_free(buffer);
-        log_error(LOG_ERR, "Could only load %"FMT_ZU" of %"FMT_ZU" bytes of file %s", r, size, name);
+        log_error(LOG_ERR, "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes of file %s", r, size, name);
         return -1;
     }
 
