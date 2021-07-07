@@ -7,7 +7,6 @@ concurrency:
   group: Snapshot Build
   cancel-in-progress: true
 
-
 jobs:
   static_analysis:
       name: Static Analysis
