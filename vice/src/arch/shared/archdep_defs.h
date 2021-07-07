@@ -227,14 +227,8 @@
  */
 
 #ifdef _WIN32
-# include <inttypes.h>
-# ifdef _WIN64
-#  define PRI_SIZE_T    PRIu64
-#  define PRI_SSIZE_T   PRId64
-# else
-#  define PRI_SIZE_T    PRIu32
-#  define PRI_SSIZE_T   PRId32
-# endif
+# define PRI_SIZE_T     "Iu"
+# define PRI_SSIZE_T    "Id"
 #else
 # define PRI_SIZE_T     "zu"
 # define PRI_SSIZE_T    "zd"
