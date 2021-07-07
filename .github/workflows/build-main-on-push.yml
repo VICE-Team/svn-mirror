@@ -3,6 +3,10 @@ on:
   push:
     tags:
     - '*' # any tag name for now
+concurrency: 
+  group: Snapshot Build
+  cancel-in-progress: true
+
 
 jobs:
   static_analysis:
