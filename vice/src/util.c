@@ -505,7 +505,7 @@ int util_file_load_string(const char *name, char **dest)
 
     if (r < size) {
         lib_free(buffer);
-        log_error(LOG_ERR, "Could only load %zu of %zu bytes of file %s", r, size, name);
+        log_error(LOG_ERR, "Could only load %"FMT_ZU" of %"FMT_ZU" bytes of file %s", r, size, name);
         return -1;
     }
 

@@ -160,4 +160,14 @@ static int noop;
 #define VICE_ATTR_NORETURN
 #endif
 
+/*
+ * Windows doesn't have %zu, since it was introduced in C99,
+ * but has its own %Iu for printing size_t values.
+ */
+#ifdef WIN32_COMPILE
+#define FMT_ZU "Iu"
+#else
+#define FMT_ZU "zu"
+#endif
+
 #endif
