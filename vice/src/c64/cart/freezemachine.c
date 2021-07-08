@@ -55,12 +55,12 @@
     FIXME: this implementation is based on vague guesses on how the hardware
            really works.
 
-    Evesham Micros "Freeze Frame MK3 v2", "Freeze Frame MK4 LAZER"
+    Evesham Micros "Freeze Frame MK3 v2"
 
     - 2 Buttons (Freeze, Reset)
     - 16k ROM
 
-    Evesham Micros "Freeze Machine"
+    Evesham Micros "Freeze Frame MK4 LAZER", "Freeze Machine"
 
     - 2 Buttons (Freeze, Reset)
     - 7474, 74163, 2 * 7400, 7402
