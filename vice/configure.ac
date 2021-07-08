@@ -753,17 +753,28 @@ if test x"$ar_check" != "xno"; then
   rm -f libvicetest.a vicetest.o
 fi
 
-if test x"$SVN" != "x"; then
-  svnrevision=`$SVN 2>dummy.tmp info $srcdir | grep Revision | cut -d " " -f 2`
-  rm dummy.tmp
-  if test x"$svnrevision" != "x"; then
-    AM_CONDITIONAL(USE_SVN_REVISION, true)
-    AC_DEFINE(USE_SVN_REVISION,,[define when using the svn revision in addition to the version])
-  else
-    AM_CONDITIONAL(USE_SVN_REVISION, false)
-  fi
+AM_CONDITIONAL(USE_SVN_REVISION,false)
+AM_CONDITIONAL(USE_SVN_REVISION_OVERRIDE,false)
+
+AC_ARG_VAR(SVN_REVISION_OVERRIDE,,[Subversion revision number to embed in build (without the 'r')])
+
+if test x"$SVN_REVISION_OVERRIDE" != "x"; then
+  echo "** override detected"
+  AM_CONDITIONAL(USE_SVN_REVISION,true)
+  AM_CONDITIONAL(USE_SVN_REVISION_OVERRIDE,true)
+  AC_DEFINE(USE_SVN_REVISION,,[define when using the svn revision in addition to the version])
+  AC_DEFINE(USE_SVN_REVISION_OVERRIDE,,[define when using an svn revision passed to configure via SVN_REVISION_OVERRIDE env var])
 else
-  AM_CONDITIONAL(USE_SVN_REVISION, false)
+  echo "** no override detected"
+  if test x"$SVN" != "x"; then
+    svnrevision=`$SVN 2>dummy.tmp info $srcdir | grep Revision | cut -d " " -f 2`
+    rm dummy.tmp
+    if test x"$svnrevision" != "x"; then
+      echo "** svn version detected: [$svnrevision]"
+      AC_DEFINE(USE_SVN_REVISION,,[define when using the svn revision in addition to the version])
+      AM_CONDITIONAL(USE_SVN_REVISION,true)
+    fi
+  fi
 fi
 
 JOYSTICK_DRIVERS=""

@@ -606,18 +606,23 @@ endif
 
 if USE_SVN_REVISION
 SVN_VERSION_HEADER = svnversion.h
+if USE_SVN_REVISION_OVERRIDE
+SVN_REVISION = "@SVN_REVISION_OVERRIDE@"
+else
+SVN_REVISION = `$(SVNVERSION) $(top_srcdir)`
+endif
 else
 SVN_VERSION_HEADER =
 endif
 
 BUILT_SOURCES = $(EMBEDDED_H_FILES) $(SVN_VERSION_HEADER) infocontrib.h
 
-.PHONY: svnversion.h.indirect
-
+if USE_SVN_REVISION
 svnversion.h.indirect:
-	@$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVNVERSION) $(top_srcdir) svnversion.h
+	@$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVN_REVISION) svnversion.h
 
 svnversion.h: svnversion.h.indirect
+endif
 
 infocontrib.h: $(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	@echo "generating infocontrib.h"
@@ -628,21 +633,13 @@ infocontrib.h: $(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.t
 	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | LC_ALL=C sed -f $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
 	@if [ "`file --mime-encoding infocontrib.h`" != "infocontrib.h: iso-8859-1" ]; then \
 		echo "ERROR: generated infocontrib.h contains content that is not valid iso-8859-x" >&2; \
-		if [ "$(TRAVIS)" != "" ]; then \
-			echo "       but for now allowing travis build to continue. FIXME." >&2; \
-		else \
-			false; \
-		fi; \
+		false; \
 	fi
 
 # we need to replace \ and space by "regular" characters, else things break on some shells
-#	With Travis, using '\\\\' appears to 'fix' the sed error
 	@LC_ALL=C sed -e 's/\\/{/g' -e 's/ /}/g' <$(top_srcdir)/README >./README.tmp
-#	cat  <$(top_srcdir)/README >./README.tmp
 	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >README2.tmp
-#	With Travis, using '\\\\' appears to 'fix' the sed error
 	@LC_ALL=C sed -e 's/{/\\/g' -e 's/}/ /g' <README2.tmp >../README
-#	cat  <README2.tmp >../README
 	@rm -f README*.tmp
 	@cp $(top_srcdir)/doc/html/index.html ./index.tmp
 	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
