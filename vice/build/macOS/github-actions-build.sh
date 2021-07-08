@@ -51,8 +51,8 @@ analyse)
     OUTPUT="../gh-pages/analysis/$UI/$REVISION_STRING"
     mkdir "$OUTPUT"
 
-    # Delete more than older reports so they don't grow indefinitely
-    for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr | sed '1,250d')
+    # Delete older reports so they don't grow indefinitely
+    for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr | sed '1,50d')
     do
         echo "Deleting old report $report"
         rm -rd "$OUTPUT/../$report"
