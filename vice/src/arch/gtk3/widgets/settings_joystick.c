@@ -3,8 +3,6 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * \todo    Refactor adapter ports layout code, most machines now support
- *          eight joysticks for certain adapters.
  */
 
 /*
@@ -67,25 +65,59 @@
 #include "settings_joystick.h"
 
 
+/** \brief  Number of joystick adapter ports for C64
+ */
+#define ADAPTER_PORT_COUNT_C64      8
+
+/** \brief  Number of joystick adapter ports for C64 DTV
+ */
+#define ADAPTER_PORT_COUNT_C64DTV   8
+
+/** \brief  Number of joystick adapter ports for SCPU64
+ */
+#define ADAPTER_PORT_COUNT_SCPU64   8
+
+/** \brief  Number of joystick adapter ports for C128
+ */
+#define ADAPTER_PORT_COUNT_C128     8
+
+/** \brief  Number of joystick adapter ports for VIC-20
+ */
+#define ADAPTER_PORT_COUNT_VIC20    8
+
+/** \brief  Number of joystick adapter ports for Plus4
+ *
+ * The xplus4 code currently supports two userport joysticks and one joystick
+ * via the SIDCard expansion.
+ *
+ * Should this change in the future, just change the value (to 8).
+ */
+#define ADAPTER_PORT_COUNT_PLUS4    2
+
+/** \brief  Number of joystick adapter ports for CBM-II 5x0/P
+ */
+#define ADAPTER_PORT_COUNT_CBM5x0   8
+
+/** \brief  Number of joystick adapter ports for CBM-II 6x0/7x0/B
+ */
+#define ADAPTER_PORT_COUNT_CBM6x0   8
+
+
+
+
 /*
  * Static data
  */
 
 /** \brief  References to the joystick device widgets
  *
- * These references are used to update the UI when swapping joysticks
- */
-static GtkWidget *device_widgets[JOYPORT_MAX_PORTS] = {
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
-};
-
-
-/** \brief  Reference to the userport adapter widget
+ * These references are used to update the UI when swapping joysticks.
  *
- * Used to enable/disable the widget depending on the "Enable userport adapter"
- * checkbox
+ * Currently the first element is unused, since JOYPORT_1 is 1, not 0. This is
+ * not ideal, but it makes the code a lot more readable, not having to add
+ * '- 1' to each index.
  */
-static GtkWidget *adapter_widget = NULL;
+static GtkWidget *device_widgets[JOYPORT_MAX_PORTS + 1];
 
 
 
@@ -93,7 +125,7 @@ static GtkWidget *adapter_widget = NULL;
  *                                Event handlers                             *
  ****************************************************************************/
 
-/** \brief  Handler for the "clicked" event of the "swap joysticks" button
+/** \brief  Handler for the 'clicked' event of the "swap joysticks" button
  *
  * Swaps resources JoyDevice1 and JoyDevice2 and updates UI accordingly.
  *
@@ -121,7 +153,8 @@ static void on_swap_joysticks_clicked(GtkWidget *button, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "clicked" event of the "swap uport joysticks" button
+/** \brief  Handler for the 'clicked' event of the "swap adapter port joysticks"
+ *          button
  *
  * Swaps resources JoyDevice3 and JoyDevice4 and updates UI accordingly.
  *
@@ -227,65 +260,186 @@ static GtkWidget *create_opposite_enable_checkbox(void)
  * Functions to create machine-specific layouts
  */
 
+
+
+/** \brief  Add control port joysticks
+ *
+ * Add widgets to the \a layout for the control port joysticks.
+ *
+ * \param[in,out]   layout  main widget grid
+ * \param[in]       row     starting row in \a layout
+ * \param[in]       count   number of widgets to add to the \a layout
+ *
+ * \return  row in the \a layout for additional widgets
+ */
+static int layout_add_control_ports(GtkGrid *layout, int row, int count)
+{
+    if (count <= 0) {
+        return row;
+    }
+
+    /* control port #1 */
+    device_widgets[JOYPORT_1] = joystick_device_widget_create(
+            JOYPORT_1, "Joystick #1");
+    gtk_grid_attach(GTK_GRID(layout),
+                    device_widgets[JOYPORT_1],
+                    0, row, 1, 1);
+    /* control port #2 */
+    if (count > 1) {
+        device_widgets[JOYPORT_2] = joystick_device_widget_create(
+            JOYPORT_2, "Joystick #2");
+        gtk_grid_attach(GTK_GRID(layout),
+                        device_widgets[JOYPORT_2],
+                        1, row, 1, 1);
+    }
+
+    return row + 1;
+}
+
+
+/** \brief  Add Joystick Adapter ports
+ *
+ * Add widgets to the \a layout for the joystick adapter ports.
+ *
+ * The ports start numbered at 1, but the internal resources ("JoyDeviceX")
+ * start at 3 ("JoyDevice3").
+ *
+ * \param[in,out]   layout  main widget grid
+ * \param[in]       row     starting row in \a layout
+ * \param[in]       count   number of widgets to add to the \a layout
+ *
+ * \return  row in the \a layout for additional widgets
+ */
+static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
+{
+    int i;
+    int r = row;
+    int c = 0;
+    int d = JOYPORT_3;  /* device number*/
+
+    for (i = 0; i < count; i++) {
+
+        char label[256];
+
+        g_snprintf(label, sizeof(label), "Joystick Adapter Port #%d", i + 1);
+        device_widgets[i + 2] = joystick_device_widget_create(d, label);
+        gtk_grid_attach(layout, device_widgets[i + 2], c, r, 1, 1);
+
+        d++;
+        c ^= 1; /* switch column position */
+        if (c == 0) {
+            r++;    /* update row position */
+        }
+    }
+
+    /* if we have an odd number of ports, the row number would not have been
+     * updated when exiting the loop, so we add 1 by using the column index
+     * `c` (which happens to be 1 in that case) */
+    return r + 1 + c;
+}
+
+
+/** \brief  Add SIDCard joystick port
+ *
+ * Add widget to the \a layout for the SIDVCard joystick.
+ *
+ * This device is currently mappend to JOYDEV_5 (resource "JoyDevice5").
+ *
+ * \param[in,out]   layout  main widget grid
+ * \param[in]       row     starting row in \a layout
+ *
+ * \return  row in the \a layout for additional widgets
+ */
+static int layout_add_sidcard_port(GtkGrid *layout, int row)
+{
+    device_widgets[JOYPORT_5] = joystick_device_widget_create(
+            JOYPORT_5, "SIDCard Joystick");
+    gtk_grid_attach(layout, device_widgets[JOYPORT_5], 0, row, 1, 1);
+    return row + 1;
+}
+
+
+/** \brief  Add "Swap joystick" buttons
+ *
+ * Add widgets to the \a layout to swap control port and user port joysticks.
+ *
+ * \param[in,out]   layout      main widget grid
+ * \param[in]       row         starting row in \a layout
+ * \param[in]       controlport add "swap joysticks" button
+ * \param[in]       userport    add "swap adapter joysticks" button
+ *
+ * \return  row in the \a layout for additional widgets
+ */
+static int layout_add_swap_buttons(GtkGrid *layout,
+                                   int row,
+                                   bool controlport,
+                                   bool userport)
+{
+    /* Add "Swap joysticks" if requested */
+    if (controlport) {
+        GtkWidget *button = create_swap_joysticks_button();
+        g_object_set(button,
+                     "margin-top", 16,
+                     NULL);
+        gtk_grid_attach(GTK_GRID(layout), button, 0, row, 1, 1);
+    }
+
+    /* Add "Swap adapter joysticks 1 & 2" */
+    if (userport) {
+        GtkWidget *button = create_swap_userport_joysticks_button();
+        g_object_set(button,
+                     "margin-top", 16,
+                     NULL);
+        gtk_grid_attach(GTK_GRID(layout), button, 1, row, 1, 1);
+    }
+
+    /* There will always be at least one button and thus one row added */
+    return row + 1;
+}
+
+
+/** \brief  Add Userport Adapter selector
+ *
+ * Add widget to the \a layout to select a userport adapter.
+ *
+ * This function should not be used for CBM-II 5x0/P or C64 DTV.
+ *
+ * \param[in,out]   layout  main widget grid
+ * \param[in]       row     starting row in \a layout
+ *
+ * \return  row in the \a layout for additional widgets
+ */
+static int layout_add_adapter_selector(GtkGrid *layout, int row)
+{
+    GtkWidget *widget;
+    int adapter_state = 0;
+
+    widget = joystick_userport_adapter_widget_create();
+    resources_get_int("UserportJoy", &adapter_state);
+    g_object_set(widget, "margin-top", 16, NULL);
+    gtk_widget_set_sensitive(widget, adapter_state ? TRUE : FALSE);
+    gtk_grid_attach(GTK_GRID(layout), widget, 0, row, 1, 1);
+
+    return row + 1;
+}
+
+
 /** \brief  Create layout for x64/x64sc/xscpu64/x128
  *
  * \param[in,out]   grid    main widget grid
  *
- * \return  number of rows added to \a grid
+ * \return  row in the \a layout for additional widgets
  */
 static int create_c64_layout(GtkGrid *grid)
 {
-    GtkWidget *swap_button1;
-    GtkWidget *swap_button2;
+    int row = 0;
 
-    device_widgets[JOYPORT_1] = joystick_device_widget_create(
-            JOYPORT_1, "Joystick #1");
-    device_widgets[JOYPORT_2] = joystick_device_widget_create(
-            JOYPORT_2, "Joystick #2");
-    device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Joystick Adapter Port #1");
-    device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Joystick Adapter Port #2");
-    device_widgets[JOYPORT_5] = joystick_device_widget_create(
-            JOYPORT_5, "Joystick Adapter Port #3");
-    device_widgets[JOYPORT_6] = joystick_device_widget_create(
-            JOYPORT_6, "Joystick Adapter Port #4");
-    device_widgets[JOYPORT_7] = joystick_device_widget_create(
-            JOYPORT_7, "Joystick Adapter Port #5");
-    device_widgets[JOYPORT_8] = joystick_device_widget_create(
-            JOYPORT_8, "Joystick Adapter Port #6");
-    device_widgets[JOYPORT_9] = joystick_device_widget_create(
-            JOYPORT_9, "Joystick Adapter Port #7");
-    device_widgets[JOYPORT_10] = joystick_device_widget_create(
-            JOYPORT_10, "Joystick Adapter Port #8");
+    row = layout_add_control_ports(grid, row, 2);
+    row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_C64);
+    row = layout_add_adapter_selector(grid, row);
+    row = layout_add_swap_buttons(grid, row, true, true);
 
-    gtk_grid_attach(grid, device_widgets[JOYPORT_1], 0, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_2], 1, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 3, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 3, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 4, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 4, 1, 1);
-
-    swap_button1 = create_swap_joysticks_button();
-    g_object_set(swap_button1,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 5, 1, 1);
-    swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 5, 1, 1);
-
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 6, 1, 1);
-
-    return 7;
+    return row + 1;
 }
 
 
@@ -297,55 +451,13 @@ static int create_c64_layout(GtkGrid *grid)
  */
 static int create_c64dtv_layout(GtkGrid *grid)
 {
-    GtkWidget *swap_button1;
-    GtkWidget *swap_button2;
+    int row = 0;
 
-    device_widgets[JOYPORT_1] = joystick_device_widget_create(
-            JOYPORT_1, "Joystick #1");
-    device_widgets[JOYPORT_2] = joystick_device_widget_create(
-            JOYPORT_2, "Joystick #2");
-    device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Joystick Adapter Port #1");
-    device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Joystick Adapter Port #2");
-    device_widgets[JOYPORT_5] = joystick_device_widget_create(
-            JOYPORT_5, "Joystick Adapter Port #3");
-    device_widgets[JOYPORT_6] = joystick_device_widget_create(
-            JOYPORT_6, "Joystick Adapter Port #4");
-    device_widgets[JOYPORT_7] = joystick_device_widget_create(
-            JOYPORT_7, "Joystick Adapter Port #5");
-    device_widgets[JOYPORT_8] = joystick_device_widget_create(
-            JOYPORT_8, "Joystick Adapter Port #6");
-    device_widgets[JOYPORT_9] = joystick_device_widget_create(
-            JOYPORT_9, "Joystick Adapter Port #7");
-    device_widgets[JOYPORT_10] = joystick_device_widget_create(
-            JOYPORT_10, "Joystick Adapter Port #8");
+    row = layout_add_control_ports(grid, row, 2);
+    row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_C64DTV);
+    row = layout_add_swap_buttons(grid, row, true, true);
 
-    gtk_grid_attach(grid, device_widgets[JOYPORT_1], 0, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_2], 1, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 3, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 3, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 4, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 4, 1, 1);
-
-    swap_button1 = create_swap_joysticks_button();
-    g_object_set(swap_button1,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 5, 1, 1);
-    swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 5, 1, 1);
-
-    return 6;
+    return row + 1;
 }
 
 
@@ -353,98 +465,38 @@ static int create_c64dtv_layout(GtkGrid *grid)
  *
  * \param[in,out]   grid    main widget grid
  *
- * \return  number of rows added to \a grid
+ * \return  row in the \a layout for additional widgets
  */
 static int create_vic20_layout(GtkGrid *grid)
 {
-    GtkWidget *swap_button2;
+    int row = 0;
 
-    /* vic-20 has only one control port */
-    device_widgets[JOYPORT_1] = joystick_device_widget_create(
-            JOYPORT_1, "Joystick");
-    device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Joystick Adapter Port #1");
-    device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Joystick Adapter Port #2");
-    device_widgets[JOYPORT_5] = joystick_device_widget_create(
-            JOYPORT_5, "Joystick Adapter Port #3");
-    device_widgets[JOYPORT_6] = joystick_device_widget_create(
-            JOYPORT_6, "Joystick Adapter Port #4");
-    device_widgets[JOYPORT_7] = joystick_device_widget_create(
-            JOYPORT_7, "Joystick Adapter Port #5");
-    device_widgets[JOYPORT_8] = joystick_device_widget_create(
-            JOYPORT_8, "Joystick Adapter Port #6");
-    device_widgets[JOYPORT_9] = joystick_device_widget_create(
-            JOYPORT_9, "Joystick Adapter Port #7");
-    device_widgets[JOYPORT_10] = joystick_device_widget_create(
-            JOYPORT_10, "Joystick Adapter Port #8");
+    row = layout_add_control_ports(grid, row, 1);
+    row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_VIC20);
+    row = layout_add_adapter_selector(grid, row);
+    row = layout_add_swap_buttons(grid, row, false, true);
 
-    gtk_grid_attach(grid, device_widgets[JOYPORT_1], 0, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 3, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 3, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 4, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 4, 1, 1);
-
-    swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 5, 1, 1);
-
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 6, 1, 1);
-
-    return 7;
+    return row + 1;
 }
+
 
 /** \brief  Create layout for xplus4
  *
  * \param[in,out]   grid    main widget grid
  *
- * \return  number of rows added to \a grid
+ * \return  row in the \a layout for additional widgets
  */
 static int create_plus4_layout(GtkGrid *grid)
 {
-    GtkWidget *swap_button1;
-    GtkWidget *swap_button2;
+    int row = 0;
 
-    device_widgets[JOYPORT_1] = joystick_device_widget_create(
-            JOYPORT_1, "Joystick #1");
-    device_widgets[JOYPORT_2] = joystick_device_widget_create(
-            JOYPORT_2, "Joystick #2");
-    device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Joystick Adapter Port #1");
-    device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Joystick Adapter Port #2");
-    device_widgets[JOYPORT_5] = joystick_device_widget_create(
-            JOYPORT_5, "SIDCard Joystick");
+    row = layout_add_control_ports(grid, row, 2);
+    row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_PLUS4);
+    row = layout_add_sidcard_port(grid, row);
+    row = layout_add_adapter_selector(grid, row);
+    row = layout_add_swap_buttons(grid, row, true, true);
 
-    gtk_grid_attach(grid, device_widgets[JOYPORT_1], 0, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_2], 1, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
-
-    swap_button1 = create_swap_joysticks_button();
-    g_object_set(swap_button1,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 3, 1, 1);
-    swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 3, 1, 1);
-
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 4, 1, 1);
-
-    return 5;
+    return row + 1;
 }
 
 
@@ -452,60 +504,17 @@ static int create_plus4_layout(GtkGrid *grid)
  *
  * \param[in,out]   grid    main widget grid
  *
- * \return  number of rows added to \a grid
+ * \return  row in the \a layout for additional widgets
  */
 static int create_cbm5x0_layout(GtkGrid *grid)
 {
-    GtkWidget *swap_button1;
-    GtkWidget *swap_button2;
+    int row = 0;
 
-    device_widgets[JOYPORT_1] = joystick_device_widget_create(
-            JOYPORT_1, "Joystick #1");
-    device_widgets[JOYPORT_2] = joystick_device_widget_create(
-            JOYPORT_2, "Joystick #2");
-    device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Joystick Adapter Port #1");
-    device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Joystick Adapter Port #2");
-    device_widgets[JOYPORT_5] = joystick_device_widget_create(
-            JOYPORT_5, "Joystick Adapter Port #3");
-    device_widgets[JOYPORT_6] = joystick_device_widget_create(
-            JOYPORT_6, "Joystick Adapter Port #4");
-    device_widgets[JOYPORT_7] = joystick_device_widget_create(
-            JOYPORT_7, "Joystick Adapter Port #5");
-    device_widgets[JOYPORT_8] = joystick_device_widget_create(
-            JOYPORT_8, "Joystick Adapter Port #6");
-    device_widgets[JOYPORT_9] = joystick_device_widget_create(
-            JOYPORT_9, "Joystick Adapter Port #7");
-    device_widgets[JOYPORT_10] = joystick_device_widget_create(
-            JOYPORT_10, "Joystick Adapter Port #8");
+    row = layout_add_control_ports(grid, row, 2);
+    row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_CBM5x0);
+    row = layout_add_swap_buttons(grid, row, true, true);
 
-
-    gtk_grid_attach(grid, device_widgets[JOYPORT_1], 0, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_2], 1, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 3, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 3, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 4, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 4, 1, 1);
-
-    swap_button1 = create_swap_joysticks_button();
-    g_object_set(swap_button1,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 5, 1, 1);
-    swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 5, 1, 1);
-
-    return 6;
+    return row + 1;
 }
 
 
@@ -513,48 +522,17 @@ static int create_cbm5x0_layout(GtkGrid *grid)
  *
  * \param[in,out]   grid    main widget grid
  *
- * \return  number of rows added to \a grid
+ * \return  row in the \a layout for additional widgets
  */
 static int create_cbm6x0_layout(GtkGrid *grid)
 {
-    GtkWidget *swap_button2;
+    int row = 0;
 
-    device_widgets[JOYPORT_3] = joystick_device_widget_create(
-            JOYPORT_3, "Joystick Adapter Port #1");
-    device_widgets[JOYPORT_4] = joystick_device_widget_create(
-            JOYPORT_4, "Joystick Adapter Port #2");
-    device_widgets[JOYPORT_5] = joystick_device_widget_create(
-            JOYPORT_5, "Joystick Adapter Port #3");
-    device_widgets[JOYPORT_6] = joystick_device_widget_create(
-            JOYPORT_6, "Joystick Adapter Port #4");
-    device_widgets[JOYPORT_7] = joystick_device_widget_create(
-            JOYPORT_7, "Joystick Adapter Port #5");
-    device_widgets[JOYPORT_8] = joystick_device_widget_create(
-            JOYPORT_8, "Joystick Adapter Port #6");
-    device_widgets[JOYPORT_9] = joystick_device_widget_create(
-            JOYPORT_9, "Joystick Adapter Port #7");
-    device_widgets[JOYPORT_10] = joystick_device_widget_create(
-            JOYPORT_10, "Joystick Adapter Port #8");
+    row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_CBM6x0);
+    row = layout_add_adapter_selector(grid, row);
+    row = layout_add_swap_buttons(grid, row, false, true);
 
-    gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 0, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_6], 1, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_7], 0, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_8], 1, 2, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_9], 0, 3, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_10], 1, 3, 1, 1);
-
-    swap_button2 = create_swap_userport_joysticks_button();
-    g_object_set(swap_button2,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 4, 1, 1);
-
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 5, 1, 1);
-
-    return 6;
+    return row + 1;
 }
 
 
@@ -565,7 +543,7 @@ static int create_cbm6x0_layout(GtkGrid *grid)
 
 /** \brief  Create joystick settings main widget
  *
- * \param   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -576,18 +554,9 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     GtkWidget *opposite_widget;
     GtkWidget *keyset_1_button;
     GtkWidget *keyset_2_button;
-    int rows = 0;
-    int adapter_state;
+    int row = 0;
 
     layout = vice_gtk3_grid_new_spaced(16, 8);
-
-    if (machine_class != VICE_MACHINE_C64DTV
-            && machine_class != VICE_MACHINE_CBM5x0) {
-        /* create adapter selection widget and enable/disable it */
-        adapter_widget = joystick_userport_adapter_widget_create();
-        resources_get_int("UserportJoy", &adapter_state);
-        gtk_widget_set_sensitive(adapter_widget, adapter_state ? TRUE : FALSE);
-    }
 
     /* create basic layout, depending on machine class */
     switch (machine_class) {
@@ -595,23 +564,23 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_C128:
-            rows = create_c64_layout(GTK_GRID(layout));
+            row = create_c64_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_C64DTV:
-            rows = create_c64dtv_layout(GTK_GRID(layout));
+            row = create_c64dtv_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_VIC20:
-            rows = create_vic20_layout(GTK_GRID(layout));
+            row = create_vic20_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_PLUS4:
-            rows = create_plus4_layout(GTK_GRID(layout));
+            row = create_plus4_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_CBM5x0:
-            rows = create_cbm5x0_layout(GTK_GRID(layout));
+            row = create_cbm5x0_layout(GTK_GRID(layout));
             break;
-        case VICE_MACHINE_PET:          /* fall through */
+        case VICE_MACHINE_PET:      /* fall through */
         case VICE_MACHINE_CBM6x0:
-            rows = create_cbm6x0_layout(GTK_GRID(layout));
+            row = create_cbm6x0_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_VSID:
             break;  /* no control ports or user ports */
@@ -619,33 +588,31 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
             break;
     }
 
-    /* add check buttons for resources */
-    keyset_widget = create_keyset_enable_checkbox();
-    g_object_set(keyset_widget, "margin-left", 16, NULL);
-    opposite_widget = create_opposite_enable_checkbox();
-    g_object_set(opposite_widget, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(layout), keyset_widget, 0, rows, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), opposite_widget, 1, rows, 1, 1);
-    rows ++;
+    /*
+     * These widgets are valid for each emulator (except VSID of course), so
+     * not much use wrapping these in functions and calling from the various
+     * layout functions.
+     */
 
-    /* add buttons to active keyset dialog */
+    /* add buttons to activate keyset dialog */
     keyset_1_button = gtk_button_new_with_label("Configure keyset A");
-    g_object_set(keyset_1_button,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(layout), keyset_1_button, 0, rows, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), keyset_1_button, 0, row, 1, 1);
     g_signal_connect(keyset_1_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(1));
-
     keyset_2_button = gtk_button_new_with_label("Configure keyset B");
-    g_object_set(keyset_2_button,
-                 "margin-left", 16,
-                 "margin-top", 16,
-                 NULL);
-    gtk_grid_attach(GTK_GRID(layout), keyset_2_button, 1, rows, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), keyset_2_button, 1, row, 1, 1);
     g_signal_connect(keyset_2_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(2));
+    row++;
+
+    /* add check buttons for resources */
+    keyset_widget = create_keyset_enable_checkbox();
+    g_object_set(keyset_widget, "margin-top", 16, NULL);
+    opposite_widget = create_opposite_enable_checkbox();
+    g_object_set(opposite_widget, "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(layout), keyset_widget, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), opposite_widget, 1, row, 1, 1);
+    row++;
 
     gtk_widget_show_all(layout);
     return layout;
