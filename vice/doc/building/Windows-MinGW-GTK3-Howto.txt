@@ -67,7 +67,7 @@ Exit and restart the shell you use, and see if you get a decent download speed.
 
 Run the following command lines to install the prerequisites:
 
-$ pacman -S --noconfirm --needed base-devel
+$ pacman -S --noconfirm --needed base-devel pactoys
 $ pacboy sync pkg-config gcc ntldd zip: p7zip: subversion: gtk3 glew giflib icoutils ffmpeg flac mpg123
 
 (Note: type the colons that you see in the second command; they are important.
