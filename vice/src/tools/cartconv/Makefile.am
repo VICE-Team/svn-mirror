@@ -10,13 +10,14 @@ else
 cartconv_LDFLAGS = 
 endif
 
-
+if USE_SVN_REVISION
 # Generate svnversion.h if it doesn't exist yet (for `make cartconv`)
 $(top_builddir)/src/svnversion.h:
 	(cd ../..; $(MAKE) svnversion.h)
 
 # cartconv.c needs to include a built header
 cartconv.$(OBJEXT): $(top_builddir)/src/svnversion.h
+endif
 
 # This is the binary we want to create
 bin_PROGRAMS = cartconv
