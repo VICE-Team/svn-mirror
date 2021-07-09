@@ -336,7 +336,7 @@ const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)joystick_userport_only_menu },
+      (ui_callback_data_t)joystick_userport_cbm2_menu },
 #ifdef HAVE_MOUSE
     { "Mouse emulation",
       MENU_ENTRY_SUBMENU,
