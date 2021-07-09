@@ -10,12 +10,12 @@
  * $VICERES JoyDevice2      -xcbm2 -xpet -xvic -vsid
  * $VICERES JoyDevice3      -vsid
  * $VICERES JoyDevice4      -vsid
- * $VICERES JoyDevice5      -vsid
- * $VICERES JoyDevice6      -xplus4 -vsid
- * $VICERES JoyDevice7      -xplus4 -vsid
- * $VICERES JoyDevice8      -xplus4 -vsid
- * $VICERES JoyDevice9      -xplus4 -vsid
- * $VICERES JoyDevice10     -xplus4 -vsid
+ * $VICERES JoyDevice5      -vsid -xpet
+ * $VICERES JoyDevice6      -xplus4 -xpet -vsid
+ * $VICERES JoyDevice7      -xplus4 -xpet -vsid
+ * $VICERES JoyDevice8      -xplus4 -xpet -vsid
+ * $VICERES JoyDevice9      -xplus4 -xpet -vsid
+ * $VICERES JoyDevice10     -xplus4 -xpet -vsid
  *
  * $VICERES JoyOpposite     -vsid
  * $VICERES KeySetEnable    -vsid
@@ -102,6 +102,9 @@
  */
 #define ADAPTER_PORT_COUNT_CBM6x0   8
 
+/** \brief  Number of joystick adapter ports for PET
+ */
+#define ADAPTER_PORT_COUNT_PET   2
 
 
 
@@ -518,7 +521,7 @@ static int create_cbm5x0_layout(GtkGrid *grid)
 }
 
 
-/** \brief  Create layout for xcbm2/xpet
+/** \brief  Create layout for xcbm2
  *
  * \param[in,out]   grid    main widget grid
  *
@@ -529,6 +532,24 @@ static int create_cbm6x0_layout(GtkGrid *grid)
     int row = 0;
 
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_CBM6x0);
+    row = layout_add_adapter_selector(grid, row);
+    row = layout_add_swap_buttons(grid, row, false, true);
+
+    return row + 1;
+}
+
+
+/** \brief  Create layout for xpet
+ *
+ * \param[in,out]   grid    main widget grid
+ *
+ * \return  row in the \a layout for additional widgets
+ */
+static int create_pet_layout(GtkGrid *grid)
+{
+    int row = 0;
+
+    row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_PET);
     row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, false, true);
 
@@ -578,7 +599,9 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
         case VICE_MACHINE_CBM5x0:
             row = create_cbm5x0_layout(GTK_GRID(layout));
             break;
-        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_PET:
+            row = create_pet_layout(GTK_GRID(layout));
+            break;
         case VICE_MACHINE_CBM6x0:
             row = create_cbm6x0_layout(GTK_GRID(layout));
             break;
