@@ -470,7 +470,9 @@ static void update_frame_textures(context_t *context,
         context->current_frame_texture  = swap_texture;
         context->current_frame_width    = backbuffer->width;
         context->current_frame_height   = backbuffer->height;
-        
+        context->interlaced             = backbuffer->interlaced;
+        context->pixel_aspect_ratio     = backbuffer->pixel_aspect_ratio;
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, context->current_frame_texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -702,59 +704,60 @@ static void render(void *job_data, void *pool_data)
     }
 
     CANVAS_LOCK();
-
-    if (backbuffer_count) {
-        backbuffer = backbuffers[backbuffer_count - 1];
-
-        context->last_render_time = tick_now();
-        context->interlaced       = backbuffer->interlaced;
-    
-        /*
-         * Recalculate layout
-         */
-        
-        resources_get_int("KeepAspectRatio", &keepaspect);
-        resources_get_int("TrueAspectRatio", &trueaspect);
-
-        if (keepaspect) {
-            float viewport_aspect;
-            float emulated_aspect;
-
-            viewport_aspect = (float)context->native_view_width / (float)context->native_view_height;
-            emulated_aspect = (float)backbuffer->width / (float)backbuffer->height;
-
-            if (trueaspect) {
-                emulated_aspect *= backbuffer->pixel_aspect_ratio;
-            }
-
-            if (emulated_aspect < viewport_aspect) {
-                scale_x = emulated_aspect / viewport_aspect;
-                scale_y = 1.0f;
-            } else {
-                scale_x = 1.0f;
-                scale_y = viewport_aspect / emulated_aspect;
-            }
-        }
-        
-        canvas->screen_display_w = (float)context->native_view_width  * scale_x;
-        canvas->screen_display_h = (float)context->native_view_height * scale_y;
-        canvas->screen_origin_x = ((float)context->native_view_width  - canvas->screen_display_w) / 2.0;
-        canvas->screen_origin_y = ((float)context->native_view_height - canvas->screen_display_h) / 2.0;
-
-        /* Calculate the minimum drawing area size to be enforced by gtk */
-        if (keepaspect && trueaspect) {
-            context->native_view_min_width  = ceil((float)backbuffer->width * backbuffer->pixel_aspect_ratio);
-            context->native_view_min_height = backbuffer->height;
-        } else {
-            context->native_view_min_width  = backbuffer->width;
-            context->native_view_min_height = backbuffer->height;
-        }
-    }
-
     RENDER_LOCK();
-    CANVAS_UNLOCK();
 
     vice_opengl_renderer_make_current(context);
+
+    if (backbuffer_count) {
+        /* Upload the frame(s) to the GPU */
+        update_frame_textures(context, backbuffers, backbuffer_count);        
+    }
+
+    /*
+     * Recalculate layout
+     */
+    
+    resources_get_int("KeepAspectRatio", &keepaspect);
+    resources_get_int("TrueAspectRatio", &trueaspect);
+
+    if (keepaspect) {
+        float viewport_aspect;
+        float emulated_aspect;
+
+        viewport_aspect = (float)context->native_view_width / (float)context->native_view_height;
+        emulated_aspect = (float)context->current_frame_width / (float)context->current_frame_height;
+
+        if (trueaspect) {
+            emulated_aspect *= context->pixel_aspect_ratio;
+        }
+
+        if (emulated_aspect < viewport_aspect) {
+            scale_x = emulated_aspect / viewport_aspect;
+            scale_y = 1.0f;
+        } else {
+            scale_x = 1.0f;
+            scale_y = viewport_aspect / emulated_aspect;
+        }
+    }
+    
+    canvas->screen_display_w = (float)context->native_view_width  * scale_x;
+    canvas->screen_display_h = (float)context->native_view_height * scale_y;
+    canvas->screen_origin_x = ((float)context->native_view_width  - canvas->screen_display_w) / 2.0;
+    canvas->screen_origin_y = ((float)context->native_view_height - canvas->screen_display_h) / 2.0;
+
+    /* Calculate the minimum drawing area size to be enforced by gtk */
+    if (keepaspect && trueaspect) {
+        context->native_view_min_width  = ceil((float)context->current_frame_width * context->pixel_aspect_ratio);
+        context->native_view_min_height = context->current_frame_height;
+    } else {
+        context->native_view_min_width  = context->current_frame_width;
+        context->native_view_min_height = context->current_frame_height;
+    }
+
+    context->last_render_time = tick_now();
+
+    CANVAS_UNLOCK();
+
     vice_opengl_renderer_set_viewport(context);
 
     /* Enable or disable vsycn as needed */
@@ -764,9 +767,6 @@ static void render(void *job_data, void *pool_data)
         vice_opengl_renderer_set_vsync(context, vsync ? true : false);
         context->cached_vsync_resource = vsync;
     }
-
-    /* Upload the frame(s) to the GPU */
-    update_frame_textures(context, backbuffers, backbuffer_count);
     
     /* Begin with a cleared framebuffer */
     glClearColor(context->native_view_bg_r, context->native_view_bg_g, context->native_view_bg_b, 1.0f);
