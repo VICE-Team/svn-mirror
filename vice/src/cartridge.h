@@ -409,45 +409,46 @@ extern void cartridge_sound_chip_init(void);
  *     1:  uses block 3 (6000-7fff)
  *     2:  uses block 2 (4000-5fff)
  *     3:  uses block 1 (2000-3fff)
- * 
- * bit 4:  0=4k 1=8k (only useful if just one block is used)
- * bit 5:  0=first, 1=second 4k in block (only useful for 4k images)
+ *
+ * bit 4+5:  0,0=1k, 0,1=2k 1,0=4k 1,1=8k (only useful if just one block is used)
+ * bit 6:    starts at 0=first, 1=second 4k in block (only useful for 1k/2k/4k images)
  */
 #define CARTRIDGE_VIC20_DETECT       0x8000
 
-#define CARTRIDGE_VIC20_TYPEDEF(h, s, b1, b2, b3, b5) \
-    (0x8000 | ((h) << 5) | ((s) << 4) | ((b1) << 3) | ((b2) << 2) | ((b3) << 1) | ((b5) << 0))
+#define CARTRIDGE_VIC20_TYPEDEF(h, s1, s0, b1, b2, b3, b5) \
+    (0x8000 | ((h) << 6) | ((s1) << 5) | ((s0) << 4) | ((b1) << 3) | ((b2) << 2) | ((b3) << 1) | ((b5) << 0))
 
 /* block 1 */    
-#define CARTRIDGE_VIC20_4KB_2000        CARTRIDGE_VIC20_TYPEDEF(0, 0, 1, 0, 0, 0)
-#define CARTRIDGE_VIC20_8KB_2000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 1, 0, 0, 0)
-#define CARTRIDGE_VIC20_4KB_3000        CARTRIDGE_VIC20_TYPEDEF(1, 0, 1, 0, 0, 0)
+#define CARTRIDGE_VIC20_4KB_2000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 0,  1, 0, 0, 0)
+#define CARTRIDGE_VIC20_8KB_2000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  1, 0, 0, 0)
+#define CARTRIDGE_VIC20_4KB_3000        CARTRIDGE_VIC20_TYPEDEF(1, 1, 0,  1, 0, 0, 0)
 /* block 2 */
-#define CARTRIDGE_VIC20_4KB_4000        CARTRIDGE_VIC20_TYPEDEF(0, 0, 0, 1, 0, 0)
-#define CARTRIDGE_VIC20_8KB_4000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 0, 1, 0, 0)
-#define CARTRIDGE_VIC20_4KB_5000        CARTRIDGE_VIC20_TYPEDEF(1, 0, 0, 1, 0, 0)
+#define CARTRIDGE_VIC20_4KB_4000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 0,  0, 1, 0, 0)
+#define CARTRIDGE_VIC20_8KB_4000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  0, 1, 0, 0)
+#define CARTRIDGE_VIC20_4KB_5000        CARTRIDGE_VIC20_TYPEDEF(1, 1, 0,  0, 1, 0, 0)
 /* block 3 */
-#define CARTRIDGE_VIC20_4KB_6000        CARTRIDGE_VIC20_TYPEDEF(0, 0, 0, 0, 1, 0)
-#define CARTRIDGE_VIC20_8KB_6000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 0, 0, 1, 0)
-#define CARTRIDGE_VIC20_4KB_7000        CARTRIDGE_VIC20_TYPEDEF(1, 0, 0, 0, 1, 0)
+#define CARTRIDGE_VIC20_4KB_6000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 0,  0, 0, 1, 0)
+#define CARTRIDGE_VIC20_8KB_6000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  0, 0, 1, 0)
+#define CARTRIDGE_VIC20_4KB_7000        CARTRIDGE_VIC20_TYPEDEF(1, 1, 0,  0, 0, 1, 0)
 /* block 5 */
-#define CARTRIDGE_VIC20_4KB_A000        CARTRIDGE_VIC20_TYPEDEF(0, 0, 0, 0, 0, 1)
-#define CARTRIDGE_VIC20_8KB_A000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 0, 0, 0, 1)
-#define CARTRIDGE_VIC20_4KB_B000        CARTRIDGE_VIC20_TYPEDEF(1, 0, 0, 0, 0, 1)
+#define CARTRIDGE_VIC20_4KB_A000        CARTRIDGE_VIC20_TYPEDEF(0, 0, 0,  0, 0, 0, 1)
+#define CARTRIDGE_VIC20_8KB_A000        CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  0, 0, 0, 1)
+#define CARTRIDGE_VIC20_4KB_B000        CARTRIDGE_VIC20_TYPEDEF(1, 1, 0,  0, 0, 0, 1)
+#define CARTRIDGE_VIC20_2KB_B000        CARTRIDGE_VIC20_TYPEDEF(1, 0, 1,  0, 0, 0, 1)
 
 /* block 1 + block 2 */
-#define CARTRIDGE_VIC20_16KB_2000       CARTRIDGE_VIC20_TYPEDEF(0, 1, 1, 1, 0, 0) 
+#define CARTRIDGE_VIC20_16KB_2000       CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  1, 1, 0, 0) 
 /* block 1 + block 5 */
-#define CARTRIDGE_VIC20_16KB_2000_A000  CARTRIDGE_VIC20_TYPEDEF(0, 1, 1, 0, 0, 1) 
+#define CARTRIDGE_VIC20_16KB_2000_A000  CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  1, 0, 0, 1) 
 /* block 2 + block 3 */
-#define CARTRIDGE_VIC20_16KB_4000       CARTRIDGE_VIC20_TYPEDEF(0, 1, 0, 1, 1, 0) 
+#define CARTRIDGE_VIC20_16KB_4000       CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  0, 1, 1, 0) 
 /* block 2 + block 5 */
-#define CARTRIDGE_VIC20_16KB_4000_A000  CARTRIDGE_VIC20_TYPEDEF(0, 1, 0, 1, 0, 1) 
+#define CARTRIDGE_VIC20_16KB_4000_A000  CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  0, 1, 0, 1) 
 /* block 3 + block 5 */
-#define CARTRIDGE_VIC20_16KB_6000       CARTRIDGE_VIC20_TYPEDEF(0, 1, 0, 0, 1, 1) 
+#define CARTRIDGE_VIC20_16KB_6000       CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  0, 0, 1, 1) 
 
 /* block 1,2,3,5 */
-#define CARTRIDGE_VIC20_32KB_2000       CARTRIDGE_VIC20_TYPEDEF(0, 1, 1, 1, 1, 1)
+#define CARTRIDGE_VIC20_32KB_2000       CARTRIDGE_VIC20_TYPEDEF(0, 1, 1,  1, 1, 1, 1)
 
 /* list of canonical names for the VIC20 cartridges: */
 #define CARTRIDGE_VIC20_NAME_BEHRBONZ        "Behr Bonz"

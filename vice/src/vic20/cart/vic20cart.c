@@ -28,6 +28,8 @@
  *
  */
 
+/* #define DEBUGCART */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -85,8 +87,6 @@
 #include "vic20-ieee488.h"
 #include "vic20-midi.h"
 #include "zfile.h"
-
-/* #define DEBUGCART */
 
 #ifdef DEBUGCART
 #define DBG(x)  printf x
@@ -283,7 +283,7 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Specify 4/8KiB extension ROM name at $A000" },
     { "-cartB", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_4KB_B000, NULL, NULL,
-      "<Name>", "Specify 4KiB extension ROM name at $B000" },
+      "<Name>", "Specify 2/4KiB extension ROM name at $B000" },
     { "-cartgeneric", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_GENERIC, NULL, NULL,
       "<Name>", "Specify generic extension ROM name" },
@@ -439,6 +439,7 @@ static int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
         case CARTRIDGE_VIC20_4KB_A000:
         case CARTRIDGE_VIC20_8KB_A000:
         case CARTRIDGE_VIC20_4KB_B000:
+        case CARTRIDGE_VIC20_2KB_B000:
         case CARTRIDGE_VIC20_8KB_4000:
         case CARTRIDGE_VIC20_4KB_4000:
         case CARTRIDGE_VIC20_16KB_2000:
@@ -462,6 +463,7 @@ static int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             ret = finalexpansion_bin_attach(filename);
             break;
     }
+    DBG(("cart_bin_attach type: %d ret: %d\n", type, ret));
 
     return ret;
 }
@@ -520,13 +522,14 @@ int cartridge_attach_image(int type, const char *filename)
         case CARTRIDGE_VIC20_DETECT:
         case CARTRIDGE_VIC20_4KB_2000:
         case CARTRIDGE_VIC20_8KB_2000:
+        case CARTRIDGE_VIC20_4KB_4000:
+        case CARTRIDGE_VIC20_8KB_4000:
         case CARTRIDGE_VIC20_4KB_6000:
         case CARTRIDGE_VIC20_8KB_6000:
         case CARTRIDGE_VIC20_4KB_A000:
         case CARTRIDGE_VIC20_8KB_A000:
         case CARTRIDGE_VIC20_4KB_B000:
-        case CARTRIDGE_VIC20_8KB_4000:
-        case CARTRIDGE_VIC20_4KB_4000:
+        case CARTRIDGE_VIC20_2KB_B000:
         case CARTRIDGE_VIC20_16KB_2000:
         case CARTRIDGE_VIC20_16KB_4000:
         case CARTRIDGE_VIC20_16KB_6000:
