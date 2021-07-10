@@ -316,8 +316,8 @@ int fsimage_dxx_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
     if (fsimage->error_info.map) {
         harderror = 1;
         rf = fsimage->error_info.map[sectors];
-        /* these are soft errors */
-        if ((rf == 1) || (rf == 5) || (rf == 7) || (rf == 8)) {
+        /* these are soft errors, let rf=0 pass for a read */
+        if ((rf == 0) || (rf == 1) || (rf == 5) || (rf == 7) || (rf == 8)) {
             harderror = 0;
         }
     }
