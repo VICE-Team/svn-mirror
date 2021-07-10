@@ -38,6 +38,9 @@ typedef struct video_canvas_s {
     /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
 
+    /** \brief during render, true if a future render will replace this frame */
+    bool current_render_is_incomplete;
+
     /** \brief Rendering configuration as seen by the emulator
      *         core. */
     struct video_render_config_s *videoconfig;
