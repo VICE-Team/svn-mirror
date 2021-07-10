@@ -134,14 +134,14 @@ typedef struct vice_opengl_renderer_context_s {
     GLuint current_frame_texture;
     unsigned int current_frame_width;
     unsigned int current_frame_height;
-    float current_frame_pixel_aspect_ratio;
+    bool interlaced;
+    float pixel_aspect_ratio;
 
     /** \brief The texture identifier for the GPU's copy of our  machine display. */
     GLuint previous_frame_texture;
     unsigned int previous_frame_width;
     unsigned int previous_frame_height;
-    float previous_frame_pixel_aspect_ratio;
-
+    
     /** \brief size of the next frame to be emulated */
     unsigned int emulated_width_next;
     
@@ -153,10 +153,7 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief when the last frame was rendered */
     unsigned long last_render_time;
-    
-    /** \brief if the next render should use interlaced mode */
-    bool interlaced;
-    
+        
     /** \brief cached value of the vsync resource to avoid setting it each frame */
     unsigned long cached_vsync_resource;
 
