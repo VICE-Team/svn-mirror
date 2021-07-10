@@ -317,6 +317,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     backbuffer->width = context->emulated_width_next;
     backbuffer->height = context->emulated_height_next;
     backbuffer->pixel_aspect_ratio = context->pixel_aspect_ratio_next;
+    backbuffer->incomplete_frame = canvas->current_render_is_incomplete;
 
     CANVAS_UNLOCK();
 
@@ -446,20 +447,13 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 #endif
 }
 
-static void update_frame_textures(context_t *context,
-                                  backbuffer_t **backbuffers,
-                                  int backbuffer_count)
+static void update_frame_textures(context_t *context, backbuffer_t *backbuffer)
 {
-    int i;
-    backbuffer_t *backbuffer;
-    
     /*
-     * Update the OpenGL texture(s) with the new backbuffer bitmap(s)
+     * Update the OpenGL texture with the new backbuffer bitmap
      */
-    
-    for (i = 0; i < backbuffer_count; i++) {
-        backbuffer = backbuffers[i];
 
+    if (!backbuffer->incomplete_frame) {
         /* Retain the previous texture to use in interlaced mode */
         GLuint swap_texture             = context->previous_frame_texture;
         
@@ -468,22 +462,23 @@ static void update_frame_textures(context_t *context,
         context->previous_frame_height  = context->current_frame_height;
         
         context->current_frame_texture  = swap_texture;
-        context->current_frame_width    = backbuffer->width;
-        context->current_frame_height   = backbuffer->height;
-        context->interlaced             = backbuffer->interlaced;
-        context->pixel_aspect_ratio     = backbuffer->pixel_aspect_ratio;
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, context->current_frame_texture);
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer->width);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, backbuffer->width, backbuffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, backbuffer->pixel_data);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glBindTexture(GL_TEXTURE_2D, 0);
     }
+
+    context->current_frame_width    = backbuffer->width;
+    context->current_frame_height   = backbuffer->height;
+    context->interlaced             = backbuffer->interlaced;
+    context->pixel_aspect_ratio     = backbuffer->pixel_aspect_ratio;
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, context->current_frame_texture);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer->width);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, backbuffer->width, backbuffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, backbuffer->pixel_data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 static void legacy_render(context_t *context, float scale_x, float scale_y)
@@ -650,15 +645,11 @@ static void render(void *job_data, void *pool_data)
     render_job_t job = (render_job_t)(int)(intptr_t)job_data;
     video_canvas_t *canvas = pool_data;
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
-    backbuffer_t *backbuffer;
-    backbuffer_t *backbuffers[2];
-    int backbuffer_count = 0;
     int vsync = 1;
     int keepaspect = 1;
     int trueaspect = 0;
     float scale_x = 1.0f;
     float scale_y = 1.0f;
-    int i;
 
     if (job == render_thread_init) {
         archdep_thread_init();
@@ -681,36 +672,25 @@ static void render(void *job_data, void *pool_data)
         return;
     }
     
+    CANVAS_LOCK();
+    RENDER_LOCK();
+
+    vice_opengl_renderer_make_current(context);
+
     /*
      * Correct interlaced output always requires the previous frame.
      * Find up to 2 of the most recent frames.
      */
 
     for (;;) {
-        backbuffer = render_queue_dequeue_for_display(context->render_queue);
+        backbuffer_t *backbuffer = render_queue_dequeue_for_display(context->render_queue);
         if (!backbuffer) {
             break;
         }
 
-        if (backbuffer_count == 2) {
-            /* We now have a third, discard the oldest */
-            render_queue_return_to_pool(context->render_queue, backbuffers[0]);
-            backbuffers[0] = backbuffers[1];
-            backbuffers[1] = backbuffer;
-            continue;
-        }
-
-        backbuffers[backbuffer_count++] = backbuffer;
-    }
-
-    CANVAS_LOCK();
-    RENDER_LOCK();
-
-    vice_opengl_renderer_make_current(context);
-
-    if (backbuffer_count) {
-        /* Upload the frame(s) to the GPU */
-        update_frame_textures(context, backbuffers, backbuffer_count);        
+        /* Upload the frame(s) to the GPU and then return it */
+        update_frame_textures(context, backbuffer);
+        render_queue_return_to_pool(context->render_queue, backbuffer);
     }
 
     /*
@@ -792,10 +772,6 @@ static void render(void *job_data, void *pool_data)
     vice_opengl_renderer_clear_current(context);
     
     RENDER_UNLOCK();
-
-    for (i = 0; i < backbuffer_count; i++) {
-        render_queue_return_to_pool(context->render_queue, backbuffers[i]);
-    }
 }
 
 static void vice_opengl_set_palette(video_canvas_t *canvas)

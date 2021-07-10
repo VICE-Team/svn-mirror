@@ -148,7 +148,15 @@ void video_canvas_refresh_all_tracked(void)
     
     for (i = 0; i < TRACKED_CANVAS_MAX; i++) {
         if (tracked_canvas[i]) {
+            /*
+             * This rendered frame will be replaced by a real one later.
+             * The render shouldn't replace the previous interlaced frame
+             * in this case.
+             */
+
+            tracked_canvas[i]->current_render_is_incomplete = true;
             video_canvas_refresh_all(tracked_canvas[i]);
+            tracked_canvas[i]->current_render_is_incomplete = false;
         }
     }
 }
