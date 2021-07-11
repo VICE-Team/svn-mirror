@@ -54,7 +54,7 @@ static gboolean joystick_swap_possible(void)
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
-        /* x64dtv emulates the second joystick hack by degault */
+        /* x64dtv emulates the second joystick hack by default */
         case VICE_MACHINE_C64DTV:   /* fall through */
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_PLUS4:    /* fall through */
