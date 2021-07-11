@@ -47,7 +47,6 @@ UI_MENU_DEFINE_RADIO(JoyPort7Device)
 UI_MENU_DEFINE_RADIO(JoyPort8Device)
 UI_MENU_DEFINE_RADIO(JoyPort9Device)
 UI_MENU_DEFINE_RADIO(JoyPort10Device)
-UI_MENU_DEFINE_RADIO(JoyPort11Device)
 
 static ui_menu_entry_t joyport_dyn_menu[JOYPORT_MAX_PORTS][JOYPORT_MAX_DEVICES + 1];
 
@@ -73,8 +72,7 @@ static const ui_callback_t uijoyport_device_callbacks[JOYPORT_MAX_PORTS] = {
     radio_JoyPort7Device_callback,
     radio_JoyPort8Device_callback,
     radio_JoyPort9Device_callback,
-    radio_JoyPort10Device_callback,
-    radio_JoyPort11Device_callback,
+    radio_JoyPort10Device_callback
 };
 
 static const char *joyport_dynmenu_helper(int port)
@@ -157,11 +155,6 @@ static UI_MENU_CALLBACK(JoyPort10Device_dynmenu_callback)
     return joyport_dynmenu_helper(JOYPORT_10);
 }
 
-static UI_MENU_CALLBACK(JoyPort11Device_dynmenu_callback)
-{
-    return joyport_dynmenu_helper(JOYPORT_11);
-}
-
 ui_menu_entry_t joyport_menu[JOYPORT_MAX_PORTS + 2];
 
 UI_MENU_DEFINE_TOGGLE(BBRTCSave)
@@ -176,14 +169,13 @@ static const ui_callback_t uijoyport_callbacks[JOYPORT_MAX_PORTS] = {
     JoyPort7Device_dynmenu_callback,
     JoyPort8Device_dynmenu_callback,
     JoyPort9Device_dynmenu_callback,
-    JoyPort10Device_dynmenu_callback,
-    JoyPort11Device_dynmenu_callback
+    JoyPort10Device_dynmenu_callback
 };
 
-void uijoyport_menu_create(int p1, int p2, int p3_4, int p5_10, int p11)
+void uijoyport_menu_create(int p1, int p2, int p3_4, int p5, int p6_p10)
 {
     int i, j = 0;
-    int port_ids[] = { p1, p2, p3_4, p3_4, p5_10, p5_10, p5_10, p5_10, p5_10, p5_10, p11 };
+    int port_ids[] = { p1, p2, p3_4, p3_4, p5, p6_p10, p6_p10, p6_p10, p6_p10, p6_p10 };
 
     joyport_menu[j].string = "Save BBRTC data when changed";
     joyport_menu[j].type = MENU_ENTRY_RESOURCE_TOGGLE;

@@ -40,7 +40,6 @@
 #define JOYPORT_ID_JOY8               -8
 #define JOYPORT_ID_JOY9               -9
 #define JOYPORT_ID_JOY10              -10
-#define JOYPORT_ID_JOY11              -11
 
 /* #define JOYPORT_EXPERIMENTAL_DEVICES */
 
@@ -106,9 +105,8 @@ enum {
 #define JOYPORT_8   7
 #define JOYPORT_9   8
 #define JOYPORT_10  9
-#define JOYPORT_11  10
 
-#define JOYPORT_MAX_PORTS     11
+#define JOYPORT_MAX_PORTS     10
 
 #define JOYPORT_IS_NOT_LIGHTPEN   0
 #define JOYPORT_IS_LIGHTPEN       1

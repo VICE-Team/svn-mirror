@@ -44,7 +44,7 @@
 #endif
 
 static joyport_t joyport_device[JOYPORT_MAX_DEVICES];
-static uint16_t joyport_display[12] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static uint16_t joyport_display[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 static int joy_port[JOYPORT_MAX_PORTS];
 static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
@@ -476,7 +476,6 @@ static int joyport_valid_joyport_display(int id)
         case JOYPORT_ID_JOY8:
         case JOYPORT_ID_JOY9:
         case JOYPORT_ID_JOY10:
-        case JOYPORT_ID_JOY11:
             return 1;
     }
     return 0;
@@ -518,11 +517,8 @@ void joyport_display_joyport(int id, uint16_t status)
         if (id == JOYPORT_ID_JOY10 && joy_port[9] == JOYPORT_ID_JOYSTICK) {
             joyport_display[10] = status;
         }
-        if (id == JOYPORT_ID_JOY11 && joy_port[10] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[11] = status;
-        }
     } else {
-        for (i = 0; i < 11; i++) {
+        for (i = 0; i < 10; i++) {
             if (id == joy_port[i]) {
                 all = 0;
             }
@@ -570,10 +566,6 @@ void joyport_display_joyport(int id, uint16_t status)
 
         if (id == joy_port[9]) {
             joyport_display[10] = status;
-        }
-
-        if (id == joy_port[10]) {
-            joyport_display[11] = status;
         }
     }
     ui_display_joyport(joyport_display);
@@ -692,12 +684,6 @@ static const resource_int_t resources_int_port10[] = {
     RESOURCE_INT_LIST_END
 };
 
-static const resource_int_t resources_int_port11[] = {
-    { "JoyPort11Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
-      &joy_port[JOYPORT_11], set_joyport_device, (void *)JOYPORT_11 },
-    RESOURCE_INT_LIST_END
-};
-
 int joyport_resources_init(void)
 {
     int i;
@@ -708,12 +694,6 @@ int joyport_resources_init(void)
     joyport_device[0].joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         joy_port[i] = JOYPORT_ID_NONE;
-    }
-
-    if (port_props[JOYPORT_11].name) {
-        if (resources_register_int(resources_int_port11) < 0) {
-            return -1;
-        }
     }
 
     if (port_props[JOYPORT_10].name) {
@@ -986,14 +966,6 @@ static cmdline_option_t cmdline_options_port10[] =
     CMDLINE_LIST_END
 };
 
-static cmdline_option_t cmdline_options_port11[] =
-{
-    { "-controlport11device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_11, NULL, NULL,
-      "Device", NULL },
-    CMDLINE_LIST_END
-};
-
 int joyport_cmdline_options_init(void)
 {
     union char_func cf;
@@ -1084,15 +1056,6 @@ int joyport_cmdline_options_init(void)
         cmdline_options_port10[0].description = cf.c;
         cmdline_options_port10[0].attributes |= (JOYPORT_10 << 8);
         if (cmdline_register_options(cmdline_options_port10) < 0) {
-            return -1;
-        }
-    }
-
-    if (port_props[JOYPORT_11].name) {
-        cf.f = build_joyport_string;
-        cmdline_options_port11[0].description = cf.c;
-        cmdline_options_port11[0].attributes |= (JOYPORT_11 << 8);
-        if (cmdline_register_options(cmdline_options_port11) < 0) {
             return -1;
         }
     }

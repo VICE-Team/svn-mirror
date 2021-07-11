@@ -368,7 +368,7 @@ int cbm2ui_init(void)
 {
 
     /* no "real" joystickports, and a user port */
-    uijoyport_menu_create(0, 0, 1, 1, 0);
+    uijoyport_menu_create(0, 0, 1, 1, 1);
     uikeyboard_menu_create();
     uipalette_menu_create("Crtc", NULL);
     uisid_menu_create();
@@ -436,7 +436,7 @@ int cbm5x0ui_init(void)
 {
     sdl_ui_set_menu_params = cbm5x0ui_set_menu_params;
     /* p500 has 2 "real" joystickports, and a user port */
-    uijoyport_menu_create(1, 1, 1, 1, 0);
+    uijoyport_menu_create(1, 1, 1, 1, 1);
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
