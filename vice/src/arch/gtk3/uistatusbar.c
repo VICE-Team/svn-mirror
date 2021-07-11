@@ -1218,81 +1218,11 @@ static GtkWidget *ui_tape_widget_create(void)
 static void update_joyport_layout(ui_sb_state_t *state_snapshot)
 {
     int i, ok[JOYPORT_MAX_PORTS];
-    int userport_joysticks = 0;
     int new_joyport_mask = 0;
 
-    /* Start with all ports enabled */
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        ok[i] = 1;
+        ok[i] = joyport_port_is_active(i);
     }
-    /* Check for userport joystick counts */
-    if ((machine_class != VICE_MACHINE_CBM5x0) &&
-            (machine_class != VICE_MACHINE_VSID)) {
-        int upjoy = 0;
-        resources_get_int("UserportJoy", &upjoy);
-        if (upjoy) {
-            ++userport_joysticks;
-        }
-        if (machine_class != VICE_MACHINE_C64DTV) {
-            int uptype = USERPORT_JOYSTICK_HUMMER;
-            resources_get_int("UserportJoyType", &uptype);
-            if ((uptype != USERPORT_JOYSTICK_HUMMER) &&
-                (uptype != USERPORT_JOYSTICK_OEM) &&
-                (upjoy != 0)) {
-                ++userport_joysticks;
-            }
-        }
-
-    }
-    /* Port 1 disabled for machines that have no internal joystick
-     * ports */
-    if ((machine_class == VICE_MACHINE_CBM6x0) ||
-        (machine_class == VICE_MACHINE_PET) ||
-        (machine_class == VICE_MACHINE_VSID)) {
-        ok[0] = 0;
-    }
-    /* Port 2 disabled for machines that have at most one internal
-     * joystick ports */
-    if ((machine_class == VICE_MACHINE_VIC20) ||
-        (machine_class == VICE_MACHINE_CBM6x0) ||
-        (machine_class == VICE_MACHINE_PET) ||
-        (machine_class == VICE_MACHINE_VSID)) {
-        ok[1] = 0;
-    }
-    /* Port 3 disabled for machines with no user port and no other
-     * joystick adapter type, or where no userport joystick is
-     * configured */
-    if ((machine_class == VICE_MACHINE_CBM5x0) || (userport_joysticks < 1)) {
-        ok[2] = 0;
-    }
-    /* Port 4 disabled for machines with no user port, or not enough
-     * userport lines for 2 port userport adapters, or where at most
-     * one userport joystick is configured */
-    if ((machine_class == VICE_MACHINE_CBM5x0) ||
-        (machine_class == VICE_MACHINE_C64DTV) ||
-        (userport_joysticks < 2)) {
-        ok[3] = 0;
-    }
-    /* Port 5 disabled for machines with no 5th control port,  */
-    if (machine_class != VICE_MACHINE_PLUS4) {
-        ok[4] = 0;
-    } else {
-        /* Port 5 also disabled if there's no SID joystick configured */
-        int sidjoy = 0;
-        resources_get_int("SIDCartJoy", &sidjoy);
-        if (!sidjoy) {
-            ok[4] = 0;
-        }
-    }
-
-    /* For now disable ports 6-11, re-enable once handling of those ports
-       has been added. */
-    ok[5] = 0;
-    ok[6] = 0;
-    ok[7] = 0;
-    ok[8] = 0;
-    ok[9] = 0;
-    ok[10] = 0;
 
     /* Now that we have a list of disabled/enabled ports, let's check
      * to see if anything has changed */

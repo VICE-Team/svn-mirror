@@ -581,6 +581,7 @@ char *joyport_get_port_name(int port)
 static uint8_t joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
 static char *joystick_adapter_name = NULL;
 static int joystick_adapter_ports = 0;
+static int joystick_adapter_additional_ports = 0;
 
 char *joystick_adapter_get_name(void)
 {
@@ -624,8 +625,48 @@ void joystick_adapter_set_ports(int ports)
 
 int joystick_adapter_get_ports(void)
 {
-    return joystick_adapter_ports;
+    return joystick_adapter_ports + joystick_adapter_additional_ports;
 }
+
+void joystick_adapter_set_add_ports(int ports)
+{
+    joystick_adapter_additional_ports = ports;
+}
+
+/* ------------------------------------------------------------------------- */
+
+int joyport_port_is_active(int port)
+{
+    int active = 0;
+
+    switch (port) {
+        case JOYPORT_1:    /* Fallthrough */
+        case JOYPORT_2:
+            if (port_props[port].name) {
+                active = 1;
+            }
+            break;
+        case JOYPORT_3:    /* Fallthrough */
+        case JOYPORT_4:    /* Fallthrough */
+        case JOYPORT_6:    /* Fallthrough */
+        case JOYPORT_7:    /* Fallthrough */
+        case JOYPORT_8:    /* Fallthrough */
+        case JOYPORT_9:    /* Fallthrough */
+        case JOYPORT_10:
+            if (joystick_adapter_ports > (port - 2)) {
+                active = 1;
+            }
+            break;
+        case JOYPORT_5:
+            if (joystick_adapter_additional_ports || joystick_adapter_ports > (port - 2)) {
+                active = 1;
+            }
+            break;
+    }
+
+    return active;
+}
+
 
 /* ------------------------------------------------------------------------- */
 
