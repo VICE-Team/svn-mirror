@@ -125,7 +125,7 @@ typedef struct vice_directx_renderer_context_s {
     bool resized;
 
     /** \brief aspect ratio of each pixel in the current gpu bitmap */
-    float bitmap_pixel_aspect_ratio;
+    float pixel_aspect_ratio;
 
     /** \brief size of the next emulated frame */
     unsigned int emulated_width_next;

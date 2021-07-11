@@ -292,6 +292,7 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
     backbuffer->width = context->emulated_width_next;
     backbuffer->height = context->emulated_height_next;
     backbuffer->pixel_aspect_ratio = context->pixel_aspect_ratio_next;
+    backbuffer->complete_frame = !canvas->current_render_is_incomplete;
 
     CANVAS_UNLOCK();
 

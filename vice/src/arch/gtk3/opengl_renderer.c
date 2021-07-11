@@ -317,7 +317,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     backbuffer->width = context->emulated_width_next;
     backbuffer->height = context->emulated_height_next;
     backbuffer->pixel_aspect_ratio = context->pixel_aspect_ratio_next;
-    backbuffer->incomplete_frame = canvas->current_render_is_incomplete;
+    backbuffer->complete_frame = !canvas->current_render_is_incomplete;
 
     CANVAS_UNLOCK();
 
@@ -453,7 +453,7 @@ static void update_frame_textures(context_t *context, backbuffer_t *backbuffer)
      * Update the OpenGL texture with the new backbuffer bitmap
      */
 
-    if (!backbuffer->incomplete_frame) {
+    if (backbuffer->complete_frame) {
         /* Retain the previous texture to use in interlaced mode */
         GLuint swap_texture             = context->previous_frame_texture;
         
