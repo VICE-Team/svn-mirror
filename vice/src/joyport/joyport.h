@@ -174,12 +174,16 @@ extern char *joyport_get_port_name(int port);
 
 extern void joyport_clear_devices(void);
 
+extern int joyport_port_is_active(int port);
+
 extern char *joystick_adapter_get_name(void);
 extern uint8_t joystick_adapter_get_id(void);
 extern uint8_t joystick_adapter_activate(uint8_t id, char *name);
 extern void joystick_adapter_deactivate(void);
+
 extern void joystick_adapter_set_ports(int ports);
 extern int joystick_adapter_get_ports(void);
+extern void joystick_adapter_set_add_ports(int ports);
 
 extern int joyport_snapshot_write_module(struct snapshot_s *s, int port);
 extern int joyport_snapshot_read_module(struct snapshot_s *s, int port);

@@ -230,9 +230,11 @@ static int set_sidcartjoy_enabled(int value, void *param)
 
     if (val) {
         sidcartjoy_list_item = io_source_register(&sidcart_joy_device);
+        joystick_adapter_set_add_ports(1);
     } else {
         io_source_unregister(sidcartjoy_list_item);
         sidcartjoy_list_item = NULL;
+        joystick_adapter_set_add_ports(0);
     }
 
     sidcartjoy_enabled = val;
