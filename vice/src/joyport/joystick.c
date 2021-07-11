@@ -93,7 +93,7 @@
 #define JOYPAD_NW   (JOYPAD_N | JOYPAD_W)
 #define JOYPAD_NE   (JOYPAD_N | JOYPAD_E)
 
-static int joyport_joystick[JOYPORT_MAX_PORTS] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static int joyport_joystick[JOYPORT_MAX_PORTS] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 /* Global joystick value.  */
 /*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */
@@ -207,9 +207,6 @@ static void joystick_latch_matrix(CLOCK offset)
     }
     if (joyport_joystick[9]) {
         joyport_display_joyport(JOYPORT_ID_JOY10, joystick_value[JOYPORT_10]);
-    }
-    if (joyport_joystick[10]) {
-        joyport_display_joyport(JOYPORT_ID_JOY11, joystick_value[JOYPORT_11]);
     }
 }
 
@@ -812,12 +809,6 @@ static resource_int_t joy10_resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
-static resource_int_t joy11_resources_int[] = {
-    { "JoyDevice11", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[JOYPORT_11], set_joystick_device, (void *)JOYPORT_11 },
-    RESOURCE_INT_LIST_END
-};
-
 /** \brief  Initialize joystick resources
  *
  * \return  0 on success, -1 on failure
@@ -913,12 +904,6 @@ int joystick_resources_init(void)
 
     if (joyport_get_port_name(JOYPORT_10)) {
         if (resources_register_int(joy10_resources_int) < 0) {
-            return -1;
-        }
-    }
-
-    if (joyport_get_port_name(JOYPORT_11)) {
-        if (resources_register_int(joy11_resources_int) < 0) {
             return -1;
         }
     }
@@ -1074,17 +1059,6 @@ static const cmdline_option_t joydev10cmdline_options[] = {
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev11cmdline_options[] = {
-    { "-extrajoydev9", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice11", NULL,
-#ifdef HAS_USB_JOYSTICK
-    "<0-13>", "Set device for SID Cart joystick port (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1)" },
-#else
-    "<0-9>", "Set device for SID Cart joystick port (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
-#endif
-    CMDLINE_LIST_END
-};
-
 /** \brief  Initialize joystick command line options
  *
  * \return  0 on success, -1 on failure
@@ -1147,11 +1121,6 @@ int joystick_cmdline_options_init(void)
     }
     if (joyport_get_port_name(JOYPORT_10)) {
         if (cmdline_register_options(joydev10cmdline_options) < 0) {
-            return -1;
-        }
-    }
-    if (joyport_get_port_name(JOYPORT_11)) {
-        if (cmdline_register_options(joydev11cmdline_options) < 0) {
             return -1;
         }
     }
