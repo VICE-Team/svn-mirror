@@ -1161,8 +1161,6 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
         archdep_vice_exit(-1);
     }
 
-    canvas->video_draw_buffer_callback = NULL;
-
     canvas->fullscreenconfig = lib_calloc(1, sizeof(fullscreenconfig_t));
 
     if (sdl_active_canvas_num == sdl_num_screens) {

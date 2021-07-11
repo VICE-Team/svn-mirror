@@ -134,6 +134,7 @@ typedef struct vice_opengl_renderer_context_s {
     GLuint current_frame_texture;
     unsigned int current_frame_width;
     unsigned int current_frame_height;
+    unsigned int current_frame_number;
     bool interlaced;
     float pixel_aspect_ratio;
 

@@ -290,8 +290,6 @@ int video_arch_get_active_chip(void)
  */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    canvas->video_draw_buffer_callback = NULL;
-
     /*
      * the render output can always be read from in GTK3,
      * it's not a direct video memory buffer.

@@ -77,6 +77,9 @@ struct raster_s {
     /* Resources */
     struct raster_resource_chip_s *raster_resource_chip;
 
+    /* Tracks the number of rendered frames */
+    unsigned int frame_counter;
+
     /* Pointer to the draw buffer.  */
     uint8_t *draw_buffer_ptr;
 

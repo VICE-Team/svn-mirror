@@ -74,10 +74,12 @@ struct canvas_refresh_s {
 typedef struct canvas_refresh_s canvas_refresh_t;
 
 struct draw_buffer_s {
-    /* The real drawing buffer, with padding bytes on either side to workaround CRT and Scale2x bugs */
-    uint8_t *draw_buffer_padded_allocation;
+    /* The real drawing buffers, with padding bytes on either side to workaround CRT and Scale2x bugs */
+    uint8_t *draw_buffer_padded_allocations[2];
     /* The memory buffer where the screen of the emulated machine is drawn. Palettized, 1 byte per pixel */
     uint8_t *draw_buffer;
+    /* another draw buffer, used during interlaced rendering. */
+    uint8_t *draw_buffer_previous;
     /* Width of draw_buffer in pixels */
     unsigned int draw_buffer_width;
     /* Height of draw_buffer in pixels. Typically same as geometry->screen_size.height */
@@ -135,6 +137,7 @@ struct video_chip_cap_s {
     unsigned int hwscale_allowed;
     unsigned int scale2x_allowed;
     unsigned int double_buffering_allowed;
+    unsigned int interlace_allowed;
     const char *external_palette_name;
     cap_render_t single_mode;
     cap_render_t double_mode;
@@ -220,8 +223,8 @@ struct video_render_config_s {
     char *external_palette_name;   /* Name of the external palette.  */
     int double_buffer;             /* Double buffering enabled? */
     int readable;                  /* reading of frame buffer is safe and fast */
-    int interlaced;                /* Should interlaced rendering be used? */
-    int interlace_odd_frame;       /* 0 if next interlaced frame is even, 1 if odd */
+    int interlaced;                /* Is the output currently interlaced? */
+    unsigned int frame_counter;
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
     struct video_render_color_tables_s color_tables;
     int fullscreen_enabled;
@@ -283,16 +286,6 @@ extern void video_viewport_resize(struct video_canvas_s *canvas, char resize_can
 extern void video_viewport_title_set(struct video_canvas_s *canvas,
                                      const char *title);
 extern void video_viewport_title_free(struct viewport_s *viewport);
-
-typedef struct video_draw_buffer_callback_s {
-    int (*draw_buffer_alloc)(struct video_canvas_s *canvas, uint8_t **draw_buffer,
-                             unsigned int fb_width, unsigned int fb_height,
-                             unsigned int *fb_pitch);
-    void (*draw_buffer_free)(struct video_canvas_s *canvas, uint8_t *draw_buffer);
-    void (*draw_buffer_clear)(struct video_canvas_s *canvas, uint8_t *draw_buffer,
-                              uint8_t value, unsigned int fb_width,
-                              unsigned int fb_height, unsigned int fb_pitch);
-} video_draw_buffer_callback_t;
 
 struct raster_s;
 

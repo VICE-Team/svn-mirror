@@ -317,11 +317,11 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     backbuffer->width = context->emulated_width_next;
     backbuffer->height = context->emulated_height_next;
     backbuffer->pixel_aspect_ratio = context->pixel_aspect_ratio_next;
-    backbuffer->complete_frame = !canvas->current_render_is_incomplete;
+    backbuffer->interlaced = canvas->videoconfig->interlaced;
+    backbuffer->frame_number = canvas->videoconfig->frame_counter;
 
     CANVAS_UNLOCK();
-
-    backbuffer->interlaced = canvas->videoconfig->interlaced;
+    
     video_canvas_render(canvas, backbuffer->pixel_data, w, h, xs, ys, xi, yi, backbuffer->width * 4);
 
     CANVAS_LOCK();
@@ -453,7 +453,7 @@ static void update_frame_textures(context_t *context, backbuffer_t *backbuffer)
      * Update the OpenGL texture with the new backbuffer bitmap
      */
 
-    if (backbuffer->complete_frame) {
+    if (backbuffer->frame_number != context->current_frame_number) {
         /* Retain the previous texture to use in interlaced mode */
         GLuint swap_texture             = context->previous_frame_texture;
         
@@ -462,6 +462,8 @@ static void update_frame_textures(context_t *context, backbuffer_t *backbuffer)
         context->previous_frame_height  = context->current_frame_height;
         
         context->current_frame_texture  = swap_texture;
+
+        context->current_frame_number = backbuffer->frame_number;
     }
 
     context->current_frame_width    = backbuffer->width;
@@ -740,7 +742,7 @@ static void render(void *job_data, void *pool_data)
 
     vice_opengl_renderer_set_viewport(context);
 
-    /* Enable or disable vsycn as needed */
+    /* Enable or disable vsync as needed */
     resources_get_int("VSync", &vsync);
     
     if (vsync != context->cached_vsync_resource) {

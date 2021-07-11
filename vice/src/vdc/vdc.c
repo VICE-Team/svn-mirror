@@ -628,8 +628,6 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             raster_canvas_handle_end_of_frame(&vdc.raster);
         
             vdc.frame_counter++;    /* As far as the frame counter is concerned, we are now on a new frame */
-            //video_canvas_interlaced_even_odd_set(vdc.raster.canvas, vdc.frame_counter & 1);
-            vdc.raster.canvas->videoconfig->interlace_odd_frame = vdc.frame_counter & 1;
 
             if (vdc.regs[24] & 0x20) {
                 vdc.attribute_blink = vdc.frame_counter & 16;

@@ -292,11 +292,11 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
     backbuffer->width = context->emulated_width_next;
     backbuffer->height = context->emulated_height_next;
     backbuffer->pixel_aspect_ratio = context->pixel_aspect_ratio_next;
-    backbuffer->complete_frame = !canvas->current_render_is_incomplete;
+    backbuffer->interlaced = canvas->videoconfig->interlaced;
+    backbuffer->frame_number = canvas->videoconfig->frame_counter;
 
     CANVAS_UNLOCK();
 
-    backbuffer->interlaced = canvas->videoconfig->interlaced;
     video_canvas_render(canvas, backbuffer->pixel_data, w, h, xs, ys, xi, yi, backbuffer->width * 4);
 
     CANVAS_LOCK();

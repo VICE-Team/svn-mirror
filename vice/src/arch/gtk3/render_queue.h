@@ -33,7 +33,7 @@
 
 typedef struct {
     bool interlaced;
-    bool complete_frame; /* true if this is not a mid-frame render */
+    unsigned int frame_number;
     unsigned char *pixel_data;
     unsigned int pixel_data_size_bytes;
     unsigned int width;

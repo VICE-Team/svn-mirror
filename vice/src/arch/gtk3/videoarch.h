@@ -68,9 +68,6 @@ typedef struct video_canvas_s {
     /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
 
-    /** \brief during render, true if a future render will replace this frame */
-    bool current_render_is_incomplete;
-
     /** \brief Used to coordinate vice thread access */
     pthread_mutex_t lock;
 
@@ -147,10 +144,6 @@ typedef struct video_canvas_s {
     /** \brief Color palette for translating display results into
      *         window colors. */
     struct palette_s *palette;
-    
-    /** \brief Methods for managing the draw buffer when the core
-     *         rasterizer handles it. */
-    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 
     /** \brief Which window contains this canvas.
      *  \sa ui_resources_s::canvas The array this value indexes */

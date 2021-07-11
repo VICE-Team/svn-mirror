@@ -49,7 +49,7 @@ void render_32_2x4_interlaced(const video_render_color_tables_t *color_tab,
     uint32_t *copyline = NULL;
     uint32_t *scanline = NULL;
     unsigned int y, wfirst, wstart, wfast, wend, wlast, yys;
-    int interlace_odd_frame = config->interlace_odd_frame;
+    int interlace_odd_frame = config->frame_counter & 1;
 
     src = src + pitchs * ys + xs;
     trg = trg + pitcht * yt + (xt << 2);
