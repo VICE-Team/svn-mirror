@@ -115,6 +115,7 @@ static int set_userport_superpad64_enabled(int value, void *param)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64, userport_superpad64_device.name);
+        joystick_adapter_set_ports(8);
     } else {
         userport_device_unregister(userport_superpad64_list_item);
         userport_superpad64_list_item = NULL;

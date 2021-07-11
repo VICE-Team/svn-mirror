@@ -70,6 +70,7 @@ static int joyport_snespad_enable(int port, int value)
     if (val) {
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_TRAPTHEM_SNES, joyport_snespad_device.name);
         counter = 0;
+        joystick_adapter_set_ports(1);
     } else {
         joystick_adapter_deactivate();
     }

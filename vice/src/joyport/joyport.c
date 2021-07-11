@@ -580,6 +580,7 @@ char *joyport_get_port_name(int port)
 
 static uint8_t joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
 static char *joystick_adapter_name = NULL;
+static int joystick_adapter_ports = 0;
 
 char *joystick_adapter_get_name(void)
 {
@@ -613,6 +614,17 @@ void joystick_adapter_deactivate(void)
 {
     joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
     joystick_adapter_name = NULL;
+    joystick_adapter_ports = 0;
+}
+
+void joystick_adapter_set_ports(int ports)
+{
+    joystick_adapter_ports = ports;
+}
+
+int joystick_adapter_get_ports(void)
+{
+    return joystick_adapter_ports;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -88,6 +88,7 @@ static int joyport_spaceballs_enable(int port, int value)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_SPACEBALLS, joyport_spaceballs_device.name);
+        joystick_adapter_set_ports(8);
     } else {
         joystick_adapter_deactivate();
         userport_device_unregister(userport_spaceballs_list_item);

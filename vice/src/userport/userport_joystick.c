@@ -412,24 +412,31 @@ static int register_userport_adapter(int adapter)
     switch (adapter) {
         case USERPORT_JOYSTICK_CGA:
             userport_joystick_list_item = userport_device_register(&cga_device);
+            joystick_adapter_set_ports(2);
             break;
         case USERPORT_JOYSTICK_PET:
             userport_joystick_list_item = userport_device_register(&pet_device);
+            joystick_adapter_set_ports(2);
             break;
         case USERPORT_JOYSTICK_HUMMER:
             userport_joystick_list_item = userport_device_register(&hummer_device);
+            joystick_adapter_set_ports(1);
             break;
         case USERPORT_JOYSTICK_OEM:
             userport_joystick_list_item = userport_device_register(&oem_device);
+            joystick_adapter_set_ports(1);
             break;
         case USERPORT_JOYSTICK_HIT:
             userport_joystick_list_item = userport_device_register(&hit_device);
+            joystick_adapter_set_ports(2);
             break;
         case USERPORT_JOYSTICK_KINGSOFT:
             userport_joystick_list_item = userport_device_register(&kingsoft_device);
+            joystick_adapter_set_ports(2);
             break;
         case USERPORT_JOYSTICK_STARBYTE:
             userport_joystick_list_item = userport_device_register(&starbyte_device);
+            joystick_adapter_set_ports(2);
             break;
         default:
             return -1;
