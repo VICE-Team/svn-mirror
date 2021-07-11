@@ -109,6 +109,7 @@ static int set_userport_snespad_enabled(int value, void *param)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES, userport_snespad_device.name);
+        joystick_adapter_set_ports(1);
     } else {
         userport_device_unregister(userport_snespad_list_item);
         userport_snespad_list_item = NULL;
