@@ -79,6 +79,7 @@
 #include "main65816cpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "multijoy.h"
 #include "network.h"
 #include "ninja_snespad.h"
 #include "paperclip64.h"
@@ -580,6 +581,10 @@ int machine_resources_init(void)
     }
     if (joyport_spaceballs_resources_init() < 0) {
         init_resource_fail("joyport spaceballs");
+        return -1;
+    }
+    if (joyport_multijoy_resources_init() < 0) {
+        init_resource_fail("joyport multijoy");
         return -1;
     }
     if (joystick_resources_init() < 0) {
