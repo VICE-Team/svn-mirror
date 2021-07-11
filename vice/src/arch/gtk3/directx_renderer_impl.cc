@@ -349,16 +349,18 @@ static void build_render_bitmap(vice_directx_renderer_context_t *context, backbu
     HRESULT result = S_OK;
 
     if (context->d2d_device_context) {
-        /* Retain the previous bitmaps to use in interlaced mode */
-        ID2D1Bitmap *swap_bitmap              = context->previous_frame_render_bitmap;
-        unsigned int swap_width               = context->previous_frame_bitmap_width;
-        unsigned int swap_height              = context->previous_frame_bitmap_height;
-        context->previous_frame_render_bitmap = context->render_bitmap;
-        context->previous_frame_bitmap_width  = context->bitmap_width;
-        context->previous_frame_bitmap_height = context->bitmap_height;
-        context->render_bitmap                = swap_bitmap;
-        context->bitmap_width                 = swap_width;
-        context->bitmap_height                = swap_height;
+        if (backbuffer->complete_frame) {
+            /* Retain the previous bitmaps to use in interlaced mode */
+            ID2D1Bitmap *swap_bitmap              = context->previous_frame_render_bitmap;
+            unsigned int swap_width               = context->previous_frame_bitmap_width;
+            unsigned int swap_height              = context->previous_frame_bitmap_height;
+            context->previous_frame_render_bitmap = context->render_bitmap;
+            context->previous_frame_bitmap_width  = context->bitmap_width;
+            context->previous_frame_bitmap_height = context->bitmap_height;
+            context->render_bitmap                = swap_bitmap;
+            context->bitmap_width                 = swap_width;
+            context->bitmap_height                = swap_height;
+        }
 
         /* Is it sill the right size? */
         /* HACK - need to track each bitmap size */
@@ -390,10 +392,12 @@ static void build_render_bitmap(vice_directx_renderer_context_t *context, backbu
                 return;
             }
 
-            context->bitmap_width = backbuffer->width;
+            context->bitmap_width  = backbuffer->width;
             context->bitmap_height = backbuffer->height;
-            context->bitmap_pixel_aspect_ratio = backbuffer->pixel_aspect_ratio;
         }
+
+        context->interlaced = backbuffer->interlaced;
+        context->pixel_aspect_ratio = backbuffer->pixel_aspect_ratio;
 
         /* Copy the emulated screen to the Bitmap */
         D2D1_RECT_U bitmap_rect = D2D1::RectU(0, 0, backbuffer->width, backbuffer->height);
@@ -408,8 +412,6 @@ static void build_render_bitmap(vice_directx_renderer_context_t *context, backbu
             DX_RELEASE(context->render_bitmap);
             return;
         }
-
-        context->interlaced = backbuffer->interlaced;
     }
 }
 
@@ -440,7 +442,7 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
         emulated_aspect = (float)bitmap_size_ddp.width   / bitmap_size_ddp.height;
 
         if (trueaspect) {
-            emulated_aspect *= context->bitmap_pixel_aspect_ratio;
+            emulated_aspect *= context->pixel_aspect_ratio;
         }
 
         if (emulated_aspect < viewport_aspect) {
@@ -457,7 +459,7 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
 
     /* Calculate the minimum drawing area size to be enforced by gtk */
     if (keepaspect && trueaspect) {
-        context->window_min_width = ceil((float)context->bitmap_width * context->bitmap_pixel_aspect_ratio);
+        context->window_min_width = ceil((float)context->bitmap_width * context->pixel_aspect_ratio);
         context->window_min_height = context->bitmap_height;
     } else {
         context->window_min_width = context->bitmap_width;
@@ -502,13 +504,9 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     video_canvas_t *canvas = (video_canvas_t *)pool_data;
     vice_directx_renderer_context_t *context = (vice_directx_renderer_context_t *)canvas->renderer_context;
     HRESULT result = S_OK;
-    backbuffer_t *backbuffer;
-    backbuffer_t *backbuffers[2];
-    int backbuffer_count = 0;
     bool interlaced;
     int vsync;
     int filter;
-    int i;
     DXGI_PRESENT_PARAMETERS present_parameters = { 0 };
     
     if (job == render_thread_init) {
@@ -537,35 +535,24 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         context->resized = false;
     }
 
+    RENDER_LOCK();
+
     /*
-     * Correct interlaced output always requires the previous frame.
-     * Find up to 2 of the most recent frames.
+     * Update the bitmaps. All need to be processed for correct interlace rendering,
+     * especially when the monitor is open and stepping through code.
      */
 
     for (;;) {
-        backbuffer = render_queue_dequeue_for_display(context->render_queue);
+        backbuffer_t *backbuffer = render_queue_dequeue_for_display(context->render_queue);
         if (!backbuffer) {
             break;
         }
 
-        if (backbuffer_count == 2) {
-            /* We now have a third, discard the oldest */
-            render_queue_return_to_pool(context->render_queue, backbuffers[0]);
-            backbuffers[0] = backbuffers[1];
-            backbuffers[1] = backbuffer;
-            continue;
-        }
-
-        backbuffers[backbuffer_count++] = backbuffer;
+        build_render_bitmap(context, backbuffer);
+        render_queue_return_to_pool(context->render_queue, backbuffer);
     }
-
-    RENDER_LOCK();
 
     build_directx_resources(context);
-
-    for (i = 0; i < backbuffer_count; i++) {
-        build_render_bitmap(context, backbuffers[i]);
-    }
     
     recalculate_layout(canvas, context);
 
@@ -575,7 +562,8 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
 
     if (!context->d2d_device_context) {
         log_message(LOG_DEFAULT, "no render target, not rendering this frame");
-        goto render_unlock_and_return_backbuffer;
+        RENDER_UNLOCK();
+        return;
     }
 
     /* Each frame, set the backbuffer bitmap as the Direct2D render target. */
@@ -638,13 +626,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         context->d3d_swap_chain->Present1(vsync ? 1 : 0, 0, &present_parameters);
     }
 
-render_unlock_and_return_backbuffer:
     RENDER_UNLOCK();
-
-    /* Return the backbuffers to the pool */
-    for (i = 0; i < backbuffer_count; i++) {
-        render_queue_return_to_pool(context->render_queue, backbuffers[i]);
-    }
 }
 
 /*
