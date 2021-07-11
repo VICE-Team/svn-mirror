@@ -67,32 +67,40 @@ static int raster_draw_buffer_alloc(video_canvas_t *canvas,
                                     unsigned int fb_height,
                                     unsigned int *fb_pitch)
 {
-    if (canvas->video_draw_buffer_callback) {
-        return canvas->video_draw_buffer_callback->draw_buffer_alloc(canvas, &canvas->draw_buffer->draw_buffer, fb_width, fb_height, fb_pitch);
-    }
-
     /*
      * FIXME: We have to allocate memory either size of the draw buffer because both the CRT and Scale2x
      * filters will access memory both before and after the draw_buffer. This is a workaround that will 
      * no doubt survive until we shift filters to the GPU.
      */
+
+    canvas->draw_buffer->draw_buffer_padded_allocations[0] = lib_calloc(1, fb_width * (fb_height + 4));
+    canvas->draw_buffer->draw_buffer = canvas->draw_buffer->draw_buffer_padded_allocations[0] + (fb_height * 2);
+
+    if (canvas->videoconfig->cap->interlace_allowed) {
+        /*
+         * Interlaced rendering maintains two buffers, one for even frames and
+         * and one for odd frames. This allows mid-frame rendering to show the
+         * correct previous frame contents after the raster beam location.
+         * This was added for rendering within the monitor.
+         */
+
+        canvas->draw_buffer->draw_buffer_padded_allocations[1] = lib_calloc(1, fb_width * (fb_height + 4));
+        canvas->draw_buffer->draw_buffer_previous = canvas->draw_buffer->draw_buffer_padded_allocations[1] + (fb_height * 2);
+    }
     
-    canvas->draw_buffer->draw_buffer_padded_allocation = lib_calloc(1, fb_width * (fb_height + 4));
-    canvas->draw_buffer->draw_buffer = canvas->draw_buffer->draw_buffer_padded_allocation + (fb_height * 2);
     *fb_pitch = fb_width;
     return 0;
 }
 
 static void raster_draw_buffer_free(video_canvas_t *canvas)
 {
-    if (canvas->video_draw_buffer_callback) {
-        canvas->video_draw_buffer_callback->draw_buffer_free(canvas, canvas->draw_buffer->draw_buffer);
-        return;
-    }
+    lib_free(canvas->draw_buffer->draw_buffer_padded_allocations[0]);
+    lib_free(canvas->draw_buffer->draw_buffer_padded_allocations[1]);
 
-    lib_free(canvas->draw_buffer->draw_buffer_padded_allocation);
-    canvas->draw_buffer->draw_buffer_padded_allocation = NULL;
+    canvas->draw_buffer->draw_buffer_padded_allocations[0] = NULL;
+    canvas->draw_buffer->draw_buffer_padded_allocations[1] = NULL;
     canvas->draw_buffer->draw_buffer = NULL;
+    canvas->draw_buffer->draw_buffer_previous = NULL;
 }
 
 static void raster_draw_buffer_clear(video_canvas_t *canvas, uint8_t value,
@@ -100,11 +108,6 @@ static void raster_draw_buffer_clear(video_canvas_t *canvas, uint8_t value,
                                      unsigned int fb_height,
                                      unsigned int fb_pitch)
 {
-    if (canvas->video_draw_buffer_callback) {
-        canvas->video_draw_buffer_callback->draw_buffer_clear(canvas, canvas->draw_buffer->draw_buffer, value, fb_width, fb_height, fb_pitch);
-        return;
-    }
-
     memset(canvas->draw_buffer->draw_buffer, value, fb_width * fb_height);
 }
 

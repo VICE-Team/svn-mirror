@@ -94,6 +94,9 @@ typedef struct vice_directx_renderer_context_s {
     /** \brief size of the current gpu bitmap in pixels */
     unsigned int bitmap_height;
 
+    /** \brief the number of the currently showing bitmap */
+    unsigned int current_frame_number;
+
     /** \brief Direct2D bitmap used to retain the last frame */
     ID2D1Bitmap *previous_frame_render_bitmap;
 

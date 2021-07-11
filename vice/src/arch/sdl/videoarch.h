@@ -79,9 +79,6 @@ struct video_canvas_s {
     /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
 
-    /** \brief during render, true if a future render will replace this frame */
-    bool current_render_is_incomplete;
-
     /** \brief Index of the canvas, needed for x128 and xcbm2 */
     int index;
 
@@ -120,7 +117,6 @@ struct video_canvas_s {
     struct palette_s *palette;
     struct raster_s *parent_raster;
 
-    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
     struct fullscreenconfig_s *fullscreenconfig;
     video_refresh_func_t video_fullscreen_refresh_func;
 
