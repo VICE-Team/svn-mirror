@@ -229,18 +229,19 @@ static uint8_t cardkey_read_pot(int port)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_cardkey_device = {
-    "Cardco Cardkey 1 keypad", /* name of the device */
-    JOYPORT_RES_ID_KEYPAD,     /* device is a keypad, only 1 keypad can be active at the same time */
-    JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
-    JOYPORT_POT_REQUIRED,      /* device uses the potentiometer lines */
-    JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
-    joyport_cardkey_enable,    /* device enable function */
-    cardkey_read_dig,          /* digital line read function */
-    NULL,                      /* NO digital line store function */
-    NULL,                      /* NO pot-x read function */
-    cardkey_read_pot,          /* pot-y read function */
-    NULL,                      /* NO device write snapshot function */
-    NULL                       /* NO device read snapshot function */
+    "Keypad (Cardco Cardkey 1)", /* name of the device */
+    JOYPORT_RES_ID_KEYPAD,       /* device is a keypad, only 1 keypad can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,     /* device is NOT a lightpen */
+    JOYPORT_POT_REQUIRED,        /* device uses the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,    /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_KEYPAD,       /* device is a Keypad */
+    joyport_cardkey_enable,      /* device enable function */
+    cardkey_read_dig,            /* digital line read function */
+    NULL,                        /* NO digital line store function */
+    NULL,                        /* NO pot-x read function */
+    cardkey_read_pot,            /* pot-y read function */
+    NULL,                        /* NO device write snapshot function */
+    NULL                         /* NO device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */

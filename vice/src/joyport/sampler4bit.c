@@ -85,6 +85,7 @@ static joyport_t joyport_sampler_device = {
     JOYPORT_IS_NOT_LIGHTPEN,  /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,     /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_SAMPLER,   /* device is a Sampler */
     joyport_sampler_enable,   /* device enable function */
     joyport_sampler_read,     /* digital line read function */
     NULL,                     /* NO digital line store function */

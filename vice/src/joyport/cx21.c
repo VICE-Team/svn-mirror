@@ -235,11 +235,12 @@ static uint8_t cx21_read_poty(int joyport)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_cx21_device = {
-    "Atari CX21 keypad",      /* name of the device */
+    "Keypad (Atari CX21)",    /* name of the device */
     JOYPORT_RES_ID_KEYPAD,    /* device is a keypad, only 1 keypad can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,  /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_KEYPAD,    /* device is a Keypad */
     joyport_cx21_enable,      /* device enable function */
     cx21_read_dig,            /* digital line read function */
     cx21_store_dig,           /* digital line store function */

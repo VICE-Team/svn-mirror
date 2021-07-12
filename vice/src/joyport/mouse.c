@@ -767,6 +767,7 @@ static joyport_t paddles_joyport_device = {
     JOYPORT_IS_NOT_LIGHTPEN,  /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,     /* device is a Mouse/Paddle */
     joyport_mouse_enable,     /* device enable function */
     joyport_mouse_value,      /* digital line read function */
     NULL,                     /* NO digital line store function */
@@ -786,6 +787,7 @@ static joyport_t mouse_1351_joyport_device = {
     JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,      /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,      /* device is a Mouse */
     joyport_mouse_enable,      /* device enable function */
     joyport_mouse_value,       /* digital line read function */
     NULL,                      /* NO digital line store function */
@@ -830,6 +832,7 @@ static joyport_t mouse_neos_joyport_device = {
     JOYPORT_IS_NOT_LIGHTPEN,               /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,                  /* device uses the potentiometer line for the right button, but could work without it */
     JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
     joyport_mouse_enable,                  /* device enable function */
     joyport_mouse_neos_value,              /* digital line read function */
     neos_mouse_store,                      /* digital line store function */
@@ -867,6 +870,7 @@ static joyport_t mouse_amiga_joyport_device = {
     JOYPORT_IS_NOT_LIGHTPEN,               /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,                  /* device uses the potentiometer lines for the right and middle buttons, but could work without it */
     JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
     joyport_mouse_enable,                  /* device enable function */
     joyport_mouse_poll_value,              /* digital line read function */
     NULL,                                  /* NO digital line store function */
@@ -886,6 +890,7 @@ static joyport_t mouse_cx22_joyport_device = {
     JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,      /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,      /* device is a Mouse/Trackball */
     joyport_mouse_enable,      /* device enable function */
     joyport_mouse_poll_value,  /* digital line read function */
     NULL,                      /* NO digital line store function */
@@ -906,6 +911,7 @@ static joyport_t mouse_st_joyport_device = {
     JOYPORT_IS_NOT_LIGHTPEN,               /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,                  /* device uses the potentiometer lines for the right button, but could work without it */
     JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
     joyport_mouse_enable,                  /* device enable function */
     joyport_mouse_poll_value,              /* digital line read function */
     NULL,                                  /* NO digital line store function */
@@ -938,6 +944,7 @@ static joyport_t mouse_smart_joyport_device = {
     JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,       /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,       /* device is a Mouse */
     joyport_mouse_enable,       /* device enable function */
     joyport_mouse_smart_value,  /* digital line read function */
     smart_mouse_store,          /* digital line store function */
@@ -968,6 +975,7 @@ static joyport_t mouse_micromys_joyport_device = {
     JOYPORT_IS_NOT_LIGHTPEN,       /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,          /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,      /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,          /* device is a Mouse */
     joyport_mouse_enable,          /* device enable function */
     joyport_mouse_micromys_value,  /* digital line read function */
     NULL,                          /* NO digital line store function */
@@ -987,18 +995,19 @@ static int koalapad_write_snapshot(struct snapshot_s *s, int port);
 static int koalapad_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t koalapad_joyport_device = {
-    "KoalaPad",               /* name of the device */
-    JOYPORT_RES_ID_MOUSE,     /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
-    JOYPORT_IS_NOT_LIGHTPEN,  /* device is NOT a lightpen */
-    JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
-    JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
-    joyport_mouse_enable,     /* device enable function */
-    joyport_mouse_value,      /* digital line read function */
-    NULL,                     /* NO digital line store function */
-    joyport_koalapad_pot_x,   /* pot-x read function */
-    mouse_get_paddle_y,       /* pot-y read function */
-    koalapad_write_snapshot,  /* device write snapshot function */
-    koalapad_read_snapshot    /* device read snapshot function */
+    "KoalaPad",                 /* name of the device */
+    JOYPORT_RES_ID_MOUSE,       /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
+    JOYPORT_POT_REQUIRED,       /* device uses the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_DRAWING_PAD, /* device is a Drawing Tablet */
+    joyport_mouse_enable,       /* device enable function */
+    joyport_mouse_value,        /* digital line read function */
+    NULL,                       /* NO digital line store function */
+    joyport_koalapad_pot_x,     /* pot-x read function */
+    mouse_get_paddle_y,         /* pot-y read function */
+    koalapad_write_snapshot,    /* device write snapshot function */
+    koalapad_read_snapshot      /* device read snapshot function */
 };
 
 static int mouse_joyport_register(void)
