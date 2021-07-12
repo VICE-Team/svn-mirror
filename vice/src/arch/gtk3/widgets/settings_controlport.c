@@ -224,7 +224,7 @@ static void joyport_devices_list_init(void)
     int i;
 
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
-        joyport_devices[i] = joyport_get_valid_devices(i);
+        joyport_devices[i] = joyport_get_valid_devices(i, 1);
     }
 }
 

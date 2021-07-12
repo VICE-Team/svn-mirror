@@ -77,7 +77,7 @@ static const ui_callback_t uijoyport_device_callbacks[JOYPORT_MAX_PORTS] = {
 
 static const char *joyport_dynmenu_helper(int port)
 {
-    joyport_desc_t *devices = joyport_get_valid_devices(port);
+    joyport_desc_t *devices = joyport_get_valid_devices(port, 1);
     ui_menu_entry_t *entry = joyport_dyn_menu[port];
     int i;
 

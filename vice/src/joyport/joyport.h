@@ -171,7 +171,7 @@ extern int joyport_cmdline_options_init(void);
 
 extern int joyport_port_register(int port, joyport_port_props_t *props);
 
-extern joyport_desc_t *joyport_get_valid_devices(int port);
+extern joyport_desc_t *joyport_get_valid_devices(int port, int sort);
 
 extern void joyport_display_joyport(int id, uint16_t status);
 
