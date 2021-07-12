@@ -79,6 +79,7 @@ enum {
     JOYPORT_ID_TRAPTHEM_SNESPAD,
     JOYPORT_ID_NINJA_SNESPAD,
     JOYPORT_ID_SPACEBALLS,
+    JOYPORT_ID_INCEPTION,
     JOYPORT_ID_MULTIJOY_JOYSTICKS,
     JOYPORT_ID_MULTIJOY_CONTROL,
     JOYPORT_MAX_DEVICES
@@ -124,6 +125,7 @@ enum {
 #define JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64   5
 #define JOYSTICK_ADAPTER_ID_SPACEBALLS            6
 #define JOYSTICK_ADAPTER_ID_MULTIJOY              7
+#define JOYSTICK_ADAPTER_ID_INCEPTION             8
 
 /* this structure is used for control port devices */
 typedef struct joyport_s {

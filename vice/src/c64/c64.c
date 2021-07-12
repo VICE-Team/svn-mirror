@@ -76,6 +76,7 @@
 #include "fsdevice.h"
 #include "gfxoutput.h"
 #include "imagecontents.h"
+#include "inception.h"
 #include "init.h"
 #include "joyport.h"
 #include "joystick.h"
@@ -712,6 +713,10 @@ int machine_resources_init(void)
     }
     if (joyport_spaceballs_resources_init() < 0) {
         init_resource_fail("joyport spaceballs");
+        return -1;
+    }
+    if (joyport_inception_resources_init() < 0) {
+        init_resource_fail("joyport inception");
         return -1;
     }
     if (joyport_multijoy_resources_init() < 0) {
