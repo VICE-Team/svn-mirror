@@ -31,18 +31,7 @@
 #include "types.h"
 #include "video.h"
 
-void render_source_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t *colortab,
-                        unsigned int wstart, unsigned int wfast, unsigned int wend);
-
-void render_source_line_2x(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t *colortab,
-                           unsigned int wstart, unsigned int wfast, unsigned int wend,
-                           unsigned int wfirst, unsigned int wlast);
-
-void render_solid_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t color,
-                       unsigned int wstart, unsigned int wfast, unsigned int wend);
-
-void render_solid_line_2x(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t color,
-                          unsigned int wstart, unsigned int wfast, unsigned int wend,
-                          unsigned int wfirst, unsigned int wlast);
+/* the render-common functions are intended to be inlined */
+#include "render-common.c"
                        
 #endif
