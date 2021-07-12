@@ -437,6 +437,15 @@ static int joyport_valid_devices_compare_names(const void* a, const void* b)
 {
     const joyport_desc_t *arg1 = (const joyport_desc_t*)a;
     const joyport_desc_t *arg2 = (const joyport_desc_t*)b;
+
+    if (!strcmp(arg1->name, "None")) {
+        return -1;
+    }
+
+    if (!strcmp(arg2->name, "None")) {
+        return 1;
+    }
+
     return strcmp(arg1->name, arg2->name);
 }
 
