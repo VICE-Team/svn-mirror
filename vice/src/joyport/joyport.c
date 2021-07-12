@@ -370,6 +370,7 @@ int joyport_device_register(int id, joyport_t *device)
     joyport_device[id].is_lp = device->is_lp;
     joyport_device[id].pot_optional = device->pot_optional;
     joyport_device[id].joystick_adapter_id = device->joystick_adapter_id;
+    joyport_device[id].device_type = device->device_type;
     joyport_device[id].enable = device->enable;
     joyport_device[id].read_digital = device->read_digital;
     joyport_device[id].store_digital = device->store_digital;
@@ -438,12 +439,12 @@ static int joyport_valid_devices_compare_names(const void* a, const void* b)
     const joyport_desc_t *arg1 = (const joyport_desc_t*)a;
     const joyport_desc_t *arg2 = (const joyport_desc_t*)b;
 
-    if (!strcmp(arg1->name, "None")) {
-        return -1;
-    }
-
-    if (!strcmp(arg2->name, "None")) {
-        return 1;
+    if (arg1->device_type != arg2->device_type) {
+        if (arg1->device_type < arg2->device_type) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     return strcmp(arg1->name, arg2->name);
@@ -470,6 +471,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
             if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i)) {
                 retval[j].name = joyport_device[i].name;
                 retval[j].id = i;
+                retval[j].device_type = joyport_device[i].device_type;
                 ++j;
             }
         }

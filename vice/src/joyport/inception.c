@@ -197,11 +197,12 @@ static void inception_store(uint8_t val)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_inception_device = {
-    "Inception joystick adapter",     /* name of the device */
+    "Joystick Adapter (Inception)",   /* name of the device */
     JOYPORT_RES_ID_NONE,              /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,             /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_INCEPTION,    /* device is a joystick adapter */
+    JOYPORT_DEVICE_JOYSTICK_ADAPTER,  /* device is a Joystick adapter */
     joyport_inception_enable,         /* device enable function */
     inception_read,                   /* digital line read function */
     inception_store,                  /* digital line store function */

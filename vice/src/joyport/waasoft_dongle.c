@@ -99,11 +99,12 @@ static void waasoft_dongle_store_dig(uint8_t val)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_waasoft_dongle_device = {
-    "WaaSoft dongle",              /* name of the device */
+    "Dongle (WaaSoft)",            /* name of the device */
     JOYPORT_RES_ID_WAASOFT,        /* device is of the waasoft type, only 1 of this type can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,       /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,          /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,      /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_DONGLE,         /* device is a Dongle */
     joyport_waasoft_dongle_enable, /* device enable function */
     NULL,                          /* NO digital line read function */
     waasoft_dongle_store_dig,      /* digital line store function */

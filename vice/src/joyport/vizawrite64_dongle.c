@@ -80,11 +80,12 @@ static uint8_t vizawrite64_dongle_read_poty(int port)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_vizawrite64_dongle_device = {
-    "VizaWrite 64 dongle",             /* name of the device */
+    "Dongle (VizaWrite 64)",           /* name of the device */
     JOYPORT_RES_ID_VIZAWRITE64,        /* device is of the vizawrite64 type, only 1 of this type can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,           /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,              /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_DONGLE,             /* device is a Dongle */
     joyport_vizawrite64_dongle_enable, /* device enable function */
     NULL,                              /* NO digital line read function */
     NULL,                              /* NO digital line store function */

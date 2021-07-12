@@ -127,6 +127,19 @@ enum {
 #define JOYSTICK_ADAPTER_ID_MULTIJOY              7
 #define JOYSTICK_ADAPTER_ID_INCEPTION             8
 
+#define JOYPORT_DEVICE_TYPE_NONE          0
+#define JOYPORT_DEVICE_JOYSTICK           1
+#define JOYPORT_DEVICE_JOYSTICK_ADAPTER   2
+#define JOYPORT_DEVICE_SNES_ADAPTER       3
+#define JOYPORT_DEVICE_MOUSE              4
+#define JOYPORT_DEVICE_LIGHTPEN           5
+#define JOYPORT_DEVICE_LIGHTGUN           6
+#define JOYPORT_DEVICE_DRAWING_PAD        7
+#define JOYPORT_DEVICE_KEYPAD             8
+#define JOYPORT_DEVICE_SAMPLER            9
+#define JOYPORT_DEVICE_RTC                10
+#define JOYPORT_DEVICE_DONGLE             11
+
 /* this structure is used for control port devices */
 typedef struct joyport_s {
     char *name;                                            /* name of the device */
@@ -134,6 +147,7 @@ typedef struct joyport_s {
     int is_lp;                                             /* flag to indicate the device is a lightpen */
     int pot_optional;                                      /* flag to indicate that the device can work without a potentiometer */
     int joystick_adapter_id;                               /* flag to indicate that the device is a joystick/pad adapter */
+    int device_type;                                       /* device type */
     int (*enable)(int port, int val);                      /* pointer to the device enable function */
     uint8_t (*read_digital)(int port);                     /* pointer to the device digital lines read function */
     void (*store_digital)(uint8_t val);                    /* pointer to the device digital lines store function */
@@ -146,6 +160,7 @@ typedef struct joyport_s {
 typedef struct joyport_desc_s {
     char *name;
     int id;
+    int device_type;
 } joyport_desc_t;
 
 /* this structure is used for control ports */

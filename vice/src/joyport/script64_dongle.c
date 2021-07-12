@@ -73,11 +73,12 @@ static uint8_t script64_dongle_read_poty(int port)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_script64_dongle_device = {
-    "Script 64 dongle",             /* name of the device */
+    "Dongle (Script 64)",           /* name of the device */
     JOYPORT_RES_ID_SCRIPT64,        /* device is of the script64 type, only 1 of this kind can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,        /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,           /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,       /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_DONGLE,          /* device is a Dongle */
     joyport_script64_dongle_enable, /* device enable function */
     NULL,                           /* NO digital line read function */
     NULL,                           /* NO digital line store function */

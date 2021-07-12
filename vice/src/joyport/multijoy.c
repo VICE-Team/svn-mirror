@@ -126,33 +126,35 @@ static uint8_t multijoy_read(int port)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_multijoy_joy_device = {
-    "MultiJoy Adapter (joysticks)",    /* name of the device */
-    JOYPORT_RES_ID_NONE,               /* device can be used in multiple ports at the same time */
-    JOYPORT_IS_NOT_LIGHTPEN,           /* device is NOT a lightpen */
-    JOYPORT_POT_OPTIONAL,              /* device does NOT use the potentiometer lines */
-    JOYSTICK_ADAPTER_ID_MULTIJOY,      /* device is a joystick adapter */
-    joyport_multijoy_joysticks_enable, /* device enable function */
-    multijoy_read,                     /* digital line read function */
-    NULL,                              /* NO digital line store function */
-    NULL,                              /* NO pot-x read function */
-    NULL,                              /* NO pot-y read function */
-    NULL,                              /* NO device write snapshot function */
-    NULL                               /* NO device read snapshot function */
+    "Joystick Adapter (MultiJoy Joysticks)", /* name of the device */
+    JOYPORT_RES_ID_NONE,                     /* device can be used in multiple ports at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,                 /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,                    /* device does NOT use the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_MULTIJOY,            /* device is a joystick adapter */
+    JOYPORT_DEVICE_JOYSTICK_ADAPTER,         /* device is a Joystick adapter */
+    joyport_multijoy_joysticks_enable,       /* device enable function */
+    multijoy_read,                           /* digital line read function */
+    NULL,                                    /* NO digital line store function */
+    NULL,                                    /* NO pot-x read function */
+    NULL,                                    /* NO pot-y read function */
+    NULL,                                    /* NO device write snapshot function */
+    NULL                                     /* NO device read snapshot function */
 };
 
 static joyport_t joyport_multijoy_control_device = {
-    "MultiJoy Adapter (control)",      /* name of the device */
-    JOYPORT_RES_ID_NONE,               /* device can be used in multiple ports at the same time */
-    JOYPORT_IS_NOT_LIGHTPEN,           /* device is NOT a lightpen */
-    JOYPORT_POT_OPTIONAL,              /* device does NOT use the potentiometer lines */
-    JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
-    joyport_multijoy_control_enable,   /* device enable function */
-    NULL,                              /* NO digital line read function */
-    multijoy_store,                    /* digital line store function */
-    NULL,                              /* NO pot-x read function */
-    NULL,                              /* NO pot-y read function */
-    NULL,                              /* NO device write snapshot function */
-    NULL                               /* NO device read snapshot function */
+    "Joystick Adapter (MultiJoy Logic)", /* name of the device */
+    JOYPORT_RES_ID_NONE,                 /* device can be used in multiple ports at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,             /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,                /* device does NOT use the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,            /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_JOYSTICK_ADAPTER,     /* device is a Joystick adapter */
+    joyport_multijoy_control_enable,     /* device enable function */
+    NULL,                                /* NO digital line read function */
+    multijoy_store,                      /* digital line store function */
+    NULL,                                /* NO pot-x read function */
+    NULL,                                /* NO pot-y read function */
+    NULL,                                /* NO device write snapshot function */
+    NULL                                 /* NO device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */

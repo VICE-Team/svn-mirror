@@ -120,11 +120,12 @@ static uint8_t spaceballs_read(int port)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_spaceballs_device = {
-    "Spaceballs 8 Player Adapter",    /* name of the device */
+    "Joystick Adapter (Spaceballs)",  /* name of the device */
     JOYPORT_RES_ID_NONE,              /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,             /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_SPACEBALLS,   /* device is a joystick adapter */
+    JOYPORT_DEVICE_JOYSTICK_ADAPTER,  /* device is a Joystick adapter */
     joyport_spaceballs_enable,        /* device enable function */
     spaceballs_read,                  /* digital line read function */
     NULL,                             /* NO digital line store function */
@@ -151,23 +152,23 @@ static void userport_spaceballs_store_pbx(uint8_t value)
 }
 
 static userport_device_t userport_spaceballs_device = {
-    USERPORT_DEVICE_SPACEBALLS,    /* device id */
-    "Spaceballs 8 player adapter", /* device name */
-    JOYSTICK_ADAPTER_ID_NONE,      /* NOT a joystick adapter, the joyport part is the joystick adapter */
-    NULL,                          /* NO read pb0-pb7 function */
-    userport_spaceballs_store_pbx, /* store pb0-pb7 function */
-    NULL,                          /* NO read pa2 pin function */
-    NULL,                          /* NO store pa2 pin function */
-    NULL,                          /* NO read pa3 pin function */
-    NULL,                          /* NO store pa3 pin function */
-    0,                             /* pc pin is NOT needed */
-    NULL,                          /* NO store sp1 pin function */
-    NULL,                          /* NO read sp1 pin function */
-    NULL,                          /* NO store sp2 pin function */
-    NULL,                          /* NO read sp2 pin function */
-    NULL,                          /* resource used by the device */
-    0xff,                          /* NO return value */
-    0xff,                          /* validity mask of the device, doesn't change */
-    0,                             /* device involved in a read collision, to be filled in by the collision detection system */
-    0                              /* a tag to indicate the order of insertion */
+    USERPORT_DEVICE_SPACEBALLS,      /* device id */
+    "Joystick Adapter (Spaceballs)", /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,        /* NOT a joystick adapter, the joyport part is the joystick adapter */
+    NULL,                            /* NO read pb0-pb7 function */
+    userport_spaceballs_store_pbx,   /* store pb0-pb7 function */
+    NULL,                            /* NO read pa2 pin function */
+    NULL,                            /* NO store pa2 pin function */
+    NULL,                            /* NO read pa3 pin function */
+    NULL,                            /* NO store pa3 pin function */
+    0,                               /* pc pin is NOT needed */
+    NULL,                            /* NO store sp1 pin function */
+    NULL,                            /* NO read sp1 pin function */
+    NULL,                            /* NO store sp2 pin function */
+    NULL,                            /* NO read sp2 pin function */
+    NULL,                            /* resource used by the device */
+    0xff,                            /* NO return value */
+    0xff,                            /* validity mask of the device, doesn't change */
+    0,                               /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                /* a tag to indicate the order of insertion */
 };
