@@ -433,7 +433,14 @@ static int check_valid_adapter(int port, int index)
     return 0;
 }
 
-joyport_desc_t *joyport_get_valid_devices(int port)
+static int joyport_valid_devices_compare_names(const void* a, const void* b)
+{
+    const joyport_desc_t *arg1 = (const joyport_desc_t*)a;
+    const joyport_desc_t *arg2 = (const joyport_desc_t*)b;
+    return strcmp(arg1->name, arg2->name);
+}
+
+joyport_desc_t *joyport_get_valid_devices(int port, int sort)
 {
     joyport_desc_t *retval = NULL;
     int i;
@@ -459,6 +466,10 @@ joyport_desc_t *joyport_get_valid_devices(int port)
         }
     }
     retval[j].name = NULL;
+
+    if (sort) {
+        qsort(retval, valid, sizeof(joyport_desc_t), joyport_valid_devices_compare_names);
+    }
 
     return retval;
 }
@@ -923,7 +934,7 @@ static char *build_joyport_string(int port)
     char *tmp1;
     char *tmp2;
     char number[4];
-    joyport_desc_t *devices = joyport_get_valid_devices(port);
+    joyport_desc_t *devices = joyport_get_valid_devices(port, 0);
 
     tmp1 = lib_msprintf("Set %s device (0: None", port_props[port].name);
 
