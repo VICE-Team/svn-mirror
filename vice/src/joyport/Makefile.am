@@ -30,6 +30,8 @@ libjoyport_a_SOURCES = \
 	cx21.h \
 	cx85.c \
 	cx85.h \
+	inception.c \
+	inception.h \
 	joyport.c \
 	joyport.h \
 	joystick.c \
