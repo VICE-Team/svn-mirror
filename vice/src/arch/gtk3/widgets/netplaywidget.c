@@ -79,7 +79,7 @@ static const char *netctrl_headers[] = { "", "server", "client" };
 static const char *net_modes[] = {
     "Idle",
     "Server",
-    "Server connected"
+    "Server connected",
     "Client connected"
 };
 
