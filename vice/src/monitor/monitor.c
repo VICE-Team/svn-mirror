@@ -203,7 +203,7 @@ static bool recording;
 static FILE *recording_fp;
 static char *recording_name;
 
-#define PLAYBACK_MAX_RECUSRION 128
+#define PLAYBACK_MAX_FP_DEPTH 128
 
 static char **playback_filename_stack = NULL;
 static FILE **playback_fp_stack = NULL;
@@ -1972,7 +1972,7 @@ void mon_end_recording(void)
 
 static int monitor_set_moncommands_file(const char *filename, void *extra_param)
 {
-    if (mon_playback_commands(filename) != 0) {
+    if (mon_playback_commands(filename, false) != 0) {
         return -1;
     }
     
@@ -1996,25 +1996,26 @@ static int monitor_set_moncommands_file(const char *filename, void *extra_param)
 }
 
 
-int mon_playback_commands(const char *filename)
+int mon_playback_commands(const char *filename, bool interrupt_current_playback)
 {
     FILE *fp;
     
     log_message(LOG_DEFAULT, "Opening monitor command playback file: %s", filename);
-    
+
     if (playback_fp_stack_size == playback_fp_stack_size_max) {
-        
-        /* Need to grow the playback FP stack. But look out for insane playback include depth. */
-        if (playback_fp_stack_size_max >= PLAYBACK_MAX_RECUSRION) {
-            log_error(LOG_ERR, "Max level of playback file recursion depth %d reached, exiting", playback_fp_stack_size_max);
-            exit(1);
+        /*
+         * Need to grow the playback FP stack. But look out for insane playback include depth.
+         */
+        if (playback_fp_stack_size_max >= PLAYBACK_MAX_FP_DEPTH) {
+            log_error(LOG_ERR, "Max level of playback file depth %d reached, exiting", playback_fp_stack_size_max);
+            archdep_vice_exit(1);
         }
         
         playback_fp_stack_size_max += 1;
         playback_fp_stack       = lib_realloc(playback_fp_stack,       playback_fp_stack_size_max * sizeof(FILE *));
         playback_filename_stack = lib_realloc(playback_filename_stack, playback_fp_stack_size_max * sizeof(char *));
     }
-    
+
     fp = fopen(filename, MODE_READ_TEXT);
     
     if (fp == NULL) {
@@ -2026,9 +2027,29 @@ int mon_playback_commands(const char *filename)
         return -1;
     }
     
-    playback_filename_stack[playback_fp_stack_size] = lib_strdup(filename);
-    playback_fp_stack[playback_fp_stack_size] = fp;
-    playback_fp = fp;
+    if (interrupt_current_playback || playback_fp_stack_size == 0) {
+        /*
+         * Place the new file at the top of the stack and set the current playback fp,
+         * which means that the commands within this file will be be next commands to execute.
+         */
+        
+        playback_fp = fp;
+
+        playback_fp_stack[playback_fp_stack_size] = fp;
+        playback_filename_stack[playback_fp_stack_size] = lib_strdup(filename);
+    } else {
+        /*
+         * Place the new file at the bottom of the stack, which means that the commands
+         * within will execute after all queued playback files have finished. If no
+         * playback is currently active, start with this file.
+         */
+        
+        memmove(playback_fp_stack + 1,       playback_fp_stack,       playback_fp_stack_size * sizeof(char *));
+        memmove(playback_filename_stack + 1, playback_filename_stack, playback_fp_stack_size * sizeof(FILE *));
+
+        playback_fp_stack[0] = fp;
+        playback_filename_stack[0] = lib_strdup(filename);
+    }
     
     playback_fp_stack_size++;
     
