@@ -49,6 +49,7 @@
 #include "vdc-cmdline-options.h"
 #include "vdc-color.h"
 #include "vdc-draw.h"
+#include "vdc-mem.h"
 #include "vdc-resources.h"
 #include "vdc-snapshot.h"
 #include "vdc.h"
@@ -547,8 +548,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                         if (j == 82) {
                             j = 41;
                         }
-                        vdc.attrbuf[vdc.attrbufdraw | j] = vdc.ram[(vdc.attribute_adr + vdc.mem_counter + i) & vdc.vdc_address_mask];
-                        vdc.scrnbuf[vdc.scrnbufdraw | j] = vdc.ram[(vdc.screen_adr + vdc.mem_counter + i) & vdc.vdc_address_mask];
+                        vdc.attrbuf[vdc.attrbufdraw | j] = vdc_ram_read(vdc.attribute_adr + vdc.mem_counter + i);
+                        vdc.scrnbuf[vdc.scrnbufdraw | j] = vdc_ram_read(vdc.screen_adr + vdc.mem_counter + i);
                     }
                 }
                 vdc.draw_finished = 1;
@@ -705,8 +706,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             if (j == 82) {
                 j = 41;
             }
-            vdc.attrbuf[vdc.attrbufdraw | j] = vdc.ram[(vdc.attribute_adr + vdc.mem_counter + i) & vdc.vdc_address_mask];
-            vdc.scrnbuf[vdc.scrnbufdraw | j] = vdc.ram[(vdc.screen_adr + vdc.mem_counter + i) & vdc.vdc_address_mask];
+            vdc.attrbuf[vdc.attrbufdraw | j] = vdc_ram_read(vdc.attribute_adr + vdc.mem_counter + i);
+            vdc.scrnbuf[vdc.scrnbufdraw | j] = vdc_ram_read(vdc.screen_adr + vdc.mem_counter + i);
         }
     }
 
@@ -826,8 +827,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             if (j == 82) {
                 j = 41;
             }
-            vdc.attrbuf[(vdc.attrbufdraw ^ 0x100) | j] = vdc.ram[(vdc.attribute_adr + vdc.mem_counter + vdc.mem_counter_inc + vdc.regs[27] + i) & vdc.vdc_address_mask];
-            vdc.scrnbuf[(vdc.scrnbufdraw ^ 0x100) | j] = vdc.ram[(vdc.screen_adr + vdc.mem_counter + vdc.mem_counter_inc + vdc.regs[27] + i) & vdc.vdc_address_mask];
+            vdc.attrbuf[(vdc.attrbufdraw ^ 0x100) | j] = vdc_ram_read(vdc.attribute_adr + vdc.mem_counter + vdc.mem_counter_inc + vdc.regs[27] + i);
+            vdc.scrnbuf[(vdc.scrnbufdraw ^ 0x100) | j] = vdc_ram_read(vdc.screen_adr + vdc.mem_counter + vdc.mem_counter_inc + vdc.regs[27] + i);
         }
     }
 
