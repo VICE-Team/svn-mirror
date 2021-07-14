@@ -9,20 +9,47 @@ shave a second or two off the build time using ninja as well.
 Configure the VICE sources with --enable-cmake. Do this in-tree as it won't work
 via an external build folder.
 
+--------------------------------------------------------------------------------
+Linux / macOS Makefiles
+--------------------------------------------------------------------------------
+
+$ cd vice
+$ ./autogen.sh
 $ ./configure --enable-cmake <whatever configure arguments>
-
-Then create a build folder for the CMake build, then cd to that folder. You can
-now use CMake generate a build system:
-
-$ cmake <path to vice source folder>
+$ mkdir ../build
+$ cd ../build
+$ cmake ../vice
 $ make -j
 
-Things get more interesting when you generate a different project type, for
-example, to generate an Xcode project that can build and debug VICE:
+--------------------------------------------------------------------------------
+macOS Xcode
+--------------------------------------------------------------------------------
 
-$ cmake -G Xcode <path to vice source folder>
+$ cd vice
+$ ./autogen.sh
+$ ./configure --enable-cmake <whatever configure arguments>
+$ mkdir ../build
+$ cd ../build
+$ cmake -G Xcode ../vice
 $ open VICE.xcodeproj
 
-Invoke CMake help to see the project generators installed on your system:
+--------------------------------------------------------------------------------
+Windows MSYS2
+--------------------------------------------------------------------------------
 
-$ cmake --help
+When using cmake to build on MSYS2, you'll need to first make bindist using the
+regular build system. Then you can copy the built executables into the bindist
+folder for testing. For example:
+
+$ cd vice
+$ rm -rf GTK3VICE-*
+$ ./autogen.sh
+$ ./configure --enable-cmake <whatever configure arguments>
+$ make -j
+$ make bindist
+$ make clean
+$ mkdir ../build
+$ cd ../build
+$ cmake -G "MSYS Makefiles" -DCMAKE_PREFIX_PATH="$(gcc -print-search-dirs | grep ^libraries | sed 's/^.*=//')" ../vice
+$ make -j
+$ cp $(find src -type f -executable) $(find ../vice -name 'GTK3VICE-*')/bin/
