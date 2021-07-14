@@ -112,7 +112,6 @@ static int set_monitor_fg(const char *, void *param);
 static int set_fullscreen_state(int val, void *param);
 static void ui_toggle_warp(void);
 static int set_pause_on_settings(int val, void *param);
-static void ui_switch_border_mode(void);
 static int set_autostart_on_doubleclick(int val, void *param);
 
 /*****************************************************************************
@@ -203,8 +202,6 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
      */
     { GDK_KEY_P, VICE_MOD_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
 
-    /* Removed, Pause has taken over this function, see commit 37965 */
-    { GDK_KEY_F12, VICE_MOD_MASK|GDK_SHIFT_MASK, ui_switch_border_mode },
     /* Alt+J = swap joysticks */
     { GDK_KEY_j, VICE_MOD_MASK,
         (void *)ui_swap_joysticks_callback },
@@ -2329,18 +2326,4 @@ GtkWidget *ui_get_window_by_index(int index)
         return NULL;
     }
     return ui_resources.window_widget[index];
-}
-
-
-/** \brief  Switch x64sc border mode during real-time
- */
-void ui_switch_border_mode(void)
-{
-    int mode;
-
-    if (machine_class == VICE_MACHINE_C64SC) {
-        resources_get_int("VICIIBorderMode", &mode);
-        resources_set_int("VICIIBorderMode", (mode + 1) & 3);
-    }
-
 }

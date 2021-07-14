@@ -158,8 +158,6 @@ static const hotkey_info_t hotkeys_list[] = {
     { VICE_MOD_MASK, "O", "Open settings dialog" },
     { VICE_MOD_MASK, "Delete", "Copy BASIC screen text to clipboard" },
     { VICE_MOD_MASK, "Insert", "Paste clipboard to BASIC" },
-    { VICE_MOD_MASK|GDK_SHIFT_MASK, "F12",
-        "Switch VICII border mode in x64sc" },
 
     ARNIE
 };
