@@ -2999,7 +2999,7 @@ port device is connected to a control port.
 Set the device attached to:
 control port 1 (x64, x64sc, x64dtv, xscpu64, x128, xcbm5x0, xplus4)
 control port (xvic).
-(x64, x64sc, xscpu, x128, xcbm5x0, xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Datel Light Pen, 14: Magnum Light Phaser, 15: Stack Light Rifle, 16: Inkwell Light Pen, 17: Sampler (2bit))
+(x64, x64sc, xscpu64, x128, xcbm5x0, xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Datel Light Pen, 14: Magnum Light Phaser, 15: Stack Light Rifle, 16: Inkwell Light Pen, 17: Sampler (2bit))
 (x64dtv, xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @vindex JoyPort2Device
