@@ -26,11 +26,15 @@
 
 #include "vice.h"
 
-#include "render-common.h"
 #include "types.h"
+#include "video.h"
 
-inline void render_source_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t *colortab,
-                        unsigned int wstart, unsigned int wfast, unsigned int wend)
+#ifndef VICE_RENDER_COMMON_H
+#error Do not compile this file directly, just include render-common.h
+#endif
+
+static inline void render_source_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t *colortab,
+                                      unsigned int wstart, unsigned int wfast, unsigned int wend)
 {
     unsigned int x;
     
@@ -54,9 +58,9 @@ inline void render_source_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const ui
     }
 }
 
-inline void render_source_line_2x(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t *colortab,
-                                  unsigned int wstart, unsigned int wfast, unsigned int wend,
-                                  unsigned int wfirst, unsigned int wlast)
+static inline void render_source_line_2x(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t *colortab,
+                                         unsigned int wstart, unsigned int wfast, unsigned int wend,
+                                         unsigned int wfirst, unsigned int wlast)
 {
     unsigned int x;
     uint32_t color;
@@ -107,8 +111,8 @@ inline void render_source_line_2x(uint32_t *tmptrg, const uint8_t *tmpsrc, const
     }
 }
 
-inline void render_solid_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t color,
-                              unsigned int wstart, unsigned int wfast, unsigned int wend)
+static inline void render_solid_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t color,
+                                     unsigned int wstart, unsigned int wfast, unsigned int wend)
 {
     unsigned int x;
     
@@ -131,9 +135,9 @@ inline void render_solid_line(uint32_t *tmptrg, const uint8_t *tmpsrc, const uin
     }
 }
 
-inline void render_solid_line_2x(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t color,
-                                 unsigned int wstart, unsigned int wfast, unsigned int wend,
-                                 unsigned int wfirst, unsigned int wlast)
+static inline void render_solid_line_2x(uint32_t *tmptrg, const uint8_t *tmpsrc, const uint32_t color,
+                                        unsigned int wstart, unsigned int wfast, unsigned int wend,
+                                        unsigned int wfirst, unsigned int wlast)
 {
     unsigned int x;
     
