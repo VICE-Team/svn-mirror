@@ -1192,12 +1192,13 @@ gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
 void ui_media_auto_screenshot(void)
 {
     char *filename;
-
+#if 0
     /* remember pause state before entering the widget */
     old_pause_state = ui_pause_active();
 
     /* pause emulation */
     ui_pause_enable();
+#endif
 
     /* no need for locale bullshit */
     filename = create_proposed_screenshot_name("png");
@@ -1205,7 +1206,9 @@ void ui_media_auto_screenshot(void)
         log_error(LOG_ERR, "Failed to autosave screenshot.");
     }
 
+#if 0
     if (!old_pause_state) {
         ui_pause_disable();
     }
+#endif
 }
