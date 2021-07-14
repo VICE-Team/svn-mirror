@@ -28,9 +28,6 @@
 #ifndef VICE_RENDER_COMMON_H
 #define VICE_RENDER_COMMON_H
 
-#include "types.h"
-#include "video.h"
-
 /* the render-common functions are intended to be inlined */
 #include "render-common.c"
                        
