@@ -145,6 +145,7 @@ static int set_sid_filters_enabled(int val, void *param)
     return 0;
 }
 
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 static int set_sid_resid_enable_raw_output(int val, void *param)
 {
     sid_resid_enable_raw_output = val ? 1 : 0;
@@ -153,6 +154,7 @@ static int set_sid_resid_enable_raw_output(int val, void *param)
 
     return 0;
 }
+#endif
 
 static int set_sid_stereo(int val, void *param)
 {
