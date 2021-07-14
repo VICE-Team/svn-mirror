@@ -211,10 +211,9 @@ static int drive_resources_type(int val, void *param)
                 /* 1551 drive does not use the IEC bus */
                 machine_bus_status_drivetype_set(dnr + 8, drive_check_bus(type,
                                                                           IEC_BUS_IEC));
-            } else {
-                drive_enable_update_ui(diskunit_context[dnr]);
             }
             drive_set_disk_drive_type(type, diskunit_context[dnr]);
+            drive_enable_update_ui(diskunit_context[dnr]);
             driverom_initialize_traps(diskunit_context[dnr]);
             machine_drive_idling_method(dnr);
             return 0;
