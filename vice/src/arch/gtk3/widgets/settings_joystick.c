@@ -442,7 +442,7 @@ static int create_c64_layout(GtkGrid *grid)
     row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, true, true);
 
-    return row + 1;
+    return row;
 }
 
 
@@ -460,7 +460,7 @@ static int create_c64dtv_layout(GtkGrid *grid)
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_C64DTV);
     row = layout_add_swap_buttons(grid, row, true, true);
 
-    return row + 1;
+    return row;
 }
 
 
@@ -479,7 +479,7 @@ static int create_vic20_layout(GtkGrid *grid)
     row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, false, true);
 
-    return row + 1;
+    return row;
 }
 
 
@@ -499,7 +499,7 @@ static int create_plus4_layout(GtkGrid *grid)
     row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, true, true);
 
-    return row + 1;
+    return row;
 }
 
 
@@ -517,7 +517,7 @@ static int create_cbm5x0_layout(GtkGrid *grid)
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_CBM5x0);
     row = layout_add_swap_buttons(grid, row, true, true);
 
-    return row + 1;
+    return row;
 }
 
 
@@ -535,7 +535,7 @@ static int create_cbm6x0_layout(GtkGrid *grid)
     row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, false, true);
 
-    return row + 1;
+    return row ;
 }
 
 
@@ -553,7 +553,7 @@ static int create_pet_layout(GtkGrid *grid)
     row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, false, true);
 
-    return row + 1;
+    return row;
 }
 
 
