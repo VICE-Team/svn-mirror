@@ -244,67 +244,109 @@ static void joyport_devices_list_shutdown(void)
 }
 
 
+/** \brief  Add widgets for the control ports
+ *
+ * Adds \a count comboboxes to select the emulated device for the control ports.
+ *
+ * \param[in,out]   layout  main widget grid
+ * \param[in]       row     starting row in \a layout
+ * \param[in]       count   number of widgets to add to \a layout
+ *
+ * \return  row in the \a layout for additional widgets
+ */
+static int layout_add_control_ports(GtkGrid *layout, int row, int count)
+{
+    if (count <= 0) {
+        return row;
+    }
+
+    gtk_grid_attach(layout,
+                    create_joyport_widget(JOYPORT_1, "Control Port #1"),
+                    0, row, 1, 1);
+    if (count > 1) {
+        gtk_grid_attach(layout,
+                        create_joyport_widget(JOYPORT_1, "Control Port #2"),
+                        1, row, 1, 1);
+    }
+
+    return row + 1;
+}
+
+
+/** \brief  Add widgets for the joystick adapter ports
+ *
+ * Adds \a count comboboxes to select the emulated device for the adapter ports.
+ *
+ * \param[in,out]   layout  main widget grid
+ * \param[in]       row     starting row in \a layout
+ * \param[in]       count   number of widgets to add to \a layout
+ *
+ * \return  row in the \a layout for additional widgets
+ */
+static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
+{
+    int i;
+    int r = row;
+    int c = 0;
+    int d = JOYPORT_3;
+
+    for (i = 0; i < count; i++) {
+
+        char label[256];
+
+        g_snprintf(label, sizeof(label), "Extra Joystick #%d", i + 1);
+        gtk_grid_attach(layout,
+                        create_joyport_widget(d, label),
+                        c, r, 1, 1);
+        c ^= 1; /* swap column */
+        if (c == 0) {
+            r++;
+        }
+    }
+
+    return r + 1 + c;
+}
+
+
+/** \brief  Add widget for the Plus4 SIDCart joystick port
+ *
+ * Adds a widget for the Plus4-specific SIDCard extra joystick port.
+ *
+ * Currently the resource "JoyPort5Device" is used for this widget, but once
+ * eight adapter ports are implemented for Plus4 like the other emulators, we
+ * probably should switch the widget to "JoyPort11Device".
+ *
+ * \param[in,out]   layout  main widget grid
+ * \param[in]       row     starting row in \a layout
+ *
+ * \return  row in the \a layout for additional widgets
+ */
+static int layout_add_sidcard_port(GtkGrid *layout, int row)
+{
+    gtk_grid_attach(layout,
+                    create_joyport_widget(JOYPORT_5, "SIDCard Joystick Port"),
+                    0, row, 1, 1);
+    return row + 1;
+}
+
+
+
 /** \brief  Create layout for x64, x64sc, x64dtv, xscpu64, xcbm5x0 and x128
  *
  * Two control ports and eight joystick adapter ports.
  *
- * \param[in,out]   grid    main widget grid
+ * \param[in,out]   layout  main widget grid
  *
- * \return  number of rows used in the \a grid
+ * \return  row in the \a layout for additional widgets
  */
-static int create_c64_layout(GtkGrid *grid)
+static int create_c64_layout(GtkGrid *layout)
 {
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_1,
-                "Control port 1"),
-            0, 0, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_2,
-                "Control port 2"),
-            1, 0, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_3,
-                "Joystick adapter port 1"),
-            0, 1, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_4,
-                "Joystick adapter port 2"),
-            1, 1, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_5,
-                "Joystick adapter port 3"),
-            0, 2, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_6,
-                "Joystick adapter port 4"),
-            1, 2, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_7,
-                "Joystick adapter port 5"),
-            0, 3, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_8,
-                "Joystick adapter port 6"),
-            1, 3, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_9,
-                "Joystick adapter port 7"),
-            0, 4, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(
-                JOYPORT_10,
-                "Joystick adapter port 8"),
-            1, 4, 1, 1);
-    return 5;
+    int row = 0;
+
+    row = layout_add_control_ports(layout, row, 2);
+    row = layout_add_adapter_ports(layout, row, 8);
+
+    return row;
 }
 
 
@@ -312,48 +354,18 @@ static int create_c64_layout(GtkGrid *grid)
  *
  * One control port and eight joystick adapter ports.
  *
- * \param[in,out]   grid    main widget grid
+ * \param[in,out]   layout    main widget grid
  *
- * \return  number of rows used in the \a grid
+ * \return  row in the \a layout for additional widgets
  */
-static int create_vic20_layout(GtkGrid *grid)
+static int create_vic20_layout(GtkGrid *layout)
 {
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_1, "Control port"),
-            0, 0, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_3,
-                "Joystick adapter port 1"),
-            0, 1, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_4,
-                "Joystick adapter port 2"),
-            1, 1, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_5,
-                "Joystick adapter port 3"),
-            0, 2, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_6,
-                "Joystick adapter port 4"),
-            1, 2, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_7,
-                "Joystick adapter port 5"),
-            0, 3, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_8,
-                "Joystick adapter port 6"),
-            1, 3, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_9,
-                "Joystick adapter port 7"),
-            0, 4, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_10,
-                "Joystick adapter port 8"),
-            1, 4, 1, 1);
-    return 5;
+    int row = 0;
+
+    row = layout_add_control_ports(layout, row, 1);
+    row = layout_add_adapter_ports(layout, row, 8);
+
+    return row;
 }
 
 
@@ -361,30 +373,19 @@ static int create_vic20_layout(GtkGrid *grid)
  *
  * Two control ports, two userport adapter ports and one SIDCard control port.
  *
- * \param[in,out]   grid    main widget grid
+ * \param[in,out]   layout  main widget grid
  *
- * \return  number of rows used in the \a grid
+ * \return  row in the \a layout for additional widgets
  */
-static int create_plus4_layout(GtkGrid *grid)
+static int create_plus4_layout(GtkGrid *layout)
 {
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_1, "Control port 1"),
-            0, 0, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_2, "Control port 2"),
-            1, 0, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_3,
-                "Userport joystick adapter port 1"),
-            0, 1, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_4,
-                "Userport joystick adapter port 2"),
-            1, 1, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_5, "SIDCard control port"),
-            0, 2, 1, 1);
-    return 3;
+    int row = 0;
+
+    row = layout_add_control_ports(layout, row, 2);
+    row = layout_add_adapter_ports(layout, row, 2);
+    row = layout_add_sidcard_port(layout, row);
+
+    return row;
 }
 
 
@@ -392,68 +393,35 @@ static int create_plus4_layout(GtkGrid *grid)
  *
  * Two userport adapter ports.
  *
- * \param[in,out]   grid    main widget grid
+ * \param[in,out]   layout  main widget grid
  *
- * \return  number of rows used in the \a grid
+ * \return  row in the \a layout for additional widgets
  */
-static int create_pet_layout(GtkGrid *grid)
+static int create_pet_layout(GtkGrid *layout)
 {
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_3,
-                "Userport joystick adapter port 1"),
-            0, 0, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_4,
-                "Userport joystick adapter port 2"),
-            1, 0, 1, 1);
-    return 1;
-}
+    int row = 0;
 
+    row = layout_add_adapter_ports(layout, row, 2);
+
+    return row;
+}
 
 
 /** \brief  Create layout for xcbm2
  *
  * Eight joystick adapter ports.
  *
- * \param[in,out]   grid    main widget grid
+ * \param[in,out]   layout  main widget grid
  *
- * \return  number of rows used in the \a grid
+ * \return  row in the \a layout for additional widgets
  */
-static int create_cbm6x0_layout(GtkGrid *grid)
+static int create_cbm6x0_layout(GtkGrid *layout)
 {
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_3,
-                "Joystick adapter port 1"),
-            0, 0, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_4,
-                "Joystick adapter port 2"),
-            1, 0, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_5,
-                "Joystick adapter port 3"),
-            0, 1, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_6,
-                "Joystick adapter port 4"),
-            1, 1, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_7,
-                "Joystick adapter port 5"),
-            0, 2, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_8,
-                "Joystick adapter port 6"),
-            1, 2, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_9,
-                "Joystick adapter port 7"),
-            0, 3, 1, 1);
-    gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_10,
-                "Joystick adapter port 8"),
-            1, 3, 1, 1);
-    return 4;
+    int row = 0;
+
+    row = layout_add_adapter_ports(layout, row, 8);
+
+    return row;
 }
 
 
@@ -464,7 +432,7 @@ static int create_cbm6x0_layout(GtkGrid *grid)
  * joystick adapter ports and the SIDCard control port, depending on the
  * currently emulated machine.
  *
- * \param[in]   parent  parent widget
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
@@ -473,13 +441,11 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
     GtkWidget *layout;
     GtkWidget *mouse_save;
     GtkWidget *ps2_enable;
-    int rows = 0;
+    int row = 0;
 
     joyport_devices_list_init();
 
-    layout = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
+    layout = vice_gtk3_grid_new_spaced(16, 8);
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
@@ -488,19 +454,19 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
         case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_C64DTV:   /* fall through */
         case VICE_MACHINE_CBM5x0:
-            rows = create_c64_layout(GTK_GRID(layout));
+            row = create_c64_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_VIC20:
-            rows = create_vic20_layout(GTK_GRID(layout));
+            row = create_vic20_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_PLUS4:
-            rows = create_plus4_layout(GTK_GRID(layout));
+            row = create_plus4_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_PET:
-            rows = create_pet_layout(GTK_GRID(layout));
+            row = create_pet_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_CBM6x0:
-            rows = create_cbm6x0_layout(GTK_GRID(layout));
+            row = create_cbm6x0_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_VSID:
             break;  /* no control ports or joystick adapter ports */
@@ -508,11 +474,15 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
             break;
     }
 
-    /* add BBRTC checkbox */
-    if (rows > 0) {
+    /* add BBRTC checkbox
+     *
+     * FIXME:   this will always be true for anything except vsid, and we don't
+     *          use any of this code for vsid, so why is this here?
+     */
+    if (row > 0) {
         GtkWidget *bbrtc_widget = create_bbrtc_widget();
-        gtk_grid_attach(GTK_GRID(layout), bbrtc_widget, 0, rows, 2, 1);
-        rows++;
+        gtk_grid_attach(GTK_GRID(layout), bbrtc_widget, 0, row, 2, 1);
+        row++;
     }
 
     /* add SmartMouseRTCSave checkbox */
@@ -526,9 +496,9 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
         case VICE_MACHINE_CBM5x0:
             mouse_save = vice_gtk3_resource_check_button_new(
                     "SmartMouseRTCSave", "Enable SmartMouse RTC Saving");
-            gtk_grid_attach(GTK_GRID(layout), mouse_save, 0, rows, 2, 1);
+            gtk_grid_attach(GTK_GRID(layout), mouse_save, 0, row, 2, 1);
             g_object_set(mouse_save, "margin-left", 16, NULL);
-            rows++;
+            row++;
             break;
         default:
             /* No SmartMouse support */
@@ -539,15 +509,16 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
     if (machine_class == VICE_MACHINE_C64DTV) {
         ps2_enable = vice_gtk3_resource_check_button_new("ps2mouse",
                 "Enable PS/2 mouse on Userport");
-        gtk_grid_attach(GTK_GRID(layout), ps2_enable, 0, rows, 2, 1);
+        gtk_grid_attach(GTK_GRID(layout), ps2_enable, 0, row, 2, 1);
         g_object_set(ps2_enable, "margin-left", 16, NULL);
-        rows++;
+        row++;
     }
 
     if (machine_class != VICE_MACHINE_CBM5x0) {
         userportjoy_widget = create_userportjoy_enable_checkbox();
         g_object_set(userportjoy_widget, "margin-left", 16, NULL);
-        gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 0, rows, 2, 1);
+        gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 0, row, 2, 1);
+        row++;
     }
 
     g_signal_connect_unlocked(layout, "destroy", G_CALLBACK(on_destroy), NULL);
