@@ -581,6 +581,7 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
             break;
         case VICE_MACHINE_C64DTV:
             create_c64dtv_layout(GTK_GRID(layout));
+            break;
         case VICE_MACHINE_VIC20:
             create_vic20_layout(GTK_GRID(layout));
             break;
