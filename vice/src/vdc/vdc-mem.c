@@ -93,11 +93,11 @@ static void vdc_perform_fillcopy(void)
         /* Block start address.  */
         ptr2 = (vdc.regs[32] << 8) + vdc.regs[33];
         for (i = 0; i < blklen; i++) {
-            vdc.ram[(ptr + i) & vdc.vdc_address_mask]
-                = vdc.ram[(ptr2 + i) & vdc.vdc_address_mask];
+            vdc_ram_store((ptr + i),
+                vdc_ram_read(ptr2 + i));
         }
         ptr2 += blklen;
-        vdc.regs[31] = vdc.ram[(ptr2 - 1) & vdc.vdc_address_mask];
+        vdc.regs[31] = vdc_ram_read(ptr2 - 1);
         vdc.regs[32] = (ptr2 >> 8) & 0xff;
         vdc.regs[33] = ptr2 & 0xff;
     } else { /* FILL */
@@ -106,7 +106,7 @@ static void vdc_perform_fillcopy(void)
                     ptr, blklen, vdc.regs[31]);
 #endif
         for (i = 0; i < blklen; i++) {
-            vdc.ram[(ptr + i) & vdc.vdc_address_mask] = vdc.regs[31];
+            vdc_ram_store((ptr + i), vdc.regs[31]);
         }
     }
 
@@ -567,7 +567,7 @@ uint8_t vdc_peek(uint16_t addr)    /* No sidefx read of external VDC registers *
 
         /* Read VDCs RAM without incrementing the pointer */
         if (vdc.update_reg == 31) {
-            return vdc.ram[((vdc.regs[18] << 8) + vdc.regs[19]) & vdc.vdc_address_mask];
+            return vdc_ram_read((vdc.regs[18] << 8) + vdc.regs[19]);
         }
 
         /* Make sure light pen flag is not altered if either light pen position register is read */
@@ -582,8 +582,7 @@ uint8_t vdc_peek(uint16_t addr)    /* No sidefx read of external VDC registers *
     }
 }
 
-#if 0
-/* address translation function for a 64KB VDC in 16KB mode */
+/* address translation function for a 64KB VDC in 16KB mode, used by below 2 functions */
 static uint16_t vdc_64k_to_16k_map(uint16_t address)
 {
     uint16_t new_address = address & 0x80ff;
@@ -595,27 +594,22 @@ static uint16_t vdc_64k_to_16k_map(uint16_t address)
     new_address |= tmp;
     return new_address;
 }
-#endif
 
 uint8_t vdc_ram_read(uint16_t addr)
 {
-#if 0
-    /* check for 16KB memory map and 64KB VDC */
-    if (!(vdc.regs[28] & 0x10) && (vdc_resources.vdc_64kb_expansion)) {
+    /* Use 16KB memory map when the RAM chip type register #28 bit 4 is 0 for 4416 chips */
+    if (!(vdc.regs[28] & 0x10)) {
         return vdc.ram[vdc_64k_to_16k_map(addr & vdc.vdc_address_mask)];
     }
-#endif
-    /* for now the default till all possible combinations have been fixed */
+    /* otherwise return the default linear memory layout for the 4164 chip setting */
     return vdc.ram[addr & vdc.vdc_address_mask];
 }
 
 void vdc_ram_store(uint16_t addr, uint8_t value)
-{
-#if 0
-    if (!(vdc.regs[28] & 0x10) && (vdc_resources.vdc_64kb_expansion)) {
+{   /* as above but for storing to VDC ram with appropriate address translation*/
+    if (!(vdc.regs[28] & 0x10)) {
         vdc.ram[vdc_64k_to_16k_map(addr & vdc.vdc_address_mask)] = value;
     } else
-#endif
     vdc.ram[addr & vdc.vdc_address_mask] = value;
 }
 
