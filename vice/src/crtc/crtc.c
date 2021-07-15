@@ -77,8 +77,9 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data);
 /*--------------------------------------------------------------------*/
 /* CRTC variables */
 
-/* the first variable is the initialized flag. We don't want that be
-   uninitialized... */
+/* the first variable is the initialized flag. We don't want that be uninitialized... */
+/* FIXME: do not statically initialize anything in this struct, do this somewhere
+          else at runtime */
 crtc_t crtc = {
     0,              /* initialized */
 
@@ -93,9 +94,6 @@ crtc_t crtc = {
     512,            /* vaddr_charoffset */
     0x1000,         /* vaddr_revswitch */
 
-    /* These were missing, I'm assuming they get initialized somewhere else, but
-     * let's intialize them anyway to avoid warnings. Some descriptions of the
-     * fields are in crtctypes.h -- compyx */
     NULL,           /* screen_base */
     NULL,           /* chargen_base */
     0,              /* chargen_mask */
@@ -149,7 +147,7 @@ crtc_t crtc = {
     0,              /* log */
 
     /* raster: an instance of raster_t (see src/raster/raster.h) */
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL,
         0, 0, 0,
         0,
         0, 0,
@@ -161,27 +159,28 @@ crtc_t crtc = {
         0,
         0,
         0,
-        0, 0,
-        0, 0,
-        0,
         0,
         0, 0,
         0, 0,
         0,
         0,
+        0, 0,
+        0, 0,
         0,
         0,
-        NULL,
         0,
         0,
         0,
         0,
-        NULL,
+        0,
+        0,
+        0,
+        0,
         { 0 },
         { 0 },
-        NULL,
-        NULL,
-        NULL,
+        0,
+        0,
+        0,
         0
     },
 
@@ -190,7 +189,6 @@ crtc_t crtc = {
 
     NULL,
     NULL
-
 
 };
 
