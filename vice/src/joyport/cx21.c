@@ -169,7 +169,7 @@ static uint8_t cx21_read_dig(int p)
     return (uint8_t)~retval;
 }
 
-static void cx21_store_dig(uint8_t val, uint8_t max)
+static void cx21_store_dig(uint8_t val)
 {
     port = (uint8_t)~val;
 }

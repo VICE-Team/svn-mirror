@@ -160,38 +160,20 @@ static uint8_t inception_read(int port)
     return retval;
 }
 
-static void inception_advance_counter(uint8_t lines)
-{
-    switch (counter) {
-        case INCEPTION_STATE_IDLE:
-            if (lines == 0) {
-                counter++;
-            }
-            break;
-        case INCEPTION_STATE_START:
-            if (lines == 0x10) {
-                counter++;
-            }
-            break;
-        default:
-            counter++;
-    }
-}
-
-static void inception_store(uint8_t val, uint8_t mask)
+static void inception_store(uint8_t val)
 {
     uint8_t new_clock = (val & 0x10) >> 4;
     uint8_t lines = val & 0x1f;
 
-    if (lines == 0x1f && mask == 0x1f) {
+    if (!lines) {
         counter = INCEPTION_STATE_IDLE;
-    }
-
-    if (clock_line != new_clock) {
-        if (counter < INCEPTION_STATE_EOS) {
-            inception_advance_counter(lines);
-        } else {
-            counter = INCEPTION_STATE_IDLE;
+    } else {
+        if (clock_line != new_clock) {
+            if (counter < INCEPTION_STATE_EOS) {
+                counter++;
+            } else {
+                counter = INCEPTION_STATE_IDLE;
+            }
         }
     }
 

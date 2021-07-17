@@ -261,7 +261,7 @@ static void neos_get_new_movement(void)
     neos_lasty = new_y;
 }
 
-void neos_mouse_store(uint8_t val, uint8_t mask)
+void neos_mouse_store(uint8_t val)
 {
     if ((neos_prev & 16) != (val & 16)) {
         /* each change on the strobe line advances to the next state */
@@ -1298,7 +1298,7 @@ static void mouse_button_down(int pressed)
     }
 }
 
-void smart_mouse_store(uint8_t val, uint8_t mask)
+void smart_mouse_store(uint8_t val)
 {
     ds1202_1302_set_lines(ds1202, !(val & 8), !!(val & 2), !!(val & 4));
 }
