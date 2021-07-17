@@ -127,7 +127,7 @@ static uint8_t paperclip64_read(int port)
     return retval;
 }
 
-static void paperclip64_store(uint8_t val, uint8_t mask)
+static void paperclip64_store(uint8_t val)
 {
     uint8_t new_command = val & 0x1c;
     uint8_t reset;

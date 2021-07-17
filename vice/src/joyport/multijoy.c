@@ -107,7 +107,7 @@ static int joyport_multijoy_control_enable(int port, int value)
     return 0;
 }
 
-static void multijoy_store(uint8_t val, uint8_t mask)
+static void multijoy_store(uint8_t val)
 {
     multijoy_address = val & 7;
 }
