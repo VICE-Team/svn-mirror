@@ -171,7 +171,7 @@ static uint8_t snespad_read(int port)
     return ~(retval);
 }
 
-static void snespad_store(uint8_t val)
+static void snespad_store(uint8_t val, uint8_t mask)
 {
     uint8_t new_clock = (val & 0x08) >> 3;
     uint8_t new_latch = (val & 0x10) >> 4;

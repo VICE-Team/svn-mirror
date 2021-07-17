@@ -71,7 +71,7 @@ static uint8_t waasoft_dongle_read_poty(int port)
     return waasoft_values[counter];
 }
 
-static void waasoft_dongle_store_dig(uint8_t val)
+static void waasoft_dongle_store_dig(uint8_t val, uint8_t mask)
 {
     uint8_t reset = val & 1;
     uint8_t clock = val & 2;
