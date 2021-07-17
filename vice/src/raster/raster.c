@@ -308,6 +308,11 @@ void raster_reset(raster_t *raster)
     raster->ycounter = 0;
     raster->video_mode = 0;
     raster->last_video_mode = -1;
+    
+    if (raster->canvas) {
+        raster->canvas->videoconfig->interlaced = 0;
+        raster->canvas->videoconfig->frame_counter = 0;
+    }
 }
 
 typedef struct raster_list_t {
