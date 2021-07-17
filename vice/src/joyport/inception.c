@@ -178,10 +178,14 @@ static void inception_advance_counter(uint8_t lines)
     }
 }
 
-static void inception_store(uint8_t val)
+static void inception_store(uint8_t val, uint8_t mask)
 {
     uint8_t new_clock = (val & 0x10) >> 4;
     uint8_t lines = val & 0x1f;
+
+    if (lines == 0x1f && mask == 0x1f) {
+        counter = INCEPTION_STATE_IDLE;
+    }
 
     if (clock_line != new_clock) {
         if (counter < INCEPTION_STATE_EOS) {

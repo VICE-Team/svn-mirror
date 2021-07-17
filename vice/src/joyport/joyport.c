@@ -208,7 +208,7 @@ void store_joyport_dig(int port, uint8_t val, uint8_t mask)
     store_val &= (uint8_t)~mask;
     store_val |= val;
 
-    joyport_device[id].store_digital(store_val);
+    joyport_device[id].store_digital(store_val, mask);
 
     joyport_dig_stored[port] = store_val;
 }
