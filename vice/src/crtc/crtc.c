@@ -148,20 +148,18 @@ crtc_t crtc = {
 
     /* raster: an instance of raster_t (see src/raster/raster.h) */
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL,
-        0, 0, 0,
+        0, 0, 0,    /* xsmooth, ysmooth, sprite_xsmooth */
         0,
-        0, 0,
-        0,
-        0,
+        0, 0,       /* xsmooth_shift_right, sprite_xsmooth_shift_left */
         0,
         0,
-        0,
+        0, 0,       /* border_color, background_color */
         0,
         0,
         0,
         0,
-        0, 0,
-        0, 0,
+        0, 0,       /* open_right_border, open_left_border */
+        0, 0,       /* can_disable_border, border_disable */
         0,
         0,
         0, 0,
@@ -170,17 +168,17 @@ crtc_t crtc = {
         0,
         0,
         0,
+        NULL,       /* cache */
         0,
         0,
         0,
         0,
-        0,
-        0,
+        NULL,       /* update_area */
         { 0 },
         { 0 },
-        0,
-        0,
-        0,
+        NULL,
+        NULL,
+        NULL,
         0
     },
 
