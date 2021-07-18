@@ -34,7 +34,7 @@
 #include "uimon.h"
 
 
-console_t *uimon_window_open(void)
+console_t *uimon_window_open(bool display_now)
 {
     /* printf("%s\n", __func__); */
 

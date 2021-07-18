@@ -166,7 +166,7 @@ console_t *uimonfb_window_resume(void)
         return console_log_local;
     }
     log_error(LOG_DEFAULT, "uimonfb_window_resume: log was not opened.");
-    return uimon_window_open();
+    return uimon_window_open(true);
 }
 
 
