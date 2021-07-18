@@ -760,17 +760,10 @@ static void render(void *job_data, void *pool_data)
     } else {
         modern_render(context, scale_x, scale_y);
     }
-
-    /*
-     * A glFlush() alone seems to work, however after the app has been in the background for a while,
-     * you see a bunch of old frames very quickly rendered in a 'catch up'. This seems to prevent that.
-     * 
-     * Also, using glFlush() results in incorrect transition to fullscreen when paused (X11).
-     */
-    
-    glFinish();
     
     vice_opengl_renderer_present_backbuffer(context);
+    glFinish();
+    
     vice_opengl_renderer_clear_current(context);
     
     RENDER_UNLOCK();
