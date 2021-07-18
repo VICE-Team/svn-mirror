@@ -120,7 +120,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
-    if (vdrive_snapshot_module_write(s, drive_true_emulation ? 10 : 8) < 0) {
+    if (vdrive_snapshot_module_write(s) < 0) {
         return -1;
     }
 
@@ -791,7 +791,7 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
-    if (vdrive_snapshot_module_read(s, drive_true_emulation ? 10 : 8) < 0) {
+    if (vdrive_snapshot_module_read(s) < 0) {
         return -1;
     }
 
