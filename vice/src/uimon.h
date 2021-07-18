@@ -33,7 +33,7 @@ struct console_s;
 struct console_private_s;
 struct monitor_interface_s;
 
-extern struct console_s *uimon_window_open(void);
+extern struct console_s *uimon_window_open(bool display_now);
 extern void uimon_window_suspend(void);
 extern struct console_s *uimon_window_resume(void);
 extern void uimon_window_close(void);

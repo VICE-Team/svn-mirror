@@ -593,6 +593,7 @@ bool uimon_set_font(void)
 
 static gboolean uimon_window_open_impl(gpointer user_data)
 {
+    bool display_now = (bool)user_data;
     GtkWidget *scrollbar, *horizontal_container;
     GdkGeometry hints;
     GdkPixbuf *icon;
@@ -673,7 +674,9 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
     }
 
-    uimon_window_resume_impl(user_data);
+    if (display_now) {
+        uimon_window_resume_impl(NULL);
+    }
 
     return FALSE;
 }
@@ -743,14 +746,14 @@ static gboolean uimon_window_close_impl(gpointer user_data)
     return FALSE;
 }
 
-console_t *uimon_window_open(void)
+console_t *uimon_window_open(bool display_now)
 {
     if (native_monitor()) {
         return uimonfb_window_open();
     }
 
     /* call from ui thread */
-    gdk_threads_add_timeout(0, uimon_window_open_impl, NULL);
+    gdk_threads_add_timeout(0, uimon_window_open_impl, (gpointer)display_now);
 
     return &vte_console;
 }

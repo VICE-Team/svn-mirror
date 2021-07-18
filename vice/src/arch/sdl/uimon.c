@@ -78,8 +78,10 @@ void uimon_window_close(void)
     }
 }
 
-console_t *uimon_window_open(void)
+console_t *uimon_window_open(bool display_now)
 {
+    /* TODO: something with display_now for SDL. It's set to false at startup when -moncommands is used. */
+
 #ifdef ALLOW_NATIVE_MONITOR
     using_ui_monitor = !native_monitor || sdl_active_canvas->fullscreenconfig->enable;
 #endif
@@ -109,7 +111,7 @@ void uimon_window_suspend(void)
 console_t *uimon_window_resume(void)
 {
     if (using_ui_monitor && menu_draw) {
-        return uimon_window_open();
+        return uimon_window_open(true);
     } else {
         return console_log_local;
     }

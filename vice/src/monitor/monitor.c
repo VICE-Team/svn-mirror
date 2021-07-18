@@ -216,7 +216,7 @@ static bool playback_exit_after_all_playback = false;
 
 static void playback_end_file(void);
 
-static void monitor_close(int check);
+static void monitor_close(bool check_exit);
 static int monitor_set_moncommands_file(const char *param, void *extra_param);
 
 /* Disassemble the current opcode on entry.  Used for single step.  */
@@ -1436,7 +1436,7 @@ void monitor_shutdown(void)
     
     if (inside_monitor) {
         /* Can happen if VICE thread exited while monitor open */
-        monitor_close(0);
+        monitor_close(false);
     }
     
     if (last_cmd) {
@@ -2080,7 +2080,6 @@ static void playback_end_file(void)
     /* Should we return to emulation? (Yes if -moncommands arg used) */
     if (playback_exit_after_all_playback) {
         playback_exit_after_all_playback = false;
-        
         mon_exit();
     }
 }
@@ -2835,7 +2834,8 @@ static void monitor_open(void)
         if (console_log) {
             console_log = uimon_window_resume();
         } else {
-            console_log = uimon_window_open();
+            /* We 'open' the monitor, but only display it if we're not in -moncommands playback mode */
+            console_log = uimon_window_open(playback_fp == NULL);
             uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
         }
     }
@@ -2959,7 +2959,7 @@ static int monitor_process(char *cmd)
     return exit_mon;
 }
 
-static void monitor_close(int check)
+static void monitor_close(bool check_exit)
 {
 #ifdef FEATURE_CPUMEMHISTORY
     memmap_state &= ~(MEMMAP_STATE_IN_MONITOR);
@@ -2970,7 +2970,7 @@ static void monitor_close(int check)
         exit_mon--;
     }
 
-    if (check && exit_mon) {
+    if (check_exit && exit_mon) {
         if (!monitor_is_remote()) {
             uimon_window_close();
         }
@@ -3039,7 +3039,7 @@ void monitor_startup(MEMSPACE mem)
             break;
         }
     }
-    monitor_close(1);
+    monitor_close(true);
 }
 
 static void monitor_trap(uint16_t addr, void *unused_data)
