@@ -481,7 +481,7 @@ do
 		if ! fgrep -q "find_library($label " CMakeLists.txt
 		then
 			cat <<-HEREDOC >> CMakeLists.txt
-				find_library($label $lib)
+				find_library($label $lib \${CMAKE_C_IMPLICIT_LINK_DIRECTORIES})
 			HEREDOC
 		fi
 	done
