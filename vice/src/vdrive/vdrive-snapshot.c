@@ -30,6 +30,7 @@
 
 #include "attach.h"
 #include "diskimage.h"
+#include "drive.h"
 #include "log.h"
 #include "snapshot.h"
 #include "vdrive-snapshot.h"
@@ -53,7 +54,7 @@ void vdrive_snapshot_init(void)
 #define SNAP_MAJOR 2
 #define SNAP_MINOR 0
 
-int vdrive_snapshot_module_write(snapshot_t *s, int start)
+int vdrive_snapshot_module_write(snapshot_t *s, int startunit)
 {
     int i, j;
     char snap_module_name[SNAP_MODNAME_SIZE];
@@ -61,9 +62,9 @@ int vdrive_snapshot_module_write(snapshot_t *s, int start)
     vdrive_t *floppy;
     disk_image_t *image;
 
-    for (i = start; i <= 11; i++) {
+    for (i = startunit; i <= DRIVE_UNIT_MAX; i++) {
         floppy = file_system_get_vdrive(i);
-        for (j = 0; j <= 1; j++) {
+        for (j = DRIVE_NUMBER_MIN; j <= DRIVE_NUMBER_MAX; j++) {
             image = vdrive_get_image(floppy, j);
             if (image != NULL) {
                 snprintf(snap_module_name, SNAP_MODNAME_SIZE, "VDRIVEIMAGE%i", i);
@@ -79,15 +80,15 @@ int vdrive_snapshot_module_write(snapshot_t *s, int start)
     return 0;
 }
 
-int vdrive_snapshot_module_read(snapshot_t *s, int start)
+int vdrive_snapshot_module_read(snapshot_t *s, int startunit)
 {
     uint8_t major_version, minor_version;
     int i, j;
     snapshot_module_t *m;
     char snap_module_name[SNAP_MODNAME_SIZE];
 
-    for (i = start; i <= 11; i++) {
-        for (j = 0; j <= 1; j++) {
+    for (i = startunit; i <= DRIVE_UNIT_MAX; i++) {
+        for (j = DRIVE_NUMBER_MIN; j <= DRIVE_NUMBER_MAX; j++) {
             snprintf(snap_module_name, SNAP_MODNAME_SIZE, "VDRIVEIMAGE%i", i);
             m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
             if (m == NULL) {
