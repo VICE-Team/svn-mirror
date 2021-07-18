@@ -32,6 +32,7 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "log.h"
+#include "resources.h"
 #include "snapshot.h"
 #include "vdrive-snapshot.h"
 #include "vdrive.h"
@@ -54,55 +55,67 @@ void vdrive_snapshot_init(void)
 #define SNAP_MAJOR 2
 #define SNAP_MINOR 0
 
-int vdrive_snapshot_module_write(snapshot_t *s, int startunit)
+int vdrive_snapshot_module_write(snapshot_t *s)
 {
-    int i, j;
+    int i, j, tde;
     char snap_module_name[SNAP_MODNAME_SIZE];
     snapshot_module_t *m;
     vdrive_t *floppy;
     disk_image_t *image;
 
-    for (i = startunit; i <= DRIVE_UNIT_MAX; i++) {
-        floppy = file_system_get_vdrive(i);
-        for (j = DRIVE_NUMBER_MIN; j <= DRIVE_NUMBER_MAX; j++) {
-            image = vdrive_get_image(floppy, j);
-            if (image != NULL) {
-                snprintf(snap_module_name, SNAP_MODNAME_SIZE, "VDRIVEIMAGE%i", i);
-                m = snapshot_module_create(s, snap_module_name, ((uint8_t)SNAP_MAJOR),
-                                        ((uint8_t)SNAP_MINOR));
-                if (m == NULL) {
-                    return -1;
+    for (i = DRIVE_UNIT_MIN; i <= DRIVE_UNIT_MAX; i++) {
+        /* FIXME: replace by new per drive resource */
+        resources_get_int("DriveTrueEmulation", &tde);
+        if ((tde == 0) || ((tde == 1) && (i > 9))) { /* old code passed 10 as start value when tde is on */
+        /*resources_get_int_sprintf("Drive%iTrueEmulation", &tde, i);
+          if (tde == 0) {*/
+            floppy = file_system_get_vdrive(i);
+            for (j = DRIVE_NUMBER_MIN; j <= DRIVE_NUMBER_MAX; j++) {
+                image = vdrive_get_image(floppy, j);
+                if (image != NULL) {
+                    snprintf(snap_module_name, SNAP_MODNAME_SIZE, "VDRIVEIMAGE%i", i);
+                    m = snapshot_module_create(s, snap_module_name, ((uint8_t)SNAP_MAJOR),
+                                            ((uint8_t)SNAP_MINOR));
+                    if (m == NULL) {
+                        return -1;
+                    }
+                    snapshot_module_close(m);
                 }
-                snapshot_module_close(m);
             }
         }
     }
     return 0;
 }
 
-int vdrive_snapshot_module_read(snapshot_t *s, int startunit)
+int vdrive_snapshot_module_read(snapshot_t *s)
 {
     uint8_t major_version, minor_version;
-    int i, j;
+    int i, j, tde;
     snapshot_module_t *m;
     char snap_module_name[SNAP_MODNAME_SIZE];
 
-    for (i = startunit; i <= DRIVE_UNIT_MAX; i++) {
-        for (j = DRIVE_NUMBER_MIN; j <= DRIVE_NUMBER_MAX; j++) {
-            snprintf(snap_module_name, SNAP_MODNAME_SIZE, "VDRIVEIMAGE%i", i);
-            m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
-            if (m == NULL) {
-                return 0;
-            }
+    for (i = DRIVE_UNIT_MIN; i <= DRIVE_UNIT_MAX; i++) {
+        /* FIXME: replace by new per drive resource */
+        resources_get_int("DriveTrueEmulation", &tde);
+        if ((tde == 0) || ((tde == 1) && (i > 9))) { /* old code passed 10 as start value when tde is on */
+        /*resources_get_int_sprintf("Drive%iTrueEmulation", &tde, i);
+          if (tde == 0) {*/
+            for (j = DRIVE_NUMBER_MIN; j <= DRIVE_NUMBER_MAX; j++) {
+                snprintf(snap_module_name, SNAP_MODNAME_SIZE, "VDRIVEIMAGE%i", i);
+                m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+                if (m == NULL) {
+                    return 0;
+                }
 
-            /* FIXME: this gives a linker error? */
-            /* if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) { */
-            if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-                log_message(vdrive_snapshot_log,
-                            "Snapshot module version (%d.%d) newer than %d.%d.",
-                            major_version, minor_version, SNAP_MAJOR, SNAP_MINOR);
+                /* FIXME: this gives a linker error? */
+                /* if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) { */
+                if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+                    log_message(vdrive_snapshot_log,
+                                "Snapshot module version (%d.%d) newer than %d.%d.",
+                                major_version, minor_version, SNAP_MAJOR, SNAP_MINOR);
+                }
+                snapshot_module_close(m);
             }
-            snapshot_module_close(m);
         }
     }
     return 0;
