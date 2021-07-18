@@ -1411,11 +1411,14 @@ if test x"$check_sdl1" = "xyes"; then
         AC_CHECK_FUNCS(SDL_NumJoysticks)
 
         if test x"$enable_hwscale" != "xno"; then
-          if test x"$is_unix_macosx" = "xyes"; then
+          if test x"$is_unix_macosx" = "xyes" -o x"$is_win32" = "xyes"; then
             AC_MSG_CHECKING(whether we can use the OpenGL Framework)
             old_LIBS="$LIBS"
-            LIBS="$LIBS -framework OpenGL"
-
+            if test x"$is_unix_macosx" = "xyes"; then
+              LIBS="$LIBS -framework OpenGL"
+            else
+              LIBS="$LIBS -lopengl32"
+            fi
             if test x"$use_sdl_prefix" = "xyes"; then
               AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
                           [glViewport(1,2,3,4)],
@@ -1432,7 +1435,7 @@ if test x"$check_sdl1" = "xyes"; then
                            LIBS="$old_LIBS"])
             fi
           else
-            AC_SEARCH_LIBS(glViewport, [GL opengl32], [have_opengl_lib=yes], [have_opengl_lib=no])
+            AC_SEARCH_LIBS(glViewport, [GL], [have_opengl_lib=yes], [have_opengl_lib=no])
           fi
 
           if test x"$have_opengl_lib" != "xyes"; then
