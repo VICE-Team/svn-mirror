@@ -561,7 +561,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int hwscale = 0;
     int lightpen_updated = 0;
 #ifdef HAVE_HWSCALE
-    int rbits = 0, gbits = 0, bbits = 0;
+    int rbits = 0, gbits = 0, bbits = 0, abits = 0;
     const Uint32
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -648,11 +648,12 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
                 sdl_bitdepth = 32;
             /* fall through */
             case 32:
-                rbits = gbits = bbits = 8;
+                rbits = gbits = bbits = abits = 8;
                 sdl_gl_mode = GL_RGBA;
                 break;
             case 24:
                 rbits = gbits = bbits = 8;
+                abits = 0;
                 sdl_gl_mode = GL_RGB;
                 break;
             default:
@@ -667,6 +668,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         SDL_GL_SetAttribute(SDL_GL_RED_SIZE, rbits);
         SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, gbits);
         SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, bbits);
+        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, abits);
     }
 #endif
 
