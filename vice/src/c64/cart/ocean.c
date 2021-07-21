@@ -100,7 +100,6 @@ static uint32_t cart_size = 0;
 /* ---------------------------------------------------------------------*/
 static void ocean_io1_store(uint16_t addr, uint8_t value)
 {
-    addr &= 0xff;
     regval = value;
     currbank = value & io1_mask & 0x3f;
 
