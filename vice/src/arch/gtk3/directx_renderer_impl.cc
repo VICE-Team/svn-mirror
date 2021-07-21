@@ -501,7 +501,7 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
 
 void vice_directx_impl_async_render(void *job_data, void *pool_data)
 {
-    render_job_t job = (render_job_t)(int)(long long int)job_data;
+    render_job_t job = (render_job_t)vice_ptr_to_int(job_data);
     video_canvas_t *canvas = (video_canvas_t *)pool_data;
     vice_directx_renderer_context_t *context = (vice_directx_renderer_context_t *)canvas->renderer_context;
     HRESULT result = S_OK;

@@ -644,7 +644,7 @@ static void modern_render(context_t *context, float scale_x, float scale_y)
 
 static void render(void *job_data, void *pool_data)
 {
-    render_job_t job = (render_job_t)(int)(intptr_t)job_data;
+    render_job_t job = (render_job_t)vice_ptr_to_int(job_data);
     video_canvas_t *canvas = pool_data;
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     int vsync = 1;
