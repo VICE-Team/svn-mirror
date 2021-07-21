@@ -53,16 +53,16 @@
 
 /*
     REX RAM-Floppy
-    
+
     8k ROM
     up to 256k RAM
-    
+
     dfa0    (write) selects RAM bank
-    
+
     df50    (read) toggles RAM writeable
     dfc0    (read) toggles cartridge enable
     dfe0    (read) toggles RAM enable
-    
+
     TODO:
     - implement loading/saving of the RAM content
     - implement the disable switch
@@ -112,9 +112,9 @@ static uint8_t rexramfloppy_io2_peek(uint16_t addr)
 
 static uint8_t rexramfloppy_io2_read(uint16_t addr)
 {
-       
+
     addr &= 0xff;
-    
+
     switch (addr) {
         case 0x50:
             ram_writeable ^= 1;
@@ -134,15 +134,15 @@ static uint8_t rexramfloppy_io2_read(uint16_t addr)
             /* printf("io2 read %04x\n", addr);  */
             break;
     }
-    
+
     return 0;
 }
 
 static void rexramfloppy_io2_store(uint16_t addr, uint8_t value)
 {
-    
+
     addr &= 0xff;
-    
+
     switch (addr) {
         case 0xa0:
             ram_bank = (value & 7) | ((value & 0x30) >> 1);
