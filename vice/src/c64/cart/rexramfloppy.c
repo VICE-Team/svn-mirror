@@ -107,7 +107,6 @@ static const export_resource_t export_res = {
 
 static uint8_t rexramfloppy_io2_peek(uint16_t addr)
 {
-    addr &= 0xff;
     return 0; /* FIXME */
 }
 
