@@ -1423,7 +1423,9 @@ unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
             case VDRIVE_IMAGE_FORMAT_8250:
                 if (t != vdrive->Dir_Track) {
                     bamp = vdrive_bam_get_track_entry(vdrive, t, 0);
-                    blocks += *bamp;
+                    if (bamp) {
+                       blocks += *bamp;
+                    }
                 }
                 break;
             case VDRIVE_IMAGE_FORMAT_1571:
@@ -1433,7 +1435,9 @@ unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
                     } else {
                         bamp = &(vdrive->bam[BAM_EXT_BIT_MAP_1571 + t - NUM_TRACKS_1571 / 2 - 1]);
                     }
-                    blocks += *bamp;
+                    if (bamp) {
+                       blocks += *bamp;
+                    }
                 }
                 break;
             case VDRIVE_IMAGE_FORMAT_NP:
@@ -1447,7 +1451,9 @@ unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
                 /* More than 1 BAM entry per track */
                 for (s = 0; s < vdrive->image->sectors ; s += 32 ) {
                     bamp = vdrive_bam_get_track_entry(vdrive, t, s);
-                    blocks += *bamp;
+                    if (bamp) {
+                       blocks += *bamp;
+                    }
                 }
                 break;
             default:
