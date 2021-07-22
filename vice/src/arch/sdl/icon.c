@@ -1,9 +1,13 @@
+/** \file   icon.c 
+ * \brief   SDL Window icon(s) support
+ *
+ * Sets application icon on Unix for SDL1.2 and SDL2 and on Windows for SDL1.2.
+ *
+ * \author  groepaz <groepaz@gmx.net>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * icon.c - window icon(s) support
- *
- * Written by
- *  groepaz <groepaz@gmx.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -27,6 +31,7 @@
 #include "vice.h"
 
 #include "archdep.h"
+#include "archdep_defs.h"
 #include "vice_sdl.h"
 #include <SDL_image.h>
 #include <stdio.h>
@@ -35,17 +40,16 @@
 #include "lib.h"
 #include "machine.h"
 
-
 #include "icon.h"
 
-#ifdef USE_SDLUI2
 
+#ifdef USE_SDLUI2
 
 /** \brief  Set window icon
  *
  * \param[in]   window  window instance
  *
- * \note    requires libsdl2-image-dev
+ * \note    requires libsdl2-image-dev on Linux, SDL2_image on msys2
  */
 void sdl_ui_set_window_icon(SDL_Window *window)
 {
@@ -75,7 +79,7 @@ void sdl_ui_set_window_icon(SDL_Window *window)
  *
  * \param[in]   window  window instance (unused)
  *
- * \note    requires libsdl-image1.2-dev
+ * \note    requires libsdl-image1.2-dev on Linux, SDL_image on msys2
  * \note    needs to be called before the first call to SDL_SetVideoMode()
  */
 void sdl_ui_set_window_icon(void *window)
@@ -83,7 +87,9 @@ void sdl_ui_set_window_icon(void *window)
     SDL_Surface *surface;
     char *path;
 
-    /* SDL 1.2 docs say Win32 icons need to be 32x32 */
+    /* SDL1.2 docs say Win32 icons need to be 32x32. On Win7 using 256x256
+     * also works fine, but let's do what the docs say anyway.
+     */
 #ifdef ARCHDEP_OS_WINDOWS
     path = archdep_app_icon_path_png(32);
 #else

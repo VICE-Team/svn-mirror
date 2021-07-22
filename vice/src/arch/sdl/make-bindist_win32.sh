@@ -177,6 +177,13 @@ cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $BINDIST_DIR
 cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BINDIST_DIR
 rm -f `find $BINDIST_DIR -name "Makefile*"`
 rm -f `find $BINDIST_DIR -name "gtk3_*"`
+
+# Icon files for SDL1
+if test x"$SDLVERSION" = "x1"; then
+    mkdir $BINDIST_DIR/common
+    cp -a $TOPSRCDIR/data/common/*_32.png $BINDIST_DIR/common
+fi
+
 mkdir $BINDIST_DIR/doc
 if test x"$HTML_DOCS" = "xyes"; then
     cp -a $TOPSRCDIR/doc/html/* $BINDIST_DIR/doc
