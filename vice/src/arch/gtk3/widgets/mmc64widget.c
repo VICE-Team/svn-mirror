@@ -151,7 +151,7 @@ static void card_filename_callback(GtkDialog *dialog,
                                    gpointer data)
 {
     if (filename != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(card_filename_entry), filename);
+        vice_gtk3_resource_entry_full_set(card_filename_entry, filename);
         g_free(filename);
     }
 
