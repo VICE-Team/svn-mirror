@@ -581,6 +581,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     new_width *= canvas->videoconfig->scalex;
     new_height *= canvas->videoconfig->scaley;
 
+    sdl_ui_set_window_icon(NULL);
+
     if ((canvas == sdl_active_canvas) && (canvas->fullscreenconfig->enable)) {
         fullscreen = 1;
     }
