@@ -2339,8 +2339,11 @@ void cartridge_reset(void)
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_reset();
             break;
-        case CARTRIDGE_ZIPPCODE48:
+        case CARTRIDGE_WARPSPEED:
             zippcode48_reset();
+            break;
+        case CARTRIDGE_ZIPPCODE48:
+            warpspeed_reset();
             break;
     }
     /* "Slot 1" */
