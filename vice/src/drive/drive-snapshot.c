@@ -122,6 +122,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     snapshot_module_t *m;
     uint32_t rotation_table_ptr[NUM_DISK_UNITS];
     int has_tde[NUM_DISK_UNITS];
+    int has_drives[NUM_DISK_UNITS];
     int sync_factor;
     diskunit_context_t *unit;
     drive_t *drive;
@@ -144,20 +145,26 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             return -1;
         }
 
+        has_drives[unr] = drive_is_dualdrive_by_devnr(unr + 8) ? 2 : 1;
+
         /* FIXME: WIP, needs to be changed for TDE per drive */
 #ifndef TDE_PER_DRIVE
         resources_get_int("DriveTrueEmulation", &has_tde[unr]);
 #else
         resources_get_int_sprintf("Drive%iTrueEmulation", &has_tde[unr], unr + 8);
 #endif
-        if (SMW_B(m, (uint8_t)has_tde[unr]) < 0) {
+        if (0
+            || SMW_B(m, (uint8_t)has_tde[unr]) < 0
+            || SMW_B(m, (uint8_t)has_drives[unr]) < 0
+            ) {
             if (m != NULL) {
                 snapshot_module_close(m);
             }
             return -1;
         }
 
-        DBG(("writing snapshot module: '%s' with TDE %s\n", snap_module_name, has_tde[unr] ? "enabled" : "disabled"));
+        DBG(("writing snapshot module: '%s' with TDE %s, Drives: %i\n",
+             snap_module_name, has_tde[unr] ? "enabled" : "disabled", has_drives[unr]));
 
         if (has_tde[unr]) {
 
@@ -170,7 +177,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
                 return -1;
             }
 
-            for (dnr = 0; dnr < NUM_DRIVES; dnr++) {
+            for (dnr = 0; dnr < has_drives[unr]; dnr++) {
                 /* write info for each individual drive */
                 drive = unit->drives[dnr];
                 DBG(("unit %i drive %d (%p)\n", unr + 8, dnr, drive));
@@ -264,7 +271,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             /* FIXME: shouldnt we save the image also for vdrive? */
             if (has_tde[unr]) {
                 /* FIXME: is this correct? does the submodule save 2 images or do we have to do it here? */
-                for (dnr = 0; dnr < NUM_DRIVES; dnr++) {
+                for (dnr = 0; dnr < has_drives[unr]; dnr++) {
                     drive = diskunit_context[unr]->drives[dnr];
                     DBG(("drive image unit %i drive %i\n", unr + 8, dnr));
                     if (drive->GCR_image_loaded > 0) {
@@ -321,6 +328,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     drive_t *drive;
     diskunit_context_t *unit;
     int half_track[NUM_DISK_UNITS];
+    int has_drives[NUM_DISK_UNITS];
 
     drive_gcr_data_writeback_all();
 
@@ -352,7 +360,10 @@ int drive_snapshot_read_module(snapshot_t *s)
             return -1;
         }
 
-        if (SMR_B_INT(m, &has_tde[unr]) < 0) {
+        if (0
+            || SMR_B_INT(m, &has_tde[unr]) < 0
+            || SMR_B_INT(m, &has_drives[unr]) < 0
+            ) {
             snapshot_module_close(m);
             return -1;
         }
@@ -362,7 +373,8 @@ int drive_snapshot_read_module(snapshot_t *s)
         resources_set_int_sprintf("Drive%iTrueEmulation", has_tde[unr], unr + 8);
 #endif
 
-        DBG(("reading snapshot module: '%s' with TDE %s\n", snap_module_name, has_tde[unr] ? "enabled" : "disabled"));
+        DBG(("reading snapshot module: '%s' with TDE %s, Drives: %i\n",
+             snap_module_name, has_tde[unr] ? "enabled" : "disabled", has_drives[unr]));
 
         if (has_tde[unr]) {
 
@@ -372,7 +384,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 return -1;
             }
 
-            for (dnr = 0; dnr < NUM_DRIVES; dnr++) {
+            for (dnr = 0; dnr < has_drives[unr]; dnr++) {
                 /* read info for each individual drive */
                 drive = unit->drives[dnr];
                 DBG(("unit %i drive %d (%p)\n", unr + 8, dnr, drive));
@@ -511,7 +523,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         /* FIXME: shouldnt we save the image also for vdrive? */
         if (has_tde[unr]) {
             /* FIXME: is this correct? does the submodule save 2 images or do we have to do it here? */
-            for (dnr = 0; dnr < NUM_DRIVES; dnr++) {
+            for (dnr = 0; dnr < has_drives[unr]; dnr++) {
                 DBG(("drive image unit %i drive %i\n", unr + 8, dnr));
                 if (drive_snapshot_read_image_module(s, unr) < 0
                     || drive_snapshot_read_gcrimage_module(s, unr) < 0
