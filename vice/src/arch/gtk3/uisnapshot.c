@@ -87,10 +87,12 @@ static gchar *create_datetime_string(void)
  */
 static char *quicksnap_filename(void)
 {
-    return archdep_join_paths(archdep_user_config_path(),
-                              machine_get_name(),
-                              ".vsf",
-                              NULL);
+    char filename[4096];
+
+    /* construct the filename */
+    g_snprintf(filename, sizeof(filename), "%s.vsf", machine_get_name());
+
+    return archdep_join_paths(archdep_user_config_path(), filename, NULL);
 }
 
 
