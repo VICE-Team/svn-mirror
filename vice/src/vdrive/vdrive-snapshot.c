@@ -24,6 +24,9 @@
  *
  */
 
+/* FIXME: remove this when TDE per drive patch has been merged */
+/* #define TDE_PER_DRIVE */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -64,11 +67,14 @@ int vdrive_snapshot_module_write(snapshot_t *s)
     disk_image_t *image;
 
     for (i = DRIVE_UNIT_MIN; i <= DRIVE_UNIT_MAX; i++) {
+#ifndef TDE_PER_DRIVE
         /* FIXME: replace by new per drive resource */
         resources_get_int("DriveTrueEmulation", &tde);
         if ((tde == 0) || ((tde == 1) && (i > 9))) { /* old code passed 10 as start value when tde is on */
-        /*resources_get_int_sprintf("Drive%iTrueEmulation", &tde, i);
-          if (tde == 0) {*/
+#else
+        resources_get_int_sprintf("Drive%iTrueEmulation", &tde, i);
+        if (tde == 0) {
+#endif
             floppy = file_system_get_vdrive(i);
             for (j = DRIVE_NUMBER_MIN; j <= DRIVE_NUMBER_MAX; j++) {
                 image = vdrive_get_image(floppy, j);
@@ -95,11 +101,14 @@ int vdrive_snapshot_module_read(snapshot_t *s)
     char snap_module_name[SNAP_MODNAME_SIZE];
 
     for (i = DRIVE_UNIT_MIN; i <= DRIVE_UNIT_MAX; i++) {
+#ifndef TDE_PER_DRIVE
         /* FIXME: replace by new per drive resource */
         resources_get_int("DriveTrueEmulation", &tde);
         if ((tde == 0) || ((tde == 1) && (i > 9))) { /* old code passed 10 as start value when tde is on */
-        /*resources_get_int_sprintf("Drive%iTrueEmulation", &tde, i);
-          if (tde == 0) {*/
+#else
+        resources_get_int_sprintf("Drive%iTrueEmulation", &tde, i);
+        if (tde == 0) {
+#endif
             for (j = DRIVE_NUMBER_MIN; j <= DRIVE_NUMBER_MAX; j++) {
                 snprintf(snap_module_name, SNAP_MODNAME_SIZE, "VDRIVEIMAGE%i", i);
                 m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
