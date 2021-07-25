@@ -48,9 +48,6 @@
 /** \brief  List of supported RAM sizes
  */
 static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "64KiB",      64 },
-    { "128KiB",     128 },
-    { "256KiB",     256 },
     { "512KiB",     512 },
     { "1MiB",       1024 },
     { "2MiB",       2048 },

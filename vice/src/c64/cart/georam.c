@@ -71,9 +71,6 @@
  *
  * RAM size | $dfff
  * ------------------
- *    64k   | $00-$03
- *   128k   | $00-$07
- *   256k   | $00-$0f
  *   512k   | $00-$1f
  *  1024k   | $00-$3f
  *  2048k   | $00-$7f
@@ -339,9 +336,7 @@ static int set_georam_size(int val, void *param)
     }
 
     switch (val) {
-        case 64:
-        case 128:
-        case 256:
+        /* sizes smaller than 512k never existed */
         case 512:
         case 1024:
         case 2048:
