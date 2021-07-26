@@ -515,17 +515,17 @@ static CHECKYESNO check(const char *s, unsigned int blink_mode)
 
 /* ------------------------------------------------------------------------- */
 
-static void set_true_drive_emulation_mode(int on)
+static void set_true_drive_emulation_mode(int on, int unit)
 {
-    log_message(autostart_log, "Turning TDE %s.", on ? "on" : "off");
-    resources_set_int("DriveTrueEmulation", on);
+    log_message(autostart_log, "Turning TDE %s for unit %d.", on ? "on" : "off", unit);
+    resources_set_int_sprintf("Drive%dTrueEmulation", on, unit);
 }
 
-static int get_true_drive_emulation_state(void)
+static int get_true_drive_emulation_state(int unit)
 {
     int value;
 
-    if (resources_get_int("DriveTrueEmulation", &value) < 0) {
+    if (resources_get_int_sprintf("Drive%dTrueEmulation", &value, unit) < 0) {
         return 0;
     }
 
@@ -644,10 +644,10 @@ static void check_rom_area(void)
 static void init_drive_emulation_state(int unit, int drive)
 {
     DBG(("init_drive_emulation_state(unit: %d drive: %d) tde:%d traps:%d warp:%d",
-        unit, drive, get_true_drive_emulation_state(), get_device_traps_state(), get_warp_state()
+        unit, drive, get_true_drive_emulation_state(unit), get_device_traps_state(), get_warp_state()
     ));
     if (orig_drive_true_emulation_state == -1) {
-        orig_drive_true_emulation_state = get_true_drive_emulation_state();
+        orig_drive_true_emulation_state = get_true_drive_emulation_state(unit);
     }
     if (orig_device_traps_state == -1) {
         orig_device_traps_state = get_device_traps_state();
@@ -679,8 +679,8 @@ static void restore_drive_emulation_state(int unit, int drive)
     }
     if (orig_drive_true_emulation_state != -1) {
         /* set TDE to original state */
-        if (get_true_drive_emulation_state() != orig_drive_true_emulation_state) {
-            set_true_drive_emulation_mode(orig_drive_true_emulation_state);
+        if (get_true_drive_emulation_state(unit) != orig_drive_true_emulation_state) {
+            set_true_drive_emulation_mode(orig_drive_true_emulation_state, unit);
         }
     }
     if (orig_warp_mode != -1) {
@@ -711,7 +711,7 @@ static void restore_drive_emulation_state(int unit, int drive)
     autostart_type = -1;
 
     DBG(("restore_drive_emulation_state(unit: %d drive: %d) tde:%d traps:%d warp:%d", unit, drive,
-        get_true_drive_emulation_state(), get_device_traps_state(), get_warp_state()
+        get_true_drive_emulation_state(unit), get_device_traps_state(), get_warp_state()
     ));
 
 }
@@ -854,7 +854,7 @@ static void disk_eof_callback(void)
                 vdrive_get_last_read(&track, &sector, &buffer);
             }
         }
-        /* set_true_drive_emulation_mode(orig_drive_true_emulation_state); */
+        /* set_true_drive_emulation_mode(orig_drive_true_emulation_state, unit); */
         if (orig_drive_true_emulation_state) {
             if (buffer) {
                 log_message(autostart_log, "Restoring true drive state of drive %d:%d.",
@@ -991,7 +991,7 @@ static void advance_hasdisk(int unit, int drive)
             }
 
             DBG(("advance_hasdisk(%d) traps:%d tde:%d", unit,
-                 get_device_traps_state(), get_true_drive_emulation_state()));
+                 get_device_traps_state(), get_true_drive_emulation_state(unit)));
 
             /* now either device traps or TDE is enabled, but not both */
 
@@ -1037,7 +1037,7 @@ static void advance_hasdisk(int unit, int drive)
             /* autostartmode = AUTOSTART_LOADINGDISK; */
             /* if TDE is disabled during load, setup the callback that will
                copy the vdrive status into the TDE and complete the autostart */
-            if (!get_true_drive_emulation_state() && (autostart_type != AUTOSTART_PRG_VFS)) {
+            if (!get_true_drive_emulation_state(unit) && (autostart_type != AUTOSTART_PRG_VFS)) {
                 machine_bus_attention_callback_set(disk_attention_callback);
             }
 #endif
@@ -1060,7 +1060,7 @@ static void advance_hasdisk(int unit, int drive)
             deallocate_program_name();
             break;
         case NO:
-            orig_drive_true_emulation_state = get_true_drive_emulation_state();
+            orig_drive_true_emulation_state = get_true_drive_emulation_state(unit);
             orig_device_traps_state = get_device_traps_state();
             disable_warp_if_was_requested();
             autostart_disable();
@@ -1473,13 +1473,13 @@ static void setup_for_disk(int unit, int drive)
            enable TDE if device traps are disabled */
         if (orig_device_traps_state) {
             if (orig_drive_true_emulation_state) {
-                set_true_drive_emulation_mode(0);
+                set_true_drive_emulation_mode(0, unit);
             }
         } else {
             if (!orig_drive_true_emulation_state) {
-                set_true_drive_emulation_mode(1);
+                set_true_drive_emulation_mode(1, unit);
             }
-            if (!get_true_drive_emulation_state()) {
+            if (!get_true_drive_emulation_state(unit)) {
                 log_message(LOG_ERR, "True drive emulation is not enabled.");
                 set_device_traps_state(1);
                 if (!get_device_traps_state()) {
@@ -1506,7 +1506,7 @@ static void setup_for_disk(int unit, int drive)
     }
     DBG(("setup for disk: unit: %d drive: %d TDE: %s  Traps: %s handle TDE: %s",
         unit, drive,
-        get_true_drive_emulation_state() ? "on" : "off",
+        get_true_drive_emulation_state(unit) ? "on" : "off",
         get_device_traps_state() ? "on" : "off",
         handle_drive_true_emulation_overridden ? "yes" : "no"
         ));
@@ -1527,15 +1527,15 @@ static void setup_for_disk_ready(int unit, int drive)
 #if 0
             if (orig_drive_true_emulation_state) {
                 /* if traps are enabled, and TDE was on before autostart, disable it now */
-                set_true_drive_emulation_mode(0);
+                set_true_drive_emulation_mode(0, unit);
             }
 #endif
-            set_true_drive_emulation_mode(0);
+            set_true_drive_emulation_mode(0, unit);
         } else {
             if (!orig_drive_true_emulation_state) {
-                set_true_drive_emulation_mode(1);
+                set_true_drive_emulation_mode(1, unit);
             }
-            if (!get_true_drive_emulation_state()) {
+            if (!get_true_drive_emulation_state(unit)) {
                 log_message(LOG_ERR, "True drive emulation is not enabled.");
                 set_device_traps_state(1);
                 if (!get_device_traps_state()) {
@@ -1618,9 +1618,9 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
                 if (file_system_attach_disk(unit, drive, file_name) < 0) {
                     goto exiterror;
                 }
-                if (!get_true_drive_emulation_state()) {
+                if (!get_true_drive_emulation_state(unit)) {
                     log_message(autostart_log, "Turning TDE on to allow drive reset");
-                    set_true_drive_emulation_mode(1);
+                    set_true_drive_emulation_mode(1, unit);
                 }
                 log_message(autostart_log, "Resetting drive %d", unit);
                 drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
@@ -1644,15 +1644,15 @@ exiterror:
     return -1;
 }
 
-static void setup_for_prg_vfs(void)
+static void setup_for_prg_vfs(int unit)
 {
 #if 1
     if (handle_drive_true_emulation_overridden) {
         if (orig_drive_true_emulation_state) {
-            set_true_drive_emulation_mode(0);
+            set_true_drive_emulation_mode(0, unit);
         }
     }
-    if (get_true_drive_emulation_state()) {
+    if (get_true_drive_emulation_state(unit)) {
         log_message(LOG_ERR, "True drive emulation is still enabled.");
     }
 #endif
@@ -1664,7 +1664,7 @@ static void setup_for_prg_vfs(void)
     }
 
     DBG(("setup for prg VFS: TDE: %s  Traps: %s handle TDE: %s",
-        get_true_drive_emulation_state() ? "on" : "off",
+        get_true_drive_emulation_state(unit) ? "on" : "off",
         get_device_traps_state() ? "on" : "off",
         handle_drive_true_emulation_overridden ? "yes" : "no"
         ));
@@ -1675,10 +1675,10 @@ static void setup_for_prg_vfs_ready(void)
 {
     if (handle_drive_true_emulation_overridden) {
         if (orig_drive_true_emulation_state) {
-            set_true_drive_emulation_mode(0);
+            set_true_drive_emulation_mode(0, unit);
         }
     }
-    if (get_true_drive_emulation_state()) {
+    if (get_true_drive_emulation_state(unit)) {
         log_message(LOG_ERR, "True drive emulation is still enabled.");
     }
 }
@@ -1725,7 +1725,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
         case AUTOSTART_PRG_MODE_VFS:
             log_message(autostart_log, "Loading PRG file `%s' with virtual FS on unit #%d:%d.",
                         file_name, unit, drive);
-            setup_for_prg_vfs();
+            setup_for_prg_vfs(unit);
             result = autostart_prg_with_virtual_fs(unit, drive, file_name, finfo, autostart_log);
             mode = AUTOSTART_HASDISK;
             boot_file_name = (const char *)finfo->name;
@@ -1777,9 +1777,9 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             boot_file_name = (const char *)tempname;
             }
             /* enable TDE and reset the drive to prepare the eof callback */
-            if (!get_true_drive_emulation_state()) {
+            if (!get_true_drive_emulation_state(unit)) {
                 log_message(autostart_log, "Turning TDE on to allow drive reset");
-                set_true_drive_emulation_mode(1);
+                set_true_drive_emulation_mode(1, unit);
             }
             log_message(autostart_log, "Resetting drive %d", unit);
             drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);

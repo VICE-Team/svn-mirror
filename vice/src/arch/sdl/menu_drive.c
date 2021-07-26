@@ -150,7 +150,6 @@ static char *get_drive_type_string(int drive)
     }
 }
 
-UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
 UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 UI_MENU_DEFINE_TOGGLE(FSDeviceLongNames)
@@ -994,6 +993,11 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
 
+UI_MENU_DEFINE_TOGGLE(Drive8TrueEmulation)
+UI_MENU_DEFINE_TOGGLE(Drive9TrueEmulation)
+UI_MENU_DEFINE_TOGGLE(Drive10TrueEmulation)
+UI_MENU_DEFINE_TOGGLE(Drive11TrueEmulation)
+
 /* CAUTION: the position of the menu items is hardcoded in uidrive_menu_create() */
 #define DRIVE_MENU(x)                                           \
     static ui_menu_entry_t drive_##x##_menu[] = {               \
@@ -1046,6 +1050,11 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
         { "Save Drive " #x" FD2000/4000 RTC data",              \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           toggle_Drive##x##RTCSave_callback,                    \
+          NULL },                                               \
+        SDL_MENU_ITEM_SEPARATOR,                                \
+        { "Drive " #x" True Drive Emulation",                   \
+          MENU_ENTRY_RESOURCE_TOGGLE,                           \
+          toggle_Drive##x##TrueEmulation_callback,              \
           NULL },                                               \
         SDL_MENU_LIST_END                                       \
     };
@@ -1292,11 +1301,6 @@ ui_menu_entry_t drive_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)drive_11_menu },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "True drive emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DriveTrueEmulation_callback,
-      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     { "Drive sound emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,

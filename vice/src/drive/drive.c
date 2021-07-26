@@ -36,7 +36,7 @@
         - check for byte ready *within* `BVC', `BVS' and `PHP'.
         - serial bus handling might be faster.  */
 
-/* #define DEBUG_DRIVE */
+#define DEBUG_DRIVE
 
 #include "vice.h"
 
@@ -468,7 +468,8 @@ int drive_enable(diskunit_context_t *drv)
         return -1;
     }
 
-    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
+    DBG(("drive_enable unit: %d\n", 8 + drv->mynumber));
+    resources_get_int_sprintf("Drive%dTrueEmulation", &drive_true_emulation, 8 + drv->mynumber);
 
     /* Always disable kernal traps. */
     if (!drive_true_emulation) {
@@ -489,7 +490,8 @@ int drive_enable(diskunit_context_t *drv)
     /* resync */
     drv->cpu->stop_clk = *(drv->clk_ptr);
 
-    if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000 ||
+    if (drv->type == DRIVE_TYPE_2000 ||
+        drv->type == DRIVE_TYPE_4000 ||
         drv->type == DRIVE_TYPE_CMDHD) {
         drivecpu65c02_wake_up(drv);
     } else {
@@ -511,7 +513,8 @@ void drive_disable(diskunit_context_t *drv)
        drive initialization.  */
     drv->enable = 0;
 
-    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
+    DBG(("drive_disable unit: %d\n", 8 + drv->mynumber));
+    resources_get_int_sprintf("Drive%dTrueEmulation", &drive_true_emulation, 8 + drv->mynumber);
 
     if (rom_loaded) {
         if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000 ||
