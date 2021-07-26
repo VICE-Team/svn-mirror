@@ -180,7 +180,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             for (dnr = 0; dnr < has_drives[unr]; dnr++) {
                 /* write info for each individual drive */
                 drive = unit->drives[dnr];
-                DBG(("unit %i drive %d (%p)\n", unr + 8, dnr, drive));
+                DBG(("unit %i drive %d (%p)\n", unr + 8, dnr, (void *)drive));
                 if (0
                     || SMW_DW(m, (uint32_t)(drive->attach_clk)) < 0
                     || SMW_B(m, (uint8_t)(drive->byte_ready_level)) < 0
@@ -387,7 +387,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             for (dnr = 0; dnr < has_drives[unr]; dnr++) {
                 /* read info for each individual drive */
                 drive = unit->drives[dnr];
-                DBG(("unit %i drive %d (%p)\n", unr + 8, dnr, drive));
+                DBG(("unit %i drive %d (%p)\n", unr + 8, dnr, (void *)drive));
 
                 if (0
                     || SMR_DW(m, &(attach_clk[unr])) < 0
