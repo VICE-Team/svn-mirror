@@ -329,6 +329,7 @@ typedef struct drive_s {
     int wobble_factor;      /* calculated factor used in the rotation code */
     int wobble_frequency;   /* from the resource */
     int wobble_amplitude;   /* from the resource */
+    int true_emulation;     /* from the resource */
 
 } drive_t;
 

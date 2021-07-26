@@ -26,7 +26,7 @@
  */
 
 /* FIXME: remove this when TDE per drive patch has been merged */
-/* #define TDE_PER_DRIVE */
+#define TDE_PER_DRIVE
 
 #define DEBUG_DRIVESNAPSHOT
 

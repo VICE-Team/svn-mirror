@@ -264,6 +264,21 @@ static GtkWidget *create_drive_device_type_widget(int unit)
 }
 
 
+/** \brief  Create per-unit True Drive Emulation check button
+ *
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_drive_true_emulation_widget(int unit)
+{
+    return vice_gtk3_resource_check_button_new_sprintf(
+            "Drive%dTrueEmulation",
+            "Enable True Drive Emulation",
+            unit);
+}
+
+
 /** \brief  Create layout for xvic
  *
  * \param[in]   grid    main widget grid
@@ -291,6 +306,11 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
     drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+
+    /* true drive emulation check button */
+    gtk_grid_attach(GTK_GRID(wrapper),
+                    create_drive_true_emulation_widget(unit),
+                    0, 4, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
@@ -339,7 +359,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 
     /* row 0 & 1, column 0 */
 
-    wrapper = gtk_grid_new();
+    wrapper = vice_gtk3_grid_new_spaced(0, 16);
 
     drive_model[unit - DRIVE_UNIT_MIN] = drive_model_widget_create(unit);
     gtk_grid_attach(GTK_GRID(wrapper),
@@ -358,7 +378,14 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     g_object_set(drive_size[unit - DRIVE_UNIT_MIN], "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(wrapper), drive_size[unit - DRIVE_UNIT_MIN],
             0, 3, 1, 1);
+
+    /* true drive emulation check button */
+    gtk_grid_attach(GTK_GRID(wrapper),
+                    create_drive_true_emulation_widget(unit),
+                    0, 4, 1, 1);
+
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
+
 
     /* row 0, column 1 */
     drive_ram[unit - DRIVE_UNIT_MIN] = drive_ram_widget_create(unit);
@@ -423,6 +450,11 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
 
+    /* true drive emulation check button */
+    gtk_grid_attach(GTK_GRID(wrapper),
+                    create_drive_true_emulation_widget(unit),
+                    0, 4, 1, 1);
+
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
     /* row 0 & 1, column 2 */
@@ -479,6 +511,11 @@ static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
             unit, iec_callback);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_options[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
+
+    /* true drive emulation check button */
+    gtk_grid_attach(GTK_GRID(wrapper),
+                    create_drive_true_emulation_widget(unit),
+                    0, 4, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
@@ -560,7 +597,9 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *wrapper;
+#if 0
     GtkWidget *tde;
+#endif
     GtkWidget *sound;
     GtkWidget *stack;
     GtkWidget *switcher;
@@ -570,19 +609,19 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     int unit;
 
     /* three column wide grid */
-    layout = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(layout), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(layout), 16);
+    layout = vice_gtk3_grid_new_spaced(16, 16);
 
     wrapper = gtk_grid_new();
     g_object_set(wrapper, "margin-left", 16, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
+#if 0
     tde = vice_gtk3_resource_check_button_new("DriveTrueEmulation",
             "True drive emulation");
     gtk_grid_attach(GTK_GRID(wrapper), tde, 0, 0, 1, 1);
+#endif
     sound = vice_gtk3_resource_check_button_new("DriveSoundEmulation",
             "Drive sound emulation");
-    gtk_grid_attach(GTK_GRID(wrapper), sound, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), sound, 0, 0, 1, 1);
 
     volume_wrapper = gtk_grid_new();
     label = gtk_label_new("Drive volume:");
@@ -590,7 +629,7 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     g_object_set(volume, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(volume_wrapper), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(volume_wrapper), volume, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), volume_wrapper, 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), volume_wrapper, 1, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 0, 1, 1);
 
