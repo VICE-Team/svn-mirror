@@ -109,9 +109,9 @@ static gboolean value_is_valid(GtkWidget *widget, uint64_t value)
 {
     int has_limits = GPOINTER_TO_INT(
             g_object_get_data(G_OBJECT(widget), "HasLimits"));
-
+#if 0
     debug_gtk3("Has-Limits = %s", has_limits ? "True" : "False");
-
+#endif
     if (!has_limits) {
         /* no limits set, must be valid */
         return TRUE;
@@ -129,10 +129,10 @@ static gboolean value_is_valid(GtkWidget *widget, uint64_t value)
 
         int allow_zero = GPOINTER_TO_INT(
                 g_object_get_data(G_OBJECT(widget), "AllowZero"));
-
+#if 0
         debug_gtk3("Checking against $%" PRIx64 " - $%" PRIx64 ", allow-zero: %s",
                 min, max, allow_zero ? "True" : "False");
-
+#endif
         if (allow_zero && value == 0) {
             return TRUE;
         }
@@ -172,9 +172,9 @@ static gboolean input_is_valid(GtkWidget *widget, gpointer data)
     if (*endptr != '\0') {
         /* possible suffix */
         int i;
-
+#if 0
         debug_gtk3("Got possible suffix '%c'", *endptr);
-
+#endif
         if (endptr == text) {
             /* missing digits */
             return FALSE;
@@ -182,14 +182,18 @@ static gboolean input_is_valid(GtkWidget *widget, gpointer data)
 
         for (i = 0; units[i].factor > 0; i++) {
             if (toupper(*endptr) == units[i].suffix) {
+#if 0
                 debug_gtk3("Found valid suffix '%d' -> %" PRIu64,
                         toupper(*endptr), units[i].factor);
+#endif
                 factor = units[i].factor;
                 break;
             }
         }
         if (units[i].suffix < 0) {
+#if 0
             debug_gtk3("Invalid suffix.");
+#endif
             return FALSE;
         }
 
@@ -197,8 +201,9 @@ static gboolean input_is_valid(GtkWidget *widget, gpointer data)
             return FALSE;
         }
     }
-
+#if 0
     debug_gtk3("result = %lld", result * factor);
+#endif
     return value_is_valid(widget, result * factor);
 
 }
@@ -206,7 +211,7 @@ static gboolean input_is_valid(GtkWidget *widget, gpointer data)
 
 /** \brief  Event handler for the 'changed' event
  *
- * Get's triggered after accepting/refusing any key input. so we check the input
+ * Gets triggered after accepting/refusing any key input. so we check the input
  * for validity here, and also add a visual hint via CSS.
  *
  * \param[in,out]   widget  widget
@@ -243,9 +248,9 @@ static gboolean on_focus_out_event(
 
     value = gtk_entry_get_text(GTK_ENTRY(entry));
     resource = resource_widget_get_resource_name(GTK_WIDGET(entry));
-
+#if 0
     debug_gtk3("Got '%s' with Enter for '%s;", value, resource);
-
+#endif
     if (resources_set_string(resource, value) < 0) {
         debug_gtk3("Implement proper error popup");
     }
@@ -410,10 +415,10 @@ void vice_gtk3_resource_numeric_string_set_limits(GtkWidget *widget,
     min_hi = min >> 32U;
     max_lo = max & G_MAXUINT32;
     max_hi = max >> 32U;
-
+#if 0
     debug_gtk3("min_lo = %" PRIu32 ", min_hi = %" PRIu32, min_lo, min_hi);
     debug_gtk3("max_lo = %" PRIu32 ", max_hi = %" PRIu32, max_lo, max_hi);
-
+#endif
     g_object_set_data(G_OBJECT(widget), "HasLimits", GINT_TO_POINTER(TRUE));
     g_object_set_data(G_OBJECT(widget), "AllowZero", GINT_TO_POINTER(allow_zero));
     g_object_set_data(G_OBJECT(widget), "ResourceMinLo", GUINT_TO_POINTER(min_lo));
