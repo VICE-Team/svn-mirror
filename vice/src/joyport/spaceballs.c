@@ -119,6 +119,9 @@ static uint8_t spaceballs_read(int port)
 
 /* ------------------------------------------------------------------------- */
 
+static int spaceballs_write_snapshot(struct snapshot_s *s, int p);
+static int spaceballs_read_snapshot(struct snapshot_s *s, int p);
+
 static joyport_t joyport_spaceballs_device = {
     "Joystick Adapter (Spaceballs)",  /* name of the device */
     JOYPORT_RES_ID_NONE,              /* device can be used in multiple ports at the same time */
@@ -131,8 +134,8 @@ static joyport_t joyport_spaceballs_device = {
     NULL,                             /* NO digital line store function */
     NULL,                             /* NO pot-x read function */
     NULL,                             /* NO pot-y read function */
-    NULL,                             /* NO device write snapshot function */
-    NULL                              /* NO device read snapshot function */
+    spaceballs_write_snapshot,        /* device write snapshot function */
+    spaceballs_read_snapshot          /* device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */
@@ -172,3 +175,63 @@ static userport_device_t userport_spaceballs_device = {
     0,                               /* device involved in a read collision, to be filled in by the collision detection system */
     0                                /* a tag to indicate the order of insertion */
 };
+
+/* ------------------------------------------------------------------------- */
+
+/* SPACEBALLS snapshot module format:
+
+   type  |   name  | description
+   ----------------------------------
+   BYTE  | GROUNDS | userport PBx state
+ */
+
+static char snap_module_name[] = "SPACEBALLS";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+static int spaceballs_write_snapshot(struct snapshot_s *s, int p)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0 
+        || SMW_B(m, spaceballs_grounds) < 0) {
+            snapshot_module_close(m);
+            return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int spaceballs_read_snapshot(struct snapshot_s *s, int p)
+{
+    uint8_t major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || SMR_B(m, &spaceballs_grounds) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}

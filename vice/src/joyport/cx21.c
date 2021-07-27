@@ -32,6 +32,7 @@
 
 #include "joyport.h"
 #include "keyboard.h"
+#include "snapshot.h"
 
 #include "cx21.h"
 
@@ -234,6 +235,9 @@ static uint8_t cx21_read_poty(int joyport)
 
 /* ------------------------------------------------------------------------- */
 
+static int cx21_write_snapshot(struct snapshot_s *s, int port);
+static int cx21_read_snapshot(struct snapshot_s *s, int port);
+
 static joyport_t joyport_cx21_device = {
     "Keypad (Atari CX21)",    /* name of the device */
     JOYPORT_RES_ID_KEYPAD,    /* device is a keypad, only 1 keypad can be active at the same time */
@@ -246,8 +250,8 @@ static joyport_t joyport_cx21_device = {
     cx21_store_dig,           /* digital line store function */
     cx21_read_potx,           /* pot-x read function */
     cx21_read_poty,           /* pot-y read function */
-    NULL,                     /* NO device write snapshot function */
-    NULL                      /* NO device read snapshot function */
+    cx21_write_snapshot,      /* device write snapshot function */
+    cx21_read_snapshot        /* device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */
@@ -255,4 +259,64 @@ static joyport_t joyport_cx21_device = {
 int joyport_cx21_resources_init(void)
 {
     return joyport_device_register(JOYPORT_ID_CX21_KEYPAD, &joyport_cx21_device);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* CX21 snapshot module format:
+
+   type  | name | description
+   ----------------------------------
+   BYTE  | PORT | PORT register state
+ */
+
+static char snap_module_name[] = "CX21";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+static int cx21_write_snapshot(struct snapshot_s *s, int p)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0 
+        || SMW_B(m, port) < 0) {
+            snapshot_module_close(m);
+            return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int cx21_read_snapshot(struct snapshot_s *s, int p)
+{
+    uint8_t major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || SMR_B(m, &port) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
