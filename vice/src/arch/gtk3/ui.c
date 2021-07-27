@@ -2028,7 +2028,7 @@ int ui_extend_image_dialog(void)
          * Shutdown code is executed by the UI thread, not the vice thread.
          * And this code can be called during shutdown.
          */
-        extendimage_dialog(NULL, msg);
+        extendimage_dialog_result = extendimage_dialog(NULL, msg);
     }
 
     return extendimage_dialog_result;
