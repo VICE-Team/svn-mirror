@@ -61,13 +61,15 @@ C64/C128 | CBM2 | SNES PAD | I/O
 
 static int userport_superpad64_enabled = 0;
 
-static int counter = 0;
+static uint8_t counter = 0;
 
 static uint8_t latch_line = 0;
 
 /* Some prototypes are needed */
 static void userport_superpad64_read_pbx(void);
 static void userport_superpad64_store_pa2(uint8_t value);
+static int userport_superpad64_write_snapshot_module(snapshot_t *s);
+static int userport_superpad64_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t userport_superpad64_device = {
     USERPORT_DEVICE_SUPERPAD64,              /* device id */
@@ -92,6 +94,12 @@ static userport_device_t userport_superpad64_device = {
 };
 
 static userport_device_list_t *userport_superpad64_list_item = NULL;
+
+static userport_snapshot_t superpad64_snapshot = {
+    USERPORT_DEVICE_SUPERPAD64,
+    userport_superpad64_write_snapshot_module,
+    userport_superpad64_read_snapshot_module
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -134,6 +142,8 @@ static const resource_int_t resources_int[] = {
 
 int userport_superpad64_resources_init(void)
 {
+    userport_snapshot_register(&superpad64_snapshot);
+
     return resources_register_int(resources_int);
 }
 
@@ -318,4 +328,69 @@ static void userport_superpad64_read_pbx(void)
     if (counter < SNESPAD_EOS) {
         counter++;
     }
+}
+
+/* ---------------------------------------------------------------------*/
+
+/* USERPORT_SUPERPAD64 snapshot module format:
+
+   type  | name    | description
+   -----------------------------
+   BYTE  | COUNTER | current count
+   BYTE  | LATCH   | latch line state
+ */
+
+static char snap_module_name[] = "USERPORT_SUPERPAD64";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+static int userport_superpad64_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, counter) < 0)
+        || (SMW_B(m, latch_line) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int userport_superpad64_read_snapshot_module(snapshot_t *s)
+{
+    uint8_t major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_superpad64_enabled(1, NULL);
+
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || (SMR_B(m, &counter) < 0)
+        || (SMR_B(m, &latch_line) < 0)) {
+        goto fail;
+    }
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
