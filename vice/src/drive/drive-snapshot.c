@@ -26,9 +26,7 @@
  */
 
 /* FIXME: remove this when TDE per drive patch has been merged */
-#define TDE_PER_DRIVE
-
-#define DEBUG_DRIVESNAPSHOT
+/* #define DEBUG_DRIVESNAPSHOT */
 
 #include "vice.h"
 
@@ -147,12 +145,8 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 
         has_drives[unr] = drive_is_dualdrive_by_devnr(unr + 8) ? 2 : 1;
 
-        /* FIXME: WIP, needs to be changed for TDE per drive */
-#ifndef TDE_PER_DRIVE
-        resources_get_int("DriveTrueEmulation", &has_tde[unr]);
-#else
         resources_get_int_sprintf("Drive%iTrueEmulation", &has_tde[unr], unr + 8);
-#endif
+
         if (0
             || SMW_B(m, (uint8_t)has_tde[unr]) < 0
             || SMW_B(m, (uint8_t)has_drives[unr]) < 0
@@ -367,11 +361,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             snapshot_module_close(m);
             return -1;
         }
-#ifndef TDE_PER_DRIVE
-        resources_set_int("DriveTrueEmulation", has_tde[unr]);
-#else
         resources_set_int_sprintf("Drive%iTrueEmulation", has_tde[unr], unr + 8);
-#endif
 
         DBG(("reading snapshot module: '%s' with TDE %s, Drives: %i\n",
              snap_module_name, has_tde[unr] ? "enabled" : "disabled", has_drives[unr]));
