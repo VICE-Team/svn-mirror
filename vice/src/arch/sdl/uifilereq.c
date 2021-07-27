@@ -504,7 +504,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             if (inputstring == NULL) {
                                 redraw = 1;
                             } else {
-                                if (archdep_path_is_relative(inputstring) && (strchr(inputstring, FSDEV_DIR_SEP_CHR) != NULL)) {
+                                if (!archdep_path_is_relative(inputstring) && (strchr(inputstring, FSDEV_DIR_SEP_CHR) != NULL)) {
                                     retval = inputstring;
                                 } else {
                                     retval = util_concat(current_dir, FSDEV_DIR_SEP_STR, inputstring, NULL);
