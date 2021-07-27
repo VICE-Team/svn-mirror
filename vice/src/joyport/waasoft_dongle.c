@@ -48,10 +48,10 @@
 
 static int joyport_waasoft_dongle_enabled = 0;
 
-static int counter = 0;
+static uint8_t counter = 0;
 
 static uint8_t waasoft_reset_line = 1;
-static uint8_t waasoft_clock_line  = 1;
+static uint8_t waasoft_clock_line = 1;
 
 static uint8_t waasoft_values[15] = {
     0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00
@@ -98,6 +98,9 @@ static void waasoft_dongle_store_dig(uint8_t val)
 
 /* ------------------------------------------------------------------------- */
 
+static int waasoft_write_snapshot(struct snapshot_s *s, int p);
+static int waasoft_read_snapshot(struct snapshot_s *s, int p);
+
 static joyport_t joyport_waasoft_dongle_device = {
     "Dongle (WaaSoft)",            /* name of the device */
     JOYPORT_RES_ID_WAASOFT,        /* device is of the waasoft type, only 1 of this type can be active at the same time */
@@ -110,8 +113,8 @@ static joyport_t joyport_waasoft_dongle_device = {
     waasoft_dongle_store_dig,      /* digital line store function */
     NULL,                          /* NO pot-x read function */
     waasoft_dongle_read_poty,      /* pot-y read function */
-    NULL,                          /* NO device write snapshot function */
-    NULL                           /* NO device read snapshot function */
+    waasoft_write_snapshot,        /* device write snapshot function */
+    waasoft_read_snapshot          /* device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */
@@ -119,4 +122,70 @@ static joyport_t joyport_waasoft_dongle_device = {
 int joyport_waasoft_dongle_resources_init(void)
 {
     return joyport_device_register(JOYPORT_ID_WAASOFT_DONGLE, &joyport_waasoft_dongle_device);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* WAASOFT snapshot module format:
+
+   type  |   name  | description
+   ----------------------------------
+   BYTE  | COUNTER | counter value
+   BYTE  | RESET   | reset line state
+   BYTE  | CLOCK   | clock line state
+ */
+
+static char snap_module_name[] = "WAASOFT";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+static int waasoft_write_snapshot(struct snapshot_s *s, int p)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0 
+        || SMW_B(m, counter) < 0
+        || SMW_B(m, waasoft_reset_line) < 0
+        || SMW_B(m, waasoft_clock_line) < 0) {
+            snapshot_module_close(m);
+            return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int waasoft_read_snapshot(struct snapshot_s *s, int p)
+{
+    uint8_t major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || SMR_B(m, &counter) < 0
+        || SMR_B(m, &waasoft_reset_line) < 0
+        || SMR_B(m, &waasoft_clock_line) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

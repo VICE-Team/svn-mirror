@@ -52,7 +52,7 @@
 
 static int inception_enabled = 0;
 
-static int counter = INCEPTION_STATE_IDLE;
+static uint8_t counter = INCEPTION_STATE_IDLE;
 
 static uint8_t clock_line = 1;
 
@@ -182,6 +182,9 @@ static void inception_store(uint8_t val)
 
 /* ------------------------------------------------------------------------- */
 
+static int inception_write_snapshot(struct snapshot_s *s, int port);
+static int inception_read_snapshot(struct snapshot_s *s, int port);
+
 static joyport_t joyport_inception_device = {
     "Joystick Adapter (Inception)",   /* name of the device */
     JOYPORT_RES_ID_NONE,              /* device can be used in multiple ports at the same time */
@@ -194,8 +197,8 @@ static joyport_t joyport_inception_device = {
     inception_store,                  /* digital line store function */
     NULL,                             /* NO pot-x read function */
     NULL,                             /* NO pot-y read function */
-    NULL,                             /* NO device write snapshot function */
-    NULL                              /* NO device read snapshot function */
+    inception_write_snapshot,         /* device write snapshot function */
+    inception_read_snapshot           /* device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */
@@ -203,4 +206,67 @@ static joyport_t joyport_inception_device = {
 int joyport_inception_resources_init(void)
 {
     return joyport_device_register(JOYPORT_ID_INCEPTION, &joyport_inception_device);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* INCEPTION snapshot module format:
+
+   type  |   name  | description
+   ----------------------------------
+   BYTE  | COUNTER | counter value
+   BYTE  | CLOCK   | clock line state
+ */
+
+static char snap_module_name[] = "INCEPTION";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+static int inception_write_snapshot(struct snapshot_s *s, int p)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0 
+        || SMW_B(m, counter) < 0
+        || SMW_B(m, clock_line) < 0) {
+            snapshot_module_close(m);
+            return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int inception_read_snapshot(struct snapshot_s *s, int p)
+{
+    uint8_t major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || SMR_B(m, &counter) < 0
+        || SMR_B(m, &clock_line) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }

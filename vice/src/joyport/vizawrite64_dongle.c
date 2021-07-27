@@ -40,7 +40,7 @@
 
 static int joyport_vizawrite64_dongle_enabled = 0;
 
-static int counter = 0;
+static uint8_t counter = 0;
 
 static uint8_t values[6] = {
     0x55, 0x55, 0xaa, 0xaa, 0xff, 0xff
@@ -79,6 +79,9 @@ static uint8_t vizawrite64_dongle_read_poty(int port)
 
 /* ------------------------------------------------------------------------- */
 
+static int vizawrite64_write_snapshot(struct snapshot_s *s, int p);
+static int vizawrite64_read_snapshot(struct snapshot_s *s, int p);
+
 static joyport_t joyport_vizawrite64_dongle_device = {
     "Dongle (VizaWrite 64)",           /* name of the device */
     JOYPORT_RES_ID_VIZAWRITE64,        /* device is of the vizawrite64 type, only 1 of this type can be active at the same time */
@@ -91,8 +94,8 @@ static joyport_t joyport_vizawrite64_dongle_device = {
     NULL,                              /* NO digital line store function */
     vizawrite64_dongle_read_potx,      /* pot-x read function */
     vizawrite64_dongle_read_poty,      /* pot-y read function */
-    NULL,                              /* NO device write snapshot function */
-    NULL                               /* NO device read snapshot function */
+    vizawrite64_write_snapshot,        /* device write snapshot function */
+    vizawrite64_read_snapshot          /* device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */
@@ -100,4 +103,64 @@ static joyport_t joyport_vizawrite64_dongle_device = {
 int joyport_vizawrite64_dongle_resources_init(void)
 {
     return joyport_device_register(JOYPORT_ID_VIZAWRITE64_DONGLE, &joyport_vizawrite64_dongle_device);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* VIZAWRITE64 snapshot module format:
+
+   type  |   name  | description
+   ----------------------------------
+   BYTE  | COUNTER | counter value
+ */
+
+static char snap_module_name[] = "VIZAWRITE64";
+#define SNAP_MAJOR   0
+#define SNAP_MINOR   0
+
+static int vizawrite64_write_snapshot(struct snapshot_s *s, int p)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0 
+        || SMW_B(m, counter) < 0) {
+            snapshot_module_close(m);
+            return -1;
+    }
+    return snapshot_module_close(m);
+}
+
+static int vizawrite64_read_snapshot(struct snapshot_s *s, int p)
+{
+    uint8_t major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (0
+        || SMR_B(m, &counter) < 0) {
+        goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    snapshot_module_close(m);
+    return -1;
 }
