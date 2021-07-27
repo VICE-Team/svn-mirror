@@ -1998,22 +1998,37 @@ static gboolean ui_extendimage_dialog_impl(gpointer user_data)
  */
 int ui_extend_image_dialog(void)
 {
-    /*
-     * We need to use the main thread to do UI stuff. And we
-     * also need to block the VICE thread until we get the
-     * user decision.
-     */
-    extendimage_dialog_result = UI_EXTEND_IMAGE_INVALID;
-    /* FIXME: ideally we would somehow get the drive and perhaps name of the
-              mounted image and put it into the message. */
-    gdk_threads_add_timeout(0, ui_extendimage_dialog_impl,
-        "The drive has written to tracks that are not included in the currently\n"
-        "mounted image. Do you want to write those extra tracks into the current\n"
-        "image?" );
+    const char * const msg =
+        "  The drive has written to tracks that are not included in the currently  \n"
+        "  mounted image. Do you want to write those extra tracks into the current  \n"
+        "  image?";
+    
+    if (console_mode) {
+        /* XXX: Can't really ask, so make a decision. */
+        return UI_EXTEND_IMAGE_ALWAYS;
+    }
+    
+    if (mainlock_is_vice_thread()) {
+        /*
+         * We need to use the main thread to do UI stuff. And we
+         * also need to block the VICE thread until we get the
+         * user decision.
+         */
+        extendimage_dialog_result = UI_EXTEND_IMAGE_INVALID;
+        /* FIXME: ideally we would somehow get the drive and perhaps name of the
+                  mounted image and put it into the message. */
+        gdk_threads_add_timeout(0, ui_extendimage_dialog_impl, (void *)msg);
 
-    /* block until the result is set */
-    while (extendimage_dialog_result == UI_EXTEND_IMAGE_INVALID) {
-        tick_sleep(tick_per_second() / 60);
+        /* block until the result is set */
+        while (extendimage_dialog_result == UI_EXTEND_IMAGE_INVALID) {
+            tick_sleep(tick_per_second() / 60);
+        }
+    } else {
+        /*
+         * Shutdown code is executed by the UI thread, not the vice thread.
+         * And this code can be called during shutdown.
+         */
+        extendimage_dialog(NULL, msg);
     }
 
     return extendimage_dialog_result;
