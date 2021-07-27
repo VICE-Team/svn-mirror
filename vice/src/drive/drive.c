@@ -36,7 +36,7 @@
         - check for byte ready *within* `BVC', `BVS' and `PHP'.
         - serial bus handling might be faster.  */
 
-#define DEBUG_DRIVE
+/* #define DEBUG_DRIVE */
 
 #include "vice.h"
 
