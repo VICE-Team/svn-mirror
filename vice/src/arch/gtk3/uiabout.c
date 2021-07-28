@@ -169,16 +169,20 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     /* set version string */
 #ifdef USE_SVN_REVISION
     g_snprintf(version, VERSION_STRING_MAX,
-            "%s r%s (GTK3 %d.%d.%d, GLib %d.%d.%d)",
+            "%s r%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cario %s, Pango %s)",
             VERSION, VICE_SVN_REV_STRING,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
-            GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
+            GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION,
+            cairo_version_string(),
+            pango_version_string());
 #else
     g_snprintf(version, VERSION_STRING_MAX,
-            "%s (GTK3 %d.%d.%d, GLib %d.%d.%d)",
+            "%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cairo %s, Pango %s)",
             VERSION,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
-            GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
+            GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION,
+            cairo_version_string(),
+            pango_version_string());
 #endif
 
     if (archdep_get_runtime_info(&runtime_info)) {
