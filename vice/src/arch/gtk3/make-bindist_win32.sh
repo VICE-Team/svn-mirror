@@ -234,6 +234,48 @@ mkdir $BUILDPATH/common
 cp $TOPBUILDDIR/data/common/vice.gresource $BUILDPATH/common
 cp $TOPSRCDIR/data/common/C64_Pro_Mono-STYLE.ttf $BUILDPATH/common
 
+# HACK: MSYS2 Pango 1.46+ breaks font layout, so we extract the .dll files from Pango 1.45
+# If this breaks, or you think it's time to try the latest MSYS2 Pango package, try
+# commenting this section out.
+
+PANGO_CACHE=$TOPSRCDIR/data/pango-1.45
+if [ ! -d $PANGO_CACHE ]; then
+  mkdir $PANGO_CACHE
+fi
+pushd $PANGO_CACHE > /dev/null
+  if [ ! -f libpango-1.0-0.dll -o ! -f libpangocairo-1.0-0.dll -o ! -f libpangoft2-1.0-0.dll -o ! -f libpangowin32-1.0-0.dll ]; then
+    echo "Downloading MSYS2 Pango 1.45 DLLs ..."
+    rm -f *
+    if $(gcc -v 2>&1 | grep ^Target: | awk '{ print $2 }' | grep ^x86_64 -q); then
+      # 64-bit
+      wget -q https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-pango-1.48.5-1-any.pkg.tar.zst
+      wget -q https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-pango-1.48.5-1-any.pkg.tar.zst.sig
+    else
+      # 32-bit
+      wget -q https://repo.msys2.org/mingw/mingw32/mingw-w64-i686-pango-1.48.5-1-any.pkg.tar.zst
+      wget -q https://repo.msys2.org/mingw/mingw32/mingw-w64-i686-pango-1.48.5-1-any.pkg.tar.zst.sig
+    fi
+
+    # verify sig
+    echo "Verifying MSYS2 Pango 1.45 signature ..."
+    if ! $(gpg --homedir=/etc/pacman.d/gnupg --verify *.sig *.zst 2> /dev/null); then
+      >&2 echo "ERROR: Could not verify signature of Pango 1.45 package, aborting"
+      exit 1
+    fi
+
+    # extract dlls into cache folder
+    tar xf *.zst --wildcards --strip-components=2 "*.dll"
+    rm *.sig *.zst
+  else
+    echo "Copying cached MSYS2 Pango 1.45 DLLs ..."
+  fi
+
+  # Copy pango dlls into bindist.
+  cp libpango-1.0-0.dll libpangocairo-1.0-0.dll libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll \
+    $BUILDPATH/bin
+popd > /dev/null
+
+
 if test x"$HTML_DOCS" = "xyes"; then
     cp -a $TOPSRCDIR/doc/html $BUILDPATH
     cp -a -u $TOPBUILDDIR/doc/html $BUILDPATH
