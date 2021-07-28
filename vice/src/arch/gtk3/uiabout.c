@@ -169,7 +169,7 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     /* set version string */
 #ifdef USE_SVN_REVISION
     g_snprintf(version, VERSION_STRING_MAX,
-            "%s r%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cario %s, Pango %s)",
+            "%s r%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cairo %s, Pango %s)",
             VERSION, VICE_SVN_REV_STRING,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
             GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION,
