@@ -24,10 +24,13 @@
  *
  */
 
+#define DEBUG_SERIAL
+
 #include "vice.h"
 
 #include <stdio.h>
 
+#include "iecbus.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "serial-iec-bus.h"
@@ -37,6 +40,11 @@
 #include "serial.h"
 #include "types.h"
 
+#ifdef DEBUG_SERIAL
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
@@ -65,7 +73,7 @@ static void (*eof_callback_func)(void);
 /* Function to call when the `serialattention()' trap is called.  */
 static void (*attention_callback_func)(void);
 
-static unsigned int serial_truedrive;
+static unsigned int serial_truedrive[IECBUS_NUM];
 
 #define IS_PRINTER(d)   (((d) & DEVNR_MASK) >= 4 && ((d) & DEVNR_MASK) <= 7)
 
@@ -107,7 +115,7 @@ int serial_trap_attention(void)
      */
     b = mem_read(((uint8_t)(BSOUR))); /* BSOUR - character for serial bus */
 
-    if (serial_truedrive && !IS_PRINTER(b)) {
+    if (serial_truedrive[b & DEVNR_MASK] && !IS_PRINTER(b)) {
         if (((b & 0xf0) == LISTEN) || ((b & 0xf0) == TALK)) {
             /* Set TrapDevice even if the trap is not taken; needed
                for other traps.  */
@@ -162,7 +170,7 @@ int serial_trap_send(void)
 {
     uint8_t data;
 
-    if (serial_truedrive && !IS_PRINTER(TrapDevice)) {
+    if (serial_truedrive[TrapDevice & DEVNR_MASK] && !IS_PRINTER(TrapDevice)) {
         return 0;
     }
 
@@ -189,7 +197,7 @@ int serial_trap_receive(void)
 {
     uint8_t data;
 
-    if (serial_truedrive && !IS_PRINTER(TrapDevice)) {
+    if (serial_truedrive[TrapDevice & DEVNR_MASK] && !IS_PRINTER(TrapDevice)) {
         return 0;
     }
 
@@ -225,7 +233,7 @@ int serial_trap_receive(void)
 
 int serial_trap_ready(void)
 {
-    if (serial_truedrive && !IS_PRINTER(TrapDevice)) {
+    if (serial_truedrive[TrapDevice & DEVNR_MASK] && !IS_PRINTER(TrapDevice)) {
         return 0;
     }
 
@@ -278,7 +286,8 @@ void serial_trap_attention_callback_set(void (*func)(void))
     attention_callback_func = func;
 }
 
-void serial_trap_truedrive_set(unsigned int flag)
+void serial_trap_truedrive_set(unsigned int unit, unsigned int flag)
 {
-    serial_truedrive = flag;
+    DBG(("serial_trap_truedrive_set unit: %u flag: %u\n", unit, flag));
+    serial_truedrive[unit] = flag;
 }

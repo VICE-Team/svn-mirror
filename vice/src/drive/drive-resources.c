@@ -24,7 +24,7 @@
  *
  */
 
-/* #define DEBUGDRIVE */
+#define DEBUGDRIVE
 
 #include "vice.h"
 
@@ -71,13 +71,8 @@ static int set_drive_true_emulation(int val, void *param)
     diskunit_context[thisdnr]->drives[0]->true_emulation = thistde;
     diskunit_context[thisdnr]->drives[1]->true_emulation = thistde;
 
-    /* set machine_bus_status_truedrive_set(1) if TDE is enabled on any drive */
-    /* FIXME: this should be also per drive */
-    machine_bus_status_truedrive_set(0);
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        if (diskunit_context[dnr]->drives[0]->true_emulation) {
-            machine_bus_status_truedrive_set(1);
-        }
+        machine_bus_status_truedrive_set(dnr + 8, diskunit_context[dnr]->drives[0]->true_emulation);
     }
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         if (diskunit_context[dnr]->drives[0]->true_emulation) {

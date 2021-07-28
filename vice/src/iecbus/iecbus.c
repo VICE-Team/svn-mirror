@@ -24,6 +24,8 @@
  *
  */
 
+#define DEBUG_IECBUS
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -40,6 +42,11 @@
 #include "serial.h"
 #include "drive/iec/cmdhd.h"
 
+#ifdef DEBUG_IECBUS
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
 
 #define IECBUS_DEVICE_NONE      0
 #define IECBUS_DEVICE_TRUEDRIVE 1
@@ -500,16 +507,17 @@ static const unsigned int iecbus_device_index[16] = {
     IECBUS_DEVICE_IECDEVICE
 };
 
-void iecbus_status_set(unsigned int type, unsigned int unit,
-                       unsigned int enable)
+void iecbus_status_set(unsigned int type, unsigned int unit, unsigned int enable)
 {
-    static unsigned int truedrive, drivetype[IECBUS_NUM], iecdevice[IECBUS_NUM],
+    static unsigned int truedrive[IECBUS_NUM], drivetype[IECBUS_NUM], iecdevice[IECBUS_NUM],
                         virtualdevices;
     unsigned int dev;
 
+    DBG(("iecbus_status_set unit: %u type: %u enabled: %u ", unit, type, enable));
+
     switch (type) {
         case IECBUS_STATUS_TRUEDRIVE:
-            truedrive = enable ? (1 << 3) : 0;
+            truedrive[unit] = enable ? (1 << 3) : 0;
             break;
         case IECBUS_STATUS_DRIVETYPE:
             drivetype[unit] = enable ? (1 << 2) : 0;
@@ -518,6 +526,7 @@ void iecbus_status_set(unsigned int type, unsigned int unit,
             iecdevice[unit] = enable ? (1 << 1) : 0;
             break;
         case IECBUS_STATUS_VIRTUALDEVICES:
+            /* FIXME: make per drive */
             virtualdevices = enable ? (1 << 0) : 0;
             break;
     }
@@ -525,8 +534,16 @@ void iecbus_status_set(unsigned int type, unsigned int unit,
     for (dev = 0; dev < IECBUS_NUM; dev++) {
         unsigned int index;
 
-        index = truedrive | drivetype[dev] | iecdevice[dev] | virtualdevices;
+        index = truedrive[dev] | drivetype[dev] | iecdevice[dev] | virtualdevices;
         iecbus_device[dev] = iecbus_device_index[index];
+#ifdef DEBUG_IECBUS
+        DBG(("iecbus_status_set dev: %u uses: ", dev));
+        switch(iecbus_device[dev]) {
+            case IECBUS_DEVICE_NONE: DBG(("IECBUS_DEVICE_NONE\n")); break;
+            case IECBUS_DEVICE_IECDEVICE: DBG(("IECBUS_DEVICE_IECDEVICE\n")); break;
+            case IECBUS_DEVICE_TRUEDRIVE: DBG(("IECBUS_DEVICE_TRUEDRIVE\n")); break;
+        }
+#endif
     }
 
     calculate_callback_index();

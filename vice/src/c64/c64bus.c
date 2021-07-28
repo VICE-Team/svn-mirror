@@ -24,6 +24,8 @@
  *
  */
 
+#define DEBUG_C64BUS
+
 #include "vice.h"
 
 #include "iecbus.h"
@@ -31,6 +33,13 @@
 #include "parallel.h"
 #include "serial.h"
 #include "types.h"
+
+#ifdef DEBUG_C64BUS
+#include <stdio.h>
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 int machine_bus_lib_directory(unsigned int unit, const char *pattern, uint8_t **buf)
 {
@@ -52,14 +61,16 @@ unsigned int machine_bus_device_type_get(unsigned int unit)
     return serial_device_type_get(unit);
 }
 
-void machine_bus_status_truedrive_set(unsigned int enable)
+void machine_bus_status_truedrive_set(unsigned int unit, unsigned int enable)
 {
-    iecbus_status_set(IECBUS_STATUS_TRUEDRIVE, 0, enable);
-    serial_trap_truedrive_set(enable);
+    DBG(("machine_bus_status_truedrive_set unit: %u enable: %u\n", unit, enable));
+    iecbus_status_set(IECBUS_STATUS_TRUEDRIVE, unit, enable);
+    serial_trap_truedrive_set(unit, enable);
 }
 
 void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
 {
+    DBG(("machine_bus_status_drivetype_set unit: %u enable: %u\n", unit, enable));
     iecbus_status_set(IECBUS_STATUS_DRIVETYPE, unit, enable);
 }
 
