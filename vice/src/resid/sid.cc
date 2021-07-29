@@ -510,7 +510,9 @@ void SID::debugoutput(void)
 void SID::enable_raw_debug_output(bool enable)
 {
     raw_debug_output = enable;
-    printf("reSID raw output %s\n", enable ? "enabled" : "disabled");
+    if (enable) {
+        std::cout << "reSID: raw output enabled." << std::endl;
+    }
 }
 
 // ----------------------------------------------------------------------------

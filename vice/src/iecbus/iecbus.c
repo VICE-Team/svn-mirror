@@ -43,7 +43,8 @@
 #include "drive/iec/cmdhd.h"
 
 #ifdef DEBUG_IECBUS
-#define DBG(x)  printf x
+#include "log.h"
+#define DBG(x)  log_debug x
 #else
 #define DBG(x)
 #endif
@@ -513,7 +514,7 @@ void iecbus_status_set(unsigned int type, unsigned int unit, unsigned int enable
                         virtualdevices;
     unsigned int dev;
 
-    DBG(("iecbus_status_set unit: %u type: %u enabled: %u ", unit, type, enable));
+    DBG(("iecbus_status_set unit: %u type: %u enabled: %u", unit, type, enable));
 
     switch (type) {
         case IECBUS_STATUS_TRUEDRIVE:
@@ -536,14 +537,9 @@ void iecbus_status_set(unsigned int type, unsigned int unit, unsigned int enable
 
         index = truedrive[dev] | drivetype[dev] | iecdevice[dev] | virtualdevices;
         iecbus_device[dev] = iecbus_device_index[index];
-#ifdef DEBUG_IECBUS
-        DBG(("iecbus_status_set dev: %u uses: ", dev));
-        switch(iecbus_device[dev]) {
-            case IECBUS_DEVICE_NONE: DBG(("IECBUS_DEVICE_NONE\n")); break;
-            case IECBUS_DEVICE_IECDEVICE: DBG(("IECBUS_DEVICE_IECDEVICE\n")); break;
-            case IECBUS_DEVICE_TRUEDRIVE: DBG(("IECBUS_DEVICE_TRUEDRIVE\n")); break;
-        }
-#endif
+        DBG(("iecbus_status_set dev: %u uses: %s", dev,
+             iecbus_device[dev] == IECBUS_DEVICE_IECDEVICE ? "IECBUS_DEVICE_IECDEVICE" :
+             iecbus_device[dev] == IECBUS_DEVICE_TRUEDRIVE ? "IECBUS_DEVICE_TRUEDRIVE" : "IECBUS_DEVICE_NONE"));
     }
 
     calculate_callback_index();

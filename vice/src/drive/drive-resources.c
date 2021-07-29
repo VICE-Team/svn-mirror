@@ -49,7 +49,7 @@
 #include "vdrive.h"
 
 #ifdef DEBUGDRIVE
-#define DBG(x)  printf x
+#define DBG(x)  log_debug x
 #else
 #define DBG(x)
 #endif
@@ -65,7 +65,7 @@ static int set_drive_true_emulation(int val, void *param)
     unsigned int thistde = val ? 1 : 0;
     unsigned int thisdnr = vice_ptr_to_int(param);
 
-    DBG(("set_drive_true_emulation unit %u enabled: %u\n", thisdnr + 8, thistde));
+    DBG(("set_drive_true_emulation unit %u enabled: %u", thisdnr + 8, thistde));
 
     /* always enable TDE on both units of a drive */
     diskunit_context[thisdnr]->drives[0]->true_emulation = thistde;
