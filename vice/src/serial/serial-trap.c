@@ -28,8 +28,6 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-
 #include "iecbus.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -41,7 +39,8 @@
 #include "types.h"
 
 #ifdef DEBUG_SERIAL
-#define DBG(x)  printf x
+#include "log.h"
+#define DBG(x)  log_debug x
 #else
 #define DBG(x)
 #endif
@@ -288,6 +287,6 @@ void serial_trap_attention_callback_set(void (*func)(void))
 
 void serial_trap_truedrive_set(unsigned int unit, unsigned int flag)
 {
-    DBG(("serial_trap_truedrive_set unit: %u flag: %u\n", unit, flag));
+    DBG(("serial_trap_truedrive_set unit: %u flag: %u", unit, flag));
     serial_truedrive[unit] = flag;
 }

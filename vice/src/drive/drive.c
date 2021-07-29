@@ -76,7 +76,7 @@
 #include "monitor.h"
 
 #ifdef DEBUG_DRIVE
-#define DBG(x) printf x
+#define DBG(x) log_debug x
 #else
 #define DBG(x)
 #endif
@@ -468,7 +468,7 @@ int drive_enable(diskunit_context_t *drv)
         return -1;
     }
 
-    DBG(("drive_enable unit: %d\n", 8 + drv->mynumber));
+    DBG(("drive_enable unit: %d", 8 + drv->mynumber));
     resources_get_int_sprintf("Drive%dTrueEmulation", &drive_true_emulation, 8 + drv->mynumber);
 
     /* Always disable kernal traps. */
@@ -513,7 +513,7 @@ void drive_disable(diskunit_context_t *drv)
        drive initialization.  */
     drv->enable = 0;
 
-    DBG(("drive_disable unit: %d\n", 8 + drv->mynumber));
+    DBG(("drive_disable unit: %d", 8 + drv->mynumber));
     resources_get_int_sprintf("Drive%dTrueEmulation", &drive_true_emulation, 8 + drv->mynumber);
 
     if (rom_loaded) {
@@ -699,7 +699,7 @@ void drive_gcr_data_writeback(drive_t *drive)
         return;
     }
     /* when trying beyond the image, check if we should extend the image */
-    DBG(("check track: %u > drive->image->tracks: %u\n", track, drive->image->tracks));
+    DBG(("check track: %u > drive->image->tracks: %u", track, drive->image->tracks));
     if (track > drive->image->tracks) {
         /* FIXME: doublesided images cant be extended with this logic, so
                   never do it */
@@ -748,15 +748,15 @@ void drive_gcr_data_writeback(drive_t *drive)
             end_half_track = half_track + 2;
         }
         /* write all tracks up to the end of the image */
-        DBG(("extend track: %u drive->image->max_half_tracks: %u drive->image->tracks: %u\n", track, drive->image->max_half_tracks, drive->image->tracks));
+        DBG(("extend track: %u drive->image->max_half_tracks: %u drive->image->tracks: %u", track, drive->image->max_half_tracks, drive->image->tracks));
         while (half_track < end_half_track) {
-            DBG(("write halftrack: %u end: %u track: %u\n", half_track, end_half_track, half_track / 2));
+            DBG(("write halftrack: %u end: %u track: %u", half_track, end_half_track, half_track / 2));
             disk_image_write_half_track(drive->image, half_track, &drive->gcr->tracks[half_track - 2]);
             half_track += 2;
         }
     } else {
         /* write (only) the requested track */
-        DBG(("write track: %u drive->image->max_half_tracks: %u drive->image->tracks: %u\n", track, drive->image->max_half_tracks, drive->image->tracks));
+        DBG(("write track: %u drive->image->max_half_tracks: %u drive->image->tracks: %u", track, drive->image->max_half_tracks, drive->image->tracks));
         disk_image_write_half_track(drive->image, half_track, &drive->gcr->tracks[half_track - 2]);
     }
 

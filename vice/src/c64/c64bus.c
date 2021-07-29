@@ -35,8 +35,8 @@
 #include "types.h"
 
 #ifdef DEBUG_C64BUS
-#include <stdio.h>
-#define DBG(x) printf x
+#include "log.h"
+#define DBG(x) log_debug x
 #else
 #define DBG(x)
 #endif
@@ -63,14 +63,14 @@ unsigned int machine_bus_device_type_get(unsigned int unit)
 
 void machine_bus_status_truedrive_set(unsigned int unit, unsigned int enable)
 {
-    DBG(("machine_bus_status_truedrive_set unit: %u enable: %u\n", unit, enable));
+    DBG(("machine_bus_status_truedrive_set unit: %u enable: %u", unit, enable));
     iecbus_status_set(IECBUS_STATUS_TRUEDRIVE, unit, enable);
     serial_trap_truedrive_set(unit, enable);
 }
 
 void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
 {
-    DBG(("machine_bus_status_drivetype_set unit: %u enable: %u\n", unit, enable));
+    DBG(("machine_bus_status_drivetype_set unit: %u enable: %u", unit, enable));
     iecbus_status_set(IECBUS_STATUS_DRIVETYPE, unit, enable);
 }
 
