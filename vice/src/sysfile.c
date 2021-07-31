@@ -69,7 +69,7 @@ static int set_system_path(const char *val, void *param)
     current_dir = ioutil_current_dir();
 
     tmp_path = tmp_path_save; /* tmp_path points into tmp_path_save */
-    do {
+    for (;;) {
         p = strstr(tmp_path, ARCHDEP_FINDPATH_SEPARATOR_STRING);
 
         if (p != NULL) {
@@ -99,9 +99,13 @@ static int set_system_path(const char *val, void *param)
         }
         lib_free(expanded_system_path);
         expanded_system_path = s;
+        
+        if (p == NULL) {
+            break;
+        }
 
         tmp_path = p + strlen(ARCHDEP_FINDPATH_SEPARATOR_STRING);
-    } while (p != NULL);
+    }
 
     lib_free(current_dir);
     lib_free(tmp_path_save);
