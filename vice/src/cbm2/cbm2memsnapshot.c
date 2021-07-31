@@ -210,11 +210,13 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     cart6_ram = config & 16;
     cartC_ram = config & 32;
 
+#if 0 /* I think these are left over from earlier code, there are no corresponding writes in mem_write_ram_snapshot_module -- dqh */
     if (memsize < 4) {
         SMR_BA(m, mem_ram + 0x10000, memsize << 17);
     } else {
         SMR_BA(m, mem_ram, memsize << 17);
     }
+#endif
 
     if (memsize < 4) {  /* if 1M memory, bank 15 is included */
         if (config & 1) {
