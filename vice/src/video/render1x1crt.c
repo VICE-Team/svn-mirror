@@ -76,8 +76,8 @@ render_generic_1x1_crt(video_render_color_tables_t *color_tab, const uint8_t *sr
                         const unsigned int pixelstride,
                         int yuvtarget)
 {
-    const int32_t *cbtable = color_tab->cbtable;
-    const int32_t *crtable = color_tab->crtable;
+    const int32_t *cbtable;
+    const int32_t *crtable;
     const int32_t *ytablel = color_tab->ytablel;
     const int32_t *ytableh = color_tab->ytableh;
     const uint8_t *tmpsrc;
