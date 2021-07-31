@@ -39,7 +39,6 @@
 #include "vice_gtk3.h"
 #include "drive-check.h"
 #include "drive.h"
-#include "driveoptionswidget.h"
 #include "driveparallelcablewidget.h"
 #include "drivewidgethelpers.h"
 #include "machine-drive.h"
