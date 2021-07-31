@@ -146,11 +146,11 @@ char *findpath(const char *cmd, const char *syspath, const char *subpath, int mo
         pd = buf + 1;
     } else {
         const char *path = syspath;
-        const char *s;
+        const char *s = path;
         size_t cl = strlen(cmd) + 1;
         size_t spl = subpath ? strlen(subpath) + 1 : 0;
 
-        for (s = path; s; path = s + 1) {
+        for (;;) {
             char * p;
             int l;
 
@@ -195,6 +195,12 @@ char *findpath(const char *cmd, const char *syspath, const char *subpath, int mo
                 pd = p /* + cl*/;
                 break;
             }
+            
+            if (s == NULL) {
+                break;
+            }
+                
+            path = s + 1;
         }
     }
 
