@@ -64,8 +64,8 @@ GtkWidget *drive_fixed_size_widget_create(int unit)
     g_object_set_data(G_OBJECT(grid), "Unit", GINT_TO_POINTER(unit));
 
     label = gtk_label_new("CMD-HD fixed size");
-    g_object_set(label, "margin-left", 16, "margin-top", 8, NULL);
-    gtk_widget_set_hexpand(label, TRUE);
+//    g_object_set(label, "margin-left", 0, "margin-top", 8, NULL);
+//    gtk_widget_set_hexpand(label, TRUE);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 

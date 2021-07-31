@@ -66,7 +66,6 @@ libwidgets_a_SOURCES = \
 	drivefsdevicewidget.c \
 	driveidlemethodwidget.c \
 	drivemodelwidget.c \
-	driveoptionswidget.c \
 	driveparallelcablewidget.c \
 	driveramwidget.c \
 	driverpmwidget.c \
@@ -226,7 +225,6 @@ EXTRA_DIST = \
 	drivefsdevicewidget.h \
 	driveidlemethodwidget.h \
 	drivemodelwidget.h \
-	driveoptionswidget.h \
 	driveparallelcablewidget.h \
 	driveramwidget.h \
 	driverpmwidget.h \
