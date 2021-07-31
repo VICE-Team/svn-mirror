@@ -64,6 +64,7 @@ static pthread_t main_thread;
 #endif
 
 #include "archdep_exit.h"
+#include "log.h"
 
 
 static volatile bool is_exiting;
@@ -74,6 +75,12 @@ bool archdep_is_exiting(void) {
 
 static void actually_exit(int exit_code)
 {
+    if (is_exiting) {
+        log_message(LOG_DEFAULT, "Ignoring recursive call to archdep_vice_exit()");
+        return;
+    }
+    is_exiting = true;
+    
     /* Some exit stuff not safe to run afer exit() is called so we do it here */
     main_exit();
 
@@ -159,7 +166,6 @@ void archdep_set_main_thread(void)
  */
 void archdep_vice_exit(int exit_code)
 {
-    is_exiting = true;
     vice_exit_code = exit_code;
 
     if (pthread_equal(pthread_self(), main_thread)) {
