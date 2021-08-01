@@ -37,7 +37,6 @@
 #include "serial.h"
 #include "log.h"
 #include "maincpu.h"
-#include "clkguard.h"
 #include "serial-iec-bus.h"
 
 void serial_iec_device_enable(unsigned int devnr);
@@ -179,23 +178,6 @@ static int serial_iec_device_inited = 0;
 static serial_iec_device_state_t serial_iec_device_state[IECBUS_NUM];
 
 
-static void serial_iec_device_clk_overflow_callback(CLOCK sub, void *data)
-{
-    unsigned int i;
-
-#if IEC_DEVICE_DEBUG > 0
-    log_message(serial_iec_device_log,
-                "serial_iec_device_clk_overflow_callback(%u)", sub);
-#endif
-
-    for (i = 0; i < IECBUS_NUM; i++) {
-        if (serial_iec_device_state[i].timeout > (CLOCK)0) {
-            serial_iec_device_state[i].timeout -= sub;
-        }
-    }
-}
-
-
 void serial_iec_device_init(void)
 {
     unsigned int i;
@@ -203,8 +185,6 @@ void serial_iec_device_init(void)
     serial_iec_device_log = log_open("Serial-IEC-Device");
     log_message(serial_iec_device_log, "serial_iec_device_init()");
 #endif
-
-    clk_guard_add_callback(maincpu_clk_guard, serial_iec_device_clk_overflow_callback, NULL);
 
     for (i = 0; i < IECBUS_NUM; i++) {
         serial_iec_device_state[i].enabled = 0;

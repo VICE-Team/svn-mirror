@@ -34,7 +34,6 @@
 
 #include "acia.h"
 #include "alarm.h"
-#include "clkguard.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "log.h"
@@ -521,30 +520,6 @@ int myacia_init_cmdline_options(void)
 /******************************************************************/
 /* auxiliary functions */
 
-/*! \internal \brief Prevent clock overflow by adjusting clock value
-
- \param sub
-   The number of clock ticks to adjust the clock by subtracting
-   from the current value
-
- \param var
-   The data as has been given to clk_guard_add_callback() as
-   3rd parameter. For this implementation, always NULL.
-
- \remark
-   In order to prevent a clock overflow, the system is able
-   to subtract a given amount from the clock values. When this
-   happens, this function is called in order for the module to
-   adjust its own values.
-*/
-static void clk_overflow_callback(CLOCK sub, void *var)
-{
-    assert(var == NULL);
-
-    acia.alarm_clk_tx -= sub;
-    acia.alarm_clk_rx -= sub;
-}
-
 /*! \internal \brief Get the modem status and set the status register accordingly
 
  This function reads the physical modem status lines (DSR, DCD)
@@ -668,8 +643,6 @@ void myacia_init(void)
     acia.alarm_tx = alarm_new(mycpu_alarm_context, MYACIA, int_acia_tx, NULL);
     acia.alarm_rx = alarm_new(mycpu_alarm_context, MYACIA, int_acia_rx, NULL);
 
-    clk_guard_add_callback(mycpu_clk_guard, clk_overflow_callback, NULL);
-
     if (acia.log == LOG_ERR) {
         acia.log = log_open(MYACIA);
     }
@@ -723,7 +696,7 @@ void myacia_reset(void)
  */
 
 #define ACIA_DUMP_VER_MAJOR      1 /*!< the major version number of the dump data */
-#define ACIA_DUMP_VER_MINOR      0 /*!< the minor version number of the dump data */
+#define ACIA_DUMP_VER_MINOR      1 /*!< the minor version number of the dump data */
 
 /*
  * Layout of the dump data:
@@ -736,9 +709,9 @@ void myacia_reset(void)
  *
  * UBYTE        IN_TX   0 = no data to tx; 2 = TDR valid; 1 = in transmit (cf. enum acia_tx_state)
  *
- * DWORD        TICKSTX ticks till the next TDR empty interrupt
+ * QWORD        TICKSTX ticks till the next TDR empty interrupt
  *
- * DWORD        TICKSRX ticks till the next RDF empty interrupt
+ * QWORD        TICKSRX ticks till the next RDF empty interrupt
  *                      TICKSRX has been added with 2.0.9; if it does not
  *                      exist on read, it is assumed that it has the same
  *                      value as TICKSTX to emulate the old behaviour.
@@ -767,8 +740,8 @@ static const char module_name[] = MYACIA;
 int myacia_snapshot_write_module(snapshot_t *p)
 {
     snapshot_module_t *m;
-    uint32_t act;
-    uint32_t aar;
+    CLOCK act;
+    CLOCK aar;
 
     m = snapshot_module_create(p, module_name, ACIA_DUMP_VER_MAJOR, ACIA_DUMP_VER_MINOR);
 
@@ -795,8 +768,8 @@ int myacia_snapshot_write_module(snapshot_t *p)
             || SMW_B(m, acia.cmd) < 0
             || SMW_B(m, acia.ctrl) < 0
             || SMW_B(m, (uint8_t)(acia.in_tx)) < 0
-            || SMW_DW(m, act) < 0
-            || SMW_DW(m, aar) < 0) {
+            || SMW_CLOCK(m, act) < 0
+            || SMW_CLOCK(m, aar) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -829,8 +802,8 @@ int myacia_snapshot_read_module(snapshot_t *p)
 {
     uint8_t vmajor, vminor;
     uint8_t byte;
-    uint32_t dword1;
-    uint32_t dword2;
+    CLOCK qword1;
+    CLOCK qword2;
     snapshot_module_t *m;
 
     alarm_unset(acia.alarm_tx);   /* just in case we don't find module */
@@ -859,7 +832,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
             || SMR_B(m, &acia.cmd) < 0
             || SMR_B(m, &acia.ctrl) < 0
             || SMR_B(m, &byte) < 0
-            || SMR_DW(m, &dword1) < 0) {
+            || SMR_CLOCK(m, &qword1) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -887,8 +860,8 @@ int myacia_snapshot_read_module(snapshot_t *p)
 
     acia.in_tx = byte;
 
-    if (dword1) {
-        acia.alarm_clk_tx = myclk + dword1;
+    if (qword1) {
+        acia.alarm_clk_tx = myclk + qword1;
         alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
         acia.alarm_active_tx = 1;
 
@@ -898,7 +871,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
          * if we have a new snapshot (2.0.9 and up), this will be
          * overwritten directly afterwards.
          */
-        acia.alarm_clk_rx = myclk + dword1;
+        acia.alarm_clk_rx = myclk + qword1;
         alarm_set(acia.alarm_rx, acia.alarm_clk_rx);
         acia.alarm_active_rx = 1;
     }
@@ -907,9 +880,9 @@ int myacia_snapshot_read_module(snapshot_t *p)
      * this is new with VICE 2.0.9; thus, only use the settings
      * if it does exist.
      */
-    if (SMR_DW(m, &dword2) >= 0) {
-        if (dword2) {
-            acia.alarm_clk_rx = myclk + dword2;
+    if (SMR_CLOCK(m, &qword2) >= 0) {
+        if (qword2) {
+            acia.alarm_clk_rx = myclk + qword2;
             alarm_set(acia.alarm_rx, acia.alarm_clk_rx);
             acia.alarm_active_rx = 1;
         } else {

@@ -38,7 +38,6 @@
 #include "c64pla.h"
 #endif
 
-#include "clkguard.h"
 #include "debug.h"
 #include "interrupt.h"
 #include "machine.h"
@@ -437,7 +436,6 @@ static void maincpu_generic_dma(void)
 
 struct interrupt_cpu_status_s *maincpu_int_status = NULL;
 alarm_context_t *maincpu_alarm_context = NULL;
-clk_guard_t *maincpu_clk_guard = NULL;
 monitor_interface_t *maincpu_monitor_interface = NULL;
 
 /* This flag is an obsolete optimization. It's always 0 for the x64sc CPU,
@@ -786,7 +784,7 @@ unsigned int maincpu_get_sp(void) {
 
 static char snap_module_name[] = "MAINCPU";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 1
+#define SNAP_MINOR 2
 
 int maincpu_snapshot_write_module(snapshot_t *s)
 {
@@ -799,7 +797,7 @@ int maincpu_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_DW(m, maincpu_clk) < 0
+        || SMW_CLOCK(m, maincpu_clk) < 0
         || SMW_B(m, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
@@ -844,9 +842,8 @@ int maincpu_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
-        || SMR_DW(m, &maincpu_clk) < 0
+        || SMR_CLOCK(m, &maincpu_clk) < 0
         || SMR_B(m, &a) < 0
         || SMR_B(m, &x) < 0
         || SMR_B(m, &y) < 0

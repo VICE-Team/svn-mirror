@@ -189,7 +189,6 @@ noinst_HEADERS = \
 	cbmimage.h \
 	charset.h \
 	cia.h \
-	clkguard.h \
 	clipboard.h \
 	cmdline.h \
 	crt.h \
@@ -319,7 +318,6 @@ base_sources = \
 	cbmimage.c \
 	charset.c \
 	clipboard.c \
-	clkguard.c \
 	cmdline.c \
 	color.c \
 	crc32.c \

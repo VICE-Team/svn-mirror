@@ -37,7 +37,6 @@
 #include "autostart.h"
 #include "bbrtc.h"
 #include "cartio.h"
-#include "clkguard.h"
 #include "crtc-mem.h"
 #include "crtc.h"
 #include "datasette.h"
@@ -593,7 +592,7 @@ static void pet_crtc_signal(unsigned int signal)
 
 /* ------------------------------------------------------------------------- */
 
-void machine_handle_pending_alarms(int num_write_cycles)
+void machine_handle_pending_alarms(CLOCK num_write_cycles)
 {
 }
 
@@ -795,19 +794,11 @@ void machine_specific_shutdown(void)
 /* This hook is called at the end of every frame.  */
 static void machine_vsync_hook(void)
 {
-    CLOCK sub;
-
     autostart_advance();
 
     drive_vsync_hook();
 
     screenshot_record();
-
-    sub = clk_guard_prevent_overflow(maincpu_clk_guard);
-
-    /* The drive has to deal both with our overflowing and its own one, so
-       it is called even when there is no overflowing in the main CPU.  */
-    drive_cpu_prevent_clk_overflow_all(sub);
 }
 
 /* Dummy - no restore key.  */
@@ -872,7 +863,6 @@ void machine_change_timing(int timeval, int border_mode)
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec, machine_timing.cycles_per_sec);
     sound_set_machine_parameter(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
-    clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 #endif
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);

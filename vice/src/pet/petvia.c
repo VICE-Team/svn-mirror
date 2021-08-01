@@ -232,7 +232,7 @@ static uint8_t read_prb(via_context_t *via_context)
 void via_init(via_context_t *via_context)
 {
     viacore_init(machine_context.via, maincpu_alarm_context,
-                 maincpu_int_status, maincpu_clk_guard);
+                 maincpu_int_status);
 }
 
 void petvia_setup_context(machine_context_t *machinecontext)

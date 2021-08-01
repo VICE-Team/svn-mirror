@@ -125,6 +125,16 @@ static int snapshot_write_dword(FILE *f, uint32_t data)
     return 0;
 }
 
+static int snapshot_write_qword(FILE *f, uint64_t data)
+{
+    if (snapshot_write_dword(f, (uint32_t)(data & 0xffffffff)) < 0
+        || snapshot_write_dword(f, (uint32_t)(data >> 32)) < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
 static int snapshot_write_double(FILE *f, double data)
 {
     uint8_t *byte_data = (uint8_t *)&data;
@@ -250,6 +260,18 @@ static int snapshot_read_dword(FILE *f, uint32_t *dw_return)
     return 0;
 }
 
+static int snapshot_read_qword(FILE *f, uint64_t *qw_return)
+{
+    uint32_t lo, hi;
+
+    if (snapshot_read_dword(f, &lo) < 0 || snapshot_read_dword(f, &hi) < 0) {
+        return -1;
+    }
+
+    *qw_return = lo | ((uint64_t)hi << 32);
+    return 0;
+}
+
 static int snapshot_read_double(FILE *f, double *d_return)
 {
     int i;
@@ -368,6 +390,16 @@ int snapshot_module_write_dword(snapshot_module_t *m, uint32_t dw)
     return 0;
 }
 
+int snapshot_module_write_qword(snapshot_module_t *m, uint64_t qw)
+{
+    if (snapshot_write_qword(m->file, qw) < 0) {
+        return -1;
+    }
+
+    m->size += 8;
+    return 0;
+}
+
 int snapshot_module_write_double(snapshot_module_t *m, double db)
 {
     if (snapshot_write_double(m->file, db) < 0) {
@@ -461,6 +493,16 @@ int snapshot_module_read_dword(snapshot_module_t *m, uint32_t *dw_return)
     }
 
     return snapshot_read_dword(m->file, dw_return);
+}
+
+int snapshot_module_read_qword(snapshot_module_t *m, uint64_t *qw_return)
+{
+    if (ftell(m->file) + sizeof(uint64_t) > m->offset + m->size) {
+        snapshot_error = SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR;
+        return -1;
+    }
+
+    return snapshot_read_qword(m->file, qw_return);
 }
 
 int snapshot_module_read_double(snapshot_module_t *m, double *db_return)
@@ -565,6 +607,17 @@ int snapshot_module_read_dword_into_uint(snapshot_module_t *m, unsigned int *val
         return -1;
     }
     *value_return = (unsigned int)b;
+    return 0;
+}
+
+int snapshot_module_read_qword_into_int64(snapshot_module_t *m, int64_t *value_return)
+{
+    uint64_t qw;
+
+    if (snapshot_module_read_qword(m, &qw) < 0) {
+        return -1;
+    }
+    *value_return = (int64_t)qw;
     return 0;
 }
 

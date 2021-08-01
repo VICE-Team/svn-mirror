@@ -1375,9 +1375,9 @@ int ata_register_dump(ata_drive_t *drv)
 int ata_snapshot_write_module(ata_drive_t *drv, snapshot_t *s)
 {
     snapshot_module_t *m;
-    uint32_t spindle_clk = CLOCK_MAX;
-    uint32_t head_clk = CLOCK_MAX;
-    uint32_t standby_clk = CLOCK_MAX;
+    CLOCK spindle_clk = CLOCK_MAX;
+    CLOCK head_clk = CLOCK_MAX;
+    CLOCK standby_clk = CLOCK_MAX;
     off_t pos = 0;
 
     m = snapshot_module_create(s, drv->myname,
@@ -1429,9 +1429,9 @@ int ata_snapshot_write_module(ata_drive_t *drv, snapshot_t *s)
     SMW_B(m, (uint8_t)drv->wcache);
     SMW_B(m, (uint8_t)drv->lookahead);
     SMW_B(m, (uint8_t)drv->busy);
-    SMW_DW(m, spindle_clk);
-    SMW_DW(m, head_clk);
-    SMW_DW(m, standby_clk);
+    SMW_CLOCK(m, spindle_clk);
+    SMW_CLOCK(m, head_clk);
+    SMW_CLOCK(m, standby_clk);
     SMW_DW(m, drv->standby);
     SMW_DW(m, drv->standby_max);
 
@@ -1443,9 +1443,9 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
     char *filename = NULL;
-    uint32_t spindle_clk;
-    uint32_t head_clk;
-    uint32_t standby_clk;
+    CLOCK spindle_clk;
+    CLOCK head_clk;
+    CLOCK standby_clk;
     int pos, type;
 
     m = snapshot_module_open(s, drv->myname, &vmajor, &vminor);
@@ -1544,9 +1544,9 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
         drv->lookahead = 1;
     }
     SMR_B_INT(m, &drv->busy);
-    SMR_DW(m, &spindle_clk);
-    SMR_DW(m, &head_clk);
-    SMR_DW(m, &standby_clk);
+    SMR_CLOCK(m, &spindle_clk);
+    SMR_CLOCK(m, &head_clk);
+    SMR_CLOCK(m, &standby_clk);
     SMR_DW_INT(m, &drv->standby);
     SMR_DW_INT(m, &drv->standby_max);
     drv->busy &= 0x03;

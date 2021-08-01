@@ -48,7 +48,6 @@
 #include "cbm2tpi.h"
 #include "cbm2ui.h"
 #include "cia.h"
-#include "clkguard.h"
 #include "datasette.h"
 #include "debug.h"
 #include "debugcart.h"
@@ -630,12 +629,6 @@ static void c500_powerline_clk_alarm_handler(CLOCK offset, void *data)
     SIGNAL_VERT_BLANK_ON
 }
 
-static void c500_powerline_clk_overflow_callback(CLOCK sub, void *data)
-{
-    c500_powerline_clk -= sub;
-}
-
-
 /*
  * C500 extra data (state of 50Hz clk)
  */
@@ -659,7 +652,7 @@ int cbm2_c500_snapshot_write_module(snapshot_t *p)
         return -1;
     }
 
-    SMW_DW(m, c500_powerline_clk - maincpu_clk);
+    SMW_CLOCK(m, c500_powerline_clk - maincpu_clk);
 
     snapshot_module_close(m);
 
@@ -670,7 +663,7 @@ int cbm2_c500_snapshot_read_module(snapshot_t *p)
 {
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
-    uint32_t dword;
+    CLOCK qword;
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL) {
@@ -682,8 +675,8 @@ int cbm2_c500_snapshot_read_module(snapshot_t *p)
         return -1;
     }
 
-    SMR_DW(m, &dword);
-    c500_powerline_clk = maincpu_clk + dword;
+    SMR_CLOCK(m, &qword);
+    c500_powerline_clk = maincpu_clk + qword;
     alarm_set(c500_powerline_clk_alarm, c500_powerline_clk);
 
     snapshot_module_close(m);
@@ -775,8 +768,6 @@ int machine_specific_init(void)
                                          "C500PowerlineClk",
                                          c500_powerline_clk_alarm_handler,
                                          NULL);
-    clk_guard_add_callback(maincpu_clk_guard,
-                           c500_powerline_clk_overflow_callback, NULL);
     machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
     machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
     machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
@@ -913,7 +904,7 @@ void machine_specific_shutdown(void)
     }
 }
 
-void machine_handle_pending_alarms(int num_write_cycles)
+void machine_handle_pending_alarms(CLOCK num_write_cycles)
 {
 }
 
@@ -922,19 +913,11 @@ void machine_handle_pending_alarms(int num_write_cycles)
 /* This hook is called at the end of every frame.  */
 static void machine_vsync_hook(void)
 {
-    CLOCK sub;
-
     drive_vsync_hook();
 
     autostart_advance();
 
     screenshot_record();
-
-    sub = clk_guard_prevent_overflow(maincpu_clk_guard);
-
-    /* The drive has to deal both with our overflowing and its own one, so
-       it is called even when there is no overflowing in the main CPU.  */
-    drive_cpu_prevent_clk_overflow_all(sub);
 }
 
 /* Dummy - no restore key.  */
@@ -1000,9 +983,7 @@ void machine_change_timing(int timeval, int border_mode)
 #ifdef HAVE_MOUSE
     neos_mouse_set_machine_parameter(machine_timing.cycles_per_sec);
 #endif
-    clk_guard_set_clk_base(maincpu_clk_guard,
-                           (CLOCK)machine_timing.cycles_per_rfsh);
-
+    
     vicii_change_timing(&machine_timing, border_mode);
     cia1_set_timing(machine_context.cia1,
                     (int)machine_timing.cycles_per_sec,

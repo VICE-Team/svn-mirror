@@ -35,7 +35,6 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
-#include "clkguard.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -113,13 +112,6 @@ vicii_t vicii;
 
 static void vicii_set_geometry(void);
 
-static void clk_overflow_callback(CLOCK sub, void *unused_data)
-{
-    if (vicii.light_pen.trigger_cycle < CLOCK_MAX) {
-        vicii.light_pen.trigger_cycle -= sub;
-    }
-}
-
 void vicii_change_timing(machine_timing_t *machine_timing, int border_mode)
 {
     vicii_timing_set(machine_timing, border_mode);
@@ -130,7 +122,7 @@ void vicii_change_timing(machine_timing_t *machine_timing, int border_mode)
     }
 }
 
-void vicii_handle_pending_alarms_external(int num_write_cycles)
+void vicii_handle_pending_alarms_external(CLOCK num_write_cycles)
 {
     return;
 }
@@ -290,8 +282,6 @@ raster_t *vicii_init(unsigned int flag)
     vicii.vmli = 0;
 
     vicii.initialized = 1;
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     return &vicii.raster;
 }

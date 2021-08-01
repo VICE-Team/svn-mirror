@@ -50,7 +50,6 @@
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "drive-check.h"
-#include "drive-overflow.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivecpu65c02.h"
@@ -200,8 +199,6 @@ int drive_init(void)
 
     log_message(drive_log, "Finished loading ROM images.");
     rom_loaded = 1;
-
-    drive_overflow_init();
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         diskunit_context_t *diskunit = diskunit_context[unit];
@@ -548,22 +545,6 @@ void drive_cpu_early_init_all(void)
     }
 }
 
-void drive_cpu_prevent_clk_overflow_all(CLOCK sub)
-{
-    unsigned int dnr;
-
-    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        diskunit_context_t *unit = diskunit_context[dnr];
-
-        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
-            unit->type == DRIVE_TYPE_CMDHD) {
-            drivecpu65c02_prevent_clk_overflow(diskunit_context[dnr], sub);
-        } else {
-            drivecpu_prevent_clk_overflow(diskunit_context[dnr], sub);
-        }
-    }
-}
-
 void drive_cpu_trigger_reset(unsigned int dnr)
 {
     diskunit_context_t *unit = diskunit_context[dnr];
@@ -792,7 +773,7 @@ static void drive_led_update(diskunit_context_t *unit, drive_t *drive, int base)
 {
     int my_led_status = 0;
     CLOCK led_period;
-    unsigned int led_pwm1;
+    int led_pwm1;
 
     /* Actually update the LED status only if the `trap idle'
        idling method is being used, as the LED status could be
@@ -817,13 +798,13 @@ static void drive_led_update(diskunit_context_t *unit, drive_t *drive, int base)
     }
 
     if (drive->led_active_ticks > led_period) {
-        /* during startup it has been observer that led_pwm1 > 1000,
+        /* during startup it has been observed that led_pwm1 > 1000,
            which potentially breaks several UIs */
         /* this also happens when the drive is reset from UI
            and the LED was on */
         led_pwm1 = 1000;
     } else {
-        led_pwm1 = drive->led_active_ticks * 1000 / led_period;
+        led_pwm1 = (int)(drive->led_active_ticks / led_period * 1000);
     }
     assert(led_pwm1 <= MAX_PWM);
     if (led_pwm1 > MAX_PWM) {

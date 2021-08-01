@@ -287,22 +287,27 @@ static void resid_reset(sound_t *psid, CLOCK cpu_clk)
 }
 
 static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr,
-                                   int interleave, int *delta_t)
+                                   int interleave, CLOCK *delta_t)
 {
     short *tmp_buf;
     int retval;
+    int int_delta_t_original = (int)*delta_t;
+    int int_delta_t = (int)*delta_t;
+    
+    /* Tried not to mess with resid during 64-bit conversion. clock(...) wants to modify *delta_t ... */
 
     if (psid->factor == 1000) {
-        return psid->sid->clock(*delta_t, pbuf, nr, interleave);
+        retval = psid->sid->clock(int_delta_t, pbuf, nr, interleave);
+        (*delta_t) += int_delta_t - int_delta_t_original;
+        return retval;
     }
+    
     tmp_buf = getbuf(2 * nr * psid->factor / 1000);
-    retval = psid->sid->clock(*delta_t, tmp_buf, nr * psid->factor / 1000, interleave) * 1000 / psid->factor;
+    retval = psid->sid->clock(int_delta_t, tmp_buf, nr * psid->factor / 1000, interleave) * 1000 / psid->factor;
+    (*delta_t) += int_delta_t - int_delta_t_original;
     memcpy(pbuf, tmp_buf, 2 * nr);
+    
     return retval;
-}
-
-static void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
-{
 }
 
 static char *resid_dump_state(sound_t *psid)
@@ -394,7 +399,6 @@ sid_engine_t resid_hooks =
     resid_store,
     resid_reset,
     resid_calculate_samples,
-    resid_prevent_clk_overflow,
     resid_dump_state,
     resid_state_read,
     resid_state_write

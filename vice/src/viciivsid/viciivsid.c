@@ -51,7 +51,6 @@
 #include "cartridge.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
-#include "clkguard.h"
 #include "dma.h"
 #include "lib.h"
 #include "log.h"
@@ -136,15 +135,6 @@ vicii_t vicii;
 
 static void vicii_set_geometry(void);
 
-static void clk_overflow_callback(CLOCK sub, void *unused_data)
-{
-    vicii.raster_irq_clk -= sub;
-    vicii.last_emulate_line_clk -= sub;
-    vicii.fetch_clk -= sub;
-    vicii.draw_clk -= sub;
-    vicii.sprite_fetch_clk -= sub;
-}
-
 void vicii_change_timing(machine_timing_t *machine_timing)
 {
     vicii_timing_set(machine_timing);
@@ -183,7 +173,7 @@ inline void vicii_delay_clk(void)
 #endif
 }
 
-inline void vicii_handle_pending_alarms(int num_write_cycles)
+inline void vicii_handle_pending_alarms(CLOCK num_write_cycles)
 {
     if (num_write_cycles != 0) {
         int f;
@@ -236,7 +226,7 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
     }
 }
 
-void vicii_handle_pending_alarms_external(int num_write_cycles)
+void vicii_handle_pending_alarms_external(CLOCK num_write_cycles)
 {
     if (vicii.initialized) {
         vicii_handle_pending_alarms(num_write_cycles);
@@ -380,8 +370,6 @@ raster_t *vicii_init(unsigned int flag)
     vicii.buf_offset = 0;
 
     vicii.initialized = 1;
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     return &vicii.raster;
 }

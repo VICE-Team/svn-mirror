@@ -35,7 +35,6 @@
 
 #include "6510core.h"
 #include "alarm.h"
-#include "clkguard.h"
 #include "debug.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -122,8 +121,6 @@ void drivecpu_setup_context(struct diskunit_context_s *drv, int i)
     cpu->monspace = monitor_diskspace_mem(drv->mynumber);
 
     if (i) {
-        drv->cpu->clk_guard = clk_guard_new(drv->clk_ptr, CLOCK_MAX - CLKGUARD_SUB_MIN);
-
         drv->cpu->alarm_context = alarm_context_new(drv->cpu->identification_string);
     }
 }
@@ -230,9 +227,6 @@ void drivecpu_shutdown(diskunit_context_t *drv)
     if (cpu->alarm_context != NULL) {
         alarm_context_destroy(cpu->alarm_context);
     }
-    if (cpu->clk_guard != NULL) {
-        clk_guard_destroy(cpu->clk_guard);
-    }
 
     monitor_interface_destroy(cpu->monitor_interface);
     interrupt_cpu_status_destroy(cpu->int_status);
@@ -268,28 +262,6 @@ inline void drivecpu_wake_up(diskunit_context_t *drv)
 inline void drivecpu_sleep(diskunit_context_t *drv)
 {
     /* Currently does nothing.  But we might need this hook some day.  */
-}
-
-/* Make sure the drive clock counters never overflow; return nonzero if
-   they have been decremented to prevent overflow.  */
-CLOCK drivecpu_prevent_clk_overflow(diskunit_context_t *drv, CLOCK sub)
-{
-    if (sub != 0) {
-        /* First, get in sync with what the main CPU has done.  Notice that
-           `clk' has already been decremented at this point.  */
-        if (drv->enable) {
-            if (drv->cpu->last_clk < sub) {
-                /* Hm, this is kludgy.  :-(  */
-                drive_cpu_execute_all(maincpu_clk + sub);
-            }
-            drv->cpu->last_clk -= sub;
-        } else {
-            drv->cpu->last_clk = maincpu_clk;
-        }
-    }
-
-    /* Then, check our own clock counters.  */
-    return clk_guard_prevent_overflow(drv->cpu->clk_guard);
 }
 
 /* Handle a ROM trap. */
@@ -380,7 +352,7 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
 {
     CLOCK cycles;
-    int tcycles;
+    CLOCK tcycles;
     drivecpu_context_t *cpu;
 
 #define reg_a   (cpu->cpu_regs.a)
@@ -413,11 +385,8 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
         cpu->cycle_accum &= 0xffff;
     }
 
-    /* Run drive CPU emulation until the stop_clk clock has been reached.
-     * There appears to be a nasty 32-bit overflow problem here, so we
-     * paper over it by only considering subtractions of 2nd complement
-     * integers. */
-    while ((int) (*(drv->clk_ptr) - cpu->stop_clk) < 0) {
+    /* Run drive CPU emulation until the stop_clk clock has been reached. */
+    while (*drv->clk_ptr < cpu->stop_clk) {
 /* Include the 6502/6510 CPU emulation core.  */
 
 #define CLK (*(drv->clk_ptr))
@@ -564,7 +533,7 @@ static void drive_jam(diskunit_context_t *drv)
 /* ------------------------------------------------------------------------- */
 
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 1
+#define SNAP_MINOR 2
 
 int drivecpu_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
 {
@@ -580,7 +549,7 @@ int drivecpu_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
     }
 
     if (0
-        || SMW_DW(m, (uint32_t) *(drv->clk_ptr)) < 0
+        || SMW_CLOCK(m, *(drv->clk_ptr)) < 0
         || SMW_B(m, (uint8_t)MOS6510_REGS_GET_A(&(cpu->cpu_regs))) < 0
         || SMW_B(m, (uint8_t)MOS6510_REGS_GET_X(&(cpu->cpu_regs))) < 0
         || SMW_B(m, (uint8_t)MOS6510_REGS_GET_Y(&(cpu->cpu_regs))) < 0
@@ -588,10 +557,10 @@ int drivecpu_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
         || SMW_W(m, (uint16_t)MOS6510_REGS_GET_PC(&(cpu->cpu_regs))) < 0
         || SMW_B(m, (uint16_t)MOS6510_REGS_GET_STATUS(&(cpu->cpu_regs))) < 0
         || SMW_DW(m, (uint32_t)(cpu->last_opcode_info)) < 0
-        || SMW_DW(m, (uint32_t)(cpu->last_clk)) < 0
-        || SMW_DW(m, (uint32_t)(cpu->cycle_accum)) < 0
-        || SMW_DW(m, (uint32_t)(cpu->last_exc_cycles)) < 0
-        || SMW_DW(m, (uint32_t)(cpu->stop_clk)) < 0
+        || SMW_CLOCK(m, cpu->last_clk) < 0
+        || SMW_CLOCK(m, cpu->cycle_accum) < 0
+        || SMW_CLOCK(m, cpu->last_exc_cycles) < 0
+        || SMW_CLOCK(m, cpu->stop_clk) < 0
         ) {
         goto fail;
     }
@@ -659,7 +628,7 @@ int drivecpu_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
-        || SMR_DW(m, drv->clk_ptr) < 0
+        || SMR_CLOCK(m, drv->clk_ptr) < 0
         || SMR_B(m, &a) < 0
         || SMR_B(m, &x) < 0
         || SMR_B(m, &y) < 0
@@ -667,10 +636,10 @@ int drivecpu_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
         || SMR_W(m, &pc) < 0
         || SMR_B(m, &status) < 0
         || SMR_DW_UINT(m, &(cpu->last_opcode_info)) < 0
-        || SMR_DW(m, &(cpu->last_clk)) < 0
-        || SMR_DW(m, &(cpu->cycle_accum)) < 0
-        || SMR_DW(m, &(cpu->last_exc_cycles)) < 0
-        || SMR_DW(m, &(cpu->stop_clk)) < 0
+        || SMR_CLOCK(m, &(cpu->last_clk)) < 0
+        || SMR_CLOCK(m, &(cpu->cycle_accum)) < 0
+        || SMR_CLOCK(m, &(cpu->last_exc_cycles)) < 0
+        || SMR_CLOCK(m, &(cpu->stop_clk)) < 0
         ) {
         goto fail;
     }

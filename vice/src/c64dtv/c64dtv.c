@@ -49,7 +49,6 @@
 #include "c64memrom.h"
 #include "c64ui.h"
 #include "cia.h"
-#include "clkguard.h"
 #include "coplin_keypad.h"
 #include "debug.h"
 #include "debugcart.h"
@@ -874,7 +873,7 @@ void machine_specific_shutdown(void)
     }
 }
 
-void machine_handle_pending_alarms(int num_write_cycles)
+void machine_handle_pending_alarms(CLOCK num_write_cycles)
 {
     vicii_handle_pending_alarms_external(num_write_cycles);
 }
@@ -884,8 +883,6 @@ void machine_handle_pending_alarms(int num_write_cycles)
 /* This hook is called at the end of every frame.  */
 static void machine_vsync_hook(void)
 {
-    CLOCK sub;
-
     network_hook();
 
     drive_vsync_hook();
@@ -893,12 +890,6 @@ static void machine_vsync_hook(void)
     autostart_advance();
 
     screenshot_record();
-
-    sub = clk_guard_prevent_overflow(maincpu_clk_guard);
-
-    /* The drive has to deal both with our overflowing and its own one, so
-       it is called even when there is no overflowing in the main CPU.  */
-    drive_cpu_prevent_clk_overflow_all(sub);
 }
 
 void machine_set_restore_key(int v)
@@ -927,7 +918,7 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
 {
     *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line % machine_timing.screen_lines);
 
-    *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
+    *cycle = (unsigned int)(maincpu_clk % machine_timing.cycles_per_line);
 
     *half_cycle = (int)-1;
 }
@@ -964,7 +955,6 @@ void machine_change_timing(int timeval, int border_mode)
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
     serial_iec_device_set_machine_parameter(machine_timing.cycles_per_sec);
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
-    clk_guard_set_clk_base(maincpu_clk_guard, (CLOCK)machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing, border_mode);
     cia1_set_timing(machine_context.cia1,

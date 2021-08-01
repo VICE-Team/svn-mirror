@@ -34,7 +34,6 @@
 
 #include "alarm.h"
 #include "attach.h"
-#include "clkguard.h"
 #include "diskimage.h"
 #include "drive-check.h"
 #include "drive.h"
@@ -948,21 +947,6 @@ static void int_fdc(CLOCK offset, void *data)
     alarm_set(sysfdc->fdc_alarm, sysfdc->alarm_clk);
 }
 
-static void clk_overflow_callback(CLOCK sub, void *data)
-{
-    unsigned int fnum = vice_ptr_to_uint(data);
-
-    fdc_t *sysfdc = &fdc[fnum][0];
-
-    if (sysfdc->fdc_state != FDC_UNUSED) {
-        if (sysfdc->alarm_clk > sub) {
-            sysfdc->alarm_clk -= sub;
-        } else {
-            sysfdc->alarm_clk = 0;
-        }
-    }
-}
-
 /* FIXME: hack, because 0x4000 is only ok for 1001/8050/8250.
    fdc.c:fdc_do_job() adds an offset for 2040/3040/4040 by itself :-(
    Why donlly get a table for that...! */
@@ -995,9 +979,6 @@ void fdc_init(diskunit_context_t *drv)
     sysfdc->fdc_alarm = alarm_new(drv->cpu->alarm_context, buffer, int_fdc,
                                     drv);
     lib_free(buffer);
-
-    clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,
-                           uint_to_void_ptr(drv->mynumber));
 }
 
 /************************************************************************/

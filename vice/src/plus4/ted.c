@@ -35,7 +35,6 @@
 #include "videoarch.h"
 
 #include "alarm.h"
-#include "clkguard.h"
 #include "dma.h"
 #include "lib.h"
 #include "log.h"
@@ -78,15 +77,6 @@ CLOCK first_write_cycle;
 
 static void ted_set_geometry(void);
 
-
-static void clk_overflow_callback(CLOCK sub, void *unused_data)
-{
-    ted.raster_irq_clk -= sub;
-    ted.last_emulate_line_clk -= sub;
-    ted.fetch_clk -= sub;
-    ted.draw_clk -= sub;
-    old_maincpu_clk -= sub;
-}
 
 void ted_change_timing(machine_timing_t *machine_timing, int bordermode)
 {
@@ -181,7 +171,7 @@ fastloop:
     return;
 }
 
-inline void ted_handle_pending_alarms(int num_write_cycles)
+inline void ted_handle_pending_alarms(CLOCK num_write_cycles)
 {
     if (num_write_cycles != 0) {
         int f;
@@ -381,8 +371,6 @@ raster_t *ted_init(void)
     ted_draw_init();
 
     ted.initialized = 1;
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     return &ted.raster;
 }

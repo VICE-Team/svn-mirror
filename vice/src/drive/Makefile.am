@@ -32,8 +32,6 @@ libdrive_a_SOURCES = \
 	drive-check.h \
 	drive-cmdline-options.c \
 	drive-cmdline-options.h \
-	drive-overflow.c \
-	drive-overflow.h \
 	drive-resources.c \
 	drive-resources.h \
 	drive-snapshot.c \

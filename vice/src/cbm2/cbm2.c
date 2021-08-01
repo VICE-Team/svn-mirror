@@ -49,7 +49,6 @@
 #include "cbm2tpi.h"
 #include "cbm2ui.h"
 #include "cia.h"
-#include "clkguard.h"
 #include "crtc.h"
 #include "datasette.h"
 #include "datasette-sound.h"
@@ -918,7 +917,7 @@ void machine_specific_shutdown(void)
     }
 }
 
-void machine_handle_pending_alarms(int num_write_cycles)
+void machine_handle_pending_alarms(CLOCK num_write_cycles)
 {
 }
 
@@ -927,19 +926,11 @@ void machine_handle_pending_alarms(int num_write_cycles)
 /* This hook is called at the end of every frame.  */
 static void machine_vsync_hook(void)
 {
-    CLOCK sub;
-
     drive_vsync_hook();
 
     autostart_advance();
 
     screenshot_record();
-
-    sub = clk_guard_prevent_overflow(maincpu_clk_guard);
-
-    /* The drive has to deal both with our overflowing and its own one, so
-       it is called even when there is no overflowing in the main CPU.  */
-    drive_cpu_prevent_clk_overflow_all(sub);
 }
 
 /* Dummy - no restore key.  */
@@ -968,7 +959,7 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
 {
     *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line % machine_timing.screen_lines);
 
-    *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
+    *cycle = ((maincpu_clk) % machine_timing.cycles_per_line);
 
     *half_cycle = (int)-1;
 }
@@ -1001,7 +992,6 @@ void machine_change_timing(int timeval, int border_mode)
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
-    clk_guard_set_clk_base(maincpu_clk_guard, (CLOCK)machine_timing.cycles_per_rfsh);
 
     cia1_set_timing(machine_context.cia1,
                     (int)machine_timing.cycles_per_sec,

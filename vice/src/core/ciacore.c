@@ -43,7 +43,6 @@
 #include <string.h>
 
 #include "cia.h"
-#include "clkguard.h"
 #include "ciatimer.h"
 #include "interrupt.h"
 #include "lib.h"
@@ -239,42 +238,6 @@ static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
 
     my_set_int(cia_context, cia_context->irq_line, rclk);
     cia_context->irqflags |= 0x80;
-}
-
-/* ------------------------------------------------------------------------- */
-
-static void ciacore_clk_overflow_callback(CLOCK sub, void *data)
-{
-    cia_context_t *cia_context;
-
-    cia_context = (cia_context_t *)data;
-
-    if (cia_context->enabled == 0) {
-        return;
-    }
-
-    /* we assume that sub has already been substracted from myclk */
-    cia_update_ta(cia_context, *(cia_context->clk_ptr) + sub);
-    cia_update_tb(cia_context, *(cia_context->clk_ptr) + sub);
-
-    ciat_prevent_clock_overflow(cia_context->ta, sub);
-    ciat_prevent_clock_overflow(cia_context->tb, sub);
-
-    if (cia_context->rdi > sub) {
-        cia_context->rdi -= sub;
-    } else {
-        cia_context->rdi = 0;
-    }
-
-    if (cia_context->read_clk > sub) {
-        cia_context->read_clk -= sub;
-    } else {
-        cia_context->read_clk = 0;
-    }
-
-    if (cia_context->todclk) {
-        cia_context->todclk -= sub;
-    }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1247,7 +1210,7 @@ static void ciacore_idle(CLOCK offset, void *data)
 #endif
 
 void ciacore_init(cia_context_t *cia_context, alarm_context_t *alarm_context,
-                  interrupt_cpu_status_t *int_status, clk_guard_t *clk_guard)
+                  interrupt_cpu_status_t *int_status)
 {
     char *buffer;
 
@@ -1282,9 +1245,6 @@ void ciacore_init(cia_context_t *cia_context, alarm_context_t *alarm_context,
 
     cia_context->int_num
         = interrupt_cpu_status_int_new(int_status, cia_context->myname);
-
-    clk_guard_add_callback(clk_guard, ciacore_clk_overflow_callback,
-                           cia_context);
 
     buffer = lib_msprintf("%s_TA", cia_context->myname);
     ciat_init(cia_context->ta, buffer, *(cia_context->clk_ptr),
@@ -1374,7 +1334,7 @@ void ciacore_shutdown(cia_context_t *cia_context)
 int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
 {
     snapshot_module_t *m;
-    int byte;
+    uint8_t byte;
 
     cia_update_ta(cia_context, *(cia_context->clk_ptr));
     cia_update_tb(cia_context, *(cia_context->clk_ptr));
@@ -1441,7 +1401,7 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     } else {
         byte = 0;
     }
-    SMW_B(m, (uint8_t)(byte));
+    SMW_B(m, byte);
 
     SMW_B(m, (uint8_t)((cia_context->todlatched ? 1 : 0)
                     | (cia_context->todstopped ? 2 : 0)));
@@ -1450,7 +1410,7 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     SMW_B(m, cia_context->todlatch[2]);
     SMW_B(m, cia_context->todlatch[3]);
 
-    SMW_DW(m, (cia_context->todclk - *(cia_context->clk_ptr)));
+    SMW_CLOCK(m, (cia_context->todclk - *(cia_context->clk_ptr)));
 
     ciat_save_snapshot(cia_context->ta, *(cia_context->clk_ptr), m,
                        (CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
@@ -1473,7 +1433,7 @@ int ciacore_snapshot_read_module(cia_context_t *cia_context, snapshot_t *s)
 {
     uint8_t vmajor, vminor;
     uint8_t byte;
-    uint32_t dword;
+    CLOCK qword;
     CLOCK rclk = *(cia_context->clk_ptr);
     snapshot_module_t *m;
     uint16_t cia_tal, cia_tbl, cia_tac, cia_tbc;
@@ -1573,8 +1533,8 @@ int ciacore_snapshot_read_module(cia_context_t *cia_context, snapshot_t *s)
     SMR_B(m, &(cia_context->todlatch[2]));
     SMR_B(m, &(cia_context->todlatch[3]));
 
-    SMR_DW(m, &dword);
-    cia_context->todclk = *(cia_context->clk_ptr) + dword;
+    SMR_CLOCK(m, &qword);
+    cia_context->todclk = *(cia_context->clk_ptr) + qword;
     alarm_set(cia_context->tod_alarm, cia_context->todclk);
 
     /* timer switch-on code from store_cia[CIA_CRA/CRB] */

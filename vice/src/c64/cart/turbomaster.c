@@ -32,7 +32,6 @@
 #include "c64cia.h"
 #include "c64mem.h"
 #include "cartio.h"
-#include "clkguard.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "interrupt.h"

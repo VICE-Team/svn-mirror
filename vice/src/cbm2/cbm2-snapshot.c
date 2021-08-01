@@ -109,8 +109,8 @@ int cbm2_snapshot_read(const char *name, int event_mode)
     }
 
     if (maincpu_snapshot_read_module(s) < 0
-        || crtc_snapshot_read_module(s) < 0
         || cbm2_snapshot_read_module(s) < 0
+        || crtc_snapshot_read_module(s) < 0
         || ciacore_snapshot_read_module(machine_context.cia1, s) < 0
         || tpicore_snapshot_read_module(machine_context.tpi1, s) < 0
         || tpicore_snapshot_read_module(machine_context.tpi2, s) < 0

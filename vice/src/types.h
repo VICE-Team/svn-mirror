@@ -46,7 +46,7 @@
 #  endif
 #endif
 
-typedef uint32_t CLOCK;
+typedef uint64_t CLOCK;
 
 /* Maximum value of a CLOCK.  */
 #undef CLOCK_MAX

@@ -37,7 +37,6 @@
 #include <stdio.h>
 
 #include "alarm.h"
-#include "clkguard.h"
 #include "cmdline.h"
 #include "log.h"
 #include "maincpu.h"
@@ -64,8 +63,6 @@ static CLOCK clk_end_tx = 0;
 
 static void (*start_bit_trigger)(void);
 static void (*byte_rx_func)(uint8_t);
-
-static void clk_overflow_callback(CLOCK sub, void *data);
 
 static void int_rsuser(CLOCK offset, void *data);
 
@@ -248,8 +245,6 @@ void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(uint8_t)
     unsigned char c, d;
 
     rsuser_alarm = alarm_new(maincpu_alarm_context, "RSUser", int_rsuser, NULL);
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     rsuser_change_timing(cycles);
 
@@ -447,7 +442,8 @@ void rsuser_set_tx_bit(int b)
 
 uint8_t rsuser_get_rx_bit(void)
 {
-    int bit = 0, byte = 1;
+    CLOCK bit = 0;
+    int byte = 1;
     LOG_DEBUG_TIMING_RX(("rsuser_get_rx_bit(clk=%d, clk_start_rx=%d).",
                          maincpu_clk, clk_start_rx));
 
@@ -551,18 +547,5 @@ static void int_rsuser(CLOCK offset, void *data)
             clk_start_rx = 0;
             alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks / 8);
             break;
-    }
-}
-
-static void clk_overflow_callback(CLOCK sub, void *data)
-{
-    if (clk_start_tx) {
-        clk_start_tx -= sub;
-    }
-    if (clk_start_rx) {
-        clk_start_rx -= sub;
-    }
-    if (clk_start_bit) {
-        clk_start_bit -= sub;
     }
 }

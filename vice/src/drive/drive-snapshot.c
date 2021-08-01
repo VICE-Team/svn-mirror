@@ -176,11 +176,11 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
                 drive = unit->drives[dnr];
                 DBG(("unit %i drive %d (%p)\n", unr + 8, dnr, (void *)drive));
                 if (0
-                    || SMW_DW(m, (uint32_t)(drive->attach_clk)) < 0
+                    || SMW_CLOCK(m, drive->attach_clk) < 0
                     || SMW_B(m, (uint8_t)(drive->byte_ready_level)) < 0
                     || SMW_B(m, (uint8_t)(unit->clock_frequency)) < 0
                     || SMW_W(m, (uint16_t)(drive->current_half_track + (drive->side * DRIVE_HALFTRACKS_1571))) < 0
-                    || SMW_DW(m, (uint32_t)(drive->detach_clk)) < 0
+                    || SMW_CLOCK(m, drive->detach_clk) < 0
                     || SMW_B(m, (uint8_t)(drive->extend_image_policy)) < 0
                     || SMW_DW(m, (uint32_t)(drive->GCR_head_offset)) < 0
                     || SMW_B(m, (uint8_t)(drive->GCR_read)) < 0
@@ -193,7 +193,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 
                     /* rotation */
                     || SMW_DW(m, (uint32_t)(drive->snap_accum)) < 0
-                    || SMW_DW(m, (uint32_t)(drive->snap_rotation_last_clk)) < 0
+                    || SMW_CLOCK(m, drive->snap_rotation_last_clk) < 0
                     || SMW_DW(m, (uint32_t)(drive->snap_bit_counter)) < 0
                     || SMW_DW(m, (uint32_t)(drive->snap_zero_count)) < 0
                     || SMW_W(m, (uint16_t)(drive->snap_last_read_data)) < 0
@@ -212,9 +212,9 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
                     || SMW_DW(m, (uint32_t)(drive->snap_xorShift32)) < 0
                     || SMW_DW(m, (uint32_t)(drive->snap_so_delay)) < 0
                     || SMW_DW(m, (uint32_t)(drive->snap_cycle_index)) < 0
-                    || SMW_DW(m, (uint32_t)(drive->snap_ref_advance)) < 0
+                    || SMW_CLOCK(m, drive->snap_ref_advance) < 0
                     || SMW_DW(m, (uint32_t)(drive->snap_req_ref_cycles)) < 0
-                    || SMW_DW(m, (uint32_t)(drive->attach_detach_clk)) < 0
+                    || SMW_CLOCK(m, drive->attach_detach_clk) < 0
                     || SMW_B(m, (uint8_t)(drive->byte_ready_edge)) < 0
                     || SMW_B(m, (uint8_t)(drive->byte_ready_active)) < 0
                     ) {
@@ -380,11 +380,11 @@ int drive_snapshot_read_module(snapshot_t *s)
                 DBG(("unit %i drive %d (%p)\n", unr + 8, dnr, (void *)drive));
 
                 if (0
-                    || SMR_DW(m, &(attach_clk[unr])) < 0
+                    || SMR_CLOCK(m, &(attach_clk[unr])) < 0
                     || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
                     || SMR_B_INT(m, &(unit->clock_frequency)) < 0
                     || SMR_W_INT(m, &half_track[unr]) < 0
-                    || SMR_DW(m, &(detach_clk[unr])) < 0
+                    || SMR_CLOCK(m, &(detach_clk[unr])) < 0
                     || SMR_B_INT(m, &(drive->extend_image_policy)) < 0
                     || SMR_DW_UINT(m, &(drive->GCR_head_offset)) < 0
                     || SMR_B(m, &(drive->GCR_read)) < 0
@@ -396,7 +396,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                     || SMR_DW_UINT(m, &(unit->type)) < 0
 
                     || SMR_DW_UL(m, &(drive->snap_accum)) < 0
-                    || SMR_DW(m, &(drive->snap_rotation_last_clk)) < 0
+                    || SMR_CLOCK(m, &(drive->snap_rotation_last_clk)) < 0
                     || SMR_DW_INT(m, &(drive->snap_bit_counter)) < 0
                     || SMR_DW_INT(m, &(drive->snap_zero_count)) < 0
                     || SMR_W_INT(m, &(drive->snap_last_read_data)) < 0
@@ -415,9 +415,9 @@ int drive_snapshot_read_module(snapshot_t *s)
                     || SMR_DW(m, &(drive->snap_xorShift32)) < 0
                     || SMR_DW(m, &(drive->snap_so_delay)) < 0
                     || SMR_DW(m, &(drive->snap_cycle_index)) < 0
-                    || SMR_DW(m, &(drive->snap_ref_advance)) < 0
+                    || SMR_CLOCK(m, &(drive->snap_ref_advance)) < 0
                     || SMR_DW(m, &(drive->snap_req_ref_cycles)) < 0
-                    || SMR_DW(m, &(attach_detach_clk[unr])) < 0
+                    || SMR_CLOCK(m, &(attach_detach_clk[unr])) < 0
                     || SMR_B_INT(m, (int *)&(drive->byte_ready_edge)) < 0
                     || SMR_B_INT(m, (int *)&(drive->byte_ready_active)) < 0
                     ) {

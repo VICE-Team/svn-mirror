@@ -61,7 +61,6 @@
 #include "snapshot.h"
 #include "tick.h"
 #include "vsyncapi.h"
-#include "clkguard.h"
 #include "ds1202_1302.h"
 
 /* Control port <--> mouse/paddles/pad connections:
@@ -357,20 +356,6 @@ static uint8_t polled_joyval = 0xff;
 
 static const uint8_t amiga_mouse_table[4] = { 0x0, 0x1, 0x5, 0x4 };
 static const uint8_t st_mouse_table[4] = { 0x0, 0x2, 0x3, 0x1 };
-
-/* Clock overflow handling.  */
-static void clk_overflow_callback(CLOCK sub, void *data)
-{
-    if (next_update_x_emu_ts > (CLOCK) 0) {
-        next_update_x_emu_ts -= sub;
-    }
-    if (next_update_y_emu_ts > (CLOCK) 0) {
-        next_update_y_emu_ts -= sub;
-    }
-    if (up_down_pulse_end > (CLOCK) 0) {
-        up_down_pulse_end -= sub;
-    }
-}
 
 void mouse_move(float dx, float dy)
 {
@@ -1164,7 +1149,6 @@ void mouse_init(void)
     neos_and_amiga_buttons = 0;
     neos_prev = 0xff;
     mousedrv_init();
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 void mouse_shutdown(void)

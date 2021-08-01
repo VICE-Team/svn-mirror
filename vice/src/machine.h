@@ -145,7 +145,7 @@ extern int machine_write_snapshot(const char *name, int save_roms,
 extern int machine_read_snapshot(const char *name, int even_mode);
 
 /* handle pending interrupts - needed by libsid.a.  */
-extern void machine_handle_pending_alarms(int num_write_cycles);
+extern void machine_handle_pending_alarms(CLOCK num_write_cycles);
 
 /* Autodetect PSID file.  */
 extern int machine_autodetect_psid(const char *name);

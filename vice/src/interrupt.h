@@ -79,12 +79,12 @@ struct interrupt_cpu_status_s {
        left at the start of this particular DMA (needed by *_set_irq() to
        calculate irq_clk).  */
     unsigned int num_dma_per_opcode;
-    unsigned int num_cycles_left[INTRRUPT_MAX_DMA_PER_OPCODE];
+    CLOCK num_cycles_left[INTRRUPT_MAX_DMA_PER_OPCODE];
     CLOCK dma_start_clk[INTRRUPT_MAX_DMA_PER_OPCODE];
 
     /* counters for delay between interrupt request and handler */
-    unsigned int irq_delay_cycles;
-    unsigned int nmi_delay_cycles;
+    CLOCK irq_delay_cycles;
+    CLOCK nmi_delay_cycles;
 
     /* If 1, do a RESET.  */
     int reset;
@@ -102,7 +102,7 @@ struct interrupt_cpu_status_s {
     unsigned int *last_opcode_info_ptr;
 
     /* Number of cycles we have stolen to the processor last time.  */
-    int num_last_stolen_cycles;
+    CLOCK num_last_stolen_cycles;
 
     /* Clock tick at which these cycles have been stolen.  */
     CLOCK last_stolen_cycles_clk;

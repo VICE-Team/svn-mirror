@@ -45,7 +45,7 @@
 
 /* Some prototypes are needed */
 static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 static void pet_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
 static void pet_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
@@ -244,7 +244,7 @@ static uint16_t pet_makesample_exact(uint8_t bit, uint8_t waveform)
     }
 }
 
-static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
+static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
     uint16_t v = 0;
@@ -350,11 +350,6 @@ static void pet_sound_reset(sound_t *psid, CLOCK cpu_clk)
 void petsound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     sound_reset();
-}
-
-void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
-{
-    sid_sound_machine_prevent_clk_overflow(psid, sub);
 }
 
 char *sound_machine_dump_state(sound_t *psid)

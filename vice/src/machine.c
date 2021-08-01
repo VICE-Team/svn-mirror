@@ -34,7 +34,6 @@
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
-#include "clkguard.h"
 #include "cmdline.h"
 #include "console.h"
 #include "diskimage.h"
@@ -238,12 +237,6 @@ void machine_reset(void)
     vsync_reset_hook();
 }
 
-static void machine_maincpu_clk_overflow_callback(CLOCK sub, void *data)
-{
-    alarm_context_time_warp(maincpu_alarm_context, sub, -1);
-    interrupt_cpu_status_time_warp(maincpu_int_status, sub, -1);
-}
-
 void machine_maincpu_init(void)
 {
     maincpu_init();
@@ -253,12 +246,6 @@ void machine_maincpu_init(void)
 void machine_early_init(void)
 {
     maincpu_alarm_context = alarm_context_new("MainCPU");
-
-    maincpu_clk_guard = clk_guard_new(&maincpu_clk, CLOCK_MAX
-                                      - CLKGUARD_SUB_MIN);
-
-    clk_guard_add_callback(maincpu_clk_guard,
-                           machine_maincpu_clk_overflow_callback, NULL);
 }
 
 int machine_init(void)
@@ -278,9 +265,6 @@ void machine_maincpu_shutdown(void)
 {
     if (maincpu_alarm_context != NULL) {
         alarm_context_destroy(maincpu_alarm_context);
-    }
-    if (maincpu_clk_guard != NULL) {
-        clk_guard_destroy(maincpu_clk_guard);
     }
 
     lib_free(maincpu_monitor_interface);

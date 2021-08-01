@@ -35,7 +35,6 @@
 
 #include "alarm.h"
 #include "autostart.h"
-#include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
 #include "datasette-sound.h"
@@ -504,8 +503,8 @@ static CLOCK tape_do_wobble(CLOCK gap)
 
 static CLOCK tape_do_misalignment(CLOCK gap)
 {
-    static int resterror = 0;
-    int newgap, newgapf, tapeerror;
+    static CLOCK resterror = 0;
+    CLOCK newgap, newgapf, tapeerror;
 
     if (datasette_tape_azimuth_error == 0) {
         return gap;
@@ -841,18 +840,6 @@ static void datasette_read_bit(CLOCK offset, void *data)
     datasette_update_ui_counter();
 }
 
-
-static void clk_overflow_callback(CLOCK sub, void *data)
-{
-    DBG(("clk_overflow_callback"));
-    if (last_write_clk > (CLOCK)0) {
-        last_write_clk -= sub;
-    }
-    if (motor_stop_clk > (CLOCK)0) {
-        motor_stop_clk -= sub;
-    }
-}
-
 void datasette_init(void)
 {
     DBG(("datasette_init"));
@@ -860,8 +847,6 @@ void datasette_init(void)
 
     datasette_alarm = alarm_new(maincpu_alarm_context, "Datasette",
                                 datasette_read_bit, NULL);
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     datasette_cycles_per_second = machine_get_cycles_per_second();
     if (!datasette_cycles_per_second) {
@@ -1270,7 +1255,7 @@ void datasette_event_playback(CLOCK offset, void *data)
 static int datasette_write_snapshot(snapshot_t *s, int write_image)
 {
     snapshot_module_t *m;
-    uint32_t alarm_clk = CLOCK_MAX;
+    CLOCK alarm_clk = CLOCK_MAX;
 
     m = snapshot_module_create(s, "DATASETTE", DATASETTE_SNAP_MAJOR,
                                DATASETTE_SNAP_MINOR);
@@ -1285,12 +1270,12 @@ static int datasette_write_snapshot(snapshot_t *s, int write_image)
     if (0
         || SMW_B(m, (uint8_t)datasette_motor) < 0
         || SMW_B(m, (uint8_t)notape_mode) < 0
-        || SMW_DW(m, last_write_clk) < 0
-        || SMW_DW(m, motor_stop_clk) < 0
+        || SMW_CLOCK(m, last_write_clk) < 0
+        || SMW_CLOCK(m, motor_stop_clk) < 0
         || SMW_B(m, (uint8_t)datasette_alarm_pending) < 0
-        || SMW_DW(m, alarm_clk) < 0
-        || SMW_DW(m, datasette_long_gap_pending) < 0
-        || SMW_DW(m, datasette_long_gap_elapsed) < 0
+        || SMW_CLOCK(m, alarm_clk) < 0
+        || SMW_CLOCK(m, datasette_long_gap_pending) < 0
+        || SMW_CLOCK(m, datasette_long_gap_elapsed) < 0
         || SMW_B(m, (uint8_t)datasette_last_direction) < 0
         || SMW_DW(m, datasette_counter_offset) < 0
         || SMW_B(m, (uint8_t)reset_datasette_with_maincpu) < 0
@@ -1300,7 +1285,7 @@ static int datasette_write_snapshot(snapshot_t *s, int write_image)
         || SMW_DW(m, datasette_tape_wobble_amplitude) < 0
         || SMW_DW(m, datasette_tape_azimuth_error) < 0
         || SMW_B(m, (uint8_t)fullwave) < 0
-        || SMW_DW(m, fullwave_gap) < 0) {
+        || SMW_CLOCK(m, fullwave_gap) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -1316,7 +1301,7 @@ static int datasette_read_snapshot(snapshot_t *s)
 {
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-    uint32_t alarm_clk;
+    CLOCK alarm_clk;
 
     m = snapshot_module_open(s, "DATASETTE",
                              &major_version, &minor_version);
@@ -1330,12 +1315,12 @@ static int datasette_read_snapshot(snapshot_t *s)
     if (0
         || SMR_B_INT(m, &datasette_motor) < 0
         || SMR_B_INT(m, &notape_mode) < 0
-        || SMR_DW(m, &last_write_clk) < 0
-        || SMR_DW(m, &motor_stop_clk) < 0
+        || SMR_CLOCK(m, &last_write_clk) < 0
+        || SMR_CLOCK(m, &motor_stop_clk) < 0
         || SMR_B_INT(m, &datasette_alarm_pending) < 0
-        || SMR_DW(m, &alarm_clk) < 0
-        || SMR_DW(m, &datasette_long_gap_pending) < 0
-        || SMR_DW(m, (uint32_t *)&datasette_long_gap_elapsed) < 0
+        || SMR_CLOCK(m, &alarm_clk) < 0
+        || SMR_CLOCK(m, &datasette_long_gap_pending) < 0
+        || SMR_CLOCK(m, &datasette_long_gap_elapsed) < 0
         || SMR_B_INT(m, &datasette_last_direction) < 0
         || SMR_DW_INT(m, &datasette_counter_offset) < 0
         || SMR_B_INT(m, &reset_datasette_with_maincpu) < 0
@@ -1345,7 +1330,7 @@ static int datasette_read_snapshot(snapshot_t *s)
         || SMR_DW_INT(m, &datasette_tape_wobble_amplitude) < 0
         || SMR_DW_INT(m, &datasette_tape_azimuth_error) < 0
         || SMR_B_INT(m, (int *)&fullwave) < 0
-        || SMR_DW(m, &fullwave_gap) < 0) {
+        || SMR_CLOCK(m, &fullwave_gap) < 0) {
         snapshot_module_close(m);
         return -1;
     }

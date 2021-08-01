@@ -43,7 +43,6 @@
 #include <stdlib.h>
 
 #include "alarm.h"
-#include "clkguard.h"
 #include "crtc-cmdline-options.h"
 #include "crtc-color.h"
 #include "crtc-draw.h"
@@ -472,15 +471,6 @@ void crtc_set_hires_draw_callback(crtc_hires_draw_t callback)
 
 /*--------------------------------------------------------------------*/
 
-static void clk_overflow_callback(CLOCK sub, void *data)
-{
-    crtc.frame_start -= sub;
-
-    crtc.rl_start -= sub;
-}
-
-/*--------------------------------------------------------------------*/
-
 raster_t *crtc_init(void)
 {
     raster_t *raster;
@@ -491,8 +481,6 @@ raster_t *crtc_init(void)
 
     crtc.raster_draw_alarm = alarm_new(maincpu_alarm_context, "CrtcRasterDraw",
                                        crtc_raster_draw_alarm_handler, NULL);
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     raster = &crtc.raster;
 
@@ -1065,14 +1053,14 @@ int crtc_dump(void)
             crtc.current_line,
             crtc.current_line % scanlines,
             crtc.vsync);
-    mon_out("CLOCK at start of frame %u, + rasterline %u, line length %d\n",
+    mon_out("CLOCK at start of frame %llu, + rasterline %llu, line length %d\n",
             crtc.frame_start,
             crtc.rl_start - crtc.frame_start,
             crtc.rl_len);
     
     if (crtc.raster_draw_alarm) {
         CLOCK then = crtc.raster_draw_alarm->context->next_pending_alarm_clk;
-        mon_out("next raster line draw alarm: %u (now+%u)\n",
+        mon_out("next raster line draw alarm: %llu (now+%llu)\n",
                 then, then - maincpu_clk);
     }
     return 0;
