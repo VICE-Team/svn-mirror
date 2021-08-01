@@ -36,7 +36,6 @@
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
-#include "clkguard.h"
 #include "cmdline.h"
 #include "crc32.h"
 #include "datasette.h"
@@ -348,7 +347,6 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
             memcpy(event_data, data, size);
             break;
         case EVENT_LIST_END:            /* fall through */
-        case EVENT_OVERFLOW:            /* fall through */
         case EVENT_KEYBOARD_CLEAR:
             break;
         default:
@@ -378,11 +376,6 @@ static void next_alarm_set(void)
     CLOCK new_value;
 
     new_value = event_list->current->clk;
-
-    if (maincpu_clk > CLKGUARD_SUB_MIN
-        && new_value < maincpu_clk - CLKGUARD_SUB_MIN) {
-        new_value += clk_guard_clock_sub(maincpu_clk_guard);
-    }
 
     alarm_set(event_alarm, new_value);
 }
@@ -449,8 +442,6 @@ static void event_alarm_handler(CLOCK offset, void *data)
             break;
         case EVENT_LIST_END:
             event_playback_stop();
-            break;
-        case EVENT_OVERFLOW:
             break;
         default:
             log_error(event_log, "Unknow event type %u.",
@@ -1055,7 +1046,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
                 return -1;
             }
 
-            if (SMR_DW(m, &(clk)) < 0) {
+            if (SMR_CLOCK(m, &(clk)) < 0) {
                 snapshot_module_close(m);
                 return -1;
             }
@@ -1086,7 +1077,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
             }
         } else {
             /* insert timestamps each second */
-            while (next_timestamp_clk < clk || (type == EVENT_OVERFLOW && next_timestamp_clk < maincpu_clk_guard->clk_max_value))
+            while (next_timestamp_clk < clk)
             {
                 curr->type = EVENT_TIMESTAMP;
                 curr->clk = next_timestamp_clk;
@@ -1095,10 +1086,6 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
                 curr = curr->next;
                 next_timestamp_clk += machine_get_cycles_per_second();
                 num_of_timestamps++;
-            }
-
-            if (type == EVENT_OVERFLOW) {
-                next_timestamp_clk -= clk_guard_clock_sub(maincpu_clk_guard);
             }
         }
 
@@ -1137,7 +1124,7 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
         return 0;
     }
 
-    m = snapshot_module_create(s, "EVENT", 0, 0);
+    m = snapshot_module_create(s, "EVENT", 0, 1);
 
     if (m == NULL) {
         return -1;
@@ -1149,7 +1136,7 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
         if (curr->type != EVENT_TIMESTAMP
             && (0
                 || SMW_DW(m, (uint32_t)curr->type) < 0
-                || SMW_DW(m, (uint32_t)curr->clk) < 0
+                || SMW_CLOCK(m, curr->clk) < 0
                 || SMW_DW(m, (uint32_t)curr->size) < 0
                 || SMW_BA(m, curr->data, curr->size) < 0)) {
             snapshot_module_close(m);
@@ -1302,24 +1289,10 @@ int event_cmdline_options_init(void)
 
 /*-----------------------------------------------------------------------*/
 
-static void clk_overflow_callback(CLOCK sub, void *data)
-{
-    if (event_record_active()) {
-        event_record(EVENT_OVERFLOW, NULL, 0);
-    }
-
-    if (next_timestamp_clk) {
-        next_timestamp_clk -= sub;
-    }
-}
-
-
 void event_init(void)
 {
     event_log = log_open("Event");
 
     event_alarm = alarm_new(maincpu_alarm_context, "Event",
                             event_alarm_handler, NULL);
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 }

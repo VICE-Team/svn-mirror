@@ -218,7 +218,7 @@ void cia1_check_lightpen(void)
 void cia1_init(cia_context_t *cia_context)
 {
     ciacore_init(machine_context.cia1, maincpu_alarm_context,
-                 maincpu_int_status, maincpu_clk_guard);
+                 maincpu_int_status);
 }
 
 void cia1_set_timing(cia_context_t *cia_context, int tickspersec, int powerfreq)

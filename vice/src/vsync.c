@@ -50,7 +50,6 @@
 #endif
 
 #include "archdep_exit.h"
-#include "clkguard.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "joystick.h"
@@ -361,7 +360,7 @@ static void reset_performance_metrics(tick_t frame_tick)
      */
 
     last_tick = frame_tick;
-    last_clock = clk_guard_get_absolute_clk(maincpu_clk_guard);
+    last_clock = maincpu_clk;
 
     measurement_count = 0;
     next_measurement_index = 0;
@@ -391,8 +390,7 @@ static void update_performance_metrics(tick_t frame_tick)
     /* how many emulated seconds of cpu time have been emulated */
     double clock_delta_seconds;
 
-    /* Current absolute value of maincpu_clk (correcting for clk guard jumps) */
-    CLOCK main_cpu_clock = clk_guard_get_absolute_clk(maincpu_clk_guard);
+    CLOCK main_cpu_clock = maincpu_clk;
 
     if (metrics_reset) {
         metrics_reset = false;
@@ -450,8 +448,7 @@ void vsync_do_end_of_line(void)
 
     bool tick_based_sync_timing;
 
-    /* Current absolute value of maincpu_clk (correcting for clk guard jumps) */
-    CLOCK main_cpu_clock = clk_guard_get_absolute_clk(maincpu_clk_guard);
+    CLOCK main_cpu_clock = maincpu_clk;
     CLOCK sync_clk_delta;
     double sync_emulated_ticks;
 

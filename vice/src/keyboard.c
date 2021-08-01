@@ -2410,7 +2410,7 @@ void keyboard_shutdown(void)
 /*--------------------------------------------------------------------------*/
 
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 0
+#define SNAP_MINOR 1
 #define SNAP_NAME  "KEYBOARD"
 
 int keyboard_snapshot_write_module(snapshot_t *s)

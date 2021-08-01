@@ -49,7 +49,6 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cia.h"
-#include "clkguard.h"
 #include "functionrom.h"
 #include "georam.h"
 #include "keyboard.h"
@@ -350,17 +349,6 @@ static void mem_toggle_caps_key(void)
 
     see testprogs/CPU/cpuport for details and tests
 */
-
-static void clk_overflow_callback(CLOCK sub, void *unused_data)
-{
-    if (pport.data_set_clk_bit7 > (CLOCK)0) {
-        pport.data_set_clk_bit7 -= sub;
-    }
-    if (pport.data_falloff_bit7 && (pport.data_set_clk_bit7 < maincpu_clk)) {
-        pport.data_falloff_bit7 = 0;
-        pport.data_set_bit7 = 0;
-    }
-}
 
 uint8_t zero_read(uint16_t addr)
 {
@@ -744,8 +732,6 @@ void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
 void mem_initialize_memory(void)
 {
     int i, j, k;
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_cpu = mem_color_ram;

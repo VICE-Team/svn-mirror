@@ -45,7 +45,7 @@
 
 void crtc_store(uint16_t addr, uint8_t value)
 {
-    int current_cycle;
+    CLOCK current_cycle;
 
     current_cycle = maincpu_clk - crtc.rl_start;
 
@@ -60,7 +60,7 @@ void crtc_store(uint16_t addr, uint8_t value)
 #if 0
     /* debug display, just not the cursor (for CBM-II) */
     if (crtc.regno < 14 && crtc.regno != 10) {
-        printf("store_crtc(reg=%d, %d) - cline=%d, ycount=%d, char=%d\n",
+        printf("store_crtc(reg=%d, %d) - cline=%d, ycount=%d, char=%lld\n",
                crtc.regno, value, crtc.current_charline, crtc.raster.ycounter,
                current_cycle);
     }

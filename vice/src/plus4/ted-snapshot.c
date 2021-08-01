@@ -102,7 +102,7 @@ void ted_snapshot_prepare(void)
 
 static char snap_module_name[] = "TED";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 3
+#define SNAP_MINOR 4
 
 int ted_snapshot_write_module(snapshot_t *s)
 {
@@ -119,7 +119,7 @@ int ted_snapshot_write_module(snapshot_t *s)
     DBG(("TED write snapshot at clock: %d cycle: %d tedline: %d rasterline: %d\n", maincpu_clk, TED_RASTER_CYCLE(maincpu_clk), TED_RASTER_Y(maincpu_clk), ted.raster.current_line));
 
     if (0
-        || SMW_DW(m, ted.last_emulate_line_clk) < 0
+        || SMW_CLOCK(m, ted.last_emulate_line_clk) < 0
         /* AllowBadLines */
         || SMW_B(m, (uint8_t)ted.allow_bad_lines) < 0
         /* BadLine */
@@ -163,7 +163,7 @@ int ted_snapshot_write_module(snapshot_t *s)
 
     if (0
         /* FetchEventTick */
-        || SMW_DW(m, ted.fetch_clk - maincpu_clk) < 0
+        || SMW_CLOCK(m, ted.fetch_clk - maincpu_clk) < 0
         ) {
         goto fail;
     }
@@ -202,7 +202,7 @@ int ted_snapshot_read_module(snapshot_t *s)
     /* FIXME: initialize changes?  */
 
     if (0
-        || SMR_DW(m, &ted.last_emulate_line_clk) < 0
+        || SMR_CLOCK(m, &ted.last_emulate_line_clk) < 0
         /* AllowBadLines */
         || SMR_B_INT(m, &ted.allow_bad_lines) < 0
         /* BadLine */
@@ -327,13 +327,13 @@ int ted_snapshot_read_module(snapshot_t *s)
     alarm_set(ted.raster_draw_alarm, ted.draw_clk);
 
     {
-        uint32_t dw;
+        CLOCK qw;
 
-        if (SMR_DW(m, &dw) < 0) {  /* FetchEventTick */
+        if (SMR_CLOCK(m, &qw) < 0) {  /* FetchEventTick */
             goto fail;
         }
 
-        ted.fetch_clk = maincpu_clk + dw;
+        ted.fetch_clk = maincpu_clk + qw;
 
         alarm_set(ted.raster_fetch_alarm, ted.fetch_clk);
     }

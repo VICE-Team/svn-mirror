@@ -44,7 +44,6 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cia.h"
-#include "clkguard.h"
 #include "machine.h"
 #include "main65816cpu.h"
 #include "mem.h"

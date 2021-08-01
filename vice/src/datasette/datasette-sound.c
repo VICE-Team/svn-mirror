@@ -125,10 +125,10 @@ static CLOCK datasette_sound_remove_from_circular_buffer(
 }
 
 static int datasette_sound_machine_calculate_samples(sound_t **psid,
-    int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
+    int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i = 0, j, num_samples;
-    int cycles_to_be_consumed = *delta_t;
+    CLOCK cycles_to_be_consumed = *delta_t;
     double factor = (double)cycles_to_be_consumed / nr;
     char must_flip;
 

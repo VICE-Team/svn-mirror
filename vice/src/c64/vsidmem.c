@@ -47,7 +47,6 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cia.h"
-#include "clkguard.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -197,27 +196,8 @@ void mem_toggle_watchpoints(int flag, void *context)
     see testprogs/CPU/cpuport for details and tests
 */
 
-static void clk_overflow_callback(CLOCK sub, void *unused_data)
-{
-    if (pport.data_set_clk_bit6 > (CLOCK)0) {
-        pport.data_set_clk_bit6 -= sub;
-    }
-    if (pport.data_falloff_bit6 && (pport.data_set_clk_bit6 < maincpu_clk)) {
-        pport.data_falloff_bit6 = 0;
-        pport.data_set_bit6 = 0;
-    }
-    if (pport.data_set_clk_bit7 > (CLOCK)0) {
-        pport.data_set_clk_bit7 -= sub;
-    }
-    if (pport.data_falloff_bit7 && (pport.data_set_clk_bit7 < maincpu_clk)) {
-        pport.data_falloff_bit7 = 0;
-        pport.data_set_bit7 = 0;
-    }
-}
-
 void c64_mem_init(void)
 {
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 void mem_pla_config_changed(void)

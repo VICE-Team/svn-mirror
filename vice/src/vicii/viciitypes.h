@@ -130,13 +130,10 @@ typedef enum vicii_video_mode_s vicii_video_mode_t;
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending drawing event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
-#define VICII_RASTER_Y(clk)        ((unsigned int)((clk) \
-                                                   / vicii.cycles_per_line) \
-                                    % vicii.screen_height)
+#define VICII_RASTER_Y(clk)        ((unsigned int)(((clk) / vicii.cycles_per_line) % vicii.screen_height))
 
 /* Cycle # within the current line.  */
-#define VICII_RASTER_CYCLE(clk)    ((unsigned int)((clk) \
-                                                   % vicii.cycles_per_line))
+#define VICII_RASTER_CYCLE(clk)    ((unsigned int)((clk) % vicii.cycles_per_line))
 /* DTV Cycle # within the current line.
    Handles the "hole" on PAL systems at cycles 54-55 and the 1 cycle shift */
 #define VICIIDTV_RASTER_CYCLE(clk) ((unsigned int)((((clk) - 1) % vicii.cycles_per_line) + ((vicii.cycles_per_line == 63 && (((clk) - 1) % vicii.cycles_per_line) > 53) ? 2 : 0)))
@@ -445,7 +442,7 @@ extern vicii_t vicii;
 extern void vicii_update_memory_ptrs(unsigned int cycle);
 extern void vicii_update_video_mode(unsigned int cycle);
 extern void vicii_raster_draw_alarm_handler(CLOCK offset, void *data);
-extern void vicii_handle_pending_alarms(int num_write_cycles);
+extern void vicii_handle_pending_alarms(CLOCK num_write_cycles);
 extern void vicii_delay_clk(void);
 extern void vicii_delay_oldclk(CLOCK num);
 

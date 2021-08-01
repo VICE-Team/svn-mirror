@@ -1068,8 +1068,6 @@ static void monitor_binary_process_registers_available(binary_command_t *command
     response = lib_malloc(response_size);
     response_cursor = response;
 
-    i = 0;
-
     response_cursor = write_uint16(count_response, response_cursor);
 
     for (i = 0; i < count_all; i++) {

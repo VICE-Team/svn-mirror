@@ -1126,9 +1126,9 @@ void cmdhd_init(diskunit_context_t *ctxptr)
 
     /* init via cores */
     viacore_init(ctxptr->cmdhd->via9, ctxptr->cpu->alarm_context,
-                 ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);
+                 ctxptr->cpu->int_status);
     viacore_init(ctxptr->cmdhd->via10, ctxptr->cpu->alarm_context,
-                 ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);
+                 ctxptr->cpu->int_status);
 
     /* reset scsi system */
     scsi_reset(scsi);

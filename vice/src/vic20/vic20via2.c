@@ -270,7 +270,7 @@ inline static uint8_t read_prb(via_context_t *via_context)
 void via2_init(via_context_t *via_context)
 {
     viacore_init(machine_context.via2, maincpu_alarm_context,
-                 maincpu_int_status, maincpu_clk_guard);
+                 maincpu_int_status);
 }
 
 void vic20via2_setup_context(machine_context_t *machinecontext)

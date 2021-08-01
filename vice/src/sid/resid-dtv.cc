@@ -204,13 +204,18 @@ static void resid_reset(sound_t *psid, CLOCK cpu_clk)
 }
 
 static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr,
-                                   int interleave, int *delta_t)
+                                   int interleave, CLOCK *delta_t)
 {
-    return psid->sid->clock(*delta_t, pbuf, nr, interleave);
-}
-
-static void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
-{
+    int retval;
+    
+    int int_delta_t_original = (int)*delta_t;
+    int int_delta_t = (int)*delta_t;
+    
+    retval = psid->sid->clock(int_delta_t, pbuf, nr, interleave);
+    
+    (*delta_t) += int_delta_t - int_delta_t_original;
+    
+    return retval;
 }
 
 static char *resid_dump_state(sound_t *psid)
@@ -281,7 +286,6 @@ sid_engine_t resid_hooks =
     resid_store,
     resid_reset,
     resid_calculate_samples,
-    resid_prevent_clk_overflow,
     resid_dump_state,
     resid_state_read,
     resid_state_write

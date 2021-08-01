@@ -62,7 +62,7 @@ void vicii_snapshot_prepare(void)
 
 static char snap_module_name[] = "VIC-II";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 1
+#define SNAP_MINOR 2
 
 int vicii_snapshot_write_module(snapshot_t *s)
 {
@@ -111,7 +111,7 @@ int vicii_snapshot_write_module(snapshot_t *s)
         || SMW_DW(m, (uint32_t)vicii.light_pen.x) < 0
         || SMW_DW(m, (uint32_t)vicii.light_pen.y) < 0
         || SMW_DW(m, (uint32_t)vicii.light_pen.x_extra_bits) < 0
-        || SMW_DW(m, (uint32_t)vicii.light_pen.trigger_cycle) < 0
+        || SMW_CLOCK(m, vicii.light_pen.trigger_cycle) < 0
         /* vbank_phi[12] updated from elsewhere */
         /* log is initialized at startup */
         || SMW_B(m, vicii.reg11_delay) < 0
@@ -226,7 +226,7 @@ int vicii_snapshot_read_module(snapshot_t *s)
         || SMR_DW_INT(m, &vicii.light_pen.x) < 0
         || SMR_DW_INT(m, &vicii.light_pen.y) < 0
         || SMR_DW_INT(m, &vicii.light_pen.x_extra_bits) < 0
-        || SMR_DW(m, &vicii.light_pen.trigger_cycle) < 0
+        || SMR_CLOCK(m, &vicii.light_pen.trigger_cycle) < 0
         /* vbank_phi[12] updated from elsewhere */
         /* log is initialized at startup */
         || SMR_B(m, &vicii.reg11_delay) < 0

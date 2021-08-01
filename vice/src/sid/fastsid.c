@@ -1073,11 +1073,6 @@ static void fastsid_reset(sound_t *psid, CLOCK cpu_clk)
     psid->laststoreclk = cpu_clk;
 }
 
-static void fastsid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
-{
-    psid->laststoreclk -= sub;
-}
-
 static void fastsid_resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
 }
@@ -1095,7 +1090,6 @@ sid_engine_t fastsid_hooks =
     fastsid_store,
     fastsid_reset,
     fastsid_calculate_samples,
-    fastsid_prevent_clk_overflow,
     fastsid_dump_state,
     fastsid_resid_state_read,
     fastsid_resid_state_write

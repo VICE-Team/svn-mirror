@@ -188,7 +188,7 @@ static uint8_t userport_detect_collision(uint8_t retval_orig, uint8_t mask)
     uint8_t rv;
     int collision = 0;
     int first_found = 0;
-    userport_device_list_t *current = userport_head.next;
+    userport_device_list_t *current;
     unsigned int highest_order = 0;
 
     /* collision detection */

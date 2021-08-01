@@ -67,9 +67,6 @@ typedef struct drivecpu_context_s {
 
     struct alarm_context_s *alarm_context;
 
-    /* Clk guard.  */
-    struct clk_guard_s *clk_guard;
-
     struct monitor_interface_s *monitor_interface;
 
     /* Value of clk for the last time mydrive_cpu_execute() was called.  */

@@ -345,7 +345,7 @@ void kbdbuf_flush(void)
         if ((queue[head_idx] == 13) && (use_kbdbuf_flush_alarm == 1)) {
             /* we actually need to wait _at least_ one frame to not overrun the buffer */
             kbdbuf_flush_alarm_time = maincpu_clk + (CLOCK)machine_get_cycles_per_frame();
-            kbdbuf_flush_alarm_time += lib_unsigned_rand(1, (CLOCK)machine_get_cycles_per_frame());
+            kbdbuf_flush_alarm_time += lib_unsigned_rand(1, (unsigned int)machine_get_cycles_per_frame());
             alarm_set(kbdbuf_flush_alarm, kbdbuf_flush_alarm_time);
             
             prevent_recursion = false;

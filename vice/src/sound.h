@@ -214,7 +214,6 @@ extern int sound_dump(int chipno);
 /* functions and structs implemented by each machine */
 typedef struct sound_s sound_t;
 extern char *sound_machine_dump_state(sound_t *psid);
-extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
 extern void sound_machine_enable(int enable);
 
 extern unsigned int sound_device_num(void);
@@ -234,7 +233,7 @@ typedef struct sound_chip_s {
     void (*close)(sound_t *psid);
 
     /* sound chip calculate samples function */
-    int (*calculate_samples)(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+    int (*calculate_samples)(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
 
     /* sound chip store function */
     void (*store)(sound_t *psid, uint16_t addr, uint8_t val);

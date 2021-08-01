@@ -51,7 +51,7 @@ static char snap_module_name[] = "CRTC";
 int crtc_snapshot_write_module(snapshot_t * s)
 {
     int i, ef = 0;
-    int current_char;
+    CLOCK current_char;
     int screen_rel;
     snapshot_module_t *m;
 

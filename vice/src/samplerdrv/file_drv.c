@@ -131,7 +131,7 @@ static unsigned sample_size = 0;
 static int sound_sampling_started = 0;
 
 static unsigned int sound_sample_frame_start;
-static unsigned int old_frame;
+static CLOCK old_frame;
 static unsigned int sound_frames_per_sec;
 static unsigned int sound_cycles_per_frame;
 static unsigned int sound_samples_per_frame;
@@ -2204,9 +2204,9 @@ static int sampler_file_cmdline_options_init(void)
 /* For now channel is ignored */
 static uint8_t file_get_sample(int channel)
 {
-    unsigned int current_frame = 0;
+    CLOCK current_frame = 0;
     unsigned int current_cycle = 0;
-    unsigned int frame_diff = 0;
+    CLOCK frame_diff = 0;
     unsigned int frame_sample = 0;
 
     if (!sample_buffer1) {

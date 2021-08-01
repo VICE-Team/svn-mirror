@@ -41,7 +41,6 @@
 #endif
 
 #include "archdep.h"
-#include "clkguard.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "fixpoint.h"
@@ -230,12 +229,12 @@ static void sound_machine_close(sound_t *psid)
     a quick bandaid the memset was added below. This should be really cleaned
     up someday.
 */
-static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
+static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
     int i;
     int temp;
-    int initial_delta_t = *delta_t;
-    int delta_t_for_other_chips;
+    CLOCK initial_delta_t = *delta_t;
+    CLOCK delta_t_for_other_chips;
 
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
         temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, soc, scc, delta_t);
@@ -1114,7 +1113,7 @@ static int sound_run_sound(void)
 
     int nr = 0;
     int i;
-    int delta_t = 0;
+    CLOCK delta_t = 0;
     int16_t *bufferptr;
 
     if (!playback_enabled) {
@@ -1201,20 +1200,6 @@ void sound_reset(void)
     for (c = 0; c < snddata.sound_chip_channels; c++) {
         if (snddata.psid[c]) {
             sound_machine_reset(snddata.psid[c], maincpu_clk);
-        }
-    }
-}
-
-static void prevent_clk_overflow_callback(CLOCK sub, void *data)
-{
-    int c;
-
-    snddata.lastclk -= sub;
-    snddata.fclk -= SOUNDCLK_CONSTANT(sub);
-    snddata.wclk -= sub;
-    for (c = 0; c < snddata.sound_chip_channels; c++) {
-        if (snddata.psid[c]) {
-            sound_machine_prevent_clk_overflow(snddata.psid[c], sub);
         }
     }
 }
@@ -1470,9 +1455,6 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     cycles_per_sec = clock_rate;
     cycles_per_rfsh = ticks_per_frame;
     rfsh_per_sec = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
-
-    clk_guard_add_callback(maincpu_clk_guard, prevent_clk_overflow_callback,
-                           NULL);
 
     devlist = lib_strdup("");
 
