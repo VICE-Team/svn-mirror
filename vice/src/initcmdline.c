@@ -268,7 +268,7 @@ static int cmdline_limitcycles(const char *param, void *extra_param)
 {
     uint64_t clk_limit = strtoull(param, NULL, 0);
     if (clk_limit > CLOCK_MAX) {
-        fprintf(stderr, "too many cycles, use max %llu\n", CLOCK_MAX);
+        fprintf(stderr, "too many cycles, use max %"PRIu64"\n", CLOCK_MAX);
         return -1;
     }
     maincpu_clk_limit = (CLOCK)clk_limit;

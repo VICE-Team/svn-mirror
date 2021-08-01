@@ -595,7 +595,7 @@ int vicii_cycle(void)
     if (vicii.bad_line && cycle_may_fetch_c(vicii.cycle_flags)) {
 #ifdef DEBUG
         if (debug.maincpu_traceflg) {
-            log_debug("DMA at cycle %u   %llu", vicii.raster_cycle, maincpu_clk);
+            log_debug("DMA at cycle %u   %"PRIu64"", vicii.raster_cycle, maincpu_clk);
         }
 #endif
         vicii_fetch_matrix();

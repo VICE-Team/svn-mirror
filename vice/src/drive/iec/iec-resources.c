@@ -188,7 +188,7 @@ static int set_drive_fixed(const char *val, void *param)
             suffix = 0;
         }
 #if 0
-        /* make my own ascii output since lib_msprintf("%llu%c", work, suffix)
+        /* make my own ascii output since lib_msprintf("%"PRIu64"%c", work, suffix)
             doesn't work on windows at all */
         text[tp++] = 0;
         text[tp++] = suffix;

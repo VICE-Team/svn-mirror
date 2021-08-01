@@ -1053,14 +1053,14 @@ int crtc_dump(void)
             crtc.current_line,
             crtc.current_line % scanlines,
             crtc.vsync);
-    mon_out("CLOCK at start of frame %llu, + rasterline %llu, line length %d\n",
+    mon_out("CLOCK at start of frame %"PRIu64", + rasterline %"PRIu64", line length %d\n",
             crtc.frame_start,
             crtc.rl_start - crtc.frame_start,
             crtc.rl_len);
     
     if (crtc.raster_draw_alarm) {
         CLOCK then = crtc.raster_draw_alarm->context->next_pending_alarm_clk;
-        mon_out("next raster line draw alarm: %llu (now+%llu)\n",
+        mon_out("next raster line draw alarm: %"PRIu64" (now+%"PRIu64")\n",
                 then, then - maincpu_clk);
     }
     return 0;
