@@ -344,6 +344,28 @@ static joystick_driver_t osx_joystick_driver = {
     .close = osx_joystick_close
 };
 
+static CFDictionaryRef CreateHIDDeviceMatchDictionary(const int page, const int usage)
+{
+    CFDictionaryRef retval = NULL;
+    CFNumberRef pageNumRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &page);
+    CFNumberRef usageNumRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &usage);
+    const void *keys[2] = { (void *) CFSTR(kIOHIDDeviceUsagePageKey), (void *) CFSTR(kIOHIDDeviceUsageKey) };
+    const void *vals[2] = { (void *) pageNumRef, (void *) usageNumRef };
+
+    if (pageNumRef && usageNumRef) {
+        retval = CFDictionaryCreate(kCFAllocatorDefault, keys, vals, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    }
+
+    if (pageNumRef) {
+        CFRelease(pageNumRef);
+    }
+    if (usageNumRef) {
+        CFRelease(usageNumRef);
+    }
+
+    return retval;
+}
+
 /* ----- API ----- */
 
 void joy_hidlib_init(void)
@@ -355,12 +377,29 @@ void joy_hidlib_init(void)
     if( !mgr ) {
         return;
     }
+    
+    {
+        const void *vals[] = {
+            (void *) CreateHIDDeviceMatchDictionary(kHIDPage_GenericDesktop, kHIDUsage_GD_Joystick),
+            (void *) CreateHIDDeviceMatchDictionary(kHIDPage_GenericDesktop, kHIDUsage_GD_GamePad),
+            (void *) CreateHIDDeviceMatchDictionary(kHIDPage_GenericDesktop, kHIDUsage_GD_MultiAxisController),
+        };
+        CFArrayRef array = CFArrayCreate(kCFAllocatorDefault, vals, 3, &kCFTypeArrayCallBacks);
+        
+        IOHIDManagerSetDeviceMatchingMultiple(mgr, array);
+        
+        CFRelease(array);
+        CFRelease(vals[0]);
+        CFRelease(vals[1]);
+        CFRelease(vals[2]);
+    }
+    
     /* open it */
     IOReturn tIOReturn = IOHIDManagerOpen( mgr, 0L);
     if ( kIOReturnSuccess != tIOReturn ) {
         return;
     }
-    IOHIDManagerSetDeviceMatching( mgr, NULL );
+    
     /* create set of devices */
     CFSetRef device_set = IOHIDManagerCopyDevices( mgr );
     if ( !device_set ) {
