@@ -237,7 +237,7 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
             strncpy(otext, mon_memspace_string[cpuhistory[pos].origin + 1], 4);
 
             /* Print the disassembled instruction */
-            mon_out(".%s:%04x  %-26s - A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c  %11"PRIu64"\n",
+            mon_out(".%s:%04x  %-26s A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c %12"PRIu64"\n",
                 otext, loc, dis_inst,
                 cpuhistory[pos].reg_a, cpuhistory[pos].reg_x,
                 cpuhistory[pos].reg_y, cpuhistory[pos].reg_sp,
