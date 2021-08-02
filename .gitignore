@@ -5,8 +5,11 @@
 .autoheader.out
 .automake.out
 .deps
+CMakeFiles
+CMakeLists.txt
 Makefile
 Makefile.in
+_build
 aclocal.m4
 autom4te.cache
 compile
@@ -20,6 +23,7 @@ missing
 vice/data/common/vice.gresource
 vice/doc/.vice-texi-charset-ok
 vice/doc/vice.pdf
+vice/src/arch/android/AnVICE/AndroidManifest.xml
 vice/src/arch/gtk3/novte/box_drawing.h
 vice/src/arch/gtk3/novte/marshal.cc
 vice/src/arch/gtk3/novte/marshal.h
