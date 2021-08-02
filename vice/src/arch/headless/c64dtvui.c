@@ -39,7 +39,7 @@
  */
 int c64dtvui_init_early(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
     
     return 0;
 }
@@ -51,7 +51,7 @@ int c64dtvui_init_early(void)
  */
 int c64dtvui_init(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
     
     return 0;
 }
@@ -61,7 +61,7 @@ int c64dtvui_init(void)
  */
 void c64dtvui_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
     
     /* NOP */
 }

@@ -62,7 +62,7 @@
  */
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -81,7 +81,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
  */
 void ui_display_playback(int playback_status, char *version)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 /** \brief  Statusbar API function to display recording status.
@@ -97,7 +97,7 @@ void ui_display_playback(int playback_status, char *version)
  */
 void ui_display_recording(int recording_status)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -109,7 +109,7 @@ void ui_display_recording(int recording_status)
  */
 void ui_display_statustext(const char *text, int fade_out)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 /** \brief  Statusbar API function to display current volume
@@ -121,7 +121,7 @@ void ui_display_statustext(const char *text, int fade_out)
  */
 void ui_display_volume(int vol)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -137,7 +137,7 @@ void ui_display_volume(int vol)
  */
 void ui_display_joyport(uint16_t *joyport)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -149,7 +149,7 @@ void ui_display_joyport(uint16_t *joyport)
  */
 void ui_display_tape_control_status(int control)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 /** \brief  Statusbar API function to report changes in tape position.
@@ -160,7 +160,7 @@ void ui_display_tape_control_status(int control)
  */
 void ui_display_tape_counter(int counter)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -170,7 +170,7 @@ void ui_display_tape_counter(int counter)
  */
 void ui_display_tape_motor_status(int motor)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -182,7 +182,7 @@ void ui_display_tape_motor_status(int motor)
  */
 void ui_set_tape_status(int tape_status)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -194,7 +194,7 @@ void ui_set_tape_status(int tape_status)
  */
 void ui_display_tape_current_image(const char *image)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -213,7 +213,7 @@ void ui_display_drive_led(unsigned int drive_number,
                           unsigned int pwm1,
                           unsigned int led_pwm2)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -232,7 +232,7 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -261,7 +261,7 @@ void ui_display_drive_track(unsigned int drive_number,
  */
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -276,5 +276,5 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
  */
 void ui_display_drive_current_image(unsigned int unit_number, unsigned int drive_number, const char *image)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }

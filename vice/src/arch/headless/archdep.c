@@ -66,7 +66,7 @@ static void sigint_exit(int _)
  */
 int archdep_init(int *argc, char **argv)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     /* Initiate a clean shutdown on CTRL-C */
     signal(SIGINT, sigint_exit);
@@ -89,7 +89,7 @@ int archdep_init(int *argc, char **argv)
  */
 void archdep_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     /* free memory used by the exec path */
     archdep_program_path_free();

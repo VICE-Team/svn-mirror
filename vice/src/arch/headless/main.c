@@ -55,7 +55,7 @@
  */
 int main(int argc, char **argv)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
     
     return main_program(argc, argv);
 }
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
  */
 void main_exit(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     log_message(LOG_DEFAULT, "\nExiting...");
 

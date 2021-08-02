@@ -113,7 +113,7 @@ static int is_paused = 0;
  */
 void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     return;
 }
@@ -125,7 +125,7 @@ void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
  */
 int ui_cmdline_options_init(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     return cmdline_register_options(cmdline_options_common);
 }
@@ -144,7 +144,7 @@ int ui_cmdline_options_init(void)
  */
 char *ui_get_file(const char *format, ...)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     /*
      * Also not called when trying to play back events, at least, I've never
@@ -189,7 +189,7 @@ int ui_init(void)
  */
 int ui_init_finish(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     return 0;
 }
@@ -207,7 +207,7 @@ int ui_init_finish(void)
  */
 int ui_init_finalize(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     return 0;
 }
@@ -221,7 +221,7 @@ int ui_init_finalize(void)
  */
 ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     va_list args;
     char *buffer;
@@ -247,7 +247,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
  */
 int ui_resources_init(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     /* initialize string resources */
     if (resources_register_string(resources_string) < 0) {
@@ -262,14 +262,14 @@ int ui_resources_init(void)
  */
 void ui_resources_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 /** \brief Clean up memory used by the UI system itself
  */
 void ui_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -277,7 +277,7 @@ void ui_shutdown(void)
  */
 void ui_dispatch_events(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 /** \brief  Display the "Do you want to extend the disk image to
@@ -290,7 +290,7 @@ void ui_dispatch_events(void)
  */
 int ui_extend_image_dialog(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     /* FIXME: this dialog needs to be implemented. */
     NOT_IMPLEMENTED();
@@ -304,7 +304,7 @@ int ui_extend_image_dialog(void)
  */
 void ui_error(const char *format, ...)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     char *buffer;
     va_list ap;
@@ -324,7 +324,7 @@ void ui_error(const char *format, ...)
  */
 void ui_message(const char *format, ...)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     char *buffer;
     va_list ap;
@@ -345,7 +345,7 @@ void ui_message(const char *format, ...)
  */
 static void pause_trap(uint16_t addr, void *data)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 /*
     vsync_suspend_speed_eval();
     sound_suspend();
@@ -363,7 +363,7 @@ static void pause_trap(uint16_t addr, void *data)
  */
 int ui_pause_active(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     return is_paused;
 }
@@ -373,7 +373,7 @@ int ui_pause_active(void)
  */
 void ui_pause_enable(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     if (!ui_pause_active()) {
         is_paused = 1;
@@ -386,7 +386,7 @@ void ui_pause_enable(void)
  */
 void ui_pause_disable(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     if (ui_pause_active()) {
         is_paused = 0;
