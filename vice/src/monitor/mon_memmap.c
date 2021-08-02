@@ -68,7 +68,7 @@ uint8_t memmap_state = 0;
 #define MEMMAP_ELEM uint16_t
 
 struct cpuhistory_s {
-   uint32_t cycle;
+   CLOCK cycle;
    uint16_t addr;
    uint16_t reg_st;
    uint8_t op;
@@ -125,7 +125,7 @@ int monitor_cpuhistory_allocate(int lines)
 }
 
 
-void monitor_cpuhistory_store(uint32_t cycle, unsigned int addr, unsigned int op,
+void monitor_cpuhistory_store(CLOCK cycle, unsigned int addr, unsigned int op,
                               unsigned int p1, unsigned int p2,
                               uint8_t reg_a,
                               uint8_t reg_x,
@@ -168,7 +168,7 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
     const char *dis_inst;
     unsigned opc_size;
     int i, pos;
-    uint32_t cycle;
+    CLOCK cycle;
     char otext[10];
 
     /* the filterX is 0 = no value, 1 = cpu, 2 = drive 8, etc */
@@ -237,7 +237,7 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
             strncpy(otext, mon_memspace_string[cpuhistory[pos].origin + 1], 4);
 
             /* Print the disassembled instruction */
-            mon_out(".%s:%04x  %-26s - A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c  %9u\n",
+            mon_out(".%s:%04x  %-26s - A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c  %11"PRIu64"\n",
                 otext, loc, dis_inst,
                 cpuhistory[pos].reg_a, cpuhistory[pos].reg_x,
                 cpuhistory[pos].reg_y, cpuhistory[pos].reg_sp,
