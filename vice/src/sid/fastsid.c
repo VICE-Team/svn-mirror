@@ -766,7 +766,7 @@ static int16_t fastsid_calculate_single_sample(sound_t *psid, int i)
 }
 
 static int fastsid_calculate_samples(sound_t *psid, int16_t *pbuf, int nr,
-                                     int interleave, int *delta_t)
+                                     int interleave, CLOCK *delta_t)
 {
     int i;
     int16_t *tmp_buf;
