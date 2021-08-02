@@ -69,11 +69,35 @@
 
 #include "ui.h"
 
+/** \brief  Filename of ui executable to launch for each screen */
+static char *ui_filepath;
+
+
+static int set_ui_filepath(const char *val, void *param)
+{
+    util_string_set(&ui_filepath, val);
+    return 0;
+}
+
+
+/** \brief  String type resources list
+ */
+static const resource_string_t resources_string[] = {
+    { "UiFilepath", "", RES_EVENT_NO, NULL,
+        &ui_filepath, set_ui_filepath, NULL },
+
+    RESOURCE_STRING_LIST_END
+};
+
 
 /** \brief  Command line options shared between emu's, include VSID
  */
 static const cmdline_option_t cmdline_options_common[] =
 {
+    { "-ui", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+        set_ui_filepath, NULL, "UiFilepath", NULL,
+        "ui_filepath", "Set ui executable to launch for each screen" },
+
     CMDLINE_LIST_END
 };
 
@@ -224,6 +248,11 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 int ui_resources_init(void)
 {
     /* printf("%s\n", __func__); */
+
+    /* initialize string resources */
+    if (resources_register_string(resources_string) < 0) {
+        return -1;
+    }
 
     return 0;
 }
