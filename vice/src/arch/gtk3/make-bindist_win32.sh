@@ -240,34 +240,29 @@ cp $TOPSRCDIR/data/common/C64_Pro_Mono-STYLE.ttf $BUILDPATH/common
 
 PANGO_TARGET=1.48.5-1
 if $(gcc -v 2>&1 | grep ^Target: | awk '{ print $2 }' | grep ^x86_64 -q); then
-  BUILD_X86_64=true
+  # 64-bit
   PANGO_INSTALLED=$(pacman -Q -i mingw-w64-x86_64-pango | grep ^Version | awk '{ print $3 }')
+  PANGO_DOWNLOAD="https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-pango-$PANGO_TARGET-any.pkg.tar.zst"
 else
-  BUILD_X86_64=false
+  # 32-bit
   PANGO_INSTALLED=$(pacman -Q -i mingw-w64-i686-pango | grep ^Version | awk '{ print $3 }')
+  PANGO_DOWNLOAD="https://repo.msys2.org/mingw/mingw32/mingw-w64-i686-pango-$PANGO_TARGET-any.pkg.tar.zst"
 fi
 
 if [ $PANGO_INSTALLED != $PANGO_TARGET ] && [ "$(echo -e "$PANGO_TARGET\n$PANGO_INSTALLED" | sort -V | head -n1)" = $PANGO_TARGET ]; then
-  echo -e "Installed pango version $PANGO_INSTALLED is newer than $PANGO_TARGET,\n build will include $PANGO_TAGET DLLs to work-around upstream font bug."
+  echo -e "Installed pango version $PANGO_INSTALLED is newer than $PANGO_TARGET,\n build will include $PANGO_TAGET DLLs to workaround upstream font bug."
 
   PANGO_CACHE=$TOPSRCDIR/data/pango-cache
   mkdir -p $PANGO_CACHE
   pushd $PANGO_CACHE > /dev/null
     if [ ! -f libpango-1.0-0.dll -o ! -f libpangocairo-1.0-0.dll -o ! -f libpangoft2-1.0-0.dll -o ! -f libpangowin32-1.0-0.dll ]; then
-      echo "Downloading MSYS2 Pango 1.48.5-1 DLLs ..."
+      echo "Downloading MSYS2 Pango $PANGO_TARGET DLLs ..."
       rm -f *
-      if $BUILD_X86_64; then
-        # 64-bit
-        wget -q https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-pango-$PANGO_TARGET-any.pkg.tar.zst
-        wget -q https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-pango-$PANGO_TARGET-any.pkg.tar.zst.sig
-      else
-        # 32-bit
-        wget -q https://repo.msys2.org/mingw/mingw32/mingw-w64-i686-pango-$PANGO_TARGET-any.pkg.tar.zst
-        wget -q https://repo.msys2.org/mingw/mingw32/mingw-w64-i686-pango-$PANGO_TARGET-any.pkg.tar.zst.sig
-      fi
+      wget -q "${PANGO_DOWNLOAD}"
+      wget -q "${PANGO_DOWNLOAD}.sig"
 
       # verify sig
-      echo "Verifying MSYS2 Pango $PANGO_TARGET signature ..."
+      echo "Verifying MSYS2 Pango $PANGO_TARGET signature"
       if ! $(gpg --homedir=/etc/pacman.d/gnupg --verify *.sig *.zst 2> /dev/null); then
         >&2 echo "ERROR: Could not verify signature of Pango $PANGO_TARGET package, aborting"
         exit 1
@@ -277,10 +272,11 @@ if [ $PANGO_INSTALLED != $PANGO_TARGET ] && [ "$(echo -e "$PANGO_TARGET\n$PANGO_
       tar xf *.zst --wildcards --strip-components=2 "*.dll"
       rm *.sig *.zst
     else
-      echo "Copying cached MSYS2 Pango $PANGO_TARGET DLLs ..."
+      echo "Using cached MSYS2 Pango $PANGO_TARGET DLLs"
     fi
 
     # Copy pango dlls into bindist.
+    echo "Copying MSYS2 Pango $PANGO_TARGET DLLs"
     cp libpango-1.0-0.dll libpangocairo-1.0-0.dll libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll \
       $BUILDPATH/bin
   popd > /dev/null
