@@ -45,7 +45,7 @@
 #include "savefiledialog.h"
 #include "widgethelpers.h"
 
-#include "dqbbwidget.h"
+#include "rexramfloppywidget.h"
 
 
 /** \brief  Create widget to load/save REX Ram-Floppy image file
