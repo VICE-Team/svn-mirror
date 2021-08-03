@@ -131,6 +131,7 @@ libwidgets_a_SOURCES = \
 	ramlinkwidget.c \
 	retroreplaywidget.c \
 	reuwidget.c \
+	rexramfloppywidget.c \
 	romsetmanagerwidget.c \
 	rrnetmk3widget.c \
 	scpu64settingswidget.c \
@@ -290,6 +291,7 @@ EXTRA_DIST = \
 	ramlinkwidget.h \
 	retroreplaywidget.h \
 	reuwidget.h \
+	rexramfloppywidget.h \
 	romsetmanagerwidget.h \
 	rrnetmk3widget.h \
 	scpu64settingswidget.h \

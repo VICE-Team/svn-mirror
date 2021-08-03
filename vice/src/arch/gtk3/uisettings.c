@@ -113,6 +113,7 @@
 #include "retroreplaywidget.h"
 #include "ltkernalwidget.h"
 #include "ramlinkwidget.h"
+#include "rexramfloppywidget.h"
 #include "netplaywidget.h"
 #include "settings_default_cart.h"
 
@@ -304,6 +305,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "RAMLink",
       "ramlink",
       ramlink_widget_create, NULL },
+    { "REX Ram-Floppy",
+      "rexramfloppy",
+      rexramfloppy_widget_create, NULL },
     { "MMC64",
       "mmc64",
       mmc64_widget_create, NULL },
@@ -394,6 +398,9 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "IDE64",
       "ide64",
       ide64_widget_create, NULL },
+    { "REX Ram-Floppy",
+      "rexramfloppy",
+      rexramfloppy_widget_create, NULL },
     { "MMC64",
       "mmc64",
       mmc64_widget_create, NULL },
@@ -488,6 +495,9 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "RAMLink",
       "ramlink",
       ramlink_widget_create, NULL },
+    { "REX Ram-Floppy",
+      "rexramfloppy",
+      rexramfloppy_widget_create, NULL },
     { "MMC64",
       "mmc64",
       mmc64_widget_create, NULL },
