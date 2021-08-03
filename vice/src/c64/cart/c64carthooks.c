@@ -503,6 +503,7 @@ int cart_cmdline_options_init(void)
         || mmcreplay_cmdline_options_init() < 0
         || ramlink_cmdline_options_init() < 0
         || retroreplay_cmdline_options_init() < 0
+        || rexramfloppy_cmdline_options_init() < 0
         || rgcd_cmdline_options_init() < 0
 #ifdef HAVE_RAWNET
         || rrnetmk3_cmdline_options_init() < 0
@@ -567,6 +568,7 @@ int cart_resources_init(void)
         || mmcreplay_resources_init() < 0
         || ramlink_resources_init() < 0
         || retroreplay_resources_init() < 0
+        || rexramfloppy_resources_init() < 0
         || rgcd_resources_init() < 0
 #ifdef HAVE_RAWNET
         || rrnetmk3_resources_init() < 0
@@ -617,6 +619,7 @@ void cart_resources_shutdown(void)
     mmcreplay_resources_shutdown();
     ramlink_resources_shutdown();
     retroreplay_resources_shutdown();
+    rexramfloppy_resources_shutdown();
     rgcd_resources_shutdown();
 #ifdef HAVE_RAWNET
     rrnetmk3_resources_shutdown();
@@ -2566,6 +2569,8 @@ int cartridge_flush_image(int type)
             return ramlink_flush_image();
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_flush_image();
+        case CARTRIDGE_REX_RAMFLOPPY:
+            return rexramfloppy_flush_image();
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_flush_image();
@@ -2618,6 +2623,8 @@ int cartridge_bin_save(int type, const char *filename)
             return ramlink_bin_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_save(filename);
+        case CARTRIDGE_REX_RAMFLOPPY:
+            return rexramfloppy_bin_save(filename);
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_bin_save(filename);
