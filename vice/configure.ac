@@ -29,11 +29,16 @@ VICE_CXXFLAGS="-g -O3"
 VICE_OBJCFLAGS="-g -O3"
 VICE_LDFLAGS=""
 
+dnl Avoid "ar: `u' modifier ignored since `D' is the default (see `U')" warning
+dnl caused by a longstanding bug in libtool.
+dnl See https://github.com/rsyslog/rsyslog/issues/1179 for some details.
+: ${ARFLAGS="cr"}
+: ${AR_FLAGS="cr"}
+AC_SUBST(ARFLAGS)
+AC_SUBST(AR_FLAGS)
 
 AC_CONFIG_MACRO_DIR([m4])
 
-dnl Again: sed substitutes this
-dnl NO, it doesn't
 VICE_VERSION_MAJOR=vice_version_major
 VICE_VERSION_MINOR=vice_version_minor
 VICE_VERSION_BUILD=vice_version_build
@@ -733,25 +738,6 @@ if test x"$ar_check" != "xno"; then
   fi
 fi
 
-dnl check if ar needs a wrapper to get rid of the 'u' option
-if test x"$ar_check" != "xno"; then
-  AC_MSG_CHECKING(if ar complains about the 'u' option)
-  rm -f vicetest.c
-  touch vicetest.c
-  $CC -c vicetest.c -o vicetest.o
-  rm -f vicetest.c
-  rm -f libvicetest.a
-  complains=`$AR cru libvicetest.a vicetest.o 2>&1`
-  if test x"$complains" != "x"; then
-    AC_MSG_RESULT(yes)
-    echo "using ar wrapper instead of ar directly"
-    AR_WRAP="$AR"
-    AR="\$(top_srcdir)/src/wrap-u-ar.sh \"$AR_WRAP\""
-  else
-    AC_MSG_RESULT(no)
-  fi
-  rm -f libvicetest.a vicetest.o
-fi
 
 AM_CONDITIONAL(USE_SVN_REVISION,false)
 AM_CONDITIONAL(USE_SVN_REVISION_OVERRIDE,false)
