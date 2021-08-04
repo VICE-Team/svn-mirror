@@ -33,16 +33,19 @@ fi
 AC_SUBST(RESID_INLINING)
 AC_SUBST(RESID_INLINE)
 
+
 dnl Enable experimental 8580 filters.
 AC_ARG_ENABLE([new8580filter],
-  [AC_HELP_STRING([--enable-new8580filter],
-    [enable experimental 8580 filters [default=no]])],
-  [],
-  [])
+  [AS_HELP_STRING([--disable-new8580filter],
+    [disable new 8580 filter implementation [default=no]])]
+)
 
-AS_IF([test x"$enable_new8580filter" = "xyes"],
+AM_CONDITIONAL([NEW_8580_FILTER], [test x"$enable_new8580filter" != "xno"])
+AS_IF([test x"$enable_new8580filter" != "xno"],
   [AC_SUBST([NEW_8580_FILTER], [1])],
-  [AC_SUBST([NEW_8580_FILTER], [0])])
+  [AC_SUBST([NEW_8580_FILTER], [0])]
+)
+
 
 dnl Checks for programs.
 AC_PROG_CXX([g++ clang++])
