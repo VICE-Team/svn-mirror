@@ -14,7 +14,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2020  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -40,18 +40,18 @@
 
 /*
  * Microsoft's msvcrt does support C99's %z printf format specifier, so we
- * need to work around that:
+ * need to work around that.
+ *
+ * archdep_defs.h defines PRI_SIZE_T, but I want to keep this code independent
+ * from VICE code so it can be used in other projects.
  */
-#ifdef _WIN32
-# ifdef _WIN64
-#  define PRI_SIZE_T    PRIu64
+#ifndef PRI_SIZE_T
+# ifdef _WIN32
+#  define PRI_SIZE_T    "Iu"
 # else
-#  define PRI_SIZE_T    PRIu32
+#  define PRI_SIZE_T    "zu"
 # endif
-#else
-# define PRI_SIZE_T     "zu"
 #endif
-
 
 
 /** \brief  Error codes
