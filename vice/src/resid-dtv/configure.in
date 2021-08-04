@@ -1,6 +1,14 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(sid.h)
 
+dnl Avoid "ar: `u' modifier ignored since `D' is the default (see `U')" warning
+dnl caused by a longstanding bug in libtool.
+dnl See https://github.com/rsyslog/rsyslog/issues/1179 for some details.
+: ${ARFLAGS="cr"}
+: ${AR_FLAGS="cr"}
+AC_SUBST(ARFLAGS)
+AC_SUBST(AR_FLAGS)
+
 dnl Use Automake
 AM_INIT_AUTOMAKE(resid, 0.16vice)
 LTVERSION=5:0:0

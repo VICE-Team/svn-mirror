@@ -11,6 +11,14 @@ AC_CONFIG_SRCDIR([sid.h])
 dnl Use Automake
 AM_INIT_AUTOMAKE([1.7.1])
 
+dnl Avoid "ar: `u' modifier ignored since `D' is the default (see `U')" warning
+dnl caused by a longstanding bug in libtool.
+dnl See https://github.com/rsyslog/rsyslog/issues/1179 for some details.
+: ${ARFLAGS="cr"}
+: ${AR_FLAGS="cr"}
+AC_SUBST(ARFLAGS)
+AC_SUBST(AR_FLAGS)
+
 dnl Use Libtool
 dnl LT_PREREQ([2.2.2])
 dnl LT_INIT([disable-shared])
