@@ -91,7 +91,7 @@ const char *file_chooser_pattern_tape[] = {
 /** \brief  Patterns for fliplists
  */
 const char *file_chooser_pattern_fliplist[] = {
-    "*.[vV][fF][lL]", NULL
+    "*.[vV][fF][lL]", "*.[lL][sS][tT]", NULL
 };
 
 /** \brief  Patterns for program files
