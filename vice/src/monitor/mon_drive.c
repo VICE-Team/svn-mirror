@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "attach.h"
+#include "charset.h"
 #include "diskcontents-block.h"
 #include "diskimage.h"
 #include "imagecontents.h"
@@ -191,7 +192,7 @@ void mon_drive_list(int drive_unit)
     listing = diskcontents_block_read(vdrive, 0);
 
     if (listing != NULL) {
-        char *string = image_contents_to_string(listing, 1);
+        char *string = image_contents_to_string(listing, IMAGE_CONTENTS_STRING_ASCII);
         image_contents_file_list_t *element = listing->file_list;
 
         mon_out("%s\n", string);

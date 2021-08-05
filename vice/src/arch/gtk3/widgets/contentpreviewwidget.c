@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "basedialogs.h"
+#include "charset.h"
 #include "debug_gtk3.h"
 #include "imagecontents.h"
 #include "lib.h"
@@ -152,7 +153,7 @@ static GtkListStore *create_model(const char *path)
     row = -1;   /* -1 means invalid file when double-clicking */
 
     /* disk name & ID */
-    tmp = image_contents_to_string(contents, 0);
+    tmp = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
     utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, true, false);
     gtk_list_store_append(model, &iter);
     gtk_list_store_set(model, &iter, 0, utf8, 1, row, -1);
