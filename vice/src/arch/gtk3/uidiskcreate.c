@@ -224,11 +224,11 @@ static gboolean create_disk_image(const char *filename)
     /* convert name & ID to PETSCII */
     if (name_gtk3 != NULL && *name_gtk3 != '\0') {
         strncpy(name_vice, name_gtk3, IMAGE_CONTENTS_NAME_LEN);
-        charset_petconvstring((unsigned char *)name_vice, 0);
+        charset_petconvstring((unsigned char *)name_vice, CONVERT_TO_PETSCII);
     }
     if (id_gtk3 != NULL && *id_gtk3 != '\0') {
         strncpy(id_vice, id_gtk3, IMAGE_CONTENTS_ID_LEN);
-        charset_petconvstring((unsigned char *)id_vice, 0);
+        charset_petconvstring((unsigned char *)id_vice, CONVERT_TO_PETSCII);
     } else {
         strcpy(id_vice, "00");
     }

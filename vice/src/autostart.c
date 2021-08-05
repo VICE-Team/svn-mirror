@@ -1858,7 +1858,7 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name,
         if (util_file_exists(autostart_file)) {
             char *name;
 
-            charset_petconvstring((uint8_t *)autostart_prg_name, 0);
+            charset_petconvstring((uint8_t *)autostart_prg_name, CONVERT_TO_PETSCII);
             name = charset_replace_hexcodes(autostart_prg_name);
             result = autostart_autodetect(autostart_file, name, 0, runmode);
             lib_free(name);

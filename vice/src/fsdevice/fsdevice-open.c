@@ -171,7 +171,7 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
 
     *p++ = '"';
     strcpy((char *)p, bufinfo[secondary].dir); /* Dir name */
-    charset_petconvstring((uint8_t *)p, 0);   /* ASCII name to PETSCII */
+    charset_petconvstring((uint8_t *)p, CONVERT_TO_PETSCII);   /* ASCII name to PETSCII */
     i = 0;
 
     makeshortheader(p);
@@ -312,7 +312,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
                              FSDEV_DIR_SEP_STR, rname, NULL);
     charset_petconvstring((uint8_t *)(tape->name) +
                           strlen(fsdevice_get_path(vdrive->unit)) +
-                          strlen(FSDEV_DIR_SEP_STR), 1);
+                          strlen(FSDEV_DIR_SEP_STR), CONVERT_TO_ASCII);
     tape->read_only = 1;
     /* Prepare for buffered reads */
     bufinfo[secondary].isbuffered = 0;
@@ -432,7 +432,7 @@ int fsdevice_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     strncpy(rname, cmd_parse.parsecmd, cmd_parse.parselength + 1);
 
     /* CBM name to FSname */
-    charset_petconvstring((uint8_t *)(cmd_parse.parsecmd), 1);
+    charset_petconvstring((uint8_t *)(cmd_parse.parsecmd), CONVERT_TO_ASCII);
     DBG(("fsdevice_open rname: %s\n", rname));
 
     if (cmd_parse.filetype == CBMDOS_FT_REL) {
