@@ -210,11 +210,10 @@ bool fliplist_add_image(unsigned int unit)
 
     log_message(LOG_DEFAULT, "Adding `%s' to fliplist[%u]", n->image, unit);
     if (fliplist[unit - 8]) {
-        n->next = fliplist[unit - 8];
+        fliplist[unit - 8]->prev->next = n;
         n->prev = fliplist[unit - 8]->prev;
-        n->next->prev = n;
-        n->prev->next = n;
-        fliplist[unit - 8] = n;
+        fliplist[unit - 8]->prev = n;
+        n->next = fliplist[unit - 8];
     } else {
         fliplist[unit - 8] = n;
         n->next = n;
