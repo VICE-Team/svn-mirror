@@ -3372,7 +3372,7 @@ static int list_cmd(int nargs, char **args)
                 if ((pattern == NULL) || list_file_matches_pattern(string,
                             type, pattern)) {
                     lib_free(string);
-                    string = image_contents_file_to_string(element, 1);
+                    string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
                     printf("%s\n", string);
                 }
                 lib_free(string);
