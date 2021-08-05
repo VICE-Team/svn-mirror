@@ -3358,7 +3358,7 @@ static int list_cmd(int nargs, char **args)
 /*    listing = diskcontents_read(name, (unsigned int)(dnr + DRIVE_UNIT_MIN), drive); */
 
     if (listing != NULL) {
-        char *string = image_contents_to_string(listing, 1);
+        char *string = image_contents_to_string(listing, IMAGE_CONTENTS_STRING_ASCII);
         image_contents_file_list_t *element = listing->file_list;
 
         printf("%s\n", string);
