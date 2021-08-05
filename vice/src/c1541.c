@@ -3368,7 +3368,7 @@ static int list_cmd(int nargs, char **args)
         } else {
             do {
                 string = image_contents_filename_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
-                type = image_contents_filetype_to_string(element, 1);
+                type = image_contents_filetype_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
                 if ((pattern == NULL) || list_file_matches_pattern(string,
                             type, pattern)) {
                     lib_free(string);
