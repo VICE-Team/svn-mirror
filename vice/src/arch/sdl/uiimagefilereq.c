@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "charset.h"
 #include "diskcontents.h"
 #include "tapecontents.h"
 #include "imagecontents.h"
