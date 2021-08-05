@@ -3367,7 +3367,7 @@ static int list_cmd(int nargs, char **args)
             printf("Empty image\n");
         } else {
             do {
-                string = image_contents_filename_to_string(element, 1);
+                string = image_contents_filename_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
                 type = image_contents_filetype_to_string(element, 1);
                 if ((pattern == NULL) || list_file_matches_pattern(string,
                             type, pattern)) {
