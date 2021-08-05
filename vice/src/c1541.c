@@ -1692,7 +1692,7 @@ static int block_cmd(int nargs, char **args)
                 cnt++, offset++) {
             printf(" %02X", buf[offset]);
             chrbuf[cnt] = (buf[offset] < ' ' ?
-                        '.' : charset_p_toascii(buf[offset], 0));
+                        '.' : charset_p_toascii(buf[offset], CONVERT_WITHOUT_CTRLCODES));
         }
         /* fix indentation in case the last line is less than the max width */
         while (cnt++ < BLOCK_CMD_WIDTH) {

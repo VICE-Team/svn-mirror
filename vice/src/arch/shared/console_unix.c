@@ -245,7 +245,7 @@ int native_console_petscii_out(console_t *log, const char *format, ...)
             if (c == '\t') {
                 buf[i] = ' ';
             } else if (((c < 32) || (c > 126)) && (c != '\n')) {
-                buf[i] = charset_p_toascii(c, 1);
+                buf[i] = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
             }
         }
 
