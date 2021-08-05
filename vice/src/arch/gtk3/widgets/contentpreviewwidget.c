@@ -163,7 +163,7 @@ static GtkListStore *create_model(const char *path)
 
     /* files, if any */
     for (entry = contents->file_list; entry != NULL; entry = entry->next) {
-        tmp = image_contents_file_to_string(entry, 0);
+        tmp = image_contents_file_to_string(entry, IMAGE_CONTENTS_STRING_PETSCII);
         utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, false, false);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model, &iter,

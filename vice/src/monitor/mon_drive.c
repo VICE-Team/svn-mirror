@@ -202,7 +202,7 @@ void mon_drive_list(int drive_unit)
             mon_out("Empty image\n");
         } else {
             do {
-                string = image_contents_file_to_string(element, 1);
+                string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
                 mon_out("%s\n", string);
                 lib_free(string);
             }
