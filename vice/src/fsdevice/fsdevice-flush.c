@@ -663,7 +663,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     fsdevice_dev[dnr].cmdbuf[fsdevice_dev[dnr].cptr] = 0;
 
     strcpy(cbmcmd, (char *)(fsdevice_dev[dnr].cmdbuf));
-    charset_petconvstring((uint8_t *)cbmcmd, 1);   /* CBM name to FSname */
+    charset_petconvstring((uint8_t *)cbmcmd, CONVERT_TO_ASCII);   /* CBM name to FSname */
     cmd = cbmcmd;
 
     while (*cmd == ' ') {

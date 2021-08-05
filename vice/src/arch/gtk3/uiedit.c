@@ -56,7 +56,7 @@ static void paste_callback(GtkClipboard *clipboard,
     }
     text_in_petscii = lib_strdup(text);
 
-    charset_petconvstring((unsigned char*)text_in_petscii, 0);
+    charset_petconvstring((unsigned char*)text_in_petscii, CONVERT_TO_PETSCII);
     kbdbuf_feed(text_in_petscii);
     lib_free(text_in_petscii);
 }

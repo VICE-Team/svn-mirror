@@ -835,7 +835,7 @@ static const unsigned char *copystring(unsigned char *d, const unsigned char *s)
         ++s;
     }
     *d = 0;
-    charset_petconvstring(d, 1);
+    charset_petconvstring(d, CONVERT_TO_ASCII);
     return s + 1;
 }
 
