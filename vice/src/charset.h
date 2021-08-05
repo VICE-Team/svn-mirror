@@ -31,9 +31,13 @@
 #include "types.h"
 #include <stddef.h>
 
-#define a2p(c) charset_petconvstring(c, 0)
-#define p2a(c) charset_petconvstring(c, 1)
+#define CONVERT_TO_PETSCII                  0
+#define CONVERT_TO_ASCII                    1
+#define CONVERT_TO_ASCII_WITH_CTRLCODES     2   /* FIXME */
+#define CONVERT_TO_UTF8                     2   /* FIXME */
 
+#define CONVERT_WITHOUT_CTRLCODES           0
+#define CONVERT_WITH_CTRLCODES              1
 
 /* TODO:    Fix these functions to use size_t for lenght, not int
  */
@@ -51,12 +55,6 @@ extern void charset_petcii_to_screencode_line(const uint8_t *line, uint8_t **buf
 
 extern int charset_petscii_to_ucs(uint8_t c);
 extern int charset_ucs_to_utf8(uint8_t *out, int code, size_t len);
-
-#define CONVERT_TO_PETSCII 0
-#define CONVERT_TO_ASCII 1
-#define CONVERT_TO_UTF8 2
-
-#define CONVERT_TO_MASK 3
 
 extern uint8_t *charset_petconv_stralloc(uint8_t *in, int conv);
 
