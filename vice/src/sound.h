@@ -82,9 +82,8 @@
 #define SOUND_RECORD_DEVICE     0
 #define SOUND_PLAYBACK_DEVICE   1
 
-/* I need this to serialize close_sound and enablesound/sound_open in
-   the OS/2 Multithreaded environment                              */
 extern int sound_state_changed;
+extern int sound_playdev_reopen;
 extern int sid_state_changed;
 
 /* device structure */
