@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUG_SERIAL
+/* #define DEBUG_SERIAL */
 
 #include "vice.h"
 
