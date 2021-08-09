@@ -67,8 +67,6 @@ extern int util_get_line(char *buf, int bufsize, FILE *f);
 extern void util_fname_split(const char *path, char **directory_return,
                              char **name_return);
 
-extern int util_string_to_long(const char *str, const char **endptr, int base,
-                               long *result);
 extern char *util_subst(const char *s, const char *string,
                         const char *replacement);
 extern int util_string_set(char **str, const char *new_value);
