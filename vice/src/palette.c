@@ -156,9 +156,10 @@ static int palette_load_core(FILE *f, const char *file_name,
 
         for (i = 0; i < 4; i++) {
             long result;
-            const char *p2;
+            char *p2;
 
-            if (util_string_to_long(p1, &p2, 16, &result) < 0) {
+            result = strtol(p1, &p2, 16);
+            if (p1 == p2) {
                 log_error(palette_log, "%s, %u: number expected.",
                           file_name, line_num);
                 return -1;
