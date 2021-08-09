@@ -109,7 +109,7 @@ fi
 
 AS_IF([test "$GXX" = yes -a "$resid_test_CXXFLAGS" != set],
   [resid_save_CXXFLAGS=$CXXFLAGS
-   CXXFLAGS="-g -Wall -O3 $march -ffast-math -fno-exceptions"
+   CXXFLAGS="-g -Wall -O3 $march -fno-exceptions"
    AC_MSG_CHECKING([whether g++ accepts $CXXFLAGS])
    AC_COMPILE_IFELSE([int test;],
                      [AC_MSG_RESULT(yes)],
