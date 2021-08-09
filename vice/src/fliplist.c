@@ -1,4 +1,4 @@
-/* vim: set et ts=4 sw=4 sts=4 fdm=marker */
+/* vim: set et ts=4 sw=4 sts=4 fdm=marker: */
 
 /** \file   fliplist.c
  * \brief   Fliplist handling
