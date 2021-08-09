@@ -526,6 +526,15 @@ static void on_drive_reset_config_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+static void on_drive_fliplist_add_activate(GtkWidget *widget, gpointer data)
+{
+    int unit = GPOINTER_TO_INT(data);
+
+    debug_gtk3("Adding current image to fliplist for unit #%d", unit);
+}
+
+
+
 /** \brief Draw the LED associated with some drive's LED state.
  *
  *  \param widget  The drive LED GtkDrawingArea being drawn to.
@@ -706,32 +715,29 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
 }
 
 
-/** \brief Respond to mouse clicks on a disk drive status widget.
+/** \brief  Respond to mouse clicks on a disk drive status widget.
  *
  *  This displays the drive control popup menu.
  *
- *  \param widget  The GtkWidget that received the click. Ignored.
- *  \param event   The event representing the bottom operation.
- *  \param data    An integer representing which window's status bar was
- *                 clicked and thus where the popup window should go.
+ *  \param[in]  widget  The GtkWidget that received the click. Ignored.
+ *  \param[in]  event   The event representing the bottom operation.
+ *  \param[in]  data    An integer representing which window's status bar was
+ *                      clicked and thus where the popup window should go.
  *
  *  \return TRUE if further event processing should be skipped.
- *
- *  \todo This function uses GTK3 version checking to avoid deprecated
- *        functions on version 3.22 and to avoid nonexistent functions
- *        on version 3.16 through 3.20. Once 3.22 becomes a
- *        requirement, this version checking should be eliminated.
  */
 static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-    int i = GPOINTER_TO_INT(data);
-    GtkWidget *drive_menu = allocated_bars[0].drive_popups[i];
+    GtkWidget *drive_menu;
     GtkWidget *drive_menu_item;
     gchar buffer[256];
+    int i = GPOINTER_TO_INT(data);
+
 
     mainlock_assert_is_not_vice_thread();
 
-    ui_populate_fliplist_menu(drive_menu, i + 8, 0);
+    drive_menu = allocated_bars[0].drive_popups[i];
+    ui_populate_fliplist_menu(drive_menu, i + DRIVE_UNIT_MIN, 0);
 
     /* XXX: this code is a duplicate of the drive_menu creation code, so we
      *      should probably refactor this a bit
@@ -746,35 +752,42 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     /*
      * Add drive reset item
      */
-    g_snprintf(buffer, 256, "Reset drive #%d", i + 8);
+    g_snprintf(buffer, sizeof(buffer), "Reset drive #%d", i + DRIVE_UNIT_MIN);
     drive_menu_item = gtk_menu_item_new_with_label(buffer);
     g_signal_connect(drive_menu_item, "activate",
             G_CALLBACK(on_drive_reset_clicked), GINT_TO_POINTER(i));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     /* Add reset to configuration mode for CMD HDs */
-    if ((drive_has_buttons(i)&1)==1) {
-        g_snprintf(buffer, 256, "Reset drive #%d to Configuration Mode", i + 8);
+    if ((drive_has_buttons(i) & 1) == 1) {
+        g_snprintf(buffer, sizeof(buffer),
+                "Reset drive #%d to Configuration Mode", i + DRIVE_UNIT_MIN);
         drive_menu_item = gtk_menu_item_new_with_label(buffer);
         g_signal_connect(drive_menu_item, "activate",
-               G_CALLBACK(on_drive_reset_config_clicked), GINT_TO_POINTER((i<<4)+1));
+               G_CALLBACK(on_drive_reset_config_clicked),
+               GINT_TO_POINTER((i << 4) + 1));
         gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     }
     /* Add reset to installation mode for CMD HDs */
-    if ((drive_has_buttons(i)&6)==6) {
-        g_snprintf(buffer, 256, "Reset drive #%d to Installation Mode", i + 8);
+    if ((drive_has_buttons(i) & 6) == 6) {
+        g_snprintf(buffer, sizeof(buffer),
+                "Reset drive #%d to Installation Mode", i + DRIVE_UNIT_MIN);
         drive_menu_item = gtk_menu_item_new_with_label(buffer);
         g_signal_connect(drive_menu_item, "activate",
-               G_CALLBACK(on_drive_reset_config_clicked), GINT_TO_POINTER((i<<4)+6));
+               G_CALLBACK(on_drive_reset_config_clicked),
+               GINT_TO_POINTER((i << 4) + 6));
         gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     }
 
+    /* Add 'add image to fliplist' */
+    gtk_container_add(GTK_CONTAINER(drive_menu), gtk_separator_menu_item_new());
+    drive_menu_item = gtk_menu_item_new_with_label("Add current image to fliplist");
+    g_signal_connect(drive_menu_item, "activate",
+            G_CALLBACK(on_drive_fliplist_add_activate),
+            GINT_TO_POINTER(i + DRIVE_UNIT_MIN));
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+
     gtk_widget_show_all(drive_menu);
-    /* 3.22 isn't available on the latest stable version of all
-     * distros yet. This is expected to change when Ubuntu 18.04 is
-     * released. Since popup handling is the only thing 3.22 requires
-     * be done differently than its predecessors, this is the only
-     * place we should rely on version checks. */
 
     if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
         /* show popup for attaching/detaching disk images */
@@ -785,10 +798,9 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                                  event);
     } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         /* show popup to run file in currently attached image */
-        GtkWidget *dir_menu = dir_menu_popup_create(
-                i,
-                diskcontents_filesystem_read,
-                disk_dir_autostart_callback);
+        GtkWidget *dir_menu = dir_menu_popup_create(i,
+                                                    diskcontents_filesystem_read,
+                                                    disk_dir_autostart_callback);
 
         /* show popup for selecting file in currently attached image */
         gtk_menu_popup_at_widget(GTK_MENU(dir_menu),
