@@ -1,4 +1,4 @@
-    /** \file   dirmenupopup.c
+/** \file   dirmenupopup.c
  *  \brief  Create a menu to show a directory of a drive or tape deck
  *
  * FIXME: The current code depends way too much on internal/core code. The code
