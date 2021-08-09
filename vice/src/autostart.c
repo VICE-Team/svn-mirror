@@ -1331,7 +1331,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostart_initial_delay_cycles =
         (CLOCK)(((AutostartDelay == 0) ? AutostartDelayDefaultSeconds : AutostartDelay)
                         * machine_get_cycles_per_second());
-    DBG(("reboot_for_autostart AutostartDelay: %d AutostartDelayDefaultSeconds: %d autostart_initial_delay_cycles: %u\n",
+    DBG(("reboot_for_autostart AutostartDelay: %d AutostartDelayDefaultSeconds: %d autostart_initial_delay_cycles: %"PRIu64"\n",
            AutostartDelay, AutostartDelayDefaultSeconds, autostart_initial_delay_cycles));
 
     resources_get_int("AutostartDelayRandom", &rnd);
