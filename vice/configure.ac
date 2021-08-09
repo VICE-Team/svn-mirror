@@ -1074,9 +1074,12 @@ ORIG_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -fopenmp"
 AC_TRY_RUN( [ $TEST_OPENMP_C ],                
             [ AC_MSG_RESULT(yes)
-              have_openmp="yes" ],
-            [ AC_MSG_RESULT(no)
-              CFLAGS=$ORIG_CFLAGS ])
+              have_openmp="yes"
+              VICE_CFLAGS="$VICE_CFLAGS -fopenmp"
+              VICE_CXXFLAGS="$VICE_CXXFLAGS -fopenmp"
+              VICE_LDFLAGS="$VICE_LDFLAGS -fopenmp" ],
+            [ AC_MSG_RESULT(no) ])
+CFLAGS=$ORIG_CFLAGS
 
 if test x"$have_openmp" != "xyes"; then
   if test x"$is_unix_macosx" = "xyes"; then
@@ -1091,11 +1094,13 @@ if test x"$have_openmp" != "xyes"; then
     AC_TRY_RUN( [ $TEST_OPENMP_C ],
                 [ AC_MSG_RESULT(yes)
                   have_openmp="yes"
-                  CFLAGS="$ORIG_CFLAGS -Xpreprocessor -fopenmp"
+                  VICE_CFLAGS="$VICE_CFLAGS -Xpreprocessor -fopenmp"
+                  VICE_CXXFLAGS="$VICE_CXXFLAGS -Xpreprocessor -fopenmp"
                   LIBS="$LIBS -lomp"
                   ],
                 [ AC_MSG_RESULT(no)
                   CFLAGS=$ORIG_CFLAGS ])
+    CFLAGS=$ORIG_CFLAGS
   fi
 fi
 
