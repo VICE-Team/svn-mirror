@@ -1,4 +1,3 @@
-/* vim: set et ts=4 sw=4 sts=4 smartindent cindent syntax=c.doxygen fdm=marker: */
 /*
  * Copyright (c) 1993, 1994, 1995, 1996, 1997
  *	The Regents of the University of California.  All rights reserved.

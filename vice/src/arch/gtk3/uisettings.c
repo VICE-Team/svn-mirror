@@ -1,4 +1,3 @@
-/* vim: set fdm=marker: */
 /** \file   uisettings.c
  * \brief   GTK3 main settings dialog
  *
