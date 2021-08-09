@@ -4723,6 +4723,7 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
     size_t len;
     char buff[256];
     cbmdos_cmd_parse_t cmd_parse;
+    char *endp;
 
     while (dentries != 0) {
         int filetype, rc;
@@ -4756,7 +4757,8 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
         }
         buff[cnt] = 0;
 
-        if (util_string_to_long(buff, NULL, 10, &bsize) < 0) {
+        bsize = strtol(buff, &endp, 10);
+        if (buff == endp) {
             fprintf(stderr, "invalid Lynx file\n");
             return FD_RDERR;
         }
@@ -4797,7 +4799,8 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
         }
         buff[cnt] = 0;
 
-        if (util_string_to_long(buff, NULL, 10, &lbsize) < 0) {
+        lbsize = strtol(buff, &endp, 10);
+        if (buff == endp) {
             fprintf(stderr, "invalid Lynx file\n");
             return FD_RDERR;
         }
@@ -4863,7 +4866,7 @@ static int unlynx_cmd(int nargs, char **args)
     uint8_t val;
     char buff[256];
     int rc;
-    char *path;
+    char *path, *endp;
 
     if (nargs < 3) {
         dev = drive_index;
@@ -4927,7 +4930,8 @@ static int unlynx_cmd(int nargs, char **args)
 
     buff[cnt] = 0;
 
-    if (util_string_to_long(buff, NULL, 10, &dirsize) < 0 || dirsize <= 0) {
+    dirsize = strtol(buff, &endp, 10);
+    if ((buff == endp) || (dirsize <= 0)) {
         fprintf(stderr, "invalid Lynx file\n");
         fclose(f);
         lib_free(path);
@@ -4950,7 +4954,8 @@ static int unlynx_cmd(int nargs, char **args)
 
     buff[cnt] = 0;
 
-    if (util_string_to_long(buff, NULL, 10, &dentries) < 0 || dentries <= 0) {
+    dentries = strtol(buff, &endp, 10);
+    if ((buff == endp) || (dentries <= 0)) {
         fprintf(stderr, "invalid Lynx file\n");
         fclose(f);
         lib_free(path);
