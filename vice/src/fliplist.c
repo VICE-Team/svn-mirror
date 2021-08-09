@@ -600,25 +600,29 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 
             DBG(("file full name: '%s'", buffer_fullname));
 
-            tmp = lib_malloc(sizeof(struct fliplist_s));
-            tmp->image = lib_strdup(buffer_fullname);
-            tmp->unit = unit;
+            if (ioutil_access(buffer_fullname, IOUTIL_ACCESS_R_OK) == 0) {
+                tmp = lib_malloc(sizeof(struct fliplist_s));
+                tmp->image = lib_strdup(buffer_fullname);
+                tmp->unit = unit;
 
-            lib_free(buffer_fullname);
+                lib_free(buffer_fullname);
 
-            if (fliplist[unit - 8] == NULL) {
-                /* the first entry in the list */
-                fliplist[unit - 8] = tmp;
-                tmp->prev = tmp;
-                tmp->next = tmp;
+                if (fliplist[unit - 8] == NULL) {
+                    /* the first entry in the list */
+                    fliplist[unit - 8] = tmp;
+                    tmp->prev = tmp;
+                    tmp->next = tmp;
+                } else {
+                    /* add next entry at the bottom of the list */
+                    fliplist[unit - 8]->prev->next = tmp;
+                    tmp->prev = fliplist[unit - 8]->prev;
+                    fliplist[unit - 8]->prev = tmp;
+                    tmp->next = fliplist[unit - 8];
+                }
+                listok = 1;
             } else {
-                /* add next entry at the bottom of the list */
-                fliplist[unit - 8]->prev->next = tmp;
-                tmp->prev = fliplist[unit - 8]->prev;
-                fliplist[unit - 8]->prev = tmp;
-                tmp->next = fliplist[unit - 8];
+                log_error(LOG_DEFAULT, "File '%s' could not be added to flip list", buffer_fullname);
             }
-            listok = 1;
         }
     }
 
