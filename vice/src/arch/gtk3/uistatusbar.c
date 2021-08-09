@@ -72,6 +72,7 @@
 #include "uisettings.h"
 #include "userport/userport_joystick.h"
 
+#include "attach.h"
 #include "diskcontents.h"
 #include "drive.h"
 #include "drivetypes.h"
@@ -79,6 +80,7 @@
 #include "diskimage/fsimage.h"
 #include "autostart.h"
 #include "tapecontents.h"
+#include "fliplist.h"
 
 #include "contentpreviewwidget.h"
 #include "dirmenupopup.h"
@@ -526,11 +528,46 @@ static void on_drive_reset_config_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+
+/** \brief  Handler for the 'activate' event of 'Add image to fliplist'
+ *
+ * Adds the currently attached image of a drive to the fliplist.
+ *
+ * \param[in]   widget  menu item (unused)
+ * \param[in]   data    unit number (int: 8-11)
+ *
+ * \todo    Support dual-drive units.
+ */
 static void on_drive_fliplist_add_activate(GtkWidget *widget, gpointer data)
+{
+    const struct disk_image_s *image;
+    int unit = GPOINTER_TO_INT(data);
+
+    image = file_system_get_image(unit, 0);
+    if (image != NULL) {
+        const char *name = image->media.fsimage->name;
+
+        debug_gtk3("Adding '%s' to fliplist for unit #%d", name, unit);
+        fliplist_add_image((unsigned int)unit);
+    }
+}
+
+
+/** \brief  Handler for the 'activate' event of 'Clear fliplist'
+ *
+ * Clear the fliplist of a drive.
+ *
+ * \param[in]   widget  menu item (unused)
+ * \param[in]   data    unit number (int: 8-11)
+ *
+ * \todo    Support dual-drive units.
+ */
+static void on_drive_fliplist_clear_activate(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data);
 
-    debug_gtk3("Adding current image to fliplist for unit #%d", unit);
+    debug_gtk3("Clearing fliplist of unit #%d", unit);
+    fliplist_clear_list((unsigned int)unit);
 }
 
 
@@ -733,7 +770,6 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     gchar buffer[256];
     int i = GPOINTER_TO_INT(data);
 
-
     mainlock_assert_is_not_vice_thread();
 
     drive_menu = allocated_bars[0].drive_popups[i];
@@ -785,6 +821,22 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     g_signal_connect(drive_menu_item, "activate",
             G_CALLBACK(on_drive_fliplist_add_activate),
             GINT_TO_POINTER(i + DRIVE_UNIT_MIN));
+    gtk_widget_set_sensitive(drive_menu_item,
+                            file_system_get_image(i + DRIVE_UNIT_MIN, 0) != NULL);
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+
+    /* Add 'clear fliplist' */
+    g_snprintf(buffer,
+               sizeof(buffer),
+               "Clear drive #%d:0 fliplist",
+               i + DRIVE_UNIT_MIN);
+    drive_menu_item = gtk_menu_item_new_with_label(buffer);
+    g_signal_connect(drive_menu_item,
+                     "activate",
+                     G_CALLBACK(on_drive_fliplist_clear_activate),
+                     GINT_TO_POINTER(i + DRIVE_UNIT_MIN));
+    gtk_widget_set_sensitive(drive_menu_item,
+                             fliplist_init_iterate(i + DRIVE_UNIT_MIN) != NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     gtk_widget_show_all(drive_menu);
