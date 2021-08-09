@@ -73,7 +73,9 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
         height++;
     }
 
-    #pragma omp parallel for private(y,x) schedule(static,2)
+#ifdef _OPENMP
+    #pragma omp parallel for private(y) schedule(static,4)
+#endif
     for (y = yys; y < (yys + height); y++) {
         const uint8_t *tmpsrc;
         uint32_t *tmptrg;
@@ -132,9 +134,12 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
                 }
             }
         } else {
-            if (readable && y > yys + 1) { /* copy 2 lines before */
+            /* Doublescan is disabled */
+#ifndef _OPENMP
+            if (readable && y > yys + 1) { /* copy 2 lines before, can't do with openmp */
                 memcpy(tmptrg, (uint8_t *)tmptrg - pitcht * 2, ((width << 1) + wfirst + wlast) << 2);
             } else {
+#endif
                 color = colortab[0];
                 if (wfirst) {
                     *tmptrg++ = color;
@@ -169,7 +174,9 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
                 if (wlast) {
                     *tmptrg = color;
                 }
+#ifndef _OPENMP
             }
+#endif
         }
     }
 }
