@@ -35,21 +35,15 @@
 
 void render_32_2x2_04(const video_render_color_tables_t *color_tab,
                       const uint8_t *src, uint8_t *trg,
-                      unsigned int width, const unsigned int height,
+                      unsigned int width, unsigned int height,
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan, video_render_config_t *config)
 {
     const uint32_t *colortab = color_tab->physical_colors;
-    const uint8_t *tmpsrc;
-    uint32_t *tmptrg;
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, yys;
-    register uint32_t color;
     int readable = config->readable;
-
-    src = src + pitchs * ys + xs;
-    trg = trg + pitcht * yt + (xt << 2);
     yys = (ys << 1) | (yt & 1);
     wfirst = xt & 1;
     width -= wfirst;
@@ -65,12 +59,32 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
+
+    /*
+     * The outer loop is distributed among a sensible number of threads.
+     * Because in double scan mode lines are copied, we need to make sure
+     * each thread works in chunks of 2 lines, ensuring that copied data
+     * has been created at the time it's copied.
+     */
+
+    if (yys & 1) {
+        /* We also need to make sure we start on an even line. */
+        yys--;
+        height++;
+    }
+
+    #pragma omp parallel for private(y,x) schedule(static,2)
     for (y = yys; y < (yys + height); y++) {
-        tmpsrc = src;
-        tmptrg = (uint32_t *)trg;
+        const uint8_t *tmpsrc;
+        uint32_t *tmptrg;
+        uint32_t color;
+        
+        tmpsrc = (src + pitchs * ys + xs) + ((y - yys) / 2 * pitchs);
+        tmptrg = (uint32_t *)((trg + pitcht * yt + (xt << 2)) + (y - yys) * pitcht);
+        
         if (!(y & 1) || doublescan) {
             if ((y & 1) && readable && y > yys) { /* copy previous line */
-                memcpy(trg, trg - pitcht, ((width << 1) + wfirst + wlast) << 2);
+                memcpy(tmptrg, (uint8_t *)tmptrg - pitcht, ((width << 1) + wfirst + wlast) << 2);
             } else {
                 if (wfirst) {
                     *tmptrg++ = colortab[*tmpsrc++];
@@ -119,7 +133,7 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
             }
         } else {
             if (readable && y > yys + 1) { /* copy 2 lines before */
-                memcpy(trg, trg - pitcht * 2, ((width << 1) + wfirst + wlast) << 2);
+                memcpy(tmptrg, (uint8_t *)tmptrg - pitcht * 2, ((width << 1) + wfirst + wlast) << 2);
             } else {
                 color = colortab[0];
                 if (wfirst) {
@@ -157,10 +171,6 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
                 }
             }
         }
-        if (y & 1) {
-            src += pitchs;
-        }
-        trg += pitcht;
     }
 }
 
