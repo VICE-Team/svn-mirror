@@ -1,5 +1,3 @@
-/* vim: set et ts=4 sw=4 sts=4 fdm=marker: */
-
 /** \file   fliplist.c
  * \brief   Fliplist handling
  *
@@ -400,9 +398,9 @@ int fliplist_save_list(unsigned int unit, const char *filename)
                 fprintf(fp, "%s\n", flip_file_header_new);
             }
 
-            /* omit the UNIT X line if this is the only unit */
+            /* omit the ";UNIT X" line if this is the only unit */
             if (all_units) {
-                fprintf(fp, "UNIT %u\n", unit);
+                fprintf(fp, ";UNIT %u\n", unit);
             }
             /* output the names of the images */
             do {
@@ -516,7 +514,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
         if (firstline) {
             firstline = 0;
             /* check the header line VICE creates */
-            if ((!strncmp(buffer, flip_file_header_old, strlen(flip_file_header_old))) &&
+            if ((!strncmp(buffer, flip_file_header_old, strlen(flip_file_header_old))) ||
                 (!strncmp(buffer, flip_file_header_new, strlen(flip_file_header_new)))) {
                 log_message(LOG_DEFAULT, "File %s recognized as fliplist file created by VICE", filename);
                 continue;
@@ -537,19 +535,16 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
             DBG(("ascii line: '%s'", buffer));
         }
 
-        /* ; at the start of a line indicates a comment, skip it */
-        if (buffer[0] == ';') {
-            continue;
-        }
-
-        /* "UNIT X" indicates the following files belong to that drive */
-        if (strncmp("UNIT ", buffer, 5) == 0) {
+        /* ";UNIT X" (former "UNIT X") indicates the following files belong to that drive */
+        if (!strncmp("UNIT ", buffer, 5) || !strncmp(";UNIT ", buffer, 6)) {
             if (all_units != 0) {
                 long unit_long = -1;
+                char *unit_buffer = buffer + 5; /* points to the number (old) or the space before it (new) */
 
-                util_string_to_long(buffer + 5, NULL, 10, &unit_long);
+                unit_long = strtol(unit_buffer, NULL, 10);
+                DBG(("got UNIT '%s' number: %ld", unit_buffer, unit_long));
 
-                if (unit_long < 8 || unit_long > 11) {
+                if ((unit_long < 8) || (unit_long > 11)) {
                     log_message(LOG_DEFAULT,
                             "Invalid unit number %ld for fliplist\n", unit_long);
                     /* perhaps VICE should properly error out, ie quit? */
@@ -564,6 +559,11 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 
                 unit = (unsigned int)unit_long;
             }
+            continue;
+        }
+
+        /* ; at the start of a line indicates a comment, skip it */
+        if (buffer[0] == ';') {
             continue;
         }
 
