@@ -545,9 +545,8 @@ static void on_drive_fliplist_add_activate(GtkWidget *widget, gpointer data)
 
     image = file_system_get_image(unit, 0);
     if (image != NULL) {
-        const char *name = image->media.fsimage->name;
-
-        debug_gtk3("Adding '%s' to fliplist for unit #%d", name, unit);
+        debug_gtk3("Adding '%s' to fliplist for unit #%d",
+                   image->media.fsimage->name, unit);
         fliplist_add_image((unsigned int)unit);
     }
 }
