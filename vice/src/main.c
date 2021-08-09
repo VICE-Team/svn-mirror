@@ -107,6 +107,18 @@ int main_program(int argc, char **argv)
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
 
+    /*
+     * OpenMP defaults to spinning threads for a couple hundred ms
+     * after they are used, which means they max out forever in our
+     * use case. Setting OMP_WAIT_POLICY to PASSIVE fixes that.
+     */
+    
+#if defined(WIN32_COMPILE)
+    _putenv("OMP_WAIT_POLICY=PASSIVE");
+#else
+    setenv("OMP_WAIT_POLICY", "PASSIVE", 1);
+#endif
+
     lib_init();
 
     /* Check for some options at the beginning of the commandline before 

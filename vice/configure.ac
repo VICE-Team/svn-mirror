@@ -973,11 +973,15 @@ darwin*)
   MAC_LDFLAGS="-headerpad_max_install_names"
   MAC_FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit -framework CoreGraphics"
 
-  AC_CHECK_FILE(/opt/local/include, [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/local/include" ])
-  AC_CHECK_FILE(/opt/local/lib,     [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib" ])
+  AC_CHECK_FILE(/opt/local/include,         [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/local/include" ])
+  AC_CHECK_FILE(/opt/local/include/libomp,  [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/local/include/libomp" ])
+  AC_CHECK_FILE(/opt/local/lib,             [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib" ])
+  AC_CHECK_FILE(/opt/local/lib/libomp,      [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/local/lib/libomp -Wl,-rpath,/opt/local/lib/libomp" ])
 
-  AC_CHECK_FILE(/usr/local/include, [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include" ])
-  AC_CHECK_FILE(/usr/local/lib,     [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib -Wl,-rpath,/usr/local/lib" ])
+  AC_CHECK_FILE(/usr/local/include,         [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include" ])
+  AC_CHECK_FILE(/usr/local/include/libomp,  [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include/libomp" ])
+  AC_CHECK_FILE(/usr/local/lib,             [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib -Wl,-rpath,/usr/local/lib" ])
+  AC_CHECK_FILE(/usr/local/lib/libomp,      [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib/libomp -Wl,-rpath,/usr/local/lib/libomp" ])
   
   CPPFLAGS="$CPPFLAGS $MAC_CCPFLAGS"
   VICE_CPPFLAGS="$VICE_CPPFLAGS $MAC_CCPFLAGS"
@@ -1050,6 +1054,50 @@ else
 fi
 
 AC_SUBST(DEBUGBUILD)
+
+dnl
+dnl Check for compiler support for OpenMP and a multi-core host
+dnl
+TEST_OPENMP_C=" #include <omp.h>
+                int main(int argc, char **argv) {
+                  int thread_count = 0;
+                  #pragma omp parallel reduction(+:thread_count)
+                  thread_count += 1;
+                  if (thread_count > 1)
+                    return 0;
+                  return 1;
+                }"
+
+have_openmp="no"
+AC_MSG_CHECKING([for native OpenMP and multiple cores])
+ORIG_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -fopenmp"
+AC_TRY_RUN( [ $TEST_OPENMP_C ],                
+            [ AC_MSG_RESULT(yes)
+              have_openmp="yes" ],
+            [ AC_MSG_RESULT(no)
+              CFLAGS=$ORIG_CFLAGS ])
+
+if test x"$have_openmp" != "xyes"; then
+  if test x"$is_unix_macosx" = "xyes"; then
+    
+    dnl
+    dnl Xcode ships cland without OpenMP, but it can be installed with macports / brew.
+    dnl
+
+    AC_MSG_CHECKING([for MacPorts / Homebrew OpenMP and multiple cores])
+    ORIG_CFLAGS="$CFLAGS"
+    CFLAGS="$CFLAGS -Xpreprocessor -fopenmp -lomp"
+    AC_TRY_RUN( [ $TEST_OPENMP_C ],
+                [ AC_MSG_RESULT(yes)
+                  have_openmp="yes"
+                  CFLAGS="$ORIG_CFLAGS -Xpreprocessor -fopenmp"
+                  LIBS="$LIBS -lomp"
+                  ],
+                [ AC_MSG_RESULT(no)
+                  CFLAGS=$ORIG_CFLAGS ])
+  fi
+fi
 
 
 dnl Check for threading code debugging
@@ -3825,10 +3873,11 @@ echo ""
 echo "configure summary:"
 echo ""
 
-echo "Platform canonical: $ac_cv_host"
-echo "Architecture      : $show_arch"
-echo "GUI               : $show_gui"
-echo "Multithreaded     : $show_multithreaded"
+echo "Platform canonical : $ac_cv_host"
+echo "Architecture       : $show_arch"
+echo "GUI                : $show_gui"
+echo "Multithreaded UI   : $show_multithreaded"
+echo "OpenMP             : $have_openmp"
 echo ""
 
 echo "SCREEN/UI"
