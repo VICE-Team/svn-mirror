@@ -115,9 +115,14 @@ static int native_monitor(void)
     return res;
 }
 
-static gboolean uimon_write_to_terminal_impl(gpointer _unused)
+static gboolean write_to_terminal(gpointer _)
 {
     pthread_mutex_lock(&fixed.output_lock);
+
+    if (!fixed.term) {
+        /* Terminal hasn't been created yet, queue up the write for now. */
+        goto done;
+    }
 
     if (fixed.output_buffer) {
         vte_terminal_feed(VTE_TERMINAL(fixed.term), fixed.output_buffer, fixed.output_buffer_used_size);
@@ -128,6 +133,7 @@ static gboolean uimon_write_to_terminal_impl(gpointer _unused)
         fixed.output_buffer_used_size = 0;
     }
 
+done:
     pthread_mutex_unlock(&fixed.output_lock);
 
     return FALSE;
@@ -137,11 +143,8 @@ void uimon_write_to_terminal(struct console_private_s *t,
                              const char *data,
                              glong length)
 {
-    if (!t->term) {
-        return;
-    }
-
     size_t output_buffer_required_size;
+    bool write_scheduled = false;
 
     pthread_mutex_lock(&fixed.output_lock);
 
@@ -156,12 +159,10 @@ void uimon_write_to_terminal(struct console_private_s *t,
         output_buffer_required_size += 4096;
 
         if (fixed.output_buffer) {
+            write_scheduled = true;
             fixed.output_buffer = lib_realloc(fixed.output_buffer, output_buffer_required_size);
         } else {
             fixed.output_buffer = lib_malloc(output_buffer_required_size);
-
-            /* schedule a call on the ui thread */
-            gdk_threads_add_timeout(10, uimon_write_to_terminal_impl, NULL);
         }
 
         fixed.output_buffer_allocated_size = output_buffer_required_size;
@@ -169,8 +170,43 @@ void uimon_write_to_terminal(struct console_private_s *t,
 
     memcpy(fixed.output_buffer + fixed.output_buffer_used_size, data, length);
     fixed.output_buffer_used_size += length;
+    
+    if (!write_scheduled) {
+        /* schedule a call on the ui thread */
+        gdk_threads_add_timeout(0, write_to_terminal, NULL);
+    }
 
     pthread_mutex_unlock(&fixed.output_lock);
+}
+
+int uimon_out(const char *buffer)
+{
+    const char *line;
+    const char *line_end;
+
+    if (native_monitor()) {
+        return uimonfb_out(buffer);
+    }
+
+    /* Substitute \n for \r\n when feeding the terminal */
+
+    line = buffer;
+    while (*line != '\0') {
+        line_end = strchr(line, '\n');
+
+        if (line_end == NULL) {
+            /* buffer ends without a \n */
+            uimon_write_to_terminal(&fixed, line, strlen(line));
+            break;
+        }
+
+        uimon_write_to_terminal(&fixed, line, line_end - line);
+        uimon_write_to_terminal(&fixed, "\r\n", 2);
+
+        line = line_end + 1;
+    }
+
+    return 0;
 }
 
 
@@ -599,6 +635,8 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     GdkPixbuf *icon;
     int sblines;
 
+    pthread_mutex_lock(&fixed.output_lock);
+
     resources_get_int("MonitorScrollbackLines", &sblines);
 
     if (fixed.window == NULL) {
@@ -655,7 +693,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         g_signal_connect(G_OBJECT(fixed.window), "delete-event",
             G_CALLBACK(close_window), &fixed.input_buffer);
 
-        g_signal_connect(G_OBJECT(fixed.term), "key-press-event",
+        g_signal_connect_unlocked(G_OBJECT(fixed.term), "key-press-event",
             G_CALLBACK(key_press_event), &fixed.input_buffer);
 
         g_signal_connect(G_OBJECT(fixed.term), "button-press-event",
@@ -664,7 +702,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         g_signal_connect(G_OBJECT(fixed.term), "text-modified",
             G_CALLBACK (screen_resize_window_cb), NULL);
 
-        g_signal_connect(G_OBJECT(fixed.window), "configure-event",
+        g_signal_connect_unlocked(G_OBJECT(fixed.window), "configure-event",
             G_CALLBACK (screen_resize_window_cb2), NULL);
 
         vte_console.console_can_stay_open = 1;
@@ -677,6 +715,11 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     if (display_now) {
         uimon_window_resume_impl(NULL);
     }
+
+    pthread_mutex_unlock(&fixed.output_lock);
+
+    /* Ensure any queued monitor output is displayed */
+    gdk_threads_add_timeout(0, write_to_terminal, NULL);
 
     return FALSE;
 }
@@ -715,27 +758,10 @@ static gboolean uimon_window_suspend_impl(gpointer user_data)
     return FALSE;
 }
 
-static gboolean uimon_out_impl(gpointer user_data)
-{
-    char *buffer = (char*)user_data;
-    const char *c;
-
-    for(c = buffer; *c; c++) {
-        if(*c == '\n') {
-            uimon_write_to_terminal(&fixed, "\r", 1);
-        }
-        uimon_write_to_terminal(&fixed, c, 1);
-    }
-
-    lib_free(buffer);
-
-    return FALSE;
-}
-
 static gboolean uimon_window_close_impl(gpointer user_data)
 {
     /* Flush any queued writes */
-    uimon_write_to_terminal_impl(NULL);
+    write_to_terminal(NULL);
 
     /* only close window if there is one: this avoids a GTK_CRITICAL warning
      * when using a remote monitor */
@@ -779,18 +805,6 @@ void uimon_window_suspend(void)
 
     /* call from ui thread */
     gdk_threads_add_timeout(0, uimon_window_suspend_impl, NULL);
-}
-
-int uimon_out(const char *buffer)
-{
-    if (native_monitor()) {
-        return uimonfb_out(buffer);
-    }
-
-    /* call from ui thread */
-    gdk_threads_add_timeout(0, uimon_out_impl, (gpointer)lib_strdup(buffer));
-
-    return 0;
 }
 
 void uimon_window_close(void)
@@ -972,7 +986,6 @@ int console_init(void)
     if (native_monitor()) {
         return consolefb_init();
     }
-
 
     while (mon_get_nth_command(i++,
                 &full_name,
