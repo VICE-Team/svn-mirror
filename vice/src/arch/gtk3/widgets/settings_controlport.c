@@ -235,7 +235,7 @@ static int layout_add_control_ports(GtkGrid *layout, int row, int count)
                     0, row, 1, 1);
     if (count > 1) {
         gtk_grid_attach(layout,
-                        create_joyport_widget(JOYPORT_1, "Control Port #2"),
+                        create_joyport_widget(JOYPORT_2, "Control Port #2"),
                         1, row, 1, 1);
     }
 
@@ -260,7 +260,7 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
     int c = 0;
     int d = JOYPORT_3;
 
-    for (i = 0; i < count; i++) {
+    for (i = 0; i < count; i++, d++) {
 
         char label[256];
 
