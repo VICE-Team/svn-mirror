@@ -74,7 +74,7 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
     }
 
 #ifdef _OPENMP
-    #pragma omp parallel for private(y) schedule(static,4)
+    #pragma omp parallel for private(y,x) schedule(static,2)
 #endif
     for (y = yys; y < (yys + height); y++) {
         const uint8_t *tmpsrc;
