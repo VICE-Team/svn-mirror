@@ -419,13 +419,18 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
                 return TRUE;
             }
+
+            /* Disable weird hack, doesn't appear to be required anymore
+             * --compyx
+             */
+#if 0
             /* For some reason, the Alt-D of going fullscreen doesn't
              * return true when CAPS LOCK isn't on, but only it does
              * this. */
             if (key == GDK_KEY_d && report->key.state & GDK_MOD1_MASK) {
                 return TRUE;
             }
-
+#endif
             /* check the custom hotkeys */
             if (kbd_hotkey_handle(report)) {
                 return TRUE;

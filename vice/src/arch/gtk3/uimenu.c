@@ -349,12 +349,10 @@ GtkWidget *ui_get_gtk_submenu_item_by_name(GtkWidget *submenu, const char *name)
 /** \brief  Set checkbox menu \a item to \a state while blocking its handler
  *
  * Set a checkbox menu item's state while blocking the 'activate' handler so
- * the handler won't recursively itself.
+ * the handler won't recursively call itself.
  *
  * \param[in,out]   item    GtkCheckMenuItem instance
  * \param[in]       state   new state for \a item
- *
- * \return  TRUE
  */
 void ui_set_gtk_check_menu_item_blocked(GtkWidget *item, gboolean state)
 {
@@ -370,6 +368,14 @@ void ui_set_gtk_check_menu_item_blocked(GtkWidget *item, gboolean state)
 }
 
 
+/** \brief  Set checkbox menu item \a name to \a state while blocking its handler
+ *
+ * Set a checkbox menu item's state while blocking the 'activate' handler so
+ * the handler won't recursively call itself.
+ *
+ * \param[in]   name    item name
+ * \param[in]   state   new state for \a name
+ */
 void ui_set_gtk_check_menu_item_blocked_by_name(const char *name, gboolean state)
 {
     GtkWidget *item;
@@ -377,5 +383,29 @@ void ui_set_gtk_check_menu_item_blocked_by_name(const char *name, gboolean state
     item = ui_get_gtk_menu_item_by_name(name);
     if (item != NULL) {
         ui_set_gtk_check_menu_item_blocked(item, state);
+    }
+}
+
+
+/** \brief  Set checkbox menu item \a name to value of \a resource
+ *
+ * Set a checkbox menu item's state via a boolean resource while blocking the
+ * 'activate' handler so the handler won't recursively call itself.
+ *
+ * \param[in]   name        item name
+ * \param[in]   resource    boolean resource to use for the item's state
+ */
+void ui_set_gtk_check_menu_item_blocked_by_resource(const char *name,
+                                                    const char *resource)
+{
+    GtkWidget *item;
+
+    item = ui_get_gtk_menu_item_by_name(name);
+    if (item != NULL) {
+        int value;
+
+        if (resources_get_int(resource, &value) == 0) {
+            ui_set_gtk_check_menu_item_blocked(item, (gboolean)value);
+        }
     }
 }

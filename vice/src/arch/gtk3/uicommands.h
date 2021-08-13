@@ -33,10 +33,6 @@
 
 gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource);
 
-gboolean ui_swap_joysticks_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
-                                             gpointer user_data);
-
 gboolean ui_machine_reset_callback(GtkWidget *widget, gpointer user_data);
 gboolean ui_drive_reset_callback(GtkWidget *widget, gpointer user_data);
 gboolean ui_close_callback(GtkWidget *widget, gpointer user_data);
@@ -51,8 +47,16 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data);
 
 gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data);
 
+
+
 gboolean ui_toggle_keyset_joysticks(GtkWidget *widget, gpointer data);
 
-gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data);
+
+gboolean ui_action_toggle_controlport_swap(void);
+gboolean ui_action_toggle_userport_swap(void);
+gboolean ui_action_toggle_mouse_grab(void);
+
+gboolean ui_get_controlport_swapped(void);
+gboolean ui_get_userport_swapped(void);
 
 #endif

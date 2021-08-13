@@ -74,6 +74,7 @@
 #include "vsyncapi.h"
 
 #include "basedialogs.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uicommands.h"
 #include "uimachinemenu.h"
@@ -204,19 +205,23 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
      */
     { GDK_KEY_P, VICE_MOD_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
 #endif
+#if 0
     /* Alt+J = swap joysticks */
     { GDK_KEY_j, VICE_MOD_MASK,
-        (void *)ui_swap_joysticks_callback },
+        (void *)ui_action_toggle_controlport_swap },
     /* Alt+Shift+U = swap userport joysticks */
     { GDK_KEY_U, VICE_MOD_MASK|GDK_SHIFT_MASK,
         (void *)ui_swap_userport_joysticks_callback },
+#endif
     { GDK_KEY_J, VICE_MOD_MASK|GDK_SHIFT_MASK,
         (void *)ui_toggle_keyset_joysticks },
+#if 0
     { GDK_KEY_m, VICE_MOD_MASK,
-        (void *)ui_toggle_mouse_grab },
+        (void *)ui_action_toggle_mouse_grab },
+#endif
     /* Windows folks expect Alt+Enter to go full screen */
     { GDK_KEY_Return, VICE_MOD_MASK,
-        (void *)ui_fullscreen_callback },
+        (void *)ui_action_toggle_fullscreen },
 
     /* Arnie */
     { 0, 0, NULL }
@@ -558,7 +563,7 @@ static void ui_on_drag_data_received(
 /** \brief  Set fullscreen state \a val
  *
  * \param[in]   val     fullscreen state (boolean)
- * \param[in]   param   extra argument (unused(
+ * \param[in]   param   extra argument (unused)
  *
  * \return 0
  */
@@ -872,12 +877,9 @@ void ui_trigger_resize(void)
  * If fullscreen is enabled and there are no window decorations requested for
  * fullscreen mode, the mouse pointer is hidden until fullscreen is disabled.
  *
- * \param[in]   widget      the widget that sent the callback (ignored)
- * \param[in]   user_data   extra data for the callback (ignored)
- *
  * \return  TRUE
  */
-gboolean ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_action_toggle_fullscreen(void)
 {
     GtkWindow *window;
 
@@ -894,6 +896,8 @@ gboolean ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
         gtk_window_unfullscreen(window);
     }
 
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_FULLSCREEN,
+                                               is_fullscreen);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -901,14 +905,13 @@ gboolean ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
 
 /** \brief Toggles fullscreen window decorations in response to user request
  *
- * \param[in]   widget      the widget that sent the callback (ignored)
- * \param[in]   user_data   extra data for the callback (ignored)
- *
  * \return  TRUE
  */
-gboolean ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_action_toggle_fullscreen_decorations(void)
 {
     fullscreen_has_decorations = !fullscreen_has_decorations;
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_FULLSCREEN_DECORATIONS,
+                                               fullscreen_has_decorations);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -1376,7 +1379,7 @@ static gboolean rendering_area_event_handler(GtkWidget *canvas,
          * a lightpen isn't active */
         resources_get_int("Mouse", &mouse);
         if (!mouse && !lightpen_enabled) {
-            ui_fullscreen_callback(canvas, event);
+            ui_action_toggle_fullscreen();
         }
         /* signal event handled */
         return TRUE;
@@ -2174,20 +2177,14 @@ void ui_pause_toggle(void)
 }
 
 
-/** \brief  Pause toggle handler
+/** \brief  Pause toggle action
  *
  * \return  TRUE (indicates the Alt+P got consumed by Gtk, so it won't be
  *          passed to the emu)
  */
-gboolean ui_toggle_pause(void)
+gboolean ui_action_toggle_pause(void)
 {
     ui_pause_toggle();
-    /* TODO: somehow update the checkmark in the menu without reverting to
-     *       weird code like Gtk
-     *
-     */
-
-    /* lol, still weird code, just hidden behind a function */
     ui_set_gtk_check_menu_item_blocked_by_name("toggle-pause",
                                                (gboolean)ui_pause_active());
 
@@ -2195,25 +2192,21 @@ gboolean ui_toggle_pause(void)
 }
 
 
-/** \brief  Toggle warp mode
+/** \brief  Toggle warp mode action
  *
  * \return  TRUE to signal GDK the key got consumed so it doesn't end up in
  *          the emulated machine
  */
-gboolean ui_toggle_warp(void)
+gboolean ui_action_toggle_warp(void)
 {
-    int state;
-
     ui_toggle_resource(NULL, (gpointer)"WarpMode");
-    resources_get_int("WarpMode", &state);
-    ui_set_gtk_check_menu_item_blocked_by_name("toggle-warp-mode", (gboolean)state);
+    ui_set_gtk_check_menu_item_blocked_by_resource("toggle-warp-mode", "WarpMode");
 
     return TRUE;
 }
 
 
-
-/** \brief  Advance frame handler
+/** \brief  Advance frame action
  *
  * \return  TRUE (indicates the Alt+SHIFT+P got consumed by Gtk, so it won't be
  *          passed to the emu)
@@ -2221,7 +2214,7 @@ gboolean ui_toggle_warp(void)
  * \note    The gboolean return value is no longer required since the 'hotkey'
  *          handling in kbd.c takes care of passing TRUE to Gtk3.
  */
-gboolean ui_advance_frame(void)
+gboolean ui_action_advance_frame(void)
 {
     if (ui_pause_active()) {
         vsyncarch_advance_frame();
@@ -2231,6 +2224,7 @@ gboolean ui_advance_frame(void)
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */
 }
+
 
 /** \brief  Destroy UI resources (but NOT vice 'resources')
  *

@@ -155,9 +155,30 @@ static void on_keyset_toggled(GtkWidget *widget, gpointer data)
  */
 static void on_mousegrab_toggled(GtkWidget *widget, gpointer data)
 {
-    ui_toggle_mouse_grab(widget, data);
+    ui_action_toggle_mouse_grab();
 }
 
+
+/** \brief  Handler for the 'activate' event of "Swap controlport joysticks"
+ *
+ * \param[in]   widget  widget triggering the event (unused)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_swap_controlport_toggled(GtkWidget *widget, gpointer data)
+{
+    ui_action_toggle_controlport_swap();
+}
+
+
+/** \brief  Handler for the 'activate' event of "Swap userport joysticks"
+ *
+ * \param[in]   widget  widget triggering the event (unused)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_swap_userport_toggled(GtkWidget *widget, gpointer data)
+{
+    ui_action_toggle_userport_swap();
+}
 
 
 /** \brief  Create joystick menu popup for the statusbar
@@ -175,21 +196,25 @@ GtkWidget *joystick_menu_popup_create(void)
     menu = gtk_menu_new();
 
     if (joystick_swap_possible()) {
-        item = gtk_menu_item_new_with_label("");
+        item = gtk_check_menu_item_new_with_label(NULL);
         child = gtk_bin_get_child(GTK_BIN(item));
-        gtk_label_set_markup(GTK_LABEL(child), "Swap joysticks (" VICE_MOD_MASK_HTML "+J)");
+        gtk_label_set_markup(GTK_LABEL(child), "Swap controlport joysticks");
         gtk_container_add(GTK_CONTAINER(menu), item);
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
+                                       ui_get_controlport_swapped());
         g_signal_connect(item, "activate",
-                G_CALLBACK(ui_swap_joysticks_callback), NULL);
+                G_CALLBACK(on_swap_controlport_toggled), NULL);
     }
 
     if (userport_joystick_swap_possible()) {
-        item = gtk_menu_item_new_with_label("");
+        item = gtk_check_menu_item_new_with_label(NULL);
         child = gtk_bin_get_child(GTK_BIN(item));
-        gtk_label_set_markup(GTK_LABEL(child), "Swap userport joysticks (" VICE_MOD_MASK_HTML "+Shift+U)");
+        gtk_label_set_markup(GTK_LABEL(child), "Swap userport joysticks");
         gtk_container_add(GTK_CONTAINER(menu), item);
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
+                                       ui_get_userport_swapped());
         g_signal_connect(item, "activate",
-                G_CALLBACK(ui_swap_userport_joysticks_callback), NULL);
+                G_CALLBACK(on_swap_userport_toggled), NULL);
         gtk_widget_set_sensitive(GTK_WIDGET(item),
                 userport_joystick_adapter_enabled());
 
