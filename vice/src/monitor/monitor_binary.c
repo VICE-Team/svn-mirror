@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep_defs.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -209,28 +210,30 @@ static void monitor_binary_quit(void)
 
 int monitor_binary_receive(unsigned char *buffer, size_t buffer_length)
 {
-    int bytes_recieved = 0;
-    int total_bytes_recieved = 0;
+    int bytes_received = 0;
+    int total_bytes_received = 0;
 
     while (buffer_length && connected_socket) {
-        bytes_recieved = vice_network_receive(connected_socket, buffer, buffer_length, 0);
+        bytes_received = vice_network_receive(connected_socket, buffer, buffer_length, 0);
 
-        if (bytes_recieved <= 0) {
-            log_message(LOG_DEFAULT, "monitor_binary_receive(): vice_network_receive() returned %d, breaking connection", bytes_recieved);
+        if (bytes_received <= 0) {
+            log_message(LOG_DEFAULT, "monitor_binary_receive(): vice_network_receive() returned %d, breaking connection", bytes_received);
             monitor_binary_quit();
             break;
         }
 
-        if (bytes_recieved < buffer_length) {
-            log_message(LOG_DEFAULT, "monitor_binary_receive(): recieved %d of %d", bytes_recieved, buffer_length);
+        if (bytes_received < buffer_length) {
+            log_message(LOG_DEFAULT,
+                    "monitor_binary_receive(): received %d of %"PRI_SIZE_T,
+                    bytes_received, buffer_length);
         }
 
-        total_bytes_recieved += bytes_recieved;
-        buffer += bytes_recieved;
-        buffer_length -= bytes_recieved;
+        total_bytes_received += bytes_received;
+        buffer += bytes_received;
+        buffer_length -= bytes_received;
     }
 
-    return total_bytes_recieved;
+    return total_bytes_received;
 }
 
 static int monitor_binary_data_available(void)
