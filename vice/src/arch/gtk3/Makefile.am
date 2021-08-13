@@ -63,6 +63,7 @@ libarch_a_SOURCES = \
 	cbm2ui.c \
 	cbm5x0ui.c \
 	gtk3main.c \
+	hotkeys.c \
 	kbd.c \
 	linenoise.c \
 	mousedrv.c \
@@ -130,6 +131,7 @@ EXTRA_DIST = \
 	debug_gtk3.h \
 	directx_renderer.h \
 	directx_renderer_impl.h \
+	hotkeys.h \
 	kbd.h \
 	linenoise.h \
 	macOS-ui-runtime.sh \
@@ -166,6 +168,7 @@ EXTRA_DIST = \
 	uistatusbar.h \
 	uitapeattach.h \
 	uitapecreate.h \
+	uitypes.h \
 	uivideo.h \
 	uivsidmenu.h \
 	uivsidwindow.h \

@@ -85,13 +85,7 @@ static void add_separator(GtkWidget *menu)
  */
 static void on_warp_toggled(GtkWidget *widget, gpointer data)
 {
-    int warp;
-
-    if (resources_get_int("WarpMode", &warp) == 0) {
-        if (resources_set_int("WarpMode", !warp) < 0) {
-            debug_gtk3("failed to toggle warp mode.");
-        }
-    }
+    ui_toggle_warp();
 }
 
 
@@ -102,7 +96,7 @@ static void on_warp_toggled(GtkWidget *widget, gpointer data)
  */
 static void on_pause_toggled(GtkWidget *widget, gpointer data)
 {
-    ui_pause_toggle();
+    ui_toggle_pause();
 }
 
 
@@ -301,10 +295,13 @@ GtkWidget *speed_menu_popup_create(void)
     add_separator(menu);
 
     /* pause */
-    item = gtk_check_menu_item_new_with_label("Pause emulation (Alt+P)");
+    item = gtk_check_menu_item_new_with_label(NULL);
     child = gtk_bin_get_child(GTK_BIN(item));
-    gtk_label_set_markup(GTK_LABEL(child),
-            "Pause emulation (" VICE_MOD_MASK_HTML "+P)");
+    /* TODO:    Look up accelerator, if any, and add that.
+     *          Requires a function to get the accelerator from the custom
+     *          hotkeys.
+     */
+    gtk_label_set_markup(GTK_LABEL(child), "Pause emulation");
 
     if (ui_pause_active()) {
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
@@ -313,10 +310,9 @@ GtkWidget *speed_menu_popup_create(void)
     g_signal_connect(item, "toggled", G_CALLBACK(on_pause_toggled), NULL);
 
     /* advance frame */
-    item = gtk_menu_item_new_with_label("Advance frame (Alt+Shift+P)");
+    item = gtk_menu_item_new_with_label(NULL);
     child = gtk_bin_get_child(GTK_BIN(item));
-    gtk_label_set_markup(GTK_LABEL(child),
-            "Advance frame (" VICE_MOD_MASK_HTML "+Shift+P)");
+    gtk_label_set_markup(GTK_LABEL(child), "Advance frame");
     if (!ui_pause_active()) {
         gtk_widget_set_sensitive(item, FALSE);
     }
@@ -325,10 +321,9 @@ GtkWidget *speed_menu_popup_create(void)
             NULL);
 
     /* enable warp mode */
-    item = gtk_check_menu_item_new_with_label("Enable warp mode (Alt+W)");
+    item = gtk_check_menu_item_new_with_label(NULL);
     child = gtk_bin_get_child(GTK_BIN(item));
-    gtk_label_set_markup(GTK_LABEL(child),
-            "Enable warp mode (" VICE_MOD_MASK_HTML "+W)");
+    gtk_label_set_markup(GTK_LABEL(child), "Warp mode");
     if (resources_get_int("WarpMode", &warp) < 0) {
         warp = 0;
     }
@@ -353,12 +348,6 @@ static gboolean on_widget_clicked(GtkWidget *widget,
                                   GdkEvent *event,
                                   gpointer data)
 {
-    int mouse;
-
-    if (resources_get_int("Mouse", &mouse) < 0) {
-        mouse = 0;
-    }
-
     if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
         GtkWidget *menu = speed_menu_popup_create();
         gtk_menu_popup_at_widget(GTK_MENU(menu), widget,

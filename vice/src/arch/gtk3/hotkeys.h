@@ -1,8 +1,7 @@
-/** \file   uimenu.h
- * \brief   Native GTK3 menu handling - header
+/** \file   hotkeys.h
+ * \brief   Gtk3 custom hotkeys handling - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- * \author  Marcus Sutton <loggedoubt@gmail.com>
  */
 
 /*
@@ -23,36 +22,31 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ */
+
+#ifndef VICE_HOTKEYS_H
+#define VICE_HOTKEYS_H
+
+
+/** \brief  Prefix of Gtk3 hotkeys files
+ */
+#define VKM_PREFIX  "gtk3_hotkeys"
+
+/** \brief  Extension of Gtk3 hotkeys files
  *
+ * Although the extension is the same as for the SDL UI, the format is slightly
+ * different.
  */
+#define VKM_EXT     ".vkm"
 
-#ifndef VICE_UIMENU_H
-#define VICE_UIMENU_H
-
-#include "vice.h"
-#include <gtk/gtk.h>
-#include <stdbool.h>
-
-#include "uitypes.h"
-
-
-
-
-/*
- * Public functions
+/** \brief  Filename of default Gtk3 hotkeys files
  */
-
-GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
-GtkWidget * ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
-GtkWidget * ui_get_gtk_submenu_item_by_name(GtkWidget *submenu,
-                                            const char *name);
-void        ui_set_gtk_check_menu_item_blocked(GtkWidget *item,
-                                               gboolean state);
-void        ui_set_gtk_check_menu_item_blocked_by_name(const char *name,
-                                                       gboolean state);
+#define VKM_DEFAULT_NAME    VKM_PREFIX##VKM_EXT
 
 
-/* FIXME: is this still even used? */
-void ui_menu_init_accelerators(GtkWidget *window);
+int     hotkeys_resources_init(void);
+int     hotkeys_cmdline_options_init(void);
+void    hotkeys_shutdown(void);
 
 #endif
+
