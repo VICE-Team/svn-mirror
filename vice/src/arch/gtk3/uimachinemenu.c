@@ -313,9 +313,10 @@ static gboolean settings_save_custom_callback(GtkWidget *widget, gpointer data)
 #define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
 
 
+/* {{{ disk_detach_submenu[] */
 /** \brief  File->Detach disk submenu
  */
-static ui_menu_item_t detach_submenu[] = {
+static ui_menu_item_t disk_detach_submenu[] = {
     { "Drive 8:0", UI_MENU_TYPE_ITEM_ACTION,
         "detach-drive8:0", ui_disk_detach_callback, UNIT_DRIVE_TO_PTR(8, 0),
         GDK_KEY_8, VICE_MOD_MASK|GDK_CONTROL_MASK, false },
@@ -344,14 +345,14 @@ static ui_menu_item_t detach_submenu[] = {
     { "Detach all", UI_MENU_TYPE_ITEM_ACTION,
         "detach-all", ui_disk_detach_all_callback, NULL,
         0, 0, false },
-
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ disk_attach_submenu[] */
 /** \brief  File->Attach disk submenu
  */
-static ui_menu_item_t attach_submenu[] = {
+static ui_menu_item_t disk_attach_submenu[] = {
     { "Drive #8", UI_MENU_TYPE_ITEM_ACTION,
         "attach-drive8", ui_disk_attach_dialog_show, GINT_TO_POINTER(8),
         GDK_KEY_8, VICE_MOD_MASK, true },
@@ -364,15 +365,14 @@ static ui_menu_item_t attach_submenu[] = {
     { "Drive #11", UI_MENU_TYPE_ITEM_ACTION,
         "attach-drive11", ui_disk_attach_dialog_show, GINT_TO_POINTER(11),
         GDK_KEY_1, VICE_MOD_MASK, true },
-
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
-
-
+/* {{{ disk_fliplist_submenu[] */
 /** \brief  File->Flip list submenu
  */
-static ui_menu_item_t fliplist_submenu[] = {
+static ui_menu_item_t disk_fliplist_submenu[] = {
     { "Add current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
         "fliplist-add", ui_fliplist_add_current_cb, GINT_TO_POINTER(8),
         GDK_KEY_I, VICE_MOD_MASK, false },
@@ -391,53 +391,61 @@ static ui_menu_item_t fliplist_submenu[] = {
     { "Save flip list file...", UI_MENU_TYPE_ITEM_ACTION,
         "fliplist-save", ui_fliplist_save_callback, GINT_TO_POINTER(8),
         0, 0, true },
-
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
+/* {{{ datasette_control_submenu[] */
 /** \brief  File->Datasette control submenu
  */
-
 static ui_menu_item_t datasette_control_submenu[] = {
     { "Stop", UI_MENU_TYPE_ITEM_ACTION,
-        "tape-stop", ui_datasette_tape_action_cb, GINT_TO_POINTER(DATASETTE_CONTROL_STOP),
+        "tape-stop", ui_datasette_tape_action_cb,
+        GINT_TO_POINTER(DATASETTE_CONTROL_STOP),
         0, 0, false },
     { "Start", UI_MENU_TYPE_ITEM_ACTION,
-        "tape-start", ui_datasette_tape_action_cb, GINT_TO_POINTER(DATASETTE_CONTROL_START),
+        "tape-start", ui_datasette_tape_action_cb,
+        GINT_TO_POINTER(DATASETTE_CONTROL_START),
         0, 0, false },
     { "Forward", UI_MENU_TYPE_ITEM_ACTION,
-        "tape-ff", ui_datasette_tape_action_cb, GINT_TO_POINTER(DATASETTE_CONTROL_FORWARD),
+        "tape-ff", ui_datasette_tape_action_cb,
+        GINT_TO_POINTER(DATASETTE_CONTROL_FORWARD),
         0, 0, false },
     { "Rewind", UI_MENU_TYPE_ITEM_ACTION,
-        "tape-rew", ui_datasette_tape_action_cb, GINT_TO_POINTER(DATASETTE_CONTROL_REWIND),
+        "tape-rew", ui_datasette_tape_action_cb,
+        GINT_TO_POINTER(DATASETTE_CONTROL_REWIND),
         0, 0, false },
     { "Record", UI_MENU_TYPE_ITEM_ACTION,
-        "tape-record", ui_datasette_tape_action_cb, GINT_TO_POINTER(DATASETTE_CONTROL_RECORD),
+        "tape-record", ui_datasette_tape_action_cb,
+        GINT_TO_POINTER(DATASETTE_CONTROL_RECORD),
         0, 0, false },
     { "Reset", UI_MENU_TYPE_ITEM_ACTION,
-        "tape-reset", ui_datasette_tape_action_cb, GINT_TO_POINTER(DATASETTE_CONTROL_RESET),
+        "tape-reset", ui_datasette_tape_action_cb,
+        GINT_TO_POINTER(DATASETTE_CONTROL_RESET),
         0, 0, false },
     { "Reset Counter", UI_MENU_TYPE_ITEM_ACTION,
-        "tape-counter", ui_datasette_tape_action_cb, GINT_TO_POINTER(DATASETTE_CONTROL_RESET_COUNTER),
+        "tape-counter", ui_datasette_tape_action_cb,
+        GINT_TO_POINTER(DATASETTE_CONTROL_RESET_COUNTER),
         0, 0, false },
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ reset_submenu[] */
 /** \brief  File->Reset submenu
  */
 static ui_menu_item_t reset_submenu[] = {
     { "Soft reset", UI_MENU_TYPE_ITEM_ACTION,
-        "reset-soft", ui_machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
+        "reset-soft", ui_machine_reset_callback,
+        GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
         GDK_KEY_F9, VICE_MOD_MASK, false },
     { "Hard reset", UI_MENU_TYPE_ITEM_ACTION,
-        "reset-hard", ui_machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
+        "reset-hard", ui_machine_reset_callback,
+        GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
         GDK_KEY_F12, VICE_MOD_MASK, false },
-
     UI_MENU_SEPARATOR,
-
     { "Reset drive #8", UI_MENU_TYPE_ITEM_ACTION,
-        "reset-drive8", ui_drive_reset_callback, GINT_TO_POINTER(8),
+        "reset-drive8", ui_drive_reset_callback,GINT_TO_POINTER(8),
         0, 0, false },
     { "Reset drive #9", UI_MENU_TYPE_ITEM_ACTION,
         "reset-drive9", ui_drive_reset_callback, GINT_TO_POINTER(9),
@@ -448,47 +456,36 @@ static ui_menu_item_t reset_submenu[] = {
     { "Reset drive #11", UI_MENU_TYPE_ITEM_ACTION,
         "reset-drive11", ui_drive_reset_callback, GINT_TO_POINTER(11),
         0, 0, false },
-
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ file_menu_head[] */
 /** \brief  'File' menu - head section
  */
 static ui_menu_item_t file_menu_head[] = {
     { "Smart attach disk/tape/cartridge ...", UI_MENU_TYPE_ITEM_ACTION,
         "smart-attach", ui_smart_attach_dialog_show, NULL,
         GDK_KEY_A, VICE_MOD_MASK, true },
-
     UI_MENU_SEPARATOR,
-
-    /* disk */
     { "Attach disk image", UI_MENU_TYPE_SUBMENU,
-        NULL, NULL, attach_submenu,
+        NULL, NULL, disk_attach_submenu,
         GDK_KEY_8, VICE_MOD_MASK, false },
     { "Create and attach an empty disk image ...", UI_MENU_TYPE_ITEM_ACTION,
         "create-disk", ui_disk_create_dialog_show, GINT_TO_POINTER(8),
         0, 0, true },
     { "Detach disk image", UI_MENU_TYPE_SUBMENU,
-        NULL, NULL, detach_submenu,
+        NULL, NULL, disk_detach_submenu,
         0, 0, false },
     { "Flip list", UI_MENU_TYPE_SUBMENU,
-        NULL, NULL, fliplist_submenu,
+        NULL, NULL, disk_fliplist_submenu,
         0, 0, false },
-
     UI_MENU_SEPARATOR,
-
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
-
-/** \brief  'File' menu - tape section pointer
- *
- * Set by ...
- */
-static ui_menu_item_t *file_menu_tape_section = NULL;
-
-
+/* {{{ file_menu_tape[] */
 /** \brief  'File' menu - tape section
  */
 static ui_menu_item_t file_menu_tape[] = {
@@ -504,13 +501,12 @@ static ui_menu_item_t file_menu_tape[] = {
     { "Datasette controls", UI_MENU_TYPE_SUBMENU,
         NULL, NULL, datasette_control_submenu,
         0, 0, false },
-
     UI_MENU_SEPARATOR,
-
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ file_menu_tail */
 /** \brief  'File' menu - tail section
  */
 static ui_menu_item_t file_menu_tail[] = {
@@ -524,9 +520,7 @@ static ui_menu_item_t file_menu_tail[] = {
     { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
         "cart-freeze", (void *)ui_cart_trigger_freeze, NULL,
         GDK_KEY_Z, VICE_MOD_MASK, false },
-
     UI_MENU_SEPARATOR,
-
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
         "monitor", ui_monitor_activate_callback, NULL,
@@ -538,23 +532,20 @@ static ui_menu_item_t file_menu_tail[] = {
 #endif
         false
     },
-
     UI_MENU_SEPARATOR,
-
     { "Reset", UI_MENU_TYPE_SUBMENU,
         NULL, NULL, reset_submenu,
         0, 0, false },
-
     UI_MENU_SEPARATOR,
-
     { "Exit emulator", UI_MENU_TYPE_ITEM_ACTION,
         "exit", ui_close_callback, NULL,
         GDK_KEY_Q, VICE_MOD_MASK, true },
-
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
 
+/* {{{ edit_menu[] */
 /** \brief  'Edit' menu
  */
 static ui_menu_item_t edit_menu[] = {
@@ -564,11 +555,12 @@ static ui_menu_item_t edit_menu[] = {
     { "Paste", UI_MENU_TYPE_ITEM_ACTION,
         "paste", (void *)ui_paste_callback, NULL,
         GDK_KEY_Insert, VICE_MOD_MASK, false },
-
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
 
+/* {{{ snapshot_menu[] */
 /** \brief  'Snapshot' menu
  */
 static ui_menu_item_t snapshot_menu[] = {
@@ -578,19 +570,13 @@ static ui_menu_item_t snapshot_menu[] = {
     { "Save snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
         "snapshot-save", ui_snapshot_save_file, NULL,
         GDK_KEY_S, VICE_MOD_MASK, false },
-
     UI_MENU_SEPARATOR,
-
     { "Quickload snapshot", UI_MENU_TYPE_ITEM_ACTION,
         "snapshot-quickload", ui_snapshot_quickload_snapshot, NULL,
-        GDK_KEY_F10, VICE_MOD_MASK, false },   /* Shortcut doesn't work in MATE, key
-                                         is mapped to Maximize Window. Using
-                                         the menu to active this item does
-                                         work though -- compyx */
+        GDK_KEY_F10, VICE_MOD_MASK, false },
     { "Quicksave snapshot", UI_MENU_TYPE_ITEM_ACTION,
         "snapshot-quicksave", ui_snapshot_quicksave_snapshot, NULL,
         GDK_KEY_F11, VICE_MOD_MASK, false },
-
     UI_MENU_SEPARATOR,
 #if 0
     { "Select history directory ...", UI_MENU_TYPE_ITEM_ACTION,
@@ -615,7 +601,6 @@ static ui_menu_item_t snapshot_menu[] = {
     { "Return to milestone", UI_MENU_TYPE_ITEM_ACTION,
         "history-milestone-reset", ui_snapshot_history_milestone_reset, NULL,
         GDK_KEY_U, VICE_MOD_MASK, false },
-
     UI_MENU_SEPARATOR,
 #if 0
     { "Recording start mode ...", UI_MENU_TYPE_ITEM_ACTION,
@@ -624,7 +609,6 @@ static ui_menu_item_t snapshot_menu[] = {
 
     UI_MENU_SEPARATOR,
 #endif
-
     { "Save media file ...", UI_MENU_TYPE_ITEM_ACTION,
         "media-save", ui_media_dialog_show, NULL,
         GDK_KEY_R, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
@@ -632,11 +616,12 @@ static ui_menu_item_t snapshot_menu[] = {
     { "Stop media recording", UI_MENU_TYPE_ITEM_ACTION,
         "media-stop", (void *)ui_media_stop_recording, NULL,
         GDK_KEY_S, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
-
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
 
+/* {{{ settings_menu_head[] */
 /** \brief  'Settings' menu - head section
  */
 static ui_menu_item_t settings_menu_head[] = {
@@ -657,29 +642,29 @@ static ui_menu_item_t settings_menu_head[] = {
         GDK_KEY_B, VICE_MOD_MASK, false },
 #endif
 
-#if 0
     UI_MENU_SEPARATOR,
-    { "Toggle warp mode", UI_MENU_TYPE_ITEM_CHECK,
-        "warp", (void *)(ui_toggle_resource), (void *)"WarpMode",
+
+    { "Warp mode", UI_MENU_TYPE_ITEM_CHECK,
+        "toggle-warp-mode", (void *)(ui_toggle_warp), NULL,
         GDK_KEY_W, VICE_MOD_MASK, false },
     { "Pause emulation", UI_MENU_TYPE_ITEM_CHECK,
-        "pause", (void *)(ui_toggle_pause), NULL,
+        "toggle-pause", (void *)(ui_toggle_pause), NULL,
         GDK_KEY_P, VICE_MOD_MASK, false },
     { "Advance frame", UI_MENU_TYPE_ITEM_ACTION,
         "frame-advance", (void *)(ui_advance_frame), NULL,
         GDK_KEY_P, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
-#endif
+
+    UI_MENU_SEPARATOR,
+
+    { "Mouse grab", UI_MENU_TYPE_ITEM_CHECK,
+        "toggle-mouse-grab", (void *)ui_toggle_mouse_grab, NULL,
+        GDK_KEY_M, VICE_MOD_MASK, false },
+
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
-
-/** \brief  'Settings' menu - joystick section pointer
- *
- * Set by ...
- */
-static ui_menu_item_t *settings_menu_joy_section = NULL;
-
-
+/* {{{ settings_menu_all_joy[] */
 /** \brief  'Settings' menu - all joystick items
  *
  * Only valid for x64/x64sc/xscpu64/x128/xplus4
@@ -703,7 +688,9 @@ static ui_menu_item_t settings_menu_all_joy[] = {
 #endif
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
+/* {{{ settings_menu_cbm5x0_joy[] */
 /** \brief  'Settings' menu - control port joystick items
  *
  * Only valid for x64dtv/xcbm5x0
@@ -719,11 +706,12 @@ static ui_menu_item_t settings_menu_cbm5x0_joy[] = {
     { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
         "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
         GDK_KEY_M, VICE_MOD_MASK, false },
-
 #endif
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
+/* {{{ settings_menu_userport_joy[] */
 /** \brief  'Settings' menu - userport joystick items
  *
  * Only valid for xvic/xpet/xcbm2
@@ -743,13 +731,13 @@ static ui_menu_item_t settings_menu_userport_joy[] = {
 #endif
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
+/* {{{ settings_menu_tail[] */
 /** \brief  'Settings' menu tail section
  */
 static ui_menu_item_t settings_menu_tail[] = {
-
     UI_MENU_SEPARATOR,
-
     /* the settings dialog */
     { "Settings ...", UI_MENU_TYPE_ITEM_ACTION,
         "settings", ui_settings_dialog_create_and_activate_node_callback, NULL,
@@ -774,10 +762,11 @@ static ui_menu_item_t settings_menu_tail[] = {
         0, 0, true },
     UI_MENU_TERMINATOR
 };
-
+/* }}} */
 
 #ifdef DEBUG
 
+/* {{{ debug_menu[] */
 /** \brief  'Debug' menu items for emu's except x64dtv
  */
 static ui_menu_item_t debug_menu[] = {
@@ -827,8 +816,9 @@ static ui_menu_item_t debug_menu[] = {
 
     UI_MENU_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ debug_menu_c64dtv[] */
 /** \brief  'Debug' menu items for x64dtv
  */
 static ui_menu_item_t debug_menu_c64dtv[] = {
@@ -884,10 +874,11 @@ static ui_menu_item_t debug_menu_c64dtv[] = {
 
     UI_MENU_TERMINATOR
 };
-
+/* }}} */
 #endif
 
 
+/* {{{ help_menu[] */
 /** \brief  'Help' menu items
  */
 static ui_menu_item_t help_menu[] = {
@@ -909,6 +900,65 @@ static ui_menu_item_t help_menu[] = {
 
     UI_MENU_TERMINATOR
 };
+/* }}} */
+
+
+/** \brief  References to menus (and submenus)
+ *
+ * This array contains references to the (sub)menus registered with the UI.
+ *
+ * The hotkeys interface will use this array to look up items by action name
+ * and set/unset their hotkey ID and modifiers. This happens once on emulator
+ * init, before the menus are created.
+ */
+static ui_menu_ref_t menu_references[] = {
+    /* File */
+    { "file-section-head",              file_menu_head },
+    { "file-submenu-attach-disk",       disk_attach_submenu },
+    { "file-submenu-detach-disk",       disk_detach_submenu },
+    { "file-submenu-disk-fliplist",     disk_fliplist_submenu },
+    { "file-section-tape",              file_menu_tape },
+    { "file-submenu-reset",             reset_submenu },
+    { "file-section-tail",              file_menu_tail },
+
+    /* Edit */
+    { "edit",                           edit_menu },
+
+    /* Settings */
+    { "settings-section-head",          settings_menu_head },
+    { "settings-submenu-all-joy",       settings_menu_all_joy },
+    { "settings-submenu-cbm5x0-joy",    settings_menu_cbm5x0_joy },
+    { "settings-submenu-userport-joy",  settings_menu_userport_joy },
+    { "settings-section-tail",          settings_menu_tail },
+
+    /* Debug */
+#ifdef DEBUG
+    { "debug",                          debug_menu },
+    { "debug-c64dtv",                   debug_menu_c64dtv },
+#endif
+
+    /* Help */
+    { "help",                           help_menu },
+
+    { NULL,                             NULL },
+
+
+};
+
+
+/** \brief  'File' menu - tape section pointer
+ *
+ * Set by ...
+ */
+static ui_menu_item_t *file_menu_tape_section = NULL;
+
+
+/** \brief  'Settings' menu - joystick section pointer
+ *
+ * Set by ...
+ */
+static ui_menu_item_t *settings_menu_joy_section = NULL;
+
 
 
 /** \brief  Create the top menu bar with standard submenus
@@ -918,6 +968,14 @@ static ui_menu_item_t help_menu[] = {
 GtkWidget *ui_machine_menu_bar_create(void)
 {
     GtkWidget *menu_bar;
+
+#if 0
+    /* Test looking up a menu item via name */
+    ui_menu_item_t *item = ui_get_vice_menu_item_by_name("reset-soft");
+    if (item != NULL) {
+        ui_set_vice_menu_item_hotkey(item, "z", GDK_MOD1_MASK | GDK_SHIFT_MASK);
+    }
+#endif
 
     /* create the top menu bar */
     menu_bar = gtk_menu_bar_new();
@@ -1024,3 +1082,118 @@ void ui_machine_menu_bar_vsid_patch(GtkWidget *menu)
     ui_menu_add(menu, settings_menu_tail);
 }
 
+
+/*
+ * API for the hotkeys
+ */
+
+
+/** \brief  Scan menu items for an action called \a name
+ *
+ * \param[in]   name    item action name
+ *
+ * \return  pointer to menu item or `NULL` when not found
+ */
+ui_menu_item_t* ui_get_vice_menu_item_by_name(const char *name)
+{
+    size_t i;
+
+    for (i = 0; i < sizeof menu_references / sizeof menu_references[0]; i++) {
+        ui_menu_ref_t ref = menu_references[i];
+        ui_menu_item_t *item;
+
+        debug_gtk3("Scanning '%s' for '%s'.", ref.name, name);
+
+        for (item = ref.items; item->label != NULL; item++) {
+            if (item->type == UI_MENU_TYPE_ITEM_ACTION
+                    || item->type == UI_MENU_TYPE_ITEM_CHECK) {
+                if (item->action_name != NULL) {
+                    debug_gtk3(".. Checking item '%s'.", item->action_name);
+                    if (strcmp(item->action_name, name) == 0) {
+                        debug_gtk3(".. FOUND! Label: '%s'", item->label);
+                        return item;
+                    }
+                }
+            }
+        }
+    }
+
+    return NULL;
+}
+
+
+
+
+/** \brief  Set key and modifiers for \a item
+ *
+ * \param[in,out]   item        menu item
+ * \param[in]       keyval_name GDK key name without 'GDK_KEY_' prefix
+ * \param[in]       modifier    bitmask with GDK modifiers
+ *
+ * \return  TRUE if set
+ */
+gboolean ui_set_vice_menu_item_hotkey(ui_menu_item_t *item,
+                                      const char *keyval_name,
+                                      GdkModifierType modifier)
+{
+    guint keysym = gdk_keyval_from_name(keyval_name);
+
+    if (keysym != GDK_KEY_VoidSymbol) {
+        item->keysym = keysym;
+        item->modifier = modifier;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+
+/** \brief  Set key and modifiers for a menu item by \a name
+ *
+ * \param[in,out]   name        menu item name
+ * \param[in]       keyval_name GDK key name without 'GDK_KEY_' prefix
+ * \param[in]       modifier    bitmask with GDK modifiers
+ *
+ * \return  TRUE if set
+ */
+gboolean ui_set_vice_menu_item_hotkey_by_name(const char *name,
+                                              const char *keyval_name,
+                                              GdkModifierType modifier)
+{
+    ui_menu_item_t *item = ui_get_vice_menu_item_by_name(name);
+
+    if (item != NULL) {
+        return ui_set_vice_menu_item_hotkey(item, keyval_name, modifier);
+    }
+    return FALSE;
+}
+
+
+/** \brief  Get (sub)menu item from the Gtk menu bar by \a name
+ *
+ * Try to look up a menu item for the action \a name.
+ *
+ * \param[in]   name    menu action name
+ *
+ * \return  GtkMenuItem reference or `NULL` when not found
+ */
+GtkWidget *ui_get_gtk_menu_item_by_name(const char *name)
+{
+    GList *node = gtk_container_get_children(GTK_CONTAINER(main_menu_bar));
+
+    debug_gtk3("Iterating menu main bar children.");
+    while (node != NULL) {
+        GtkWidget *item = node->data;
+        if (item != NULL && GTK_IS_CONTAINER(item)) {
+            debug_gtk3("Item != NULL, getting submenu.");
+            GtkWidget *submenu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(item));
+            if (submenu != NULL) {
+                item = ui_get_gtk_submenu_item_by_name(submenu, name);
+                if (item != NULL) {
+                    return item;
+                }
+            }
+        }
+        node = node->next;
+    }
+    return NULL;
+}

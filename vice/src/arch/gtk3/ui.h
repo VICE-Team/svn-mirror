@@ -104,6 +104,7 @@ void ui_pause_disable(void);
 void ui_pause_toggle(void);
 
 gboolean ui_toggle_pause(void);
+gboolean ui_toggle_warp(void);
 gboolean ui_advance_frame(void);
 
 void ui_update_lightpen(void);

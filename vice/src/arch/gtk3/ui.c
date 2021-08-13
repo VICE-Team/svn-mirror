@@ -58,6 +58,7 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "interrupt.h"
+#include "hotkeys.h"
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"
@@ -75,6 +76,7 @@
 #include "basedialogs.h"
 #include "uiapi.h"
 #include "uicommands.h"
+#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "uistatusbar.h"
@@ -110,7 +112,6 @@ static int set_monitor_font(const char *, void *param);
 static int set_monitor_bg(const char *, void *param);
 static int set_monitor_fg(const char *, void *param);
 static int set_fullscreen_state(int val, void *param);
-static void ui_toggle_warp(void);
 static int set_pause_on_settings(int val, void *param);
 static int set_autostart_on_doubleclick(int val, void *param);
 
@@ -191,6 +192,7 @@ enum {
 /** \brief  Default hotkeys for the UI not connected to a menu item
  */
 static kbd_gtk3_hotkey_t default_hotkeys[] = {
+#if 0
     /* Alt+P: toggle pause */
     { GDK_KEY_p, VICE_MOD_MASK, (void *)ui_toggle_pause },
     /* Alt+W: toggle warp mode */
@@ -201,7 +203,7 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
      *      recognized (only tested on Win10)
      */
     { GDK_KEY_P, VICE_MOD_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
-
+#endif
     /* Alt+J = swap joysticks */
     { GDK_KEY_j, VICE_MOD_MASK,
         (void *)ui_swap_joysticks_callback },
@@ -1744,6 +1746,10 @@ int ui_cmdline_options_init(void)
 #if 0
     INCOMPLETE_IMPLEMENTATION();
 #endif
+    if (hotkeys_cmdline_options_init() != 0) {
+        return -1;
+    }
+
     return cmdline_register_options(cmdline_options_common);
 }
 
@@ -1940,6 +1946,9 @@ int ui_resources_init(void)
         }
     }
 
+    /* initialize custom hotkeys resources */
+    hotkeys_resources_init();
+
     for (i = 0; i < NUM_WINDOWS; ++i) {
         ui_resources.canvas[i] = NULL;
         ui_resources.window_widget[i] = NULL;
@@ -1965,6 +1974,7 @@ void ui_shutdown(void)
 {
     uidata_shutdown();
     ui_statusbar_shutdown();
+    hotkeys_shutdown();
 }
 
 /** \brief  Result of the extend image dialog
@@ -2002,12 +2012,12 @@ int ui_extend_image_dialog(void)
         "  The drive has written to tracks that are not included in the currently  \n"
         "  mounted image. Do you want to write those extra tracks into the current  \n"
         "  image?";
-    
+
     if (console_mode) {
         /* XXX: Can't really ask, so make a decision. */
         return UI_EXTEND_IMAGE_ALWAYS;
     }
-    
+
     if (mainlock_is_vice_thread()) {
         /*
          * We need to use the main thread to do UI stuff. And we
@@ -2168,25 +2178,37 @@ void ui_pause_toggle(void)
  *
  * \return  TRUE (indicates the Alt+P got consumed by Gtk, so it won't be
  *          passed to the emu)
- *
- * \todo    Update UI tickmarks properly if triggered by a keyboard
- *          accelerator, or the settings dialog.
  */
 gboolean ui_toggle_pause(void)
 {
     ui_pause_toggle();
     /* TODO: somehow update the checkmark in the menu without reverting to
      *       weird code like Gtk
+     *
      */
+
+    /* lol, still weird code, just hidden behind a function */
+    ui_set_gtk_check_menu_item_blocked_by_name("toggle-pause",
+                                               (gboolean)ui_pause_active());
+
     return TRUE;    /* has to be TRUE to avoid passing Alt+P into the emu */
 }
 
 
 /** \brief  Toggle warp mode
+ *
+ * \return  TRUE to signal GDK the key got consumed so it doesn't end up in
+ *          the emulated machine
  */
-static void ui_toggle_warp(void)
+gboolean ui_toggle_warp(void)
 {
+    int state;
+
     ui_toggle_resource(NULL, (gpointer)"WarpMode");
+    resources_get_int("WarpMode", &state);
+    ui_set_gtk_check_menu_item_blocked_by_name("toggle-warp-mode", (gboolean)state);
+
+    return TRUE;
 }
 
 

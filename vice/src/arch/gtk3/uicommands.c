@@ -11,6 +11,7 @@
  * $VICERES JoyDevice2      -vsid
  * $VICERES JoyDevice3      -vsid
  * $VICERES JoyDevice4      -vsid
+ * $VICERES Mouse           -vsid
  */
 
 /*
@@ -48,6 +49,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mainlock.h"
+#include "uimenu.h"
 #include "util.h"
 #include "vsync.h"
 
@@ -170,6 +172,8 @@ gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
 
     window = ui_get_active_window();
     gtk_window_set_title(window, title);
+
+    ui_set_gtk_check_menu_item_blocked_by_name("toggle-mouse-grab", mouse);
 
     return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }

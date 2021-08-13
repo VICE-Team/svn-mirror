@@ -30,8 +30,21 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include "uitypes.h"
+
 
 GtkWidget * ui_machine_menu_bar_create(void);
 void        ui_machine_menu_bar_vsid_patch(GtkWidget *menu);
+
+/* hotkeys API */
+ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name);
+gboolean        ui_set_vice_menu_item_hotkey(ui_menu_item_t *item,
+                                             const char *keyval_name,
+                                             GdkModifierType modifier);
+gboolean        ui_set_vice_menu_item_hotkey_by_name(const char *name,
+                                                     const char *keyval_name,
+                                                     GdkModifierType modifier);
+
+GtkWidget *     ui_get_gtk_menu_item_by_name(const char *name);
 
 #endif /* VICE_UIMACHINEMENU_H */
