@@ -50,6 +50,9 @@ void        ui_set_gtk_check_menu_item_blocked(GtkWidget *item,
                                                gboolean state);
 void        ui_set_gtk_check_menu_item_blocked_by_name(const char *name,
                                                        gboolean state);
+void        ui_set_gtk_check_menu_item_blocked_by_resource(const char *name,
+                                                           const char *resource);
+
 
 
 /* FIXME: is this still even used? */

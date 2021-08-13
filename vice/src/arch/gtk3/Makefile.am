@@ -143,6 +143,7 @@ EXTRA_DIST = \
 	render_thread.h \
 	ui.h \
 	uiabout.h \
+	uiactions.h \
 	uicart.h \
 	uicmdline.h \
 	uicommands.h \

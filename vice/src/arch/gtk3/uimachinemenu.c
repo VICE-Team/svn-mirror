@@ -50,19 +50,20 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-
 #include "vice_gtk3.h"
+
 #include "archdep.h"
 #include "archdep_defs.h"
-#include "debug_gtk3.h"
 #include "datasette.h"
 #include "debug.h"
+#include "debug_gtk3.h"
 #include "lib.h"
 #include "machine.h"
 #include "mainlock.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiabout.h"
+#include "uiactions.h"
 #include "uicart.h"
 #include "uicmdline.h"
 #include "uicommands.h"
@@ -70,25 +71,25 @@
 #include "uidatasette.h"
 #include "uidebug.h"
 #include "uidiskattach.h"
+#include "uidiskcreate.h"
 #include "uiedit.h"
 #include "uifliplist.h"
 #include "uihotkeys.h"
-#include "uimachinemenu.h"
 #include "uimedia.h"
 #include "uimenu.h"
 #include "uimonarch.h"
-#include "uidiskcreate.h"
-#include "uitapecreate.h"
 #include "uisettings.h"
 #include "uismartattach.h"
 #include "uisnapshot.h"
 #include "uitapeattach.h"
+#include "uitapecreate.h"
+
+#include "uimachinemenu.h"
 
 /*
  * The following are translation unit local so we can create functions that
  * modify menu contents or even functions that alter the top bar itself.
  */
-
 
 /** \brief  Main menu bar widget
  *
@@ -98,7 +99,7 @@
  */
 static GtkWidget *main_menu_bar = NULL;
 
-
+#if 0
 /** \brief  File submenu
  */
 static GtkWidget *file_submenu = NULL;
@@ -129,6 +130,7 @@ static GtkWidget *debug_submenu = NULL;
 /** \brief  Help submenu
  */
 static GtkWidget *help_submenu = NULL;
+#endif
 
 
 /** \brief  Generate full path and name of the current vice config file
@@ -625,15 +627,17 @@ static ui_menu_item_t snapshot_menu[] = {
 /** \brief  'Settings' menu - head section
  */
 static ui_menu_item_t settings_menu_head[] = {
-    { "Toggle fullscreen", UI_MENU_TYPE_ITEM_ACTION,
-        "fullscreen", ui_fullscreen_callback, NULL,
+    { "Fullscreen", UI_MENU_TYPE_ITEM_CHECK,
+        ACTION_TOGGLE_FULLSCREEN,
+        (void *)ui_action_toggle_fullscreen, NULL,
         GDK_KEY_D, VICE_MOD_MASK, true },
     { "Restore display state", UI_MENU_TYPE_ITEM_ACTION,
         "restore-display", (void *)ui_restore_display, NULL,
         GDK_KEY_r, VICE_MOD_MASK, true },
 #if 1
-    { "Show menu/status in fullscreen", UI_MENU_TYPE_ITEM_ACTION,
-        "fullscreen-widgets", ui_fullscreen_decorations_callback, NULL,
+    { "Show menu/status in fullscreen", UI_MENU_TYPE_ITEM_CHECK,
+        ACTION_TOGGLE_FULLSCREEN_DECORATIONS,
+        (void *)ui_action_toggle_fullscreen_decorations, NULL,
         GDK_KEY_B, VICE_MOD_MASK, true },
 #else
     /* Mac menubar version */
@@ -645,20 +649,32 @@ static ui_menu_item_t settings_menu_head[] = {
     UI_MENU_SEPARATOR,
 
     { "Warp mode", UI_MENU_TYPE_ITEM_CHECK,
-        "toggle-warp-mode", (void *)(ui_toggle_warp), NULL,
+        ACTION_TOGGLE_WARP_MODE,
+        (void *)ui_action_toggle_warp, NULL,
         GDK_KEY_W, VICE_MOD_MASK, false },
     { "Pause emulation", UI_MENU_TYPE_ITEM_CHECK,
-        "toggle-pause", (void *)(ui_toggle_pause), NULL,
+        ACTION_TOGGLE_PAUSE,
+        (void *)ui_action_toggle_pause, NULL,
         GDK_KEY_P, VICE_MOD_MASK, false },
     { "Advance frame", UI_MENU_TYPE_ITEM_ACTION,
-        "frame-advance", (void *)(ui_advance_frame), NULL,
+        ACTION_ADVANCE_FRAME,
+        (void *)ui_action_advance_frame, NULL,
         GDK_KEY_P, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
 
     UI_MENU_SEPARATOR,
 
     { "Mouse grab", UI_MENU_TYPE_ITEM_CHECK,
-        "toggle-mouse-grab", (void *)ui_toggle_mouse_grab, NULL,
+        ACTION_TOGGLE_MOUSE_GRAB,
+        (void *)ui_action_toggle_mouse_grab, NULL,
         GDK_KEY_M, VICE_MOD_MASK, false },
+    { "Swap controlport joysticks", UI_MENU_TYPE_ITEM_CHECK,
+        ACTION_TOGGLE_CONTROLPORT_SWAP,
+        (void *)ui_action_toggle_controlport_swap, NULL,
+        GDK_KEY_J, VICE_MOD_MASK, false },
+    { "Swap userport joysticks", UI_MENU_TYPE_ITEM_CHECK,
+        ACTION_TOGGLE_USERPORT_SWAP,
+        (void *)ui_action_toggle_userport_swap, NULL,
+        GDK_KEY_U, VICE_MOD_MASK|GDK_SHIFT_MASK, false },
 
     UI_MENU_TERMINATOR
 };
@@ -968,6 +984,14 @@ static ui_menu_item_t *settings_menu_joy_section = NULL;
 GtkWidget *ui_machine_menu_bar_create(void)
 {
     GtkWidget *menu_bar;
+    GtkWidget *file_submenu;
+    GtkWidget *snapshot_submenu;
+    GtkWidget *edit_submenu;
+    GtkWidget *settings_submenu;
+#ifdef DEBUG
+    GtkWidget *debug_submenu;
+#endif
+    GtkWidget *help_submenu;
 
 #if 0
     /* Test looking up a menu item via name */
@@ -1120,8 +1144,6 @@ ui_menu_item_t* ui_get_vice_menu_item_by_name(const char *name)
 
     return NULL;
 }
-
-
 
 
 /** \brief  Set key and modifiers for \a item

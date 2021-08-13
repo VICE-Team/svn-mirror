@@ -88,8 +88,8 @@ void ui_update_statusbars(void);
 
 int  ui_is_fullscreen(void);
 void ui_trigger_resize(void);
-gboolean ui_fullscreen_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data);
+
+
 
 GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
@@ -103,12 +103,17 @@ void ui_pause_enter_monitor(void);
 void ui_pause_disable(void);
 void ui_pause_toggle(void);
 
-gboolean ui_toggle_pause(void);
-gboolean ui_toggle_warp(void);
-gboolean ui_advance_frame(void);
+/*
+ * UI 'actions' for the custom hotkeys, perhaps move to uicommands.c/uiactions.c?
+ */
+gboolean ui_action_toggle_pause(void);
+gboolean ui_action_toggle_warp(void);
+gboolean ui_action_advance_frame(void);
+gboolean ui_action_toggle_fullscreen(void);
+gboolean ui_action_toggle_fullscreen_decorations(void);
+
 
 void ui_update_lightpen(void);
-
 void ui_enable_crt_controls(int enabled);
 void ui_enable_mixer_controls(int enabled);
 

@@ -61,7 +61,7 @@ static int emu_fps_targets[] = { 60, 50, 0 };
  */
 static void on_advance_frame_activate(GtkWidget *widget, gpointer data)
 {
-    ui_advance_frame();
+    ui_action_advance_frame();
 }
 
 
@@ -85,7 +85,7 @@ static void add_separator(GtkWidget *menu)
  */
 static void on_warp_toggled(GtkWidget *widget, gpointer data)
 {
-    ui_toggle_warp();
+    ui_action_toggle_warp();
 }
 
 
@@ -96,7 +96,7 @@ static void on_warp_toggled(GtkWidget *widget, gpointer data)
  */
 static void on_pause_toggled(GtkWidget *widget, gpointer data)
 {
-    ui_toggle_pause();
+    ui_action_toggle_pause();
 }
 
 
