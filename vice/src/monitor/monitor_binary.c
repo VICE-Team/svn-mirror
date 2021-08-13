@@ -209,22 +209,28 @@ static void monitor_binary_quit(void)
 
 int monitor_binary_receive(unsigned char *buffer, size_t buffer_length)
 {
-    int count = 0;
+    int bytes_recieved = 0;
+    int total_bytes_recieved = 0;
 
-    do {
-        if (!connected_socket) {
+    while (buffer_length && connected_socket) {
+        bytes_recieved = vice_network_receive(connected_socket, buffer, buffer_length, 0);
+
+        if (bytes_recieved <= 0) {
+            log_message(LOG_DEFAULT, "monitor_binary_receive(): vice_network_receive() returned %d, breaking connection", bytes_recieved);
+            monitor_binary_quit();
             break;
         }
 
-        count = vice_network_receive(connected_socket, buffer, buffer_length, 0);
-
-        if (count < 0) {
-            log_message(LOG_DEFAULT, "monitor_binary_receive(): vice_network_receive() returned -1, breaking connection");
-            monitor_binary_quit();
+        if (bytes_recieved < buffer_length) {
+            log_message(LOG_DEFAULT, "monitor_binary_receive(): recieved %d of %d", bytes_recieved, buffer_length);
         }
-    } while (0);
 
-    return count;
+        total_bytes_recieved += bytes_recieved;
+        buffer += bytes_recieved;
+        buffer_length -= bytes_recieved;
+    }
+
+    return total_bytes_recieved;
 }
 
 static int monitor_binary_data_available(void)
