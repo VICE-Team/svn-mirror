@@ -1339,7 +1339,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
         /* additional random delay of up to 10 frames */
         autostart_initial_delay_cycles += lib_unsigned_rand(1, (int)machine_get_cycles_per_frame() * 10);
     }
-    DBG(("reboot_for_autostart - autostart_initial_delay_cycles: %u", autostart_initial_delay_cycles));
+    DBG(("reboot_for_autostart - autostart_initial_delay_cycles: %lu", autostart_initial_delay_cycles));
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 
@@ -1519,7 +1519,6 @@ static void setup_for_disk(int unit, int drive)
 */
 static void setup_for_disk_ready(int unit, int drive)
 {
-    printf("setup_for_disk_ready\n");
     if (handle_drive_true_emulation_overridden) {
         /* disable TDE if device traps are enabled,
            enable TDE if device traps are disabled */
@@ -1618,12 +1617,16 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
                 if (file_system_attach_disk(unit, drive, file_name) < 0) {
                     goto exiterror;
                 }
-                if (!get_true_drive_emulation_state(unit)) {
+                /* if TDE was enabled before autostarting but is disabled now, enable it again */
+                if (orig_drive_true_emulation_state && !get_true_drive_emulation_state(unit)) {
                     log_message(autostart_log, "Turning TDE on to allow drive reset");
                     set_true_drive_emulation_mode(1, unit);
                 }
-                log_message(autostart_log, "Resetting drive %d", unit);
-                drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
+                /* if TDE is now enabled, trigger a drive reset */
+                if (get_true_drive_emulation_state(unit)) {
+                    log_message(autostart_log, "Resetting drive %d", unit);
+                    drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
+                }
             }
 #endif
             autostart_type = AUTOSTART_DISK_IMAGE;
@@ -1777,12 +1780,16 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             boot_file_name = (const char *)tempname;
             }
             /* enable TDE and reset the drive to prepare the eof callback */
-            if (!get_true_drive_emulation_state(unit)) {
+            /* if TDE was enabled before autostarting but is disabled now, enable it again */
+            if (orig_drive_true_emulation_state && !get_true_drive_emulation_state(unit)) {
                 log_message(autostart_log, "Turning TDE on to allow drive reset");
                 set_true_drive_emulation_mode(1, unit);
             }
-            log_message(autostart_log, "Resetting drive %d", unit);
-            drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
+            /* if TDE is now enabled, trigger a drive reset */
+            if (get_true_drive_emulation_state(unit)) {
+                log_message(autostart_log, "Resetting drive %d", unit);
+                drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
+            }
 
             autostart_type = AUTOSTART_PRG_DISK;
             break;
