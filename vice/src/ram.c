@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <limits.h>
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -35,6 +37,8 @@
 #include "ram.h"
 #include "resources.h"
 #include "types.h"
+
+#define RANDOM_CHANCE_MAX   0x1000
 
 static RAMINITPARAM mainramparam = {
     .start_value = 255,
@@ -112,6 +116,11 @@ static int set_random_repeat(int val, void *param)
 
 static int set_random_chance(int val, void *param)
 {
+    if (val > RANDOM_CHANCE_MAX) {
+        val = RANDOM_CHANCE_MAX;
+    } else if (val < 0) {
+        val = 0;
+    }
     mainramparam.random_chance = val;
     return 0;
 }
@@ -189,11 +198,71 @@ int ram_cmdline_options_init(void)
     return 0;
 }
 
+/* Methods for randomly selecting bits to flip. */
+typedef enum {
+  RANDOM_METHOD_NONE,   /* flip no (or all) bits */
+  RANDOM_METHOD_GEOM,   /* generate bit intervals between flips */
+  RANDOM_METHOD_UNIFORM /* generate discrete uniform per bit */
+} random_method_t;
+
+/* Random float in the range [min, max) */
+static float rand_clopen(float min, float max)
+{
+  return min + ((float)rand() / (((float)RAND_MAX / (max - min)) + 1.0f));
+}
+
+/* Generate a random variate from the geometric distribution with success
+ * probability p, where the function parameter is the value log(1 - p).  If each
+ * bit has a probability p of being flipped, this distribution corresponds to
+ * the number of non-flipped bits between each subsequent flipped bit. */
+static unsigned int random_method_geom_next(float log_1mp)
+{
+    /* For a uniform random variable U \in [0, 1], then X = log(U) / log(1 - p))
+     * is exponentially distributed with rate -log(1 - p), and floor(X) is
+     * geometrically distributed with success probability p. */
+    float u = rand_clopen(0.0f, 1.0f);
+    /* u may be 0 but not 1; use 1 - u to avoid taking the log of 0. */
+    return (unsigned int)floorf(log1pf(-u) / log_1mp);
+}
+
 /* this can be used to init arbitrary memory */
 void ram_init_with_pattern(uint8_t *memram, unsigned int ramsize, RAMINITPARAM *ramparam)
 {
     unsigned int offset, j, k;
     uint8_t value;
+
+    random_method_t random_method = RANDOM_METHOD_NONE;
+    unsigned int random_mask_initial = 0;
+    float log_1mp = -1.0f / 0.0f;
+    unsigned int random_next = UINT_MAX;
+
+    if (ramparam->random_chance <= 0) {
+        /* flipping no bits */
+        random_method = RANDOM_METHOD_NONE;
+        random_mask_initial = 0x00;
+    } else if (ramparam->random_chance >= RANDOM_CHANCE_MAX) {
+        /* flipping all bits; same as no bits, but with the opposite mask */
+        random_method = RANDOM_METHOD_NONE;
+        random_mask_initial = 0xff;
+    } else if (ramparam->random_chance == (RANDOM_CHANCE_MAX / 2)) {
+        /* flipping bits or not with equal probability; worst-case for the
+         * geometric spacing method, so handle separately */
+        random_method = RANDOM_METHOD_UNIFORM;
+    } else if (ramparam->random_chance < (RANDOM_CHANCE_MAX / 2)) {
+        /* some other probability less than 0.5; generate the number of bits
+         * un-flipped between each flipped bit. */
+        random_method = RANDOM_METHOD_GEOM;
+        random_mask_initial = 0x00;
+        log_1mp = log1pf((double)-ramparam->random_chance / RANDOM_CHANCE_MAX);
+        random_next = random_method_geom_next(log_1mp);
+    } else {
+        /* some other probability greater than 0.5; generate the number of bits
+         * flipped between each un-flipped bit. */
+        random_method = RANDOM_METHOD_GEOM;
+        random_mask_initial = 0xff;
+        log_1mp = logf((float)ramparam->random_chance / RANDOM_CHANCE_MAX);
+        random_next = random_method_geom_next(log_1mp);
+    }
 
     for (offset = 0; offset < ramsize; offset++) {
 
@@ -208,19 +277,27 @@ void ram_init_with_pattern(uint8_t *memram, unsigned int ramsize, RAMINITPARAM *
 
         value = ramparam->start_value ^ j ^ k;
 
-        j = k = 0;
+        k = 0;
         if (ramparam->random_start && ramparam->random_repeat) {
             k = ((offset % ramparam->random_repeat) < ramparam->random_start) ? lib_unsigned_rand(0, 0xff) : 0;
         }
-        if (ramparam->random_chance) {
-            j |= lib_unsigned_rand(0, 0x1000) < ramparam->random_chance ? 0x80 : 0;
-            j |= lib_unsigned_rand(0, 0x1000) < ramparam->random_chance ? 0x40 : 0;
-            j |= lib_unsigned_rand(0, 0x1000) < ramparam->random_chance ? 0x20 : 0;
-            j |= lib_unsigned_rand(0, 0x1000) < ramparam->random_chance ? 0x10 : 0;
-            j |= lib_unsigned_rand(0, 0x1000) < ramparam->random_chance ? 0x08 : 0;
-            j |= lib_unsigned_rand(0, 0x1000) < ramparam->random_chance ? 0x04 : 0;
-            j |= lib_unsigned_rand(0, 0x1000) < ramparam->random_chance ? 0x02 : 0;
-            j |= lib_unsigned_rand(0, 0x1000) < ramparam->random_chance ? 0x01 : 0;
+
+        j = 0;
+        switch (random_method) {
+            case RANDOM_METHOD_NONE:
+                j = random_mask_initial;
+                break;
+            case RANDOM_METHOD_UNIFORM:
+                j = lib_unsigned_rand(0x00, 0xff);
+                break;
+            case RANDOM_METHOD_GEOM:
+                j = random_mask_initial;
+                while (random_next < 8) {
+                    j ^= (1 << random_next);
+                    random_next += 1 + random_method_geom_next(log_1mp);
+                }
+                random_next -= 8;
+                break;
         }
 
         value ^= k ^ j;
