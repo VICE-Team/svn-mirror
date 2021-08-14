@@ -33,6 +33,7 @@
 
 #include "debug_gtk3.h"
 
+#include "archdep_defs.h"
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
@@ -283,7 +284,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
              */
             g_object_set_data(G_OBJECT(item),
                               "HandlerID",
-                              (gpointer)handler_id);
+                              GULONG_TO_POINTER(handler_id));
 
             /* set action name */
             g_object_set_data(G_OBJECT(item),
@@ -356,7 +357,7 @@ GtkWidget *ui_get_gtk_submenu_item_by_name(GtkWidget *submenu, const char *name)
  */
 void ui_set_gtk_check_menu_item_blocked(GtkWidget *item, gboolean state)
 {
-    gulong handler_id = (gulong)g_object_get_data(G_OBJECT(item), "HandlerID");
+    gulong handler_id = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(item), "HandlerID"));
     debug_gtk3("HandlerID = %lu.", handler_id);
 
     /* block signal handler */
