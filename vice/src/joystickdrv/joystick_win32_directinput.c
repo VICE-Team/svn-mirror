@@ -218,9 +218,6 @@ static void joystick_di5_update(int joyport, void* priv)
     BYTE value;
     int i;
     DIPROPRANGE prop;
-    UINT amin;
-    UINT amax;
-    DWORD apos;
     DIJOYSTATE js;
     JoyInfo *joy;
 
