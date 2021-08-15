@@ -106,6 +106,7 @@ int main_program(int argc, char **argv)
     int loadconfig = 1;
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
+    int reserr;
 
     /*
      * OpenMP defaults to spinning threads for a couple hundred ms
@@ -207,7 +208,8 @@ int main_program(int argc, char **argv)
 
     if ((!ishelp) && (loadconfig)) {
         /* Load the user's default configuration file.  */
-        if (resources_reset_and_load(NULL) < 0) {
+        reserr = resources_load(NULL);
+        if (reserr < 0 && reserr != RESERR_FILE_NOT_FOUND) {
             /* The resource file might contain errors, and thus certain
             resources might have been initialized anyway.  */
             if (resources_set_defaults() < 0) {

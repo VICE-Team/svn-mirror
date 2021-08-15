@@ -1170,9 +1170,7 @@ int resources_read_item_from_file(FILE *f)
     }
 }
 
-/* Load the resources from file `fname'.  If `fname' is NULL, load them from
-   the default resource file.  */
-int resources_load(const char *fname)
+static int load_resource_file(const char *fname)
 {
     FILE *f;
     int retval;
@@ -1228,10 +1226,9 @@ int resources_load(const char *fname)
     return err ? RESERR_FILE_INVALID : 0;
 }
 
-/* Reset resources to defaults, then load the resources from file `fname'.  
-   If `fname' is NULL, load them from the default resource file.  */
-int resources_reset_and_load(const char *fname)
-{
+/* Load the resources from file `fname'.  If `fname' is NULL, load them from
+   the default resource file.  */
+int resources_load(const char *fname) {
     char *default_name = NULL;
     int res;
     if (fname == NULL) {
@@ -1250,10 +1247,17 @@ int resources_reset_and_load(const char *fname)
         }
         fname = default_name;
     }
-    resources_set_defaults();
-    res = resources_load(fname);
+    res = load_resource_file(fname);
     lib_free(default_name);
     return res;
+}
+
+/* Reset resources to defaults, then load the resources from file `fname'.
+   If `fname' is NULL, load them from the default resource file.  */
+int resources_reset_and_load(const char *fname)
+{
+    resources_set_defaults();
+    return resources_load(fname);
 }
 
 static char *string_resource_item(int num, const char *delim)
