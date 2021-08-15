@@ -220,6 +220,11 @@ struct vic_s {
         uint8_t sing[0x100];
         uint16_t doub[0x100];
     } pixel_table;
+
+    /* Interlace flag - 0 if normal/non-interlaced, 1 if interlaced */
+    int interlace_enabled;
+    /* which of the two interlace fields is shown */
+    int interlace_field;
 };
 typedef struct vic_s vic_t;
 
