@@ -1366,8 +1366,6 @@ static void machine_vsync_hook(void)
 
     drive_vsync_hook();
 
-    autostart_advance();
-
     screenshot_record();
 }
 
@@ -1572,7 +1570,12 @@ static int check_cart_range(unsigned int addr)
 /* returns TRUE if in RAM */
 int machine_addr_in_ram(unsigned int addr)
 {
-    return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) && check_cart_range(addr));
+    return (
+        (addr < 0xe000
+            && !(addr >= 0xa000 && addr < 0xc000)
+            && !(addr >= 0x0073 && addr <= 0x008a))
+        && check_cart_range(addr)
+        );
 }
 
 const char *machine_get_name(void)

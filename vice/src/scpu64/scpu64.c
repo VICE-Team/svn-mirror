@@ -1138,8 +1138,6 @@ static void machine_vsync_hook(void)
 
     drive_vsync_hook();
 
-    autostart_advance();
-
     screenshot_record();
 }
 

@@ -794,8 +794,6 @@ void machine_specific_shutdown(void)
 /* This hook is called at the end of every frame.  */
 static void machine_vsync_hook(void)
 {
-    autostart_advance();
-
     drive_vsync_hook();
 
     screenshot_record();

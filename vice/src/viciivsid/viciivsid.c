@@ -175,7 +175,7 @@ inline void vicii_delay_clk(void)
 
 inline void vicii_handle_pending_alarms(CLOCK num_write_cycles)
 {
-    if (num_write_cycles != 0) {
+    if (num_write_cycles != 0 && num_write_cycles >= maincpu_clk) {
         int f;
 
         /* Cycles can be stolen only during the read accesses, so we serve
