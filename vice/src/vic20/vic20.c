@@ -1185,8 +1185,6 @@ static void machine_vsync_hook(void)
 {
     drive_vsync_hook();
 
-    autostart_advance();
-
     screenshot_record();
 }
 
@@ -1335,7 +1333,17 @@ uint8_t machine_tape_behaviour(void)
 
 int machine_addr_in_ram(unsigned int addr)
 {
-    return (addr < 0xc000) ? 1 : 0;
+    if (addr >= 0x73 && addr <= 0x8a) {
+        /* CHRGET zero page routine */
+        return 0;
+    }
+    
+    if (addr >= 0xc000) {
+        /* ROM */
+        return 0;
+    }
+    
+    return 1;
 }
 
 const char *machine_get_name(void)

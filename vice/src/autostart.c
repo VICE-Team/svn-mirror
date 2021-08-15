@@ -496,7 +496,10 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
                     (unsigned int)checkbyte,
                     (unsigned int)(s[i] % 64)));
         if (checkbyte != s[i] % 64) {
-            if (checkbyte != (uint8_t)32) {
+            if (checkbyte != 0x20
+                && checkbyte != 0xC
+                && checkbyte != 0x13
+                ) {
                 DBGWAIT(("check2: return NO"));
                 return NO;
             }
@@ -593,8 +596,6 @@ static void disable_warp_if_was_requested(void)
 static void check_rom_area(void)
 {
     static int lastmode = -1;
-    static int checkdelay = 0;
-    static int checkflag = 0;
 
     /* enter ROM ? */
     if (!entered_rom) {
@@ -603,7 +604,6 @@ static void check_rom_area(void)
             entered_rom = 1;
         }
         lastmode = autostartmode;
-        checkdelay = checkflag = 0;
     } else {
         /* special case for auto-starters: ROM left. We also consider
          * BASIC area to be ROM, because it's responsible for writing "READY."
@@ -614,19 +614,11 @@ static void check_rom_area(void)
          */
         if (lastmode != autostartmode) {
             lastmode = autostartmode;
-            checkdelay = checkflag = 0;
         }
         if (machine_addr_in_ram(reg_pc)) {
-            if (!checkflag) {
-                log_message(autostart_log, "Left ROM for $%04x", reg_pc);
-                checkflag = 1;
-            }
-            checkdelay++;
-        }
-        if (checkdelay > 2) {
+            log_message(autostart_log, "Left ROM for $%04x", reg_pc);
             log_message(autostart_log, "aborting.");
             lastmode = -1;
-            checkdelay = checkflag = 0;
             disable_warp_if_was_requested();
             autostart_done(); /* -> AUTOSTART_DONE */
         }
@@ -969,7 +961,7 @@ static void advance_hasdisk(int unit, int drive)
     char *tmp, *temp_name;
     char drivestring[3] = {'0',':',0};
 
-    DBG(("advance_hasdisk(unit: %d drive: %d)", unit, drive));
+    /* DBG(("advance_hasdisk(unit: %d drive: %d)", unit, drive)); */
 
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
         case YES:
@@ -1339,7 +1331,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
         /* additional random delay of up to 10 frames */
         autostart_initial_delay_cycles += lib_unsigned_rand(1, (int)machine_get_cycles_per_frame() * 10);
     }
-    DBG(("reboot_for_autostart - autostart_initial_delay_cycles: %lu", autostart_initial_delay_cycles));
+    DBG(("reboot_for_autostart - autostart_initial_delay_cycles: %"PRIu64, autostart_initial_delay_cycles));
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 
