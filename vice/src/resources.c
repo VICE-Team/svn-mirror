@@ -1228,7 +1228,8 @@ static int load_resource_file(const char *fname)
 
 /* Load the resources from file `fname'.  If `fname' is NULL, load them from
    the default resource file.  */
-int resources_load(const char *fname) {
+int resources_load(const char *fname)
+{
     char *default_name = NULL;
     int res;
     if (fname == NULL) {
