@@ -24,7 +24,7 @@ SDL2 and Gtk3 builds.
 MacPorts:
 ---------
 
-$ sudo port install autoconf automake pkgconfig xa lame texinfo texlive-basic dos2unix
+$ sudo port install autoconf automake pkgconfig xa lame texinfo texlive-basic dos2unix libomp
 
 SDL2:
 
@@ -39,8 +39,8 @@ $ sudo port install librsvg adwaita-icon-theme glew
 Homebrew:
 ---------
 
-$ brew install autoconf automake pkg-config xa lame texinfo
-$ brew cask install basictex
+$ brew install autoconf automake pkg-config xa lame texinfo dos2unix libomp basictex
+$ brew install basictex
 
 SDL2:
 
@@ -48,7 +48,7 @@ $ brew install sdl2 sdl2_image libpng
 
 Gtk3:
 
-$ brew install gtk+3 librsvg adwaita-icon-theme
+$ brew install gtk+3 librsvg adwaita-icon-theme glew
 
 --------------------------------------------------------------------------------
 Configure the source and build:

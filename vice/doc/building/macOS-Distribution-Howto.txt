@@ -11,27 +11,19 @@ dependencies. MacPorts can be configured to compile for older versions of macOS.
 
 2. Follow macOS-Howto.txt to get a MacPorts VICE build environment working.
 
-3. Bundled dependencies need to be rebuilt to target macOS 10.9. First, set
-   macosx_deployment_target to 10.9 in /opt/local/etc/macports/macports.conf.
+3. Bundled dependencies need to be rebuilt to target macOS 10.11. First, set
+   macosx_deployment_target to 10.10 in /opt/local/etc/macports/macports.conf.
 
    I usually then nuke all installed ports and start again with runtime deps
    built from source, like this:
 
-   $ sudo port uninstall installed
-   $ sudo port install autoconf automake pkgconfig dos2unix
-   $ sudo port -s install gtk3 +quartz
-   $ sudo port -s install libsdl2 xa lame glew
-   $ sudo port install rust cargo platypus
-   $ sudo port -s install librsvg
-   $ sudo port install adwaita-icon-theme texinfo texlive-basic
-
-   But that is probably overkill and you wont want to do this if you have other
-   use of MacPorts on your system. You might be able to find a lighter way,
-   perhaps something like:
-
-   $ sudo port uninstall $(port rdeps gtk3 | sed 1d)
-   $ sudo port uninstall gtk3
-   $ sudo port -s install gtk3 +quartz
+   $ sudo port -N uninstall installed || true
+   $ sudo port -N selfupdate
+   $ sudo port -N -s install coreutils libomp
+   $ sudo port -N -s install gtk3 +quartz
+   $ sudo port -N -s install librsvg adwaita-icon-theme libsdl2 libsdl2_image lame glew libvorbis flac libjpeg-turbo
+   $ sudo port -N -s install ffmpeg +darwinssl
+   $ sudo port -N install platypus xa texlive-basic dos2unix
 
 4. Now build VICE against the reinstalled dependencies, and make the bindist:
 
