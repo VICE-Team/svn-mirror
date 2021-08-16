@@ -53,13 +53,7 @@
 #include "util.h"
 #include "uiactions.h"
 #include "vsync.h"
-
-#if 0
-#ifdef WIN32_COMPILE
-# include <windows.h>
-#endif
-#endif
-
+#include "uiapi.h"
 #include "ui.h"
 #include "uicommands.h"
 #include "uimachinewindow.h"
@@ -115,13 +109,38 @@ gboolean ui_action_toggle_controlport_swap(void)
 {
     int joy1 = -1;
     int joy2 = -1;
+    int type1 = -1;
+    int type2 = -1;
 
-    controlport_swapped = !controlport_swapped;
+    resources_get_int("JoyPort1Device", &type1);
+    resources_get_int("JoyPort2Device", &type2);
+
+    /* unset both resources first to avoid assigning for example the mouse to
+     * two ports. here might be dragons!
+     */
+    resources_set_int("JoyPort1Device", 0);
+    resources_set_int("JoyPort2Device", 0);
+
+    /* try setting port #2 first, some devices only work in port #1 */
+    if (resources_set_int("JoyPort2Device", type1) < 0) {
+        /* restore config */
+        resources_set_int("JoyPort1Device", type1);
+        resources_set_int("JoyPort2Device", type2);
+        return TRUE;
+    }
+    if (resources_set_int("JoyPort1Device", type2) < 0) {
+        /* restore config */
+        resources_set_int("JoyPort1Device", type1);
+        resources_set_int("JoyPort2Device", type2);
+        return TRUE;
+    }
 
     resources_get_int("JoyDevice1", &joy1);
     resources_get_int("JoyDevice2", &joy2);
     resources_set_int("JoyDevice1", joy2);
     resources_set_int("JoyDevice2", joy1);
+
+    controlport_swapped = !controlport_swapped;
 
     ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_CONTROLPORT_SWAP,
                                                controlport_swapped);
