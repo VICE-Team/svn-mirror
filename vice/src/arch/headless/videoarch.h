@@ -31,6 +31,7 @@
 #ifndef VICE_VIDEOARCH_H
 #define VICE_VIDEOARCH_H
 
+#include "tick.h"
 #include "video.h"
 
 typedef struct video_canvas_s {
