@@ -113,6 +113,7 @@ static int set_monitor_font(const char *, void *param);
 static int set_monitor_bg(const char *, void *param);
 static int set_monitor_fg(const char *, void *param);
 static int set_fullscreen_state(int val, void *param);
+static int set_fullscreen_decorations(int val, void *param);
 static int set_pause_on_settings(int val, void *param);
 static int set_autostart_on_doubleclick(int val, void *param);
 
@@ -177,6 +178,13 @@ static ui_resource_t ui_resources;
 /** \brief  Fullscreen state
  */
 static int fullscreen_enabled = 0;
+
+
+/** \brief  Flag inidicating whether fullscreen mode shows the decorations
+ *
+ * Used bt the resource "FullscreenDecorations".
+ */
+static int fullscreen_has_decorations = 0;
 
 
 /** \brief  Row numbers of the various widgets packed in a main GtkWindow
@@ -265,6 +273,9 @@ static const resource_int_t resources_int_shared[] = {
 
     { "FullscreenEnable", 0, RES_EVENT_NO, NULL,
         &fullscreen_enabled, set_fullscreen_state, NULL },
+
+    { "FullscreenDecorations", 0, RES_EVENT_NO, NULL,
+        &fullscreen_has_decorations, set_fullscreen_decorations, NULL },
 
     { "PauseOnSettings", 0, RES_EVENT_NO, NULL,
         &ui_resources.pause_on_settings, set_pause_on_settings, NULL },
@@ -360,6 +371,12 @@ static const cmdline_option_t cmdline_options_common[] =
     { "+fullscreen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "FullscreenEnable", (void*)0,
         NULL, "Disable fullscreen" },
+    { "-fullscreen-decorations", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "FullscreenDecorations", (void*)1,
+        NULL, "Enable fullscreen decorations" },
+    { "+fullscreen-decorations", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "FullscreenDecorations", (void*)0,
+        NULL, "Disable fullscreen decorations" },
     { "-monitorfont", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
         set_monitor_font, NULL, "MonitorFont", NULL,
         "font-description", "Set monitor font for the Gtk3 monitor" },
@@ -395,9 +412,6 @@ static int active_win_index = -1;
  */
 static int is_fullscreen = 0;
 
-/** \brief  Flag inidicating whether fullscreen mode shows the decorations
- */
-static int fullscreen_has_decorations = 0;
 
 /** \brief  Function to handle files dropped on a main window
  */
@@ -573,6 +587,19 @@ static int set_fullscreen_state(int val, void *param)
     return 0;
 }
 
+
+/** \brief  Resource setter for "FullscreenDecorations"
+ *
+ * \param[in]   val     new value
+ * \param[in]   param   extra argument (unused)
+ *
+ * \return 0
+ */
+static int set_fullscreen_decorations(int val, void *param)
+{
+    fullscreen_has_decorations = val;
+    return 0;
+}
 
 
 /** \brief  Get the most recently focused toplevel window

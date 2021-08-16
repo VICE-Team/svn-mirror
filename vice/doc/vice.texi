@@ -14219,6 +14219,10 @@ Integer specifying the depth of the host display. The value @samp{0}
 (all emulators except vsid).
 (0..32)
 
+@vindex FullscreenDecorations
+@item FullscreenDecorations
+Boolean specifying whether the menu and statusbar are shown in full screen mode.
+
 @vindex Window0Width
 @vindex Window0Height
 @vindex Window0Xpos
@@ -14484,8 +14488,13 @@ Never confirm quitting VICE
 @item -fullscreen
 @itemx +fullscreen
 Enable/disable fullscreen mode
-(@code{UseFullscreen=1}, (@code{UseFullscreen=0})
+(@code{FullscreenEnable=1}, (@code{FullscreenEnable=0})
 (all emulators except vsid).
+
+@findex -fullscreen-decorations, +fullscreen-decorations
+@item -fullscreen-decorations
+@itemx +fullscreen-decorations
+Enable/disable fullscreen decorations
 
 @findex -CRTChwscale, +CRTChwscale
 @item -CRTChwscale
