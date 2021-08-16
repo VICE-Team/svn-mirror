@@ -1125,16 +1125,20 @@ ui_menu_item_t* ui_get_vice_menu_item_by_name(const char *name)
     for (i = 0; i < sizeof menu_references / sizeof menu_references[0]; i++) {
         ui_menu_ref_t ref = menu_references[i];
         ui_menu_item_t *item;
-
+#if 0
         debug_gtk3("Scanning '%s' for '%s'.", ref.name, name);
-
+#endif
         for (item = ref.items; item->label != NULL; item++) {
             if (item->type == UI_MENU_TYPE_ITEM_ACTION
                     || item->type == UI_MENU_TYPE_ITEM_CHECK) {
                 if (item->action_name != NULL) {
+#if 0
                     debug_gtk3(".. Checking item '%s'.", item->action_name);
+#endif
                     if (strcmp(item->action_name, name) == 0) {
+#if 0
                         debug_gtk3(".. FOUND! Label: '%s'", item->label);
+#endif
                         return item;
                     }
                 }
@@ -1202,11 +1206,15 @@ GtkWidget *ui_get_gtk_menu_item_by_name(const char *name)
 {
     GList *node = gtk_container_get_children(GTK_CONTAINER(main_menu_bar));
 
+#if 0
     debug_gtk3("Iterating menu main bar children.");
+#endif
     while (node != NULL) {
         GtkWidget *item = node->data;
         if (item != NULL && GTK_IS_CONTAINER(item)) {
+#if 0
             debug_gtk3("Item != NULL, getting submenu.");
+#endif
             GtkWidget *submenu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(item));
             if (submenu != NULL) {
                 item = ui_get_gtk_submenu_item_by_name(submenu, name);
