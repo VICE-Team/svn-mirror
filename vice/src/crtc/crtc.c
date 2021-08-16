@@ -151,7 +151,6 @@ crtc_t crtc = {
         0,
         0, 0,       /* xsmooth_shift_right, sprite_xsmooth_shift_left */
         0,
-        0,
         0, 0,       /* border_color, background_color */
         0,
         0,
@@ -721,9 +720,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
     if ((crtc.framelines - crtc.current_line) == crtc.screen_yoffset) {
         crtc.raster.current_line = 0;
         raster_canvas_handle_end_of_frame(&crtc.raster);
-        raster_skip_frame(&crtc.raster,
-                          vsync_do_vsync(crtc.raster.canvas,
-                                         crtc.raster.skip_frame));
+        vsync_do_vsync(crtc.raster.canvas);
     }
 
     {

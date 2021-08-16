@@ -449,9 +449,7 @@ void vicii_raster_draw_handler(void)
     if (vicii.raster.current_line == 0) {
         /* no vsync here for NTSC  */
         if ((unsigned int)vicii.last_displayed_line < vicii.screen_height) {
-            raster_skip_frame(&vicii.raster,
-                              vsync_do_vsync(vicii.raster.canvas,
-                                             vicii.raster.skip_frame));
+            vsync_do_vsync(vicii.raster.canvas);
         }
 
     }
@@ -459,9 +457,7 @@ void vicii_raster_draw_handler(void)
     /* vsync for NTSC */
     if ((unsigned int)vicii.last_displayed_line >= vicii.screen_height
         && vicii.raster.current_line == vicii.last_displayed_line - vicii.screen_height + 1) {
-        raster_skip_frame(&vicii.raster,
-                          vsync_do_vsync(vicii.raster.canvas,
-                                         vicii.raster.skip_frame));
+        vsync_do_vsync(vicii.raster.canvas);
     }
 }
 

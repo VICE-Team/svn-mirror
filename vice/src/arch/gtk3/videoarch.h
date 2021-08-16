@@ -33,6 +33,7 @@
 
 #include "vice.h"
 
+#include "tick.h"
 #include "viewport.h"
 #include "video.h"
 
@@ -148,6 +149,9 @@ typedef struct video_canvas_s {
     /** \brief Which window contains this canvas.
      *  \sa ui_resources_s::canvas The array this value indexes */
     int window_index;
+    
+    /** \brief Used to limit frame rate under warp. */
+    tick_t warp_next_render_tick;
 } video_canvas_t;
 
 /** \brief Rescale and reposition the screen inside the canvas if the

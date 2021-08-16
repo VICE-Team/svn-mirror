@@ -294,7 +294,6 @@ void raster_reset(raster_t *raster)
     raster->xsmooth_shift_left = 0;
     raster->xsmooth_shift_right = 0;
     raster->sprite_xsmooth_shift_right = 0;
-    raster->skip_frame = 0;
 
     raster->blank_off = 0;
     raster->blank_enabled = 0;
@@ -508,11 +507,6 @@ void raster_set_title(raster_t *raster, const char *name)
     video_viewport_title_set(raster->canvas, title);
 
     lib_free(title);
-}
-
-void raster_skip_frame(raster_t *raster, int skip)
-{
-    raster->skip_frame = skip;
 }
 
 void raster_enable_cache(raster_t *raster, int enable)

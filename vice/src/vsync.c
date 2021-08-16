@@ -67,6 +67,7 @@
 #include "sound.h"
 #include "types.h"
 #include "tick.h"
+#include "videoarch.h"
 #include "vsync.h"
 #include "vsyncapi.h"
 
@@ -137,7 +138,6 @@ static int relative_speed;
 /* "Warp mode".  If nonzero, attempt to run as fast as possible. */
 static int warp_enabled;
 static tick_t warp_render_tick_interval;
-static tick_t warp_next_render_tick;
 
 /* Triggers the vice thread to update its priorty */
 static volatile int update_thread_priority = 1;
@@ -162,10 +162,6 @@ static int set_warp_mode(int val, void *param)
 
     sound_set_warp_mode(warp_enabled);
     vsync_suspend_speed_eval();
-
-    if (warp_enabled) {
-        warp_next_render_tick = tick_now() + warp_render_tick_interval;
-    }
 
     update_thread_priority = 1;
 
@@ -561,24 +557,56 @@ void vsync_do_end_of_line(void)
     }
 }
 
+bool vsync_should_skip_frame(struct video_canvas_s *canvas)
+{
+    tick_t now = tick_now();
+
+    /*
+     * Ideally the draw alarm wouldn't be triggered
+     * during shutdown but here we are - apply workaround.
+     */
+
+    if (archdep_is_exiting()) {
+        /* skip this frame */
+        return true;
+    }
+
+    /*
+     * Limit rendering fps if we're in warp mode.
+     * It's ugly enough for dqh to weep but makes warp faster.
+     */
+
+    if (warp_enabled) {
+        if (now < canvas->warp_next_render_tick) {
+            if (now < canvas->warp_next_render_tick - warp_render_tick_interval) {
+                /* next render tick is further ahead than it should be */
+                canvas->warp_next_render_tick = now + warp_render_tick_interval;    
+            }
+            /* skip this frame */
+            return true;
+        } else {
+            canvas->warp_next_render_tick += warp_render_tick_interval;
+
+            if (canvas->warp_next_render_tick < now) {
+                /* Warp rendering is behind, catch up */
+                canvas->warp_next_render_tick = now + warp_render_tick_interval;
+            }
+            /* render this frame */
+            return false;
+        }
+    }
+    
+    /* render this frame */
+    return false;
+}
+
 /* This is called at the end of each screen frame. */
-int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
+void vsync_do_vsync(struct video_canvas_s *c)
 {
     static tick_t last_vsync;
 
     tick_t now;
     tick_t network_hook_time = 0;
-    /* long delay; */
-    int skip_next_frame = 0;
-
-    /*
-     * Ideally the vic chip draw alarm wouldn't be triggered
-     * during shutdown but here we are - apply workaround.
-     */
-
-    if (archdep_is_exiting()) {
-        return 1;
-    }
 
     monitor_vsync_hook();
 
@@ -613,19 +641,6 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     now = tick_now_after(last_vsync);
     update_performance_metrics(now);
 
-    /*
-     * Limit rendering fps if we're in warp mode.
-     * It's ugly enough for dqh to weep but makes warp faster.
-     */
-
-    if (warp_enabled) {
-        if (now < warp_next_render_tick) {
-            skip_next_frame = 1;
-        } else {
-            warp_next_render_tick += warp_render_tick_interval;
-        }
-    }
-
     vsyncarch_postsync();
 
 #ifdef VSYNC_DEBUG
@@ -638,6 +653,4 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     kbdbuf_flush();
 
     last_vsync = now;
-
-    return skip_next_frame;
 }

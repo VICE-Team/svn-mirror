@@ -153,9 +153,7 @@ void vic_raster_draw_handler(void)
 
     /* handle start of frame */
     if (vic.raster.current_line == 0) {
-        raster_skip_frame(&vic.raster,
-                          vsync_do_vsync(vic.raster.canvas,
-                                         vic.raster.skip_frame));
+        vsync_do_vsync(vic.raster.canvas);
     }
 }
 

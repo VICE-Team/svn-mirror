@@ -37,6 +37,7 @@
 
 #include "vice_sdl.h"
 
+#include "tick.h"
 #include "viewport.h"
 #include "video.h"
 
@@ -124,6 +125,9 @@ struct video_canvas_s {
     /* OpenGL context */
     SDL_Surface *hwscale_screen;
 #endif
+    
+    /** \brief Used to limit frame rate under warp. */
+    tick_t warp_next_render_tick;
 };
 typedef struct video_canvas_s video_canvas_t;
 
