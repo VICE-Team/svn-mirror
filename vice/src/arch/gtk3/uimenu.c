@@ -319,18 +319,23 @@ GtkWidget *ui_get_gtk_submenu_item_by_name(GtkWidget *submenu, const char *name)
 {
     GList *node = gtk_container_get_children(GTK_CONTAINER(submenu));
 
+#if 0
     debug_gtk3("Iterating children of submenu.");
+#endif
     while (node != NULL) {
         GtkWidget *item = node->data;
         if (GTK_IS_CONTAINER(item)) {
             const char *action_name = g_object_get_data(G_OBJECT(item),
                                                     "ActionName");
             if (action_name != NULL) {
+#if 0
                 debug_gtk3("Checking action-name '%s' against '%s'.",
                         action_name, name);
-
+#endif
                 if (strcmp(action_name, name) == 0) {
+#if 0
                     debug_gtk3("FOUND");
+#endif
                     return GTK_WIDGET(item);
                 }
             } else {
@@ -358,8 +363,9 @@ GtkWidget *ui_get_gtk_submenu_item_by_name(GtkWidget *submenu, const char *name)
 void ui_set_gtk_check_menu_item_blocked(GtkWidget *item, gboolean state)
 {
     gulong handler_id = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(item), "HandlerID"));
+#if 0
     debug_gtk3("HandlerID = %lu.", handler_id);
-
+#endif
     /* block signal handler */
     g_signal_handler_block(item, handler_id);
     /* update state */
