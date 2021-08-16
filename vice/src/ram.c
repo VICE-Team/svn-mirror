@@ -205,24 +205,20 @@ typedef enum {
   RANDOM_METHOD_UNIFORM /* generate discrete uniform per bit */
 } random_method_t;
 
-/* Random float in the range [min, max) */
-static float rand_clopen(float min, float max)
-{
-  return min + ((float)rand() / (((float)RAND_MAX / (max - min)) + 1.0f));
-}
-
 /* Generate a random variate from the geometric distribution with success
  * probability p, where the function parameter is the value log(1 - p).  If each
  * bit has a probability p of being flipped, this distribution corresponds to
  * the number of non-flipped bits between each subsequent flipped bit. */
-static unsigned int random_method_geom_next(float log_1mp)
+static unsigned int random_method_geom_next(double log_1mp)
 {
     /* For a uniform random variable U \in [0, 1], then X = log(U) / log(1 - p))
      * is exponentially distributed with rate -log(1 - p), and floor(X) is
      * geometrically distributed with success probability p. */
-    float u = rand_clopen(0.0f, 1.0f);
+    double u = lib_double_rand_unit();
     /* u may be 0 but not 1; use 1 - u to avoid taking the log of 0. */
-    return (unsigned int)floorf(log1pf(-u) / log_1mp);
+    double g = floor(log1p(-u) / log_1mp);
+    /* Avoid overflow when converting to an unsigned int. */
+    return (g > nextafter(UINT_MAX, 0)) ? UINT_MAX : g;
 }
 
 /* this can be used to init arbitrary memory */
@@ -233,7 +229,7 @@ void ram_init_with_pattern(uint8_t *memram, unsigned int ramsize, RAMINITPARAM *
 
     random_method_t random_method = RANDOM_METHOD_NONE;
     unsigned int random_mask_initial = 0;
-    float log_1mp = -1.0f / 0.0f;
+    double log_1mp = -1.0f / 0.0f;
     unsigned int random_next = UINT_MAX;
 
     if (ramparam->random_chance <= 0) {
@@ -253,14 +249,14 @@ void ram_init_with_pattern(uint8_t *memram, unsigned int ramsize, RAMINITPARAM *
          * un-flipped between each flipped bit. */
         random_method = RANDOM_METHOD_GEOM;
         random_mask_initial = 0x00;
-        log_1mp = log1pf((double)-ramparam->random_chance / RANDOM_CHANCE_MAX);
+        log_1mp = log1p((double)-ramparam->random_chance / RANDOM_CHANCE_MAX);
         random_next = random_method_geom_next(log_1mp);
     } else {
         /* some other probability greater than 0.5; generate the number of bits
          * flipped between each un-flipped bit. */
         random_method = RANDOM_METHOD_GEOM;
         random_mask_initial = 0xff;
-        log_1mp = logf((float)ramparam->random_chance / RANDOM_CHANCE_MAX);
+        log_1mp = log((double)ramparam->random_chance / RANDOM_CHANCE_MAX);
         random_next = random_method_geom_next(log_1mp);
     }
 
