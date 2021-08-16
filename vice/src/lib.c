@@ -908,7 +908,7 @@ static uint32_t rand_uint32(void)
      * pseudocode in the paper as:
      * > rotate32((state ^ (state >> 18)) >> 27, state >> 59)
      * Where rotate32() is a clockwise (right) circular rotation. */
-    output_base = (prev_state ^ (prev_state >> 18)) >> 27;
+    output_base = (uint32_t)((prev_state ^ (prev_state >> 18)) >> 27);
     output_rot = prev_state >> 59;
     return (output_base >> output_rot) | (output_base << (-output_rot & 31));
 }
