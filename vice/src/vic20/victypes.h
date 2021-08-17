@@ -75,11 +75,17 @@ typedef uint8_t VIC_PIXEL;
 #define VIC_LINE_START_CLK(clk)  (((clk) / vic.cycles_per_line) \
                                   * vic.cycles_per_line)
 
+#if 1
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending `A_RASTERDRAW' event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
 #define VIC_RASTER_Y(clk)     ((unsigned int)((clk) / vic.cycles_per_line)   \
                                % vic.screen_height)
+#else
+/* this is faster than the above and does not break with interlace video */
+/* FIXME: apparently this breaks non interlaced :( we need to fix it so it works with PAL too */
+#define VIC_RASTER_Y(clk)     ((unsigned int)((clk) - vic.framestart_cycle) / vic.cycles_per_line)
+#endif
 
 #define VIC_RASTER_X(cycle)      (((int)(cycle) - 7) * 4 * VIC_PIXEL_WIDTH)
 
@@ -225,6 +231,8 @@ struct vic_s {
     int interlace_enabled;
     /* which of the two interlace fields is shown */
     int interlace_field;
+    /* cycle at which the current frame started */
+    CLOCK framestart_cycle;
 };
 typedef struct vic_s vic_t;
 

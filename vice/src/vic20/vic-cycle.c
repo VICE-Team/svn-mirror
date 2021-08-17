@@ -180,6 +180,7 @@ static inline void vic_cycle_end_of_frame(void)
     vic.raster.ycounter = 0;
     vic.memptr = 0;
     vic.memptr_inc = 0;
+    vic.framestart_cycle = maincpu_clk;
 }
 
 /* Handle memptr increase */
@@ -351,40 +352,40 @@ void vic_cycle(void)
         if (vic.interlace_field == 0) {
             if (vic.raster_cycle == vic.cycles_per_line) {
                 vic_cycle_end_of_line();
-                if (vic.raster_line == vic.screen_height) {
-                    vic_cycle_end_of_frame();
+                if (vic.raster_line >= vic.screen_height) {
                     vic.interlace_field = 1;
                     vic.raster.canvas->videoconfig->interlaced = 1;
                     vic.screen_height = VIC20_NTSC_INTERLACE_FIELD2_SCREEN_LINES;
                     vic.raster.geometry->screen_size.height = vic.screen_height;
+                    vic_cycle_end_of_frame();
                 }
             }
         } else {
             if (vic.raster_cycle == vic.cycles_per_line) {
                 vic_cycle_end_of_line();
-                if (vic.raster_line == vic.screen_height) {
-                    vic_cycle_end_of_frame();
+                if (vic.raster_line >= vic.screen_height) {
                     vic.interlace_field = 0;
                     vic.raster.canvas->videoconfig->interlaced = 1;
                     vic.screen_height = VIC20_NTSC_INTERLACE_FIELD1_SCREEN_LINES;
                     vic.raster.geometry->screen_size.height = vic.screen_height;
+                    vic_cycle_end_of_frame();
                 }
             }
         }
 
     } else {
         /* no interlace */
-        if ((vic.cycles_per_line == VIC20_NTSC_CYCLES_PER_LINE) &&
-            (vic.raster_line == VIC20_NTSC_LAST_LINE) && 
-            (vic.screen_height != VIC20_NTSC_SCREEN_LINES)) {
-            vic.raster.canvas->videoconfig->interlaced = 0;
-            vic.screen_height = VIC20_NTSC_SCREEN_LINES;
-            vic.raster.geometry->screen_size.height = vic.screen_height;
-        }
-
         if (vic.raster_cycle == vic.cycles_per_line) {
             vic_cycle_end_of_line();
-            if (vic.raster_line == vic.screen_height) {
+            if (vic.raster_line >= vic.screen_height) {
+                /* disable interlace if it was enabled */
+                if ((vic.cycles_per_line == VIC20_NTSC_CYCLES_PER_LINE) &&
+                    (vic.raster.canvas->videoconfig->interlaced == 1)) {
+                    vic.interlace_field = 0;
+                    vic.raster.canvas->videoconfig->interlaced = 0;
+                    vic.screen_height = VIC20_NTSC_SCREEN_LINES;
+                    vic.raster.geometry->screen_size.height = vic.screen_height;
+                }
                 vic_cycle_end_of_frame();
             }
         }

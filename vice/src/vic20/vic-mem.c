@@ -232,21 +232,32 @@ static inline unsigned vic_read_rasterline(void)
      */
     if (vic.cycles_per_line == VIC20_NTSC_CYCLES_PER_LINE) {
         if (vic.interlace_enabled) {
+            /* FIXME: unfortunately using this for the VIC_RASTER_Y macro breaks non interlaced
+                      timing and perhaps also PAL - we need to investigate this further */
+            ypos = ((unsigned int)(((maincpu_clk + vic.cycle_offset) - vic.framestart_cycle) / 65));
             /* interlaced
                top + bottom field combined cycle count: 32+262x65 + 262x65+33 = 525x65 cycles
              */
             if (vic.interlace_field == 0) {
-                /* line 0 with 32 cycles
+                /* 
+                 * top
+                 * line 0 with 32 cycles
                    lines 1..262 with 65 cycles
                 */
-                ypos++; /* HACK: fixup to compensate for the hack that follows */
+                /* HACK: the cycle offset pushes ypos to last+1, this is part of
+                         line 0 of the next field */
+                if (ypos >= (VIC20_NTSC_INTERLACE_FIELD1_LAST_LINE + 1)) {
+                    return 0;
+                }
             } else {
-                /* lines 0..261 with 65 cycles
+                /* 
+                 * bottom
+                 * lines 0..261 with 65 cycles
                    line 262 with 33 cycles
                 */
                 /* HACK: the last line of this field and the first line of the other field add
                          up to a full line */
-                if (ypos == VIC20_NTSC_INTERLACE_FIELD2_LAST_LINE) {
+                if (ypos >= VIC20_NTSC_INTERLACE_FIELD2_LAST_LINE) {
                     if (VIC_RASTER_CYCLE(maincpu_clk + vic.cycle_offset) < VIC20_NTSC_INTERLACE_FIELD2_CYCLES_LAST_LINE) {
                         return VIC20_NTSC_INTERLACE_FIELD2_LAST_LINE; /* confirm this */
                     } else {
@@ -254,6 +265,7 @@ static inline unsigned vic_read_rasterline(void)
                     }
                 }
             }
+            return ypos;
         } else {
             /* no interlace */
             /* line 0 with 32 cycles
