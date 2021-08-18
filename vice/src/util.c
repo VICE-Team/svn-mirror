@@ -425,7 +425,6 @@ int util_file_load_string(FILE *fd, char **dest)
     buffer = lib_malloc(size + 1);
 
     r = fread(buffer, 1, size, fd);
-    fclose(fd);
 
     if (r < size) {
         lib_free(buffer);
