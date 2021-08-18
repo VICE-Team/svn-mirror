@@ -81,6 +81,17 @@ void set_joyport_pot_mask(int mask)
     pot_port_mask = mask;
 }
 
+static int joyport_device_is_single_port(int id)
+{
+    switch (id) {
+        case JOYPORT_ID_NONE:
+        case JOYPORT_ID_JOYSTICK:
+        case JOYPORT_ID_TRAPTHEM_SNESPAD:
+            return 0;
+    }
+    return 1;
+}
+
 /* attach device 'id' to port 'port' */
 static int joyport_set_device(int port, int id)
 {
@@ -112,7 +123,7 @@ static int joyport_set_device(int port, int id)
     }
 
     /* check if id conflicts with devices on other ports */
-    if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK) {
+    if (joyport_device_is_single_port(id)) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joy_port[i] == id) {
                 ui_error("Selected control port device %s on %s is already attached to %s", joyport_device[id].name, port_props[port].name, port_props[i].name);
@@ -122,7 +133,7 @@ static int joyport_set_device(int port, int id)
     }
 
     /* check if input resource conflicts with device on the other port */
-    if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE) {
+    if (joyport_device_is_single_port(id) && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joyport_device[id].resource_id == joyport_device[joy_port[i]].resource_id) {
                 ui_error("Selected control port device %s on %s uses same host input resource (%s) as the device attached to %s", joyport_device[id].name, port_props[port].name, res2text(joyport_device[id].resource_id), port_props[i].name);
@@ -132,7 +143,7 @@ static int joyport_set_device(int port, int id)
     }
 
     /* check if device can be connected to this port */
-    if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].is_lp && !port_props[port].has_lp_support) {
+    if (joyport_device_is_single_port(id) && joyport_device[id].is_lp && !port_props[port].has_lp_support) {
         ui_error("Selected control port device %s cannot be attached to %s", joyport_device[id].name, port_props[port].name);
         return -1;
     }
@@ -208,7 +219,7 @@ void store_joyport_dig(int port, uint8_t val, uint8_t mask)
     store_val &= (uint8_t)~mask;
     store_val |= val;
 
-    joyport_device[id].store_digital(store_val);
+    joyport_device[id].store_digital(port, store_val);
 
     joyport_dig_stored[port] = store_val;
 }

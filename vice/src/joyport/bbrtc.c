@@ -90,7 +90,7 @@ static uint8_t bbrtc_read(int port)
     return (uint8_t)(~retval);
 }
 
-static void bbrtc_store(uint8_t val)
+static void bbrtc_store(int port, uint8_t val)
 {
     uint8_t rst_val = val & 1;
     uint8_t data_val = (uint8_t)((val & 2) >> 1);
