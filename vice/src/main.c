@@ -129,6 +129,7 @@ int main_program(int argc, char **argv)
        -console => no user interface
        -verbose => more verbose logging
        -silent => no logging
+       -seed => set the random seed
     */
     DBG(("main:early cmdline(argc:%d)\n", argc));
     for (i = 1; i < argc; i++) {
@@ -149,6 +150,10 @@ int main_program(int argc, char **argv)
         } else if ((!strcmp(argv[i], "-silent")) || (!strcmp(argv[i], "--silent"))) {
             log_set_silent(1);
             log_set_verbose(0);
+        } else if ((!strcmp(argv[i], "-seed")) || (!strcmp(argv[i], "--seed"))) {
+            if ((i + 1) < argc) {
+                lib_rand_seed(strtoul(argv[++i], NULL, 0));
+            }
         } else {
             break;
         }

@@ -1431,6 +1431,10 @@ Enable verbose log output.
 @item -silent
 Disable all log output (except errors).
 
+@findex -seed
+@item -seed <value>
+Set the random seed (for debugging).
+
 @findex -keybuf
 @item -keybuf <string>
 Put the specified string into the keyboard buffer.

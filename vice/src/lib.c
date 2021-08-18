@@ -40,6 +40,7 @@
 #include "archdep.h"
 #include "types.h"
 #include "debug.h"
+#include "log.h"
 
 #define COMPILING_LIB_DOT_C
 #include "lib.h"
@@ -955,18 +956,21 @@ double lib_double_rand_unit(void)
     return 0x1.0p-32 * rand_uint32();
 }
 
+void lib_rand_seed(uint64_t seed)
+{
+    log_message(LOG_DEFAULT, "using random seed: 0x%lx", seed);
+    srand((unsigned int)seed);
+    rand_seed((uint64_t)seed);
+}
+
 void lib_init(void)
 {
-    time_t seed;
-
     /*
      * set random seed for all actively-used PRNGs from current time, so things
      * like random startup delay are actually random, ie different on each
      * startup, at all.
      */
-    seed = time(NULL);
-    srand((unsigned int)seed);
-    rand_seed((uint64_t)seed);
+    lib_rand_seed((uint64_t)time(NULL));
 
 #ifdef DEBUG
 
