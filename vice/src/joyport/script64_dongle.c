@@ -49,13 +49,13 @@
 
 /* ------------------------------------------------------------------------- */
 
-static int joyport_script64_dongle_enabled = 0;
+static int joyport_script64_dongle_enabled[JOYPORT_MAX_PORTS] = {0};
 
 static int joyport_script64_dongle_enable(int port, int value)
 {
     int val = value ? 1 : 0;
 
-    joyport_script64_dongle_enabled = val;
+    joyport_script64_dongle_enabled[port] = val;
 
     return 0;
 }
@@ -74,7 +74,7 @@ static uint8_t script64_dongle_read_poty(int port)
 
 static joyport_t joyport_script64_dongle_device = {
     "Dongle (Script 64)",           /* name of the device */
-    JOYPORT_RES_ID_SCRIPT64,        /* device is of the script64 type, only 1 of this kind can be active at the same time */
+    JOYPORT_RES_ID_NONE,            /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,        /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,           /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,       /* device is NOT a joystick adapter */
