@@ -52,7 +52,7 @@ static void video_render_2x2_main(video_render_config_t *config,
         render_32_scale2x(colortab, src, trg, width, height,
                           xs, ys, xt, yt, pitchs, pitcht);
     } else {
-        render_32_2x2_04(colortab, src, trg, width, height,
+        render_32_2x2(colortab, src, trg, width, height,
                          xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
     }
 }

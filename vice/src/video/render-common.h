@@ -30,5 +30,5 @@
 
 /* the render-common functions are intended to be inlined */
 #include "render-common.c"
-                       
+
 #endif

@@ -116,7 +116,7 @@ static void video_render_crt_main(video_render_config_t *config,
                                   xs, ys, xt, yt, pitchs, pitcht, viewport, config);
                 return;
             } else {
-                render_32_2x2_04(colortab, src, trg, width, height,
+                render_32_2x2(colortab, src, trg, width, height,
                                  xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
                 return;
             }
