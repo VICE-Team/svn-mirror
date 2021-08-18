@@ -1038,6 +1038,16 @@ uint8_t machine_tape_behaviour(void)
 
 int machine_addr_in_ram(unsigned int addr)
 {
+    /* Exclude both possible locations of the CHRGET routine */
+    if (addr >= 0x0070 && addr < 0x0088) {
+        return 0;
+    }
+
+    /* the old ROM location */
+    if (addr >= 0x00c2 && addr < 0x00da) {
+        return 0;
+    }
+
     return addr < 0xb000;
 }
 
