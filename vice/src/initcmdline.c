@@ -300,6 +300,11 @@ static int cmdline_console(const char *param, void *extra_param)
 }
 #endif
 
+static int cmdline_seed(const char *param, void *extra_param)
+{
+    lib_rand_seed(strtoul(param, NULL, 0));
+    return 0;
+}
 
 static int cmdline_attach(const char *param, void *extra_param)
 {
@@ -366,6 +371,9 @@ static const cmdline_option_t common_cmdline_options[] =
     { "-console", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_console, NULL, NULL, NULL,
       NULL, "Console mode (for music playback)" },
+    { "-seed", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cmdline_seed, NULL, NULL, NULL,
+      "<value>", "Set random seed (for debugging)" },
     { "-core", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DoCoreDump", (resource_value_t)1,
       NULL, "Allow production of core dumps" },
