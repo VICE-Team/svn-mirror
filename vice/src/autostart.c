@@ -463,20 +463,23 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
 
     mem_get_cursor_parameter(&screen_addr, &cursor_column, &line_length, &blinking);
 
-    DBGWAIT(("check2(%s) screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d",
-         s, screen_addr, cursor_column, line_length, lineoffset, blinking));
-
-    if (!kbdbuf_is_empty()) {
+    if (!kbdbuf_is_empty() || !kbdbuf_queue_is_empty()) {
+        DBGWAIT(("check2(%s) [kbd buffer not empty] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+            s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
         return NOT_YET;
     }
 
     if (blink_mode == AUTOSTART_WAIT_BLINK) {
         /* wait until cursor is in the first column */
         if (cursor_column != 0) {
+            DBGWAIT(("check2(%s) [cursor not in 1st column] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+                s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
             return NOT_YET;
         }
         /* if blink state can be checked, wait until the cursor is in "on" state */
         if ((blinking != -1) && (blinking == 0)) {
+            DBGWAIT(("check2(%s) [cursor not in ON state] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+                s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
             return NOT_YET;
         }
         /* now we expect the string in the previous line (typically "READY.") */
@@ -487,14 +490,15 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
 
     addr += line_length * lineoffset;
 
-    DBGWAIT(("check2 addr:%04x", addr));
+    DBGWAIT(("check2(%s) effective addr:%04x screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+        s, addr, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
 
     for (i = 0; s[i] != '\0'; i++) {
         int checkbyte = mem_read_screen((uint16_t)(addr + i) & 0xffff);
-        DBGWAIT(("checkbyte: %04x:%02x (expected:%02x)",
+        DBGWAIT(("checkbyte: %04x:%02x '%c' (expected:%02x '%c')",
                     (unsigned int)(addr + i),
-                    (unsigned int)checkbyte,
-                    (unsigned int)(s[i] % 64)));
+                    (unsigned int)checkbyte, (int)(checkbyte % 0x3f) + 64,
+                    (unsigned int)(s[i] % 64), (int)(s[i] % 64) + 64));
         if (checkbyte != s[i] % 64) {
             if (checkbyte != 0x20
                 && checkbyte != 0xC
