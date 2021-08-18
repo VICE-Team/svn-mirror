@@ -89,11 +89,10 @@ enum {
 #define JOYPORT_RES_ID_MOUSE       1
 #define JOYPORT_RES_ID_SAMPLER     2
 #define JOYPORT_RES_ID_KEYPAD      3
-#define JOYPORT_RES_ID_RTC         4
-#define JOYPORT_RES_ID_PAPERCLIP64 5
-#define JOYPORT_RES_ID_SCRIPT64    6
-#define JOYPORT_RES_ID_VIZAWRITE64 7
-#define JOYPORT_RES_ID_WAASOFT     8
+#define JOYPORT_RES_ID_PAPERCLIP64 4
+#define JOYPORT_RES_ID_SCRIPT64    5
+#define JOYPORT_RES_ID_VIZAWRITE64 6
+#define JOYPORT_RES_ID_WAASOFT     7
 
 #define JOYPORT_1   0   /**< c64/c128/c64dtv/scpu64/cbm5x0/plus4 control port 1,
                              vic20 control port */
