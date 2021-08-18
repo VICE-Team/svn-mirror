@@ -80,6 +80,7 @@
 #include "paperclip64.h"
 #include "parallel.h"
 #include "printer.h"
+#include "protopad.h"
 #include "resources.h"
 #include "rs232drv.h"
 #include "sampler.h"
@@ -378,6 +379,10 @@ int machine_resources_init(void)
     }
     if (joyport_ninja_snespad_resources_init() < 0) {
         init_resource_fail("joyport ninja snespad");
+        return -1;
+    }
+    if (joyport_protopad_resources_init() < 0) {
+        init_resource_fail("joyport protopad");
         return -1;
     }
     if (joyport_inception_resources_init() < 0) {

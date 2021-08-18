@@ -98,6 +98,7 @@
 #include "plus60k.h"
 #include "plus256k.h"
 #include "printer.h"
+#include "protopad.h"
 #include "rs232drv.h"
 #include "rsuser.h"
 #include "sampler.h"
@@ -736,6 +737,10 @@ int machine_resources_init(void)
     }
     if (joyport_ninja_snespad_resources_init() < 0) {
         init_resource_fail("joyport ninja snespad");
+        return -1;
+    }
+    if (joyport_protopad_resources_init() < 0) {
+        init_resource_fail("joyport protopad");
         return -1;
     }
     if (joyport_spaceballs_resources_init() < 0) {
