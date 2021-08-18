@@ -415,24 +415,11 @@ int util_file_load(const char *name, uint8_t *dest, size_t size,
 
 /* Allocate buffer and load entire file + terminating null byte.  Return 0 on
    success, -1 on failure.  */
-int util_file_load_string(const char *name, char **dest)
+int util_file_load_string(FILE *fd, char **dest)
 {
-    FILE *fd;
     char *buffer;
     size_t size;
     size_t r;
-
-    if (util_check_null_string(name)) {
-        log_error(LOG_ERR, "No file name given for util_file_malloc_load().");
-        return -1;
-    }
-
-    fd = fopen(name, MODE_READ);
-
-    if (fd == NULL) {
-        log_error(LOG_ERR, "Failed to open %s for reading", name);
-        return -1;
-    }
 
     size = util_file_length(fd);
     buffer = lib_malloc(size + 1);
@@ -442,7 +429,7 @@ int util_file_load_string(const char *name, char **dest)
 
     if (r < size) {
         lib_free(buffer);
-        log_error(LOG_ERR, "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes of file %s", r, size, name);
+        log_error(LOG_ERR, "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes", r, size);
         return -1;
     }
 
@@ -482,19 +469,6 @@ int util_file_save(const char *name, uint8_t *src, int size)
     }
 
     return 0;
-}
-
-/* Get full path to file in data dir. */
-char *util_file_data_path(char *data_dir, char *file_name)
-{
-    char *datadir;
-    char *path;
-
-    datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(datadir, data_dir, file_name, NULL);
-    lib_free(datadir);
-
-    return path;
 }
 
 /* Input one line from the file descriptor `f'.  FIXME: we need something
