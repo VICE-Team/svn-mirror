@@ -87,6 +87,7 @@ static int joyport_device_is_single_port(int id)
         case JOYPORT_ID_NONE:
         case JOYPORT_ID_JOYSTICK:
         case JOYPORT_ID_TRAPTHEM_SNESPAD:
+        case JOYPORT_ID_BBRTC:
             return 0;
     }
     return 1;
