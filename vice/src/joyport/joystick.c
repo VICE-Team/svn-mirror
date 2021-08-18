@@ -618,7 +618,7 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port);
 
 static joyport_t joystick_device = {
     "Joystick",                     /* name of the device */
-    JOYPORT_RES_ID_NONE,            /* device doesn't have a class, multiple deviced of this kind can be active at the same time */
+    JOYPORT_RES_ID_NONE,            /* device doesn't have a class, multiple devices of this kind can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,        /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,           /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,       /* device is NOT a joystick adapter */

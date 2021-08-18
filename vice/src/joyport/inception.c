@@ -160,7 +160,7 @@ static uint8_t inception_read(int port)
     return retval;
 }
 
-static void inception_store(uint8_t val)
+static void inception_store(int port, uint8_t val)
 {
     uint8_t new_clock = (val & 0x10) >> 4;
     uint8_t lines = val & 0x1f;
