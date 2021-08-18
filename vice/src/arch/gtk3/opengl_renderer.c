@@ -46,6 +46,7 @@
 #include "palette.h"
 #include "render_queue.h"
 #include "resources.h"
+#include "sysfile.h"
 #include "tick.h"
 #include "ui.h"
 #include "util.h"
@@ -845,23 +846,46 @@ static GLuint create_shader_program(char *vertex_shader_filename, char *fragment
     GLuint vert;
     GLuint frag;
     GLint status;
+    FILE *fd;
     char *path;
 
-    /* Load the shader files */
+    /* Load the vertex shader */
 
-    path = util_file_data_path("GLSL", vertex_shader_filename);
-    if (util_file_load_string(path, &vertex_shader)) {
+    fd = sysfile_open(vertex_shader_filename, "GLSL", &path, "rb");
+    if (fd == NULL) {
+        log_error(LOG_DEFAULT, "Could not open vertex shader: %s", vertex_shader_filename);
+        archdep_vice_exit(1);
+    }
+
+    log_message(LOG_DEFAULT, "Loading vertex shader: %s", path);
+
+    if (util_file_load_string(fd, &vertex_shader)) {
+        log_error(LOG_DEFAULT, "Could not read vertex shader: %s", path);
+        fclose(fd);
         lib_free(path);
         archdep_vice_exit(1);
     }
+    fclose(fd);
     lib_free(path);
 
-    path = util_file_data_path("GLSL", fragment_shader_filename);
-    if (util_file_load_string(path, &fragment_shader)) {
+    /* Load the fragment shader */
+
+    fd = sysfile_open(fragment_shader_filename, "GLSL", &path, "rb");
+    if (fd == NULL) {
+        log_error(LOG_DEFAULT, "Could not open fragment shader: %s", fragment_shader_filename);
+        archdep_vice_exit(1);
+    }
+
+    log_message(LOG_DEFAULT, "Loading fragment shader: %s", path);
+
+    if (util_file_load_string(fd, &fragment_shader)) {
+        log_error(LOG_DEFAULT, "Could not read fragment shader: %s", path);
+        fclose(fd);
         lib_free(path);
         lib_free(vertex_shader);
         archdep_vice_exit(1);
     }
+    fclose(fd);
     lib_free(path);
 
     vert = create_shader(GL_VERTEX_SHADER, vertex_shader);
