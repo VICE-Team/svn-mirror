@@ -38,9 +38,9 @@
 
 /* ------------------------------------------------------------------------- */
 
-static int joyport_vizawrite64_dongle_enabled = 0;
+static int joyport_vizawrite64_dongle_enabled[JOYPORT_MAX_PORTS] = {0};
 
-static uint8_t counter = 0;
+static uint8_t counter[JOYPORT_MAX_PORTS] = {0};
 
 static uint8_t values[6] = {
     0x55, 0x55, 0xaa, 0xaa, 0xff, 0xff
@@ -50,17 +50,17 @@ static int joyport_vizawrite64_dongle_enable(int port, int value)
 {
     int val = value ? 1 : 0;
 
-    joyport_vizawrite64_dongle_enabled = val;
+    joyport_vizawrite64_dongle_enabled[port] = val;
 
     return 0;
 }
 
 static uint8_t vizawrite64_dongle_read_potx(int port)
 {
-    uint8_t retval = values[counter++];
+    uint8_t retval = values[counter[port]++];
 
-    if (counter == 6) {
-        counter = 0;
+    if (counter[port] == 6) {
+        counter[port] = 0;
     }
 
     return retval;
@@ -68,10 +68,10 @@ static uint8_t vizawrite64_dongle_read_potx(int port)
 
 static uint8_t vizawrite64_dongle_read_poty(int port)
 {
-    uint8_t retval = values[counter++];
+    uint8_t retval = values[counter[port]++];
 
-    if (counter == 6) {
-        counter = 0;
+    if (counter[port] == 6) {
+        counter[port] = 0;
     }
 
     return retval;
@@ -84,7 +84,7 @@ static int vizawrite64_read_snapshot(struct snapshot_s *s, int p);
 
 static joyport_t joyport_vizawrite64_dongle_device = {
     "Dongle (VizaWrite 64)",           /* name of the device */
-    JOYPORT_RES_ID_VIZAWRITE64,        /* device is of the vizawrite64 type, only 1 of this type can be active at the same time */
+    JOYPORT_RES_ID_NONE,               /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,           /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,              /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
@@ -116,9 +116,9 @@ int joyport_vizawrite64_dongle_resources_init(void)
 
 static char snap_module_name[] = "VIZAWRITE64";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
-static int vizawrite64_write_snapshot(struct snapshot_s *s, int p)
+static int vizawrite64_write_snapshot(struct snapshot_s *s, int port)
 {
     snapshot_module_t *m;
 
@@ -129,14 +129,14 @@ static int vizawrite64_write_snapshot(struct snapshot_s *s, int p)
     }
 
     if (0 
-        || SMW_B(m, counter) < 0) {
+        || SMW_B(m, counter[port]) < 0) {
             snapshot_module_close(m);
             return -1;
     }
     return snapshot_module_close(m);
 }
 
-static int vizawrite64_read_snapshot(struct snapshot_s *s, int p)
+static int vizawrite64_read_snapshot(struct snapshot_s *s, int port)
 {
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
@@ -154,7 +154,7 @@ static int vizawrite64_read_snapshot(struct snapshot_s *s, int p)
     }
 
     if (0
-        || SMR_B(m, &counter) < 0) {
+        || SMR_B(m, &counter[port]) < 0) {
         goto fail;
     }
 
