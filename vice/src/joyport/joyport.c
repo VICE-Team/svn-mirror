@@ -92,6 +92,7 @@ static int joyport_device_is_single_port(int id)
         case JOYPORT_ID_SCRIPT64_DONGLE:
         case JOYPORT_ID_VIZAWRITE64_DONGLE:
         case JOYPORT_ID_WAASOFT_DONGLE:
+        case JOYPORT_ID_PROTOPAD:
             return 0;
     }
     return 1;
