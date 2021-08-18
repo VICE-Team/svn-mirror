@@ -1621,11 +1621,16 @@ int monitor_binary_get_command_line(void)
             continue;
         }
 
-        n = monitor_binary_receive(&buffer[1], sizeof(api_version) + sizeof(body_length));
+        n = 0;
 
-        if (n < sizeof(api_version) + sizeof(body_length)) {
-            monitor_binary_quit();
-            return 0;
+        while (n < sizeof(api_version) + sizeof(body_length)) {
+            int o = monitor_binary_receive(&buffer[1 + n], (sizeof(api_version) + sizeof(body_length)) - n);
+            if (o <= 0) {
+                monitor_binary_quit();
+                return 0;
+            }
+
+            n += o;
         }
 
         api_version = buffer[1];
