@@ -79,12 +79,12 @@
    but it does not work (good enough) for the actual software.
 */
 
-static int paperclip64_enabled = 0;
+static int paperclip64_enabled[JOYPORT_MAX_PORTS] = {0};
 
-static int counter = 0;
+static int counter[JOYPORT_MAX_PORTS] = {0};
 
-static uint8_t command = 0xff;
-static uint8_t output_enable = 0;
+static uint8_t command[JOYPORT_MAX_PORTS] = {0xff};
+static uint8_t output_enable[JOYPORT_MAX_PORTS] = {0};
 
 static uint8_t keys[64] = {
     3, 2, 0, 0, 1, 3, 2, 1,
@@ -103,15 +103,15 @@ static int joyport_paperclip64_enable(int port, int value)
 {
     int val = value ? 1 : 0;
 
-    if (val == paperclip64_enabled) {
+    if (val == paperclip64_enabled[port]) {
         return 0;
     }
 
     if (val) {
-        command = 0;
+        command[port] = 0;
     }
 
-    paperclip64_enabled = val;
+    paperclip64_enabled[port] = val;
 
     return 0;
 }
@@ -120,9 +120,8 @@ static uint8_t paperclip64_read(int port)
 {
     uint8_t retval = 0xff;
 
-    if (output_enable) {
-        retval &= (keys[counter] | 0xfc);
-        joyport_display_joyport(JOYPORT_ID_BBRTC, (uint16_t)(~retval & 3));
+    if (output_enable[port]) {
+        retval &= (keys[counter[port]] | 0xfc);
     }
     return retval;
 }
@@ -134,28 +133,28 @@ static void paperclip64_store(int port, uint8_t val)
     uint8_t clk;
     uint8_t old_clk;
 
-    if (new_command == command) {
+    if (new_command == command[port]) {
         return;
     }
 
-    output_enable = !(val & 0x10);
+    output_enable[port] = !(val & 0x10);
 
     reset = !(val & 8);
 
     if (reset) {
-        counter = 0;
+        counter[port] = 0;
     } else {
         clk = val & 4;
-        old_clk = command & 4;
+        old_clk = command[port] & 4;
 
         if (old_clk && !clk) {
-            counter++;
-            if (counter == 0x3c) {
-                counter = 0;
+            counter[port]++;
+            if (counter[port] == 0x3c) {
+                counter[port] = 0;
             }
         }
    }
-   command = new_command;
+   command[port] = new_command;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -166,7 +165,7 @@ static int paperclip64_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t joyport_paperclip64_device = {
     "Dongle (Paperclip64)",     /* name of the device */
-    JOYPORT_RES_ID_PAPERCLIP64, /* device is of the paperclip64 type, only 1 device of this kind can be active at the same time */
+    JOYPORT_RES_ID_NONE,        /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,       /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
@@ -213,8 +212,8 @@ static int paperclip64_write_snapshot(struct snapshot_s *s, int port)
     }
 
     if (0
-        || SMW_DW(m, (uint32_t)counter) < 0
-        || SMW_B(m, command) < 0) {
+        || SMW_DW(m, (uint32_t)counter[port]) < 0
+        || SMW_B(m, command[port]) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -239,8 +238,8 @@ static int paperclip64_read_snapshot(struct snapshot_s *s, int port)
     }
 
     if (0
-        || SMR_DW_INT(m, &counter) < 0
-        || SMR_B(m, &command) < 0) {
+        || SMR_DW_INT(m, &counter[port]) < 0
+        || SMR_B(m, &command[port]) < 0) {
         goto fail;
     }
 
