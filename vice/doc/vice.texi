@@ -17250,7 +17250,7 @@ but it makes it easier to match up the responses if you do.
 @table @strong
 
 @item byte 0: 0x02 (STX)
-@item byte 1: API version ID (currently 0x01)
+@item byte 1: API version ID (currently 0x02)
 The API version identifies incompatible changes, such as modifying the header
 structure, or rearranging or changing the meaning of existing response fields.
 The API version does not need to be incremented for additional fields. If all
@@ -17324,7 +17324,7 @@ such as hitting a checkpoint.
 Begin command
 
 @item 0x01
-API version 1
+API version 2
 
 @item 0x00000008
 The command excluding the header is 8 bytes long.
@@ -17704,6 +17704,17 @@ Command body:
 @item byte 7: temporary
     Deletes the checkpoint after it has been hit once. This is similar to
     "until" command, but it will not resume the emulator.
+
+@item byte 8 (optional): memspace
+Describes which part of the computer to checkpoint:
+
+@itemize
+@item 0x00: main memory
+@item 0x01: drive 8
+@item 0x02: drive 9
+@item 0x03: drive 10
+@item 0x04: drive 11
+@end itemize
 
 @end table
 
@@ -18446,6 +18457,16 @@ Deletes the checkpoint after it has been hit once. This is similar to
 
 @item byte 21: Has condition?
 0x01: true, 0x00: false
+
+@item byte 22: memspace
+
+@itemize
+@item 0x00: main memory
+@item 0x01: drive 8
+@item 0x02: drive 9
+@item 0x03: drive 10
+@item 0x04: drive 11
+@end itemize
 
 @end table
 
