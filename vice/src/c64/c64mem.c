@@ -1304,11 +1304,25 @@ void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, i
  */
 void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uint8_t *line_length, int *blinking)
 {
-    /* Cursor Blink enable: 1 = Flash Cursor, 0 = Cursor disabled, -1 = n/a */
+    /* CAUTION: this function can be called at any time when the emulation (KERNAL)
+                is in the middle of a screen update. we must make sure that all
+                values are being looked up in an "atomic" way so we dont use a low-
+                and high- byte from before and after an update, leading to invalid
+                values */
+    int screen_base = (mem_ram[0xd1] + (mem_ram[0xd2] * 256)) & ~0x3ff; /* the upper bits will not change */
+
+    /* Cursor Blink enable: 1 = Cursor in Blink Phase (visible), 0 = Cursor disabled, -1 = n/a */
     *blinking = mem_ram[0xcc] ? 0 : 1;
-    *screen_addr = mem_ram[0xd1] + mem_ram[0xd2] * 256; /* Current Screen Line Address */
-    *cursor_column = mem_ram[0xd3];    /* Cursor Column on Current Line */
-    *line_length = mem_ram[0xd5] + 1;  /* Physical Screen Line Length */
+    /* Current Screen Line Address */
+    *screen_addr = screen_base + (mem_ram[0xd6] * 40);
+    /* Cursor Column on Current Line */
+    *cursor_column = mem_ram[0xd3];
+    while (*cursor_column >= 40) {
+        *cursor_column -= 40;
+        *screen_addr += 40;
+    }
+    /* Physical Screen Line Length */
+    *line_length = 40;
 }
 
 /* ------------------------------------------------------------------------- */
