@@ -52,6 +52,11 @@ static int pot_port_mask = 1;
 
 static uint8_t joyport_dig_stored[JOYPORT_MAX_PORTS];
 
+static uint8_t joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
+static char *joystick_adapter_name = NULL;
+static int joystick_adapter_ports = 0;
+static int joystick_adapter_additional_ports = 0;
+
 typedef struct resid2text_s {
     int resid;
     const char *text;
@@ -418,6 +423,17 @@ int joyport_port_register(int port, joyport_port_props_t *props)
     return 0;
 }
 
+static int joystick_adapter_is_snes_adapter(int id)
+{
+    switch (id) {
+        case JOYSTICK_ADAPTER_ID_NINJA_SNES:
+        case JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES:
+        case JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64:
+            return 1;
+    }
+    return 0;
+}
+
 static int check_valid_lightpen(int port, int index)
 {
     if (!joyport_device[index].is_lp) {
@@ -451,6 +467,23 @@ static int check_valid_adapter(int port, int index)
     return 0;
 }
 
+static int check_valid_snes_adapter(int port, int index)
+{
+    if (port <= JOYPORT_2) {
+        return 1;
+    }
+    if (!joystick_adapter_is_snes_adapter(joystick_adapter_id)) {
+        return 1;
+    }
+    if (!index) {
+        return 1;
+    }
+    if (index == JOYPORT_ID_JOYSTICK) {
+        return 1;
+    }
+    return 0;
+}
+
 static int joyport_valid_devices_compare_names(const void* a, const void* b)
 {
     const joyport_desc_t *arg1 = (const joyport_desc_t*)a;
@@ -476,7 +509,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i)) {
                 ++valid;
             }
         }
@@ -485,7 +518,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
     retval = lib_malloc(((size_t)valid + 1) * sizeof(joyport_desc_t));
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i)) {
                 retval[j].name = joyport_device[i].name;
                 retval[j].id = i;
                 retval[j].device_type = joyport_device[i].device_type;
@@ -617,11 +650,6 @@ char *joyport_get_port_name(int port)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
-static char *joystick_adapter_name = NULL;
-static int joystick_adapter_ports = 0;
-static int joystick_adapter_additional_ports = 0;
-
 char *joystick_adapter_get_name(void)
 {
     return joystick_adapter_name;
@@ -630,17 +658,6 @@ char *joystick_adapter_get_name(void)
 uint8_t joystick_adapter_get_id(void)
 {
     return joystick_adapter_id;
-}
-
-static int joystick_adapter_is_snes_adapter(int id)
-{
-    switch (id) {
-        case JOYSTICK_ADAPTER_ID_NINJA_SNES:
-        case JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES:
-        case JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64:
-            return 1;
-    }
-    return 0;
 }
 
 /* returns 1 on success */
