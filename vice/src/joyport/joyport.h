@@ -135,6 +135,53 @@ enum {
 #define JOYPORT_DEVICE_RTC                10
 #define JOYPORT_DEVICE_DONGLE             11
 
+/* joystick pins */
+#define JOYPORT_P0    0
+#define JOYPORT_P1    1
+#define JOYPORT_P2    2
+#define JOYPORT_P3    3
+#define JOYPORT_P4    4
+#define JOYPORT_P5    5
+#define JOYPORT_P6    6
+#define JOYPORT_P7    7
+#define JOYPORT_P8    8
+#define JOYPORT_P9    9
+#define JOYPORT_P10   10
+#define JOYPORT_P11   11
+
+/* descriptive alternatives */
+#define JOYPORT_UP       JOYPORT_P0
+#define JOYPORT_DOWN     JOYPORT_P1
+#define JOYPORT_LEFT     JOYPORT_P2
+#define JOYPORT_RIGHT    JOYPORT_P3
+#define JOYPORT_FIRE_1   JOYPORT_P4
+#define JOYPORT_FIRE_2   JOYPORT_P5
+#define JOYPORT_FIRE_3   JOYPORT_P6
+#define JOYPORT_FIRE_4   JOYPORT_P7
+#define JOYPORT_FIRE_5   JOYPORT_P8
+#define JOYPORT_FIRE_6   JOYPORT_P9
+#define JOYPORT_FIRE_7   JOYPORT_P10
+#define JOYPORT_FIRE_8   JOYPORT_P11
+
+/* Alternative names as used for 3 button atari style joysticks */
+#define JOYPORT_FIRE        JOYPORT_FIRE_1
+#define JOYPORT_FIRE_POTX   JOYPORT_FIRE_2
+#define JOYPORT_FIRE_POTY   JOYPORT_FIRE_3
+
+/* Alternative names as used for snes pads */
+#define JOYPORT_BUTTON_A             JOYPORT_FIRE_1
+#define JOYPORT_BUTTON_B             JOYPORT_FIRE_2
+#define JOYPORT_BUTTON_X             JOYPORT_FIRE_3
+#define JOYPORT_BUTTON_Y             JOYPORT_FIRE_4
+#define JOYPORT_BUTTON_LEFT_BUMBER   JOYPORT_FIRE_5
+#define JOYPORT_BUTTON_RIGHT_BUMBER  JOYPORT_FIRE_6
+#define JOYPORT_BUTTON_SELECT        JOYPORT_FIRE_7
+#define JOYPORT_BUTTON_START         JOYPORT_FIRE_8
+
+#define JOYPORT_PVALUE(pos) (1 << pos)
+
+#define JOYPORT_Px_TO_P0(var, pos) ((var & (1 << pos)) ? 1 : 0)
+
 /* this structure is used for control port devices */
 typedef struct joyport_s {
     char *name;                                            /* name of the device */
