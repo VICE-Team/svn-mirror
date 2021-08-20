@@ -632,9 +632,22 @@ uint8_t joystick_adapter_get_id(void)
     return joystick_adapter_id;
 }
 
+static int joystick_adapter_is_snes_adapter(int id)
+{
+    switch (id) {
+        case JOYSTICK_ADAPTER_ID_NINJA_SNES:
+        case JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES:
+        case JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64:
+            return 1;
+    }
+    return 0;
+}
+
 /* returns 1 on success */
 uint8_t joystick_adapter_activate(uint8_t id, char *name)
 {
+    int i;
+
     if (joystick_adapter_id) {
         if (id == joystick_adapter_id) {
             joystick_adapter_name = name;
@@ -647,6 +660,16 @@ uint8_t joystick_adapter_activate(uint8_t id, char *name)
 
     joystick_adapter_id = id;
     joystick_adapter_name = name;
+
+    /* if the joystick adapter is a SNES adapter, make sure the devices on ports 3-10 are 'none' or 'joystick' only */
+    if (joystick_adapter_is_snes_adapter(id)) {
+        for (i = JOYPORT_3; i < JOYPORT_MAX_PORTS; i++) {
+            if (joy_port[i] != JOYPORT_ID_NONE && joy_port[i] != JOYPORT_ID_JOYSTICK) {
+                /* set device to joystick if it was not 'none' or 'joystick' before */
+                joyport_set_device(i, JOYPORT_ID_JOYSTICK);
+            }
+        }
+    }
     return 1;
 }
 
