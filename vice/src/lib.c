@@ -965,13 +965,6 @@ void lib_rand_seed(uint64_t seed)
 
 void lib_init(void)
 {
-    /*
-     * set random seed for all actively-used PRNGs from current time, so things
-     * like random startup delay are actually random, ie different on each
-     * startup, at all.
-     */
-    lib_rand_seed((uint64_t)time(NULL));
-
 #ifdef DEBUG
 
 #ifdef USE_VICE_THREAD
@@ -985,6 +978,12 @@ void lib_init(void)
 
     lib_debug_init();
 #endif
+    /*
+     * set random seed for all actively-used PRNGs from current time, so things
+     * like random startup delay are actually random, ie different on each
+     * startup, at all.
+     */
+    lib_rand_seed((uint64_t)time(NULL));
 }
 
 
