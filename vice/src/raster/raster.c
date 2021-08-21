@@ -74,7 +74,8 @@ static int raster_draw_buffer_alloc(video_canvas_t *canvas,
      */
 
     canvas->draw_buffer->draw_buffer_padded_allocations[0] = lib_calloc(1, fb_width * (fb_height + 4));
-    canvas->draw_buffer->draw_buffer = canvas->draw_buffer->draw_buffer_padded_allocations[0] + (fb_height * 2);
+    canvas->draw_buffer->draw_buffer_non_padded[0] = canvas->draw_buffer->draw_buffer_padded_allocations[0] + (fb_height * 2);
+    canvas->draw_buffer->draw_buffer = canvas->draw_buffer->draw_buffer_non_padded[0];
 
     if (canvas->videoconfig->cap->interlace_allowed) {
         /*
@@ -85,9 +86,10 @@ static int raster_draw_buffer_alloc(video_canvas_t *canvas,
          */
 
         canvas->draw_buffer->draw_buffer_padded_allocations[1] = lib_calloc(1, fb_width * (fb_height + 4));
-        canvas->draw_buffer->draw_buffer_previous = canvas->draw_buffer->draw_buffer_padded_allocations[1] + (fb_height * 2);
+        canvas->draw_buffer->draw_buffer_non_padded[1] = canvas->draw_buffer->draw_buffer_padded_allocations[1] + (fb_height * 2);
+        canvas->draw_buffer->draw_buffer_previous = canvas->draw_buffer->draw_buffer_non_padded[1];
     }
-    
+
     *fb_pitch = fb_width;
     return 0;
 }
@@ -307,10 +309,10 @@ void raster_reset(raster_t *raster)
     raster->ycounter = 0;
     raster->video_mode = 0;
     raster->last_video_mode = -1;
-    
+
     if (raster->canvas) {
         raster->canvas->videoconfig->interlaced = 0;
-        raster->canvas->videoconfig->frame_counter = 0;
+        raster->canvas->videoconfig->interlace_field = 0;
     }
 }
 

@@ -355,6 +355,7 @@ void vic_cycle(void)
                 if (vic.raster_line >= vic.screen_height) {
                     vic.interlace_field = 1;
                     vic.raster.canvas->videoconfig->interlaced = 1;
+                    vic.raster.canvas->videoconfig->interlace_field = 0;
                     vic.screen_height = VIC20_NTSC_INTERLACE_FIELD2_SCREEN_LINES;
                     vic.raster.geometry->screen_size.height = vic.screen_height;
                     vic_cycle_end_of_frame();
@@ -366,6 +367,7 @@ void vic_cycle(void)
                 if (vic.raster_line >= vic.screen_height) {
                     vic.interlace_field = 0;
                     vic.raster.canvas->videoconfig->interlaced = 1;
+                    vic.raster.canvas->videoconfig->interlace_field = 1;
                     vic.screen_height = VIC20_NTSC_INTERLACE_FIELD1_SCREEN_LINES;
                     vic.raster.geometry->screen_size.height = vic.screen_height;
                     vic_cycle_end_of_frame();
@@ -383,6 +385,7 @@ void vic_cycle(void)
                     (vic.raster.canvas->videoconfig->interlaced == 1)) {
                     vic.interlace_field = 0;
                     vic.raster.canvas->videoconfig->interlaced = 0;
+                    vic.raster.canvas->videoconfig->interlace_field = 0;
                     vic.screen_height = VIC20_NTSC_SCREEN_LINES;
                     vic.raster.geometry->screen_size.height = vic.screen_height;
                 }

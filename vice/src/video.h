@@ -76,6 +76,7 @@ typedef struct canvas_refresh_s canvas_refresh_t;
 struct draw_buffer_s {
     /* The real drawing buffers, with padding bytes on either side to workaround CRT and Scale2x bugs */
     uint8_t *draw_buffer_padded_allocations[2];
+    uint8_t *draw_buffer_non_padded[2];
     /* The memory buffer where the screen of the emulated machine is drawn. Palettized, 1 byte per pixel */
     uint8_t *draw_buffer;
     /* another draw buffer, used during interlaced rendering. */
@@ -224,7 +225,7 @@ struct video_render_config_s {
     int double_buffer;             /* Double buffering enabled? */
     int readable;                  /* reading of frame buffer is safe and fast */
     int interlaced;                /* Is the output currently interlaced? */
-    unsigned int frame_counter;
+    int interlace_field;           /* Which of the two interlaced frames is current? */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
     struct video_render_color_tables_s color_tables;
     int fullscreen_enabled;

@@ -33,7 +33,7 @@
 
 typedef struct {
     bool interlaced;
-    unsigned int frame_number;
+    int interlace_field;
     unsigned char *pixel_data;
     unsigned int pixel_data_size_bytes;
     unsigned int width;

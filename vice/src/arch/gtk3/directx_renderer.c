@@ -293,7 +293,7 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
     backbuffer->height = context->emulated_height_next;
     backbuffer->pixel_aspect_ratio = context->pixel_aspect_ratio_next;
     backbuffer->interlaced = canvas->videoconfig->interlaced;
-    backbuffer->frame_number = canvas->videoconfig->frame_counter;
+    backbuffer->interlace_field = canvas->videoconfig->interlace_field;
 
     CANVAS_UNLOCK();
 

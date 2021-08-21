@@ -349,7 +349,7 @@ static void build_render_bitmap(vice_directx_renderer_context_t *context, backbu
     HRESULT result = S_OK;
 
     if (context->d2d_device_context) {
-        if (backbuffer->frame_number != context->current_frame_number) {
+        if (backbuffer->interlace_field != context->current_interlace_field) {
             /* Retain the previous bitmaps to use in interlaced mode */
             ID2D1Bitmap *swap_bitmap              = context->previous_frame_render_bitmap;
             unsigned int swap_width               = context->previous_frame_bitmap_width;
@@ -360,7 +360,7 @@ static void build_render_bitmap(vice_directx_renderer_context_t *context, backbu
             context->render_bitmap                = swap_bitmap;
             context->bitmap_width                 = swap_width;
             context->bitmap_height                = swap_height;
-            context->current_frame_number         = backbuffer->frame_number;
+            context->current_interlace_field      = backbuffer->interlace_field;
         }
 
         /* Is it sill the right size? */
