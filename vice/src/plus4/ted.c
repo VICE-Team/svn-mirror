@@ -538,7 +538,7 @@ void ted_update_memory_ptrs(unsigned int cycle)
         }
     }
 
-    if (ted.raster.skip_frame || (tmp <= 0 && maincpu_clk < ted.draw_clk)) {
+    if (tmp <= 0 && maincpu_clk < ted.draw_clk) {
         old_screen_ptr = ted.screen_ptr = screen_base;
         old_bitmap_ptr = ted.bitmap_ptr = bitmap_base;
         old_chargen_ptr = ted.chargen_ptr = char_base;
@@ -769,9 +769,8 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
 
         /*log_debug("Vsync %d %d",ted.tv_current_line, ted.ted_raster_counter);*/
 
-        raster_skip_frame(&ted.raster,
-                          vsync_do_vsync(ted.raster.canvas,
-                                         ted.raster.skip_frame));
+        vsync_do_vsync(ted.raster.canvas);
+                      
         ted.tv_current_line = 0;
 
         /* FIXME increment at appropriate cycle */

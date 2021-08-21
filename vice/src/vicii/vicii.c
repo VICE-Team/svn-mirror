@@ -187,7 +187,7 @@ inline void vicii_handle_pending_alarms(CLOCK num_write_cycles)
         vicii_delay_clk();
     }
 
-    if (num_write_cycles != 0) {
+    if (num_write_cycles != 0 && num_write_cycles <= maincpu_clk) {
         int f;
 
         /* Cycles can be stolen only during the read accesses, so we serve
@@ -1239,9 +1239,7 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
     if (vicii.raster.current_line == 0) {
         /* no vsync here for NTSC  */
         if ((unsigned int)vicii.last_displayed_line < vicii.screen_height) {
-            raster_skip_frame(&vicii.raster,
-                              vsync_do_vsync(vicii.raster.canvas,
-                                             vicii.raster.skip_frame));
+            vsync_do_vsync(vicii.raster.canvas);
         }
         vicii.memptr = 0;
         vicii.mem_counter = 0;
@@ -1282,9 +1280,7 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
     /* vsync for NTSC */
     if ((unsigned int)vicii.last_displayed_line >= vicii.screen_height
         && vicii.raster.current_line == vicii.last_displayed_line - vicii.screen_height + 1) {
-        raster_skip_frame(&vicii.raster,
-                          vsync_do_vsync(vicii.raster.canvas,
-                                         vicii.raster.skip_frame));
+        vsync_do_vsync(vicii.raster.canvas);
     }
 
     if (vicii.viciidtv) {

@@ -82,6 +82,7 @@ enum {
     JOYPORT_ID_INCEPTION,
     JOYPORT_ID_MULTIJOY_JOYSTICKS,
     JOYPORT_ID_MULTIJOY_CONTROL,
+    JOYPORT_ID_PROTOPAD,
     JOYPORT_MAX_DEVICES
 };
 
@@ -89,11 +90,6 @@ enum {
 #define JOYPORT_RES_ID_MOUSE       1
 #define JOYPORT_RES_ID_SAMPLER     2
 #define JOYPORT_RES_ID_KEYPAD      3
-#define JOYPORT_RES_ID_RTC         4
-#define JOYPORT_RES_ID_PAPERCLIP64 5
-#define JOYPORT_RES_ID_SCRIPT64    6
-#define JOYPORT_RES_ID_VIZAWRITE64 7
-#define JOYPORT_RES_ID_WAASOFT     8
 
 #define JOYPORT_1   0   /**< c64/c128/c64dtv/scpu64/cbm5x0/plus4 control port 1,
                              vic20 control port */
@@ -119,13 +115,12 @@ enum {
 
 #define JOYSTICK_ADAPTER_ID_NONE                  0
 #define JOYSTICK_ADAPTER_ID_GENERIC_USERPORT      1
-#define JOYSTICK_ADAPTER_ID_TRAPTHEM_SNES         2
-#define JOYSTICK_ADAPTER_ID_NINJA_SNES            3
-#define JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES 4
-#define JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64   5
-#define JOYSTICK_ADAPTER_ID_SPACEBALLS            6
-#define JOYSTICK_ADAPTER_ID_MULTIJOY              7
-#define JOYSTICK_ADAPTER_ID_INCEPTION             8
+#define JOYSTICK_ADAPTER_ID_NINJA_SNES            2
+#define JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES 3
+#define JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64   4
+#define JOYSTICK_ADAPTER_ID_SPACEBALLS            5
+#define JOYSTICK_ADAPTER_ID_MULTIJOY              6
+#define JOYSTICK_ADAPTER_ID_INCEPTION             7
 
 #define JOYPORT_DEVICE_TYPE_NONE          0
 #define JOYPORT_DEVICE_JOYSTICK           1
@@ -140,6 +135,53 @@ enum {
 #define JOYPORT_DEVICE_RTC                10
 #define JOYPORT_DEVICE_DONGLE             11
 
+/* joystick pins */
+#define JOYPORT_P0    0
+#define JOYPORT_P1    1
+#define JOYPORT_P2    2
+#define JOYPORT_P3    3
+#define JOYPORT_P4    4
+#define JOYPORT_P5    5
+#define JOYPORT_P6    6
+#define JOYPORT_P7    7
+#define JOYPORT_P8    8
+#define JOYPORT_P9    9
+#define JOYPORT_P10   10
+#define JOYPORT_P11   11
+
+/* descriptive alternatives */
+#define JOYPORT_UP       JOYPORT_P0
+#define JOYPORT_DOWN     JOYPORT_P1
+#define JOYPORT_LEFT     JOYPORT_P2
+#define JOYPORT_RIGHT    JOYPORT_P3
+#define JOYPORT_FIRE_1   JOYPORT_P4
+#define JOYPORT_FIRE_2   JOYPORT_P5
+#define JOYPORT_FIRE_3   JOYPORT_P6
+#define JOYPORT_FIRE_4   JOYPORT_P7
+#define JOYPORT_FIRE_5   JOYPORT_P8
+#define JOYPORT_FIRE_6   JOYPORT_P9
+#define JOYPORT_FIRE_7   JOYPORT_P10
+#define JOYPORT_FIRE_8   JOYPORT_P11
+
+/* Alternative names as used for 3 button atari style joysticks */
+#define JOYPORT_FIRE        JOYPORT_FIRE_1
+#define JOYPORT_FIRE_POTX   JOYPORT_FIRE_2
+#define JOYPORT_FIRE_POTY   JOYPORT_FIRE_3
+
+/* Alternative names as used for snes pads */
+#define JOYPORT_BUTTON_A             JOYPORT_FIRE_1
+#define JOYPORT_BUTTON_B             JOYPORT_FIRE_2
+#define JOYPORT_BUTTON_X             JOYPORT_FIRE_3
+#define JOYPORT_BUTTON_Y             JOYPORT_FIRE_4
+#define JOYPORT_BUTTON_LEFT_BUMBER   JOYPORT_FIRE_5
+#define JOYPORT_BUTTON_RIGHT_BUMBER  JOYPORT_FIRE_6
+#define JOYPORT_BUTTON_SELECT        JOYPORT_FIRE_7
+#define JOYPORT_BUTTON_START         JOYPORT_FIRE_8
+
+#define JOYPORT_PVALUE(pos) (1 << pos)
+
+#define JOYPORT_Px_TO_P0(var, pos) ((var & (1 << pos)) ? 1 : 0)
+
 /* this structure is used for control port devices */
 typedef struct joyport_s {
     char *name;                                            /* name of the device */
@@ -150,7 +192,7 @@ typedef struct joyport_s {
     int device_type;                                       /* device type */
     int (*enable)(int port, int val);                      /* pointer to the device enable function */
     uint8_t (*read_digital)(int port);                     /* pointer to the device digital lines read function */
-    void (*store_digital)(uint8_t val);                    /* pointer to the device digital lines store function */
+    void (*store_digital)(int port, uint8_t val);          /* pointer to the device digital lines store function */
     uint8_t (*read_potx)(int port);                        /* pointer to the device X potentiometer read function */
     uint8_t (*read_poty)(int port);                        /* pointer to the device Y potentiometer read function */
     int (*write_snapshot)(struct snapshot_s *s, int port); /* pointer to the device snapshot write function */

@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUG_C64BUS
+/* #define DEBUG_C64BUS */
 
 #include "vice.h"
 

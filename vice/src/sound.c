@@ -62,6 +62,8 @@
 
 static log_t sound_log = LOG_ERR;
 
+static void sounddev_close(sound_device_t **dev);
+
 /* ------------------------------------------------------------------------- */
 
 #ifndef TRUE
@@ -340,9 +342,8 @@ static char *record_devices_cmdline = NULL;
    the OS/2 Multithreaded environment                              */
 static int sdev_open = FALSE;
 
-/* I need this to serialize close_sound and enablesound/sound_open in
-   the OS/2 Multithreaded environment                              */
 int sound_state_changed;
+int sound_playdev_reopen;
 int sid_state_changed;
 
 /* Sample based or cycle based sound engine. */
@@ -408,7 +409,7 @@ static int set_device_name(const char *val, void *param)
 static int set_device_arg(const char *val, void *param)
 {
     util_string_set(&device_arg, val);
-    sound_state_changed = TRUE;
+    sound_playdev_reopen = TRUE;
     return 0;
 }
 
@@ -438,7 +439,7 @@ static int set_buffer_size(int val, void *param)
         }
     }
 
-    sound_state_changed = TRUE;
+    sound_playdev_reopen = TRUE;
     return 0;
 }
 
@@ -450,7 +451,7 @@ static int set_fragment_size(int val, void *param)
         val = SOUND_FRAGMENT_VERY_LARGE;
     }
     fragment_size = val;
-    sound_state_changed = TRUE;
+    sound_playdev_reopen = TRUE;
     return 0;
 }
 
@@ -792,6 +793,11 @@ static int sid_open(void)
     int c;
 
     for (c = 0; c < snddata.sound_chip_channels; c++) {
+        if (snddata.psid[c]) {
+            /* already open */
+            continue;
+        }
+        
         if (!(snddata.psid[c] = sound_machine_open(c))) {
             return sound_error("Cannot open SID engine");
         }
@@ -1064,29 +1070,27 @@ int sound_open(void)
     return 0;
 }
 
+static void sounddev_close(sound_device_t **dev)
+{
+    if (*dev) {
+        log_message(sound_log, "Closing device `%s'", (*dev)->name);
+        if ((*dev)->close) {
+            (*dev)->close();
+        }
+        *dev = NULL;
+    }
+}
+
 /* close sid */
 void sound_close(void)
 {
-    if (snddata.playdev) {
-        log_message(sound_log, "Closing device `%s'", snddata.playdev->name);
-        if (snddata.playdev->close) {
-            snddata.playdev->close();
-        }
-        snddata.playdev = NULL;
-    }
-
-    if (snddata.recdev) {
-        log_message(sound_log, "Closing recording device `%s'", snddata.recdev->name);
-        if (snddata.recdev->close) {
-            snddata.recdev->close();
-        }
-        snddata.recdev = NULL;
-    }
-
+    sounddev_close(&snddata.playdev);
+    sounddev_close(&snddata.recdev);
     sid_close();
 
     sdev_open = FALSE;
     sound_state_changed = FALSE;
+    sound_playdev_reopen = FALSE;
     sound_is_timing_source = FALSE;
 
     lib_free(snddata.buffer);
@@ -1207,16 +1211,9 @@ void sound_reset(void)
 /* flush all generated samples from buffer to sounddevice. */
 bool sound_flush()
 {
-    const unsigned long max_block_ms = 5000; /* If sound write blocks this long, assume it's broken */
-    const unsigned long block_warn_ms = 500; /* If sound write blocks at least this long before succeeding, log a warning */
-    
-    static tick_t last_restart_tick = 0;
-
     int c, i, nr, space;
     char *state;
     bool slept = false;
-    tick_t first_block_tick = 0;
-    unsigned long total_block_ms;
     
     if (!playback_enabled) {
         if (sdev_open) {
@@ -1230,6 +1227,13 @@ bool sound_flush()
             sound_close();
         }
         sound_state_changed = FALSE;
+    }
+
+    if (sound_playdev_reopen) {
+        if (sdev_open) {
+            sounddev_close(&snddata.playdev);
+        }
+        sound_playdev_reopen = FALSE;
     }
 
     if (sound_run_sound()) {
@@ -1276,11 +1280,7 @@ bool sound_flush()
         if (snddata.playdev->bufferspace) {
             space = snddata.playdev->bufferspace();            
         } else {
-            /*
-             * Blocking driver like simple pulse - write everything we have.
-             * I'm not sure if this is the right thing to do, perhaps we should
-             * only be writin a single fragment at time?
-             */
+            /* We are using a blocking driver like simple pulse - write everything we have. */
             space = nr;
         }
 
@@ -1304,52 +1304,14 @@ bool sound_flush()
                     goto done;
                 }
             }
-
-            if (first_block_tick) {
-                total_block_ms = tick_now_delta(first_block_tick) / (tick_per_second() / 1000);
-                if (total_block_ms >= block_warn_ms) {
-                    log_warning(sound_log, "Sound device write was blocked for %lums", total_block_ms);
-                }
-                
-                /* not blocked anymore */
-                first_block_tick = 0;
-            }
+            
+            /* Successful write to audio device, exit loop. */
             break;
         }
         
-        /* Haven't written yet, try again after a minimal sleep */
-
-        if (!first_block_tick) {
-            first_block_tick = tick_now();
-        } else {
-            total_block_ms = tick_now_delta(first_block_tick) / (tick_per_second() / 1000);
-
-            if (total_block_ms >= max_block_ms) {
-
-                /*
-                 * Sound device may have stalled and might benefit from a restart.
-                 * But only try if we haven't tried a restart recently.
-                 */
-                
-                log_message(sound_log, "Writing to sound device still blocked after %lums", total_block_ms);
-                
-                if (tick_now_delta(last_restart_tick) / (tick_per_second() / 1000) >= 2 * max_block_ms) {
-                    log_message(sound_log, "Attempting restart");
-                    sound_close();
-                    last_restart_tick = tick_now();
-                    first_block_tick = 0;
-                    goto done;
-                }
-                
-                log_message(sound_log, "Last restart is too recent, disabling sound.");
-                sound_error("Sound device stalled");
-                goto done;
-            }
-
-            /* More to write, try again after a minimal sleep */
-            tick_sleep(tick_per_second() / 1000);
-            slept = true;
-        }
+        /* We can't write yet, try again after a minimal sleep. */
+        tick_sleep(tick_per_second() / 1000);
+        slept = true;
     }
 
     snddata.bufptr -= nr;

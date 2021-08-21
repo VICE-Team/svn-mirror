@@ -98,6 +98,7 @@
 #include "plus60k.h"
 #include "plus256k.h"
 #include "printer.h"
+#include "protopad.h"
 #include "rs232drv.h"
 #include "rsuser.h"
 #include "sampler.h"
@@ -736,6 +737,10 @@ int machine_resources_init(void)
     }
     if (joyport_ninja_snespad_resources_init() < 0) {
         init_resource_fail("joyport ninja snespad");
+        return -1;
+    }
+    if (joyport_protopad_resources_init() < 0) {
+        init_resource_fail("joyport protopad");
         return -1;
     }
     if (joyport_spaceballs_resources_init() < 0) {
@@ -1393,8 +1398,6 @@ static void machine_vsync_hook(void)
 {
     drive_vsync_hook();
 
-    autostart_advance();
-
     screenshot_record();
 }
 
@@ -1558,17 +1561,19 @@ int machine_addr_in_ram(unsigned int addr)
 
     if ((mmucfg == 0x3e) && (mmu_peek(5) == 0xb7)) {
         /* c64 mode */
-        return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)));
+        return (
+            addr < 0xe000
+                && !(addr >= 0xa000 && addr < 0xc000)
+                && !(addr >= 0x0073 && addr <= 0x008a)
+            );
     }
     /* FIXME: C128 is a special beast, as it would execute some stuff in system
                 RAM - which this special case hack checks.
                 without this check eg autostarting a prg file with autostartmode=
                 "disk image" will fail. (exit from ROM at $some RAM address)
     */
-    if ((mmucfg & 0xc0) == 0x00) {
-        if ((addr >= 0x2a0) && (addr <= 0x3af)) {
-            return 0;
-        }
+    if ((addr >= 0x2a2) && (addr <= 0x3d1)) {
+        return 0;
     }
 
     if ((addr >= 0xd000) && (addr <= 0xdfff)) { /* d000-dfff */

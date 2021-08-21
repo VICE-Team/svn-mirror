@@ -58,6 +58,7 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "interrupt.h"
+#include "hotkeys.h"
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"
@@ -73,8 +74,10 @@
 #include "vsyncapi.h"
 
 #include "basedialogs.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uicommands.h"
+#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "uistatusbar.h"
@@ -110,7 +113,7 @@ static int set_monitor_font(const char *, void *param);
 static int set_monitor_bg(const char *, void *param);
 static int set_monitor_fg(const char *, void *param);
 static int set_fullscreen_state(int val, void *param);
-static void ui_toggle_warp(void);
+static int set_fullscreen_decorations(int val, void *param);
 static int set_pause_on_settings(int val, void *param);
 static int set_autostart_on_doubleclick(int val, void *param);
 
@@ -177,6 +180,13 @@ static ui_resource_t ui_resources;
 static int fullscreen_enabled = 0;
 
 
+/** \brief  Flag inidicating whether fullscreen mode shows the decorations
+ *
+ * Used bt the resource "FullscreenDecorations".
+ */
+static int fullscreen_has_decorations = 0;
+
+
 /** \brief  Row numbers of the various widgets packed in a main GtkWindow
  */
 enum {
@@ -191,6 +201,7 @@ enum {
 /** \brief  Default hotkeys for the UI not connected to a menu item
  */
 static kbd_gtk3_hotkey_t default_hotkeys[] = {
+#if 0
     /* Alt+P: toggle pause */
     { GDK_KEY_p, VICE_MOD_MASK, (void *)ui_toggle_pause },
     /* Alt+W: toggle warp mode */
@@ -201,20 +212,24 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
      *      recognized (only tested on Win10)
      */
     { GDK_KEY_P, VICE_MOD_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
-
+#endif
+#if 0
     /* Alt+J = swap joysticks */
     { GDK_KEY_j, VICE_MOD_MASK,
-        (void *)ui_swap_joysticks_callback },
+        (void *)ui_action_toggle_controlport_swap },
     /* Alt+Shift+U = swap userport joysticks */
     { GDK_KEY_U, VICE_MOD_MASK|GDK_SHIFT_MASK,
         (void *)ui_swap_userport_joysticks_callback },
+#endif
     { GDK_KEY_J, VICE_MOD_MASK|GDK_SHIFT_MASK,
         (void *)ui_toggle_keyset_joysticks },
+#if 0
     { GDK_KEY_m, VICE_MOD_MASK,
-        (void *)ui_toggle_mouse_grab },
+        (void *)ui_action_toggle_mouse_grab },
+#endif
     /* Windows folks expect Alt+Enter to go full screen */
     { GDK_KEY_Return, VICE_MOD_MASK,
-        (void *)ui_fullscreen_callback },
+        (void *)ui_action_toggle_fullscreen },
 
     /* Arnie */
     { 0, 0, NULL }
@@ -258,6 +273,9 @@ static const resource_int_t resources_int_shared[] = {
 
     { "FullscreenEnable", 0, RES_EVENT_NO, NULL,
         &fullscreen_enabled, set_fullscreen_state, NULL },
+
+    { "FullscreenDecorations", 0, RES_EVENT_NO, NULL,
+        &fullscreen_has_decorations, set_fullscreen_decorations, NULL },
 
     { "PauseOnSettings", 0, RES_EVENT_NO, NULL,
         &ui_resources.pause_on_settings, set_pause_on_settings, NULL },
@@ -353,6 +371,12 @@ static const cmdline_option_t cmdline_options_common[] =
     { "+fullscreen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "FullscreenEnable", (void*)0,
         NULL, "Disable fullscreen" },
+    { "-fullscreen-decorations", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "FullscreenDecorations", (void*)1,
+        NULL, "Enable fullscreen decorations" },
+    { "+fullscreen-decorations", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "FullscreenDecorations", (void*)0,
+        NULL, "Disable fullscreen decorations" },
     { "-monitorfont", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
         set_monitor_font, NULL, "MonitorFont", NULL,
         "font-description", "Set monitor font for the Gtk3 monitor" },
@@ -388,9 +412,6 @@ static int active_win_index = -1;
  */
 static int is_fullscreen = 0;
 
-/** \brief  Flag inidicating whether fullscreen mode shows the decorations
- */
-static int fullscreen_has_decorations = 0;
 
 /** \brief  Function to handle files dropped on a main window
  */
@@ -556,7 +577,7 @@ static void ui_on_drag_data_received(
 /** \brief  Set fullscreen state \a val
  *
  * \param[in]   val     fullscreen state (boolean)
- * \param[in]   param   extra argument (unused(
+ * \param[in]   param   extra argument (unused)
  *
  * \return 0
  */
@@ -566,6 +587,19 @@ static int set_fullscreen_state(int val, void *param)
     return 0;
 }
 
+
+/** \brief  Resource setter for "FullscreenDecorations"
+ *
+ * \param[in]   val     new value
+ * \param[in]   param   extra argument (unused)
+ *
+ * \return 0
+ */
+static int set_fullscreen_decorations(int val, void *param)
+{
+    fullscreen_has_decorations = val;
+    return 0;
+}
 
 
 /** \brief  Get the most recently focused toplevel window
@@ -870,12 +904,9 @@ void ui_trigger_resize(void)
  * If fullscreen is enabled and there are no window decorations requested for
  * fullscreen mode, the mouse pointer is hidden until fullscreen is disabled.
  *
- * \param[in]   widget      the widget that sent the callback (ignored)
- * \param[in]   user_data   extra data for the callback (ignored)
- *
  * \return  TRUE
  */
-gboolean ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_action_toggle_fullscreen(void)
 {
     GtkWindow *window;
 
@@ -892,6 +923,8 @@ gboolean ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
         gtk_window_unfullscreen(window);
     }
 
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_FULLSCREEN,
+                                               is_fullscreen);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -899,14 +932,13 @@ gboolean ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
 
 /** \brief Toggles fullscreen window decorations in response to user request
  *
- * \param[in]   widget      the widget that sent the callback (ignored)
- * \param[in]   user_data   extra data for the callback (ignored)
- *
  * \return  TRUE
  */
-gboolean ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_action_toggle_fullscreen_decorations(void)
 {
     fullscreen_has_decorations = !fullscreen_has_decorations;
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_FULLSCREEN_DECORATIONS,
+                                               fullscreen_has_decorations);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -1374,7 +1406,7 @@ static gboolean rendering_area_event_handler(GtkWidget *canvas,
          * a lightpen isn't active */
         resources_get_int("Mouse", &mouse);
         if (!mouse && !lightpen_enabled) {
-            ui_fullscreen_callback(canvas, event);
+            ui_action_toggle_fullscreen();
         }
         /* signal event handled */
         return TRUE;
@@ -1744,6 +1776,10 @@ int ui_cmdline_options_init(void)
 #if 0
     INCOMPLETE_IMPLEMENTATION();
 #endif
+    if (hotkeys_cmdline_options_init() != 0) {
+        return -1;
+    }
+
     return cmdline_register_options(cmdline_options_common);
 }
 
@@ -1940,6 +1976,9 @@ int ui_resources_init(void)
         }
     }
 
+    /* initialize custom hotkeys resources */
+    hotkeys_resources_init();
+
     for (i = 0; i < NUM_WINDOWS; ++i) {
         ui_resources.canvas[i] = NULL;
         ui_resources.window_widget[i] = NULL;
@@ -1965,6 +2004,7 @@ void ui_shutdown(void)
 {
     uidata_shutdown();
     ui_statusbar_shutdown();
+    hotkeys_shutdown();
 }
 
 /** \brief  Result of the extend image dialog
@@ -2002,12 +2042,12 @@ int ui_extend_image_dialog(void)
         "  The drive has written to tracks that are not included in the currently  \n"
         "  mounted image. Do you want to write those extra tracks into the current  \n"
         "  image?";
-    
+
     if (console_mode) {
         /* XXX: Can't really ask, so make a decision. */
         return UI_EXTEND_IMAGE_ALWAYS;
     }
-    
+
     if (mainlock_is_vice_thread()) {
         /*
          * We need to use the main thread to do UI stuff. And we
@@ -2164,34 +2204,36 @@ void ui_pause_toggle(void)
 }
 
 
-/** \brief  Pause toggle handler
+/** \brief  Pause toggle action
  *
  * \return  TRUE (indicates the Alt+P got consumed by Gtk, so it won't be
  *          passed to the emu)
- *
- * \todo    Update UI tickmarks properly if triggered by a keyboard
- *          accelerator, or the settings dialog.
  */
-gboolean ui_toggle_pause(void)
+gboolean ui_action_toggle_pause(void)
 {
     ui_pause_toggle();
-    /* TODO: somehow update the checkmark in the menu without reverting to
-     *       weird code like Gtk
-     */
+    ui_set_gtk_check_menu_item_blocked_by_name("toggle-pause",
+                                               (gboolean)ui_pause_active());
+
     return TRUE;    /* has to be TRUE to avoid passing Alt+P into the emu */
 }
 
 
-/** \brief  Toggle warp mode
+/** \brief  Toggle warp mode action
+ *
+ * \return  TRUE to signal GDK the key got consumed so it doesn't end up in
+ *          the emulated machine
  */
-static void ui_toggle_warp(void)
+gboolean ui_action_toggle_warp(void)
 {
     ui_toggle_resource(NULL, (gpointer)"WarpMode");
+    ui_set_gtk_check_menu_item_blocked_by_resource("toggle-warp-mode", "WarpMode");
+
+    return TRUE;
 }
 
 
-
-/** \brief  Advance frame handler
+/** \brief  Advance frame action
  *
  * \return  TRUE (indicates the Alt+SHIFT+P got consumed by Gtk, so it won't be
  *          passed to the emu)
@@ -2199,7 +2241,7 @@ static void ui_toggle_warp(void)
  * \note    The gboolean return value is no longer required since the 'hotkey'
  *          handling in kbd.c takes care of passing TRUE to Gtk3.
  */
-gboolean ui_advance_frame(void)
+gboolean ui_action_advance_frame(void)
 {
     if (ui_pause_active()) {
         vsyncarch_advance_frame();
@@ -2209,6 +2251,7 @@ gboolean ui_advance_frame(void)
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */
 }
+
 
 /** \brief  Destroy UI resources (but NOT vice 'resources')
  *

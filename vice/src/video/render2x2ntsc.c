@@ -251,7 +251,17 @@ void render_32_2x2_ntsc(video_render_color_tables_t *color_tab,
                         const unsigned int pitchs, const unsigned int pitcht,
                         viewport_t *viewport, video_render_config_t *config)
 {
-    render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
+    if (config->interlaced) {
+        /*
+         * The interlaced path doesn't currently support the CRT filter stuff,
+         * other than by allowing the previous frame to partially show through
+         * the scanlines of the current frame, using a 50% alpha black scanline.
+         */
+        render_32_2x2_interlaced(color_tab, src, trg, width, height, xs, ys,
+                                 xt, yt, pitchs, pitcht, config, (color_tab->physical_colors[0] & 0x00ffffff) | 0x7f000000);
+    } else {
+        render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
                             xt, yt, pitchs, pitcht, viewport,
                             4, 1, config);
+    }
 }

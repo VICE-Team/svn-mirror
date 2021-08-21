@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "charset.h"
 #include "diskcontents.h"
 #include "tapecontents.h"
 #include "imagecontents.h"
@@ -56,7 +57,7 @@ static void sdl_ui_image_file_selector_redraw(image_contents_t *contents, const 
     uint8_t oldbg;
     image_contents_file_list_t *entry;
 
-    title_string = image_contents_to_string(contents, 0);
+    title_string = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
 
     sdl_ui_clear();
     sdl_ui_display_title(title_string);

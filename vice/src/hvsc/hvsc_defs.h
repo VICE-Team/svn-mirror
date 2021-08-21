@@ -1,5 +1,3 @@
-/* vim: set et ts=4 sw=4 sts=4 fdm=marker: */
-
 /** \file   src/lib/hvsc_defs.h
  * \brief   Globally used constants and types
  *

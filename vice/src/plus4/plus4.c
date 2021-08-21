@@ -940,8 +940,6 @@ static void machine_vsync_hook(void)
 {
     drive_vsync_hook();
 
-    autostart_advance();
-
     screenshot_record();
 }
 
@@ -1083,12 +1081,16 @@ uint8_t machine_tape_behaviour(void)
 
 int machine_addr_in_ram(unsigned int addr)
 {
-    /* FIXME are these correct? */
-    /* ROM is 8000-bfff
-     *        d000-fcff
-     *        fd00-     I/O
-     */
-    return ((addr < 0x8000) || (addr >= 0xc000 && addr <= 0xcfff)) ? 1 : 0;
+    if (addr >= 0x8000) {
+        return 0;
+    }
+    
+    if (addr >= 0x473 && addr <= 04E6) {
+        /* bunch of ROM routines  */
+        return 0;
+    }
+    
+    return 1;
 }
 
 const char *machine_get_name(void)

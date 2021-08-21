@@ -24,9 +24,11 @@
  *
  */
 
-#define DEBUG_SERIAL
+/* #define DEBUG_SERIAL */
 
 #include "vice.h"
+
+#include <stdio.h> /* for NULL */
 
 #include "iecbus.h"
 #include "maincpu.h"

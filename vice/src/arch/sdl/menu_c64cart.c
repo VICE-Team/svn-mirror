@@ -175,6 +175,7 @@ static c64_cart_flush_t carts[] = {
     { CARTRIDGE_MMC_REPLAY, NULL, "MMCREEPROMImage" },
     { CARTRIDGE_GMOD2, NULL, "GMod2EEPROMImage" },
     { CARTRIDGE_RAMLINK, "RAMLINK", "RAMLINKfilename" },
+    { CARTRIDGE_REX_RAMFLOPPY, NULL, "RRFfilename" },
     { CARTRIDGE_RETRO_REPLAY, NULL, NULL },
     { 0, NULL, NULL }
 };
@@ -250,6 +251,32 @@ static UI_MENU_CALLBACK(c64_cart_save_callback)
     }
     return NULL;
 }
+
+/* REX Ram-Floppy */
+
+UI_MENU_DEFINE_FILE_STRING(RRFfilename)
+UI_MENU_DEFINE_TOGGLE(RRFImageWrite)
+
+static ui_menu_entry_t rexramfloppy_menu[] = {
+    SDL_MENU_ITEM_TITLE("RAM image"),
+    { "Image file",
+      MENU_ENTRY_DIALOG,
+      file_string_RRFfilename_callback,
+      (ui_callback_data_t)"Select " CARTRIDGE_NAME_REX_RAMFLOPPY " image" },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RRFImageWrite_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_REX_RAMFLOPPY },
+    { "Save image as",
+      MENU_ENTRY_OTHER,
+      c64_cart_save_callback,
+      (ui_callback_data_t)CARTRIDGE_REX_RAMFLOPPY },
+    SDL_MENU_LIST_END
+};
 
 /* RAMCART */
 
@@ -1261,6 +1288,7 @@ static void cartmenu_update_flush(void)
     gmod2_cart_menu[6].status = cartridge_can_flush_image(CARTRIDGE_GMOD2) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod3_cart_menu[1].status = cartridge_can_flush_image(CARTRIDGE_GMOD3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     rrnet_mk3_cart_menu[2].status = cartridge_can_flush_image(CARTRIDGE_RRNETMK3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    rexramfloppy_menu[3].status = cartridge_can_flush_image(CARTRIDGE_REX_RAMFLOPPY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
 }
 
 static void cartmenu_update_save(void)
@@ -1279,6 +1307,7 @@ static void cartmenu_update_save(void)
     gmod2_cart_menu[7].status = cartridge_can_save_image(CARTRIDGE_GMOD2) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod3_cart_menu[2].status = cartridge_can_save_image(CARTRIDGE_GMOD3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     rrnet_mk3_cart_menu[3].status = cartridge_can_save_image(CARTRIDGE_RRNETMK3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    rexramfloppy_menu[4].status = cartridge_can_save_image(CARTRIDGE_REX_RAMFLOPPY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
 }
 
 /* Cartridge menu */
@@ -1391,6 +1420,10 @@ ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ramlink_menu },
+    { CARTRIDGE_NAME_REX_RAMFLOPPY,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)rexramfloppy_menu },
     { CARTRIDGE_NAME_RRNETMK3,
       MENU_ENTRY_SUBMENU,
       submenu_callback,

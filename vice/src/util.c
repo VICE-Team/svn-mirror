@@ -311,70 +311,6 @@ int util_check_filename_access(const char *filename)
 
 /* ------------------------------------------------------------------------- */
 
-int util_string_to_long(const char *str, const char **endptr, int base,
-                        long *result)
-{
-    const char *sp, *ep;
-    long weight, value;
-    long sign;
-    char last_letter = 0;       /* Initialize to make compiler happy.  */
-    char c;
-
-    if (base > 10) {
-        last_letter = 'A' + base - 11;
-    }
-
-    c = toupper((int) *str);
-
-    if (!isspace((int)c)
-        && !isdigit((int)c)
-        && (base <= 10 || c > last_letter || c < 'A')
-        && c != '+' && c != '-') {
-        return -1;
-    }
-
-    if (*str == '+') {
-        sign = +1;
-        str++;
-    } else if (*str == '-') {
-        str++;
-        sign = -1;
-    } else {
-        sign = +1;
-    }
-
-    for (sp = str; isspace((int)*sp); sp++) {
-    }
-
-    for (ep = sp;
-         (isdigit((int)*ep)
-          || (base > 10
-              && toupper((int)*ep) <= last_letter
-              && toupper((int)*ep) >= 'A')); ep++) {
-    }
-
-    if (ep == sp) {
-        return -1;
-    }
-
-    if (endptr != NULL) {
-        *endptr = (char *)ep;
-    }
-
-    ep--;
-
-    for (value = 0, weight = 1; ep >= sp; weight *= base, ep--) {
-        if (base > 10 && toupper((int) *ep) >= 'A') {
-            value += weight * (toupper((int)*ep) - 'A' + 10);
-        } else {
-            value += weight * (int)(*ep - '0');
-        }
-    }
-
-    *result = value * sign;
-    return 0;
-}
-
 /* Replace every occurrence of `string' in `s' with `replacement' and return
    the result as a malloc'ed string.  */
 char *util_subst(const char *s, const char *string, const char *replacement)
@@ -479,34 +415,20 @@ int util_file_load(const char *name, uint8_t *dest, size_t size,
 
 /* Allocate buffer and load entire file + terminating null byte.  Return 0 on
    success, -1 on failure.  */
-int util_file_load_string(const char *name, char **dest)
+int util_file_load_string(FILE *fd, char **dest)
 {
-    FILE *fd;
     char *buffer;
     size_t size;
     size_t r;
-
-    if (util_check_null_string(name)) {
-        log_error(LOG_ERR, "No file name given for util_file_malloc_load().");
-        return -1;
-    }
-
-    fd = fopen(name, MODE_READ);
-
-    if (fd == NULL) {
-        log_error(LOG_ERR, "Failed to open %s for reading", name);
-        return -1;
-    }
 
     size = util_file_length(fd);
     buffer = lib_malloc(size + 1);
 
     r = fread(buffer, 1, size, fd);
-    fclose(fd);
 
     if (r < size) {
         lib_free(buffer);
-        log_error(LOG_ERR, "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes of file %s", r, size, name);
+        log_error(LOG_ERR, "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes", r, size);
         return -1;
     }
 
@@ -546,19 +468,6 @@ int util_file_save(const char *name, uint8_t *src, int size)
     }
 
     return 0;
-}
-
-/* Get full path to file in data dir. */
-char *util_file_data_path(char *data_dir, char *file_name)
-{
-    char *datadir;
-    char *path;
-
-    datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(datadir, data_dir, file_name, NULL);
-    lib_free(datadir);
-
-    return path;
 }
 
 /* Input one line from the file descriptor `f'.  FIXME: we need something

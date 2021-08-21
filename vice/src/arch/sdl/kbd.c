@@ -267,7 +267,7 @@ SDLKey SDL1x_to_SDL2x_Keys(SDLKey key)
 static inline int sdlkbd_key_mod_to_index(SDLKey key, SDLMod mod)
 {
     int i = 0;
-    
+
     if (mod & KMOD_SHIFT) {
         i |= (1 << 0);
     }

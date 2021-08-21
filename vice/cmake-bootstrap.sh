@@ -108,6 +108,11 @@ function extract_include_dirs {
 		| sed $'s/ -/\\\n-/g' | grep '^-I' | sed 's/^-I//' | unique_preserve_order | tr "\n" " "
 }
 
+function extract_link_dirs {
+	(extract_make_var AM_LDFLAGS; space; extract_make_var VICE_LDFLAGS; ) \
+		| sed $'s/ -/\\\n-/g' | grep '^-L' | sed 's/^-L//' | unique_preserve_order | tr "\n" " "
+}
+
 function extract_c_compile_definitions {
 	extract_make_var COMPILE \
 		| sed $'s/ -/\\\n-/g' | grep '^-D' | sed -e 's/^-D//g' | tr "\n" " "
@@ -481,7 +486,7 @@ do
 		if ! fgrep -q "find_library($label " CMakeLists.txt
 		then
 			cat <<-HEREDOC >> CMakeLists.txt
-				find_library($label $lib \${CMAKE_C_IMPLICIT_LINK_DIRECTORIES})
+				find_library($label $lib \${CMAKE_C_IMPLICIT_LINK_DIRECTORIES} $(extract_link_dirs))
 			HEREDOC
 		fi
 	done

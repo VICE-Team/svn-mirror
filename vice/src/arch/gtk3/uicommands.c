@@ -11,6 +11,7 @@
  * $VICERES JoyDevice2      -vsid
  * $VICERES JoyDevice3      -vsid
  * $VICERES JoyDevice4      -vsid
+ * $VICERES Mouse           -vsid
  */
 
 /*
@@ -48,19 +49,19 @@
 #include "log.h"
 #include "machine.h"
 #include "mainlock.h"
+#include "uimenu.h"
 #include "util.h"
+#include "uiactions.h"
 #include "vsync.h"
-
-#if 0
-#ifdef WIN32_COMPILE
-# include <windows.h>
-#endif
-#endif
-
+#include "uiapi.h"
 #include "ui.h"
 #include "uicommands.h"
 #include "uimachinewindow.h"
 #include "widgethelpers.h"
+
+
+static gboolean controlport_swapped = FALSE;
+static gboolean userport_swapped = FALSE;
 
 
 /** \brief  Callback for the confirm-on-exit dialog
@@ -80,36 +81,78 @@ static void confirm_exit_callback(GtkDialog *dialog, gboolean result)
 }
 
 
-/** \brief  Swap joysticks
+/** \brief  Determine if control ports 1 & 2 are currently swapped.
  *
- * \param[in]   widget      widget triggering the event (invalid)
- * \param[in]   user_data   extra data for event (unused)
+ * \return  bool
+ */
+gboolean ui_get_controlport_swapped(void)
+{
+    return controlport_swapped;
+}
+
+
+/** \brief  Determine if user ports 1 & 2 are currently swapped.
+ *
+ * \return  bool
+ */
+gboolean ui_get_userport_swapped(void)
+{
+    return userport_swapped;
+}
+
+
+/** \brief  Swap controlport devices 1 & 2
  *
  * \return  TRUE
  */
-gboolean ui_swap_joysticks_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_action_toggle_controlport_swap(void)
 {
     int joy1 = -1;
     int joy2 = -1;
+    int type1 = -1;
+    int type2 = -1;
+
+    resources_get_int("JoyPort1Device", &type1);
+    resources_get_int("JoyPort2Device", &type2);
+
+    /* unset both resources first to avoid assigning for example the mouse to
+     * two ports. here might be dragons!
+     */
+    resources_set_int("JoyPort1Device", 0);
+    resources_set_int("JoyPort2Device", 0);
+
+    /* try setting port #2 first, some devices only work in port #1 */
+    if (resources_set_int("JoyPort2Device", type1) < 0) {
+        /* restore config */
+        resources_set_int("JoyPort1Device", type1);
+        resources_set_int("JoyPort2Device", type2);
+        return TRUE;
+    }
+    if (resources_set_int("JoyPort1Device", type2) < 0) {
+        /* restore config */
+        resources_set_int("JoyPort1Device", type1);
+        resources_set_int("JoyPort2Device", type2);
+        return TRUE;
+    }
 
     resources_get_int("JoyDevice1", &joy1);
     resources_get_int("JoyDevice2", &joy2);
     resources_set_int("JoyDevice1", joy2);
     resources_set_int("JoyDevice2", joy1);
 
+    controlport_swapped = !controlport_swapped;
+
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_CONTROLPORT_SWAP,
+                                               controlport_swapped);
     return TRUE;
 }
 
 
 /** \brief  Swap userport joysticks
  *
- * \param[in]   widget      widget triggering the event (invalid)
- * \param[in]   user_data   extra data for event (unused)
- *
  * \return  TRUE
  */
-gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
-                                             gpointer user_data)
+gboolean ui_action_toggle_userport_swap(void)
 {
     int joy3 = -1;
     int joy4 = -1;
@@ -119,6 +162,9 @@ gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
     resources_set_int("JoyDevice3", joy4);
     resources_set_int("JoyDevice4", joy3);
 
+    userport_swapped = !userport_swapped;
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_USERPORT_SWAP,
+                                               userport_swapped);
     return TRUE;
 }
 
@@ -129,6 +175,8 @@ gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
  * \param[in]   data    (unused?)
  *
  * \return  TRUE (so the UI eats the event)
+ *
+ * TODO:    refactor into `gboolean ui_action_toggle_keyset_swap(void)`
  */
 gboolean ui_toggle_keyset_joysticks(GtkWidget *widget, gpointer data)
 {
@@ -143,12 +191,12 @@ gboolean ui_toggle_keyset_joysticks(GtkWidget *widget, gpointer data)
 
 /** \brief  Toggle resource 'Mouse' (mouse-grab)
  *
- * \param[in]   widget
- * \param[in]   data    (unused?)
+ * \param[in]   widget  menu item triggering the event (unused)
+ * \param[in]   data    extra event data (unused)
  *
  * \return  TRUE (so the UI eats the event)
  */
-gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
+gboolean ui_action_toggle_mouse_grab(void)
 {
     GtkWindow *window;
     int mouse;
@@ -160,6 +208,7 @@ gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
 
     if (mouse) {
        g_snprintf(title, sizeof(title),
+               /* TODO: get proper key+modifier string from ui data */
                "VICE (%s) (Use %s+M to disable mouse grab)",
                machine_get_name(), VICE_MOD_MASK_TEXT);
     } else {
@@ -170,6 +219,8 @@ gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
 
     window = ui_get_active_window();
     gtk_window_set_title(window, title);
+
+    ui_set_gtk_check_menu_item_blocked_by_name("toggle-mouse-grab", mouse);
 
     return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }
@@ -427,7 +478,7 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
     if (window != NULL) {
         /* disable fullscreen if active */
         if (ui_is_fullscreen()) {
-            ui_fullscreen_callback(widget, data);
+            ui_action_toggle_fullscreen();
         }
         /* unmaximize */
         gtk_window_unmaximize(window);

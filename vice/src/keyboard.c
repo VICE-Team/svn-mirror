@@ -366,7 +366,7 @@ static int shiftl = KEY_NONE;   /* shift-lock */
 
 /*-----------------------------------------------------------------------*/
 
-static int left_shift_down, right_shift_down, 
+static int left_shift_down, right_shift_down,
             left_cbm_down, left_ctrl_down,
             virtual_shift_down, virtual_cbm_down, virtual_ctrl_down;
 static int key_latch_row, key_latch_column;
@@ -727,7 +727,7 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
                 return 0;
             }
         }
-        
+
         if (lcbm_defined()) {
             if (shift & VIRTUAL_CBM) {
                 virtual_cbm_down = 0;
@@ -736,7 +736,7 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
                 left_cbm_down = 0;
             }
         }
-        
+
         if (lctrl_defined()) {
             if (shift & VIRTUAL_CTRL) {
                 virtual_ctrl_down = 0;
@@ -868,7 +868,7 @@ static void keyboard_key_clear_internal(void)
 {
     keyboard_clear_keymatrix();
     joystick_clear_all();
-    virtual_cbm_down = virtual_shift_down = 
+    virtual_cbm_down = virtual_shift_down =
         left_shift_down = right_shift_down = keyboard_shiftlock = 0;
 #ifdef COMMON_JOYKEYS
     joystick_joypad_clear();
@@ -992,7 +992,7 @@ static int keyboard_keyword_vshiftl(void)
     } else if (!strcmp(p, "LSHIFT")) {
         return KEY_LSHIFT;
     }
-    
+
     return -1;
 }
 
@@ -1088,7 +1088,7 @@ static void keyboard_keyword_clear(void)
     kbd_lcbmcol   = -1;
     kbd_lctrlrow  = -1;
     kbd_lctrlcol  = -1;
-    
+
     for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
         for (j = 0; j < KBD_JOY_KEYPAD_COLS; ++j) {
             key_joy_keypad[i][j] = -1;
@@ -1290,13 +1290,13 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                 }
 
                 /* sanity checks for shift */
-                
+
                 if (shift & VIRTUAL_SHIFT) {
                     if (!vshift_defined()) {
                         log_warning(keyboard_log, "%s:%d: virtual shift flag used but no !VSHIFT defined", filename, line);
                     }
                 }
-                
+
                 if (shift & LEFT_SHIFT) {
                     if (!lshift_defined()) {
                         log_warning(keyboard_log, "%s:%d: SHIFT flag used but no !LSHIFT defined", filename, line);
@@ -1330,7 +1330,7 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                         }
                     }
                 }
-                
+
                 if (lshift_defined()) {
                     if ((row == kbd_lshiftrow) && (col == kbd_lshiftcol)) {
                         if ((!(shift & LEFT_SHIFT)) && (!(shift & (RIGHT_SHIFT | SHIFT_LOCK)))) {
@@ -1360,7 +1360,7 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                             }
                         }
                 }
-                
+
                 /* sanity checks for cbm */
                 if (shift & VIRTUAL_CBM) {
                     if (!vcbm_defined()) {
@@ -1416,7 +1416,7 @@ static int check_modifiers(const char *filename)
     char *ms[8] = {
         "!LSHIFT ", "!RSHIFT ", "!VSHIFT! ", "!LCBM ", "!VCBM ", "!LCTRL ", "!VCTRL ", "!SHIFTL "
     };
-    
+
     if (!lshift_defined()) {
         n |= (1 << 0);
     }
@@ -1443,7 +1443,7 @@ static int check_modifiers(const char *filename)
     }
     if (n) {
         log_warning(keyboard_log, "%s: %s%s%s%s%s%s%s%snot defined.",
-            filename,        
+            filename,
             n & (1 << 0) ? ms[0] : "",
             n & (1 << 1) ? ms[1] : "",
             n & (1 << 2) ? ms[2] : "",
@@ -1485,7 +1485,7 @@ static int keyboard_parse_keymap(const char *filename, int child)
             long blen = (long)strlen(buffer);
 
             line++;
-            
+
             if (blen == 0) {
                 break;
             }
@@ -1518,9 +1518,9 @@ static int keyboard_parse_keymap(const char *filename, int child)
     fclose(fp);
 
     lib_free(complete_path);
-    
+
     check_modifiers(filename);
-    
+
     DBG(("<keyboard_parse_keymap OK\n"));
     return 0;
 }
@@ -2123,7 +2123,7 @@ static int switch_keymap_file(int sw, int *idxp, int *mapp, int *typep)
         goto ok;
     }
 
-    /* when switching host layout or emulated keyboard type, try the "other" 
+    /* when switching host layout or emulated keyboard type, try the "other"
        index first if the current one does not exist */
     if ((sw == KBD_SWITCH_MAPPING) || (sw == KBD_SWITCH_TYPE)) {
         switch (idx) {
@@ -2168,8 +2168,8 @@ ok:
     return 0;
 }
 
-/* called by keyboard_resources_init to create the default keymap(s) 
-   idx is the index to the resource for the setting ("KeymapIndex") 
+/* called by keyboard_resources_init to create the default keymap(s)
+   idx is the index to the resource for the setting ("KeymapIndex")
  */
 static int keyboard_set_default_keymap_file(int idx)
 {
@@ -2190,7 +2190,7 @@ static int keyboard_set_default_keymap_file(int idx)
     if (resources_get_int("KeyboardType", &type) < 0) {
         return -1;
     }
-    
+
     if(switch_keymap_file(KBD_SWITCH_DEFAULT, &idx, &mapping, &type) < 0) {
         /* return -1; */
         DBG(("<keyboard_set_default_keymap_file(FAILURE: idx: %d type: %d mapping: %d)\n", idx, type, mapping));
@@ -2276,7 +2276,7 @@ int keyboard_resources_init(void)
         if (resources_set_int("KeyboardMapping", mapping) < 0) {
             /* return -1; */
         }
-        
+
         keyboard_set_default_keymap_file(KBD_INDEX_POS);
         if (resources_get_string("KeymapPosFile", &name) < 0) {
             DBG(("<<keyboard_resources_init(error)\n"));

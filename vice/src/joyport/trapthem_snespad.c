@@ -48,12 +48,12 @@
      6   |   LATCH    |  O
  */
 
-static int snespad_enabled = 0;
+static int snespad_enabled[JOYPORT_MAX_PORTS] = {0};
 
-static uint8_t counter = 0;
+static uint8_t counter[JOYPORT_MAX_PORTS] = {0};
 
-static uint8_t clock_line = 0;
-static uint8_t latch_line = 0;
+static uint8_t clock_line[JOYPORT_MAX_PORTS] = {0};
+static uint8_t latch_line[JOYPORT_MAX_PORTS] = {0};
 
 /* ------------------------------------------------------------------------- */
 
@@ -63,19 +63,15 @@ static int joyport_snespad_enable(int port, int value)
 {
     int val = value ? 1 : 0;
 
-    if (val == snespad_enabled) {
+    if (val == snespad_enabled[port]) {
         return 0;
     }
 
     if (val) {
-        joystick_adapter_activate(JOYSTICK_ADAPTER_ID_TRAPTHEM_SNES, joyport_snespad_device.name);
-        counter = 0;
-        joystick_adapter_set_ports(1);
-    } else {
-        joystick_adapter_deactivate();
+        counter[port] = 0;
     }
 
-    snespad_enabled = val;
+    snespad_enabled[port] = val;
 
     return 0;
 }
@@ -83,9 +79,9 @@ static int joyport_snespad_enable(int port, int value)
 static uint8_t snespad_read(int port)
 {
     uint8_t retval;
-    uint16_t joyval = get_joystick_value(JOYPORT_3);
+    uint16_t joyval = get_joystick_value(port);
 
-    switch (counter) {
+    switch (counter[port]) {
         case SNESPAD_BUTTON_A:
             retval = (uint8_t)((joyval & 0x10) >> 2);
             break;
@@ -138,23 +134,23 @@ static uint8_t snespad_read(int port)
     return ~(retval);
 }
 
-static void snespad_store(uint8_t val)
+static void snespad_store(int port, uint8_t val)
 {
     uint8_t new_clock = (val & 0x08) >> 3;
     uint8_t new_latch = (val & 0x10) >> 4;
 
-    if (latch_line && !new_latch) {
-        counter = 0;
+    if (latch_line[port] && !new_latch) {
+        counter[port] = 0;
     }
 
-    if (clock_line && !new_clock) {
-        if (counter != SNESPAD_EOS) {
-            counter++;
+    if (clock_line[port] && !new_clock) {
+        if (counter[port] != SNESPAD_EOS) {
+            counter[port]++;
         }
     }
 
-    latch_line = new_latch;
-    clock_line = new_clock;
+    latch_line[port] = new_latch;
+    clock_line[port] = new_clock;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -167,7 +163,7 @@ static joyport_t joyport_snespad_device = {
     JOYPORT_RES_ID_NONE,               /* device can be used in multiple ports at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,           /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,              /* device does NOT use the potentiometer lines */
-    JOYSTICK_ADAPTER_ID_TRAPTHEM_SNES, /* device is a joystick adapter */
+    JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_SNES_ADAPTER,       /* device is a SNES adapter */
     joyport_snespad_enable,            /* device enable function */
     snespad_read,                      /* digital line read function */
@@ -198,7 +194,7 @@ int joyport_trapthem_snespad_resources_init(void)
 
 static char snap_module_name[] = "TRAPTHEMSNESPAD";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 static int trapthem_snespad_write_snapshot(struct snapshot_s *s, int p)
 {
@@ -211,9 +207,9 @@ static int trapthem_snespad_write_snapshot(struct snapshot_s *s, int p)
     }
 
     if (0 
-        || SMW_B(m, counter) < 0
-        || SMW_B(m, latch_line) < 0
-        || SMW_B(m, clock_line) < 0) {
+        || SMW_B(m, counter[p]) < 0
+        || SMW_B(m, latch_line[p]) < 0
+        || SMW_B(m, clock_line[p]) < 0) {
             snapshot_module_close(m);
             return -1;
     }
@@ -238,9 +234,9 @@ static int trapthem_snespad_read_snapshot(struct snapshot_s *s, int p)
     }
 
     if (0
-        || SMR_B(m, &counter) < 0
-        || SMR_B(m, &latch_line) < 0
-        || SMR_B(m, &clock_line) < 0) {
+        || SMR_B(m, &counter[p]) < 0
+        || SMR_B(m, &latch_line[p]) < 0
+        || SMR_B(m, &clock_line[p]) < 0) {
         goto fail;
     }
 

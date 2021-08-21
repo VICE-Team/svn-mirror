@@ -1692,7 +1692,7 @@ static int block_cmd(int nargs, char **args)
                 cnt++, offset++) {
             printf(" %02X", buf[offset]);
             chrbuf[cnt] = (buf[offset] < ' ' ?
-                        '.' : charset_p_toascii(buf[offset], 0));
+                        '.' : charset_p_toascii(buf[offset], CONVERT_WITHOUT_CTRLCODES));
         }
         /* fix indentation in case the last line is less than the max width */
         while (cnt++ < BLOCK_CMD_WIDTH) {
@@ -2128,7 +2128,7 @@ static int copy_cmd(int nargs, char **args)
         }
         dest_name_ascii = lib_strdup(args[nargs - 1]);
         dest_name_petscii = lib_strdup(dest_name_ascii);
-        charset_petconvstring((uint8_t *)dest_name_petscii, 0);
+        charset_petconvstring((uint8_t *)dest_name_petscii, CONVERT_TO_PETSCII);
         dest_unit = drive_index + DRIVE_UNIT_MIN;
     } else {
         if (*p != 0) {
@@ -2139,7 +2139,7 @@ static int copy_cmd(int nargs, char **args)
             }
             dest_name_ascii = lib_strdup(p);
             dest_name_petscii = lib_strdup(dest_name_ascii);
-            charset_petconvstring((uint8_t *)dest_name_petscii, 0);
+            charset_petconvstring((uint8_t *)dest_name_petscii, CONVERT_TO_PETSCII);
         } else {
             dest_name_ascii = dest_name_petscii = NULL;
         }
@@ -2183,7 +2183,7 @@ static int copy_cmd(int nargs, char **args)
         }
 
         src_name_petscii = lib_strdup(src_name_ascii);
-        charset_petconvstring((uint8_t *)src_name_petscii, 0);
+        charset_petconvstring((uint8_t *)src_name_petscii, CONVERT_TO_PETSCII);
 
         if (vdrive_iec_open(drives[src_unit - DRIVE_UNIT_MIN], (uint8_t *)src_name_petscii,
                             (unsigned int)strlen(src_name_petscii), 0, NULL)) {
@@ -2491,7 +2491,7 @@ static int entry_cmd(int nargs, char **args)
         }
 
         name_petscii = lib_strdup(name_ascii);
-        charset_petconvstring((uint8_t *)name_petscii, 0);
+        charset_petconvstring((uint8_t *)name_petscii, CONVERT_TO_PETSCII);
 
         if (vdrive_iec_open(drives[dnr], (uint8_t *)name_petscii,
                             (unsigned int)strlen(name_petscii), secadr, NULL)) {
@@ -2672,7 +2672,7 @@ static int delete_cmd(int nargs, char **args)
         }
 
         command = util_concat("s:", name, NULL);
-        charset_petconvstring((uint8_t *)command, 0);
+        charset_petconvstring((uint8_t *)command, CONVERT_TO_PETSCII);
 
         printf("deleting `%s' on unit %d\n", name, unit);
 
@@ -2818,7 +2818,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 }
 
 
-                charset_petconvstring((uint8_t *)name, 1);
+                charset_petconvstring((uint8_t *)name, CONVERT_TO_ASCII);
 
                 /* translate illegal chars for the host OS to '_' */
                 archdep_sanitize_filename((char *)name);
@@ -3047,7 +3047,7 @@ static int format_cmd(int nargs, char **args)
     }
 
     command = util_concat("n:", args[1], NULL);
-    charset_petconvstring((uint8_t *)command, 0);
+    charset_petconvstring((uint8_t *)command, CONVERT_TO_PETSCII);
 
     printf("formatting in unit %d ...\n", dev + DRIVE_UNIT_MIN);
     vdrive_command_execute(drives[dev], (uint8_t *)command,
@@ -3358,7 +3358,7 @@ static int list_cmd(int nargs, char **args)
 /*    listing = diskcontents_read(name, (unsigned int)(dnr + DRIVE_UNIT_MIN), drive); */
 
     if (listing != NULL) {
-        char *string = image_contents_to_string(listing, 1);
+        char *string = image_contents_to_string(listing, IMAGE_CONTENTS_STRING_ASCII);
         image_contents_file_list_t *element = listing->file_list;
 
         printf("%s\n", string);
@@ -3367,12 +3367,12 @@ static int list_cmd(int nargs, char **args)
             printf("Empty image\n");
         } else {
             do {
-                string = image_contents_filename_to_string(element, 1);
-                type = image_contents_filetype_to_string(element, 1);
+                string = image_contents_filename_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
+                type = image_contents_filetype_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
                 if ((pattern == NULL) || list_file_matches_pattern(string,
                             type, pattern)) {
                     lib_free(string);
-                    string = image_contents_file_to_string(element, 1);
+                    string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
                     printf("%s\n", string);
                 }
                 lib_free(string);
@@ -3426,7 +3426,7 @@ static int name_cmd(int nargs, char **args)
     vdrive = drives[unit];
     vdrive_bam_read_bam(vdrive);
     name = args[1];
-    charset_petconvstring((uint8_t *)name, 0);
+    charset_petconvstring((uint8_t *)name, CONVERT_TO_PETSCII);
     id = strrchr(args[1], ',');
     if (id) {
         *id++ = '\0';
@@ -3551,7 +3551,7 @@ static int read_cmd(int nargs, char **args)
     }
 
     src_name_petscii = lib_strdup(src_name_ascii);
-    charset_petconvstring((uint8_t *)src_name_petscii, 0);
+    charset_petconvstring((uint8_t *)src_name_petscii, CONVERT_TO_PETSCII);
 
     if (vdrive_iec_open(drives[dnr], (uint8_t *)src_name_petscii,
                         (unsigned int)strlen(src_name_petscii), 0, NULL)) {
@@ -3581,7 +3581,7 @@ static int read_cmd(int nargs, char **args)
 
             dest_name_ascii = args[2];
             open_petscii_name = lib_strdup(dest_name_ascii);
-            charset_petconvstring((uint8_t *)open_petscii_name, 0);
+            charset_petconvstring((uint8_t *)open_petscii_name, CONVERT_TO_PETSCII);
             finfo = fileio_open(open_petscii_name, NULL, format,
                                 FILEIO_COMMAND_OVERWRITE, file_type, &reclen);
             lib_free(open_petscii_name);
@@ -4035,7 +4035,7 @@ static int read_geos_cmd(int nargs, char **args)
          * Don't convert, GEOS uses ASCII
          */
 #if 0
-        charset_petconvstring((uint8_t *)dest_name_ascii, 1);
+        charset_petconvstring((uint8_t *)dest_name_ascii, CONVERT_TO_ASCII);
 #endif
     }
 
@@ -4363,7 +4363,7 @@ static int write_geos_cmd(int nargs, char **args)
         dest_name_ascii = lib_strdup(slashp + 1);
     }
     dest_name_petscii = lib_strdup(dest_name_ascii);
-    charset_petconvstring((uint8_t *)dest_name_petscii, 0);
+    charset_petconvstring((uint8_t *)dest_name_petscii, CONVERT_TO_PETSCII);
 
     if (vdrive_iec_open(drives[dev], (uint8_t *)dest_name_petscii,
                         (unsigned int)strlen(dest_name_petscii), 1, NULL)) {
@@ -4493,7 +4493,7 @@ static int rename_cmd(int nargs, char **args)
     printf("renaming `%s' to `%s'\n", src_name, dest_name);
 
     command = util_concat("r:", dest_name, "=", src_name, NULL);
-    charset_petconvstring((uint8_t *)command, 0);
+    charset_petconvstring((uint8_t *)command, CONVERT_TO_PETSCII);
 
     vdrive_command_execute(drives[dev],
                            (uint8_t *)command, (unsigned int)strlen(command));
@@ -4583,7 +4583,7 @@ static int tape_cmd(int nargs, char **args)
 
             dest_name_ascii = lib_calloc(1, name_len + 1);
             memcpy(dest_name_ascii, dest_name_petscii, name_len);
-            charset_petconvstring((uint8_t *)dest_name_ascii, 1);
+            charset_petconvstring((uint8_t *)dest_name_ascii, CONVERT_TO_ASCII);
 
             if (nargs > 2) {
                 int k;
@@ -4723,6 +4723,7 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
     size_t len;
     char buff[256];
     cbmdos_cmd_parse_t cmd_parse;
+    char *endp;
 
     while (dentries != 0) {
         int filetype, rc;
@@ -4756,7 +4757,8 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
         }
         buff[cnt] = 0;
 
-        if (util_string_to_long(buff, NULL, 10, &bsize) < 0) {
+        bsize = strtol(buff, &endp, 10);
+        if (buff == endp) {
             fprintf(stderr, "invalid Lynx file\n");
             return FD_RDERR;
         }
@@ -4797,7 +4799,8 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
         }
         buff[cnt] = 0;
 
-        if (util_string_to_long(buff, NULL, 10, &lbsize) < 0) {
+        lbsize = strtol(buff, &endp, 10);
+        if (buff == endp) {
             fprintf(stderr, "invalid Lynx file\n");
             return FD_RDERR;
         }
@@ -4863,7 +4866,7 @@ static int unlynx_cmd(int nargs, char **args)
     uint8_t val;
     char buff[256];
     int rc;
-    char *path;
+    char *path, *endp;
 
     if (nargs < 3) {
         dev = drive_index;
@@ -4927,7 +4930,8 @@ static int unlynx_cmd(int nargs, char **args)
 
     buff[cnt] = 0;
 
-    if (util_string_to_long(buff, NULL, 10, &dirsize) < 0 || dirsize <= 0) {
+    dirsize = strtol(buff, &endp, 10);
+    if ((buff == endp) || (dirsize <= 0)) {
         fprintf(stderr, "invalid Lynx file\n");
         fclose(f);
         lib_free(path);
@@ -4950,7 +4954,8 @@ static int unlynx_cmd(int nargs, char **args)
 
     buff[cnt] = 0;
 
-    if (util_string_to_long(buff, NULL, 10, &dentries) < 0 || dentries <= 0) {
+    dentries = strtol(buff, &endp, 10);
+    if ((buff == endp) || (dentries <= 0)) {
         fprintf(stderr, "invalid Lynx file\n");
         fclose(f);
         lib_free(path);
@@ -5072,7 +5077,7 @@ static int write_cmd(int nargs, char **args)
         if (dest_name != NULL) {
             char *lenptr;
 
-            charset_petconvstring((uint8_t *)dest_name, 0);
+            charset_petconvstring((uint8_t *)dest_name, CONVERT_TO_PETSCII);
 
             /* Convert "NAME,L,100" to "NAME,L,"+CHR$(100) */
             if ((lenptr = strstr(dest_name, ",L,"))) {
@@ -5367,7 +5372,7 @@ static int raw_cmd(int nargs, char **args)
     if (nargs >= 2) {
         char *command = lib_strdup(args[1]);
 
-        charset_petconvstring((uint8_t *)command, 0);
+        charset_petconvstring((uint8_t *)command, CONVERT_TO_PETSCII);
         vdrive_command_execute(vdrive, (uint8_t *)command, (unsigned int)strlen(command));
         lib_free(command);
     }

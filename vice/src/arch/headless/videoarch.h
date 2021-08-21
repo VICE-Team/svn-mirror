@@ -31,6 +31,7 @@
 #ifndef VICE_VIDEOARCH_H
 #define VICE_VIDEOARCH_H
 
+#include "tick.h"
 #include "video.h"
 
 typedef struct video_canvas_s {
@@ -58,6 +59,9 @@ typedef struct video_canvas_s {
     /** \brief Color palette for translating display results into
      *         window colors. */
     struct palette_s *palette;
+
+    /** \brief Used to limit frame rate under warp. */
+    tick_t warp_next_render_tick;
 } video_canvas_t;
 
 typedef struct vice_renderer_backend_s {

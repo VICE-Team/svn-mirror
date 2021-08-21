@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep_defs.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -209,22 +210,30 @@ static void monitor_binary_quit(void)
 
 int monitor_binary_receive(unsigned char *buffer, size_t buffer_length)
 {
-    int count = 0;
+    int bytes_received = 0;
+    int total_bytes_received = 0;
 
-    do {
-        if (!connected_socket) {
+    while (buffer_length && connected_socket) {
+        bytes_received = vice_network_receive(connected_socket, buffer, buffer_length, 0);
+
+        if (bytes_received <= 0) {
+            log_message(LOG_DEFAULT, "monitor_binary_receive(): vice_network_receive() returned %d, breaking connection", bytes_received);
+            monitor_binary_quit();
             break;
         }
 
-        count = vice_network_receive(connected_socket, buffer, buffer_length, 0);
-
-        if (count < 0) {
-            log_message(LOG_DEFAULT, "monitor_binary_receive(): vice_network_receive() returned -1, breaking connection");
-            monitor_binary_quit();
+        if (bytes_received < buffer_length) {
+            log_message(LOG_DEFAULT,
+                    "monitor_binary_receive(): received %d of %"PRI_SIZE_T,
+                    bytes_received, buffer_length);
         }
-    } while (0);
 
-    return count;
+        total_bytes_received += bytes_received;
+        buffer += bytes_received;
+        buffer_length -= bytes_received;
+    }
+
+    return total_bytes_received;
 }
 
 static int monitor_binary_data_available(void)
@@ -370,6 +379,22 @@ static MEMSPACE get_requested_memspace(uint8_t requested_memspace) {
     }
 }
 
+static uint8_t memspace_to_uint8_t(MEMSPACE mem) {
+    if (mem == e_comp_space) {
+        return 0;
+    } else if(mem == e_disk8_space) {
+        return 1;
+    } else if(mem == e_disk9_space) {
+        return 2;
+    } else if(mem == e_disk10_space) {
+        return 3;
+    } else if(mem == e_disk11_space) {
+        return 4;
+    } else {
+        return 0xff;
+    }
+}
+
 static void monitor_binary_response_register_info(uint32_t request_id, MEMSPACE memspace)
 {
     mon_reg_list_t *regs;
@@ -437,7 +462,7 @@ void monitor_binary_event_closed(void) {
  \param hit Is the checkpoint hit in the emulator?
 */
 void monitor_binary_response_checkpoint_info(uint32_t request_id, mon_checkpoint_t *checkpt, bool hit) {
-    unsigned char response[22];
+    unsigned char response[23];
     MEMORY_OP op = (MEMORY_OP)(
         (checkpt->check_store ? e_store : 0) 
         | (checkpt->check_load ? e_load : 0) 
@@ -457,6 +482,7 @@ void monitor_binary_response_checkpoint_info(uint32_t request_id, mon_checkpoint
     write_uint32((uint32_t)checkpt->hit_count, &response[13]);
     write_uint32((uint32_t)checkpt->ignore_count, &response[17]);
     response[21] = !!checkpt->condition;
+    response[22] = memspace_to_uint8_t(addr_memspace(checkpt->start_addr));
 
     monitor_binary_response(sizeof (response), e_MON_RESPONSE_CHECKPOINT_INFO, e_MON_ERR_OK, request_id, response);
 }
@@ -490,16 +516,28 @@ static void monitor_binary_process_checkpoint_set(binary_command_t *command)
 {
     int brknum;
     mon_checkpoint_t *checkpt;
+    MEMSPACE memspace = e_comp_space;
     unsigned char *body = command->body;
+    uint8_t requested_memspace = command->body[8];
 
     if (command->length < 8) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
         return;
     }
 
+    if(command->length >= 9) {
+        memspace = get_requested_memspace(requested_memspace);
+
+        if(memspace == e_invalid_space) {
+            monitor_binary_error(e_MON_ERR_INVALID_MEMSPACE, command->request_id);
+            log_message(LOG_DEFAULT, "monitor binary checkpoint set: Unknown memspace %u", requested_memspace);
+            return;
+        }
+    }
+
     brknum = mon_breakpoint_add_checkpoint(
-        (MON_ADDR)little_endian_to_uint16(&body[0]),
-        (MON_ADDR)little_endian_to_uint16(&body[2]),
+        (MON_ADDR)new_addr(memspace, little_endian_to_uint16(&body[0])),
+        (MON_ADDR)new_addr(memspace, little_endian_to_uint16(&body[2])),
         (bool)body[4],
         (MEMORY_OP)body[6],
         (bool)body[7],
@@ -1583,11 +1621,16 @@ int monitor_binary_get_command_line(void)
             continue;
         }
 
-        n = monitor_binary_receive(&buffer[1], sizeof(api_version) + sizeof(body_length));
+        n = 0;
 
-        if (n < sizeof(api_version) + sizeof(body_length)) {
-            monitor_binary_quit();
-            return 0;
+        while (n < sizeof(api_version) + sizeof(body_length)) {
+            int o = monitor_binary_receive(&buffer[1 + n], (sizeof(api_version) + sizeof(body_length)) - n);
+            if (o <= 0) {
+                monitor_binary_quit();
+                return 0;
+            }
+
+            n += o;
         }
 
         api_version = buffer[1];

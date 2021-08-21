@@ -33,6 +33,7 @@
 #include "6510core.h"
 #include "alarm.h"
 #include "archdep.h"
+#include "autostart.h"
 #include "debug.h"
 #include "interrupt.h"
 #include "log.h"
@@ -571,6 +572,8 @@ void maincpu_mainloop(void)
             log_error(LOG_DEFAULT, "cycle limit reached.");
             archdep_vice_exit(1);
         }
+
+        autostart_advance();
 #if 0
         if (CLK > 246171754) {
             debug.maincpu_traceflg = 1;

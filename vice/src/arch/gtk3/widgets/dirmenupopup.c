@@ -1,4 +1,4 @@
-    /** \file   dirmenupopup.c
+/** \file   dirmenupopup.c
  *  \brief  Create a menu to show a directory of a drive or tape deck
  *
  * FIXME: The current code depends way too much on internal/core code. The code
@@ -38,6 +38,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "charset.h"
 #include "csshelpers.h"
 #include "debug_gtk3.h"
 #include "diskimage.h"
@@ -253,7 +254,7 @@ GtkWidget *dir_menu_popup_create(
             debug_gtk3("Getting disk name & ID:");
             /* DISK name & ID */
 
-            tmp = image_contents_to_string(contents, 0);
+            tmp = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
             utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 1, false);
             item = gtk_menu_item_new_with_label(utf8);
 
@@ -272,7 +273,7 @@ GtkWidget *dir_menu_popup_create(
             for (entry = contents->file_list; entry != NULL;
                     entry = entry->next) {
 
-                tmp = image_contents_file_to_string(entry, 0);
+                tmp = image_contents_file_to_string(entry, IMAGE_CONTENTS_STRING_PETSCII);
                 utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0, false);
                 item = gtk_menu_item_new_with_label(utf8);
                 /* set extra data to used in the event handler */

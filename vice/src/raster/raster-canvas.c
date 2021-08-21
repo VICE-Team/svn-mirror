@@ -37,7 +37,7 @@
 #include "raster.h"
 #include "video.h"
 #include "viewport.h"
-
+#include "vsync.h"
 
 inline static void refresh_canvas(raster_t *raster)
 {
@@ -113,7 +113,7 @@ void raster_canvas_handle_end_of_frame(raster_t *raster)
         return;
     }
 
-    if (raster->skip_frame) {
+    if (vsync_should_skip_frame(raster->canvas)) {
         return;
     }
 

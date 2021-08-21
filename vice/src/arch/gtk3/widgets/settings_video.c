@@ -138,9 +138,6 @@ static void render_filter_callback(GtkWidget *widget, int value)
     index = GPOINTER_TO_INT(g_object_get_data(
                 G_OBJECT(gtk_widget_get_parent(widget)),
                 "ChipIndex"));
-
-    debug_gtk3("Called with value = %d, index = %d", value, index);
-
     vice_gtk3_resource_check_button_sync(double_size_widget[index]);
 }
 

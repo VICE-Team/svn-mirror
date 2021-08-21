@@ -50,7 +50,8 @@ extern void vsync_shutdown(void);
 extern void vsync_set_machine_parameter(double refresh_rate, long cycles);
 extern double vsync_get_refresh_frequency(void);
 extern void vsync_do_end_of_line(void);
-extern int vsync_do_vsync(struct video_canvas_s *c, int been_skipped);
+extern bool vsync_should_skip_frame(struct video_canvas_s *canvas);
+extern void vsync_do_vsync(struct video_canvas_s *c);
 extern void vsync_on_vsync_do(vsync_callback_func_t callback_func, void *callback_param);
 
 #endif

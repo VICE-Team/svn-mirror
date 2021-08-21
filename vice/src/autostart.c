@@ -463,20 +463,23 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
 
     mem_get_cursor_parameter(&screen_addr, &cursor_column, &line_length, &blinking);
 
-    DBGWAIT(("check2(%s) screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d",
-         s, screen_addr, cursor_column, line_length, lineoffset, blinking));
-
-    if (!kbdbuf_is_empty()) {
+    if (!kbdbuf_is_empty() || !kbdbuf_queue_is_empty()) {
+        DBGWAIT(("check2(%s) [kbd buffer not empty] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+            s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
         return NOT_YET;
     }
 
     if (blink_mode == AUTOSTART_WAIT_BLINK) {
         /* wait until cursor is in the first column */
         if (cursor_column != 0) {
+            DBGWAIT(("check2(%s) [cursor not in 1st column] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+                s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
             return NOT_YET;
         }
         /* if blink state can be checked, wait until the cursor is in "on" state */
         if ((blinking != -1) && (blinking == 0)) {
+            DBGWAIT(("check2(%s) [cursor not in ON state] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+                s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
             return NOT_YET;
         }
         /* now we expect the string in the previous line (typically "READY.") */
@@ -487,16 +490,20 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
 
     addr += line_length * lineoffset;
 
-    DBGWAIT(("check2 addr:%04x", addr));
+    DBGWAIT(("check2(%s) effective addr:%04x screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+        s, addr, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
 
     for (i = 0; s[i] != '\0'; i++) {
         int checkbyte = mem_read_screen((uint16_t)(addr + i) & 0xffff);
-        DBGWAIT(("checkbyte: %04x:%02x (expected:%02x)",
+        DBGWAIT(("checkbyte: %04x:%02x '%c' (expected:%02x '%c')",
                     (unsigned int)(addr + i),
-                    (unsigned int)checkbyte,
-                    (unsigned int)(s[i] % 64)));
+                    (unsigned int)checkbyte, (int)(checkbyte % 0x3f) + 64,
+                    (unsigned int)(s[i] % 64), (int)(s[i] % 64) + 64));
         if (checkbyte != s[i] % 64) {
-            if (checkbyte != (uint8_t)32) {
+            if (checkbyte != 0x20
+                && checkbyte != 0xC
+                && checkbyte != 0x13
+                ) {
                 DBGWAIT(("check2: return NO"));
                 return NO;
             }
@@ -593,8 +600,6 @@ static void disable_warp_if_was_requested(void)
 static void check_rom_area(void)
 {
     static int lastmode = -1;
-    static int checkdelay = 0;
-    static int checkflag = 0;
 
     /* enter ROM ? */
     if (!entered_rom) {
@@ -603,7 +608,6 @@ static void check_rom_area(void)
             entered_rom = 1;
         }
         lastmode = autostartmode;
-        checkdelay = checkflag = 0;
     } else {
         /* special case for auto-starters: ROM left. We also consider
          * BASIC area to be ROM, because it's responsible for writing "READY."
@@ -614,19 +618,11 @@ static void check_rom_area(void)
          */
         if (lastmode != autostartmode) {
             lastmode = autostartmode;
-            checkdelay = checkflag = 0;
         }
         if (machine_addr_in_ram(reg_pc)) {
-            if (!checkflag) {
-                log_message(autostart_log, "Left ROM for $%04x", reg_pc);
-                checkflag = 1;
-            }
-            checkdelay++;
-        }
-        if (checkdelay > 2) {
+            log_message(autostart_log, "Left ROM for $%04x", reg_pc);
             log_message(autostart_log, "aborting.");
             lastmode = -1;
-            checkdelay = checkflag = 0;
             disable_warp_if_was_requested();
             autostart_done(); /* -> AUTOSTART_DONE */
         }
@@ -969,7 +965,7 @@ static void advance_hasdisk(int unit, int drive)
     char *tmp, *temp_name;
     char drivestring[3] = {'0',':',0};
 
-    DBG(("advance_hasdisk(unit: %d drive: %d)", unit, drive));
+    /* DBG(("advance_hasdisk(unit: %d drive: %d)", unit, drive)); */
 
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
         case YES:
@@ -1331,7 +1327,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostart_initial_delay_cycles =
         (CLOCK)(((AutostartDelay == 0) ? AutostartDelayDefaultSeconds : AutostartDelay)
                         * machine_get_cycles_per_second());
-    DBG(("reboot_for_autostart AutostartDelay: %d AutostartDelayDefaultSeconds: %d autostart_initial_delay_cycles: %u\n",
+    DBG(("reboot_for_autostart AutostartDelay: %d AutostartDelayDefaultSeconds: %d autostart_initial_delay_cycles: %"PRIu64"\n",
            AutostartDelay, AutostartDelayDefaultSeconds, autostart_initial_delay_cycles));
 
     resources_get_int("AutostartDelayRandom", &rnd);
@@ -1339,7 +1335,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
         /* additional random delay of up to 10 frames */
         autostart_initial_delay_cycles += lib_unsigned_rand(1, (int)machine_get_cycles_per_frame() * 10);
     }
-    DBG(("reboot_for_autostart - autostart_initial_delay_cycles: %u", autostart_initial_delay_cycles));
+    DBG(("reboot_for_autostart - autostart_initial_delay_cycles: %"PRIu64, autostart_initial_delay_cycles));
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 
@@ -1519,7 +1515,6 @@ static void setup_for_disk(int unit, int drive)
 */
 static void setup_for_disk_ready(int unit, int drive)
 {
-    printf("setup_for_disk_ready\n");
     if (handle_drive_true_emulation_overridden) {
         /* disable TDE if device traps are enabled,
            enable TDE if device traps are disabled */
@@ -1618,12 +1613,16 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
                 if (file_system_attach_disk(unit, drive, file_name) < 0) {
                     goto exiterror;
                 }
-                if (!get_true_drive_emulation_state(unit)) {
+                /* if TDE was enabled before autostarting but is disabled now, enable it again */
+                if (orig_drive_true_emulation_state && !get_true_drive_emulation_state(unit)) {
                     log_message(autostart_log, "Turning TDE on to allow drive reset");
                     set_true_drive_emulation_mode(1, unit);
                 }
-                log_message(autostart_log, "Resetting drive %d", unit);
-                drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
+                /* if TDE is now enabled, trigger a drive reset */
+                if (get_true_drive_emulation_state(unit)) {
+                    log_message(autostart_log, "Resetting drive %d", unit);
+                    drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
+                }
             }
 #endif
             autostart_type = AUTOSTART_DISK_IMAGE;
@@ -1752,7 +1751,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             setup_for_disk(unit, drive);
             /* create the directory where the image should be written first */
             util_fname_split(AutostartPrgDiskImage, &savedir, NULL);
-            if ((savedir != NULL) && (*savedir != 0) && (!strcmp(savedir, "."))) {
+            if ((savedir != NULL) && (*savedir != 0) && (strcmp(savedir, "."))) {
                 ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
             }
             lib_free(savedir);
@@ -1777,12 +1776,16 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             boot_file_name = (const char *)tempname;
             }
             /* enable TDE and reset the drive to prepare the eof callback */
-            if (!get_true_drive_emulation_state(unit)) {
+            /* if TDE was enabled before autostarting but is disabled now, enable it again */
+            if (orig_drive_true_emulation_state && !get_true_drive_emulation_state(unit)) {
                 log_message(autostart_log, "Turning TDE on to allow drive reset");
                 set_true_drive_emulation_mode(1, unit);
             }
-            log_message(autostart_log, "Resetting drive %d", unit);
-            drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
+            /* if TDE is now enabled, trigger a drive reset */
+            if (get_true_drive_emulation_state(unit)) {
+                log_message(autostart_log, "Resetting drive %d", unit);
+                drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
+            }
 
             autostart_type = AUTOSTART_PRG_DISK;
             break;
@@ -1858,7 +1861,7 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name,
         if (util_file_exists(autostart_file)) {
             char *name;
 
-            charset_petconvstring((uint8_t *)autostart_prg_name, 0);
+            charset_petconvstring((uint8_t *)autostart_prg_name, CONVERT_TO_PETSCII);
             name = charset_replace_hexcodes(autostart_prg_name);
             result = autostart_autodetect(autostart_file, name, 0, runmode);
             lib_free(name);

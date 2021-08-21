@@ -98,6 +98,7 @@
 #include "plus256k.h"
 #include "plus60k.h"
 #include "printer.h"
+#include "protopad.h"
 #include "psid.h"
 #include "resources.h"
 #include "rs232drv.h"
@@ -708,6 +709,10 @@ int machine_resources_init(void)
     }
     if (joyport_ninja_snespad_resources_init() < 0) {
         init_resource_fail("joyport ninja snespad");
+        return -1;
+    }
+    if (joyport_protopad_resources_init() < 0) {
+        init_resource_fail("joyport protopad");
         return -1;
     }
     if (joyport_spaceballs_resources_init() < 0) {
@@ -1366,8 +1371,6 @@ static void machine_vsync_hook(void)
 
     drive_vsync_hook();
 
-    autostart_advance();
-
     screenshot_record();
 }
 
@@ -1572,7 +1575,12 @@ static int check_cart_range(unsigned int addr)
 /* returns TRUE if in RAM */
 int machine_addr_in_ram(unsigned int addr)
 {
-    return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) && check_cart_range(addr));
+    return (
+        (addr < 0xe000
+            && !(addr >= 0xa000 && addr < 0xc000)
+            && !(addr >= 0x0073 && addr <= 0x008a))
+        && check_cart_range(addr)
+        );
 }
 
 const char *machine_get_name(void)

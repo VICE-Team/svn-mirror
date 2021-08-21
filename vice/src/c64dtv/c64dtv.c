@@ -83,6 +83,7 @@
 #include "parallel.h"
 #include "patchrom.h"
 #include "printer.h"
+#include "protopad.h"
 #include "ps2mouse.h"
 #include "resources.h"
 #include "rs232drv.h"
@@ -452,6 +453,10 @@ int machine_resources_init(void)
     }
     if (joyport_ninja_snespad_resources_init() < 0) {
         init_resource_fail("joyport ninja snespad");
+        return -1;
+    }
+    if (joyport_protopad_resources_init() < 0) {
+        init_resource_fail("joyport protopad");
         return -1;
     }
     if (joyport_inception_resources_init() < 0) {
@@ -887,8 +892,6 @@ static void machine_vsync_hook(void)
 
     drive_vsync_hook();
 
-    autostart_advance();
-
     screenshot_record();
 }
 
@@ -1067,14 +1070,31 @@ int tapecart_attach_tcrt(const char *filename, void *unused)
 
 int machine_addr_in_ram(unsigned int addr)
 {
-    /* Hack to make autostarting prg files work */
-    if ((addr >= 0x871) && (addr <= 0x872)) {
+    /* Hack to make autostarting prg files work - the DTV splash screen runs from RAM */
+    if (maincpu_clk <= 6817181 && addr >= 0x824 && addr <= 0x884) {
         return 0;
     }
+    
+#if 0
+    /*
+     * If autostart stops working on DTV, use this to check if the splash screen is
+     * excuting stuff from RAM, in which case modify the above check.
+     */
+    if (
+        addr < 0xe000
+            && !(addr >= 0xa000 && addr < 0xc000)
+            && !(addr >= 0x0073 && addr <= 0x008a)) {
+        log_message(LOG_DEFAULT, "%llu RAM: %x", maincpu_clk, addr);
+        return 0;
+    }
+#endif
 
     /* NOTE: while the RAM/ROM distinction is more complicated, this is
        sufficient from autostart's perspective */
-    return (addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) ? 1 : 0;
+    return (
+        addr < 0xe000
+            && !(addr >= 0xa000 && addr < 0xc000)
+            && !(addr >= 0x0073 && addr <= 0x008a));
 }
 
 const char *machine_get_name(void)

@@ -52,6 +52,11 @@ static int pot_port_mask = 1;
 
 static uint8_t joyport_dig_stored[JOYPORT_MAX_PORTS];
 
+static uint8_t joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
+static char *joystick_adapter_name = NULL;
+static int joystick_adapter_ports = 0;
+static int joystick_adapter_additional_ports = 0;
+
 typedef struct resid2text_s {
     int resid;
     const char *text;
@@ -79,6 +84,23 @@ static const char *res2text(int joyport_id)
 void set_joyport_pot_mask(int mask)
 {
     pot_port_mask = mask;
+}
+
+static int joyport_device_is_single_port(int id)
+{
+    switch (id) {
+        case JOYPORT_ID_NONE:
+        case JOYPORT_ID_JOYSTICK:
+        case JOYPORT_ID_TRAPTHEM_SNESPAD:
+        case JOYPORT_ID_BBRTC:
+        case JOYPORT_ID_PAPERCLIP64:
+        case JOYPORT_ID_SCRIPT64_DONGLE:
+        case JOYPORT_ID_VIZAWRITE64_DONGLE:
+        case JOYPORT_ID_WAASOFT_DONGLE:
+        case JOYPORT_ID_PROTOPAD:
+            return 0;
+    }
+    return 1;
 }
 
 /* attach device 'id' to port 'port' */
@@ -112,7 +134,7 @@ static int joyport_set_device(int port, int id)
     }
 
     /* check if id conflicts with devices on other ports */
-    if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK) {
+    if (joyport_device_is_single_port(id)) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joy_port[i] == id) {
                 ui_error("Selected control port device %s on %s is already attached to %s", joyport_device[id].name, port_props[port].name, port_props[i].name);
@@ -122,7 +144,7 @@ static int joyport_set_device(int port, int id)
     }
 
     /* check if input resource conflicts with device on the other port */
-    if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE) {
+    if (joyport_device_is_single_port(id) && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joyport_device[id].resource_id == joyport_device[joy_port[i]].resource_id) {
                 ui_error("Selected control port device %s on %s uses same host input resource (%s) as the device attached to %s", joyport_device[id].name, port_props[port].name, res2text(joyport_device[id].resource_id), port_props[i].name);
@@ -132,7 +154,7 @@ static int joyport_set_device(int port, int id)
     }
 
     /* check if device can be connected to this port */
-    if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].is_lp && !port_props[port].has_lp_support) {
+    if (joyport_device_is_single_port(id) && joyport_device[id].is_lp && !port_props[port].has_lp_support) {
         ui_error("Selected control port device %s cannot be attached to %s", joyport_device[id].name, port_props[port].name);
         return -1;
     }
@@ -208,7 +230,7 @@ void store_joyport_dig(int port, uint8_t val, uint8_t mask)
     store_val &= (uint8_t)~mask;
     store_val |= val;
 
-    joyport_device[id].store_digital(store_val);
+    joyport_device[id].store_digital(port, store_val);
 
     joyport_dig_stored[port] = store_val;
 }
@@ -401,6 +423,17 @@ int joyport_port_register(int port, joyport_port_props_t *props)
     return 0;
 }
 
+static int joystick_adapter_is_snes_adapter(int id)
+{
+    switch (id) {
+        case JOYSTICK_ADAPTER_ID_NINJA_SNES:
+        case JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES:
+        case JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64:
+            return 1;
+    }
+    return 0;
+}
+
 static int check_valid_lightpen(int port, int index)
 {
     if (!joyport_device[index].is_lp) {
@@ -434,6 +467,23 @@ static int check_valid_adapter(int port, int index)
     return 0;
 }
 
+static int check_valid_snes_adapter(int port, int index)
+{
+    if (port <= JOYPORT_2) {
+        return 1;
+    }
+    if (!joystick_adapter_is_snes_adapter(joystick_adapter_id)) {
+        return 1;
+    }
+    if (!index) {
+        return 1;
+    }
+    if (index == JOYPORT_ID_JOYSTICK) {
+        return 1;
+    }
+    return 0;
+}
+
 static int joyport_valid_devices_compare_names(const void* a, const void* b)
 {
     const joyport_desc_t *arg1 = (const joyport_desc_t*)a;
@@ -459,7 +509,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i)) {
                 ++valid;
             }
         }
@@ -468,7 +518,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
     retval = lib_malloc(((size_t)valid + 1) * sizeof(joyport_desc_t));
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i)) {
                 retval[j].name = joyport_device[i].name;
                 retval[j].id = i;
                 retval[j].device_type = joyport_device[i].device_type;
@@ -600,11 +650,6 @@ char *joyport_get_port_name(int port)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
-static char *joystick_adapter_name = NULL;
-static int joystick_adapter_ports = 0;
-static int joystick_adapter_additional_ports = 0;
-
 char *joystick_adapter_get_name(void)
 {
     return joystick_adapter_name;
@@ -618,6 +663,8 @@ uint8_t joystick_adapter_get_id(void)
 /* returns 1 on success */
 uint8_t joystick_adapter_activate(uint8_t id, char *name)
 {
+    int i;
+
     if (joystick_adapter_id) {
         if (id == joystick_adapter_id) {
             joystick_adapter_name = name;
@@ -630,6 +677,16 @@ uint8_t joystick_adapter_activate(uint8_t id, char *name)
 
     joystick_adapter_id = id;
     joystick_adapter_name = name;
+
+    /* if the joystick adapter is a SNES adapter, make sure the devices on ports 3-10 are 'none' or 'joystick' only */
+    if (joystick_adapter_is_snes_adapter(id)) {
+        for (i = JOYPORT_3; i < JOYPORT_MAX_PORTS; i++) {
+            if (joy_port[i] != JOYPORT_ID_NONE && joy_port[i] != JOYPORT_ID_JOYSTICK) {
+                /* set device to joystick if it was not 'none' or 'joystick' before */
+                joyport_set_device(i, JOYPORT_ID_JOYSTICK);
+            }
+        }
+    }
     return 1;
 }
 

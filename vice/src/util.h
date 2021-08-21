@@ -59,16 +59,13 @@ extern off_t util_file_length(FILE *fd);
 extern int util_file_exists(const char *name);
 extern int util_file_load(const char *name, uint8_t *dest, size_t size,
                           unsigned int load_flag);
-extern int util_file_load_string(const char *name, char **dest);
+extern int util_file_load_string(FILE *fd, char **dest);
 extern int util_file_save(const char *name, uint8_t *src, int size);
-extern char *util_file_data_path(char *data_dir, char *file_name);
 
 extern int util_get_line(char *buf, int bufsize, FILE *f);
 extern void util_fname_split(const char *path, char **directory_return,
                              char **name_return);
 
-extern int util_string_to_long(const char *str, const char **endptr, int base,
-                               long *result);
 extern char *util_subst(const char *s, const char *string,
                         const char *replacement);
 extern int util_string_set(char **str, const char *new_value);

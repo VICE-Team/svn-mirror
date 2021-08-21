@@ -214,6 +214,12 @@ int kbdbuf_is_empty(void)
     return (int)(mem_read((uint16_t)(num_pending_location)) == 0);
 }
 
+/* Return nonzero if there are keys in the buffer queue */
+int kbdbuf_queue_is_empty(void)
+{
+    return num_pending > 0 ? 0 : 1;
+}
+
 /* Feed `string' into the incoming queue.  */
 static int string_to_queue(const char *string)
 {
@@ -320,9 +326,9 @@ int kbdbuf_feed_runcmd(const char *string)
 void kbdbuf_flush(void)
 {
     static bool prevent_recursion = false;
-    
+
     unsigned int i, n;
-    
+
     /* memory write side effects can end up calling draw handler -> vsync end of line -> kbdbuf_flush infinitely */
     if (prevent_recursion) {
         return;

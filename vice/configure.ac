@@ -29,11 +29,16 @@ VICE_CXXFLAGS="-g -O3"
 VICE_OBJCFLAGS="-g -O3"
 VICE_LDFLAGS=""
 
+dnl Avoid "ar: `u' modifier ignored since `D' is the default (see `U')" warning
+dnl caused by a longstanding bug in libtool.
+dnl See https://github.com/rsyslog/rsyslog/issues/1179 for some details.
+: ${ARFLAGS="cr"}
+: ${AR_FLAGS="cr"}
+AC_SUBST(ARFLAGS)
+AC_SUBST(AR_FLAGS)
 
 AC_CONFIG_MACRO_DIR([m4])
 
-dnl Again: sed substitutes this
-dnl NO, it doesn't
 VICE_VERSION_MAJOR=vice_version_major
 VICE_VERSION_MINOR=vice_version_minor
 VICE_VERSION_BUILD=vice_version_build
@@ -733,25 +738,6 @@ if test x"$ar_check" != "xno"; then
   fi
 fi
 
-dnl check if ar needs a wrapper to get rid of the 'u' option
-if test x"$ar_check" != "xno"; then
-  AC_MSG_CHECKING(if ar complains about the 'u' option)
-  rm -f vicetest.c
-  touch vicetest.c
-  $CC -c vicetest.c -o vicetest.o
-  rm -f vicetest.c
-  rm -f libvicetest.a
-  complains=`$AR cru libvicetest.a vicetest.o 2>&1`
-  if test x"$complains" != "x"; then
-    AC_MSG_RESULT(yes)
-    echo "using ar wrapper instead of ar directly"
-    AR_WRAP="$AR"
-    AR="\$(top_srcdir)/src/wrap-u-ar.sh \"$AR_WRAP\""
-  else
-    AC_MSG_RESULT(no)
-  fi
-  rm -f libvicetest.a vicetest.o
-fi
 
 AM_CONDITIONAL(USE_SVN_REVISION,false)
 AM_CONDITIONAL(USE_SVN_REVISION_OVERRIDE,false)
@@ -963,10 +949,10 @@ darwin*)
   RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
   AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
 
-  dnl target OSX 10.9
-  VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=10.9"
-  VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=10.9"
-  VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=10.9"
+  dnl target OSX 10.10
+  VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=10.10"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=10.10"
+  VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=10.10"
 
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
@@ -987,11 +973,15 @@ darwin*)
   MAC_LDFLAGS="-headerpad_max_install_names"
   MAC_FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit -framework CoreGraphics"
 
-  AC_CHECK_FILE(/opt/local/include, [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/local/include" ])
-  AC_CHECK_FILE(/opt/local/lib,     [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib" ])
+  AC_CHECK_FILE(/opt/local/include,         [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/local/include" ])
+  AC_CHECK_FILE(/opt/local/include/libomp,  [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/local/include/libomp" ])
+  AC_CHECK_FILE(/opt/local/lib,             [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib" ])
+  AC_CHECK_FILE(/opt/local/lib/libomp,      [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/local/lib/libomp -Wl,-rpath,/opt/local/lib/libomp" ])
 
-  AC_CHECK_FILE(/usr/local/include, [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include" ])
-  AC_CHECK_FILE(/usr/local/lib,     [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib -Wl,-rpath,/usr/local/lib" ])
+  AC_CHECK_FILE(/usr/local/include,         [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include" ])
+  AC_CHECK_FILE(/usr/local/include/libomp,  [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include/libomp" ])
+  AC_CHECK_FILE(/usr/local/lib,             [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib -Wl,-rpath,/usr/local/lib" ])
+  AC_CHECK_FILE(/usr/local/lib/libomp,      [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib/libomp -Wl,-rpath,/usr/local/lib/libomp" ])
   
   CPPFLAGS="$CPPFLAGS $MAC_CCPFLAGS"
   VICE_CPPFLAGS="$VICE_CPPFLAGS $MAC_CCPFLAGS"
@@ -1064,6 +1054,55 @@ else
 fi
 
 AC_SUBST(DEBUGBUILD)
+
+dnl
+dnl Check for compiler support for OpenMP and a multi-core host
+dnl
+TEST_OPENMP_C=" #include <omp.h>
+                int main(int argc, char **argv) {
+                  int thread_count = 0;
+                  #pragma omp parallel reduction(+:thread_count)
+                  thread_count += 1;
+                  if (thread_count > 1)
+                    return 0;
+                  return 1;
+                }"
+
+have_openmp="no"
+AC_MSG_CHECKING([for native OpenMP and multiple cores])
+ORIG_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -fopenmp"
+AC_TRY_RUN( [ $TEST_OPENMP_C ],                
+            [ AC_MSG_RESULT(yes)
+              have_openmp="yes"
+              VICE_CFLAGS="$VICE_CFLAGS -fopenmp"
+              VICE_CXXFLAGS="$VICE_CXXFLAGS -fopenmp"
+              VICE_LDFLAGS="$VICE_LDFLAGS -fopenmp" ],
+            [ AC_MSG_RESULT(no) ])
+CFLAGS=$ORIG_CFLAGS
+
+if test x"$have_openmp" != "xyes"; then
+  if test x"$is_unix_macosx" = "xyes"; then
+    
+    dnl
+    dnl Xcode ships cland without OpenMP, but it can be installed with macports / brew.
+    dnl
+
+    AC_MSG_CHECKING([for MacPorts / Homebrew OpenMP and multiple cores])
+    ORIG_CFLAGS="$CFLAGS"
+    CFLAGS="$CFLAGS -Xpreprocessor -fopenmp -lomp"
+    AC_TRY_RUN( [ $TEST_OPENMP_C ],
+                [ AC_MSG_RESULT(yes)
+                  have_openmp="yes"
+                  VICE_CFLAGS="$VICE_CFLAGS -Xpreprocessor -fopenmp"
+                  VICE_CXXFLAGS="$VICE_CXXFLAGS -Xpreprocessor -fopenmp"
+                  LIBS="$LIBS -lomp"
+                  ],
+                [ AC_MSG_RESULT(no)
+                  CFLAGS=$ORIG_CFLAGS ])
+    CFLAGS=$ORIG_CFLAGS
+  fi
+fi
 
 
 dnl Check for threading code debugging
@@ -3839,10 +3878,11 @@ echo ""
 echo "configure summary:"
 echo ""
 
-echo "Platform canonical: $ac_cv_host"
-echo "Architecture      : $show_arch"
-echo "GUI               : $show_gui"
-echo "Multithreaded     : $show_multithreaded"
+echo "Platform canonical : $ac_cv_host"
+echo "Architecture       : $show_arch"
+echo "GUI                : $show_gui"
+echo "Multithreaded UI   : $show_multithreaded"
+echo "OpenMP             : $have_openmp"
 echo ""
 
 echo "SCREEN/UI"

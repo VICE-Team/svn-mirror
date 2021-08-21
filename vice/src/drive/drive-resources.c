@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUGDRIVE
+/* #define DEBUGDRIVE */
 
 #include "vice.h"
 

@@ -33,6 +33,7 @@
 
 #include "debug_gtk3.h"
 
+#include "archdep_defs.h"
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
@@ -41,8 +42,14 @@
 #include "uiabout.h"
 #include "uistatusbar.h"
 #include "util.h"
+#include "uimachinemenu.h"
 
 #include "uimenu.h"
+
+
+/** \brief  Size of the menu references array
+ */
+#define MENU_REFERENCES_MAX     256
 
 
 /** \brief  Menu accelerator object
@@ -56,6 +63,7 @@ typedef struct ui_accel_data_s {
 /** \brief  Reference to the accelerator group
  */
 static GtkAccelGroup *accel_group = NULL;
+
 
 
 /** \brief  Create an empty submenu and add it to a menu bar
@@ -161,6 +169,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
         GtkWidget *item = NULL;
         GtkWidget *submenu;
         ui_accel_data_t *accel_data = NULL;
+        gulong handler_id = 0;
 
         switch (items[i].type) {
             case UI_MENU_TYPE_ITEM_ACTION:  /* fall through */
@@ -201,13 +210,13 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                     /* connect signal handler AFTER setting the state, otherwise
                      * the callback gets triggered, leading to odd results */
                     if (items[i].unlocked) {
-                        g_signal_connect_unlocked(
+                        handler_id = g_signal_connect_unlocked(
                             item,
                             "activate",
                             G_CALLBACK(items[i].callback),
                             items[i].data);
                     } else {
-                        g_signal_connect(
+                        handler_id = g_signal_connect(
                             item,
                             "activate",
                             G_CALLBACK(items[i].callback),
@@ -263,8 +272,24 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
             /* the closure's callback doesn't trigger due to mysterious reasons,
              * so we use the menu item to free the accelerator's data
              */
-            g_signal_connect_unlocked(item, "destroy", G_CALLBACK(on_menu_item_destroy),
-                    accel_data);
+            g_signal_connect_unlocked(item,
+                                      "destroy",
+                                      G_CALLBACK(on_menu_item_destroy),
+                                      accel_data);
+
+            /* set signal handler ID of the 'activate' signal which we later
+             * have to use to toggle the checkbox from the callback while
+             * temporarily blocking the signal handler to avoid recursively
+             * triggering the callback.
+             */
+            g_object_set_data(G_OBJECT(item),
+                              "HandlerID",
+                              GULONG_TO_POINTER(handler_id));
+
+            /* set action name */
+            g_object_set_data(G_OBJECT(item),
+                              "ActionName",
+                              items[i].action_name);
         }
         i++;
     }
@@ -282,3 +307,112 @@ void ui_menu_init_accelerators(GtkWidget *window)
     gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
 }
 
+
+/** \brief  Recursively look up \a name in \a submenu
+ *
+ * \param[in]   submenu GtkMenuItem
+ * \param[in]   name    item action name
+ *
+ * \return  GtkMenuItem or `NULL` when not found
+ */
+GtkWidget *ui_get_gtk_submenu_item_by_name(GtkWidget *submenu, const char *name)
+{
+    GList *node = gtk_container_get_children(GTK_CONTAINER(submenu));
+
+#if 0
+    debug_gtk3("Iterating children of submenu.");
+#endif
+    while (node != NULL) {
+        GtkWidget *item = node->data;
+        if (GTK_IS_CONTAINER(item)) {
+            const char *action_name = g_object_get_data(G_OBJECT(item),
+                                                    "ActionName");
+            if (action_name != NULL) {
+#if 0
+                debug_gtk3("Checking action-name '%s' against '%s'.",
+                        action_name, name);
+#endif
+                if (strcmp(action_name, name) == 0) {
+#if 0
+                    debug_gtk3("FOUND");
+#endif
+                    return GTK_WIDGET(item);
+                }
+            } else {
+                item = ui_get_gtk_submenu_item_by_name(item, name);
+                if (item != NULL) {
+                    return item;
+                }
+            }
+        }
+        node = node->next;
+    }
+
+    return NULL;
+}
+
+
+/** \brief  Set checkbox menu \a item to \a state while blocking its handler
+ *
+ * Set a checkbox menu item's state while blocking the 'activate' handler so
+ * the handler won't recursively call itself.
+ *
+ * \param[in,out]   item    GtkCheckMenuItem instance
+ * \param[in]       state   new state for \a item
+ */
+void ui_set_gtk_check_menu_item_blocked(GtkWidget *item, gboolean state)
+{
+    gulong handler_id = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(item), "HandlerID"));
+#if 0
+    debug_gtk3("HandlerID = %lu.", handler_id);
+#endif
+    /* block signal handler */
+    g_signal_handler_block(item, handler_id);
+    /* update state */
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), state);
+    /* unblock signal handler */
+    g_signal_handler_unblock(item, handler_id);
+}
+
+
+/** \brief  Set checkbox menu item \a name to \a state while blocking its handler
+ *
+ * Set a checkbox menu item's state while blocking the 'activate' handler so
+ * the handler won't recursively call itself.
+ *
+ * \param[in]   name    item name
+ * \param[in]   state   new state for \a name
+ */
+void ui_set_gtk_check_menu_item_blocked_by_name(const char *name, gboolean state)
+{
+    GtkWidget *item;
+
+    item = ui_get_gtk_menu_item_by_name(name);
+    if (item != NULL) {
+        ui_set_gtk_check_menu_item_blocked(item, state);
+    }
+}
+
+
+/** \brief  Set checkbox menu item \a name to value of \a resource
+ *
+ * Set a checkbox menu item's state via a boolean resource while blocking the
+ * 'activate' handler so the handler won't recursively call itself.
+ *
+ * \param[in]   name        item name
+ * \param[in]   resource    boolean resource to use for the item's state
+ */
+void ui_set_gtk_check_menu_item_blocked_by_resource(const char *name,
+                                                    const char *resource)
+{
+    GtkWidget *item;
+
+    item = ui_get_gtk_menu_item_by_name(name);
+    if (item != NULL) {
+        int value;
+
+        if (resources_get_int(resource, &value) == 0) {
+            ui_set_gtk_check_menu_item_blocked(item, (gboolean)value);
+        }
+    }
+}

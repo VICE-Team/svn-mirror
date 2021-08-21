@@ -106,6 +106,19 @@ int main_program(int argc, char **argv)
     int loadconfig = 1;
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
+    int reserr;
+
+    /*
+     * OpenMP defaults to spinning threads for a couple hundred ms
+     * after they are used, which means they max out forever in our
+     * use case. Setting OMP_WAIT_POLICY to PASSIVE fixes that.
+     */
+    
+#if defined(WIN32_COMPILE)
+    _putenv("OMP_WAIT_POLICY=PASSIVE");
+#else
+    setenv("OMP_WAIT_POLICY", "PASSIVE", 1);
+#endif
 
     lib_init();
 
@@ -116,6 +129,7 @@ int main_program(int argc, char **argv)
        -console => no user interface
        -verbose => more verbose logging
        -silent => no logging
+       -seed => set the random seed
     */
     DBG(("main:early cmdline(argc:%d)\n", argc));
     for (i = 1; i < argc; i++) {
@@ -136,6 +150,10 @@ int main_program(int argc, char **argv)
         } else if ((!strcmp(argv[i], "-silent")) || (!strcmp(argv[i], "--silent"))) {
             log_set_silent(1);
             log_set_verbose(0);
+        } else if ((!strcmp(argv[i], "-seed")) || (!strcmp(argv[i], "--seed"))) {
+            if ((i + 1) < argc) {
+                lib_rand_seed(strtoul(argv[++i], NULL, 0));
+            }
         } else {
             break;
         }
@@ -195,7 +213,8 @@ int main_program(int argc, char **argv)
 
     if ((!ishelp) && (loadconfig)) {
         /* Load the user's default configuration file.  */
-        if (resources_reset_and_load(NULL) < 0) {
+        reserr = resources_load(NULL);
+        if (reserr < 0 && reserr != RESERR_FILE_NOT_FOUND) {
             /* The resource file might contain errors, and thus certain
             resources might have been initialized anyway.  */
             if (resources_set_defaults() < 0) {

@@ -80,6 +80,7 @@
 #include "paperclip64.h"
 #include "parallel.h"
 #include "printer.h"
+#include "protopad.h"
 #include "resources.h"
 #include "rs232drv.h"
 #include "sampler.h"
@@ -378,6 +379,10 @@ int machine_resources_init(void)
     }
     if (joyport_ninja_snespad_resources_init() < 0) {
         init_resource_fail("joyport ninja snespad");
+        return -1;
+    }
+    if (joyport_protopad_resources_init() < 0) {
+        init_resource_fail("joyport protopad");
         return -1;
     }
     if (joyport_inception_resources_init() < 0) {
@@ -915,8 +920,6 @@ static void machine_vsync_hook(void)
 {
     drive_vsync_hook();
 
-    autostart_advance();
-
     screenshot_record();
 }
 
@@ -1074,7 +1077,21 @@ uint8_t machine_tape_behaviour(void)
 int machine_addr_in_ram(unsigned int addr)
 {
     /* FIXME: handle the banking */
-    return (addr < 0xe000 && !(addr >= 0x8000 && addr < 0xc000)) ? 1 : 0;
+    
+    if (addr >= 0x25a && addr <= 0x25d) {
+        /* 'Pickup subroutine' */
+        return 0;
+    }
+    
+    if (addr >= 0x8000 && addr < 0xc000) {
+        return 0;
+    }
+    
+    if (addr > 0xe000) {
+        return 0;
+    }
+    
+    return 1;
 }
 
 const char *machine_get_name(void)

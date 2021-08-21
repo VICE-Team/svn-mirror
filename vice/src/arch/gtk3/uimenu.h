@@ -33,99 +33,27 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-/** \brief  Menu item types
- *
- * The submenu types needs special handling, no more callbacks to create the
- * menu so we won't have to deal with the `ui_update_checmarks` crap of Gtk2.
- *
- * The 'layer' between VICE and Gtk3 should be as thin as possible, so no
- * UI_CREATE_TOGGLE_BUTTON() stuff.
- */
-typedef enum ui_menu_item_type_e {
-    UI_MENU_TYPE_GUARD = -1,    /**< list terminator */
-    UI_MENU_TYPE_ITEM_ACTION,   /**< standard list item: activate dialog */
-    UI_MENU_TYPE_ITEM_CHECK,    /**< menu item with checkmark */
-    UI_MENU_TYPE_SUBMENU,       /**< submenu */
-    UI_MENU_TYPE_SEPARATOR      /**< items separator */
-} ui_menu_item_type_t;
+#include "uitypes.h"
 
 
-
-/** \brief  Menu item object
- *
- * Contains information on a menu item
- */
-typedef struct ui_menu_item_s {
-    char *              label;  /**< menu item label */
-    ui_menu_item_type_t type;   /**< menu item type, \see ui_menu_item_type_t */
-
-    /* callbacks, accelerators and other things, again light on the CPP/layer
-     * stuff to keep things clean and maintainable. */
-
-    /** GAction name (must be unique or NULL for no action) */
-    char *action_name;
-
-    /** \brief  menu item callback function
-     *
-     * The return value determines whether or not the keypress was 'consumed'
-     * by the UI. Normally you'd return TRUE here.
-     *
-     * If `NULL`, there is no callback (for separators or placeholders for
-     * not yet implemented items)
-     */
-    gboolean (*callback)(GtkWidget *widget, gpointer user_data);
-
-    /** \brief  Callback data (optional)
-     *
-     *  - UI_MENU_TYPE_ITEM_ACTION:  scalar
-     *  - UI_MENU_TYPE_SUBMENU: array of submenu items
-     *  - UI_MENU_TYPE_ITEM_CHECK: resource name
-     *  - UI_MENU_TYPE_SEPARATOR: ignored
-     */
-    void *data;
-
-    /** accelerator key, without modifier
-     * (see /usr/include/gtk-3.0/gdk/gdkkeysyms.h)
-     */
-    guint keysym;
-
-    /** modifier (ie Alt) */
-    GdkModifierType modifier;
-
-    /** whether the callback should be called while holding the vice mainlock */
-    bool unlocked;
-
-} ui_menu_item_t;
-
-
-/** \brief  Terminator of a menu items list
- */
-#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL, NULL, 0, 0 }
-
-
-/** \brief  Menu items separator
- */
-#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, NULL, NULL, NULL, 0, 0 }
-
-
-/** \brief  Platform-dependent accelerator key defines
- */
-#ifdef MACOSX_SUPPORT
-  /* Mac Command key (Windows key on PC keyboards) */
-  #define VICE_MOD_MASK GDK_META_MASK
-#else
-  /* Alt key (Option key on Mac keyboards) */
-  #define VICE_MOD_MASK GDK_MOD1_MASK
-#endif
 
 
 /*
  * Public functions
  */
 
-GtkWidget *ui_menu_submenu_create(GtkWidget *bar, const char *label);
+GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
+GtkWidget * ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
+GtkWidget * ui_get_gtk_submenu_item_by_name(GtkWidget *submenu,
+                                            const char *name);
+void        ui_set_gtk_check_menu_item_blocked(GtkWidget *item,
+                                               gboolean state);
+void        ui_set_gtk_check_menu_item_blocked_by_name(const char *name,
+                                                       gboolean state);
+void        ui_set_gtk_check_menu_item_blocked_by_resource(const char *name,
+                                                           const char *resource);
 
-GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
+
 
 /* FIXME: is this still even used? */
 void ui_menu_init_accelerators(GtkWidget *window);

@@ -7,6 +7,7 @@
 /*
  * $VICERES FullscreenEnable        -vsid
  * (Maybe also for VSID?)
+ * $VICERES FullscreenDecorations   -vsid
  * $VICERES StartMinimized          -vsid
  * $VICERES RestoreWindowGeometry   -vsid
  * (I guess VSID could also use this?)
@@ -113,9 +114,27 @@ static GtkWidget *create_fullscreen_widget(int index)
     GtkWidget *widget;
 
     widget = vice_gtk3_resource_check_button_new(
-            "FullscreenEnable", "Switch to full screen on boot");
+            "FullscreenEnable", "Switch to fullscreen on boot");
     vice_gtk3_resource_check_button_add_callback(widget, fullscreen_callback);
     return widget;
+}
+
+
+/** \brief  Create "Enable fulllscreen decorations" widget
+ *
+ * Currently completely ignores C128 VDC/VCII, maybe once we can differenciate
+ * between displays (ie two or more) and put the GtkWindows there, we can
+ * try to handle these scenarios.
+ *
+ * \param[in]   index   window index (unused)
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_fullscreen_decorations_widget(int index)
+{
+    return vice_gtk3_resource_check_button_new(
+            "FullscreenDecorations",
+            "Fullscreen decorations (Show menu and statusbar in fullscreen mode)");
 }
 
 
@@ -162,11 +181,14 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 
     if (machine_class != VICE_MACHINE_VSID) {
 
+        GtkWidget *decorations;
         int col = 0;
         int fullscreen = 0;
         int minimized = 0;
 
         fullscreen_widget = create_fullscreen_widget(0);
+
+        decorations = create_fullscreen_decorations_widget(0);
 
         minimized_widget = vice_gtk3_resource_check_button_new(
                 "StartMinimized",
@@ -188,8 +210,9 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 
         g_object_set(fullscreen_widget, "margin-top", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), fullscreen_widget, 0, 2, 2, 1);
-        gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 3, 2, 1);
-        gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 4, 2, 1);
+        gtk_grid_attach(GTK_GRID(grid), decorations, 0, 3, 2, 1);
+        gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 4, 2, 1);
+        gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 5, 2, 1);
 
         resources_get_int("FullscreenEnable", &fullscreen);
         resources_get_int("StartMinimized", &minimized);

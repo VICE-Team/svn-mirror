@@ -123,7 +123,7 @@ static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, ch
                 }
                 strcpy(newname, direntry);
                 if (mode) {
-                    charset_petconvstring((uint8_t *)newname, 0);   /* ASCII name to PETSCII */
+                    charset_petconvstring((uint8_t *)newname, CONVERT_TO_PETSCII);   /* ASCII name to PETSCII */
                 }
                 if (!strncmp(newname, longname, 14)) {
                     dirpos++;
@@ -208,13 +208,13 @@ static char *expand_shortname(vdrive_t *vdrive, char *shortname, int mode)
             strcpy(longname, direntry);
             _limit_longname(ioutil_dir, vdrive, longname, 0);
             if (mode) {
-                charset_petconvstring((uint8_t *)longname, 0);   /* ASCII name to PETSCII */
+                charset_petconvstring((uint8_t *)longname, CONVERT_TO_PETSCII);   /* ASCII name to PETSCII */
             }
             DBG(("expand_shortname>'%s'->'%s'('%s')\n", direntry, longname, shortname));
             if (!strcmp(longname, shortname)) {
                 strcpy(longname, direntry);
                 if (mode) {
-                    charset_petconvstring((uint8_t *)longname, 0);   /* ASCII name to PETSCII */
+                    charset_petconvstring((uint8_t *)longname, CONVERT_TO_PETSCII);   /* ASCII name to PETSCII */
                 }
                 ioutil_closedir(ioutil_dir);
                 return longname;
