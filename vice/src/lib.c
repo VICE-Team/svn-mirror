@@ -958,7 +958,7 @@ double lib_double_rand_unit(void)
 
 void lib_rand_seed(uint64_t seed)
 {
-    log_message(LOG_DEFAULT, "using random seed: 0x%lx", seed);
+    log_message(LOG_DEFAULT, "using random seed: 0x%"PRIx64, seed);
     srand((unsigned int)seed);
     rand_seed((uint64_t)seed);
 }

@@ -107,8 +107,6 @@ inline static void refresh_canvas(raster_t *raster)
 
 void raster_canvas_handle_end_of_frame(raster_t *raster)
 {
-    uint8_t *swap_ptr;
-    
     if (video_disabled_mode) {
         return;
     }
@@ -127,13 +125,12 @@ void raster_canvas_handle_end_of_frame(raster_t *raster)
         refresh_canvas(raster);
     }
 
-    raster->canvas->videoconfig->frame_counter++;
-
     if (raster->canvas->videoconfig->interlaced) {
         /* swap the draw buffer pointers */
-        swap_ptr = raster->canvas->draw_buffer->draw_buffer;
-        raster->canvas->draw_buffer->draw_buffer = raster->canvas->draw_buffer->draw_buffer_previous;
-        raster->canvas->draw_buffer->draw_buffer_previous = swap_ptr;
+        raster->canvas->draw_buffer->draw_buffer = raster->canvas->draw_buffer->draw_buffer_non_padded[raster->canvas->videoconfig->interlace_field];
+        raster->canvas->draw_buffer->draw_buffer_previous = raster->canvas->draw_buffer->draw_buffer_non_padded[raster->canvas->videoconfig->interlace_field ^ 1];
+    } else {
+        raster->canvas->draw_buffer->draw_buffer = raster->canvas->draw_buffer->draw_buffer_non_padded[0];
     }
 }
 

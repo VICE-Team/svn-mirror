@@ -134,8 +134,8 @@ typedef struct vice_opengl_renderer_context_s {
     GLuint current_frame_texture;
     unsigned int current_frame_width;
     unsigned int current_frame_height;
-    unsigned int current_frame_number;
     bool interlaced;
+    int current_interlace_field;
     float pixel_aspect_ratio;
 
     /** \brief The texture identifier for the GPU's copy of our  machine display. */
