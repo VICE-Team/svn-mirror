@@ -463,7 +463,9 @@ static int check_valid_pot(int port, int index)
 static int check_valid_adapter(int port, int index)
 {
     if (!joyport_device[index].joystick_adapter_id) {
-        return 1;
+        if (index != JOYPORT_ID_MULTIJOY_CONTROL) {
+            return 1;
+        }
     }
     if (port_props[port].has_adapter_support) {
         return 1;
