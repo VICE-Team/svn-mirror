@@ -712,12 +712,12 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     } else {
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
     }
+    
+    pthread_mutex_unlock(&fixed.output_lock);
 
     if (display_now) {
         uimon_window_resume_impl(NULL);
     }
-
-    pthread_mutex_unlock(&fixed.output_lock);
 
     /* Ensure any queued monitor output is displayed */
     gdk_threads_add_timeout(0, write_to_terminal, NULL);
