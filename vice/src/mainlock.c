@@ -50,10 +50,10 @@
 
 static volatile bool vice_thread_keepalive = true;
 
-static int ui_thread_waiting = 0;
-static int ui_thread_lock_count = 0;
+static int ui_thread_waiting;
+static int ui_thread_lock_count;
 
-static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t lock;
 
 /* Used to hand control to the UI */
 static pthread_cond_t yield_condition = PTHREAD_COND_INITIALIZER;
@@ -69,15 +69,16 @@ static unsigned long start_time;
 
 void mainlock_init(void)
 {
-    pthread_mutex_lock(&lock);
+    pthread_mutexattr_t lock_attributes;
+    pthread_mutexattr_init(&lock_attributes);
+    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&lock, &lock_attributes);
 
     vice_thread = pthread_self();
     vice_thread_is_running = true;
 
     tick_per_ms = tick_per_second() / 1000;
     start_time = tick_now();
-
-    pthread_mutex_unlock(&lock);
 }
 
 
