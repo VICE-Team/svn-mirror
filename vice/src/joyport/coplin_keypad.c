@@ -188,6 +188,7 @@ static joyport_t joyport_coplin_keypad_device = {
     JOYPORT_POT_OPTIONAL,         /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,     /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_KEYPAD,        /* device is a Keypad */
+    0,                            /* No output bits */
     joyport_coplin_keypad_enable, /* device enable function */
     coplin_keypad_read,           /* digital line read function */
     NULL,                         /* NO digital line store function */

@@ -245,6 +245,7 @@ static joyport_t joyport_cx21_device = {
     JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_KEYPAD,    /* device is a Keypad */
+    0x0F,                     /* bits 3, 2, 1 and 0 are output bits */
     joyport_cx21_enable,      /* device enable function */
     cx21_read_dig,            /* digital line read function */
     cx21_store_dig,           /* digital line store function */

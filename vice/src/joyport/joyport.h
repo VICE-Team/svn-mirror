@@ -190,6 +190,7 @@ typedef struct joyport_s {
     int pot_optional;                                      /* flag to indicate that the device can work without a potentiometer */
     int joystick_adapter_id;                               /* flag to indicate that the device is a joystick/pad adapter */
     int device_type;                                       /* device type */
+    uint8_t output_bits;                                   /* flag to indicate which bits are output */
     int (*enable)(int port, int val);                      /* pointer to the device enable function */
     uint8_t (*read_digital)(int port);                     /* pointer to the device digital lines read function */
     void (*store_digital)(int port, uint8_t val);          /* pointer to the device digital lines store function */
@@ -211,6 +212,7 @@ typedef struct joyport_port_props_s {
     int has_pot;             /* flag to indicate that the port has potentiometer support */
     int has_lp_support;      /* flag to indicate that the port has lightpen support */
     int has_adapter_support; /* flag to indicate that the port can handle joystick adapters */
+    int has_output_support;  /* flag to indicate that the port has output support */
     int active;              /* flag to indicate if the port is currently active */
 } joyport_port_props_t;
 
@@ -246,6 +248,7 @@ extern void joystick_adapter_deactivate(void);
 extern void joystick_adapter_set_ports(int ports);
 extern int joystick_adapter_get_ports(void);
 extern void joystick_adapter_set_add_ports(int ports);
+extern void joystick_adapter_set_output_check_function(int (*function)(int port, uint8_t bits));
 
 extern int joyport_snapshot_write_module(struct snapshot_s *s, int port);
 extern int joyport_snapshot_read_module(struct snapshot_s *s, int port);

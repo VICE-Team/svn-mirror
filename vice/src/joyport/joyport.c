@@ -57,6 +57,8 @@ static char *joystick_adapter_name = NULL;
 static int joystick_adapter_ports = 0;
 static int joystick_adapter_additional_ports = 0;
 
+static int (*joystick_output_check_function)(int port, uint8_t bits) = NULL;
+
 typedef struct resid2text_s {
     int resid;
     const char *text;
@@ -393,6 +395,7 @@ int joyport_device_register(int id, joyport_t *device)
     joyport_device[id].pot_optional = device->pot_optional;
     joyport_device[id].joystick_adapter_id = device->joystick_adapter_id;
     joyport_device[id].device_type = device->device_type;
+    joyport_device[id].output_bits = device->output_bits;
     joyport_device[id].enable = device->enable;
     joyport_device[id].read_digital = device->read_digital;
     joyport_device[id].store_digital = device->store_digital;
@@ -418,6 +421,7 @@ int joyport_port_register(int port, joyport_port_props_t *props)
     port_props[port].has_pot = props->has_pot;
     port_props[port].has_lp_support = props->has_lp_support;
     port_props[port].has_adapter_support = props->has_adapter_support;
+    port_props[port].has_output_support = props->has_output_support;
     port_props[port].active = props->active;
 
     return 0;
@@ -484,6 +488,26 @@ static int check_valid_snes_adapter(int port, int index)
     return 0;
 }
 
+static int check_valid_output_bits(int port, int index)
+{
+    if (!joyport_device[index].output_bits) {
+        return 1;
+    }
+    if (!port_props[port].has_output_support) {
+        return 0;
+    }
+    if (port <= JOYPORT_2) {
+        return 1;
+    }
+    if (!joystick_adapter_id) {
+        return 1;
+    }
+    if (!joystick_output_check_function) {
+        return 0;
+    }
+    return joystick_output_check_function(port, joyport_device[index].output_bits);
+}
+
 static int joyport_valid_devices_compare_names(const void* a, const void* b)
 {
     const joyport_desc_t *arg1 = (const joyport_desc_t*)a;
@@ -509,7 +533,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i) && check_valid_output_bits(port, i)) {
                 ++valid;
             }
         }
@@ -518,7 +542,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
     retval = lib_malloc(((size_t)valid + 1) * sizeof(joyport_desc_t));
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i) && check_valid_output_bits(port, i)) {
                 retval[j].name = joyport_device[i].name;
                 retval[j].id = i;
                 retval[j].device_type = joyport_device[i].device_type;
@@ -695,6 +719,7 @@ void joystick_adapter_deactivate(void)
     joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
     joystick_adapter_name = NULL;
     joystick_adapter_ports = 0;
+    joystick_output_check_function = NULL;
 }
 
 void joystick_adapter_set_ports(int ports)
@@ -710,6 +735,12 @@ int joystick_adapter_get_ports(void)
 void joystick_adapter_set_add_ports(int ports)
 {
     joystick_adapter_additional_ports = ports;
+}
+
+
+void joystick_adapter_set_output_check_function(int (*function)(int port, uint8_t bits))
+{
+    joystick_output_check_function = function;
 }
 
 /* ------------------------------------------------------------------------- */

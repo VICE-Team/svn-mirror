@@ -170,6 +170,7 @@ static joyport_t joyport_paperclip64_device = {
     JOYPORT_POT_OPTIONAL,       /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_DONGLE,      /* device is a Dongle */
+    0x1C,                       /* bits 4, 3 and 2 are output bits */
     joyport_paperclip64_enable, /* device enable function */
     paperclip64_read,           /* digital line read function */
     paperclip64_store,          /* digital line store function */

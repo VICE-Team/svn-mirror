@@ -124,6 +124,7 @@ static joyport_t joyport_bbrtc_device = {
     JOYPORT_POT_OPTIONAL,     /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_RTC,       /* device is an RTC */
+    0x0B,                     /* bits 3, 1 and 0 are output */
     joyport_bbrtc_enable,     /* device enable function */
     bbrtc_read,               /* digital line read function */
     bbrtc_store,              /* digital line store function */

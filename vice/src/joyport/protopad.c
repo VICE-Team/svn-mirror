@@ -186,6 +186,7 @@ static joyport_t joyport_protopad_device = {
     JOYPORT_POT_OPTIONAL,        /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,    /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_SNES_ADAPTER, /* device is a SNES adapter */
+    0x18,                        /* bits 4, and 3 are output bits */
     joyport_protopad_enable,     /* device enable function */
     protopad_read,               /* digital line read function */
     protopad_store,              /* digital line store function */

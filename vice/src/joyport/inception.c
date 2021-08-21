@@ -192,6 +192,7 @@ static joyport_t joyport_inception_device = {
     JOYPORT_POT_OPTIONAL,             /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_INCEPTION,    /* device is a joystick adapter */
     JOYPORT_DEVICE_JOYSTICK_ADAPTER,  /* device is a Joystick adapter */
+    0x1F,                             /* bits 4, 3, 2, 1 and 0 are output bits */
     joyport_inception_enable,         /* device enable function */
     inception_read,                   /* digital line read function */
     inception_store,                  /* digital line store function */
