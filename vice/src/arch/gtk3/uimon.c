@@ -86,7 +86,7 @@ static gboolean uimon_window_resume_impl(gpointer user_data);
  *
  * Again, guess work. Someone, not me, should have documented this.
  */
-struct console_private_s {
+static struct console_private_s {
     pthread_mutex_t lock;
     
     GtkWidget *window;  /**< windows */
@@ -95,7 +95,7 @@ struct console_private_s {
     char *output_buffer;
     size_t output_buffer_allocated_size;
     size_t output_buffer_used_size;
-} fixed = {{0}, NULL, NULL, NULL, NULL, 0, 0};
+} fixed;
 
 static console_t vte_console;
 static linenoiseCompletions command_lc = {0, NULL};
