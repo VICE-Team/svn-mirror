@@ -39,40 +39,11 @@
 #include "ui.h"
 #include "kbddebugwidget.h"
 #include "keyboard.h"
-#include "kbd.h"
 #include "mainlock.h"
 #include "uimenu.h"
 #include "uimedia.h"
 
-/*
- * Forward declarations
- */
-static gboolean kbd_hotkey_handle(GdkEvent *report);
-
-
-/** \brief  Initial size of the hotkeys array
- */
-#define HOTKEYS_SIZE_INIT   64
-
-
-/** \brief  List of custom hotkeys
- */
-static kbd_gtk3_hotkey_t *hotkeys_list = NULL;
-
-
-/** \brief  Size of the hotkeys array
- *
- * This will be HOTKEYS_SIZE_INIT element after initializing and will grow
- * by doubling its size when the array is full.
- */
-static int hotkeys_size = 0;
-
-
-/** \brief  Number of registered hotkeys
- */
-static int hotkeys_count = 0;
-
-
+#include "kbd.h"
 
 
 /** \brief  Initialize keyboard handling
@@ -430,23 +401,11 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             if (key == GDK_KEY_d && report->key.state & GDK_MOD1_MASK) {
                 return TRUE;
             }
-#endif
             /* check the custom hotkeys */
             if (kbd_hotkey_handle(report)) {
                 return TRUE;
             }
-
-            /* XXX: hack because the hotkeys have to check for Alt so they
-             *      don't end up in the emulated machine.
-             *
-             *      Once I refactor the UI code, the custom hotkeys via this
-             *      code path shouldn't be required anymore.    -- compyx
-             */
-            if (key == GDK_KEY_Pause) {
-                ui_media_auto_screenshot();
-                return TRUE;
-            }
-
+#endif
             /* only press keys that were not yet pressed */
             if (addpressedkey(report, &key, &mod)) {
 #if 0
@@ -536,146 +495,4 @@ void kbd_connect_handlers(GtkWidget *widget, void *data)
             G_OBJECT(widget),
             "leave-notify-event",
             G_CALLBACK(kbd_event_handler), data);
-}
-
-
-/*
- * Hotkeys (keyboard shortcuts not connected to any GtkMenuItem) handling
- *
- * FIXME:   This approach is somewhat brittle, a better approach could be using
- *          GAction's in combination with GMenu vs GtkMenu. Something to
- *          consider for 3.5 (involves a lot of rewriting of Gtk code).
- */
-
-
-/** \brief  Initialize the hotkeys
- *
- * This allocates an initial hotkeys array of HOTKEYS_SIZE_INIT elements
- */
-void kbd_hotkey_init(void)
-{
-    hotkeys_list = lib_malloc(HOTKEYS_SIZE_INIT * sizeof *hotkeys_list);
-    hotkeys_size = HOTKEYS_SIZE_INIT;
-    hotkeys_count = 0;
-}
-
-
-
-/** \brief  Clean up memory used by the hotkeys array
- */
-void kbd_hotkey_shutdown(void)
-{
-    lib_free(hotkeys_list);
-}
-
-
-/** \brief  Find hotkey index
- *
- * \param[in]   code    key code
- * \param[in]   mask    key mask
- *
- * \return  index in list, -1 when not found
- */
-static int kbd_hotkey_get_index(guint code, guint mask)
-{
-    int i = 0;
-
-    while (i < hotkeys_count) {
-        if (hotkeys_list[i].code == code && hotkeys_list[i].mask) {
-            return i;
-        }
-        i++;
-    }
-    return -1;
-}
-
-
-/** \brief  Look up the requested hotkey and trigger its callback when found
- *
- * \param[in]   report  GDK key press event instance
- *
- * \return  TRUE when the key was found and the callback triggered,
- *          FALSE otherwise
- */
-static gboolean kbd_hotkey_handle(GdkEvent *report)
-{
-    int i = 0;
-    gint code = report->key.keyval;
-
-    if (((GdkEventKey*)(report))->state & VICE_MOD_MASK) {
-        while (i < hotkeys_count) {
-            if (hotkeys_list[i].code == code) {
-                if (report->key.state & hotkeys_list[i].mask) {
-                        mainlock_obtain();
-                        hotkeys_list[i].callback();
-                        mainlock_release();
-                        return TRUE;
-                    }
-            }
-            i++;
-        }
-    }
-    return FALSE;
-}
-
-
-/** \brief  Add hotkey to the list
- *
- * \param[in]   code        GDK key code
- * \param[in]   mask        GDK key modifier bitmask
- * \param[in]   callback    function to call when hotkey is triggered
- *
- * \return  bool
- */
-gboolean kbd_hotkey_add(guint code, guint mask, void (*callback)(void))
-{
-    if (callback == NULL) {
-        log_error(LOG_ERR, "Error: NULL passed as callback.");
-        return FALSE;
-    }
-    if (kbd_hotkey_get_index(code, mask) >= 0) {
-        log_error(LOG_ERR, "Error: hotkey already registered.");
-        return FALSE;
-    }
-
-    /* resize list? */
-    if (hotkeys_count == hotkeys_size) {
-        int new_size = hotkeys_size * 2;
-        hotkeys_list = lib_realloc(
-                hotkeys_list,
-                (size_t)new_size * sizeof *hotkeys_list);
-        hotkeys_size = new_size;
-    }
-
-
-    /* register hotkey */
-    hotkeys_list[hotkeys_count].code = code;
-    hotkeys_list[hotkeys_count].mask = mask;
-    hotkeys_list[hotkeys_count].callback = callback;
-    hotkeys_count++;
-    return TRUE;
-}
-
-
-/** \brief  Add multiple hotkeys at once
- *
- * Adds multiple hotkeys from \a list.
- * Terminate the list with NULL for the callback value.
- *
- * \param[in]   list    list of hotkeys
- *
- * \return  TRUE on success, FALSE if the list was exhausted or a hotkey
- *          was already registered
- */
-gboolean kbd_hotkey_add_list(kbd_gtk3_hotkey_t *list)
-{
-    int i = 0;
-
-    while (list[i].callback != NULL) {
-        if (!kbd_hotkey_add(list[i].code, list[i].mask, list[i].callback)) {
-            return FALSE;
-        }
-        i++;
-    }
-    return TRUE;
 }

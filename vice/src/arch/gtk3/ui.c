@@ -198,45 +198,6 @@ enum {
 };
 
 
-/** \brief  Default hotkeys for the UI not connected to a menu item
- */
-static kbd_gtk3_hotkey_t default_hotkeys[] = {
-#if 0
-    /* Alt+P: toggle pause */
-    { GDK_KEY_p, VICE_MOD_MASK, (void *)ui_toggle_pause },
-    /* Alt+W: toggle warp mode */
-    { GDK_KEY_w, VICE_MOD_MASK, ui_toggle_warp },
-    /* Alt+Shift+P: Advance frame (only when paused)
-     *
-     * XXX: seems GDK_KEY_*P* is required here, otherwise the key press isn't
-     *      recognized (only tested on Win10)
-     */
-    { GDK_KEY_P, VICE_MOD_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
-#endif
-#if 0
-    /* Alt+J = swap joysticks */
-    { GDK_KEY_j, VICE_MOD_MASK,
-        (void *)ui_action_toggle_controlport_swap },
-    /* Alt+Shift+U = swap userport joysticks */
-    { GDK_KEY_U, VICE_MOD_MASK|GDK_SHIFT_MASK,
-        (void *)ui_swap_userport_joysticks_callback },
-#endif
-    { GDK_KEY_J, VICE_MOD_MASK|GDK_SHIFT_MASK,
-        (void *)ui_toggle_keyset_joysticks },
-#if 0
-    { GDK_KEY_m, VICE_MOD_MASK,
-        (void *)ui_action_toggle_mouse_grab },
-#endif
-    /* Windows folks expect Alt+Enter to go full screen */
-    { GDK_KEY_Return, VICE_MOD_MASK,
-        (void *)ui_action_toggle_fullscreen },
-
-    /* Arnie */
-    { 0, 0, NULL }
-};
-
-
-
 
 /*****************************************************************************
  *                              Static data                                  *
@@ -1595,20 +1556,10 @@ void ui_create_main_window(video_canvas_t *canvas)
      */
     if (machine_class != VICE_MACHINE_VSID) {
         kbd_connect_handlers(new_window, NULL);
-
-        /* Add default hotkeys that don't have a menu item */
-        if (!kbd_hotkey_add_list(default_hotkeys)) {
-            log_error(LOG_ERR, "adding hotkeys failed, see the log for details.");
-        }
     }
 
     /*
      * Try to restore windows position and size
-     */
-
-
-    /*
-     * Do we need to restore window(s) position/size?
      */
     if (resources_get_int("RestoreWindowGeometry", &restore) < 0) {
         restore = 0;
@@ -1818,7 +1769,16 @@ void ui_init_with_args(int *argc, char **argv)
     gtk_init(argc, &argv);
 }
 
-int ui_init(void) {
+
+/** \brief  Initialize UI
+ *
+ * Loads gresource data, disables F10 as the accelerator for the menu bar,
+ * registers the CBM font with the host and initializes the statusbar.
+ *
+ * \return  0
+ */
+int ui_init(void)
+{
     GSettings *settings;
     GVariant *variant;
     GtkSettings *settings_default;
@@ -1827,7 +1787,13 @@ int ui_init(void) {
     INCOMPLETE_IMPLEMENTATION();
 #endif
 
-    kbd_hotkey_init();
+    /*
+     * FIXME:   This is actually too late in the boot sequence, the hotkeys
+     *          resources and cmdlines are already initialized at this point
+     *          and would have triggered parsing of a hotkeys file. Which means
+     *          any logging via the HOTKEYS log will fail.
+     */
+    hotkeys_init();
 
     /*
      * Make sure F10 doesn't trigger the menu bar
@@ -2277,9 +2243,6 @@ void ui_exit(void)
 
     /* unregister the CBM font */
     archdep_unregister_cbmfont();
-
-    /* deallocate memory used by the unconnected keyboard shortcuts */
-    kbd_hotkey_shutdown();
 
     mainlock_release();
 }
