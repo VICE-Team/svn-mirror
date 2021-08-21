@@ -707,11 +707,9 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                 FALSE, FALSE, 0);
 #endif
 
-
         g_signal_connect(G_OBJECT(fixed.window), "delete-event",
             G_CALLBACK(close_window), NULL);
 
-        /* Don't unlock this as locking needed for shared &fixed.input_buffer pointer */
         g_signal_connect_unlocked(G_OBJECT(fixed.term), "key-press-event",
             G_CALLBACK(key_press_event), NULL);
 
