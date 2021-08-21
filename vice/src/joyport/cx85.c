@@ -247,6 +247,7 @@ static joyport_t joyport_cx85_device = {
     JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_KEYPAD,    /* device is a Keypad */
+    0,                        /* NO output bits */
     joyport_cx85_enable,      /* device enable function */
     cx85_read_dig,            /* digital line read function */
     NULL,                     /* NO digital line store function */

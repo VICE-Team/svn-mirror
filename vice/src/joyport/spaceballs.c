@@ -129,6 +129,7 @@ static joyport_t joyport_spaceballs_device = {
     JOYPORT_POT_OPTIONAL,             /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_SPACEBALLS,   /* device is a joystick adapter */
     JOYPORT_DEVICE_JOYSTICK_ADAPTER,  /* device is a Joystick adapter */
+    0,                                /* NO output bits */
     joyport_spaceballs_enable,        /* device enable function */
     spaceballs_read,                  /* digital line read function */
     NULL,                             /* NO digital line store function */
