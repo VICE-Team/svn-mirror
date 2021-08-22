@@ -319,7 +319,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     backbuffer->height = context->emulated_height_next;
     backbuffer->pixel_aspect_ratio = context->pixel_aspect_ratio_next;
     backbuffer->interlaced = canvas->videoconfig->interlaced;
-    backbuffer->frame_number = canvas->videoconfig->frame_counter;
+    backbuffer->interlace_field = canvas->videoconfig->interlace_field;
 
     CANVAS_UNLOCK();
     
@@ -454,17 +454,14 @@ static void update_frame_textures(context_t *context, backbuffer_t *backbuffer)
      * Update the OpenGL texture with the new backbuffer bitmap
      */
 
-    if (backbuffer->frame_number != context->current_frame_number) {
+    if (backbuffer->interlace_field != context->current_interlace_field) {
         /* Retain the previous texture to use in interlaced mode */
-        GLuint swap_texture             = context->previous_frame_texture;
-        
-        context->previous_frame_texture = context->current_frame_texture;
-        context->previous_frame_width   = context->current_frame_width;
-        context->previous_frame_height  = context->current_frame_height;
-        
-        context->current_frame_texture  = swap_texture;
-
-        context->current_frame_number = backbuffer->frame_number;
+        GLuint swap_texture                 = context->previous_frame_texture;
+        context->previous_frame_texture     = context->current_frame_texture;
+        context->previous_frame_width       = context->current_frame_width;
+        context->previous_frame_height      = context->current_frame_height;
+        context->current_frame_texture      = swap_texture;
+        context->current_interlace_field    = backbuffer->interlace_field;
     }
 
     context->current_frame_width    = backbuffer->width;

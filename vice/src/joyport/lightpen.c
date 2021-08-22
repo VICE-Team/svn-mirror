@@ -291,6 +291,7 @@ static joyport_t lightpen_u_joyport_device = {
     JOYPORT_POT_OPTIONAL,     /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_LIGHTPEN,  /* device is a Light Pen */
+    0,                        /* NO output bits */
     joyport_lightpen_enable,  /* device enable function */
     lightpen_digital_val,     /* digital line read function */
     NULL,                     /* NO digital line store function */
@@ -306,7 +307,8 @@ static joyport_t lightpen_l_joyport_device = {
     JOYPORT_IS_LIGHTPEN,        /* device is a lightpen */
     JOYPORT_POT_OPTIONAL,       /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_LIGHTPEN,   /* device is a Light Pen */
+    JOYPORT_DEVICE_LIGHTPEN,    /* device is a Light Pen */
+    0,                          /* NO output bits */
     joyport_lightpen_enable,    /* device enable function */
     lightpen_digital_val,       /* digital line read function */
     NULL,                       /* NO digital line store function */
@@ -323,6 +325,7 @@ static joyport_t lightpen_datel_joyport_device = {
     JOYPORT_POT_OPTIONAL,     /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_LIGHTPEN,  /* device is a Light Pen */
+    0,                        /* NO output bits */
     joyport_lightpen_enable,  /* device enable function */
     lightpen_digital_val,     /* digital line read function */
     NULL,                     /* NO digital line store function */
@@ -339,6 +342,7 @@ static joyport_t magnum_light_phaser_joyport_device = {
     JOYPORT_POT_REQUIRED,              /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_LIGHTGUN,           /* device is a Light Gun */
+    0,                                 /* NO output bits */
     joyport_lightpen_enable,           /* device enable function */
     lightpen_digital_val,              /* digital line read function */
     NULL,                              /* NO digital line store function */
@@ -355,6 +359,7 @@ static joyport_t stack_light_rifle_joyport_device = {
     JOYPORT_POT_OPTIONAL,            /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,        /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_LIGHTGUN,         /* device is a Light Gun */
+    0,                               /* NO output bits */
     joyport_lightpen_enable,         /* device enable function */
     lightpen_digital_val,            /* digital line read function */
     NULL,                            /* NO digital line store function */
@@ -371,6 +376,7 @@ static joyport_t inkwell_lightpen_joyport_device = {
     JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_LIGHTPEN,  /* device is a Light Pen */
+    0,                        /* NO output bits */
     joyport_lightpen_enable,  /* device enable function */
     lightpen_digital_val,     /* digital line read function */
     NULL,                     /* NO digital line store function */
@@ -388,6 +394,7 @@ static joyport_t gun_stick_joyport_device = {
     JOYPORT_POT_OPTIONAL,     /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_LIGHTGUN,  /* device is a Light Gun */
+    0,                        /* NO output bits */
     joyport_lightpen_enable,  /* device enable function */
     lightpen_digital_val,     /* digital line read function */
     NULL,                     /* NO digital line store function */

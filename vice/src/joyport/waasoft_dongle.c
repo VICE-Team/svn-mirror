@@ -108,6 +108,7 @@ static joyport_t joyport_waasoft_dongle_device = {
     JOYPORT_POT_REQUIRED,          /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,      /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_DONGLE,         /* device is a Dongle */
+    0x03,                          /* bits 1 and 0 are output bits */
     joyport_waasoft_dongle_enable, /* device enable function */
     NULL,                          /* NO digital line read function */
     waasoft_dongle_store_dig,      /* digital line store function */

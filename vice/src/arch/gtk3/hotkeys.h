@@ -27,6 +27,8 @@
 #ifndef VICE_HOTKEYS_H
 #define VICE_HOTKEYS_H
 
+#include <stdbool.h>
+
 
 /** \brief  Prefix of Gtk3 hotkeys files
  */
@@ -46,7 +48,11 @@
 
 int     hotkeys_resources_init(void);
 int     hotkeys_cmdline_options_init(void);
+
+void    hotkeys_init(void);
 void    hotkeys_shutdown(void);
+
+bool    hotkeys_parse(const char *path);
 
 #endif
 

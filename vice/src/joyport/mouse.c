@@ -753,6 +753,7 @@ static joyport_t paddles_joyport_device = {
     JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,     /* device is a Mouse/Paddle */
+    0,                        /* NO output bits */
     joyport_mouse_enable,     /* device enable function */
     joyport_mouse_value,      /* digital line read function */
     NULL,                     /* NO digital line store function */
@@ -773,6 +774,7 @@ static joyport_t mouse_1351_joyport_device = {
     JOYPORT_POT_REQUIRED,      /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,      /* device is a Mouse */
+    0,                         /* NO output bits */
     joyport_mouse_enable,      /* device enable function */
     joyport_mouse_value,       /* digital line read function */
     NULL,                      /* NO digital line store function */
@@ -818,6 +820,7 @@ static joyport_t mouse_neos_joyport_device = {
     JOYPORT_POT_OPTIONAL,                  /* device uses the potentiometer line for the right button, but could work without it */
     JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
+    0x10,                                  /* bit 4 is an output bit */
     joyport_mouse_enable,                  /* device enable function */
     joyport_mouse_neos_value,              /* digital line read function */
     neos_mouse_store,                      /* digital line store function */
@@ -856,6 +859,7 @@ static joyport_t mouse_amiga_joyport_device = {
     JOYPORT_POT_OPTIONAL,                  /* device uses the potentiometer lines for the right and middle buttons, but could work without it */
     JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
+    0,                                     /* NO output bits */
     joyport_mouse_enable,                  /* device enable function */
     joyport_mouse_poll_value,              /* digital line read function */
     NULL,                                  /* NO digital line store function */
@@ -876,6 +880,7 @@ static joyport_t mouse_cx22_joyport_device = {
     JOYPORT_POT_OPTIONAL,      /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,      /* device is a Mouse/Trackball */
+    0,                         /* NO output bits */
     joyport_mouse_enable,      /* device enable function */
     joyport_mouse_poll_value,  /* digital line read function */
     NULL,                      /* NO digital line store function */
@@ -897,6 +902,7 @@ static joyport_t mouse_st_joyport_device = {
     JOYPORT_POT_OPTIONAL,                  /* device uses the potentiometer lines for the right button, but could work without it */
     JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
+    0,                                     /* NO output bits */
     joyport_mouse_enable,                  /* device enable function */
     joyport_mouse_poll_value,              /* digital line read function */
     NULL,                                  /* NO digital line store function */
@@ -930,6 +936,7 @@ static joyport_t mouse_smart_joyport_device = {
     JOYPORT_POT_REQUIRED,       /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,       /* device is a Mouse */
+    0x0E,                       /* bits 3, 2 and 1 are output bits */
     joyport_mouse_enable,       /* device enable function */
     joyport_mouse_smart_value,  /* digital line read function */
     smart_mouse_store,          /* digital line store function */
@@ -961,6 +968,7 @@ static joyport_t mouse_micromys_joyport_device = {
     JOYPORT_POT_REQUIRED,          /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,      /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,          /* device is a Mouse */
+    0,                             /* NO output bits */
     joyport_mouse_enable,          /* device enable function */
     joyport_mouse_micromys_value,  /* digital line read function */
     NULL,                          /* NO digital line store function */
@@ -986,6 +994,7 @@ static joyport_t koalapad_joyport_device = {
     JOYPORT_POT_REQUIRED,       /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_DRAWING_PAD, /* device is a Drawing Tablet */
+    0,                          /* NO output bits */
     joyport_mouse_enable,       /* device enable function */
     joyport_mouse_value,        /* digital line read function */
     NULL,                       /* NO digital line store function */

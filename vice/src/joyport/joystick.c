@@ -623,6 +623,7 @@ static joyport_t joystick_device = {
     JOYPORT_POT_OPTIONAL,           /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,       /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_JOYSTICK,        /* device is a Joystick */
+    0,                              /* NO output bits */
     joyport_enable_joystick,        /* device enable function */
     read_joystick,                  /* digital line read function */
     NULL,                           /* NO digital line store function */

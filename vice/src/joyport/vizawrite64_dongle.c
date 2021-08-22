@@ -89,6 +89,7 @@ static joyport_t joyport_vizawrite64_dongle_device = {
     JOYPORT_POT_REQUIRED,              /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_DONGLE,             /* device is a Dongle */
+    0,                                 /* NO output bits */
     joyport_vizawrite64_dongle_enable, /* device enable function */
     NULL,                              /* NO digital line read function */
     NULL,                              /* NO digital line store function */

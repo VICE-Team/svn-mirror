@@ -450,6 +450,36 @@ static int register_userport_adapter(int adapter)
     return -1;
 }
 
+static int userport_joystick_output_check(int port, uint8_t output_bits)
+{
+    switch (userport_joystick_type) {
+        case USERPORT_JOYSTICK_CGA:   /* no output possible */
+            return 0;
+            break;
+        case USERPORT_JOYSTICK_PET:
+            if (output_bits & 0x10) {   /* no output on 'fire' pin */
+                return 0;
+            }
+            break;
+        case USERPORT_JOYSTICK_HIT:
+        case USERPORT_JOYSTICK_KINGSOFT:
+            if (port == JOYPORT_4) {
+                if (output_bits & 0x10) {   /* no output on 'fire' pin for userport joystick 2 */
+                    return 0;
+                }
+            }
+            break;
+        case USERPORT_JOYSTICK_STARBYTE:
+            if (port == JOYPORT_3) {
+                if (output_bits & 0x10) {   /* no output on 'fire' pin for userport joystick 1 */
+                    return 0;
+                }
+            }
+            break;
+    }
+    return 1;
+}
+
 static int set_userport_joystick_enable(int value, void *param)
 {
     int val = value ? 1 : 0;
@@ -468,6 +498,7 @@ static int set_userport_joystick_enable(int value, void *param)
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport joystick adapter");
+        joystick_adapter_set_output_check_function(userport_joystick_output_check);
     } else {
         userport_device_unregister(userport_joystick_list_item);
         userport_joystick_list_item = NULL;

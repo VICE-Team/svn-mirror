@@ -149,8 +149,9 @@ static OSStatus converter_input(AudioConverterRef inAudioConverter,
     if (needed_bytes > queued_bytes) {
         memset(dest, 0, needed_bytes - queued_bytes);
         dest = (int16_t *)(copybuffer + needed_bytes - queued_bytes);
-        needed_frames -= queued_frames;
-        needed_bytes -= queued_bytes;
+        
+        needed_frames   -= needed_frames - queued_frames;
+        needed_bytes    -= needed_bytes - queued_bytes;
     }
     
     while (fragments_in_queue && needed_frames) {

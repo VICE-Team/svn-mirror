@@ -135,6 +135,7 @@ static joyport_t joyport_multijoy_joy_device = {
     JOYPORT_POT_OPTIONAL,                    /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_MULTIJOY,            /* device is a joystick adapter */
     JOYPORT_DEVICE_JOYSTICK_ADAPTER,         /* device is a Joystick adapter */
+    0,                                       /* NO output bits */
     joyport_multijoy_joysticks_enable,       /* device enable function */
     multijoy_read,                           /* digital line read function */
     NULL,                                    /* NO digital line store function */
@@ -151,6 +152,7 @@ static joyport_t joyport_multijoy_control_device = {
     JOYPORT_POT_OPTIONAL,                /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,            /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_JOYSTICK_ADAPTER,     /* device is a Joystick adapter */
+    0x07,                                /* bits 2, 1 and 0 are output bits */
     joyport_multijoy_control_enable,     /* device enable function */
     NULL,                                /* NO digital line read function */
     multijoy_store,                      /* digital line store function */
