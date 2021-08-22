@@ -61,6 +61,7 @@
 #include "vsyncapi.h"
 
 #include "uiapi.h"
+#include "uiserver.h"
 #include "uistatusbar.h"
 #include "archdep.h"
 
@@ -174,22 +175,8 @@ void ui_init_with_args(int *argc, char **argv)
 int ui_init(void)
 {
     printf("Initialising headless ui\n");
-
-    return 0;
-}
-
-
-/** \brief  Finish initialization after loading the resources
- *
- * \note    This function exists for compatibility with other UIs.
- *
- * \return  0 on success, -1 on failure
- *
- * \sa      ui_init_finalize()
- */
-int ui_init_finish(void)
-{
-    printf("%s\n", __func__);
+    
+    uiserver_init();
 
     return 0;
 }
@@ -197,17 +184,18 @@ int ui_init_finish(void)
 
 /** \brief  Finalize initialization after creating the main window(s)
  *
- * \note    This function exists for compatibility with other UIs,
- *          but could perhaps be used to activate fullscreen from the
- *          command-line or saved settings file (as it is in WinVICE.)
- *
  * \return  0 on success, -1 on failure
- *
- * \sa      ui_init_finish()
  */
 int ui_init_finalize(void)
 {
     printf("%s\n", __func__);
+    
+    /*
+     * Machine initialisation is complete, block until each launched ui
+     * child process has connected and signalled that it is ready.
+     */
+    
+    uiserver_await_ready();
 
     return 0;
 }
@@ -270,6 +258,8 @@ void ui_resources_shutdown(void)
 void ui_shutdown(void)
 {
     printf("%s\n", __func__);
+    
+    uiserver_shutdown();
 }
 
 

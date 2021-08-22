@@ -1866,20 +1866,6 @@ int ui_init(void) {
 }
 
 
-/** \brief  Finish initialization after loading the resources
- *
- * \note    This function exists for compatibility with other UIs.
- *
- * \return  0 on success, -1 on failure
- *
- * \sa      ui_init_finalize()
- */
-int ui_init_finish(void)
-{
-    return 0;
-}
-
-
 /** \brief  Finalize initialization after creating the main window(s)
  *
  * \note    This function exists for compatibility with other UIs,
@@ -1887,8 +1873,6 @@ int ui_init_finish(void)
  *          command-line or saved settings file (as it is in WinVICE.)
  *
  * \return  0 on success, -1 on failure
- *
- * \sa      ui_init_finish()
  */
 int ui_init_finalize(void)
 {

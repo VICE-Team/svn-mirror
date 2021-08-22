@@ -68,7 +68,9 @@ libarch_a_SOURCES = \
 	plus4ui.c \
 	cbm2ui.c \
 	cbm5x0ui.c \
-	c64ui.c
+	c64ui.c \
+	\
+	uiserver.c
 
 libtoolarch_a_SOURCES = \
 	archdep.c
@@ -81,4 +83,6 @@ EXTRA_DIST = \
 	mousedrv.h \
 	ui.h \
 	uistatusbar.h \
-	videoarch.h
+	videoarch.h \
+	\
+	uiserver.h

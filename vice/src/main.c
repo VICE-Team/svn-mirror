@@ -305,12 +305,6 @@ int main_program(int argc, char **argv)
 
     /* lib_free(program_name); */
 
-    /* Complete the GUI initialization (after loading the resources and
-       parsing the command-line) if necessary.  */
-    if (!console_mode && ui_init_finish() < 0) {
-        return -1;
-    }
-
     if (!console_mode && video_init() < 0) {
         return -1;
     }

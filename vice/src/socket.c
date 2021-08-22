@@ -387,6 +387,31 @@ static vice_network_socket_address_t * vice_network_alloc_new_socket_address(voi
     return return_address;
 }
 
+/*! \brief Update vice_network_socket_t with local address */
+static void update_local_address(vice_network_socket_t *server_socket, const vice_network_socket_address_t *address)
+{
+    memcpy(&server_socket->address, address, sizeof(server_socket->address));
+    
+    /* update the address, mainly to get the port bound for random listen sockets */
+    getsockname(
+        server_socket->sockfd,
+        &server_socket->address.address.generic,
+        &server_socket->address.len);
+}
+
+/*! \brief Update vice_network_socket_t with peer address */
+static void update_peer_address(vice_network_socket_t *peer_socket, const vice_network_socket_address_t *address)
+{
+    memcpy(&peer_socket->address, address, sizeof(peer_socket->address));
+    
+    /* update the address, mainly to get the port bound for random listen sockets */
+    getpeername(
+        peer_socket->sockfd,
+        &peer_socket->address.address.generic,
+        &peer_socket->address.len);
+}
+
+
 /*! \brief Open a socket and initialise it for server operation
 
   \param server_address
@@ -402,8 +427,10 @@ static vice_network_socket_address_t * vice_network_alloc_new_socket_address(voi
      Thus, server_address must not be NULL.
 */
 vice_network_socket_t *vice_network_server(
+        const char *service_name,
         const vice_network_socket_address_t * server_address)
 {
+    vice_network_socket_t *server_socket;
     int sockfd = INVALID_SOCKET;
     int error = 1;
 
@@ -447,8 +474,27 @@ vice_network_socket_t *vice_network_server(
         }
         sockfd = INVALID_SOCKET;
     }
+        
+    if (sockfd == INVALID_SOCKET) {
+        return NULL;
+    }
+    
+    server_socket = vice_network_alloc_new_socket(sockfd);
+    update_local_address(server_socket, server_address);
+    
+    switch (server_socket->address.domain) {
+        case AF_INET:
+            log_message(LOG_DEFAULT, "%s listening on port %d", service_name, ntohs(server_socket->address.address.ipv4.sin_port));
+            break;
+        case AF_INET6:
+            log_message(LOG_DEFAULT, "%s listening on port %d", service_name, ntohs(server_socket->address.address.ipv6.sin6_port));
+            break;
+        default:
+            log_message(LOG_DEFAULT, "%s listening", service_name);
+            break;
+    }
 
-    return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
+    return server_socket;
 }
 
 /*! \brief Open a socket and initialise it for client operation
@@ -466,6 +512,7 @@ vice_network_socket_t *vice_network_server(
 */
 vice_network_socket_t * vice_network_client(const vice_network_socket_address_t * server_address)
 {
+    vice_network_socket_t *peer_socket;
     int sockfd = INVALID_SOCKET;
     int error = 1;
 
@@ -498,8 +545,15 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
         }
         sockfd = INVALID_SOCKET;
     }
+    
+    if (sockfd == INVALID_SOCKET) {
+        return NULL;
+    }
+    
+    peer_socket = vice_network_alloc_new_socket(sockfd);
+    update_peer_address(peer_socket, server_address);
 
-    return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
+    return peer_socket;
 }
 
 /*! \internal \brief Generate an IPv4 socket address
@@ -900,15 +954,22 @@ void vice_network_address_close(vice_network_socket_address_t * address)
   \return
      A new socket that can be used for transmission on this this connection.
 */
-vice_network_socket_t * vice_network_accept(vice_network_socket_t * sockfd)
+vice_network_socket_t * vice_network_accept(vice_network_socket_t *server_socket)
 {
-    SOCKET newsocket = INVALID_SOCKET;
+    vice_network_socket_t *peer_socket;
+    SOCKET sockfd = INVALID_SOCKET;
 
-    initialize_socket_address( &sockfd->address );
+    initialize_socket_address(&server_socket->address);
 
-    newsocket = accept(sockfd->sockfd, &sockfd->address.address.generic, &sockfd->address.len);
+    sockfd = accept(server_socket->sockfd, &server_socket->address.address.generic, &server_socket->address.len);
+    if (sockfd == INVALID_SOCKET) {
+        return NULL;
+    }
+    
+    peer_socket = vice_network_alloc_new_socket(sockfd);
+    update_peer_address(peer_socket, &server_socket->address);
 
-    return newsocket == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(newsocket);
+    return peer_socket;
 }
 
 /*! \brief Close a socket

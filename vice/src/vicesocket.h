@@ -30,13 +30,15 @@
 #ifndef VICE_SOCKET_H
 #define VICE_SOCKET_H
 
+#include <stddef.h>
+
 #include "types.h"
 
 typedef struct vice_network_socket_s vice_network_socket_t;
 
 typedef struct vice_network_socket_address_s vice_network_socket_address_t;
 
-vice_network_socket_t * vice_network_server(const vice_network_socket_address_t * server_address);
+vice_network_socket_t * vice_network_server(const char *service_name, const vice_network_socket_address_t * server_address);
 vice_network_socket_t * vice_network_client(const vice_network_socket_address_t * server_address);
 
 vice_network_socket_address_t * vice_network_address_generate(const char * address, unsigned short port);

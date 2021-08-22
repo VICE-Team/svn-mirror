@@ -224,7 +224,7 @@ static int monitor_network_activate(void)
             break;
         }
 
-        listen_socket = vice_network_server(server_addr);
+        listen_socket = vice_network_server("Monitor", server_addr);
         if (!listen_socket) {
             break;
         }
