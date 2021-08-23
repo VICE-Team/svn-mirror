@@ -45,6 +45,11 @@
      4   | KEY3   |  I
      5   | PRESS  |  I
 
+Works on:
+- native port(s) (x64/x64sc/scpu64/xvic)
+- sidcart joystick port (xplus4)
+
+
 The keypad has the following layout:
 
 KEYPAD                  KEYMAP KEYS
