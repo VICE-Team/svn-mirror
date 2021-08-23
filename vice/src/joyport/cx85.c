@@ -46,6 +46,11 @@
      5   | PRESS  |  I
      6   | KEY4   |  I
 
+Works on:
+- native joystick port(s) (x64/x64sc/xscpu64/xvic)
+- sidcart joystick adapter port (xplus4)
+
+
 The keypad has the following layout:
 
 KEYPAD                  KEYMAP KEYS
@@ -166,7 +171,7 @@ static uint8_t cx85_read_dig(int port)
     unsigned int tmp;
 
     /* KEY4 */
-    tmp = !keys[KEYPAD_KEY_ESCAPE] << 4;
+    tmp = !keys[KEYPAD_KEY_ESCAPE] << JOYPORT_FIRE;  /* output key 4 on joyport 'fire' pin */
     retval |= tmp;
 
     /* KEY3 */
@@ -179,7 +184,7 @@ static uint8_t cx85_read_dig(int port)
           keys[KEYPAD_KEY_1]     |
           keys[KEYPAD_KEY_YES]   |
           keys[KEYPAD_KEY_ESCAPE];
-    tmp <<= 3;
+    tmp <<= JOYPORT_RIGHT;   /* output key 3 on joyport 'right' pin */
     retval |= tmp;
 
     /* KEY2 */
@@ -192,7 +197,7 @@ static uint8_t cx85_read_dig(int port)
           keys[KEYPAD_KEY_DOT]   |
           keys[KEYPAD_KEY_0]     |
           keys[KEYPAD_KEY_ESCAPE];
-    tmp <<= 2;
+    tmp <<= JOYPORT_LEFT;   /* output key 2 on joyport 'left' pin */
     retval |= tmp;
 
     /* KEY1 */
@@ -204,7 +209,7 @@ static uint8_t cx85_read_dig(int port)
           keys[KEYPAD_KEY_3]     |
           keys[KEYPAD_KEY_9]     |
           keys[KEYPAD_KEY_6];
-    tmp <<= 1;
+    tmp <<= JOYPORT_DOWN;   /* output key 1 on joyport 'down' pin */
     retval |= tmp;
 
     /* KEY0 */
@@ -216,7 +221,7 @@ static uint8_t cx85_read_dig(int port)
           keys[KEYPAD_KEY_3]     |
           keys[KEYPAD_KEY_9]     |
           keys[KEYPAD_KEY_6];
-    retval |= tmp;
+    retval |= tmp;   /* output key 0 on joyport 'up' pin */
 
     retval |= 0xe0;
 
