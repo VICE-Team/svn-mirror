@@ -48,6 +48,11 @@
      6   | KEYCOL2 |  I
      9   | KEYCOL1 |  I
 
+Works on:
+- native port(s) (x64/x64sc/xscpu64/xvic)
+- sidcart joystick adapter port (xplus4)
+
+
 The keypad has the following layout:
 
 KEYPAD          KEYMAP KEYS
@@ -143,25 +148,25 @@ static uint8_t cx21_read_dig(int p)
 
     if (keys[KEYPAD_KEY_3]) {
         if (port & 1) {
-            retval = 0x10;
+            retval = JOYPORT_PVALUE(JOYPORT_FIRE);   /* output on joyport 'fire' pin */
         }
     }
 
     if (keys[KEYPAD_KEY_6]) {
         if (port & 2) {
-            retval = 0x10;
+            retval = JOYPORT_PVALUE(JOYPORT_FIRE);   /* output on joyport 'fire' pin */
         }
     }
 
     if (keys[KEYPAD_KEY_9]) {
         if (port & 4) {
-            retval = 0x10;
+            retval = JOYPORT_PVALUE(JOYPORT_FIRE);   /* output on joyport 'fire' pin */
         }
     }
 
     if (keys[KEYPAD_KEY_HASH]) {
         if (port & 8) {
-            retval = 0x10;
+            retval = JOYPORT_PVALUE(JOYPORT_FIRE);   /* output on joyport 'fire' pin */
         }
     }
 
