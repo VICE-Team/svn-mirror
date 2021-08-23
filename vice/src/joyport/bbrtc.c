@@ -91,9 +91,9 @@ static uint8_t bbrtc_read(int port)
 
 static void bbrtc_store(int port, uint8_t val)
 {
-    uint8_t rst_val = val & 1;
-    uint8_t data_val = (uint8_t)((val & 2) >> 1);
-    uint8_t clk_val = (uint8_t)((val & 8) >> 3);
+    uint8_t rst_val = JOYPORT_Px_TO_P0(val, JOYPORT_UP);       /* reset line is on the joyport 'up' pin */
+    uint8_t data_val = JOYPORT_Px_TO_P0(val, JOYPORT_DOWN);    /* data line is on the joyport 'down' pin */
+    uint8_t clk_val = JOYPORT_Px_TO_P0(val, JOYPORT_RIGHT);    /* clock line is on the joyport 'right' pin */
 
     if (rst_val != rst_line[port]) {
         ds1602_set_reset_line(bbrtc_context[port], rst_val);
