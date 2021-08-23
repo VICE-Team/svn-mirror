@@ -45,6 +45,16 @@
      1   | RST   |  O
      2   | DQ    | I/O
      4   | CLK   |  O
+
+   Works on:
+   - native port(s) (x64/x64sc/x128/xscpu64/x64dtv/xcbm5x0/xvic)
+   - hit userport joystick adapter ports (x64/x64sc/x128/xscpu64)
+   - kingsoft userport joystick adapter ports (x64/x64sc/x128/xscpu64)
+   - starbyte userport joystick adapter ports (x64/x64sc/x128/xscpu64)
+   - pet userport joystick adapter ports (xpet)
+   - hummer userport joystick adapter port (x64dtv)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
  */
 
 /* rtc context */
