@@ -44,6 +44,15 @@
      3   | COUNTER CLK |  O
      4   | COUNTER CLR |  O
      6   |   PROM CE   |  O
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xvic)
+   - hit userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
+   - kingsoft userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
+   - starbyte userport joystick adapter port 2 (x64/x64sc/xscpu64/x128)
+   - hummer userport joystick adapter port (x64dtv)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
  */
 
 /* Paperclip64D Dongle description:
@@ -137,15 +146,15 @@ static void paperclip64_store(int port, uint8_t val)
         return;
     }
 
-    output_enable[port] = !(val & 0x10);
+    output_enable[port] = !(val & JOYPORT_FIRE);   /* output enable line is on joyport 'fire' pin */
 
     reset = !(val & 8);
 
     if (reset) {
         counter[port] = 0;
     } else {
-        clk = val & 4;
-        old_clk = command[port] & 4;
+        clk = val & JOYPORT_LEFT;   /* clock line is on joyport 'left' pin */
+        old_clk = command[port] & JOYPORT_LEFT;
 
         if (old_clk && !clk) {
             counter[port]++;
