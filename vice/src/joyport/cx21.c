@@ -148,25 +148,25 @@ static uint8_t cx21_read_dig(int p)
 
     if (keys[KEYPAD_KEY_3]) {
         if (port & 1) {
-            retval = JOYPORT_PVALUE(JOYPORT_FIRE);   /* output on joyport 'fire' pin */
+            retval = JOYPORT_FIRE;   /* output on joyport 'fire' pin */
         }
     }
 
     if (keys[KEYPAD_KEY_6]) {
         if (port & 2) {
-            retval = JOYPORT_PVALUE(JOYPORT_FIRE);   /* output on joyport 'fire' pin */
+            retval = JOYPORT_FIRE;   /* output on joyport 'fire' pin */
         }
     }
 
     if (keys[KEYPAD_KEY_9]) {
         if (port & 4) {
-            retval = JOYPORT_PVALUE(JOYPORT_FIRE);   /* output on joyport 'fire' pin */
+            retval = JOYPORT_FIRE;   /* output on joyport 'fire' pin */
         }
     }
 
     if (keys[KEYPAD_KEY_HASH]) {
         if (port & 8) {
-            retval = JOYPORT_PVALUE(JOYPORT_FIRE);   /* output on joyport 'fire' pin */
+            retval = JOYPORT_FIRE;   /* output on joyport 'fire' pin */
         }
     }
 

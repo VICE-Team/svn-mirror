@@ -160,27 +160,27 @@ static uint8_t coplin_keypad_read(int port)
     unsigned int tmp;
 
     /* KEY4 */
-    tmp = !keys[KEYPAD_KEY_R] << 4;
+    tmp = !keys[KEYPAD_KEY_R] << JOYPORT_FIRE_BIT;   /* output key 4 on the joyport 'fire' pin */
     retval |= tmp;
 
     /* KEY3 */
     tmp = (unsigned int)(!keys[KEYPAD_KEY_6] & !keys[KEYPAD_KEY_9] & !keys[KEYPAD_KEY_3] & !keys[KEYPAD_KEY_0] & !keys[KEYPAD_KEY_P] & !keys[KEYPAD_KEY_5]);
-    tmp <<= 3;
+    tmp <<= JOYPORT_RIGHT_BIT;   /* output key 3 on the joyport 'right' pin */
     retval |= tmp;
 
     /* KEY2 */
     tmp = (unsigned int)(!keys[KEYPAD_KEY_4] & !keys[KEYPAD_KEY_7] & !keys[KEYPAD_KEY_P] & !keys[KEYPAD_KEY_5] & !keys[KEYPAD_KEY_0] & !keys[KEYPAD_KEY_1]);
-    tmp <<= 2;
+    tmp <<= JOYPORT_LEFT_BIT;   /* output key 2 on the joyport 'left' pin */
     retval |= tmp;
 
     /* KEY1 */
     tmp = (unsigned int)(!keys[KEYPAD_KEY_0] & !keys[KEYPAD_KEY_3] & !keys[KEYPAD_KEY_1] & !keys[KEYPAD_KEY_2]);
-    tmp <<= 1;
+    tmp <<= JOYPORT_DOWN_BIT;   /* output key 1 on the joyport 'down' pin */
     retval |= tmp;
 
     /* KEY0 */
     tmp = (unsigned int)(!keys[KEYPAD_KEY_P] & !keys[KEYPAD_KEY_9] & !keys[KEYPAD_KEY_7] & !keys[KEYPAD_KEY_8]);
-    retval |= tmp;
+    retval |= tmp;   /* output key 0 on the joyport 'up' pin */
 
     retval |= 0xe0;
 

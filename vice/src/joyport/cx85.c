@@ -171,7 +171,7 @@ static uint8_t cx85_read_dig(int port)
     unsigned int tmp;
 
     /* KEY4 */
-    tmp = !keys[KEYPAD_KEY_ESCAPE] << JOYPORT_FIRE;  /* output key 4 on joyport 'fire' pin */
+    tmp = !keys[KEYPAD_KEY_ESCAPE] << JOYPORT_FIRE_BIT;  /* output key 4 on joyport 'fire' pin */
     retval |= tmp;
 
     /* KEY3 */
@@ -184,7 +184,7 @@ static uint8_t cx85_read_dig(int port)
           keys[KEYPAD_KEY_1]     |
           keys[KEYPAD_KEY_YES]   |
           keys[KEYPAD_KEY_ESCAPE];
-    tmp <<= JOYPORT_RIGHT;   /* output key 3 on joyport 'right' pin */
+    tmp <<= JOYPORT_RIGHT_BIT;   /* output key 3 on joyport 'right' pin */
     retval |= tmp;
 
     /* KEY2 */
@@ -197,7 +197,7 @@ static uint8_t cx85_read_dig(int port)
           keys[KEYPAD_KEY_DOT]   |
           keys[KEYPAD_KEY_0]     |
           keys[KEYPAD_KEY_ESCAPE];
-    tmp <<= JOYPORT_LEFT;   /* output key 2 on joyport 'left' pin */
+    tmp <<= JOYPORT_LEFT_BIT;   /* output key 2 on joyport 'left' pin */
     retval |= tmp;
 
     /* KEY1 */
@@ -209,7 +209,7 @@ static uint8_t cx85_read_dig(int port)
           keys[KEYPAD_KEY_3]     |
           keys[KEYPAD_KEY_9]     |
           keys[KEYPAD_KEY_6];
-    tmp <<= JOYPORT_DOWN;   /* output key 1 on joyport 'down' pin */
+    tmp <<= JOYPORT_DOWN_BIT;   /* output key 1 on joyport 'down' pin */
     retval |= tmp;
 
     /* KEY0 */
