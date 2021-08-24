@@ -52,6 +52,15 @@
      6   |  JOY4     | Y button   |  I
      9   |  POTX     | X button   |  I
 
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xvic)
+   - hit userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
+   - kingsoft userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
+   - starbyte userport joystick adapter port 2 (x64/x64sc/xscpu64/x128)
+   - hummer userport joystick adapter port (x64dtv)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
+
    in compatibility mode the following extra mappings exist:
 
    Select toggles dpad up on/off
@@ -123,16 +132,16 @@ static uint8_t protopad_read(int port)
     } else {
         switch (counter[port]) {
             case PROTOPAD_TRIPPLE_0: /* return B A Right */
-                retval = (uint8_t)((joyval & 0x38) >> 3);
+                retval = (uint8_t)((joyval & (JOYPORT_BUTTON_B | JOYPORT_BUTTON_A | JOYPORT_RIGHT)) >> 3);
                 break;
             case PROTOPAD_TRIPPLE_1: /* return Left Down Up */
-                retval = (uint8_t)(joyval & 0x07);
+                retval = (uint8_t)(joyval & (JOYPORT_LEFT | JOYPORT_DOWN | JOYPORT_UP));
                 break;
             case PROTOPAD_TRIPPLE_2: /* return Start Select Bumber-R */
-                retval = (uint8_t)((joyval & 0xE00) >> 9);
+                retval = (uint8_t)((joyval & (JOYPORT_BUTTON_START | JOYPORT_BUTTON_SELECT | JOYPORT_BUTTON_RIGHT_BUMBER)) >> 9);
                 break;
             case PROTOPAD_TRIPPLE_3: /* return Bumber-L Y X */
-                retval = (uint8_t)((joyval & 0x1C0) >> 6);
+                retval = (uint8_t)((joyval & (JOYPORT_BUTTON_LEFT_BUMBER | JOYPORT_BUTTON_Y | JOYPORT_BUTTON_X)) >> 6);
                 break;
             default:
                 retval = 0xff;
@@ -144,8 +153,8 @@ static uint8_t protopad_read(int port)
 
 static void protopad_store(int port, uint8_t val)
 {
-    uint8_t new_mode = (val & 0x10) >> 4;
-    uint8_t new_clock = (val & 0x08) >> 3;
+    uint8_t new_mode = JOYPORT_BIT_BOOL(val, JOYPORT_FIRE_BIT);     /* mode line is on joyport 'fire' pin */
+    uint8_t new_clock = JOYPORT_BIT_BOOL(val, JOYPORT_RIGHT_BIT);   /* clock line is on joyport 'right' pin */
 
     if (clock_line[port] != new_clock) {
         counter[port]++;
@@ -166,12 +175,12 @@ static void protopad_store(int port, uint8_t val)
 
 static uint8_t protopad_read_potx(int port)
 {
-    return (uint8_t)(get_joystick_value(port) & 0x20 ? 0x00 : 0xff);
+    return (uint8_t)(get_joystick_value(port) & JOYPORT_FIRE_POTX ? 0x00 : 0xff);
 }
 
 static uint8_t protopad_read_poty(int port)
 {
-    return (uint8_t)(get_joystick_value(port) & 0x40 ? 0x00 : 0xff);
+    return (uint8_t)(get_joystick_value(port) & JOYPORT_FIRE_POTY ? 0x00 : 0xff);
 }
 
 /* ------------------------------------------------------------------------- */

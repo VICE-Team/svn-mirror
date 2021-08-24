@@ -82,6 +82,7 @@
 #include "plus4tcbm.h"
 #include "plus4ui.h"
 #include "printer.h"
+#include "protopad.h"
 #include "rs232drv.h"
 #include "rushware_keypad.h"
 #include "sampler.h"
@@ -461,6 +462,10 @@ int machine_resources_init(void)
     }
     if (joyport_cardkey_resources_init() < 0) {
         init_resource_fail("joyport cardkey keypad");
+        return -1;
+    }
+    if (joyport_protopad_resources_init() < 0) {
+        init_resource_fail("joyport protopad");
         return -1;
     }
     if (joystick_resources_init() < 0) {
