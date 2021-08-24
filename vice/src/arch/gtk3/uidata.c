@@ -58,8 +58,10 @@ int uidata_init(void)
 {
     GError *err = NULL;
 #ifdef HAVE_DEBUG_GTK3UI
+# if 0
     char **files;
     int i;
+# endif
 #endif
     char *path;
     const char* filename = "vice.gresource";
@@ -83,6 +85,7 @@ int uidata_init(void)
 
     /* debugging: show files in the resource blob */
 #ifdef HAVE_DEBUG_GTK3UI
+# if 0
     files = g_resource_enumerate_children(
             gresource,
             UIDATA_ROOT_PATH,
@@ -97,6 +100,7 @@ int uidata_init(void)
     for (i = 0; files[i] != NULL; i++) {
         debug_gtk3("%d: %s.", i, files[i]);
     }
+# endif
 #endif
     return 1;
 }

@@ -1123,8 +1123,9 @@ ui_menu_item_t* ui_get_vice_menu_item_by_name(const char *name)
     size_t i;
 
     for (i = 0; i < sizeof menu_references / sizeof menu_references[0]; i++) {
-        ui_menu_ref_t ref = menu_references[i];
         ui_menu_item_t *item;
+
+        ui_menu_ref_t ref = menu_references[i];
 #if 0
         debug_gtk3("Scanning '%s' for '%s'.", ref.name, name);
 #endif
@@ -1227,3 +1228,28 @@ GtkWidget *ui_get_gtk_menu_item_by_name(const char *name)
     }
     return NULL;
 }
+
+
+/** \brief  Clear hotkeys of all the menu items
+ *
+ * Iterates all menu item declarations and sets `keysym` and `modifier` to 0.
+ */
+void ui_clear_vice_menu_item_hotkeys(void)
+{
+    size_t i;
+
+    for (i = 0; i < sizeof menu_references / sizeof menu_references[0]; i++) {
+        ui_menu_item_t *item;
+
+        ui_menu_ref_t ref = menu_references[i];
+        for (item = ref.items; item->label != NULL; item++) {
+            if (item->type == UI_MENU_TYPE_ITEM_ACTION
+                    || item->type == UI_MENU_TYPE_ITEM_CHECK) {
+                item->keysym = 0;
+                item->modifier = 0;
+            }
+        }
+    }
+}
+
+

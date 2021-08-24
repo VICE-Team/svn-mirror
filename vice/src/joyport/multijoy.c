@@ -63,10 +63,10 @@
       10 (O5)   |    JOY6
        9 (O6)   |    JOY7
        7 (O7)   |    JOY8
- */
 
-#define JOYPAD_FIRE2 0x20
-#define JOYPAD_FIRE3 0x40
+   Works on:
+   - native joystick ports (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0)
+ */
 
 static int multijoy_enabled = 0;
 

@@ -47,4 +47,6 @@ gboolean        ui_set_vice_menu_item_hotkey_by_name(const char *name,
 
 GtkWidget *     ui_get_gtk_menu_item_by_name(const char *name);
 
+void            ui_clear_vice_menu_item_hotkeys(void);
+
 #endif /* VICE_UIMACHINEMENU_H */

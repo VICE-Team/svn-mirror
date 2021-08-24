@@ -45,6 +45,11 @@
      4   | KEY3   |  I
      5   | PRESS  |  I
 
+Works on:
+- native port(s) (x64/x64sc/scpu64/xvic)
+- sidcart joystick port (xplus4)
+
+
 The keypad has the following layout:
 
 KEYPAD                  KEYMAP KEYS
@@ -168,7 +173,7 @@ static uint8_t cardkey_read_dig(int port)
           keys[KEYPAD_KEY_5] |
           keys[KEYPAD_KEY_6] |
           keys[KEYPAD_KEY_7];
-    tmp <<= 3;
+    tmp <<= JOYPORT_RIGHT_BIT;   /* output key 3 on the joyport 'right' pin */
     retval |= tmp;
 
     /* KEY2 */
@@ -180,7 +185,7 @@ static uint8_t cardkey_read_dig(int port)
           keys[KEYPAD_KEY_9] |
           keys[KEYPAD_KEY_PLUS] |
           keys[KEYPAD_KEY_MINUS];
-    tmp <<= 2;
+    tmp <<= JOYPORT_LEFT_BIT;   /* output key 2 on the joyport 'left' pin */
     retval |= tmp;
 
     /* KEY1 */
@@ -192,7 +197,7 @@ static uint8_t cardkey_read_dig(int port)
           keys[KEYPAD_KEY_5] |
           keys[KEYPAD_KEY_DIV] |
           keys[KEYPAD_KEY_MULT];
-    tmp <<= 1;
+    tmp <<= JOYPORT_DOWN_BIT;   /* output key 1 on the joyport 'down' pin */
     retval |= tmp;
 
     /* KEY0 */
@@ -204,7 +209,7 @@ static uint8_t cardkey_read_dig(int port)
           keys[KEYPAD_KEY_PLUS] |
           keys[KEYPAD_KEY_6] |
           keys[KEYPAD_KEY_DOT];
-    retval |= tmp;
+    retval |= tmp;   /* output key 0 on the joyport 'up' pin */
 
     retval |= 0xf0;
 

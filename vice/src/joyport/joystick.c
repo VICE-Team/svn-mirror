@@ -66,6 +66,12 @@
          |          |
      9   | button 2 |  I
      5   | button 3 |  I
+
+   Directions and fire button 1 works on all joystick ports and joystick adapters
+   Button 2 and 3 works on:
+   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - sidcart joystick adapter port (xplus4)
+
  */
 
 /* #define DEBUGJOY */

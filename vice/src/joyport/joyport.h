@@ -135,21 +135,49 @@ enum {
 #define JOYPORT_DEVICE_RTC                10
 #define JOYPORT_DEVICE_DONGLE             11
 
-/* joystick pins */
-#define JOYPORT_P0    0
-#define JOYPORT_P1    1
-#define JOYPORT_P2    2
-#define JOYPORT_P3    3
-#define JOYPORT_P4    4
-#define JOYPORT_P5    5
-#define JOYPORT_P6    6
-#define JOYPORT_P7    7
-#define JOYPORT_P8    8
-#define JOYPORT_P9    9
-#define JOYPORT_P10   10
-#define JOYPORT_P11   11
+/* joystick bits */
+#define JOYPORT_P0_BIT    0
+#define JOYPORT_P1_BIT    1
+#define JOYPORT_P2_BIT    2
+#define JOYPORT_P3_BIT    3
+#define JOYPORT_P4_BIT    4
+#define JOYPORT_P5_BIT    5
+#define JOYPORT_P6_BIT    6
+#define JOYPORT_P7_BIT    7
+#define JOYPORT_P8_BIT    8
+#define JOYPORT_P9_BIT    9
+#define JOYPORT_P10_BIT   10
+#define JOYPORT_P11_BIT   11
 
-/* descriptive alternatives */
+/* joystick bit values */
+#define JOYPORT_P0   (1 << JOYPORT_P0_BIT)
+#define JOYPORT_P1   (1 << JOYPORT_P1_BIT)
+#define JOYPORT_P2   (1 << JOYPORT_P2_BIT)
+#define JOYPORT_P3   (1 << JOYPORT_P3_BIT)
+#define JOYPORT_P4   (1 << JOYPORT_P4_BIT)
+#define JOYPORT_P5   (1 << JOYPORT_P5_BIT)
+#define JOYPORT_P6   (1 << JOYPORT_P6_BIT)
+#define JOYPORT_P7   (1 << JOYPORT_P7_BIT)
+#define JOYPORT_P8   (1 << JOYPORT_P8_BIT)
+#define JOYPORT_P9   (1 << JOYPORT_P9_BIT)
+#define JOYPORT_P10   (1 << JOYPORT_P10_BIT)
+#define JOYPORT_P11   (1 << JOYPORT_P11_BIT)
+
+/* descriptive bit alternatives */
+#define JOYPORT_UP_BIT       JOYPORT_P0_BIT
+#define JOYPORT_DOWN_BIT     JOYPORT_P1_BIT
+#define JOYPORT_LEFT_BIT     JOYPORT_P2_BIT
+#define JOYPORT_RIGHT_BIT    JOYPORT_P3_BIT
+#define JOYPORT_FIRE_1_BIT   JOYPORT_P4_BIT
+#define JOYPORT_FIRE_2_BIT   JOYPORT_P5_BIT
+#define JOYPORT_FIRE_3_BIT   JOYPORT_P6_BIT
+#define JOYPORT_FIRE_4_BIT   JOYPORT_P7_BIT
+#define JOYPORT_FIRE_5_BIT   JOYPORT_P8_BIT
+#define JOYPORT_FIRE_6_BIT   JOYPORT_P9_BIT
+#define JOYPORT_FIRE_7_BIT   JOYPORT_P10_BIT
+#define JOYPORT_FIRE_8_BIT   JOYPORT_P11_BIT
+
+/* descriptive bit values alternatives */
 #define JOYPORT_UP       JOYPORT_P0
 #define JOYPORT_DOWN     JOYPORT_P1
 #define JOYPORT_LEFT     JOYPORT_P2
@@ -163,12 +191,27 @@ enum {
 #define JOYPORT_FIRE_7   JOYPORT_P10
 #define JOYPORT_FIRE_8   JOYPORT_P11
 
-/* Alternative names as used for 3 button atari style joysticks */
+/* Alternative bit names as used for 3 button atari style joysticks */
+#define JOYPORT_FIRE_BIT        JOYPORT_FIRE_1_BIT
+#define JOYPORT_FIRE_POTX_BIT   JOYPORT_FIRE_2_BIT
+#define JOYPORT_FIRE_POTY_BIT   JOYPORT_FIRE_3_BIT
+
+/* Alternative bit value names as used for 3 button atari style joysticks */
 #define JOYPORT_FIRE        JOYPORT_FIRE_1
 #define JOYPORT_FIRE_POTX   JOYPORT_FIRE_2
 #define JOYPORT_FIRE_POTY   JOYPORT_FIRE_3
 
-/* Alternative names as used for snes pads */
+/* Alternative bit names as used for snes pads */
+#define JOYPORT_BUTTON_A_BIT             JOYPORT_FIRE_1_BIT
+#define JOYPORT_BUTTON_B_BIT             JOYPORT_FIRE_2_BIT
+#define JOYPORT_BUTTON_X_BIT             JOYPORT_FIRE_3_BIT
+#define JOYPORT_BUTTON_Y_BIT             JOYPORT_FIRE_4_BIT
+#define JOYPORT_BUTTON_LEFT_BUMBER_BIT   JOYPORT_FIRE_5_BIT
+#define JOYPORT_BUTTON_RIGHT_BUMBER_BIT  JOYPORT_FIRE_6_BIT
+#define JOYPORT_BUTTON_SELECT_BIT        JOYPORT_FIRE_7_BIT
+#define JOYPORT_BUTTON_START_BIT         JOYPORT_FIRE_8_BIT
+
+/* Alternative bit value names as used for snes pads */
 #define JOYPORT_BUTTON_A             JOYPORT_FIRE_1
 #define JOYPORT_BUTTON_B             JOYPORT_FIRE_2
 #define JOYPORT_BUTTON_X             JOYPORT_FIRE_3
@@ -178,9 +221,9 @@ enum {
 #define JOYPORT_BUTTON_SELECT        JOYPORT_FIRE_7
 #define JOYPORT_BUTTON_START         JOYPORT_FIRE_8
 
-#define JOYPORT_PVALUE(pos) (1 << pos)
+#define JOYPORT_BIT_BOOL(var, pos) ((var & (1 << pos)) ? 1 : 0)
 
-#define JOYPORT_Px_TO_P0(var, pos) ((var & (1 << pos)) ? 1 : 0)
+#define JOYPORT_BIT_SHIFT(var, from, to) ((var & (1 << from)) ? (1 << to) : 0)
 
 /* this structure is used for control port devices */
 typedef struct joyport_s {

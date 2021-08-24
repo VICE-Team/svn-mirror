@@ -72,6 +72,10 @@
      6   | left button  |  I
      9   | X-position   |  I
 
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - sidcart joystick adapter port (xplus4)
+
    cport | neos         | I/O
    --------------------------
      1   | D0           |  I
@@ -81,6 +85,15 @@
      6   | strobe       |  O
      6   | left button  |  I
      9   | right button |  I
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xvic)
+   - hit userport joystick adaper port 1 (x64/x64sc/xscpu64/x128)
+   - kingsoft userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
+   - starbyte userport joystick adapter port 2 (x64/x64sc/xscpu64/x128)
+   - hummer userport joystick adapter port (x64dtv)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
 
    cport | amiga         | I/O
    ---------------------------
@@ -92,12 +105,27 @@
      6   | left button   |  I
      9   | right button  |  I
 
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xplus4/xvic)
+   - cga userport joystick adapater ports (x64/x64sc/xscpu64/x128)
+   - hit userport joystick adaper ports (x64/x64sc/xscpu64/x128)
+   - kingsoft userport joystick adapter ports (x64/x64sc/xscpu64/x128)
+   - starbyte userport joystick adapter ports (x64/x64sc/xscpu64/x128)
+   - hummer userport joystick adapter port (x64dtv)
+   - pet userport joystick adapter ports (xcbm2/xpet)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
+
    cport | paddles         | I/O
    -----------------------------
      3   | paddle X button |  I
      4   | paddle Y button |  I
      5   | paddle Y value  |  I
      9   | paddle X value  |  I
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - sidcart joystick adapter port (xplus4)
 
    cport | cx22        | I/O
    -------------------------
@@ -107,6 +135,17 @@
      4   | Y motion    |  I
      6   | button      |  I
 
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xplus4/xvic)
+   - cga userport joystick adapater ports (x64/x64sc/xscpu64/x128)
+   - hit userport joystick adaper ports (x64/x64sc/xscpu64/x128)
+   - kingsoft userport joystick adapter ports (x64/x64sc/xscpu64/x128)
+   - starbyte userport joystick adapter ports (x64/x64sc/xscpu64/x128)
+   - hummer userport joystick adapter port (x64dtv)
+   - pet userport joystick adapter ports (xcbm2/xpet)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
+
    cport | atari-st     | I/O
    --------------------------
      1   | XB           |  I
@@ -115,6 +154,17 @@
      4   | YB           |  I
      6   | left button  |  I
      9   | right button |  I
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xplus4/xvic)
+   - cga userport joystick adapater ports (x64/x64sc/xscpu64/x128)
+   - hit userport joystick adaper ports (x64/x64sc/xscpu64/x128)
+   - kingsoft userport joystick adapter ports (x64/x64sc/xscpu64/x128)
+   - starbyte userport joystick adapter ports (x64/x64sc/xscpu64/x128)
+   - hummer userport joystick adapter port (x64dtv)
+   - pet userport joystick adapter ports (xcbm2/xpet)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
 
    cport | smart mouse  | I/O
    --------------------------
@@ -126,6 +176,10 @@
      6   | left button  |  I
      9   | X-position   |  I
 
+   Works on:
+   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - sidcart joystick adapter port (xplus4)
+
    cport | micromys      | I/O
    ---------------------------
      1   | right button  |  I
@@ -136,12 +190,21 @@
      6   | left button   |  I
      9   | X-position    |  I
 
+   Works on:
+   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - sidcart joystick adapter port (xplus4)
+
    cport | koalapad     | I/O
    --------------------------
      3   | left button  |  I
      4   | right button |  I
      5   | Y-position   |  I
      9   | X-position   |  I
+
+   Works on:
+   - Native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - sidcart joystick adapter port (xplus4)
+
  */
 
 /* Log descriptor.  */
@@ -266,22 +329,22 @@ void neos_mouse_store(int port, uint8_t val)
         /* each change on the strobe line advances to the next state */
         switch (neos_state) {
             case NEOS_XH:
-                if (val & 16) {
+                if (val & JOYPORT_FIRE) {
                     neos_state = NEOS_XL;
                 }
                 break;
             case NEOS_XL:
-                if (neos_prev & 16) {
+                if (neos_prev & JOYPORT_FIRE) {
                     neos_state = NEOS_YH;
                 }
                 break;
             case NEOS_YH:
-                if (val & 16) {
+                if (val & JOYPORT_FIRE) {
                     neos_state = NEOS_YL;
                 }
                 break;
             case NEOS_YL:
-                if (neos_prev & 16) {
+                if (neos_prev & JOYPORT_FIRE) {
                     neos_state = NEOS_XH;
                     neos_get_new_movement();
                 }
@@ -305,16 +368,16 @@ uint8_t neos_mouse_read(void)
 
     switch (neos_state) {
         case NEOS_XH:
-            return ((neos_x >> 4) & 0xf) | 0xf0;
+            return ((neos_x >> 4) & 0xf) | 0xf0;   /* output high nibble of X on joyport direction pins */
             break;
         case NEOS_XL:
-            return (neos_x & 0xf) | 0xf0;
+            return (neos_x & 0xf) | 0xf0;          /* output low nibble of X on joyport direction pins */
             break;
         case NEOS_YH:
-            return ((neos_y >> 4) & 0xf) | 0xf0;
+            return ((neos_y >> 4) & 0xf) | 0xf0;   /* output high nibble of Y on joyport direction pins */
             break;
         case NEOS_YL:
-            return (neos_y & 0xf) | 0xf0;
+            return (neos_y & 0xf) | 0xf0;          /* output low nibble of X on joyport direction pins */
             break;
         default:
             /* never reaches here */
@@ -1174,7 +1237,7 @@ void mouse_shutdown(void)
 static void mouse_button_left(int pressed)
 {
     uint8_t old_val = mouse_digital_val;
-    uint8_t joypin = (((mouse_type == MOUSE_TYPE_PADDLE) || (mouse_type == MOUSE_TYPE_KOALAPAD)) ? 4 : 16);
+    uint8_t joypin = (((mouse_type == MOUSE_TYPE_PADDLE) || (mouse_type == MOUSE_TYPE_KOALAPAD)) ? JOYPORT_LEFT : JOYPORT_FIRE_1);
 
     if (pressed) {
         mouse_digital_val |= joypin;
@@ -1198,27 +1261,27 @@ static void mouse_button_right(int pressed)
         case MOUSE_TYPE_MICROMYS:
             /* "joystick up" */
             if (pressed) {
-                mouse_digital_val |= 1;
+                mouse_digital_val |= JOYPORT_UP;
             } else {
-                mouse_digital_val &= (uint8_t)~1;
+                mouse_digital_val &= (uint8_t)~JOYPORT_UP;
             }
             break;
         case MOUSE_TYPE_KOALAPAD:
         case MOUSE_TYPE_PADDLE:
             /* "joystick right" */
             if (pressed) {
-                mouse_digital_val |= 8;
+                mouse_digital_val |= JOYPORT_RIGHT;
             } else {
-                mouse_digital_val &= (uint8_t)~8;
+                mouse_digital_val &= (uint8_t)~JOYPORT_RIGHT;
             }
             break;
         case MOUSE_TYPE_NEOS:
         case MOUSE_TYPE_AMIGA:
         case MOUSE_TYPE_ST:
             if (pressed) {
-                neos_and_amiga_buttons |= 1;
+                neos_and_amiga_buttons |= JOYPORT_UP;
             } else {
-                neos_and_amiga_buttons &= ~1;
+                neos_and_amiga_buttons &= ~JOYPORT_UP;
             }
             break;
         default:
@@ -1237,17 +1300,17 @@ static void mouse_button_middle(int pressed)
     switch (mouse_type) {
         case MOUSE_TYPE_MICROMYS:
             if (pressed) {
-                mouse_digital_val |= 2;
+                mouse_digital_val |= JOYPORT_DOWN;
             } else {
-                mouse_digital_val &= (uint8_t)~2;
+                mouse_digital_val &= (uint8_t)~JOYPORT_DOWN;
             }
             break;
         case MOUSE_TYPE_AMIGA:
         case MOUSE_TYPE_ST:
             if (pressed) {
-                neos_and_amiga_buttons |= 2;
+                neos_and_amiga_buttons |= JOYPORT_DOWN;
             } else {
-                neos_and_amiga_buttons &= ~2;
+                neos_and_amiga_buttons &= ~JOYPORT_DOWN;
             }
             break;
         default:
@@ -1293,7 +1356,7 @@ static void mouse_button_down(int pressed)
 
 void smart_mouse_store(int port, uint8_t val)
 {
-    ds1202_1302_set_lines(ds1202, !(val & 8), !!(val & 2), !!(val & 4));
+    ds1202_1302_set_lines(ds1202, !(val & JOYPORT_RIGHT), !!(val & JOYPORT_DOWN), !!(val & JOYPORT_LEFT));
 }
 
 uint8_t smart_mouse_read(void)

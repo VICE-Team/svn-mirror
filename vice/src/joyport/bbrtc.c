@@ -45,6 +45,16 @@
      1   | RST   |  O
      2   | DQ    | I/O
      4   | CLK   |  O
+
+   Works on:
+   - native port(s) (x64/x64sc/x128/xscpu64/x64dtv/xcbm5x0/xvic)
+   - hit userport joystick adapter ports (x64/x64sc/x128/xscpu64)
+   - kingsoft userport joystick adapter ports (x64/x64sc/x128/xscpu64)
+   - starbyte userport joystick adapter ports (x64/x64sc/x128/xscpu64)
+   - pet userport joystick adapter ports (xpet/xcbm2)
+   - hummer userport joystick adapter port (x64dtv)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
  */
 
 /* rtc context */
@@ -91,9 +101,9 @@ static uint8_t bbrtc_read(int port)
 
 static void bbrtc_store(int port, uint8_t val)
 {
-    uint8_t rst_val = val & 1;
-    uint8_t data_val = (uint8_t)((val & 2) >> 1);
-    uint8_t clk_val = (uint8_t)((val & 8) >> 3);
+    uint8_t rst_val = JOYPORT_BIT_BOOL(val, JOYPORT_UP_BIT);       /* reset line is on the joyport 'up' pin */
+    uint8_t data_val = JOYPORT_BIT_BOOL(val, JOYPORT_DOWN_BIT);    /* data line is on the joyport 'down' pin */
+    uint8_t clk_val = JOYPORT_BIT_BOOL(val, JOYPORT_RIGHT_BIT);    /* clock line is on the joyport 'right' pin */
 
     if (rst_val != rst_line[port]) {
         ds1602_set_reset_line(bbrtc_context[port], rst_val);
