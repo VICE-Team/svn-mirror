@@ -48,6 +48,10 @@
      3   |   DATA PAD 3 |  I
      4   |     CLOCK    |  O
      6   |     LATCH    |  O
+
+   Works on:
+   - native joystick ports (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0)
+   - sidcart joystick adapter port (xplus4)
  */
 
 /* Since there are currently no games that use more than 3 snes pads,
@@ -96,64 +100,64 @@ static uint8_t snespad_read(int port)
 
     switch (counter) {
         case SNESPAD_BUTTON_A:
-            retval = (uint8_t)((joyval1 & 0x10) >> 4);
-            retval |= (uint8_t)((joyval2 & 0x10) >> 3);
-            retval |= (uint8_t)((joyval3 & 0x10) >> 2);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_BUTTON_A_BIT, JOYPORT_UP_BIT);      /* output snespad 1 button a on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_BUTTON_A_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 button a on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_BUTTON_A_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 button a on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_B:
-            retval = (uint8_t)((joyval1 & 0x20) >> 5);
-            retval |= (uint8_t)((joyval2 & 0x20) >> 4);
-            retval |= (uint8_t)((joyval3 & 0x20) >> 3);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_BUTTON_B_BIT, JOYPORT_UP_BIT);      /* output snespad 1 button b on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_BUTTON_B_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 button b on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_BUTTON_B_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 button b on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_X:
-            retval = (uint8_t)((joyval1 & 0x40) >> 6);
-            retval |= (uint8_t)((joyval2 & 0x40) >> 5);
-            retval |= (uint8_t)((joyval3 & 0x40) >> 4);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_BUTTON_X_BIT, JOYPORT_UP_BIT);      /* output snespad 1 button x on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_BUTTON_X_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 button x on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_BUTTON_X_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 button x on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_Y:
-            retval = (uint8_t)((joyval1 & 0x80) >> 7);
-            retval |= (uint8_t)((joyval2 & 0x80) >> 6);
-            retval |= (uint8_t)((joyval3 & 0x80) >> 5);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_BUTTON_Y_BIT, JOYPORT_UP_BIT);      /* output snespad 1 button y on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_BUTTON_Y_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 button y on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_BUTTON_Y_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 button y on joyport 'left' pin */
             break;
         case SNESPAD_BUMPER_LEFT:
-            retval = (uint8_t)((joyval1 & 0x100) >> 8);
-            retval |= (uint8_t)((joyval2 & 0x100) >> 7);
-            retval |= (uint8_t)((joyval3 & 0x100) >> 6);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_BUTTON_LEFT_BUMBER_BIT, JOYPORT_UP_BIT);      /* output snespad 1 left bumper on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_BUTTON_LEFT_BUMBER_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 left bumper on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_BUTTON_LEFT_BUMBER_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 left bumper on joyport 'left' pin */
             break;
         case SNESPAD_BUMPER_RIGHT:
-            retval = (uint8_t)((joyval1 & 0x200) >> 9);
-            retval |= (uint8_t)((joyval2 & 0x200) >> 8);
-            retval |= (uint8_t)((joyval3 & 0x200) >> 7);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_BUTTON_RIGHT_BUMBER_BIT, JOYPORT_UP_BIT);      /* output snespad 1 right bumper on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_BUTTON_RIGHT_BUMBER_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 right bumper on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_BUTTON_RIGHT_BUMBER_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 right bumper on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_SELECT:
-            retval = (uint8_t)((joyval1 & 0x400) >> 10);
-            retval |= (uint8_t)((joyval2 & 0x400) >> 9);
-            retval |= (uint8_t)((joyval3 & 0x400) >> 8);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_BUTTON_SELECT_BIT, JOYPORT_UP_BIT);      /* output snespad 1 select button on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_BUTTON_SELECT_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 select button on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_BUTTON_SELECT_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 select button on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_START:
-            retval = (uint8_t)((joyval1 & 0x800) >> 11);
-            retval |= (uint8_t)((joyval2 & 0x800) >> 10);
-            retval |= (uint8_t)((joyval3 & 0x800) >> 9);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_BUTTON_START_BIT, JOYPORT_UP_BIT);      /* output snespad 1 start button on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_BUTTON_START_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 start button on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_BUTTON_START_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 start button on joyport 'left' pin */
             break;
         case SNESPAD_UP:
-            retval = (uint8_t)(joyval1 & 1);
-            retval |= (uint8_t)((joyval2 & 1) << 1);
-            retval |= (uint8_t)((joyval3 & 1) << 2);
+            retval = (uint8_t)JOYPORT_BIT_BOOL(joyval1, JOYPORT_UP_BIT);                   /* output snespad 1 up on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_UP_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 up on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_UP_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 up on joyport 'left' pin */
             break;
         case SNESPAD_DOWN:
-            retval = (uint8_t)((joyval1 & 2) >> 1);
-            retval |= (uint8_t)(joyval2 & 2);
-            retval |= (uint8_t)((joyval3 & 2) << 1);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_DOWN_BIT, JOYPORT_UP_BIT);      /* output snespad 1 down on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_DOWN_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 down on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_DOWN_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 down on joyport 'left' pin */
             break;
         case SNESPAD_LEFT:
-            retval = (uint8_t)((joyval1 & 4) >> 2);
-            retval |= (uint8_t)((joyval2 & 4) >> 1);
-            retval |= (uint8_t)(joyval3 & 4);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_LEFT_BIT, JOYPORT_UP_BIT);      /* output snespad 1 left on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_LEFT_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 left on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_LEFT_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 left on joyport 'left' pin */
             break;
         case SNESPAD_RIGHT:
-            retval = (uint8_t)((joyval1 & 8) >> 3);
-            retval |= (uint8_t)((joyval2 & 8) >> 2);
-            retval |= (uint8_t)((joyval3 & 8) >> 1);
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_RIGHT_BIT, JOYPORT_UP_BIT);      /* output snespad 1 right on joyport 'up' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_RIGHT_BIT, JOYPORT_DOWN_BIT);   /* output snespad 2 right on joyport 'down' pin */
+            retval |= (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_RIGHT_BIT, JOYPORT_LEFT_BIT);   /* output snespad 3 right on joyport 'left' pin */
             break;
         case SNESPAD_BIT_12_1:
         case SNESPAD_BIT_13_1:
@@ -173,8 +177,8 @@ static uint8_t snespad_read(int port)
 
 static void snespad_store(int port, uint8_t val)
 {
-    uint8_t new_clock = (val & 0x08) >> 3;
-    uint8_t new_latch = (val & 0x10) >> 4;
+    uint8_t new_clock = JOYPORT_BIT_BOOL(val, JOYPORT_RIGHT_BIT);   /* clock line is on joyport 'right' pin */
+    uint8_t new_latch = JOYPORT_BIT_BOOL(val, JOYPORT_FIRE_BIT);    /* latch line is on joyport 'fire' pin */
 
     if (latch_line && !new_latch) {
         counter = 0;
