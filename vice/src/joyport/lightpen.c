@@ -47,25 +47,40 @@
      1   | button              |  I
      6   | light sensor        |  I
 
+   Works on:
+   - native joystick port 1 (x64/x64sc/xscpu64/x128/xvic)
+
    cport | lightpen left       | I/O
    ---------------------------------
      3   | button              |  I
      6   | light sensor        |  I
+
+   Works on:
+   - native joystick port 1 (x64/x64sc/xscpu64/x128/xvic)
 
    cport | datel pen           | I/O
    ---------------------------------
      3   | button              |  I
      6   | light sensor        |  I
 
+   Works on:
+   - native joystick port 1 (x64/x64sc/xscpu64/x128/xvic)
+
    cport | magnum light phaser | I/O
    ---------------------------------
      6   | light sensor        |  I
      9   | button              |  I
 
+   Works on:
+   - native joystick port 1 (x64/x64sc/xscpu64/x128/xvic)
+
    cport | stack light rifle   | I/O
    ---------------------------------
      3   | button              |  I
      6   | light sensor        |  I
+
+   Works on:
+   - native joystick port 1 (x64/x64sc/xscpu64/x128/xvic)
 
    cport | inkwell lightpen    | I/O
    ---------------------------------
@@ -75,6 +90,9 @@
 
      not fully implemented:
 
+   Works on:
+   - native joystick port 1 (x64/x64sc/xscpu64/x128/xvic)
+
    cport | Gun Stick           | I/O
    ---------------------------------
      2   | light sensor        |  I
@@ -83,7 +101,6 @@
      This gun is somewhat weird, in that it uses pin 2 (down) for the light
      sensor, and pin 6 (lp-trigger) for the trigger button. also the signal
      on pin 2 is stretched a bit by the logic in the gun.
-
  */
 
 /* --------------------------------------------------------- */
@@ -141,20 +158,20 @@ typedef struct lp_type_s lp_type_t;
  */
 static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
     /* Pen with button Up (e.g. Atari CX75) */
-    { PEN, 0x01, 0x00, 0, 0 },
+    { PEN, JOYPORT_UP, 0x00, 0, 0 },
     /* Pen with button Left */
-    { PEN, 0x04, 0x00, 0, 0 },
+    { PEN, JOYPORT_LEFT, 0x00, 0, 0 },
     /* Datel Pen */
-    { PEN, 0x04, 0x00, 20, -5 },
+    { PEN, JOYPORT_LEFT, 0x00, 20, -5 },
     /* Magnum Light Phaser, Cheetah Defender */
-    { GUN, 0x20, 0x00, 30, -10 },   /* tweaked against "Blaze Out" and "3-D Action Pack" */
+    { GUN, JOYPORT_FIRE_2, 0x00, 30, -10 },   /* tweaked against "Blaze Out" and "3-D Action Pack" */
     /* Stack Light Rifle */
-    { GUN, 0x04, 0x00, 20, 0 },
+    { GUN, JOYPORT_LEFT, 0x00, 20, 0 },
     /* Inkwell Lightpen */
-    { GUN, 0x04, 0x20, 20, 0 },
+    { GUN, JOYPORT_LEFT, JOYPORT_FIRE_2, 20, 0 },
 #ifdef JOYPORT_EXPERIMENTAL_DEVICES
     /* Gun Stick */
-    { GUN, 0x12, 0x00, 0, 0 },
+    { GUN, JOYPORT_FIRE | JOYPORT_DOWN, 0x00, 0, 0 },
 #endif
 };
 

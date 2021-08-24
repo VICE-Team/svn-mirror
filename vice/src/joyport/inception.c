@@ -48,6 +48,10 @@
      3   |      D2
      4   |      D3
      6   |      D4
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xvic)
+
  */
 
 static int inception_enabled = 0;
