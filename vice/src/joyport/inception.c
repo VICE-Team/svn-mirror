@@ -98,60 +98,60 @@ static uint8_t inception_read(int port)
             retval = 0xff;
             break;
         case INCEPTION_STATE_HI_JOY1:
-            retval = (uint8_t)((joyval1 & 0x20) >> 2);
-            retval |= (uint8_t)(joyval1 & 0x10) >> 4;
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_FIRE_2_BIT, JOYPORT_RIGHT_BIT);   /* output joystick 1 fire 2 button on joyport 'right' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval1, JOYPORT_FIRE_1_BIT, JOYPORT_UP_BIT);      /* output joystick 1 fire 1 button on joyport 'up' pin */
             break;
         case INCEPTION_STATE_LO_JOY1:
-            retval = joyval1 & 0xf;
+            retval = joyval1 & 0xf;   /* output joystick 1 directions on joyport direction pins */
             break;
         case INCEPTION_STATE_HI_JOY2:
-            retval = (uint8_t)((joyval2 & 0x20) >> 2);
-            retval |= (uint8_t)(joyval2 & 0x10) >> 4;
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_FIRE_2_BIT, JOYPORT_RIGHT_BIT);   /* output joystick 2 fire 2 button on joyport 'right' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval2, JOYPORT_FIRE_1_BIT, JOYPORT_UP_BIT);      /* output joystick 2 fire 1 button on joyport 'up' pin */
             break;
         case INCEPTION_STATE_LO_JOY2:
-            retval = joyval2 & 0xf;
+            retval = joyval2 & 0xf;   /* output joystick 2 directions on joyport direction pins */
             break;
         case INCEPTION_STATE_HI_JOY3:
-            retval = (uint8_t)((joyval3 & 0x20) >> 2);
-            retval |= (uint8_t)(joyval3 & 0x10) >> 4;
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_FIRE_2_BIT, JOYPORT_RIGHT_BIT);   /* output joystick 3 fire 2 button on joyport 'right' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval3, JOYPORT_FIRE_1_BIT, JOYPORT_UP_BIT);      /* output joystick 3 fire 1 button on joyport 'up' pin */
             break;
         case INCEPTION_STATE_LO_JOY3:
-            retval = joyval3 & 0xf;
+            retval = joyval3 & 0xf;   /* output joystick 3 directions on joyport direction pins */
             break;
         case INCEPTION_STATE_HI_JOY4:
-            retval = (uint8_t)((joyval4 & 0x20) >> 2);
-            retval |= (uint8_t)(joyval4 & 0x10) >> 4;
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval4, JOYPORT_FIRE_2_BIT, JOYPORT_RIGHT_BIT);   /* output joystick 4 fire 2 button on joyport 'right' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval4, JOYPORT_FIRE_1_BIT, JOYPORT_UP_BIT);      /* output joystick 4 fire 1 button on joyport 'up' pin */
             break;
         case INCEPTION_STATE_LO_JOY4:
-            retval = joyval4 & 0xf;
+            retval = joyval4 & 0xf;   /* output joystick 4 directions on joyport direction pins */
             break;
         case INCEPTION_STATE_HI_JOY5:
-            retval = (uint8_t)((joyval5 & 0x20) >> 2);
-            retval |= (uint8_t)(joyval5 & 0x10) >> 4;
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval5, JOYPORT_FIRE_2_BIT, JOYPORT_RIGHT_BIT);   /* output joystick 5 fire 2 button on joyport 'right' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval5, JOYPORT_FIRE_1_BIT, JOYPORT_UP_BIT);      /* output joystick 5 fire 1 button on joyport 'up' pin */
             break;
         case INCEPTION_STATE_LO_JOY5:
-            retval = joyval5 & 0xf;
+            retval = joyval5 & 0xf;   /* output joystick 5 directions on joyport direction pins */
             break;
         case INCEPTION_STATE_HI_JOY6:
-            retval = (uint8_t)((joyval6 & 0x20) >> 2);
-            retval |= (uint8_t)(joyval6 & 0x10) >> 4;
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval6, JOYPORT_FIRE_2_BIT, JOYPORT_RIGHT_BIT);   /* output joystick 6 fire 2 button on joyport 'right' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval6, JOYPORT_FIRE_1_BIT, JOYPORT_UP_BIT);      /* output joystick 6 fire 1 button on joyport 'up' pin */
             break;
         case INCEPTION_STATE_LO_JOY6:
-            retval = joyval6 & 0xf;
+            retval = joyval6 & 0xf;   /* output joystick 6 directions on joyport direction pins */
             break;
         case INCEPTION_STATE_HI_JOY7:
-            retval = (uint8_t)((joyval7 & 0x20) >> 2);
-            retval |= (uint8_t)(joyval7 & 0x10) >> 4;
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval7, JOYPORT_FIRE_2_BIT, JOYPORT_RIGHT_BIT);   /* output joystick 7 fire 2 button on joyport 'right' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval7, JOYPORT_FIRE_1_BIT, JOYPORT_UP_BIT);      /* output joystick 7 fire 1 button on joyport 'up' pin */
             break;
         case INCEPTION_STATE_LO_JOY7:
-            retval = joyval7 & 0xf;
+            retval = joyval7 & 0xf;   /* output joystick 7 directions on joyport direction pins */
             break;
         case INCEPTION_STATE_HI_JOY8:
-            retval = (uint8_t)((joyval8 & 0x20) >> 2);
-            retval |= (uint8_t)(joyval8 & 0x10) >> 4;
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval8, JOYPORT_FIRE_2_BIT, JOYPORT_RIGHT_BIT);   /* output joystick 8 fire 2 button on joyport 'right' pin */
+            retval = (uint8_t)JOYPORT_BIT_SHIFT(joyval8, JOYPORT_FIRE_1_BIT, JOYPORT_UP_BIT);      /* output joystick 8 fire 1 button on joyport 'up' pin */
             break;
         case INCEPTION_STATE_LO_JOY8:
-            retval = joyval8 & 0xf;
+            retval = joyval8 & 0xf;   /* output joystick 8 directions on joyport direction pins */
             break;
         default:
             retval = 0xff;
