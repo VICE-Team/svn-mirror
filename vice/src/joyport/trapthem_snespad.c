@@ -46,6 +46,16 @@
      3   |  DATA PAD  |  I
      4   |   CLOCK    |  O
      6   |   LATCH    |  O
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xvic)
+   - hit userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
+   - kingsoft userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
+   - starbyte userport joystick adapter port 2 (x64/x64sc/xscpu64/x128)
+   - hummer userport joystick adapter port (x64dtv)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
+
  */
 
 static int snespad_enabled[JOYPORT_MAX_PORTS] = {0};
@@ -83,40 +93,40 @@ static uint8_t snespad_read(int port)
 
     switch (counter[port]) {
         case SNESPAD_BUTTON_A:
-            retval = (uint8_t)((joyval & 0x10) >> 2);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_BUTTON_A_BIT, JOYPORT_LEFT_BIT));   /* output button a on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_B:
-            retval = (uint8_t)((joyval & 0x20) >> 3);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_BUTTON_B_BIT, JOYPORT_LEFT_BIT));   /* output button b on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_X:
-            retval = (uint8_t)((joyval & 0x40) >> 4);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_BUTTON_X_BIT, JOYPORT_LEFT_BIT));   /* output button x on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_Y:
-            retval = (uint8_t)((joyval & 0x80) >> 5);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_BUTTON_Y_BIT, JOYPORT_LEFT_BIT));   /* output button y on joyport 'left' pin */
             break;
         case SNESPAD_BUMPER_LEFT:
-            retval = (uint8_t)((joyval & 0x100) >> 6);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_BUTTON_LEFT_BUMBER_BIT, JOYPORT_LEFT_BIT));   /* output left bumper button on joyport 'left' pin */
             break;
         case SNESPAD_BUMPER_RIGHT:
-            retval = (uint8_t)((joyval & 0x200) >> 7);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_BUTTON_RIGHT_BUMBER_BIT, JOYPORT_LEFT_BIT));   /* output right bumper button on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_SELECT:
-            retval = (uint8_t)((joyval & 0x400) >> 8);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_BUTTON_SELECT_BIT, JOYPORT_LEFT_BIT));   /* output select button on joyport 'left' pin */
             break;
         case SNESPAD_BUTTON_START:
-            retval = (uint8_t)((joyval & 0x800) >> 9);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_BUTTON_START_BIT, JOYPORT_LEFT_BIT));   /* output start button on joyport 'left' pin */
             break;
         case SNESPAD_UP:
-            retval = (uint8_t)((joyval & 1) << 2);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_UP_BIT, JOYPORT_LEFT_BIT));   /* output up on joyport 'left' pin */
             break;
         case SNESPAD_DOWN:
-            retval = (uint8_t)((joyval & 2) << 1);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_DOWN_BIT, JOYPORT_LEFT_BIT));   /* output down on joyport 'left' pin */
             break;
         case SNESPAD_LEFT:
-            retval = (uint8_t)(joyval & 4);
+            retval = (uint8_t)(joyval & JOYPORT_LEFT); /* output left on joyport 'left' pin */
             break;
         case SNESPAD_RIGHT:
-            retval = (uint8_t)((joyval & 8) >> 1);
+            retval = (uint8_t)(JOYPORT_BIT_SHIFT(joyval, JOYPORT_RIGHT_BIT, JOYPORT_LEFT_BIT));   /* output right on joyport 'left' pin */
             break;
         case SNESPAD_BIT_12_1:
         case SNESPAD_BIT_13_1:
@@ -136,8 +146,8 @@ static uint8_t snespad_read(int port)
 
 static void snespad_store(int port, uint8_t val)
 {
-    uint8_t new_clock = (val & 0x08) >> 3;
-    uint8_t new_latch = (val & 0x10) >> 4;
+    uint8_t new_clock = JOYPORT_BIT_BOOL(val, JOYPORT_RIGHT_BIT);   /* clock line is on joyport 'right' pin */
+    uint8_t new_latch = JOYPORT_BIT_BOOL(val, JOYPORT_FIRE_BIT);    /* latch line is on joyport 'fire' pin */
 
     if (latch_line[port] && !new_latch) {
         counter[port] = 0;

@@ -57,10 +57,11 @@
    
    The userport is driven in such a way that only 1 joystick
    has ground.
- */
 
-#define JOYPAD_FIRE2 0x20
-#define JOYPAD_FIRE3 0x40
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic)
+
+ */
 
 static int spaceballs_enabled = 0;
 

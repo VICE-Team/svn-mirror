@@ -42,6 +42,11 @@
    -------------------------------
      7   | 100 Kohm
      9   | 27 Kohm
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - sidcart joystick port (xplus4)
+
  */
 
 #define POTX_RETURN   0xC0
