@@ -45,6 +45,16 @@
      4   | KEY3    |  I
      6   | KEYDOWN |  I
 
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/xplus4/xvic)
+   - cga userport joystick adapter ports (x64/x64sc/xscpu64)
+   - hit userport joystick adapter ports (x64/x64sc/xscpu64)
+   - kingsoft userport joystick adapter ports (x64/x64sc/xscpu64)
+   - starbyte userport joystick adapter ports (x64/x64sc/xscpu64)
+   - hummer userport joystick adapter port (x64dtv)
+   - oem userport joystick adapter port (xvic)
+   - sidcart joystick adapter port (xplus4)
+
 The keypad has the following layout:
 
 KEYPAD             KEYMAP KEYS

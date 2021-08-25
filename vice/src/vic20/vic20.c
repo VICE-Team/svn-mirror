@@ -81,6 +81,7 @@
 #include "sampler2bit.h"
 #include "sampler4bit.h"
 #include "screenshot.h"
+#include "script64_dongle.h"
 #include "serial.h"
 #include "sid.h"
 #include "sidcart.h"
@@ -605,6 +606,10 @@ int machine_resources_init(void)
     }
     if (joyport_paperclip64_resources_init() < 0) {
         init_resource_fail("joyport paperclip64 dongle");
+        return -1;
+    }
+    if (joyport_script64_dongle_resources_init() < 0) {
+        init_resource_fail("joyport script64 dongle");
         return -1;
     }
     if (joyport_coplin_keypad_resources_init() < 0) {

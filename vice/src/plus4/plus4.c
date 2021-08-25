@@ -89,6 +89,7 @@
 #include "sampler2bit.h"
 #include "sampler4bit.h"
 #include "screenshot.h"
+#include "script64_dongle.h"
 #include "serial.h"
 #include "sid.h"
 #include "sidcart.h"
@@ -102,6 +103,7 @@
 #include "ted-sound.h"
 #include "ted.h"
 #include "traps.h"
+#include "trapthem_snespad.h"
 #include "types.h"
 #include "userport.h"
 #include "userport_dac.h"
@@ -444,6 +446,10 @@ int machine_resources_init(void)
         init_resource_fail("joyport paperclip64 dongle");
         return -1;
     }
+    if (joyport_script64_dongle_resources_init() < 0) {
+        init_resource_fail("joyport script64 dongle");
+        return -1;
+    }
     if (joyport_coplin_keypad_resources_init() < 0) {
         init_resource_fail("joyport coplin keypad");
         return -1;
@@ -466,6 +472,10 @@ int machine_resources_init(void)
     }
     if (joyport_protopad_resources_init() < 0) {
         init_resource_fail("joyport protopad");
+        return -1;
+    }
+    if (joyport_trapthem_snespad_resources_init() < 0) {
+        init_resource_fail("joyport trapthem snespad");
         return -1;
     }
     if (joystick_resources_init() < 0) {

@@ -42,6 +42,8 @@
      1   | D0           |  I
      2   | D1           |  I
 
+   Works on all joystick ports and adapters
+
  */
 
 static int sampler_enabled = 0;
