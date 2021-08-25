@@ -241,6 +241,8 @@ typedef struct joyport_s {
     uint8_t (*read_poty)(int port);                        /* pointer to the device Y potentiometer read function */
     int (*write_snapshot)(struct snapshot_s *s, int port); /* pointer to the device snapshot write function */
     int (*read_snapshot)(struct snapshot_s *s, int port);  /* pointer to the device snapshot read function */
+    void (*hook)(int port, uint16_t state);                /* pointer to the device hook function for state changing buttons */
+    uint16_t hook_mask;                                    /* mask used for the device hook */
 } joyport_t;
 
 typedef struct joyport_desc_s {
@@ -283,6 +285,8 @@ extern void joyport_clear_devices(void);
 
 extern int joyport_port_is_active(int port);
 
+extern void joyport_handle_joystick_hook(int port, uint16_t state);
+
 extern char *joystick_adapter_get_name(void);
 extern uint8_t joystick_adapter_get_id(void);
 extern uint8_t joystick_adapter_activate(uint8_t id, char *name);
@@ -292,6 +296,8 @@ extern void joystick_adapter_set_ports(int ports);
 extern int joystick_adapter_get_ports(void);
 extern void joystick_adapter_set_add_ports(int ports);
 extern void joystick_adapter_set_output_check_function(int (*function)(int port, uint8_t bits));
+
+extern void joystick_set_hook(int port, int val, uint16_t mask);
 
 extern int joyport_snapshot_write_module(struct snapshot_s *s, int port);
 extern int joyport_snapshot_read_module(struct snapshot_s *s, int port);

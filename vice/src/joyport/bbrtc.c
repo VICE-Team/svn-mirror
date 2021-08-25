@@ -141,7 +141,9 @@ static joyport_t joyport_bbrtc_device = {
     NULL,                     /* NO pot-x read function */
     NULL,                     /* NO pot-y read function */
     bbrtc_write_snapshot,     /* device snapshot write function */
-    bbrtc_read_snapshot       /* device snapshot read function */
+    bbrtc_read_snapshot,      /* device snapshot read function */
+    NULL,                     /* NO device hook function */
+    0                         /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */

@@ -182,7 +182,9 @@ static joyport_t joyport_snespad_device = {
     NULL,                              /* NO pot-x read function */
     NULL,                              /* NO pot-y read function */
     trapthem_snespad_write_snapshot,   /* device write snapshot function */
-    trapthem_snespad_read_snapshot     /* device read snapshot function */
+    trapthem_snespad_read_snapshot,    /* device read snapshot function */
+    NULL,                              /* NO device hook function */
+    0                                  /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */

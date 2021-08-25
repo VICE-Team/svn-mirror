@@ -228,7 +228,9 @@ static joyport_t joyport_rushware_keypad_device = {
     NULL,                           /* NO pot-x read function */
     NULL,                           /* NO pot-x read function */
     NULL,                           /* NO device write snapshot function */
-    NULL                            /* NO device read snapshot function */
+    NULL,                           /* NO device read snapshot function */
+    NULL,                           /* NO device hook function */
+    0                               /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */
