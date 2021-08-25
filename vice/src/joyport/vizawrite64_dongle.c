@@ -35,6 +35,18 @@
 
 #include "vizawrite64_dongle.h"
 
+/* Control port <--> Vizawrite64 dongle connections:
+
+   cport | I/O
+   ------------
+     5   | O
+     9   | O
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - sidcart joystick adapter port (xplus4)
+
+ */
 
 /* ------------------------------------------------------------------------- */
 
