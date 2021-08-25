@@ -177,9 +177,15 @@ static int joyport_set_device(int port, int id)
     /* all checks done, now disable the current device and enable the new device */
     if (joyport_device[joy_port[port]].enable) {
         joyport_device[joy_port[port]].enable(port, 0);
+        if (joyport_device[joy_port[port]].hook) {
+            joystick_set_hook(port, 0, 0);
+        }
     }
     if (joyport_device[id].enable) {
         joyport_device[id].enable(port, id);
+        if (joyport_device[id].hook) {
+            joystick_set_hook(port, 1, joyport_device[id].hook_mask);
+        }
     }
     joy_port[port] = id;
 
@@ -195,6 +201,13 @@ void joyport_clear_devices(void)
         if (port_props[i].name) {
             joyport_set_device(i, JOYPORT_ID_NONE);
         }
+    }
+}
+
+void joyport_handle_joystick_hook(int port, uint16_t state)
+{
+    if (joyport_device[joy_port[port]].hook) {
+        joyport_device[joy_port[port]].hook(port, state);
     }
 }
 
@@ -403,6 +416,8 @@ int joyport_device_register(int id, joyport_t *device)
     joyport_device[id].read_poty = device->read_poty;
     joyport_device[id].write_snapshot = device->write_snapshot;
     joyport_device[id].read_snapshot = device->read_snapshot;
+    joyport_device[id].hook = device->hook;
+    joyport_device[id].hook_mask = device->hook_mask;
     return 0;
 }
 

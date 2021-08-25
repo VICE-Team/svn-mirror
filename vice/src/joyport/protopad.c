@@ -120,15 +120,21 @@ static int joyport_protopad_enable(int port, int value)
     return 0;
 }
 
-/* TODO: handle extra buttons in compat mode */
+/* TODO: handle autofire buttons in compat mode */
 static uint8_t protopad_read(int port)
 {
     uint8_t retval;
     uint16_t joyval = get_joystick_value(port);
+    uint16_t mask = 0x1f;   /* mask for the directions and fire buttons in compat mode */
 
     /* if the mode line is high we have compat mode, if low we have native mode */
     if (mode_line[port]) {
-        retval = (uint8_t)(joyval & 0x1f);
+        if (dpad_mode[port]) {
+            /* dpad up needs to be ignored */
+            mask = 0x1e;
+        }
+        /* TODO: handle autofire modes */
+        retval = (uint8_t)(joyval & mask);
     } else {
         switch (counter[port]) {
             case PROTOPAD_TRIPPLE_0: /* return B A Right */
@@ -185,8 +191,60 @@ static uint8_t protopad_read_poty(int port)
 
 /* ------------------------------------------------------------------------- */
 
+#if 0
+    /* for autofire speed selection cycling */
+static int protopad_lb_state[JOYPORT_MAX_PORTS] = {0};
+#endif
+
+static int protopad_select_state[JOYPORT_MAX_PORTS] = {0};
+static int protopad_start_state[JOYPORT_MAX_PORTS] = {0};
+
+static void protopad_state_button_hook(int port, uint16_t state)
+{
+#if 0
+    /* for autofire speed selection cycling */
+    int new_lb_state;
+#endif
+    int new_select_state;
+    int new_start_state;
+
+    /* only handle state changes when in compatibility mode */
+    if (mode_line[port]) {
+        rapid_button[port] = JOYPORT_BIT_BOOL(state, JOYPORT_BUTTON_RIGHT_BUMBER_BIT);
+
+        /* check if the select button / dpad mode selection button has been pressed */
+        new_select_state = JOYPORT_BIT_BOOL(state, JOYPORT_BUTTON_SELECT_BIT);
+        if (protopad_select_state[port] != new_select_state) {
+            /* only toggle when pressed, release does not change the state */
+            if (new_select_state) {
+                dpad_mode[port] = !dpad_mode[port];
+            }
+            protopad_select_state[port] = new_select_state;
+        }
+
+        /* check if the start button / permanent fire mode selection button has been pressed */
+        new_start_state = JOYPORT_BIT_BOOL(state, JOYPORT_BUTTON_START_BIT);
+        if (protopad_start_state[port] != new_start_state) {
+            /* only toggle when pressed, release does not change the state */
+            if (new_start_state) {
+                permanent_rapid[port] = !permanent_rapid[port];
+            }
+            protopad_start_state[port] = new_start_state;
+        }
+
+        /* TODO: handle autofire speed selection cycling */
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
 static int protopad_write_snapshot(struct snapshot_s *s, int p);
 static int protopad_read_snapshot(struct snapshot_s *s, int p);
+
+#define LB     JOYPORT_BUTTON_LEFT_BUMBER
+#define RB     JOYPORT_BUTTON_RIGHT_BUMBER
+#define SELECT JOYPORT_BUTTON_SELECT
+#define START  JOYPORT_BUTTON_START
 
 static joyport_t joyport_protopad_device = {
     "Protopad",                  /* name of the device */
@@ -202,7 +260,10 @@ static joyport_t joyport_protopad_device = {
     protopad_read_potx,          /* pot-x read function */
     protopad_read_poty,          /* pot-y read function */
     protopad_write_snapshot,     /* device write snapshot function */
-    protopad_read_snapshot       /* device read snapshot function */
+    protopad_read_snapshot,      /* device read snapshot function */
+    protopad_state_button_hook,  /* device hook function */
+    LB | RB | SELECT | START     /* device hook function mask */
+
 };
 
 /* ------------------------------------------------------------------------- */

@@ -186,7 +186,9 @@ static joyport_t joyport_paperclip64_device = {
     NULL,                       /* NO pot-x read function */
     NULL,                       /* NO pot-y read function */
     paperclip64_write_snapshot, /* device write snapshot function */
-    paperclip64_read_snapshot   /* device read snapshot function */
+    paperclip64_read_snapshot,  /* device read snapshot function */
+    NULL,                       /* NO device hook function */
+    0                           /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */

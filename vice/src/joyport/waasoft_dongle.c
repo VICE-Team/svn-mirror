@@ -115,7 +115,9 @@ static joyport_t joyport_waasoft_dongle_device = {
     NULL,                          /* NO pot-x read function */
     waasoft_dongle_read_poty,      /* pot-y read function */
     waasoft_write_snapshot,        /* device write snapshot function */
-    waasoft_read_snapshot          /* device read snapshot function */
+    waasoft_read_snapshot,         /* device read snapshot function */
+    NULL,                          /* NO device hook function */
+    0                              /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */

@@ -259,7 +259,34 @@ void joystick_register_delay(unsigned int delay)
 {
     joystick_delay = delay;
 }
+
 /*-----------------------------------------------------------------------*/
+
+static int joystick_hook[JOYPORT_MAX_PORTS] = {0};
+static uint16_t joystick_hook_mask[JOYPORT_MAX_PORTS] = {0};
+static uint16_t joystick_hook_state[JOYPORT_MAX_PORTS] = {0};
+
+void joystick_set_hook(int port, int val, uint16_t mask)
+{
+    joystick_hook[port] = val;
+    joystick_hook_mask[port] = mask;
+}
+
+static void joystick_handle_hooks(unsigned int joyport)
+{
+    uint16_t masked_new;
+    uint16_t masked_old;
+
+    if (joystick_hook[joyport]) {
+        masked_old = joystick_hook_state[joyport] & joystick_hook_mask[joyport];
+        masked_new = latch_joystick_value.values[joyport] & joystick_hook_mask[joyport];
+        if (masked_old != masked_new) {
+            joyport_handle_joystick_hook(joyport, masked_new);
+            joystick_hook_state[joyport] = masked_new;
+        }
+    }
+}
+
 static void joystick_process_latch(void)
 {
     CLOCK delay = lib_unsigned_rand(1, (unsigned int)machine_get_cycles_per_frame());
@@ -282,6 +309,7 @@ void joystick_set_value_absolute(unsigned int joyport, uint16_t value)
         latch_joystick_value.values[joyport] = value;
         latch_joystick_value.last_used_joyport = joyport;
         joystick_process_latch();
+        joystick_handle_hooks(joyport);
     }
 }
 
@@ -300,6 +328,7 @@ void joystick_set_value_or(unsigned int joyport, uint16_t value)
 
     latch_joystick_value.last_used_joyport = joyport;
     joystick_process_latch();
+    joystick_handle_hooks(joyport);
 }
 
 /* release joystick bits */
@@ -312,6 +341,7 @@ void joystick_set_value_and(unsigned int joyport, uint16_t value)
     latch_joystick_value.values[joyport] &= value;
     latch_joystick_value.last_used_joyport = joyport;
     joystick_process_latch();
+    joystick_handle_hooks(joyport);
 }
 
 void joystick_clear(unsigned int joyport)
@@ -319,13 +349,19 @@ void joystick_clear(unsigned int joyport)
     latch_joystick_value.values[joyport] = 0;
     latch_joystick_value.last_used_joyport = joyport;
     joystick_latch_matrix(0);
+    joystick_handle_hooks(joyport);
 }
 
 void joystick_clear_all(void)
 {
+    int i;
+
     memset(latch_joystick_value.values, 0, sizeof latch_joystick_value.values);
     latch_joystick_value.last_used_joyport = JOYPORT_MAX_PORTS;
     joystick_latch_matrix(0);
+    for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
+        joystick_handle_hooks(i);
+    }
 }
 
 uint16_t get_joystick_value(int index)
@@ -636,7 +672,9 @@ static joyport_t joystick_device = {
     read_potx,                      /* pot-x read function */
     read_poty,                      /* pot-y read function */
     joystick_snapshot_write_module, /* device write snapshot function */
-    joystick_snapshot_read_module   /* device read snapshot function */
+    joystick_snapshot_read_module,  /* device read snapshot function */
+    NULL,                           /* NO device hook function */
+    0                               /* NO device hook function mask */
 };
 
 static int joystick_joyport_register(void)

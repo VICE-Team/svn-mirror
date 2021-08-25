@@ -315,7 +315,9 @@ static joyport_t lightpen_u_joyport_device = {
     NULL,                     /* NO pot-x read function */
     NULL,                     /* NO pot-y read function */
     lightpen_write_snapshot,  /* device write snapshot function */
-    lightpen_read_snapshot    /* device read snapshot function */
+    lightpen_read_snapshot,   /* device read snapshot function */
+    NULL,                     /* NO device hook function */
+    0                         /* NO device hook function mask */
 };
 
 static joyport_t lightpen_l_joyport_device = {
@@ -332,7 +334,9 @@ static joyport_t lightpen_l_joyport_device = {
     NULL,                       /* NO pot-x read function */
     NULL,                       /* NO pot-y read function */
     lightpen_write_snapshot,    /* device write snapshot function */
-    lightpen_read_snapshot      /* device read snapshot function */
+    lightpen_read_snapshot,     /* device read snapshot function */
+    NULL,                       /* NO device hook function */
+    0                           /* NO device hook function mask */
 };
 
 static joyport_t lightpen_datel_joyport_device = {
@@ -349,7 +353,9 @@ static joyport_t lightpen_datel_joyport_device = {
     NULL,                     /* NO pot-x read function */
     NULL,                     /* NO pot-y read function */
     lightpen_write_snapshot,  /* device write snapshot function */
-    lightpen_read_snapshot    /* device read snapshot function */
+    lightpen_read_snapshot,   /* device read snapshot function */
+    NULL,                     /* NO device hook function */
+    0                         /* NO device hook function mask */
 };
 
 static joyport_t magnum_light_phaser_joyport_device = {
@@ -366,7 +372,9 @@ static joyport_t magnum_light_phaser_joyport_device = {
     NULL,                              /* NO pot-x read function */
     lightpen_read_button_y,            /* pot-y read function */
     lightpen_write_snapshot,           /* device write snapshot function */
-    lightpen_read_snapshot             /* device read snapshot function */
+    lightpen_read_snapshot,            /* device read snapshot function */
+    NULL,                              /* NO device hook function */
+    0                                  /* NO device hook function mask */
 };
 
 static joyport_t stack_light_rifle_joyport_device = {
@@ -383,7 +391,9 @@ static joyport_t stack_light_rifle_joyport_device = {
     NULL,                            /* NO pot-x read function */
     NULL,                            /* NO pot-y read function */
     lightpen_write_snapshot,         /* device write snapshot function */
-    lightpen_read_snapshot           /* device read snapshot function */
+    lightpen_read_snapshot,          /* device read snapshot function */
+    NULL,                            /* NO device hook function */
+    0                                /* NO device hook function mask */
 };
 
 static joyport_t inkwell_lightpen_joyport_device = {
@@ -400,7 +410,9 @@ static joyport_t inkwell_lightpen_joyport_device = {
     NULL,                     /* NO pot-x read function */
     lightpen_read_button_y,   /* pot-y read function */
     lightpen_write_snapshot,  /* device write snapshot function */
-    lightpen_read_snapshot    /* device read snapshot function */
+    lightpen_read_snapshot,   /* device read snapshot function */
+    NULL,                     /* NO device hook function */
+    0                         /* NO device hook function mask */
 };
 
 #ifdef JOYPORT_EXPERIMENTAL_DEVICES
@@ -418,7 +430,9 @@ static joyport_t gun_stick_joyport_device = {
     NULL,                     /* NO pot-x read function */
     NULL,                     /* NO pot-y read function */
     lightpen_write_snapshot,  /* device write snapshot function */
-    lightpen_read_snapshot    /* device read snapshot function */
+    lightpen_read_snapshot,   /* device read snapshot function */
+    NULL,                     /* NO device hook function */
+    0                         /* NO device hook function mask */
 };
 #endif
 

@@ -142,7 +142,9 @@ static joyport_t joyport_multijoy_joy_device = {
     NULL,                                    /* NO pot-x read function */
     NULL,                                    /* NO pot-y read function */
     multijoy_write_snapshot,                 /* device write snapshot function */
-    multijoy_read_snapshot                   /* device read snapshot function */
+    multijoy_read_snapshot,                  /* device read snapshot function */
+    NULL,                                    /* NO device hook function */
+    0                                        /* NO device hook function mask */
 };
 
 static joyport_t joyport_multijoy_control_device = {
@@ -159,7 +161,9 @@ static joyport_t joyport_multijoy_control_device = {
     NULL,                                /* NO pot-x read function */
     NULL,                                /* NO pot-y read function */
     NULL,                                /* NO device write snapshot function */
-    NULL                                 /* NO device read snapshot function */
+    NULL,                                /* NO device read snapshot function */
+    NULL,                                /* NO device hook function */
+    0                                    /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */

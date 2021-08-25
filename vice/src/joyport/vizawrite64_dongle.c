@@ -108,7 +108,9 @@ static joyport_t joyport_vizawrite64_dongle_device = {
     vizawrite64_dongle_read_potx,      /* pot-x read function */
     vizawrite64_dongle_read_poty,      /* pot-y read function */
     vizawrite64_write_snapshot,        /* device write snapshot function */
-    vizawrite64_read_snapshot          /* device read snapshot function */
+    vizawrite64_read_snapshot,         /* device read snapshot function */
+    NULL,                              /* NO device hook function */
+    0                                  /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */
