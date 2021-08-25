@@ -67,3 +67,4 @@ vice/src/xplus4
 vice/src/xscpu64
 vice/src/xvic
 ylwrap
+settings.json

@@ -85,6 +85,10 @@ void vsyncarch_sleep(unsigned long delay)
 }
 #endif
 
+void vsyncarch_timing_sync(void)
+{
+}
+
 void vsyncarch_presync(void)
 {
     if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {

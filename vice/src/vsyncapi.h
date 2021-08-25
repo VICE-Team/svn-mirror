@@ -36,6 +36,9 @@ typedef void (*void_hook_t)(void);
 /* current performance metrics */
 extern void vsyncarch_get_metrics(double *cpu_percent, double *emulated_fps, int *warp_enabled);
 
+/* this is called each timing sync - every 2ms or so. */
+extern void vsyncarch_timing_sync(void);
+
 /* this is called before vsync_do_vsync does the synchroniation */
 extern void vsyncarch_presync(void);
 

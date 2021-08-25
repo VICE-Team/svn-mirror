@@ -213,7 +213,7 @@ void ui_display_drive_led(unsigned int drive_number,
                           unsigned int pwm1,
                           unsigned int led_pwm2)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -232,7 +232,7 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 

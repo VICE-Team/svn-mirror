@@ -1138,6 +1138,11 @@ int vice_network_select_multiple(vice_network_socket_t ** readsockfd)
     return select(max_sockfd + 1, &fdsockset, NULL, NULL, &time);
 }
 
+int vice_network_get_socket(vice_network_socket_t *socket)
+{
+    return socket->sockfd;
+}
+
 /*! \brief Get the error of the last socket operation
 
   This function determines the error code for the last

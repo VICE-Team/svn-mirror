@@ -33,6 +33,7 @@
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
+#include "uiserver.h"
 #include "videoarch.h"
 #include "video.h"
 
@@ -136,6 +137,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 {
     printf("%s\n", __func__);
 
+    uiserver_add_screen(canvas);
+
     canvas->created = 1;
 
     return canvas;
@@ -165,7 +168,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 /** \brief Update canvas size to match the draw buffer size requested

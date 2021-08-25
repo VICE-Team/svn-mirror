@@ -466,6 +466,8 @@ void vsync_do_end_of_line(void)
 
     tick_now = tick_now_after(last_sync_tick);
 
+    vsyncarch_timing_sync();
+
     if (sync_reset) {
         log_message(LOG_DEFAULT, "Sync reset");
         sync_reset = false;

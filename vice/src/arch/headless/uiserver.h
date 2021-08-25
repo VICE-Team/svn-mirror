@@ -25,7 +25,15 @@
  *
  */
 
+#ifndef UI_SERVER_H
+#define UI_SERVER_H
+
+#include "videoarch.h"
+
 int uiserver_init(void);
-void uiserver_add_screen(void);
+void uiserver_add_screen(video_canvas_t *canvas);
 void uiserver_await_ready(void);
+void uiserver_poll(void);
 void uiserver_shutdown(void);
+
+#endif /* #ifndef UI_SERVER_H */
