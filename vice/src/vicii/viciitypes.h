@@ -402,6 +402,9 @@ struct vicii_s {
     /* C128 2mhz cycle counter */
     int half_cycles;
 
+    /* Last value put on the bus by the C128 CPU in 2mhz mode */
+    uint8_t last_cpu_val;
+
     /* Last value read from VICII (used for RMW access).  */
     uint8_t last_read;
 
