@@ -50,6 +50,7 @@
 #include "types.h"
 #include "vdc.h"
 #include "vicii.h"
+#include "viciitypes.h"
 #include "z80.h"
 #include "z80mem.h"
 
@@ -410,20 +411,17 @@ void mmu_store(uint16_t address, uint8_t value)
 uint8_t mmu_ffxx_read(uint16_t addr)
 {
     if (addr >= 0xff00 && addr <= 0xff04) {
-        return mmu[addr & 0xf];
+        vicii.last_cpu_val = mmu[addr & 0xf];
+    } else if ((mmu[0] & 0x30) == 0x00) {
+        vicii.last_cpu_val = c128memrom_kernal_read(addr);
+    } else if ((mmu[0] & 0x30) == 0x10) {
+        vicii.last_cpu_val = internal_function_rom_read(addr);
+    } else if ((mmu[0] & 0x30) == 0x20) {
+        vicii.last_cpu_val = external_function_rom_read(addr);
+    } else {
+        vicii.last_cpu_val = top_shared_read(addr);
     }
-
-    if ((mmu[0] & 0x30) == 0x00) {
-        return c128memrom_kernal_read(addr);
-    }
-    if ((mmu[0] & 0x30) == 0x10) {
-        return internal_function_rom_read(addr);
-    }
-    if ((mmu[0] & 0x30) == 0x20) {
-        return external_function_rom_read(addr);
-    }
-
-    return top_shared_read(addr);
+    return vicii.last_cpu_val;
 }
 
 uint8_t mmu_ffxx_read_z80(uint16_t addr)
@@ -437,6 +435,7 @@ uint8_t mmu_ffxx_read_z80(uint16_t addr)
 
 void mmu_ffxx_store(uint16_t addr, uint8_t value)
 {
+    vicii.last_cpu_val = value;
     if (addr == 0xff00) {
         mmu_store(0, value);
         /* FIXME? [SRT] does reu_dma(-1) work here, or should
