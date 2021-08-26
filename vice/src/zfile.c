@@ -618,7 +618,7 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
 
     /* ok, now extract the zipcode */
     argv[0] = lib_strdup(C1541_NAME);
-    argv[1] = lib_strdup("-zcreate");
+    argv[1] = lib_strdup("-unzip");
     argv[2] = lib_strdup(tmp_name);
     argv[3] = archdep_filename_parameter(name);
     argv[4] = NULL;
