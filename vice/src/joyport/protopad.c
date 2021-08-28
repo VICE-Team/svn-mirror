@@ -32,6 +32,8 @@
 
 #include "joyport.h"
 #include "joystick.h"
+#include "machine.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "protopad.h"
@@ -93,6 +95,10 @@ static uint8_t rapid_button[JOYPORT_MAX_PORTS] = {0};
 static uint8_t permanent_rapid[JOYPORT_MAX_PORTS] = {0};
 static uint8_t rapid_speed[JOYPORT_MAX_PORTS] = {0};
 
+/* FIXME: These speed selections are just a guess,
+   more information is needed to make this part correct */
+static int speed_selection[] = { 2, 4, 8, 16, 32, -1 };   /* Speed selections in flips per second, -1 means end of list */
+
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_protopad_device;
@@ -120,21 +126,98 @@ static int joyport_protopad_enable(int port, int value)
     return 0;
 }
 
-/* TODO: handle autofire buttons in compat mode */
+static int protopad_get_autofire_on_off(int port)
+{
+    uint32_t second_cycles = (uint32_t)(maincpu_clk % machine_get_cycles_per_second());
+    uint32_t cycles_per_flip = machine_get_cycles_per_second() / speed_selection[rapid_speed[port]];
+    uint32_t flip_part = second_cycles / cycles_per_flip;
+
+    if (flip_part & 1) {
+        return 0;
+    }
+    return 1;
+}
+
 static uint8_t protopad_read(int port)
 {
-    uint8_t retval;
+    uint8_t retval = 0;
     uint16_t joyval = get_joystick_value(port);
-    uint16_t mask = 0x1f;   /* mask for the directions and fire buttons in compat mode */
+    int button_up;
+    int button_down;
+    int button_left;
+    int button_right;
+    int button_fire;
 
     /* if the mode line is high we have compat mode, if low we have native mode */
     if (mode_line[port]) {
-        if (dpad_mode[port]) {
-            /* dpad up needs to be ignored */
-            mask = 0x1e;
+        button_up = JOYPORT_BIT_BOOL(joyval, JOYPORT_UP_BIT);
+        button_down = JOYPORT_BIT_BOOL(joyval, JOYPORT_DOWN_BIT);
+        button_left = JOYPORT_BIT_BOOL(joyval, JOYPORT_LEFT_BIT);
+        button_right = JOYPORT_BIT_BOOL(joyval, JOYPORT_RIGHT_BIT);
+        button_fire = JOYPORT_BIT_BOOL(joyval, JOYPORT_FIRE_BIT);
+
+        /* check if up is pressed */
+        if (button_up) {
+            /* check if up needs to be ignored */
+            if (!dpad_mode[port]) {
+                /* check if auto-fire button is also pressed */
+                if (rapid_button[port]) {
+                    /* get up from autofire function */
+                    button_up = protopad_get_autofire_on_off(port);
+                }
+            } else {
+                button_up = 0;
+            }
         }
-        /* TODO: handle autofire modes */
-        retval = (uint8_t)(joyval & mask);
+
+        /* check if down is pressed */
+        if (button_down) {
+            /* check if auto-fire button is also pressed */
+            if (rapid_button[port]) {
+                /* get down from autofire function */
+                button_down = protopad_get_autofire_on_off(port);
+            }
+        }
+
+        /* check if left is pressed */
+        if (button_left) {
+            /* check if auto-fire button is also pressed */
+            if (rapid_button[port]) {
+                /* get left from autofire function */
+                button_left = protopad_get_autofire_on_off(port);
+            }
+        }
+
+        /* check if right is pressed */
+        if (button_right) {
+            /* check if auto-fire button is also pressed */
+            if (rapid_button[port]) {
+                /* get right from autofire function */
+                button_right = protopad_get_autofire_on_off(port);
+            }
+        }
+
+        /* check if permanent fire is on */
+        if (permanent_rapid[port]) {
+            /* get fire from autofire function */
+            button_fire = protopad_get_autofire_on_off(port);
+        } else {
+            /* check if fire is pressed */
+            if (button_fire) {
+                /* check if auto-fire is also pressed */
+                if (rapid_button[port]) {
+                    /* get fire from autofire function */
+                    button_fire = protopad_get_autofire_on_off(port);
+                }
+            }
+        }
+
+        /* construct retval from the state of the buttons */
+        retval = (button_up ? JOYPORT_UP : 0);
+        retval |= (button_down ? JOYPORT_DOWN : 0);
+        retval |= (button_left ? JOYPORT_LEFT : 0);
+        retval |= (button_right ? JOYPORT_RIGHT : 0);
+        retval |= (button_fire ? JOYPORT_FIRE : 0);
     } else {
         switch (counter[port]) {
             case PROTOPAD_TRIPPLE_0: /* return B A Right */
@@ -181,30 +264,45 @@ static void protopad_store(int port, uint8_t val)
 
 static uint8_t protopad_read_potx(int port)
 {
-    return (uint8_t)(get_joystick_value(port) & JOYPORT_FIRE_POTX ? 0x00 : 0xff);
+    int button = get_joystick_value(port) & JOYPORT_FIRE_POTX;
+
+    /* check if button is pressed */
+    if (button) {
+        /* check if autofire button is also pressed */
+        if (rapid_button[port]) {
+            /* get right from autofire function */
+            button = protopad_get_autofire_on_off(port);
+        }
+    }
+
+    return (uint8_t)(button ? 0x00 : 0xff);
 }
 
 static uint8_t protopad_read_poty(int port)
 {
-    return (uint8_t)(get_joystick_value(port) & JOYPORT_FIRE_POTY ? 0x00 : 0xff);
+    int button = get_joystick_value(port) & JOYPORT_FIRE_POTY;
+
+    /* check if button is pressed */
+    if (button) {
+        /* check if autofire button is also pressed */
+        if (rapid_button[port]) {
+            /* get right from autofire function */
+            button = protopad_get_autofire_on_off(port);
+        }
+    }
+
+    return (uint8_t)(button ? 0x00 : 0xff);
 }
 
 /* ------------------------------------------------------------------------- */
 
-#if 0
-    /* for autofire speed selection cycling */
 static int protopad_lb_state[JOYPORT_MAX_PORTS] = {0};
-#endif
-
 static int protopad_select_state[JOYPORT_MAX_PORTS] = {0};
 static int protopad_start_state[JOYPORT_MAX_PORTS] = {0};
 
 static void protopad_state_button_hook(int port, uint16_t state)
 {
-#if 0
-    /* for autofire speed selection cycling */
     int new_lb_state;
-#endif
     int new_select_state;
     int new_start_state;
 
@@ -232,7 +330,18 @@ static void protopad_state_button_hook(int port, uint16_t state)
             protopad_start_state[port] = new_start_state;
         }
 
-        /* TODO: handle autofire speed selection cycling */
+        /* check if the left bumper / fire speed selection button has been pressed */
+        new_lb_state = JOYPORT_BIT_BOOL(state, JOYPORT_BUTTON_LEFT_BUMBER_BIT);
+        if (protopad_lb_state[port] != new_lb_state) {
+            /* only toggle when pressed, release does not change the state */
+            if (new_lb_state) {
+                rapid_speed[port]++;
+                if (speed_selection[rapid_speed[port]] == -1) {
+                    rapid_speed[port] = 0;
+                }
+            }
+            protopad_lb_state[port] = new_lb_state;
+        }
     }
 }
 
