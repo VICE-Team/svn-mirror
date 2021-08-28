@@ -59,7 +59,10 @@ common_DATA = CBM_Logo.svg \
 	      VIC20_32.png \
 	      VIC20_48.png \
 	      VIC20_256.png \
-	      VIC20_1024.svg \
+	      VIC20_1024.svg
+
+
+EXTRA_DIST = $(common_DATA) \
 	      x64.rc \
 	      x64sc.rc \
 	      x64dtv.rc \
@@ -73,7 +76,6 @@ common_DATA = CBM_Logo.svg \
 	      vsid.rc
 
 
-EXTRA_DIST = $(common_DATA)
 
 
 #all: x64.res x64sc.res x64dtv.res xscpu64.res x128.res xvic.res xplus4.res xpet.res xcbm2.res xcbm5x0.res vsid.res $(GRESOURCE_TARGET)
