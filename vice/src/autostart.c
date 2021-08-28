@@ -127,6 +127,7 @@ static int orig_device_traps_state = -1;
 static int orig_warp_mode = -1;
 static int orig_FileSystemDevice8 = -1;
 static int orig_FSDevice8ConvertP00 = -1;
+static int orig_FSDeviceLongNames = -1;
 
 /* PETSCII name of the program to load. NULL if default */
 static char *autostart_program_name = NULL;
@@ -469,13 +470,14 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
         return NOT_YET;
     }
 
+    /* wait until cursor is in the first column */
+    if (cursor_column != 0) {
+        DBGWAIT(("check2(%s) [cursor not in 1st column] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+            s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
+        return NOT_YET;
+    }
+
     if (blink_mode == AUTOSTART_WAIT_BLINK) {
-        /* wait until cursor is in the first column */
-        if (cursor_column != 0) {
-            DBGWAIT(("check2(%s) [cursor not in 1st column] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
-                s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
-            return NOT_YET;
-        }
         /* if blink state can be checked, wait until the cursor is in "on" state */
         if ((blinking != -1) && (blinking == 0)) {
             DBGWAIT(("check2(%s) [cursor not in ON state] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
@@ -657,6 +659,9 @@ static void init_drive_emulation_state(int unit, int drive)
     if (orig_FSDevice8ConvertP00 == -1) {
         resources_get_int_sprintf("FSDevice%dConvertP00", &orig_FSDevice8ConvertP00, unit);
     }
+    if (orig_FSDeviceLongNames == -1) {
+        resources_get_int("FSDeviceLongNames", &orig_FSDeviceLongNames);
+    }
 }
 
 /* restore the state of all settings we changed during autostart.
@@ -693,6 +698,10 @@ static void restore_drive_emulation_state(int unit, int drive)
         log_message(autostart_log, "Restoring FSDevice%dConvertP00 to %d.", unit, orig_FSDevice8ConvertP00);
         resources_set_int_sprintf("FSDevice%dConvertP00", orig_FSDevice8ConvertP00, unit);
     }
+    if (orig_FSDeviceLongNames != -1) {
+        log_message(autostart_log, "Restoring FSDeviceLongNames to %d.", orig_FSDeviceLongNames);
+        resources_set_int("FSDeviceLongNames", orig_FSDeviceLongNames);
+    }
 
     /* make sure we refresh these next time we do autostart via gui */
     orig_drive_true_emulation_state = - 1;
@@ -700,6 +709,7 @@ static void restore_drive_emulation_state(int unit, int drive)
     orig_warp_mode = -1;
     orig_FileSystemDevice8 = -1;
     orig_FSDevice8ConvertP00 = -1;
+    orig_FSDeviceLongNames = -1;
 
     autostart_disk_unit = DRIVE_UNIT_MIN;
     autostart_disk_drive = 0;
@@ -1095,6 +1105,7 @@ static void advance_waitsearchingfor(void)
             autostartmode = AUTOSTART_WAITLOADING;
             break;
         case NO:
+#if 0
             /* if we are still in the line with the LOAD command, still wait */
             if (check("LOAD\"", AUTOSTART_NOWAIT_BLINK) == YES) {
                 /* leave autostart and disable warp if ROM area was left */
@@ -1128,6 +1139,7 @@ static void advance_waitsearchingfor(void)
                 check_rom_area();
                 break;
             }
+#endif
             log_message(autostart_log, "NO Searching for ...");
             disable_warp_if_was_requested();
             autostart_disable();
@@ -1149,6 +1161,7 @@ static void advance_waitloading(void)
             autostartmode = AUTOSTART_WAITLOADREADY;
             break;
         case NO:
+#if 0
             /* still showing SEARCHING FOR ? */
             if (check("SEARCHING FOR", AUTOSTART_NOWAIT_BLINK) == YES) {
                 /* leave autostart and disable warp if ROM area was left */
@@ -1165,12 +1178,14 @@ static void advance_waitloading(void)
                     break;
                 }
             }
+#endif
             /* no something else is shown -> error! */
             log_message(autostart_log, "NO Loading");
             disable_warp_if_was_requested();
             autostart_disable();
             break;
         case NOT_YET:
+#if 0
             /* if we are already way ahead and basically missed everything until
                READY, then "LOADING" is 2 lines above */
             if (check2("READY", AUTOSTART_NOWAIT_BLINK, -1) == YES) {
@@ -1181,6 +1196,7 @@ static void advance_waitloading(void)
                     break;
                 }
             }
+#endif
             /* leave autostart and disable warp if ROM area was left */
             check_rom_area();
             break;
@@ -1661,6 +1677,10 @@ static void setup_for_prg_vfs(int unit)
     if (!get_device_traps_state()) {
         log_message(LOG_ERR, "Virtual device traps are not enabled.");
     }
+
+    /* always shorten the long names when autostarting, the long names cause
+       nothing but problems */
+    resources_set_int("FSDeviceLongNames", 0);
 
     DBG(("setup for prg VFS: TDE: %s  Traps: %s handle TDE: %s",
         get_true_drive_emulation_state(unit) ? "on" : "off",
