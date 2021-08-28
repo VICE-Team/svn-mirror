@@ -613,10 +613,6 @@ static void check_rom_area(void)
     } else {
         /* special case for auto-starters: ROM left. We also consider
          * BASIC area to be ROM, because it's responsible for writing "READY."
-         *
-         * we do not abort immediatly here, but delay it for two further calls,
-         * this accounts for the fact that the checks only run once per frame,
-         * and the loading might happen so fast we might have missed something.
          */
         if (lastmode != autostartmode) {
             lastmode = autostartmode;
