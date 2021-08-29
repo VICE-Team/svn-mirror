@@ -137,7 +137,6 @@ typedef enum joystick_axis_value_e {
    JOY_AXIS_NEGATIVE
 } joystick_axis_value_t;
 
-
 extern void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value);
 extern void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value);
 extern void joy_hat_event(uint8_t joynum, uint8_t button, uint8_t value);
@@ -150,5 +149,13 @@ extern const char *joystick_ui_get_next_device_name(int *id);
 #define JOYSTICK_DIRECTION_UP    2
 #define JOYSTICK_DIRECTION_LEFT  4
 #define JOYSTICK_DIRECTION_RIGHT 8
+
+#define JOYSTICK_AUTOFIRE_OFF   0
+#define JOYSTICK_AUTOFIRE_ON    1
+
+#define JOYSTICK_AUTOFIRE_MODE_PRESS       0
+#define JOYSTICK_AUTOFIRE_MODE_PERMANENT   1
+
+#define JOYSTICK_AUTOFIRE_SPEED_DEFAULT    4   /* default autofire speed, button will be on this many times per second */
 
 #endif
