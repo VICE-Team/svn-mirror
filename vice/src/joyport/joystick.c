@@ -368,9 +368,45 @@ void joystick_clear_all(void)
     }
 }
 
+static int get_joystick_autofire(int index)
+{
+    uint32_t second_cycles = (uint32_t)(maincpu_clk % machine_get_cycles_per_second());
+    uint32_t cycles_per_flip = (uint32_t)(machine_get_cycles_per_second() / (joystick_autofire_speed[index] * 2));
+    uint32_t flip_part = second_cycles / cycles_per_flip;
+
+    if (flip_part & 1) {
+        return 0;
+    }
+    return 1;
+}
+
 uint16_t get_joystick_value(int index)
 {
-    return joystick_value[index];
+    uint16_t retval = joystick_value[index] & 0xffef;
+    int fire_button = JOYPORT_BIT_BOOL(joystick_value[index], JOYPORT_FIRE_BIT);
+
+    /* check if autofire is enabled */
+    if (joystick_autofire_enable[index]) {
+        /* check if autofire mode is permanent */
+        if (joystick_autofire_mode[index] == JOYSTICK_AUTOFIRE_MODE_PERMANENT) {
+            /* check if fire button is not pressed */
+            if (!fire_button) {
+                /* get fire button from autofire code */
+                fire_button = get_joystick_autofire(index);
+            }
+        } else {
+            /* check if fire button is pressed */
+            if (fire_button) {
+                /* get fire button from autofire code */
+                fire_button = get_joystick_autofire(index);
+            }
+        }
+    }
+
+    /* put fire button into the return value */
+    retval |= (fire_button ? JOYPORT_FIRE : 0);
+
+    return retval;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -642,7 +678,7 @@ static int joyport_enable_joystick(int port, int val)
 
 static uint8_t read_joystick(int port)
 {
-    return (uint8_t)(~(joystick_value[port] & 0x1f));
+    return (uint8_t)(~(get_joystick_value(port) & 0x1f));
 }
 
 static uint8_t read_potx(int port)
