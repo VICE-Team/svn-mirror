@@ -199,8 +199,17 @@ static uint8_t protopad_read(int port)
 
         /* check if permanent fire is on */
         if (permanent_rapid[port]) {
-            /* get fire from autofire function */
-            button_fire = protopad_get_autofire_on_off(port);
+            /* check if fire is pressed */
+            if (button_fire) {
+                /* check if auto-fire is also pressed */
+                if (rapid_button[port]) {
+                    /* get fire from autofire function */
+                    button_fire = protopad_get_autofire_on_off(port);
+                }
+            } else {
+                /* get fire from autofire function */
+                button_fire = protopad_get_autofire_on_off(port);
+            }
         } else {
             /* check if fire is pressed */
             if (button_fire) {
