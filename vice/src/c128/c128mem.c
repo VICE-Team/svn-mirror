@@ -1571,24 +1571,15 @@ void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uin
             *line_length = vdc.regs[1];
             *screen_addr = screen_base + (mem_ram[0xeb] * *line_length);
             *cursor_column = (vdc.crsrpos - *screen_addr) % *line_length;
-#if 1
-            /* FIXME: ugly hack to forward autostart to "searching" */
-            if ((*cursor_column > 4) && (mem_ram[0xeb] == 7)) {
-                *screen_addr += 80 * 2;
+#if 0
+            /* HACK: put cursor on start of line when its after "searching for" */
+            if ((*screen_addr == 0x2d0) && (*cursor_column >= 15)) {
                 *cursor_column = 0;
             }
-#endif
-#if 0
-            /* FIXME: ugly hack to make second READY. check work */
-            if ((mem_ram[0xeb] == 12)) {
-                *screen_addr -= *line_length;
+
+            /* HACK: put cursor on start of line when its after "loading" */
+            if ((*screen_addr == 0x320) && (*cursor_column >= 7)) {
                 *cursor_column = 0;
-            }
-#endif
-#if 0
-            /* FIXME: ugly hack to forward to "ready" after "loading" */
-            if ((*cursor_column == 0) && (mem_ram[0xeb] == 11)) {
-                 *screen_addr += 80 * 1;
             }
 #endif
             /* *blinking = *cursor_column == 0 ? 1 : 0; */
