@@ -163,6 +163,10 @@ static CLOCK joystick_delay;
 int joykeys[JOYSTICK_KEYSET_NUM][JOYSTICK_KEYSET_NUM_KEYS];
 #endif
 
+static int joystick_autofire_enable[JOYPORT_MAX_PORTS] = {0};
+static int joystick_autofire_mode[JOYPORT_MAX_PORTS] = {0};
+static int joystick_autofire_speed[JOYPORT_MAX_PORTS] = {0};
+
 /*! \todo SRT: offset is unused! */
 
 static void joystick_latch_matrix(CLOCK offset)
@@ -789,6 +793,34 @@ static int set_joystick_device(int val, void *param)
     return 0;
 }
 
+static int set_joystick_autofire(int val, void *param)
+{
+    int port_idx = vice_ptr_to_int(param);
+
+    joystick_autofire_enable[port_idx] = val ? 1 : 0;
+
+    return 0;
+}
+
+static int set_joystick_autofire_mode(int val, void *param)
+{
+    int port_idx = vice_ptr_to_int(param);
+
+    joystick_autofire_mode[port_idx] = val ? JOYSTICK_AUTOFIRE_MODE_PERMANENT : JOYSTICK_AUTOFIRE_MODE_PRESS;
+
+    return 0;
+}
+
+static int set_joystick_autofire_speed(int val, void *param)
+{
+    int port_idx = vice_ptr_to_int(param);
+
+    /* FIXME: limit the range */
+    joystick_autofire_speed[port_idx] = val;
+
+    return 0;
+}
+
 static const resource_int_t joyopposite_resources_int[] = {
     { "JoyOpposite", 0, RES_EVENT_NO, NULL,
       &joystick_opposite_enable, set_joystick_opposite_enable, NULL },
@@ -798,60 +830,120 @@ static const resource_int_t joyopposite_resources_int[] = {
 static resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_1], set_joystick_device, (void *)JOYPORT_1 },
+    { "JoyStick1AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_1], set_joystick_autofire, (void *)JOYPORT_1 },
+    { "JoyStick1AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_1], set_joystick_autofire_mode, (void *)JOYPORT_1 },
+    { "JoyStick1AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_1], set_joystick_autofire_speed, (void *)JOYPORT_1 },
     RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy2_resources_int[] = {
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_2], set_joystick_device, (void *)JOYPORT_2 },
+    { "JoyStick2AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_2], set_joystick_autofire, (void *)JOYPORT_2 },
+    { "JoyStick2AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_2], set_joystick_autofire_mode, (void *)JOYPORT_2 },
+    { "JoyStick2AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_2], set_joystick_autofire_speed, (void *)JOYPORT_2 },
     RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy3_resources_int[] = {
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_3], set_joystick_device, (void *)JOYPORT_3 },
+    { "JoyStick3AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_3], set_joystick_autofire, (void *)JOYPORT_3 },
+    { "JoyStick3AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_3], set_joystick_autofire_mode, (void *)JOYPORT_3 },
+    { "JoyStick3AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_3], set_joystick_autofire_speed, (void *)JOYPORT_3 },
     RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy4_resources_int[] = {
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_4], set_joystick_device, (void *)JOYPORT_4 },
+    { "JoyStick4AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_4], set_joystick_autofire, (void *)JOYPORT_4 },
+    { "JoyStick4AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_4], set_joystick_autofire_mode, (void *)JOYPORT_4 },
+    { "JoyStick4AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_4], set_joystick_autofire_speed, (void *)JOYPORT_4 },
     RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy5_resources_int[] = {
     { "JoyDevice5", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_5], set_joystick_device, (void *)JOYPORT_5 },
+    { "JoyStick5AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_5], set_joystick_autofire, (void *)JOYPORT_5 },
+    { "JoyStick5AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_5], set_joystick_autofire_mode, (void *)JOYPORT_5 },
+    { "JoyStick5AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_5], set_joystick_autofire_speed, (void *)JOYPORT_5 },
     RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy6_resources_int[] = {
     { "JoyDevice6", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_6], set_joystick_device, (void *)JOYPORT_6 },
+    { "JoyStick6AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_6], set_joystick_autofire, (void *)JOYPORT_6 },
+    { "JoyStick6AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_6], set_joystick_autofire_mode, (void *)JOYPORT_6 },
+    { "JoyStick6AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_6], set_joystick_autofire_speed, (void *)JOYPORT_6 },
     RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy7_resources_int[] = {
     { "JoyDevice7", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_7], set_joystick_device, (void *)JOYPORT_7 },
+    { "JoyStick7AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_7], set_joystick_autofire, (void *)JOYPORT_7 },
+    { "JoyStick7AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_7], set_joystick_autofire_mode, (void *)JOYPORT_7 },
+    { "JoyStick7AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_7], set_joystick_autofire_speed, (void *)JOYPORT_7 },
     RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy8_resources_int[] = {
     { "JoyDevice8", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_8], set_joystick_device, (void *)JOYPORT_8 },
+    { "JoyStick8AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_8], set_joystick_autofire, (void *)JOYPORT_8 },
+    { "JoyStick8AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_8], set_joystick_autofire_mode, (void *)JOYPORT_8 },
+    { "JoyStick8AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_8], set_joystick_autofire_speed, (void *)JOYPORT_8 },
     RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy9_resources_int[] = {
     { "JoyDevice9", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_9], set_joystick_device, (void *)JOYPORT_9 },
+    { "JoyStick9AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_9], set_joystick_autofire, (void *)JOYPORT_9 },
+    { "JoyStick9AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_9], set_joystick_autofire_mode, (void *)JOYPORT_9 },
+    { "JoyStick9AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_9], set_joystick_autofire_speed, (void *)JOYPORT_9 },
     RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy10_resources_int[] = {
     { "JoyDevice10", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_10], set_joystick_device, (void *)JOYPORT_10 },
+    { "JoyStick10AutoFire", JOYSTICK_AUTOFIRE_OFF, RES_EVENT_NO, NULL,
+      &joystick_autofire_enable[JOYPORT_10], set_joystick_autofire, (void *)JOYPORT_10 },
+    { "JoyStick10AutoFireMode", JOYSTICK_AUTOFIRE_MODE_PRESS, RES_EVENT_NO, NULL,
+      &joystick_autofire_mode[JOYPORT_10], set_joystick_autofire_mode, (void *)JOYPORT_10 },
+    { "JoyStick10AutoFireSpeed", JOYSTICK_AUTOFIRE_SPEED_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_autofire_speed[JOYPORT_10], set_joystick_autofire_speed, (void *)JOYPORT_10 },
     RESOURCE_INT_LIST_END
 };
 
