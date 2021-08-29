@@ -116,6 +116,9 @@ static enum {
 #define AUTOSTART_WAIT_BLINK   0
 #define AUTOSTART_NOWAIT_BLINK 1
 
+#define AUTOSTART_CHECK_ANY_COLUMN      0
+#define AUTOSTART_CHECK_FIRST_COLUMN    1
+
 /* Log descriptor.  */
 log_t autostart_log = LOG_ERR;
 
@@ -466,15 +469,15 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset,
 
     if (!kbdbuf_is_empty() || !kbdbuf_queue_is_empty()) {
         DBGWAIT(("check2(%s) [kbd buffer not empty] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
-            s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
+            s, screen_addr, cursor_column, line_length, lineoffset, blinking, (blink_mode == AUTOSTART_WAIT_BLINK) ? "yes" : "no"));
         return NOT_YET;
     }
 
     /* wait until cursor is in the first column */
-    if (checkcursor) {
+    if (checkcursor == AUTOSTART_CHECK_FIRST_COLUMN) {
         if (cursor_column != 0) {
             DBGWAIT(("check2(%s) [cursor not in 1st column] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
-                s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
+                s, screen_addr, cursor_column, line_length, lineoffset, blinking, (blink_mode == AUTOSTART_WAIT_BLINK) ? "yes" : "no"));
             return NOT_YET;
         }
     }
@@ -483,7 +486,7 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset,
         /* if blink state can be checked, wait until the cursor is in "on" state */
         if ((blinking != -1) && (blinking == 0)) {
             DBGWAIT(("check2(%s) [cursor not in ON state] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
-                s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
+                s, screen_addr, cursor_column, line_length, lineoffset, blinking, (blink_mode == AUTOSTART_WAIT_BLINK) ? "yes" : "no"));
             return NOT_YET;
         }
         /* now we expect the string in the previous line (typically "READY.") */
@@ -495,7 +498,7 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset,
     addr += line_length * lineoffset;
 
     DBGWAIT(("check2(%s) effective addr:%04x screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
-        s, addr, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
+        s, addr, screen_addr, cursor_column, line_length, lineoffset, blinking, (blink_mode == AUTOSTART_WAIT_BLINK) ? "yes" : "no"));
 
     for (i = 0; s[i] != '\0'; i++) {
         int checkbyte = mem_read_screen((uint16_t)(addr + i) & 0xffff);
@@ -521,7 +524,7 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset,
 
 static CHECKYESNO check(const char *s, unsigned int blink_mode)
 {
-    return check2(s, blink_mode, 0, 1);
+    return check2(s, blink_mode, 0, AUTOSTART_CHECK_FIRST_COLUMN);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -933,7 +936,7 @@ static void advance_hastape(void)
 
 static void advance_pressplayontape(void)
 {
-    switch (check2("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK, 0, 0)) {
+    switch (check2("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK, 0, AUTOSTART_CHECK_ANY_COLUMN)) {
         case YES:
             autostartmode = AUTOSTART_LOADINGTAPE;
             datasette_control(DATASETTE_CONTROL_START);
@@ -1097,7 +1100,7 @@ static void advance_hassnapshot(void)
 static void advance_waitsearchingfor(void)
 {
     DBGWAIT(("advance_waitsearchingfor"));
-    switch (check("SEARCHING FOR", AUTOSTART_NOWAIT_BLINK)) {
+    switch (check2("SEARCHING FOR", AUTOSTART_NOWAIT_BLINK, 0, AUTOSTART_CHECK_ANY_COLUMN)) {
         case YES:
             log_message(autostart_log, "Searching for ...");
             autostartmode = AUTOSTART_WAITLOADING;
@@ -1152,7 +1155,7 @@ static void advance_waitsearchingfor(void)
 static void advance_waitloading(void)
 {
     DBGWAIT(("advance_waitloading"));
-    switch (check("LOADING", AUTOSTART_NOWAIT_BLINK)) {
+    switch (check2("LOADING", AUTOSTART_NOWAIT_BLINK, 0, AUTOSTART_CHECK_ANY_COLUMN)) {
         case YES:
             log_message(autostart_log, "Loading");
             entered_rom = 0;
