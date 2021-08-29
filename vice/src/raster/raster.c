@@ -62,19 +62,31 @@ static int raster_calc_frame_buffer_width(raster_t *raster)
            + raster->geometry->extra_offscreen_border_right;
 }
 
+void raster_calculate_padding_size(unsigned int fb_width, unsigned int fb_height,
+                                   unsigned int *padded_size, unsigned int *unpadded_offset)
+{
+    *padded_size = fb_width * (fb_height + 4);
+    *unpadded_offset = fb_width * 2;
+}
+
 static int raster_draw_buffer_alloc(video_canvas_t *canvas,
                                     unsigned int fb_width,
                                     unsigned int fb_height,
                                     unsigned int *fb_pitch)
 {
+    unsigned int padded_size;
+    unsigned int unpadded_offset;
+    
     /*
      * FIXME: We have to allocate memory either size of the draw buffer because both the CRT and Scale2x
      * filters will access memory both before and after the draw_buffer. This is a workaround that will 
      * no doubt survive until we shift filters to the GPU.
      */
+    
+    raster_calculate_padding_size(fb_width, fb_height, &padded_size, &unpadded_offset);
 
-    canvas->draw_buffer->draw_buffer_padded_allocations[0] = lib_calloc(1, fb_width * (fb_height + 4));
-    canvas->draw_buffer->draw_buffer_non_padded[0] = canvas->draw_buffer->draw_buffer_padded_allocations[0] + (fb_height * 2);
+    canvas->draw_buffer->draw_buffer_padded_allocations[0] = lib_calloc(1, padded_size);
+    canvas->draw_buffer->draw_buffer_non_padded[0] = canvas->draw_buffer->draw_buffer_padded_allocations[0] + unpadded_offset;
     canvas->draw_buffer->draw_buffer = canvas->draw_buffer->draw_buffer_non_padded[0];
 
     if (canvas->videoconfig->cap->interlace_allowed) {
@@ -85,8 +97,8 @@ static int raster_draw_buffer_alloc(video_canvas_t *canvas,
          * This was added for rendering within the monitor.
          */
 
-        canvas->draw_buffer->draw_buffer_padded_allocations[1] = lib_calloc(1, fb_width * (fb_height + 4));
-        canvas->draw_buffer->draw_buffer_non_padded[1] = canvas->draw_buffer->draw_buffer_padded_allocations[1] + (fb_height * 2);
+        canvas->draw_buffer->draw_buffer_padded_allocations[1] = lib_calloc(1, padded_size);
+        canvas->draw_buffer->draw_buffer_non_padded[1] = canvas->draw_buffer->draw_buffer_padded_allocations[1] + unpadded_offset;
         canvas->draw_buffer->draw_buffer_previous = canvas->draw_buffer->draw_buffer_non_padded[1];
     }
 
