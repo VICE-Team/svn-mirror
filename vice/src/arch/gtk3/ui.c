@@ -58,7 +58,6 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "interrupt.h"
-#include "hotkeys.h"
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"
@@ -1550,10 +1549,7 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
 
-    /* Connect keyboard handlers, except for VSID
-     *
-     * TODO:    support hotkeys (if required) for VSID
-     */
+    /* Connect keyboard handlers, except for VSID */
     if (machine_class != VICE_MACHINE_VSID) {
         kbd_connect_handlers(new_window, NULL);
     }
@@ -1723,14 +1719,6 @@ void ui_destroy_main_window(int index)
  */
 int ui_cmdline_options_init(void)
 {
-    /* seems complete to me -- compyx */
-#if 0
-    INCOMPLETE_IMPLEMENTATION();
-#endif
-    if (hotkeys_cmdline_options_init() != 0) {
-        return -1;
-    }
-
     return cmdline_register_options(cmdline_options_common);
 }
 
@@ -1782,18 +1770,6 @@ int ui_init(void)
     GSettings *settings;
     GVariant *variant;
     GtkSettings *settings_default;
-
-#if 0
-    INCOMPLETE_IMPLEMENTATION();
-#endif
-
-    /*
-     * FIXME:   This is actually too late in the boot sequence, the hotkeys
-     *          resources and cmdlines are already initialized at this point
-     *          and would have triggered parsing of a hotkeys file. Which means
-     *          any logging via the HOTKEYS log will fail.
-     */
-    hotkeys_init();
 
     /*
      * Make sure F10 doesn't trigger the menu bar
@@ -1942,9 +1918,6 @@ int ui_resources_init(void)
         }
     }
 
-    /* initialize custom hotkeys resources */
-    hotkeys_resources_init();
-
     for (i = 0; i < NUM_WINDOWS; ++i) {
         ui_resources.canvas[i] = NULL;
         ui_resources.window_widget[i] = NULL;
@@ -1970,8 +1943,8 @@ void ui_shutdown(void)
 {
     uidata_shutdown();
     ui_statusbar_shutdown();
-    hotkeys_shutdown();
 }
+
 
 /** \brief  Result of the extend image dialog
  */
