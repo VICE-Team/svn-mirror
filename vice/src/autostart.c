@@ -456,7 +456,7 @@ static void deallocate_program_name(void)
 
 typedef enum { YES, NO, NOT_YET } CHECKYESNO;
 
-static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
+static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset, int checkcursor)
 {
     uint16_t screen_addr, addr;
     uint8_t line_length, cursor_column;
@@ -471,10 +471,12 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
     }
 
     /* wait until cursor is in the first column */
-    if (cursor_column != 0) {
-        DBGWAIT(("check2(%s) [cursor not in 1st column] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
-            s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
-        return NOT_YET;
+    if (checkcursor) {
+        if (cursor_column != 0) {
+            DBGWAIT(("check2(%s) [cursor not in 1st column] screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d (check:%s)",
+                s, screen_addr, cursor_column, line_length, lineoffset, blinking, blink_mode ? "yes" : "no"));
+            return NOT_YET;
+        }
     }
 
     if (blink_mode == AUTOSTART_WAIT_BLINK) {
@@ -519,7 +521,7 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
 
 static CHECKYESNO check(const char *s, unsigned int blink_mode)
 {
-    return check2(s, blink_mode, 0);
+    return check2(s, blink_mode, 0, 1);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -931,7 +933,7 @@ static void advance_hastape(void)
 
 static void advance_pressplayontape(void)
 {
-    switch (check("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK)) {
+    switch (check2("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK, 0, 0)) {
         case YES:
             autostartmode = AUTOSTART_LOADINGTAPE;
             datasette_control(DATASETTE_CONTROL_START);
