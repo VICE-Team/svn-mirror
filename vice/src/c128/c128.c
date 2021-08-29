@@ -1586,6 +1586,8 @@ int machine_addr_in_ram(unsigned int addr)
         return 0;
     }
 
+    /* printf("addr: %04x mmucfg: %02x\n", addr, mmucfg); */
+
     if ((addr >= 0xd000) && (addr <= 0xdfff)) { /* d000-dfff */
         if ((mmucfg & 0x01) == 0x00) { /* 00000001 */
             return 0; /* else what is selected by bits 4/5 */
@@ -1593,7 +1595,9 @@ int machine_addr_in_ram(unsigned int addr)
     }
     if ((addr >= 0xc000) && (addr <= 0xffff))  { /* c000-ffff */
         if ((mmucfg & 0x30) == 0x30) { /* 00110000 */
-            return 1;
+            if (!((addr >= 0xff18) && (addr <= 0xff3c))) {  /* exclude IRQ/NMI handler */
+                return 1;
+            }
         }
     }
     if ((addr >= 0x8000) && (addr <= 0xbfff))  { /* 8000-bfff */
