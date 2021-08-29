@@ -729,6 +729,13 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 
     /* Make sure breakpoints are still working after loading the snapshot */
     mon_update_all_checkpoint_state();
+    
+    /* Enter monitor after done */
+    if (trigger_monitor) {
+        trigger_monitor = 0;
+        monitor_startup_trap();
+        log_message(autostart_log, "Returning to Monitor.");
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -827,14 +834,7 @@ static void autostart_done(void)
 
     autostartmode = AUTOSTART_DONE;
 
-    /* Enter monitor after done */
-    if (trigger_monitor) {
-        trigger_monitor = 0;
-        monitor_startup_trap();
-        log_message(autostart_log, "Done. Returning to Monitor.");
-    } else {
-        log_message(autostart_log, "Done.");
-    }
+    log_message(autostart_log, "Done.");
 }
 
 /* ------------------------------------------------------------------------- */
