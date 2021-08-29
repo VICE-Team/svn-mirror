@@ -815,7 +815,10 @@ static int set_joystick_autofire_speed(int val, void *param)
 {
     int port_idx = vice_ptr_to_int(param);
 
-    /* FIXME: limit the range */
+    if (val < 1 || val > 255) {
+        return -1;
+    }
+
     joystick_autofire_speed[port_idx] = val;
 
     return 0;
@@ -1083,6 +1086,18 @@ static const cmdline_option_t joydev1cmdline_options[] = {
 #else
     "<0-9>", "Set device for native joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-joystick1autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick1AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in native joystick port 1" },
+    { "+joystick1autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick1AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in native joystick port 1" },
+    { "-joystick1autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick1AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in native joystick port 1 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-joystick1autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick1AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in native joystick port 1 (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1094,6 +1109,18 @@ static const cmdline_option_t joydev1cmdline_vic20_options[] = {
 #else
     "<0-9>", "Set device for native joystick port (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-joystick1autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick1AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in native joystick port" },
+    { "+joystick1autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick1AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in native joystick port" },
+    { "-joystick1autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick1AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in native joystick port (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-joystick1autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick1AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in native joystick port (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1105,6 +1132,18 @@ static const cmdline_option_t joydev2cmdline_options[] = {
 #else
     "<0-9>", "Set device for native joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-joystick2autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick2AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in native joystick port 2" },
+    { "+joystick2autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick2AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in native joystick port 2" },
+    { "-joystick2autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick2AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in native joystick port 2 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-joystick2autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick2AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in native joystick port 2 (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1117,6 +1156,18 @@ static const cmdline_option_t joydev3cmdline_options[] = {
 #else
     "<0-9>", "Set device for joystick adapter port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-extrajoystick1autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick3AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in joystick adapter port 1" },
+    { "+extrajoystick1autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick3AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in joystick adapter port 1" },
+    { "-extrajoystick1autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick3AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in joystick adapter port 1 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick1autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick3AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in joystick adapter port 1 (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1128,6 +1179,18 @@ static const cmdline_option_t joydev4cmdline_options[] = {
 #else
     "<0-9>", "Set device for joystick adapter port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-extrajoystick2autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick4AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in joystick adapter port 2" },
+    { "+extrajoystick2autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick4AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in joystick adapter port 2" },
+    { "-extrajoystick2autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick4AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in joystick adapter port 2 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick2autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick4AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in joystick adapter port 2 (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1139,6 +1202,41 @@ static const cmdline_option_t joydev5cmdline_options[] = {
 #else
     "<0-9>", "Set device for joystick adapter port 3 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-extrajoystick3autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick5AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in joystick adapter port 3" },
+    { "+extrajoystick3autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick5AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in joystick adapter port 3" },
+    { "-extrajoystick3autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick5AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in joystick adapter port 3 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick3autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick5AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in joystick adapter port 3 (amount of fire button presses per second)" },
+    CMDLINE_LIST_END
+};
+
+static const cmdline_option_t joydev5cmdline_plus4_options[] = {
+    { "-extrajoydev3", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyDevice5", NULL,
+#ifdef HAS_USB_JOYSTICK
+    "<0-13>", "Set device for sidcart joystick port (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1)" },
+#else
+    "<0-9>", "Set device for sidcart joystick port (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
+#endif
+    { "-extrajoystick3autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick5AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in sidcart joystick port" },
+    { "+extrajoystick3autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick5AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in sidcart joystick port" },
+    { "-extrajoystick3autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick5AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in sidcart joystick port (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick3autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick5AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in sidcart joystick port (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1150,6 +1248,18 @@ static const cmdline_option_t joydev6cmdline_options[] = {
 #else
     "<0-9>", "Set device for joystick adapter port 4 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-extrajoystick4autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick6AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in joystick adapter port 4" },
+    { "+extrajoystick4autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick6AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in joystick adapter port 4" },
+    { "-extrajoystick4autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick6AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in joystick adapter port 4 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick4autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick6AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in joystick adapter port 4 (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1161,6 +1271,18 @@ static const cmdline_option_t joydev7cmdline_options[] = {
 #else
     "<0-9>", "Set device for joystick adapter port 5 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-extrajoystick5autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick7AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in joystick adapter port 5" },
+    { "+extrajoystick5autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick7AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in joystick adapter port 5" },
+    { "-extrajoystick5autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick7AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in joystick adapter port 5 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick5autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick7AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in joystick adapter port 5 (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1172,6 +1294,18 @@ static const cmdline_option_t joydev8cmdline_options[] = {
 #else
     "<0-9>", "Set device for joystick adapter port 6 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-extrajoystick6autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick8AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in joystick adapter port 6" },
+    { "+extrajoystick6autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick8AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in joystick adapter port 6" },
+    { "-extrajoystick6autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick8AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in joystick adapter port 6 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick6autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick8AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in joystick adapter port 6 (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1183,6 +1317,18 @@ static const cmdline_option_t joydev9cmdline_options[] = {
 #else
     "<0-9>", "Set device for joystick adapter port 7 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-extrajoystick7autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick9AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in joystick adapter port 7" },
+    { "+extrajoystick7autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick9AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in joystick adapter port 7" },
+    { "-extrajoystick7autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick9AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in joystick adapter port 7 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick7autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick9AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in joystick adapter port 7 (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1194,6 +1340,18 @@ static const cmdline_option_t joydev10cmdline_options[] = {
 #else
     "<0-9>", "Set device for joystick adapter port 8 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)" },
 #endif
+    { "-extrajoystick8autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick10AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_ON,
+      NULL, "Enable autofire for joystick/joypad in joystick adapter port 8" },
+    { "+extrajoystick8autofire", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyStick10AutoFire", (resource_value_t)JOYSTICK_AUTOFIRE_OFF,
+      NULL, "Disable autofire for joystick/joypad in joystick adapter port 8" },
+    { "-extrajoystick8autofiremode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick10AutoFireMode", NULL,
+      "<0-1>", "Set autofire mode for joystick/joypad in joystick adapter port 8 (0: Autofire when fire button is pressed, 1: Permanently autofire (pressing fire overrides autofire)" },
+    { "-extrajoystick8autofirespeed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "JoyStick10AutoFireSpeed", NULL,
+      "<1-255>", "Set autofire speed for joystick/joypad in joystick adapter port 8 (amount of fire button presses per second)" },
     CMDLINE_LIST_END
 };
 
@@ -1233,8 +1391,14 @@ int joystick_cmdline_options_init(void)
         }
     }
     if (joyport_get_port_name(JOYPORT_5)) {
-        if (cmdline_register_options(joydev5cmdline_options) < 0) {
-            return -1;
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            if (cmdline_register_options(joydev5cmdline_plus4_options) < 0) {
+                return -1;
+            }
+        } else {
+            if (cmdline_register_options(joydev5cmdline_options) < 0) {
+                return -1;
+            }
         }
     }
     if (joyport_get_port_name(JOYPORT_6)) {
