@@ -129,7 +129,7 @@ static int joyport_protopad_enable(int port, int value)
 static int protopad_get_autofire_on_off(int port)
 {
     uint32_t second_cycles = (uint32_t)(maincpu_clk % machine_get_cycles_per_second());
-    uint32_t cycles_per_flip = machine_get_cycles_per_second() / speed_selection[rapid_speed[port]];
+    uint32_t cycles_per_flip = (uint32_t)(machine_get_cycles_per_second() / speed_selection[rapid_speed[port]]);
     uint32_t flip_part = second_cycles / cycles_per_flip;
 
     if (flip_part & 1) {
