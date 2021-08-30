@@ -169,6 +169,11 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
             c64_glue_set_vbank(new_vbank, pa_ddr_change);
         }
         if (c64iec_active) {
+            /*  Bit 7  Serial Bus Data Input
+                Bit 6  Serial Bus Clock Pulse Input
+                Bit 5  Serial Bus Data Output
+                Bit 4  Serial Bus Clock Pulse Output
+                Bit 3  Serial Bus ATN Signal Output */
             (*iecbus_callback_write)((uint8_t)tmp, maincpu_clk + !(cia_context->write_offset));
         }
     }
@@ -230,6 +235,11 @@ static uint8_t read_ciapa(cia_context_t *cia_context)
     value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f);
 
     if (c64iec_active) {
+        /*  Bit 7  Serial Bus Data Input
+            Bit 6  Serial Bus Clock Pulse Input
+            Bit 5  Serial Bus Data Output
+            Bit 4  Serial Bus Clock Pulse Output
+            Bit 3  Serial Bus ATN Signal Output */
         value |= (*iecbus_callback_read)(maincpu_clk);
     }
 
