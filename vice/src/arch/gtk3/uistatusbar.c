@@ -204,7 +204,7 @@ typedef struct ui_sb_state_s {
     /** \brief Which joystick ports are actually available.
      *
      *  This is a bitmask representing notional ports 0-4, which are
-     *  themselves defined in joyport/joyport.h. Cases like a SIDcart
+     *  themselves defined in joyport/joyport.h. Cases like a SIDcard
      *  control port on a Plus/4 without other userport control ports
      *  mean that the set of active joyports may be discontinuous. */
     int joyports_enabled;

@@ -397,7 +397,7 @@ int machine_resources_init(void)
         return -1;
     }
     if (sidcart_resources_init() < 0) {
-        init_resource_fail("sidcart");
+        init_resource_fail("sid cartridge");
         return -1;
     }
     if (acia_resources_init() < 0) {
@@ -630,7 +630,7 @@ int machine_cmdline_options_init(void)
         return -1;
     }
     if (sidcart_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("sidcart");
+        init_cmdline_options_fail("sid cartridge");
         return -1;
     }
     if (speech_cmdline_options_init() < 0) {

@@ -561,7 +561,7 @@ UI_MENU_DEFINE_RADIO(SidAddress)
 UI_MENU_DEFINE_RADIO(SidClock)
 
 ui_menu_entry_t sid_vic_menu[] = {
-    { "Enable SID cart emulation",
+    { "Enable SID cartridge emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidCart_callback,
       NULL },
@@ -600,7 +600,7 @@ ui_menu_entry_t sid_vic_menu[] = {
 };
 
 ui_menu_entry_t sid_pet_menu[] = {
-    { "Enable SID cart emulation",
+    { "Enable SID cartridge emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidCart_callback,
       NULL },
@@ -641,7 +641,7 @@ ui_menu_entry_t sid_pet_menu[] = {
 UI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
 
 ui_menu_entry_t sid_plus4_menu[] = {
-    { "Enable SID cart emulation",
+    { "Enable SID cartridge emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidCart_callback,
       NULL },
@@ -677,7 +677,7 @@ ui_menu_entry_t sid_plus4_menu[] = {
       radio_SidClock_callback,
       (ui_callback_data_t)1 },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Enable SID cart digiblaster add-on",
+    { "Enable SID cartridge digiblaster add-on",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DIGIBLASTER_callback,
       NULL },
