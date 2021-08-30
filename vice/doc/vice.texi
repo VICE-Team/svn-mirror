@@ -3107,18 +3107,97 @@ Enable/Disable saving of the battery-backed real time clock data
 @vindex JoyDevice3
 @vindex JoyDevice4
 @vindex JoyDevice5
+@vindex JoyDevice6
+@vindex JoyDevice7
+@vindex JoyDevice8
+@vindex JoyDevice9
+@vindex JoyDevice10
 @item JoyDevice1
 @itemx JoyDevice2
 @itemx JoyDevice3
 @itemx JoyDevice4
 @itemx JoyDevice5
+@itemx JoyDevice6
+@itemx JoyDevice7
+@itemx JoyDevice8
+@itemx JoyDevice9
+@itemx JoyDevice10
 Integer specifying which joystick device the emulator should use for
-joystick emulation for ports 1 - 5, respectively.
+joystick emulation for ports 1 - 10, respectively.
 (0=None, 1=Joystick 1, 2=Joystick 2, 4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2)
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=HID joystick 0, 5=HID joystick 1 on Mac OS X)
 The available joysticks might differ depending on operating system and
 joystick support in the OS (Linux joystick module must be
 available for example).
+
+@vindex JoyStick1AutoFire
+@vindex JoyStick2AutoFire
+@vindex JoyStick3AutoFire
+@vindex JoyStick4AutoFire
+@vindex JoyStick5AutoFire
+@vindex JoyStick6AutoFire
+@vindex JoyStick7AutoFire
+@vindex JoyStick8AutoFire
+@vindex JoyStick9AutoFire
+@vindex JoyStick10AutoFire
+@item JoyStick1AutoFire
+@itemx JoyStick2AutoFire
+@itemx JoyStick3AutoFire
+@itemx JoyStick4AutoFire
+@itemx JoyStick5AutoFire
+@itemx JoyStick6AutoFire
+@itemx JoyStick7AutoFire
+@itemx JoyStick8AutoFire
+@itemx JoyStick9AutoFire
+@itemx JoyStick10AutoFire
+Boolean, enables autofire for joystick emulation for ports 1 - 10, respectively.
+(0=Off, 1=On)
+
+@vindex JoyStick1AutoFireMode
+@vindex JoyStick2AutoFireMode
+@vindex JoyStick3AutoFireMode
+@vindex JoyStick4AutoFireMode
+@vindex JoyStick5AutoFireMode
+@vindex JoyStick6AutoFireMode
+@vindex JoyStick7AutoFireMode
+@vindex JoyStick8AutoFireMode
+@vindex JoyStick9AutoFireMode
+@vindex JoyStick10AutoFireMode
+@item JoyStick1AutoFireMode
+@itemx JoyStick2AutoFireMode
+@itemx JoyStick3AutoFireMode
+@itemx JoyStick4AutoFireMode
+@itemx JoyStick5AutoFireMode
+@itemx JoyStick6AutoFireMode
+@itemx JoyStick7AutoFireMode
+@itemx JoyStick8AutoFireMode
+@itemx JoyStick9AutoFireMode
+@itemx JoyStick10AutoFireMode
+Integer specifying the autofire mode to be used for for joystick emulation for ports 1 - 10, respectively.
+(0=Autofire when fire is pressed, 1=Permanent autofire except when fire is pressed)
+
+@vindex JoyStick1AutoFireSpeed
+@vindex JoyStick2AutoFireSpeed
+@vindex JoyStick3AutoFireSpeed
+@vindex JoyStick4AutoFireSpeed
+@vindex JoyStick5AutoFireSpeed
+@vindex JoyStick6AutoFireSpeed
+@vindex JoyStick7AutoFireSpeed
+@vindex JoyStick8AutoFireSpeed
+@vindex JoyStick9AutoFireSpeed
+@vindex JoyStick10AutoFireSpeed
+@item JoyStick1AutoFireSpeed
+@itemx JoyStick2AutoFireSpeed
+@itemx JoyStick3AutoFireSpeed
+@itemx JoyStick4AutoFireSpeed
+@itemx JoyStick5AutoFireSpeed
+@itemx JoyStick6AutoFireSpeed
+@itemx JoyStick7AutoFireSpeed
+@itemx JoyStick8AutoFireSpeed
+@itemx JoyStick9AutoFireSpeed
+@itemx JoyStick10AutoFireSpeed
+Integer specifying the amount of fire button presses per second for autofire for joystick emulation for ports 1 - 10, respectively.
+(1-255)
 
 @vindex JoyOpposite
 @item JoyOpposite
@@ -3239,14 +3318,189 @@ Integer specifying the additional keyboard delay.
 @itemx -joydev2 <range>
 Set the device for joystick emulation of port 1 and 2, respectively.
 (@code{JoyDevice1}, @code{JoyDevice2}).
-The range for OS/2 is, valid numbers in the range are 0, 1, 2, 4, 8 and 16.
 @findex -extrajoydev1
 @findex -extrajoydev2
 @findex -extrajoydev3
+@findex -extrajoydev4
+@findex -extrajoydev5
+@findex -extrajoydev6
+@findex -extrajoydev7
+@findex -extrajoydev8
 @item -extrajoydev1 <0-8>
 @itemx -extrajoydev2 <0-8>
 @itemx -extrajoydev3 <0-8>
-Set device for extra joystick port 1, 2 and 3.
+@itemx -extrajoydev4 <0-8>
+@itemx -extrajoydev5 <0-8>
+@itemx -extrajoydev6 <0-8>
+@itemx -extrajoydev7 <0-8>
+@itemx -extrajoydev8 <0-8>
+Set device for extra joystick port 1, 2, 3, 4, 5, 6, 7 and 8.
+(@code{JoyDevice3}, @code{JoyDevice4}, @code{JoyDevice5}, @code{JoyDevice6}, @code{JoyDevice7}, @code{JoyDevice8}, @code{JoyDevice9}, @code{JoyDevice10}).
+
+@findex -joystick1autofire, +joystick1autofire
+@item -joystick1autofire
+@itemx +joystick1autofire
+Enable/disable autofire for native joystick port 1
+(@code{JoyStick1AutoFire=1}, @code{JoyStick1AutoFire=0}).
+(all emulators except xcbm2, xpet and vsid)
+
+@findex -joystick2autofire, +joystick2autofire
+@item -joystick2autofire
+@itemx +joystick2autofire
+Enable/disable autofire for native joystick port 2
+(@code{JoyStick2AutoFire=1}, @code{JoyStick2AutoFire=0}).
+(all emulators except xcbm2, xpet, xvic and vsid)
+
+@findex -extrajoystick1autofire, +extrajoystick1autofire
+@item -extrajoystick1autofire
+@itemx +extrajoystick1autofire
+Enable/disable autofire for joystick adapter port 1
+(@code{JoyStick3AutoFire=1}, @code{JoyStick3AutoFire=0}).
+(all emulators except vsid)
+
+@findex -extrajoystick2autofire, +extrajoystick2autofire
+@item -extrajoystick2autofire
+@itemx +extrajoystick2autofire
+Enable/disable autofire for joystick adapter port 2
+(@code{JoyStick4AutoFire=1}, @code{JoyStick4AutoFire=0}).
+(all emulators except vsid)
+
+@findex -extrajoystick3autofire, +extrajoystick3autofire
+@item -extrajoystick3autofire
+@itemx +extrajoystick3autofire
+Enable/disable autofire for joystick adapter port 3 or plus4 sidcard joystick port
+(@code{JoyStick5AutoFire=1}, @code{JoyStick5AutoFire=0}).
+(all emulators except xpet and vsid)
+
+@findex -extrajoystick4autofire, +extrajoystick4autofire
+@item -extrajoystick4autofire
+@itemx +extrajoystick4autofire
+Enable/disable autofire for joystick adapter port 4
+(@code{JoyStick6AutoFire=1}, @code{JoyStick6AutoFire=0}).
+(all emulators except xpet, xplus4 and vsid)
+
+@findex -extrajoystick5autofire, +extrajoystick5autofire
+@item -extrajoystick5autofire
+@itemx +extrajoystick5autofire
+Enable/disable autofire for joystick adapter port 5
+(@code{JoyStick7AutoFire=1}, @code{JoyStick7AutoFire=0}).
+(all emulators except xpet, xplus4 and vsid)
+
+@findex -extrajoystick6autofire, +extrajoystick6autofire
+@item -extrajoystick6autofire
+@itemx +extrajoystick6autofire
+Enable/disable autofire for joystick adapter port 6
+(@code{JoyStick8AutoFire=1}, @code{JoyStick8AutoFire=0}).
+(all emulators except xpet, xplus4 and vsid)
+
+@findex -extrajoystick7autofire, +extrajoystick7autofire
+@item -extrajoystick7autofire
+@itemx +extrajoystick7autofire
+Enable/disable autofire for joystick adapter port 7
+(@code{JoyStick9AutoFire=1}, @code{JoyStick9AutoFire=0}).
+(all emulators except xpet, xplus4 and vsid)
+
+@findex -extrajoystick8autofire, +extrajoystick8autofire
+@item -extrajoystick8autofire
+@itemx +extrajoystick8autofire
+Enable/disable autofire for joystick adapter port 8
+(@code{JoyStick10AutoFire=1}, @code{JoyStick10AutoFire=0}).
+(all emulators except xpet, xplus4 and vsid)
+
+@findex -joystick1autofiremode
+@item -joystick1autofiremode <Mode>
+Set autofire mode for native joystick port 1
+(@code{JoyStick1AutoFireMode})
+(all emulators except xcbm2, xpet and vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -joystick2autofiremode
+@item -joystick2autofiremode <Mode>
+Set autofire mode for native joystick port 2
+(@code{JoyStick2AutoFireMode})
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -extrajoystick1autofiremode
+@item -extrajoystick1autofiremode <Mode>
+Set autofire mode for joystick adapter port 1
+(@code{JoyStick3AutoFireMode})
+(all emulators except vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -extrajoystick2autofiremode
+@item -extrajoystick2autofiremode <Mode>
+Set autofire mode for joystick adapter port 2
+(@code{JoyStick4AutoFireMode})
+(all emulators except vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -extrajoystick3autofiremode
+@item -extrajoystick3autofiremode <Mode>
+Set autofire mode for joystick adapter port 3 or plus4 sidcard joystick port
+(@code{JoyStick5AutoFireMode})
+(all emulators except xpet and vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -extrajoystick4autofiremode
+@item -extrajoystick4autofiremode <Mode>
+Set autofire mode for joystick adapter port 4
+(@code{JoyStick6AutoFireMode})
+(all emulators except xpet, xplus4 and vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -extrajoystick5autofiremode
+@item -extrajoystick5autofiremode <Mode>
+Set autofire mode for joystick adapter port 5
+(@code{JoyStick7AutoFireMode})
+(all emulators except xpet, xplus4 and vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -extrajoystick6autofiremode
+@item -extrajoystick6autofiremode <Mode>
+Set autofire mode for joystick adapter port 6
+(@code{JoyStick8AutoFireMode})
+(all emulators except xpet, xplus4 and vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -extrajoystick7autofiremode
+@item -extrajoystick7autofiremode <Mode>
+Set autofire mode for joystick adapter port 7
+(@code{JoyStick9AutoFireMode})
+(all emulators except xpet, xplus4 and vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -extrajoystick8autofiremode
+@item -extrajoystick8autofiremode <Mode>
+Set autofire mode for joystick adapter port 8
+(@code{JoyStick10AutoFireMode})
+(all emulators except xpet, xplus4 and vsid).
+(0: Autofire when fire is pressed, 1: Permanent autofire except when fire is pressed)
+
+@findex -joystick1autofirespeed
+@findex -joystick2autofirespeed
+@item -joystick1autofirespeed <1-255>
+@itemx -joystick2autofirespeed <1-255>
+Set the amount of presses per second for autofire for joystick emulation of port 1 and 2, respectively.
+(@code{JoyStick1AutoFireSpeed}, @code{JoyStick2AutoFireSpeed}).
+@findex -extrajoystick1autofirespeed
+@findex -extrajoystick2autofirespeed
+@findex -extrajoystick3autofirespeed
+@findex -extrajoystick4autofirespeed
+@findex -extrajoystick5autofirespeed
+@findex -extrajoystick6autofirespeed
+@findex -extrajoystick7autofirespeed
+@findex -extrajoystick8autofirespeed
+@item -extrajoystick1autofirespeed <1-255>
+@itemx -extrajoystick2autofirespeed <1-255>
+@itemx -extrajoystick3autofirespeed <1-255>
+@itemx -extrajoystick4autofirespeed <1-255>
+@itemx -extrajoystick5autofirespeed <1-255>
+@itemx -extrajoystick6autofirespeed <1-255>
+@itemx -extrajoystick7autofirespeed <1-255>
+@itemx -extrajoystick8autofirespeed <1-255>
+Set the amount of presses per second for autofire for extra joystick port 1, 2, 3, 4, 5, 6, 7 and 8.
+(@code{JoyStick3AutoFireSpeed}, @code{JoyStick4AutoFireSpeed}, @code{JoyStick5AutoFireSpeed}, @code{JoyStick6AutoFireSpeed}, @code{JoyStick7AutoFireSpeed}, @code{JoyStick8AutoFireSpeed}, @code{JoyStick9AutoFireSpeed}, @code{JoyStick10AutoFireSpeed}, ).
 
 @findex -joyopposite, +joyopposite
 @item -joyopposite
