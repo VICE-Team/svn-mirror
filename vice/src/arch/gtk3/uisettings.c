@@ -72,6 +72,7 @@
 #include "settings_speed.h"
 #include "settings_keyboard.h"
 #include "settings_sound.h"
+#include "settings_autofire.h"
 #include "settings_autostart.h"
 #include "settings_drive.h"
 #include "settings_fsdevice.h"
@@ -841,6 +842,9 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1011,6 +1015,9 @@ static ui_settings_tree_node_t input_nodes_c64dtv[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1161,6 +1168,9 @@ static ui_settings_tree_node_t input_nodes_c128[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1331,6 +1341,9 @@ static ui_settings_tree_node_t input_nodes_scpu64[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1487,6 +1500,9 @@ static ui_settings_tree_node_t input_nodes_vic20[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1642,6 +1658,9 @@ static ui_settings_tree_node_t input_nodes_plus4[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1797,6 +1816,9 @@ static ui_settings_tree_node_t input_nodes_pet[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1949,6 +1971,9 @@ static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -2098,7 +2123,9 @@ static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */

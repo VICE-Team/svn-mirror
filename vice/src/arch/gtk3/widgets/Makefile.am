@@ -90,6 +90,7 @@ libwidgets_a_SOURCES = \
 	isepicwidget.c \
 	jamactionwidget.c \
 	jamdialog.c \
+	joystickautofirewidget.c \
 	joystickdevicewidget.c \
 	joystickmenupopup.c \
 	joystickuserportadapterwidget.c \
@@ -135,6 +136,7 @@ libwidgets_a_SOURCES = \
 	romsetmanagerwidget.c \
 	rrnetmk3widget.c \
 	scpu64settingswidget.c \
+	settings_autofire.c \
 	settings_autostart.c \
 	settings_controlport.c \
 	settings_crt.c \
@@ -250,6 +252,7 @@ EXTRA_DIST = \
 	isepicwidget.h \
 	jamactionwidget.h \
 	jamdialog.h \
+	joystickautofirewidget.h \
 	joystickdevicewidget.h \
 	joystickmenupopup.h \
 	joystickuserportadapterwidget.h \
@@ -295,6 +298,7 @@ EXTRA_DIST = \
 	romsetmanagerwidget.h \
 	rrnetmk3widget.h \
 	scpu64settingswidget.h \
+	settings_autofire.h \
 	settings_autostart.h \
 	settings_controlport.h \
 	settings_crt.h \
