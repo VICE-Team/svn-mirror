@@ -4,7 +4,7 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
-/* Note: These only make sense with a SidCart attached for certain machines
+/* Note: These only make sense with a Sid Cartridge attached for certain machines
  *
  * $VICERES SidEngine                   all
  * $VICERES SidStereo                   all

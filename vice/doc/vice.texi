@@ -995,7 +995,7 @@ The StarByte userport joystick adapter port 2 (x64/xscpu64/x128) is mapped to ex
 
 The userport SNES pad adapter port (x64/xscpu64/x128/xvic/xcbm2) is mapped to extra joystick device #1.
 
-The SIDCart joystick port (xplus4) is mapped to extra joystick device #3.
+The SID cartridge joystick port (xplus4) is mapped to extra joystick device #3.
 
 The Ninja joystick port snes pad adapter snes pad 1 (x64/xscpu64/x64dtv/x128/xvic/xcbm5x0) is mapped to extra joystick device #1.
 
@@ -3018,7 +3018,7 @@ control port 2 (x64, x64sc, x64dtv, xscpu64, x128, xcbm5x0, xplus4)
 Set the device attached to:
 userport joystick adapter port 1 (x64, x64sc, xscpu64, x128, xcbm2, xpet, xvic)
 userport joystick adapter port (x64dtv)
-sidcart control port (xplus4).
+sid cartridge control port (xplus4).
 (x64, x64sc, x64dtv, xscpu, x128, xcbm2, xpet, xvic, xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @vindex JoyPort4Device
@@ -3030,7 +3030,7 @@ userport joystick adapter port 2 (x64, x64sc, xscpu64, x128, xcbm2, xpet, xvic)
 @vindex JoyPort5Device
 @item JoyPort5Device
 Set the device attached to:
-SidCart on the Plus4 (xplus4)
+Sid Cartridge on the Plus4 (xplus4)
 (xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
 
 @vindex BBRTCSave
@@ -3067,7 +3067,7 @@ control port 2 (x64, x64sc, x64dtv, xscpu, x128, xcbm5x0, xplus4)
 Set the device attached to:
 userport joystick adapter port 1 (x64, x64sc, xscpu, x128, xcbm2, xpet, xvic)
 userport joystick adapter port (x64dtv)
-sidcart control port (xplus4)
+sid cartridge control port (xplus4)
 (@code{JoyPort3Device}).
 (x64, x64sc, x64dtv, xscpu, x128, xcbm2, xpet, xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 (xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
@@ -3082,7 +3082,7 @@ userport joystick adapter port 2 (x64, x64sc, xscpu, x128, xcbm2, xpet, xvic)
 @findex -controlport5device
 @item -controlport5device <device>
 Set the device attached to:
-SID cart joystick port (xplus4)
+SID cartridge joystick port (xplus4)
 (@code{JoyPort5Device}).
 (xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit), 18: Sampler (4bit), 19: BBRTC, 20: Paperclip64 dongle, 21: Coplin Keypad, 22: Cardco Cardkey 1 keypad, 23: Atari CX85 keypad, 24: RushWare Keypad, 25: Atari CX21 keypad)
 
@@ -10994,7 +10994,7 @@ The following cartridge types are valid:
 @item
      5: Final Expansion
 @item
-  - 10: SIDCart
+  - 10: SID Cartridge
 @item
   - 11: IEEE-4888
 @item
@@ -12789,7 +12789,7 @@ Boolean specifying whether userport DAC emulation is enabled.
 
 @vindex SidCart
 @item SidCart
-Boolean specifying whether SID Cart emulation is enabled or not.
+Boolean specifying whether SID Cartridge emulation is enabled or not.
 
 @vindex SidAddress
 @item SidAddress
@@ -30217,7 +30217,7 @@ port. Maintains the QNX 4.x, QNX 6.x, Solaris, Openserver,
 Unixware, Minix 3.x, Amiga, Syllable and OS/2 binary ports.
 Maintains the Win64 and Open Watcom project files. Maintains
 the SDL port(s). Added new .crt support. Added new screenshot
-formats. Added new sound recording support. Added SIDcart
+formats. Added new sound recording support. Added SID cartridge
 support for xpet, xplus4 and xvic. Improved the MMC64
 emulation. Added 2 MHz mode and banks 2/3 support for x128.
 Added the various userport joystick emulations. Added text copy
