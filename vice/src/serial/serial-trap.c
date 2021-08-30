@@ -116,7 +116,7 @@ static void send_listen_talk_secondary(uint8_t b)
 /* FIXME: the printers are strange */
 static int device_uses_serial_traps(int device)
 {
-    if ((device < 4) ||
+    if ((device < 4) || (device > 11) || /* only devices 4 to 11 can use traps */
         (serial_truedrive[device] && !IS_PRINTER(device))) {
         return 0;
     }
