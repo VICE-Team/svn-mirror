@@ -181,6 +181,8 @@
 /** \brief  CSS to allow collapsing/expanding tree nodes with crsr keys
  *
  * Note the 'treeview' rule, before Gtk+ 3.20 this was 'GtkTreeView'
+ *
+ *
  */
 #define TREEVIEW_CSS \
     "@binding-set SettingsTreeViewBinding\n" \
@@ -193,7 +195,11 @@
     "treeview\n" \
     "{\n" \
     "    -gtk-key-bindings: SettingsTreeViewBinding;\n" \
-    "}"
+    "}\n" \
+    "treeview .separator\n" \
+    "{\n" \
+    "    color: darker (@theme_bg_color);\n" \
+    "}\n"
 
 
 /** \brief  Number of columns in the tree model
@@ -269,6 +275,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
@@ -278,6 +287,10 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "RamCart",
       "ramcart",
       ramcart_widget_create, NULL },
+
+
+    UI_SETTINGS_SEPARATOR,
+
     { "Double Quick Brown Box",
       "dqbb",
       dqbb_widget_create, NULL },
@@ -287,6 +300,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "ISEPIC",
       "isepic",
       isepic_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
     { "EasyFlash",
       "easyflash",
       easyflash_widget_create, NULL },
@@ -296,6 +312,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "GMod3",
       "gmod3",
       gmod3_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
     { "IDE64",
       "ide64",
       ide64_widget_create, NULL },
@@ -321,12 +340,16 @@ static ui_settings_tree_node_t c64_cartridges[] = {
       "super-snapshot",
       super_snapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
+
+    UI_SETTINGS_SEPARATOR,
     { "Ethernet Cartridge",
       "ethernet-cart",
       ethernet_cart_widget_create, NULL },
     { "RR-Net Mk3",
       "rrnetmk3",
       rrnetmk3_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
 #endif
     { "IEEE-448 Interface",
       "ieee-488",
@@ -334,6 +357,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "IEEE Flash! 64 Interface",
       "ieee-flash-64",
       ieeeflash64_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },
@@ -351,9 +377,15 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "SFX Sound Sampler",
       "sfx-sampler",
       sfx_sound_sampler_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
     { "CP/M Cartridge",
       "cpm-cart",
       cpm_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
       ds12c887_widget_create, NULL },
@@ -2485,11 +2517,11 @@ static GtkTreeStore *populate_tree_model(void)
                 char buffer[256];
 
                 /* mark items without callback with 'TODO' */
-                if (list[c].callback != NULL) {
-                    g_snprintf(buffer, 256, "%s", list[c].name);
-                } else {
-                    g_snprintf(buffer, 256, "TODO: %s", list[c].name);
-                }
+                //if (list[c].callback != NULL) {
+                g_snprintf(buffer, 256, "%s", list[c].name);
+                //} else {
+                //    g_snprintf(buffer, 256, "TODO: %s", list[c].name);
+                //}
 
                 gtk_tree_store_append(model, &child, &iter);
                 gtk_tree_store_set(model, &child,
@@ -2502,6 +2534,22 @@ static GtkTreeStore *populate_tree_model(void)
     }
     return model;
 }
+
+
+static gboolean row_separator_func(GtkTreeModel *model,
+                                   GtkTreeIter *iter,
+                                   gpointer data)
+{
+    gchar *name = NULL;
+    gboolean is_sep;
+
+    gtk_tree_model_get(model, iter, COLUMN_NAME, &name, -1);
+    is_sep = strcmp(name, "---") == 0;
+    g_free(name);
+
+    return is_sep;
+}
+
 
 
 /** \brief  Create treeview for settings side-menu
@@ -2524,6 +2572,10 @@ static GtkWidget *create_treeview(void)
     create_tree_model();
     tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(populate_tree_model()));
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), FALSE);
+    gtk_tree_view_set_row_separator_func(GTK_TREE_VIEW(tree),
+                                         row_separator_func,
+                                         NULL,
+                                         NULL);
 
     text_renderer = gtk_cell_renderer_text_new();
     text_column = gtk_tree_view_column_new_with_attributes(
