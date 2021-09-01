@@ -267,6 +267,10 @@ enum {
  * I/O extensions per emulator
  */
 
+/* Sorting the cartridges is a bit of a challenge, since many of them fall
+   into more than one category. So we make a couple groups and put them
+   into the one that matches their perceived "primary" function best */
+
 /* {{{ c64_cartridges */
 /** \brief  List of C64 cartidge settings (x64, x64sc)
  */
@@ -278,30 +282,30 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     UI_SETTINGS_SEPARATOR,
 
+    /* RAM Expansions and "RAM Disk" */
+
+    { "Double Quick Brown Box",
+      "dqbb",
+      dqbb_widget_create, NULL },
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
       reu_widget_create, NULL },
-    { "RamCart",
+    { "RamCart",    /* FIXME: shouldnt this be in "Memory Hacks" ? */
       "ramcart",
       ramcart_widget_create, NULL },
-
-
-    UI_SETTINGS_SEPARATOR,
-
-    { "Double Quick Brown Box",
-      "dqbb",
-      dqbb_widget_create, NULL },
-    { "Expert Cartridge",
-      "expert-cart",
-      expert_widget_create, NULL },
-    { "ISEPIC",
-      "isepic",
-      isepic_widget_create, NULL },
+    { "RAMLink",
+      "ramlink",
+      ramlink_widget_create, NULL },
+    { "REX Ram-Floppy",
+      "rexramfloppy",
+      rexramfloppy_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
+
+    /* Flash+EPROM Cartridges */
 
     { "EasyFlash",
       "easyflash",
@@ -315,24 +319,14 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     UI_SETTINGS_SEPARATOR,
 
-    { "IDE64",
-      "ide64",
-      ide64_widget_create, NULL },
-    { "Lt. Kernal Host Adapter",
-      "ltkernal",
-      ltkernal_widget_create, NULL },
-    { "RAMLink",
-      "ramlink",
-      ramlink_widget_create, NULL },
-    { "REX Ram-Floppy",
-      "rexramfloppy",
-      rexramfloppy_widget_create, NULL },
-    { "MMC64",
-      "mmc64",
-      mmc64_widget_create, NULL },
-    { "MMC Replay",
-      "mmcr",
-      mmcr_widget_create, NULL },
+    /* Freezer+Utility Cartridges */
+
+    { "Expert Cartridge",
+      "expert-cart",
+      expert_widget_create, NULL },
+    { "ISEPIC",
+      "isepic",
+      isepic_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
       retroreplay_widget_create, NULL },
@@ -342,6 +336,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 #ifdef HAVE_RAWNET
 
     UI_SETTINGS_SEPARATOR,
+
+    /* Network Expansions */
+
     { "Ethernet Cartridge",
       "ethernet-cart",
       ethernet_cart_widget_create, NULL },
@@ -349,16 +346,33 @@ static ui_settings_tree_node_t c64_cartridges[] = {
       "rrnetmk3",
       rrnetmk3_widget_create, NULL },
 
-    UI_SETTINGS_SEPARATOR,
 #endif
+    UI_SETTINGS_SEPARATOR,
+
+    /* Storage Host Adapters */
+
+    { "IDE64",
+      "ide64",
+      ide64_widget_create, NULL },
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
     { "IEEE Flash! 64 Interface",
       "ieee-flash-64",
       ieeeflash64_widget_create, NULL },
+    { "Lt. Kernal Host Adapter",
+      "ltkernal",
+      ltkernal_widget_create, NULL },
+    { "MMC64",
+      "mmc64",
+      mmc64_widget_create, NULL },
+    { "MMC Replay",
+      "mmcr",
+      mmcr_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
 
     { "DigiMAX",
       "digimax",
@@ -380,11 +394,15 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     UI_SETTINGS_SEPARATOR,
 
+    /* CPU Expansions */
+
     { "CP/M Cartridge",
       "cpm-cart",
       cpm_widget_create, NULL },
 
     UI_SETTINGS_SEPARATOR,
+
+    /* misc */
 
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
@@ -400,6 +418,11 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* RAM Expansions and "RAM Disk" */
+
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
@@ -409,15 +432,20 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "RamCart",
       "ramcart",
       ramcart_widget_create, NULL },
+    { "REX Ram-Floppy",
+      "rexramfloppy",
+      rexramfloppy_widget_create, NULL },
+    { "RAMLink",
+      "ramlink",
+      ramlink_widget_create, NULL },
     { "Double Quick Brown Box",
       "dqbb",
       dqbb_widget_create, NULL },
-    { "Expert Cartridge",
-      "expert-cart",
-      expert_widget_create, NULL },
-    { "ISEPIC",
-      "isepic",
-      isepic_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Flash+EPROM Cartridges */
+
     { "EasyFlash",
       "easyflash",
       easyflash_widget_create, NULL },
@@ -427,21 +455,17 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "GMod3",
       "gmod3",
       gmod3_widget_create, NULL },
-    { "IDE64",
-      "ide64",
-      ide64_widget_create, NULL },
-    { "REX Ram-Floppy",
-      "rexramfloppy",
-      rexramfloppy_widget_create, NULL },
-    { "MMC64",
-      "mmc64",
-      mmc64_widget_create, NULL },
-    { "MMC Replay",
-      "mmcr",
-      mmcr_widget_create, NULL },
-    { "RAMLink",
-      "ramlink",
-      ramlink_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Freezer+Utility Cartridges */
+
+    { "Expert Cartridge",
+      "expert-cart",
+      expert_widget_create, NULL },
+    { "ISEPIC",
+      "isepic",
+      isepic_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
       retroreplay_widget_create, NULL },
@@ -449,6 +473,11 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       "super-snapshot",
       super_snapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Network Expansions */
+
     { "Ethernet Cartridge",
       "ethernet-cart",
       ethernet_cart_widget_create, NULL },
@@ -456,9 +485,28 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       "rrnetmk3",
       rrnetmk3_widget_create, NULL },
 #endif
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Storage Host Adapters */
+
+    { "IDE64",
+      "ide64",
+      ide64_widget_create, NULL },
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
+    { "MMC64",
+      "mmc64",
+      mmc64_widget_create, NULL },
+    { "MMC Replay",
+      "mmcr",
+      mmcr_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },
@@ -476,6 +524,11 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "SFX Sound Sampler",
       "sfx-sampler",
       sfx_sound_sampler_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* misc */
+
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
       ds12c887_widget_create, NULL },
@@ -491,24 +544,34 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* RAM Expansions and "RAM Disk" */
+
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
       reu_widget_create, NULL },
+    { "RAMLink",
+      "ramlink",
+      ramlink_widget_create, NULL },
+    { "REX Ram-Floppy",
+      "rexramfloppy",
+      rexramfloppy_widget_create, NULL },
     { "RamCart",
       "ramcart",
       ramcart_widget_create, NULL },
     { "Double Quick Brown Box",
       "dqbb",
       dqbb_widget_create, NULL },
-    { "Expert Cartridge",
-      "expert-cart",
-      expert_widget_create, NULL },
-    { "ISEPIC",
-      "isepic",
-      isepic_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Flash+EPROM Cartridges */
+
     { "EasyFlash",
       "easyflash",
       easyflash_widget_create, NULL },
@@ -518,24 +581,17 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "GMod3",
       "gmod3",
       gmod3_widget_create, NULL },
-    { "IDE64",
-      "ide64",
-      ide64_widget_create, NULL },
-    { "Lt. Kernal Host Adapter",
-      "ltkernal",
-      ltkernal_widget_create, NULL },
-    { "RAMLink",
-      "ramlink",
-      ramlink_widget_create, NULL },
-    { "REX Ram-Floppy",
-      "rexramfloppy",
-      rexramfloppy_widget_create, NULL },
-    { "MMC64",
-      "mmc64",
-      mmc64_widget_create, NULL },
-    { "MMC Replay",
-      "mmcr",
-      mmcr_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Freezer+Utility Cartridges */
+
+    { "Expert Cartridge",
+      "expert-cart",
+      expert_widget_create, NULL },
+    { "ISEPIC",
+      "isepic",
+      isepic_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
       retroreplay_widget_create, NULL },
@@ -543,6 +599,10 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       "super-snapshot",
       super_snapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
+    UI_SETTINGS_SEPARATOR,
+
+    /* Network Expansions */
+
     { "Ethernet Cartridge",
       "ethernet-cart",
       ethernet_cart_widget_create, NULL },
@@ -550,9 +610,30 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       "rrnetmk3",
       rrnetmk3_widget_create, NULL },
 #endif
+    UI_SETTINGS_SEPARATOR,
+
+    /* Storage Host Adapters */
+
+    { "IDE64",
+      "ide64",
+      ide64_widget_create, NULL },
+    { "Lt. Kernal Host Adapter",
+      "ltkernal",
+      ltkernal_widget_create, NULL },
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
+    { "MMC64",
+      "mmc64",
+      mmc64_widget_create, NULL },
+    { "MMC Replay",
+      "mmcr",
+      mmcr_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },
@@ -570,9 +651,19 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "SFX Sound Sampler",
       "sfx-sampler",
       sfx_sound_sampler_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* CPU Expansions */
+
     { "CP/M Cartridge",
       "cpm-cart",
       cpm_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* misc */
+
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
        ds12c887_widget_create, NULL },
@@ -588,27 +679,57 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
-    { "Mega Cart",
-      "mega-cart",
-      mega_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Flash+EPROM Cartridges */
+
     { "Final Expansion",
       "final-expansion",
       final_expansion_widget_create, NULL },
-    { "Vic Flash Plugin",
-      "vic-flash-plugin",
-      vic_flash_widget_create, NULL },
+    { "Mega Cart",
+      "mega-cart",
+      mega_cart_widget_create, NULL },
     { "UltiMem",
       "ultimem",
       ultimem_widget_create, NULL },
+    { "Vic Flash Plugin",
+      "vic-flash-plugin",
+      vic_flash_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Storage Host Adapters */
+
     { "VIC-1112 IEEE-488 interface",
       "ieee-488",
       vic_ieee488_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
+#ifdef HAVE_MIDI
+    { "MIDI emulation",
+      "midi",
+      midi_widget_create, NULL },
+#endif
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* C64 I/O Expansions connected via "MasC=uerade" adapter */
+
     { "DigiMAX (MasC=uerade",
       "digimax",
       digimax_widget_create, NULL },
     { "DS12C887 RTC (MasC=uerade)",
       "ds12c887-rtc",
       ds12c887_widget_create, NULL },
+#ifdef HAVE_RAWNET
+    { "Ethernet Cartridge (MasC=uerade)",
+      "ethernet-cart",
+      ethernet_cart_widget_create, NULL },
+#endif
     { "GEO-RAM (MasC=uerade)",
       "geo-ram",
       georam_widget_create, NULL },
@@ -618,16 +739,6 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
     { "SFX Sound Sampler (MasC=uerade)",
       "sfx-sampler",
       sfx_sound_sampler_widget_create, NULL },
-#ifdef HAVE_RAWNET
-    { "Ethernet Cartridge (MasC=uerade)",
-      "ethernet-cart",
-      ethernet_cart_widget_create, NULL },
-#endif
-#ifdef HAVE_MIDI
-    { "MIDI emulation",
-      "midi",
-      midi_widget_create, NULL },
-#endif
 
     UI_SETTINGS_TERMINATOR
 };
@@ -640,6 +751,11 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
     { "Digiblaster add-on",
       "digiblaster",
       plus4_digiblaster_widget_create, NULL },
@@ -655,9 +771,24 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
 /** \brief  List of PET I/O extensions
  */
 static ui_settings_tree_node_t pet_io_extensions[] = {
+    /* RAM Expansions and "RAM Disk" */
+
     { "PET RAM Expansion Unit",
       "pet-reu",
       pet_reu_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
+    { "SID Card",
+      "sid-card",
+      sidcart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Graphics Expansions + Adapters */
+
     { "PET Colour graphics",
       "pet-colour",
       pet_colour_graphics_widget_create, NULL },
@@ -667,9 +798,6 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
     { "PET HRE hi-res graphics",
       "pet-hre",
       pet_hre_widget_create, NULL },
-    { "SID Card",
-      "sid-card",
-      sidcart_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
