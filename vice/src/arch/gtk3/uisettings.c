@@ -2536,20 +2536,32 @@ static GtkTreeStore *populate_tree_model(void)
 }
 
 
+/** \brief  Determine if the current tree item should be a separator
+ *
+ * Callback function for the tree view to check item at \a iter in \a model
+ * and decide if the item is a separator.
+ *
+ * \param[in]   model   tree model
+ * \param[in]   iter    tree iterator
+ * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE if the item is a separator
+ */
 static gboolean row_separator_func(GtkTreeModel *model,
                                    GtkTreeIter *iter,
                                    gpointer data)
 {
     gchar *name = NULL;
-    gboolean is_sep;
+    gboolean is_sep = FALSE;
 
     gtk_tree_model_get(model, iter, COLUMN_NAME, &name, -1);
-    is_sep = strcmp(name, "---") == 0;
+    if (name != NULL && *name == '-') {
+        is_sep = TRUE;
+    }
     g_free(name);
 
     return is_sep;
 }
-
 
 
 /** \brief  Create treeview for settings side-menu
