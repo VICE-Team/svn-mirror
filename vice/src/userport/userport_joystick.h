@@ -36,8 +36,9 @@
 #define USERPORT_JOYSTICK_HIT      4
 #define USERPORT_JOYSTICK_KINGSOFT 5
 #define USERPORT_JOYSTICK_STARBYTE 6
+#define USERPORT_JOYSTICK_SYNERGY  7
 
-#define USERPORT_JOYSTICK_NUM 7
+#define USERPORT_JOYSTICK_NUM 8
 
 extern int userport_joystick_enable;
 extern int userport_joystick_type;

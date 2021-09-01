@@ -304,10 +304,10 @@ int sidcart_cmdline_options_init(void)
 
 static void sidcartjoy_store(uint16_t addr, uint8_t value)
 {
-    store_joyport_dig(JOYPORT_5, value, 0xff);
+    store_joyport_dig(JOYPORT_6, value, 0xff);
 }
 
 static uint8_t sidcartjoy_read(uint16_t addr)
 {
-    return read_joyport_dig(JOYPORT_5);
+    return read_joyport_dig(JOYPORT_6);
 }
