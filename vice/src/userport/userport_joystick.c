@@ -155,12 +155,27 @@ C64/C128 | JOY1 | JOY2 | NOTES
    M     |  -   |  1   | PA2 <- JOY2 UP
 */
 
+/* Synergy userport joystick adapter (C64/C128/CBM2/PET/PLUS4/VIC20)
+
+C64/C128 | CBM2 | PET | PLUS4 | VIC20 | I/O | NOTES
+---------------------------------------------------
+    C    |  14  |  C  |   B   |   C   |  I  | PB0 <- JOY1/2/3 UP
+    D    |  13  |  D  |   K   |   D   |  I  | PB1 <- JOY1/2/3 DOWN
+    E    |  12  |  E  |   4   |   E   |  I  | PB2 <- JOY1/2/3 LEFT
+    F    |  11  |  F  |   5   |   F   |  I  | PB3 <- JOY1/2/3 RIGHT
+    H    |  10  |  H  |   6   |   H   |  I  | PB4 <- JOY1/2/3 FIRE
+    J    |   9  |  J  |   7   |   J   |  O  | PB5 -> JOY1 SELECT
+    K    |   8  |  K  |   J   |   K   |  O  | PB6 -> JOY2 SELECT
+    L    |   7  |  L  |   F   |   L   |  O  | PB7 -> JOY3 SELECT
+*/
+
 /* ------------------------------------------------------------------------- */
 
 int userport_joystick_enable = 0;
 int userport_joystick_type = USERPORT_JOYSTICK_HUMMER;  /* default for x64dtv */
 
 static int userport_joystick_cga_select = 0;
+static int userport_joystick_synergy_select = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -209,6 +224,11 @@ static void userport_joystick_starbyte_store_sp1(uint8_t val);
 static void userport_joystick_starbyte_read_sp2(void);
 static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s);
+
+static void userport_joystick_synergy_read_pbx(void);
+static void userport_joystick_synergy_store_pbx(uint8_t value);
+static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s);
+static int userport_joystick_synergy_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t cga_device = {
     USERPORT_DEVICE_JOYSTICK_CGA,         /* device id */
@@ -406,6 +426,34 @@ static userport_snapshot_t starbyte_snapshot = {
     userport_joystick_starbyte_read_snapshot_module
 };
 
+static userport_device_t synergy_device = {
+    USERPORT_DEVICE_JOYSTICK_SYNERGY,     /* device id */
+    "Synergy userport joy adapter",       /* device name */
+    JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, /* this is a joystick adapter */
+    userport_joystick_synergy_read_pbx,   /* read pb0-pb7 function */
+    userport_joystick_synergy_store_pbx,  /* store pb0-pb7 function */
+    NULL,                                 /* NO read pa2 pin function */
+    NULL,                                 /* NO store pa2 pin function */
+    NULL,                                 /* NO read pa3 pin function */
+    NULL,                                 /* NO store pa3 pin function */
+    0,                                    /* pc pin is NOT needed */
+    NULL,                                 /* NO store sp1 pin function */
+    NULL,                                 /* NO read sp1 pin function */
+    NULL,                                 /* NO store sp2 pin function */
+    NULL,                                 /* NO read sp2 pin function */
+    "UserportJoy",                        /* resource used by the device */
+    0xff,                                 /* return value from a read, to be filled in by the device */
+    0xff,                                 /* validity mask of the device, doesn't change */
+    0,                                    /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                     /* a tag to indicate the order of insertion */
+};
+
+static userport_snapshot_t synergy_snapshot = {
+    USERPORT_DEVICE_JOYSTICK_SYNERGY,
+    userport_joystick_synergy_write_snapshot_module,
+    userport_joystick_synergy_read_snapshot_module
+};
+
 static userport_device_list_t *userport_joystick_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
@@ -440,6 +488,10 @@ static int register_userport_adapter(int adapter)
         case USERPORT_JOYSTICK_STARBYTE:
             userport_joystick_list_item = userport_device_register(&starbyte_device);
             joystick_adapter_set_ports(2);
+            break;
+        case USERPORT_JOYSTICK_SYNERGY:
+            userport_joystick_list_item = userport_device_register(&synergy_device);
+            joystick_adapter_set_ports(3);
             break;
         default:
             return -1;
@@ -521,6 +573,7 @@ static int set_userport_joystick_type(int val, void *param)
         case USERPORT_JOYSTICK_PET:
         case USERPORT_JOYSTICK_HUMMER:
         case USERPORT_JOYSTICK_OEM:
+        case USERPORT_JOYSTICK_SYNERGY:
             break;
         case USERPORT_JOYSTICK_HIT:
         case USERPORT_JOYSTICK_KINGSOFT:
@@ -576,6 +629,7 @@ int userport_joystick_resources_init(void)
     userport_snapshot_register(&hit_snapshot);
     userport_snapshot_register(&kingsoft_snapshot);
     userport_snapshot_register(&starbyte_snapshot);
+    userport_snapshot_register(&synergy_snapshot);
 
     if (machine_class != VICE_MACHINE_C64DTV) {
         if (machine_class == VICE_MACHINE_PLUS4) {
@@ -607,7 +661,7 @@ static const cmdline_option_t cmdline_options_type[] =
 {
     { "-userportjoytype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "UserportJoyType", NULL,
-      "<Type>", "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)" },
+      "<Type>", "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte, 7: Synergy)" },
     CMDLINE_LIST_END
 };
 
@@ -873,6 +927,54 @@ static void userport_joystick_starbyte_store_sp1(uint8_t val)
 static void userport_joystick_starbyte_read_sp2(void)
 {
     starbyte_device.retval = starbyte_sp2_retval;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void userport_joystick_synergy_read_pbx(void)
+{
+    uint8_t retval;
+    uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
+    uint8_t jv4 = ~read_joyport_dig(JOYPORT_4);
+    uint8_t jv5 = ~read_joyport_dig(JOYPORT_5);
+
+    if (userport_joystick_synergy_select == 0) {
+        retval = (uint8_t)~(jv3 & 0x1f);
+    } else if (userport_joystick_synergy_select == 1) {
+        retval = (uint8_t)~(jv4 & 0x1f);
+    } else {
+        retval = (uint8_t)~(jv5 & 0x1f);
+    }
+
+    synergy_device.retval = retval;
+}
+
+static void userport_joystick_synergy_store_pbx(uint8_t value)
+{
+    uint8_t j1 = value & 0x1f;
+
+    uint8_t j5_select = (value & 0x80) ? 1 : 0;
+    uint8_t j4_select = (value & 0x40) ? 1 : 0;
+    uint8_t j3_select = (value & 0x20) ? 1 : 0;
+
+    /* sanity check, only 1 value should be 0 */
+    if (j3_select + j4_select + j5_select == 2) {
+        if (j3_select == 0) {
+            userport_joystick_synergy_select = 0;
+        } else if (j4_select == 0) {
+            userport_joystick_synergy_select = 1;
+        } else {
+            userport_joystick_synergy_select = 2;
+        }
+    }
+
+    if (userport_joystick_synergy_select == 0) {
+        store_joyport_dig(JOYPORT_3, j1, 0x1f);
+    } else if (userport_joystick_synergy_select == 1) {
+        store_joyport_dig(JOYPORT_4, j1, 0x1f);
+    } else {
+        store_joyport_dig(JOYPORT_5, j1, 0x1f);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1221,6 +1323,84 @@ static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s)
     if (0
         || joyport_snapshot_read_module(s, JOYPORT_3) < 0
         || joyport_snapshot_read_module(s, JOYPORT_4) < 0) {
+        return -1;
+    }
+    return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* UP_JOY_SYNERGY snapshot module format:
+
+   type  | name   | description
+   ----------------------------
+   BYTE  | select | joyport select
+ */
+
+static char synergy_module_name[] = "UP_JOY_SYNERGY";
+#define SYNERGY_VER_MAJOR   0
+#define SYNERGY_VER_MINOR   0
+
+static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, synergy_module_name, SYNERGY_VER_MAJOR, SYNERGY_VER_MINOR);
+ 
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (SMW_B(m, (uint8_t)userport_joystick_synergy_select) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_write_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_4) < 0
+        || joyport_snapshot_write_module(s, JOYPORT_5) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+static int userport_joystick_synergy_read_snapshot_module(snapshot_t *s)
+{
+    uint8_t major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* enable device */
+    set_userport_joystick_type(USERPORT_JOYSTICK_SYNERGY, NULL);
+    set_userport_joystick_enable(1, NULL);
+
+    m = snapshot_module_open(s, synergy_module_name, &major_version, &minor_version);
+
+    if (m == NULL) {
+        return -1;
+    }
+
+    /* Do not accept versions higher than current */
+    if (snapshot_version_is_bigger(major_version, minor_version, SYNERGY_VER_MAJOR, SYNERGY_VER_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+        goto fail;
+    }
+
+    if (SMR_B_INT(m, &userport_joystick_synergy_select) < 0) {
+        goto fail;
+    }
+    snapshot_module_close(m);
+
+    if (0
+        || joyport_snapshot_read_module(s, JOYPORT_3) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_4) < 0
+        || joyport_snapshot_read_module(s, JOYPORT_5) < 0) {
         return -1;
     }
     return 0;

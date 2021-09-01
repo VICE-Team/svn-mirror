@@ -237,10 +237,14 @@ static const ui_menu_entry_t joystick_autofire_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)joystick_port4_autofire_menu },
-    { "SID Cartridge joystick port autofire",
+    { "Joystick adapter port 4 autofire",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)joystick_port5_autofire_menu },
+    { "SID Cartridge joystick port autofire",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)joystick_port6_autofire_menu },
     SDL_MENU_LIST_END
 };
 
@@ -688,10 +692,14 @@ static const ui_menu_entry_t joystick_host_mapping_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy4_menu },
-    { "Host joy to SID Cartridge joy mapping",
+    { "Host joy to joy adapter port 3 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy5_menu },
+    { "Host joy to SID Cartridge joy mapping",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy6_menu },
     SDL_MENU_LIST_END
 };
 
@@ -892,6 +900,10 @@ static const ui_menu_entry_t joystick_extra_joy_type_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_UserportJoyType_callback,
       (ui_callback_data_t)USERPORT_JOYSTICK_OEM },
+    { "Synergy userport adapter",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_UserportJoyType_callback,
+      (ui_callback_data_t)USERPORT_JOYSTICK_SYNERGY },
     SDL_MENU_LIST_END
 };
 
@@ -912,6 +924,10 @@ static const ui_menu_entry_t joystick_extra_joy_type_no_hit_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_UserportJoyType_callback,
       (ui_callback_data_t)USERPORT_JOYSTICK_OEM },
+    { "Synergy userport adapter",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_UserportJoyType_callback,
+      (ui_callback_data_t)USERPORT_JOYSTICK_SYNERGY },
     SDL_MENU_LIST_END
 };
 
@@ -928,6 +944,10 @@ static const ui_menu_entry_t joystick_extra_joy_type_no_hit_cga_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_UserportJoyType_callback,
       (ui_callback_data_t)USERPORT_JOYSTICK_OEM },
+    { "Synergy userport adapter",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_UserportJoyType_callback,
+      (ui_callback_data_t)USERPORT_JOYSTICK_SYNERGY },
     SDL_MENU_LIST_END
 };
 
@@ -1120,10 +1140,14 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port4_device_menu },
-    { "SID cartridge joystick port",
+    { "Joystick adapter port 3",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port5_device_menu },
+    { "SID cartridge joystick port",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port6_device_menu },
     { "Swap native joystick ports",
       MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,

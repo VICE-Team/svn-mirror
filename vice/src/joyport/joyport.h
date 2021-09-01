@@ -98,8 +98,9 @@ enum {
                              joystick adapter port 1 */
 #define JOYPORT_4   3   /**< c64/c128/scpu64/cbm2/pet/plus4/vic20 userport
                              joystick adapter port 2 */
-#define JOYPORT_5   4   /**< plus4 sidcart control port */
-#define JOYPORT_6   5
+#define JOYPORT_5   4   /**< c64/c128/scpu64/cbm2/pet/plus4/vic20 userport
+                             joystick adapter port 3 */
+#define JOYPORT_6   5   /**< plus4 sidcart control port */
 #define JOYPORT_7   6
 #define JOYPORT_8   7
 #define JOYPORT_9   8
