@@ -233,6 +233,7 @@ static uint8_t iecbus_cpu_read_conf1(CLOCK clock)
     return iecbus.cpu_port;
 }
 
+/* NOTE: when adding drives, do the equivalent change in src/vic20/vic20iec.c */
 static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
 {
     diskunit_context_t *unit = diskunit_context[0];
@@ -295,6 +296,7 @@ static uint8_t iecbus_cpu_read_conf2(CLOCK clock)
     return iecbus.cpu_port;
 }
 
+/* NOTE: when adding drives, do the equivalent change in src/vic20/vic20iec.c */
 static void iecbus_cpu_write_conf2(uint8_t data, CLOCK clock)
 {
     diskunit_context_t *unit = diskunit_context[1];
@@ -358,6 +360,7 @@ static uint8_t iecbus_cpu_read_conf3(CLOCK clock)
     return iecbus.cpu_port;
 }
 
+/* NOTE: when adding drives, do the equivalent change in src/vic20/vic20iec.c */
 static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
 {
     unsigned int dnr;
