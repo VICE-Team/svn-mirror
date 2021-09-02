@@ -38,6 +38,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+
+
 /* Doxygen docblocks go here to avoid having to write them two times for each
  * case for `HAVE_DEBUG_GTK3UI`.
  */
@@ -90,7 +92,8 @@
 #  include <glib.h>
 
 #  define debug_gtk3(...) \
-    g_print("[debug-gtk3] %s:%d::%s(): ", __FILE__, __LINE__, __func__); \
+    g_print("[debug-gtk3] %s:%d::%s(): ", \
+            debug_gtk3_basename(__FILE__), __LINE__, __func__); \
     g_print(__VA_ARGS__); \
     g_print("\n");
 
@@ -137,5 +140,7 @@
             __FILE__, __LINE__, __func__); \
     exit(1)
 
+
+const char *debug_gtk3_basename(const char *path);
 
 #endif  /* VICE_DEBUG_GTK3_H */

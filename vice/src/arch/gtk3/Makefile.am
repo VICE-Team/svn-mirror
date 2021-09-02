@@ -62,6 +62,7 @@ libarch_a_SOURCES = \
 	c64ui.c \
 	cbm2ui.c \
 	cbm5x0ui.c \
+	debug_gtk3.c \
 	gtk3main.c \
 	hotkeys.c \
 	kbd.c \
