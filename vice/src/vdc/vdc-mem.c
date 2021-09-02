@@ -100,6 +100,8 @@ static void vdc_perform_fillcopy(void)
         vdc.regs[31] = vdc_ram_read(ptr2 - 1);
         vdc.regs[32] = (ptr2 >> 8) & 0xff;
         vdc.regs[33] = ptr2 & 0xff;
+        /* Set the clock for when the vdc status will be clear after this operation */
+        vdc_status_clear_clock = maincpu_clk + (blklen*120/100);    /* Copies take longer than fills (below) */
     } else { /* FILL */
 #ifdef REG_DEBUG
         log_message(vdc.log, "Fill mem %04i, len %03i, data %02x",
@@ -108,6 +110,8 @@ static void vdc_perform_fillcopy(void)
         for (i = 0; i < blklen; i++) {
             vdc_ram_store((ptr + i), vdc.regs[31]);
         }
+        /* Set the clock for when the vdc status will be clear after this operation */
+        vdc_status_clear_clock = maincpu_clk + (blklen*66/100);
     }
 
     ptr = ptr + blklen;
@@ -329,7 +333,11 @@ void vdc_store(uint16_t addr, uint8_t value)
         case 19:
             vdc.update_adr = ((vdc.regs[18] << 8) | vdc.regs[19]) & vdc.vdc_address_mask;
             /* writing to 18/19 forces the vdc to go read its memory, which takes a while */
-            vdc_status_clear_clock = maincpu_clk + 37;
+            if (vdc.display_enable) {
+                vdc_status_clear_clock = maincpu_clk + 43;  /* The VDC is 'busier' when in the active display area */
+            } else {
+                vdc_status_clear_clock = maincpu_clk + 4;   /* And less busy in the top/bottom border */
+            }
             break;
 
         case 20:                /* R20/21 Attribute Start Address hi/lo */
@@ -461,14 +469,16 @@ void vdc_store(uint16_t addr, uint8_t value)
 
         case 30:                /* Word Count + initiate fill or copy */
             vdc_perform_fillcopy();
-            /* Set the clock for when the vdc status will be clear after this operation */
-            vdc_status_clear_clock = maincpu_clk + (vdc.regs[30]*45/100);
             break;
 
         case 31:                /* Data for memory write */
             vdc_write_data();
             /* Set the clock for when the vdc status will be clear after this operation */
-            vdc_status_clear_clock = maincpu_clk + 15;
+            if (vdc.display_enable) {
+                vdc_status_clear_clock = maincpu_clk + 43;  /* The VDC is 'busier' when in the active display area */
+            } else {
+                vdc_status_clear_clock = maincpu_clk + 4;   /* And less busy in the top/bottom border */
+            }
             break;
 
         case 32:                /* R32/33 Block Start Address hi/lo */
@@ -518,8 +528,12 @@ uint8_t vdc_read(uint16_t addr)
                   & vdc.vdc_address_mask;
             vdc.regs[18] = (ptr >> 8) & 0xff;
             vdc.regs[19] = ptr & 0xff;
-             /* Set the clock for when the vdc status will be clear after this operation */
-            vdc_status_clear_clock = maincpu_clk + 37;
+            /* Set the clock for when the vdc status will be clear after this operation */
+            if (vdc.display_enable) {
+                vdc_status_clear_clock = maincpu_clk + 43;  /* The VDC is 'busier' when in the active display area */
+            } else {
+                vdc_status_clear_clock = maincpu_clk + 4;   /* And less busy in the top/bottom border */
+            }
             return retval;
         }
 
