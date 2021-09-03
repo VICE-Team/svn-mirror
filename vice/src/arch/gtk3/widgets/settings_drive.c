@@ -143,8 +143,12 @@ static GtkWidget *drive_size[NUM_DISK_UNITS];
 static void iec_callback(GtkWidget *widget, int unit)
 {
     if (unit >= DRIVE_UNIT_MIN && unit <= DRIVE_UNIT_MAX) {
-        gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN],
-                gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+        int state1 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+        int state2 = 0;
+        if (resources_get_int("VirtualDevices", &state2) < 0) {
+            state2 = 0;
+        }
+        gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN], state1 | state2);
     }
 }
 
@@ -789,25 +793,28 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), stack, 0, 2, 3, 1);
 
     /* set sensitivity of the filesystem-type comboboxes, depending on the
-     * IECDevice resource (not for VIC20 and PET/CBM-II)
+     * IECDevice (not for VIC20 and PET/CBM-II) and VirtualDevice resource
      */
-    if (machine_class != VICE_MACHINE_VIC20 &&
-        machine_class != VICE_MACHINE_PET &&
-        machine_class != VICE_MACHINE_CBM5x0 &&
-        machine_class != VICE_MACHINE_CBM6x0) {
 
-        for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
-            int state = 0;
+    for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
+        int state1 = 0, state2 = 0;
 
-            if (resources_get_int_sprintf("IECDevice%d", &state, unit) < 0) {
-                state = 0;
+        if (machine_class != VICE_MACHINE_VIC20 &&
+            machine_class != VICE_MACHINE_PET &&
+            machine_class != VICE_MACHINE_CBM5x0 &&
+            machine_class != VICE_MACHINE_CBM6x0) {
+            if (resources_get_int_sprintf("IECDevice%d", &state1, unit) < 0) {
+                state1 = 0;
             }
-            /* try to set sensitive, regardless of if the widget actually
-             * exists, this helps with debugging since Gtk will print a warning
-             * on the console.
-             */
-            gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN], state);
         }
+        if (resources_get_int("VirtualDevices", &state2) < 0) {
+            state2 = 0;
+        }
+        /* try to set sensitive, regardless of if the widget actually
+            * exists, this helps with debugging since Gtk will print a warning
+            * on the console.
+            */
+        gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN], state1 | state2);
     }
     gtk_widget_show_all(layout);
     return layout;
