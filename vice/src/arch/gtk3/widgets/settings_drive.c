@@ -5,24 +5,28 @@
  */
 
 /*
- * $VICERES Drive8TrueEmulation          -vsid
- * $VICERES Drive9TrueEmulation          -vsid
- * $VICERES Drive10TrueEmulation          -vsid
- * $VICERES Drive11TrueEmulation          -vsid
+ * $VICERES Drive8TrueEmulation         -vsid
+ * $VICERES Drive9TrueEmulation         -vsid
+ * $VICERES Drive10TrueEmulation        -vsid
+ * $VICERES Drive11TrueEmulation        -vsid
  * $VICERES DriveSoundEmulation         -vsid
  * $VICERES DriveSoundEmulationVolume   -vsid
- * $VICERES IECDevice8              -vsid -xcbm5x0 -xcbm2 -xpet
- * $VICERES IECDevice9              -vsid -xcbm5x0 -xcbm2 -xpet
- * $VICERES IECDevice10             -vsid -xcbm5x0 -xcbm2 -xpet
- * $VICERES IECDevice11             -vsid -xcbm5x0 -xcbm2 -xpet
- * $VICERES AttachDevice8Readonly   -vsid
- * $VICERES AttachDevice9Readonly   -vsid
- * $VICERES AttachDevice10Readonly  -vsid
- * $VICERES AttachDevice11Readonly  -vsid
- * $VICERES Drive8RTCSave           -vsid -xcbm5x0 -xcbm2 -xpet
- * $VICERES Drive9RTCSave           -vsid -xcbm5x0 -xcbm2 -xpet
- * $VICERES Drive10RTCSave          -vsid -xcbm5x0 -xcbm2 -xpet
- * $VICERES Drive11RTCSave          -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES IECDevice8                  -vsid -xcbm5x0 -xcbm2 -xpet -xvic
+ * $VICERES IECDevice9                  -vsid -xcbm5x0 -xcbm2 -xpet -xvic
+ * $VICERES IECDevice10                 -vsid -xcbm5x0 -xcbm2 -xpet -xvic
+ * $VICERES IECDevice11                 -vsid -xcbm5x0 -xcbm2 -xpet -xvic
+ * $VICERES FileSystemDevice8           -vsid
+ * $VICERES FileSystemDevice9           -vsid
+ * $VICERES FileSystemDevice10          -vsid
+ * $VICERES FileSystemDevice11          -vsid
+ * $VICERES AttachDevice8Readonly       -vsid
+ * $VICERES AttachDevice9Readonly       -vsid
+ * $VICERES AttachDevice10Readonly      -vsid
+ * $VICERES AttachDevice11Readonly      -vsid
+ * $VICERES Drive8RTCSave               -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES Drive9RTCSave               -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES Drive10RTCSave              -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES Drive11RTCSave              -vsid -xcbm5x0 -xcbm2 -xpet
  */
 
 /*
@@ -403,8 +407,11 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
     /* wrapper for IEC check button and IEC device type combo box */
     iec_wrapper = gtk_grid_new();
     /* IEC device check button */
+#if 0
+    /* FIXME: xvic does not use the generic IEC bus code in src/iecbus/iecbus.c yet */
     drive_iec_device[index] = create_iec_check_button(unit, iec_callback);
     gtk_grid_attach(GTK_GRID(iec_wrapper), drive_iec_device[index], 0, 0, 1, 1);
+#endif
     /* IEC device type combo box */
     drive_device_type[index] = create_drive_device_type_widget(unit);
     gtk_grid_attach(GTK_GRID(iec_wrapper), drive_device_type[index], 0, 1, 1, 1);
@@ -782,11 +789,12 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), stack, 0, 2, 3, 1);
 
     /* set sensitivity of the filesystem-type comboboxes, depending on the
-     * IECDevice resource (not for PET/CBM-II)
+     * IECDevice resource (not for VIC20 and PET/CBM-II)
      */
-    if (machine_class != VICE_MACHINE_PET &&
-            machine_class != VICE_MACHINE_CBM5x0 &&
-            machine_class != VICE_MACHINE_CBM6x0) {
+    if (machine_class != VICE_MACHINE_VIC20 &&
+        machine_class != VICE_MACHINE_PET &&
+        machine_class != VICE_MACHINE_CBM5x0 &&
+        machine_class != VICE_MACHINE_CBM6x0) {
 
         for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
             int state = 0;

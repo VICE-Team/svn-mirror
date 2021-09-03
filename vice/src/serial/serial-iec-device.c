@@ -36,6 +36,7 @@
 #include "serial-iec-device.h"
 #include "serial.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "serial-iec-bus.h"
 
@@ -92,6 +93,11 @@ static const resource_int_t resources_int[] = {
 
 int serial_iec_device_resources_init(void)
 {
+    if (machine_class == VICE_MACHINE_VIC20) {
+        /* FIXME: xvic does not use the generic iec code in src/iecbus/iecbus.c,
+                  which makes iecdevice not work */
+        return 0;
+    }
     return resources_register_int(resources_int);
 }
 
@@ -150,6 +156,11 @@ static const cmdline_option_t cmdline_options[] =
 
 int serial_iec_device_cmdline_options_init(void)
 {
+    if (machine_class == VICE_MACHINE_VIC20) {
+        /* FIXME: xvic does not use the generic iec code in src/iecbus/iecbus.c,
+                  which makes iecdevice not work */
+        return 0;
+    }
     return cmdline_register_options(cmdline_options);
 }
 
