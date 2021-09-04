@@ -76,12 +76,26 @@ typedef uint8_t VIC_PIXEL;
                                   * vic.cycles_per_line)
 
 #if 1
+/* HACK See below comments about a version that would work for both interlaced and not.
+ * I just added this to get interlaced vic20 snapshots working. */
+#define VIC_RASTER_Y(clk)   ( \
+                                (unsigned int) \
+                                    ( \
+                                        vic.interlace_enabled \
+                                            ? (((clk) - vic.framestart_cycle) / vic.cycles_per_line) \
+                                            : (((clk) / vic.cycles_per_line) % vic.screen_height) \
+                                    ) \
+                            )
+
+#endif
+#if 0
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending `A_RASTERDRAW' event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
 #define VIC_RASTER_Y(clk)     ((unsigned int)((clk) / vic.cycles_per_line)   \
                                % vic.screen_height)
-#else
+#endif
+#if 0
 /* this is faster than the above and does not break with interlace video */
 /* FIXME: apparently this breaks non interlaced :( we need to fix it so it works with PAL too */
 #define VIC_RASTER_Y(clk)     ((unsigned int)((clk) - vic.framestart_cycle) / vic.cycles_per_line)

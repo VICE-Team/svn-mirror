@@ -99,7 +99,6 @@ static int raster_draw_buffer_alloc(video_canvas_t *canvas,
 
         canvas->draw_buffer->draw_buffer_padded_allocations[1] = lib_calloc(1, padded_size);
         canvas->draw_buffer->draw_buffer_non_padded[1] = canvas->draw_buffer->draw_buffer_padded_allocations[1] + unpadded_offset;
-        canvas->draw_buffer->draw_buffer_previous = canvas->draw_buffer->draw_buffer_non_padded[1];
     }
 
     *fb_pitch = fb_width;
@@ -114,7 +113,6 @@ static void raster_draw_buffer_free(video_canvas_t *canvas)
     canvas->draw_buffer->draw_buffer_padded_allocations[0] = NULL;
     canvas->draw_buffer->draw_buffer_padded_allocations[1] = NULL;
     canvas->draw_buffer->draw_buffer = NULL;
-    canvas->draw_buffer->draw_buffer_previous = NULL;
 }
 
 static void raster_draw_buffer_clear(video_canvas_t *canvas, uint8_t value,

@@ -101,8 +101,12 @@ extern int snapshot_module_read_dword_array(snapshot_module_t *m,
 extern int snapshot_module_read_string(snapshot_module_t *m, char **s);
 extern int snapshot_module_read_byte_into_int(snapshot_module_t *m,
                                               int *value_return);
+extern int snapshot_module_read_byte_into_uint(snapshot_module_t *m,
+                                              unsigned int *value_return);
 extern int snapshot_module_read_word_into_int(snapshot_module_t *m,
                                               int *value_return);
+extern int snapshot_module_read_word_into_uint(snapshot_module_t *m,
+                                              unsigned int *value_return);
 extern int snapshot_module_read_dword_into_ulong(snapshot_module_t *m,
                                                  unsigned long *value_return);
 extern int snapshot_module_read_dword_into_int(snapshot_module_t *m,
@@ -133,7 +137,9 @@ extern int snapshot_module_read_qword_into_int64(snapshot_module_t *m,
 #define SMR_DWA      snapshot_module_read_dword_array
 #define SMR_STR      snapshot_module_read_string
 #define SMR_B_INT    snapshot_module_read_byte_into_int
+#define SMR_B_UINT   snapshot_module_read_byte_into_uint
 #define SMR_W_INT    snapshot_module_read_word_into_int
+#define SMR_W_UINT   snapshot_module_read_word_into_uint
 #define SMR_DW_UL    snapshot_module_read_dword_into_ulong
 #define SMR_DW_INT   snapshot_module_read_dword_into_int
 #define SMR_DW_UINT  snapshot_module_read_dword_into_uint

@@ -38,6 +38,7 @@
 #include "mem.h"
 #include "snapshot.h"
 #include "types.h"
+#include "raster-snapshot.h"
 #include "vicii-draw-cycle.h"
 #include "vicii-resources.h"
 #include "vicii-snapshot.h"
@@ -62,7 +63,7 @@ void vicii_snapshot_prepare(void)
 
 static char snap_module_name[] = "VIC-II";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 2
+#define SNAP_MINOR 3
 
 int vicii_snapshot_write_module(snapshot_t *s)
 {
@@ -146,6 +147,10 @@ int vicii_snapshot_write_module(snapshot_t *s)
     }
 
     if (vicii_draw_cycle_snapshot_write(m) < 0) {
+        goto fail;
+    }
+
+    if (raster_snapshot_write(m, &vicii.raster)) {
         goto fail;
     }
 
@@ -276,6 +281,10 @@ int vicii_snapshot_read_module(snapshot_t *s)
     }
     if (vicii.irq_status & 0x80) {
         interrupt_restore_irq(maincpu_int_status, vicii.int_num, 1);
+    }
+
+    if (raster_snapshot_read(m, &vicii.raster)) {
+        goto fail;
     }
 
     raster_force_repaint(&vicii.raster);
