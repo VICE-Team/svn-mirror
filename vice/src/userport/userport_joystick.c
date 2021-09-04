@@ -657,7 +657,7 @@ static const cmdline_option_t cmdline_options[] =
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t cmdline_options_type[] =
+static const cmdline_option_t cmdline_options_type_c64[] =
 {
     { "-userportjoytype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "UserportJoyType", NULL,
@@ -665,9 +665,44 @@ static const cmdline_option_t cmdline_options_type[] =
     CMDLINE_LIST_END
 };
 
+static const cmdline_option_t cmdline_options_type_pet[] =
+{
+    { "-userportjoytype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "UserportJoyType", NULL,
+      "<Type>", "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 7: Synergy)" },
+    CMDLINE_LIST_END
+};
+
+static const cmdline_option_t cmdline_options_type_plus4[] =
+{
+    { "-userportjoytype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "UserportJoyType", NULL,
+      "<Type>", "Set Userport joystick adapter type (1: PET, 2: Hummer, 3: OEM, 7: Synergy)" },
+    CMDLINE_LIST_END
+};
+
 int userport_joystick_cmdline_options_init(void)
 {
-    if (machine_class != VICE_MACHINE_C64DTV) {
+    const cmdline_option_t *cmdline_options_type = NULL;
+    
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
+            cmdline_options_type = cmdline_options_type_c64;
+            break;
+        case VICE_MACHINE_VIC20:
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            cmdline_options_type = cmdline_options_type_pet;
+            break;
+        case VICE_MACHINE_PLUS4:
+            cmdline_options_type = cmdline_options_type_plus4;
+            break;
+    }
+
+    if (cmdline_options_type) {
         if (cmdline_register_options(cmdline_options_type) < 0) {
             return -1;
         }
