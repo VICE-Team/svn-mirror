@@ -86,20 +86,17 @@ function extract_make_var {
 	# by modifying a copy of the Makefile.
 	#
 
-	function cleanup {
-		[ -f Makefile.bak ] && mv Makefile.bak Makefile
-	}
+	cp Makefile Makefile.bak
 
 	# Try to make this non-destuctive on ctrl-c
-	trap cleanup EXIT
+	trap "[ -f Makefile.bak ] && mv Makefile.bak Makefile" EXIT
 
-	cp Makefile Makefile.bak
 	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> Makefile
 	
 	local result=$(make extract_make_var)
 	echo -n $result
 
-	cleanup
+	mv Makefile.bak Makefile
 	trap - EXIT
 }
 
