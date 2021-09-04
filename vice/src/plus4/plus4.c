@@ -67,7 +67,6 @@
 #include "maincpu.h"
 #include "monitor.h"
 #include "network.h"
-#include "paperclip64.h"
 #include "plus4-cmdline-options.h"
 #include "plus4-resources.h"
 #include "plus4-snapshot.h"
@@ -89,7 +88,6 @@
 #include "sampler2bit.h"
 #include "sampler4bit.h"
 #include "screenshot.h"
-#include "script64_dongle.h"
 #include "serial.h"
 #include "sid.h"
 #include "sidcart.h"
@@ -111,7 +109,6 @@
 #include "vice-event.h"
 #include "video.h"
 #include "video-sound.h"
-#include "vizawrite64_dongle.h"
 #include "vsync.h"
 
 #ifdef HAVE_MOUSE
@@ -454,18 +451,6 @@ int machine_resources_init(void)
     }
     if (joyport_bbrtc_resources_init() < 0) {
         init_resource_fail("joyport bbrtc");
-        return -1;
-    }
-    if (joyport_paperclip64_resources_init() < 0) {
-        init_resource_fail("joyport paperclip64 dongle");
-        return -1;
-    }
-    if (joyport_script64_dongle_resources_init() < 0) {
-        init_resource_fail("joyport script64 dongle");
-        return -1;
-    }
-    if (joyport_vizawrite64_dongle_resources_init() < 0) {
-        init_resource_fail("joyport vizawrite64 dongle");
         return -1;
     }
     if (joyport_coplin_keypad_resources_init() < 0) {

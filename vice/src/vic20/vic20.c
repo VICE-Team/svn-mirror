@@ -70,7 +70,6 @@
 #include "monitor.h"
 #include "network.h"
 #include "ninja_snespad.h"
-#include "paperclip64.h"
 #include "parallel.h"
 #include "printer.h"
 #include "protopad.h"
@@ -120,7 +119,6 @@
 #include "vice-event.h"
 #include "video.h"
 #include "video-sound.h"
-#include "vizawrite64_dongle.h"
 #include "vsync.h"
 
 #ifdef HAVE_MOUSE
@@ -605,16 +603,8 @@ int machine_resources_init(void)
         init_resource_fail("joyport bbrtc");
         return -1;
     }
-    if (joyport_paperclip64_resources_init() < 0) {
-        init_resource_fail("joyport paperclip64 dongle");
-        return -1;
-    }
     if (joyport_script64_dongle_resources_init() < 0) {
         init_resource_fail("joyport script64 dongle");
-        return -1;
-    }
-    if (joyport_vizawrite64_dongle_resources_init() < 0) {
-        init_resource_fail("joyport vizawrite64 dongle");
         return -1;
     }
     if (joyport_coplin_keypad_resources_init() < 0) {

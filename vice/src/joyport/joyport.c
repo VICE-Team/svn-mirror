@@ -33,6 +33,7 @@
 #include "cmdline.h"
 #include "joyport.h"
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "util.h"
@@ -525,6 +526,28 @@ static int check_valid_output_bits(int port, int index)
     return joystick_output_check_function(port, joyport_device[index].output_bits);
 }
 
+static int check_valid_dongle(int port, int index)
+{
+    /* Currently only c64 dongles are supported,
+       this needs to be extended when other machine dongles are supported. */
+
+    if (joyport_device[index].device_type != JOYPORT_DEVICE_C64_DONGLE) {
+        return 1;
+    }
+    if (port >= JOYPORT_3) {
+        return 0;
+    }
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
+            return 1;
+    }
+    return 0;
+}
+
 static int joyport_valid_devices_compare_names(const void* a, const void* b)
 {
     const joyport_desc_t *arg1 = (const joyport_desc_t*)a;
@@ -550,7 +573,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i) && check_valid_output_bits(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i) && check_valid_output_bits(port, i) && check_valid_dongle(port, i)) {
                 ++valid;
             }
         }
@@ -559,7 +582,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
     retval = lib_malloc(((size_t)valid + 1) * sizeof(joyport_desc_t));
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i) && check_valid_output_bits(port, i)) {
+            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i) && check_valid_output_bits(port, i) && check_valid_dongle(port, i)) {
                 retval[j].name = joyport_device[i].name;
                 retval[j].id = i;
                 retval[j].device_type = joyport_device[i].device_type;
