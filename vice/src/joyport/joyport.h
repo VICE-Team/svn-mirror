@@ -134,7 +134,7 @@ enum {
 #define JOYPORT_DEVICE_KEYPAD             8
 #define JOYPORT_DEVICE_SAMPLER            9
 #define JOYPORT_DEVICE_RTC                10
-#define JOYPORT_DEVICE_DONGLE             11
+#define JOYPORT_DEVICE_C64_DONGLE         11
 
 /* joystick bits */
 #define JOYPORT_P0_BIT    0

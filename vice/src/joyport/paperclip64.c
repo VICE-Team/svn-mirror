@@ -46,13 +46,7 @@
      6   |   PROM CE   |  O
 
    Works on:
-   - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xvic)
-   - hit userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
-   - kingsoft userport joystick adapter port 1 (x64/x64sc/xscpu64/x128)
-   - starbyte userport joystick adapter port 2 (x64/x64sc/xscpu64/x128)
-   - hummer userport joystick adapter port (x64dtv)
-   - oem userport joystick adapter port (xvic)
-   - sidcart joystick adapter port (xplus4)
+   - native joystick port(s) (x64/x64sc/xscpu64/x64dtv/x128)
  */
 
 /* Paperclip64D Dongle description:
@@ -178,7 +172,7 @@ static joyport_t joyport_paperclip64_device = {
     JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
     JOYPORT_POT_OPTIONAL,       /* device does NOT use the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_DONGLE,      /* device is a Dongle */
+    JOYPORT_DEVICE_C64_DONGLE,  /* device is a C64 Dongle */
     0x1C,                       /* bits 4, 3 and 2 are output bits */
     joyport_paperclip64_enable, /* device enable function */
     paperclip64_read,           /* digital line read function */
