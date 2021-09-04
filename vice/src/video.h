@@ -76,11 +76,10 @@ typedef struct canvas_refresh_s canvas_refresh_t;
 struct draw_buffer_s {
     /* The real drawing buffers, with padding bytes on either side to workaround CRT and Scale2x bugs */
     uint8_t *draw_buffer_padded_allocations[2];
+    /* Pointers into the non padded buffers within the padded buffers */
     uint8_t *draw_buffer_non_padded[2];
     /* The memory buffer where the screen of the emulated machine is drawn. Palettized, 1 byte per pixel */
     uint8_t *draw_buffer;
-    /* another draw buffer, used during interlaced rendering. */
-    uint8_t *draw_buffer_previous;
     /* Width of draw_buffer in pixels */
     unsigned int draw_buffer_width;
     /* Height of draw_buffer in pixels. Typically same as geometry->screen_size.height */

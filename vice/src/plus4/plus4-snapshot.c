@@ -56,7 +56,7 @@
 #endif
 
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 1
+#define SNAP_MINOR 2
 
 int plus4_snapshot_write(const char *name, int save_roms, int save_disks,
                          int event_mode)

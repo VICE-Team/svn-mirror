@@ -38,6 +38,7 @@
 #include "crtctypes.h"
 #include "log.h"
 #include "maincpu.h"
+#include "raster-snapshot.h"
 #include "snapshot.h"
 #include "types.h"
 
@@ -46,7 +47,7 @@
 
 static char snap_module_name[] = "CRTC";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 1
+#define SNAP_MINOR 2
 
 int crtc_snapshot_write_module(snapshot_t * s)
 {
@@ -162,6 +163,10 @@ int crtc_snapshot_write_module(snapshot_t * s)
         if (SMW_B(m, (uint8_t)rev_fl) < 0) {
             ef = -1;
         }
+    }
+    
+    if (raster_snapshot_write(m, &crtc.raster)) {
+        ef = -1;
     }
 
     if (ef) {
@@ -356,6 +361,10 @@ int crtc_snapshot_read_module(snapshot_t * s)
 
     force_repaint();
 #endif
+    
+    if (raster_snapshot_read(m, &crtc.raster)) {
+        ef = -1;
+    }
 
     crtc_update_window();
 

@@ -34,6 +34,7 @@
 #include "interrupt.h"
 #include "log.h"
 #include "mem.h"
+#include "raster-snapshot.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "snapshot.h"
@@ -106,7 +107,7 @@ void vicii_snapshot_prepare(void)
 
 static char snap_module_name[] = "VIC-II";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 2
+#define SNAP_MINOR 3
 
 int vicii_snapshot_write_module(snapshot_t *s)
 {
@@ -212,6 +213,10 @@ int vicii_snapshot_write_module(snapshot_t *s)
         || SMW_DW(m, (uint32_t)(vicii.ram_base_phi2 - mem_ram)) < 0
         /* VBank */
         || SMW_W(m, (uint16_t)vicii.vbank_phi2) < 0) {
+        goto fail;
+    }
+
+    if (raster_snapshot_write(m, &vicii.raster)) {
         goto fail;
     }
 
@@ -513,7 +518,7 @@ int vicii_snapshot_read_module(snapshot_t *s)
     }
 
     /* added in version 1.1 of snapshot format */
-    if (minor_version > 0) {
+    if (major_version >= 1 && minor_version >= 1) {
         uint32_t RamBase;
 
         if (0
@@ -525,6 +530,10 @@ int vicii_snapshot_read_module(snapshot_t *s)
         vicii.ram_base_phi2 = mem_ram + RamBase;
 
         vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
+    }
+
+    if (raster_snapshot_read(m, &vicii.raster)) {
+        goto fail;
     }
 
     raster_force_repaint(&vicii.raster);

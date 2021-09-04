@@ -566,6 +566,17 @@ int snapshot_module_read_byte_into_int(snapshot_module_t *m, int *value_return)
     return 0;
 }
 
+int snapshot_module_read_byte_into_uint(snapshot_module_t *m, unsigned int *value_return)
+{
+    uint8_t b;
+
+    if (snapshot_module_read_byte(m, &b) < 0) {
+        return -1;
+    }
+    *value_return = (unsigned int)b;
+    return 0;
+}
+
 int snapshot_module_read_word_into_int(snapshot_module_t *m, int *value_return)
 {
     uint16_t b;
@@ -574,6 +585,17 @@ int snapshot_module_read_word_into_int(snapshot_module_t *m, int *value_return)
         return -1;
     }
     *value_return = (int)b;
+    return 0;
+}
+
+int snapshot_module_read_word_into_uint(snapshot_module_t *m, unsigned int *value_return)
+{
+    uint16_t b;
+
+    if (snapshot_module_read_word(m, &b) < 0) {
+        return -1;
+    }
+    *value_return = (unsigned int)b;
     return 0;
 }
 
