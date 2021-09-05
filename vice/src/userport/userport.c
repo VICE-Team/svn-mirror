@@ -39,8 +39,8 @@
 #include "userport.h"
 #include "util.h"
 
-static int userport_collision_handling = 0;
-static unsigned int order = 0;
+static int old_userport_collision_handling = 0;
+static unsigned int old_order = 0;
 static old_userport_device_list_t userport_head = { NULL, NULL, NULL };
 static old_userport_snapshot_list_t userport_snapshot_head = { NULL, NULL, NULL };
 static userport_port_props_t userport_props;
@@ -96,7 +96,7 @@ old_userport_device_list_t *old_userport_device_register(old_userport_device_t *
         retval->previous = current;
         retval->device = device;
         retval->next = NULL;
-        retval->device->order = order++;
+        retval->device->order = old_order++;
     }
 
     return retval;
@@ -114,9 +114,9 @@ void old_userport_device_unregister(old_userport_device_list_t *device)
             device->next->previous = prev;
         }
 
-        if (device->device->order == order - 1) {
-            if (order != 0) {
-                order--;
+        if (device->device->order == old_order - 1) {
+            if (old_order != 0) {
+                old_order--;
             }
         }
 
@@ -126,7 +126,7 @@ void old_userport_device_unregister(old_userport_device_list_t *device)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-static void userport_detach_devices(int collision, unsigned int highest_order)
+static void old_userport_detach_devices(int collision, unsigned int highest_order)
 {
     old_userport_device_list_t *current = userport_head.next;
     char *tmp1 = lib_strdup("Userport collision detected from ");
@@ -137,14 +137,14 @@ static void userport_detach_devices(int collision, unsigned int highest_order)
     char **detach_resource_list = NULL;
     int i;
 
-    if (userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
+    if (old_userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
         detach_resource_list = lib_malloc(sizeof(char *) * (collision + 1));
         memset(detach_resource_list, 0, sizeof(char *) * (collision + 1));
     }
 
     while (current) {
         if (current->device->collision) {
-            if (userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
+            if (old_userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
                 detach_resource_list[col_found] = current->device->resource;
             }
             ++col_found;
@@ -165,7 +165,7 @@ static void userport_detach_devices(int collision, unsigned int highest_order)
         current = current->next;
     }
 
-    if (userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
+    if (old_userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
         tmp2 = util_concat(tmp1, ". All involved devices will be detached.", NULL);
         for (i = 0; detach_resource_list[i]; ++i) {
             resources_set_int(detach_resource_list[i], 0);
@@ -181,7 +181,7 @@ static void userport_detach_devices(int collision, unsigned int highest_order)
     lib_free(tmp2);
 }
 
-static uint8_t userport_detect_collision(uint8_t retval_orig, uint8_t mask)
+static uint8_t old_userport_detect_collision(uint8_t retval_orig, uint8_t mask)
 {
     uint8_t retval = retval_orig;
     uint8_t rm;
@@ -223,8 +223,8 @@ static uint8_t userport_detect_collision(uint8_t retval_orig, uint8_t mask)
     }
 
     if (collision) {
-        userport_detach_devices(collision + 1, highest_order);
-        if (userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
+        old_userport_detach_devices(collision + 1, highest_order);
+        if (old_userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
             retval = 0xff;
         }
     }
@@ -234,7 +234,7 @@ static uint8_t userport_detect_collision(uint8_t retval_orig, uint8_t mask)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
+static uint8_t old_read_userport_pbx(uint8_t mask, uint8_t orig)
 {
     uint8_t retval = 0xff;
     uint8_t rm;
@@ -271,14 +271,21 @@ uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
         return orig;
     }
 
-    if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return userport_detect_collision(retval, mask);
+    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
+        return old_userport_detect_collision(retval, mask);
     }
 
     return retval;
 }
 
-void store_userport_pbx(uint8_t val)
+/* orig variable needs to be removed once the transition is done */
+uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
+{
+    /* return old function for now */
+    return old_read_userport_pbx(mask, orig);
+}
+
+static void old_store_userport_pbx(uint8_t val)
 {
     old_userport_device_list_t *current = userport_head.next;
 
@@ -292,7 +299,13 @@ void store_userport_pbx(uint8_t val)
     }
 }
 
-uint8_t read_userport_pa2(uint8_t orig)
+void store_userport_pbx(uint8_t val)
+{
+    /* store using old function for now */
+    old_store_userport_pbx(val);
+}
+
+static uint8_t old_read_userport_pa2(uint8_t orig)
 {
     uint8_t mask = 1;
     uint8_t rm;
@@ -322,8 +335,8 @@ uint8_t read_userport_pa2(uint8_t orig)
         current = current->next;
     }
 
-    if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return userport_detect_collision(retval, mask);
+    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
+        return old_userport_detect_collision(retval, mask);
     }
     if (valid == 0) {
         return orig;
@@ -332,7 +345,14 @@ uint8_t read_userport_pa2(uint8_t orig)
     return retval;
 }
 
-void store_userport_pa2(uint8_t val)
+/* orig variable needs to be removed once the transition is done */
+uint8_t read_userport_pa2(uint8_t orig)
+{
+    /* return old function for now */
+    return old_read_userport_pa2(orig);
+}
+
+static void old_store_userport_pa2(uint8_t val)
 {
     old_userport_device_list_t *current = userport_head.next;
 
@@ -346,7 +366,13 @@ void store_userport_pa2(uint8_t val)
     }
 }
 
-uint8_t read_userport_pa3(uint8_t orig)
+void store_userport_pa2(uint8_t val)
+{
+    /* store using old function for now */
+    old_store_userport_pa2(val);
+}
+
+static uint8_t old_read_userport_pa3(uint8_t orig)
 {
     uint8_t mask = 1;
     uint8_t rm;
@@ -376,8 +402,8 @@ uint8_t read_userport_pa3(uint8_t orig)
         current = current->next;
     }
 
-    if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return userport_detect_collision(retval, mask);
+    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
+        return old_userport_detect_collision(retval, mask);
     }
     if (valid == 0) {
         return orig;
@@ -386,7 +412,14 @@ uint8_t read_userport_pa3(uint8_t orig)
     return retval;
 }
 
-void store_userport_pa3(uint8_t val)
+/* orig variable needs to be removed once the transition is done */
+uint8_t read_userport_pa3(uint8_t orig)
+{
+    /* return old function for now */
+    return old_read_userport_pa3(orig);
+}
+
+static void old_store_userport_pa3(uint8_t val)
 {
     old_userport_device_list_t *current = userport_head.next;
 
@@ -400,6 +433,12 @@ void store_userport_pa3(uint8_t val)
     }
 }
 
+void store_userport_pa3(uint8_t val)
+{
+    /* store using old function for now */
+    old_store_userport_pa3(val);
+}
+
 void set_userport_flag(uint8_t val)
 {
     if (userport_active) {
@@ -409,7 +448,7 @@ void set_userport_flag(uint8_t val)
     }
 }
 
-void store_userport_sp1(uint8_t val)
+static void old_store_userport_sp1(uint8_t val)
 {
     old_userport_device_list_t *current = userport_head.next;
 
@@ -423,7 +462,13 @@ void store_userport_sp1(uint8_t val)
     }
 }
 
-uint8_t read_userport_sp1(uint8_t orig)
+void store_userport_sp1(uint8_t val)
+{
+    /* store using old function for now */
+    old_store_userport_sp1(val);
+}
+
+static uint8_t old_read_userport_sp1(uint8_t orig)
 {
     uint8_t mask = 0xff;
     uint8_t rm;
@@ -453,8 +498,8 @@ uint8_t read_userport_sp1(uint8_t orig)
         current = current->next;
     }
 
-    if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return userport_detect_collision(retval, mask);
+    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
+        return old_userport_detect_collision(retval, mask);
     }
 
     if (!valid) {
@@ -464,7 +509,14 @@ uint8_t read_userport_sp1(uint8_t orig)
     return retval;
 }
 
-void store_userport_sp2(uint8_t val)
+/* orig variable needs to be removed once the transition is done */
+uint8_t read_userport_sp1(uint8_t orig)
+{
+    /* return old function for now */
+    return old_read_userport_sp1(orig);
+}
+
+static void old_store_userport_sp2(uint8_t val)
 {
     old_userport_device_list_t *current = userport_head.next;
 
@@ -478,7 +530,13 @@ void store_userport_sp2(uint8_t val)
     }
 }
 
-uint8_t read_userport_sp2(uint8_t orig)
+void store_userport_sp2(uint8_t val)
+{
+    /* store using old function for now */
+    old_store_userport_sp2(val);
+}
+
+static uint8_t old_read_userport_sp2(uint8_t orig)
 {
     uint8_t mask = 0xff;
     uint8_t rm;
@@ -508,8 +566,8 @@ uint8_t read_userport_sp2(uint8_t orig)
         current = current->next;
     }
 
-    if (valid > 1 && userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return userport_detect_collision(retval, mask);
+    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
+        return old_userport_detect_collision(retval, mask);
     }
 
     if (!valid) {
@@ -517,6 +575,13 @@ uint8_t read_userport_sp2(uint8_t orig)
     }
 
     return retval;
+}
+
+/* orig variable needs to be removed once the transition is done */
+uint8_t read_userport_sp2(uint8_t orig)
+{
+    /* return old function for now */
+    return old_read_userport_sp2(orig);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
@@ -555,7 +620,7 @@ static void old_userport_snapshot_unregister(old_userport_snapshot_list_t *s)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-static int set_userport_collision_handling(int val, void *param)
+static int old_set_userport_collision_handling(int val, void *param)
 {
     switch (val) {
         case USERPORT_COLLISION_METHOD_DETACH_ALL:
@@ -565,20 +630,20 @@ static int set_userport_collision_handling(int val, void *param)
         default:
             return -1;
     }
-    userport_collision_handling = val;
+    old_userport_collision_handling = val;
 
     return 0;
 }
 
-static const resource_int_t resources_int[] = {
+static const resource_int_t old_resources_int[] = {
     { "UserportCollisionHandling", USERPORT_COLLISION_METHOD_DETACH_ALL, RES_EVENT_STRICT, (resource_value_t)0,
-      &userport_collision_handling, set_userport_collision_handling, NULL },
+      &old_userport_collision_handling, old_set_userport_collision_handling, NULL },
     RESOURCE_INT_LIST_END
 };
 
 int userport_resources_init(void)
 {
-    if (resources_register_int(resources_int) < 0) {
+    if (resources_register_int(old_resources_int) < 0) {
         return -1;
     }
 
@@ -640,7 +705,7 @@ static char snap_module_name[] = "USERPORT";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int userport_snapshot_write_module(snapshot_t *s)
+static int old_userport_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
     int amount = 0;
@@ -672,7 +737,7 @@ int userport_snapshot_write_module(snapshot_t *s)
 
     if (0
         || SMW_B(m, (uint8_t)userport_active) < 0
-        || SMW_B(m, (uint8_t)userport_collision_handling) < 0
+        || SMW_B(m, (uint8_t)old_userport_collision_handling) < 0
         || SMW_B(m, (uint8_t)amount) < 0) {
         goto fail;
     }
@@ -715,7 +780,13 @@ fail:
     return -1;
 }
 
-int userport_snapshot_read_module(snapshot_t *s)
+int userport_snapshot_write_module(snapshot_t *s)
+{
+    /* return old function for now */
+    return old_userport_snapshot_write_module(s);
+}
+
+static int old_userport_snapshot_read_module(snapshot_t *s)
 {
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
@@ -760,7 +831,7 @@ int userport_snapshot_read_module(snapshot_t *s)
 
     if (0
         || SMR_B_INT(m, &userport_active) < 0
-        || SMR_B_INT(m, &userport_collision_handling) < 0
+        || SMR_B_INT(m, &old_userport_collision_handling) < 0
         || SMR_B_INT(m, &amount) < 0) {
         goto fail;
     }
@@ -796,4 +867,10 @@ int userport_snapshot_read_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
+}
+
+int userport_snapshot_read_module(snapshot_t *s)
+{
+    /* return old function for now */
+    return old_userport_snapshot_read_module(s);
 }
