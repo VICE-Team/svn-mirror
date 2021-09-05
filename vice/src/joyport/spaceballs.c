@@ -71,9 +71,9 @@ static uint8_t spaceballs_grounds = 0xff;
 
 static joyport_t joyport_spaceballs_device;
 
-static userport_device_t userport_spaceballs_device;
+static old_userport_device_t userport_spaceballs_device;
 
-static userport_device_list_t *userport_spaceballs_list_item = NULL;
+static old_userport_device_list_t *userport_spaceballs_list_item = NULL;
 
 static int joyport_spaceballs_enable(int port, int value)
 {
@@ -84,7 +84,7 @@ static int joyport_spaceballs_enable(int port, int value)
     }
 
     if (val) {
-        userport_spaceballs_list_item = userport_device_register(&userport_spaceballs_device);
+        userport_spaceballs_list_item = old_userport_device_register(&userport_spaceballs_device);
         if (userport_spaceballs_list_item == NULL) {
             return -1;
         }
@@ -92,7 +92,7 @@ static int joyport_spaceballs_enable(int port, int value)
         joystick_adapter_set_ports(8);
     } else {
         joystick_adapter_deactivate();
-        userport_device_unregister(userport_spaceballs_list_item);
+        old_userport_device_unregister(userport_spaceballs_list_item);
         userport_spaceballs_list_item = NULL;
     }
 
@@ -158,7 +158,7 @@ static void userport_spaceballs_store_pbx(uint8_t value)
     spaceballs_grounds = value;
 }
 
-static userport_device_t userport_spaceballs_device = {
+static old_userport_device_t userport_spaceballs_device = {
     USERPORT_DEVICE_SPACEBALLS,      /* device id */
     "Joystick Adapter (Spaceballs)", /* device name */
     JOYSTICK_ADAPTER_ID_NONE,        /* NOT a joystick adapter, the joyport part is the joystick adapter */

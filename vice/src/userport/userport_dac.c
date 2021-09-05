@@ -106,7 +106,7 @@ static void userport_dac_store_pbx(uint8_t value);
 static int userport_dac_write_snapshot_module(snapshot_t *s);
 static int userport_dac_read_snapshot_module(snapshot_t *s);
 
-static userport_device_t dac_device = {
+static old_userport_device_t dac_device = {
     USERPORT_DEVICE_DAC,      /* device id */
     "Userport DAC",           /* device name */
     JOYSTICK_ADAPTER_ID_NONE, /* NOT a joystick adapter */
@@ -128,13 +128,13 @@ static userport_device_t dac_device = {
     0                         /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t dac_snapshot = {
+static old_userport_snapshot_t dac_snapshot = {
     USERPORT_DEVICE_DAC,
     userport_dac_write_snapshot_module,
     userport_dac_read_snapshot_module
 };
 
-static userport_device_list_t *userport_dac_list_item = NULL;
+static old_userport_device_list_t *userport_dac_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -147,12 +147,12 @@ static int set_userport_dac_enabled(int value, void *param)
     }
 
     if (val) {
-        userport_dac_list_item = userport_device_register(&dac_device);
+        userport_dac_list_item = old_userport_device_register(&dac_device);
         if (userport_dac_list_item == NULL) {
             return -1;
         }
     } else {
-        userport_device_unregister(userport_dac_list_item);
+        old_userport_device_unregister(userport_dac_list_item);
         userport_dac_list_item = NULL;
     }
 
@@ -169,7 +169,7 @@ static const resource_int_t resources_int[] = {
 
 int userport_dac_resources_init(void)
 {
-    userport_snapshot_register(&dac_snapshot);
+    old_userport_snapshot_register(&dac_snapshot);
 
     return resources_register_int(resources_int);
 }

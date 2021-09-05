@@ -230,7 +230,7 @@ static void userport_joystick_synergy_store_pbx(uint8_t value);
 static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_synergy_read_snapshot_module(snapshot_t *s);
 
-static userport_device_t cga_device = {
+static old_userport_device_t cga_device = {
     USERPORT_DEVICE_JOYSTICK_CGA,         /* device id */
     "CGA userport joy adapter",           /* device name */
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, /* this is a joystick adapter */
@@ -252,13 +252,13 @@ static userport_device_t cga_device = {
     0                                     /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t cga_snapshot = {
+static old_userport_snapshot_t cga_snapshot = {
     USERPORT_DEVICE_JOYSTICK_CGA,
     userport_joystick_cga_write_snapshot_module,
     userport_joystick_cga_read_snapshot_module
 };
 
-static userport_device_t pet_device = {
+static old_userport_device_t pet_device = {
     USERPORT_DEVICE_JOYSTICK_PET,         /* device id */
     "PET userport joy adapter",           /* device name */
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, /* this is a joystick adapter */
@@ -280,13 +280,13 @@ static userport_device_t pet_device = {
     0                                     /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t pet_snapshot = {
+static old_userport_snapshot_t pet_snapshot = {
     USERPORT_DEVICE_JOYSTICK_PET,
     userport_joystick_pet_write_snapshot_module,
     userport_joystick_pet_read_snapshot_module
 };
 
-static userport_device_t hummer_device = {
+static old_userport_device_t hummer_device = {
     USERPORT_DEVICE_JOYSTICK_HUMMER,      /* device id */
     "Hummer userport joy adapter",        /* device name */
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, /* this is a joystick adapter */
@@ -308,13 +308,13 @@ static userport_device_t hummer_device = {
     0                                     /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t hummer_snapshot = {
+static old_userport_snapshot_t hummer_snapshot = {
     USERPORT_DEVICE_JOYSTICK_HUMMER,
     userport_joystick_hummer_oem_write_snapshot_module,
     userport_joystick_hummer_read_snapshot_module
 };
 
-static userport_device_t oem_device = {
+static old_userport_device_t oem_device = {
     USERPORT_DEVICE_JOYSTICK_OEM,         /* device id */
     "OEM userport joy adapter",           /* device name */
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, /* this is a joystick adapter */
@@ -336,13 +336,13 @@ static userport_device_t oem_device = {
     0                                     /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t oem_snapshot = {
+static old_userport_snapshot_t oem_snapshot = {
     USERPORT_DEVICE_JOYSTICK_OEM,
     userport_joystick_hummer_oem_write_snapshot_module,
     userport_joystick_oem_read_snapshot_module
 };
 
-static userport_device_t hit_device = {
+static old_userport_device_t hit_device = {
     USERPORT_DEVICE_JOYSTICK_HIT,         /* device id */
     "HIT userport joy adapter",           /* device name */
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, /* this is a joystick adapter */
@@ -364,13 +364,13 @@ static userport_device_t hit_device = {
     0                                     /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t hit_snapshot = {
+static old_userport_snapshot_t hit_snapshot = {
     USERPORT_DEVICE_JOYSTICK_HIT,
     userport_joystick_hit_write_snapshot_module,
     userport_joystick_hit_read_snapshot_module
 };
 
-static userport_device_t kingsoft_device = {
+static old_userport_device_t kingsoft_device = {
     USERPORT_DEVICE_JOYSTICK_KINGSOFT,    /* device id */
     "KingSoft userport joy adapter",      /* device name */
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, /* this is a joystick adapter */
@@ -392,13 +392,13 @@ static userport_device_t kingsoft_device = {
     0                                     /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t kingsoft_snapshot = {
+static old_userport_snapshot_t kingsoft_snapshot = {
     USERPORT_DEVICE_JOYSTICK_KINGSOFT,
     userport_joystick_kingsoft_write_snapshot_module,
     userport_joystick_kingsoft_read_snapshot_module
 };
 
-static userport_device_t starbyte_device = {
+static old_userport_device_t starbyte_device = {
     USERPORT_DEVICE_JOYSTICK_STARBYTE,    /* device id */
     "StarByte userport joy adapter",      /* device name */
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, /* this is a joystick adapter */
@@ -420,13 +420,13 @@ static userport_device_t starbyte_device = {
     0                                     /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t starbyte_snapshot = {
+static old_userport_snapshot_t starbyte_snapshot = {
     USERPORT_DEVICE_JOYSTICK_STARBYTE,
     userport_joystick_starbyte_write_snapshot_module,
     userport_joystick_starbyte_read_snapshot_module
 };
 
-static userport_device_t synergy_device = {
+static old_userport_device_t synergy_device = {
     USERPORT_DEVICE_JOYSTICK_SYNERGY,     /* device id */
     "Synergy userport joy adapter",       /* device name */
     JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, /* this is a joystick adapter */
@@ -448,13 +448,13 @@ static userport_device_t synergy_device = {
     0                                     /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t synergy_snapshot = {
+static old_userport_snapshot_t synergy_snapshot = {
     USERPORT_DEVICE_JOYSTICK_SYNERGY,
     userport_joystick_synergy_write_snapshot_module,
     userport_joystick_synergy_read_snapshot_module
 };
 
-static userport_device_list_t *userport_joystick_list_item = NULL;
+static old_userport_device_list_t *userport_joystick_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -462,35 +462,35 @@ static int register_userport_adapter(int adapter)
 {
     switch (adapter) {
         case USERPORT_JOYSTICK_CGA:
-            userport_joystick_list_item = userport_device_register(&cga_device);
+            userport_joystick_list_item = old_userport_device_register(&cga_device);
             joystick_adapter_set_ports(2);
             break;
         case USERPORT_JOYSTICK_PET:
-            userport_joystick_list_item = userport_device_register(&pet_device);
+            userport_joystick_list_item = old_userport_device_register(&pet_device);
             joystick_adapter_set_ports(2);
             break;
         case USERPORT_JOYSTICK_HUMMER:
-            userport_joystick_list_item = userport_device_register(&hummer_device);
+            userport_joystick_list_item = old_userport_device_register(&hummer_device);
             joystick_adapter_set_ports(1);
             break;
         case USERPORT_JOYSTICK_OEM:
-            userport_joystick_list_item = userport_device_register(&oem_device);
+            userport_joystick_list_item = old_userport_device_register(&oem_device);
             joystick_adapter_set_ports(1);
             break;
         case USERPORT_JOYSTICK_HIT:
-            userport_joystick_list_item = userport_device_register(&hit_device);
+            userport_joystick_list_item = old_userport_device_register(&hit_device);
             joystick_adapter_set_ports(2);
             break;
         case USERPORT_JOYSTICK_KINGSOFT:
-            userport_joystick_list_item = userport_device_register(&kingsoft_device);
+            userport_joystick_list_item = old_userport_device_register(&kingsoft_device);
             joystick_adapter_set_ports(2);
             break;
         case USERPORT_JOYSTICK_STARBYTE:
-            userport_joystick_list_item = userport_device_register(&starbyte_device);
+            userport_joystick_list_item = old_userport_device_register(&starbyte_device);
             joystick_adapter_set_ports(2);
             break;
         case USERPORT_JOYSTICK_SYNERGY:
-            userport_joystick_list_item = userport_device_register(&synergy_device);
+            userport_joystick_list_item = old_userport_device_register(&synergy_device);
             joystick_adapter_set_ports(3);
             break;
         default:
@@ -552,7 +552,7 @@ static int set_userport_joystick_enable(int value, void *param)
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_GENERIC_USERPORT, "Userport joystick adapter");
         joystick_adapter_set_output_check_function(userport_joystick_output_check);
     } else {
-        userport_device_unregister(userport_joystick_list_item);
+        old_userport_device_unregister(userport_joystick_list_item);
         userport_joystick_list_item = NULL;
         joystick_adapter_deactivate();
     }
@@ -590,7 +590,7 @@ static int set_userport_joystick_type(int val, void *param)
     }
 
     if (userport_joystick_enable) {
-        userport_device_unregister(userport_joystick_list_item);
+        old_userport_device_unregister(userport_joystick_list_item);
         userport_joystick_list_item = NULL;
         if (register_userport_adapter(val) < 0) {
             return -1;
@@ -622,14 +622,14 @@ static const resource_int_t resources_int_type[] = {
 
 int userport_joystick_resources_init(void)
 {
-    userport_snapshot_register(&cga_snapshot);
-    userport_snapshot_register(&pet_snapshot);
-    userport_snapshot_register(&hummer_snapshot);
-    userport_snapshot_register(&oem_snapshot);
-    userport_snapshot_register(&hit_snapshot);
-    userport_snapshot_register(&kingsoft_snapshot);
-    userport_snapshot_register(&starbyte_snapshot);
-    userport_snapshot_register(&synergy_snapshot);
+    old_userport_snapshot_register(&cga_snapshot);
+    old_userport_snapshot_register(&pet_snapshot);
+    old_userport_snapshot_register(&hummer_snapshot);
+    old_userport_snapshot_register(&oem_snapshot);
+    old_userport_snapshot_register(&hit_snapshot);
+    old_userport_snapshot_register(&kingsoft_snapshot);
+    old_userport_snapshot_register(&starbyte_snapshot);
+    old_userport_snapshot_register(&synergy_snapshot);
 
     if (machine_class != VICE_MACHINE_C64DTV) {
         if (machine_class == VICE_MACHINE_PLUS4) {

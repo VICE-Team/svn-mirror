@@ -64,7 +64,7 @@ static void userport_printer_store_pa2(uint8_t s);
 static int userport_printer_write_snapshot_module(snapshot_t *s);
 static int userport_printer_read_snapshot_module(snapshot_t *s);
 
-static userport_device_t printer_device = {
+static old_userport_device_t printer_device = {
     USERPORT_DEVICE_PRINTER,    /* device id */
     "Userport printer",         /* device name */
     JOYSTICK_ADAPTER_ID_NONE,   /* NOT a joystick adapter */
@@ -86,13 +86,13 @@ static userport_device_t printer_device = {
     0                           /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t printer_snapshot = {
+static old_userport_snapshot_t printer_snapshot = {
     USERPORT_DEVICE_PRINTER,
     userport_printer_write_snapshot_module,
     userport_printer_read_snapshot_module
 };
 
-static userport_device_list_t *userport_printer_list_item = NULL;
+static old_userport_device_list_t *userport_printer_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -107,7 +107,7 @@ static int set_up_enabled(int val, void *param)
     if (newval && !userport_printer_enabled) {
         /* Switch printer on.  */
         if (driver_select_open(USERPORT_OUTPUT, 4) >= 0) {
-            userport_printer_list_item = userport_device_register(&printer_device);
+            userport_printer_list_item = old_userport_device_register(&printer_device);
             if (userport_printer_list_item == NULL) {
                 return -1;
             }
@@ -115,7 +115,7 @@ static int set_up_enabled(int val, void *param)
         }
     }
     if (userport_printer_enabled && !newval) {
-        userport_device_unregister(userport_printer_list_item);
+        old_userport_device_unregister(userport_printer_list_item);
         userport_printer_list_item = NULL;
         driver_select_close(USERPORT_OUTPUT, 4);
         userport_printer_enabled = 0;
@@ -132,7 +132,7 @@ static const resource_int_t resources_int[] = {
 
 int interface_userport_init_resources(void)
 {
-    userport_snapshot_register(&printer_snapshot);
+    old_userport_snapshot_register(&printer_snapshot);
 
     return resources_register_int(resources_int);
 }
