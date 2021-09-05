@@ -209,7 +209,7 @@ static uint8_t read_pb(tpi_context_t *tpi_context)
     uint8_t byte;
 
     byte = 0x1f;
-    byte |= tape1_sense ? 0x80 : 0;
+    byte |= tape1_sense ? 0 : 0x80;
     byte |= tape1_motor_in ? 0x40 : 0;
     byte |= tape1_write_in ? 0x20 : 0;
 
