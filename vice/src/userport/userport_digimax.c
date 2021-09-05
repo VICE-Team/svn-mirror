@@ -73,7 +73,7 @@ static void userport_digimax_store_pa3(uint8_t value);
 static int userport_digimax_write_snapshot_module(snapshot_t *s);
 static int userport_digimax_read_snapshot_module(snapshot_t *s);
 
-static userport_device_t digimax_device = {
+static old_userport_device_t digimax_device = {
     USERPORT_DEVICE_DIGIMAX,    /* device id */
     "Userport DigiMAX",         /* device name */
     JOYSTICK_ADAPTER_ID_NONE,   /* NOT a joystick adapter */
@@ -95,13 +95,13 @@ static userport_device_t digimax_device = {
     0                           /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t digimax_snapshot = {
+static old_userport_snapshot_t digimax_snapshot = {
     USERPORT_DEVICE_DIGIMAX,
     userport_digimax_write_snapshot_module,
     userport_digimax_read_snapshot_module
 };
 
-static userport_device_list_t *userport_digimax_list_item = NULL;
+static old_userport_device_list_t *userport_digimax_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -154,11 +154,11 @@ static int set_digimax_enabled(int value, void *param)
     int val = value ? 1 : 0;
 
     if (!digimax_sound_chip.chip_enabled && val) {
-        userport_digimax_list_item = userport_device_register(&digimax_device);
+        userport_digimax_list_item = old_userport_device_register(&digimax_device);
         digimax_sound_chip.chip_enabled = 1;
     } else if (digimax_sound_chip.chip_enabled && !val) {
         if (userport_digimax_list_item != NULL) {
-            userport_device_unregister(userport_digimax_list_item);
+            old_userport_device_unregister(userport_digimax_list_item);
             userport_digimax_list_item = NULL;
         }
         digimax_sound_chip.chip_enabled = 0;
@@ -176,7 +176,7 @@ static const resource_int_t resources_int[] = {
 
 int userport_digimax_resources_init(void)
 {
-    userport_snapshot_register(&digimax_snapshot);
+    old_userport_snapshot_register(&digimax_snapshot);
 
     return resources_register_int(resources_int);
 }

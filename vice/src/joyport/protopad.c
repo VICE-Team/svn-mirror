@@ -34,9 +34,9 @@
 #include "joystick.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "protopad.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "protopad.h"
 
 #include "log.h"
 

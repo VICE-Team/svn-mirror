@@ -62,7 +62,7 @@ enum {
 };
 
 /* this structure is used by userport devices */
-typedef struct userport_device_s {
+typedef struct old_userport_device_s {
     /* ID of the device */
     int id;
 
@@ -119,7 +119,7 @@ typedef struct userport_device_s {
 
     /* a tag to indicate the order of insertion */
     unsigned int order;
-} userport_device_t;
+} old_userport_device_t;
 
 /* this structure is used by userport ports */
 typedef struct userport_port_props_s {
@@ -130,14 +130,14 @@ typedef struct userport_port_props_s {
     int has_sp12;                  /* port has the sp1 and sp2 lines */
 } userport_port_props_t;
 
-typedef struct userport_device_list_s {
-    struct userport_device_list_s *previous;
-    userport_device_t *device;
-    struct userport_device_list_s *next;
-} userport_device_list_t;
+typedef struct old_userport_device_list_s {
+    struct old_userport_device_list_s *previous;
+    old_userport_device_t *device;
+    struct old_userport_device_list_s *next;
+} old_userport_device_list_t;
 
-extern userport_device_list_t *userport_device_register(userport_device_t *device);
-extern void userport_device_unregister(userport_device_list_t *device);
+extern old_userport_device_list_t *old_userport_device_register(old_userport_device_t *device);
+extern void old_userport_device_unregister(old_userport_device_list_t *device);
 
 extern void userport_port_register(userport_port_props_t *props);
 
@@ -160,7 +160,7 @@ extern int userport_cmdline_options_init(void);
 
 extern void userport_enable(int val);
 
-typedef struct userport_snapshot_s {
+typedef struct old_userport_snapshot_s {
     /* ID of the device */
     int id;
 
@@ -169,15 +169,15 @@ typedef struct userport_snapshot_s {
 
     /* read snapshot */
     int (*read_snapshot)(snapshot_t *s);
-} userport_snapshot_t;
+} old_userport_snapshot_t;
 
-typedef struct userport_snapshot_list_s {
-    struct userport_snapshot_list_s *previous;
-    userport_snapshot_t *snapshot;
-    struct userport_snapshot_list_s *next;
-} userport_snapshot_list_t;
+typedef struct old_userport_snapshot_list_s {
+    struct old_userport_snapshot_list_s *previous;
+    old_userport_snapshot_t *snapshot;
+    struct old_userport_snapshot_list_s *next;
+} old_userport_snapshot_list_t;
 
-extern void userport_snapshot_register(userport_snapshot_t *s);
+extern void old_userport_snapshot_register(old_userport_snapshot_t *s);
 
 extern int userport_snapshot_write_module(snapshot_t *s);
 extern int userport_snapshot_read_module(snapshot_t *s);

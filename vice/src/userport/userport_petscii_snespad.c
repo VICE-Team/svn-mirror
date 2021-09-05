@@ -65,7 +65,7 @@ static void userport_snespad_store_pbx(uint8_t value);
 static int userport_petscii_write_snapshot_module(snapshot_t *s);
 static int userport_petscii_read_snapshot_module(snapshot_t *s);
 
-static userport_device_t userport_snespad_device = {
+static old_userport_device_t userport_snespad_device = {
     USERPORT_DEVICE_PETSCII_SNESPAD,           /* device id */
     "Userport Petscii SNES pad",               /* device name */
     JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES, /* this is a joystick adapter */
@@ -87,9 +87,9 @@ static userport_device_t userport_snespad_device = {
     0                                          /* a tag to indicate the order of insertion */
 };
 
-static userport_device_list_t *userport_snespad_list_item = NULL;
+static old_userport_device_list_t *userport_snespad_list_item = NULL;
 
-static userport_snapshot_t snespad_snapshot = {
+static old_userport_snapshot_t snespad_snapshot = {
     USERPORT_DEVICE_PETSCII_SNESPAD,
     userport_petscii_write_snapshot_module,
     userport_petscii_read_snapshot_module
@@ -112,14 +112,14 @@ static int set_userport_snespad_enabled(int value, void *param)
             return -1;
         }
         counter = 0;
-        userport_snespad_list_item = userport_device_register(&userport_snespad_device);
+        userport_snespad_list_item = old_userport_device_register(&userport_snespad_device);
         if (userport_snespad_list_item == NULL) {
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES, userport_snespad_device.name);
         joystick_adapter_set_ports(1);
     } else {
-        userport_device_unregister(userport_snespad_list_item);
+        old_userport_device_unregister(userport_snespad_list_item);
         userport_snespad_list_item = NULL;
         joystick_adapter_deactivate();
     }
@@ -136,7 +136,7 @@ static const resource_int_t resources_int[] = {
 
 int userport_petscii_snespad_resources_init(void)
 {
-    userport_snapshot_register(&snespad_snapshot);
+    old_userport_snapshot_register(&snespad_snapshot);
 
     return resources_register_int(resources_int);
 }

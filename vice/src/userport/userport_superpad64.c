@@ -71,7 +71,7 @@ static void userport_superpad64_store_pa2(uint8_t value);
 static int userport_superpad64_write_snapshot_module(snapshot_t *s);
 static int userport_superpad64_read_snapshot_module(snapshot_t *s);
 
-static userport_device_t userport_superpad64_device = {
+static old_userport_device_t userport_superpad64_device = {
     USERPORT_DEVICE_SUPERPAD64,              /* device id */
     "Userport SuperPad64",                   /* device name */
     JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64, /* this is a joystick adapter */
@@ -93,9 +93,9 @@ static userport_device_t userport_superpad64_device = {
     0                                        /* a tag to indicate the order of insertion */
 };
 
-static userport_device_list_t *userport_superpad64_list_item = NULL;
+static old_userport_device_list_t *userport_superpad64_list_item = NULL;
 
-static userport_snapshot_t superpad64_snapshot = {
+static old_userport_snapshot_t superpad64_snapshot = {
     USERPORT_DEVICE_SUPERPAD64,
     userport_superpad64_write_snapshot_module,
     userport_superpad64_read_snapshot_module
@@ -118,14 +118,14 @@ static int set_userport_superpad64_enabled(int value, void *param)
             return -1;
         }
         counter = 0;
-        userport_superpad64_list_item = userport_device_register(&userport_superpad64_device);
+        userport_superpad64_list_item = old_userport_device_register(&userport_superpad64_device);
         if (userport_superpad64_list_item == NULL) {
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64, userport_superpad64_device.name);
         joystick_adapter_set_ports(8);
     } else {
-        userport_device_unregister(userport_superpad64_list_item);
+        old_userport_device_unregister(userport_superpad64_list_item);
         userport_superpad64_list_item = NULL;
         joystick_adapter_deactivate();
     }
@@ -142,7 +142,7 @@ static const resource_int_t resources_int[] = {
 
 int userport_superpad64_resources_init(void)
 {
-    userport_snapshot_register(&superpad64_snapshot);
+    old_userport_snapshot_register(&superpad64_snapshot);
 
     return resources_register_int(resources_int);
 }

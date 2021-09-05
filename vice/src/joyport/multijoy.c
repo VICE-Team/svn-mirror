@@ -35,7 +35,6 @@
 #include "multijoy.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "userport.h"
 
 
 #include "log.h"

@@ -61,7 +61,7 @@ static void userport_4bit_sampler_store_pa2(uint8_t value);
 static int userport_4bit_sampler_write_snapshot_module(snapshot_t *s);
 static int userport_4bit_sampler_read_snapshot_module(snapshot_t *s);
 
-static userport_device_t sampler_device = {
+static old_userport_device_t sampler_device = {
     USERPORT_DEVICE_4BIT_SAMPLER,    /* device id */
     "Userport 4bit sampler",         /* device name */
     JOYSTICK_ADAPTER_ID_NONE,        /* NOT a joystick adapter */
@@ -83,13 +83,13 @@ static userport_device_t sampler_device = {
     0                                /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t sampler_snapshot = {
+static old_userport_snapshot_t sampler_snapshot = {
     USERPORT_DEVICE_4BIT_SAMPLER,
     userport_4bit_sampler_write_snapshot_module,
     userport_4bit_sampler_read_snapshot_module
 };
 
-static userport_device_list_t *userport_4bit_sampler_list_item = NULL;
+static old_userport_device_list_t *userport_4bit_sampler_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -103,13 +103,13 @@ static int set_userport_4bit_sampler_enabled(int value, void *param)
 
     if (val) {
         sampler_start(SAMPLER_OPEN_MONO, "4bit userport sampler");
-        userport_4bit_sampler_list_item = userport_device_register(&sampler_device);
+        userport_4bit_sampler_list_item = old_userport_device_register(&sampler_device);
         if (userport_4bit_sampler_list_item == NULL) {
             sampler_stop();
             return -1;
         }
     } else {
-        userport_device_unregister(userport_4bit_sampler_list_item);
+        old_userport_device_unregister(userport_4bit_sampler_list_item);
         userport_4bit_sampler_list_item = NULL;
         sampler_stop();
     }
@@ -126,7 +126,7 @@ static const resource_int_t resources_int[] = {
 
 int userport_4bit_sampler_resources_init(void)
 {
-    userport_snapshot_register(&sampler_snapshot);
+    old_userport_snapshot_register(&sampler_snapshot);
 
     return resources_register_int(resources_int);
 }

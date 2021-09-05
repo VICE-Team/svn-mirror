@@ -72,7 +72,7 @@ static void userport_rtc_store_pbx(uint8_t value);
 static int userport_rtc_write_snapshot_module(snapshot_t *s);
 static int userport_rtc_read_snapshot_module(snapshot_t *s);
 
-static userport_device_t rtc_device = {
+static old_userport_device_t rtc_device = {
     USERPORT_DEVICE_RTC_58321A, /* device id */
     "Userport RTC (RTC58321A)", /* device name */
     JOYSTICK_ADAPTER_ID_NONE,   /* NOT a joystick adapter */
@@ -94,13 +94,13 @@ static userport_device_t rtc_device = {
     0                           /* a tag to indicate the order of insertion */
 };
 
-static userport_snapshot_t rtc_snapshot = {
+static old_userport_snapshot_t rtc_snapshot = {
     USERPORT_DEVICE_RTC_58321A,
     userport_rtc_write_snapshot_module,
     userport_rtc_read_snapshot_module
 };
 
-static userport_device_list_t *userport_rtc_list_item = NULL;
+static old_userport_device_list_t *userport_rtc_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -114,7 +114,7 @@ static int set_userport_rtc_enabled(int value, void *param)
 
     if (val) {
         rtc58321a_context = rtc58321a_init("USER");
-        userport_rtc_list_item = userport_device_register(&rtc_device);
+        userport_rtc_list_item = old_userport_device_register(&rtc_device);
         if (userport_rtc_list_item == NULL) {
             return -1;
         }
@@ -123,7 +123,7 @@ static int set_userport_rtc_enabled(int value, void *param)
             rtc58321a_destroy(rtc58321a_context, rtc58321a_rtc_save);
             rtc58321a_context = NULL;
         }
-        userport_device_unregister(userport_rtc_list_item);
+        old_userport_device_unregister(userport_rtc_list_item);
         userport_rtc_list_item = NULL;
     }
 
@@ -149,7 +149,7 @@ static const resource_int_t resources_int[] = {
 
 int userport_rtc_58321a_resources_init(void)
 {
-    userport_snapshot_register(&rtc_snapshot);
+    old_userport_snapshot_register(&rtc_snapshot);
 
     return resources_register_int(resources_int);
 }

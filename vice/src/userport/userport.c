@@ -41,15 +41,15 @@
 
 static int userport_collision_handling = 0;
 static unsigned int order = 0;
-static userport_device_list_t userport_head = { NULL, NULL, NULL };
-static userport_snapshot_list_t userport_snapshot_head = { NULL, NULL, NULL };
+static old_userport_device_list_t userport_head = { NULL, NULL, NULL };
+static old_userport_snapshot_list_t userport_snapshot_head = { NULL, NULL, NULL };
 static userport_port_props_t userport_props;
 
 static int userport_active = 1;
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-static int valid_device(userport_device_t *device)
+static int valid_device(old_userport_device_t *device)
 {
     if ((device->read_pa2 || device->store_pa2) && !userport_props.has_pa2) {
         return 0;
@@ -81,13 +81,13 @@ void userport_port_register(userport_port_props_t *props)
     userport_props.has_sp12 = props->has_sp12;
 }
 
-userport_device_list_t *userport_device_register(userport_device_t *device)
+old_userport_device_list_t *old_userport_device_register(old_userport_device_t *device)
 {
-    userport_device_list_t *current = &userport_head;
-    userport_device_list_t *retval = NULL;
+    old_userport_device_list_t *current = &userport_head;
+    old_userport_device_list_t *retval = NULL;
 
     if (valid_device(device)) {
-        retval = lib_malloc(sizeof(userport_device_list_t));
+        retval = lib_malloc(sizeof(old_userport_device_list_t));
 
         while (current->next != NULL) {
             current = current->next;
@@ -102,9 +102,9 @@ userport_device_list_t *userport_device_register(userport_device_t *device)
     return retval;
 }
 
-void userport_device_unregister(userport_device_list_t *device)
+void old_userport_device_unregister(old_userport_device_list_t *device)
 {
-    userport_device_list_t *prev;
+    old_userport_device_list_t *prev;
 
     if (device) {
         prev = device->previous;
@@ -128,7 +128,7 @@ void userport_device_unregister(userport_device_list_t *device)
 
 static void userport_detach_devices(int collision, unsigned int highest_order)
 {
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
     char *tmp1 = lib_strdup("Userport collision detected from ");
     char *tmp2;
     int col_found = 0;
@@ -188,7 +188,7 @@ static uint8_t userport_detect_collision(uint8_t retval_orig, uint8_t mask)
     uint8_t rv;
     int collision = 0;
     int first_found = 0;
-    userport_device_list_t *current;
+    old_userport_device_list_t *current;
     unsigned int highest_order = 0;
 
     /* collision detection */
@@ -240,7 +240,7 @@ uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
     uint8_t rm;
     uint8_t rv;
     int valid = 0;
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (!userport_active) {
         return orig;
@@ -280,7 +280,7 @@ uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
 
 void store_userport_pbx(uint8_t val)
 {
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (userport_active) {
         while (current) {
@@ -299,7 +299,7 @@ uint8_t read_userport_pa2(uint8_t orig)
     uint8_t rv;
     uint8_t retval = 0xff;
     int valid = 0;
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (!userport_active) {
         return orig;
@@ -334,7 +334,7 @@ uint8_t read_userport_pa2(uint8_t orig)
 
 void store_userport_pa2(uint8_t val)
 {
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (userport_active) {
         while (current) {
@@ -353,7 +353,7 @@ uint8_t read_userport_pa3(uint8_t orig)
     uint8_t rv;
     uint8_t retval = 0xff;
     int valid = 0;
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (!userport_active) {
         return orig;
@@ -388,7 +388,7 @@ uint8_t read_userport_pa3(uint8_t orig)
 
 void store_userport_pa3(uint8_t val)
 {
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (userport_active) {
         while (current) {
@@ -411,7 +411,7 @@ void set_userport_flag(uint8_t val)
 
 void store_userport_sp1(uint8_t val)
 {
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (userport_active) {
         while (current) {
@@ -430,7 +430,7 @@ uint8_t read_userport_sp1(uint8_t orig)
     uint8_t rv;
     uint8_t retval = 0xff;
     int valid = 0;
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (!userport_active) {
         return orig;
@@ -466,7 +466,7 @@ uint8_t read_userport_sp1(uint8_t orig)
 
 void store_userport_sp2(uint8_t val)
 {
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (userport_active) {
         while (current) {
@@ -485,7 +485,7 @@ uint8_t read_userport_sp2(uint8_t orig)
     uint8_t rv;
     uint8_t retval = 0xff;
     int valid = 0;
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
 
     if (!userport_active) {
         return orig;
@@ -521,12 +521,12 @@ uint8_t read_userport_sp2(uint8_t orig)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-void userport_snapshot_register(userport_snapshot_t *s)
+void old_userport_snapshot_register(old_userport_snapshot_t *s)
 {
-    userport_snapshot_list_t *current = &userport_snapshot_head;
-    userport_snapshot_list_t *retval = NULL;
+    old_userport_snapshot_list_t *current = &userport_snapshot_head;
+    old_userport_snapshot_list_t *retval = NULL;
 
-    retval = lib_malloc(sizeof(userport_snapshot_list_t));
+    retval = lib_malloc(sizeof(old_userport_snapshot_list_t));
 
     while (current->next != NULL) {
         current = current->next;
@@ -537,9 +537,9 @@ void userport_snapshot_register(userport_snapshot_t *s)
     retval->next = NULL;
 }
 
-static void userport_snapshot_unregister(userport_snapshot_list_t *s)
+static void old_userport_snapshot_unregister(old_userport_snapshot_list_t *s)
 {
-    userport_snapshot_list_t *prev;
+    old_userport_snapshot_list_t *prev;
 
     if (s) {
         prev = s->previous;
@@ -587,16 +587,16 @@ int userport_resources_init(void)
 
 void userport_resources_shutdown(void)
 {
-    userport_device_list_t *current = userport_head.next;
-    userport_snapshot_list_t *c = userport_snapshot_head.next;
+    old_userport_device_list_t *current = userport_head.next;
+    old_userport_snapshot_list_t *c = userport_snapshot_head.next;
 
     while (current) {
-        userport_device_unregister(current);
+        old_userport_device_unregister(current);
         current = userport_head.next;
     }
 
     while (c) {
-        userport_snapshot_unregister(c);
+        old_userport_snapshot_unregister(c);
         c = userport_snapshot_head.next;
     }
 }
@@ -645,8 +645,8 @@ int userport_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
     int amount = 0;
     int *devices = NULL;
-    userport_device_list_t *current = userport_head.next;
-    userport_snapshot_list_t *c = NULL;
+    old_userport_device_list_t *current = userport_head.next;
+    old_userport_snapshot_list_t *c = NULL;
     int i = 0;
 
     while (current) {
@@ -721,9 +721,9 @@ int userport_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     int amount = 0;
     char **detach_resource_list = NULL;
-    userport_device_list_t *current = userport_head.next;
+    old_userport_device_list_t *current = userport_head.next;
     int *devices = NULL;
-    userport_snapshot_list_t *c = NULL;
+    old_userport_snapshot_list_t *c = NULL;
     int i = 0;
 
     /* detach all userport devices */
