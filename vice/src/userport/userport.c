@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "joyport.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -43,13 +44,43 @@ static int old_userport_collision_handling = 0;
 static unsigned int old_order = 0;
 static old_userport_device_list_t userport_head = { NULL, NULL, NULL };
 static old_userport_snapshot_list_t userport_snapshot_head = { NULL, NULL, NULL };
-static userport_port_props_t userport_props;
 
+/* flag indicating if the userport exists on the current emulated model */
 static int userport_active = 1;
+
+/* current userport device */
+static int userport_current_device = USERPORT_DEVICE_NONE;
+
+/* this will hold all the information about the userport devices */
+static userport_device_t userport_device[USERPORT_MAX_DEVICES] = {0};
+
+/* this will hold all the information about the userport itself */
+static userport_port_props_t userport_props;
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-static int valid_device(old_userport_device_t *device)
+static int old_valid_device(old_userport_device_t *device)
+{
+    if ((device->read_pa2 || device->store_pa2) && !userport_props.has_pa2) {
+        return 0;
+    }
+
+    if ((device->read_pa3 || device->store_pa3) && !userport_props.has_pa3) {
+        return 0;
+    }
+
+    if (device->needs_pc && !userport_props.has_pc) {
+        return 0;
+    }
+
+    if ((device->store_sp1 || device->read_sp1 || device->store_sp2 || device->read_sp2) && !userport_props.has_sp12) {
+        return 0;
+    }
+
+    return 1;
+}
+
+static int valid_device(userport_device_t *device)
 {
     if ((device->read_pa2 || device->store_pa2) && !userport_props.has_pa2) {
         return 0;
@@ -86,7 +117,7 @@ old_userport_device_list_t *old_userport_device_register(old_userport_device_t *
     old_userport_device_list_t *current = &userport_head;
     old_userport_device_list_t *retval = NULL;
 
-    if (valid_device(device)) {
+    if (old_valid_device(device)) {
         retval = lib_malloc(sizeof(old_userport_device_list_t));
 
         while (current->next != NULL) {
@@ -100,6 +131,37 @@ old_userport_device_list_t *old_userport_device_register(old_userport_device_t *
     }
 
     return retval;
+}
+
+/* register a device to be used in the userport system if possible */
+int userport_device_register(int id, userport_device_t *device)
+{
+    if (id < 1 || id > USERPORT_MAX_DEVICES) {
+        return -1;
+    }
+
+    if (valid_device(device)) {
+        userport_device[id].name = device->name;
+        userport_device[id].joystick_adapter_id = device->joystick_adapter_id;
+        userport_device[id].device_type = device->device_type;
+        userport_device[id].enable = device->enable;
+        userport_device[id].read_pbx = device->read_pbx;
+        userport_device[id].store_pbx = device->store_pbx;
+        userport_device[id].read_pa2 = device->read_pa2;
+        userport_device[id].store_pa2 = device->store_pa2;
+        userport_device[id].read_pa3 = device->read_pa3;
+        userport_device[id].store_pa3 = device->store_pa3;
+        userport_device[id].needs_pc = device->needs_pc;
+        userport_device[id].store_sp1 = device->store_sp1;
+        userport_device[id].read_sp1 = device->read_sp1;
+        userport_device[id].store_sp2 = device->store_sp2;
+        userport_device[id].read_sp2 = device->read_sp2;
+        userport_device[id].write_snapshot = device->write_snapshot;
+        userport_device[id].read_snapshot = device->read_snapshot;
+        return 0;
+    }
+
+    return -1;
 }
 
 void old_userport_device_unregister(old_userport_device_list_t *device)
@@ -234,6 +296,97 @@ static uint8_t old_userport_detect_collision(uint8_t retval_orig, uint8_t mask)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
+/* attach device 'id' to the userport */
+static int userport_set_device(int id)
+{
+    /* 1st some sanity checks */
+    if (id < USERPORT_DEVICE_NONE || id >= USERPORT_MAX_DEVICES) {
+        return -1;
+    }
+
+    /* Nothing changes */
+    if (id == userport_current_device) {
+        return 0;
+    }
+
+    /* check if id is registered */
+    if (id != USERPORT_DEVICE_NONE && !userport_device[id].name) {
+        ui_error("Selected userport device %d is not registered", id);
+        return -1;
+    }
+
+    /* check if device is a joystick adapter and a different joystick adapter is already active */
+    if (id != USERPORT_DEVICE_NONE && userport_device[id].joystick_adapter_id) {
+        if (!userport_device[userport_current_device].joystick_adapter_id) {
+            /* if the current device in the userport is not a joystick adapter
+               we need to check if a different joystick adapter is already
+               active */
+            if (joystick_adapter_get_id()) {
+                ui_error("Selected userport device %s is a joystick adapter, but joystick adapter %s is already active.", userport_device[id].name, joystick_adapter_get_name());
+                return -1;
+            }
+        }
+    }
+
+    /* all checks done, now disable the current device and enable the new device */
+    if (userport_device[userport_current_device].enable) {
+        userport_device[userport_current_device].enable(0);
+    }
+    if (userport_device[id].enable) {
+        userport_device[id].enable(1);
+    }
+    userport_current_device = id;
+
+    return 0;
+}
+
+static int userport_valid_devices_compare_names(const void* a, const void* b)
+{
+    const userport_desc_t *arg1 = (const userport_desc_t*)a;
+    const userport_desc_t *arg2 = (const userport_desc_t*)b;
+
+    if (arg1->device_type != arg2->device_type) {
+        if (arg1->device_type < arg2->device_type) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+    return strcmp(arg1->name, arg2->name);
+}
+
+userport_desc_t *userport_get_valid_devices(int sort)
+{
+    userport_desc_t *retval = NULL;
+    int i;
+    int valid = 0;
+    int j = 0;
+
+    for (i = 0; i < USERPORT_MAX_DEVICES; ++i) {
+        if (userport_device[i].name) {
+               ++valid;
+        }
+    }
+
+    retval = lib_malloc(((size_t)valid + 1) * sizeof(userport_desc_t));
+    for (i = 0; i < USERPORT_MAX_DEVICES; ++i) {
+        if (userport_device[i].name) {
+            retval[j].name = userport_device[i].name;
+            retval[j].id = i;
+            retval[j].device_type = userport_device[i].device_type;
+            ++j;
+        }
+    }
+    retval[j].name = NULL;
+
+    if (sort) {
+        qsort(retval, valid, sizeof(userport_desc_t), userport_valid_devices_compare_names);
+    }
+
+    return retval;
+}
+
 static uint8_t old_read_userport_pbx(uint8_t mask, uint8_t orig)
 {
     uint8_t retval = 0xff;
@@ -281,7 +434,27 @@ static uint8_t old_read_userport_pbx(uint8_t mask, uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
 {
-    /* return old function for now */
+    uint8_t retval = 0xff;
+    uint8_t rm;
+    uint8_t rv;
+
+    /* read from new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].read_pbx) {
+                userport_device[userport_current_device].read_pbx();
+                rm = userport_device[userport_current_device].mask;
+                rm &= mask;
+                if (rm) {
+                    rv = userport_device[userport_current_device].retval;
+                    rv |= ~rm;
+                    retval &= rv;
+                }
+            }
+        }
+    }
+
+    /* return old function */
     return old_read_userport_pbx(mask, orig);
 }
 
@@ -301,7 +474,16 @@ static void old_store_userport_pbx(uint8_t val)
 
 void store_userport_pbx(uint8_t val)
 {
-    /* store using old function for now */
+    /* store to new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].store_pbx) {
+                userport_device[userport_current_device].store_pbx(val);
+            }
+        }
+    }
+
+    /* store using old function as well */
     old_store_userport_pbx(val);
 }
 
@@ -348,7 +530,29 @@ static uint8_t old_read_userport_pa2(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_pa2(uint8_t orig)
 {
-    /* return old function for now */
+    uint8_t mask = 1;
+    uint8_t rm;
+    uint8_t rv;
+    uint8_t retval = 0xff;
+
+    /* read from new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].read_pa2) {
+                userport_device[userport_current_device].read_pa2();
+                rm = userport_device[userport_current_device].mask;
+                rm &= mask;
+                if (rm) {
+                    rv = userport_device[userport_current_device].retval;
+                    rv |= ~rm;
+                    retval &= rv;
+                    return retval;
+                }
+            }
+        }
+    }
+
+    /* return old function */
     return old_read_userport_pa2(orig);
 }
 
@@ -368,7 +572,16 @@ static void old_store_userport_pa2(uint8_t val)
 
 void store_userport_pa2(uint8_t val)
 {
-    /* store using old function for now */
+    /* store to new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].store_pa2) {
+                userport_device[userport_current_device].store_pa2(val);
+            }
+        }
+    }
+
+    /* store using old function as well */
     old_store_userport_pa2(val);
 }
 
@@ -415,7 +628,29 @@ static uint8_t old_read_userport_pa3(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_pa3(uint8_t orig)
 {
-    /* return old function for now */
+    uint8_t mask = 1;
+    uint8_t rm;
+    uint8_t rv;
+    uint8_t retval = 0xff;
+
+    /* read from new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].read_pa3) {
+                userport_device[userport_current_device].read_pa3();
+                rm = userport_device[userport_current_device].mask;
+                rm &= mask;
+                if (rm) {
+                    rv = userport_device[userport_current_device].retval;
+                    rv |= ~rm;
+                    retval &= rv;
+                    return retval;
+                }
+            }
+        }
+    }
+
+    /* return old function */
     return old_read_userport_pa3(orig);
 }
 
@@ -435,7 +670,16 @@ static void old_store_userport_pa3(uint8_t val)
 
 void store_userport_pa3(uint8_t val)
 {
-    /* store using old function for now */
+    /* store to new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].store_pa3) {
+                userport_device[userport_current_device].store_pa3(val);
+            }
+        }
+    }
+
+    /* store using old function as well */
     old_store_userport_pa3(val);
 }
 
@@ -464,7 +708,16 @@ static void old_store_userport_sp1(uint8_t val)
 
 void store_userport_sp1(uint8_t val)
 {
-    /* store using old function for now */
+    /* store to new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].store_sp1) {
+                userport_device[userport_current_device].store_sp1(val);
+            }
+        }
+    }
+
+    /* store using old function as well */
     old_store_userport_sp1(val);
 }
 
@@ -512,7 +765,29 @@ static uint8_t old_read_userport_sp1(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_sp1(uint8_t orig)
 {
-    /* return old function for now */
+    uint8_t mask = 0xff;
+    uint8_t rm;
+    uint8_t rv;
+    uint8_t retval = 0xff;
+
+    /* read from new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].read_sp1) {
+                userport_device[userport_current_device].read_sp1();
+                rm = userport_device[userport_current_device].mask;
+                rm &= mask;
+                if (rm) {
+                    rv = userport_device[userport_current_device].retval;
+                    rv |= ~rm;
+                    retval &= rv;
+                    return retval;
+                }
+            }
+        }
+    }
+
+    /* return old function */
     return old_read_userport_sp1(orig);
 }
 
@@ -532,7 +807,16 @@ static void old_store_userport_sp2(uint8_t val)
 
 void store_userport_sp2(uint8_t val)
 {
-    /* store using old function for now */
+    /* store to new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].store_sp2) {
+                userport_device[userport_current_device].store_sp2(val);
+            }
+        }
+    }
+
+    /* store using old function as well */
     old_store_userport_sp2(val);
 }
 
@@ -580,7 +864,29 @@ static uint8_t old_read_userport_sp2(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_sp2(uint8_t orig)
 {
-    /* return old function for now */
+    uint8_t mask = 0xff;
+    uint8_t rm;
+    uint8_t rv;
+    uint8_t retval = 0xff;
+
+    /* read from new userport system if the device has been registered */
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].read_sp2) {
+                userport_device[userport_current_device].read_sp2();
+                rm = userport_device[userport_current_device].mask;
+                rm &= mask;
+                if (rm) {
+                    rv = userport_device[userport_current_device].retval;
+                    rv |= ~rm;
+                    retval &= rv;
+                    return retval;
+                }
+            }
+        }
+    }
+
+    /* return old function */
     return old_read_userport_sp2(orig);
 }
 
@@ -641,9 +947,24 @@ static const resource_int_t old_resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
+static int set_userport_device(int val, void *param)
+{
+    return userport_set_device(val);
+}
+
+static const resource_int_t resources_int[] = {
+    { "UserportDevice", USERPORT_DEVICE_NONE, RES_EVENT_NO, NULL,
+      &userport_current_device, set_userport_device, NULL },
+    RESOURCE_INT_LIST_END
+};
+
 int userport_resources_init(void)
 {
     if (resources_register_int(old_resources_int) < 0) {
+        return -1;
+    }
+
+    if (resources_register_int(resources_int) < 0) {
         return -1;
     }
 
@@ -654,6 +975,10 @@ void userport_resources_shutdown(void)
 {
     old_userport_device_list_t *current = userport_head.next;
     old_userport_snapshot_list_t *c = userport_snapshot_head.next;
+
+    memset(userport_device, 0, sizeof(userport_device));
+    userport_device[0].name = "None";
+    userport_device[0].joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
 
     while (current) {
         old_userport_device_unregister(current);
@@ -666,7 +991,138 @@ void userport_resources_shutdown(void)
     }
 }
 
-static const cmdline_option_t cmdline_options[] =
+struct userport_opt_s {
+    const char *name;
+    int id;
+};
+
+
+/* no new cmdline options yet */
+#if 0
+static const struct userport_opt_s id_match[] = {
+    { "0",                USERPORT_DEVICE_NONE },
+    { "none",             USERPORT_DEVICE_NONE },
+    { "1",                USERPORT_DEVICE_PRINTER },
+    { "printer",          USERPORT_DEVICE_PRINTER },
+    { "plotter",          USERPORT_DEVICE_PRINTER },
+    { "2",                USERPORT_DEVICE_JOYSTICK_CGA },
+    { "cga",              USERPORT_DEVICE_JOYSTICK_CGA },
+    { "cgajoy",           USERPORT_DEVICE_JOYSTICK_CGA },
+    { "cgajoystick",      USERPORT_DEVICE_JOYSTICK_CGA },
+    { "3",                USERPORT_DEVICE_JOYSTICK_PET },
+    { "pet",              USERPORT_DEVICE_JOYSTICK_PET },
+    { "petjoy",           USERPORT_DEVICE_JOYSTICK_PET },
+    { "petjoystick",      USERPORT_DEVICE_JOYSTICK_PET },
+    { "4",                USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "hummer",           USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "hummerjoy",        USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "hummerjoystick",   USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "5",                USERPORT_DEVICE_JOYSTICK_OEM },
+    { "oem",              USERPORT_DEVICE_JOYSTICK_OEM },
+    { "oemjoy",           USERPORT_DEVICE_JOYSTICK_OEM },
+    { "oemjoystick",      USERPORT_DEVICE_JOYSTICK_OEM },
+    { "6",                USERPORT_DEVICE_JOYSTICK_HIT },
+    { "hit",              USERPORT_DEVICE_JOYSTICK_HIT },
+    { "dxs",              USERPORT_DEVICE_JOYSTICK_HIT },
+    { "hitjoy",           USERPORT_DEVICE_JOYSTICK_HIT },
+    { "dxsjoy",           USERPORT_DEVICE_JOYSTICK_HIT },
+    { "hitjoystick",      USERPORT_DEVICE_JOYSTICK_HIT },
+    { "dxsjoystick",      USERPORT_DEVICE_JOYSTICK_HIT },
+    { "7",                USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "kingsoft",         USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "kingsoftjoy",      USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "kingsoftjoystick", USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "8",                USERPORT_DEVICE_JOYSTICK_STARBYTE },
+    { "starbyte",         USERPORT_DEVICE_JOYSTICK_STARBYTE },
+    { "starbytejoy",      USERPORT_DEVICE_JOYSTICK_STARBYTE },
+    { "starbytejoystick", USERPORT_DEVICE_JOYSTICK_STARBYTE },
+    { "9",                USERPORT_DEVICE_JOYSTICK_SYNERGY },
+    { "synergy",          USERPORT_DEVICE_JOYSTICK_SYNERGY },
+    { "synergyjoy",       USERPORT_DEVICE_JOYSTICK_SYNERGY },
+    { "synergyjoystick",  USERPORT_DEVICE_JOYSTICK_SYNERGY },
+    { "10",               USERPORT_DEVICE_DAC },
+    { "dac",              USERPORT_DEVICE_DAC },
+    { "11",               USERPORT_DEVICE_DIGIMAX },
+    { "digimax",          USERPORT_DEVICE_DIGIMAX },
+    { "12",               USERPORT_DEVICE_4BIT_SAMPLER },
+    { "4bitsampler",      USERPORT_DEVICE_4BIT_SAMPLER },
+    { "13",               USERPORT_DEVICE_8BSS },
+    { "8bss",             USERPORT_DEVICE_8BSS },
+    { "14",               USERPORT_DEVICE_RTC_58321A },
+    { "58321a",           USERPORT_DEVICE_RTC_58321A },
+    { "58321artc",        USERPORT_DEVICE_RTC_58321A },
+    { "58321rtc",         USERPORT_DEVICE_RTC_58321A },
+    { "rtc58321a",        USERPORT_DEVICE_RTC_58321A },
+    { "rtc58321",         USERPORT_DEVICE_RTC_58321A },
+    { "15",               USERPORT_DEVICE_RTC_DS1307 },
+    { "ds1307",           USERPORT_DEVICE_RTC_DS1307 },
+    { "ds1307rtc",        USERPORT_DEVICE_RTC_DS1307 },
+    { "rtcds1307",        USERPORT_DEVICE_RTC_DS1307 },
+    { "rtc1307",          USERPORT_DEVICE_RTC_DS1307 },
+    { "16",               USERPORT_DEVICE_PETSCII_SNESPAD },
+    { "petscii",          USERPORT_DEVICE_PETSCII_SNESPAD },
+    { "petsciisnes",      USERPORT_DEVICE_PETSCII_SNESPAD },
+    { "petsciisnespad",   USERPORT_DEVICE_PETSCII_SNESPAD },
+    { "17",               USERPORT_DEVICE_SPACEBALLS },
+    { "spaceballs",       USERPORT_DEVICE_SPACEBALLS },
+    { "18",               USERPORT_DEVICE_SUPERPAD64 },
+    { "superpad",         USERPORT_DEVICE_SUPERPAD64 },
+    { "superpad64",       USERPORT_DEVICE_SUPERPAD64 },
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
+    { "19",               USERPORT_DEVICE_DIAG_586220_HARNESS },
+    { "diag",             USERPORT_DEVICE_DIAG_586220_HARNESS },
+    { "diagharness",      USERPORT_DEVICE_DIAG_586220_HARNESS },
+#endif
+    { NULL, -1 }
+};
+
+static int set_userport_cmdline_device(const char *param, void *extra_param)
+{
+    int temp = -1;
+    int i = 0;
+
+    if (!param) {
+        return -1;
+    }
+
+    do {
+        if (strcmp(id_match[i].name, param) == 0) {
+            temp = id_match[i].id;
+        }
+        i++;
+    } while ((temp == -1) && (id_match[i].name != NULL));
+
+    if (temp == -1) {
+        return -1;
+    }
+
+    return set_userport_device(temp, NULL);
+}
+
+static char *build_userport_string(void)
+{
+    int i = 0;
+    char *tmp1;
+    char *tmp2;
+    char number[4];
+    userport_desc_t *devices = userport_get_valid_devices(0);
+
+    tmp1 = lib_msprintf("Set userport device (0: None");
+
+    for (i = 1; devices[i].name; ++i) {
+        sprintf(number, "%d", devices[i].id);
+        tmp2 = util_concat(tmp1, ", ", number, ": ", devices[i].name, NULL);
+        lib_free(tmp1);
+        tmp1 = tmp2;
+    }
+    tmp2 = util_concat(tmp1, ")", NULL);
+    lib_free(tmp1);
+    lib_free(devices);
+    return tmp2;
+}
+#endif
+
+static const cmdline_option_t old_cmdline_options[] =
 {
     { "-userportcollision", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "UserportCollisionHandling", NULL,
@@ -674,9 +1130,31 @@ static const cmdline_option_t cmdline_options[] =
     CMDLINE_LIST_END
 };
 
+/* no new cmdline options yet */
+#if 0
+static cmdline_option_t cmdline_options[] =
+{
+    { "-userportdevice", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_userport_cmdline_device, NULL, NULL, NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+#endif
+
 int userport_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+/* no new cmdline options yet */
+#if 0
+    union char_func cf;
+
+    cf.f = build_userport_string;
+    cmdline_options[0].description = cf.c;
+
+    if (cmdline_register_options(cmdline_options) < 0) {
+        return -1;
+    }
+#endif
+    return cmdline_register_options(old_cmdline_options);
 }
 
 void userport_enable(int val)
