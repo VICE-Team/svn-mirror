@@ -502,14 +502,21 @@ int uimon_get_string(struct console_private_s *t, char* string, int string_len)
     while(retval<string_len) {
         int i;
 
-        /* give the ui a chance to do stuff, and also don't max out the CPU waiting for input */
-        tick_sleep(tick_per_second() / 60);
-
         pthread_mutex_lock(&t->lock);
+        
         if (!t->input_buffer) {
+            /* TODO: Not sure if this check makes sense anymore, needs testing without */
             pthread_mutex_unlock(&t->lock);
             return -1;
         }
+        
+        if (strlen(t->input_buffer) == 0) {
+            /* There's no input yet, so have a little sleep and look again. */
+            pthread_mutex_unlock(&t->lock);
+            tick_sleep(tick_per_second() / 60);
+            continue;
+        }
+        
         for (i = 0; i < strlen(t->input_buffer) && retval < string_len; i++, retval++) {
             string[retval]=t->input_buffer[i];
         }
