@@ -154,6 +154,19 @@ extern void store_userport_sp1(uint8_t val);
 extern uint8_t read_userport_sp2(uint8_t orig);
 extern void store_userport_sp2(uint8_t val);
 
+extern uint8_t read_userport_pbx(uint8_t mask, uint8_t orig);
+extern void store_userport_pbx(uint8_t val);
+extern uint8_t read_userport_pa2(uint8_t orig);
+extern void store_userport_pa2(uint8_t val);
+extern uint8_t read_userport_pa3(uint8_t orig);
+extern void store_userport_pa3(uint8_t val);
+extern void set_userport_flag(uint8_t val);
+extern uint8_t read_userport_pc(uint8_t orig);
+extern uint8_t read_userport_sp1(uint8_t orig);
+extern void store_userport_sp1(uint8_t val);
+extern uint8_t read_userport_sp2(uint8_t orig);
+extern void store_userport_sp2(uint8_t val);
+
 extern int userport_resources_init(void);
 extern void userport_resources_shutdown(void);
 extern int userport_cmdline_options_init(void);
