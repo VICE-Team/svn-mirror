@@ -37,7 +37,8 @@
 /* #define USERPORT_EXPERIMENTAL_DEVICES */
 
 enum {
-    USERPORT_DEVICE_PRINTER = 0,
+    USERPORT_DEVICE_NONE = 0,
+    USERPORT_DEVICE_PRINTER,
     USERPORT_DEVICE_JOYSTICK_CGA,
     USERPORT_DEVICE_JOYSTICK_PET,
     USERPORT_DEVICE_JOYSTICK_HUMMER,
@@ -61,7 +62,7 @@ enum {
     USERPORT_MAX_DEVICES
 };
 
-/* this structure is used by userport devices */
+/* this structure is used by OLD userport devices */
 typedef struct old_userport_device_s {
     /* ID of the device */
     int id;
@@ -121,6 +122,66 @@ typedef struct old_userport_device_s {
     unsigned int order;
 } old_userport_device_t;
 
+/* this structure is used by NEW userport devices */
+typedef struct userport_device_s {
+    /* Name of the device */
+    char *name;
+
+    /* flag to indicate that the device is a joystick/pad adapter */
+    int joystick_adapter_id;
+
+    /* flag to indicate the device type */
+    int device_type;
+
+    /* Device enable/disable */
+    int (*enable)(int val);
+
+    /* Read pb0-7 pins */
+    void (*read_pbx)(void);
+
+    /* Store pb0-7 pins */
+    void (*store_pbx)(uint8_t val);
+
+    /* Read pa2 pin */
+    void (*read_pa2)(void);
+
+    /* Store pa2 pin */
+    void (*store_pa2)(uint8_t val);
+
+    /* Read pa3 pin */
+    void (*read_pa3)(void);
+
+    /* Store pa3 pin */
+    void (*store_pa3)(uint8_t val);
+
+    /* Device needs pc pin */
+    int needs_pc;
+
+    /* Store sp1 pin */
+    void (*store_sp1)(uint8_t val);
+
+    /* Read sp1 pin */
+    void (*read_sp1)(void);
+
+    /* Store sp2 pin */
+    void (*store_sp2)(uint8_t val);
+
+    /* Read sp2 pin */
+    void (*read_sp2)(void);
+
+    /* Snapshot write */
+    int (*write_snapshot)(struct snapshot_s *s);
+
+    /* Snapshot read */
+    int (*read_snapshot)(struct snapshot_s *s, int port);  /* pointer to the device snapshot read function */
+
+    /* return value of a read */
+    uint8_t retval;
+
+    /* validity mask of a read */
+    uint8_t mask;
+} userport_device_t;
+
 /* this structure is used by userport ports */
 typedef struct userport_port_props_s {
     int has_pa2;                   /* port has the pa2 line */
@@ -136,10 +197,17 @@ typedef struct old_userport_device_list_s {
     struct old_userport_device_list_s *next;
 } old_userport_device_list_t;
 
+typedef struct userport_desc_s {
+    char *name;
+    int id;
+    int device_type;
+} userport_desc_t;
+
 extern old_userport_device_list_t *old_userport_device_register(old_userport_device_t *device);
 extern void old_userport_device_unregister(old_userport_device_list_t *device);
 
 extern void userport_port_register(userport_port_props_t *props);
+extern int userport_device_register(int id, userport_device_t *device);
 
 extern uint8_t read_userport_pbx(uint8_t mask, uint8_t orig);
 extern void store_userport_pbx(uint8_t val);
@@ -170,6 +238,8 @@ extern void store_userport_sp2(uint8_t val);
 extern int userport_resources_init(void);
 extern void userport_resources_shutdown(void);
 extern int userport_cmdline_options_init(void);
+
+extern userport_desc_t *userport_get_valid_devices(int sort);
 
 extern void userport_enable(int val);
 
