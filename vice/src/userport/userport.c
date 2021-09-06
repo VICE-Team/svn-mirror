@@ -436,17 +436,20 @@ static uint8_t old_read_userport_pbx(uint8_t mask, uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
 {
-    /* read from new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].read_pbx) {
-                return userport_device[userport_current_device].read_pbx();
+    if (userport_active) {
+        /* read from new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].read_pbx) {
+                    return userport_device[userport_current_device].read_pbx();
+                }
             }
         }
-    }
 
-    /* return old function */
-    return old_read_userport_pbx(mask, orig);
+        /* return old function */
+        return old_read_userport_pbx(mask, orig);
+   }
+   return 0xff;
 }
 
 static void old_store_userport_pbx(uint8_t val)
@@ -465,18 +468,20 @@ static void old_store_userport_pbx(uint8_t val)
 
 void store_userport_pbx(uint8_t val)
 {
-    /* store to new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].store_pbx) {
-                userport_device[userport_current_device].store_pbx(val);
-                return;
+    if (userport_active) {
+        /* store to new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].store_pbx) {
+                    userport_device[userport_current_device].store_pbx(val);
+                    return;
+                }
             }
         }
-    }
 
-    /* store using old function as well */
-    old_store_userport_pbx(val);
+        /* store using old function as well */
+        old_store_userport_pbx(val);
+    }
 }
 
 static uint8_t old_read_userport_pa2(uint8_t orig)
@@ -522,17 +527,20 @@ static uint8_t old_read_userport_pa2(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_pa2(uint8_t orig)
 {
-    /* read from new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].read_pa2) {
-                return userport_device[userport_current_device].read_pa2();
+    if (userport_active) {
+        /* read from new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].read_pa2) {
+                    return userport_device[userport_current_device].read_pa2();
+                }
             }
         }
-    }
 
-    /* return old function */
-    return old_read_userport_pa2(orig);
+        /* return old function */
+        return old_read_userport_pa2(orig);
+    }
+    return 1;
 }
 
 static void old_store_userport_pa2(uint8_t val)
@@ -551,18 +559,20 @@ static void old_store_userport_pa2(uint8_t val)
 
 void store_userport_pa2(uint8_t val)
 {
-    /* store to new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].store_pa2) {
-                userport_device[userport_current_device].store_pa2(val);
-                return;
+    if (userport_active) {
+        /* store to new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].store_pa2) {
+                    userport_device[userport_current_device].store_pa2(val);
+                    return;
+                }
             }
         }
-    }
 
-    /* store using old function as well */
-    old_store_userport_pa2(val);
+        /* store using old function as well */
+        old_store_userport_pa2(val);
+    }
 }
 
 static uint8_t old_read_userport_pa3(uint8_t orig)
@@ -608,17 +618,20 @@ static uint8_t old_read_userport_pa3(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_pa3(uint8_t orig)
 {
-    /* read from new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].read_pa3) {
-                return userport_device[userport_current_device].read_pa3();
+    if (userport_active) {
+        /* read from new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].read_pa3) {
+                    return userport_device[userport_current_device].read_pa3();
+                }
             }
         }
-    }
 
-    /* return old function */
-    return old_read_userport_pa3(orig);
+        /* return old function */
+        return old_read_userport_pa3(orig);
+    }
+    return 1;
 }
 
 static void old_store_userport_pa3(uint8_t val)
@@ -637,18 +650,20 @@ static void old_store_userport_pa3(uint8_t val)
 
 void store_userport_pa3(uint8_t val)
 {
-    /* store to new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].store_pa3) {
-                userport_device[userport_current_device].store_pa3(val);
-                return;
+    if (userport_active) {
+        /* store to new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].store_pa3) {
+                    userport_device[userport_current_device].store_pa3(val);
+                    return;
+                }
             }
         }
-    }
 
-    /* store using old function as well */
-    old_store_userport_pa3(val);
+        /* store using old function as well */
+        old_store_userport_pa3(val);
+    }
 }
 
 void set_userport_flag(uint8_t val)
@@ -676,18 +691,20 @@ static void old_store_userport_sp1(uint8_t val)
 
 void store_userport_sp1(uint8_t val)
 {
-    /* store to new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].store_sp1) {
-                userport_device[userport_current_device].store_sp1(val);
-                return;
+    if (userport_active) {
+        /* store to new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].store_sp1) {
+                    userport_device[userport_current_device].store_sp1(val);
+                    return;
+                }
             }
         }
-    }
 
-    /* store using old function as well */
-    old_store_userport_sp1(val);
+        /* store using old function as well */
+        old_store_userport_sp1(val);
+    }
 }
 
 static uint8_t old_read_userport_sp1(uint8_t orig)
@@ -734,17 +751,20 @@ static uint8_t old_read_userport_sp1(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_sp1(uint8_t orig)
 {
-    /* read from new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].read_sp1) {
-                return userport_device[userport_current_device].read_sp1();
+    if (userport_active) {
+        /* read from new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].read_sp1) {
+                    return userport_device[userport_current_device].read_sp1();
+                }
             }
         }
-    }
 
-    /* return old function */
-    return old_read_userport_sp1(orig);
+        /* return old function */
+        return old_read_userport_sp1(orig);
+    }
+    return 1;
 }
 
 static void old_store_userport_sp2(uint8_t val)
@@ -763,18 +783,20 @@ static void old_store_userport_sp2(uint8_t val)
 
 void store_userport_sp2(uint8_t val)
 {
-    /* store to new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].store_sp2) {
-                userport_device[userport_current_device].store_sp2(val);
-                return;
+    if (userport_active) {
+        /* store to new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].store_sp2) {
+                    userport_device[userport_current_device].store_sp2(val);
+                    return;
+                }
             }
         }
-    }
 
-    /* store using old function as well */
-    old_store_userport_sp2(val);
+        /* store using old function as well */
+        old_store_userport_sp2(val);
+    }
 }
 
 static uint8_t old_read_userport_sp2(uint8_t orig)
@@ -821,17 +843,20 @@ static uint8_t old_read_userport_sp2(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_sp2(uint8_t orig)
 {
-    /* read from new userport system if the device has been registered */
-    if (userport_current_device != USERPORT_DEVICE_NONE) {
-        if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].read_sp2) {
-                return userport_device[userport_current_device].read_sp2();
+    if (userport_active) {
+        /* read from new userport system if the device has been registered */
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].read_sp2) {
+                    return userport_device[userport_current_device].read_sp2();
+                }
             }
         }
-    }
 
-    /* return old function */
-    return old_read_userport_sp2(orig);
+        /* return old function */
+        return old_read_userport_sp2(orig);
+    }
+    return 1;
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
