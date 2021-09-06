@@ -1551,38 +1551,11 @@ void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uin
             *blinking = mem_ram[0xa27] ? 0 : 1;
         } else { 
             /* VDC */
-            /*
-              FIXME: somehow working out the cursor position and
-                     blink state can not be done in the same way
-                     as with the other videochips. the problem is
-                     likely that the vdc cursor is not advanced to
-                     the first column of the next line until
-                     actually some characters are being printed.
-                     
-                 6 ready.
-                 7 load"
-                 8 
-                 9 searching for
-                10 loading
-                11 ready.
-                12 run:
-            */
-            int screen_base = (mem_ram[0xe0] + (mem_ram[0xe1] * 256)) & ~0x3ff; /* the upper bits will not change */
+            int screen_base = ((vdc.regs[12] << 8) + vdc.regs[13]) & vdc.vdc_address_mask;
+            int cursor_pos = ((vdc.regs[14] << 8) + vdc.regs[15]) & vdc.vdc_address_mask;
             *line_length = vdc.regs[1];
-            *screen_addr = screen_base + (mem_ram[0xeb] * *line_length);
-            *cursor_column = (vdc.crsrpos - *screen_addr) % *line_length;
-#if 0
-            /* HACK: put cursor on start of line when its after "searching for" */
-            if ((*screen_addr == 0x2d0) && (*cursor_column >= 15)) {
-                *cursor_column = 0;
-            }
-
-            /* HACK: put cursor on start of line when its after "loading" */
-            if ((*screen_addr == 0x320) && (*cursor_column >= 7)) {
-                *cursor_column = 0;
-            }
-#endif
-            /* *blinking = *cursor_column == 0 ? 1 : 0; */
+            *cursor_column = (cursor_pos - screen_base) % *line_length;
+            *screen_addr = screen_base + (((cursor_pos - screen_base) / *line_length) * *line_length);
             *blinking = ((vdc.regs[10] & 0x60) == 0x20) ? 0 : 1;
         }
     }
