@@ -997,13 +997,11 @@ static const struct userport_opt_s id_match[] = {
     { "58321rtc",         USERPORT_DEVICE_RTC_58321A },
     { "rtc58321a",        USERPORT_DEVICE_RTC_58321A },
     { "rtc58321",         USERPORT_DEVICE_RTC_58321A },
-#if 0
     { "15",               USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307",           USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307rtc",        USERPORT_DEVICE_RTC_DS1307 },
     { "rtcds1307",        USERPORT_DEVICE_RTC_DS1307 },
     { "rtc1307",          USERPORT_DEVICE_RTC_DS1307 },
-#endif
     { "16",               USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petscii",          USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnes",      USERPORT_DEVICE_PETSCII_SNESPAD },
