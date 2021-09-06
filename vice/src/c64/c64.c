@@ -641,6 +641,10 @@ int machine_resources_init(void)
         init_resource_fail("rs232drv");
         return -1;
     }
+    if (userport_resources_init() < 0) {
+        init_resource_fail("userport devices");
+        return -1;
+    }
     if (rsuser_resources_init() < 0) {
         init_resource_fail("rsuser");
         return -1;
@@ -739,10 +743,6 @@ int machine_resources_init(void)
     }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
-        return -1;
-    }
-    if (userport_resources_init() < 0) {
-        init_resource_fail("userport devices");
         return -1;
     }
     if (gfxoutput_resources_init() < 0) {

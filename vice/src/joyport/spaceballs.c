@@ -71,9 +71,7 @@ static uint8_t spaceballs_grounds = 0xff;
 
 static joyport_t joyport_spaceballs_device;
 
-static old_userport_device_t userport_spaceballs_device;
-
-static old_userport_device_list_t *userport_spaceballs_list_item = NULL;
+static userport_device_t userport_spaceballs_device;
 
 static int joyport_spaceballs_enable(int port, int value)
 {
@@ -84,16 +82,14 @@ static int joyport_spaceballs_enable(int port, int value)
     }
 
     if (val) {
-        userport_spaceballs_list_item = old_userport_device_register(&userport_spaceballs_device);
-        if (userport_spaceballs_list_item == NULL) {
+        if (resources_set_int("UserportDevice", USERPORT_DEVICE_SPACEBALLS) < 0) {
             return -1;
         }
         joystick_adapter_activate(JOYSTICK_ADAPTER_ID_SPACEBALLS, joyport_spaceballs_device.name);
         joystick_adapter_set_ports(8);
     } else {
         joystick_adapter_deactivate();
-        old_userport_device_unregister(userport_spaceballs_list_item);
-        userport_spaceballs_list_item = NULL;
+        resources_set_int("UserportDevice", USERPORT_DEVICE_NONE);
     }
 
     spaceballs_enabled = val;
@@ -146,38 +142,39 @@ static joyport_t joyport_spaceballs_device = {
 
 int joyport_spaceballs_resources_init(void)
 {
-    return joyport_device_register(JOYPORT_ID_SPACEBALLS, &joyport_spaceballs_device);
+    if (joyport_device_register(JOYPORT_ID_SPACEBALLS, &joyport_spaceballs_device) < 0) {
+        return -1;
+    }
+    return userport_device_register(USERPORT_DEVICE_SPACEBALLS, &userport_spaceballs_device);
 }
 
 /* ------------------------------------------------------------------------- */
 
-int userport_spaceballs_enabled = 0;
-
 static void userport_spaceballs_store_pbx(uint8_t value)
 {
-    spaceballs_grounds = value;
+    if (spaceballs_enabled) {
+        spaceballs_grounds = value;
+    }
 }
 
-static old_userport_device_t userport_spaceballs_device = {
-    USERPORT_DEVICE_SPACEBALLS,      /* device id */
-    "Joystick Adapter (Spaceballs)", /* device name */
-    JOYSTICK_ADAPTER_ID_NONE,        /* NOT a joystick adapter, the joyport part is the joystick adapter */
-    NULL,                            /* NO read pb0-pb7 function */
-    userport_spaceballs_store_pbx,   /* store pb0-pb7 function */
-    NULL,                            /* NO read pa2 pin function */
-    NULL,                            /* NO store pa2 pin function */
-    NULL,                            /* NO read pa3 pin function */
-    NULL,                            /* NO store pa3 pin function */
-    0,                               /* pc pin is NOT needed */
-    NULL,                            /* NO store sp1 pin function */
-    NULL,                            /* NO read sp1 pin function */
-    NULL,                            /* NO store sp2 pin function */
-    NULL,                            /* NO read sp2 pin function */
-    NULL,                            /* resource used by the device */
-    0xff,                            /* NO return value */
-    0xff,                            /* validity mask of the device, doesn't change */
-    0,                               /* device involved in a read collision, to be filled in by the collision detection system */
-    0                                /* a tag to indicate the order of insertion */
+static userport_device_t userport_spaceballs_device = {
+    "Joystick Adapter (Spaceballs)",       /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,              /* NOT a joystick adapter, the joyport part is the joystick adapter */
+    USERPORT_DEVICE_TYPE_JOYSTICK_ADAPTER, /* device is sorted as part of the joystick adapters */
+    NULL,                                  /* NO enable function, enable does nothing unless joyport part is also enabled */
+    NULL,                                  /* NO read pb0-pb7 function */
+    userport_spaceballs_store_pbx,         /* store pb0-pb7 function */
+    NULL,                                  /* NO read pa2 pin function */
+    NULL,                                  /* NO store pa2 pin function */
+    NULL,                                  /* NO read pa3 pin function */
+    NULL,                                  /* NO store pa3 pin function */
+    0,                                     /* pc pin is NOT needed */
+    NULL,                                  /* NO store sp1 pin function */
+    NULL,                                  /* NO read sp1 pin function */
+    NULL,                                  /* NO store sp2 pin function */
+    NULL,                                  /* NO read sp2 pin function */
+    NULL,                                  /* NO snapshot write function */
+    NULL                                   /* NO snapshot read function */
 };
 
 /* ------------------------------------------------------------------------- */

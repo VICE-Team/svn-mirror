@@ -273,6 +273,10 @@ int machine_resources_init(void)
         init_resource_fail("printer");
         return -1;
     }
+    if (userport_resources_init() < 0) {
+        init_resource_fail("userport devices");
+        return -1;
+    }
     if (printer_userport_resources_init() < 0) {
         init_resource_fail("userport printer");
         return -1;
@@ -299,10 +303,6 @@ int machine_resources_init(void)
     }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
-        return -1;
-    }
-    if (userport_resources_init() < 0) {
-        init_resource_fail("userport devices");
         return -1;
     }
     if (gfxoutput_resources_init() < 0) {
