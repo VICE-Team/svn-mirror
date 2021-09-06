@@ -989,9 +989,9 @@ static const struct userport_opt_s id_match[] = {
     { "digimax",          USERPORT_DEVICE_DIGIMAX },
     { "12",               USERPORT_DEVICE_4BIT_SAMPLER },
     { "4bitsampler",      USERPORT_DEVICE_4BIT_SAMPLER },
-#if 0
     { "13",               USERPORT_DEVICE_8BSS },
     { "8bss",             USERPORT_DEVICE_8BSS },
+#if 0
     { "14",               USERPORT_DEVICE_RTC_58321A },
     { "58321a",           USERPORT_DEVICE_RTC_58321A },
     { "58321artc",        USERPORT_DEVICE_RTC_58321A },
