@@ -141,7 +141,6 @@ static const ui_menu_entry_t vdc_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 
@@ -150,10 +149,6 @@ static const ui_menu_entry_t userport_menu[] = {
     { "Save RTC (58321a) data when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC58321aSave_callback,
-      NULL },
-    { "RTC (DS1307) enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTCDS1307_callback,
       NULL },
     { "Save RTC (DS1307) data when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
