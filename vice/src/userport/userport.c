@@ -985,10 +985,8 @@ static const struct userport_opt_s id_match[] = {
 #endif
     { "10",               USERPORT_DEVICE_DAC },
     { "dac",              USERPORT_DEVICE_DAC },
-#if 0
     { "11",               USERPORT_DEVICE_DIGIMAX },
     { "digimax",          USERPORT_DEVICE_DIGIMAX },
-#endif
     { "12",               USERPORT_DEVICE_4BIT_SAMPLER },
     { "4bitsampler",      USERPORT_DEVICE_4BIT_SAMPLER },
 #if 0
