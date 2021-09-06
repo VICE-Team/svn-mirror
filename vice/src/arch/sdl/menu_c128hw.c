@@ -146,7 +146,6 @@ UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 UI_MENU_DEFINE_TOGGLE(Userport8BSS)
-UI_MENU_DEFINE_TOGGLE(UserportSuperPad64)
 
 static const ui_menu_entry_t userport_menu[] = {
     SDL_MENU_ITEM_TITLE("Userport devices"),
@@ -169,10 +168,6 @@ static const ui_menu_entry_t userport_menu[] = {
     { "Save RTC (DS1307) data when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTCDS1307Save_callback,
-      NULL },
-    { "SuperPad64 enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportSuperPad64_callback,
       NULL },
     SDL_MENU_LIST_END
 };

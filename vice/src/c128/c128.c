@@ -1104,10 +1104,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport 8bit stereo sampler");
         return -1;
     }
-    if (userport_superpad64_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport superpad64");
-        return -1;
-    }
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     if (userport_diag_586220_harness_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport diag 586220 harness");

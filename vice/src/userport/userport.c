@@ -1011,10 +1011,10 @@ static const struct userport_opt_s id_match[] = {
 #if 0
     { "17",               USERPORT_DEVICE_SPACEBALLS },
     { "spaceballs",       USERPORT_DEVICE_SPACEBALLS },
+#endif
     { "18",               USERPORT_DEVICE_SUPERPAD64 },
     { "superpad",         USERPORT_DEVICE_SUPERPAD64 },
     { "superpad64",       USERPORT_DEVICE_SUPERPAD64 },
-#endif
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     { "19",               USERPORT_DEVICE_DIAG_586220_HARNESS },
     { "diag",             USERPORT_DEVICE_DIAG_586220_HARNESS },
