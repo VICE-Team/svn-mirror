@@ -32,6 +32,5 @@
 extern int userport_diag_586220_harness_enable;
 
 extern int userport_diag_586220_harness_resources_init(void);
-extern int userport_diag_586220_harness_cmdline_options_init(void);
 
 #endif
