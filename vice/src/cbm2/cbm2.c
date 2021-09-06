@@ -615,10 +615,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport joystick");
         return -1;
     }
-    if (userport_digimax_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport digimax");
-        return -1;
-    }
     if (userport_superpad64_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport superpad64");
         return -1;

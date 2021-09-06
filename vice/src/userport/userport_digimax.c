@@ -72,36 +72,27 @@ static void userport_digimax_store_pa2(uint8_t value);
 static void userport_digimax_store_pa3(uint8_t value);
 static int userport_digimax_write_snapshot_module(snapshot_t *s);
 static int userport_digimax_read_snapshot_module(snapshot_t *s);
+static int digimax_enable(int value);
 
-static old_userport_device_t digimax_device = {
-    USERPORT_DEVICE_DIGIMAX,    /* device id */
-    "Userport DigiMAX",         /* device name */
-    JOYSTICK_ADAPTER_ID_NONE,   /* NOT a joystick adapter */
-    NULL,                       /* NO read pb0-pb7 function */
-    userport_digimax_store_pbx, /* store pb0-pb7 function */
-    NULL,                       /* NO read pa2 pin function */
-    userport_digimax_store_pa2, /* store pa2 pin function */
-    NULL,                       /* NO read pa3 pin function */
-    userport_digimax_store_pa3, /* store pa3 pin function */
-    1,                          /* pc pin is needed */
-    NULL,                       /* NO store sp1 pin function */
-    NULL,                       /* NO read sp1 pin function */
-    NULL,                       /* NO store sp2 pin function */
-    NULL,                       /* NO read sp2 pin function */
-    "UserportDigiMax",          /* resource used by the device */
-    0xff,                       /* return value from a read, not used since the device is write only */
-    0x0f,                       /* validity mask of the device, doesn't change */
-    0,                          /* device involved in a read collision, to be filled in by the collision detection system */
-    0                           /* a tag to indicate the order of insertion */
+static userport_device_t digimax_device = {
+    "Userport DigiMAX",                     /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,               /* NOT a joystick adapter */
+    USERPORT_DEVICE_TYPE_AUDIO_OUTPUT,      /* device is an audio output */
+    digimax_enable,                         /* enable function */
+    NULL,                                   /* NO read pb0-pb7 function */
+    userport_digimax_store_pbx,             /* store pb0-pb7 function */
+    NULL,                                   /* NO read pa2 pin function */
+    userport_digimax_store_pa2,             /* store pa2 pin function */
+    NULL,                                   /* NO read pa3 pin function */
+    userport_digimax_store_pa3,             /* store pa3 pin function */
+    1,                                      /* pc pin is needed */
+    NULL,                                   /* NO store sp1 pin function */
+    NULL,                                   /* NO read sp1 pin function */
+    NULL,                                   /* NO store sp2 pin function */
+    NULL,                                   /* NO read sp2 pin function */
+    userport_digimax_write_snapshot_module, /* snapshot write function */
+    userport_digimax_read_snapshot_module   /* snapshot read function */
 };
-
-static old_userport_snapshot_t digimax_snapshot = {
-    USERPORT_DEVICE_DIGIMAX,
-    userport_digimax_write_snapshot_module,
-    userport_digimax_read_snapshot_module
-};
-
-static old_userport_device_list_t *userport_digimax_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -149,18 +140,13 @@ static void userport_digimax_store_pbx(uint8_t value)
 
 /* ---------------------------------------------------------------------*/
 
-static int set_digimax_enabled(int value, void *param)
+static int digimax_enable(int value)
 {
     int val = value ? 1 : 0;
 
     if (!digimax_sound_chip.chip_enabled && val) {
-        userport_digimax_list_item = old_userport_device_register(&digimax_device);
         digimax_sound_chip.chip_enabled = 1;
     } else if (digimax_sound_chip.chip_enabled && !val) {
-        if (userport_digimax_list_item != NULL) {
-            old_userport_device_unregister(userport_digimax_list_item);
-            userport_digimax_list_item = NULL;
-        }
         digimax_sound_chip.chip_enabled = 0;
     }
     return 0;
@@ -168,35 +154,9 @@ static int set_digimax_enabled(int value, void *param)
 
 /* ---------------------------------------------------------------------*/
 
-static const resource_int_t resources_int[] = {
-    { "UserportDIGIMAX", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &digimax_sound_chip.chip_enabled, set_digimax_enabled, NULL },
-    RESOURCE_INT_LIST_END
-};
-
 int userport_digimax_resources_init(void)
 {
-    old_userport_snapshot_register(&digimax_snapshot);
-
-    return resources_register_int(resources_int);
-}
-
-/* ---------------------------------------------------------------------*/
-
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-userportdigimax", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "UserportDIGIMAX", (resource_value_t)1,
-      NULL, "Enable the userport DigiMAX device" },
-    { "+userportdigimax", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "UserportDIGIMAX", (resource_value_t)0,
-      NULL, "Disable the userport DigiMAX device" },
-    CMDLINE_LIST_END
-};
-
-int userport_digimax_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
+    return userport_device_register(USERPORT_DEVICE_DIGIMAX, &digimax_device);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -213,12 +173,17 @@ int userport_digimax_cmdline_options_init(void)
    BYTE  | voice 3 | voice 3 data
  */
 
+/* FIXME */
+#if 0
 static char snap_module_name[] = "USERPORT_DIGIMAX";
+#endif
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 static int userport_digimax_write_snapshot_module(snapshot_t *s)
 {
+/* FIXME */
+#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
@@ -238,10 +203,14 @@ static int userport_digimax_write_snapshot_module(snapshot_t *s)
         return -1;
     }
     return snapshot_module_close(m);
+#endif
+    return 0;
 }
 
 static int userport_digimax_read_snapshot_module(snapshot_t *s)
 {
+/* FIXME */
+#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
@@ -274,4 +243,6 @@ static int userport_digimax_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
+#endif
+    return 0;
 }
