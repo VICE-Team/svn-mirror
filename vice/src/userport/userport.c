@@ -1006,10 +1006,6 @@ static const struct userport_opt_s id_match[] = {
     { "petscii",          USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnes",      USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnespad",   USERPORT_DEVICE_PETSCII_SNESPAD },
-#if 0
-    { "17",               USERPORT_DEVICE_SPACEBALLS },
-    { "spaceballs",       USERPORT_DEVICE_SPACEBALLS },
-#endif
     { "18",               USERPORT_DEVICE_SUPERPAD64 },
     { "superpad",         USERPORT_DEVICE_SUPERPAD64 },
     { "superpad64",       USERPORT_DEVICE_SUPERPAD64 },

@@ -426,6 +426,10 @@ int machine_resources_init(void)
         init_resource_fail("printer");
         return -1;
     }
+    if (userport_resources_init() < 0) {
+        init_resource_fail("userport devices");
+        return -1;
+    }
 /* FIXME: Add userport printer support to xplus4 */
 #if 0
     if (printer_userport_resources_init() < 0) {
@@ -483,10 +487,6 @@ int machine_resources_init(void)
     }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
-        return -1;
-    }
-    if (userport_resources_init() < 0) {
-        init_resource_fail("userport devices");
         return -1;
     }
     if (userport_joystick_resources_init() < 0) {
