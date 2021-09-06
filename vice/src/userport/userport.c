@@ -991,13 +991,13 @@ static const struct userport_opt_s id_match[] = {
     { "4bitsampler",      USERPORT_DEVICE_4BIT_SAMPLER },
     { "13",               USERPORT_DEVICE_8BSS },
     { "8bss",             USERPORT_DEVICE_8BSS },
-#if 0
     { "14",               USERPORT_DEVICE_RTC_58321A },
     { "58321a",           USERPORT_DEVICE_RTC_58321A },
     { "58321artc",        USERPORT_DEVICE_RTC_58321A },
     { "58321rtc",         USERPORT_DEVICE_RTC_58321A },
     { "rtc58321a",        USERPORT_DEVICE_RTC_58321A },
     { "rtc58321",         USERPORT_DEVICE_RTC_58321A },
+#if 0
     { "15",               USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307",           USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307rtc",        USERPORT_DEVICE_RTC_DS1307 },
