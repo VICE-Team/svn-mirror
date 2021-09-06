@@ -283,7 +283,6 @@ static const ui_menu_entry_t pet_keyboard_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(UserportDAC)
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
@@ -292,10 +291,6 @@ UI_MENU_DEFINE_TOGGLE(UserportPetsciiSNESPad)
 
 static const ui_menu_entry_t userport_menu[] = {
     SDL_MENU_ITEM_TITLE("Userport devices"),
-    { "8 bit DAC enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportDAC_callback,
-      NULL },
     { "RTC (58321a) enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC58321a_callback,

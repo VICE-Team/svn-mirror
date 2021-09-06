@@ -549,10 +549,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport joystick");
         return -1;
     }
-    if (userport_dac_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport dac");
-        return -1;
-    }
     if (userport_rtc_58321a_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport rtc (58321a)");
         return -1;

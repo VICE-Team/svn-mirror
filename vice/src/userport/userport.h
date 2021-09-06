@@ -62,6 +62,19 @@ enum {
     USERPORT_MAX_DEVICES
 };
 
+enum {
+    USERPORT_DEVICE_TYPE_NONE = 0,
+    USERPORT_DEVICE_TYPE_PRINTER,
+    USERPORT_DEVICE_TYPE_MODEM,
+    USERPORT_DEVICE_TYPE_JOYSTICK_ADAPTER,
+    USERPORT_DEVICE_TYPE_AUDIO_OUTPUT,
+    USERPORT_DEVICE_TYPE_SAMPLER,
+    USERPORT_DEVICE_TYPE_RTC,
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
+    USERPORT_DEVICE_TYPE_HARNESS,
+#endif
+};
+
 /* this structure is used by OLD userport devices */
 typedef struct old_userport_device_s {
     /* ID of the device */
@@ -134,7 +147,7 @@ typedef struct userport_device_s {
     int device_type;
 
     /* Device enable/disable */
-    int (*enable)(int val);
+    void (*enable)(int val);
 
     /* Read pb0-7 pins */
     void (*read_pbx)(void);
@@ -173,7 +186,7 @@ typedef struct userport_device_s {
     int (*write_snapshot)(struct snapshot_s *s);
 
     /* Snapshot read */
-    int (*read_snapshot)(struct snapshot_s *s, int port);  /* pointer to the device snapshot read function */
+    int (*read_snapshot)(struct snapshot_s *s);  /* pointer to the device snapshot read function */
 
     /* return value of a read */
     uint8_t retval;
