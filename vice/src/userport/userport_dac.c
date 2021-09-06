@@ -105,89 +105,42 @@ void userport_dac_sound_chip_init(void)
 static void userport_dac_store_pbx(uint8_t value);
 static int userport_dac_write_snapshot_module(snapshot_t *s);
 static int userport_dac_read_snapshot_module(snapshot_t *s);
+static void userport_dac_enable(int val);
 
-static old_userport_device_t dac_device = {
-    USERPORT_DEVICE_DAC,      /* device id */
-    "Userport DAC",           /* device name */
-    JOYSTICK_ADAPTER_ID_NONE, /* NOT a joystick adapter */
-    NULL,                     /* NO read pb0-pb7 function */
-    userport_dac_store_pbx,   /* store pb0-pb7 function */
-    NULL,                     /* NO read pa2 pin function */
-    NULL,                     /* NO store pa2 pin function */
-    NULL,                     /* NO read pa3 pin function */
-    NULL,                     /* NO store pa3 pin function */
-    0,                        /* pc pin is NOT needed */
-    NULL,                     /* NO store sp1 pin function */
-    NULL,                     /* NO read sp1 pin function */
-    NULL,                     /* NO store sp2 pin function */
-    NULL,                     /* NO read sp2 pin function */
-    "UserportDAC",            /* resource used by the device */
-    0xff,                     /* return value from a read, not used since the device is write only */
-    0,                        /* validity mask of the device, not used since the device is write only */
-    0,                        /* device involved in a read collision, to be filled in by the collision detection system */
-    0                         /* a tag to indicate the order of insertion */
+static userport_device_t dac_device = {
+    "Userport DAC",                     /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,           /* NOT a joystick adapter */
+    USERPORT_DEVICE_TYPE_AUDIO_OUTPUT,  /* device is an audio output */
+    userport_dac_enable,                /* enable function */
+    NULL,                               /* NO read pb0-pb7 function */
+    userport_dac_store_pbx,             /* store pb0-pb7 function */
+    NULL,                               /* NO read pa2 pin function */
+    NULL,                               /* NO store pa2 pin function */
+    NULL,                               /* NO read pa3 pin function */
+    NULL,                               /* NO store pa3 pin function */
+    0,                                  /* pc pin is NOT needed */
+    NULL,                               /* NO store sp1 pin function */
+    NULL,                               /* NO read sp1 pin function */
+    NULL,                               /* NO store sp2 pin function */
+    NULL,                               /* NO read sp2 pin function */
+    userport_dac_write_snapshot_module, /* snapshot write function */
+    userport_dac_read_snapshot_module,  /* snapshot read function */
+    0xff,                               /* return value from a read, not used since the device is write only */
+    0                                   /* validity mask of the device, not used since the device is write only */
 };
-
-static old_userport_snapshot_t dac_snapshot = {
-    USERPORT_DEVICE_DAC,
-    userport_dac_write_snapshot_module,
-    userport_dac_read_snapshot_module
-};
-
-static old_userport_device_list_t *userport_dac_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
-static int set_userport_dac_enabled(int value, void *param)
+static void userport_dac_enable(int value)
 {
     int val = (value) ? 1 : 0;
 
-    if (val == userport_dac_sound_chip.chip_enabled) {
-        return 0;
-    }
-
-    if (val) {
-        userport_dac_list_item = old_userport_device_register(&dac_device);
-        if (userport_dac_list_item == NULL) {
-            return -1;
-        }
-    } else {
-        old_userport_device_unregister(userport_dac_list_item);
-        userport_dac_list_item = NULL;
-    }
-
     userport_dac_sound_chip.chip_enabled = val;
-
-    return 0;
 }
-
-static const resource_int_t resources_int[] = {
-    { "UserportDAC", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &userport_dac_sound_chip.chip_enabled, set_userport_dac_enabled, NULL },
-    RESOURCE_INT_LIST_END
-};
 
 int userport_dac_resources_init(void)
 {
-    old_userport_snapshot_register(&dac_snapshot);
-
-    return resources_register_int(resources_int);
-}
-
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-userportdac", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "UserportDAC", (resource_value_t)1,
-      NULL, "Enable Userport DAC for sound output" },
-    { "+userportdac", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "UserportDAC", (resource_value_t)0,
-      NULL, "Disable Userport DAC for sound output" },
-    CMDLINE_LIST_END
-};
-
-int userport_dac_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
+    return userport_device_register(USERPORT_DEVICE_DAC, &dac_device);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -245,12 +198,17 @@ static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk)
    BYTE  | voice      | voice
  */
 
+/* FIXME */
+#if 0
 static char snap_module_name[] = "USERPORT_DAC";
+#endif
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 static int userport_dac_write_snapshot_module(snapshot_t *s)
 {
+/* FIXME */
+#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
@@ -266,10 +224,14 @@ static int userport_dac_write_snapshot_module(snapshot_t *s)
         return -1;
     }
     return snapshot_module_close(m);
+#endif
+    return 0;
 }
 
 static int userport_dac_read_snapshot_module(snapshot_t *s)
 {
+/* FIXME */
+#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
@@ -298,4 +260,6 @@ static int userport_dac_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
+#endif
+    return 0;
 }

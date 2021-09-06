@@ -678,10 +678,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport joystick");
         return -1;
     }
-    if (userport_dac_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport dac");
-        return -1;
-    }
     if (gfxoutput_cmdline_options_init() < 0) {
         init_cmdline_options_fail("gfxoutput");
         return -1;

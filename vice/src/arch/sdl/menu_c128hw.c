@@ -141,7 +141,6 @@ static const ui_menu_entry_t vdc_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(UserportDAC)
 UI_MENU_DEFINE_TOGGLE(UserportDIGIMAX)
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307)
 UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
@@ -154,10 +153,6 @@ UI_MENU_DEFINE_TOGGLE(UserportSuperPad64)
 
 static const ui_menu_entry_t userport_menu[] = {
     SDL_MENU_ITEM_TITLE("Userport devices"),
-    { "8 bit DAC enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportDAC_callback,
-      NULL },
     { "DigiMAX enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportDIGIMAX_callback,

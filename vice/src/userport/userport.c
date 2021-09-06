@@ -160,7 +160,6 @@ int userport_device_register(int id, userport_device_t *device)
         userport_device[id].read_snapshot = device->read_snapshot;
         return 0;
     }
-
     return -1;
 }
 
@@ -369,6 +368,7 @@ userport_desc_t *userport_get_valid_devices(int sort)
         }
     }
 
+
     retval = lib_malloc(((size_t)valid + 1) * sizeof(userport_desc_t));
     for (i = 0; i < USERPORT_MAX_DEVICES; ++i) {
         if (userport_device[i].name) {
@@ -449,6 +449,7 @@ uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
                     rv = userport_device[userport_current_device].retval;
                     rv |= ~rm;
                     retval &= rv;
+                    return retval;
                 }
             }
         }
@@ -479,6 +480,7 @@ void store_userport_pbx(uint8_t val)
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].store_pbx) {
                 userport_device[userport_current_device].store_pbx(val);
+                return;
             }
         }
     }
@@ -577,6 +579,7 @@ void store_userport_pa2(uint8_t val)
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].store_pa2) {
                 userport_device[userport_current_device].store_pa2(val);
+                return;
             }
         }
     }
@@ -675,6 +678,7 @@ void store_userport_pa3(uint8_t val)
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].store_pa3) {
                 userport_device[userport_current_device].store_pa3(val);
+                return;
             }
         }
     }
@@ -713,6 +717,7 @@ void store_userport_sp1(uint8_t val)
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].store_sp1) {
                 userport_device[userport_current_device].store_sp1(val);
+                return;
             }
         }
     }
@@ -812,6 +817,7 @@ void store_userport_sp2(uint8_t val)
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].store_sp2) {
                 userport_device[userport_current_device].store_sp2(val);
+                return;
             }
         }
     }
@@ -960,6 +966,10 @@ static const resource_int_t resources_int[] = {
 
 int userport_resources_init(void)
 {
+    memset(userport_device, 0, sizeof(userport_device));
+    userport_device[0].name = "None";
+    userport_device[0].joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
+
     if (resources_register_int(old_resources_int) < 0) {
         return -1;
     }
@@ -975,10 +985,6 @@ void userport_resources_shutdown(void)
 {
     old_userport_device_list_t *current = userport_head.next;
     old_userport_snapshot_list_t *c = userport_snapshot_head.next;
-
-    memset(userport_device, 0, sizeof(userport_device));
-    userport_device[0].name = "None";
-    userport_device[0].joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
 
     while (current) {
         old_userport_device_unregister(current);
@@ -996,12 +1002,10 @@ struct userport_opt_s {
     int id;
 };
 
-
-/* no new cmdline options yet */
-#if 0
 static const struct userport_opt_s id_match[] = {
     { "0",                USERPORT_DEVICE_NONE },
     { "none",             USERPORT_DEVICE_NONE },
+#if 0
     { "1",                USERPORT_DEVICE_PRINTER },
     { "printer",          USERPORT_DEVICE_PRINTER },
     { "plotter",          USERPORT_DEVICE_PRINTER },
@@ -1040,8 +1044,10 @@ static const struct userport_opt_s id_match[] = {
     { "synergy",          USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoy",       USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoystick",  USERPORT_DEVICE_JOYSTICK_SYNERGY },
+#endif
     { "10",               USERPORT_DEVICE_DAC },
     { "dac",              USERPORT_DEVICE_DAC },
+#if 0
     { "11",               USERPORT_DEVICE_DIGIMAX },
     { "digimax",          USERPORT_DEVICE_DIGIMAX },
     { "12",               USERPORT_DEVICE_4BIT_SAMPLER },
@@ -1068,6 +1074,7 @@ static const struct userport_opt_s id_match[] = {
     { "18",               USERPORT_DEVICE_SUPERPAD64 },
     { "superpad",         USERPORT_DEVICE_SUPERPAD64 },
     { "superpad64",       USERPORT_DEVICE_SUPERPAD64 },
+#endif
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     { "19",               USERPORT_DEVICE_DIAG_586220_HARNESS },
     { "diag",             USERPORT_DEVICE_DIAG_586220_HARNESS },
@@ -1099,7 +1106,7 @@ static int set_userport_cmdline_device(const char *param, void *extra_param)
     return set_userport_device(temp, NULL);
 }
 
-static char *build_userport_string(void)
+static char *build_userport_string(int something)
 {
     int i = 0;
     char *tmp1;
@@ -1120,7 +1127,6 @@ static char *build_userport_string(void)
     lib_free(devices);
     return tmp2;
 }
-#endif
 
 static const cmdline_option_t old_cmdline_options[] =
 {
@@ -1131,7 +1137,6 @@ static const cmdline_option_t old_cmdline_options[] =
 };
 
 /* no new cmdline options yet */
-#if 0
 static cmdline_option_t cmdline_options[] =
 {
     { "-userportdevice", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
@@ -1139,12 +1144,9 @@ static cmdline_option_t cmdline_options[] =
       "Device", NULL },
     CMDLINE_LIST_END
 };
-#endif
 
 int userport_cmdline_options_init(void)
 {
-/* no new cmdline options yet */
-#if 0
     union char_func cf;
 
     cf.f = build_userport_string;
@@ -1153,7 +1155,6 @@ int userport_cmdline_options_init(void)
     if (cmdline_register_options(cmdline_options) < 0) {
         return -1;
     }
-#endif
     return cmdline_register_options(old_cmdline_options);
 }
 
