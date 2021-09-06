@@ -332,7 +332,9 @@ static int userport_set_device(int id)
         userport_device[userport_current_device].enable(0);
     }
     if (userport_device[id].enable) {
-        userport_device[id].enable(1);
+        if (userport_device[id].enable(1) < 0) {
+            return -1;
+        }
     }
     userport_current_device = id;
 
@@ -434,23 +436,11 @@ static uint8_t old_read_userport_pbx(uint8_t mask, uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
 {
-    uint8_t retval = 0xff;
-    uint8_t rm;
-    uint8_t rv;
-
     /* read from new userport system if the device has been registered */
     if (userport_current_device != USERPORT_DEVICE_NONE) {
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].read_pbx) {
-                userport_device[userport_current_device].read_pbx();
-                rm = userport_device[userport_current_device].mask;
-                rm &= mask;
-                if (rm) {
-                    rv = userport_device[userport_current_device].retval;
-                    rv |= ~rm;
-                    retval &= rv;
-                    return retval;
-                }
+                return userport_device[userport_current_device].read_pbx();
             }
         }
     }
@@ -532,24 +522,11 @@ static uint8_t old_read_userport_pa2(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_pa2(uint8_t orig)
 {
-    uint8_t mask = 1;
-    uint8_t rm;
-    uint8_t rv;
-    uint8_t retval = 0xff;
-
     /* read from new userport system if the device has been registered */
     if (userport_current_device != USERPORT_DEVICE_NONE) {
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].read_pa2) {
-                userport_device[userport_current_device].read_pa2();
-                rm = userport_device[userport_current_device].mask;
-                rm &= mask;
-                if (rm) {
-                    rv = userport_device[userport_current_device].retval;
-                    rv |= ~rm;
-                    retval &= rv;
-                    return retval;
-                }
+                return userport_device[userport_current_device].read_pa2();
             }
         }
     }
@@ -631,24 +608,11 @@ static uint8_t old_read_userport_pa3(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_pa3(uint8_t orig)
 {
-    uint8_t mask = 1;
-    uint8_t rm;
-    uint8_t rv;
-    uint8_t retval = 0xff;
-
     /* read from new userport system if the device has been registered */
     if (userport_current_device != USERPORT_DEVICE_NONE) {
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].read_pa3) {
-                userport_device[userport_current_device].read_pa3();
-                rm = userport_device[userport_current_device].mask;
-                rm &= mask;
-                if (rm) {
-                    rv = userport_device[userport_current_device].retval;
-                    rv |= ~rm;
-                    retval &= rv;
-                    return retval;
-                }
+                return userport_device[userport_current_device].read_pa3();
             }
         }
     }
@@ -770,24 +734,11 @@ static uint8_t old_read_userport_sp1(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_sp1(uint8_t orig)
 {
-    uint8_t mask = 0xff;
-    uint8_t rm;
-    uint8_t rv;
-    uint8_t retval = 0xff;
-
     /* read from new userport system if the device has been registered */
     if (userport_current_device != USERPORT_DEVICE_NONE) {
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].read_sp1) {
-                userport_device[userport_current_device].read_sp1();
-                rm = userport_device[userport_current_device].mask;
-                rm &= mask;
-                if (rm) {
-                    rv = userport_device[userport_current_device].retval;
-                    rv |= ~rm;
-                    retval &= rv;
-                    return retval;
-                }
+                return userport_device[userport_current_device].read_sp1();
             }
         }
     }
@@ -870,24 +821,11 @@ static uint8_t old_read_userport_sp2(uint8_t orig)
 /* orig variable needs to be removed once the transition is done */
 uint8_t read_userport_sp2(uint8_t orig)
 {
-    uint8_t mask = 0xff;
-    uint8_t rm;
-    uint8_t rv;
-    uint8_t retval = 0xff;
-
     /* read from new userport system if the device has been registered */
     if (userport_current_device != USERPORT_DEVICE_NONE) {
         if (userport_device[userport_current_device].name) {
             if (userport_device[userport_current_device].read_sp2) {
-                userport_device[userport_current_device].read_sp2();
-                rm = userport_device[userport_current_device].mask;
-                rm &= mask;
-                if (rm) {
-                    rv = userport_device[userport_current_device].retval;
-                    rv |= ~rm;
-                    retval &= rv;
-                    return retval;
-                }
+                return userport_device[userport_current_device].read_sp2();
             }
         }
     }
@@ -1065,10 +1003,12 @@ static const struct userport_opt_s id_match[] = {
     { "ds1307rtc",        USERPORT_DEVICE_RTC_DS1307 },
     { "rtcds1307",        USERPORT_DEVICE_RTC_DS1307 },
     { "rtc1307",          USERPORT_DEVICE_RTC_DS1307 },
+#endif
     { "16",               USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petscii",          USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnes",      USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnespad",   USERPORT_DEVICE_PETSCII_SNESPAD },
+#if 0
     { "17",               USERPORT_DEVICE_SPACEBALLS },
     { "spaceballs",       USERPORT_DEVICE_SPACEBALLS },
     { "18",               USERPORT_DEVICE_SUPERPAD64 },

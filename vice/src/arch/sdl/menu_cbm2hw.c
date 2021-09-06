@@ -274,7 +274,6 @@ UI_MENU_DEFINE_TOGGLE(UserportRTC58321a)
 UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
 UI_MENU_DEFINE_TOGGLE(Userport4bitSampler)
 UI_MENU_DEFINE_TOGGLE(Userport8BSS)
-UI_MENU_DEFINE_TOGGLE(UserportPetsciiSNESPad)
 UI_MENU_DEFINE_TOGGLE(UserportSuperPad64)
 
 static const ui_menu_entry_t userport_menu[] = {
@@ -306,10 +305,6 @@ static const ui_menu_entry_t userport_menu[] = {
     { "8 bit stereo sampler enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_Userport8BSS_callback,
-      NULL },
-    { "Petscii SNES Pad enable",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportPetsciiSNESPad_callback,
       NULL },
     { "SuperPad64 enable",
       MENU_ENTRY_RESOURCE_TOGGLE,

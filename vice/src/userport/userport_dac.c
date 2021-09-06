@@ -105,7 +105,7 @@ void userport_dac_sound_chip_init(void)
 static void userport_dac_store_pbx(uint8_t value);
 static int userport_dac_write_snapshot_module(snapshot_t *s);
 static int userport_dac_read_snapshot_module(snapshot_t *s);
-static void userport_dac_enable(int val);
+static int userport_dac_enable(int val);
 
 static userport_device_t dac_device = {
     "Userport DAC",                     /* device name */
@@ -124,18 +124,18 @@ static userport_device_t dac_device = {
     NULL,                               /* NO store sp2 pin function */
     NULL,                               /* NO read sp2 pin function */
     userport_dac_write_snapshot_module, /* snapshot write function */
-    userport_dac_read_snapshot_module,  /* snapshot read function */
-    0xff,                               /* return value from a read, not used since the device is write only */
-    0                                   /* validity mask of the device, not used since the device is write only */
+    userport_dac_read_snapshot_module   /* snapshot read function */
 };
 
 /* ------------------------------------------------------------------------- */
 
-static void userport_dac_enable(int value)
+static int userport_dac_enable(int value)
 {
     int val = (value) ? 1 : 0;
 
     userport_dac_sound_chip.chip_enabled = val;
+
+    return 0;
 }
 
 int userport_dac_resources_init(void)

@@ -30,6 +30,5 @@
 #include "types.h"
 
 extern int userport_petscii_snespad_resources_init(void);
-extern int userport_petscii_snespad_cmdline_options_init(void);
 
 #endif

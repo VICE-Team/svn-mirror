@@ -899,10 +899,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport superpad64");
         return -1;
     }
-    if (userport_petscii_snespad_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport petscii snes pad");
-        return -1;
-    }
     if (cartio_cmdline_options_init() < 0) {
         init_cmdline_options_fail("cartio");
         return -1;

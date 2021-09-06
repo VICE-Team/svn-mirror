@@ -147,22 +147,22 @@ typedef struct userport_device_s {
     int device_type;
 
     /* Device enable/disable */
-    void (*enable)(int val);
+    int (*enable)(int val);
 
     /* Read pb0-7 pins */
-    void (*read_pbx)(void);
+    uint8_t (*read_pbx)(void);
 
     /* Store pb0-7 pins */
     void (*store_pbx)(uint8_t val);
 
     /* Read pa2 pin */
-    void (*read_pa2)(void);
+    uint8_t (*read_pa2)(void);
 
     /* Store pa2 pin */
     void (*store_pa2)(uint8_t val);
 
     /* Read pa3 pin */
-    void (*read_pa3)(void);
+    uint8_t (*read_pa3)(void);
 
     /* Store pa3 pin */
     void (*store_pa3)(uint8_t val);
@@ -174,25 +174,19 @@ typedef struct userport_device_s {
     void (*store_sp1)(uint8_t val);
 
     /* Read sp1 pin */
-    void (*read_sp1)(void);
+    uint8_t (*read_sp1)(void);
 
     /* Store sp2 pin */
     void (*store_sp2)(uint8_t val);
 
     /* Read sp2 pin */
-    void (*read_sp2)(void);
+    uint8_t (*read_sp2)(void);
 
     /* Snapshot write */
     int (*write_snapshot)(struct snapshot_s *s);
 
     /* Snapshot read */
     int (*read_snapshot)(struct snapshot_s *s);  /* pointer to the device snapshot read function */
-
-    /* return value of a read */
-    uint8_t retval;
-
-    /* validity mask of a read */
-    uint8_t mask;
 } userport_device_t;
 
 /* this structure is used by userport ports */
