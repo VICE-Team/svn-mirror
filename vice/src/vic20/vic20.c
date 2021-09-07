@@ -743,8 +743,24 @@ int machine_resources_init(void)
         init_resource_fail("vic20 ieee488");
         return -1;
     }
-    if (userport_joystick_resources_init() < 0) {
-        init_resource_fail("userport joystick");
+    if (userport_joystick_cga_resources_init() < 0) {
+        init_resource_fail("userport cga joystick");
+        return -1;
+    }
+    if (userport_joystick_pet_resources_init() < 0) {
+        init_resource_fail("userport pet joystick");
+        return -1;
+    }
+    if (userport_joystick_hummer_resources_init() < 0) {
+        init_resource_fail("userport hummer joystick");
+        return -1;
+    }
+    if (userport_joystick_oem_resources_init() < 0) {
+        init_resource_fail("userport oem joystick");
+        return -1;
+    }
+    if (userport_joystick_synergy_resources_init() < 0) {
+        init_resource_fail("userport synergy joystick");
         return -1;
     }
     if (userport_dac_resources_init() < 0) {
@@ -934,10 +950,6 @@ int machine_cmdline_options_init(void)
 #endif
     if (vic20_ieee488_cmdline_options_init() < 0) {
         init_cmdline_options_fail("vic20 ieee488");
-        return -1;
-    }
-    if (userport_joystick_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport joystick");
         return -1;
     }
     if (userport_rtc_58321a_cmdline_options_init() < 0) {

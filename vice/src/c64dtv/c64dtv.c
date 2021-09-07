@@ -548,8 +548,8 @@ int machine_resources_init(void)
         init_resource_fail("drive");
         return -1;
     }
-    if (userport_joystick_resources_init() < 0) {
-        init_resource_fail("userport joystick");
+    if (userport_joystick_hummer_resources_init() < 0) {
+        init_resource_fail("userport hummer joystick");
         return -1;
     }
     if (debugcart_resources_init() < 0) {
@@ -688,10 +688,6 @@ int machine_cmdline_options_init(void)
 #endif
     if (drive_cmdline_options_init() < 0) {
         init_cmdline_options_fail("drive");
-        return -1;
-    }
-    if (userport_joystick_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport_joystick");
         return -1;
     }
     if (debugcart_cmdline_options_init() < 0) {

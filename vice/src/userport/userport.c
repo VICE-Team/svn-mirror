@@ -972,6 +972,7 @@ static const struct userport_opt_s id_match[] = {
     { "1",                USERPORT_DEVICE_PRINTER },
     { "printer",          USERPORT_DEVICE_PRINTER },
     { "plotter",          USERPORT_DEVICE_PRINTER },
+#endif
     { "2",                USERPORT_DEVICE_JOYSTICK_CGA },
     { "cga",              USERPORT_DEVICE_JOYSTICK_CGA },
     { "cgajoy",           USERPORT_DEVICE_JOYSTICK_CGA },
@@ -1007,7 +1008,6 @@ static const struct userport_opt_s id_match[] = {
     { "synergy",          USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoy",       USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoystick",  USERPORT_DEVICE_JOYSTICK_SYNERGY },
-#endif
     { "10",               USERPORT_DEVICE_DAC },
     { "dac",              USERPORT_DEVICE_DAC },
     { "11",               USERPORT_DEVICE_DIGIMAX },
