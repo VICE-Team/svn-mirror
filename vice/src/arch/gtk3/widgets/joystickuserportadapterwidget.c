@@ -39,6 +39,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "userport.h"
 #include "userport_joystick.h"
 
 #include "joystickuserportadapterwidget.h"
@@ -55,13 +56,13 @@ typedef struct adapter_info_s {
 /** \brief  List of available adapters for x64/x64sc/xscpu64/x128
  * */
 static adapter_info_t adapter_list_c64[] = {
-    { "Classical Games/Protovision", USERPORT_JOYSTICK_CGA },
-    { "PET", USERPORT_JOYSTICK_PET },
-    { "Hummer", USERPORT_JOYSTICK_HUMMER },
-    { "OEM", USERPORT_JOYSTICK_OEM },
-    { "Digital Excess/Hitmen", USERPORT_JOYSTICK_HIT },
-    { "Kingsoft", USERPORT_JOYSTICK_KINGSOFT },
-    { "Starbyte", USERPORT_JOYSTICK_STARBYTE },
+    { "Classical Games/Protovision", USERPORT_DEVICE_JOYSTICK_CGA },
+    { "PET", USERPORT_DEVICE_JOYSTICK_PET },
+    { "Hummer", USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "OEM", USERPORT_DEVICE_JOYSTICK_OEM },
+    { "Digital Excess/Hitmen", USERPORT_DEVICE_JOYSTICK_HIT },
+    { "Kingsoft", USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "Starbyte", USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { NULL, -1 }
 };
 
@@ -69,10 +70,10 @@ static adapter_info_t adapter_list_c64[] = {
 /** \brief  List of available adapters for xvic/xpet/xplus4/xcbm
  * */
 static adapter_info_t adapter_list_other[] = {
-    { "Classical Games/Protovision", USERPORT_JOYSTICK_CGA },
-    { "PET", USERPORT_JOYSTICK_PET },
-    { "Hummer", USERPORT_JOYSTICK_HUMMER },
-    { "OEM", USERPORT_JOYSTICK_OEM },
+    { "Classical Games/Protovision", USERPORT_DEVICE_JOYSTICK_CGA },
+    { "PET", USERPORT_DEVICE_JOYSTICK_PET },
+    { "Hummer", USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "OEM", USERPORT_DEVICE_JOYSTICK_OEM },
     { NULL, -1 }
 };
 
