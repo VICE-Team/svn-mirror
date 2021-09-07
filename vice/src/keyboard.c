@@ -415,8 +415,19 @@ static inline int shiftlock_defined(void) {
     return !(shiftl == KEY_NONE);
 }
 
-static void keyboard_key_deshift(void)
+static inline int key_is_modifier(int row, int column) {
+    if ((rshift_defined() && (row == kbd_rshiftrow) && (column == kbd_rshiftcol)) ||
+        (lshift_defined() && (row == kbd_lshiftrow) && (column == kbd_lshiftcol)) ||
+        (lcbm_defined() && (row == kbd_lcbmrow) && (column == kbd_lcbmcol)) ||
+        (lctrl_defined() && (row == kbd_lctrlrow) && (column == kbd_lctrlcol))) {
+        return 1;
+    }
+    return 0;
+}
+
+static void keyboard_key_deshift_all(void)
 {
+    /*printf("keyboard_key_deshift_all\n");*/
     if (lshift_defined()) {
         keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
     }
@@ -431,22 +442,36 @@ static void keyboard_key_deshift(void)
     }
 }
 
+/* FIXME: the following two functions are basically the same thing */
+
+/* handle modifier key press */
 static void keyboard_key_shift(void)
 {
+    int physical_right = (rshift_defined() && (right_shift_down > 0));
+    int physical_left = (lshift_defined() && (left_shift_down > 0));
+
+    /*printf("keyboard_key_shift   left:%d right:%d virtual: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down);*/
+
     if (lshift_defined()) {
         if (left_shift_down > 0
-            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT)
+            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT && !physical_right)
             || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
             keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
         }
     }
     if (rshift_defined()) {
         if (right_shift_down > 0
-            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT)
+            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !physical_left)
             || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
             keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
         }
     }
+
     if (lcbm_defined()) {
         if (left_cbm_down > 0
             || (virtual_cbm_down > 0 && vcbm == KEY_LCBM)) {
@@ -461,6 +486,48 @@ static void keyboard_key_shift(void)
     }
 }
 
+/* handle modifier key release */
+static void keyboard_key_deshift(void)
+{
+    /*printf("keyboard_key_deshift left:%d right:%d virtual: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down);*/
+
+    /* Map shift keys. */
+    if (right_shift_down > 0
+        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !left_shift_down)
+        || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
+        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+    } else {
+        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+    }
+
+    if (left_shift_down > 0
+        || (virtual_shift_down > 0 && vshift == KEY_LSHIFT && !right_shift_down)
+        || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
+        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+    } else {
+        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+    }
+
+    if (lcbm_defined()) {
+        if (left_cbm_down > 0
+            || (virtual_cbm_down > 0 && vcbm == KEY_LCBM)) {
+            keyboard_set_latch_keyarr(kbd_lcbmrow, kbd_lcbmcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_lcbmrow, kbd_lcbmcol, 0);
+        }
+    }
+
+    if (lctrl_defined()) {
+        if (left_ctrl_down > 0
+            || (virtual_ctrl_down > 0 && vctrl == KEY_LCTRL)) {
+            keyboard_set_latch_keyarr(kbd_lctrlrow, kbd_lctrlcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_lctrlrow, kbd_lctrlcol, 0);
+        }
+    }
+}
+
 static int keyboard_key_pressed_matrix(int row, int column, int shift)
 {
     if (row >= 0) {
@@ -468,14 +535,14 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
         key_latch_column = column;
 
         if (shift == NO_SHIFT) {
-            keyboard_key_deshift();
+            keyboard_key_deshift_all();
         } else {
             /* FIXME: somehow make sure virtual shift/cbm/ctrl is really only
                       valid for one combined keypress. the shift/ctrl/cbm
                       status should not get permanently altered by deshifting */
             if (shift & DESHIFT_SHIFT) {
                 /* FIXME: should this really remove ALL modifiers? */
-                keyboard_key_deshift();
+                keyboard_key_deshift_all();
             }
             if (shift & VIRTUAL_SHIFT) {
                 virtual_shift_down = 1;
@@ -513,6 +580,7 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
                 left_ctrl_down = 0;
                 left_cbm_down = 0;
             }
+
             keyboard_key_shift();
 
         }
@@ -677,7 +745,10 @@ void keyboard_key_pressed(signed long key, int mod)
     }
 
     if (latch) {
-        keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
+        /* modifier latching is handled in keyboard_key_shift() */
+        if (!key_is_modifier(key_latch_row, key_latch_column)) {
+            keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
+        }
         if (network_connected()) {
             CLOCK delay = KEYBOARD_RAND();
             network_event_record(EVENT_KEYBOARD_DELAY, (void *)&delay, sizeof(delay));
@@ -746,40 +817,8 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
             }
         }
 
-        /* Map shift keys. */
-        if (right_shift_down > 0
-            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT)
-            || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
-            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
-        } else {
-            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
-        }
+        keyboard_key_deshift();
 
-        if (left_shift_down > 0
-            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT)
-            || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
-            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
-        } else {
-            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
-        }
-
-        if (lcbm_defined()) {
-            if (left_cbm_down > 0
-                || (virtual_cbm_down > 0 && vcbm == KEY_LCBM)) {
-                keyboard_set_latch_keyarr(kbd_lcbmrow, kbd_lcbmcol, 1);
-            } else {
-                keyboard_set_latch_keyarr(kbd_lcbmrow, kbd_lcbmcol, 0);
-            }
-        }
-
-        if (lctrl_defined()) {
-            if (left_ctrl_down > 0
-                || (virtual_ctrl_down > 0 && vctrl == KEY_LCTRL)) {
-                keyboard_set_latch_keyarr(kbd_lctrlrow, kbd_lctrlcol, 1);
-            } else {
-                keyboard_set_latch_keyarr(kbd_lctrlrow, kbd_lctrlcol, 0);
-            }
-        }
         return !skip_release;
     }
 
@@ -843,8 +882,10 @@ void keyboard_key_released(signed long key, int mod)
                                              keyconvmap[i].column,
                                              keyconvmap[i].shift)) {
                 latch = 1;
-                keyboard_set_latch_keyarr(keyconvmap[i].row,
-                                          keyconvmap[i].column, 0);
+                /* modifier latching is handled in keyboard_key_deshift() */
+                if (!key_is_modifier(keyconvmap[i].row, keyconvmap[i].column)) {
+                    keyboard_set_latch_keyarr(keyconvmap[i].row, keyconvmap[i].column, 0);
+                }
                 if (!(keyconvmap[i].shift & ALLOW_OTHER)
                     /*|| (right_shift_down + left_shift_down) == 0*/) {
                     break;
