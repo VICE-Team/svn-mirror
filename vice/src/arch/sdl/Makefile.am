@@ -163,6 +163,8 @@ libarch_a_SOURCES = \
 	menu_speed.h \
 	menu_tape.c \
 	menu_tape.h \
+	menu_userport.c \
+	menu_userport.h \
 	menu_vic20cart.c \
 	menu_vic20cart.h \
 	menu_vic20hw.c \
@@ -203,6 +205,7 @@ libarch_a_SOURCES = \
 	x64dtv_ui.c \
 	x64sc_ui.c \
 	xcbm2_ui.c \
+	xcbm5x0_ui.c \
 	xpet_ui.c \
 	xplus4_ui.c \
 	xscpu64_ui.c \

@@ -1,5 +1,5 @@
 /*
- * x64sc_ui.c - Implementation of the C64SC-specific part of the UI.
+ * xcmb5x0_ui.c - Implementation of the CBM-II-specific part of the UI.
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
@@ -31,23 +31,22 @@
 #include <stdlib.h>
 
 #include "debug.h"
-#include "c64mem.h"
-#include "c64ui.h"
-#include "menu_c64_common_expansions.h"
-#include "menu_c64cart.h"
-#include "menu_c64hw.h"
+#include "cbm2.h"
+#include "cbm2mem.h"
+#include "cbm2ui.h"
+#include "lib.h"
+#include "machine.h"
+#include "menu_cbm2cart.h"
+#include "menu_cbm2hw.h"
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
 #include "menu_edit.h"
-#include "menu_ethernet.h"
-#include "menu_ethernetcart.h"
 #include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
 #include "menu_media.h"
-#include "menu_midi.h"
 #include "menu_monitor.h"
 #include "menu_network.h"
 #include "menu_printer.h"
@@ -60,18 +59,17 @@
 #include "menu_sound.h"
 #include "menu_speed.h"
 #include "menu_tape.h"
-#include "menu_userport.h"
 #include "menu_video.h"
 #include "resources.h"
 #include "ui.h"
 #include "uifonts.h"
 #include "uimenu.h"
-#include "vicii.h"
+#include "videoarch.h"
 #include "vkbd.h"
 
-static UI_MENU_CALLBACK(pause_callback_wrapper);
+static UI_MENU_CALLBACK(pause_callback_wrapper2);
 
-static ui_menu_entry_t x64sc_main_menu[] = {
+static ui_menu_entry_t xcbm5x0_main_menu[] = {
     { "Autostart image",
       MENU_ENTRY_DIALOG,
       autostart_callback,
@@ -87,19 +85,19 @@ static ui_menu_entry_t x64sc_main_menu[] = {
     { "Cartridge",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c64cart_menu },
+      (ui_callback_data_t)cbm2cart_menu }, /* FIXME: is this correct? */
     { "Printer",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)printer_iec_menu },
+      (ui_callback_data_t)printer_ieee_menu },
     { "Machine settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c64sc_hardware_menu },
+      (ui_callback_data_t)cbm5x0_hardware_menu },
     { "Video settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c64sc_video_menu },
+      (ui_callback_data_t)cbm5x0_video_menu },
     { "Sound settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -136,7 +134,7 @@ static ui_menu_entry_t x64sc_main_menu[] = {
 #endif
     { "Pause",
       MENU_ENTRY_OTHER_TOGGLE,
-      pause_callback_wrapper,
+      pause_callback_wrapper2,
       NULL },
     /* Caution: index is hardcoded below */
     { "Advance Frame",
@@ -184,22 +182,22 @@ static ui_menu_entry_t x64sc_main_menu[] = {
 };
 
 #ifdef HAVE_NETWORK
-# define MENU_ADVANCE_FRAME_IDX      16
-# define MENU_VIRTUAL_KEYBOARD_IDX   18
+# define MENU2_ADVANCE_FRAME_IDX      16
+# define MENU2_VIRTUAL_KEYBOARD_IDX   18
 #else
-# define MENU_ADVANCE_FRAME_IDX      15
-# define MENU_VIRTUAL_KEYBOARD_IDX   17
+# define MENU2_ADVANCE_FRAME_IDX      15
+# define MENU2_VIRTUAL_KEYBOARD_IDX   17
 #endif
-static UI_MENU_CALLBACK(pause_callback_wrapper)
+static UI_MENU_CALLBACK(pause_callback_wrapper2)
 {
-    x64sc_main_menu[MENU_ADVANCE_FRAME_IDX].status = 
+    xcbm5x0_main_menu[MENU2_ADVANCE_FRAME_IDX].status = 
         sdl_pause_state || !sdl_menu_state ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
-    x64sc_main_menu[MENU_VIRTUAL_KEYBOARD_IDX].status =
+    xcbm5x0_main_menu[MENU2_VIRTUAL_KEYBOARD_IDX].status =
         sdl_pause_state ? MENU_STATUS_INACTIVE : MENU_STATUS_ACTIVE;
     return pause_callback(activated, param);
 }
 
-static void c64scui_set_menu_params(int index, menu_draw_t *menu_draw)
+static void cbm5x0ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     /* VICII */
     menu_draw->max_text_x = 40;
@@ -211,7 +209,6 @@ static void c64scui_set_menu_params(int index, menu_draw_t *menu_draw)
     menu_draw->color_inactive_red = 2;
     menu_draw->color_active_grey = 15;
     menu_draw->color_inactive_grey = 11;
-
     sdl_ui_set_menu_params = NULL;
 }
 
@@ -219,7 +216,7 @@ static void c64scui_set_menu_params(int index, menu_draw_t *menu_draw)
  *
  * \return  0 on success, -1 on failure
  */
-int c64scui_init_early(void)
+int cbm5x0ui_init_early(void)
 {
     return 0;
 }
@@ -228,29 +225,23 @@ int c64scui_init_early(void)
  *
  * \return  0 on success, -1 on failure
  */
-int c64scui_init(void)
+int cbm5x0ui_init(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s\n", __func__);
-#endif
-
-    sdl_ui_set_menu_params = c64scui_set_menu_params;
-
+    sdl_ui_set_menu_params = cbm5x0ui_set_menu_params;
+    /* p500 has 2 "real" joystickports, and a user port */
     uijoyport_menu_create(1, 1, 1, 1, 1);
-    uiuserport_menu_create(1);
     uisampler_menu_create();
-    uicart_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
     uipalette_menu_create("VICII", NULL);
     uisid_menu_create();
-    uiclockport_rr_mmc_menu_create();
-    uiclockport_ide64_menu_create();
     uimedia_menu_create();
 
-    sdl_ui_set_main_menu(x64sc_main_menu);
-    sdl_ui_font_init("chargen", 0, 0x800, 0);
-    sdl_vkbd_set_vkbd(&vkbd_c64);
+    sdl_ui_set_main_menu(xcbm5x0_main_menu);
+    sdl_video_canvas_switch(1);
+    sdl_ui_font_init("chargen.500", 0, 0x800, 0);
+
+    sdl_vkbd_set_vkbd(&vkbd_cbm2);
 
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();
@@ -259,26 +250,18 @@ int c64scui_init(void)
     return 0;
 }
 
-void c64scui_shutdown(void)
+void cbm5x0ui_shutdown(void)
 {
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
-    uicart_menu_shutdown();
     uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
-    uiuserport_menu_shutdown();
     uimedia_menu_shutdown();
-#ifdef HAVE_MIDI
-    sdl_menu_midi_in_free();
-    sdl_menu_midi_out_free();
-#endif
-
-#ifdef HAVE_RAWNET
-    sdl_menu_ethernet_interface_free();
+#ifdef SDL_DEBUG
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
 #endif
-    sdl_ui_font_shutdown();
 }
