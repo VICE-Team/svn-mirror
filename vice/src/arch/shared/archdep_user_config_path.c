@@ -49,10 +49,6 @@
 # include "shlobj.h"
 #endif
 
-#ifdef HAVE_DEBUG_GTK3UI
-# include "debug_gtk3.h"
-#endif
-
 #include <stddef.h>
 
 #include "lib.h"
@@ -119,13 +115,7 @@ const char *archdep_user_config_path(void)
      */
     if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, szPath))) {
         user_config_dir = archdep_join_paths(szPath, "vice", NULL);
-#ifdef HAVE_DEBUG_GTK3UI
-        debug_gtk3("Got AppData via SHGetFolderPathA(): '%s'.", user_config_dir);
-#endif
     } else {
-#ifdef HAVE_DEBUG_GTK3UI
-        debug_gtk3("Failed to get AppData via SHGetFolderPathA().");
-#endif
         user_config_dir = NULL;
     }
 #else
