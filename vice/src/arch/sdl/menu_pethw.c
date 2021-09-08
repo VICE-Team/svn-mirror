@@ -38,6 +38,7 @@
 #include "menu_ram.h"
 #include "menu_rom.h"
 #include "menu_settings.h"
+#include "menu_userport.h"
 #include "pet.h"
 #include "petmodel.h"
 #include "pet-resources.h"
@@ -283,22 +284,6 @@ static const ui_menu_entry_t pet_keyboard_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
-UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
-
-static const ui_menu_entry_t userport_menu[] = {
-    SDL_MENU_ITEM_TITLE("Userport devices"),
-    { "Save RTC (58321a) data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTC58321aSave_callback,
-      NULL },
-    { "Save RTC (DS1307) data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTCDS1307Save_callback,
-      NULL },
-    SDL_MENU_LIST_END
-};
-
 UI_MENU_DEFINE_TOGGLE(Crtc)
 UI_MENU_DEFINE_TOGGLE(PETHRE)
 
@@ -354,7 +339,7 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_PETHRE_callback,
       NULL },
-    { "Userport devices",
+    { "Userport settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)userport_menu },

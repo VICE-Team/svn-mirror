@@ -54,6 +54,7 @@
 
 #include "menu_sid.h"
 #include "menu_tape.h"
+#include "menu_userport.h"
 
 #ifdef HAVE_RAWNET
 #include "menu_ethernet.h"
@@ -171,22 +172,6 @@ static const ui_menu_entry_t vic20_model_submenu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(UserportRTC58321aSave)
-UI_MENU_DEFINE_TOGGLE(UserportRTCDS1307Save)
-
-static const ui_menu_entry_t userport_menu[] = {
-    SDL_MENU_ITEM_TITLE("Userport devices"),
-    { "Save RTC (58321a) data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTC58321aSave_callback,
-      NULL },
-    { "Save RTC (DS1307) data when changed",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_UserportRTCDS1307Save_callback,
-      NULL },
-    SDL_MENU_LIST_END
-};
-
 UI_MENU_DEFINE_TOGGLE(RAMBlock0)
 UI_MENU_DEFINE_TOGGLE(RAMBlock1)
 UI_MENU_DEFINE_TOGGLE(RAMBlock2)
@@ -243,7 +228,7 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)midi_vic20_menu },
 #endif
-    { "Userport devices",
+    { "Userport settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)userport_menu },

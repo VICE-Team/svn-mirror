@@ -35,6 +35,7 @@
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
+#include "menu_userport.h"
 #include "plus4memhacks.h"
 #include "plus4model.h"
 
@@ -114,11 +115,6 @@ static const ui_menu_entry_t v364speech_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t userport_menu[] = {
-    SDL_MENU_ITEM_TITLE("Userport devices"),
-    SDL_MENU_LIST_END
-};
-
 UI_MENU_DEFINE_RADIO(MemoryHack)
 UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_TOGGLE(Acia1Enable)
@@ -168,7 +164,7 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)rs232_nouser_menu },
 #endif
-    { "Userport devices",
+    { "Userport settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)userport_menu },

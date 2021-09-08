@@ -55,6 +55,7 @@
 #include "menu_sound.h"
 #include "menu_speed.h"
 #include "menu_tape.h"
+#include "menu_userport.h"
 #include "menu_video.h"
 #include "plus4memrom.h"
 #include "plus4ui.h"
@@ -232,6 +233,7 @@ int plus4ui_init(void)
     sdl_ui_set_menu_params = plus4ui_set_menu_params;
     uisampler_menu_create();
     uijoyport_menu_create(1, 1, 1, 1, 0);
+    uiuserport_menu_create(0);
     uidrive_menu_create();
     uikeyboard_menu_create();
     uipalette_menu_create("TED", NULL);
@@ -255,6 +257,7 @@ void plus4ui_shutdown(void)
     uisid_menu_shutdown();
     uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
+    uiuserport_menu_shutdown();
     uimedia_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);

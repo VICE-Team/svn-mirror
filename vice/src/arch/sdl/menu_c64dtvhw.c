@@ -39,6 +39,7 @@
 #include "menu_ram.h"
 #include "menu_rom.h"
 #include "menu_sid.h"
+#include "menu_userport.h"
 #include "uimenu.h"
 
 /* DTV MODEL SELECTION */
@@ -108,6 +109,10 @@ const ui_menu_entry_t c64dtv_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)joystick_c64dtv_menu },
+    { "Userport settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)userport_menu },
 #ifdef HAVE_MOUSE
     { "Mouse emulation",
       MENU_ENTRY_SUBMENU,

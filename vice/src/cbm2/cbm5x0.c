@@ -98,6 +98,7 @@
 #include "traps.h"
 #include "trapthem_snespad.h"
 #include "types.h"
+#include "userport.h"
 #include "vice-event.h"
 #include "vicii.h"
 #include "vicii-resources.h"
@@ -1041,6 +1042,11 @@ int machine_read_snapshot(const char *name, int event_mode)
 int machine_autodetect_psid(const char *name)
 {
     return -1;
+}
+
+userport_desc_t *userport_get_valid_devices(int sort)
+{
+    return NULL;
 }
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
