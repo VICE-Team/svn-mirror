@@ -70,9 +70,6 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     autostart_prg_t *prg;
 
     prg = lib_malloc(sizeof(autostart_prg_t));
-    if (prg == NULL) {
-        return NULL;
-    }
 
     /* get data size of file */
     prg->size = fileio_get_bytes_left(finfo);
@@ -81,6 +78,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     /* read start address */
     if ((fileio_read(finfo, &lo, 1) != 1) || (fileio_read(finfo, &hi, 1) != 1)) {
         log_error(log, "Cannot read start address from '%s'", file_name);
+        lib_free(prg);
         return NULL;
     }
 
@@ -93,15 +91,12 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     end = prg->start_addr + prg->size - 1;
     if (end > 0xffff) {
         log_error(log, "Invalid size of '%s': %" PRIu32, file_name, prg->size);
+        lib_free(prg);
         return NULL;
     }
 
     /* load to memory */
     prg->data = lib_malloc(prg->size);
-    if (prg->data == NULL) {
-        log_error(log, "No memory for '%s'", file_name);
-        return NULL;
-    }
 
     /* copy data to memory */
     ptr = prg->start_addr;
@@ -110,6 +105,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
         if (fileio_read(finfo, &(prg->data[i]), 1) != 1) {
             log_error(log, "Error loading data from '%s'", file_name);
             lib_free(prg->data);
+            lib_free(prg);
             return NULL;
         }
         ptr++;
