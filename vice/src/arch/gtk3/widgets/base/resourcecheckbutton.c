@@ -100,7 +100,7 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
     resource = resource_widget_get_resource_name(check);
     if (resources_get_int(resource, &state) > 0) {
         /* warning */
-        log_error(LOG_ERR, "invalid resource name '%s'\n", resource);
+        log_error(LOG_ERR, "invalid resource name '%s'", resource);
         return;
     }
     /* Whatever value the check button is now, use as the new resource value */
@@ -134,7 +134,7 @@ static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
     resource = resource_widget_get_resource_name(check);
     if (resources_get_int(resource, &state) < 0) {
         /* invalid resource, set state to off */
-        log_error(LOG_ERR, "invalid resource name '%s'\n", resource);
+        log_error(LOG_ERR, "invalid resource name '%s'", resource);
         state = 0;
     }
     /* remember original state for the reset() method */
@@ -349,7 +349,7 @@ gboolean vice_gtk3_resource_check_button_apply(GtkWidget *widget)
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     if (resources_get_int(resource, &current) < 0) {
         /* invalid resource, exit */
-        log_error(LOG_ERR, "invalid resource name'%s'\n", resource);
+        log_error(LOG_ERR, "invalid resource name'%s'", resource);
         return FALSE;
     }
 
@@ -358,7 +358,7 @@ gboolean vice_gtk3_resource_check_button_apply(GtkWidget *widget)
     if (state != current) {
         if (resources_set_int(resource, state ? 1 : 0) < 0) {
             log_error(LOG_ERR,
-                    "setting %s to %s failed\n",
+                    "setting %s to %s failed",
                     resource, state ? "True": "False");
             /* get current resource value (validity of the name has been
              * checked already */
