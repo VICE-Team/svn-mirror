@@ -127,9 +127,14 @@
 #define BLOCK_CMD_WIDTH     16
 
 
+/** \brief  CBM DOS file type strings
+ */
+static const char *cbm_filetypes[] = {
+    "del", "seq", "prg", "usr", "rel", "cbm", "dir", "007" };
+
 /** \brief  Magic bytes for a P00 header
  */
-const char p00_header[] = "C64File";
+static const char p00_header[] = "C64File";
 
 /** \brief  Flags for each virtual drive indicating P00 mode
  *
@@ -2515,10 +2520,8 @@ static int entry_cmd(int nargs, char **args)
         }
         v = slot[SLOT_TYPE_OFFSET];
         printf("\nNext directory T/S: %d/%d\n", slot[0], slot[1]);
-        static char *types[] = {
-            "del", "seq", "prg", "usr", "rel", "cbm", "dir", "007",
-        };
-        printf("Type: 0x%02x: %s", v, types[v & 7]);
+
+        printf("Type: 0x%02x: %s", v, cbm_filetypes[v & 7]);
         if (v & CBMDOS_FT_REPLACEMENT) {
             printf(" @replacement");
         }
