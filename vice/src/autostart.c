@@ -126,6 +126,8 @@ log_t autostart_log = LOG_ERR;
 static int orig_drive_true_emulation_state = -1;
 /* Flag: were device traps turned on when we started booting the disk image?  */
 static int orig_device_traps_state = -1;
+/* Flag: was iec device turned on when we started booting the disk image?  */
+static int orig_iec_device_state = -1;
 /* Flag: warp mode state before booting */
 static int orig_warp_mode = -1;
 static int orig_FileSystemDevice8 = -1;
@@ -546,6 +548,30 @@ static int get_true_drive_emulation_state(int unit)
     return value;
 }
 
+static void set_iec_device_state(int on, int unit)
+{
+    if ((machine_class != VICE_MACHINE_PET) &&
+        (machine_class != VICE_MACHINE_CBM5x0) &&
+        (machine_class != VICE_MACHINE_CBM6x0)) {
+        log_message(autostart_log, "Turning IECDevice %s for unit %d.", on ? "on" : "off", unit);
+        resources_set_int_sprintf("IECDevice%d", on, unit);
+    }
+}
+
+static int get_iec_device_state(int unit)
+{
+    int value = 0;
+
+    if ((machine_class != VICE_MACHINE_PET) &&
+        (machine_class != VICE_MACHINE_CBM5x0) &&
+        (machine_class != VICE_MACHINE_CBM6x0)) {
+        if (resources_get_int_sprintf("IECDevice%d", &value, unit) < 0) {
+            return 0;
+        }
+    }
+    return value;
+}
+
 static void set_warp_mode(int on)
 {
     log_message(autostart_log, "Turning Warp mode %s.", on ? "on" : "off");
@@ -642,14 +668,18 @@ static void check_rom_area(void)
 /* FIXME: perhaps we should not call this when autostarting from tape */
 static void init_drive_emulation_state(int unit, int drive)
 {
-    DBG(("init_drive_emulation_state(unit: %d drive: %d) tde:%d traps:%d warp:%d",
-        unit, drive, get_true_drive_emulation_state(unit), get_device_traps_state(), get_warp_state()
+    DBG(("init_drive_emulation_state(unit: %d drive: %d) tde:%d iecdevice:%d traps:%d warp:%d",
+        unit, drive, get_true_drive_emulation_state(unit), get_iec_device_state(unit),
+        get_device_traps_state(), get_warp_state()
     ));
     if (orig_drive_true_emulation_state == -1) {
         orig_drive_true_emulation_state = get_true_drive_emulation_state(unit);
     }
     if (orig_device_traps_state == -1) {
         orig_device_traps_state = get_device_traps_state();
+    }
+    if (orig_iec_device_state == -1) {
+        orig_iec_device_state = get_iec_device_state(unit);
     }
     if (orig_warp_mode == -1) {
         orig_warp_mode = get_warp_state();
@@ -677,6 +707,12 @@ static void restore_drive_emulation_state(int unit, int drive)
         /* set device traps to original state */
         if (get_device_traps_state() != orig_device_traps_state) {
             set_device_traps_state(orig_device_traps_state);
+        }
+    }
+    if (orig_iec_device_state != -1) {
+        /* set iec device to original state */
+        if (get_iec_device_state(unit) != orig_iec_device_state) {
+            set_iec_device_state(orig_iec_device_state, unit);
         }
     }
     if (orig_drive_true_emulation_state != -1) {
@@ -707,6 +743,7 @@ static void restore_drive_emulation_state(int unit, int drive)
     /* make sure we refresh these next time we do autostart via gui */
     orig_drive_true_emulation_state = - 1;
     orig_device_traps_state = - 1;
+    orig_iec_device_state = - 1;
     orig_warp_mode = -1;
     orig_FileSystemDevice8 = -1;
     orig_FSDevice8ConvertP00 = -1;
@@ -717,8 +754,8 @@ static void restore_drive_emulation_state(int unit, int drive)
 
     autostart_type = -1;
 
-    DBG(("restore_drive_emulation_state(unit: %d drive: %d) tde:%d traps:%d warp:%d", unit, drive,
-        get_true_drive_emulation_state(unit), get_device_traps_state(), get_warp_state()
+    DBG(("restore_drive_emulation_state(unit: %d drive: %d) tde:%d iecdevice:%d traps:%d warp:%d", unit, drive,
+        get_true_drive_emulation_state(unit), get_iec_device_state(unit), get_device_traps_state(), get_warp_state()
     ));
 
 }
@@ -747,7 +784,10 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 
 /* Reset autostart.  */
 /* FIXME: cbm2 and pet pass 0,0 into this function before loading
-            kernal ... why is this? */
+            kernal ... why is this? 
+
+    handle_tde : if zero, "handle tde at autostart" will never be done
+*/
 static void autostart_reinit(int default_seconds, int handle_tde)
 {
     DBG(("autostart_reinit default_seconds: %d\n", default_seconds));
@@ -1069,6 +1109,7 @@ static void advance_hasdisk(int unit, int drive)
         case NO:
             orig_drive_true_emulation_state = get_true_drive_emulation_state(unit);
             orig_device_traps_state = get_device_traps_state();
+            orig_iec_device_state = get_iec_device_state(unit);
             disable_warp_if_was_requested();
             autostart_disable();
             break;
@@ -1344,7 +1385,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostart_initial_delay_cycles =
         (CLOCK)(((AutostartDelay == 0) ? AutostartDelayDefaultSeconds : AutostartDelay)
                         * machine_get_cycles_per_second());
-    DBG(("reboot_for_autostart AutostartDelay: %d AutostartDelayDefaultSeconds: %d autostart_initial_delay_cycles: %"PRIu64"\n",
+    DBG(("reboot_for_autostart AutostartDelay: %d AutostartDelayDefaultSeconds: %d autostart_initial_delay_cycles: %"PRIu64"",
            AutostartDelay, AutostartDelayDefaultSeconds, autostart_initial_delay_cycles));
 
     resources_get_int("AutostartDelayRandom", &rnd);
@@ -1481,6 +1522,7 @@ static void autostart_disk_cook_name(char **name)
 static void setup_for_disk(int unit, int drive)
 {
     if (handle_drive_true_emulation_overridden) {
+        DBG(("setup_for_disk - handle TDE"));
 #if 0
         /* disable TDE if device traps are enabled,
            enable TDE if device traps are disabled */
@@ -1502,13 +1544,14 @@ static void setup_for_disk(int unit, int drive)
         }
 #endif
     } else {
-        /* disable traps when TDE is enabled,
-           enable traps when TDE is disabled. */
+        DBG(("setup_for_disk - do not handle TDE"));
         if (orig_drive_true_emulation_state) {
+            /* disable traps when TDE is enabled, */
             if (orig_device_traps_state) {
                 set_device_traps_state(0);
             }
         } else {
+            /* enable traps when TDE is disabled. */
             if (!orig_device_traps_state) {
                 set_device_traps_state(1);
             }
@@ -1517,9 +1560,10 @@ static void setup_for_disk(int unit, int drive)
             }
         }
     }
-    DBG(("setup for disk: unit: %d drive: %d TDE: %s  Traps: %s handle TDE: %s",
+    DBG(("setup_for_disk: unit: %d drive: %d TDE: %s IECDevice: %s Traps: %s handle TDE: %s",
         unit, drive,
         get_true_drive_emulation_state(unit) ? "on" : "off",
+        get_iec_device_state(unit) ? "on" : "off",
         get_device_traps_state() ? "on" : "off",
         handle_drive_true_emulation_overridden ? "yes" : "no"
         ));
@@ -1533,17 +1577,22 @@ static void setup_for_disk(int unit, int drive)
 static void setup_for_disk_ready(int unit, int drive)
 {
     if (handle_drive_true_emulation_overridden) {
-        /* disable TDE if device traps are enabled,
-           enable TDE if device traps are disabled */
-        if (orig_device_traps_state) {
+        DBG(("setup_for_disk_ready - handle TDE"));
+        if (orig_device_traps_state || orig_iec_device_state) {
 #if 0
             if (orig_drive_true_emulation_state) {
                 /* if traps are enabled, and TDE was on before autostart, disable it now */
                 set_true_drive_emulation_mode(0, unit);
             }
 #endif
+            /* disable TDE if device traps or iecdevice are enabled */
             set_true_drive_emulation_mode(0, unit);
+            /* if both traps and iec device is enabled, disable traps */
+            if (orig_device_traps_state && orig_iec_device_state) {
+                set_device_traps_state(0);
+            }
         } else {
+            /* enable TDE if device traps and iecdevice are disabled */
             if (!orig_drive_true_emulation_state) {
                 set_true_drive_emulation_mode(1, unit);
             }
@@ -1556,6 +1605,13 @@ static void setup_for_disk_ready(int unit, int drive)
             }
         }
     }
+    DBG(("setup_for_disk_ready: unit: %d drive: %d TDE: %s IECDevice: %s Traps: %s handle TDE: %s",
+        unit, drive,
+        get_true_drive_emulation_state(unit) ? "on" : "off",
+        get_iec_device_state(unit) ? "on" : "off",
+        get_device_traps_state() ? "on" : "off",
+        handle_drive_true_emulation_overridden ? "yes" : "no"
+        ));
 }
 
 /* Autostart disk image `file_name'.  */
