@@ -47,7 +47,8 @@ gtk3_keymaps = \
 	gtk3_keyrah_de.vkm \
 	gtk3_the64_de.vkm \
 	gtk3_sym_it.vkm \
-	gtk3_sym_se.vkm
+	gtk3_sym_se.vkm \
+	gtk3_pos_bmc64.vkm
 
 sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
@@ -55,7 +56,6 @@ sdl_keymaps = \
 	sdl_hotkeys.vkm \
 	sdl_hotkeys_vsid.vkm \
 	sdl_pos.vkm \
-	sdl_pos_bmc64.vkm \
 	sdl_pos_ch.vkm \
 	sdl_pos_da.vkm \
 	sdl_pos_de.vkm \
