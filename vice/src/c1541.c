@@ -323,9 +323,9 @@ const command_t command_list[] = {
       3, 4,
       bwrite_cmd },
     { "chain",
-      "chain <track> <sector> [<unit>]",
+      "chain <track> <sector> [<unit>] | <filename>",
       "Follow and print block chain starting at (<track>,<sector>)",
-      2, 3,
+      1, 3,
       chain_cmd },
     { "copy",
       "copy <source1> [<source2> ... <sourceN>] <destination>",
@@ -2056,25 +2056,78 @@ static int chain_cmd(int nargs, char **args)
     vdrive_t *vdrive;
     int err;
 
-    /* parse track and sector number */
-    err = parse_track_sector(args[1], args[2], &track, &sector);
-    if (err != FD_OK) {
-        return err;
-    }
+    if (nargs == 2) {
+        /* assume filename, not (track,sector) */
+        char *name_ascii;
+        char *name_petscii;
+        char *p;
+        bufferinfo_t buffer;
+        uint8_t *slot;
 
-    /* get drive index */
-    if (nargs == 4) {
-        if (arg_to_int(args[3], &unit) < 0) {
-            return FD_BADDEV;
+        unit = extract_unit_from_file_name(args[1], &p);
+        if (unit <= 0) {
+            name_ascii = lib_strdup(args[1]);
+            unit = drive_index + DRIVE_UNIT_MIN;
+        } else {
+            if (check_drive_ready(unit - DRIVE_UNIT_MIN) < 0) {
+                return FD_NOTREADY;
+            }
+            name_ascii = lib_strdup(p);
         }
-        if (check_drive_unit(unit) < 0) {
-            return FD_BADDEV;
-        }
-    }
 
-    /* check drive to see if it's ready */
-    if (check_drive_ready(unit - DRIVE_UNIT_MIN) < 0) {
-        return FD_NOTREADY;
+        if (!is_valid_cbm_file_name(name_ascii)) {
+            fprintf(stderr,
+                    "error: `%s' is not a valid CBM DOS file name\n",
+                    name_ascii);
+            lib_free(name_ascii);
+            return FD_BADNAME;
+        }
+
+        /* get the directory entry so we can get the track,sector */
+        name_petscii = lib_strdup(name_ascii);
+        charset_petconvstring((uint8_t *)name_petscii, CONVERT_TO_PETSCII);
+
+        if (vdrive_iec_open(drives[unit - DRIVE_UNIT_MIN],
+                            (uint8_t *)name_petscii,
+                            (unsigned int)strlen(name_petscii),
+                            0, NULL) != 0) {
+            fprintf(stderr, "error: cannot read '%s'\n", name_ascii);
+            lib_free(name_ascii);
+            lib_free(name_petscii);
+            return FD_RDERR;
+        }
+
+        buffer = drives[unit - DRIVE_UNIT_MIN]->buffers[0];
+        slot = buffer.slot;
+        /* poeh, we're there ;) */
+        track = slot[SLOT_FIRST_TRACK];
+        sector = slot[SLOT_FIRST_SECTOR];
+
+        lib_free(name_ascii);
+        lib_free(name_petscii);
+        vdrive_iec_close(drives[unit - DRIVE_UNIT_MIN], 0);
+
+    } else {
+        /* parse track and sector number */
+        err = parse_track_sector(args[1], args[2], &track, &sector);
+        if (err != FD_OK) {
+            return err;
+        }
+
+        /* get drive index */
+        if (nargs == 4) {
+            if (arg_to_int(args[3], &unit) < 0) {
+                return FD_BADDEV;
+            }
+            if (check_drive_unit(unit) < 0) {
+                return FD_BADDEV;
+            }
+        }
+
+        /* check drive to see if it's ready */
+        if (check_drive_ready(unit - DRIVE_UNIT_MIN) < 0) {
+            return FD_NOTREADY;
+        }
     }
 
     /* now check if the (track,sector) is valid for the current image */
