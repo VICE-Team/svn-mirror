@@ -76,67 +76,7 @@ enum {
 #endif
 };
 
-/* this structure is used by OLD userport devices */
-typedef struct old_userport_device_s {
-    /* ID of the device */
-    int id;
-
-    /* Name of the device */
-    char *name;
-
-    /* flag to indicate that the device is a joystick/pad adapter */
-    int joystick_adapter_id;
-
-    /* Read pb0-7 pins */
-    void (*read_pbx)(void);
-
-    /* Store pb0-7 pins */
-    void (*store_pbx)(uint8_t val);
-
-    /* Read pa2 pin */
-    void (*read_pa2)(void);
-
-    /* Store pa2 pin */
-    void (*store_pa2)(uint8_t val);
-
-    /* Read pa3 pin */
-    void (*read_pa3)(void);
-
-    /* Store pa3 pin */
-    void (*store_pa3)(uint8_t val);
-
-    /* Device needs pc pin */
-    int needs_pc;
-
-    /* Store sp1 pin */
-    void (*store_sp1)(uint8_t val);
-
-    /* Read sp1 pin */
-    void (*read_sp1)(void);
-
-    /* Store sp2 pin */
-    void (*store_sp2)(uint8_t val);
-
-    /* Read sp2 pin */
-    void (*read_sp2)(void);
-
-    /* detach device */
-    char *resource;
-
-    /* return value of a read */
-    uint8_t retval;
-
-    /* validity mask of a read */
-    uint8_t mask;
-
-    /* involved in collision */
-    int collision;
-
-    /* a tag to indicate the order of insertion */
-    unsigned int order;
-} old_userport_device_t;
-
-/* this structure is used by NEW userport devices */
+/* this structure is used by userport devices */
 typedef struct userport_device_s {
     /* Name of the device */
     char *name;
@@ -199,76 +139,34 @@ typedef struct userport_port_props_s {
     int has_sp12;                  /* port has the sp1 and sp2 lines */
 } userport_port_props_t;
 
-typedef struct old_userport_device_list_s {
-    struct old_userport_device_list_s *previous;
-    old_userport_device_t *device;
-    struct old_userport_device_list_s *next;
-} old_userport_device_list_t;
-
 typedef struct userport_desc_s {
     char *name;
     int id;
     int device_type;
 } userport_desc_t;
 
-extern old_userport_device_list_t *old_userport_device_register(old_userport_device_t *device);
-extern void old_userport_device_unregister(old_userport_device_list_t *device);
-
 extern void userport_port_register(userport_port_props_t *props);
 extern int userport_device_register(int id, userport_device_t *device);
 
-extern uint8_t read_userport_pbx(uint8_t mask, uint8_t orig);
+extern uint8_t read_userport_pbx(void);
 extern void store_userport_pbx(uint8_t val);
-extern uint8_t read_userport_pa2(uint8_t orig);
+extern uint8_t read_userport_pa2(void);
 extern void store_userport_pa2(uint8_t val);
-extern uint8_t read_userport_pa3(uint8_t orig);
+extern uint8_t read_userport_pa3(void);
 extern void store_userport_pa3(uint8_t val);
 extern void set_userport_flag(uint8_t val);
-extern uint8_t read_userport_pc(uint8_t orig);
-extern uint8_t read_userport_sp1(uint8_t orig);
+extern uint8_t read_userport_pc(void);
+extern uint8_t read_userport_sp1(void);
 extern void store_userport_sp1(uint8_t val);
-extern uint8_t read_userport_sp2(uint8_t orig);
-extern void store_userport_sp2(uint8_t val);
-
-extern uint8_t read_userport_pbx(uint8_t mask, uint8_t orig);
-extern void store_userport_pbx(uint8_t val);
-extern uint8_t read_userport_pa2(uint8_t orig);
-extern void store_userport_pa2(uint8_t val);
-extern uint8_t read_userport_pa3(uint8_t orig);
-extern void store_userport_pa3(uint8_t val);
-extern void set_userport_flag(uint8_t val);
-extern uint8_t read_userport_pc(uint8_t orig);
-extern uint8_t read_userport_sp1(uint8_t orig);
-extern void store_userport_sp1(uint8_t val);
-extern uint8_t read_userport_sp2(uint8_t orig);
+extern uint8_t read_userport_sp2(void);
 extern void store_userport_sp2(uint8_t val);
 
 extern int userport_resources_init(void);
-extern void userport_resources_shutdown(void);
 extern int userport_cmdline_options_init(void);
 
 extern userport_desc_t *userport_get_valid_devices(int sort);
 
 extern void userport_enable(int val);
-
-typedef struct old_userport_snapshot_s {
-    /* ID of the device */
-    int id;
-
-    /* write snapshot */
-    int (*write_snapshot)(snapshot_t *s);
-
-    /* read snapshot */
-    int (*read_snapshot)(snapshot_t *s);
-} old_userport_snapshot_t;
-
-typedef struct old_userport_snapshot_list_s {
-    struct old_userport_snapshot_list_s *previous;
-    old_userport_snapshot_t *snapshot;
-    struct old_userport_snapshot_list_s *next;
-} old_userport_snapshot_list_t;
-
-extern void old_userport_snapshot_register(old_userport_snapshot_t *s);
 
 extern int userport_snapshot_write_module(snapshot_t *s);
 extern int userport_snapshot_read_module(snapshot_t *s);

@@ -244,14 +244,14 @@ static uint8_t read_ciapa(cia_context_t *cia_context)
     }
 
     if (!(cia_context->c_cia[CIA_DDRA] & 4)) {
-        userval = read_userport_pa2(value);
+        userval = read_userport_pa2();
         if (value != userval) {
             value &= (userval & 1) ? 0xff : 0xfb;
         }
     }
 
     if (!(cia_context->c_cia[CIA_DDRA] & 8)) {
-        userval = read_userport_pa3(value);
+        userval = read_userport_pa3();
         if (value != userval) {
             value &= (userval & 1) ? 0xff : 0xf7;
         }
@@ -265,7 +265,7 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
 {
     uint8_t byte = 0xff;
 
-    byte = read_userport_pbx((uint8_t)~cia_context->c_cia[CIA_DDRB], byte);
+    byte = read_userport_pbx();
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -293,7 +293,7 @@ static void read_sdr(cia_context_t *cia_context)
     if (burst_mod == BURST_MOD_CIA2) {
         drive_cpu_execute_all(maincpu_clk);
     }
-    cia_context->c_cia[CIA_SDR] = read_userport_sp2(cia_context->c_cia[CIA_SDR]);
+    cia_context->c_cia[CIA_SDR] = read_userport_sp2();
 }
 
 static void store_sdr(cia_context_t *cia_context, uint8_t byte)

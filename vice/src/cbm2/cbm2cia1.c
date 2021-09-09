@@ -187,7 +187,7 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
 {
     uint8_t byte = 0xff;
 
-    byte = read_userport_pbx((uint8_t)~cia_context->c_cia[CIA_DDRB], byte);
+    byte = read_userport_pbx();
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
     byte &= ((0xff & ~(cia_context->c_cia[CIA_DDRB]))

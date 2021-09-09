@@ -495,7 +495,6 @@ void machine_resources_shutdown(void)
     cartio_shutdown();
     userport_rtc_58321a_resources_shutdown();
     userport_rtc_ds1307_resources_shutdown();
-    userport_resources_shutdown();
     joyport_bbrtc_resources_shutdown();
     tapeport_resources_shutdown();
     debugcart_resources_shutdown();
