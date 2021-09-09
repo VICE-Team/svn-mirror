@@ -332,12 +332,12 @@ int machine_resources_init(void)
         init_resource_fail("rs232drv");
         return -1;
     }
-    if (printer_resources_init() < 0) {
-        init_resource_fail("printer");
-        return -1;
-    }
     if (userport_resources_init() < 0) {
         init_resource_fail("userport devices");
+        return -1;
+    }
+    if (printer_resources_init() < 0) {
+        init_resource_fail("printer");
         return -1;
     }
     if (printer_userport_resources_init() < 0) {
