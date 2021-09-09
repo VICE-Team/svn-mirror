@@ -255,7 +255,7 @@ inline static uint8_t read_prb(via_context_t *via_context)
     uint8_t byte = 0xff;
     byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
 
-    byte = read_userport_pbx((uint8_t)~via_context->via[VIA_DDRB], byte);
+    byte = read_userport_pbx();
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)

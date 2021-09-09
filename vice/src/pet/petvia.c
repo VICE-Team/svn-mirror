@@ -198,7 +198,7 @@ inline static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
 {
     uint8_t byte = 0xff;
 
-    byte = read_userport_pbx((uint8_t)~via_context->via[VIA_DDRA], byte);
+    byte = read_userport_pbx();
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
 

@@ -40,11 +40,6 @@
 #include "userport.h"
 #include "util.h"
 
-static int old_userport_collision_handling = 0;
-static unsigned int old_order = 0;
-static old_userport_device_list_t userport_head = { NULL, NULL, NULL };
-static old_userport_snapshot_list_t userport_snapshot_head = { NULL, NULL, NULL };
-
 /* flag indicating if the userport exists on the current emulated model */
 static int userport_active = 1;
 
@@ -58,27 +53,6 @@ static userport_device_t userport_device[USERPORT_MAX_DEVICES] = {0};
 static userport_port_props_t userport_props;
 
 /* ---------------------------------------------------------------------------------------------------------- */
-
-static int old_valid_device(old_userport_device_t *device)
-{
-    if ((device->read_pa2 || device->store_pa2) && !userport_props.has_pa2) {
-        return 0;
-    }
-
-    if ((device->read_pa3 || device->store_pa3) && !userport_props.has_pa3) {
-        return 0;
-    }
-
-    if (device->needs_pc && !userport_props.has_pc) {
-        return 0;
-    }
-
-    if ((device->store_sp1 || device->read_sp1 || device->store_sp2 || device->read_sp2) && !userport_props.has_sp12) {
-        return 0;
-    }
-
-    return 1;
-}
 
 static int valid_device(userport_device_t *device)
 {
@@ -112,27 +86,6 @@ void userport_port_register(userport_port_props_t *props)
     userport_props.has_sp12 = props->has_sp12;
 }
 
-old_userport_device_list_t *old_userport_device_register(old_userport_device_t *device)
-{
-    old_userport_device_list_t *current = &userport_head;
-    old_userport_device_list_t *retval = NULL;
-
-    if (old_valid_device(device)) {
-        retval = lib_malloc(sizeof(old_userport_device_list_t));
-
-        while (current->next != NULL) {
-            current = current->next;
-        }
-        current->next = retval;
-        retval->previous = current;
-        retval->device = device;
-        retval->next = NULL;
-        retval->device->order = old_order++;
-    }
-
-    return retval;
-}
-
 /* register a device to be used in the userport system if possible */
 int userport_device_register(int id, userport_device_t *device)
 {
@@ -161,136 +114,6 @@ int userport_device_register(int id, userport_device_t *device)
         return 0;
     }
     return -1;
-}
-
-void old_userport_device_unregister(old_userport_device_list_t *device)
-{
-    old_userport_device_list_t *prev;
-
-    if (device) {
-        prev = device->previous;
-        prev->next = device->next;
-
-        if (device->next) {
-            device->next->previous = prev;
-        }
-
-        if (device->device->order == old_order - 1) {
-            if (old_order != 0) {
-                old_order--;
-            }
-        }
-
-        lib_free(device);
-    }
-}
-
-/* ---------------------------------------------------------------------------------------------------------- */
-
-static void old_userport_detach_devices(int collision, unsigned int highest_order)
-{
-    old_userport_device_list_t *current = userport_head.next;
-    char *tmp1 = lib_strdup("Userport collision detected from ");
-    char *tmp2;
-    int col_found = 0;
-    char *last_device_resource = NULL;
-    char *last_device = NULL;
-    char **detach_resource_list = NULL;
-    int i;
-
-    if (old_userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
-        detach_resource_list = lib_malloc(sizeof(char *) * (collision + 1));
-        memset(detach_resource_list, 0, sizeof(char *) * (collision + 1));
-    }
-
-    while (current) {
-        if (current->device->collision) {
-            if (old_userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
-                detach_resource_list[col_found] = current->device->resource;
-            }
-            ++col_found;
-            if (current->device->order == highest_order) {
-                last_device_resource = current->device->resource;
-                last_device = current->device->name;
-            }
-            if (col_found == collision) {
-                tmp2 = util_concat(tmp1, "and ", current->device->name, NULL);
-            } else if (col_found == 1) {
-                tmp2 = util_concat(tmp1, current->device->name, NULL);
-            } else {
-                tmp2 = util_concat(tmp1, ", ", current->device->name, NULL);
-            }
-            lib_free(tmp1);
-            tmp1 = tmp2;
-        }
-        current = current->next;
-    }
-
-    if (old_userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
-        tmp2 = util_concat(tmp1, ". All involved devices will be detached.", NULL);
-        for (i = 0; detach_resource_list[i]; ++i) {
-            resources_set_int(detach_resource_list[i], 0);
-        }
-        lib_free(detach_resource_list);
-    } else {
-        tmp2 = util_concat(tmp1, ". Last device (", last_device, ") will be detached.", NULL);
-        resources_set_int(last_device_resource, 0);
-    }
-
-    lib_free(tmp1);
-    ui_error(tmp2);
-    lib_free(tmp2);
-}
-
-static uint8_t old_userport_detect_collision(uint8_t retval_orig, uint8_t mask)
-{
-    uint8_t retval = retval_orig;
-    uint8_t rm;
-    uint8_t rv;
-    int collision = 0;
-    int first_found = 0;
-    old_userport_device_list_t *current;
-    unsigned int highest_order = 0;
-
-    /* collision detection */
-    current = userport_head.next;
-
-    while (current) {
-        if (current->device->read_pbx != NULL) {
-            rm = current->device->mask;
-            rm &= mask;
-            if (rm) {
-                rv = current->device->retval;
-                rv |= ~rm;
-                rv = 0xff & rv;
-                if (!first_found) {
-                    retval = rv;
-                    first_found = 1;
-                    current->device->collision = 1;
-                    if (highest_order < current->device->order) {
-                        highest_order = current->device->order;
-                    }
-                } else {
-                    if (rv != retval) {
-                        ++collision;
-                        current->device->collision = 1;
-                        if (highest_order < current->device->order) {
-                            highest_order = current->device->order;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    if (collision) {
-        old_userport_detach_devices(collision + 1, highest_order);
-        if (old_userport_collision_handling == USERPORT_COLLISION_METHOD_DETACH_ALL) {
-            retval = 0xff;
-        }
-    }
-
-    return retval;
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
@@ -389,81 +212,22 @@ userport_desc_t *userport_get_valid_devices(int sort)
     return retval;
 }
 
-static uint8_t old_read_userport_pbx(uint8_t mask, uint8_t orig)
+uint8_t read_userport_pbx(void)
 {
     uint8_t retval = 0xff;
-    uint8_t rm;
-    uint8_t rv;
-    int valid = 0;
-    old_userport_device_list_t *current = userport_head.next;
 
-    if (!userport_active) {
-        return orig;
-    }
-
-    if (!mask) {
-        return 0xff;
-    }
-
-    /* set retval */
-    while (current) {
-        current->device->collision = 0;
-        if (current->device->read_pbx != NULL) {
-            current->device->read_pbx();
-            rm = current->device->mask;
-            rm &= mask;
-            if (rm) {
-                rv = current->device->retval;
-                rv |= ~rm;
-                retval &= rv;
-                ++valid;
-            }
-        }
-        current = current->next;
-    }
-
-    if (!valid) {
-        return orig;
-    }
-
-    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return old_userport_detect_collision(retval, mask);
-    }
-
-    return retval;
-}
-
-/* orig variable needs to be removed once the transition is done */
-uint8_t read_userport_pbx(uint8_t mask, uint8_t orig)
-{
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_pbx) {
-                    return userport_device[userport_current_device].read_pbx();
+                    retval = userport_device[userport_current_device].read_pbx();
                 }
             }
         }
 
-        /* return old function */
-        return old_read_userport_pbx(mask, orig);
    }
-   return 0xff;
-}
-
-static void old_store_userport_pbx(uint8_t val)
-{
-    old_userport_device_list_t *current = userport_head.next;
-
-    if (userport_active) {
-        while (current) {
-            if (current->device->store_pbx != NULL) {
-                current->device->store_pbx(val);
-            }
-            current = current->next;
-        }
-    }
+   return retval;
 }
 
 void store_userport_pbx(uint8_t val)
@@ -474,87 +238,27 @@ void store_userport_pbx(uint8_t val)
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].store_pbx) {
                     userport_device[userport_current_device].store_pbx(val);
-                    return;
                 }
             }
         }
-
-        /* store using old function as well */
-        old_store_userport_pbx(val);
     }
 }
 
-static uint8_t old_read_userport_pa2(uint8_t orig)
+uint8_t read_userport_pa2(void)
 {
-    uint8_t mask = 1;
-    uint8_t rm;
-    uint8_t rv;
-    uint8_t retval = 0xff;
-    int valid = 0;
-    old_userport_device_list_t *current = userport_head.next;
+    uint8_t retval = 1;
 
-    if (!userport_active) {
-        return orig;
-    }
-
-    /* set retval */
-    while (current) {
-        current->device->collision = 0;
-        if (current->device->read_pa2 != NULL) {
-            current->device->read_pa2();
-            rm = current->device->mask;
-            rm &= mask;
-            if (rm) {
-                rv = current->device->retval;
-                rv |= ~rm;
-                retval &= rv;
-                ++valid;
-            }
-        }
-        current = current->next;
-    }
-
-    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return old_userport_detect_collision(retval, mask);
-    }
-    if (valid == 0) {
-        return orig;
-    }
-
-    return retval;
-}
-
-/* orig variable needs to be removed once the transition is done */
-uint8_t read_userport_pa2(uint8_t orig)
-{
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_pa2) {
-                    return userport_device[userport_current_device].read_pa2();
+                    retval = userport_device[userport_current_device].read_pa2();
                 }
             }
         }
-
-        /* return old function */
-        return old_read_userport_pa2(orig);
     }
-    return 1;
-}
-
-static void old_store_userport_pa2(uint8_t val)
-{
-    old_userport_device_list_t *current = userport_head.next;
-
-    if (userport_active) {
-        while (current) {
-            if (current->device->store_pa2 != NULL) {
-                current->device->store_pa2(val);
-            }
-            current = current->next;
-        }
-    }
+    return retval;
 }
 
 void store_userport_pa2(uint8_t val)
@@ -565,87 +269,27 @@ void store_userport_pa2(uint8_t val)
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].store_pa2) {
                     userport_device[userport_current_device].store_pa2(val);
-                    return;
                 }
             }
         }
-
-        /* store using old function as well */
-        old_store_userport_pa2(val);
     }
 }
 
-static uint8_t old_read_userport_pa3(uint8_t orig)
+uint8_t read_userport_pa3(void)
 {
-    uint8_t mask = 1;
-    uint8_t rm;
-    uint8_t rv;
-    uint8_t retval = 0xff;
-    int valid = 0;
-    old_userport_device_list_t *current = userport_head.next;
+    uint8_t retval = 1;
 
-    if (!userport_active) {
-        return orig;
-    }
-
-    /* set retval */
-    while (current) {
-        current->device->collision = 0;
-        if (current->device->read_pa3 != NULL) {
-            current->device->read_pa3();
-            rm = current->device->mask;
-            rm &= mask;
-            if (rm) {
-                rv = current->device->retval;
-                rv |= ~rm;
-                retval &= rv;
-                ++valid;
-            }
-        }
-        current = current->next;
-    }
-
-    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return old_userport_detect_collision(retval, mask);
-    }
-    if (valid == 0) {
-        return orig;
-    }
-
-    return retval;
-}
-
-/* orig variable needs to be removed once the transition is done */
-uint8_t read_userport_pa3(uint8_t orig)
-{
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_pa3) {
-                    return userport_device[userport_current_device].read_pa3();
+                    retval = userport_device[userport_current_device].read_pa3();
                 }
             }
         }
-
-        /* return old function */
-        return old_read_userport_pa3(orig);
     }
-    return 1;
-}
-
-static void old_store_userport_pa3(uint8_t val)
-{
-    old_userport_device_list_t *current = userport_head.next;
-
-    if (userport_active) {
-        while (current) {
-            if (current->device->store_pa3 != NULL) {
-                current->device->store_pa3(val);
-            }
-            current = current->next;
-        }
-    }
+    return retval;
 }
 
 void store_userport_pa3(uint8_t val)
@@ -656,13 +300,9 @@ void store_userport_pa3(uint8_t val)
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].store_pa3) {
                     userport_device[userport_current_device].store_pa3(val);
-                    return;
                 }
             }
         }
-
-        /* store using old function as well */
-        old_store_userport_pa3(val);
     }
 }
 
@@ -675,20 +315,6 @@ void set_userport_flag(uint8_t val)
     }
 }
 
-static void old_store_userport_sp1(uint8_t val)
-{
-    old_userport_device_list_t *current = userport_head.next;
-
-    if (userport_active) {
-        while (current) {
-            if (current->device->store_sp1 != NULL) {
-                current->device->store_sp1(val);
-            }
-            current = current->next;
-        }
-    }
-}
-
 void store_userport_sp1(uint8_t val)
 {
     if (userport_active) {
@@ -697,88 +323,27 @@ void store_userport_sp1(uint8_t val)
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].store_sp1) {
                     userport_device[userport_current_device].store_sp1(val);
-                    return;
                 }
             }
         }
-
-        /* store using old function as well */
-        old_store_userport_sp1(val);
     }
 }
 
-static uint8_t old_read_userport_sp1(uint8_t orig)
+uint8_t read_userport_sp1(void)
 {
-    uint8_t mask = 0xff;
-    uint8_t rm;
-    uint8_t rv;
-    uint8_t retval = 0xff;
-    int valid = 0;
-    old_userport_device_list_t *current = userport_head.next;
+    uint8_t retval = 1;
 
-    if (!userport_active) {
-        return orig;
-    }
-
-    /* set retval */
-    while (current) {
-        current->device->collision = 0;
-        if (current->device->read_sp1 != NULL) {
-            current->device->read_sp1();
-            rm = current->device->mask;
-            rm &= mask;
-            if (rm) {
-                rv = current->device->retval;
-                rv |= ~rm;
-                retval &= rv;
-                ++valid;
-            }
-        }
-        current = current->next;
-    }
-
-    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return old_userport_detect_collision(retval, mask);
-    }
-
-    if (!valid) {
-        return orig;
-    }
-
-    return retval;
-}
-
-/* orig variable needs to be removed once the transition is done */
-uint8_t read_userport_sp1(uint8_t orig)
-{
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_sp1) {
-                    return userport_device[userport_current_device].read_sp1();
+                    retval = userport_device[userport_current_device].read_sp1();
                 }
             }
         }
-
-        /* return old function */
-        return old_read_userport_sp1(orig);
     }
-    return 1;
-}
-
-static void old_store_userport_sp2(uint8_t val)
-{
-    old_userport_device_list_t *current = userport_head.next;
-
-    if (userport_active) {
-        while (current) {
-            if (current->device->store_sp2 != NULL) {
-                current->device->store_sp2(val);
-            }
-            current = current->next;
-        }
-    }
+    return retval;
 }
 
 void store_userport_sp2(uint8_t val)
@@ -789,132 +354,30 @@ void store_userport_sp2(uint8_t val)
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].store_sp2) {
                     userport_device[userport_current_device].store_sp2(val);
-                    return;
                 }
             }
         }
-
-        /* store using old function as well */
-        old_store_userport_sp2(val);
     }
 }
 
-static uint8_t old_read_userport_sp2(uint8_t orig)
+uint8_t read_userport_sp2(void)
 {
-    uint8_t mask = 0xff;
-    uint8_t rm;
-    uint8_t rv;
-    uint8_t retval = 0xff;
-    int valid = 0;
-    old_userport_device_list_t *current = userport_head.next;
+    uint8_t retval = 1;
 
-    if (!userport_active) {
-        return orig;
-    }
-
-    /* set retval */
-    while (current) {
-        current->device->collision = 0;
-        if (current->device->read_sp2 != NULL) {
-            current->device->read_sp2();
-            rm = current->device->mask;
-            rm &= mask;
-            if (rm) {
-                rv = current->device->retval;
-                rv |= ~rm;
-                retval &= rv;
-                ++valid;
-            }
-        }
-        current = current->next;
-    }
-
-    if (valid > 1 && old_userport_collision_handling != USERPORT_COLLISION_METHOD_AND_WIRES) {
-        return old_userport_detect_collision(retval, mask);
-    }
-
-    if (!valid) {
-        return orig;
-    }
-
-    return retval;
-}
-
-/* orig variable needs to be removed once the transition is done */
-uint8_t read_userport_sp2(uint8_t orig)
-{
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_sp2) {
-                    return userport_device[userport_current_device].read_sp2();
+                    retval = userport_device[userport_current_device].read_sp2();
                 }
             }
         }
-
-        /* return old function */
-        return old_read_userport_sp2(orig);
     }
-    return 1;
+    return retval;
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
-
-void old_userport_snapshot_register(old_userport_snapshot_t *s)
-{
-    old_userport_snapshot_list_t *current = &userport_snapshot_head;
-    old_userport_snapshot_list_t *retval = NULL;
-
-    retval = lib_malloc(sizeof(old_userport_snapshot_list_t));
-
-    while (current->next != NULL) {
-        current = current->next;
-    }
-    current->next = retval;
-    retval->previous = current;
-    retval->snapshot = s;
-    retval->next = NULL;
-}
-
-static void old_userport_snapshot_unregister(old_userport_snapshot_list_t *s)
-{
-    old_userport_snapshot_list_t *prev;
-
-    if (s) {
-        prev = s->previous;
-        prev->next = s->next;
-
-        if (s->next) {
-            s->next->previous = prev;
-        }
-
-        lib_free(s);
-    }
-}
-
-/* ---------------------------------------------------------------------------------------------------------- */
-
-static int old_set_userport_collision_handling(int val, void *param)
-{
-    switch (val) {
-        case USERPORT_COLLISION_METHOD_DETACH_ALL:
-        case USERPORT_COLLISION_METHOD_DETACH_LAST:
-        case USERPORT_COLLISION_METHOD_AND_WIRES:
-            break;
-        default:
-            return -1;
-    }
-    old_userport_collision_handling = val;
-
-    return 0;
-}
-
-static const resource_int_t old_resources_int[] = {
-    { "UserportCollisionHandling", USERPORT_COLLISION_METHOD_DETACH_ALL, RES_EVENT_STRICT, (resource_value_t)0,
-      &old_userport_collision_handling, old_set_userport_collision_handling, NULL },
-    RESOURCE_INT_LIST_END
-};
 
 static int set_userport_device(int val, void *param)
 {
@@ -933,31 +396,11 @@ int userport_resources_init(void)
     userport_device[0].name = "None";
     userport_device[0].joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
 
-    if (resources_register_int(old_resources_int) < 0) {
-        return -1;
-    }
-
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
 
     return machine_register_userport();
-}
-
-void userport_resources_shutdown(void)
-{
-    old_userport_device_list_t *current = userport_head.next;
-    old_userport_snapshot_list_t *c = userport_snapshot_head.next;
-
-    while (current) {
-        old_userport_device_unregister(current);
-        current = userport_head.next;
-    }
-
-    while (c) {
-        old_userport_snapshot_unregister(c);
-        c = userport_snapshot_head.next;
-    }
 }
 
 struct userport_opt_s {
@@ -1089,15 +532,6 @@ static char *build_userport_string(int something)
     return tmp2;
 }
 
-static const cmdline_option_t old_cmdline_options[] =
-{
-    { "-userportcollision", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "UserportCollisionHandling", NULL,
-      "<method>", "Select the way the Userport collisions should be handled, (0: error message and detach all involved devices, 1: error message and detach last attached involved device, 2: warning in log and 'AND' the valid return values" },
-    CMDLINE_LIST_END
-};
-
-/* no new cmdline options yet */
 static cmdline_option_t cmdline_options[] =
 {
     { "-userportdevice", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
@@ -1113,10 +547,7 @@ int userport_cmdline_options_init(void)
     cf.f = build_userport_string;
     cmdline_options[0].description = cf.c;
 
-    if (cmdline_register_options(cmdline_options) < 0) {
-        return -1;
-    }
-    return cmdline_register_options(old_cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }
 
 void userport_enable(int val)
@@ -1145,6 +576,7 @@ static char snap_module_name[] = "USERPORT";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
+#if 0
 static int old_userport_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
@@ -1219,13 +651,15 @@ fail:
     snapshot_module_close(m);
     return -1;
 }
+#endif
 
 int userport_snapshot_write_module(snapshot_t *s)
 {
-    /* return old function for now */
-    return old_userport_snapshot_write_module(s);
+    /* FIXME */
+    return 0;
 }
 
+#if 0
 static int old_userport_snapshot_read_module(snapshot_t *s)
 {
     uint8_t major_version, minor_version;
@@ -1308,9 +742,10 @@ fail:
     snapshot_module_close(m);
     return -1;
 }
+#endif
 
 int userport_snapshot_read_module(snapshot_t *s)
 {
-    /* return old function for now */
-    return old_userport_snapshot_read_module(s);
+    /* FIXME */
+    return 0;
 }

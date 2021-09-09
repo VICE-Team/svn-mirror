@@ -80,7 +80,7 @@ uint8_t cia2_read(uint16_t addr)
     uint8_t retval = 0xff;
 
     if ((addr & 0x1f) == 1) {
-        retval = read_userport_pbx(0x1f, retval);
+        retval = read_userport_pbx();
 
         /* The functions below will gradually be removed as the functionality is added to the new userport system. */
         if (ps2mouse_enabled) {
@@ -229,7 +229,7 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
 {
     uint8_t byte = 0xff;
 
-    byte = read_userport_pbx(0x1f, byte);
+    byte = read_userport_pbx();
 
     /* The functions below will gradually be removed as the functionality is added to the new userport system. */
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
