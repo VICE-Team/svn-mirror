@@ -34,6 +34,9 @@
 #include "printer.h"
 #include "resources.h"
 #include "uimenu.h"
+#include "userport.h"
+
+UI_MENU_DEFINE_RADIO(UserportDevice)
 
 #define VICE_SDL_PRINTER_DRIVER_MENU(prn)                             \
     UI_MENU_DEFINE_RADIO(Printer##prn##Driver)                        \
@@ -201,7 +204,6 @@ UI_MENU_DEFINE_TOGGLE(IECDevice7)
 UI_MENU_DEFINE_TOGGLE(IECDevice4)
 UI_MENU_DEFINE_TOGGLE(IECDevice5)
 UI_MENU_DEFINE_TOGGLE(IECDevice6)
-UI_MENU_DEFINE_TOGGLE(PrinterUserport)
 
 static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
 {
@@ -286,9 +288,9 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
 
 #define VICE_SDL_PRINTER_USERPORT_MENU_ITEMS                 \
     { "Userport printer emulation",                          \
-      MENU_ENTRY_RESOURCE_TOGGLE,                            \
-      toggle_PrinterUserport_callback,                       \
-      NULL },                                                \
+      MENU_ENTRY_RESOURCE_RADIO,                             \
+      radio_UserportDevice_callback,                         \
+      (ui_callback_data_t)USERPORT_DEVICE_PRINTER },         \
     { "Userport printer driver",                             \
       MENU_ENTRY_SUBMENU,                                    \
       submenu_radio_callback,                                \
