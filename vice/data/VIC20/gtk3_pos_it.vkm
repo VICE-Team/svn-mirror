@@ -109,8 +109,11 @@
 !LSHIFT 1 3
 !RSHIFT 6 4
 !VSHIFT RSHIFT
+!SHIFTL LSHIFT
 !LCBM 0 5
 !VCBM LCBM
+!LCTRL 0 2
+!VCTRL LCTRL
 
 #####################
 # |Bit 0| 1 ! |A_LFT| CTRL| R/S |SPACE|  C= |  Q  | 2 " |
@@ -121,9 +124,9 @@ asciitilde      0 1 8
 grave           0 1 8
 End             0 1 8
 # Tab = CTRL
-Tab             0 2 8
+Tab             0 2 16392
 # Shift + Tab = CTRL
-ISO_Left_Tab    0 2 8
+ISO_Left_Tab    0 2 16392
 Escape          0 3 8
 space           0 4 8
 # Control_L = CBM
