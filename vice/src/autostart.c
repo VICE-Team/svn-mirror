@@ -786,6 +786,7 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 /* FIXME: cbm2 and pet pass 0,0 into this function before loading
             kernal ... why is this? 
 
+    default_seconds : initial delay before checking for READY
     handle_tde : if zero, "handle tde at autostart" will never be done
 */
 static void autostart_reinit(int default_seconds, int handle_tde)
@@ -810,7 +811,11 @@ static void autostart_reinit(int default_seconds, int handle_tde)
 
 /* Initialize autostart.  */
 /* FIXME: cbm2 and pet pass 0,0 into this function before loading
-            kernal ... why is this? */
+            kernal ... why is this? 
+
+    default_seconds : initial delay before checking for READY
+    handle_tde : if zero, "handle tde at autostart" will never be done
+*/
 int autostart_init(int default_seconds, int handle_drive_true_emulation)
 {
     autostart_prg_init();
