@@ -159,7 +159,7 @@
 49  7 0 8               /*            1 -> 1            */
 #94  7 1 8               /*            ^ -> Left Arrow   */
 # there is something screwed up in SDL, we should neither get 0 nor get the same code for different keys
-0   7 1 8               /*   Left Arrow -> Left Arrow   */
+#0   7 1 8               /*   Left Arrow -> Left Arrow   */
 9   7 2 8               /*         Ctrl -> Ctrl         */
 50  7 3 8               /*            2 -> 2            */
 32  7 4 8               /*        Space -> Space        */
