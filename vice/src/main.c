@@ -304,6 +304,7 @@ int main_program(int argc, char **argv)
     log_message(LOG_DEFAULT, " ");
 
     /* lib_free(program_name); */
+    lib_rand_printseed(); /* log the random seed */
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */
@@ -318,11 +319,11 @@ int main_program(int argc, char **argv)
     if (initcmdline_check_psid() < 0) {
         return -1;
     }
-    
+
     if (init_main() < 0) {
         return -1;
     }
-    
+
     initcmdline_check_attach();
 
 #ifdef USE_VICE_THREAD
