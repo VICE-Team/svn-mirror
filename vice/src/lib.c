@@ -955,9 +955,15 @@ double lib_double_rand_unit(void)
     return 0x1.0p-32 * rand_uint32();
 }
 
+static uint64_t initalseed;
+void lib_rand_printseed(void)
+{
+    log_message(LOG_DEFAULT, "random seed was: 0x%"PRIx64, initalseed);
+}
+
 void lib_rand_seed(uint64_t seed)
 {
-    log_message(LOG_DEFAULT, "using random seed: 0x%"PRIx64, seed);
+    initalseed = seed;
     srand((unsigned int)seed);
     rand_seed((uint64_t)seed);
 }
