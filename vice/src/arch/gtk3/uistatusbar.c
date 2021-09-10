@@ -58,6 +58,7 @@
 #include "vice_gtk3.h"
 #include "datasette.h"
 #include "drive.h"
+#include "drive-check.h"
 #include "joyport.h"
 #include "lib.h"
 #include "machine.h"
@@ -182,17 +183,16 @@ typedef struct ui_sb_state_s {
 
     /** \brief Current intensity of each drive LED, 0=off,
      *         1000=max. */
-    unsigned int current_drive_leds[NUM_DISK_UNITS][2];
+    unsigned int current_drive_leds[NUM_DISK_UNITS][2][2];
 
     /** \brief true if a drive led has been changed */
-    bool current_drive_leds_updated[NUM_DISK_UNITS];
+    bool current_drive_leds_updated[NUM_DISK_UNITS][2][2];
 
-    /** \brief device:track.halftrack label for each disk unit.
-     *         probably need to add support for dualdrive here. */
-    char current_drive_track_str[NUM_DISK_UNITS][DRIVE_TRACK_STR_MAX_LEN];
+    /** \brief device:track.halftrack label for each unit and its drives */
+    char current_drive_track_str[NUM_DISK_UNITS][2][DRIVE_TRACK_STR_MAX_LEN];
 
     /** \brief true if a drive track string has been changed */
-    bool current_drive_track_str_updated[NUM_DISK_UNITS];
+    bool current_drive_track_str_updated[NUM_DISK_UNITS][2];
 
     /** \brief Current state for each of the joyports.
      *
@@ -581,21 +581,28 @@ static void on_drive_fliplist_clear_activate(GtkWidget *widget, gpointer data)
  */
 static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
-    int width, height, drive, i;
+    int width, height;
+    int unit;
+    int drive;
+    int i;
     double red = 0.0, green = 0.0, x, y, w, h;
     ui_sb_state_t *sb_state;
 
     width = gtk_widget_get_allocated_width(widget);
     height = gtk_widget_get_allocated_height(widget);
-    drive = GPOINTER_TO_INT(data);
-
+    unit = GPOINTER_TO_INT(data) & 0xff;
+    drive = GPOINTER_TO_INT(data) >> 8;
+#if 0
+    debug_gtk3("unit = %d, drive = %d", unit, drive);
+#endif
     sb_state = lock_sb_state();
+
     for (i = 0; i < 2; ++i) {
-        int led_color = sb_state->drive_led_types[drive] & (1 << i);
+        int led_color = sb_state->drive_led_types[unit] & (1 << i);
         if (led_color) {
-            green += sb_state->current_drive_leds[drive][i] / 1000.0;
+            green += sb_state->current_drive_leds[unit][drive][i] / 1000.0;
         } else {
-            red += sb_state->current_drive_leds[drive][i] / 1000.0;
+            red += sb_state->current_drive_leds[unit][drive][i] / 1000.0;
         }
     }
     unlock_sb_state();
@@ -1151,35 +1158,45 @@ static int compute_drives_enabled_mask(void)
 static GtkWidget *ui_drive_widget_create(int unit)
 {
     GtkWidget *grid, *number, *track, *led;
-    char drive_id[4];
 
     mainlock_assert_is_not_vice_thread();
 
     grid = gtk_grid_new();
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid),
-            GTK_ORIENTATION_HORIZONTAL);
+//    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid),
+//            GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
 
-    snprintf(drive_id, 4, "%d:", unit + DRIVE_UNIT_MIN);
-    drive_id[3] = 0;
-    number = gtk_label_new(drive_id);
-    gtk_widget_set_halign(number, GTK_ALIGN_START);
+    for (int drive_num = 0; drive_num < 2; drive_num++) {
+        char drive_id[8];
 
-    track = gtk_label_new("18.5");
-    gtk_widget_set_hexpand(track, TRUE);
-    gtk_widget_set_halign(track, GTK_ALIGN_END);
+        g_snprintf(drive_id,
+                   sizeof(drive_id),
+                   "%d:%d:",
+                   unit + DRIVE_UNIT_MIN,
+                   drive_num);
+        number = gtk_label_new(drive_id);
+        gtk_widget_set_halign(number, GTK_ALIGN_START);
 
-    led = gtk_drawing_area_new();
-    gtk_widget_set_size_request(led, 30, 15);
-    gtk_widget_set_no_show_all(led, TRUE);
-    gtk_container_add(GTK_CONTAINER(grid), number);
-    gtk_container_add(GTK_CONTAINER(grid), track);
-    gtk_container_add(GTK_CONTAINER(grid), led);
-    /* Labels will notice clicks by default, but drawing areas need to
-     * be told to. */
-    gtk_widget_add_events(led, GDK_BUTTON_PRESS_MASK);
-    g_signal_connect_unlocked(led, "draw", G_CALLBACK(draw_drive_led_cb),
-            GINT_TO_POINTER(unit));
+        track = gtk_label_new("18.5");
+        gtk_widget_set_hexpand(track, TRUE);
+        gtk_widget_set_halign(track, GTK_ALIGN_END);
+
+        led = gtk_drawing_area_new();
+        gtk_widget_set_size_request(led, 30, 15);
+        gtk_widget_set_no_show_all(led, TRUE);
+
+        gtk_grid_attach(GTK_GRID(grid), number, 0, drive_num, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), track, 1, drive_num, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), led, 2, drive_num, 1, 1);
+
+        /* Labels will notice clicks by default, but drawing areas need to
+         * be told to. */
+        gtk_widget_add_events(led, GDK_BUTTON_PRESS_MASK);
+        g_signal_connect_unlocked(led,
+                                  "draw",
+                                  G_CALLBACK(draw_drive_led_cb),
+                                  GINT_TO_POINTER(unit | (drive_num << 8)));
+    }
     return grid;
 }
 
@@ -1429,14 +1446,18 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
             }
         }
     }
+
     state = state_snapshot->drives_enabled;
     tde = state_snapshot->drives_tde_enabled;
     for (i = 0; i < NUM_DISK_UNITS; ++i) {
+
         if (state & 1) {
             GtkWidget *drive = allocated_bars[bar_index].drives[i];
             GtkWidget *event_box = gtk_event_box_new();
             int row = enabled_drive_index % 2;
             int column = (enabled_drive_index / 2) * 2 + SB_COL_DRIVE;
+            unsigned int drive_dual = drive_check_dual(diskunit_context[i]->type);
+
             if (row == 0) {
                 gtk_grid_attach(GTK_GRID(bar),
                         gtk_separator_new(GTK_ORIENTATION_VERTICAL),
@@ -1451,11 +1472,33 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
             g_signal_connect(event_box, "leave-notify-event",
                     G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[bar_index]);
             gtk_widget_show_all(event_box);
+
+            /* FIXME: This only works on emulator startup.
+             *
+             * Looks like we need an additional check for a status change:
+             * the drive type (which can trigger a change of drives per unit),
+             * like the checks we have now for TDE and the active drives.
+             */
+            if (drive_dual) {
+                /* drive:unit and track.sector */
+                gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 0, 1));
+                gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 1, 1));
+            } else {
+                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 0, 1));
+                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 1, 1));
+            }
+
             if (tde & 1) {
+                /* drive LEDs */
                 gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
+                if (drive_dual) {
+                    gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 1));
+                }
             } else {
                 gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
+                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 2, 1));
             }
+
             gtk_grid_attach(GTK_GRID(bar), event_box, column, row, 1, 1);
             ++enabled_drive_index;
         }
@@ -2065,8 +2108,13 @@ void ui_display_tape_current_image(const char *image)
  *                          1000=maximum intensity)
  *  \param  led_pwm2        The intensity of the second LED (0=off,
  *                          1000=maximum intensity)
- *  \todo   The statusbar API does not yet support dual-unit disk
- *          drives.
+ *  \todo   Code in src/drive/drive.c appears to be missing some stuff
+ *          regarding the LEDs for drive1 (there's a bunch of TODO/FIXME comments
+ *          in the source). Although drive_led_update() is called for drive 1,
+ *          it never calls this function. But the branch in
+ *          drive_update_ui_status() is definitely taken, since in that branch
+ *          ui_display_track() is called, which does trigger an update of the
+ *          track,sector display of drive 1 in the UI.
  */
 void ui_display_drive_led(unsigned int drive_number,
                           unsigned int drive_base,
@@ -2083,10 +2131,13 @@ void ui_display_drive_led(unsigned int drive_number,
         abort();
     }
 
+    debug_gtk3("Got unit %d, drive %d", drive_number + 8, drive_base);
+
     sb_state = lock_sb_state();
-    sb_state->current_drive_leds[drive_number][0] = led_pwm1;
-    sb_state->current_drive_leds[drive_number][1] = led_pwm2;
-    sb_state->current_drive_leds_updated[drive_number] = true;
+    sb_state->current_drive_leds[drive_number][drive_base][0] = led_pwm1;
+    sb_state->current_drive_leds[drive_number][drive_base][1] = led_pwm2;
+    sb_state->current_drive_leds_updated[drive_number][drive_base][0] = true;
+    sb_state->current_drive_leds_updated[drive_number][drive_base][1] = true;
     unlock_sb_state();
 }
 
@@ -2120,12 +2171,12 @@ void ui_display_drive_track(unsigned int drive_number,
     sb_state = lock_sb_state();
 
     snprintf(
-        sb_state->current_drive_track_str[drive_number],
+        sb_state->current_drive_track_str[drive_number][drive_base],
         DRIVE_TRACK_STR_MAX_LEN - 1,
         "%.1lf",
         half_track_number / 2.0);
-    sb_state->current_drive_track_str[drive_number][DRIVE_TRACK_STR_MAX_LEN - 1] = '\0';
-    sb_state->current_drive_track_str_updated[drive_number] = true;
+    sb_state->current_drive_track_str[drive_number][drive_base][DRIVE_TRACK_STR_MAX_LEN - 1] = '\0';
+    sb_state->current_drive_track_str_updated[drive_number][drive_base] = true;
 
     unlock_sb_state();
 }
@@ -2166,12 +2217,14 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
     /* Update the drive LEDs first, unconditionally. */
     enabled = state;
     for (i = 0; i < NUM_DISK_UNITS; ++i) {
-        if (enabled & 1) {
-            sb_state->drive_led_types[i] = drive_led_color[i];
-            sb_state->current_drive_leds[i][0] = 0;
-            sb_state->current_drive_leds[i][1] = 0;
+        for (int d = 0; d < 2; d++) {
+            if (enabled & 1) {
+                sb_state->drive_led_types[i] = drive_led_color[i];
+                sb_state->current_drive_leds[i][d][0] = 0;
+                sb_state->current_drive_leds[i][d][1] = 0;
+            }
+            enabled >>= 1;
         }
-        enabled >>= 1;
     }
 
     /* Now give enabled its "real" value based on the drive
@@ -2296,8 +2349,12 @@ void ui_update_statusbars(void)
     sb_state->drives_layout_needed = false;
 
     for (j = 0; j < NUM_DISK_UNITS; ++j) {
-        sb_state->current_drive_track_str_updated[j] = false;
-        sb_state->current_drive_leds_updated[j] = false;
+        sb_state->current_drive_track_str_updated[j][0] = false;
+        sb_state->current_drive_track_str_updated[j][1] = false;
+        for (int d = 0; d < 2; d++) {
+            sb_state->current_drive_leds_updated[j][d][0] = false;
+            sb_state->current_drive_leds_updated[j][d][1] = false;
+        }
     }
 
     unlock_sb_state();
@@ -2358,18 +2415,21 @@ void ui_update_statusbars(void)
             }
 
             /* Only update the label if it has changed .. */
-            if (state_snapshot.current_drive_track_str_updated[j]) {
-                track = gtk_grid_get_child_at(GTK_GRID(drive), 1, 0);
-                if (track) {
-                    gtk_label_set_text(GTK_LABEL(track), state_snapshot.current_drive_track_str[j]);
+            for (int d = 0; d < 2; d++) {
+                if (state_snapshot.current_drive_track_str_updated[j][d]) {
+                    track = gtk_grid_get_child_at(GTK_GRID(drive), 1, d);
+                    if (track) {
+                        gtk_label_set_text(GTK_LABEL(track),
+                                           state_snapshot.current_drive_track_str[j][d]);
+                    }
                 }
-            }
 
-            /* Only draw the LEDs if they have changed */
-            if (state_snapshot.current_drive_leds_updated[j]) {
-                led = gtk_grid_get_child_at(GTK_GRID(drive), 2, 0);
-                if (led) {
-                    gtk_widget_queue_draw(led);
+                /* Only draw the LEDs if they have changed */
+                if (state_snapshot.current_drive_leds_updated[j][d]) {
+                    led = gtk_grid_get_child_at(GTK_GRID(drive), 2, d);
+                    if (led) {
+                        gtk_widget_queue_draw(led);
+                    }
                 }
             }
         }

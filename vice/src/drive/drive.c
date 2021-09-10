@@ -850,7 +850,7 @@ void drive_update_ui_status(void)
             }
             /* update LED and track of the second drive for dual drives */
             if (drive_check_dual(unit->type)) {
-                /* drive_led_update(unit, drive1, 1); */ /* FIXME */
+                drive_led_update(unit, drive1, 1);
                 if (drive1->current_half_track != drive1->old_half_track
                     || drive1->side != drive1->old_side) {
                     drive1->old_half_track = drive1->current_half_track;
