@@ -29,6 +29,9 @@
  *
  */
 
+/* #define DBGKBD */
+/* #define DBGKBD_MODIFIERS */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -60,12 +63,16 @@
 #include "util.h"
 #include "vice-event.h"
 
-/* #define DBGKBD */
-
 #ifdef DBGKBD
 #define DBG(x)  printf x
 #else
 #define DBG(x)
+#endif
+
+#ifdef DBGKBD_MODIFIERS
+#define DBGMOD(x)  printf x
+#else
+#define DBGMOD(x)
 #endif
 
 #define KEYBOARD_RAND() lib_unsigned_rand(1, (unsigned int)machine_get_cycles_per_frame())
@@ -456,7 +463,7 @@ static inline void update_virtual_modifier_flags(void) {
         }
     }
     if (virtual_deshift && virtual_shift_down) {
-        printf("update_virtual_modifier_flags: deshift + virtual shift at once\n");
+        log_warning(keyboard_log, "using deshift + virtual shift at the same time\n");
     }
     if (virtual_deshift) {
         virtual_shift_down = 0;
@@ -468,15 +475,15 @@ static inline void update_virtual_modifier_flags(void) {
 static inline void keyboard_key_pressed_modifier(int row, int column, int shift) {
     virtual_modifier_flags[row][column] |= shift;
     update_virtual_modifier_flags();
-    printf("keyboard_key_pressed_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
-           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift);
+    DBGMOD(("keyboard_key_pressed_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
+           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift));
 }
 
 static inline void keyboard_key_released_modifier(int row, int column, int shift) {
     virtual_modifier_flags[row][column] &= ~shift;
     update_virtual_modifier_flags();
-    printf("keyboard_key_released_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
-           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift);
+    DBGMOD(("keyboard_key_released_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
+           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift));
 }
 
 /*-----------------------------------------------------------------------*/
@@ -485,7 +492,7 @@ static inline void keyboard_key_released_modifier(int row, int column, int shift
           mean. we should instead deal with it in the functions further down */
 static void keyboard_key_deshift_all(void)
 {
-    /*printf("keyboard_key_deshift_all\n");*/
+    DBGMOD(("keyboard_key_deshift_all\n"));
     if (lshift_defined()) {
         keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
     }
@@ -508,8 +515,8 @@ static void keyboard_key_shift(void)
     int physical_right = (rshift_defined() && (right_shift_down > 0));
     int physical_left = (lshift_defined() && (left_shift_down > 0));
 
-    /*printf("keyboard_key_shift   left:%d right:%d virtual: %d\n",
-            left_shift_down, right_shift_down, virtual_shift_down);*/
+    DBGMOD(("keyboard_key_shift   left:%d right:%d virtual: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down));
 
     if (lshift_defined()) {
         if ((left_shift_down > 0 && !virtual_deshift)
@@ -547,8 +554,8 @@ static void keyboard_key_shift(void)
 /* handle modifier key release */
 static void keyboard_key_deshift(void)
 {
-    /*printf("keyboard_key_deshift left:%d right:%d virtual: %d\n",
-            left_shift_down, right_shift_down, virtual_shift_down);*/
+    DBGMOD(("keyboard_key_deshift left:%d right:%d virtual: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down));
 
     /* Map shift keys. */
     if (right_shift_down > 0
@@ -620,8 +627,8 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
 
             keyboard_key_pressed_modifier(row, column, shift);
 
-            printf("keyboard_key_pressed_matrix  %d, %d shift flag: %02x virt: %d left: %d right: %d shift-lock: %d\n",
-                row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down, keyboard_shiftlock);
+            DBGMOD(("keyboard_key_pressed_matrix  %d, %d shift flag: %02x virt: %d left: %d right: %d shift-lock: %d\n",
+                row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down, keyboard_shiftlock));
 
             keyboard_key_shift();
 
@@ -849,8 +856,8 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
         /* update the virtual modifier flags */
         keyboard_key_released_modifier(row, column, shift);
 
-        printf("keyboard_key_released_matrix %d, %d shift flag: %02x virt: %d left: %d right: %d shift-lock: %d\n",
-               row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down, keyboard_shiftlock);
+        DBGMOD(("keyboard_key_released_matrix %d, %d shift flag: %02x virt: %d left: %d right: %d shift-lock: %d\n",
+               row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down, keyboard_shiftlock));
 
         keyboard_key_deshift();
 
