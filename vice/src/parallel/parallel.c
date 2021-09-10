@@ -37,7 +37,7 @@
 
 /* FIXME: This should have its own log instead of using `LOG_DEFAULT'.  */
 
-#define DEBUG_PARALLEL
+/* #define DEBUG_PARALLEL */
 
 #include "vice.h"
 

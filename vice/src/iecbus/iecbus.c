@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUG_IECBUS
+/* #define DEBUG_IECBUS */
 
 #include "vice.h"
 
