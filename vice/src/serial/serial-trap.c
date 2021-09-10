@@ -24,7 +24,7 @@
  *
  */
 
-/* #define DEBUG_SERIAL */
+#define DEBUG_SERIAL
 
 #include "vice.h"
 
@@ -46,6 +46,9 @@
 #else
 #define DBG(x)
 #endif
+
+#define MAX_DEVICES 15  /* FIXME: is there another constant we can use instead? */
+extern int traps_enabled_device[MAX_DEVICES]; /* FIXME */
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
@@ -117,6 +120,7 @@ static void send_listen_talk_secondary(uint8_t b)
 static int device_uses_serial_traps(int device)
 {
     if ((device < 4) || (device > 11) || /* only devices 4 to 11 can use traps */
+        !traps_enabled_device[device] ||
         (serial_truedrive[device] && !IS_PRINTER(device))) {
         return 0;
     }

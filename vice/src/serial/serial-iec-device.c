@@ -25,6 +25,9 @@
  *
  */
 
+/* #define IEC_DEVICE_DEBUG 0 */
+/* #define IEC_DEVICE_DEBUG 8 */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -39,6 +42,10 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "serial-iec-bus.h"
+
+#if IEC_DEVICE_DEBUG > 0
+#include <ctype.h>
+#endif
 
 void serial_iec_device_enable(unsigned int devnr);
 void serial_iec_device_disable(unsigned int devnr);
@@ -169,8 +176,6 @@ int serial_iec_device_cmdline_options_init(void)
 /* Implement IEC devices here.  */
 
 /*------------------------------------------------------------------------*/
-
-#define IEC_DEVICE_DEBUG 0
 
 /* Logging goes here.  */
 #if IEC_DEVICE_DEBUG > 0

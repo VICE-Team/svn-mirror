@@ -65,6 +65,12 @@
 #include "vdrive.h"
 #include "diskconstants.h"
 
+#ifdef DEBUG_DRIVE
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
+
 static log_t vdrive_iec_log = LOG_ERR;
 
 #define OFFSET_SUPER_POINTER 3
@@ -1176,6 +1182,7 @@ void vdrive_iec_flush(vdrive_t *vdrive, unsigned int secondary)
 
 int vdrive_iec_attach(unsigned int unit, const char *name)
 {
+    DBG(("vdrive_iec_attach unit: %u name: %s", unit, name));
     return machine_bus_device_attach(unit, name, vdrive_iec_read,
                                      vdrive_iec_write, vdrive_iec_open,
                                      vdrive_iec_close, vdrive_iec_flush,

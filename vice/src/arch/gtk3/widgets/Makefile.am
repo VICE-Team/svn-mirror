@@ -152,7 +152,6 @@ libwidgets_a_SOURCES = \
 	settings_mixer.c \
 	settings_model.c \
 	settings_monitor.c \
-	settings_peripherals_generic.c \
 	settings_printer.c \
 	settings_ramreset.c \
 	settings_romset.c \

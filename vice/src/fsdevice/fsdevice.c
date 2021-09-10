@@ -33,6 +33,8 @@
  *
  */
 
+#define DEBUG_FSDEVICE
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -59,6 +61,11 @@
 #include "vdrive-command.h"
 #include "vdrive.h"
 
+#ifdef DEBUG_FSDEVICE
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 fsdevice_dev_t fsdevice_dev[FSDEVICE_DEVICE_MAX];
 
@@ -182,6 +189,8 @@ int fsdevice_error_get_byte(vdrive_t *vdrive, uint8_t *data)
 int fsdevice_attach(unsigned int device, unsigned int drive, const char *name)
 {
     vdrive_t *vdrive;
+
+    DBG(("fsdevice_attach device: %u drive: %u name: %s", device, drive, name));
 
     vdrive = file_system_get_vdrive(device);
 

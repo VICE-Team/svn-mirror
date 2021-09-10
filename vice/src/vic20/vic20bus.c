@@ -67,10 +67,10 @@ void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
     iecbus_status_set(IECBUS_STATUS_DRIVETYPE, unit, enable);
 }
 
-void machine_bus_status_virtualdevices_set(unsigned int enable)
+void machine_bus_status_virtualdevices_set(unsigned int unit, unsigned int enable)
 {
-    iecbus_status_set(IECBUS_STATUS_VIRTUALDEVICES, 0, enable); /* IEC */
-    parallel_bus_enable(enable); /* IEEE488 */
+    iecbus_status_set(IECBUS_STATUS_VIRTUALDEVICES, unit, enable); /* IEC */
+    parallel_bus_enable(unit, enable); /* IEEE488 */
 }
 
 void machine_bus_eof_callback_set(void (*func)(void))
