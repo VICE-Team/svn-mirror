@@ -33,7 +33,7 @@
  *
  */
 
-#define DEBUG_FSDEVICE
+/* #define DEBUG_FSDEVICE */
 
 #include "vice.h"
 

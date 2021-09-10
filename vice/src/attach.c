@@ -24,6 +24,8 @@
  *
  */
 
+/* #define DEBUG_ATTACH */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -50,8 +52,6 @@
 #include "vdrive.h"
 #include "vice-event.h"
 #include "p64.h"
-
-#define DEBUG_ATTACH
 
 #ifdef DEBUG_ATTACH
 #define DBG(x)  log_debug x
