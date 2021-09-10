@@ -62,6 +62,7 @@
 #include "tick.h"
 #include "types.h"
 #include "uiapi.h"
+#include "util.h"
 #include "version.h"
 #include "video.h"
 #include "vsyncapi.h"
@@ -107,6 +108,7 @@ int main_program(int argc, char **argv)
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
     int reserr;
+    char *cmdline;
 
     /*
      * OpenMP defaults to spinning threads for a couple hundred ms
@@ -121,6 +123,15 @@ int main_program(int argc, char **argv)
 #endif
 
     lib_init();
+
+    /* create string from the commandline that we can log later */
+    cmdline = lib_strdup(argv[0]);
+    for (i = 1; i < argc; i++) {
+        char *p;
+        p = cmdline; /* remember old pointer */
+        cmdline = util_concat(p, " ", argv[i], NULL);
+        lib_free(p); /* free old pointer */
+    }
 
     /* Check for some options at the beginning of the commandline before 
        initializing the user interface or loading the config file.
@@ -305,6 +316,8 @@ int main_program(int argc, char **argv)
 
     /* lib_free(program_name); */
     lib_rand_printseed(); /* log the random seed */
+    log_message(LOG_DEFAULT, "command line was: %s", cmdline);
+    lib_free(cmdline);
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */
