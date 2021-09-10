@@ -431,6 +431,15 @@ static inline int key_is_modifier(int row, int column) {
 
 static int virtual_modifier_flags[KBD_ROWS][KBD_COLS];
 
+static void clear_virtual_modifier_flags(void) {
+    int row, column;
+    for (row = 0; row < KBD_ROWS; row++) {
+        for (column = 0; column < KBD_COLS; column++) {
+            virtual_modifier_flags[row][column] = 0;
+        }
+    }
+}
+
 static inline void update_virtual_modifier_flags(void) {
     int row, column, shift;
     virtual_shift_down = 0;
@@ -450,13 +459,6 @@ static inline void update_virtual_modifier_flags(void) {
         printf("update_virtual_modifier_flags: deshift + virtual shift at once\n");
     }
     if (virtual_deshift) {
-#if 0
-        /* FIXME: should this really remove ALL modifiers? */
-        left_shift_down = 0;
-        right_shift_down = 0;
-        left_ctrl_down = 0;
-        left_cbm_down = 0;
-#endif
         virtual_shift_down = 0;
     } else if (virtual_shift_down) {
         virtual_deshift = 0;
@@ -479,6 +481,8 @@ static inline void keyboard_key_released_modifier(int row, int column, int shift
 
 /*-----------------------------------------------------------------------*/
 
+/* FIXME: only used when shiftflag = 0, whatever this precisely is supposed to
+          mean. we should instead deal with it in the functions further down */
 static void keyboard_key_deshift_all(void)
 {
     /*printf("keyboard_key_deshift_all\n");*/
@@ -589,22 +593,9 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
         key_latch_column = column;
 
         if (shift == NO_SHIFT) {
+            /* FIXME: this is still an odd case that shouldnt exist */
             keyboard_key_deshift_all();
         } else {
-            /* FIXME: somehow make sure virtual shift/cbm/ctrl is really only
-                      valid for one combined keypress. the shift/ctrl/cbm
-                      status should not get permanently altered by deshifting */
-#if 0
-            if (shift & DESHIFT_SHIFT) {
-                /* FIXME: should this really remove ALL modifiers? */
-                keyboard_key_deshift_all();
-            }
-#endif
-#if 0
-            if (shift & VIRTUAL_SHIFT) {
-                virtual_shift_down = 1;
-            }
-#endif
             if (shift & LEFT_SHIFT) {
                 left_shift_down = 1;
             }
@@ -614,39 +605,23 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
             if (shift & SHIFT_LOCK) {
                 keyboard_shiftlock ^= 1;
             }
+            /* press CBM key */
             if (lcbm_defined()) {
-#if 0
-                if (shift & VIRTUAL_CBM) {
-                    virtual_cbm_down = 1;
-                }
-#endif
                 if (shift & LEFT_CBM) {
                     left_cbm_down = 1;
                 }
             }
+            /* press CTRL key */
             if (lctrl_defined()) {
-#if 0
-                if (shift & VIRTUAL_CTRL) {
-                    virtual_ctrl_down = 1;
-                }
-#endif
                 if (shift & LEFT_CTRL) {
                     left_ctrl_down = 1;
                 }
             }
-#if 0
-            if (shift & DESHIFT_SHIFT) {
-                /* FIXME: should this really remove ALL modifiers? */
-                left_shift_down = 0;
-                right_shift_down = 0;
-                left_ctrl_down = 0;
-                left_cbm_down = 0;
-            }
-#endif
+
             keyboard_key_pressed_modifier(row, column, shift);
 
-            printf("keyboard_key_pressed_matrix  %d, %d shift flag: %02x virt: %d left: %d right: %d\n",
-                row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down);
+            printf("keyboard_key_pressed_matrix  %d, %d shift flag: %02x virt: %d left: %d right: %d shift-lock: %d\n",
+                row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down, keyboard_shiftlock);
 
             keyboard_key_shift();
 
@@ -813,6 +788,7 @@ void keyboard_key_pressed(signed long key, int mod)
 
     if (latch) {
         /* modifier latching is handled in keyboard_key_shift() */
+        /* key_latch_row / key_latch_column is set by keyboard_key_pressed_matrix() */
         if (!key_is_modifier(key_latch_row, key_latch_column)) {
             keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
         }
@@ -831,12 +807,10 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
     int skip_release = 0;
 
     if (row >= 0) {
+#if 0
+        /* FIXME: this looks very wrong, it is used only above in the "key pressed" function */
         key_latch_row = row;
         key_latch_column = column;
-#if 0
-        if (shift & VIRTUAL_SHIFT) {
-            virtual_shift_down = 0;
-        }
 #endif
         if (shift & LEFT_SHIFT) {
             left_shift_down = 0;
@@ -850,15 +824,7 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
                 skip_release = 1;
             }
         }
-#if 0
-        if (shift & SHIFT_LOCK) {
-            keyboard_shiftlock = 0;
-            if (((shiftl == KEY_RSHIFT) && right_shift_down)
-                || ((shiftl == KEY_LSHIFT) && left_shift_down)) {
-                skip_release = 1;
-            }
-        }
-#endif
+
         /* when shift lock is released and shift lock is "locked", then exit
            early and do nothing */
         if (shift & SHIFT_LOCK) {
@@ -867,31 +833,24 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
             }
         }
 
+        /* release CBM key */
         if (lcbm_defined()) {
-#if 0
-            if (shift & VIRTUAL_CBM) {
-                virtual_cbm_down = 0;
-            }
-#endif
             if (shift & LEFT_CBM) {
                 left_cbm_down = 0;
             }
         }
-
+        /* release CTRL key */
         if (lctrl_defined()) {
-#if 0
-            if (shift & VIRTUAL_CTRL) {
-                virtual_ctrl_down = 0;
-            }
-#endif
             if (shift & LEFT_CTRL) {
                 left_ctrl_down = 0;
             }
         }
+
+        /* update the virtual modifier flags */
         keyboard_key_released_modifier(row, column, shift);
 
-        printf("keyboard_key_released_matrix %d, %d shift flag: %02x virt: %d left: %d right: %d\n",
-               row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down);
+        printf("keyboard_key_released_matrix %d, %d shift flag: %02x virt: %d left: %d right: %d shift-lock: %d\n",
+               row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down, keyboard_shiftlock);
 
         keyboard_key_deshift();
 
@@ -984,8 +943,9 @@ void keyboard_key_released(signed long key, int mod)
 static void keyboard_key_clear_internal(void)
 {
     keyboard_clear_keymatrix();
+    clear_virtual_modifier_flags();
     joystick_clear_all();
-    virtual_cbm_down = virtual_shift_down =
+    virtual_cbm_down = virtual_shift_down = virtual_deshift =
         left_shift_down = right_shift_down = keyboard_shiftlock = 0;
 #ifdef COMMON_JOYKEYS
     joystick_joypad_clear();
@@ -1371,14 +1331,14 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
 
     p = strtok(NULL, " \t,");
     if (p != NULL) {
-        row = strtol(p, NULL, 10);
+        row = strtol(p, NULL, 0);
         p = strtok(NULL, " \t,");
         if (p != NULL) {
-            col = atoi(p);  /* YUCK! */
+            col = strtol(p, NULL, 0);
             p = strtok(NULL, " \t");
             if (p != NULL || row < 0) {
                 if (p != NULL) {
-                    shift = atoi(p);
+                    shift = strtol(p, NULL, 0);
                 }
 
                 if (row >= 0) {
