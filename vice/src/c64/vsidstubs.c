@@ -43,6 +43,7 @@
 #include "diskcontents-block.h"
 #include "diskimage.h"
 #include "drive.h"
+#include "drive-check.h"
 #include "driveimage.h"
 #include "drivetypes.h"
 #include "fileio.h"
@@ -975,4 +976,10 @@ int drive_has_buttons(unsigned int dnr)
 {
     return 0;
 }
+
+unsigned int drive_check_dual(unsigned int type)
+{
+    return 0;
+}
+
 
