@@ -351,6 +351,37 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
     return 0;
 }
 
+#define NUM_TRAP_DEVICES 9  /* FIXME: is there a better constant ? */
+static int trapfl[NUM_TRAP_DEVICES];
+static int trapdevices[NUM_TRAP_DEVICES + 1] = { 1, 4, 5, 6, 7, 8, 9, 10, 11, -1 };
+
+static void get_trapflags(void)
+{
+    int i;
+    for(i = 0; trapdevices[i] != -1; i++) {
+        resources_get_int_sprintf("VirtualDevice%d", &trapfl[i], trapdevices[i]);
+        printf("got %d = %d\n", trapdevices[i], trapfl[i]);
+    }
+}
+
+static void clear_trapflags(void)
+{
+    int i;
+    for(i = 0; trapdevices[i] != -1; i++) {
+        resources_set_int_sprintf("VirtualDevice%d", 0, trapdevices[i]);
+        printf("clear %d = %d\n", trapdevices[i], 0);
+    }
+}
+
+static void restore_trapflags(void)
+{
+    int i;
+    for(i = 0; trapdevices[i] != -1; i++) {
+        resources_set_int_sprintf("VirtualDevice%d", trapfl[i], trapdevices[i]);
+        printf("restore %d = %d\n", trapdevices[i], trapfl[i]);
+    }
+}
+
 static const char module_rom_name[] = "PETROM";
 #define PETROM_DUMP_VER_MAJOR   1
 #define PETROM_DUMP_VER_MINOR   1
@@ -382,7 +413,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *s, int save_roms)
 {
     snapshot_module_t *m;
     uint8_t config;
-    int i, trapfl;
+    int i;
 
     if (!save_roms) {
         return 0;
@@ -395,8 +426,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *s, int save_roms)
     }
 
     /* disable traps before saving the ROM */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 0);
+    get_trapflags();
+    clear_trapflags();
     petrom_unpatch_2001();
 
     config = (petrom_9_loaded ? 1 : 0)
@@ -449,7 +480,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *s, int save_roms)
     }
 
     /* enable traps again when necessary */
-    resources_set_int("VirtualDevices", trapfl);
+    restore_trapflags();
     petrom_patch_2001();
 
     snapshot_module_close(m);
@@ -462,7 +493,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
     uint8_t config;
-    int trapfl, new_iosize;
+    int new_iosize;
 
     m = snapshot_module_open(s, module_rom_name, &vmajor, &vminor);
     if (m == NULL) {
@@ -477,8 +508,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 0);
+    get_trapflags();
+    clear_trapflags();
     petrom_unpatch_2001();
 
     config = (petrom_9_loaded ? 1 : 0)
@@ -561,7 +592,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
     petrom_patch_2001();
 
     /* enable traps again when necessary */
-    resources_set_int("VirtualDevices", trapfl);
+    restore_trapflags();
 
     snapshot_module_close(m);
 

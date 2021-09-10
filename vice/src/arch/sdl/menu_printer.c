@@ -198,9 +198,13 @@ VICE_SDL_PRINTER_TYPE_MENU(6)
 
 #ifdef HAVE_REALDEVICE
 VICE_SDL_DEVICE_TYPE_MENU(7)
+UI_MENU_DEFINE_TOGGLE(VirtualDevice7)
 UI_MENU_DEFINE_TOGGLE(IECDevice7)
 #endif
 
+UI_MENU_DEFINE_TOGGLE(VirtualDevice4)
+UI_MENU_DEFINE_TOGGLE(VirtualDevice5)
+UI_MENU_DEFINE_TOGGLE(VirtualDevice6)
 UI_MENU_DEFINE_TOGGLE(IECDevice4)
 UI_MENU_DEFINE_TOGGLE(IECDevice5)
 UI_MENU_DEFINE_TOGGLE(IECDevice6)
@@ -328,18 +332,30 @@ UI_MENU_DEFINE_STRING(PrinterTextDevice3)
 
 const ui_menu_entry_t printer_iec_menu[] = {
     VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS
+    { "Printer #4 enable virtual device",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VirtualDevice4_callback,
+      NULL },
     { "Printer #4 enable IEC device",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IECDevice4_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS
+    { "Printer #5 enable virtual device",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VirtualDevice5_callback,
+      NULL },
     { "Printer #5 enable IEC device",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IECDevice5_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS
+    { "Printer #6 enable virtual device",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VirtualDevice6_callback,
+      NULL },
     { "Printer #6 enable IEC device",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IECDevice6_callback,
@@ -347,6 +363,10 @@ const ui_menu_entry_t printer_iec_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
 #ifdef HAVE_REALDEVICE
     VICE_SDL_DEVICE_COMMON_7_MENU_ITEMS
+    { "Device #7 enable virtual device",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VirtualDevice7_callback,
+      NULL },
     { "Device #7 enable IEC device",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IECDevice7_callback,

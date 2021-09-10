@@ -108,6 +108,7 @@ UI_MENU_DEFINE_INT(DatasetteTapeWobbleFrequency)
 UI_MENU_DEFINE_INT(DatasetteTapeWobbleAmplitude)
 UI_MENU_DEFINE_INT(DatasetteTapeAzimuthError)
 UI_MENU_DEFINE_TOGGLE(DatasetteSound)
+UI_MENU_DEFINE_TOGGLE(VirtualDevice1)
 
 const ui_menu_entry_t tape_menu[] = {
     { "Attach tape image",
@@ -176,6 +177,10 @@ const ui_menu_entry_t tape_menu[] = {
     { "Enable Datasette sound",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DatasetteSound_callback,
+      NULL },
+    { "Enable virtual device (for t64)",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VirtualDevice1_callback,
       NULL },
     SDL_MENU_LIST_END
 };

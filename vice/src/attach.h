@@ -30,6 +30,12 @@
 
 #include "types.h"
 
+/*
+ * FIXME: Note about ATTACH_DEVICE_FS and ATTACH_DEVICE_VIRT:
+ * Attaching a disk image also uses _FS even though you would expect _VIRT.
+ * The value _VIRT seems to be unused in practice.
+ * One would expect _FS for the fsdevice, and _VIRT for vdrive images.
+ */
 #define ATTACH_DEVICE_NONE 0
 #define ATTACH_DEVICE_FS   1 /* filesystem */
 #define ATTACH_DEVICE_REAL 2 /* real IEC device (opencbm) */

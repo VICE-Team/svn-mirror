@@ -157,7 +157,6 @@
 #include "uimachinewindow.h"
 
 /* TODO: move up and sort headers */
-#include "settings_peripherals_generic.h"
 #include "settings_host_display.h"
 
 /* VSID stuff */
@@ -1013,14 +1012,11 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
 /** \brief  Child nodes for the C64 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_c64[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     /* "Output devices? drive is also input */
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1186,13 +1182,10 @@ static ui_settings_tree_node_t input_nodes_c64dtv[] = {
 /** \brief  Child nodes for the C64DTV 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1339,14 +1332,11 @@ static ui_settings_tree_node_t input_nodes_c128[] = {
 /** \brief  Child nodes for the C128 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_c128[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     /* "Output devices? drive is also input */
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1512,13 +1502,10 @@ static ui_settings_tree_node_t input_nodes_scpu64[] = {
 /** \brief  Child nodes for the SCPU64 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1671,13 +1658,10 @@ static ui_settings_tree_node_t input_nodes_vic20[] = {
 /** \brief  Child nodes for the VIC20 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1829,13 +1813,10 @@ static ui_settings_tree_node_t input_nodes_plus4[] = {
 /** \brief  Child nodes for the Plus4 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1987,13 +1968,10 @@ static ui_settings_tree_node_t input_nodes_pet[] = {
 /** \brief  Child nodes for the PET 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_pet[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -2142,13 +2120,10 @@ static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
 /** \brief  Child nodes for the CBM5x0 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -2294,13 +2269,10 @@ static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
 /** \brief  Child nodes for the CBM6x0 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",

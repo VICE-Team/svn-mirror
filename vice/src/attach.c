@@ -51,10 +51,10 @@
 #include "vice-event.h"
 #include "p64.h"
 
-/* #define DEBUG_ATTACH */
+#define DEBUG_ATTACH
 
 #ifdef DEBUG_ATTACH
-#define DBG(x)  printf x
+#define DBG(x)  log_debug x
 #else
 #define DBG(x)
 #endif
@@ -122,16 +122,16 @@ static const resource_int_t resources_int[] = {
       RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_FS,
       &file_system_device_enabled[0],
       set_file_system_device, (void *)8 },
-    { "FileSystemDevice9", ATTACH_DEVICE_NONE,
-      RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_NONE,
+    { "FileSystemDevice9", ATTACH_DEVICE_FS,
+      RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_FS,
       &file_system_device_enabled[1],
       set_file_system_device, (void *)9 },
-    { "FileSystemDevice10", ATTACH_DEVICE_NONE,
-      RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_NONE,
+    { "FileSystemDevice10", ATTACH_DEVICE_FS,
+      RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_FS,
       &file_system_device_enabled[2],
       set_file_system_device, (void *)10 },
-    { "FileSystemDevice11", ATTACH_DEVICE_NONE,
-      RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_NONE,
+    { "FileSystemDevice11", ATTACH_DEVICE_FS,
+      RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_FS,
       &file_system_device_enabled[3],
       set_file_system_device, (void *)11 },
     RESOURCE_INT_LIST_END
@@ -228,7 +228,7 @@ int file_system_cmdline_options_init(void)
  */
 static int file_system_set_serial_hooks(unsigned int unit, int fs)
 {
-    DBG(("file_system_set_serial_hooks dev %u: %s\n", unit, (fs == ATTACH_DEVICE_NONE) ? "vdrive" : "fsdevice"));
+    DBG(("file_system_set_serial_hooks dev %u: %s", unit, (fs == ATTACH_DEVICE_NONE) ? "vdrive" : "fsdevice"));
 
     if (fs == ATTACH_DEVICE_NONE) {
         if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
@@ -403,14 +403,14 @@ static int set_file_system_device(int val, void *param)
     int old_device_enabled, new_device_enabled;
 
     if ((unit < 8) || (unit >= 8 + NUM_DISK_UNITS)) {
-        DBG(("set_file_system_device invalid dev #%u\n", unit));
+        DBG(("set_file_system_device invalid dev #%u", unit));
         return -1;
     }
     idx = unit - 8;
     old_device_enabled = file_system_device_enabled[idx];
     new_device_enabled = val;
 
-    DBG(("set_file_system_device dev #%u old dev:%d new dev:%d\n", unit, old_device_enabled, new_device_enabled));
+    DBG(("set_file_system_device dev #%u old dev:%d new dev:%d", unit, old_device_enabled, new_device_enabled));
 
     if (old_device_enabled == new_device_enabled) {
         return 0;
@@ -422,7 +422,7 @@ static int set_file_system_device(int val, void *param)
 
    if (vdrive == NULL) {
         /* file_system_set_serial_hooks() requires non-NULL... */
-        DBG(("set_file_system_device: Too early in initialization; unit %u: vdrive is NULL\n", unit));
+        DBG(("set_file_system_device: Too early in initialization; unit %u: vdrive is NULL", unit));
         return 0;
     }
 

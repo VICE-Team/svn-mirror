@@ -198,7 +198,7 @@ void fsdrive_open(unsigned int device, uint8_t secondary, void (*st_func)(uint8_
 #endif
 
     p = serial_device_get(device & 0x0f);
-    DBG(("fsdrive_open %u,%d", device & 0xF, secondary & 0xF));
+    DBG(("fsdrive_open %u,%d p:%p", device & 0xF, secondary & 0xF, p));
 #ifndef DELAYEDCLOSE
     if (p->isopen[secondary & 0x0f] == ISOPEN_OPEN) {
         if ((device & 0x0f) >= 8) {
@@ -206,6 +206,7 @@ void fsdrive_open(unsigned int device, uint8_t secondary, void (*st_func)(uint8_
         } else {
             vdrive = NULL;
         }
+        DBG(("fsdrive_open vdrive: %p", vdrive));
         (*(p->closef))(vdrive, secondary & 0x0f);
     }
 #endif
@@ -281,6 +282,8 @@ void fsdrive_write(unsigned int device, uint8_t secondary, uint8_t data, void (*
     } else {
         vdrive = NULL;
     }
+
+    DBG(("fsdrive_write %u,%d vdrive: %p inuse: %d", device & 0xF, secondary & 0xF, vdrive, p->inuse));
 
     if (p->inuse) {
         if (p->isopen[secondary & 0x0f] == ISOPEN_AWAITING_NAME) {

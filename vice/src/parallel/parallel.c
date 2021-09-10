@@ -37,6 +37,8 @@
 
 /* FIXME: This should have its own log instead of using `LOG_DEFAULT'.  */
 
+#define DEBUG_PARALLEL
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -45,6 +47,7 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "drivetypes.h"
+#include "iecbus.h"
 #include "ieee.h"
 #include "log.h"
 #include "maincpu.h"
@@ -53,13 +56,26 @@
 #include "resources.h"
 #include "types.h"
 
+#ifdef DEBUG_PARALLEL
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 #define PARALLEL_DEBUG_VERBOSE
-static int parallel_emu = 1;
+static int parallel_emu = 0;
+static int parallel_unit_enabled[IECBUS_NUM];
 
-void parallel_bus_enable(int enable)
+void parallel_bus_enable(unsigned int unit, unsigned int enable)
 {
-    parallel_emu = enable;
+    int n;
+    DBG(("parallel_bus_enable unit: %u enable: %u", unit, enable));
+    parallel_unit_enabled[unit] = enable ? 1 : 0;
+    parallel_emu = 0;
+    for (n = 0; n < IECBUS_NUM; n++) {
+        parallel_emu |= parallel_unit_enabled[unit];
+    }
+    DBG(("parallel_bus_enable parallel_emu: %d", parallel_emu));
 }
 
 /***************************************************************************
