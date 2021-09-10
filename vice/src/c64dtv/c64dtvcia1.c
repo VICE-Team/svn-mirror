@@ -46,10 +46,6 @@
 #include "types.h"
 #include "vicii.h"
 
-#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-#include "rsuser.h"
-#endif
-
 #include "c64dtv-resources.h"
 #include "hummeradc.h"
 
@@ -203,11 +199,6 @@ static void read_sdr(cia_context_t *cia_context)
 
 static void store_sdr(cia_context_t *cia_context, uint8_t byte)
 {
-#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    if (rsuser_enabled) {
-        rsuser_tx_byte(byte);
-    }
-#endif
 }
 
 /* dummy function for c64keyboard.c */

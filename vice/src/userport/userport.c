@@ -414,10 +414,8 @@ static const struct userport_opt_s id_match[] = {
     { "1",                USERPORT_DEVICE_PRINTER },
     { "printer",          USERPORT_DEVICE_PRINTER },
     { "plotter",          USERPORT_DEVICE_PRINTER },
-#if 0
-    { "2",                USERPORT_DEVICE_MODEM },
-    { "modem",            USERPORT_DEVICE_MODEM },
-#endif
+    { "2",                USERPORT_DEVICE_RS232_MODEM },
+    { "modem",            USERPORT_DEVICE_RS232_MODEM },
     { "3",                USERPORT_DEVICE_JOYSTICK_CGA },
     { "cga",              USERPORT_DEVICE_JOYSTICK_CGA },
     { "cgajoy",           USERPORT_DEVICE_JOYSTICK_CGA },

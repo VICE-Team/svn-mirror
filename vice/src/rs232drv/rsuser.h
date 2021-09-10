@@ -40,21 +40,12 @@
 #define CTS_IN          0x40    /* PB6 */
 #define DSR_IN          0x80    /* PB7 */
 
-extern int rsuser_enabled;
-
 extern void rsuser_init(long cycles_per_sec, void (*start_bit_trigger)(void),
                         void (*byte_rx_func)(uint8_t));
 extern void rsuser_change_timing(long cycles_per_sec);
 extern int rsuser_resources_init(void);
 extern int rsuser_cmdline_options_init(void);
 
-extern void rsuser_tx_byte(uint8_t b);
-extern void rsuser_write_ctrl(uint8_t b);
-extern uint8_t rsuser_read_ctrl(uint8_t b);
-
 extern void rsuser_reset(void);
-
-extern uint8_t rsuser_get_rx_bit(void);
-extern void rsuser_set_tx_bit(int b);
 
 #endif

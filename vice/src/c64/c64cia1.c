@@ -51,10 +51,6 @@
 #include "userport.h"
 #include "vicii.h"
 
-#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-#include "rsuser.h"
-#endif
-
 #ifdef HAVE_MOUSE
 #include "mouse.h"
 #endif
@@ -464,11 +460,6 @@ static void store_sdr(cia_context_t *cia_context, uint8_t byte)
             c64fastiec_fast_cpu_write((uint8_t)byte);
         }
     }
-#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    if (rsuser_enabled) {
-        rsuser_tx_byte(byte);
-    }
-#endif
 }
 
 void cia1_init(cia_context_t *cia_context)
