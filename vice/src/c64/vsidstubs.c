@@ -66,6 +66,7 @@
 #include "tapeport.h"
 #include "tapecontents.h"
 #include "tape-snapshot.h"
+#include "userport.h"
 #include "vdrive.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
@@ -982,4 +983,7 @@ unsigned int drive_check_dual(unsigned int type)
     return 0;
 }
 
-
+userport_desc_t *userport_get_valid_devices(int sort)
+{
+    return NULL;
+}
