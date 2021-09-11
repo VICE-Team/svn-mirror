@@ -5,16 +5,9 @@
  */
 
 /*
- * $VICERES Userport4bitSampler     x64 x64sc xscpu64 x128 xcbm2
- * $VICERES Userport8BSS            x64 x64sc xscpu64 x128 xcbm2
- * $VICERES UserportDAC             x64 x64sc xscpu64 x128 xcbm2 xvic xpet xplus4
- * $VICERES UserportDIGIMAX         x64 x64sc xscpu64 x128 xcbm2
- * $VICERES Userport58321a          x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES UserportDevice          x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES Userport58321aSave      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
- * $VICERES UserportDS1307          x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  * $VICERES UserportDS1307Save      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
- * $VICERES UserportPetsciiSNESPad  x64 x64sc xscpu64 x128 xvic xpet xcbm2
- * $VICERES UserportSuperPad64      x64 x64sc xscpu64 x128 xcbm2
  */
 
 /*
@@ -39,121 +32,36 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-#include <stdlib.h>
 
-#include "lib.h"
-#include "util.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "machine.h"
+#include "lib.h"
 #include "resources.h"
+#include "userport.h"
+#include "vice_gtk3.h"
 
 #include "userportdeviceswidget.h"
+
+
+/** \brief  Column indexes in the useport devices model
+ */
+enum {
+    COL_DEVICE_ID,      /**< device ID (int) */
+    COL_DEVICE_NAME,    /**< device name (str) */
+    COL_DEVICE_TYPE     /**< device type (int) */
+};
 
 
 /*
  * Used for the event handlers
  */
 
-/** \brief  58321a enable toggle button */
-static GtkWidget *rtc_58321a = NULL;
-
 /** \brief  58321a save enable toggle button */
 static GtkWidget *rtc_58321a_save = NULL;
-
-/** \brief  ds1307 enable toggle button */
-static GtkWidget *rtc_ds1307 = NULL;
 
 /** \brief  ds1307 save enable toggle button */
 static GtkWidget *rtc_ds1307_save = NULL;
 
-
-/** \brief  Handler for the 'toggled' event of the RTC58321a widget
- *
- * Enables/disables the related Save widget, depending on the state of the
- * RTC58321a widget.
- *
- * \param[in]   widget      RTC58321a widget
- * \param[in]   user_data   unused
- */
-static void on_58321a_toggled(GtkWidget *widget, gpointer user_data)
-{
-    gtk_widget_set_sensitive(rtc_58321a_save,
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
-}
-
-
-/** \brief  Handler for the 'toggled' event of the RTCDS1307 widget
- *
- * Enables/disables the related Save widget, depending on the state of the
- * RTCDS1307 widget
- *
- * \param[in]   widget      RTCDS1307 widget
- * \param[in]   user_data   unused
- */
-static void on_ds1307_toggled(GtkWidget *widget, gpointer user_data)
-{
-    gtk_widget_set_sensitive(rtc_ds1307_save,
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
-}
-
-
-/** \brief  Create widget for the "Userport4bitSampler" resource
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_4bit_sampler_widget(void)
-{
-    return vice_gtk3_resource_check_button_new(
-            "Userport4bitSampler", "Enable 4 bit sampler");
-}
-
-
-/** \brief  Create widget for the "Userport8BSS" resource
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_8bit_stereo_sampler_widget(void)
-{
-    return vice_gtk3_resource_check_button_new(
-            "Userport8BSS", "Enable 8 bit stereo sampler");
-}
-
-
-/** \brief  Create widget for the "UserportDAC" resource
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_dac_widget(void)
-{
-    return vice_gtk3_resource_check_button_new(
-            "UserportDAC", "Enable 8 bit DAC");
-}
-
-
-/** \brief  Create widget for the "UserportDIGIMAX" resource
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_digimax_widget(void)
-{
-    return vice_gtk3_resource_check_button_new(
-            "UserportDIGIMAX", "Enable DIGIMAX");
-}
-
-
-/** \brief  Create widget for the "UserportRTC58321a" resource
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_rtc_58321a_widget(void)
-{
-    return vice_gtk3_resource_check_button_new(
-            "UserportRTC58321a", "Enable RTC (58321a)");
-}
 
 
 /** \brief  Create widget for the "UserportRTC58321aSave" resource
@@ -164,17 +72,6 @@ static GtkWidget *create_rtc_58321a_save_widget(void)
 {
     return vice_gtk3_resource_check_button_new(
             "UserportRTC58321aSave", "Enable RTC (58321a) saving");
-}
-
-
-/** \brief  Create widget for the "UserportRTCDS1307" resource
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_rtc_ds1307_widget(void)
-{
-    return vice_gtk3_resource_check_button_new(
-            "UserportRTCDS1307", "Enable RTC (DS1307)");
 }
 
 
@@ -189,106 +86,158 @@ static GtkWidget *create_rtc_ds1307_save_widget(void)
 }
 
 
-/** \brief  Create widget for the "UserportPetsciiSNESPad" resource
+/** \brief  Set the RTC checkboxes' sensitivity based on device ID
  *
- * \return  GtkCheckButton
+ * Use userport device \a id to determine which RTC checkboxes to 'grey-out'.
+ *
+ * \param[in]   id  userport device ID
  */
-static GtkWidget *create_snespad_widget(void)
+static void set_rtc_widgets_sensitivity(int id)
 {
-    return vice_gtk3_resource_check_button_new(
-            "UserportPetsciiSNESPad", "Enable Userport Petscii SNES Pad");
+    gtk_widget_set_sensitive(rtc_58321a_save, id == USERPORT_DEVICE_RTC_58321A);
+    gtk_widget_set_sensitive(rtc_ds1307_save, id == USERPORT_DEVICE_RTC_DS1307);
 }
 
 
-/** \brief  Create widget for the "UserportSuperPad64" resource
+/** \brief  Handler for the 'changed' event of the device combobox
  *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_superpad64_widget(void)
-{
-    return vice_gtk3_resource_check_button_new(
-            "UserportSuperPad64", "Enable Userport Super Pad 64");
-}
-
-
-/** \brief  Create layout for x64/x64sc/xscpu64/x128/xcbm2
+ * Sets the active userport device via the "UserportDevice" resource.
  *
- * \param[in,out]   grid    grid to use for the widgets
+ * \param[in]   combo       device combo box
+ * \param[in]   user_data   extra event data (unused)
  */
-static void create_c64_cbm2_layout(GtkWidget *grid)
+static void on_device_changed(GtkComboBox *combo, gpointer user_data)
 {
-    gtk_grid_attach(GTK_GRID(grid), create_4bit_sampler_widget(), 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_8bit_stereo_sampler_widget(),
-            0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_dac_widget(), 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_digimax_widget(), 0, 3, 1, 1);
+    GtkTreeModel *model;
+    GtkTreeIter iter;
 
-    rtc_58321a = create_rtc_58321a_widget();
-    rtc_58321a_save = create_rtc_58321a_save_widget();
-    g_signal_connect(rtc_58321a, "toggled", G_CALLBACK(on_58321a_toggled),
-            NULL);
-    on_58321a_toggled(rtc_58321a, NULL);
+    model = gtk_combo_box_get_model(combo);
+    if (gtk_combo_box_get_active_iter(combo, &iter)) {
+        gint id;
+        gchar *name;
 
-    gtk_grid_attach(GTK_GRID(grid), rtc_58321a, 0, 4, 1, 1);
-    g_object_set(rtc_58321a_save, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), rtc_58321a_save, 0, 5, 1, 1);
-
-    rtc_ds1307 = create_rtc_ds1307_widget();
-    rtc_ds1307_save = create_rtc_ds1307_save_widget();
-    g_signal_connect(rtc_ds1307, "toggled", G_CALLBACK(on_ds1307_toggled),
-            NULL);
-    on_ds1307_toggled(rtc_ds1307, NULL);
-
-    gtk_grid_attach(GTK_GRID(grid), rtc_ds1307, 0, 6, 1, 1);
-    g_object_set(rtc_ds1307_save, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), rtc_ds1307_save, 0, 7, 1, 1);
-
-    if (machine_class != VICE_MACHINE_CBM5x0) {
-        gtk_grid_attach(GTK_GRID(grid), create_snespad_widget(), 0, 8, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), create_superpad64_widget(), 0, 9, 1, 1);
+        gtk_tree_model_get(model,
+                           &iter,
+                           COL_DEVICE_ID, &id,
+                           COL_DEVICE_NAME, &name,
+                           -1);
+        debug_gtk3("Got device #%d (%s)", id, name);
+        resources_set_int("UserportDevice", id);
+        set_rtc_widgets_sensitivity(id);
+        g_free(name);
     }
 }
 
 
-/** \brief  Create layout for xvic/xpet
+/** \brief  Set userport device ID
  *
- * \param[in,out]   grid    grid to use for the widgets
+ * Sets the currently selected combobox item via device ID.
+ *
+ * To avoid updating the related resource via the combobox' event handler, use
+ * the \a blocked argument.
+ *
+ * \param[in]   combo   device combo box
+ * \param[in]   id      device ID
+ * \param[in]   blocked block 'changed' signal handler
  */
-static void create_vic20_pet_layout(GtkWidget *grid)
+static gboolean set_device_id(GtkComboBox *combo, gint id, gboolean blocked)
 {
-    gtk_grid_attach(GTK_GRID(grid), create_dac_widget(), 0, 0, 1, 1);
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gulong handler_id;
+    gboolean result = FALSE;
 
-    rtc_58321a = create_rtc_58321a_widget();
-    rtc_58321a_save = create_rtc_58321a_save_widget();
-    g_signal_connect(rtc_58321a, "toggled", G_CALLBACK(on_58321a_toggled),
-            NULL);
-    on_58321a_toggled(rtc_58321a, NULL);
+    /* do we need to block the 'changed' event handler? */
+    if (blocked) {
+        /* look up handler ID by callback */
+        handler_id = g_signal_handler_find(combo,
+                                           G_SIGNAL_MATCH_FUNC,
+                                           0,       /* signal_id */
+                                           0,       /* detail */
+                                           NULL,    /* closure */
+                                           on_device_changed,   /* func */
+                                           NULL);
+        if (handler_id > 0) {
+            g_signal_handler_block(combo, handler_id);
+        }
+    }
 
-    gtk_grid_attach(GTK_GRID(grid), rtc_58321a, 0, 1, 1, 1);
-    g_object_set(rtc_58321a_save, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), rtc_58321a_save, 0, 2, 1, 1);
+    /* iterate the model until we find the device ID */
+    model = gtk_combo_box_get_model(combo);
+    if (gtk_tree_model_get_iter_first(model, &iter)) {
+        do {
+            gint current;
 
-    rtc_ds1307 = create_rtc_ds1307_widget();
-    rtc_ds1307_save = create_rtc_ds1307_save_widget();
-    g_signal_connect(rtc_ds1307, "toggled", G_CALLBACK(on_ds1307_toggled),
-            NULL);
-    on_ds1307_toggled(rtc_ds1307, NULL);
+            gtk_tree_model_get(model, &iter, COL_DEVICE_ID, &current, -1);
+            if (id == current) {
+                gtk_combo_box_set_active_iter(combo, &iter);
+                result = TRUE;
+                break;
+            }
+        } while (gtk_tree_model_iter_next(model, &iter));
+    }
 
-    gtk_grid_attach(GTK_GRID(grid), rtc_ds1307, 0, 3, 1, 1);
-    g_object_set(rtc_ds1307_save, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), rtc_ds1307_save, 0, 4, 1, 1);
+    /* set RTC checkboxes "greyed-out" state */
+    set_rtc_widgets_sensitivity(id);
 
-    gtk_grid_attach(GTK_GRID(grid), create_snespad_widget(), 0, 5, 1, 1);
+    /* unblock signal, if blocked */
+    if (blocked) {
+        g_signal_handler_unblock(combo, handler_id);
+    }
+
+    return result;
 }
 
 
-/** \brief  Create layout for plus4
+/** \brief  Create combobox for the userport devices
  *
- * \param[in,out]   grid    grid to use for the widgets
+ * Create a combobox with valid userport devices for current machine.
+ *
+ * The model of the combobox contains device ID, name and type, of which name
+ * is shown and ID is used to set the related resource.
+ *
+ * \return  GtkComboBox
+ *
+ * \todo    Try using the device type to create little headers in the combobox,
+ *          grouping the devices by type. Might be overkill for some machines
+ *          that only have a few userport devices, we'll see.
  */
-static void create_plus4_layout(GtkWidget *grid)
+static GtkWidget *create_device_combobox(void)
 {
-    gtk_grid_attach(GTK_GRID(grid), create_dac_widget(), 0, 0, 1, 1);
+    GtkWidget *combo;
+    GtkListStore *model;
+    GtkTreeIter iter;
+    GtkCellRenderer *name_renderer;
+    userport_desc_t *devices;
+    userport_desc_t *dev;
+
+    /* create model for the combobox */
+    model = gtk_list_store_new(3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT);
+    devices = userport_get_valid_devices(TRUE);
+    for (dev = devices; dev->name != NULL; dev++) {
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model,
+                           &iter,
+                           COL_DEVICE_ID, dev->id,
+                           COL_DEVICE_NAME, dev->name,
+                           COL_DEVICE_TYPE, dev->device_type,
+                           -1);
+    }
+    lib_free(devices);
+
+    /* create combobox with a single cell renderer for the device name column */
+    combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(model));
+    name_renderer = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo),
+                               name_renderer,
+                               TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo),
+                                   name_renderer,
+                                   "text", COL_DEVICE_NAME,
+                                   NULL);
+    g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), NULL);
+
+    return combo;
 }
 
 
@@ -301,30 +250,30 @@ static void create_plus4_layout(GtkWidget *grid)
 GtkWidget *userport_devices_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *combo;
+    int device_id;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    switch (machine_class) {
-        case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_SCPU64:   /* fall through */
-        case VICE_MACHINE_C128:     /* fall through */
-        case VICE_MACHINE_CBM6x0:
-            create_c64_cbm2_layout(grid);
-            break;
+    /* combobox with the userport devices */
+    label = gtk_label_new("Userport device");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    combo = create_device_combobox();
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
 
-        case VICE_MACHINE_VIC20:    /* fall through */
-        case VICE_MACHINE_PET:
-            create_vic20_pet_layout(grid);
-            break;
+    /* RTC 58321A save checkbox */
+    rtc_58321a_save = create_rtc_58321a_save_widget();
+    gtk_grid_attach(GTK_GRID(grid), rtc_58321a_save, 0, 1, 2, 1);
 
-        case VICE_MACHINE_PLUS4:
-            create_plus4_layout(grid);
-            break;
+    /* RTC DS1307 save checkbox */
+    rtc_ds1307_save = create_rtc_ds1307_save_widget();
+    gtk_grid_attach(GTK_GRID(grid), rtc_ds1307_save, 0, 2, 2, 1);
 
-        default:
-            /* should never get here */
-            break;
+    /* set the active item using the resource */
+    if (resources_get_int("UserportDevice", &device_id) == 0) {
+        set_device_id(GTK_COMBO_BOX(combo), device_id, TRUE);
     }
 
     gtk_widget_show_all(grid);
