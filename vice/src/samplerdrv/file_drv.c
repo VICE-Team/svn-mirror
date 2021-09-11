@@ -2097,30 +2097,32 @@ static void file_load_sample(int channels)
     FILE *sample_file = NULL;
     int err = 0;
 
-    sample_file = fopen(sample_name, "rb");
-    if (sample_file) {
-        fseek(sample_file, 0, SEEK_END);
-        file_size = (unsigned int)ftell(sample_file);
-        fseek(sample_file, 0, SEEK_SET);
-        file_buffer = lib_malloc(file_size);
-        if (fread(file_buffer, 1, file_size, sample_file) != file_size) {
-            log_warning(filedrv_log, "Unexpected end of data in '%s'.", sample_name);
-        }
-        fclose(sample_file);
-        err = handle_file_type(channels);
-        if (!err) {
-            sound_sampling_started = 0;
-            sound_cycles_per_frame = (unsigned int)machine_get_cycles_per_frame();
-            sound_frames_per_sec = (unsigned int)machine_get_cycles_per_second() / sound_cycles_per_frame;
-            sound_samples_per_frame = sound_audio_rate / sound_frames_per_sec;
-            current_channels = channels;
+    if (sample_name != NULL && *sample_name == '\0') {
+        sample_file = fopen(sample_name, "rb");
+        if (sample_file) {
+            fseek(sample_file, 0, SEEK_END);
+            file_size = (unsigned int)ftell(sample_file);
+            fseek(sample_file, 0, SEEK_SET);
+            file_buffer = lib_malloc(file_size);
+            if (fread(file_buffer, 1, file_size, sample_file) != file_size) {
+                log_warning(filedrv_log, "Unexpected end of data in '%s'.", sample_name);
+            }
+            fclose(sample_file);
+            err = handle_file_type(channels);
+            if (!err) {
+                sound_sampling_started = 0;
+                sound_cycles_per_frame = (unsigned int)machine_get_cycles_per_frame();
+                sound_frames_per_sec = (unsigned int)machine_get_cycles_per_second() / sound_cycles_per_frame;
+                sound_samples_per_frame = sound_audio_rate / sound_frames_per_sec;
+                current_channels = channels;
+            } else {
+                lib_free(file_buffer);
+                file_buffer = NULL;
+                log_error(filedrv_log, "Unknown file type for '%s'.", sample_name);
+            }
         } else {
-            lib_free(file_buffer);
-            file_buffer = NULL;
-            log_error(filedrv_log, "Unknown file type for '%s'.", sample_name);
+            log_error(filedrv_log, "Cannot open sampler file: '%s'.", sample_name);
         }
-    } else {
-        log_error(filedrv_log, "Cannot open sampler file: '%s'.", sample_name);
     }
 }
 
