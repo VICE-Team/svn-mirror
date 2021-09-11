@@ -198,7 +198,7 @@ void fsdrive_open(unsigned int device, uint8_t secondary, void (*st_func)(uint8_
 #endif
 
     p = serial_device_get(device & 0x0f);
-    DBG(("fsdrive_open %u,%d p:%p", device & 0xF, secondary & 0xF, p));
+    DBG(("fsdrive_open %u,%d p:%p", device & 0xF, secondary & 0xF, (void*)p));
 #ifndef DELAYEDCLOSE
     if (p->isopen[secondary & 0x0f] == ISOPEN_OPEN) {
         if ((device & 0x0f) >= 8) {
