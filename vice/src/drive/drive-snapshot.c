@@ -25,7 +25,6 @@
  *
  */
 
-/* FIXME: remove this when TDE per drive patch has been merged */
 /* #define DEBUG_DRIVESNAPSHOT */
 
 #include "vice.h"
@@ -544,6 +543,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         drive = unit->drives[0];
 
         if (unit->type != DRIVE_TYPE_NONE) {
+            DBG(("enable drive %d\n", 8 + unr));
             drive_enable(diskunit_context[unr]);
             drive->attach_clk = attach_clk[unr];
             drive->detach_clk = detach_clk[unr];
@@ -555,18 +555,21 @@ int drive_snapshot_read_module(snapshot_t *s)
         int side = 0;
         unit = diskunit_context[unr];
         drive = unit->drives[0];
-
-        if (unit->type == DRIVE_TYPE_1570
-            || unit->type == DRIVE_TYPE_1571
-            || unit->type == DRIVE_TYPE_1571CR) {
-            if (half_track[unr] > (DRIVE_HALFTRACKS_1571 + 1)) {
-                side = 1;
-                half_track[unr] -= DRIVE_HALFTRACKS_1571;
+        /* FIXME: what about the current track in a virtual drive? */
+        if (has_tde[unr]) {
+            if (unit->type == DRIVE_TYPE_1570
+                || unit->type == DRIVE_TYPE_1571
+                || unit->type == DRIVE_TYPE_1571CR) {
+                if (half_track[unr] > (DRIVE_HALFTRACKS_1571 + 1)) {
+                    side = 1;
+                    half_track[unr] -= DRIVE_HALFTRACKS_1571;
+                }
             }
+            DBG(("set half track for drive %d\n", 8 + unr));
+            /* FIXME: what about the second drive of a unit? */
+            drive_set_half_track(half_track[unr], side, drive);
+            resources_set_int("MachineVideoStandard", sync_factor);
         }
-        /* FIXME: what about the second drive of a unit? */
-        drive_set_half_track(half_track[unr], side, drive);
-        resources_set_int("MachineVideoStandard", sync_factor);
     }
 
     /* stop currently active drive sounds (bug #3539422)
@@ -574,14 +577,17 @@ int drive_snapshot_read_module(snapshot_t *s)
      *        want/need to save a snapshot of its current state too
      */
     drive_sound_stop();
-
+    DBG(("update IEC ports\n"));
     iec_update_ports_embedded();
+    DBG(("update drive ui\n"));
     drive_update_ui_status();
 
+    DBG(("read vdrive snapshot module\n"));
     if (vdrive_snapshot_module_read(s) < 0) {
         return -1;
     }
 
+    DBG(("drive_snapshot_read_module done\n"));
     return 0;
 }
 
