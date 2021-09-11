@@ -1341,11 +1341,11 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
         row = strtol(p, NULL, 0);
         p = strtok(NULL, " \t,");
         if (p != NULL) {
-            col = strtol(p, NULL, 0);
+            col = (int)strtol(p, NULL, 0);
             p = strtok(NULL, " \t");
             if (p != NULL || row < 0) {
                 if (p != NULL) {
-                    shift = strtol(p, NULL, 0);
+                    shift = (int)strtol(p, NULL, 0);
                 }
 
                 if (row >= 0) {
