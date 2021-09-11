@@ -4095,8 +4095,14 @@ needs it, without prompting the user.
 
 @table @code
 
-@vindex DriveTrueEmulation
-@item DriveTrueEmulation
+@vindex Drive8TrueEmulation
+@vindex Drive9TrueEmulation
+@vindex Drive10TrueEmulation
+@vindex Drive11TrueEmulation
+@item Drive8TrueEmulation
+@item Drive9TrueEmulation
+@item Drive10TrueEmulation
+@item Drive11TrueEmulation
 Boolean controlling whether the ``true'' drive emulation is turned on.
 
 @vindex DriveSoundEmulation
@@ -4386,11 +4392,19 @@ String specifying the filename of the image of the lower half of the StarDOS ROM
 
 @table @code
 
-@findex -truedrive, +truedrive
-@item -truedrive
-@itemx +truedrive
+@findex -drive8truedrive, +drive8truedrive
+@findex -drive9truedrive, +drive9truedrive
+@findex -drive10truedrive, +drive10truedrive
+@findex -drive11truedrive, +drive11truedrive
+@item -drive8truedrive, +drive8truedrive
+@itemx -drive9truedrive, +drive9truedrive
+@itemx -drive10truedrive, +drive10truedrive
+@itemx -drive11truedrive, +drive11truedrive
 Enable/disable true drive emulation
-(@code{DriveTrueEmulation=1}, @code{DriveTrueEmulation=0}).
+(@code{Drive8TrueEmulation=1}, @code{Drive8TrueEmulation=0},
+ @code{Drive9TrueEmulation=1}, @code{Drive9TrueEmulation=0},
+ @code{Drive10TrueEmulation=1}, @code{Drive10TrueEmulation=0},
+ @code{Drive11TrueEmulation=1}, @code{Drive11TrueEmulation=0}).
 
 @findex -drivesound, +drivesound
 @item -drivesound
@@ -5378,8 +5392,24 @@ maximum compatibility.
 
 @table @code
 
-@vindex VirtualDevices
-@item VirtualDevices
+@vindex VirtualDevice1
+@vindex VirtualDevice4
+@vindex VirtualDevice5
+@vindex VirtualDevice6
+@vindex VirtualDevice7
+@vindex VirtualDevice8
+@vindex VirtualDevice9
+@vindex VirtualDevice10
+@vindex VirtualDevice11
+@item VirtualDevice1
+@item VirtualDevice4
+@item VirtualDevice5
+@item VirtualDevice6
+@item VirtualDevice7
+@item VirtualDevice8
+@item VirtualDevice9
+@item VirtualDevice10
+@item VirtualDevice11
 Boolean specifying whether all the mechanisms for virtual device
 emulation should be enabled. Serial IEC devices use kernal traps,
 parallel IEEE488 devices use an own IEEE488 engine. Both are switched
@@ -5393,11 +5423,34 @@ on and off with this resource.
 
 @table @code
 
-@findex -virtualdev, +virtualdev
-@item -virtualdev
-@itemx +virtualdev
+@findex -virtualdev1, +virtualdev1
+@findex -virtualdev4, +virtualdev4
+@findex -virtualdev5, +virtualdev5
+@findex -virtualdev6, +virtualdev6
+@findex -virtualdev7, +virtualdev7
+@findex -virtualdev8, +virtualdev8
+@findex -virtualdev9, +virtualdev9
+@findex -virtualdev10, +virtualdev10
+@findex -virtualdev11, +virtualdev11
+@item -virtualdev1, +virtualdev1
+@itemx -virtualdev4, +virtualdev4
+@itemx -virtualdev5, +virtualdev5
+@itemx -virtualdev6, +virtualdev6
+@itemx -virtualdev7, +virtualdev7
+@itemx -virtualdev8, +virtualdev8
+@itemx -virtualdev9, +virtualdev9
+@itemx -virtualdev10, +virtualdev10
+@itemx -virtualdev11, +virtualdev11
 Enable/disable virtual devices
-(@code{VirtualDevices=1}, @code{VirtualDevices=0}).
+(@code{VirtualDevice1=1}, @code{VirtualDevice1=0},
+ @code{VirtualDevice4=1}, @code{VirtualDevice4=0},
+ @code{VirtualDevice5=1}, @code{VirtualDevice5=0},
+ @code{VirtualDevice6=1}, @code{VirtualDevice6=0},
+ @code{VirtualDevice7=1}, @code{VirtualDevice7=0},
+ @code{VirtualDevice8=1}, @code{VirtualDevice8=0},
+ @code{VirtualDevice9=1}, @code{VirtualDevice9=0},
+ @code{VirtualDevice10=1}, @code{VirtualDevice10=0},
+ @code{VirtualDevice11=1}, @code{VirtualDevice11=0}).
 
 @end table
 
