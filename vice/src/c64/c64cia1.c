@@ -446,7 +446,7 @@ static void read_sdr(cia_context_t *cia_context)
     if (burst_mod == BURST_MOD_CIA1) {
         drive_cpu_execute_all(maincpu_clk);
     }
-    cia_context->c_cia[CIA_SDR] = read_userport_sp1();
+    cia_context->c_cia[CIA_SDR] = read_userport_sp1(cia_context->c_cia[CIA_SDR]);
 }
 
 static void store_sdr(cia_context_t *cia_context, uint8_t byte)

@@ -91,19 +91,19 @@ typedef struct userport_device_s {
     int (*enable)(int val);
 
     /* Read pb0-7 pins */
-    uint8_t (*read_pbx)(void);
+    uint8_t (*read_pbx)(uint8_t orig);
 
     /* Store pb0-7 pins */
     void (*store_pbx)(uint8_t val);
 
     /* Read pa2 pin */
-    uint8_t (*read_pa2)(void);
+    uint8_t (*read_pa2)(uint8_t orig);
 
     /* Store pa2 pin */
     void (*store_pa2)(uint8_t val);
 
     /* Read pa3 pin */
-    uint8_t (*read_pa3)(void);
+    uint8_t (*read_pa3)(uint8_t orig);
 
     /* Store pa3 pin */
     void (*store_pa3)(uint8_t val);
@@ -115,13 +115,13 @@ typedef struct userport_device_s {
     void (*store_sp1)(uint8_t val);
 
     /* Read sp1 pin */
-    uint8_t (*read_sp1)(void);
+    uint8_t (*read_sp1)(uint8_t orig);
 
     /* Store sp2 pin */
     void (*store_sp2)(uint8_t val);
 
     /* Read sp2 pin */
-    uint8_t (*read_sp2)(void);
+    uint8_t (*read_sp2)(uint8_t orig);
 
     /* Snapshot write */
     int (*write_snapshot)(struct snapshot_s *s);
@@ -148,17 +148,17 @@ typedef struct userport_desc_s {
 extern void userport_port_register(userport_port_props_t *props);
 extern int userport_device_register(int id, userport_device_t *device);
 
-extern uint8_t read_userport_pbx(void);
+extern uint8_t read_userport_pbx(uint8_t orig);
 extern void store_userport_pbx(uint8_t val);
-extern uint8_t read_userport_pa2(void);
+extern uint8_t read_userport_pa2(uint8_t orig);
 extern void store_userport_pa2(uint8_t val);
-extern uint8_t read_userport_pa3(void);
+extern uint8_t read_userport_pa3(uint8_t orig);
 extern void store_userport_pa3(uint8_t val);
 extern void set_userport_flag(uint8_t val);
-extern uint8_t read_userport_pc(void);
-extern uint8_t read_userport_sp1(void);
+extern uint8_t read_userport_pc(uint8_t orig);
+extern uint8_t read_userport_sp1(uint8_t orig);
 extern void store_userport_sp1(uint8_t val);
-extern uint8_t read_userport_sp2(void);
+extern uint8_t read_userport_sp2(uint8_t orig);
 extern void store_userport_sp2(uint8_t val);
 
 extern int userport_resources_init(void);

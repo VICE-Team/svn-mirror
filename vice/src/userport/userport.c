@@ -212,16 +212,16 @@ userport_desc_t *userport_get_valid_devices(int sort)
     return retval;
 }
 
-uint8_t read_userport_pbx(void)
+uint8_t read_userport_pbx(uint8_t orig)
 {
-    uint8_t retval = 0xff;
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_pbx) {
-                    retval = userport_device[userport_current_device].read_pbx();
+                    retval = userport_device[userport_current_device].read_pbx(orig);
                 }
             }
         }
@@ -244,16 +244,16 @@ void store_userport_pbx(uint8_t val)
     }
 }
 
-uint8_t read_userport_pa2(void)
+uint8_t read_userport_pa2(uint8_t orig)
 {
-    uint8_t retval = 1;
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_pa2) {
-                    retval = userport_device[userport_current_device].read_pa2();
+                    retval = userport_device[userport_current_device].read_pa2(orig);
                 }
             }
         }
@@ -275,16 +275,16 @@ void store_userport_pa2(uint8_t val)
     }
 }
 
-uint8_t read_userport_pa3(void)
+uint8_t read_userport_pa3(uint8_t orig)
 {
-    uint8_t retval = 1;
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_pa3) {
-                    retval = userport_device[userport_current_device].read_pa3();
+                    retval = userport_device[userport_current_device].read_pa3(orig);
                 }
             }
         }
@@ -329,16 +329,16 @@ void store_userport_sp1(uint8_t val)
     }
 }
 
-uint8_t read_userport_sp1(void)
+uint8_t read_userport_sp1(uint8_t orig)
 {
-    uint8_t retval = 1;
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_sp1) {
-                    retval = userport_device[userport_current_device].read_sp1();
+                    retval = userport_device[userport_current_device].read_sp1(orig);
                 }
             }
         }
@@ -360,16 +360,16 @@ void store_userport_sp2(uint8_t val)
     }
 }
 
-uint8_t read_userport_sp2(void)
+uint8_t read_userport_sp2(uint8_t orig)
 {
-    uint8_t retval = 1;
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_sp2) {
-                    retval = userport_device[userport_current_device].read_sp2();
+                    retval = userport_device[userport_current_device].read_sp2(orig);
                 }
             }
         }

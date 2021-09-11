@@ -186,60 +186,60 @@ static int userport_joystick_synergy_select = 0;
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static uint8_t userport_joystick_cga_read_pbx(void);
+static uint8_t userport_joystick_cga_read_pbx(uint8_t orig);
 static void userport_joystick_cga_store_pbx(uint8_t value);
 static int userport_joystick_cga_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_cga_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_cga_enable(int value);
 
-static uint8_t userport_joystick_pet_read_pbx(void);
+static uint8_t userport_joystick_pet_read_pbx(uint8_t orig);
 static void userport_joystick_pet_hit_store_pbx(uint8_t value);
 static int userport_joystick_pet_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_pet_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_pet_enable(int value);
 
-static uint8_t userport_joystick_hummer_read_pbx(void);
+static uint8_t userport_joystick_hummer_read_pbx(uint8_t orig);
 static void userport_joystick_hummer_store_pbx(uint8_t value);
 static int userport_joystick_hummer_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_hummer_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_hummer_enable(int value);
 
-static uint8_t userport_joystick_oem_read_pbx(void);
+static uint8_t userport_joystick_oem_read_pbx(uint8_t orig);
 static void userport_joystick_oem_store_pbx(uint8_t value);
 static int userport_joystick_oem_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_oem_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_oem_enable(int value);
 
-static uint8_t userport_joystick_hit_read_pbx(void);
-static uint8_t userport_joystick_hit_read_pa2(void);
+static uint8_t userport_joystick_hit_read_pbx(uint8_t orig);
+static uint8_t userport_joystick_hit_read_pa2(uint8_t orig);
 static void userport_joystick_hit_store_pa2(uint8_t val);
 static void userport_joystick_hit_store_sp1(uint8_t val);
-static uint8_t userport_joystick_hit_read_sp2(void);
+static uint8_t userport_joystick_hit_read_sp2(uint8_t orig);
 static int userport_joystick_hit_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_hit_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_hit_enable(int value);
 
-static uint8_t userport_joystick_kingsoft_read_pbx(void);
+static uint8_t userport_joystick_kingsoft_read_pbx(uint8_t orig);
 static void userport_joystick_kingsoft_store_pbx(uint8_t value);
-static uint8_t userport_joystick_kingsoft_read_pa2(void);
+static uint8_t userport_joystick_kingsoft_read_pa2(uint8_t orig);
 static void userport_joystick_kingsoft_store_pa2(uint8_t val);
 static void userport_joystick_kingsoft_store_sp1(uint8_t val);
-static uint8_t userport_joystick_kingsoft_read_sp2(void);
+static uint8_t userport_joystick_kingsoft_read_sp2(uint8_t orig);
 static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_kingsoft_enable(int value);
 
-static uint8_t userport_joystick_starbyte_read_pbx(void);
+static uint8_t userport_joystick_starbyte_read_pbx(uint8_t orig);
 static void userport_joystick_starbyte_store_pbx(uint8_t value);
-static uint8_t userport_joystick_starbyte_read_pa2(void);
+static uint8_t userport_joystick_starbyte_read_pa2(uint8_t orig);
 static void userport_joystick_starbyte_store_pa2(uint8_t val);
 static void userport_joystick_starbyte_store_sp1(uint8_t val);
-static uint8_t userport_joystick_starbyte_read_sp2(void);
+static uint8_t userport_joystick_starbyte_read_sp2(uint8_t orig);
 static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_starbyte_enable(int value);
 
-static uint8_t userport_joystick_synergy_read_pbx(void);
+static uint8_t userport_joystick_synergy_read_pbx(uint8_t orig);
 static void userport_joystick_synergy_store_pbx(uint8_t value);
 static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_synergy_read_snapshot_module(snapshot_t *s);
@@ -681,7 +681,7 @@ int userport_joystick_synergy_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_cga_read_pbx(void)
+static uint8_t userport_joystick_cga_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -702,7 +702,7 @@ static void userport_joystick_cga_store_pbx(uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_pet_read_pbx(void)
+static uint8_t userport_joystick_pet_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -727,7 +727,7 @@ static void userport_joystick_pet_hit_store_pbx(uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_hummer_read_pbx(void)
+static uint8_t userport_joystick_hummer_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -746,7 +746,7 @@ static void userport_joystick_hummer_store_pbx(uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_oem_read_pbx(void)
+static uint8_t userport_joystick_oem_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -775,7 +775,7 @@ static void userport_joystick_oem_store_pbx(uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_hit_read_pbx(void)
+static uint8_t userport_joystick_hit_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -786,7 +786,7 @@ static uint8_t userport_joystick_hit_read_pbx(void)
     return retval;
 }
 
-static uint8_t userport_joystick_hit_read_pa2(void)
+static uint8_t userport_joystick_hit_read_pa2(uint8_t orig)
 {
     uint8_t jv1 = ~read_joyport_dig(JOYPORT_3);
 
@@ -805,14 +805,14 @@ static void userport_joystick_hit_store_sp1(uint8_t val)
     hit_sp2_retval = ((~read_joyport_dig(JOYPORT_4)) & 0x10) ? 0 : 0xff;
 }
 
-static uint8_t userport_joystick_hit_read_sp2(void)
+static uint8_t userport_joystick_hit_read_sp2(uint8_t orig)
 {
     return hit_sp2_retval;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_kingsoft_read_pbx(void)
+static uint8_t userport_joystick_kingsoft_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -847,7 +847,7 @@ static void userport_joystick_kingsoft_store_pbx(uint8_t value)
     store_joyport_dig(JOYPORT_4, j2, 0xf);
 }
 
-static uint8_t userport_joystick_kingsoft_read_pa2(void)
+static uint8_t userport_joystick_kingsoft_read_pa2(uint8_t orig)
 {
     uint8_t jv1 = ~read_joyport_dig(JOYPORT_3);
 
@@ -866,14 +866,14 @@ static void userport_joystick_kingsoft_store_sp1(uint8_t val)
     kingsoft_sp2_retval = ((~read_joyport_dig(JOYPORT_4)) & 0x10) ? 0 : 0xff;
 }
 
-static uint8_t userport_joystick_kingsoft_read_sp2(void)
+static uint8_t userport_joystick_kingsoft_read_sp2(uint8_t orig)
 {
     return kingsoft_sp2_retval;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_starbyte_read_pbx(void)
+static uint8_t userport_joystick_starbyte_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -909,7 +909,7 @@ static void userport_joystick_starbyte_store_pbx(uint8_t value)
     store_joyport_dig(JOYPORT_4, j2, 0x1e);
 }
 
-static uint8_t userport_joystick_starbyte_read_pa2(void)
+static uint8_t userport_joystick_starbyte_read_pa2(uint8_t orig)
 {
     uint8_t jv2 = ~read_joyport_dig(JOYPORT_4);
 
@@ -928,14 +928,14 @@ static void userport_joystick_starbyte_store_sp1(uint8_t val)
     starbyte_sp2_retval = ((~read_joyport_dig(JOYPORT_3)) & 0x10) ? 0 : 0xff;
 }
 
-static uint8_t userport_joystick_starbyte_read_sp2(void)
+static uint8_t userport_joystick_starbyte_read_sp2(uint8_t orig)
 {
     return starbyte_sp2_retval;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_synergy_read_pbx(void)
+static uint8_t userport_joystick_synergy_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);

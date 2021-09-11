@@ -59,7 +59,7 @@ uint8_t pio1_read(uint16_t addr)
         pio1_value = pio1_data;
     }
 
-    pio1_value = read_userport_pbx();
+    pio1_value = read_userport_pbx(pio1_value);
 
     if (tape_sense) {
         pio1_value &= ~4;

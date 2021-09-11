@@ -66,7 +66,7 @@ static uint8_t counter = 0;
 static uint8_t latch_line = 0;
 
 /* Some prototypes are needed */
-static uint8_t userport_superpad64_read_pbx(void);
+static uint8_t userport_superpad64_read_pbx(uint8_t orig);
 static void userport_superpad64_store_pa2(uint8_t value);
 static int userport_superpad64_write_snapshot_module(snapshot_t *s);
 static int userport_superpad64_read_snapshot_module(snapshot_t *s);
@@ -139,7 +139,7 @@ static void userport_superpad64_store_pa2(uint8_t value)
     latch_line = new_latch;
 }
 
-static uint8_t userport_superpad64_read_pbx(void)
+static uint8_t userport_superpad64_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint16_t portval1 = get_joystick_value(JOYPORT_3);
