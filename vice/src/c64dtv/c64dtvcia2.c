@@ -170,14 +170,10 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 {
     store_userport_pbx(byte);
-
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    parallel_cable_cpu_write(DRIVE_PC_STANDARD, (uint8_t)byte);
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
-    parallel_cable_cpu_pulse(DRIVE_PC_STANDARD);
 }
 
 /* FIXME! */
@@ -185,9 +181,6 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
                                 uint8_t byte)
 {
     store_userport_pbx(byte);
-
-    /* The functions below will gradually be removed as the functionality is added to the new userport system. */
-    parallel_cable_cpu_undump(DRIVE_PC_STANDARD, (uint8_t)byte);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -204,8 +197,6 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
 
     byte = read_userport_pbx();
 
-    byte = parallel_cable_cpu_read(DRIVE_PC_STANDARD, byte);
-
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB]))
            | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
     return byte;
@@ -213,7 +204,6 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
 
 static void read_ciaicr(cia_context_t *cia_context)
 {
-    parallel_cable_cpu_execute(DRIVE_PC_STANDARD);
 }
 
 static void read_sdr(cia_context_t *cia_context)
