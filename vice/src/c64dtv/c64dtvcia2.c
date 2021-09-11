@@ -75,7 +75,7 @@ uint8_t cia2_read(uint16_t addr)
     uint8_t retval = 0xff;
 
     if ((addr & 0x1f) == 1) {
-        retval = read_userport_pbx();
+        retval = read_userport_pbx(retval);
 
         /* The functions below will gradually be removed as the functionality is added to the new userport system. */
         if (ps2mouse_enabled) {
@@ -195,7 +195,7 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
 {
     uint8_t byte = 0xff;
 
-    byte = read_userport_pbx();
+    byte = read_userport_pbx(byte);
 
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB]))
            | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);

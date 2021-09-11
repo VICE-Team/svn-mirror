@@ -64,7 +64,7 @@ static uint8_t ds1307_pb1_scl = 1;
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static uint8_t userport_rtc_read_pbx(void);
+static uint8_t userport_rtc_read_pbx(uint8_t orig);
 static void userport_rtc_store_pbx(uint8_t value);
 static int userport_rtc_write_snapshot_module(snapshot_t *s);
 static int userport_rtc_read_snapshot_module(snapshot_t *s);
@@ -179,7 +179,7 @@ static void userport_rtc_store_pbx(uint8_t value)
     }
 }
 
-static uint8_t userport_rtc_read_pbx(void)
+static uint8_t userport_rtc_read_pbx(uint8_t orig)
 {
     uint8_t retval = ds1307_pb1_scl << 1;
 

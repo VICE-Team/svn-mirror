@@ -60,7 +60,7 @@ static uint8_t clock_line = 0;
 static uint8_t latch_line = 0;
 
 /* Some prototypes are needed */
-static uint8_t userport_snespad_read_pbx(void);
+static uint8_t userport_snespad_read_pbx(uint8_t orig);
 static void userport_snespad_store_pbx(uint8_t value);
 static int userport_petscii_write_snapshot_module(snapshot_t *s);
 static int userport_petscii_read_snapshot_module(snapshot_t *s);
@@ -142,7 +142,7 @@ static void userport_snespad_store_pbx(uint8_t value)
     clock_line = new_clock;
 }
 
-static uint8_t userport_snespad_read_pbx(void)
+static uint8_t userport_snespad_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint16_t portval = get_joystick_value(JOYPORT_3);

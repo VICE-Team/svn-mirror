@@ -236,7 +236,7 @@ inline static uint8_t read_prb(via_context_t *via_context)
     uint8_t byte = 0xff;
     byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
 
-    byte = read_userport_pbx();
+    byte = read_userport_pbx(byte);
 
     return byte;
 }

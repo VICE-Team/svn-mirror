@@ -111,7 +111,7 @@ static int rts = 0;
 /* some prototypes are needed */
 static void rsuser_tx_byte(uint8_t b);
 static void rsuser_write_ctrl(uint8_t b);
-static uint8_t rsuser_read_ctrl(void);
+static uint8_t rsuser_read_ctrl(uint8_t orig);
 static void rsuser_set_tx_bit(uint8_t b);
 static int userport_rs232_enable(int value);
 
@@ -497,9 +497,9 @@ static uint8_t rsuser_get_rx_bit(void)
 }
 
 /* called by VIA/CIA when cpu reads from user port */
-static uint8_t rsuser_read_ctrl(void)
+static uint8_t rsuser_read_ctrl(uint8_t orig)
 {
-    uint8_t b = 0xff;
+    uint8_t b = orig;
     enum rs232handshake_in modem_status = rs232drv_get_status(fd);
     uint8_t status = 0;
 #ifdef LOG_MODEM_STATUS
