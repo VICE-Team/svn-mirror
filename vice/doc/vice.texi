@@ -7892,8 +7892,8 @@ Attach raw 8KiB Game Killer cartridge image.
 @item -cartgs <name>
 Attach raw 512KiB Game System cartridge image.
 
-@findex -carthero
-@item -carthero <name>
+@findex -cartdrean
+@item -cartdrean <name>
 Attach raw 32KiB H.E.R.O. bootleg cartridge image
 
 @findex -cartide64
@@ -29564,7 +29564,7 @@ access to these devices while RAMLink code isn't running. "Direct" connects
 the IO lines all the time.
 
 @c @node FIXME
-@subsubsection 74 - H.E.R.O.
+@subsubsection 74 - Drean
 
 @multitable @columnfractions .3 .7
 @item Size
