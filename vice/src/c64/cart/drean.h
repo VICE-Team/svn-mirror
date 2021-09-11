@@ -1,5 +1,5 @@
 /*
- * hero.h - Cartridge handling, H.E.R.O.cart.
+ * drean.h - Cartridge handling, Drean cart. (H.E.R.O., Le Mans...)
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -24,22 +24,22 @@
  *
  */
 
-#ifndef VICE_HERO_H
-#define VICE_HERO_H
+#ifndef VICE_DREAN_H
+#define VICE_DREAN_H
 
 #include <stdio.h>
 
 #include "types.h"
 
-extern void hero_config_init(void);
-extern void hero_config_setup(uint8_t *rawcart);
-extern int hero_bin_attach(const char *filename, uint8_t *rawcart);
-extern int hero_crt_attach(FILE *fd, uint8_t *rawcart);
-extern void hero_detach(void);
+extern void drean_config_init(void);
+extern void drean_config_setup(uint8_t *rawcart);
+extern int drean_bin_attach(const char *filename, uint8_t *rawcart);
+extern int drean_crt_attach(FILE *fd, uint8_t *rawcart);
+extern void drean_detach(void);
 
 struct snapshot_s;
 
-extern int hero_snapshot_write_module(struct snapshot_s *s);
-extern int hero_snapshot_read_module(struct snapshot_s *s);
+extern int drean_snapshot_write_module(struct snapshot_s *s);
+extern int drean_snapshot_read_module(struct snapshot_s *s);
 
 #endif

@@ -231,7 +231,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_BLACKBOX9            71 /* blackbox9.c */
 #define CARTRIDGE_LT_KERNAL            72 /* ltkernal.c */
 #define CARTRIDGE_RAMLINK              73 /* ramlink.c */
-#define CARTRIDGE_HERO                 74 /* hero.c */
+#define CARTRIDGE_DREAN                74 /* drean.c */
 #define CARTRIDGE_IEEEFLASH64          75 /* ieeeflash64.c */
 #define CARTRIDGE_TURTLE_GRAPHICS_II   76 /* turtlegraphics.c */
 #define CARTRIDGE_FREEZE_FRAME_MK2     77 /* freezeframe2.c */
@@ -296,7 +296,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_GEORAM             "GEO-RAM" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_GMOD2              "GMod2" /* http://wiki.icomp.de/wiki/GMod2 */
 #define CARTRIDGE_NAME_GMOD3              "GMod3" /* http://wiki.icomp.de/wiki/GMod3 */
-#define CARTRIDGE_NAME_HERO               "H.E.R.O. (Drean)"
+#define CARTRIDGE_NAME_DREAN              "Drean"
 #define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
 #define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
 #define CARTRIDGE_NAME_IEEEFLASH64        "IEEE Flash! 64"

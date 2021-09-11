@@ -135,7 +135,7 @@ const cart_t cart_info[] = {
     {1, 0, CARTRIDGE_SIZE_32KB,    0x4000, 0x8000,   0, 0, CARTRIDGE_NAME_BLACKBOX9,            "bb9", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_8KB,     0x2000, 0x8000,   1, 0, CARTRIDGE_NAME_LT_KERNAL,            "ltk", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_64KB,    0x2000, 0x8000,   8, 0, CARTRIDGE_NAME_RAMLINK,               "rl", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_32KB,    0x2000, 0x8000,   4, 0, CARTRIDGE_NAME_HERO,                "hero", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_32KB,    0x2000, 0x8000,   4, 0, CARTRIDGE_NAME_DREAN,              "drean", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB,     0x2000, 0xe000,   1, 0, CARTRIDGE_NAME_IEEEFLASH64,  "ieeeflash64", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_16KB,    0x2000, 0x8000,   2, 0, CARTRIDGE_NAME_TURTLE_GRAPHICS_II,"turtle", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_16KB,    0x4000, 0x8000,   1, 0, CARTRIDGE_NAME_FREEZE_FRAME_MK2,     "ff2", save_regular_crt},

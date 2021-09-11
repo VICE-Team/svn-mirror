@@ -85,7 +85,7 @@
 #include "gmod2.h"
 #include "gmod3.h"
 #include "gs.h"
-#include "hero.h"
+#include "drean.h"
 #include "ide64.h"
 #include "ieeeflash64.h"
 #include "isepic.h"
