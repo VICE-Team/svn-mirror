@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUG_PET_BUS
+/* #define DEBUG_PET_BUS */
 
 #include "vice.h"
 
