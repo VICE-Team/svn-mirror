@@ -166,6 +166,21 @@ typedef struct ui_sb_state_s {
      */
     int drives_enabled;
 
+    /** \brief  Drive type for each unit
+     *
+     * Used to determine if the layout needs changing due to changes in drive
+     * type that change a unit's dual-drive status.
+     */
+    int drives_type[NUM_DISK_UNITS];
+
+    /** \brief  Drive type changes involving dual-drive status
+     *
+     * Each bit represents a unit, with bit 0-3 -> representing units 8-11.
+     * If a bit is set it means the dual-drive state of that unit has changed
+     * and the UI needs updating of the widgets for that unit.
+     */
+    unsigned int drives_dual;
+
     /** \brief Nonzero if True Drive Emulation is active and drive
      *         LEDs should be drawn. */
     int drives_tde_enabled;
@@ -1415,6 +1430,7 @@ static GtkWidget *ui_joystick_widget_create(void)
 static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index)
 {
     int i, j, state, tde = 0;
+    unsigned int dual;
     int enabled_drive_index = 0;
     GtkWidget *bar = allocated_bars[bar_index].bar;
 
@@ -1449,9 +1465,10 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
 
     state = state_snapshot->drives_enabled;
     tde = state_snapshot->drives_tde_enabled;
+    dual = state_snapshot->drives_dual;
     for (i = 0; i < NUM_DISK_UNITS; ++i) {
 
-        if (state & 1) {
+        if ((state & 1) || (dual & 1)) {
             GtkWidget *drive = allocated_bars[bar_index].drives[i];
             GtkWidget *event_box = gtk_event_box_new();
             int row = enabled_drive_index % 2;
@@ -1473,19 +1490,15 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
                     G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[bar_index]);
             gtk_widget_show_all(event_box);
 
-            /* FIXME: This only works on emulator startup.
-             *
-             * Looks like we need an additional check for a status change:
-             * the drive type (which can trigger a change of drives per unit),
-             * like the checks we have now for TDE and the active drives.
-             */
             if (drive_dual) {
                 /* drive:unit and track.sector */
                 gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 0, 1));
                 gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 1, 1));
             } else {
+                /* all widgets for the second drive */
                 gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 0, 1));
                 gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 1, 1));
+                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 2, 1));
             }
 
             if (tde & 1) {
@@ -1504,6 +1517,7 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
         }
         state >>= 1;
         tde >>= 1;
+        dual >>= 1;
     }
     gtk_widget_show_all(bar);
 }
@@ -2227,6 +2241,35 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
         }
     }
 
+    /* Determine drive types and determine dual-drive changes */
+    sb_state->drives_dual = 0;
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
+        int curtype;
+        bool old_dual;
+        bool new_dual;
+
+        if (resources_get_int_sprintf("Drive%dType", &curtype, i + DRIVE_UNIT_MIN) < 0) {
+            curtype = 0;
+        }
+#if 0
+        debug_gtk3("Old drive %d type = %d", i + 8, sb_state->drives_type[i]);
+        debug_gtk3("New drive %d type = %d", i + 8, curtype);
+#endif
+        old_dual = (bool)drive_check_dual(sb_state->drives_type[i]);
+        new_dual = (bool)drive_check_dual(curtype);
+#if 0
+        debug_gtk3("Old drive %d dual = %s", i + 8, old_dual ? "true" : "false");
+        debug_gtk3("New drive %d dual = %s", i + 8, new_dual ? "true" : "false");
+#endif
+        if (old_dual != new_dual) {
+            sb_state->drives_dual |= 1 << i;
+        }
+
+        /* update drive type */
+        sb_state->drives_type[i] = curtype;
+    }
+    debug_gtk3("drives_dual = %02x", sb_state->drives_dual);
+
     /* Now give enabled its "real" value based on the drive
      * definitions. */
     enabled = compute_drives_enabled_mask();
@@ -2235,7 +2278,8 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
      * to do this if the only change was the kind of drives hooked up,
      * instead of the number */
     if ((state != sb_state->drives_tde_enabled)
-            || (enabled != sb_state->drives_enabled)) {
+            || (enabled != sb_state->drives_enabled)
+            || (sb_state->drives_dual != 0)) {
         sb_state->drives_enabled = enabled;
         sb_state->drives_tde_enabled = state;
         sb_state->drives_layout_needed = true;
