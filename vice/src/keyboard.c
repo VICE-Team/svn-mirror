@@ -29,6 +29,9 @@
  *
  */
 
+/* #define DBGKBD */
+/* #define DBGKBD_MODIFIERS */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -60,22 +63,24 @@
 #include "util.h"
 #include "vice-event.h"
 
-/* #define DBGKBD */
-
 #ifdef DBGKBD
 #define DBG(x)  printf x
 #else
 #define DBG(x)
 #endif
 
+#ifdef DBGKBD_MODIFIERS
+#define DBGMOD(x)  printf x
+#else
+#define DBGMOD(x)
+#endif
+
 #define KEYBOARD_RAND() lib_unsigned_rand(1, (unsigned int)machine_get_cycles_per_frame())
 
-/* Keyboard array.  */
+/* Keyboard array passed to keyboard_machine_func(). copied from either
+   latch_keyarr or network_keyarr. */
 int keyarr[KBD_ROWS];
 int rev_keyarr[KBD_COLS];
-
-/* Shift lock state.  */
-int keyboard_shiftlock = 0;
 
 /* Keyboard status to be latched into the keyboard array.  */
 static int latch_keyarr[KBD_ROWS];
@@ -83,6 +88,9 @@ static int latch_rev_keyarr[KBD_COLS];
 
 static int network_keyarr[KBD_ROWS];
 static int network_rev_keyarr[KBD_COLS];
+
+/* Shift lock state.  */
+int keyboard_shiftlock = 0;
 
 static alarm_t *keyboard_alarm = NULL;
 
@@ -358,17 +366,18 @@ static int kbd_lctrlcol  = -1;
 #define KEY_LCBM   3
 #define KEY_LCTRL  4
 
+/* host keycodes for the modifiers */
 static int vshift = KEY_NONE;   /* virtual shift */
 static int vcbm   = KEY_NONE;   /* virtual cbm */
 static int vctrl  = KEY_NONE;   /* virtual ctrl */
-
 static int shiftl = KEY_NONE;   /* shift-lock */
 
 /*-----------------------------------------------------------------------*/
 
 static int left_shift_down, right_shift_down,
             left_cbm_down, left_ctrl_down,
-            virtual_shift_down, virtual_cbm_down, virtual_ctrl_down;
+            virtual_shift_down, virtual_cbm_down, virtual_ctrl_down,
+            virtual_deshift;
 static int key_latch_row, key_latch_column;
 
 static inline int rshift_defined(void) {
@@ -415,8 +424,75 @@ static inline int shiftlock_defined(void) {
     return !(shiftl == KEY_NONE);
 }
 
-static void keyboard_key_deshift(void)
+static inline int key_is_modifier(int row, int column) {
+    if ((rshift_defined() && (row == kbd_rshiftrow) && (column == kbd_rshiftcol)) ||
+        (lshift_defined() && (row == kbd_lshiftrow) && (column == kbd_lshiftcol)) ||
+        (lcbm_defined() && (row == kbd_lcbmrow) && (column == kbd_lcbmcol)) ||
+        (lctrl_defined() && (row == kbd_lctrlrow) && (column == kbd_lctrlcol))) {
+        return 1;
+    }
+    return 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+static int virtual_modifier_flags[KBD_ROWS][KBD_COLS];
+
+static void clear_virtual_modifier_flags(void) {
+    int row, column;
+    for (row = 0; row < KBD_ROWS; row++) {
+        for (column = 0; column < KBD_COLS; column++) {
+            virtual_modifier_flags[row][column] = 0;
+        }
+    }
+}
+
+static inline void update_virtual_modifier_flags(void) {
+    int row, column, shift;
+    virtual_shift_down = 0;
+    virtual_cbm_down = 0;
+    virtual_ctrl_down = 0;
+    virtual_deshift = 0;
+    for (row = 0; row < KBD_ROWS; row++) {
+        for (column = 0; column < KBD_COLS; column++) {
+            shift = virtual_modifier_flags[row][column];
+            virtual_shift_down |= shift & VIRTUAL_SHIFT;
+            virtual_cbm_down |= shift & VIRTUAL_CBM;
+            virtual_ctrl_down |= shift & VIRTUAL_CTRL;
+            virtual_deshift |= shift & DESHIFT_SHIFT;
+        }
+    }
+    if (virtual_deshift && virtual_shift_down) {
+        log_warning(keyboard_log, "using deshift + virtual shift at the same time\n");
+    }
+    if (virtual_deshift) {
+        virtual_shift_down = 0;
+    } else if (virtual_shift_down) {
+        virtual_deshift = 0;
+    }
+}
+
+static inline void keyboard_key_pressed_modifier(int row, int column, int shift) {
+    virtual_modifier_flags[row][column] |= shift;
+    update_virtual_modifier_flags();
+    DBGMOD(("keyboard_key_pressed_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
+           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift));
+}
+
+static inline void keyboard_key_released_modifier(int row, int column, int shift) {
+    virtual_modifier_flags[row][column] &= ~shift;
+    update_virtual_modifier_flags();
+    DBGMOD(("keyboard_key_released_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
+           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift));
+}
+
+/*-----------------------------------------------------------------------*/
+
+/* FIXME: only used when shiftflag = 0, whatever this precisely is supposed to
+          mean. we should instead deal with it in the functions further down */
+static void keyboard_key_deshift_all(void)
 {
+    DBGMOD(("keyboard_key_deshift_all\n"));
     if (lshift_defined()) {
         keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
     }
@@ -431,22 +507,36 @@ static void keyboard_key_deshift(void)
     }
 }
 
+/* FIXME: the following two functions are basically the same thing */
+
+/* handle modifier key press */
 static void keyboard_key_shift(void)
 {
+    int physical_right = (rshift_defined() && (right_shift_down > 0));
+    int physical_left = (lshift_defined() && (left_shift_down > 0));
+
+    DBGMOD(("keyboard_key_shift   left:%d right:%d virtual: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down));
+
     if (lshift_defined()) {
-        if (left_shift_down > 0
-            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT)
+        if ((left_shift_down > 0 && !virtual_deshift)
+            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT && !physical_right)
             || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
             keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
         }
     }
     if (rshift_defined()) {
-        if (right_shift_down > 0
-            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT)
+        if ((right_shift_down > 0 && !virtual_deshift)
+            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !physical_left)
             || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
             keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
         }
     }
+
     if (lcbm_defined()) {
         if (left_cbm_down > 0
             || (virtual_cbm_down > 0 && vcbm == KEY_LCBM)) {
@@ -461,6 +551,48 @@ static void keyboard_key_shift(void)
     }
 }
 
+/* handle modifier key release */
+static void keyboard_key_deshift(void)
+{
+    DBGMOD(("keyboard_key_deshift left:%d right:%d virtual: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down));
+
+    /* Map shift keys. */
+    if (right_shift_down > 0
+        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !left_shift_down)
+        || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
+        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+    } else {
+        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+    }
+
+    if (left_shift_down > 0
+        || (virtual_shift_down > 0 && vshift == KEY_LSHIFT && !right_shift_down)
+        || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
+        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+    } else {
+        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+    }
+
+    if (lcbm_defined()) {
+        if (left_cbm_down > 0
+            || (virtual_cbm_down > 0 && vcbm == KEY_LCBM)) {
+            keyboard_set_latch_keyarr(kbd_lcbmrow, kbd_lcbmcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_lcbmrow, kbd_lcbmcol, 0);
+        }
+    }
+
+    if (lctrl_defined()) {
+        if (left_ctrl_down > 0
+            || (virtual_ctrl_down > 0 && vctrl == KEY_LCTRL)) {
+            keyboard_set_latch_keyarr(kbd_lctrlrow, kbd_lctrlcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_lctrlrow, kbd_lctrlcol, 0);
+        }
+    }
+}
+
 static int keyboard_key_pressed_matrix(int row, int column, int shift)
 {
     if (row >= 0) {
@@ -468,18 +600,9 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
         key_latch_column = column;
 
         if (shift == NO_SHIFT) {
-            keyboard_key_deshift();
+            /* FIXME: this is still an odd case that shouldnt exist */
+            keyboard_key_deshift_all();
         } else {
-            /* FIXME: somehow make sure virtual shift/cbm/ctrl is really only
-                      valid for one combined keypress. the shift/ctrl/cbm
-                      status should not get permanently altered by deshifting */
-            if (shift & DESHIFT_SHIFT) {
-                /* FIXME: should this really remove ALL modifiers? */
-                keyboard_key_deshift();
-            }
-            if (shift & VIRTUAL_SHIFT) {
-                virtual_shift_down = 1;
-            }
             if (shift & LEFT_SHIFT) {
                 left_shift_down = 1;
             }
@@ -489,30 +612,24 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
             if (shift & SHIFT_LOCK) {
                 keyboard_shiftlock ^= 1;
             }
+            /* press CBM key */
             if (lcbm_defined()) {
-                if (shift & VIRTUAL_CBM) {
-                    virtual_cbm_down = 1;
-                }
                 if (shift & LEFT_CBM) {
                     left_cbm_down = 1;
                 }
             }
+            /* press CTRL key */
             if (lctrl_defined()) {
-                if (shift & VIRTUAL_CTRL) {
-                    virtual_ctrl_down = 1;
-                }
                 if (shift & LEFT_CTRL) {
                     left_ctrl_down = 1;
                 }
             }
 
-            if (shift & DESHIFT_SHIFT) {
-                /* FIXME: should this really remove ALL modifiers? */
-                left_shift_down = 0;
-                right_shift_down = 0;
-                left_ctrl_down = 0;
-                left_cbm_down = 0;
-            }
+            keyboard_key_pressed_modifier(row, column, shift);
+
+            DBGMOD(("keyboard_key_pressed_matrix  %d, %d shift flag: %02x virt: %d left: %d right: %d shift-lock: %d\n",
+                row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down, keyboard_shiftlock));
+
             keyboard_key_shift();
 
         }
@@ -677,7 +794,11 @@ void keyboard_key_pressed(signed long key, int mod)
     }
 
     if (latch) {
-        keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
+        /* modifier latching is handled in keyboard_key_shift() */
+        /* key_latch_row / key_latch_column is set by keyboard_key_pressed_matrix() */
+        if (!key_is_modifier(key_latch_row, key_latch_column)) {
+            keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
+        }
         if (network_connected()) {
             CLOCK delay = KEYBOARD_RAND();
             network_event_record(EVENT_KEYBOARD_DELAY, (void *)&delay, sizeof(delay));
@@ -693,12 +814,11 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
     int skip_release = 0;
 
     if (row >= 0) {
+#if 0
+        /* FIXME: this looks very wrong, it is used only above in the "key pressed" function */
         key_latch_row = row;
         key_latch_column = column;
-
-        if (shift & VIRTUAL_SHIFT) {
-            virtual_shift_down = 0;
-        }
+#endif
         if (shift & LEFT_SHIFT) {
             left_shift_down = 0;
             if (keyboard_shiftlock && (shiftl == KEY_LSHIFT)) {
@@ -711,15 +831,7 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
                 skip_release = 1;
             }
         }
-#if 0
-        if (shift & SHIFT_LOCK) {
-            keyboard_shiftlock = 0;
-            if (((shiftl == KEY_RSHIFT) && right_shift_down)
-                || ((shiftl == KEY_LSHIFT) && left_shift_down)) {
-                skip_release = 1;
-            }
-        }
-#endif
+
         /* when shift lock is released and shift lock is "locked", then exit
            early and do nothing */
         if (shift & SHIFT_LOCK) {
@@ -728,58 +840,27 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
             }
         }
 
+        /* release CBM key */
         if (lcbm_defined()) {
-            if (shift & VIRTUAL_CBM) {
-                virtual_cbm_down = 0;
-            }
             if (shift & LEFT_CBM) {
                 left_cbm_down = 0;
             }
         }
-
+        /* release CTRL key */
         if (lctrl_defined()) {
-            if (shift & VIRTUAL_CTRL) {
-                virtual_ctrl_down = 0;
-            }
             if (shift & LEFT_CTRL) {
                 left_ctrl_down = 0;
             }
         }
 
-        /* Map shift keys. */
-        if (right_shift_down > 0
-            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT)
-            || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
-            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
-        } else {
-            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
-        }
+        /* update the virtual modifier flags */
+        keyboard_key_released_modifier(row, column, shift);
 
-        if (left_shift_down > 0
-            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT)
-            || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
-            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
-        } else {
-            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
-        }
+        DBGMOD(("keyboard_key_released_matrix %d, %d shift flag: %02x virt: %d left: %d right: %d shift-lock: %d\n",
+               row, column, (unsigned int)shift, virtual_shift_down, left_shift_down, right_shift_down, keyboard_shiftlock));
 
-        if (lcbm_defined()) {
-            if (left_cbm_down > 0
-                || (virtual_cbm_down > 0 && vcbm == KEY_LCBM)) {
-                keyboard_set_latch_keyarr(kbd_lcbmrow, kbd_lcbmcol, 1);
-            } else {
-                keyboard_set_latch_keyarr(kbd_lcbmrow, kbd_lcbmcol, 0);
-            }
-        }
+        keyboard_key_deshift();
 
-        if (lctrl_defined()) {
-            if (left_ctrl_down > 0
-                || (virtual_ctrl_down > 0 && vctrl == KEY_LCTRL)) {
-                keyboard_set_latch_keyarr(kbd_lctrlrow, kbd_lctrlcol, 1);
-            } else {
-                keyboard_set_latch_keyarr(kbd_lctrlrow, kbd_lctrlcol, 0);
-            }
-        }
         return !skip_release;
     }
 
@@ -843,8 +924,10 @@ void keyboard_key_released(signed long key, int mod)
                                              keyconvmap[i].column,
                                              keyconvmap[i].shift)) {
                 latch = 1;
-                keyboard_set_latch_keyarr(keyconvmap[i].row,
-                                          keyconvmap[i].column, 0);
+                /* modifier latching is handled in keyboard_key_deshift() */
+                if (!key_is_modifier(keyconvmap[i].row, keyconvmap[i].column)) {
+                    keyboard_set_latch_keyarr(keyconvmap[i].row, keyconvmap[i].column, 0);
+                }
                 if (!(keyconvmap[i].shift & ALLOW_OTHER)
                     /*|| (right_shift_down + left_shift_down) == 0*/) {
                     break;
@@ -867,8 +950,9 @@ void keyboard_key_released(signed long key, int mod)
 static void keyboard_key_clear_internal(void)
 {
     keyboard_clear_keymatrix();
+    clear_virtual_modifier_flags();
     joystick_clear_all();
-    virtual_cbm_down = virtual_shift_down =
+    virtual_cbm_down = virtual_shift_down = virtual_deshift =
         left_shift_down = right_shift_down = keyboard_shiftlock = 0;
 #ifdef COMMON_JOYKEYS
     joystick_joypad_clear();
@@ -1254,14 +1338,14 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
 
     p = strtok(NULL, " \t,");
     if (p != NULL) {
-        row = strtol(p, NULL, 10);
+        row = strtol(p, NULL, 0);
         p = strtok(NULL, " \t,");
         if (p != NULL) {
-            col = atoi(p);  /* YUCK! */
+            col = (int)strtol(p, NULL, 0);
             p = strtok(NULL, " \t");
             if (p != NULL || row < 0) {
                 if (p != NULL) {
-                    shift = atoi(p);
+                    shift = (int)strtol(p, NULL, 0);
                 }
 
                 if (row >= 0) {

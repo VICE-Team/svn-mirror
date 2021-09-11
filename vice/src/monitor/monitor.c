@@ -128,8 +128,6 @@ static int init_break_address = -1;
 
 console_t *console_log = NULL;
 
-static int monitor_trap_triggered = 0;
-
 monitor_cartridge_commands_t mon_cart_cmd;
 
 /* Types */
@@ -2843,7 +2841,6 @@ static void monitor_open(void)
     if (console_log == NULL) {
         log_error(LOG_DEFAULT, "monitor_open: could not open monitor console.");
         exit_mon = 1;
-        monitor_trap_triggered = false;
         return;
     }
 
@@ -2851,7 +2848,6 @@ static void monitor_open(void)
     memmap_state |= MEMMAP_STATE_IN_MONITOR;
 #endif
     inside_monitor = true;
-    monitor_trap_triggered = false;
     vsync_suspend_speed_eval();
     sound_suspend();
 
@@ -3049,8 +3045,7 @@ static void monitor_trap(uint16_t addr, void *unused_data)
 
 void monitor_startup_trap(void)
 {
-    if (!monitor_trap_triggered && !inside_monitor) {
-        monitor_trap_triggered = true;
+    if (!inside_monitor) {
         interrupt_maincpu_trigger_trap(monitor_trap, 0);
     }
 }

@@ -151,7 +151,6 @@ static char *get_drive_type_string(int drive)
 }
 
 UI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
-UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 UI_MENU_DEFINE_TOGGLE(FSDeviceLongNames)
 UI_MENU_DEFINE_TOGGLE(FSDeviceOverwrite)
 
@@ -998,6 +997,11 @@ UI_MENU_DEFINE_TOGGLE(Drive9TrueEmulation)
 UI_MENU_DEFINE_TOGGLE(Drive10TrueEmulation)
 UI_MENU_DEFINE_TOGGLE(Drive11TrueEmulation)
 
+UI_MENU_DEFINE_TOGGLE(VirtualDevice8)
+UI_MENU_DEFINE_TOGGLE(VirtualDevice9)
+UI_MENU_DEFINE_TOGGLE(VirtualDevice10)
+UI_MENU_DEFINE_TOGGLE(VirtualDevice11)
+
 /* CAUTION: the position of the menu items is hardcoded in uidrive_menu_create() */
 #define DRIVE_MENU(x)                                           \
     static ui_menu_entry_t drive_##x##_menu[] = {               \
@@ -1055,6 +1059,10 @@ UI_MENU_DEFINE_TOGGLE(Drive11TrueEmulation)
         { "Drive " #x" True Drive Emulation",                   \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           toggle_Drive##x##TrueEmulation_callback,              \
+          NULL },                                               \
+        { "Drive " #x" Virtual Device",                         \
+          MENU_ENTRY_RESOURCE_TOGGLE,                           \
+          toggle_VirtualDevice##x##_callback,                   \
           NULL },                                               \
         SDL_MENU_LIST_END                                       \
     };
@@ -1311,10 +1319,6 @@ ui_menu_entry_t drive_menu[] = {
       custom_drive_volume_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Virtual device traps",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VirtualDevices_callback,
-      NULL },
     { "FS-Device uses long names",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_FSDeviceLongNames_callback,

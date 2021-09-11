@@ -35,6 +35,16 @@
 
 #include "vizawrite64_dongle.h"
 
+/* Control port <--> Vizawrite64 dongle connections:
+
+   cport | I/O
+   ------------
+     5   | O
+     9   | O
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128)
+ */
 
 /* ------------------------------------------------------------------------- */
 
@@ -88,7 +98,7 @@ static joyport_t joyport_vizawrite64_dongle_device = {
     JOYPORT_IS_NOT_LIGHTPEN,           /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,              /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_DONGLE,             /* device is a Dongle */
+    JOYPORT_DEVICE_C64_DONGLE,         /* device is a C64 Dongle */
     0,                                 /* NO output bits */
     joyport_vizawrite64_dongle_enable, /* device enable function */
     NULL,                              /* NO digital line read function */
@@ -96,7 +106,9 @@ static joyport_t joyport_vizawrite64_dongle_device = {
     vizawrite64_dongle_read_potx,      /* pot-x read function */
     vizawrite64_dongle_read_poty,      /* pot-y read function */
     vizawrite64_write_snapshot,        /* device write snapshot function */
-    vizawrite64_read_snapshot          /* device read snapshot function */
+    vizawrite64_read_snapshot,         /* device read snapshot function */
+    NULL,                              /* NO device hook function */
+    0                                  /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */

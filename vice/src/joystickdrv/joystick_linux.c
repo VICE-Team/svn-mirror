@@ -39,6 +39,7 @@
 #include <linux/joystick.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "joyport.h"
@@ -106,18 +107,21 @@ void linux_joystick_init(void)
     /* open analog device files */
 
     for (i = 0; i < ANALOG_JOY_NUM; i++) {
-        char dev[40];
+        char dev[256];
         int fd;
         int ver = 0;
         uint8_t axes;
         uint8_t buttons;
-        char name[60];
+        char name[256];
         struct JS_DATA_TYPE js;
 
-        snprintf(dev, sizeof(dev), "/dev/js%d", i);
+        memset(dev, 0, sizeof(dev));
+        memset(name, 0, sizeof(name));
+
+        snprintf(dev, sizeof(dev) - 1, "/dev/js%d", i);
         fd = open(dev, O_RDONLY);
         if (fd < 0) {
-            snprintf(dev, sizeof(dev), "/dev/input/js%d", i);
+            snprintf(dev, sizeof(dev) - 1, "/dev/input/js%d", i);
             fd = open(dev, O_RDONLY);
         }
 
@@ -135,7 +139,7 @@ void linux_joystick_init(void)
             }
             ioctl(fd, JSIOCGAXES, &axes);
             ioctl(fd, JSIOCGBUTTONS, &buttons);
-            ioctl(fd, JSIOCGNAME (sizeof (name)), name);
+            ioctl(fd, JSIOCGNAME(sizeof(name) - 1), name);
             log_message(joystick_linux_log, "%s is %s", dev, name);
             log_message(joystick_linux_log, "Built in driver version: %d.%d.%d", JS_VERSION >> 16, (JS_VERSION >> 8) & 0xff, JS_VERSION & 0xff);
             log_message(joystick_linux_log, "Kernel driver version  : %d.%d.%d", ver >> 16, (ver >> 8) & 0xff, ver & 0xff);

@@ -47,31 +47,56 @@ static log_t plus4rom_log = LOG_ERR;
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 int plus4_rom_loaded = 0;
 
+#define NUM_TRAP_DEVICES 9  /* FIXME: is there a better constant ? */
+static int trapfl[NUM_TRAP_DEVICES];
+static int trapdevices[NUM_TRAP_DEVICES + 1] = { 1, 4, 5, 6, 7, 8, 9, 10, 11, -1 };
+
+static void get_trapflags(void)
+{
+    int i;
+    for(i = 0; trapdevices[i] != -1; i++) {
+        resources_get_int_sprintf("VirtualDevice%d", &trapfl[i], trapdevices[i]);
+    }
+}
+
+static void clear_trapflags(void)
+{
+    int i;
+    for(i = 0; trapdevices[i] != -1; i++) {
+        resources_set_int_sprintf("VirtualDevice%d", 0, trapdevices[i]);
+    }
+}
+
+static void restore_trapflags(void)
+{
+    int i;
+    for(i = 0; trapdevices[i] != -1; i++) {
+        resources_set_int_sprintf("VirtualDevice%d", trapfl[i], trapdevices[i]);
+    }
+}
 
 int plus4rom_load_kernal(const char *rom_name)
 {
-    int trapfl;
-
     if (!plus4_rom_loaded) {
         return 0;
     }
 
     /* disable traps before loading the ROM */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 0);
+    get_trapflags();
+    clear_trapflags();
 
     /* Load Kernal ROM.  */
     if (sysfile_load(rom_name, machine_name, plus4memrom_kernal_rom,
                      PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
         log_error(plus4rom_log, "Couldn't load kernal ROM `%s'.",
                   rom_name);
-        resources_set_int("VirtualDevices", trapfl);
+        restore_trapflags();
         return -1;
     }
     memcpy(plus4memrom_kernal_trap_rom, plus4memrom_kernal_rom,
            PLUS4_KERNAL_ROM_SIZE);
 
-    resources_set_int("VirtualDevices", trapfl);
+    restore_trapflags();
 
     return 0;
 }

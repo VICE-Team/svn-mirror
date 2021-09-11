@@ -218,7 +218,7 @@ static unsigned int random_method_geom_next(double log_1mp)
     /* u may be 0 but not 1; use 1 - u to avoid taking the log of 0. */
     double g = floor(log1p(-u) / log_1mp);
     /* Avoid overflow when converting to an unsigned int. */
-    return (g > nextafter(UINT_MAX, 0)) ? UINT_MAX : g;
+    return (g > (double)UINT_MAX) ? UINT_MAX : g;
 }
 
 /* this can be used to init arbitrary memory */
@@ -229,7 +229,7 @@ void ram_init_with_pattern(uint8_t *memram, unsigned int ramsize, RAMINITPARAM *
 
     random_method_t random_method = RANDOM_METHOD_NONE;
     unsigned int random_mask_initial = 0;
-    double log_1mp = -1.0f / 0.0f;
+    double log_1mp = -INFINITY;
     unsigned int random_next = UINT_MAX;
 
     if (ramparam->random_chance <= 0) {

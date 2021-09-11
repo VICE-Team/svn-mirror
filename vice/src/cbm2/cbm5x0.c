@@ -77,7 +77,6 @@
 #include "multijoy.h"
 #include "network.h"
 #include "ninja_snespad.h"
-#include "paperclip64.h"
 #include "parallel.h"
 #include "printer.h"
 #include "protopad.h"
@@ -99,6 +98,7 @@
 #include "traps.h"
 #include "trapthem_snespad.h"
 #include "types.h"
+#include "userport.h"
 #include "vice-event.h"
 #include "vicii.h"
 #include "vicii-resources.h"
@@ -377,10 +377,6 @@ int machine_resources_init(void)
     }
     if (joyport_bbrtc_resources_init() < 0) {
         init_resource_fail("joyport bbrtc");
-        return -1;
-    }
-    if (joyport_paperclip64_resources_init() < 0) {
-        init_resource_fail("joyport paperclip64 dongle");
         return -1;
     }
     if (joyport_trapthem_snespad_resources_init() < 0) {
@@ -1046,6 +1042,11 @@ int machine_read_snapshot(const char *name, int event_mode)
 int machine_autodetect_psid(const char *name)
 {
     return -1;
+}
+
+userport_desc_t *userport_get_valid_devices(int sort)
+{
+    return NULL;
 }
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)

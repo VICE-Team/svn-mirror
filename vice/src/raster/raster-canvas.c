@@ -128,7 +128,6 @@ void raster_canvas_handle_end_of_frame(raster_t *raster)
     if (raster->canvas->videoconfig->interlaced) {
         /* swap the draw buffer pointers */
         raster->canvas->draw_buffer->draw_buffer = raster->canvas->draw_buffer->draw_buffer_non_padded[raster->canvas->videoconfig->interlace_field];
-        raster->canvas->draw_buffer->draw_buffer_previous = raster->canvas->draw_buffer->draw_buffer_non_padded[raster->canvas->videoconfig->interlace_field ^ 1];
     } else {
         raster->canvas->draw_buffer->draw_buffer = raster->canvas->draw_buffer->draw_buffer_non_padded[0];
     }

@@ -72,6 +72,7 @@
 #include "settings_speed.h"
 #include "settings_keyboard.h"
 #include "settings_sound.h"
+#include "settings_autofire.h"
 #include "settings_autostart.h"
 #include "settings_drive.h"
 #include "settings_fsdevice.h"
@@ -156,7 +157,6 @@
 #include "uimachinewindow.h"
 
 /* TODO: move up and sort headers */
-#include "settings_peripherals_generic.h"
 #include "settings_host_display.h"
 
 /* VSID stuff */
@@ -180,6 +180,8 @@
 /** \brief  CSS to allow collapsing/expanding tree nodes with crsr keys
  *
  * Note the 'treeview' rule, before Gtk+ 3.20 this was 'GtkTreeView'
+ *
+ *
  */
 #define TREEVIEW_CSS \
     "@binding-set SettingsTreeViewBinding\n" \
@@ -192,7 +194,11 @@
     "treeview\n" \
     "{\n" \
     "    -gtk-key-bindings: SettingsTreeViewBinding;\n" \
-    "}"
+    "}\n" \
+    "treeview .separator\n" \
+    "{\n" \
+    "    color: darker (@theme_bg_color);\n" \
+    "}\n"
 
 
 /** \brief  Number of columns in the tree model
@@ -260,6 +266,10 @@ enum {
  * I/O extensions per emulator
  */
 
+/* Sorting the cartridges is a bit of a challenge, since many of them fall
+   into more than one category. So we make a couple groups and put them
+   into the one that matches their perceived "primary" function best */
+
 /* {{{ c64_cartridges */
 /** \brief  List of C64 cartidge settings (x64, x64sc)
  */
@@ -268,24 +278,34 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* RAM Expansions and "RAM Disk" */
+
+    { "Double Quick Brown Box",
+      "dqbb",
+      dqbb_widget_create, NULL },
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
       reu_widget_create, NULL },
-    { "RamCart",
+    { "RamCart",    /* FIXME: shouldnt this be in "Memory Hacks" ? */
       "ramcart",
       ramcart_widget_create, NULL },
-    { "Double Quick Brown Box",
-      "dqbb",
-      dqbb_widget_create, NULL },
-    { "Expert Cartridge",
-      "expert-cart",
-      expert_widget_create, NULL },
-    { "ISEPIC",
-      "isepic",
-      isepic_widget_create, NULL },
+    { "RAMLink",
+      "ramlink",
+      ramlink_widget_create, NULL },
+    { "REX Ram-Floppy",
+      "rexramfloppy",
+      rexramfloppy_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Flash+EPROM Cartridges */
+
     { "EasyFlash",
       "easyflash",
       easyflash_widget_create, NULL },
@@ -295,24 +315,17 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "GMod3",
       "gmod3",
       gmod3_widget_create, NULL },
-    { "IDE64",
-      "ide64",
-      ide64_widget_create, NULL },
-    { "Lt. Kernal Host Adapter",
-      "ltkernal",
-      ltkernal_widget_create, NULL },
-    { "RAMLink",
-      "ramlink",
-      ramlink_widget_create, NULL },
-    { "REX Ram-Floppy",
-      "rexramfloppy",
-      rexramfloppy_widget_create, NULL },
-    { "MMC64",
-      "mmc64",
-      mmc64_widget_create, NULL },
-    { "MMC Replay",
-      "mmcr",
-      mmcr_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Freezer+Utility Cartridges */
+
+    { "Expert Cartridge",
+      "expert-cart",
+      expert_widget_create, NULL },
+    { "ISEPIC",
+      "isepic",
+      isepic_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
       retroreplay_widget_create, NULL },
@@ -320,19 +333,46 @@ static ui_settings_tree_node_t c64_cartridges[] = {
       "super-snapshot",
       super_snapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Network Expansions */
+
     { "Ethernet Cartridge",
       "ethernet-cart",
       ethernet_cart_widget_create, NULL },
     { "RR-Net Mk3",
       "rrnetmk3",
       rrnetmk3_widget_create, NULL },
+
 #endif
+    UI_SETTINGS_SEPARATOR,
+
+    /* Storage Host Adapters */
+
+    { "IDE64",
+      "ide64",
+      ide64_widget_create, NULL },
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
     { "IEEE Flash! 64 Interface",
       "ieee-flash-64",
       ieeeflash64_widget_create, NULL },
+    { "Lt. Kernal Host Adapter",
+      "ltkernal",
+      ltkernal_widget_create, NULL },
+    { "MMC64",
+      "mmc64",
+      mmc64_widget_create, NULL },
+    { "MMC Replay",
+      "mmcr",
+      mmcr_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },
@@ -350,9 +390,19 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "SFX Sound Sampler",
       "sfx-sampler",
       sfx_sound_sampler_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* CPU Expansions */
+
     { "CP/M Cartridge",
       "cpm-cart",
       cpm_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* misc */
+
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
       ds12c887_widget_create, NULL },
@@ -367,6 +417,11 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* RAM Expansions and "RAM Disk" */
+
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
@@ -376,15 +431,20 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "RamCart",
       "ramcart",
       ramcart_widget_create, NULL },
+    { "REX Ram-Floppy",
+      "rexramfloppy",
+      rexramfloppy_widget_create, NULL },
+    { "RAMLink",
+      "ramlink",
+      ramlink_widget_create, NULL },
     { "Double Quick Brown Box",
       "dqbb",
       dqbb_widget_create, NULL },
-    { "Expert Cartridge",
-      "expert-cart",
-      expert_widget_create, NULL },
-    { "ISEPIC",
-      "isepic",
-      isepic_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Flash+EPROM Cartridges */
+
     { "EasyFlash",
       "easyflash",
       easyflash_widget_create, NULL },
@@ -394,21 +454,17 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "GMod3",
       "gmod3",
       gmod3_widget_create, NULL },
-    { "IDE64",
-      "ide64",
-      ide64_widget_create, NULL },
-    { "REX Ram-Floppy",
-      "rexramfloppy",
-      rexramfloppy_widget_create, NULL },
-    { "MMC64",
-      "mmc64",
-      mmc64_widget_create, NULL },
-    { "MMC Replay",
-      "mmcr",
-      mmcr_widget_create, NULL },
-    { "RAMLink",
-      "ramlink",
-      ramlink_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Freezer+Utility Cartridges */
+
+    { "Expert Cartridge",
+      "expert-cart",
+      expert_widget_create, NULL },
+    { "ISEPIC",
+      "isepic",
+      isepic_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
       retroreplay_widget_create, NULL },
@@ -416,6 +472,11 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       "super-snapshot",
       super_snapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Network Expansions */
+
     { "Ethernet Cartridge",
       "ethernet-cart",
       ethernet_cart_widget_create, NULL },
@@ -423,9 +484,28 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
       "rrnetmk3",
       rrnetmk3_widget_create, NULL },
 #endif
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Storage Host Adapters */
+
+    { "IDE64",
+      "ide64",
+      ide64_widget_create, NULL },
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
+    { "MMC64",
+      "mmc64",
+      mmc64_widget_create, NULL },
+    { "MMC Replay",
+      "mmcr",
+      mmcr_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },
@@ -443,6 +523,11 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "SFX Sound Sampler",
       "sfx-sampler",
       sfx_sound_sampler_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* misc */
+
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
       ds12c887_widget_create, NULL },
@@ -458,24 +543,34 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* RAM Expansions and "RAM Disk" */
+
     { "GEO-RAM",
       "geo-ram",
       georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
       reu_widget_create, NULL },
+    { "RAMLink",
+      "ramlink",
+      ramlink_widget_create, NULL },
+    { "REX Ram-Floppy",
+      "rexramfloppy",
+      rexramfloppy_widget_create, NULL },
     { "RamCart",
       "ramcart",
       ramcart_widget_create, NULL },
     { "Double Quick Brown Box",
       "dqbb",
       dqbb_widget_create, NULL },
-    { "Expert Cartridge",
-      "expert-cart",
-      expert_widget_create, NULL },
-    { "ISEPIC",
-      "isepic",
-      isepic_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Flash+EPROM Cartridges */
+
     { "EasyFlash",
       "easyflash",
       easyflash_widget_create, NULL },
@@ -485,24 +580,17 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "GMod3",
       "gmod3",
       gmod3_widget_create, NULL },
-    { "IDE64",
-      "ide64",
-      ide64_widget_create, NULL },
-    { "Lt. Kernal Host Adapter",
-      "ltkernal",
-      ltkernal_widget_create, NULL },
-    { "RAMLink",
-      "ramlink",
-      ramlink_widget_create, NULL },
-    { "REX Ram-Floppy",
-      "rexramfloppy",
-      rexramfloppy_widget_create, NULL },
-    { "MMC64",
-      "mmc64",
-      mmc64_widget_create, NULL },
-    { "MMC Replay",
-      "mmcr",
-      mmcr_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Freezer+Utility Cartridges */
+
+    { "Expert Cartridge",
+      "expert-cart",
+      expert_widget_create, NULL },
+    { "ISEPIC",
+      "isepic",
+      isepic_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
       retroreplay_widget_create, NULL },
@@ -510,6 +598,10 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       "super-snapshot",
       super_snapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
+    UI_SETTINGS_SEPARATOR,
+
+    /* Network Expansions */
+
     { "Ethernet Cartridge",
       "ethernet-cart",
       ethernet_cart_widget_create, NULL },
@@ -517,9 +609,30 @@ static ui_settings_tree_node_t c128_cartridges[] = {
       "rrnetmk3",
       rrnetmk3_widget_create, NULL },
 #endif
+    UI_SETTINGS_SEPARATOR,
+
+    /* Storage Host Adapters */
+
+    { "IDE64",
+      "ide64",
+      ide64_widget_create, NULL },
+    { "Lt. Kernal Host Adapter",
+      "ltkernal",
+      ltkernal_widget_create, NULL },
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
+    { "MMC64",
+      "mmc64",
+      mmc64_widget_create, NULL },
+    { "MMC Replay",
+      "mmcr",
+      mmcr_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },
@@ -537,9 +650,19 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "SFX Sound Sampler",
       "sfx-sampler",
       sfx_sound_sampler_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* CPU Expansions */
+
     { "CP/M Cartridge",
       "cpm-cart",
       cpm_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* misc */
+
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
        ds12c887_widget_create, NULL },
@@ -555,27 +678,57 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
-    { "Mega Cart",
-      "mega-cart",
-      mega_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Flash+EPROM Cartridges */
+
     { "Final Expansion",
       "final-expansion",
       final_expansion_widget_create, NULL },
-    { "Vic Flash Plugin",
-      "vic-flash-plugin",
-      vic_flash_widget_create, NULL },
+    { "Mega Cart",
+      "mega-cart",
+      mega_cart_widget_create, NULL },
     { "UltiMem",
       "ultimem",
       ultimem_widget_create, NULL },
+    { "Vic Flash Plugin",
+      "vic-flash-plugin",
+      vic_flash_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Storage Host Adapters */
+
     { "VIC-1112 IEEE-488 interface",
       "ieee-488",
       vic_ieee488_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
+#ifdef HAVE_MIDI
+    { "MIDI emulation",
+      "midi",
+      midi_widget_create, NULL },
+#endif
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* C64 I/O Expansions connected via "MasC=uerade" adapter */
+
     { "DigiMAX (MasC=uerade",
       "digimax",
       digimax_widget_create, NULL },
     { "DS12C887 RTC (MasC=uerade)",
       "ds12c887-rtc",
       ds12c887_widget_create, NULL },
+#ifdef HAVE_RAWNET
+    { "Ethernet Cartridge (MasC=uerade)",
+      "ethernet-cart",
+      ethernet_cart_widget_create, NULL },
+#endif
     { "GEO-RAM (MasC=uerade)",
       "geo-ram",
       georam_widget_create, NULL },
@@ -585,16 +738,6 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
     { "SFX Sound Sampler (MasC=uerade)",
       "sfx-sampler",
       sfx_sound_sampler_widget_create, NULL },
-#ifdef HAVE_RAWNET
-    { "Ethernet Cartridge (MasC=uerade)",
-      "ethernet-cart",
-      ethernet_cart_widget_create, NULL },
-#endif
-#ifdef HAVE_MIDI
-    { "MIDI emulation",
-      "midi",
-      midi_widget_create, NULL },
-#endif
 
     UI_SETTINGS_TERMINATOR
 };
@@ -607,6 +750,11 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
     { "Default cartridge",
       "default-cart",
       settings_default_cart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
     { "Digiblaster add-on",
       "digiblaster",
       plus4_digiblaster_widget_create, NULL },
@@ -622,9 +770,24 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
 /** \brief  List of PET I/O extensions
  */
 static ui_settings_tree_node_t pet_io_extensions[] = {
+    /* RAM Expansions and "RAM Disk" */
+
     { "PET RAM Expansion Unit",
       "pet-reu",
       pet_reu_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Audio Expansions + Adapters */
+
+    { "SID Card",
+      "sid-card",
+      sidcart_widget_create, NULL },
+
+    UI_SETTINGS_SEPARATOR,
+
+    /* Graphics Expansions + Adapters */
+
     { "PET Colour graphics",
       "pet-colour",
       pet_colour_graphics_widget_create, NULL },
@@ -634,9 +797,6 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
     { "PET HRE hi-res graphics",
       "pet-hre",
       pet_hre_widget_create, NULL },
-    { "SID Card",
-      "sid-card",
-      sidcart_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -841,6 +1001,9 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -849,14 +1012,11 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
 /** \brief  Child nodes for the C64 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_c64[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     /* "Output devices? drive is also input */
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1011,6 +1171,9 @@ static ui_settings_tree_node_t input_nodes_c64dtv[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1019,13 +1182,10 @@ static ui_settings_tree_node_t input_nodes_c64dtv[] = {
 /** \brief  Child nodes for the C64DTV 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1161,6 +1321,9 @@ static ui_settings_tree_node_t input_nodes_c128[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1169,14 +1332,11 @@ static ui_settings_tree_node_t input_nodes_c128[] = {
 /** \brief  Child nodes for the C128 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_c128[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     /* "Output devices? drive is also input */
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1331,6 +1491,9 @@ static ui_settings_tree_node_t input_nodes_scpu64[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1339,13 +1502,10 @@ static ui_settings_tree_node_t input_nodes_scpu64[] = {
 /** \brief  Child nodes for the SCPU64 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1487,6 +1647,9 @@ static ui_settings_tree_node_t input_nodes_vic20[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1495,13 +1658,10 @@ static ui_settings_tree_node_t input_nodes_vic20[] = {
 /** \brief  Child nodes for the VIC20 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1642,6 +1802,9 @@ static ui_settings_tree_node_t input_nodes_plus4[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1650,13 +1813,10 @@ static ui_settings_tree_node_t input_nodes_plus4[] = {
 /** \brief  Child nodes for the Plus4 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1797,6 +1957,9 @@ static ui_settings_tree_node_t input_nodes_pet[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1805,13 +1968,10 @@ static ui_settings_tree_node_t input_nodes_pet[] = {
 /** \brief  Child nodes for the PET 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_pet[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -1949,6 +2109,9 @@ static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1957,13 +2120,10 @@ static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
 /** \brief  Child nodes for the CBM5x0 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -2098,7 +2258,9 @@ static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-
+    { "Autofire",
+      "autofire",
+      settings_autofire_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -2107,13 +2269,10 @@ static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
 /** \brief  Child nodes for the CBM6x0 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
-    { "Generic",
-      "generic",
-      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Filesystem Device",
+    { "Host file system device",
       "fsdevice",
       settings_fsdevice_widget_create, NULL },
     { "Printer",
@@ -2458,11 +2617,11 @@ static GtkTreeStore *populate_tree_model(void)
                 char buffer[256];
 
                 /* mark items without callback with 'TODO' */
-                if (list[c].callback != NULL) {
-                    g_snprintf(buffer, 256, "%s", list[c].name);
-                } else {
-                    g_snprintf(buffer, 256, "TODO: %s", list[c].name);
-                }
+                //if (list[c].callback != NULL) {
+                g_snprintf(buffer, 256, "%s", list[c].name);
+                //} else {
+                //    g_snprintf(buffer, 256, "TODO: %s", list[c].name);
+                //}
 
                 gtk_tree_store_append(model, &child, &iter);
                 gtk_tree_store_set(model, &child,
@@ -2474,6 +2633,34 @@ static GtkTreeStore *populate_tree_model(void)
         }
     }
     return model;
+}
+
+
+/** \brief  Determine if the current tree item should be a separator
+ *
+ * Callback function for the tree view to check item at \a iter in \a model
+ * and decide if the item is a separator.
+ *
+ * \param[in]   model   tree model
+ * \param[in]   iter    tree iterator
+ * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE if the item is a separator
+ */
+static gboolean row_separator_func(GtkTreeModel *model,
+                                   GtkTreeIter *iter,
+                                   gpointer data)
+{
+    gchar *name = NULL;
+    gboolean is_sep = FALSE;
+
+    gtk_tree_model_get(model, iter, COLUMN_NAME, &name, -1);
+    if (name != NULL && *name == '-') {
+        is_sep = TRUE;
+    }
+    g_free(name);
+
+    return is_sep;
 }
 
 
@@ -2497,6 +2684,10 @@ static GtkWidget *create_treeview(void)
     create_tree_model();
     tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(populate_tree_model()));
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), FALSE);
+    gtk_tree_view_set_row_separator_func(GTK_TREE_VIEW(tree),
+                                         row_separator_func,
+                                         NULL,
+                                         NULL);
 
     text_renderer = gtk_cell_renderer_text_new();
     text_column = gtk_tree_view_column_new_with_attributes(

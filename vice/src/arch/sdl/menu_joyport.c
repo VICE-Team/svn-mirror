@@ -172,10 +172,10 @@ static const ui_callback_t uijoyport_callbacks[JOYPORT_MAX_PORTS] = {
     JoyPort10Device_dynmenu_callback
 };
 
-void uijoyport_menu_create(int p1, int p2, int p3_4, int p5, int p6_p10)
+void uijoyport_menu_create(int p1, int p2, int p3_p5, int p6, int p7_p10)
 {
     int i, j = 0;
-    int port_ids[] = { p1, p2, p3_4, p3_4, p5, p6_p10, p6_p10, p6_p10, p6_p10, p6_p10 };
+    int port_ids[] = { p1, p2, p3_p5, p3_p5, p3_p5, p6, p7_p10, p7_p10, p7_p10, p7_p10 };
 
     joyport_menu[j].string = "Save BBRTC data when changed";
     joyport_menu[j].type = MENU_ENTRY_RESOURCE_TOGGLE;

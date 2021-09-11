@@ -36,6 +36,7 @@
 #include "menu_rs232.h"
 #include "resources.h"
 #include "uimenu.h"
+#include "userport.h"
 
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 UI_MENU_DEFINE_RADIO(RsDevice2Baud)
@@ -197,7 +198,7 @@ static const ui_menu_entry_t acia1base_vic20_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(RsUserEnable)
+UI_MENU_DEFINE_RADIO(UserportDevice)
 UI_MENU_DEFINE_RADIO(RsUserBaud)
 
 static const ui_menu_entry_t rsuserbaud_menu[] = {
@@ -324,9 +325,9 @@ const ui_menu_entry_t rs232_c64_menu[] = {
       (ui_callback_data_t)acia1mode_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Userport RS232 emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_RsUserEnable_callback,
-      NULL },
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_UserportDevice_callback,
+      (ui_callback_data_t)USERPORT_DEVICE_RS232_MODEM },
     { "Userport RS232 host device",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -411,9 +412,9 @@ const ui_menu_entry_t rs232_c128_menu[] = {
       (ui_callback_data_t)acia1mode_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Userport RS232 emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_RsUserEnable_callback,
-      NULL },
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_UserportDevice_callback,
+      (ui_callback_data_t)USERPORT_DEVICE_RS232_MODEM },
     { "Userport RS232 host device",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -498,9 +499,9 @@ const ui_menu_entry_t rs232_vic20_menu[] = {
       (ui_callback_data_t)acia1mode_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Userport RS232 emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_RsUserEnable_callback,
-      NULL },
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_UserportDevice_callback,
+      (ui_callback_data_t)USERPORT_DEVICE_RS232_MODEM },
     { "Userport RS232 host device",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,

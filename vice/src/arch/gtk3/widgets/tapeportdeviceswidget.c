@@ -5,6 +5,7 @@
  */
 
 /*
+ * $VICERES VirtualDevice1          -xscpu64 -vsid
  * $VICERES Datasette               -xscpu64 -vsid
  * $VICERES DatasetteResetWithCPU   -xscpu64 -vsid
  * $VICERES DatasetteZeroGapDelay   -xscpu64 -vsid
@@ -74,6 +75,9 @@ static vice_gtk3_combo_entry_int_t tcrt_loglevels[] = {
  * Reference to widgets to be able to enable/disabled them through event
  * handlers
  */
+
+/** \brief  Datasette device traps toggle button */
+static GtkWidget *ds_traps = NULL;
 
 /** \brief  Datasette reset toggle button */
 static GtkWidget *ds_reset = NULL;
@@ -173,6 +177,7 @@ static void on_datasette_toggled(GtkWidget *widget, gpointer data)
     gtk_widget_set_sensitive(ds_wobbleamp, state);
     gtk_widget_set_sensitive(ds_align, state);
     gtk_widget_set_sensitive(ds_sound, state);
+    gtk_widget_set_sensitive(ds_traps, state);
 }
 
 
@@ -344,56 +349,60 @@ static GtkWidget *create_datasette_widget(void)
             "Enable Datasette");
     gtk_grid_attach(GTK_GRID(grid), ds_enable, 0, 0, 4, 1);
 
+    ds_traps = vice_gtk3_resource_check_button_new("VirtualDevice1",
+            "Enable Virtual Device (required for t64)");
+    g_object_set(ds_traps, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), ds_traps, 0, 1, 4, 1);
+
     ds_reset = vice_gtk3_resource_check_button_new("DatasetteResetWithCPU",
             "Reset datasette with CPU");
     g_object_set(ds_reset, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), ds_reset, 0, 1, 4, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_reset, 0, 2, 4, 1);
 
     ds_sound = vice_gtk3_resource_check_button_new("DatasetteSound",
             "Enable datasette sound");
     g_object_set(ds_sound, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), ds_sound, 0, 2, 4, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_sound, 0, 3, 4, 1);
 
     label = gtk_label_new("Zero gap delay:");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_zerogap = vice_gtk3_resource_spin_int_new("DatasetteZeroGapDelay",
             0, 50000, 100);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ds_zerogap, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_zerogap, 1, 4, 1, 1);
 
     label = gtk_label_new("TAP v0 gap speed tuning:");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_speed = vice_gtk3_resource_spin_int_new("DatasetteSpeedTuning",
             0, 50, 1);
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ds_speed, 3, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_speed, 3, 4, 1, 1);
 
     label = gtk_label_new("Tape wobble frequency:");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_wobblefreq = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleFrequency",
             0, 5000, 10);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ds_wobblefreq, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_wobblefreq, 1, 5, 1, 1);
 
     label = gtk_label_new("Tape wobble amplitude:");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_wobbleamp = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleAmplitude",
             0, 5000, 10);
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ds_wobbleamp, 3, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_wobbleamp, 3, 5, 1, 1);
 
     label = gtk_label_new("Tape alignment error");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_align = vice_gtk3_resource_spin_int_new("DatasetteTapeAzimuthError",
             0, 25000, 100);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ds_align, 1, 5, 1, 1);
-
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_align, 1, 6, 1, 1);
 
     /* enble/disable sub widgets */
     on_datasette_toggled(ds_enable, NULL);

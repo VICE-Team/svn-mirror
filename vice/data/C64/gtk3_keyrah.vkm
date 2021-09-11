@@ -14,18 +14,38 @@
 # '!RSHIFT row col'      right shift keyboard row/column
 # '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
 # '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)
+# '!LCTRL row col'       left control keyboard row/column
+# '!VCTRL ctrlkey'       virtual control key (LCTRL)
+# '!LCBM row col'        left CBM keyboard row/column
+# '!VCBM cbmkey'         virtual CBM key (LCBM)
 # '!UNDEF keysym'        remove keysym from table
 #
 # Shiftflag can have the values:
 # 0      key is not shifted for this keysym/scancode
-# 1      key is shifted for this keysym/scancode
-# 2      left shift
-# 4      right shift
+# 1      key is combined with shift for this keysym/scancode
+# 2      key is left shift on emulated machine
+# 4      key is right shift on emulated machine
 # 8      key can be shifted or not with this keysym/scancode
 # 16     deshift key for this keysym/scancode
 # 32     another definition for this keysym/scancode follows
-# 64     shift lock
+# 64     key is shift-lock on emulated machine
+# 128    shift modifier required on host
 # 256    key is used for an alternative keyboard mapping
+# 512    alt-r (alt-gr) modifier required on host
+# 1024   ctrl modifier required on host
+# 2048   key is combined with cbm for this keysym/scancode
+# 4096   key is combined with ctrl for this keysym/scancode
+# 8192   key is (left) cbm on emulated machine
+# 16384  key is (left) ctrl on emulated machine
+#
+# to migrate older keymaps and use the CBM and/or CTRL related features:
+#
+# - define !LCTRL, !VCTRL, !LCBM, !VCBM
+# - add 'key is (left) cbm/ctrl on emulated machine' flags to
+#   all keys that map to the cbm or ctrl key respectively.
+#
+# after that the virtual cbm/ctrl flags and requiring host modifiers
+# should work as expected. keep an eye on the error messages.
 #
 # Negative row values:
 # 'keysym -1 n' joystick keymap A, direction n
@@ -90,6 +110,10 @@
 !RSHIFT 6 4
 !VSHIFT RSHIFT
 !SHIFTL LSHIFT
+!LCBM 7 5
+!VCBM LCBM
+!LCTRL 7 2
+!VCTRL LCTRL
 
 #####################
 # |Bit 0| DEL |Retrn|C_L/R|  F7 |  F1 |  F3 |  F5 |C_U/D|
@@ -208,14 +232,14 @@ exclam           7 0 8
 grave            7 1 8
 asciitilde       7 1 1
 # ctrl
-Tab              7 2 8
-ISO_Left_Tab     7 2 8
+Tab              7 2 16392
+ISO_Left_Tab     7 2 16392
 # shift+2
 at               7 3 8
 # space
 space            7 4 8
 # cbm
-Control_L        7 5 8
+Control_L        7 5 8200
 # run/stop
 Escape           7 7 8
 

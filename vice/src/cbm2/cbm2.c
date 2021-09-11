@@ -77,7 +77,6 @@
 #include "mem.h"
 #include "monitor.h"
 #include "network.h"
-#include "paperclip64.h"
 #include "parallel.h"
 #include "printer.h"
 #include "resources.h"
@@ -333,6 +332,10 @@ int machine_resources_init(void)
         init_resource_fail("rs232drv");
         return -1;
     }
+    if (userport_resources_init() < 0) {
+        init_resource_fail("userport devices");
+        return -1;
+    }
     if (printer_resources_init() < 0) {
         init_resource_fail("printer");
         return -1;
@@ -361,20 +364,12 @@ int machine_resources_init(void)
         init_resource_fail("joyport bbrtc");
         return -1;
     }
-    if (joyport_paperclip64_resources_init() < 0) {
-        init_resource_fail("joyport paperclip64 dongle");
-        return -1;
-    }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
         return -1;
     }
     if (sampler_resources_init() < 0) {
         init_resource_fail("samplerdrv");
-        return -1;
-    }
-    if (userport_resources_init() < 0) {
-        init_resource_fail("userport devices");
         return -1;
     }
     if (gfxoutput_resources_init() < 0) {
@@ -428,8 +423,24 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-    if (userport_joystick_resources_init() < 0) {
-        init_resource_fail("userport joystick");
+    if (userport_joystick_cga_resources_init() < 0) {
+        init_resource_fail("userport cga joystick");
+        return -1;
+    }
+    if (userport_joystick_pet_resources_init() < 0) {
+        init_resource_fail("userport pet joystick");
+        return -1;
+    }
+    if (userport_joystick_hummer_resources_init() < 0) {
+        init_resource_fail("userport hummer joystick");
+        return -1;
+    }
+    if (userport_joystick_oem_resources_init() < 0) {
+        init_resource_fail("userport oem joystick");
+        return -1;
+    }
+    if (userport_joystick_synergy_resources_init() < 0) {
+        init_resource_fail("userport synergy joystick");
         return -1;
     }
     if (userport_dac_resources_init() < 0) {
@@ -484,7 +495,6 @@ void machine_resources_shutdown(void)
     cartio_shutdown();
     userport_rtc_58321a_resources_shutdown();
     userport_rtc_ds1307_resources_shutdown();
-    userport_resources_shutdown();
     joyport_bbrtc_resources_shutdown();
     tapeport_resources_shutdown();
     debugcart_resources_shutdown();
@@ -616,40 +626,12 @@ int machine_cmdline_options_init(void)
         return -1;
     }
 #endif
-    if (userport_joystick_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport joystick");
-        return -1;
-    }
-    if (userport_dac_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport dac");
-        return -1;
-    }
-    if (userport_digimax_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport digimax");
-        return -1;
-    }
-    if (userport_petscii_snespad_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport petscii snes pad");
-        return -1;
-    }
-    if (userport_superpad64_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport superpad64");
-        return -1;
-    }
     if (userport_rtc_58321a_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport rtc (58321a)");
         return -1;
     }
     if (userport_rtc_ds1307_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport rtc (ds1307)");
-        return -1;
-    }
-    if (userport_4bit_sampler_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport 4bit sampler");
-        return -1;
-    }
-    if (userport_8bss_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport 8bit stereo sampler");
         return -1;
     }
     if (debugcart_cmdline_options_init() < 0) {

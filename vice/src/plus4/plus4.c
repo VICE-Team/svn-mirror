@@ -67,7 +67,6 @@
 #include "maincpu.h"
 #include "monitor.h"
 #include "network.h"
-#include "paperclip64.h"
 #include "plus4-cmdline-options.h"
 #include "plus4-resources.h"
 #include "plus4-snapshot.h"
@@ -102,6 +101,7 @@
 #include "ted-sound.h"
 #include "ted.h"
 #include "traps.h"
+#include "trapthem_snespad.h"
 #include "types.h"
 #include "userport.h"
 #include "userport_dac.h"
@@ -334,6 +334,16 @@ static joyport_port_props_t joy_adapter_control_port_2 =
     0                   /* port can be switched on/off */
 };
 
+static joyport_port_props_t joy_adapter_control_port_3 =
+{
+    "Joystick adapter port 3",
+    0,                  /* has NO potentiometer connected to this port */
+    0,                  /* has NO lightpen support on this port */
+    0,                  /* has NO joystick adapter on this port */
+    0,                  /* has NO output support on this port */
+    0                   /* port can be switched on/off */
+};
+
 static joyport_port_props_t sidcard_port =
 {
     "SIDCard control port",
@@ -358,7 +368,10 @@ static int init_joyport_ports(void)
     if (joyport_port_register(JOYPORT_4, &joy_adapter_control_port_2) < 0) {
         return -1;
     }
-    return joyport_port_register(JOYPORT_5, &sidcard_port);
+    if (joyport_port_register(JOYPORT_5, &joy_adapter_control_port_3) < 0) {
+        return -1;
+    }
+    return joyport_port_register(JOYPORT_6, &sidcard_port);
 }
 
 /* Plus4-specific resource initialization.  This is called before initializing
@@ -394,7 +407,7 @@ int machine_resources_init(void)
         return -1;
     }
     if (sidcart_resources_init() < 0) {
-        init_resource_fail("sidcart");
+        init_resource_fail("sid cartridge");
         return -1;
     }
     if (acia_resources_init() < 0) {
@@ -411,6 +424,10 @@ int machine_resources_init(void)
     }
     if (printer_resources_init() < 0) {
         init_resource_fail("printer");
+        return -1;
+    }
+    if (userport_resources_init() < 0) {
+        init_resource_fail("userport devices");
         return -1;
     }
 /* FIXME: Add userport printer support to xplus4 */
@@ -440,10 +457,6 @@ int machine_resources_init(void)
         init_resource_fail("joyport bbrtc");
         return -1;
     }
-    if (joyport_paperclip64_resources_init() < 0) {
-        init_resource_fail("joyport paperclip64 dongle");
-        return -1;
-    }
     if (joyport_coplin_keypad_resources_init() < 0) {
         init_resource_fail("joyport coplin keypad");
         return -1;
@@ -468,16 +481,28 @@ int machine_resources_init(void)
         init_resource_fail("joyport protopad");
         return -1;
     }
+    if (joyport_trapthem_snespad_resources_init() < 0) {
+        init_resource_fail("joyport trapthem snespad");
+        return -1;
+    }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
         return -1;
     }
-    if (userport_resources_init() < 0) {
-        init_resource_fail("userport devices");
+    if (userport_joystick_pet_resources_init() < 0) {
+        init_resource_fail("userport pet joystick");
         return -1;
     }
-    if (userport_joystick_resources_init() < 0) {
-        init_resource_fail("userport joystick");
+    if (userport_joystick_hummer_resources_init() < 0) {
+        init_resource_fail("userport hummer joystick");
+        return -1;
+    }
+    if (userport_joystick_oem_resources_init() < 0) {
+        init_resource_fail("userport oem joystick");
+        return -1;
+    }
+    if (userport_joystick_synergy_resources_init() < 0) {
+        init_resource_fail("userport synergy joystick");
         return -1;
     }
     if (userport_dac_resources_init() < 0) {
@@ -581,7 +606,6 @@ void machine_resources_shutdown(void)
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
     cartio_shutdown();
-    userport_resources_shutdown();
     joyport_bbrtc_resources_shutdown();
     tapeport_resources_shutdown();
     debugcart_resources_shutdown();
@@ -615,7 +639,7 @@ int machine_cmdline_options_init(void)
         return -1;
     }
     if (sidcart_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("sidcart");
+        init_cmdline_options_fail("sid cartridge");
         return -1;
     }
     if (speech_cmdline_options_init() < 0) {
@@ -659,14 +683,6 @@ int machine_cmdline_options_init(void)
     }
     if (userport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport");
-        return -1;
-    }
-    if (userport_joystick_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport joystick");
-        return -1;
-    }
-    if (userport_dac_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport dac");
         return -1;
     }
     if (gfxoutput_cmdline_options_init() < 0) {

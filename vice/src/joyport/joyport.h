@@ -98,8 +98,9 @@ enum {
                              joystick adapter port 1 */
 #define JOYPORT_4   3   /**< c64/c128/scpu64/cbm2/pet/plus4/vic20 userport
                              joystick adapter port 2 */
-#define JOYPORT_5   4   /**< plus4 sidcart control port */
-#define JOYPORT_6   5
+#define JOYPORT_5   4   /**< c64/c128/scpu64/cbm2/pet/plus4/vic20 userport
+                             joystick adapter port 3 */
+#define JOYPORT_6   5   /**< plus4 sidcart control port */
 #define JOYPORT_7   6
 #define JOYPORT_8   7
 #define JOYPORT_9   8
@@ -133,7 +134,7 @@ enum {
 #define JOYPORT_DEVICE_KEYPAD             8
 #define JOYPORT_DEVICE_SAMPLER            9
 #define JOYPORT_DEVICE_RTC                10
-#define JOYPORT_DEVICE_DONGLE             11
+#define JOYPORT_DEVICE_C64_DONGLE         11
 
 /* joystick bits */
 #define JOYPORT_P0_BIT    0
@@ -241,6 +242,8 @@ typedef struct joyport_s {
     uint8_t (*read_poty)(int port);                        /* pointer to the device Y potentiometer read function */
     int (*write_snapshot)(struct snapshot_s *s, int port); /* pointer to the device snapshot write function */
     int (*read_snapshot)(struct snapshot_s *s, int port);  /* pointer to the device snapshot read function */
+    void (*hook)(int port, uint16_t state);                /* pointer to the device hook function for state changing buttons */
+    uint16_t hook_mask;                                    /* mask used for the device hook */
 } joyport_t;
 
 typedef struct joyport_desc_s {
@@ -283,6 +286,8 @@ extern void joyport_clear_devices(void);
 
 extern int joyport_port_is_active(int port);
 
+extern void joyport_handle_joystick_hook(int port, uint16_t state);
+
 extern char *joystick_adapter_get_name(void);
 extern uint8_t joystick_adapter_get_id(void);
 extern uint8_t joystick_adapter_activate(uint8_t id, char *name);
@@ -292,6 +297,8 @@ extern void joystick_adapter_set_ports(int ports);
 extern int joystick_adapter_get_ports(void);
 extern void joystick_adapter_set_add_ports(int ports);
 extern void joystick_adapter_set_output_check_function(int (*function)(int port, uint8_t bits));
+
+extern void joystick_set_hook(int port, int val, uint16_t mask);
 
 extern int joyport_snapshot_write_module(struct snapshot_s *s, int port);
 extern int joyport_snapshot_read_module(struct snapshot_s *s, int port);

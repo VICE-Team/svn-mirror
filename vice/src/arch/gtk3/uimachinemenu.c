@@ -49,6 +49,7 @@
 #include "vice.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include <gtk/gtk.h>
 #include "vice_gtk3.h"
 

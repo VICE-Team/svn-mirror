@@ -220,5 +220,7 @@ extern void raster_async_refresh(raster_t *raster,
                                  struct canvas_refresh_s *ref);
 extern void raster_line_changes_init(raster_t *raster);
 extern void raster_line_changes_sprite_init(raster_t *raster);
+extern void raster_calculate_padding_size(unsigned int fb_width, unsigned int fb_height,
+                                          unsigned int *padded_size, unsigned int *unpadded_offset);
 
 #endif

@@ -84,7 +84,7 @@ static void on_switch_state_set(GtkWidget *widget, gpointer user_data)
     state = gtk_switch_get_active(GTK_SWITCH(widget));
     if (resources_get_int(resource, &current) < 0) {
         /* invalid resource, exit */
-        log_error(LOG_ERR, "invalid resource name'%s'\n", resource);
+        log_error(LOG_ERR, "invalid resource name'%s'", resource);
         return;
     }
 
@@ -93,7 +93,7 @@ static void on_switch_state_set(GtkWidget *widget, gpointer user_data)
     if (state != current) {
         if (resources_set_int(resource, state ? 1 : 0) < 0) {
             log_error(LOG_ERR,
-                    "setting %s to %s failed\n",
+                    "setting %s to %s failed",
                     resource, state ? "True": "False");
             /* get current resource value (validity of the name has been
              * checked already */
@@ -123,7 +123,7 @@ static GtkWidget *resource_switch_new_helper(GtkWidget *widget)
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource, &state) < 0) {
         /* invalid resource, set state to off */
-        log_error(LOG_ERR, "invalid resource name '%s'\n", resource);
+        log_error(LOG_ERR, "invalid resource name '%s'", resource);
         state = 0;
     }
 

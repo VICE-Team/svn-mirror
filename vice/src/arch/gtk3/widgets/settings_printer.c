@@ -7,10 +7,14 @@
 /* FIXME:   Some of the resources mentioned here are actually controlled by
  *          widgets in other files:
  *
- * $VICERES IECDevice4                  -vsid
- * $VICERES IECDevice5                  -vsid
- * $VICERES IECDevice6                  -vsid
- * $VICERES IECDevice7                  -vsid
+ * $VICERES VirtualDevice4              -vsid
+ * $VICERES VirtualDevice5              -vsid
+ * $VICERES VirtualDevice6              -vsid
+ * $VICERES VirtualDevice7              -vsid
+ * $VICERES IECDevice4                  -vsid -xvic
+ * $VICERES IECDevice5                  -vsid -xvic
+ * $VICERES IECDevice6                  -vsid -xvic
+ * $VICERES IECDevice7                  -vsid -xvic
  * $VICERES Printer4                    -vsid
  * $VICERES Printer5                    -vsid
  * $VICERES Printer6                    -vsid
@@ -114,6 +118,22 @@ static void on_text_device_changed(GtkEntry *entry, gpointer user_data)
 }
 
 
+/** \brief  Create Virtual device widget for \a device
+ *
+ * \param[in]   device  printer device
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_virtual_device_widget(int device)
+{
+    GtkWidget *check;
+
+    check = vice_gtk3_resource_check_button_new_sprintf("VirtualDevice%d",
+            "Enable Virtual Device", device);
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
 /** \brief  Create IEC device emulation widget for \a device
  *
  * \param[in]   device  printer device
@@ -214,7 +234,10 @@ static GtkWidget *create_printer_widget(int device)
             case VICE_MACHINE_SCPU64:   /* fall through */
             case VICE_MACHINE_C128:     /* fall through */
             case VICE_MACHINE_C64DTV:   /* fall through */
+#if 0
+            /* FIXME: xvic does not use the generic IEC bus code in src/iecbus/iecbus.c yet */
             case VICE_MACHINE_VIC20:    /* fall through */
+#endif
             case VICE_MACHINE_PLUS4:
 
                 wrapper = gtk_grid_new();
@@ -222,7 +245,9 @@ static GtkWidget *create_printer_widget(int device)
                         printer_emulation_type_widget_create(device),
                         0, 0, 1, 1);
                 gtk_grid_attach(GTK_GRID(wrapper),
-                        create_iec_widget(device), 0, 1, 1, 1);
+                        create_virtual_device_widget(device), 0, 1, 1, 1);
+                gtk_grid_attach(GTK_GRID(wrapper),
+                        create_iec_widget(device), 0, 2, 1, 1);
 
                 gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 1, 1, 1);
                 break;
@@ -232,6 +257,8 @@ static GtkWidget *create_printer_widget(int device)
                 gtk_grid_attach(GTK_GRID(grid),
                         printer_emulation_type_widget_create(device),
                         0, 1, 1, 1);
+                gtk_grid_attach(GTK_GRID(grid),
+                        create_virtual_device_widget(device), 0, 2, 1, 1);
                 break;
         }
 
@@ -246,7 +273,8 @@ static GtkWidget *create_printer_widget(int device)
 
     } else if (device == 7) {
         /* device 7 is 'special' */
-        GtkWidget *iec_widget = create_iec_widget(device);
+        GtkWidget *iec_widget;
+        GtkWidget *virtual_device_widget = create_virtual_device_widget(device);
 
         gtk_grid_attach(GTK_GRID(grid), create_real_device7_checkbox(),
                 0, 1, 1, 1);
@@ -258,9 +286,14 @@ static GtkWidget *create_printer_widget(int device)
             case VICE_MACHINE_SCPU64:   /* fall through */
             case VICE_MACHINE_C128:     /* fall through */
             case VICE_MACHINE_C64DTV:   /* fall through */
+#if 0
+            /* FIXME: xvic does not use the generic IEC bus code in src/iecbus/iecbus.c yet */
             case VICE_MACHINE_VIC20:    /* fall through */
+#endif
             case VICE_MACHINE_PLUS4:
-                gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 2, 1, 1);
+                iec_widget = create_iec_widget(device);
+                gtk_grid_attach(GTK_GRID(grid), virtual_device_widget, 0, 2, 1, 1);
+                gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 3, 1, 1);
                 break;
 
             default:

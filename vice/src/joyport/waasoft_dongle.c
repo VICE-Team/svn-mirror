@@ -107,7 +107,7 @@ static joyport_t joyport_waasoft_dongle_device = {
     JOYPORT_IS_NOT_LIGHTPEN,       /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,          /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,      /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_DONGLE,         /* device is a Dongle */
+    JOYPORT_DEVICE_C64_DONGLE,     /* device is a C64 Dongle */
     0x03,                          /* bits 1 and 0 are output bits */
     joyport_waasoft_dongle_enable, /* device enable function */
     NULL,                          /* NO digital line read function */
@@ -115,7 +115,9 @@ static joyport_t joyport_waasoft_dongle_device = {
     NULL,                          /* NO pot-x read function */
     waasoft_dongle_read_poty,      /* pot-y read function */
     waasoft_write_snapshot,        /* device write snapshot function */
-    waasoft_read_snapshot          /* device read snapshot function */
+    waasoft_read_snapshot,         /* device read snapshot function */
+    NULL,                          /* NO device hook function */
+    0                              /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */

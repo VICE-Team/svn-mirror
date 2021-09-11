@@ -143,7 +143,7 @@ int mon_drive_is_fsdevice(int drive_unit)
 {
     int virtualdev = 0, truedrive = 0, iecdevice = 0 /* , fsdevice = 0 */;
     /* FIXME: unsure if this check really works as advertised */
-    resources_get_int("VirtualDevices", &virtualdev);
+    resources_get_int_sprintf("VirtualDevice%d", &virtualdev, drive_unit);
     resources_get_int_sprintf("Drive%dTrueEmulation", &truedrive, drive_unit);
     resources_get_int_sprintf("IECDevice%i", &iecdevice, drive_unit);
     /* resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive_unit); */

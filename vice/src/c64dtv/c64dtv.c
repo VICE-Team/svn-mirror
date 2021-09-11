@@ -429,6 +429,10 @@ int machine_resources_init(void)
         init_resource_fail("joyport ports");
         return -1;
     }
+    if (userport_resources_init() < 0) {
+        init_resource_fail("userport devices");
+        return -1;
+    }
     if (joyport_resources_init() < 0) {
         init_resource_fail("joyport devices");
         return -1;
@@ -479,10 +483,6 @@ int machine_resources_init(void)
     }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
-        return -1;
-    }
-    if (userport_resources_init() < 0) {
-        init_resource_fail("userport devices");
         return -1;
     }
     if (gfxoutput_resources_init() < 0) {
@@ -548,8 +548,8 @@ int machine_resources_init(void)
         init_resource_fail("drive");
         return -1;
     }
-    if (userport_joystick_resources_init() < 0) {
-        init_resource_fail("userport joystick");
+    if (userport_joystick_hummer_resources_init() < 0) {
+        init_resource_fail("userport hummer joystick");
         return -1;
     }
     if (debugcart_resources_init() < 0) {
@@ -572,7 +572,6 @@ void machine_resources_shutdown(void)
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
-    userport_resources_shutdown();
     joyport_bbrtc_resources_shutdown();
     debugcart_resources_shutdown();
 }
@@ -690,10 +689,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("drive");
         return -1;
     }
-    if (userport_joystick_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport_joystick");
-        return -1;
-    }
     if (debugcart_cmdline_options_init() < 0) {
         init_cmdline_options_fail("debug cart");
         return -1;
@@ -774,7 +769,7 @@ int machine_specific_init(void)
     disk_image_init();
 
     /* Initialize autostart.  */
-    autostart_init(3, 1);
+    autostart_init(7, 1);
 
     /* Pre-init C64DTV-specific parts of the menus before vicii_init()
        creates a canvas window with a menubar at the top. */

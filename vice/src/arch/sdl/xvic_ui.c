@@ -56,6 +56,7 @@
 #include "menu_sound.h"
 #include "menu_speed.h"
 #include "menu_tape.h"
+#include "menu_userport.h"
 #include "menu_vic20cart.h"
 #include "menu_vic20hw.h"
 #include "menu_video.h"
@@ -254,6 +255,7 @@ int vic20ui_init(void)
 
     sdl_ui_set_menu_params = vic20ui_set_menu_params;
     uijoyport_menu_create(1, 0, 1, 1, 1);
+    uiuserport_menu_create(1);
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
@@ -278,6 +280,7 @@ void vic20ui_shutdown(void)
     uikeyboard_menu_shutdown();
     uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
+    uiuserport_menu_shutdown();
     uimedia_menu_shutdown();
 #ifdef HAVE_MIDI
     sdl_menu_midi_in_free();

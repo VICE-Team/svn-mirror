@@ -42,6 +42,9 @@
    -------------------------------
      7   | 100 Kohm
      9   | 27 Kohm
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xvic)
  */
 
 #define POTX_RETURN   0xC0
@@ -78,7 +81,7 @@ static joyport_t joyport_script64_dongle_device = {
     JOYPORT_IS_NOT_LIGHTPEN,        /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,           /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE,       /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_DONGLE,          /* device is a Dongle */
+    JOYPORT_DEVICE_C64_DONGLE,      /* device is a C64 Dongle */
     0,                              /* NO output bits */
     joyport_script64_dongle_enable, /* device enable function */
     NULL,                           /* NO digital line read function */
@@ -86,7 +89,9 @@ static joyport_t joyport_script64_dongle_device = {
     script64_dongle_read_potx,      /* pot-x read function */
     script64_dongle_read_poty,      /* pot-y read function */
     NULL,                           /* NO device write snapshot function */
-    NULL                            /* NO device read snapshot function */
+    NULL,                           /* NO device read snapshot function */
+    NULL,                           /* NO device hook function */
+    0                               /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */

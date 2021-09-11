@@ -187,7 +187,7 @@
 8 0 0 8                /*    Backspace -> Ins          */
 
 #9 7 2 8+16384  key is CTRL              /*          TAB -> Ctrl         */
-9 7 2 16392             /*          TAB -> Ctrl         */
+9 7 2 16392            /*          TAB -> Ctrl         */
 #113 7 6 8              /*            Q -> Q            */
 119 1 1 8              /*            W -> W            */
 101 1 6 8              /*            E -> E            */
@@ -242,7 +242,7 @@
 304 1 7 2              /*   Left Shift -> Left Shift   */
 
 #306 7 5 8+8192  key is CBM      /*    Left Ctrl -> CBM          */
-306 7 5 8200          /*    Left Ctrl -> CBM          */
+306 7 5 8200           /*    Left Ctrl -> CBM          */
 32 7 4 8               /*        Space -> Space        */
 
 27 7 7 8               /*          ESC -> Run/Stop     */
@@ -259,7 +259,7 @@
 127 0 0 8              /*          Ins -> Ins          */
 277 0 0 1              /*          Del -> Del          */
 278 6 3 8              /*         Pos1 -> CLR/HOME     */
-279 7 1 8               /*         End -> Left Arrow   */
+279 7 1 8              /*         End -> Left Arrow   */
 # 280 -3 0               /*      Page Up -> RESTORE      */
 
 273 0 7 1              /*           Up -> CRSR UP      */

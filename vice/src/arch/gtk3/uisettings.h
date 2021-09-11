@@ -50,6 +50,11 @@ typedef struct ui_settings_tree_node_s {
  */
 #define UI_SETTINGS_TERMINATOR  { NULL, NULL, NULL, NULL }
 
+/** \brief  tree nodes list separator
+ */
+#define UI_SETTINGS_SEPARATOR   { "---", "(separator)", NULL, NULL }
+
+
 gboolean ui_settings_dialog_create_and_activate_node_callback(GtkWidget *widget, gpointer user_data);
 gboolean ui_settings_dialog_create_and_activate_node(const char *path);
 gboolean ui_settings_dialog_activate_node(const char *path);

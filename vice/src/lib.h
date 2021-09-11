@@ -48,6 +48,7 @@ extern float lib_float_rand(float min, float max);
 extern double lib_double_rand_unit(void);
 
 extern void lib_rand_seed(uint64_t seed);
+extern void lib_rand_printseed(void);
 
 extern char *lib_msprintf(const char *fmt, ...);
 extern char *lib_mvsprintf(const char *fmt, va_list args);

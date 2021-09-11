@@ -30,6 +30,5 @@
 #include "types.h"
 
 extern int userport_superpad64_resources_init(void);
-extern int userport_superpad64_cmdline_options_init(void);
 
 #endif

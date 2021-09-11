@@ -1,5 +1,5 @@
-/** \file   settings_peripherals_generic.h
- * \brief   Widget to control generic peripheral settings - header
+/** \file   joystickautofirewidget.h
+ * \brief   Widget to set joystick autofire resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,11 +25,11 @@
  *
  */
 
-#ifndef VICE_SETTINGS_PERIPHERALS_GENERIC_H
-#define VICE_SETTINGS_PERIPHERALS_GENERIC_H
+#ifndef VICE_JOYSTICKAUTOFIREWIDGET_H
+#define VICE_JOYSTICKAUTOFIREWIDGET_H
 
 #include <gtk/gtk.h>
 
-GtkWidget *settings_peripherals_generic_widget_create(GtkWidget *widget);
+GtkWidget *joystick_autofire_widget_create(int joy, const char *title);
 
 #endif

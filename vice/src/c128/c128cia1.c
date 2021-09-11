@@ -49,10 +49,6 @@
 #include "userport.h"
 #include "vicii.h"
 
-#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-#include "rsuser.h"
-#endif
-
 #ifdef HAVE_MOUSE
 #include "mouse.h"
 #endif
@@ -264,7 +260,7 @@ static void read_sdr(cia_context_t *cia_context)
 {
     drive_cpu_execute_all(maincpu_clk);
 
-    cia_context->c_cia[CIA_SDR] = read_userport_sp1(cia_context->c_cia[CIA_SDR]);
+    cia_context->c_cia[CIA_SDR] = read_userport_sp1();
 }
 
 static void store_sdr(cia_context_t *cia_context, uint8_t byte)
@@ -273,11 +269,6 @@ static void store_sdr(cia_context_t *cia_context, uint8_t byte)
         store_userport_sp1(byte);
     }
     c128fastiec_fast_cpu_write(byte);
-#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    if (rsuser_enabled) {
-        rsuser_tx_byte(byte);
-    }
-#endif
 }
 
 void cia1_init(cia_context_t *cia_context)

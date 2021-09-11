@@ -641,6 +641,10 @@ int machine_resources_init(void)
         init_resource_fail("rs232drv");
         return -1;
     }
+    if (userport_resources_init() < 0) {
+        init_resource_fail("userport devices");
+        return -1;
+    }
     if (rsuser_resources_init() < 0) {
         init_resource_fail("rsuser");
         return -1;
@@ -741,10 +745,6 @@ int machine_resources_init(void)
         init_resource_fail("joystick");
         return -1;
     }
-    if (userport_resources_init() < 0) {
-        init_resource_fail("userport devices");
-        return -1;
-    }
     if (gfxoutput_resources_init() < 0) {
         init_resource_fail("gfxoutput");
         return -1;
@@ -829,8 +829,36 @@ int machine_resources_init(void)
         init_resource_fail("c64 glue");
         return -1;
     }
-    if (userport_joystick_resources_init() < 0) {
-        init_resource_fail("userport joystick");
+    if (userport_joystick_cga_resources_init() < 0) {
+        init_resource_fail("userport cga joystick");
+        return -1;
+    }
+    if (userport_joystick_pet_resources_init() < 0) {
+        init_resource_fail("userport pet joystick");
+        return -1;
+    }
+    if (userport_joystick_hummer_resources_init() < 0) {
+        init_resource_fail("userport hummer joystick");
+        return -1;
+    }
+    if (userport_joystick_oem_resources_init() < 0) {
+        init_resource_fail("userport oem joystick");
+        return -1;
+    }
+    if (userport_joystick_hit_resources_init() < 0) {
+        init_resource_fail("userport hit joystick");
+        return -1;
+    }
+    if (userport_joystick_kingsoft_resources_init() < 0) {
+        init_resource_fail("userport kingsoft joystick");
+        return -1;
+    }
+    if (userport_joystick_starbyte_resources_init() < 0) {
+        init_resource_fail("userport starbyte joystick");
+        return -1;
+    }
+    if (userport_joystick_synergy_resources_init() < 0) {
+        init_resource_fail("userport synergy joystick");
         return -1;
     }
     if (userport_dac_resources_init() < 0) {
@@ -909,7 +937,6 @@ void machine_resources_shutdown(void)
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
-    userport_resources_shutdown();
     joyport_bbrtc_resources_shutdown();
     tapeport_resources_shutdown();
     tapecart_exit();
@@ -1062,18 +1089,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("c64 glue");
         return -1;
     }
-    if (userport_joystick_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport joystick");
-        return -1;
-    }
-    if (userport_dac_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport dac");
-        return -1;
-    }
-    if (userport_digimax_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport digimax");
-        return -1;
-    }
     if (userport_rtc_58321a_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport rtc (58321a)");
         return -1;
@@ -1082,28 +1097,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport rtc (ds1307)");
         return -1;
     }
-    if (userport_4bit_sampler_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport 4bit sampler");
-        return -1;
-    }
-    if (userport_8bss_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport 8bit stereo sampler");
-        return -1;
-    }
-    if (userport_petscii_snespad_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport petscii snes pad");
-        return -1;
-    }
-    if (userport_superpad64_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport superpad64");
-        return -1;
-    }
-#ifdef USERPORT_EXPERIMENTAL_DEVICES
-    if (userport_diag_586220_harness_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport diag 586220 harness");
-        return -1;
-    }
-#endif
     if (cartio_cmdline_options_init() < 0) {
         init_cmdline_options_fail("cartio");
         return -1;

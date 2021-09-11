@@ -42,6 +42,8 @@
      1   | D0           |  I
      2   | D1           |  I
 
+   Works on all joystick ports and adapters
+
  */
 
 static int sampler_enabled = 0;
@@ -91,7 +93,9 @@ static joyport_t joyport_sampler_device = {
     NULL,                     /* NO pot-x read function */
     NULL,                     /* NO pot-x read function */
     NULL,                     /* NO device write snapshot function */
-    NULL                      /* NO device read snapshot function */
+    NULL,                     /* NO device read snapshot function */
+    NULL,                     /* NO device hook function */
+    0                         /* NO device hook function mask */
 };
 
 /* currently only used to register the joyport device */

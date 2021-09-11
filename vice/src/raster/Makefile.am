@@ -39,6 +39,8 @@ libraster_a_SOURCES = \
 	raster-modes.h \
 	raster-resources.c \
 	raster-resources.h \
+	raster-snapshot.c \
+	raster-snapshot.h \
 	raster-sprite.c \
 	raster-sprite.h \
 	raster-sprite-status.c \
