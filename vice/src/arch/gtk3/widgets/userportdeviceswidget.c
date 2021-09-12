@@ -46,9 +46,10 @@
 /** \brief  Column indexes in the useport devices model
  */
 enum {
-    COL_DEVICE_ID,      /**< device ID (int) */
-    COL_DEVICE_NAME,    /**< device name (str) */
-    COL_DEVICE_TYPE     /**< device type (int) */
+    COL_DEVICE_ID,          /**< device ID (int) */
+    COL_DEVICE_NAME,        /**< device name (str) */
+    COL_DEVICE_TYPE_ID,     /**< device type (int) */
+    COL_DEVICE_TYPE_DESC    /**< device type description (str) */
 };
 
 
@@ -189,6 +190,42 @@ static gboolean set_device_id(GtkComboBox *combo, gint id, gboolean blocked)
 }
 
 
+/** \brief  Create model for the device combobox
+ *
+ * Create a model with (dev-id, dev-name, dev-type-id, dev-type-desc).
+ *
+ * \return  model
+ */
+static GtkListStore *create_device_model(void)
+{
+    GtkListStore *model;
+    GtkTreeIter iter;
+    userport_desc_t *devices;
+    userport_desc_t *dev;
+
+    model = gtk_list_store_new(4,
+                               G_TYPE_INT,      /* ID */
+                               G_TYPE_STRING,   /* name */
+                               G_TYPE_INT,      /* type ID */
+                               G_TYPE_STRING    /* type description */
+                               );
+    devices = userport_get_valid_devices(TRUE);
+    for (dev = devices; dev->name != NULL; dev++) {
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model,
+                           &iter,
+                           COL_DEVICE_ID, dev->id,
+                           COL_DEVICE_NAME, dev->name,
+                           COL_DEVICE_TYPE_ID, dev->device_type,
+                           COL_DEVICE_TYPE_DESC, userport_get_device_type_desc(dev->device_type),
+                           -1);
+    }
+    lib_free(devices);
+
+    return model;
+}
+
+
 /** \brief  Create combobox for the userport devices
  *
  * Create a combobox with valid userport devices for current machine.
@@ -201,33 +238,28 @@ static gboolean set_device_id(GtkComboBox *combo, gint id, gboolean blocked)
  * \todo    Try using the device type to create little headers in the combobox,
  *          grouping the devices by type. Might be overkill for some machines
  *          that only have a few userport devices, we'll see.
+ *          I tried using a second column for the device type description, and
+ *          althought it doesn't look bad in the popup list, when the popup
+ *          isn't active it looks weird ;)
+ *          So for now the device type isn't used.
  */
 static GtkWidget *create_device_combobox(void)
 {
     GtkWidget *combo;
     GtkListStore *model;
-    GtkTreeIter iter;
     GtkCellRenderer *name_renderer;
-    userport_desc_t *devices;
-    userport_desc_t *dev;
+#if 0
+    GtkCellRenderer *type_renderer;
+#endif
 
-    /* create model for the combobox */
-    model = gtk_list_store_new(3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT);
-    devices = userport_get_valid_devices(TRUE);
-    for (dev = devices; dev->name != NULL; dev++) {
-        gtk_list_store_append(model, &iter);
-        gtk_list_store_set(model,
-                           &iter,
-                           COL_DEVICE_ID, dev->id,
-                           COL_DEVICE_NAME, dev->name,
-                           COL_DEVICE_TYPE, dev->device_type,
-                           -1);
-    }
-    lib_free(devices);
+    model = create_device_model();
 
     /* create combobox with a single cell renderer for the device name column */
     combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(model));
     name_renderer = gtk_cell_renderer_text_new();
+#if 0
+    type_renderer = gtk_cell_renderer_text_new();
+#endif
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo),
                                name_renderer,
                                TRUE);
@@ -235,6 +267,16 @@ static GtkWidget *create_device_combobox(void)
                                    name_renderer,
                                    "text", COL_DEVICE_NAME,
                                    NULL);
+#if 0
+    gtk_cell_layout_pack_end(GTK_CELL_LAYOUT(combo),
+                             type_renderer,
+                             TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo),
+                                   type_renderer,
+                                   "text", COL_DEVICE_TYPE_DESC,
+                                   NULL);
+#endif
+
     g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), NULL);
 
     return combo;
