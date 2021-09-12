@@ -59,7 +59,7 @@ C64/C128 | CBM2 | PET | VIC20 | CENTRONICS  | NOTES
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static void userport_printer_store_pbx(uint8_t b);
+static void userport_printer_store_pbx(uint8_t b, int pulse);
 static void userport_printer_store_pa2(uint8_t s);
 static int userport_printer_write_snapshot_module(snapshot_t *s);
 static int userport_printer_read_snapshot_module(snapshot_t *s);
@@ -119,7 +119,7 @@ int interface_userport_init_resources(void)
 static uint8_t value; /* userport value */
 static uint8_t strobe;
 
-static void userport_printer_store_pbx(uint8_t b)
+static void userport_printer_store_pbx(uint8_t b, int pulse)
 {
     value = b;
 }

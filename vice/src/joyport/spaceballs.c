@@ -150,7 +150,7 @@ int joyport_spaceballs_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void userport_spaceballs_store_pbx(uint8_t value)
+static void userport_spaceballs_store_pbx(uint8_t value, int pulse)
 {
     if (spaceballs_enabled) {
         spaceballs_grounds = value;

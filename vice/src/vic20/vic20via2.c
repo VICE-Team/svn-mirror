@@ -139,7 +139,7 @@ static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t myoldpa,
 
 static void undump_prb(via_context_t *via_context, uint8_t byte)
 {
-    store_userport_pbx(byte);
+    store_userport_pbx(byte, USERPORT_NO_PULSE);
 }
 
 static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t myoldpb,
@@ -148,7 +148,7 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t myoldpb,
     /* for mike's VFLI hack, PB0-PB3 are used as A10-A13 of the color ram */
     vic20_vflihack_userport = byte & 0x0f;
 
-    store_userport_pbx(byte);
+    store_userport_pbx(byte, USERPORT_NO_PULSE);
 }
 
 static void undump_pcr(via_context_t *via_context, uint8_t byte)
@@ -157,7 +157,7 @@ static void undump_pcr(via_context_t *via_context, uint8_t byte)
 
 static void reset(via_context_t *via_context)
 {
-    store_userport_pbx(0xff);
+    store_userport_pbx(0xff, USERPORT_NO_PULSE);
     store_userport_pa2(1);
 }
 

@@ -67,7 +67,7 @@ C64/C128 | CBM2 | TLC7226 DAC | NOTES
 */
 
 /* Some prototypes are needed */
-static void userport_digimax_store_pbx(uint8_t value);
+static void userport_digimax_store_pbx(uint8_t value, int pulse);
 static void userport_digimax_store_pa2(uint8_t value);
 static void userport_digimax_store_pa3(uint8_t value);
 static int userport_digimax_write_snapshot_module(snapshot_t *s);
@@ -115,7 +115,7 @@ static void userport_digimax_store_pa3(uint8_t value)
     userport_digimax_address |= ((value & 1) << 1);
 }
 
-static void userport_digimax_store_pbx(uint8_t value)
+static void userport_digimax_store_pbx(uint8_t value, int pulse)
 {
     uint8_t addr = 0;
 

@@ -36,6 +36,9 @@
 
 /* #define USERPORT_EXPERIMENTAL_DEVICES */
 
+#define USERPORT_NO_PULSE   0
+#define USERPORT_PULSE      1
+
 enum {
     USERPORT_DEVICE_NONE = 0,
     USERPORT_DEVICE_PRINTER,
@@ -60,6 +63,7 @@ enum {
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     USERPORT_DEVICE_DIAG_586220_HARNESS,
 #endif
+    USERPORT_DEVICE_DRIVE_PAR_CABLE,
     USERPORT_MAX_DEVICES
 };
 
@@ -67,6 +71,7 @@ enum {
     USERPORT_DEVICE_TYPE_NONE = 0,
     USERPORT_DEVICE_TYPE_PRINTER,
     USERPORT_DEVICE_TYPE_MODEM,
+    USERPORT_DEVICE_TYPE_DRIVE_PAR_CABLE,
     USERPORT_DEVICE_TYPE_JOYSTICK_ADAPTER,
     USERPORT_DEVICE_TYPE_AUDIO_OUTPUT,
     USERPORT_DEVICE_TYPE_SAMPLER,
@@ -94,7 +99,7 @@ typedef struct userport_device_s {
     uint8_t (*read_pbx)(uint8_t orig);
 
     /* Store pb0-7 pins */
-    void (*store_pbx)(uint8_t val);
+    void (*store_pbx)(uint8_t val, int pulse);
 
     /* Read pa2 pin */
     uint8_t (*read_pa2)(uint8_t orig);
@@ -149,7 +154,7 @@ extern void userport_port_register(userport_port_props_t *props);
 extern int userport_device_register(int id, userport_device_t *device);
 
 extern uint8_t read_userport_pbx(uint8_t orig);
-extern void store_userport_pbx(uint8_t val);
+extern void store_userport_pbx(uint8_t val, int pulse);
 extern uint8_t read_userport_pa2(uint8_t orig);
 extern void store_userport_pa2(uint8_t val);
 extern uint8_t read_userport_pa3(uint8_t orig);

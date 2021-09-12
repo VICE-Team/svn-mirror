@@ -67,7 +67,7 @@ int userport_diag_586220_harness_enabled = 0;
 
 /* Some prototypes are needed */
 static uint8_t userport_diag_586220_harness_read_pbx(uint8_t orig);
-static void userport_diag_586220_harness_store_pbx(uint8_t value);
+static void userport_diag_586220_harness_store_pbx(uint8_t value, int pulse);
 static uint8_t userport_diag_586220_harness_read_pa2(uint8_t orig);
 static void userport_diag_586220_harness_store_pa2(uint8_t value);
 static uint8_t userport_diag_586220_harness_read_pa3(uint8_t orig);
@@ -122,7 +122,7 @@ static uint8_t userport_diag_586220_harness_read_pbx(uint8_t orig)
     return c64_diag_586220_read_userport_pbx();
 }
 
-static void userport_diag_586220_harness_store_pbx(uint8_t value)
+static void userport_diag_586220_harness_store_pbx(uint8_t value, int pulse)
 {
     set_userport_flag(1); /* signal lo->hi */
     set_userport_flag(0); /* signal hi->lo */
