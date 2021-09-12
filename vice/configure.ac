@@ -1247,6 +1247,11 @@ else
 fi
 if test x"$with_sdlsound" = "xyes"; then
   check_sdl2=yes
+  if test x"$enable_headlessui" = "xyes" -o x"$enable_native_gtk3ui" = "xyes"; then
+    check_sdlaudio_only=yes
+    enable_sdlui=no
+    enable_sdlui2=no
+  fi
 fi
 
 dnl Check and setup SDL2 compilation, only fail if the sdl2 ui was requested
@@ -1321,11 +1326,13 @@ if test x"$check_sdl2" = "xyes"; then
       dnl now that the SDL2 UI support has been detected, define
       dnl enable_sdlui2 and undefine the others to prevent checks
 
-      enable_native_gtk3ui=no
-      enable_sdlui=no
-      enable_sdlui2=yes
-      enable_headlessui=no
-      found_gui=sdl2
+      if test x"$check_sdlaudio_only" != "xyes"; then
+        enable_native_gtk3ui=no
+        enable_sdlui=no
+        enable_sdlui2=yes
+        enable_headlessui=no
+        found_gui=sdl2
+      fi
 
       dnl Require SDL2_image
       PKG_CHECK_MODULES(SDL2_IMAGE,
@@ -1569,11 +1576,13 @@ if test x"$check_sdl1" = "xyes"; then
         fi
 
         dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
-        enable_native_gtk3ui=no
-        enable_sdlui=yes
-        enable_sdlui2=no
-        enable_headlessui=no
-        found_gui=sdl1
+        if test x"$check_sdlaudio_only" != "xyes"; then
+          enable_native_gtk3ui=no
+          enable_sdlui=yes
+          enable_sdlui2=no
+          enable_headlessui=no
+          found_gui=sdl1
+        fi
       fi
     fi
   fi
