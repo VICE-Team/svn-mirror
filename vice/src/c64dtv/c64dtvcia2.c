@@ -56,7 +56,7 @@
 void cia2_store(uint16_t addr, uint8_t data)
 {
     if ((addr & 0x1f) == 1) {
-        store_userport_pbx(data);
+        store_userport_pbx(data, USERPORT_NO_PULSE);
 
         /* The functions below will gradually be removed as the functionality is added to the new userport system. */
         if (c64dtv_hummer_adc_enabled) {
@@ -122,7 +122,7 @@ static int vbank;
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
-    store_userport_pbx(0xff);
+    store_userport_pbx(0xff, USERPORT_NO_PULSE);
 
     vbank = 0;
     mem_set_vbank(vbank);
@@ -169,7 +169,7 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 {
-    store_userport_pbx(byte);
+    store_userport_pbx(byte, USERPORT_NO_PULSE);
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
@@ -180,7 +180,7 @@ static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
                                 uint8_t byte)
 {
-    store_userport_pbx(byte);
+    store_userport_pbx(byte, USERPORT_NO_PULSE);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */

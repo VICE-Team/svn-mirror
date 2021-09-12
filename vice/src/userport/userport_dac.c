@@ -102,7 +102,7 @@ void userport_dac_sound_chip_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static void userport_dac_store_pbx(uint8_t value);
+static void userport_dac_store_pbx(uint8_t value, int pulse);
 static int userport_dac_write_snapshot_module(snapshot_t *s);
 static int userport_dac_read_snapshot_module(snapshot_t *s);
 static int userport_dac_enable(int val);
@@ -147,7 +147,7 @@ int userport_dac_resources_init(void)
 
 static uint8_t userport_dac_sound_data;
 
-static void userport_dac_store_pbx(uint8_t value)
+static void userport_dac_store_pbx(uint8_t value, int pulse)
 {
     userport_dac_sound_data = value;
     sound_store(userport_dac_sound_chip_offset, value, 0);

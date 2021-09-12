@@ -77,6 +77,7 @@
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"
 #include "plus4memrom.h"
+#include "plus4parallel.h"
 #include "plus4speech.h"
 #include "plus4tcbm.h"
 #include "plus4ui.h"
@@ -428,6 +429,10 @@ int machine_resources_init(void)
     }
     if (userport_resources_init() < 0) {
         init_resource_fail("userport devices");
+        return -1;
+    }
+    if (parallel_cable_cpu_resources_init() < 0) {
+        init_resource_fail("userport drive parallel cable");
         return -1;
     }
 /* FIXME: Add userport printer support to xplus4 */

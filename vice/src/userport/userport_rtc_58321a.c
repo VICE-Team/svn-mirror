@@ -68,7 +68,7 @@ static int read_line_active = 0;
 
 /* Some prototypes are needed */
 static uint8_t userport_rtc_read_pbx(uint8_t orig);
-static void userport_rtc_store_pbx(uint8_t value);
+static void userport_rtc_store_pbx(uint8_t value, int pulse);
 static int userport_rtc_write_snapshot_module(snapshot_t *s);
 static int userport_rtc_read_snapshot_module(snapshot_t *s);
 static int userport_rtc_enable(int value);
@@ -165,7 +165,7 @@ void userport_rtc_58321a_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void userport_rtc_store_pbx(uint8_t value)
+static void userport_rtc_store_pbx(uint8_t value, int pulse)
 {
     if (value & 0x10) {
         rtc58321a_write_address(rtc58321a_context, (uint8_t)(value & 0xf));

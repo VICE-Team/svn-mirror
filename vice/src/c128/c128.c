@@ -54,6 +54,7 @@
 #include "c64iec.h"
 #include "c64keyboard.h"
 #include "c64memrom.h"
+#include "c64parallel.h"
 #include "c64rsuser.h"
 #include "cardkey.h"
 #include "cartridge.h"
@@ -691,6 +692,10 @@ int machine_resources_init(void)
     }
     if (userport_resources_init() < 0) {
         init_resource_fail("userport devices");
+        return -1;
+    }
+    if (parallel_cable_cpu_resources_init() < 0) {
+        init_resource_fail("userport parallel drive cable");
         return -1;
     }
     if (rsuser_resources_init() < 0) {

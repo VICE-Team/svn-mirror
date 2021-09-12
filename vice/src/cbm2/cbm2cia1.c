@@ -122,7 +122,7 @@ void cia1_set_ieee_dir(cia_context_t *cia_context, int isout)
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
-    store_userport_pbx(0xff);
+    store_userport_pbx(0xff, USERPORT_NO_PULSE);
     store_userport_pa2(1);
 }
 
@@ -153,7 +153,7 @@ static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t b)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 {
-    store_userport_pbx(byte);
+    store_userport_pbx(byte, USERPORT_NO_PULSE);
 
     store_userport_pa2(0);
     store_userport_pa2(1);

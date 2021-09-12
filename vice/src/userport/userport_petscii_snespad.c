@@ -61,7 +61,7 @@ static uint8_t latch_line = 0;
 
 /* Some prototypes are needed */
 static uint8_t userport_snespad_read_pbx(uint8_t orig);
-static void userport_snespad_store_pbx(uint8_t value);
+static void userport_snespad_store_pbx(uint8_t value, int pulse);
 static int userport_petscii_write_snapshot_module(snapshot_t *s);
 static int userport_petscii_read_snapshot_module(snapshot_t *s);
 static int userport_petscii_enable(int val);
@@ -120,7 +120,7 @@ int userport_petscii_snespad_resources_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void userport_snespad_store_pbx(uint8_t value)
+static void userport_snespad_store_pbx(uint8_t value, int pulse)
 {
     uint8_t new_clock = 0;
     uint8_t new_latch = 0;

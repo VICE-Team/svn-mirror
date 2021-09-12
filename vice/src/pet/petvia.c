@@ -89,13 +89,13 @@ static void restore_int(via_context_t *via_context, unsigned int int_num, int va
 
 static void undump_pra(via_context_t *via_context, uint8_t byte)
 {
-    store_userport_pbx(byte);
+    store_userport_pbx(byte, USERPORT_NO_PULSE);
 }
 
 static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t myoldpa,
                       uint16_t addr)
 {
-    store_userport_pbx(byte);
+    store_userport_pbx(byte, USERPORT_NO_PULSE);
 }
 
 static void undump_prb(via_context_t *via_context, uint8_t byte)
@@ -190,7 +190,7 @@ static void reset(via_context_t *via_context)
     parallel_cpu_set_atn(0);
     parallel_cpu_set_nrfd(0);
 
-    store_userport_pbx(0xff);
+    store_userport_pbx(0xff, USERPORT_NO_PULSE);
     store_userport_pa2(1);
 }
 

@@ -50,6 +50,7 @@ static type2text_t device_type_desc[] = {
     { USERPORT_DEVICE_TYPE_NONE, "None" },
     { USERPORT_DEVICE_TYPE_PRINTER, "Printer" },
     { USERPORT_DEVICE_TYPE_MODEM, "Modem" },
+    { USERPORT_DEVICE_TYPE_DRIVE_PAR_CABLE, "Parallel drive cable" },
     { USERPORT_DEVICE_TYPE_JOYSTICK_ADAPTER, "Joystick adapter" },
     { USERPORT_DEVICE_TYPE_AUDIO_OUTPUT, "Audio output" },
     { USERPORT_DEVICE_TYPE_SAMPLER, "Sampler" },
@@ -274,14 +275,14 @@ uint8_t read_userport_pbx(uint8_t orig)
    return retval;
 }
 
-void store_userport_pbx(uint8_t val)
+void store_userport_pbx(uint8_t val, int pulse)
 {
     if (userport_active) {
         /* store to new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].store_pbx) {
-                    userport_device[userport_current_device].store_pbx(val);
+                    userport_device[userport_current_device].store_pbx(val, pulse);
                 }
             }
         }
