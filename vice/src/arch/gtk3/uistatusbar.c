@@ -2122,13 +2122,10 @@ void ui_display_tape_current_image(const char *image)
  *                          1000=maximum intensity)
  *  \param  led_pwm2        The intensity of the second LED (0=off,
  *                          1000=maximum intensity)
- *  \todo   Code in src/drive/drive.c appears to be missing some stuff
- *          regarding the LEDs for drive1 (there's a bunch of TODO/FIXME comments
- *          in the source). Although drive_led_update() is called for drive 1,
- *          it never calls this function. But the branch in
- *          drive_update_ui_status() is definitely taken, since in that branch
- *          ui_display_track() is called, which does trigger an update of the
- *          track,sector display of drive 1 in the UI.
+ *  \todo   Dual drive code doesn't have its separate Error LED.
+ *          Its setting is mixed in in the led_status of drive 0.
+ *          Also those error LEDs don't flash but are just on
+ *          (or on some models, change the green/red LED to red).
  */
 void ui_display_drive_led(unsigned int drive_number,
                           unsigned int drive_base,
@@ -2145,7 +2142,7 @@ void ui_display_drive_led(unsigned int drive_number,
         abort();
     }
 
-    debug_gtk3("Got unit %d, drive %d", drive_number + 8, drive_base);
+    debug_gtk3("Got unit %u, drive %u", drive_number + 8, drive_base);
 
     sb_state = lock_sb_state();
     sb_state->current_drive_leds[drive_number][drive_base][0] = led_pwm1;

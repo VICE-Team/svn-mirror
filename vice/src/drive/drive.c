@@ -840,7 +840,6 @@ void drive_update_ui_status(void)
         if (unit->enable) {
 
             drive_led_update(unit, drive0, 0);
-            /* drive_led_update(unit, drive0, 0); */ /* FIXME */
             if (drive0->current_half_track != drive0->old_half_track
                 || drive0->side != drive0->old_side) {
                 drive0->old_half_track = drive0->current_half_track;
