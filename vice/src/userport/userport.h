@@ -165,6 +165,7 @@ extern int userport_resources_init(void);
 extern int userport_cmdline_options_init(void);
 
 extern userport_desc_t *userport_get_valid_devices(int sort);
+extern const char *userport_get_device_type_desc(int type);
 
 extern void userport_enable(int val);
 

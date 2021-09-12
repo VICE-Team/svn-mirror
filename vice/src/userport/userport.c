@@ -40,6 +40,28 @@
 #include "userport.h"
 #include "util.h"
 
+
+/** \brief  Userport device type descriptions
+ *
+ * List of short descriptions for the userport device types for use in a UI.
+ *
+ * Maps to the USERPORT_DEVICE_TYPE_XXX enum values, so this list needs to
+ * keep that order.
+ */
+static const char *device_type_desc[] = {
+    "None",
+    "Printer",
+    "Modem",
+    "Joystick adapter",
+    "Audio output",
+    "Sampler",
+    "Real-time clock"
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
+    ,"Harness"
+#endif
+};
+
+
 /* flag indicating if the userport exists on the current emulated model */
 static int userport_active = 1;
 
@@ -211,6 +233,20 @@ userport_desc_t *userport_get_valid_devices(int sort)
 
     return retval;
 }
+
+
+/** \brief  Get short description of of userport device \a type
+ *
+ * \param[in]   type    userport device type
+ */
+const char *userport_get_device_type_desc(int type)
+{
+    if (type < 0 || type >= (int)(sizeof device_type_desc / sizeof device_type_desc[0])) {
+        return NULL;
+    }
+    return device_type_desc[type];
+}
+
 
 uint8_t read_userport_pbx(uint8_t orig)
 {
