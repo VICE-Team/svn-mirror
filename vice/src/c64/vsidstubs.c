@@ -987,3 +987,8 @@ userport_desc_t *userport_get_valid_devices(int sort)
 {
     return NULL;
 }
+
+const char *userport_get_device_type_desc(int type)
+{
+    return NULL;
+}
