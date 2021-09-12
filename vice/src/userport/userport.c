@@ -41,26 +41,37 @@
 #include "util.h"
 
 
-/** \brief  Userport device type descriptions
- *
- * List of short descriptions for the userport device types for use in a UI.
- *
- * Maps to the USERPORT_DEVICE_TYPE_XXX enum values, so this list needs to
- * keep that order.
- */
-static const char *device_type_desc[] = {
-    "None",
-    "Printer",
-    "Modem",
-    "Joystick adapter",
-    "Audio output",
-    "Sampler",
-    "Real-time clock"
+typedef struct type2text_s {
+    int type;
+    const char *text;
+} type2text_t;
+
+static type2text_t device_type_desc[] = {
+    { USERPORT_DEVICE_TYPE_NONE, "None" },
+    { USERPORT_DEVICE_TYPE_PRINTER, "Printer" },
+    { USERPORT_DEVICE_TYPE_MODEM, "Modem" },
+    { USERPORT_DEVICE_TYPE_JOYSTICK_ADAPTER, "Joystick adapter" },
+    { USERPORT_DEVICE_TYPE_AUDIO_OUTPUT, "Audio output" },
+    { USERPORT_DEVICE_TYPE_SAMPLER, "Sampler" },
+    { USERPORT_DEVICE_TYPE_RTC, "Real-time clock" },
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
-    ,"Harness"
+    { USERPORT_DEVICE_TYPE_HARNESS, "Diagnostic harness" },
 #endif
+    { -1, NULL }
 };
 
+static const char *userport_type2text(int type)
+{
+    int i;
+    const char *retval = NULL;
+
+    for (i = 0; device_type_desc[i].type != -1; ++i) {
+        if (device_type_desc[i].type == type) {
+            retval = device_type_desc[i].text;
+        }
+    }
+    return retval;
+}
 
 /* flag indicating if the userport exists on the current emulated model */
 static int userport_active = 1;
@@ -241,10 +252,7 @@ userport_desc_t *userport_get_valid_devices(int sort)
  */
 const char *userport_get_device_type_desc(int type)
 {
-    if (type < 0 || type >= (int)(sizeof device_type_desc / sizeof device_type_desc[0])) {
-        return NULL;
-    }
-    return device_type_desc[type];
+    return userport_type2text(type);
 }
 
 
