@@ -605,190 +605,90 @@ void userport_enable(int val)
    type  | name               | description
    ----------------------------------------
    BYTE  | active             | userport active flag
-   BYTE  | collision handling | useport collision handling
-   BYTE  | amount             | amount of attached devices
-
-   if 'amount' is non-zero the following is also saved per attached device:
-
-   type  | name | description
-   --------------------------
-   BYTE  | id   | device id
+   BYTE  | id                 | device id
  */
 
+#define DUMP_VER_MAJOR   1
+#define DUMP_VER_MINOR   0
 static char snap_module_name[] = "USERPORT";
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
-
-#if 0
-static int old_userport_snapshot_write_module(snapshot_t *s)
-{
-    snapshot_module_t *m;
-    int amount = 0;
-    int *devices = NULL;
-    old_userport_device_list_t *current = userport_head.next;
-    old_userport_snapshot_list_t *c = NULL;
-    int i = 0;
-
-    while (current) {
-        ++amount;
-        current = current->next;
-    }
-
-    if (amount) {
-        devices = lib_malloc(sizeof(int) * (amount + 1));
-        current = userport_head.next;
-        while (current) {
-            devices[i++] = current->device->id;
-            current = current->next;
-        }
-        devices[i] = -1;
-    }
-
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-
-    if (m == NULL) {
-        return -1;
-    }
-
-    if (0
-        || SMW_B(m, (uint8_t)userport_active) < 0
-        || SMW_B(m, (uint8_t)old_userport_collision_handling) < 0
-        || SMW_B(m, (uint8_t)amount) < 0) {
-        goto fail;
-    }
-
-    /* Save device id's */
-    if (amount) {
-        for (i = 0; devices[i]; ++i) {
-            if (SMW_B(m, (uint8_t)devices[i]) < 0) {
-                goto fail;
-            }
-        }
-    }
-
-    snapshot_module_close(m);
-
-    /* save device snapshots */
-    if (amount) {
-        for (i = 0; devices[i]; ++i) {
-            c = userport_snapshot_head.next;
-            while (c) {
-                if (c->snapshot->id == devices[i]) {
-                    if (c->snapshot->write_snapshot) {
-                        if (c->snapshot->write_snapshot(s) < 0) {
-                            lib_free(devices);
-                            return -1;
-                        }
-                    }
-                }
-                c = c->next;
-            }
-        }
-    }
-
-    lib_free(devices);
-
-    return 0;
-
-fail:
-    snapshot_module_close(m);
-    return -1;
-}
-#endif
 
 int userport_snapshot_write_module(snapshot_t *s)
 {
-    /* FIXME */
-    return 0;
-}
-
-#if 0
-static int old_userport_snapshot_read_module(snapshot_t *s)
-{
-    uint8_t major_version, minor_version;
     snapshot_module_t *m;
-    int amount = 0;
-    char **detach_resource_list = NULL;
-    old_userport_device_list_t *current = userport_head.next;
-    int *devices = NULL;
-    old_userport_snapshot_list_t *c = NULL;
-    int i = 0;
 
-    /* detach all userport devices */
-    while (current) {
-        ++amount;
-        current = current->next;
-    }
-
-    if (amount) {
-        detach_resource_list = lib_malloc(sizeof(char *) * (amount + 1));
-        memset(detach_resource_list, 0, sizeof(char *) * (amount + 1));
-        current = userport_head.next;
-        while (current) {
-            detach_resource_list[i++] = current->device->resource;
-            current = current->next;
-        }
-        for (i = 0; i < amount; ++i) {
-            resources_set_int(detach_resource_list[i], 0);
-        }
-        lib_free(detach_resource_list);
-    }
-
-    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
-
+    m = snapshot_module_create(s, snap_module_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
     if (m == NULL) {
         return -1;
     }
 
-    /* Do not accept versions higher than current */
-    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
-        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        goto fail;
+    /* save userport active and current device id */
+    if (0
+        || SMW_B(m, (uint8_t)userport_active) < 0
+        || SMW_B(m, (uint8_t)userport_current_device) < 0) {
+        snapshot_module_close(m);
+        return -1;
     }
 
+    snapshot_module_close(m);
+
+    /* save seperate userport device module */
+    switch (userport_current_device) {
+        case USERPORT_DEVICE_NONE:
+            break;
+        default:
+            if (userport_device[userport_current_device].write_snapshot) {
+                if (userport_device[userport_current_device].write_snapshot(s) < 0) {
+                    return -1;
+                }
+            }
+            break;
+    }
+
+    return 0;
+}
+
+int userport_snapshot_read_module(struct snapshot_s *s)
+{
+    uint8_t major_version, minor_version;
+    snapshot_module_t *m;
+    int tmp_userport_device;
+
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (!snapshot_version_is_equal(major_version, minor_version, DUMP_VER_MAJOR, DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    /* load userport active and current device id */
     if (0
         || SMR_B_INT(m, &userport_active) < 0
-        || SMR_B_INT(m, &old_userport_collision_handling) < 0
-        || SMR_B_INT(m, &amount) < 0) {
-        goto fail;
-    }
-
-    if (amount) {
-        devices = lib_malloc(sizeof(int) * (amount + 1));
-        for (i = 0; i < amount; ++i) {
-            if (SMR_B_INT(m, &devices[i]) < 0) {
-                lib_free(devices);
-                goto fail;
-            }
-        }
+        || SMR_B_INT(m, &tmp_userport_device) < 0) {
         snapshot_module_close(m);
-        for (i = 0; i < amount; ++i) {
-            c = userport_snapshot_head.next;
-            while (c) {
-                if (c->snapshot->id == devices[i]) {
-                    if (c->snapshot->read_snapshot) {
-                        if (c->snapshot->read_snapshot(s) < 0) {
-                            lib_free(devices);
-                            return -1;
-                        }
-                    }
-                }
-                c = c->next;
-            }
-        }
-        return 0;
+        return -1;
     }
 
-    return snapshot_module_close(m);
-
-fail:
     snapshot_module_close(m);
-    return -1;
-}
-#endif
 
-int userport_snapshot_read_module(snapshot_t *s)
-{
-    /* FIXME */
+    /* enable device */
+    userport_set_device(tmp_userport_device);
+
+    /* load device snapshot */
+    switch (userport_current_device) {
+        case USERPORT_DEVICE_NONE:
+            break;
+        default:
+            if (userport_device[userport_current_device].read_snapshot) {
+                if (userport_device[userport_current_device].read_snapshot(s) < 0) {
+                    return -1;
+                }
+            }
+            break;
+    }
+
     return 0;
 }
