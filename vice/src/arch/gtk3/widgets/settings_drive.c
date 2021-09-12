@@ -387,17 +387,12 @@ static GtkWidget *create_drive_true_emulation_widget(int unit)
  */
 static void on_virtual_device_toggled(GtkWidget *widget, gpointer data)
 {
-    if (machine_class != VICE_MACHINE_PET &&
-            machine_class != VICE_MACHINE_CBM6x0 &&
-            machine_class != VICE_MACHINE_CBM5x0) {
+    void (*callback)(GtkWidget *, int);
+    int unit = GPOINTER_TO_INT(data);
 
-        void (*callback)(GtkWidget *, int);
-        int unit = GPOINTER_TO_INT(data);
-
-        callback = g_object_get_data(G_OBJECT(widget), "UnitCallback");
-        if (callback != NULL) {
-            callback(widget, unit);
-        }
+    callback = g_object_get_data(G_OBJECT(widget), "UnitCallback");
+    if (callback != NULL) {
+        callback(widget, unit);
     }
 }
 
@@ -693,6 +688,7 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
 static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
 {
     GtkWidget *wrapper;
+    GtkWidget *iec_wrapper;
     int index = unit - DRIVE_UNIT_MIN;  /* index in widget arrays */
 
     /* row 0 & 1, column 0 */
@@ -710,9 +706,24 @@ static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(wrapper), drive_tde[index], 0, 2, 1, 1);
     g_object_set(drive_tde[index], "margin-top", 16, NULL);
 
+    /* wrapper for IEC check button and IEC device type combo box */
+    iec_wrapper = gtk_grid_new();
     /* Virtual Device */
     drive_virtualdev[index] = create_drive_virtual_device_widget(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_virtualdev[index], 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_virtualdev[index], 0, 0, 1, 1);
+    /* FIXME: the IEEE machines have no "IECDevice" resource, instead the
+              "VirtualDevice" resource relates to traps AND virtual IEEE devices */
+#if 0
+    /* IEC device check button */
+    drive_iec_device[index] = create_iec_check_button(unit, iec_callback);
+    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_iec_device[index], 0, 1, 1, 1);
+#endif
+    /* IEC device type combo box */
+    drive_device_type[index] = create_drive_device_type_widget(unit);
+    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_device_type[index], 0, 1, 1, 1);
+    g_object_set(drive_device_type[index], "margin-left", 16, NULL);
+    /* add iec-wrapper to parent wrapper */
+    gtk_grid_attach(GTK_GRID(wrapper), iec_wrapper, 0, 3, 1, 1);
 
     /* add wrapper to main grid */
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);    /* row 0 & 1, column 0 */
