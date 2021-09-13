@@ -63,7 +63,7 @@ static int userport_par_cable_enable(int value);
 static userport_device_t par_cable_device = {
     "Userport parallel drive cable",      /* device name */
     JOYSTICK_ADAPTER_ID_NONE,             /* NOT a joystick adapter */
-    USERPORT_DEVICE_TYPE_DRIVE_PAR_CABLE, /* device is a sampler */
+    USERPORT_DEVICE_TYPE_DRIVE_PAR_CABLE, /* device is a parallel drive cable */
     userport_par_cable_enable,            /* enable function */
     userport_par_cable_read_pbx,          /* read pb0-pb7 function */
     userport_par_cable_store_pbx,         /* NO store pb0-pb7 function */
