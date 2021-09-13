@@ -655,13 +655,17 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
      *      is there, but the implementation is missing, the files
      *      src/drive/iec/plus4exp/ contain stubs.
      */
-    drive_parallel[unit - DRIVE_UNIT_MIN] = drive_parallel_cable_widget_create(unit);
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        drive_parallel[unit - DRIVE_UNIT_MIN] = drive_parallel_cable_widget_create(unit);
+    }
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_extend[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_idle[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_parallel[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        gtk_grid_attach(GTK_GRID(wrapper),
+                drive_parallel[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+    }
 
     gtk_widget_show_all(wrapper);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
