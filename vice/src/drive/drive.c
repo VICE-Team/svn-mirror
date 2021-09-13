@@ -342,7 +342,6 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
         case DRIVE_TYPE_1551:   /* green power, red drive, horizontal, round */
         case DRIVE_TYPE_1570:   /* green power, red drive, horizontal, round */
         case DRIVE_TYPE_2031:   /* green power, red drive, horizontal, round */
-        case DRIVE_TYPE_1001:   /* green power, red drive, horizontal, round */
             drive_led_color[dnr] = DRIVE_LED1_RED;
             break;
         case DRIVE_TYPE_1571:   /* red power, green drive, horizontal, line */
@@ -359,7 +358,9 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
         case DRIVE_TYPE_2040:   /* red drive0, red error, red drive1, triangle, round */
         case DRIVE_TYPE_3040:   /* red drive0, red error, red drive1, triangle, round */
         case DRIVE_TYPE_4040:   /* red drive0, red error, red drive1, triangle, round */
-        case DRIVE_TYPE_8050:   /* red drive0, green power/red error, red drive1, triangle, round */
+        case DRIVE_TYPE_8050:   /* green drive0, green power/red error, green drive1, very flat triangle, round */
+                                /* Some drives have red drive0/1 */
+        case DRIVE_TYPE_1001:   /* green power/red error, red drive, horizontal, round */
             /* drive_led_color[dnr] = DRIVE_LED1_RED | DRIVE_LED2_RED;
              * We lie here and give the LEDs different colours.
              * The GUI can show only 2 LEDs (one for each drive) instead
