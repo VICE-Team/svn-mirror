@@ -2698,6 +2698,9 @@ static GtkWidget *create_treeview(void)
     /*    gtk_tree_view_append_column(GTK_TREE_VIEW(tree), obj_column); */
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree), text_column);
 
+    /* disable search popup when typing */
+    g_object_set(G_OBJECT(tree), "enable-search", FALSE, NULL);
+
     /* apply CSS for keyboard navigation */
     vice_gtk3_css_add(tree, TREEVIEW_CSS);
     return tree;
