@@ -192,23 +192,19 @@ static uint8_t userport_rtc_read_pbx(uint8_t orig)
 
 /* UP_RTC_DS1307 snapshot module format:
 
-   type  | name | description
-   --------------------------
-   BYTE  | SDA  | SDA line state
-   BYTE  | SCL  | SCL line state
+   type  |   name   | description
+   ------------------------------
+   BYTE  |   SDA    | SDA line state
+   BYTE  |   SCL    | SCL line state
+   BYTE  | rtc save | save rtc offset upon detacht
  */
 
-/* FIXME */
-#if 0
-static char snap_module_name[] = "UP_RTC_DS1307";
-#endif
+static char snap_module_name[] = "UPRTCDS1307";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
 static int userport_rtc_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
@@ -219,26 +215,20 @@ static int userport_rtc_write_snapshot_module(snapshot_t *s)
 
     if (0
         || SMW_B(m, ds1307_pb0_sda) < 0
-        || SMW_B(m, ds1307_pb1_scl) < 0) {
+        || SMW_B(m, ds1307_pb1_scl) < 0
+        || SMW_B(m, (uint8_t)ds1307_rtc_save) < 0) {
         snapshot_module_close(m);
         return -1;
     }
     snapshot_module_close(m);
 
     return ds1307_write_snapshot(ds1307_context, s);
-#endif
-    return 0;
 }
 
 static int userport_rtc_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_rtc_enabled(1, NULL);
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
 
@@ -254,8 +244,9 @@ static int userport_rtc_read_snapshot_module(snapshot_t *s)
 
     if (0
         || SMR_B(m, &ds1307_pb0_sda) < 0
-        || SMR_B(m, &ds1307_pb1_scl) < 0) {
-        goto fail;
+        || SMR_B(m, &ds1307_pb1_scl) < 0
+        || SMR_B_INT(m, &ds1307_rtc_save) < 0) {
+       goto fail;
     }
     snapshot_module_close(m);
 
@@ -264,6 +255,4 @@ static int userport_rtc_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }

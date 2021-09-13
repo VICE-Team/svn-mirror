@@ -196,20 +196,16 @@ static uint8_t userport_rtc_read_pbx(uint8_t orig)
 
    type  | name | description
    --------------------------
-   BYTE  | read | read line active
+   BYTE  | read    | read line active
+   BYTE  | rtcsave | save rtc offset when detaching
  */
 
-/* FIXME */
-#if 0
 static char snap_module_name[] = "UP_RTC_58321A";
-#endif
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
 static int userport_rtc_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
@@ -218,26 +214,22 @@ static int userport_rtc_write_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    if (SMW_B(m, (uint8_t)read_line_active) < 0) {
+    if (0
+        || (SMW_B(m, (uint8_t)read_line_active) < 0)
+        || (SMW_B(m, (uint8_t)rtc58321a_rtc_save) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
     snapshot_module_close(m);
 
     return rtc58321a_write_snapshot(rtc58321a_context, s);
-#endif
-    return 0;
 }
 
 static int userport_rtc_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
-    /* enable device */
-    set_userport_rtc_enabled(1, NULL);
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
 
@@ -251,7 +243,9 @@ static int userport_rtc_read_snapshot_module(snapshot_t *s)
         goto fail;
     }
 
-    if (SMR_B_INT(m, &read_line_active) < 0) {
+    if (0
+        || (SMR_B_INT(m, &read_line_active) < 0)
+        || (SMR_B_INT(m, &rtc58321a_rtc_save) < 0)) {
         goto fail;
     }
     snapshot_module_close(m);
@@ -261,6 +255,4 @@ static int userport_rtc_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }

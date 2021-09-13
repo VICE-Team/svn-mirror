@@ -213,17 +213,12 @@ static uint8_t userport_snespad_read_pbx(uint8_t orig)
    BYTE  | LATCH   | latch line state
  */
 
-/* FIXME */
-#if 0
-static char snap_module_name[] = "USERPORT_PETSCII_SNESPAD";
-#endif
+static char snap_module_name[] = "UPPETSCII";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
 static int userport_petscii_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
@@ -240,19 +235,12 @@ static int userport_petscii_write_snapshot_module(snapshot_t *s)
         return -1;
     }
     return snapshot_module_close(m);
-#endif
-    return 0;
 }
 
 static int userport_petscii_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_snespad_enabled(1, NULL);
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
 
@@ -277,6 +265,4 @@ static int userport_petscii_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
