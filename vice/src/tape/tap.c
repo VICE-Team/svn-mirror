@@ -34,6 +34,7 @@
 #include "archdep.h"
 #include "datasette.h"
 #include "lib.h"
+#include "log.h"
 #include "tap.h"
 #include "tape.h"
 #include "types.h"
@@ -168,10 +169,16 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
 int tap_close(tap_t *tap)
 {
     int retval;
-
     if (tap->fd != NULL) {
+        /* write data size into header */
         if (tap->has_changed) {
+            size_t datasize = util_file_length(tap->fd) - TAP_HDR_SIZE;
             uint8_t buf[4];
+            /* sanity check */
+            if (tap->size != datasize) {
+                log_warning(LOG_DEFAULT, "tap data size mismatch, expected: 0x%06lx is: 0x%06x", datasize, (unsigned)tap->size);
+                tap->size = datasize;
+            }
             util_dword_to_le_buf(buf, tap->size);
             util_fpwrite(tap->fd, buf, 4, TAP_HDR_LEN);
         }
