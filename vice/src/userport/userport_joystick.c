@@ -990,17 +990,12 @@ static void userport_joystick_synergy_store_pbx(uint8_t value, int pulse)
    BYTE  | select | joyport select
  */
 
-/* FIXME */
-#if 0
-static char cga_module_name[] = "UP_JOY_CGA";
-#endif
+static char cga_module_name[] = "UPJOYCGA";
 #define CGA_VER_MAJOR   0
 #define CGA_VER_MINOR   1
 
 static int userport_joystick_cga_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, cga_module_name, CGA_VER_MAJOR, CGA_VER_MINOR);
@@ -1021,20 +1016,13 @@ static int userport_joystick_cga_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_cga_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_CGA, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, cga_module_name, &major_version, &minor_version);
 
@@ -1063,39 +1051,27 @@ static int userport_joystick_cga_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
 
 static int userport_joystick_pet_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     if (0
         || joyport_snapshot_write_module(s, JOYPORT_3) < 0
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_pet_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_PET, NULL);
-    set_userport_joystick_enable(1, NULL);
-
     if (0
         || joyport_snapshot_read_module(s, JOYPORT_3) < 0
         || joyport_snapshot_read_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
@@ -1103,46 +1079,22 @@ static int userport_joystick_pet_read_snapshot_module(snapshot_t *s)
 
 static int userport_joystick_hummer_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     return joyport_snapshot_write_module(s, JOYPORT_3);
-#endif
-    return 0;
 }
 
 static int userport_joystick_hummer_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_HUMMER, NULL);
-    set_userport_joystick_enable(1, NULL);
-
     return joyport_snapshot_read_module(s, JOYPORT_3);
-#endif
-    return 0;
 }
 
 static int userport_joystick_oem_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     return joyport_snapshot_write_module(s, JOYPORT_3);
-#endif
-    return 0;
 }
 
 static int userport_joystick_oem_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_OEM, NULL);
-    set_userport_joystick_enable(1, NULL);
-
     return joyport_snapshot_read_module(s, JOYPORT_3);
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1154,17 +1106,12 @@ static int userport_joystick_oem_read_snapshot_module(snapshot_t *s)
    BYTE  | retval | current serial port brigde value
  */
 
-/* FIXME */
-#if 0
-static char hit_module_name[] = "UP_JOY_HIT";
-#endif
+static char hit_module_name[] = "UPJOYHIT";
 #define HIT_VER_MAJOR   0
 #define HIT_VER_MINOR   1
 
 static int userport_joystick_hit_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, hit_module_name, HIT_VER_MAJOR, HIT_VER_MINOR);
@@ -1185,20 +1132,13 @@ static int userport_joystick_hit_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_hit_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_HIT, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, hit_module_name, &major_version, &minor_version);
 
@@ -1227,8 +1167,6 @@ static int userport_joystick_hit_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1241,16 +1179,12 @@ fail:
  */
 
 /* FIXME */
-#if 0
-static char kingsoft_module_name[] = "UP_JOY_KINGSOFT";
-#endif
+static char kingsoft_module_name[] = "UPJOYKINGSOFT";
 #define KINGSOFT_VER_MAJOR   0
 #define KINGSOFT_VER_MINOR   1
 
 static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, kingsoft_module_name, KINGSOFT_VER_MAJOR, KINGSOFT_VER_MINOR);
@@ -1271,20 +1205,13 @@ static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_KINGSOFT, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, kingsoft_module_name, &major_version, &minor_version);
 
@@ -1313,8 +1240,6 @@ static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1323,20 +1248,15 @@ fail:
 
    type  | name   | description
    ----------------------------
-   BYTE  | retval | current serial port brigde value
+   BYTE  | retval | current serial port bridge value
  */
 
-/* FIXME */
-#if 0
-static char starbyte_module_name[] = "UP_JOY_STARBYTE";
-#endif
+static char starbyte_module_name[] = "UPJOYSTARBYTE";
 #define STARBYTE_VER_MAJOR   0
 #define STARBYTE_VER_MINOR   1
 
 static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, starbyte_module_name, STARBYTE_VER_MAJOR, STARBYTE_VER_MINOR);
@@ -1357,20 +1277,13 @@ static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_STARBYTE, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, starbyte_module_name, &major_version, &minor_version);
 
@@ -1399,8 +1312,6 @@ static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1412,17 +1323,12 @@ fail:
    BYTE  | select | joyport select
  */
 
-/* FIXME */
-#if 0
-static char synergy_module_name[] = "UP_JOY_SYNERGY";
-#endif
+static char synergy_module_name[] = "UPJOYSYNERGY";
 #define SYNERGY_VER_MAJOR   0
 #define SYNERGY_VER_MINOR   1
 
 static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, synergy_module_name, SYNERGY_VER_MAJOR, SYNERGY_VER_MINOR);
@@ -1444,20 +1350,13 @@ static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_5) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_synergy_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_SYNERGY, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, synergy_module_name, &major_version, &minor_version);
 
@@ -1487,6 +1386,4 @@ static int userport_joystick_synergy_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
