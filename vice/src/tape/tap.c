@@ -177,7 +177,7 @@ int tap_close(tap_t *tap)
             /* sanity check */
             if (tap->size != datasize) {
                 log_warning(LOG_DEFAULT, "tap data size mismatch, expected: 0x%06lx is: 0x%06x", datasize, (unsigned)tap->size);
-                tap->size = datasize;
+                tap->size = (int)datasize;
             }
             util_dword_to_le_buf(buf, tap->size);
             util_fpwrite(tap->fd, buf, 4, TAP_HDR_LEN);
