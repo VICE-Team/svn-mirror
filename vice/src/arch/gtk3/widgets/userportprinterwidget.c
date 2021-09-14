@@ -4,8 +4,9 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
-/* FIXME:   Not sure the following is correct:
+/* The machines mentioned here may not be correct:
  *
+ * $VICERES UserportDevice              -vsid
  * $VICERES PrinterUserPort             -vsid
  * $VICERES PrinterUserportDriver       -vsid
  * $VICERES PrinterUserportOutput       -vsid
@@ -43,6 +44,7 @@
 #include "vice_gtk3.h"
 #include "resources.h"
 #include "printer.h"
+#include "userport.h"
 
 #include "userportprinterwidget.h"
 
@@ -89,17 +91,45 @@ static void on_output_mode_toggled(GtkRadioButton *radio, gpointer user_data)
 }
 
 
-/** \brief  Create checkbox to control the PrinterUserport resource
+/** \brief  Handler for the 'toggled' event of the userport emulation checkbox
+ *
+ * \param[in]   self    checkbox
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_userport_emulation_toggled(GtkWidget *self, gpointer data)
+{
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self))) {
+        resources_set_int("UserportDevice", USERPORT_DEVICE_PRINTER);
+    } else {
+        resources_set_int("UserportDevice", USERPORT_DEVICE_NONE);
+    }
+}
+
+
+/** \brief  Create checkbox to control the UserportDevice resource
+ *
+ * Set UserportDevice to either PRINTER or NONE.
  *
  * \return  GtkCheckButton
  */
 static GtkWidget *create_userport_emulation_widget(void)
 {
     GtkWidget *check;
+    int device;
 
-    check = vice_gtk3_resource_check_button_new("PrinterUserPort",
-            "Enable userport printer emulation");
+    if (resources_get_int("UserportDevice", &device) < 0) {
+        device = USERPORT_DEVICE_PRINTER;
+    }
+
+    check = gtk_check_button_new_with_label("Enable userport printer emulation");
     g_object_set(check, "margin-left", 16, NULL);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+                                device == USERPORT_DEVICE_PRINTER);
+    g_signal_connect(check,
+                     "toggled",
+                     G_CALLBACK(on_userport_emulation_toggled),
+                     NULL);
+
     return check;
 }
 
