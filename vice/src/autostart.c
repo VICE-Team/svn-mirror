@@ -550,7 +550,8 @@ static int get_true_drive_emulation_state(int unit)
 
 static void set_iec_device_state(int on, int unit)
 {
-    if ((machine_class != VICE_MACHINE_PET) &&
+    if ((machine_class != VICE_MACHINE_VIC20) &&
+        (machine_class != VICE_MACHINE_PET) &&
         (machine_class != VICE_MACHINE_CBM5x0) &&
         (machine_class != VICE_MACHINE_CBM6x0)) {
         log_message(autostart_log, "Turning IECDevice %s for unit %d.", on ? "on" : "off", unit);
@@ -562,7 +563,8 @@ static int get_iec_device_state(int unit)
 {
     int value = 0;
 
-    if ((machine_class != VICE_MACHINE_PET) &&
+    if ((machine_class != VICE_MACHINE_VIC20) &&
+        (machine_class != VICE_MACHINE_PET) &&
         (machine_class != VICE_MACHINE_CBM5x0) &&
         (machine_class != VICE_MACHINE_CBM6x0)) {
         if (resources_get_int_sprintf("IECDevice%d", &value, unit) < 0) {
