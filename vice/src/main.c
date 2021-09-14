@@ -374,6 +374,11 @@ void vice_thread_shutdown(void)
         return;
     }
 
+    /* log resources with non default values */
+    resources_log_active();
+    /* log the active config as commandline options */
+    cmdline_log_active();
+
     if (pthread_equal(pthread_self(), vice_thread)) {
         printf("FIXME! VICE thread is trying to shut itself down directly, this needs to be called from the ui thread for a correct shutdown!\n");
         mainlock_initiate_shutdown();
