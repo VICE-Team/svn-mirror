@@ -10,7 +10,7 @@
  * $VICERES Acia1Base       x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Irq        x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Mode       x64 x64sc xscpu64 x128 xvic
- * $VICERES RsUserEnable    x64 x64sc xscpu64 x128 xvic
+ * $VICERES UserportDevice  x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserBaud      x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserDev       x64 x64sc xscpu64 x128 xvic
  * $VICERES RsDevice1       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
@@ -54,6 +54,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "userport.h"
 
 #include "settings_rs232.h"
 
@@ -397,9 +398,58 @@ static GtkWidget *create_acia_widget(void)
         row++;
     }
 
-
     gtk_widget_show_all(grid);
     return grid;
+}
+
+
+
+/** \brief  Handler for the 'toggled' event of the userport enable checkbox
+ *
+ * Set userport device to USERPORT_DEVICE_RS232 or USERPORT_DEVICE_NONE.
+ *
+ * \param[in]   self    userport enable check button
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_userport_enable_toggled(GtkWidget *self, gpointer data)
+{
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(self))) {
+        /* set global userport device to rs232 modem */
+        resources_set_int("UserportDevice", USERPORT_DEVICE_RS232_MODEM);
+    } else {
+        /* set global userport device to none */
+        resources_set_int("UserportDevice", USERPORT_DEVICE_NONE);
+    }
+}
+
+
+/** \brief  Create toggle button to enable the userport rs232 device
+ *
+ * Set userport device to USERPORT_DEVICE_RS232 or USERPORT_DEVICE_NONE.
+ *
+ * The old resource "RsUserEnable" has been removed in the new userport system
+ * and we now set/unset the global "UserportDevice" resource.
+ *
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_userport_enable_widget(void)
+{
+    GtkWidget *check;
+    int device;
+
+    if (resources_get_int("UserportDevice", &device) < 0) {
+        device = USERPORT_DEVICE_NONE;
+    }
+
+    check = gtk_check_button_new_with_label("Enable userport RS232 emulation");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+                                 device == USERPORT_DEVICE_RS232_MODEM);
+    g_signal_connect(check,
+                     "toggled",
+                     G_CALLBACK(on_userport_enable_toggled),
+                     NULL);
+    return check;
 }
 
 
@@ -423,8 +473,7 @@ static GtkWidget *create_userport_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 4, 1);
 
-    rsuser_enable_widget = vice_gtk3_resource_check_button_new(
-            "RsUserEnable", "Enable Userport RS232 emulation");
+    rsuser_enable_widget = create_userport_enable_widget();
     gtk_widget_set_halign(rsuser_enable_widget, GTK_ALIGN_START);
     g_object_set(rsuser_enable_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rsuser_enable_widget, 0, 1, 4, 1);
