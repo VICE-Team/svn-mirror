@@ -145,7 +145,7 @@ static int datasette_sound_machine_calculate_samples(sound_t **psid,
         CLOCK max_amount_to_consume = cycles_to_be_consumed;
         CLOCK cycles_to_consume_now =
             datasette_sound_remove_from_circular_buffer(max_amount_to_consume,
-                datasette_square_sign == 1 && !datasette_halfwaves, &must_flip);
+                (datasette_square_sign == 1) && !datasette_halfwaves, &must_flip);
         if (!cycles_to_consume_now) {
             break;
         }
@@ -155,8 +155,8 @@ static int datasette_sound_machine_calculate_samples(sound_t **psid,
                 num_samples = nr - i;
             } else {
                 num_samples = cycles_to_consume_now / factor;
-                if (i + num_samples < nr - 1
-                    && cycles_to_be_consumed * 1.0 / (nr-i-num_samples) < factor) {
+                if (((i + num_samples) < (nr - 1))
+                    && ((cycles_to_be_consumed * 1.0) / ((nr - i) - num_samples)) < factor) {
                     num_samples++;
                 }
             }
@@ -165,8 +165,9 @@ static int datasette_sound_machine_calculate_samples(sound_t **psid,
                     datasette_sound_emulation_volume * datasette_square_sign;
             }
         }
-        if (must_flip)
+        if (must_flip) {
             datasette_square_sign = -datasette_square_sign;
+        }
     }
     while (i < nr) {
         pbuf[i++] = 0;
