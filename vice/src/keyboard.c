@@ -488,6 +488,7 @@ static inline void keyboard_key_released_modifier(int row, int column, int shift
 
 /*-----------------------------------------------------------------------*/
 
+#if 0
 /* FIXME: only used when shiftflag = 0, whatever this precisely is supposed to
           mean. we should instead deal with it in the functions further down */
 static void keyboard_key_deshift_all(void)
@@ -506,6 +507,7 @@ static void keyboard_key_deshift_all(void)
         keyboard_set_latch_keyarr(kbd_lctrlrow,  kbd_lctrlcol,  0);
     }
 }
+#endif
 
 /* FIXME: the following two functions are basically the same thing */
 
@@ -601,7 +603,7 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
 
         if (shift == NO_SHIFT) {
             /* FIXME: this is still an odd case that shouldnt exist */
-            keyboard_key_deshift_all();
+            /* keyboard_key_deshift_all(); */
         } else {
             if (shift & LEFT_SHIFT) {
                 left_shift_down = 1;
