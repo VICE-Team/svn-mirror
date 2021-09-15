@@ -92,6 +92,8 @@ static void (*psid_play_func)(int) = NULL;
 void ui_handle_misc_sdl_event(SDL_Event e)
 {
 #ifdef USE_SDLUI2
+    int capslock;
+
     if (e.type == SDL_WINDOWEVENT) {
         SDL_Window* window = SDL_GetWindowFromID(e.window.windowID);
         video_canvas_t* canvas = (video_canvas_t*)(SDL_GetWindowData(window, VIDEO_SDL2_CANVAS_INDEX_KEY));
@@ -107,6 +109,10 @@ void ui_handle_misc_sdl_event(SDL_Event e)
                 DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_FOCUS_GAINED"));
                 sdl_video_canvas_switch(canvas->index);
                 video_canvas_refresh_all(sdl_active_canvas);
+                capslock = (SDL_GetModState() & KMOD_CAPS) ? 1 : 0;
+                if (keyboard_get_shiftlock() != capslock) {
+                    keyboard_set_shiftlock(capslock);
+                }
                 break;
             case SDL_WINDOWEVENT_EXPOSED:
                 DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_EXPOSED"));
