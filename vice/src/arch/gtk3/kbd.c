@@ -135,10 +135,9 @@ static int shiftl_state = 0;
  */
 static int shiftr_state = 0;
 
-/** \brief  CAPSLOCK key state
+/** \brief  CAPSLOCK key state (is the key currently pressed?)
  */
 static int capslock_state = 0;
-
 
 /** \brief  Set shift flags on key press
  *
@@ -185,6 +184,22 @@ static void kbd_fix_shift_clear(void)
     shiftl_state = 0;
     shiftr_state = 0;
     capslock_state = 0;
+}
+
+/** \brief  sync caps lock status with the keyboard emulation
+ */
+static void kbd_sync_caps_lock(void)
+{
+    GdkDisplay *display = gdk_display_get_default();
+    GdkKeymap *keymap = gdk_keymap_get_for_display(display);
+    int capslock = gdk_keymap_get_caps_lock_state(keymap);
+    if (keyboard_get_shiftlock() != capslock) {
+        keyboard_set_shiftlock(capslock);
+#if 0
+        printf("kbd_sync_caps_lock host caps-lock: %d kbd shift-lock: %d\n",
+            capslock, keyboard_get_shiftlock());
+#endif
+    }
 }
 
 /** \brief  Get modifiers keys for keyboard event
@@ -456,14 +471,29 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 keyspressed = 0;
                 kbd_fix_shift_clear();
                 keyboard_key_clear();
+                kbd_sync_caps_lock();
             }
             break;
-        case GDK_ENTER_NOTIFY:
+        /* mouse pointer enters or exits the emulator */
         case GDK_LEAVE_NOTIFY:
+            keyspressed = 0;
+            kbd_fix_shift_clear();
+            keyboard_key_clear();
+            break;
+        case GDK_ENTER_NOTIFY:
+            keyspressed = 0;
+            kbd_fix_shift_clear();
+            keyboard_key_clear();
+            kbd_sync_caps_lock();
+            break;
+        /* focus change */
         case GDK_FOCUS_CHANGE:
             keyspressed = 0;
             kbd_fix_shift_clear();
             keyboard_key_clear();
+            if (report->focus_change.in) {
+                kbd_sync_caps_lock();
+            }
             break;
         default:
             break;
@@ -494,5 +524,13 @@ void kbd_connect_handlers(GtkWidget *widget, void *data)
     g_signal_connect(
             G_OBJECT(widget),
             "leave-notify-event",
+            G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(
+            G_OBJECT(widget),
+            "focus-in-event",
+            G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(
+            G_OBJECT(widget),
+            "focus-out-event",
             G_CALLBACK(kbd_event_handler), data);
 }

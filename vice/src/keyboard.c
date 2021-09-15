@@ -475,15 +475,15 @@ static inline void update_virtual_modifier_flags(void) {
 static inline void keyboard_key_pressed_modifier(int row, int column, int shift) {
     virtual_modifier_flags[row][column] |= shift;
     update_virtual_modifier_flags();
-    DBGMOD(("keyboard_key_pressed_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
-           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift));
+    DBGMOD(("keyboard_key_pressed_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d shiftlock: %d\n",
+           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift, keyboard_shiftlock));
 }
 
 static inline void keyboard_key_released_modifier(int row, int column, int shift) {
     virtual_modifier_flags[row][column] &= ~shift;
     update_virtual_modifier_flags();
-    DBGMOD(("keyboard_key_released_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
-           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift));
+    DBGMOD(("keyboard_key_released_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d shiftlock: %d\n",
+           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift, keyboard_shiftlock));
 }
 
 /*-----------------------------------------------------------------------*/
@@ -517,8 +517,8 @@ static void keyboard_key_shift(void)
     int physical_right = (rshift_defined() && (right_shift_down > 0));
     int physical_left = (lshift_defined() && (left_shift_down > 0));
 
-    DBGMOD(("keyboard_key_shift   left:%d right:%d virtual: %d\n",
-            left_shift_down, right_shift_down, virtual_shift_down));
+    DBGMOD(("keyboard_key_shift   left:%d right:%d virtual: %d shiftlock: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down, keyboard_shiftlock));
 
     if (lshift_defined()) {
         if ((left_shift_down > 0 && !virtual_deshift)
@@ -556,24 +556,24 @@ static void keyboard_key_shift(void)
 /* handle modifier key release */
 static void keyboard_key_deshift(void)
 {
-    DBGMOD(("keyboard_key_deshift left:%d right:%d virtual: %d\n",
-            left_shift_down, right_shift_down, virtual_shift_down));
+    DBGMOD(("keyboard_key_deshift left:%d right:%d virtual: %d shiftlock: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down, keyboard_shiftlock));
 
     /* Map shift keys. */
-    if (right_shift_down > 0
-        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !left_shift_down)
-        || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
-        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
-    } else {
-        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
-    }
-
     if (left_shift_down > 0
         || (virtual_shift_down > 0 && vshift == KEY_LSHIFT && !right_shift_down)
         || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
         keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
     } else {
         keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+    }
+
+    if (right_shift_down > 0
+        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !left_shift_down)
+        || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
+        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+    } else {
+        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
     }
 
     if (lcbm_defined()) {
@@ -593,6 +593,17 @@ static void keyboard_key_deshift(void)
             keyboard_set_latch_keyarr(kbd_lctrlrow, kbd_lctrlcol, 0);
         }
     }
+}
+
+int keyboard_get_shiftlock(void)
+{
+    return keyboard_shiftlock;
+}
+
+void keyboard_set_shiftlock(int state)
+{
+    keyboard_shiftlock = state;
+    keyboard_key_shift();
 }
 
 static int keyboard_key_pressed_matrix(int row, int column, int shift)

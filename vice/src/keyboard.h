@@ -127,6 +127,9 @@ extern void keyboard_key_pressed(signed long key, int mod);
 extern void keyboard_key_released(signed long key, int mod);
 extern void keyboard_key_clear(void);
 
+extern int keyboard_get_shiftlock(void);
+extern void keyboard_set_shiftlock(int state);
+
 typedef void (*key_ctrl_column4080_func_t)(void);
 extern void keyboard_register_column4080_key(key_ctrl_column4080_func_t func);
 
