@@ -2109,6 +2109,7 @@ static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "Danish (da)", KBD_MAPPING_DA, "da" },
     { "Dutch (nl)", KBD_MAPPING_NL, "nl" },
     { "Finnish (fi)", KBD_MAPPING_FI, "fi" },
+    { "French (fr)", KBD_MAPPING_FR, "fr" },
     { "German (de)", KBD_MAPPING_DE, "de" },
     { "Italian (it)", KBD_MAPPING_IT, "it" },
     { "Norwegian (no)", KBD_MAPPING_NO, "no" },
