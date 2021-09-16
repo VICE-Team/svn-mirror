@@ -48,6 +48,7 @@ palettes = \
 
 gtk3_keymaps = \
 	gtk3_sym.vkm \
+	gtk3_sym_fr.vkm \
 	gtk3_pos.vkm
 
 sdl_keymaps = \

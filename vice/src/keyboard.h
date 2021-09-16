@@ -74,13 +74,14 @@
 #define KBD_MAPPING_DA    2     /* "da" */
 #define KBD_MAPPING_NL    3     /* "nl" */
 #define KBD_MAPPING_FI    4     /* "fi" */
-#define KBD_MAPPING_DE    5     /* "de" */
-#define KBD_MAPPING_IT    6     /* "it" */
-#define KBD_MAPPING_NO    7     /* "no" */
-#define KBD_MAPPING_SE    8     /* "se" */
-#define KBD_MAPPING_CH    9     /* "ch" */
-#define KBD_MAPPING_LAST  9
-#define KBD_MAPPING_NUM   10
+#define KBD_MAPPING_FR    5     /* "fr" */
+#define KBD_MAPPING_DE    6     /* "de" */
+#define KBD_MAPPING_IT    7     /* "it" */
+#define KBD_MAPPING_NO    8     /* "no" */
+#define KBD_MAPPING_SE    9     /* "se" */
+#define KBD_MAPPING_CH    10    /* "ch" */
+#define KBD_MAPPING_LAST  10
+#define KBD_MAPPING_NUM   11
 extern int keyboard_get_num_mappings(void);
 
 /* mapping info for GUIs */
