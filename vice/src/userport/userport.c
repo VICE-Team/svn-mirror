@@ -531,6 +531,12 @@ static const struct userport_opt_s id_match[] = {
     { "parcable",           USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "driveparcable",      USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "driveparallelcable", USERPORT_DEVICE_DRIVE_PAR_CABLE },
+#ifdef IO_SIMULATION
+    { "21",                 USERPORT_DEVICE_IO_SIMULATION },
+    { "io",                 USERPORT_DEVICE_IO_SIMULATION },
+    { "iosim",              USERPORT_DEVICE_IO_SIMULATION },
+    { "iosimulation",       USERPORT_DEVICE_IO_SIMULATION },
+#endif
     { NULL, -1 }
 };
 

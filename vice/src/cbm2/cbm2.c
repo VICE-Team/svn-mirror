@@ -115,6 +115,10 @@
 #include "mouse.h"
 #endif
 
+#ifdef IO_SIMULATION
+#include "userport_io_sim.h"
+#endif
+
 /** \brief  Delay in seconds before pasting -keybuf argument into the buffer
  */
 #define KBDBUF_ALARM_DELAY   5
@@ -475,6 +479,12 @@ int machine_resources_init(void)
         init_resource_fail("userport 8bit stereo sampler");
         return -1;
     }
+#ifdef IO_SIMULATION
+    if (userport_io_sim_resources_init() < 0) {
+        init_resource_fail("userport I/O simulation");
+        return -1;
+    }
+#endif
     if (debugcart_resources_init() < 0) {
         init_resource_fail("debug cart");
         return -1;

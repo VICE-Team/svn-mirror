@@ -32,6 +32,8 @@ libuserport_a_SOURCES = \
 	userport_diag_586220_harness.h \
 	userport_digimax.c \
 	userport_digimax.h \
+	userport_io_sim.c \
+	userport_io_sim.h \
 	userport_joystick.c \
 	userport_joystick.h \
 	userport_petscii_snespad.c \
