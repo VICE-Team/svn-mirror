@@ -29,6 +29,7 @@
 
 #include <gtk/gtk.h>
 #include "keyboard.h"
+#include "log.h"
 #include "vice_gtk3.h"
 
 #include "kbddebugwidget.h"
@@ -104,6 +105,7 @@ void kdb_debug_widget_update(GdkEvent *event)
     static gchar keyval_buffer[LINES][BUFSIZE];
     static gchar keysym_buffer[LINES][BUFSIZE];
     static gchar keymod_buffer[LINES][BUFSIZE];
+    static gchar buffer[BUFSIZE];
     guint keyval = event->key.keyval;
     guint mods = event->key.state;
     GdkDisplay *display = gdk_display_get_default();
@@ -119,19 +121,19 @@ void kdb_debug_widget_update(GdkEvent *event)
 
     switch(event->type) {
         case GDK_KEY_PRESS:
-            g_snprintf(keytype_buffer[LINES - 1], BUFSIZE - 1, "<tt>press  </tt>");
+            g_snprintf(keytype_buffer[LINES - 1], BUFSIZE - 1, "press  ");
             break;
         case GDK_KEY_RELEASE:
-            g_snprintf(keytype_buffer[LINES - 1], BUFSIZE - 1, "<tt>release</tt>");
+            g_snprintf(keytype_buffer[LINES - 1], BUFSIZE - 1, "release");
             break;
         default:
-            g_snprintf(keytype_buffer[LINES - 1], BUFSIZE - 1, "<tt>unknown</tt>");
+            g_snprintf(keytype_buffer[LINES - 1], BUFSIZE - 1, "unknown");
             break;
     }
 
-    g_snprintf(keyval_buffer[LINES -1], BUFSIZE - 1, "<tt>%u, 0x%04x</tt>", keyval, keyval);
-    g_snprintf(keysym_buffer[LINES -1], BUFSIZE - 1, "<tt>%s</tt>", gdk_keyval_name(keyval));
-    g_snprintf(keymod_buffer[LINES -1], BUFSIZE - 1, "<tt>%c%c%c %c%c%c%c%c %c%c</tt>",
+    g_snprintf(keyval_buffer[LINES -1], BUFSIZE - 1, "%5u, 0x%04x", keyval, keyval);
+    g_snprintf(keysym_buffer[LINES -1], BUFSIZE - 1, "%s", gdk_keyval_name(keyval));
+    g_snprintf(keymod_buffer[LINES -1], BUFSIZE - 1, "%c%c%c %c%c%c%c%c %c%c",
             mods & GDK_SHIFT_MASK ? 'S' : '-',    /* shift (left or right) */
             mods & GDK_LOCK_MASK ? 'L' : '-',     /* shift-lock */
             mods & GDK_CONTROL_MASK ? 'C' : '-',  /* control */
@@ -146,11 +148,17 @@ void kdb_debug_widget_update(GdkEvent *event)
             keyboard_get_shiftlock() ? 'L' : '-'  /* emulated keyboard shift lock */
             );
 
+    log_message(LOG_DEFAULT, "%s %s %s %s", keytype_buffer[LINES - 1],
+                keyval_buffer[LINES -1], keysym_buffer[LINES -1], keymod_buffer[LINES -1]);
 
     for (line = 0; line < LINES; line++) {
-        gtk_label_set_markup(GTK_LABEL(keytype_widget[line]), keytype_buffer[line]);
-        gtk_label_set_markup(GTK_LABEL(keyval_widget[line]), keyval_buffer[line]);
-        gtk_label_set_markup(GTK_LABEL(keysym_widget[line]), keysym_buffer[line]);
-        gtk_label_set_markup(GTK_LABEL(keymod_widget[line]), keymod_buffer[line]);
+        g_snprintf(buffer, BUFSIZE - 1, "<tt>%s</tt>", keytype_buffer[line]);
+        gtk_label_set_markup(GTK_LABEL(keytype_widget[line]), buffer);
+        g_snprintf(buffer, BUFSIZE - 1, "<tt>%s</tt>", keyval_buffer[line]);
+        gtk_label_set_markup(GTK_LABEL(keyval_widget[line]), buffer);
+        g_snprintf(buffer, BUFSIZE - 1, "<tt>%s</tt>", keysym_buffer[line]);
+        gtk_label_set_markup(GTK_LABEL(keysym_widget[line]), buffer);
+        g_snprintf(buffer, BUFSIZE - 1, "<tt>%s</tt>", keymod_buffer[line]);
+        gtk_label_set_markup(GTK_LABEL(keymod_widget[line]), buffer);
     }
 }
