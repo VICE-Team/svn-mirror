@@ -128,6 +128,8 @@ int archdep_kbd_get_host_mapping(void)
    enough most of the time :)
 
    FIXME: add more languages
+
+   CAUTION: keep in sync with keyboard.c/.h
 */
 
 int archdep_kbd_get_host_mapping(void)
@@ -136,17 +138,17 @@ int archdep_kbd_get_host_mapping(void)
     char *l;
     static const int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
-        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL,
-        KBD_MAPPING_SE, KBD_MAPPING_CH
+        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_FR, KBD_MAPPING_IT,
+        KBD_MAPPING_NL, KBD_MAPPING_SE, KBD_MAPPING_CH
     };
     static const char * const s[KBD_MAPPING_NUM] = {
-        "en_US", "en_UK", "de", "da", "no", "fi", "it", "nl", "se", "ch" };
+        "en_US", "en_UK", "de", "da", "no", "fi", "fr", "it", "nl", "se", "ch" };
     /* setup the locale */
     setlocale(LC_ALL, "");
     l = setlocale(LC_ALL, NULL);
     if (l && (strlen(l) > 1)) {
         for (n = 1; n < KBD_MAPPING_NUM; n++) {
-            if (strncmp(l, s[n], strlen(s[n])) == 0) {
+            if (s[n] && strncmp(l, s[n], strlen(s[n])) == 0) {
                 return maps[n];
             }
         }
