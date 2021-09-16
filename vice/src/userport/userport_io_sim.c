@@ -48,11 +48,11 @@
 
 static int userport_io_sim_enabled = 0;
 
-static uint8_t userport_io_sim_data_out = 0;
-static uint8_t userport_io_sim_data_in = 0;
+static uint8_t userport_io_sim_pbx_out = 0;
+static uint8_t userport_io_sim_pbx_in = 0;
 
 /* 1 is output, 0 is input */
-static uint8_t userport_io_sim_ddr = 0;
+static uint8_t userport_io_sim_pbx_ddr = 0;
 
 /* Some prototypes are needed */
 static uint8_t userport_io_sim_read_pbx(uint8_t orig);
@@ -92,9 +92,9 @@ static int userport_io_sim_enable(int value)
     }
 
     if (val) {
-        userport_io_sim_ddr = 0;
-        userport_io_sim_data_out = 0;
-        userport_io_sim_data_in = 0;
+        userport_io_sim_pbx_ddr = 0;
+        userport_io_sim_pbx_out = 0;
+        userport_io_sim_pbx_in = 0;
     }
 
     userport_io_sim_enabled = val;
@@ -110,49 +110,59 @@ int userport_io_sim_resources_init(void)
 
 static void userport_io_sim_store_pbx(uint8_t val, int pulse)
 {
-    userport_io_sim_data_in = val;
+    userport_io_sim_pbx_in = val;
 }
 
 static uint8_t userport_io_sim_read_pbx(uint8_t orig)
 {
-    return userport_io_sim_data_out & userport_io_sim_ddr;
+    return userport_io_sim_pbx_out & userport_io_sim_pbx_ddr;
 }
 
 /* ---------------------------------------------------------------------*/
 
-void userport_io_sim_set_ddr_lines(uint8_t val)
+void userport_io_sim_set_pbx_ddr_lines(uint8_t val)
 {
     uint8_t mask = 0xff;
 
     if (machine_class == VICE_MACHINE_C64DTV) {
         mask = 0x1f;
     }
-    userport_io_sim_ddr = val & mask;
+    userport_io_sim_pbx_ddr = val & mask;
 }
 
-uint8_t userport_io_sim_get_ddr_lines(void)
+uint8_t userport_io_sim_get_pbx_ddr_lines(void)
 {
-    return userport_io_sim_ddr;
+    return userport_io_sim_pbx_ddr;
 }
 
-void userport_io_sim_set_data_out_lines(uint8_t val)
+void userport_io_sim_set_pbx_out_lines(uint8_t val)
 {
     uint8_t mask = 0xff;
 
     if (machine_class == VICE_MACHINE_C64DTV) {
         mask = 0x1f;
     }
-    userport_io_sim_data_out = val & mask;
+    userport_io_sim_pbx_out = val & mask;
 }
 
-uint8_t userport_io_sim_get_data_out_lines(void)
+uint8_t userport_io_sim_get_pbx_out_lines(void)
 {
-    return userport_io_sim_data_out;
+    return userport_io_sim_pbx_out & userport_io_sim_pbx_ddr;
 }
 
-uint8_t userport_io_sim_get_data_in_lines(void)
+uint8_t userport_io_sim_get_raw_pbx_out_lines(void)
 {
-    return userport_io_sim_data_in & ~userport_io_sim_ddr;
+    return userport_io_sim_pbx_out;
+}
+
+uint8_t userport_io_sim_get_pbx_in_lines(void)
+{
+    return userport_io_sim_pbx_in & ~userport_io_sim_pbx_ddr;
+}
+
+uint8_t userport_io_sim_get_raw_pbx_in_lines(void)
+{
+    return userport_io_sim_pbx_in;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -161,9 +171,9 @@ uint8_t userport_io_sim_get_data_in_lines(void)
 
    type  | name     | description
    ------------------------------
-   BYTE  | DATA IN  | data in state
-   BYTE  | DATA OUT | data out state
-   BYTE  | DDR      | data direction register
+   BYTE  | PBX IN  | port b in state
+   BYTE  | PBX OUT | port b out state
+   BYTE  | PBX DDR | port b direction register
  */
 
 static char snap_module_name[] = "UPIOSIM";
@@ -181,9 +191,9 @@ static int userport_io_sim_write_snapshot_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, userport_io_sim_data_in) < 0)
-        || (SMW_B(m, userport_io_sim_data_out) < 0)
-        || (SMW_B(m, userport_io_sim_ddr) < 0)) {
+        || (SMW_B(m, userport_io_sim_pbx_in) < 0)
+        || (SMW_B(m, userport_io_sim_pbx_out) < 0)
+        || (SMW_B(m, userport_io_sim_pbx_ddr) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
@@ -208,9 +218,9 @@ static int userport_io_sim_read_snapshot_module(snapshot_t *s)
     }
 
     if (0
-        || (SMR_B(m, &userport_io_sim_data_in) < 0)
-        || (SMR_B(m, &userport_io_sim_data_out) < 0)
-        || (SMR_B(m, &userport_io_sim_ddr) < 0)) {
+        || (SMR_B(m, &userport_io_sim_pbx_in) < 0)
+        || (SMR_B(m, &userport_io_sim_pbx_out) < 0)
+        || (SMR_B(m, &userport_io_sim_pbx_ddr) < 0)) {
         goto fail;
     }
     return snapshot_module_close(m);
