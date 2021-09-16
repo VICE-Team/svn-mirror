@@ -89,8 +89,10 @@ static int latch_rev_keyarr[KBD_COLS];
 static int network_keyarr[KBD_ROWS];
 static int network_rev_keyarr[KBD_COLS];
 
-/* Shift lock state.  */
+/* Shift lock state. (emulated keyboard) */
 int keyboard_shiftlock = 0;
+/* flag that indicates if a key with SHIFT_LOCK flag exists in the keymap */
+int keyconvmap_has_caps_lock = 0;
 
 static alarm_t *keyboard_alarm = NULL;
 
@@ -595,15 +597,25 @@ static void keyboard_key_deshift(void)
     }
 }
 
+/* return emulated shift lock state to the UI */
 int keyboard_get_shiftlock(void)
 {
     return keyboard_shiftlock;
 }
 
+/* called by the UI to sync the state of the actual caps lock key with the
+   emulated shift lock key. this can be tricky since the host OS and/or keyboard
+   might handle "locking" by itself and the state can change when the VICE
+   application does not have focus and receives no keyboard events. */
 void keyboard_set_shiftlock(int state)
 {
-    keyboard_shiftlock = state;
-    keyboard_key_shift();
+    /* only alter the shift lock state when a caps lock key was defined in the
+       host keymap. if shift lock is mapped to a regular key we don't have to
+       do anything and leave the state alone */
+    if (keyconvmap_has_caps_lock) {
+        keyboard_shiftlock = state;
+        keyboard_key_shift();
+    }
 }
 
 static int keyboard_key_pressed_matrix(int row, int column, int shift)
@@ -1033,6 +1045,7 @@ static void keyboard_keyconvmap_alloc(void)
     keyc_num = 0;
     keyc_mem = KEYCONVMAP_SIZE_MIN - 1;
     keyconvmap[0].sym = ARCHDEP_KEYBOARD_SYM_NONE;
+    keyconvmap_has_caps_lock = 0;
 }
 
 static void keyboard_keyconvmap_free(void)
@@ -1185,6 +1198,7 @@ static void keyboard_keyword_clear(void)
     kbd_lcbmcol   = -1;
     kbd_lctrlrow  = -1;
     kbd_lctrlcol  = -1;
+    keyconvmap_has_caps_lock = 0;
 
     for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
         for (j = 0; j < KBD_JOY_KEYPAD_COLS; ++j) {
@@ -1372,6 +1386,10 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                 }
 
                 /* printf("%s:%d: %s %d %d (%04x)\n", filename, line, key, row, col, shift); */
+
+                if (shift & SHIFT_LOCK) {
+                    keyconvmap_has_caps_lock = 1;
+                }
 
                 /* sanity checks */
 
