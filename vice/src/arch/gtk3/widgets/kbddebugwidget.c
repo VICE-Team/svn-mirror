@@ -112,6 +112,11 @@ void kdb_debug_widget_update(GdkEvent *event)
     GdkKeymap *keymap = gdk_keymap_get_for_display(display);
     int capslock = gdk_keymap_get_caps_lock_state(keymap);
 
+    /* early exit if we are not visible */
+    if (!gtk_widget_is_visible(keytype_widget[0])) {
+        return;
+    }
+
     for (line = 0; line < (LINES - 1); line++) {
         memcpy(keytype_buffer[line], keytype_buffer[line + 1], BUFSIZE);
         memcpy(keyval_buffer[line], keyval_buffer[line + 1], BUFSIZE);
