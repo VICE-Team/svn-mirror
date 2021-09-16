@@ -68,7 +68,9 @@
 #define KBD_INDEX_NUM     4
 
 /* the mapping of the host ("KeyboardMapping")
-   (keep in sync with table in keyboard.c) */
+
+   CAUTION: keep in sync with constants in keyboard.h and code in
+            arch/shared/archdep_kbd_get_host_mapping.c */
 #define KBD_MAPPING_US    0     /* "" (us mapping) this must be first (=0) always */
 #define KBD_MAPPING_UK    1     /* "uk" */
 #define KBD_MAPPING_DA    2     /* "da" */

@@ -2102,7 +2102,8 @@ int keyboard_get_num_mappings(void)
     return KBD_MAPPING_NUM;
 }
 
-/* (keep in sync with constants in keyboard.h) */
+/* CAUTION: keep in sync with constants in keyboard.h and code in
+            arch/shared/archdep_kbd_get_host_mapping.c */
 static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "American (us)", KBD_MAPPING_US, "" },    /* this must be first (=0) always */
     { "British (uk)", KBD_MAPPING_UK, "uk" },
