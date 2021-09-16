@@ -150,6 +150,9 @@
 #include "mouse.h"
 #endif
 
+#ifdef IO_SIMULATION
+#include "userport_io_sim.h"
+#endif
 
 /** \brief  Delay in seconds before pasting -keybuf argument into the buffer
  */
@@ -933,6 +936,12 @@ int machine_resources_init(void)
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     if (userport_diag_586220_harness_resources_init() < 0) {
         init_resource_fail("userport diag 586220 harness");
+        return -1;
+    }
+#endif
+#ifdef IO_SIMULATION
+    if (userport_io_sim_resources_init() < 0) {
+        init_resource_fail("userport I/O simulation");
         return -1;
     }
 #endif
