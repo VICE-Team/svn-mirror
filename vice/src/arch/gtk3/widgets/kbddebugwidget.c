@@ -28,27 +28,33 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include "keyboard.h"
 #include "vice_gtk3.h"
 
 #include "kbddebugwidget.h"
 
+#define LINES   3
+#define BUFSIZE 32
 
 /** \brief  Column indexes of the various widgets
  */
 enum {
     COL_TITLE = 0,      /**< title */
+    COL_KEYTYPE,        /**< type of event */
     COL_KEYVAL,         /**< raw key value */
     COL_KEYSYM,         /**< key symbol as string */
     COL_KEYMOD          /**< modifiers */
 };
 
 
+/** \brief  Label displaying type of event (press/release) */
+static GtkWidget *keytype_widget[LINES];
 /** \brief  Label displaying the key value */
-static GtkWidget *keyval_widget;
+static GtkWidget *keyval_widget[LINES];
 /** \brief  Label displaying the string representation of the key value */
-static GtkWidget *keysym_widget;
+static GtkWidget *keysym_widget[LINES];
 /** \brief  Label displaying the various modifiers for a key */
-static GtkWidget *keymod_widget;
+static GtkWidget *keymod_widget[LINES];
 
 
 /** \brief  Create Gtk3 keyboard debugging widget
@@ -59,22 +65,29 @@ GtkWidget *kbd_debug_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
+    int line;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     g_object_set(grid, "margin-left", 8, NULL);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 1);
 
     label = gtk_label_new("KBD debug:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, COL_TITLE, 0, 1, 1);
 
-    keyval_widget = gtk_label_new("-");
-    gtk_grid_attach(GTK_GRID(grid), keyval_widget, COL_KEYVAL, 0 , 1, 1);
+    for (line = 0; line < LINES; line++) {
+        keytype_widget[line] = gtk_label_new("-");
+        gtk_grid_attach(GTK_GRID(grid), keytype_widget[line], COL_KEYTYPE, line , 1, 1);
 
-    keysym_widget = gtk_label_new("-");
-    gtk_grid_attach(GTK_GRID(grid), keysym_widget, COL_KEYSYM, 0 , 1, 1);
+        keyval_widget[line] = gtk_label_new("-");
+        gtk_grid_attach(GTK_GRID(grid), keyval_widget[line], COL_KEYVAL, line , 1, 1);
 
-    keymod_widget = gtk_label_new("-----");
-    gtk_grid_attach(GTK_GRID(grid), keymod_widget, COL_KEYMOD, 0 , 1, 1);
+        keysym_widget[line] = gtk_label_new("-");
+        gtk_grid_attach(GTK_GRID(grid), keysym_widget[line], COL_KEYSYM, line , 1, 1);
+
+        keymod_widget[line] = gtk_label_new("-----");
+        gtk_grid_attach(GTK_GRID(grid), keymod_widget[line], COL_KEYMOD, line , 1, 1);
+    }
 
     return grid;
 }
@@ -86,17 +99,39 @@ GtkWidget *kbd_debug_widget_create(void)
  */
 void kdb_debug_widget_update(GdkEvent *event)
 {
-    gchar buffer[666];
+    int line;
+    static gchar keytype_buffer[LINES][BUFSIZE];
+    static gchar keyval_buffer[LINES][BUFSIZE];
+    static gchar keysym_buffer[LINES][BUFSIZE];
+    static gchar keymod_buffer[LINES][BUFSIZE];
     guint keyval = event->key.keyval;
     guint mods = event->key.state;
+    GdkDisplay *display = gdk_display_get_default();
+    GdkKeymap *keymap = gdk_keymap_get_for_display(display);
+    int capslock = gdk_keymap_get_caps_lock_state(keymap);
 
-    g_snprintf(buffer, sizeof(buffer), "<tt>%u, 0x%04x</tt>", keyval, keyval);
-    gtk_label_set_markup(GTK_LABEL(keyval_widget), buffer);
+    for (line = 0; line < (LINES - 1); line++) {
+        memcpy(keytype_buffer[line], keytype_buffer[line + 1], BUFSIZE);
+        memcpy(keyval_buffer[line], keyval_buffer[line + 1], BUFSIZE);
+        memcpy(keysym_buffer[line], keysym_buffer[line + 1], BUFSIZE);
+        memcpy(keymod_buffer[line], keymod_buffer[line + 1], BUFSIZE);
+    }
 
-    g_snprintf(buffer, sizeof(buffer), "<tt>%s</tt>", gdk_keyval_name(keyval));
-    gtk_label_set_markup(GTK_LABEL(keysym_widget), buffer);
+    switch(event->type) {
+        case GDK_KEY_PRESS:
+            g_snprintf(keytype_buffer[LINES - 1], BUFSIZE - 1, "<tt>press  </tt>");
+            break;
+        case GDK_KEY_RELEASE:
+            g_snprintf(keytype_buffer[LINES - 1], BUFSIZE - 1, "<tt>release</tt>");
+            break;
+        default:
+            g_snprintf(keytype_buffer[LINES - 1], BUFSIZE - 1, "<tt>unknown</tt>");
+            break;
+    }
 
-    g_snprintf(buffer, sizeof(buffer), "<tt>%c%c%c %c%c%c%c%c</tt>",
+    g_snprintf(keyval_buffer[LINES -1], BUFSIZE - 1, "<tt>%u, 0x%04x</tt>", keyval, keyval);
+    g_snprintf(keysym_buffer[LINES -1], BUFSIZE - 1, "<tt>%s</tt>", gdk_keyval_name(keyval));
+    g_snprintf(keymod_buffer[LINES -1], BUFSIZE - 1, "<tt>%c%c%c %c%c%c%c%c %c%c</tt>",
             mods & GDK_SHIFT_MASK ? 'S' : '-',    /* shift (left or right) */
             mods & GDK_LOCK_MASK ? 'L' : '-',     /* shift-lock */
             mods & GDK_CONTROL_MASK ? 'C' : '-',  /* control */
@@ -106,8 +141,16 @@ void kdb_debug_widget_update(GdkEvent *event)
             mods & GDK_MOD2_MASK ? '2' : '-',     /* alt-gr (Alt_R)    num-lock                  */
             mods & GDK_MOD3_MASK ? '3' : '-',
             mods & GDK_MOD4_MASK ? '4' : '-',     /*                   windows right             */
-            mods & GDK_MOD5_MASK ? '5' : '-'      /*                   alt-gr (ISO_Level3_Shift) */
+            mods & GDK_MOD5_MASK ? '5' : '-',     /*                   alt-gr (ISO_Level3_Shift) */
+            capslock ? 'L' : '-',                 /* host keyboard shift lock */
+            keyboard_get_shiftlock() ? 'L' : '-'  /* emulated keyboard shift lock */
             );
 
-    gtk_label_set_markup(GTK_LABEL(keymod_widget), buffer);
+
+    for (line = 0; line < LINES; line++) {
+        gtk_label_set_markup(GTK_LABEL(keytype_widget[line]), keytype_buffer[line]);
+        gtk_label_set_markup(GTK_LABEL(keyval_widget[line]), keyval_buffer[line]);
+        gtk_label_set_markup(GTK_LABEL(keysym_widget[line]), keysym_buffer[line]);
+        gtk_label_set_markup(GTK_LABEL(keymod_widget[line]), keymod_buffer[line]);
+    }
 }

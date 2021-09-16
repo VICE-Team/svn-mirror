@@ -454,6 +454,8 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 key = report->key.keyval = GDK_KEY_KP_Decimal;
             }
 
+            kdb_debug_widget_update(report);
+
             if (removepressedkey(report, &key, &mod)) {
 #if 0
                 printf("%2d key release, %5u %04x %04x. lshift: %d rshift: %d slock: %d mod:  %04x\n",
