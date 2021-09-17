@@ -219,7 +219,7 @@ grave          5 3 8
 period         5 4 8
 greater        5 4 1
 # colon
-colon          5 5 0
+colon          5 5 16
 # extra: oe -> colon
 odiaeresis     5 5 0
 # extra: OE -> :+shift
@@ -247,7 +247,7 @@ grave          6 0 8
 # *
 asterisk       6 1 16
 # semicolon
-semicolon      6 2 0
+semicolon      6 2 16
 # extra: ae -> ;
 adiaeresis     6 2 8
 # extra: AE -> ;+shift

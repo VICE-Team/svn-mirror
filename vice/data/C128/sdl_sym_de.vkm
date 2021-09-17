@@ -81,9 +81,9 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# Symbolic Mapping, German Layout, C64, SDL, pc(105)-de keyboard
+# Symbolic Mapping, German Layout, C128, SDL, pc(105)-de keyboard
 
-# C64 keyboard matrix:
+# C128 Keyboard matrix
 #
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
 #       |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
@@ -104,6 +104,16 @@
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
 # |Bit 7| 1 ! |A_LFT| CTRL| 2 " |SPACE|  C= |  Q  | R/S |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+#
+#        +-----+-----+-----+-----+-----+-----+-----+-----+
+#        |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
+# +------+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 8 |HELP | KP 8| KP 5| TAB | KP 2| KP 4| KP 7| KP 1|
+# +------+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 9 | ESC | KP +| KP -| LF  |KP CR| KP 6| KP 9| KP 3|
+# +------+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 10| ALT | KP 0| KP .|A.UP |A.DWN|A.LFT|A.RGT|NOSCR|
+# +------+-----+-----+-----+-----+-----+-----+-----+-----+
 
 !CLEAR
 !LSHIFT 1 7
@@ -164,7 +174,7 @@
 
 # not shifted on host, not shifted on c64
 45 5 3 32              /*            - -> -            */
-# 16+2048+128+32 shifted on host, not shifted but with CBM on C64
+# 16+2048+128+32 shifted on host, not shifted but with CBM on C128
 45 5 6 2224            /*            _ -> _ (cbm+@)    */
 
 94 6 6 8               /*            ^ -> Up Arrow     */
@@ -248,13 +258,13 @@
 52 1 3 8               /*            4 -> 4            */
 53 2 0 8               /*            5 -> 5            */
 54 2 3 8               /*            6 -> 6            */
-# not shifted on host, unshifted on C64
+# not shifted on host, unshifted on C128
 55 3 0 32              /*            7 -> 7            */
-# shifted on host, deshifted on C64 128+16
+# shifted on host, deshifted on C128 128+16
 55 6 7 144             /*            / -> /            */
-# not shifted on host, unshifted on C64
+# not shifted on host, unshifted on C128
 48 4 3 32              /*            0 -> 0            */
-# shifted on host, deshifted on C64  128+16
+# shifted on host, deshifted on C128  128+16
 48 6 5 144             /*            = -> =            */
 
 97 1 2 8               /*            A -> A            */
@@ -287,24 +297,3 @@
 # Restore key mappings
 280 -3 0               /*      Page Up -> RESTORE      */
 
-# Joyport attached keypad key mappings
-300 -5 0              /*      NumLock -> keypad x0    */
-263 -5 1              /*     NumPad 7 -> keypad 7     */
-264 -5 2              /*     NumPad 8 -> keypad 8     */
-265 -5 3              /*     NumPad 9 -> keypad 9     */
-267 -5 4              /*     NumPad / -> keypad /     */
-302 -5 5              /*   ScrollLock -> keypad x1    */
-260 -5 6              /*     NumPad 4 -> keypad 4     */
-261 -5 7              /*     NumPad 5 -> keypad 5     */
-262 -5 8              /*     NumPad 6 -> keypad 6     */
-268 -5 9              /*     NumPad * -> keypad *     */
-317 -5 10             /*       SysReq -> keypad x2    */
-257 -5 11             /*     NumPad 1 -> keypad 1     */
-258 -5 12             /*     NumPad 2 -> keypad 2     */
-259 -5 13             /*     NumPad 3 -> keypad 3     */
-269 -5 14             /*     NumPad - -> keypad -     */
-316 -5 15             /*       PrtScr -> keypad x3    */
-256 -5 16             /*     NumPad 0 -> keypad 0     */
-266 -5 17             /*     NumPad , -> keypad .     */
-271 -5 18             /* NumPad Enter -> keypad enter */
-270 -5 19             /*     NumPad + -> keypad +     */

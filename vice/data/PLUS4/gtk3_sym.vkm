@@ -14,6 +14,8 @@
 # '!RSHIFT row col'      right shift keyboard row/column
 # '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
 # '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)
+#  for emulated keyboards that have only one shift key, set both LSHIFT
+#  and RSHIFT to the same row/col and use RSHIFT for VSHIFT and SHIFTL.
 # '!LCTRL row col'       left control keyboard row/column
 # '!VCTRL ctrlkey'       virtual control key (LCTRL)
 # '!LCBM row col'        left CBM keyboard row/column
@@ -24,7 +26,8 @@
 # 0      key is not shifted for this keysym/scancode
 # 1      key is combined with shift for this keysym/scancode
 # 2      key is left shift on emulated machine
-# 4      key is right shift on emulated machine
+# 4      key is right shift on emulated machine (use only this one
+#        for emulated keyboards that have only one shift key)
 # 8      key can be shifted or not with this keysym/scancode
 # 16     deshift key for this keysym/scancode
 # 32     another definition for this keysym/scancode follows
@@ -97,9 +100,9 @@
 
 !CLEAR
 !LSHIFT 1 7
-#!RSHIFT 1 7
-!VSHIFT LSHIFT
-!SHIFTL LSHIFT
+!RSHIFT 1 7
+!VSHIFT RSHIFT
+!SHIFTL RSHIFT
 !LCBM 7 5
 !VCBM LCBM
 !LCTRL 7 2
@@ -156,8 +159,9 @@ Insert 0 0 1
 Left 6 0 8
 Return 0 1 8
 Right 6 3 8
-Shift_L 1 7 2
-Shift_R 1 7 2
+Shift_L 1 7 4
+Shift_R 1 7 4
+Caps_Lock      1 7 64
 Up 5 3 8
 # PgUp = Pound Sterling
 Page_Up 0 2 8
