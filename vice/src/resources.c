@@ -1506,14 +1506,16 @@ int resources_dump(const char *fname)
 /* log resources that do not have their default values */
 void resources_log_active(void)
 {
-    unsigned int i;
-
-    log_message(LOG_DEFAULT, "Resources with non default values:");
+    unsigned int i, n = 0;
 
     for (i = 0; i < num_resources; i++) {
         if (!resource_item_isdefault(i)) {
             char *line = string_resource_item(i, "");
             if (line != NULL) {
+                if (n == 0) {
+                    log_message(LOG_DEFAULT, "Resources with non default values:");
+                    n++;
+                }
                 log_message(LOG_DEFAULT, "%s", line);
                 lib_free(line);
             }
