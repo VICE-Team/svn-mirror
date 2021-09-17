@@ -531,6 +531,8 @@ static void keyboard_key_shift(void)
             keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
         }
     }
+    /* keymaps that only have one shift key use RSHIFT for both, check it last
+       so it takes precedence */
     if (rshift_defined()) {
         if ((right_shift_down > 0 && !virtual_deshift)
             || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !physical_left)
@@ -558,24 +560,33 @@ static void keyboard_key_shift(void)
 /* handle modifier key release */
 static void keyboard_key_deshift(void)
 {
+    int physical_right = (rshift_defined() && (right_shift_down > 0));
+    int physical_left = (lshift_defined() && (left_shift_down > 0));
+
     DBGMOD(("keyboard_key_deshift left:%d right:%d virtual: %d shiftlock: %d\n",
             left_shift_down, right_shift_down, virtual_shift_down, keyboard_shiftlock));
 
     /* Map shift keys. */
-    if (left_shift_down > 0
-        || (virtual_shift_down > 0 && vshift == KEY_LSHIFT && !right_shift_down)
-        || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
-        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
-    } else {
-        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+    if (lshift_defined()) {
+        if (left_shift_down > 0
+            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT && !physical_right)
+            || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
+            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+        }
     }
 
-    if (right_shift_down > 0
-        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !left_shift_down)
-        || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
-        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
-    } else {
-        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+    /* keymaps that only have one shift key use RSHIFT for both, check it last
+       so it takes precedence */
+    if (rshift_defined()) {
+        if (right_shift_down > 0
+            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !physical_left)
+            || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
+            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+        }
     }
 
     if (lcbm_defined()) {
@@ -1705,6 +1716,8 @@ int keyboard_keymap_dump(const char *filename)
             "# '!RSHIFT row col'      right shift keyboard row/column\n"
             "# '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)\n"
             "# '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)\n"
+            "#  for emulated keyboards that have only one shift key, set both LSHIFT\n"
+            "#  and RSHIFT to the same row/col and use RSHIFT for VSHIFT and SHIFTL.\n"
             "# '!LCTRL row col'       left control keyboard row/column\n"
             "# '!VCTRL ctrlkey'       virtual control key (LCTRL)\n"
             "# '!LCBM row col'        left CBM keyboard row/column\n"
@@ -1715,7 +1728,8 @@ int keyboard_keymap_dump(const char *filename)
             "# 0      key is not shifted for this keysym/scancode\n"
             "# 1      key is combined with shift for this keysym/scancode\n"
             "# 2      key is left shift on emulated machine\n"
-            "# 4      key is right shift on emulated machine\n"
+            "# 4      key is right shift on emulated machine (use only this one\n"
+            "#        for emulated keyboards that have only one shift key)\n"
             "# 8      key can be shifted or not with this keysym/scancode\n"
             "# 16     deshift key for this keysym/scancode\n"
             "# 32     another definition for this keysym/scancode follows\n"
