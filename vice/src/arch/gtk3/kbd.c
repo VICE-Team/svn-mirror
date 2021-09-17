@@ -134,6 +134,10 @@ static int shiftr_state = 0;
  */
 static int capslock_state = 0;
 
+/** \brief  CAPSLOCK key state (is caps-lock active/locked?)
+ */
+static int capslock_lock_state = 0;
+
 /** \brief  Set shift flags on key press
  *
  * \param[in]   report  GDK keypress event
@@ -147,10 +151,18 @@ static void kbd_fix_shift_press(GdkEvent *report)
         case GDK_KEY_Shift_R:
             shiftr_state = 1;
             break;
+        /* CAUTION: On linux we get regular key down and key up events for the
+                    caps-lock key. on macOS we get a key down event when caps
+                    become locked, and a key up event when it becomes unlocked */
         case GDK_KEY_Caps_Lock:
+#ifdef MACOSX_SUPPORT
+            capslock_lock_state = 0;
+#else
             capslock_state = 1;
+#endif
             break;
     }
+    /* printf("kbd_fix_shift_press   gtk lock state: %d\n", capslock_lock_state); */
 }
 
 /** \brief  Unset shift flags on key release
@@ -166,10 +178,19 @@ static void kbd_fix_shift_release(GdkEvent *report)
         case GDK_KEY_Shift_R:
             shiftr_state = 0;
             break;
+        /* CAUTION: On linux we get regular key down and key up events for the
+                    caps-lock key. on macOS we get a key down event when caps
+                    become locked, and a key up event when it becomes unlocked */
         case GDK_KEY_Caps_Lock:
+#ifdef MACOSX_SUPPORT
+            capslock_lock_state = 0;
+#else
+            capslock_lock_state ^= 1;
             capslock_state = 0;
+#endif
             break;
     }
+    /* printf("kbd_fix_shift_release gtk lock state: %d\n", capslock_lock_state); */
 }
 
 /** \brief  Clear shift flags
@@ -188,14 +209,20 @@ static void kbd_sync_caps_lock(void)
     GdkDisplay *display = gdk_display_get_default();
     GdkKeymap *keymap = gdk_keymap_get_for_display(display);
     int capslock = gdk_keymap_get_caps_lock_state(keymap);
+#if 0
+    printf("kbd_sync_caps_lock host caps-lock: %d kbd shift-lock: %d gtk lock state: %d\n",
+        capslock, keyboard_get_shiftlock(), capslock_lock_state);
+#endif
+#ifdef MACOSX_SUPPORT
+    if (keyboard_get_shiftlock() != capslock_lock_state) {
+        keyboard_set_shiftlock(capslock_lock_state);
+    }
+#else
     if (keyboard_get_shiftlock() != capslock) {
         keyboard_set_shiftlock(capslock);
-        capslock_state = capslock;
-#if 0
-        printf("kbd_sync_caps_lock host caps-lock: %d kbd shift-lock: %d\n",
-            capslock, keyboard_get_shiftlock());
-#endif
+        capslock_lock_state = capslock;
     }
+#endif
 }
 
 /** \brief  Get modifiers keys for keyboard event
@@ -428,12 +455,6 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #endif
                 keyboard_key_pressed((signed long)key, mod);
             }
-            /* sync caps-lock after every key press. at least on macOS caps lock
-               only generates a "press" event when caps lock state goes "on" and
-               a "release" event when caps lock state goes "off". on linux we get
-               events on key down and key release regardless of the caps lock
-               state */
-            kbd_sync_caps_lock();
             return TRUE;
         case GDK_KEY_RELEASE:
             /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",
@@ -476,13 +497,8 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 keyspressed = 0;
                 kbd_fix_shift_clear();
                 keyboard_key_clear();
+                kbd_sync_caps_lock();
             }
-            /* sync caps-lock after every key press. at least on macOS caps lock
-               only generates a "press" event when caps lock state goes "on" and
-               a "release" event when caps lock state goes "off". on linux we get
-               events on key down and key release regardless of the caps lock
-               state */
-            kbd_sync_caps_lock();
             break;
         /* mouse pointer enters or exits the emulator */
         case GDK_LEAVE_NOTIFY:
