@@ -14,6 +14,8 @@
 # '!RSHIFT row col'      right shift keyboard row/column
 # '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
 # '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)
+#  for emulated keyboards that have only one shift key, set both LSHIFT
+#  and RSHIFT to the same row/col and use RSHIFT for VSHIFT and SHIFTL.
 # '!LCTRL row col'       left control keyboard row/column
 # '!VCTRL ctrlkey'       virtual control key (LCTRL)
 # '!LCBM row col'        left CBM keyboard row/column
@@ -24,7 +26,8 @@
 # 0      key is not shifted for this keysym/scancode
 # 1      key is combined with shift for this keysym/scancode
 # 2      key is left shift on emulated machine
-# 4      key is right shift on emulated machine
+# 4      key is right shift on emulated machine (use only this one
+#        for emulated keyboards that have only one shift key)
 # 8      key can be shifted or not with this keysym/scancode
 # 16     deshift key for this keysym/scancode
 # 32     another definition for this keysym/scancode follows
@@ -120,9 +123,9 @@
 
 !CLEAR
 !LSHIFT 1 7
-#!RSHIFT 1 7
-!VSHIFT LSHIFT
-!SHIFTL LSHIFT
+!RSHIFT 1 7
+!VSHIFT RSHIFT
+!SHIFTL RSHIFT
 !LCBM 7 5
 !VCBM LCBM
 !LCTRL 7 2
@@ -133,7 +136,6 @@
 # backslash      0 7 8
 # bar            0 7 8
 # sterling       6 0 8
-# bracketright   6 6 8
 # circumflex     3 1 8
 # asciitilde     6 4 8
 # grave          6 4 8
@@ -158,8 +160,9 @@ at             0 7 0
 numbersign     1 0 1
 section        1 0 1
 dollar         1 3 8
-Shift_L        1 7 2
-Shift_R        1 7 2
+Shift_L        1 7 4
+Shift_R        1 7 4
+Caps_Lock      1 7 64
 
 # 2 |5 %     |R       |D       |6 &     |C       |F       |T       |X       |
 percent        2 0 8
@@ -179,24 +182,25 @@ Down           5 0 8
 Up             5 3 8
 greater        5 4 1
 period         5 4 0
-colon          5 5 0
-bracketleft    5 5 8
+colon          5 5 16
+bracketleft    5 5 513
 minus          5 6 0
 comma          5 7 0
 less           5 7 1
 
 # 6 |LEFT    |*       |; ]     |RIGHT   |ESC     |=       |+       |/ ?     |
 Left           6 0 8
-asterisk       6 1 0
-semicolon      6 2 0
+asterisk       6 1 16
+semicolon      6 2 16
+bracketright   6 2 513
 Right          6 3 8
 # escape = ?
-equal          6 5 0
+equal          6 5 16
 underscore     6 5 1
 mu             6 5 2048
 plus           6 6 0
 question       6 7 8
-slash          6 7 0
+slash          6 7 16
 
 # 7 |1 !     |CLR-HOME|CTRL    |2 "     |SPACE   |C=      |Q       |RUN-STOP|
 exclam         7 0 8
@@ -208,16 +212,16 @@ Tab            7 5 8192
 ISO_Left_Tab   7 5 8192
 Escape         7 7 8
 
-0 4 3 8
-1 7 0 8
-2 7 3 8
-3 1 0 8
-4 1 3 8
-5 2 0 8
-6 2 3 8
-7 3 0 8
-8 3 3 8
-9 4 0 8
+0 4 3 0
+1 7 0 0
+2 7 3 0
+3 1 0 0
+4 1 3 0
+5 2 0 0
+6 2 3 0
+7 3 0 0
+8 3 3 0
+9 4 0 0
 A 1 2 8
 B 3 4 8
 C 2 4 8

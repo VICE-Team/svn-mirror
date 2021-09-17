@@ -124,8 +124,12 @@
 !CLEAR
 !LSHIFT 8 0
 !RSHIFT 8 5
-!VSHIFT RSHIFT
+!VSHIFT LSHIFT
 !SHIFTL LSHIFT
+#!LCBM 0 0
+#!VCBM LCBM
+#!LCTRL 0 0
+#!VCTRL LCTRL
 
 94 8 1 8        /*            ^ -> @            */
 49 0 0 8        /*            1 -> !            */

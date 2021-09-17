@@ -130,8 +130,12 @@
 !CLEAR
 !LSHIFT 6 0
 !RSHIFT 6 6
-!VSHIFT RSHIFT
+!VSHIFT LSHIFT
 !SHIFTL LSHIFT
+#!LCBM 0 0
+#!VCBM LCBM
+#!LCTRL 0 0
+#!VCTRL LCTRL
 
 # FIXME: the following seems to be a positional layout
 
