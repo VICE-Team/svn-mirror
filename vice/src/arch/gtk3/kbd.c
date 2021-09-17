@@ -161,6 +161,7 @@ static void kbd_fix_shift_press(GdkEvent *report)
             capslock_state = 1;
 #endif
             break;
+            
     }
     /* printf("kbd_fix_shift_press   gtk lock state: %d\n", capslock_lock_state); */
 }
@@ -455,6 +456,14 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #endif
                 keyboard_key_pressed((signed long)key, mod);
             }
+/* HACK: on windows the caps-lock key generates an invalid keycode of 0xffffff,
+         so when we see this in the event we explicitly sync caps-lock state
+         to make it work in the emulation */
+#ifdef WIN32_COMPILE
+            if (report->key.keyval == 0xffffff) {
+                kbd_sync_caps_lock();
+            }
+#endif
             return TRUE;
         case GDK_KEY_RELEASE:
             /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",
@@ -499,6 +508,14 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 keyboard_key_clear();
                 kbd_sync_caps_lock();
             }
+/* HACK: on windows the caps-lock key generates an invalid keycode of 0xffffff,
+         so when we see this in the event we explicitly sync caps-lock state
+         to make it work in the emulation */
+#ifdef WIN32_COMPILE
+            if (report->key.keyval == 0xffffff) {
+                kbd_sync_caps_lock();
+            }
+#endif
             break;
         /* mouse pointer enters or exits the emulator */
         case GDK_LEAVE_NOTIFY:
