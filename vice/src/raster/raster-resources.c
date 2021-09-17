@@ -37,7 +37,7 @@
 #include "util.h"
 #include "video.h"
 
-#define DEFAULT_VideoCache_VALUE 99
+#define DEFAULT_VideoCache_VALUE 0
 
 struct raster_resource_chip_s {
     raster_t *raster;

@@ -474,7 +474,8 @@ static int set_volume(int val, void *param)
     return 0;
 }
 
-static const resource_string_t resources_string[] = {
+static resource_string_t resources_string[] = {
+    /* CAUTION: position is hardcoded below */
     { "SoundDeviceName", "", RES_EVENT_NO, NULL,
       &device_name, set_device_name, NULL },
     { "SoundDeviceArg", "", RES_EVENT_NO, NULL,
@@ -504,6 +505,14 @@ static const resource_int_t resources_int[] = {
 
 int sound_resources_init(void)
 {
+    /* Set the first device in the list as default factory value. We do this
+       here so the default value will not end up in the config file. */
+    if (archdep_is_haiku() == 0) {
+        resources_string[0].factory_value = "bsp";
+    } else {
+        resources_string[0].factory_value = sound_register_devices[0].name;
+    }
+
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
