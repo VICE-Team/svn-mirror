@@ -190,6 +190,7 @@ static void kbd_sync_caps_lock(void)
     int capslock = gdk_keymap_get_caps_lock_state(keymap);
     if (keyboard_get_shiftlock() != capslock) {
         keyboard_set_shiftlock(capslock);
+        capslock_state = capslock;
 #if 0
         printf("kbd_sync_caps_lock host caps-lock: %d kbd shift-lock: %d\n",
             capslock, keyboard_get_shiftlock());
@@ -398,6 +399,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             kdb_debug_widget_update(report);
 
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
+                /* mnemonic or accelerator was found and activated. */
                 return TRUE;
             }
 
@@ -426,6 +428,12 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #endif
                 keyboard_key_pressed((signed long)key, mod);
             }
+            /* sync caps-lock after every key press. at least on macOS caps lock
+               only generates a "press" event when caps lock state goes "on" and
+               a "release" event when caps lock state goes "off". on linux we get
+               events on key down and key release regardless of the caps lock
+               state */
+            kbd_sync_caps_lock();
             return TRUE;
         case GDK_KEY_RELEASE:
             /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",
@@ -468,8 +476,13 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 keyspressed = 0;
                 kbd_fix_shift_clear();
                 keyboard_key_clear();
-                kbd_sync_caps_lock();
             }
+            /* sync caps-lock after every key press. at least on macOS caps lock
+               only generates a "press" event when caps lock state goes "on" and
+               a "release" event when caps lock state goes "off". on linux we get
+               events on key down and key release regardless of the caps lock
+               state */
+            kbd_sync_caps_lock();
             break;
         /* mouse pointer enters or exits the emulator */
         case GDK_LEAVE_NOTIFY:
