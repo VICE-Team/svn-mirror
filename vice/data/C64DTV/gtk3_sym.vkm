@@ -169,13 +169,13 @@ parenright      4 0 1
 #####################
 # |Bit 5|  +  |  P  |  L  |  -  | . > | : [ |  @  | , < |
 
-plus            5 0 0
+plus            5 0 16
 minus           5 3 0
 period          5 4 0
 greater         5 4 1
-colon           5 5 0
+colon           5 5 16
 bracketleft     5 5 1
-at              5 6 0
+at              5 6 16
 comma           5 7 0
 less            5 7 1
 
@@ -185,7 +185,7 @@ less            5 7 1
 sterling        6 0 0
 backslash       6 0 0
 bar             6 0 8
-asterisk        6 1 0
+asterisk        6 1 16
 semicolon       6 2 0
 bracketright    6 2 1
 Home            6 3 8
