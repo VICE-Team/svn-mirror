@@ -156,12 +156,11 @@ static void kbd_fix_shift_press(GdkEvent *report)
                     become locked, and a key up event when it becomes unlocked */
         case GDK_KEY_Caps_Lock:
 #ifdef MACOSX_SUPPORT
-            capslock_lock_state = 0;
+            capslock_lock_state = 1;
 #else
             capslock_state = 1;
 #endif
             break;
-            
     }
     /* printf("kbd_fix_shift_press   gtk lock state: %d\n", capslock_lock_state); */
 }
@@ -207,22 +206,23 @@ static void kbd_fix_shift_clear(void)
  */
 static void kbd_sync_caps_lock(void)
 {
-    GdkDisplay *display = gdk_display_get_default();
-    GdkKeymap *keymap = gdk_keymap_get_for_display(display);
-    int capslock = gdk_keymap_get_caps_lock_state(keymap);
-#if 0
-    printf("kbd_sync_caps_lock host caps-lock: %d kbd shift-lock: %d gtk lock state: %d\n",
-        capslock, keyboard_get_shiftlock(), capslock_lock_state);
-#endif
 #ifdef MACOSX_SUPPORT
     if (keyboard_get_shiftlock() != capslock_lock_state) {
         keyboard_set_shiftlock(capslock_lock_state);
     }
 #else
+    GdkDisplay *display = gdk_display_get_default();
+    GdkKeymap *keymap = gdk_keymap_get_for_display(display);
+    int capslock = gdk_keymap_get_caps_lock_state(keymap);
+
     if (keyboard_get_shiftlock() != capslock) {
         keyboard_set_shiftlock(capslock);
         capslock_lock_state = capslock;
     }
+#endif
+#if 0
+    printf("kbd_sync_caps_lock host caps-lock: %d kbd shift-lock: %d gtk lock state: %d\n",
+        capslock, keyboard_get_shiftlock(), capslock_lock_state);
 #endif
 }
 
