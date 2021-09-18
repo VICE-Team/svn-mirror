@@ -165,7 +165,7 @@ static void kbd_fix_shift_press(GdkEvent *report)
                  hopefully making sure its kept in sync at all times */
 #ifdef MACOSX_SUPPORT
         default:
-            capslock_lock_state =  (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
+            capslock_lock_state = (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
             break;
 #endif
     }
@@ -200,7 +200,7 @@ static void kbd_fix_shift_release(GdkEvent *report)
                  hopefully making sure its kept in sync at all times */
 #ifdef MACOSX_SUPPORT
         default:
-            capslock_lock_state =  (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
+            capslock_lock_state = (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
             break;
 #endif
     }
@@ -546,6 +546,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             keyspressed = 0;
             kbd_fix_shift_clear();
             keyboard_key_clear();
+            kbd_sync_caps_lock();
             break;
         case GDK_ENTER_NOTIFY:
             keyspressed = 0;
@@ -558,9 +559,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             keyspressed = 0;
             kbd_fix_shift_clear();
             keyboard_key_clear();
-            if (report->focus_change.in) {
-                kbd_sync_caps_lock();
-            }
+            kbd_sync_caps_lock();
             break;
         default:
             break;
