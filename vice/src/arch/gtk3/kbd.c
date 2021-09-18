@@ -467,7 +467,9 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 /* HACK: on macOS caps-lock ON and OFF generate events, checking the state as
          such does not work, so we must track und update on our own */
 #ifdef MACOSX_SUPPORT
-            kbd_sync_caps_lock();
+            if (report->key.keyval == GDK_KEY_Caps_Lock) {
+                kbd_sync_caps_lock();
+            }
 #endif
             return TRUE;
         case GDK_KEY_RELEASE:
@@ -524,7 +526,9 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 /* HACK: on macOS caps-lock ON and OFF generate events, checking the state as
          such does not work, so we must track und update on our own */
 #ifdef MACOSX_SUPPORT
-            kbd_sync_caps_lock();
+            if (report->key.keyval == GDK_KEY_Caps_Lock) {
+                kbd_sync_caps_lock();
+            }
 #endif
             break;
         /* mouse pointer enters or exits the emulator */
