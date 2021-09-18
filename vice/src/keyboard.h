@@ -80,10 +80,11 @@
 #define KBD_MAPPING_DE    6     /* "de" */
 #define KBD_MAPPING_IT    7     /* "it" */
 #define KBD_MAPPING_NO    8     /* "no" */
-#define KBD_MAPPING_SE    9     /* "se" */
-#define KBD_MAPPING_CH    10    /* "ch" */
-#define KBD_MAPPING_LAST  10
-#define KBD_MAPPING_NUM   11
+#define KBD_MAPPING_ES    9     /* "es" */
+#define KBD_MAPPING_SE    10    /* "se" */
+#define KBD_MAPPING_CH    11    /* "ch" */
+#define KBD_MAPPING_LAST  11
+#define KBD_MAPPING_NUM   12
 extern int keyboard_get_num_mappings(void);
 
 /* mapping info for GUIs */

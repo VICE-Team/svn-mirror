@@ -139,10 +139,10 @@ int archdep_kbd_get_host_mapping(void)
     static const int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
         KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_FR, KBD_MAPPING_IT,
-        KBD_MAPPING_NL, KBD_MAPPING_SE, KBD_MAPPING_CH
+        KBD_MAPPING_NL, KBD_MAPPING_ES, KBD_MAPPING_SE, KBD_MAPPING_CH
     };
     static const char * const s[KBD_MAPPING_NUM] = {
-        "en_US", "en_UK", "de", "da", "no", "fi", "fr", "it", "nl", "se", "ch" };
+        "en_US", "en_UK", "de", "da", "no", "fi", "fr", "it", "nl", "es", "se", "ch" };
     /* setup the locale */
     setlocale(LC_ALL, "");
     l = setlocale(LC_ALL, NULL);

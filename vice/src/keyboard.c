@@ -2129,6 +2129,7 @@ static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "German (de)", KBD_MAPPING_DE, "de" },
     { "Italian (it)", KBD_MAPPING_IT, "it" },
     { "Norwegian (no)", KBD_MAPPING_NO, "no" },
+    { "Spanish (es)", KBD_MAPPING_ES, "es" },
     { "Swedish (se)", KBD_MAPPING_SE, "se" },
     { "Swiss (ch)", KBD_MAPPING_CH, "ch" },
     { NULL, 0, 0 }
