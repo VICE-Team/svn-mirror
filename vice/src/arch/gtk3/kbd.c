@@ -161,6 +161,15 @@ static void kbd_fix_shift_press(GdkEvent *report)
             capslock_state = 1;
 #endif
             break;
+        /* HACK: this will update the capslock state from other keypresses,
+                 hopefully making sure its kept in sync at all times */
+#ifdef MACOSX_SUPPORT
+        default:
+            if (report->key.state & GDK_LOCK_MASK) {
+                 capslock_lock_state = 1;
+            }
+            break;
+#endif
     }
     /* printf("kbd_fix_shift_press   gtk lock state: %d\n", capslock_lock_state); */
 }
@@ -189,6 +198,15 @@ static void kbd_fix_shift_release(GdkEvent *report)
             capslock_state = 0;
 #endif
             break;
+        /* HACK: this will update the capslock state from other keypresses,
+                 hopefully making sure its kept in sync at all times */
+#ifdef MACOSX_SUPPORT
+        default:
+            if (!(report->key.state & GDK_LOCK_MASK)) {
+                 capslock_lock_state = 0;
+            }
+            break;
+#endif
     }
     /* printf("kbd_fix_shift_release gtk lock state: %d\n", capslock_lock_state); */
 }
