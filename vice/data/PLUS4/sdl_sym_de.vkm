@@ -110,7 +110,6 @@
 
 8 0 0 8         /*    Backspace -> Del          */
 13 0 1 8        /*       Return -> Return       */
-252 0 2 8       /*            ü -> Pound        */
 288 0 3 1       /*           F7 -> F7           */
 289 0 3 8       /*           F8 -> HELP         */
 282 0 4 8       /*           F1 -> F1           */
@@ -122,50 +121,73 @@
 113 7 6 40      /*            Q -> Q            */
 113 0 7 512     /*    altgr + q -> @            */
 
-51 1 0 8        /*            3 -> 3            */
-35 1 0 33       /*            # -> 3+shift      */
-52 1 3 8        /*            4 -> 4            */
 301 1 7 64      /*    Caps Lock -> Shift Lock   */
 304 1 7 4       /*   Left Shift -> Left Shift   */
 303 1 7 4       /*  Right Shift -> Right Shift  */
+306 7 2 16392   /*    Left Ctrl -> Ctrl         */
+27 7 7 8        /*          ESC -> Run/Stop     */
+9 7 5 8200      /*          TAB -> CBM          */
 
-53 2 0 8        /*            5 -> 5            */
-54 2 3 8        /*            6 -> 6            */
 
-55 3 0 32       /*            7 -> 7            */
-35 3 0 128      /*            ' -> 7+shift      */
-56 3 3 8        /*            8 -> 8            */
-
-57 4 0 8        /*            9 -> 9            */
-48 4 3 32       /*            0 -> 0            */
+252 0 7 8       /*      (de) ue -> @            */
+246 5 5 8       /* (de)      oe -> [            */
+228 6 2 8       /* (de)      ae -> ]            */
 
 274 5 0 8       /*         Down -> CRSR DOWN    */
 273 5 3 8       /*           Up -> CRSR UP      */
+276 6 0 8       /*         Left -> CRSR LEFT    */
+275 6 3 8       /*        Right -> CRSR RIGHT   */
+
 46 5 4 32       /*            . -> .            */
 46 5 5 144      /*      shift+. -> :            */
-45 5 6 32       /*            - -> Minus        */
-44 5 7 32       /*            , -> ,            */
 60 5 7 33       /*            < -> ,+shift      */
 60 5 4 128      /*            > -> .+shift      */
 
-276 6 0 8       /*         Left -> CRSR LEFT    */
 43 6 6 32       /*            + -> Plus         */
 43 6 1 144      /*      shift++ -> *            */
+
+44 5 7 32       /*            , -> ,            */
 44 6 2 144      /*      shift+, -> ;            */
-275 6 3 8       /*        Right -> CRSR RIGHT   */
-96 6 4 8        /*            ` -> Esc          */
-48 6 5 144      /*            = -> =            */
+
+45 5 6 32       /*            - -> Minus        */
 45 6 5 128      /*      shift+- -> shift+=      */
-55 6 7 144      /*      shift 7 -> /            */
+
+96 6 4 8        /*            ` -> Esc          */
 223 6 7 1       /*            ? -> ?            */
 
-49 7 0 8        /*            1 -> 1            */
 278 7 1 8       /*         Home -> CLR/HOME     */
-306 7 2 16392   /*    Left Ctrl -> Ctrl         */
-50 7 3 8        /*            2 -> 2            */
 32 7 4 8        /*        Space -> Space        */
-27 7 7 8        /*          ESC -> Run/Stop     */
-9 7 5 8200      /*          TAB -> CBM          */
+
+35 1 0 33       /*            # -> 3+shift      */
+35 3 0 128      /*            ' -> 7+shift      */
+
+49 7 0 8        /*            1 -> 1            */
+50 7 3 8        /*            2 -> 2            */
+51 1 0 8        /*            3 -> 3            */
+52 1 3 8        /*            4 -> 4            */
+53 2 0 8        /*            5 -> 5            */
+54 2 3 8        /*            6 -> 6            */
+
+# not shifted on host, unshifted on C16
+55 3 0 32       /*            7 -> 7            */
+# 128+16 shifted on host, deshifted on C16
+55 6 7 144      /*            / -> /            */
+
+# 32 + 8
+56 3 3 40       /*            8 -> 8            */
+# 512 + 1 alt-gr on host, shifted on c16
+56 5 5 513      /*       altr+8 -> [  (shift+:)        */
+
+# 32 + 8
+57 4 0 40       /*            9 -> 9            */
+# 512 + 1 alt-gr on host, shifted on c16
+57 6 2 513      /*       altr+9 -> ]  (shift+;)        */
+
+# not shifted on host, unshifted on C16
+48 4 3 32       /*            0 -> 0            */
+# 128+16 shifted on host, deshifted on C16
+48 6 5 144      /*            = -> =            */
+94 4 3 1        /*            ^ -> shift+0 (arrow up)      */
 
 97 1 2 8        /*            A -> A            */
 98 3 4 8        /*            B -> B            */
