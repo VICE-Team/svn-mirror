@@ -626,6 +626,7 @@ void keyboard_set_shiftlock(int state)
     if (keyconvmap_has_caps_lock) {
         keyboard_shiftlock = state;
         keyboard_key_shift();
+        keyboard_latch_matrix(maincpu_clk);
     }
 }
 
