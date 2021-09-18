@@ -165,9 +165,7 @@ static void kbd_fix_shift_press(GdkEvent *report)
                  hopefully making sure its kept in sync at all times */
 #ifdef MACOSX_SUPPORT
         default:
-            if (report->key.state & GDK_LOCK_MASK) {
-                 capslock_lock_state = 1;
-            }
+            capslock_lock_state =  (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
             break;
 #endif
     }
@@ -202,9 +200,7 @@ static void kbd_fix_shift_release(GdkEvent *report)
                  hopefully making sure its kept in sync at all times */
 #ifdef MACOSX_SUPPORT
         default:
-            if (!(report->key.state & GDK_LOCK_MASK)) {
-                 capslock_lock_state = 0;
-            }
+            capslock_lock_state =  (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
             break;
 #endif
     }
