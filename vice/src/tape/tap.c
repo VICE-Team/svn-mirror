@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "cmdline.h"
 #include "datasette.h"
 #include "lib.h"
 #include "log.h"
@@ -1464,6 +1465,7 @@ int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind)
     return 0;
 }
 
+/* used by virtual devices */
 int tap_read(tap_t *tap, uint8_t *buf, size_t size)
 {
     if (tap->current_file_data == NULL) {
@@ -1500,6 +1502,15 @@ int tap_read(tap_t *tap, uint8_t *buf, size_t size)
     return 0;
 }
 
+int tap_seek_to_offset(tap_t *tap, unsigned long offset)
+{
+    if (tap && tap->fd) {
+        fseek(tap->fd, offset, SEEK_SET);
+        tap->current_file_seek_position = offset;
+        return 0;
+    }
+    return -1;
+}
 
 void tap_get_header(tap_t *tap, uint8_t *name)
 {

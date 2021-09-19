@@ -64,6 +64,11 @@ int tape_seek_to_file(tape_image_t *tape_image, unsigned int file_number)
     return 0;
 }
 
+int tape_seek_to_offset(tape_image_t *tape_image, unsigned long offset)
+{
+    return 0;
+}
+
 void tape_image_event_playback(unsigned int unit, const char *filename)
 {
 }
@@ -74,6 +79,11 @@ int tape_image_detach(unsigned int unit)
 }
 
 int tap_seek_start(tap_t *tap)
+{
+    return 0;
+}
+
+int tap_seek_to_offset(tap_t *tap, unsigned long offset)
 {
     return 0;
 }

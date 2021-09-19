@@ -2679,6 +2679,10 @@ On autostart from tape, load with ',1'
 (@code{AutostartTapeBasicLoad=0})
 (all emulators except vsid).
 
+@findex -autostarttapoffset
+@item -autostarttapoffset <Offset>
+Set initial offset in the .tap file (useful for emulator frontends)
+
 @findex -autostartwithcolon, +autostartwithcolon
 @item -autostartwithcolon
 On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'

@@ -627,6 +627,7 @@ static CLOCK datasette_read_gap(int direction)
 /*    if (current_image->system != 2 || current_image->version != 1
         || !fullwave) {*/
     if (machine_tape_behaviour() != TAPE_BEHAVIOUR_C16) {
+        /* regular tape behaviour */
         if ((direction < 0) && !datasette_move_buffer_back(direction * 4)) {
             return 0;
         }
@@ -651,6 +652,7 @@ static CLOCK datasette_read_gap(int direction)
         next_tap += direction;
         current_image->current_file_seek_position += direction;
     } else if (current_image->version == 1) {
+        /* C16 v1 behaviour */
         if (!fullwave) {
             if ((direction < 0) && !datasette_move_buffer_back(direction * 4)) {
                 return 0;
@@ -682,6 +684,7 @@ static CLOCK datasette_read_gap(int direction)
         }
         fullwave ^= 1;
     } else if (current_image->version == 2) {
+        /* C16 v2 behaviour */
         if ((direction < 0) && !datasette_move_buffer_back(direction * 4)) {
             return 0;
         }
@@ -790,7 +793,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
 
     if (direction + datasette_last_direction == 0) {
         /* the direction changed; read the gap from file,
-        but use use only the elapsed gap */
+        but use only the elapsed gap */
         gap = datasette_read_gap(direction);
         datasette_long_gap_pending = datasette_long_gap_elapsed;
         datasette_long_gap_elapsed = (CLOCK)(gap - datasette_long_gap_elapsed);

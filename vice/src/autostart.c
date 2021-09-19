@@ -178,6 +178,7 @@ static int autostart_disk_drive = 0; /* set by setup_for_disk */
 static int autostart_type = -1;
 
 /* ------------------------------------------------------------------------- */
+static size_t tap_initial_raw_offset = 0;
 
 int autostart_basic_load = 0;
 
@@ -386,6 +387,22 @@ void autostart_resources_shutdown(void)
 }
 
 /* ------------------------------------------------------------------------- */
+int autostart_set_initial_tap_offset(unsigned long offset)
+{
+    tap_initial_raw_offset = offset;
+    return 0;
+}
+
+static int cmdline_set_tap_offset(const char *arg, void *param)
+{
+    long val = strtol(arg, NULL, 0);
+    if (val < 0) {
+        tap_initial_raw_offset = 0;
+        return -1;
+    }
+    tap_initial_raw_offset = val;
+    return 0;
+}
 
 static const cmdline_option_t cmdline_options[] =
 {
@@ -434,6 +451,9 @@ static const cmdline_option_t cmdline_options[] =
     { "+autostart-delay-random", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartDelayRandom", (resource_value_t)0,
       NULL, "Disable random initial autostart delay." },
+    { "-autostarttapoffset", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      &cmdline_set_tap_offset, NULL, NULL, NULL,
+      "<value>", "Set initial offset in .tap file" },
     CMDLINE_LIST_END
 };
 
@@ -1472,7 +1492,10 @@ int autostart_tape(const char *file_name, const char *program_name,
             }
             program_number -= 1;
         }
-        if (do_seek) {
+        if (tap_initial_raw_offset > 0) {
+            tape_seek_to_offset(tape_image_dev1, tap_initial_raw_offset);
+            tap_initial_raw_offset = 0;
+        } else if (do_seek) {
             if (program_number > 0) {
                 /* program numbers in tape_seek_to_file() start at 0 */
                 tape_seek_to_file(tape_image_dev1, program_number - 1);
@@ -1975,8 +1998,9 @@ static void set_tapeport_device(int datasette, int tapecart)
     }
 }
 
-/* Autostart `file_name', trying to auto-detect its type.  */
-/* FIXME: pass device nr into this function */
+/* Autostart `file_name', trying to auto-detect its type.
+   FIXME: pass device nr into this function
+*/
 int autostart_autodetect(const char *file_name, const char *program_name,
                          unsigned int program_number, unsigned int runmode)
 {
