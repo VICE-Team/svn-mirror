@@ -105,6 +105,17 @@
 # |Bit 7| DEL |Retrn|C_L/R|C_U/D|  F1 |  F3 |  F5 |  F7 |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
 
+# to convert from C64 to VIC20:
+# change rows 7 -> 0, 0 -> 7
+# change columns 7 -> 3, 3 -> 7
+
+# VIC20 Keyboard layout:
+#
+#   arrow 1!  2"  3#  4$  5%  6&  7'  8(  9)  0   +   -   pound clr del     f1/f2
+#    ctrl   q   w   e   r   t   y   u   i   o   p   @   *   ^   restore     f2/f3
+#   r/s SL    a   s   d   f   g   h   j   k   l   :[  ;]  =   return        f4/f5
+#   CBM LS      z   x   c   v   b   n   m   ,<  .>  /?  RS  u/d l/r         f6/f7
+
 !CLEAR
 !LSHIFT 1 3
 !RSHIFT 6 4

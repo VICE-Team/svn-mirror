@@ -111,6 +111,13 @@
 #
 #############################################################################
 
+#   C16 keyboard layout:
+#
+#   ESC 1!  2"  3#  4$  5%  6&  7'  8(  9)  0^  left right up down del      f1/f2
+#   CTRL  q   w   e   r   t   y   u   i   o   p   @   +   -   clr           f3/f4
+#   r/s SL  a   s   d   f   g   h   j   k   l   :[  ;]  *   return          f5/f6
+#   CBM LS    z   x   c   v   b   n   m   ,<  .>  /?  RS  pound =/pi        help/f7
+
 # this is a symbolic mapping for german keyboards
 #
 # "special" keys are mapped like this:
