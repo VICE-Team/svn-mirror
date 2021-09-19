@@ -6,7 +6,11 @@
 # this is a PET graphics keyboard mapping (symbolic)
 # for 1:1 keyboard mapping with a German PC keyboard
 
+# 2001, 3032 and 4032 use graphics keyboard
+# 4032B, 8032 and up use business keyboard
 #
+# http://www.6502.org/users/andre/petindex/keyboards.html
+
 # Graphics keyboard matrix:
 #
 #       0        1        2        3        4        5        6        7
@@ -34,11 +38,28 @@
 #
 # The original gfx keyboard reflects the matrix perfectly:
 #
-#         @ !  "  #  $  %  '  &  \  (  )  <-     ^s ^q ^] ^t
-#       RVS  q  w  e  r  t  y  u  i  o  p  ^      7  8  9  /
-#         SL  a  s  d  f  g  h  j  k  l  : ^m     4  5  6  *
-#          LS  z  x  c  v  b  n  m  ,  ;  ? ^m    1  2  3  +
-#                 SPACE                           0  .  -  =
+#         @ !  "  #  $  %  '  &  \  (  )  <- [  ]    clr  u/d  l/r  ins/del
+#       RVS  q  w  e  r  t  y  u  i  o  p  ^  <  >    7    8    9    /
+#         SL  a  s  d  f  g  h  j  k  l  : r/s ret    4    5    6    *
+#          LS  z  x  c  v  b  n  m  ,  ;  ?  RS       1    2    3    +
+#                 SPACE                               0    .    -    =
+#
+# Chiclet Keyboard:
+#
+#       !  "  #  $  %  '  &  \  (  )  <-    clr  u/d  l/r  ins/del
+#       q  w  e  r  t  y  u  i  o  p  ^     7    8    9    /
+#       a  s  d  f  g  h  j  k  l  :  ret   4    5    6    *
+#       z  x  c  v  b  n  m  ,  ;  ?  ret   1    2    3    +
+#      SL RVS @  [  ]  space <  > r/s SR    0    .    -    =
 #
 # http://www.6502.org/users/andre/petindex/keyboards.html
+
+numbersign      0 1 16
+apostrophe      1 2 16
+semicolon       6 4 16
+slash           3 7 16
+equal           9 7 16
+degree          2 5 8
+bracketright    8 2 512
+bracketleft     9 1 512
 

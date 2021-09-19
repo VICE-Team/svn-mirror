@@ -83,10 +83,12 @@
 
 # this is a PET graphics keyboard mapping (positional) for US keyboard
 
-#
-# Graphics keyboard matrix:
-#
 # 2001, 3032 and 4032 use graphics keyboard
+# 4032B, 8032 and up use business keyboard
+#
+# http://www.6502.org/users/andre/petindex/keyboards.html
+
+# Graphics keyboard matrix:
 #
 #       0        1        2        3        4        5        6        7
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
@@ -113,11 +115,19 @@
 #
 # The original gfx keyboard reflects the matrix perfectly:
 #
-#         @ !  "  #  $  %  '  &  \  (  )  <-     ^s ^q ^] ^t
-#       RVS  q  w  e  r  t  y  u  i  o  p  ^      7  8  9  /
-#         SL  a  s  d  f  g  h  j  k  l  : ^m     4  5  6  *
-#          LS  z  x  c  v  b  n  m  ,  ;  ? ^m    1  2  3  +
-#                 SPACE                           0  .  -  =
+#         @ !  "  #  $  %  '  &  \  (  )  <- [  ]    clr  u/d  l/r  ins/del
+#       RVS  q  w  e  r  t  y  u  i  o  p  ^  <  >    7    8    9    /
+#         SL  a  s  d  f  g  h  j  k  l  : r/s ret    4    5    6    *
+#          LS  z  x  c  v  b  n  m  ,  ;  ?  RS       1    2    3    +
+#                 SPACE                               0    .    -    =
+#
+# Chiclet Keyboard:
+#
+#       !  "  #  $  %  '  &  \  (  )  <-    clr  u/d  l/r  ins/del
+#       q  w  e  r  t  y  u  i  o  p  ^     7    8    9    /
+#       a  s  d  f  g  h  j  k  l  :  ret   4    5    6    *
+#       z  x  c  v  b  n  m  ,  ;  ?  ret   1    2    3    +
+#      SL RVS @  [  ]  space <  > r/s SR    0    .    -    =
 #
 # http://www.6502.org/users/andre/petindex/keyboards.html
 
@@ -160,7 +170,6 @@
 279 9 3 8       /*          End -> <            */
 281 8 4 8       /*       PgDown -> >            */
 
-# FIXME: shift-lock
 97 4 0 8        /*            A -> A            */
 115 5 0 8       /*            S -> S            */
 100 4 1 8       /*            D -> D            */
@@ -174,6 +183,7 @@
 27 9 4 8        /*          ESC -> Run/Stop     */
 13 6 5 8        /*       Return -> Return       */
 
+301 8 0 64      /*   Caps Lock  -> Shift lock   */
 304 8 0 2       /*   Left Shift -> Left Shift   */
 122 6 0 8       /*            Z -> Z            */
 120 7 0 8       /*            X -> X            */

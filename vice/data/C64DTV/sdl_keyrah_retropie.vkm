@@ -120,6 +120,13 @@
 # |Bit 7| 1 ! |A_LFT| CTRL| 2 " |SPACE|  C= |  Q  | R/S |
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
 
+# C64 Keyboard layout:
+#
+#   arrow 1!  2"  3#  4$  5%  6&  7'  8(  9)  0   +   -   pound clr del     f1/f2
+#    ctrl   q   w   e   r   t   y   u   i   o   p   @   *   ^   restore     f2/f3
+#   r/s SL    a   s   d   f   g   h   j   k   l   :[  ;]  =   return        f4/f5
+#   CBM LS      z   x   c   v   b   n   m   ,<  .>  /?  RS  u/d l/r         f6/f7
+
 !CLEAR
 !LSHIFT 1 7
 !RSHIFT 6 4

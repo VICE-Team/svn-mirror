@@ -107,6 +107,16 @@
 #15 |   F8   |  8  *  |   I    |   K    |  ,  <  |  .  >  |
 #   +--------+--------+--------+--------+--------+--------+
 
+#   CBM2 Keyboard layout:
+#
+#   F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 down up left right clr rvs graph r/s
+#
+#   ESC 1!  2@  3#  4$  5%  6^  7&  8*  9(  0)  -   =+  arrow/pound del     ?   CE  *   /
+#    TAB q   w   e   r   t   y   u   i   o   p   [   ]   return             7   8   9   -
+#     SL  a   s   d   f   g   h   j   k   l   ;:  ,"  pi                    4   5   6   +
+#      LS  z   x   c   v   b   n   m   ,<  .>  /?  RS   CBM                 1   2   3
+#       CTRL    SPACE                                                       0   .   00  enter
+
 !CLEAR
 !LSHIFT 8 4
 !RSHIFT 8 4
