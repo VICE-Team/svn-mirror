@@ -31,6 +31,13 @@
    userport system.
 */
 
+/* #define HOST_HARDWARE_IO */
+
+/* Enable above define to be able to use host hardware I/O.
+   In this mode you will need to write your own code to access
+   the host hardware.
+*/
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -48,6 +55,7 @@
 
 static int userport_io_sim_enabled = 0;
 
+#ifndef HOST_HARDWARE_IO
 static uint8_t userport_io_sim_pbx_out = 0;
 static uint8_t userport_io_sim_pbx_in = 0;
 
@@ -59,8 +67,10 @@ static uint8_t userport_io_sim_pax_in = 0;
 
 /* 1 is output, 0 is input */
 static uint8_t userport_io_sim_pax_ddr = 0;
+#endif
 
 /* Some prototypes are needed */
+#ifndef HOST_HARDWARE_IO
 static uint8_t userport_io_sim_read_pbx(uint8_t orig);
 static void userport_io_sim_store_pbx(uint8_t value, int pulse);
 static uint8_t userport_io_sim_read_pa2(uint8_t orig);
@@ -69,8 +79,18 @@ static uint8_t userport_io_sim_read_pa3(uint8_t orig);
 static void userport_io_sim_store_pa3(uint8_t value);
 static int userport_io_sim_write_snapshot_module(snapshot_t *s);
 static int userport_io_sim_read_snapshot_module(snapshot_t *s);
+#else
+static uint8_t userport_io_hw_read_pbx(uint8_t orig);
+static void userport_io_hw_store_pbx(uint8_t value, int pulse);
+static uint8_t userport_io_hw_read_pa2(uint8_t orig);
+static void userport_io_hw_store_pa2(uint8_t value);
+static uint8_t userport_io_hw_read_pa3(uint8_t orig);
+static void userport_io_hw_store_pa3(uint8_t value);
+#endif
+
 static int userport_io_sim_enable(int value);
 
+#ifndef HOST_HARDWARE_IO
 static userport_device_t userport_io_sim_device = {
     "Userport I/O Simulation",             /* device name */
     JOYSTICK_ADAPTER_ID_NONE,              /* this is NOT a joystick adapter */
@@ -130,6 +150,67 @@ static userport_device_t userport_io_sim_pa23_device = {
     userport_io_sim_write_snapshot_module, /* snapshot write function */
     userport_io_sim_read_snapshot_module   /* snapshot read function */
 };
+#else
+static userport_device_t userport_io_hw_device = {
+    "Userport host I/O hardware",       /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,           /* this is NOT a joystick adapter */
+    USERPORT_DEVICE_TYPE_IO_SIMULATION, /* device is an I/O simulation */
+    userport_io_sim_enable,             /* enable function */
+    userport_io_hw_read_pbx,            /* read pb0-pb7 function */
+    userport_io_hw_store_pbx,           /* store pb0-pb7 function */
+    NULL,                               /* NO read pa2 pin function */
+    NULL,                               /* NO store pa2 pin function */
+    NULL,                               /* NO read pa3 pin function */
+    NULL,                               /* NO store pa3 pin function */
+    0,                                  /* pc pin is NOT needed */
+    NULL,                               /* NO store sp1 pin function */
+    NULL,                               /* NO read sp1 pin function */
+    NULL,                               /* NO store sp2 pin function */
+    NULL,                               /* NO read sp2 pin function */
+    NULL,                               /* NO snapshot write function */
+    NULL                                /* NO snapshot read function */
+};
+
+static userport_device_t userport_io_hw_pa2_device = {
+    "Userport host I/O hardware",       /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,           /* this is NOT a joystick adapter */
+    USERPORT_DEVICE_TYPE_IO_SIMULATION, /* device is an I/O simulation */
+    userport_io_sim_enable,             /* enable function */
+    userport_io_hw_read_pbx,            /* read pb0-pb7 function */
+    userport_io_hw_store_pbx,           /* store pb0-pb7 function */
+    userport_io_hw_read_pa2,            /* read pa2 pin function */
+    userport_io_hw_store_pa2,           /* store pa2 pin function */
+    NULL,                               /* NO read pa3 pin function */
+    NULL,                               /* NO store pa3 pin function */
+    0,                                  /* pc pin is NOT needed */
+    NULL,                               /* NO store sp1 pin function */
+    NULL,                               /* NO read sp1 pin function */
+    NULL,                               /* NO store sp2 pin function */
+    NULL,                               /* NO read sp2 pin function */
+    NULL,                               /* NO snapshot write function */
+    NULL                                /* NO snapshot read function */
+};
+
+static userport_device_t userport_io_hw_pa23_device = {
+    "Userport host I/O hardware",       /* device name */
+    JOYSTICK_ADAPTER_ID_NONE,           /* this is NOT a joystick adapter */
+    USERPORT_DEVICE_TYPE_IO_SIMULATION, /* device is an I/O simulation */
+    userport_io_sim_enable,             /* enable function */
+    userport_io_hw_read_pbx,            /* read pb0-pb7 function */
+    userport_io_hw_store_pbx,           /* store pb0-pb7 function */
+    userport_io_hw_read_pa2,            /* read pa2 pin function */
+    userport_io_hw_store_pa2,           /* store pa2 pin function */
+    userport_io_hw_read_pa3,            /* read pa3 pin function */
+    userport_io_hw_store_pa3,           /* store pa3 pin function */
+    0,                                  /* pc pin is NOT needed */
+    NULL,                               /* NO store sp1 pin function */
+    NULL,                               /* NO read sp1 pin function */
+    NULL,                               /* NO store sp2 pin function */
+    NULL,                               /* NO read sp2 pin function */
+    NULL,                               /* NO snapshot write function */
+    NULL                                /* NO snapshot read function */
+};
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -141,6 +222,7 @@ static int userport_io_sim_enable(int value)
         return 0;
     }
 
+#ifndef HOST_HARDWARE_IO
     if (val) {
         userport_io_sim_pbx_ddr = 0;
         userport_io_sim_pbx_out = 0;
@@ -149,11 +231,13 @@ static int userport_io_sim_enable(int value)
         userport_io_sim_pax_out = 0;
         userport_io_sim_pax_in = 0;
     }
+#endif
 
     userport_io_sim_enabled = val;
     return 0;
 }
 
+#ifndef HOST_HARDWARE_IO
 int userport_io_sim_resources_init(void)
 {
     userport_device_t *io_sim_device = NULL;
@@ -176,9 +260,72 @@ int userport_io_sim_resources_init(void)
 
     return userport_device_register(USERPORT_DEVICE_IO_SIMULATION, io_sim_device);
 }
+#else
+int userport_io_sim_resources_init(void)
+{
+    userport_device_t *io_hw_device = NULL;
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_CBM6x0:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
+            io_sim_device = &userport_io_hw_pa23_device;
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_VIC20:
+            io_sim_device = &userport_io_hw_pa2_device;
+            break;
+        default:
+            io_sim_device = &userport_io_hw_device;
+    }
+
+    return userport_device_register(USERPORT_DEVICE_IO_SIMULATION, io_hw_device);
+}
+#endif
 
 /* ---------------------------------------------------------------------*/
 
+#ifdef HOST_HARDWARE_IO
+static void userport_io_hw_store_pbx(uint8_t val)
+{
+    /* Create your own code that sets the port B lines for the
+       host hardware userport */
+}
+
+static uint8_t userport_io_hw_read_pbx(uint8_t orig)
+{
+    /* Create your own code that reads a byte from the port B
+       lines of the host hardware userport, return 'orig' if
+       there is nothing to read. */
+    return orig;
+}
+
+static void userport_io_hw_store_pa2(uint8_t val)
+{
+    /* Create your own code that sets the bit 2 of port A for the
+       host hardware userport */
+}
+
+static uint8_t userport_io_hw_read_pa2(uint8_t orig)
+{
+    /* Create your own code that reads bit 2 of port B for the
+       host hardware userport */
+}
+
+static void userport_io_hw_store_pa3(uint8_t val)
+{
+    /* Create your own code that sets the bit 3 of port A for the
+       host hardware userport */
+}
+
+static uint8_t userport_io_hw_read_pa3(uint8_t orig)
+{
+    /* Create your own code that reads bit 3 of port B for the
+       host hardware userport */
+}
+#else
 static void userport_io_sim_store_pbx(uint8_t val, int pulse)
 {
     userport_io_sim_pbx_in = val;
@@ -404,4 +551,5 @@ fail:
     snapshot_module_close(m);
     return -1;
 }
+#endif
 #endif
