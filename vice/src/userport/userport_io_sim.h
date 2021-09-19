@@ -41,4 +41,14 @@ extern uint8_t userport_io_sim_get_raw_pbx_out_lines(void);
 extern uint8_t userport_io_sim_get_pbx_in_lines(void);
 extern uint8_t userport_io_sim_get_raw_pbx_in_lines(void);
 
+extern void userport_io_sim_set_pax_ddr_lines(uint8_t val);
+extern uint8_t userport_io_sim_get_pax_ddr_lines(void);
+
+extern void userport_io_sim_set_pax_out_lines(uint8_t val);
+extern uint8_t userport_io_sim_get_pax_out_lines(void);
+extern uint8_t userport_io_sim_get_raw_pax_out_lines(void);
+
+extern uint8_t userport_io_sim_get_pax_in_lines(void);
+extern uint8_t userport_io_sim_get_raw_pax_in_lines(void);
+
 #endif
