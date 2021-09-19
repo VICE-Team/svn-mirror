@@ -940,6 +940,16 @@ void tapeport_snapshot_register(tapeport_snapshot_t *snapshot)
 {
 }
 
+int tape_seek_to_offset(tape_image_t *tape_image, unsigned long offset)
+{
+    return 0;
+}
+
+int tap_seek_to_offset(tap_t *tap, unsigned long offset)
+{
+    return 0;
+}
+
 int iec_available_busses(void)
 {
     return 0;

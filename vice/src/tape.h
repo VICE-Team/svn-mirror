@@ -109,6 +109,7 @@ extern tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image
 extern int tape_seek_start(tape_image_t *tape_image);
 extern int tape_seek_to_file(tape_image_t *tape_image, unsigned int file_number);
 extern int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind);
+extern int tape_seek_to_offset(tape_image_t *tape_image, unsigned long offset);
 extern int tape_read(tape_image_t *tape_image, uint8_t *buf, size_t size);
 
 extern int tape_internal_close_tape_image(tape_image_t *tape_image);

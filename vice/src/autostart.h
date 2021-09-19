@@ -72,4 +72,6 @@ extern int autostart_in_progress(void);
 
 extern void autostart_trigger_monitor(int enable);
 
+extern int autostart_set_initial_tap_offset(unsigned long offset);
+
 #endif
