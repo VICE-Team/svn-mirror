@@ -1,7 +1,4 @@
 # VICE keyboard mapping file
-#
-# busi_de.vkm provided by U. Guettich
-# Changed to a patch to busi_uk.vkm by AF
 
 # use business (DE) as base
 !INCLUDE gtk3_bude_sym.vkm

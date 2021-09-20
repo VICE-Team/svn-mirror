@@ -84,10 +84,8 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# Symbolic Mapping, German Layout, Plus4, X11
+# Symbolic Mapping, German Layout, Plus4, GTK
 
-#############################################################################
-#
 # Commodore 16/116/Plus-4 keyboard matrix:
 #
 #       0        1        2        3       4         5        6        7
@@ -108,8 +106,6 @@
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
 # 7 |1 !     |CLR-HOME|CTRL    |2 "     |SPACE   |CBM     |Q       |RUN-STOP|
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
-#
-#############################################################################
 
 #   C16 keyboard layout:
 #

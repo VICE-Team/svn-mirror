@@ -73,8 +73,11 @@
 
 # Positional Mapping, US Layout, Plus4, SDL
 
-#############################################################################
-#
+# note: For some reason SDL does not get keyboard events for "dead keys" at all,
+#       so a "nodeadkeys" layout must be used. CAUTION: apparently SDL generates
+#       some tables internally at startup - switching the host layout while
+#       the emulator is running produces unpredictable results (broken keycodes)
+
 # Commodore 16/116/Plus-4 keyboard matrix:
 #
 #       0        1        2        3       4         5        6        7
@@ -95,8 +98,6 @@
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
 # 7 |1 !     |CLR/HOME| CTRLs  |2 "     |SPACE   |CBM     |Q       |RUN/STOP|
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
-#
-#############################################################################
 
 #   C16 keyboard layout:
 #

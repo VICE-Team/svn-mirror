@@ -81,7 +81,7 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# Positional Mapping, US Layout, VIC20, X11
+# Positional Mapping, US Layout, VIC20, GTK
 
 # VIC20 Keyboard matrix
 #

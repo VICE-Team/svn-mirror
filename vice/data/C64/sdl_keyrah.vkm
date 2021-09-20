@@ -83,6 +83,11 @@
 
 # Positional Mapping for Individual Computer's "Keyrah", US Layout, C64, SDL
 
+# note: For some reason SDL does not get keyboard events for "dead keys" at all,
+#       so a "nodeadkeys" layout must be used. CAUTION: apparently SDL generates
+#       some tables internally at startup - switching the host layout while
+#       the emulator is running produces unpredictable results (broken keycodes)
+
 # this keyboard map applies for the "vice" setting of keyrah (switch down) and
 # maps all 64 keys, plus restore, to the respective emulated keys in the 
 # emulation. this however leaves no key free to enter the menu - one way to work
