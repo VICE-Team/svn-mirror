@@ -92,6 +92,12 @@
 # -menukey 281                    arrow up for menu (with switch in middle pos.)
 #
 
+# to use this keymap with keyrah
+# - host keyboard mapping should be "us" without accents! (nodeadkeys)
+# - the jumper in keyrah should be set to "us"
+# - switch in position "down" (emulator)
+# - set joystick port 1 to "keyset a" and port 2 to "keyset b"
+
 # C64 keyboard matrix:
 #
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
@@ -161,24 +167,33 @@
 57  4 0 8               /*            9 -> 9            */
 48  4 3 8               /*            0 -> 0            */
 
-223 5 0 8               /*     world 63 -> +            */
-180 5 3 8               /*     world 20 -> -            */
+#223 5 0 8               /*     world 63 -> +            */
+#180 5 3 8               /*     world 20 -> -            */
+45  5 0 8               /*            + -> +            */
+61  5 3 8               /*            - -> -            */
 46  5 4 8               /*            . -> .            */
-246 5 5 8               /*     world 86 -> :            */
-252 5 6 8               /*     world 92 -> @            */
+#246 5 5 8               /*     world 86 -> :            */
+#252 5 6 8               /*     world 92 -> @            */
+59  5 5 8               /*            : -> :            */
+91  5 6 8               /*            @ -> @            */
 44  5 7 8               /*            , -> ,            */
 
 277 6 0 8               /*       insert -> Pound        */
 43  6 1 8               /*            * -> *            */
-228 6 2 8               /*     world 68 -> ;            */
+93  6 1 8               /*            * -> *            */
+#228 6 2 8               /*     world 68 -> ;            */
+39  6 2 8               /*            ; -> ;            */
 278 6 3 8               /*         Home -> CLR/HOME     */
 303 6 4 4               /*  Right Shift -> Right Shift  */
-35  6 5 8               /*            # -> =            */
+#35  6 5 8               /*            # -> =            */
+92  6 5 8               /*            # -> =            */
 127 6 6 8               /*       delete -> Up Arrow     */
-45  6 7 8               /*            - -> /            */
+#45  6 7 8               /*            - -> /            */
+47  6 7 8               /*            / -> /            */
 
 49  7 0 8               /*            1 -> 1            */
 94  7 1 8               /*            ^ -> Left Arrow   */
+96  7 1 8               /*            ^ -> Left Arrow   */
 9   7 2 16392           /*          TAB -> Ctrl         */
 50  7 3 8               /*            2 -> 2            */
 32  7 4 8               /*        Space -> Space        */

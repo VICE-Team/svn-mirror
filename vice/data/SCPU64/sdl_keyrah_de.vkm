@@ -92,6 +92,12 @@
 # -menukey 60                      restore for menu (with switch in middle pos.)
 #
 
+# to use this keymap with keyrah
+# - host keyboard mapping should be "german" without accents! (nodeadkeys)
+# - the jumper in keyrah should be set to "de"
+# - switch in position "down" (emulator)
+# - set joystick port 1 to "keyset a" and port 2 to "keyset b"
+
 # C64 keyboard matrix:
 #
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
