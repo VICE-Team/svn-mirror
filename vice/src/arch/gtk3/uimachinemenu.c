@@ -668,6 +668,7 @@ static ui_menu_item_t settings_menu_head[] = {
         ACTION_TOGGLE_MOUSE_GRAB,
         (void *)ui_action_toggle_mouse_grab, NULL,
         GDK_KEY_M, VICE_MOD_MASK, false },
+#if 0
     { "Swap controlport joysticks", UI_MENU_TYPE_ITEM_CHECK,
         ACTION_TOGGLE_CONTROLPORT_SWAP,
         (void *)ui_action_toggle_controlport_swap, NULL,
@@ -676,33 +677,28 @@ static ui_menu_item_t settings_menu_head[] = {
         ACTION_TOGGLE_USERPORT_SWAP,
         (void *)ui_action_toggle_userport_swap, NULL,
         GDK_KEY_U, VICE_MOD_MASK|GDK_SHIFT_MASK, false },
-
+#endif
     UI_MENU_TERMINATOR
 };
 /* }}} */
 
-/* {{{ settings_menu_all_joy[] */
-/** \brief  'Settings' menu - all joystick items
+/* {{{ settings_menu_default_joy[] */
+/** \brief  Settings menu - all joystick items
+ *
+ * Has controlport, userport and keyset items
  *
  * Only valid for x64/x64sc/xscpu64/x128/xplus4
  */
 static ui_menu_item_t settings_menu_all_joy[] = {
-
-#if 0
     { "Swap joysticks", UI_MENU_TYPE_ITEM_ACTION,
-        "joystick-swap", (void *)(ui_swap_joysticks_callback), NULL,
+        "joystick-swap", (void *)(ui_action_toggle_controlport_swap), NULL,
         GDK_KEY_J, VICE_MOD_MASK, false },
     { "Swap userport joysticks", UI_MENU_TYPE_ITEM_ACTION,
-        "userportjoy-swap", (void *)(ui_swap_userport_joysticks_callback), NULL,
+        "userportjoy-swap", (void *)(ui_action_toggle_userport_swap), NULL,
         GDK_KEY_U, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
-    { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
-        "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
-        GDK_KEY_M, VICE_MOD_MASK, false },
-
-#endif
     UI_MENU_TERMINATOR
 };
 /* }}} */
@@ -713,17 +709,12 @@ static ui_menu_item_t settings_menu_all_joy[] = {
  * Only valid for x64dtv/xcbm5x0
  */
 static ui_menu_item_t settings_menu_cbm5x0_joy[] = {
-#if 0
     { "Swap joysticks", UI_MENU_TYPE_ITEM_ACTION,
-        "joystick-swap", (void *)(ui_swap_joysticks_callback), NULL,
+        "joystick-swap", (void *)(ui_action_toggle_controlport_swap), NULL,
         GDK_KEY_J, VICE_MOD_MASK, false },
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
-    { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
-        "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
-        GDK_KEY_M, VICE_MOD_MASK, false },
-#endif
     UI_MENU_TERMINATOR
 };
 /* }}} */
@@ -734,18 +725,12 @@ static ui_menu_item_t settings_menu_cbm5x0_joy[] = {
  * Only valid for xvic/xpet/xcbm2
  */
 static ui_menu_item_t settings_menu_userport_joy[] = {
-#if 0
     { "Swap userport joysticks", UI_MENU_TYPE_ITEM_ACTION,
-        "userportjoy-swap", (void *)(ui_swap_userport_joysticks_callback), NULL,
+        "userportjoy-swap", (void *)(ui_action_toggle_userport_swap), NULL,
         GDK_KEY_U, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
-    { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
-        "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
-        GDK_KEY_M, VICE_MOD_MASK, false },
-
-#endif
     UI_MENU_TERMINATOR
 };
 /* }}} */
@@ -1033,7 +1018,7 @@ GtkWidget *ui_machine_menu_bar_create(void)
         case VICE_MACHINE_PLUS4:
             /* add tape section */
             file_menu_tape_section = file_menu_tape;
-            /* fall through */
+            /* add both swap-joy and userport-joy */
         case VICE_MACHINE_SCPU64:
             /* add both swap-joy and swap-userport-joy */
             settings_menu_joy_section = settings_menu_all_joy;
