@@ -55,6 +55,7 @@
 # http://www.6502.org/users/andre/petindex/keyboards.html
 
 numbersign      0 1 16
+section         0 1 16
 apostrophe      1 2 16
 semicolon       6 4 16
 slash           3 7 16
@@ -63,3 +64,4 @@ degree          2 5 8
 bracketright    8 2 512
 bracketleft     9 1 512
 
+dead_circumflex 2 5 16

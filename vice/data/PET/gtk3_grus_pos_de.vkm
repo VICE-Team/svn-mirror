@@ -53,12 +53,13 @@
 # http://www.6502.org/users/andre/petindex/keyboards.html
 
 #
-# Changes to PET graphics mapping
+# Changes to US mapping
 #
 
 # AT
-dead_circumflex 8 1 8
-degree 8 1 8
+dead_circumflex     8 1 8
+degree              8 1 8
+asciicircum         8 1 8
 # !
 exclam 0 0 8
 1 0 0 8
@@ -75,8 +76,7 @@ dollar 1 1 8
 # %
 percent 0 2 8
 5 0 2 8
-# '
-asciicircum 1 2 8
+
 6 1 2 8
 # &
 slash 0 3 8
@@ -93,24 +93,27 @@ equal 1 4 8
 0 1 4 8
 # <-  TODO
 # [
-ssharp 9 1 8
-question 9 1 8
+ssharp      9 1 8
+question    9 1 8
 # ]
-dead_acute 8 2 0
-dead_grave 8 2 0
-grave 8 2 0
-apostrophe 8 2 0
+acute       8 2 0
+grave       8 2 0
+dead_acute  8 2 0
+dead_grave  8 2 0
+grave       8 2 0
 #
 # RVS/OFF
-Tab 4 0 8
+Tab         9 0 8
 # a-z stay the same
-# ^ TODO
+# ^
+numbersign  2 5 0
+apostrophe  2 5 8
 # <
-udiaeresis 9 3 8
-Udiaeresis 9 3 8
+udiaeresis  9 3 8
+Udiaeresis  9 3 8
 # >
-plus 9 3 8
-asterisk 9 3 8
+plus        8 4 8
+asterisk    8 4 8
 #
 y 6 0 0
 Y 6 0 1
