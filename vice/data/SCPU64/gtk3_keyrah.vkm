@@ -83,6 +83,12 @@
 
 # Positional Mapping for Individual Computer's "Keyrah", US Layout, C64, X11
 
+# to use this keymap with keyrah
+# - host keyboard mapping should be "us"
+# - the jumper in keyrah should be set to "us"
+# - switch in position "down" (emulator)
+# - set joystick port 1 to "keyset a" and port 2 to "keyset b"
+
 # C64 keyboard matrix:
 #
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
@@ -168,6 +174,7 @@ Caps_Lock        1 7 64
 percent          2 0 8
 # shift+6
 asciicircum      2 3 8
+dead_circumflex  2 3 8
 
 #####################
 # |Bit 3| 7 ' |  Y  |  G  | 8 ( |  B  |  H  |  U  |  V  |
@@ -218,6 +225,8 @@ braceright       6 1 1
 # semi-colon
 apostrophe       6 2 8
 quotedbl         6 2 1
+dead_diaeresis   6 2 8
+dead_acute       6 2 16
 # clr/home
 Home             6 3 8
 # right shift
@@ -237,8 +246,10 @@ question         6 7 1
 # shift+1
 exclam           7 0 8
 # left arrow
-grave            7 1 8
+grave            7 1 8 
 asciitilde       7 1 1
+dead_grave       7 1 8 
+dead_perispomeni 7 1 1
 # ctrl
 Tab              7 2 16392
 ISO_Left_Tab     7 2 16392

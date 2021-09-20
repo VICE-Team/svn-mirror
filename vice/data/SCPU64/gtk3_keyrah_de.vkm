@@ -81,7 +81,13 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# Positional Mapping for Individual Computer's "Keyrah", German Layout, C64, X11
+# Positional Mapping for Individual Computer's "Keyrah", German Layout, C64, GTK
+
+# to use this keymap with keyrah
+# - host keyboard mapping should be "german"
+# - the jumper in keyrah should be set to "de"
+# - switch in position "down" (emulator)
+# - set joystick port 1 to "keyset a" and port 2 to "keyset b"
 
 # C64 keyboard matrix:
 #
@@ -194,6 +200,8 @@ question         5 0 8
 # minus
 acute            5 3 8
 grave            5 3 8
+dead_acute       5 3 8
+dead_grave       5 3 8
 # dot
 period           5 4 8
 colon            5 4 1
@@ -239,6 +247,7 @@ exclam           7 0 8
 # left arrow
 asciicircum      7 1 8
 degree           7 1 8
+dead_circumflex  7 1 8
 # ctrl
 Tab              7 2 16392
 ISO_Left_Tab     7 2 16392
