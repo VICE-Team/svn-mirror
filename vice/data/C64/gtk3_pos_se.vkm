@@ -81,7 +81,7 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# Positional Mapping, Swedish Layout, C64, X11
+# Positional Mapping, Swedish Layout, C64, GTK
 
 # C64 keyboard matrix:
 #

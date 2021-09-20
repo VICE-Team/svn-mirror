@@ -81,7 +81,7 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# Symbolic Mapping, IT Layout, VIC20, X11
+# Symbolic Mapping, IT Layout, VIC20, GTK
 
 # VIC20 Keyboard matrix
 #
@@ -310,7 +310,7 @@ dead_diaeresis  0 7 1  # "
 #-----------------------------------------------------------------------------------------------------------
 
 #
-# Symbolic Mapping, IT Layout, VIC20, X11 (Custom keys)
+# Symbolic Mapping, IT Layout, VIC20, GTK (Custom keys)
 #
 
 

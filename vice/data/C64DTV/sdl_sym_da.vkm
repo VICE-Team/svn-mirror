@@ -83,6 +83,11 @@
 
 # Symbolic Mapping, Danish Layout, C64, SDL, pc(105)-da keyboard
 
+# note: For some reason SDL does not get keyboard events for "dead keys" at all,
+#       so a "nodeadkeys" layout must be used. CAUTION: apparently SDL generates
+#       some tables internally at startup - switching the host layout while
+#       the emulator is running produces unpredictable results (broken keycodes)
+
 # C64 keyboard matrix:
 #
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
