@@ -1018,7 +1018,7 @@ GtkWidget *ui_machine_menu_bar_create(void)
         case VICE_MACHINE_PLUS4:
             /* add tape section */
             file_menu_tape_section = file_menu_tape;
-            /* add both swap-joy and userport-joy */
+            /* fall through */
         case VICE_MACHINE_SCPU64:
             /* add both swap-joy and swap-userport-joy */
             settings_menu_joy_section = settings_menu_all_joy;
