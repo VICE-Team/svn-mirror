@@ -1506,7 +1506,7 @@ int tap_seek_to_offset(tap_t *tap, unsigned long offset)
 {
     if (tap && tap->fd) {
         fseek(tap->fd, offset, SEEK_SET);
-        tap->current_file_seek_position = offset;
+        tap->current_file_seek_position = (int)offset;
         return 0;
     }
     return -1;
