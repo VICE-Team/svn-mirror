@@ -30,7 +30,7 @@
 # 32     another definition for this keysym/scancode follows
 # 64     key is shift-lock on emulated machine
 # 128    shift modifier required on host
-# 256    key is used for an alternative keyboard mapping
+# 256    key is used for an alternative keyboard mapping e.g. C64 mode in x128
 # 512    alt-r (alt-gr) modifier required on host
 # 1024   ctrl modifier required on host
 # 2048   key is combined with cbm for this keysym/scancode
@@ -44,7 +44,7 @@
 # - add 'key is (left) cbm/ctrl on emulated machine' flags to
 #   all keys that map to the cbm or ctrl key respectively.
 #
-# after that the virtual cbm/ctrl flags and requiring host modifiers
+# after that the virtual cbm/ctrl flags requiring host modifiers
 # should work as expected. keep an eye on the error messages.
 #
 # Negative row values:
@@ -54,7 +54,7 @@
 # 'keysym -3 1' second RESTORE key
 # 'keysym -4 0' 40/80 column key
 # 'keysym -4 1' CAPS (ASCII/DIN) key
-# 'keysym -5 n' joyport keypad, key n
+# 'keysym -5 n' joyport keypad, key n - NOTE NOT SUPPORTED ON X128
 #
 # Joystick direction values:
 # 0      Fire
@@ -114,6 +114,16 @@
 # +------+-----+-----+-----+-----+-----+-----+-----+-----+
 # |Bit 10| ALT | KP 0| KP .|A.UP |A.DWN|A.LFT|A.RGT|NOSCR|
 # +------+-----+-----+-----+-----+-----+-----+-----+-----+
+
+# C128 Keyboard layout:
+#
+#   ESC TAB ALT CAPS       HELP L/F 40/80 NOSCRL     up down left right  F1/2 F3/4 F5/6 F7/8
+#
+#   arrow 1!  2"  3#  4$  5%  6&  7'  8(  9)  0   +   -   pound clr del     7   8   9   +
+#    ctrl   q   w   e   r   t   y   u   i   o   p   @   *   ^   restore     4   5   6   -
+#   r/s SL    a   s   d   f   g   h   j   k   l   :[  ;]  =   return        1   2   3   enter
+#   CBM LSHFT   z   x   c   v   b   n   m   ,<  .>  /?  RSHFT   u/d l/r     0       .
+#                               SPACE
 
 !CLEAR
 !LSHIFT 1 7
