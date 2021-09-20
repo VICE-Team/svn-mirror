@@ -59,8 +59,6 @@
 # 'keysym -4 1' CAPS (ASCII/DIN) key
 #
 
-#############################################################################
-#
 # Commodore cbm2 keyboard matrix:
 #
 # references:
@@ -132,7 +130,7 @@
 
 F9              0 0 8         /*           F9 -> F9           */
 parenleft       0 1 1         /*            ( -> (            */
-semicolon       0 4 0         /*            ; -> ;            */
+semicolon       0 4 16        /*            ; -> ;            */
 colon           0 4 1         /*            : -> :            */
 slash           0 5 0         /*            / -> /            */
 question        0 5 1         /*            ? -> ?            */
@@ -143,7 +141,7 @@ F10             1 0 8         /*          F10 -> F10          */
 parenright      1 1 1         /*            ) -> )            */
 minus           1 2 8         /*        Minus -> Minus        */
 bracketleft     1 4 8         /*            [ -> [            */
-apostrophe      1 5 0         /*            ' -> '            */
+apostrophe      1 5 16        /*            ' -> '            */
 quotedbl        1 5 8         /*            " -> "            */
 
 # 2 | c.down |  =  +  |<- pound|   ]    | return |  pi    |
@@ -225,6 +223,7 @@ at              10 1 1        /*            @ -> @            */
 
 F4              11 0 8        /*           F4 -> F4           */
 numbersign      11 1 1        /*            # -> #            */
+section         11 1 1        /*      shift+3 -> #            */
 
 #12 |   F5   |  4  $  |   R    |   T    |   G    |   B    |
 
@@ -236,6 +235,8 @@ dollar          12 1 1        /*            $ -> $            */
 F6              13 0 8        /*           F6 -> F6           */
 percent         13 1 1        /*            % -> %            */
 asciicircum     13 2 1        /*            ^ -> ^            */
+degree          13 2 8        /*            ° -> ^ + shift    */
+dead_circumflex 13 2 1        /*            ° -> ^ + shift    */
 
 #14 |   F7   |  7  &  |   U    |   J    |   M    | space  |
 
@@ -251,9 +252,6 @@ comma           15 4 0        /*            , -> ,            */
 less            15 4 1        /*            < -> <            */
 period          15 5 0        /*            . -> .            */
 greater         15 5 8        /*            > -> >            */
-
-!UNDEF Insert
-!UNDEF End
 
 1  9 1 0        /*            1 -> 1            */
 2 10 1 0        /*            2 -> 2            */

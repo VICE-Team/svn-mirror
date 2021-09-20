@@ -191,6 +191,7 @@ parenleft      3 3 8
 parenright      4 0 8
 asciicircum     4 3 1
 dead_circumflex 4 3 1
+degree          4 3 8
 
 # 5 |DOWN    |P       |L       |UP      |. >     |: [     |-       |, <     |
 Down           5 0 8
