@@ -100,10 +100,22 @@
 
 #   C16 keyboard layout:
 #
-#   ESC 1!  2"  3#  4$  5%  6&  7'  8(  9)  0^  left right up down del      f1/f2
-#   CTRL  q   w   e   r   t   y   u   i   o   p   @   +   -   clr           f3/f4
-#   r/s SL  a   s   d   f   g   h   j   k   l   :[  ;]  *   return          f5/f6
+#   ESC 1!  2"  3#  4$  5%  6&  7'  8(  9)  0^  left right up down del      f1/f4
+#   CTRL  q   w   e   r   t   y   u   i   o   p   @   +   -   clr           f2/f5
+#   r/s SL  a   s   d   f   g   h   j   k   l   :[  ;]  *   return          f3/f6
 #   CBM LS    z   x   c   v   b   n   m   ,<  .>  /?  RS  pound =/pi        help/f7
+#                           space
+#
+#   Plus4 keyboard layout:
+#
+#   F1/4 F2/5 F3/6 Help/F7
+#
+#   ESC 1!  2"  3#  4$  5%  6&  7'  8(  9)  0^  +   -   =/pi clr del
+#   CTRL  q   w   e   r   t   y   u   i   o   p   @   pound * ctrl
+#   r/s SL  a   s   d   f   g   h   j   k   l   :[  ;]  return
+#   CBM LS    z   x   c   v   b   n   m   ,<  .>  /?        up
+#                           space                        left right
+#                                                           down
 
 !CLEAR
 !LSHIFT 1 7
