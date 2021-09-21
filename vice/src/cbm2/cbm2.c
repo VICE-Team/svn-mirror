@@ -117,7 +117,6 @@
 
 #ifdef IO_SIMULATION
 #include "userport_io_sim.h"
-#include "joyport_io_sim.h"
 #endif
 
 /** \brief  Delay in seconds before pasting -keybuf argument into the buffer
@@ -483,10 +482,6 @@ int machine_resources_init(void)
 #ifdef IO_SIMULATION
     if (userport_io_sim_resources_init() < 0) {
         init_resource_fail("userport I/O simulation");
-        return -1;
-    }
-    if (joyport_io_sim_resources_init() < 0) {
-        init_resource_fail("joyport I/O simulation");
         return -1;
     }
 #endif
