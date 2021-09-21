@@ -347,7 +347,9 @@ int resources_register_string(const resource_string_t *r)
         dp->hash_next = hashTable[hashkey];
         hashTable[hashkey] = (int)(dp - resources);
 
-        num_resources++, sp++, dp++;
+        num_resources++;
+        sp++;
+        dp++;
     }
 
     return 0;
