@@ -1708,7 +1708,7 @@ int keyboard_keymap_dump(const char *filename)
             "# File format:\n"
             "# - comment lines start with '#'\n"
             "# - keyword lines start with '!keyword'\n"
-            "# - normal line have 'keysym/scancode row column shiftflag'\n"
+            "# - normal lines have 'keysym/scancode row column shiftflag'\n"
             "#\n"
             "# Keywords and their lines are:\n"
             "# '!CLEAR'               clear whole table\n"
