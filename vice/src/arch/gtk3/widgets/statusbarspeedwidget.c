@@ -40,6 +40,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "ui.h"
+#include "vsync.h"
 #include "vsyncapi.h"
 
 #include "statusbarspeedwidget.h"
@@ -282,7 +283,6 @@ GtkWidget *speed_menu_popup_create(void)
     GtkWidget *submenu;
     GtkWidget *item;
     GtkWidget *child;
-    int warp;
 
     menu = gtk_menu_new();
 
@@ -324,10 +324,7 @@ GtkWidget *speed_menu_popup_create(void)
     item = gtk_check_menu_item_new_with_label(NULL);
     child = gtk_bin_get_child(GTK_BIN(item));
     gtk_label_set_markup(GTK_LABEL(child), "Warp mode");
-    if (resources_get_int("WarpMode", &warp) < 0) {
-        warp = 0;
-    }
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)warp);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)vsync_get_warp_mode());
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "toggled", G_CALLBACK(on_warp_toggled), NULL);
 

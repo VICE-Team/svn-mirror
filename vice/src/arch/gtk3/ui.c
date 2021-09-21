@@ -2165,8 +2165,9 @@ gboolean ui_action_toggle_pause(void)
  */
 gboolean ui_action_toggle_warp(void)
 {
-    ui_toggle_resource(NULL, (gpointer)"WarpMode");
-    ui_set_gtk_check_menu_item_blocked_by_resource("toggle-warp-mode", "WarpMode");
+    vsync_set_warp_mode(!vsync_get_warp_mode());
+    ui_set_gtk_check_menu_item_blocked_by_name("toggle-warp-mode",
+                                               (gboolean)vsync_get_warp_mode());
 
     return TRUE;
 }

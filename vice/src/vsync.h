@@ -1,5 +1,5 @@
 /*
- * vsyn.h - Common vsync API.
+ * vsync.h - Common vsync API.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -53,5 +53,7 @@ extern void vsync_do_end_of_line(void);
 extern bool vsync_should_skip_frame(struct video_canvas_s *canvas);
 extern void vsync_do_vsync(struct video_canvas_s *c);
 extern void vsync_on_vsync_do(vsync_callback_func_t callback_func, void *callback_param);
+extern void vsync_set_warp_mode(int val);
+extern int vsync_get_warp_mode(void);
 
 #endif
