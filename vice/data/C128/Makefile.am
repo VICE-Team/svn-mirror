@@ -55,7 +55,7 @@ gtk3_keymaps = \
 sdl_keymaps = \
 	sdl_hotkeys.vkm \
 	sdl_sym.vkm \
-    sdl_sym_de.vkm \
+	sdl_sym_de.vkm \
 	sdl_pos.vkm \
 	sdl_v128.vkm
 
