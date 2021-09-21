@@ -564,6 +564,29 @@ static int joyport_valid_devices_compare_names(const void* a, const void* b)
     return strcmp(arg1->name, arg2->name);
 }
 
+static int joyport_check_valid_devices(int port, int index)
+{
+    if (!check_valid_lightpen(port, index)) {
+        return 0;
+    }
+    if (!check_valid_pot(port, index)) {
+        return 0;
+    }
+    if (!check_valid_adapter(port, index)) {
+        return 0;
+    }
+    if (!check_valid_snes_adapter(port, index)) {
+        return 0;
+    }
+    if (!check_valid_output_bits(port, index)) {
+        return 0;
+    }
+    if (!check_valid_dongle(port, index)) {
+        return 0;
+    }
+    return 1;
+}
+
 joyport_desc_t *joyport_get_valid_devices(int port, int sort)
 {
     joyport_desc_t *retval = NULL;
@@ -573,7 +596,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
 
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i) && check_valid_output_bits(port, i) && check_valid_dongle(port, i)) {
+            if (joyport_check_valid_devices(port, i)) {
                 ++valid;
             }
         }
@@ -582,7 +605,7 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
     retval = lib_malloc(((size_t)valid + 1) * sizeof(joyport_desc_t));
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
-            if (check_valid_lightpen(port, i) && check_valid_pot(port, i) && check_valid_adapter(port, i) && check_valid_snes_adapter(port, i) && check_valid_output_bits(port, i) && check_valid_dongle(port, i)) {
+            if (joyport_check_valid_devices(port, i)) {
                 retval[j].name = joyport_device[i].name;
                 retval[j].id = i;
                 retval[j].device_type = joyport_device[i].device_type;
