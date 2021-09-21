@@ -44,9 +44,17 @@
    joyport system.
 */
 
+/* #define HOST_HARDWARE_IO */
+
+/* Enable above define to be able to use host hardware I/O.
+   In this mode you will need to write your own code to access
+   the host hardware.
+*/
+
 #ifdef IO_SIMULATION
 static int joyport_io_sim_enabled[JOYPORT_MAX_PORTS] = {0};
 
+#ifndef HOST_HARDWARE_IO
 static uint8_t joyport_io_sim_data_out[JOYPORT_MAX_PORTS] = {0};
 static uint8_t joyport_io_sim_data_in[JOYPORT_MAX_PORTS] = {0};
 
@@ -55,10 +63,15 @@ static uint8_t joyport_io_sim_data_ddr[JOYPORT_MAX_PORTS] = {0};
 
 static uint8_t joyport_io_sim_potx[JOYPORT_MAX_PORTS] = {0};
 static uint8_t joyport_io_sim_poty[JOYPORT_MAX_PORTS] = {0};
+#endif
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef HOST_HARDWARE_IO
 static joyport_t joyport_io_sim_device;
+#else
+static joyport_t joyport_io_hw_device;
+#endif
 
 static int joyport_io_sim_enable(int port, int value)
 {
@@ -68,6 +81,7 @@ static int joyport_io_sim_enable(int port, int value)
         return 0;
     }
 
+#ifndef HOST_HARDWARE_IO
     if (val) {
         joyport_io_sim_data_out[port] = 0;
         joyport_io_sim_data_in[port] = 0;
@@ -75,12 +89,45 @@ static int joyport_io_sim_enable(int port, int value)
         joyport_io_sim_potx[port] = 0;
         joyport_io_sim_poty[port] = 0;
     }
+#endif
 
     joyport_io_sim_enabled[port] = val;
 
     return 0;
 }
 
+#ifdef HOST_HARDWARE_IO
+static uint8_t joyport_io_hw_read(int p)
+{
+    /* Create your own code that reads a byte from joystick port
+       'p' of a host hardware joystick port. */
+    return 0xff;
+}
+
+static void joyport_io_hw_store(int p, uint8_t val)
+{
+    /* Create your own code that sets the joystick port 'p' lines
+       of a host hardware joystick port */
+}
+
+static uint8_t joyport_io_hw_read_potx(int p)
+{
+    /* Create your own code that reads a byte from joystick port
+       'p' pot-x line of a host hardware joystick port, handling
+       of the sampling will have to be done in hardware or host
+       level software. */
+    return 0xff;
+}
+
+static uint8_t joyport_io_hw_read_poty(int p)
+{
+    /* Create your own code that reads a byte from joystick port
+       'p' pot-y line of a host hardware joystick port, handling
+       of the sampling will have to be done in hardware or host
+       level software. */
+    return 0xff;
+}
+#else
 static uint8_t joyport_io_sim_read(int port)
 {
     return joyport_io_sim_data_out[port] & joyport_io_sim_data_ddr[port];
@@ -100,12 +147,35 @@ static uint8_t joyport_io_sim_read_poty(int port)
 {
     return joyport_io_sim_poty[port];
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef HOST_HARDWARE_IO
 static int joyport_io_sim_write_snapshot(struct snapshot_s *s, int p);
 static int joyport_io_sim_read_snapshot(struct snapshot_s *s, int p);
+#endif
 
+#ifdef HOST_HARDWARE_IO
+static joyport_t joyport_io_hw_device = {
+    "Joyport host I/O hardware",  /* name of the device */
+    JOYPORT_RES_ID_NONE,          /* device can be used in multiple ports at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,      /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,         /* device does NOT use the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,     /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_IO_SIMULATION, /* device is a SNES adapter */
+    0,                            /* output bits are programmable */
+    joyport_io_sim_enable,        /* device enable function */
+    joyport_io_hw_read,           /* digital line read function */
+    joyport_io_hw_store,          /* digital line store function */
+    joyport_io_hw_read_potx,      /* pot-x read function */
+    joyport_io_hw_read_poty,      /* pot-y read function */
+    NULL,                         /* NO device write snapshot function */
+    NULL,                         /* NO device read snapshot function */
+    NULL,                         /* NO device hook function */
+    0                             /* device hook function mask */
+};
+#else
 static joyport_t joyport_io_sim_device = {
     "Joyport I/O simulation",      /* name of the device */
     JOYPORT_RES_ID_NONE,           /* device can be used in multiple ports at the same time */
@@ -124,16 +194,22 @@ static joyport_t joyport_io_sim_device = {
     NULL,                          /* NO device hook function */
     0                              /* device hook function mask */
 };
+#endif
 
 /* ------------------------------------------------------------------------- */
 
 int joyport_io_sim_resources_init(void)
 {
+#ifdef HOST_HARDWARE_IO
+    return joyport_device_register(JOYPORT_ID_IO_SIMULATION, &joyport_io_hw_device);
+#else
     return joyport_device_register(JOYPORT_ID_IO_SIMULATION, &joyport_io_sim_device);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef HOST_HARDWARE_IO
 void joyport_io_sim_set_ddr_lines(uint8_t val, int port)
 {
     joyport_io_sim_data_ddr[port] = val & 0x1f;
@@ -260,4 +336,5 @@ fail:
     snapshot_module_close(m);
     return -1;
 }
+#endif
 #endif
