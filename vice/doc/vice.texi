@@ -944,7 +944,9 @@ layout) try switching to a "no deadkeys" layout in your OS. In any case, please
 also report these problems so we can fix them!
 
 To find out the keycodes to use, incase you want to edit the keymaps yourself,
-you can enable showing the keycodes in the status bar in the settings.
+you can enable showing the keycodes in the status bar in the settings. For more
+information on making your own keymaps (or helping to fix/update the existing
+ones), @pxref{Keymap files}.
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
 @section The joystick emulation
@@ -1950,66 +1952,74 @@ Where:
 
 @item
 @code{KEYSYM} is a string (GTK) or number (SDL) identifying the keysym: you can 
-use the "show keycodes in statusbar" feature to see what keysym
-is bound to any key;
+use the "show keycodes in statusbar" feature to see what keysym is bound to any key.
 
 @item
-@code{ROW} and @code{COLUMN} identify the key on the emulated keyboard;
+@code{ROW} and @code{COLUMN} refer to the row and column of the emulated key on the
+emulated keyboard - all existing keymaps have the respective keyboard matrix in
+them in comments, have a look.
 
 @item
-@code{SHIFTFLAG} can have one of the following values:
+@code{SHIFTFLAG} can have one of the following values. Flags can be combined by
+ simply ORing (or adding) them together:
 
-@itemize @bullet
-
-@item
-@code{0}: the key is never shifted;
-
-@item
-@code{1}: the key is shifted;
-
-@item
-@code{2}: the key is the left shift;
-
-@item
-@code{4}: the key is the right shift;
-
-@item
-@code{8}: the key can be (optionally) shifted by the user.
-
-@item
-@code{16}: deshift key for this keysym/scancode
-
-@item
-@code{32}: another definition for this keysym/scancode follows
-
-@item
-@code{64}: key is shift-lock on emulated machine
-
-@item
-@code{128}: shift modifier required on host
-
-@item
-@code{256}: key is used for an alternative keyboard mapping
-
-@item
-@code{512}: alt-r (alt-gr) modifier required on host
-
-@item
-@code{1024}: ctrl modifier required on host
-
-@item
-@code{2048}: key is combined with cbm for this keysym/scancode
-
-@item
-@code{4096}: key is combined with ctrl for this keysym/scancode
-
-@item
-@code{8192}: key is (left) cbm on emulated machine
-
-@item
-@code{16384}: key is (left) ctrl on emulated machine
-
-@end itemize
+@multitable @columnfractions .1 .1 .8
+@item @b{Value}
+@tab @b{Hex}
+@tab @b{Description}
+@item @code{0}
+@tab @code{0x0000}
+@tab the key is never shifted
+@item @code{1}
+@tab @code{0x0001}
+@tab the key is shifted on the emulated keyboard, virtual shift will be used when
+ it is not shifted on the host keyboard
+@item @code{2}
+@tab @code{0x0002}
+@tab the key is the left shift key
+@item @code{4}
+@tab @code{0x0004}
+@tab the key is the right shift key. Use only this flag for emulated keyboards
+that have only one shift key.
+@item @code{8}
+@tab @code{0x0008}
+@tab the key can be (optionally) shifted by the user.
+@item @code{16}
+@tab @code{0x0010}
+@tab deshift key for this keysym/scancode. That means when the key is pressed with
+ shift on the host keyboard, shift will @b{not} be used on the emulated keyboard.
+@item @code{32}
+@tab @code{0x0020}
+@tab another definition for this keysym/scancode follows later in the file
+@item @code{64}
+@tab @code{0x0040}
+@tab key is shift-lock on the emulated machine. Usually you'd use this for the caps
+ lock key on the host keyboard.
+@item @code{128}
+@tab @code{0x0080}
+@tab shift modifier required on host
+@item @code{256}
+@tab @code{0x0100}
+@tab key is used for an alternative keyboard mapping, e.g. C64 mode in x128
+@item @code{512}
+@tab @code{0x0200}
+@tab alt-r (alt-gr) modifier required on host
+@item @code{1024}
+@tab @code{0x0400}
+@tab ctrl modifier required on host
+@item @code{2048}
+@tab @code{0x0800}
+@tab key is combined with cbm for this keysym/scancode
+@item @code{4096}
+@tab @code{0x1000}
+@tab key is combined with ctrl for this keysym/scancode
+@item @code{8192}
+@tab @code{0x2000}
+@tab key is (left) cbm on emulated machine
+@item @code{16384}
+@tab @code{0x4000}
+@tab key is (left) ctrl on emulated machine
+@end multitable
 
 @end itemize
 
@@ -2027,7 +2037,8 @@ where @code{0} and @code{4} identify the key (row 0, column 4 on the
 keyboard matrix), and @code{1} specifies that every time the user presses
 @key{F2} the shift key on the C64 keyboard must be pressed.
 
-There are also some special commands you can put into the keyboard file;
+There are also some special commands you can put into the keyboard file, these
+ usually appear at the beginning of the file, before any actual keycode definitions;
 they are recognized because they start with an exclamation mark:
 
 @itemize @bullet
@@ -2044,7 +2055,9 @@ copy the while file, but just add/modify a few keys).
 
 @item
 @code{!UNDEF} keysym'        remove keysym from table
+@end itemize
 
+@itemize @bullet
 @item
 @code{!LSHIFT}, @code{!RSHIFT}, followed by a row and a column
 value, specify where the left and right shift keys are located on the
@@ -2056,20 +2069,30 @@ emulated keyboard; for example, C64 default keymaps will specify
 @end example
 
 @item
+@code{!VSHIFT}, followed by a shiftkey (RSHIFT or LSHIFT), specify what key will
+be used as a virtual shift key when the shift flag is set.
+
+@item
+@code{!SHIFTL}, followed by a shiftkey (RSHIFT or LSHIFT), specify what key will
+be used as a virtual shift-lock key; for example, C64 default keymaps will specify
+@example
+!VSHIFT LSHIFT
+!SHIFTL LSHIFT
+@end example
+@end itemize
+
+
+For emulated keyboards that have only one shift key, set both @code{!LSHIFT} and @code{!RSHIFT}
+ to the same row/col and use RSHIFT for @code{!VSHIFT} and @code{!SHIFTL}.
+
+@itemize @bullet
+@item
 @code{!LCTRL}, followed by a row and a column value, specifiy where the left 
 control key is located on the emulated keyboard.
 
 @item
 @code{!LCBM}, followed by a row and a column value, specifiy where the left 
 CBM key is located on the emulated keyboard.
-
-@item
-@code{!VSHIFT}, followed by a shiftkey (RSHIFT or LSHIFT), specify what key will
-be used as a virtual shift key when the shift flag is set.
-
-@item
-@code{!SHIFTL}, followed by a shiftkey (RSHIFT or LSHIFT), specify what key will
-be used as a virtual shift-lock key.
 
 @item
 @code{!VCTRL}, followed by a ctrlkey (LCTRL), specify what key will
@@ -2086,7 +2109,7 @@ ignored.  This is useful for adding comments within the keymap file.
 
 VICE keymap files have the @file{.vkm} default extension, and every
 emulator comes with a default positional mapping and a default symbolic
-mapping.
+mapping, @pxref{Keyboard emulation}.
 
 
 @node Palette files, Romset files, Keymap files, System files
@@ -2939,7 +2962,8 @@ String specifying the name of the user keymap file for positional mapping
 @vindex KeyboardMapping
 @item KeyboardMapping
 Integer specifying the keyboard layout of the host.
-(0: American 1: British 2: German 3: Danish 4: Norwegian 5: Finnish 6: Italian).
+(0: American 1: British 2: Danish 3: Dutch 4: Finnish 5: French 6: German 7: Italian
+ 8: Norwegian 9: Spanish 10: Swedish 11: Swiss).
 
 @vindex KeyboardType
 @item KeyboardType
