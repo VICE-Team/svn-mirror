@@ -80,6 +80,7 @@
 #include "vdrive.h"
 #include "vdrive-bam.h"
 #include "vice-event.h"
+#include "vsync.h"
 
 #ifdef DEBUG_AUTOSTART
 #define DBG(_x_)        log_debug _x_
@@ -597,18 +598,7 @@ static int get_iec_device_state(int unit)
 static void set_warp_mode(int on)
 {
     log_message(autostart_log, "Turning Warp mode %s.", on ? "on" : "off");
-    resources_set_int("WarpMode", on);
-}
-
-static int get_warp_state(void)
-{
-    int value;
-
-    if (resources_get_int("WarpMode", &value) < 0) {
-        return 0;
-    }
-
-    return value;
+    vsync_set_warp_mode(on);
 }
 
 static int get_device_traps_state(int unit)
@@ -632,7 +622,7 @@ static void enable_warp_if_requested(void)
 {
     /* enable warp mode? */
     if (AutostartWarp) {
-        orig_warp_mode = get_warp_state();
+        orig_warp_mode = vsync_get_warp_mode();
         if (!orig_warp_mode) {
             set_warp_mode(1);
         }
@@ -694,7 +684,7 @@ static void init_drive_emulation_state(int unit, int drive)
 {
     DBG(("init_drive_emulation_state(unit: %d drive: %d) tde:%d iecdevice:%d traps:%d warp:%d",
         unit, drive, get_true_drive_emulation_state(unit), get_iec_device_state(unit),
-        get_device_traps_state(unit), get_warp_state()
+        get_device_traps_state(unit), vsync_get_warp_mode()
     ));
     if (orig_drive_true_emulation_state == -1) {
         orig_drive_true_emulation_state = get_true_drive_emulation_state(unit);
@@ -706,7 +696,7 @@ static void init_drive_emulation_state(int unit, int drive)
         orig_iec_device_state = get_iec_device_state(unit);
     }
     if (orig_warp_mode == -1) {
-        orig_warp_mode = get_warp_state();
+        orig_warp_mode = vsync_get_warp_mode();
     }
     if (orig_FileSystemDevice8 == -1) {
         resources_get_int_sprintf("FileSystemDevice%d", &orig_FileSystemDevice8, unit);
@@ -747,7 +737,7 @@ static void restore_drive_emulation_state(int unit, int drive)
     }
     if (orig_warp_mode != -1) {
         /* set warp to original state */
-        if (get_warp_state() != orig_warp_mode) {
+        if (vsync_get_warp_mode() != orig_warp_mode) {
             set_warp_mode(orig_warp_mode);
         }
     }
@@ -779,7 +769,7 @@ static void restore_drive_emulation_state(int unit, int drive)
     autostart_type = -1;
 
     DBG(("restore_drive_emulation_state(unit: %d drive: %d) tde:%d iecdevice:%d traps:%d warp:%d", unit, drive,
-        get_true_drive_emulation_state(unit), get_iec_device_state(unit), get_device_traps_state(unit), get_warp_state()
+        get_true_drive_emulation_state(unit), get_iec_device_state(unit), get_device_traps_state(unit), vsync_get_warp_mode()
     ));
 
 }

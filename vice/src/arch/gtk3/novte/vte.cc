@@ -6960,7 +6960,9 @@ void VteTerminalPrivate::widget_unmap()
 static inline void swap (guint *a, guint *b)
 {
     guint tmp;
-    tmp = *a, *a = *b, *b = tmp;
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
 }
 
 /* FIXMEchpe probably @attr should be passed by ref */
