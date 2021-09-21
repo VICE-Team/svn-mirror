@@ -1,6 +1,6 @@
 # VICE keyboard mapping file
 #
-# A Keyboard map is read in as a patch to the current map.
+# A Keyboard map is read in as patch to the current map.
 #
 # File format:
 # - comment lines start with '#'
@@ -22,40 +22,44 @@
 # '!VCBM cbmkey'         virtual CBM key (LCBM)
 # '!UNDEF keysym'        remove keysym from table
 #
-# Shiftflag can have the values (as a sum):
-# 0      key is not shifted for this keysym/scancode
-# 1      key is combined with shift for this keysym/scancode
-# 2      key is left shift on emulated machine
-# 4      key is right shift on emulated machine (use only this one
-#        for emulated keyboards that have only one shift key)
-# 8      key can be shifted or not with this keysym/scancode
-# 16     deshift key for this keysym/scancode
-# 32     another definition for this keysym/scancode follows
-# 64     key is shift-lock on emulated machine
-# 128    shift modifier required on host
-# 256    key is used for an alternative keyboard mapping
-# 512    alt-r (alt-gr) modifier required on host
-# 1024   ctrl modifier required on host
-# 2048   key is combined with cbm for this keysym/scancode
-# 4096   key is combined with ctrl for this keysym/scancode
-# 8192   key is (left) cbm on emulated machine
-# 16384  key is (left) ctrl on emulated machine
-#
-# to migrate older keymaps and use the CBM and/or CTRL related features:
-#
-# - define !LCTRL, !VCTRL, !LCBM, !VCBM
-# - add 'key is (left) cbm/ctrl on emulated machine' flags to
-#   all keys that map to the cbm or ctrl key respectively.
-#
-# after that the virtual cbm/ctrl flags and requiring host modifiers
-# should work as expected. keep an eye on the error messages.
+# Shiftflag can have these values, flags can be ORed to combine them:
+# 0x0000      0  key is not shifted for this keysym/scancode
+# 0x0001      1  key is combined with shift for this keysym/scancode
+# 0x0002      2  key is left shift on emulated machine
+# 0x0004      4  key is right shift on emulated machine (use only this one
+#                for emulated keyboards that have only one shift key)
+# 0x0008      8  key can be shifted or not with this keysym/scancode
+# 0x0010     16  deshift key for this keysym/scancode
+# 0x0020     32  another definition for this keysym/scancode follows
+# 0x0040     64  key is shift-lock on emulated machine
+# 0x0080    128  shift modifier required on host
+# 0x0100    256  key is used for an alternative keyboard mapping, e.g. C64 mode in x128
+# 0x0200    512  alt-r (alt-gr) modifier required on host
+# 0x0400   1024  ctrl modifier required on host
+# 0x0800   2048  key is combined with cbm for this keysym/scancode
+# 0x1000   4096  key is combined with ctrl for this keysym/scancode
+# 0x2000   8192  key is (left) cbm on emulated machine
+# 0x4000  16384  key is (left) ctrl on emulated machine
 #
 # Negative row values:
+# 'keysym -1 n' joystick keymap A, direction n
+# 'keysym -2 n' joystick keymap B, direction n
 # 'keysym -3 0' first RESTORE key
 # 'keysym -3 1' second RESTORE key
-# 'keysym -4 0' 40/80 column key
-# 'keysym -4 1' CAPS (ASCII/DIN) key
-# 'keysym -5 n' joyport keypad, key n
+# 'keysym -4 0' 40/80 column key (x128)
+# 'keysym -4 1' CAPS (ASCII/DIN) key (x128)
+# 'keysym -5 n' joyport keypad, key n (not supported in x128)
+#
+# Joystick direction values:
+# 0      Fire
+# 1      South/West
+# 2      South
+# 3      South/East
+# 4      West
+# 5      East
+# 6      North/West
+# 7      North
+# 8      North/East
 #
 # Joyport keypad key layout:
 # --------------------------
@@ -68,8 +72,8 @@
 # | 15 | 16 | 17 | 18 | 19 |
 # --------------------------
 #
-# When a bigger-spaced key is used,
-# it uses the upper-left-most key value.
+# When a bigger spaced key is used,
+# it uses the upper left most key value.
 
 # Symbolic Mapping, AZERTY Layout, Plus4, GTK
 
