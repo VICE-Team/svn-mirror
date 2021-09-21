@@ -110,6 +110,9 @@
 #include "mouse.h"
 #endif
 
+#ifdef IO_SIMULATION
+#include "joyport_io_sim.h"
+#endif
 
 /** \brief  Delay in seconds before pasting -keybuf argument into the buffer
  */
@@ -399,6 +402,12 @@ int machine_resources_init(void)
         init_resource_fail("joyport multijoy");
         return -1;
     }
+#ifdef IO_SIMULATION
+    if (joyport_io_sim_resources_init() < 0) {
+        init_resource_fail("joyport I/O simulation");
+        return -1;
+    }
+#endif
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
         return -1;
