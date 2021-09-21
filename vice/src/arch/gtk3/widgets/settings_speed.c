@@ -57,6 +57,22 @@ static GtkWidget *checkbox_pause = NULL;
 static GtkWidget *checkbox_warp = NULL;
 
 
+/** \brief  Event handler for the 'Warp mode' checkbox
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   data    data for the event (unused)
+ */
+static void warp_callback(GtkWidget *widget, gpointer data)
+{
+    int warp = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+
+    if (warp) {
+        vsync_set_warp_mode(1);
+    } else {
+        vsync_set_warp_mode(0);
+    }
+}
+
 
 /** \brief  Event handler for the 'pause' checkbox
  *
@@ -81,7 +97,17 @@ static void pause_callback(GtkWidget *widget, gpointer data)
  */
 static GtkWidget *create_warp_checkbox(void)
 {
-    return vice_gtk3_resource_check_button_new("WarpMode", "Initial warp mode");
+    GtkWidget *check;
+    int warp;
+
+    check = gtk_check_button_new_with_label("Warp mode");
+    warp = vsync_get_warp_mode() ? TRUE : FALSE;
+    /* set widget state before connecting the event handler, otherwise the
+     * event handler triggers an un-pause */
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), warp);
+    g_signal_connect(check, "toggled", G_CALLBACK(warp_callback), NULL);
+    gtk_widget_show(check);
+    return check;
 }
 
 
