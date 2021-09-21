@@ -1725,7 +1725,7 @@ int keyboard_keymap_dump(const char *filename)
             "# '!VCBM cbmkey'         virtual CBM key (LCBM)\n"
             "# '!UNDEF keysym'        remove keysym from table\n"
             "#\n"
-            "# Shiftflag can have the values, flags can be ORed to combine them:\n"
+            "# Shiftflag can have these values, flags can be ORed to combine them:\n"
             "# 0x0000      0  key is not shifted for this keysym/scancode\n"
             "# 0x0001      1  key is combined with shift for this keysym/scancode\n"
             "# 0x0002      2  key is left shift on emulated machine\n"
