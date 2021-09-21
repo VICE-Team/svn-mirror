@@ -81,7 +81,7 @@ static void pause_callback(GtkWidget *widget, gpointer data)
  */
 static GtkWidget *create_warp_checkbox(void)
 {
-    return vice_gtk3_resource_check_button_new("WarpMode", "Warp mode");
+    return vice_gtk3_resource_check_button_new("WarpMode", "Initial warp mode");
 }
 
 

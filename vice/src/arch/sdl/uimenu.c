@@ -1312,8 +1312,6 @@ void sdl_ui_activate_pre_action(void)
 /* called when UI closes and emulator resumes by sdl_ui_trap, sdl_vkbd_key_map, uimon_window_close */
 void sdl_ui_activate_post_action(void)
 {
-    int warp_state;
-
     DBG(("sdl_ui_activate_post_action start\n"));
 
     sdl_menu_state = 0;
@@ -1323,8 +1321,7 @@ void sdl_ui_activate_post_action(void)
 #endif
 
     /* Do not resume sound if in warp mode */
-    resources_get_int("WarpMode", &warp_state);
-    if (warp_state == 0) {
+    if (!vsync_get_warp_mode()) {
         sound_resume();
     }
 
