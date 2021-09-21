@@ -548,6 +548,23 @@ static int check_valid_dongle(int port, int index)
     return 0;
 }
 
+#ifdef IO_SIMULATION
+static int check_valid_io_sim(int port, int index)
+{
+    if (joyport_device[index].device_type != JOYPORT_DEVICE_IO_SIMULATION) {
+        return 1;
+    }
+    /* check for plus4 port 6 */
+    if (port == JOYPORT_6 && machine_class == VICE_MACHINE_PLUS4) {
+        return 1;
+    }
+    if (port == JOYPORT_1 || port == JOYPORT_2) {
+        return 1;
+    }
+    return 0;
+}
+#endif
+
 static int joyport_valid_devices_compare_names(const void* a, const void* b)
 {
     const joyport_desc_t *arg1 = (const joyport_desc_t*)a;
@@ -584,6 +601,11 @@ static int joyport_check_valid_devices(int port, int index)
     if (!check_valid_dongle(port, index)) {
         return 0;
     }
+#ifdef IO_SIMULATION
+    if (!check_valid_io_sim(port, index)) {
+        return 0;
+    }
+#endif
     return 1;
 }
 
