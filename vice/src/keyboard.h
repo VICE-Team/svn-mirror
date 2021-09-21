@@ -70,7 +70,9 @@
 /* the mapping of the host ("KeyboardMapping")
 
    CAUTION: keep in sync with constants in keyboard.h and code in
-            arch/shared/archdep_kbd_get_host_mapping.c */
+            arch/shared/archdep_kbd_get_host_mapping.c and also with the
+            description of the KeyboardMapping resource in vice.texi
+*/
 #define KBD_MAPPING_US    0     /* "" (us mapping) this must be first (=0) always */
 #define KBD_MAPPING_UK    1     /* "uk" */
 #define KBD_MAPPING_DA    2     /* "da" */
