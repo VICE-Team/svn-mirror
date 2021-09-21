@@ -34,6 +34,8 @@ libjoyport_a_SOURCES = \
 	inception.h \
 	joyport.c \
 	joyport.h \
+	joyport_io_sim.c \
+	joyport_io_sim.h \
 	joystick.c \
 	joystick.h \
 	lightpen.c \

@@ -119,6 +119,7 @@
 
 #ifdef IO_SIMULATION
 #include "userport_io_sim.h"
+#include "joyport_io_sim.h"
 #endif
 
 machine_context_t machine_context;
@@ -403,6 +404,10 @@ int machine_resources_init(void)
 #ifdef IO_SIMULATION
     if (userport_io_sim_resources_init() < 0) {
         init_resource_fail("userport I/O simulation");
+        return -1;
+    }
+    if (joyport_io_sim_resources_init() < 0) {
+        init_resource_fail("joyport I/O simulation");
         return -1;
     }
 #endif
