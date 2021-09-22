@@ -138,11 +138,11 @@ static int relative_speed;
 /* "Warp mode".  If nonzero, attempt to run as fast as possible. */
 static int warp_enabled;
 
-/* "WarpMode" resource controlling whether warp should be enabled from launch. */
-static int warp_enabled_at_launch_resource;
+/* "InitialWarpMode" resource controlling whether warp should be enabled from launch. */
+static int initial_warp_mode_resource;
 
-/* warp mode cmdline arg controlling whether warp should be enabled from launch. Overrides WarpMode resource. */
-static int warp_enabled_at_launch_cmdline = -1;
+/* warp mode cmdline arg controlling whether warp should be enabled from launch. Overrides InitialWarpMode resource. */
+static int initial_warp_mode_cmdline = -1;
 
 /* When the next frame should be rendered, not skipped, during warp. */
 static tick_t warp_render_tick_interval;
@@ -179,9 +179,9 @@ int vsync_get_warp_mode(void)
     return warp_enabled;
 }
 
-static int set_warp_mode_resource(int val, void *param)
+static int set_initial_warp_mode_resource(int val, void *param)
 {
-    warp_enabled_at_launch_resource = val ? 1 : 0;
+    initial_warp_mode_resource = val ? 1 : 0;
     
     return 0;
 }
@@ -190,9 +190,9 @@ static int set_warp_mode_resource(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "Speed", 100, RES_EVENT_SAME, NULL,
       &relative_speed, set_relative_speed, NULL },
-    { "WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "InitialWarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
       /* FIXME: maybe RES_EVENT_NO */
-      &warp_enabled_at_launch_resource, set_warp_mode_resource, NULL },
+      &initial_warp_mode_resource, set_initial_warp_mode_resource, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -203,14 +203,14 @@ int vsync_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_warp_mode_cmdline(const char *param, void *extra_param)
+static int set_initial_warp_mode_cmdline(const char *param, void *extra_param)
 {
     /*
      * We don't want -warp / +warp to end up in the config file,
      * so we don't use a resource.
      */
     
-    warp_enabled_at_launch_cmdline = vice_ptr_to_int(extra_param) ? 1 : 0;
+    initial_warp_mode_cmdline = vice_ptr_to_int(extra_param) ? 1 : 0;
 
     return 0;
 }
@@ -222,11 +222,11 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "Speed", NULL,
       "<percent or negative fps>", "Limit emulation speed to specified value" },
     { "-warp", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
-      set_warp_mode_cmdline, int_to_void_ptr(1), NULL, NULL,
-      NULL, "Enable warp mode at launch, do not disable it after autostart." },
+      set_initial_warp_mode_cmdline, int_to_void_ptr(1), NULL, NULL,
+      NULL, "Initially enable warp mode" },
     { "+warp", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
-      set_warp_mode_cmdline, int_to_void_ptr(0), NULL, NULL,
-      NULL, "Do not enable warp mode at launch, except during autostart (via -autostart-warp)" },
+      set_initial_warp_mode_cmdline, int_to_void_ptr(0), NULL, NULL,
+      NULL, "Do not initially enable warp mode (default)" },
     CMDLINE_LIST_END
 };
 
@@ -313,11 +313,11 @@ double vsync_get_refresh_frequency(void)
 void vsync_init(void (*hook)(void))
 {
     /* Set the initial warp state. */
-    if (warp_enabled_at_launch_cmdline != -1) {
+    if (initial_warp_mode_cmdline != -1) {
         /* Command line overrides config resource setting. */
-        vsync_set_warp_mode(warp_enabled_at_launch_cmdline);
+        vsync_set_warp_mode(initial_warp_mode_cmdline);
     } else {
-        vsync_set_warp_mode(warp_enabled_at_launch_resource);
+        vsync_set_warp_mode(initial_warp_mode_resource);
     }
     
     /* Limit warp rendering to 10fps */

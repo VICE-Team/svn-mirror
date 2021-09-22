@@ -2595,7 +2595,7 @@ with the same name, but with a minus sign; in that case, the option
 beginning with a minus sign is used to @emph{enable} a certain
 feature, while the one beginning with a plus sign is used to
 @emph{disable} the same feature (this is an X11 convention).  For
-example, @code{-warp} enables warp mode, while @code{+warp}
+example, @code{-warp} enables initial warp mode, while @code{+warp}
 disables it.
 
 @c @node FIXME
@@ -2776,7 +2776,7 @@ may force it to run slower. A specific FPS may also be targeted.
 @cindex Warp speed mode
 Moreover, a special @dfn{warp speed} mode is provided and can be toggled
 with the ``Enable Warp Mode'' menu item.  If this mode is enabled, it
-will cause the emulator to disable any speed limit, turn sound emulation
+will cause the emulator to disable any speed limit, turn sound output
 off and use a 1/10 refresh rate, so that it will run at the maximum
 possible speed.
 
@@ -2795,9 +2795,9 @@ possible speed.
 Integer specifying the maximum relative speed, as a percentage.  @code{0}
 stands for ``no limit''.
 
-@vindex WarpMode
-@item WarpMode
-Booolean specifying whether ``warp mode'' is turned on or not.
+@vindex InitialWarpMode
+@item InitialWarpMode
+Booolean specifying whether ``warp mode'' is initially enabled.
 
 @end table
 
@@ -2816,8 +2816,7 @@ A positive <value> specifies the maximum speed as a percentage. A negative
 @findex -warp, +warp
 @item -warp
 @itemx +warp
-Enable/Disable warp mode
-(@code{WarpMode=1}, @code{WarpMode=0}).
+Enable/Disable the initial warp mode.
 
 @end table
 
@@ -2871,15 +2870,6 @@ The following resources affect the screen emulation.
 @vindex HwScalePossible
 @item HwScalePossible
 Boolean that indicates whether hardware scaling is possible or not.
-
-@vindex Speed
-@item Speed
-Integer specifying the maximum relative speed, as a percentage. @code{0}
-stands for ``no limit''.
-
-@vindex WarpMode
-@item WarpMode
-Boolean specifying whether ``warp mode'' is turned on or not.
 
 @vindex FullscreenEnable
 @item FullscreenEnable
