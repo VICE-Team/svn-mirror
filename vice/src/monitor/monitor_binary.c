@@ -33,6 +33,8 @@
 
 #include "archdep_defs.h"
 #include "cmdline.h"
+#include "drive.h"
+#include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "kbdbuf.h"
@@ -1472,8 +1474,12 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
 
     if (command->api_version < 0x01 || command->api_version > 0x02) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_API_VERSION, command->request_id);
+        lib_free(command);
         return;
     }
+
+    /* Ensure drive CPU emulation is up to date with main cpu CLOCK. */
+    drive_cpu_execute_all(maincpu_clk);
 
     command->length = little_endian_to_uint32(&pbuffer[2]);
 
