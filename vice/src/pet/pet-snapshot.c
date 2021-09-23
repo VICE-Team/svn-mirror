@@ -33,6 +33,7 @@
 #include "6809.h"
 #include "crtc.h"
 #include "drive-snapshot.h"
+#include "serial.h"
 #include "ioutil.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -80,6 +81,7 @@ int pet_snapshot_write(const char *name, int save_roms, int save_disks,
         || petdww_snapshot_write_module(s) < 0
         || viacore_snapshot_write_module(machine_context.via, s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || fsdrive_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tapeport_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s) < 0

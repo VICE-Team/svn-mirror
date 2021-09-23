@@ -34,6 +34,7 @@
 #include <stdio.h>
 
 #include "drive-snapshot.h"
+#include "serial.h"
 #include "ioutil.h"
 #include "joyport.h"
 #include "joystick.h"
@@ -80,6 +81,7 @@ int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
         || viacore_snapshot_write_module(machine_context.via1, s) < 0
         || viacore_snapshot_write_module(machine_context.via2, s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || fsdrive_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tapeport_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s) < 0

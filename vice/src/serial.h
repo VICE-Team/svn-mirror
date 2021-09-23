@@ -110,4 +110,7 @@ extern void serial_iec_device_exec(CLOCK clk_value);
 
 extern void serial_iec_bus_init(void);
 
+extern void fsdrive_snapshot_prepare(void);
+extern int fsdrive_snapshot_write_module(struct snapshot_s *s);
+extern int fsdrive_snapshot_read_module(struct snapshot_s *s);
 #endif
