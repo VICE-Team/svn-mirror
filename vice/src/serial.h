@@ -43,6 +43,7 @@ struct cbmdos_cmd_parse_s;
 struct disk_image_s;
 struct trap_s;
 struct vdrive_s;
+struct snapshot_s;
 
 typedef struct serial_s {
     int inuse;
