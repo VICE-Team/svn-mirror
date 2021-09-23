@@ -181,7 +181,7 @@ minus           5 7 0
 #####################
 # |Bit 6|POUND|  *  | ; ] | / ? | S_R |  =  | A_UP| HOME|
 
-sterling        6 0 0
+sterling        6 0 16
 bar             6 0 8
 backslash       6 0 0
 asterisk        6 1 0
