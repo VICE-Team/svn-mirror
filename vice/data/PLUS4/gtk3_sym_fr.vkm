@@ -228,7 +228,7 @@ quotedbl 7 3 1
 semicolon 6 2 8
 slash 6 7 0
 space 7 4 8
-sterling 0 2 8
+sterling 0 2 16
 # underscore -> CBM-@ graphic
 underscore 0 7 2064
 
