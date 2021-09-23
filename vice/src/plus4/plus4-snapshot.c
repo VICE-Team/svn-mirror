@@ -30,6 +30,7 @@
 
 #include "drive-snapshot.h"
 #include "drive.h"
+#include "serial.h"
 #include "ioutil.h"
 #include "joyport.h"
 #include "joystick.h"
@@ -77,6 +78,7 @@ int plus4_snapshot_write(const char *name, int save_roms, int save_disks,
     if (maincpu_snapshot_write_module(s) < 0
         || plus4_snapshot_write_module(s, save_roms) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || fsdrive_snapshot_write_module(s) < 0
         || ted_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tapeport_snapshot_write_module(s, save_disks) < 0

@@ -37,6 +37,7 @@
 #include "cia.h"
 #include "drive-snapshot.h"
 #include "drive.h"
+#include "serial.h"
 #include "ioutil.h"
 #include "joyport.h"
 #include "joystick.h"
@@ -76,6 +77,7 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks, int even
         || ciacore_snapshot_write_module(machine_context.cia2, s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || fsdrive_snapshot_write_module(s) < 0
         || vicii_snapshot_write_module(s) < 0
         || c64_glue_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
@@ -128,7 +130,8 @@ int c64_snapshot_read(const char *name, int event_mode)
         || keyboard_snapshot_read_module(s) < 0
         || joyport_snapshot_read_module(s, JOYPORT_1) < 0
         || joyport_snapshot_read_module(s, JOYPORT_2) < 0
-        || userport_snapshot_read_module(s) < 0) {
+        || userport_snapshot_read_module(s) < 0
+        || fsdrive_snapshot_read_module(s) < 0) {
         goto fail;
     }
 

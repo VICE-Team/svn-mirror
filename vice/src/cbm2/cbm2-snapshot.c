@@ -37,6 +37,7 @@
 #include "crtc.h"
 #include "drive-snapshot.h"
 #include "drive.h"
+#include "serial.h"
 #include "ioutil.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -78,6 +79,7 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
         || acia1_snapshot_write_module(s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || fsdrive_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tapeport_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s) < 0
