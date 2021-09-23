@@ -3020,9 +3020,6 @@ void monitor_startup(MEMSPACE mem)
              * We are about to go interactive.
              */
 
-            /* Ensure drive CPU emulation is up to date with main cpu CLOCK. */
-            drive_cpu_execute_all(maincpu_clk);
-
             if (refresh_on_break) {
                 /* Render all in-progress frames as we enter the prompt */
                 video_canvas_refresh_all_tracked();
