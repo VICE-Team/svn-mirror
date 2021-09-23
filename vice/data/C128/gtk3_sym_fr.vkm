@@ -223,7 +223,7 @@ less            5 7 1
 #####################
 # |Bit 6|POUND|  *  | ; ] | HOME| S_R |  =  | A_UP| / ? |
 
-sterling        6 0 0
+sterling        6 0 16
 backslash       6 0 0
 bar             6 0 8
 asterisk        6 1 0

@@ -27,6 +27,7 @@ gtk3_keymaps = \
 sdl_keymaps = \
 	sdl_hotkeys.vkm \
 	sdl_sym_de.vkm \
+	sdl_pos_fr.vkm \
 	sdl_pos.vkm
 
 if SDL_COMPILE
