@@ -29,7 +29,10 @@
 
 #include "types.h"
 
-struct snapshot_s;
+#define SERIAL_NAMELENGTH 255
+
+extern uint8_t SerialBuffer[SERIAL_NAMELENGTH + 1];
+extern int SerialPtr;
 
 extern void fsdrive_init(void);
 extern void fsdrive_reset(void);
@@ -40,8 +43,4 @@ extern void fsdrive_unlisten(unsigned int device, uint8_t secondary, void (*st_f
 extern void fsdrive_untalk(unsigned int device, uint8_t secondary, void (*st_func)(uint8_t));
 extern void fsdrive_write(unsigned int device, uint8_t secondary, uint8_t data, void (*st_func)(uint8_t));
 extern uint8_t fsdrive_read(unsigned int device, uint8_t secondary, void (*st_func)(uint8_t));
-
-extern void fsdrive_snapshot_prepare(void);
-extern int fsdrive_snapshot_write_module(struct snapshot_s *s);
-extern int fsdrive_snapshot_read_module(struct snapshot_s *s);
 #endif
