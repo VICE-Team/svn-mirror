@@ -1465,106 +1465,103 @@ static void monitor_binary_process_mem_set(binary_command_t *command)
     monitor_binary_response(0, e_MON_RESPONSE_MEM_SET, e_MON_ERR_OK, command->request_id, NULL);
 }
 
+
 static void monitor_binary_process_command(unsigned char * pbuffer)
 {
     BINARY_COMMAND command_type;
-    binary_command_t *command = lib_malloc(sizeof(binary_command_t));
+    binary_command_t command;
+    
+    command.api_version = (uint8_t)pbuffer[1];
 
-    command->api_version = (uint8_t)pbuffer[1];
+    command.request_id = little_endian_to_uint32(&pbuffer[6]);
 
-    if (command->api_version < 0x01 || command->api_version > 0x02) {
-        monitor_binary_error(e_MON_ERR_CMD_INVALID_API_VERSION, command->request_id);
-        lib_free(command);
+    if (command.api_version < 0x01 || command.api_version > 0x02) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_API_VERSION, command.request_id);
         return;
     }
 
     /* Ensure drive CPU emulation is up to date with main cpu CLOCK. */
     drive_cpu_execute_all(maincpu_clk);
 
-    command->length = little_endian_to_uint32(&pbuffer[2]);
+    command.length = little_endian_to_uint32(&pbuffer[2]);
 
-    if (command->api_version >= 0x01) {
-        command->request_id = little_endian_to_uint32(&pbuffer[6]);
-        command->type = pbuffer[10];
-        command->body = &pbuffer[11];
-    }
+    command.type = pbuffer[10];
+    command.body = &pbuffer[11];
 
-    command_type = command->type;
+    command_type = command.type;
     if (command_type == e_MON_CMD_PING) {
-        monitor_binary_process_ping(command);
+        monitor_binary_process_ping(&command);
 
     } else if (command_type == e_MON_CMD_MEM_GET) {
-        monitor_binary_process_mem_get(command);
+        monitor_binary_process_mem_get(&command);
     } else if (command_type == e_MON_CMD_MEM_SET) {
-        monitor_binary_process_mem_set(command);
+        monitor_binary_process_mem_set(&command);
 
     } else if (command_type == e_MON_CMD_CHECKPOINT_GET) {
-        monitor_binary_process_checkpoint_get(command);
+        monitor_binary_process_checkpoint_get(&command);
     } else if (command_type == e_MON_CMD_CHECKPOINT_SET) {
-        monitor_binary_process_checkpoint_set(command);
+        monitor_binary_process_checkpoint_set(&command);
     } else if (command_type == e_MON_CMD_CHECKPOINT_DELETE) {
-        monitor_binary_process_checkpoint_delete(command);
+        monitor_binary_process_checkpoint_delete(&command);
     } else if (command_type == e_MON_CMD_CHECKPOINT_LIST) {
-        monitor_binary_process_checkpoint_list(command);
+        monitor_binary_process_checkpoint_list(&command);
     } else if (command_type == e_MON_CMD_CHECKPOINT_TOGGLE) {
-        monitor_binary_process_checkpoint_toggle(command);
+        monitor_binary_process_checkpoint_toggle(&command);
 
     } else if (command_type == e_MON_CMD_CONDITION_SET) {
-        monitor_binary_process_condition_set(command);
+        monitor_binary_process_condition_set(&command);
 
     } else if (command_type == e_MON_CMD_REGISTERS_GET) {
-        monitor_binary_process_registers_get(command);
+        monitor_binary_process_registers_get(&command);
     } else if (command_type == e_MON_CMD_REGISTERS_SET) {
-        monitor_binary_process_registers_set(command);
+        monitor_binary_process_registers_set(&command);
 
     } else if (command_type == e_MON_CMD_DUMP) {
-        monitor_binary_process_dump(command);
+        monitor_binary_process_dump(&command);
     } else if (command_type == e_MON_CMD_UNDUMP) {
-        monitor_binary_process_undump(command);
+        monitor_binary_process_undump(&command);
 
     } else if (command_type == e_MON_CMD_RESOURCE_GET) {
-        monitor_binary_process_resource_get(command);
+        monitor_binary_process_resource_get(&command);
     } else if (command_type == e_MON_CMD_RESOURCE_SET) {
-        monitor_binary_process_resource_set(command);
+        monitor_binary_process_resource_set(&command);
 
     } else if (command_type == e_MON_CMD_ADVANCE_INSTRUCTIONS) {
-        monitor_binary_process_advance_instructions(command);
+        monitor_binary_process_advance_instructions(&command);
     } else if (command_type == e_MON_CMD_KEYBOARD_FEED) {
-        monitor_binary_process_keyboard_feed(command);
+        monitor_binary_process_keyboard_feed(&command);
     } else if (command_type == e_MON_CMD_EXECUTE_UNTIL_RETURN) {
-        monitor_binary_process_execute_until_return(command);
+        monitor_binary_process_execute_until_return(&command);
 
     } else if (command_type == e_MON_CMD_EXIT) {
-        monitor_binary_process_exit(command);
+        monitor_binary_process_exit(&command);
     } else if (command_type == e_MON_CMD_QUIT) {
-        monitor_binary_process_quit(command);
+        monitor_binary_process_quit(&command);
     } else if (command_type == e_MON_CMD_RESET) {
-        monitor_binary_process_reset(command);
+        monitor_binary_process_reset(&command);
     } else if (command_type == e_MON_CMD_AUTOSTART) {
-        monitor_binary_process_autostart(command);
+        monitor_binary_process_autostart(&command);
 
     } else if (command_type == e_MON_CMD_BANKS_AVAILABLE) {
-        monitor_binary_process_banks_available(command);
+        monitor_binary_process_banks_available(&command);
     } else if (command_type == e_MON_CMD_REGISTERS_AVAILABLE) {
-        monitor_binary_process_registers_available(command);
+        monitor_binary_process_registers_available(&command);
     } else if (command_type == e_MON_CMD_DISPLAY_GET) {
-        monitor_binary_process_display_get(command);
+        monitor_binary_process_display_get(&command);
     } else if (command_type == e_MON_CMD_VICE_INFO) {
-        monitor_binary_process_vice_info(command);
+        monitor_binary_process_vice_info(&command);
 
     } else if (command_type == e_MON_CMD_PALETTE_GET) {
-        monitor_binary_process_palette_get(command);
+        monitor_binary_process_palette_get(&command);
     } else {
-        monitor_binary_error(e_MON_ERR_CMD_INVALID_TYPE, command->request_id);
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_TYPE, command.request_id);
         log_message(LOG_DEFAULT,
                 "monitor_network binary command: unknown command %u, "
                 "skipping command length of %u",
-                command->type, command->length);
+                command.type, command.length);
     }
 
     pbuffer[0] = 0;
-
-    lib_free(command);
 }
 
 static int monitor_binary_activate(void)

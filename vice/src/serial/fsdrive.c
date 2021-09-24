@@ -54,12 +54,10 @@
 #define DBG(_x_)
 #endif
 
-#define SERIAL_NAMELENGTH 255
-
 static log_t fsdrive_log = LOG_ERR;
 
-static uint8_t SerialBuffer[SERIAL_NAMELENGTH + 1];
-static int SerialPtr;
+uint8_t SerialBuffer[SERIAL_NAMELENGTH + 1];
+int SerialPtr;
 
 /*
    On a real system an opened channel is affected only after having
