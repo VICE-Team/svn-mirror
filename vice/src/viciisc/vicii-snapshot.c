@@ -42,7 +42,7 @@
 #include "vicii-draw-cycle.h"
 #include "vicii-resources.h"
 #include "vicii-snapshot.h"
-//#include "vicii.h"
+#include "vicii.h"
 #include "viciitypes.h"
 
 /* Dummy function called by c64-snapshot.c */
