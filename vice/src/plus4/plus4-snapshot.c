@@ -56,8 +56,8 @@
 #define DBG(x)
 #endif
 
-#define SNAP_MAJOR 1
-#define SNAP_MINOR 2
+#define SNAP_MAJOR 2
+#define SNAP_MINOR 0
 
 int plus4_snapshot_write(const char *name, int save_roms, int save_disks,
                          int event_mode)
@@ -120,6 +120,7 @@ int plus4_snapshot_read(const char *name, int event_mode)
     if (maincpu_snapshot_read_module(s) < 0
         || plus4_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
+        || fsdrive_snapshot_read_module(s) < 0
         || ted_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
         || tapeport_snapshot_read_module(s) < 0

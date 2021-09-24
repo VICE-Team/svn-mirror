@@ -54,8 +54,8 @@
 #include "vice-event.h"
 #include "vicii.h"
 
-#define SNAP_MAJOR 1
-#define SNAP_MINOR 1
+#define SNAP_MAJOR 2
+#define SNAP_MINOR 0
 
 int c64_snapshot_write(const char *name, int save_roms, int save_disks, int event_mode)
 {
@@ -122,6 +122,7 @@ int c64_snapshot_read(const char *name, int event_mode)
         || ciacore_snapshot_read_module(machine_context.cia2, s) < 0
         || sid_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
+        || fsdrive_snapshot_read_module(s) < 0
         || vicii_snapshot_read_module(s) < 0
         || c64_glue_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
@@ -130,8 +131,7 @@ int c64_snapshot_read(const char *name, int event_mode)
         || keyboard_snapshot_read_module(s) < 0
         || joyport_snapshot_read_module(s, JOYPORT_1) < 0
         || joyport_snapshot_read_module(s, JOYPORT_2) < 0
-        || userport_snapshot_read_module(s) < 0
-        || fsdrive_snapshot_read_module(s) < 0) {
+        || userport_snapshot_read_module(s) < 0) {
         goto fail;
     }
 
