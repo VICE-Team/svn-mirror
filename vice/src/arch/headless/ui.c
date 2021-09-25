@@ -251,6 +251,9 @@ int ui_resources_init(void)
 void ui_resources_shutdown(void)
 {
     printf("%s\n", __func__);
+
+    lib_free(ui_filepath);
+    ui_filepath = NULL;
 }
 
 /** \brief Clean up memory used by the UI system itself
