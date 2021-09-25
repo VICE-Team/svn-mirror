@@ -167,6 +167,8 @@ static int joystick_autofire_enable[JOYPORT_MAX_PORTS] = {0};
 static int joystick_autofire_mode[JOYPORT_MAX_PORTS] = {0};
 static int joystick_autofire_speed[JOYPORT_MAX_PORTS] = {0};
 
+static uint8_t joystick_axis_value[4] = { 0x80, 0x80, 0x80, 0x80 };
+
 /*! \todo SRT: offset is unused! */
 
 static void joystick_latch_matrix(CLOCK offset)
@@ -301,6 +303,16 @@ static void joystick_process_latch(void)
     } else {
         alarm_set(joystick_alarm, maincpu_clk + delay);
     }
+}
+
+void joystick_set_axis_value(unsigned int index, uint8_t value)
+{
+    joystick_axis_value[index] = value;
+}
+
+uint8_t joystick_get_axis_value(unsigned int index)
+{
+    return joystick_axis_value[index];
 }
 
 void joystick_set_value_absolute(unsigned int joyport, uint16_t value)

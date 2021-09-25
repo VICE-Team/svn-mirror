@@ -149,6 +149,17 @@ static sdljoystick_t *sdljoystick = NULL;
  */
 static char *joymap_factory = NULL;
 
+/* joystick axis mapping for pot-x/y,
+   high byte is the joystick nr,
+   low byte is the axis nr,
+   0xffff means no mapping */
+static uint16_t sdljoystick_axis_mapping[4] = { 
+    0xffff,    /* pot-x port 1 (x64/x64sc/xscpu64/x128/xcbm5x0/xvic and xplus4 sidcard) */
+    0xffff,    /* pot-y port 1 (x64/x64sc/xscpu64/x128/xcbm5x0/xvic and xplus4 sidcard) */
+    0xffff,    /* pot-x port 2 (x64/x64sc/xscpu64/x128/xcbm5x0) */
+    0xffff     /* pot-y port 2 (x64/x64sc/xscpu64/x128/xcbm5x0) */
+};
+
 #endif /* HAVE_SDL_NUMJOYSTICKS */
 
 /* ------------------------------------------------------------------------- */
@@ -990,9 +1001,17 @@ uint8_t sdljoy_check_hat_movement(SDL_Event e)
 
 ui_menu_action_t sdljoy_axis_event(Uint8 joynum, Uint8 axis, Sint16 value)
 {
+    int i;
     uint8_t cur, prev;
     int index;
     ui_menu_action_t retval = MENU_ACTION_NONE;
+    Sint16 val = ~value;
+
+    for (i = 0; i < 4; i++) {
+        if (sdljoystick_axis_mapping[i] == ((joynum << 8) | axis)) {
+            joystick_set_axis_value(i, (uint8_t)((val + 32768) >> 8));
+        }
+    }
 
     index = axis * input_mult[AXIS];
     prev = sdljoystick[joynum].input[AXIS][index].prev;
@@ -1110,6 +1129,15 @@ void sdljoy_set_joystick(SDL_Event e, int port, int bits)
         joyevent->value.joy[0] = (uint16_t)port;
         joyevent->value.joy[1] = (uint16_t)bits;
     }
+}
+
+void sdljoy_set_joystick_axis(SDL_Event e, int port, int pot)
+{
+    int index = (port << 1) | pot;
+    uint8_t stick = e.jaxis.which;
+    uint8_t axis = e.jaxis.axis;
+
+    sdljoystick_axis_mapping[index] = (stick << 8) | axis;
 }
 
 void sdljoy_set_hotkey(SDL_Event e, ui_menu_entry_t *value)
