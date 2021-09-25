@@ -9,14 +9,16 @@
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
+#include "tick.h"
 #include "vicesocket.h"
 
 /*
  * DESIGN THOUGHTS.
  *
- * VICE will launch a single UI child process. The UI can choose to
+ * VICE will launch a single UI client process. The UI can choose to
  * launch a further child UI process for handling two screens concurrently.
- * The UI server supports multiple UI processes connected to the same screen.
+ * The UI server supports multiple UI clients connected to the same screen,
+ * as well as a single UI client connected to multiple screens.
  */
 
 /* Represents a connected uiclient */
@@ -38,6 +40,7 @@ static client_t *clients;
 static int clients_size;
 static int client_count;
 static int next_client_id;
+static bool remove_disconnected_clients_next_poll;
 
 static struct pollfd *poll_fds;
 static int poll_fd_count;
@@ -104,7 +107,16 @@ void uiserver_add_screen(video_canvas_t *canvas)
 
 void uiserver_await_ready(void)
 {
-
+    printf("%s\n", __func__);
+    
+    /*
+     * Wait for a uiclient process to connect and signal that it's ready.
+     */
+    
+    while (client_count == 0) {
+        tick_sleep(tick_per_second() / 60);
+        uiserver_poll();
+    }
 }
 
 static void handle_new_client(void)
@@ -133,21 +145,46 @@ static void handle_new_client(void)
 
 static void handle_client_error(int client_index)
 {
-    int i;
+    log_message(LOG_DEFAULT, "Socket error on client %d: %s", clients[client_index].id, strerror(errno));
     
-    log_message(LOG_DEFAULT, "Socket error on client %d", clients[client_index].id);
+    switch  (errno) {
+        case ENOMEM:
+        case ENOBUFS:
+        case EINTR:
+        case EAGAIN:
+            /* Transient error, ignore */
+            return;
+        default:
+            break;
+    }
     
     vice_network_socket_close(clients[client_index].socket);
     clients[client_index].socket = NULL;
+    
+    remove_disconnected_clients_next_poll = true;
+}
 
-    /* remove the client from the array, shift newer clients back an index */
-    for (i = client_index; i < client_count - 1; i++) {
-        clients[i] = clients[i + 1];
+static void remove_disconnected_clients(void)
+{
+    int i, j;
+    
+    for (i = 0; i < client_count; i++) {
+        if (clients[i].socket) {
+            continue;
+        }
+        
+        /* remove the client from the array, shift newer clients back an index */
+        for (j = i; j < client_count - 1; j++) {
+            clients[j] = clients[j + 1];
+        }
+        client_count--;
+        
+        memset(&clients[j], 0, sizeof(client_t));
+        
+        /* Recheck this index */
+        i--;
     }
-    memset(&clients[i], 0, sizeof(client_t));
-    
-    client_count--;
-    
+
     rebuild_poll_fds_next_poll = true;
 }
 
@@ -157,19 +194,19 @@ void uiserver_poll(void)
     int i;
     int read_fd_count;
     
-    /*
-     * Rebuild our pollfd array if needed
-     */
+    /* Remove any disconnected clients if needed */
+    if (remove_disconnected_clients_next_poll) {
+        remove_disconnected_clients();
+        remove_disconnected_clients_next_poll = false;
+    }
     
+    /* Rebuild our poll_fd array if needed */
     if (rebuild_poll_fds_next_poll) {
         rebuild_poll_fds();
         rebuild_poll_fds_next_poll = false;
     }
 
-    /*
-     * Do any of our sockets have any pending events?
-     */
-
+    /* Do any of our sockets have any pending events? */
     read_fd_count = poll(poll_fds, poll_fd_count, 0);
 
     if (read_fd_count == 0) {
@@ -178,8 +215,10 @@ void uiserver_poll(void)
     }
 
     if (read_fd_count == -1) {
-        log_error(LOG_DEFAULT, "UI Server: poll error: %s", strerror(errno));
-        archdep_vice_exit(1);
+        log_error(LOG_DEFAULT, "UI Server: general poll error: %s", strerror(errno));
+        if (errno != EINTR && errno != EAGAIN) {
+            archdep_vice_exit(1);
+        }
     }
 
     /* Something is waiting for us. Check client IO first. */
