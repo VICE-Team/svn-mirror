@@ -21,6 +21,7 @@
 
 /* Represents a connected uiclient */
 typedef struct client_s {
+    int id;
     vice_network_socket_t *socket;
 } client_t;
 
@@ -34,10 +35,13 @@ static vice_network_socket_t *server_socket;
 static screen_t *screens;
 static int screen_count;
 static client_t *clients;
+static int clients_size;
 static int client_count;
+static int next_client_id;
 
 static struct pollfd *poll_fds;
 static int poll_fd_count;
+static bool rebuild_poll_fds_next_poll = true;
 
 static void rebuild_poll_fds(void);
 
@@ -66,8 +70,6 @@ int uiserver_init(void)
         goto done;
     }
     
-    rebuild_poll_fds();
-    
 done:
     vice_network_address_close(address);
     return retval;
@@ -80,7 +82,7 @@ void uiserver_add_screen(video_canvas_t *canvas)
 
     /*
      * Called when a video chip first initialises. The uiserver
-     * makes this screen available uiclients.
+     * makes this screen available for uiclients to subscribe to.
      */
 
     for (i = 0; i < screen_count; i++) {
@@ -108,10 +110,45 @@ void uiserver_await_ready(void)
 static void handle_new_client(void)
 {
     vice_network_socket_t *client_socket;
+    int client_index;
     
     client_socket = vice_network_accept(server_socket);
+    client_index = client_count++;
+    
+    if (client_count > clients_size) {
+        clients = lib_realloc(clients, client_count * sizeof(client_t));
+        clients_size = client_count;
+    }
+    
+    clients[client_index].id     = next_client_id++;
+    clients[client_index].socket = client_socket;
+
+    log_message(LOG_DEFAULT, "New client %d connected", clients[client_index].id);
+    
+    rebuild_poll_fds_next_poll = true;
+    
+    // HACK
     vice_network_send(client_socket, "hello\n", 6, 0);
-    vice_network_socket_close(client_socket);
+}
+
+static void handle_client_error(int client_index)
+{
+    int i;
+    
+    log_message(LOG_DEFAULT, "Socket error on client %d", clients[client_index].id);
+    
+    vice_network_socket_close(clients[client_index].socket);
+    clients[client_index].socket = NULL;
+
+    /* remove the client from the array, shift newer clients back an index */
+    for (i = client_index; i < client_count - 1; i++) {
+        clients[i] = clients[i + 1];
+    }
+    memset(&clients[i], 0, sizeof(client_t));
+    
+    client_count--;
+    
+    rebuild_poll_fds_next_poll = true;
 }
 
 /** \brief Handle all uiclient IO */
@@ -119,6 +156,15 @@ void uiserver_poll(void)
 {
     int i;
     int read_fd_count;
+    
+    /*
+     * Rebuild our pollfd array if needed
+     */
+    
+    if (rebuild_poll_fds_next_poll) {
+        rebuild_poll_fds();
+        rebuild_poll_fds_next_poll = false;
+    }
 
     /*
      * Do any of our sockets have any pending events?
@@ -138,19 +184,28 @@ void uiserver_poll(void)
 
     /* Something is waiting for us. Check client IO first. */
     for (i = 0; i < client_count; i++) {
-        if (poll_fds[i].events == POLLIN) {
-            log_message(LOG_DEFAULT, "POLLIN on client socket %d", i);
-        } else if (poll_fds[i].events) {
+        if (poll_fds[i].revents == POLLIN) {
+            log_message(LOG_DEFAULT, "POLLIN on client %d", clients[i].id);
+            // HACK
+            char b[5 + 1];
+            int r;
+            r = vice_network_receive(clients[i].socket, b, 5, 0);
+            if (r == -1) {
+                handle_client_error(i);
+            } else {
+                b[r] = '\0';
+                log_message(LOG_DEFAULT, "Client %d says [%s]", clients[i].id, b);
+            }
+        } else if (poll_fds[i].revents) {
             /* Any other event is an error */
-            log_message(LOG_DEFAULT, "ERROR on client socket %d", i);
+            handle_client_error(i);
         }
     }
 
     /* Last, check for new client connections */
-    if (poll_fds[i].events == POLLIN) {
-        log_message(LOG_DEFAULT, "New client connection");
+    if (poll_fds[i].revents == POLLIN) {
         handle_new_client();
-    } else if (poll_fds[i].events) {
+    } else if (poll_fds[i].revents) {
         log_error(LOG_DEFAULT, "UI Server: server socket error");
         archdep_vice_exit(1);
     }
@@ -158,13 +213,30 @@ void uiserver_poll(void)
 
 void uiserver_shutdown(void)
 {
+    int i;
+    
     /* Notifiy all connected clients that we're shutting down */
-    // TODO
+    for (i = 0; i < client_count; i++) {
+        vice_network_socket_close(clients[i].socket);
+        clients[i].socket = NULL;
+    }
+    
+    lib_free(clients);
+    clients = NULL;
+    clients_size = 0;
+    client_count = 0;
     
     if (server_socket) {
         vice_network_socket_close(server_socket);
         server_socket = NULL;
     }
+    
+    lib_free(poll_fds);
+    poll_fds = NULL;
+    
+    lib_free(screens);
+    screens = NULL;
+    screen_count = 0;
 }
 
 /************/
@@ -173,9 +245,8 @@ static void rebuild_poll_fds(void)
 {
     int i;
 
-    if (poll_fds) {
-        lib_free(poll_fds);
-    }
+    lib_free(poll_fds);
+    poll_fds = NULL;
 
     poll_fd_count = client_count + 1;
     poll_fds = lib_calloc(poll_fd_count, sizeof(struct pollfd));
