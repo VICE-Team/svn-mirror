@@ -36,6 +36,7 @@
 #include "lib.h"
 #include "menu_common.h"
 #include "menu_joystick.h"
+#include "mouse.h"
 #include "resources.h"
 #include "uimenu.h"
 #include "uipoll.h"
@@ -480,14 +481,19 @@ static const char *joy_pin[] = {
     "Down",
     "Left",
     "Right",
-    "Fire (| SNES-A)",
-    "Fire 2 (POTX | SNES-B)",
-    "Fire 3 (POTY | SNES-X)",
+    "Fire (or SNES-A)",
+    "Fire 2 (or SNES-B)",
+    "Fire 3 (or SNES-X)",
     "Fire 4 (SNES-Y)",
     "Fire 5 (SNES-LB)",
     "Fire 6 (SNES-RB)",
     "Fire 7 (SNES-SELECT)",
     "Fire 8 (SNES-START)"
+};
+
+static const char *joy_pot[] = {
+    "Pot-X",
+    "Pot-Y"
 };
 
 static UI_MENU_CALLBACK(custom_joymap_callback)
@@ -518,6 +524,36 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     return NULL;
 }
 
+static UI_MENU_CALLBACK(custom_joymap_axis_callback)
+{
+    char *target = NULL;
+    SDL_Event e;
+    int pot, port;
+
+    if (activated) {
+        pot = (vice_ptr_to_int(param)) & 15;
+        port = (vice_ptr_to_int(param)) >> 5;
+
+        target = lib_msprintf("Port %i %s", port + 1, joy_pot[pot]);
+        e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK, 5);
+        lib_free(target);
+
+        switch (e.type) {
+            case SDL_JOYAXISMOTION:
+                sdljoy_set_joystick_axis(e, port, pot);
+                resources_set_int_sprintf("PaddlesInput%d", PADDLES_INPUT_JOY_AXIS, port + 1);
+                break;
+            case SDL_MOUSEMOTION:
+                resources_set_int_sprintf("PaddlesInput%d", PADDLES_INPUT_MOUSE, port + 1);
+                break;
+            default:
+                break;
+        }
+    }
+
+    return NULL;
+}
+
 #define VICE_SDL_JOYSTICK_MAPPING_MENU(port)                       \
     static const ui_menu_entry_t define_joy ## port ## _menu[] = { \
         { "Up",                                                    \
@@ -536,15 +572,15 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(3 | ((port - 1) << 5)) },           \
-        { "Fire (| SNES-A)",                                       \
+        { "Fire (or SNES-A)",                                      \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(4 | ((port - 1) << 5)) },           \
-        { "Fire 2 (POTX | SNES-B)",                                \
+        { "Fire 2 (or SNES-B)",                                    \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(5 | ((port - 1) << 5)) },           \
-        { "Fire 3 (POTY | SNES-X)",                                \
+        { "Fire 3 (or SNES-X)",                                    \
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(6 | ((port - 1) << 5)) },           \
@@ -568,6 +604,14 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(11 | ((port - 1) << 5)) },          \
+        { "Pot-X",                                                 \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_axis_callback,                             \
+          (ui_callback_data_t)(0 | ((port - 1) << 5)) },           \
+        { "Pot-Y",                                                 \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_axis_callback,                             \
+          (ui_callback_data_t)(1 | ((port - 1) << 5)) },           \
         SDL_MENU_LIST_END                                          \
     };
 

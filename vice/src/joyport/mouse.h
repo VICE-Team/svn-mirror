@@ -74,4 +74,7 @@ extern uint8_t micromys_mouse_read(void);
 #define MOUSE_TYPE_KOALAPAD 8
 #define MOUSE_TYPE_NUM      9
 
+#define PADDLES_INPUT_MOUSE    0
+#define PADDLES_INPUT_JOY_AXIS 1
+
 #endif

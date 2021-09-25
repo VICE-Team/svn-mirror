@@ -254,6 +254,8 @@ static int last_mouse_x = 0;
 static int last_mouse_y = 0;
 static rtc_ds1202_1302_t *ds1202; /* smartmouse */
 static int ds1202_rtc_save; /* smartmouse rtc data save */
+static int paddles_p1_input = PADDLES_INPUT_MOUSE; /* host input source for paddles in port 1 */
+static int paddles_p2_input = PADDLES_INPUT_MOUSE; /* host input source for paddles in port 2 */
 static uint8_t mouse_digital_val = 0;
 
 /*
@@ -699,18 +701,53 @@ static uint8_t mouse_get_paddle_x(int port)
 {
     DBG(("mouse_get_paddle_x port:%d mouse enabled:%d mouse_x:%d mouse_y:%d\n",
          port, _mouse_enabled, mouse_x, mouse_y));
-    if (_mouse_enabled) {
-        paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mouse_x / PADDLE_DIV);
-        return (uint8_t)(0xff - paddle_val[2]);
+
+    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+        if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
+            return joystick_get_axis_value(port << 1);
+        } else {
+            if (_mouse_enabled) {
+                paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mouse_x / PADDLE_DIV);
+                return (uint8_t)(0xff - paddle_val[2]);
+            }
+        }
+    }
+
+    if (port == JOYPORT_2) {
+        if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
+            return joystick_get_axis_value(port << 1);
+        } else {
+            if (_mouse_enabled) {
+                paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mouse_x / PADDLE_DIV);
+                return (uint8_t)(0xff - paddle_val[2]);
+            }
+        }
     }
     return 0xff;
 }
 
 static uint8_t mouse_get_paddle_y(int port)
 {
-    if (_mouse_enabled) {
-        paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (int16_t)mouse_y / PADDLE_DIV);
-        return (uint8_t)(0xff - paddle_val[3]);
+    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+        if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
+            return joystick_get_axis_value((port << 1) | 1);
+        } else {
+            if (_mouse_enabled) {
+                paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (int16_t)mouse_y / PADDLE_DIV);
+                return (uint8_t)(0xff - paddle_val[3]);
+            }
+        }
+    }
+
+    if (port == JOYPORT_2) {
+        if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
+            return joystick_get_axis_value((port << 1) | 1);
+        } else {
+            if (_mouse_enabled) {
+                paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (int16_t)mouse_y / PADDLE_DIV);
+                return (uint8_t)(0xff - paddle_val[3]);
+            }
+        }
     }
     return 0xff;
 }
@@ -805,20 +842,44 @@ static uint8_t joyport_mouse_value(int port)
     return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
 }
 
+static uint8_t joyport_paddles_value(int port)
+{
+    uint16_t paddle_fire_buttons = get_joystick_value(port);
+
+    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+        if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
+            return (uint8_t)~((paddle_fire_buttons & 0x30) >> 2);
+        } else {
+            return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
+        }
+    }
+
+    if (port == JOYPORT_2) {
+        if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
+            return (uint8_t)~((paddle_fire_buttons & 0x30) >> 2);
+        } else {
+            return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
+        }
+    }
+    return 0xff;
+}
+
 /* Some prototypes are needed */
 static int paddles_write_snapshot(struct snapshot_s *s, int port);
 static int paddles_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t paddles_joyport_device = {
     "Paddles",                /* name of the device */
-    JOYPORT_RES_ID_MOUSE,     /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
+    JOYPORT_RES_ID_NONE,      /* device normally uses the mouse for input,
+                                 but it can be mapped to a joystick axis too,
+                                 therefor it is flagged as not using the mouse */
     JOYPORT_IS_NOT_LIGHTPEN,  /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,     /* device is a Mouse/Paddle */
     0,                        /* NO output bits */
     joyport_mouse_enable,     /* device enable function */
-    joyport_mouse_value,      /* digital line read function */
+    joyport_paddles_value,    /* digital line read function */
     NULL,                     /* NO digital line store function */
     mouse_get_paddle_x,       /* pot-x read function */
     mouse_get_paddle_y,       /* pot-y read function */
@@ -1146,6 +1207,20 @@ static int set_smart_mouse_rtc_save(int val, void *param)
     return 0;
 }
 
+static int set_paddles_p1_input(int val, void *param)
+{
+    paddles_p1_input = val ? PADDLES_INPUT_JOY_AXIS : PADDLES_INPUT_MOUSE;
+
+    return 0;
+}
+
+static int set_paddles_p2_input(int val, void *param)
+{
+    paddles_p2_input = val ? PADDLES_INPUT_JOY_AXIS : PADDLES_INPUT_MOUSE;
+
+    return 0;
+}
+
 /* FIXME: this should get moved into archdep */
 #ifdef ANDROID_COMPILE
 #define ARCHDEP_MOUSE_ENABLE_DEFAULT  1
@@ -1162,6 +1237,10 @@ static const resource_int_t resources_int[] = {
 static const resource_int_t resources_extra_int[] = {
     { "SmartMouseRTCSave", 0, RES_EVENT_SAME, NULL,
       &ds1202_rtc_save, set_smart_mouse_rtc_save, NULL },
+    { "PaddlesInput1", PADDLES_INPUT_MOUSE, RES_EVENT_SAME, NULL,
+      &paddles_p1_input, set_paddles_p1_input, NULL },
+    { "PaddlesInput2", PADDLES_INPUT_MOUSE, RES_EVENT_SAME, NULL,
+      &paddles_p2_input, set_paddles_p2_input, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -1210,6 +1289,18 @@ static const cmdline_option_t cmdline_extra_option[] =
     { "+smartmousertcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SmartMouseRTCSave", (void *)0,
       NULL, "Disable saving of smart mouse RTC data when changed." },
+    { "-paddles1inputmouse", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "PaddlesInput1", (void *)PADDLES_INPUT_MOUSE,
+      NULL, "Use host mouse as input for paddles in port 1." },
+    { "-paddles1inputjoyaxis", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "PaddlesInput1", (void *)PADDLES_INPUT_JOY_AXIS,
+      NULL, "Use host joystick axis as input for paddles in port 1." },
+    { "-paddles2inputmouse", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "PaddlesInput2", (void *)PADDLES_INPUT_MOUSE,
+      NULL, "Use host mouse as input for paddles in port 2." },
+    { "-paddles2inputjoyaxis", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "PaddlesInput2", (void *)PADDLES_INPUT_JOY_AXIS,
+      NULL, "Use host joystick axis as input for paddles in port 2." },
     CMDLINE_LIST_END
 };
 

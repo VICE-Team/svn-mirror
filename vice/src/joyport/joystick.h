@@ -44,6 +44,9 @@ extern int joystick_check_set(signed long key, int keysetnum, unsigned int joypo
 extern int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport);
 extern void joystick_joypad_clear(void);
 
+extern void joystick_set_axis_value(unsigned int index, uint8_t value);
+extern uint8_t joystick_get_axis_value(unsigned int index);
+
 extern void joystick_set_value_absolute(unsigned int joyport, uint16_t value);
 extern void joystick_set_value_or(unsigned int joyport, uint16_t value);
 extern void joystick_set_value_and(unsigned int joyport, uint16_t value);
