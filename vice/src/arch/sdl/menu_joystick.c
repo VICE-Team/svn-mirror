@@ -554,6 +554,67 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
     return NULL;
 }
 
+#define VICE_SDL_JOYSTICK_MAPPING_POT_MENU(port)                       \
+    static const ui_menu_entry_t define_joy ## port ## _pot_menu[] = { \
+        { "Up",                                                        \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(0 | ((port - 1) << 5)) },               \
+        { "Down",                                                      \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(1 | ((port - 1) << 5)) },               \
+        { "Left",                                                      \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(2 | ((port - 1) << 5)) },               \
+        { "Right",                                                     \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(3 | ((port - 1) << 5)) },               \
+        { "Fire (or SNES-A)",                                          \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(4 | ((port - 1) << 5)) },               \
+        { "Fire 2 (or SNES-B)",                                        \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(5 | ((port - 1) << 5)) },               \
+        { "Fire 3 (or SNES-X)",                                        \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(6 | ((port - 1) << 5)) },               \
+        { "Fire 4 (SNES-Y)",                                           \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(7 | ((port - 1) << 5)) },               \
+        { "Fire 5 (SNES-LB)",                                          \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(8 | ((port - 1) << 5)) },               \
+        { "Fire 6 (SNES-RB)",                                          \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(9 | ((port - 1) << 5)) },               \
+        { "Fire 7 (SNES-SELECT)",                                      \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(10 | ((port - 1) << 5)) },              \
+        { "Fire 8 (SNES-START)",                                       \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_callback,                                      \
+          (ui_callback_data_t)(11 | ((port - 1) << 5)) },              \
+        { "Pot-X",                                                     \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_axis_callback,                                 \
+          (ui_callback_data_t)(0 | ((port - 1) << 5)) },               \
+        { "Pot-Y",                                                     \
+          MENU_ENTRY_DIALOG,                                           \
+          custom_joymap_axis_callback,                                 \
+          (ui_callback_data_t)(1 | ((port - 1) << 5)) },               \
+        SDL_MENU_LIST_END                                              \
+    };
+
 #define VICE_SDL_JOYSTICK_MAPPING_MENU(port)                       \
     static const ui_menu_entry_t define_joy ## port ## _menu[] = { \
         { "Up",                                                    \
@@ -604,14 +665,6 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(11 | ((port - 1) << 5)) },          \
-        { "Pot-X",                                                 \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_axis_callback,                             \
-          (ui_callback_data_t)(0 | ((port - 1) << 5)) },           \
-        { "Pot-Y",                                                 \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_axis_callback,                             \
-          (ui_callback_data_t)(1 | ((port - 1) << 5)) },           \
         SDL_MENU_LIST_END                                          \
     };
 
@@ -625,6 +678,10 @@ VICE_SDL_JOYSTICK_MAPPING_MENU(7)
 VICE_SDL_JOYSTICK_MAPPING_MENU(8)
 VICE_SDL_JOYSTICK_MAPPING_MENU(9)
 VICE_SDL_JOYSTICK_MAPPING_MENU(10)
+
+VICE_SDL_JOYSTICK_MAPPING_POT_MENU(1)
+VICE_SDL_JOYSTICK_MAPPING_POT_MENU(2)
+VICE_SDL_JOYSTICK_MAPPING_POT_MENU(6)
 
 static UI_MENU_CALLBACK(custom_joy_misc_callback)
 {
@@ -679,11 +736,11 @@ static const ui_menu_entry_t joystick_host_mapping_10_menu[] = {
     { "Host joy to native port 1 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)define_joy1_menu },
+      (ui_callback_data_t)define_joy1_pot_menu },
     { "Host joy to native port 2 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)define_joy2_menu },
+      (ui_callback_data_t)define_joy2_pot_menu },
     { "Host joy to joy adapter port 1 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -743,7 +800,7 @@ static const ui_menu_entry_t joystick_host_mapping_plus4_menu[] = {
     { "Host joy to SID Cartridge joy mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)define_joy6_menu },
+      (ui_callback_data_t)define_joy6_pot_menu },
     SDL_MENU_LIST_END
 };
 
@@ -751,7 +808,7 @@ static const ui_menu_entry_t joystick_host_mapping_vic20_menu[] = {
     { "Host joy to native joy mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)define_joy1_menu },
+      (ui_callback_data_t)define_joy1_pot_menu },
     { "Host joy to joy adapter port 1 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
