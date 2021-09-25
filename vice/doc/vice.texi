@@ -3242,6 +3242,17 @@ Boolean, enables mouse emulation
 @item SmartMouseRTCSave
 Boolean, specified whether to save real time clock data for the SmartMouse
 
+@vindex PaddlesInput1
+@item PaddlesInput1
+Integer speciftying the host input for the potentiometers of joystick port 1
+(all emulators except xcbm2 and xpet)
+(0: Mouse, 1: Joystick axis)
+
+@vindex PaddlesInput2
+@item PaddlesInput2
+Integer speciftying the host input for the potentiometers of joystick port 2
+(all emulators except xcbm2, xplus4 and xvic)
+(0: Mouse, 1: Joystick axis)
 
 @vindex KeySet1NorthWest
 @vindex KeySet1North
@@ -3551,6 +3562,27 @@ Enable/Disable mouse grab
 @item -smartmousertcsave
 @itemx +smartmousertcsave
 Enable/Disable saving of the real time clock data for the SmartMouse
+(@code{SmartMouseRTCSave=1}, @code{SmartMouseRTCSave=0})
+
+@findex -paddles1inputmouse
+@item -paddles1inputmouse
+Set the host input for the potentiometers of joystick port 1 to the mouse.
+(@code{PaddlesInput1=0})
+
+@findex -paddles1inputjoyaxis
+@item -paddles1inputmouse
+Set the host input for the potentiometers of joystick port 1 to a joystick axis.
+(@code{PaddlesInput1=1})
+
+@findex -paddles2inputmouse
+@item -paddles2inputmouse
+Set the host input for the potentiometers of joystick port 2 to the mouse.
+(@code{PaddlesInput2=0})
+
+@findex -paddles1inputjoyaxis
+@item -paddles1inputmouse
+Set the host input for the potentiometers of joystick port 2 to a joystick axis.
+(@code{PaddlesInput2=1})
 
 @findex -keyset, +keyset
 @item -keyset
