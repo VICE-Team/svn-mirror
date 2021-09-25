@@ -34,6 +34,7 @@
 #include "menu_speed.h"
 #include "resources.h"
 #include "uimenu.h"
+#include "vsync.h"
 
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 UI_MENU_DEFINE_RADIO(Speed)
@@ -93,10 +94,18 @@ static UI_MENU_CALLBACK(custom_Fps_callback)
     return NULL;
 }
 
+static UI_MENU_CALLBACK(set_warp_mode_callback)
+{
+    if (activated) {
+        vsync_set_warp_mode(!vsync_get_warp_mode());
+    }
+    return vsync_get_warp_mode() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
+}
+
 const ui_menu_entry_t speed_menu[] = {
     { "Warp mode",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_WarpMode_callback,
+      MENU_ENTRY_OTHER_TOGGLE,
+      set_warp_mode_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Maximum CPU speed"),

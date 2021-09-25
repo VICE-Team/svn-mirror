@@ -66,6 +66,7 @@
 #include "tapeport.h"
 #include "tapecontents.h"
 #include "tape-snapshot.h"
+#include "userport.h"
 #include "vdrive.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
@@ -939,6 +940,16 @@ void tapeport_snapshot_register(tapeport_snapshot_t *snapshot)
 {
 }
 
+int tape_seek_to_offset(tape_image_t *tape_image, unsigned long offset)
+{
+    return 0;
+}
+
+int tap_seek_to_offset(tap_t *tap, unsigned long offset)
+{
+    return 0;
+}
+
 int iec_available_busses(void)
 {
     return 0;
@@ -982,4 +993,12 @@ unsigned int drive_check_dual(unsigned int type)
     return 0;
 }
 
+userport_desc_t *userport_get_valid_devices(int sort)
+{
+    return NULL;
+}
 
+const char *userport_get_device_type_desc(int type)
+{
+    return NULL;
+}

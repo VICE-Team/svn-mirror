@@ -86,6 +86,8 @@ libc64cart_a_SOURCES = \
 	dinamic.h \
 	dqbb.c \
 	dqbb.h \
+	drean.c \
+	drean.h \
 	easycalc.c \
 	easycalc.h \
 	easyflash.c \
@@ -120,8 +122,6 @@ libc64cart_a_SOURCES = \
 	gmod3.h \
 	gs.c \
 	gs.h \
-	hero.c \
-	hero.h \
 	ide64.c \
 	ide64.h \
 	ieeeflash64.c \

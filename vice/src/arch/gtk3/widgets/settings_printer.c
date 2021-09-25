@@ -359,7 +359,7 @@ GtkWidget *settings_printer_widget_create(GtkWidget *parent)
     int p;
     char buffer[256];
 
-    layout = gtk_grid_new();
+    layout = vice_gtk3_grid_new_spaced(0, 16);
 
     stack = gtk_stack_new();
     gtk_stack_set_transition_type(GTK_STACK(stack),

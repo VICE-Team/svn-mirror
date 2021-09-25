@@ -52,6 +52,7 @@
 #include "c64keyboard.h"
 #include "c64mem.h"
 #include "c64memrom.h"
+#include "c64parallel.h"
 #include "c64rsuser.h"
 #include "cardkey.h"
 #include "cartio.h"
@@ -147,6 +148,10 @@
 #include "mouse.h"
 #endif
 
+#ifdef IO_SIMULATION
+#include "userport_io_sim.h"
+#include "joyport_io_sim.h"
+#endif
 
 /** \brief  Delay in seconds before pasting -keybuf argument into the buffer
  */
@@ -645,6 +650,10 @@ int machine_resources_init(void)
         init_resource_fail("userport devices");
         return -1;
     }
+    if (parallel_cable_cpu_resources_init() < 0) {
+        init_resource_fail("userport parallel drive cable");
+        return -1;
+    }
     if (rsuser_resources_init() < 0) {
         init_resource_fail("rsuser");
         return -1;
@@ -896,6 +905,16 @@ int machine_resources_init(void)
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     if (userport_diag_586220_harness_resources_init() < 0) {
         init_resource_fail("userport diag 586220 harness");
+        return -1;
+    }
+#endif
+#ifdef IO_SIMULATION
+    if (userport_io_sim_resources_init() < 0) {
+        init_resource_fail("userport I/O simulation");
+        return -1;
+    }
+    if (joyport_io_sim_resources_init() < 0) {
+        init_resource_fail("joyport I/O simulation");
         return -1;
     }
 #endif

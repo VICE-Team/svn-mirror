@@ -171,6 +171,68 @@ int snapshot_module_read_dword_into_uint(snapshot_module_t *m, unsigned int *val
 }
 
 
+int snapshot_module_write_byte_array(snapshot_module_t *m,
+                                     const uint8_t *data,
+                                     unsigned int num)
+{
+    return 0;
+}
+
+int snapshot_module_read_byte_array(snapshot_module_t *m,
+                                    uint8_t *b_return,
+                                    unsigned int num)
+{
+    return 0;
+}
+
+int snapshot_module_write_word(snapshot_module_t *m, uint16_t data)
+{
+    return 0;
+}
+
+int snapshot_module_read_word_into_int(snapshot_module_t *m,
+                                       int *value_return)
+{
+    return 0;
+}
+
+int snapshot_version_is_smaller(uint8_t major_version,
+                                uint8_t minor_version,
+                                uint8_t major_version_required,
+                                uint8_t minor_version_required)
+{
+    return 0;
+}
+
+int snapshot_version_is_equal(uint8_t major_version,
+                              uint8_t minor_version,
+                              uint8_t major_version_required,
+                              uint8_t minor_version_required)
+{
+    return 0;
+}
+
+int snapshot_version_is_bigger(uint8_t major_version,
+                               uint8_t minor_version,
+                               uint8_t major_version_required,
+                               uint8_t minor_version_required)
+{
+    return 0;
+}
+
+void snapshot_set_error(int error)
+{
+    /* NOP */
+}
+
+int snapshot_get_error(void)
+{
+    return 0;
+}
+
+
+
+
 #if 0
 void ui_error_string(const char *text)
 {

@@ -407,7 +407,8 @@ static const resource_int_t resid_resources_int[] = {
 };
 #endif
 
-static const resource_int_t common_resources_int[] = {
+static resource_int_t common_resources_int[] = {
+    /* CAUTION: position is hardcoded below */
 #ifdef HAVE_RESID
     { "SidEngine", SID_ENGINE_DEFAULT,
       RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID,
@@ -419,6 +420,7 @@ static const resource_int_t common_resources_int[] = {
 #endif
     { "SidFilters", 1, RES_EVENT_SAME, NULL,
       &sid_filters_enabled, set_sid_filters_enabled, NULL },
+    /* CAUTION: position is hardcoded below */
     { "SidModel", SID_MODEL_DEFAULT, RES_EVENT_SAME, NULL,
       &sid_model, set_sid_model, NULL },
     RESOURCE_INT_LIST_END
@@ -442,6 +444,29 @@ static const resource_int_t stereo_resources_int[] = {
 
 int sid_common_resources_init(void)
 {
+    /* Setup default factory value for sid engine and model. We do this
+       here so the default value will not end up in the config file. */
+
+    /* setup the default for sid engine */
+#ifdef HAVE_RESID
+    common_resources_int[0].factory_value = SID_ENGINE_RESID;
+#else
+    common_resources_int[0].factory_value = SID_ENGINE_FASTSID;
+#endif
+    /* setup the default for sid model */
+    common_resources_int[2].factory_value = SID_MODEL_6581;
+#ifdef HAVE_RESID
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        common_resources_int[2].factory_value = SID_MODEL_DTVSID;
+    } else
+#endif
+    if ((machine_class == VICE_MACHINE_C128) || 
+        (machine_class == VICE_MACHINE_C64) ||
+        (machine_class == VICE_MACHINE_C64SC) ||
+        (machine_class == VICE_MACHINE_SCPU64)){
+        common_resources_int[2].factory_value = SID_MODEL_8580;
+    }
+
 #ifdef HAVE_HARDSID
     if (hardsid_available()) {
         if (resources_register_int(hardsid_resources_int) < 0) {

@@ -268,10 +268,10 @@ noinst_HEADERS = \
 	romset.h \
 	scpu64ui.h \
 	screenshot.h \
+	snapshot.h \
 	serial.h \
 	sidcart.h \
 	signals.h \
-	snapshot.h \
 	snespad.h
 	sound.h \
 	ssi2001.h \

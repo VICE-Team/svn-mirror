@@ -5,7 +5,7 @@
 # File format:
 # - comment lines start with '#'
 # - keyword lines start with '!keyword'
-# - normal line has 'keysym/scancode row column shiftflag'
+# - normal lines have 'keysym/scancode row column shiftflag'
 #
 # Keywords and their lines are:
 # '!CLEAR'               clear whole table
@@ -14,51 +14,74 @@
 # '!RSHIFT row col'      right shift keyboard row/column
 # '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
 # '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)
+#  for emulated keyboards that have only one shift key, set both LSHIFT
+#  and RSHIFT to the same row/col and use RSHIFT for VSHIFT and SHIFTL.
 # '!LCTRL row col'       left control keyboard row/column
 # '!VCTRL ctrlkey'       virtual control key (LCTRL)
 # '!LCBM row col'        left CBM keyboard row/column
 # '!VCBM cbmkey'         virtual CBM key (LCBM)
 # '!UNDEF keysym'        remove keysym from table
 #
-# Shiftflag can have the values:
-# 0      key is not shifted for this keysym/scancode
-# 1      key is combined with shift for this keysym/scancode
-# 2      key is left shift on emulated machine
-# 4      key is right shift on emulated machine
-# 8      key can be shifted or not with this keysym/scancode
-# 16     deshift key for this keysym/scancode
-# 32     another definition for this keysym/scancode follows
-# 64     key is shift-lock on emulated machine
-# 128    shift modifier required on host
-# 256    key is used for an alternative keyboard mapping
-# 512    alt-r (alt-gr) modifier required on host
-# 1024   ctrl modifier required on host
-# 2048   key is combined with cbm for this keysym/scancode
-# 4096   key is combined with ctrl for this keysym/scancode
-# 8192   key is (left) cbm on emulated machine
-# 16384  key is (left) ctrl on emulated machine
-#
-# to migrate older keymaps and use the CBM and/or CTRL related features:
-#
-# - define !LCTRL, !VCTRL, !LCBM, !VCBM
-# - add 'key is (left) cbm/ctrl on emulated machine' flags to
-#   all keys that map to the cbm or ctrl key respectively.
-#
-# after that the virtual cbm/ctrl flags and requiring host modifiers
-# should work as expected. keep an eye on the error messages.
+# Shiftflag can have these values, flags can be ORed to combine them:
+# 0x0000      0  key is not shifted for this keysym/scancode
+# 0x0001      1  key is combined with shift for this keysym/scancode
+# 0x0002      2  key is left shift on emulated machine
+# 0x0004      4  key is right shift on emulated machine (use only this one
+#                for emulated keyboards that have only one shift key)
+# 0x0008      8  key can be shifted or not with this keysym/scancode
+# 0x0010     16  deshift key for this keysym/scancode
+# 0x0020     32  another definition for this keysym/scancode follows
+# 0x0040     64  key is shift-lock on emulated machine
+# 0x0080    128  shift modifier required on host
+# 0x0100    256  key is used for an alternative keyboard mapping, e.g. C64 mode in x128
+# 0x0200    512  alt-r (alt-gr) modifier required on host
+# 0x0400   1024  ctrl modifier required on host
+# 0x0800   2048  key is combined with cbm for this keysym/scancode
+# 0x1000   4096  key is combined with ctrl for this keysym/scancode
+# 0x2000   8192  key is (left) cbm on emulated machine
+# 0x4000  16384  key is (left) ctrl on emulated machine
 #
 # Negative row values:
-# 'keysym -1 n' joystick #1, direction n
-# 'keysym -2 n' joystick #2, direction n
+# 'keysym -1 n' joystick keymap A, direction n
+# 'keysym -2 n' joystick keymap B, direction n
 # 'keysym -3 0' first RESTORE key
 # 'keysym -3 1' second RESTORE key
-# 'keysym -4 0' 40/80 column key
-# 'keysym -4 1' CAPS (ASCII/DIN) key
+# 'keysym -4 0' 40/80 column key (x128)
+# 'keysym -4 1' CAPS (ASCII/DIN) key (x128)
+# 'keysym -5 n' joyport keypad, key n (not supported in x128)
 #
+# Joystick direction values:
+# 0      Fire
+# 1      South/West
+# 2      South
+# 3      South/East
+# 4      West
+# 5      East
+# 6      North/West
+# 7      North
+# 8      North/East
+#
+# Joyport keypad key layout:
+# --------------------------
+# |  0 |  1 |  2 |  3 |  4 |
+# --------------------------
+# |  5 |  6 |  7 |  8 |  9 |
+# --------------------------
+# | 10 | 11 | 12 | 13 | 14 |
+# --------------------------
+# | 15 | 16 | 17 | 18 | 19 |
+# --------------------------
+#
+# When a bigger spaced key is used,
+# it uses the upper left most key value.
 
 # this is a PET graphics keyboard mapping (symbolic)
 
+# 2001, 3032 and 4032 use graphics keyboard
+# 4032B, 8032 and up use business keyboard
 #
+# http://www.6502.org/users/andre/petindex/keyboards.html
+
 # Graphics keyboard matrix:
 #
 #       0        1        2        3        4        5        6        7
@@ -86,33 +109,100 @@
 #
 # The original gfx keyboard reflects the matrix perfectly:
 #
-#         @ !  "  #  $  %  '  &  \  (  )  <-     ^s ^q ^] ^t
-#       RVS  q  w  e  r  t  y  u  i  o  p  ^      7  8  9  /
-#         SL  a  s  d  f  g  h  j  k  l  : ^m     4  5  6  *
-#          LS  z  x  c  v  b  n  m  ,  ;  ? ^m    1  2  3  +
-#                 SPACE                           0  .  -  =
+#         @ !  "  #  $  %  '  &  \  (  )  <- [  ]    clr  u/d  l/r  ins/del
+#       RVS  q  w  e  r  t  y  u  i  o  p  ^  <  >    7    8    9    /
+#         SL  a  s  d  f  g  h  j  k  l  : r/s ret    4    5    6    *
+#          LS  z  x  c  v  b  n  m  ,  ;  ?  RS       1    2    3    +
+#                 SPACE                               0    .    -    =
+#
+# Chiclet Keyboard:
+#
+#       !  "  #  $  %  '  &  \  (  )  <-    clr  u/d  l/r  ins/del
+#       q  w  e  r  t  y  u  i  o  p  ^     7    8    9    /
+#       a  s  d  f  g  h  j  k  l  :  ret   4    5    6    *
+#       z  x  c  v  b  n  m  ,  ;  ?  ret   1    2    3    +
+#      LS RVS @  [  ]  space <  > r/s RS    0    .    -    =
 #
 # http://www.6502.org/users/andre/petindex/keyboards.html
 
 !CLEAR
 !LSHIFT 8 0
 !RSHIFT 8 5
-!VSHIFT RSHIFT
+!VSHIFT LSHIFT
+!SHIFTL LSHIFT
+#!LCBM 0 0
+#!VCBM LCBM
+#!LCTRL 0 0
+#!VCTRL LCTRL
 
-Return 6 5 8
-Down 1 6 8
-Right 0 7 8
-Home 0 6 8
-BackSpace 1 7 8
-Delete 1 7 0
-Tab 9 0 8
-KP_Tab 9 0 8
-ISO_Left_Tab 9 0 1
-Escape 9 4 8
-Control_L 9 4 8
-Find 0 6 0
-Shift_L 8 0 2
-Shift_R 8 5 4
+at              8 1 0
+exclam          0 0 16
+quotedbl        1 0 16
+numbersign      0 1 0
+dollar          1 1 16
+percent         0 2 16
+apostrophe      1 2 0
+ampersand       0 3 16
+backslash       1 3 0
+parenright      1 4 16
+parenleft       0 4 16
+underscore      0 5 16
+bracketright    8 2 0
+bracketleft     9 1 0
+Home            0 6 8
+Clear           0 6 1
+Up              1 6 1
+Down            1 6 8
+Left            0 7 1
+Right           0 7 8
+Insert          1 7 1
+BackSpace       1 7 8
+Delete          1 7 0
+
+Tab             9 0 8
+KP_Tab          9 0 8
+ISO_Left_Tab    9 0 1
+greater         8 4 16
+less            9 3 16
+asciicircum     2 5 0
+asciitilde      2 5 0
+slash           3 7 0
+
+Caps_Lock       8 0 64
+colon           5 4 16
+Escape          9 4 8
+Return          6 5 8
+asterisk        5 7 16
+
+Shift_L         8 0 2
+comma           7 3 0
+semicolon       6 4 0
+question        7 4 16
+Shift_R         8 5 4
+plus            7 7 0
+
+space           9 2 8
+period          9 6 0
+minus           8 7 0
+equal           9 7 0
+
+#Control_L       9 4 8
+Find            0 6 0
+sterling        1 3 0
+bar             1 3 0
+grave           8 1 1
+
+0 8 6 0
+1 6 6 0
+2 7 6 0
+3 6 7 0
+4 4 6 0
+5 5 6 0
+6 4 7 0
+7 2 6 0
+8 3 6 0
+9 2 7 0
+
 a 4 0 0
 b 6 2 0
 c 6 1 0
@@ -139,92 +229,48 @@ w 3 0 0
 x 7 0 0
 y 3 2 0
 z 6 0 0
-KP_0 8 6 8
-KP_1 6 6 8
-KP_2 7 6 8
-KP_3 6 7 8
-KP_4 4 6 8
-KP_5 5 6 8
-KP_6 4 7 8
-KP_7 2 6 8
-KP_8 3 6 8
-KP_9 2 7 8
-KP_Separator 7 3 8
-KP_Multiply 5 7 8
-KP_Divide 3 7 8
-KP_Add 7 7 8
-KP_Subtract 8 7 8
-KP_Enter 6 5 8
-KP_Decimal 9 6 8
-0 8 6 0
-1 6 6 0
-2 7 6 0
-3 6 7 0
-4 4 6 0
-5 5 6 0
-6 4 7 0
-7 2 6 0
-8 3 6 0
-9 2 7 0
-slash 3 7 0
-bracketright 8 2 0
-bracketleft 9 1 0
-parenright 1 4 0
-parenleft 0 4 0
-question 7 4 0
-dollar 1 1 0
-asterisk 5 7 0
-colon 5 4 0
-comma 7 3 0
-quotedbl 1 0 0
-sterling 1 3 0
-backslash 1 3 0
-bar 1 3 0
-numbersign 0 1 0
-exclam 0 0 0
-percent 0 2 0
-plus 7 7 0
-underscore 0 5 0
-ampersand 0 3 0
-semicolon 6 4 0
-minus 8 7 0
-equal 9 7 0
-space 9 2 8
-greater 8 4 0
-less 9 3 0
-period 9 6 0
-at 8 1 0
-asciicircum 2 5 0
-asciitilde 2 5 0
-apostrophe 1 2 0
-Left 0 7 1
-Up 1 6 1
-Insert 1 7 1
-Clear 0 6 1
-grave 8 1 1
-W 3 0 1
+
 A 4 0 1
-Z 6 0 1
-S 5 0 1
-E 2 1 1
-R 3 1 1
-D 4 1 1
-C 6 1 1
-F 5 1 1
-T 2 2 1
-X 7 0 1
-Y 3 2 1
-G 4 2 1
 B 6 2 1
+C 6 1 1
+D 4 1 1
+E 2 1 1
+F 5 1 1
+G 4 2 1
 H 5 2 1
-U 2 3 1
-V 7 1 1
 I 3 3 1
 J 4 3 1
-M 6 3 1
 K 5 3 1
-O 2 4 1
-N 7 2 1
-P 3 4 1
 L 4 4 1
+M 6 3 1
+N 7 2 1
+O 2 4 1
+P 3 4 1
 Q 2 0 1
+R 3 1 1
+S 5 0 1
+T 2 2 1
+U 2 3 1
+V 7 1 1
+W 3 0 1
+X 7 0 1
+Y 3 2 1
+Z 6 0 1
+
+KP_0            8 6 8
+KP_1            6 6 8
+KP_2            7 6 8
+KP_3            6 7 8
+KP_4            4 6 8
+KP_5            5 6 8
+KP_6            4 7 8
+KP_7            2 6 8
+KP_8            3 6 8
+KP_9            2 7 8
+KP_Separator    7 3 8
+KP_Multiply     5 7 8
+KP_Divide       3 7 8
+KP_Add          7 7 8
+KP_Subtract     8 7 8
+KP_Enter        6 5 8
+KP_Decimal      9 6 8

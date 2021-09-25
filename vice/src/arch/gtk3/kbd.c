@@ -120,11 +120,6 @@ void kbd_initialize_numpad_joykeys(int *joykeys)
 /* since GDK will not make a difference between left and right shift in the
    modifiers reported in the key event, we track the state of the shift keys
    ourself.
-
-   FIXME: perhaps the caps-lock state can be tracked better by using
-          gdk_keymap_get_caps_lock_state() instead - however this will then
-          actually consider the "locking". this still has to be fixed in the
-          common code handling this.
 */
 
 /** \brief  Left SHIFT key state
@@ -135,10 +130,13 @@ static int shiftl_state = 0;
  */
 static int shiftr_state = 0;
 
-/** \brief  CAPSLOCK key state
+/** \brief  CAPSLOCK key state (is the key currently pressed?)
  */
 static int capslock_state = 0;
 
+/** \brief  CAPSLOCK key state (is caps-lock active/locked?)
+ */
+static int capslock_lock_state = 0;
 
 /** \brief  Set shift flags on key press
  *
@@ -153,10 +151,25 @@ static void kbd_fix_shift_press(GdkEvent *report)
         case GDK_KEY_Shift_R:
             shiftr_state = 1;
             break;
+        /* CAUTION: On linux we get regular key down and key up events for the
+                    caps-lock key. on macOS we get a key down event when caps
+                    become locked, and a key up event when it becomes unlocked */
         case GDK_KEY_Caps_Lock:
+#ifdef MACOSX_SUPPORT
+            capslock_lock_state = 1;
+#else
             capslock_state = 1;
+#endif
             break;
+        /* HACK: this will update the capslock state from other keypresses,
+                 hopefully making sure its kept in sync at all times */
+#ifdef MACOSX_SUPPORT
+        default:
+            capslock_lock_state = (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
+            break;
+#endif
     }
+    /* printf("kbd_fix_shift_press   gtk lock state: %d\n", capslock_lock_state); */
 }
 
 /** \brief  Unset shift flags on key release
@@ -172,10 +185,26 @@ static void kbd_fix_shift_release(GdkEvent *report)
         case GDK_KEY_Shift_R:
             shiftr_state = 0;
             break;
+        /* CAUTION: On linux we get regular key down and key up events for the
+                    caps-lock key. on macOS we get a key down event when caps
+                    become locked, and a key up event when it becomes unlocked */
         case GDK_KEY_Caps_Lock:
+#ifdef MACOSX_SUPPORT
+            capslock_lock_state = 0;
+#else
+            capslock_lock_state ^= 1;
             capslock_state = 0;
+#endif
             break;
+        /* HACK: this will update the capslock state from other keypresses,
+                 hopefully making sure its kept in sync at all times */
+#ifdef MACOSX_SUPPORT
+        default:
+            capslock_lock_state = (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
+            break;
+#endif
     }
+    /* printf("kbd_fix_shift_release gtk lock state: %d\n", capslock_lock_state); */
 }
 
 /** \brief  Clear shift flags
@@ -185,6 +214,30 @@ static void kbd_fix_shift_clear(void)
     shiftl_state = 0;
     shiftr_state = 0;
     capslock_state = 0;
+}
+
+/** \brief  sync caps lock status with the keyboard emulation
+ */
+static void kbd_sync_caps_lock(void)
+{
+#ifdef MACOSX_SUPPORT
+    if (keyboard_get_shiftlock() != capslock_lock_state) {
+        keyboard_set_shiftlock(capslock_lock_state);
+    }
+#else
+    GdkDisplay *display = gdk_display_get_default();
+    GdkKeymap *keymap = gdk_keymap_get_for_display(display);
+    int capslock = gdk_keymap_get_caps_lock_state(keymap);
+
+    if (keyboard_get_shiftlock() != capslock) {
+        keyboard_set_shiftlock(capslock);
+        capslock_lock_state = capslock;
+    }
+#endif
+#if 0
+    printf("kbd_sync_caps_lock host caps-lock: %d kbd shift-lock: %d gtk lock state: %d\n",
+        capslock, keyboard_get_shiftlock(), capslock_lock_state);
+#endif
 }
 
 /** \brief  Get modifiers keys for keyboard event
@@ -388,6 +441,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             kdb_debug_widget_update(report);
 
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
+                /* mnemonic or accelerator was found and activated. */
                 return TRUE;
             }
 
@@ -416,6 +470,19 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #endif
                 keyboard_key_pressed((signed long)key, mod);
             }
+/* HACK: on windows the caps-lock key generates an invalid keycode of 0xffffff,
+         so when we see this in the event we explicitly sync caps-lock state
+         to make it work in the emulation */
+#ifdef WIN32_COMPILE
+            if (report->key.keyval == 0xffffff) {
+                kbd_sync_caps_lock();
+            }
+#endif
+/* HACK: on macOS caps-lock ON and OFF generate events, checking the state as
+         such does not work, so we must track und update on our own */
+#ifdef MACOSX_SUPPORT
+            kbd_sync_caps_lock();
+#endif
             return TRUE;
         case GDK_KEY_RELEASE:
             /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",
@@ -444,6 +511,8 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 key = report->key.keyval = GDK_KEY_KP_Decimal;
             }
 
+            kdb_debug_widget_update(report);
+
             if (removepressedkey(report, &key, &mod)) {
 #if 0
                 printf("%2d key release, %5u %04x %04x. lshift: %d rshift: %d slock: %d mod:  %04x\n",
@@ -456,14 +525,41 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 keyspressed = 0;
                 kbd_fix_shift_clear();
                 keyboard_key_clear();
+                kbd_sync_caps_lock();
             }
+/* HACK: on windows the caps-lock key generates an invalid keycode of 0xffffff,
+         so when we see this in the event we explicitly sync caps-lock state
+         to make it work in the emulation */
+#ifdef WIN32_COMPILE
+            if (report->key.keyval == 0xffffff) {
+                kbd_sync_caps_lock();
+            }
+#endif
+/* HACK: on macOS caps-lock ON and OFF generate events, checking the state as
+         such does not work, so we must track und update on our own */
+#ifdef MACOSX_SUPPORT
+            kbd_sync_caps_lock();
+#endif
+            break;
+        /* mouse pointer enters or exits the emulator */
+        case GDK_LEAVE_NOTIFY:
+            keyspressed = 0;
+            kbd_fix_shift_clear();
+            keyboard_key_clear();
+            kbd_sync_caps_lock();
             break;
         case GDK_ENTER_NOTIFY:
-        case GDK_LEAVE_NOTIFY:
+            keyspressed = 0;
+            kbd_fix_shift_clear();
+            keyboard_key_clear();
+            kbd_sync_caps_lock();
+            break;
+        /* focus change */
         case GDK_FOCUS_CHANGE:
             keyspressed = 0;
             kbd_fix_shift_clear();
             keyboard_key_clear();
+            kbd_sync_caps_lock();
             break;
         default:
             break;
@@ -494,5 +590,13 @@ void kbd_connect_handlers(GtkWidget *widget, void *data)
     g_signal_connect(
             G_OBJECT(widget),
             "leave-notify-event",
+            G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(
+            G_OBJECT(widget),
+            "focus-in-event",
+            G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(
+            G_OBJECT(widget),
+            "focus-out-event",
             G_CALLBACK(kbd_event_handler), data);
 }

@@ -94,6 +94,11 @@ static const gchar *rec_types[] = {
 };
 
 
+/** \brief  GSource id of the timeout to hide the recording button
+ */
+static guint timeout_id = 0;
+
+
 /** \brief  Callback for the g_timeout
  *
  * \param[in,out]   data    statusbar recording widget
@@ -232,6 +237,11 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
     gchar buffer[256];
     GtkWidget *button;
     int type = 0;   /* set recording type to 'inactive' */
+
+    if (timeout_id > 0) {
+        g_source_remove(timeout_id);
+        timeout_id = 0;
+    }
 
     g_object_set_data(G_OBJECT(widget), "Status", GINT_TO_POINTER(status));
     if (status == 0) {
@@ -391,13 +401,17 @@ static gboolean hide_all_timer_callback(gpointer data)
 void statusbar_recording_widget_hide_all(GtkWidget *widget, guint timeout)
 {
     /* setup a one-shot timer to hide the labels and button */
-    if (timeout == 0) {
-        /* don't bother setting up timer, trigger directly */
-        hide_all_timer_callback((gpointer)widget);
-    } else {
-        g_timeout_add_seconds(
-                timeout,
-                hide_all_timer_callback,
-                (gpointer)widget);
+//    if (timeout == 0) {
+//        /* don't bother setting up timer, trigger directly */
+//        hide_all_timer_callback((gpointer)widget);
+//    } else {
+
+    /* remove previous timeout */
+    if (timeout_id > 0) {
+        g_source_remove(timeout_id);
     }
+    timeout_id = g_timeout_add_seconds(timeout,
+                                       hide_all_timer_callback,
+                                       (gpointer)widget);
+ //   }
 }

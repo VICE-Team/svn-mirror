@@ -80,6 +80,7 @@
 #include "vdrive.h"
 #include "vdrive-bam.h"
 #include "vice-event.h"
+#include "vsync.h"
 
 #ifdef DEBUG_AUTOSTART
 #define DBG(_x_)        log_debug _x_
@@ -178,6 +179,7 @@ static int autostart_disk_drive = 0; /* set by setup_for_disk */
 static int autostart_type = -1;
 
 /* ------------------------------------------------------------------------- */
+static size_t tap_initial_raw_offset = 0;
 
 int autostart_basic_load = 0;
 
@@ -386,6 +388,22 @@ void autostart_resources_shutdown(void)
 }
 
 /* ------------------------------------------------------------------------- */
+int autostart_set_initial_tap_offset(unsigned long offset)
+{
+    tap_initial_raw_offset = offset;
+    return 0;
+}
+
+static int cmdline_set_tap_offset(const char *arg, void *param)
+{
+    long val = strtol(arg, NULL, 0);
+    if (val < 0) {
+        tap_initial_raw_offset = 0;
+        return -1;
+    }
+    tap_initial_raw_offset = val;
+    return 0;
+}
 
 static const cmdline_option_t cmdline_options[] =
 {
@@ -434,6 +452,9 @@ static const cmdline_option_t cmdline_options[] =
     { "+autostart-delay-random", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartDelayRandom", (resource_value_t)0,
       NULL, "Disable random initial autostart delay." },
+    { "-autostarttapoffset", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      &cmdline_set_tap_offset, NULL, NULL, NULL,
+      "<value>", "Set initial offset in .tap file" },
     CMDLINE_LIST_END
 };
 
@@ -550,7 +571,8 @@ static int get_true_drive_emulation_state(int unit)
 
 static void set_iec_device_state(int on, int unit)
 {
-    if ((machine_class != VICE_MACHINE_PET) &&
+    if ((machine_class != VICE_MACHINE_VIC20) &&
+        (machine_class != VICE_MACHINE_PET) &&
         (machine_class != VICE_MACHINE_CBM5x0) &&
         (machine_class != VICE_MACHINE_CBM6x0)) {
         log_message(autostart_log, "Turning IECDevice %s for unit %d.", on ? "on" : "off", unit);
@@ -562,7 +584,8 @@ static int get_iec_device_state(int unit)
 {
     int value = 0;
 
-    if ((machine_class != VICE_MACHINE_PET) &&
+    if ((machine_class != VICE_MACHINE_VIC20) &&
+        (machine_class != VICE_MACHINE_PET) &&
         (machine_class != VICE_MACHINE_CBM5x0) &&
         (machine_class != VICE_MACHINE_CBM6x0)) {
         if (resources_get_int_sprintf("IECDevice%d", &value, unit) < 0) {
@@ -575,18 +598,7 @@ static int get_iec_device_state(int unit)
 static void set_warp_mode(int on)
 {
     log_message(autostart_log, "Turning Warp mode %s.", on ? "on" : "off");
-    resources_set_int("WarpMode", on);
-}
-
-static int get_warp_state(void)
-{
-    int value;
-
-    if (resources_get_int("WarpMode", &value) < 0) {
-        return 0;
-    }
-
-    return value;
+    vsync_set_warp_mode(on);
 }
 
 static int get_device_traps_state(int unit)
@@ -610,7 +622,7 @@ static void enable_warp_if_requested(void)
 {
     /* enable warp mode? */
     if (AutostartWarp) {
-        orig_warp_mode = get_warp_state();
+        orig_warp_mode = vsync_get_warp_mode();
         if (!orig_warp_mode) {
             set_warp_mode(1);
         }
@@ -672,7 +684,7 @@ static void init_drive_emulation_state(int unit, int drive)
 {
     DBG(("init_drive_emulation_state(unit: %d drive: %d) tde:%d iecdevice:%d traps:%d warp:%d",
         unit, drive, get_true_drive_emulation_state(unit), get_iec_device_state(unit),
-        get_device_traps_state(unit), get_warp_state()
+        get_device_traps_state(unit), vsync_get_warp_mode()
     ));
     if (orig_drive_true_emulation_state == -1) {
         orig_drive_true_emulation_state = get_true_drive_emulation_state(unit);
@@ -684,7 +696,7 @@ static void init_drive_emulation_state(int unit, int drive)
         orig_iec_device_state = get_iec_device_state(unit);
     }
     if (orig_warp_mode == -1) {
-        orig_warp_mode = get_warp_state();
+        orig_warp_mode = vsync_get_warp_mode();
     }
     if (orig_FileSystemDevice8 == -1) {
         resources_get_int_sprintf("FileSystemDevice%d", &orig_FileSystemDevice8, unit);
@@ -725,7 +737,7 @@ static void restore_drive_emulation_state(int unit, int drive)
     }
     if (orig_warp_mode != -1) {
         /* set warp to original state */
-        if (get_warp_state() != orig_warp_mode) {
+        if (vsync_get_warp_mode() != orig_warp_mode) {
             set_warp_mode(orig_warp_mode);
         }
     }
@@ -757,7 +769,7 @@ static void restore_drive_emulation_state(int unit, int drive)
     autostart_type = -1;
 
     DBG(("restore_drive_emulation_state(unit: %d drive: %d) tde:%d iecdevice:%d traps:%d warp:%d", unit, drive,
-        get_true_drive_emulation_state(unit), get_iec_device_state(unit), get_device_traps_state(unit), get_warp_state()
+        get_true_drive_emulation_state(unit), get_iec_device_state(unit), get_device_traps_state(unit), vsync_get_warp_mode()
     ));
 
 }
@@ -1470,7 +1482,10 @@ int autostart_tape(const char *file_name, const char *program_name,
             }
             program_number -= 1;
         }
-        if (do_seek) {
+        if (tap_initial_raw_offset > 0) {
+            tape_seek_to_offset(tape_image_dev1, tap_initial_raw_offset);
+            tap_initial_raw_offset = 0;
+        } else if (do_seek) {
             if (program_number > 0) {
                 /* program numbers in tape_seek_to_file() start at 0 */
                 tape_seek_to_file(tape_image_dev1, program_number - 1);
@@ -1973,8 +1988,9 @@ static void set_tapeport_device(int datasette, int tapecart)
     }
 }
 
-/* Autostart `file_name', trying to auto-detect its type.  */
-/* FIXME: pass device nr into this function */
+/* Autostart `file_name', trying to auto-detect its type.
+   FIXME: pass device nr into this function
+*/
 int autostart_autodetect(const char *file_name, const char *program_name,
                          unsigned int program_number, unsigned int runmode)
 {

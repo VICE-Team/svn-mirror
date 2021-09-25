@@ -186,61 +186,61 @@ static int userport_joystick_synergy_select = 0;
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static uint8_t userport_joystick_cga_read_pbx(void);
-static void userport_joystick_cga_store_pbx(uint8_t value);
+static uint8_t userport_joystick_cga_read_pbx(uint8_t orig);
+static void userport_joystick_cga_store_pbx(uint8_t value, int pulse);
 static int userport_joystick_cga_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_cga_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_cga_enable(int value);
 
-static uint8_t userport_joystick_pet_read_pbx(void);
-static void userport_joystick_pet_hit_store_pbx(uint8_t value);
+static uint8_t userport_joystick_pet_read_pbx(uint8_t orig);
+static void userport_joystick_pet_hit_store_pbx(uint8_t value, int pulse);
 static int userport_joystick_pet_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_pet_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_pet_enable(int value);
 
-static uint8_t userport_joystick_hummer_read_pbx(void);
-static void userport_joystick_hummer_store_pbx(uint8_t value);
+static uint8_t userport_joystick_hummer_read_pbx(uint8_t orig);
+static void userport_joystick_hummer_store_pbx(uint8_t value, int pulse);
 static int userport_joystick_hummer_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_hummer_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_hummer_enable(int value);
 
-static uint8_t userport_joystick_oem_read_pbx(void);
-static void userport_joystick_oem_store_pbx(uint8_t value);
+static uint8_t userport_joystick_oem_read_pbx(uint8_t orig);
+static void userport_joystick_oem_store_pbx(uint8_t value, int pulse);
 static int userport_joystick_oem_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_oem_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_oem_enable(int value);
 
-static uint8_t userport_joystick_hit_read_pbx(void);
-static uint8_t userport_joystick_hit_read_pa2(void);
+static uint8_t userport_joystick_hit_read_pbx(uint8_t orig);
+static uint8_t userport_joystick_hit_read_pa2(uint8_t orig);
 static void userport_joystick_hit_store_pa2(uint8_t val);
 static void userport_joystick_hit_store_sp1(uint8_t val);
-static uint8_t userport_joystick_hit_read_sp2(void);
+static uint8_t userport_joystick_hit_read_sp2(uint8_t orig);
 static int userport_joystick_hit_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_hit_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_hit_enable(int value);
 
-static uint8_t userport_joystick_kingsoft_read_pbx(void);
-static void userport_joystick_kingsoft_store_pbx(uint8_t value);
-static uint8_t userport_joystick_kingsoft_read_pa2(void);
+static uint8_t userport_joystick_kingsoft_read_pbx(uint8_t orig);
+static void userport_joystick_kingsoft_store_pbx(uint8_t value, int pulse);
+static uint8_t userport_joystick_kingsoft_read_pa2(uint8_t orig);
 static void userport_joystick_kingsoft_store_pa2(uint8_t val);
 static void userport_joystick_kingsoft_store_sp1(uint8_t val);
-static uint8_t userport_joystick_kingsoft_read_sp2(void);
+static uint8_t userport_joystick_kingsoft_read_sp2(uint8_t orig);
 static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_kingsoft_enable(int value);
 
-static uint8_t userport_joystick_starbyte_read_pbx(void);
-static void userport_joystick_starbyte_store_pbx(uint8_t value);
-static uint8_t userport_joystick_starbyte_read_pa2(void);
+static uint8_t userport_joystick_starbyte_read_pbx(uint8_t orig);
+static void userport_joystick_starbyte_store_pbx(uint8_t value, int pulse);
+static uint8_t userport_joystick_starbyte_read_pa2(uint8_t orig);
 static void userport_joystick_starbyte_store_pa2(uint8_t val);
 static void userport_joystick_starbyte_store_sp1(uint8_t val);
-static uint8_t userport_joystick_starbyte_read_sp2(void);
+static uint8_t userport_joystick_starbyte_read_sp2(uint8_t orig);
 static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_starbyte_enable(int value);
 
-static uint8_t userport_joystick_synergy_read_pbx(void);
-static void userport_joystick_synergy_store_pbx(uint8_t value);
+static uint8_t userport_joystick_synergy_read_pbx(uint8_t orig);
+static void userport_joystick_synergy_store_pbx(uint8_t value, int pulse);
 static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_synergy_read_snapshot_module(snapshot_t *s);
 static int userport_joystick_synergy_enable(int value);
@@ -681,7 +681,7 @@ int userport_joystick_synergy_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_cga_read_pbx(void)
+static uint8_t userport_joystick_cga_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -695,14 +695,14 @@ static uint8_t userport_joystick_cga_read_pbx(void)
     return retval;
 }
 
-static void userport_joystick_cga_store_pbx(uint8_t value)
+static void userport_joystick_cga_store_pbx(uint8_t value, int pulse)
 {
     userport_joystick_cga_select = (value & 0x80) ? 0 : 1;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_pet_read_pbx(void)
+static uint8_t userport_joystick_pet_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -716,7 +716,7 @@ static uint8_t userport_joystick_pet_read_pbx(void)
     return retval;
 }
 
-static void userport_joystick_pet_hit_store_pbx(uint8_t value)
+static void userport_joystick_pet_hit_store_pbx(uint8_t value, int pulse)
 {
     uint8_t j1 = value & 0xf;
     uint8_t j2 = (value & 0xf0) >> 4;
@@ -727,7 +727,7 @@ static void userport_joystick_pet_hit_store_pbx(uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_hummer_read_pbx(void)
+static uint8_t userport_joystick_hummer_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -737,7 +737,7 @@ static uint8_t userport_joystick_hummer_read_pbx(void)
     return retval;
 }
 
-static void userport_joystick_hummer_store_pbx(uint8_t value)
+static void userport_joystick_hummer_store_pbx(uint8_t value, int pulse)
 {
     uint8_t j1 = value & 0x1f;
 
@@ -746,7 +746,7 @@ static void userport_joystick_hummer_store_pbx(uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_oem_read_pbx(void)
+static uint8_t userport_joystick_oem_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -761,7 +761,7 @@ static uint8_t userport_joystick_oem_read_pbx(void)
     return retval;
 }
 
-static void userport_joystick_oem_store_pbx(uint8_t value)
+static void userport_joystick_oem_store_pbx(uint8_t value, int pulse)
 {
     uint8_t j1 = (value & 8) << 1;
 
@@ -775,7 +775,7 @@ static void userport_joystick_oem_store_pbx(uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_hit_read_pbx(void)
+static uint8_t userport_joystick_hit_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -786,7 +786,7 @@ static uint8_t userport_joystick_hit_read_pbx(void)
     return retval;
 }
 
-static uint8_t userport_joystick_hit_read_pa2(void)
+static uint8_t userport_joystick_hit_read_pa2(uint8_t orig)
 {
     uint8_t jv1 = ~read_joyport_dig(JOYPORT_3);
 
@@ -805,14 +805,14 @@ static void userport_joystick_hit_store_sp1(uint8_t val)
     hit_sp2_retval = ((~read_joyport_dig(JOYPORT_4)) & 0x10) ? 0 : 0xff;
 }
 
-static uint8_t userport_joystick_hit_read_sp2(void)
+static uint8_t userport_joystick_hit_read_sp2(uint8_t orig)
 {
     return hit_sp2_retval;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_kingsoft_read_pbx(void)
+static uint8_t userport_joystick_kingsoft_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -831,7 +831,7 @@ static uint8_t userport_joystick_kingsoft_read_pbx(void)
     return retval;
 }
 
-static void userport_joystick_kingsoft_store_pbx(uint8_t value)
+static void userport_joystick_kingsoft_store_pbx(uint8_t value, int pulse)
 {
     uint8_t j1 = value & 0x10;
     uint8_t j2 = (value & 1) << 3;
@@ -847,7 +847,7 @@ static void userport_joystick_kingsoft_store_pbx(uint8_t value)
     store_joyport_dig(JOYPORT_4, j2, 0xf);
 }
 
-static uint8_t userport_joystick_kingsoft_read_pa2(void)
+static uint8_t userport_joystick_kingsoft_read_pa2(uint8_t orig)
 {
     uint8_t jv1 = ~read_joyport_dig(JOYPORT_3);
 
@@ -866,14 +866,14 @@ static void userport_joystick_kingsoft_store_sp1(uint8_t val)
     kingsoft_sp2_retval = ((~read_joyport_dig(JOYPORT_4)) & 0x10) ? 0 : 0xff;
 }
 
-static uint8_t userport_joystick_kingsoft_read_sp2(void)
+static uint8_t userport_joystick_kingsoft_read_sp2(uint8_t orig)
 {
     return kingsoft_sp2_retval;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_starbyte_read_pbx(void)
+static uint8_t userport_joystick_starbyte_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -892,7 +892,7 @@ static uint8_t userport_joystick_starbyte_read_pbx(void)
     return retval;
 }
 
-static void userport_joystick_starbyte_store_pbx(uint8_t value)
+static void userport_joystick_starbyte_store_pbx(uint8_t value, int pulse)
 {
     uint8_t j1 = (value & 1) << 1;
     uint8_t j2 = value & 0x10;
@@ -909,7 +909,7 @@ static void userport_joystick_starbyte_store_pbx(uint8_t value)
     store_joyport_dig(JOYPORT_4, j2, 0x1e);
 }
 
-static uint8_t userport_joystick_starbyte_read_pa2(void)
+static uint8_t userport_joystick_starbyte_read_pa2(uint8_t orig)
 {
     uint8_t jv2 = ~read_joyport_dig(JOYPORT_4);
 
@@ -928,14 +928,14 @@ static void userport_joystick_starbyte_store_sp1(uint8_t val)
     starbyte_sp2_retval = ((~read_joyport_dig(JOYPORT_3)) & 0x10) ? 0 : 0xff;
 }
 
-static uint8_t userport_joystick_starbyte_read_sp2(void)
+static uint8_t userport_joystick_starbyte_read_sp2(uint8_t orig)
 {
     return starbyte_sp2_retval;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static uint8_t userport_joystick_synergy_read_pbx(void)
+static uint8_t userport_joystick_synergy_read_pbx(uint8_t orig)
 {
     uint8_t retval;
     uint8_t jv3 = ~read_joyport_dig(JOYPORT_3);
@@ -953,7 +953,7 @@ static uint8_t userport_joystick_synergy_read_pbx(void)
     return retval;
 }
 
-static void userport_joystick_synergy_store_pbx(uint8_t value)
+static void userport_joystick_synergy_store_pbx(uint8_t value, int pulse)
 {
     uint8_t j1 = value & 0x1f;
 
@@ -990,17 +990,12 @@ static void userport_joystick_synergy_store_pbx(uint8_t value)
    BYTE  | select | joyport select
  */
 
-/* FIXME */
-#if 0
-static char cga_module_name[] = "UP_JOY_CGA";
-#endif
+static char cga_module_name[] = "UPJOYCGA";
 #define CGA_VER_MAJOR   0
 #define CGA_VER_MINOR   1
 
 static int userport_joystick_cga_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, cga_module_name, CGA_VER_MAJOR, CGA_VER_MINOR);
@@ -1021,20 +1016,13 @@ static int userport_joystick_cga_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_cga_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_CGA, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, cga_module_name, &major_version, &minor_version);
 
@@ -1063,39 +1051,27 @@ static int userport_joystick_cga_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
 
 static int userport_joystick_pet_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     if (0
         || joyport_snapshot_write_module(s, JOYPORT_3) < 0
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_pet_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_PET, NULL);
-    set_userport_joystick_enable(1, NULL);
-
     if (0
         || joyport_snapshot_read_module(s, JOYPORT_3) < 0
         || joyport_snapshot_read_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
@@ -1103,46 +1079,22 @@ static int userport_joystick_pet_read_snapshot_module(snapshot_t *s)
 
 static int userport_joystick_hummer_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     return joyport_snapshot_write_module(s, JOYPORT_3);
-#endif
-    return 0;
 }
 
 static int userport_joystick_hummer_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_HUMMER, NULL);
-    set_userport_joystick_enable(1, NULL);
-
     return joyport_snapshot_read_module(s, JOYPORT_3);
-#endif
-    return 0;
 }
 
 static int userport_joystick_oem_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     return joyport_snapshot_write_module(s, JOYPORT_3);
-#endif
-    return 0;
 }
 
 static int userport_joystick_oem_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_OEM, NULL);
-    set_userport_joystick_enable(1, NULL);
-
     return joyport_snapshot_read_module(s, JOYPORT_3);
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1154,17 +1106,12 @@ static int userport_joystick_oem_read_snapshot_module(snapshot_t *s)
    BYTE  | retval | current serial port brigde value
  */
 
-/* FIXME */
-#if 0
-static char hit_module_name[] = "UP_JOY_HIT";
-#endif
+static char hit_module_name[] = "UPJOYHIT";
 #define HIT_VER_MAJOR   0
 #define HIT_VER_MINOR   1
 
 static int userport_joystick_hit_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, hit_module_name, HIT_VER_MAJOR, HIT_VER_MINOR);
@@ -1185,20 +1132,13 @@ static int userport_joystick_hit_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_hit_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_HIT, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, hit_module_name, &major_version, &minor_version);
 
@@ -1227,8 +1167,6 @@ static int userport_joystick_hit_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1241,16 +1179,12 @@ fail:
  */
 
 /* FIXME */
-#if 0
-static char kingsoft_module_name[] = "UP_JOY_KINGSOFT";
-#endif
+static char kingsoft_module_name[] = "UPJOYKINGSOFT";
 #define KINGSOFT_VER_MAJOR   0
 #define KINGSOFT_VER_MINOR   1
 
 static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, kingsoft_module_name, KINGSOFT_VER_MAJOR, KINGSOFT_VER_MINOR);
@@ -1271,20 +1205,13 @@ static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_KINGSOFT, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, kingsoft_module_name, &major_version, &minor_version);
 
@@ -1313,8 +1240,6 @@ static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1323,20 +1248,15 @@ fail:
 
    type  | name   | description
    ----------------------------
-   BYTE  | retval | current serial port brigde value
+   BYTE  | retval | current serial port bridge value
  */
 
-/* FIXME */
-#if 0
-static char starbyte_module_name[] = "UP_JOY_STARBYTE";
-#endif
+static char starbyte_module_name[] = "UPJOYSTARBYTE";
 #define STARBYTE_VER_MAJOR   0
 #define STARBYTE_VER_MINOR   1
 
 static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, starbyte_module_name, STARBYTE_VER_MAJOR, STARBYTE_VER_MINOR);
@@ -1357,20 +1277,13 @@ static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_4) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_STARBYTE, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, starbyte_module_name, &major_version, &minor_version);
 
@@ -1399,8 +1312,6 @@ static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1412,17 +1323,12 @@ fail:
    BYTE  | select | joyport select
  */
 
-/* FIXME */
-#if 0
-static char synergy_module_name[] = "UP_JOY_SYNERGY";
-#endif
+static char synergy_module_name[] = "UPJOYSYNERGY";
 #define SYNERGY_VER_MAJOR   0
 #define SYNERGY_VER_MINOR   1
 
 static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, synergy_module_name, SYNERGY_VER_MAJOR, SYNERGY_VER_MINOR);
@@ -1444,20 +1350,13 @@ static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s)
         || joyport_snapshot_write_module(s, JOYPORT_5) < 0) {
         return -1;
     }
-#endif
     return 0;
 }
 
 static int userport_joystick_synergy_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_joystick_type(USERPORT_JOYSTICK_SYNERGY, NULL);
-    set_userport_joystick_enable(1, NULL);
 
     m = snapshot_module_open(s, synergy_module_name, &major_version, &minor_version);
 
@@ -1487,6 +1386,4 @@ static int userport_joystick_synergy_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }

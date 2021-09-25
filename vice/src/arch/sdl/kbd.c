@@ -570,7 +570,7 @@ ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod)
 void kbd_arch_init(void)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: hotkey table size %u (%lu bytes)\n", __func__, SDLKBD_UI_HOTKEYS_MAX, SDLKBD_UI_HOTKEYS_MAX * sizeof(ui_menu_entry_t *));
+    fprintf(stderr, "%s: hotkey table size %d (%lu bytes)\n", __func__, SDLKBD_UI_HOTKEYS_MAX, SDLKBD_UI_HOTKEYS_MAX * sizeof(ui_menu_entry_t *));
 #endif
 
     sdlkbd_log = log_open("SDLKeyboard");

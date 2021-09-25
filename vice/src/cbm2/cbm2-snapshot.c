@@ -37,6 +37,7 @@
 #include "crtc.h"
 #include "drive-snapshot.h"
 #include "drive.h"
+#include "serial.h"
 #include "ioutil.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -53,7 +54,7 @@
 #include "vice-event.h"
 
 
-#define SNAP_MAJOR          0
+#define SNAP_MAJOR          1
 #define SNAP_MINOR          0
 
 int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
@@ -78,6 +79,7 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
         || acia1_snapshot_write_module(s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || fsdrive_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tapeport_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s) < 0
@@ -117,6 +119,7 @@ int cbm2_snapshot_read(const char *name, int event_mode)
         || acia1_snapshot_read_module(s) < 0
         || sid_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
+        || fsdrive_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
         || tapeport_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0

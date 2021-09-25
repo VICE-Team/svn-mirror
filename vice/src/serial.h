@@ -43,6 +43,7 @@ struct cbmdos_cmd_parse_s;
 struct disk_image_s;
 struct trap_s;
 struct vdrive_s;
+struct snapshot_s;
 
 typedef struct serial_s {
     int inuse;
@@ -110,4 +111,7 @@ extern void serial_iec_device_exec(CLOCK clk_value);
 
 extern void serial_iec_bus_init(void);
 
+extern void fsdrive_snapshot_prepare(void);
+extern int fsdrive_snapshot_write_module(struct snapshot_s *s);
+extern int fsdrive_snapshot_read_module(struct snapshot_s *s);
 #endif

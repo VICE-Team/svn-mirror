@@ -77,6 +77,7 @@
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"
 #include "plus4memrom.h"
+#include "plus4parallel.h"
 #include "plus4speech.h"
 #include "plus4tcbm.h"
 #include "plus4ui.h"
@@ -115,6 +116,10 @@
 #include "mouse.h"
 #endif
 
+#ifdef IO_SIMULATION
+#include "userport_io_sim.h"
+#include "joyport_io_sim.h"
+#endif
 
 /** \brief  Delay in seconds before pasting -keybuf argument into the buffer
  */
@@ -430,6 +435,10 @@ int machine_resources_init(void)
         init_resource_fail("userport devices");
         return -1;
     }
+    if (parallel_cable_cpu_resources_init() < 0) {
+        init_resource_fail("userport drive parallel cable");
+        return -1;
+    }
 /* FIXME: Add userport printer support to xplus4 */
 #if 0
     if (printer_userport_resources_init() < 0) {
@@ -509,6 +518,16 @@ int machine_resources_init(void)
         init_resource_fail("userport dac");
         return -1;
     }
+#ifdef IO_SIMULATION
+    if (userport_io_sim_resources_init() < 0) {
+        init_resource_fail("userport I/O simulation");
+        return -1;
+    }
+    if (joyport_io_sim_resources_init() < 0) {
+        init_resource_fail("joyport I/O simulation");
+        return -1;
+    }
+#endif
     if (gfxoutput_resources_init() < 0) {
         init_resource_fail("gfxoutput");
         return -1;

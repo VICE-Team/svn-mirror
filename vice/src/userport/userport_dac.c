@@ -102,7 +102,7 @@ void userport_dac_sound_chip_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static void userport_dac_store_pbx(uint8_t value);
+static void userport_dac_store_pbx(uint8_t value, int pulse);
 static int userport_dac_write_snapshot_module(snapshot_t *s);
 static int userport_dac_read_snapshot_module(snapshot_t *s);
 static int userport_dac_enable(int val);
@@ -147,7 +147,7 @@ int userport_dac_resources_init(void)
 
 static uint8_t userport_dac_sound_data;
 
-static void userport_dac_store_pbx(uint8_t value)
+static void userport_dac_store_pbx(uint8_t value, int pulse)
 {
     userport_dac_sound_data = value;
     sound_store(userport_dac_sound_chip_offset, value, 0);
@@ -198,17 +198,12 @@ static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk)
    BYTE  | voice      | voice
  */
 
-/* FIXME */
-#if 0
-static char snap_module_name[] = "USERPORT_DAC";
-#endif
+static char snap_module_name[] = "UPDAC";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
 static int userport_dac_write_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
@@ -224,19 +219,12 @@ static int userport_dac_write_snapshot_module(snapshot_t *s)
         return -1;
     }
     return snapshot_module_close(m);
-#endif
-    return 0;
 }
 
 static int userport_dac_read_snapshot_module(snapshot_t *s)
 {
-/* FIXME */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_userport_dac_enabled(1, NULL);
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
 
@@ -260,6 +248,4 @@ static int userport_dac_read_snapshot_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }

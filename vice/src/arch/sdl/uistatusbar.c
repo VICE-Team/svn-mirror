@@ -33,6 +33,7 @@
 
 #include "drive.h"
 #include "kbd.h"
+#include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "types.h"
@@ -495,6 +496,12 @@ void ui_display_kbd_status(SDL_Event *e)
         sprintf(p, "%c%03u>%03u %c%04x    ",
 #endif
                 (e->type == SDL_KEYUP) ? 'U' : 'D',
+                e->key.keysym.sym & 0xffff,
+                SDL2x_to_SDL1x_Keys(e->key.keysym.sym),
+                ((e->key.keysym.sym & 0xffff0000) == 0x40000000) ? 'M' : ((e->key.keysym.sym & 0xffff0000) != 0x00000000) ? 'E' : ' ',
+                e->key.keysym.mod);
+        log_message(LOG_DEFAULT, "%s %03d>%03d %c%04x",
+                (e->type == SDL_KEYUP) ? "release" : "press  ",
                 e->key.keysym.sym & 0xffff,
                 SDL2x_to_SDL1x_Keys(e->key.keysym.sym),
                 ((e->key.keysym.sym & 0xffff0000) == 0x40000000) ? 'M' : ((e->key.keysym.sym & 0xffff0000) != 0x00000000) ? 'E' : ' ',

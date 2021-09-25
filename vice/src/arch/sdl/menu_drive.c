@@ -480,11 +480,11 @@ static UI_MENU_CALLBACK(set_par_callback)
     current = drive_get_type_by_devnr(drive);
 
     if (activated) {
-        if (machine_class != VICE_MACHINE_VIC20 && drive_check_parallel_cable(current)) {
+        if (machine_class != VICE_MACHINE_VIC20 && machine_class != VICE_MACHINE_C64DTV && drive_check_parallel_cable(current)) {
             resources_set_int_sprintf("Drive%iParallelCable", type, drive);
         }
     } else {
-        if (machine_class == VICE_MACHINE_VIC20 || !drive_check_parallel_cable(current)) {
+        if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_C64DTV || !drive_check_parallel_cable(current)) {
             return MENU_NOT_AVAILABLE_STRING;
         } else {
             resources_get_int_sprintf("Drive%iParallelCable", &par, drive);
@@ -1345,7 +1345,7 @@ void uidrive_menu_create(void)
     int newend = 4;
     int i, d0, d1;
 
-    if (machine_class == VICE_MACHINE_VIC20) {
+    if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_C64DTV) {
         newend = 1;
     } else if (machine_class == VICE_MACHINE_PLUS4) {
         newend = 2;

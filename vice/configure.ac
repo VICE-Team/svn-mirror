@@ -118,6 +118,7 @@ VICE_ARG_ENABLE_LIST(x64,               [  --enable-x64            enable buildi
 VICE_ARG_ENABLE_LIST(x64-image,         [  --enable-x64-image      enable X64 image support [[default=no]]])
 VICE_ARG_ENABLE_LIST(optimization,      [  --disable-optimization  disable code optimization by passing -O0 [[default=no]]])
 VICE_ARG_ENABLE_LIST(extra-warnings,    [  --enable-extra-warnings enable anal warnings [[default=no]]])
+VICE_ARG_ENABLE_LIST(io-simulation,     [  --enable-io-simulation  enable i/o simulation devices [[default=no]]])
 
 
 
@@ -532,7 +533,7 @@ USE_NEW_8580_FILTER="no "
 USE_DESKTOP_FILES="no "
 HAVE_X64_IMAGE_SUPPORT="no "
 HAVE_CAPABILITIES_SUPPORT="no "
-
+USE_IO_SIMULATION="no"
 
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
@@ -541,6 +542,12 @@ AS_IF([test x"$enable_cpuhistory" = "xyes"],
   [
     AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the 65xx cpu history feature.])
     FEATURE_CPUMEMHISTORY_SUPPORT="yes"
+  ])
+
+AS_IF([test x"$enable_io_simulation" = "xyes"],
+  [
+    AC_DEFINE(IO_SIMULATION,,[Compile I/O simulation devices.])
+    USE_IO_SIMULATION="yes"
   ])
 
 dnl New 8580 filters: Changed on 2020-08-23 from default 'no' to default 'yes'.
@@ -1247,6 +1254,11 @@ else
 fi
 if test x"$with_sdlsound" = "xyes"; then
   check_sdl2=yes
+  if test x"$enable_headlessui" = "xyes" -o x"$enable_native_gtk3ui" = "xyes"; then
+    check_sdlaudio_only=yes
+    enable_sdlui=no
+    enable_sdlui2=no
+  fi
 fi
 
 dnl Check and setup SDL2 compilation, only fail if the sdl2 ui was requested
@@ -1321,11 +1333,13 @@ if test x"$check_sdl2" = "xyes"; then
       dnl now that the SDL2 UI support has been detected, define
       dnl enable_sdlui2 and undefine the others to prevent checks
 
-      enable_native_gtk3ui=no
-      enable_sdlui=no
-      enable_sdlui2=yes
-      enable_headlessui=no
-      found_gui=sdl2
+      if test x"$check_sdlaudio_only" != "xyes"; then
+        enable_native_gtk3ui=no
+        enable_sdlui=no
+        enable_sdlui2=yes
+        enable_headlessui=no
+        found_gui=sdl2
+      fi
 
       dnl Require SDL2_image
       PKG_CHECK_MODULES(SDL2_IMAGE,
@@ -1569,11 +1583,13 @@ if test x"$check_sdl1" = "xyes"; then
         fi
 
         dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
-        enable_native_gtk3ui=no
-        enable_sdlui=yes
-        enable_sdlui2=no
-        enable_headlessui=no
-        found_gui=sdl1
+        if test x"$check_sdlaudio_only" != "xyes"; then
+          enable_native_gtk3ui=no
+          enable_sdlui=yes
+          enable_sdlui2=no
+          enable_headlessui=no
+          found_gui=sdl1
+        fi
       fi
     fi
   fi
@@ -4094,6 +4110,7 @@ echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embed
 echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
 echo "Install XDG .desktop files : $USE_DESKTOP_FILES"
 echo "icotool for Windows found  : $ICOTOOL"
+echo "I/O simulation devices     : $USE_IO_SIMULATION"
 
 echo ""
 echo "User CPPFLAGS:  $CPPFLAGS"

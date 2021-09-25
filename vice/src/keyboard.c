@@ -89,8 +89,10 @@ static int latch_rev_keyarr[KBD_COLS];
 static int network_keyarr[KBD_ROWS];
 static int network_rev_keyarr[KBD_COLS];
 
-/* Shift lock state.  */
+/* Shift lock state. (emulated keyboard) */
 int keyboard_shiftlock = 0;
+/* flag that indicates if a key with SHIFT_LOCK flag exists in the keymap */
+int keyconvmap_has_caps_lock = 0;
 
 static alarm_t *keyboard_alarm = NULL;
 
@@ -475,19 +477,20 @@ static inline void update_virtual_modifier_flags(void) {
 static inline void keyboard_key_pressed_modifier(int row, int column, int shift) {
     virtual_modifier_flags[row][column] |= shift;
     update_virtual_modifier_flags();
-    DBGMOD(("keyboard_key_pressed_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
-           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift));
+    DBGMOD(("keyboard_key_pressed_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d shiftlock: %d\n",
+           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift, keyboard_shiftlock));
 }
 
 static inline void keyboard_key_released_modifier(int row, int column, int shift) {
     virtual_modifier_flags[row][column] &= ~shift;
     update_virtual_modifier_flags();
-    DBGMOD(("keyboard_key_released_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d\n",
-           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift));
+    DBGMOD(("keyboard_key_released_modifier virt.shift: %d cbm: %d ctrl: %d deshift: %d shiftlock: %d\n",
+           virtual_shift_down, virtual_cbm_down, virtual_ctrl_down, virtual_deshift, keyboard_shiftlock));
 }
 
 /*-----------------------------------------------------------------------*/
 
+#if 0
 /* FIXME: only used when shiftflag = 0, whatever this precisely is supposed to
           mean. we should instead deal with it in the functions further down */
 static void keyboard_key_deshift_all(void)
@@ -506,6 +509,7 @@ static void keyboard_key_deshift_all(void)
         keyboard_set_latch_keyarr(kbd_lctrlrow,  kbd_lctrlcol,  0);
     }
 }
+#endif
 
 /* FIXME: the following two functions are basically the same thing */
 
@@ -515,8 +519,8 @@ static void keyboard_key_shift(void)
     int physical_right = (rshift_defined() && (right_shift_down > 0));
     int physical_left = (lshift_defined() && (left_shift_down > 0));
 
-    DBGMOD(("keyboard_key_shift   left:%d right:%d virtual: %d\n",
-            left_shift_down, right_shift_down, virtual_shift_down));
+    DBGMOD(("keyboard_key_shift   left:%d right:%d virtual: %d shiftlock: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down, keyboard_shiftlock));
 
     if (lshift_defined()) {
         if ((left_shift_down > 0 && !virtual_deshift)
@@ -527,6 +531,8 @@ static void keyboard_key_shift(void)
             keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
         }
     }
+    /* keymaps that only have one shift key use RSHIFT for both, check it last
+       so it takes precedence */
     if (rshift_defined()) {
         if ((right_shift_down > 0 && !virtual_deshift)
             || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !physical_left)
@@ -554,24 +560,33 @@ static void keyboard_key_shift(void)
 /* handle modifier key release */
 static void keyboard_key_deshift(void)
 {
-    DBGMOD(("keyboard_key_deshift left:%d right:%d virtual: %d\n",
-            left_shift_down, right_shift_down, virtual_shift_down));
+    int physical_right = (rshift_defined() && (right_shift_down > 0));
+    int physical_left = (lshift_defined() && (left_shift_down > 0));
+
+    DBGMOD(("keyboard_key_deshift left:%d right:%d virtual: %d shiftlock: %d\n",
+            left_shift_down, right_shift_down, virtual_shift_down, keyboard_shiftlock));
 
     /* Map shift keys. */
-    if (right_shift_down > 0
-        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !left_shift_down)
-        || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
-        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
-    } else {
-        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+    if (lshift_defined()) {
+        if (left_shift_down > 0
+            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT && !physical_right)
+            || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
+            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+        }
     }
 
-    if (left_shift_down > 0
-        || (virtual_shift_down > 0 && vshift == KEY_LSHIFT && !right_shift_down)
-        || (keyboard_shiftlock > 0 && shiftl == KEY_LSHIFT)) {
-        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
-    } else {
-        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+    /* keymaps that only have one shift key use RSHIFT for both, check it last
+       so it takes precedence */
+    if (rshift_defined()) {
+        if (right_shift_down > 0
+            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT && !physical_left)
+            || (keyboard_shiftlock > 0 && shiftl == KEY_RSHIFT)) {
+            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+        } else {
+            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+        }
     }
 
     if (lcbm_defined()) {
@@ -593,6 +608,28 @@ static void keyboard_key_deshift(void)
     }
 }
 
+/* return emulated shift lock state to the UI */
+int keyboard_get_shiftlock(void)
+{
+    return keyboard_shiftlock;
+}
+
+/* called by the UI to sync the state of the actual caps lock key with the
+   emulated shift lock key. this can be tricky since the host OS and/or keyboard
+   might handle "locking" by itself and the state can change when the VICE
+   application does not have focus and receives no keyboard events. */
+void keyboard_set_shiftlock(int state)
+{
+    /* only alter the shift lock state when a caps lock key was defined in the
+       host keymap. if shift lock is mapped to a regular key we don't have to
+       do anything and leave the state alone */
+    if (keyconvmap_has_caps_lock) {
+        keyboard_shiftlock = state;
+        keyboard_key_shift();
+        keyboard_latch_matrix(maincpu_clk);
+    }
+}
+
 static int keyboard_key_pressed_matrix(int row, int column, int shift)
 {
     if (row >= 0) {
@@ -601,7 +638,7 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
 
         if (shift == NO_SHIFT) {
             /* FIXME: this is still an odd case that shouldnt exist */
-            keyboard_key_deshift_all();
+            /* keyboard_key_deshift_all(); */
         } else {
             if (shift & LEFT_SHIFT) {
                 left_shift_down = 1;
@@ -1020,6 +1057,7 @@ static void keyboard_keyconvmap_alloc(void)
     keyc_num = 0;
     keyc_mem = KEYCONVMAP_SIZE_MIN - 1;
     keyconvmap[0].sym = ARCHDEP_KEYBOARD_SYM_NONE;
+    keyconvmap_has_caps_lock = 0;
 }
 
 static void keyboard_keyconvmap_free(void)
@@ -1172,6 +1210,7 @@ static void keyboard_keyword_clear(void)
     kbd_lcbmcol   = -1;
     kbd_lctrlrow  = -1;
     kbd_lctrlcol  = -1;
+    keyconvmap_has_caps_lock = 0;
 
     for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
         for (j = 0; j < KBD_JOY_KEYPAD_COLS; ++j) {
@@ -1359,6 +1398,10 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                 }
 
                 /* printf("%s:%d: %s %d %d (%04x)\n", filename, line, key, row, col, shift); */
+
+                if (shift & SHIFT_LOCK) {
+                    keyconvmap_has_caps_lock = 1;
+                }
 
                 /* sanity checks */
 
@@ -1665,7 +1708,7 @@ int keyboard_keymap_dump(const char *filename)
             "# File format:\n"
             "# - comment lines start with '#'\n"
             "# - keyword lines start with '!keyword'\n"
-            "# - normal line has 'keysym/scancode row column shiftflag'\n"
+            "# - normal lines have 'keysym/scancode row column shiftflag'\n"
             "#\n"
             "# Keywords and their lines are:\n"
             "# '!CLEAR'               clear whole table\n"
@@ -1674,47 +1717,41 @@ int keyboard_keymap_dump(const char *filename)
             "# '!RSHIFT row col'      right shift keyboard row/column\n"
             "# '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)\n"
             "# '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)\n"
+            "#  for emulated keyboards that have only one shift key, set both LSHIFT\n"
+            "#  and RSHIFT to the same row/col and use RSHIFT for VSHIFT and SHIFTL.\n"
             "# '!LCTRL row col'       left control keyboard row/column\n"
             "# '!VCTRL ctrlkey'       virtual control key (LCTRL)\n"
             "# '!LCBM row col'        left CBM keyboard row/column\n"
             "# '!VCBM cbmkey'         virtual CBM key (LCBM)\n"
             "# '!UNDEF keysym'        remove keysym from table\n"
             "#\n"
-            "# Shiftflag can have the values:\n"
-            "# 0      key is not shifted for this keysym/scancode\n"
-            "# 1      key is combined with shift for this keysym/scancode\n"
-            "# 2      key is left shift on emulated machine\n"
-            "# 4      key is right shift on emulated machine\n"
-            "# 8      key can be shifted or not with this keysym/scancode\n"
-            "# 16     deshift key for this keysym/scancode\n"
-            "# 32     another definition for this keysym/scancode follows\n"
-            "# 64     key is shift-lock on emulated machine\n"
-            "# 128    shift modifier required on host\n"
-            "# 256    key is used for an alternative keyboard mapping\n"
-            "# 512    alt-r (alt-gr) modifier required on host\n"
-            "# 1024   ctrl modifier required on host\n"
-            "# 2048   key is combined with cbm for this keysym/scancode\n"
-            "# 4096   key is combined with ctrl for this keysym/scancode\n"
-            "# 8192   key is (left) cbm on emulated machine\n"
-            "# 16384  key is (left) ctrl on emulated machine\n"
-            "#\n"
-            "# to migrate older keymaps and use the CBM and/or CTRL related features:\n"
-            "#\n"
-            "# - define !LCTRL, !VCTRL, !LCBM, !VCBM\n"
-            "# - add 'key is (left) cbm/ctrl on emulated machine' flags to\n"
-            "#   all keys that map to the cbm or ctrl key respectively.\n"
-            "#\n"
-            "# after that the virtual cbm/ctrl flags and requiring host modifiers\n"
-            "# should work as expected. keep an eye on the error messages.\n"
+            "# Shiftflag can have these values, flags can be ORed to combine them:\n"
+            "# 0x0000      0  key is not shifted for this keysym/scancode\n"
+            "# 0x0001      1  key is combined with shift for this keysym/scancode\n"
+            "# 0x0002      2  key is left shift on emulated machine\n"
+            "# 0x0004      4  key is right shift on emulated machine (use only this one\n"
+            "#                for emulated keyboards that have only one shift key)\n"
+            "# 0x0008      8  key can be shifted or not with this keysym/scancode\n"
+            "# 0x0010     16  deshift key for this keysym/scancode\n"
+            "# 0x0020     32  another definition for this keysym/scancode follows\n"
+            "# 0x0040     64  key is shift-lock on emulated machine\n"
+            "# 0x0080    128  shift modifier required on host\n"
+            "# 0x0100    256  key is used for an alternative keyboard mapping, e.g. C64 mode in x128\n"
+            "# 0x0200    512  alt-r (alt-gr) modifier required on host\n"
+            "# 0x0400   1024  ctrl modifier required on host\n"
+            "# 0x0800   2048  key is combined with cbm for this keysym/scancode\n"
+            "# 0x1000   4096  key is combined with ctrl for this keysym/scancode\n"
+            "# 0x2000   8192  key is (left) cbm on emulated machine\n"
+            "# 0x4000  16384  key is (left) ctrl on emulated machine\n"
             "#\n"
             "# Negative row values:\n"
             "# 'keysym -1 n' joystick keymap A, direction n\n"
             "# 'keysym -2 n' joystick keymap B, direction n\n"
             "# 'keysym -3 0' first RESTORE key\n"
             "# 'keysym -3 1' second RESTORE key\n"
-            "# 'keysym -4 0' 40/80 column key\n"
-            "# 'keysym -4 1' CAPS (ASCII/DIN) key\n"
-            "# 'keysym -5 n' joyport keypad, key n\n"
+            "# 'keysym -4 0' 40/80 column key (x128)\n"
+            "# 'keysym -4 1' CAPS (ASCII/DIN) key (x128)\n"
+            "# 'keysym -5 n' joyport keypad, key n (not supported in x128)\n"
             "#\n"
             "# Joystick direction values:\n"
             "# 0      Fire\n"
@@ -2071,16 +2108,19 @@ int keyboard_get_num_mappings(void)
     return KBD_MAPPING_NUM;
 }
 
-/* (keep in sync with constants in keyboard.h) */
+/* CAUTION: keep in sync with constants in keyboard.h and code in
+            arch/shared/archdep_kbd_get_host_mapping.c */
 static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "American (us)", KBD_MAPPING_US, "" },    /* this must be first (=0) always */
     { "British (uk)", KBD_MAPPING_UK, "uk" },
     { "Danish (da)", KBD_MAPPING_DA, "da" },
     { "Dutch (nl)", KBD_MAPPING_NL, "nl" },
     { "Finnish (fi)", KBD_MAPPING_FI, "fi" },
+    { "French (fr)", KBD_MAPPING_FR, "fr" },
     { "German (de)", KBD_MAPPING_DE, "de" },
     { "Italian (it)", KBD_MAPPING_IT, "it" },
     { "Norwegian (no)", KBD_MAPPING_NO, "no" },
+    { "Spanish (es)", KBD_MAPPING_ES, "es" },
     { "Swedish (se)", KBD_MAPPING_SE, "se" },
     { "Swiss (ch)", KBD_MAPPING_CH, "ch" },
     { NULL, 0, 0 }

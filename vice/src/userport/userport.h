@@ -36,6 +36,9 @@
 
 /* #define USERPORT_EXPERIMENTAL_DEVICES */
 
+#define USERPORT_NO_PULSE   0
+#define USERPORT_PULSE      1
+
 enum {
     USERPORT_DEVICE_NONE = 0,
     USERPORT_DEVICE_PRINTER,
@@ -60,6 +63,10 @@ enum {
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     USERPORT_DEVICE_DIAG_586220_HARNESS,
 #endif
+    USERPORT_DEVICE_DRIVE_PAR_CABLE,
+#ifdef IO_SIMULATION
+    USERPORT_DEVICE_IO_SIMULATION,
+#endif
     USERPORT_MAX_DEVICES
 };
 
@@ -67,12 +74,16 @@ enum {
     USERPORT_DEVICE_TYPE_NONE = 0,
     USERPORT_DEVICE_TYPE_PRINTER,
     USERPORT_DEVICE_TYPE_MODEM,
+    USERPORT_DEVICE_TYPE_DRIVE_PAR_CABLE,
     USERPORT_DEVICE_TYPE_JOYSTICK_ADAPTER,
     USERPORT_DEVICE_TYPE_AUDIO_OUTPUT,
     USERPORT_DEVICE_TYPE_SAMPLER,
     USERPORT_DEVICE_TYPE_RTC,
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     USERPORT_DEVICE_TYPE_HARNESS,
+#endif
+#ifdef IO_SIMULATION
+    USERPORT_DEVICE_TYPE_IO_SIMULATION,
 #endif
 };
 
@@ -91,19 +102,19 @@ typedef struct userport_device_s {
     int (*enable)(int val);
 
     /* Read pb0-7 pins */
-    uint8_t (*read_pbx)(void);
+    uint8_t (*read_pbx)(uint8_t orig);
 
     /* Store pb0-7 pins */
-    void (*store_pbx)(uint8_t val);
+    void (*store_pbx)(uint8_t val, int pulse);
 
     /* Read pa2 pin */
-    uint8_t (*read_pa2)(void);
+    uint8_t (*read_pa2)(uint8_t orig);
 
     /* Store pa2 pin */
     void (*store_pa2)(uint8_t val);
 
     /* Read pa3 pin */
-    uint8_t (*read_pa3)(void);
+    uint8_t (*read_pa3)(uint8_t orig);
 
     /* Store pa3 pin */
     void (*store_pa3)(uint8_t val);
@@ -115,13 +126,13 @@ typedef struct userport_device_s {
     void (*store_sp1)(uint8_t val);
 
     /* Read sp1 pin */
-    uint8_t (*read_sp1)(void);
+    uint8_t (*read_sp1)(uint8_t orig);
 
     /* Store sp2 pin */
     void (*store_sp2)(uint8_t val);
 
     /* Read sp2 pin */
-    uint8_t (*read_sp2)(void);
+    uint8_t (*read_sp2)(uint8_t orig);
 
     /* Snapshot write */
     int (*write_snapshot)(struct snapshot_s *s);
@@ -148,23 +159,24 @@ typedef struct userport_desc_s {
 extern void userport_port_register(userport_port_props_t *props);
 extern int userport_device_register(int id, userport_device_t *device);
 
-extern uint8_t read_userport_pbx(void);
-extern void store_userport_pbx(uint8_t val);
-extern uint8_t read_userport_pa2(void);
+extern uint8_t read_userport_pbx(uint8_t orig);
+extern void store_userport_pbx(uint8_t val, int pulse);
+extern uint8_t read_userport_pa2(uint8_t orig);
 extern void store_userport_pa2(uint8_t val);
-extern uint8_t read_userport_pa3(void);
+extern uint8_t read_userport_pa3(uint8_t orig);
 extern void store_userport_pa3(uint8_t val);
 extern void set_userport_flag(uint8_t val);
-extern uint8_t read_userport_pc(void);
-extern uint8_t read_userport_sp1(void);
+extern uint8_t read_userport_pc(uint8_t orig);
+extern uint8_t read_userport_sp1(uint8_t orig);
 extern void store_userport_sp1(uint8_t val);
-extern uint8_t read_userport_sp2(void);
+extern uint8_t read_userport_sp2(uint8_t orig);
 extern void store_userport_sp2(uint8_t val);
 
 extern int userport_resources_init(void);
 extern int userport_cmdline_options_init(void);
 
 extern userport_desc_t *userport_get_valid_devices(int sort);
+extern const char *userport_get_device_type_desc(int type);
 
 extern void userport_enable(int val);
 

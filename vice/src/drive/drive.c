@@ -342,7 +342,6 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
         case DRIVE_TYPE_1551:   /* green power, red drive, horizontal, round */
         case DRIVE_TYPE_1570:   /* green power, red drive, horizontal, round */
         case DRIVE_TYPE_2031:   /* green power, red drive, horizontal, round */
-        case DRIVE_TYPE_1001:   /* green power, red drive, horizontal, round */
             drive_led_color[dnr] = DRIVE_LED1_RED;
             break;
         case DRIVE_TYPE_1571:   /* red power, green drive, horizontal, line */
@@ -356,17 +355,33 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
         case DRIVE_TYPE_CMDHD:   /* red power, green activity, red error, horizontal, line */
             drive_led_color[dnr] = DRIVE_LED1_GREEN | DRIVE_LED2_RED;
             break;
-        case DRIVE_TYPE_2040:   /* red drive1, red power, red drive2, horizontal, round */
-        case DRIVE_TYPE_3040:   /* red drive1, red power, red drive2, horizontal, round */
-        case DRIVE_TYPE_4040:   /* red drive1, red power, red drive2, horizontal, round */
-        case DRIVE_TYPE_8050:   /* red drive1, green power, red drive2, horizontal, round */
-            drive_led_color[dnr] = DRIVE_LED1_RED | DRIVE_LED2_RED;
+        case DRIVE_TYPE_2040:   /* red drive0, red error, red drive1, triangle, round */
+        case DRIVE_TYPE_3040:   /* red drive0, red error, red drive1, triangle, round */
+        case DRIVE_TYPE_4040:   /* red drive0, red error, red drive1, triangle, round */
+        case DRIVE_TYPE_8050:   /* green drive0, green power/red error, green drive1, very flat triangle, round */
+                                /* Some drives have red drive0/1 */
+        case DRIVE_TYPE_1001:   /* green power/red error, red drive, horizontal, round */
+            /* drive_led_color[dnr] = DRIVE_LED1_RED | DRIVE_LED2_RED;
+             * We lie here and give the LEDs different colours.
+             * The GUI can show only 2 LEDs (one for each drive) instead
+             * of 3.  It does take 2 values, but they are displayed
+             * (mixed) in the same place.  I guess it's thinking of
+             * 2-colour LEDs.
+             * So if both are set to red, we can't distinguish between
+             * activity and error. Since it seems worse to make the
+             * error LED green, I chose to make the activity green.
+             * As soon as the GUI can show all 3 leds, we can make them
+             * the right colours.
+             */
+            drive_led_color[dnr] = DRIVE_LED1_GREEN | DRIVE_LED2_RED;
             break;
         case DRIVE_TYPE_9000:   /* red drive1, green power, red drive2, horizontal, round */
             drive_led_color[dnr] = DRIVE_LED1_RED | DRIVE_LED2_RED;
             break;
-        case DRIVE_TYPE_8250:   /* red green, green power,green, horizontal, round */
-            drive_led_color[dnr] = DRIVE_LED1_GREEN | DRIVE_LED2_GREEN; /* only the LP version is RED */
+        case DRIVE_TYPE_8250:   /* red drive0, green power/red error, green drive1, horizontal, round */
+            /* drive_led_color[dnr] = DRIVE_LED1_GREEN | DRIVE_LED2_GREEN; * only the LP version is RED */
+            /* The same note as for 8050. */
+            drive_led_color[dnr] = DRIVE_LED1_GREEN | DRIVE_LED2_RED;
             break;
         default:
             drive_led_color[dnr] = DRIVE_LED1_RED;
@@ -840,7 +855,6 @@ void drive_update_ui_status(void)
         if (unit->enable) {
 
             drive_led_update(unit, drive0, 0);
-            /* drive_led_update(unit, drive0, 0); */ /* FIXME */
             if (drive0->current_half_track != drive0->old_half_track
                 || drive0->side != drive0->old_side) {
                 drive0->old_half_track = drive0->current_half_track;

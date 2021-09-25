@@ -93,7 +93,7 @@
 #include "gmod2.h"
 #include "gmod3.h"
 #include "gs.h"
-#include "hero.h"
+#include "drean.h"
 #include "ide64.h"
 #include "ieeeflash64.h"
 #include "isepic.h"
@@ -268,7 +268,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_GMOD2,               CARTRIDGE_GMOD2,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_GMOD3,               CARTRIDGE_GMOD3,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_GS,                  CARTRIDGE_GS,                  CARTRIDGE_GROUP_GAME },
-    { CARTRIDGE_NAME_HERO,                CARTRIDGE_HERO,                CARTRIDGE_GROUP_GAME },
+    { CARTRIDGE_NAME_DREAN,               CARTRIDGE_DREAN,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_IDE64,               CARTRIDGE_IDE64,               CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_IEEE488,             CARTRIDGE_IEEE488,             CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_IEEEFLASH64,         CARTRIDGE_IEEEFLASH64,         CARTRIDGE_GROUP_UTIL },
@@ -403,7 +403,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_GMOD2:
         case CARTRIDGE_GMOD3:
         case CARTRIDGE_GS:
-        case CARTRIDGE_HERO:
+        case CARTRIDGE_DREAN:
         case CARTRIDGE_IEEE488:
         case CARTRIDGE_IEEEFLASH64:
         case CARTRIDGE_IDE64:
@@ -778,8 +778,8 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
         case CARTRIDGE_GS:
             rc = gs_crt_attach(fd, rawcart);
             break;
-        case CARTRIDGE_HERO:
-            rc = hero_crt_attach(fd, rawcart);
+        case CARTRIDGE_DREAN:
+            rc = drean_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_IDE64:
             rc = ide64_crt_attach(fd, rawcart);

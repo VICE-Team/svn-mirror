@@ -347,7 +347,9 @@ int resources_register_string(const resource_string_t *r)
         dp->hash_next = hashTable[hashkey];
         hashTable[hashkey] = (int)(dp - resources);
 
-        num_resources++, sp++, dp++;
+        num_resources++;
+        sp++;
+        dp++;
     }
 
     return 0;
@@ -1501,6 +1503,26 @@ int resources_dump(const char *fname)
 
     fclose(out_file);
     return 0;
+}
+
+/* log resources that do not have their default values */
+void resources_log_active(void)
+{
+    unsigned int i, n = 0;
+
+    for (i = 0; i < num_resources; i++) {
+        if (!resource_item_isdefault(i)) {
+            char *line = string_resource_item(i, "");
+            if (line != NULL) {
+                if (n == 0) {
+                    log_message(LOG_DEFAULT, "Resources with non default values:");
+                    n++;
+                }
+                log_message(LOG_DEFAULT, "%s", line);
+                lib_free(line);
+            }
+        }
+    }
 }
 
 int resources_register_callback(const char *name,

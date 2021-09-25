@@ -32,8 +32,10 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "cmdline.h"
 #include "datasette.h"
 #include "lib.h"
+#include "log.h"
 #include "tap.h"
 #include "tape.h"
 #include "types.h"
@@ -168,10 +170,16 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
 int tap_close(tap_t *tap)
 {
     int retval;
-
     if (tap->fd != NULL) {
+        /* write data size into header */
         if (tap->has_changed) {
+            size_t datasize = util_file_length(tap->fd) - TAP_HDR_SIZE;
             uint8_t buf[4];
+            /* sanity check */
+            if (tap->size != datasize) {
+                log_warning(LOG_DEFAULT, "tap data size mismatch, expected: 0x%06lx is: 0x%06x", datasize, (unsigned)tap->size);
+                tap->size = (int)datasize;
+            }
             util_dword_to_le_buf(buf, tap->size);
             util_fpwrite(tap->fd, buf, 4, TAP_HDR_LEN);
         }
@@ -1457,6 +1465,7 @@ int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind)
     return 0;
 }
 
+/* used by virtual devices */
 int tap_read(tap_t *tap, uint8_t *buf, size_t size)
 {
     if (tap->current_file_data == NULL) {
@@ -1493,6 +1502,15 @@ int tap_read(tap_t *tap, uint8_t *buf, size_t size)
     return 0;
 }
 
+int tap_seek_to_offset(tap_t *tap, unsigned long offset)
+{
+    if (tap && tap->fd) {
+        fseek(tap->fd, offset, SEEK_SET);
+        tap->current_file_seek_position = (int)offset;
+        return 0;
+    }
+    return -1;
+}
 
 void tap_get_header(tap_t *tap, uint8_t *name)
 {

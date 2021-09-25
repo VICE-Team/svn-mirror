@@ -40,6 +40,40 @@
 #include "userport.h"
 #include "util.h"
 
+
+typedef struct type2text_s {
+    int type;
+    const char *text;
+} type2text_t;
+
+static type2text_t device_type_desc[] = {
+    { USERPORT_DEVICE_TYPE_NONE, "None" },
+    { USERPORT_DEVICE_TYPE_PRINTER, "Printer" },
+    { USERPORT_DEVICE_TYPE_MODEM, "Modem" },
+    { USERPORT_DEVICE_TYPE_DRIVE_PAR_CABLE, "Parallel drive cable" },
+    { USERPORT_DEVICE_TYPE_JOYSTICK_ADAPTER, "Joystick adapter" },
+    { USERPORT_DEVICE_TYPE_AUDIO_OUTPUT, "Audio output" },
+    { USERPORT_DEVICE_TYPE_SAMPLER, "Sampler" },
+    { USERPORT_DEVICE_TYPE_RTC, "Real-time clock" },
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
+    { USERPORT_DEVICE_TYPE_HARNESS, "Diagnostic harness" },
+#endif
+    { -1, NULL }
+};
+
+static const char *userport_type2text(int type)
+{
+    int i;
+    const char *retval = NULL;
+
+    for (i = 0; device_type_desc[i].type != -1; ++i) {
+        if (device_type_desc[i].type == type) {
+            retval = device_type_desc[i].text;
+        }
+    }
+    return retval;
+}
+
 /* flag indicating if the userport exists on the current emulated model */
 static int userport_active = 1;
 
@@ -212,16 +246,27 @@ userport_desc_t *userport_get_valid_devices(int sort)
     return retval;
 }
 
-uint8_t read_userport_pbx(void)
+
+/** \brief  Get short description of of userport device \a type
+ *
+ * \param[in]   type    userport device type
+ */
+const char *userport_get_device_type_desc(int type)
 {
-    uint8_t retval = 0xff;
+    return userport_type2text(type);
+}
+
+
+uint8_t read_userport_pbx(uint8_t orig)
+{
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_pbx) {
-                    retval = userport_device[userport_current_device].read_pbx();
+                    retval = userport_device[userport_current_device].read_pbx(orig);
                 }
             }
         }
@@ -230,30 +275,30 @@ uint8_t read_userport_pbx(void)
    return retval;
 }
 
-void store_userport_pbx(uint8_t val)
+void store_userport_pbx(uint8_t val, int pulse)
 {
     if (userport_active) {
         /* store to new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].store_pbx) {
-                    userport_device[userport_current_device].store_pbx(val);
+                    userport_device[userport_current_device].store_pbx(val, pulse);
                 }
             }
         }
     }
 }
 
-uint8_t read_userport_pa2(void)
+uint8_t read_userport_pa2(uint8_t orig)
 {
-    uint8_t retval = 1;
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_pa2) {
-                    retval = userport_device[userport_current_device].read_pa2();
+                    retval = userport_device[userport_current_device].read_pa2(orig);
                 }
             }
         }
@@ -275,16 +320,16 @@ void store_userport_pa2(uint8_t val)
     }
 }
 
-uint8_t read_userport_pa3(void)
+uint8_t read_userport_pa3(uint8_t orig)
 {
-    uint8_t retval = 1;
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_pa3) {
-                    retval = userport_device[userport_current_device].read_pa3();
+                    retval = userport_device[userport_current_device].read_pa3(orig);
                 }
             }
         }
@@ -329,16 +374,16 @@ void store_userport_sp1(uint8_t val)
     }
 }
 
-uint8_t read_userport_sp1(void)
+uint8_t read_userport_sp1(uint8_t orig)
 {
-    uint8_t retval = 1;
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_sp1) {
-                    retval = userport_device[userport_current_device].read_sp1();
+                    retval = userport_device[userport_current_device].read_sp1(orig);
                 }
             }
         }
@@ -360,16 +405,16 @@ void store_userport_sp2(uint8_t val)
     }
 }
 
-uint8_t read_userport_sp2(void)
+uint8_t read_userport_sp2(uint8_t orig)
 {
-    uint8_t retval = 1;
+    uint8_t retval = orig;
 
     if (userport_active) {
         /* read from new userport system if the device has been registered */
         if (userport_current_device != USERPORT_DEVICE_NONE) {
             if (userport_device[userport_current_device].name) {
                 if (userport_device[userport_current_device].read_sp2) {
-                    retval = userport_device[userport_current_device].read_sp2();
+                    retval = userport_device[userport_current_device].read_sp2(orig);
                 }
             }
         }
@@ -409,78 +454,88 @@ struct userport_opt_s {
 };
 
 static const struct userport_opt_s id_match[] = {
-    { "0",                USERPORT_DEVICE_NONE },
-    { "none",             USERPORT_DEVICE_NONE },
-    { "1",                USERPORT_DEVICE_PRINTER },
-    { "printer",          USERPORT_DEVICE_PRINTER },
-    { "plotter",          USERPORT_DEVICE_PRINTER },
-    { "2",                USERPORT_DEVICE_RS232_MODEM },
-    { "modem",            USERPORT_DEVICE_RS232_MODEM },
-    { "3",                USERPORT_DEVICE_JOYSTICK_CGA },
-    { "cga",              USERPORT_DEVICE_JOYSTICK_CGA },
-    { "cgajoy",           USERPORT_DEVICE_JOYSTICK_CGA },
-    { "cgajoystick",      USERPORT_DEVICE_JOYSTICK_CGA },
-    { "4",                USERPORT_DEVICE_JOYSTICK_PET },
-    { "pet",              USERPORT_DEVICE_JOYSTICK_PET },
-    { "petjoy",           USERPORT_DEVICE_JOYSTICK_PET },
-    { "petjoystick",      USERPORT_DEVICE_JOYSTICK_PET },
-    { "5",                USERPORT_DEVICE_JOYSTICK_HUMMER },
-    { "hummer",           USERPORT_DEVICE_JOYSTICK_HUMMER },
-    { "hummerjoy",        USERPORT_DEVICE_JOYSTICK_HUMMER },
-    { "hummerjoystick",   USERPORT_DEVICE_JOYSTICK_HUMMER },
-    { "6",                USERPORT_DEVICE_JOYSTICK_OEM },
-    { "oem",              USERPORT_DEVICE_JOYSTICK_OEM },
-    { "oemjoy",           USERPORT_DEVICE_JOYSTICK_OEM },
-    { "oemjoystick",      USERPORT_DEVICE_JOYSTICK_OEM },
-    { "7",                USERPORT_DEVICE_JOYSTICK_HIT },
-    { "hit",              USERPORT_DEVICE_JOYSTICK_HIT },
-    { "dxs",              USERPORT_DEVICE_JOYSTICK_HIT },
-    { "hitjoy",           USERPORT_DEVICE_JOYSTICK_HIT },
-    { "dxsjoy",           USERPORT_DEVICE_JOYSTICK_HIT },
-    { "hitjoystick",      USERPORT_DEVICE_JOYSTICK_HIT },
-    { "dxsjoystick",      USERPORT_DEVICE_JOYSTICK_HIT },
-    { "8",                USERPORT_DEVICE_JOYSTICK_KINGSOFT },
-    { "kingsoft",         USERPORT_DEVICE_JOYSTICK_KINGSOFT },
-    { "kingsoftjoy",      USERPORT_DEVICE_JOYSTICK_KINGSOFT },
-    { "kingsoftjoystick", USERPORT_DEVICE_JOYSTICK_KINGSOFT },
-    { "9",                USERPORT_DEVICE_JOYSTICK_STARBYTE },
-    { "starbyte",         USERPORT_DEVICE_JOYSTICK_STARBYTE },
-    { "starbytejoy",      USERPORT_DEVICE_JOYSTICK_STARBYTE },
-    { "starbytejoystick", USERPORT_DEVICE_JOYSTICK_STARBYTE },
-    { "10",               USERPORT_DEVICE_JOYSTICK_SYNERGY },
-    { "synergy",          USERPORT_DEVICE_JOYSTICK_SYNERGY },
-    { "synergyjoy",       USERPORT_DEVICE_JOYSTICK_SYNERGY },
-    { "synergyjoystick",  USERPORT_DEVICE_JOYSTICK_SYNERGY },
-    { "11",               USERPORT_DEVICE_DAC },
-    { "dac",              USERPORT_DEVICE_DAC },
-    { "12",               USERPORT_DEVICE_DIGIMAX },
-    { "digimax",          USERPORT_DEVICE_DIGIMAX },
-    { "13",               USERPORT_DEVICE_4BIT_SAMPLER },
-    { "4bitsampler",      USERPORT_DEVICE_4BIT_SAMPLER },
-    { "14",               USERPORT_DEVICE_8BSS },
-    { "8bss",             USERPORT_DEVICE_8BSS },
-    { "15",               USERPORT_DEVICE_RTC_58321A },
-    { "58321a",           USERPORT_DEVICE_RTC_58321A },
-    { "58321artc",        USERPORT_DEVICE_RTC_58321A },
-    { "58321rtc",         USERPORT_DEVICE_RTC_58321A },
-    { "rtc58321a",        USERPORT_DEVICE_RTC_58321A },
-    { "rtc58321",         USERPORT_DEVICE_RTC_58321A },
-    { "16",               USERPORT_DEVICE_RTC_DS1307 },
-    { "ds1307",           USERPORT_DEVICE_RTC_DS1307 },
-    { "ds1307rtc",        USERPORT_DEVICE_RTC_DS1307 },
-    { "rtcds1307",        USERPORT_DEVICE_RTC_DS1307 },
-    { "rtc1307",          USERPORT_DEVICE_RTC_DS1307 },
-    { "17",               USERPORT_DEVICE_PETSCII_SNESPAD },
-    { "petscii",          USERPORT_DEVICE_PETSCII_SNESPAD },
-    { "petsciisnes",      USERPORT_DEVICE_PETSCII_SNESPAD },
-    { "petsciisnespad",   USERPORT_DEVICE_PETSCII_SNESPAD },
-    { "18",               USERPORT_DEVICE_SUPERPAD64 },
-    { "superpad",         USERPORT_DEVICE_SUPERPAD64 },
-    { "superpad64",       USERPORT_DEVICE_SUPERPAD64 },
+    { "0",                  USERPORT_DEVICE_NONE },
+    { "none",               USERPORT_DEVICE_NONE },
+    { "1",                  USERPORT_DEVICE_PRINTER },
+    { "printer",            USERPORT_DEVICE_PRINTER },
+    { "plotter",            USERPORT_DEVICE_PRINTER },
+    { "2",                  USERPORT_DEVICE_RS232_MODEM },
+    { "modem",              USERPORT_DEVICE_RS232_MODEM },
+    { "3",                  USERPORT_DEVICE_JOYSTICK_CGA },
+    { "cga",                USERPORT_DEVICE_JOYSTICK_CGA },
+    { "cgajoy",             USERPORT_DEVICE_JOYSTICK_CGA },
+    { "cgajoystick",        USERPORT_DEVICE_JOYSTICK_CGA },
+    { "4",                  USERPORT_DEVICE_JOYSTICK_PET },
+    { "pet",                USERPORT_DEVICE_JOYSTICK_PET },
+    { "petjoy",             USERPORT_DEVICE_JOYSTICK_PET },
+    { "petjoystick",        USERPORT_DEVICE_JOYSTICK_PET },
+    { "5",                  USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "hummer",             USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "hummerjoy",          USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "hummerjoystick",     USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "6",                  USERPORT_DEVICE_JOYSTICK_OEM },
+    { "oem",                USERPORT_DEVICE_JOYSTICK_OEM },
+    { "oemjoy",             USERPORT_DEVICE_JOYSTICK_OEM },
+    { "oemjoystick",        USERPORT_DEVICE_JOYSTICK_OEM },
+    { "7",                  USERPORT_DEVICE_JOYSTICK_HIT },
+    { "hit",                USERPORT_DEVICE_JOYSTICK_HIT },
+    { "dxs",                USERPORT_DEVICE_JOYSTICK_HIT },
+    { "hitjoy",             USERPORT_DEVICE_JOYSTICK_HIT },
+    { "dxsjoy",             USERPORT_DEVICE_JOYSTICK_HIT },
+    { "hitjoystick",        USERPORT_DEVICE_JOYSTICK_HIT },
+    { "dxsjoystick",        USERPORT_DEVICE_JOYSTICK_HIT },
+    { "8",                  USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "kingsoft",           USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "kingsoftjoy",        USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "kingsoftjoystick",   USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "9",                  USERPORT_DEVICE_JOYSTICK_STARBYTE },
+    { "starbyte",           USERPORT_DEVICE_JOYSTICK_STARBYTE },
+    { "starbytejoy",        USERPORT_DEVICE_JOYSTICK_STARBYTE },
+    { "starbytejoystick",   USERPORT_DEVICE_JOYSTICK_STARBYTE },
+    { "10",                 USERPORT_DEVICE_JOYSTICK_SYNERGY },
+    { "synergy",            USERPORT_DEVICE_JOYSTICK_SYNERGY },
+    { "synergyjoy",         USERPORT_DEVICE_JOYSTICK_SYNERGY },
+    { "synergyjoystick",    USERPORT_DEVICE_JOYSTICK_SYNERGY },
+    { "11",                 USERPORT_DEVICE_DAC },
+    { "dac",                USERPORT_DEVICE_DAC },
+    { "12",                 USERPORT_DEVICE_DIGIMAX },
+    { "digimax",            USERPORT_DEVICE_DIGIMAX },
+    { "13",                 USERPORT_DEVICE_4BIT_SAMPLER },
+    { "4bitsampler",        USERPORT_DEVICE_4BIT_SAMPLER },
+    { "14",                 USERPORT_DEVICE_8BSS },
+    { "8bss",               USERPORT_DEVICE_8BSS },
+    { "15",                 USERPORT_DEVICE_RTC_58321A },
+    { "58321a",             USERPORT_DEVICE_RTC_58321A },
+    { "58321artc",          USERPORT_DEVICE_RTC_58321A },
+    { "58321rtc",           USERPORT_DEVICE_RTC_58321A },
+    { "rtc58321a",          USERPORT_DEVICE_RTC_58321A },
+    { "rtc58321",           USERPORT_DEVICE_RTC_58321A },
+    { "16",                 USERPORT_DEVICE_RTC_DS1307 },
+    { "ds1307",             USERPORT_DEVICE_RTC_DS1307 },
+    { "ds1307rtc",          USERPORT_DEVICE_RTC_DS1307 },
+    { "rtcds1307",          USERPORT_DEVICE_RTC_DS1307 },
+    { "rtc1307",            USERPORT_DEVICE_RTC_DS1307 },
+    { "17",                 USERPORT_DEVICE_PETSCII_SNESPAD },
+    { "petscii",            USERPORT_DEVICE_PETSCII_SNESPAD },
+    { "petsciisnes",        USERPORT_DEVICE_PETSCII_SNESPAD },
+    { "petsciisnespad",     USERPORT_DEVICE_PETSCII_SNESPAD },
+    { "18",                 USERPORT_DEVICE_SUPERPAD64 },
+    { "superpad",           USERPORT_DEVICE_SUPERPAD64 },
+    { "superpad64",         USERPORT_DEVICE_SUPERPAD64 },
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
-    { "19",               USERPORT_DEVICE_DIAG_586220_HARNESS },
-    { "diag",             USERPORT_DEVICE_DIAG_586220_HARNESS },
-    { "diagharness",      USERPORT_DEVICE_DIAG_586220_HARNESS },
+    { "19",                 USERPORT_DEVICE_DIAG_586220_HARNESS },
+    { "diag",               USERPORT_DEVICE_DIAG_586220_HARNESS },
+    { "diagharness",        USERPORT_DEVICE_DIAG_586220_HARNESS },
+#endif
+    { "20",                 USERPORT_DEVICE_DRIVE_PAR_CABLE },
+    { "parcable",           USERPORT_DEVICE_DRIVE_PAR_CABLE },
+    { "driveparcable",      USERPORT_DEVICE_DRIVE_PAR_CABLE },
+    { "driveparallelcable", USERPORT_DEVICE_DRIVE_PAR_CABLE },
+#ifdef IO_SIMULATION
+    { "21",                 USERPORT_DEVICE_IO_SIMULATION },
+    { "io",                 USERPORT_DEVICE_IO_SIMULATION },
+    { "iosim",              USERPORT_DEVICE_IO_SIMULATION },
+    { "iosimulation",       USERPORT_DEVICE_IO_SIMULATION },
 #endif
     { NULL, -1 }
 };
@@ -560,190 +615,90 @@ void userport_enable(int val)
    type  | name               | description
    ----------------------------------------
    BYTE  | active             | userport active flag
-   BYTE  | collision handling | useport collision handling
-   BYTE  | amount             | amount of attached devices
-
-   if 'amount' is non-zero the following is also saved per attached device:
-
-   type  | name | description
-   --------------------------
-   BYTE  | id   | device id
+   BYTE  | id                 | device id
  */
 
+#define DUMP_VER_MAJOR   1
+#define DUMP_VER_MINOR   0
 static char snap_module_name[] = "USERPORT";
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
-
-#if 0
-static int old_userport_snapshot_write_module(snapshot_t *s)
-{
-    snapshot_module_t *m;
-    int amount = 0;
-    int *devices = NULL;
-    old_userport_device_list_t *current = userport_head.next;
-    old_userport_snapshot_list_t *c = NULL;
-    int i = 0;
-
-    while (current) {
-        ++amount;
-        current = current->next;
-    }
-
-    if (amount) {
-        devices = lib_malloc(sizeof(int) * (amount + 1));
-        current = userport_head.next;
-        while (current) {
-            devices[i++] = current->device->id;
-            current = current->next;
-        }
-        devices[i] = -1;
-    }
-
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-
-    if (m == NULL) {
-        return -1;
-    }
-
-    if (0
-        || SMW_B(m, (uint8_t)userport_active) < 0
-        || SMW_B(m, (uint8_t)old_userport_collision_handling) < 0
-        || SMW_B(m, (uint8_t)amount) < 0) {
-        goto fail;
-    }
-
-    /* Save device id's */
-    if (amount) {
-        for (i = 0; devices[i]; ++i) {
-            if (SMW_B(m, (uint8_t)devices[i]) < 0) {
-                goto fail;
-            }
-        }
-    }
-
-    snapshot_module_close(m);
-
-    /* save device snapshots */
-    if (amount) {
-        for (i = 0; devices[i]; ++i) {
-            c = userport_snapshot_head.next;
-            while (c) {
-                if (c->snapshot->id == devices[i]) {
-                    if (c->snapshot->write_snapshot) {
-                        if (c->snapshot->write_snapshot(s) < 0) {
-                            lib_free(devices);
-                            return -1;
-                        }
-                    }
-                }
-                c = c->next;
-            }
-        }
-    }
-
-    lib_free(devices);
-
-    return 0;
-
-fail:
-    snapshot_module_close(m);
-    return -1;
-}
-#endif
 
 int userport_snapshot_write_module(snapshot_t *s)
 {
-    /* FIXME */
-    return 0;
-}
-
-#if 0
-static int old_userport_snapshot_read_module(snapshot_t *s)
-{
-    uint8_t major_version, minor_version;
     snapshot_module_t *m;
-    int amount = 0;
-    char **detach_resource_list = NULL;
-    old_userport_device_list_t *current = userport_head.next;
-    int *devices = NULL;
-    old_userport_snapshot_list_t *c = NULL;
-    int i = 0;
 
-    /* detach all userport devices */
-    while (current) {
-        ++amount;
-        current = current->next;
-    }
-
-    if (amount) {
-        detach_resource_list = lib_malloc(sizeof(char *) * (amount + 1));
-        memset(detach_resource_list, 0, sizeof(char *) * (amount + 1));
-        current = userport_head.next;
-        while (current) {
-            detach_resource_list[i++] = current->device->resource;
-            current = current->next;
-        }
-        for (i = 0; i < amount; ++i) {
-            resources_set_int(detach_resource_list[i], 0);
-        }
-        lib_free(detach_resource_list);
-    }
-
-    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
-
+    m = snapshot_module_create(s, snap_module_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
     if (m == NULL) {
         return -1;
     }
 
-    /* Do not accept versions higher than current */
-    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
-        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        goto fail;
+    /* save userport active and current device id */
+    if (0
+        || SMW_B(m, (uint8_t)userport_active) < 0
+        || SMW_B(m, (uint8_t)userport_current_device) < 0) {
+        snapshot_module_close(m);
+        return -1;
     }
 
+    snapshot_module_close(m);
+
+    /* save seperate userport device module */
+    switch (userport_current_device) {
+        case USERPORT_DEVICE_NONE:
+            break;
+        default:
+            if (userport_device[userport_current_device].write_snapshot) {
+                if (userport_device[userport_current_device].write_snapshot(s) < 0) {
+                    return -1;
+                }
+            }
+            break;
+    }
+
+    return 0;
+}
+
+int userport_snapshot_read_module(struct snapshot_s *s)
+{
+    uint8_t major_version, minor_version;
+    snapshot_module_t *m;
+    int tmp_userport_device;
+
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (!snapshot_version_is_equal(major_version, minor_version, DUMP_VER_MAJOR, DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    /* load userport active and current device id */
     if (0
         || SMR_B_INT(m, &userport_active) < 0
-        || SMR_B_INT(m, &old_userport_collision_handling) < 0
-        || SMR_B_INT(m, &amount) < 0) {
-        goto fail;
-    }
-
-    if (amount) {
-        devices = lib_malloc(sizeof(int) * (amount + 1));
-        for (i = 0; i < amount; ++i) {
-            if (SMR_B_INT(m, &devices[i]) < 0) {
-                lib_free(devices);
-                goto fail;
-            }
-        }
+        || SMR_B_INT(m, &tmp_userport_device) < 0) {
         snapshot_module_close(m);
-        for (i = 0; i < amount; ++i) {
-            c = userport_snapshot_head.next;
-            while (c) {
-                if (c->snapshot->id == devices[i]) {
-                    if (c->snapshot->read_snapshot) {
-                        if (c->snapshot->read_snapshot(s) < 0) {
-                            lib_free(devices);
-                            return -1;
-                        }
-                    }
-                }
-                c = c->next;
-            }
-        }
-        return 0;
+        return -1;
     }
 
-    return snapshot_module_close(m);
-
-fail:
     snapshot_module_close(m);
-    return -1;
-}
-#endif
 
-int userport_snapshot_read_module(snapshot_t *s)
-{
-    /* FIXME */
+    /* enable device */
+    userport_set_device(tmp_userport_device);
+
+    /* load device snapshot */
+    switch (userport_current_device) {
+        case USERPORT_DEVICE_NONE:
+            break;
+        default:
+            if (userport_device[userport_current_device].read_snapshot) {
+                if (userport_device[userport_current_device].read_snapshot(s) < 0) {
+                    return -1;
+                }
+            }
+            break;
+    }
+
     return 0;
 }
