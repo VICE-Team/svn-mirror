@@ -46,6 +46,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
+#include "mouse.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "util.h"
@@ -109,7 +110,10 @@ typedef enum {
     UI_ACTIVATE = 4,
 
     /* Call UI function */
-    UI_FUNCTION = 5
+    UI_FUNCTION = 5,
+
+    /* Joystick axis used for potentiometers */
+    POT_AXIS = 6
 } sdljoystick_action_t;
 
 /* Input mapping for each direction/button/etc */
@@ -123,6 +127,9 @@ struct sdljoystick_mapping_s {
     union {
         /* joy[0] = port number (0,1), joy[1] = pin number */
         uint16_t joy[2];
+
+        /* axis[0] = port number (0,1), axis[1] = pot number (x=0/y=1) */
+        uint16_t axis[2];
 
         /* key[0] = row, key[1] = column */
         int key[2];
@@ -576,6 +583,7 @@ int joy_arch_mapping_dump(const char *filename)
             "# 3               map\n"
             "# 4               UI activate\n"
             "# 5 path&to&item  UI function\n"
+            "# 6 pot axis      joystick (pot: 1/2/3/4 = x1/y1/x2/y2)\n"
             "#\n\n"
             );
 
@@ -604,6 +612,12 @@ int joy_arch_mapping_dump(const char *filename)
                         hotkey_path = sdl_ui_hotkey_path(sdljoystick[i].input[j][k].value.ui_function);
                         fprintf(fp, " %s", hotkey_path);
                         lib_free(hotkey_path);
+                        break;
+                    case POT_AXIS:
+                        fprintf(fp, " %i %i",
+                                sdljoystick[i].input[j][k].value.axis[0],
+                                sdljoystick[i].input[j][k].value.axis[1]
+                                );
                         break;
                     default:
                         break;
@@ -676,6 +690,7 @@ static void joy_arch_parse_entry(char *buffer)
                         p = strtok(NULL, "\t\r\n");
                         break;
                     case JOYSTICK:
+                    case POT_AXIS:
                     case KEYBOARD:
                         p = strtok(NULL, " \t");
                         data1 = atoi(p);
@@ -693,6 +708,14 @@ static void joy_arch_parse_entry(char *buffer)
                         case JOYSTICK:
                             sdljoystick[joynum].input[inputtype][inputindex].value.joy[0] = data1;
                             sdljoystick[joynum].input[inputtype][inputindex].value.joy[1] = data2;
+                            break;
+                        case POT_AXIS:
+                            sdljoystick[joynum].input[inputtype][inputindex].value.joy[0] = data1;
+                            sdljoystick[joynum].input[inputtype][inputindex].value.joy[1] = data2;
+                            if (data1 <= 1 && data2 <= 1) {
+                                sdljoystick_axis_mapping[(data1 << 1) | data2] = (joynum << 8) | (inputindex / 2);
+                                resources_set_int_sprintf("PaddlesInput%d", PADDLES_INPUT_JOY_AXIS, data1 + 1);
+                            }
                             break;
                         case KEYBOARD:
                             sdljoystick[joynum].input[inputtype][inputindex].value.key[0] = data1;
@@ -1136,6 +1159,13 @@ void sdljoy_set_joystick_axis(SDL_Event e, int port, int pot)
     int index = (port << 1) | pot;
     uint8_t stick = e.jaxis.which;
     uint8_t axis = e.jaxis.axis;
+    sdljoystick_mapping_t *joyevent = sdljoy_get_mapping(e);
+
+    if (joyevent != NULL) {
+        joyevent->action = POT_AXIS;
+        joyevent->value.axis[0] = (uint16_t)port;
+        joyevent->value.axis[1] = (uint16_t)pot;
+    }
 
     sdljoystick_axis_mapping[index] = (stick << 8) | axis;
 }
