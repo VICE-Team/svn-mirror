@@ -616,6 +616,28 @@ char *get_joy_pin_mapping_string(int joynr, int pin)
     return retval;
 }
 
+void sdljoy_delete_pin_mapping(int port, int pin)
+{
+    int i, k;
+    sdljoystick_input_t j;
+    sdljoystick_action_t t;
+
+    for (i = 0; i < num_joysticks; ++i) {
+        for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
+            for (k = 0; k < sdljoystick[i].input_max[j] * input_mult[j]; ++k) {
+                t = sdljoystick[i].input[j][k].action;
+                if (t == JOYSTICK) {
+                    if (sdljoystick[i].input[j][k].value.joy[0] == port && sdljoystick[i].input[j][k].value.joy[1] == pin) {
+                        sdljoystick[i].input[j][k].action = NONE;
+                        sdljoystick[i].input[j][k].value.joy[0] = 0;
+                        sdljoystick[i].input[j][k].value.joy[1] = 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
 int joy_arch_mapping_dump(const char *filename)
 {
     FILE *fp;

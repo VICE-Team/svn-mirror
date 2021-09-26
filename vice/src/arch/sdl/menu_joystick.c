@@ -507,14 +507,19 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
 
     if (activated) {
         target = lib_msprintf("Port %i %s", port + 1, joy_pin[pin]);
-        e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK, 5);
+        e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
         lib_free(target);
 
         switch (e.type) {
             case SDL_JOYAXISMOTION:
             case SDL_JOYBUTTONDOWN:
             case SDL_JOYHATMOTION:
-                sdljoy_set_joystick(e, port, (1 << pin));
+                sdljoy_set_joystick(e, port, 1 << pin);
+                break;
+            case SDL_KEYDOWN:
+                if (e.key.keysym.sym == SDLK_DELETE || e.key.keysym.sym == SDLK_BACKSPACE) {
+                    sdljoy_delete_pin_mapping(port, 1 << pin);
+                }
                 break;
             default:
                 break;
