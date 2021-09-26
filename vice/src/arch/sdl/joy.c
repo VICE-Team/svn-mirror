@@ -571,7 +571,7 @@ int joy_arch_mapping_dump(const char *filename)
             "#\n"
             "# action [action_parameters]:\n"
             "# 0               none\n"
-            "# 1 port pin      joystick (pin: 1/2/4/8/16/32/64 = u/d/l/r/fire/fire2/fire3)\n"
+            "# 1 port pin      joystick (pin: 1/2/4/8/16/32/64/128/256/512/1024/2048 = u/d/l/r/fire(A)/fire2(B)/fire3(X)/Y/LB/RB/select/start)\n"
             "# 2 row col       keyboard\n"
             "# 3               map\n"
             "# 4               UI activate\n"
