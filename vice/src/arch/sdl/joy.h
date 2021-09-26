@@ -59,6 +59,7 @@ extern void sdljoy_set_extra(SDL_Event e, int type);
 extern void sdljoy_unset(SDL_Event e);
 extern void sdljoy_set_joystick_axis(SDL_Event e, int port, int pot);
 extern char *get_joy_pin_mapping_string(int joy, int pin);
+extern char *get_joy_pot_mapping_string(int joynr, int pot);
 #endif
 
 extern void sdljoy_swap_ports(void);

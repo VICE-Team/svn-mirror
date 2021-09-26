@@ -534,6 +534,20 @@ void joy_arch_init_default_mapping(int joynum)
 
 static char mapping_retval[50];
 
+char *get_joy_pot_mapping_string(int joynr, int pot)
+{
+    uint16_t portaxis = sdljoystick_axis_mapping[(joynr << 1) | pot];
+    uint8_t port = portaxis >> 8;
+    uint8_t axis = portaxis & 0xff;
+    char *retval = NULL;
+
+    if (port != 255 && axis != 255) {
+        snprintf(mapping_retval, 100, "J%d, Ax%d", port, axis);
+        retval = mapping_retval;
+    }
+    return retval;
+}
+
 char *get_joy_pin_mapping_string(int joynr, int pin)
 {
     int i, k;

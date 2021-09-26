@@ -532,10 +532,10 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
     SDL_Event e;
     int pot, port;
 
-    if (activated) {
-        pot = (vice_ptr_to_int(param)) & 15;
-        port = (vice_ptr_to_int(param)) >> 5;
+    pot = (vice_ptr_to_int(param)) & 15;
+    port = (vice_ptr_to_int(param)) >> 5;
 
+    if (activated) {
         target = lib_msprintf("Port %i %s", port + 1, joy_pot[pot]);
         e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK, 5);
         lib_free(target);
@@ -551,6 +551,8 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
             default:
                 break;
         }
+    } else {
+        return get_joy_pot_mapping_string(port, pot);
     }
 
     return NULL;
