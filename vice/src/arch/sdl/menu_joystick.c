@@ -502,10 +502,10 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     SDL_Event e;
     int pin, port;
 
-    if (activated) {
-        pin = (vice_ptr_to_int(param)) & 15;
-        port = (vice_ptr_to_int(param)) >> 5;
+    pin = (vice_ptr_to_int(param)) & 15;
+    port = (vice_ptr_to_int(param)) >> 5;
 
+    if (activated) {
         target = lib_msprintf("Port %i %s", port + 1, joy_pin[pin]);
         e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK, 5);
         lib_free(target);
@@ -519,6 +519,8 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
             default:
                 break;
         }
+    } else {
+        return get_joy_pin_mapping_string(port, (1 << pin));
     }
 
     return NULL;
