@@ -532,6 +532,76 @@ void joy_arch_init_default_mapping(int joynum)
     }
 }
 
+static char mapping_retval[50];
+
+char *get_joy_pin_mapping_string(int joynr, int pin)
+{
+    int i, k;
+    sdljoystick_input_t j;
+    sdljoystick_action_t t;
+    int valid = 0;
+    int joy = 0;
+    int type = 0;
+    int index = 0;
+    int sub_index = 0;
+    char *retval = NULL;
+    char *type_string = NULL;
+    char *index_string = NULL;
+
+    for (i = 0; i < num_joysticks; ++i) {
+        for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
+            for (k = 0; k < sdljoystick[i].input_max[j] * input_mult[j]; ++k) {
+                t = sdljoystick[i].input[j][k].action;
+                if (t == JOYSTICK) {
+                    if (sdljoystick[i].input[j][k].value.joy[0] == joynr && sdljoystick[i].input[j][k].value.joy[1] == pin) {
+                        valid++;
+                        joy = i;
+                        type = j;
+                        switch (type) {
+                            case AXIS:
+                                type_string = "Ax";
+                                index_string = "I";
+                                index = k / 2;
+                                sub_index = k % 2;
+                                break;
+                            case BUTTON:
+                                type_string = "Bt";
+                                index_string = NULL;
+                                index = k;
+                                sub_index = 0;
+                                break;
+                            case HAT:
+                                type_string = "Ht";
+                                index_string = "I";
+                                index = k / 4;
+                                sub_index = k % 4;
+                                break;
+                            case BALL:
+                                type_string = "Bl";
+                                index_string = NULL;
+                                index = k;
+                                sub_index = 0;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (valid > 1) {
+        retval = "Multiple";
+    }
+    if (valid == 1) {
+        if (index_string != NULL ) {
+            snprintf(mapping_retval, 100, "J%d, %s%d, %s%d", joy, type_string, index, index_string, sub_index);
+        } else {
+            snprintf(mapping_retval, 100, "J%d, %s%d", joy, type_string, index);
+        }
+        retval = mapping_retval;
+    }
+    return retval;
+}
+
 int joy_arch_mapping_dump(const char *filename)
 {
     FILE *fp;
