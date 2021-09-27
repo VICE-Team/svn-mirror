@@ -536,10 +536,14 @@ static char mapping_retval[50];
 
 char *get_joy_pot_mapping_string(int joynr, int pot)
 {
-    uint16_t portaxis = sdljoystick_axis_mapping[(joynr << 1) | pot];
+    uint16_t portaxis = 0xffff;
     uint8_t port = portaxis >> 8;
     uint8_t axis = portaxis & 0xff;
     char *retval = NULL;
+
+    if (joynr <= 1 && pot <= 1) {
+        portaxis = sdljoystick_axis_mapping[(joynr << 1) | pot];
+    }
 
     if (port != 255 && axis != 255) {
         snprintf(mapping_retval, 100, "J%d, Ax%d", port, axis);
@@ -614,6 +618,31 @@ char *get_joy_pin_mapping_string(int joynr, int pin)
         retval = mapping_retval;
     }
     return retval;
+}
+
+void sdljoy_delete_pot_mapping(int port, int pot)
+{
+    int i, k;
+    sdljoystick_input_t j;
+    sdljoystick_action_t t;
+
+    for (i = 0; i < num_joysticks; ++i) {
+        for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
+            for (k = 0; k < sdljoystick[i].input_max[j] * input_mult[j]; ++k) {
+                t = sdljoystick[i].input[j][k].action;
+                if (t == POT_AXIS) {
+                    if (sdljoystick[i].input[j][k].value.axis[0] == port && sdljoystick[i].input[j][k].value.axis[1] == pot) {
+                        sdljoystick[i].input[j][k].action = NONE;
+                        sdljoystick[i].input[j][k].value.axis[0] = 0;
+                        sdljoystick[i].input[j][k].value.axis[1] = 0;
+                    }
+                    if (port <= 1 && pot <= 1) {
+                        sdljoystick_axis_mapping[(port << 1) | pot] = 0xffff;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void sdljoy_delete_pin_mapping(int port, int pin)
@@ -816,8 +845,8 @@ static void joy_arch_parse_entry(char *buffer)
                             sdljoystick[joynum].input[inputtype][inputindex].value.joy[1] = data2;
                             break;
                         case POT_AXIS:
-                            sdljoystick[joynum].input[inputtype][inputindex].value.joy[0] = data1;
-                            sdljoystick[joynum].input[inputtype][inputindex].value.joy[1] = data2;
+                            sdljoystick[joynum].input[inputtype][inputindex].value.axis[0] = data1;
+                            sdljoystick[joynum].input[inputtype][inputindex].value.axis[1] = data2;
                             if (data1 <= 1 && data2 <= 1) {
                                 sdljoystick_axis_mapping[(data1 << 1) | data2] = (joynum << 8) | (inputindex / 2);
                                 resources_set_int_sprintf("PaddlesInput%d", PADDLES_INPUT_JOY_AXIS, data1 + 1);
@@ -1273,7 +1302,9 @@ void sdljoy_set_joystick_axis(SDL_Event e, int port, int pot)
         joyevent->value.axis[1] = (uint16_t)pot;
     }
 
-    sdljoystick_axis_mapping[index] = (stick << 8) | axis;
+    if (index <= 3) {
+        sdljoystick_axis_mapping[index] = (stick << 8) | axis;
+    }
 }
 
 void sdljoy_set_hotkey(SDL_Event e, ui_menu_entry_t *value)

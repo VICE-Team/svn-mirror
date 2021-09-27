@@ -542,7 +542,7 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
 
     if (activated) {
         target = lib_msprintf("Port %i %s", port + 1, joy_pot[pot]);
-        e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK, 5);
+        e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
         lib_free(target);
 
         switch (e.type) {
@@ -551,7 +551,13 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
                 resources_set_int_sprintf("PaddlesInput%d", PADDLES_INPUT_JOY_AXIS, port + 1);
                 break;
             case SDL_MOUSEMOTION:
+                sdljoy_delete_pot_mapping(port, pot);
                 resources_set_int_sprintf("PaddlesInput%d", PADDLES_INPUT_MOUSE, port + 1);
+                break;
+            case SDL_KEYDOWN:
+                if (e.key.keysym.sym == SDLK_DELETE || e.key.keysym.sym == SDLK_BACKSPACE) {
+                    sdljoy_delete_pot_mapping(port, pot);
+                }
                 break;
             default:
                 break;
