@@ -283,7 +283,7 @@ const char machine_name[] = "C1541";
 
 /** \brief  Machine class
  */
-int machine_class = VICE_MACHINE_C1541;
+int machine_class = 0;
 
 const char *machine_get_name(void)
 {
