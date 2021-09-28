@@ -55,6 +55,7 @@ int vice_network_select_poll_one(vice_network_socket_t * readsockfd);
 int vice_network_select_multiple(vice_network_socket_t ** readsockfd);
 
 int vice_network_get_socket(vice_network_socket_t *socket);
+unsigned short vice_network_get_ipv4_port(vice_network_socket_t *address);
 
 int vice_network_get_errorcode(void);
 

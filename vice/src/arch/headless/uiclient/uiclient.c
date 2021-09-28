@@ -1,21 +1,95 @@
-#include "vice.h"
+/*
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
-#include <errno.h>
-#include <libgen.h>
-#include <limits.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/poll.h>
-#include <unistd.h>
 
-#include "uiserver.h"
+#include "uiclient.h"
+#include "uiclientnetwork.h"
+#include "uiclientutil.h"
 #include "uiprotocol.h"
+
+typedef struct uiclient_s {
+    uiclient_on_disconnected_t on_disconnected;
+    socket_t *socket;
+} uiclient_t;
+
+uiclient_t *uiclient_new(
+    uiclient_on_disconnected_t on_disconnected_callback
+    )
+{
+    uiclient_t *uiclient;
+
+    INFO("Initialising");
+
+    uiclient_network_init();
+
+    uiclient = calloc(1, sizeof(uiclient_t));
+    uiclient->on_disconnected = on_disconnected_callback;
+
+    return uiclient;
+}
+
+bool uiclient_connect(uiclient_t *uiclient, uint16_t server_port)
+{
+    INFO("Connecting to port %d", server_port);
+
+    /* Initiate the socket connection */
+    uiclient->socket = uiclient_network_connect(server_port);
+    return uiclient->socket ? true : false;
+}
+
+void uiclient_subscribe_screen(uiclient_t *uiclient, char *chip_name)
+{
+    INFO("Subscribing to screen %s", chip_name);
+}
+
+void uiclient_poll(uiclient_t *uiclient)
+{
+    static int poll_count;
+
+    if (++poll_count == 180) {
+        uiclient->on_disconnected(uiclient);
+        return;
+    }
+}
+
+void uiclient_destroy(uiclient_t *uiclient)
+{
+    INFO("Destroying");
+
+    if (uiclient->socket) {
+        uiclient_network_close(uiclient->socket);
+        uiclient->socket = NULL;
+    }
+
+    free(uiclient);
+
+    uiclient_network_shutdown();
+}
+
+#if 0 
 
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
-#include "machine.h"
-#include "resources.h"
 #include "tick.h"
 #include "vicesocket.h"
 
@@ -114,44 +188,11 @@ void uiserver_add_screen(video_canvas_t *canvas)
 
 void uiserver_await_ready(void)
 {
-    const char *ui_path;
-    pid_t child_pid;
-    char server_port_str[6];
-    char ui_filename[PATH_MAX];
-
-    resources_get_string("UiFilepath", &ui_path);
-
-    /*
-     * Launch the ui process if one is set
-     */
-
-    if (!strlen(ui_path)) {
-        log_message(LOG_DEFAULT, "No UI requested, continuing");
-        return;
-    }
-
-    child_pid = fork();
-    if (child_pid == -1) {
-        log_error(LOG_DEFAULT, "Failed to fork for ui process: %s", strerror(errno));
-        archdep_vice_exit(1);
-    }
-
-    if (child_pid == 0) {
-        /* Child process. Execute the ui executable, passing the server port number */
-        basename_r(ui_path, ui_filename);
-        snprintf(server_port_str, 6, "%hu", vice_network_get_ipv4_port(server_socket));
-
-        execlp(ui_path, ui_filename, server_port_str, NULL);
-
-        log_error(LOG_DEFAULT, "Execution has continued past execlp: %s", strerror(errno));
-        exit(1);
-    }
+    printf("%s\n", __func__);
     
     /*
      * Wait for a uiclient process to connect and signal that it's ready.
      */
-
-    log_message(LOG_DEFAULT, "Waiting for UI process");
     
     while (client_count == 0) {
         tick_sleep(tick_per_second() / 60);
@@ -340,3 +381,5 @@ static void rebuild_poll_fds(void)
     poll_fds[i].fd = vice_network_get_socket(server_socket);
     poll_fds[i].events = POLLIN;
 }
+
+#endif

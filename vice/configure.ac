@@ -3750,6 +3750,7 @@ AC_OUTPUT([Makefile
            src/arch/mingw32-pcap/wpcap/net/Makefile
            src/arch/sdl/Makefile
            src/arch/headless/Makefile
+           src/arch/headless/uiclient/Makefile
            src/arch/shared/Makefile
            src/buildtools/Makefile
            src/c128/Makefile

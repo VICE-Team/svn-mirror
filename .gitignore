@@ -68,3 +68,5 @@ vice/src/xscpu64
 vice/src/xvic
 ylwrap
 settings.json
+vice/src/arch/headless/uiclient/uiclientmachine.h
+vice/src/arch/headless/uiclient/uiclienttest

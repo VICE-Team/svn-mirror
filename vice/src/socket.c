@@ -1143,6 +1143,11 @@ int vice_network_get_socket(vice_network_socket_t *socket)
     return socket->sockfd;
 }
 
+unsigned short vice_network_get_ipv4_port(vice_network_socket_t *socket)
+{
+    return ntohs(socket->address.address.ipv4.sin_port);
+}
+
 /*! \brief Get the error of the last socket operation
 
   This function determines the error code for the last

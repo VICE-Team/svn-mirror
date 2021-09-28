@@ -1,5 +1,7 @@
 ## Makefile.am for the native headless version of `libarch.a'.
 
+SUBDIRS = uiclient
+
 if WIN32_COMPILE
 extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
 else
@@ -85,4 +87,5 @@ EXTRA_DIST = \
 	uistatusbar.h \
 	videoarch.h \
 	\
-	uiserver.h
+	uiserver.h \
+	uiprotocol.h
