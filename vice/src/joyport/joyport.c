@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <string.h>
+#include <ctype.h>
 
 #include "cmdline.h"
 #include "joyport.h"
@@ -1019,76 +1020,99 @@ struct joyport_opt_s {
 };
 
 static const struct joyport_opt_s id_match[] = {
-    { "0",               JOYPORT_ID_NONE },
     { "none",            JOYPORT_ID_NONE },
-    { "1",               JOYPORT_ID_JOYSTICK },
     { "joy",             JOYPORT_ID_JOYSTICK },
     { "joystick",        JOYPORT_ID_JOYSTICK },
-    { "2",               JOYPORT_ID_PADDLES },
     { "paddles",         JOYPORT_ID_PADDLES },
-    { "3",               JOYPORT_ID_MOUSE_1351 },
     { "1351",            JOYPORT_ID_MOUSE_1351 },
     { "1351mouse",       JOYPORT_ID_MOUSE_1351 },
-    { "4",               JOYPORT_ID_MOUSE_NEOS },
     { "neos",            JOYPORT_ID_MOUSE_NEOS },
     { "neosmouse",       JOYPORT_ID_MOUSE_NEOS },
-    { "5",               JOYPORT_ID_MOUSE_AMIGA },
     { "amiga",           JOYPORT_ID_MOUSE_AMIGA },
     { "amigamouse",      JOYPORT_ID_MOUSE_AMIGA },
-    { "6",               JOYPORT_ID_MOUSE_CX22 },
     { "cx22",            JOYPORT_ID_MOUSE_CX22 },
     { "cx22mouse",       JOYPORT_ID_MOUSE_CX22 },
-    { "7",               JOYPORT_ID_MOUSE_ST },
     { "st",              JOYPORT_ID_MOUSE_ST },
     { "atarist",         JOYPORT_ID_MOUSE_ST },
     { "stmouse",         JOYPORT_ID_MOUSE_ST },
     { "ataristmouse",    JOYPORT_ID_MOUSE_ST },
-    { "8",               JOYPORT_ID_MOUSE_SMART },
     { "smart",           JOYPORT_ID_MOUSE_SMART },
     { "smartmouse",      JOYPORT_ID_MOUSE_SMART },
-    { "9",               JOYPORT_ID_MOUSE_MICROMYS },
     { "micromys",        JOYPORT_ID_MOUSE_MICROMYS },
     { "micromysmouse",   JOYPORT_ID_MOUSE_MICROMYS },
-    { "10",              JOYPORT_ID_KOALAPAD },
+    { "koala",           JOYPORT_ID_KOALAPAD },
     { "koalapad",        JOYPORT_ID_KOALAPAD },
-    { "11",              JOYPORT_ID_LIGHTPEN_U },
     { "lpup",            JOYPORT_ID_LIGHTPEN_U },
     { "lightpenup",      JOYPORT_ID_LIGHTPEN_U },
-    { "12",              JOYPORT_ID_LIGHTPEN_L },
     { "lpleft",          JOYPORT_ID_LIGHTPEN_L },
     { "lightpenleft",    JOYPORT_ID_LIGHTPEN_L },
-    { "13",              JOYPORT_ID_LIGHTPEN_DATEL },
     { "lpdatel",         JOYPORT_ID_LIGHTPEN_DATEL },
     { "lightpendatel",   JOYPORT_ID_LIGHTPEN_DATEL },
     { "datellightpen",   JOYPORT_ID_LIGHTPEN_DATEL },
-    { "14",              JOYPORT_ID_LIGHTGUN_Y },
     { "magnum",          JOYPORT_ID_LIGHTGUN_Y },
-    { "15",              JOYPORT_ID_LIGHTGUN_L },
     { "stack",           JOYPORT_ID_LIGHTGUN_L },
     { "slr",             JOYPORT_ID_LIGHTGUN_L },
-    { "16",              JOYPORT_ID_LIGHTPEN_INKWELL },
     { "lpinkwell",       JOYPORT_ID_LIGHTPEN_INKWELL },
     { "lightpeninkwell", JOYPORT_ID_LIGHTPEN_INKWELL },
     { "inkwelllightpen", JOYPORT_ID_LIGHTPEN_INKWELL },
-    { "17",              JOYPORT_ID_SAMPLER_2BIT },
-    { "2bitsampler",     JOYPORT_ID_SAMPLER_2BIT },
-    { "18",              JOYPORT_ID_SAMPLER_4BIT },
-    { "4bitsampler",     JOYPORT_ID_SAMPLER_4BIT },
-    { "19",              JOYPORT_ID_BBRTC },
-    { "bbrtc",           JOYPORT_ID_BBRTC },
-    { "20",              JOYPORT_ID_PAPERCLIP64 },
-    { "paperclip64",     JOYPORT_ID_PAPERCLIP64 },
-    { "paperclip",       JOYPORT_ID_PAPERCLIP64 },
-    { "pc64",            JOYPORT_ID_PAPERCLIP64 },
-    { "ninja",           JOYPORT_ID_NINJA_SNESPAD },
-    { "ninjasnes",       JOYPORT_ID_NINJA_SNESPAD },
-    { "ninjasnespad",    JOYPORT_ID_NINJA_SNESPAD },
-    { "trapthem",        JOYPORT_ID_TRAPTHEM_SNESPAD },
-    { "trapthemsnes",    JOYPORT_ID_TRAPTHEM_SNESPAD },
-    { "trapthemsnespad", JOYPORT_ID_TRAPTHEM_SNESPAD },
-    { "spaceballs",      JOYPORT_ID_SPACEBALLS },
+#ifdef JOYPORT_EXPERIMENTAL_DEVICES
+    { "gunstick",         JOYPORT_ID_LIGHTGUN_GUNSTICK },
+#endif
+    { "2bitsampler",      JOYPORT_ID_SAMPLER_2BIT },
+    { "4bitsampler",      JOYPORT_ID_SAMPLER_4BIT },
+    { "bbrtc",            JOYPORT_ID_BBRTC },
+    { "paperclip64",      JOYPORT_ID_PAPERCLIP64 },
+    { "paperclip",        JOYPORT_ID_PAPERCLIP64 },
+    { "pc64",             JOYPORT_ID_PAPERCLIP64 },
+    { "coplin",           JOYPORT_ID_COPLIN_KEYPAD },
+    { "coplinkp",         JOYPORT_ID_COPLIN_KEYPAD },
+    { "coplinkeypad",     JOYPORT_ID_COPLIN_KEYPAD },
+    { "cx85",             JOYPORT_ID_CX85_KEYPAD },
+    { "cx85kp",           JOYPORT_ID_CX85_KEYPAD },
+    { "cx85keypad",       JOYPORT_ID_CX85_KEYPAD },
+    { "rushware",         JOYPORT_ID_RUSHWARE_KEYPAD },
+    { "rushwarekp",       JOYPORT_ID_RUSHWARE_KEYPAD },
+    { "rushwarekeypad",   JOYPORT_ID_RUSHWARE_KEYPAD },
+    { "cx21",             JOYPORT_ID_CX21_KEYPAD },
+    { "cx21kp",           JOYPORT_ID_CX21_KEYPAD },
+    { "cx21keypad",       JOYPORT_ID_CX21_KEYPAD },
+    { "script64",         JOYPORT_ID_SCRIPT64_DONGLE },
+    { "script64dongle",   JOYPORT_ID_SCRIPT64_DONGLE },
+    { "vizawrite64",       JOYPORT_ID_VIZAWRITE64_DONGLE },
+    { "vizawrite64dongle", JOYPORT_ID_VIZAWRITE64_DONGLE },
+    { "waasoft",           JOYPORT_ID_WAASOFT_DONGLE },
+    { "waasoftdongle",     JOYPORT_ID_WAASOFT_DONGLE },
+    { "trapthem",          JOYPORT_ID_TRAPTHEM_SNESPAD },
+    { "trapthemsnes",      JOYPORT_ID_TRAPTHEM_SNESPAD },
+    { "trapthemsnespad",   JOYPORT_ID_TRAPTHEM_SNESPAD },
+    { "ninja",             JOYPORT_ID_NINJA_SNESPAD },
+    { "ninjasnes",         JOYPORT_ID_NINJA_SNESPAD },
+    { "ninjasnespad",      JOYPORT_ID_NINJA_SNESPAD },
+    { "spaceballs",        JOYPORT_ID_SPACEBALLS },
+    { "inception",         JOYPORT_ID_INCEPTION },
+    { "multijoy",          JOYPORT_ID_MULTIJOY_JOYSTICKS },
+    { "protopad",          JOYPORT_ID_PROTOPAD },
+#ifdef IO_SIMULATION
+    { "io",                JOYPORT_ID_IO_SIMULATION },
+    { "iosim",             JOYPORT_ID_IO_SIMULATION },
+    { "iosimulation",      JOYPORT_ID_IO_SIMULATION },
+#endif
+
     { NULL, -1 }
 };
+
+static int is_a_number(const char *str)
+{
+    int i;
+    int len = strlen(str);
+
+    for (i = 0; i < len; i++) {
+        if (!isdigit(str[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
 
 static int set_joyport_cmdline_device(const char *param, void *extra_param)
 {
@@ -1108,7 +1132,10 @@ static int set_joyport_cmdline_device(const char *param, void *extra_param)
     } while ((temp == -1) && (id_match[i].name != NULL));
 
     if (temp == -1) {
-        return -1;
+        if (!is_a_number(param)) {
+            return -1;
+        }
+        temp = atoi(param);
     }
 
     return set_joyport_device(temp, int_to_void_ptr(port));
