@@ -394,6 +394,20 @@ function external_lib_label {
 
 function add_executable_target {
 	local executable=$1
+
+	#
+	# Each executable has its own list of external libs to be linked with.
+	#
+	
+	LIB_ARGS="$(extract_make_var LIBS) $(extract_make_var ${executable}_LDADD)"
+	LIB_LIST="$(extract_internal_libs $LIB_ARGS)"
+
+	for lib in $(extract_external_libs $LIB_ARGS)
+	do
+		label=$(external_lib_label $lib)
+		
+		LIB_LIST="$LIB_LIST \${$label}"
+	done
 	
 	cat <<-HEREDOC >> CMakeLists.txt
 
@@ -438,6 +452,12 @@ function add_executable_target {
 		        $(extract_sources BUILT_SOURCES)
 		        $(extract_headers BUILT_SOURCES)
 		        $(extract_headers noinst_HEADERS)
+		    )
+		
+		target_link_libraries(
+		    $executable
+		    PRIVATE
+		    	$LIB_LIST
 		    )
 	HEREDOC
 }
@@ -498,29 +518,6 @@ do
 	echo "Executable: $executable"
 
 	add_executable_target $executable
-
-	#
-	# Each executable has its own list of external libs to be linked with.
-	#
-	
-	LIB_ARGS="$(extract_make_var LIBS) $(extract_make_var ${executable}_LDADD)"
-	LIB_LIST="$(extract_internal_libs $LIB_ARGS)"
-
-	for lib in $(extract_external_libs $LIB_ARGS)
-	do
-		label=$(external_lib_label $lib)
-		
-		LIB_LIST="$LIB_LIST \${$label}"
-	done
-
-	cat <<-HEREDOC >> CMakeLists.txt
-
-		target_link_libraries(
-		    $executable
-		    PRIVATE
-		    	$LIB_LIST
-		    )
-	HEREDOC
 done
 
 popdq
