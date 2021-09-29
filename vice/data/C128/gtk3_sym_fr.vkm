@@ -238,7 +238,7 @@ asciicircum     6 6 0
 asciitilde      6 6 0
 # Page down -> Arrow Up  ?????????????? FIXME Page_Down is already mapped to 'LINE FEED'
 #Page_Down       6 6 8
-slash           6 7 0
+slash           6 7 16
 question        6 7 1
 
 #####################

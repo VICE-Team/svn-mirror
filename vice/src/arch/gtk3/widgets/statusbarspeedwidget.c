@@ -34,9 +34,11 @@
 
 #include <gtk/gtk.h>
 #include <math.h>
+#include <string.h>
 
 #include "vice_gtk3.h"
 #include "basedialogs.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "ui.h"
@@ -536,15 +538,19 @@ void statusbar_speed_widget_update(GtkWidget *widget,
 
     if (machine_is_jammed()) {
         if (!jammed) {
+            char *temp = lib_strdup(machine_jam_reason());
+            char *temp2 = strstr(temp, "JAM");
             jammed = true;
 
             grid = gtk_bin_get_child(GTK_BIN(widget));
 
-            label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-            gtk_label_set_text(GTK_LABEL(label), "");
-
             label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
-            gtk_label_set_text(GTK_LABEL(label), machine_jam_reason());
+            gtk_label_set_text(GTK_LABEL(label), temp2);
+            *temp2 = 0;
+            label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+            gtk_label_set_text(GTK_LABEL(label), temp);
+
+            lib_free(temp);
         }
         return;
     } else if (jammed) {
