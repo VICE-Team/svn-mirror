@@ -374,30 +374,6 @@ static int layout_add_ps2mouse_widget(GtkGrid *layout, int row)
 }
 
 
-/** \brief  Add checkbox for the userport joysticks adapter
- *
- * Add a checkbox for the "UserportJoy" resource.
- *
- * Valid for all emulators except xcbm5x0 and vsid.
- *
- * \param[in,out]   layout  main widget grid
- * \param[in]       row     row in \a layout to add the checkbox
- *
- * \return  row in the \a layout for additional widgets
- *
- * \note    the added widget spans two columns in the layout
- */
-static int layout_add_userportjoy_widget(GtkGrid *layout, int row)
-{
-    GtkWidget *check;
-
-    check = vice_gtk3_resource_check_button_new("UserportJoy",
-            "Enable userport joysticks");
-    gtk_grid_attach(layout, check, 0, row, 2, 1);
-
-    return row + 1;
-}
-
 
 /*
  * Functions to create the layouts for the various emulators
@@ -419,7 +395,6 @@ static int create_c64_layout(GtkGrid *layout)
     row = layout_add_adapter_ports(layout, row, 8);
     row = layout_add_bbrtc_widget(layout, row);
     row = layout_add_smartmouse_rtc_widget(layout, row);
-    row = layout_add_userportjoy_widget(layout, row);
 
     return row;
 }
@@ -441,7 +416,6 @@ static int create_c64dtv_layout(GtkGrid *layout)
     row = layout_add_adapter_ports(layout, row, 8);
     row = layout_add_bbrtc_widget(layout, row);
     row = layout_add_ps2mouse_widget(layout, row);
-    row = layout_add_userportjoy_widget(layout, row);
 
     return row;
 }
@@ -464,7 +438,6 @@ static int create_vic20_layout(GtkGrid *layout)
     row = layout_add_adapter_ports(layout, row, 8);
     row = layout_add_bbrtc_widget(layout, row);
     row = layout_add_smartmouse_rtc_widget(layout, row);
-    row = layout_add_userportjoy_widget(layout, row);
 
     return row;
 }
@@ -486,7 +459,6 @@ static int create_plus4_layout(GtkGrid *layout)
     row = layout_add_adapter_ports(layout, row, 2);
     row = layout_add_sidcard_port(layout, row);
     row = layout_add_bbrtc_widget(layout, row);
-    row = layout_add_userportjoy_widget(layout, row);
 
     return row;
 }
@@ -506,7 +478,6 @@ static int create_pet_layout(GtkGrid *layout)
 
     row = layout_add_adapter_ports(layout, row, 2);
     row = layout_add_bbrtc_widget(layout, row);
-    row = layout_add_userportjoy_widget(layout, row);
 
     return row;
 }
@@ -547,7 +518,6 @@ static int create_cbm6x0_layout(GtkGrid *layout)
 
     row = layout_add_adapter_ports(layout, row, 8);
     row = layout_add_bbrtc_widget(layout, row);
-    row = layout_add_userportjoy_widget(layout, row);
 
     return row;
 }
