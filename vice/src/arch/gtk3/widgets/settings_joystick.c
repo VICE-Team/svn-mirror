@@ -59,7 +59,6 @@
 #include "joystick.h"
 
 #include "joystickdevicewidget.h"
-#include "joystickuserportadapterwidget.h"
 #include "keysetdialog.h"
 
 #include "settings_joystick.h"
@@ -400,7 +399,7 @@ static int layout_add_swap_buttons(GtkGrid *layout,
     return row + 1;
 }
 
-
+#if 0
 /** \brief  Add Userport Adapter selector
  *
  * Add widget to the \a layout to select a userport adapter.
@@ -425,7 +424,7 @@ static int layout_add_adapter_selector(GtkGrid *layout, int row)
 
     return row + 1;
 }
-
+#endif
 
 /** \brief  Create layout for x64/x64sc/xscpu64/x128
  *
@@ -439,7 +438,6 @@ static int create_c64_layout(GtkGrid *grid)
 
     row = layout_add_control_ports(grid, row, 2);
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_C64);
-    row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, true, true);
 
     return row;
@@ -476,7 +474,6 @@ static int create_vic20_layout(GtkGrid *grid)
 
     row = layout_add_control_ports(grid, row, 1);
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_VIC20);
-    row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, false, true);
 
     return row;
@@ -496,7 +493,6 @@ static int create_plus4_layout(GtkGrid *grid)
     row = layout_add_control_ports(grid, row, 2);
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_PLUS4);
     row = layout_add_sidcard_port(grid, row);
-    row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, true, true);
 
     return row;
@@ -532,7 +528,6 @@ static int create_cbm6x0_layout(GtkGrid *grid)
     int row = 0;
 
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_CBM6x0);
-    row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, false, true);
 
     return row ;
@@ -550,7 +545,6 @@ static int create_pet_layout(GtkGrid *grid)
     int row = 0;
 
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_PET);
-    row = layout_add_adapter_selector(grid, row);
     row = layout_add_swap_buttons(grid, row, false, true);
 
     return row;
