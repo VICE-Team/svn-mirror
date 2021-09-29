@@ -127,6 +127,20 @@
    - native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
    - sidcart joystick adapter port (xplus4)
 
+   cport | microflyte joystick  | I/O
+   ----------------------------------
+     1   | Throttle up button   |  I
+     2   | Throttle down button |  I
+     3   | Brake button         |  I
+     4   | Flaps button         |  I
+     5   | up/down pot value    |  I
+     6   | Reset button         |  I
+     9   | left/right pot value |  I
+
+   Works on:
+   - native joystick port(s) (x64/x64sc/xscpu64/x128/xcbm5x0/xvic)
+   - sidcart joystick adapter port (xplus4)
+
    cport | cx22        | I/O
    -------------------------
      1   | X direction |  I
@@ -761,6 +775,7 @@ typedef struct mt_id_s {
 
 static const mt_id_t mt_id[] = {
     { MOUSE_TYPE_PADDLE,   JOYPORT_ID_PADDLES },
+    { MOUSE_TYPE_MF_JOY,   JOYPORT_ID_MF_JOYSTICK },
     { MOUSE_TYPE_1351,     JOYPORT_ID_MOUSE_1351 },
     { MOUSE_TYPE_NEOS,     JOYPORT_ID_MOUSE_NEOS },
     { MOUSE_TYPE_AMIGA,    JOYPORT_ID_MOUSE_AMIGA },
@@ -864,6 +879,28 @@ static uint8_t joyport_paddles_value(int port)
     return 0xff;
 }
 
+static uint8_t joyport_mf_joystick_value(int port)
+{
+    uint16_t mf_fire_buttons = get_joystick_value(port);
+
+    if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+        if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
+            return (uint8_t)(~mf_fire_buttons);
+        } else {
+            return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
+        }
+    }
+
+    if (port == JOYPORT_2) {
+        if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
+            return (uint8_t)(~mf_fire_buttons);
+        } else {
+            return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
+        }
+    }
+    return 0xff;
+}
+
 /* Some prototypes are needed */
 static int paddles_write_snapshot(struct snapshot_s *s, int port);
 static int paddles_read_snapshot(struct snapshot_s *s, int port);
@@ -876,7 +913,7 @@ static joyport_t paddles_joyport_device = {
     JOYPORT_IS_NOT_LIGHTPEN,  /* device is NOT a lightpen */
     JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_MOUSE,     /* device is a Mouse/Paddle */
+    JOYPORT_DEVICE_PADDLES,   /* device is a Paddle */
     0,                        /* NO output bits */
     joyport_mouse_enable,     /* device enable function */
     joyport_paddles_value,    /* digital line read function */
@@ -887,6 +924,27 @@ static joyport_t paddles_joyport_device = {
     paddles_read_snapshot,    /* device read snapshot function */
     NULL,                     /* NO device hook function */
     0                         /* NO device hook function mask */
+};
+
+static joyport_t mf_joystick_joyport_device = {
+    "Microflyte Joystick",     /* name of the device */
+    JOYPORT_RES_ID_NONE,       /* device normally uses the mouse for input,
+                                 but it can be mapped to a joystick axis too,
+                                 therefor it is flagged as not using the mouse */
+    JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
+    JOYPORT_POT_REQUIRED,      /* device uses the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_PADDLES,    /* device is a Paddle */
+    0,                         /* NO output bits */
+    joyport_mouse_enable,      /* device enable function */
+    joyport_mf_joystick_value, /* digital line read function */
+    NULL,                      /* NO digital line store function */
+    mouse_get_paddle_x,        /* pot-x read function */
+    mouse_get_paddle_y,        /* pot-y read function */
+    paddles_write_snapshot,    /* device write snapshot function */
+    paddles_read_snapshot,     /* device read snapshot function */
+    NULL,                      /* NO device hook function */
+    0                          /* NO device hook function mask */
 };
 
 /* Some prototypes are needed */
@@ -1150,6 +1208,9 @@ static int mouse_joyport_register(void)
 {
     DBG(("mouse_joyport_register\n"));
     if (joyport_device_register(JOYPORT_ID_PADDLES, &paddles_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_device_register(JOYPORT_ID_MF_JOYSTICK, &mf_joystick_joyport_device) < 0) {
         return -1;
     }
     if (joyport_device_register(JOYPORT_ID_MOUSE_1351, &mouse_1351_joyport_device) < 0) {

@@ -1097,7 +1097,8 @@ static const struct joyport_opt_s id_match[] = {
     { "iosim",             JOYPORT_ID_IO_SIMULATION },
     { "iosimulation",      JOYPORT_ID_IO_SIMULATION },
 #endif
-
+    { "mfjoy",             JOYPORT_ID_MF_JOYSTICK },
+    { "mfjoystick",        JOYPORT_ID_MF_JOYSTICK },
     { NULL, -1 }
 };
 

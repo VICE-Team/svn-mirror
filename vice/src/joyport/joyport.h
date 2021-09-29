@@ -86,6 +86,7 @@ enum {
 #ifdef IO_SIMULATION
     JOYPORT_ID_IO_SIMULATION,
 #endif
+    JOYPORT_ID_MF_JOYSTICK,
     JOYPORT_MAX_DEVICES
 };
 
@@ -130,15 +131,16 @@ enum {
 #define JOYPORT_DEVICE_JOYSTICK           1
 #define JOYPORT_DEVICE_JOYSTICK_ADAPTER   2
 #define JOYPORT_DEVICE_SNES_ADAPTER       3
-#define JOYPORT_DEVICE_MOUSE              4
-#define JOYPORT_DEVICE_LIGHTPEN           5
-#define JOYPORT_DEVICE_LIGHTGUN           6
-#define JOYPORT_DEVICE_DRAWING_PAD        7
-#define JOYPORT_DEVICE_KEYPAD             8
-#define JOYPORT_DEVICE_SAMPLER            9
-#define JOYPORT_DEVICE_RTC                10
-#define JOYPORT_DEVICE_C64_DONGLE         11
-#define JOYPORT_DEVICE_IO_SIMULATION      12
+#define JOYPORT_DEVICE_PADDLES            4
+#define JOYPORT_DEVICE_MOUSE              5
+#define JOYPORT_DEVICE_LIGHTPEN           6
+#define JOYPORT_DEVICE_LIGHTGUN           7
+#define JOYPORT_DEVICE_DRAWING_PAD        8
+#define JOYPORT_DEVICE_KEYPAD             9
+#define JOYPORT_DEVICE_SAMPLER            10
+#define JOYPORT_DEVICE_RTC                11
+#define JOYPORT_DEVICE_C64_DONGLE         12
+#define JOYPORT_DEVICE_IO_SIMULATION      13
 
 /* joystick bits */
 #define JOYPORT_P0_BIT    0
