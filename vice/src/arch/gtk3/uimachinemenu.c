@@ -510,9 +510,11 @@ static ui_menu_item_t file_menu_tape[] = {
 /* }}} */
 
 /* {{{ file_menu_tail */
-/** \brief  'File' menu - tail section
+/** \brief  'File' menu - cartridge section
+ *
+ * All machines except C64DTV and PET.
  */
-static ui_menu_item_t file_menu_tail[] = {
+static ui_menu_item_t file_menu_cart[] = {
     /* cart */
     { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION,
         "cart-attach", ui_cart_show_dialog, GINT_TO_POINTER(0),
@@ -524,6 +526,15 @@ static ui_menu_item_t file_menu_tail[] = {
         "cart-freeze", (void *)ui_cart_trigger_freeze, NULL,
         GDK_KEY_Z, VICE_MOD_MASK, false },
     UI_MENU_SEPARATOR,
+    UI_MENU_TERMINATOR
+};
+
+
+
+/* {{{ file_menu_tail */
+/** \brief  'File' menu - tail section
+ */
+static ui_menu_item_t file_menu_tail[] = {
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
         "monitor", ui_monitor_activate_callback, NULL,
@@ -689,11 +700,11 @@ static ui_menu_item_t settings_menu_head[] = {
  *
  * Only valid for x64/x64sc/xscpu64/x128/xplus4
  */
-static ui_menu_item_t settings_menu_all_joy[] = {
-    { "Swap joysticks", UI_MENU_TYPE_ITEM_ACTION,
+static ui_menu_item_t settings_menu_joy_both[] = {
+    { "Swap joysticks", UI_MENU_TYPE_ITEM_CHECK,
         "joystick-swap", (void *)(ui_action_toggle_controlport_swap), NULL,
         GDK_KEY_J, VICE_MOD_MASK, false },
-    { "Swap userport joysticks", UI_MENU_TYPE_ITEM_ACTION,
+    { "Swap userport joysticks", UI_MENU_TYPE_ITEM_CHECK,
         "userportjoy-swap", (void *)(ui_action_toggle_userport_swap), NULL,
         GDK_KEY_U, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
@@ -708,8 +719,8 @@ static ui_menu_item_t settings_menu_all_joy[] = {
  *
  * Only valid for x64dtv/xcbm5x0
  */
-static ui_menu_item_t settings_menu_cbm5x0_joy[] = {
-    { "Swap joysticks", UI_MENU_TYPE_ITEM_ACTION,
+static ui_menu_item_t settings_menu_joy_controlport[] = {
+    { "Swap joysticks", UI_MENU_TYPE_ITEM_CHECK,
         "joystick-swap", (void *)(ui_action_toggle_controlport_swap), NULL,
         GDK_KEY_J, VICE_MOD_MASK, false },
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
@@ -724,8 +735,8 @@ static ui_menu_item_t settings_menu_cbm5x0_joy[] = {
  *
  * Only valid for xvic/xpet/xcbm2
  */
-static ui_menu_item_t settings_menu_userport_joy[] = {
-    { "Swap userport joysticks", UI_MENU_TYPE_ITEM_ACTION,
+static ui_menu_item_t settings_menu_joy_userport[] = {
+    { "Swap userport joysticks", UI_MENU_TYPE_ITEM_CHECK,
         "userportjoy-swap", (void *)(ui_action_toggle_userport_swap), NULL,
         GDK_KEY_U, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
@@ -915,52 +926,55 @@ static ui_menu_item_t help_menu[] = {
  */
 static ui_menu_ref_t menu_references[] = {
     /* File */
-    { "file-section-head",              file_menu_head },
-    { "file-submenu-attach-disk",       disk_attach_submenu },
-    { "file-submenu-detach-disk",       disk_detach_submenu },
-    { "file-submenu-disk-fliplist",     disk_fliplist_submenu },
-    { "file-section-tape",              file_menu_tape },
-    { "file-submenu-reset",             reset_submenu },
-    { "file-section-tail",              file_menu_tail },
+    { "file-section-head",                  file_menu_head },
+    { "file-submenu-attach-disk",           disk_attach_submenu },
+    { "file-submenu-detach-disk",           disk_detach_submenu },
+    { "file-submenu-disk-fliplist",         disk_fliplist_submenu },
+    { "file-section-tape",                  file_menu_tape },
+    { "file-section-cart",                  file_menu_cart },
+    { "file-submenu-reset",                 reset_submenu },
+    { "file-section-tail",                  file_menu_tail },
 
     /* Edit */
-    { "edit",                           edit_menu },
+    { "edit",                               edit_menu },
 
     /* Settings */
-    { "settings-section-head",          settings_menu_head },
-    { "settings-submenu-all-joy",       settings_menu_all_joy },
-    { "settings-submenu-cbm5x0-joy",    settings_menu_cbm5x0_joy },
-    { "settings-submenu-userport-joy",  settings_menu_userport_joy },
-    { "settings-section-tail",          settings_menu_tail },
+    { "settings-section-head",              settings_menu_head },
+    { "settings-section-joy-both",          settings_menu_joy_both },
+    { "settings-section-joy-controlport",   settings_menu_joy_controlport },
+    { "settings-section-joy-userport",      settings_menu_joy_userport },
+    { "settings-section-tail",              settings_menu_tail },
 
     /* Debug */
 #ifdef DEBUG
-    { "debug",                          debug_menu },
-    { "debug-c64dtv",                   debug_menu_c64dtv },
+    { "debug",                              debug_menu },
+    { "debug-c64dtv",                       debug_menu_c64dtv },
 #endif
 
     /* Help */
-    { "help",                           help_menu },
+    { "help",                               help_menu },
 
-    { NULL,                             NULL },
-
-
+    { NULL,                                 NULL },
 };
 
 
 /** \brief  'File' menu - tape section pointer
  *
- * Set by ...
+ * Set by ui_machine_menu_bar_create().
  */
 static ui_menu_item_t *file_menu_tape_section = NULL;
 
+/** \brief  'File' menu - cart section pointer
+ *
+ * Set by ui_machine_menu_bar_create().
+ */
+static ui_menu_item_t *file_menu_cart_section = NULL;
 
 /** \brief  'Settings' menu - joystick section pointer
  *
- * Set by ...
+ * Set by ui_machine_menu_bar_create().
  */
 static ui_menu_item_t *settings_menu_joy_section = NULL;
-
 
 
 /** \brief  Create the top menu bar with standard submenus
@@ -1010,35 +1024,61 @@ GtkWidget *ui_machine_menu_bar_create(void)
     /* create the top-level 'Help' menu */
     help_submenu = ui_menu_submenu_create(menu_bar, "Help");
 
-    /* determine which joystick swap menu items should be added */
+    /* determine which joystick swap, tape and cart menu items should be added */
     switch (machine_class) {
+
         case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_C128:     /* fall through */
-        case VICE_MACHINE_PLUS4:
-            /* add tape section */
+        case VICE_MACHINE_C64SC:
             file_menu_tape_section = file_menu_tape;
-            /* fall through */
-        case VICE_MACHINE_SCPU64:
-            /* add both swap-joy and swap-userport-joy */
-            settings_menu_joy_section = settings_menu_all_joy;
+            file_menu_cart_section = file_menu_cart;
+            settings_menu_joy_section = settings_menu_joy_both;
             break;
-        case VICE_MACHINE_CBM5x0:
-            /* add tape section */
-            file_menu_tape_section = file_menu_tape;
-            /* fall through */
+
         case VICE_MACHINE_C64DTV:
-            /* only add swap-joy */
-            settings_menu_joy_section = settings_menu_cbm5x0_joy;
+            settings_menu_joy_section = settings_menu_joy_controlport;
             break;
-        case VICE_MACHINE_PET:      /* fall through */
-        case VICE_MACHINE_VIC20:    /* fall through */
-        case VICE_MACHINE_CBM6x0:
-            /* add tape section */
+
+        case VICE_MACHINE_SCPU64:
+            file_menu_cart_section = file_menu_cart;
+            settings_menu_joy_section = settings_menu_joy_both;
+            break;
+
+        case VICE_MACHINE_C128:
             file_menu_tape_section = file_menu_tape;
-            /* only add swap-userport-joy */
-            settings_menu_joy_section = settings_menu_userport_joy;
+            file_menu_cart_section = file_menu_cart;
+            settings_menu_joy_section = settings_menu_joy_both;
             break;
+
+        case VICE_MACHINE_VIC20:
+            file_menu_tape_section = file_menu_tape;
+            file_menu_cart_section = file_menu_cart;
+            settings_menu_joy_section = settings_menu_joy_userport;
+            break;
+
+        case VICE_MACHINE_PLUS4:
+            file_menu_tape_section = file_menu_tape;
+            file_menu_cart_section = file_menu_cart;
+            settings_menu_joy_section = settings_menu_joy_both;
+            break;
+
+        case VICE_MACHINE_CBM5x0:
+            file_menu_tape_section = file_menu_tape;
+            file_menu_cart_section = file_menu_cart;
+            settings_menu_joy_section = settings_menu_joy_both;
+            break;
+
+        case VICE_MACHINE_CBM6x0:
+            file_menu_tape_section = file_menu_tape;
+            file_menu_cart_section = file_menu_cart;
+            settings_menu_joy_section = settings_menu_joy_userport;
+            break;
+
+        case VICE_MACHINE_PET:
+            /* TODO: add items for second datasette, once emulated */
+            file_menu_tape_section = file_menu_tape;
+            settings_menu_joy_section = settings_menu_joy_userport;
+            break;
+
         case VICE_MACHINE_VSID:
             archdep_vice_exit(1);
             break;
@@ -1050,6 +1090,9 @@ GtkWidget *ui_machine_menu_bar_create(void)
     ui_menu_add(file_submenu, file_menu_head);
     if (file_menu_tape_section != NULL) {
         ui_menu_add(file_submenu, file_menu_tape_section);
+    }
+    if (file_menu_cart_section != NULL) {
+        ui_menu_add(file_submenu, file_menu_cart_section);
     }
     ui_menu_add(file_submenu, file_menu_tail);
 
