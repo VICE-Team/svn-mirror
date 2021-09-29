@@ -528,8 +528,7 @@ static ui_menu_item_t file_menu_cart[] = {
     UI_MENU_SEPARATOR,
     UI_MENU_TERMINATOR
 };
-
-
+/* }}} */
 
 /* {{{ file_menu_tail */
 /** \brief  'File' menu - tail section
