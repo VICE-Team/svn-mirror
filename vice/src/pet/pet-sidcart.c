@@ -189,7 +189,7 @@ static int set_sid_clock(int val, void *param)
 static const resource_int_t sidcart_resources_int[] = {
     { "SidCart", 0, RES_EVENT_SAME, NULL,
       &sidcart_sound_chip.chip_enabled, set_sidcart_enabled, NULL },
-    { "SidAddress", 0xe900, RES_EVENT_SAME, NULL,
+    { "SidAddress", 0x8f00, RES_EVENT_SAME, NULL,
       &sidcart_address, set_sid_address, NULL },
     { "SidClock", SIDCART_CLOCK_NATIVE, RES_EVENT_SAME, NULL,
       &sidcart_clock, set_sid_clock, NULL },
