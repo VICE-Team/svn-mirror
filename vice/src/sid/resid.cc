@@ -308,7 +308,43 @@ static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr,
 
 static char *resid_dump_state(sound_t *psid)
 {
-    return lib_strdup("");
+    reSID::SID::State state;
+    char strbuf[0x400];
+    /* when sound is disabled *psid is NULL */
+    if (psid && psid->sid) {
+        state = psid->sid->read_state();
+    } else {
+        return lib_strdup("no state available when sound is disabled.");
+    }
+    sprintf(strbuf, 
+            "FREQ:   %04x %04x %04x\n"
+            "PULSE:  %04x %04x %04x\n"
+            "CTRL:     %02x   %02x   %02x\n"
+            "ADSR:   %04x %04x %04x\n"
+            "FILTER: %04x RES: %02x MODE/VOL: %02x\n"
+            "ADC: %02x %02x\n"
+            "OSC3: %02x ENV3: %02x\n",
+            ((state.sid_register[(0 * 7) + 1] << 8) | state.sid_register[(0 * 7) + 0]) & 0xffff,
+            ((state.sid_register[(1 * 7) + 1] << 8) | state.sid_register[(1 * 7) + 0]) & 0xffff,
+            ((state.sid_register[(2 * 7) + 1] << 8) | state.sid_register[(2 * 7) + 0]) & 0xffff,
+            ((state.sid_register[(0 * 7) + 3] << 8) | state.sid_register[(0 * 7) + 2]) & 0xffff,
+            ((state.sid_register[(1 * 7) + 3] << 8) | state.sid_register[(1 * 7) + 2]) & 0xffff,
+            ((state.sid_register[(2 * 7) + 3] << 8) | state.sid_register[(2 * 7) + 2]) & 0xffff,
+            (state.sid_register[(0 * 7) + 4]) & 0xff,
+            (state.sid_register[(1 * 7) + 4]) & 0xff,
+            (state.sid_register[(2 * 7) + 4]) & 0xff,
+            ((state.sid_register[(0 * 7) + 5] << 8) | state.sid_register[(0 * 7) + 6]) & 0xffff,
+            ((state.sid_register[(1 * 7) + 5] << 8) | state.sid_register[(1 * 7) + 6]) & 0xffff,
+            ((state.sid_register[(2 * 7) + 5] << 8) | state.sid_register[(2 * 7) + 6]) & 0xffff,
+            ((state.sid_register[22] << 8) | state.sid_register[21]) & 0xffff,
+            (state.sid_register[23]) & 0xff,
+            (state.sid_register[24]) & 0xff,
+            (state.sid_register[25]) & 0xff,
+            (state.sid_register[26]) & 0xff,
+            (state.sid_register[27]) & 0xff,
+            (state.sid_register[28]) & 0xff
+            );
+    return lib_strdup(strbuf);
 }
 
 static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
