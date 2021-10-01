@@ -93,7 +93,6 @@ libwidgets_a_SOURCES = \
 	joystickautofirewidget.c \
 	joystickdevicewidget.c \
 	joystickmenupopup.c \
-	joystickuserportadapterwidget.c \
 	kbddebugwidget.c \
 	kbdlayoutwidget.c \
 	kbdmappingwidget.c \
@@ -254,7 +253,6 @@ EXTRA_DIST = \
 	joystickautofirewidget.h \
 	joystickdevicewidget.h \
 	joystickmenupopup.h \
-	joystickuserportadapterwidget.h \
 	kbddebugwidget.h \
 	kbdlayoutwidget.h \
 	kbdmappingwidget.h \

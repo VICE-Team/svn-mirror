@@ -1049,18 +1049,20 @@ static void ffmpegdrv_shutdown(void)
 
     ffmpeglib_close(&ffmpeglib);
 
-    while (ffmpeg_drv.formatlist[i].name != NULL) {
-        lib_free(ffmpeg_drv.formatlist[i].name);
-        if (ffmpeg_drv.formatlist[i].audio_codecs != NULL) {
-            lib_free(ffmpeg_drv.formatlist[i].audio_codecs);
-        }
-        if (ffmpeg_drv.formatlist[i].video_codecs != NULL) {
-            lib_free(ffmpeg_drv.formatlist[i].video_codecs);
-        }
-        i++;
-    }
-    lib_free(ffmpeg_drv.formatlist);
+    if (ffmpeg_drv.formatlist != NULL) {
 
+        while (ffmpeg_drv.formatlist[i].name != NULL) {
+            lib_free(ffmpeg_drv.formatlist[i].name);
+            if (ffmpeg_drv.formatlist[i].audio_codecs != NULL) {
+                lib_free(ffmpeg_drv.formatlist[i].audio_codecs);
+            }
+            if (ffmpeg_drv.formatlist[i].video_codecs != NULL) {
+                lib_free(ffmpeg_drv.formatlist[i].video_codecs);
+            }
+            i++;
+        }
+        lib_free(ffmpeg_drv.formatlist);
+    }
     lib_free(ffmpeg_format);
 }
 

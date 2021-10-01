@@ -1104,8 +1104,8 @@ static const struct joyport_opt_s id_match[] = {
 
 static int is_a_number(const char *str)
 {
-    int i;
-    int len = strlen(str);
+    size_t i;
+    size_t len = strlen(str);
 
     for (i = 0; i < len; i++) {
         if (!isdigit(str[i])) {
