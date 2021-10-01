@@ -32,7 +32,6 @@
 
 #include "archdep.h"
 #include "cmdline.h"
-#include "embedded.h"
 #include "findpath.h"
 #include "ioutil.h"
 #include "lib.h"
@@ -228,23 +227,6 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
     size_t rsize = 0;
     char *complete_path = NULL;
     int load_at_end;
-
-
-/*
- * This feature is only active when --enable-embedded is given to the
- * configure script, its main use is to make developing new ports easier
- * and to allow ports for platforms which don't have a filesystem, or a
- * filesystem which is hard/impossible to load data files from.
- *
- * when USE_EMBEDDED is defined this will check if a
- * default system file is loaded, when USE_EMBEDDED
- * is not defined the function is just 0 and will
- * be optimized away.
- */
-
-    if ((rsize = embedded_check_file(name, dest, minsize, maxsize)) != 0) {
-        return (int)rsize;
-    }
 
     fp = sysfile_open(name, subpath, &complete_path, MODE_READ);
 

@@ -36,21 +36,11 @@
 #include "sysfile.h"
 #include "types.h"
 
-#ifdef USE_EMBEDDED
-#include "plus4basic.h"
-#include "plus4kernal.h"
-#else
 uint8_t plus4memrom_basic_rom[PLUS4_BASIC_ROM_SIZE];
 uint8_t plus4memrom_kernal_rom[PLUS4_KERNAL_ROM_SIZE];
-#endif
 
-#ifdef USE_EMBEDDED
-#include "plus43plus1lo.h"
-#include "plus43plus1hi.h"
-#else
 uint8_t extromlo1[PLUS4_C0LO_ROM_SIZE];
 uint8_t extromhi1[PLUS4_C0HI_ROM_SIZE];
-#endif
 
 /* FIXME: c2 can also be external cartridge */
 uint8_t extromlo3[PLUS4_C2LO_ROM_SIZE];

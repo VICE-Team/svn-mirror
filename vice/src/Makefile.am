@@ -202,7 +202,6 @@ noinst_HEADERS = \
 	diskimage.h \
 	dma.h \
 	dynlib.h \
-	embedded.h \
 	export.h \
 	fileio.h \
 	findpath.h \
@@ -324,7 +323,6 @@ base_sources = \
 	crt.c \
 	debug.c \
 	dma.c \
-	embedded.c \
 	event.c \
 	findpath.c \
 	fliplist.c \

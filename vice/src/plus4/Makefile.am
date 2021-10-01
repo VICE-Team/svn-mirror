@@ -49,7 +49,6 @@ libplus4_a_SOURCES = \
 	plus4cpu.c \
 	plus4datasette.c \
 	plus4drive.c \
-	plus4embedded.c \
 	plus4iec.c \
 	plus4iec.h \
 	plus4io.c \

@@ -446,13 +446,6 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "USE_EMBEDDED", "Use embedded data files.",
-#ifndef USE_EMBEDDED
-        0 },
-#else
-        1 },
-#endif
-/* (all) */
     { "USE_LAMEMP3", "Enable lamemp3 encoding support.",
 #ifndef USE_LAMEMP3
         0 },

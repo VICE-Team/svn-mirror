@@ -43,7 +43,6 @@ libvsid_a_SOURCES = \
 	vsid-cmdline-options.h \
 	vsid-resources.c \
 	vsid-snapshot.c \
-	c64embedded.c \
 	c64gluelogic.c \
 	c64gluelogic.h \
 	c64keyboard.c \
@@ -106,7 +105,6 @@ libc64_a_SOURCES = \
 	c64cpu.c \
 	c64datasette.c \
 	c64drive.c \
-	c64embedded.c \
 	c64export.c \
 	c64fastiec.c \
 	c64fastiec.h \
@@ -169,7 +167,6 @@ libc64sc_a_SOURCES = \
 	c64cpusc.c \
 	c64datasette.c \
 	c64drive.c \
-	c64embedded.c \
 	c64export.c \
 	c64fastiec.c \
 	c64fastiec.h \
@@ -266,7 +263,6 @@ libc64scpu64_a_SOURCES = \
 	c64cia2.c \
 	c64datasette.c \
 	c64drive.c \
-	c64embedded.c \
 	c64export.c \
 	c64fastiec.c \
 	c64fastiec.h \
