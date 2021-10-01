@@ -104,11 +104,7 @@
 /* The C64 memory, see ../mem.h.  */
 uint8_t mem_ram[C64_RAM_SIZE];
 
-#ifdef USE_EMBEDDED
-#include "c64chargen.h"
-#else
 uint8_t mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
-#endif
 
 /* Internal color memory.  */
 uint8_t *mem_color_ram_cpu;

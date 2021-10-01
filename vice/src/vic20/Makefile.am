@@ -62,7 +62,6 @@ libvic20_a_SOURCES = \
 	vic20cpu.c \
 	vic20datasette.c \
 	vic20drive.c \
-	vic20embedded.c \
 	vic20export.c \
 	vic20iec.c \
 	vic20iec.h \

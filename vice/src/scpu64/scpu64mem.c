@@ -97,12 +97,7 @@ unsigned int mem_simm_ram_mask = 0;
 uint8_t mem_tooslow[1];
 static int traps_pending;
 
-#ifdef USE_EMBEDDED
-#define C64_CHARGEN_ROM_SIZE SCPU64_CHARGEN_ROM_SIZE
-#include "c64chargen.h"
-#else
 uint8_t mem_chargen_rom[SCPU64_CHARGEN_ROM_SIZE];
-#endif
 
 /* Internal color memory.  */
 static uint8_t mem_color_ram[0x400];
