@@ -41,20 +41,20 @@
  * But, let's politely make clients aware of the server CPU arch.
  */
 
-#define UI_PROTOCOL_CPU_LITTLE_ENDIAN    1 << 0
-#define UI_PROTOCOL_CPU_BIG_ENDIAN       1 << 1
-#define UI_PROTOCOL_CPU_32_BIT           1 << 2
-#define UI_PROTOCOL_CPU_64_BIT           1 << 3
+#define UI_PROTOCOL_CPU_LITTLE_ENDIAN    (1 << 0)
+#define UI_PROTOCOL_CPU_BIG_ENDIAN       (1 << 1)
+#define UI_PROTOCOL_CPU_32_BIT           (1 << 2)
+#define UI_PROTOCOL_CPU_64_BIT           (1 << 3)
 
 /*
  * Protocol versions supported by the server. If a connecting client requiests
  * an unsupported version the connection will be rejected.
  */
 
-#define UI_PROTOCOL_FEATURE_VERSION_1        1 << 1
+#define UI_PROTOCOL_VERSION_1        (1 << 0)
 /*
-#define UI_PROTOCOL_FEATURE_VERSION_2        1 << 2
-#define UI_PROTOCOL_FEATURE_VERSION_3        1 << 3
+#define UI_PROTOCOL_VERSION_2        (1 << 1)
+#define UI_PROTOCOL_VERSION_3        (1 << 2)
 */
 
 /*

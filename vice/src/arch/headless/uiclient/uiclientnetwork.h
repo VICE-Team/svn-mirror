@@ -34,4 +34,8 @@ void uiclient_network_shutdown(void);
 socket_t *uiclient_network_connect(uint16_t port);
 void uiclient_network_close(socket_t *sock);
 
+int uiclient_network_poll(socket_t *sock);
+ssize_t uiclient_network_recv(socket_t *sock, void *buffer, uint32_t buffer_length);
+ssize_t uiclient_network_send(socket_t *sock, void *buffer, uint32_t buffer_length);
+
 #endif /* #ifndef UI_CLIENT_NETWORK_H */

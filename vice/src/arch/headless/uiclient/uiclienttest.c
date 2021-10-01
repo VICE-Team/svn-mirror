@@ -52,6 +52,8 @@ int main(int argc, char **argv)
 {
     uint16_t server_port;
     uiclient_t *uiclient;
+    
+    INFO("UI process launched");
 
     if (argc != 1 + 1) {
         ERR("Usage:\n\t%s <server port>\n", argv[0]);
@@ -73,5 +75,5 @@ int main(int argc, char **argv)
         usleep(1000000 / 60);
     }
 
-    // shutdown_and_exit(uiclient, 0);
+//    shutdown_and_exit(uiclient, 0);
 }

@@ -25,9 +25,11 @@
 #endif
 
 #include <arpa/inet.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -37,6 +39,39 @@
 typedef struct socket_s {
     struct pollfd poll_fd;
 } socket_t;
+
+int uiclient_network_poll(socket_t *sock)
+{
+    int poll_result;
+    
+    /* Any data or errors availale? */
+    poll_result = poll(&sock->poll_fd, 1, 0);
+
+    if (poll_result == 0) {
+        /* No. */
+        return 0;
+    }
+
+    if (poll_result == -1) {
+        ERR("UI Client: general poll error: %s", strerror(errno));
+        return poll_result;
+    }
+
+    /* Something is waiting for us. */
+    return 1;
+}
+
+ssize_t uiclient_network_recv(socket_t *sock, void *buffer, uint32_t buffer_length)
+{
+    sock->poll_fd.revents = 0;
+    
+    return recv(sock->poll_fd.fd, buffer, buffer_length, 0);
+}
+
+ssize_t uiclient_network_send(socket_t *sock, void *buffer, uint32_t buffer_length)
+{
+    return send(sock->poll_fd.fd, buffer, buffer_length, 0);
+}
 
 socket_t *uiclient_network_connect(uint16_t server_port)
 {

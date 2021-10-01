@@ -41,6 +41,8 @@ typedef struct screen_s {
 } screen_t;
 
 static vice_network_socket_t *server_socket;
+static uiprotocol_server_hello_header_t server_hello;
+
 static screen_t *screens;
 static int screen_count;
 static client_t *clients;
@@ -53,13 +55,19 @@ static struct pollfd *poll_fds;
 static int poll_fd_count;
 static bool rebuild_poll_fds_next_poll = true;
 
+static void build_server_hello(void);
 static void rebuild_poll_fds(void);
+static void disconnect_client(client_t *client);
+static void remove_disconnected_clients(void);
 
 int uiserver_init(void)
 {
     int retval = 0;
     
     vice_network_socket_address_t *address;
+    
+    /* The same hello is sent to all connecting clients */
+    build_server_hello();
     
     /*
      * We let the OS choose the listen port so multiple emu
@@ -179,13 +187,21 @@ static void handle_new_client(void)
     
     rebuild_poll_fds_next_poll = true;
     
-    // HACK
-    vice_network_send(client_socket, "hello\n", 6, 0);
+    /* Send the server hello for the client to respond to */
+    vice_network_send(client_socket, &server_hello, sizeof(server_hello), 0);
 }
 
-static void handle_client_error(int client_index)
+static void disconnect_client(client_t *client)
 {
-    log_message(LOG_DEFAULT, "Socket error on client %d: %s", clients[client_index].id, strerror(errno));
+    vice_network_socket_close(client->socket);
+    client->socket = NULL;
+    
+    remove_disconnected_clients_next_poll = true;
+}
+
+static void handle_client_error(client_t *client)
+{
+    log_message(LOG_DEFAULT, "Socket error on client %d: %s", client->id, strerror(errno));
     
     switch  (errno) {
         case ENOMEM:
@@ -198,34 +214,7 @@ static void handle_client_error(int client_index)
             break;
     }
     
-    vice_network_socket_close(clients[client_index].socket);
-    clients[client_index].socket = NULL;
-    
-    remove_disconnected_clients_next_poll = true;
-}
-
-static void remove_disconnected_clients(void)
-{
-    int i, j;
-    
-    for (i = 0; i < client_count; i++) {
-        if (clients[i].socket) {
-            continue;
-        }
-        
-        /* remove the client from the array, shift newer clients back an index */
-        for (j = i; j < client_count - 1; j++) {
-            clients[j] = clients[j + 1];
-        }
-        client_count--;
-        
-        memset(&clients[j], 0, sizeof(client_t));
-        
-        /* Recheck this index */
-        i--;
-    }
-
-    rebuild_poll_fds_next_poll = true;
+    disconnect_client(client);
 }
 
 /** \brief Handle all uiclient IO */
@@ -263,21 +252,21 @@ void uiserver_poll(void)
 
     /* Something is waiting for us. Check client IO first. */
     for (i = 0; i < client_count; i++) {
-        if (poll_fds[i].revents == POLLIN) {
+        if (poll_fds[i].revents) {
             log_message(LOG_DEFAULT, "POLLIN on client %d", clients[i].id);
             // HACK
             char b[5 + 1];
             int r;
             r = vice_network_receive(clients[i].socket, b, 5, 0);
-            if (r == -1) {
-                handle_client_error(i);
+            if (r < 0) {
+                handle_client_error(&clients[i]);
+            } else if (r == 0) {
+                /* Closed */
+                disconnect_client(&clients[i]);
             } else {
                 b[r] = '\0';
                 log_message(LOG_DEFAULT, "Client %d says [%s]", clients[i].id, b);
             }
-        } else if (poll_fds[i].revents) {
-            /* Any other event is an error */
-            handle_client_error(i);
         }
     }
 
@@ -320,6 +309,29 @@ void uiserver_shutdown(void)
 
 /************/
 
+static void build_server_hello(void)
+{
+    server_hello.magic[0] = 'V';
+    server_hello.magic[1] = 'I';
+    server_hello.magic[2] = 'C';
+    server_hello.magic[3] = 'E';
+
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+    server_hello.cpu_arch_flags |= UI_PROTOCOL_CPU_LITTLE_ENDIAN;
+#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+    server_hello.cpu_arch_flags |= UI_PROTOCOL_CPU_BIG_ENDIAN;
+#endif
+    
+#if __LP64__
+    server_hello.cpu_arch_flags |= UI_PROTOCOL_CPU_64_BIT;
+#else
+    server_hello.cpu_arch_flags |= UI_PROTOCOL_CPU_32_BIT;
+#endif
+    
+    server_hello.emulator = machine_class;
+    server_hello.supported_protocols = UI_PROTOCOL_VERSION_1;
+}
+
 static void rebuild_poll_fds(void)
 {
     int i;
@@ -339,4 +351,34 @@ static void rebuild_poll_fds(void)
     /* Add the server socket to the end */
     poll_fds[i].fd = vice_network_get_socket(server_socket);
     poll_fds[i].events = POLLIN;
+}
+
+static void remove_disconnected_clients(void)
+{
+    int i, j;
+    
+    for (i = 0; i < client_count; i++) {
+        if (clients[i].socket) {
+            continue;
+        }
+        
+        /* remove the client from the array, shift newer clients back an index */
+        for (j = i; j < client_count - 1; j++) {
+            clients[j] = clients[j + 1];
+        }
+        client_count--;
+        
+        memset(&clients[j], 0, sizeof(client_t));
+        
+        /* Recheck this index */
+        i--;
+    }
+
+    rebuild_poll_fds_next_poll = true;
+    
+    /* If the last client disconnected, exit the emulator */
+    if (client_count == 0) {
+        log_message(LOG_DEFAULT, "Last client disconnected, exiting");
+        archdep_vice_exit(0);
+    }
 }
