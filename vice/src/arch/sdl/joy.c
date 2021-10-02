@@ -546,7 +546,7 @@ char *get_joy_pot_mapping_string(int joynr, int pot)
     }
 
     if (port != 255 && axis != 255) {
-        snprintf(mapping_retval, 100, "J%d, Ax%d", port, axis);
+        snprintf(mapping_retval, 50, "J%d, Ax%d", port, axis);
         retval = mapping_retval;
     }
     return retval;
