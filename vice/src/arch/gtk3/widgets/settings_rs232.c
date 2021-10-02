@@ -13,6 +13,11 @@
  * $VICERES UserportDevice  x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserBaud      x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserDev       x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserUP9600     x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserRTSInv    x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserCTSInv    x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserDSRInv    x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserDCDInv    x64 x64sc xscpu64 x128 xvic
  * $VICERES RsDevice1       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES RsDevice2       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES RsDevice3       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
@@ -55,7 +60,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "userport.h"
-
+#include "userportrsinterfacewidget.h"
 #include "settings_rs232.h"
 
 
@@ -129,6 +134,8 @@ static const vice_gtk3_combo_entry_int_t rsuser_baud_rates[] = {
     { "2400",   2400 },
     { "4800",   4800 },
     { "9600",   9600 },
+    { "38400",  38400},
+    { "57600",  57600},
     { NULL, -1 }
 };
 
@@ -159,6 +166,62 @@ static const vice_gtk3_combo_entry_int_t serial_baud_rates_plus4[] = {
     { NULL, -1 }
 };
 
+/** \brief  Userport baud rate widget */
+static GtkWidget *rsuser_baud_widget;
+
+/** \brief  Extra event handler for the userport RS-232 interface type changes
+ *
+ * \param[in]   widget      Userport RS-232 interface type combobox
+ */
+static void on_rsinterface_changed(GtkWidget *widget)
+{
+    int up9600; 
+    
+    GtkWidget *baud;
+    GtkWidget *rts;
+    GtkWidget *cts;
+    GtkWidget *dcd;
+    GtkWidget *dsr;
+    GtkWidget *grid;
+    int index = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
+
+
+    resources_get_int("RsUserUP9600", &up9600);
+    baud = rsuser_baud_widget;
+    grid = gtk_widget_get_parent(widget);
+    rts = gtk_grid_get_child_at((GtkGrid*)grid, 1, 2);
+    cts = gtk_grid_get_child_at((GtkGrid*)grid, 2, 2);
+    dsr = gtk_grid_get_child_at((GtkGrid*)grid, 1, 3);
+    dcd = gtk_grid_get_child_at((GtkGrid*)grid, 1, 4);
+
+    if (rts != NULL && cts != NULL && dcd != NULL && dsr != NULL) {
+        switch (index) {
+            case USERPORT_RS_NONINVERTED:
+                vice_gtk3_resource_check_button_set(rts, false);
+                vice_gtk3_resource_check_button_set(cts, false); 
+                /*vice_gtk3_resource_check_button_set(dcd, false);*/
+                vice_gtk3_resource_check_button_set(dsr, false);
+                resources_set_int("RsUserUP9600", 0);
+                break;
+            case USERPORT_RS_INVERTED:
+                vice_gtk3_resource_check_button_set(rts, true);
+                vice_gtk3_resource_check_button_set(cts, true);
+                /*vice_gtk3_resource_check_button_set(dcd, true);*/
+                vice_gtk3_resource_check_button_set(dsr, true);
+                resources_set_int("RsUserUP9600", 0);
+                break;
+            case USERPORT_RS_UP9600:
+                if (baud != NULL) {
+                    vice_gtk3_resource_combo_box_int_set(baud, 9600);
+                }
+                resources_set_int("RsUserUP9600", 1);
+                break;
+            default:
+                resources_set_int("RsUserUP9600", 0);
+                break;
+        }
+    }
+}
 
 
 /** \brief  Helper: create left-aligned, 16 px indented label
@@ -453,7 +516,7 @@ static GtkWidget *create_userport_enable_widget(void)
 }
 
 
-/** \brief  Create user-port RS233 emulation settings widget
+/** \brief  Create user-port RS232 emulation settings widget
  *
  * \note    C64,C128 and VIC-20 only
  *
@@ -464,8 +527,9 @@ static GtkWidget *create_userport_widget(void)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *rsuser_enable_widget;
-    GtkWidget *rsuser_baud_widget;
     GtkWidget *rsuser_device_widget;
+    GtkWidget *rsuser_rsinterface_widget;
+    int up9600;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     label = gtk_label_new(NULL);
@@ -478,18 +542,24 @@ static GtkWidget *create_userport_widget(void)
     g_object_set(rsuser_enable_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rsuser_enable_widget, 0, 1, 4, 1);
 
+    /* RS-232 Interface Widget */
+    rsuser_rsinterface_widget = userport_rsinterface_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), rsuser_rsinterface_widget, 0, 2, 4, 1);
+
     label = create_indented_label("Device");
     rsuser_device_widget = vice_gtk3_resource_combo_box_int_new(
             "RsUserDev", acia_devices);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), rsuser_device_widget, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rsuser_device_widget, 1, 3, 1, 1);
     label = create_indented_label("Baud");
     rsuser_baud_widget = vice_gtk3_resource_combo_box_int_new(
             "RsUserBaud", rsuser_baud_rates);
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), rsuser_baud_widget, 3, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rsuser_baud_widget, 3, 3, 1, 1);
+    resources_get_int("RsUserUP9600", &up9600);
 
     gtk_widget_show_all(grid);
+    userport_rsinterface_widget_add_callback((GtkGrid*)rsuser_rsinterface_widget, on_rsinterface_changed);
     return grid;
 }
 

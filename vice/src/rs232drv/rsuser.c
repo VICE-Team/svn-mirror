@@ -105,6 +105,12 @@ static int dtr = 0;
 static int rts = 0;
 
 /***********************************************************************
+ * UP9600 detection variables
+ */
+static int old_dsr;
+static unsigned int dsr_cnt;
+
+/***********************************************************************
  * userport interface handling
  */
 
@@ -139,7 +145,12 @@ static userport_device_t rs232_device = {
  * resource handling
  */
 
-static int rsuser_enabled = 0;                 /* enable flag */
+static int rsuser_up9600 = 0;           /* UP9600 enable flag */
+static int rsuser_enabled = 0;          /* enable flag */
+static int rsuser_rtsinv = 0;           /* RTS invert flag */
+static int rsuser_ctsinv = 0;           /* CTS invert flag */
+static int rsuser_dsrinv = 0;           /* DSR invert flag */
+static int rsuser_dcdinv = 0;           /* DCD invert flag */
 static int rsuser_baudrate = 300;       /* saves the baud rate given */
 static int char_clk_ticks = 0;          /* clk ticks per character */
 static int bit_clk_ticks = 0;           /* clk ticks per character */
@@ -190,6 +201,21 @@ static int userport_rs232_enable(int value)
     return 0;
 }
 
+static int set_up9600(int val, void *param)
+{
+    if (val >= 0){
+        rsuser_up9600 = val;
+    } else {
+        rsuser_up9600 = 0;
+    }
+
+    if (rsuser_up9600 == true){
+        old_dsr = 0;
+        dsr_cnt = 0;
+    }
+
+    return 0;
+}
 static int set_baudrate(int val, void *param)
 {
     if (val < 1) {
@@ -218,11 +244,50 @@ static int set_up_device(int val, void *param)
     return 0;
 }
 
+static int set_rtsinv(int value, void *param)
+{
+    rsuser_rtsinv = value ? RTS_OUT : 0;
+    /* Prevent the state machine to be left in a locked state if the software leaves RTS */
+    /* in a fixed state, triggering the RTS disabled state on initialization.            */
+    if (rxstate == 2){
+        rxstate = 0;
+    }
+    return 0;
+}
+
+static int set_ctsinv(int value, void *param)
+{
+    rsuser_ctsinv = value ? 1 : 0;
+    return 0;
+}
+
+static int set_dsrinv(int value, void *param)
+{
+    rsuser_dsrinv = value ? 1 : 0;
+    return 0;
+}
+
+static int set_dcdinv(int value, void *param)
+{
+    rsuser_dcdinv = value ? 1 : 0;
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
+    { "RsUserUP9600", 0, RES_EVENT_NO, NULL,
+      &rsuser_up9600, set_up9600, NULL},
     { "RsUserBaud", 2400, RES_EVENT_NO, NULL,
       &rsuser_baudrate, set_baudrate, NULL },
     { "RsUserDev", 0, RES_EVENT_NO, NULL,
       &rsuser_device, set_up_device, NULL },
+    { "RsUserRTSInv", 0, RES_EVENT_NO, (resource_value_t)0,
+      &rsuser_rtsinv, set_rtsinv, NULL },
+    { "RsUserCTSInv", 0, RES_EVENT_NO, (resource_value_t)0,
+      &rsuser_ctsinv, set_ctsinv, NULL },
+    { "RsUserDSRInv", 0, RES_EVENT_NO, (resource_value_t)0,
+      &rsuser_dsrinv, set_dsrinv, NULL },
+    { "RsUserDCDInv", 0, RES_EVENT_NO, (resource_value_t)0,
+      &rsuser_dcdinv, set_dcdinv, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -237,12 +302,42 @@ int rsuser_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
+    { "-rsuserup9600", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserUP9600", (void *)1,
+      NULL, "Enable UP9600 interface emulation."},
+    { "+rsuserup9600", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserUP9600", (void *)0,
+      NULL, "Disable UP9600 interface emulation."},
     { "-rsuserbaud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RsUserBaud", NULL,
       "<baud>", "Set the baud rate of the RS232 userport emulation." },
     { "-rsuserdev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RsUserDev", NULL,
       "<0-3>", "Specify VICE RS232 device for userport" },
+    { "-rsuserrtsinv", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserRTSInv", (void *)1,
+      NULL, "Invert RS232 userport emulation RTS line" },
+    { "+rsuserrtsinv", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserRTSInv", (void *)0,
+      NULL, "Do not invert RS232 userport emulation RTS line" },
+    { "-rsuserctsinv", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserCTSInv", (void *)1,
+      NULL, "Invert RS232 userport emulation CTS line" },
+    { "+rsuserctsinv", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserCTSInv", (void *)0,
+      NULL, "Do not invert RS232 userport emulation CTS line" },
+    { "-rsuserdsrinv", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserDSRInv", (void *)1,
+      NULL, "Invert RS232 userport emulation DSR line" },
+    { "+rsuserdsrinv", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserDSRInv", (void *)0,
+      NULL, "Do not invert RS232 userport emulation DSR line" },
+    { "-rsuserdcdinv", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserDCDInv", (void *)1,
+      NULL, "Invert RS232 userport emulation DCD line" },
+    { "+rsuserdcdinv", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsUserDCDInv", (void *)0,
+      NULL, "Do not invert RS232 userport emulation DCD line" },
     CMDLINE_LIST_END
 };
 
@@ -296,6 +391,8 @@ void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(uint8_t)
     rts = RTS_OUT;      /* inactive */
     fd = -1;
 
+
+
     LOG_DEBUG(("rsuser_init: fd:%d dtr:%d rts:%d", fd, dtr, rts));
     
     buf = (unsigned int)(~0); /* all 1s */
@@ -309,6 +406,8 @@ void rsuser_reset(void)
     clk_start_tx = 0;
     clk_start_bit = 0;
     clk_end_tx = 0;
+
+    dsr_cnt = 0;
     if (fd != -1) {
         rs232drv_close(fd);
     }
@@ -323,10 +422,11 @@ static void rsuser_setup(void)
     clk_start_rx = 0;
     clk_start_tx = 0;
     clk_start_bit = 0;
+    dsr_cnt = 0;
     if (fd < 0) {
         fd = rs232drv_open(rsuser_device);
     }
-    alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks / 8);
+    alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks / 10);
 }
 
 /* called by VIA/CIA when cpu writes to user port */
@@ -335,6 +435,7 @@ static void rsuser_write_ctrl(uint8_t status, int pulse)
     enum rs232handshake_out modem_status = 0;
     int new_dtr = status & DTR_OUT;  /* = 0 is active, != 0 is inactive */
     int new_rts = status & RTS_OUT;  /* = 0 is active, != 0 is inactive */
+    int new_dsr = status & DSR_IN;   /* Written to by UP9600 install routine */
 #ifdef LOG_MODEM_STATUS
     static int oldstatus = -1;
 #endif    
@@ -356,6 +457,14 @@ static void rsuser_write_ctrl(uint8_t status, int pulse)
                 rs232drv_set_status(fd, modem_status);
             }
         }
+        if (rts != new_rts) {
+            /* RTS handling */
+            if ((rsuser_rtsinv ^ rts) && fd != -1) {
+                rxstate = 2;
+            } else if (fd != 1) {
+                rxstate = 0;
+            }
+        }
         if (new_dtr && !dtr && fd != -1) {
 #if 0   /* This is a bug in the X-line handshake of the C64... */
             LOG_DEBUG(("switch rs232 off."));
@@ -367,10 +476,28 @@ static void rsuser_write_ctrl(uint8_t status, int pulse)
             modem_status |= dtr ? 0 : RS232_HSO_DTR;
             rs232drv_set_status(fd, modem_status);
         }
+
+        if (rsuser_up9600){
+            if (!old_dsr && new_dsr) {
+                /* DSR low-high transition, UP9600 install routine pulsing PB7*/
+                dsr_cnt++;
+                if (dsr_cnt == 8){
+                    /* 8 PB7 pulses: Write a dummy byte to the shift register input  */
+                    /* this will set the SDR IRQ flag and UP9600 detection will pass */
+                    byte_rx_func(0x00);
+                    dsr_cnt = 0;
+                }
+            } /*else if (old_dsr == new_dsr) { */
+              /* Reset count if two consecutive writes have the same DSR state
+                 ---- This isn't working, as rsuser_write_ctrl is being called twice per write */
+              /* dsr_cnt = 0; */
+            /* } */
+        }
     }
 
     dtr = new_dtr;
     rts = new_rts;
+    old_dsr = new_dsr;
 
 #ifdef LOG_MODEM_STATUS
     if (status != oldstatus) {
@@ -448,7 +575,7 @@ static void rsuser_set_tx_bit(uint8_t b)
     LOG_DEBUG_TIMING_TX(("rsuser_set_tx(clk=%d, clk_start_tx=%d, b=%d).",
                          maincpu_clk, clk_start_tx, b));
 
-    if (fd == -1 || rsuser_baudrate > 2400) {
+    if (fd == -1 || rsuser_up9600) {
         clk_start_tx = 0;
         return;
     }
@@ -516,15 +643,16 @@ static uint8_t rsuser_read_ctrl(uint8_t orig)
     }
 #endif    
     /* all handshake lines are inverted by the RS232 interface */
-    if (!(modem_status & RS232_HSI_CTS)) {
+    if ((rsuser_ctsinv^(modem_status & RS232_HSI_CTS))) { /* && rts <<<<< */
         status |= CTS_IN;
     }
-    if (!(modem_status & RS232_HSI_DCD)) {
-        if (!(rsuser_baudrate > 2400)) {
+    if (!(!rsuser_dcdinv^(modem_status & RS232_HSI_DCD))) {
+        if (!rsuser_up9600) {
             status |= DCD_IN;
         }
     }
-    if (!(modem_status & RS232_HSI_DSR)) {
+    /* DSR line is not connected in the UP9600 interface */
+    if (!(!rsuser_dsrinv^(modem_status & RS232_HSI_DSR)) && !rsuser_up9600) {
         status |= DSR_IN;
     }
 #ifdef LOG_MODEM_STATUS
@@ -537,7 +665,10 @@ static uint8_t rsuser_read_ctrl(uint8_t orig)
               );
         oldstatus = status;
     }
-#endif    
+#endif
+    /* Reset UP9600 detection counter */
+    dsr_cnt = 0;
+
     return b & (rsuser_get_rx_bit() | status);
 }
 
@@ -557,7 +688,7 @@ static void int_rsuser(CLOCK offset, void *data)
 
     switch (rxstate) {
         case 0:
-            if (fd != -1 && rs232drv_getc(fd, &rxdata)) {
+            if ((rsuser_rtsinv ^ rts) && fd != -1 && rs232drv_getc(fd, &rxdata)) {
                 /* byte received, signal startbit on flag */
                 rxstate++;
                 if (start_bit_trigger) {
@@ -565,16 +696,20 @@ static void int_rsuser(CLOCK offset, void *data)
                 }
                 clk_start_rx = rclk;
             }
-            alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks);
+            alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks - bit_clk_ticks); /* Wait one char - 1 stop bit */
             break;
         case 1:
             /* now byte should be in shift register */
-            if (byte_rx_func) {
+            if (byte_rx_func && rsuser_up9600) {
                 byte_rx_func((uint8_t)(code[rxdata]));
             }
             rxstate = 0;
             clk_start_rx = 0;
-            alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks / 8);
+            alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks / 10);
+            break;
+        case 2:
+            /* RTS disabled */
+            alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks / 10);
             break;
     }
 }
