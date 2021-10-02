@@ -85,7 +85,6 @@ typedef struct acia_struct {
     unsigned int int_num;     /*!< the (internal) number for the ACIA interrupt as returned by interrupt_cpu_status_int_new(). */
 
     int ticks;  /*!< number of clock ticks per char */
-    int ticks_rx;  /*!< number of clock ticks per char for reception (workaround for NovaTerm, cf. remark for set_acia_ticks() */
     int fd;             /*!< file descriptor used to access the RS232 physical device on the host machine */
     enum acia_tx_state in_tx;   /*!< indicates that a transmit is currently ongoing */
     int irq;
@@ -161,7 +160,7 @@ typedef struct acia_struct {
 
 /******************************************************************/
 
-static acia_type acia = { NULL, NULL, 0, 0, 0, 0, (enum acia_tx_state)0,
+static acia_type acia = { NULL, NULL, 0, 0, 0, (enum acia_tx_state)0,
                           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                           (enum cpu_int)0, 0, 0, (enum rs232handshake_out)0 };
 
@@ -169,7 +168,7 @@ static void acia_preinit(void)
 {
     memset(&acia, 0, sizeof acia);
 
-    acia.ticks = acia.ticks_rx = 21111;
+    acia.ticks = 21111;
     acia.fd = -1;
     acia.in_tx = ACIA_TX_STATE_NO_TRANSMIT;
     acia.log = LOG_ERR;
@@ -408,20 +407,10 @@ static void set_acia_ticks(void)
      */
     acia.ticks = (int) (machine_get_cycles_per_second() / get_acia_bps() * bits);
 
-    /*
-     * Note: With 10 bit, the timing is very hard to NovaTerm 9.6c with 57600 bps
-     * on reception. It cannot cope and behaves erroneously, at least when configured
-     * for NMI interrupts. This is because the interrupt routine needs too much
-     * time to execute, leaving not more than 20 cycles for the non-NMI routine.
-     * Thus, it was decided to add 25% "safety margin" to allow NovaTerm to react
-     * appropriately. This gives the main program 50 extra cycles.
-     * This way, NovaTerm can cope with the transmission at 57600 bps.
-     */
-    acia.ticks_rx = acia.ticks * 5 / 4;
 
     /* adjust the alarm rate for reception */
     if (acia.alarm_active_rx) {
-        acia.alarm_clk_rx = myclk + acia.ticks_rx;
+        acia.alarm_clk_rx = myclk + acia.ticks;
         alarm_set(acia.alarm_rx, acia.alarm_clk_rx);
         acia.alarm_active_rx = 1;
     }
@@ -553,7 +542,7 @@ static int acia_get_status(void)
         acia.status |= ACIA_SR_BITS_DCD;
     }
 
-    if ((modem_status & RS232_HSI_DSR)) {
+    if (modem_status & RS232_HSI_DSR) {
         acia.status |= ACIA_SR_BITS_DSR;
     }
 
@@ -588,9 +577,9 @@ static void acia_set_handshake_lines(void)
             /* unset RTS, we are NOT ready to receive */
             acia.rs232_status_lines &= ~RS232_HSO_RTS;
             if (acia.alarm_active_rx) {
-                /* diable RX alarm */
+                /* disable RX alarm */
                 acia.alarm_active_rx = 0;
-                alarm_unset(acia.alarm_rx);
+                /*alarm_unset(acia.alarm_rx)*/;
             }
             break;
 
@@ -606,6 +595,14 @@ static void acia_set_handshake_lines(void)
                 /* enable RX alarm */
                 acia.alarm_active_rx = 1;
                 set_acia_ticks();
+            }
+            /* start tx if byte in DR */
+            if (acia.in_tx == ACIA_TX_STATE_DR_WRITTEN) {
+                if (acia.alarm_active_tx == 0) {
+                        acia.alarm_clk_tx = myclk + 1;
+                        alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
+                        acia.alarm_active_tx = 1;
+                }
             }
             break;
     }
@@ -931,8 +928,9 @@ void myacia_store(uint16_t addr, uint8_t byte)
                     log_message(acia.log, "ACIA: data register written "
                                 "although data has not been sent yet.");
                 }
+                DEBUG_LOG_MESSAGE((acia.log, "DR write at %d: 0x%02x", myclk, acia.txdata));
                 acia.in_tx = ACIA_TX_STATE_DR_WRITTEN;
-                if (acia.alarm_active_tx == 0) {
+                if ((acia.alarm_active_rx == 1) && (acia.alarm_active_tx == 0)) {
                     acia.alarm_clk_tx = myclk + 1;
                     alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
                     acia.alarm_active_tx = 1;
@@ -1225,10 +1223,13 @@ static void int_acia_rx(CLOCK offset, void *data)
         acia.status |= ACIA_SR_BITS_RECEIVE_DR_FULL;
     } while (0);
 
-
-    acia.alarm_clk_rx = myclk + acia.ticks_rx;
-    alarm_set(acia.alarm_rx, acia.alarm_clk_rx);
-    acia.alarm_active_rx = 1;
+    if (acia.alarm_active_rx == 1) {
+        acia.alarm_clk_rx = myclk + acia.ticks;
+        alarm_set(acia.alarm_rx, acia.alarm_clk_rx);
+        acia.alarm_active_rx = 1;
+    } else {
+        alarm_unset(acia.alarm_rx);
+    }
 }
 
 int acia_dump(void *acia_context)
