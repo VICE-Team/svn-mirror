@@ -113,7 +113,6 @@ VICE_ARG_ENABLE_LIST(cmake,             [  --enable-cmake          enable genera
 VICE_ARG_ENABLE_LIST(debug,             [  --enable-debug          enable debug source options])
 VICE_ARG_ENABLE_LIST(debug-gtk3ui,      [  --enable-debug-gtk3ui   enables debugging for the GTK3 UI])
 VICE_ARG_ENABLE_LIST(debug-threads,     [  --enable-debug-threads  enable debug messages about the threading code [[default=no]]])
-VICE_ARG_ENABLE_LIST(embedded,          [  --enable-embedded       enable embedding of emulation data files])
 VICE_ARG_ENABLE_LIST(x64,               [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
 VICE_ARG_ENABLE_LIST(x64-image,         [  --enable-x64-image      enable X64 image support [[default=no]]])
 VICE_ARG_ENABLE_LIST(optimization,      [  --disable-optimization  disable code optimization by passing -O0 [[default=no]]])
@@ -519,7 +518,6 @@ USE_ALSA_SUPPORT="no "
 USE_COREAUDIO_SUPPORT="no "
 USE_DMEDIA_SUPPORT="no "
 USE_DXSOUND_SUPPORT="no "
-USE_EMBEDDED_SUPPORT="no "
 USE_FLAC_SUPPORT="no "
 USE_LAMEMP3_SUPPORT="no "
 USE_MPG123_SUPPORT="no "
@@ -1716,18 +1714,6 @@ if test x"$is_win32" = "xyes"; then
   if test x"$ICOTOOL" = "xno"; then
     AC_MSG_ERROR([Building for Windows, but icotool is missing. Please install icoutils."])
   fi
-fi
-
-
-dnl This enables the embedded data files feature, which should
-dnl only be used for developing new ports or for ports for which
-dnl the loading of the datafiles is hard/impossible.
-if test x"$enable_embedded" = "xyes"; then
-  AC_DEFINE(USE_EMBEDDED,,[Use embedded data files.])
-  USE_EMBEDDED_SUPPORT="yes"
-  AM_CONDITIONAL(EMBEDDED, true)
-else
-  AM_CONDITIONAL(EMBEDDED, false)
 fi
 
 
@@ -4106,7 +4092,6 @@ echo "----"
 echo "65xx CPU history support   : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-cpuhistory)"
 echo "Debug support              : $DEBUG_SUPPORT (--enable/disable-debug)"
 echo "Threading debug support    : $DEBUG_THREADS_SUPPORT (--enable/disable-debug-threads"
-echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embedded)"
 echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
 echo "Install XDG .desktop files : $USE_DESKTOP_FILES"
 echo "icotool for Windows found  : $ICOTOOL"
