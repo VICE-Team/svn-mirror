@@ -352,6 +352,7 @@ function process_source_makefile {
 			        $(extract_sources BUILT_SOURCES)
 			        $(extract_headers BUILT_SOURCES)
 			        $(extract_headers noinst_HEADERS)
+					$(extract_headers EXTRA_DIST)
 			    )
 
 		HEREDOC

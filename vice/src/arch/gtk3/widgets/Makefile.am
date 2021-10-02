@@ -311,7 +311,6 @@ EXTRA_DIST = \
 	settings_mixer.h \
 	settings_model.h \
 	settings_monitor.h \
-	settings_peripherals_generic.h \
 	settings_printer.h \
 	settings_ramreset.h \
 	settings_romset.h \
