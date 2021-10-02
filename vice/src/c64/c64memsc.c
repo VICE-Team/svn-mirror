@@ -83,11 +83,7 @@ int machine_class = VICE_MACHINE_C64SC;
 /* The C64 memory.  */
 uint8_t mem_ram[C64_RAM_SIZE];
 
-#ifdef USE_EMBEDDED
-#include "c64chargen.h"
-#else
 uint8_t mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
-#endif
 
 /* Internal color memory.  */
 static uint8_t mem_color_ram[0x400];

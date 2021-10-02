@@ -33,7 +33,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "embedded.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -222,10 +221,6 @@ int palette_load(const char *file_name, const char *subpath, palette_t *palette_
     char *complete_path;
     FILE *f;
     int rc;
-
-    if (embedded_palette_load(file_name, palette_return) == 0) {
-        return 0;
-    }
 
     f = sysfile_open(file_name, subpath, &complete_path, MODE_READ_TEXT);
 

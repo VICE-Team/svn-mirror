@@ -212,7 +212,7 @@ parenright      4 0 1
 
 plus            5 0 0
 minus           5 3 0
-period          5 4 0
+period          5 4 16
 greater         5 4 1
 colon           5 5 0
 bracketleft     5 5 1

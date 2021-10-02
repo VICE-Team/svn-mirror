@@ -51,7 +51,6 @@ libpet_a_SOURCES = \
 	petdrive.c \
 	petdww.c \
 	petdww.h \
-	petembedded.c \
 	pethre.c \
 	pethre.h \
 	petiec.c \
