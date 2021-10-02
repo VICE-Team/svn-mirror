@@ -5639,11 +5639,6 @@ Integer specifying which interrupt to use (x64, x64sc, xscpu64, xvic and x128 on
 
 @table @code
 
-@vindex RsUserEnable
-@item RsUserEnable
-Boolean specifying if the user-port RS232 interface is being emulated
-(C64, C128 and VIC20).
-
 @vindex RsUserUP9600
 @item RsUserUP9600
 Boolean specifying if the user-port RS232 interface is of the UP9600 type.
@@ -5775,12 +5770,6 @@ Set the ACIA interrupt
 @end table
 
 @table @code
-
-@findex -rsuser, +rsuser
-@item -rsuser
-@itemx +rsuser
-Enable or disable emulation of the
-userport RS232 emulation (@code{RsUser}; C64, C128 and VIC20)
 
 @findex -rsuserup9600, +rsuserup9600
 @item -rsuserup9600
