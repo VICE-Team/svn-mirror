@@ -145,15 +145,16 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
 
 #ifdef WIN32_COMPILE
 
+
+#include "archdep.h"
+#include "coproc.h"
+#include "log.h"
+
 #include <windows.h>
 #include <tchar.h>
 #include <strsafe.h>
 #include <io.h>
 #include <fcntl.h>
-
-#include "archdep.h"
-#include "coproc.h"
-#include "log.h"
 
 /* https://docs.microsoft.com/en-us/windows/win32/procthread/creating-a-child-process-with-redirected-input-and-output */
 
