@@ -250,8 +250,8 @@ int rs232dev_open(int device)
             log_error(rs232dev_log, "Cannot fork process '%s'.", rs232_devfile[device] + 1);
             return -1;
         }
-        fds[i].fd_w = _get_osfhandle(fd_w);
-        fds[i].fd_r = _get_osfhandle(fd_r);
+        fds[i].fd_w = (HANDLE)_get_osfhandle(fd_w);
+        fds[i].fd_r = (HANDLE)_get_osfhandle(fd_r);
         fds[i].type = T_PROC;
         fds[i].inuse = 1;
         /* fds[i].file = rs232_devfile[device]; */

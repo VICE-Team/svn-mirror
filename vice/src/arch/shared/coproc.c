@@ -168,14 +168,14 @@ static int CreateChildProcess(
     TCHAR *szCmdline,
     HANDLE hChildStd_IN_Rd,
     HANDLE hChildStd_OUT_Wr)
-{ 
+{
     PROCESS_INFORMATION piProcInfo; 
     STARTUPINFO siStartInfo;
-    BOOL bSuccess = FALSE; 
- 
+    BOOL bSuccess = FALSE;
+
     /* Set up members of the PROCESS_INFORMATION structure. */
     ZeroMemory( &piProcInfo, sizeof(PROCESS_INFORMATION) );
- 
+
     /* Set up members of the STARTUPINFO structure. */
     /* This structure specifies the STDIN and STDOUT handles for redirection. */
     ZeroMemory( &siStartInfo, sizeof(STARTUPINFO) );
@@ -184,7 +184,7 @@ static int CreateChildProcess(
     siStartInfo.hStdOutput = hChildStd_OUT_Wr;
     siStartInfo.hStdInput = hChildStd_IN_Rd;
     siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
- 
+
     /* Create the child process.  */
     bSuccess = CreateProcess(NULL, 
         szCmdline,     /* command line */
@@ -196,21 +196,21 @@ static int CreateChildProcess(
         NULL,          /* use parent's current directory */
         &siStartInfo,  /* STARTUPINFO pointer */ 
         &piProcInfo);  /* receives PROCESS_INFORMATION */ 
-   
+
     /* If an error occurs, exit */
     if (!bSuccess) {
         return -1;
     } else {
-      /* Close handles to the child process and its primary thread.
-         Some applications might keep these handles to monitor the status
-         of the child process, for example. */
-      CloseHandle(piProcInfo.hProcess);
-      CloseHandle(piProcInfo.hThread);
-      
-      /* Close handles to the stdin and stdout pipes no longer needed by the child process.
-         If they are not explicitly closed, there is no way to recognize that the child process has ended. */
-      CloseHandle(hChildStd_OUT_Wr);
-      CloseHandle(hChildStd_IN_Rd);
+        /* Close handles to the child process and its primary thread.
+            Some applications might keep these handles to monitor the status
+            of the child process, for example. */
+        CloseHandle(piProcInfo.hProcess);
+        CloseHandle(piProcInfo.hThread);
+
+        /* Close handles to the stdin and stdout pipes no longer needed by the child process.
+            If they are not explicitly closed, there is no way to recognize that the child process has ended. */
+        CloseHandle(hChildStd_OUT_Wr);
+        CloseHandle(hChildStd_IN_Rd);
     }
     return 0;
 }
@@ -222,9 +222,9 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     HANDLE hChildStd_IN_Wr = NULL;
     HANDLE hChildStd_OUT_Rd = NULL;
     SECURITY_ATTRIBUTES saAttr; 
-    
+
     /* Set the bInheritHandle flag so pipe handles are inherited.  */
-     saAttr.nLength = sizeof(SECURITY_ATTRIBUTES); 
+    saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
     saAttr.bInheritHandle = TRUE; 
     saAttr.lpSecurityDescriptor = NULL; 
 
