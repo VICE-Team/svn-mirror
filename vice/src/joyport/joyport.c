@@ -872,7 +872,7 @@ int joyport_port_is_active(int port)
             break;
         case JOYPORT_3:    /* Fallthrough */
         case JOYPORT_4:    /* Fallthrough */
-        case JOYPORT_6:    /* Fallthrough */
+        case JOYPORT_5:    /* Fallthrough */
         case JOYPORT_7:    /* Fallthrough */
         case JOYPORT_8:    /* Fallthrough */
         case JOYPORT_9:    /* Fallthrough */
