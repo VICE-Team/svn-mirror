@@ -12,6 +12,7 @@ AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
 	-I$(top_srcdir)/src/arch/shared \
+	-I$(top_srcdir)/src/arch/headless/uiclient \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
@@ -71,7 +72,6 @@ libarch_a_SOURCES = \
 	cbm2ui.c \
 	cbm5x0ui.c \
 	c64ui.c \
-	\
 	uiserver.c
 
 libtoolarch_a_SOURCES = \
@@ -84,8 +84,7 @@ EXTRA_DIST = \
 	kbd.h \
 	mousedrv.h \
 	ui.h \
-	uistatusbar.h \
-	videoarch.h \
-	\
 	uiserver.h \
-	uiprotocol.h
+	uistatusbar.h \
+	videoarch.h
+	

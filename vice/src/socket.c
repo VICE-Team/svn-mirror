@@ -39,6 +39,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
 
 /* hopefully fixed in configure */
 #if 0
@@ -1138,6 +1139,17 @@ int vice_network_select_multiple(vice_network_socket_t ** readsockfd)
     return select(max_sockfd + 1, &fdsockset, NULL, NULL, &time);
 }
 
+int vice_network_available_bytes(vice_network_socket_t *sockfd)
+{
+    int bytes_available;
+
+    if (ioctl(sockfd->sockfd, FIONREAD, &bytes_available) >= 0) {
+        return bytes_available;
+    }
+
+    return -1;
+}
+
 int vice_network_get_socket(vice_network_socket_t *socket)
 {
     return socket->sockfd;
@@ -1172,4 +1184,5 @@ int vice_network_get_errorcode(void)
 {
     return ARCHDEP_SOCKET_ERROR;
 }
+
 #endif

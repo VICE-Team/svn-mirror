@@ -30,6 +30,7 @@
 #include <unistd.h>
 
 #include "uiclient.h"
+#include "uiclientmachine.h"
 #include "uiclientutil.h"
 
 static void shutdown_and_exit(uiclient_t *uiclient, int exit_code)
@@ -43,9 +44,14 @@ static void shutdown_and_exit(uiclient_t *uiclient, int exit_code)
 
 static void on_disconnected(uiclient_t *uiclient)
 {
-    INFO("Server disconnected");
+    INFO("Disconnected");
     
     shutdown_and_exit(uiclient, 1);
+}
+
+static void on_connected(uiclient_t *uiclient, uint32_t emulator)
+{
+    INFO("Connected");
 }
 
 int main(int argc, char **argv)
@@ -63,7 +69,8 @@ int main(int argc, char **argv)
     server_port = atoi(argv[1]);
     uiclient =
         uiclient_new(
-            on_disconnected
+            on_disconnected,
+            on_connected
             );
 
     if (!uiclient_connect(uiclient, server_port)) {

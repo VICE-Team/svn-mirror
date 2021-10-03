@@ -29,10 +29,12 @@ typedef struct uiclient_s uiclient_t;
 
 /* Callback for unexpected server disconnection */
 typedef void (*uiclient_on_disconnected_t)(uiclient_t *uiclient);
+typedef void (*uiclient_on_connected_t)(uiclient_t *uiclient, uint32_t emulator);
 
 /* Create and initialise a new uiclient */
 uiclient_t *uiclient_new(
-    uiclient_on_disconnected_t on_disconnected_callback
+    uiclient_on_disconnected_t on_disconnected_callback,
+    uiclient_on_connected_t on_connected_callback
     );
 
 /* Initiate the connection process */

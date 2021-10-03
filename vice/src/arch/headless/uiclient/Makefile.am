@@ -17,6 +17,7 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libuiclient.a
 
 libuiclient_a_SOURCES = \
+	netexpect.c \
 	uiclient.c \
 	uiclientnetwork.c \
 	uiclientutil.c
@@ -28,6 +29,7 @@ uiclientmachine.h: ../../../machine.h uiclient_machine_generate.sh
 	$(AM_V_GEN) $(srcdir)/uiclient_machine_generate.sh < $< > $@
 
 EXTRA_DIST = \
+	netexpect.h \
 	uiclient.h \
 	uiclientnetwork.h \
 	uiclientutil.h

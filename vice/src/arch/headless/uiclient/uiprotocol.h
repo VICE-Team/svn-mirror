@@ -42,9 +42,7 @@
  */
 
 #define UI_PROTOCOL_CPU_LITTLE_ENDIAN    (1 << 0)
-#define UI_PROTOCOL_CPU_BIG_ENDIAN       (1 << 1)
-#define UI_PROTOCOL_CPU_32_BIT           (1 << 2)
-#define UI_PROTOCOL_CPU_64_BIT           (1 << 3)
+#define UI_PROTOCOL_CPU_64_BIT           (1 << 1)
 
 /*
  * Protocol versions supported by the server. If a connecting client requiests
@@ -66,41 +64,54 @@
  * Then the client replies with a uiclient_hello_header_t requesting a protocol.
  */
 
-typedef struct uiprotocol_server_hello_header_s {
+typedef struct uiprotocol_server_hello_s {
     char magic[4]; /* always "VICE" */
     uint8_t cpu_arch_flags;
     uint32_t emulator;
     uint32_t supported_protocols;
-} __attribute__((packed)) uiprotocol_server_hello_header_t;
+} __attribute__((packed)) uiprotocol_server_hello_t;
 
-typedef struct uiprotocol_client_hello_header_s {
+typedef struct uiprotocol_client_hello_s {
     char magic[4]; /* always "VICE" */
     uint32_t protocol;
-} __attribute__((packed)) uiprotocol_client_hello_header_t;
+} __attribute__((packed)) uiprotocol_client_hello_t;
 
 /*
  * Strings are sent as a uin16_t size followed by string bytes.
  */
 
-void uiprotocol_write_string(char *str);
-void uiprotocol_read_string(char **str, uint32_t str_length);
+#define UI_PROTOCOL_V1_STRING_MAX ((1<<16)-1)
+
+/*
+ * V1 messages are identified by a single byte.
+ */
 
 /**********************************
  * Messages from client to server *
  **********************************/
-
-/* This client is ready for emulation to begin or resume */
-#define UI_PROTOCOL_V1_CLIENT_IS_READY      0   
 
 /*
  * The client would like to recieve updates relating to the specified screen.
  *
  * string: chip_name
  */
-#define UI_PROTOCOL_V1_SUBSCRIBE_SCREEN     1
+#define UI_PROTOCOL_V1_SUBSCRIBE_SCREEN     0
+
+/* This client is ready for emulation to begin or resume */
+#define UI_PROTOCOL_V1_CLIENT_IS_READY      1
 
 /**********************************
  * Messages from server to client *
  **********************************/
 
-#endif /* #ifndef UI_SERVER_H */
+/*
+ * A screen is available for a client to subscribe to
+ *
+ * string: chip_name
+ */
+#define UI_PROTOCOL_V1_SCREEN_IS_AVAILABLE  0
+
+/* The server is ready to resume emulation */
+#define UI_PROTOCOL_V1_SERVER_IS_READY      1
+
+#endif /* #ifndef UI_PROTOCOL_H */

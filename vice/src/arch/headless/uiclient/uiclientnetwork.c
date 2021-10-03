@@ -30,6 +30,7 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -59,6 +60,17 @@ int uiclient_network_poll(socket_t *sock)
 
     /* Something is waiting for us. */
     return 1;
+}
+
+ssize_t uiclient_network_available_bytes(socket_t *sock)
+{
+    int bytes_available;
+
+    if (ioctl(sock->poll_fd.fd, FIONREAD, &bytes_available) >= 0) {
+        return bytes_available;
+    }
+
+    return -1;
 }
 
 ssize_t uiclient_network_recv(socket_t *sock, void *buffer, uint32_t buffer_length)

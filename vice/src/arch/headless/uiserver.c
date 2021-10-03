@@ -8,40 +8,50 @@
 #include <sys/poll.h>
 #include <unistd.h>
 
-#include "uiserver.h"
-#include "uiprotocol.h"
-
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "netexpect.h"
 #include "resources.h"
 #include "tick.h"
+#include "uiserver.h"
+#include "uiprotocol.h"
 #include "vicesocket.h"
+#include "videoarch.h"
 
 /*
  * DESIGN THOUGHTS.
  *
  * VICE will launch a single UI client process. The UI can choose to
- * launch a further child UI process for handling two screens concurrently.
+ * launch a further child UI process for handling two screens concurrently,
+ * or it can handle multiple screens itself.
+ *
  * The UI server supports multiple UI clients connected to the same screen,
  * as well as a single UI client connected to multiple screens.
  */
 
-/* Represents a connected uiclient */
+typedef struct client_s client_t;
+typedef void (*recv_message_t)(client_t *client, void *recieved_buffer);
+
+/* Represents a connected client */
 typedef struct client_s {
     int id;
     vice_network_socket_t *socket;
+    netexpect_t *netexpect;
+    
+    uiprotocol_client_hello_t client_hello;
 } client_t;
 
 /* Represents a single video output, such as VICII or VDC. */
 typedef struct screen_s {
+    char *chip_name;
     video_canvas_t *canvas;
     client_t *clients;
 } screen_t;
 
 static vice_network_socket_t *server_socket;
-static uiprotocol_server_hello_header_t server_hello;
+static uiprotocol_server_hello_t server_hello;
 
 static screen_t *screens;
 static int screen_count;
@@ -55,10 +65,18 @@ static struct pollfd *poll_fds;
 static int poll_fd_count;
 static bool rebuild_poll_fds_next_poll = true;
 
+static int socket_recv(void *context, void *buffer, unsigned int size);
+static int socket_available(void *context);
+
 static void build_server_hello(void);
 static void rebuild_poll_fds(void);
 static void disconnect_client(client_t *client);
 static void remove_disconnected_clients(void);
+
+static void send_byte(client_t *client, uint8_t byte);
+static void send_string(client_t *client, char *str);
+
+static void handle_client_hello(void *context);
 
 int uiserver_init(void)
 {
@@ -100,7 +118,7 @@ void uiserver_add_screen(video_canvas_t *canvas)
 
     /*
      * Called when a video chip first initialises. The uiserver
-     * makes this screen available for uiclients to subscribe to.
+     * makes this screen available for clients to subscribe to.
      */
 
     for (i = 0; i < screen_count; i++) {
@@ -117,7 +135,16 @@ void uiserver_add_screen(video_canvas_t *canvas)
 
     screens = lib_realloc(screens, screen_count * sizeof(screen_t));
 
+    screens[new_screen_index].chip_name = lib_strdup(canvas->videoconfig->chip_name);
     screens[new_screen_index].canvas = canvas;
+    
+    /*
+     * TODO: If any clients are connected already, notify them of the new screen.
+     *
+     * This won't happen in practice, unless we need to support hot-plugging of screens,
+     * for example if we end up supporting that 1541 display hack and enabling it at
+     * runtime.
+     */
 }
 
 void uiserver_await_ready(void)
@@ -156,7 +183,7 @@ void uiserver_await_ready(void)
     }
     
     /*
-     * Wait for a uiclient process to connect and signal that it's ready.
+     * Wait for a client process to connect and signal that it's ready.
      */
 
     log_message(LOG_DEFAULT, "Waiting for UI process");
@@ -171,6 +198,7 @@ static void handle_new_client(void)
 {
     vice_network_socket_t *client_socket;
     int client_index;
+    client_t *client;
     
     client_socket = vice_network_accept(server_socket);
     client_index = client_count++;
@@ -180,15 +208,20 @@ static void handle_new_client(void)
         clients_size = client_count;
     }
     
-    clients[client_index].id     = next_client_id++;
-    clients[client_index].socket = client_socket;
+    client              = &clients[client_index];
+    client->id          = next_client_id++;
+    client->socket      = client_socket;
+    client->netexpect   = netexpect_new(socket_available, socket_recv, client_socket);
 
-    log_message(LOG_DEFAULT, "New client %d connected", clients[client_index].id);
+    log_message(LOG_DEFAULT, "New client %d connected", client->id);
     
     rebuild_poll_fds_next_poll = true;
     
     /* Send the server hello for the client to respond to */
     vice_network_send(client_socket, &server_hello, sizeof(server_hello), 0);
+    
+    /* expect a client hello in response */
+    netexpect_byte_array(client->netexpect, &client->client_hello, sizeof(client->client_hello), handle_client_hello, client);
 }
 
 static void disconnect_client(client_t *client)
@@ -199,30 +232,12 @@ static void disconnect_client(client_t *client)
     remove_disconnected_clients_next_poll = true;
 }
 
-static void handle_client_error(client_t *client)
-{
-    log_message(LOG_DEFAULT, "Socket error on client %d: %s", client->id, strerror(errno));
-    
-    switch  (errno) {
-        case ENOMEM:
-        case ENOBUFS:
-        case EINTR:
-        case EAGAIN:
-            /* Transient error, ignore */
-            return;
-        default:
-            break;
-    }
-    
-    disconnect_client(client);
-}
-
-/** \brief Handle all uiclient IO */
+/** \brief Handle all client IO */
 void uiserver_poll(void)
 {
     int i;
     int read_fd_count;
-    
+
     /* Remove any disconnected clients if needed */
     if (remove_disconnected_clients_next_poll) {
         remove_disconnected_clients();
@@ -254,18 +269,8 @@ void uiserver_poll(void)
     for (i = 0; i < client_count; i++) {
         if (poll_fds[i].revents) {
             log_message(LOG_DEFAULT, "POLLIN on client %d", clients[i].id);
-            // HACK
-            char b[5 + 1];
-            int r;
-            r = vice_network_receive(clients[i].socket, b, 5, 0);
-            if (r < 0) {
-                handle_client_error(&clients[i]);
-            } else if (r == 0) {
-                /* Closed */
+            if (netexpect_do_recv(clients[i].netexpect) < 0) {
                 disconnect_client(&clients[i]);
-            } else {
-                b[r] = '\0';
-                log_message(LOG_DEFAULT, "Client %d says [%s]", clients[i].id, b);
             }
         }
     }
@@ -285,7 +290,7 @@ void uiserver_shutdown(void)
     
     /* Notifiy all connected clients that we're shutting down */
     for (i = 0; i < client_count; i++) {
-        vice_network_socket_close(clients[i].socket);
+        disconnect_client(&clients[i]);
         clients[i].socket = NULL;
     }
     
@@ -302,6 +307,11 @@ void uiserver_shutdown(void)
     lib_free(poll_fds);
     poll_fds = NULL;
     
+    for (i = 0; i < screen_count; i++) {
+        lib_free(screens[i].chip_name);
+        screens[i].chip_name = NULL;
+    }
+    
     lib_free(screens);
     screens = NULL;
     screen_count = 0;
@@ -311,6 +321,8 @@ void uiserver_shutdown(void)
 
 static void build_server_hello(void)
 {
+    memset(&server_hello, 0, sizeof(server_hello));
+    
     server_hello.magic[0] = 'V';
     server_hello.magic[1] = 'I';
     server_hello.magic[2] = 'C';
@@ -318,14 +330,10 @@ static void build_server_hello(void)
 
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     server_hello.cpu_arch_flags |= UI_PROTOCOL_CPU_LITTLE_ENDIAN;
-#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-    server_hello.cpu_arch_flags |= UI_PROTOCOL_CPU_BIG_ENDIAN;
 #endif
     
 #if __LP64__
     server_hello.cpu_arch_flags |= UI_PROTOCOL_CPU_64_BIT;
-#else
-    server_hello.cpu_arch_flags |= UI_PROTOCOL_CPU_32_BIT;
 #endif
     
     server_hello.emulator = machine_class;
@@ -380,5 +388,91 @@ static void remove_disconnected_clients(void)
     if (client_count == 0) {
         log_message(LOG_DEFAULT, "Last client disconnected, exiting");
         archdep_vice_exit(0);
+    }
+}
+
+static int socket_recv(void *context, void *buffer, unsigned int size)
+{
+    vice_network_socket_t *sock = (vice_network_socket_t*)context;
+    
+    return vice_network_receive(sock, buffer, size, 0);
+}
+
+static int socket_available(void *context)
+{
+    vice_network_socket_t *sock = (vice_network_socket_t*)context;
+    
+    return vice_network_available_bytes(sock);
+}
+
+static void send_byte(client_t *client, uint8_t byte)
+{
+    vice_network_send(client->socket, &byte, 1, 0);
+}
+
+static void send_string(client_t *client, char *str)
+{
+    size_t full_strlen;
+    uint16_t message_strlen;
+    
+    /*
+     * Max protocol string length is 64 kilobytes
+     */
+    
+    full_strlen = strlen(str);
+    
+    if (full_strlen > UI_PROTOCOL_V1_STRING_MAX) {
+        log_error(LOG_DEFAULT, "Fatal attempt to send string of length %zu", full_strlen);
+        disconnect_client(client);
+        return;
+    }
+    
+    message_strlen = (uint16_t)full_strlen;
+    
+    vice_network_send(client->socket, &message_strlen, sizeof(message_strlen), 0);
+    vice_network_send(client->socket, str, message_strlen, 0);
+}
+
+/************/
+
+static void advertise_screens(client_t *client)
+{
+    int i;
+    
+    for (i = 0; i < screen_count; i++) {
+        send_byte(client, UI_PROTOCOL_V1_SCREEN_IS_AVAILABLE);
+        send_string(client, screens[i].chip_name);
+    }
+}
+
+static void handle_client_hello(void *context)
+{
+    client_t *client = (client_t*)context;
+    uiprotocol_client_hello_t *client_hello = &client->client_hello;
+    
+    if (    client_hello->magic[0] != 'V'
+        ||  client_hello->magic[1] != 'I'
+        ||  client_hello->magic[2] != 'C'
+        ||  client_hello->magic[3] != 'E'
+        ) {
+        log_error(LOG_DEFAULT,
+                  "Bad client hello magic: %c%c%c%c",
+                  client_hello->magic[0],
+                  client_hello->magic[1],
+                  client_hello->magic[2],
+                  client_hello->magic[3]);
+        
+        disconnect_client(client);
+        return;
+    }
+    
+    log_message(LOG_DEFAULT, "Client hello: protocol 0x%x", client_hello->protocol);
+    
+    if (client_hello->protocol == UI_PROTOCOL_VERSION_1) {
+        advertise_screens(client);
+        send_byte(client, UI_PROTOCOL_V1_SERVER_IS_READY);
+    } else {
+        log_error(LOG_DEFAULT, "Client %d requested unsupported protocol 0x%c", client->id, client_hello->protocol);
+        disconnect_client(client);
     }
 }
