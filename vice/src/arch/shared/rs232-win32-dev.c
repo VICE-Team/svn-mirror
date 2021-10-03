@@ -52,7 +52,7 @@
 #include "types.h"
 #include "util.h"
 
-/* #define COPROC_SUPPORT */
+#define COPROC_SUPPORT
 
 #define DEBUGRS232
 
@@ -244,11 +244,14 @@ int rs232dev_open(int device)
 
 #ifdef COPROC_SUPPORT
     if (rs232_devfile[device][0] == '|') {
+        int fd_r, fd_w;
         log_message(rs232dev_log, "rs232dev_open(): forking '%s'", rs232_devfile[device] + 1);
-        if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, rs232_devfile[device] + 1) < 0) {
-            log_error(rs232dev_log, "rs232dev_open(): Cannot fork process.");
+        if (fork_coproc(&fd_w, &fd_r, rs232_devfile[device] + 1) < 0) {
+            log_error(rs232dev_log, "Cannot fork process '%s'.", rs232_devfile[device] + 1);
             return -1;
         }
+        fds[i].fd_w = _get_osfhandle(fd_w);
+        fds[i].fd_r = _get_osfhandle(fd_r);
         fds[i].type = T_PROC;
         fds[i].inuse = 1;
         /* fds[i].file = rs232_devfile[device]; */
