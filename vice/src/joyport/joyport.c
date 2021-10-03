@@ -614,6 +614,26 @@ static int joyport_check_valid_devices(int port, int index)
     return 1;
 }
 
+static char *joyport_get_joystick_device_name(int port)
+{
+    if (port == JOYPORT_1 || port == JOYPORT_2) {
+        return "Joystick";
+    }
+    switch (joystick_adapter_get_id()) {
+        case JOYSTICK_ADAPTER_ID_NONE:
+        case JOYSTICK_ADAPTER_ID_GENERIC_USERPORT:
+        case JOYSTICK_ADAPTER_ID_SPACEBALLS:
+        case JOYSTICK_ADAPTER_ID_MULTIJOY:
+        case JOYSTICK_ADAPTER_ID_INCEPTION:
+            return "Joystick";
+        case JOYSTICK_ADAPTER_ID_NINJA_SNES:
+        case JOYSTICK_ADAPTER_ID_USERPORT_PETSCII_SNES:
+        case JOYSTICK_ADAPTER_ID_USERPORT_SUPERPAD64:
+            return "SNES Pad";
+    }
+    return "Unknown joystick";
+}
+
 joyport_desc_t *joyport_get_valid_devices(int port, int sort)
 {
     joyport_desc_t *retval = NULL;
@@ -633,7 +653,11 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
             if (joyport_check_valid_devices(port, i)) {
-                retval[j].name = joyport_device[i].name;
+                if (i == JOYPORT_ID_JOYSTICK) {
+                    retval[j].name = joyport_get_joystick_device_name(port);
+                } else {
+                    retval[j].name = joyport_device[i].name;
+                }
                 retval[j].id = i;
                 retval[j].device_type = joyport_device[i].device_type;
                 ++j;
