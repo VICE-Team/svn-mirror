@@ -881,7 +881,7 @@ int joyport_port_is_active(int port)
                 active = 1;
             }
             break;
-        case JOYPORT_5:
+        case JOYPORT_6:
             if (joystick_adapter_additional_ports || joystick_adapter_ports > (port - 2)) {
                 active = 1;
             }
