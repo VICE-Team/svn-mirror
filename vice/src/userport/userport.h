@@ -64,9 +64,7 @@ enum {
     USERPORT_DEVICE_DIAG_586220_HARNESS,
 #endif
     USERPORT_DEVICE_DRIVE_PAR_CABLE,
-#ifdef IO_SIMULATION
     USERPORT_DEVICE_IO_SIMULATION,
-#endif
     USERPORT_MAX_DEVICES
 };
 
@@ -82,9 +80,7 @@ enum {
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     USERPORT_DEVICE_TYPE_HARNESS,
 #endif
-#ifdef IO_SIMULATION
     USERPORT_DEVICE_TYPE_IO_SIMULATION,
-#endif
 };
 
 /* this structure is used by userport devices */

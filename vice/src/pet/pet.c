@@ -102,6 +102,7 @@
 #include "types.h"
 #include "userport.h"
 #include "userport_dac.h"
+#include "userport_io_sim.h"
 #include "userport_joystick.h"
 #include "userport_petscii_snespad.h"
 #include "userport_rtc_58321a.h"
@@ -115,10 +116,6 @@
 
 #ifdef HAVE_MOUSE
 #include "mouse.h"
-#endif
-
-#ifdef IO_SIMULATION
-#include "userport_io_sim.h"
 #endif
 
 machine_context_t machine_context;
@@ -400,12 +397,10 @@ int machine_resources_init(void)
         init_resource_fail("userport petscii snes pad");
         return -1;
     }
-#ifdef IO_SIMULATION
     if (userport_io_sim_resources_init() < 0) {
         init_resource_fail("userport I/O simulation");
         return -1;
     }
-#endif
     if (debugcart_resources_init() < 0) {
         init_resource_fail("debug cart");
         return -1;

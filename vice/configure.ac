@@ -531,7 +531,6 @@ USE_NEW_8580_FILTER="no "
 USE_DESKTOP_FILES="no "
 HAVE_X64_IMAGE_SUPPORT="no "
 HAVE_CAPABILITIES_SUPPORT="no "
-USE_IO_SIMULATION="no"
 
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
@@ -540,12 +539,6 @@ AS_IF([test x"$enable_cpuhistory" = "xyes"],
   [
     AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the 65xx cpu history feature.])
     FEATURE_CPUMEMHISTORY_SUPPORT="yes"
-  ])
-
-AS_IF([test x"$enable_io_simulation" = "xyes"],
-  [
-    AC_DEFINE(IO_SIMULATION,,[Compile I/O simulation devices.])
-    USE_IO_SIMULATION="yes"
   ])
 
 dnl New 8580 filters: Changed on 2020-08-23 from default 'no' to default 'yes'.
@@ -4095,7 +4088,6 @@ echo "Threading debug support    : $DEBUG_THREADS_SUPPORT (--enable/disable-debu
 echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
 echo "Install XDG .desktop files : $USE_DESKTOP_FILES"
 echo "icotool for Windows found  : $ICOTOOL"
-echo "I/O simulation devices     : $USE_IO_SIMULATION"
 
 echo ""
 echo "User CPPFLAGS:  $CPPFLAGS"

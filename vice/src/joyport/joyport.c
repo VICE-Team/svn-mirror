@@ -103,9 +103,7 @@ static int joyport_device_is_single_port(int id)
         case JOYPORT_ID_WAASOFT_DONGLE:
         case JOYPORT_ID_PROTOPAD:
         case JOYPORT_ID_PADDLES:
-#ifdef IO_SIMULATION
         case JOYPORT_ID_IO_SIMULATION:
-#endif
             return 0;
     }
     return 1;
@@ -553,7 +551,6 @@ static int check_valid_dongle(int port, int index)
     return 0;
 }
 
-#ifdef IO_SIMULATION
 static int check_valid_io_sim(int port, int index)
 {
     if (joyport_device[index].device_type != JOYPORT_DEVICE_IO_SIMULATION) {
@@ -568,7 +565,6 @@ static int check_valid_io_sim(int port, int index)
     }
     return 0;
 }
-#endif
 
 static int joyport_valid_devices_compare_names(const void* a, const void* b)
 {
@@ -606,11 +602,9 @@ static int joyport_check_valid_devices(int port, int index)
     if (!check_valid_dongle(port, index)) {
         return 0;
     }
-#ifdef IO_SIMULATION
     if (!check_valid_io_sim(port, index)) {
         return 0;
     }
-#endif
     return 1;
 }
 
@@ -1116,11 +1110,9 @@ static const struct joyport_opt_s id_match[] = {
     { "inception",         JOYPORT_ID_INCEPTION },
     { "multijoy",          JOYPORT_ID_MULTIJOY_JOYSTICKS },
     { "protopad",          JOYPORT_ID_PROTOPAD },
-#ifdef IO_SIMULATION
     { "io",                JOYPORT_ID_IO_SIMULATION },
     { "iosim",             JOYPORT_ID_IO_SIMULATION },
     { "iosimulation",      JOYPORT_ID_IO_SIMULATION },
-#endif
     { "mfjoy",             JOYPORT_ID_MF_JOYSTICK },
     { "mfjoystick",        JOYPORT_ID_MF_JOYSTICK },
     { NULL, -1 }
