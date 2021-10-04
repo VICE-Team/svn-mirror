@@ -145,24 +145,20 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
 
 #ifdef WIN32_COMPILE
 
-
 #include "archdep.h"
 #include "coproc.h"
+#include "lib.h"
 #include "log.h"
 
 #include <windows.h>
 #include <tchar.h>
-#include <strsafe.h>
+#include <string.h>
 #include <io.h>
 #include <fcntl.h>
 
 /* https://docs.microsoft.com/en-us/windows/win32/procthread/creating-a-child-process-with-redirected-input-and-output */
 
 /* https://marc.info/?l=apreq-dev&m=104840521714506 mentions some hackery we might need too */
-
-/* FIXME: the following will only work with exactly one sub-process (not stacked commands like foo|bar)
-          and likely even with just a program name and no additional arguments. we probably have to call
-          cmd.exe in a similar way as the shell in the unix code above */
 
 /* Create a child process that uses the previously created pipes for STDIN and STDOUT. */
 static int CreateChildProcess(
@@ -184,7 +180,8 @@ static int CreateChildProcess(
     siStartInfo.hStdError = hChildStd_OUT_Wr;
     siStartInfo.hStdOutput = hChildStd_OUT_Wr;
     siStartInfo.hStdInput = hChildStd_IN_Rd;
-    siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
+    siStartInfo.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    siStartInfo.wShowWindow = SW_HIDE;
 
     /* Create the child process.  */
     bSuccess = CreateProcess(NULL, 
@@ -222,7 +219,8 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     HANDLE hChildStd_OUT_Wr = NULL;
     HANDLE hChildStd_IN_Wr = NULL;
     HANDLE hChildStd_OUT_Rd = NULL;
-    SECURITY_ATTRIBUTES saAttr; 
+    SECURITY_ATTRIBUTES saAttr;
+    char *cmdline;
 
     /* Set the bInheritHandle flag so pipe handles are inherited.  */
     saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -248,11 +246,19 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     if (!SetHandleInformation(hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0)) {
         return -1;
     }
+    
+    /* use a subshell to execute the given cmdline */
+    cmdline = lib_malloc(strlen(cmd) + 20);
+    strcpy(cmdline, "cmd.exe /C ");
+    strcat(cmdline, cmd);
  
     /* Create the child process. */
-    if (CreateChildProcess(cmd, hChildStd_IN_Rd, hChildStd_OUT_Wr) < 0) {
+    if (CreateChildProcess(cmdline, hChildStd_IN_Rd, hChildStd_OUT_Wr) < 0) {
+        lib_free(cmdline);
         return -1;
     }
+    
+    lib_free(cmdline);
 
     /* convert the windows HANDLEs to a regular file handle */
     *fd_wr = _open_osfhandle((intptr_t)hChildStd_IN_Wr, _O_WRONLY | _O_BINARY);
