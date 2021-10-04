@@ -51,7 +51,6 @@
    the host hardware.
 */
 
-#ifdef IO_SIMULATION
 static int joyport_io_sim_enabled[JOYPORT_MAX_PORTS] = {0};
 
 #ifndef HOST_HARDWARE_IO
@@ -336,5 +335,4 @@ fail:
     snapshot_module_close(m);
     return -1;
 }
-#endif
 #endif
