@@ -1177,8 +1177,6 @@ static GtkWidget *ui_drive_widget_create(int unit)
     mainlock_assert_is_not_vice_thread();
 
     grid = gtk_grid_new();
-//    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid),
-//            GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
 
     for (int drive_num = 0; drive_num < 2; drive_num++) {
@@ -1236,7 +1234,6 @@ static void disk_dir_autostart_callback(const char *image,
      * image, freeing memory used by the image name passed to us in the process
      */
     autostart_image = lib_strdup(image);
-    /* FIXME: pass the actual drive unit */
     autostart_disk(device + 8, drive, autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
     lib_free(autostart_image);
 }
@@ -2142,8 +2139,6 @@ void ui_display_drive_led(unsigned int drive_number,
         abort();
     }
 
-    debug_gtk3("Got unit %u, drive %u", drive_number + 8, drive_base);
-
     sb_state = lock_sb_state();
     sb_state->current_drive_leds[drive_number][drive_base][0] = led_pwm1;
     sb_state->current_drive_leds[drive_number][drive_base][1] = led_pwm2;
@@ -2265,7 +2260,9 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
         /* update drive type */
         sb_state->drives_type[i] = curtype;
     }
+#if 0
     debug_gtk3("drives_dual = %02x", sb_state->drives_dual);
+#endif
 
     /* Now give enabled its "real" value based on the drive
      * definitions. */
