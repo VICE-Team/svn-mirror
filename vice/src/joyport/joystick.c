@@ -682,9 +682,89 @@ void joystick_joypad_clear(void)
 
 /*-----------------------------------------------------------------------*/
 
+static joyport_mapping_t joystick_mapping = {
+    "Joystick",   /* name of the device */
+    "Up",         /* name for the mapping of pin 0 (UP) */
+    "Down",       /* name for the mapping of pin 1 (DOWN) */
+    "Left",       /* name for the mapping of pin 2 (LEFT) */
+    "Right",      /* name for the mapping of pin 3 (RIGHT) */
+    "Fire1",      /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
+    "Fire2",      /* name for the mapping of pin 5 (FIRE-2/SNES-B) */
+    "FIRE3",      /* name for the mapping of pin 6 (FIRE-3/SNES-X) */
+    NULL,         /* NO mapping of pin 7 (SNES-Y) */
+    NULL,         /* NO mapping of pin 8 (SNES-LB) */
+    NULL,         /* NO mapping of pin 9 (SNES-RB) */
+    NULL,         /* NO mapping of pin 10 (SNES-SELECT) */
+    NULL,         /* NO mapping of pin 11 (SNES-START) */
+    NULL,         /* NO mapping of pot 1 (POT-X) */
+    NULL          /* NO mapping of pot 2 (POT-Y) */
+};
+
+static joyport_mapping_t joystick_no_pot_mapping = {
+    "Joystick",   /* name of the device */
+    "Up",         /* name for the mapping of pin 0 (UP) */
+    "Down",       /* name for the mapping of pin 1 (DOWN) */
+    "Left",       /* name for the mapping of pin 2 (LEFT) */
+    "Right",      /* name for the mapping of pin 3 (RIGHT) */
+    "Fire",       /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
+    NULL,         /* NO mapping of pin 5 (FIRE-2/SNES-B) */
+    NULL,         /* NO mapping of pin 6 (FIRE-3/SNES-X) */
+    NULL,         /* NO mapping of pin 7 (SNES-Y) */
+    NULL,         /* NO mapping of pin 8 (SNES-LB) */
+    NULL,         /* NO mapping of pin 9 (SNES-RB) */
+    NULL,         /* NO mapping of pin 10 (SNES-SELECT) */
+    NULL,         /* NO mapping of pin 11 (SNES-START) */
+    NULL,         /* NO mapping of pot 1 (POT-X) */
+    NULL          /* NO mapping of pot 2 (POT-Y) */
+};
+
+static joyport_mapping_t snes_mapping = {
+    "SNES Pad",     /* name of the device */
+    "D-Pad Up",     /* name for the mapping of pin 0 (UP) */
+    "D-Pad Down",   /* name for the mapping of pin 1 (DOWN) */
+    "D-Pad Left",   /* name for the mapping of pin 2 (LEFT) */
+    "D-Pad Right",  /* name for the mapping of pin 3 (RIGHT) */
+    "A Button",     /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
+    "B Button",     /* name for the mapping of pin 5 (FIRE-2/SNES-B) */
+    "X Button",     /* name for the mapping of pin 6 (FIRE-3/SNES-X) */
+    "Y Button",     /* name for the mapping of pin 7 (SNES-Y) */
+    "Left Bumber",  /* name for the mapping of pin 8 (SNES-LB) */
+    "Right Bumper", /* name for the mapping of pin 9 (SNES-RB) */
+    "Select",       /* name for the mapping of pin 10 (SNES-SELECT) */
+    "Start",        /* name for the mapping of pin 11 (SNES-START) */
+    NULL,           /* NO mapping of pot 1 (POT-X) */
+    NULL            /* NO mapping of pot 2 (POT-Y) */
+};
+
+void joystick_set_snes_mapping(int port)
+{
+    joyport_set_mapping(&snes_mapping, port);
+}
+
 static int joyport_enable_joystick(int port, int val)
 {
     joyport_joystick[port] = (val) ? 1 : 0;
+    joyport_mapping_t *mapping = NULL;
+
+    if (val) {
+        if (port == JOYPORT_1 || port == JOYPORT_2 || (port == JOYPORT_6 && machine_class == VICE_MACHINE_PLUS4)) {
+            if (joyport_port_has_pot(port)) {
+                mapping = &joystick_mapping;
+            } else {
+                mapping = &joystick_no_pot_mapping;
+            }
+        } else {
+            if (joystick_adapter_is_snes()) {
+                mapping = &snes_mapping;
+            } else {
+                mapping = &joystick_no_pot_mapping;
+            }
+        }
+        joyport_set_mapping(mapping, port);
+    } else {
+        joyport_clear_mapping(port);
+    }
+
     return 0;
 }
 

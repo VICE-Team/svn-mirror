@@ -119,6 +119,9 @@ static int joyport_protopad_enable(int port, int value)
         rapid_button[port] = 0;
         permanent_rapid[port] = 0;
         rapid_speed[port] = 0;
+        joystick_set_snes_mapping(port);
+    } else {
+        joyport_clear_mapping(port);
     }
 
     protopad_enabled[port] = val;

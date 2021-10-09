@@ -79,6 +79,9 @@ static int joyport_snespad_enable(int port, int value)
 
     if (val) {
         counter[port] = 0;
+        joystick_set_snes_mapping(port);
+    } else {
+        joyport_clear_mapping(port);
     }
 
     snespad_enabled[port] = val;
