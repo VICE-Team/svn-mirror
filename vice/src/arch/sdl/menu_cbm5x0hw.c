@@ -1,5 +1,5 @@
 /*
- * menu_cbm2hw.c - CBM2 HW menu for SDL UI.
+ * menu_cbm5x0hw.c - CBM5x0 HW menu for SDL UI.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -33,7 +33,7 @@
 #include "cbm2mem.h"
 #include "cbm2model.h"
 #include "cia.h"
-#include "menu_cbm2hw.h"
+#include "menu_cbm5x0hw.h"
 #include "menu_common.h"
 #include "menu_joyport.h"
 #include "menu_joystick.h"
@@ -98,21 +98,18 @@ static UI_MENU_CALLBACK(select_cbm2_model_callback)
     return NULL;
 }
 
-static const ui_menu_entry_t cbm2_model_menu[] = {
-    { "CBM 610 (PAL)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_610_PAL },
-    { "CBM 610 (NTSC)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_610_NTSC },
-    { "CBM 620 (PAL)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_620_PAL },
-    { "CBM 620 (NTSC)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_620_NTSC },
-    { "CBM 620+ (PAL)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_620PLUS_PAL },
-    { "CBM 620+ (NTSC)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_620PLUS_NTSC },
-    { "CBM 710 (NTSC)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_710_NTSC },
-    { "CBM 720 (NTSC)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_720_NTSC },
-    { "CBM 720+ (NTSC)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_720PLUS_NTSC },
+static const ui_menu_entry_t cbm5x0_model_menu[] = {
+    { "CBM 510 (PAL)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_510_PAL },
+    { "CBM 510 (NTSC)", MENU_ENTRY_OTHER, select_cbm2_model_callback, (ui_callback_data_t)CBM2MODEL_510_NTSC },
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t cbm2_memory_menu[] = {
+static const ui_menu_entry_t cbm5x0_memory_menu[] = {
     SDL_MENU_ITEM_TITLE("CBM2 memory size"),
+    { "64KiB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_RamSize_callback,
+      (ui_callback_data_t)64 },
     { "128KiB",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RamSize_callback,
@@ -158,12 +155,16 @@ static const ui_menu_entry_t cbm2_memory_menu[] = {
     SDL_MENU_LIST_END
 };
 
-const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
+const ui_menu_entry_t cbm5x0_hardware_menu[] = {
     { "Select CBM2 model",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
-      (ui_callback_data_t)cbm2_model_menu },
+      (ui_callback_data_t)cbm5x0_model_menu },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Tape port devices",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tapeport_devices_menu },
     { "Joyport settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -171,12 +172,12 @@ const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)joystick_userport_cbm2_menu },
+      (ui_callback_data_t)joystick_menu },
 #ifdef HAVE_MOUSE
     { "Mouse emulation",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)mouse_grab_menu },
+      (ui_callback_data_t)mouse_menu },
 #endif
     { "SID settings",
       MENU_ENTRY_SUBMENU,
@@ -197,20 +198,12 @@ const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
     { "CBM2 memory setting",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)cbm2_memory_menu },
+      (ui_callback_data_t)cbm5x0_memory_menu },
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)rs232_nouser_menu },
 #endif
-    { "Userport settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)userport_menu },
-    { "Tape port devices",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)tapeport_devices_menu },
     SDL_MENU_LIST_END
 };

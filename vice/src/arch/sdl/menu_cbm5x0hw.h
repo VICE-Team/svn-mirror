@@ -1,5 +1,5 @@
 /*
- * menu_cbm2hw.h - CBM2 HW menu for SDL UI.
+ * menu_cbm5x0hw.h - CBM5x0 HW menu for SDL UI.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -31,6 +31,6 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t cbm6x0_7x0_hardware_menu[];
+extern const ui_menu_entry_t cbm5x0_hardware_menu[];
 
 #endif
