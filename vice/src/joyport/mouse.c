@@ -852,6 +852,62 @@ static int joyport_mouse_enable(int port, int val)
     return 0;
 }
 
+static joyport_mapping_t paddles_mapping =  {
+    "Paddle",   /* name of the device */
+    NULL,       /* NO mapping of pin 0 (UP) */
+    NULL,       /* NO mapping of pin 1 (DOWN) */
+    NULL,       /* NO mapping of pin 2 (LEFT) */
+    NULL,       /* NO mapping of pin 3 (RIGHT) */
+    "Button 1", /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
+    "Button 2", /* name for the mapping of pin 5 (FIRE-2/SNES-B) */
+    NULL,       /* NO mapping of pin 6 (FIRE-3/SNES-X) */
+    NULL,       /* NO mapping of pin 7 (SNES-Y) */
+    NULL,       /* NO mapping of pin 8 (SNES-LB) */
+    NULL,       /* NO mapping of pin 9 (SNES-RB) */
+    NULL,       /* NO mapping of pin 10 (SNES-SELECT) */
+    NULL,       /* NO mapping of pin 11 (SNES-START) */
+    "Paddle 1", /* name for the mapping of pot 1 (POT-X) */
+    "Paddle 2"  /* name for the mapping of pot 2 (POT-Y) */
+};
+
+static int joyport_paddles_enable(int port, int val)
+{
+    if (val) {
+        joyport_set_mapping(&paddles_mapping, port);
+    } else {
+        joyport_clear_mapping(port);
+    }
+    return joyport_mouse_enable(port, val);
+}
+
+static joyport_mapping_t mf_mapping =  {
+    "Microflyte Joystick", /* name of the device on the port */
+    "Throttle Up",         /* name for the mapping of pin 0 (UP) */
+    "Throttle Down",       /* name for the mapping of pin 1 (DOWN) */
+    "Brake",               /* name for the mapping of pin 2 (LEFT) */
+    "Flaps",               /* name for the mapping of pin 3 (RIGHT) */
+    "Reset",               /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
+    NULL,                  /* NO mapping of pin 5 (FIRE-2/SNES-B) */
+    NULL,                  /* NO mapping of pin 6 (FIRE-3/SNES-X) */
+    NULL,                  /* NO mapping of pin 7 (SNES-Y) */
+    NULL,                  /* NO mapping of pin 8 (SNES-LB) */
+    NULL,                  /* NO mapping of pin 9 (SNES-RB) */
+    NULL,                  /* NO mapping of pin 10 (SNES-SELECT) */
+    NULL,                  /* NO mapping of pin 11 (SNES-START) */
+    "Up/Down",             /* name for the mapping of pot 1 (POT-X) */
+    "Left/Right"           /* name for the mapping of pot 2 (POT-Y) */
+};
+
+static int joyport_mf_enable(int port, int val)
+{
+    if (val) {
+        joyport_set_mapping(&mf_mapping, port);
+    } else {
+        joyport_clear_mapping(port);
+    }
+    return joyport_mouse_enable(port, val);
+}
+
 static uint8_t joyport_mouse_value(int port)
 {
     return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
@@ -915,7 +971,7 @@ static joyport_t paddles_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_PADDLES,   /* device is a Paddle */
     0,                        /* NO output bits */
-    joyport_mouse_enable,     /* device enable function */
+    joyport_paddles_enable,   /* device enable function */
     joyport_paddles_value,    /* digital line read function */
     NULL,                     /* NO digital line store function */
     mouse_get_paddle_x,       /* pot-x read function */
@@ -936,7 +992,7 @@ static joyport_t mf_joystick_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_PADDLES,    /* device is a Paddle */
     0,                         /* NO output bits */
-    joyport_mouse_enable,      /* device enable function */
+    joyport_mf_enable,         /* device enable function */
     joyport_mf_joystick_value, /* digital line read function */
     NULL,                      /* NO digital line store function */
     mouse_get_paddle_x,        /* pot-x read function */
