@@ -266,6 +266,40 @@ typedef struct joyport_port_props_s {
     int active;              /* flag to indicate if the port is currently active */
 } joyport_port_props_t;
 
+extern int joyport_port_has_pot(int port);
+
+#define MAX_MAPPING_STRINGS   15   /* this includes the first item, which is not a mapping pin/pot */
+
+/* this structure is used for host joystick to emulated input device mappings */
+typedef struct joyport_mapping_s {
+    char *name;   /* name of the device on the port */
+    char *pin0;   /* name for the mapping of pin 0 (UP) */
+    char *pin1;   /* name for the mapping of pin 1 (DOWN) */
+    char *pin2;   /* name for the mapping of pin 2 (LEFT) */
+    char *pin3;   /* name for the mapping of pin 3 (RIGHT) */
+    char *pin4;   /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
+    char *pin5;   /* name for the mapping of pin 5 (FIRE-2/SNES-B) */
+    char *pin6;   /* name for the mapping of pin 6 (FIRE-3/SNES-X) */
+    char *pin7;   /* name for the mapping of pin 7 (SNES-Y) */
+    char *pin8;   /* name for the mapping of pin 8 (SNES-LB) */
+    char *pin9;   /* name for the mapping of pin 9 (SNES-RB) */
+    char *pin10;  /* name for the mapping of pin 10 (SNES-SELECT) */
+    char *pin11;  /* name for the mapping of pin 11 (SNES-START) */
+    char *pot1;   /* name for the mapping of pot 1 (POT-X) */
+    char *pot2;   /* name for the mapping of pot 2 (POT-Y) */
+} joyport_mapping_t;
+
+/* this union is to provide array access to the mapping strings */
+union joyport_mapping_u {
+    joyport_mapping_t **map_strings;
+    char *map_array[MAX_MAPPING_STRINGS];
+};
+
+extern void joyport_set_mapping(joyport_mapping_t *mapping, int port);
+extern void joyport_clear_mapping(int port);
+extern int joyport_has_mapping(int port);
+extern joyport_mapping_t *joyport_get_mapping(int port);
+
 extern int joyport_device_register(int id, joyport_t *device);
 
 extern uint8_t read_joyport_dig(int port);
@@ -296,6 +330,7 @@ extern char *joystick_adapter_get_name(void);
 extern uint8_t joystick_adapter_get_id(void);
 extern uint8_t joystick_adapter_activate(uint8_t id, char *name);
 extern void joystick_adapter_deactivate(void);
+extern int joystick_adapter_is_snes(void);
 
 extern void joystick_adapter_set_ports(int ports);
 extern int joystick_adapter_get_ports(void);
