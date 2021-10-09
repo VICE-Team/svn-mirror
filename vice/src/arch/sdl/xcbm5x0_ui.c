@@ -59,7 +59,6 @@
 #include "menu_sound.h"
 #include "menu_speed.h"
 #include "menu_tape.h"
-#include "menu_userport.h"
 #include "menu_video.h"
 #include "resources.h"
 #include "ui.h"
@@ -231,7 +230,6 @@ int cbm5x0ui_init(void)
     sdl_ui_set_menu_params = cbm5x0ui_set_menu_params;
     /* p500 has 2 "real" joystickports, and a user port */
     uijoyport_menu_create(1, 1, 1, 1, 1);
-	uiuserport_menu_create(1);
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
