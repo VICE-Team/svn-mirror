@@ -93,6 +93,8 @@ libarch_a_SOURCES = \
 	menu_cbm2cart.h \
 	menu_cbm2hw.c \
 	menu_cbm2hw.h \
+	menu_cbm5x0hw.c \
+	menu_cbm5x0hw.h \
 	menu_common.c \
 	menu_common.h \
 	menu_debug.c \
