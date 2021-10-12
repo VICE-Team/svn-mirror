@@ -993,6 +993,16 @@ unsigned int drive_check_dual(unsigned int type)
     return 0;
 }
 
+unsigned int drive_get_num_heads(unsigned int type)
+{
+    return 0;
+}
+
+unsigned int drive_get_half_tracks(unsigned int type)
+{
+    return 0;
+}
+
 userport_desc_t *userport_get_valid_devices(int sort)
 {
     return NULL;

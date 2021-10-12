@@ -99,6 +99,9 @@
 /** \brief  Timeout for statusbar messages in seconds */
 #define MESSAGE_TIMEOUT 5
 
+/** \brief  Maximum length for drive unit status string */
+#define DRIVE_UNIT_STR_MAX_LEN 8
+
 /** \brief  Maximum length for drive track status string */
 #define DRIVE_TRACK_STR_MAX_LEN 16
 
@@ -202,6 +205,12 @@ typedef struct ui_sb_state_s {
 
     /** \brief true if a drive led has been changed */
     bool current_drive_leds_updated[NUM_DISK_UNITS][2][2];
+
+    /** \brief unit:drive label for each unit and its drives */
+    char current_drive_unit_str[NUM_DISK_UNITS][2][DRIVE_UNIT_STR_MAX_LEN];
+
+    /** \brief true if a drive unit string has been changed */
+    bool current_drive_unit_str_updated[NUM_DISK_UNITS][2];
 
     /** \brief device:track.halftrack label for each unit and its drives */
     char current_drive_track_str[NUM_DISK_UNITS][2][DRIVE_TRACK_STR_MAX_LEN];
@@ -1184,13 +1193,13 @@ static GtkWidget *ui_drive_widget_create(int unit)
 
         g_snprintf(drive_id,
                    sizeof(drive_id),
-                   "%d:%d:",
+                   "%d:%d",
                    unit + DRIVE_UNIT_MIN,
                    drive_num);
         number = gtk_label_new(drive_id);
         gtk_widget_set_halign(number, GTK_ALIGN_START);
 
-        track = gtk_label_new("18.5");
+        track = gtk_label_new(" - 18.5");
         gtk_widget_set_hexpand(track, TRUE);
         gtk_widget_set_halign(track, GTK_ALIGN_END);
 
@@ -2166,6 +2175,7 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int half_track_number)
 {
     ui_sb_state_t *sb_state;
+    int doubleside, dualdrive, halftracks_per_side, side;
 
     /* Ok to call from VICE thread */
 
@@ -2175,12 +2185,52 @@ void ui_display_drive_track(unsigned int drive_number,
     }
 
     sb_state = lock_sb_state();
+    doubleside = drive_get_num_heads(sb_state->drives_type[drive_number]) == 2 ? 1 : 0;
+    dualdrive = drive_check_dual(sb_state->drives_type[drive_number]);
 
-    snprintf(
-        sb_state->current_drive_track_str[drive_number][drive_base],
-        DRIVE_TRACK_STR_MAX_LEN - 1,
-        "%.1lf",
-        half_track_number / 2.0);
+    if (dualdrive) {
+        snprintf(
+            sb_state->current_drive_unit_str[drive_number][drive_base],
+            DRIVE_UNIT_STR_MAX_LEN - 1,
+            "%u:%u",
+            drive_number + 8,
+            drive_base);
+    } else {
+        snprintf(
+            sb_state->current_drive_unit_str[drive_number][drive_base],
+            DRIVE_UNIT_STR_MAX_LEN - 1,
+            "%u",
+            drive_number + 8);
+    }
+    sb_state->current_drive_unit_str[drive_number][drive_base][DRIVE_UNIT_STR_MAX_LEN - 1] = '\0';
+    sb_state->current_drive_unit_str_updated[drive_number][drive_base] = true;
+
+    /* for doublesided drives, determine the physical side and correct the track number if needed */
+    if (doubleside) {
+        halftracks_per_side = drive_get_half_tracks(sb_state->drives_type[drive_number]);
+        side = 1;
+        if (half_track_number > halftracks_per_side) {
+            half_track_number -= halftracks_per_side;
+            side = 2;
+        }
+    }
+
+    /* only indicate the side for side 2 here, else we will always see side 1 for drives
+       that do not use logical tracks > physical tracks (eg 1581) */
+    if (doubleside && (side == 2)) {
+        snprintf(
+            sb_state->current_drive_track_str[drive_number][drive_base],
+            DRIVE_TRACK_STR_MAX_LEN - 1,
+            " - 2:%.1lf",
+            half_track_number / 2.0);
+    } else {
+        snprintf(
+            sb_state->current_drive_track_str[drive_number][drive_base],
+            DRIVE_TRACK_STR_MAX_LEN - 1,
+            " - %.1lf",
+            half_track_number / 2.0);
+    }
+
     sb_state->current_drive_track_str[drive_number][drive_base][DRIVE_TRACK_STR_MAX_LEN - 1] = '\0';
     sb_state->current_drive_track_str_updated[drive_number][drive_base] = true;
 
@@ -2372,7 +2422,7 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
 void ui_update_statusbars(void)
 {
     /* TODO: Don't call this for each top level window as it updates all statusbars */
-    GtkWidget *speed_widget, *tape_counter, *drive, *track, *led;
+    GtkWidget *speed_widget, *tape_counter, *drive, *track, *led, *driveunit;
     ui_statusbar_t *bar;
     int i, j;
     ui_sb_state_t *sb_state;
@@ -2459,6 +2509,14 @@ void ui_update_statusbars(void)
                     if (track) {
                         gtk_label_set_text(GTK_LABEL(track),
                                            state_snapshot.current_drive_track_str[j][d]);
+                    }
+                }
+
+                if (state_snapshot.current_drive_unit_str_updated[j][d]) {
+                    driveunit = gtk_grid_get_child_at(GTK_GRID(drive), 0, d);
+                    if (driveunit) {
+                        gtk_label_set_text(GTK_LABEL(driveunit),
+                                           state_snapshot.current_drive_unit_str[j][d]);
                     }
                 }
 
