@@ -30,7 +30,7 @@
 
 #include "netexpect.h"
 
-#define QUEUE_GROWTH_AMOUNT 1
+#define QUEUE_INITIAL_SIZE 3
 
 typedef struct expected_data_s {
     void *destination;
@@ -62,9 +62,9 @@ netexpect_t *netexpect_new(
     netexpect->available_callback   = available_callback;
     netexpect->recv_callback        = recv_callback;
     netexpect->callback_context     = callback_context;
-    netexpect->queue_base           = malloc(QUEUE_GROWTH_AMOUNT * sizeof(expected_data_t));
-    netexpect->queue_alloc_size     = QUEUE_GROWTH_AMOUNT;
-    netexpect->queue_free           = QUEUE_GROWTH_AMOUNT;
+    netexpect->queue_base           = malloc(QUEUE_INITIAL_SIZE * sizeof(expected_data_t));
+    netexpect->queue_alloc_size     = QUEUE_INITIAL_SIZE;
+    netexpect->queue_free           = QUEUE_INITIAL_SIZE;
     netexpect->queue_head_offset    = 0;
     netexpect->queue_length         = 0;
     
@@ -74,6 +74,7 @@ netexpect_t *netexpect_new(
 static expected_data_t *next_unused(netexpect_t *netexpect, unsigned int how_many)
 {
     expected_data_t *tail;
+    unsigned int grow_by;
     
     /*
      * Returns a pointer to how_many expected_data_t at the tail of the queue.
@@ -81,11 +82,12 @@ static expected_data_t *next_unused(netexpect_t *netexpect, unsigned int how_man
     
     if (netexpect->queue_free < how_many) {
         /* We need to grow the queue. TODO: If offset is 'big', memmove instead. */
-        netexpect->queue_alloc_size += QUEUE_GROWTH_AMOUNT;
+        grow_by = how_many - netexpect->queue_free;
+        netexpect->queue_alloc_size += grow_by;
         netexpect->queue_base =
             realloc(netexpect->queue_base,
                     netexpect->queue_alloc_size * sizeof(expected_data_t));
-        netexpect->queue_free += QUEUE_GROWTH_AMOUNT;
+        netexpect->queue_free += grow_by;
     }
     
     tail = netexpect->queue_base + netexpect->queue_head_offset + netexpect->queue_length;
