@@ -58,7 +58,12 @@ static void on_connected(uiclient_t *uiclient, uint32_t emulator)
 
 static void on_screen_available(uiclient_t *uiclient, char *chip_name)
 {
-    INFO("Screen available: %s", chip_name);
+    INFO("Screen available: %s, subscribing", chip_name);
+    
+    uiclient_subscribe_screen(uiclient, chip_name);
+    uiclient_subscribe_screen(uiclient, chip_name);
+    uiclient_unsubscribe_screen(uiclient, chip_name);
+    uiclient_subscribe_screen(uiclient, chip_name);
 }
 
 int main(int argc, char **argv)

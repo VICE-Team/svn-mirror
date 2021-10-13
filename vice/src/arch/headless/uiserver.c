@@ -43,13 +43,17 @@ typedef struct client_s {
     uiprotocol_client_hello_t client_hello;
     
     uint8_t recieved_message;
+    uint16_t recieved_string_size;
+    char recieved_string[UI_PROTOCOL_V1_STRING_MAX + 1];
 } client_t;
 
 /* Represents a single video output, such as VICII or VDC. */
 typedef struct screen_s {
     char *chip_name;
     video_canvas_t *canvas;
-    client_t *clients;
+    client_t **subscribed_clients;
+    unsigned int subscribed_clients_alloc_size;
+    unsigned int subscribed_client_count;
 } screen_t;
 
 static vice_network_socket_t *server_socket;
@@ -75,15 +79,21 @@ static void build_server_hello(void);
 static void rebuild_poll_fds(void);
 static void disconnect_client(client_t *client);
 static void remove_disconnected_clients(void);
+static void remove_screen_subscription(client_t *client, screen_t *screen);
+
+static screen_t *find_screen(char *chip_name);
 
 static void send_byte(client_t *client, uint8_t byte);
 static void send_string(client_t *client, char *str);
+
 static void advertise_screen(client_t *client, int screen_index);
 static void advertise_all_screens(client_t *client);
 
 static void handle_client_hello(void *context);
 static void handle_post_hello_message(void *context);
 static void handle_client_message(void *context);
+static void handle_subscribe_screen(void *context);
+static void handle_unsubscribe_screen(void *context);
 
 int uiserver_init(void)
 {
@@ -142,8 +152,11 @@ void uiserver_add_screen(video_canvas_t *canvas)
 
     screens = lib_realloc(screens, screen_count * sizeof(screen_t));
 
-    screens[new_screen_index].chip_name = lib_strdup(canvas->videoconfig->chip_name);
-    screens[new_screen_index].canvas = canvas;
+    screens[new_screen_index].chip_name                     = lib_strdup(canvas->videoconfig->chip_name);
+    screens[new_screen_index].canvas                        = canvas;
+    screens[new_screen_index].subscribed_clients            = NULL;
+    screens[new_screen_index].subscribed_clients_alloc_size = 0;
+    screens[new_screen_index].subscribed_client_count       = 0;
     
     /*
      * TODO: If any clients are connected already, notify them of the new screen.
@@ -315,7 +328,11 @@ void uiserver_shutdown(void)
     
     for (i = 0; i < screen_count; i++) {
         lib_free(screens[i].chip_name);
-        screens[i].chip_name = NULL;
+        screens[i].chip_name                        = NULL;
+        lib_free(screens[i].subscribed_clients);
+        screens[i].subscribed_clients               = NULL;
+        screens[i].subscribed_clients_alloc_size    = 0;
+        screens[i].subscribed_client_count          = 0;
     }
     
     lib_free(screens);
@@ -376,12 +393,16 @@ static void remove_disconnected_clients(void)
             continue;
         }
         
+        /* remove any screen subscriptions */
+        for (j = 0; j < screen_count; j++) {
+            remove_screen_subscription(&clients[i], &screens[i]);
+        }
+        
         /* remove the client from the array, shift newer clients back an index */
         for (j = i; j < client_count - 1; j++) {
             clients[j] = clients[j + 1];
         }
         client_count--;
-        
         memset(&clients[j], 0, sizeof(client_t));
         
         /* Recheck this index */
@@ -456,6 +477,19 @@ static void advertise_all_screens(client_t *client)
     }
 }
 
+static screen_t *find_screen(char *chip_name)
+{
+    int i;
+    
+    for (i = 0; i < screen_count; i++) {
+        if (!strcmp(chip_name, screens[i].chip_name)) {
+            return &screens[i];
+        }
+    }
+    
+    return NULL;
+}
+
 static void handle_client_hello(void *context)
 {
     client_t *client = (client_t*)context;
@@ -489,11 +523,98 @@ static void handle_client_hello(void *context)
     }
 }
 
+static void handle_subscribe_screen(void *context)
+{
+    client_t *client = (client_t*)context;
+    screen_t *screen;
+    int i;
+    
+    netexpect_u8(client->netexpect, &client->recieved_message, handle_post_hello_message, client);
+    
+    screen = find_screen(client->recieved_string);
+    if (!screen) {
+        log_error(LOG_DEFAULT, "Client %d attempting to subscribe to invalid screen: %s", client->id, client->recieved_string);
+        return;
+    }
+    
+    /* Client is requesting a valid screen */
+    for(i = 0; i < screen->subscribed_client_count; i++) {
+        if (screen->subscribed_clients[i] == client) {
+            log_error(LOG_DEFAULT, "Client %d attempting to resubscribe to screen: %s", client->id, client->recieved_string);
+            return;
+        }
+    }
+    
+    if (screen->subscribed_client_count == screen->subscribed_clients_alloc_size) {
+        /* Increase space allocated for screen subscriptions */
+        screen->subscribed_clients_alloc_size++;
+        screen->subscribed_clients = lib_realloc(screen->subscribed_clients,
+                                                 screen->subscribed_clients_alloc_size * sizeof(client_t*));
+    }
+    
+    /* Store the newly subscribed client */
+    screen->subscribed_clients[screen->subscribed_client_count++] = client;
+    
+    log_message(LOG_DEFAULT, "Client %d subscribed to screen: %s", client->id, client->recieved_string);
+}
+
+static void remove_screen_subscription(client_t *client, screen_t *screen)
+{
+    int i, j;
+    
+    for (i = 0; i < screen->subscribed_client_count; i++) {
+        if (client == screen->subscribed_clients[i]) {
+            /* remove the client from the array, shift newer clients back an index */
+            for (j = i; j < screen->subscribed_client_count - 1; j++) {
+                screen->subscribed_clients[j] = screens->subscribed_clients[j + 1];
+            }
+            screens->subscribed_client_count--;
+            screens->subscribed_clients[j] = NULL;
+            log_message(LOG_DEFAULT, "Client %d unsubscribed from screen: %s", client->id, screen->chip_name);
+            return;
+        }
+    }
+}
+
+static void handle_unsubscribe_screen(void *context)
+{
+    client_t *client = (client_t*)context;
+    screen_t *screen;
+    
+    netexpect_u8(client->netexpect, &client->recieved_message, handle_post_hello_message, client);
+    
+    screen = find_screen(client->recieved_string);
+    if (!screen) {
+        log_error(LOG_DEFAULT, "Client %d attempting to unsubscribe from invalid screen: %s", client->id, client->recieved_string);
+        return;
+    }
+    
+    remove_screen_subscription(client, screen);
+}
+
 static void handle_post_hello_message(void *context)
 {
     client_t *client = (client_t*)context;
     
     switch (client->recieved_message) {
+            
+        case UI_PROTOCOL_V1_SUBSCRIBE_SCREEN:
+            /* Expect a string: chip_name */
+            netexpect_u16_prefixed_string(client->netexpect,
+                                          client->recieved_string,
+                                          &client->recieved_string_size,
+                                          handle_subscribe_screen,
+                                          client);
+            break;
+        
+        case UI_PROTOCOL_V1_UNSUBSCRIBE_SCREEN:
+            /* Expect a string: chip_name */
+            netexpect_u16_prefixed_string(client->netexpect,
+                                          client->recieved_string,
+                                          &client->recieved_string_size,
+                                          handle_unsubscribe_screen,
+                                          client);
+            break;
 
         case UI_PROTOCOL_V1_CLIENT_IS_READY:
             /*

@@ -45,6 +45,9 @@ bool uiclient_connect(uiclient_t *uiclient, uint16_t server_port);
 /* Request ongoing updates from the named screen */
 void uiclient_subscribe_screen(uiclient_t *uiclient, char *chip_name);
 
+/* Request no more updates from the named screen */
+void uiclient_unsubscribe_screen(uiclient_t *uiclient, char *chip_name);
+
 /* Perform network IO. Callbacks may be called. */
 void uiclient_poll(uiclient_t *uiclient);
 

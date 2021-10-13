@@ -34,6 +34,9 @@
 static int socket_recv(void *context, void *buffer, unsigned int size);
 static int socket_available(void *context);
 
+static void send_byte(uiclient_t *uiclient, uint8_t byte);
+static void send_string(uiclient_t *uiclient, char *str);
+
 typedef void (*recv_message_t)(uiclient_t *uiclient, void *recieved_buffer);
 
 typedef struct uiclient_s {
@@ -98,6 +101,17 @@ bool uiclient_connect(uiclient_t *uiclient, uint16_t server_port)
 void uiclient_subscribe_screen(uiclient_t *uiclient, char *chip_name)
 {
     INFO("Subscribing to screen %s", chip_name);
+    
+    send_byte(uiclient, UI_PROTOCOL_V1_SUBSCRIBE_SCREEN);
+    send_string(uiclient, chip_name);
+}
+
+void uiclient_unsubscribe_screen(uiclient_t *uiclient, char *chip_name)
+{
+    INFO("Unsubscribing from screen %s", chip_name);
+    
+    send_byte(uiclient, UI_PROTOCOL_V1_UNSUBSCRIBE_SCREEN);
+    send_string(uiclient, chip_name);
 }
 
 void uiclient_poll(uiclient_t *uiclient)
@@ -150,6 +164,29 @@ void uiclient_destroy(uiclient_t *uiclient)
 static void send_byte(uiclient_t *uiclient, uint8_t byte)
 {
     uiclient_network_send(uiclient->socket, &byte, 1);
+}
+
+static void send_string(uiclient_t *uiclient, char *str)
+{
+    size_t full_strlen;
+    uint16_t message_strlen;
+    
+    /*
+     * Max protocol string length is 64 kilobytes - 1
+     */
+    
+    full_strlen = strlen(str);
+    
+    if (full_strlen > UI_PROTOCOL_V1_STRING_MAX) {
+        ERR("Fatal attempt to send string of length %zu", full_strlen);
+        uiclient->on_disconnected(uiclient);
+        return;
+    }
+    
+    message_strlen = (uint16_t)full_strlen;
+    
+    uiclient_network_send(uiclient->socket, &message_strlen, sizeof(message_strlen));
+    uiclient_network_send(uiclient->socket, str, message_strlen);
 }
 
 static const char *emulator_name(uint32_t emulator)

@@ -97,8 +97,15 @@ typedef struct uiprotocol_client_hello_s {
  */
 #define UI_PROTOCOL_V1_SUBSCRIBE_SCREEN     0
 
+/*
+ * The client would like to stop recieving updates relating to the specified screen.
+ *
+ * string: chip_name
+ */
+#define UI_PROTOCOL_V1_UNSUBSCRIBE_SCREEN   1
+
 /* This client is ready for emulation to begin or resume */
-#define UI_PROTOCOL_V1_CLIENT_IS_READY      1
+#define UI_PROTOCOL_V1_CLIENT_IS_READY      2
 
 /**********************************
  * Messages from server to client *
