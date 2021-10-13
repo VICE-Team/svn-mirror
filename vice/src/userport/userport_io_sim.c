@@ -51,8 +51,6 @@
 #include "userport_io_sim.h"
 #include "machine.h"
 
-#ifdef IO_SIMULATION
-
 static int userport_io_sim_enabled = 0;
 
 #ifndef HOST_HARDWARE_IO
@@ -551,5 +549,4 @@ fail:
     snapshot_module_close(m);
     return -1;
 }
-#endif
 #endif

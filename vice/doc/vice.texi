@@ -5511,8 +5511,7 @@ Enable/disable virtual devices
 
 The VICE emulators can emulate the RS232 device most of the machines
 have.  The C64, C128 and VIC20 emulators emulate the userport RS232
-interface at 300, 1200 and 2400 baud.  The C64 and C128 can also use the 9600
-baud interface by Daniel Dallmann, using the shift registers of the two
+interface from 300 to 57600 baud.  The C64 can also use the UP9600 interface by Daniel Dallmann, using the shift registers of the two
 CIA 6526 chips.  The PET can have a 6551 ACIA RS232 interface when
 running as a SuperPET, and the CBM-II has such an ACIA by default.  The
 C64 and C128 emulators can emulate an ACIA 6551 (also known as Swithlink, Datapump
@@ -5640,9 +5639,29 @@ Integer specifying which interrupt to use (x64, x64sc, xscpu64, xvic and x128 on
 
 @table @code
 
-@vindex RsUserEnable
-@item RsUserEnable
-Boolean specifying if the user-port RS232 interface is being emulated
+@vindex RsUserUP9600
+@item RsUserUP9600
+Boolean specifying if the user-port RS232 interface is of the UP9600 type.
+(C64 only).
+
+@vindex RsUserRTSInv
+@item RsUserRTSInv
+Boolean specifying if the user-port RS232 Request to Send (RTS) flow control line is inverted.
+(C64, C128 and VIC20).
+
+@vindex RsUserCTSInv
+@item RsUserCTSInv
+Boolean specifying if the user-port RS232 Clear to Send (CTS) flow control line is inverted.
+(C64, C128 and VIC20).
+
+@vindex RsUserDSRInv
+@item RsUserDSRInv
+Boolean specifying if the user-port RS232 Data Set Ready (DSR) control line is inverted.
+(C64, C128 and VIC20).
+
+@vindex RsUserDCDInv
+@item RsUserDCDInv
+Boolean specifying if the user-port RS232 Data Carrier Detect (DCD) control line is inverted.
 (C64, C128 and VIC20).
 
 @vindex RsUserBaud
@@ -5752,11 +5771,30 @@ Set the ACIA interrupt
 
 @table @code
 
-@findex -rsuser, +rsuser
-@item -rsuser
-@itemx +rsuser
-Enable or disable emulation of the
-userport RS232 emulation (@code{RsUser}; C64, C128 and VIC20)
+@findex -rsuserup9600, +rsuserup9600
+@item -rsuserup9600
+@itemx +rsuserup9600
+Enable or disable the userport RS232 UP9600 emulation (@code{RsUserUP9600}; C64 only)
+
+@findex -rsuserrtsinv, +rsuserrtsinv
+@item -rsuserrtsinv
+@itemx +rsuserrtsinv
+Enable or disable inversion of the userport RS232 emulation Request To Send (RTS) flow control line.
+
+@findex -rsuserctsinv, +rsuserctsinv
+@item -rsuserctsinv
+@itemx +rsuserctsinv
+Enable or disable inversion of the userport RS232 emulation Clear To Send (CTS) flow control line.
+
+@findex -rsuserdsrinv, +rsuserdsrinv
+@item -rsuserdsrinv
+@itemx +rsuserdsrinv
+Enable or disable inversion of the userport RS232 emulation Data Set Ready (DSR) control line.
+
+@findex -rsuserdcdinv, +rsuserdcdinv
+@item -rsuserdcdinv
+@itemx +rsuserdcdinv
+Enable or disable inversion of the userport RS232 emulation Data Carrier Detect (DCD) control line.
 
 @findex -rsuserbaud
 @item -rsuserbaud <baud>
@@ -17031,8 +17069,9 @@ chip at the respective (base-)address are displayed (if available).
 
 @item next [<count>]
 @itemx n [<count>]
-Advance to the next instruction.  Subroutines are treated as a single
-instruction.
+Advance to the next instruction(s).  COUNT allows stepping
+more than a single instruction at a time. Subroutines are
+treated as a single instruction ("step over").
 
 @item registers [<reg_name> = <number> [, <reg_name> = <number>]*]
 @itemx r [<reg_name> = <number> [, <reg_name> = <number>]*]
@@ -17045,13 +17084,13 @@ Reset the machine or drive.
 
 @item return
 @itemx ret
-Continues execution  and returns to the monitor just
-after the next RTS or RTI is executed.
+Continues execution and returns to the monitor just after the next
+RTS or RTI is executed ("step out").
 
 @item step [<count>]
 @itemx z [<count>]
 Single step through instructions.  An optional count allows stepping
-more than a single instruction at a time.
+more than a single instruction at a time ("step into").
 
 @item stopwatch [reset]
 Print the CPU cycle counter of the current device. 'reset' sets the counter to 0.

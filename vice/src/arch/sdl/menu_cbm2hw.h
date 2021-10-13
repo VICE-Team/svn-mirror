@@ -31,7 +31,6 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t cbm5x0_hardware_menu[];
 extern const ui_menu_entry_t cbm6x0_7x0_hardware_menu[];
 
 #endif

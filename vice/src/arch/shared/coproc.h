@@ -28,10 +28,6 @@
 #ifndef VICE_COPROC_H
 #define VICE_COPROC_H
 
-#ifdef WIN32_COMPILE
-int fork_coproc(HANDLE *fd_wr, HANDLE *fd_rd, char *cmd);
-#else
 int fork_coproc(int *fd_wr, int *fd_rd, char *cmd);
-#endif
 
 #endif

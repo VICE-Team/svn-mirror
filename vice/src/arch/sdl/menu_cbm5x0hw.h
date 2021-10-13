@@ -1,8 +1,8 @@
 /*
- * drive-check.h
+ * menu_cbm5x0hw.h - CBM5x0 HW menu for SDL UI.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,14 +24,13 @@
  *
  */
 
-#ifndef VICE_DRIVE_CHECK_H
-#define VICE_DRIVE_CHECK_H
+#ifndef VICE_MENU_CBM2_H
+#define VICE_MENU_CBM2_H
 
-extern unsigned int drive_check_bus(unsigned int drive_type, unsigned int bus_map);
-extern unsigned int drive_check_old(unsigned int type);
-extern unsigned int drive_check_dual(unsigned int type);
+#include "vice.h"
+#include "types.h"
+#include "uimenu.h"
 
-extern unsigned int drive_get_num_heads(unsigned int type);
-extern unsigned int drive_get_half_tracks(unsigned int type);
+extern const ui_menu_entry_t cbm5x0_hardware_menu[];
 
 #endif

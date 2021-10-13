@@ -37,7 +37,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "menu_cbm2cart.h"
-#include "menu_cbm2hw.h"
+#include "menu_cbm5x0hw.h"
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"

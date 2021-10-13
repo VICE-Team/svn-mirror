@@ -145,14 +145,126 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
 
 #ifdef WIN32_COMPILE
 
-#include <windows.h>
-
 #include "archdep.h"
 #include "coproc.h"
+#include "lib.h"
 #include "log.h"
 
-int fork_coproc(HANDLE *fd_wr, HANDLE *fd_rd, char *cmd)
+#include <windows.h>
+#include <tchar.h>
+#include <string.h>
+#include <io.h>
+#include <fcntl.h>
+
+/* https://docs.microsoft.com/en-us/windows/win32/procthread/creating-a-child-process-with-redirected-input-and-output */
+
+/* https://marc.info/?l=apreq-dev&m=104840521714506 mentions some hackery we might need too */
+
+/* Create a child process that uses the previously created pipes for STDIN and STDOUT. */
+static int CreateChildProcess(
+    TCHAR *szCmdline,
+    HANDLE hChildStd_IN_Rd,
+    HANDLE hChildStd_OUT_Wr)
 {
+    PROCESS_INFORMATION piProcInfo; 
+    STARTUPINFO siStartInfo;
+    BOOL bSuccess = FALSE;
+
+    /* Set up members of the PROCESS_INFORMATION structure. */
+    ZeroMemory( &piProcInfo, sizeof(PROCESS_INFORMATION) );
+
+    /* Set up members of the STARTUPINFO structure. */
+    /* This structure specifies the STDIN and STDOUT handles for redirection. */
+    ZeroMemory( &siStartInfo, sizeof(STARTUPINFO) );
+    siStartInfo.cb = sizeof(STARTUPINFO); 
+    siStartInfo.hStdError = hChildStd_OUT_Wr;
+    siStartInfo.hStdOutput = hChildStd_OUT_Wr;
+    siStartInfo.hStdInput = hChildStd_IN_Rd;
+    siStartInfo.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    siStartInfo.wShowWindow = SW_HIDE;
+
+    /* Create the child process.  */
+    bSuccess = CreateProcess(NULL, 
+        szCmdline,     /* command line */
+        NULL,          /* process security attributes */
+        NULL,          /* primary thread security attributes */ 
+        TRUE,          /* handles are inherited */ 
+        0,             /* creation flags */ 
+        NULL,          /* use parent's environment */ 
+        NULL,          /* use parent's current directory */
+        &siStartInfo,  /* STARTUPINFO pointer */ 
+        &piProcInfo);  /* receives PROCESS_INFORMATION */ 
+
+    /* If an error occurs, exit */
+    if (!bSuccess) {
+        return -1;
+    } else {
+        /* Close handles to the child process and its primary thread.
+            Some applications might keep these handles to monitor the status
+            of the child process, for example. */
+        CloseHandle(piProcInfo.hProcess);
+        CloseHandle(piProcInfo.hThread);
+
+        /* Close handles to the stdin and stdout pipes no longer needed by the child process.
+            If they are not explicitly closed, there is no way to recognize that the child process has ended. */
+        CloseHandle(hChildStd_OUT_Wr);
+        CloseHandle(hChildStd_IN_Rd);
+    }
     return 0;
 }
+
+int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
+{
+    HANDLE hChildStd_IN_Rd = NULL;
+    HANDLE hChildStd_OUT_Wr = NULL;
+    HANDLE hChildStd_IN_Wr = NULL;
+    HANDLE hChildStd_OUT_Rd = NULL;
+    SECURITY_ATTRIBUTES saAttr;
+    char *cmdline;
+
+    /* Set the bInheritHandle flag so pipe handles are inherited.  */
+    saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+    saAttr.bInheritHandle = TRUE; 
+    saAttr.lpSecurityDescriptor = NULL; 
+
+    /* Create a pipe for the child process's STDOUT. */
+     if (!CreatePipe(&hChildStd_OUT_Rd, &hChildStd_OUT_Wr, &saAttr, 0)) {
+        return -1;
+    }
+
+    /* Ensure the read handle to the pipe for STDOUT is not inherited. */
+    if (!SetHandleInformation(hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0)) {
+        return -1;
+    }
+
+    /* Create a pipe for the child process's STDIN. */
+    if (!CreatePipe(&hChildStd_IN_Rd, &hChildStd_IN_Wr, &saAttr, 0)) { 
+        return -1;
+    }
+
+    /* Ensure the write handle to the pipe for STDIN is not inherited. */
+    if (!SetHandleInformation(hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0)) {
+        return -1;
+    }
+    
+    /* use a subshell to execute the given cmdline */
+    cmdline = lib_malloc(strlen(cmd) + 20);
+    strcpy(cmdline, "cmd.exe /C ");
+    strcat(cmdline, cmd);
+ 
+    /* Create the child process. */
+    if (CreateChildProcess(cmdline, hChildStd_IN_Rd, hChildStd_OUT_Wr) < 0) {
+        lib_free(cmdline);
+        return -1;
+    }
+    
+    lib_free(cmdline);
+
+    /* convert the windows HANDLEs to a regular file handle */
+    *fd_wr = _open_osfhandle((intptr_t)hChildStd_IN_Wr, _O_WRONLY | _O_BINARY);
+    *fd_rd = _open_osfhandle((intptr_t)hChildStd_OUT_Rd, _O_RDONLY | _O_BINARY);
+
+    return 0;
+}
+
 #endif

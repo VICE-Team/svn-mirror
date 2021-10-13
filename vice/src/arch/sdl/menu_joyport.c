@@ -59,6 +59,7 @@ static void sdl_menu_joyport_free(int port)
 
     for (i = 0; entry[i].string != NULL; i++) {
         lib_free(entry[i].string);
+        entry[i].string = NULL;
     }
 }
 
@@ -77,7 +78,7 @@ static const ui_callback_t uijoyport_device_callbacks[JOYPORT_MAX_PORTS] = {
 
 static const char *joyport_dynmenu_helper(int port)
 {
-    joyport_desc_t *devices = joyport_get_valid_devices(port, 1);
+    joyport_desc_t *devices = NULL;
     ui_menu_entry_t *entry = joyport_dyn_menu[port];
     int i;
 
@@ -88,21 +89,25 @@ static const char *joyport_dynmenu_helper(int port)
         joyport_dyn_menu_init[port] = 1;
     }
 
-    for (i = 0; devices[i].name; ++i) {
-        entry[i].string = (char *)lib_strdup(devices[i].name);
-        entry[i].type = MENU_ENTRY_RESOURCE_RADIO;
-        entry[i].callback = uijoyport_device_callbacks[port];
-        entry[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+    if (joyport_port_is_active(port)) {
+        devices = joyport_get_valid_devices(port, 1);
+        for (i = 0; devices[i].name; ++i) {
+            entry[i].string = (char *)lib_strdup(devices[i].name);
+            entry[i].type = MENU_ENTRY_RESOURCE_RADIO;
+            entry[i].callback = uijoyport_device_callbacks[port];
+            entry[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+        }
+
+        entry[i].string = NULL;
+        entry[i].type = 0;
+        entry[i].callback = NULL;
+        entry[i].data = NULL;
+
+        lib_free(devices);
+
+        return MENU_SUBMENU_STRING;
     }
-
-    entry[i].string = NULL;
-    entry[i].type = 0;
-    entry[i].callback = NULL;
-    entry[i].data = NULL;
-
-    lib_free(devices);
-
-    return MENU_SUBMENU_STRING;
+    return MENU_NOT_AVAILABLE_STRING;
 }
 
 static UI_MENU_CALLBACK(JoyPort1Device_dynmenu_callback)

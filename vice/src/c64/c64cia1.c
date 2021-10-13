@@ -451,7 +451,7 @@ static void read_sdr(cia_context_t *cia_context)
 
 static void store_sdr(cia_context_t *cia_context, uint8_t byte)
 {
-    if ((cia1_cra & 0x59) == 0x51) {
+    if ((cia1_cra & 0x49) == 0x41) {
         store_userport_sp1(byte);
     }
 

@@ -1,9 +1,10 @@
+/** \file   userportrsinterfacewidget.h
+ * \brief   Userport RS232 Interface widget - header
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * drive-check.h
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,14 +25,20 @@
  *
  */
 
-#ifndef VICE_DRIVE_CHECK_H
-#define VICE_DRIVE_CHECK_H
+#ifndef VICE_USERPORTRSINTERFACEWIDGET_H
+#define VICE_USERPORTRSINTERFACEWIDGET_H
 
-extern unsigned int drive_check_bus(unsigned int drive_type, unsigned int bus_map);
-extern unsigned int drive_check_old(unsigned int type);
-extern unsigned int drive_check_dual(unsigned int type);
+#include "vice.h"
 
-extern unsigned int drive_get_num_heads(unsigned int type);
-extern unsigned int drive_get_half_tracks(unsigned int type);
+#include <gtk/gtk.h>
 
+#define USERPORT_RS_NONINVERTED 0
+#define USERPORT_RS_INVERTED    1
+#define USERPORT_RS_CUSTOM      2
+#define USERPORT_RS_UP9600      3
+
+
+GtkWidget * userport_rsinterface_widget_create(void);
+
+void userport_rsinterface_widget_add_callback(GtkGrid *widget, void (*cb_func)(GtkWidget *));
 #endif

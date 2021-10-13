@@ -1,5 +1,5 @@
 /*
- * waasoft_dongle.c - WaaVizaWrite 64 Dongle emulation.
+ * waasoft_dongle.c - Waasoft Dongle emulation.
  *
  * Written by
  *  Zer0-X

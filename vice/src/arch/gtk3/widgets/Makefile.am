@@ -180,6 +180,7 @@ libwidgets_a_SOURCES = \
 	tapeportdeviceswidget.c \
 	ultimemwidget.c \
 	userportdeviceswidget.c \
+	userportrsinterfacewidget.c \
 	userportprinterwidget.c \
 	v364speechwidget.c \
 	vdcmodelwidget.c \
@@ -340,6 +341,7 @@ EXTRA_DIST = \
 	tapeportdeviceswidget.h \
 	ultimemwidget.h \
 	userportdeviceswidget.h \
+	userportrsinterfacewidget.h \
 	userportprinterwidget.h \
 	v364speechwidget.h \
 	vdcmodelwidget.h \
