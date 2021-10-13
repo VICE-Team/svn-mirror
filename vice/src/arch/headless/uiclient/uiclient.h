@@ -46,6 +46,9 @@ void uiclient_subscribe_screen(uiclient_t *uiclient, char *chip_name);
 /* Perform network IO. Callbacks may be called. */
 void uiclient_poll(uiclient_t *uiclient);
 
+/* Let server know that this client is ready for emulation to continue */
+void uiclient_ready(uiclient_t *uiclient);
+
 /* Shutdown and free uiclient */
 void uiclient_destroy(uiclient_t *uiclient);
 

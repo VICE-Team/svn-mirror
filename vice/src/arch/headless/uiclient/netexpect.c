@@ -26,6 +26,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "netexpect.h"
 
@@ -39,8 +40,8 @@ typedef struct expected_data_s {
 } expected_data_t;
 
 typedef struct netexpect_s {
-    netexpect_recv_cb recv_callback;
     netexpect_available_cb available_callback;
+    netexpect_recv_cb recv_callback;
     void *callback_context;
     
     expected_data_t *queue_base;
@@ -50,13 +51,16 @@ typedef struct netexpect_s {
     unsigned int queue_length;
 } netexpect_t;
 
-netexpect_t *netexpect_new(netexpect_available_cb available_callback, netexpect_recv_cb recv_callback, void *callback_context)
+netexpect_t *netexpect_new(
+    netexpect_available_cb available_callback,
+    netexpect_recv_cb recv_callback,
+    void *callback_context)
 {
     netexpect_t *netexpect;
     
     netexpect                       = malloc(sizeof(netexpect_t));
-    netexpect->recv_callback        = recv_callback;
     netexpect->available_callback   = available_callback;
+    netexpect->recv_callback        = recv_callback;
     netexpect->callback_context     = callback_context;
     netexpect->queue_base           = malloc(QUEUE_GROWTH_AMOUNT * sizeof(expected_data_t));
     netexpect->queue_alloc_size     = QUEUE_GROWTH_AMOUNT;
@@ -104,7 +108,7 @@ void netexpect_u8(netexpect_t *netexpect, uint8_t *buffer, netexpect_completion_
     tail->on_complete_context   = on_complete_context;
 }
 
-void netexpect_u6(netexpect_t *netexpect, uint16_t *buffer, netexpect_completion_cb on_complete, void *on_complete_context)
+void netexpect_u16(netexpect_t *netexpect, uint16_t *buffer, netexpect_completion_cb on_complete, void *on_complete_context)
 {
     /* Expect two bytes and optionally call on_complete(on_complete_context) */
     expected_data_t *tail;
@@ -212,6 +216,48 @@ void netexpect_u16_prefixed_byte_array(netexpect_t *netexpect, void *buffer, uin
     tail[1].on_complete_context = on_complete_context;
 }
 
+static void set_string_termination_byte(void *context)
+{
+    expected_data_t *string_expected_data = context;
+    
+    ((char*)string_expected_data->destination)[string_expected_data->bytes_expected] = '\0';
+}
+
+void netexpect_u16_prefixed_string(netexpect_t *netexpect, char *string, uint16_t *string_size, netexpect_completion_cb on_complete, void *on_complete_context)
+{
+    /* Expect buffer_size, then expect buffer_size bytes into buffer, then optionally call on_complete(on_complete_context) */
+    expected_data_t *tail;
+    
+    /* We'll need three entries for this */
+    tail                        = next_unused(netexpect, 3);
+    tail[0].destination         = string_size;
+    tail[0].bytes_expected      = sizeof(uint16_t);
+    tail[0].on_complete         = update_u16_prefixed_array_size;
+    tail[0].on_complete_context = tail;
+    
+    tail[1].destination         = string;
+    tail[1].bytes_expected      = 0; /* this gets overwritten by update_u16_prefixed_array_size */
+    tail[1].on_complete         = set_string_termination_byte;
+    tail[1].on_complete_context = &tail[1];
+
+    tail[2].destination         = NULL;
+    tail[2].bytes_expected      = 0;
+    tail[2].on_complete         = on_complete;
+    tail[2].on_complete_context = on_complete_context;
+}
+
+void netexpect_callback(netexpect_t *netexpect, netexpect_completion_cb on_complete, void *on_complete_context)
+{
+    /* Call on_complete(on_complete_context) after previously queued reads have completed */
+    expected_data_t *tail;
+
+    tail                        = next_unused(netexpect, 1);
+    tail->destination           = NULL;
+    tail->bytes_expected        = 0;
+    tail->on_complete           = on_complete;
+    tail->on_complete_context   = on_complete_context;
+}
+
 int netexpect_do_recv(netexpect_t *netexpect)
 {
     /* Recv from socket, filling expected data structures and calling completion callbacks. */
@@ -225,31 +271,44 @@ int netexpect_do_recv(netexpect_t *netexpect)
         return -1;
     }
     
+    if (netexpect->queue_length == 0) {
+        /* State machine error */
+        return -1;
+    }
+    
     do {
-        if (netexpect->queue_length == 0) {
-            /* If this happens there is a state machine bug */
-            return -1;
-        }
-        
         head = netexpect->queue_base + netexpect->queue_head_offset;
-        bytes_read = netexpect->recv_callback(netexpect->callback_context,
-                                              head->destination,
-                                              head->bytes_expected);
-
-        if (bytes_read <= 0) {
-            /* Socket closed, or error */
-            return -1;
-        }
         
-        if (bytes_read < head->bytes_expected) {
-           /* Partial read */
-           head->destination = ((uint8_t*)head->destination) + bytes_read;
-           head->bytes_expected -= bytes_read;
-           
-           return 0;
-        }
+        /* Only read from the socket if the next job requires it */
+        if (head->bytes_expected) {
             
-        bytes_available -= bytes_read;
+            if (bytes_available == 0) {
+                return 0;
+            }
+            
+            bytes_read = netexpect->recv_callback(netexpect->callback_context,
+                                                  head->destination,
+                                                  head->bytes_expected);
+
+            if (bytes_read <= 0) {
+                /* Socket closed, or error */
+                return -1;
+            }
+        
+            if (bytes_read < head->bytes_expected) {
+                /* Partial read */
+                head->destination = ((uint8_t*)head->destination) + bytes_read;
+                head->bytes_expected -= bytes_read;
+                
+                return 0;
+            }
+
+            bytes_available -= bytes_read;
+            if (bytes_available < 0) {
+                /* This can happen if more data becomes available after we check how much is there */
+                bytes_available = 0;
+            }
+        }
             
         /* Got everything we needed for the queue head */
         netexpect->queue_length--;
@@ -265,7 +324,7 @@ int netexpect_do_recv(netexpect_t *netexpect)
         if (head->on_complete) {
             head->on_complete(head->on_complete_context);
         }
-    } while (bytes_available);
+    } while (netexpect->queue_length);
     
     return 0;
 }

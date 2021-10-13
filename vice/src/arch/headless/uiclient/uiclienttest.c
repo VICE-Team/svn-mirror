@@ -52,6 +52,8 @@ static void on_disconnected(uiclient_t *uiclient)
 static void on_connected(uiclient_t *uiclient, uint32_t emulator)
 {
     INFO("Connected");
+    
+    uiclient_ready(uiclient);
 }
 
 int main(int argc, char **argv)

@@ -41,6 +41,8 @@ typedef struct client_s {
     netexpect_t *netexpect;
     
     uiprotocol_client_hello_t client_hello;
+    
+    uint8_t recieved_message;
 } client_t;
 
 /* Represents a single video output, such as VICII or VDC. */
@@ -58,6 +60,7 @@ static int screen_count;
 static client_t *clients;
 static int clients_size;
 static int client_count;
+static int client_ready_count;
 static int next_client_id;
 static bool remove_disconnected_clients_next_poll;
 
@@ -65,8 +68,8 @@ static struct pollfd *poll_fds;
 static int poll_fd_count;
 static bool rebuild_poll_fds_next_poll = true;
 
-static int socket_recv(void *context, void *buffer, unsigned int size);
 static int socket_available(void *context);
+static int socket_recv(void *context, void *buffer, unsigned int size);
 
 static void build_server_hello(void);
 static void rebuild_poll_fds(void);
@@ -75,8 +78,12 @@ static void remove_disconnected_clients(void);
 
 static void send_byte(client_t *client, uint8_t byte);
 static void send_string(client_t *client, char *str);
+static void advertise_screen(client_t *client, int screen_index);
+static void advertise_all_screens(client_t *client);
 
 static void handle_client_hello(void *context);
+static void handle_post_hello_message(void *context);
+static void handle_client_message(void *context);
 
 int uiserver_init(void)
 {
@@ -186,10 +193,10 @@ void uiserver_await_ready(void)
      * Wait for a client process to connect and signal that it's ready.
      */
 
-    log_message(LOG_DEFAULT, "Waiting for UI process");
+    log_message(LOG_DEFAULT, "Waiting for UI");
     
-    while (client_count == 0) {
-        tick_sleep(tick_per_second() / 60);
+    while (client_count == 0 || client_ready_count != client_count) {
+        tick_sleep(tick_per_second() / 500);
         uiserver_poll();
     }
 }
@@ -232,7 +239,6 @@ static void disconnect_client(client_t *client)
     remove_disconnected_clients_next_poll = true;
 }
 
-/** \brief Handle all client IO */
 void uiserver_poll(void)
 {
     int i;
@@ -391,18 +397,18 @@ static void remove_disconnected_clients(void)
     }
 }
 
-static int socket_recv(void *context, void *buffer, unsigned int size)
-{
-    vice_network_socket_t *sock = (vice_network_socket_t*)context;
-    
-    return vice_network_receive(sock, buffer, size, 0);
-}
-
 static int socket_available(void *context)
 {
     vice_network_socket_t *sock = (vice_network_socket_t*)context;
     
     return vice_network_available_bytes(sock);
+}
+
+static int socket_recv(void *context, void *buffer, unsigned int size)
+{
+    vice_network_socket_t *sock = (vice_network_socket_t*)context;
+    
+    return vice_network_receive(sock, buffer, size, 0);
 }
 
 static void send_byte(client_t *client, uint8_t byte)
@@ -435,13 +441,18 @@ static void send_string(client_t *client, char *str)
 
 /************/
 
-static void advertise_screens(client_t *client)
+static void advertise_screen(client_t *client, int screen_index)
+{
+    send_byte(client, UI_PROTOCOL_V1_SCREEN_IS_AVAILABLE);
+    send_string(client, screens[screen_index].chip_name);
+}
+
+static void advertise_all_screens(client_t *client)
 {
     int i;
     
     for (i = 0; i < screen_count; i++) {
-        send_byte(client, UI_PROTOCOL_V1_SCREEN_IS_AVAILABLE);
-        send_string(client, screens[i].chip_name);
+        advertise_screen(client, i);
     }
 }
 
@@ -469,10 +480,61 @@ static void handle_client_hello(void *context)
     log_message(LOG_DEFAULT, "Client hello: protocol 0x%x", client_hello->protocol);
     
     if (client_hello->protocol == UI_PROTOCOL_VERSION_1) {
-        advertise_screens(client);
+        advertise_all_screens(client);
         send_byte(client, UI_PROTOCOL_V1_SERVER_IS_READY);
+        netexpect_u8(client->netexpect, &client->recieved_message, handle_post_hello_message, client);
     } else {
         log_error(LOG_DEFAULT, "Client %d requested unsupported protocol 0x%c", client->id, client_hello->protocol);
         disconnect_client(client);
+    }
+}
+
+static void handle_post_hello_message(void *context)
+{
+    client_t *client = (client_t*)context;
+    
+    switch (client->recieved_message) {
+
+        case UI_PROTOCOL_V1_CLIENT_IS_READY:
+            /*
+             *
+             */
+            
+            log_message(LOG_DEFAULT, "Client %d is ready", client->id);
+            client_ready_count++;
+
+            /* Move to the post-ready phase */
+            netexpect_u8(client->netexpect, &client->recieved_message, handle_client_message, client);
+            break;
+
+        default:
+            log_message(LOG_DEFAULT, "Did not understand client %d message %d, disconnecting", client->id, client->recieved_message);
+            disconnect_client(client);
+            break;
+    }
+}
+
+static void handle_client_message(void *context)
+{
+    client_t *client = (client_t*)context;
+    
+    switch (client->recieved_message) {
+
+        case UI_PROTOCOL_V1_CLIENT_IS_READY:
+            /*
+             *
+             */
+            
+            log_message(LOG_DEFAULT, "Client %d is ready", client->id);
+            client_ready_count++;
+
+            /* Move to the post-ready phase */
+            netexpect_u8(client->netexpect, &client->recieved_message, handle_client_message, client);
+            break;
+
+        default:
+            log_message(LOG_DEFAULT, "Did not understand client %d message %d, disconnecting", client->id, client->recieved_message);
+            disconnect_client(client);
+            break;
     }
 }

@@ -55,6 +55,7 @@ static void build_client_hello(uiclient_t *uiclient, uint32_t protocol);
 
 static void handle_server_hello(void *context);
 static void handle_post_hello_message(void *context);
+static void handle_server_message(void *context);
 
 uiclient_t *uiclient_new(
     uiclient_on_disconnected_t on_disconnected_callback,
@@ -142,6 +143,11 @@ void uiclient_destroy(uiclient_t *uiclient)
 }
 
 /****/
+
+static void send_byte(uiclient_t *uiclient, uint8_t byte)
+{
+    uiclient_network_send(uiclient->socket, &byte, 1);
+}
 
 static const char *emulator_name(uint32_t emulator)
 {
@@ -252,20 +258,11 @@ static void handle_screen_available(void *context)
 {
     uiclient_t *uiclient = (uiclient_t*)context;
     
-    uiclient->recieved_string[uiclient->recieved_string_size] = '\0';
-    
     INFO("Screen available: %s", uiclient->recieved_string);
     
+    /* TODO: Notify the client app */
+    
     netexpect_u8(uiclient->netexpect, &uiclient->recieved_message, handle_post_hello_message, uiclient);
-}
-
-static void expect_string(uiclient_t *uiclient, netexpect_completion_cb on_complete)
-{
-    netexpect_u16_prefixed_byte_array(uiclient->netexpect,
-                                      uiclient->recieved_string,
-                                      &uiclient->recieved_string_size,
-                                      on_complete,
-                                      uiclient);
 }
 
 static void handle_post_hello_message(void *context)
@@ -279,7 +276,11 @@ static void handle_post_hello_message(void *context)
     
     switch (uiclient->recieved_message) {
         case UI_PROTOCOL_V1_SCREEN_IS_AVAILABLE:
-            expect_string(uiclient, handle_screen_available);
+            netexpect_u16_prefixed_string(uiclient->netexpect,
+                                          uiclient->recieved_string,
+                                          &uiclient->recieved_string_size,
+                                          handle_screen_available,
+                                          uiclient);
             break;
 
         case UI_PROTOCOL_V1_SERVER_IS_READY:
@@ -291,8 +292,34 @@ static void handle_post_hello_message(void *context)
             
             INFO("Server is ready");
             uiclient->on_connected(uiclient, uiclient->server_hello.emulator);
+
+            /* Move to the post-ready phase */
+            netexpect_u8(uiclient->netexpect, &uiclient->recieved_message, handle_server_message, uiclient);
             break;
 
+        default:
+            ERR("Did not understand server message %d, disconnecting", uiclient->recieved_message);
+            uiclient->on_disconnected(uiclient);
+            return;
+    }
+}
+
+void uiclient_ready(uiclient_t *uiclient)
+{
+    /* Let server know that this client is ready for emulation to continue */
+    send_byte(uiclient, UI_PROTOCOL_V1_CLIENT_IS_READY);
+}
+
+static void handle_server_message(void *context)
+{
+    uiclient_t *uiclient = (uiclient_t*)context;
+    
+    /*
+     * Everyting is established, this is the main io loop for
+     * receiving screen updates etc.
+     */
+    
+    switch (uiclient->recieved_message) {
         default:
             ERR("Did not understand server message %d, disconnecting", uiclient->recieved_message);
             uiclient->on_disconnected(uiclient);
