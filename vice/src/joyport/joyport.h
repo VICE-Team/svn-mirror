@@ -154,6 +154,9 @@ enum {
 #define JOYPORT_P10_BIT   10
 #define JOYPORT_P11_BIT   11
 
+#define JOYPORT_MAX_PINS  12
+#define JOYPORT_MAX_POTS  4
+
 /* joystick bit values */
 #define JOYPORT_P0   (1 << JOYPORT_P0_BIT)
 #define JOYPORT_P1   (1 << JOYPORT_P1_BIT)
@@ -268,8 +271,6 @@ typedef struct joyport_port_props_s {
 
 extern int joyport_port_has_pot(int port);
 
-#define MAX_MAPPING_STRINGS   15   /* this includes the first item, which is not a mapping pin/pot */
-
 /* this structure is used for host joystick to emulated input device mappings */
 typedef struct joyport_mapping_s {
     char *name;   /* name of the device on the port */
@@ -289,16 +290,22 @@ typedef struct joyport_mapping_s {
     char *pot2;   /* name for the mapping of pot 2 (POT-Y) */
 } joyport_mapping_t;
 
-/* this union is to provide array access to the mapping strings */
-union joyport_mapping_u {
-    joyport_mapping_t **map_strings;
-    char *map_array[MAX_MAPPING_STRINGS];
-};
-
 extern void joyport_set_mapping(joyport_mapping_t *mapping, int port);
 extern void joyport_clear_mapping(int port);
+
+typedef struct joyport_map_s {
+    char *name;   /* name of the pin/pot */
+    int pin;      /* pin/pot number */
+} joyport_map_t;
+
+typedef struct joyport_map_desc_s {
+    char *name;              /* name of the device */
+    joyport_map_t *pinmap;   /* mapping of the pins */
+    joyport_map_t *potmap;   /* mapping of the pots */
+} joyport_map_desc_t;
+
 extern int joyport_has_mapping(int port);
-extern joyport_mapping_t *joyport_get_mapping(int port);
+extern joyport_map_desc_t *joyport_get_mapping(int port);
 
 extern int joyport_device_register(int id, joyport_t *device);
 

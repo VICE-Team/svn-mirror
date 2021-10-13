@@ -943,9 +943,137 @@ int joyport_has_mapping(int port)
     return joystick_mapped[port];
 }
 
-joyport_mapping_t *joyport_get_mapping(int port)
+static joyport_map_t pinmap[JOYPORT_MAX_PINS + 1] = { 0 };
+static joyport_map_t potmap[JOYPORT_MAX_POTS + 1] = { 0 };
+static joyport_map_desc_t joyport_map = { 0 };
+
+joyport_map_desc_t *joyport_get_mapping(int port)
 {
-    return &joystick_mapping[port];
+    int i = 0;
+    int j = 0;
+    int pots_used = 0;
+
+    if (!joystick_mapped[port]) {
+        return NULL;
+    }
+
+    /* build joystick mapping description */
+    joyport_map.name = joystick_mapping[port].name;
+
+    if (joystick_mapping[port].pin0 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin0;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin1 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin1;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin2 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin2;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin3 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin3;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin4 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin4;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin5 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin5;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin6 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin6;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin7 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin7;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin8 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin8;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin9 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin9;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin10 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin10;
+        pinmap[i].pin = j;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pin11 != NULL) {
+        pinmap[i].name = joystick_mapping[port].pin11;
+        pinmap[i].pin = j;
+        i++;
+    }
+
+    pinmap[i].name = NULL;
+    pinmap[i].pin = 0;
+
+    i = 0;
+    j = 0;
+
+    if (joystick_mapping[port].pot1 != NULL) {
+        potmap[i].name = joystick_mapping[port].pot1;
+        potmap[i].pin = j;
+        pots_used++;
+        i++;
+    }
+    j++;
+
+    if (joystick_mapping[port].pot2 != NULL) {
+        potmap[i].name = joystick_mapping[port].pot2;
+        potmap[i].pin = j;
+        i++;
+        pots_used++;
+    }
+
+    potmap[i].name = NULL;
+    potmap[i].pin = 0;
+
+    joyport_map.pinmap = pinmap;
+    if (pots_used) {
+        joyport_map.potmap = potmap;
+    } else {
+        joyport_map.potmap = NULL;
+    }
+    return &joyport_map;
 }
 
 /* ------------------------------------------------------------------------- */

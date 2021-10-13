@@ -690,7 +690,7 @@ static joyport_mapping_t joystick_mapping = {
     "Right",      /* name for the mapping of pin 3 (RIGHT) */
     "Fire1",      /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
     "Fire2",      /* name for the mapping of pin 5 (FIRE-2/SNES-B) */
-    "FIRE3",      /* name for the mapping of pin 6 (FIRE-3/SNES-X) */
+    "Fire3",      /* name for the mapping of pin 6 (FIRE-3/SNES-X) */
     NULL,         /* NO mapping of pin 7 (SNES-Y) */
     NULL,         /* NO mapping of pin 8 (SNES-LB) */
     NULL,         /* NO mapping of pin 9 (SNES-RB) */
