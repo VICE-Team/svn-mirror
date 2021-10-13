@@ -56,6 +56,11 @@ static void on_connected(uiclient_t *uiclient, uint32_t emulator)
     uiclient_ready(uiclient);
 }
 
+static void on_screen_available(uiclient_t *uiclient, char *chip_name)
+{
+    INFO("Screen available: %s", chip_name);
+}
+
 int main(int argc, char **argv)
 {
     uint16_t server_port;
@@ -72,7 +77,8 @@ int main(int argc, char **argv)
     uiclient =
         uiclient_new(
             on_disconnected,
-            on_connected
+            on_connected,
+            on_screen_available
             );
 
     if (!uiclient_connect(uiclient, server_port)) {

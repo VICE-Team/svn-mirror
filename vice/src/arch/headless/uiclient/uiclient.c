@@ -39,6 +39,7 @@ typedef void (*recv_message_t)(uiclient_t *uiclient, void *recieved_buffer);
 typedef struct uiclient_s {
     uiclient_on_disconnected_t on_disconnected;
     uiclient_on_connected_t on_connected;
+    uiclient_on_screen_available_t on_screen_available;
     
     socket_t *socket;
     netexpect_t *netexpect;
@@ -59,7 +60,8 @@ static void handle_server_message(void *context);
 
 uiclient_t *uiclient_new(
     uiclient_on_disconnected_t on_disconnected_callback,
-    uiclient_on_connected_t on_connected_callback
+    uiclient_on_connected_t on_connected_callback,
+    uiclient_on_screen_available_t on_screen_available_callback
     )
 {
     uiclient_t *uiclient;
@@ -68,9 +70,10 @@ uiclient_t *uiclient_new(
 
     uiclient_network_init();
 
-    uiclient                  = calloc(1, sizeof(uiclient_t));
-    uiclient->on_disconnected = on_disconnected_callback;
-    uiclient->on_connected    = on_connected_callback;
+    uiclient                        = calloc(1, sizeof(uiclient_t));
+    uiclient->on_disconnected       = on_disconnected_callback;
+    uiclient->on_connected          = on_connected_callback;
+    uiclient->on_screen_available   = on_screen_available_callback;
 
     return uiclient;
 }
@@ -260,7 +263,8 @@ static void handle_screen_available(void *context)
     
     INFO("Screen available: %s", uiclient->recieved_string);
     
-    /* TODO: Notify the client app */
+    /* Notify the client application */
+    uiclient->on_screen_available(uiclient, uiclient->recieved_string);
     
     netexpect_u8(uiclient->netexpect, &uiclient->recieved_message, handle_post_hello_message, uiclient);
 }
