@@ -574,6 +574,8 @@ static void remove_screen_subscription(client_t *client, screen_t *screen)
             return;
         }
     }
+    
+    log_error(LOG_DEFAULT, "Client %d attempting to remove non-existing subscription to screen: %s", client->id, client->recieved_string);
 }
 
 static void handle_unsubscribe_screen(void *context)
