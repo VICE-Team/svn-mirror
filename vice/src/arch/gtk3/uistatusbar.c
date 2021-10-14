@@ -2172,10 +2172,11 @@ void ui_display_drive_led(unsigned int drive_number,
  */
 void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
-                            unsigned int half_track_number)
+                            unsigned int half_track_number,
+                            unsigned int drive_side)
 {
     ui_sb_state_t *sb_state;
-    int doubleside, dualdrive, halftracks_per_side, side;
+    int doubleside, dualdrive, halftracks_per_side;
 
     /* Ok to call from VICE thread */
 
@@ -2205,23 +2206,12 @@ void ui_display_drive_track(unsigned int drive_number,
     sb_state->current_drive_unit_str[drive_number][drive_base][DRIVE_UNIT_STR_MAX_LEN - 1] = '\0';
     sb_state->current_drive_unit_str_updated[drive_number][drive_base] = true;
 
-    /* for doublesided drives, determine the physical side and correct the track number if needed */
     if (doubleside) {
-        halftracks_per_side = drive_get_half_tracks(sb_state->drives_type[drive_number]);
-        side = 1;
-        if (half_track_number > halftracks_per_side) {
-            half_track_number -= halftracks_per_side;
-            side = 2;
-        }
-    }
-
-    /* only indicate the side for side 2 here, else we will always see side 1 for drives
-       that do not use logical tracks > physical tracks (eg 1581) */
-    if (doubleside && (side == 2)) {
         snprintf(
             sb_state->current_drive_track_str[drive_number][drive_base],
             DRIVE_TRACK_STR_MAX_LEN - 1,
-            " - 2:%.1lf",
+            " - %d:%.1lf",
+            drive_side,
             half_track_number / 2.0);
     } else {
         snprintf(
