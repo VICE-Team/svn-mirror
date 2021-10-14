@@ -41,20 +41,15 @@
 /* These constants are used to configure the video output.  */
 
 /* no video output (dummy) */
-#define VIDEO_RENDER_NULL       0
+#define VIDEO_RENDER_NULL             0
 /* PAL or NTSC TV/Monitor (like VIC, VIC-II or TED) */
-#define VIDEO_RENDER_PAL_1X1    1
-#define VIDEO_RENDER_PAL_2X2    2
-/* no filtering */
-#define VIDEO_RENDER_RGB_1X1    3
-#define VIDEO_RENDER_RGB_1X2    4 /* needed for y-stretch */
-#define VIDEO_RENDER_RGB_2X2    5
-#define VIDEO_RENDER_RGB_2X4    6 /* needed for y-stretch */
+#define VIDEO_RENDER_PAL_NTSC_1X1     1
+#define VIDEO_RENDER_PAL_NTSC_2X2     2
 /* RGB(I) or monochrome Monitor (CRTC and VDC) */
-#define VIDEO_RENDER_CRT_1X1    7 /* FIXME: to be written */
-#define VIDEO_RENDER_CRT_1X2    8 /* needed for y-stretch */
-#define VIDEO_RENDER_CRT_2X2    9
-#define VIDEO_RENDER_CRT_2X4   10 /* needed for y-stretch */
+#define VIDEO_RENDER_RGBI_MONO_1X1    7
+#define VIDEO_RENDER_RGBI_MONO_1X2    8 /* needed for y-stretch */
+#define VIDEO_RENDER_RGBI_MONO_2X2    9
+#define VIDEO_RENDER_RGBI_MONO_2X4   10 /* needed for y-stretch */
 
 struct video_canvas_s;
 struct video_cbm_palette_s;
@@ -328,11 +323,5 @@ extern void video_color_palette_internal(struct video_canvas_s *canvas,
                                          struct video_cbm_palette_s *cbm_palette);
 extern int video_color_update_palette(struct video_canvas_s *canvas);
 extern void video_color_palette_free(struct palette_s *palette);
-
-/* FIXME: implement a central function that inits the renderer(s) */
-extern void video_render_1x2_init(void);
-extern void video_render_2x2_init(void);
-extern void video_render_pal_init(void);
-extern void video_render_crt_init(void);
 
 #endif
