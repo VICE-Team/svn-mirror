@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "types.h"
+#include "userport_io_sim.h"
 
 void userport_io_sim_set_pbx_ddr_lines(uint8_t val)
 {
