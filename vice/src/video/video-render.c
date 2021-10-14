@@ -36,7 +36,8 @@
 #include "video.h"
 
 static render_pal_ntsc_func_t  render_pal_ntsc_func  = video_render_pal_ntsc_main;
-static render_rgbi_mono_func_t render_rgbi_mono_func = video_render_rgbi_mono_main;
+static render_rgbi_func_t render_rgbi_func = video_render_rgbi_main;
+static render_crt_mono_func_t render_crt_mono_func = video_render_crt_mono_main;
 
 void video_render_initconfig(video_render_config_t *config)
 {
@@ -74,7 +75,6 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
                        int width, int height, int xs, int ys, int xt, int yt,
                        int pitchs, int pitcht, viewport_t *viewport)
 {
-    const video_render_color_tables_t *colortab;
     int rendermode;
 
 #if 0
@@ -89,7 +89,6 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
     video_sound_update(config, src, width, height, xs, ys, pitchs, viewport);
 
     rendermode = config->rendermode;
-    colortab = &config->color_tables;
 
     switch (rendermode) {
         case VIDEO_RENDER_NULL:
@@ -101,11 +100,18 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
             render_pal_ntsc_func(config, src, trg, width, height, xs, ys, xt, yt, pitchs, pitcht, viewport->crt_type, viewport->first_line, viewport->last_line);
             return;
 
-        case VIDEO_RENDER_RGBI_MONO_1X1:
-        case VIDEO_RENDER_RGBI_MONO_1X2:
-        case VIDEO_RENDER_RGBI_MONO_2X2:
-        case VIDEO_RENDER_RGBI_MONO_2X4:
-            render_rgbi_mono_func(config, src, trg, width, height, xs, ys, xt, yt, pitchs, pitcht, viewport->first_line, viewport->last_line);
+        case VIDEO_RENDER_CRT_MONO_1X1:
+        case VIDEO_RENDER_CRT_MONO_1X2:
+        case VIDEO_RENDER_CRT_MONO_2X2:
+        case VIDEO_RENDER_CRT_MONO_2X4:
+            render_crt_mono_func(config, src, trg, width, height, xs, ys, xt, yt, pitchs, pitcht, viewport->first_line, viewport->last_line);
+            return;
+
+        case VIDEO_RENDER_RGBI_1X1:
+        case VIDEO_RENDER_RGBI_1X2:
+        case VIDEO_RENDER_RGBI_2X2:
+        case VIDEO_RENDER_RGBI_2X4:
+            render_rgbi_func(config, src, trg, width, height, xs, ys, xt, yt, pitchs, pitcht, viewport->first_line, viewport->last_line);
             return;
     }
     if (rendermode_error != rendermode) {
@@ -119,7 +125,12 @@ void video_render_palfunc_set(render_pal_ntsc_func_t func)
     render_pal_ntsc_func = func;
 }
 
-void video_render_crtfunc_set(render_rgbi_mono_func_t func)
+void video_render_crtmonofunc_set(render_crt_mono_func_t func)
 {
-    render_rgbi_mono_func = func;
+    render_crt_mono_func = func;
+}
+
+void video_render_rgbifunc_set(render_rgbi_func_t func)
+{
+    render_rgbi_func = func;
 }

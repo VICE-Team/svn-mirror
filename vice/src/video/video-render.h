@@ -41,7 +41,12 @@ typedef void (*render_pal_ntsc_func_t)(video_render_config_t *, uint8_t *, uint8
                                   int,
                                   unsigned int, unsigned int);
 
-typedef void (*render_rgbi_mono_func_t)(video_render_config_t *, uint8_t *, uint8_t *,
+typedef void (*render_rgbi_func_t)(video_render_config_t *, uint8_t *, uint8_t *,
+                                  int, int, int, int,
+                                  int, int, int, int,
+                                  unsigned int, unsigned int);
+
+typedef void (*render_crt_mono_func_t)(video_render_config_t *, uint8_t *, uint8_t *,
                                   int, int, int, int,
                                   int, int, int, int,
                                   unsigned int, unsigned int);
@@ -54,7 +59,8 @@ extern void video_render_main(struct video_render_config_s *config, uint8_t *src
 extern void video_render_update_palette(struct video_canvas_s *canvas);
 
 extern void video_render_palfunc_set(render_pal_ntsc_func_t func);
-extern void video_render_crtfunc_set(render_rgbi_mono_func_t func);
+extern void video_render_crtmonofunc_set(render_crt_mono_func_t func);
+extern void video_render_rgbifunc_set(render_rgbi_func_t func);
 
 /* Default render functions */
 
@@ -65,7 +71,13 @@ extern void video_render_pal_ntsc_main(video_render_config_t *config,
                                   int crt_type,
                                   unsigned int viewport_first_line, unsigned int viewport_last_line);
 
-extern void video_render_rgbi_mono_main(video_render_config_t *config,
+extern void video_render_rgbi_main(video_render_config_t *config,
+                                  uint8_t *src, uint8_t *trg,
+                                  int width, int height, int xs, int ys, int xt,
+                                  int yt, int pitchs, int pitcht,
+                                  unsigned int viewport_first_line, unsigned int viewport_last_line);
+
+extern void video_render_crt_mono_main(video_render_config_t *config,
                                   uint8_t *src, uint8_t *trg,
                                   int width, int height, int xs, int ys, int xt,
                                   int yt, int pitchs, int pitcht,

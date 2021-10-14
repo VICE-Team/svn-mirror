@@ -54,7 +54,7 @@
 
 static int rendermode_error = -1;
 
-void video_render_crt_mono_main(video_render_config_t *config,
+void video_render_rgbi_main(video_render_config_t *config,
                            uint8_t *src, uint8_t *trg,
                            int width, int height, int xs, int ys, int xt,
                            int yt, int pitchs, int pitcht,
@@ -70,10 +70,10 @@ void video_render_crt_mono_main(video_render_config_t *config,
 
     delayloop = (config->filter == VIDEO_FILTER_CRT);
 
-    if ((rendermode == VIDEO_RENDER_CRT_MONO_1X1
-         || rendermode == VIDEO_RENDER_CRT_MONO_1X2
-         || rendermode == VIDEO_RENDER_CRT_MONO_2X2
-         || rendermode == VIDEO_RENDER_CRT_MONO_2X4)
+    if ((rendermode == VIDEO_RENDER_RGBI_1X1
+         || rendermode == VIDEO_RENDER_RGBI_1X2
+         || rendermode == VIDEO_RENDER_RGBI_2X2
+         || rendermode == VIDEO_RENDER_RGBI_2X4)
         && config->video_resources.pal_scanlineshade <= 0) {
         doublescan = 0;
     }
@@ -83,7 +83,7 @@ void video_render_crt_mono_main(video_render_config_t *config,
             return;
             break;
 
-        case VIDEO_RENDER_CRT_MONO_1X1:
+        case VIDEO_RENDER_RGBI_1X1:
             if (delayloop) {
                 render_32_1x1_crt(colortab, src, trg, width, height,
                                    xs, ys, xt, yt, pitchs, pitcht);
@@ -94,7 +94,7 @@ void video_render_crt_mono_main(video_render_config_t *config,
                 return;
             }
             break;
-        case VIDEO_RENDER_CRT_MONO_1X2:
+        case VIDEO_RENDER_RGBI_1X2:
             if (delayloop) {
                 render_32_1x2_crt(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
@@ -107,7 +107,7 @@ void video_render_crt_mono_main(video_render_config_t *config,
                 return;
             }
             break;
-        case VIDEO_RENDER_CRT_MONO_2X2:
+        case VIDEO_RENDER_RGBI_2X2:
             if (scale2x) {
                 render_32_scale2x(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht);
@@ -123,7 +123,7 @@ void video_render_crt_mono_main(video_render_config_t *config,
                 return;
             }
             break;
-        case VIDEO_RENDER_CRT_MONO_2X4:
+        case VIDEO_RENDER_RGBI_2X4:
             if (delayloop) {
                 render_32_2x4_crt(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,

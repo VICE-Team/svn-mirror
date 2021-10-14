@@ -51,6 +51,7 @@ libvideo_a_SOURCES = \
 	video-color.h \
 	video-render-crt.c \
 	video-render-pal.c \
+	video-render-rgbi.c \
 	video-render.c \
 	video-render.h \
 	video-resources.c \
