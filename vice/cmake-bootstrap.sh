@@ -86,18 +86,24 @@ function extract_make_var {
 	# by modifying a copy of the Makefile.
 	#
 
-	cp Makefile Makefile.bak
-
-	# Try to make this non-destuctive on ctrl-c
-	trap "[ -f Makefile.bak ] && mv Makefile.bak Makefile" EXIT
+	if [ -e Makefile.bak ]; then
+		#
+		# Recover from previously aborted run.
+		# Avoiding the use of mv here in an attempt to avoid strange behaviour 
+		# occasionally seen on macOS.
+		#
+		cp Makefile.bak Makefile
+	else
+		cp Makefile Makefile.bak
+	fi
 
 	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> Makefile
-	
 	local result=$(make extract_make_var)
 	echo -n $result
 
-	mv Makefile.bak Makefile
-	trap - EXIT
+	# Again, avoiding mv.
+	cp Makefile.bak Makefile
+	rm Makefile.bak
 }
 
 function extract_include_dirs {
