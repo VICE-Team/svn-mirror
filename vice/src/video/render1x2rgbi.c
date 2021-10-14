@@ -1,5 +1,5 @@
 /*
- * render2x2crt.c - 2x2 CRT renderers
+ * render1x2rgbi.c - 1x2 CRT renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers written by
@@ -29,8 +29,8 @@
 
 #include <stdio.h>
 
-#include "render2x2.h"
-#include "render2x2crt.h"
+#include "render1x2.h"
+#include "render1x2rgbi.h"
 #include "types.h"
 #include "video-color.h"
 
@@ -43,18 +43,9 @@
 static inline
 void yuv_to_rgb(int32_t y, int32_t u, int32_t v, int16_t *red, int16_t *grn, int16_t *blu)
 {
-#ifdef _MSC_VER
-# pragma warning( push )
-# pragma warning( disable: 4244 )
-#endif
-
     *red = (y + v) >> 16;
     *blu = (y + u) >> 16;
     *grn = (y - ((50 * u + 130 * v) >> 8)) >> 16;
-
-#ifdef _MSC_VER
-# pragma warning( pop )
-#endif
 }
 
 static inline
@@ -62,7 +53,7 @@ void store_line_and_scanline_4(
     video_render_color_tables_t *color_tab,
     uint8_t *const line, uint8_t *const scanline,
     int16_t *const prevline, const int shade, /* ignored by RGB modes */
-    const int32_t y, const int32_t u, const int32_t v)
+    const int32_t y, const int32_t u, const int32_t v, const int32_t y2, const int32_t u2, const int32_t v2)
 {
     int16_t red, grn, blu;
     uint32_t *tmp1, *tmp2;
@@ -70,18 +61,33 @@ void store_line_and_scanline_4(
 
     tmp1 = (uint32_t *) scanline;
     tmp2 = (uint32_t *) line;
-    *tmp1 = color_tab->gamma_red_fac[512 + red + prevline[0]]
-            | color_tab->gamma_grn_fac[512 + grn + prevline[1]]
-            | color_tab->gamma_blu_fac[512 + blu + prevline[2]]
+    *tmp1++ = color_tab->gamma_red_fac[512 + red + prevline[0]]
+              | color_tab->gamma_grn_fac[512 + grn + prevline[1]]
+              | color_tab->gamma_blu_fac[512 + blu + prevline[2]]
+              | color_tab->alpha;
+    *tmp2++ = color_tab->gamma_red[256 + red]
+              | color_tab->gamma_grn[256 + grn]
+              | color_tab->gamma_blu[256 + blu]
+              | color_tab->alpha;
+
+    prevline[0] = red;
+    prevline[1] = grn;
+    prevline[2] = blu;
+
+    yuv_to_rgb(y2, u2, v2, &red, &grn, &blu);
+
+    *tmp1 = color_tab->gamma_red_fac[512 + red + prevline[3]]
+            | color_tab->gamma_grn_fac[512 + grn + prevline[4]]
+            | color_tab->gamma_blu_fac[512 + blu + prevline[5]]
             | color_tab->alpha;
     *tmp2 = color_tab->gamma_red[256 + red]
             | color_tab->gamma_grn[256 + grn]
             | color_tab->gamma_blu[256 + blu]
             | color_tab->alpha;
 
-    prevline[0] = red;
-    prevline[1] = grn;
-    prevline[2] = blu;
+    prevline[3] = red;
+    prevline[4] = grn;
+    prevline[5] = blu;
 }
 
 static inline
@@ -95,7 +101,7 @@ void get_yuv_from_video(
 }
 
 static inline
-void render_generic_2x2_rgbi(video_render_color_tables_t *color_tab,
+void render_generic_1x2_rgbi(video_render_color_tables_t *color_tab,
                             const uint8_t *src, uint8_t *trg,
                             unsigned int width, const unsigned int height,
                             unsigned int xs, const unsigned int ys,
@@ -112,7 +118,10 @@ void render_generic_2x2_rgbi(video_render_color_tables_t *color_tab,
     uint8_t *tmptrg, *tmptrgscanline;
     int32_t *cbtable, *crtable;
     uint32_t x, y, wfirst, wlast, yys;
-    int32_t l, l2, u, u2, unew, v, v2, vnew, off_flip, shade;
+    int32_t l, u, unew, v, vnew, off_flip, shade;
+    int32_t l2 = 0;
+    int32_t u2 = 0;
+    int32_t v2 = 0;
     int first_line = viewport_first_line * 2;
     int last_line = (viewport_last_line * 2) + 1;
 
@@ -122,7 +131,7 @@ void render_generic_2x2_rgbi(video_render_color_tables_t *color_tab,
     wfirst = xt & 1;
     width -= wfirst;
     wlast = width & 1;
-    width >>= 1;
+/*    width >>= 1; */
 
     /* That's all initialization we need for full lines. Unfortunately, for
      * scanlines we also need to calculate the RGB color of the previous
@@ -188,7 +197,7 @@ void render_generic_2x2_rgbi(video_render_color_tables_t *color_tab,
             unew -= cbtable[tmpsrc[0]];
             vnew -= crtable[tmpsrc[0]];
             tmpsrc += 1;
-#if 1
+#if 0
             if (write_interpolated_pixels) {
                 store_line_and_scanline_4(color_tab, tmptrg, tmptrgscanline, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
                 tmptrgscanline += pixelstride;
@@ -201,7 +210,7 @@ void render_generic_2x2_rgbi(video_render_color_tables_t *color_tab,
             v = v2;
         }
         for (x = 0; x < width; x++) {
-#if 1
+#if 0
             store_line_and_scanline_4(color_tab, tmptrg, tmptrgscanline, prevrgblineptr, shade, l, u, v);
             tmptrgscanline += pixelstride;
             tmptrg += pixelstride;
@@ -214,7 +223,7 @@ void render_generic_2x2_rgbi(video_render_color_tables_t *color_tab,
             unew -= cbtable[tmpsrc[0]];
             vnew -= crtable[tmpsrc[0]];
             tmpsrc += 1;
-#if 1
+#if 0
             if (write_interpolated_pixels) {
                 store_line_and_scanline_4(color_tab, tmptrg, tmptrgscanline, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
                 tmptrgscanline += pixelstride;
@@ -222,12 +231,30 @@ void render_generic_2x2_rgbi(video_render_color_tables_t *color_tab,
                 prevrgblineptr += 3;
             }
 #endif
+            x++;
+            if (x == width) {
+                break;
+            }
+#if 1
+            store_line_and_scanline_4(color_tab, tmptrg, tmptrgscanline, prevrgblineptr, shade, l, u, v, l2, u2, v2);
+            tmptrgscanline += pixelstride * 2;
+            tmptrg += pixelstride * 2;
+            prevrgblineptr += 6;
+#endif
+            l2 = ytablel[tmpsrc[1]] + ytableh[tmpsrc[2]] + ytablel[tmpsrc[3]];
+            unew += cbtable[tmpsrc[3]];
+            vnew += crtable[tmpsrc[3]];
+            get_yuv_from_video(unew, vnew, off_flip, &u2, &v2);
+            unew -= cbtable[tmpsrc[0]];
+            vnew -= crtable[tmpsrc[0]];
+            tmpsrc += 1;
+
             l = l2;
             u = u2;
             v = v2;
         }
         if (wlast) {
-            store_line_and_scanline_4(color_tab, tmptrg, tmptrgscanline, prevrgblineptr, shade, l, u, v);
+            store_line_and_scanline_4(color_tab, tmptrg, tmptrgscanline, prevrgblineptr, shade, l, u, v, l2, u2, v2);
         }
 
         src += pitchs;
@@ -235,7 +262,7 @@ void render_generic_2x2_rgbi(video_render_color_tables_t *color_tab,
     }
 }
 
-void render_32_2x2_rgbi(video_render_color_tables_t *color_tab,
+void render_32_1x2_rgbi(video_render_color_tables_t *color_tab,
                        const uint8_t *src, uint8_t *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
@@ -244,8 +271,17 @@ void render_32_2x2_rgbi(video_render_color_tables_t *color_tab,
                        unsigned int viewport_first_line, unsigned int viewport_last_line,
                        video_render_config_t *config)
 {
-    render_generic_2x2_rgbi(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht,
-                           viewport_first_line, viewport_last_line,
-                           4, 1, config);
+    if (config->interlaced) {
+        /*
+         * The interlaced path doesn't currently support the CRT filter stuff,
+         * other than by allowing the previous frame to partially show through
+         * the scanlines of the current frame, using a 50% alpha black scanline.
+         */
+        render_32_1x2_interlaced(color_tab, src, trg, width, height, xs, ys,
+                                 xt, yt, pitchs, pitcht, config, (color_tab->physical_colors[0] & 0x00ffffff) | 0x7f000000);
+    } else {
+        render_generic_1x2_rgbi(color_tab, src, trg, width, height, xs, ys,
+                               xt, yt, pitchs, pitcht, viewport_first_line, viewport_last_line,
+                               4, 1, config);
+    }
 }

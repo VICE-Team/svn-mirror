@@ -1,8 +1,8 @@
 /*
- * render2x2crt.h - Implementation of framebuffer to physical screen copy
+ * render1x2rgbi.h - Implementation of framebuffer to physical screen copy
  *
  * Written by
- *  groepaz <groepaz@gmx.net> based on the pal renderers
+ *  groepaz <groepaz@gmx.net> based on the pal renderers written by
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,13 +24,13 @@
  *
  */
 
-#ifndef VICE_RENDER2X2CRT_H
-#define VICE_RENDER2X2CRT_H
+#ifndef VICE_RENDER1X2RGBI_H
+#define VICE_RENDER1X2RGBI_H
 
 #include "types.h"
 #include "viewport.h"
 
-extern void render_32_2x2_rgbi(video_render_color_tables_t *colortab,
+extern void render_32_1x2_rgbi(video_render_color_tables_t *colortab,
                               const uint8_t *src, uint8_t *trg,
                               unsigned int width, const unsigned int height,
                               const unsigned int xs, const unsigned int ys,

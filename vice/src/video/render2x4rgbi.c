@@ -1,5 +1,5 @@
 /*
- * render2x4crt.c - 2x4 CRT renderers
+ * render2x4rgbi.c - 2x4 CRT renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers written by
@@ -30,7 +30,7 @@
 #include <stdio.h>
 
 #include "render2x4.h"
-#include "render2x4crt.h"
+#include "render2x4rgbi.h"
 #include "types.h"
 #include "video-color.h"
 

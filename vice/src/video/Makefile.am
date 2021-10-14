@@ -20,28 +20,28 @@ libvideo_a_SOURCES = \
 	render-common.h \
 	render1x1.c \
 	render1x1.h \
-	render1x1crt.c \
-	render1x1crt.h \
+	render1x1rgbi.c \
+	render1x1rgbi.h \
 	render1x1ntsc.c \
 	render1x1ntsc.h \
 	render1x1pal.c \
 	render1x1pal.h \
 	render1x2.c \
 	render1x2.h \
-	render1x2crt.c \
-	render1x2crt.h \
+	render1x2rgbi.c \
+	render1x2rgbi.h \
 	render2x2.c \
 	render2x2.h \
-	render2x2crt.c \
-	render2x2crt.h \
+	render2x2rgbi.c \
+	render2x2rgbi.h \
 	render2x2ntsc.c \
 	render2x2ntsc.h \
 	render2x2pal.c \
 	render2x2pal.h \
 	render2x4.c \
 	render2x4.h \
-	render2x4crt.c \
-	render2x4crt.h \
+	render2x4rgbi.c \
+	render2x4rgbi.h \
 	renderscale2x.c \
 	renderscale2x.h \
 	video-canvas.c \
@@ -50,7 +50,7 @@ libvideo_a_SOURCES = \
 	video-color.c \
 	video-color.h \
 	video-render-crt.c \
-	video-render-pal.c \
+	video-render-palntsc.c \
 	video-render-rgbi.c \
 	video-render.c \
 	video-render.h \
@@ -59,4 +59,3 @@ libvideo_a_SOURCES = \
 	video-sound.c \
 	video-sound.h \
 	video-viewport.c
-

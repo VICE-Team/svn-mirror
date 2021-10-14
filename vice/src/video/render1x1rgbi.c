@@ -1,5 +1,5 @@
 /*
- * render1x1crt.c - 1x1 NTSC renderers
+ * render1x1rgbi.c - 1x1 NTSC renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers written by
@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#include "render1x1crt.h"
+#include "render1x1rgbi.h"
 #include "types.h"
 #include "video-color.h"
 

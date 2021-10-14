@@ -1,5 +1,5 @@
 /*
- * video-render-pal.c - Implementation of framebuffer to physical screen copy
+ * video-render-palntsc.c - Implementation of framebuffer to physical screen copy
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -36,7 +36,6 @@
 #include "render1x1pal.h"
 #include "render1x1ntsc.h"
 #include "render1x2.h"
-#include "render1x2crt.h"
 #include "render2x2.h"
 #include "render2x2pal.h"
 #include "render2x2ntsc.h"
