@@ -17617,7 +17617,7 @@ All multibyte values are in little endian order unless otherwise specified.
 @table @strong
 
 @item byte 0: 0x02 (STX)
-@item byte 1: API version ID (currently 0x01)
+@item byte 1: API version ID (currently 0x02)
 The API version identifies incompatible changes, such as modifying the header
 structure, or rearranging or changing the meaning of existing response fields.
 The API version does not need to be incremented for additional fields. If all
@@ -17715,7 +17715,7 @@ such as hitting a checkpoint.
 
 @item Client sends a command to set a temporary checkpoint:
 @*
-@* @code{02 | 01 | 08 00 00 00 | ad de 34 12 | 12 | e2 fc | e3 fc | 01 | 01 | 04 | 01 }
+@* @code{02 | 02 | 08 00 00 00 | ad de 34 12 | 12 | e2 fc | e3 fc | 01 | 01 | 04 | 01 }
 @*
 @*
 
@@ -17723,7 +17723,7 @@ such as hitting a checkpoint.
 @item 0x02
 Begin command
 
-@item 0x01
+@item 0x02
 API version 2
 
 @item 0x00000008
