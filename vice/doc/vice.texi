@@ -2867,26 +2867,9 @@ The following resources affect the screen emulation.
 
 @table @code
 
-@vindex HwScalePossible
-@item HwScalePossible
-Boolean that indicates whether hardware scaling is possible or not.
-
 @vindex FullscreenEnable
 @item FullscreenEnable
 Boolean specifying whether ``fullscreen'' is turned on at startup or not.
-
-@end table
-
-@c FIXME: @node
-@subsection Video command line options
-
-@table @code
-
-@findex -hwscalepossible, +hwscalepossible
-@item -hwscalepossible
-@itemx +hwscalepossible
-Enable/Disable the possibility of hardware scaling
-@code{HwScalePossible=1} or @code{HwScalePossible=1}).
 
 @end table
 
@@ -20238,13 +20221,13 @@ beginning of the image.
 Given that a Commodore VIC 1541/1570/1571 can read/write at most 42
 tracks per side, it is quite natural to use the half-tracks from 1
 to 84 for the first side and the following 84 half-tracks (i. e.
-halg.track 85 to 168) for the second size.
+half-track 85 to 168) for the second side.
 
 In order for this to work, byte 9 of the image (i. e. the maximum
 number of tracks) usually contains 168 for double sided disks.
 
 To make identifying such images easy, the file signature in the first 8 bytes of
-such files will be @code{GCR-1571}).
+such files is @code{GCR-1571}).
 
 @subsection Extra mastering info (SPS extension)
 
