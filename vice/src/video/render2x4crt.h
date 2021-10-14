@@ -37,5 +37,6 @@ extern void render_32_2x4_crt(video_render_color_tables_t *colortab,
                               const unsigned int xt, const unsigned int yt,
                               const unsigned int pitchs,
                               const unsigned int pitcht,
-                              viewport_t *viewport, video_render_config_t *config);
+                              unsigned int viewport_first_line, unsigned int viewport_last_line,
+                              video_render_config_t *config);
 #endif
