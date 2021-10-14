@@ -30,7 +30,7 @@
 #include "types.h"
 #include "viewport.h"
 
-extern void render_32_2x4_crt(video_render_color_tables_t *colortab,
+extern void render_32_2x4_rgbi(video_render_color_tables_t *colortab,
                               const uint8_t *src, uint8_t *trg,
                               unsigned int width, const unsigned int height,
                               const unsigned int xs, const unsigned int ys,

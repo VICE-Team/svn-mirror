@@ -85,7 +85,8 @@ void video_render_crt_mono_main(video_render_config_t *config,
 
         case VIDEO_RENDER_CRT_MONO_1X1:
             if (delayloop) {
-                render_32_1x1_crt(colortab, src, trg, width, height,
+                /* FIXME: open end, this should use a dedicated monochrome CRT renderer */
+                render_32_1x1_rgbi(colortab, src, trg, width, height,
                                    xs, ys, xt, yt, pitchs, pitcht);
                 return;
             } else {
@@ -96,7 +97,8 @@ void video_render_crt_mono_main(video_render_config_t *config,
             break;
         case VIDEO_RENDER_CRT_MONO_1X2:
             if (delayloop) {
-                render_32_1x2_crt(colortab, src, trg, width, height,
+                /* FIXME: open end, this should use a dedicated monochrome CRT renderer */
+                render_32_1x2_rgbi(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
                                   viewport_first_line, viewport_last_line,
                                   config);
@@ -113,7 +115,8 @@ void video_render_crt_mono_main(video_render_config_t *config,
                                   xs, ys, xt, yt, pitchs, pitcht);
                 return;
             } else if (delayloop) {
-                render_32_2x2_crt(colortab, src, trg, width, height,
+                /* FIXME: open end, this should use a dedicated monochrome CRT renderer */
+                render_32_2x2_rgbi(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
                                   viewport_first_line, viewport_last_line, config);
                 return;
@@ -125,7 +128,8 @@ void video_render_crt_mono_main(video_render_config_t *config,
             break;
         case VIDEO_RENDER_CRT_MONO_2X4:
             if (delayloop) {
-                render_32_2x4_crt(colortab, src, trg, width, height,
+                /* FIXME: open end, this should use a dedicated monochrome CRT renderer */
+                render_32_2x4_rgbi(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
                                   viewport_first_line, viewport_last_line, config);
                 return;

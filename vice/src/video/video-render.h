@@ -58,7 +58,7 @@ extern void video_render_main(struct video_render_config_s *config, uint8_t *src
                               viewport_t *viewport);
 extern void video_render_update_palette(struct video_canvas_s *canvas);
 
-extern void video_render_palfunc_set(render_pal_ntsc_func_t func);
+extern void video_render_palntscfunc_set(render_pal_ntsc_func_t func);
 extern void video_render_crtmonofunc_set(render_crt_mono_func_t func);
 extern void video_render_rgbifunc_set(render_rgbi_func_t func);
 

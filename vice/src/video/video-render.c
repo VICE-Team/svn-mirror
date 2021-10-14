@@ -120,7 +120,7 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
     rendermode_error = rendermode;
 }
 
-void video_render_palfunc_set(render_pal_ntsc_func_t func)
+void video_render_palntscfunc_set(render_pal_ntsc_func_t func)
 {
     render_pal_ntsc_func = func;
 }

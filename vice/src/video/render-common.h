@@ -1,5 +1,5 @@
 /*
- * render1x2.h - Implementation of framebuffer to physical screen copy
+ * render-common.h - inlined functions common to (some) renderers
  *
  * Written by
  *  John Selck <graham@cruise.de>

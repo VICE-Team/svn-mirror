@@ -33,7 +33,7 @@
 
 #include "video.h"
 
-extern void render_32_1x1_crt(video_render_color_tables_t *color_tab,
+extern void render_32_1x1_rgbi(video_render_color_tables_t *color_tab,
                                const uint8_t *src, uint8_t *trg,
                                const unsigned int width, const unsigned int height,
                                const unsigned int xs, const unsigned int ys,
