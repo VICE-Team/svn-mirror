@@ -49,7 +49,7 @@ libvideo_a_SOURCES = \
 	video-cmdline-options.c \
 	video-color.c \
 	video-color.h \
-	video-render-crt.c \
+	video-render-crtmono.c \
 	video-render-palntsc.c \
 	video-render-rgbi.c \
 	video-render.c \

@@ -1,5 +1,5 @@
 /*
- * video-render-crt.c - Implementation of framebuffer to physical screen copy
+ * video-render-crtmono.c - Monochrome CRT renderers (used for CRTC)
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -137,7 +137,7 @@ void video_render_crt_mono_main(video_render_config_t *config,
             break;
     }
     if (rendermode_error != rendermode) {
-        log_error(LOG_DEFAULT, "video_render_crt_main: unsupported rendermode (%d)", rendermode);
+        log_error(LOG_DEFAULT, "video_render_crt_mono_main: unsupported rendermode (%d)", rendermode);
     }
     rendermode_error = rendermode;
 }

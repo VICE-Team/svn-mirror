@@ -1,5 +1,5 @@
 /*
- * render2x4rgbi.c - 2x4 CRT renderers
+ * render2x4rgbi.c - 2x4 RGBI renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers written by

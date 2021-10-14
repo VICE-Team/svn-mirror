@@ -1,5 +1,5 @@
 /*
- * render1x1.h - Implementation of framebuffer to physical screen copy
+ * render1x1.h - 1x1 PAL renderers
  *
  * Written by
  *  John Selck <graham@cruise.de>

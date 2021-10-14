@@ -1,5 +1,5 @@
 /*
- * render2x4.c - 2x4 renderers
+ * render2x4.c - 2x4 renderers (unfiltered)
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the renderers written by

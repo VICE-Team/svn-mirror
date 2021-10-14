@@ -1,5 +1,5 @@
 /*
- * render2x4rgbi.h - Implementation of framebuffer to physical screen copy
+ * render2x4rgbi.h - 2x4 RGBI renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers

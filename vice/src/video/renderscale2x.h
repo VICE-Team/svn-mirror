@@ -1,5 +1,5 @@
 /*
- * renderscale2x.h - Implementation of framebuffer to physical screen copy
+ * renderscale2x.h - scale2x renderers
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>

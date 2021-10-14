@@ -1,5 +1,5 @@
 /*
- * video-render-palntsc.c - Implementation of framebuffer to physical screen copy
+ * video-render-palntsc.c - PAL/NTSC CRT renderers (used for VIC/VICII/TED)
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -124,5 +124,5 @@ void video_render_pal_ntsc_main(video_render_config_t *config,
                 return;
             }
     }
-    log_debug("video_render_pal_main unsupported rendermode (%d)\n", rendermode);
+    log_debug("video_render_pal_ntsc_main unsupported rendermode (%d)\n", rendermode);
 }

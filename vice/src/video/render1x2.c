@@ -1,5 +1,5 @@
 /*
- * render1x2.c - 1x2 renderers (no pal emu needed here)
+ * render1x2.c - 1x2 renderers (unfiltered)
  *
  * Written by
  *  John Selck <graham@cruise.de>

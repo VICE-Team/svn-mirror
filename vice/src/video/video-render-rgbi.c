@@ -1,5 +1,5 @@
 /*
- * video-render-rgbi.c - Implementation of framebuffer to physical screen copy
+ * video-render-rgbi.c - RGBI CRT renderers (used for VDC)
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -133,7 +133,7 @@ void video_render_rgbi_main(video_render_config_t *config,
             break;
     }
     if (rendermode_error != rendermode) {
-        log_error(LOG_DEFAULT, "video_render_crt_main: unsupported rendermode (%d)", rendermode);
+        log_error(LOG_DEFAULT, "video_render_rgbi_main: unsupported rendermode (%d)", rendermode);
     }
     rendermode_error = rendermode;
 }

@@ -1,5 +1,5 @@
 /*
- * render1x1rgbi.c - 1x1 NTSC renderers
+ * render1x1rgbi.c - 1x1 RGBI renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers written by
