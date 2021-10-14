@@ -54,11 +54,11 @@
 
 static int rendermode_error = -1;
 
-static void video_render_crt_main(video_render_config_t *config,
-                                  uint8_t *src, uint8_t *trg,
-                                  int width, int height, int xs, int ys, int xt,
-                                  int yt, int pitchs, int pitcht,
-                                  viewport_t *viewport)
+void video_render_rgbi_mono_main(video_render_config_t *config,
+                           uint8_t *src, uint8_t *trg,
+                           int width, int height, int xs, int ys, int xt,
+                           int yt, int pitchs, int pitcht,
+                           unsigned int viewport_first_line, unsigned int viewport_last_line)
 {
     video_render_color_tables_t *colortab;
     int doublescan, delayloop, rendermode, scale2x;
@@ -70,10 +70,10 @@ static void video_render_crt_main(video_render_config_t *config,
 
     delayloop = (config->filter == VIDEO_FILTER_CRT);
 
-    if ((rendermode == VIDEO_RENDER_CRT_1X1
-         || rendermode == VIDEO_RENDER_CRT_1X2
-         || rendermode == VIDEO_RENDER_CRT_2X2
-         || rendermode == VIDEO_RENDER_CRT_2X4)
+    if ((rendermode == VIDEO_RENDER_RGBI_MONO_1X1
+         || rendermode == VIDEO_RENDER_RGBI_MONO_1X2
+         || rendermode == VIDEO_RENDER_RGBI_MONO_2X2
+         || rendermode == VIDEO_RENDER_RGBI_MONO_2X4)
         && config->video_resources.pal_scanlineshade <= 0) {
         doublescan = 0;
     }
@@ -83,7 +83,7 @@ static void video_render_crt_main(video_render_config_t *config,
             return;
             break;
 
-        case VIDEO_RENDER_CRT_1X1:
+        case VIDEO_RENDER_RGBI_MONO_1X1:
             if (delayloop) {
                 render_32_1x1_crt(colortab, src, trg, width, height,
                                    xs, ys, xt, yt, pitchs, pitcht);
@@ -94,11 +94,12 @@ static void video_render_crt_main(video_render_config_t *config,
                 return;
             }
             break;
-        case VIDEO_RENDER_CRT_1X2:
+        case VIDEO_RENDER_RGBI_MONO_1X2:
             if (delayloop) {
                 render_32_1x2_crt(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
-                                  viewport, config);
+                                  viewport_first_line, viewport_last_line,
+                                  config);
                 return;
             } else {
                 render_32_1x2(colortab, src, trg, width, height,
@@ -106,14 +107,15 @@ static void video_render_crt_main(video_render_config_t *config,
                 return;
             }
             break;
-        case VIDEO_RENDER_CRT_2X2:
+        case VIDEO_RENDER_RGBI_MONO_2X2:
             if (scale2x) {
                 render_32_scale2x(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht);
                 return;
             } else if (delayloop) {
                 render_32_2x2_crt(colortab, src, trg, width, height,
-                                  xs, ys, xt, yt, pitchs, pitcht, viewport, config);
+                                  xs, ys, xt, yt, pitchs, pitcht,
+                                  viewport_first_line, viewport_last_line, config);
                 return;
             } else {
                 render_32_2x2(colortab, src, trg, width, height,
@@ -121,10 +123,11 @@ static void video_render_crt_main(video_render_config_t *config,
                 return;
             }
             break;
-        case VIDEO_RENDER_CRT_2X4:
+        case VIDEO_RENDER_RGBI_MONO_2X4:
             if (delayloop) {
                 render_32_2x4_crt(colortab, src, trg, width, height,
-                                  xs, ys, xt, yt, pitchs, pitcht, viewport, config);
+                                  xs, ys, xt, yt, pitchs, pitcht,
+                                  viewport_first_line, viewport_last_line, config);
                 return;
             } else {
                 render_32_2x4(colortab, src, trg, width, height,
@@ -137,9 +140,4 @@ static void video_render_crt_main(video_render_config_t *config,
         log_error(LOG_DEFAULT, "video_render_crt_main: unsupported rendermode (%d)", rendermode);
     }
     rendermode_error = rendermode;
-}
-
-void video_render_crt_init(void)
-{
-    video_render_crtfunc_set(video_render_crt_main);
 }

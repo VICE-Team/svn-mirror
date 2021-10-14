@@ -47,16 +47,15 @@
 #include "video.h"
 
 
-static void video_render_pal_main(video_render_config_t *config,
-                                  uint8_t *src, uint8_t *trg,
-                                  int width, int height, int xs, int ys, int xt,
-                                  int yt, int pitchs, int pitcht,
-                                  viewport_t *viewport)
+void video_render_pal_ntsc_main(video_render_config_t *config,
+                           uint8_t *src, uint8_t *trg,
+                           int width, int height, int xs, int ys, int xt,
+                           int yt, int pitchs, int pitcht,
+                           int crt_type,
+                           unsigned int viewport_first_line, unsigned int viewport_last_line)
 {
     video_render_color_tables_t *colortab;
-    int doublescan, delayloop, rendermode, scale2x, video;
-
-    video = viewport->crt_type;
+    int doublescan, delayloop, rendermode, scale2x;
 
     rendermode = config->rendermode;
     doublescan = config->doublescan;
@@ -70,8 +69,8 @@ static void video_render_pal_main(video_render_config_t *config,
         delayloop = 0;
     */
 
-    if ((rendermode == VIDEO_RENDER_PAL_1X1
-         || rendermode == VIDEO_RENDER_PAL_2X2)
+    if ((rendermode == VIDEO_RENDER_PAL_NTSC_1X1
+         || rendermode == VIDEO_RENDER_PAL_NTSC_2X2)
         && config->video_resources.pal_scanlineshade <= 0) {
         doublescan = 0;
     }
@@ -80,9 +79,9 @@ static void video_render_pal_main(video_render_config_t *config,
         case VIDEO_RENDER_NULL:
             break;
 
-        case VIDEO_RENDER_PAL_1X1:
+        case VIDEO_RENDER_PAL_NTSC_1X1:
             if (delayloop) {
-                if (video) {
+                if (crt_type) {
                     render_32_1x1_pal(colortab, src, trg, width, height,
                                       xs, ys, xt, yt, pitchs, pitcht, config);
                     return;
@@ -97,19 +96,19 @@ static void video_render_pal_main(video_render_config_t *config,
                 return;
             }
             return;
-        case VIDEO_RENDER_PAL_2X2:
+        case VIDEO_RENDER_PAL_NTSC_2X2:
             if (delayloop) {
-                switch (video) {
+                switch (crt_type) {
                     case 0: /* NTSC */
                         render_32_2x2_ntsc(colortab, src, trg, width, height,
                                            xs, ys, xt, yt, pitchs, pitcht,
-                                           viewport, config);
+                                           viewport_first_line, viewport_last_line, config);
                         return;
                         
                     case 1: /* PAL */
                         render_32_2x2_pal(colortab, src, trg, width, height,
                                           xs, ys, xt, yt, pitchs, pitcht,
-                                          viewport, config);
+                                          viewport_first_line, viewport_last_line, config);
                         return;
                 }
             } else if (scale2x) {
@@ -123,9 +122,4 @@ static void video_render_pal_main(video_render_config_t *config,
             }
     }
     log_debug("video_render_pal_main unsupported rendermode (%d)\n", rendermode);
-}
-
-void video_render_pal_init(void)
-{
-    video_render_palfunc_set(video_render_pal_main);
 }

@@ -103,7 +103,8 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
                             unsigned int xs, const unsigned int ys,
                             unsigned int xt, const unsigned int yt,
                             const unsigned int pitchs, const unsigned int pitcht,
-                            viewport_t *viewport, unsigned int pixelstride,
+                            unsigned int viewport_first_line, unsigned int viewport_last_line,
+                            unsigned int pixelstride,
                             const int write_interpolated_pixels, video_render_config_t *config)
 {
     int16_t *prevrgblineptr;
@@ -114,8 +115,8 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     int32_t *line, *cbtable, *crtable;
     uint32_t x, y, wfirst, wlast, yys;
     int32_t l, l2, u, u2, unew, v, v2, vnew, off, off_flip, shade;
-    int first_line = viewport->first_line * 2;
-    int last_line = (viewport->last_line * 2) + 1;
+    int first_line = viewport_first_line * 2;
+    int last_line = (viewport_last_line * 2) + 1;
 
     src = src + pitchs * ys + xs - 2;
     trg = trg + pitcht * yt + xt * pixelstride;
@@ -279,9 +280,10 @@ void render_32_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
+                       unsigned int viewport_first_line, unsigned int viewport_last_line,
+                       video_render_config_t *config)
 {
     render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport,
+                           xt, yt, pitchs, pitcht, viewport_first_line, viewport_last_line,
                            4, 1, config);
 }

@@ -101,7 +101,8 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
                             unsigned int xs, const unsigned int ys,
                             unsigned int xt, const unsigned int yt,
                             const unsigned int pitchs, const unsigned int pitcht,
-                            viewport_t *viewport, unsigned int pixelstride,
+                            unsigned int viewport_first_line, unsigned int viewport_last_line,
+                            unsigned int pixelstride,
                             const int write_interpolated_pixels, video_render_config_t *config)
 {
     int16_t *prevrgblineptr;
@@ -141,7 +142,7 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
         if ((y + 1) >= (yys + height)) {
             /* no place to put scanline in: we are outside viewport or still
              * doing the first iteration (y == yys), height == 0 */
-            if ((y + 1) == yys || (y + 1) <= (viewport->first_line * 4) || (y + 1) > (viewport->last_line * 4)) {
+            if ((y + 1) == yys || (y + 1) <= (viewport_first_line * 4) || (y + 1) > (viewport_last_line * 4)) {
                 break;
             }
             tmptrg2 = &color_tab->rgbscratchbuffer[0];
@@ -153,14 +154,14 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
              * otherwise we dump it to the scratch region... We must never
              * render the scanline for the first row, because prevlinergb is not
              * yet initialized and scanline data would be bogus! */
-            tmptrgscanline2 = ((y + 0) != yys) && ((y + 0) > viewport->first_line * 4) && ((y + 0) <= viewport->last_line * 4)
+            tmptrgscanline2 = ((y + 0) != yys) && ((y + 0) > viewport_first_line * 4) && ((y + 0) <= viewport_last_line * 4)
                               ? trg - pitcht
                               : &color_tab->rgbscratchbuffer[0];
         }
         if (y == yys + height) {
             /* no place to put scanline in: we are outside viewport or still
              * doing the first iteration (y == yys), height == 0 */
-            if (y == yys || y <= viewport->first_line * 4 || y > viewport->last_line * 4) {
+            if (y == yys || y <= viewport_first_line * 4 || y > viewport_last_line * 4) {
                 break;
             }
             tmptrg1 = &color_tab->rgbscratchbuffer[0];
@@ -172,7 +173,7 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
              * otherwise we dump it to the scratch region... We must never
              * render the scanline for the first row, because prevlinergb is not
              * yet initialized and scanline data would be bogus! */
-            tmptrgscanline1 = (y != yys) && (y > viewport->first_line * 4) && (y <= viewport->last_line * 4)
+            tmptrgscanline1 = (y != yys) && (y > viewport_first_line * 4) && (y <= viewport_last_line * 4)
                               ? trg - (pitcht * 2)
                               : &color_tab->rgbscratchbuffer[0];
         }
@@ -263,7 +264,8 @@ void render_32_2x4_crt(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
+                       unsigned int viewport_first_line, unsigned int viewport_last_line,
+                       video_render_config_t *config)
 {
     if (config->interlaced) {
         /*
@@ -275,7 +277,7 @@ void render_32_2x4_crt(video_render_color_tables_t *color_tab,
                                  xt, yt, pitchs, pitcht, config, (color_tab->physical_colors[0] & 0x00ffffff) | 0x7f000000);
     } else {
         render_generic_2x4_crt(color_tab, src, trg, width, height, xs, ys,
-                               xt, yt, pitchs, pitcht, viewport,
+                               xt, yt, pitchs, pitcht, viewport_first_line, viewport_last_line,
                                4, 1, config);
     }
 }
