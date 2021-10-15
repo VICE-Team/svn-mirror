@@ -2176,7 +2176,7 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_side)
 {
     ui_sb_state_t *sb_state;
-    int doubleside, dualdrive, halftracks_per_side;
+    int doubleside, dualdrive;
 
     /* Ok to call from VICE thread */
 
@@ -2210,7 +2210,7 @@ void ui_display_drive_track(unsigned int drive_number,
         snprintf(
             sb_state->current_drive_track_str[drive_number][drive_base],
             DRIVE_TRACK_STR_MAX_LEN - 1,
-            " - %d:%.1lf",
+            " - %u:%.1lf",
             drive_side,
             half_track_number / 2.0);
     } else {
