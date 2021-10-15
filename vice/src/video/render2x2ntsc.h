@@ -1,5 +1,5 @@
 /*
- * render2x2ntsc.h - Implementation of framebuffer to physical screen copy
+ * render2x2ntsc.h - 2x2 NTSC renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers written by

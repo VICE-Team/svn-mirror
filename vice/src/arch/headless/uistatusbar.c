@@ -230,7 +230,8 @@ void ui_display_drive_led(unsigned int drive_number,
  */
 void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
-                            unsigned int half_track_number)
+                            unsigned int half_track_number,
+                            unsigned int drive_side)
 {
     /* printf("%s\n", __func__); */
 }

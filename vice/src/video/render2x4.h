@@ -1,5 +1,5 @@
 /*
- * render2x4.h - Implementation of framebuffer to physical screen copy
+ * render2x4.h - 2x4 renderers (unfiltered)
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the renderers written by

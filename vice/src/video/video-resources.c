@@ -52,34 +52,8 @@
 /*-----------------------------------------------------------------------*/
 /* global resources.  */
 
-#ifdef HAVE_HWSCALE
-static int hwscale_possible;
-
-static int set_hwscale_possible(int val, void *param)
-{
-    hwscale_possible = val ? 1 : 0;
-
-    return 0;
-}
-
-static resource_int_t resources_hwscale_possible[] =
-{
-    { "HwScalePossible", 1, RES_EVENT_NO, NULL,
-      &hwscale_possible, set_hwscale_possible, NULL },
-    RESOURCE_INT_LIST_END
-};
-#endif
-
 int video_resources_init(void)
 {
-#ifdef HAVE_HWSCALE
-    if (machine_class != VICE_MACHINE_VSID) {
-        if (resources_register_int(resources_hwscale_possible) < 0) {
-            return -1;
-        }
-    }
-#endif
-
     return video_arch_resources_init();
 }
 
@@ -187,8 +161,7 @@ static int set_hwscale_enabled(int val, void *param)
     video_canvas_t *canvas = (video_canvas_t *)param;
 
     if (val
-        && !canvas->videoconfig->hwscale
-        && !hwscale_possible)
+        && !canvas->videoconfig->hwscale)
     {
         log_message(LOG_DEFAULT, "HW scale not available, forcing to disabled");
         return 0;

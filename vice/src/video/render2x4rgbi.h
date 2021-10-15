@@ -1,5 +1,5 @@
 /*
- * render2x4crt.h - Implementation of framebuffer to physical screen copy
+ * render2x4rgbi.h - 2x4 RGBI renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers
@@ -24,13 +24,13 @@
  *
  */
 
-#ifndef VICE_RENDER2X4CRT_H
-#define VICE_RENDER2X4CRT_H
+#ifndef VICE_RENDER2X4RGBI_H
+#define VICE_RENDER2X4RGBI_H
 
 #include "types.h"
 #include "viewport.h"
 
-extern void render_32_2x4_crt(video_render_color_tables_t *colortab,
+extern void render_32_2x4_rgbi(video_render_color_tables_t *colortab,
                               const uint8_t *src, uint8_t *trg,
                               unsigned int width, const unsigned int height,
                               const unsigned int xs, const unsigned int ys,

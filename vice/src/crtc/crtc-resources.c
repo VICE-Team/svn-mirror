@@ -60,19 +60,19 @@ void crtc_update_renderer(void)
         /* 80 columns */
         crtc.video_chip_cap->single_mode.sizex = 1;
         crtc.video_chip_cap->single_mode.sizey = 2;
-        crtc.video_chip_cap->single_mode.rmode = VIDEO_RENDER_RGBI_MONO_1X2;
+        crtc.video_chip_cap->single_mode.rmode = VIDEO_RENDER_CRT_MONO_1X2;
         crtc.video_chip_cap->double_mode.sizex = 2;
         crtc.video_chip_cap->double_mode.sizey = 4;
-        crtc.video_chip_cap->double_mode.rmode = VIDEO_RENDER_RGBI_MONO_2X4;
+        crtc.video_chip_cap->double_mode.rmode = VIDEO_RENDER_CRT_MONO_2X4;
         crtc.video_chip_cap->scale2x_allowed = 0;
     } else {
         /* 40 columns */
         crtc.video_chip_cap->single_mode.sizex = 1;
         crtc.video_chip_cap->single_mode.sizey = 1;
-        crtc.video_chip_cap->single_mode.rmode = VIDEO_RENDER_RGBI_MONO_1X1;
+        crtc.video_chip_cap->single_mode.rmode = VIDEO_RENDER_CRT_MONO_1X1;
         crtc.video_chip_cap->double_mode.sizex = 2;
         crtc.video_chip_cap->double_mode.sizey = 2;
-        crtc.video_chip_cap->double_mode.rmode = VIDEO_RENDER_RGBI_MONO_2X2;
+        crtc.video_chip_cap->double_mode.rmode = VIDEO_RENDER_CRT_MONO_2X2;
         crtc.video_chip_cap->scale2x_allowed = ARCHDEP_CRTC_DSIZE;
     }
 }

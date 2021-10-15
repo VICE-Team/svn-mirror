@@ -75,6 +75,7 @@ libcbm5x0_a_SOURCES = \
 	cbm2-resources.h \
 	cbm5x0-snapshot.c \
 	cbm2-snapshot.h \
+	cbm5x0-stubs.c \
 	cbm5x0.c \
 	cbm2.h \
 	cbm2acia.h \

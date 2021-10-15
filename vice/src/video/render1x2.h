@@ -1,5 +1,5 @@
 /*
- * render1x2.h - Implementation of framebuffer to physical screen copy
+ * render1x2.h - 1x2 renderers (unfiltered)
  *
  * Written by
  *  John Selck <graham@cruise.de>

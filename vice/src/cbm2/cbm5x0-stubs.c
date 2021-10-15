@@ -1,8 +1,8 @@
 /*
- * render2x2crt.h - Implementation of framebuffer to physical screen copy
+ * cbm5x0-stubs.c
  *
  * Written by
- *  groepaz <groepaz@gmx.net> based on the pal renderers
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,19 +24,17 @@
  *
  */
 
-#ifndef VICE_RENDER2X2CRT_H
-#define VICE_RENDER2X2CRT_H
+#include "vice.h"
+
+#include <stdio.h>
 
 #include "types.h"
-#include "viewport.h"
+#include "userport_io_sim.h"
 
-extern void render_32_2x2_crt(video_render_color_tables_t *colortab,
-                              const uint8_t *src, uint8_t *trg,
-                              unsigned int width, const unsigned int height,
-                              const unsigned int xs, const unsigned int ys,
-                              const unsigned int xt, const unsigned int yt,
-                              const unsigned int pitchs,
-                              const unsigned int pitcht,
-                              unsigned int viewport_first_line, unsigned int viewport_last_line,
-                              video_render_config_t *config);
-#endif
+void userport_io_sim_set_pbx_ddr_lines(uint8_t val)
+{
+}
+
+void userport_io_sim_set_pbx_out_lines(uint8_t val)
+{
+}

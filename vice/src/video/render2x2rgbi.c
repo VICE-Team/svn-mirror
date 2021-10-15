@@ -1,5 +1,5 @@
 /*
- * render2x2crt.c - 2x2 CRT renderers
+ * render2x2rgbi.c - 2x2 RGBI renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers written by
@@ -30,7 +30,7 @@
 #include <stdio.h>
 
 #include "render2x2.h"
-#include "render2x2crt.h"
+#include "render2x2rgbi.h"
 #include "types.h"
 #include "video-color.h"
 
@@ -95,7 +95,7 @@ void get_yuv_from_video(
 }
 
 static inline
-void render_generic_2x2_crt(video_render_color_tables_t *color_tab,
+void render_generic_2x2_rgbi(video_render_color_tables_t *color_tab,
                             const uint8_t *src, uint8_t *trg,
                             unsigned int width, const unsigned int height,
                             unsigned int xs, const unsigned int ys,
@@ -235,7 +235,7 @@ void render_generic_2x2_crt(video_render_color_tables_t *color_tab,
     }
 }
 
-void render_32_2x2_crt(video_render_color_tables_t *color_tab,
+void render_32_2x2_rgbi(video_render_color_tables_t *color_tab,
                        const uint8_t *src, uint8_t *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
@@ -244,7 +244,7 @@ void render_32_2x2_crt(video_render_color_tables_t *color_tab,
                        unsigned int viewport_first_line, unsigned int viewport_last_line,
                        video_render_config_t *config)
 {
-    render_generic_2x2_crt(color_tab, src, trg, width, height, xs, ys,
+    render_generic_2x2_rgbi(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht,
                            viewport_first_line, viewport_last_line,
                            4, 1, config);
