@@ -84,6 +84,7 @@ extern char *alloca();
 #include "resources.h"
 #include "types.h"
 #include "uimon.h"
+#include "vsync.h"
 
 #ifdef AMIGA_MORPHOS
 #undef REG_PC
@@ -168,6 +169,7 @@ extern int cur_len, last_len;
 %token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
 %token CMD_COMMENT CMD_LIST CMD_STOPWATCH RESET
 %token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD CMD_MAINCPU_TRACE
+%token CMD_WARP
 %token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> L_BRACKET R_BRACKET LESS_THAN REG_U REG_S REG_PC REG_PCR
@@ -297,6 +299,15 @@ machine_state_rules: CMD_BANK end_cmd
                      { mon_display_screen(-1); }
                    | CMD_SCREEN address end_cmd
                      { mon_display_screen($2); }
+                   | CMD_WARP end_cmd
+                     {
+                        mon_out("Warp mode is %s.\n",
+                                vsync_get_warp_mode() ? "on" : "off");
+                     }
+                   | CMD_WARP TOGGLE end_cmd
+                     {
+                        vsync_set_warp_mode(!vsync_get_warp_mode());
+                     }
                    | register_mod
                    ;
 

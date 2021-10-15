@@ -792,6 +792,13 @@ static const mon_cmds_t mon_cmd_array[] = {
       NO_FILENAME_ARG
     },
 
+    { "warp", "",
+      "[on|off|toggle]",
+      "Turn warp mode on or off. If the argument is 'toggle' then the current mode\n"
+      "is toggled. When no argument is given the current mode is displayed.",
+      NO_FILENAME_ARG
+    },
+
     { NULL, NULL, NULL, NULL, 0 }
 };
 
