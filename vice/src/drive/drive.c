@@ -859,8 +859,7 @@ void drive_update_ui_status(void)
                 || drive0->side != drive0->old_side) {
                 drive0->old_half_track = drive0->current_half_track;
                 drive0->old_side = drive0->side;
-                ui_display_drive_track(i, 0,
-                                       drive0->current_half_track + (drive0->side * DRIVE_HALFTRACKS_1571));
+                ui_display_drive_track(i, 0, drive0->current_half_track, drive0->side);
             }
             /* update LED and track of the second drive for dual drives */
             if (drive_check_dual(unit->type)) {
@@ -869,8 +868,7 @@ void drive_update_ui_status(void)
                     || drive1->side != drive1->old_side) {
                     drive1->old_half_track = drive1->current_half_track;
                     drive1->old_side = drive1->side;
-                    ui_display_drive_track(i, 1,
-                                        drive1->current_half_track + (drive1->side * DRIVE_HALFTRACKS_1571));
+                    ui_display_drive_track(i, 1, drive1->current_half_track, drive1->side);
                 }
             }
         }

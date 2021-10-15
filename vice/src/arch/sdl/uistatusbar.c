@@ -65,6 +65,7 @@
 
 static int statusbar_drive_offset[4][2];    /* points to the position of the T in the widget */
 static int statusbar_drive_track[4][2];
+static int statusbar_drive_side[4][2];
 
 static char statusbar_text[MAX_STATUSBAR_LEN + 1] = BLANKLINE;
 static char kbdstatusbar_text[MAX_STATUSBAR_LEN + 1] = BLANKLINE;
@@ -167,13 +168,15 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
             statusbar_drive_offset[drive_number][0] = (int)offset;
             ui_display_drive_led(drive_number, 0, 0, 0);
             ui_display_drive_track(drive_number, 0, 
-                                   statusbar_drive_track[drive_number][0]);
+                                   statusbar_drive_track[drive_number][0],
+                                   statusbar_drive_side[drive_number][0]);
             if (drive_is_dualdrive_by_devnr(drive_number + 8)) {
                 offset += (drive_number > 1) ? 6 : 5;
                 statusbar_drive_offset[drive_number][1] = (int)offset;
                 ui_display_drive_led(drive_number, 1, 0, 0);
                 ui_display_drive_track(drive_number, 1, 
-                                    statusbar_drive_track[drive_number][1]);
+                                    statusbar_drive_track[drive_number][1],
+                                    statusbar_drive_side[drive_number][1]);
             } else {
                 statusbar_drive_offset[drive_number][1] = 0;
             }
@@ -191,7 +194,8 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 
 void ui_display_drive_track(unsigned int drive_number, 
                             unsigned int drive_base, 
-                            unsigned int half_track_number)
+                            unsigned int half_track_number,
+                            unsigned int disk_side)
 {
     unsigned int track_number = half_track_number / 2;
     unsigned int offset;
@@ -202,13 +206,16 @@ void ui_display_drive_track(unsigned int drive_number,
     /* printf("ui_display_drive_track drive_number:%d drive_base:%d half_track_number:%d\n",
            drive_number, drive_base, half_track_number); */
 
+    /* FIXME: disk side not displayed yet */
+
     /* remember for when we need to refresh it */
     statusbar_drive_track[drive_number][drive_base] = half_track_number;
-    
+    statusbar_drive_side[drive_number][drive_base] = disk_side;
+
     offset = statusbar_drive_offset[drive_number][drive_base] + 1;
     statusbar_text[offset] = (track_number / 10) + '0';
     statusbar_text[offset + 1] = (track_number % 10) + '0';
-    
+
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
     }

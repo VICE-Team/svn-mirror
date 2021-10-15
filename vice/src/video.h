@@ -45,11 +45,16 @@
 /* PAL or NTSC TV/Monitor (like VIC, VIC-II or TED) */
 #define VIDEO_RENDER_PAL_NTSC_1X1     1
 #define VIDEO_RENDER_PAL_NTSC_2X2     2
-/* RGB(I) or monochrome Monitor (CRTC and VDC) */
-#define VIDEO_RENDER_RGBI_MONO_1X1    7
-#define VIDEO_RENDER_RGBI_MONO_1X2    8 /* needed for y-stretch */
-#define VIDEO_RENDER_RGBI_MONO_2X2    9
-#define VIDEO_RENDER_RGBI_MONO_2X4   10 /* needed for y-stretch */
+/* monochrome Monitor (CRTC) */
+#define VIDEO_RENDER_CRT_MONO_1X1     3
+#define VIDEO_RENDER_CRT_MONO_1X2     4 /* needed for y-stretch */
+#define VIDEO_RENDER_CRT_MONO_2X2     5
+#define VIDEO_RENDER_CRT_MONO_2X4     6 /* needed for y-stretch */
+/* RGB(I) Monitor (VDC) */
+#define VIDEO_RENDER_RGBI_1X1         7
+#define VIDEO_RENDER_RGBI_1X2         8 /* needed for y-stretch */
+#define VIDEO_RENDER_RGBI_2X2         9
+#define VIDEO_RENDER_RGBI_2X4        10 /* needed for y-stretch */
 
 struct video_canvas_s;
 struct video_cbm_palette_s;

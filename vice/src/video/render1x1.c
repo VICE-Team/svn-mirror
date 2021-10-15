@@ -1,5 +1,5 @@
 /*
- * render1x1.c - 1x1 renderers
+ * render1x1.c - 1x1 renderers (unfiltered)
  *
  * Written by
  *  John Selck <graham@cruise.de>

@@ -79,17 +79,17 @@ static void vdc_update_renderer(void)
     if (vdc_resources.stretchy) {
         video_chip_cap.single_mode.sizex = 1;
         video_chip_cap.single_mode.sizey = 2;
-        video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGBI_MONO_1X2;
+        video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGBI_1X2;
         video_chip_cap.double_mode.sizex = 2;
         video_chip_cap.double_mode.sizey = 4;
-        video_chip_cap.double_mode.rmode = VIDEO_RENDER_RGBI_MONO_2X4;
+        video_chip_cap.double_mode.rmode = VIDEO_RENDER_RGBI_2X4;
     } else {
         video_chip_cap.single_mode.sizex = 1;
         video_chip_cap.single_mode.sizey = 1;
-        video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGBI_MONO_1X1;
+        video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGBI_1X1;
         video_chip_cap.double_mode.sizex = 2;
         video_chip_cap.double_mode.sizey = 2;
-        video_chip_cap.double_mode.rmode = VIDEO_RENDER_RGBI_MONO_2X2;
+        video_chip_cap.double_mode.rmode = VIDEO_RENDER_RGBI_2X2;
     }
 }
 

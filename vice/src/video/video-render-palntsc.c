@@ -1,5 +1,5 @@
 /*
- * video-render-pal.c - Implementation of framebuffer to physical screen copy
+ * video-render-palntsc.c - PAL/NTSC CRT renderers (used for VIC/VICII/TED)
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -36,7 +36,6 @@
 #include "render1x1pal.h"
 #include "render1x1ntsc.h"
 #include "render1x2.h"
-#include "render1x2crt.h"
 #include "render2x2.h"
 #include "render2x2pal.h"
 #include "render2x2ntsc.h"
@@ -81,14 +80,17 @@ void video_render_pal_ntsc_main(video_render_config_t *config,
 
         case VIDEO_RENDER_PAL_NTSC_1X1:
             if (delayloop) {
-                if (crt_type) {
-                    render_32_1x1_pal(colortab, src, trg, width, height,
-                                      xs, ys, xt, yt, pitchs, pitcht, config);
-                    return;
-                } else {
-                    render_32_1x1_ntsc(colortab, src, trg, width, height,
-                                       xs, ys, xt, yt, pitchs, pitcht);
-                    return;
+                switch (crt_type) {
+                    case 0: /* NTSC */
+                        render_32_1x1_ntsc(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht);
+                        return;
+                    default:
+                        /* fall through */
+                    case 1: /* PAL */
+                        render_32_1x1_pal(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht, config);
+                        return;
                 }
             } else {
                 render_32_1x1_04(colortab, src, trg, width, height,
@@ -104,7 +106,8 @@ void video_render_pal_ntsc_main(video_render_config_t *config,
                                            xs, ys, xt, yt, pitchs, pitcht,
                                            viewport_first_line, viewport_last_line, config);
                         return;
-                        
+                    default:
+                        /* fall through */
                     case 1: /* PAL */
                         render_32_2x2_pal(colortab, src, trg, width, height,
                                           xs, ys, xt, yt, pitchs, pitcht,
@@ -121,5 +124,5 @@ void video_render_pal_ntsc_main(video_render_config_t *config,
                 return;
             }
     }
-    log_debug("video_render_pal_main unsupported rendermode (%d)\n", rendermode);
+    log_debug("video_render_pal_ntsc_main unsupported rendermode (%d)\n", rendermode);
 }

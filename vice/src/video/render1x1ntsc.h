@@ -1,5 +1,5 @@
 /*
- * render1x1ntsc.h - Implementation of framebuffer to physical screen copy
+ * render1x1ntsc.h - 1x1 NTSC renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers written by

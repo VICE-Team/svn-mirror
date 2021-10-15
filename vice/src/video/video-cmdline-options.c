@@ -36,28 +36,8 @@
 #include "util.h"
 #include "video.h"
 
-#ifdef HAVE_HWSCALE
-static cmdline_option_t cmdline_options[] =
-{
-    { "-hwscalepossible", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "HwScalePossible", (resource_value_t)1,
-      NULL, "Enable the possibility of hardware scaling" },
-    { "+hwscalepossible", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "HwScalePossible", (resource_value_t)0,
-      NULL, "Disable the possibility of hardware scaling" },
-    CMDLINE_LIST_END
-};
-#endif
-
 int video_cmdline_options_init(void)
 {
-#ifdef HAVE_HWSCALE
-    if (machine_class != VICE_MACHINE_VSID) {
-        if (cmdline_register_options(cmdline_options) < 0) {
-            return -1;
-        }
-    }
-#endif
     return video_arch_cmdline_options_init();
 }
 

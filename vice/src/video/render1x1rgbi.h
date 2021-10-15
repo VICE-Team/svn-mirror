@@ -1,10 +1,10 @@
 /*
- * renderscale2x.h - scale2x renderers
+ * render1x1rgbi.h - 1x1 RGBI renderers
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
- * Original Scale2x code by
- *  Andrea Mazzoleni <amadvance@users.sourceforge.net>
+ *  groepaz <groepaz@gmx.net> based on the pal renderers written by
+ *  John Selck <graham@cruise.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,18 +26,18 @@
  *
  */
 
-#ifndef VICE_RENDERSCALE2X_H
-#define VICE_RENDERSCALE2X_H
+#ifndef VICE_RENDER1X1RGBI_H
+#define VICE_RENDER1X1RGBI_H
 
 #include "types.h"
+
 #include "video.h"
 
-extern void render_32_scale2x(const video_render_color_tables_t *color_tab,
-                              const uint8_t *src, uint8_t *trg,
-                              unsigned int width, const unsigned int height,
-                              const unsigned int xs, const unsigned int ys,
-                              const unsigned int xt, const unsigned int yt,
-                              const unsigned int pitchs,
-                              const unsigned int pitcht);
-
+extern void render_32_1x1_rgbi(video_render_color_tables_t *color_tab,
+                               const uint8_t *src, uint8_t *trg,
+                               const unsigned int width, const unsigned int height,
+                               const unsigned int xs, const unsigned int ys,
+                               const unsigned int xt, const unsigned int yt,
+                               const unsigned int pitchs,
+                               const unsigned int pitcht);
 #endif

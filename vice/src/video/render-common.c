@@ -1,5 +1,5 @@
 /*
- * render1x2.c - 1x2 renderers (no pal emu needed here)
+ * render-common.c - inlined functions common to (some) renderers
  *
  * Written by
  *  John Selck <graham@cruise.de>

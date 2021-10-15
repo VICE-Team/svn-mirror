@@ -1,5 +1,5 @@
 /*
- * video-render-crt.c - Implementation of framebuffer to physical screen copy
+ * video-render-rgbi.c - RGBI CRT renderers (used for VDC)
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -34,17 +34,13 @@
 #include "log.h"
 #include "machine.h"
 #include "render1x1.h"
-#include "render1x1crt.h"
-#include "render1x1pal.h"
-#include "render1x1ntsc.h"
+#include "render1x1rgbi.h"
 #include "render1x2.h"
-#include "render1x2crt.h"
+#include "render1x2rgbi.h"
 #include "render2x2.h"
-#include "render2x2crt.h"
-#include "render2x2pal.h"
-#include "render2x2ntsc.h"
+#include "render2x2rgbi.h"
 #include "render2x4.h"
-#include "render2x4crt.h"
+#include "render2x4rgbi.h"
 #include "renderscale2x.h"
 #include "resources.h"
 #include "types.h"
@@ -54,7 +50,7 @@
 
 static int rendermode_error = -1;
 
-void video_render_rgbi_mono_main(video_render_config_t *config,
+void video_render_rgbi_main(video_render_config_t *config,
                            uint8_t *src, uint8_t *trg,
                            int width, int height, int xs, int ys, int xt,
                            int yt, int pitchs, int pitcht,
@@ -70,10 +66,10 @@ void video_render_rgbi_mono_main(video_render_config_t *config,
 
     delayloop = (config->filter == VIDEO_FILTER_CRT);
 
-    if ((rendermode == VIDEO_RENDER_RGBI_MONO_1X1
-         || rendermode == VIDEO_RENDER_RGBI_MONO_1X2
-         || rendermode == VIDEO_RENDER_RGBI_MONO_2X2
-         || rendermode == VIDEO_RENDER_RGBI_MONO_2X4)
+    if ((rendermode == VIDEO_RENDER_RGBI_1X1
+         || rendermode == VIDEO_RENDER_RGBI_1X2
+         || rendermode == VIDEO_RENDER_RGBI_2X2
+         || rendermode == VIDEO_RENDER_RGBI_2X4)
         && config->video_resources.pal_scanlineshade <= 0) {
         doublescan = 0;
     }
@@ -83,9 +79,9 @@ void video_render_rgbi_mono_main(video_render_config_t *config,
             return;
             break;
 
-        case VIDEO_RENDER_RGBI_MONO_1X1:
+        case VIDEO_RENDER_RGBI_1X1:
             if (delayloop) {
-                render_32_1x1_crt(colortab, src, trg, width, height,
+                render_32_1x1_rgbi(colortab, src, trg, width, height,
                                    xs, ys, xt, yt, pitchs, pitcht);
                 return;
             } else {
@@ -94,9 +90,9 @@ void video_render_rgbi_mono_main(video_render_config_t *config,
                 return;
             }
             break;
-        case VIDEO_RENDER_RGBI_MONO_1X2:
+        case VIDEO_RENDER_RGBI_1X2:
             if (delayloop) {
-                render_32_1x2_crt(colortab, src, trg, width, height,
+                render_32_1x2_rgbi(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
                                   viewport_first_line, viewport_last_line,
                                   config);
@@ -107,13 +103,13 @@ void video_render_rgbi_mono_main(video_render_config_t *config,
                 return;
             }
             break;
-        case VIDEO_RENDER_RGBI_MONO_2X2:
+        case VIDEO_RENDER_RGBI_2X2:
             if (scale2x) {
                 render_32_scale2x(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht);
                 return;
             } else if (delayloop) {
-                render_32_2x2_crt(colortab, src, trg, width, height,
+                render_32_2x2_rgbi(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
                                   viewport_first_line, viewport_last_line, config);
                 return;
@@ -123,9 +119,9 @@ void video_render_rgbi_mono_main(video_render_config_t *config,
                 return;
             }
             break;
-        case VIDEO_RENDER_RGBI_MONO_2X4:
+        case VIDEO_RENDER_RGBI_2X4:
             if (delayloop) {
-                render_32_2x4_crt(colortab, src, trg, width, height,
+                render_32_2x4_rgbi(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
                                   viewport_first_line, viewport_last_line, config);
                 return;
@@ -137,7 +133,7 @@ void video_render_rgbi_mono_main(video_render_config_t *config,
             break;
     }
     if (rendermode_error != rendermode) {
-        log_error(LOG_DEFAULT, "video_render_crt_main: unsupported rendermode (%d)", rendermode);
+        log_error(LOG_DEFAULT, "video_render_rgbi_main: unsupported rendermode (%d)", rendermode);
     }
     rendermode_error = rendermode;
 }

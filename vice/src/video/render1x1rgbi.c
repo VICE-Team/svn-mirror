@@ -1,5 +1,5 @@
 /*
- * render1x1crt.c - 1x1 NTSC renderers
+ * render1x1rgbi.c - 1x1 RGBI renderers
  *
  * Written by
  *  groepaz <groepaz@gmx.net> based on the pal renderers written by
@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#include "render1x1crt.h"
+#include "render1x1rgbi.h"
 #include "types.h"
 #include "video-color.h"
 
@@ -68,7 +68,7 @@ void store_pixel_4(video_render_color_tables_t *color_tab, uint8_t *trg, int32_t
 
 /* NTSC 1x1 renderers */
 static inline void
-render_generic_1x1_crt(video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
+render_generic_1x1_rgbi(video_render_color_tables_t *color_tab, const uint8_t *src, uint8_t *trg,
                         unsigned int width, const unsigned int height,
                         unsigned int xs, const unsigned int ys,
                         unsigned int xt, const unsigned int yt,
@@ -142,14 +142,14 @@ render_generic_1x1_crt(video_render_color_tables_t *color_tab, const uint8_t *sr
 }
 
 void
-render_32_1x1_crt(video_render_color_tables_t *color_tab,
+render_32_1x1_rgbi(video_render_color_tables_t *color_tab,
                    const uint8_t *src, uint8_t *trg,
                    const unsigned int width, const unsigned int height,
                    const unsigned int xs, const unsigned int ys,
                    const unsigned int xt, const unsigned int yt,
                    const unsigned int pitchs, const unsigned int pitcht)
 {
-    render_generic_1x1_crt(color_tab, src, trg, width, height, xs, ys, xt, yt,
+    render_generic_1x1_rgbi(color_tab, src, trg, width, height, xs, ys, xt, yt,
                             pitchs, pitcht,
                             8, 0);
 }
