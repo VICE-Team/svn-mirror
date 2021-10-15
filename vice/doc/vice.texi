@@ -17081,6 +17081,10 @@ Print the CPU cycle counter of the current device. 'reset' sets the counter to 0
 @item undump "<filename>"
 Read a snapshot of the machine from the file specified.
 
+@item warp [on|off|toggle]
+Turn warp mode on or off. If the argument is 'toggle' then the current mode
+is toggled. When no argument is given the current mode is displayed.
+
 @end table
 
 
