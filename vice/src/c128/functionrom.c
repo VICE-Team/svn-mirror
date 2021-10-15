@@ -302,7 +302,17 @@ static int functionrom_load_external(void)
             /* try 16k */
             if (util_file_load(external_function_rom_name, ext_function_rom,
                             EXTERNAL_FUNCTION_ROM_SIZE / 2, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                return -1;
+                /* try 8k */
+                if (util_file_load(external_function_rom_name, ext_function_rom,
+                                EXTERNAL_FUNCTION_ROM_SIZE / 4, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                    return -1;
+                } else {
+                    /* create a mirror */
+                    memcpy(&ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE / 4], 
+                        ext_function_rom, EXTERNAL_FUNCTION_ROM_SIZE / 4);
+                    memcpy(&ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE / 2], 
+                        ext_function_rom, EXTERNAL_FUNCTION_ROM_SIZE / 2);
+                }
             } else {
                 /* create a mirror */
                 memcpy(&ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE / 2], 
