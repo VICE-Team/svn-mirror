@@ -600,7 +600,7 @@ popdq
 #
 
 pushdq src/arch/headless/uiclient
-add_executable_target uiclienttest
+generate_executable_target uiclienttest >> CMakeLists.txt
 popdq
 
 #
