@@ -395,7 +395,7 @@ static void remove_disconnected_clients(void)
         
         /* remove any screen subscriptions */
         for (j = 0; j < screen_count; j++) {
-            remove_screen_subscription(&clients[i], &screens[i]);
+            remove_screen_subscription(&clients[i], &screens[j]);
         }
         
         /* remove the client from the array, shift newer clients back an index */
