@@ -68,6 +68,14 @@ then
 	LDFLAGS=""
 fi
 
+if which parallel > /dev/null; then
+	USE_PARALLEL=true
+	HOW_PARALLEL=200%
+else
+	echo "NOTE: Install GNU parallel for faster execution"
+	USE_PARALLEL=false
+fi
+
 # Quiet versions of pushd and popd
 function pushdq {
 	pushd $1 > /dev/null
@@ -109,12 +117,12 @@ function extract_make_var {
 
 	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> $TMP_MAKEFILE
 	local result=$(make -f $TMP_MAKEFILE extract_make_var)
-	echo -n $result
 	
 	# cache for next time
 	echo -n $result > .cmake_bootstrap_cache/$1
 
     rm $TMP_MAKEFILE
+	echo -n $result
 }
 
 function extract_include_dirs {
@@ -416,10 +424,9 @@ function find_all_makefile_dirs {
 	popdq
 }
 
-if which parallel > /dev/null; then
-	find_all_makefile_dirs src | parallel -j 200% process_source_makefile {} :::
+if $USE_PARALLEL; then
+	find_all_makefile_dirs src | parallel -j $HOW_PARALLEL process_source_makefile {}
 else
-	echo "NOTE: Install GNU Parallel for faster execution"
 	for dir in $(find_all_makefile_dirs src); do
 		process_source_makefile $dir
 	done
@@ -429,7 +436,7 @@ function external_lib_label {
 	echo -n "LIB_$(echo "$1" | tr '[a-z]' '[A-Z]' | sed -e 's/[^A-Z0-9_]/_/g')"
 }
 
-function add_executable_target {
+function generate_executable_target {
 	local executable=$1
 
 	#
@@ -446,7 +453,7 @@ function add_executable_target {
 		LIB_LIST="$LIB_LIST \${$label}"
 	done
 	
-	cat <<-HEREDOC >> CMakeLists.txt
+	cat <<-HEREDOC
 
 		add_executable($executable)
 
@@ -503,18 +510,18 @@ function add_executable_target {
 # Filter the list of excutables to those in the Makefile (x64 is optional)
 #
 
-POSSIBLE_EXECUTABLES="x64 x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 vsid"
-EXECUTABLES=""
+POSSIBLE_EMULATORS="x64 x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 vsid"
+EMULATORS=""
 
-for executable in $POSSIBLE_EXECUTABLES
+for executable in $POSSIBLE_EMULATORS
 do
     if ! grep -q "^$executable:" Makefile
     then
-        echo "Executable $executable not present"
+        echo "Executable $executable not configured"
         continue
     fi
 
-    EXECUTABLES="$EXECUTABLES $executable"
+    EMULATORS="$EMULATORS $executable"
 done
 
 #
@@ -529,7 +536,7 @@ pushdq src
 
 echo >> CMakeLists.txt
 
-for executable in $EXECUTABLES
+for executable in $EMULATORS
 do	
 	LIB_ARGS="$(extract_make_var LIBS) $(extract_make_var ${executable}_LDADD)"
 
@@ -550,14 +557,17 @@ done
 # Executable build targets
 #
 
-for executable in $EXECUTABLES
+PARALLEL_JOBS=""
+
+for executable in $EMULATORS
 do
-	echo "Executable: $executable"
-
-	add_executable_target $executable
+	if $USE_PARALLEL; then
+		PARALLEL_JOBS="${PARALLEL_JOBS}cd $(pwd); >&2 echo \"Emulator: ${executable}\"; generate_executable_target ${executable}\n"
+	else
+		echo "Emulator: $executable"
+		generate_executable_target $executable >> CMakeLists.txt
+	fi
 done
-
-popdq
 
 #
 # Tools, executable targets in src/tools/x with simpler linking
@@ -565,16 +575,25 @@ popdq
 
 TOOLS="petcat cartconv"
 
-for tool in $TOOLS
+for executable in $TOOLS
 do
-	echo "Tool: $tool"
-	
-	pushdq "src/tools/$tool"
+	pushdq "tools/$executable"
 
-	add_executable_target $tool
+	if $USE_PARALLEL; then
+		PARALLEL_JOBS="${PARALLEL_JOBS}cd $(pwd); >&2 echo \"Tool: ${executable}\"; generate_executable_target ${executable} >> CMakeLists.txt\n"
+	else
+		echo "Tool: $executable"
+		generate_executable_target $executable >> CMakeLists.txt
+	fi
 
 	popdq
 done
+
+if $USE_PARALLEL; then
+	echo -e "$PARALLEL_JOBS" | parallel -j $HOW_PARALLEL --no-run-if-empty >> CMakeLists.txt
+fi
+
+popdq
 
 #
 # Finally, create the top level project CMakeLists.txt
