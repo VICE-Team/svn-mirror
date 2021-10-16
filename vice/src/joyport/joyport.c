@@ -940,7 +940,10 @@ void joyport_clear_mapping(int port)
 
 int joyport_has_mapping(int port)
 {
-    return joystick_mapped[port];
+    if (joyport_port_is_active(port)) {
+        return joystick_mapped[port];
+    }
+    return 0;
 }
 
 static joyport_map_t pinmap[JOYPORT_MAX_PINS + 1] = { 0 };
