@@ -19279,7 +19279,7 @@ subtypes/revisions.
 @findex -n
 @item -n "cart name"
 This parameter is optional and is used as the cartridge name when creating
-a .crt file.
+a .crt file. By default the cartridge name will be set to the cartridge type.
 @findex -l
 @item -l loadaddress
 This parameter is optional and is used as the load-address when converting
@@ -19303,23 +19303,40 @@ are empty (filled with $ff).
 @findex -q
 @item -q
 This parameter is optional, it disables all non-error messages
+@findex -v
+@findex --verbose
+@item -v
+@item --verbose
+This parameter is optional, it enables more verbose messages
 @findex --types
 @item --types
 This parameter is optional. It shows all supported cartridge types (see below).
 @findex --version
 @item --version
 Show cartconv version string and exit
+@findex --options-file
+@item --options-file <filename>
+This parameter is optional. If present, cartconv writes options for reverting
+the conversion into a file, this is mostly useful for the test script.
 @end table
+
+@c @node FIXME
+@section cartconv supported cartridge types
 
 The following cartridge types are supported:
 
 @table @code
 @item bin
 Binary .bin file (Default crt->bin)
-@item normal
-Generic 8KiB/12KiB/16KiB .crt file (Default bin->crt)
 @item prg
 Binary C64 .prg file with load-address
+@end table
+
+@b{C64 cartridges:}
+
+@table @code
+@item normal
+Generic 8KiB/12KiB/16KiB .crt file (Default bin->crt)
 @item ulti
 Ultimax mode 4KiB/8KiB/16KiB .crt file
 @item ap
@@ -19477,6 +19494,59 @@ ZIPP-CODE 48 .crt file
 @item (2) insertion of 8KiB .crt/binary files supported.
 @item (3) insertion of 16KiB .crt/binary files supported.
 @end itemize
+
+@b{C128 cartridges:}
+
+@b{TODO - not implemented yet}
+
+@table @code
+@item c128
+generic C128 cartridge ("external function ROM")
+@item was128
+Warpspeed128
+@end table
+
+@b{VIC20 cartridges:}
+
+@table @code
+@item vic20
+Generic 8KiB/12KiB/16KiB cartridge
+@item bb
+Behr Bonz
+@item fe3
+Final Expansion
+@item mega
+Mega-Cart
+@item um
+UltiMem
+@item vicfp
+Vic Flash Plugin
+@end table
+
+@b{PLUS4 cartridges:}
+
+@table @code
+@item plus4
+Generic 4KiB/8KiB/16KiB/32KiB cartridge
+@item c1lo
+Generic 4KiB/8KiB/16KiB C1LO cartridge
+@item c1hi
+Generic 4KiB/8KiB/16KiB C1HI cartridge
+@item c2lo
+Generic 4KiB/8KiB/16KiB C2LO cartridge
+@item c2hi
+Generic 4KiB/8KiB/16KiB C2HI cartridge
+@item jacint
+1MB Cartridge
+@item magic
+c264 magic cart
+@item multi
+Plus4 multi cart
+@end table
+
+@b{CBM2 cartridges:}
+
+@b{TODO - not implemented yet}
 
 @c @node FIXME
 @section cartconv examples
@@ -19732,7 +19802,7 @@ small 14-byte header followed by file data.
 @item $0000-000B
 @tab File signature (@code{C64-TAPE-RAW} or @code{C16-TAPE-RAW})
 @item $000C
-@tab @code{G64} TAP version (see below for description), $00 - Original layout, 
+@tab @code{TAP} version (see below for description), $00 - Original layout, 
 $01 - Updated, $02 - Halfwave Extension
 @item $000D
 @tab Computer Platform (0 = C64, 1 = VIC-20, 2 = C16, Plus/4)
@@ -19808,7 +19878,7 @@ the C64S emulator.  It is easy to use and allows future extensions.
 @node T64 file structure, T64 tape record, T64, T64
 @subsection T64 File structure
 
-@multitable @columnfractions .3 .3 .4
+@multitable @columnfractions .1 .1 .8
 @item @b{Offset}
 @tab @b{Size}
 @tab @b{Description}
@@ -19826,7 +19896,7 @@ the C64S emulator.  It is easy to use and allows future extensions.
 @node T64 tape record, T64 file record, T64 file structure, T64
 @subsection Tape Record
 
-@multitable @columnfractions .3 .3 .4
+@multitable @columnfractions .1 .1 .8
 @item @b{Offset}
 @tab @b{Size}
 @tab @b{Description}
@@ -19853,7 +19923,7 @@ the C64S emulator.  It is easy to use and allows future extensions.
 @node T64 file record,  , T64 tape record, T64
 @subsection  File record
 
-@multitable @columnfractions .3 .3 .4
+@multitable @columnfractions .1 .1 .8
 @item @b{Offset}
 @tab @b{Size}
 @tab @b{Description}
@@ -19885,7 +19955,7 @@ the C64S emulator.  It is easy to use and allows future extensions.
 
 Valid entry types are:
 
-@multitable @columnfractions .3 .7
+@multitable @columnfractions .1 .9
 @item @b{Code}
 @tab @b{Explanation}
 @item @code{0}
@@ -25686,19 +25756,22 @@ Hakan Sundell, and use the ".CRT" file extension. This format  was  created
 to handle the various ROM cartridges that exist, such as Action Replay, the
 Power cartridge, and the Final Cartridge.
 
+  The file format was extended to support other CBM machines by the VICE
+team in version 2.0
+
   Normal game cartridges can load  into  several  different  memory  ranges
-($8000-9FFF,  $A000-BFFF  or  $E000-FFFF).  Newer   utility   and   freezer
-cartridges were less intrusive, hiding themselves until  called  upon,  and
-still others used bank-switching techniques to allow much larger ROM's than
-normal. Because of these "stealthing" and bank-switching methods, a special
-cartridge format  was  necessary,  to  let  the  emulator  know  where  the
-cartridge should reside, the control line  states  to  enable  it  and  any
-special hardware features it uses.
+(on the C64 this is $8000-9FFF,  $A000-BFFF  or  $E000-FFFF). Newer utility
+and freezer cartridges were less intrusive, hiding themselves until called
+upon, and still others used bank-switching techniques to allow much larger
+ROMs than normal. Because of these "stealthing" and bank-switching methods,
+a special cartridge format was necessary, to let the emulator know where the
+cartridge should reside, the control line states to enable it and any special
+hardware features it uses.
 
 @subsection Header contents
 
-  Here is a dump of a sample 8KiB normal cartridge,  "Attack  Of  The  Mutant
-Camels"@dots{}
+  For example, here is a dump of a sample 8KiB generic C64 cartridge,
+"Attack Of The Mutant Camels"@dots{}
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
@@ -25713,115 +25786,53 @@ Camels"@dots{}
 @end example
 
 @example
-  Bytes:$0000-000F - 16-byte cartridge signature  "C64  CARTRIDGE"  (padded
-                     with space characters)
-         0010-0013 - File header length  ($00000040,  in  high/low  format,
-                     calculated from offset $0000). The default  (also  the
-                     minimum) value is $40.  Some  cartridges  exist  which
-                     show a value of $00000020 which is wrong.
-         0014-0015 - Cartridge version (high/low, presently 01.01)
-         0016-0017 - Cartridge hardware type ($0000, high/low)
-                       0 - Normal cartridge
-                       1 - Action Replay
-                       2 - KCS Power Cartridge
-                       3 - Final Cartridge III
-                       4 - Simons' BASIC
-                       5 - Ocean type 1*
-                       6 - Expert Cartridge
-                       7 - Fun Play, Power Play
-                       8 - Super Games
-                       9 - Atomic Power
-                      10 - Epyx Fastload
-                      11 - Westermann Learning
-                      12 - Rex Utility
-                      13 - Final Cartridge I
-                      14 - Magic Formel
-                      15 - C64 Game System, System 3
-                      16 - Warp Speed
-                      17 - Dinamic**
-                      18 - Zaxxon, Super Zaxxon (SEGA)
-                      19 - Magic Desk, Domark, HES Australia
-                      20 - Super Snapshot V5
-                      21 - Comal-80
-                      22 - Structured BASIC
-                      23 - Ross
-                      24 - Dela EP64
-                      25 - Dela EP7x8
-                      26 - Dela EP256
-                      27 - Rex EP256
-                      28 - Mikro Assembler
-                      29 - Final Cartridge Plus
-                      30 - Action Replay 4
-                      31 - Stardos
-                      32 - EasyFlash
-                      33 - EasyFlash Xbank
-                      34 - Capture
-                      35 - Action Replay 3
-                      36 - Retro Replay
-                      37 - MMC64
-                      38 - MMC Replay
-                      39 - IDE64
-                      40 - Super Snapshot V4
-                      41 - IEEE-488
-                      42 - Game Killer
-                      43 - Prophet64
-                      44 - EXOS
-                      45 - Freeze Frame
-                      46 - Freeze Machine
-                      47 - Snapshot64
-                      48 - Super Explode V5.0
-                      49 - Magic Voice
-                      50 - Action Replay 2
-                      51 - MACH 5
-                      52 - Diashow-Maker
-                      53 - Pagefox
-                      54 - Kingsoft
-                      55 - Silverrock 128K Cartridge
-                      56 - Formel 64
-                      57 - RGCD
-                      58 - RR-Net MK3
-                      59 - EasyCalc
-                      60 - GMod2
-                      61 - MAX Basic
-                      62 - GMod3
-                      63 - ZIPP-CODE 48
-                      64 - Blackbox V8
-                      65 - Blackbox V3
-                      66 - Blackbox V4
-                      67 - REX RAM-Floppy
-                      68 - BIS-Plus
-                      69 - SD-BOX
-                      70 - MultiMAX
-                      71 - Blackbox V9
-                      72 - Lt. Kernal Host Adaptor
-                      73 - RAMLink
-                      74 - H.E.R.O.
-                      75 - IEEE Flash! 64
-                      76 - Turtle Graphics II
-                      77 - Freeze Frame MK2
-              0018 - Cartridge port EXROM line status
-                      0 - active (lo)
-                      1 - inactive (hi)
-              0019 - Cartridge port GAME line status
-                      0 - active (lo)
-                      1 - inactive (hi)
-              001A - Cartridge Hardware Revision/Subtype (usually 0)
-         001B-001F - Reserved for future use
-         0020-003F - 32-byte cartridge  name  "CCSMON"  (uppercase,  padded
-                     with null characters)
-         0040-xxxx - Cartridge contents (called CHIP PACKETS, as there  can
-                     be more than one  per  CRT  file).  See  below  for  a
-                     breakdown of the CHIP format.
+$0000-$000F - 16-byte cartridge signature (padded with space characters)
+              "C64 CARTRIDGE   " - indicates a C64 cartridge
+              "C128 CARTRIDGE  " - indicates a C128 cartridge (added in v2.0)
+              "CBM2 CARTRIDGE  " - indicates a CBMII cartridge (added in v2.0)
+              "VIC20 CARTRIDGE " - indicates a VIC20 cartridge (added in v2.0)
+              "PLUS4 CARTRIDGE " - indicates a C16/PLUS4 cartridge (added in v2.0)
+
+$0010-$0013 - File header length (in high/low format, counting from offset $0000).
+              The default (and also the minimum) value is $40, which should always
+              be used for compatibility reasons. Some cartridge images exist which
+              use a value of $00000020, which is wrong.
+              
+$0014-$0015 - Cartridge version (high/low, presently 02.00)
+              $01 $00 - original v1.0 specs
+              $01 $01 - VICE v1.1 specs (adds CRT sub type/hardware revision)
+              $02 $00 - VICE v2.0 specs (introduces VIC20, PLUS4, C128, CBM2)
+              
+$0016-$0017 - Cartridge hardware type ($0000, high/low) - see below for details
+
+      $0018 - Cartridge port EXROM line status (C64 only)
+      $0019 - Cartridge port GAME line status (C64 only)
+
+              Determines the mode the cartridge starts in:
+
+              exrom / game
+              0       0    - 16k Game
+              0       1    -  8k Game
+              1       0    -  ultimax
+              1       1    -  ram/off
+
+              Emulators should only use this field with "generic" C64 cartridges
+              (type 0), for all others the startup mode is implied by the type
+              of the cartridge. It should still be filled correctly in the crt
+              file, but a lot of files with wrong values exist "in the wild".
+
+      $001A - Cartridge Hardware Revision/Subtype (usually 0) (added in v1.01)
+      
+$001B-$001F - Reserved for future use
+
+$0020-$003F - 32-byte cartridge  name  (uppercase,  padded with null characters)
+
+$0040- xxxx - Cartridge contents (called CHIP PACKETS, as there can be more than
+              one per CRT file). See below for a breakdown of the CHIP format.
 @end example
-
-  (*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3,  Shadow  of  the
-    Beast, Toki, Terminator 2 and more)
-
-  (**Note: Dinamic includes Narco Police and more)
 
 @c @node FIXME
 @subsection CHIP Contents
-
 
   The following is the contents of the CHIP packet, from position $0040  on
 in the CRT file. Note I have re-adjusted the starting address to be  $0000,
@@ -25837,23 +25848,220 @@ references are from where it starts.
 0030: F2 60 A9 04 85 49 A9 00 85 48 A2 00 A5 48 9D 40  .`...I...H...H.@@
 0040: 03 A5 49 9D 60 03 A5 48 18 69 28 85 48 A5 49 69  ..I.`..H.i(.H.Ii
 0050: 00 85 49 E8 E0 18 D0 E4 60 A6 03 A4 02 BD 40 03  ..I.....`.....@@.
+...
 @end example
 
 @example
-  Bytes:$0000-0003 - Contained ROM signature "CHIP" (note there can be more
-                     than one image in a .CRT file)
-         0004-0007 - Total packet length ($00002010,  ROM  image  size  and
-                     header combined) (high/low format)
-         0008-0009 - Chip type
-                      0 - ROM
-                      1 - RAM, no ROM data
-                      2 - Flash ROM
-         000A-000B - Bank number ($0000 - normal cartridge)
-         000C-000D - Starting load address (high/low format)
-         000E-000F - ROM image size in bytes  (high/low  format,  typically
-                     $2000 or $4000)
-         0010-xxxx - ROM data
+$0000-$0003 - Contained ROM signature "CHIP" (note there can be more than one
+              CHIP image in a .CRT file)
+
+$0004-$0007 - Total packet length (high/low format)
+              Length of ROM image size and header combined, this should
+              always be equal to "ROM image size" + $10
+
+$0008-$0009 - Chip type
+
+              0 - ROM
+              1 - RAM
+              2 - Flash ROM
+              3 - EEPROM
+
+              This is informal only. A RAM chunk may be empty, but doesn't
+              have to be.
+
+$000A-$000B - Bank number ($0000 - normal cartridge)
+
+              Number of the bank this CHIP package appears in. This should be
+              a logical bank number, not the value stored into some banking
+              register which might have its bit-order rearranged.
+
+$000C-$000D - Starting load address (high/low format)
+
+              The load address tells the loader which part of the given bank
+              is to be used for this chunk. It is only really important in
+              formats where actually more than one CHIP chunk exists for each
+              bank - most notable the "generic" (type 0) cartridges.
+
+$000E-$000F - ROM image size in bytes  (high/low format, typically $2000 or $4000)
+
+$0010- xxxx - ROM data
 @end example
+
+@c @node FIXME
+@subsection C64 Cartridge Specifics
+
+@multitable @columnfractions .1 .9
+@item @b{CRT ID}
+@tab @b{Cartridge Type}
+@item 0
+@tab generic cartridge
+@item 1
+@tab Action Replay
+@item 2
+@tab KCS Power Cartridge
+@item 3
+@tab Final Cartridge III
+@item 4
+@tab Simons' BASIC
+@item 5
+@tab Ocean type 1*
+@item 6
+@tab Expert Cartridge
+@item 7
+@tab Fun Play, Power Play
+@item 8
+@tab Super Games
+@item 9
+@tab Atomic Power
+@item 10
+@tab Epyx Fastload
+@item 11
+@tab Westermann Learning
+@item 12
+@tab Rex Utility
+@item 13
+@tab Final Cartridge I
+@item 14
+@tab Magic Formel
+@item 15
+@tab C64 Game System, System 3
+@item 16
+@tab Warp Speed
+@item 17
+@tab Dinamic**
+@item 18
+@tab Zaxxon, Super Zaxxon (SEGA)
+@item 19
+@tab Magic Desk, Domark, HES Australia
+@item 20
+@tab Super Snapshot V5
+@item 21
+@tab Comal-80
+@item 22
+@tab Structured BASIC
+@item 23
+@tab Ross
+@item 24
+@tab Dela EP64
+@item 25
+@tab Dela EP7x8
+@item 26
+@tab Dela EP256
+@item 27
+@tab Rex EP256
+@item 28
+@tab Mikro Assembler
+@item 29
+@tab Final Cartridge Plus
+@item 30
+@tab Action Replay 4
+@item 31
+@tab Stardos
+@item 32
+@tab EasyFlash
+@item 33
+@tab EasyFlash Xbank
+@item 34
+@tab Capture
+@item 35
+@tab Action Replay 3
+@item 36
+@tab Retro Replay (Subtype 1: Nordic Replay)
+@item 37
+@tab MMC64
+@item 38
+@tab MMC Replay
+@item 39
+@tab IDE64
+@item 40
+@tab Super Snapshot V4
+@item 41
+@tab IEEE-488
+@item 42
+@tab Game Killer
+@item 43
+@tab Prophet64
+@item 44
+@tab EXOS
+@item 45
+@tab Freeze Frame
+@item 46
+@tab Freeze Machine
+@item 47
+@tab Snapshot64
+@item 48
+@tab Super Explode V5.0
+@item 49
+@tab Magic Voice
+@item 50
+@tab Action Replay 2
+@item 51
+@tab MACH 5
+@item 52
+@tab Diashow-Maker
+@item 53
+@tab Pagefox
+@item 54
+@tab Kingsoft
+@item 55
+@tab Silverrock 128K Cartridge
+@item 56
+@tab Formel 64
+@item 57
+@tab RGCD (Subtype 1: Hucky)
+@item 58
+@tab RR-Net MK3
+@item 59
+@tab EasyCalc
+@item 60
+@tab GMod2
+@item 61
+@tab MAX Basic
+@item 62
+@tab GMod3
+@item 63
+@tab ZIPP-CODE 48
+@item 64
+@tab Blackbox V8
+@item 65
+@tab Blackbox V3
+@item 66
+@tab Blackbox V4
+@item 67
+@tab REX RAM-Floppy
+@item 68
+@tab BIS-Plus
+@item 69
+@tab SD-BOX
+@item 70
+@tab MultiMAX
+@item 71
+@tab Blackbox V9
+@item 72
+@tab Lt. Kernal Host Adaptor
+@item 73
+@tab RAMLink
+@item 74
+@tab H.E.R.O.
+@item 75
+@tab IEEE Flash! 64
+@item 76
+@tab Turtle Graphics II
+@item 77
+@tab Freeze Frame MK2
+@end multitable
+
+(*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3, Shadow of the Beast,
+Toki, Terminator 2 and more)
+
+(**Note: Dinamic includes Narco Police and more)
+
+@c @node FIXME
+@subsubsection 0 - generic cartridge
+
+generic cartridges can contain one or two 8k CHIP packets, one for ROML and one
+for ROMH. ROML start address is always $8000, ROMH start address is either $a000
+or $e000 depending on the GAME/EXROM config.
 
   The following is a chart taken from the "Commodore Programmers  Reference
 Guide". It details the state of various areas of memory  depending  on  the
@@ -25897,19 +26105,10 @@ Normal    16KiB   lo     lo     $8000     $A000
 Ultimax   8KiB    lo     hi     $E000      ----
 @end example
 
-  The ROMH and ROML lines are CPU-controlled status  lines,  used  to  bank
+The ROMH and ROML lines are CPU-controlled status  lines,  used  to  bank
 in/out RAM, ROM or I/O, depending on what is needed at the time.
 
-  Ultimax cartridges typically are situated  in  the  $E000-FFFF  (8KiB)  ROM
-address range. There are some cartridges  which  only  use  4KiB  of  the  8KiB
-allocation. If the cartridge is 16KiB in size, then it will  reside  in  both
-$8000-9FFF and $E000-FFFF.
-
-@c @node FIXME
-@subsection Cartridge Specifics
-
-@c @node FIXME
-@subsubsection 0 - Normal cartridge
+@b{generic 8K GAME cartridge}
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -25933,39 +26132,9 @@ $8000-9FFF and $E000-FFFF.
 0050: D3 9B BC FE C3 C2 CD 38 30 EA EA EA A9 01 85 13  .......80.......
 @end example
 
-      The second sample below is a dump of "Music Machine", a  4KiB  ULTIMAX
-    mode cartridge. It  is  still  identified  as  a  "standard  cartridge"
-    according to the ID.
+@b{generic 16K GAME cartridge}
 
-    Normal cartridge
-
-@multitable @columnfractions .3 .7
-@item Size
-@tab 4KiB (ULTIMAX mode)
-@item EXROM
-@tab inactive (hi) (1)
-@item GAME
-@tab active (lo) (0)
-@item Load address
-@tab $F000-F7FF
-@end multitable
-
-@example
-      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
-      -----------------------------------------------  ----------------
-0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
-0010: 00 00 00 40 01 00 00 00 01 00 00 00 00 00 00 00  ...@@............
-0020: 4D 55 53 49 43 20 4D 41 43 48 49 4E 45 00 00 00  MUSIC MACHINE...
-0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-0040: 43 48 49 50 00 00 10 10 00 00 00 00 F0 00 10 00  CHIP............
-0050: 3C 66 C3 C3 66 3C FF FF 18 3C 66 7E 66 66 66 00  <f..f<...<f~fff.
-@end example
-
-
-      The third sample is a dump of "Adventure Creator",  a  16KiB  standard
-    cartridge.
-
-    Normal cartridge
+This sample is a dump of "Adventure Creator",  a  16KiB  standard cartridge.
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -25989,6 +26158,37 @@ $8000-9FFF and $E000-FFFF.
 0050: 09 80 81 EA C3 C2 CD 38 30 A2 00 78 D8 8E 11 D0  .......80..x....
 @end example
 
+@b{ULTIMAX cartridge}
+
+Ultimax cartridges typically are situated  in  the  $E000-FFFF  (8KiB)  ROM
+address range. There are some cartridges  which  only  use  4KiB  of  the  8KiB
+allocation. If the cartridge is 16KiB in size, then it will  reside  in  both
+$8000-9FFF and $E000-FFFF.
+
+This sample below is a dump of "Music Machine", a  4KiB  ULTIMAX mode cartridge.
+It is still identified as a "generic cartridge" according to the ID.
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 4KiB (ULTIMAX mode)
+@item EXROM
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $F000-F7FF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 00 01 00 00 00 00 00 00 00  ...@@............
+0020: 4D 55 53 49 43 20 4D 41 43 48 49 4E 45 00 00 00  MUSIC MACHINE...
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 10 10 00 00 00 00 F0 00 10 00  CHIP............
+0050: 3C 66 C3 C3 66 3C FF FF 18 3C 66 7E 66 66 66 00  <f..f<...<f~fff.
+@end example
 
 @c @node FIXME
 @subsubsection 1 - Action Replay
@@ -29837,6 +30037,374 @@ disabled.
 
 When a freeze happens the first half of the ROM is mapped to ROML ($8000-$9FFF) and
 the second half to ROMH ($E000-$FFFF).
+
+@c @node FIXME
+@subsection C128 Cartridge Specifics
+
+Cartridges that work on both C64 and C128 get "C64 Cartridge" type and get a
+CRT-ID in the C64 list! @b{ONLY} Cartridges that exclusively work in C128 mode get
+a CRT-ID in the C128 list and "C128 Cartridge" header type.
+
+@multitable @columnfractions .1 .9
+@item @b{CRT ID}
+@tab @b{Cartridge Type}
+@item 0
+@tab generic cartridge
+@item 1
+@tab Warpspeed128
+@end multitable
+
+@c @node FIXME
+@subsubsection 0 - generic cartridge
+
+generic cartridges contain one or two 16k CHIP packets, one for ROML and one for
+ROML. ROML is always mapped to $8000 and ROMH is always mapped to $c000. Typical
+cartridges are 32KiB (ROML+ROMH) or 16KiB (ROML only).
+
+@b{TODO}
+
+@c @node FIXME
+@subsubsection 1 - Warpspeed128
+
+@b{TODO}
+
+@c @node FIXME
+@subsection VIC20 Cartridge Specifics
+
+@multitable @columnfractions .1 .9
+@item @b{CRT ID}
+@tab @b{Cartridge Type}
+@item 0
+@tab generic cartridge
+@item 1
+@tab Mega-Cart
+@item 2
+@tab Behr Bonz
+@item 3
+@tab Vic Flash Plugin
+@item 4
+@tab UltiMem
+@item 5
+@tab Final Expansion
+@end multitable
+
+@c @node FIXME
+@subsubsection 0 - generic cartridge
+
+@b{TODO}
+
+@c @node FIXME
+@subsubsection 1 - Mega-Cart
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 2MiB
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+  0000: 56 49 43 32 30 20 43 41 52 54 52 49 44 47 45 20  VIC20 CARTRIDGE 
+  0010: 00 00 00 40 02 00 00 01 00 00 00 00 00 00 00 00  ...@............
+  0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+  0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  0040: 43 48 49 50 00 00 20 10 00 00 00 00 a0 00 20 00  CHIP.. ....... .
+  0050: fd be 0e bf 41 30 c3 c2 cd 81 00 81 55 c1 5a 81  ....A0......U.Z.
+@dots{}
+201020: a7 ac b0 b5 b9 bd c1 c4 c7 ca cd d0 d3 d5 d8 da  ................
+201030: dc de e0 e2 e3 e5 fe 24 17 00 00 00 00 00 00 00  .......$........
+@end example
+
+@c FIXME: cartridge details
+
+@c @node FIXME
+@subsubsection 2 - Behr Bonz
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 2MiB (128 banks)
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+  0000: 56 49 43 32 30 20 43 41 52 54 52 49 44 47 45 20  VIC20 CARTRIDGE 
+  0010: 00 00 00 40 02 00 00 02 00 00 00 00 00 00 00 00  ...@............
+  0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+  0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  0040: 43 48 49 50 00 00 20 10 00 00 00 00 a0 00 20 00  CHIP.. ....... .
+  0050: 10 b0 10 b0 41 30 c3 c2 cd ff ff ff ff ff ff ff  ....A0..........
+@dots{}
+201020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+201030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+@end example
+
+This cartridge has one bank register, mirrored over the whole IO3 ($9c00-$9fff)
+
+@c FIXME: cartridge details
+
+
+@c @node FIXME
+@subsubsection 3 - Vic Flash Plugin
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 4MiB
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+  0000: 56 49 43 32 30 20 43 41 52 54 52 49 44 47 45 20  VIC20 CARTRIDGE 
+  0010: 00 00 00 40 02 00 00 03 00 00 00 00 00 00 00 00  ...@............
+  0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+  0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  0040: 43 48 49 50 00 00 20 10 00 00 00 00 a0 00 20 00  CHIP.. ....... .
+  0050: 66 a1 31 a1 41 30 c3 c2 cd 00 00 01 03 00 01 8d  f.1.A0..........
+@dots{}
+402020: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+402030: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+@end example
+
+This cartridge has two registers, which are mirrored over the whole IO2 ($9800-$9bff)
+area:
+
+@example
+$9800   current bank (A20..A13)
+$9801   configuration register
+ b7     1: I/O2 disabled until RESET
+ b6     1: ROM write protect (set by default)
+ b5     1: RAM at BLK5 (instead of ROM)
+ b4     0: 3k (RAM123), 1: 8k+ (BLK1)
+ b3     1: BLK1/RAM123 enable
+ b2     unused (always 0)
+ b1     unused (always 0)
+ b0     A21
+@end example
+
+@c FIXME: cartridge details
+
+
+@c @node FIXME
+@subsubsection 4 - UltiMem
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8MiB or 16MiB
+@end multitable
+
+@example
+         00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+         -----------------------------------------------  ----------------
+   0000: 56 49 43 32 30 20 43 41 52 54 52 49 44 47 45 20  VIC20 CARTRIDGE 
+   0010: 00 00 00 40 02 00 00 04 00 00 00 00 00 00 00 00  ...@............
+   0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+   0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+   0040: 43 48 49 50 00 00 20 10 00 00 00 00 a0 00 20 00  CHIP.. ....... .
+   0050: 09 a0 09 a0 41 30 c3 c2 cd 78 a2 ff 9a d8 a9 7f  ....A0...x......
+@dots{}
+1008020: a7 00 a2 07 a3 74 a3 57 a1 55 a1 be a9 ea a0 da  .....t.W.U......
+1008030: ff ea a0 d0 ff b6 a3 aa aa aa aa aa aa aa aa aa  ................
+@end example
+
+This cartridge has 512KiB or 1MiB of RAM and 8MiB or 16MiB of flash rom.
+
+@c FIXME: cartridge details
+
+
+@c @node FIXME
+@subsubsection 5 - Final Expansion
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 512KiB (ROM) and 512KiB (RAM)
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+ 0000: 56 49 43 32 30 20 43 41 52 54 52 49 44 47 45 20  VIC20 CARTRIDGE 
+ 0010: 00 00 00 40 02 00 00 05 00 00 00 00 00 00 00 00  ...@............
+ 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+ 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+ 0040: 43 48 49 50 00 00 20 10 00 00 00 00 a0 00 20 00  CHIP.. ....... .
+ 0050: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+@dots{}
+80420: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+80430: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+@end example
+
+This cartridge has 512KiB Flash ROM and 512KiB RAM.
+
+It has two registers mirrored every 4 Bytes in the while IO3 ($9c00-$9fff) range.
+
+@example
+$9c02
+    bit 7..5    mode
+                000: Start Mode
+                001: Flash-Write-Mode
+                010: Super ROM Mode
+                011: RAM/ROM Mode
+                100: RAM 1 Mode
+                101: Super RAM Mode
+                110: RAM 2 Mode
+    bit 4       block5 select
+    bit 3       block3 select
+    bit 2       block2 select
+    bit 1       block1 select
+    bit 0       block0 select
+
+$9c03
+    bit 7  1: register off
+    bit 6  1: invert A14
+    bit 5  1: invert A13
+    bit 4  1: block5 off
+    bit 3  1: block3 off
+    bit 2  1: block2 off
+    bit 1  1: block1 off
+    bit 0  1: block0 off
+@end example
+
+@c FIXME: cartridge details
+
+
+@c @node FIXME
+@subsection PLUS4 Cartridge Specifics
+
+@multitable @columnfractions .1 .9
+@item @b{CRT ID}
+@tab @b{Cartridge Type}
+@item 0
+@tab generic cartridge
+@item 1
+@tab c264 magic cart
+@item 2
+@tab Plus4 multi cart
+@item 3
+@tab 1MB Cartridge
+@end multitable
+
+For all Plus4 binary formats (non .crt) the convention is to store all banks of
+c1lo first, then all banks of c1hi, c2lo, c2hi.
+
+@c @node FIXME
+@subsubsection 0 - generic cartridge
+
+generic cartridges can use 4 different ROM spaces, which are c1lo, c1hi, c2lo,
+c2hi. most cartridges will use c1lo only, c2 is really uncommon. to indicate
+which chip chunk goes where, the bank number is used - bank 1 means c2.
+
+@b{32KiB C1 cartridge}
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32KiB
+@item Load address
+@tab $8000-$FFFF (C1)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 50 4c 55 53 34 20 43 41 52 54 52 49 44 47 45 20  PLUS4 CARTRIDGE 
+0010: 00 00 00 40 02 00 00 00 00 00 00 00 00 00 00 00  ...@............
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050: 4c 47 80 4c f4 80 06 43 42 4d 53 59 53 31 35 32  LG.L...CBMSYS152
+@dots{}
+8040: ff 20 40 ff 20 40 ff 20 40 ff 20 40 ff 20 40 ff  . @. @. @. @. @.
+8050: 20 40 ff 20 40 ff 8d 3e ff 4c a4 f2 f6 ff b3 fc   @. @..>.L......
+@end example
+
+@c @node FIXME
+@subsubsection 1 - c264 magic cart
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 512KiB/1MiB/2MiB (32/64/128 banks of 16KiB)
+@item Load address
+@tab $8000-$BFFF (C1LO)
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+  0000: 50 4c 55 53 34 20 43 41 52 54 52 49 44 47 45 20  PLUS4 CARTRIDGE 
+  0010: 00 00 00 40 02 00 00 01 00 00 00 00 00 00 00 00  ...@............
+  0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+  0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+  0050: 4c 13 80 4c 13 80 01 43 42 4d 38 42 49 54 43 48  L..L...CBM8BITCH
+@dots{}
+200820: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+200830: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+@end example
+
+This cartridge has one banking register at $fdfe.
+
+@c @node FIXME
+@subsubsection 2 - Plus4 multi cart
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 2MiB/4MiB (64/128 banks of 32KiB)
+@item Load address
+@tab $8000-$FFFF (C1)
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+  0000: 50 4c 55 53 34 20 43 41 52 54 52 49 44 47 45 20  PLUS4 CARTRIDGE 
+  0010: 00 00 00 40 02 00 00 02 00 00 00 00 00 00 00 00  ...@............
+  0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+  0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+  0050: 4c 6b 80 4c 6b 80 01 43 42 4d 0a 0a ee f1 00 20  Lk.Lk..CBM..... 
+@dots{}
+401020: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+401030: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+@end example
+
+This cartridge has one banking register at $fda0.
+
+@c @node FIXME
+@subsubsection 3 - 1MB Cartridge
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 1MiB (64 banks of 16KiB)
+@item Load address
+@tab $8000-$BFFF (C1LO)
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+  0000: 50 4c 55 53 34 20 43 41 52 54 52 49 44 47 45 20  PLUS4 CARTRIDGE 
+  0010: 00 00 00 40 02 00 00 03 00 00 00 00 00 00 00 00  ...@............
+  0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+  0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+  0050: 4c 4f 80 00 00 00 0c 43 42 4d 53 59 53 31 35 32  LO.....CBMSYS152
+@dots{}
+100420: 2f ef ee da db 20 20 20 20 20 20 da db 2f d8 2f  /...........././
+100430: 2f ef 2f da db 20 20 20 20 20 20 da db 2f 2f 2f  /./..........///
+@end example
+
+This cartridge has one banking register at $fe00.
+
+@c @node FIXME
+@subsection CBM2 Cartridge Specifics
+
+@b{TODO}
+
+@c @node FIXME
+@subsubsection 0 - generic cartridge
+
+@b{TODO}
+
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes
