@@ -32,12 +32,20 @@
 cd "$(dirname "$0")"
 set -o errexit
 set -o nounset
+set -o allexport
 
 # Remove any previous run
 find . -type f -name 'CMakeLists.txt' -exec rm {} \;
 find . -type f -name 'CMakeCache.txt' -exec rm {} \;
 find . -type f -name 'cmake_install.cmake' -exec rm {} \;
 find . -type d -name 'CMakeFiles' | xargs -IQQQ rm -rf "QQQ"
+find . -type d -name '.cmake_bootstrap_cache' | xargs -IQQQ rm -rf "QQQ"
+
+function cleanup {
+    # Get rid of our cached extract_make_var results
+	find . -type d -name '.cmake_bootstrap_cache' | xargs -IQQQ rm -rf "QQQ"
+}
+trap cleanup EXIT
 
 # Initialise user variables if not set
 if [ -z ${CFLAGS+x} ]
@@ -60,6 +68,14 @@ then
 	LDFLAGS=""
 fi
 
+if which parallel > /dev/null; then
+	USE_PARALLEL=true
+	HOW_PARALLEL=200%
+else
+	echo "NOTE: Install GNU parallel for faster execution"
+	USE_PARALLEL=false
+fi
+
 # Quiet versions of pushd and popd
 function pushdq {
 	pushd $1 > /dev/null
@@ -80,30 +96,33 @@ function space {
 function extract_make_var {
 	local varname=$1
 
+	if [ -d .cmake_bootstrap_cache ]; then
+		# If we already extracted this, use the cached version
+		if [ -f .cmake_bootstrap_cache/$1 ]; then
+			cat .cmake_bootstrap_cache/$1
+			return
+		fi
+	else
+		mkdir .cmake_bootstrap_cache
+	fi
+
 	#
 	# Sadly make --eval doesn't work in macOS, so we simulate a
 	# make --eval='extract_make_var: ; @echo TESTS $(TESTS)' extract_make_var
 	# by modifying a copy of the Makefile.
 	#
 
-	if [ -e Makefile.bak ]; then
-		#
-		# Recover from previously aborted run.
-		# Avoiding the use of mv here in an attempt to avoid strange behaviour 
-		# occasionally seen on macOS.
-		#
-		cp Makefile.bak Makefile
-	else
-		cp Makefile Makefile.bak
-	fi
+	TMP_MAKEFILE=$(mktemp -t cmake_bootstrap_Makfile)
+	cp Makefile $TMP_MAKEFILE
 
-	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> Makefile
-	local result=$(make extract_make_var)
+	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> $TMP_MAKEFILE
+	local result=$(make -f $TMP_MAKEFILE extract_make_var)
+	
+	# cache for next time
+	echo -n $result > .cmake_bootstrap_cache/$1
+
+    rm $TMP_MAKEFILE
 	echo -n $result
-
-	# Again, avoiding mv.
-	cp Makefile.bak Makefile
-	rm Makefile.bak
 }
 
 function extract_include_dirs {
@@ -211,7 +230,7 @@ function extract_internal_libs {
 	while (( "$#" )); do
 		case "$1" in
 			*.a)
-				lib=$(echo $1 | sed -e 's/.*\(lib.*\)\.a/\1/')
+				local lib=$(echo $1 | sed -e 's/.*\(lib.*\)\.a/\1/')
 				if [ -z "$libs" ]
 				then
 					libs=$lib
@@ -373,12 +392,12 @@ function process_source_makefile {
 	local generated_sources=$(extract_make_var BUILT_SOURCES)
 	if [ ! -z "$generated_sources" ]
 	then
-		echo "- generating sources: $generated_sources"
+		echo "- generating sources in $(project_relative_folder): $generated_sources"
 		make -s $generated_sources
 	fi
 
 	#
-	# Recursively process subdirs.
+	# Let cmake know about subdirs
 	#
 
 	for subdir in $(extract_make_var SUBDIRS)
@@ -386,20 +405,38 @@ function process_source_makefile {
 		cat <<-HEREDOC >> CMakeLists.txt
 			add_subdirectory($subdir)
 		HEREDOC
-
-		process_source_makefile $subdir
 	done
 
 	popdq
 }
 
-process_source_makefile src
+function find_all_makefile_dirs {
+	local dir=$1
+	
+	pushdq $dir
+	pwd
+
+	for subdir in $(extract_make_var SUBDIRS)
+	do
+		find_all_makefile_dirs $subdir
+	done
+
+	popdq
+}
+
+if $USE_PARALLEL; then
+	find_all_makefile_dirs src | parallel -j $HOW_PARALLEL process_source_makefile {}
+else
+	for dir in $(find_all_makefile_dirs src); do
+		process_source_makefile $dir
+	done
+fi
 
 function external_lib_label {
 	echo -n "LIB_$(echo "$1" | tr '[a-z]' '[A-Z]' | sed -e 's/[^A-Z0-9_]/_/g')"
 }
 
-function add_executable_target {
+function generate_executable_target {
 	local executable=$1
 
 	#
@@ -411,12 +448,12 @@ function add_executable_target {
 
 	for lib in $(extract_external_libs $LIB_ARGS)
 	do
-		label=$(external_lib_label $lib)
+		local label=$(external_lib_label $lib)
 		
 		LIB_LIST="$LIB_LIST \${$label}"
 	done
 	
-	cat <<-HEREDOC >> CMakeLists.txt
+	cat <<-HEREDOC
 
 		add_executable($executable)
 
@@ -473,18 +510,18 @@ function add_executable_target {
 # Filter the list of excutables to those in the Makefile (x64 is optional)
 #
 
-POSSIBLE_EXECUTABLES="x64 x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 vsid"
-EXECUTABLES=""
+POSSIBLE_EMULATORS="x64 x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 vsid"
+EMULATORS=""
 
-for executable in $POSSIBLE_EXECUTABLES
+for executable in $POSSIBLE_EMULATORS
 do
     if ! grep -q "^$executable:" Makefile
     then
-        echo "Executable $executable not present"
+        echo "Executable $executable not configured"
         continue
     fi
 
-    EXECUTABLES="$EXECUTABLES $executable"
+    EMULATORS="$EMULATORS $executable"
 done
 
 #
@@ -499,7 +536,7 @@ pushdq src
 
 echo >> CMakeLists.txt
 
-for executable in $EXECUTABLES
+for executable in $EMULATORS
 do	
 	LIB_ARGS="$(extract_make_var LIBS) $(extract_make_var ${executable}_LDADD)"
 
@@ -520,14 +557,17 @@ done
 # Executable build targets
 #
 
-for executable in $EXECUTABLES
+PARALLEL_JOBS=""
+
+for executable in $EMULATORS
 do
-	echo "Executable: $executable"
-
-	add_executable_target $executable
+	if $USE_PARALLEL; then
+		PARALLEL_JOBS="${PARALLEL_JOBS}cd $(pwd); >&2 echo \"Emulator: ${executable}\"; generate_executable_target ${executable}\n"
+	else
+		echo "Emulator: $executable"
+		generate_executable_target $executable >> CMakeLists.txt
+	fi
 done
-
-popdq
 
 #
 # Tools, executable targets in src/tools/x with simpler linking
@@ -535,16 +575,25 @@ popdq
 
 TOOLS="petcat cartconv"
 
-for tool in $TOOLS
+for executable in $TOOLS
 do
-	echo "Tool: $tool"
-	
-	pushdq "src/tools/$tool"
+	pushdq "tools/$executable"
 
-	add_executable_target $tool
+	if $USE_PARALLEL; then
+		PARALLEL_JOBS="${PARALLEL_JOBS}cd $(pwd); >&2 echo \"Tool: ${executable}\"; generate_executable_target ${executable} >> CMakeLists.txt\n"
+	else
+		echo "Tool: $executable"
+		generate_executable_target $executable >> CMakeLists.txt
+	fi
 
 	popdq
 done
+
+if $USE_PARALLEL; then
+	echo -e "$PARALLEL_JOBS" | parallel -j $HOW_PARALLEL --no-run-if-empty >> CMakeLists.txt
+fi
+
+popdq
 
 #
 # Test program for uiclient
@@ -587,3 +636,4 @@ else
 		add_subdirectory(src)
 	HEREDOC
 fi
+
