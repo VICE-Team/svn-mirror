@@ -42,8 +42,6 @@ find . -type d -name 'CMakeFiles' | xargs -IQQQ rm -rf "QQQ"
 find . -type d -name '.cmake_bootstrap_cache' | xargs -IQQQ rm -rf "QQQ"
 
 function cleanup {
-    # Restore the original makefiles on exit
-	find . -type f -name "Makefile.cmake_bootstrap_backup" | while read f; do mv $f $(dirname $f)/Makefile; done
     # Get rid of our cached extract_make_var results
 	find . -type d -name '.cmake_bootstrap_cache' | xargs -IQQQ rm -rf "QQQ"
 }
@@ -106,23 +104,17 @@ function extract_make_var {
 	# by modifying a copy of the Makefile.
 	#
 
-	if [ ! -e Makefile.cmake_bootstrap_backup ]; then
-		cp Makefile Makefile.cmake_bootstrap_backup
-	else
-		cp Makefile.cmake_bootstrap_backup Makefile
-	fi
+	TMP_MAKEFILE=$(mktemp -t cmake_bootstrap_Makfile)
+	cp Makefile $TMP_MAKEFILE
 
-	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> Makefile
-	local result=$(make extract_make_var)
-	if [ $? != 0 ]; then
-		echo "make extract_make_var in $(pwd) failed, creating Makefile.failed for investigation"
-		cp Makefile Makefile.failed
-		exit 1
-	fi
+	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> $TMP_MAKEFILE
+	local result=$(make -f $TMP_MAKEFILE extract_make_var)
+	echo -n $result
+	
 	# cache for next time
 	echo -n $result > .cmake_bootstrap_cache/$1
 
-	echo -n $result
+    rm $TMP_MAKEFILE
 }
 
 function extract_include_dirs {
@@ -414,17 +406,9 @@ function find_all_makefile_dirs {
 	local dir=$1
 	
 	pushdq $dir
-
-	#
-	# it's important that we extract this before printing pwd,
-	# as printing pwd triggers a parallel execution that will
-	# also modify the Makefile to extract the var
-	#
-
-	local subdirs=$(extract_make_var SUBDIRS)
 	pwd
 
-	for subdir in $subdirs
+	for subdir in $(extract_make_var SUBDIRS)
 	do
 		find_all_makefile_dirs $subdir
 	done
