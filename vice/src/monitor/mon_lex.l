@@ -246,6 +246,7 @@ HDIGIT  [0-9a-f]
         undump          { BEGIN(FNAME);         return CMD_UNDUMP; }
         verify|v        { BEGIN(FNAME);         return CMD_VERIFY; }
         watch|w         { BEGIN(INITIAL);       return CMD_WATCH; }
+        warp            { BEGIN(INITIAL);       return CMD_WARP; }
         yydebug         { BEGIN(INITIAL);       return CMD_YYDEBUG; }
         maincpu_trace   { BEGIN(INITIAL);       return CMD_MAINCPU_TRACE; }
 }
