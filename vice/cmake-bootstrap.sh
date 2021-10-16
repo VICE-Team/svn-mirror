@@ -32,12 +32,22 @@
 cd "$(dirname "$0")"
 set -o errexit
 set -o nounset
+set -o allexport
 
 # Remove any previous run
 find . -type f -name 'CMakeLists.txt' -exec rm {} \;
 find . -type f -name 'CMakeCache.txt' -exec rm {} \;
 find . -type f -name 'cmake_install.cmake' -exec rm {} \;
 find . -type d -name 'CMakeFiles' | xargs -IQQQ rm -rf "QQQ"
+find . -type d -name '.cmake_bootstrap_cache' | xargs -IQQQ rm -rf "QQQ"
+
+function cleanup {
+    # Restore the original makefiles on exit
+	find . -type f -name "Makefile.cmake_bootstrap_backup" | while read f; do mv $f $(dirname $f)/Makefile; done
+    # Get rid of our cached extract_make_var results
+	find . -type d -name '.cmake_bootstrap_cache' | xargs -IQQQ rm -rf "QQQ"
+}
+trap cleanup EXIT
 
 # Initialise user variables if not set
 if [ -z ${CFLAGS+x} ]
@@ -80,30 +90,39 @@ function space {
 function extract_make_var {
 	local varname=$1
 
+	if [ -d .cmake_bootstrap_cache ]; then
+		# If we already extracted this, use the cached version
+		if [ -f .cmake_bootstrap_cache/$1 ]; then
+			cat .cmake_bootstrap_cache/$1
+			return
+		fi
+	else
+		mkdir .cmake_bootstrap_cache
+	fi
+
 	#
 	# Sadly make --eval doesn't work in macOS, so we simulate a
 	# make --eval='extract_make_var: ; @echo TESTS $(TESTS)' extract_make_var
 	# by modifying a copy of the Makefile.
 	#
 
-	if [ -e Makefile.bak ]; then
-		#
-		# Recover from previously aborted run.
-		# Avoiding the use of mv here in an attempt to avoid strange behaviour 
-		# occasionally seen on macOS.
-		#
-		cp Makefile.bak Makefile
+	if [ ! -e Makefile.cmake_bootstrap_backup ]; then
+		cp Makefile Makefile.cmake_bootstrap_backup
 	else
-		cp Makefile Makefile.bak
+		cp Makefile.cmake_bootstrap_backup Makefile
 	fi
 
 	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> Makefile
 	local result=$(make extract_make_var)
-	echo -n $result
+	if [ $? != 0 ]; then
+		echo "make extract_make_var in $(pwd) failed, creating Makefile.failed for investigation"
+		cp Makefile Makefile.failed
+		exit 1
+	fi
+	# cache for next time
+	echo -n $result > .cmake_bootstrap_cache/$1
 
-	# Again, avoiding mv.
-	cp Makefile.bak Makefile
-	rm Makefile.bak
+	echo -n $result
 }
 
 function extract_include_dirs {
@@ -211,7 +230,7 @@ function extract_internal_libs {
 	while (( "$#" )); do
 		case "$1" in
 			*.a)
-				lib=$(echo $1 | sed -e 's/.*\(lib.*\)\.a/\1/')
+				local lib=$(echo $1 | sed -e 's/.*\(lib.*\)\.a/\1/')
 				if [ -z "$libs" ]
 				then
 					libs=$lib
@@ -373,12 +392,12 @@ function process_source_makefile {
 	local generated_sources=$(extract_make_var BUILT_SOURCES)
 	if [ ! -z "$generated_sources" ]
 	then
-		echo "- generating sources: $generated_sources"
+		echo "- generating sources in $(project_relative_folder): $generated_sources"
 		make -s $generated_sources
 	fi
 
 	#
-	# Recursively process subdirs.
+	# Let cmake know about subdirs
 	#
 
 	for subdir in $(extract_make_var SUBDIRS)
@@ -386,14 +405,41 @@ function process_source_makefile {
 		cat <<-HEREDOC >> CMakeLists.txt
 			add_subdirectory($subdir)
 		HEREDOC
-
-		process_source_makefile $subdir
 	done
 
 	popdq
 }
 
-process_source_makefile src
+function find_all_makefile_dirs {
+	local dir=$1
+	
+	pushdq $dir
+
+	#
+	# it's important that we extract this before printing pwd,
+	# as printing pwd triggers a parallel execution that will
+	# also modify the Makefile to extract the var
+	#
+
+	local subdirs=$(extract_make_var SUBDIRS)
+	pwd
+
+	for subdir in $subdirs
+	do
+		find_all_makefile_dirs $subdir
+	done
+
+	popdq
+}
+
+if which parallel > /dev/null; then
+	find_all_makefile_dirs src | parallel -j 200% process_source_makefile {} :::
+else
+	echo "NOTE: Install GNU Parallel for faster execution"
+	for dir in $(find_all_makefile_dirs src); do
+		process_source_makefile $dir
+	done
+fi
 
 function external_lib_label {
 	echo -n "LIB_$(echo "$1" | tr '[a-z]' '[A-Z]' | sed -e 's/[^A-Z0-9_]/_/g')"
@@ -411,7 +457,7 @@ function add_executable_target {
 
 	for lib in $(extract_external_libs $LIB_ARGS)
 	do
-		label=$(external_lib_label $lib)
+		local label=$(external_lib_label $lib)
 		
 		LIB_LIST="$LIB_LIST \${$label}"
 	done
@@ -579,3 +625,4 @@ else
 		add_subdirectory(src)
 	HEREDOC
 fi
+
