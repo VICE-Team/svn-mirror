@@ -54,6 +54,8 @@
 #include "cartconv.h"
 #include "c64-cartridges.h"
 #include "c64-saver.h"
+#include "c128-cartridges.h"
+#include "c128-saver.h"
 #include "crt.h"
 #include "plus4-cartridges.h"
 #include "vic20-cartridges.h"
@@ -365,6 +367,15 @@ void bin2crt_ok(void)
         if (machine_class == VICE_MACHINE_C64) {
             printf("Conversion from binary format to C64 %s .crt successful.\n", 
                 cart_info[(unsigned char)cart_type].name);
+        } else if (machine_class == VICE_MACHINE_C128) {
+            printf("Conversion from binary format to C128 %s .crt successful.\n", 
+                cart_info_c128[(unsigned char)cart_type].name);
+/*
+        } else if (machine_class == VICE_MACHINE_CBM5x0 ||
+                   machine_class == VICE_MACHINE_CBM6x0) {
+            printf("Conversion from binary format to CBM2 %s .crt successful.\n", 
+                cart_info_cbm2[(unsigned char)cart_type].name);
+*/
         } else if (machine_class == VICE_MACHINE_VIC20) {
             printf("Conversion from binary format to VIC20 %s .crt successful.\n", 
                 cart_info_vic20[(unsigned char)cart_type].name);
@@ -388,6 +399,15 @@ void crt2bin_ok(void)
         if (machine_class == VICE_MACHINE_C64) {
             printf("Conversion from C64 %s .crt to binary format successful.\n",
                 cart_info[loadfile_cart_type].name);
+        } else if (machine_class == VICE_MACHINE_C128) {
+            printf("Conversion from C128 %s .crt to binary format successful.\n",
+                cart_info_c128[loadfile_cart_type].name);
+/*
+        } else if (machine_class == VICE_MACHINE_CBM5x0 ||
+                   machine_class == VICE_MACHINE_CBM6x0) {
+            printf("Conversion from CBM2 %s .crt to binary format successful.\n",
+                cart_info_cbm2[loadfile_cart_type].name);
+*/
         } else if (machine_class == VICE_MACHINE_VIC20) {
             printf("Conversion from VIC20 %s .crt to binary format successful.\n",
                 cart_info_vic20[loadfile_cart_type].name);
@@ -504,6 +524,9 @@ static int detect_input_file(char *filename)
         } else if (!strncmp("C128 CARTRIDGE  ", (char *)headerbuffer, 16)) {
             loadfile_is_crt = 1;
             machine_class = VICE_MACHINE_C128;
+        } else if (!strncmp("CBM2 CARTRIDGE  ", (char *)headerbuffer, 16)) {
+            loadfile_is_crt = 1;
+            machine_class = VICE_MACHINE_CBM5x0;
         } else if (!strncmp("VIC20 CARTRIDGE ", (char *)headerbuffer, 16)) {
             loadfile_is_crt = 1;
             machine_class = VICE_MACHINE_VIC20;
@@ -618,6 +641,20 @@ int load_input_file(char *filename)
                 fclose(infile);
                 return -1;
             }
+        } else if (machine_class == VICE_MACHINE_C128) {
+            if (!((loadfile_cart_type >= 0) && (loadfile_cart_type <= CARTRIDGE_C128_LAST))) {
+                fprintf(stderr, "Error: Unknown CRT ID: %d\n", loadfile_cart_type);
+                fclose(infile);
+                return -1;
+            }
+/*
+        } else if (machine_class == VICE_MACHINE_CBM2) {
+            if (!((loadfile_cart_type >= 0) && (loadfile_cart_type <= CARTRIDGE_CBM2_LAST))) {
+                fprintf(stderr, "Error: Unknown CRT ID: %d\n", loadfile_cart_type);
+                fclose(infile);
+                return -1;
+            }
+*/
         } else if (machine_class == VICE_MACHINE_VIC20) {
             if (!((loadfile_cart_type >= 0) && (loadfile_cart_type <= CARTRIDGE_VIC20_LAST))) {
                 fprintf(stderr, "Error: Unknown CRT ID: %d\n", loadfile_cart_type);
@@ -737,11 +774,22 @@ const cart_t *find_cartinfo_from_crtid(int crtid, int machine)
     const cart_t *info = cart_info;
     int i;
 
-    if (machine == VICE_MACHINE_VIC20) {
-        info = cart_info_vic20;
-    }
-    if (machine == VICE_MACHINE_PLUS4) {
-        info = cart_info_plus4;
+    switch (machine) {
+        case VICE_MACHINE_C128:
+            info = cart_info_c128;
+            break;
+/*
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+            info = cart_info_cbm2;
+            break;
+*/
+        case VICE_MACHINE_PLUS4:
+            info = cart_info_plus4;
+            break;
+        case VICE_MACHINE_VIC20:
+            info = cart_info_vic20;
+            break;
     }
 
     for (i = 0; info[i].name != NULL; i++) {
@@ -847,6 +895,19 @@ static void printinfo(char *name)
                     game_warning = "Warning: game in crt image set incorrectly.\n";
                 }
             break;
+            case VICE_MACHINE_C128:
+                if ((crtid >= 0) && (crtid <= CARTRIDGE_C128_LAST)) {
+                    idname = cart_info_c128[crtid].name;
+                }
+            break;
+/*
+            case VICE_MACHINE_CBM5x0:
+            case VICE_MACHINE_CBM6x0:
+                if ((crtid >= 0) && (crtid <= CARTRIDGE_CBM2_LAST)) {
+                    idname = cart_info_cbm2[crtid].name;
+                }
+            break;
+*/
             case VICE_MACHINE_VIC20:
                 if ((crtid >= 0) && (crtid <= CARTRIDGE_VIC20_LAST)) {
                     idname = cart_info_vic20[crtid].name;
@@ -936,6 +997,14 @@ static void printoptions(char *inputname, char *optionsname)
                     fprintf(f,"-t,normal,"); /* 8k */
                 } else {
                     fprintf(f,"-t,normal,"); /* invalid (off) */
+                }
+/* FIXME: cbm2 */
+            } else if (machine_class == VICE_MACHINE_C128) {
+                fprintf(f,"-t,c128,");
+                if (convert_to_bin) {
+                    unsigned int loadaddr = 0, firstbank = 0;
+                    detect_load_address(inputname, &loadaddr, &firstbank);
+                    fprintf(f,"-l,%u,", loadaddr);
                 }
             } else if (machine_class == VICE_MACHINE_VIC20) {
                 fprintf(f,"-t,vic20,");
@@ -1086,6 +1155,13 @@ static void usage_types(void)
 
     print_types(VICE_MACHINE_C64, cart_info);
 
+    printf("\nC128 cartridge types:\n\n"
+           "c128     Generic 8KiB/16KiB .crt file\n"
+    );
+    print_types(VICE_MACHINE_C128, cart_info);
+
+/* FIXME: cbm2 */
+
     printf("\nVIC20 cartridge types:\n\n"
            "vic20    Generic 8KiB/12KiB/16KiB .crt file\n"
     );
@@ -1109,7 +1185,7 @@ static void usage(void)
     printf("convert:    cartconv [-r] [-q|-v] [-t cart type] [-s cart revision] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
     printf("print info: cartconv [-r] [-q|-v] -f \"input name\"\n\n");
     printf("-f <name>                   print info on file\n");
-    printf("-r                          repair mode (accept broken input files)\n");
+    printf("-r                          repair mode (accept broken/invalid input files)\n");
     printf("-p                          accept non padded binaries as input\n");
     printf("-b                          output all banks (do not optimize the .crt file)\n");
     printf("-t <type> or <crtid>        output cart type\n");
@@ -1223,6 +1299,13 @@ static int checkflag(char *flg, char *arg)
                             }
                         }
                         if (cart_type == -1) {
+                            cart_type = find_crtid_from_type(cart_info_c128, arg);
+                            if (cart_type != -1) {
+                                /* found c128 cartridge */
+                                machine_class = VICE_MACHINE_C128;
+                            }
+                        }
+                        if (cart_type == -1) {
                             cart_type = find_crtid_from_type(cart_info_plus4, arg);
                             if (cart_type != -1) {
                                 /* found plus4 cartridge */
@@ -1232,6 +1315,15 @@ static int checkflag(char *flg, char *arg)
                                 machine_class = VICE_MACHINE_PLUS4;
                             }
                         }
+#if 0
+                        if (cart_type == -1) {
+                            cart_type = find_crtid_from_type(cart_info_cbm2, arg);
+                            if (cart_type != -1) {
+                                /* found cbm2 cartridge */
+                                machine_class = VICE_MACHINE_CBM5x0;
+                            }
+                        }
+#endif
                     }
 
                     if (cart_type == -1) {
@@ -1244,6 +1336,9 @@ static int checkflag(char *flg, char *arg)
                         } else if (!strcmp(arg, "ulti")) {
                             cart_type = CARTRIDGE_CRT;
                             convert_to_ultimax = 1;
+                        } else if (!strcmp(arg, "c128")) {
+                            cart_type = CARTRIDGE_CRT;
+                            machine_class = VICE_MACHINE_C128;
                         } else if (!strcmp(arg, "vic20")) {
                             cart_type = CARTRIDGE_CRT;
                             machine_class = VICE_MACHINE_VIC20;
@@ -1407,6 +1502,14 @@ int main(int argc, char *argv[])
                 too_many_outputs();
             }
         break;
+        case VICE_MACHINE_C128:
+            printf("c128 input_filenames: %d output_filenames: %d\n",
+                input_filenames, output_filenames);
+            /* some formats allow more than one output file */
+            if (output_filenames > 1) {
+                too_many_outputs();
+            }
+        break;
         case VICE_MACHINE_VIC20:
             printf("vic20 input_filenames: %d output_filenames: %d cart_type: %d loadfile_cart_type: %d\n",
                 input_filenames, output_filenames, cart_type, loadfile_cart_type);
@@ -1483,10 +1586,34 @@ int main(int argc, char *argv[])
             }
         } else {
             if ((loadfile_size & info->sizes) != loadfile_size) {
-                fprintf(stderr, "Error: Input file size (%u) doesn't match %s requirements\n",
-                        loadfile_size, cart_info[(unsigned char)cart_type].name);
-                cleanup();
-                exit(1);
+                switch (machine_class) {
+                    case VICE_MACHINE_C64:
+                        fprintf(stderr, "Error: Input file size (%u) doesn't match %s requirements\n",
+                                loadfile_size, cart_info[(unsigned char)cart_type].name);
+                        break;
+                    case VICE_MACHINE_C128:
+                        fprintf(stderr, "Error: Input file size (%u) doesn't match %s requirements\n",
+                                loadfile_size, cart_info_c128[(unsigned char)cart_type].name);
+                        break;
+/*
+                    case VICE_MACHINE_CBM2:
+                        fprintf(stderr, "Error: Input file size (%u) doesn't match %s requirements\n",
+                                loadfile_size, cart_info_cbm2[(unsigned char)cart_type].name);
+                        break;
+*/
+                    case VICE_MACHINE_VIC20:
+                        fprintf(stderr, "Error: Input file size (%u) doesn't match %s requirements\n",
+                                loadfile_size, cart_info_vic20[(unsigned char)cart_type].name);
+                        break;
+                    case VICE_MACHINE_PLUS4:
+                        fprintf(stderr, "Error: Input file size (%u) doesn't match %s requirements\n",
+                                loadfile_size, cart_info_plus4[(unsigned char)cart_type].name);
+                        break;
+                }
+                if (!repair_mode) {
+                    cleanup();
+                    exit(1);
+                }
             }
         }
         if (info->save != NULL) {

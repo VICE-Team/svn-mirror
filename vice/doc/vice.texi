@@ -19497,8 +19497,6 @@ ZIPP-CODE 48 .crt file
 
 @b{C128 cartridges:}
 
-@b{TODO - not implemented yet}
-
 @table @code
 @item c128
 generic C128 cartridge ("external function ROM")
@@ -30057,16 +30055,98 @@ a CRT-ID in the C128 list and "C128 Cartridge" header type.
 @c @node FIXME
 @subsubsection 0 - generic cartridge
 
-generic cartridges contain one or two 16k CHIP packets, one for ROML and one for
-ROML. ROML is always mapped to $8000 and ROMH is always mapped to $c000. Typical
-cartridges are 32KiB (ROML+ROMH) or 16KiB (ROML only).
+generic cartridges contain one or two 8KiB or 16KiB CHIP packets, one for ROML
+and one for ROML. ROML is always mapped to $8000 and ROMH is always mapped to $c000.
+Typical cartridges are 32KiB (ROML+ROMH) or 16KiB (ROML only), although smaller
+cartridges exist.
 
-@b{TODO}
+@b{8KiB lo function ROM}
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8KiB
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+0000:  43 31 32 38 20 43 41 52 54 52 49 44 47 45 20 20  C128 CARTRIDGE  
+0010:  00 00 00 40 02 00 00 00 00 00 00 00 00 00 00 00  ...@............
+0020:  47 65 6e 65 72 69 63 20 43 31 32 38 20 43 61 72  Generic C128 Car
+0030:  74 72 69 64 67 65 00 00 00 00 00 00 00 00 00 00  tridge..........
+0040:  43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+0050:  4c 0a 80 4c 0a 80 02 43 42 4d 78 a2 ff 9a d8 a9  L..L...CBMx.....
+@dots{}
+2030:  aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa  ................
+2040:  aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa  ................
+@end example
+
+@b{16KiB lo function ROM}
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+0000:  43 31 32 38 20 43 41 52 54 52 49 44 47 45 20 20  C128 CARTRIDGE  
+0010:  00 00 00 40 02 00 00 00 00 00 00 00 00 00 00 00  ...@............
+0020:  47 65 6e 65 72 69 63 20 43 31 32 38 20 43 61 72  Generic C128 Car
+0030:  74 72 69 64 67 65 00 00 00 00 00 00 00 00 00 00  tridge..........
+0040:  43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050:  4c 0a 80 60 ea ea ff 43 42 4d a5 d4 c9 48 d0 01  L..`...CBM...H..
+@dots{}
+4030:  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+4040:  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+@end example
+
+@b{32KiB lo+hi function ROM}
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32KiB
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+0000:  43 31 32 38 20 43 41 52 54 52 49 44 47 45 20 20  C128 CARTRIDGE  
+0010:  00 00 00 40 02 00 00 00 00 00 00 00 00 00 00 00  ...@............
+0020:  47 65 6e 65 72 69 63 20 43 31 32 38 20 43 61 72  Generic C128 Car
+0030:  74 72 69 64 67 65 00 00 00 00 00 00 00 00 00 00  tridge..........
+0040:  43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050:  4c 0a 80 d2 d7 d7 30 43 42 4d ad 00 ff 85 fe ad  L.....0CBM......
+@dots{}
+8040:  32 39 3a 89 31 00 ee 26 50 00 d6 31 32 00 00 00  29:.1..&P..12...
+8050:  a9 01 a0 00 91 2d 20 4f 4f 4c 82 4f 00 00 00 00  .....- OOL.O....
+@end example
 
 @c @node FIXME
 @subsubsection 1 - Warpspeed128
 
-@b{TODO}
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+0000:  43 31 32 38 20 43 41 52 54 52 49 44 47 45 20 20  C128 CARTRIDGE  
+0010:  00 00 00 40 02 00 00 01 00 00 00 00 00 00 00 00  ...@............
+0020:  57 61 72 70 20 53 70 65 65 64 20 31 32 38 00 00  Warp Speed 128..
+0030:  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040:  43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050:  4c 22 80 4c 22 80 ff 43 42 4d 20 53 e4 20 18 e5  L".L"..CBM S. ..
+@dots{}
+4030:  19 ad 00 1c 29 fd 05 19 8d 00 1c a2 02 bd 03 01  ....)...........
+4040:  95 15 95 11 ca d0 f6 8e 00 07 60 41 54 21 21 21  ..........`AT!!!
+@end example
+
+This is a 16KiB ROM starting at $8000. The part at $9e00-$9fff is mirrored
+to $de00-$dfff in I/O space.
 
 @c @node FIXME
 @subsection VIC20 Cartridge Specifics
