@@ -55,6 +55,7 @@ UI_MENU_DEFINE_RADIO(JoyDevice8)
 UI_MENU_DEFINE_RADIO(JoyDevice9)
 UI_MENU_DEFINE_RADIO(JoyDevice10)
 
+#ifdef HAVE_SDL_NUMJOYSTICKS
 #define VICE_SDL_JOYSTICK_DEVICE_MENU(port)                              \
     static const ui_menu_entry_t joystick_port##port##_device_menu[] = { \
         { "None",                                                        \
@@ -79,6 +80,28 @@ UI_MENU_DEFINE_RADIO(JoyDevice10)
           (ui_callback_data_t)JOYDEV_JOYSTICK },                         \
         SDL_MENU_LIST_END                                                \
     };
+#else
+#define VICE_SDL_JOYSTICK_DEVICE_MENU(port)                              \
+    static const ui_menu_entry_t joystick_port##port##_device_menu[] = { \
+        { "None",                                                        \
+          MENU_ENTRY_RESOURCE_RADIO,                                     \
+          radio_JoyDevice##port##_callback,                              \
+          (ui_callback_data_t)JOYDEV_NONE },                             \
+        { "Numpad",                                                      \
+          MENU_ENTRY_RESOURCE_RADIO,                                     \
+          radio_JoyDevice##port##_callback,                              \
+          (ui_callback_data_t)JOYDEV_NUMPAD },                           \
+        { "Keyset 1",                                                    \
+          MENU_ENTRY_RESOURCE_RADIO,                                     \
+          radio_JoyDevice##port##_callback,                              \
+          (ui_callback_data_t)JOYDEV_KEYSET1 },                          \
+        { "Keyset 2",                                                    \
+          MENU_ENTRY_RESOURCE_RADIO,                                     \
+          radio_JoyDevice##port##_callback,                              \
+          (ui_callback_data_t)JOYDEV_KEYSET2 },                          \
+        SDL_MENU_LIST_END                                                \
+    };
+#endif
 
 VICE_SDL_JOYSTICK_DEVICE_MENU(1)
 VICE_SDL_JOYSTICK_DEVICE_MENU(2)
@@ -384,8 +407,6 @@ static const ui_menu_entry_t define_keyset_menu[] = {
 };
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
-
-
 static const char *joy_pin[] = {
     "Up",
     "Down",
