@@ -46,6 +46,7 @@
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
+#include "menu_joystick.h"
 #include "menu_media.h"
 #include "menu_monitor.h"
 #include "menu_network.h"
@@ -230,6 +231,7 @@ int cbm5x0ui_init(void)
     sdl_ui_set_menu_params = cbm5x0ui_set_menu_params;
     /* p500 has 2 "real" joystickports, and a user port */
     uijoyport_menu_create(1, 1, 1, 1, 1);
+    uijoystick_menu_create(1, 1, 1, 1, 1);
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();
@@ -256,6 +258,7 @@ void cbm5x0ui_shutdown(void)
     uisid_menu_shutdown();
     uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
+    uijoystick_menu_shutdown();
     uimedia_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
