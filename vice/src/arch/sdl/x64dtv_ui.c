@@ -42,6 +42,7 @@
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
+#include "menu_joystick.h"
 #include "menu_media.h"
 #include "menu_monitor.h"
 #include "menu_network.h"
@@ -223,6 +224,7 @@ int c64dtvui_init(void)
     sdl_ui_set_menu_params = c64dtvui_set_menu_params;
 
     uijoyport_menu_create(1, 1, 1, 1, 1);
+    uijoystick_menu_create(1, 1, 1, 1, 1);
     uiuserport_menu_create(0);
     uisampler_menu_create();
     uidrive_menu_create();
@@ -246,6 +248,7 @@ void c64dtvui_shutdown(void)
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
     uijoyport_menu_shutdown();
+    uijoystick_menu_shutdown();
     uiuserport_menu_shutdown();
     uimedia_menu_shutdown();
 #ifdef SDL_DEBUG

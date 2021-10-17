@@ -40,4 +40,7 @@ extern const ui_menu_entry_t joystick_vic20_menu[];
 extern const ui_menu_entry_t joystick_userport_only_menu[];
 extern const ui_menu_entry_t joystick_userport_cbm2_menu[];
 
+extern void uijoystick_menu_create(int port1, int port2, int port3_4, int port5, int port6_10);
+extern void uijoystick_menu_shutdown(void);
+
 #endif

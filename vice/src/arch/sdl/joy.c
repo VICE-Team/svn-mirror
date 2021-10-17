@@ -617,6 +617,7 @@ char *get_joy_pin_mapping_string(int joynr, int pin)
         }
         retval = mapping_retval;
     }
+
     return retval;
 }
 

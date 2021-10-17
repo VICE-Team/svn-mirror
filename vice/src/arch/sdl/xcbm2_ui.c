@@ -46,6 +46,7 @@
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
+#include "menu_joystick.h"
 #include "menu_media.h"
 #include "menu_monitor.h"
 #include "menu_network.h"
@@ -241,6 +242,7 @@ int cbm2ui_init(void)
 
     /* no "real" joystickports, and a user port */
     uijoyport_menu_create(0, 0, 1, 1, 1);
+    uijoystick_menu_create(0, 0, 1, 1, 1);
     uiuserport_menu_create(1);
     uikeyboard_menu_create();
     uipalette_menu_create("Crtc", NULL);
@@ -273,6 +275,7 @@ void cbm2ui_shutdown(void)
     uipalette_menu_shutdown();
     uisid_menu_shutdown();
     uijoyport_menu_shutdown();
+    uijoystick_menu_shutdown();
 
     sdl_ui_font_shutdown();
 }
