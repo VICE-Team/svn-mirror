@@ -2894,8 +2894,8 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
         || SMW_B(m, (uint8_t)export_ram) < 0
         || SMW_B(m, export.ultimax_phi1) < 0
         || SMW_B(m, export.ultimax_phi2) < 0
-        || SMW_DW(m, (uint32_t)cart_freeze_alarm_time) < 0
-        || SMW_DW(m, (uint32_t)cart_nmi_alarm_time) < 0
+        || SMW_CLOCK(m, cart_freeze_alarm_time) < 0
+        || SMW_CLOCK(m, cart_nmi_alarm_time) < 0
         || SMW_B(m, export_slot1.game) < 0
         || SMW_B(m, export_slot1.exrom) < 0
         || SMW_B(m, export_slot1.ultimax_phi1) < 0
