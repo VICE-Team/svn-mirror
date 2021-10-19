@@ -110,7 +110,7 @@ static clock_t cmdmode_receive_command(void);
 static int     load_tcrt(const char *filename, tapecart_memory_t *tcmem);
 static void    update_tcrt(void);
 
-static tapeport_device_t tapecart_device = {
+static old_tapeport_device_t tapecart_device = {
     TAPEPORT_DEVICE_TAPECART, /* device id */
     "tapecart",               /* device name */
     0,                        /* order of the device, filled in by the tapeport system when the device is attached */
@@ -127,13 +127,13 @@ static tapeport_device_t tapecart_device = {
     NULL                      /* NO passthrough motor line function */
 };
 
-static tapeport_snapshot_t tapecart_snapshot = {
+static old_tapeport_snapshot_t tapecart_snapshot = {
     TAPEPORT_DEVICE_TAPECART,
     tapecart_write_snapshot,
     tapecart_read_snapshot
 };
 
-static tapeport_device_list_t *tapecart_list_item;
+static old_tapeport_device_list_t *tapecart_list_item;
 
 static alarm_t *tapecart_logic_alarm;
 static alarm_t *tapecart_pulse_alarm;
@@ -311,12 +311,12 @@ static wait_handler_t      alarm_trigger_callback;
 /* workaround for inverted tapeport functions to keep my sanity */
 static void set_sense(int value)
 {
-    tapeport_set_tape_sense(!value, tapecart_device.id);
+    old_tapeport_set_tape_sense(!value, tapecart_device.id);
 }
 
 static void set_write(int value)
 {
-    tapeport_set_write_in(!value, tapecart_device.id);
+    old_tapeport_set_write_in(!value, tapecart_device.id);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -339,7 +339,7 @@ static int set_tapecart_enabled(int value, void *unused_param)
     }
 
     if (val) {
-        tapecart_list_item = tapeport_device_register(&tapecart_device);
+        tapecart_list_item = old_tapeport_device_register(&tapecart_device);
         if (tapecart_list_item == NULL) {
             return -1;
         }
@@ -391,7 +391,7 @@ static int set_tapecart_enabled(int value, void *unused_param)
 
         set_sense(1);
 
-        tapeport_device_unregister(tapecart_list_item);
+        old_tapeport_device_unregister(tapecart_list_item);
         tapecart_list_item = NULL;
 
         lib_free(tapecart_memory);
@@ -447,7 +447,7 @@ static const resource_string_t resources_string[] = {
 
 int tapecart_resources_init(void)
 {
-    tapeport_snapshot_register(&tapecart_snapshot);
+    old_tapeport_snapshot_register(&tapecart_snapshot);
 
     if (resources_register_int(resources_int) < 0) {
         return -1;
@@ -1447,7 +1447,7 @@ static clock_t cmdmode_send_pulses(void)
     wait_for_signal = WAIT_WRITE_LOW;
 
     alarm_trigger_callback = cmdmode_send_pulses;
-    tapeport_trigger_flux_change(1, tapecart_device.id);
+    old_tapeport_trigger_flux_change(1, tapecart_device.id);
 
     return CBMPULSE_SHORT * PULSE_CYCLES;
 }
@@ -1525,7 +1525,7 @@ static void tapecart_pulse_alarm_handler(CLOCK offset, void *data)
             alarm_set(tapecart_logic_alarm,
                       (CLOCK)(maincpu_clk + machine_get_cycles_per_second() / 1000));
         } else {
-            tapeport_trigger_flux_change(1, tapecart_device.id);
+            old_tapeport_trigger_flux_change(1, tapecart_device.id);
             alarm_set(tapecart_pulse_alarm, maincpu_clk + pulselen - offset);
         }
     } /* no alarm needed if motor was turned off */

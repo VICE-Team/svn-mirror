@@ -89,7 +89,7 @@ static void tapelog_set_tape_motor_in_passthrough(int val);
 static int tapelog_write_snapshot(struct snapshot_s *s, int write_image);
 static int tapelog_read_snapshot(struct snapshot_s *s);
 
-static tapeport_device_t tapelog_device = {
+static old_tapeport_device_t tapelog_device = {
     TAPEPORT_DEVICE_TAPE_LOG,                /* device id */
     "Tape Log",                              /* device name */
     0,                                       /* order of the device, filled in by the tapeport system when the device is attached */
@@ -106,13 +106,13 @@ static tapeport_device_t tapelog_device = {
     tapelog_set_tape_motor_in_passthrough    /* passthrough motor line function */
 };
 
-static tapeport_snapshot_t tapelog_snapshot = {
+static old_tapeport_snapshot_t tapelog_snapshot = {
     TAPEPORT_DEVICE_TAPE_LOG,
     tapelog_write_snapshot,
     tapelog_read_snapshot
 };
 
-static tapeport_device_list_t *tapelog_list_item = NULL;
+static old_tapeport_device_list_t *tapelog_list_item = NULL;
 
 static log_t log_tapelog;
 
@@ -188,14 +188,14 @@ static int set_tapelog_enabled(int value, void *param)
         if (enable_tapelog() < 0) {
             return -1;
         }
-        tapelog_list_item = tapeport_device_register(&tapelog_device);
+        tapelog_list_item = old_tapeport_device_register(&tapelog_device);
         if (tapelog_list_item == NULL) {
             disable_tapelog();
             return -1;
         }
     } else {
         disable_tapelog();
-        tapeport_device_unregister(tapelog_list_item);
+        old_tapeport_device_unregister(tapelog_list_item);
         tapelog_list_item = NULL;
     }
 
@@ -269,7 +269,7 @@ static const resource_string_t resources_string[] = {
 
 int tapelog_resources_init(void)
 {
-    tapeport_snapshot_register(&tapelog_snapshot);
+    old_tapeport_snapshot_register(&tapelog_snapshot);
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
@@ -331,7 +331,7 @@ static void tapelog_set_motor(int flag)
     }
 
     tapelog_motor_out = val;
-    tapeport_set_motor_next(flag, tapelog_device.id);
+    old_tapeport_set_motor_next(flag, tapelog_device.id);
 }
 
 static void tapelog_toggle_write_bit(int write_bit)
@@ -349,7 +349,7 @@ static void tapelog_toggle_write_bit(int write_bit)
     }
 
     tapelog_write_out = val;
-    tapeport_toggle_write_bit_next(write_bit, tapelog_device.id);
+    old_tapeport_toggle_write_bit_next(write_bit, tapelog_device.id);
 }
 
 static void tapelog_set_sense_out(int sense)
@@ -367,7 +367,7 @@ static void tapelog_set_sense_out(int sense)
     }
 
     tapelog_sense_out = val;
-    tapeport_set_sense_out_next(sense, tapelog_device.id);
+    old_tapeport_set_sense_out_next(sense, tapelog_device.id);
 }
 
 static void tapelog_set_read_out(int value)
@@ -385,7 +385,7 @@ static void tapelog_set_read_out(int value)
     }
 
     tapelog_read_out = val;
-    tapeport_set_read_out_next(value, tapelog_device.id);
+    old_tapeport_set_read_out_next(value, tapelog_device.id);
 }
 
 static void tapelog_set_tape_sense_passthrough(int sense)
@@ -403,7 +403,7 @@ static void tapelog_set_tape_sense_passthrough(int sense)
     }
 
     tapelog_sense_in = val;
-    tapeport_set_tape_sense(sense, tapelog_device.id);
+    old_tapeport_set_tape_sense(sense, tapelog_device.id);
 }
 
 static void tapelog_set_tape_write_in_passthrough(int value)
@@ -421,7 +421,7 @@ static void tapelog_set_tape_write_in_passthrough(int value)
     }
 
     tapelog_write_in = val;
-    tapeport_set_write_in(val, tapelog_device.id);
+    old_tapeport_set_write_in(val, tapelog_device.id);
 }
 
 static void tapelog_set_tape_motor_in_passthrough(int value)
@@ -439,12 +439,12 @@ static void tapelog_set_tape_motor_in_passthrough(int value)
     }
 
     tapelog_motor_in = val;
-    tapeport_set_motor_in(val, tapelog_device.id);
+    old_tapeport_set_motor_in(val, tapelog_device.id);
 }
 
 void tapelog_trigger_flux_change_passthrough(unsigned int on)
 {
-    tapeport_trigger_flux_change(on, tapelog_device.id);
+    old_tapeport_trigger_flux_change(on, tapelog_device.id);
 
     tapelog_transition("read", (uint8_t)on);
 

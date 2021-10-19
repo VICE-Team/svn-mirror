@@ -45,7 +45,7 @@ enum {
     TAPEPORT_MAX_DEVICES
 };
 
-typedef struct tapeport_device_s {
+typedef struct old_tapeport_device_s {
     /* id of the device */
     int device_id;
 
@@ -87,18 +87,18 @@ typedef struct tapeport_device_s {
 
     /* motor in line change on passthrough port, NULL if no passthrough port present */
     void (*set_tape_motor_in_passthrough)(int sense);
-} tapeport_device_t;
+} old_tapeport_device_t;
 
-typedef struct tapeport_device_list_s {
-    struct tapeport_device_list_s *previous;
-    tapeport_device_t *device;
-    struct tapeport_device_list_s *next;
-} tapeport_device_list_t;
+typedef struct old_tapeport_device_list_s {
+    struct old_tapeport_device_list_s *previous;
+    old_tapeport_device_t *device;
+    struct old_tapeport_device_list_s *next;
+} old_tapeport_device_list_t;
 
-extern tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device);
-extern void tapeport_device_unregister(tapeport_device_list_t *device);
+extern old_tapeport_device_list_t *old_tapeport_device_register(old_tapeport_device_t *device);
+extern void old_tapeport_device_unregister(old_tapeport_device_list_t *device);
 
-typedef struct tapeport_snapshot_s {
+typedef struct old_tapeport_snapshot_s {
     /* id of the device */
     int id;
 
@@ -107,32 +107,32 @@ typedef struct tapeport_snapshot_s {
 
     /* Read snapshot */
     int (*read_snapshot)(struct snapshot_s *s);
-} tapeport_snapshot_t;
+} old_tapeport_snapshot_t;
 
-typedef struct tapeport_snapshot_list_s {
-    struct tapeport_snapshot_list_s *previous;
-    tapeport_snapshot_t *snapshot;
-    struct tapeport_snapshot_list_s *next;
-} tapeport_snapshot_list_t;
+typedef struct old_tapeport_snapshot_list_s {
+    struct old_tapeport_snapshot_list_s *previous;
+    old_tapeport_snapshot_t *snapshot;
+    struct old_tapeport_snapshot_list_s *next;
+} old_tapeport_snapshot_list_t;
 
-extern void tapeport_snapshot_register(tapeport_snapshot_t *snapshot);
+extern void old_tapeport_snapshot_register(old_tapeport_snapshot_t *snapshot);
 
 extern void tapeport_set_motor(int flag);
 extern void tapeport_toggle_write_bit(int write_bit);
 extern void tapeport_set_sense_out(int sense);
 
-extern void tapeport_set_motor_next(int flag, int id);
-extern void tapeport_toggle_write_bit_next(int write_bit, int id);
-extern void tapeport_set_sense_out_next(int sense, int id);
-extern void tapeport_set_read_out_next(int val, int id);
+extern void old_tapeport_set_motor_next(int flag, int id);
+extern void old_tapeport_toggle_write_bit_next(int write_bit, int id);
+extern void old_tapeport_set_sense_out_next(int sense, int id);
+extern void old_tapeport_set_read_out_next(int val, int id);
 
-extern void tapeport_reset(void);
+extern void old_tapeport_reset(void);
 
-extern void tapeport_trigger_flux_change(unsigned int on, int id);
-extern void tapeport_set_tape_sense(int sense, int id);
+extern void old_tapeport_trigger_flux_change(unsigned int on, int id);
+extern void old_tapeport_set_tape_sense(int sense, int id);
 
-extern void tapeport_set_write_in(int val, int id);
-extern void tapeport_set_motor_in(int val, int id);
+extern void old_tapeport_set_write_in(int val, int id);
+extern void old_tapeport_set_motor_in(int val, int id);
 
 extern int tapeport_resources_init(void);
 extern void tapeport_resources_shutdown(void);

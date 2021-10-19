@@ -47,7 +47,7 @@ static void sense_dongle_reset(void);
 static int sense_dongle_write_snapshot(struct snapshot_s *s, int write_image);
 static int sense_dongle_read_snapshot(struct snapshot_s *s);
 
-static tapeport_device_t sense_dongle_device = {
+static old_tapeport_device_t sense_dongle_device = {
     TAPEPORT_DEVICE_SENSE_DONGLE, /* device id */
     "Sense dongle",               /* device name */
     0,                            /* order of the device, filled in by the tapeport system when the device is attached */
@@ -64,13 +64,13 @@ static tapeport_device_t sense_dongle_device = {
     NULL                          /* NO passthrough motor line function */
 };
 
-static tapeport_snapshot_t sense_dongle_snapshot = {
+static old_tapeport_snapshot_t sense_dongle_snapshot = {
     TAPEPORT_DEVICE_SENSE_DONGLE,
     sense_dongle_write_snapshot,
     sense_dongle_read_snapshot
 };
 
-static tapeport_device_list_t *sense_dongle_list_item = NULL;
+static old_tapeport_device_list_t *sense_dongle_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -83,13 +83,13 @@ static int set_sense_dongle_enabled(int value, void *param)
     }
 
     if (val) {
-        sense_dongle_list_item = tapeport_device_register(&sense_dongle_device);
+        sense_dongle_list_item = old_tapeport_device_register(&sense_dongle_device);
         if (sense_dongle_list_item == NULL) {
             return -1;
         }
-        tapeport_set_tape_sense(1, sense_dongle_device.id);
+        old_tapeport_set_tape_sense(1, sense_dongle_device.id);
     } else {
-        tapeport_device_unregister(sense_dongle_list_item);
+        old_tapeport_device_unregister(sense_dongle_list_item);
         sense_dongle_list_item = NULL;
     }
 
@@ -105,7 +105,7 @@ static const resource_int_t resources_int[] = {
 
 int sense_dongle_resources_init(void)
 {
-    tapeport_snapshot_register(&sense_dongle_snapshot);
+    old_tapeport_snapshot_register(&sense_dongle_snapshot);
 
     return resources_register_int(resources_int);
 }
@@ -130,7 +130,7 @@ int sense_dongle_cmdline_options_init(void)
 
 static void sense_dongle_reset(void)
 {
-    tapeport_set_tape_sense(1, sense_dongle_device.id);
+    old_tapeport_set_tape_sense(1, sense_dongle_device.id);
 }
 
 /* ---------------------------------------------------------------------*/

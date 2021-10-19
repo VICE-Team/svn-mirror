@@ -156,23 +156,23 @@ void colorram_store(uint16_t addr, uint8_t value)
 {
 }
 
-tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
+old_tapeport_device_list_t *old_tapeport_device_register(old_tapeport_device_t *device)
 {
     return NULL;
 }
 
-void tapeport_snapshot_register(tapeport_snapshot_t *snapshot)
+void old_tapeport_snapshot_register(old_tapeport_snapshot_t *snapshot)
 {
 }
 
-void tapeport_device_unregister(tapeport_device_list_t *device)
+void old_tapeport_device_unregister(old_tapeport_device_list_t *device)
 {
 }
 
-void tapeport_trigger_flux_change(unsigned int on, int id)
+void old_tapeport_trigger_flux_change(unsigned int on, int id)
 {
 }
 
-void tapeport_set_tape_sense(int sense, int id)
+void old_tapeport_set_tape_sense(int sense, int id)
 {
 }
