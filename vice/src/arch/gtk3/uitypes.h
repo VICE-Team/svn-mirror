@@ -37,7 +37,7 @@
 /** \brief  Menu item types
  *
  * The submenu types needs special handling, no more callbacks to create the
- * menu so we won't have to deal with the `ui_update_checmarks` crap of Gtk2.
+ * menu so we won't have to deal with the `ui_update_checkmarks` crap of Gtk2.
  *
  * The 'layer' between VICE and Gtk3 should be as thin as possible, so no
  * UI_CREATE_TOGGLE_BUTTON() stuff.
