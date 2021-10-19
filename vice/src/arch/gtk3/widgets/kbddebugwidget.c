@@ -156,7 +156,7 @@ void kdb_debug_widget_update(GdkEvent *event)
             );
 
     log_message(LOG_DEFAULT, "%s %s %s %s", keytype_buffer[LINES - 1],
-                keyval_buffer[LINES -1], keysym_buffer[LINES -1], keymod_buffer[LINES -1]);
+                keyval_buffer[LINES -1], keymod_buffer[LINES -1], keysym_buffer[LINES -1]);
 
     for (line = 0; line < LINES; line++) {
         g_snprintf(buffer, BUFSIZE - 1, "<tt>%s</tt>", keytype_buffer[line]);
