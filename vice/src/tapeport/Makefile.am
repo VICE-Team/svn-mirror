@@ -29,7 +29,5 @@ libtapeport_a_SOURCES = \
 	tapecart.c \
 	tapecart.h \
 	tapecart-loader.h \
-	tapelog.c \
-	tapelog.h \
 	tapeport.c \
 	tapeport.h

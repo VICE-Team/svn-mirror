@@ -38,7 +38,6 @@
 #include "sense-dongle.h"
 #include "snapshot.h"
 #include "tapecart.h"
-#include "tapelog.h"
 #include "tapeport.h"
 #include "uiapi.h"
 
@@ -523,9 +522,6 @@ static void old_tapeport_snapshot_unregister(old_tapeport_snapshot_list_t *s)
 
 static int old_tapeport_resources_init(void)
 {
-    if (tapelog_resources_init() < 0) {
-        return -1;
-    }
     if (tapertc_resources_init() < 0) {
         return -1;
     }
@@ -565,7 +561,6 @@ static void old_tapeport_resources_shutdown(void)
         old_tapeport_snapshot_unregister(c);
         c = old_tapeport_snapshot_head.next;
     }
-    tapelog_resources_shutdown();
 }
 
 void tapeport_resources_shutdown(void)
@@ -576,10 +571,6 @@ void tapeport_resources_shutdown(void)
 
 static int old_tapeport_cmdline_options_init(void)
 {
-    if (tapelog_cmdline_options_init() < 0) {
-        return -1;
-    }
-
     if (tapertc_cmdline_options_init() < 0) {
         return -1;
     }
