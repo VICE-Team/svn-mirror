@@ -63,7 +63,7 @@ static void tapertc_store_scl(int write_bit);
 static int tapertc_write_snapshot(struct snapshot_s *s, int write_image);
 static int tapertc_read_snapshot(struct snapshot_s *s);
 
-static tapeport_device_t tapertc_device = {
+static old_tapeport_device_t tapertc_device = {
     TAPEPORT_DEVICE_CP_CLOCK_F83, /* device id */
     "Tape RTC (PCF8583)",         /* device name */
     0,                            /* order of the device, filled in by the tapeport system when the device is attached */
@@ -80,13 +80,13 @@ static tapeport_device_t tapertc_device = {
     NULL                          /* NO passthrough motor line function */
 };
 
-static tapeport_snapshot_t tapertc_snapshot = {
+static old_tapeport_snapshot_t tapertc_snapshot = {
     TAPEPORT_DEVICE_CP_CLOCK_F83,
     tapertc_write_snapshot,
     tapertc_read_snapshot,
 };
 
-static tapeport_device_list_t *tapertc_list_item = NULL;
+static old_tapeport_device_list_t *tapertc_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -99,7 +99,7 @@ static int set_tapertc_enabled(int value, void *param)
     }
 
     if (val) {
-        tapertc_list_item = tapeport_device_register(&tapertc_device);
+        tapertc_list_item = old_tapeport_device_register(&tapertc_device);
         if (tapertc_list_item == NULL) {
             return -1;
         }
@@ -111,7 +111,7 @@ static int set_tapertc_enabled(int value, void *param)
             pcf8583_destroy(tapertc_context, tapertc_save);
             tapertc_context = NULL;
         }
-        tapeport_device_unregister(tapertc_list_item);
+        old_tapeport_device_unregister(tapertc_list_item);
         tapertc_list_item = NULL;
     }
 
@@ -136,7 +136,7 @@ static const resource_int_t resources_int[] = {
 
 int tapertc_resources_init(void)
 {
-    tapeport_snapshot_register(&tapertc_snapshot);
+    old_tapeport_snapshot_register(&tapertc_snapshot);
 
     return resources_register_int(resources_int);
 }
@@ -182,12 +182,11 @@ static void check_sense(void)
     sense_from_rtc = pcf8583_read_data_line(tapertc_context);
 
     if (!sense_from_rtc) {
-        tapeport_set_tape_sense(0, tapertc_device.id);
-    }
-    else if (motor_state) {
-        tapeport_set_tape_sense(0, tapertc_device.id);
+        old_tapeport_set_tape_sense(0, tapertc_device.id);
+    } else if (motor_state) {
+        old_tapeport_set_tape_sense(0, tapertc_device.id);
     } else {
-        tapeport_set_tape_sense(1, tapertc_device.id);
+        old_tapeport_set_tape_sense(1, tapertc_device.id);
     }
 }
 

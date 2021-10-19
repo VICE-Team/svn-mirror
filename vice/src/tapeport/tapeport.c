@@ -42,26 +42,26 @@
 #include "tapeport.h"
 #include "uiapi.h"
 
-static tapeport_device_list_t tapeport_head = { NULL, NULL, NULL };
-static tapeport_snapshot_list_t tapeport_snapshot_head = { NULL, NULL, NULL };
+static old_tapeport_device_list_t old_tapeport_head = { NULL, NULL, NULL };
+static old_tapeport_snapshot_list_t old_tapeport_snapshot_head = { NULL, NULL, NULL };
 
 static int tapeport_active = 1;
 
-static int tapeport_devices = 0;
+static int old_tapeport_devices = 0;
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
+old_tapeport_device_list_t *old_tapeport_device_register(old_tapeport_device_t *device)
 {
-    tapeport_device_list_t *current = &tapeport_head;
-    tapeport_device_list_t *retval = NULL;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
+    old_tapeport_device_list_t *retval = NULL;
     int found = 0;
     int use_id = 0;
 
-    if (tapeport_devices > 0) {
+    if (old_tapeport_devices > 0) {
         while (!found) {
             if (current->device) {
-                if (current->device->id == (tapeport_devices - 1)) {
+                if (current->device->id == (old_tapeport_devices - 1)) {
                     found = 1;
                 }
             }
@@ -78,10 +78,10 @@ tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
             return NULL;
         } else {
             if (current->device->trigger_flux_change_passthrough || current->device->set_tape_sense_passthrough) {
-                use_id = tapeport_devices;
+                use_id = old_tapeport_devices;
             } else {
                 if (device->trigger_flux_change_passthrough || device->set_tape_sense_passthrough) {
-                    use_id = tapeport_devices - 1;
+                    use_id = old_tapeport_devices - 1;
                     ++current->device->id;
                 } else {
                     ui_error("last tapeport device %s does not support passthrough, and %s does not support passthrough either", current->device->name, device->name);
@@ -91,7 +91,7 @@ tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
         }
     }
 
-    retval = lib_malloc(sizeof(tapeport_device_list_t));
+    retval = lib_malloc(sizeof(old_tapeport_device_list_t));
 
     while (current->next != NULL) {
         current = current->next;
@@ -102,15 +102,15 @@ tapeport_device_list_t *tapeport_device_register(tapeport_device_t *device)
     retval->next = NULL;
     retval->device->id = use_id;
 
-    ++tapeport_devices;
+    ++old_tapeport_devices;
 
     return retval;
 }
 
-void tapeport_device_unregister(tapeport_device_list_t *device)
+void old_tapeport_device_unregister(old_tapeport_device_list_t *device)
 {
-    tapeport_device_list_t *prev;
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *prev;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int id;
     int end = 0;
 
@@ -126,7 +126,7 @@ void tapeport_device_unregister(tapeport_device_list_t *device)
 
         lib_free(device);
 
-        if (tapeport_devices != id + 1) {
+        if (old_tapeport_devices != id + 1) {
             while (!end) {
                 if (current->device) {
                     if (current->device->id > id) {
@@ -140,15 +140,15 @@ void tapeport_device_unregister(tapeport_device_list_t *device)
                 }
             }
         }
-        --tapeport_devices;
+        --old_tapeport_devices;
     }
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-void tapeport_set_motor(int flag)
+static void old_tapeport_set_motor(int flag)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
     if (tapeport_active) {
@@ -170,9 +170,15 @@ void tapeport_set_motor(int flag)
     }
 }
 
-void tapeport_toggle_write_bit(int write_bit)
+void tapeport_set_motor(int flag)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    /* use old function for now */
+    old_tapeport_set_motor(flag);
+}
+
+static void old_tapeport_toggle_write_bit(int write_bit)
+{
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
     if (tapeport_active) {
@@ -194,9 +200,15 @@ void tapeport_toggle_write_bit(int write_bit)
     }
 }
 
-void tapeport_set_sense_out(int sense)
+void tapeport_toggle_write_bit(int write_bit)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    /* use old function for now */
+    old_tapeport_toggle_write_bit(write_bit);
+}
+
+static void old_tapeport_set_sense_out(int sense)
+{
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
     if (tapeport_active) {
@@ -218,12 +230,18 @@ void tapeport_set_sense_out(int sense)
     }
 }
 
-void tapeport_set_motor_next(int flag, int id)
+void tapeport_set_sense_out(int sense)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    /* use old function for now */
+    old_tapeport_set_sense_out(sense);
+}
+
+void old_tapeport_set_motor_next(int flag, int id)
+{
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
-    if (id == tapeport_devices - 1) {
+    if (id == old_tapeport_devices - 1) {
         return;
     }
 
@@ -246,12 +264,12 @@ void tapeport_set_motor_next(int flag, int id)
     }
 }
 
-void tapeport_toggle_write_bit_next(int write_bit, int id)
+void old_tapeport_toggle_write_bit_next(int write_bit, int id)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
-    if (id == tapeport_devices - 1) {
+    if (id == old_tapeport_devices - 1) {
         return;
     }
 
@@ -274,12 +292,12 @@ void tapeport_toggle_write_bit_next(int write_bit, int id)
     }
 }
 
-void tapeport_set_sense_out_next(int flag, int id)
+void old_tapeport_set_sense_out_next(int flag, int id)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
-    if (id == tapeport_devices - 1) {
+    if (id == old_tapeport_devices - 1) {
         return;
     }
 
@@ -302,12 +320,12 @@ void tapeport_set_sense_out_next(int flag, int id)
     }
 }
 
-void tapeport_set_read_out_next(int flag, int id)
+void old_tapeport_set_read_out_next(int flag, int id)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
-    if (id == tapeport_devices - 1) {
+    if (id == old_tapeport_devices - 1) {
         return;
     }
 
@@ -330,9 +348,9 @@ void tapeport_set_read_out_next(int flag, int id)
     }
 }
 
-void tapeport_reset(void)
+void old_tapeport_reset(void)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
     if (tapeport_active) {
@@ -351,9 +369,9 @@ void tapeport_reset(void)
     }
 }
 
-void tapeport_trigger_flux_change(unsigned int on, int id)
+void old_tapeport_trigger_flux_change(unsigned int on, int id)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
     if (!tapeport_active) {
@@ -380,9 +398,9 @@ void tapeport_trigger_flux_change(unsigned int on, int id)
     }
 }
 
-void tapeport_set_tape_sense(int sense, int id)
+void old_tapeport_set_tape_sense(int sense, int id)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
     if (!tapeport_active) {
@@ -409,9 +427,9 @@ void tapeport_set_tape_sense(int sense, int id)
     }
 }
 
-void tapeport_set_write_in(int val, int id)
+void old_tapeport_set_write_in(int val, int id)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
     if (!tapeport_active) {
@@ -438,9 +456,9 @@ void tapeport_set_write_in(int val, int id)
     }
 }
 
-void tapeport_set_motor_in(int val, int id)
+void old_tapeport_set_motor_in(int val, int id)
 {
-    tapeport_device_list_t *current = &tapeport_head;
+    old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
 
     if (!tapeport_active) {
@@ -469,12 +487,12 @@ void tapeport_set_motor_in(int val, int id)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-void tapeport_snapshot_register(tapeport_snapshot_t *s)
+void old_tapeport_snapshot_register(old_tapeport_snapshot_t *s)
 {
-    tapeport_snapshot_list_t *current = &tapeport_snapshot_head;
-    tapeport_snapshot_list_t *retval = NULL;
+    old_tapeport_snapshot_list_t *current = &old_tapeport_snapshot_head;
+    old_tapeport_snapshot_list_t *retval = NULL;
 
-    retval = lib_malloc(sizeof(tapeport_snapshot_list_t));
+    retval = lib_malloc(sizeof(old_tapeport_snapshot_list_t));
 
     while (current->next != NULL) {
         current = current->next;
@@ -485,9 +503,9 @@ void tapeport_snapshot_register(tapeport_snapshot_t *s)
     retval->next = NULL;
 }
 
-static void tapeport_snapshot_unregister(tapeport_snapshot_list_t *s)
+static void old_tapeport_snapshot_unregister(old_tapeport_snapshot_list_t *s)
 {
-    tapeport_snapshot_list_t *prev;
+    old_tapeport_snapshot_list_t *prev;
 
     if (s) {
         prev = s->previous;
@@ -503,7 +521,7 @@ static void tapeport_snapshot_unregister(tapeport_snapshot_list_t *s)
 
 /* ------------------------------------------------------------------------- */
 
-int tapeport_resources_init(void)
+static int old_tapeport_resources_init(void)
 {
     if (tapelog_resources_init() < 0) {
         return -1;
@@ -524,27 +542,39 @@ int tapeport_resources_init(void)
     return 0;
 }
 
-void tapeport_resources_shutdown(void)
+int tapeport_resources_init(void)
 {
-    tapeport_device_list_t *current = tapeport_head.next;
-    tapeport_snapshot_list_t *c = tapeport_snapshot_head.next;
+    /* use old function for now */
+    return old_tapeport_resources_init();
+}
+
+static void old_tapeport_resources_shutdown(void)
+{
+    old_tapeport_device_list_t *current = old_tapeport_head.next;
+    old_tapeport_snapshot_list_t *c = old_tapeport_snapshot_head.next;
 
     while (current) {
         if (current->device && current->device->shutdown) {
             current->device->shutdown();
         }
-        tapeport_device_unregister(current);
-        current = tapeport_head.next;
+        old_tapeport_device_unregister(current);
+        current = old_tapeport_head.next;
     }
 
     while (c) {
-        tapeport_snapshot_unregister(c);
-        c = tapeport_snapshot_head.next;
+        old_tapeport_snapshot_unregister(c);
+        c = old_tapeport_snapshot_head.next;
     }
     tapelog_resources_shutdown();
 }
 
-int tapeport_cmdline_options_init(void)
+void tapeport_resources_shutdown(void)
+{
+    /* use old function for now */
+    old_tapeport_resources_shutdown();
+}
+
+static int old_tapeport_cmdline_options_init(void)
 {
     if (tapelog_cmdline_options_init() < 0) {
         return -1;
@@ -567,6 +597,12 @@ int tapeport_cmdline_options_init(void)
     }
 
     return 0;
+}
+
+int tapeport_cmdline_options_init(void)
+{
+    /* use old function for now */
+    return old_tapeport_cmdline_options_init();
 }
 
 void tapeport_enable(int val)
@@ -594,13 +630,13 @@ static char snap_module_name[] = "TAPEPORT";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int tapeport_snapshot_write_module(snapshot_t *s, int write_image)
+static int old_tapeport_snapshot_write_module(snapshot_t *s, int write_image)
 {
     snapshot_module_t *m;
     int amount = 0;
     int *devices = NULL;
-    tapeport_device_list_t *current = tapeport_head.next;
-    tapeport_snapshot_list_t *c = NULL;
+    old_tapeport_device_list_t *current = old_tapeport_head.next;
+    old_tapeport_snapshot_list_t *c = NULL;
     int i = 0;
 
     while (current) {
@@ -610,7 +646,7 @@ int tapeport_snapshot_write_module(snapshot_t *s, int write_image)
 
     if (amount) {
         devices = lib_malloc(sizeof(int) * (amount + 1));
-        current = tapeport_head.next;
+        current = old_tapeport_head.next;
         while (current) {
             devices[current->device->id] = current->device->device_id;
             current = current->next;
@@ -645,7 +681,7 @@ int tapeport_snapshot_write_module(snapshot_t *s, int write_image)
     /* save device snapshots */
     if (amount) {
         for (i = 0; i < amount; ++i) {
-            c = tapeport_snapshot_head.next;
+            c = old_tapeport_snapshot_head.next;
             while (c) {
                 if (c->snapshot->id == devices[i]) {
                     if (c->snapshot->write_snapshot) {
@@ -669,15 +705,21 @@ fail:
     return -1;
 }
 
-int tapeport_snapshot_read_module(snapshot_t *s)
+int tapeport_snapshot_write_module(snapshot_t *s, int write_image)
+{
+   /* use old function for now */
+    return old_tapeport_snapshot_write_module(s, write_image);
+}
+
+static int old_tapeport_snapshot_read_module(snapshot_t *s)
 {
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
     int amount = 0;
     char **detach_resource_list = NULL;
-    tapeport_device_list_t *current = tapeport_head.next;
+    old_tapeport_device_list_t *current = old_tapeport_head.next;
     int *devices = NULL;
-    tapeport_snapshot_list_t *c = NULL;
+    old_tapeport_snapshot_list_t *c = NULL;
     int i = 0;
 
     /* detach all tapeport devices */
@@ -689,7 +731,7 @@ int tapeport_snapshot_read_module(snapshot_t *s)
     if (amount) {
         detach_resource_list = lib_malloc(sizeof(char *) * (amount + 1));
         memset(detach_resource_list, 0, sizeof(char *) * (amount + 1));
-        current = tapeport_head.next;
+        current = old_tapeport_head.next;
         while (current) {
             detach_resource_list[i++] = current->device->resource;
             current = current->next;
@@ -728,7 +770,7 @@ int tapeport_snapshot_read_module(snapshot_t *s)
         }
         snapshot_module_close(m);
         for (i = 0; i < amount; ++i) {
-            c = tapeport_snapshot_head.next;
+            c = old_tapeport_snapshot_head.next;
             while (c) {
                 if (c->snapshot->id == devices[i]) {
                     if (c->snapshot->read_snapshot) {
@@ -750,4 +792,10 @@ int tapeport_snapshot_read_module(snapshot_t *s)
 fail:
     snapshot_module_close(m);
     return -1;
+}
+
+int tapeport_snapshot_read_module(snapshot_t *s)
+{
+   /* use old function for now */
+    return old_tapeport_snapshot_read_module(s);
 }

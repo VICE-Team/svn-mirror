@@ -91,7 +91,7 @@ static void dtlbasic_sense_out(int sense);
 static int dtlbasic_write_snapshot(struct snapshot_s *s, int write_image);
 static int dtlbasic_read_snapshot(struct snapshot_s *s);
 
-static tapeport_device_t dtlbasic_dongle_device = {
+static old_tapeport_device_t dtlbasic_dongle_device = {
     TAPEPORT_DEVICE_DTL_BASIC_DONGLE, /* device id */
     "DTL BASIC dongle",               /* device name */
     0,                                /* order of the device, filled in by the tapeport system when the device is attached */
@@ -108,13 +108,13 @@ static tapeport_device_t dtlbasic_dongle_device = {
     NULL                              /* NO passthrough motor line function */
 };
 
-static tapeport_snapshot_t dtlbasic_snapshot = {
+static old_tapeport_snapshot_t dtlbasic_snapshot = {
     TAPEPORT_DEVICE_DTL_BASIC_DONGLE,
     dtlbasic_write_snapshot,
     dtlbasic_read_snapshot
 };
 
-static tapeport_device_list_t *dtlbasic_dongle_list_item = NULL;
+static old_tapeport_device_list_t *dtlbasic_dongle_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -127,14 +127,14 @@ static int set_dtlbasic_dongle_enabled(int value, void *param)
     }
 
     if (val) {
-        dtlbasic_dongle_list_item = tapeport_device_register(&dtlbasic_dongle_device);
+        dtlbasic_dongle_list_item = old_tapeport_device_register(&dtlbasic_dongle_device);
         if (dtlbasic_dongle_list_item == NULL) {
             return -1;
         }
         dtlbasic_counter = -1;
         dtlbasic_state = DTLBASIC_DONGLE_IDLE;
     } else {
-        tapeport_device_unregister(dtlbasic_dongle_list_item);
+        old_tapeport_device_unregister(dtlbasic_dongle_list_item);
         dtlbasic_dongle_list_item = NULL;
     }
 
@@ -150,7 +150,7 @@ static const resource_int_t resources_int[] = {
 
 int dtlbasic_dongle_resources_init(void)
 {
-    tapeport_snapshot_register(&dtlbasic_snapshot);
+    old_tapeport_snapshot_register(&dtlbasic_snapshot);
 
     return resources_register_int(resources_int);
 }
@@ -203,7 +203,7 @@ static void dtlbasic_write(int write_bit)
     if (!write_bit) {
         if (dtlbasic_counter != -1) {
             if (dtlbasic_key[dtlbasic_counter]) {
-                tapeport_trigger_flux_change(1, dtlbasic_dongle_device.id);
+                old_tapeport_trigger_flux_change(1, dtlbasic_dongle_device.id);
             }
             ++dtlbasic_counter;
             if (dtlbasic_counter == 20) {
