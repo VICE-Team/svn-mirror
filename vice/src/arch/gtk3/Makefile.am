@@ -75,6 +75,7 @@ libarch_a_SOURCES = \
 	scpu64ui.c \
 	ui.c \
 	uiabout.c \
+	uiactions.c \
 	uicart.c \
 	uicmdline.c \
 	uicommands.c \

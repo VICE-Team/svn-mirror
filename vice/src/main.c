@@ -203,6 +203,12 @@ int main_program(int argc, char **argv)
     /* Initialize system file locator.  */
     sysfile_init(machine_name);
 
+
+    /* hotkeys init needs to be called after sysfile_init() but before the
+     * resources and cmdline options of the hotkeys are registered.
+     */
+    ui_hotkeys_init();
+
     gfxoutput_early_init(ishelp);
     if ((init_resources() < 0) || (init_cmdline_options() < 0)) {
         return -1;

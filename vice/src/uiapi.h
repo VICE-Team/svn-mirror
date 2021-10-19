@@ -102,4 +102,8 @@ extern void ui_display_joyport(uint16_t *joyport);
 /* Volume UI */
 void ui_display_volume(int vol);
 
+/* Hotkeys */
+void ui_hotkeys_init(void);
+
+
 #endif

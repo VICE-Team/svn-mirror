@@ -3647,6 +3647,9 @@ AC_OUTPUT([Makefile
            doc/building/Makefile
            doc/html/Makefile
            doc/readmes/Makefile
+           doc/vim/Makefile
+           doc/vim/ftdetect/Makefile
+           doc/vim/syntax/Makefile
            src/Makefile
            src/debug.h
            src/arch/Makefile

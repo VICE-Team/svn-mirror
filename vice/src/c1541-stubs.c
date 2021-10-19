@@ -306,3 +306,8 @@ int crt_getid(const char *filename)
 {
     return -1;
 }
+
+
+void ui_hotkeys_init(void)
+{
+}

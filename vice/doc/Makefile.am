@@ -1,4 +1,4 @@
-SUBDIRS = building html readmes
+SUBDIRS = building html readmes vim
 
 MISC_DOX = \
 	CIA-README.txt \

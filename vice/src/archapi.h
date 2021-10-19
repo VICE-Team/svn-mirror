@@ -78,6 +78,11 @@ int         archdep_rename(const char *oldpath, const char *newpath);
 char *      archdep_default_sysfile_pathlist(const char *emu_id);
 void        archdep_default_sysfile_pathlist_free(void);
 
+char *      archdep_xdg_data_home(void);
+char *      archdep_xdg_config_home(void);
+char *      archdep_xdg_cache_home(void);
+
+
 char *      archdep_extra_title_text(void);
 void        archdep_extra_title_text_free(void);
 

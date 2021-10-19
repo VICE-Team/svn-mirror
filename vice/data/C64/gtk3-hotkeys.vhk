@@ -1,0 +1,85 @@
+# VICE Gtk3 Hotkeys for x64/x64sc
+#
+# Author:   Bas Wassink
+# Updated:  2021-10-04
+#
+# See doc/hotkeys.md for documentation on the syntax of hotkeys files.
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+# Enable debugging
+!debug enable
+
+# Clear hotkeys
+!clear
+
+
+#
+# Hotkey mappings, in the order of the menu items.
+#
+
+
+# "File" - Smart attach
+smart-attach        <Alt>a
+
+# "File" - drive items
+!include $VICEDIR/common/gtk3-hotkeys-drive.vhk
+
+# "File" - fliplist items
+!include $VICEDIR/common/gtk3-hotkeys-fliplist.vhk
+
+# "File" - tape items
+!include $VICEDIR/common/gtk3-hotkeys-datasette1.vhk
+
+# "File" - cartridge items
+!include $VICEDIR/common/gtk3-hotkeys-cartridge.vhk
+
+# "File" - monitor, reset, quit
+monitor-open        <Alt>h
+reset-soft          <Alt>F9
+reset-hard          <Alt>F12
+quit                <Alt>q
+
+
+# "Edit" - copy/paste
+edit-copy           <Alt>Delete
+edit-paste          <Alt>Insert
+
+
+# "Snapshot" - event history recording, capturing media, screenshots etc.
+!include $VICEDIR/common/gtk3-hotkeys-snapshot.vhk
+
+
+# "Preferences - host display stuff
+fullscreen-toggle               <Alt>d
+restore-display                 <Alt>r
+fullscreen-decorations-toggle   <Alt>b
+
+# "Preferences  - run control
+warp-mode-toggle    <Alt>w
+pause-toggle        <Alt>p
+advance-frame       <Alt><Shift>p
+
+
+# "Preferences" - joystick, mouse
+#
+# TODO: Carefull: the swap controlport/userport joy support per emu is confusing :)
+#       When in doubt, consult uiactions.c, it has bitmasks detailing which
+#       emulators support which swap action(s).
+
+# C64 has both:
+mouse-grab-toggle       <Alt>m
+swap-controlport-toggle <Alt>j
+swap-userport-toggle    <Alt><Shift>j
+; keyset-joystick-toggle
+
+# Settings dialog, load, save, default
+!include $VICEDIR/common/gtk3-hotkeys-settings.vhk
+
+
+# "Debug" menu items
+# TODO: implement some kind of `!ifdef DEBUG` to conditionally include this
+!include $VICEDIR/common/gtk3-hotkeys-debug.vhk
+
+
+# "Help" menu items
+!include $VICEDIR/common/gtk3-hotkeys-help.vhk
