@@ -1179,6 +1179,118 @@ void ui_machine_menu_bar_vsid_patch(GtkWidget *menu)
  */
 
 
+/* Iterator API */
+
+/** \brief  Initialize VICE menu item iterator
+ *
+ * \param[in]   iter    VICE menu item iterator
+ */
+void ui_vice_menu_iter_init(ui_vice_menu_iter_t *iter)
+{
+    ui_menu_ref_t ref;
+
+    iter->menu_index = 0;
+    ref = menu_references[0];
+    iter->menu_item = ref.items;
+}
+
+
+/** \brief  Move VICE menu item iterator to the next item
+ *
+ * \param[in]   iter    VICE menu item iterator
+ *
+ * \return  TRUE when there was a next item
+ *
+ * \note    Please note that this also returns menu items of types 'submenu'
+ *          (UI_MENU_TYPE_SUBMENU) and 'separator' (UI_MENU_TYPE_SEPARATOR).
+ * \see     ui_vice_menu_iter_get_type()
+ */
+gboolean ui_vice_menu_iter_next(ui_vice_menu_iter_t *iter)
+{
+    iter->menu_item++;
+    if (iter->menu_item->type == UI_MENU_TYPE_GUARD) {
+        /* next menu in list */
+        ui_menu_ref_t ref;
+
+        if (iter->menu_index + 1 == sizeof menu_references / sizeof menu_references[0]) {
+            iter->menu_item = NULL;
+            return FALSE;
+        }
+        iter->menu_index++;
+        ref = menu_references[iter->menu_index];
+        iter->menu_item = ref.items; /* head of list */
+    }
+    return TRUE;
+}
+
+
+/** \brief  Get VICE menu item type via iterator
+ *
+ * \param[in]   iter    VICE menu item iterator
+ * \param[out]  type    object to store item type
+ *
+ * \return  TRUE when iter was valid
+ *
+*/
+gboolean ui_vice_menu_iter_get_type(ui_vice_menu_iter_t *iter,
+                                    ui_menu_item_type_t *type)
+{
+    if (iter->menu_item != NULL) {
+        *type = iter->menu_item->type;
+        return TRUE;
+    } else {
+        *type = UI_MENU_TYPE_GUARD;    /* -1 */
+        return FALSE;
+    }
+}
+
+
+/** \brief  Get VICE menu item action name via iterator
+ *
+ * \param[in]   iter    VICE menu item iterator
+ * \param[out]  name    object to store action name
+ *
+ * \return  TRUE when iter was valid
+ *
+ * \note    name can be `NULL` for submenus and separators
+ */
+gboolean ui_vice_menu_iter_get_name(ui_vice_menu_iter_t *iter,
+                                    const char **name)
+{
+    if (iter->menu_item != NULL) {
+        *name = iter->menu_item->action_name;
+        return TRUE;
+    } else {
+        *name = NULL;
+        return FALSE;
+    }
+}
+
+
+/** \brief  Get VICE menu item hotkey modifier mask and keysym via iterator
+ *
+ * \param[in]   iter    VICE menu item iterator
+ * \param[out]  mask    Gdk modifier mask
+ * \param[out]  keysym  Gdk keysym
+ *
+ * \return  TRUE when iter was valid
+ */
+gboolean ui_vice_menu_iter_get_hotkey(ui_vice_menu_iter_t *iter,
+                                    GdkModifierType *mask,
+                                    guint *keysym)
+{
+    if (iter->menu_item != NULL) {
+        *mask = iter->menu_item->modifier;
+        *keysym = iter->menu_item->keysym;
+        return TRUE;
+    } else {
+        *mask = 0;
+        *keysym = 0;
+        return FALSE;
+    }
+}
+
+
 /** \brief  Scan menu items for an action called \a name
  *
  * \param[in]   name    item action name
@@ -1187,6 +1299,7 @@ void ui_machine_menu_bar_vsid_patch(GtkWidget *menu)
  */
 ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
 {
+#if 0
     size_t i;
 
     for (i = 0; i < sizeof menu_references / sizeof menu_references[0]; i++) {
@@ -1213,6 +1326,27 @@ ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
             }
         }
     }
+#else
+    ui_vice_menu_iter_t iter;
+    ui_menu_item_type_t type;
+    const char *item_name;
+
+    ui_vice_menu_iter_init(&iter);
+    do {
+        if (ui_vice_menu_iter_get_type(&iter, &type) &&
+                (type == UI_MENU_TYPE_ITEM_ACTION ||
+                 type == UI_MENU_TYPE_ITEM_CHECK)) {
+            if (ui_vice_menu_iter_get_name(&iter, &item_name) &&
+                    item_name != NULL) {
+                debug_gtk3("Checking '%s'.", item_name);
+                if (strcmp(item_name, name) == 0) {
+                    return iter.menu_item;
+                }
+            }
+        }
+    } while (ui_vice_menu_iter_next(&iter));
+
+#endif
 
     return NULL;
 }
@@ -1399,5 +1533,7 @@ void ui_clear_vice_menu_item_hotkeys(void)
         }
     }
 }
+
+
 
 

@@ -129,4 +129,18 @@ typedef struct ui_menu_ref_s {
   #define VICE_MOD_MASK GDK_MOD1_MASK
 #endif
 
+
+/** \brief  Iterator for vice menu items
+ *
+ * Used to iterate over all VICE menu items, as opposed to Gtk menu items.
+ *
+ * \see ui_vice_menu_iter_init()
+ * \see ui_vice_menu_iter_next()
+ */
+typedef struct ui_vice_menu_iter_s {
+    size_t          menu_index; /**< index in menu_references[] */
+    ui_menu_item_t *menu_item;  /**< current item in menu */
+} ui_vice_menu_iter_t;
+
+
 #endif
