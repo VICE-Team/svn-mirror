@@ -1207,18 +1207,24 @@ void ui_vice_menu_iter_init(ui_vice_menu_iter_t *iter)
  */
 gboolean ui_vice_menu_iter_next(ui_vice_menu_iter_t *iter)
 {
+    /* guard against calling this function on invalid iter */
+    if (iter->menu_item == NULL) {
+        debug_gtk3("\nWARNING: called on invalid iterator, fix code!'\n");
+        return FALSE;
+    }
+
     iter->menu_item++;
-    if (iter->menu_item->type == UI_MENU_TYPE_GUARD) {
+    /* while loop to handle empty menus */
+    while (iter->menu_item->type == UI_MENU_TYPE_GUARD) {
         /* next menu in list */
         ui_menu_ref_t ref;
 
-        if (iter->menu_index + 1 == sizeof menu_references / sizeof menu_references[0]) {
-            iter->menu_item = NULL;
-            return FALSE;
-        }
         iter->menu_index++;
         ref = menu_references[iter->menu_index];
-        iter->menu_item = ref.items; /* head of list */
+        iter->menu_item = ref.items;
+        if (iter->menu_item == NULL) {
+            return FALSE;
+        }
     }
     return TRUE;
 }
@@ -1291,6 +1297,8 @@ gboolean ui_vice_menu_iter_get_hotkey(ui_vice_menu_iter_t *iter,
 }
 
 
+/* Menu item API */
+
 /** \brief  Scan menu items for an action called \a name
  *
  * \param[in]   name    item action name
@@ -1299,34 +1307,6 @@ gboolean ui_vice_menu_iter_get_hotkey(ui_vice_menu_iter_t *iter,
  */
 ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
 {
-#if 0
-    size_t i;
-
-    for (i = 0; i < sizeof menu_references / sizeof menu_references[0]; i++) {
-        ui_menu_item_t *item;
-
-        ui_menu_ref_t ref = menu_references[i];
-#if 0
-        debug_gtk3("Scanning '%s' for '%s'.", ref.name, name);
-#endif
-        for (item = ref.items; item != NULL && item->label != NULL; item++) {
-            if (item->type == UI_MENU_TYPE_ITEM_ACTION
-                    || item->type == UI_MENU_TYPE_ITEM_CHECK) {
-                if (item->action_name != NULL) {
-#if 0
-                    debug_gtk3(".. Checking item '%s'.", item->action_name);
-#endif
-                    if (strcmp(item->action_name, name) == 0) {
-#if 0
-                        debug_gtk3(".. FOUND! Label: '%s'", item->label);
-#endif
-                        return item;
-                    }
-                }
-            }
-        }
-    }
-#else
     ui_vice_menu_iter_t iter;
     ui_menu_item_type_t type;
     const char *item_name;
@@ -1338,16 +1318,13 @@ ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
                  type == UI_MENU_TYPE_ITEM_CHECK)) {
             if (ui_vice_menu_iter_get_name(&iter, &item_name) &&
                     item_name != NULL) {
-                debug_gtk3("Checking '%s'.", item_name);
+                //debug_gtk3("Checking '%s'.", item_name);
                 if (strcmp(item_name, name) == 0) {
                     return iter.menu_item;
                 }
             }
         }
     } while (ui_vice_menu_iter_next(&iter));
-
-#endif
-
     return NULL;
 }
 
@@ -1362,37 +1339,25 @@ ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
 ui_menu_item_t* ui_get_vice_menu_item_by_hotkey(GdkModifierType mask,
                                                 guint keysym)
 {
-    size_t i;
+    ui_vice_menu_iter_t iter;
+    ui_menu_item_type_t type;
+    GdkModifierType item_mask;
+    guint item_keysym;
 
-    for (i = 0; i < sizeof menu_references / sizeof menu_references[0]; i++) {
-        ui_menu_item_t *item;
-
-        ui_menu_ref_t ref = menu_references[i];
-#if 0
-        debug_gtk3("Scanning '%s' for '%s'.", ref.name, name);
-#endif
-        for (item = ref.items; item != NULL && item->label != NULL; item++) {
-            if (item->type == UI_MENU_TYPE_ITEM_ACTION
-                    || item->type == UI_MENU_TYPE_ITEM_CHECK) {
-                if (item->action_name != NULL) {
-#if 0
-                    debug_gtk3(".. Checking item '%s'.", item->action_name);
-#endif
-                    if (item->modifier == mask && item->keysym == keysym) {
-#if 0
-                        debug_gtk3(".. FOUND! Label: '%s'", item->label);
-#endif
-                        return item;
-                    }
+    ui_vice_menu_iter_init(&iter);
+    do {
+        if (ui_vice_menu_iter_get_type(&iter, &type) &&
+                (type == UI_MENU_TYPE_ITEM_ACTION ||
+                 type == UI_MENU_TYPE_ITEM_CHECK)) {
+            if (ui_vice_menu_iter_get_hotkey(&iter, &item_mask, &item_keysym)) {
+                if (mask == item_mask && keysym == item_keysym) {
+                    return iter.menu_item;
                 }
             }
         }
-    }
-
+    } while (ui_vice_menu_iter_next(&iter));
     return NULL;
 }
-
-
 
 
 /** \brief  Set key and modifiers for \a item
@@ -1518,22 +1483,12 @@ GtkWidget *ui_get_gtk_menu_item_by_hotkey(GdkModifierType mask, guint keyval)
  */
 void ui_clear_vice_menu_item_hotkeys(void)
 {
-    size_t i;
+    ui_vice_menu_iter_t iter;
 
-    for (i = 0; i < sizeof menu_references / sizeof menu_references[0]; i++) {
-        ui_menu_item_t *item;
-
-        ui_menu_ref_t ref = menu_references[i];
-        for (item = ref.items; item != NULL && item->label != NULL; item++) {
-            if (item->type == UI_MENU_TYPE_ITEM_ACTION
-                    || item->type == UI_MENU_TYPE_ITEM_CHECK) {
-                item->keysym = 0;
-                item->modifier = 0;
-            }
-        }
-    }
+    ui_vice_menu_iter_init(&iter);
+    do {
+        /* just do 'em all, simpler and probably faster ;) */
+        iter.menu_item->modifier = 0;
+        iter.menu_item->keysym = 0;
+    } while (ui_vice_menu_iter_next(&iter));
 }
-
-
-
-
