@@ -56,5 +56,7 @@ bool    ui_hotkeys_parse(const char *path);
 
 char *  ui_hotkeys_get_hotkey_string_for_action(const char *action);
 
+bool    ui_hotkeys_export(const char *path);
+
 #endif
 

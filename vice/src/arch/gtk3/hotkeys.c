@@ -1708,3 +1708,19 @@ char *ui_hotkeys_get_hotkey_string_for_action(const char *action)
     }
     return str;
 }
+
+
+/** \brief  Export all currently registered hotkeys to file \a path
+ *
+ * \param[in]   path    filename of .vhk file to generate
+ *
+ *
+ * \return  bool
+ */
+bool ui_hotkeys_export(const char *path)
+{
+    log_message(hotkeys_log,
+                "Hotkeys: exporting current hotkeys to '%s'.", path);
+    return true;
+}
+
