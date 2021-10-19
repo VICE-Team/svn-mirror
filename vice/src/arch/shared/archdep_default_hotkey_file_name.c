@@ -54,7 +54,7 @@ char *archdep_default_hotkey_file_name(void)
 
     snprintf(filename,
              sizeof(filename),
-             KBD_PORT_PREFIX "-hotkey-%s.vkm",
+             KBD_PORT_PREFIX "-hotkeys-%s.vhk",
              machine_get_name());
 
 #ifdef ARCHDEP_OS_WINDOWS

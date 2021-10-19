@@ -12,6 +12,9 @@ romsets = \
 palettes = \
 	spiff.vpl
 
+gtk3_hotkeys = \
+	gtk3-hotkeys.vhk
+
 gtk3_keymaps = \
 	gtk3_keyrah.vkm \
 	gtk3_keyrah_de.vkm \
@@ -55,9 +58,9 @@ sym_file = \
 if SDL_COMPILE
 c64dtv_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
 
-EXTRA_DIST = $(c64dtv_DATA) $(gtk3_keymaps)
+EXTRA_DIST = $(c64dtv_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
 else
-c64dtv_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(sym_file)
+c64dtv_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(sym_file) $(gtk3_hotkeys)
 
 EXTRA_DIST = $(c64dtv_DATA) $(sdl_keymaps)
 endif

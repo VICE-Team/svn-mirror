@@ -1,0 +1,15 @@
+# VICE Gtk3 Hotkeys for fliplists
+#
+# Author:   Bas Wassink
+# Updated:  2021-10-04
+#
+# See doc/hotkeys.md for documentation on the syntax of hotkeys files.
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+fliplist-add        <Alt>i
+fliplist-remove     <Alt>k
+fliplist-next       <Alt>n
+fliplist-previous   <Shift><Alt>n
+;fliplist-load
+;fliplist-save
+;fliplist-clear

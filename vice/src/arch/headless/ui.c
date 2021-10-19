@@ -371,3 +371,10 @@ void ui_update_lightpen(void)
 {
     /* printf("%s\n", __func__); */
 }
+
+
+/* FIXME: temporary hack to allow using ui_hotkeys_init() from src/main.c */
+void ui_hotkeys_init(void)
+{
+    /* NOP */
+}

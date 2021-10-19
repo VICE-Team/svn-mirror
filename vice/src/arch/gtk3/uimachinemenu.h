@@ -38,15 +38,19 @@ void        ui_machine_menu_bar_vsid_patch(GtkWidget *menu);
 
 /* hotkeys API */
 ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name);
+ui_menu_item_t* ui_get_vice_menu_item_by_hotkey(GdkModifierType mask,
+                                                guint keysym);
 gboolean        ui_set_vice_menu_item_hotkey(ui_menu_item_t *item,
                                              const char *keyval_name,
                                              GdkModifierType modifier);
 gboolean        ui_set_vice_menu_item_hotkey_by_name(const char *name,
                                                      const char *keyval_name,
                                                      GdkModifierType modifier);
-
 GtkWidget *     ui_get_gtk_menu_item_by_name(const char *name);
-
+/* for 'live' changing of hotkeys, needs UI support */
+#if 0
+GtkWidget *     ui_get_gtk_menu_item_by_hotkey(GdkModifierType mask, guint keyval);
+#endif
 void            ui_clear_vice_menu_item_hotkeys(void);
 
 #endif /* VICE_UIMACHINEMENU_H */

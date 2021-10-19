@@ -46,13 +46,15 @@
 #define VKM_DEFAULT_NAME    VKM_PREFIX##VKM_EXT
 
 
-int     hotkeys_resources_init(void);
-int     hotkeys_cmdline_options_init(void);
+int     ui_hotkeys_resources_init(void);
+int     ui_hotkeys_cmdline_options_init(void);
 
-void    hotkeys_init(void);
-void    hotkeys_shutdown(void);
+void    ui_hotkeys_init(void);
+void    ui_hotkeys_shutdown(void);
 
-bool    hotkeys_parse(const char *path);
+bool    ui_hotkeys_parse(const char *path);
+
+char *  ui_hotkeys_get_hotkey_string_for_action(const char *action);
 
 #endif
 

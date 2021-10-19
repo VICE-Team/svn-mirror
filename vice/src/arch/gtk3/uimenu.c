@@ -352,6 +352,57 @@ GtkWidget *ui_get_gtk_submenu_item_by_name(GtkWidget *submenu, const char *name)
 }
 
 
+/* for 'live' changing of hoykeys */
+#if 0
+/** \brief  Recursively look up \a mask and \a keyval in  \a submenu
+ *
+ * \param[in]   submenu GtkMenuItem
+ * \param[in]   mask    Gdk modifiers
+ * \param[in]   keyval  Gdk keyvalue
+ *
+ * \return  GtkMenuItem or `NULL` when not found
+ */
+GtkWidget *ui_get_gtk_submenu_item_by_hotkey(GtkWidget *submenu,
+                                             GdkModifierType mask,
+                                             guint keyval)
+{
+    GList *node = gtk_container_get_children(GTK_CONTAINER(submenu));
+
+#if 0
+    debug_gtk3("Iterating children of submenu.");
+#endif
+    while (node != NULL) {
+        GtkWidget *item = node->data;
+        if (GTK_IS_CONTAINER(item)) {
+            const char *action_name = g_object_get_data(G_OBJECT(item),
+                                                    "ActionName");
+            if (action_name != NULL) {
+                GtkMenuItem *menuitem = GTK_MENU_ITEM(item);
+#if 0
+                debug_gtk3("Checking action-name '%s' against '%s'.",
+                        action_name, name);
+#endif
+                if (menuitem->keyval == keyval && menuitem->modifier == mask) {
+#if 0
+                    debug_gtk3("FOUND");
+#endif
+                    return GTK_WIDGET(item);
+                }
+            } else {
+                item = ui_get_gtk_submenu_item_by_hotkey(item, mask, keyval);
+                if (item != NULL) {
+                    return item;
+                }
+            }
+        }
+        node = node->next;
+    }
+
+    return NULL;
+}
+#endif
+
+
 /** \brief  Set checkbox menu \a item to \a state while blocking its handler
  *
  * Set a checkbox menu item's state while blocking the 'activate' handler so

@@ -61,6 +61,7 @@
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"
+#include "hotkeys.h"
 #include "machine.h"
 #include "mainlock.h"
 #include "monitor.h"
@@ -883,7 +884,7 @@ gboolean ui_action_toggle_fullscreen(void)
         gtk_window_unfullscreen(window);
     }
 
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_FULLSCREEN,
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_FULLSCREEN_TOGGLE,
                                                is_fullscreen);
     ui_update_fullscreen_decorations();
     return TRUE;
@@ -897,7 +898,7 @@ gboolean ui_action_toggle_fullscreen(void)
 gboolean ui_action_toggle_fullscreen_decorations(void)
 {
     fullscreen_has_decorations = !fullscreen_has_decorations;
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_FULLSCREEN_DECORATIONS,
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
                                                fullscreen_has_decorations);
     ui_update_fullscreen_decorations();
     return TRUE;
@@ -1719,6 +1720,9 @@ void ui_destroy_main_window(int index)
  */
 int ui_cmdline_options_init(void)
 {
+    if (ui_hotkeys_cmdline_options_init() != 0) {
+        return -1;
+    }
     return cmdline_register_options(cmdline_options_common);
 }
 
@@ -1918,6 +1922,9 @@ int ui_resources_init(void)
         }
     }
 
+    /* initialize custom hotkeys resources */
+    ui_hotkeys_resources_init();
+
     for (i = 0; i < NUM_WINDOWS; ++i) {
         ui_resources.canvas[i] = NULL;
         ui_resources.window_widget[i] = NULL;
@@ -1943,6 +1950,7 @@ void ui_shutdown(void)
 {
     uidata_shutdown();
     ui_statusbar_shutdown();
+    ui_hotkeys_shutdown();
 }
 
 
