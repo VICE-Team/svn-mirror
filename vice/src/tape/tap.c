@@ -177,7 +177,9 @@ int tap_close(tap_t *tap)
             uint8_t buf[4];
             /* sanity check */
             if (tap->size != datasize) {
-                log_warning(LOG_DEFAULT, "tap data size mismatch, expected: 0x%06lx is: 0x%06x", datasize, (unsigned)tap->size);
+                log_warning(LOG_DEFAULT,
+                            "tap data size mismatch, expected: 0x%06lx is: 0x%06x",
+                            (unsigned long)datasize, (unsigned)tap->size);
                 tap->size = (int)datasize;
             }
             util_dword_to_le_buf(buf, tap->size);
