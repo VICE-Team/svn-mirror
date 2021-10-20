@@ -1149,13 +1149,13 @@ xcbm5x0_libs = \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
+	$(xcbm5x0_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
-	$(userport_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
