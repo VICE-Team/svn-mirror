@@ -204,7 +204,7 @@ KP_Decimal 6 4 0
 period 6 3 0
 minus 0 3 0
 space 8 2 8
-colon 9 5 0
+colon 9 5 16
 underscore 9 0 0
 comma 7 3 0
 slash 8 6 0
@@ -239,8 +239,8 @@ x 8 1 0
 y 4 3 0
 z 7 0 0
 asciicircum 1 5 0
-grave 1 5 0		# ^
-asciitilde 1 5 1	# shift ^
+grave 1 2 1		# '
+asciitilde 9 0 16	# arrow left
 bracketleft 5 6 0	# [
 braceleft 5 6 1		# shift [, { for SuperPET
 bracketright 2 4 0	# ]
@@ -303,8 +303,9 @@ v -2 3
 space -2 0
 
 # Dead keys support for those using US-International keyboard layout.
-dead_grave      1 5 0  # ^
-dead_circumflex 1 5 0  # ^
-dead_tilde      1 5 1  # shift ^
-dead_diaeresis  0 0 1  # "
-dead_acute      1 2 1
+dead_grave       1 2 1   # '
+dead_perispomeni 9 0 16  # arrow left
+dead_tilde       9 0 16  # arrow left
+dead_circumflex  1 5 0   # ^
+dead_diaeresis   0 0 1   # "
+dead_acute       1 2 1

@@ -50,6 +50,7 @@ gtk3_hotkeys = \
 
 gtk3_keymaps = \
 	gtk3_sym.vkm \
+	gtk3_pos.vkm \
 	gtk3_bude_pos.vkm \
 	gtk3_bude_pos_de.vkm \
 	gtk3_bude_sym.vkm \

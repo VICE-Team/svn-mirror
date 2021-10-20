@@ -45,6 +45,7 @@ gtk3_hotkeys = \
 	gtk3-hotkeys.vhk
 
 gtk3_keymaps = \
+	gtk3_pos.vkm \
 	gtk3_sym.vkm \
 	gtk3_sym_de.vkm
 
