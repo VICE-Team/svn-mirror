@@ -255,7 +255,10 @@ question 8 6 1
 
 # Top row of keys:
 grave 9 0 0		#       <-
+dead_grave 9 0 0		#       <-
 asciitilde 9 0 1	# shift <-
+dead_tilde 9 0 1	# shift <-
+dead_perispomeni 9 0 1	# shift <-
 1 1 0 0			# 1
 exclam 1 0 1		# shift 1
 2 0 0 0			# 2
@@ -267,7 +270,8 @@ dollar 1 1 1		# shift 4
 5 0 1 0			# 5
 percent 0 1 1		# shift 5
 6 9 2 0			# 6
-asciicircum 9 2 1	# shift 6
+asciicircum 9 2 8	# shift 6
+dead_circumflex 9 2 8	# shift 6
 7 1 2 0			# 7
 ampersand 1 2 1		# shift 7
 8 0 2 0			# 8
@@ -293,7 +297,9 @@ semicolon 2 6 0		# ;
 colon 2 6 1		# +, shift ;
 
 apostrophe 3 6 0	# @
+dead_acute 3 6 0	# @
 quotedbl 3 6 1		# shift @ for SuperPET
+dead_diaeresis 3 6 1		# shift @ for SuperPET
 
 bracketleft 5 6 0	# [
 braceleft 5 6 1		# shift [, { for SuperPET
