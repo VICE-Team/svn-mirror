@@ -110,6 +110,9 @@ void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs)
 
         lib_free(cs->int_name);
         lib_free(cs->pending_int);
+        
+        lib_free(cs->trap_func);
+        lib_free(cs->trap_data);
     }
 
     lib_free(cs);
