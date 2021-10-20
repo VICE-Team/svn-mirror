@@ -37,7 +37,7 @@
 /** \brief  Menu item types
  *
  * The submenu types needs special handling, no more callbacks to create the
- * menu so we won't have to deal with the `ui_update_checmarks` crap of Gtk2.
+ * menu so we won't have to deal with the `ui_update_checkmarks` crap of Gtk2.
  *
  * The 'layer' between VICE and Gtk3 should be as thin as possible, so no
  * UI_CREATE_TOGGLE_BUTTON() stuff.
@@ -128,5 +128,19 @@ typedef struct ui_menu_ref_s {
   /* Alt key (Option key on Mac keyboards) */
   #define VICE_MOD_MASK GDK_MOD1_MASK
 #endif
+
+
+/** \brief  Iterator for vice menu items
+ *
+ * Used to iterate over all VICE menu items, as opposed to Gtk menu items.
+ *
+ * \see ui_vice_menu_iter_init()
+ * \see ui_vice_menu_iter_next()
+ */
+typedef struct ui_vice_menu_iter_s {
+    size_t          menu_index; /**< index in menu_references[] */
+    ui_menu_item_t *menu_item;  /**< current item in menu */
+} ui_vice_menu_iter_t;
+
 
 #endif

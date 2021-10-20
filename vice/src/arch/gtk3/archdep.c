@@ -42,6 +42,7 @@
 #include "archdep.h"
 #include "debug_gtk3.h"
 #include "findpath.h"
+#include "hotkeys.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
@@ -150,6 +151,10 @@ int archdep_init(int *argc, char **argv)
 #if 0
     debug_gtk3("MSYSTEM = '%s'", getenv("MSYSTEM"));
 #endif
+
+    /* initialize hotkeys *before* hotkeys cmdline/resources are set */
+    //ui_hotkeys_init();
+
     return 0;
 }
 

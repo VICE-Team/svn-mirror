@@ -1,0 +1,14 @@
+# VICE Gtk3 Hotkeys for settings
+#
+# Author:   Bas Wassink
+# Updated:  2021-10-01
+#
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+settings-dialog     <Alt>o
+; settings-load
+; settings-load-from
+; settings-load-extra
+; settings-save
+; settings-save-as
+settings-default    <Alt><Shift>o

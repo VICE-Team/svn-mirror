@@ -52,6 +52,9 @@ gtk3_keymaps = \
 	gtk3_sym_fr.vkm \
 	gtk3_pos_bmc64.vkm
 
+gtk3_hotkeys = \
+	gtk3-hotkeys.vhk
+
 sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
 	sdl_joymap_thec64.vjm \
@@ -81,9 +84,9 @@ sym_file = \
 if SDL_COMPILE
 c64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
 
-EXTRA_DIST = $(c64_DATA) $(gtk3_keymaps)
+EXTRA_DIST = $(c64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
 else
-c64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(sym_file)
+c64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys) $(sym_file)
 
 EXTRA_DIST = $(c64_DATA) $(sdl_keymaps)
 endif

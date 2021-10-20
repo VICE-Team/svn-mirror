@@ -42,6 +42,7 @@
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
+#include "menu_joystick.h"
 #include "menu_media.h"
 #include "menu_midi.h"
 #include "menu_monitor.h"
@@ -255,6 +256,7 @@ int vic20ui_init(void)
 
     sdl_ui_set_menu_params = vic20ui_set_menu_params;
     uijoyport_menu_create(1, 0, 1, 1, 1);
+    uijoystick_menu_create(1, 0, 1, 1, 1);
     uiuserport_menu_create(1);
     uisampler_menu_create();
     uidrive_menu_create();
@@ -280,6 +282,7 @@ void vic20ui_shutdown(void)
     uikeyboard_menu_shutdown();
     uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
+    uijoystick_menu_shutdown();
     uiuserport_menu_shutdown();
     uimedia_menu_shutdown();
 #ifdef HAVE_MIDI

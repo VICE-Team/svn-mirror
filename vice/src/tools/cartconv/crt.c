@@ -85,6 +85,13 @@ int write_crt_header(unsigned char gameline, unsigned char exromline)
         if (cart_subtype > 0) {
             version_lo = 1;
         }
+    } else if (machine_class == VICE_MACHINE_C128) {
+        memcpy(crt_header, "C128 CARTRIDGE  ", CRT_NAME_LEN);
+        version_hi = 2;
+    } else if (machine_class == VICE_MACHINE_CBM5x0 ||
+               machine_class == VICE_MACHINE_CBM6x0) {
+        memcpy(crt_header, "CBM2 CARTRIDGE  ", CRT_NAME_LEN);
+        version_hi = 2;
     } else if (machine_class == VICE_MACHINE_VIC20) {
         memcpy(crt_header, "VIC20 CARTRIDGE ", CRT_NAME_LEN);
         version_hi = 2;

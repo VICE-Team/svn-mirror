@@ -59,7 +59,16 @@ common_DATA = CBM_Logo.svg \
 	      VIC20_32.png \
 	      VIC20_48.png \
 	      VIC20_256.png \
-	      VIC20_1024.svg
+	      VIC20_1024.svg \
+	      gtk3-hotkeys-cartridge.vhk \
+	      gtk3-hotkeys-debug.vhk \
+	      gtk3-hotkeys-drive.vhk \
+	      gtk3-hotkeys-datasette1.vhk \
+	      gtk3-hotkeys-datasette2.vhk \
+	      gtk3-hotkeys-fliplist.vhk \
+	      gtk3-hotkeys-help.vhk \
+	      gtk3-hotkeys-settings.vhk \
+	      gtk3-hotkeys-snapshot.vhk
 
 
 EXTRA_DIST = $(common_DATA) \
@@ -74,8 +83,6 @@ EXTRA_DIST = $(common_DATA) \
 	      xcbm2.rc \
 	      xcbm5x0.rc \
 	      vsid.rc
-
-
 
 
 #all: x64.res x64sc.res x64dtv.res xscpu64.res x128.res xvic.res xplus4.res xpet.res xcbm2.res xcbm5x0.res vsid.res $(GRESOURCE_TARGET)

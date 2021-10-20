@@ -159,7 +159,7 @@ int fsimage_read_dxx_image(const disk_image_t *image)
     int half_track;
     int sectors;
     long offset;
-    /* unsigned long trackoffset = 0; */
+    unsigned long trackoffset = 0;
     uint8_t *tempgcr;
 
     if (image->type == DISK_IMAGE_TYPE_D80
@@ -243,16 +243,26 @@ int fsimage_read_dxx_image(const disk_image_t *image)
                 ptr += SECTOR_GCR_SIZE_WITH_HEADER + headergap + gap + (synclen * 2);
             }
 
+#if 0
+            /* copy gcr data to buffer (this creates perfectly aligned tracks) */
             ptr = image->gcr->tracks[half_track].data;
-#if 1
             memcpy(ptr, tempgcr, track_size);
 #else
-            /* FIXME: copy gcr data to final buffer with offset+wraparound */
-            memset(ptr, 0x55, track_size);
+            /* copy gcr data to final buffer with offset + wraparound */
+            /* On real disks, the track skew depends on many factors of which
+               none is exactly defined: the mechanical properties of the drive,
+               and last not least the code used for formatting the disk. Thus
+               the offset we use here is somewhat arbitrary, the choosen values
+               are tweaked to be somewhat close to what the skew1.prg program
+               shows for the first few tracks. */
+            trackoffset += (ptr - tempgcr) - gap; /* bytes we have written */
+            trackoffset += (track_size * 100) / 270; /* time it takes to step */
             trackoffset %= track_size;
+            /*printf("track: %2u sectors: %2u size: %5u offset: %5lu\n", track, max_sector, track_size, trackoffset);*/
+            ptr = image->gcr->tracks[half_track].data;
+            memset(ptr, 0x55, track_size);
             memcpy(ptr + trackoffset, tempgcr, track_size - trackoffset);
             memcpy(ptr, tempgcr + (track_size - trackoffset), track_size - (track_size - trackoffset));
-            trackoffset += 200; /* FIXME */
 #endif
             lib_free(tempgcr);
         } else {

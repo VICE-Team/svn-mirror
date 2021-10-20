@@ -142,7 +142,7 @@ gboolean ui_action_toggle_controlport_swap(void)
 
     controlport_swapped = !controlport_swapped;
 
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_CONTROLPORT_SWAP,
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_SWAP_CONTROLPORT_TOGGLE,
                                                controlport_swapped);
     return TRUE;
 }
@@ -163,7 +163,7 @@ gboolean ui_action_toggle_userport_swap(void)
     resources_set_int("JoyDevice4", joy3);
 
     userport_swapped = !userport_swapped;
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_TOGGLE_USERPORT_SWAP,
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_SWAP_USERPORT_TOGGLE,
                                                userport_swapped);
     return TRUE;
 }

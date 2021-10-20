@@ -1,9 +1,10 @@
+/** \file   settings_hotkeys.h
+ * \brief   Hotkeys settings - header
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * tapelog.h: Generic tapeport diagnostic tool / logger emulation.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,13 +25,11 @@
  *
  */
 
-#ifndef VICE_TAPELOG_H
-#define VICE_TAPELOG_H
+#ifndef VICE_SETTINGS_HOTKEYS_H
+#define VICE_SETTINGS_HOTKEYS_H
 
-#include "types.h"
+#include <gtk/gtk.h>
 
-extern int tapelog_resources_init(void);
-extern void tapelog_resources_shutdown(void);
-extern int tapelog_cmdline_options_init(void);
+GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent);
 
 #endif

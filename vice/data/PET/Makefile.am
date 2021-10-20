@@ -45,6 +45,9 @@ palettes = \
 	green.vpl \
 	white.vpl
 
+gtk3_hotkeys = \
+	gtk3-hotkeys.vhk
+
 gtk3_keymaps = \
 	gtk3_sym.vkm \
 	gtk3_bude_pos.vkm \
@@ -75,9 +78,9 @@ sdl_keymaps = \
 if SDL_COMPILE
 pet_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
 
-EXTRA_DIST = $(pet_DATA) $(gtk3_keymaps)
+EXTRA_DIST = $(pet_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
 else
-pet_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps)
+pet_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
 
 EXTRA_DIST = $(pet_DATA) $(sdl_keymaps)
 endif

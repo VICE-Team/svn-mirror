@@ -34,6 +34,7 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "lib.h"
+#include "machine.h"
 #include "menu_common.h"
 #include "menu_joystick.h"
 #include "mouse.h"
@@ -41,6 +42,7 @@
 #include "uimenu.h"
 #include "uipoll.h"
 #include "userport_joystick.h"
+#include "util.h"
 
 UI_MENU_DEFINE_RADIO(JoyDevice1)
 UI_MENU_DEFINE_RADIO(JoyDevice2)
@@ -53,41 +55,136 @@ UI_MENU_DEFINE_RADIO(JoyDevice8)
 UI_MENU_DEFINE_RADIO(JoyDevice9)
 UI_MENU_DEFINE_RADIO(JoyDevice10)
 
-#define VICE_SDL_JOYSTICK_DEVICE_MENU(port)                              \
-    static const ui_menu_entry_t joystick_port##port##_device_menu[] = { \
-        { "None",                                                        \
-          MENU_ENTRY_RESOURCE_RADIO,                                     \
-          radio_JoyDevice##port##_callback,                              \
-          (ui_callback_data_t)JOYDEV_NONE },                             \
-        { "Numpad",                                                      \
-          MENU_ENTRY_RESOURCE_RADIO,                                     \
-          radio_JoyDevice##port##_callback,                              \
-          (ui_callback_data_t)JOYDEV_NUMPAD },                           \
-        { "Keyset 1",                                                    \
-          MENU_ENTRY_RESOURCE_RADIO,                                     \
-          radio_JoyDevice##port##_callback,                              \
-          (ui_callback_data_t)JOYDEV_KEYSET1 },                          \
-        { "Keyset 2",                                                    \
-          MENU_ENTRY_RESOURCE_RADIO,                                     \
-          radio_JoyDevice##port##_callback,                              \
-          (ui_callback_data_t)JOYDEV_KEYSET2 },                          \
-        { "Joystick",                                                    \
-          MENU_ENTRY_RESOURCE_RADIO,                                     \
-          radio_JoyDevice##port##_callback,                              \
-          (ui_callback_data_t)JOYDEV_JOYSTICK },                         \
-        SDL_MENU_LIST_END                                                \
-    };
+static ui_menu_entry_t joystick_device_dyn_menu[JOYPORT_MAX_PORTS][6];
+static int joystick_device_dyn_menu_init[JOYPORT_MAX_PORTS] = { 0 };
 
-VICE_SDL_JOYSTICK_DEVICE_MENU(1)
-VICE_SDL_JOYSTICK_DEVICE_MENU(2)
-VICE_SDL_JOYSTICK_DEVICE_MENU(3)
-VICE_SDL_JOYSTICK_DEVICE_MENU(4)
-VICE_SDL_JOYSTICK_DEVICE_MENU(5)
-VICE_SDL_JOYSTICK_DEVICE_MENU(6)
-VICE_SDL_JOYSTICK_DEVICE_MENU(7)
-VICE_SDL_JOYSTICK_DEVICE_MENU(8)
-VICE_SDL_JOYSTICK_DEVICE_MENU(9)
-VICE_SDL_JOYSTICK_DEVICE_MENU(10)
+static void sdl_menu_joystick_device_free(int port)
+{
+    ui_menu_entry_t *entry = joystick_device_dyn_menu[port];
+    int i;
+
+    for (i = 0; entry[i].string != NULL; i++) {
+        lib_free(entry[i].string);
+        entry[i].string = NULL;
+    }
+}
+
+static const ui_callback_t uijoystick_device_callbacks[JOYPORT_MAX_PORTS] = {
+    radio_JoyDevice1_callback,
+    radio_JoyDevice2_callback,
+    radio_JoyDevice3_callback,
+    radio_JoyDevice4_callback,
+    radio_JoyDevice5_callback,
+    radio_JoyDevice6_callback,
+    radio_JoyDevice7_callback,
+    radio_JoyDevice8_callback,
+    radio_JoyDevice9_callback,
+    radio_JoyDevice10_callback
+};
+
+static const char *joystick_device_dynmenu_helper(int port)
+{
+    int j = 0;
+    ui_menu_entry_t *entry = joystick_device_dyn_menu[port];
+
+    /* rebuild menu if it already exists. */
+    if (joystick_device_dyn_menu_init[port] != 0) {
+        sdl_menu_joystick_device_free(port);
+    } else {
+        joystick_device_dyn_menu_init[port] = 1;
+    }
+
+    if (joyport_has_mapping(port)) {
+        entry[j].string = (char *)lib_strdup("None");
+        entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+        entry[j].callback = uijoystick_device_callbacks[port];
+        entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_NONE);
+        j++;
+        
+        entry[j].string = (char *)lib_strdup("Numpad");
+        entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+        entry[j].callback = uijoystick_device_callbacks[port];
+        entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_NUMPAD);
+        j++;
+
+        entry[j].string = (char *)lib_strdup("Keyset 1");
+        entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+        entry[j].callback = uijoystick_device_callbacks[port];
+        entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_KEYSET1);
+        j++;
+
+        entry[j].string = (char *)lib_strdup("Keyset 2");
+        entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+        entry[j].callback = uijoystick_device_callbacks[port];
+        entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_KEYSET2);
+        j++;
+
+#ifdef HAVE_SDL_NUMJOYSTICKS
+        entry[j].string = (char *)lib_strdup("Host joystick");
+        entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
+        entry[j].callback = uijoystick_device_callbacks[port];
+        entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_JOYSTICK);
+        j++;
+#endif
+        entry[j].string = NULL;
+        entry[j].type = 0;
+        entry[j].callback = NULL;
+        entry[j].data = NULL;
+
+        return MENU_SUBMENU_STRING;
+    }
+    return MENU_NOT_AVAILABLE_STRING;
+}
+
+static UI_MENU_CALLBACK(Joystick1Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_1);
+}
+
+static UI_MENU_CALLBACK(Joystick2Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_2);
+}
+
+static UI_MENU_CALLBACK(Joystick3Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_3);
+}
+
+static UI_MENU_CALLBACK(Joystick4Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_4);
+}
+
+static UI_MENU_CALLBACK(Joystick5Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_5);
+}
+
+static UI_MENU_CALLBACK(Joystick6Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_6);
+}
+
+static UI_MENU_CALLBACK(Joystick7Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_7);
+}
+
+static UI_MENU_CALLBACK(Joystick8Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_8);
+}
+
+static UI_MENU_CALLBACK(Joystick9Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_9);
+}
+
+static UI_MENU_CALLBACK(Joystick10Device_dynmenu_callback)
+{
+    return joystick_device_dynmenu_helper(JOYPORT_10);
+}
 
 UI_MENU_DEFINE_TOGGLE(KeySetEnable)
 UI_MENU_DEFINE_TOGGLE(JoyOpposite)
@@ -177,165 +274,71 @@ VICE_SDL_JOYSTICK_AUTOFIRE_MENU(8)
 VICE_SDL_JOYSTICK_AUTOFIRE_MENU(9)
 VICE_SDL_JOYSTICK_AUTOFIRE_MENU(10)
 
-static const ui_menu_entry_t joystick_autofire_10_menu[] = {
-    { "Native joystick 1 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port1_autofire_menu },
-    { "Native joystick 2 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port2_autofire_menu },
-    { "Joystick adapter port 1 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port3_autofire_menu },
-    { "Joystick adapter port 2 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port4_autofire_menu },
-    { "Joystick adapter port 3 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port5_autofire_menu },
-    { "Joystick adapter port 4 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port6_autofire_menu },
-    { "Joystick adapter port 5 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port7_autofire_menu },
-    { "Joystick adapter port 6 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port8_autofire_menu },
-    { "Joystick adapter port 7 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port9_autofire_menu },
-    { "Joystick adapter port 8 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port10_autofire_menu },
-    SDL_MENU_LIST_END
+static ui_menu_entry_t joystick_autofire_dyn_menu[JOYPORT_MAX_PORTS + 1];
+static int joystick_autofire_dyn_menu_init = 0;
+
+static const ui_menu_entry_t *joystick_port_autofire_menus[JOYPORT_MAX_PORTS] = {
+    joystick_port1_autofire_menu,
+    joystick_port2_autofire_menu,
+    joystick_port3_autofire_menu,
+    joystick_port4_autofire_menu,
+    joystick_port5_autofire_menu,
+    joystick_port6_autofire_menu,
+    joystick_port7_autofire_menu,
+    joystick_port8_autofire_menu,
+    joystick_port9_autofire_menu,
+    joystick_port10_autofire_menu
 };
 
-static const ui_menu_entry_t joystick_autofire_plus4_menu[] = {
-    { "Native joystick 1 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port1_autofire_menu },
-    { "Native joystick 2 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port2_autofire_menu },
-    { "Joystick adapter port 1 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port3_autofire_menu },
-    { "Joystick adapter port 2 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port4_autofire_menu },
-    { "Joystick adapter port 4 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port5_autofire_menu },
-    { "SID Cartridge joystick port autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port6_autofire_menu },
-    SDL_MENU_LIST_END
-};
+static void sdl_menu_joystick_autofire_free(void)
+{
+    ui_menu_entry_t *entry = joystick_autofire_dyn_menu;
+    int i;
 
-static const ui_menu_entry_t joystick_autofire_vic20_menu[] = {
-    { "Native joystick autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port1_autofire_menu },
-    { "Joystick adapter port 1 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port3_autofire_menu },
-    { "Joystick adapter port 2 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port4_autofire_menu },
-    { "Joystick adapter port 3 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port5_autofire_menu },
-    { "Joystick adapter port 4 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port6_autofire_menu },
-    { "Joystick adapter port 5 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port7_autofire_menu },
-    { "Joystick adapter port 6 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port8_autofire_menu },
-    { "Joystick adapter port 7 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port9_autofire_menu },
-    { "Joystick adapter port 8 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port10_autofire_menu },
-    SDL_MENU_LIST_END
-};
+    for (i = 0; entry[i].string != NULL; i++) {
+        lib_free(entry[i].string);
+        entry[i].string = NULL;
+    }
+}
 
-static const ui_menu_entry_t joystick_autofire_userport_menu[] = {
-    { "Userport joystick 1 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port3_autofire_menu },
-    { "Userport joystick 2 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port4_autofire_menu },
-    SDL_MENU_LIST_END
-};
+static UI_MENU_CALLBACK(joystick_autofire_dynmenu_callback)
+{
+    int i;
+    int j = 0;
+    int mappings = 0;
 
-static const ui_menu_entry_t joystick_autofire_userport8_menu[] = {
-    { "Userport joystick 1 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port3_autofire_menu },
-    { "Userport joystick 2 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port4_autofire_menu },
-    { "Userport joystick 3 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port5_autofire_menu },
-    { "Userport joystick 4 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port6_autofire_menu },
-    { "Userport joystick 5 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port7_autofire_menu },
-    { "Userport joystick 6 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port8_autofire_menu },
-    { "Userport joystick 7 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port9_autofire_menu },
-    { "Userport joystick 8 autofire",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_port10_autofire_menu },
-    SDL_MENU_LIST_END
-};
+    /* rebuild menu if it already exists. */
+    if (joystick_autofire_dyn_menu_init != 0) {
+        sdl_menu_joystick_autofire_free();
+    } else {
+        joystick_autofire_dyn_menu_init = 1;
+    }
+
+    for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
+        if (joyport_has_mapping(i)) {
+            mappings++;
+        }
+    }
+
+    if (mappings) {
+        for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
+            if (joyport_has_mapping(i)) {
+                joystick_autofire_dyn_menu[j].string = util_concat(joyport_get_port_name(i), " Autofire", NULL);
+                joystick_autofire_dyn_menu[j].type = MENU_ENTRY_SUBMENU;
+                joystick_autofire_dyn_menu[j].callback = submenu_callback;
+                joystick_autofire_dyn_menu[j].data = (ui_callback_data_t)joystick_port_autofire_menus[i];
+                j++;
+            }
+        }
+        joystick_autofire_dyn_menu[j].string = NULL;
+        joystick_autofire_dyn_menu[j].type = 0;
+        joystick_autofire_dyn_menu[j].callback = NULL;
+        joystick_autofire_dyn_menu[j].data = NULL;
+        
+        return MENU_SUBMENU_STRING;
+    }
+    return MENU_NOT_AVAILABLE_STRING;
+}
 
 static UI_MENU_CALLBACK(custom_swap_ports_callback)
 {
@@ -569,135 +572,6 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
     return NULL;
 }
 
-#define VICE_SDL_JOYSTICK_MAPPING_POT_MENU(port)                       \
-    static const ui_menu_entry_t define_joy ## port ## _pot_menu[] = { \
-        { "Up",                                                        \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(0 | ((port - 1) << 5)) },               \
-        { "Down",                                                      \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(1 | ((port - 1) << 5)) },               \
-        { "Left",                                                      \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(2 | ((port - 1) << 5)) },               \
-        { "Right",                                                     \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(3 | ((port - 1) << 5)) },               \
-        { "Fire (or SNES-A)",                                          \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(4 | ((port - 1) << 5)) },               \
-        { "Fire 2 (or SNES-B)",                                        \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(5 | ((port - 1) << 5)) },               \
-        { "Fire 3 (or SNES-X)",                                        \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(6 | ((port - 1) << 5)) },               \
-        { "Fire 4 (SNES-Y)",                                           \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(7 | ((port - 1) << 5)) },               \
-        { "Fire 5 (SNES-LB)",                                          \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(8 | ((port - 1) << 5)) },               \
-        { "Fire 6 (SNES-RB)",                                          \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(9 | ((port - 1) << 5)) },               \
-        { "Fire 7 (SNES-SELECT)",                                      \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(10 | ((port - 1) << 5)) },              \
-        { "Fire 8 (SNES-START)",                                       \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_callback,                                      \
-          (ui_callback_data_t)(11 | ((port - 1) << 5)) },              \
-        { "Pot-X",                                                     \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_axis_callback,                                 \
-          (ui_callback_data_t)(0 | ((port - 1) << 5)) },               \
-        { "Pot-Y",                                                     \
-          MENU_ENTRY_DIALOG,                                           \
-          custom_joymap_axis_callback,                                 \
-          (ui_callback_data_t)(1 | ((port - 1) << 5)) },               \
-        SDL_MENU_LIST_END                                              \
-    };
-
-#define VICE_SDL_JOYSTICK_MAPPING_MENU(port)                       \
-    static const ui_menu_entry_t define_joy ## port ## _menu[] = { \
-        { "Up",                                                    \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(0 | ((port - 1) << 5)) },           \
-        { "Down",                                                  \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(1 | ((port - 1) << 5)) },           \
-        { "Left",                                                  \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(2 | ((port - 1) << 5)) },           \
-        { "Right",                                                 \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(3 | ((port - 1) << 5)) },           \
-        { "Fire (or SNES-A)",                                      \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(4 | ((port - 1) << 5)) },           \
-        { "Fire 2 (or SNES-B)",                                    \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(5 | ((port - 1) << 5)) },           \
-        { "Fire 3 (or SNES-X)",                                    \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(6 | ((port - 1) << 5)) },           \
-        { "Fire 4 (SNES-Y)",                                       \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(7 | ((port - 1) << 5)) },           \
-        { "Fire 5 (SNES-LB)",                                      \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(8 | ((port - 1) << 5)) },           \
-        { "Fire 6 (SNES-RB)",                                      \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(9 | ((port - 1) << 5)) },           \
-        { "Fire 7 (SNES-SELECT)",                                  \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(10 | ((port - 1) << 5)) },          \
-        { "Fire 8 (SNES-START)",                                   \
-          MENU_ENTRY_DIALOG,                                       \
-          custom_joymap_callback,                                  \
-          (ui_callback_data_t)(11 | ((port - 1) << 5)) },          \
-        SDL_MENU_LIST_END                                          \
-    };
-
-VICE_SDL_JOYSTICK_MAPPING_MENU(1)
-VICE_SDL_JOYSTICK_MAPPING_MENU(2)
-VICE_SDL_JOYSTICK_MAPPING_MENU(3)
-VICE_SDL_JOYSTICK_MAPPING_MENU(4)
-VICE_SDL_JOYSTICK_MAPPING_MENU(5)
-VICE_SDL_JOYSTICK_MAPPING_MENU(6)
-VICE_SDL_JOYSTICK_MAPPING_MENU(7)
-VICE_SDL_JOYSTICK_MAPPING_MENU(8)
-VICE_SDL_JOYSTICK_MAPPING_MENU(9)
-VICE_SDL_JOYSTICK_MAPPING_MENU(10)
-
-VICE_SDL_JOYSTICK_MAPPING_POT_MENU(1)
-VICE_SDL_JOYSTICK_MAPPING_POT_MENU(2)
-VICE_SDL_JOYSTICK_MAPPING_POT_MENU(6)
-
 static UI_MENU_CALLBACK(custom_joy_misc_callback)
 {
     char *target = NULL;
@@ -744,211 +618,226 @@ static const ui_menu_entry_t define_joy_misc_menu[] = {
       (ui_callback_data_t)"Set joystick fuzz (0 - 32767)" },
     SDL_MENU_LIST_END
 };
-#endif
 
-#ifdef HAVE_SDL_NUMJOYSTICKS
-static const ui_menu_entry_t joystick_host_mapping_10_menu[] = {
-    { "Host joy to native port 1 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy1_pot_menu },
-    { "Host joy to native port 2 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy2_pot_menu },
-    { "Host joy to joy adapter port 1 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy3_menu },
-    { "Host joy to joy adapter port 2 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy4_menu },
-    { "Host joy to joy adapter port 3 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy5_menu },
-    { "Host joy to joy adapter port 4 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy6_menu },
-    { "Host joy to joy adapter port 5 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy7_menu },
-    { "Host joy to joy adapter port 6 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy8_menu },
-    { "Host joy to joy adapter port 7 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy9_menu },
-    { "Host joy to joy adapter port 8 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy10_menu },
-    SDL_MENU_LIST_END
+static ui_menu_entry_t joystick_mapping_dyn_menu[JOYPORT_MAX_PORTS][JOYPORT_MAX_PINS + JOYPORT_MAX_POTS + 1];
+static int joystick_mapping_dyn_menu_init[JOYPORT_MAX_PORTS] = { 0 };
+
+static void sdl_menu_joystick_mapping_free(int port)
+{
+    ui_menu_entry_t *entry = joystick_mapping_dyn_menu[port];
+    int i;
+
+    for (i = 0; entry[i].string != NULL; i++) {
+        lib_free(entry[i].string);
+        entry[i].string = NULL;
+    }
+}
+
+static const char *joystick_mapping_dynmenu_helper(int port)
+{
+    joyport_map_desc_t *mappings = NULL;
+
+    ui_menu_entry_t *entry = joystick_mapping_dyn_menu[port];
+    int i;
+    int j = 0;
+
+    /* rebuild menu if it already exists. */
+    if (joystick_mapping_dyn_menu_init[port] != 0) {
+        sdl_menu_joystick_mapping_free(port);
+    } else {
+        joystick_mapping_dyn_menu_init[port] = 1;
+    }
+
+    if (joyport_port_is_active(port)) {
+        mappings = joyport_get_mapping(port);
+        if (mappings != NULL) {
+            if (mappings->pinmap != NULL) {
+                for (i = 0; mappings->pinmap[i].name; i++) {
+                    entry[j].string = (char *)lib_strdup(mappings->pinmap[i].name);
+                    entry[j].type = MENU_ENTRY_DIALOG;
+                    entry[j].callback = custom_joymap_callback;
+                    entry[j].data = (ui_callback_data_t)int_to_void_ptr((mappings->pinmap[i].pin | (port << 5)));
+                    j++;
+                }
+            }
+            if (mappings->potmap != NULL) {
+                for (i = 0; mappings->potmap[i].name; i++) {
+                    entry[j].string = (char *)lib_strdup(mappings->potmap[i].name);
+                    entry[j].type = MENU_ENTRY_DIALOG;
+                    entry[j].callback = custom_joymap_axis_callback;
+                    entry[j].data = (ui_callback_data_t)int_to_void_ptr((mappings->potmap[i].pin | (port << 5)));
+                    j++;
+                }
+            }
+        }
+        entry[j].string = NULL;
+        entry[j].type = 0;
+        entry[j].callback = NULL;
+        entry[j].data = NULL;
+
+        return MENU_SUBMENU_STRING;
+    }
+    return MENU_NOT_AVAILABLE_STRING;
+}
+
+static UI_MENU_CALLBACK(Joystick1Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_1);
+}
+
+static UI_MENU_CALLBACK(Joystick2Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_2);
+}
+
+static UI_MENU_CALLBACK(Joystick3Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_3);
+}
+
+static UI_MENU_CALLBACK(Joystick4Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_4);
+}
+
+static UI_MENU_CALLBACK(Joystick5Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_5);
+}
+
+static UI_MENU_CALLBACK(Joystick6Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_6);
+}
+
+static UI_MENU_CALLBACK(Joystick7Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_7);
+}
+
+static UI_MENU_CALLBACK(Joystick8Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_8);
+}
+
+static UI_MENU_CALLBACK(Joystick9Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_9);
+}
+
+static UI_MENU_CALLBACK(Joystick10Mapping_dynmenu_callback)
+{
+    return joystick_mapping_dynmenu_helper(JOYPORT_10);
+}
+
+static ui_menu_entry_t joystick_host_mapping_dyn_menu[JOYPORT_MAX_PORTS + 1];
+static int joystick_host_mapping_dyn_menu_init = 0;
+
+static const ui_callback_t uijoystick_host_mapping_callbacks[JOYPORT_MAX_PORTS] = {
+    Joystick1Mapping_dynmenu_callback,
+    Joystick2Mapping_dynmenu_callback,
+    Joystick3Mapping_dynmenu_callback,
+    Joystick4Mapping_dynmenu_callback,
+    Joystick5Mapping_dynmenu_callback,
+    Joystick6Mapping_dynmenu_callback,
+    Joystick7Mapping_dynmenu_callback,
+    Joystick8Mapping_dynmenu_callback,
+    Joystick9Mapping_dynmenu_callback,
+    Joystick10Mapping_dynmenu_callback
 };
 
-static const ui_menu_entry_t joystick_host_mapping_plus4_menu[] = {
-    { "Host joy to native port 1 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy1_menu },
-    { "Host joy to native port 2 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy2_menu },
-    { "Host joy to joy adapter port 1 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy3_menu },
-    { "Host joy to joy adapter port 2 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy4_menu },
-    { "Host joy to joy adapter port 3 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy5_menu },
-    { "Host joy to SID Cartridge joy mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy6_pot_menu },
-    SDL_MENU_LIST_END
-};
+static void sdl_menu_joystick_host_mapping_free(void)
+{
+    ui_menu_entry_t *entry = joystick_host_mapping_dyn_menu;
+    int i;
 
-static const ui_menu_entry_t joystick_host_mapping_vic20_menu[] = {
-    { "Host joy to native joy mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy1_pot_menu },
-    { "Host joy to joy adapter port 1 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy3_menu },
-    { "Host joy to joy adapter port 2 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy4_menu },
-    { "Host joy to joy adapter port 3 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy5_menu },
-    { "Host joy to joy adapter port 4 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy6_menu },
-    { "Host joy to joy adapter port 5 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy7_menu },
-    { "Host joy to joy adapter port 6 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy8_menu },
-    { "Host joy to joy adapter port 7 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy9_menu },
-    { "Host joy to joy adapter port 8 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy10_menu },
-    SDL_MENU_LIST_END
-};
+    for (i = 0; entry[i].string != NULL; i++) {
+        lib_free(entry[i].string);
+        entry[i].string = NULL;
+    }
+}
 
-static const ui_menu_entry_t joystick_host_mapping_userport_menu[] = {
-    { "Userport joystick 1 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy3_menu },
-    { "Userport joystick 2 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy4_menu },
-    SDL_MENU_LIST_END
-};
+static UI_MENU_CALLBACK(joystick_host_mapping_dynmenu_callback)
+{
+    int i;
+    int j = 0;
+    int mappings = 0;
 
-static const ui_menu_entry_t joystick_host_mapping_userport8_menu[] = {
-    { "Userport joystick 1 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy3_menu },
-    { "Userport joystick 2 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy4_menu },
-    { "Userport joystick 3 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy5_menu },
-    { "Userport joystick 4 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy6_menu },
-    { "Userport joystick 5 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy7_menu },
-    { "Userport joystick 6 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy8_menu },
-    { "Userport joystick 7 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy9_menu },
-    { "Userport joystick 8 mapping",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_joy10_menu },
-    SDL_MENU_LIST_END
-};
+    /* rebuild menu if it already exists. */
+    if (joystick_host_mapping_dyn_menu_init != 0) {
+        sdl_menu_joystick_host_mapping_free();
+    } else {
+        joystick_host_mapping_dyn_menu_init = 1;
+    }
+
+    for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
+        if (joyport_has_mapping(i)) {
+            mappings++;
+        }
+    }
+
+    if (mappings) {
+        for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
+            if (joyport_has_mapping(i)) {
+                joystick_host_mapping_dyn_menu[j].string = util_concat("Host -> ", joyport_get_port_name(i), NULL);
+                joystick_host_mapping_dyn_menu[j].type = MENU_ENTRY_SUBMENU;
+                joystick_host_mapping_dyn_menu[j].callback = uijoystick_host_mapping_callbacks[i];
+                joystick_host_mapping_dyn_menu[j].data = (ui_callback_data_t)joystick_mapping_dyn_menu[i];
+                j++;
+            }
+        }
+        joystick_host_mapping_dyn_menu[j].string = NULL;
+        joystick_host_mapping_dyn_menu[j].type = 0;
+        joystick_host_mapping_dyn_menu[j].callback = NULL;
+        joystick_host_mapping_dyn_menu[j].data = NULL;
+        
+        return MENU_SUBMENU_STRING;
+    }
+    return MENU_NOT_AVAILABLE_STRING;
+}
 #endif
 
 const ui_menu_entry_t joystick_menu[] = {
     { "Native joystick port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port1_device_menu },
+      Joystick1Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[0] },
     { "Native joystick port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port2_device_menu },
+      Joystick2Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[1] },
     { "Joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port3_device_menu },
+      Joystick3Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[2] },
     { "Joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port4_device_menu },
+      Joystick4Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[3] },
     { "Joystick adapter port 3",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port5_device_menu },
+      Joystick5Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[4] },
     { "Joystick adapter port 4",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port6_device_menu },
+      Joystick6Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[5] },
     { "Joystick adapter port 5",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port7_device_menu },
+      Joystick7Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[6] },
     { "Joystick adapter port 6",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port8_device_menu },
+      Joystick8Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[7] },
     { "Joystick adapter port 7",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port9_device_menu },
+      Joystick9Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[8] },
     { "Joystick adapter port 8",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port10_device_menu },
+      Joystick10Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[9] },
     { "Swap native joystick ports",
       MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,
@@ -969,13 +858,13 @@ const ui_menu_entry_t joystick_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_autofire_10_menu },
+      joystick_autofire_dynmenu_callback,
+      (ui_callback_data_t)joystick_autofire_dyn_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     { "Host joystick mapping",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_10_menu },
+      joystick_host_mapping_dynmenu_callback,
+      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -987,44 +876,44 @@ const ui_menu_entry_t joystick_menu[] = {
 const ui_menu_entry_t joystick_c64_menu[] = {
     { "Native joystick port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port1_device_menu },
+      Joystick1Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[0] },
     { "Native joystick port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port2_device_menu },
+      Joystick2Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[1] },
     { "Joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port3_device_menu },
+      Joystick3Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[2] },
     { "Joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port4_device_menu },
+      Joystick4Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[3] },
     { "Joystick adapter port 3",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port5_device_menu },
+      Joystick5Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[4] },
     { "Joystick adapter port 4",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port6_device_menu },
+      Joystick6Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[5] },
     { "Joystick adapter port 5",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port7_device_menu },
+      Joystick7Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[6] },
     { "Joystick adapter port 6",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port8_device_menu },
+      Joystick8Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[7] },
     { "Joystick adapter port 7",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port9_device_menu },
+      Joystick9Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[8] },
     { "Joystick adapter port 8",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port10_device_menu },
+      Joystick10Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[9] },
     { "Swap native joystick ports",
       MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,
@@ -1050,13 +939,13 @@ const ui_menu_entry_t joystick_c64_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_autofire_10_menu },
+      joystick_autofire_dynmenu_callback,
+      (ui_callback_data_t)joystick_autofire_dyn_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     { "Host joystick mapping",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_10_menu },
+      joystick_host_mapping_dynmenu_callback,
+      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1068,44 +957,44 @@ const ui_menu_entry_t joystick_c64_menu[] = {
 const ui_menu_entry_t joystick_c64dtv_menu[] = {
     { "Native joystick port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port1_device_menu },
+      Joystick1Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[0] },
     { "Native joystick port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port2_device_menu },
+      Joystick2Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[1] },
     { "Joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port3_device_menu },
+      Joystick3Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[2] },
     { "Joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port4_device_menu },
+      Joystick4Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[3] },
     { "Joystick adapter port 3",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port5_device_menu },
+      Joystick5Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[4] },
     { "Joystick adapter port 4",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port6_device_menu },
+      Joystick6Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[5] },
     { "Joystick adapter port 5",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port7_device_menu },
+      Joystick7Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[6] },
     { "Joystick adapter port 6",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port8_device_menu },
+      Joystick8Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[7] },
     { "Joystick adapter port 7",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port9_device_menu },
+      Joystick9Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[8] },
     { "Joystick adapter port 8",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port10_device_menu },
+      Joystick10Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[9] },
     { "Swap native joystick ports",
       MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,
@@ -1126,13 +1015,13 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_autofire_10_menu },
+      joystick_autofire_dynmenu_callback,
+      (ui_callback_data_t)joystick_autofire_dyn_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     { "Host joystick mapping",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_10_menu },
+      joystick_host_mapping_dynmenu_callback,
+      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1146,28 +1035,28 @@ UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
 const ui_menu_entry_t joystick_plus4_menu[] = {
     { "Native joystick port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port1_device_menu },
+      Joystick1Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[0] },
     { "Native joystick port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port2_device_menu },
+      Joystick2Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[1] },
     { "Joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port3_device_menu },
+      Joystick3Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[2] },
     { "Joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port4_device_menu },
+      Joystick4Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[3] },
     { "Joystick adapter port 3",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port5_device_menu },
+      Joystick5Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[4] },
     { "SID cartridge joystick port",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port6_device_menu },
+      Joystick6Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[5] },
     { "Swap native joystick ports",
       MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,
@@ -1197,13 +1086,13 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_autofire_plus4_menu },
+      joystick_autofire_dynmenu_callback,
+      (ui_callback_data_t)joystick_autofire_dyn_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     { "Host joystick mapping",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_plus4_menu },
+      joystick_host_mapping_dynmenu_callback,
+      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1215,40 +1104,40 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
 const ui_menu_entry_t joystick_vic20_menu[] = {
     { "Native joystick port",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port1_device_menu },
+      Joystick1Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[0] },
     { "Joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port3_device_menu },
+      Joystick3Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[2] },
     { "Joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port4_device_menu },
+      Joystick4Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[3] },
     { "Joystick adapter port 3",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port5_device_menu },
+      Joystick5Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[4] },
     { "Joystick adapter port 4",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port6_device_menu },
+      Joystick6Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[5] },
     { "Joystick adapter port 5",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port7_device_menu },
+      Joystick7Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[6] },
     { "Joystick adapter port 6",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port8_device_menu },
+      Joystick8Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[7] },
     { "Joystick adapter port 7",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port9_device_menu },
+      Joystick9Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[8] },
     { "Joystick adapter port 8",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port10_device_menu },
+      Joystick10Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[9] },
     SDL_MENU_ITEM_SEPARATOR,
     { "Allow opposite directions",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -1270,13 +1159,13 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_autofire_vic20_menu },
+      joystick_autofire_dynmenu_callback,
+      (ui_callback_data_t)joystick_autofire_dyn_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     { "Host joystick mapping",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_vic20_menu },
+      joystick_host_mapping_dynmenu_callback,
+      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1288,12 +1177,12 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
 const ui_menu_entry_t joystick_userport_only_menu[] = {
     { "Userport joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port3_device_menu },
+      Joystick3Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[2] },
     { "Userport joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port4_device_menu },
+      Joystick4Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[3] },
     SDL_MENU_ITEM_SEPARATOR,
     { "Allow opposite directions",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -1315,13 +1204,13 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_autofire_userport_menu },
+      joystick_autofire_dynmenu_callback,
+      (ui_callback_data_t)joystick_autofire_dyn_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     { "Host joystick mapping",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_userport_menu },
+      joystick_host_mapping_dynmenu_callback,
+      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1333,36 +1222,36 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
 const ui_menu_entry_t joystick_userport_cbm2_menu[] = {
     { "Userport joystick adapter port 1",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port3_device_menu },
+      Joystick3Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[2] },
     { "Userport joystick adapter port 2",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port4_device_menu },
+      Joystick4Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[3] },
     { "Userport joystick adapter port 3",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port5_device_menu },
+      Joystick5Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[4] },
     { "Userport joystick adapter port 4",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port6_device_menu },
+      Joystick6Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[5] },
     { "Userport joystick adapter port 5",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port7_device_menu },
+      Joystick7Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[6] },
     { "Userport joystick adapter port 6",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port8_device_menu },
+      Joystick8Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[7] },
     { "Userport joystick adapter port 7",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port9_device_menu },
+      Joystick9Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[8] },
     { "Userport joystick adapter port 8",
       MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)joystick_port10_device_menu },
+      Joystick10Device_dynmenu_callback,
+      (ui_callback_data_t)joystick_device_dyn_menu[9] },
     SDL_MENU_ITEM_SEPARATOR,
     { "Allow opposite directions",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -1384,13 +1273,13 @@ const ui_menu_entry_t joystick_userport_cbm2_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_autofire_userport8_menu },
+      joystick_autofire_dynmenu_callback,
+      (ui_callback_data_t)joystick_autofire_dyn_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     { "Host joystick mapping",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_host_mapping_userport8_menu },
+      joystick_host_mapping_dynmenu_callback,
+      (ui_callback_data_t)joystick_host_mapping_dyn_menu },
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1398,3 +1287,52 @@ const ui_menu_entry_t joystick_userport_cbm2_menu[] = {
 #endif
     SDL_MENU_LIST_END
 };
+
+void uijoystick_menu_create(int p1, int p2, int p3_p5, int p6, int p7_p10)
+{
+#if 0
+    int i, j = 0;
+    int port_ids[] = { p1, p2, p3_p5, p3_p5, p3_p5, p6, p7_p10, p7_p10, p7_p10, p7_p10 };
+
+    joyport_menu[j].string = "Save BBRTC data when changed";
+    joyport_menu[j].type = MENU_ENTRY_RESOURCE_TOGGLE;
+    joyport_menu[j].callback = toggle_BBRTCSave_callback;
+    joyport_menu[j].data = NULL;
+    ++j;
+
+    for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
+        if (port_ids[i] != 0) {
+            joyport_menu[j].string = (char *)joyport_get_port_name(i);
+            joyport_menu[j].type = MENU_ENTRY_DYNAMIC_SUBMENU;
+            joyport_menu[j].callback = uijoyport_callbacks[i];
+            joyport_menu[j].data = (ui_callback_data_t)joyport_dyn_menu[i];
+            ++j;
+        }
+    }
+
+    joyport_menu[j].string = NULL;
+    joyport_menu[j].type = MENU_ENTRY_TEXT;
+    joyport_menu[j].callback = NULL;
+    joyport_menu[j].data = NULL;
+#endif
+}
+
+void uijoystick_menu_shutdown(void)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
+        if (joystick_mapping_dyn_menu_init[i]) {
+            sdl_menu_joystick_mapping_free(i);
+        }
+        if (joystick_device_dyn_menu_init[i]) {
+            sdl_menu_joystick_device_free(i);
+        }
+    }
+    if (joystick_autofire_dyn_menu_init) {
+        sdl_menu_joystick_autofire_free();
+    }
+    if (joystick_host_mapping_dyn_menu_init) {
+        sdl_menu_joystick_host_mapping_free();
+    }
+}

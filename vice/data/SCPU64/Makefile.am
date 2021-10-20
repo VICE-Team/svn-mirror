@@ -29,6 +29,9 @@ palettes = \
 	pixcen.vpl \
 	rgb.vpl
 
+gtk3_hotkeys = \
+	gtk3-hotkeys.vhk
+
 gtk3_keymaps = \
 	gtk3_sym.vkm \
 	gtk3_pos.vkm \
@@ -72,9 +75,9 @@ sym_file = \
 if SDL_COMPILE
 scpu64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
 
-EXTRA_DIST = $(scpu64_DATA) $(gtk3_keymaps)
+EXTRA_DIST = $(scpu64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
 else
-scpu64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(sym_file)
+scpu64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_hotkeys) $(gtk3_keymaps) $(sym_file)
 
 EXTRA_DIST = $(scpu64_DATA) $(sdl_keymaps)
 endif

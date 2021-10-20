@@ -233,6 +233,7 @@ rm -f `find $BUILDPATH -name "sdl_*"`
 mkdir $BUILDPATH/common
 cp $TOPBUILDDIR/data/common/vice.gresource $BUILDPATH/common
 cp $TOPSRCDIR/data/common/C64_Pro_Mono-STYLE.ttf $BUILDPATH/common
+cp $TOPSRCDIR/data/common/*.vhk $BUILDPATH/common
 
 if test x"$HTML_DOCS" = "xyes"; then
     cp -a $TOPSRCDIR/doc/html $BUILDPATH

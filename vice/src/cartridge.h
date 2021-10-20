@@ -357,6 +357,15 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_ULTIMAX            "generic Ultimax"
 
 /*
+ * C128 cartridge system
+ */
+
+#define CARTRIDGE_C128_WARPSPEED128 1
+#define CARTRIDGE_C128_LAST 1
+
+#define CARTRIDGE_C128_NAME_WARPSPEED128  "Warp Speed 128"
+
+/*
  * VIC20 cartridge system
  */
 
