@@ -58,8 +58,6 @@ gtk3_hotkeys = \
 sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
 	sdl_joymap_thec64.vjm \
-	sdl_hotkeys.vkm \
-	sdl_hotkeys_vsid.vkm \
 	sdl_pos.vkm \
 	sdl_pos_ch.vkm \
 	sdl_pos_da.vkm \
@@ -78,15 +76,19 @@ sdl_keymaps = \
 	sdl_sym_fr.vkm \
 	sdl_sym_da.vkm
 
+sdl_hotkeys = \
+	sdl-hotkeys.vhk \
+	sdl-hotkeys-vsid.vhk
+
 sym_file = \
 	c64mem.sym
 
 if SDL_COMPILE
-c64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
+c64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file) $(sdl_hotkeys)
 
 EXTRA_DIST = $(c64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
 else
 c64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys) $(sym_file)
 
-EXTRA_DIST = $(c64_DATA) $(sdl_keymaps)
+EXTRA_DIST = $(c64_DATA) $(sdl_keymaps) $(sdl_hotkeys)
 endif

@@ -578,9 +578,9 @@ void kbd_arch_init(void)
     sdlkbd_keyword_clear();
     /* first load the defaults, then patch them with the user defined hotkeys */
     if (machine_class == VICE_MACHINE_VSID) {
-        sdlkbd_hotkeys_load("sdl_hotkeys_vsid.vkm");
+        sdlkbd_hotkeys_load("sdl-hotkeys_vsid.vhk");
     } else {
-        sdlkbd_hotkeys_load("sdl_hotkeys.vkm");
+        sdlkbd_hotkeys_load("sdl-hotkeys.vhk");
     }
     sdlkbd_hotkeys_load(hotkey_file);
 }
