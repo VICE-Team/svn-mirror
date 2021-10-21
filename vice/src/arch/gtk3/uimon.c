@@ -282,7 +282,10 @@ static gboolean plain_key_pressed(char **input_buffer, guint keyval)
             return TRUE;
         case GDK_KEY_Delete:
         case GDK_KEY_KP_Delete:
-            *input_buffer = append_char_to_input_buffer(*input_buffer, 4);
+            /* We use Ctrl+W here to signal linenoise to not exit the monitor
+             * when pressing Delete on an empty line, see comment at
+             * src/arch/gtk3/linenoise.c:308 --compyx */
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 23);
             return TRUE;
         case GDK_KEY_End:
         case GDK_KEY_KP_End:
