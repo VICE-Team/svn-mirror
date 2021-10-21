@@ -117,21 +117,22 @@
 #define DRIVE_WIDGET_CSS \
     "label {\n" \
     "    font-family: monospace;\n" \
-    "    font-size: 90%;\n" \
+    "    font-size:100%;\n" \
     "}\n"
 
 
 /** \brief  Status bar column indexes
  *
  * These values assume a proper emulator statusbar (ie not VSID).
+ *
+ * Rows 0 and 1
  */
 enum {
-    SB_COL_SPEED = 0,   /**< message widget */
+    SB_COL_SPEED = 0,   /**< cpu/fps widget */
     SB_COL_SEP_SPEED ,  /**< separator between speed/fps and recording widget */
-    SB_COL_MSG,
-    SB_COL_RECORD = SB_COL_MSG,      /**< recording widget */
-    SB_COL_SEP_RECORD,  /**< separator between recording and crt/mixer widgets */
-    SB_COL_CRT,         /**< crt and mixer widgets */
+    SB_COL_CRT,         /**< crt widget */
+    SB_COL_MIXER = SB_COL_CRT,   /**< mixer widget */
+
     SB_COL_SEP_CRT,     /**< separator between crt/mixer and tape widgets */
     SB_COL_TAPE,        /**< tape and joysticks widget */
     SB_COL_SEP_TAPE,    /**< separator between tape and joysticks widgets */
@@ -141,6 +142,32 @@ enum {
     SB_COL_COUNT        /**< number of columns on the statusbar widget */
 };
 
+
+/* Row 2 */
+enum {
+    SB_COL_MSG = 0,
+    SB_COL_MSG_SEP = 5,
+    SB_COL_RECORD = 6
+};
+
+/* TODO: add more symbolic constants */
+#define SB_ROW_SPEED        0
+#define SB_ROW_SEP_SPEED    0
+#define SB_ROW_CRT          0
+#define SB_ROW_SEP_CRT      0
+#define SB_ROW_SEP_TAPE     0
+#define SB_ROW_MIXER        1
+
+#define SB_ROW_MSG_ROW_SEP  2
+
+#define SB_ROW_MSG          3
+#define SB_ROW_MSG_SEP      3
+#define SB_ROW_RECORD       3
+#define SB_ROW_SEP_RECORD   3
+
+#define SB_ROW_KBD_ROW_SEP  4
+
+#define SB_ROW_KBD          5
 
 
 /** \brief Global data that custom status bar widgets base their rendering
@@ -1302,7 +1329,7 @@ static GtkWidget *ui_tape_widget_create(void)
             GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
     header = gtk_label_new("Tape:");
-    gtk_widget_set_hexpand(header, TRUE);
+    gtk_widget_set_hexpand(header, FALSE);
     gtk_widget_set_halign(header, GTK_ALIGN_START);
 
     counter = gtk_label_new("?");
@@ -1401,7 +1428,8 @@ static GtkWidget *ui_joystick_widget_create(void)
     gtk_widget_set_hexpand(grid, FALSE);
     label = gtk_label_new("Joysticks:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(label, TRUE);
+    gtk_widget_set_hexpand(label, FALSE);
+    g_object_set(label, "margin-right", 8, NULL);
     gtk_container_add(GTK_CONTAINER(grid), label);
     /* Create all possible joystick displays */
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
@@ -1676,6 +1704,7 @@ void ui_statusbar_shutdown(void)
 GtkWidget *ui_statusbar_create(int window_identity)
 {
     GtkWidget *sb, *speed, *tape, *tape_events, *joysticks;
+    GtkWidget *sep;
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
     GtkWidget *volume = NULL;
@@ -1706,6 +1735,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
      * extra dereference in ui_statusbar_destroy() so nothing should
      * leak. */
     sb = vice_gtk3_grid_new_spaced(8, 0);
+    gtk_widget_set_hexpand(sb, FALSE);
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;
 
@@ -1718,7 +1748,9 @@ GtkWidget *ui_statusbar_create(int window_identity)
     gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
 
     /* Second column: separator */
-    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+    sep = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_hexpand(sep, FALSE);
+    gtk_grid_attach(GTK_GRID(sb),sep,
                     SB_COL_SEP_SPEED, 0, 1, 2);
 
     /* don't add CRT or Mixer controls when VSID */
@@ -1727,6 +1759,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
         gtk_widget_set_can_focus(crt, FALSE);
         g_object_ref_sink(G_OBJECT(crt));
         gtk_widget_set_halign(crt, GTK_ALIGN_START);
+        gtk_widget_set_hexpand(crt, FALSE);
         gtk_widget_show_all(crt);
         g_signal_connect(crt, "toggled", G_CALLBACK(on_crt_toggled), NULL);
 
@@ -1734,6 +1767,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
         gtk_widget_set_can_focus(mixer, FALSE);
         g_object_ref_sink(G_OBJECT(mixer));
         gtk_widget_set_halign(mixer, GTK_ALIGN_START);
+        gtk_widget_set_hexpand(mixer, FALSE);
         gtk_widget_show_all(mixer);
         g_signal_connect(mixer, "toggled", G_CALLBACK(on_mixer_toggled), NULL);
     }
@@ -1742,8 +1776,13 @@ GtkWidget *ui_statusbar_create(int window_identity)
      *
      * Moved to a separate, full row, needs testing
      */
+
+
+    sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_grid_attach(GTK_GRID(sb), sep, 0, SB_ROW_MSG_ROW_SEP, 11, 1);
+
     message = gtk_label_new(NULL);
-    gtk_widget_set_hexpand(message, TRUE);
+    gtk_widget_set_hexpand(message, FALSE);
     gtk_widget_set_halign(message, GTK_ALIGN_START);
     gtk_label_set_ellipsize(GTK_LABEL(message), PANGO_ELLIPSIZE_END);
     g_object_set(G_OBJECT(message),
@@ -1752,32 +1791,32 @@ GtkWidget *ui_statusbar_create(int window_identity)
                  NULL);
     g_object_ref_sink(message);
     allocated_bars[i].msg = message;
+    gtk_grid_attach(GTK_GRID(sb), message, SB_COL_MSG, SB_ROW_MSG, 5, 1);
     /* add horizontal separator */
     gtk_grid_attach(GTK_GRID(sb),
                     gtk_separator_new(GTK_ORIENTATION_HORIZONTAL),
-                    0, 2, SB_COL_COUNT, 1);
-    gtk_grid_attach(GTK_GRID(sb), message, 0, 4, SB_COL_COUNT, 1);
+                    SB_COL_MSG_SEP, SB_ROW_MSG_SEP, 1, 1);
 
-    /* Recording: third column probably */
+    /* Recording */
     recording = statusbar_recording_widget_create();
     gtk_widget_set_hexpand(recording, TRUE);
     g_object_ref_sink(recording);
     allocated_bars[i].record = recording;
-    gtk_grid_attach(GTK_GRID(sb), recording, SB_COL_RECORD, 1, 1, 1);
-    /* add sep */
-    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-            SB_COL_SEP_RECORD, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(sb), recording, SB_COL_RECORD, SB_ROW_RECORD, 5, 1);
+//    /* add sep */
+//    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+//            SB_COL_SEP_RECORD, SB_ROW_SEP_RECORD, 1, 2);
 
 
     /* TODO: skip VSID and add another separator after the checkbox */
     if (machine_class != VICE_MACHINE_VSID) {
         allocated_bars[i].crt = crt;
-        gtk_grid_attach(GTK_GRID(sb), crt, SB_COL_CRT, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(sb), crt, SB_COL_CRT, SB_ROW_CRT, 1, 1);
         allocated_bars[i].mixer = mixer;
-        gtk_grid_attach(GTK_GRID(sb), mixer, SB_COL_CRT, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(sb), mixer, SB_COL_MIXER, SB_ROW_MIXER, 1, 1);
         /* add separator */
         gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-                SB_COL_SEP_CRT, 0, 1, 2);
+                SB_COL_SEP_CRT, SB_ROW_SEP_CRT, 1, 2);
     }
 
     if ((machine_class != VICE_MACHINE_C64DTV)
@@ -1791,6 +1830,9 @@ GtkWidget *ui_statusbar_create(int window_identity)
         gtk_event_box_set_visible_window(GTK_EVENT_BOX(tape_events), FALSE);
         gtk_container_add(GTK_CONTAINER(tape_events), tape);
         gtk_grid_attach(GTK_GRID(sb), tape_events, SB_COL_TAPE, 0, 1, 1);
+        /* add separator */
+        gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+                SB_COL_SEP_TAPE, SB_ROW_SEP_TAPE, 1, 2);
         allocated_bars[i].tape = tape;
         allocated_bars[i].tape_menu = ui_create_datasette_control_menu();
         g_object_ref_sink(G_OBJECT(allocated_bars[i].tape_menu));
@@ -1805,7 +1847,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     if (machine_class != VICE_MACHINE_VSID) {
         joysticks = ui_joystick_widget_create();
         g_object_ref(joysticks);
-        gtk_widget_set_halign(joysticks, GTK_ALIGN_END);
+        gtk_widget_set_halign(joysticks, GTK_ALIGN_START);
         gtk_grid_attach(GTK_GRID(sb), joysticks, SB_COL_TAPE, 1, 1, 1);
         allocated_bars[i].joysticks = joysticks;
     }
@@ -1838,6 +1880,8 @@ GtkWidget *ui_statusbar_create(int window_identity)
          */
         gtk_grid_attach(GTK_GRID(sb), volume, SB_COL_VOLUME + 2, 0, 1, 2);
     }
+    gtk_widget_set_halign(volume, GTK_ALIGN_END);
+    gtk_widget_set_hexpand(volume, TRUE);
 #else
     /* Windows or MacOS, only create the volume button for VSID */
     if (machine_class == VICE_MACHINE_VSID) {
@@ -1850,10 +1894,13 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /*
      * Add keyboard debugging widget
      */
+    sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_grid_attach(GTK_GRID(sb), sep, 0, SB_ROW_KBD_ROW_SEP, 11, 1);
+
     kbd_debug_widget = kbd_debug_widget_create();
     allocated_bars[i].kbd_debug = kbd_debug_widget;
     g_object_ref_sink(kbd_debug_widget);
-    gtk_grid_attach(GTK_GRID(sb), kbd_debug_widget, 0, 3, 16, 1);
+    gtk_grid_attach(GTK_GRID(sb), kbd_debug_widget, 0, SB_ROW_KBD, 11, 1);
 
     return sb;
 }
