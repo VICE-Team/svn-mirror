@@ -66,6 +66,7 @@ gtk3_keymaps = \
 
 sdl_keymaps = \
 	sdl_sym.vkm \
+	sdl_pos.vkm \
 	sdl_buuk_sym.vkm \
 	sdl_buuk_sym_de.vkm \
 	sdl_buuk_pos.vkm \
