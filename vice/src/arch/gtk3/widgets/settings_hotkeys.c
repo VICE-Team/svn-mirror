@@ -53,6 +53,22 @@ static GtkWidget *hotkeys_view;
 
 
 
+/** \brief  Handler for the 'clicked' event of the export button
+ *
+ * \param[in]   button  widget triggering the event
+ * \param[in]   data    extra event data (unused)
+ *
+ * \todo    Show save-as dialog
+ */
+static void on_export_clicked(GtkWidget *button, gpointer data)
+{
+    debug_gtk3("Calling ui_hotkeys_export('user.vhk')");
+
+    ui_hotkeys_export("user.vhk");
+}
+
+
+
 /** \brief  Create model for the hotkeys table
  *
  * \return  new list store
@@ -138,7 +154,6 @@ static GtkWidget *create_hotkeys_view(void)
 
 
 
-
 /** \brief  Create main widget
  *
  * \param[in]   parent  parent widget (unused)
@@ -149,6 +164,7 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *scroll;
+    GtkWidget *button;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -163,6 +179,11 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
     gtk_container_add(GTK_CONTAINER(scroll), hotkeys_view);
     gtk_widget_show_all(scroll);
     gtk_grid_attach(GTK_GRID(grid), scroll, 0, 0, 1, 1);
+
+    button = gtk_button_new_with_label("Export to 'user.vhk' in cwd");
+    g_signal_connect(button, "clicked", G_CALLBACK(on_export_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), button, 0, 1, 1, 1);
+
 
     gtk_widget_show_all(grid);
     return grid;
