@@ -1894,13 +1894,15 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /*
      * Add keyboard debugging widget
      */
-    sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-    gtk_grid_attach(GTK_GRID(sb), sep, 0, SB_ROW_KBD_ROW_SEP, 11, 1);
+    if (machine_class != VICE_MACHINE_VSID) {
+        sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+        gtk_grid_attach(GTK_GRID(sb), sep, 0, SB_ROW_KBD_ROW_SEP, 11, 1);
 
-    kbd_debug_widget = kbd_debug_widget_create();
-    allocated_bars[i].kbd_debug = kbd_debug_widget;
-    g_object_ref_sink(kbd_debug_widget);
-    gtk_grid_attach(GTK_GRID(sb), kbd_debug_widget, 0, SB_ROW_KBD, 11, 1);
+        kbd_debug_widget = kbd_debug_widget_create();
+        allocated_bars[i].kbd_debug = kbd_debug_widget;
+        g_object_ref_sink(kbd_debug_widget);
+        gtk_grid_attach(GTK_GRID(sb), kbd_debug_widget, 0, SB_ROW_KBD, 11, 1);
+    }
 
     return sb;
 }
@@ -2604,7 +2606,7 @@ static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
     if (main_grid != NULL) {
         statusbar = gtk_grid_get_child_at(GTK_GRID(main_grid), 0, 2);
         if (statusbar != NULL) {
-            kbd = gtk_grid_get_child_at(GTK_GRID(statusbar), 0, 3);
+            kbd = gtk_grid_get_child_at(GTK_GRID(statusbar), 0, SB_ROW_KBD);
             if (kbd != NULL) {
                 if (state) {
                     gtk_widget_show_all(kbd);
