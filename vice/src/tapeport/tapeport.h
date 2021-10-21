@@ -97,6 +97,29 @@ typedef struct old_tapeport_device_list_s {
 extern old_tapeport_device_list_t *old_tapeport_device_register(old_tapeport_device_t *device);
 extern void old_tapeport_device_unregister(old_tapeport_device_list_t *device);
 
+typedef struct tapeport_device_s {
+    /* Name of the device */
+    char *name;
+
+    /* enable device function */
+    int (*enable)(int port, int val);
+
+    /* reset device */
+    void (*reset)(int port);
+
+    /* set motor line */
+    void (*set_motor)(int port, int flag);
+
+    /* set write line */
+    void (*toggle_write_bit)(int port, int write_bit);
+
+    /* set sense line */
+    void (*set_sense_out)(int port, int sense);
+
+    /* set read line */
+    void (*set_read_out)(int port, int val);
+} tapeport_device_t;
+
 typedef struct old_tapeport_snapshot_s {
     /* id of the device */
     int id;
@@ -119,11 +142,6 @@ extern void old_tapeport_snapshot_register(old_tapeport_snapshot_t *snapshot);
 extern void tapeport_set_motor(int flag);
 extern void tapeport_toggle_write_bit(int write_bit);
 extern void tapeport_set_sense_out(int sense);
-
-extern void old_tapeport_set_motor_next(int flag, int id);
-extern void old_tapeport_toggle_write_bit_next(int write_bit, int id);
-extern void old_tapeport_set_sense_out_next(int sense, int id);
-extern void old_tapeport_set_read_out_next(int val, int id);
 
 extern void old_tapeport_reset(void);
 
