@@ -200,7 +200,7 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t 
 static uint8_t read_ciapa(cia_context_t *cia_context)
 {
     uint8_t value;
-    uint8_t userval = 0;
+    uint8_t userval = 1;
 
     value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f);
 
