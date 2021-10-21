@@ -1407,7 +1407,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     GtkWidget *crt_controls;
     GtkWidget *mixer_controls;
 
-    GtkWidget *kbd_widget;
     int kbd_status = 0;
     int mouse_grab = 0;
 
@@ -1616,16 +1615,7 @@ void ui_create_main_window(video_canvas_t *canvas)
         if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
             kbd_status = 0;
         }
-    } else {
-        kbd_status = 0;
-    }
-
-    kbd_widget = gtk_grid_get_child_at(GTK_GRID(status_bar), 0, 3);
-
-    if (kbd_status) {
-        gtk_widget_show_all(kbd_widget);
-    } else {
-        gtk_widget_hide(kbd_widget);
+        ui_statusbar_set_kbd_debug(kbd_status);
     }
 
     if (grid != NULL) {
