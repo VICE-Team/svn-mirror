@@ -50,15 +50,17 @@ gtk3_keymaps = \
 	gtk3_sym_de.vkm
 
 sdl_keymaps = \
-	sdl_hotkeys.vkm \
 	sdl_sym.vkm
 
+sdl_hotkeys = \
+	sdl-hotkeys.vhk
+
 if SDL_COMPILE
-cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
+cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
 
 EXTRA_DIST = $(cbm2_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
 else
 cbm2_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
 
-EXTRA_DIST = $(cbm2_DATA) $(sdl_keymaps)
+EXTRA_DIST = $(cbm2_DATA) $(sdl_keymaps) $(sdl_hotkeys)
 endif
