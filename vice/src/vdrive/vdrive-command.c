@@ -3540,17 +3540,17 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
         return vdrive_command_set_error(vdrive, CBMDOS_IPE_SYNTAX, 0, 0);
     }
 
-    /* support only FD series */
-    if (!VDRIVE_IS_FD(vdrive)) {
-        goto out;
-    }
-
     /* only to RAM */
     if (addr >= 0x8000) goto out;
 
     /* commit the data */
     for (i = 0; i < len; i++) {
         vdrive->ram[(addr + i) & 0x7fff] = buf[1 + i];
+    }
+
+    /* support only FD series */
+    if (!VDRIVE_IS_FD(vdrive)) {
+        goto out;
     }
 
     /* grab a valid image type as there may be no context */
