@@ -112,6 +112,14 @@
  */
 #define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
 
+/** \brief  CSS for the drive widgets
+ */
+#define DRIVE_WIDGET_CSS \
+    "label {\n" \
+    "    font-family: monospace;\n" \
+    "    font-size: 90%;\n" \
+    "}\n"
+
 
 /** \brief  Status bar column indexes
  *
@@ -1182,26 +1190,30 @@ static int compute_drives_enabled_mask(void)
 static GtkWidget *ui_drive_widget_create(int unit)
 {
     GtkWidget *grid, *number, *track, *led;
-
+    GtkCssProvider *css_provider;
     mainlock_assert_is_not_vice_thread();
 
     grid = gtk_grid_new();
     gtk_widget_set_hexpand(grid, FALSE);
+    /* create reusable CSS provider for the unit/drive and track labels */
+    css_provider = vice_gtk3_css_provider_new(DRIVE_WIDGET_CSS);
 
     for (int drive_num = 0; drive_num < 2; drive_num++) {
         char drive_id[8];
 
         g_snprintf(drive_id,
                    sizeof(drive_id),
-                   "%d:%d",
+                   "%2d:%d",
                    unit + DRIVE_UNIT_MIN,
                    drive_num);
         number = gtk_label_new(drive_id);
         gtk_widget_set_halign(number, GTK_ALIGN_START);
+        vice_gtk3_css_provider_add(number, css_provider);
 
-        track = gtk_label_new(" - 18.5");
+        track = gtk_label_new(" 18.5");
         gtk_widget_set_hexpand(track, TRUE);
         gtk_widget_set_halign(track, GTK_ALIGN_END);
+        vice_gtk3_css_provider_add(track, css_provider);
 
         led = gtk_drawing_area_new();
         gtk_widget_set_size_request(led, 30, 15);
@@ -1219,6 +1231,7 @@ static GtkWidget *ui_drive_widget_create(int unit)
                                   G_CALLBACK(draw_drive_led_cb),
                                   GINT_TO_POINTER(unit | (drive_num << 8)));
     }
+
     return grid;
 }
 
@@ -2165,6 +2178,7 @@ void ui_display_drive_led(unsigned int drive_number,
  *  \param  drive_base          Drive 0 or 1 of dualdrives
  *  \param  half_track_number   Twice the value of the head
  *                              location. 18.0 is 36, while 18.5 would be 37.
+ *  \param  drive_side          drive side for dual-head drives (0 or 1)
  *
  *  \todo   The statusbar API does not yet support dual-unit disk
  *          drives. The drive_base argument will likely come into play
@@ -2210,14 +2224,15 @@ void ui_display_drive_track(unsigned int drive_number,
         snprintf(
             sb_state->current_drive_track_str[drive_number][drive_base],
             DRIVE_TRACK_STR_MAX_LEN - 1,
-            " - %u:%.1lf",
+            " %u:%04.1lf",  /* space instead of 0 padding looks weird with the
+                               drive side in front */
             drive_side,
             half_track_number / 2.0);
     } else {
         snprintf(
             sb_state->current_drive_track_str[drive_number][drive_base],
             DRIVE_TRACK_STR_MAX_LEN - 1,
-            " - %.1lf",
+            " %4.1lf",
             half_track_number / 2.0);
     }
 
