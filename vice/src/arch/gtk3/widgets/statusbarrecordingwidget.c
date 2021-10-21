@@ -53,6 +53,14 @@
     "  min-height: 10px;\n" \
     "  margin-top: 0px;\n" \
     "  margin-bottom: 2px;\n" \
+    "  margin-right: 8px;\n" \
+    "}"
+
+
+/** \brief  CSS for the timing widget */
+#define TIMING_CSS \
+    "label { \n" \
+    "  font-family: monospace;\n" \
     "}"
 
 
@@ -163,7 +171,6 @@ static GtkWidget *create_stop_button(void)
 
     button = gtk_button_new_from_icon_name("media-playback-stop-symbolic",
                                            GTK_ICON_SIZE_SMALL_TOOLBAR);
-    g_object_set(button, "margin-top", 0, NULL);
     /* set up CSS to reduce button size */
     vice_gtk3_css_add(button, STOP_BUTTON_CSS);
     return button;
@@ -184,7 +191,7 @@ GtkWidget *statusbar_recording_widget_create(void)
     GtkWidget *button;
 
     grid = vice_gtk3_grid_new_spaced(8, 0);
-    gtk_widget_set_hexpand(grid, TRUE);
+    gtk_widget_set_hexpand(grid, FALSE);
     gtk_widget_set_vexpand(grid, FALSE);
     g_object_set(grid, "margin-top", 0, "margin-bottom", 0, NULL);
 
@@ -199,8 +206,9 @@ GtkWidget *statusbar_recording_widget_create(void)
 
     /* recording timestamp label */
     label = gtk_label_new("");  /* initially empty */
-    gtk_widget_set_halign(label, GTK_ALIGN_FILL);
-    gtk_widget_set_hexpand(label, TRUE);
+    gtk_widget_set_halign(label, GTK_ALIGN_END);
+    gtk_widget_set_hexpand(label, FALSE);
+    vice_gtk3_css_add(label, TIMING_CSS);
     gtk_grid_attach(GTK_GRID(grid), label, RW_COL_TIME, RW_ROW_TIME, 1, 1);
 
     button = create_stop_button();
@@ -208,7 +216,7 @@ GtkWidget *statusbar_recording_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), button, RW_COL_BUTTON, RW_ROW_BUTTON, 1, 2);
     gtk_widget_set_halign(button, GTK_ALIGN_END);
     gtk_widget_set_valign(button, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(button, FALSE);
+    gtk_widget_set_hexpand(button, TRUE);
     gtk_widget_set_vexpand(button, FALSE);
     gtk_widget_set_sensitive(button, FALSE);
     gtk_widget_set_no_show_all(button, TRUE);
@@ -308,10 +316,10 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
     resources_get_string("SoundRecordDeviceName", &dev);
     time = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TIME, RW_ROW_TIME);
     if (total > 0) {
-        g_snprintf(buffer, sizeof(buffer), "Time: %02u:%02u / %02u:%02u",
+        g_snprintf(buffer, sizeof(buffer), "%02u:%02u/%02u:%02u",
                 current / 60, current % 60, total / 60, total % 60);
     } else {
-        g_snprintf(buffer, sizeof(buffer), "Time: %02u:%02u",
+        g_snprintf(buffer, sizeof(buffer), "%02u:%02u",
                 current / 60, current % 60);
     }
     gtk_label_set_text(GTK_LABEL(time), buffer);
