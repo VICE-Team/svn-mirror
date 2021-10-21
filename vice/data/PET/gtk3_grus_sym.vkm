@@ -75,7 +75,7 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# this is a PET graphics keyboard mapping (symbolic)
+# this is a PET graphics keyboard mapping (Symbolic, US Layout, PET, GTK)
 
 # 2001, 3032 and 4032 use graphics keyboard
 # 4032B, 8032 and up use business keyboard
