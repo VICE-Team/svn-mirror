@@ -66,7 +66,7 @@ sdl_keymaps = \
 if SDL_COMPILE
 c128_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
 
-EXTRA_DIST = $(c128_DATA) $(gtk3_keymaps)
+EXTRA_DIST = $(c128_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
 else
 c128_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
 
