@@ -208,11 +208,12 @@ static gboolean on_key_release_event(GtkWidget *dialog,
         hotkey_keysym = event->keyval;
         hotkey_mask = event->state;
 
+#if 0
         if (hotkey_mask & GDK_CONTROL_MASK) {
             /* we don't want CTRL */
             return FALSE;
         }
-
+#endif
         if (hotkey_keysym == GDK_KEY_Return && hotkey_mask == 0) {
             return TRUE;    /* Return means accept */
         }
