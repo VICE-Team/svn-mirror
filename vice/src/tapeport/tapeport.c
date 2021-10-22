@@ -169,10 +169,13 @@ static void old_tapeport_set_motor(int flag)
     }
 }
 
-void tapeport_set_motor(int flag)
+void tapeport_set_motor(int port, int flag)
 {
-    /* use old function for now */
-    old_tapeport_set_motor(flag);
+    /* ignore port 2 for now */
+    if (port == TAPEPORT_PORT_1) {
+        /* use old function for now */
+        old_tapeport_set_motor(flag);
+    }
 }
 
 static void old_tapeport_toggle_write_bit(int write_bit)
@@ -199,10 +202,13 @@ static void old_tapeport_toggle_write_bit(int write_bit)
     }
 }
 
-void tapeport_toggle_write_bit(int write_bit)
+void tapeport_toggle_write_bit(int port, int write_bit)
 {
-    /* use old function for now */
-    old_tapeport_toggle_write_bit(write_bit);
+    /* ignore port 2 for now */
+    if (port == TAPEPORT_PORT_1) {
+        /* use old function for now */
+        old_tapeport_toggle_write_bit(write_bit);
+    }
 }
 
 static void old_tapeport_set_sense_out(int sense)
@@ -229,10 +235,13 @@ static void old_tapeport_set_sense_out(int sense)
     }
 }
 
-void tapeport_set_sense_out(int sense)
+void tapeport_set_sense_out(int port, int sense)
 {
-    /* use old function for now */
-    old_tapeport_set_sense_out(sense);
+    /* ignore port 2 for now */
+    if (port == TAPEPORT_PORT_1) {
+        /* use old function for now */
+        old_tapeport_set_sense_out(sense);
+    }
 }
 
 void old_tapeport_reset(void)

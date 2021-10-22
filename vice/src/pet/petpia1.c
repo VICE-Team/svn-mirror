@@ -159,7 +159,7 @@ static void pia_set_ca2(int a)
 static void pia_set_cb2(int a)
 {
     if (old_cb2_status != a) {
-        tapeport_set_motor(!a);
+        tapeport_set_motor(TAPEPORT_PORT_1, !a);
         old_cb2_status = a;
     }
 }
@@ -201,7 +201,8 @@ E813    CB2         output to cassette #1 motor: 0=on, 1=off
 
 static void store_pa(uint8_t byte)
 {
-    tapeport_set_sense_out(byte & 16 ? 1 : 0);
+    tapeport_set_sense_out(TAPEPORT_PORT_1, byte & 16 ? 1 : 0);
+    tapeport_set_sense_out(TAPEPORT_PORT_2, byte & 32 ? 1 : 0);
 }
 
 static void store_pb(uint8_t byte)
