@@ -33,7 +33,8 @@
 /* #define TAPEPORT_EXPERIMENTAL_DEVICES */
 
 enum {
-    TAPEPORT_DEVICE_DATASETTE = 0,
+    TAPEPORT_DEVICE_NONE = 0,
+    TAPEPORT_DEVICE_DATASETTE,
     TAPEPORT_DEVICE_CP_CLOCK_F83,
     TAPEPORT_DEVICE_DTL_BASIC_DONGLE,
     TAPEPORT_DEVICE_SENSE_DONGLE,
@@ -44,6 +45,13 @@ enum {
     TAPEPORT_MAX_DEVICES
 };
 
+enum {
+    TAPEPORT_PORT_1 = 0,
+    TAPEPORT_PORT_2,
+    TAPEPORT_MAX_PORTS
+};
+
+/* This struct is used by the OLD tapeport devices */
 typedef struct old_tapeport_device_s {
     /* id of the device */
     int device_id;
@@ -97,6 +105,7 @@ typedef struct old_tapeport_device_list_s {
 extern old_tapeport_device_list_t *old_tapeport_device_register(old_tapeport_device_t *device);
 extern void old_tapeport_device_unregister(old_tapeport_device_list_t *device);
 
+/* This struct holds all the information about the tapeport devices */
 typedef struct tapeport_device_s {
     /* Name of the device */
     char *name;
@@ -118,8 +127,16 @@ typedef struct tapeport_device_s {
 
     /* set read line */
     void (*set_read_out)(int port, int val);
+
+    /* Snapshot write */
+    int (*write_snapshot)(struct snapshot_s *s);
+
+    /* Snapshot read */
+    int (*read_snapshot)(struct snapshot_s *s, int port);
+
 } tapeport_device_t;
 
+/* This is the OLD tapeport snapshot struct */
 typedef struct old_tapeport_snapshot_s {
     /* id of the device */
     int id;
@@ -131,6 +148,7 @@ typedef struct old_tapeport_snapshot_s {
     int (*read_snapshot)(struct snapshot_s *s);
 } old_tapeport_snapshot_t;
 
+/* This is the OLD tapeport double linked list */
 typedef struct old_tapeport_snapshot_list_s {
     struct old_tapeport_snapshot_list_s *previous;
     old_tapeport_snapshot_t *snapshot;
