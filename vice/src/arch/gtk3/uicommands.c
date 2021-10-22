@@ -209,9 +209,11 @@ gboolean ui_action_toggle_mouse_grab(void)
 
     if (mouse) {
         ui_menu_item_t *item = ui_get_vice_menu_item_by_name("mouse-grab-toggle");
+        gchar *name = gtk_accelerator_name(item->keysym, item->modifier);
         g_snprintf(title, sizeof(title),
                 "VICE (%s) (Use %s to disable mouse grab)",
-                machine_get_name(), gtk_accelerator_name(item->keysym, item->modifier));
+                machine_get_name(), name);
+        g_free(name);
     } else {
        g_snprintf(title, sizeof(title),
                 "VICE (%s)",
