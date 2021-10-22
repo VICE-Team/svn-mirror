@@ -24,7 +24,8 @@
 #!UNDEF history-milestone-reset
 #!UNDEF media-record
 #!UNDEF mouse-grab-toggle
-#!UNDEF fliplist-detach-all
+#!UNDEF fliplist-clear
+#!UNDEF advance-frame
 
 quit                            <Alt>x
 reset-soft                      <Alt>r
@@ -37,7 +38,8 @@ history-milestone-set           <Alt>g
 history-milestone-reset         <Alt>h
 media-record                    <Alt>c
 mouse-grab-toggle               <Alt>q
-#fliplist-detach-all             <Alt>a         <- not implemented yet
+fliplist-clear                  <Alt>a
+#advance-frame                   <Alt>+         <- should be alt+numpad+
 
 # the following ones did not have a hotkey in the Windows UI
 
@@ -46,17 +48,18 @@ mouse-grab-toggle               <Alt>q
 #!UNDEF snapshot-load
 #!UNDEF snapshot-save
 #!UNDEF cart-attach
+#!UNDEF smart-attach
 
 #restore-display                 <Alt>r
 #fullscreen-decorations-toggle   <Alt>b
 #snapshot-load                   <Alt>l
 #snapshot-save                   <Alt>s
 #cart-attach                     <Alt>c
+#smart-attach                    <Alt>a
 
 # The rest of the hotkeys were exactly the same as in the GTK port (all of the
 # following can be removed later)
 
-smart-attach                    <Alt>a
 drive-attach-8:0                <Alt>8
 drive-attach-9:0                <Alt>9
 drive-attach-10:0               <Alt>0
@@ -79,7 +82,6 @@ screenshot-quicksave            Pause
 fullscreen-toggle               <Alt>d
 warp-mode-toggle                <Alt>w
 pause-toggle                    <Alt>p
-advance-frame                   <Shift><Alt>p
 swap-controlport-toggle         <Alt>j
 swap-userport-toggle            <Shift><Alt>j
 settings-dialog                 <Alt>o
