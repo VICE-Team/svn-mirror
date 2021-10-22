@@ -1447,8 +1447,11 @@ void ui_create_main_window(video_canvas_t *canvas)
         g_snprintf(title, 256, "VICE (%s)", machine_get_name());
     } else {
         ui_menu_item_t *item = ui_get_vice_menu_item_by_name("mouse-grab-toggle");
+        gchar *name = gtk_accelerator_name(item->keysym, item->modifier);
+
         g_snprintf(title, 256, "VICE (%s) (Use %s to disable mouse grab)",
-                machine_get_name(), gtk_accelerator_name(item->keysym, item->modifier));
+                machine_get_name(), name);
+        g_free(name);
     }
 
     gtk_window_set_title(GTK_WINDOW(new_window), title);
