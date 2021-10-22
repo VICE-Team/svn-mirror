@@ -177,6 +177,8 @@ static GtkListStore *create_hotkeys_model(void)
 /** \brief  Create the table view of the hotkeys
  *
  * Create a table with 'action', 'description' and 'hotkey' columns.
+ * Columns are resizable and the table is sortable by clicking the column
+ * headers.
  *
  * \return  GtkTreeView
  */
@@ -192,27 +194,35 @@ static GtkWidget *create_hotkeys_view(void)
 
     /* name */
     renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes("action",
+    column = gtk_tree_view_column_new_with_attributes("Action",
                                                       renderer,
                                                       "text", COL_ACTION_NAME,
                                                       NULL);
+    gtk_tree_view_column_set_sort_column_id(column, COL_ACTION_NAME);
+    gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
 
     /* description */
     renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes("description",
+    /* g_object_set(G_OBJECT(renderer), "ellipsize", PANGO_ELLIPSIZE_END, NULL); */
+    column = gtk_tree_view_column_new_with_attributes("Description",
                                                       renderer,
                                                       "text", COL_ACTION_DESC,
                                                       NULL);
+    gtk_tree_view_column_set_sort_column_id(column, COL_ACTION_DESC);
+    gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
 
     /* hotkey */
     renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes("hotkey",
+    column = gtk_tree_view_column_new_with_attributes("Hotkey",
                                                       renderer,
                                                       "text", COL_HOTKEY,
                                                       NULL);
+    gtk_tree_view_column_set_sort_column_id(column, COL_HOTKEY);
+    gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+
 
     return view;
 }
