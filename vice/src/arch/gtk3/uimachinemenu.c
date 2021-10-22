@@ -649,7 +649,7 @@ static ui_menu_item_t snapshot_menu[] = {
 
     UI_MENU_SEPARATOR,
 #endif
-    { "Record media ...", UI_MENU_TYPE_ITEM_ACTION,
+    { "Save/Record media ...", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_MEDIA_RECORD, ui_media_dialog_show, NULL,
       GDK_KEY_R, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
 
