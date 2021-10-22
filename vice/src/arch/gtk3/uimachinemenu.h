@@ -55,6 +55,7 @@ gboolean        ui_vice_menu_iter_get_hotkey(ui_vice_menu_iter_t *iter,
 
 
 ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name);
+/* FIXME: swap arguments around */
 ui_menu_item_t* ui_get_vice_menu_item_by_hotkey(GdkModifierType mask,
                                                 guint keysym);
 gboolean        ui_set_vice_menu_item_hotkey(ui_menu_item_t *item,
@@ -65,9 +66,7 @@ gboolean        ui_set_vice_menu_item_hotkey_by_name(const char *name,
                                                      GdkModifierType modifier);
 GtkWidget *     ui_get_gtk_menu_item_by_name(const char *name);
 /* for 'live' changing of hotkeys, needs UI support */
-#if 0
 GtkWidget *     ui_get_gtk_menu_item_by_hotkey(GdkModifierType mask, guint keyval);
-#endif
 void            ui_clear_vice_menu_item_hotkeys(void);
 
 #endif /* VICE_UIMACHINEMENU_H */
