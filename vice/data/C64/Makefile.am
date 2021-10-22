@@ -53,7 +53,8 @@ gtk3_keymaps = \
 	gtk3_pos_bmc64.vkm
 
 gtk3_hotkeys = \
-	gtk3-hotkeys.vhk
+	gtk3-hotkeys.vhk \
+	gtk3-winvice-legacy.vhk
 
 sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
