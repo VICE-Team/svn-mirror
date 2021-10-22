@@ -1352,7 +1352,12 @@ ui_menu_item_t* ui_get_vice_menu_item_by_hotkey(GdkModifierType mask,
         if (ui_vice_menu_iter_get_type(&iter, &type) &&
                 (type == UI_MENU_TYPE_ITEM_ACTION ||
                  type == UI_MENU_TYPE_ITEM_CHECK)) {
-            if (ui_vice_menu_iter_get_hotkey(&iter, &item_mask, &item_keysym)) {
+            bool result = ui_vice_menu_iter_get_hotkey(&iter, &item_mask, &item_keysym);
+#if 0
+            debug_gtk3("iter keysym: %04x, iter mask: %04x (%s)", item_keysym, item_mask,
+                    iter.menu_item->action_name);
+#endif
+            if (result) {
                 if (mask == item_mask && keysym == item_keysym) {
                     return iter.menu_item;
                 }
@@ -1441,7 +1446,7 @@ GtkWidget *ui_get_gtk_menu_item_by_name(const char *name)
     return NULL;
 }
 
-#if 0
+
 /** \brief  Get (sub)menu item from the Gtk menu bar by hotkey
  *
  * Try to look up a menu item via keyval and modifier(s)
@@ -1477,7 +1482,6 @@ GtkWidget *ui_get_gtk_menu_item_by_hotkey(GdkModifierType mask, guint keyval)
     }
     return NULL;
 }
-#endif
 
 
 /** \brief  Clear hotkeys of all the menu items

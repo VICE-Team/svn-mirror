@@ -59,6 +59,10 @@ void        ui_set_gtk_check_menu_item_blocked_by_resource(const char *name,
 
 
 /* FIXME: is this still even used? */
-void ui_menu_init_accelerators(GtkWidget *window);
+void        ui_menu_init_accelerators(GtkWidget *window);
+
+gboolean    ui_menu_remove_accel_via_vice_item(ui_menu_item_t *item);
+void        ui_menu_set_accel_via_vice_item(GtkWidget *item_gtk,
+                                            ui_menu_item_t *item_vice);
 
 #endif
