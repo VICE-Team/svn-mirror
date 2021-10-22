@@ -114,7 +114,12 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t myoldpb,
     parallel_cpu_set_nrfd((uint8_t)(!(byte & 0x02)));
     parallel_cpu_set_atn((uint8_t)(!(byte & 0x04)));
     if ((byte ^ myoldpb) & 0x8) {
-        tapeport_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte) & 0x8);
+        tapeport_toggle_write_bit(TAPEPORT_PORT_1, (~(via_context->via[VIA_DDRB]) | byte) & 0x8);
+        tapeport_toggle_write_bit(TAPEPORT_PORT_2, (~(via_context->via[VIA_DDRB]) | byte) & 0x8);
+    }
+    /* FIXME: check by testing if the value used needs to be NOT'ed or not. */
+    if ((byte ^ myoldpb) & 0x10) {
+        tapeport_set_motor(TAPEPORT_PORT_2, (~(via_context->via[VIA_DDRB]) | byte) & 0x8);
     }
 }
 

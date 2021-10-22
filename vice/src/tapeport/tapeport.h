@@ -157,9 +157,9 @@ typedef struct old_tapeport_snapshot_list_s {
 
 extern void old_tapeport_snapshot_register(old_tapeport_snapshot_t *snapshot);
 
-extern void tapeport_set_motor(int flag);
-extern void tapeport_toggle_write_bit(int write_bit);
-extern void tapeport_set_sense_out(int sense);
+extern void tapeport_set_motor(int port, int flag);
+extern void tapeport_toggle_write_bit(int port, int write_bit);
+extern void tapeport_set_sense_out(int port, int sense);
 
 extern void old_tapeport_reset(void);
 
