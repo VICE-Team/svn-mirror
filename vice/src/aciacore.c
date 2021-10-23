@@ -538,7 +538,7 @@ static int acia_get_status(void)
         acia.status |= ACIA_SR_BITS_DCD; /* we treat CTS like DCD */
     }
 #endif
-    if (modem_status & RS232_HSI_DCD) {
+    if (!(modem_status & RS232_HSI_DCD)) {
         acia.status |= ACIA_SR_BITS_DCD;
     }
 

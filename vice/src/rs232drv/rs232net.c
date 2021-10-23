@@ -390,6 +390,8 @@ enum rs232handshake_in rs232net_get_status(int fd)
         if (fds[fd].dcd_in) {
             status |= RS232_HSI_DCD;
         }
+    } else {
+        status |= RS232_HSI_DCD;
     }
     status |= RS232_HSI_CTS;
 
