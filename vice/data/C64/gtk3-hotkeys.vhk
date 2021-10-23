@@ -1,13 +1,13 @@
 # VICE Gtk3 Hotkeys for x64/x64sc
 #
 # Author:   Bas Wassink
-# Updated:  2021-10-04
+# Updated:  2021-10-23
 #
-# See doc/hotkeys.md for documentation on the syntax of hotkeys files.
+# See doc/gtk3-hotkeys.md for documentation on the syntax of hotkeys files.
 # See src/arch/gtk3/uiactions.h for a list of action names.
 
-# Enable debugging
-!debug enable
+# Disable debugging
+!debug disable
 
 # Clear hotkeys
 !clear
