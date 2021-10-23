@@ -175,7 +175,7 @@ extern void tapeport_set_tape_sense(int sense, int port);
 extern void tapeport_set_write_in(int val, int port);
 extern void tapeport_set_motor_in(int val, int port);
 
-extern int tapeport_resources_init(void);
+extern int tapeport_resources_init(int amount);
 extern void tapeport_resources_shutdown(void);
 extern int tapeport_cmdline_options_init(void);
 

@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-extern int sense_dongle_resources_init(void);
+extern int sense_dongle_resources_init(int amount);
 extern int sense_dongle_cmdline_options_init(void);
 
 #endif

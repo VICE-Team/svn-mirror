@@ -134,7 +134,7 @@ static const resource_int_t resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
-int tapertc_resources_init(void)
+int tapertc_resources_init(int amount)
 {
     old_tapeport_snapshot_register(&tapertc_snapshot);
 
