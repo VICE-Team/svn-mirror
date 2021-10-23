@@ -59,11 +59,14 @@ static char *extra_title_text = NULL;
 const char *archdep_extra_title_text(void)
 {
 #ifdef SDL_UI_SUPPORT
+    char *menu_keyname = kbd_get_menu_keyname();
+
     if (extra_title_text == NULL) {
         extra_title_text = util_concat(", press \"",
-                                       kbd_get_menu_keyname(),
+                                       menu_keyname,
                                        "\" for the menu.",
                                        NULL);
+        lib_free(menu_keyname);
     }
     return extra_title_text;
 #else

@@ -579,25 +579,21 @@ void ui_check_mouse_cursor(void)
     }
 }
 
-#ifdef MACOSX_SUPPORT
-#define VICE_MOD_MASK_TEXT "Option"
-#else
-#define VICE_MOD_MASK_TEXT "Alt"
-#endif
-
 void ui_set_mouse_grab_window_title(int enabled)
 {
     char title[256];
     char name[32];
+    char *mouse_key = kbd_get_path_keyname("Machine settings&Mouse emulation&Grab mouse events");
 
     if (machine_class != VICE_MACHINE_C64SC) {
         strcpy(name, machine_get_name());
     } else {
         strcpy(name, "C64 (x64sc)");
     }
-    if (enabled) {
-        snprintf(title, 256, "VICE: %s%s Use %s+M to disable mouse grab.",
-            name, archdep_extra_title_text(), VICE_MOD_MASK_TEXT);
+    if (enabled && mouse_key != NULL) {
+        snprintf(title, 256, "VICE: %s%s Use %s to disable mouse grab.",
+            name, archdep_extra_title_text(), mouse_key);
+        lib_free(mouse_key);
     } else {
         snprintf(title, 256, "VICE: %s%s", name, archdep_extra_title_text());
     }        
