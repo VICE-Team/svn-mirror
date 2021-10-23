@@ -99,6 +99,16 @@ For example:
 will include `/usr/local/share/vice/common/gtk3-hotkeys-drive.vhk`, assuming
 the default install prefix for VICE was used.
 
+#### !UNDEF
+
+##### Syntax
+
+> ```
+> !undef [<modifier>..]<keyname>
+> ```
+
+Remove a hotkey from whatever action it is mapped to.
+
 
 ### Hotkey mappings
 

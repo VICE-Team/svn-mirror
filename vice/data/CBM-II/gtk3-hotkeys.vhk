@@ -3,13 +3,13 @@
 # FIXME: Need some way to determine if `xcbm5x0` or `xcbm2`!
 #
 # Author:   Bas Wassink
-# Updated:  2021-10-04
+# Updated:  2021-10-23
 #
-# See doc/hotkeys.md for documentation on the syntax of hotkeys files.
+# See doc/gtk3-hotkeys.md for documentation on the syntax of hotkeys files.
 # See src/arch/gtk3/uiactions.h for a list of action names.
 
-# Enable debugging
-!debug enable
+# Disable debugging
+!debug disable
 
 # Clear hotkeys
 !clear
@@ -65,6 +65,7 @@ advance-frame       <Alt><Shift>p
 # "Preferences" - joystick, mouse
 # FIXME: xcbm5x0 has controlport AND userport, xcbm2 (6x0) only userport
 mouse-grab-toggle       <Alt>m
+# This logs a warning when using xcbm2:
 swap-controlport-toggle <Alt>j
 swap-userport-toggle    <Alt><Shift>j
 ; keyset-joystick-toggle
