@@ -620,7 +620,96 @@ void kbd_initialize_numpad_joykeys(int* joykeys)
     joykeys[10] = SDL2x_to_SDL1x_Keys(SDLK_KP_ENTER);
 }
 
-const char *kbd_get_menu_keyname(void)
+static char *kbd_get_full_keyname(int mod_key, int key)
 {
-    return SDL_GetKeyName(SDL1x_to_SDL2x_Keys(sdl_ui_menukeys[0]));
+    char *mod_key_string = NULL;
+    char *retval = NULL;
+
+    switch (mod_key) {
+        case 1:
+            mod_key_string = "Shift+";
+            break;
+        case 2:
+            mod_key_string = "Alt+";
+            break;
+        case 3:
+            mod_key_string = "Alt+Shift+";
+            break;
+        case 4:
+            mod_key_string = "Ctrl+";
+            break;
+        case 5:
+            mod_key_string = "Ctrl+Shift+";
+            break;
+        case 6:
+            mod_key_string = "Ctrl+Alt+";
+            break;
+        case 7:
+            mod_key_string = "Ctrl+Alt+Shift+";
+            break;
+        case 8:
+            mod_key_string = "Meta+";
+            break;
+        case 9:
+            mod_key_string = "Meta+Shift+";
+            break;
+        case 10:
+            mod_key_string = "Meta+Alt+";
+            break;
+        case 11:
+            mod_key_string = "Meta+Alt+Shift+";
+            break;
+        case 12:
+            mod_key_string = "Meta+Ctrl+";
+            break;
+        case 13:
+            mod_key_string = "Meta+Ctrl+Shift+";
+            break;
+        case 14:
+            mod_key_string = "Meta+Ctrl+Alt+";
+            break;
+        case 15:
+            mod_key_string = "Meta+Ctrl+Alt+Shift+";
+            break;
+    }
+    if (mod_key_string != NULL) {
+        retval = util_concat(mod_key_string, SDL_GetKeyName(SDL1x_to_SDL2x_Keys(key)), NULL);
+    } else {
+        retval = lib_strdup(SDL_GetKeyName(SDL1x_to_SDL2x_Keys(key)));
+    }
+    return retval;
+}
+
+char *kbd_get_menu_keyname(void)
+{
+    int mod_key = (sdl_ui_menukeys[0] / SDL_NUM_SCANCODES);
+    int key = sdl_ui_menukeys[0] - (mod_key * SDL_NUM_SCANCODES);
+
+    return kbd_get_full_keyname(mod_key, key);
+}
+
+char *kbd_get_path_keyname(char *path)
+{
+    char *hotkey_path;
+    int i;
+    int mod_key = 0;
+    int key = 0;
+    int found = 0;
+    char *retval = NULL;
+
+    for (i = 0; i < SDLKBD_UI_HOTKEYS_MAX; ++i) {
+        if (sdlkbd_ui_hotkeys[i]) {
+            hotkey_path = sdl_ui_hotkey_path(sdlkbd_ui_hotkeys[i]);
+            if (!strcmp(hotkey_path, path)) {
+                mod_key = (i / SDL_NUM_SCANCODES);
+                key = i - (mod_key * SDL_NUM_SCANCODES);
+                found++;
+            }
+        }
+    }
+
+    if (found) {
+        retval = kbd_get_full_keyname(mod_key, key);
+    }
+    return retval;
 }

@@ -95,6 +95,8 @@ extern void kbd_focus_change(void);
 
 extern int sdl_ui_menukeys[];
 
-extern const char *kbd_get_menu_keyname(void);
+extern char *kbd_get_menu_keyname(void);
+
+extern char *kbd_get_path_keyname(char *path);
 
 #endif
