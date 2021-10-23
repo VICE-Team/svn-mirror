@@ -3541,7 +3541,9 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
     }
 
     /* only to RAM */
-    if (addr >= 0x8000) goto out;
+    if (addr >= 0x8000) {
+        goto out;
+    }
 
     /* commit the data */
     for (i = 0; i < len; i++) {
