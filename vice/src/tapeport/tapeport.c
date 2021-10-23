@@ -44,9 +44,15 @@
 static old_tapeport_device_list_t old_tapeport_head = { NULL, NULL, NULL };
 static old_tapeport_snapshot_list_t old_tapeport_snapshot_head = { NULL, NULL, NULL };
 
+/* flag indicating if the tapeport exists on the current emulated model */
 static int tapeport_active = 1;
 
+/* current tapeport devices */
+static int tapeport_current_device[TAPEPORT_MAX_PORTS] = { TAPEPORT_DEVICE_DATASETTE, TAPEPORT_DEVICE_DATASETTE };
+
 static int old_tapeport_devices = 0;
+
+static tapeport_device_t tapeport_device[TAPEPORT_MAX_DEVICES] = {0};
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
@@ -145,6 +151,92 @@ void old_tapeport_device_unregister(old_tapeport_device_list_t *device)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
+/* register a device to be used in the tapeport system */
+int tapeport_device_register(int id, tapeport_device_t *device)
+{
+    if (id < 1 || id > TAPEPORT_MAX_DEVICES) {
+        return -1;
+    }
+
+    tapeport_device[id].name = device->name;
+    tapeport_device[id].enable = device->enable;
+    tapeport_device[id].reset = device->reset;
+    tapeport_device[id].set_motor = device->set_motor;
+    tapeport_device[id].toggle_write_bit = device->toggle_write_bit;
+    tapeport_device[id].set_sense_out = device->set_sense_out;
+    tapeport_device[id].set_read_out = device->set_read_out;
+    tapeport_device[id].write_snapshot = device->write_snapshot;
+    tapeport_device[id].read_snapshot = device->read_snapshot;
+
+    return 0;
+}
+
+/* attach device 'id' to a tapeport */
+static int tapeport_set_device(int port, int id)
+{
+    /* 1st some sanity checks */
+    if (id < TAPEPORT_DEVICE_NONE || id >= TAPEPORT_MAX_DEVICES) {
+        return -1;
+    }
+    if (port >= TAPEPORT_MAX_PORTS) {
+        return -1;
+    }
+
+    /* Nothing changes */
+    if (id == tapeport_current_device[port]) {
+        return 0;
+    }
+
+    /* check if id is registered */
+    if (id != TAPEPORT_DEVICE_NONE && !tapeport_device[id].name) {
+        ui_error("Selected tapeport device %d is not registered", id);
+        return -1;
+    }
+
+    /* all checks done, now disable the current device and enable the new device */
+    if (tapeport_device[tapeport_current_device[port]].enable) {
+        tapeport_device[tapeport_current_device[port]].enable(port, 0);
+    }
+
+    if (tapeport_device[id].enable) {
+        tapeport_device[id].enable(port, 1);
+    }
+
+    tapeport_current_device[port] = id;
+
+    return 0;
+}
+
+tapeport_desc_t *tapeport_get_valid_devices(void)
+{
+    tapeport_desc_t *retval = NULL;
+    int i;
+    int j = 0;
+    int valid = 0;
+
+    for (i = 0; i < TAPEPORT_MAX_DEVICES; ++i) {
+        if (tapeport_device[i].name) {
+           ++valid;
+        }
+    }
+
+    retval = lib_malloc(((size_t)valid + 1) * sizeof(tapeport_desc_t));
+
+    for (i = 0; i < TAPEPORT_MAX_DEVICES; ++i) {
+        if (tapeport_device[i].name) {
+            retval[j].name = tapeport_device[i].name;
+            retval[j].id = i;
+            ++j;
+        }
+    }
+
+    retval[j].name = NULL;
+
+    return retval;
+}
+
+/* ---------------------------------------------------------------------------------------------------------- */
+
 static void old_tapeport_set_motor(int flag)
 {
     old_tapeport_device_list_t *current = &old_tapeport_head;
@@ -173,7 +265,16 @@ void tapeport_set_motor(int port, int flag)
 {
     /* ignore port 2 for now */
     if (port == TAPEPORT_PORT_1) {
-        /* use old function for now */
+        /* use new tapeport system if the device has been registered */
+        if (tapeport_current_device[port] != TAPEPORT_DEVICE_NONE) {
+            if (tapeport_device[tapeport_current_device[port]].name) {
+                if (tapeport_device[tapeport_current_device[port]].set_motor) {
+                    tapeport_device[tapeport_current_device[port]].set_motor(port, flag);
+                }
+            }
+        }
+
+        /* use old function as well for now */
         old_tapeport_set_motor(flag);
     }
 }
@@ -206,7 +307,16 @@ void tapeport_toggle_write_bit(int port, int write_bit)
 {
     /* ignore port 2 for now */
     if (port == TAPEPORT_PORT_1) {
-        /* use old function for now */
+        /* use new tapeport system if the device has been registered */
+        if (tapeport_current_device[port] != TAPEPORT_DEVICE_NONE) {
+            if (tapeport_device[tapeport_current_device[port]].name) {
+                if (tapeport_device[tapeport_current_device[port]].toggle_write_bit) {
+                    tapeport_device[tapeport_current_device[port]].toggle_write_bit(port, write_bit);
+                }
+            }
+        }
+
+        /* use old function as well for now */
         old_tapeport_toggle_write_bit(write_bit);
     }
 }
@@ -239,12 +349,21 @@ void tapeport_set_sense_out(int port, int sense)
 {
     /* ignore port 2 for now */
     if (port == TAPEPORT_PORT_1) {
-        /* use old function for now */
+        /* use new tapeport system if the device has been registered */
+        if (tapeport_current_device[port] != TAPEPORT_DEVICE_NONE) {
+            if (tapeport_device[tapeport_current_device[port]].name) {
+                if (tapeport_device[tapeport_current_device[port]].set_sense_out) {
+                    tapeport_device[tapeport_current_device[port]].set_sense_out(port, sense);
+                }
+            }
+        }
+
+        /* use old function as well for now */
         old_tapeport_set_sense_out(sense);
     }
 }
 
-void old_tapeport_reset(void)
+static void old_tapeport_reset(void)
 {
     old_tapeport_device_list_t *current = &old_tapeport_head;
     int end = 0;
@@ -262,6 +381,27 @@ void old_tapeport_reset(void)
                 end = 1;
             }
         }
+    }
+}
+
+void tapeport_reset(void)
+{
+    int i;
+
+    if (tapeport_active) {
+        for (i = 0; i < TAPEPORT_MAX_PORTS; i++) {
+            /* use new tapeport system if the device has been registered */
+            if (tapeport_current_device[i] != TAPEPORT_DEVICE_NONE) {
+                if (tapeport_device[tapeport_current_device[i]].name) {
+                    if (tapeport_device[tapeport_current_device[i]].reset) {
+                        tapeport_device[tapeport_current_device[i]].reset(i);
+                    }
+                }
+            }
+        }
+
+        /* use old function as well for now */
+        old_tapeport_reset();
     }
 }
 
@@ -294,6 +434,15 @@ void old_tapeport_trigger_flux_change(unsigned int on, int id)
     }
 }
 
+/* this function is not used yet, it will be used when devices start to switch over to the new system */
+void tapeport_trigger_flux_change(unsigned int on, int port)
+{
+    /* ignore port 2 for now */
+    if (port == TAPEPORT_PORT_1) {
+        machine_trigger_flux_change(on);
+    }
+}
+
 void old_tapeport_set_tape_sense(int sense, int id)
 {
     old_tapeport_device_list_t *current = &old_tapeport_head;
@@ -320,6 +469,15 @@ void old_tapeport_set_tape_sense(int sense, int id)
                 end = 1;
             }
         }
+    }
+}
+
+/* this function is not used yet, it will be used when devices start to switch over to the new system */
+void tapeport_set_tape_sense(int sense, int port)
+{
+    /* ignore port 2 for now */
+    if (port == TAPEPORT_PORT_1) {
+        machine_set_tape_sense(sense);
     }
 }
 
@@ -352,6 +510,15 @@ void old_tapeport_set_write_in(int val, int id)
     }
 }
 
+/* this function is not used yet, it will be used when devices start to switch over to the new system */
+void tapeport_set_write_in(int val, int port)
+{
+    /* ignore port 2 for now */
+    if (port == TAPEPORT_PORT_1) {
+        machine_set_tape_write_in(val);
+    }
+}
+
 void old_tapeport_set_motor_in(int val, int id)
 {
     old_tapeport_device_list_t *current = &old_tapeport_head;
@@ -378,6 +545,15 @@ void old_tapeport_set_motor_in(int val, int id)
                 end = 1;
             }
         }
+    }
+}
+
+/* this function is not used yet, it will be used when devices start to switch over to the new system */
+void tapeport_set_motor_in(int val, int port)
+{
+    /* ignore port 2 for now */
+    if (port == TAPEPORT_PORT_1) {
+        machine_set_tape_motor_in(val);
     }
 }
 
@@ -417,6 +593,25 @@ static void old_tapeport_snapshot_unregister(old_tapeport_snapshot_list_t *s)
 
 /* ------------------------------------------------------------------------- */
 
+static int set_tapeport_device(int val, void *param)
+{
+    int port = vice_ptr_to_int(param);
+
+    return tapeport_set_device(port, val);
+}
+
+static const resource_int_t resources_int_port1[] = {
+    { "TapePort1Device", TAPEPORT_DEVICE_DATASETTE, RES_EVENT_NO, NULL,
+      &tapeport_current_device[TAPEPORT_PORT_1], set_tapeport_device, (void *)TAPEPORT_PORT_1 },
+    RESOURCE_INT_LIST_END
+};
+
+static const resource_int_t resources_int_port2[] = {
+    { "TapePort2Device", TAPEPORT_DEVICE_DATASETTE, RES_EVENT_NO, NULL,
+      &tapeport_current_device[TAPEPORT_PORT_2], set_tapeport_device, (void *)TAPEPORT_PORT_2 },
+    RESOURCE_INT_LIST_END
+};
+
 static int old_tapeport_resources_init(void)
 {
     if (tapertc_resources_init() < 0) {
@@ -437,6 +632,24 @@ static int old_tapeport_resources_init(void)
 
 int tapeport_resources_init(void)
 {
+    memset(tapeport_device, 0, sizeof(tapeport_device));
+    tapeport_device[0].name = "None";
+
+/* not used yet, will be used when tapeport port registering is added */
+#if 0
+    if (port_props[TAPEPORT_PORT_1].name) {
+        if (resources_register_int(resources_int_port1) < 0) {
+            return -1;
+        }
+    }
+
+    if (port_props[TAPEPORT_PORT_2].name) {
+        if (resources_register_int(resources_int_port2) < 0) {
+            return -1;
+        }
+    }
+#endif
+
     /* use old function for now */
     return old_tapeport_resources_init();
 }

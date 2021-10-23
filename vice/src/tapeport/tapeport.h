@@ -133,8 +133,9 @@ typedef struct tapeport_device_s {
 
     /* Snapshot read */
     int (*read_snapshot)(struct snapshot_s *s, int port);
-
 } tapeport_device_t;
+
+extern int tapeport_device_register(int id, tapeport_device_t *device);
 
 /* This is the OLD tapeport snapshot struct */
 typedef struct old_tapeport_snapshot_s {
@@ -161,7 +162,7 @@ extern void tapeport_set_motor(int port, int flag);
 extern void tapeport_toggle_write_bit(int port, int write_bit);
 extern void tapeport_set_sense_out(int port, int sense);
 
-extern void old_tapeport_reset(void);
+extern void tapeport_reset(void);
 
 extern void old_tapeport_trigger_flux_change(unsigned int on, int id);
 extern void old_tapeport_set_tape_sense(int sense, int id);
@@ -169,11 +170,23 @@ extern void old_tapeport_set_tape_sense(int sense, int id);
 extern void old_tapeport_set_write_in(int val, int id);
 extern void old_tapeport_set_motor_in(int val, int id);
 
+extern void tapeport_trigger_flux_change(unsigned int on, int port);
+extern void tapeport_set_tape_sense(int sense, int port);
+extern void tapeport_set_write_in(int val, int port);
+extern void tapeport_set_motor_in(int val, int port);
+
 extern int tapeport_resources_init(void);
 extern void tapeport_resources_shutdown(void);
 extern int tapeport_cmdline_options_init(void);
 
 extern void tapeport_enable(int val);
+
+typedef struct tapeport_desc_s {
+    char *name;
+    int id;
+} tapeport_desc_t;
+
+extern tapeport_desc_t *tapeport_get_valid_devices(void);
 
 extern int tapeport_snapshot_write_module(struct snapshot_s *s, int save_image);
 extern int tapeport_snapshot_read_module(struct snapshot_s *s);
