@@ -24,6 +24,8 @@
  *
  */
 
+/* #define FSDRIVE_DEBUG */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -46,8 +48,7 @@
  * serial/serial-trap.c corresponds somewhat with serial-iec-bus.c when
  * kernel traps are in use.
  */
-/* #define FSDRIVE_DEBUG */
-#define FSDRIVE_DEBUG
+
 #ifdef FSDRIVE_DEBUG
 #define DBG(_x_)        log_debug _x_
 #else
