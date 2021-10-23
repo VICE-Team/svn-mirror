@@ -448,7 +448,7 @@ void cmdline_log_active(void)
             lib_free(cmd); /* free old pointer */
         }
     }
-    log_message(LOG_DEFAULT, "reconstructed commandline options (might be incomplete):");
-    log_message(LOG_DEFAULT, "%s", cmdline);
+    log_message(LOG_DEFAULT, "\nreconstructed commandline options (might be incomplete):");
+    log_message(LOG_DEFAULT, "%s\n", cmdline);
     lib_free(cmdline);
 }
