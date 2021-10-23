@@ -140,7 +140,7 @@ static const resource_int_t resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
-int tape_diag_586220_harness_resources_init(void)
+int tape_diag_586220_harness_resources_init(int amount)
 {
     return resources_register_int(resources_int);
 }

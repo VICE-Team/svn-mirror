@@ -28,7 +28,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
+#include "cmdline.h"
 #include "cp-clockf83.h"
 #include "datasette.h"
 #include "dtl-basic-dongle.h"
@@ -40,6 +42,7 @@
 #include "tapecart.h"
 #include "tapeport.h"
 #include "uiapi.h"
+#include "util.h"
 
 static old_tapeport_device_list_t old_tapeport_head = { NULL, NULL, NULL };
 static old_tapeport_snapshot_list_t old_tapeport_snapshot_head = { NULL, NULL, NULL };
@@ -53,6 +56,8 @@ static int tapeport_current_device[TAPEPORT_MAX_PORTS] = { TAPEPORT_DEVICE_DATAS
 static int old_tapeport_devices = 0;
 
 static tapeport_device_t tapeport_device[TAPEPORT_MAX_DEVICES] = {0};
+
+static int tapeport_ports = 0;
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
@@ -612,46 +617,43 @@ static const resource_int_t resources_int_port2[] = {
     RESOURCE_INT_LIST_END
 };
 
-static int old_tapeport_resources_init(void)
+static int tapeport_device_resources_init(int amount)
 {
-    if (tapertc_resources_init() < 0) {
+    if (tapertc_resources_init(amount) < 0) {
         return -1;
     }
-    if (sense_dongle_resources_init() < 0) {
+    if (sense_dongle_resources_init(amount) < 0) {
         return -1;
     }
-    if (dtlbasic_dongle_resources_init() < 0) {
+    if (dtlbasic_dongle_resources_init(amount) < 0) {
         return -1;
     }
-    if (tapecart_resources_init() < 0) {
+    if (tapecart_resources_init(amount) < 0) {
         return -1;
     }
 
     return 0;
 }
 
-int tapeport_resources_init(void)
+int tapeport_resources_init(int amount)
 {
     memset(tapeport_device, 0, sizeof(tapeport_device));
     tapeport_device[0].name = "None";
+    tapeport_ports = amount;
 
-/* not used yet, will be used when tapeport port registering is added */
-#if 0
-    if (port_props[TAPEPORT_PORT_1].name) {
+    if (tapeport_ports >= 1) {
         if (resources_register_int(resources_int_port1) < 0) {
             return -1;
         }
     }
 
-    if (port_props[TAPEPORT_PORT_2].name) {
+    if (tapeport_ports >= 2) {
         if (resources_register_int(resources_int_port2) < 0) {
             return -1;
         }
     }
-#endif
 
-    /* use old function for now */
-    return old_tapeport_resources_init();
+    return tapeport_device_resources_init(amount);
 }
 
 static void old_tapeport_resources_shutdown(void)
@@ -679,7 +681,114 @@ void tapeport_resources_shutdown(void)
     old_tapeport_resources_shutdown();
 }
 
-static int old_tapeport_cmdline_options_init(void)
+/* ------------------------------------------------------------------------- */
+
+struct tapeport_opt_s {
+    const char *name;
+    int id;
+};
+
+static const struct tapeport_opt_s id_match[] = {
+    { "none",           TAPEPORT_DEVICE_NONE },
+    { "datasette",      TAPEPORT_DEVICE_DATASETTE },
+    { "casette",        TAPEPORT_DEVICE_DATASETTE },
+    { "tape",           TAPEPORT_DEVICE_DATASETTE },
+    { "tapecart",       TAPEPORT_DEVICE_TAPECART },
+#ifdef TAPEPORT_EXPERIMENTAL_DEVICES
+    { "harness",        TAPEPORT_DEVICE_TAPE_DIAG_586220_HARNESS },
+#endif
+    { "rtc",            TAPEPORT_DEVICE_CP_CLOCK_F83 },
+    { "sensedongle",    TAPEPORT_DEVICE_SENSE_DONGLE },
+    { "tapedongle",     TAPEPORT_DEVICE_SENSE_DONGLE },
+    { "playdongle",     TAPEPORT_DEVICE_SENSE_DONGLE },
+    { "dtl",            TAPEPORT_DEVICE_DTL_BASIC_DONGLE },
+    { "dtldongle",      TAPEPORT_DEVICE_DTL_BASIC_DONGLE },
+    { "dtlbasic",       TAPEPORT_DEVICE_DTL_BASIC_DONGLE },
+    { "dtlbasicdongle", TAPEPORT_DEVICE_DTL_BASIC_DONGLE },
+    { NULL, -1 }
+};
+
+static int is_a_number(const char *str)
+{
+    size_t i;
+    size_t len = strlen(str);
+
+    for (i = 0; i < len; i++) {
+        if (!isdigit(str[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int set_tapeport_cmdline_device(const char *param, void *extra_param)
+{
+    int temp = -1;
+    int i = 0;
+    int port = vice_ptr_to_int(extra_param);
+
+    if (!param) {
+        return -1;
+    }
+
+    do {
+        if (strcmp(id_match[i].name, param) == 0) {
+            temp = id_match[i].id;
+        }
+        i++;
+    } while ((temp == -1) && (id_match[i].name != NULL));
+
+    if (temp == -1) {
+        if (!is_a_number(param)) {
+            return -1;
+        }
+        temp = atoi(param);
+    }
+
+    return set_tapeport_device(temp, int_to_void_ptr(port));
+}
+
+/* ------------------------------------------------------------------------- */
+
+static char *build_tapeport_string(int port)
+{
+    int i = 0;
+    char *tmp1;
+    char *tmp2;
+    char number[4];
+    tapeport_desc_t *devices = tapeport_get_valid_devices();
+
+    tmp1 = lib_msprintf("Set Tapeport %d device (0: None", port);
+
+    for (i = 1; devices[i].name; ++i) {
+        sprintf(number, "%d", devices[i].id);
+        tmp2 = util_concat(tmp1, ", ", number, ": ", devices[i].name, NULL);
+        lib_free(tmp1);
+        tmp1 = tmp2;
+    }
+    tmp2 = util_concat(tmp1, ")", NULL);
+    lib_free(tmp1);
+    lib_free(devices);
+    return tmp2;
+}
+
+static cmdline_option_t cmdline_options_port1[] =
+{
+    { "-tapeport1device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_tapeport_cmdline_device, (void *)TAPEPORT_PORT_1, NULL, NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+
+static cmdline_option_t cmdline_options_port2[] =
+{
+    { "-tapeport2device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
+      set_tapeport_cmdline_device, (void *)TAPEPORT_PORT_2, NULL, NULL,
+      "Device", NULL },
+    CMDLINE_LIST_END
+};
+
+static int tapeport_devices_cmdline_options_init(void)
 {
     if (tapertc_cmdline_options_init() < 0) {
         return -1;
@@ -702,8 +811,27 @@ static int old_tapeport_cmdline_options_init(void)
 
 int tapeport_cmdline_options_init(void)
 {
-    /* use old function for now */
-    return old_tapeport_cmdline_options_init();
+    union char_func cf;
+
+    if (tapeport_ports >= 1) {
+        cf.f = build_tapeport_string;
+        cmdline_options_port1[0].description = cf.c;
+        cmdline_options_port1[0].attributes |= (TAPEPORT_PORT_1 << 8);
+        if (cmdline_register_options(cmdline_options_port1) < 0) {
+            return -1;
+        }
+    }
+
+    if (tapeport_ports >= 2) {
+        cf.f = build_tapeport_string;
+        cmdline_options_port1[0].description = cf.c;
+        cmdline_options_port1[0].attributes |= (TAPEPORT_PORT_2 << 8);
+        if (cmdline_register_options(cmdline_options_port2) < 0) {
+            return -1;
+        }
+    }
+
+    return tapeport_devices_cmdline_options_init();
 }
 
 void tapeport_enable(int val)

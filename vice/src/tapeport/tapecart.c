@@ -445,7 +445,7 @@ static const resource_string_t resources_string[] = {
     RESOURCE_STRING_LIST_END
 };
 
-int tapecart_resources_init(void)
+int tapecart_resources_init(int amount)
 {
     old_tapeport_snapshot_register(&tapecart_snapshot);
 

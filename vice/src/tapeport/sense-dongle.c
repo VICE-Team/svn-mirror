@@ -103,7 +103,7 @@ static const resource_int_t resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
-int sense_dongle_resources_init(void)
+int sense_dongle_resources_init(int amount)
 {
     old_tapeport_snapshot_register(&sense_dongle_snapshot);
 
