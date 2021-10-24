@@ -155,34 +155,6 @@ static resource_int_t resources_chip_scan[] =
     RESOURCE_INT_LIST_END
 };
 
-static int set_hwscale_enabled(int val, void *param)
-{
-#ifdef HAVE_HWSCALE
-    video_canvas_t *canvas = (video_canvas_t *)param;
-
-    if (val
-        && !canvas->videoconfig->hwscale)
-    {
-        log_message(LOG_DEFAULT, "HW scale not available, forcing to disabled");
-        return 0;
-    }
-
-    canvas->videoconfig->hwscale = val ? 1 : 0;
-    canvas->videoconfig->color_tables.updated = 0;
-
-    video_viewport_resize(canvas, 1);
-#endif
-    return 0;
-}
-
-static const char * const vname_chip_hwscale[] = { "HwScale", NULL };
-
-static resource_int_t resources_chip_hwscale[] =
-{
-    { NULL, 1, RES_EVENT_NO, NULL, NULL, set_hwscale_enabled, NULL },
-    RESOURCE_INT_LIST_END
-};
-
 static int set_chip_rendermode(int val, void *param)
 {
     char *chip, *dsize;
@@ -656,23 +628,6 @@ int video_resources_chip_init(const char *chipname,
             lib_free(resources_chip_scan[0].name);
         } else {
             set_double_scan_enabled(0, (void *)*canvas);
-        }
-    }
-
-    if (video_chip_cap->hwscale_allowed != 0) {
-        if (machine_class != VICE_MACHINE_VSID) {
-            resources_chip_hwscale[0].name
-                = util_concat(chipname, vname_chip_hwscale[0], NULL);
-            resources_chip_hwscale[0].value_ptr
-                = &((*canvas)->videoconfig->hwscale);
-            resources_chip_hwscale[0].param = (void *)*canvas;
-            if (resources_register_int(resources_chip_hwscale) < 0) {
-                return -1;
-            }
-
-            lib_free(resources_chip_hwscale[0].name);
-        } else {
-            set_hwscale_enabled(0, (void *)*canvas);
         }
     }
 

@@ -14000,11 +14000,6 @@ Integer specifying which joystick device the emulator should use for the emulati
 Integer specifying the fullscreen mode
 (xcbm2 and xpet only).
 
-@vindex CrtcHwScale
-@item CrtcHwScale
-Boolean specifying whether to enable or disable hardware scaling
-(xcbm2 and xpet only).
-
 @vindex CrtcFullscreenDevice
 @item CrtcFullscreenDevice
 String specifying the fullscreen device
@@ -14023,11 +14018,6 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 @vindex TEDSDLFullscreenMode
 @item TEDSDLFullscreenMode
 Integer specifying the fullscreen mode
-(xplus4 only).
-
-@vindex TEDHwScale
-@item TEDHwScale
-Boolean specifying whether to enable or disable hardware scaling
 (xplus4 only).
 
 @vindex TEDFullscreenDevice
@@ -14050,11 +14040,6 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 Integer specifying the fullscreen mode
 (x128 only).
 
-@vindex VDCHwScale
-@item VDCHwScale
-Boolean specifying whether to enable or disable hardware scaling
-(x128 only).
-
 @vindex VDCFullscreenDevice
 @item VDCFullscreenDevice
 String specifying the fullscreen device
@@ -14075,11 +14060,6 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 Integer specifying the fullscreen mode
 (xvic only).
 
-@vindex VICHwScale
-@item VICHwScale
-Boolean specifying whether to enable or disable hardware scaling
-(xvic only).
-
 @vindex VICFullscreenDevice
 @item VICFullscreenDevice
 String specifying the fullscreen device
@@ -14098,11 +14078,6 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 @vindex VICIISDLFullscreenMode
 @item VICIISDLFullscreenMode
 Integer specifying the fullscreen mode
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-
-@vindex VICIIHwScale
-@item VICIIHwScale
-Boolean specifying whether to enable or disable hardware scaling
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreenDevice
@@ -14353,13 +14328,6 @@ Set the fullscreen mode
 (@code{CrtcSDLFullscreenMode})
 (xcbm2 and xpet only).
 
-@findex -CRTChwscale, +CRTChwscale
-@item -CRTChwscale
-@itemx +CRTChwscale
-Enable/Disable hardware scaling
-(@code{CrtcHwScale=1}, @code{CrtcHwScale=0})
-(xcbm2 and xpet only).
-
 @findex -CRTCfulldevice
 @item -CRTCfulldevice <device>
 Select fullscreen device
@@ -14377,13 +14345,6 @@ Enable/Disable fullscreen
 @item -TEDSDLfullmode <Mode>
 Set the fullscreen mode
 (@code{TEDSDLFullscreenMode})
-(xplus4 only).
-
-@findex -TEDhwscale, +TEDhwscale
-@item -TEDhwscale
-@itemx +TEDhwscale
-Enable/Disable hardware scaling
-(@code{TEDHwScale=1}, @code{TEDHwScale=0})
 (xplus4 only).
 
 @findex -TEDfulldevice
@@ -14405,13 +14366,6 @@ Set the fullscreen mode
 (@code{VDCSDLFullscreenMode})
 (x128 only).
 
-@findex -VDChwscale, +VDChwscale
-@item -VDChwscale
-@itemx +VDChwscale
-Enable/Disable hardware scaling
-(@code{VDCHwScale=1}, @code{VDCHwScale=1})
-(x128 only).
-
 @findex -VDCfulldevice
 @item -VDCfulldevice <device>
 Select fullscreen device
@@ -14431,13 +14385,6 @@ Set the fullscreen mode
 (@code{VICSDLFullscreenMode})
 (xvic only).
 
-@findex -VIChwscale, +VIChwscale
-@item -VIChwscale
-@item +VIChwscale
-Enable/Disable hardware scaling
-(@code{VICHwScale=1}, @code{VICHwScale=0})
-(xvic only).
-
 @findex -VICfulldevice
 @item -VICfulldevice <device>
 Select fullscreen device
@@ -14455,13 +14402,6 @@ Enable/Disable fullscreen
 @item -VICIISDLfullmode <Mode>
 Set the fullscreen mode
 (@code{VICIISDLFullscreenMode})
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-
-@findex -VICIIhwscale, +VICIIhwscale
-@item -VICIIhwscale
-@itemx +VICIIhwscale
-Enable/Disable hardware scaling
-(@code{VICIIHwScale=1}, @code{VICIIHwScale=0})
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @findex -VICIIfulldevice
@@ -14627,11 +14567,6 @@ Integers specifying the position and size of the (first) emulator window
 Integers specifying the position and size of the (second) emulator window
 (x128 only).
 
-@vindex CrtcHwScale
-@item CrtcHwScale
-Boolean specifying whether to enable or disable hardware scaling
-(xcbm2 and xpet only).
-
 @vindex CrtcFullscreenDevice
 @item CrtcFullscreenDevice
 String specifying the fullscreen device
@@ -14646,11 +14581,6 @@ Boolean specifying whether to use fullscreen mode or not
 @item CrtcFullscreenStatusbar
 Boolean specifying whether to show the status bar in fullscreen mode or not
 (xcbm2 and xpet only).
-
-@vindex TEDHwScale
-@item TEDHwScale
-Boolean specifying whether to enable or disable hardware scaling
-(xplus4 only).
 
 @vindex TEDFullscreenDevice
 @item TEDFullscreenDevice
@@ -14667,11 +14597,6 @@ Boolean specifying whether to use fullscreen mode or not
 Boolean specifying whether to show the status bar in fullscreen mode or not
 (xplus4 only).
 
-@vindex VDCHwScale
-@item VDCHwScale
-Boolean specifying whether to enable or disable hardware scaling
-(x128 only).
-
 @vindex VDCFullscreenDevice
 @item VDCFullscreenDevice
 String specifying the fullscreen device
@@ -14687,11 +14612,6 @@ Boolean specifying whether to use fullscreen mode or not
 Boolean specifying whether to show the status bar in fullscreen mode or not
 (x128 only).
 
-@vindex VICHwScale
-@item VICHwScale
-Boolean specifying whether to enable or disable hardware scaling
-(xvic only).
-
 @vindex VICFullscreenDevice
 @item VICFullscreenDevice
 String specifying the fullscreen device
@@ -14706,11 +14626,6 @@ Boolean specifying whether to use fullscreen mode or not
 @item VICFullscreenStatusbar
 Boolean specifying whether to show the status bar in fullscreen mode or not
 (xvic only).
-
-@vindex VICIIHwScale
-@item VICIIHwScale
-Boolean specifying whether to enable or disable hardware scaling
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreenDevice
 @item VICIIFullscreenDevice
@@ -14878,25 +14793,11 @@ Enable/disable fullscreen mode
 @itemx +fullscreen-decorations
 Enable/disable fullscreen decorations
 
-@findex -CRTChwscale, +CRTChwscale
-@item -CRTChwscale
-@itemx +CRTChwscale
-Enable/Disable hardware scaling
-(@code{CrtcHwScale=1}, @code{CrtcHwScale=0})
-(xcbm2 and xpet only).
-
 @findex -CRTCfulldevice
 @item -CRTCfulldevice <device>
 Select fullscreen device
 (@code{CrtcFullscreenDevice})
 (xcbm2 and xpet only).
-
-@findex -TEDhwscale, +TEDhwscale
-@item -TEDhwscale
-@itemx +TEDhwscale
-Enable/Disable hardware scaling
-(@code{TEDHwScale=1}, @code{TEDHwScale=0})
-(xplus4 only).
 
 @findex -TEDfulldevice
 @item -TEDfulldevice <device>
@@ -14904,32 +14805,11 @@ Select fullscreen device
 (@code{TEDFullscreenDevice})
 (xplus4 only).
 
-@findex -VDChwscale, +VDChwscale
-@item -VDChwscale
-@itemx +VDChwscale
-Enable/Disable hardware scaling
-(@code{VDCHwScale=1}, @code{VDCHwScale=1})
-(x128 only).
-
-@findex -VIChwscale, +VIChwscale
-@item -VIChwscale
-@item +VIChwscale
-Enable/Disable hardware scaling
-(@code{VICHwScale=1}, @code{VICHwScale=0})
-(xvic only).
-
 @findex -VICfulldevice
 @item -VICfulldevice <device>
 Select fullscreen device
 (@code{VICFullscreenDevice})
 (xvic only).
-
-@findex -VICIIhwscale, +VICIIhwscale
-@item -VICIIhwscale
-@itemx +VICIIhwscale
-Enable/Disable hardware scaling
-(@code{VICIIHwScale=1}, @code{VICIIHwScale=0})
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @findex -VICIIfulldevice
 @item -VICIIfulldevice <device>

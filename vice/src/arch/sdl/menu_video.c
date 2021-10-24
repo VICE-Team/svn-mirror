@@ -402,13 +402,6 @@ static const ui_menu_entry_t filter_menu[] = {
     SDL_MENU_LIST_END
 };
 
-#ifndef USE_SDLUI2
-UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
-UI_MENU_DEFINE_TOGGLE(VDCHwScale)
-UI_MENU_DEFINE_TOGGLE(CrtcHwScale)
-UI_MENU_DEFINE_TOGGLE(TEDHwScale)
-UI_MENU_DEFINE_TOGGLE(VICHwScale)
-#endif
 UI_MENU_DEFINE_STRING(AspectRatio)
 UI_MENU_DEFINE_TOGGLE(SDLGLFlipX)
 UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
@@ -417,10 +410,6 @@ UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
 #define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)               \
     SDL_MENU_ITEM_SEPARATOR,                                \
     SDL_MENU_ITEM_TITLE("OpenGL"),                          \
-    { "OpenGL free scaling",                                \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_##chip##HwScale_callback,                      \
-      NULL },                                               \
     { "Fixed aspect ratio",                                 \
       MENU_ENTRY_SUBMENU,                                   \
       submenu_radio_callback,                               \

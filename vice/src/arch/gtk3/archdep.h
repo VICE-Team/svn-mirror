@@ -38,19 +38,14 @@
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE   1     /**< VICII double size */
 #define ARCHDEP_VICII_DSCAN   1     /**< VICII double scan */
-#define ARCHDEP_VICII_HWSCALE 1     /**< VICII hardware scaling */
 #define ARCHDEP_VDC_DSIZE     1     /**< VDC double size */
 #define ARCHDEP_VDC_DSCAN     1     /**< VDC double scan */
-#define ARCHDEP_VDC_HWSCALE   1     /**< VDC hardware scaling */
 #define ARCHDEP_VIC_DSIZE     1     /**< VIC double size */
 #define ARCHDEP_VIC_DSCAN     1     /**< VIC double scan */
-#define ARCHDEP_VIC_HWSCALE   1     /**< VIC hardware scaling */
 #define ARCHDEP_CRTC_DSIZE    1     /**< CRTC double size */
 #define ARCHDEP_CRTC_DSCAN    1     /**< CRTC double scan */
-#define ARCHDEP_CRTC_HWSCALE  1     /**< CRTC hardware scaling */
 #define ARCHDEP_TED_DSIZE     1     /**< TED double size */
 #define ARCHDEP_TED_DSCAN     1     /**< TED double scan */
-#define ARCHDEP_TED_HWSCALE   1     /**< TED hardware scaling */
 
 /* Video chip double buffering.  */
 #define ARCHDEP_VICII_DBUF 0        /**< VICII double buffering */

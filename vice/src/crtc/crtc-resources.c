@@ -100,7 +100,6 @@ int crtc_resources_init(void)
     video_chip_cap.dsize_limit_width = 800; /* 2 times the 80cols screen */
     video_chip_cap.dsize_limit_height = 700; /* 4 times the 80cols screen */
     video_chip_cap.dscan_allowed = ARCHDEP_CRTC_DSCAN;
-    video_chip_cap.hwscale_allowed = ARCHDEP_CRTC_HWSCALE;
     video_chip_cap.external_palette_name = "green";
     video_chip_cap.double_buffering_allowed = ARCHDEP_CRTC_DBUF;
     fullscreen_capability(&(video_chip_cap.fullscreen));
