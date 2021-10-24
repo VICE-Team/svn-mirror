@@ -635,8 +635,8 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
             er = vdrive_command_memory_read(vdrive, &fsdevice_dev[dnr].cmdbuf[5], addr, length);
             /* don't set status for M-R, return memory data */
             length = fsdevice_dev[dnr].cmdbuf[5];
-            memcpy(fsdevice_dev[dnr].errorl, p->buffer, length);
-            fsdevice_dev[dnr].elen = length;
+            memcpy(fsdevice_dev[dnr].errorl, p->buffer, length + 1);
+            fsdevice_dev[dnr].elen = length + 1;
             fsdevice_dev[dnr].eptr = 0;
         } else if (fsdevice_dev[dnr].cmdbuf[2] == 'W') {
             er = vdrive_command_memory_write(vdrive, &fsdevice_dev[dnr].cmdbuf[5], addr, length);
