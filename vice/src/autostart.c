@@ -74,6 +74,7 @@
 #include "snapshot.h"
 #include "tape.h"
 #include "tapecart.h"
+#include "tapeport.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -1972,7 +1973,7 @@ static void set_tapeport_device(int datasette, int tapecart)
     if (resources_set_int("Datasette", 0) < 0) {
         log_error(LOG_ERR, "Failed to disable the Datasette.");
     }
-    if (resources_set_int("TapecartEnabled", 0) < 0) {
+    if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_NONE) < 0) {
         log_error(LOG_ERR, "Failed to disable the Tapecart.");
     }
     /* now enable the one we want to enable */
@@ -1982,7 +1983,7 @@ static void set_tapeport_device(int datasette, int tapecart)
         }
     }
     if (tapecart) {
-        if (resources_set_int("TapecartEnabled", 1) < 0) {
+        if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_TAPECART) < 0) {
             log_error(LOG_ERR, "Failed to enable the Tapecart.");
         }
     }

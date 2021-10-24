@@ -166,6 +166,7 @@ int tapeport_device_register(int id, tapeport_device_t *device)
     tapeport_device[id].name = device->name;
     tapeport_device[id].enable = device->enable;
     tapeport_device[id].reset = device->reset;
+    tapeport_device[id].shutdown = device->shutdown;
     tapeport_device[id].set_motor = device->set_motor;
     tapeport_device[id].toggle_write_bit = device->toggle_write_bit;
     tapeport_device[id].set_sense_out = device->set_sense_out;
@@ -677,6 +678,18 @@ static void old_tapeport_resources_shutdown(void)
 
 void tapeport_resources_shutdown(void)
 {
+    int i;
+
+    if (tapeport_active) {
+        for (i = 0; i < TAPEPORT_MAX_DEVICES; i++) {
+            if (tapeport_device[i].name) {
+                if (tapeport_device[i].shutdown) {
+                    tapeport_device[i].shutdown();
+                }
+            }
+        }
+    }
+
     /* use old function for now */
     old_tapeport_resources_shutdown();
 }
