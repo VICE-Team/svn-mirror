@@ -37,11 +37,56 @@
 #include "lib.h"
 #include "menu_common.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "ui.h"
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "uimsgbox.h"
 #include "util.h"
+
+UI_MENU_DEFINE_RADIO(TapePort1Device)
+
+static ui_menu_entry_t tapeport_dyn_menu[TAPEPORT_MAX_DEVICES + 1];
+
+static int tapeport_dyn_menu_init = 0;
+
+static void sdl_menu_tapeport_free(void)
+{
+    int i;
+
+    for (i = 0; tapeport_dyn_menu[i].string != NULL; i++) {
+        lib_free(tapeport_dyn_menu[i].string);
+    }
+}
+
+static UI_MENU_CALLBACK(TapePort1Device_dynmenu_callback)
+{
+    tapeport_desc_t *devices = tapeport_get_valid_devices();
+    int i;
+
+    /* rebuild menu if it already exists. */
+    if (tapeport_dyn_menu_init != 0) {
+        sdl_menu_tapeport_free();
+    } else {
+        tapeport_dyn_menu_init = 1;
+    }
+
+    for (i = 0; devices[i].name; ++i) {
+        tapeport_dyn_menu[i].string = (char *)lib_strdup(devices[i].name);
+        tapeport_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
+        tapeport_dyn_menu[i].callback = radio_TapePort1Device_callback;
+        tapeport_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+    }
+
+    tapeport_dyn_menu[i].string = NULL;
+    tapeport_dyn_menu[i].type = 0;
+    tapeport_dyn_menu[i].callback = NULL;
+    tapeport_dyn_menu[i].data = NULL;
+
+    lib_free(devices);
+
+    return MENU_SUBMENU_STRING;
+}
 
 static UI_MENU_CALLBACK(attach_tape_callback)
 {
@@ -185,14 +230,9 @@ const ui_menu_entry_t tape_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(CPClockF83)
 UI_MENU_DEFINE_TOGGLE(CPClockF83Save)
 
 const ui_menu_entry_t cpclockf83_device_menu[] = {
-    { "CP Clock F83 device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CPClockF83_callback,
-      NULL },
     { "Save CP Clock F83 RTC data when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CPClockF83Save_callback,
@@ -204,7 +244,6 @@ const ui_menu_entry_t cpclockf83_device_menu[] = {
 /*
  * tapecart support (see https://github.com/ikorb/tapecart/)
  */
-UI_MENU_DEFINE_TOGGLE(TapecartEnabled)
 UI_MENU_DEFINE_TOGGLE(TapecartUpdateTCRT)
 UI_MENU_DEFINE_TOGGLE(TapecartOptimizeTCRT)
 UI_MENU_DEFINE_INT(TapecartLoglevel)
@@ -226,12 +265,7 @@ static UI_MENU_CALLBACK(tapecart_flush_callback)
     return NULL;
 }
 
-
 const ui_menu_entry_t tapecart_submenu[] = {
-    { "Enable tapecart",
-        MENU_ENTRY_RESOURCE_TOGGLE,
-        toggle_TapecartEnabled_callback,
-        NULL },
     { "Save tapecart data when changed",
         MENU_ENTRY_RESOURCE_TOGGLE,
         toggle_TapecartUpdateTCRT_callback,
@@ -255,31 +289,18 @@ const ui_menu_entry_t tapecart_submenu[] = {
     SDL_MENU_LIST_END
 };
 
-
-UI_MENU_DEFINE_TOGGLE(Datasette)
-UI_MENU_DEFINE_TOGGLE(TapeSenseDongle)
-UI_MENU_DEFINE_TOGGLE(DTLBasicDongle)
-
 const ui_menu_entry_t tapeport_devices_menu[] = {
-    { "Datasette device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Datasette_callback,
-      NULL },
-    { "Tape sense dongle device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TapeSenseDongle_callback,
-      NULL },
-    { "DTL Basic dongle device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DTLBasicDongle_callback,
-      NULL },
+    { "Tapeport devices",
+      MENU_ENTRY_DYNAMIC_SUBMENU,
+      TapePort1Device_dynmenu_callback,
+      (ui_callback_data_t)tapeport_dyn_menu },
     { "CP Clock F83 device settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)cpclockf83_device_menu },
     { "tapecart device settings",
-        MENU_ENTRY_SUBMENU,
-        submenu_callback,
-        (ui_callback_data_t)tapecart_submenu },
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tapecart_submenu },
     SDL_MENU_LIST_END
 };
