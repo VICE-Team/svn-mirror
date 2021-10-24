@@ -134,6 +134,11 @@ static GtkListStore *create_model(const char *path)
     if (path == NULL) {
         return model;
     }
+    /* don't try to read from a directory: avoid error messages from
+     * vdrive/fsimage */
+    if (g_file_test(path, G_FILE_TEST_IS_DIR)) {
+        return model;
+    }
 
     if (content_func == NULL) {
         log_error(LOG_ERR, "no content-get function specified, bailing!");
