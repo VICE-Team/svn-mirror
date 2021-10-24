@@ -99,7 +99,7 @@ static tapeport_device_t dtlbasic_dongle_device = {
     NULL,                    /* NO device shutdown function */
     NULL,                    /* NO set motor line function */
     dtlbasic_write,          /* set write line function */
-    NULL,                    /* NO set sense line function */
+    dtlbasic_sense_out,      /* set sense line function */
     NULL,                    /* NO set read line function */
     dtlbasic_write_snapshot, /* device snapshot write function */
     dtlbasic_read_snapshot   /* device snapshot read function */
