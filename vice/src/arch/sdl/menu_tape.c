@@ -61,7 +61,7 @@ static void sdl_menu_tapeport_free(void)
 
 static UI_MENU_CALLBACK(TapePort1Device_dynmenu_callback)
 {
-    tapeport_desc_t *devices = tapeport_get_valid_devices();
+    tapeport_desc_t *devices = tapeport_get_valid_devices(1);
     int i;
 
     /* rebuild menu if it already exists. */

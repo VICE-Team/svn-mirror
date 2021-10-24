@@ -66,6 +66,7 @@ static int tapertc_enable(int port, int val);
 
 static tapeport_device_t tapertc_device = {
     "Tape RTC (PCF8583)",       /* device name */
+    TAPEPORT_DEVICE_TYPE_RTC,   /* device is an 'RTC' type device */
     tapertc_enable,             /* device enable function */
     NULL,                       /* NO device specific reset function */
     tapertc_resources_shutdown, /* device shutdown function */

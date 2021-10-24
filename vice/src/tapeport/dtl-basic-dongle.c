@@ -93,16 +93,17 @@ static int dtlbasic_read_snapshot(int port, struct snapshot_s *s);
 static int dtlbasic_enable(int port, int val);
 
 static tapeport_device_t dtlbasic_dongle_device = {
-    "DTL BASIC dongle",      /* device name */
-    dtlbasic_enable,         /* device enable function */
-    dtlbasic_reset,          /* device specific reset function */
-    NULL,                    /* NO device shutdown function */
-    NULL,                    /* NO set motor line function */
-    dtlbasic_write,          /* set write line function */
-    dtlbasic_sense_out,      /* set sense line function */
-    NULL,                    /* NO set read line function */
-    dtlbasic_write_snapshot, /* device snapshot write function */
-    dtlbasic_read_snapshot   /* device snapshot read function */
+    "DTL BASIC dongle",          /* device name */
+    TAPEPORT_DEVICE_TYPE_DONGLE, /* device is a 'dongle' type device */
+    dtlbasic_enable,             /* device enable function */
+    dtlbasic_reset,              /* device specific reset function */
+    NULL,                        /* NO device shutdown function */
+    NULL,                        /* NO set motor line function */
+    dtlbasic_write,              /* set write line function */
+    dtlbasic_sense_out,          /* set sense line function */
+    NULL,                        /* NO set read line function */
+    dtlbasic_write_snapshot,     /* device snapshot write function */
+    dtlbasic_read_snapshot       /* device snapshot read function */
 };
 
 
