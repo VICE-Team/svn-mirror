@@ -1970,15 +1970,12 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name,
 static void set_tapeport_device(int datasette, int tapecart)
 {
     /* first disable all devices, so we dont get any conflicts */
-    if (resources_set_int("Datasette", 0) < 0) {
-        log_error(LOG_ERR, "Failed to disable the Datasette.");
-    }
     if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_NONE) < 0) {
         log_error(LOG_ERR, "Failed to disable the Tapecart.");
     }
     /* now enable the one we want to enable */
     if (datasette) {
-        if (resources_set_int("Datasette", 1) < 0) {
+        if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_DATASETTE) < 0) {
             log_error(LOG_ERR, "Failed to enable the Datasette.");
         }
     }
