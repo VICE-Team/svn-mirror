@@ -35,4 +35,6 @@
 extern const ui_menu_entry_t tape_menu[];
 extern const ui_menu_entry_t tapeport_devices_menu[];
 
+extern void uitapeport_menu_shutdown(void);
+
 #endif

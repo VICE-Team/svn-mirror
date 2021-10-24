@@ -304,3 +304,10 @@ const ui_menu_entry_t tapeport_devices_menu[] = {
       (ui_callback_data_t)tapecart_submenu },
     SDL_MENU_LIST_END
 };
+
+void uitapeport_menu_shutdown(void)
+{
+    if (tapeport_dyn_menu_init) {
+        sdl_menu_tapeport_free();
+    }
+}

@@ -268,6 +268,7 @@ void c64ui_shutdown(void)
     uijoyport_menu_shutdown();
     uijoystick_menu_shutdown();
     uiuserport_menu_shutdown();
+    uitapeport_menu_shutdown();
 
 #ifdef HAVE_MIDI
     sdl_menu_midi_in_free();

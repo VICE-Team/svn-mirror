@@ -275,6 +275,7 @@ void cbm2ui_shutdown(void)
     uipalette_menu_shutdown();
     uisid_menu_shutdown();
     uijoyport_menu_shutdown();
+    uitapeport_menu_shutdown();
     uijoystick_menu_shutdown();
 
     sdl_ui_font_shutdown();
