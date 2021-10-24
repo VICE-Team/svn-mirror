@@ -807,10 +807,6 @@ static int tapeport_devices_cmdline_options_init(void)
         return -1;
     }
 
-    if (sense_dongle_cmdline_options_init() < 0) {
-        return -1;
-    }
-
     if (dtlbasic_dongle_cmdline_options_init() < 0) {
         return -1;
     }
