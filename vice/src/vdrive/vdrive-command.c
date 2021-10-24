@@ -51,6 +51,9 @@
 #include "vdrive-rel.h"
 #include "vdrive.h"
 #include "diskconstants.h"
+#include "serial.h"
+
+#define VDRIVE_IS_IMAGE(a) (serial_device_type_get(a->unit - 8) == SERIAL_DEVICE_VIRT)
 
 #define IP_MAX_COMMAND_LEN 128 /* real 58 */
 
@@ -3550,6 +3553,12 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
         vdrive->ram[(addr + i) & 0x7fff] = buf[1 + i];
     }
 
+    /* Since FSDEVICE uses this command, we need to make sure we are using
+      an actual disc image before proceeding. */
+    if (!VDRIVE_IS_IMAGE(vdrive)) {
+        goto out;
+    }
+
     /* support only FD series */
     if (!VDRIVE_IS_FD(vdrive)) {
         goto out;
@@ -3723,7 +3732,7 @@ int vdrive_command_memory_read(vdrive_t *vdrive, const uint8_t *buf, uint16_t ad
     }
 
     /* support only FD series for FD-TOOLS */
-    if (VDRIVE_IS_FD(vdrive)) {
+    if (VDRIVE_IS_FD(vdrive) && VDRIVE_IS_IMAGE(vdrive)) {
         if (addr == 0xfea0 && len == 6) {
             memcpy(p->buffer, "CMD FD", 6);
             goto out;
