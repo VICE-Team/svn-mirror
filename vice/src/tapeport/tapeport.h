@@ -51,60 +51,6 @@ enum {
     TAPEPORT_MAX_PORTS
 };
 
-/* This struct is used by the OLD tapeport devices */
-typedef struct old_tapeport_device_s {
-    /* id of the device */
-    int device_id;
-
-    /* Name of the device */
-    char *name;
-
-    /* id number of attached device, used for the order of the devices */
-    int id;
-
-    /* resource of the device, used for detaching when reading snapshots */
-    char *resource;
-
-    /* shutdown device */
-    void (*shutdown)(void);
-
-    /* reset device */
-    void (*reset)(void);
-
-    /* set motor line */
-    void (*set_motor)(int flag);
-
-    /* set write line */
-    void (*toggle_write_bit)(int write_bit);
-
-    /* set sense line */
-    void (*set_sense_out)(int sense);
-
-    /* set read line */
-    void (*set_read_out)(int val);
-
-    /* read line change on passthrough port, NULL if no passthrough port present */
-    void (*trigger_flux_change_passthrough)(unsigned int on);
-
-    /* sense line change on passthrough port, NULL if no passthrough port present */
-    void (*set_tape_sense_passthrough)(int sense);
-
-    /* write in line change on passthrough port, NULL if no passthrough port present */
-    void (*set_tape_write_in_passthrough)(int val);
-
-    /* motor in line change on passthrough port, NULL if no passthrough port present */
-    void (*set_tape_motor_in_passthrough)(int sense);
-} old_tapeport_device_t;
-
-typedef struct old_tapeport_device_list_s {
-    struct old_tapeport_device_list_s *previous;
-    old_tapeport_device_t *device;
-    struct old_tapeport_device_list_s *next;
-} old_tapeport_device_list_t;
-
-extern old_tapeport_device_list_t *old_tapeport_device_register(old_tapeport_device_t *device);
-extern void old_tapeport_device_unregister(old_tapeport_device_list_t *device);
-
 /* This struct holds all the information about the tapeport devices */
 typedef struct tapeport_device_s {
     /* Name of the device */
@@ -140,38 +86,11 @@ typedef struct tapeport_device_s {
 
 extern int tapeport_device_register(int id, tapeport_device_t *device);
 
-/* This is the OLD tapeport snapshot struct */
-typedef struct old_tapeport_snapshot_s {
-    /* id of the device */
-    int id;
-
-    /* Write snapshot */
-    int (*write_snapshot)(struct snapshot_s *s, int write_image);
-
-    /* Read snapshot */
-    int (*read_snapshot)(struct snapshot_s *s);
-} old_tapeport_snapshot_t;
-
-/* This is the OLD tapeport double linked list */
-typedef struct old_tapeport_snapshot_list_s {
-    struct old_tapeport_snapshot_list_s *previous;
-    old_tapeport_snapshot_t *snapshot;
-    struct old_tapeport_snapshot_list_s *next;
-} old_tapeport_snapshot_list_t;
-
-extern void old_tapeport_snapshot_register(old_tapeport_snapshot_t *snapshot);
-
 extern void tapeport_set_motor(int port, int flag);
 extern void tapeport_toggle_write_bit(int port, int write_bit);
 extern void tapeport_set_sense_out(int port, int sense);
 
 extern void tapeport_reset(void);
-
-extern void old_tapeport_trigger_flux_change(unsigned int on, int id);
-extern void old_tapeport_set_tape_sense(int sense, int id);
-
-extern void old_tapeport_set_write_in(int val, int id);
-extern void old_tapeport_set_motor_in(int val, int id);
 
 extern void tapeport_trigger_flux_change(unsigned int on, int port);
 extern void tapeport_set_tape_sense(int sense, int port);
