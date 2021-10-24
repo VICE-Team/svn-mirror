@@ -29,6 +29,7 @@
 #include "uidatasette.h"
 #include "datasette.h"
 #include "resources.h"
+#include "tapeport.h"
 #include "uitapeattach.h"
 #include "uisettings.h"
 
@@ -128,7 +129,7 @@ void ui_datasette_update_sensitive(GtkWidget *menu)
     GList *children;
     GList *controls;
 
-    resources_get_int("Datasette", &datasette);
+    resources_get_int("TapePort1Device", &datasette);
 
     /* get all children of the menu */
     children = gtk_container_get_children(GTK_CONTAINER(menu));
@@ -137,7 +138,7 @@ void ui_datasette_update_sensitive(GtkWidget *menu)
 
     for (y = 0; y <= DATASETTE_CONTROL_RESET_COUNTER; y++) {
         GtkWidget *item = controls->data;
-        gtk_widget_set_sensitive(item, datasette);
+        gtk_widget_set_sensitive(item, datasette == TAPEPORT_DEVICE_DATASETTE);
         controls = g_list_next(controls);
     }
 
