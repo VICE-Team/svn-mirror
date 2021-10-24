@@ -185,33 +185,6 @@ const ui_menu_entry_t tape_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(TapeLog)
-UI_MENU_DEFINE_RADIO(TapeLogDestination)
-UI_MENU_DEFINE_FILE_STRING(TapeLogfilename)
-
-const ui_menu_entry_t tapelog_device_menu[] = {
-    { "Tapelog device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TapeLog_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("log messages destination"),
-    { "Generic emulator logfile",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TapeLogDestination_callback,
-      (ui_callback_data_t)0 },
-    { "User specified logfile",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TapeLogDestination_callback,
-      (ui_callback_data_t)1 },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "User specified logfile",
-      MENU_ENTRY_DIALOG,
-      file_string_TapeLogfilename_callback,
-      (ui_callback_data_t)"Select logfile" },
-    SDL_MENU_LIST_END
-};
-
 UI_MENU_DEFINE_TOGGLE(CPClockF83)
 UI_MENU_DEFINE_TOGGLE(CPClockF83Save)
 
@@ -300,10 +273,6 @@ const ui_menu_entry_t tapeport_devices_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DTLBasicDongle_callback,
       NULL },
-    { "Tape log device settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)tapelog_device_menu },
     { "CP Clock F83 device settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
