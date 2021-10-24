@@ -13959,12 +13959,12 @@ Boolean specifying whether the keyboard-status bar is enabled.
 @item SDL2Renderer
 String specifying the preferred SDL2 renderer.
 
-@vindex SDLWindowWidth
-@item SDLWindowWidth
+@vindex Window0Width
+@item Window0Width
 Integer specifying the SDL window width.
 
-@vindex SDLWindowHeight
-@item SDLWindowHeight
+@vindex Window0Height
+@item Window0Height
 Integer specifying the SDL window height.
 
 @vindex SDLGLFilter

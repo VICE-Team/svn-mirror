@@ -61,7 +61,8 @@ struct resource_int_s {
      */
     char *name;
 
-    /* Factory default value.  */
+    /* Factory default value.  This cannot be 'const' since in some cases the
+       value will be determined and set at runtime */
     int factory_value;
 
     /* Is the resource important for history recording or netplay? */

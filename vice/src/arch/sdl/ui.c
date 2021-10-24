@@ -705,7 +705,8 @@ static int set_start_minimized(int val, void *param)
 # endif
 #endif
 
-static const resource_int_t resources_int[] = {
+static resource_int_t resources_int[] = {
+    /* caution: position of menukeys is hardcoded below */
     { "MenuKey", DEFAULT_MENU_KEY, RES_EVENT_NO, NULL,
       &sdl_ui_menukeys[0], set_ui_menukey, (void *)MENU_ACTION_NONE },
     { "MenuKeyUp", SDLK_UP, RES_EVENT_NO, NULL,
@@ -752,14 +753,22 @@ void ui_sdl_quit(void)
             return;
         }
     }
-    
     archdep_vice_exit(0);
 }
 
 /* Initialization  */
 int ui_resources_init(void)
 {
+#ifdef USE_SDLUI2
+    int i;
+#endif
     DBG(("%s", __func__));
+#ifdef USE_SDLUI2
+    /* this converts the default keycodes as needed */
+    for (i = 0; i < 13; i++) {
+        resources_int[i].factory_value = SDL2x_to_SDL1x_Keys(resources_int[i].factory_value);
+    }
+#endif
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }

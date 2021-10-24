@@ -106,6 +106,7 @@ static const float sdl_gl_vertex_coord[4 * 4] = {
 
 static int sdl_gl_aspect_mode;
 static char *aspect_ratio_s = NULL;
+static char *aspect_ratio_factory_value_s = NULL;
 static double aspect_ratio;
 
 static int sdl_gl_flipx;
@@ -320,9 +321,10 @@ static int set_sdl_gl_filter(int v, void *param)
 }
 #endif /* HAVE_HWSCALE */
 
-static const resource_string_t resources_string[] = {
+static resource_string_t resources_string[] = {
 #if defined(HAVE_HWSCALE)
-    { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
+    /* CAUTION: position hardcoded below */
+    { "AspectRatio", NULL, RES_EVENT_NO, NULL,
       &aspect_ratio_s, set_aspect_ratio, NULL },
 #endif
     RESOURCE_STRING_LIST_END
@@ -340,6 +342,8 @@ static const resource_string_t resources_string[] = {
 #define SDLCUSTOMHEIGHT_DEFAULT  600
 #endif
 
+/* FIXME: more resources should have the same name as their GTK counterparts,
+          and the SDL prefix removed */
 static const resource_int_t resources_int[] = {
     { "SDLBitdepth", VICE_DEFAULT_BITDEPTH, RES_EVENT_NO, NULL,
       &sdl_bitdepth, set_sdl_bitdepth, NULL },
@@ -349,9 +353,9 @@ static const resource_int_t resources_int[] = {
       &sdl_custom_width, set_sdl_custom_width, NULL },
     { "SDLCustomHeight", SDLCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_custom_height, set_sdl_custom_height, NULL },
-    { "SDLWindowWidth", 0, RES_EVENT_NO, NULL,
+    { "Window0Width", 0, RES_EVENT_NO, NULL,
       &sdl_window_width, set_sdl_window_width, NULL },
-    { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,
+    { "Window0Height", 0, RES_EVENT_NO, NULL,
       &sdl_window_height, set_sdl_window_height, NULL },
 #if defined(HAVE_HWSCALE)
     { "SDLGLAspectMode", SDL_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
@@ -368,6 +372,9 @@ static const resource_int_t resources_int[] = {
 
 int video_arch_resources_init(void)
 {
+#if defined(HAVE_HWSCALE)
+    char buf[0x10];
+#endif
     DBG(("%s", __func__));
 
     if (machine_class == VICE_MACHINE_VSID) {
@@ -375,6 +382,14 @@ int video_arch_resources_init(void)
             return -1;
         }
     }
+
+#if defined(HAVE_HWSCALE)
+    /* KLUDGES: setup the factory default with a string, needs to be done at
+       runtime since float format depends on locale */
+    sprintf(buf, "%f", 1.0f);
+    util_string_set(&aspect_ratio_factory_value_s, buf);
+    resources_string[0].factory_value = aspect_ratio_factory_value_s;
+#endif
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
@@ -399,6 +414,8 @@ void video_arch_resources_shutdown(void)
 /* ------------------------------------------------------------------------- */
 /* Video-related command-line options.  */
 
+/* FIXME: more options should have the same name as their GTK counterparts,
+          and the SDL prefix removed */
 static const cmdline_option_t cmdline_options[] =
 {
     { "-sdlbitdepth", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -414,10 +431,10 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "SDLCustomHeight", NULL,
       "<height>", "Set custom resolution height" },
     { "-sdlinitialw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLWindowWidth", NULL,
+      NULL, NULL, "Window0Width", NULL,
       "<width>", "Set intiial window width" },
     { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLWindowHeight", NULL,
+      NULL, NULL, "Window0Height", NULL,
       "<height>", "Set intiial window height" },
 #if defined(HAVE_HWSCALE)
     { "-sdlaspectmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -780,8 +797,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
     if (canvas == sdl_active_canvas) {
         if (!fullscreen) {
-            resources_set_int("SDLWindowWidth", actual_width);
-            resources_set_int("SDLWindowHeight", actual_height);
+            resources_set_int("Window0Width", actual_width);
+            resources_set_int("Window0Height", actual_height);
         }
     }
 
@@ -1105,8 +1122,8 @@ void sdl_video_resize_event(unsigned int w, unsigned int h)
     }
     sdl_video_resize(w, h);
     if (!sdl_active_canvas->fullscreenconfig->enable) {
-        resources_set_int("SDLWindowWidth", sdl_active_canvas->actual_width);
-        resources_set_int("SDLWindowHeight", sdl_active_canvas->actual_height);
+        resources_set_int("Window0Width", sdl_active_canvas->actual_width);
+        resources_set_int("Window0Height", sdl_active_canvas->actual_height);
     }
 
 #endif /*  HAVE_HWSCALE */

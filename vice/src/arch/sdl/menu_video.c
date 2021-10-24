@@ -287,8 +287,8 @@ UI_MENU_DEFINE_INT(SDLCustomHeight)
 #ifndef USE_SDLUI2    
 UI_MENU_DEFINE_RADIO(SDLLimitMode)
 #endif
-UI_MENU_DEFINE_INT(SDLWindowWidth)
-UI_MENU_DEFINE_INT(SDLWindowHeight)
+UI_MENU_DEFINE_INT(Window0Width)
+UI_MENU_DEFINE_INT(Window0Height)
     
 
 #define VICE_SDL_SIZE_MENU_DOUBLESIZE(chip)         \
@@ -356,11 +356,11 @@ UI_MENU_DEFINE_INT(SDLWindowHeight)
     SDL_MENU_ITEM_TITLE("Initial resolution"),      \
     { "Width",                                      \
       MENU_ENTRY_RESOURCE_INT,                      \
-      int_SDLWindowWidth_callback,                  \
+      int_Window0Width_callback,                    \
       (ui_callback_data_t)"Set width" },            \
     { "Height",                                     \
       MENU_ENTRY_RESOURCE_INT,                      \
-      int_SDLWindowHeight_callback,                 \
+      int_Window0Height_callback,                   \
       (ui_callback_data_t)"Set height" },
 
 #define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
