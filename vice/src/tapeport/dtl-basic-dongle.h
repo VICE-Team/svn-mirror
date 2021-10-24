@@ -30,6 +30,5 @@
 #include "types.h"
 
 extern int dtlbasic_dongle_resources_init(int amount);
-extern int dtlbasic_dongle_cmdline_options_init(void);
 
 #endif
