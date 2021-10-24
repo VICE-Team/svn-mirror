@@ -70,6 +70,7 @@ static int tape_diag_586220_harness_enable(int port, int val);
 
 static tapeport_device_t tape_diag_586220_harness_device = {
     "Tape 586220 diagnostics harness module",  /* device name */
+    TAPEPORT_DEVICE_TYPE_HARNESS,              /* device is a 'harness' type device */
     tape_diag_586220_harness_enable,           /* device enable function */
     NULL,                                      /* NO device specific reset function */
     NULL,                                      /* NO device shutdown function */

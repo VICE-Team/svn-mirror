@@ -112,16 +112,17 @@ static int     load_tcrt(const char *filename, tapecart_memory_t *tcmem);
 static void    update_tcrt(void);
 
 static tapeport_device_t tapecart_device = {
-    "tapecart",              /* device name */
-    tapecart_enable,         /* device enable function */
-    NULL,                    /* NO device specific reset function */
-    tapecart_shutdown,       /* device shutdown function */
-    tapecart_store_motor,    /* set motor line function */
-    tapecart_store_write,    /* set write line function */
-    tapecart_store_sense,    /* set sense line function */
-    NULL,                    /* NO set read line function */
-    tapecart_write_snapshot, /* device snapshot write function */
-    tapecart_read_snapshot   /* device snapshot read function */
+    "tapecart",                   /* device name */
+    TAPEPORT_DEVICE_TYPE_STORAGE, /* device is a 'storage' type device */
+    tapecart_enable,              /* device enable function */
+    NULL,                         /* NO device specific reset function */
+    tapecart_shutdown,            /* device shutdown function */
+    tapecart_store_motor,         /* set motor line function */
+    tapecart_store_write,         /* set write line function */
+    tapecart_store_sense,         /* set sense line function */
+    NULL,                         /* NO set read line function */
+    tapecart_write_snapshot,      /* device snapshot write function */
+    tapecart_read_snapshot        /* device snapshot read function */
 };
 
 static alarm_t *tapecart_logic_alarm;

@@ -46,6 +46,17 @@ enum {
 };
 
 enum {
+    TAPEPORT_DEVICE_TYPE_NONE = 0,
+    TAPEPORT_DEVICE_TYPE_TAPE,
+    TAPEPORT_DEVICE_TYPE_STORAGE,
+    TAPEPORT_DEVICE_TYPE_RTC,
+#ifdef TAPEPORT_EXPERIMENTAL_DEVICES
+    TAPEPORT_DEVICE_TYPE_HARNESS,
+#endif
+    TAPEPORT_DEVICE_TYPE_DONGLE
+};
+
+enum {
     TAPEPORT_PORT_1 = 0,
     TAPEPORT_PORT_2,
     TAPEPORT_MAX_PORTS
@@ -55,6 +66,9 @@ enum {
 typedef struct tapeport_device_s {
     /* Name of the device */
     char *name;
+
+    /* device type */
+    int device_type;
 
     /* enable device function */
     int (*enable)(int port, int val);
@@ -106,9 +120,10 @@ extern void tapeport_enable(int val);
 typedef struct tapeport_desc_s {
     char *name;
     int id;
+    int device_type;
 } tapeport_desc_t;
 
-extern tapeport_desc_t *tapeport_get_valid_devices(void);
+extern tapeport_desc_t *tapeport_get_valid_devices(int sort);
 
 extern int tapeport_snapshot_write_module(struct snapshot_s *s, int save_image);
 extern int tapeport_snapshot_read_module(struct snapshot_s *s);

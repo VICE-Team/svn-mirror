@@ -47,16 +47,17 @@ static void sense_dongle_reset(int port);
 static int sense_dongle_enable(int port, int val);
 
 static tapeport_device_t sense_dongle_device = {
-    "Sense dongle",      /* device name */
-    sense_dongle_enable, /* device enable function */
-    sense_dongle_reset,  /* device specific reset function */
-    NULL,                /* NO device shutdown function */
-    NULL,                /* NO set motor line function */
-    NULL,                /* NO set write line function */
-    NULL,                /* NO set sense line function */
-    NULL,                /* NO set read line function */
-    NULL,                /* NO device snapshot write function */
-    NULL                 /* NO device snapshot read function */
+    "Sense dongle",              /* device name */
+    TAPEPORT_DEVICE_TYPE_DONGLE, /* device is a 'dongle' type device */
+    sense_dongle_enable,         /* device enable function */
+    sense_dongle_reset,          /* device specific reset function */
+    NULL,                        /* NO device shutdown function */
+    NULL,                        /* NO set motor line function */
+    NULL,                        /* NO set write line function */
+    NULL,                        /* NO set sense line function */
+    NULL,                        /* NO set read line function */
+    NULL,                        /* NO device snapshot write function */
+    NULL                         /* NO device snapshot read function */
 };
 
 /* ------------------------------------------------------------------------- */
