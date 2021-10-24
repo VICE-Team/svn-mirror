@@ -116,6 +116,9 @@ typedef struct tapeport_device_s {
     /* reset device */
     void (*reset)(int port);
 
+    /* shutdown device */
+    void (*shutdown)(void);
+
     /* set motor line */
     void (*set_motor)(int port, int flag);
 
@@ -129,10 +132,10 @@ typedef struct tapeport_device_s {
     void (*set_read_out)(int port, int val);
 
     /* Snapshot write */
-    int (*write_snapshot)(struct snapshot_s *s);
+    int (*write_snapshot)(int port, struct snapshot_s *s, int write_image);
 
     /* Snapshot read */
-    int (*read_snapshot)(struct snapshot_s *s, int port);
+    int (*read_snapshot)(int port, struct snapshot_s *s);
 } tapeport_device_t;
 
 extern int tapeport_device_register(int id, tapeport_device_t *device);
