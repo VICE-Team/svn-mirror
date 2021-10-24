@@ -244,7 +244,7 @@ static int set_aspect_ratio(const char *val, void *param)
     util_string_set(&aspect_ratio_s, buf);
 
     if (old_aspect != aspect_ratio) {
-        if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
+        if (sdl_active_canvas) {
             video_viewport_resize(sdl_active_canvas, 1);
             sdl_correct_logical_and_minimum_size();
         }
@@ -981,7 +981,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 
     if (canvas->container->renderer) {
         SDL_Surface *new_screen;
-        
+
         new_screen = SDL_CreateRGBSurface(0, width, height, sdl_bitdepth, rmask, gmask, bmask, amask);
         if (!new_screen) {
             log_error(sdlvideo_log, "SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
@@ -991,10 +991,8 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
             SDL_FreeSurface(canvas->screen);
         }
         canvas->screen = new_screen;
-        
+
         recreate_canvas_textures(canvas);
-        
-        canvas->videoconfig->hwscale = 1;
 
         log_message(sdlvideo_log, "%s (%s) %ux%u %ibpp %s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", width, height, sdl_bitdepth, (canvas->fullscreenconfig->enable) ? " (fullscreen)" : "");
 #ifdef SDL_DEBUG

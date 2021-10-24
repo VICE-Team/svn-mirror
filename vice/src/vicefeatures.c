@@ -188,7 +188,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(AMIGA_SUPPORT) || defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(MACOSX_SUPPORT) || defined(WIN32) /* (amiga/sdl/unix/osx/windows) */
+#if defined(USE_SDLUI) /* (optional only in sdl1) */
     { "HAVE_HWSCALE", "Enable arbitrary window scaling",
 #ifndef HAVE_HWSCALE
         0 },

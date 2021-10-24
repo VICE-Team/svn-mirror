@@ -237,7 +237,7 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
     sdl_gl_aspect_mode = v;
 
     if (old_v != v) {
-        if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
+        if (sdl_active_canvas) {
             video_viewport_resize(sdl_active_canvas, 1);
         }
     }
@@ -271,7 +271,7 @@ static int set_aspect_ratio(const char *val, void *param)
     util_string_set(&aspect_ratio_s, buf);
 
     if (old_aspect != aspect_ratio) {
-        if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
+        if (sdl_active_canvas) {
             video_viewport_resize(sdl_active_canvas, 1);
         }
     }
@@ -584,7 +584,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
 #ifdef HAVE_HWSCALE
-    if ((canvas == sdl_active_canvas) && (canvas->videoconfig->hwscale)) {
+    if (canvas == sdl_active_canvas) {
         hwscale = 1;
     }
 #endif
@@ -657,7 +657,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             default:
                 log_error(sdlvideo_log, "%i bpp not supported in OpenGL.", sdl_bitdepth);
                 hwscale = 0;
-                canvas->videoconfig->hwscale = 0;
                 flags = SDL_SWSURFACE;
                 break;
         }
@@ -715,7 +714,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
                 new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags);
             }
             if (!new_screen) { /* Did not work out quite well. Let's try without hwscale */
-                canvas->videoconfig->hwscale = 0;
                 return sdl_canvas_create(canvas, width, height);
             }
             actual_width = new_screen->w;
@@ -890,7 +888,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
     }
 
 #if defined(HAVE_HWSCALE)
-    if (canvas->videoconfig->hwscale) {
+    {
         const float *v = &(sdl_gl_vertex_coord[sdl_gl_vertex_base]);
 
         if (canvas != sdl_active_canvas) {
@@ -947,10 +945,10 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
         glEnd();
 
         SDL_GL_SwapBuffers();
-    } else
-#endif
-
+    }
+#else
     SDL_UpdateRect(canvas->screen, xi, yi, w, h);
+#endif
     ui_autohide_mouse_cursor();
 }
 
@@ -1049,7 +1047,7 @@ static void sdl_video_resize(unsigned int w, unsigned int h)
     vsync_suspend_speed_eval();
 
 #if defined(HAVE_HWSCALE)
-    if (sdl_active_canvas->videoconfig->hwscale && sdl_active_canvas->hwscale_screen) {
+    if (sdl_active_canvas->hwscale_screen) {
         int flags;
 
         if (sdl_active_canvas->fullscreenconfig->enable) {

@@ -134,7 +134,6 @@ struct video_chip_cap_s {
     unsigned int dsize_limit_width;
     unsigned int dsize_limit_height;
     unsigned int dscan_allowed;
-    unsigned int hwscale_allowed;
     unsigned int scale2x_allowed;
     unsigned int double_buffering_allowed;
     unsigned int interlace_allowed;
@@ -216,7 +215,6 @@ struct video_render_config_s {
     int scalex;                    /* Horizontal scaling */
     int scaley;                    /* Vertical scaling */
     int doublescan;                /* Doublescan enabled?  */
-    int hwscale;                   /* Hardware scaling enabled? */
     int scale2x;                   /* Scale2x enabled?  */
     int filter;                    /* VIDEO_FILTER_NONE, VIDEO_FILTER_CRT, VIDEO_FILTER_SCALE2X */
     int external_palette;          /* Use an external palette?  */
