@@ -99,6 +99,7 @@ video_canvas_t *sdl_active_canvas = NULL;
 
 static int sdl_gl_aspect_mode;
 static char *aspect_ratio_s = NULL;
+static char *aspect_ratio_factory_value_s = NULL;
 static double aspect_ratio;
 
 static int sdl_gl_flipx;
@@ -369,8 +370,9 @@ static int set_sdl2_dual_window(int v, void *param)
     return 0;
 }
 
-static const resource_string_t resources_string[] = {
-    { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
+static resource_string_t resources_string[] = {
+    /* CAUTION: position hardcoded below */
+    { "AspectRatio", NULL, RES_EVENT_NO, NULL,
       &aspect_ratio_s, set_aspect_ratio, NULL },
     { "SDL2Renderer", "", RES_EVENT_NO, NULL,
       &sdl2_renderer_name, set_sdl2_renderer_name, NULL },
@@ -382,6 +384,8 @@ static const resource_string_t resources_string[] = {
 #define SDLCUSTOMWIDTH_DEFAULT   800
 #define SDLCUSTOMHEIGHT_DEFAULT  600
 
+/* FIXME: more resources should have the same name as their GTK counterparts,
+          and the SDL prefix removed */
 static const resource_int_t resources_int[] = {
     { "SDLBitdepth", VICE_DEFAULT_BITDEPTH, RES_EVENT_NO, NULL,
       &sdl_bitdepth, set_sdl_bitdepth, NULL },
@@ -389,9 +393,9 @@ static const resource_int_t resources_int[] = {
       &sdl_custom_width, set_sdl_custom_width, NULL },
     { "SDLCustomHeight", SDLCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_custom_height, set_sdl_custom_height, NULL },
-    { "SDLWindowWidth", 0, RES_EVENT_NO, NULL,
+    { "Window0Width", 0, RES_EVENT_NO, NULL,
       &sdl_initial_width, set_sdl_initial_width, NULL },
-    { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,
+    { "Window0Height", 0, RES_EVENT_NO, NULL,
       &sdl_initial_height, set_sdl_initial_height, NULL },
     { "SDLGLAspectMode", SDL_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
       &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
@@ -410,6 +414,7 @@ static const resource_int_t resources_int[] = {
 
 int video_arch_resources_init(void)
 {
+    char buf[0x10];
     DBG(("%s", __func__));
 
     if (machine_class == VICE_MACHINE_VSID) {
@@ -417,6 +422,12 @@ int video_arch_resources_init(void)
             return -1;
         }
     }
+
+    /* KLUDGES: setup the factory default with a string, needs to be done at
+       runtime since float format depends on locale */
+    sprintf(buf, "%f", 1.0f);
+    util_string_set(&aspect_ratio_factory_value_s, buf);
+    resources_string[0].factory_value = aspect_ratio_factory_value_s;
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
@@ -435,11 +446,14 @@ void video_arch_resources_shutdown(void)
 
     lib_free(aspect_ratio_s);
     lib_free(sdl2_renderer_name);
+    lib_free(aspect_ratio_factory_value_s);
 }
 
 /* ------------------------------------------------------------------------- */
 /* Video-related command-line options.  */
 
+/* FIXME: more options should have the same name as their GTK counterparts,
+          and the SDL prefix removed */
 static const cmdline_option_t cmdline_options[] =
 {
     { "-sdlbitdepth", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -452,10 +466,10 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "SDLCustomHeight", NULL,
       "<height>", "Set custom resolution height" },
     { "-sdlinitialw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLWindowWidth", NULL,
+      NULL, NULL, "Window0Width", NULL,
       "<width>", "Set initial window width" },
     { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLWindowHeight", NULL,
+      NULL, NULL, "Window0Height", NULL,
       "<height>", "Set initial window height" },
     { "-sdlaspectmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLGLAspectMode", NULL,
