@@ -258,6 +258,7 @@ void cbm5x0ui_shutdown(void)
     uisid_menu_shutdown();
     uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
+    uitapeport_menu_shutdown();
     uijoystick_menu_shutdown();
     uimedia_menu_shutdown();
 #ifdef SDL_DEBUG

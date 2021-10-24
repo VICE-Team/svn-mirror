@@ -293,6 +293,7 @@ void petui_shutdown(void)
     uijoyport_menu_shutdown();
     uijoystick_menu_shutdown();
     uiuserport_menu_shutdown();
+    uitapeport_menu_shutdown();
     uimedia_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
