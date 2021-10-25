@@ -17266,7 +17266,7 @@ Detach file from device. (device 32 = cart)
 
 @item @@<disk command>
 Perform a disk command on the currently attached disk image on virtual
-drive 8 (Does not work with true drive emulation enabled).
+drive 8.
 
 @item list [<directory>]
 List disk contents.
