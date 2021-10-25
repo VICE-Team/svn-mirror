@@ -194,12 +194,10 @@ static void tapertc_store_scl(int port, int write_bit)
 
 static char snap_module_name[] = "TP_CP_CLOCK_F83";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 static int tapertc_write_snapshot(int port, struct snapshot_s *s, int write_image)
 {
-/* FIXME: convert to new tapeport system */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
@@ -215,19 +213,12 @@ static int tapertc_write_snapshot(int port, struct snapshot_s *s, int write_imag
     snapshot_module_close(m);
 
     return pcf8583_write_snapshot(tapertc_context, s);
-#endif
-    return 0;
 }
 
 static int tapertc_read_snapshot(int port, struct snapshot_s *s)
 {
-/* FIXME: convert to new tapeport system */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_tapertc_enabled(1, NULL);
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
 
@@ -251,6 +242,4 @@ static int tapertc_read_snapshot(int port, struct snapshot_s *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }

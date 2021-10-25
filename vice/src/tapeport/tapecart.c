@@ -1953,10 +1953,6 @@ static int tapecart_write_snapshot(int port, struct snapshot_s *s, int write_ima
 
 static int tapecart_read_snapshot(int port, struct snapshot_s *s)
 {
-#if 0
-    /* enable device */
-    set_tapecart_enabled(1, NULL);
-#endif
     /* FIXME: Implement */
     log_error(tapecart_log,
               "restoring tapecart from snapshot not implemented yet");

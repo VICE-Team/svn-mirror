@@ -1223,12 +1223,10 @@ void datasette_event_playback(CLOCK offset, void *data)
  ******************************************************************************/
 
 #define DATASETTE_SNAP_MAJOR 1
-#define DATASETTE_SNAP_MINOR 4
+#define DATASETTE_SNAP_MINOR 5
 
 static int datasette_write_snapshot(int port, snapshot_t *s, int write_image)
 {
-/* FIXME: convert to new tapeport system */
-#if 0
     snapshot_module_t *m;
     CLOCK alarm_clk = CLOCK_MAX;
 
@@ -1270,14 +1268,10 @@ static int datasette_write_snapshot(int port, snapshot_t *s, int write_image)
     }
 
     return tape_snapshot_write_module(s, write_image);
-#endif
-    return 0;
 }
 
 static int datasette_read_snapshot(int port, snapshot_t *s)
 {
-/* FIXME: convert to new tapeport system */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
     CLOCK alarm_clk;
@@ -1287,9 +1281,6 @@ static int datasette_read_snapshot(int port, snapshot_t *s)
     if (m == NULL) {
         return 0;
     }
-
-    /* enable device */
-    set_datasette_enable(1, NULL);
 
     if (0
         || SMR_B_INT(m, &datasette_motor) < 0
@@ -1343,6 +1334,4 @@ static int datasette_read_snapshot(int port, snapshot_t *s)
     snapshot_module_close(m);
 
     return tape_snapshot_read_module(s);
-#endif
-    return 0;
 }
