@@ -504,8 +504,8 @@ int tapeport_cmdline_options_init(void)
 
     if (tapeport_ports >= 2) {
         cf.f = build_tapeport_string;
-        cmdline_options_port1[0].description = cf.c;
-        cmdline_options_port1[0].attributes |= (TAPEPORT_PORT_2 << 8);
+        cmdline_options_port2[0].description = cf.c;
+        cmdline_options_port2[0].attributes |= (TAPEPORT_PORT_2 << 8);
         if (cmdline_register_options(cmdline_options_port2) < 0) {
             return -1;
         }
