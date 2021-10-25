@@ -54,6 +54,36 @@ static tapeport_device_t tapeport_device[TAPEPORT_MAX_DEVICES] = {0};
 
 static int tapeport_ports = 0;
 
+typedef struct type2text_s {
+    int type;
+    const char *text;
+} type2text_t;
+
+static type2text_t device_type_desc[] = {
+    { TAPEPORT_DEVICE_TYPE_NONE, "None" },
+    { TAPEPORT_DEVICE_TYPE_TAPE, "Tape" },
+    { TAPEPORT_DEVICE_TYPE_STORAGE, "Storage" },
+    { TAPEPORT_DEVICE_TYPE_RTC, "Real-time clock" },
+#ifdef TAPEPORT_EXPERIMENTAL_DEVICES
+    { TAPEPORT_DEVICE_TYPE_HARNESS, "Diagnostic harness" },
+#endif
+    { TAPEPORT_DEVICE_TYPE_DONGLE, "Dongle" },
+    { -1, NULL }
+};
+
+static const char *tapeport_type2text(int type)
+{
+    int i;
+    const char *retval = NULL;
+
+    for (i = 0; device_type_desc[i].type != -1; ++i) {
+        if (device_type_desc[i].type == type) {
+            retval = device_type_desc[i].text;
+        }
+    }
+    return retval;
+}
+
 /* ---------------------------------------------------------------------------------------------------------- */
 
 /* register a device to be used in the tapeport system */
@@ -160,6 +190,11 @@ tapeport_desc_t *tapeport_get_valid_devices(int sort)
         qsort(retval, valid, sizeof(tapeport_desc_t), tapeport_valid_devices_compare_names);
     }
     return retval;
+}
+
+const char *tapeport_get_device_type_desc(int type)
+{
+    return tapeport_type2text(type);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */

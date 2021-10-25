@@ -124,6 +124,7 @@ typedef struct tapeport_desc_s {
 } tapeport_desc_t;
 
 extern tapeport_desc_t *tapeport_get_valid_devices(int sort);
+extern const char *tapeport_get_device_type_desc(int type);
 
 extern int tapeport_snapshot_write_module(struct snapshot_s *s, int save_image);
 extern int tapeport_snapshot_read_module(struct snapshot_s *s);
