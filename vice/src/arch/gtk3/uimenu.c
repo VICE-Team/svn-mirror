@@ -105,7 +105,7 @@ static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *ite
 
 /** \brief  Destructor for accelerator data
  *
- * FIXME:   this doesn't get triggered
+ * Triggered when disconnecting an accelerator from the accelerator group.
  *
  * \param[in,out]   data    accelerator data
  * \param[in]       closure closure (unused)
@@ -113,25 +113,27 @@ static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *ite
 static void ui_accel_data_delete(gpointer data, GClosure *closure)
 {
     debug_gtk3("Holy Shit, this got triggered!!\n");
-#if 0
-    lib_free(data);
-#endif
+    if (data != NULL) {
+        lib_free(data);
+    }
 }
 
 
 /** \brief  Handler for the 'destroy' event of a menu item
- *
- * This 'hack' is needed since the 'finalize' callback of the GClosures we use
- * for accelerators doesn't get called, which means the accelerator data doesn't
- * get cleaned up, which means we leak memory.
  *
  * \param[in]       item        menu item
  * \param[in,out]   accel_data  accelator data (optional)
  */
 static void on_menu_item_destroy(GtkWidget *item, gpointer accel_data)
 {
-    if (accel_data != NULL) {
-        lib_free(accel_data);
+    GtkAccelLabel *label;
+    guint keysym;
+    guint mask;
+
+    label = GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(item)));
+    if (label != NULL) {
+        gtk_accel_label_get_accel(label, &keysym, &mask);
+        gtk_accel_group_disconnect_key(accel_group, keysym, mask);
     }
 }
 
@@ -547,5 +549,3 @@ void ui_menu_set_accel_via_vice_item(GtkWidget *item_gtk,
                               item_vice->keysym,
                               item_vice->modifier);
 }
-
-
