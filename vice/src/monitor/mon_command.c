@@ -563,7 +563,7 @@ static const mon_cmds_t mon_cmd_array[] = {
     { "@", "",
       "<disk command>",
       "Perform a disk command on the currently attached disk image on virtual\n"
-      "drive 8 (Does not work with true drive emulation enabled).",
+      "drive 8.",
       NO_FILENAME_ARG
     },
 
