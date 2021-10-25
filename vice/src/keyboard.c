@@ -989,6 +989,7 @@ static void keyboard_key_clear_internal(void)
     keyboard_clear_keymatrix();
     clear_virtual_modifier_flags();
     joystick_clear_all();
+    left_cbm_down = left_ctrl_down =
     virtual_cbm_down = virtual_shift_down = virtual_deshift =
         left_shift_down = right_shift_down = keyboard_shiftlock = 0;
 #ifdef COMMON_JOYKEYS
