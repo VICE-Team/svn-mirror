@@ -17265,8 +17265,8 @@ sector of disk in drive 8.
 Detach file from device. (device 32 = cart)
 
 @item @@<disk command>
-Perform a disk command on the currently attached disk image on drive
-8.  The specified disk command is sent to the drive's channel #15.
+Perform a disk command on the currently attached disk image on virtual
+drive 8 (Does not work with true drive emulation enabled).
 
 @item list [<directory>]
 List disk contents.
