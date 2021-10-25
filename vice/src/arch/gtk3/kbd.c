@@ -442,6 +442,11 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
                 /* mnemonic or accelerator was found and activated. */
+                /* release all previously pressed keys to prevent stuck keys */
+                keyspressed = 0;
+                kbd_fix_shift_clear();
+                keyboard_key_clear();
+                kbd_sync_caps_lock();
                 return TRUE;
             }
 
