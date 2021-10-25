@@ -206,12 +206,10 @@ static void dtlbasic_sense_out(int port, int sense)
 
 static char snap_module_name[] = "TP_DTLBASIC";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 static int dtlbasic_write_snapshot(int port, struct snapshot_s *s, int write_image)
 {
-/* FIXME: convert to new tapeport system */
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
@@ -229,19 +227,12 @@ static int dtlbasic_write_snapshot(int port, struct snapshot_s *s, int write_ima
         return -1;
     }
     return snapshot_module_close(m);
-#endif
-    return 0;
 }
 
 static int dtlbasic_read_snapshot(int port, struct snapshot_s *s)
 {
-/* FIXME: convert to new tapeport system */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-
-    /* enable device */
-    set_dtlbasic_dongle_enabled(1, NULL);
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
 
@@ -267,6 +258,4 @@ static int dtlbasic_read_snapshot(int port, struct snapshot_s *s)
 fail:
     snapshot_module_close(m);
     return -1;
-#endif
-    return 0;
 }
