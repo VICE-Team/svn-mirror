@@ -80,6 +80,12 @@ static vice_gtk3_combo_entry_int_t tcrt_loglevels[] = {
  * handlers
  */
 
+/** \brief  Tape port #1 device combo */
+static GtkWidget *port1_type = NULL;
+
+/** \brief  Tape port #2 device combo */
+static GtkWidget *port2_type = NULL;
+
 /** \brief  Datasette device traps toggle button */
 static GtkWidget *ds_traps = NULL;
 
@@ -178,6 +184,7 @@ static void set_tapecart_active(int state)
     gtk_widget_set_sensitive(tapecart_flush, state);
 }
 
+
 /** \brief  Set individual options active/inactive
  *
  * \param[in]   id      id of active device
@@ -186,8 +193,13 @@ static void set_options_widgets_sensitivity(int id)
 {
     set_datasette_active(id == TAPEPORT_DEVICE_DATASETTE);
     set_f83_active(id == TAPEPORT_DEVICE_CP_CLOCK_F83);
-    set_tapecart_active(id == TAPEPORT_DEVICE_TAPECART);
+     if (machine_class == VICE_MACHINE_C64 ||
+         machine_class == VICE_MACHINE_C64SC||
+         machine_class == VICE_MACHINE_C128) {
+        set_tapecart_active(id == TAPEPORT_DEVICE_TAPECART);
+     }
 }
+
 
 /** \brief  Callback for the tapecart file chooser dialog
  *
@@ -207,6 +219,7 @@ static void browse_filename_callback(GtkDialog *dialog,
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
+
 
 /** \brief  Handler for the 'clicked' event of the tapecart browse button
  *
@@ -253,9 +266,11 @@ static GtkWidget *create_datasette_widget(void)
     GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+//    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
 
-    label = gtk_label_new("Datasette c2n");
-    g_object_set(label, "margin-left", 0, NULL);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Datasette C2N</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 4, 1);
 
     ds_traps = vice_gtk3_resource_check_button_new("VirtualDevice1",
@@ -316,6 +331,7 @@ static GtkWidget *create_datasette_widget(void)
     return grid;
 }
 
+
 /** \brief  Create widget to handler the CP Clock F83 resources
  *
  * \return  GtkGrid
@@ -326,10 +342,11 @@ static GtkWidget *create_f83_widget(void)
     GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced(16, 8);
-    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
+//    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
 
-    label = gtk_label_new("CP Clock F83");
-    g_object_set(label, "margin-left", 16, NULL);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>CP Clock F83</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     f83_rtc = vice_gtk3_resource_check_button_new("CPClockF83Save",
@@ -355,11 +372,12 @@ static GtkWidget *create_tapecart_widget(void)
 
     grid = vice_gtk3_grid_new_spaced(16, 8);
     /* add some extra vertical spacing */
-    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
+//    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
 
     /* Tapecart label */
-    label = gtk_label_new("Tapecart");
-    g_object_set(label, "margin-left", 16, NULL);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Tapecart</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 4, 1);
     row++;
 
@@ -418,14 +436,15 @@ static GtkWidget *create_tapecart_widget(void)
     return grid;
 }
 
+
 /** \brief  Handler for the 'changed' event of the device combobox
  *
- * Sets the active tapeport device via the "TapePort1Device" resource.
+ * Sets the active tapeport device via the "TapePort[12]Device" resource.
  *
  * \param[in]   combo       device combo box
- * \param[in]   user_data   extra event data (unused)
+ * \param[in]   portnum     tape port number
  */
-static void on_device_changed(GtkComboBox *combo, gpointer user_data)
+static void on_device_changed(GtkComboBox *combo, gpointer portnum)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -434,20 +453,24 @@ static void on_device_changed(GtkComboBox *combo, gpointer user_data)
     if (gtk_combo_box_get_active_iter(combo, &iter)) {
         gint id;
         gchar *name;
+        int port;
+
+        port = GPOINTER_TO_INT(portnum);
 
         gtk_tree_model_get(model,
                            &iter,
                            COL_DEVICE_ID, &id,
                            COL_DEVICE_NAME, &name,
                            -1);
-        debug_gtk3("Got device #%d (%s)", id, name);
-        resources_set_int("TapePort1Device", id);
+        debug_gtk3("Got device #%d (%s) for port #%d", id, name, port);
+        resources_set_int_sprintf("TapePort%dDevice", id, port, NULL);
 
         set_options_widgets_sensitivity(id);
 
         g_free(name);
     }
 }
+
 
 /** \brief  Set tapeport device ID
  *
@@ -508,6 +531,7 @@ static gboolean set_device_id(GtkComboBox *combo, gint id, gboolean blocked)
     return result;
 }
 
+
 /** \brief  Create model for the device combobox
  *
  * Create a model with (dev-id, dev-name, dev-type-id, dev-type-desc).
@@ -543,12 +567,15 @@ static GtkListStore *create_device_model(void)
     return model;
 }
 
+
 /** \brief  Create combobox for the tapeport devices
  *
  * Create a combobox with valid tapeport devices for current machine.
  *
  * The model of the combobox contains device ID, name and type, of which name
  * is shown and ID is used to set the related resource.
+ *
+ * \param[in]   port    tape port number (1 or 2 (PET only))
  *
  * \return  GtkComboBox
  *
@@ -560,7 +587,7 @@ static GtkListStore *create_device_model(void)
  *          isn't active it looks weird ;)
  *          So for now the device type isn't used.
  */
-static GtkWidget *create_device_combobox(void)
+static GtkWidget *create_device_combobox(int port)
 {
     GtkWidget *combo;
     GtkListStore *model;
@@ -569,6 +596,9 @@ static GtkWidget *create_device_combobox(void)
     GtkCellRenderer *type_renderer;
 #endif
 
+    /* TODO:    Check if the model can be shared for both ports, perhaps the
+     *          second tape port has a different set of supported devices
+     */
     model = create_device_model();
 
     /* create combobox with a single cell renderer for the device name column */
@@ -594,10 +624,56 @@ static GtkWidget *create_device_combobox(void)
                                    NULL);
 #endif
 
-    g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), NULL);
+    g_signal_connect(combo,
+                     "changed",
+                     G_CALLBACK(on_device_changed),
+                     GINT_TO_POINTER(port));
 
     return combo;
 }
+
+
+/** \brief  Create combobox(es) to select device type for port 1 (and 2 for PET)
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_device_types_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+
+    grid = vice_gtk3_grid_new_spaced(16, 8);
+
+    /* header */
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Tape port device types</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
+
+    /* first tape port */
+    label = gtk_label_new("Tape port #1:");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(label, FALSE);
+    g_object_set(label, "margin-left", 16, NULL);
+    port1_type = create_device_combobox(1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), port1_type, 1, 1, 1, 1);
+
+    /* PET has a second tape port */
+    if (machine_class == VICE_MACHINE_PET) {
+        label = gtk_label_new("Tape port #2:");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        gtk_widget_set_hexpand(label, FALSE);
+        g_object_set(label, "margin-left", 16, NULL);
+        port2_type = create_device_combobox(2);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), port2_type, 1, 2, 1, 1);
+    }
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
 
 /** \brief  Create widget to select/control tape port devices
  *
@@ -608,31 +684,36 @@ static GtkWidget *create_device_combobox(void)
 GtkWidget *tapeport_devices_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *combo;
-    int device_id;
+    int device_id = 0;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 32);
 
-    /* combobox with the tapeport devices */
-    label = gtk_label_new("Tapeport device");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    combo = create_device_combobox();
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
+    /* comboboxes with the tapeport devices */
+    gtk_grid_attach(GTK_GRID(grid), create_device_types_widget(), 0, 0, 1, 1);
 
+    /* datasette device settings */
     gtk_grid_attach(GTK_GRID(grid), create_datasette_widget(), 0, 1, 1, 1);
 
+    /* Cassette Port Clock F83 */
     gtk_grid_attach(GTK_GRID(grid), create_f83_widget(), 0, 2, 1, 1);
+
+    /* TapeCart settings */
     if (machine_class == VICE_MACHINE_C64 ||
         machine_class == VICE_MACHINE_C64SC||
         machine_class == VICE_MACHINE_C128) {
         gtk_grid_attach(GTK_GRID(grid), create_tapecart_widget(), 0, 3, 1, 1);
     }
 
-    /* set the active item using the resource */
+    /* these need to happen here, after the above widgets are created */
+    /* set port1 type using the resource */
     if (resources_get_int("TapePort1Device", &device_id) == 0) {
-        set_device_id(GTK_COMBO_BOX(combo), device_id, TRUE);
+        set_device_id(GTK_COMBO_BOX(port1_type), device_id, TRUE);
+    }
+    if (machine_class == VICE_MACHINE_PET) {
+        /* set port2 type using the resource */
+        if (resources_get_int("TapePort2Device", &device_id) == 0) {
+            set_device_id(GTK_COMBO_BOX(port2_type), device_id, TRUE);
+        }
     }
 
     gtk_widget_show_all(grid);
