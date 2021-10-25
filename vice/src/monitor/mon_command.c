@@ -562,8 +562,8 @@ static const mon_cmds_t mon_cmd_array[] = {
 
     { "@", "",
       "<disk command>",
-      "Perform a disk command on the currently attached disk image on drive 8.\n"
-      "The specified disk command is sent to the drive's channel #15.",
+      "Perform a disk command on the currently attached disk image on virtual\n"
+      "drive 8 (Does not work with true drive emulation enabled).",
       NO_FILENAME_ARG
     },
 

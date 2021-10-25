@@ -133,7 +133,7 @@ void mon_drive_execute_disk_cmd(char *cmd)
     vdrive = file_system_get_vdrive(8);
 
     len = (unsigned int)strlen(cmd);
-
+    charset_petconvstring((uint8_t*)cmd, CONVERT_TO_PETSCII);
     vdrive_command_execute(vdrive, (uint8_t *)cmd, len);
 }
 
