@@ -168,3 +168,15 @@ void tapeport_trigger_flux_change(unsigned int on, int port)
 void tapeport_set_tape_sense(int sense, int port)
 {
 }
+
+#if !defined(USE_SDLUI) && !defined(USE_SDL2UI)
+tapeport_desc_t *tapeport_get_valid_devices(int sort)
+{
+    return NULL;
+}
+
+const char *tapeport_get_device_type_desc(int type)
+{
+    return NULL;
+}
+#endif
