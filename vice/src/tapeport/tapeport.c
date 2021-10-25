@@ -523,184 +523,120 @@ void tapeport_enable(int val)
 
 /* TAPEPORT snapshot module format:
 
-   type  | name   | description
-   ----------------------------
-   BYTE  | active | tape port active flag
-   BYTE  | amount | amount of active devices
-
-   if 'amount' is non-zero the following is saved per active device:
-
-   type  | name | description
-   --------------------------
-   BYTE  | id   | device id
+   type  | name               | description
+   ----------------------------------------
+   BYTE  | active             | tapeport active flag
+   BYTE  | id1                | device id port 1
+   BYTE  | id2                | device id port 2
  */
 
+#define DUMP_VER_MAJOR   1
+#define DUMP_VER_MINOR   0
 static char snap_module_name[] = "TAPEPORT";
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
 
 int tapeport_snapshot_write_module(snapshot_t *s, int write_image)
 {
-/* FIXME: convert to new tapeport system */
-#if 0
     snapshot_module_t *m;
-    int amount = 0;
-    int *devices = NULL;
-    old_tapeport_device_list_t *current = old_tapeport_head.next;
-    old_tapeport_snapshot_list_t *c = NULL;
-    int i = 0;
+    int i;
 
-    while (current) {
-        ++amount;
-        current = current->next;
-    }
-
-    if (amount) {
-        devices = lib_malloc(sizeof(int) * (amount + 1));
-        current = old_tapeport_head.next;
-        while (current) {
-            devices[current->device->id] = current->device->device_id;
-            current = current->next;
-            ++i;
-        }
-        devices[i] = -1;
-    }
-
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-
+    m = snapshot_module_create(s, snap_module_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
+ 
     if (m == NULL) {
         return -1;
     }
 
+    /* save tapeport active and current device id of port 1 */
     if (0
         || SMW_B(m, (uint8_t)tapeport_active) < 0
-        || SMW_B(m, (uint8_t)amount) < 0) {
-        goto fail;
+        || SMW_B(m, (uint8_t)tapeport_current_device[TAPEPORT_PORT_1]) < 0) {
+        snapshot_module_close(m);
+        return -1;
     }
 
-    /* Save device id's */
-    if (amount) {
-        for (i = 0; i < amount; ++i) {
-            if (SMW_B(m, (uint8_t)devices[i]) < 0) {
-                goto fail;
-            }
+    if (tapeport_ports >= 2) {
+        if (0
+            || SMW_B(m, (uint8_t)tapeport_current_device[TAPEPORT_PORT_2]) < 0) {
+            snapshot_module_close(m);
+            return -1;
         }
     }
 
     snapshot_module_close(m);
 
-    /* save device snapshots */
-    if (amount) {
-        for (i = 0; i < amount; ++i) {
-            c = old_tapeport_snapshot_head.next;
-            while (c) {
-                if (c->snapshot->id == devices[i]) {
-                    if (c->snapshot->write_snapshot) {
-                        if (c->snapshot->write_snapshot(s, write_image) < 0) {
-                            lib_free(devices);
-                            return -1;
-                        }
+    /* save seperate tapeport device modules */
+    for (i = 0; i < tapeport_ports; i++) {
+        switch (tapeport_current_device[i]) {
+            case TAPEPORT_DEVICE_NONE:
+                break;
+            default:
+                if (tapeport_device[tapeport_current_device[i]].write_snapshot) {
+                    if (tapeport_device[tapeport_current_device[i]].write_snapshot(i, s, write_image) < 0) {
+                        return -1;
                     }
                 }
-                c = c->next;
-            }
+                break;
         }
     }
 
-    lib_free(devices);
-
-    return 0;
-
-fail:
-    snapshot_module_close(m);
-    return -1;
-#endif
     return 0;
 }
 
-int tapeport_snapshot_read_module(snapshot_t *s)
+int tapeport_snapshot_read_module(struct snapshot_s *s)
 {
-/* FIXME: convert to new tapeport system */
-#if 0
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-    int amount = 0;
-    char **detach_resource_list = NULL;
-    old_tapeport_device_list_t *current = old_tapeport_head.next;
-    int *devices = NULL;
-    old_tapeport_snapshot_list_t *c = NULL;
-    int i = 0;
-
-    /* detach all tapeport devices */
-    while (current) {
-        ++amount;
-        current = current->next;
-    }
-
-    if (amount) {
-        detach_resource_list = lib_malloc(sizeof(char *) * (amount + 1));
-        memset(detach_resource_list, 0, sizeof(char *) * (amount + 1));
-        current = old_tapeport_head.next;
-        while (current) {
-            detach_resource_list[i++] = current->device->resource;
-            current = current->next;
-        }
-        for (i = 0; i < amount; ++i) {
-            resources_set_int(detach_resource_list[i], 0);
-        }
-        lib_free(detach_resource_list);
-    }
+    int tmp_tapeport_device[2];
+    int i;
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
-
     if (m == NULL) {
         return -1;
     }
 
-    /* Do not accept versions higher than current */
-    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
-        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
-        goto fail;
+    if (!snapshot_version_is_equal(major_version, minor_version, DUMP_VER_MAJOR, DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
     }
 
+    /* load tapeport active and current device id for port 1 */
     if (0
         || SMR_B_INT(m, &tapeport_active) < 0
-        || SMR_B_INT(m, &amount) < 0) {
-        goto fail;
+        || SMR_B_INT(m, &tmp_tapeport_device[TAPEPORT_PORT_1]) < 0) {
+        snapshot_module_close(m);
+        return -1;
     }
 
-    if (amount) {
-        devices = lib_malloc(sizeof(int) * (amount + 1));
-        for (i = 0; i < amount; ++i) {
-            if (SMR_B_INT(m, &devices[i]) < 0) {
-                lib_free(devices);
-                goto fail;
-            }
+    if (tapeport_ports >= 2) {
+        if (0
+            || SMR_B_INT(m, &tmp_tapeport_device[TAPEPORT_PORT_2]) < 0) {
+            snapshot_module_close(m);
+            return -1;
         }
-        snapshot_module_close(m);
-        for (i = 0; i < amount; ++i) {
-            c = old_tapeport_snapshot_head.next;
-            while (c) {
-                if (c->snapshot->id == devices[i]) {
-                    if (c->snapshot->read_snapshot) {
-                        if (c->snapshot->read_snapshot(s) < 0) {
-                            lib_free(devices);
-                            return -1;
-                        }
+    }
+
+    snapshot_module_close(m);
+
+    /* enable devices */
+    tapeport_set_device(TAPEPORT_PORT_1, tmp_tapeport_device[TAPEPORT_PORT_1]);
+
+    if (tapeport_ports >= 2) {
+        tapeport_set_device(TAPEPORT_PORT_2, tmp_tapeport_device[TAPEPORT_PORT_2]);
+    }
+
+    /* load device snapshots */
+    for (i = 0; i < tapeport_ports; i++) {
+        switch (tapeport_current_device[i]) {
+            case TAPEPORT_DEVICE_NONE:
+                break;
+            default:
+                if (tapeport_device[tapeport_current_device[i]].read_snapshot) {
+                    if (tapeport_device[tapeport_current_device[i]].read_snapshot(i, s) < 0) {
+                        return -1;
                     }
                 }
-                c = c->next;
-            }
+                break;
         }
-        lib_free(devices);
-        return 0;
     }
 
-    return snapshot_module_close(m);
-
-fail:
-    snapshot_module_close(m);
-    return -1;
-#endif
     return 0;
 }
