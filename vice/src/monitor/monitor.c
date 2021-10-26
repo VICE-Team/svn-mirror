@@ -3005,6 +3005,15 @@ void monitor_startup(MEMSPACE mem)
 {
     char prompt[40];
     char *p;
+    
+    if (inside_monitor) {
+        /*
+         * Drive cpu interrupt can enter the monitor .. and then the monitor
+         * can tell the drive to catch up, re-triggering the incomplete interrupt
+         * .. recursion, etc
+         */
+        return;
+    }
 
     if (mem != e_default_space) {
         default_memspace = mem;
