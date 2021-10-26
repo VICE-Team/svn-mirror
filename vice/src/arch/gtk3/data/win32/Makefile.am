@@ -16,6 +16,7 @@ X64SC_ICONS = $(top_srcdir)/data/common/C64_16.png \
 	      $(top_srcdir)/data/common/C64_24.png \
 	      $(top_srcdir)/data/common/C64_32.png \
 	      $(top_srcdir)/data/common/C64_48.png \
+	      $(top_srcdir)/data/common/C64_64.png \
 	      $(top_srcdir)/data/common/C64_256.png
 
 if SUPPORT_X64
@@ -26,42 +27,49 @@ X64DTV_ICONS = $(top_srcdir)/data/common/DTV_16.png \
 	       $(top_srcdir)/data/common/DTV_24.png \
 	       $(top_srcdir)/data/common/DTV_32.png \
 	       $(top_srcdir)/data/common/DTV_48.png \
+	       $(top_srcdir)/data/common/DTV_64.png \
 	       $(top_srcdir)/data/common/DTV_256.png
 
 XSCPU64_ICONS = $(top_srcdir)/data/common/SCPU_16.png \
 		$(top_srcdir)/data/common/SCPU_24.png \
 		$(top_srcdir)/data/common/SCPU_32.png \
 		$(top_srcdir)/data/common/SCPU_48.png \
+		$(top_srcdir)/data/common/SCPU_64.png \
 		$(top_srcdir)/data/common/SCPU_256.png
 
 X128_ICONS = $(top_srcdir)/data/common/C128_16.png \
 	     $(top_srcdir)/data/common/C128_24.png \
 	     $(top_srcdir)/data/common/C128_32.png \
 	     $(top_srcdir)/data/common/C128_48.png \
+	     $(top_srcdir)/data/common/C128_64.png \
 	     $(top_srcdir)/data/common/C128_256.png
 
 XVIC_ICONS = $(top_srcdir)/data/common/VIC20_16.png \
 	     $(top_srcdir)/data/common/VIC20_24.png \
 	     $(top_srcdir)/data/common/VIC20_32.png \
 	     $(top_srcdir)/data/common/VIC20_48.png \
+	     $(top_srcdir)/data/common/VIC20_64.png \
 	     $(top_srcdir)/data/common/VIC20_256.png
 
 XPLUS4_ICONS = $(top_srcdir)/data/common/Plus4_16.png \
 	       $(top_srcdir)/data/common/Plus4_24.png \
 	       $(top_srcdir)/data/common/Plus4_32.png \
 	       $(top_srcdir)/data/common/Plus4_48.png \
+	       $(top_srcdir)/data/common/Plus4_64.png \
 	       $(top_srcdir)/data/common/Plus4_256.png
 
 XPET_ICONS = $(top_srcdir)/data/common/PET_16.png \
 	     $(top_srcdir)/data/common/PET_24.png \
 	     $(top_srcdir)/data/common/PET_32.png \
 	     $(top_srcdir)/data/common/PET_48.png \
+	     $(top_srcdir)/data/common/PET_64.png \
 	     $(top_srcdir)/data/common/PET_256.png
 
 XCBM2_ICONS = $(top_srcdir)/data/common/CBM2_16.png \
 	      $(top_srcdir)/data/common/CBM2_24.png \
 	      $(top_srcdir)/data/common/CBM2_32.png \
 	      $(top_srcdir)/data/common/CBM2_48.png \
+	      $(top_srcdir)/data/common/CBM2_64.png \
 	      $(top_srcdir)/data/common/CBM2_256.png
 
 XCBM5x0_ICONS = $(XCBM2_ICONS)
@@ -70,6 +78,7 @@ VSID_ICONS = $(top_srcdir)/data/common/SID_16.png \
 	     $(top_srcdir)/data/common/SID_24.png \
 	     $(top_srcdir)/data/common/SID_32.png \
 	     $(top_srcdir)/data/common/SID_48.png \
+	     $(top_srcdir)/data/common/SID_64.png \
 	     $(top_srcdir)/data/common/SID_256.png
 
 
