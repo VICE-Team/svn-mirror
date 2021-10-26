@@ -116,6 +116,8 @@ static int set_fullscreen_state(int val, void *param);
 static int set_fullscreen_decorations(int val, void *param);
 static int set_pause_on_settings(int val, void *param);
 static int set_autostart_on_doubleclick(int val, void *param);
+static int set_settings_node_path(const char *val, void *param);
+
 
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
@@ -185,6 +187,13 @@ static int fullscreen_enabled = 0;
  * Used bt the resource "FullscreenDecorations".
  */
 static int fullscreen_has_decorations = 0;
+
+
+/** \brief  Settings node to activate after booting the emulator
+ *
+ * Used by the `-settings-node` command line option
+ */
+static const char *settings_node_path = NULL;
 
 
 /** \brief  Row numbers of the various widgets packed in a main GtkWindow
@@ -353,6 +362,9 @@ static const cmdline_option_t cmdline_options_common[] =
     { "+autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "AutostartOnDoubleclick", (void*)0,
         NULL, "Open files on doubleclick" },
+    { "-settings-node", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_settings_node_path, NULL, NULL, NULL,
+        "settings-node", "Open settings dialog at <settings-node>" },
     CMDLINE_LIST_END
 };
 
@@ -1133,6 +1145,7 @@ static int set_window_ypos(int val, void *param)
 }
 
 
+/* FIXME: Why is this here? */
 #ifdef COMPYX_LAMER
 /** \brief  Set the 'AutostartOnDoubleclick' resource
  *
@@ -1147,6 +1160,27 @@ static int set_autostart_on_doubleclick(int val, void *param)
     return 0;
 }
 #endif
+
+
+/** \brief  Set settings node path to activate on UI startup
+ *
+ * Triggers opening the settings dialog at node \a val once when starting VICE.
+ *
+ * Useful for working on settings dialogs, avoid having to click through the UI.
+ * For example: `x64sc -settings-node peripheral/drive` will open the drive
+ * settings.
+ *
+ * \param[in]   val     setting node path
+ * \param[in]   param   extra data (unused);
+ *
+ * \return  0
+ */
+static int set_settings_node_path(const char *val, void *param)
+{
+    debug_gtk3("Activating settings node '%s'.", val);
+    settings_node_path = val;
+    return 0;   /* we won't know if the path is valid until later */
+}
 
 
 /*
@@ -1632,6 +1666,14 @@ void ui_create_main_window(video_canvas_t *canvas)
                 "button-press-event",
                 G_CALLBACK(rendering_area_event_handler),
                 new_window);
+    }
+
+    /* activate settings dialog at a specific node if requested via the
+     * -settings-node command line option
+     */
+    if (settings_node_path != NULL) {
+        ui_settings_dialog_create_and_activate_node(settings_node_path);
+        settings_node_path = NULL;
     }
 }
 
@@ -2324,3 +2366,6 @@ GtkWidget *ui_get_window_by_index(int index)
     }
     return ui_resources.window_widget[index];
 }
+
+
+

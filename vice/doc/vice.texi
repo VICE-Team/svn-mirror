@@ -1420,6 +1420,12 @@ Write the complete config into file. Normally only resources that have been
 changed from their default value would be written to the config file, however
 with this option you can see all resources and their current values.
 
+@findex -settings-node
+@item -settings-node <path>
+Activate settings dialog at node <path> after starting the emulator (Gtk3 only).
+Meant for use during development, the <path> is string pointing to a node in the
+settings tree (see src/arch/gtk3/uisettings.c).
+
 @findex -logfile
 @item -logfile <name>
 Specify log file name
