@@ -87,17 +87,11 @@ CLEANFILES = \
 	$(COPIED_FILES)
 
 
-
-if ENABLE_HTML_DOCS
-html_DATA = $(HTML_FILES)
-fonts_DATA = $(FONTS_FILES)
-images_DATA = $(IMAGES_FILES)
-else
 noinst_DATA = \
 	$(HTML_FILES) \
 	$(FONTS_FILES) \
 	$(IMAGES_FILES)
-endif
+
 
 # It's awkward to make the following multi-output rule work properly
 # in parallel but it's the only intensive rule anyway so just
