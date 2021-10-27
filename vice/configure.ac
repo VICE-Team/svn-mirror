@@ -402,7 +402,7 @@ fi
 
 AC_CHECK_PROGS(PERL, perl)
 
-if test x"${disable_html_docs:-no}" != xyes -a x"$PERL" = x; then
+if test x"${enable_html_docs:-yes}" != xno -a x"$PERL" = x; then
   AC_MSG_ERROR([Perl is required to generate the HTML documentation])]
 fi
 
@@ -414,7 +414,7 @@ else
 fi
 AC_SUBST(VICE_PDF_FILE_NAME)
 
-AM_CONDITIONAL([ENABLE_HTML_DOCS], [test x"${disable_html_docs:-no}" != xyes])
+AM_CONDITIONAL([ENABLE_HTML_DOCS], [test x"${enable_html_docs:-yes}" != xno])
 AM_CONDITIONAL([HAVE_PERL], [test x"$PERL" != x])
 
 dnl Seems to be used for AmigaOS, not available on Debian:
@@ -4074,11 +4074,11 @@ if test x"$enable_pdf_docs" = xno; then
 else
     echo "yes"
 fi
-echo -n "Install HTML      : "
-if test x"${enable_html_docs:-no}" = xno; then
-    echo "no"
-else
+echo -n "Generate HTML     : "
+if test x"${enable_html_docs:-yes}" != xno; then
     echo "yes"
+else
+    echo "no"
 fi
 
 echo ""
