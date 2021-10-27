@@ -185,10 +185,10 @@ if test x"$SDLVERSION" = "x1"; then
 fi
 
 mkdir $BINDIST_DIR/doc
-if test x"$HTML_DOCS" = "xyes"; then
-    cp -a $TOPSRCDIR/doc/html/* $BINDIST_DIR/doc
-    cp -a -u $TOPBUILDDIR/doc/html/* $BINDIST_DIR/doc
-fi
+#if test x"$HTML_DOCS" = "xyes"; then
+#    cp -a $TOPSRCDIR/doc/html/* $BINDIST_DIR/doc
+#    cp -a -u $TOPBUILDDIR/doc/html/* $BINDIST_DIR/doc
+#fi
 rm -f $BINDIST_DIR/doc/Makefile* $BINDIST_DIR/doc/texi2html
 rm -f $BINDIST_DIR/doc/checklinks.sh $BINDIST_DIR/doc/sitemap.xml
 rm -f $BINDIST_DIR/doc/robots.txt $BINDIST_DIR/doc/COPYING $BINDIST_DIR/doc/NEWS

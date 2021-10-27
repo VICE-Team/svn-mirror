@@ -235,13 +235,13 @@ cp $TOPBUILDDIR/data/common/vice.gresource $BUILDPATH/common
 cp $TOPSRCDIR/data/common/C64_Pro_Mono-STYLE.ttf $BUILDPATH/common
 cp $TOPSRCDIR/data/common/*.vhk $BUILDPATH/common
 
-if test x"$HTML_DOCS" = "xyes"; then
-    cp -a $TOPSRCDIR/doc/html $BUILDPATH
-    cp -a -u $TOPBUILDDIR/doc/html $BUILDPATH
-    rm -f $BUILDPATH/html/Makefile* $BUILDPATH/html/checklinks.sh $BUILDPATH/html/texi2html
-    rm -f $BUILDPATH/html/robots.txt $BUILDPATH/html/sitemap.xml
-    rm -f $BUILDPATH/html/COPYING $BUILDPATH/html/NEWS
-fi
+#if test x"$HTML_DOCS" = "xyes"; then
+#    cp -a $TOPSRCDIR/doc/html $BUILDPATH
+#    cp -a -u $TOPBUILDDIR/doc/html $BUILDPATH
+#    rm -f $BUILDPATH/html/Makefile* $BUILDPATH/html/checklinks.sh $BUILDPATH/html/texi2html
+#    rm -f $BUILDPATH/html/robots.txt $BUILDPATH/html/sitemap.xml
+#    rm -f $BUILDPATH/html/COPYING $BUILDPATH/html/NEWS
+#fi
 
 cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $TOPSRCDIR/README $BUILDPATH
 mkdir $BUILDPATH/doc

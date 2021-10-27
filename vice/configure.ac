@@ -138,7 +138,7 @@ VICE_ARG_ENABLE_LIST(hidmgr,            [  --disable-hidmgr        disable IOHID
 dnl
 dnl Documentation options
 dnl
-VICE_ARG_ENABLE_LIST(html-docs,         [  --enable-html-docs      install the HTML documentation [[default=no]]])
+VICE_ARG_ENABLE_LIST(html-docs,         [  --disable-html-docs     do not generate the HTML documentation [[default=no]]])
 VICE_ARG_ENABLE_LIST(pdf-docs,          [  --enable-pdf-docs       generate the PDF documentation [[default=if possible]]])
 VICE_ARG_ENABLE_LIST(platformdox,       [  --enable-platformdox    enable generating of documentation specific to the current host])
 
@@ -402,7 +402,7 @@ fi
 
 AC_CHECK_PROGS(PERL, perl)
 
-if test x"${enable_html_docs:-no}" != xno -a x"$PERL" = x; then
+if test x"${disable_html_docs:-no}" != xyes -a x"$PERL" = x; then
   AC_MSG_ERROR([Perl is required to generate the HTML documentation])]
 fi
 
@@ -414,7 +414,7 @@ else
 fi
 AC_SUBST(VICE_PDF_FILE_NAME)
 
-AM_CONDITIONAL([ENABLE_HTML_DOCS], [test x"${enable_html_docs:-no}" != xno])
+AM_CONDITIONAL([ENABLE_HTML_DOCS], [test x"${disable_html_docs:-no}" != xyes])
 AM_CONDITIONAL([HAVE_PERL], [test x"$PERL" != x])
 
 dnl Seems to be used for AmigaOS, not available on Debian:
