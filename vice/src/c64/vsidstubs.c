@@ -1017,3 +1017,12 @@ const char *tapeport_get_device_type_desc(int type)
 }
 #endif
 
+void userport_io_sim_set_pbx_out_lines(uint8_t val)
+{
+    return;
+}
+
+void userport_io_sim_set_pbx_ddr_lines(uint8_t val)
+{
+    return;
+}

@@ -706,6 +706,18 @@ static const mon_cmds_t mon_cmd_array[] = {
       NO_FILENAME_ARG
     },
 
+    { "updb", "",
+      "<value>",
+      "Update the simulated userport output value.",
+      NO_FILENAME_ARG
+    },
+
+    { "jpdb", "",
+      "<port> <value>",
+      "Update the simulated joyport output value.",
+      NO_FILENAME_ARG
+    },
+
     { "help", "?",
       "[<Command>]",
       "If no argument is given, prints out a list of all available commands\n"
