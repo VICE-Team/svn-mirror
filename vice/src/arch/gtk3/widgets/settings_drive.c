@@ -247,9 +247,11 @@ static GtkWidget *create_drive_volume_widget(void)
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
     g_signal_connect_unlocked(scale, "format-value", G_CALLBACK(on_drive_volume_format),
             NULL);
-    /* FIXME: quick fix: this kind of thing should be handled with VICE-wide
-     *        CSS or similar things.
-     */
+    /* Set a minimum size so we always have enough space for the widget to
+     * actually show a scale, not just the handle.
+     * This was an issue when we still had the global 'Enable TDE' checkbox
+     * on top of the page, that's no longer the case. Still, better safe than
+     * sorry. */
     gtk_widget_set_size_request(scale, 100, -1);
     return scale;
 }
