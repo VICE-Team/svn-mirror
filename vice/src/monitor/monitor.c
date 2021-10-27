@@ -1260,7 +1260,7 @@ void mon_userport_set_output(int value)
         userport_io_sim_set_pbx_ddr_lines(0xff);   /* Set data direction to output for all PBx lines */
         userport_io_sim_set_pbx_out_lines((uint8_t)value);
     } else {
-        mon_out("Illegal value.");
+        mon_out("Illegal value.\n");
     }
 }
 
@@ -1270,7 +1270,7 @@ void mon_joyport_set_output(int port, int value)
     int port_ok = 1;
 
     if (value < 0x00 || value > 0xff) {
-        mon_out("Illegal value.");
+        mon_out("Illegal value.\n");
         return;
     }
 
