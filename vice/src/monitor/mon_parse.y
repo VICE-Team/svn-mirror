@@ -165,7 +165,7 @@ extern int cur_len, last_len;
 %token CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU CMD_YYDEBUG
 %token CMD_BACKTRACE CMD_SCREENSHOT CMD_PWD CMD_DIR CMD_MKDIR CMD_RMDIR
 %token CMD_RESOURCE_GET CMD_RESOURCE_SET CMD_LOAD_RESOURCES CMD_SAVE_RESOURCES
-%token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_CARTFREEZE
+%token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_CARTFREEZE CMD_UPDB CMD_JPDB
 %token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
 %token CMD_COMMENT CMD_LIST CMD_STOPWATCH RESET
 %token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD CMD_MAINCPU_TRACE
@@ -601,6 +601,10 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_tape_ctrl($3); }
                   | CMD_CARTFREEZE end_cmd
                     { mon_cart_freeze(); }
+                  | CMD_UPDB number end_cmd
+                    { mon_userport_set_output($2); }
+                  | CMD_JPDB number number end_cmd
+                    { mon_joyport_set_output($2, $3); }
                   | CMD_COMMENT opt_rest_of_line end_cmd
                      { }
                   | CMD_STOPWATCH RESET end_cmd

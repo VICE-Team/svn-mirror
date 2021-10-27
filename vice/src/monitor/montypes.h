@@ -250,6 +250,8 @@ extern void mon_add_number_masked_to_buffer(int number, int mask);
 extern void mon_add_string_to_buffer(char *str);
 extern void mon_backtrace(void);
 extern void mon_cart_freeze(void);
+extern void mon_userport_set_output(int value);
+extern void mon_joyport_set_output(int port, int value);
 extern void mon_reset_machine(int type);
 extern void mon_resource_get(const char *name);
 extern void mon_resource_set(const char *name, const char* value);

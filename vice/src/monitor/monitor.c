@@ -85,6 +85,11 @@
 #include "monitor_network.h"
 #include "monitor_binary.h"
 #include "montypes.h"
+
+#include "userport_io_sim.h"
+#include "joyport_io_sim.h"
+#include "joyport.h"
+
 #include "resources.h"
 #include "screenshot.h"
 #include "sysfile.h"
@@ -1242,6 +1247,26 @@ void mon_cart_freeze(void)
 {
     if (mon_cart_cmd.cartridge_trigger_freeze != NULL) {
         (mon_cart_cmd.cartridge_trigger_freeze)();
+    } else {
+        mon_out("Unsupported.\n");
+    }
+}
+
+void mon_userport_set_output(int value)
+{
+    if (machine_class != VICE_MACHINE_CBM5x0) {
+        userport_io_sim_set_pbx_ddr_lines(0xff);   /* Set data direction to output for all PBx lines */
+        userport_io_sim_set_pbx_out_lines((uint8_t)value);
+    } else {
+        mon_out("Unsupported.\n");
+    }
+}
+
+void mon_joyport_set_output(int port, int value)
+{
+    if(port < JOYPORT_MAX_PORTS) {
+        joyport_io_sim_set_ddr_lines(0xff, port);   /* Set data direction to output for all joystick lines */
+        joyport_io_sim_set_out_lines((uint8_t)value, port);
     } else {
         mon_out("Unsupported.\n");
     }
