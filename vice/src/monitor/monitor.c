@@ -1264,9 +1264,43 @@ void mon_userport_set_output(int value)
 
 void mon_joyport_set_output(int port, int value)
 {
-    if(port < JOYPORT_MAX_PORTS) {
+    int command_ok = 0;
+    int port_ok = 1;
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
+            if (port == JOYPORT_1 || port == JOYPORT_2) {
+                command_ok = 1;
+            } else {
+                port_ok = 0;
+            }
+            break;
+        case VICE_MACHINE_VIC20:
+            if (port == JOYPORT_1) {
+                command_ok = 1;
+            } else {
+                port_ok = 0;
+            }
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (port == JOYPORT_1 || port == JOYPORT_2 || port == JOYPORT_6) {
+                command_ok = 1;
+            } else {
+                port_ok = 0;
+            }
+            break;
+    }
+
+    if (command_ok) {
         joyport_io_sim_set_ddr_lines(0xff, port);   /* Set data direction to output for all joystick lines */
         joyport_io_sim_set_out_lines((uint8_t)value, port);
+    } else if (!port_ok) {
+        mon_out("Illegal port.\n");
     } else {
         mon_out("Unsupported.\n");
     }
