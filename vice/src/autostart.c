@@ -2020,13 +2020,10 @@ int autostart_autodetect(const char *file_name, const char *program_name,
     }
 
     if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_SCPU64) {
-        int datasette_temp, tapecart_temp;
+        int tapedevice_temp;
 
-        if (resources_get_int("Datasette", &datasette_temp) < 0) {
+        if (resources_get_int("TapePort1Device", &tapedevice_temp) < 0) {
             log_error(LOG_ERR, "Failed to get Datasette status.");
-        }
-        if (resources_get_int("TapecartEnabled", &tapecart_temp) < 0) {
-            log_error(LOG_ERR, "Failed to get Tapecart status.");
         }
 
         set_tapeport_device(1, 0);
@@ -2043,7 +2040,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
             return 0;
         }
 
-        set_tapeport_device(datasette_temp, tapecart_temp);
+        resources_set_int("TapePort1Device", tapedevice_temp);
     }
 
     if (autostart_snapshot(file_name, program_name) == 0) {
