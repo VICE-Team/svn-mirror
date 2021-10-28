@@ -561,7 +561,7 @@ GtkWidget *ffmpeg_widget_create(void)
 
     /* half-FPS widget */
     fps = vice_gtk3_resource_check_button_new("FFMPEGVideoHalveFramerate",
-            "Half framerate (25/30 FPS)"),
+            "Half framerate (25/30 FPS)");
     gtk_widget_set_halign(fps, GTK_ALIGN_START);
     g_object_set(fps, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), fps, 0, 3, 4, 1);
