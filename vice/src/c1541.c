@@ -2791,6 +2791,10 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     int dnr = 0;
     unsigned int track, sector;
     vdrive_t *floppy;
+    disk_image_t *disk_image;
+    unsigned int disk_type;
+    size_t disk_size;
+    size_t total_written;
     uint8_t *buf, *str;
     unsigned int channel = 2;
     char *p00_name = NULL;
@@ -2811,6 +2815,22 @@ static int extract_cmd_common(int nargs, char **args, int geos)
 
     floppy = drives[dnr];
 
+    /* determine size of image to guard against cyclic blocks later */
+    disk_image = floppy->image;
+    disk_type = disk_image->type;
+    disk_size = (size_t)fsimage_size(disk_image);
+    /* adjust size in case of Gxx/P64 images, assumes 42/84 track images are
+     * possible to avoid false positives in the guard */
+    switch (disk_type) {
+        case DISK_IMAGE_TYPE_G64:   /* fall through */
+        case DISK_IMAGE_TYPE_P64:
+            disk_size = D64_FILE_SIZE_35 + (7 * 17 * 256);    /* 42 tracks */
+            break;
+        case DISK_IMAGE_TYPE_G71:
+            disk_size = (D64_FILE_SIZE_35 + (7 * 17 * 256)) * 2;    /* 84 tracks */
+            break;
+    }
+
     if (vdrive_iec_open(floppy, (const uint8_t *)"#", 1, channel, NULL)) {
         fprintf(stderr, "cannot open buffer #%u in unit %d\n", channel,
                 dnr + DRIVE_UNIT_MIN);
@@ -2820,8 +2840,10 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     track = floppy->Dir_Track;
     sector = floppy->Dir_Sector;
 
+    total_written = 0;
     while (1) {
         int i, res;
+
 
         str = (uint8_t *)lib_msprintf("B-R:%u 0 %u %u", channel, track, sector);
         res = vdrive_command_execute(floppy, str, (unsigned int)strlen((char *)str));
@@ -2969,8 +2991,25 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                         }
                     }
                     do {
-                        status = vdrive_iec_read(floppy, &c, 0);
-                        fputc(c, fd);
+                        /* guard against cyclic blocks */
+                        if (total_written < disk_size) {
+                            status = vdrive_iec_read(floppy, &c, 0);
+                            fputc(c, fd);
+                            total_written++;
+                        } else {
+                            fprintf(stderr,
+                                    "Error: trying to extract more data than"
+                                    " image can contain (%zu), possibly a\n"
+                                    "       cyclic T/S chain in file '%s',"
+                                    " aborting.\n",
+                                    disk_size, name);
+                            fclose(fd);
+                            if (p00_name != NULL) {
+                                lib_free(p00_name);
+                            }
+                            vdrive_iec_close(floppy, channel);
+                            return FD_WRTERR;
+                        }
                     } while (status == SERIAL_OK);
                 }
                 if (p00_name != NULL) {
