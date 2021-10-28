@@ -1152,8 +1152,13 @@ int parse_and_execute_line(char *input)
    char *temp_buf;
    int i, rc;
 
-   /* Ensure drive CPU emulation is up to date with main cpu CLOCK. */
-   drive_cpu_execute_all(maincpu_clk);
+   if (default_memspace == e_comp_space) {
+       /*
+        * If the command is to be executed when the default address space is the main cpu,
+        * Ensure drive CPU emulation is up to date with main cpu CLOCK.
+        */
+       drive_cpu_execute_all(maincpu_clk);
+   }
 
    temp_buf = lib_malloc(strlen(input) + 3);
    strcpy(temp_buf,input);
