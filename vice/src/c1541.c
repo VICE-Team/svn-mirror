@@ -2636,7 +2636,7 @@ static int entry_cmd(int nargs, char **args)
                 printf("Side sector groups:\n");
                 o = OFFSET_SUPER_POINTER;
                 for (side = 0; side < SIDE_SUPER_MAX; side++, o += 2) {
-                    track = bufferinfo->super_side_sector[o],
+                    track = bufferinfo->super_side_sector[o];
                     sector = bufferinfo->super_side_sector[o + 1];
 
                     if (track || sector) {
@@ -2648,7 +2648,7 @@ static int entry_cmd(int nargs, char **args)
 
                 o = OFFSET_SUPER_POINTER;
                 for (side = 0; side < SIDE_SUPER_MAX; side++, o += 2) {
-                    track = bufferinfo->super_side_sector[o],
+                    track = bufferinfo->super_side_sector[o];
                     sector = bufferinfo->super_side_sector[o + 1];
 
                     if (track != 0) {

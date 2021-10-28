@@ -54,8 +54,8 @@ GtkWidget *final_expansion_widget_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     check = vice_gtk3_resource_check_button_new(
-            "FinalExpansionWriteBack",
-            "Enable Final Expansion image write back"),
+                "FinalExpansionWriteBack",
+                "Enable Final Expansion image write back");
 
     gtk_grid_attach(GTK_GRID(grid), check, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
