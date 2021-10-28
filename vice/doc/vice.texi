@@ -30849,6 +30849,177 @@ C64 the load address of the image MUST NOT be set lower than $07E8.
 number to be played (0x00 for song 1).
 @end itemize
 
+@c @node FIXME
+@section The Swaplist (.vfl, .lst) file format
+
+"Swaplist" or "Fliplist" files contain filenames of (mostly) disk images that
+belong to a program (game/demo) so the can be easily swapped/changed by a button
+press. They were first introduced by VICE, and have since then been adopted and
+expanded by other devices. This is an attempt to unify the efforts and create a
+standard for a format that will work with all OSs and across all devices that
+can use these files, so eg a SD-Card containing a software collection will work
+with all of them.
+
+@c @node FIXME
+@subsection general
+
+The format itself is pretty straightforward and almost trivial: it is simply a
+text file containing one filename per line.
+
+@itemize
+@item Each line contains a filename. Depending on the device or emulator, this does
+  not necessarily have to be a disk image (see below). Filenames can contain a
+  full (absolute) or relative (to the swaplist file) path, or no path at all.
+
+  Note that path notation is device- and/or OS specific and not portable - for
+  that reason it is probably a good idea to not put pathes into these files
+  unless absolutely necessary.
+
+  What happens when a (non comment) line contains an invalid/non existing file
+  name is undefined and implementation specific (see below)
+
+@item Blank lines are ignored, and parsing is tolerant of varying line?endings (any
+  occurrences and/or combination of 0x0a and/or 0x0d constitutes a line-ending)
+
+@item Any line starting with a semicolon (;) is a comment and will be skipped. Any
+  device specific extensions should be implemented in comment lines, so other
+  devices will always skip them.
+@end itemize
+
+@c @node FIXME
+@subsection extensions
+
+Some devices introduced custom extensions on the format, which are considered
+completely optional. Most notable is the #PETSCII tag introduced by sd2iec,
+which parsers that don't support it should simply ignore.
+
+Details on the various devices/emulators that support swaplists follow:
+
+@c @node FIXME
+@subsubsection VICE
+
+@itemize
+@item Until 3.5, VICE used to write "# Vice fliplist file" to the first line of the
+  file. To make the created files more universal, this was changed to use the
+  new comment line delimiter in 3.5 r40450, ie "; Vice fliplist file"
+
+@item A line containing ";UNIT X" indicates that the following files belong to the
+  drive X (This used to be "UNIT X" before 3.5 r40481). When the swaplist
+  contains only files for one drive, this marker will not be created.
+
+@item File names that are not readable (or do not exist) will be ignored/skipped
+
+@item the sd2iec #PETSCII marker is recognized since VICE 3.5 r40450
+@end itemize
+
+After 3.5 r40450 VICE will still accept (read) files in the old format, but
+only create files in the new, more compatible format.
+
+@c @node FIXME
+@subsubsection sd2iec
+
+@itemize
+@item The file names are parsed in the same way as the CD command, so you can
+  include a path to the image if desired. Due to the way this feature is
+  implemented you are not limited to a swap list containing just D64 images,
+  M2I and even FAT directories will work too.
+
+@item a file name including path can be max. 255 characters long
+
+@item there can be max. 255 files in a swaplist
+
+@item By default sd2iec assumes the swap file is encoded in ASCII. If the the first
+  line of the file matches "#PETSCII" (in hex: $23 $50 $45 $54 $53 $43 $49 $49),
+  filenames are assumed to be encoded in PETSCII instead.
+
+@item When sd2iec finds an invalid/non existing file name, it will stop and indicate
+  an error by blinking the LED
+@end itemize
+
+The comment delimiter (;) is recognized in firmware since April 22nd, 2021
+
+@c @node FIXME
+@subsubsection Chameleon
+
+@itemize
+@item as of now, filenames must _not_ contain a path component
+
+@item a file name can be max. 255 characters long
+
+@item since the files in the list are not "swapped" but immediately mounted, there
+  can be max. 4 files in the list
+
+@item d64 and g64 files are recognized, files with other extensions are skipped
+
+@item the sd2iec #PETSCII marker is recognized
+@end itemize
+
+@c @node FIXME
+@subsubsection pi1541
+
+(some of the following needs more explanation and/or will perhaps change in the
+future):
+
+@itemize
+@item Path can be relative or not and is in the format; [drive#:][/]directory/file
+
+@item Comments are in the C programming style of // and /* */
+
+@item All files will be ignored if they don't have an extension of the currently
+  supported disk image (d64, g64, nib, nbz or t64). If the disk image fails to
+  load then it will be ignored.
+
+@item When a file is found where the file name does not end with a supported disk
+  extension the file name will be compared to the list of ROM file names that
+  have been specified inside of the Pi1541's options.txt file and if a match is
+  found then that ROM will be used for that LST selection. If more than one has
+  been specified inside the LST file then the last one encountered will be used.
+@end itemize
+
+@c @node FIXME
+@subsection Examples
+
+example: barebones minimal swaplist
+@example
+FOO.D64
+BAR.D64
+BAZ.D64
+@end example
+
+example: simple VICE fliplist
+@example
+; Vice fliplist file
+FOO.D64
+BAR.D64
+BAZ.D64
+@end example
+
+example: VICE fliplist for multiple drives + comments
+@example
+; Vice fliplist file
+;UNIT 8
+FOO.D64
+BAR.D64
+BAZ.D64
+;UNIT 9
+FUU.D64
+BOR.D64
+BOZ.D64
+; don't forget this one
+;UNIT 10
+BUZ.D64
+@end example
+
+example: sd2iec style pathes + comment
+@example
+//NEATGAME/:DISK1A.D64
+//NEATGAME/:DISK1B.D64
+//NEATGAME/:DISK2A.D64
+//NEATGAME/:DISK2B.D64
+; save disk in separate directory for easier backup
+//SAVEDISKS/:NEATGAME.D64
+@end example
+
 @c section used in file generation, keep to the format used.
 @node Acknowledgments
 @chapter Acknowledgments
