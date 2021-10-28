@@ -609,6 +609,7 @@ HEREDOC
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	cat <<-HEREDOC >> CMakeLists.txt
 		set(CMAKE_OSX_SYSROOT "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/")
+		set(CMAKE_OSX_DEPLOYMENT_TARGET "10.10")
 		set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
 		set(CMAKE_CXX_STANDARD 11)
 
