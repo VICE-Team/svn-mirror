@@ -68,7 +68,7 @@ extern void machine_set_tape_motor_in(int val);
 extern void datasette_set_tape_sense(int sense);
 
 /* For registering the resources.  */
-extern int datasette_resources_init(void);
+extern int datasette_resources_init(int amount);
 extern int datasette_cmdline_options_init(void);
 
 #endif

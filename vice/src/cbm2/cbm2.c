@@ -316,10 +316,6 @@ int machine_resources_init(void)
         init_resource_fail("tapeport");
         return -1;
     }
-    if (datasette_resources_init() < 0) {
-        init_resource_fail("datasette");
-        return -1;
-    }
     if (acia1_resources_init() < 0) {
         init_resource_fail("acia1");
         return -1;
@@ -534,10 +530,6 @@ int machine_cmdline_options_init(void)
     }
     if (tapeport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("tapeport");
-        return -1;
-    }
-    if (datasette_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("datasette");
         return -1;
     }
     if (acia1_cmdline_options_init() < 0) {

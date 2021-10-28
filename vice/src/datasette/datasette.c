@@ -290,7 +290,7 @@ static const resource_int_t resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
-int datasette_resources_init(void)
+int datasette_resources_init(int amount)
 {
     if (tapeport_device_register(TAPEPORT_DEVICE_DATASETTE, &datasette_device) < 0) {
         return -1;
