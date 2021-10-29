@@ -47,10 +47,10 @@ TAPE PORT | PCF8583 | I/O
 
 #include "cp-clockf83.h"
 
-static int tapertc_enabled = 0;
+static int tapertc_enabled[TAPEPORT_MAX_PORTS] = { 0 };
 
 /* rtc context */
-static rtc_pcf8583_t *tapertc_context = NULL;
+static rtc_pcf8583_t *tapertc_context[TAPEPORT_MAX_PORTS] = { NULL };
 
 /* rtc save */
 static int tapertc_save = 0;
@@ -84,22 +84,23 @@ static int tapertc_enable(int port, int value)
 {
     int val = value ? 1 : 0;
 
-    if (tapertc_enabled == val) {
+    if (tapertc_enabled[port] == val) {
         return 0;
     }
 
     if (val) {
-        tapertc_context = pcf8583_init("TAPERTC", 2);
-        pcf8583_set_data_line(tapertc_context, 1);
-        pcf8583_set_clk_line(tapertc_context, 1);
+        tapertc_context[port] = pcf8583_init("TAPERTC", 2);
+        pcf8583_set_data_line(tapertc_context[port], 1);
+        pcf8583_set_clk_line(tapertc_context[port], 1);
     } else {
-        if (tapertc_context) {
-            pcf8583_destroy(tapertc_context, tapertc_save);
-            tapertc_context = NULL;
+        if (tapertc_context[port]) {
+            pcf8583_destroy(tapertc_context[port], tapertc_save);
+            tapertc_context[port] = NULL;
         }
     }
 
-    tapertc_enabled = val;
+    tapertc_enabled[port] = val;
+
     return 0;
 }
 
@@ -142,45 +143,49 @@ int tapertc_cmdline_options_init(void)
 
 void tapertc_resources_shutdown(void)
 {
-    if (tapertc_context) {
-        pcf8583_destroy(tapertc_context, tapertc_save);
-        tapertc_context = NULL;
+    int i;
+
+    for (i = 0; i < TAPEPORT_MAX_PORTS; i++) {
+        if (tapertc_context[i]) {
+            pcf8583_destroy(tapertc_context[i], tapertc_save);
+            tapertc_context[i] = NULL;
+        }
     }
 }
 
 /* ---------------------------------------------------------------------*/
 
-static uint8_t motor_state;
+static uint8_t motor_state[TAPEPORT_MAX_PORTS];
 
-static void check_sense(void)
+static void check_sense(int port)
 {
     int sense_from_rtc;
 
-    sense_from_rtc = pcf8583_read_data_line(tapertc_context);
+    sense_from_rtc = pcf8583_read_data_line(tapertc_context[port]);
 
     if (!sense_from_rtc) {
-        tapeport_set_tape_sense(0, TAPEPORT_PORT_1);
-    } else if (motor_state) {
-        tapeport_set_tape_sense(0, TAPEPORT_PORT_1);
+        tapeport_set_tape_sense(0, port);
+    } else if (motor_state[port]) {
+        tapeport_set_tape_sense(0, port);
     } else {
-        tapeport_set_tape_sense(1, TAPEPORT_PORT_1);
+        tapeport_set_tape_sense(1, port);
     }
 }
 
 static void tapertc_store_sda(int port, int flag)
 {
-    motor_state = flag;
+    motor_state[port] = flag;
 
-    pcf8583_set_data_line(tapertc_context, (uint8_t)!motor_state);
-    check_sense();
+    pcf8583_set_data_line(tapertc_context[port], (uint8_t)!motor_state[port]);
+    check_sense(port);
 }
 
 static void tapertc_store_scl(int port, int write_bit)
 {
     uint8_t val = write_bit ? 1 : 0;
 
-    pcf8583_set_clk_line(tapertc_context, val);
-    check_sense();
+    pcf8583_set_clk_line(tapertc_context[port], val);
+    check_sense(port);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -206,13 +211,13 @@ static int tapertc_write_snapshot(int port, struct snapshot_s *s, int write_imag
         return -1;
     }
 
-    if (SMW_B(m, motor_state) < 0) {
+    if (SMW_B(m, motor_state[port]) < 0) {
         snapshot_module_close(m);
         return -1;
     }
     snapshot_module_close(m);
 
-    return pcf8583_write_snapshot(tapertc_context, s);
+    return pcf8583_write_snapshot(tapertc_context[port], s);
 }
 
 static int tapertc_read_snapshot(int port, struct snapshot_s *s)
@@ -232,12 +237,12 @@ static int tapertc_read_snapshot(int port, struct snapshot_s *s)
         goto fail;
     }
 
-    if (SMR_B(m, &motor_state) < 0) {
+    if (SMR_B(m, &motor_state[port]) < 0) {
         goto fail;
     }
     snapshot_module_close(m);
 
-    return pcf8583_read_snapshot(tapertc_context, s);
+    return pcf8583_read_snapshot(tapertc_context[port], s);
 
 fail:
     snapshot_module_close(m);
