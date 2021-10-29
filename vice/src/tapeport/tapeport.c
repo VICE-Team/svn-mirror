@@ -36,6 +36,7 @@
 #include "dtl-basic-dongle.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "sense-dongle.h"
 #include "snapshot.h"
@@ -329,8 +330,11 @@ static int tapeport_device_resources_init(int amount)
         return -1;
     }
 
-    if (tapecart_resources_init(amount) < 0) {
-        return -1;
+    /* Only use tapecart device on c64/c128 */
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_C64SC) {
+        if (tapecart_resources_init(amount) < 0) {
+            return -1;
+        }
     }
 
 #ifdef TAPEPORT_EXPERIMENTAL_DEVICES
@@ -494,8 +498,11 @@ static int tapeport_devices_cmdline_options_init(void)
         return -1;
     }
 
-    if (tapecart_cmdline_options_init() < 0) {
-        return -1;
+    /* Only use tapecart device on c64/c128 */
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_C64SC) {
+        if (tapecart_cmdline_options_init() < 0) {
+            return -1;
+        }
     }
 
     return datasette_cmdline_options_init();
