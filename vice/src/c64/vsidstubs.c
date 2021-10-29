@@ -67,6 +67,7 @@
 #include "tapecontents.h"
 #include "tape-snapshot.h"
 #include "userport.h"
+#include "userport_io_sim.h"
 #include "vdrive.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
