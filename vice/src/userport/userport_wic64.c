@@ -67,6 +67,8 @@ C64/C128   |  I/O
 #define DBG(x)
 #endif
 
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
+
 static int userport_wic64_enabled = 0;
 
 /* Some prototypes are needed */
@@ -271,3 +273,6 @@ fail:
     snapshot_module_close(m);
     return -1;
 }
+
+#endif /* USERPORT_EXPERIMENTAL_DEVICES */
+
