@@ -1108,7 +1108,8 @@ static userport_port_props_t userport_props = {
     1,                      /* port has the pa3 pin */
     cbm2_userport_set_flag, /* port has the flag pin, set flag function */
     1,                      /* port has the pc pin */
-    0                       /* port does NOT have the cnt1, cnt2 or sp pins */
+    0,                      /* port does NOT have the cnt1, cnt2 or sp pins */
+    0                       /* port does NOT have the reset pin */
 };
 
 int machine_register_userport(void)

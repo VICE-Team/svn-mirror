@@ -90,6 +90,7 @@ static userport_device_t digimax_device = {
     NULL,                                   /* NO read sp1 pin function */
     NULL,                                   /* NO store sp2 pin function */
     NULL,                                   /* NO read sp2 pin function */
+    NULL,                                   /* NO reset function */
     userport_digimax_write_snapshot_module, /* snapshot write function */
     userport_digimax_read_snapshot_module   /* snapshot read function */
 };

@@ -86,6 +86,7 @@ static userport_device_t rtc_device = {
     NULL,                               /* NO read sp1 pin function */
     NULL,                               /* NO store sp2 pin function */
     NULL,                               /* NO read sp2 pin function */
+    NULL,                               /* NO reset function */
     userport_rtc_write_snapshot_module, /* snapshot write function */
     userport_rtc_read_snapshot_module   /* snapshot read function */
 };

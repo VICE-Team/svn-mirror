@@ -1148,7 +1148,7 @@ void machine_specific_reset(void)
     viacore_reset(machine_context.ieeevia2);
 
     rs232drv_reset();
-    rsuser_reset();
+    userport_reset();
 #ifdef HAVE_MIDI
     midi_reset();
 #endif
@@ -1376,7 +1376,8 @@ static userport_port_props_t userport_props = {
     0,                       /* port does NOT have the pa3 pin */
     vic20_userport_set_flag, /* port has the flag pin, set flag function */
     0,                       /* port does NOT have the pc pin */
-    1                        /* port does have the cnt1, cnt2 and sp pins */
+    1,                       /* port does have the cnt1, cnt2 and sp pins */
+    1                        /* port has the reset pin */
 };
 
 int machine_register_userport(void)

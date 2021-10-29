@@ -118,6 +118,7 @@ void userport_port_register(userport_port_props_t *props)
     userport_props.set_flag = props->set_flag;
     userport_props.has_pc = props->has_pc;
     userport_props.has_sp12 = props->has_sp12;
+    userport_props.has_reset = props->has_reset;
 }
 
 /* register a device to be used in the userport system if possible */
@@ -143,6 +144,7 @@ int userport_device_register(int id, userport_device_t *device)
         userport_device[id].read_sp1 = device->read_sp1;
         userport_device[id].store_sp2 = device->store_sp2;
         userport_device[id].read_sp2 = device->read_sp2;
+        userport_device[id].reset = device->reset;
         userport_device[id].write_snapshot = device->write_snapshot;
         userport_device[id].read_snapshot = device->read_snapshot;
         return 0;
@@ -420,6 +422,19 @@ uint8_t read_userport_sp2(uint8_t orig)
         }
     }
     return retval;
+}
+
+void userport_reset(void)
+{
+    if (userport_props.has_reset) {
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].reset) {
+                    userport_device[userport_current_device].reset();
+                }
+            }
+        }
+    }
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */

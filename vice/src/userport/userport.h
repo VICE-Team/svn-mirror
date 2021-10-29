@@ -132,6 +132,9 @@ typedef struct userport_device_s {
     /* Read sp2 pin */
     uint8_t (*read_sp2)(uint8_t orig);
 
+    /* device reset function */
+    void (*reset)(void);
+
     /* Snapshot write */
     int (*write_snapshot)(struct snapshot_s *s);
 
@@ -146,6 +149,7 @@ typedef struct userport_port_props_s {
     void (*set_flag)(uint8_t val); /* pointer to set flag function */
     int has_pc;                    /* port has the pc line */
     int has_sp12;                  /* port has the sp1 and sp2 lines */
+    int has_reset;                 /* port had the reset line */
 } userport_port_props_t;
 
 typedef struct userport_desc_s {
@@ -168,6 +172,7 @@ extern uint8_t read_userport_sp1(uint8_t orig);
 extern void store_userport_sp1(uint8_t val);
 extern uint8_t read_userport_sp2(uint8_t orig);
 extern void store_userport_sp2(uint8_t val);
+extern void userport_reset(void);
 
 /* use this function from userport device code to set the userport flag */
 extern void set_userport_flag(uint8_t val);
