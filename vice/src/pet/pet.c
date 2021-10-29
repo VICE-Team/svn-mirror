@@ -1074,7 +1074,8 @@ static userport_port_props_t userport_props = {
     0,                     /* port does NOT have the pa3 pin */
     pet_userport_set_flag, /* port has the flag pin, set flag function */
     0,                     /* port does NOT have the pc pin */
-    0                      /* port does NOT have the cnt1, cnt2 or sp pins */
+    0,                     /* port does NOT have the cnt1, cnt2 or sp pins */
+    0                      /* port does NOT have the reset pin */
 };
 
 int machine_register_userport(void)

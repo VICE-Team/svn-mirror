@@ -1106,7 +1106,7 @@ void machine_specific_reset(void)
     sid_reset();
 
     rs232drv_reset(); /* driver is used by both user- and expansion port ? */
-    rsuser_reset();
+    userport_reset();
 
     printer_reset();
 
@@ -1393,7 +1393,8 @@ static userport_port_props_t userport_props = {
     1,                        /* port has the pa3 pin */
     scpu64_userport_set_flag, /* port has the flag pin, set flag function */
     1,                        /* port has the pc pin */
-    1                         /* port has the cnt1, cnt2 and sp pins */
+    1,                        /* port has the cnt1, cnt2 and sp pins */
+    1                         /* port has the reset pin */
 };
 
 int machine_register_userport(void)

@@ -1308,7 +1308,7 @@ void machine_specific_reset(void)
     sid_reset();
 
     rs232drv_reset();
-    rsuser_reset();
+    userport_reset();
 
     printer_reset();
 
@@ -1622,7 +1622,8 @@ static userport_port_props_t userport_props = {
     1,                      /* port has the pa3 pin */
     c128_userport_set_flag, /* port has the flag pin, set flag function */
     1,                      /* port has the pc pin */
-    1                       /* port has the cnt1, cnt2 and sp pins */
+    1,                      /* port has the cnt1, cnt2 and sp pins */
+    1                       /* port has the reset pin */
 };
 
 int machine_register_userport(void)

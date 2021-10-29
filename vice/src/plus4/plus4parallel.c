@@ -76,6 +76,7 @@ static userport_device_t par_cable_device = {
     NULL,                                 /* NO read sp1 pin function */
     NULL,                                 /* NO store sp2 pin function */
     NULL,                                 /* NO read sp2 pin function */
+    NULL,                                 /* NO reset pin function */
     NULL,                                 /* NO snapshot write function */
     NULL                                  /* NO snapshot read function */
 };

@@ -120,6 +120,7 @@ static void rsuser_write_ctrl(uint8_t b, int pulse);
 static uint8_t rsuser_read_ctrl(uint8_t orig);
 static void rsuser_set_tx_bit(uint8_t b);
 static int userport_rs232_enable(int value);
+static void rsuser_reset(void);
 
 static userport_device_t rs232_device = {
     "Userport RS232/Modem",     /* device name */
@@ -137,6 +138,7 @@ static userport_device_t rs232_device = {
     NULL,                       /* NO read sp1 pin function */
     NULL,                       /* NO store sp2 pin function */
     NULL,                       /* NO read sp2 pin function */
+    rsuser_reset,               /* NO reset function */
     NULL,                       /* NO snapshot write function */
     NULL                        /* NO snapshot read function */
 };
@@ -399,7 +401,7 @@ void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(uint8_t)
     valid = 0;
 }
 
-void rsuser_reset(void)
+static void rsuser_reset(void)
 {
     rxstate = 0;
     clk_start_rx = 0;

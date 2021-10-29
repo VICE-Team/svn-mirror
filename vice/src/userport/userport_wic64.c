@@ -95,6 +95,7 @@ static userport_device_t userport_wic64_device = {
     NULL,                                 /* NO read sp1 pin function */
     NULL,                                 /* NO store sp2 pin function */
     NULL,                                 /* NO read sp2 pin function */
+    NULL,                                 /* NO reset function */
     userport_wic64_write_snapshot_module, /* snapshot write function */
     userport_wic64_read_snapshot_module   /* snapshot read function */
 };
