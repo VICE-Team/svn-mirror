@@ -112,7 +112,7 @@ function extract_make_var {
 	# by modifying a copy of the Makefile.
 	#
 
-	TMP_MAKEFILE=$(mktemp -t cmake_bootstrap_Makfile)
+	TMP_MAKEFILE=$(mktemp -t cmake_bootstrap_Makefile.XXXXXXXX)
 	cp Makefile $TMP_MAKEFILE
 
 	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> $TMP_MAKEFILE
