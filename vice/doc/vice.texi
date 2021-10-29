@@ -1669,11 +1669,12 @@ files}).
 @menu
 * ROM files::                   Files containing dumps of the original ROMs.
 * Keymap files::                Files describing the keyboard layout.
+* Gtk3 Hotkeys files::          Files defining Gtk3 UI hotkeys.
 * Palette files::               Files defining the machine's colors.
 * Romset files::                Files defining the machine's ROM set.
 @end menu
 
-@node ROM files, Keymap files, System files, System files
+@node ROM files, Keymap files, Gtk3 Hotkeys files, System files, System files
 @section ROM files
 
 Every emulator requires its own ROM set.  For the VIC20 and the C64, the
@@ -2118,6 +2119,7 @@ emulator comes with a default positional mapping and a default symbolic
 mapping, @pxref{Keyboard emulation}.
 
 
+
 @node Palette files, Romset files, Keymap files, System files
 @section Palette files
 
@@ -2208,6 +2210,1603 @@ load the given romset archive
 select the given item from the current romset archive
 
 @end table
+
+
+@node Gtk3 Hotkeys files
+@section Gtk3 Hotkeys files
+@anchor{#gtk3-hotkeys-files}
+The Gtk3 port of VICE allows setting custom keyboard shortcuts, which we
+refer to as hotkeys. These hotkeys can be set either through the user
+interface or by editing hotkeys files, which are stored either in the
+VICE data directory or in the user's VICE configuration directory.
+
+VICE's hotkeys files are read from VICE's data directory, which we'll
+refer to as @code{$VICEDIR} and the (optional) user's hotkeys will be in
+the user's VICE configuration directory, which we'll refer to as
+@code{$USERDIR}.
+
+On Unix, @code{$VICEDIR} will point to @code{/usr/local/share/vice/},
+when using the default install prefix, and @code{$USERDIR} will point to
+@code{$HOME/.config/vice/}. On Windows, @code{$VICEDIR} will point to
+the root directory of the bindist and @code{$USERDIR} will point to
+@code{%APPDATA%\vice}, which usually is
+@code{C:\Users\%USERNAME%\AppData\Roaming\vice}.
+
+A custom path can be specified by using the command line interface:
+@code{x64sc -hotkeyfile <some-file>}, or by using the UI
+(@strong{TODO}).
+
+@menu
+* Syntax of the hotkeys files::
+@end menu
+
+@node Syntax of the hotkeys files
+@section Syntax of the hotkeys files
+@anchor{#syntax-of-the-hotkeys-files}
+The syntax of the hotkeys files is pretty straightforward, a file can
+contain mappings, directives and comments. Leading and trailing
+whitespace is ignored by the parser.
+
+@menu
+* Comments::
+* Directives::
+* Hotkey mappings::
+* Syntax highlighting::
+@end menu
+
+@node Comments
+@subsection Comments
+@anchor{#comments}
+Comments are started with either @code{;} or @code{#} and occupy the
+rest of the line, they can also appear inline after a directive or
+mapping.
+
+For example:
+
+@verbatim
+# This is a comment
+
+monitor-open    <Alt>h      # This is an inline comment
+@end verbatim
+
+@node Directives
+@subsection Directives
+@anchor{#directives}
+Directives are special commands for the parser. They start with
+@strong{@code{!}} and are case-insensitive.
+
+@menu
+* !CLEAR::
+* !DEBUG::
+* !INCLUDE::
+* !UNDEF::
+@end menu
+
+@node !CLEAR
+@subsubsection !CLEAR
+@anchor{#clear}
+Syntax
+@quotation
+
+@verbatim
+!clear
+@end verbatim
+
+@end quotation
+Clear all registered hotkeys. Best used as the first directive in the
+(main) hotkeys file.
+
+@node !DEBUG
+@subsubsection !DEBUG
+@anchor{#debug}
+Syntax
+@quotation
+
+@verbatim
+!debug <enable|disable|on|off>
+@end verbatim
+
+@end quotation
+Enable or disable debugging messages via VICE's log system. Messages
+will be prefixed with 'Hotkeys:'. Debugging is disabled by default.
+
+@node !INCLUDE
+@subsubsection !INCLUDE
+@anchor{#include}
+Syntax
+@quotation
+
+@verbatim
+!include <file>
+@end verbatim
+
+@end quotation
+Process @code{<file>} as if its contents were injected into the current
+file being processed. This can be used recursively. The @code{<file>}
+argument can be inside quotes (@code{"}) to be able to use paths or
+filenames with spaces in them, and quotes inside quotes can be used by
+escaping them with @code{\}, for example:
+@code{!include "foo \"bar\".vhk"}.
+Special variables
+As mentioned before, a few special variables exist to use in the
+argument to the @code{!include} directive: @code{$VICEDIR} and
+@code{$USERDIR}. These can be used to avoid hardcoded, absolute paths.
+
+For example:
+
+@verbatim
+!include "$VICEDIR/common/gtk3-hotkeys-drive.vhk"
+@end verbatim
+
+will include @code{/usr/local/share/vice/common/gtk3-hotkeys-drive.vhk},
+assuming the default install prefix for VICE was used.
+
+@node !UNDEF
+@subsubsection !UNDEF
+@anchor{#undef}
+Syntax
+@quotation
+
+@verbatim
+!undef [<modifier>..]<keyname>
+@end verbatim
+
+@end quotation
+Remove a hotkey from whatever action it is mapped to.
+
+For example:
+
+@verbatim
+!undef      <Alt>r      # Unmap Alt+r from 'restore display'
+reset-soft  <Alt>r      # Map Alt+r to soft reset
+@end verbatim
+
+@node Hotkey mappings
+@subsection Hotkey mappings
+@anchor{#hotkey-mappings}
+
+@menu
+* Syntax::
+@end menu
+
+@node Syntax
+@subsubsection Syntax
+@anchor{#syntax-4}
+@quotation
+
+@verbatim
+<action-name>   [<modifier>...]<keyname>
+@end verbatim
+
+@end quotation
+Create a mapping of a hotkey to an action, where @code{<action-name>} is
+a string refering to an operation triggered by a menu item -- such as
+toggling Warp Mode, or attaching a disk to a drive -- followed by a
+keyname, optionally prefixed with one or more modifiers.
+
+For example:
+
+@verbatim
+monitor-open    <Alt>m
+settings-open   KP_Divide       # map '/' on the keypad to the settings dialog
+edit-paste      <Control><Alt>Insert
+@end verbatim
+
+The key names are case-sensitive and map directly to the symbolic
+constants GDK uses, but without the leading @code{GDK_KEY_} component.
+In the above example the string 'Insert' would map to
+@code{GDK_KEY_Insert}.
+
+For a list of available symbolic key names, see the @code{gdkkeysyms.h}
+header of the GDK development headers. On a Debian system the file is
+located at @code{/usr/include/gtk-3.0/gdk/gdkkeysyms.h}. It can also be
+viewed online at
+@uref{https://gitlab.gnome.org/GNOME/gtk/blob/master/gdk/gdkkeysyms.h,https://gitlab.gnome.org/GNOME/gtk/blob/master/gdk/gdkkeysyms.h}
+
+@subsection List of modifiers
+@multitable @columnfractions 0.33 0.33 0.33 
+@headitem 
+Windows/Unix
+ @tab MacOS
+ @tab GDK symbolic constant
+@item 
+@code{<Alt>}
+ @tab @code{<Option>}
+ @tab @code{GDK_MOD1_MASK}
+@item 
+@code{<Control>}
+ @tab @code{<Command>}
+ @tab @code{GDK_CONTROL_MASK}
+@item 
+@code{<Hyper>}
+ @tab @code{GDK_HYPER_MASK}
+@item 
+@code{<Shift>}
+ @tab @code{<Shift>}
+ @tab @code{GDK_SHIFT_MASK}
+@item 
+@code{<Super>}
+ @tab @code{<Super>}
+ @tab @code{GDK_SUPER_MASK}
+@end multitable
+
+@quotation
+Please be aware that some modifier+key combinations are either mapped to
+the emulated machine's keyboard -- such as @code{<Control>1} being
+mapped to CBM+1 when using a positional keymap -- or to the operating
+system/window manager. Mappings using @code{<Alt>} or
+@code{<Alt><Shift>} are usually fine.
+@end quotation
+
+@subsection List of action names
+@quotation
+This list is generated running @code{./uiactions.py markdown}.
+@end quotation
+@multitable {@code{fullscreen-decorations-toggle}} {Attach a medium to the emulator inspecting its type} {x64} {x64sc} {x64dtv} {xscpu64} {x128} {xvic} {xplus4} {xpet} {xcbm5x0} {xcbm2} 
+@headitem 
+name
+ @tab description
+ @tab x64
+ @tab x64sc
+ @tab x64dtv
+ @tab xscpu64
+ @tab x128
+ @tab xvic
+ @tab xplus4
+ @tab xpet
+ @tab xcbm5x0
+ @tab xcbm2
+@item 
+@code{advance-frame}
+ @tab Advance emulation one frame
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{cart-attach}
+ @tab Attach cartridge
+ @tab yes
+ @tab yes
+ @tab no
+ @tab yes
+ @tab no
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+@item 
+@code{cart-detach}
+ @tab Detach cartridge
+ @tab yes
+ @tab yes
+ @tab no
+ @tab yes
+ @tab no
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+@item 
+@code{cart-freeze}
+ @tab Press cartridge freeze button
+ @tab yes
+ @tab yes
+ @tab no
+ @tab yes
+ @tab no
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+@item 
+@code{debug-autoplayback-frames}
+ @tab Set autoplayback frames
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{debug-core-dump-toggle}
+ @tab Toggle saving core dump
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{debug-trace-cpu-toggle}
+ @tab Toggle CPU trace
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{debug-trace-drive-10-toggle}
+ @tab Toggle Drive 10 CPU trace
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{debug-trace-drive-11-toggle}
+ @tab Toggle Drive 11 CPU trace
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{debug-trace-drive-8-toggle}
+ @tab Toggle Drive 8 CPU trace
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{debug-trace-drive-9-toggle}
+ @tab Toggle Drive 9 CPU trace
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{debug-trace-iec-toggle}
+ @tab Toggle IEC bus trace
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{debug-trace-ieee488-toggle}
+ @tab Toggle IEEE-488 bus trace
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{debug-trace-mode}
+ @tab Select CPU/Drive trac mode
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-attach-10:0}
+ @tab Attach disk to unit 10, drive 0
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-attach-10:1}
+ @tab Attach disk to unit 10, drive 1
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-attach-11:0}
+ @tab Attach disk to unit 11, drive 0
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-attach-11:1}
+ @tab Attach disk to unit 11, drive 1
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-attach-8:0}
+ @tab Attach disk to unit 8, drive 0
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-attach-8:1}
+ @tab Attach disk to unit 8, drive 1
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-attach-9:0}
+ @tab Attach disk to unit 9, drive 0
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-attach-9:1}
+ @tab Attach disk to unit 9, drive 1
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-create}
+ @tab Create and attach empty disk image
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-detach-10:0}
+ @tab Detach disk from unit 10, drive 0
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-detach-10:1}
+ @tab Detach disk from unit 10, drive 1
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-detach-11:0}
+ @tab Detach disk from unit 11, drive 0
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-detach-11:1}
+ @tab Detach disk from unit 11, drive 1
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-detach-8:0}
+ @tab Detach disk from unit 8, drive 0
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-detach-8:1}
+ @tab Detach disk from unit 8, drive 1
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-detach-9:0}
+ @tab Detach disk from unit 9, drive 0
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-detach-9:1}
+ @tab Detach disk from unit 9, drive 1
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{drive-detach-all}
+ @tab Detach all disks
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{edit-copy}
+ @tab Copy screen content to clipboard
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{edit-paste}
+ @tab Paste clipboard content into machine
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{fliplist-add}
+ @tab Add current disk to fliplist
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{fliplist-clear}
+ @tab Clear fliplist
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{fliplist-load}
+ @tab Load fliplist
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{fliplist-next}
+ @tab Attach next disk in fliplist
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{fliplist-previous}
+ @tab Attach previous disk in fliplist
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{fliplist-remove}
+ @tab Remove current disk from fliplist
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{fliplist-save}
+ @tab Save fliplist
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{fullscreen-decorations-toggle}
+ @tab Show menu/status in fullscreen
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{fullscreen-toggle}
+ @tab Toggle fullscreen
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{help-about}
+ @tab Show about dialog
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{help-command-line}
+ @tab Command line options
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{help-compile-time}
+ @tab Compile time features
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{help-hotkeys}
+ @tab Hotkeys
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{help-manual}
+ @tab Browse VICE manual
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{history-milestone-reset}
+ @tab Return to recording milestone
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{history-milestone-set}
+ @tab Set recording milestone
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{history-playback-start}
+ @tab Start playing back events
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{history-playback-stop}
+ @tab Stop playing back events
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{history-record-start}
+ @tab Start recording events
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{history-record-stop}
+ @tab Stop recording events
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{keyset-joystick-enable}
+ @tab Allow keyset joystick
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{media-record}
+ @tab Record media
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{media-stop}
+ @tab Stop media recording
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{monitor-open}
+ @tab Open monitor
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{mouse-grab-toggle}
+ @tab Toggle Mouse Grab
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{pause-toggle}
+ @tab Toggle Pause
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{quit}
+ @tab Quit emulator
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{reset-drive-10}
+ @tab Reset drive 10
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{reset-drive-11}
+ @tab Reset drive 11
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{reset-drive-8}
+ @tab Reset drive 8
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{reset-drive-9}
+ @tab Reset drive 9
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{reset-hard}
+ @tab Hard reset the machine
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{reset-soft}
+ @tab Soft reset the machine
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{restore-display}
+ @tab Resize application window to fit contents
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{screenshot-quicksave}
+ @tab Save screenshot in current working directory
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{settings-default}
+ @tab Restore default settings
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{settings-dialog}
+ @tab Open settings dialog
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{settings-load}
+ @tab Load settings
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{settings-load-extra}
+ @tab Load additional settings
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{settings-load-from}
+ @tab Load settings from alternate file
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{settings-save}
+ @tab Save settings
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{settings-save-to}
+ @tab Save settings to alternate file
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{smart-attach}
+ @tab Attach a medium to the emulator inspecting its type
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{snapshot-load}
+ @tab Load snapshot file
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{snapshot-quickload}
+ @tab Quickload snapshot
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{snapshot-quicksave}
+ @tab Quicksave snapshot
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{snapshot-save}
+ @tab Save snapshot file
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{swap-controlport-toggle}
+ @tab Swap controlport joysticks
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab yes
+ @tab no
+@item 
+@code{tape-attach-1}
+ @tab Attach tape to datasette 1
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-attach-2}
+ @tab Attach tape to datasette 2
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{tape-create-1}
+ @tab Create tape and attach to datasette 1
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-create-2}
+ @tab Create tape and attach to datasette 2
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{tape-detach-1}
+ @tab Detach tape from datasette 1
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-detach-2}
+ @tab Detach tape from datasette 2
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{tape-ffwd-1}
+ @tab Press FFWD on datasette 1
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-ffwd-2}
+ @tab Press FFWD on datasette 2
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{tape-play-1}
+ @tab Press PLAY on datasette 1
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-play-2}
+ @tab Press PLAY on datasette 2
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{tape-record-1}
+ @tab Press RECORD on datasette 1
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-record-2}
+ @tab Press RECORD on datasette 2
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{tape-reset-1}
+ @tab Reset datasette 1
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-reset-1}
+ @tab Reset datasette 2
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{tape-reset-counter-1}
+ @tab Reset datasette 1 counter
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-reset-counter-2}
+ @tab Reset datasette 2 counter
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{tape-rewind-1}
+ @tab Press REWIND on datasette 1
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-rewind-2}
+ @tab Press REWIND on datasette 2
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{tape-stop-1}
+ @tab Press STOP on datasette 1
+ @tab yes
+ @tab yes
+ @tab no
+ @tab no
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@item 
+@code{tape-stop-2}
+ @tab Press STOP on datasette 2
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab no
+ @tab yes
+ @tab no
+ @tab no
+@item 
+@code{warp-mode-toggle}
+ @tab Toggle Warp Mode
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+ @tab yes
+@end multitable
+
+@node Syntax highlighting
+@subsection Syntax highlighting
+@anchor{#syntax-highlighting}
+Vim syntax highlighting files can be found in doc/vim/. Currently there
+are two files: @code{syntax/vhk.vim} and @code{ftdetect/vhk.vim}, these
+can be copied to @code{$VIMFILES/} to enable hotkeys syntax highlighting
+in Vim.
+
+
+
 
 @node Basics, Settings and resources, System files, Top
 @chapter Basic operation
