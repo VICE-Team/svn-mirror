@@ -43,4 +43,6 @@ libuserport_a_SOURCES = \
 	userport_rtc_ds1307.c \
 	userport_rtc_ds1307.h \
 	userport_superpad64.c \
-	userport_superpad64.h
+	userport_superpad64.h \
+	userport_wic64.c \
+	userport_wic64.h

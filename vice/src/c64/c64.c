@@ -136,6 +136,7 @@
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
 #include "userport_superpad64.h"
+#include "userport_wic64.h"
 #include "vice-event.h"
 #include "vicii.h"
 #include "vicii-mem.h"
@@ -887,6 +888,10 @@ int machine_resources_init(void)
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     if (userport_diag_586220_harness_resources_init() < 0) {
         init_resource_fail("userport diag 586220 harness");
+        return -1;
+    }
+    if (userport_wic64_resources_init() < 0) {
+        init_resource_fail("userport wic64");
         return -1;
     }
 #endif
