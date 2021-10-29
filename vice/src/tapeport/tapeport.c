@@ -326,12 +326,12 @@ static int tapeport_device_resources_init(int amount)
         return -1;
     }
 
-    if (dtlbasic_dongle_resources_init(amount) < 0) {
-        return -1;
-    }
-
-    /* Only use tapecart device on c64/c128 */
+    /* Only use tapecart device and dtl basic dongle on c64/c128 */
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_C64SC) {
+        if (dtlbasic_dongle_resources_init(amount) < 0) {
+            return -1;
+        }
+
         if (tapecart_resources_init(amount) < 0) {
             return -1;
         }
