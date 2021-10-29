@@ -38,7 +38,7 @@
 #include "sense-dongle.h"
 
 
-static int sense_dongle_enabled = 0;
+static int sense_dongle_enabled[TAPEPORT_MAX_PORTS] = { 0 };
 
 /* ------------------------------------------------------------------------- */
 
@@ -66,7 +66,7 @@ static int sense_dongle_enable(int port, int value)
 {
     int val = value ? 1 : 0;
 
-    if (sense_dongle_enabled == val) {
+    if (sense_dongle_enabled[port] == val) {
         return 0;
     }
 
@@ -74,7 +74,7 @@ static int sense_dongle_enable(int port, int value)
         tapeport_set_tape_sense(1, port);
     }
 
-    sense_dongle_enabled = val;
+    sense_dongle_enabled[port] = val;
     return 0;
 }
 
@@ -87,5 +87,5 @@ int sense_dongle_resources_init(int amount)
 
 static void sense_dongle_reset(int port)
 {
-    tapeport_set_tape_sense(TAPEPORT_PORT_1, 1);
+    tapeport_set_tape_sense(1, port);
 }
