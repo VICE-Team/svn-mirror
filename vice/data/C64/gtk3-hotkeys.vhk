@@ -1,7 +1,7 @@
 # VICE Gtk3 Hotkeys for x64/x64sc
 #
 # Author:   Bas Wassink
-# Updated:  2021-10-23
+# Updated:  2021-10-29
 #
 # See doc/gtk3-hotkeys.md for documentation on the syntax of hotkeys files.
 # See src/arch/gtk3/uiactions.h for a list of action names.
@@ -61,16 +61,9 @@ advance-frame       <Alt><Shift>p
 
 
 # "Preferences" - joystick, mouse
-#
-# TODO: Carefull: the swap controlport/userport joy support per emu is confusing :)
-#       When in doubt, consult uiactions.c, it has bitmasks detailing which
-#       emulators support which swap action(s).
-
-# C64 has both:
 mouse-grab-toggle       <Alt>m
 swap-controlport-toggle <Alt>j
-swap-userport-toggle    <Alt><Shift>j
-; keyset-joystick-toggle
+keyset-joystick-toggle  <Alt><Shift>j
 
 # Settings dialog, load, save, default
 !include $VICEDIR/common/gtk3-hotkeys-settings.vhk

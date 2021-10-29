@@ -155,36 +155,6 @@ static void on_swap_joysticks_clicked(GtkWidget *button, gpointer user_data)
 }
 
 
-/** \brief  Handler for the 'clicked' event of the "swap adapter port joysticks"
- *          button
- *
- * Swaps resources JoyDevice3 and JoyDevice4 and updates UI accordingly.
- *
- * \param[in]   button      button (unused)
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_swap_userport_joysticks_clicked(GtkWidget *button,
-                                               gpointer user_data)
-{
-    int joy3;
-    int joy4;
-
-    /* guard against updating non-existing widgets */
-    if (device_widgets[JOYPORT_3] == NULL
-            || device_widgets[JOYPORT_4] == NULL) {
-        return; /* cannot swap */
-    }
-
-    /* get current values */
-    resources_get_int_sprintf("JoyDevice%d", &joy3, 3);
-    resources_get_int_sprintf("JoyDevice%d", &joy4, 4);
-
-    /* updating the widgets triggers updating the resources */
-    joystick_device_widget_update(device_widgets[JOYPORT_3], joy4);
-    joystick_device_widget_update(device_widgets[JOYPORT_4], joy3);
-}
-
-
 /** \brief  Handler for the 'clicked' event of the "Configure keysets" button
  *
  * \param[in]   widget  button (unused)
@@ -218,24 +188,6 @@ static GtkWidget *create_swap_joysticks_button(void)
 }
 
 
-/** \brief  Create a button to swap userport joysticks #1 and #2
- *
- * \return  GtkButton
- */
-static GtkWidget *create_swap_userport_joysticks_button(void)
-{
-    GtkWidget *button;
-
-    button = gtk_button_new_with_label("Swap Adapter Joysticks 1 & 2");
-    g_signal_connect(button, "clicked",
-            G_CALLBACK(on_swap_userport_joysticks_clicked), NULL);
-    gtk_widget_set_vexpand(button, FALSE);
-    gtk_widget_set_valign(button, GTK_ALIGN_END);
-    gtk_widget_show(button);
-    return button;
-}
-
-
 /** \brief  Create a check button to enable "user-defined keysets"
  *
  * \return  GtkCheckButton
@@ -254,7 +206,7 @@ static GtkWidget *create_keyset_enable_checkbox(void)
 static GtkWidget *create_opposite_enable_checkbox(void)
 {
     return vice_gtk3_resource_check_button_new("JoyOpposite",
-            "Allow opposite directions");
+                                               "Allow opposite directions");
 }
 
 
@@ -361,70 +313,23 @@ static int layout_add_sidcard_port(GtkGrid *layout, int row)
 }
 
 
-/** \brief  Add "Swap joystick" buttons
+/** \brief  Add "Swap joystick" button
  *
- * Add widgets to the \a layout to swap control port and user port joysticks.
+ * Add widget to the \a layout to swap control port
  *
  * \param[in,out]   layout      main widget grid
  * \param[in]       row         starting row in \a layout
- * \param[in]       controlport add "swap joysticks" button
- * \param[in]       userport    add "swap adapter joysticks" button
  *
  * \return  row in the \a layout for additional widgets
  */
-static int layout_add_swap_buttons(GtkGrid *layout,
-                                   int row,
-                                   bool controlport,
-                                   bool userport)
+static int layout_add_swap_button(GtkGrid *layout, int row)
 {
-    /* Add "Swap joysticks" if requested */
-    if (controlport) {
-        GtkWidget *button = create_swap_joysticks_button();
-        g_object_set(button,
-                     "margin-top", 16,
-                     NULL);
-        gtk_grid_attach(GTK_GRID(layout), button, 0, row, 1, 1);
-    }
-
-    /* Add "Swap adapter joysticks 1 & 2" */
-    if (userport) {
-        GtkWidget *button = create_swap_userport_joysticks_button();
-        g_object_set(button,
-                     "margin-top", 16,
-                     NULL);
-        gtk_grid_attach(GTK_GRID(layout), button, 1, row, 1, 1);
-    }
-
-    /* There will always be at least one button and thus one row added */
+    GtkWidget *button = create_swap_joysticks_button();
+    g_object_set(button, "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(layout), button, 0, row, 1, 1);
     return row + 1;
 }
 
-#if 0
-/** \brief  Add Userport Adapter selector
- *
- * Add widget to the \a layout to select a userport adapter.
- *
- * This function should not be used for CBM-II 5x0/P or C64 DTV.
- *
- * \param[in,out]   layout  main widget grid
- * \param[in]       row     starting row in \a layout
- *
- * \return  row in the \a layout for additional widgets
- */
-static int layout_add_adapter_selector(GtkGrid *layout, int row)
-{
-    GtkWidget *widget;
-    int adapter_state = 0;
-
-    widget = joystick_userport_adapter_widget_create();
-    resources_get_int("UserportJoy", &adapter_state);
-    g_object_set(widget, "margin-top", 16, NULL);
-    gtk_widget_set_sensitive(widget, adapter_state ? TRUE : FALSE);
-    gtk_grid_attach(GTK_GRID(layout), widget, 0, row, 1, 1);
-
-    return row + 1;
-}
-#endif
 
 /** \brief  Create layout for x64/x64sc/xscpu64/x128
  *
@@ -438,7 +343,7 @@ static int create_c64_layout(GtkGrid *grid)
 
     row = layout_add_control_ports(grid, row, 2);
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_C64);
-    row = layout_add_swap_buttons(grid, row, true, true);
+    row = layout_add_swap_button(grid, row);
 
     return row;
 }
@@ -456,7 +361,7 @@ static int create_c64dtv_layout(GtkGrid *grid)
 
     row = layout_add_control_ports(grid, row, 2);
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_C64DTV);
-    row = layout_add_swap_buttons(grid, row, true, true);
+    row = layout_add_swap_button(grid, row);
 
     return row;
 }
@@ -474,7 +379,6 @@ static int create_vic20_layout(GtkGrid *grid)
 
     row = layout_add_control_ports(grid, row, 1);
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_VIC20);
-    row = layout_add_swap_buttons(grid, row, false, true);
 
     return row;
 }
@@ -493,7 +397,7 @@ static int create_plus4_layout(GtkGrid *grid)
     row = layout_add_control_ports(grid, row, 2);
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_PLUS4);
     row = layout_add_sidcard_port(grid, row);
-    row = layout_add_swap_buttons(grid, row, true, true);
+    row = layout_add_swap_button(grid, row);
 
     return row;
 }
@@ -511,7 +415,7 @@ static int create_cbm5x0_layout(GtkGrid *grid)
 
     row = layout_add_control_ports(grid, row, 2);
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_CBM5x0);
-    row = layout_add_swap_buttons(grid, row, true, true);
+    row = layout_add_swap_button(grid, row);
 
     return row;
 }
@@ -528,7 +432,6 @@ static int create_cbm6x0_layout(GtkGrid *grid)
     int row = 0;
 
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_CBM6x0);
-    row = layout_add_swap_buttons(grid, row, false, true);
 
     return row ;
 }
@@ -545,7 +448,6 @@ static int create_pet_layout(GtkGrid *grid)
     int row = 0;
 
     row = layout_add_adapter_ports(grid, row, ADAPTER_PORT_COUNT_PET);
-    row = layout_add_swap_buttons(grid, row, false, true);
 
     return row;
 }
@@ -616,10 +518,12 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), keyset_1_button, 0, row, 1, 1);
     g_signal_connect(keyset_1_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(1));
+    g_object_set(keyset_1_button, "margin-top", 16, NULL);
     keyset_2_button = gtk_button_new_with_label("Configure keyset B");
     gtk_grid_attach(GTK_GRID(layout), keyset_2_button, 1, row, 1, 1);
     g_signal_connect(keyset_2_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(2));
+    g_object_set(keyset_2_button, "margin-top", 16, NULL);
     row++;
 
     /* add check buttons for resources */
