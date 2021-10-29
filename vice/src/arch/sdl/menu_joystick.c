@@ -348,14 +348,6 @@ static UI_MENU_CALLBACK(custom_swap_ports_callback)
     return sdljoy_get_swap_ports() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
 }
 
-static UI_MENU_CALLBACK(custom_swap_userport_joystick_ports)
-{
-    if (activated) {
-        sdljoy_swap_userport_ports();
-    }
-    return sdljoy_get_swap_userport_ports() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
-}
-
 static UI_MENU_CALLBACK(custom_keyset_callback)
 {
     SDL_Event e;
@@ -932,11 +924,6 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Swap userport joystick ports",
-      MENU_ENTRY_OTHER_TOGGLE,
-      custom_swap_userport_joystick_ports,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
       joystick_autofire_dynmenu_callback,
@@ -1075,10 +1062,6 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Swap userport joystick ports",
-      MENU_ENTRY_OTHER_TOGGLE,
-      custom_swap_userport_joystick_ports,
-      NULL },
     { "SID Cart Joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SIDCartJoy_callback,
@@ -1152,11 +1135,6 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Swap userport joystick ports",
-      MENU_ENTRY_OTHER_TOGGLE,
-      custom_swap_userport_joystick_ports,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
       joystick_autofire_dynmenu_callback,
@@ -1196,11 +1174,6 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Swap userport joystick ports",
-      MENU_ENTRY_OTHER_TOGGLE,
-      custom_swap_userport_joystick_ports,
-      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,
@@ -1265,11 +1238,6 @@ const ui_menu_entry_t joystick_userport_cbm2_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Swap userport joystick ports",
-      MENU_ENTRY_OTHER_TOGGLE,
-      custom_swap_userport_joystick_ports,
-      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     { "Autofire options",
       MENU_ENTRY_SUBMENU,

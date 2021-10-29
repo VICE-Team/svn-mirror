@@ -65,9 +65,7 @@ extern void sdljoy_delete_pot_mapping(int port, int pot);
 #endif
 
 extern void sdljoy_swap_ports(void);
-extern void sdljoy_swap_userport_ports(void);
 extern int sdljoy_get_swap_ports(void) ;
-extern int sdljoy_get_swap_userport_ports(void) ;
 
 #define JOYDEV_NONE     0
 #define JOYDEV_NUMPAD   1
