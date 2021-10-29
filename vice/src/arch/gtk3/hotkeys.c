@@ -1747,7 +1747,7 @@ static bool export_header(FILE *fp)
     t = time(NULL);
     tinfo = localtime(&t);
     if (tinfo != NULL) {
-        strftime(buffer, sizeof(buffer), "%FT%H:%M%z", tinfo);
+        strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M%z", tinfo);
         result = fprintf(fp, "# Generated on %s\n", buffer);
         if (result < 0) {
             export_log_io_error();
