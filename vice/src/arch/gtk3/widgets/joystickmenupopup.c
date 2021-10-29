@@ -74,56 +74,6 @@ static gboolean joystick_swap_possible(void)
 }
 
 
-/** \brief  Determine if userport joystick swapping is possible
- *
- * This function only checks if userport joystick swapping is possible,
- * ignoring if an adapter is active to actually allow userport joysticks (and
- * thus swapping)
- *
- * \return  bool
- */
-static gboolean userport_joystick_swap_possible(void)
-{
-    switch (machine_class) {
-        /* these all support userport joystick adapters with two ports */
-        case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_C128:     /* fall through */
-        case VICE_MACHINE_SCPU64:   /* fall through */
-        case VICE_MACHINE_PLUS4:    /* fall through */
-        case VICE_MACHINE_VIC20:    /* fall through */
-        case VICE_MACHINE_PET:      /* fall through */
-        case VICE_MACHINE_CBM6x0:
-            return TRUE;
-
-        case VICE_MACHINE_C64DTV:
-            /* DTV only supports a hack for a single userport joystick */
-            return FALSE;
-
-        case VICE_MACHINE_CBM5x0:
-            /* CBM-II 5x0 models don't support userport joystick adapters */
-            return FALSE;
-
-        default:
-            /* shouldn't get here */
-            return FALSE;
-    }
-}
-
-
-/** \brief  Determine if a userport joystick adapter is enabled
- *
- * \return  bool
- */
-static gboolean userport_joystick_adapter_enabled(void)
-{
-    int enabled;
-
-    resources_get_int("UserportJoy", &enabled);
-    return (gboolean)enabled;
-}
-
-
 /** \brief  Handler for the 'activate' event of the "configure ..." menu item
  *
  * Opens the joystick configuration settings page.
@@ -170,17 +120,6 @@ static void on_swap_controlport_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Handler for the 'activate' event of "Swap userport joysticks"
- *
- * \param[in]   widget  widget triggering the event (unused)
- * \param[in]   data    extra event data (unused)
- */
-static void on_swap_userport_toggled(GtkWidget *widget, gpointer data)
-{
-    ui_action_toggle_userport_swap();
-}
-
-
 /** \brief  Create joystick menu popup for the statusbar
  *
  * \return  GtkMenu
@@ -204,20 +143,6 @@ GtkWidget *joystick_menu_popup_create(void)
                                        ui_get_controlport_swapped());
         g_signal_connect(item, "activate",
                 G_CALLBACK(on_swap_controlport_toggled), NULL);
-    }
-
-    if (userport_joystick_swap_possible()) {
-        item = gtk_check_menu_item_new_with_label(NULL);
-        child = gtk_bin_get_child(GTK_BIN(item));
-        gtk_label_set_markup(GTK_LABEL(child), "Swap userport joysticks");
-        gtk_container_add(GTK_CONTAINER(menu), item);
-        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
-                                       ui_get_userport_swapped());
-        g_signal_connect(item, "activate",
-                G_CALLBACK(on_swap_userport_toggled), NULL);
-        gtk_widget_set_sensitive(GTK_WIDGET(item),
-                userport_joystick_adapter_enabled());
-
     }
 
     /* Enable keyset joysticks */

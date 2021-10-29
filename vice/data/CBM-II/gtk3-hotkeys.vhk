@@ -3,7 +3,7 @@
 # FIXME: Need some way to determine if `xcbm5x0` or `xcbm2`!
 #
 # Author:   Bas Wassink
-# Updated:  2021-10-23
+# Updated:  2021-10-29
 #
 # See doc/gtk3-hotkeys.md for documentation on the syntax of hotkeys files.
 # See src/arch/gtk3/uiactions.h for a list of action names.
@@ -67,8 +67,8 @@ advance-frame       <Alt><Shift>p
 mouse-grab-toggle       <Alt>m
 # This logs a warning when using xcbm2:
 swap-controlport-toggle <Alt>j
-swap-userport-toggle    <Alt><Shift>j
-; keyset-joystick-toggle
+keyset-joystick-toggle  <Alt><Shift>j
+
 
 # Settings dialog, load, save, default
 !include $VICEDIR/common/gtk3-hotkeys-settings.vhk

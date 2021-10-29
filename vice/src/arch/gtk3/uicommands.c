@@ -62,7 +62,6 @@
 
 
 static gboolean controlport_swapped = FALSE;
-static gboolean userport_swapped = FALSE;
 
 
 /** \brief  Callback for the confirm-on-exit dialog
@@ -91,15 +90,6 @@ gboolean ui_get_controlport_swapped(void)
     return controlport_swapped;
 }
 
-
-/** \brief  Determine if user ports 1 & 2 are currently swapped.
- *
- * \return  bool
- */
-gboolean ui_get_userport_swapped(void)
-{
-    return userport_swapped;
-}
 
 
 /** \brief  Swap controlport devices 1 & 2
@@ -148,26 +138,6 @@ gboolean ui_action_toggle_controlport_swap(void)
     return TRUE;
 }
 
-
-/** \brief  Swap userport joysticks
- *
- * \return  TRUE
- */
-gboolean ui_action_toggle_userport_swap(void)
-{
-    int joy3 = -1;
-    int joy4 = -1;
-
-    resources_get_int("JoyDevice3", &joy3);
-    resources_get_int("JoyDevice4", &joy4);
-    resources_set_int("JoyDevice3", joy4);
-    resources_set_int("JoyDevice4", joy3);
-
-    userport_swapped = !userport_swapped;
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_SWAP_USERPORT_TOGGLE,
-                                               userport_swapped);
-    return TRUE;
-}
 
 
 /** \brief  Toggle resource 'KeySetEnable'

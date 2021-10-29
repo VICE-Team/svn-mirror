@@ -730,19 +730,16 @@ static ui_menu_item_t settings_menu_head[] = {
 
 /* {{{ settings_menu_joy_both[] */
 
-/** \brief  Settings menu - both controlport and userport items
+/** \brief  Settings menu - joystick - with controlport swap
  *
  * Has controlport, userport and keyset items
  *
- * Only valid for x64/x64sc/xscpu64/x128/xplus4
+ * Vaalid for x64/x64sc/x64dtv/xscpu64/x128/xplus4/xcbm5x0
  */
-static ui_menu_item_t settings_menu_joy_both[] = {
+static ui_menu_item_t settings_menu_joy_with_swap[] = {
     { "Swap joysticks", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_SWAP_CONTROLPORT_TOGGLE, (void *)(ui_action_toggle_controlport_swap), NULL,
       GDK_KEY_J, VICE_MOD_MASK, false },
-    { "Swap userport joysticks", UI_MENU_TYPE_ITEM_CHECK,
-      ACTION_SWAP_USERPORT_TOGGLE, (void *)(ui_action_toggle_userport_swap), NULL,
-      GDK_KEY_U, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_KEYSET_JOYSTICK_TOGGLE, (void *)(ui_toggle_resource), (void *)"KeySetEnable",
       GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
@@ -750,31 +747,13 @@ static ui_menu_item_t settings_menu_joy_both[] = {
 };
 /* }}} */
 
-/* {{{ settings_menu_joy_controlport[] */
-/** \brief  'Settings' menu - control port-only joystick items
- *
- * Only valid for x64dtv/xcbm5x0
- */
-static ui_menu_item_t settings_menu_joy_controlport[] = {
-    { "Swap joysticks", UI_MENU_TYPE_ITEM_CHECK,
-        "joystick-swap", (void *)(ui_action_toggle_controlport_swap), NULL,
-        GDK_KEY_J, VICE_MOD_MASK, false },
-    { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
-        "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
-        GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
-    UI_MENU_TERMINATOR
-};
-/* }}} */
 
 /* {{{ settings_menu_joy_userport[] */
-/** \brief  'Settings' menu - userport joystick items
+/** \brief  Settings menu - joystick - without controlport swap
  *
  * Only valid for xvic/xpet/xcbm2
  */
-static ui_menu_item_t settings_menu_joy_userport[] = {
-    { "Swap userport joysticks", UI_MENU_TYPE_ITEM_CHECK,
-        "userportjoy-swap", (void *)(ui_action_toggle_userport_swap), NULL,
-        GDK_KEY_U, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
+static ui_menu_item_t settings_menu_joy_without_swap[] = {
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
@@ -981,9 +960,8 @@ static ui_menu_ref_t menu_references[] = {
 
     /* Settings */
     { "settings-section-head",              settings_menu_head },
-    { "settings-section-joy-both",          settings_menu_joy_both },
-    { "settings-section-joy-controlport",   settings_menu_joy_controlport },
-    { "settings-section-joy-userport",      settings_menu_joy_userport },
+    { "settings-section-joy-with-swap",     settings_menu_joy_with_swap },
+    { "settings-section-joy-without-swap",  settings_menu_joy_without_swap },
     { "settings-section-tail",              settings_menu_tail },
 
     /* Debug */
@@ -1072,52 +1050,52 @@ GtkWidget *ui_machine_menu_bar_create(void)
         case VICE_MACHINE_C64SC:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_both;
+            settings_menu_joy_section = settings_menu_joy_with_swap;
             break;
 
         case VICE_MACHINE_C64DTV:
-            settings_menu_joy_section = settings_menu_joy_controlport;
+            settings_menu_joy_section = settings_menu_joy_with_swap;
             break;
 
         case VICE_MACHINE_SCPU64:
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_both;
+            settings_menu_joy_section = settings_menu_joy_with_swap;
             break;
 
         case VICE_MACHINE_C128:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_both;
+            settings_menu_joy_section = settings_menu_joy_with_swap;
             break;
 
         case VICE_MACHINE_VIC20:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_userport;
+            settings_menu_joy_section = settings_menu_joy_without_swap;
             break;
 
         case VICE_MACHINE_PLUS4:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_both;
+            settings_menu_joy_section = settings_menu_joy_with_swap;
             break;
 
         case VICE_MACHINE_CBM5x0:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_both;
+            settings_menu_joy_section = settings_menu_joy_with_swap;
             break;
 
         case VICE_MACHINE_CBM6x0:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_userport;
+            settings_menu_joy_section = settings_menu_joy_without_swap;
             break;
 
         case VICE_MACHINE_PET:
             /* TODO: add items for second datasette, once emulated */
             file_menu_tape_section = file_menu_tape;
-            settings_menu_joy_section = settings_menu_joy_userport;
+            settings_menu_joy_section = settings_menu_joy_without_swap;
             break;
 
         case VICE_MACHINE_VSID:

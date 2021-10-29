@@ -57,7 +57,8 @@ advance-frame       <Alt><Shift>p
 # "Preferences" - joystick, mouse
 mouse-grab-toggle       <Alt>m
 swap-controlport-toggle <Alt>j
-; keyset-joystick-toggle
+keyset-joystick-toggle  <Alt><Shift>j
+
 
 # Settings dialog, load, save, default
 !include $VICEDIR/common/gtk3-hotkeys-settings.vhk

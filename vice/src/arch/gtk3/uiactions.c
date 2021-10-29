@@ -160,7 +160,6 @@ static const ui_action_info_internal_t action_info_list[] = {
 
     /* joystick, mouse etc */
     mkinfo(ACTION_SWAP_CONTROLPORT_TOGGLE),
-    mkinfo(ACTION_SWAP_USERPORT_TOGGLE),
     mkinfo(ACTION_MOUSE_GRAB_TOGGLE),
     mkinfo(ACTION_KEYSET_JOYSTICK_TOGGLE),
 
