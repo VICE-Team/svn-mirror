@@ -100,7 +100,7 @@ static userport_device_t diag_586220_harness_device = {
 
 /* ------------------------------------------------------------------------- */
 
-static int set_userport_diag_586220_harness_enabled(int value, void *param)
+static int userport_diag_586220_harness_enable(int value)
 {
     int val = value ? 1 : 0;
 
