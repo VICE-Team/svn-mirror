@@ -109,6 +109,12 @@ the default install prefix for VICE was used.
 
 Remove a hotkey from whatever action it is mapped to.
 
+For example:
+```
+!undef      <Alt>r      # Unmap Alt+r from 'restore display'
+reset-soft  <Alt>r      # Map Alt+r to soft reset
+```
+
 
 ### Hotkey mappings
 
