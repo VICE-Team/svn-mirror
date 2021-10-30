@@ -582,7 +582,7 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
             if (is_loadstore) {
                 mon_disassemble_with_regdump(mem, loadstorepc);
             }
-            if (!is_loadstore || cp->stop) {
+            else if (cp->stop) {
                 mon_disassemble_with_regdump(mem, instpc);
             }
             mon_interfaces[mem]->current_bank = monbank; /* restore value used in monitor */
