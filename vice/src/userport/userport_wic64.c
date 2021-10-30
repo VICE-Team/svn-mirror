@@ -27,7 +27,7 @@
 #define DEBUG_WIC64
 
 /* all http get requests will be served with hardcoded replies or files from the CWD */
-#define DEBUG_DUMMY_HTTPGET
+/* #define DEBUG_DUMMY_HTTPGET */
 
 /* - WiC64 (C64/C128)
 
@@ -121,6 +121,142 @@ static int userport_wic64_enable(int value)
 int userport_wic64_resources_init(void)
 {
     return userport_device_register(USERPORT_DEVICE_WIC64, &userport_wic64_device);
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define HTTPREPLY_MAXLEN    (0x18000)
+
+/* https://cirosantilli.com/linux-kernel-module-cheat#socket */
+
+#define _XOPEN_SOURCE 700
+#include <arpa/inet.h>
+#include <assert.h>
+#include <netdb.h> /* getprotobyname */
+#include <netinet/in.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
+uint8_t httpbuffer[HTTPREPLY_MAXLEN];
+
+int do_http_get(char *hostname, char *path, unsigned short server_port) {
+    char *p;
+    char buffer[BUFSIZ];
+    enum CONSTEXPR { MAX_REQUEST_LEN = 1024};
+    char request[MAX_REQUEST_LEN];
+    char request_template[] = "GET /%s HTTP/1.1\r\nHost: %s\r\n\r\n";
+    struct protoent *protoent;
+    in_addr_t in_addr;
+    int request_len;
+    int socket_file_descriptor;
+    ssize_t nbytes_total, nbytes_last, nbytes_read;
+    struct hostent *hostent;
+    struct sockaddr_in sockaddr_in;
+
+    request_len = snprintf(request, MAX_REQUEST_LEN, request_template, path, hostname);
+    if (request_len >= MAX_REQUEST_LEN) {
+        fprintf(stderr, "request length large: %d\n", request_len);
+        return -1;
+    }
+
+    /* Build the socket. */
+    protoent = getprotobyname("tcp");
+    if (protoent == NULL) {
+        perror("getprotobyname");
+        return -1;
+    }
+    socket_file_descriptor = socket(AF_INET, SOCK_STREAM, protoent->p_proto);
+    if (socket_file_descriptor == -1) {
+        perror("socket");
+        return -1;
+    }
+
+    /* Build the address. */
+    hostent = gethostbyname(hostname);
+    if (hostent == NULL) {
+        fprintf(stderr, "error: gethostbyname(\"%s\")\n", hostname);
+        return -1;
+    }
+    in_addr = inet_addr(inet_ntoa(*(struct in_addr*)*(hostent->h_addr_list)));
+    if (in_addr == (in_addr_t)-1) {
+        fprintf(stderr, "error: inet_addr(\"%s\")\n", *(hostent->h_addr_list));
+        return -1;
+    }
+    sockaddr_in.sin_addr.s_addr = in_addr;
+    sockaddr_in.sin_family = AF_INET;
+    sockaddr_in.sin_port = htons(server_port);
+
+    /* Actually connect. */
+    if (connect(socket_file_descriptor, (struct sockaddr*)&sockaddr_in, sizeof(sockaddr_in)) == -1) {
+        perror("connect");
+        return -1;
+    }
+
+    /* Send HTTP request. */
+    nbytes_total = 0;
+    while (nbytes_total < request_len) {
+        nbytes_last = write(socket_file_descriptor, request + nbytes_total, request_len - nbytes_total);
+        if (nbytes_last == -1) {
+            perror("write");
+            return -1;
+        }
+        nbytes_total += nbytes_last;
+    }
+
+    /* Read the response. */
+    fprintf(stderr, "debug: before first read\n");
+    nbytes_read = 0;
+    p = httpbuffer;
+    while ((nbytes_total = read(socket_file_descriptor, buffer, BUFSIZ)) > 0) {
+        fprintf(stderr, "debug: after a read\n");
+        memcpy(p, buffer, nbytes_total);
+        p += nbytes_total;
+        nbytes_read += nbytes_total;
+    }
+    fprintf(stderr, "debug: after last read\n");
+    if (nbytes_total == -1) {
+        perror("read");
+        return -1;
+    }
+
+    close(socket_file_descriptor);
+
+    /* check http response code, return if error */
+    if (strncmp((char*)httpbuffer, "HTTP/1.1 200 OK", 15) != 0) {
+        perror("http error");
+        return -1;
+    }
+
+    /* find content length */
+    p = strstr((char*)httpbuffer, "Content-Length:");
+    if (p == NULL) {
+        return -1;
+    }
+    p += 15; /* skip "Content-Length:" */
+    nbytes_read = strtoul(p, NULL, 10);
+    DBG(("http content len: %ld", nbytes_read));
+    
+    /* find content */
+    p = strstr((char*)httpbuffer, "Content-Type:");
+    if (p == NULL) {
+        return -1;
+    }
+    /* skip to end of line (content description) */
+    while ((*p != '\n') && (*p != '\r')) {
+        p++;
+    }
+    /* skip line ending(s) */
+    while ((*p == '\n') || (*p == '\r')) {
+        p++;
+    }
+
+    memmove(httpbuffer, p, nbytes_read);
+
+    return nbytes_read;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -264,6 +400,57 @@ static void do_command_01(void)
         return;
     }
     send_reply("!0");   /* error */
+#else
+    char *p;
+    int port = 80;
+    char hostname[0x100];
+    char path[0x100];
+    char temppath[0x100];
+    int gotlen;
+    DBG(("command 01: '%s'", commandbuffer));
+    p = strtok((char*)commandbuffer, ":/");
+    if (!strcmp(p, "http")) {
+        printf(">%s\n", p);
+        p = strtok(NULL, "/");
+        printf(">%s\n", p);
+        strcpy(hostname, p);
+        p = strtok(NULL, "\000");
+        printf(">%s\n", p);
+        strcpy(path, p);
+    } else {
+        DBG(("malformed URL"));
+        return;
+    }
+    DBG(("host:%s", hostname));
+    DBG(("path:%s", path));
+
+    /* replace "%mac" by our MAC */
+    p = strstr(path, "%mac");
+    if (p != NULL) {
+        char macstring[0x20];
+        strncpy(temppath, path, p - path);
+        temppath[p - path] = 0;
+        DBG(("temppath:%s", temppath));
+        sprintf(macstring, "%02x%02x%02x%02x%02x%02x",
+                wic64_mac_address[0], wic64_mac_address[1], wic64_mac_address[2], 
+                wic64_mac_address[3], wic64_mac_address[4], wic64_mac_address[5]);
+        DBG(("temppath:%s", temppath));
+        strcat(temppath, macstring);
+        DBG(("temppath:%s", temppath));
+        strcat(temppath, p + 4);
+        DBG(("temppath:%s", temppath));
+        strcpy(path, temppath);
+    }
+    /* TODO: replace "%ser" by the default server */
+    /* TODO: if url begins with !, replace by default server */
+
+    DBG(("path:%s", path));
+    
+    gotlen = do_http_get(hostname, path, port);
+    DBG(("got %d bytes", gotlen));
+    if (gotlen > 0) {
+        send_binary_reply(httpbuffer, gotlen);
+    }
 #endif
 }
 
@@ -411,6 +598,10 @@ static void do_command(void)
             DBG(("command 0d: set wlan via scan id"));
             do_command_0d();
             break;
+        case 0x0f: /* send http with decoded url for PHP */
+            DBG(("command 0f: send http with decoded url for PHP"));
+            do_command_01();    /* actually the same as command 1 */
+            break;
         case 0x10: /* get connected wlan name */
             DBG(("command 10: get connected wlan name"));
             do_command_10();
@@ -445,7 +636,6 @@ static void do_command(void)
         case 0x0a: /* get udp package */
         case 0x0b: /* send udp package */
         case 0x0e: /* set udp port */
-        case 0x0f: /* send http with decoded url for PHP */
         case 0x1e: /* get tcp */
         case 0x1f: /* send tcp */
         case 0x20: /* set tcp port */
