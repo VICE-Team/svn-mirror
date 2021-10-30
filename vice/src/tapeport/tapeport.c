@@ -352,9 +352,6 @@ int tapeport_resources_init(int amount)
     tapeport_device[0].name = "None";
     tapeport_ports = amount;
 
-    tapeport_device_resources_init(amount);
-
-
     if (tapeport_ports >= 1) {
         if (resources_register_int(resources_int_port1) < 0) {
             return -1;
@@ -367,7 +364,7 @@ int tapeport_resources_init(int amount)
         }
     }
 
-    return 0;
+    return tapeport_device_resources_init(amount);
 }
 
 void tapeport_resources_shutdown(void)
