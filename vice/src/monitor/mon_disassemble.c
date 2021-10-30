@@ -1485,7 +1485,7 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
     dot_addr[mem] = start_addr;
 
     i = 0;
-    while ((i <= len) || (limitlines == 1)) {
+    while ((i < len) || (limitlines == 1)) {
         int line_count; /* Number of lines printed by disassembly */
         bytes = mon_disassemble_instr(dot_addr[mem], &line_count);
         i += bytes;
