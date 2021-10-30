@@ -26,6 +26,9 @@
 
 #define DEBUG_WIC64
 
+/* all http get requests will be served with hardcoded replies or files from the CWD */
+#define DEBUG_DUMMY_HTTPGET
+
 /* - WiC64 (C64/C128)
 
 C64/C128   |  I/O
@@ -121,17 +124,25 @@ int userport_wic64_resources_init(void)
 }
 
 /* ---------------------------------------------------------------------*/
+#define WLAN_SSID   "VICE WiC64 emulation"
+#define WLAN_RSSI   "123"
+static unsigned char wic64_mac_address[6] = { 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff };
+static unsigned char wic64_internal_ip[4] = { 192, 168, 0, 1 };
+static unsigned char wic64_external_ip[4] = { 204, 234, 1, 4 };
+static uint8_t wic64_timezone[2] = { 0, 0};
+
+char default_server_hostname[0x100];
 
 #define FLAG2_ACTIVE    1
 #define FLAG2_INACTIVE  0
 
-uint8_t input_state = 0, input_command = 0, commandptr = 0;
+uint8_t input_state = 0, input_command = 0;
 uint8_t wic64_ddr = 1;
-uint16_t input_length = 0, reply_length = 0;
+uint16_t input_length = 0, commandptr = 0;
 uint8_t commandbuffer[0x100];
 
-uint8_t replybuffer[0x100];
-uint8_t replyptr = 0;
+uint8_t replybuffer[0x10010];
+uint16_t replyptr = 0, reply_length = 0;
 uint8_t reply_port_value = 0;
 
 static void userport_wic64_reset(void)
@@ -151,7 +162,7 @@ static void reply_next_byte(void)
 {
     if (replyptr <= reply_length) {
         reply_port_value = replybuffer[replyptr];
-        /* DBG(("reply_next_byte: %02x", reply_port_value)); */
+        /* DBG(("reply_next_byte: %3d/%3d - %02x", replyptr, reply_length, reply_port_value)); */
         replyptr++;
     } else {
         reply_length = 0;
@@ -169,17 +180,91 @@ static void send_reply(char * reply)
 {
     int len;
     len = strlen(reply);
-    replybuffer[0] = len & 0xff;
-    replybuffer[1] = (len >> 8) & 0xff;
+    /* highbyte first! */
+    replybuffer[1] = len & 0xff;
+    replybuffer[0] = (len >> 8) & 0xff;
     strcpy((char*)replybuffer + 2, reply);
     reply_length = len + 2;
     replyptr = 0;
 }
 
+static void send_binary_reply(uint8_t *reply, int len)
+{
+    /* highbyte first! */
+    replybuffer[1] = len & 0xff;
+    replybuffer[0] = (len >> 8) & 0xff;
+    memcpy((char*)replybuffer + 2, reply, len);
+    reply_length = len + 2;
+    replyptr = 0;
+}
+
 /* http get */
+#ifdef DEBUG_DUMMY_HTTPGET
+static void dummy_send_file(char *name)
+{
+    unsigned char buffer[0x10000];
+    FILE *f = fopen(name, "rb");
+    int len;
+    if (f) {
+        len = fread(buffer, 1, 0x10000, f);
+        fclose(f);
+        DBG(("sending start.prg (%d bytes)", len));
+        send_binary_reply(buffer, len);
+        return;
+    }
+    send_reply("!0");   /* error */
+}
+#endif
+
 static void do_command_01(void)
 {
     DBG(("command 01: '%s'", commandbuffer));
+#ifdef DEBUG_DUMMY_HTTPGET
+    if(!strcmp(commandbuffer, "http://www.wic64.de/prg/readme.txt")) {
+        send_reply("start-this is a test-end");
+        return;
+    } else if(!strcmp(commandbuffer, "http://x.wic64.net/um.php?F=I&1=%mac")) {
+        send_reply("vicetest");
+        return;
+    } else if(!strcmp(commandbuffer, "http://x.wic64.net/rtc.php")) {
+        send_reply("003145");
+        return;
+    } else if(!strcmp(commandbuffer, "http://x.wic64.net/wchat.php?f=l&1=%mac")) {
+        send_reply("0vicetest");
+        return;
+    } else if(!strcmp(commandbuffer, "http://x.wic64.net/wchat.php?f=e&1=%mac&2=vicetest")) {
+        send_reply("1");
+        return;
+    } else if(!strcmp(commandbuffer, "http://x.wic64.net/start.prg")) {
+        dummy_send_file("start.prg");
+        return;
+    } else if(!strcmp(commandbuffer, "http://x.wic64.net/files/giana.prg")) {
+        dummy_send_file("giana.prg");
+        return;
+    } else if(!strcmp(commandbuffer, "http://x.wic64.net/files/koalashow.prg")) {
+        dummy_send_file("koalashow.prg");
+        return;
+    } else if(!strcmp(commandbuffer, "http://x.wic64.net/files/clock.prg")) {
+        dummy_send_file("clock.prg");
+        return;
+    } else if(!strcmp(commandbuffer, "http://x.wic64.net/wichat.prg")) {
+        dummy_send_file("wichat.prg");
+        return;
+    } else if(!strcmp(commandbuffer, "http://www.wic64.de/koa/00.kob")) {
+        dummy_send_file("00.kob");
+        return;
+    } else if(!strcmp(commandbuffer, "http://www.wic64.de/koa/01.kob")) {
+        dummy_send_file("01.kob");
+        return;
+    } else if(!strcmp(commandbuffer, "http://www.wic64.de/koa/02.kob")) {
+        dummy_send_file("02.kob");
+        return;
+    } else if(!strcmp(commandbuffer, "http://www.wic64.de/koa/03.kob")) {
+        dummy_send_file("03.kob");
+        return;
+    }
+    send_reply("!0");   /* error */
+#endif
 }
 
 /* set wlan ssid + password */
@@ -191,7 +276,31 @@ static void do_command_02(void)
 /* get wic64 ip address */
 static void do_command_06(void)
 {
-    send_reply("192.123.100.123");
+    char buffer[0x20];
+    /* FIXME: update the external IP */
+    sprintf(buffer, "%d.%d.%d.%d", wic64_internal_ip[0], wic64_internal_ip[1],
+            wic64_internal_ip[2], wic64_internal_ip[3]);
+    send_reply(buffer);
+}
+
+/* get firmware stats */
+static void do_command_07(void)
+{
+    send_reply(__DATE__ " " __TIME__);
+}
+
+/* set default server */
+static void do_command_08(void)
+{
+    DBG(("command 08: '%s'", commandbuffer));
+    strcpy(default_server_hostname, commandbuffer);
+}
+
+/* prints output to serial console */
+static void do_command_09(void)
+{
+    DBG(("command 09: '%s'", commandbuffer));
+    printf("%s", commandbuffer);
 }
 
 /* get list of all detected wlan ssids */
@@ -206,10 +315,57 @@ static void do_command_0d(void)
     DBG(("command 0d: '%s'", commandbuffer));
 }
 
+/* get connected wlan name */
+static void do_command_10(void)
+{
+    send_reply(WLAN_SSID);
+}
+
+/* get wlan rssi signal level */
+static void do_command_11(void)
+{
+    send_reply(WLAN_RSSI);
+}
+
+/* get default server */
+static void do_command_12(void)
+{
+    send_reply(default_server_hostname);
+}
+
 /* get external ip address */
 static void do_command_13(void)
 {
-    send_reply("208.123.100.123");
+    char buffer[0x20];
+    /* FIXME: update the external IP */
+    sprintf(buffer, "%d.%d.%d.%d", wic64_external_ip[0], wic64_external_ip[1],
+            wic64_external_ip[2], wic64_external_ip[3]);
+    send_reply(buffer);
+}
+
+/* get wic64 MAC address */
+static void do_command_14(void)
+{
+    char buffer[0x20];
+    sprintf(buffer, "%02x:%02x:%02x:%02x:%02x:%02x",
+            wic64_mac_address[0], wic64_mac_address[1], wic64_mac_address[2], 
+            wic64_mac_address[3], wic64_mac_address[4], wic64_mac_address[5]);
+    send_reply(buffer);
+}
+
+/* get timezone+time */
+static void do_command_15(void)
+{
+    /* FIXME: should also send time+date */
+    send_binary_reply(wic64_timezone, 2);
+}
+
+/* set timezone */
+static void do_command_16(void)
+{
+    DBG(("command 16: '%02x %02x'", commandbuffer[0], commandbuffer[1]));
+    wic64_timezone[0] = commandbuffer[0];
+    wic64_timezone[1] = commandbuffer[1];
 }
 
 static void do_command(void)
@@ -223,37 +379,76 @@ static void do_command(void)
             DBG(("command 02: set wlan ssid + password"));
             do_command_02();
             break;
+        case 0x03: /* standard firmware update */
+            DBG(("command 03: standard firmware update"));
+            break;
+        case 0x04: /* developer firmware update */
+            DBG(("command 04: developer firmware update"));
+            break;
+        case 0x05: /* developer special update */
+            DBG(("command 05: developer special update"));
+            break;
         case 0x06: /* get wic64 ip address */
             DBG(("command 06: get wic64 ip address"));
             do_command_06();
+            break;
+        case 0x07: /* get firmware stats */
+            DBG(("command 07: get firmware stats"));
+            do_command_07();
+            break;
+        case 0x08: /* set default server */
+            do_command_08();
+            break;
+        case 0x09: /* prints output to serial console */
+            DBG(("command 09: prints output to serial console"));
+            do_command_09();
             break;
         case 0x0c: /* get list of all detected wlan ssids */
             DBG(("command 0c: get list of all detected wlan ssids"));
             do_command_0c();
             break;
         case 0x0d: /* set wlan via scan id */
-            DBG(("command 02: set wlan via scan id"));
+            DBG(("command 0d: set wlan via scan id"));
             do_command_0d();
+            break;
+        case 0x10: /* get connected wlan name */
+            DBG(("command 10: get connected wlan name"));
+            do_command_10();
+            break;
+        case 0x11: /* get wlan rssi signal level */
+            DBG(("command 11: get wlan rssi signal level"));
+            do_command_11();
+            break;
+        case 0x12: /* get default server */
+            DBG(("command 12: get default server"));
+            do_command_12();
             break;
         case 0x13: /* get external ip address */
             DBG(("command 13: get external ip address"));
             do_command_13();
             break;
-        case 0x03: /* standard firmware update */
-        case 0x04: /* developer firmware update */
-        case 0x05: /* developer special update */
-        case 0x07: /* get firmware stats */
-        case 0x08: /* set default server */
-        case 0x09: /* prints output to serial console */
+        case 0x14: /* get wic64 MAC address */
+            DBG(("command 14: get wic64 MAC address"));
+            do_command_14();
+            break;
+        case 0x15: /* get timezone+time */
+            DBG(("command 15: get timezone+time"));
+            do_command_15();
+            break;
+        case 0x16: /* set timezones */
+            DBG(("command 16: set timezone"));
+            do_command_16();
+            break;
+        case 0x63: /* factory reset */
+            DBG(("command 63: factory reset"));
+            break;
         case 0x0a: /* get udp package */
         case 0x0b: /* send udp package */
         case 0x0e: /* set udp port */
         case 0x0f: /* send http with decoded url for PHP */
-        case 0x10: /* get connected wlan name */
-        case 0x11: /* get wlan rssi signal level */
-        case 0x12: /* get default server */
-        case 0x14: /* get wic64 MAC address */
-        case 0x63: /* factory reset */
+        case 0x1e: /* get tcp */
+        case 0x1f: /* send tcp */
+        case 0x20: /* set tcp port */
         default:
             log_error(LOG_DEFAULT, "WiC64: unsupported command 0x%02x (len: %d)", input_command, input_length);
             input_state = 0;
