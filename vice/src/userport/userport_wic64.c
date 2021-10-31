@@ -44,6 +44,10 @@ C64/C128   |  I/O
  8 (PC2)   |  O     C64 triggers PC2 IRQ whenever data is read or write
  M (PA2)   |  O     Low=device sends data High=C64 sends data (powerup=high)
  B (FLAG2) |  I     device asserts high->low transition when databyte sent to c64 is ready (triggers irq)
+
+ enable the device and start https://www.wic64.de/wp-content/uploads/2021/10/wic64start.zip
+
+ for more info see https://www.wic64.de
 */
 
 #include "vice.h"
@@ -239,7 +243,7 @@ int do_http_get(char *hostname, char *path, unsigned short server_port) {
     p += 15; /* skip "Content-Length:" */
     nbytes_read = strtoul(p, NULL, 10);
     DBG(("http content len: %ld", nbytes_read));
-    
+
     /* find content */
     p = strstr((char*)httpbuffer, "Content-Type:");
     if (p == NULL) {
@@ -254,6 +258,7 @@ int do_http_get(char *hostname, char *path, unsigned short server_port) {
         p++;
     }
 
+    /* copy payload to buffer */
     memmove(httpbuffer, p, nbytes_read);
 
     return nbytes_read;
@@ -275,7 +280,7 @@ char default_server_hostname[0x100];
 uint8_t input_state = 0, input_command = 0;
 uint8_t wic64_ddr = 1;
 uint16_t input_length = 0, commandptr = 0;
-uint8_t commandbuffer[0x100];
+uint8_t commandbuffer[0x1000];
 
 uint8_t replybuffer[0x10010];
 uint16_t replyptr = 0, reply_length = 0;
@@ -352,7 +357,7 @@ static void dummy_send_file(char *name)
 }
 #endif
 
-static void do_command_01(void)
+static void do_command_01_0f(int encode)
 {
     DBG(("command 01: '%s'", commandbuffer));
 #ifdef DEBUG_DUMMY_HTTPGET
@@ -401,13 +406,58 @@ static void do_command_01(void)
     }
     send_reply("!0");   /* error */
 #else
-    char *p;
+    char *p, *cptr;
     int port = 80;
-    char hostname[0x100];
-    char path[0x100];
-    char temppath[0x100];
+    char hostname[0x1000];
+    char path[0x1000];
+    char temppath[0x1000];
     int gotlen;
     DBG(("command 01: '%s'", commandbuffer));
+
+    if (encode) {
+        cptr = commandbuffer;
+        p = strstr(cptr, "<$");
+        if (p != NULL) {
+            static char hextab[16] = "0123456789abcdef";
+            int encodedlen, encodeoffset, i;
+            encodeoffset = p - cptr;
+            DBG(("escape sequence found in commandbuffer, offset %d", encodeoffset));
+            /* copy string before <$ */
+            strncpy(temppath, cptr, encodeoffset);
+            temppath[encodeoffset] = 0;
+            DBG(("temppath:%s", temppath));
+            /* copy encoded string */
+            encodedlen = p[2];
+            encodedlen += p[3] << 8;
+            DBG(("encodedlen:%d", encodedlen));
+            p += 4; /* skip escape sequence and len */
+#ifdef DEBUG_WIC64
+            for (i = 0; i < encodedlen; i++) {
+                printf("%02x ", p[i]);
+            }
+            printf("\n");
+#endif
+            for (i = 0; i < encodedlen; i++) {
+                temppath[encodeoffset] = hextab[(*p >> 4) & 0xf];
+                encodeoffset++;
+                temppath[encodeoffset] = hextab[*p & 0xf];
+                encodeoffset++;
+                p++;
+            }
+            temppath[encodeoffset] = 0;
+            DBG(("temppath:%s", temppath));
+
+#if 0   /* do w need to do this? */
+            /* copy string after <$ */
+            strcat(temppath, p);
+            DBG(("temppath:%s", temppath));
+#endif
+            /* copy back to commandbuffer buffer */
+            strcpy(commandbuffer, temppath);
+            DBG(("encoded path:%s", commandbuffer));
+        }
+    }
+
     p = strtok((char*)commandbuffer, ":/");
     if (!strcmp(p, "http")) {
         printf(">%s\n", p);
@@ -428,16 +478,20 @@ static void do_command_01(void)
     p = strstr(path, "%mac");
     if (p != NULL) {
         char macstring[0x20];
+        /* copy string before %mac */
         strncpy(temppath, path, p - path);
         temppath[p - path] = 0;
         DBG(("temppath:%s", temppath));
+        /* add the MAC address */
         sprintf(macstring, "%02x%02x%02x%02x%02x%02x",
                 wic64_mac_address[0], wic64_mac_address[1], wic64_mac_address[2], 
                 wic64_mac_address[3], wic64_mac_address[4], wic64_mac_address[5]);
         DBG(("temppath:%s", temppath));
         strcat(temppath, macstring);
+        /* copy string after %mac */
         DBG(("temppath:%s", temppath));
         strcat(temppath, p + 4);
+        /* copy back to path buffer */
         DBG(("temppath:%s", temppath));
         strcpy(path, temppath);
     }
@@ -445,7 +499,7 @@ static void do_command_01(void)
     /* TODO: if url begins with !, replace by default server */
 
     DBG(("path:%s", path));
-    
+
     gotlen = do_http_get(hostname, path, port);
     DBG(("got %d bytes", gotlen));
     if (gotlen > 0) {
@@ -560,7 +614,7 @@ static void do_command(void)
     switch (input_command) {
         case 0x01: /* http get */
             DBG(("command 01: http get"));
-            do_command_01();
+            do_command_01_0f(0);
             break;
         case 0x02: /* set wlan ssid + password */
             DBG(("command 02: set wlan ssid + password"));
@@ -600,7 +654,7 @@ static void do_command(void)
             break;
         case 0x0f: /* send http with decoded url for PHP */
             DBG(("command 0f: send http with decoded url for PHP"));
-            do_command_01();    /* actually the same as command 1 */
+            do_command_01_0f(1);
             break;
         case 0x10: /* get connected wlan name */
             DBG(("command 10: get connected wlan name"));
