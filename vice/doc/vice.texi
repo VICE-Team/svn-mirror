@@ -20164,8 +20164,6 @@ Response body:
 
 @item byte 3: Blue
 
-@item byte 4: Dithering value
-
 @end table
 
 @end table

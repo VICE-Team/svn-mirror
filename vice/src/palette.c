@@ -80,7 +80,9 @@ void palette_free(palette_t *p)
 }
 
 static int palette_set_entry(palette_t *p, unsigned int number,
-                             uint8_t red, uint8_t green, uint8_t blue, uint8_t dither)
+                             uint8_t red,
+                             uint8_t green,
+                             uint8_t blue)
 {
     if (p == NULL || number >= p->num_entries) {
         return -1;
@@ -89,7 +91,6 @@ static int palette_set_entry(palette_t *p, unsigned int number,
     p->entries[number].red = red;
     p->entries[number].green = green;
     p->entries[number].blue = blue;
-    p->entries[number].dither = dither;
 
     return 0;
 }
@@ -105,8 +106,10 @@ static int palette_copy(palette_t *dest, const palette_t *src)
     }
 
     for (i = 0; i < src->num_entries; i++) {
-        palette_set_entry(dest, i, src->entries[i].red, src->entries[i].green,
-                          src->entries[i].blue, src->entries[i].dither);
+        palette_set_entry(dest, i,
+                          src->entries[i].red,
+                          src->entries[i].green,
+                          src->entries[i].blue);
     }
 
     return 0;
@@ -132,7 +135,7 @@ static int palette_load_core(FILE *f, const char *file_name,
 
     while (1) {
         int i;
-        uint8_t values[4];
+        uint8_t values[3];
         const char *p1;
 
         int line_len = util_get_line(buf, 1024, f);
@@ -153,7 +156,7 @@ static int palette_load_core(FILE *f, const char *file_name,
             continue;
         }
 
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < 3; i++) {
             long result;
             char *p2;
 
@@ -189,7 +192,7 @@ static int palette_load_core(FILE *f, const char *file_name,
             return -1;
         }
         if (palette_set_entry(tmp_palette, entry_num,
-                              values[0], values[1], values[2], values[3]) < 0) {
+                              values[0], values[1], values[2]) < 0) {
             log_error(palette_log, "Failed to set palette entry.");
             return -1;
         }
@@ -263,15 +266,14 @@ int palette_save(const char *file_name, const palette_t *palette)
     }
 
     fprintf(f, "#\n# VICE Palette file\n#\n");
-    fprintf(f, "# Syntax:\n# Red Green Blue Dither\n#\n\n");
+    fprintf(f, "# Syntax:\n# Red Green Blue\n#\n\n");
 
     for (i = 0; i < palette->num_entries; i++) {
-        fprintf(f, "# %s\n%02X %02X %02X %01X\n\n",
+        fprintf(f, "# %s\n%02X %02X %02X\n\n",
                 palette->entries[i].name,
                 palette->entries[i].red,
                 palette->entries[i].green,
-                palette->entries[i].blue,
-                palette->entries[i].dither);
+                palette->entries[i].blue);
     }
 
     return fclose(f);

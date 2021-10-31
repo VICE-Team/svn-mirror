@@ -6,49 +6,49 @@
 #
 
 # Black
-00 00 00 0
+00 00 00
 
 # White
-FF FF FF E
+FF FF FF
 
 # Red
-F0 00 00 4
+F0 00 00
 
 # Cyan
-00 F0 F0 C
+00 F0 F0
 
 # Purple
-60 00 60 8
+60 00 60
 
 # Green
-00 A0 00 4
+00 A0 00
 
 # Blue
-00 00 F0 4
+00 00 F0
 
 # Yellow
-D0 D0 00 C
+D0 D0 00
 
 # Orange
-C0 A0 00 4
+C0 A0 00
 
 # Light Orange
-FF A0 00 4
+FF A0 00
 
 # Pink
-F0 80 80 8
+F0 80 80
 
 # Light Cyan
-00 FF FF 4
+00 FF FF
 
 # Light Purple
-FF 00 FF 8
+FF 00 FF
 
 # Light Green
-00 FF 00 8
+00 FF 00
 
 # Light Blue
-00 A0 FF 8
+00 A0 FF
 
 # Light Yellow
-FF FF 00 C
+FF FF 00

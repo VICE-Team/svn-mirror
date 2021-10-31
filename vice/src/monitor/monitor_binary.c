@@ -1274,7 +1274,7 @@ static void monitor_binary_process_palette_get(binary_command_t *command)
     unsigned int i;
     uint32_t response_length;
     uint16_t num_entries;
-    uint8_t item_size = 4;
+    uint8_t item_size = 3;
     palette_entry_t *entry;
     uint8_t use_vic = !!command->body[0];
 
@@ -1315,9 +1315,10 @@ static void monitor_binary_process_palette_get(binary_command_t *command)
 
         *response_cursor = entry->blue;
         ++response_cursor;
-
+#if 0
         *response_cursor = entry->dither;
         ++response_cursor;
+#endif
     }
 
     monitor_binary_response(response_length, e_MON_RESPONSE_PALETTE_GET, e_MON_ERR_OK, command->request_id, response);

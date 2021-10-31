@@ -8,7 +8,7 @@
 # green screens use P1 phosphor (528nm)
 
 # Background
-00 00 00 0
+00 00 00
 
 # Foreground
-41 FF 00 F
+41 FF 00

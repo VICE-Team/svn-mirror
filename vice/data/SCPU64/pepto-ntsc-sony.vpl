@@ -9,49 +9,49 @@
 # using the SONY CXA2025AS US decoder matrix - this looks noteably different to PAL
 
 # Black
-00 00 00 0
+00 00 00
 
 # White
-FF FF FF E
+FF FF FF
 
 # Red
-7C 35 2B 4
+7C 35 2B
 
 # Cyan
-5A A6 B1 C
+5A A6 B1
 
 # Purple
-69 41 85 8
+69 41 85
 
 # Green
-5D 86 43 4
+5D 86 43
 
 # Blue
-21 2E 78 4
+21 2E 78
 
 # Yellow
-CF BE 6F C
+CF BE 6F
 
 # Orange
-89 4A 26 4
+89 4A 26
 
 # Brown
-5B 33 0 4
+5B 33 0
 
 # Light Red
-AF 64 59 8
+AF 64 59
 
 # Dark Gray
-43 43 43 4
+43 43 43
 
 # Medium Gray
-6B 6B 6B 8
+6B 6B 6B
 
 # Light Green
-A0 CB 84 8
+A0 CB 84
 
 # Light Blue
-56 65 B3 8
+56 65 B3
 
 # Light Gray
-95 95 95 C
+95 95 95
