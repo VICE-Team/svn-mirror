@@ -114,6 +114,10 @@ int tapeport_device_register(int id, tapeport_device_t *device)
 /* check if the selected device can be attached to the indicated port */
 static int tapeport_check_valid_device(int port, int id)
 {
+    if (id == TAPEPORT_DEVICE_NONE) {
+        return 1;
+    }
+
     /* check the machine mask */
     if ((tapeport_device[id].machine_mask & machine_class) == 0) {
         return 0;
