@@ -50,19 +50,20 @@ static void on_configure_activate(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Datasette UI action callback for port #1
+/** \brief  Datasette UI action callback
  *
  * \param[in]   widget  parent widget (unused)
- * \param[in]   data    action value
+ * \param[in]   data    action value and datasette port (1 or 2)
  *
  * \return  TRUE to indicate the UI event was handled
  */
-gboolean ui_datasette_tape1_action_cb(GtkWidget *widget, gpointer data)
+gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
 {
-    int val = GPOINTER_TO_INT(data);
+    int val = GPOINTER_TO_INT(data) & 0xff;
+    int index = (GPOINTER_TO_INT(data) >> 8) - 1;
 
     if (val >= DATASETTE_CONTROL_STOP && val <= DATASETTE_CONTROL_RESET_COUNTER) {
-        datasette_control(TAPEPORT_PORT_1, val);
+        datasette_control(index, val);
     } else {
         fprintf(stderr,
                 "Got an impossible Datasette Control action, code %ld (valid range %d-%d)\n",
@@ -72,31 +73,6 @@ gboolean ui_datasette_tape1_action_cb(GtkWidget *widget, gpointer data)
     }
     return TRUE;
 }
-
-
-/** \brief  Datasette UI action callback for port #2
- *
- * \param[in]   widget  parent widget (unused)
- * \param[in]   data    action value
- *
- * \return  TRUE to indicate the UI event was handled
- */
-gboolean ui_datasette_tape2_action_cb(GtkWidget *widget, gpointer data)
-{
-    int val = GPOINTER_TO_INT(data);
-
-    if (val >= DATASETTE_CONTROL_STOP && val <= DATASETTE_CONTROL_RESET_COUNTER) {
-        datasette_control(TAPEPORT_PORT_2, val);
-    } else {
-        fprintf(stderr,
-                "Got an impossible Datasette Control action, code %ld (valid range %d-%d)\n",
-                (long)val,
-                DATASETTE_CONTROL_STOP,
-                DATASETTE_CONTROL_RESET_COUNTER);
-    }
-    return TRUE;
-}
-
 
 
 /** \brief  Create datasette control menu
@@ -129,8 +105,8 @@ GtkWidget *ui_create_datasette_control_menu(void)
         gtk_container_add(GTK_CONTAINER(menu), menu_items[i]);
         g_signal_connect(menu_items[i],
                          "activate",
-                         G_CALLBACK(ui_datasette_tape1_action_cb),
-                         GINT_TO_POINTER(i));
+                         G_CALLBACK(ui_datasette_tape_action_cb),
+                         GINT_TO_POINTER(i | (1 << 8)));    /* port #1 */
     }
 
     /* add "configure tapeport devices" */
