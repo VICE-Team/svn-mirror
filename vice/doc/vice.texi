@@ -2439,1363 +2439,301 @@ system/window manager. Mappings using @code{<Alt>} or
 @end quotation
 
 @subsection List of action names
-@quotation
-This list is generated running @code{./uiactions.py markdown}.
-@end quotation
-@multitable {@code{fullscreen-decorations-toggle}} {Attach a medium to the emulator inspecting its type} {x64} {x64sc} {x64dtv} {xscpu64} {x128} {xvic} {xplus4} {xpet} {xcbm5x0} {xcbm2} 
-@headitem 
-name
+@multitable @columnfractions 0.5 0.5
+@headitem name
  @tab description
- @tab x64
- @tab x64sc
- @tab x64dtv
- @tab xscpu64
- @tab x128
- @tab xvic
- @tab xplus4
- @tab xpet
- @tab xcbm5x0
- @tab xcbm2
 @item 
 @code{advance-frame}
  @tab Advance emulation one frame
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{cart-attach}
  @tab Attach cartridge
- @tab yes
- @tab yes
- @tab no
- @tab yes
- @tab no
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
 @item 
 @code{cart-detach}
  @tab Detach cartridge
- @tab yes
- @tab yes
- @tab no
- @tab yes
- @tab no
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
 @item 
 @code{cart-freeze}
  @tab Press cartridge freeze button
- @tab yes
- @tab yes
- @tab no
- @tab yes
- @tab no
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
 @item 
 @code{debug-autoplayback-frames}
  @tab Set autoplayback frames
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{debug-core-dump-toggle}
  @tab Toggle saving core dump
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{debug-trace-cpu-toggle}
  @tab Toggle CPU trace
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{debug-trace-drive-10-toggle}
  @tab Toggle Drive 10 CPU trace
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{debug-trace-drive-11-toggle}
  @tab Toggle Drive 11 CPU trace
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{debug-trace-drive-8-toggle}
  @tab Toggle Drive 8 CPU trace
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{debug-trace-drive-9-toggle}
  @tab Toggle Drive 9 CPU trace
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{debug-trace-iec-toggle}
  @tab Toggle IEC bus trace
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
-@item 
-@code{debug-trace-ieee488-toggle}
- @tab Toggle IEEE-488 bus trace
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
-@item 
-@code{debug-trace-mode}
- @tab Select CPU/Drive trac mode
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
-@item 
-@code{drive-attach-10:0}
- @tab Attach disk to unit 10, drive 0
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
-@item 
-@code{drive-attach-10:1}
- @tab Attach disk to unit 10, drive 1
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
-@item 
-@code{drive-attach-11:0}
- @tab Attach disk to unit 11, drive 0
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
-@item 
-@code{drive-attach-11:1}
- @tab Attach disk to unit 11, drive 1
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
-@item 
-@code{drive-attach-8:0}
- @tab Attach disk to unit 8, drive 0
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-attach-8:1}
  @tab Attach disk to unit 8, drive 1
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-attach-9:0}
  @tab Attach disk to unit 9, drive 0
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-attach-9:1}
  @tab Attach disk to unit 9, drive 1
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-create}
  @tab Create and attach empty disk image
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-detach-10:0}
  @tab Detach disk from unit 10, drive 0
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-detach-10:1}
  @tab Detach disk from unit 10, drive 1
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-detach-11:0}
  @tab Detach disk from unit 11, drive 0
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-detach-11:1}
  @tab Detach disk from unit 11, drive 1
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-detach-8:0}
  @tab Detach disk from unit 8, drive 0
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-detach-8:1}
  @tab Detach disk from unit 8, drive 1
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-detach-9:0}
  @tab Detach disk from unit 9, drive 0
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-detach-9:1}
  @tab Detach disk from unit 9, drive 1
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{drive-detach-all}
  @tab Detach all disks
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{edit-copy}
  @tab Copy screen content to clipboard
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{edit-paste}
  @tab Paste clipboard content into machine
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{fliplist-add}
  @tab Add current disk to fliplist
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{fliplist-clear}
  @tab Clear fliplist
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{fliplist-load}
  @tab Load fliplist
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{fliplist-next}
  @tab Attach next disk in fliplist
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{fliplist-previous}
  @tab Attach previous disk in fliplist
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{fliplist-remove}
  @tab Remove current disk from fliplist
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{fliplist-save}
  @tab Save fliplist
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{fullscreen-decorations-toggle}
  @tab Show menu/status in fullscreen
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{fullscreen-toggle}
  @tab Toggle fullscreen
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{help-about}
  @tab Show about dialog
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{help-command-line}
  @tab Command line options
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{help-compile-time}
  @tab Compile time features
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{help-hotkeys}
  @tab Hotkeys
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{help-manual}
  @tab Browse VICE manual
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{history-milestone-reset}
  @tab Return to recording milestone
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{history-milestone-set}
  @tab Set recording milestone
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{history-playback-start}
  @tab Start playing back events
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{history-playback-stop}
  @tab Stop playing back events
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{history-record-start}
  @tab Start recording events
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{history-record-stop}
  @tab Stop recording events
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{keyset-joystick-enable}
  @tab Allow keyset joystick
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{media-record}
  @tab Record media
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{media-stop}
  @tab Stop media recording
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{monitor-open}
  @tab Open monitor
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{mouse-grab-toggle}
  @tab Toggle Mouse Grab
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{pause-toggle}
  @tab Toggle Pause
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{quit}
  @tab Quit emulator
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{reset-drive-10}
  @tab Reset drive 10
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{reset-drive-11}
  @tab Reset drive 11
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{reset-drive-8}
  @tab Reset drive 8
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{reset-drive-9}
  @tab Reset drive 9
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{reset-hard}
  @tab Hard reset the machine
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{reset-soft}
  @tab Soft reset the machine
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{restore-display}
  @tab Resize application window to fit contents
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{screenshot-quicksave}
  @tab Save screenshot in current working directory
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{settings-default}
  @tab Restore default settings
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{settings-dialog}
  @tab Open settings dialog
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{settings-load}
  @tab Load settings
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{settings-load-extra}
  @tab Load additional settings
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{settings-load-from}
  @tab Load settings from alternate file
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{settings-save}
  @tab Save settings
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{settings-save-to}
  @tab Save settings to alternate file
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{smart-attach}
  @tab Attach a medium to the emulator inspecting its type
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{snapshot-load}
  @tab Load snapshot file
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{snapshot-quickload}
  @tab Quickload snapshot
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{snapshot-quicksave}
  @tab Quicksave snapshot
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{snapshot-save}
  @tab Save snapshot file
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{swap-controlport-toggle}
  @tab Swap controlport joysticks
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab yes
- @tab no
 @item 
 @code{tape-attach-1}
  @tab Attach tape to datasette 1
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-attach-2}
  @tab Attach tape to datasette 2
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{tape-create-1}
  @tab Create tape and attach to datasette 1
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-create-2}
  @tab Create tape and attach to datasette 2
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{tape-detach-1}
  @tab Detach tape from datasette 1
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-detach-2}
  @tab Detach tape from datasette 2
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{tape-ffwd-1}
  @tab Press FFWD on datasette 1
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-ffwd-2}
  @tab Press FFWD on datasette 2
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{tape-play-1}
  @tab Press PLAY on datasette 1
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-play-2}
  @tab Press PLAY on datasette 2
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{tape-record-1}
  @tab Press RECORD on datasette 1
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-record-2}
  @tab Press RECORD on datasette 2
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{tape-reset-1}
  @tab Reset datasette 1
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-reset-1}
  @tab Reset datasette 2
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{tape-reset-counter-1}
  @tab Reset datasette 1 counter
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-reset-counter-2}
  @tab Reset datasette 2 counter
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{tape-rewind-1}
  @tab Press REWIND on datasette 1
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-rewind-2}
  @tab Press REWIND on datasette 2
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{tape-stop-1}
  @tab Press STOP on datasette 1
- @tab yes
- @tab yes
- @tab no
- @tab no
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @item 
 @code{tape-stop-2}
  @tab Press STOP on datasette 2
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab no
- @tab yes
- @tab no
- @tab no
 @item 
 @code{warp-mode-toggle}
  @tab Toggle Warp Mode
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
- @tab yes
 @end multitable
+
+To see which emulators support which actions please look at
+@code{doc/gtk3-hotkeys.md} or @code{src/arch/gtk3/uiactions.h}.
 
 @node Syntax highlighting
 @subsection Syntax highlighting
