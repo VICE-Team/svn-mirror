@@ -34,6 +34,8 @@
 
 #define RTS_OUT         0x02    /* PB1 */
 #define DTR_OUT         0x04    /* PB2 */
+#define OH_OUT          0x20    /* PB5 ON_HOOK output to some Commodore modems and clones */
+                                /* Used to 'pick'/'hang' the phone and pulse dial             */
 
 #define RI_IN           0x08    /* PB3 */
 #define DCD_IN          0x10    /* PB4 */
