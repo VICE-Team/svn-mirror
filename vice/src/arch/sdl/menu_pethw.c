@@ -346,7 +346,7 @@ const ui_menu_entry_t pet_hardware_menu[] = {
     { "Tape port devices",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)tapeport_devices_menu },
+      (ui_callback_data_t)tapeport_pet_devices_menu },
     { "Memory and I/O settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
