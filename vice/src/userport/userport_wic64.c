@@ -147,7 +147,8 @@ int userport_wic64_resources_init(void)
 
 uint8_t httpbuffer[HTTPREPLY_MAXLEN];
 
-int do_http_get(char *hostname, char *path, unsigned short server_port) {
+/* FIXME: replace this shit by proper network code (libcurl) */
+static int do_http_get(char *hostname, char *path, unsigned short server_port) {
     char *p;
     char buffer[BUFSIZ];
     enum CONSTEXPR { MAX_REQUEST_LEN = 1024};
@@ -214,7 +215,7 @@ int do_http_get(char *hostname, char *path, unsigned short server_port) {
     /* Read the response. */
     fprintf(stderr, "debug: before first read\n");
     nbytes_read = 0;
-    p = httpbuffer;
+    p = (char*)httpbuffer;
     while ((nbytes_total = read(socket_file_descriptor, buffer, BUFSIZ)) > 0) {
         fprintf(stderr, "debug: after a read\n");
         memcpy(p, buffer, nbytes_total);
@@ -271,8 +272,12 @@ static unsigned char wic64_mac_address[6] = { 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff
 static unsigned char wic64_internal_ip[4] = { 192, 168, 0, 1 };
 static unsigned char wic64_external_ip[4] = { 204, 234, 1, 4 };
 static uint8_t wic64_timezone[2] = { 0, 0};
+static uint16_t wic64_udp_port = 0;
+static uint16_t wic64_tcp_port = 0;
 
 char default_server_hostname[0x100];
+
+#define COMMANDBUFFER_MAXLEN    0x1000
 
 #define FLAG2_ACTIVE    1
 #define FLAG2_INACTIVE  0
@@ -280,18 +285,11 @@ char default_server_hostname[0x100];
 uint8_t input_state = 0, input_command = 0;
 uint8_t wic64_ddr = 1;
 uint16_t input_length = 0, commandptr = 0;
-uint8_t commandbuffer[0x1000];
+uint8_t commandbuffer[COMMANDBUFFER_MAXLEN];
 
 uint8_t replybuffer[0x10010];
 uint16_t replyptr = 0, reply_length = 0;
 uint8_t reply_port_value = 0;
-
-static void userport_wic64_reset(void)
-{
-    /* DBG(("userport_wic64_reset")); */
-    commandptr = input_command = input_state = input_length = 0;
-    wic64_ddr = 1;
-}
 
 static void handshake_flag2(void)
 {
@@ -309,13 +307,6 @@ static void reply_next_byte(void)
         reply_length = 0;
     }
 }
-
-static void userport_wic64_store_pa2(uint8_t value)
-{
-    /* DBG(("userport_wic64_store_pa2 val:%02x", value)); */
-    wic64_ddr = value;
-}
-
 
 static void send_reply(char * reply)
 {
@@ -408,14 +399,16 @@ static void do_command_01_0f(int encode)
 #else
     char *p, *cptr;
     int port = 80;
-    char hostname[0x1000];
-    char path[0x1000];
-    char temppath[0x1000];
+    char hostname[COMMANDBUFFER_MAXLEN];
+    char path[COMMANDBUFFER_MAXLEN];
+    char temppath[COMMANDBUFFER_MAXLEN];
     int gotlen;
     DBG(("command 01: '%s'", commandbuffer));
 
+    /* if encode is enabled, there might be binary data after <$, which is
+       then encoded as a stream of hex digits */
     if (encode) {
-        cptr = commandbuffer;
+        cptr = (char*)commandbuffer;
         p = strstr(cptr, "<$");
         if (p != NULL) {
             static char hextab[16] = "0123456789abcdef";
@@ -433,7 +426,7 @@ static void do_command_01_0f(int encode)
             p += 4; /* skip escape sequence and len */
 #ifdef DEBUG_WIC64
             for (i = 0; i < encodedlen; i++) {
-                printf("%02x ", p[i]);
+                printf("%02x ", (unsigned int)p[i]);
             }
             printf("\n");
 #endif
@@ -453,22 +446,42 @@ static void do_command_01_0f(int encode)
             DBG(("temppath:%s", temppath));
 #endif
             /* copy back to commandbuffer buffer */
-            strcpy(commandbuffer, temppath);
+            strcpy((char*)commandbuffer, temppath);
             DBG(("encoded path:%s", commandbuffer));
         }
     }
 
-    p = strtok((char*)commandbuffer, ":/");
-    if (!strcmp(p, "http")) {
-        printf(">%s\n", p);
-        p = strtok(NULL, "/");
-        printf(">%s\n", p);
+    /* if url begins with !, replace by default server */
+    if (commandbuffer[0] == '!') {
+        DBG(("URL starts with !, default server is: %s", default_server_hostname));
+        p = temppath;
+        /* add the default server address */
+        strcpy(p, default_server_hostname);
+        p += strlen(default_server_hostname);
+        DBG(("temppath:%s", temppath));
+        /* copy command buffer */
+        memcpy(p, commandbuffer + 1, COMMANDBUFFER_MAXLEN - strlen(default_server_hostname));
+        DBG(("temppath:%s", temppath));
+        /* copy back to commandbuffer buffer */
+        memcpy(commandbuffer, temppath, COMMANDBUFFER_MAXLEN);
+        DBG(("temppath:%s", temppath));
+    }
+
+    /* detect protocol and split path/hostname */
+    p = (char*)commandbuffer;
+    if (!strncmp(p, "http://", 7)) {
+        DBG(("type:http"));
+        p += 7;
+        p = strtok(p, "/");
+        DBG(("host:%s", p));
         strcpy(hostname, p);
-        p = strtok(NULL, "\000");
-        printf(">%s\n", p);
-        strcpy(path, p);
+        p = (char*)commandbuffer;
+        p += (7 + 1);
+        p += strlen(hostname);
+        DBG(("path:%s", p));
+        memcpy(path, p, COMMANDBUFFER_MAXLEN - (p - (char*)commandbuffer));
     } else {
-        DBG(("malformed URL"));
+        DBG(("malformed URL:%s", commandbuffer));
         return;
     }
     DBG(("host:%s", hostname));
@@ -495,8 +508,23 @@ static void do_command_01_0f(int encode)
         DBG(("temppath:%s", temppath));
         strcpy(path, temppath);
     }
-    /* TODO: replace "%ser" by the default server */
-    /* TODO: if url begins with !, replace by default server */
+    /* replace "%ser" by the default server */
+    p = strstr(path, "%ser");
+    if (p != NULL) {
+        /* copy string before %ser */
+        strncpy(temppath, path, p - path);
+        temppath[p - path] = 0;
+        DBG(("temppath:%s", temppath));
+        /* add the default server address */
+        strcat(temppath, default_server_hostname);
+        DBG(("temppath:%s", temppath));
+        /* copy string after %ser */
+        strcat(temppath, p + 4);
+        DBG(("temppath:%s", temppath));
+        /* copy back to path buffer */
+        strcpy(path, temppath);
+        DBG(("temppath:%s", temppath));
+    }
 
     DBG(("path:%s", path));
 
@@ -512,13 +540,14 @@ static void do_command_01_0f(int encode)
 static void do_command_02(void)
 {
     DBG(("command 02: '%s'", commandbuffer));
+    send_reply("Wlan config changed");
 }
 
 /* get wic64 ip address */
 static void do_command_06(void)
 {
     char buffer[0x20];
-    /* FIXME: update the external IP */
+    /* FIXME: update the internal IP */
     sprintf(buffer, "%d.%d.%d.%d", wic64_internal_ip[0], wic64_internal_ip[1],
             wic64_internal_ip[2], wic64_internal_ip[3]);
     send_reply(buffer);
@@ -534,14 +563,33 @@ static void do_command_07(void)
 static void do_command_08(void)
 {
     DBG(("command 08: '%s'", commandbuffer));
-    strcpy(default_server_hostname, commandbuffer);
+    strcpy(default_server_hostname, (char*)commandbuffer);
+    /* this command sends no reply */
 }
 
 /* prints output to serial console */
 static void do_command_09(void)
 {
     DBG(("command 09: '%s'", commandbuffer));
-    printf("%s", commandbuffer);
+    fprintf(stdout, "%s", commandbuffer);
+    /* this command sends no reply */
+}
+
+/* get udp package */
+static void do_command_0a(void)
+{
+    DBG(("command 0a: '%s'", commandbuffer));
+    /* FIXME: not implemented */
+    DBG(("get UDP not implemented"));
+}
+
+/* send udp package */
+static void do_command_0b(void)
+{
+    DBG(("command 0b: '%s'", commandbuffer));
+    /* FIXME: not implemented */
+    DBG(("send UDP not implemented"));
+    /* this command sends no reply */
 }
 
 /* get list of all detected wlan ssids */
@@ -551,9 +599,20 @@ static void do_command_0c(void)
     send_reply("0\001vice\0011234");
 }
 
+/* set wlan via scan id */
 static void do_command_0d(void)
 {
     DBG(("command 0d: '%s'", commandbuffer));
+    send_reply("Wlan config changed");
+}
+
+/* set udp port */
+static void do_command_0e(void)
+{
+    wic64_udp_port = commandbuffer[0];
+    wic64_udp_port += commandbuffer[1] << 8;
+    DBG(("set udp port: %d", wic64_udp_port));
+    /* this command sends no reply */
 }
 
 /* get connected wlan name */
@@ -597,16 +656,49 @@ static void do_command_14(void)
 /* get timezone+time */
 static void do_command_15(void)
 {
-    /* FIXME: should also send time+date */
+    /* FIXME: should also send time+date (in what format?) */
     send_binary_reply(wic64_timezone, 2);
 }
 
 /* set timezone */
 static void do_command_16(void)
 {
-    DBG(("command 16: '%02x %02x'", commandbuffer[0], commandbuffer[1]));
+    DBG(("set timezone: '%02x %02x'", commandbuffer[0], commandbuffer[1]));
     wic64_timezone[0] = commandbuffer[0];
     wic64_timezone[1] = commandbuffer[1];
+    /* FIXME: send a reply or not? */
+}
+
+/* get tcp */
+static void do_command_1e(void)
+{
+    DBG(("command 1e: '%s'", commandbuffer));
+    /* FIXME: not implemented */
+    DBG(("get TCP not implemented"));
+}
+
+/* send tcpe */
+static void do_command_1f(void)
+{
+    DBG(("command 1f: '%s'", commandbuffer));
+    /* FIXME: not implemented */
+    DBG(("send TCP not implemented"));
+    /* this command sends no reply */
+}
+
+/* set tcp port */
+static void do_command_20(void)
+{
+    wic64_tcp_port = commandbuffer[0];
+    wic64_tcp_port += commandbuffer[1] << 8;
+    DBG(("set tcp port: %d", wic64_udp_port));
+}
+
+/* factory reset */
+static void do_command_63(void)
+{
+    /* TODO: reset resources and other stuff here */
+    /* this command sends no reply */
 }
 
 static void do_command(void)
@@ -622,12 +714,15 @@ static void do_command(void)
             break;
         case 0x03: /* standard firmware update */
             DBG(("command 03: standard firmware update"));
+            /* this command sends no reply */
             break;
         case 0x04: /* developer firmware update */
             DBG(("command 04: developer firmware update"));
+            /* this command sends no reply */
             break;
         case 0x05: /* developer special update */
             DBG(("command 05: developer special update"));
+            /* this command sends no reply */
             break;
         case 0x06: /* get wic64 ip address */
             DBG(("command 06: get wic64 ip address"));
@@ -644,6 +739,14 @@ static void do_command(void)
             DBG(("command 09: prints output to serial console"));
             do_command_09();
             break;
+        case 0x0a: /* get udp package */
+            DBG(("command 0a: get UDP package"));
+            do_command_0a();
+            break;
+        case 0x0b: /* send udp package */
+            DBG(("command 0b: send UDP package"));
+            do_command_0b();
+            break;
         case 0x0c: /* get list of all detected wlan ssids */
             DBG(("command 0c: get list of all detected wlan ssids"));
             do_command_0c();
@@ -651,6 +754,10 @@ static void do_command(void)
         case 0x0d: /* set wlan via scan id */
             DBG(("command 0d: set wlan via scan id"));
             do_command_0d();
+            break;
+        case 0x0e: /* set udp port */
+            DBG(("command 0e: set udp port"));
+            do_command_0e();
             break;
         case 0x0f: /* send http with decoded url for PHP */
             DBG(("command 0f: send http with decoded url for PHP"));
@@ -684,15 +791,22 @@ static void do_command(void)
             DBG(("command 16: set timezone"));
             do_command_16();
             break;
+        case 0x1e: /* get tcp */
+            DBG(("command 1e: get tcp"));
+            do_command_1e();
+            break;
+        case 0x1f: /* send tcp */
+            DBG(("command 1f: send tcp"));
+            do_command_1f();
+            break;
+        case 0x20: /* set tcp port */
+            DBG(("command 20: set tcp port"));
+            do_command_20();
+            break;
         case 0x63: /* factory reset */
             DBG(("command 63: factory reset"));
+            do_command_63();
             break;
-        case 0x0a: /* get udp package */
-        case 0x0b: /* send udp package */
-        case 0x0e: /* set udp port */
-        case 0x1e: /* get tcp */
-        case 0x1f: /* send tcp */
-        case 0x20: /* set tcp port */
         default:
             log_error(LOG_DEFAULT, "WiC64: unsupported command 0x%02x (len: %d)", input_command, input_length);
             input_state = 0;
@@ -758,10 +872,22 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
 static uint8_t userport_wic64_read_pbx(uint8_t orig)
 {
     uint8_t retval = reply_port_value;
-#if 0
-    DBG(("userport_wic64_read_pbx orig:%02x retval: %02x", orig, retval));
-#endif
+    /* FIXME: what do we have to do with original value? */
+    /* DBG(("userport_wic64_read_pbx orig:%02x retval: %02x", orig, retval)); */
     return retval;
+}
+
+static void userport_wic64_store_pa2(uint8_t value)
+{
+    /* DBG(("userport_wic64_store_pa2 val:%02x", value)); */
+    wic64_ddr = value;
+}
+
+static void userport_wic64_reset(void)
+{
+    /* DBG(("userport_wic64_reset")); */
+    commandptr = input_command = input_state = input_length = 0;
+    wic64_ddr = 1;
 }
 
 /* ---------------------------------------------------------------------*/
