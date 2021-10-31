@@ -47,8 +47,8 @@
 /** \brief  List of possible userport RS-232 interfaces for C64
  */
 static const vice_gtk3_combo_entry_int_t userport_rsinterfaces64[] = {
-    { "RS-232, non-inverted control lines", USERPORT_RS_NONINVERTED },
-    { "RS-232, inverted control lines",  USERPORT_RS_INVERTED },
+    { "RS-232, normal control lines levels", USERPORT_RS_NONINVERTED },
+    { "RS-232, inverted control lines levels",  USERPORT_RS_INVERTED },
     { "RS-232, custom control lines levels", USERPORT_RS_CUSTOM },
     { "UP-9600", USERPORT_RS_UP9600 },
     { NULL,             -1 }
@@ -58,8 +58,8 @@ static const vice_gtk3_combo_entry_int_t userport_rsinterfaces64[] = {
 /** \brief  List of possible userport RS-232 interfaces for VIC-20/C128
  */
 static const vice_gtk3_combo_entry_int_t userport_rsinterfacesvic[] = {
-    { "RS-232, non-inverted control lines", 0 },
-    { "RS-232, inverted control lines",  1 },
+    { "RS-232, normal control lines levels", 0 },
+    { "RS-232, inverted control lines levels",  1 },
     { "RS-232, custom control lines levels", 2 },
     { NULL,             -1 }
 };
@@ -74,22 +74,25 @@ static int get_rsinterface_index(void)
     int rtsinv;
     int ctsinv;
     int dsrinv;
+    int dtrinv;
     int index;
 
     resources_get_int("RsUserUP9600", &up9600);
     resources_get_int("RsUserRTSInv", &rtsinv);
     resources_get_int("RsUserCTSInv", &ctsinv);
     resources_get_int("RsUserDSRInv", &dsrinv);
+    resources_get_int("RsUserDTRInv", &dtrinv);
+
     if (!up9600) {
-        if (rtsinv && ctsinv && dsrinv) {
+        if (rtsinv && ctsinv && dsrinv && dtrinv) {
             /* Inverted control lines */
             index = USERPORT_RS_INVERTED;
-        } else if (rtsinv || ctsinv || dsrinv) {
-            /* Custom control lines levels */
-            index = USERPORT_RS_CUSTOM;
-        } else {
+        } else if (!rtsinv && !ctsinv && !dsrinv && !dtrinv) {
             /* Non inverted control lines */
             index = USERPORT_RS_NONINVERTED;
+        } else {
+            /* Custom control lines levels */
+            index = USERPORT_RS_CUSTOM;
         }
 
     } else {
@@ -144,6 +147,7 @@ GtkWidget *userport_rsinterface_widget_create(void)
     GtkWidget *rsuser_ctsinv_widget;
     GtkWidget *rsuser_dsrinv_widget;
     GtkWidget *rsuser_dcdinv_widget;
+    GtkWidget *rsuser_dtrinv_widget;
 
     int i;
 
@@ -201,8 +205,14 @@ GtkWidget *userport_rsinterface_widget_create(void)
             "RsUserDCDInv", "Invert DCD");
     gtk_widget_set_halign(rsuser_dcdinv_widget, GTK_ALIGN_START);
     g_object_set(rsuser_dcdinv_widget, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), rsuser_dcdinv_widget, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rsuser_dcdinv_widget, 2, 3, 1, 1);
 
+    rsuser_dtrinv_widget = vice_gtk3_resource_check_button_new(
+            "RsUserDTRInv", "Invert DTR");
+    gtk_widget_set_halign(rsuser_dtrinv_widget, GTK_ALIGN_START);
+    g_object_set(rsuser_dtrinv_widget, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), rsuser_dtrinv_widget, 1, 4, 1, 1);
+    g_signal_connect(rsuser_dtrinv_widget, "toggled", G_CALLBACK(on_control_toggled), NULL);
 
     gtk_combo_box_set_active((GtkComboBox*)combo, get_rsinterface_index());
 

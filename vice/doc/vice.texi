@@ -6041,7 +6041,7 @@ interface from 300 to 57600 baud.  The C64 can also use the UP9600 interface by 
 CIA 6526 chips.  The PET can have a 6551 ACIA RS232 interface when
 running as a SuperPET, and the CBM-II has such an ACIA by default.  The
 C64 and C128 emulators can emulate an ACIA 6551 (also known as Swithlink, Datapump
-or Turbo232 for example) as extension at @code{$de**}.
+or Turbo232 for example) as extension at @code{$de**}, @code{$df**} or @code{$d7**} (C128 only).
 
 Emulation can be achieved by either:
 
@@ -6190,6 +6190,11 @@ Boolean specifying if the user-port RS232 Data Set Ready (DSR) control line is i
 Boolean specifying if the user-port RS232 Data Carrier Detect (DCD) control line is inverted.
 (C64, C128 and VIC20).
 
+@vindex RsUserDTRInv
+@item RsUserDTRInv
+Boolean specifying if the user-port RS232 Data Terminal Ready (DTR) control line is inverted.
+(C64, C128 and VIC20).
+
 @vindex RsUserBaud
 @item RsUserBaud
 Integer specifying the baudrate of the user-port RS232 interface
@@ -6321,6 +6326,11 @@ Enable or disable inversion of the userport RS232 emulation Data Set Ready (DSR)
 @item -rsuserdcdinv
 @itemx +rsuserdcdinv
 Enable or disable inversion of the userport RS232 emulation Data Carrier Detect (DCD) control line.
+
+@findex -rsuserdtrinv, +rsuserdtrinv
+@item -rsuserdtrinv
+@itemx +rsuserdtrinv
+Enable or disable inversion of the userport RS232 emulation Data Terminal Ready (DTR) control line.
 
 @findex -rsuserbaud
 @item -rsuserbaud <baud>

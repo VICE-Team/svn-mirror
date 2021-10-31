@@ -63,6 +63,8 @@
 #include "userportrsinterfacewidget.h"
 #include "settings_rs232.h"
 
+#include "rsuser.h"
+
 
 /** \brief  List of ACIA devices
  *
@@ -182,6 +184,7 @@ static void on_rsinterface_changed(GtkWidget *widget)
     GtkWidget *cts;
     GtkWidget *dcd;
     GtkWidget *dsr;
+    GtkWidget *dtr;
     GtkWidget *grid;
     int index = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
 
@@ -192,15 +195,17 @@ static void on_rsinterface_changed(GtkWidget *widget)
     rts = gtk_grid_get_child_at((GtkGrid*)grid, 1, 2);
     cts = gtk_grid_get_child_at((GtkGrid*)grid, 2, 2);
     dsr = gtk_grid_get_child_at((GtkGrid*)grid, 1, 3);
-    dcd = gtk_grid_get_child_at((GtkGrid*)grid, 1, 4);
+    dcd = gtk_grid_get_child_at((GtkGrid*)grid, 2, 3);
+    dtr = gtk_grid_get_child_at((GtkGrid*)grid, 1, 4);
 
-    if (rts != NULL && cts != NULL && dcd != NULL && dsr != NULL) {
+    if (rts != NULL && cts != NULL && dcd != NULL && dsr != NULL && dtr != NULL) {
         switch (index) {
             case USERPORT_RS_NONINVERTED:
                 vice_gtk3_resource_check_button_set(rts, false);
                 vice_gtk3_resource_check_button_set(cts, false); 
                 /*vice_gtk3_resource_check_button_set(dcd, false);*/
                 vice_gtk3_resource_check_button_set(dsr, false);
+                vice_gtk3_resource_check_button_set(dtr, false);
                 resources_set_int("RsUserUP9600", 0);
                 break;
             case USERPORT_RS_INVERTED:
@@ -208,6 +213,7 @@ static void on_rsinterface_changed(GtkWidget *widget)
                 vice_gtk3_resource_check_button_set(cts, true);
                 /*vice_gtk3_resource_check_button_set(dcd, true);*/
                 vice_gtk3_resource_check_button_set(dsr, true);
+                vice_gtk3_resource_check_button_set(dtr, true);
                 resources_set_int("RsUserUP9600", 0);
                 break;
             case USERPORT_RS_UP9600:
