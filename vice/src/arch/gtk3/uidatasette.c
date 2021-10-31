@@ -87,15 +87,19 @@ GtkWidget *ui_create_datasette_control_menu(int port)
 {
     GtkWidget *menu, *item, *menu_items[DATASETTE_CONTROL_RESET_COUNTER+1];
     int i;
+    gchar buffer[256];
 
     menu = gtk_menu_new();
-    item = gtk_menu_item_new_with_label("Attach tape image...");
+
+    g_snprintf(buffer, sizeof(buffer), "Attach tape #%d image ...", port);
+    item = gtk_menu_item_new_with_label(buffer);
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect_unlocked(item,
                               "activate",
                               G_CALLBACK(ui_tape_attach_callback),
                               GINT_TO_POINTER(port));
-    item = gtk_menu_item_new_with_label("Detach tape image");
+    g_snprintf(buffer, sizeof(buffer), "Detach tape #%d image ...", port);
+    item = gtk_menu_item_new_with_label(buffer);
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item,
                      "activate",
