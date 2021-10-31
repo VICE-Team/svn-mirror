@@ -40,12 +40,13 @@
 #include "resources.h"
 #include "tape.h"
 #include "ui.h"
+#include "uiapi.h"
 
 #include "uitapecreate.h"
 
 
 /* forward declarations of functions */
-static gboolean create_tape_image(const char *filename);
+static gboolean create_tape_image(const char *filename, int port);
 
 
 /** \brief  Reference to the 'auto-attach' check button
@@ -59,12 +60,13 @@ static GtkWidget *auto_attach = NULL;
  *
  * \param[in,out]   widget      the dialog
  * \param[in]       response_id response ID
- * \param[in]       data        extra data (unused)
+ * \param[in]       data        port number (integer, 1 or 2)
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer data)
 {
     gchar *filename;
     int status = TRUE;
+    int port = GPOINTER_TO_INT(data);
 
     switch (response_id) {
 
@@ -74,7 +76,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer data)
                 gchar *filename_locale = file_chooser_convert_to_locale(filename);
 
                 /* create tape */
-                status = create_tape_image(filename_locale);
+                status = create_tape_image(filename_locale, port);
                 g_free(filename_locale);
             }
             g_free(filename);
@@ -96,10 +98,11 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer data)
 /** \brief  Actually create the tape image and attach it
  *
  * \param[in]   filename    filename of the new image
+ * \param[in]   port        datasette port number (1 or 2)
  *
  * \return  bool
  */
-static gboolean create_tape_image(const char *filename)
+static gboolean create_tape_image(const char *filename, int port)
 {
     gboolean status = TRUE;
     char *fname_copy;
@@ -114,9 +117,10 @@ static gboolean create_tape_image(const char *filename)
         status = FALSE;
     } else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(auto_attach))) {
         /* try to attach the image */
-        if (tape_image_attach(1, fname_copy) < 0) {
-            vice_gtk3_message_error("VICE error",
-                    "Failed to attach tape image '%s'", fname_copy);
+        if (tape_image_attach(port, fname_copy) < 0) {
+            ui_error("Datasette error",
+                     "Failed to attach tape image '%s' to port #%d",
+                     fname_copy, port);
             status = FALSE;
         }
     }
@@ -150,7 +154,7 @@ static GtkWidget *create_extra_widget(void)
 /** \brief  Create and show 'attach new tape image' dialog
  *
  * \param[in]   parent  parent widget (ignored)
- * \param[in]   data    extra data (ignored)
+ * \param[in]   data    port number (integer, 1 or 2)
  *
  * \return  TRUE
  */
@@ -179,7 +183,7 @@ gboolean ui_tape_create_dialog_show(GtkWidget *parent, gpointer data)
     gtk_file_filter_add_pattern(filter, "*.tap");
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), data);
 
     gtk_widget_show(dialog);
     return TRUE;
