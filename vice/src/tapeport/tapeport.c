@@ -96,6 +96,8 @@ int tapeport_device_register(int id, tapeport_device_t *device)
 
     tapeport_device[id].name = device->name;
     tapeport_device[id].device_type = device->device_type;
+    tapeport_device[id].machine_mask = device->machine_mask;
+    tapeport_device[id].port_mask = device->port_mask;
     tapeport_device[id].enable = device->enable;
     tapeport_device[id].reset = device->reset;
     tapeport_device[id].shutdown = device->shutdown;
@@ -107,6 +109,21 @@ int tapeport_device_register(int id, tapeport_device_t *device)
     tapeport_device[id].read_snapshot = device->read_snapshot;
 
     return 0;
+}
+
+/* check if the selected device can be attached to the indicated port */
+static int tapeport_check_valid_device(int port, int id)
+{
+    /* check the machine mask */
+    if ((tapeport_device[id].machine_mask & machine_class) == 0) {
+        return 0;
+    }
+
+    /* check the port mask */
+    if ((tapeport_device[id].port_mask & (1 << port)) == 0) {
+        return 0;
+    }
+    return 1;
 }
 
 /* attach device 'id' to a tapeport */
@@ -128,6 +145,11 @@ static int tapeport_set_device(int port, int id)
     /* check if id is registered */
     if (id != TAPEPORT_DEVICE_NONE && !tapeport_device[id].name) {
         ui_error("Selected tapeport device %d is not registered", id);
+        return -1;
+    }
+
+    if (!tapeport_check_valid_device(port, id)) {
+        ui_error("Selected tapoport device %d is not valid for port %d", id, port);
         return -1;
     }
 
@@ -161,7 +183,7 @@ static int tapeport_valid_devices_compare_names(const void* a, const void* b)
     return strcmp(arg1->name, arg2->name);
 }
 
-tapeport_desc_t *tapeport_get_valid_devices(int sort)
+tapeport_desc_t *tapeport_get_valid_devices(int port, int sort)
 {
     tapeport_desc_t *retval = NULL;
     int i;
@@ -170,7 +192,9 @@ tapeport_desc_t *tapeport_get_valid_devices(int sort)
 
     for (i = 0; i < TAPEPORT_MAX_DEVICES; ++i) {
         if (tapeport_device[i].name) {
-           ++valid;
+            if (tapeport_check_valid_device(port, i)) {
+               ++valid;
+            }
         }
     }
 
@@ -178,10 +202,12 @@ tapeport_desc_t *tapeport_get_valid_devices(int sort)
 
     for (i = 0; i < TAPEPORT_MAX_DEVICES; ++i) {
         if (tapeport_device[i].name) {
-            retval[j].name = tapeport_device[i].name;
-            retval[j].id = i;
-            retval[j].device_type = tapeport_device[i].device_type;
-            ++j;
+            if (tapeport_check_valid_device(port, i)) {
+                retval[j].name = tapeport_device[i].name;
+                retval[j].id = i;
+                retval[j].device_type = tapeport_device[i].device_type;
+                ++j;
+            }
         }
     }
 
@@ -438,7 +464,7 @@ static char *build_tapeport_string(int port)
     char *tmp1;
     char *tmp2;
     char number[4];
-    tapeport_desc_t *devices = tapeport_get_valid_devices(0);
+    tapeport_desc_t *devices = tapeport_get_valid_devices(port, 0);
 
     tmp1 = lib_msprintf("Set Tapeport %d device (0: None", port);
 

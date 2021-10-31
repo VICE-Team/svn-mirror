@@ -148,6 +148,8 @@ static int datasette_enable(int port, int val);
 static tapeport_device_t datasette_device = {
     "Datasette",                /* device name */
     TAPEPORT_DEVICE_TYPE_TAPE,  /* device is a 'tape' type of device */
+    VICE_MACHINE_ALL,           /* device works on all machines */
+    TAPEPORT_PORT_ALL_MASK,     /* device works on all ports */
     datasette_enable,           /* device enable function */
     NULL,                       /* NO device specific reset function */
     NULL,                       /* NO device shutdown function */

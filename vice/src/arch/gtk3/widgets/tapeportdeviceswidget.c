@@ -551,7 +551,7 @@ static GtkListStore *create_device_model(void)
                                G_TYPE_INT,      /* type ID */
                                G_TYPE_STRING    /* type description */
                                );
-    devices = tapeport_get_valid_devices(TRUE);
+    devices = tapeport_get_valid_devices(TAPEPORT_PORT_1, TRUE);
     for (dev = devices; dev->name != NULL; dev++) {
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,

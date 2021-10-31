@@ -40,6 +40,7 @@ TAPE PORT | PCF8583 | I/O
 #include <string.h>
 
 #include "cmdline.h"
+#include "machine.h"
 #include "pcf8583.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -67,6 +68,8 @@ static int tapertc_enable(int port, int val);
 static tapeport_device_t tapertc_device = {
     "Tape RTC (PCF8583)",       /* device name */
     TAPEPORT_DEVICE_TYPE_RTC,   /* device is an 'RTC' type device */
+    VICE_MACHINE_ALL,           /* device works on all machines */
+    TAPEPORT_PORT_ALL_MASK,     /* device works on all ports */
     tapertc_enable,             /* device enable function */
     NULL,                       /* NO device specific reset function */
     tapertc_resources_shutdown, /* device shutdown function */

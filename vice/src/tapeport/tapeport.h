@@ -62,6 +62,10 @@ enum {
     TAPEPORT_MAX_PORTS
 };
 
+#define TAPEPORT_PORT_1_MASK   (1 << TAPEPORT_PORT_1)
+#define TAPEPORT_PORT_2_MASK   (1 << TAPEPORT_PORT_2)
+#define TAPEPORT_PORT_ALL_MASK (TAPEPORT_PORT_1_MASK | TAPEPORT_PORT_2_MASK)
+
 /* This struct holds all the information about the tapeport devices */
 typedef struct tapeport_device_s {
     /* Name of the device */
@@ -69,6 +73,12 @@ typedef struct tapeport_device_s {
 
     /* device type */
     int device_type;
+
+    /* machine mask, device only works on the machines in the mask */
+    int machine_mask;
+
+    /* port mask, device only works on the ports in the mask */
+    int port_mask;
 
     /* enable device function */
     int (*enable)(int port, int val);
@@ -123,7 +133,7 @@ typedef struct tapeport_desc_s {
     int device_type;
 } tapeport_desc_t;
 
-extern tapeport_desc_t *tapeport_get_valid_devices(int sort);
+extern tapeport_desc_t *tapeport_get_valid_devices(int port, int sort);
 extern const char *tapeport_get_device_type_desc(int type);
 
 extern int tapeport_snapshot_write_module(struct snapshot_s *s, int save_image);
