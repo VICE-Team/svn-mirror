@@ -34,8 +34,7 @@
 /* TODO: Probably needs `int port` as an argument */
 GtkWidget *ui_create_datasette_control_menu(void);
 
-gboolean ui_datasette_tape1_action_cb(GtkWidget *widget, gpointer data);
-gboolean ui_datasette_tape2_action_cb(GtkWidget *widget, gpointer data);
+gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data);
 void     ui_datasette_update_sensitive(GtkWidget *menu);
 
 #endif
