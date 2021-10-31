@@ -89,14 +89,14 @@ static UI_MENU_CALLBACK(TapePort1Device_dynmenu_callback)
     return MENU_SUBMENU_STRING;
 }
 
-static UI_MENU_CALLBACK(attach_tape_callback)
+static UI_MENU_CALLBACK(attach_tape1_callback)
 {
     char *name;
 
     if (activated) {
         name = sdl_ui_file_selection_dialog("Select tape image", FILEREQ_MODE_CHOOSE_FILE);
         if (name != NULL) {
-            if (tape_image_attach(1, name) < 0) {
+            if (tape_image_attach(TAPEPORT_PORT_1 + 1, name) < 0) {
                 ui_error("Cannot attach tape image.");
             }
             lib_free(name);
@@ -105,22 +105,53 @@ static UI_MENU_CALLBACK(attach_tape_callback)
     return NULL;
 }
 
-static UI_MENU_CALLBACK(detach_tape_callback)
+static UI_MENU_CALLBACK(attach_tape2_callback)
 {
+    char *name;
+
     if (activated) {
-        tape_image_detach(1);
+        name = sdl_ui_file_selection_dialog("Select tape image", FILEREQ_MODE_CHOOSE_FILE);
+        if (name != NULL) {
+            if (tape_image_attach(TAPEPORT_PORT_2 + 1, name) < 0) {
+                ui_error("Cannot attach tape image.");
+            }
+            lib_free(name);
+        }
     }
     return NULL;
 }
 
-static UI_MENU_CALLBACK(custom_datasette_control_callback)
+static UI_MENU_CALLBACK(detach_tape1_callback)
 {
     if (activated) {
-        datasette_control(vice_ptr_to_int(param));
+        tape_image_detach(TAPEPORT_PORT_1 + 1);
     }
     return NULL;
 }
 
+static UI_MENU_CALLBACK(detach_tape2_callback)
+{
+    if (activated) {
+        tape_image_detach(TAPEPORT_PORT_2 + 1);
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(custom_datasette_control1_callback)
+{
+    if (activated) {
+        datasette_control(TAPEPORT_PORT_1, vice_ptr_to_int(param));
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(custom_datasette_control2_callback)
+{
+    if (activated) {
+        datasette_control(TAPEPORT_PORT_2, vice_ptr_to_int(param));
+    }
+    return NULL;
+}
 
 
 static UI_MENU_CALLBACK(create_tape_image_callback)
@@ -156,14 +187,123 @@ UI_MENU_DEFINE_INT(DatasetteTapeAzimuthError)
 UI_MENU_DEFINE_TOGGLE(DatasetteSound)
 UI_MENU_DEFINE_TOGGLE(VirtualDevice1)
 
+const ui_menu_entry_t tape_pet_menu[] = {
+    { "Attach tape image to Datasette 1",
+      MENU_ENTRY_DIALOG,
+      attach_tape1_callback,
+      NULL },
+    { "Attach tape image to Datasette 2",
+      MENU_ENTRY_DIALOG,
+      attach_tape2_callback,
+      NULL },
+    { "Detach tape image from Datasette 1",
+      MENU_ENTRY_OTHER,
+      detach_tape1_callback,
+      NULL },
+    { "Detach tape image from Datasette 2",
+      MENU_ENTRY_OTHER,
+      detach_tape2_callback,
+      NULL },
+    { "Create new tape image",
+      MENU_ENTRY_DIALOG,
+      create_tape_image_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Datasette 1 control"),
+    { "Stop",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_STOP },
+    { "Play",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_START },
+    { "Forward",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD },
+    { "Rewind",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_REWIND },
+    { "Record",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_RECORD },
+    { "Reset",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_RESET },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Datasette 2 control"),
+    { "Stop",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_STOP },
+    { "Play",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_START },
+    { "Forward",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD },
+    { "Rewind",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_REWIND },
+    { "Record",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_RECORD },
+    { "Reset",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_RESET },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Datasette speed tuning",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteSpeedTuning_callback,
+      (ui_callback_data_t)"Set datasette speed tuning" },
+    { "Datasette zero gap delay",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteZeroGapDelay_callback,
+      (ui_callback_data_t)"Set datasette zero gap delay" },
+    { "Datasette tape wobble frequency",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteTapeWobbleFrequency_callback,
+      (ui_callback_data_t)"Set datasette tape wobble frequency" },
+    { "Datasette tape wobble amplitude",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteTapeWobbleAmplitude_callback,
+      (ui_callback_data_t)"Set datasette tape wobble amplitude" },
+    { "Datasette tape alignment",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteTapeAzimuthError_callback,
+      (ui_callback_data_t)"Set datasette alignment error" },
+    { "Reset Datasette on CPU Reset",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DatasetteResetWithCPU_callback,
+      NULL },
+    { "Enable Datasette sound",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DatasetteSound_callback,
+      NULL },
+    { "Enable virtual device (for t64)",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VirtualDevice1_callback,
+      NULL },
+    SDL_MENU_LIST_END
+};
+
 const ui_menu_entry_t tape_menu[] = {
     { "Attach tape image",
       MENU_ENTRY_DIALOG,
-      attach_tape_callback,
+      attach_tape1_callback,
       NULL },
     { "Detach tape image",
       MENU_ENTRY_OTHER,
-      detach_tape_callback,
+      detach_tape1_callback,
       NULL },
     { "Create new tape image",
       MENU_ENTRY_DIALOG,
@@ -173,27 +313,27 @@ const ui_menu_entry_t tape_menu[] = {
     SDL_MENU_ITEM_TITLE("Datasette control"),
     { "Stop",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_STOP },
     { "Play",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_START },
     { "Forward",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_FORWARD },
     { "Rewind",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_REWIND },
     { "Record",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_RECORD },
     { "Reset",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_RESET },
     SDL_MENU_ITEM_SEPARATOR,
     { "Datasette speed tuning",

@@ -88,7 +88,7 @@ struct tape_file_record_s {
 typedef struct tape_file_record_s tape_file_record_t;
 
 
-extern tape_image_t *tape_image_dev1;
+extern tape_image_t *tape_image_dev[];
 
 extern int tape_init(const tape_init_t *init);
 extern int tape_reinit(const tape_init_t *init);
@@ -99,8 +99,8 @@ extern int tape_find_header_trap(void);
 extern int tape_receive_trap(void);
 extern int tape_find_header_trap_plus4(void);
 extern int tape_receive_trap_plus4(void);
-extern const char *tape_get_file_name(void);
-extern int tape_tap_attached(void);
+extern const char *tape_get_file_name(int port);
+extern int tape_tap_attached(int port);
 
 extern void tape_traps_install(void);
 extern void tape_traps_deinstall(void);

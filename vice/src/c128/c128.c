@@ -1334,7 +1334,7 @@ void machine_specific_powerup(void)
 void machine_specific_shutdown(void)
 {
     /* and the tape */
-    tape_image_detach_internal(1);
+    tape_image_detach_internal(TAPEPORT_PORT_1 + 1);
 
     /* and cartridge */
     cartridge_detach_image(-1);

@@ -51,6 +51,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -307,7 +308,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
     }
     /* now filename holds the name to attach    */
     /* FIXME: read_only isn't handled for tape  */
-    if (unit == 1) {
+    if (unit == 1 || unit == 2) {
         tape_image_event_playback(unit, filename);
     } else {
         resources_set_int_sprintf("AttachDevice%dReadonly", read_only, unit);
@@ -410,7 +411,7 @@ static void event_alarm_handler(CLOCK offset, void *data)
             joystick_event_playback(offset, event_list->current->data);
             break;
         case EVENT_DATASETTE:
-            datasette_event_playback(offset, event_list->current->data);
+            datasette_event_playback_port1(offset, event_list->current->data);
             break;
         case EVENT_ATTACHIMAGE:
             event_playback_attach_image(event_list->current->data,
@@ -426,7 +427,7 @@ static void event_alarm_handler(CLOCK offset, void *data)
                 unit = (unsigned int)((char*)event_list->current->data)[0];
                 filename = &((char*)event_list->current->data)[1];
 
-                if (unit == 1) {
+                if (unit == 1 || unit == 2) {
                     tape_image_event_playback(unit, filename);
                 } else {
                     /* TODO: drive 1? */
@@ -483,7 +484,7 @@ void event_playback_event_list(event_list_state_t *list)
                 joystick_event_delayed_playback(current->data);
                 break;
             case EVENT_DATASETTE:
-                datasette_event_playback(0, current->data);
+                datasette_event_playback_port1(0, current->data);
                 break;
             case EVENT_RESETCPU:
                 machine_reset_event_playback(0, current->data);
@@ -497,7 +498,7 @@ void event_playback_event_list(event_list_state_t *list)
                     unit = (unsigned int)((char*)current->data)[0];
 
                     if (unit == 1) {
-                        tape_image_event_playback(1, NULL);
+                        tape_image_event_playback(unit, NULL);
                     } else {
                         /* TODO: drive 1? */
                         file_system_event_playback(unit, 0, NULL);

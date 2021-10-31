@@ -38,7 +38,7 @@
     tape
 *******************************************************************************/
 
-tape_image_t *tape_image_dev1 = NULL;
+tape_image_t *tape_image_dev[TAPEPORT_MAX_PORTS] =  { NULL };
 
 int tape_image_attach(unsigned int unit, const char *name)
 {
@@ -49,7 +49,7 @@ void tape_shutdown(void)
 {
 }
 
-int tape_tap_attached(void)
+int tape_tap_attached(int port)
 {
     return 0;
 }
@@ -93,12 +93,12 @@ int tape_image_create(const char *name, unsigned int type)
     return 0;
 }
 
-int tape_snapshot_write_module(snapshot_t *s, int save_image)
+int tape_snapshot_write_module(int port, snapshot_t *s, int save_image)
 {
     return 0;
 }
 
-int tape_snapshot_read_module(snapshot_t *s)
+int tape_snapshot_read_module(int port, snapshot_t *s)
 {
     return 0;
 }
@@ -142,7 +142,7 @@ void tape_get_header(tape_image_t *tape_image, uint8_t *name)
 {
 }
 
-const char *tape_get_file_name(void)
+const char *tape_get_file_name(int port)
 {
     return NULL;
 }

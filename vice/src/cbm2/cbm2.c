@@ -881,7 +881,7 @@ void machine_specific_powerup(void)
 void machine_specific_shutdown(void)
 {
     /* and the tape */
-    tape_image_detach_internal(1);
+    tape_image_detach_internal(TAPEPORT_PORT_1 + 1);
 
     ciacore_shutdown(machine_context.cia1);
     tpicore_shutdown(machine_context.tpi1);

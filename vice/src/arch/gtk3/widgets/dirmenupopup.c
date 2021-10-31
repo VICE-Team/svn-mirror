@@ -49,6 +49,7 @@
 #include "lib.h"
 #include "log.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "util.h"
 #include "widgethelpers.h"
 
@@ -216,12 +217,12 @@ GtkWidget *dir_menu_popup_create(
     } else {
         debug_gtk3("Trying tape for some reason.");
         /* tape image */
-        if (tape_image_dev1 == NULL) {
+        if (tape_image_dev[TAPEPORT_PORT_1] == NULL) {
             item = gtk_menu_item_new_with_label("<<NO IMAGE ATTACHED>>");
             gtk_container_add(GTK_CONTAINER(menu), item);
             return menu;
         }
-        autostart_diskimage = tape_image_dev1->name;
+        autostart_diskimage = tape_image_dev[TAPEPORT_PORT_1]->name;
     }
 
     tmp = NULL;

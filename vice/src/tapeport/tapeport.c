@@ -202,14 +202,11 @@ const char *tapeport_get_device_type_desc(int type)
 
 void tapeport_set_motor(int port, int flag)
 {
-    /* ignore port 2 for now */
-    if (port == TAPEPORT_PORT_1) {
-        /* use new tapeport system if the device has been registered */
-        if (tapeport_current_device[port] != TAPEPORT_DEVICE_NONE) {
-            if (tapeport_device[tapeport_current_device[port]].name) {
-                if (tapeport_device[tapeport_current_device[port]].set_motor) {
-                    tapeport_device[tapeport_current_device[port]].set_motor(port, flag);
-                }
+    /* use new tapeport system if the device has been registered */
+    if (tapeport_current_device[port] != TAPEPORT_DEVICE_NONE) {
+        if (tapeport_device[tapeport_current_device[port]].name) {
+            if (tapeport_device[tapeport_current_device[port]].set_motor) {
+                tapeport_device[tapeport_current_device[port]].set_motor(port, flag);
             }
         }
     }
@@ -217,14 +214,11 @@ void tapeport_set_motor(int port, int flag)
 
 void tapeport_toggle_write_bit(int port, int write_bit)
 {
-    /* ignore port 2 for now */
-    if (port == TAPEPORT_PORT_1) {
-        /* use new tapeport system if the device has been registered */
-        if (tapeport_current_device[port] != TAPEPORT_DEVICE_NONE) {
-            if (tapeport_device[tapeport_current_device[port]].name) {
-                if (tapeport_device[tapeport_current_device[port]].toggle_write_bit) {
-                    tapeport_device[tapeport_current_device[port]].toggle_write_bit(port, write_bit);
-                }
+    /* use new tapeport system if the device has been registered */
+    if (tapeport_current_device[port] != TAPEPORT_DEVICE_NONE) {
+        if (tapeport_device[tapeport_current_device[port]].name) {
+            if (tapeport_device[tapeport_current_device[port]].toggle_write_bit) {
+                tapeport_device[tapeport_current_device[port]].toggle_write_bit(port, write_bit);
             }
         }
     }
@@ -232,14 +226,11 @@ void tapeport_toggle_write_bit(int port, int write_bit)
 
 void tapeport_set_sense_out(int port, int sense)
 {
-    /* ignore port 2 for now */
-    if (port == TAPEPORT_PORT_1) {
-        /* use new tapeport system if the device has been registered */
-        if (tapeport_current_device[port] != TAPEPORT_DEVICE_NONE) {
-            if (tapeport_device[tapeport_current_device[port]].name) {
-                if (tapeport_device[tapeport_current_device[port]].set_sense_out) {
-                    tapeport_device[tapeport_current_device[port]].set_sense_out(port, sense);
-                }
+    /* use new tapeport system if the device has been registered */
+    if (tapeport_current_device[port] != TAPEPORT_DEVICE_NONE) {
+        if (tapeport_device[tapeport_current_device[port]].name) {
+            if (tapeport_device[tapeport_current_device[port]].set_sense_out) {
+                tapeport_device[tapeport_current_device[port]].set_sense_out(port, sense);
             }
         }
     }
@@ -265,34 +256,22 @@ void tapeport_reset(void)
 
 void tapeport_trigger_flux_change(unsigned int on, int port)
 {
-    /* ignore port 2 for now */
-    if (port == TAPEPORT_PORT_1) {
-        machine_trigger_flux_change(on);
-    }
+    machine_trigger_flux_change(port, on);
 }
 
 void tapeport_set_tape_sense(int sense, int port)
 {
-    /* ignore port 2 for now */
-    if (port == TAPEPORT_PORT_1) {
-        machine_set_tape_sense(sense);
-    }
+    machine_set_tape_sense(port, sense);
 }
 
 void tapeport_set_write_in(int val, int port)
 {
-    /* ignore port 2 for now */
-    if (port == TAPEPORT_PORT_1) {
-        machine_set_tape_write_in(val);
-    }
+    machine_set_tape_write_in(port, val);
 }
 
 void tapeport_set_motor_in(int val, int port)
 {
-    /* ignore port 2 for now */
-    if (port == TAPEPORT_PORT_1) {
-        machine_set_tape_motor_in(val);
-    }
+    machine_set_tape_motor_in(port, val);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
@@ -318,6 +297,8 @@ static const resource_int_t resources_int_port2[] = {
 
 static int tapeport_device_resources_init(int amount)
 {
+    datasette_resources_init(amount);
+
     if (tapertc_resources_init(amount) < 0) {
         return -1;
     }
@@ -343,7 +324,7 @@ static int tapeport_device_resources_init(int amount)
     }
 #endif
 
-    return datasette_resources_init(amount);
+    return 0;
 }
 
 int tapeport_resources_init(int amount)

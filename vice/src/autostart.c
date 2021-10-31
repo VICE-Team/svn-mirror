@@ -999,7 +999,7 @@ static void advance_pressplayontape(void)
     switch (check2("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK, 0, AUTOSTART_CHECK_ANY_COLUMN)) {
         case YES:
             autostartmode = AUTOSTART_LOADINGTAPE;
-            datasette_control(DATASETTE_CONTROL_START);
+            datasette_control(TAPEPORT_PORT_1, DATASETTE_CONTROL_START);
             break;
         case NO:
             disable_warp_if_was_requested();
@@ -1471,30 +1471,30 @@ int autostart_tape(const char *file_name, const char *program_name,
     init_drive_emulation_state(DRIVE_UNIT_MIN, 0);
 
     /* reset datasette emulation and remove the tape image. */
-    datasette_control(DATASETTE_CONTROL_RESET);
-    tape_image_detach(1);
+    datasette_control(TAPEPORT_PORT_1, DATASETTE_CONTROL_RESET);
+    tape_image_detach(TAPEPORT_PORT_1 + 1);
 
-    if (!(tape_image_attach(1, file_name) < 0)) {
+    if (!(tape_image_attach(TAPEPORT_PORT_1 + 1, file_name) < 0)) {
         log_message(autostart_log,
                     "Attached file `%s' as a tape image.", file_name);
-        if (!tape_tap_attached()) {
+        if (!tape_tap_attached(TAPEPORT_PORT_1)) {
             if (program_number == 0 || program_number == 1) {
                 do_seek = 0;
             }
             program_number -= 1;
         }
         if (tap_initial_raw_offset > 0) {
-            tape_seek_to_offset(tape_image_dev1, tap_initial_raw_offset);
+            tape_seek_to_offset(tape_image_dev[TAPEPORT_PORT_1], tap_initial_raw_offset);
             tap_initial_raw_offset = 0;
         } else if (do_seek) {
             if (program_number > 0) {
                 /* program numbers in tape_seek_to_file() start at 0 */
-                tape_seek_to_file(tape_image_dev1, program_number - 1);
+                tape_seek_to_file(tape_image_dev[TAPEPORT_PORT_1], program_number - 1);
             } else {
-                tape_seek_start(tape_image_dev1);
+                tape_seek_start(tape_image_dev[TAPEPORT_PORT_1]);
             }
         }
-        if (!tape_tap_attached()) {
+        if (!tape_tap_attached(TAPEPORT_PORT_1)) {
             /* Kludge: for t64 images we need devtraps ON */
             if (!get_device_traps_state(1)) {
                 set_device_traps_state(1, 1);
