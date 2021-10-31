@@ -111,9 +111,13 @@ static clock_t cmdmode_receive_command(void);
 static int     load_tcrt(const char *filename, tapecart_memory_t *tcmem);
 static void    update_tcrt(void);
 
+#define VICE_MACHINE_MASK (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_C128)
+
 static tapeport_device_t tapecart_device = {
     "tapecart",                   /* device name */
     TAPEPORT_DEVICE_TYPE_STORAGE, /* device is a 'storage' type device */
+    VICE_MACHINE_MASK,            /* device works on x64/x64sc/x128 machines */
+    TAPEPORT_PORT_1_MASK,         /* device only works on port 1 */
     tapecart_enable,              /* device enable function */
     NULL,                         /* NO device specific reset function */
     tapecart_shutdown,            /* device shutdown function */

@@ -68,9 +68,13 @@ static void tape_diag_586220_harness_set_sense_out(int port, int sense);
 static void tape_diag_586220_harness_set_read_out(int port, int val);
 static int tape_diag_586220_harness_enable(int port, int val);
 
+#define VICE_MACHINE_MASK (VICE_MACHINE_C64|VICE_MACHINE_C64SC)
+
 static tapeport_device_t tape_diag_586220_harness_device = {
     "Tape 586220 diagnostics harness module",  /* device name */
     TAPEPORT_DEVICE_TYPE_HARNESS,              /* device is a 'harness' type device */
+    VICE_MACHINE_MASK,                         /* device works on x64/x64sc machines */
+    TAPEPORT_PORT_1_MASK,                      /* device only works on port 1 */
     tape_diag_586220_harness_enable,           /* device enable function */
     NULL,                                      /* NO device specific reset function */
     NULL,                                      /* NO device shutdown function */

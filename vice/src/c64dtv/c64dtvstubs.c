@@ -33,7 +33,7 @@
 #include "tapeport.h"
 
 #if !defined(USE_SDLUI) && !defined(USE_SDL2UI)
-tapeport_desc_t *tapeport_get_valid_devices(int sort)
+tapeport_desc_t *tapeport_get_valid_devices(int port, int sort)
 {
     return NULL;
 }

@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "tapeport.h"
@@ -49,6 +50,8 @@ static int sense_dongle_enable(int port, int val);
 static tapeport_device_t sense_dongle_device = {
     "Sense dongle",              /* device name */
     TAPEPORT_DEVICE_TYPE_DONGLE, /* device is a 'dongle' type device */
+    VICE_MACHINE_ALL,            /* device works on all machines */
+    TAPEPORT_PORT_ALL_MASK,      /* device works on all ports */
     sense_dongle_enable,         /* device enable function */
     sense_dongle_reset,          /* device specific reset function */
     NULL,                        /* NO device shutdown function */

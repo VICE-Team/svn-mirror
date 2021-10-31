@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "tapeport.h"
@@ -92,9 +93,13 @@ static int dtlbasic_write_snapshot(int port, struct snapshot_s *s, int write_ima
 static int dtlbasic_read_snapshot(int port, struct snapshot_s *s);
 static int dtlbasic_enable(int port, int val);
 
+#define VICE_MACHINE_MASK (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_C128)
+
 static tapeport_device_t dtlbasic_dongle_device = {
     "DTL BASIC dongle",          /* device name */
     TAPEPORT_DEVICE_TYPE_DONGLE, /* device is a 'dongle' type device */
+    VICE_MACHINE_MASK,           /* device works on x64/x64sc/x128 machines */
+    TAPEPORT_PORT_1_MASK,        /* device only works on port 1 */
     dtlbasic_enable,             /* device enable function */
     dtlbasic_reset,              /* device specific reset function */
     NULL,                        /* NO device shutdown function */
