@@ -159,7 +159,7 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
 
     filename_locale = file_chooser_convert_to_locale(filename);
 
-    if (tape_image_attach(1, filename_locale) < 0) {
+    if (tape_image_attach(TAPEPORT_PORT_1 + 1, filename_locale) < 0) {
         /* failed */
         log_error(LOG_ERR, "attaching tape '%s' failed.", filename_locale);
     }
@@ -485,7 +485,7 @@ gboolean ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
  */
 gboolean ui_tape_detach_callback(GtkWidget *widget, gpointer user_data)
 {
-    tape_image_detach(1);
+    tape_image_detach(TAPEPORT_PORT_1 + 1);
     return TRUE;
 }
 
