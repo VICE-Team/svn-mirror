@@ -41,6 +41,7 @@
 #include "lastdir.h"
 #include "resources.h"
 #include "tapecontents.h"
+#include "tapeport.h"
 #include "ui.h"
 #include "uimachinewindow.h"
 
