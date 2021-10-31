@@ -938,7 +938,7 @@ void machine_specific_powerup(void)
 
 void machine_specific_shutdown(void)
 {
-    tape_image_detach_internal(1);
+    tape_image_detach_internal(TAPEPORT_PORT_1 + 1);
 
     ted_shutdown();
     speech_shutdown();

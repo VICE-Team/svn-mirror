@@ -44,6 +44,7 @@
 #include "mon_file.h"
 #include "mon_util.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "uimon.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
@@ -411,7 +412,14 @@ void mon_attach(const char *filename, int device)
 {
     switch (device) {
         case 1:
-            if (machine_class == VICE_MACHINE_C64DTV) {
+            if (machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_SCPU64) {
+                mon_out("Unimplemented.\n");
+            } else if (tape_image_attach(device, filename)) {
+                mon_out("Failed.\n");
+            }
+            break;
+        case 2:
+            if (machine_class != VICE_MACHINE_PET) {
                 mon_out("Unimplemented.\n");
             } else if (tape_image_attach(device, filename)) {
                 mon_out("Failed.\n");
@@ -445,7 +453,14 @@ void mon_detach(int device)
 {
     switch (device) {
         case 1:
-            if (machine_class == VICE_MACHINE_C64DTV) {
+            if (machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_SCPU64) {
+                mon_out("Unimplemented.\n");
+            } else {
+                tape_image_detach(device);
+            }
+            break;
+        case 2:
+            if (machine_class != VICE_MACHINE_PET) {
                 mon_out("Unimplemented.\n");
             } else {
                 tape_image_detach(device);

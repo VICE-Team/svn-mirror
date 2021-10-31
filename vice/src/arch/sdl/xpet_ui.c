@@ -83,7 +83,7 @@ static ui_menu_entry_t xpet_main_menu[] = {
     { "Tape",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)tape_menu },
+      (ui_callback_data_t)tape_pet_menu },
     { "Cartridge",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

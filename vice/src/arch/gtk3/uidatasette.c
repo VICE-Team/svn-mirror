@@ -62,7 +62,7 @@ gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
     int val = GPOINTER_TO_INT(data);
 
     if (val >= DATASETTE_CONTROL_STOP && val <= DATASETTE_CONTROL_RESET_COUNTER) {
-        datasette_control(val);
+        datasette_control(TAPEPORT_PORT_1, val);
     } else {
         fprintf(stderr,
                 "Got an impossible Datasette Control action, code %ld (valid range %d-%d)\n",

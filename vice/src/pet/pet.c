@@ -760,8 +760,12 @@ void machine_specific_reset(void)
 
 void machine_specific_shutdown(void)
 {
+    int i;
+
     /* and the tape */
-    tape_image_detach_internal(1);
+    for (i = 0; i < TAPEPORT_MAX_PORTS; i++) {
+        tape_image_detach_internal(i + 1);
+    }
 
     viacore_shutdown(machine_context.via);
 

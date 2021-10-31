@@ -9,6 +9,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/vdrive \
+	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/lib/p64

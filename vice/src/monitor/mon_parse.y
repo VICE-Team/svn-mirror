@@ -81,6 +81,7 @@ extern char *alloca();
 #include "mon_register.h"
 #include "mon_util.h"
 #include "montypes.h"
+#include "tapeport.h"
 #include "resources.h"
 #include "types.h"
 #include "uimon.h"
@@ -598,7 +599,7 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                   | CMD_MON_RESET opt_sep expression end_cmd
                     { mon_reset_machine($3); }
                   | CMD_TAPECTRL opt_sep expression end_cmd
-                    { mon_tape_ctrl($3); }
+                    { mon_tape_ctrl(TAPEPORT_PORT_1, $3); }  /* FIXME: hardcoded to port 1 for now */
                   | CMD_CARTFREEZE end_cmd
                     { mon_cart_freeze(); }
                   | CMD_UPDB number end_cmd

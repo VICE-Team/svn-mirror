@@ -61,6 +61,7 @@
 #include "romset.h"
 #include "sysfile.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "traps.h"
 #include "uiapi.h"
 #include "util.h"
@@ -80,7 +81,7 @@
 #define NUM_STARTUP_DISK_IMAGES 8
 static char *autostart_string = NULL;
 static char *startup_disk_images[NUM_STARTUP_DISK_IMAGES];
-static char *startup_tape_image;
+static char *startup_tape_image[TAPEPORT_MAX_PORTS];
 static unsigned int autostart_mode = AUTOSTART_MODE_NONE;
 
 
@@ -116,10 +117,12 @@ void initcmdline_shutdown(void)
         }
         startup_disk_images[unit] = NULL;
     }
-    if (startup_tape_image != NULL) {
-        lib_free(startup_tape_image);
+    for (unit = 0; unit < TAPEPORT_MAX_PORTS; unit++) {
+        if (startup_tape_image[unit] != NULL) {
+            lib_free(startup_tape_image[unit]);
+        }
+        startup_tape_image[unit] = NULL;
     }
-    startup_tape_image = NULL;
 }
 
 static int cmdline_help(const char *param, void *extra_param)
@@ -312,8 +315,16 @@ static int cmdline_attach(const char *param, void *extra_param)
 
     switch (unit) {
         case 1:
-            lib_free(startup_tape_image);
-            startup_tape_image = lib_strdup(param);
+            lib_free(startup_tape_image[TAPEPORT_PORT_1]);
+            startup_tape_image[TAPEPORT_PORT_1] = lib_strdup(param);
+            break;
+        case 2:
+            if (machine_class == VICE_MACHINE_PET) {
+                lib_free(startup_tape_image[TAPEPORT_PORT_2]);
+                startup_tape_image[TAPEPORT_PORT_2] = lib_strdup(param);
+            } else {
+                archdep_startup_log_error("cmdline_attach(): unexpected unit number %d?!\n", unit);
+            }
             break;
         case 8:
         case 9:
@@ -423,6 +434,14 @@ static const cmdline_option_t cmdline_options[] =
     CMDLINE_LIST_END
 };
 
+static const cmdline_option_t cmdline_pet_options[] =
+{
+    { "-2", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cmdline_attach, (void *)2, NULL, NULL,
+      "<Name>", "Attach <name> as a tape image" },
+    CMDLINE_LIST_END
+};
+
 int initcmdline_init(void)
 {
     if (cmdline_register_options(common_cmdline_options) < 0) {
@@ -432,6 +451,13 @@ int initcmdline_init(void)
     /* Disable autostart options for vsid */
     if (machine_class != VICE_MACHINE_VSID) {
         if (cmdline_register_options(cmdline_options) < 0) {
+            return -1;
+        }
+    }
+
+    /* Add tape 2 option for pet */
+    if (machine_class == VICE_MACHINE_PET) {
+        if (cmdline_register_options(cmdline_pet_options) < 0) {
             return -1;
         }
     }
@@ -538,9 +564,15 @@ void initcmdline_check_attach(void)
         }
 
         /* `-1': Attach specified tape image.  */
-        if (startup_tape_image && tape_image_attach(1, startup_tape_image) < 0) {
+        if (startup_tape_image[TAPEPORT_PORT_1] && tape_image_attach(TAPEPORT_PORT_1 + 1, startup_tape_image[TAPEPORT_PORT_1]) < 0) {
             log_error(LOG_DEFAULT, "Cannot attach tape image `%s'.",
-                      startup_tape_image);
+                      startup_tape_image[TAPEPORT_PORT_1]);
+        }
+
+        /* `-2': Attach specified tape image.  */
+        if (startup_tape_image[TAPEPORT_PORT_2] && tape_image_attach(TAPEPORT_PORT_2 + 1, startup_tape_image[TAPEPORT_PORT_2]) < 0) {
+            log_error(LOG_DEFAULT, "Cannot attach tape image `%s'.",
+                      startup_tape_image[TAPEPORT_PORT_2]);
         }
     }
 
