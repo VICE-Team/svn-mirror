@@ -80,6 +80,7 @@
 #include "diskimage.h"
 #include "diskimage/fsimage.h"
 #include "autostart.h"
+#include "tapeport.h"
 #include "tapecontents.h"
 #include "fliplist.h"
 
@@ -1834,7 +1835,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
         gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
                 SB_COL_SEP_TAPE, SB_ROW_SEP_TAPE, 1, 2);
         allocated_bars[i].tape = tape;
-        allocated_bars[i].tape_menu = ui_create_datasette_control_menu();
+        allocated_bars[i].tape_menu = ui_create_datasette_control_menu(TAPEPORT_UNIT_1);
         g_object_ref_sink(G_OBJECT(allocated_bars[i].tape_menu));
         g_signal_connect(tape_events, "button-press-event",
                 G_CALLBACK(ui_do_datasette_popup), GINT_TO_POINTER(i));

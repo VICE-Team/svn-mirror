@@ -31,8 +31,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-/* TODO: Probably needs `int port` as an argument */
-GtkWidget *ui_create_datasette_control_menu(void);
+GtkWidget *ui_create_datasette_control_menu(int port);
 
 gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data);
 void     ui_datasette_update_sensitive(GtkWidget *menu);
