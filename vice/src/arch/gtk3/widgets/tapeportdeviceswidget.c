@@ -536,9 +536,11 @@ static gboolean set_device_id(GtkComboBox *combo, gint id, gboolean blocked)
  *
  * Create a model with (dev-id, dev-name, dev-type-id, dev-type-desc).
  *
+ * \param[in]   port    tape port number (1 or 2 (PET))
+ *
  * \return  model
  */
-static GtkListStore *create_device_model(void)
+static GtkListStore *create_device_model(int port)
 {
     GtkListStore *model;
     GtkTreeIter iter;
@@ -551,7 +553,7 @@ static GtkListStore *create_device_model(void)
                                G_TYPE_INT,      /* type ID */
                                G_TYPE_STRING    /* type description */
                                );
-    devices = tapeport_get_valid_devices(TAPEPORT_PORT_1, TRUE);
+    devices = tapeport_get_valid_devices(port - 1 /*index, not port */, TRUE);
     for (dev = devices; dev->name != NULL; dev++) {
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model,
@@ -599,7 +601,7 @@ static GtkWidget *create_device_combobox(int port)
     /* TODO:    Check if the model can be shared for both ports, perhaps the
      *          second tape port has a different set of supported devices
      */
-    model = create_device_model();
+    model = create_device_model(port);
 
     /* create combobox with a single cell renderer for the device name column */
     combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(model));
@@ -655,7 +657,7 @@ static GtkWidget *create_device_types_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, FALSE);
     g_object_set(label, "margin-left", 16, NULL);
-    port1_type = create_device_combobox(1);
+    port1_type = create_device_combobox(TAPEPORT_UNIT_1);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), port1_type, 1, 1, 1, 1);
 
@@ -665,7 +667,7 @@ static GtkWidget *create_device_types_widget(void)
         gtk_widget_set_halign(label, GTK_ALIGN_START);
         gtk_widget_set_hexpand(label, FALSE);
         g_object_set(label, "margin-left", 16, NULL);
-        port2_type = create_device_combobox(2);
+        port2_type = create_device_combobox(TAPEPORT_UNIT_1);
         gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), port2_type, 1, 2, 1, 1);
     }

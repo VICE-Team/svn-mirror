@@ -77,11 +77,13 @@ gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
 
 /** \brief  Create datasette control menu
  *
+ * \param[in]   port    datasette port number (1 or 2)
+ *
  * \return  GtkMenu with datasette controls
  *
  * \todo    Update for second datasette on PET
  */
-GtkWidget *ui_create_datasette_control_menu(void)
+GtkWidget *ui_create_datasette_control_menu(int port)
 {
     GtkWidget *menu, *item, *menu_items[DATASETTE_CONTROL_RESET_COUNTER+1];
     int i;
@@ -89,10 +91,16 @@ GtkWidget *ui_create_datasette_control_menu(void)
     menu = gtk_menu_new();
     item = gtk_menu_item_new_with_label("Attach tape image...");
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect_unlocked(item, "activate", G_CALLBACK(ui_tape_attach_callback), NULL);
+    g_signal_connect_unlocked(item,
+                              "activate",
+                              G_CALLBACK(ui_tape_attach_callback),
+                              GINT_TO_POINTER(port));
     item = gtk_menu_item_new_with_label("Detach tape image");
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "activate", G_CALLBACK(ui_tape_detach_callback), NULL);
+    g_signal_connect(item,
+                     "activate",
+                     G_CALLBACK(ui_tape_detach_callback),
+                     GINT_TO_POINTER(port));
     gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
     menu_items[0] = gtk_menu_item_new_with_label("Stop");
     menu_items[1] = gtk_menu_item_new_with_label("Play");
@@ -106,7 +114,7 @@ GtkWidget *ui_create_datasette_control_menu(void)
         g_signal_connect(menu_items[i],
                          "activate",
                          G_CALLBACK(ui_datasette_tape_action_cb),
-                         GINT_TO_POINTER(i | (1 << 8)));    /* port #1 */
+                         GINT_TO_POINTER(i | (port << 8)));    /* port #1 */
     }
 
     /* add "configure tapeport devices" */
@@ -127,6 +135,8 @@ GtkWidget *ui_create_datasette_control_menu(void)
  * datasette is enabled.
  *
  * \param[in,out]   menu    tape menu
+ *
+ * \todo    Update for two datasettes
  */
 void ui_datasette_update_sensitive(GtkWidget *menu)
 {

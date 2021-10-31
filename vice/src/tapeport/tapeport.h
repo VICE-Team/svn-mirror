@@ -62,6 +62,11 @@ enum {
     TAPEPORT_MAX_PORTS
 };
 
+enum {
+    TAPEPORT_UNIT_1 = 1,    /**< tape port 1 unit number */
+    TAPEPORT_UNIT_2 = 2,    /**< tape port 2 unit number */
+};
+
 #define TAPEPORT_PORT_1_MASK   (1 << TAPEPORT_PORT_1)
 #define TAPEPORT_PORT_2_MASK   (1 << TAPEPORT_PORT_2)
 #define TAPEPORT_PORT_ALL_MASK (TAPEPORT_PORT_1_MASK | TAPEPORT_PORT_2_MASK)
