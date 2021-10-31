@@ -438,7 +438,6 @@ static void video_convert_renderer_to_rgb_gamma(video_ycbcr_color_t *src, float 
     g = (int)gf;
     b = (int)bf;
 
-    dst->dither = 0;
     dst->red = (uint8_t)RMAX(r,255);
     dst->green = (uint8_t)RMAX(g,255);
     dst->blue = (uint8_t)RMAX(b,255);
@@ -825,6 +824,7 @@ static palette_t *video_load_palette(const video_cbm_palette_t *p,
 
     if (!video_disabled_mode && palette_load(name, machine_name, palette) < 0) {
         /* log_message(vicii.log, "Cannot load palette file `%s'.", name); */
+        palette_free(palette);
         return NULL;
     }
 
