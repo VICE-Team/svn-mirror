@@ -2,12 +2,10 @@
 # VICE Palette file
 #
 # Syntax:
-# Red Green Blue Dither
+# Red Green Blue
 #
 
 # this palette was extracted from a screenshot made with YAPE
-
-# FIXME: the "dither" values are all bogus
 
 00 00 00
 27 27 27
