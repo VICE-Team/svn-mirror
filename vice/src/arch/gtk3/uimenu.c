@@ -112,7 +112,6 @@ static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *ite
  */
 static void ui_accel_data_delete(gpointer data, GClosure *closure)
 {
-    debug_gtk3("Holy Shit, this got triggered!!\n");
     if (data != NULL) {
         lib_free(data);
     }
