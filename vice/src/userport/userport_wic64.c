@@ -677,7 +677,7 @@ static void do_command_1e(void)
     DBG(("get TCP not implemented"));
 }
 
-/* send tcpe */
+/* send tcp */
 static void do_command_1f(void)
 {
     DBG(("command 1f: '%s'", commandbuffer));
