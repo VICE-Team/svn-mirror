@@ -547,7 +547,7 @@ if [ "$UI_TYPE" = "GTK3" ]; then
   cp "data/common/vice.gresource" "$APP_COMMON/"
 
   # --- copy hotkeys files ---
-  cp "data/common/*.vhk" "$APP_COMMON/"
+  cp data/common/*.vhk "$APP_COMMON/"
 
   # --- copy GLSL shaders ---
   mkdir -p "$APP_GLSL"
