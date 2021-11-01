@@ -171,7 +171,7 @@ static int mon_console_close_on_leaving = 0;
 int sidefx = 0;
 int break_on_dummy_access = 0;
 RADIXTYPE default_radix;
-MEMSPACE default_memspace;
+MEMSPACE default_memspace = e_comp_space;
 static bool inside_monitor = false;
 static unsigned int instruction_count;
 static bool skip_jsrs;
@@ -642,12 +642,12 @@ bool check_drive_emu_level_ok(int drive_num)
 
 void monitor_cpu_type_set(const char *cpu_type)
 {
-    int serchcpu;
+    int searchcpu;
     monitor_cpu_type_t *monitor_cpu_type_p = NULL;
 
-    serchcpu = find_cpu_type_from_string(cpu_type);
-    if (serchcpu > -1) {
-        monitor_cpu_type_p = monitor_find_cpu_for_memspace(default_memspace, serchcpu);
+    searchcpu = find_cpu_type_from_string(cpu_type);
+    if (searchcpu > -1) {
+        monitor_cpu_type_p = monitor_find_cpu_for_memspace(default_memspace, searchcpu);
     }
     if (monitor_cpu_type_p) {
         monitor_cpu_for_memspace[default_memspace] = monitor_cpu_type_p;
@@ -2881,6 +2881,7 @@ void monitor_abort(void)
 static void monitor_open(void)
 {
     supported_cpu_type_list_t *slist, *slist_next;
+    monitor_cpu_type_t *monitor_cpu_type_p = NULL;
     unsigned int dnr;
     int i;
 
@@ -2919,6 +2920,7 @@ static void monitor_open(void)
 
     uimon_notify_change();
 
+    /* free the list of supported CPUs */
     for (i = 0; i < NUM_MEMSPACES; i++) {
         slist = monitor_cpu_type_supported[i];
         while (slist != NULL) {
@@ -2928,6 +2930,7 @@ static void monitor_open(void)
         }
         monitor_cpu_type_supported[i] = NULL;
     }
+
     /* We should really be told what CPUs are supported by each memspace, but that will
      * require a bunch of changes, so for now we detect it based on the available registers. */
     find_supported_monitor_cpu_types(&monitor_cpu_type_supported[e_comp_space], mon_interfaces[e_comp_space]);
@@ -2938,14 +2941,39 @@ static void monitor_open(void)
     }
 
     /* Build array of pointers to monitor_cpu_type structs */
+
+    /* NOTE: We can't just init the struct(s) with the default CPU for each memspace, if
+             we did that, the monitor will not be able to eg single step on any CPU that
+             is not the first in the list. This loop makes sure the last active CPU is
+             still active in the monitor. */
+    for (i = 0; i < NUM_MEMSPACES; i++) {
+        slist = monitor_cpu_type_supported[i];
+        monitor_cpu_type_p = NULL;
+        /* check if the CPU was already set to an available type */
+        while (slist != NULL) {
+            if (slist->monitor_cpu_type_p == monitor_cpu_for_memspace[i]) {
+                monitor_cpu_type_p = slist->monitor_cpu_type_p;
+            }
+            slist = slist->next;
+        }
+        /* if no matching CPU was set, use the first supported one, if there is any */
+        if (monitor_cpu_type_p == NULL && monitor_cpu_type_supported[i]) {
+            monitor_cpu_for_memspace[i] = monitor_cpu_type_supported[i]->monitor_cpu_type_p;
+        }
+    }
+
+#if 0
     monitor_cpu_for_memspace[e_comp_space] =
         monitor_cpu_type_supported[e_comp_space]->monitor_cpu_type_p;
+
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         monitor_cpu_for_memspace[monitor_diskspace_mem(dnr)] =
             monitor_cpu_type_supported[monitor_diskspace_mem(dnr)]->monitor_cpu_type_p;
     }
+#endif
     /* Safety precaution */
-    monitor_cpu_for_memspace[default_memspace] = monitor_cpu_for_memspace[default_memspace];
+    /* FIXME: this makes no sense at all */
+    /* monitor_cpu_for_memspace[default_memspace] = monitor_cpu_for_memspace[default_memspace]; */
 
     dot_addr[e_comp_space] = new_addr(e_comp_space, ((uint16_t)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
 
