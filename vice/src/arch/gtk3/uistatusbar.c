@@ -449,7 +449,7 @@ static gboolean message_timeout_handler(gpointer data)
  *
  *  \param widget  The tape icon GtkDrawingArea being drawn to.
  *  \param cr      The cairo context that handles the drawing.
- *  \param data    Ignored, but mandated by the function signature
+ *  \param data    tape port index
  *
  *  \return FALSE, telling GTK to continue event processing
  *
@@ -806,7 +806,7 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
                 tape_menu = allocated_bars[i].tape1_menu;
 
                 /* update sensitivity of tape controls */
-                ui_datasette_update_sensitive(tape_menu);
+                ui_datasette_update_sensitive(tape_menu, port);
 
                 gtk_menu_popup_at_widget(GTK_MENU(tape_menu),
                                      allocated_bars[i].tape1,
@@ -821,7 +821,7 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
                 tape_menu = allocated_bars[i].tape2_menu;
 
                 /* update sensitivity of tape controls */
-                ui_datasette_update_sensitive(tape_menu);
+                ui_datasette_update_sensitive(tape_menu, port);
 
                 gtk_menu_popup_at_widget(GTK_MENU(tape_menu),
                                      allocated_bars[i].tape2,
@@ -2141,16 +2141,15 @@ void ui_display_joyport(uint16_t *joyport)
 
 /** \brief  Statusbar API function to report changes in tape control status.
  *
- *  \param control The new tape control. See the DATASETTE_CONTROL_*
- *                 constants in datasette.h for legal values of this
- *                 parameter.
- *
- * \todo    Add `port` argument
+ * \param[in]   port    tape port index (0 or 1)
+ * \param[in]   control The new tape control. See the DATASETTE_CONTROL_*
+ *                      constants in datasette.h for legal values of this
+ *                      parameter.
  */
 void ui_display_tape_control_status(int port, int control)
 {
     ui_sb_state_t *sb_state;
-    int index = 0;  /* FIXME */
+    int index = port;
 
     /* Ok to call from VICE thread */
 
@@ -2160,10 +2159,18 @@ void ui_display_tape_control_status(int port, int control)
         int i;
         sb_state->tape_control[index] = control;
         for (i = 0; i < MAX_STATUS_BARS; ++i) {
-            if (allocated_bars[i].tape1) {
-                GtkWidget *widget = gtk_grid_get_child_at(
-                        GTK_GRID(allocated_bars[i].tape1), 2, 0);
-                if (widget) {
+            GtkWidget *grid;
+
+            if (index == 0) {
+                grid = allocated_bars[i].tape1;
+            } else {
+                grid = allocated_bars[i].tape2;
+            }
+
+            if (grid != NULL) {
+                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(grid), 2, 0);
+
+                if (widget != NULL) {
                     redraw_widget_on_ui_thread(widget);
                 }
             }
@@ -2175,14 +2182,15 @@ void ui_display_tape_control_status(int port, int control)
 
 /** \brief  Statusbar API function to report changes in tape position.
  *
- *  \param  counter The new value of the position counter.
+ * \param[in]   port    tape port index (0 or 1)
+ * \param[in]   counter the new value of the position counter
  *
  *  \note   Only the last three digits of the counter will be displayed.
  */
 void ui_display_tape_counter(int port, int counter)
 {
     ui_sb_state_t *sb_state;
-    int index = 0;  /* FIXME */
+    int index = port;
 
     sb_state = lock_sb_state();
     sb_state->tape_counter[index] = counter;
@@ -2192,28 +2200,32 @@ void ui_display_tape_counter(int port, int counter)
 
 /** \brief  Statusbar API function to report changes in the tape motor.
  *
- *  \param  motor   Nonzero if the tape motor is now on.
- *
- *  \todo   Add support for port number!
+ * \param[in]   port    tape port index (0 or 1)
+ * \param[in]   motor   Nonzero if the tape motor is now on.
  */
 void ui_display_tape_motor_status(int port, int motor)
 {
     ui_sb_state_t *sb_state;
-    int index = 0; /* FIXME! */
+    int index = port;
 
     /* Ok to call from VICE thread */
-
     sb_state = lock_sb_state();
 
     if (motor != sb_state->tape_motor_status[index]) {
         int i;
         sb_state->tape_motor_status[index] = motor;
         for (i = 0; i < MAX_STATUS_BARS; ++i) {
-            /* FIXME: also handle tape2 */
-            if (allocated_bars[i].tape1) {
-                GtkWidget *widget = gtk_grid_get_child_at(
-                        GTK_GRID(allocated_bars[i].tape1), 2, 0);
-                if (widget) {
+            GtkWidget *grid;
+
+            if (index == 0) {
+                grid = allocated_bars[i].tape1;
+            } else{
+                grid = allocated_bars[i].tape2;
+            }
+            if (grid != NULL) {
+                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(grid), 2, 0);
+
+                if (widget != NULL) {
                     redraw_widget_on_ui_thread(widget);
                 }
             }

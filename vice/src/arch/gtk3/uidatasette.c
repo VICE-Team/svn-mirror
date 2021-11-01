@@ -26,6 +26,9 @@
  */
 
 #include "vice.h"
+#include <gtk/gtk.h>
+#include "vice_gtk3.h"
+
 #include "uidatasette.h"
 #include "datasette.h"
 #include "resources.h"
@@ -138,18 +141,19 @@ GtkWidget *ui_create_datasette_control_menu(int port)
  * Disables/enables the datasette controls (keys), depending on whether the
  * datasette is enabled.
  *
- * \param[in,out]   menu    tape menu
+ * \param[in]   menu    tape menu
+ * \param[in]   port    tape port number (1 or 2)
  *
  * \todo    Update for two datasettes
  */
-void ui_datasette_update_sensitive(GtkWidget *menu)
+void ui_datasette_update_sensitive(GtkWidget *menu, int port)
 {
     int datasette;
     int y;
     GList *children;
     GList *controls;
 
-    resources_get_int("TapePort1Device", &datasette);
+    resources_get_int_sprintf("TapePort%dDevice", &datasette, port);
 
     /* get all children of the menu */
     children = gtk_container_get_children(GTK_CONTAINER(menu));
