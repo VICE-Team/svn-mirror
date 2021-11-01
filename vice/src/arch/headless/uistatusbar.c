@@ -147,7 +147,7 @@ void ui_display_joyport(uint16_t *joyport)
  *                 constants in datasette.h for legal values of this
  *                 parameter.
  */
-void ui_display_tape_control_status(int control)
+void ui_display_tape_control_status(int port, int control)
 {
     /* printf("%s\n", __func__); */
 }
@@ -158,7 +158,7 @@ void ui_display_tape_control_status(int control)
  *
  *  \note   Only the last three digits of the counter will be displayed.
  */
-void ui_display_tape_counter(int counter)
+void ui_display_tape_counter(int port, int counter)
 {
     /* printf("%s\n", __func__); */
 }
@@ -168,7 +168,7 @@ void ui_display_tape_counter(int counter)
  *
  *  \param  motor   Nonzero if the tape motor is now on.
  */
-void ui_display_tape_motor_status(int motor)
+void ui_display_tape_motor_status(int port, int motor)
 {
     /* printf("%s\n", __func__); */
 }
@@ -180,7 +180,7 @@ void ui_display_tape_motor_status(int motor)
  *          understood. Furthermore, no other extant UIs appear to react
  *          to this call.
  */
-void ui_set_tape_status(int tape_status)
+void ui_set_tape_status(int port, int tape_status)
 {
     /* printf("%s\n", __func__); */
 }
@@ -192,7 +192,7 @@ void ui_set_tape_status(int tape_status)
  *  \param  image   The filename of the tape image (if mounted), or the
  *                  empty string or NULL (if unmounting).
  */
-void ui_display_tape_current_image(const char *image)
+void ui_display_tape_current_image(int port, const char *image)
 {
     /* printf("%s\n", __func__); */
 }

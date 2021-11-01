@@ -266,28 +266,28 @@ void ui_display_drive_current_image(unsigned int init_number, unsigned int drive
 
 /* Tape related UI */
 
-void ui_set_tape_status(int tape_status)
+void ui_set_tape_status(int port, int tape_status)
 {
     tape_enabled = tape_status;
 
     display_tape();
 }
 
-void ui_display_tape_motor_status(int motor)
+void ui_display_tape_motor_status(int port, int motor)
 {
     tape_motor = motor;
 
     display_tape();
 }
 
-void ui_display_tape_control_status(int control)
+void ui_display_tape_control_status(int port, int control)
 {
     tape_control = control;
 
     display_tape();
 }
 
-void ui_display_tape_counter(int counter)
+void ui_display_tape_counter(int port, int counter)
 {
     if (tape_counter != counter) {
         display_tape();
@@ -296,7 +296,7 @@ void ui_display_tape_counter(int counter)
     tape_counter = counter;
 }
 
-void ui_display_tape_current_image(const char *image)
+void ui_display_tape_current_image(int port, const char *image)
 {
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s: %s\n", __func__, image);

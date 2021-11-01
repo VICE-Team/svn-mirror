@@ -82,11 +82,11 @@ extern void ui_display_drive_current_image(unsigned int unit_number, unsigned in
 extern int ui_extend_image_dialog(void);
 
 /* Tape related UI */
-extern void ui_set_tape_status(int tape_status);
-extern void ui_display_tape_motor_status(int motor);
-extern void ui_display_tape_control_status(int control);
-extern void ui_display_tape_counter(int counter);
-extern void ui_display_tape_current_image(const char *image);
+extern void ui_set_tape_status(int port, int tape_status);
+extern void ui_display_tape_motor_status(int port, int motor);
+extern void ui_display_tape_control_status(int port, int control);
+extern void ui_display_tape_counter(int port, int counter);
+extern void ui_display_tape_current_image(int port, const char *image);
 
 /* Show a CPU JAM dialog.  */
 extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
