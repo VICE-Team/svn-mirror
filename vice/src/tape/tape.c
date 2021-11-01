@@ -487,7 +487,7 @@ int tape_image_detach_internal(unsigned int unit)
 
     retval = tape_image_close(tape_image_dev[unit - 1]);
 
-    ui_display_tape_current_image("");
+    ui_display_tape_current_image(unit - 1, "");
 
     event_data[0] = (char)unit;
     event_data[1] = 0;
@@ -546,7 +546,7 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
 
     memcpy(tape_image_dev[unit - 1], &tape_image, sizeof(tape_image_t));
 
-    ui_display_tape_current_image(tape_image_dev[unit - 1]->name);
+    ui_display_tape_current_image(unit - 1, tape_image_dev[unit - 1]->name);
 
     switch (tape_image_dev[unit - 1]->type) {
         case TAPE_TYPE_T64:

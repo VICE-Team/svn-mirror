@@ -358,14 +358,14 @@ static void datasette_update_ui_counter(int port)
     if (current_image[port] == NULL) {
         /* FIXME: this is not quite correct, on a real datasette the counter
                   would also count when no tape is inserted */
-        ui_display_tape_counter(1000 - datasette_counter_offset[port]);
+        ui_display_tape_counter(port, 1000 - datasette_counter_offset[port]);
     } else {
         current_image[port]->counter = (1000 - datasette_counter_offset[port] +
                                 (int) (DS_G *
                                         (sqrt((current_image[port]->cycle_counter
                                                 / (datasette_cycles_per_second / 8.0)
                                                 * ds_c1) + ds_c2) - ds_c3))) % 1000;
-        ui_display_tape_counter(current_image[port]->counter);
+        ui_display_tape_counter(port, current_image[port]->counter);
     }
 }
 
@@ -702,7 +702,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
     /* check for delay of motor stop */
     if (motor_stop_clk[port] > 0 && maincpu_clk >= motor_stop_clk[port]) {
         motor_stop_clk[port] = 0;
-        ui_display_tape_motor_status(0);
+        ui_display_tape_motor_status(port, 0);
         datasette_motor[port] = 0;
     }
     DBG(("datasette_read_bit(motor:%d)", datasette_motor[port]));
@@ -867,7 +867,7 @@ void datasette_set_tape_image(int port, tap_t *image)
     last_tap[port] = next_tap[port] = 0;
     fullwave[port] = 0;
 
-    ui_set_tape_status(current_image[port] ? 1 : 0);
+    ui_set_tape_status(port, current_image[port] ? 1 : 0);
 }
 
 
@@ -1028,7 +1028,7 @@ static void datasette_control_internal(int port, int command)
                 }
                 break;
         }
-        ui_display_tape_control_status(current_image[port]->mode);
+        ui_display_tape_control_status(port, current_image[port]->mode);
     } else {
        switch (command) {
             case DATASETTE_CONTROL_RESET_COUNTER:
@@ -1080,7 +1080,7 @@ static void datasette_control_internal(int port, int command)
                 /* record can usually not be pressed when no tape is present */
                 break;
         }
-        ui_display_tape_control_status(notape_mode[port]);
+        ui_display_tape_control_status(port, notape_mode[port]);
     }
     /* clear the tap-buffer */
     last_tap[port] = next_tap[port] = 0;
@@ -1113,7 +1113,7 @@ static void datasette_set_motor(int port, int flag)
         if (!datasette_motor[port]) {
             last_write_clk[port] = (CLOCK)0;
             datasette_start_motor(port);
-            ui_display_tape_motor_status(1);
+            ui_display_tape_motor_status(port, 1);
             datasette_motor[port] = 1;
         }
     }
@@ -1333,11 +1333,11 @@ static int datasette_read_snapshot(int port, snapshot_t *s)
         alarm_unset(datasette_alarm[port]);
     }
 
-    ui_set_tape_status(current_image[port] ? 1 : 0);
+    ui_set_tape_status(port, current_image[port] ? 1 : 0);
     datasette_update_ui_counter(port);
-    ui_display_tape_motor_status(datasette_motor[port]);
+    ui_display_tape_motor_status(port, datasette_motor[port]);
     if (current_image[port]) {
-        ui_display_tape_control_status(current_image[port]->mode);
+        ui_display_tape_control_status(port, current_image[port]->mode);
 
         if (current_image[port]->mode > 0) {
             if (datasette_enabled[port]) {
