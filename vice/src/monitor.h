@@ -85,6 +85,16 @@ struct monitor_cpu_type_s {
 };
 typedef struct monitor_cpu_type_s monitor_cpu_type_t;
 
+
+struct supported_cpu_type_list_s {
+    monitor_cpu_type_t *monitor_cpu_type_p;
+    struct supported_cpu_type_list_s *next;
+};
+typedef struct supported_cpu_type_list_s supported_cpu_type_list_t;
+
+/* A linked list of supported monitor_cpu_types for each memspace */
+extern supported_cpu_type_list_t *monitor_cpu_type_supported[NUM_MEMSPACES];
+
 /* This is the standard interface through which the monitor accesses a
    certain CPU.  */
 struct monitor_interface_s {

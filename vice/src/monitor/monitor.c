@@ -229,14 +229,8 @@ static int disassemble_on_entry = 0;
 /* This gets initialized in monitor_init(). */
 monitor_cpu_type_t *monitor_cpu_for_memspace[NUM_MEMSPACES];
 
-struct supported_cpu_type_list_s {
-    monitor_cpu_type_t *monitor_cpu_type_p;
-    struct supported_cpu_type_list_s *next;
-};
-typedef struct supported_cpu_type_list_s supported_cpu_type_list_t;
-
 /* A linked list of supported monitor_cpu_types for each memspace */
-static supported_cpu_type_list_t *monitor_cpu_type_supported[NUM_MEMSPACES];
+supported_cpu_type_list_t *monitor_cpu_type_supported[NUM_MEMSPACES];
 
 struct monitor_cpu_type_list_s {
     monitor_cpu_type_t monitor_cpu_type;
