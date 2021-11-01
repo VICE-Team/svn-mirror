@@ -81,7 +81,10 @@ extern void ui_display_drive_led(unsigned int drive_number, unsigned int drive_b
 extern void ui_display_drive_current_image(unsigned int unit_number, unsigned int drive_number, const char *image);
 extern int ui_extend_image_dialog(void);
 
-/* Tape related UI */
+/* Tape related UI 
+ *
+ * The port argument is the index in the internal array of tape ports, so 0 or 1.
+ */
 extern void ui_set_tape_status(int port, int tape_status);
 extern void ui_display_tape_motor_status(int port, int motor);
 extern void ui_display_tape_control_status(int port, int control);
