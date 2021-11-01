@@ -136,7 +136,7 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
                 NULL,   /* program name */
                 index,
                 autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD,
-                TAPEPORT_PORT_1) < 0) {
+                TAPEPORT_PORT_1 /* FIXME */) < 0) {
         /* oeps */
         log_error(LOG_ERR, "autostarting tape '%s' failed.", filename_locale);
     }
