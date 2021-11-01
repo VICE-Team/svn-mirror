@@ -40,6 +40,7 @@
 #include "mon_disassemble.h"
 #include "mon_util.h"
 #include "montypes.h"
+#include "monitor.h"
 #include "uimon.h"
 #include "mon_breakpoint.h"
 
@@ -498,18 +499,48 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
     checkpoint_list_t *ptr;
     mon_checkpoint_t *cp;
     checkpoint_list_t *list;
-    monitor_cpu_type_t *monitor_cpu;
+    monitor_cpu_type_t *monitor_cpu, *searchcpu;
     bool must_stop = FALSE;
-    MON_ADDR instpc;
+    MON_ADDR instpc, searchpc;
     MON_ADDR loadstorepc;
     char is_loadstore = 0;
     const char *op_str;
     const char *action_str;
+    supported_cpu_type_list_t *cpulist;
     int monbank = mon_interfaces[mem]->current_bank;
 
     monitor_cpu = monitor_cpu_for_memspace[mem];
     instpc = new_addr(mem, (monitor_cpu->mon_register_get_val)(mem, e_PC));
     loadstorepc = new_addr(mem, lastpc);
+
+    /* HACK: the following is a hack to allow switching to another CPU when
+             a breakpoint triggers (eg to the z80 of the c128). at some point
+             we should refactor the checkpoint system to also provide us the
+             CPU that triggered it instead.
+       CAUTION: this only works for exec, not for load/store
+    */
+
+    /* if the address is not the same of the PC of the current CPU... */
+    if ((op == e_exec) && (new_addr(mem, addr) != instpc)) {
+        /* ... loop over the list of supported CPUs in this memspace ... */
+        cpulist = monitor_cpu_type_supported[mem];
+        while (cpulist != NULL) {
+            searchcpu = cpulist->monitor_cpu_type_p;
+            /* if we find other CPUs than the current one... */
+            if (searchcpu != monitor_cpu) {
+                searchpc = new_addr(mem, (searchcpu->mon_register_get_val)(mem, e_PC));
+                /* check if the PC of the other CPU is not the same as the PC of the
+                   current CPU, but the checkpoint address matches the PC of the CPU we found */
+                if (searchpc != instpc && searchpc == new_addr(mem, addr)) {
+                    /* if so, assume the checkpoint hit on the other CPU and switch to it */
+                    instpc = searchpc;
+                    monitor_cpu_for_memspace[mem] = monitor_cpu = searchcpu;
+                    break;
+                }
+            }
+            cpulist = cpulist->next;
+        }
+    }
 
     switch (op) {
         case e_load:
