@@ -1347,7 +1347,7 @@ static void tape_dir_autostart_callback(const char *image,
      * image, freeing memory used by the image name passed to us in the process
      */
     autostart_image = lib_strdup(image);
-    autostart_tape(autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
+    autostart_tape(autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN, TAPEPORT_PORT_1);
     lib_free(autostart_image);
 }
 
