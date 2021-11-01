@@ -315,9 +315,6 @@ typedef struct ui_statusbar_s {
     /** \brief  Mixer control widget checkbox */
     GtkWidget *mixer;
 
-    /** \brief  Keyboard debug/status widget checkbox */
-    GtkWidget *kbd_check;
-
     /** \brief The Tape #1 Status widget. */
     GtkWidget *tape1;
 
@@ -387,8 +384,6 @@ static void disk_dir_autostart_callback(const char *image,
                                         int index,
                                         int device,
                                         unsigned int drive);
-static void kbd_statusbar_widget_enable(GtkWidget *window,
-                                        gboolean state);
 
 
 /** \brief  Trigger redraw of a widget on the UI thread
@@ -1125,10 +1120,6 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                 g_object_unref(G_OBJECT(allocated_bars[i].mixer));
                 allocated_bars[i].mixer = NULL;
             }
-            if (allocated_bars[i].kbd_check != NULL) {
-                g_object_unref(G_OBJECT(allocated_bars[i].kbd_check));
-                allocated_bars[i].kbd_check = NULL;
-            }
             if (allocated_bars[i].tape1) {
                 g_object_unref(G_OBJECT(allocated_bars[i].tape1));
                 allocated_bars[i].tape1 = NULL;
@@ -1211,26 +1202,6 @@ static void on_mixer_toggled(GtkWidget *widget, gpointer data)
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     ui_enable_mixer_controls((gboolean)state);
 }
-
-
-/** \brief  Handler for the 'toggled' event of the keyboard debug checkbox
- *
- * Toggles the display state of the keyboard debug widget
- *
- * \param[in]   widget  checkbox triggering the event
- * \param[in]   data    extra event data (unused
- */
-static void on_kbd_debug_toggled(GtkWidget *widget, gpointer data)
-{
-    gboolean state;
-
-    mainlock_assert_is_not_vice_thread();
-
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    kbd_statusbar_widget_enable(GTK_WIDGET(ui_get_active_window()), state);
-}
-
 
 
 /** \brief  Handler for the 'value-changed' event of the volume control
@@ -1787,7 +1758,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
     GtkWidget *sep;
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
-    GtkWidget *kbd_check = NULL;
     GtkWidget *volume = NULL;
     GtkWidget *message;
     GtkWidget *recording;
@@ -1837,8 +1807,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     /* don't add CRT or Mixer controls when VSID */
     if (machine_class != VICE_MACHINE_VSID) {
-        int kbd_state;
-
         crt = gtk_check_button_new_with_label("CRT controls");
         gtk_widget_set_can_focus(crt, FALSE);
         g_object_ref_sink(G_OBJECT(crt));
@@ -1854,19 +1822,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
         gtk_widget_set_hexpand(mixer, FALSE);
         gtk_widget_show_all(mixer);
         g_signal_connect(mixer, "toggled", G_CALLBACK(on_mixer_toggled), NULL);
-
-        if (resources_get_int("KbdStatusbar", &kbd_state) < 0) {
-            kbd_state = 0;
-        }
-        kbd_check = gtk_check_button_new_with_label("Keyboard status");
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(kbd_check),
-                                     (gboolean)kbd_state);
-        gtk_widget_set_can_focus(kbd_check, FALSE);
-        g_object_ref_sink(G_OBJECT(kbd_check));
-        gtk_widget_set_halign(kbd_check, GTK_ALIGN_START);
-        gtk_widget_set_hexpand(kbd_check, FALSE);
-        gtk_widget_show_all(kbd_check);
-        g_signal_connect(kbd_check, "toggled", G_CALLBACK(on_kbd_debug_toggled), NULL);
     }
 
     /* Messages
@@ -1911,8 +1866,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
         gtk_grid_attach(GTK_GRID(sb), crt, SB_COL_CRT, SB_ROW_CRT, 1, 1);
         allocated_bars[i].mixer = mixer;
         gtk_grid_attach(GTK_GRID(sb), mixer, SB_COL_MIXER, SB_ROW_MIXER, 1, 1);
-        allocated_bars[i].kbd_check = kbd_check;
-        gtk_grid_attach(GTK_GRID(sb), kbd_check, SB_COL_MIXER, SB_ROW_KBD_CHECK, 1, 1);
         /* add separator */
         gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
                 SB_COL_SEP_CRT, SB_ROW_SEP_CRT, 1, 3);
