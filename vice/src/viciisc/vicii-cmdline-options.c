@@ -66,7 +66,7 @@ struct model_s {
     int model;
 };
 
-static struct model_s model_match[] = {
+static const struct model_s model_match[] = {
     /* PAL, 63 cycle, 9 luma, "old" */
     { "6569", VICII_MODEL_6569 },
     { "6569r3", VICII_MODEL_6569 },

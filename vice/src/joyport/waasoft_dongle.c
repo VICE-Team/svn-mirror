@@ -53,7 +53,7 @@ static uint8_t counter[JOYPORT_MAX_PORTS] = {0};
 static uint8_t waasoft_reset_line[JOYPORT_MAX_PORTS] = {1};
 static uint8_t waasoft_clock_line[JOYPORT_MAX_PORTS] = {1};
 
-static uint8_t waasoft_values[15] = {
+static const uint8_t waasoft_values[15] = {
     0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00
 };
 

@@ -52,7 +52,7 @@ static int joyport_vizawrite64_dongle_enabled[JOYPORT_MAX_PORTS] = {0};
 
 static uint8_t counter[JOYPORT_MAX_PORTS] = {0};
 
-static uint8_t values[6] = {
+static const uint8_t values[6] = {
     0x55, 0x55, 0xaa, 0xaa, 0xff, 0xff
 };
 

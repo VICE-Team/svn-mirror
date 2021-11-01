@@ -426,7 +426,7 @@ uint16_t get_joystick_value(int index)
 #ifdef COMMON_JOYKEYS
 
 /* the order of values in joypad_bits is the same as in joystick_direction_t */
-static int joypad_bits[JOYSTICK_KEYSET_NUM_KEYS] = {
+static const int joypad_bits[JOYSTICK_KEYSET_NUM_KEYS] = {
     JOYPAD_FIRE,
     JOYPAD_SW,
     JOYPAD_S,

@@ -1541,7 +1541,7 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
 static int check_modifiers(const char *filename)
 {
     int n = 0;
-    char *ms[8] = {
+    static const char * const ms[8] = {
         "!LSHIFT ", "!RSHIFT ", "!VSHIFT! ", "!LCBM ", "!VCBM ", "!LCTRL ", "!VCTRL ", "!SHIFTL "
     };
 
@@ -2139,8 +2139,8 @@ static char *keyboard_get_mapping_name(int mapping)
 
 static char *keyboard_get_keymap_name(int idx, int mapping, int type)
 {
-    char *sympos[2] = { "sym", "pos"};
-    char *mapname;
+    static const char * const sympos[2] = { "sym", "pos"};
+    const char *mapname;
     char *name = NULL, *tstr = NULL;
 
     DBG((">keyboard_get_keymap_name idx %d mapping %d type %d\n", idx, mapping, type));

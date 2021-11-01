@@ -72,7 +72,7 @@ struct engine_s {
     int engine;
 };
 
-static struct engine_s engine_match[] = {
+static const struct engine_s engine_match[] = {
 #ifdef HAVE_FASTSID
     { "0", SID_FASTSID_6581 },
     { "fast", SID_FASTSID_6581 },
