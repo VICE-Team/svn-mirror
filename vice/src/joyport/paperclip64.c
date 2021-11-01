@@ -89,7 +89,7 @@ static int counter[JOYPORT_MAX_PORTS] = {0};
 static uint8_t command[JOYPORT_MAX_PORTS] = {0xff};
 static uint8_t output_enable[JOYPORT_MAX_PORTS] = {0};
 
-static uint8_t keys[64] = {
+static const uint8_t keys[64] = {
     3, 2, 0, 0, 1, 3, 2, 1,
     3, 2, 1, 2, 1, 2, 1, 2,
     0, 1, 2, 0, 1, 3, 3, 2,

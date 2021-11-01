@@ -326,7 +326,7 @@ static int fragment_size;
 static int output_option;
 
 /* divisors for fragment size calculation */
-static int fragment_divisor[] = {
+static const int fragment_divisor[] = {
     32, /* 100ms / 32 = 0.625ms */
     16, /* 100ms / 16 = 1.25ms */
      8, /* 100ms / 8 = 2.5ms */

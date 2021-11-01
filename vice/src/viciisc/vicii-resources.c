@@ -102,7 +102,7 @@ struct vicii_model_info_s {
     int luma;
 };
 
-static struct vicii_model_info_s vicii_info[] = {
+static const struct vicii_model_info_s vicii_info[] = {
     /* VICII_MODEL_6569: PAL, 63 cycle, 9 luma, "old" */
     { MACHINE_SYNC_PAL, 1 },
 

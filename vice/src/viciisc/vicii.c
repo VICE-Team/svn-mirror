@@ -625,7 +625,7 @@ static const char *fetch_phi1_type(int addr)
 
 int vicii_dump(void)
 {
-    static const char *mode_name[] = {
+    static const char * const mode_name[] = {
         "Standard Text",
         "Multicolor Text",
         "Hires Bitmap",

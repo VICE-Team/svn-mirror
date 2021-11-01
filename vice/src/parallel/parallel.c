@@ -166,13 +166,13 @@ typedef struct State_t {
 } State_t;
 
 #ifdef DEBUG
-static const char *Trans[NTRANS] = {
+static const char * const Trans[NTRANS] = {
     "ATN true", "ATN false", "DAV true", "DAV false",
     "NDAC true", "NDAC false", "NRFD true", "NRFD false"
 };
 #endif
 
-static State_t State[NSTATE];
+static const State_t State[NSTATE];
 
 static int state = WaitATN;
 
@@ -430,7 +430,7 @@ static void Out2_NDAC_false(int tr)
  *
  */
 
-static State_t State[NSTATE] = {
+static const State_t State[NSTATE] = {
     { "WaitATN", { WATN_ATN_true, ignore, ignore, ignore,
                    ignore, ignore, ignore, ignore } },
     { "In1", { In1_ATN_true, In1_ATN_false, In1_DAV_true, unexpected,

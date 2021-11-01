@@ -180,7 +180,7 @@ typedef struct lp_id_s {
     int id;
 } lp_id_t;
 
-static lp_id_t lp_id[] = {
+static const lp_id_t lp_id[] = {
     { LIGHTPEN_TYPE_PEN_U,     JOYPORT_ID_LIGHTPEN_U },
     { LIGHTPEN_TYPE_PEN_L,     JOYPORT_ID_LIGHTPEN_L },
     { LIGHTPEN_TYPE_PEN_DATEL, JOYPORT_ID_LIGHTPEN_DATEL },

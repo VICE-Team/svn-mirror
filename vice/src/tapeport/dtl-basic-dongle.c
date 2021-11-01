@@ -76,7 +76,7 @@ static int dtlbasic_dongle_enabled = 0;
 
 static int dtlbasic_counter = -1;
 
-static uint8_t dtlbasic_key[20] = { 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 };
+static const uint8_t dtlbasic_key[20] = { 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 };
 
 static int write_status = -1;
 static int sense_status = -1;
