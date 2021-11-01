@@ -967,43 +967,43 @@ For some of the emulators there can be extra joysticks besides the built-in
 joystick ports, the following list provides the mappings for the currently
 supported joystick/joypad ports:
 
-The internal joystick port 1 (x64/xscpu64/x64dtv/x128/xvic/xplus4/xcbm5x0) is mapped to joystick device #1.
+The internal joystick port 1 [x64/xscpu64/x64dtv/x128/xvic/xplus4/xcbm5x0] is mapped to joystick device #1.
 
-The internal joystick port 2 (x64/xscpu64/x64dtv/x128/xplus4/xcbm5x0) is mapped to joystick device #2.
+The internal joystick port 2 [x64/xscpu64/x64dtv/x128/xplus4/xcbm5x0] is mapped to joystick device #2.
 
-The CGA userport joystick adapter port 1 (x64/xscpu64/x128/xvic/xpet/xcbm2) is mapped to extra joystick device #1.
+The CGA userport joystick adapter ports 1 and 2 (x64/xscpu64/x128/xvic/xpet/xcbm2) are mapped to extra joystick devices #1 & #2 respectively.
 
-The CGA userport joystick adapter port 2 (x64/xscpu64/x128/xvic/xpet/xcbm2) is mapped to extra joystick device #2.
-
-The PET userport joystick adapter port 1 (x64/xscpu64/x128/xvic/xplus4/xpet/xcbm2) is mapped to extra joystick device #1.
-
-The PET userport joystick adapter port 2 (x64/xscpu64/x128/xvic/xplus4/xpet/xcbm2) is mapped to extra joystick device #2.
+The PET userport joystick adapter ports 1 and 2 (x64/xscpu64/x128/xvic/xplus4/xpet/xcbm2) are mapped to extra joystick devices #1 & #2 respectively.
 
 The C64DTV HUMMER userport joystick adapter port (x64/xscpu64/x128/xvic/xplus4/xpet/xcbm2) is mapped to extra joystick device #1.
 
 The OEM userport joystick adapter port (x64/xscpu64/x128/xvic/xplus4/xpet/xcbm2) is mapped to extra joystick device #1.
 
-The HIT userport joystick adapter port 1 (x64/xscpu64/x128) is mapped to extra joystick device #1.
+The HIT userport joystick adapter ports 1 & 2 (x64/xscpu64/x128) are mapped to extra joystick devices #1 & #2 respectively.
 
-The HIT userport joystick adapter port 2 (x64/xscpu64/x128) is mapped to extra joystick device #2.
+The KingSoft userport joystick adapter ports 1 & 2 (x64/xscpu64/x128) are mapped to extra joystick devices #1 & #2 respectively.
 
-The KingSoft userport joystick adapter port 1 (x64/xscpu64/x128) is mapped to extra joystick device #1.
+The StarByte userport joystick adapter ports 1 & 2 (x64/xscpu64/x128) are mapped to extra joystick devices #1 & #2 respectively.
 
-The KingSoft userport joystick adapter port 2 (x64/xscpu64/x128) is mapped to extra joystick device #2.
+The Petscii userport SNES pad adapter port (x64/xscpu64/x128/xvic/xcbm2) is mapped to extra joystick device #1.
 
-The StarByte userport joystick adapter port 1 (x64/xscpu64/x128) is mapped to extra joystick device #1.
+The Superpad64 userport SNES pad adapter ports 1, 2, 3, 4, 5, 6, 7 & 8 (x64/xscpu64/x128/xvic/xcbm2) are mapped to extra joystick devices #1, #2, #3, #4, #5, #6, #7 & #8 respectively.
 
-The StarByte userport joystick adapter port 2 (x64/xscpu64/x128) is mapped to extra joystick device #2.
+The Inception joystick adapter ports 1, 2, 3, 4, 5, 6, 7 & 8 (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xvic) are mapped to extra joystick devices #1, #2, #3, #4, #5, #6, #7 & #8 respectively.
 
-The userport SNES pad adapter port (x64/xscpu64/x128/xvic/xcbm2) is mapped to extra joystick device #1.
+The MultiJoy joystick adapter ports 1, 2, 3, 4, 5, 6, 7 & 8 (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0) are mapped to extra joystick devices #1, #2, #3, #4, #5, #6, #7 & #8 respectively.
 
-The SID cartridge joystick port (xplus4) is mapped to extra joystick device #3.
+The SpaceBalls joystick adapter ports 1, 2, 3, 4, 5, 6, 7 & 8 (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0) are mapped to extra joystick devices #1, #2, #3, #4, #5, #6, #7 & #8 respectively.
 
-The Ninja joystick port snes pad adapter snes pad 1 (x64/xscpu64/x64dtv/x128/xvic/xcbm5x0) is mapped to extra joystick device #1.
+The Ninja SNES pad adapter ports 1, 2 & 3 (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4) are mapped to extra joystick devices #1, #2 & #3 respectively.
 
-The Ninja joystick port snes pad adapter snes pad 2 (x64/xscpu64/x64dtv/x128/xvic/xcbm5x0) is mapped to extra joystick device #2.
+The ProtoPad SNES pad adapter port is mapped to the same port it is attached to.
 
-The Ninja joystick port snes pad adapter snes pad 3 (x64/xscpu64/x64dtv/x128/xvic/xcbm5x0) is mapped to extra joystick device #3.
+The Trap-Them SNES pad adapter port is mapped to the same port it is attached to.
+
+The MicroFlyte analog joystick is mapped to the same port it is attached to.
+
+The SID cartridge joystick port (xplus4) is mapped to extra joystick device #4.
 
 @node Disk drive emulation, Supported file formats, Joystick emulation, Preface
 @section The disk drive emulation
