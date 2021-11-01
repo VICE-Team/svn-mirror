@@ -130,13 +130,13 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
 
     lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-
     filename_locale = file_chooser_convert_to_locale(filename);
     if (autostart_tape(
                 filename_locale,
                 NULL,   /* program name */
                 index,
-                autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
+                autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD,
+                TAPEPORT_PORT_1) < 0) {
         /* oeps */
         log_error(LOG_ERR, "autostarting tape '%s' failed.", filename_locale);
     }

@@ -1457,7 +1457,8 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 
 /* Autostart tape image `file_name'.  */
 int autostart_tape(const char *file_name, const char *program_name,
-                   unsigned int program_number, unsigned int runmode)
+                   unsigned int program_number, unsigned int runmode,
+                   unsigned int tapeport)
 {
     uint8_t do_seek = 1;
 
@@ -1465,6 +1466,8 @@ int autostart_tape(const char *file_name, const char *program_name,
         || !file_name || !autostart_enabled) {
         return -1;
     }
+
+    log_debug("autostart_tape port: %u\n", tapeport);
 
     /* make sure to init TDE and traps status before each autostart */
     /* FIXME: this should perhaps be handled differently for tape */
@@ -2028,7 +2031,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
 
         set_tapeport_device(1, 0);
 
-        if (autostart_tape(file_name, program_name, program_number, runmode) == 0) {
+        if (autostart_tape(file_name, program_name, program_number, runmode, TAPEPORT_PORT_1) == 0) {
             log_message(autostart_log, "`%s' recognized as tape image.", file_name);
             return 0;
         }
