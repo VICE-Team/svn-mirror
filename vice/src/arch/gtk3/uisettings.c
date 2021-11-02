@@ -2341,6 +2341,17 @@ static int settings_old_pause_state;
 static GtkWidget *settings_window = NULL;
 
 
+/** \brief  Previous X position of settings dialog
+ */
+static gint settings_xpos = -1;
+
+
+/** \brief  Previous Y position of settings dialog
+ */
+static gint settings_ypos = -1;
+
+
+
 /** \brief  Reference to the 'content area' widget of the settings dialog
  */
 static GtkWidget *settings_grid = NULL;
@@ -2375,11 +2386,15 @@ static GtkTreePath *last_node_path = NULL;
 
 /** \brief  Handler for the "destroy" event of the main dialog
  *
- * \param[in]   widget      main dialog (unused)
+ * Stores the position of the dialog so it can be shown again at that
+ * position.
+ *
+ * \param[in]   widget      main dialog
  * \param[in]   data        extra event data (unused)
  */
 static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
 {
+    gtk_window_get_position(GTK_WINDOW(widget), &settings_xpos, &settings_ypos);
     settings_window = NULL;
 }
 
@@ -3147,8 +3162,17 @@ static gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_d
         debug_gtk3("failed to locate node, showing dialog anyway for now.");
     }
 
-    gtk_widget_show_all(dialog);
+    /* restore previous position, if any */
+    debug_gtk3("Restoring previous position: (%d,%d).",
+               settings_xpos, settings_ypos);
+    /* XXX: Doesn't work on Wayland, which appears to be a bug since at least
+     *      2014 :)
+     */
+    if (settings_xpos >= 0 && settings_ypos >= 0) {
+        gtk_window_move(GTK_WINDOW(dialog), settings_xpos, settings_ypos);
+    }
 
+    gtk_widget_show_all(dialog);
     return FALSE;
 }
 
