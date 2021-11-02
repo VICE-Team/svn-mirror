@@ -659,7 +659,7 @@ case "$host_os" in
     VICE_LDFLAGS="$VICE_LDFLAGS $dfbsdrtp -L/usr/local/lib"
     ;;
   cygwin*)
-    CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE=1"
+    VICE_CPPFLAGS="$VICE_CPPFLAGS -D_GNU_SOURCE=1"
     ;;
   mingw32*)
     is_win32=yes
