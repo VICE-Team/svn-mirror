@@ -658,6 +658,12 @@ case "$host_os" in
     dfbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
     VICE_LDFLAGS="$VICE_LDFLAGS $dfbsdrtp -L/usr/local/lib"
     ;;
+  cygwin*)
+    CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE=1"
+    ;;
+  mingw32*)
+    is_win32=yes
+    ;;
   *)
     ;;
 esac
@@ -762,13 +768,11 @@ JOYSTICK_DRIVERS=""
 
 dnl Setup crosscompiling.
 
-if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc" -o x"$is_win32_gtk3" = "xyes"; then
+if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
   GCC=yes
-
-  is_win32=yes
 
   AC_CHECK_HEADERS([commctrl.h shlobj.h winioctl.h], [], [], [#include <windows.h>])
 
@@ -3296,7 +3300,7 @@ fi
 dnl CBM4Linux/OpenCBM
 AC_MSG_CHECKING([for OpenCBM support])
 if test x"$enable_realdevice" != "xno"; then
-  if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc" -o x"$host_os" = "xmingw32-gtk3"; then
+  if test x"$is_win32" = "xyes"; then
     AC_DEFINE(HAVE_REALDEVICE,,[Support for OpenCBM (former CBM4Linux).])
     HAVE_REALDEVICE_SUPPORT="yes"
     AM_CONDITIONAL(HAVE_REALDEVICE, true)
