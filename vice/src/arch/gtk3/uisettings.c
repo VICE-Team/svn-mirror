@@ -57,6 +57,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 #include "archdep.h"
 #include "lib.h"
@@ -2343,12 +2344,12 @@ static GtkWidget *settings_window = NULL;
 
 /** \brief  Previous X position of settings dialog
  */
-static gint settings_xpos = -1;
+static gint settings_xpos = INT_MIN;
 
 
 /** \brief  Previous Y position of settings dialog
  */
-static gint settings_ypos = -1;
+static gint settings_ypos = INT_MIN;
 
 
 
@@ -2394,7 +2395,6 @@ static GtkTreePath *last_node_path = NULL;
  */
 static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
 {
-    gtk_window_get_position(GTK_WINDOW(widget), &settings_xpos, &settings_ypos);
     settings_window = NULL;
 }
 
@@ -2899,6 +2899,8 @@ static void response_callback(GtkWidget *widget,
 /** \brief  Respond to window size changes
  *
  * This allows for quickly seeing if specific dialog is getting too large.
+ * It's also used to store the dialog position so it can be restored when
+ * respawning.
  *
  * The DIALOG_WIDTH_MAX and DIALOG_HEIGHT_MAX I sucked out of my thumb, since
  * due to window managers using different themes, we can't use 'proper' values,
@@ -2914,12 +2916,19 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
                                           GdkEvent *event,
                                           gpointer data)
 {
-#if 0
     if (event->type == GDK_CONFIGURE) {
         GdkEventConfigure *cfg = (GdkEventConfigure *)event;
+#if 0
         int width = cfg->width;
         int height = cfg->height;
-
+#endif
+        /* Update dialog position, using gtk_window_get_position() doesn't
+         * work, it reports the position of the dialog when it was spawned,
+         * not the position if it has been moved afterwards. */
+        settings_xpos = cfg->x;
+        settings_ypos = cfg->y;
+    }
+#if 0
         /* debug_gtk3("width %d, height %d.", width, height); */
         if (width > DIALOG_WIDTH_MAX || height > DIALOG_HEIGHT_MAX) {
             /* uncomment the following to get some 'help' while building
@@ -3162,17 +3171,17 @@ static gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_d
         debug_gtk3("failed to locate node, showing dialog anyway for now.");
     }
 
-    /* restore previous position, if any */
-    debug_gtk3("Restoring previous position: (%d,%d).",
-               settings_xpos, settings_ypos);
-    /* XXX: Doesn't work on Wayland, which appears to be a bug since at least
+    gtk_widget_show_all(dialog);
+        /* XXX: Doesn't work on Wayland, which appears to be a bug since at least
      *      2014 :)
      */
-    if (settings_xpos >= 0 && settings_ypos >= 0) {
+    if (settings_xpos > INT_MIN && settings_ypos > INT_MIN) {
+        /* restore previous position, if any */
+        debug_gtk3("Restoring previous position: (%d,%d).",
+                   settings_xpos, settings_ypos);
         gtk_window_move(GTK_WINDOW(dialog), settings_xpos, settings_ypos);
     }
 
-    gtk_widget_show_all(dialog);
     return FALSE;
 }
 
