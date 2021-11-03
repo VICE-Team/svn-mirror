@@ -1700,7 +1700,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Disable logging monitor output to a file" },
     { "-initbreak", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       monitor_set_initial_breakpoint, NULL, NULL, NULL,
-      "<value>", "Set an initial breakpoint for the monitor" },
+      "<value>", "Set an initial breakpoint for the monitor: <address>, ready, or reset" },
 #ifdef ARCHDEP_SEPERATE_MONITOR_WINDOW
     { "-keepmonopen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeepMonitorOpen", (resource_value_t)1,
