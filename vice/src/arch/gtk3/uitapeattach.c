@@ -120,14 +120,17 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 /** \brief  Trigger autostart
  *
  * \param[in]   widget      dialog
+ * \param[in]   port        tape port number (1 or 2)
  * \param[in]   index       file index in the directory preview
  * \param[in]   autostart   issue "RUN:" after loading
  */
-static void do_autostart(GtkWidget *widget, int index, int autostart)
+static void do_autostart(GtkWidget *widget, int port, int index, int autostart)
 {
     gchar *filename;
     gchar *filename_locale;
-
+#if 0
+    debug_gtk3("Got port %d, index %d, autostart %d.", port, index, autostart);
+#endif
     lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     filename_locale = file_chooser_convert_to_locale(filename);
@@ -136,7 +139,7 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
                 NULL,   /* program name */
                 index,
                 autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD,
-                TAPEPORT_PORT_1 /* FIXME */) < 0) {
+                port - 1    /* function uses 0/1 */) < 0) {
         /* oeps */
         log_error(LOG_ERR, "autostarting tape '%s' failed.", filename_locale);
     }
@@ -198,22 +201,21 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
  *
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
- * \param[in]   user_data   port number
- *
- * TODO:    proper (error) messages, which requires implementing ui_error() and
- *          ui_message() and moving them into gtk3/widgets to avoid circular
- *          references
+ * \param[in]   user_data   unit number
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     int index = content_preview_widget_get_index(preview_widget);
     int autostart = 0;
-    int port;
+    int unit;
 
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    port = GPOINTER_TO_INT(user_data);
-
+    unit = GPOINTER_TO_INT(user_data);
+#if 0
+    debug_gtk3("Got port %d.", port);
+    debug_gtk3("Index %d.", index);
+#endif
     /* first, to make the following logic less funky, map some events to others,
        depending on whether autostart-on-doubleclick is enabled or not, and 
        depending on the event coming from the preview window or not. */
@@ -257,7 +259,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     switch (response_id) {
         /* 'Open' button clicked when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_CUSTOM_OPEN:
-            do_attach(widget, port);
+            do_attach(widget, unit);
 
             gtk_widget_destroy(widget);
             break;
@@ -266,14 +268,14 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         case VICE_RESPONSE_AUTOSTART:
         /* double-click on file in the preview widget when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_AUTOSTART_INDEX:
-            do_autostart(widget, index + 1, 1);
+            do_autostart(widget, unit, index + 1, 1);
 
             gtk_widget_destroy(widget);
             break;
 
         /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
         case VICE_RESPONSE_AUTOLOAD_INDEX:
-            do_autostart(widget, index + 1, 0);
+            do_autostart(widget, unit, index + 1, 0);
 
             gtk_widget_destroy(widget);
             break;
@@ -336,7 +338,9 @@ static GtkWidget *create_tape_attach_dialog(int port)
     size_t i;
     int autostart = 0;
     char title[256];
-
+#if 0
+    debug_gtk3("Got port %d.", port);
+#endif
     resources_get_int("AutostartOnDoubleclick", &autostart);
     g_snprintf(title, sizeof(title), "Attach a tape image to port #%d", port);
 
@@ -382,8 +386,10 @@ static GtkWidget *create_tape_attach_dialog(int port)
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
                                       create_extra_widget(dialog));
 
-    preview_widget = content_preview_widget_create(dialog, tapecontents_read,
-            on_response);
+    preview_widget = content_preview_widget_create(dialog,
+                                                   tapecontents_read,
+                                                   on_response,
+                                                   port);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 
@@ -447,7 +453,7 @@ gboolean ui_tape_detach_callback(GtkWidget *widget, gpointer user_data)
 {
     int port = GPOINTER_TO_INT(user_data);
 
-    tape_image_detach(TAPEPORT_PORT_1 + port);
+    tape_image_detach(port);
     return TRUE;
 }
 

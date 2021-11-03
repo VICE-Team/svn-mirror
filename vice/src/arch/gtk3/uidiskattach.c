@@ -288,7 +288,7 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
  *
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
- * \param[in]   user_data   index in the preview widget
+ * \param[in]   user_data   unit number
  *
  * TODO:    proper (error) messages, which requires implementing ui_error() and
  *          ui_message() and moving them into gtk3/widgets to avoid circular
@@ -500,7 +500,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
                                       create_extra_widget(dialog, unit));
 
     preview_widget = content_preview_widget_create(
-            dialog, diskcontents_filesystem_read, on_response);
+            dialog, diskcontents_filesystem_read, on_response, unit);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 

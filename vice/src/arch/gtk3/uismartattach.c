@@ -271,7 +271,7 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
- * \param[in]   user_data   index in the preview widget
+ * \param[in]   user_data   unit number
  *
  * TODO:    proper (error) messages, which requires implementing ui_error() and
  *          ui_message() and moving them into gtk3/widgets to avoid circular
@@ -487,7 +487,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             create_extra_widget(dialog));
 
     preview_widget = content_preview_widget_create(dialog,
-            read_contents_wrapper, on_response);
+            read_contents_wrapper, on_response, 0);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 
