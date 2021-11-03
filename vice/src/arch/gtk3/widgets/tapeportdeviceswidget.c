@@ -6,7 +6,9 @@
 
 /*
  * $VICERES VirtualDevice1          -xscpu64 -vsid
+ * $VICERES VirtualDevice2          -xscpu64 -vsid -x64sc -x64 -xvic -xplus4 -xcbm2 -xcbm5x0
  * $VICERES TapePort1Device         -xscpu64 -vsid
+ * $VICERES TapePort2Device         -xscpu64 -vsid -x64sc -x64 -xvic -xplus4 -xcbm2 -xcbm5x0
  * $VICERES DatasetteResetWithCPU   -xscpu64 -vsid
  * $VICERES DatasetteZeroGapDelay   -xscpu64 -vsid
  * $VICERES DatasetteSpeedTuning    -xscpu64 -vsid
@@ -86,8 +88,11 @@ static GtkWidget *port1_type = NULL;
 /** \brief  Tape port #2 device combo */
 static GtkWidget *port2_type = NULL;
 
-/** \brief  Datasette device traps toggle button */
-static GtkWidget *ds_traps = NULL;
+/** \brief  Datasette 1 device traps toggle button */
+static GtkWidget *ds_traps1 = NULL;
+
+/** \brief  Datasette 2 device traps toggle button */
+static GtkWidget *ds_traps2 = NULL;
 
 /** \brief  Datasette reset toggle button */
 static GtkWidget *ds_reset = NULL;
@@ -157,7 +162,15 @@ static void set_datasette_active(int state)
     gtk_widget_set_sensitive(ds_wobbleamp, state);
     gtk_widget_set_sensitive(ds_align, state);
     gtk_widget_set_sensitive(ds_sound, state);
-    gtk_widget_set_sensitive(ds_traps, state);
+    /* xPET does not have device traps right now, grey out the selection */
+    if (machine_class == VICE_MACHINE_PET) {
+        state = 0;
+    }
+    gtk_widget_set_sensitive(ds_traps1, state);
+    /* only xpet has two tape devices */
+    if (machine_class == VICE_MACHINE_PET) {
+        gtk_widget_set_sensitive(ds_traps2, state);
+    }
 }
 
 /** \brief Set CP Clock F83 widget active/inactive
@@ -266,17 +279,24 @@ static GtkWidget *create_datasette_widget(void)
     GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-//    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
+/*    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL); */
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Datasette C2N</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 4, 1);
 
-    ds_traps = vice_gtk3_resource_check_button_new("VirtualDevice1",
-            "Enable Virtual Device (required for t64)");
-    g_object_set(ds_traps, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), ds_traps, 0, 1, 4, 1);
+    ds_traps1 = vice_gtk3_resource_check_button_new("VirtualDevice1",
+            "Enable Virtual Device #1 (required for t64)");
+    g_object_set(ds_traps1, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), ds_traps1, 0, 1, 4, 1);
+
+    if (machine_class == VICE_MACHINE_PET) {
+        ds_traps2 = vice_gtk3_resource_check_button_new("VirtualDevice2",
+                "Enable Virtual Device #2 (required for t64)");
+        g_object_set(ds_traps2, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), ds_traps2, 2, 1, 4, 1);
+    }
 
     ds_reset = vice_gtk3_resource_check_button_new("DatasetteResetWithCPU",
             "Reset datasette with CPU");
