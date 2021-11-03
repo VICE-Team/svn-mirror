@@ -4,9 +4,25 @@ VICE on Windows - The Next G(TK)eneration
 These are some instructions about getting VICE with the GTK3 GUI
 compiled on Windows under MinGW.
 
+
+NOTE: Although msys2 can build both 32-bit and 64-bit Windows binaries, a
+      64-bit Windows (7 or later) host is required.
+
+
 1. Get MSYS2 (includes mingw):
  http://www.msys2.org/
 Install as per that webpage.
+
+
+1.1. Update the distribution:
+
+$ pacman -Syu
+
+This will usually update only a few packages (the package manager itself and
+some related packages), and then require you to exit the shell by clicking 'x'.
+You can then start the shell again and run the same command again to update the
+rest of the packages.
+
 
 
 2. Check your MSYS2 username for spaces, for example:
@@ -52,19 +68,6 @@ Launch either the MSYS2 MinGW 64-bit shell or the MSYS2 MinGW 32-bit shell
 DON'T USE THE NON-MINGW ONE, STUFF WON'T WORK.
 
 
-3.1 Update the mirrors files (optional):
-I (compyx) noticed the default mirror (msys2.org) is very slow (60-80KB/s), so
-it might be a good idea to edit the mirror files:
-
-Get updated mirror lists:
-$ pacman -S pacman-mirrors
-
-Now edit four files: /etc/pacman.d/mirrorlist.{mingw32,mingw64,msys,ucrt64}.
-I commented out the first few (msys2 is slow, sourceforge seems out-of-data,
-and I don't trust .ru or .cn stuff).
-Exit and restart the shell you use, and see if you get a decent download speed.
-
-
 Run the following command lines to install the prerequisites:
 
 $ pacman -S --noconfirm --needed base-devel pactoys
@@ -84,7 +87,7 @@ Don't log out of the shell.  After you download xa, go back to the shell.
 Alternatively, use wget (in the shell) to download it:
 
 $ cd /c/Users/<login-name>/Downloads/
-$ wget http://www.floodgap.com/retrotech/xa/dists/xa-2.3.11.tar.gz
+$ wget https://www.floodgap.com/retrotech/xa/dists/xa-2.3.11.tar.gz
 
 Make the directory "/usr/local/src/".
 Use tar to unpack xa (use the MSYS2 path to where you downloaded it):
@@ -95,8 +98,11 @@ $ cd src
 $ tar -xzf /c/Users/<login-name>/Downloads/xa-2.3.11.tar.gz
 
 NOTE: if fetching the above mentioned tarball fails, then probably XA was
-      updated, have a look at http://www.floodgap.com/retrotech/xa/dists/ and
+      updated, have a look at https://www.floodgap.com/retrotech/xa/dists/ and
       change the name of the tarball accordingly.
+
+      A mirror of the xa source packages is available via Github:
+      https://github.com/fachat/xa65/archive/refs/tags/xa-2.3.11.tar.gz
 
 Then build and install it:
 
@@ -188,9 +194,13 @@ the last four commands in step 9.  That will make VICE use the
 newly-installed libraries.)
 
 
-11. This will let VICE use PortAudio:
+11. Optional features
+
+11.1. This will let VICE use PortAudio:
 
 $ pacboy sync portaudio
+
+
 
 
 Enjoy!
