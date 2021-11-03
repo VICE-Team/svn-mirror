@@ -67,7 +67,7 @@
 
 
 /* Attached TAP tape image.  */
-static tap_t *current_image[TAPEPORT_MAX_PORTS] = { NULL };
+static tap_t *current_image[TAPEPORT_MAX_PORTS];
 
 /* Buffer for the TAP */
 static uint8_t tap_buffer[TAPEPORT_MAX_PORTS][TAP_BUFFER_LENGTH];
@@ -76,28 +76,28 @@ static uint8_t tap_buffer[TAPEPORT_MAX_PORTS][TAP_BUFFER_LENGTH];
 static long next_tap[TAPEPORT_MAX_PORTS], last_tap[TAPEPORT_MAX_PORTS];
 
 /* State of the datasette motor.  */
-static int datasette_motor[TAPEPORT_MAX_PORTS] = { 0 };
+static int datasette_motor[TAPEPORT_MAX_PORTS];
 
 /* Last time we have recorded a flux change.  */
-static CLOCK last_write_clk[TAPEPORT_MAX_PORTS] = { 0 };
+static CLOCK last_write_clk[TAPEPORT_MAX_PORTS];
 
 /* Motor stop is delayed.  */
-static CLOCK motor_stop_clk[TAPEPORT_MAX_PORTS] = { 0 };
+static CLOCK motor_stop_clk[TAPEPORT_MAX_PORTS];
 
-static alarm_t *datasette_alarm[TAPEPORT_MAX_PORTS] = { NULL };
+static alarm_t *datasette_alarm[TAPEPORT_MAX_PORTS];
 
-static int datasette_alarm_pending[TAPEPORT_MAX_PORTS] = { 0 };
+static int datasette_alarm_pending[TAPEPORT_MAX_PORTS];
 
-static CLOCK datasette_long_gap_pending[TAPEPORT_MAX_PORTS] = { 0 };
+static CLOCK datasette_long_gap_pending[TAPEPORT_MAX_PORTS];
 
-static CLOCK datasette_long_gap_elapsed[TAPEPORT_MAX_PORTS] = { 0 };
+static CLOCK datasette_long_gap_elapsed[TAPEPORT_MAX_PORTS];
 
-static int datasette_last_direction[TAPEPORT_MAX_PORTS] = { 0 };
+static int datasette_last_direction[TAPEPORT_MAX_PORTS];
 
 static long datasette_cycles_per_second;
 
 /* Remember the reset of tape-counter.  */
-static int datasette_counter_offset[TAPEPORT_MAX_PORTS] = { 0 };
+static int datasette_counter_offset[TAPEPORT_MAX_PORTS];
 
 /* app_resource datasette */
 /* shall the datasette reset when the CPU does? */
@@ -110,10 +110,11 @@ static int datasette_zero_gap_delay;
 static int datasette_speed_tuning;
 
 /* status when no tape image is present */
-static int notape_mode[TAPEPORT_MAX_PORTS] = { DATASETTE_CONTROL_STOP };
+static int notape_mode[TAPEPORT_MAX_PORTS] = { DATASETTE_CONTROL_STOP,
+                                               DATASETTE_CONTROL_STOP };
 
 /* Low/high wave indicator for C16 TAPs. */
-static unsigned int fullwave[TAPEPORT_MAX_PORTS] = { 0 };
+static unsigned int fullwave[TAPEPORT_MAX_PORTS];
 static CLOCK fullwave_gap[TAPEPORT_MAX_PORTS];
 
 /* tape wobble parameters */
@@ -123,7 +124,7 @@ static int datasette_tape_wobble_frequency;
 static int datasette_tape_azimuth_error;
 
 /* datasette device enable */
-static int datasette_enabled[TAPEPORT_MAX_PORTS] = { 0 };
+static int datasette_enabled[TAPEPORT_MAX_PORTS] = { 0, 0 };
 
 /* audible sound from datasette device */
 int datasette_sound_emulation = 1;
