@@ -1370,8 +1370,13 @@ static GtkWidget *ui_tape_widget_create(int port)
             GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
     gtk_widget_set_vexpand(grid, FALSE);
-    g_snprintf(title, sizeof(title), "Tape #%d:", port);
-    header = gtk_label_new(title);
+
+    if (machine_class == VICE_MACHINE_PET) {
+        g_snprintf(title, sizeof(title), "Tape #%d:", port);
+        header = gtk_label_new(title);
+    } else {
+        header = gtk_label_new("Tape:");
+    }
     gtk_widget_set_hexpand(header, FALSE);
     gtk_widget_set_halign(header, GTK_ALIGN_START);
     g_object_set(header, "margin-right", 8, NULL);
