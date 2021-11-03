@@ -1016,7 +1016,7 @@ static void advance_pressplayontape(void)
     switch (check2("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK, 0, AUTOSTART_CHECK_ANY_COLUMN)) {
         case YES:
             autostartmode = AUTOSTART_LOADINGTAPE;
-            datasette_control(TAPEPORT_PORT_1, DATASETTE_CONTROL_START);
+            datasette_control(autostart_tape_unit, DATASETTE_CONTROL_START);
             break;
         case NO:
             disable_warp_if_was_requested();
