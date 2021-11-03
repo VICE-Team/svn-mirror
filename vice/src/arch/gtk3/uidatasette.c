@@ -27,16 +27,17 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+
+#include "datasette.h"
+#include "log.h"
+#include "machine.h"
+#include "resources.h"
+#include "tapeport.h"
+#include "uisettings.h"
+#include "uitapeattach.h"
 #include "vice_gtk3.h"
 
 #include "uidatasette.h"
-#include "datasette.h"
-#include "resources.h"
-#include "tapeport.h"
-#include "uitapeattach.h"
-#include "uisettings.h"
-
-#include <stdio.h>
 
 
 /** \brief  Handler for the 'activate' event of the "Configure" menu item
@@ -68,11 +69,11 @@ gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
     if (val >= DATASETTE_CONTROL_STOP && val <= DATASETTE_CONTROL_RESET_COUNTER) {
         datasette_control(index, val);
     } else {
-        fprintf(stderr,
-                "Got an impossible Datasette Control action, code %ld (valid range %d-%d)\n",
-                (long)val,
-                DATASETTE_CONTROL_STOP,
-                DATASETTE_CONTROL_RESET_COUNTER);
+        log_error(LOG_ERR,
+                  "Got an impossible Datasette Control action, code %ld (valid range %d-%d)\n",
+                  (long)val,
+                  DATASETTE_CONTROL_STOP,
+                  DATASETTE_CONTROL_RESET_COUNTER);
     }
     return TRUE;
 }
@@ -94,15 +95,23 @@ GtkWidget *ui_create_datasette_control_menu(int port)
 
     menu = gtk_menu_new();
 
-    g_snprintf(buffer, sizeof(buffer), "Attach tape #%d image ...", port);
-    item = gtk_menu_item_new_with_label(buffer);
+    if (machine_class == VICE_MACHINE_PET) {
+        g_snprintf(buffer, sizeof(buffer), "Attach tape #%d image ...", port);
+        item = gtk_menu_item_new_with_label(buffer);
+    } else {
+        item = gtk_menu_item_new_with_label("Attach tape image ...");
+    }
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect_unlocked(item,
                               "activate",
                               G_CALLBACK(ui_tape_attach_callback),
                               GINT_TO_POINTER(port));
-    g_snprintf(buffer, sizeof(buffer), "Detach tape #%d image ...", port);
-    item = gtk_menu_item_new_with_label(buffer);
+    if (machine_class == VICE_MACHINE_PET) {
+        g_snprintf(buffer, sizeof(buffer), "Detach tape #%d image", port);
+        item = gtk_menu_item_new_with_label(buffer);
+    } else {
+        item = gtk_menu_item_new_with_label("Detach tape image");
+    }
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item,
                      "activate",
@@ -143,8 +152,6 @@ GtkWidget *ui_create_datasette_control_menu(int port)
  *
  * \param[in]   menu    tape menu
  * \param[in]   port    tape port number (1 or 2)
- *
- * \todo    Update for two datasettes
  */
 void ui_datasette_update_sensitive(GtkWidget *menu, int port)
 {
