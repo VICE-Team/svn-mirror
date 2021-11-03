@@ -1013,10 +1013,11 @@ static void advance_hastape(void)
 
 static void advance_pressplayontape(void)
 {
+    int port = (autostart_tape_unit == 2) ? TAPEPORT_PORT_2 : TAPEPORT_PORT_1;
     switch (check2("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK, 0, AUTOSTART_CHECK_ANY_COLUMN)) {
         case YES:
             autostartmode = AUTOSTART_LOADINGTAPE;
-            datasette_control(autostart_tape_unit, DATASETTE_CONTROL_START);
+            datasette_control(port, DATASETTE_CONTROL_START);
             break;
         case NO:
             disable_warp_if_was_requested();
