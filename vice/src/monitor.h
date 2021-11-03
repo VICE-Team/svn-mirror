@@ -73,9 +73,9 @@ struct interrupt_cpu_status_s;
 struct monitor_cpu_type_s {
     CPU_TYPE_t cpu_type;
     unsigned int (*asm_addr_mode_get_size)(unsigned int mode, unsigned int p0,
-                                           unsigned int p1, unsigned int p2);
+                                           unsigned int p1, unsigned int p2, unsigned int p3);
     const struct asm_opcode_info_s *(*asm_opcode_info_get)(unsigned int p0, unsigned int p1,
-                                                           unsigned int p2);
+                                                           unsigned int p2, unsigned int p3);
     int (*mon_assemble_instr)(const char *opcode_name, asm_mode_addr_info_t operand);
     unsigned int (*mon_register_get_val)(int mem, int reg_id);
     void (*mon_register_set_val)(int mem, int reg_id, uint16_t val);

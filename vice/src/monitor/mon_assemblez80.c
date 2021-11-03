@@ -63,19 +63,19 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
 
             switch (prefix[j]) {
                 case 0x00:
-                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(i, 0, 0);
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(i, 0, 0, 0);
                     break;
                 case 0xcb:
-                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xcb, i, 0);
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xcb, i, 0, 0);
                     break;
                 case 0xdd:
-                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xdd, i, 0);
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xdd, i, 0, 0);
                     break;
                 case 0xed:
-                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xed, i, 0);
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xed, i, 0, 0);
                     break;
                 case 0xfd:
-                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xfd, i, 0);
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xfd, i, 0, 0);
                     break;
             }
 
@@ -149,7 +149,7 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
     }
 
     len = (monitor_cpu_for_memspace[mem]->asm_addr_mode_get_size)
-              ((unsigned int)(operand_mode), prefix[j], 0, 0);
+              ((unsigned int)(operand_mode), prefix[j], 0, 0, 0);
 
     if (prefix[j] == 0x00) {
         mon_set_mem_val(mem, loc, opcode);
