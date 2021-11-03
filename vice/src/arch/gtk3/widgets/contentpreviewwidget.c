@@ -52,6 +52,11 @@ static read_contents_func_type content_func = NULL;
 static void (*response_func)(GtkWidget *, gint, gpointer);
 
 
+/** \brief  Unit number to use in the callback
+ */
+static int unit_number = 0;
+
+
 /** \brief  reference to the content view widget
  */
 static GtkWidget *content_view = NULL;
@@ -97,13 +102,14 @@ static void on_row_activated(
             return;
         }
         /* dirty trick: call the "response" event handler with the
-         * RESPONSE_AUTOSTART response ID and the file index passed in as the
-         * user_data argument */
+         * RESPONSE_AUTOSTART response ID and the unit number passed in as the
+         * user_data argument.
+         * The index must be retrieved via content_preview_widget_get_index().
+         */
         if (parent_dialog != NULL) {
             response_func(parent_dialog,
-                    autostart ? VICE_RESPONSE_AUTOSTART_INDEX : VICE_RESPONSE_AUTOLOAD_INDEX,
-                    GINT_TO_POINTER(row + 1));  /* for some reason the first
-                                                   file has index 1 */
+                          autostart ? VICE_RESPONSE_AUTOSTART_INDEX : VICE_RESPONSE_AUTOLOAD_INDEX,
+                          GINT_TO_POINTER(unit_number));
         }
     }
 }
@@ -251,13 +257,15 @@ static GtkWidget *create_view(const char *path)
  * \param[in,out]   dialog      parent dialog
  * \param[in]       func        function to use to retrieve image contents
  * \param[in]       response    dialog response callback
+ * \param[in]       unit        unit number (1-2 for tape, 8-11 for drive)
  *
  * \return  GtkGrid
  */
 GtkWidget *content_preview_widget_create(
         GtkWidget *dialog,
         read_contents_func_type func,
-        void (*response)(GtkWidget *, gint, gpointer))
+        void (*response)(GtkWidget *, gint, gpointer),
+        int unit)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -266,6 +274,7 @@ GtkWidget *content_preview_widget_create(
     parent_dialog = dialog;
     content_func = func;
     response_func = response;
+    unit_number = unit;
 
     grid = gtk_grid_new();
     gtk_widget_set_hexpand(grid, TRUE);
