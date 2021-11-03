@@ -104,11 +104,10 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
     if (!mon_cpu_type) {
         mon_cpu_type = monitor_cpu_for_memspace[memspace];
     }
-    opinfo = (mon_cpu_type->asm_opcode_info_get)(x, p1, p2);
+    opinfo = (mon_cpu_type->asm_opcode_info_get)(x, p1, p2, p3);
     string = opinfo->mnemonic;
     addr_mode = opinfo->addr_mode;
-    opc_size = (mon_cpu_type->asm_addr_mode_get_size)((unsigned int)(addr_mode), x, p1, p2);
-
+    opc_size = (mon_cpu_type->asm_addr_mode_get_size)((unsigned int)(addr_mode), x, p1, p2, p3);
 
     if (opc_size_p) {
         *opc_size_p = opc_size;
@@ -151,10 +150,17 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             sprintf(buffp, (hex_mode ? " #$%02X" : " #%3u"), ival);
             break;
 
+        case ASM_ADDR_MODE_Z80_IND_IMMEDIATE:
+            sprintf(buffp, (hex_mode ? "+$%02X), #$%02X" : "+%3u), #%3u"), p2, p3);
+            break;
+
         case ASM_ADDR_MODE_ABSOLUTE_LONG:
         case ASM_ADDR_MODE_ABSOLUTE_LONG_X:
         case ASM_ADDR_MODE_ABSOLUTE_IX:
         case ASM_ADDR_MODE_ABSOLUTE_IY:
+        case ASM_ADDR_MODE_Z80_ABSOLUTE_BC:
+        case ASM_ADDR_MODE_Z80_ABSOLUTE_DE:
+        case ASM_ADDR_MODE_Z80_ABSOLUTE_SP:
             ival |= (uint32_t)((p3 & 0xff) << 16);
             /* fall through */
         case ASM_ADDR_MODE_ABSOLUTE:
@@ -164,6 +170,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_ABSOLUTE_HL:
         case ASM_ADDR_MODE_ABS_INDIRECT:
         case ASM_ADDR_MODE_ABS_INDIRECT_X:
+        case ASM_ADDR_MODE_Z80_ABS_INDIRECT_EXT:
         case ASM_ADDR_MODE_ABS_IND_LONG:
             ival |= (uint32_t)((p2 & 0xff) << 8);
             /* fall through */
@@ -179,6 +186,10 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             switch (addr_mode) {
                 case ASM_ADDR_MODE_ABSOLUTE_IX:
                 case ASM_ADDR_MODE_ABSOLUTE_IY:
+                case ASM_ADDR_MODE_Z80_ABSOLUTE_BC:
+                case ASM_ADDR_MODE_Z80_ABSOLUTE_DE:
+                case ASM_ADDR_MODE_Z80_ABSOLUTE_SP:
+                case ASM_ADDR_MODE_Z80_ABS_INDIRECT_EXT:
                     ival >>= 8;
                     /* fall through */
                 case ASM_ADDR_MODE_INDIRECT:
@@ -210,10 +221,14 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                     case ASM_ADDR_MODE_ABSOLUTE_X:
                     case ASM_ADDR_MODE_ABSOLUTE_Y:
                     case ASM_ADDR_MODE_ABSOLUTE_HL:
+                    case ASM_ADDR_MODE_Z80_ABSOLUTE_BC:
+                    case ASM_ADDR_MODE_Z80_ABSOLUTE_DE:
+                    case ASM_ADDR_MODE_Z80_ABSOLUTE_SP:
                     case ASM_ADDR_MODE_ABSOLUTE_IX:
                     case ASM_ADDR_MODE_ABSOLUTE_IY:
                     case ASM_ADDR_MODE_ABS_INDIRECT:
                     case ASM_ADDR_MODE_ABS_INDIRECT_X:
+                    case ASM_ADDR_MODE_Z80_ABS_INDIRECT_EXT:
                     case ASM_ADDR_MODE_ABS_IND_LONG:
                         sprintf(buffp, (hex_mode ? "$%04X" : "%5u"), ival);
                         buffp += strlen(buffp);
@@ -232,6 +247,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                     break;
                 case ASM_ADDR_MODE_INDIRECT:
                 case ASM_ADDR_MODE_ABS_INDIRECT:
+                case ASM_ADDR_MODE_Z80_ABS_INDIRECT_EXT:
                     strcpy(buffp, ")");
                     break;
                 case ASM_ADDR_MODE_INDIRECT_X:
@@ -246,6 +262,15 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                     break;
                 case ASM_ADDR_MODE_ABSOLUTE_HL:
                     strcpy(buffp, "),HL");
+                    break;
+                case ASM_ADDR_MODE_Z80_ABSOLUTE_BC:
+                    strcpy(buffp, "),BC");
+                    break;
+                case ASM_ADDR_MODE_Z80_ABSOLUTE_DE:
+                    strcpy(buffp, "),DE");
+                    break;
+                case ASM_ADDR_MODE_Z80_ABSOLUTE_SP:
+                    strcpy(buffp, "),SP");
                     break;
                 case ASM_ADDR_MODE_ABSOLUTE_IX:
                     strcpy(buffp, "),IX");
@@ -423,12 +448,22 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             sprintf(buffp, " (HL)");
             break;
 
+        case ASM_ADDR_MODE_Z80_IND_REG:
+            buffp--;
+            sprintf(buffp, (hex_mode ? "%c$%02X), %c" : "%c%3u), %c"),
+                    (p2 & 0x80) ? '-' : '+',
+                    (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2),
+                    "BCDEHL?A"[p1 & 7]);
+            break;
+
         case ASM_ADDR_MODE_REG_IND_IX:
-            sprintf(buffp, " (IX)");
+            sprintf(buffp, (hex_mode ? " (IX%c$%02X)" : " (IX%c%3u)"),
+                    (p2 & 0x80) ? '-' : '+', (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2));
             break;
 
         case ASM_ADDR_MODE_REG_IND_IY:
-            sprintf(buffp, " (IY)");
+            sprintf(buffp, (hex_mode ? " (IY%c$%02X)" : " (IY%c%3u)"),
+                    (p2 & 0x80) ? '-' : '+', (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2));
             break;
 
         case ASM_ADDR_MODE_REG_IND_SP:
