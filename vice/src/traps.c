@@ -124,6 +124,8 @@ static resource_int_t resources_int[] = {
     /* tape */
     { "VirtualDevice1", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[1], set_traps_enabled, (void*)1 },
+    { "VirtualDevice2", 0, RES_EVENT_SAME, NULL,
+      &traps_enabled_device[2], set_traps_enabled, (void*)2 },
     /* printers */
     { "VirtualDevice4", 0, RES_EVENT_SAME, NULL,
       &traps_enabled_device[4], set_traps_enabled, (void*)4 },
@@ -150,6 +152,8 @@ static resource_int_t resources_int_ieee[] = {
     /* tape */
     { "VirtualDevice1", 1, RES_EVENT_SAME, NULL,
       &traps_enabled_device[1], set_traps_enabled, (void*)1 },
+    { "VirtualDevice2", 1, RES_EVENT_SAME, NULL,
+      &traps_enabled_device[2], set_traps_enabled, (void*)2 },
     /* printers */
     { "VirtualDevice4", 1, RES_EVENT_SAME, NULL,
       &traps_enabled_device[4], set_traps_enabled, (void*)4 },
@@ -200,6 +204,12 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
     { "+virtualdev1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VirtualDevice1", (resource_value_t)0,
+      NULL, "Disable general mechanisms for fast disk/tape emulation" },
+    { "-virtualdev2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "VirtualDevice2", (resource_value_t)1,
+      NULL, "Enable general mechanisms for fast disk/tape emulation" },
+    { "+virtualdev2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "VirtualDevice2", (resource_value_t)0,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
     /* printers */
     { "-virtualdev4", SET_RESOURCE, CMDLINE_ATTRIB_NONE,

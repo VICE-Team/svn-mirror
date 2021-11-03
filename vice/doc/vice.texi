@@ -5969,6 +5969,7 @@ maximum compatibility.
 @table @code
 
 @vindex VirtualDevice1
+@vindex VirtualDevice2
 @vindex VirtualDevice4
 @vindex VirtualDevice5
 @vindex VirtualDevice6
@@ -5978,6 +5979,7 @@ maximum compatibility.
 @vindex VirtualDevice10
 @vindex VirtualDevice11
 @item VirtualDevice1
+@item VirtualDevice2
 @item VirtualDevice4
 @item VirtualDevice5
 @item VirtualDevice6
@@ -6000,6 +6002,7 @@ on and off with this resource.
 @table @code
 
 @findex -virtualdev1, +virtualdev1
+@findex -virtualdev2, +virtualdev2
 @findex -virtualdev4, +virtualdev4
 @findex -virtualdev5, +virtualdev5
 @findex -virtualdev6, +virtualdev6
@@ -6009,6 +6012,7 @@ on and off with this resource.
 @findex -virtualdev10, +virtualdev10
 @findex -virtualdev11, +virtualdev11
 @item -virtualdev1, +virtualdev1
+@itemx -virtualdev2, +virtualdev2
 @itemx -virtualdev4, +virtualdev4
 @itemx -virtualdev5, +virtualdev5
 @itemx -virtualdev6, +virtualdev6
@@ -6019,6 +6023,7 @@ on and off with this resource.
 @itemx -virtualdev11, +virtualdev11
 Enable/disable virtual devices
 (@code{VirtualDevice1=1}, @code{VirtualDevice1=0},
+ @code{VirtualDevice2=1}, @code{VirtualDevice2=0},
  @code{VirtualDevice4=1}, @code{VirtualDevice4=0},
  @code{VirtualDevice5=1}, @code{VirtualDevice5=0},
  @code{VirtualDevice6=1}, @code{VirtualDevice6=0},
