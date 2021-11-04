@@ -115,13 +115,13 @@ static int palette_copy(palette_t *dest, const palette_t *src)
     return 0;
 }
 
-static char *next_nonspace(const char *p)
+static const char *next_nonspace(const char *p)
 {
     while (*p != '\0' && isspace((int)*p)) {
         p++;
     }
 
-    return (char *)p;
+    return p;
 }
 
 static int palette_load_core(FILE *f, const char *file_name,

@@ -499,8 +499,9 @@ int util_get_line(char *buf, int bufsize, FILE *f)
         while ((len > 0) && (*(buf + len - 1) == ' ')) {
             len--;
         }
-        for (p = buf; *p == ' '; p++, len--) {
+        for (p = buf; *p == ' ' && len > 0; p++, len--) {
         }
+
         memmove(buf, p, len + 1);
         *(buf + len) = '\0';
     }
