@@ -108,7 +108,7 @@ enum asm_addr_mode {
     ASM_ADDR_MODE_IMM_WORD,       /* 63 looks like  ASM_ADDR_MODE_IMMEDIATE_16 */   /* 6809 */
     ASM_ADDR_MODE_DIRECT,         /* 64 looks like  ASM_ADDR_MODE_ZERO_PAGE */      /* 6809 */
     ASM_ADDR_MODE_EXTENDED,       /* 65 looks like  ASM_ADDR_MODE_ABSOLUTE */       /* 6809 */
-    ASM_ADDR_MODE_INDEXED,        /* 66 post-byte determines sub-mode */            /* 6809 */
+    ASM_ADDR_MODE_INDEXED,        /* 66 post-byte determines sub-mode */            /* 6809, 65816 */
     ASM_ADDR_MODE_REL_BYTE,       /* 67 */                                          /* 6809 */
     ASM_ADDR_MODE_REL_WORD,       /* 68 */                                          /* 6809 */
     ASM_ADDR_MODE_REG_POST,       /* 69 */                                          /* 6809 */
