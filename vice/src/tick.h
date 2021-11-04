@@ -35,10 +35,8 @@
 #define NANO_PER_SECOND     (1000 * 1000 * 1000)
 
 /*
- * The internal VICE timing resolution. It should be possible to be less accurate but it
- * results in less accurate no-sound timing - there's probably a floating point error
- * accumulation bug somewhere. For example, setting this to MILLI_PER_SECOND results in
- * CPU running at ~103%. BTW Windows can't be more accurate that (NANO_PER_SECOND / 100).
+ * The internal VICE timing resolution.
+ * BTW, Windows can't be more accurate than (NANO_PER_SECOND / 100).
  */
 #define TICK_PER_SECOND     (MICRO_PER_SECOND)
 
