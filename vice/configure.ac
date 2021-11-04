@@ -119,7 +119,8 @@ VICE_ARG_ENABLE_LIST(optimization,      [  --disable-optimization  disable code 
 VICE_ARG_ENABLE_LIST(extra-warnings,    [  --enable-extra-warnings enable anal warnings [[default=no]]])
 VICE_ARG_ENABLE_LIST(io-simulation,     [  --enable-io-simulation  enable i/o simulation devices [[default=no]]])
 
-
+dnl Temporary for something mysterious
+VICE_ARG_WITH_LIST(libcurl,             [  --with-libcurl          enable libcurl support [[default=no]]])
 
 dnl
 dnl UI options
@@ -531,6 +532,8 @@ USE_NEW_8580_FILTER="no "
 USE_DESKTOP_FILES="no "
 HAVE_X64_IMAGE_SUPPORT="no "
 HAVE_CAPABILITIES_SUPPORT="no "
+HAVE_LIBCURL_SUPPORT="no "
+
 
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
@@ -2097,6 +2100,20 @@ if test x"$with_zlib" != "xno" ; then
 fi
 
 AC_SUBST(ZLIB_LIBS)
+
+
+dnl --- Curl ---
+if test x"$with_libcurl" = "xyes"; then
+  PKG_CHECK_MODULES(libcurl, [libcurl], [have_libcurl=yes], [have_libcurl=no])
+  if test x"$have_libcurl" = "xno"; then
+    AC_MSG_ERROR([libcurl support requested, but libcurl was not found.])
+  fi
+  HAVE_LIBCURL_SUPPORT="yes"
+  VICE_CFLAGS="$VICE_CFLAGS $libcurl_CFLAGS"
+  VICE_LDFLAGS="$VICE_LDFLAGS $libcurl_LDFLAGS"
+  LIBS="$LIBS $libcurl_LIBS"
+  AC_DEFINE(HAVE_LIBCURL, , [libcurl support])
+fi
 
 
 dnl ----- Netplay Support -----
@@ -4026,6 +4043,7 @@ echo "Network support                  : $HAVE_NETWORK_SUPPORT"
 echo "RS232 network support            : $HAVE_RS232NET_SUPPORT"
 echo "IPv6 network support             : $HAVE_IPV6_SUPPORT (--enable/disable-ipv6)"
 echo "Network capture/injection support: $HAVE_RAWNET_SUPPORT (--enable/disable-ethernet)"
+echo "libcurl support                  : $HAVE_LIBCURL_SUPPORT (--with/without-libcurl)"
 
 echo ""
 echo "DRIVE"
