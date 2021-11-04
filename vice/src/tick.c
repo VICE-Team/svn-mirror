@@ -45,9 +45,13 @@
 #   include <mach/mach_time.h>
 #endif
 
+#include <stdio.h>
+
 #ifndef MIN
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
 #endif
+
+/* #define OVERSLEEP_COMPENSATION */
 
 /* ------------------------------------------------------------------------- */
 
@@ -76,63 +80,53 @@ tick_t tick_per_second(void)
     return TICK_PER_SECOND;
 }
 
-/* Get time in timer units. */
+#ifdef WIN32_COMPILE
 tick_t tick_now(void)
 {
-#ifdef WIN32_COMPILE
     LARGE_INTEGER time_now;
     
     QueryPerformanceCounter(&time_now);
 
     return (tick_t)(time_now.QuadPart / ((double)timer_frequency.QuadPart / TICK_PER_SECOND));
-
-#elif defined(MACOSX_SUPPORT)
-    return NANO_TO_TICK(mach_absolute_time() * timebase_info.numer / timebase_info.denom);
-
-#else
-    struct timespec now;
-#   if defined(__linux__)
-        clock_gettime(CLOCK_MONOTONIC_RAW, &now);
-#   elif defined(__FreeBSD__)
-        clock_gettime(CLOCK_MONOTONIC_PRECISE, &now);
-#   else
-        clock_gettime(CLOCK_MONOTONIC, &now);
-#   endif
-
-    return NANO_TO_TICK(((uint64_t)NANO_PER_SECOND * now.tv_sec) + now.tv_nsec);
-
-#endif
 }
 
-/* Sleep a number of timer units. */
-void tick_sleep(tick_t sleep_ticks)
+#elif defined(MACOSX_SUPPORT)
+tick_t tick_now(void)
 {
-    /* do this asap. */
-    tick_t before_yield_tick = tick_now();
-    tick_t yield_ticks;
+    return NANO_TO_TICK(mach_absolute_time() * timebase_info.numer / timebase_info.denom);
+}
 
-    /* Since we're about to sleep, give another thread a go of the lock */
-    mainlock_yield_once();
+#else
+tick_t tick_now(void)
+{
+    struct timespec now;
+    
+#if defined(__linux__)
+    clock_gettime(CLOCK_MONOTONIC_RAW, &now);
+#elif defined(__FreeBSD__)
+    clock_gettime(CLOCK_MONOTONIC_PRECISE, &now);
+#else
+    clock_gettime(CLOCK_MONOTONIC, &now);
+#endif
 
-    yield_ticks = tick_now_delta(before_yield_tick);
-
-    if (yield_ticks >= sleep_ticks) {
-        /* The lock yield took as long as we needed to sleep (or longer) */
-        return;
-    }
-
-    /* Adjust sleep_ticks to account for the yield time */
-    sleep_ticks -= yield_ticks;
+    return NANO_TO_TICK(((uint64_t)NANO_PER_SECOND * now.tv_sec) + now.tv_nsec);
+}
+#endif
 
 #ifdef WIN32_COMPILE
+static inline void sleep_impl(tick_t sleep_ticks)
+{
     LARGE_INTEGER timeout;
 
-    timeout.QuadPart = 0LL - (timer_frequency.QuadPart / ((double)TICK_PER_SECOND / sleep_ticks));
+    timeout.QuadPart = 0LL - ((NANO_PER_SECOND / 100) * ((double)sleep_ticks / TICK_PER_SECOND));
 
     SetWaitableTimer(wait_timer, &timeout, 0, NULL, NULL, 0);
     WaitForSingleObject(wait_timer, INFINITE);
+}
 
 #elif defined(HAVE_NANOSLEEP)
+static inline void sleep_impl(tick_t sleep_ticks)
+{
     struct timespec ts;
     uint64_t nanos = TICK_TO_NANO(sleep_ticks);
 
@@ -145,12 +139,78 @@ void tick_sleep(tick_t sleep_ticks)
     }
 
     nanosleep(&ts, NULL);
+}
 
 #else
+static inline void sleep_impl(tick_t sleep_ticks)
+{
     if (usleep(TICK_TO_MICRO(sleep_ticks)) == -EINVAL) {
         usleep(MICRO_PER_SECOND - 1);
     }
+}
+#endif
 
+/* Sleep a number of timer units. */
+void tick_sleep(tick_t sleep_ticks)
+{
+    tick_t before_yield_tick = tick_now(); /* do this asap. */
+    tick_t after_yield_tick;
+    tick_t yield_ticks;
+    tick_t adjusted_sleep_ticks;
+
+#ifdef OVERSLEEP_COMPENSATION
+    static double rolling_oversleep_ticks;
+    tick_t slept_ticks;
+    tick_t oversleep_ticks;
+#endif
+
+    /* Since we're about to sleep, give another thread a go of the lock */
+    mainlock_yield_once();
+
+    after_yield_tick    = tick_now_after(before_yield_tick);
+    yield_ticks         = after_yield_tick - before_yield_tick;
+
+    if (yield_ticks >= sleep_ticks) {
+        /* The lock yield took as long as we needed to sleep (or longer) */
+        return;
+    }
+
+    /* Adjust sleep_ticks to account for the yield time */
+    adjusted_sleep_ticks = sleep_ticks - yield_ticks;
+
+#ifndef OVERSLEEP_COMPENSATION
+    sleep_impl(adjusted_sleep_ticks);
+#else
+    /*
+     * Oversleep compensation. Systems will typically sleep for longer than
+     * requested. This code measures a rolling average amount of oversleep
+     * and uses it to request a shorter sleep, followed by a hotloop up to
+     * the originally requested time. This yields more accurate timing at
+     * a small cost to CPU usage.
+     * 
+     * Disabled by default for now.
+     */
+
+    /* Push the oversleep compensation towards zero */
+    rolling_oversleep_ticks *= 0.99;
+
+    /* Sleep, if we're not expecting to oversleep by more than the requested amount */
+    if (adjusted_sleep_ticks > rolling_oversleep_ticks) {
+        adjusted_sleep_ticks -= rolling_oversleep_ticks;
+
+        sleep_impl(adjusted_sleep_ticks);
+
+        slept_ticks = tick_now_delta(after_yield_tick);
+        if (slept_ticks > adjusted_sleep_ticks) {
+            /* Then we overslept */
+            oversleep_ticks = slept_ticks - adjusted_sleep_ticks;
+            rolling_oversleep_ticks += (double)oversleep_ticks * 0.01;
+        }
+    }
+
+    while (tick_now_delta(before_yield_tick) < sleep_ticks) {
+        /* hot loop to catch up */
+    }
 #endif
 }
 
