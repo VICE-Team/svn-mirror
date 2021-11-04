@@ -9,7 +9,7 @@
 # using the FCC sanctioned decoder matrix - this is almost identical to the PAL palette!
 
 # Black
-0  0  0  0
+0  0  0
 
 # White
 FF FF FF
