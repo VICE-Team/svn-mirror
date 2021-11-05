@@ -190,7 +190,7 @@
 109 4 4 8              /*            M -> M            */
 44 5 7 8               /*            , -> ,            */
 46 5 4 8               /*            . -> .            */
-47 6 7 8               /*            / -> /            */
+58 6 7 8               /*            / -> /            */
 176 6 0 32             /*            ° -> Pound        */  °/~ key (from symbolic nl keymap)
 303 6 4 4              /*  Right Shift -> Right Shift  */
 32 7 4 8               /*        Space -> Space        */
