@@ -1295,7 +1295,7 @@ static void monitor_binary_process_palette_get(binary_command_t *command)
     }
 
     num_entries = screenshot.palette->num_entries;
-    response_length = 2 + num_entries * 5;
+    response_length = 2 + num_entries * (item_size + 1);
     response = lib_malloc(response_length);
     response_cursor = response;
 
