@@ -48,22 +48,34 @@
  */
 
 #include "vice.h"
-
 #include <stdio.h>
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
-
 #include "archdep_defs.h"
-#include "vice_gtk3.h"
+#include "attach.h"
+#include "autostart.h"
+#include "contentpreviewwidget.h"
 #include "datasette.h"
-#include "drive.h"
+#include "dirmenupopup.h"
+#include "diskcontents.h"
+#include "diskimage.h"
+#include "diskimage/fsimage.h"
 #include "drive-check.h"
+#include "drive.h"
+#include "drive.h"
+#include "drivetypes.h"
+#include "fliplist.h"
 #include "joyport.h"
+#include "joystickmenupopup.h"
+#include "kbddebugwidget.h"
 #include "lib.h"
 #include "machine.h"
 #include "mainlock.h"
 #include "resources.h"
+#include "statusbarrecordingwidget.h"
+#include "statusbarspeedwidget.h"
+#include "tapecontents.h"
+#include "tapeport.h"
 #include "types.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -72,24 +84,7 @@
 #include "uifliplist.h"
 #include "uisettings.h"
 #include "userport/userport_joystick.h"
-
-#include "attach.h"
-#include "diskcontents.h"
-#include "drive.h"
-#include "drivetypes.h"
-#include "diskimage.h"
-#include "diskimage/fsimage.h"
-#include "autostart.h"
-#include "tapeport.h"
-#include "tapecontents.h"
-#include "fliplist.h"
-
-#include "contentpreviewwidget.h"
-#include "dirmenupopup.h"
-#include "joystickmenupopup.h"
-#include "statusbarspeedwidget.h"
-#include "statusbarrecordingwidget.h"
-#include "kbddebugwidget.h"
+#include "vice_gtk3.h"
 
 #include "uistatusbar.h"
 

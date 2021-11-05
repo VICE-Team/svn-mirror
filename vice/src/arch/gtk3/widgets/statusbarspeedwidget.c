@@ -425,6 +425,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     GtkWidget *grid;
     GtkWidget *label_cpu;
     GtkWidget *label_fps;
+    GtkWidget *label_status;
     PangoContext *context;
     const PangoFontDescription *desc_static;
     PangoFontDescription *desc;
@@ -446,7 +447,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
      * will probably internally do the Pango stuff I do here on every call.
      */
 
-    /* label just for CPU (and Warp if active) */
+    /* label just for CPU  */
     label_cpu = gtk_label_new("");
     context = gtk_widget_get_pango_context(label_cpu);  /* don't free */
     desc_static = pango_context_get_font_description(context);
@@ -457,7 +458,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     gtk_widget_set_halign(label_cpu, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label_cpu, 0, 0, 1, 1);
 
-    /* label just for FPS (and Pause if active) */
+    /* label just for FPS  */
     label_fps = gtk_label_new("");
     context = gtk_widget_get_pango_context(label_fps);  /* don't free */
     desc_static = pango_context_get_font_description(context);
@@ -467,6 +468,11 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     pango_font_description_free(desc);
     gtk_widget_set_halign(label_fps, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label_fps, 0, 1, 1, 1);
+
+    /* label for pause/warp and perhaps CPU jam */
+    label_status = gtk_label_new("");
+    gtk_widget_set_halign(label_status, GTK_ALIGN_CENTER);
+    gtk_grid_attach(GTK_GRID(grid), label_status, 0, 2, 1, 1);
 
     /* create event box to capture mouse clicks to spawn popup menus */
     event_box = gtk_event_box_new();
@@ -576,11 +582,28 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         /* get CPU/Warp label and update its text */
         label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
 
-        g_snprintf(buffer, sizeof(buffer), "%9." STR(CPU_DECIMAL_PLACES) "f%% cpu%s",
-                   vsync_metric_cpu_percent,
-                   is_paused ? " (paused)" : (vsync_metric_warp_enabled ? " (warp)" : ""));
+        g_snprintf(buffer,
+                   sizeof(buffer),
+                   "%9." STR(CPU_DECIMAL_PLACES) "f%% cpu",
+                   vsync_metric_cpu_percent);
 
         gtk_label_set_text(GTK_LABEL(label), buffer);
+
+        /* update status label */
+        label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+        if (!is_paused && !vsync_metric_warp_enabled) {
+            /* no pause, no warp */
+            gtk_label_set_text(GTK_LABEL(label), "");
+        } else if (!is_paused && vsync_metric_warp_enabled) {
+            /* warp */
+            gtk_label_set_text(GTK_LABEL(label), "[Warp]");
+        } else if (is_paused && !vsync_metric_warp_enabled) {
+            /* pause */
+            gtk_label_set_text(GTK_LABEL(label), "[Paused)");
+        } else {
+            /* pause and warp */
+            gtk_label_set_text(GTK_LABEL(label), "[Paused] [Warp]");
+        }
 
         state->last_cpu_int = this_cpu_int;
         state->last_warp = vsync_metric_warp_enabled;
@@ -597,7 +620,10 @@ void statusbar_speed_widget_update(GtkWidget *widget,
             /* get FPS/Pause label and update its text */
             label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
 
-            g_snprintf(buffer, sizeof(buffer), "%10." STR(FPS_DECIMAL_PLACES) "f fps", vsync_metric_emulated_fps);
+            g_snprintf(buffer,
+                       sizeof(buffer),
+                       "%10." STR(FPS_DECIMAL_PLACES) "f fps",
+                       vsync_metric_emulated_fps);
 
             gtk_label_set_text(GTK_LABEL(label), buffer);
 
