@@ -698,7 +698,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
     alarm_unset(datasette_alarm[port]);
     datasette_alarm_pending[port] = 0;
 
-    DBG(("datasette_read_bit(motor:%d) %u>=%u (image present:%s)", datasette_motor[port], maincpu_clk, motor_stop_clk[port], current_image[port] ? "yes" : "no"));
+    DBG(("datasette_read_bit(motor:%d) %lu>=%lu (image present:%s)", datasette_motor[port], maincpu_clk, motor_stop_clk[port], current_image[port] ? "yes" : "no"));
 
     /* check for delay of motor stop */
     if (motor_stop_clk[port] > 0 && maincpu_clk >= motor_stop_clk[port]) {
@@ -1102,7 +1102,8 @@ void datasette_control(int port, int command)
 
 static void datasette_set_motor(int port, int flag)
 {
-    DBG(("datasette_set_motor(%d) (image present:%s)", flag, current_image[port] ? "yes" : "no"));
+    DBG(("datasette_set_motor(%d) (image present:%s) datasette_motor: %d motor_stop_clk: %lu",
+         flag, current_image[port] ? "yes" : "no", datasette_motor[port], motor_stop_clk[port]));
 
     if (datasette_alarm[port] == NULL) {
         DBG(("datasette_set_motor (datasette_alarm[port] == NULL)"));
@@ -1112,20 +1113,26 @@ static void datasette_set_motor(int port, int flag)
     if (flag) {
         /* abort pending motor stop */
         motor_stop_clk[port] = 0;
+        DBG(("datasette_set_motor(flag=1 maincpu_clk:%lu motor_stop_clk:%lu)", maincpu_clk, motor_stop_clk[port]));
         if (!datasette_motor[port]) {
             last_write_clk[port] = (CLOCK)0;
             datasette_start_motor(port);
             ui_display_tape_motor_status(port, 1);
             datasette_motor[port] = 1;
+        } else {
+            DBG(("datasette_set_motor() not starting motor"));
         }
-    }
-    if (!flag && datasette_motor[port] && motor_stop_clk[port] == 0) {
-        motor_stop_clk[port] = maincpu_clk + MOTOR_DELAY;
-        DBG(("datasette_set_motor(maincpu_clk:%u motor_stop_clk:%u)", maincpu_clk, motor_stop_clk[port]));
-        if (!datasette_alarm_pending[port]) {
-            /* make sure that the motor will stop */
-            alarm_set(datasette_alarm[port], motor_stop_clk[port]);
-            datasette_alarm_pending[port] = 1;
+    } else {
+        if (datasette_motor[port] && motor_stop_clk[port] == 0) {
+            motor_stop_clk[port] = maincpu_clk + MOTOR_DELAY;
+            DBG(("datasette_set_motor(flag=0 maincpu_clk:%lu motor_stop_clk:%lu)", maincpu_clk, motor_stop_clk[port]));
+            if (!datasette_alarm_pending[port]) {
+                /* make sure that the motor will stop */
+                alarm_set(datasette_alarm[port], motor_stop_clk[port]);
+                datasette_alarm_pending[port] = 1;
+            }
+        } else {
+            DBG(("datasette_set_motor() not stopping motor"));
         }
     }
 }
