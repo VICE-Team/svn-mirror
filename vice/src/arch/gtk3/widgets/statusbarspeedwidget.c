@@ -41,6 +41,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "ui.h"
 #include "vsync.h"
 #include "vsyncapi.h"
@@ -544,6 +545,7 @@ void statusbar_speed_widget_update(GtkWidget *widget,
 
     if (machine_is_jammed()) {
         if (!jammed) {
+#if 0
             char *temp = lib_strdup(machine_jam_reason());
             char *temp2 = strstr(temp, "JAM");
             jammed = true;
@@ -557,6 +559,9 @@ void statusbar_speed_widget_update(GtkWidget *widget,
             gtk_label_set_text(GTK_LABEL(label), temp);
 
             lib_free(temp);
+#endif
+            jammed = true;
+            ui_display_statustext(machine_jam_reason(), 0);
         }
         return;
     } else if (jammed) {
