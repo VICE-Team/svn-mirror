@@ -2043,25 +2043,29 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         return 0;
     }
 
-    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_SCPU64) {
+    /* DTV has no tape port, SCPU makes tape non operational */
+    if ((machine_class != VICE_MACHINE_C64DTV) &&
+        (machine_class != VICE_MACHINE_SCPU64)) {
         int tapedevice_temp;
 
         if (resources_get_int("TapePort1Device", &tapedevice_temp) < 0) {
             log_error(LOG_ERR, "Failed to get Datasette status.");
         }
 
-        set_tapeport_device(1, 0);
+        set_tapeport_device(1, 0);  /* select datasette on, tapecart off */
 
         if (autostart_tape(file_name, program_name, program_number, runmode, TAPEPORT_PORT_1) == 0) {
             log_message(autostart_log, "`%s' recognized as tape image.", file_name);
             return 0;
         }
 
-        set_tapeport_device(0, 1);
-
-        if (autostart_tapecart(file_name, NULL) == 0) {
-            log_message(autostart_log, "`%s' recognized as tapecart image.", file_name);
-            return 0;
+        /* tapecart can only be used with C64 */
+        if (machine_class == VICE_MACHINE_C64) {
+            set_tapeport_device(0, 1); /* select datasette off, tapecart on */
+            if (autostart_tapecart(file_name, NULL) == 0) {
+                log_message(autostart_log, "`%s' recognized as tapecart image.", file_name);
+                return 0;
+            }
         }
 
         resources_set_int("TapePort1Device", tapedevice_temp);
