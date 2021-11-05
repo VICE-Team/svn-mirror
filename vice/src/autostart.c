@@ -2059,8 +2059,9 @@ int autostart_autodetect(const char *file_name, const char *program_name,
             return 0;
         }
 
-        /* tapecart can only be used with C64 */
-        if (machine_class == VICE_MACHINE_C64) {
+        /* tapecart can only be used with C64 (or C64 mode of C128) */
+        if ((machine_class == VICE_MACHINE_C64) &&
+            (machine_class == VICE_MACHINE_C128)) {
             set_tapeport_device(0, 1); /* select datasette off, tapecart on */
             if (autostart_tapecart(file_name, NULL) == 0) {
                 log_message(autostart_log, "`%s' recognized as tapecart image.", file_name);
