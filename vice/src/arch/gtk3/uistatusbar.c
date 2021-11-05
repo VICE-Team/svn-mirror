@@ -1872,8 +1872,10 @@ GtkWidget *ui_statusbar_create(int window_identity)
                 SB_COL_SEP_CRT, SB_ROW_SEP_CRT, 1, 3);
     }
 
-    if ((machine_class != VICE_MACHINE_C64DTV)
-            && (machine_class != VICE_MACHINE_VSID)) {
+    /* No datasette for DTV, SCPU or VSID */
+    if ((machine_class != VICE_MACHINE_C64DTV) &&
+            (machine_class != VICE_MACHINE_SCPU64) &&
+            (machine_class != VICE_MACHINE_VSID)) {
         tape1 = ui_tape_widget_create(TAPEPORT_UNIT_1);
         g_object_ref_sink(G_OBJECT(tape1));
         /* Clicking the tape status is supposed to pop up a window. This
@@ -1898,6 +1900,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
                 G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
     }
 
+    /* Only the PET has two datasettes */
     if (machine_class == VICE_MACHINE_PET) {
         tape2 = ui_tape_widget_create(TAPEPORT_UNIT_2);
         g_object_ref_sink(G_OBJECT(tape2));
