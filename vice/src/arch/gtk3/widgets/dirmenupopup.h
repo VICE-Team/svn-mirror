@@ -33,7 +33,7 @@
 #include "imagecontents.h"
 
 GtkWidget *dir_menu_popup_create(
-        int dev,
+        int unit,
         read_contents_func_type func,
         void (*response)(const char *, int, int, unsigned int));
 

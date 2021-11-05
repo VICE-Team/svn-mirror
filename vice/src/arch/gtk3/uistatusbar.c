@@ -835,8 +835,9 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
     } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         GtkWidget *dir_menu;
 
-        dir_menu = dir_menu_popup_create(-1, tapecontents_read,
-                tape_dir_autostart_callback);
+        dir_menu = dir_menu_popup_create(port,
+                                         tapecontents_read,
+                                         tape_dir_autostart_callback);
         gtk_menu_popup_at_widget(GTK_MENU(dir_menu),
                                  widget,
                                  GDK_GRAVITY_NORTH_EAST,
@@ -946,7 +947,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                                  event);
     } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         /* show popup to run file in currently attached image */
-        GtkWidget *dir_menu = dir_menu_popup_create(i,
+        GtkWidget *dir_menu = dir_menu_popup_create(i + DRIVE_UNIT_MIN,
                                                     diskcontents_filesystem_read,
                                                     disk_dir_autostart_callback);
 
