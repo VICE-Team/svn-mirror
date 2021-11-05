@@ -27,6 +27,7 @@
 #ifndef VICE_HOTKEYS_H
 #define VICE_HOTKEYS_H
 
+#include <gtk/gtk.h>
 #include <stdbool.h>
 
 
@@ -44,6 +45,15 @@
 /** \brief  Filename of default Gtk3 hotkeys files
  */
 #define VKM_DEFAULT_NAME    VKM_PREFIX##VKM_EXT
+
+
+/** \brief  Accepted GDK modifiers for hotkeys
+ *
+ * This is required to avoid keys like NumLock showing up in the accelerators.
+ * GDK_MOD1_MASK refers to Alt/Option.
+ */
+#define VKM_ACCEPTED_MODIFIERS \
+    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
 
 
 int     ui_hotkeys_resources_init(void);

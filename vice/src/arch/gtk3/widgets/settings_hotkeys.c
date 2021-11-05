@@ -206,7 +206,7 @@ static gboolean on_key_release_event(GtkWidget *dialog,
         gchar text[256];
 
         hotkey_keysym = event->keyval;
-        hotkey_mask = event->state;
+        hotkey_mask = event->state & VKM_ACCEPTED_MODIFIERS;
 
 #if 0
         if (hotkey_mask & GDK_CONTROL_MASK) {
