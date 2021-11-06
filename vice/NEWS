@@ -39,11 +39,21 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 ** Joystick fixes
 -----------------
 
+- New Superpad64 emulation.
+
+- New spaceballs joystick adapter emulation.
+
+- New MultiJoy joystick adapter emulation.
+
+- New Inception joystick adapter emulation.
+
 - New userport SNES pad (Petscii) emulation.
 
-- Trapthem joyport SNES pad now supports all buttons.
+- New Trapthem joyport SNES pad emulation.
 
 - Extended Ninja joyport SNES pad adapter to 3 ports.
+
+- All SNES pad buttons are supported now.
 
 - Joystick adapters with more than 1 port are always mapped to the extra joysticks from now on.
 
@@ -57,7 +67,13 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 ** SDL fixes
 ------------
 
+- New SDL2 dual window support.
+
 - Removed unneeded items from some SDL menus.
+
+- New D67 image creation menu items.
+
+- Fixed relative paths in the SDL file/directory selection dialog.
 
 ** GTK3 fixes
 -------------

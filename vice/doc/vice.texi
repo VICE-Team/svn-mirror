@@ -31640,7 +31640,11 @@ mmcreplay, retroreplay and ide64. Added rrnet clockport device.
 Added mp3@@64 clockport device. Added userport snes pad (petscii)
 support. Extended the joyport system to be able to handle all snes
 pad buttons. Extended the joyport system to be able to handle
-8-player joystick adapters. And lots of other fixes and
+8-player joystick adapters. Added spaceballs joystick adapter
+support. Added trapthem joyport snes pad adapter support. Added
+superpad64 support. Added multijoy joystick adapter support.
+Added inception joystick adapter support.
+And lots of other fixes and
 improvements.
 
 @item
