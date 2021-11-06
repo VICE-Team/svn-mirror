@@ -32,11 +32,32 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 ** build system
 ---------------
 
+- Remove linking to vice libraries for petcat and cartconv.
+
+- All targets can now be build seperately (eg make x64sc).
+
+** Joystick fixes
+-----------------
+
+- New userport SNES pad (Petscii) emulation.
+
+- Trapthem joyport SNES pad now supports all buttons.
+
+- Extended Ninja joyport SNES pad adapter to 3 ports.
+
+- Joystick adapters with more than 1 port are always mapped to the extra joysticks from now on.
+
+- Joystick adapters with only 1 port are mapped to the port they are attached to.
+
+- SIDcard joystick of the plus4 is now always mapped to extra joystick #4.
+
 ** C64 fixes
 ------------
 
 ** SDL fixes
 ------------
+
+- Removed unneeded items from some SDL menus.
 
 ** GTK3 fixes
 -------------
