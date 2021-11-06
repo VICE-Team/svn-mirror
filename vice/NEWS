@@ -51,6 +51,10 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - New Trapthem joyport SNES pad emulation.
 
+- New Protopad emulation.
+
+- New plus4 Synergy 3-port joystick adapter emulation.
+
 - Extended Ninja joyport SNES pad adapter to 3 ports.
 
 - All SNES pad buttons are supported now.
@@ -61,8 +65,24 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - SIDcard joystick of the plus4 is now always mapped to extra joystick #4.
 
+- New autofire button support.
+
+** Userport fixes
+-----------------
+
+- Only one userport device can be attached to the userport at a time from now on.
+
+- New virtual I/O simulation device for the userport, allows pins to be changed by the user from the monitor.
+
 ** C64 fixes
 ------------
+
+- Added REX Ramfloppy loading & saving of the RAM contents.
+
+** C128 fixes
+------------
+
+- Fixed 2Mhz mode unconnected memory space reads.
 
 ** SDL fixes
 ------------
