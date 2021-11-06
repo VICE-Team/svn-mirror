@@ -19,6 +19,28 @@ with the "-default" command line argument or use "restore default config"
 in the UI).
 
 
+* Changes in Vice 3.6
+=====================
+
+We welcome to the team:
+
+June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
+
+** general
+----------
+
+** build system
+---------------
+
+** C64 fixes
+------------
+
+** SDL fixes
+------------
+
+** GTK3 fixes
+-------------
+
 * Changes in Vice 3.5
 =====================
 
