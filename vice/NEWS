@@ -36,6 +36,8 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - All targets can now be build seperately (eg make x64sc).
 
+- Fixed building on cygwin.
+
 ** Joystick fixes
 -----------------
 
@@ -46,6 +48,8 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 - New MultiJoy joystick adapter emulation.
 
 - New Inception joystick adapter emulation.
+
+- New Microflyte analog joystick emulation.
 
 - New userport SNES pad (Petscii) emulation.
 
@@ -67,6 +71,8 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - New autofire button support.
 
+- New virtual I/O simulation device for the joyport, allows pins to be changed by the user from the monitor.
+
 ** Userport fixes
 -----------------
 
@@ -74,15 +80,25 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - New virtual I/O simulation device for the userport, allows pins to be changed by the user from the monitor.
 
+** Tapeport fixes
+-----------------
+
+- Only one tapeport device can be attached at a time from now on.
+
 ** C64 fixes
 ------------
 
 - Added REX Ramfloppy loading & saving of the RAM contents.
 
 ** C128 fixes
-------------
+-------------
 
 - Fixed 2Mhz mode unconnected memory space reads.
+
+** PET fixes
+------------
+
+- New datasette #2 emulation.
 
 ** SDL fixes
 ------------
@@ -94,6 +110,10 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 - New D67 image creation menu items.
 
 - Fixed relative paths in the SDL file/directory selection dialog.
+
+- New host joystick axis mapping support for emulated paddles and analog joysticks.
+
+- Mapping of host joysticks menu now shows what the pins are already mapped to.
 
 ** GTK3 fixes
 -------------

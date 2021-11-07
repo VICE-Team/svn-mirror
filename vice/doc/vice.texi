@@ -31680,8 +31680,8 @@ support. Added trapthem joyport snes pad adapter support. Added
 superpad64 support. Added multijoy joystick adapter support.
 Added inception joystick adapter support. Added protopad support.
 Added autofire support. Added plus4 Synergy 3-port joystick
-adapter support. Added userport I/O simulation device.
-And lots of other fixes and
+adapter support. Added userport I/O simulation device. Added
+Microflyte analog joystick support. And lots of other fixes and
 improvements.
 
 @item
