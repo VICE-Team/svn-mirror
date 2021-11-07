@@ -6501,25 +6501,20 @@ If it is able to detect an
 
 @table @code
 
-@vindex CPClockF83
-@item CPClockF83
-Boolean specifying whether the CP Clock F83 (PCF8583 RTC) is enabled.
+@vindex TapePort1Device
+@item TapePort1Device
+Set the device attached to the (first) tape port:
+(x64, x64sc, x128: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 3: DTL BASIC dongle, 4: Sense dongle, 5: tapecart)
+(xcbm2, xcbm5x0, xpet, xplus4, xvic: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 4: Sense dongle)
+
+@vindex TapePort2Device
+@item TapePort2Device
+Set the device attached to the second tape port (xpet only):
+(xpet: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 4: Sense dongle)
 
 @vindex CPClockF83Save
 @item CPClockF83Save
 Boolean specifying whether the CP Clock F83 (PCF8583 RTC) data is saved when changed.
-
-@vindex TapeSenseDongle
-@item TapeSenseDongle
-Boolean specifying whether the tape sense dongle is enabled.
-
-@vindex DTLBasicDongle
-@item DTLBasicDongle
-Boolean specifying whether the DTL Basic dongle is enabled.
-
-@vindex TapecartEnabled
-@item TapecartEnabled
-Boolean that specifies if a tapecart is attached.
 
 @vindex TapecartUpdateTCRT
 @item TapecartUpdateTCRT
@@ -6549,35 +6544,24 @@ String specifying the file name of the current tapecart image.
 
 @table @code
 
-@findex -cpclockf83, +cpclockf83
-@item -cpclockf83
-@itemx +cpclockf83
-Enable/Disable CP Clock F83 (PCF8583 RTC)
-(@code{CPClockF83=1}, @code{CPClockF83=0}).
+@findex -tapeport1device
+@item -tapeport1device <device>
+Set the device attached to the (first) tape port:
+(@code{TapePort1Device}).
+(x64, x64sc, x128: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 3: DTL BASIC dongle, 4: Sense dongle, 5: tapecart)
+(xcbm2, xcbm5x0, xpet, xplus4, xvic: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 4: Sense dongle)
+
+@findex -tapeport2device
+@item -tapeport2device <device>
+Set the device attached to the second tape port:
+(@code{TapePort2Device}).
+(xpet: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 4: Sense dongle)
 
 @findex -cpclockf83save, +cpclockf83save
 @item -cpclockf83save
 @itemx +cpclockf83save
 Enable/Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed
  (@code{CPClockF83Save=1}, @code{CPClockF83Save=0}).
-
-@findex -tapesensedongle, +tapesensedongle
-@item -tapesensedongle
-@itemx +tapesensedongle
-Enable/Disable tape sense dongle
- (@code{TapeSenseDongle=1}, @code{TapeSenseDongle=0}).
-
-@findex -dtlbasicdongle, +dtlbasicdongle
-@item -dtlbasicdongle
-@itemx +dtlbasicdongle
-Enable/Disable DTL Basic dongle
- (@code{DTLBasicDongle=1}, @code{DTLBasicDongle=0}).
-
-@findex -tapecart, +tapecart
-@item -tapecart
-@itemx +tapecart
-Enable/disable tapecart emulation
-(@code{TapecartEnabled=1}, @code{TapecartEnabled=0})
 
 @findex -tcrt
 @item -tcrt <name>
