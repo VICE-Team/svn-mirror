@@ -33,29 +33,11 @@
  */
 
 #include "vice.h"
-#include "archdep_defs.h"
-
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep_defs.h"
 #include "lib.h"
-#include "log.h"
-
-/* for readlink(2) */
-#ifdef UNIX_COMPILE
-# include <unistd.h>
-#endif
-
-#ifdef MACOSX_SUPPORT
-# include <libproc.h>
-#endif
-
-/* for GetModuleFileName() */
-#ifdef WIN32_COMPILE
-# include "windows.h"
-#endif
-
 #include "archdep_program_path.h"
 
 #include "archdep_boot_path.h"
@@ -92,11 +74,7 @@ const char *archdep_boot_path(void)
 
     full_path = archdep_program_path();
 
-#if defined(ARCHDEP_OS_WINDOWS)
-    p = strrchr(full_path, '\\');
-#else
-    p = strrchr(full_path, '/');
-#endif
+    p = strrchr(full_path, ARCHDEP_DIR_SEPARATOR);
     if (p == NULL) {
         /* didn't find a '/' or '\' anywhere */
         boot_path = lib_strdup(".");
