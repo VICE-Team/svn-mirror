@@ -916,6 +916,8 @@ void machine_specific_reset(void)
     plus4tcbm1_reset();
     plus4tcbm2_reset();
 
+    userport_reset();
+
     ted_reset();
 
     sid_reset();
@@ -1133,7 +1135,7 @@ static userport_port_props_t userport_props = {
     NULL, /* NO flag pin */
     0,    /* port does NOT have the pc pin */
     0,    /* port does NOT have the cnt1, cnt2 or sp pins */
-    0     /* port does NOT have the reset pin */
+    1     /* port has the reset pin */
 };
 
 int machine_register_userport(void)
