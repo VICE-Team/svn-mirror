@@ -100,6 +100,24 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - New datasette #2 emulation.
 
+** C1541 fixes
+--------------
+
+- Add `bpoke` command: directly write one or more byte into a block.
+
+- Make the `chain` command accept a '[@unit:]filename' argument.
+
+- Make the `extract` command detect circular track/sector links.
+
+** Monitor fixes
+----------------
+
+- Make the `device` command switch to computer when not given an argument.
+
+- Add `warp [on|off|toggle]` command.
+
+- Fix not being able to delete the final character on a line with DEL.
+
 ** SDL fixes
 ------------
 
@@ -115,8 +133,71 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - Mapping of host joysticks menu now shows what the pins are already mapped to.
 
+- Add application icons to SDL1.2 binaries.
+
 ** GTK3 fixes
 -------------
+
+- Remove sandbox mode
+
+- Fixed statusbar recording status widget display issues.
+
+- Fixed C128 function ROM settings.
+
+- Add setting colors of the monitor.
+
+- Add 'Cartridge -> Default cartridge' to settings. This allows the user to
+  see the current default cartidge, unset it and set another cartridge as
+  default.
+
+- Fix 'extend image' dialog.
+
+- Fix display of joystick names with non-ASCII glyphs.
+
+- Improve widgets setting file paths: use the directory of a file's path in
+  dialogs as the default directory.
+
+- Fix VSID not allowing .MUS files to be added to the playlist.
+
+- Allow unlimited host controllers for josticks
+
+- Fix resetting of scroll position in RAM reset pattern view.
+
+- Fix loading 'vice.ini' inside a Windows bindist: load from the root directory,
+  not the bin/ subdirectory.
+
+- Fix toggling pause mode when taking a quick screenshot.
+
+- Fix various layout issues in the settings.
+
+- Add 'Add current image to fliplist' and 'Clear fliplist' items to drive widget
+  popup menu.
+
+- Remove userport joystick swapping.
+
+- Add swapping of controlport joysticks' emulated devices.
+
+- Add saving/restoring the 'fullscreen decorations' state.
+
+- Add joystick autofire settings.
+
+- Add drive widgets on the statusbar for dual drives.
+
+- Simplify userport devices settings.
+
+- Simplify tapeport devices settings.
+
+- Use checkboxes in menus for toggleable items.
+
+- Add 64x64 pixels icons.
+
+- Fix tape autostart via a tape's 'directory'.
+
+- Fix statusbar layout issues.
+
+- Add customizable keyboard shortcuts ('hotkeys'). See doc/gtk3-hotkeys.md for
+  details.
+
 
 * Changes in Vice 3.5
 =====================
