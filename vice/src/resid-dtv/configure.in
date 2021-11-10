@@ -51,10 +51,10 @@ if test "$GXX" = yes; then
   fi
   case $host_os in
   darwin*)
-    CFLAGS="$CFLAGS -mmacosx-version-min=10.9"
-    OBJCFLAGS="$OBJCFLAGS -mmacosx-version-min=10.9"
-    CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.9"
-    LDFLAGS="$LDFLAGS -mmacosx-version-min=10.9"
+    CFLAGS="$CFLAGS -mmacosx-version-min=10.10"
+    OBJCFLAGS="$OBJCFLAGS -mmacosx-version-min=10.10"
+    CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.10"
+    LDFLAGS="$LDFLAGS -mmacosx-version-min=10.10"
     ;;
   *)
     ;;
