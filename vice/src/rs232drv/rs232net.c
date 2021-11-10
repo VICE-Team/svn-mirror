@@ -393,7 +393,9 @@ enum rs232handshake_in rs232net_get_status(int fd)
     } else {
         status |= RS232_HSI_DCD;
     }
-    status |= RS232_HSI_CTS;
+    /* CTS and DSR are always set */
+    /* ideally these two lines (along with RI) should also be handled by ip232 in the future */
+    status |= RS232_HSI_CTS | RS232_HSI_DSR;
 
 #ifdef LOG_MODEM_STATUS
     if (status != oldstatus) {
