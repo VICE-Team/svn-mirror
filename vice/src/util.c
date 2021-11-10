@@ -367,7 +367,7 @@ off_t util_file_length(FILE *fd)
     off = ftello(fd);
     fseeko(fd, 0, SEEK_END);
     filesize = ftello(fd);
-    fseeko(fd, (long)off, SEEK_SET);
+    fseeko(fd, off, SEEK_SET);
     return filesize;
 }
 
