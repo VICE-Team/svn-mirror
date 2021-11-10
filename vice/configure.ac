@@ -97,7 +97,7 @@ dnl Misc build options
 dnl
 
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
-VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
+VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]  enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(cpuhistory,        [  --enable-cpuhistory     enable the 65xx cpu history feature])
 VICE_ARG_ENABLE_LIST(ethernet,          [  --enable-ethernet       enables The Final Ethernet emulation])
 VICE_ARG_ENABLE_LIST(ipv6,              [  --disable-ipv6          disables the checking for IPv6 compatibility])
@@ -105,6 +105,7 @@ VICE_ARG_ENABLE_LIST(libieee1284,       [  --enable-libieee1284    enables libie
 VICE_ARG_ENABLE_LIST(no-pic,            [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 VICE_ARG_ENABLE_LIST(realdevice,        [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(rs232,             [  --disable-rs232         disable RS232 support])
+VICE_ARG_ENABLE_LIST(openmp,            [  --disable-openmp        disable OpenMP acceleration])
 
 dnl
 dnl Developer options
@@ -506,6 +507,7 @@ HAVE_REALDEVICE_SUPPORT="no "
 HAVE_RESID_SUPPORT="no "
 HAVE_RS232DEV_SUPPORT="no "
 HAVE_RS232NET_SUPPORT="no "
+HAVE_OPENMP_SUPPORT="no "
 HAVE_SDL_NUMJOYSTICKS_SUPPORT="no "
 HAVE_SSI2001_SUPPORT="no "
 HAVE_SYS_AUDIOIO_H_SUPPORT="no "
@@ -1060,52 +1062,61 @@ fi
 
 AC_SUBST(DEBUGBUILD)
 
-dnl
-dnl Check for compiler support for OpenMP
-dnl
-TEST_OPENMP_C=" int main(int argc, char **argv) {
-                  int thread_count = 0;
+have_openmp="no"
+if test x"$enable_openmp" != "xno"; then
+  dnl
+  dnl Check for native compiler support for OpenMP.
+  dnl
+  dnl It's probably there on Windows and Linux, probably not on macOS.
+  dnl
+
+  TEST_OPENMP_C=" int thread_count = 0;
                   #pragma omp parallel reduction(+:thread_count)
                   thread_count += 1;
                   if (thread_count > 1)
                     return 0;
-                  return 1;
-                }"
+                  return 1;"
 
-have_openmp="no"
-AC_MSG_CHECKING([for OpenMP])
-ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -fopenmp"
-AC_TRY_LINK([ #include <omp.h> ],
-            [ $TEST_OPENMP_C ],                
-            [ AC_MSG_RESULT(yes)
-              have_openmp="yes"
-              VICE_CFLAGS="$VICE_CFLAGS -fopenmp"
-              VICE_CXXFLAGS="$VICE_CXXFLAGS -fopenmp"
-              VICE_LDFLAGS="$VICE_LDFLAGS -fopenmp" ],
-            [ AC_MSG_RESULT(no) ])
-CFLAGS=$ORIG_CFLAGS
+  AC_MSG_CHECKING([for native OpenMP])
+  ORIG_CFLAGS="$CFLAGS"
+  CFLAGS="$CFLAGS -fopenmp"
+  AC_TRY_LINK([ #include <omp.h> ],
+              [ $TEST_OPENMP_C ],
+              [ AC_MSG_RESULT(yes)
+                have_openmp="yes"
+                VICE_CFLAGS="$VICE_CFLAGS -fopenmp"
+                VICE_CXXFLAGS="$VICE_CXXFLAGS -fopenmp"
+                VICE_LDFLAGS="$VICE_LDFLAGS -fopenmp" ],
+              [ AC_MSG_RESULT(no) ])
+  CFLAGS=$ORIG_CFLAGS
 
-if test x"$have_openmp" != "xyes"; then
-  if test x"$is_unix_macosx" = "xyes"; then
-    
-    dnl
-    dnl Xcode ships cland without OpenMP, but it can be installed with macports / brew.
-    dnl
+  if test x"$have_openmp" = "xno"; then
+    if test x"$is_unix_macosx" = "xyes"; then
+      dnl
+      dnl Xcode ships clang without OpenMP, but it can be installed with macports / brew.
+      dnl
 
-    AC_MSG_CHECKING([for MacPorts / Homebrew OpenMP and multiple cores])
-    ORIG_CFLAGS="$CFLAGS"
-    CFLAGS="$CFLAGS -Xpreprocessor -fopenmp -lomp"
-    AC_TRY_RUN( [ $TEST_OPENMP_C ],
-                [ AC_MSG_RESULT(yes)
-                  have_openmp="yes"
-                  VICE_CFLAGS="$VICE_CFLAGS -Xpreprocessor -fopenmp"
-                  VICE_CXXFLAGS="$VICE_CXXFLAGS -Xpreprocessor -fopenmp"
-                  LIBS="$LIBS -lomp"
-                  ],
-                [ AC_MSG_RESULT(no)
-                  CFLAGS=$ORIG_CFLAGS ])
-    CFLAGS=$ORIG_CFLAGS
+      AC_MSG_CHECKING([for MacPorts / Homebrew OpenMP])
+      ORIG_CFLAGS="$CFLAGS"
+      CFLAGS="$CFLAGS -Xpreprocessor -fopenmp -lomp"
+      AC_TRY_LINK([ #include <omp.h> ],
+                  [ $TEST_OPENMP_C ],
+                  [ AC_MSG_RESULT(yes)
+                    have_openmp="yes"
+                    VICE_CFLAGS="$VICE_CFLAGS -Xpreprocessor -fopenmp"
+                    VICE_CXXFLAGS="$VICE_CXXFLAGS -Xpreprocessor -fopenmp"
+                    LIBS="$LIBS -lomp"
+                    ],
+                  [ AC_MSG_RESULT(no)
+                    CFLAGS=$ORIG_CFLAGS ])
+      CFLAGS=$ORIG_CFLAGS
+
+      if test x"$have_openmp" = "xno"; then
+        echo "warning: OpenMP acceleration enabled, but not available (port/brew install libomp)"
+      fi
+    else
+      echo "warning: OpenMP acceleration enabled, but not available"
+    fi
   fi
 fi
 
@@ -1166,7 +1177,7 @@ if test x"$check_gtk3" = "xyes"; then
       fi
       AC_SEARCH_LIBS(glewInit, [GLEW glew32], [have_glew=yes], [have_glew=no])
       if test x"$have_glew" != "xyes"; then
-        AC_MSG_ERROR([Cannot find the OpenGL Extension Wrangler Library, GLEW. (brew install glew)])
+        AC_MSG_ERROR([Cannot find the OpenGL Extension Wrangler Library, GLEW. (port/brew install glew)])
       fi
     else
       dnl Find where the GL functions live on this system
