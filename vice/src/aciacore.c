@@ -40,6 +40,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "rs232drv.h"
+#include "rs232.h"
 #include "snapshot.h"
 #include "types.h"
 
@@ -519,7 +520,7 @@ int myacia_init_cmdline_options(void)
 */
 static int acia_get_status(void)
 {
-    enum rs232handshake_in modem_status = RS232_HSI_DCD | RS232_HSI_DSR;
+    enum rs232handshake_in modem_status = 0;
 #ifdef LOG_MODEM_STATUS
     static int oldstatus = -1;
 #endif
@@ -542,7 +543,7 @@ static int acia_get_status(void)
         acia.status |= ACIA_SR_BITS_DCD;
     }
 
-    if (modem_status & RS232_HSI_DSR) {
+    if (!(modem_status & RS232_HSI_DSR)) {
         acia.status |= ACIA_SR_BITS_DSR;
     }
 
@@ -558,7 +559,7 @@ static int acia_get_status(void)
         );
         oldstatus = acia.status;
     }
-#endif 
+#endif
     return acia.status;
 }
 
@@ -661,7 +662,10 @@ void myacia_reset(void)
 
     set_acia_ticks();
 
-    acia.status = ACIA_SR_DEFAULT_AFTER_HW_RESET;
+    /* ACIA Status Register after HW reset = 0xx10000 */
+    acia.status &= ACIA_SR_BITS_DCD | ACIA_SR_BITS_DSR;
+    acia.status |= ACIA_SR_DEFAULT_AFTER_HW_RESET;
+
     acia.in_tx = ACIA_TX_STATE_NO_TRANSMIT;
 
     if (acia.fd >= 0) {
@@ -847,7 +851,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
         acia.fd = rs232drv_open(acia.device);
         acia_set_handshake_lines();
     } else {
-        if ((acia.fd >= 0) && !(acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ)) {
+        if ((acia.fd >= 0) && !(acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ) && !rs232_useip232[acia.device]) {
             rs232drv_close(acia.fd);
             acia.fd = -1;
         }
@@ -941,13 +945,18 @@ void myacia_store(uint16_t addr, uint8_t byte)
         case ACIA_SR:
             /* According the CSG and WDC data sheets, this is a programmed reset! */
 
-            if (acia.fd >= 0) {
+            if ((acia.fd >= 0) && !rs232_useip232[acia.device]) {
                 rs232drv_close(acia.fd);
+                acia.fd = -1;
             }
-            acia.fd = -1;
 
+            /* Status Register programmed reset = xxxxx0xx */
             acia.status &= ~ACIA_SR_BITS_OVERRUN_ERROR;
+            /* Command Register programmed reset = xxx00000 */
             acia.cmd &= ACIA_CMD_BITS_PARITY_TYPE_MASK | ACIA_CMD_BITS_PARITY_ENABLED;
+            /* This bit is set only in the MOS 6551, not the Rockwell 6551 or the 65c51 versions */
+            /* acia.cmd |= ACIA_CMD_BITS_IRQ_DISABLED; */
+
             acia.in_tx = ACIA_TX_STATE_NO_TRANSMIT;
             acia_set_int(acia.irq_type, acia.int_num, IK_NONE);
             acia.irq = 0;
@@ -963,19 +972,20 @@ void myacia_store(uint16_t addr, uint8_t byte)
             break;
         case ACIA_CMD:
             acia.cmd = byte;
-            acia_set_handshake_lines();
             if ((acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ) && (acia.fd < 0)) {
                 acia.fd = rs232drv_open(acia.device);
                 /* enable RX alarm */
                 acia.alarm_active_rx = 1;
                 set_acia_ticks();
             } else
-            if ((acia.fd >= 0) && !(acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ)) {
+            if ((acia.fd >= 0) && !(acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ) && !rs232_useip232[acia.device]) {
                 rs232drv_close(acia.fd);
                 alarm_unset(acia.alarm_tx);
                 acia.alarm_active_tx = 0;
                 acia.fd = -1;
             }
+            /* Moved here so rs232drv status is always updated */ 
+            acia_set_handshake_lines();
             break;
         case T232_ECTRL:
             if ((acia.ctrl & ACIA_CTRL_BITS_BPS_MASK) == ACIA_CTRL_BITS_BPS_16X_EXT_CLK) {
