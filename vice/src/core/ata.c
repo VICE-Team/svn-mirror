@@ -50,11 +50,6 @@
 #include "maincpu.h"
 #include "monitor.h"
 
-#ifndef HAVE_FSEEKO
-#define fseeko(a, b, c) fseek(a, b, c)
-#define ftello(a) ftell(a)
-#endif
-
 #define ATA_UNC  0x40
 #define ATA_IDNF 0x10
 #define ATA_ABRT 0x04
