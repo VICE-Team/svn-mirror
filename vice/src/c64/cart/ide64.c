@@ -80,11 +80,6 @@
 #define debug(x)
 #endif
 
-#ifndef HAVE_FSEEKO
-#define fseeko(a, b, c) fseek(a, b, c)
-#define ftello(a) ftell(a)
-#endif
-
 #define LATENCY_TIMER 4000
 
 static int ide64_enabled = 0;
