@@ -1061,10 +1061,9 @@ fi
 AC_SUBST(DEBUGBUILD)
 
 dnl
-dnl Check for compiler support for OpenMP and a multi-core host
+dnl Check for compiler support for OpenMP
 dnl
-TEST_OPENMP_C=" #include <omp.h>
-                int main(int argc, char **argv) {
+TEST_OPENMP_C=" int main(int argc, char **argv) {
                   int thread_count = 0;
                   #pragma omp parallel reduction(+:thread_count)
                   thread_count += 1;
@@ -1074,10 +1073,11 @@ TEST_OPENMP_C=" #include <omp.h>
                 }"
 
 have_openmp="no"
-AC_MSG_CHECKING([for native OpenMP and multiple cores])
+AC_MSG_CHECKING([for OpenMP])
 ORIG_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -fopenmp"
-AC_TRY_RUN( [ $TEST_OPENMP_C ],                
+AC_TRY_LINK([ #include <omp.h> ],
+            [ $TEST_OPENMP_C ],                
             [ AC_MSG_RESULT(yes)
               have_openmp="yes"
               VICE_CFLAGS="$VICE_CFLAGS -fopenmp"
