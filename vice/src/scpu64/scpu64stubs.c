@@ -179,4 +179,9 @@ const char *tapeport_get_device_type_desc(int type)
 {
     return NULL;
 }
+
+int tapeport_valid_port(int port)
+{
+    return 0;
+}
 #endif
