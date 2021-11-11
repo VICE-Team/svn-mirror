@@ -30,11 +30,13 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "tick.h"
 #include "vice_gtk3.h"
 
 /** \brief Used to optimise display updates
  */
 typedef struct statusbar_speed_widget_state_s {
+    tick_t last_render_tick;
     int last_cpu_int;
     int last_fps_int;
     int last_warp;
