@@ -121,6 +121,8 @@ extern void tapeport_set_sense_out(int port, int sense);
 
 extern void tapeport_reset(void);
 
+extern int tapeport_valid_port(int port);
+
 extern void tapeport_trigger_flux_change(unsigned int on, int port);
 extern void tapeport_set_tape_sense(int sense, int port);
 extern void tapeport_set_write_in(int val, int port);

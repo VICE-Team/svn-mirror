@@ -430,6 +430,10 @@ const char *tape_get_file_name(int port)
     return NULL;
 }
 
+int tapeport_valid_port(int port)
+{
+    return 0;
+}
 
 /*****************************************************************************
  *  tapecart                                                                 *

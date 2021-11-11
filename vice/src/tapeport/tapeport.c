@@ -187,6 +187,14 @@ static int tapeport_valid_devices_compare_names(const void* a, const void* b)
     return strcmp(arg1->name, arg2->name);
 }
 
+int tapeport_valid_port(int port)
+{
+    if (port < 0 || port >= tapeport_ports) {
+        return 0;
+    }
+    return 1;
+}
+
 tapeport_desc_t *tapeport_get_valid_devices(int port, int sort)
 {
     tapeport_desc_t *retval = NULL;

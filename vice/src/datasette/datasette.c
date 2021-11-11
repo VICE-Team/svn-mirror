@@ -907,6 +907,10 @@ static void datasette_internal_reset(int port)
 {
     int mode = current_image[port] ? current_image[port]->mode : notape_mode[port];
 
+    if (!tapeport_valid_port(port)) {
+        return;
+    }
+
     DBG(("datasette_internal_reset (mode:%d)", mode));
 
     if (mode == DATASETTE_CONTROL_START ||
