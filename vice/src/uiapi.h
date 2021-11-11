@@ -94,6 +94,9 @@ extern void ui_display_tape_current_image(int port, const char *image);
 /* Show a CPU JAM dialog.  */
 extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
 
+/* Reset */
+extern void ui_display_reset(int device, int mode);
+
 /* Recording UI */
 extern void ui_display_playback(int playback_status, char *version);
 extern void ui_display_recording(int recording_status);
