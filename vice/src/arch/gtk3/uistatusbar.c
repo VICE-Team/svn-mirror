@@ -263,7 +263,7 @@ typedef struct ui_sb_state_s {
      *  themselves defined in joyport/joyport.h. Cases like a SIDcard
      *  control port on a Plus/4 without other userport control ports
      *  mean that the set of active joyports may be discontinuous. */
-    int joyports_enabled;
+    uint32_t active_joyports;
 } ui_sb_state_t;
 
 /** \brief Used to safely access sb_state between threads. */
@@ -1391,57 +1391,51 @@ static GtkWidget *ui_tape_widget_create(int port)
     return grid;
 }
 
+/** \brief Create a bitfield of enabled joyports for detecting changes
+ */
+static uint32_t build_active_joyport_mask(void)
+{
+    int active_joyport_mask = 0;
+    int i;
+    
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        active_joyport_mask <<= 1;
+        if (joyport_port_is_active(i)) {
+            active_joyport_mask |= 1;
+        }
+    }
+    
+    return active_joyport_mask;
+}
 
 /** \brief Alter widget visibility within the joyport widget so that
  *         only currently existing joystick ports are displayed.
- *
- * \param[in]   state_snaphshot previous state of the joyport widget
- *
- * \note    It is safe to call this routine regularly, as it will only trigger
- *          UI refresh operations if the configuration has changed to no
- *          longer match the current layout.
  */
-static void update_joyport_layout(ui_sb_state_t *state_snapshot)
+static void update_joyport_layout(void)
 {
-    int i, ok[JOYPORT_MAX_PORTS];
-    int new_joyport_mask = 0;
+    int i;
+    int j;
+    
+    for (j = 0; j < MAX_STATUS_BARS; ++j) {
+        GtkWidget *joyports_grid;
 
-    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        ok[i] = joyport_port_is_active(i);
-    }
-
-    /* Now that we have a list of disabled/enabled ports, let's check
-     * to see if anything has changed */
-    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        new_joyport_mask <<= 1;
-        if (ok[i]) {
-            new_joyport_mask |= 1;
+        if (allocated_bars[j].joysticks == NULL) {
+            continue;
         }
-    }
-    if (new_joyport_mask != state_snapshot->joyports_enabled) {
-        int j;
-        state_snapshot->joyports_enabled = new_joyport_mask;
-        for (j = 0; j < MAX_STATUS_BARS; ++j) {
-            GtkWidget *joyports_grid;
+        joyports_grid =  gtk_bin_get_child(
+                GTK_BIN(allocated_bars[j].joysticks));
 
-            if (allocated_bars[j].joysticks == NULL) {
-                continue;
-            }
-            joyports_grid =  gtk_bin_get_child(
-                    GTK_BIN(allocated_bars[j].joysticks));
-
-            /* Hide and show the joystick ports as required */
-            for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-                GtkWidget *child = gtk_grid_get_child_at(
-                        GTK_GRID(joyports_grid), 1+i, 0);
-                if (child) {
-                    if (ok[i]) {
-                        gtk_widget_set_no_show_all(child, FALSE);
-                        gtk_widget_show_all(child);
-                    } else {
-                        gtk_widget_set_no_show_all(child, TRUE);
-                        gtk_widget_hide(child);
-                    }
+        /* Hide and show the joystick ports as required */
+        for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+            GtkWidget *child = gtk_grid_get_child_at(
+                    GTK_GRID(joyports_grid), 1+i, 0);
+            if (child) {
+                if (joyport_port_is_active(i)) {
+                    gtk_widget_set_no_show_all(child, FALSE);
+                    gtk_widget_show_all(child);
+                } else {
+                    gtk_widget_set_no_show_all(child, TRUE);
+                    gtk_widget_hide(child);
                 }
             }
         }
@@ -1724,7 +1718,7 @@ void ui_statusbar_init(void)
     sb_state = lock_sb_state();
     /* Set an impossible number of joyports to enabled so that the status
      * is guarenteed to be updated. */
-    sb_state->joyports_enabled = ~0;
+    sb_state->active_joyports = ~0;
     unlock_sb_state();
 }
 
@@ -2580,8 +2574,17 @@ void ui_update_statusbars(void)
     int i, j;
     ui_sb_state_t *sb_state;
     ui_sb_state_t state_snapshot;
+    uint32_t active_joyports;
+    bool active_joyports_changed = false;
 
     sb_state = lock_sb_state();
+    
+    /* Have any joyports been enabled / disabled? */
+    active_joyports = build_active_joyport_mask();
+    if (active_joyports != sb_state->active_joyports) {
+        active_joyports_changed = true;
+        sb_state->active_joyports = active_joyports;
+    }
 
     /* Take a safe copy of the sb_state so we don't hold the lock during display */
     state_snapshot = *sb_state;
@@ -2592,6 +2595,8 @@ void ui_update_statusbars(void)
     for (j = 0; j < NUM_DISK_UNITS; ++j) {
         sb_state->current_drive_track_str_updated[j][0] = false;
         sb_state->current_drive_track_str_updated[j][1] = false;
+        sb_state->current_drive_unit_str_updated[j][0]  = false;
+        sb_state->current_drive_unit_str_updated[j][1]  = false;
         for (int d = 0; d < 2; d++) {
             sb_state->current_drive_leds_updated[j][d][0] = false;
             sb_state->current_drive_leds_updated[j][d][1] = false;
@@ -2646,7 +2651,9 @@ void ui_update_statusbars(void)
          * Joystick
          */
 
-        update_joyport_layout(&state_snapshot);
+        if (active_joyports_changed) {
+            update_joyport_layout();
+        }
 
         /*
          * Drive track, half track, and led
@@ -2685,12 +2692,14 @@ void ui_update_statusbars(void)
                 }
 
                 /* Only draw the LEDs if they have changed */
-                if (state_snapshot.current_drive_leds_updated[j][d]) {
+                if (state_snapshot.current_drive_leds_updated[j][d][0]) {
                     led = gtk_grid_get_child_at(GTK_GRID(drive), 2, d);
                     if (led) {
                         gtk_widget_queue_draw(led);
                     }
                 }
+                
+                /* TODO: Another LED for dual drive */
             }
         }
     }
