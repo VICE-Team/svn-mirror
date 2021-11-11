@@ -538,6 +538,17 @@ void statusbar_speed_widget_update(GtkWidget *widget,
     double vsync_metric_cpu_percent;
     double vsync_metric_emulated_fps;
     int vsync_metric_warp_enabled;
+    tick_t now;
+    
+    /*
+     * FIXME: Don't redraw too often, as it will trigger layout issues and slow joystick widget redraw
+     */
+    
+    now = tick_now();
+    if (now - state->last_render_tick < tick_per_second() / 5) {
+        return;
+    }
+    state->last_render_tick = now;
 
     /*
      * Jammed machines show the jam message instead of stats
