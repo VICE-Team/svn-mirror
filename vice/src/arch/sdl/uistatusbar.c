@@ -529,5 +529,14 @@ void loader_set_statusbar(int val)
 #endif
 
 
-
-
+/** \brief  Show reset on statusbar
+ *
+ * A device was reset, so we show it on the statusbar
+ *
+ * \param[in]   device  device number
+ * \param[in]   mode    reset mode (only for the machine itself)
+ */
+void ui_display_reset(int device, int mode)
+{
+    /* NOT IMPLEMENTED */
+}

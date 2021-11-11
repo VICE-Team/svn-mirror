@@ -53,6 +53,7 @@
 #include "rotation.h"
 #include "snapshot.h"
 #include "types.h"
+#include "uiapi.h"
 
 
 #define DRIVE_CPU
@@ -168,6 +169,7 @@ static void cpu_reset(diskunit_context_t *drv)
     preserve_monitor = drv->cpu->int_status->global_pending_int & IK_MONITOR;
 
     log_message(drv->log, "RESET.");
+    ui_display_reset(drv->mynumber + DRIVE_UNIT_MIN, 0);
 
     interrupt_cpu_status_reset(drv->cpu->int_status);
 

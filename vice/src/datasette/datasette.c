@@ -929,6 +929,7 @@ static void datasette_internal_reset(int port)
     motor_stop_clk[port] = 0;
     datasette_update_ui_counter(port);
     ui_display_tape_motor_status(port, 0);
+    ui_display_reset(port + 1, 0);
     fullwave[port] = 0;
 }
 

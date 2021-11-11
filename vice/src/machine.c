@@ -185,6 +185,8 @@ static void machine_trigger_reset_internal(const unsigned int mode)
             maincpu_trigger_reset();
             break;
     }
+
+    ui_display_reset(0, mode);
 }
 
 void machine_trigger_reset(const unsigned int mode)

@@ -2776,3 +2776,44 @@ GtkWidget *ui_statusbar_get_recording_widget(void)
     int w = ui_get_main_window_index();
     return allocated_bars[w].record;
 }
+
+
+/** \brief  Show reset on statusbar
+ *
+ * A device was reset, so we show it on the statusbar
+ *
+ * \param[in]   device  device number
+ * \param[in]   mode    reset mode (soft(0) or hard(1) ,only for device 0)
+ */
+void ui_display_reset(int device, int mode)
+{
+    gchar buffer[256];
+
+    lock_sb_state();
+
+    debug_gtk3("Got RESET for device #%d, type: %d.", device, mode);
+
+    buffer[0] = '\0';
+
+    if (device == 0) {
+        /* machine reset */
+        g_snprintf(buffer,
+                   sizeof(buffer),
+                   "Machine: RESET (%s)",
+                   mode == MACHINE_RESET_MODE_SOFT ? "Soft" : "Hard");
+    } else if (device == TAPEPORT_UNIT_1 || device == TAPEPORT_UNIT_2) {
+        /* datasette reset */
+        if (machine_class == VICE_MACHINE_PET) {
+            g_snprintf(buffer, sizeof(buffer), "Datasette #%d: RESET", device);
+        } else {
+            strcpy(buffer, "Datasette: RESET");
+        }
+    } else if (device >= DRIVE_UNIT_MIN && device == DRIVE_UNIT_MAX) {
+        /* drive reset */
+        g_snprintf(buffer, sizeof(buffer), "Unit #%d RESET", device);
+    }
+
+    /* on VICE thread, cannot do this: */
+    //ui_display_statustext(buffer, 1);
+}
+
