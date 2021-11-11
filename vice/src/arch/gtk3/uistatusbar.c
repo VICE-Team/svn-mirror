@@ -2789,8 +2789,6 @@ void ui_display_reset(int device, int mode)
 {
     gchar buffer[256];
 
-    lock_sb_state();
-
     debug_gtk3("Got RESET for device #%d, type: %d.", device, mode);
 
     buffer[0] = '\0';
