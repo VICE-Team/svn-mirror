@@ -30,7 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef USE_HEADLESSUI
+#if !defined(USE_HEADLESSUI) && !defined(USE_SDLUI2) && !defined(USE_SDLUI)
 #ifdef UNIX_COMPILE
 #ifndef MACOSX_SUPPORT
 #include <X11/Xlib.h>
@@ -80,7 +80,7 @@ static void actually_exit(int exit_code)
         return;
     }
     is_exiting = true;
-    
+
     /* Some exit stuff not safe to run afer exit() is called so we do it here */
     main_exit();
 
