@@ -30,11 +30,14 @@
 #ifndef VICE_MACOS_UTIL_H
 #define VICE_MACOS_UTIL_H
 
-#include <stdbool.h>
+#import <CoreGraphics/CGGeometry.h>
+#import <gtk/gtk.h>
+#import <stdbool.h>
 
 void vice_macos_set_main_thread(void);
 void vice_macos_set_vice_thread_priority(bool warp_enabled);
 void vice_macos_set_render_thread_priority(void);
+void vice_macos_get_widget_frame_and_content_rect(GtkWidget *widget, CGRect *native_frame, CGRect *content_rect);
 
 /* void vice_macos_render_log_create(void); */
 /* void vice_macos_render_log_frame_event(void); */

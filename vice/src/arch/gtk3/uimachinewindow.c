@@ -42,15 +42,8 @@
 #endif
 
 #ifdef MACOSX_SUPPORT
-#import <objc/message.h>
 #import <CoreGraphics/CGEvent.h>
 
-/* The proper way to use objc_msgSend is to cast it into the right shape each time */
-#define OBJC_MSGSEND(return_type, ...) ((return_type (*)(__VA_ARGS__))objc_msgSend)
-#define OBJC_MSGSEND_STRET(...) ((void (*)(__VA_ARGS__))objc_msgSend_stret)
-
-/* For some reason this isn't in the GDK quartz headers */
-id gdk_quartz_window_get_nswindow (GdkWindow *window);
 #elif defined(WIN32_COMPILE)
 #include <windows.h>
 #endif
@@ -71,6 +64,10 @@ id gdk_quartz_window_get_nswindow (GdkWindow *window);
 #include "ui.h"
 #include "uimachinemenu.h"
 #include "uimachinewindow.h"
+
+#ifdef MACOSX_SUPPORT
+#include "macOS-util.h"
+#endif
 
 /* FIXME:   someone please add Doxygen docs for this, I can guess what it means
  *          but I'll probably get it wrong. --compyx
@@ -260,13 +257,9 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &widget_x, &widget_y);
 
 #ifdef MACOSX_SUPPORT
-
-        void    *native_window  = gdk_quartz_window_get_nswindow(gtk_widget_get_window(widget));
-        id      content_view    = OBJC_MSGSEND(id, id, SEL)(native_window, sel_getUid("contentView"));
-
         CGRect native_frame, content_rect;
-        OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
-        OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&content_rect, content_view,  sel_getUid("frame"));
+        
+        vice_macos_get_widget_frame_and_content_rect(widget, &native_frame, &content_rect);
 
         /* macOS CoreGraphics coordinates origin is bottom-left of primary display */
         size_t main_display_height = CGDisplayPixelsHigh(CGMainDisplayID());
@@ -681,12 +674,8 @@ void ui_mouse_grab_pointer(void)
         
 #ifdef MACOSX_SUPPORT
 
-    void *native_window = gdk_quartz_window_get_nswindow(gtk_widget_get_window(window));
-    id   content_view   = OBJC_MSGSEND(id, id, SEL)(native_window, sel_getUid("contentView"));
-
     CGRect native_frame, content_rect;
-    OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
-    OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&content_rect, content_view,  sel_getUid("frame"));
+    vice_macos_get_widget_frame_and_content_rect(window, &native_frame, &content_rect);
 
     /* macOS CoreGraphics coordinates origin is bottom-left of primary display */
     size_t main_display_height = CGDisplayPixelsHigh(CGMainDisplayID());
