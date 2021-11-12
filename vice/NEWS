@@ -29,6 +29,12 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 ** general
 ----------
 
+- Warp mode status will no longer be saved in config files
+
+- Increase autostart reliability
+
+- Changing host audio settings no longer resets the emulated sound chip
+
 ** build system
 ---------------
 
@@ -93,6 +99,8 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 ** C128 fixes
 -------------
 
+- Added VDC interlaced rendering support
+
 - Fixed 2Mhz mode unconnected memory space reads.
 
 ** PET fixes
@@ -118,6 +126,16 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - Fix not being able to delete the final character on a line with DEL.
 
+- Drive CPU emulation now catches up to main CPU automatically
+
+- Snapshots autostarted from monitor will immediately update the screen (interlaced screens not fully supported)
+
+- Fixed various user input performance and consistency problems
+
+- 'chis' command now prints a 12 digit cycle counter
+
+- Fixed execution order of multiple -moncommands arguments
+
 ** SDL fixes
 ------------
 
@@ -135,8 +153,12 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - Add application icons to SDL1.2 binaries.
 
+- Fixed display corruption and OpenGL detection on some machines
+
 ** GTK3 fixes
 -------------
+
+- Added bicubic rendering, which improves the look of a resized window with the CRT filter enabled
 
 - Remove sandbox mode
 
