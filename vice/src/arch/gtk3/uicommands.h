@@ -52,4 +52,6 @@ gboolean ui_action_toggle_controlport_swap(void);
 gboolean ui_action_toggle_mouse_grab(void);
 gboolean ui_get_controlport_swapped(void);
 
+gboolean ui_popup_hotkeys_settings(GtkWidget *widget, gpointer data);
+
 #endif
