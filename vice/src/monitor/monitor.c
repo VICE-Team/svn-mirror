@@ -1297,7 +1297,6 @@ void mon_joyport_set_output(int port, int value)
     }
 
     if (command_ok) {
-        joyport_io_sim_set_ddr_lines(0xff, port);   /* Set data direction to output for all joystick lines */
         joyport_io_sim_set_out_lines((uint8_t)value, port);
     } else if (!port_ok) {
         mon_out("Illegal port.\n");

@@ -57,19 +57,16 @@ static int joyport_io_sim_enabled[JOYPORT_MAX_PORTS] = {0};
 static uint8_t joyport_io_sim_data_out[JOYPORT_MAX_PORTS] = {0};
 static uint8_t joyport_io_sim_data_in[JOYPORT_MAX_PORTS] = {0};
 
-/* 1 is output, 0 is input */
-static uint8_t joyport_io_sim_data_ddr[JOYPORT_MAX_PORTS] = {0};
-
 static uint8_t joyport_io_sim_potx[JOYPORT_MAX_PORTS] = {0};
 static uint8_t joyport_io_sim_poty[JOYPORT_MAX_PORTS] = {0};
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef HOST_HARDWARE_IO
-static joyport_t joyport_io_sim_device;
-#else
+#ifdef HOST_HARDWARE_IO
 static joyport_t joyport_io_hw_device;
+#else
+static joyport_t joyport_io_sim_device;
 #endif
 
 static int joyport_io_sim_enable(int port, int value)
@@ -84,7 +81,6 @@ static int joyport_io_sim_enable(int port, int value)
     if (val) {
         joyport_io_sim_data_out[port] = 0;
         joyport_io_sim_data_in[port] = 0;
-        joyport_io_sim_data_ddr[port] = 0;
         joyport_io_sim_potx[port] = 0;
         joyport_io_sim_poty[port] = 0;
     }
@@ -129,7 +125,7 @@ static uint8_t joyport_io_hw_read_poty(int p)
 #else
 static uint8_t joyport_io_sim_read(int port)
 {
-    return joyport_io_sim_data_out[port] & joyport_io_sim_data_ddr[port];
+    return joyport_io_sim_data_out[port];
 }
 
 static void joyport_io_sim_store(int port, uint8_t val)
@@ -209,16 +205,6 @@ int joyport_io_sim_resources_init(void)
 /* ------------------------------------------------------------------------- */
 
 #ifndef HOST_HARDWARE_IO
-void joyport_io_sim_set_ddr_lines(uint8_t val, int port)
-{
-    joyport_io_sim_data_ddr[port] = val & 0x1f;
-}
-
-uint8_t joyport_io_sim_get_ddr_lines(int port)
-{
-    return joyport_io_sim_data_ddr[port];
-}
-
 void joyport_io_sim_set_out_lines(uint8_t val, int port)
 {
     joyport_io_sim_data_out[port] = val & 0x1f;
@@ -226,20 +212,10 @@ void joyport_io_sim_set_out_lines(uint8_t val, int port)
 
 uint8_t joyport_io_sim_get_out_lines(int port)
 {
-    return joyport_io_sim_data_out[port] & joyport_io_sim_data_ddr[port];
-}
-
-uint8_t joyport_io_sim_get_raw_out_lines(int port)
-{
     return joyport_io_sim_data_out[port];
 }
 
 uint8_t joyport_io_sim_get_in_lines(int port)
-{
-    return joyport_io_sim_data_in[port] & ~joyport_io_sim_data_ddr[port];
-}
-
-uint8_t joyport_io_sim_get_raw_in_lines(int port)
 {
     return joyport_io_sim_data_in[port];
 }
@@ -272,14 +248,13 @@ uint8_t joyport_io_sim_get_poty(int port)
    --------------------------------------
    BYTE  | DATA OUT | data out value
    BYTE  | DATA IN  | data in value
-   BYTE  | DDR      | data direction register
    BYTE  | POTX     | pot-x state
    BYTE  | POTY     | pot-y state
  */
 
 static char snap_module_name[] = "JPIOSIM";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 static int joyport_io_sim_write_snapshot(struct snapshot_s *s, int p)
 {
@@ -294,7 +269,6 @@ static int joyport_io_sim_write_snapshot(struct snapshot_s *s, int p)
     if (0 
         || SMW_B(m, joyport_io_sim_data_out[p]) < 0
         || SMW_B(m, joyport_io_sim_data_in[p]) < 0
-        || SMW_B(m, joyport_io_sim_data_ddr[p]) < 0
         || SMW_B(m, joyport_io_sim_potx[p]) < 0
         || SMW_B(m, joyport_io_sim_poty[p]) < 0) {
             snapshot_module_close(m);
@@ -323,7 +297,6 @@ static int joyport_io_sim_read_snapshot(struct snapshot_s *s, int p)
     if (0
         || SMR_B(m, &joyport_io_sim_data_out[p]) < 0
         || SMR_B(m, &joyport_io_sim_data_in[p]) < 0
-        || SMR_B(m, &joyport_io_sim_data_ddr[p]) < 0
         || SMR_B(m, &joyport_io_sim_potx[p]) < 0
         || SMR_B(m, &joyport_io_sim_poty[p]) < 0) {
         goto fail;
