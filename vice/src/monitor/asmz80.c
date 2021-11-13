@@ -346,7 +346,7 @@ static const asm_opcode_info_t opcode_list[] = {
     /* ff */ { "RST 38",     ASM_ADDR_MODE_IMPLIED }
 };
 
-/* BIT instructions */
+/* (CB) BIT instructions */
 static const asm_opcode_info_t opcode_list_cb[] = {
     /* 00 */ { "RLC",        ASM_ADDR_MODE_REG_B },
     /* 01 */ { "RLC",        ASM_ADDR_MODE_REG_C },
@@ -606,7 +606,7 @@ static const asm_opcode_info_t opcode_list_cb[] = {
     /* ff */ { "SET 7,",     ASM_ADDR_MODE_ACCUMULATOR }
 };
 
-/* IX instructions */
+/* (DD) IX instructions */
 static const asm_opcode_info_t opcode_list_dd[] = {
     /* dd 00 */ { "NOP",        ASM_ADDR_MODE_IMPLIED },            /* undoc */
     /* dd 01 */ { "LD BC,",     ASM_ADDR_MODE_IMMEDIATE_16 },       /* undoc */
@@ -866,7 +866,7 @@ static const asm_opcode_info_t opcode_list_dd[] = {
     /* dd ff */ { "RST 38",     ASM_ADDR_MODE_IMPLIED }             /* undoc */
 };
 
-/* IX BIT instructions */
+/* (DD CB) IX BIT instructions */
 static const asm_opcode_info_t opcode_list_dd_cb[] = {
     /* dd cb 00 */ { "",        ASM_ADDR_MODE_IMPLIED },            /* undoc */
     /* dd cb 01 */ { "",        ASM_ADDR_MODE_IMPLIED },            /* undoc */
@@ -1126,7 +1126,7 @@ static const asm_opcode_info_t opcode_list_dd_cb[] = {
     /* dd cb ff */ { "",        ASM_ADDR_MODE_IMPLIED },            /* undoc */
 };
 
-/* extended instructions */
+/* (ED) extended instructions */
 static const asm_opcode_info_t opcode_list_ed[] = {
     /* ed 00 - 3F are undefined */
     /* ed 00 */ { "",           ASM_ADDR_MODE_IMPLIED },            /* undoc */
@@ -1395,7 +1395,7 @@ static const asm_opcode_info_t opcode_list_ed[] = {
     /* ed ff */ { "",           ASM_ADDR_MODE_IMPLIED }             /* undoc */
 };
 
-/* IY instructions */
+/* (FD) IY instructions */
 static const asm_opcode_info_t opcode_list_fd[] = {
     /* fd 00 */ { "NOP",        ASM_ADDR_MODE_IMPLIED },            /* undoc */
     /* fd 01 */ { "LD BC,",     ASM_ADDR_MODE_IMMEDIATE_16 },       /* undoc */
@@ -1655,7 +1655,7 @@ static const asm_opcode_info_t opcode_list_fd[] = {
     /* fd ff */ { "RST 38",     ASM_ADDR_MODE_IMPLIED }             /* undoc */
 };
 
-/* IY BIT instructions */
+/* (FD CB) IY BIT instructions */
 static const asm_opcode_info_t opcode_list_fd_cb[] = {
     /* fd cb 00 */ { "",        ASM_ADDR_MODE_IMPLIED },             /* undoc */
     /* fd cb 01 */ { "",        ASM_ADDR_MODE_IMPLIED },             /* undoc */
