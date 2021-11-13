@@ -12660,7 +12660,7 @@ Attach a 1MiB "1MB Cartridge" image
 
 @findex -cartmagic
 @item -cartmagic <name>
-Attach a 512kiB/1MiB/2MiB "c264 magic cart" image
+Attach a 128kiB/256kiB/512kiB/1MiB/2MiB "c264 magic cart" image
 
 @findex -cartmulti
 @item -cartmulti <name>
@@ -30857,7 +30857,7 @@ which chip chunk goes where, the bank number is used - bank 1 means c2.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 512KiB/1MiB/2MiB (32/64/128 banks of 16KiB)
+@tab 128KiB/256KiB/512KiB/1MiB/2MiB (32/64/128 banks of 16KiB)
 @item Load address
 @tab $8000-$BFFF (C1LO)
 @end multitable

@@ -161,7 +161,7 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Attach 1MiB " CARTRIDGE_PLUS4_NAME_JACINT1MB " image" },
     { "-cartmagic", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_MAGIC, NULL, NULL,
-      "<Name>", "Attach 512kiB/1MiB/2MiB " CARTRIDGE_PLUS4_NAME_MAGIC " image" },
+      "<Name>", "Attach 128kiB/256kiB/512kiB/1MiB/2MiB " CARTRIDGE_PLUS4_NAME_MAGIC " image" },
     { "-cartmulti", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_MULTI, NULL, NULL,
       "<Name>", "Attach 1MiB/2MiB " CARTRIDGE_PLUS4_NAME_MULTI " image" },
