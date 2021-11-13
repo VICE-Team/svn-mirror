@@ -42,12 +42,16 @@
 #include "types.h"
 #include "uimon.h"
 
-#define SKIP_PREFIX() remove_6809_prefix(&prefix, opc)
+/*****************************************************************************/
 
-static void remove_6809_prefix(int *prefix, uint8_t *opc)
+#define SKIP_PREFIX_6809() remove_6809_prefix(mon_cpu_type->cpu_type, &prefix, opc)
+
+static void remove_6809_prefix(CPU_TYPE_t cpu_type, int *prefix, uint8_t *opc)
 {
-    if (opc[0] == 0x10 || opc[0] == 0x11) {
-        ++*prefix;
+    if (cpu_type == CPU_6809) {
+        if (opc[0] == 0x10 || opc[0] == 0x11) {
+            ++*prefix;
+        }
     }
 }
 
@@ -75,6 +79,23 @@ static const char * const reg6309[] = {
 };
 
 const char index_reg6809[] = { 'X', 'Y', 'U', 'S' };
+
+/*****************************************************************************/
+
+#define SKIP_PREFIX_Z80()   remove_z80_prefix(mon_cpu_type->cpu_type, opc, &ival)
+
+static void remove_z80_prefix(CPU_TYPE_t cpu_type, uint8_t *opc, unsigned int *ival)
+{
+    if (cpu_type == CPU_Z80) {
+        if (opc[0] == 0xdd || opc[0] == 0xfd) {
+            *ival = (uint32_t)(opc[2] & 0xff);
+            opc[2] = opc[3];
+            opc[3] = opc[4];
+        }
+    }
+}
+
+/*****************************************************************************/
 
 static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                                                       unsigned int addr, uint8_t opc[5],
@@ -137,6 +158,18 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
     while (*++buffp) {
     }
 
+    /* skip prefix of extended instructions */
+    switch (addr_mode) {
+        case ASM_ADDR_MODE_ABSOLUTE:
+        case ASM_ADDR_MODE_ABSOLUTE_A:
+        case ASM_ADDR_MODE_IMMEDIATE:
+        case ASM_ADDR_MODE_RELATIVE:
+        case ASM_ADDR_MODE_IMMEDIATE_16:
+        case ASM_ADDR_MODE_ZERO_PAGE:
+            SKIP_PREFIX_Z80();
+            break;
+    }
+
     /* Print arguments of the machine instruction. */
     switch (addr_mode) {
         case ASM_ADDR_MODE_IMPLIED:
@@ -161,6 +194,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_Z80_ABSOLUTE_BC:
         case ASM_ADDR_MODE_Z80_ABSOLUTE_DE:
         case ASM_ADDR_MODE_Z80_ABSOLUTE_SP:
+        case ASM_ADDR_MODE_Z80_ABS_INDIRECT_EXT:
             ival |= (uint32_t)((p3 & 0xff) << 16);
             /* fall through */
         case ASM_ADDR_MODE_ABSOLUTE:
@@ -170,7 +204,6 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_ABSOLUTE_HL:
         case ASM_ADDR_MODE_ABS_INDIRECT:
         case ASM_ADDR_MODE_ABS_INDIRECT_X:
-        case ASM_ADDR_MODE_Z80_ABS_INDIRECT_EXT:
         case ASM_ADDR_MODE_ABS_IND_LONG:
             ival |= (uint32_t)((p2 & 0xff) << 8);
             /* fall through */
@@ -475,40 +508,40 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             break;
 
         case ASM_ADDR_MODE_IMM_BYTE:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " #$%02X", opc[prefix + 1]);
             break;
 
         case ASM_ADDR_MODE_IMM_WORD:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             ival = (opc[prefix + 1] << 8) + opc[prefix + 2];
             sprintf(buffp, " #$%04X", ival);
             break;
 
         case ASM_ADDR_MODE_IMM_DWORD:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             ival = (opc[prefix + 1] << 24) + (opc[prefix + 2] << 16) + (opc[prefix + 3] << 8) + opc[prefix + 4];
             sprintf(buffp, " #$%08X", ival);
             break;
 
         case ASM_ADDR_MODE_DIRECT:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " $%02X", opc[prefix + 1]);
             break;
 
         case ASM_ADDR_MODE_IM_DIRECT:   /* unused ? */
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " #$%02X,<$%02X", opc[prefix + 1], opc[prefix + 2]);
             break;
 
         case ASM_ADDR_MODE_EXTENDED:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             ival = (opc[prefix + 1] << 8) + opc[prefix + 2];
             sprintf(buffp, " $%04X", ival);
             break;
 
         case ASM_ADDR_MODE_IM_EXTENDED:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             ival = (opc[prefix + 2] << 8) + opc[prefix + 3];
             sprintf(buffp, " #$%02X,$%04X", opc[prefix + 1], ival);
             break;
@@ -516,7 +549,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_INDEXED:     /* post-byte determines sub-mode */
             {
                 char R;
-                SKIP_PREFIX();
+                SKIP_PREFIX_6809();
                 ival = opc[prefix + 1];
                 R = index_reg6809[(ival >> 5) & 3];
 
@@ -673,7 +706,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_F6809_INDEXED:     /* post-byte determines sub-mode */
             {
                 char R;
-                SKIP_PREFIX();
+                SKIP_PREFIX_6809();
                 ival = opc[prefix + 1];
                 R = index_reg6809[(ival >> 5) & 3];
 
@@ -849,7 +882,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_H6309_INDEXED:     /* post-byte determines sub-mode */
             {
                 char R;
-                SKIP_PREFIX();
+                SKIP_PREFIX_6809();
                 ival = opc[prefix + 1];
                 R = index_reg6809[(ival >> 5) & 3];
 
@@ -1076,7 +1109,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_IM_INDEXED:     /* post-byte determines sub-mode */
             {
                 char R;
-                SKIP_PREFIX();
+                SKIP_PREFIX_6809();
                 ival = opc[prefix + 2];
                 R = index_reg6809[(ival >> 5) & 3];
 
@@ -1307,53 +1340,53 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             break;
 
         case ASM_ADDR_MODE_BITWISE:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " %s,%d,%d,<$%02X", get_6309_bitwise_reg(opc[prefix + 1]), (opc[prefix + 1] & 0x38) >> 3, opc[prefix + 1] & 7, opc[prefix + 2]);
             break;
 
         case ASM_ADDR_MODE_REL_BYTE:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " $%04X", (int8_t)opc[prefix + 1] + addr + opc_size);
             break;
 
         case ASM_ADDR_MODE_REL_WORD:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " $%04X", (uint16_t)((opc[prefix + 1] << 8) + opc[prefix + 2] + addr + opc_size));
             break;
 
         case ASM_ADDR_MODE_REG_POST:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " %s,%s", reg6809[opc[prefix + 1] >> 4], reg6809[opc[prefix + 1] & 15]);
             break;
 
         case ASM_ADDR_MODE_H6309_REG_POST:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " %s,%s", reg6309[opc[prefix + 1] >> 4], reg6309[opc[prefix + 1] & 15]);
             break;
 
         case ASM_ADDR_MODE_TFM_PP:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " %s+,%s+", reg6309[opc[prefix + 1] >> 4], reg6309[opc[prefix + 1] & 15]);
             break;
 
         case ASM_ADDR_MODE_TFM_MM:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " %s-,%s-", reg6309[opc[prefix + 1] >> 4], reg6309[opc[prefix + 1] & 15]);
             break;
 
         case ASM_ADDR_MODE_TFM_PC:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " %s+,%s", reg6309[opc[prefix + 1] >> 4], reg6309[opc[prefix + 1] & 15]);
             break;
 
         case ASM_ADDR_MODE_TFM_CP:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             sprintf(buffp, " %s,%s+", reg6309[opc[prefix + 1] >> 4], reg6309[opc[prefix + 1] & 15]);
             break;
 
         case ASM_ADDR_MODE_SYS_POST:
         case ASM_ADDR_MODE_USR_POST:
-            SKIP_PREFIX();
+            SKIP_PREFIX_6809();
             ival = opc[prefix + 1];
             strcat(buffp, " ");
             if (ival & 0x80) {
