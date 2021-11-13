@@ -980,15 +980,26 @@ darwin*)
   MAC_LDFLAGS="-headerpad_max_install_names"
   MAC_FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit -framework CoreGraphics"
 
+  dnl Macports headers and libraries
+
   AC_CHECK_FILE(/opt/local/include,         [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/local/include" ])
   AC_CHECK_FILE(/opt/local/include/libomp,  [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/local/include/libomp" ])
   AC_CHECK_FILE(/opt/local/lib,             [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib" ])
   AC_CHECK_FILE(/opt/local/lib/libomp,      [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/local/lib/libomp -Wl,-rpath,/opt/local/lib/libomp" ])
 
-  AC_CHECK_FILE(/usr/local/include,         [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include" ])
-  AC_CHECK_FILE(/usr/local/include/libomp,  [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include/libomp" ])
-  AC_CHECK_FILE(/usr/local/lib,             [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib -Wl,-rpath,/usr/local/lib" ])
-  AC_CHECK_FILE(/usr/local/lib/libomp,      [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib/libomp -Wl,-rpath,/usr/local/lib/libomp" ])
+  dnl Homebrew headers and libraries
+
+  if test "`uname -m`" = "arm64"; then
+    AC_CHECK_FILE(/opt/homebrew/include,         [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/homebrew/include" ])
+    AC_CHECK_FILE(/opt/homebrew/include/libomp,  [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/opt/homebrew/include/libomp" ])
+    AC_CHECK_FILE(/opt/homebrew/lib,             [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/homebrew/lib -Wl,-rpath,/opt/homebrew/lib" ])
+    AC_CHECK_FILE(/opt/homebrew/lib/libomp,      [ MAC_LDFLAGS="$MAC_LDFLAGS -L/opt/homebrew/lib/libomp -Wl,-rpath,/opt/homebrew/lib/libomp" ])
+  else
+    AC_CHECK_FILE(/usr/local/include,         [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include" ])
+    AC_CHECK_FILE(/usr/local/include/libomp,  [ MAC_CCPFLAGS="$MAC_CCPFLAGS -I/usr/local/include/libomp" ])
+    AC_CHECK_FILE(/usr/local/lib,             [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib -Wl,-rpath,/usr/local/lib" ])
+    AC_CHECK_FILE(/usr/local/lib/libomp,      [ MAC_LDFLAGS="$MAC_LDFLAGS -L/usr/local/lib/libomp -Wl,-rpath,/usr/local/lib/libomp" ])
+  fi
   
   CPPFLAGS="$CPPFLAGS $MAC_CCPFLAGS"
   VICE_CPPFLAGS="$VICE_CPPFLAGS $MAC_CCPFLAGS"
