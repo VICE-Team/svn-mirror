@@ -76,7 +76,6 @@
 #include "uidiskcreate.h"
 #include "uiedit.h"
 #include "uifliplist.h"
-#include "uihotkeys.h"
 #include "uimedia.h"
 #include "uimenu.h"
 #include "uimonarch.h"
@@ -1004,8 +1003,8 @@ static ui_menu_item_t help_menu[] = {
     { "Compile time features ...", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_HELP_COMPILE_TIME, uicompiletimefeatures_dialog_show, NULL,
       0, 0, true },
-    { "Hotkeys", UI_MENU_TYPE_ITEM_ACTION,
-      ACTION_HELP_HOTKEYS, uihotkeys_dialog_show, NULL,
+    { "Hotkeys ...", UI_MENU_TYPE_ITEM_ACTION,
+      ACTION_HELP_HOTKEYS, ui_popup_hotkeys_settings, NULL,
       0, 0, true },
     { "About VICE", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_HELP_ABOUT, ui_about_dialog_callback, NULL,

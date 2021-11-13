@@ -55,10 +55,12 @@
 #include "vsync.h"
 #include "uiapi.h"
 #include "ui.h"
-#include "uicommands.h"
 #include "uimachinemenu.h"
 #include "uimachinewindow.h"
+#include "uisettings.h"
 #include "widgethelpers.h"
+
+#include "uicommands.h"
 
 
 static gboolean controlport_swapped = FALSE;
@@ -502,5 +504,19 @@ gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data)
             "The new settings will not be saved until using the 'Save"
             " settings' menu item, or having 'Save on exit' enabled and"
             " exiting VICE.");
+    return TRUE;
+}
+
+
+/** \brief  Show settings dialog with hotkeys node activated
+ *
+ * \param[in]   widget  parent widget (unused)
+ * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE to signal the accelerator event has been consumed.
+ */
+gboolean ui_popup_hotkeys_settings(GtkWidget *widget, gpointer data)
+{
+    ui_settings_dialog_create_and_activate_node("host/hotkeys");
     return TRUE;
 }
