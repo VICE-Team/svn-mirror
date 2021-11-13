@@ -152,8 +152,18 @@ int magiccart_bin_attach(const char *filename, uint8_t *rawcart)
 
     memset(rawcart, 0xff, 0x200000); /* FIXME */
 
-    /* we accept 512KiB/1MiB/2MiB images */
+    /* we accept 128KiB/256KiB/512KiB/1MiB/2MiB images */
     switch (len) {
+        case 0x20000:
+            if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                return -1;
+            }
+            break;
+        case 0x40000:
+            if (util_file_load(filename, rawcart, 0x40000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                return -1;
+            }
+            break;
         case 0x80000:
             if (util_file_load(filename, rawcart, 0x80000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
                 return -1;
@@ -200,7 +210,7 @@ int magiccart_crt_attach(FILE *fd, uint8_t *rawcart)
         }
     }
 
-    if ((i != 32) && (i != 64) && (i != 128)) {
+    if ((i != 8) && (i != 16) && (i != 32) && (i != 64) && (i != 128)) {
         return -1;
     }
 
