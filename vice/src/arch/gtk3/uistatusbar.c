@@ -167,6 +167,11 @@ enum {
 #define SB_ROW_KBD          6
 
 
+/** \brief  Size of a statusbar message, including nul character
+ */
+#define MESSAGE_TEXT_SIZE   1024
+
+
 /** \brief Global data that custom status bar widgets base their rendering
  *         on.
  *
@@ -264,10 +269,33 @@ typedef struct ui_sb_state_s {
      *  control port on a Plus/4 without other userport control ports
      *  mean that the set of active joyports may be discontinuous. */
     uint32_t active_joyports;
+
+    /** \brief  Statusbar message
+     *
+     * Message to display in the message widget.
+     */
+    char message_text[MESSAGE_TEXT_SIZE];
+
+    /** \brief  Statusbar message is pending
+     *
+     * Keeps track of whether a newly arrived message has been displayed by the
+     * UI thread.
+     */
+    bool message_pending;
+
+    /** \brief  Statusbar fadeout
+     *
+     * Determines if the current statusbar message should fade out after 5
+     * seconds.
+     */
+    bool message_fadeout;
+
 } ui_sb_state_t;
+
 
 /** \brief Used to safely access sb_state between threads. */
 static pthread_mutex_t sb_state_lock = PTHREAD_MUTEX_INITIALIZER;
+
 
 /** \brief The current state of the status bars across the UI.
  *
@@ -276,6 +304,7 @@ static pthread_mutex_t sb_state_lock = PTHREAD_MUTEX_INITIALIZER;
  * developers that they shouldn't just use sb_state without locking.
  */
 static ui_sb_state_t sb_state_do_not_use_directly;
+
 
 /** \brief The full structure representing a status bar widget.
  *
@@ -2047,33 +2076,23 @@ void ui_display_recording(int recording_status)
 /** \brief  Statusbar API function to display a message in the status bar.
  *
  *  \param  text        The text to display.
- *  \param  fade_out    If nonzero, erase the text after five seconds
+ *  \param  fade_out    If nonzero, erase the text after five* seconds
  *                      unless it has already been replaced.
+ *
+ * \note    Safe to call from VICE thread.
+ * \see     #MESSAGE_TIMEOUT for the actual timeout in seconds
  */
 void ui_display_statustext(const char *text, int fade_out)
 {
-    mainlock_assert_is_not_vice_thread();
+    ui_sb_state_t *sb_state = lock_sb_state();
 
-    GtkWidget *widget = allocated_bars[0].msg;
+    strncpy(sb_state->message_text, text, MESSAGE_TEXT_SIZE);
+    /* strncpy() doesn't add a 0 when len(text) == buflen: */
+    sb_state->message_text[MESSAGE_TEXT_SIZE - 1] = '\0';
+    sb_state->message_fadeout = (bool)fade_out;
+    sb_state->message_pending = true;
 
-
-    /* remove any previous timeout source, if present */
-    if (timeout_id > 0) {
-        /* still an old timeout running, but the message was overwritten,
-         * remove */
-        g_source_remove(timeout_id);
-        timeout_id = 0;
-    }
-
-    gtk_label_set_text(GTK_LABEL(widget), text);
-
-    /* set up timeout if requested */
-    if (fade_out) {
-        timeout_id = g_timeout_add_seconds(
-                MESSAGE_TIMEOUT,
-                message_timeout_handler,
-                widget);
-    }
+    unlock_sb_state();
 }
 
 /** \brief  Statusbar API function to display current volume
@@ -2603,6 +2622,32 @@ void ui_update_statusbars(void)
         }
     }
 
+    /* Message widget */
+    if (sb_state->message_pending) {
+        /* Only the primary window gets statusbar messages (?) */
+        GtkWidget *msg = allocated_bars[0].msg;
+
+       /* remove any previous fadout handler */
+        if (timeout_id > 0) {
+            g_source_remove(timeout_id);;
+            timeout_id = 0;
+        }
+
+        /* set new text */
+        /* debug_gtk3("New status text: '%s'.", sb_state->message_text); */
+        gtk_label_set_text(GTK_LABEL(msg), sb_state->message_text);
+
+        /* do we need a timeout? */
+        if (sb_state->message_fadeout) {
+            timeout_id = g_timeout_add_seconds(
+                    MESSAGE_TIMEOUT,
+                    message_timeout_handler,
+                    msg);
+        }
+        /* we're done */
+        sb_state->message_pending = false;
+    }
+
     unlock_sb_state();
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
@@ -2698,11 +2743,12 @@ void ui_update_statusbars(void)
                         gtk_widget_queue_draw(led);
                     }
                 }
-                
+
                 /* TODO: Another LED for dual drive */
             }
         }
     }
+
 }
 
 
@@ -2797,21 +2843,20 @@ void ui_display_reset(int device, int mode)
         /* machine reset */
         g_snprintf(buffer,
                    sizeof(buffer),
-                   "Machine: RESET (%s)",
+                   "Machine: %s reset",
                    mode == MACHINE_RESET_MODE_SOFT ? "Soft" : "Hard");
     } else if (device == TAPEPORT_UNIT_1 || device == TAPEPORT_UNIT_2) {
         /* datasette reset */
         if (machine_class == VICE_MACHINE_PET) {
-            g_snprintf(buffer, sizeof(buffer), "Datasette #%d: RESET", device);
+            g_snprintf(buffer, sizeof(buffer), "Datasette #%d: Reset", device);
         } else {
-            strcpy(buffer, "Datasette: RESET");
+            strcpy(buffer, "Datasette: Reset");
         }
-    } else if (device >= DRIVE_UNIT_MIN && device == DRIVE_UNIT_MAX) {
+    } else if (device >= DRIVE_UNIT_MIN && device <= DRIVE_UNIT_MAX) {
         /* drive reset */
-        g_snprintf(buffer, sizeof(buffer), "Unit #%d RESET", device);
+        g_snprintf(buffer, sizeof(buffer), "Unit #%d: Reset", device);
     }
 
-    /* on VICE thread, cannot do this: */
-    //ui_display_statustext(buffer, 1);
+    ui_display_statustext(buffer, 1 /* fadeout */);
 }
 
