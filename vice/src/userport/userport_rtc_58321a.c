@@ -201,7 +201,7 @@ static uint8_t userport_rtc_read_pbx(uint8_t orig)
    BYTE  | rtcsave | save rtc offset when detaching
  */
 
-static char snap_module_name[] = "UP_RTC_58321A";
+static const char snap_module_name[] = "UP_RTC_58321A";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

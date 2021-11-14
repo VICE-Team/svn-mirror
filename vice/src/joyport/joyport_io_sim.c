@@ -252,7 +252,7 @@ uint8_t joyport_io_sim_get_poty(int port)
    BYTE  | POTY     | pot-y state
  */
 
-static char snap_module_name[] = "JPIOSIM";
+static const char snap_module_name[] = "JPIOSIM";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

@@ -408,7 +408,7 @@ int joyport_protopad_resources_init(void)
    BYTE  | RAPIDSPEED  | rapid speed selection
  */
 
-static char snap_module_name[] = "PROTOPAD";
+static const char snap_module_name[] = "PROTOPAD";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

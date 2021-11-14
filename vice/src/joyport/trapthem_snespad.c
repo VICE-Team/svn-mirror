@@ -208,7 +208,7 @@ int joyport_trapthem_snespad_resources_init(void)
    BYTE  | CLOCK   | clock line state
  */
 
-static char snap_module_name[] = "TRAPTHEMSNESPAD";
+static const char snap_module_name[] = "TRAPTHEMSNESPAD";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

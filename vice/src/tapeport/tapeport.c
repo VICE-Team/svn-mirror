@@ -567,7 +567,7 @@ void tapeport_enable(int val)
 
 #define DUMP_VER_MAJOR   1
 #define DUMP_VER_MINOR   0
-static char snap_module_name[] = "TAPEPORT";
+static const char snap_module_name[] = "TAPEPORT";
 
 int tapeport_snapshot_write_module(snapshot_t *s, int write_image)
 {

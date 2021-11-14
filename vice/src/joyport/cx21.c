@@ -278,7 +278,7 @@ int joyport_cx21_resources_init(void)
    BYTE  | PORT | PORT register state
  */
 
-static char snap_module_name[] = "CX21";
+static const char snap_module_name[] = "CX21";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

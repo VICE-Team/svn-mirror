@@ -127,7 +127,7 @@ int joyport_vizawrite64_dongle_resources_init(void)
    BYTE  | COUNTER | counter value
  */
 
-static char snap_module_name[] = "VIZAWRITE64";
+static const char snap_module_name[] = "VIZAWRITE64";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

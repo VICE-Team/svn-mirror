@@ -236,7 +236,7 @@ int joyport_ninja_snespad_resources_init(void)
    BYTE  | CLOCK   | clock line state
  */
 
-static char snap_module_name[] = "NINJASNESPAD";
+static const char snap_module_name[] = "NINJASNESPAD";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

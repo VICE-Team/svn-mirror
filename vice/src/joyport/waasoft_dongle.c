@@ -138,7 +138,7 @@ int joyport_waasoft_dongle_resources_init(void)
    BYTE  | CLOCK   | clock line state
  */
 
-static char snap_module_name[] = "WAASOFT";
+static const char snap_module_name[] = "WAASOFT";
 #define SNAP_MAJOR   1
 #define SNAP_MINOR   0
 

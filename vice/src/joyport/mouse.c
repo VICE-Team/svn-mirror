@@ -1722,7 +1722,7 @@ static int read_neos_and_amiga_val_snapshot(snapshot_module_t *m)
    BYTE  | old paddle value 3 | old paddle value 3
  */
 
-static char paddles_snap_module_name[] = "PADDLES";
+static const char paddles_snap_module_name[] = "PADDLES";
 #define PADDLES_VER_MAJOR   0
 #define PADDLES_VER_MINOR   0
 
@@ -1808,7 +1808,7 @@ fail:
    DWORD  | update y emu iv        | update Y emu IV
  */
 
-static char mouse_1351_snap_module_name[] = "MOUSE_1351";
+static const char mouse_1351_snap_module_name[] = "MOUSE_1351";
 #define MOUSE_1351_VER_MAJOR   0
 #define MOUSE_1351_VER_MINOR   0
 
@@ -1887,7 +1887,7 @@ fail:
    DWORD | neos time out cycles | time out cycles
  */
 
-static char mouse_neos_snap_module_name[] = "MOUSE_NEOS";
+static const char mouse_neos_snap_module_name[] = "MOUSE_NEOS";
 #define MOUSE_NEOS_VER_MAJOR   0
 #define MOUSE_NEOS_VER_MINOR   0
 
@@ -2005,7 +2005,7 @@ fail:
    DWORD  | buttons                | buttons state
  */
 
-static char mouse_amiga_snap_module_name[] = "MOUSE_AMIGA";
+static const char mouse_amiga_snap_module_name[] = "MOUSE_AMIGA";
 #define MOUSE_AMIGA_VER_MAJOR   0
 #define MOUSE_AMIGA_VER_MINOR   0
 
@@ -2097,7 +2097,7 @@ fail:
    DWORD  | update y emu iv        | update Y emu IV
  */
 
-static char mouse_cx22_snap_module_name[] = "MOUSE_CX22";
+static const char mouse_cx22_snap_module_name[] = "MOUSE_CX22";
 #define MOUSE_CX22_VER_MAJOR   0
 #define MOUSE_CX22_VER_MINOR   0
 
@@ -2184,7 +2184,7 @@ fail:
    DWORD  | buttons                | buttons state
  */
 
-static char mouse_st_snap_module_name[] = "MOUSE_ST";
+static const char mouse_st_snap_module_name[] = "MOUSE_ST";
 #define MOUSE_ST_VER_MAJOR   0
 #define MOUSE_ST_VER_MINOR   0
 
@@ -2276,7 +2276,7 @@ fail:
    DWORD  | update y emu iv        | update Y emu IV
  */
 
-static char mouse_smart_snap_module_name[] = "MOUSE_SMART";
+static const char mouse_smart_snap_module_name[] = "MOUSE_SMART";
 #define MOUSE_SMART_VER_MAJOR   0
 #define MOUSE_SMART_VER_MINOR   0
 
@@ -2367,7 +2367,7 @@ fail:
    DWORD  | up down pulse end      | up down pulse end
  */
 
-static char mouse_micromys_snap_module_name[] = "MOUSE_MICROMYS";
+static const char mouse_micromys_snap_module_name[] = "MOUSE_MICROMYS";
 #define MOUSE_MICROMYS_VER_MAJOR   0
 #define MOUSE_MICROMYS_VER_MINOR   0
 
@@ -2456,7 +2456,7 @@ fail:
    WORD   | old paddle value 3 | old paddle value 3
  */
 
-static char koalapad_snap_module_name[] = "KOALAPAD";
+static const char koalapad_snap_module_name[] = "KOALAPAD";
 #define KOALAPAD_VER_MAJOR   0
 #define KOALAPAD_VER_MINOR   0
 

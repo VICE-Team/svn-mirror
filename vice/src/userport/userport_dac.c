@@ -199,7 +199,7 @@ static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk)
    BYTE  | voice      | voice
  */
 
-static char snap_module_name[] = "UPDAC";
+static const char snap_module_name[] = "UPDAC";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

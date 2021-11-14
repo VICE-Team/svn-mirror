@@ -65,7 +65,7 @@
 #define TCRT_MAGIC_LEN  13
 
 
-static char idstring[] = "TAPECART V1.0 W25QFLASH";
+static const char idstring[] = "TAPECART V1.0 W25QFLASH";
 
 
 static int tapecart_enabled       = 0;
@@ -1309,7 +1309,7 @@ static clock_t cmdmode_dispatch_command(void)
 
         case CMD_READ_DEVICEINFO:
             transmit_1bit(0, (uint8_t *)idstring,
-                          (unsigned int)(strlen(idstring) + 1U),
+                          (unsigned int)(sizeof(idstring)),
                           cmdmode_receive_command);
             break;
 

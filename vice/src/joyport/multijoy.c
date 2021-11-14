@@ -184,7 +184,7 @@ int joyport_multijoy_resources_init(void)
    BYTE  | ADDRESS | which joystick is active
  */
 
-static char snap_module_name[] = "MULTIJOY";
+static const char snap_module_name[] = "MULTIJOY";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

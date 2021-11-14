@@ -213,7 +213,7 @@ int joyport_bbrtc_cmdline_options_init(void)
    BYTE  | DATA | data line state
  */
 
-static char snap_module_name[] = "BBRTC";
+static const char snap_module_name[] = "BBRTC";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

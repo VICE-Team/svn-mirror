@@ -209,7 +209,7 @@ static void dtlbasic_sense_out(int port, int sense)
    DWORD | state   | device state
  */
 
-static char snap_module_name[] = "TP_DTLBASIC";
+static const char snap_module_name[] = "TP_DTLBASIC";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

@@ -141,7 +141,7 @@ static uint8_t userport_8bss_read_pbx(uint8_t orig)
    BYTE  | channel | channel flag
  */
 
-static char snap_module_name[] = "UP8BSS";
+static const char snap_module_name[] = "UP8BSS";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
