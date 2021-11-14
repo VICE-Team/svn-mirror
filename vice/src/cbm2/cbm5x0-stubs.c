@@ -31,9 +31,6 @@
 #include "types.h"
 #include "userport_io_sim.h"
 
-void userport_io_sim_set_pbx_ddr_lines(uint8_t val)
-{
-}
 
 void userport_io_sim_set_pbx_out_lines(uint8_t val)
 {
