@@ -79,11 +79,12 @@ static const int addr_mode_size[] = {
     -1,/* ASM_ADDR_MODE_REG_IND_BC */
     -1,/* ASM_ADDR_MODE_REG_IND_DE */
     -1,/* ASM_ADDR_MODE_REG_IND_HL */
-    -1,/* ASM_ADDR_MODE_REG_IND_IX */
     -1,/* ASM_ADDR_MODE_REG_IND_IY */
     -1,/* ASM_ADDR_MODE_REG_IND_SP */
     -1,/* ASM_ADDR_MODE_Z80_IND_IMMEDIATE */
     -1,/* ASM_ADDR_MODE_Z80_IND_REG */
+    -1,/* ASM_ADDR_MODE_IND_IX_REG */
+    -1,/* ASM_ADDR_MODE_IND_IY_REG */
        /* R65C02 */
     -1,/* ASM_ADDR_MODE_INDIRECT */
     -1,/* ASM_ADDR_MODE_ABS_INDIRECT_X */
