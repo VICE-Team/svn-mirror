@@ -29,7 +29,119 @@
    This device provides a way of simulating the data input and
    output lines of a userport device, can be used to test the
    userport system.
-*/
+
+   Userport pin names, numbers and groups for different machines:
+
+   x64/x64sc/xscpu64/x128
+   ----------------------
+
+   PIN     ID   NAME
+   ---     --   ----
+   /RESET   3   RES*
+   /PC2     8   PC*
+   PA3      9   PA3
+   /FLAG2   B   FLAG*
+   PB0      C   PB0
+   PB1      D   PB1
+   PB2      E   PB2
+   PB3      F   PB3
+   PB4      H   PB4
+   PB5      J   PB5
+   PB6      K   PB6
+   PB7      L   PB7
+   PA2      M   PA2
+
+   PBX = PB0/PB1/PB2/PB3/PB4/PB5/PB6/PB7
+   PAX = PA2/PA3
+
+   x64dtv
+   ------
+
+   PIN     ID   NAME
+   ---     --   ----
+   PB0     1    PB0
+   PB1     2    PB1
+   PB2     3    PB2
+   PB3     4    PB5
+   PB4     5    PB6
+
+   PBX = PB0/PB1/PB2/PB3/PB4
+
+   xvic
+   ----
+
+   PIN     ID   NAME
+   ---     --   ----
+   /RESET   3   RES*
+   CB1      B   CB1
+   PB0      C   PB0
+   PB1      D   PB1
+   PB2      E   PB2
+   PB3      F   PB3
+   PB4      H   PB4
+   PB5      J   PB5
+   PB6      K   PB6
+   PB7      L   PB7
+   CB2      M   CB2
+
+   PBX->PB0/PB1/PB2/PB3/PB4/PB5/PB6/PB7
+
+   xpet
+   ----
+
+   PIN     ID   NAME
+   ---     --   ----
+   CA1     B    CA1
+   PB0     C    PB0
+   PB1     D    PB1
+   PB2     E    PB2
+   PB3     F    PB3
+   PB4     H    PB4
+   PB5     J    PB5
+   PB6     K    PB6
+   PB7     L    PB7
+   CB2     M    CB2
+
+   PBX->PB0/PB1/PB2/PB3/PB4/PB5/PB6/PB7
+
+   xplus4
+   ------
+
+   PIN     ID   NAME
+   ---     --   ----
+   /RESET   3   RES*
+   P2       4   P2
+   P3       5   P3
+   P4       6   P4
+   P5       7   P5
+   P0       B   P0
+   P7       F   P7
+   P6       J   P6
+   P1       K   P1
+
+   PX->P0/P1/P2/P3/P4/P5/P6/P7
+
+   xcbm2
+   -----
+
+   PIN     ID   NAME
+   ---     --   ----
+   PA2      2   PA2
+   PA3      4   PA3
+   PC       5   PC
+   /FLAG    6   FLAG
+   1D7     15   PB7
+   1D6     16   PB6
+   1D5     17   PB5
+   1D4     18   PB4
+   1D3     19   PB3
+   1D2     20   PB2
+   1D1     21   PB1
+   1D0     22   PB0
+
+   PBX = PB0/PB1/PB2/PB3/PB4/PB5/PB6/PB7
+   PAX = PA2/PA3
+ */
 
 /* #define HOST_HARDWARE_IO */
 
