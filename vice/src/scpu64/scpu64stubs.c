@@ -169,7 +169,6 @@ void tapeport_set_tape_sense(int sense, int port)
 {
 }
 
-#if !defined(USE_SDLUI) && !defined(USE_SDL2UI)
 tapeport_desc_t *tapeport_get_valid_devices(int port, int sort)
 {
     return NULL;
@@ -184,4 +183,3 @@ int tapeport_valid_port(int port)
 {
     return 0;
 }
-#endif
