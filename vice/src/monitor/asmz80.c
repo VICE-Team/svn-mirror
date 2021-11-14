@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -1666,7 +1667,7 @@ static const asm_opcode_info_t opcode_list_fd_cb[] = {
     /* fd cb .. 03 */ { "RLC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 04 */ { "RLC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 05 */ { "RLC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
-    /* fd cb .. 06 */ { "RLC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
+    /* fd cb .. 06 */ { "RLC",     ASM_ADDR_MODE_IND_IY_REG },
     /* fd cb .. 07 */ { "RLC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 08 */ { "RRC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 09 */ { "RRC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
@@ -1674,7 +1675,7 @@ static const asm_opcode_info_t opcode_list_fd_cb[] = {
     /* fd cb .. 0b */ { "RRC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 0c */ { "RRC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 0d */ { "RRC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
-    /* fd cb .. 0e */ { "RRC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
+    /* fd cb .. 0e */ { "RRC",     ASM_ADDR_MODE_IND_IY_REG },
     /* fd cb .. 0f */ { "RRC",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 10 */ { "RL",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 11 */ { "RL",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
@@ -1682,7 +1683,7 @@ static const asm_opcode_info_t opcode_list_fd_cb[] = {
     /* fd cb .. 13 */ { "RL",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 14 */ { "RL",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 15 */ { "RL",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
-    /* fd cb .. 16 */ { "RL",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
+    /* fd cb .. 16 */ { "RL",      ASM_ADDR_MODE_IND_IY_REG },
     /* fd cb .. 17 */ { "RL",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 18 */ { "RR",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 19 */ { "RR",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
@@ -1690,7 +1691,7 @@ static const asm_opcode_info_t opcode_list_fd_cb[] = {
     /* fd cb .. 1b */ { "RR",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 1c */ { "RR",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 1d */ { "RR",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
-    /* fd cb .. 1e */ { "RR",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
+    /* fd cb .. 1e */ { "RR",      ASM_ADDR_MODE_IND_IY_REG },
     /* fd cb .. 1f */ { "RR",      ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 20 */ { "SLA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 21 */ { "SLA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
@@ -1698,7 +1699,7 @@ static const asm_opcode_info_t opcode_list_fd_cb[] = {
     /* fd cb .. 23 */ { "SLA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 24 */ { "SLA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 25 */ { "SLA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
-    /* fd cb .. 26 */ { "SLA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
+    /* fd cb .. 26 */ { "SLA",     ASM_ADDR_MODE_IND_IY_REG },
     /* fd cb .. 27 */ { "SLA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 28 */ { "SRA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 29 */ { "SRA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
@@ -1706,7 +1707,7 @@ static const asm_opcode_info_t opcode_list_fd_cb[] = {
     /* fd cb .. 2b */ { "SRA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 2c */ { "SRA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 2d */ { "SRA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
-    /* fd cb .. 2e */ { "SRA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
+    /* fd cb .. 2e */ { "SRA",     ASM_ADDR_MODE_IND_IY_REG },
     /* fd cb .. 2f */ { "SRA",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 30 */ { "SLL",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 31 */ { "SLL",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
@@ -1722,7 +1723,7 @@ static const asm_opcode_info_t opcode_list_fd_cb[] = {
     /* fd cb .. 3b */ { "SRL",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 3c */ { "SRL",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 3d */ { "SRL",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
-    /* fd cb .. 3e */ { "SRL",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
+    /* fd cb .. 3e */ { "SRL",     ASM_ADDR_MODE_IND_IY_REG },
     /* fd cb .. 3f */ { "SRL",     ASM_ADDR_MODE_IND_IY_REG | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 40 */ { "BIT 0,",  ASM_ADDR_MODE_REG_IND_IY | ASM_ADDR_MODE_UNDOC },
     /* fd cb .. 41 */ { "BIT 0,",  ASM_ADDR_MODE_REG_IND_IY | ASM_ADDR_MODE_UNDOC },
