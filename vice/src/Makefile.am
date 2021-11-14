@@ -688,7 +688,6 @@ x64_libs =  \
 	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(c64_lib) \
-	$(tapeport_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
@@ -739,7 +738,6 @@ x64sc_libs =  \
 	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(c64sc_lib) \
-	$(tapeport_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
@@ -889,7 +887,6 @@ x128_libs =  \
 	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(c128_lib) \
-	$(tapeport_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
