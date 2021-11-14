@@ -42,9 +42,6 @@
 #import "log.h"
 #import "resources.h"
 
-/* For some reason this isn't in the GDK quartz headers */
-id gdk_quartz_window_get_nswindow (GdkWindow *window);
-
 #define NANOS_PER_MICRO 1000ULL
 #define MICROS_PER_SEC  1000000ULL
 
@@ -179,6 +176,7 @@ void vice_macos_set_render_thread_priority(void)
     move_pthread_to_realtime_scheduling_class(pthread_self(), 0, MICROS_PER_SEC / 1000 * 5, MICROS_PER_SEC / 1000 * 17);
 }
 
+#ifdef USE_NATIVE_GTK3
 void vice_macos_get_widget_frame_and_content_rect(GtkWidget *widget, CGRect *native_frame, CGRect *content_rect)
 {
     id native_window  = gdk_quartz_window_get_nswindow(gtk_widget_get_window(widget));
@@ -187,3 +185,4 @@ void vice_macos_get_widget_frame_and_content_rect(GtkWidget *widget, CGRect *nat
     *native_frame = [native_window frame];
     *content_rect = [content_view frame];
 }
+#endif
