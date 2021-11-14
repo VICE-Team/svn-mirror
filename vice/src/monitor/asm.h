@@ -82,11 +82,13 @@ enum asm_addr_mode {
     ASM_ADDR_MODE_REG_IND_BC,               /* z80 */
     ASM_ADDR_MODE_REG_IND_DE,               /* z80 */
     ASM_ADDR_MODE_REG_IND_HL,               /* z80 */
-    ASM_ADDR_MODE_REG_IND_IX,               /* z80 */
-    ASM_ADDR_MODE_REG_IND_IY,     /* 44 */  /* z80 */
+    ASM_ADDR_MODE_REG_IND_IX,               /* z80 */       /* B, (IX+$12) */
+    ASM_ADDR_MODE_REG_IND_IY,     /* 44 */  /* z80 */       /* B, (IY+$12) */
     ASM_ADDR_MODE_REG_IND_SP,               /* z80 */
     ASM_ADDR_MODE_Z80_IND_IMMEDIATE,        /* z80 */
     ASM_ADDR_MODE_Z80_IND_REG,    /* 47 */  /* z80 */
+    ASM_ADDR_MODE_IND_IX_REG,               /* z80 */       /* (IX+$12), B */
+    ASM_ADDR_MODE_IND_IY_REG,               /* z80 */       /* (IY+$12), B */
     /* R65C02 */
     ASM_ADDR_MODE_INDIRECT,                 /* 65816, R65C02 */
     ASM_ADDR_MODE_ABS_INDIRECT_X,           /* 65816, R65C02 */
@@ -103,31 +105,33 @@ enum asm_addr_mode {
     ASM_ADDR_MODE_MOVE,                     /* 65816 */
     ASM_ADDR_MODE_ABS_IND_LONG,             /* 65816 */
     /* more modes needed for 6809 */
-    ASM_ADDR_MODE_ILLEGAL,        /* 61 */                                          /* 6809 */
-    ASM_ADDR_MODE_IMM_BYTE,       /* 62 looks like  ASM_ADDR_MODE_IMMEDIATE */      /* 6809 */
-    ASM_ADDR_MODE_IMM_WORD,       /* 63 looks like  ASM_ADDR_MODE_IMMEDIATE_16 */   /* 6809 */
-    ASM_ADDR_MODE_DIRECT,         /* 64 looks like  ASM_ADDR_MODE_ZERO_PAGE */      /* 6809 */
-    ASM_ADDR_MODE_EXTENDED,       /* 65 looks like  ASM_ADDR_MODE_ABSOLUTE */       /* 6809 */
-    ASM_ADDR_MODE_INDEXED,        /* 66 post-byte determines sub-mode */            /* 6809, 65816 */
-    ASM_ADDR_MODE_REL_BYTE,       /* 67 */                                          /* 6809 */
-    ASM_ADDR_MODE_REL_WORD,       /* 68 */                                          /* 6809 */
-    ASM_ADDR_MODE_REG_POST,       /* 69 */                                          /* 6809 */
-    ASM_ADDR_MODE_SYS_POST,       /* 70 */                                          /* 6809 */
-    ASM_ADDR_MODE_USR_POST,       /* 71 */                                          /* 6809 */
+    ASM_ADDR_MODE_ILLEGAL,        /* 63 */                                          /* 6809 */
+    ASM_ADDR_MODE_IMM_BYTE,       /* 64 looks like  ASM_ADDR_MODE_IMMEDIATE */      /* 6809 */
+    ASM_ADDR_MODE_IMM_WORD,       /* 65 looks like  ASM_ADDR_MODE_IMMEDIATE_16 */   /* 6809 */
+    ASM_ADDR_MODE_DIRECT,         /* 66 looks like  ASM_ADDR_MODE_ZERO_PAGE */      /* 6809 */
+    ASM_ADDR_MODE_EXTENDED,       /* 67 looks like  ASM_ADDR_MODE_ABSOLUTE */       /* 6809 */
+    ASM_ADDR_MODE_INDEXED,        /* 68 post-byte determines sub-mode */            /* 6809, 65816 */
+    ASM_ADDR_MODE_REL_BYTE,       /* 69 */                                          /* 6809 */
+    ASM_ADDR_MODE_REL_WORD,       /* 70 */                                          /* 6809 */
+    ASM_ADDR_MODE_REG_POST,       /* 71 */                                          /* 6809 */
+    ASM_ADDR_MODE_SYS_POST,       /* 72 */                                          /* 6809 */
+    ASM_ADDR_MODE_USR_POST,       /* 73 */                                          /* 6809 */
     /* more modes needed for FULL 6809 */
-    ASM_ADDR_MODE_F6809_INDEXED,  /* 72 post-byte determines sub-mode (FULL 6809) */
+    ASM_ADDR_MODE_F6809_INDEXED,  /* 74 post-byte determines sub-mode (FULL 6809) */
     /* more modes needed for 6309 */
-    ASM_ADDR_MODE_IM_DIRECT,      /* 73 #$xx,<$xx */
-    ASM_ADDR_MODE_IM_EXTENDED,    /* 74 #$xx,$xxxx */
-    ASM_ADDR_MODE_IM_INDEXED,     /* 75 #$xx,sub-mode */
-    ASM_ADDR_MODE_BITWISE,        /* 76 R,x,x,<$xx */
-    ASM_ADDR_MODE_TFM_PP,         /* 77 R+,R+ */
-    ASM_ADDR_MODE_TFM_MM,         /* 78 R-,R- */
-    ASM_ADDR_MODE_TFM_PC,         /* 79 R+,R */
-    ASM_ADDR_MODE_TFM_CP,         /* 80 R,R+ */
-    ASM_ADDR_MODE_IMM_DWORD,      /* 81 #$xxxxxxxx */
-    ASM_ADDR_MODE_H6309_INDEXED,  /* 82 post-byte determines sub-mode (6309 indexed) */
-    ASM_ADDR_MODE_H6309_REG_POST  /* 83 (6309 post) */
+    ASM_ADDR_MODE_IM_DIRECT,      /* 75 #$xx,<$xx */
+    ASM_ADDR_MODE_IM_EXTENDED,    /* 76 #$xx,$xxxx */
+    ASM_ADDR_MODE_IM_INDEXED,     /* 77 #$xx,sub-mode */
+    ASM_ADDR_MODE_BITWISE,        /* 78 R,x,x,<$xx */
+    ASM_ADDR_MODE_TFM_PP,         /* 79 R+,R+ */
+    ASM_ADDR_MODE_TFM_MM,         /* 80 R-,R- */
+    ASM_ADDR_MODE_TFM_PC,         /* 81 R+,R */
+    ASM_ADDR_MODE_TFM_CP,         /* 82 R,R+ */
+    ASM_ADDR_MODE_IMM_DWORD,      /* 83 #$xxxxxxxx */
+    ASM_ADDR_MODE_H6309_INDEXED,  /* 84 post-byte determines sub-mode (6309 indexed) */
+    ASM_ADDR_MODE_H6309_REG_POST, /* 85 (6309 post) */
+    /* flag to tag undocumented opcodes, so we can ignore them in the assembler and tag them in the disassembler */
+    ASM_ADDR_MODE_UNDOC = 0x1000
 };
 typedef enum asm_addr_mode asm_addr_mode_t;
 

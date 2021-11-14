@@ -87,7 +87,7 @@ const char index_reg6809[] = { 'X', 'Y', 'U', 'S' };
 static void remove_z80_prefix(CPU_TYPE_t cpu_type, uint8_t *opc, unsigned int *ival)
 {
     if (cpu_type == CPU_Z80) {
-        if (opc[0] == 0xdd || opc[0] == 0xfd) {
+        if (opc[0] == 0xed || opc[0] == 0xdd || opc[0] == 0xfd) {
             *ival = (uint32_t)(opc[2] & 0xff);
             opc[2] = opc[3];
             opc[3] = opc[4];
@@ -105,7 +105,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
     static char buff[256];
     const char *string;
     char *buffp, *addr_name;
-    int addr_mode;
+    int addr_mode, is_undoc;
     unsigned int opc_size;
     unsigned int ival;    /* Use unsigned int because DWORD may be a long. */
     uint16_t ival2;
@@ -127,7 +127,8 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
     }
     opinfo = (mon_cpu_type->asm_opcode_info_get)(x, p1, p2, p3);
     string = opinfo->mnemonic;
-    addr_mode = opinfo->addr_mode;
+    addr_mode = opinfo->addr_mode & ~ASM_ADDR_MODE_UNDOC;
+    is_undoc = opinfo->addr_mode & ASM_ADDR_MODE_UNDOC;
     opc_size = (mon_cpu_type->asm_addr_mode_get_size)((unsigned int)(addr_mode), x, p1, p2, p3);
 
     if (opc_size_p) {
@@ -136,23 +137,29 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
     switch (opc_size) {
         case 1:
-            sprintf(buff, "%02X          %s", x, string);
+            sprintf(buff, "%02X          %s%s", x,
+                    is_undoc ? "*" : "", string);
             break;
         case 2:
-            sprintf(buff, "%02X %02X       %s", x, p1 & 0xff, string);
+            sprintf(buff, "%02X %02X       %s%s", x, p1 & 0xff,
+                    is_undoc ? "*" : "", string);
             break;
         case 3:
-            sprintf(buff, "%02X %02X %02X    %s", x, p1 & 0xff, p2 & 0xff, string);
+            sprintf(buff, "%02X %02X %02X    %s%s", x, p1 & 0xff, p2 & 0xff,
+                    is_undoc ? "*" : "", string);
             break;
         case 4:
-            sprintf(buff, "%02X %02X %02X %02X %s", x, p1 & 0xff, p2 & 0xff, p3 & 0xff, string);
+            sprintf(buff, "%02X %02X %02X %02X %s%s", x, p1 & 0xff, p2 & 0xff, p3 & 0xff,
+                    is_undoc ? "*" : "", string);
             break;
         case 5:
-            sprintf(buff, "%02X%02X%02X %02X%02X %s", x, p1 & 0xff, p2 & 0xff, p3 & 0xff, p4 & 0xFF, string);
+            sprintf(buff, "%02X%02X%02X %02X%02X %s%s", x, p1 & 0xff, p2 & 0xff, p3 & 0xff, p4 & 0xFF,
+                    is_undoc ? "*" : "", string);
             break;
         default:
             mon_out("Invalid opcode length: %u\n", opc_size);
-            sprintf(buff, "            %s", string);
+            sprintf(buff, "            %s%s",
+                    is_undoc ? "*" : "", string);
     }
 
     while (*++buffp) {
@@ -166,6 +173,8 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_RELATIVE:
         case ASM_ADDR_MODE_IMMEDIATE_16:
         case ASM_ADDR_MODE_ZERO_PAGE:
+        case ASM_ADDR_MODE_ABS_INDIRECT:
+        case ASM_ADDR_MODE_ABSOLUTE_HL:
             SKIP_PREFIX_Z80();
             break;
     }
@@ -491,12 +500,39 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
         case ASM_ADDR_MODE_REG_IND_IX:
             sprintf(buffp, (hex_mode ? " (IX%c$%02X)" : " (IX%c%3u)"),
-                    (p2 & 0x80) ? '-' : '+', (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2));
+                    (p2 & 0x80) ? '-' : '+',
+                    (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2));
+            break;
+
+        case ASM_ADDR_MODE_IND_IX_REG:
+            if ((p3 & 7) == 6) {
+                sprintf(buffp, (hex_mode ? " (IX%c$%02X)" : " (IX%c%3u)"),
+                        (p2 & 0x80) ? '-' : '+',
+                        (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2));
+            } else {
+                sprintf(buffp, (hex_mode ? " (IX%c$%02X), %c" : " (IX%c%3u), %c"),
+                        (p2 & 0x80) ? '-' : '+',
+                        (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2),
+                        "BCDEHL?A"[p3 & 7]);
+            }
             break;
 
         case ASM_ADDR_MODE_REG_IND_IY:
             sprintf(buffp, (hex_mode ? " (IY%c$%02X)" : " (IY%c%3u)"),
                     (p2 & 0x80) ? '-' : '+', (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2));
+            break;
+
+        case ASM_ADDR_MODE_IND_IY_REG:
+            if ((p3 & 7) == 6) {
+                sprintf(buffp, (hex_mode ? " (IY%c$%02X)" : " (IY%c%3u)"),
+                        (p2 & 0x80) ? '-' : '+',
+                        (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2));
+            } else {
+                sprintf(buffp, (hex_mode ? " (IY%c$%02X), %c" : " (IY%c%3u), %c"),
+                        (p2 & 0x80) ? '-' : '+',
+                        (unsigned int)((p2 & 0x80) ? (p2 ^ 0xff) + 1 : p2),
+                        "BCDEHL?A"[p3 & 7]);
+            }
             break;
 
         case ASM_ADDR_MODE_REG_IND_SP:
