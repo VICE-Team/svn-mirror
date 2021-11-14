@@ -101,12 +101,23 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
 - Added VDC interlaced rendering support
 
+- Added Interlaced Sync mode to VDC (Interlaced Sync and Video was already implemented)
+  Both modes now work with the new interlace-aware renderers
+
+- VDC memory mirroring behaviour improved
+
+- VDC busy flag behaviour improved
+
 - Fixed 2Mhz mode unconnected memory space reads.
+
+- Added missing SDL symbolic keymap for US keyboard
 
 ** PET fixes
 ------------
 
 - New datasette #2 emulation.
+
+- Monitor IO dump for CRTC improved with internal register dump, interlace status and layout fixes
 
 ** C1541 fixes
 --------------
@@ -558,6 +569,7 @@ Some features have been deprecated and are now disabled by default:
 -------------
 
 - FD2000/4000 work again, including burst mode
+- Several bugs fixed in the MMU IO dump in the monitor.
 
 ** VIC20 fixes
 --------------
