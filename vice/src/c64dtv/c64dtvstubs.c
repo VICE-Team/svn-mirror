@@ -30,7 +30,10 @@
 
 #include <stdlib.h>
 
+#include "machine.h"
+#include "tapecart.h"
 #include "tapeport.h"
+
 
 tapeport_desc_t *tapeport_get_valid_devices(int port, int sort)
 {
