@@ -32,7 +32,6 @@
 
 #include "tapeport.h"
 
-#if !defined(USE_SDLUI) && !defined(USE_SDL2UI)
 tapeport_desc_t *tapeport_get_valid_devices(int port, int sort)
 {
     return NULL;
@@ -47,4 +46,31 @@ int tapeport_valid_port(int port)
 {
     return 0;
 }
-#endif
+
+int machine_autodetect_psid(const char *name)
+{
+    return -1;
+}
+
+int tapeport_device_register(int id, tapeport_device_t *device)
+{
+    return 0;
+}
+
+void tapeport_trigger_flux_change(unsigned int on, int port)
+{
+}
+
+void tapeport_set_tape_sense(int sense, int port)
+{
+}
+
+int tapecart_is_valid(const char *filename)
+{
+    return 0;   /* FALSE */
+}
+
+int tapecart_attach_tcrt(const char *filename, void *unused)
+{
+    return -1;
+}
