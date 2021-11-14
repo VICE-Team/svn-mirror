@@ -45,6 +45,11 @@
 #define NANOS_PER_MICRO 1000ULL
 #define MICROS_PER_SEC  1000000ULL
 
+#ifdef USE_NATIVE_GTK3
+/* For some reason this isn't in the GDK quartz headers */
+id gdk_quartz_window_get_nswindow (GdkWindow *window);
+#endif
+
 void vice_macos_set_main_thread(void)
 {
     /*

@@ -35,9 +35,6 @@
 #ifdef USE_NATIVE_GTK3
 #import <CoreGraphics/CGGeometry.h>
 #import <gtk/gtk.h>
-
-/* For some reason this isn't in the GDK quartz headers */
-id gdk_quartz_window_get_nswindow (GdkWindow *window);
 #endif
 
 void vice_macos_set_main_thread(void);
