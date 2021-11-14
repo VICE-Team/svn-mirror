@@ -26,6 +26,8 @@ We welcome to the team:
 
 June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
+Pablo Roldan aka durandal, who contributed improvements and fixes to the RS-232 emulation.
+
 ** general
 ----------
 
@@ -34,6 +36,12 @@ June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 - Increase autostart reliability
 
 - Changing host audio settings no longer resets the emulated sound chip
+
+- Added hardware flow control to the userport RS-232 emulation
+
+- Added selection of control lines behaviour for userport RS-232 emulation
+
+- Fixes to ACIA hardware flow control, DCD and DSR lines behaviour, register reset values
 
 ** build system
 ---------------
