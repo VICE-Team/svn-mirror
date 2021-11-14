@@ -1660,7 +1660,7 @@ static int p_expand(int version, int addr, int ctrls)
 
     while ((fread(line, 1, 2, source) == 2) && (line[1]) && fread(line + 2, 1, 2, source) == 2) {
         quote = 0;
-        fprintf(dest, " %4d ", (spnum = (line[2] & 0xff) + ((line[3] & 0xff) << 8)));
+        fprintf(dest, "%5d ", (spnum = (line[2] & 0xff) + ((line[3] & 0xff) << 8)));
 
         if (directory) {
             if (spnum >= 100) {
