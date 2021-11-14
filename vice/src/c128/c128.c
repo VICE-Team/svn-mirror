@@ -1215,11 +1215,14 @@ int machine_specific_init(void)
         c128ui_init_early();
     }
 
-    if (vdc_init() == NULL) {
+    /* We init VICII first, so the VICII GtkWindow gets window index 0, which
+     * the UI code expects for x128
+     */
+    if (vicii_init(VICII_EXTENDED) == NULL) {
         return -1;
     }
 
-    if (vicii_init(VICII_EXTENDED) == NULL) {
+    if (vdc_init() == NULL) {
         return -1;
     }
 
