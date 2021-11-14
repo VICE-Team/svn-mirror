@@ -203,7 +203,7 @@ int joyport_paperclip64_resources_init(void)
    BYTE  | state   | state
  */
 
-static char snap_module_name[] = "PAPERCLIP64";
+static const char snap_module_name[] = "PAPERCLIP64";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

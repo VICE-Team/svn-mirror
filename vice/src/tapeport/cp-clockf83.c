@@ -200,7 +200,7 @@ static void tapertc_store_scl(int port, int write_bit)
    BYTE  | motor | motor state
  */
 
-static char snap_module_name[] = "TP_CP_CLOCK_F83";
+static const char snap_module_name[] = "TP_CP_CLOCK_F83";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

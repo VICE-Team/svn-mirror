@@ -554,7 +554,7 @@ void lightpen_update(int window, int x, int y, int buttons)
    DWORD | button x | button X state
  */
 
-static char snap_module_name[] = "LIGHTPEN";
+static const char snap_module_name[] = "LIGHTPEN";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

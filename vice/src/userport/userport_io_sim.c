@@ -531,7 +531,7 @@ uint8_t userport_io_sim_get_pax_in_lines(void)
    BYTE  | PAX OUT | port a out state
  */
 
-static char snap_module_name[] = "UPIOSIM";
+static const char snap_module_name[] = "UPIOSIM";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   2
 

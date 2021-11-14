@@ -225,7 +225,7 @@ int joyport_inception_resources_init(void)
    BYTE  | CLOCK   | clock line state
  */
 
-static char snap_module_name[] = "INCEPTION";
+static const char snap_module_name[] = "INCEPTION";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

@@ -186,7 +186,7 @@ static userport_device_t userport_spaceballs_device = {
    BYTE  | GROUNDS | userport PBx state
  */
 
-static char snap_module_name[] = "SPACEBALLS";
+static const char snap_module_name[] = "SPACEBALLS";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

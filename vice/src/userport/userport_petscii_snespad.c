@@ -216,7 +216,7 @@ static uint8_t userport_snespad_read_pbx(uint8_t orig)
    BYTE  | LATCH   | latch line state
  */
 
-static char snap_module_name[] = "UPPETSCII";
+static const char snap_module_name[] = "UPPETSCII";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

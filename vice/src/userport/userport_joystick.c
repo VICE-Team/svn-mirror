@@ -998,7 +998,7 @@ static void userport_joystick_synergy_store_pbx(uint8_t value, int pulse)
    BYTE  | select | joyport select
  */
 
-static char cga_module_name[] = "UPJOYCGA";
+static const char cga_module_name[] = "UPJOYCGA";
 #define CGA_VER_MAJOR   0
 #define CGA_VER_MINOR   1
 
@@ -1114,7 +1114,7 @@ static int userport_joystick_oem_read_snapshot_module(snapshot_t *s)
    BYTE  | retval | current serial port brigde value
  */
 
-static char hit_module_name[] = "UPJOYHIT";
+static const char hit_module_name[] = "UPJOYHIT";
 #define HIT_VER_MAJOR   0
 #define HIT_VER_MINOR   1
 
@@ -1187,7 +1187,7 @@ fail:
  */
 
 /* FIXME */
-static char kingsoft_module_name[] = "UPJOYKINGSOFT";
+static const char kingsoft_module_name[] = "UPJOYKINGSOFT";
 #define KINGSOFT_VER_MAJOR   0
 #define KINGSOFT_VER_MINOR   1
 
@@ -1259,7 +1259,7 @@ fail:
    BYTE  | retval | current serial port bridge value
  */
 
-static char starbyte_module_name[] = "UPJOYSTARBYTE";
+static const char starbyte_module_name[] = "UPJOYSTARBYTE";
 #define STARBYTE_VER_MAJOR   0
 #define STARBYTE_VER_MINOR   1
 
@@ -1331,7 +1331,7 @@ fail:
    BYTE  | select | joyport select
  */
 
-static char synergy_module_name[] = "UPJOYSYNERGY";
+static const char synergy_module_name[] = "UPJOYSYNERGY";
 #define SYNERGY_VER_MAJOR   0
 #define SYNERGY_VER_MINOR   1
 
