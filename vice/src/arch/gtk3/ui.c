@@ -1424,12 +1424,10 @@ static gboolean rendering_area_event_handler(GtkWidget *canvas,
  *
  * \param[in]   canvas  the video_canvas_s to initialize
  *
- * \warning The code that calls this apparently creates the VDC window
- *          for x128 before the VIC window (primary) - this is
- *          probably done so the VIC window ends up being on top of
- *          the VDC window. however, we better call some "move window
- *          to front" function instead, and create the windows
- *          starting with the primary one.
+ * \warning The order of the windows created for x128 depends on the order of
+ *          the calls to vicii_init() and vdc_init() in src/c128/c128.c.
+ *          That order is currently set to vicii before vdc so we get the proper
+ *          window indexes. There has to be a better way.
  */
 void ui_create_main_window(video_canvas_t *canvas)
 {
