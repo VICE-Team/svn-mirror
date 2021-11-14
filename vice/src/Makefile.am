@@ -788,6 +788,7 @@ x64dtv_libs =  \
 	$(archdep_lib) \
 	$(c64dtv_lib) \
 	$(c64c64dtv_lib) \
+	$(datasette_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveiecc64exp_lib) \
