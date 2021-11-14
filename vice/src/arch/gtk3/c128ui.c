@@ -197,11 +197,15 @@ int c128ui_init(void)
 
     /* push VDC display to front depending on 40/80 key */
     if (resources_get_int("C128ColumnKey", &forty) >= 0) {
-        if (!forty) {
-            GtkWidget *window = ui_get_window_by_index(1); /* VDC */
-            if (window != NULL) {
-                gtk_window_present(GTK_WINDOW(window));
-            }
+        GtkWidget *window;
+
+        if (forty) {
+            window = ui_get_window_by_index(0); /* VICIIe */
+        } else {
+            window = ui_get_window_by_index(1); /* VDC */
+        }
+        if (window != NULL) {
+            gtk_window_present(GTK_WINDOW(window));
         }
     }
 
