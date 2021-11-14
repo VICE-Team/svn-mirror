@@ -51,12 +51,13 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
     bool found = FALSE;
     MEMSPACE mem;
     uint16_t loc;
-    uint8_t const prefix[5] = { 0x00, 0xcb, 0xdd, 0xed, 0xfd };
+    uint8_t const prefix[7]  = { 0x00, 0xcb, 0xdd, 0xed, 0xfd, 0xdd, 0xfd };
+    uint8_t const prefix2[7] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0xcb, 0xcb };
 
     mem = addr_memspace(asm_mode_addr);
     loc = addr_location(asm_mode_addr);
 
-    for (j = 0; j < 5; j++) {
+    for (j = 0; j < 7; j++) {
         i = 0;
         do {
             const asm_opcode_info_t *opinfo = NULL;
@@ -72,10 +73,18 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
                     opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xdd, i, 0, 0);
                     break;
                 case 0xed:
-                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xed, i, 0, 0);
+                    if (prefix2[j]) {
+                        opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xed, 0xcb, 0, i);
+                    } else {
+                        opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xed, i, 0, 0);
+                    }
                     break;
                 case 0xfd:
-                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xfd, i, 0, 0);
+                    if (prefix2[j]) {
+                        opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xfd, 0xcb, 0, i);
+                    } else {
+                        opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xfd, i, 0, 0);
+                    }
                     break;
             }
 
