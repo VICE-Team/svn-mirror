@@ -20227,7 +20227,7 @@ supported by the emulators.
 
 @node TAP, T64, File formats, File formats
 @section The raw tape image format
-          
+
 (This section is based on v1.1 TAP specification by Per Hakan Sundell and Markus 
 Brenner, additional format v2 expansion by Markus Brenner, plus some editing
 by groepaz)
@@ -20273,7 +20273,7 @@ This image is $00082151  bytes long.
 @item $0014-xxxx
 @tab File data
 @end multitable
-            
+
   In TAP version $00 files, each data byte in the file data area represents
 the length of a pulse, when the C64's hardware  will  trigger  again.  This
 pulse length is determined by the following formula:
@@ -20287,22 +20287,22 @@ pulse length is determined by the following formula:
   A data value of $00 represents an "overflow" condition, any pulse  length
 which is more that 255 * 8 in length.
 
-The value of "clock cyvles" from above  (985248)  is  based  on  the  PAL
+The value of "clock cycles" from above  (985248)  is  based  on  the  PAL
 value.  Since  this  file  format  was  developed  in  Europe,   which   is
 predominantly PAL video, this is only logical.  The  NTSC  value  would  be
 1022730, which is very close to  the  PAL,  and  therefore  won't  cause  a
 compatability problem converting European and NTSC tapes. I would stick  to
 using the PAL value just in case.
 
-In TAP version $01 files, the data value of  $00  has  been  re-coded  to
-represent values greater than 255 * 8. When a  $00  is  encountered,  three
-bytes will follow which are the actual time (in cycles) of a pulse, and the
-above formula does not apply.  The  three  bytes  are  stored  in  LOW/HIGH
-format.
+In TAP version $01 files, the data value of $00 has been re-purposed to
+represent cycle exact values, which may also be greater than 255 * 8. When a $00
+is encountered, three bytes will follow which are the actual time (in cycles)
+of a pulse, and the above formula does not apply. The three bytes are stored in
+LOW/HIGH format.
 
-Version 2 is an extension made by Markus Brenner for C16 tapes. It is version 1, 
-but each value represents a halfwave, starting with a '0'->'1' transition. 
-The time encoding doesn't change.
+TAP Version 2 is an extension made by Markus Brenner for C16 tapes. It is
+version 1, but each value represents a halfwave, starting with a '0'->'1'
+transition. The time encoding doesn't change.
 
 The actual interpretation of the serial data takes a little more work  to
 explain.  The  typical  ROM  tape  loader  (and  the  turbo  loaders)  will
