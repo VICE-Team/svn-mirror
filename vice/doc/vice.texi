@@ -19550,6 +19550,9 @@ Read a block from a disk image and write it to the host filesystem as
 Write data from the host filesystem using @code{filename} as input. At most 256
 bytes are written to the disk image.
 
+@item cd <dir>
+Change the current working directory to @code{dir}.
+
 @item chain <track> <sector> [<unit>] | <filename>
 Show block chain starting at (@code{track}, @code{sector}), or alternatively use @code{filename} to show the block chain of a file in the directory. The last number
 shown is the number of bytes used in the final block.

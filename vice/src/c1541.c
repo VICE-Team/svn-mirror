@@ -181,6 +181,7 @@ static int bpeek_cmd(int nargs, char **args);
 static int bpoke_cmd(int nargs, char **args);
 static int bread_cmd(int nargs, char **args);
 static int bwrite_cmd(int nargs, char **args);
+static int cd_cmd(int nargs, char **args);
 static int chain_cmd(int nargs, char **args);
 static int copy_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
@@ -322,6 +323,11 @@ const command_t command_list[] = {
       "file system",
       3, 4,
       bwrite_cmd },
+    { "cd",
+      "cd <hostdir>",
+      "Change current host directory path",
+      1, 1,
+      cd_cmd },
     { "chain",
       "chain <track> <sector> [<unit>] | <filename>",
       "Follow and print block chain starting at (<track>,<sector>)",
@@ -5678,6 +5684,23 @@ static int p00save_cmd(int nargs, char **args)
 
     p00save[dnr] = (unsigned int)enable;
     return FD_OK;
+}
+
+
+/** \brief  Change current host directory path
+ *
+ * Syntax: cd \<hostdir>
+ *
+ * Where \a hostdir is the path to directory on the host
+ *
+ * \param[in]   nargs   number of arguments
+ * \param[in]   args    optional arguments (unused
+ *
+ * \return  0 on success, < 0 on failure
+ */
+static int cd_cmd(int nargs, char **args)
+{
+    return ioutil_chdir(args[1]) ? FD_BADNAME : FD_OK;
 }
 
 
