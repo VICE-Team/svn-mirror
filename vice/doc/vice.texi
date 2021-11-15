@@ -140,6 +140,7 @@ Copyright @copyright{} 2019-2021 David Hogan
 Copyright @copyright{} 2020-2021 Empathic Qubit
 Copyright @copyright{} 2020-2021 Roberto Muscedere
 Copyright @copyright{} 2021 June Tate-Gans
+Copyright @copyright{} 2021 Pablo Roldan
 @c ---vice-core-team-end---
 
 @c ---ex-team---
@@ -31743,6 +31744,11 @@ One of the driving forces behind the 'native' GTK3 port.
 @b{June Tate-Gans}
 Made the dual window feature for the SDL2 UI.
 
+@item
+@b{Pablo Roldan}
+Contributed improvements and fixes to the RS-232 emulation. Contributed
+initial patch for VIC-II PAL-N model selection.
+
 @end itemize
 
 Former/inactive team members:
@@ -32350,10 +32356,6 @@ Made 1541 GCR hardware tests.
 Fixed various issues related to ffmpeg settings.
 
 @item
-@b{Pablo Roldán}
-Contributed initial patch for VIC-II PAL-N model selection.
-
-@item
 @b{Mathias Roslund}
 Provided the AmigaOS4 port.
 
@@ -32601,6 +32603,8 @@ Copyright @copyright{} 2020-2021 Empathic Qubit
 Copyright @copyright{} 2020-2021 Roberto Muscedere
 @item
 Copyright @copyright{} 2021 June Tate-Gans
+@item
+Copyright @copyright{} 2021 Pablo Roldan
 
 @item
 Copyright @copyright{} 2011-2016 Stefan Haubenthal
