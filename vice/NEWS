@@ -24,24 +24,71 @@ in the UI).
 
 We welcome to the team:
 
-June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
+- June Tate-Gans who added the dual screen mode (for x128) to the SDL UI.
 
-Pablo Roldan aka durandal, who contributed improvements and fixes to the RS-232 emulation.
+- Pablo Roldan aka durandal, who contributed improvements and fixes to the
+  RS-232 emulation.
+
 
 ** general
 ----------
 
-- Warp mode status will no longer be saved in config files
+- Warp mode status will no longer be saved in config files.
 
-- Increase autostart reliability
+- Increased autostart reliability.
 
-- Changing host audio settings no longer resets the emulated sound chip
+- Changing host audio settings no longer resets the emulated sound chip.
 
-- Added hardware flow control to the userport RS-232 emulation
+- Added hardware flow control to the userport RS-232 emulation.
 
-- Added selection of control lines behaviour for userport RS-232 emulation
+- Added selection of control lines behaviour for userport RS-232 emulation.
 
-- Fixes to ACIA hardware flow control, DCD and DSR lines behaviour, register reset values
+- Fixes to ACIA hardware flow control, DCD and DSR lines behaviour, register
+  reset values.
+
+- (Re-)added tun/tap support for Ethernet emulation, including support for
+  "capabilites", so it can work without root/Administrator rights
+
+- "Device Traps" and "True Drive Emulation" can now be selected per 
+   drive/device.
+
+- Various fixes related to keyboard mappings. For details please read
+  https://sourceforge.net/p/vice-emu/mailman/message/37380515/
+
+- Fixed problems related to Caps-Lock and Shift-Lock emulation
+
+- Added support for piping printer output and RS232 I/O through an external
+  executable on windows.
+
+- Fliplist (.vfl) support tweaked to be compatible with devices like sd2iec,
+  pi1541 and Turbo Chameleon. Fliplists in the old format can still be loaded,
+  newly created ones will always use the new format (see manual).
+
+- Removed pointless "dither" column from palette files and -format.
+
+- Some improvements in the 1520 plotter emulation.
+
+- Extend images directly from 35 to 40 and then 42 tracks, as other sizes are 
+  not used anywhere else in the world
+
+- More realistic implementation of tape wobble.
+
+- Fixed p64 wraparound.
+
+- Added option to write out the raw data produced by reSID (for debugging).
+
+- Made 48kHz the default for sound output, since that is what most modern stuff
+  uses natively.
+
+- Log the random seed and added a commandline option to set a seed, useful to
+  reproduce things that depend on randomness.
+
+- At exit log all resources with non default values, and a reconstructed
+  commandline, which should make it easier for people that are reporting bugs.
+
+- when mounting Dxx GCR images, add a reasonable skew per track to make the
+  disk layout a bit more realistic
+
 
 ** build system
 ---------------
@@ -51,6 +98,11 @@ Pablo Roldan aka durandal, who contributed improvements and fixes to the RS-232 
 - All targets can now be build seperately (eg make x64sc).
 
 - Fixed building on cygwin.
+
+- removed support for building with embedded ROMs
+
+- Made the new 8580 filter implementation the default for configure.
+
 
 ** Joystick fixes
 -----------------
@@ -77,55 +129,122 @@ Pablo Roldan aka durandal, who contributed improvements and fixes to the RS-232 
 
 - All SNES pad buttons are supported now.
 
-- Joystick adapters with more than 1 port are always mapped to the extra joysticks from now on.
+- Joystick adapters with more than 1 port are always mapped to the extra
+  joysticks from now on.
 
-- Joystick adapters with only 1 port are mapped to the port they are attached to.
+- Joystick adapters with only 1 port are mapped to the port they are attached
+  to.
 
 - SIDcard joystick of the plus4 is now always mapped to extra joystick #4.
 
 - New autofire button support.
 
-- New virtual I/O simulation device for the joyport, allows pins to be changed by the user from the monitor.
+- New virtual I/O simulation device for the joyport, allows pins to be changed
+  by the user from the monitor.
+
 
 ** Userport fixes
 -----------------
 
-- Only one userport device can be attached to the userport at a time from now on.
+- Only one userport device can be attached to the userport at a time from now
+  on.
 
-- New virtual I/O simulation device for the userport, allows pins to be changed by the user from the monitor.
+- New virtual I/O simulation device for the userport, allows pins to be changed
+  by the user from the monitor.
+
 
 ** Tapeport fixes
 -----------------
 
 - Only one tapeport device can be attached at a time from now on.
 
+
 ** C64 fixes
 ------------
 
 - Added REX Ramfloppy loading & saving of the RAM contents.
+
+- Added support for "Hucky's EPROM Cartridge", implemented as a variant of the
+  RGCD cartridge.
+
+- Added "Turtle Graphics II" cartridge emulation.
+
+- Added "IEEE Flash 64" cartridge emulation.
+
+- Added "Freeze Frame MK2" cartridge emulation.
+
+- Super Snapshot V5 fixes.
+
+- WarpSpeed emulation matches the behaviour of the real hardware better.
+
+- Renamed "H.E.R.O. Bootleg" cartridge type to "Drean".
+
+- Fixed REU floating bus behaviour (256KiB REU).
+
+- Removed GEORam sizes smaller than 512KiB - Those never existed.
+
 
 ** C128 fixes
 -------------
 
 - Added VDC interlaced rendering support
 
-- Added Interlaced Sync mode to VDC (Interlaced Sync and Video was already implemented)
-  Both modes now work with the new interlace-aware renderers
+- Added Interlaced Sync mode to VDC (Interlaced Sync and Video was already
+  implemented) Both modes now work with the new interlace-aware renderers.
 
-- VDC memory mirroring behaviour improved
+- VDC memory mirroring behaviour improved.
 
-- VDC busy flag behaviour improved
+- VDC busy flag behaviour improved.
 
 - Fixed 2Mhz mode unconnected memory space reads.
 
 - Added missing SDL symbolic keymap for US keyboard
+
+
+** VIC20 fixes
+-------------
+
+- Added VIC interlaced rendering support
+
+- Added support for .crt files
+
+- Added support for screenshots in native vic20 format
+
+- Added "VIC-1001" model
+
+- Don’t update VIC potx / poty registers more often than every 512 cycles.
+
+
+** Plus4 fixes
+-------------
+
+- Added "jacint1 1MB Cartridge" emulation
+
+- Added "c264 magic cart" emulation
+
+- Added "Plus4 multi cart" emulation
+
+- Added support for .crt files
+
 
 ** PET fixes
 ------------
 
 - New datasette #2 emulation.
 
-- Monitor IO dump for CRTC improved with internal register dump, interlace status and layout fixes
+- Added support for .t64 files
+
+- Monitor IO dump for CRTC improved with internal register dump, interlace
+  status and layout fixes
+
+- Overhaul PET CB2 sound output sample generation.
+
+
+** CBM2 fixes
+-------------
+
+- Fixed datasette emulation (only with .tap files right now)
+
 
 ** C1541 fixes
 --------------
@@ -136,6 +255,22 @@ Pablo Roldan aka durandal, who contributed improvements and fixes to the RS-232 
 
 - Make the `extract` command detect circular track/sector links.
 
+
+** cartconv fixes
+-----------------
+
+- Added support for the new extended CRT V2 format, which now supports all
+  other CBM computers (see manual for details).
+
+- Added support for C128, VIC20 and Plus4 cartridges.
+
+
+** cartconv fixes
+-----------------
+
+- correctly align (5 digit) line numbers.
+
+
 ** Monitor fixes
 ----------------
 
@@ -145,20 +280,34 @@ Pablo Roldan aka durandal, who contributed improvements and fixes to the RS-232 
 
 - Fix not being able to delete the final character on a line with DEL.
 
-- Drive CPU emulation now catches up to main CPU automatically
+- Drive CPU emulation now catches up to main CPU automatically.
 
-- Snapshots autostarted from monitor will immediately update the screen (interlaced screens not fully supported)
+- Snapshots autostarted from monitor will immediately update the screen
+  (interlaced screens not fully supported).
 
-- Fixed various user input performance and consistency problems
+- Fixed various user input performance and consistency problems.
 
-- 'chis' command now prints a 12 digit cycle counter
+- 'chis' command now prints a 12 digit cycle counter.
 
-- Fixed execution order of multiple -moncommands arguments
+- 'chis' command now works for drives
+
+- Fixed execution order of multiple -moncommands arguments.
+
+- Fixed single-stepping on "secondary" CPU (eg Z80 in x128).
+
+- Fixed Z80 disasssembler, all opcodes are supported now.
+
+- Make the CPU bank the default, not RAM.
+
+- In x64sc, fixed reading 0/1 when CPU bank is active.
+
+- Fixed display of multicolor sprites.
+
 
 ** SDL fixes
 ------------
 
-- New SDL2 dual window support.
+- New SDL2 dual window support (VDC in x128).
 
 - Removed unneeded items from some SDL menus.
 
@@ -166,7 +315,8 @@ Pablo Roldan aka durandal, who contributed improvements and fixes to the RS-232 
 
 - Fixed relative paths in the SDL file/directory selection dialog.
 
-- New host joystick axis mapping support for emulated paddles and analog joysticks.
+- New host joystick axis mapping support for emulated paddles and analog 
+  joysticks.
 
 - Mapping of host joysticks menu now shows what the pins are already mapped to.
 
@@ -174,12 +324,14 @@ Pablo Roldan aka durandal, who contributed improvements and fixes to the RS-232 
 
 - Fixed display corruption and OpenGL detection on some machines
 
+
 ** GTK3 fixes
 -------------
 
-- Added bicubic rendering, which improves the look of a resized window with the CRT filter enabled
+- Added bicubic rendering, which improves the look of a resized window with the
+  CRT filter enabled.
 
-- Remove sandbox mode
+- Remove sandbox mode.
 
 - Fixed statusbar recording status widget display issues.
 
@@ -236,8 +388,8 @@ Pablo Roldan aka durandal, who contributed improvements and fixes to the RS-232 
 
 - Fix statusbar layout issues.
 
-- Add customizable keyboard shortcuts ('hotkeys'). See doc/gtk3-hotkeys.md for
-  details.
+- Add customizable keyboard shortcuts ('hotkeys'). Those who were missing the
+  old WinVICE hotkeys can use gtk3-winvice-legacy.vhk
 
 
 * Changes in Vice 3.5
@@ -445,12 +597,12 @@ Some features have been deprecated and are now disabled by default:
 - ‘stop’ is no more ending up in recorded monitor command playback files
 - Support `cd ~` to change cwd to $HOME
 - Added 'mkdir' command
-- Aadded 'rmdir' command
-- Aadded "verify" and "bverify" commands to compare memory with a file
-- Aadded optional address to the `screen` command
+- Added 'rmdir' command
+- Added "verify" and "bverify" commands to compare memory with a file
+- Added optional address to the `screen` command
 - `chis` shows the cycle count as well now
-- Aadded option to configure the number of lines used for chis
-- Aadded option to change the size of the scrollback buffer
+- Added option to configure the number of lines used for chis
+- Added option to change the size of the scrollback buffer
 
 - Added "dummy" command to enable or disable whether break- and watchpoints
   trigger at dummy accesses or not.
