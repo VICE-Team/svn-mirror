@@ -368,6 +368,7 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
     cmd_parse->filetype = 0;
     cmd_parse->readmode = (cmd_parse->secondary == 1)
                           ? CBMDOS_FAM_WRITE : CBMDOS_FAM_READ;
+    cmd_parse->colon = 0;
     /* drive is not reset here */
 
     if (cmd_parse->full == NULL || cmd_parse->fulllength == 0) {
@@ -384,6 +385,10 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
         }
         /* look for a ':' to separate the unit/part-path from name */
         p2 = memchr(p, ':', limit - p);
+        /* if a colon is found, flag it */
+        if (p2) {
+            cmd_parse->colon = 1;
+        }
         /* check for special commands without : */
         if (*p == '$' || *p == '#') {
             special = 1;
@@ -566,6 +571,10 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
         }
         /* look for a ':' to separate the unit/part-path from name */
         p2 = memchr(p, ':', limit - p);
+        /* if a colon is found, flag it */
+        if (p2) {
+            cmd_parse->colon = 1;
+        }
 
         special = (*p == 'U');
         /* check for command before unit/partition number (I,V,C,etc) */
