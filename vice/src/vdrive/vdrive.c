@@ -539,7 +539,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
 #endif
 
     vdrive->haspt = haspt;
-    vdrive->dir_part = drive;
+/*    vdrive->dir_part = drive; */
 
     if (haspt) {
         vdrive->current_offset = UINT32_MAX;

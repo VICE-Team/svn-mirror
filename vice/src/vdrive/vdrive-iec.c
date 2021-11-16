@@ -216,8 +216,7 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
             return SERIAL_OK;
         }
     }
-    retlen = vdrive_dir_first_directory(vdrive, cmd_parse->file,
-                 cmd_parse->filelength, CBMDOS_FT_DEL, p);
+    retlen = vdrive_dir_first_directory(vdrive, cmd_parse, p);
 
     p->length = (unsigned int)retlen;
     p->bufptr = 0;
@@ -538,10 +537,13 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
             if (vdrive->haspt) {
                 /* if no drive # supplied, and CMD HD/FD use 0 */
                 cmd_parse->drive = 0;
-            } else {
-                /* setup multi drive list */
+            } else if (cmd_parse->filelength == 0 && cmd_parse->colon == 0) {
+                /* setup multi drive list if only "$" */
                 cmd_parse->drive = vdrive->dir_part;
                 vdrive->dir_count = NUM_DRIVES;
+            } else {
+                /* no multidrive */
+                cmd_parse->drive = vdrive->dir_part;
             }
         } else {
             /* otherwise remember part for next multi list */
@@ -970,8 +972,7 @@ static int iec_read_sequential(vdrive_t *vdrive, uint8_t *data,
             p->partition = vdrive->dir_part;
             /* switch to the other drive if possible */
             if (!vdrive_iec_switch(vdrive, p)) {
-                p->length = vdrive_dir_first_directory(vdrive, NULL,
-                                0, CBMDOS_FT_DEL, p);
+                p->length = vdrive_dir_first_directory(vdrive, NULL, p);
                 p->bufptr = 0;
             } else {
                 /* if not, the transfer is done */
