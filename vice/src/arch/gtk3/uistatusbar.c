@@ -860,6 +860,7 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
         GtkWidget *dir_menu;
 
         dir_menu = dir_menu_popup_create(port,
+                                         0,
                                          tapecontents_read,
                                          tape_dir_autostart_callback);
         gtk_menu_popup_at_widget(GTK_MENU(dir_menu),
@@ -879,8 +880,7 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
  *
  *  \param[in]  widget  The GtkWidget that received the click. Ignored.
  *  \param[in]  event   The event representing the bottom operation.
- *  \param[in]  data    An integer representing which window's status bar was
- *                      clicked and thus where the popup window should go.
+ *  \param[in]  data    Unit number (bits 0-7) and drive number (bit 8)
  *
  *  \return TRUE if further event processing should be skipped.
  */
@@ -889,7 +889,8 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     GtkWidget *drive_menu;
     GtkWidget *drive_menu_item;
     gchar buffer[256];
-    int i = GPOINTER_TO_INT(data);
+    int i = GPOINTER_TO_INT(data) & 0xff;
+    int drive = GPOINTER_TO_INT(data) >> 8;
 
     mainlock_assert_is_not_vice_thread();
 
@@ -972,6 +973,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         /* show popup to run file in currently attached image */
         GtkWidget *dir_menu = dir_menu_popup_create(i + DRIVE_UNIT_MIN,
+                                                    drive,
                                                     diskcontents_filesystem_read,
                                                     disk_dir_autostart_callback);
 
@@ -1583,6 +1585,19 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
     dual = state_snapshot->drives_dual;
     for (i = 0; i < NUM_DISK_UNITS; ++i) {
 
+        /* FIXME:   Properly update for dual-drives: don't use the statusbar
+         *          grid directly, but wrap each unit's drive's widgets
+         *          (unit:drive, track/sector, led) in a separate grid with an
+         *          event box (so we can pop up seperate directory/attach/flip
+         *          menus for each drive).
+         *          Wrap the drives of a unit in another grid so we pack those
+         *          closely together and add more padding between units. Wrap
+         *          those unit grids in another grid that gets added to the
+         *          statusbar as a single widget. Also keep references to each
+         *          of these grids and implement accessors so we can drop the
+         *          g_object_ref_sink() stuff and simplify the widget updating
+         *          code for changes in drive activity. (yay)
+         */
         if ((state & 1) || (dual & 1)) {
             GtkWidget *drive = allocated_bars[bar_index].drives[i];
             GtkWidget *event_box = gtk_event_box_new();
