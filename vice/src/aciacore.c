@@ -43,6 +43,7 @@
 #include "rs232.h"
 #include "snapshot.h"
 #include "types.h"
+#include "monitor.h"
 
 uint8_t myacia_read(uint16_t addr);
 
@@ -397,6 +398,8 @@ static void set_acia_ticks(void)
 
     /*
      * we neglect the fact that we might have 1.5 stop bits instead of 2
+     *
+     * FIX ME!!! 8-bit mode with parity should have only 1 stop bit
      */
     bits += 1 /* the start bit */
             + ((acia.cmd & ACIA_CMD_BITS_PARITY_ENABLED) ? 1 : 0) /* parity or not */
@@ -1242,8 +1245,52 @@ static void int_acia_rx(CLOCK offset, void *data)
     }
 }
 
-int acia_dump(void *acia_context)
+int acia_dump(void)
 {
-    /* FIXME: dump details using mon_out(), return 0 on success */
-    return -1;
+    uint8_t st;
+    uint8_t wl;
+    char* sb;
+    const char* parity = "NONENMNS";
+    char p;
+
+    /* Status register */
+    st = myacia_peek(0x01);
+    /* Word length */
+    wl = 8 - ((myacia_peek(0x03) & 0x60) >> 5);
+    /* Parity bit */
+    p = parity[(myacia_peek(0x02) & 0xE0) >> 5];
+    /* Stop bit(s) */
+    if (myacia_peek(0x03) & 0x80) {
+        switch (wl) {
+            case 8:
+                if (p != 'N') {
+                    sb = "1";
+                } else {
+                    sb = "2";
+                }
+                break;
+            case 5:
+                if (p == 'N') {
+                    sb = "1.5";
+                } else {
+                    sb = "2";
+                }
+                break;
+            default:
+                sb = "2";
+        }
+    } else {
+        sb = "1";
+    }
+
+    mon_out("Receive Interrupt: %s\n", (myacia_peek(0x02) & 0x02) ? "off" : "on");
+    mon_out("DR Rx: %02x Status: %s\t%s\t%s\t%s\n", myacia_peek(0x00), (st & 0x08) ? "[Full]" : "[Not Full]", (st & 0x01) ? "[Parity Error]" : "",
+        (st & 0x02) ? "[Framming Error]" : "", (st & 0x04) ? "[Overrun]" : "");
+    mon_out("\nTransmit Interrupt: %s\n", ((myacia_peek(0x02) & 0x0c) == 0x04) ? "on" : "off");
+    mon_out("DR Tx: %02x Status: %s\n", acia.txdata, (st & 0x10) ? "[Empty]" : "[Not Empty]");
+    mon_out("\nRTS: %s\tDTR: %s\n", (myacia_peek(0x02) & 0x0c) ? "Low" : "High", (myacia_peek(0x02) & 0x01) ? "Low" : "High");
+    mon_out("DCD: %s\tDSR: %s\n", (st & 0x20) ? "High" : "Low", (st & 0x40) ? "High" : "Low");
+    mon_out("\nSpeed/format: %g bps / %u-%c-%s\n", get_acia_bps(), wl, p, sb);
+    mon_out("Echo: %s\n", (myacia_peek(0x02) & 0x10) ? "On" : "Off");
+    return 0;
 }

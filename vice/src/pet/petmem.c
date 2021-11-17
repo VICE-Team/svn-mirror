@@ -1946,7 +1946,7 @@ static int mem_dump_io(void *context, uint16_t addr)
             return efe0_dump();
         } else if (addr >= 0xeff0 && addr <= 0xeff3) {
             /* ACIA */
-            /* return aciacore_dump(); */
+            return acia1_dump();
         } else if (addr == 0xeff8) {
             /* Control switch */
             mon_out("CPU: %s\n",
