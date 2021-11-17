@@ -128,6 +128,6 @@ enum {
 
 #define ACIA_MODE_LOWEST ACIA_MODE_NORMAL
 
-int acia_dump(void *acia_context);
+int acia_dump(void);
 
 #endif

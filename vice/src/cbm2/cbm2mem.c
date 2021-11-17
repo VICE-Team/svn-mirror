@@ -1195,7 +1195,7 @@ static io_source_t acia_device = {
     NULL,                  /* NO poke function */
     acia1_read,            /* read function */
     acia1_peek,            /* peek function */
-    NULL,                  /* TODO: chip state information dump function */
+    acia1_dump,            /* chip state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
     0                      /* insertion order, gets filled in by the registration function */
