@@ -1352,7 +1352,7 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), ram_widget, 1, 1, 1, 1);
 
     resources_get_int("MemoryHack", &hack);
-    gtk_widget_set_sensitive(memhack_widget, hack == MEMORY_HACK_NONE);
+    gtk_widget_set_sensitive(ram_widget, hack == MEMORY_HACK_NONE);
 
     /* ACIA widget */
     acia_widget = plus4_acia_widget_create();
