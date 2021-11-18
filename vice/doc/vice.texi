@@ -18709,10 +18709,13 @@ Describes which part of the computer you want to write:
 
 @item byte 1-2: The count of the array items
 
-@item byte 2+: An array with items of structure:
-    byte 0: Size of the item, excluding this byte
-    byte 1: ID of the register
-    byte 2-3: register value
+@item byte 3+: An array with items of structure:
+
+@table @strong
+@item byte 0: Size of the item, excluding this byte
+@item byte 1: ID of the register
+@item byte 2-3: register value
+@end table
 
 @end table
 
