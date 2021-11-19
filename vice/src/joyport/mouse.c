@@ -1361,7 +1361,7 @@ static const resource_int_t resources_extra_int[] = {
     RESOURCE_INT_LIST_END
 };
 
-static mouse_func_t mouse_funcs =
+static const mouse_func_t mouse_funcs =
 {
     mouse_button_left,
     mouse_button_right,
