@@ -101,6 +101,16 @@
 /** \brief  Maximum length for drive track status string */
 #define DRIVE_TRACK_STR_MAX_LEN 16
 
+
+/** \brief  Tape status widget column indexes
+ */
+enum {
+    TAPE_STATUS_COL_HEADER,     /**< label with 'datasette [12] */
+    TAPE_STATUS_COL_COUNTER,    /**< label with counter */
+    TAPE_STATUS_COL_MOTOR       /**< custom motor widget */
+};
+
+
 /** \brief  Fold unit \a U and drive \a D into int and cast to pointer
  *
  * \param[in]   U   unit number
@@ -191,13 +201,13 @@ typedef struct ui_sb_state_s {
     intptr_t statustext_msgid;
 
     /** \brief Current tape state (play, rewind, etc) */
-    int tape_control[2];
+    int tape_control[TAPEPORT_MAX_PORTS];
 
     /** \brief Nonzero if the tape motor is powered. */
-    int tape_motor_status[2];
+    int tape_motor_status[TAPEPORT_MAX_PORTS];
 
     /** \brief Location on the tape of datasette #1 */
-    int tape_counter[2];
+    int tape_counter[TAPEPORT_MAX_PORTS];
 
     /** \brief Which drives are to be displayed in the status bar.
      *
@@ -339,20 +349,19 @@ typedef struct ui_statusbar_s {
     /** \brief  Mixer control widget checkbox */
     GtkWidget *mixer;
 
-    /** \brief The Tape #1 Status widget. */
-    GtkWidget *tape1;
+    /** \brief  Tape status widgets
+     */
+    GtkWidget *tape_status[TAPEPORT_MAX_PORTS];
 
-    /** \brief The Tape #2 Status widget (PET only). */
-    GtkWidget *tape2;
+    /** \brief  Tape popup menus
+     */
+    GtkWidget *tape_menu[TAPEPORT_MAX_PORTS];
 
-    /** \brief  Used to optimise tape widget updates */
-    int displayed_tape_counter[2];
-
-    /** \brief The Tape #1 Status widget's popup menu. */
-    GtkWidget *tape1_menu;
-
-    /** \brief The Tape #2 Status widget's popup menu. */
-    GtkWidget *tape2_menu;
+    /** \brief  Used to optimise tape widget updates
+     *
+     * FIXME:   Should probably be moved to sb_status?
+     */
+    int displayed_tape_counter[TAPEPORT_MAX_PORTS];
 
     /** \brief The joyport status widget. */
     GtkWidget *joysticks;
@@ -468,7 +477,6 @@ static gboolean message_timeout_handler(gpointer data)
 }
 
 
-
 /** \brief Draws the tape icon based on the current control and motor status.
  *
  *  \param widget  The tape icon GtkDrawingArea being drawn to.
@@ -476,10 +484,6 @@ static gboolean message_timeout_handler(gpointer data)
  *  \param data    tape port index
  *
  *  \return FALSE, telling GTK to continue event processing
- *
- *  \todo Once multiple tape drives are supported, the data parameter
- *        will be the integer index of which tape drive this widget
- *        represents.
  */
 static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
@@ -805,7 +809,7 @@ static gboolean draw_joyport_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
  *  \param event   The event representing the bottom operation.
  *  \param data    An integer representing which window's status bar was
  *                 clicked and thus where the popup window should go,
- *                 and tape port number shifted 8 bits to the right.
+ *                 and tape unit number shifted 8 bits to the right.
  *
  *  \return TRUE if further event processing should be skipped.
  *
@@ -816,46 +820,30 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
                                       GdkEvent *event,
                                       gpointer data)
 {
-    int i = GPOINTER_TO_INT(data) & 0xff;
+    int bar_index = GPOINTER_TO_INT(data) & 0xff;
     int port = GPOINTER_TO_INT(data) >> 8;
+    int tape_index = port - TAPEPORT_UNIT_1;
 
     mainlock_assert_is_not_vice_thread();
 
     if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
+        ui_statusbar_t bar;
+        GtkWidget *tape_status;
         GtkWidget *tape_menu;
 
-        if (port == TAPEPORT_UNIT_1) {
-            if (allocated_bars[i].tape1 && allocated_bars[i].tape1_menu
-                    && event->type == GDK_BUTTON_PRESS) {
-                tape_menu = allocated_bars[i].tape1_menu;
+        bar = allocated_bars[bar_index];
+        tape_status = bar.tape_status[tape_index];
+        tape_menu = bar.tape_menu[tape_index];
 
-                /* update sensitivity of tape controls */
-                ui_datasette_update_sensitive(tape_menu, port);
-
-                gtk_menu_popup_at_widget(GTK_MENU(tape_menu),
-                                     allocated_bars[i].tape1,
+        if (tape_status != NULL && tape_menu != NULL) {
+            ui_datasette_update_sensitive(tape_menu, port);
+            gtk_menu_popup_at_widget(GTK_MENU(tape_menu),
+                                     tape_status,
                                      GDK_GRAVITY_NORTH_EAST,
                                      GDK_GRAVITY_SOUTH_EAST,
                                      event);
-            }
-            return TRUE;
-        } else {
-            if (allocated_bars[i].tape2 && allocated_bars[i].tape2_menu
-                    && event->type == GDK_BUTTON_PRESS) {
-                tape_menu = allocated_bars[i].tape2_menu;
-
-                /* update sensitivity of tape controls */
-                ui_datasette_update_sensitive(tape_menu, port);
-
-                gtk_menu_popup_at_widget(GTK_MENU(tape_menu),
-                                     allocated_bars[i].tape2,
-                                     GDK_GRAVITY_NORTH_EAST,
-                                     GDK_GRAVITY_SOUTH_EAST,
-                                     event);
-            }
-            return TRUE;
         }
-
+        return TRUE;
     } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         GtkWidget *dir_menu;
 
@@ -1147,22 +1135,18 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                 g_object_unref(G_OBJECT(allocated_bars[i].mixer));
                 allocated_bars[i].mixer = NULL;
             }
-            if (allocated_bars[i].tape1) {
-                g_object_unref(G_OBJECT(allocated_bars[i].tape1));
-                allocated_bars[i].tape1 = NULL;
+
+            for (j = 0; j < TAPEPORT_MAX_PORTS; j++) {
+                if (allocated_bars[i].tape_status[j] != NULL) {
+                    g_object_unref(G_OBJECT(allocated_bars[i].tape_status[j]));
+                    allocated_bars[i].tape_status[j] = NULL;
+                }
+                if (allocated_bars[i].tape_menu[j] != NULL) {
+                    g_object_unref(G_OBJECT(allocated_bars[i].tape_menu[j]));
+                    allocated_bars[i].tape_menu[j] = NULL;
+                }
             }
-            if (allocated_bars[i].tape2) {
-                g_object_unref(G_OBJECT(allocated_bars[i].tape2));
-                allocated_bars[i].tape2 = NULL;
-            }
-            if (allocated_bars[i].tape1_menu) {
-                g_object_unref(G_OBJECT(allocated_bars[i].tape1_menu));
-                allocated_bars[i].tape1_menu = NULL;
-            }
-            if (allocated_bars[i].tape1_menu) {
-                g_object_unref(G_OBJECT(allocated_bars[i].tape1_menu));
-                allocated_bars[i].tape1_menu = NULL;
-            }
+
             if (allocated_bars[i].joysticks) {
                 g_object_unref(G_OBJECT(allocated_bars[i].joysticks));
                 allocated_bars[i].joysticks = NULL;
@@ -1386,15 +1370,15 @@ static void tape_dir_autostart_callback(const char *image,
  */
 static GtkWidget *ui_tape_widget_create(int port)
 {
-    GtkWidget *grid, *header, *counter, *state;
+    GtkWidget *grid;
+    GtkWidget *header;
+    GtkWidget *counter;
+    GtkWidget *motor;
     gchar title[256];
 
     mainlock_assert_is_not_vice_thread();
 
-
     grid = gtk_grid_new();
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid),
-            GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
     gtk_widget_set_vexpand(grid, FALSE);
 
@@ -1409,18 +1393,24 @@ static GtkWidget *ui_tape_widget_create(int port)
     g_object_set(header, "margin-right", 8, NULL);
 
     counter = gtk_label_new("?");
-    state = gtk_drawing_area_new();
-    gtk_widget_set_size_request(state, 20, 20);
+
+    motor = gtk_drawing_area_new();
+    gtk_widget_set_size_request(motor, 20, 20);
     /* Labels will notice clicks by default, but drawing areas need to
      * be told to. */
-    gtk_widget_add_events(state, GDK_BUTTON_PRESS_MASK);
-    gtk_container_add(GTK_CONTAINER(grid), header);
-    gtk_container_add(GTK_CONTAINER(grid), counter);
-    gtk_container_add(GTK_CONTAINER(grid), state);
-    g_signal_connect_unlocked(state, "draw", G_CALLBACK(draw_tape_icon_cb),
-            GINT_TO_POINTER(port - 1));
+    gtk_widget_add_events(motor, GDK_BUTTON_PRESS_MASK);
+
+    gtk_grid_attach(GTK_GRID(grid), header, TAPE_STATUS_COL_HEADER, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), counter, TAPE_STATUS_COL_COUNTER, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), motor, TAPE_STATUS_COL_MOTOR, 0, 1, 1);
+    g_signal_connect_unlocked(motor,
+                              "draw",
+                              G_CALLBACK(draw_tape_icon_cb),
+                              GINT_TO_POINTER(port - 1));
+
     return grid;
 }
+
 
 /** \brief Create a bitfield of enabled joyports for detecting changes
  */
@@ -1790,10 +1780,12 @@ GtkWidget *ui_statusbar_create(int window_identity)
     GtkWidget *sb;
     GtkWidget *speed;
     GtkWidget *joysticks;
-    GtkWidget *tape1;
-    GtkWidget *tape2;
-    GtkWidget *tape1_events;
-    GtkWidget *tape2_events;
+
+    GtkWidget *tape_wrapper;
+    GtkWidget *tape_status;
+    GtkWidget *tape_menu;
+    GtkWidget *tape_events;
+
     GtkWidget *sep;
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
@@ -1894,10 +1886,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
     g_object_ref_sink(recording);
     allocated_bars[i].record = recording;
     gtk_grid_attach(GTK_GRID(sb), recording, SB_COL_RECORD, SB_ROW_RECORD, 5, 1);
-//    /* add sep */
-//    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-//            SB_COL_SEP_RECORD, SB_ROW_SEP_RECORD, 1, 2);
-
 
     /* TODO: skip VSID and add another separator after the checkbox */
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1910,62 +1898,62 @@ GtkWidget *ui_statusbar_create(int window_identity)
                 SB_COL_SEP_CRT, SB_ROW_SEP_CRT, 1, 3);
     }
 
+    /* TODO: wrap tape wrapper and joystick in another wrapper */
+
+    tape_wrapper = NULL;
     /* No datasette for DTV, SCPU or VSID */
     if ((machine_class != VICE_MACHINE_C64DTV) &&
             (machine_class != VICE_MACHINE_SCPU64) &&
             (machine_class != VICE_MACHINE_VSID)) {
-        tape1 = ui_tape_widget_create(TAPEPORT_UNIT_1);
-        g_object_ref_sink(G_OBJECT(tape1));
-        /* Clicking the tape status is supposed to pop up a window. This
-         * requires a way to make sure events are captured by random
-         * internal widgets; the GtkEventBox manages that task for us. */
-        tape1_events = gtk_event_box_new();
-        gtk_event_box_set_visible_window(GTK_EVENT_BOX(tape1_events), FALSE);
-        gtk_container_add(GTK_CONTAINER(tape1_events), tape1);
-        gtk_grid_attach(GTK_GRID(sb), tape1_events, SB_COL_TAPE, 0, 1, 1);
-        /* add separator */
-        gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-                SB_COL_SEP_TAPE, SB_ROW_SEP_TAPE, 1, 3);
-        allocated_bars[i].tape1 = tape1;
-        allocated_bars[i].tape1_menu = ui_create_datasette_control_menu(TAPEPORT_UNIT_1);
-        g_object_ref_sink(G_OBJECT(allocated_bars[i].tape1_menu));
-        g_signal_connect(tape1_events, "button-press-event",
-                G_CALLBACK(ui_do_datasette_popup),
-                GINT_TO_POINTER(i | (TAPEPORT_UNIT_1 << 8)));
-        g_signal_connect(tape1_events, "enter-notify-event",
-                G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
-        g_signal_connect(tape1_events, "leave-notify-event",
-                G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+
+        int ports = machine_class == VICE_MACHINE_PET ? 2 : 1;
+
+        /* wrap tape widget(s) in a grid */
+        tape_wrapper = gtk_grid_new();
+
+        /* add widgets and event boxes */
+        for (j = 0; j < ports; j++) {
+            int port_number = j + TAPEPORT_UNIT_1;
+
+            tape_status = ui_tape_widget_create(port_number);
+            tape_menu = ui_create_datasette_control_menu(port_number);
+            g_object_ref_sink(G_OBJECT(tape_status));
+            g_object_ref_sink(G_OBJECT(tape_menu));
+
+            /* Clicking the tape status is supposed to pop up a window. This
+             * requires a way to make sure events are captured by random
+             * internal widgets; the GtkEventBox manages that task for us. */
+            tape_events = gtk_event_box_new();
+            gtk_event_box_set_visible_window(GTK_EVENT_BOX(tape_events), FALSE);
+            gtk_container_add(GTK_CONTAINER(tape_events), tape_status);
+            gtk_grid_attach(GTK_GRID(tape_wrapper), tape_events, 0, j, 1, 1);
+
+            allocated_bars[i].tape_status[j] = tape_status;
+            allocated_bars[i].tape_menu[j] = tape_menu;
+
+            g_signal_connect(tape_events, "button-press-event",
+                    G_CALLBACK(ui_do_datasette_popup),
+                    GINT_TO_POINTER(i | (port_number << 8)));
+            g_signal_connect(tape_events, "enter-notify-event",
+                    G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+            g_signal_connect(tape_events, "leave-notify-event",
+                    G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+        }
+    }
+    if (tape_wrapper != NULL) {
+        gtk_grid_attach(GTK_GRID(sb), tape_wrapper, SB_COL_TAPE, 0, 1, 1);
+        /* 2 rows high due to joysticks, needs reworking */
+        gtk_grid_attach(GTK_GRID(sb),
+                        gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+                        SB_COL_SEP_TAPE, SB_ROW_SEP_TAPE, 1, 2);
     }
 
-    /* Only the PET has two datasettes */
-    if (machine_class == VICE_MACHINE_PET) {
-        tape2 = ui_tape_widget_create(TAPEPORT_UNIT_2);
-        g_object_ref_sink(G_OBJECT(tape2));
-        /* Clicking the tape status is supposed to pop up a window. This
-         * requires a way to make sure events are captured by random
-         * internal widgets; the GtkEventBox manages that task for us. */
-        tape2_events = gtk_event_box_new();
-        gtk_event_box_set_visible_window(GTK_EVENT_BOX(tape2_events), FALSE);
-        gtk_container_add(GTK_CONTAINER(tape2_events), tape2);
-        gtk_grid_attach(GTK_GRID(sb), tape2_events, SB_COL_TAPE, 1, 1, 1);
-        allocated_bars[i].tape2 = tape2;
-        allocated_bars[i].tape2_menu = ui_create_datasette_control_menu(TAPEPORT_UNIT_2);
-        g_object_ref_sink(G_OBJECT(allocated_bars[i].tape2_menu));
-        g_signal_connect(tape2_events, "button-press-event",
-                G_CALLBACK(ui_do_datasette_popup),
-                GINT_TO_POINTER(i | (TAPEPORT_UNIT_2 << 8)));
-        g_signal_connect(tape2_events, "enter-notify-event",
-                G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
-        g_signal_connect(tape2_events, "leave-notify-event",
-                G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
-    }
-
+    /* Joystick widgets: row below tape widget(s) */
     if (machine_class != VICE_MACHINE_VSID) {
         joysticks = ui_joystick_widget_create();
         g_object_ref(joysticks);
         gtk_widget_set_halign(joysticks, GTK_ALIGN_START);
-        gtk_grid_attach(GTK_GRID(sb), joysticks, SB_COL_TAPE, 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(sb), joysticks, SB_COL_TAPE, 1, 1, 1);
         allocated_bars[i].joysticks = joysticks;
     }
 
@@ -2171,6 +2159,26 @@ void ui_display_joyport(uint16_t *joyport)
 }
 
 
+/** \brief  Get tape motor widget by tape port index
+ *
+ * \param[in]   bar     status bar index
+ * \param[in]   port    tape port index
+ *
+ * \return  tape motor widget or NULL if not present
+ */
+static GtkWidget *tape_get_motor_widget(int bar, int port)
+{
+    GtkWidget *status;
+    GtkWidget *motor = NULL;
+
+    status = allocated_bars[bar].tape_status[port];
+    if (status != NULL) {
+        motor = gtk_grid_get_child_at(GTK_GRID(status), TAPE_STATUS_COL_MOTOR, 0);
+    }
+    return motor;
+}
+
+
 /** \brief  Statusbar API function to report changes in tape control status.
  *
  * \param[in]   port    tape port index (0 or 1)
@@ -2181,30 +2189,19 @@ void ui_display_joyport(uint16_t *joyport)
 void ui_display_tape_control_status(int port, int control)
 {
     ui_sb_state_t *sb_state;
-    int index = port;
 
     /* Ok to call from VICE thread */
 
     sb_state = lock_sb_state();
 
-    if (control != sb_state->tape_control[index]) {
+    if (control != sb_state->tape_control[port]) {
         int i;
-        sb_state->tape_control[index] = control;
+        sb_state->tape_control[port] = control;
+
         for (i = 0; i < MAX_STATUS_BARS; ++i) {
-            GtkWidget *grid;
-
-            if (index == 0) {
-                grid = allocated_bars[i].tape1;
-            } else {
-                grid = allocated_bars[i].tape2;
-            }
-
-            if (grid != NULL) {
-                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(grid), 2, 0);
-
-                if (widget != NULL) {
-                    redraw_widget_on_ui_thread(widget);
-                }
+            GtkWidget *motor = tape_get_motor_widget(i, port);
+            if (motor != NULL) {
+                redraw_widget_on_ui_thread(motor);
             }
         }
     }
@@ -2238,28 +2235,19 @@ void ui_display_tape_counter(int port, int counter)
 void ui_display_tape_motor_status(int port, int motor)
 {
     ui_sb_state_t *sb_state;
-    int index = port;
 
     /* Ok to call from VICE thread */
     sb_state = lock_sb_state();
 
-    if (motor != sb_state->tape_motor_status[index]) {
+    if (motor != sb_state->tape_motor_status[port]) {
         int i;
-        sb_state->tape_motor_status[index] = motor;
+        sb_state->tape_motor_status[port] = motor;
+
         for (i = 0; i < MAX_STATUS_BARS; ++i) {
-            GtkWidget *grid;
+            GtkWidget *widget = tape_get_motor_widget(i, port);
 
-            if (index == 0) {
-                grid = allocated_bars[i].tape1;
-            } else{
-                grid = allocated_bars[i].tape2;
-            }
-            if (grid != NULL) {
-                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(grid), 2, 0);
-
-                if (widget != NULL) {
-                    redraw_widget_on_ui_thread(widget);
-                }
+            if (widget != NULL) {
+                redraw_widget_on_ui_thread(widget);
             }
         }
     }
@@ -2603,9 +2591,10 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
 void ui_update_statusbars(void)
 {
     /* TODO: Don't call this for each top level window as it updates all statusbars */
-    GtkWidget *speed_widget, *tape_counter, *drive, *track, *led, *driveunit;
+    GtkWidget *speed_widget, *drive, *track, *led, *driveunit;
     ui_statusbar_t *bar;
-    int i, j;
+    int i;
+    int j;
     ui_sb_state_t *sb_state;
     ui_sb_state_t state_snapshot;
     uint32_t active_joyports;
@@ -2683,28 +2672,26 @@ void ui_update_statusbars(void)
         /*
          * Update Tape
          */
+        for (j = 0; j < TAPEPORT_MAX_PORTS; j++) {
+            GtkWidget *tape_status = bar->tape_status[j];
 
-        if (bar->tape1 && bar->displayed_tape_counter[0] != state_snapshot.tape_counter[0]) {
-            tape_counter = gtk_grid_get_child_at(GTK_GRID(bar->tape1), 1, 0);
-            if (tape_counter) {
-                char buf[8];
-                snprintf(buf, 8, "%03d", state_snapshot.tape_counter[0] % 1000);
-                buf[7] = 0;
+            if (tape_status != NULL
+                    && bar->displayed_tape_counter[j] != state_snapshot.tape_counter[j]) {
+                GtkWidget *tape_counter;
+                int count;
 
-                gtk_label_set_text(GTK_LABEL(tape_counter), buf);
+                tape_counter = gtk_grid_get_child_at(GTK_GRID(tape_status),
+                                                     TAPE_STATUS_COL_COUNTER, 0);
+                count = state_snapshot.tape_counter[j];
+
+                if (tape_counter != NULL) {
+                    char buffer[32];
+
+                    g_snprintf(buffer, sizeof(buffer), "%03d", count % 1000);
+                    gtk_label_set_text(GTK_LABEL(tape_counter), buffer);
+                }
+                bar->displayed_tape_counter[j] = count;
             }
-            bar->displayed_tape_counter[0] = state_snapshot.tape_counter[0];
-        }
-        if (bar->tape2 && bar->displayed_tape_counter[1] != state_snapshot.tape_counter[1]) {
-            tape_counter = gtk_grid_get_child_at(GTK_GRID(bar->tape2), 1, 0);
-            if (tape_counter) {
-                char buf[8];
-                snprintf(buf, 8, "%03d", state_snapshot.tape_counter[1] % 1000);
-                buf[7] = 0;
-
-                gtk_label_set_text(GTK_LABEL(tape_counter), buf);
-            }
-            bar->displayed_tape_counter[1] = state_snapshot.tape_counter[1];
         }
 
         /*
