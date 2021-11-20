@@ -31,7 +31,18 @@ set -o nounset
 #                         $1           $2      $3             $4              $5         $6
 #
 
+[ -z ${DEPS_PREFIX+set} ] && (>&2 echo "ERROR: Please set DEPS_PREFIX environment variable to something like /opt/local, /usr/local, or /opt/homebrew"; exit 1)
 [ -z ${CODE_SIGN_ID+set} ] && CODE_SIGN_ID=""
+
+if which gtk-update-icon-cache-3.0 > /dev/null; then
+  # macports
+  GTK_UPDATE_ICON_CACHE=gtk-update-icon-cache-3.0
+elif which gtk3-update-icon-cache >/dev/null; then
+  GTK_UPDATE_ICON_CACHE=gtk3-update-icon-cache
+else
+  >&2 echo "ERROR: Could not find gtk-update-icon-cache-3.0 or gtk3-update-icon-cache"
+  exit 1
+fi
 
 echo "Generating macOS binary distribution."
 echo "  UI type: $UI_TYPE"
@@ -112,7 +123,7 @@ copy_lib_recursively () {
   chmod 644 "$lib_dest"
 
   # copy this lib's libs
-  LIB_LIBS=`otool -L "$lib_dest" | egrep '^\s+/(opt|usr)/local/' | grep -v "$lib_basename" | awk '{print $1}'`
+  LIB_LIBS=`otool -L "$lib_dest" | egrep "^\s+$DEPS_PREFIX/" | grep -v "$lib_basename" | awk '{print $1}'`
 
   for lib_lib in $LIB_LIBS; do
     copy_lib_recursively "$lib_lib"
@@ -137,7 +148,7 @@ APP_BIN=$APP_RESOURCES/bin
 APP_LIB=$APP_RESOURCES/lib
 
 if ! which -s platypus; then
-  echo "ERROR: platypus not found (sudo port install platypus)"
+  echo "ERROR: platypus not found (sudo port install platypus / brew install platypus)"
   exit 1
 fi
 
@@ -147,6 +158,7 @@ make_app_bundle() {
   local app_launcher=$2
   local output=$(mktemp)
 
+  pwd
   platypus \
     -a $app_name \
     -o None \
@@ -255,7 +267,7 @@ for emu in $BINARIES ; do
   fi
 
   # copy any needed "local" libs
-  LOCAL_LIBS=`otool -L $APP_BIN/$emu | egrep '^\s+/(opt|usr)/local/' | awk '{print $1}'`
+  LOCAL_LIBS=`otool -L $APP_BIN/$emu | egrep "^\s+$DEPS_PREFIX/" | awk '{print $1}'`
 
   for lib in $LOCAL_LIBS; do
     copy_lib_recursively $lib
@@ -296,16 +308,16 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
   cp "$TOP_DIR/src/arch/gtk3/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
 
   # Gtk runtime stuff
-  cp -r /opt/local/lib/gdk-pixbuf-2.0 $APP_LIB
-  cp -r /opt/local/lib/gtk-3.0 $APP_LIB
-  cp -r /opt/local/etc/gtk-3.0 $APP_ETC
-  cp -r /opt/local/share/glib-2.0 $APP_SHARE
+  cp -r $DEPS_PREFIX/lib/gdk-pixbuf-2.0 $APP_LIB
+  cp -r $DEPS_PREFIX/lib/gtk-3.0 $APP_LIB
+  cp -r $DEPS_PREFIX/etc/gtk-3.0 $APP_ETC
+  cp -r $DEPS_PREFIX/share/glib-2.0 $APP_SHARE
 
   # Get rid of any compiled python that came with glib share
   find $APP_SHARE -name '*.pyc' -exec rm {} \;
 
   import_scalable_gtk_icons() {
-    local in_icons="/opt/local/share/icons/$1"
+    local in_icons="$DEPS_PREFIX/share/icons/$1"
     local out_icons="$APP_SHARE/icons/$1"
 
     mkdir "$out_icons"
@@ -341,7 +353,7 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
     cp -r "$in_icons/scalable" "$out_icons/"
 
     # create the icon-theme.cache file
-    gtk-update-icon-cache-3.0 "$out_icons/"
+    $GTK_UPDATE_ICON_CACHE "$out_icons/"
   }
 
   mkdir $APP_SHARE/icons
@@ -349,13 +361,13 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
   import_scalable_gtk_icons Adwaita
 
   # hicolor is small, just copy it. It doesn't have any scalable assets.
-  cp -r /opt/local/share/icons/hicolor "$APP_SHARE/icons/"
-  gtk-update-icon-cache-3.0 "$APP_SHARE/icons/hicolor"
+  cp -r $DEPS_PREFIX/share/icons/hicolor "$APP_SHARE/icons/"
+  $GTK_UPDATE_ICON_CACHE "$APP_SHARE/icons/hicolor"
 fi
 
 # .so libs need their libs too
 for lib in `find $APP_LIB -name '*.so'`; do
-  LIB_LIBS=`otool -L $lib | egrep '^\s+/(opt|usr)/local/' | awk '{print $1}'`
+  LIB_LIBS=`otool -L $lib | egrep "^\s+$DEPS_PREFIX/" | awk '{print $1}'`
 
   for lib_lib in $LIB_LIBS; do
     copy_lib_recursively $lib_lib
@@ -364,16 +376,16 @@ done
 
 # Some libs are loaded at runtime
 if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
-  copy_lib_recursively /opt/local/lib/libmp3lame.dylib
+  copy_lib_recursively $DEPS_PREFIX/lib/libmp3lame.dylib
 fi
 
 # ffmpeg
 if grep -q "^#define EXTERNAL_FFMPEG " "src/config.h"; then
-  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libavformat.*.dylib')"
-  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libavcodec.*.dylib')"
-  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libavutil.*.dylib')"
-  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libswscale.*.dylib')"
-  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libswresample.*.dylib')"
+  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavformat.*.dylib')"
+  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavcodec.*.dylib')"
+  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavutil.*.dylib')"
+  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libswscale.*.dylib')"
+  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libswresample.*.dylib')"
 fi
 
 # --- copy tools ---------------------------------------------------------------
@@ -400,7 +412,7 @@ for tool_file in $TOOLS ; do
   fi
 
   # copy any needed "local" libs
-  LOCAL_LIBS=`otool -L $APP_BIN/$tool_name | egrep '^\s+/(opt|usr)/local/' | awk '{print $1}'`
+  LOCAL_LIBS=`otool -L $APP_BIN/$tool_name | egrep "^\s+$DEPS_PREFIX/" | awk '{print $1}'`
 
   for lib in $LOCAL_LIBS; do
       copy_lib_recursively $lib
@@ -441,15 +453,16 @@ relink () {
   local thing_basename=`basename $lib`
 
   #
-  # Any link to a lib in /opt/local is updated to @rpath/$lib
+  # Any link to a lib in $DEPS_PREFIX is updated to @rpath/$lib
   #
 
   set +o pipefail
-  THING_LIBS=`otool -L $thing | egrep '^\s+/(opt|usr)/local/' | awk '{print $1}'`
+  THING_LIBS=`otool -L $thing | egrep "^\s+$DEPS_PREFIX/" | awk '{print $1}'`
   set -o pipefail
 
   for thing_lib in $THING_LIBS; do
-    install_name_tool -change $thing_lib @rpath/$(basename $thing_lib) $thing
+    install_name_tool -change $thing_lib @rpath/$(basename $thing_lib) $thing \
+      2> >(grep -v "invalidate the code signature")
   done
 
   #
@@ -457,7 +470,8 @@ relink () {
   # so we can blindly call it.
   #
 
-  install_name_tool -id @rpath/$thing_basename $thing
+  install_name_tool -id @rpath/$thing_basename $thing \
+    2> >(grep -v "invalidate the code signature")
 
   #
   # If any existing rpaths exist, remove them.
@@ -469,10 +483,12 @@ relink () {
   set -o pipefail
 
   for rpath in $THING_RPATHS; do
-    install_name_tool -delete_rpath $rpath $thing
+    install_name_tool -delete_rpath $rpath $thing \
+      2> >(grep -v "invalidate the code signature")
   done
   
-  install_name_tool -add_rpath @executable_path/../lib $thing
+  install_name_tool -add_rpath @executable_path/../lib $thing \
+    2> >(grep -v "invalidate the code signature")
 }
 
 echo "Relinking libs and binaries to relative bundle paths"
@@ -489,9 +505,22 @@ done
 
 if [ "$UI_TYPE" = "GTK3" ]; then
   # these copied cache files would otherwise point to local files
-  sed -i '' -e 's,/opt/local,@executable_path/..,' $APP_ETC/gtk-3.0/gtk.immodules 
-  sed -i '' -e 's,/opt/local,@executable_path/..,' $APP_ETC/gtk-3.0/gdk-pixbuf.loaders
-  sed -i '' -e 's,/opt/local,@executable_path/..,' $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
+  if [ -e $APP_ETC/gtk-3.0/gtk.immodules ]; then
+    # macports
+    sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $APP_ETC/gtk-3.0/gtk.immodules
+  fi
+
+  if [ -e $APP_LIB/gtk-3.0/3.0.0/immodules.cache ]; then
+    # homebrew
+    sed -i '' -e "s,$DEPS_PREFIX[^ ]immodules/,@executable_path/../lib/gtk-3.0/3.0.0/immodules/," $APP_LIB/gtk-3.0/3.0.0/immodules.cache
+  fi
+
+  if [ -e $APP_ETC/gtk-3.0/gdk-pixbuf.loaders ]; then
+    # macports
+    sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $APP_ETC/gtk-3.0/gdk-pixbuf.loaders
+  fi
+
+  sed -i '' -e "s,$DEPS_PREFIX,@executable_path/..," $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
 fi
 
 
