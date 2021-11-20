@@ -609,7 +609,7 @@ HEREDOC
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	cat <<-HEREDOC >> CMakeLists.txt
 		set(CMAKE_OSX_SYSROOT "$(xcrun --show-sdk-path)")
-		set(CMAKE_OSX_DEPLOYMENT_TARGET "10.10")
+		set(CMAKE_OSX_DEPLOYMENT_TARGET "$(src/arch/shared/macOS-sdk-target.sh)" CACHE STRING "Minimum OS X deployment version")
 		set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
 		set(CMAKE_CXX_STANDARD 11)
 

@@ -123,10 +123,11 @@ AS_IF([test "$GXX" = yes -a "$resid_test_CXXFLAGS" != set],
 
 case $host_os in
 darwin*)
-  CFLAGS="$CFLAGS -mmacosx-version-min=10.10"
-  OBJCFLAGS="$OBJCFLAGS -mmacosx-version-min=10.10"
-  CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.10"
-  LDFLAGS="$LDFLAGS -mmacosx-version-min=10.10"
+  VICE_MACOS_SDK_TARGET=`../arch/shared/macOS-sdk-target.sh`
+  CFLAGS="$CFLAGS -mmacosx-version-min=$VICE_MACOS_SDK_TARGET"
+  OBJCFLAGS="$OBJCFLAGS -mmacosx-version-min=$VICE_MACOS_SDK_TARGET"
+  CXXFLAGS="$CXXFLAGS -mmacosx-version-min=$VICE_MACOS_SDK_TARGET"
+  LDFLAGS="$LDFLAGS -mmacosx-version-min=$VICE_MACOS_SDK_TARGET"
   ;;
 *)
   ;;

@@ -956,10 +956,10 @@ darwin*)
   RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
   AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
 
-  dnl target OSX 10.10
-  VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=10.10"
-  VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=10.10"
-  VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=10.10"
+  VICE_MACOS_SDK_TARGET=`src/arch/shared/macOS-sdk-target.sh`
+  VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=$VICE_MACOS_SDK_TARGET"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=$VICE_MACOS_SDK_TARGET"
+  VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=$VICE_MACOS_SDK_TARGET"
 
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
