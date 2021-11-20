@@ -42,6 +42,7 @@
 #include "util.h"
 #include "zfile.h"
 #include "machine.h"
+#include "resources.h"
 
 #define TAP_DEBUG 0
 
@@ -81,18 +82,65 @@ static int tap_pulse_tt_long_max = 0x36;
 static int tap_header_read(tap_t *tap, FILE *fd)
 {
     uint8_t buf[TAP_HDR_SIZE];
+    uint8_t tagsystem = TAP_HDR_SYSTEM_C64;
+    int video;
 
     if (fread(buf, TAP_HDR_SIZE, 1, fd) != 1) {
         return -1;
     }
 
-    if (strncmp("C64-TAPE-RAW", (char *)&buf[TAP_HDR_MAGIC_OFFSET], 12)
-        && strncmp("C16-TAPE-RAW", (char *)&buf[TAP_HDR_MAGIC_OFFSET], 12)) {
+    if (!strncmp("C16-TAPE-RAW", (char *)&buf[TAP_HDR_MAGIC_OFFSET], 12)) {
+        tagsystem = TAP_HDR_SYSTEM_C16;
+    } else if (!strncmp("C64-TAPE-RAW", (char *)&buf[TAP_HDR_MAGIC_OFFSET], 12)) {
+        tagsystem = TAP_HDR_SYSTEM_C64;
+    } else {
         return -1;
     }
 
+    resources_get_int("MachineVideoStandard", &video);
+
     tap->version = buf[TAP_HDR_VERSION];
+    tap->video = buf[TAP_HDR_VIDEO];
     tap->system = buf[TAP_HDR_SYSTEM];
+
+    switch (tap->system) {
+        case TAP_HDR_SYSTEM_C16:
+            if (tagsystem != TAP_HDR_SYSTEM_C16) {
+                log_warning(LOG_DEFAULT, ".tap header vs tag mismatch (expected C16 in tag).");
+            }
+            break;
+        case TAP_HDR_SYSTEM_C64:    /* fall through */
+        case TAP_HDR_SYSTEM_VIC20:  /* fall through */
+        default:
+            if (tagsystem != TAP_HDR_SYSTEM_C64) {
+                log_warning(LOG_DEFAULT, ".tap header vs tag mismatch (expected C64 in tag).");
+            }
+            break;
+    }
+
+    if ((machine_class == VICE_MACHINE_PLUS4) && (tap->system != TAP_HDR_SYSTEM_C16)) {
+        log_error(LOG_DEFAULT, ".tap header system mismatch (expected C16/PLUS4).");
+    }
+
+    switch (video) {
+        case MACHINE_SYNC_NTSC:
+            if (tap->video != TAP_HDR_VIDEO_NTSC) {
+                log_warning(LOG_DEFAULT, ".tap header video system mismatch (expected NTSC).");
+            }
+            break;
+        case MACHINE_SYNC_NTSCOLD:
+            if (tap->video != TAP_HDR_VIDEO_NTSCOLD) {
+                log_warning(LOG_DEFAULT, ".tap header video system mismatch (expected NTSCOLD).");
+            }
+            break;
+        case MACHINE_SYNC_PAL:      /* fall through */
+        case MACHINE_SYNC_PALN:     /* fall through */ /* FIXME */
+        default:
+            if (tap->video != TAP_HDR_VIDEO_PAL) {
+                log_warning(LOG_DEFAULT, ".tap header video system mismatch (expected PAL).");
+            }
+            break;
+    }
 
     memcpy(tap->name, &buf[TAP_HDR_MAGIC_OFFSET], 12);
 
@@ -205,6 +253,7 @@ int tap_create(const char *name)
 {
     FILE *fd;
     uint8_t block[256];
+    int video;
 
     memset(block, 0, sizeof(block));
 
@@ -215,7 +264,40 @@ int tap_create(const char *name)
     }
 
     /* create an empty tap */
-    strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C64-TAPE-RAW");
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C16-TAPE-RAW");
+    } else {
+        strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C64-TAPE-RAW");
+    }
+
+    switch (machine_class) {
+        case VICE_MACHINE_PLUS4:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C16;
+            break;
+        case VICE_MACHINE_VIC20:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_VIC20;
+            break;
+        case VICE_MACHINE_C64:
+        default:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C64;
+            break;
+    }
+
+    resources_get_int("MachineVideoStandard", &video);
+
+    switch (video) {
+        case MACHINE_SYNC_NTSC:
+            block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_NTSC;
+            break;
+        case MACHINE_SYNC_NTSCOLD:
+            block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_NTSCOLD;
+            break;
+        case MACHINE_SYNC_PAL:      /* fall through */
+        case MACHINE_SYNC_PALN:     /* fall through */ /* FIXME */
+        default:
+            block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_PAL;
+            break;
+    }
 
     block[TAP_HDR_VERSION] = 1;
 
@@ -1083,7 +1165,7 @@ static int tap_determine_pilot_type(tap_t *tap)
     int res;
 
     /* assuming we are located on a pilot, try to find out which type it is */
-    if (tap->system == 2) {
+    if (tap->system == TAP_HDR_SYSTEM_C16) {
         return PILOT_TYPE_CBM;
     }
     res = tap_tt_read_byte(tap);
