@@ -264,20 +264,28 @@ int tap_create(const char *name)
     }
 
     /* create an empty tap */
+#if 0   /* FIXME: saving v2 C16 format doesnt actually work */
     if (machine_class == VICE_MACHINE_PLUS4) {
         strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C16-TAPE-RAW");
-    } else {
+    } else
+#endif
+    {
         strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C64-TAPE-RAW");
     }
 
+    block[TAP_HDR_VERSION] = 1;
+
     switch (machine_class) {
-        case VICE_MACHINE_PLUS4:
-            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C16;
-            break;
         case VICE_MACHINE_VIC20:
             block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_VIC20;
             break;
-        case VICE_MACHINE_C64:
+        case VICE_MACHINE_PLUS4:
+#if 0   /* FIXME: saving v2 C16 format doesnt actually work */
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C16;
+            block[TAP_HDR_VERSION] = 2;
+            break;
+#endif
+        case VICE_MACHINE_C64:  /* fall through */
         default:
             block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C64;
             break;
@@ -298,8 +306,6 @@ int tap_create(const char *name)
             block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_PAL;
             break;
     }
-
-    block[TAP_HDR_VERSION] = 1;
 
     util_dword_to_le_buf(&block[TAP_HDR_LEN], 4);
 
