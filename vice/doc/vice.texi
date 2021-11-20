@@ -20233,10 +20233,10 @@ supported by the emulators.
 
 (This section is based on v1.1 TAP specification by Per Hakan Sundell and Markus 
 Brenner, additional format v2 expansion by Markus Brenner, plus some editing
-by groepaz)
+by groepaz, with some more VICE extensions)
 
 Designed by Per Hakan Sundell (author of the CCS64 C64 emulator) in 1997,
-this format attempts to duplicate the data stored on a C64  cassette  tape,
+this format attempts to duplicate the data stored on a cassette  tape,
 bit for bit. Since it is simply a representation of  the  raw  serial  data
 from a tape, it should handle *any* custom tape loaders that exist.
 
@@ -20260,42 +20260,91 @@ small 14-byte header followed by file data.
 @item @b{Offset}
 @tab @b{Description}
 @item $0000-000B
-@tab File signature (@code{C64-TAPE-RAW} or @code{C16-TAPE-RAW})
+@tab File signature (@code{C64-TAPE-RAW} (v0 and v1) or @code{C16-TAPE-RAW}) (v2 only)
 @item $000C
 @tab @code{TAP} version (see below for description), $00 - Original layout, 
 $01 - Updated, $02 - Halfwave Extension
 @item $000D
-@tab Computer Platform (0 = C64, 1 = VIC-20, 2 = C16, Plus/4)
+@tab Computer Platform (0 = C64, 1 = VIC-20, 2 = C16, Plus/4, 3 = PET, 4 = C5x0, 5 = C6x0, C7x0)
 @item $000E
-@tab Video Standard (0 = PAL, 1 = NTSC1, 2 = NTSC2)
-@item 000F
+@tab Video Standard (0 = PAL, 1 = NTSC, 2 = OLD NTSC, 3 = PALN)
+@item $000F
 @tab reserved for future expansion
 @item $0010-0013
 @tab File  data  size  (not  including  this  header,  in LOW/HIGH format) i.e. 
-This image is $00082151  bytes long.
+The above example image is $00082151  bytes long.
 @item $0014-xxxx
 @tab File data
 @end multitable
 
   In TAP version $00 files, each data byte in the file data area represents
-the length of a pulse, when the C64's hardware  will  trigger  again.  This
+the length of a pulse, when the hardware  will  trigger  again.  This
 pulse length is determined by the following formula:
 @example
     pulse length (in seconds) = (8 * data byte) / (clock cycles)
 @end example
-  Therefore, a data value of $2F (47 in decimal) would be:
-@example
-    (47 * 8) / 985248 = .00038975 seconds.
-@end example
   A data value of $00 represents an "overflow" condition, any pulse  length
 which is more that 255 * 8 in length.
 
-The value of "clock cycles" from above  (985248)  is  based  on  the  PAL
-value.  Since  this  file  format  was  developed  in  Europe,   which   is
-predominantly PAL video, this is only logical.  The  NTSC  value  would  be
-1022730, which is very close to  the  PAL,  and  therefore  won't  cause  a
-compatability problem converting European and NTSC tapes. I would stick  to
-using the PAL value just in case.
+  For example, assuming the image was made on a PAL C64, a data value of $2F (47 in decimal) would be:
+@example
+    (47 * 8) / 985248 = .00038975 seconds.
+@end example
+
+  The number of clock cycles per second can be derived from the given computer
+platform and video standard, as in the following table:
+
+@multitable @columnfractions .3 .3 .4
+@item @b{Computer Platform}
+@tab @b{Video Standard}
+@tab @b{System Clock}
+@item 0 = C64
+@tab 0 = PAL
+@tab 985248 kHz
+@item
+@tab 1 = NTSC
+@tab 1022730 kHz
+@item
+@tab 2 = OLD NTSC
+@tab 1022730 kHz
+@item
+@tab 3 = PAL N
+@tab 1023440 kHz
+@item 1 = VIC-20
+@tab 0 = PAL
+@tab 1108405 kHz
+@item
+@tab 1 = NTSC
+@tab 1022727 kHz
+@item 3 = C16 / Plus4
+@tab 0 = PAL
+@tab 1773447 kHz
+@item
+@tab 1 = NTSC
+@tab 1789772 kHz
+@item 3 = PET
+@tab 0 = PAL
+@tab 1000000 kHz
+@item
+@tab 1 = NTSC
+@tab 1000000 kHz
+@item 4 = C5x0
+@tab 0 = PAL
+@tab 985248 kHz
+@item
+@tab 1 = NTSC
+@tab 1022730 kHz
+@item 5 = C6x0 / C7x0
+@tab 0 = PAL
+@tab 2000000 kHz
+@item
+@tab 1 = NTSC
+@tab 2000000 kHz
+@end multitable
+
+The original format did not include the "computer platform" and "video system"
+field, and the number of clock cycles per second was assumed to always be 985248,
+as if the tape was recorded on a PAL C64.
 
 In TAP version $01 files, the data value of $00 has been re-purposed to
 represent cycle exact values, which may also be greater than 255 * 8. When a $00
@@ -20308,8 +20357,8 @@ version 1, but each value represents a halfwave, starting with a '0'->'1'
 transition. The time encoding doesn't change.
 
 The actual interpretation of the serial data takes a little more work  to
-explain.  The  typical  ROM  tape  loader  (and  the  turbo  loaders)  will
-initialize a timer with a specified value and start it  counting  down.  If
+explain.  The  typical  ROM  tape  loader  (and  some of the  turbo  loaders)
+will initialize a timer with a specified value and start it  counting  down.  If
 either the tape data changes or the timer runs out, an IRQ will occur.  The
 loader will determine which condition caused the  IRQ.  If  the  tape  data
 changed before the timer ran out, we have a short pulse, or a "0"  bit.  If
