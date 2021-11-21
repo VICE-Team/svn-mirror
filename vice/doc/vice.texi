@@ -13731,9 +13731,10 @@ Use NTSC sync factor
 @findex -model
 @item -model <model>
 Specify the PET model you want to emulate
-(@code{Basic1}, @code{Basic1Chars}, @code{ChargenName}, @code{KernalName},
-@code{BasicName}, @code{EditorName}, @code{RomModule9Name}, @code{RomModuleAName},
-@code{RomModuleBName}, @code{H6809RomAName}, @code{H6809RomBName}, @code{H6809RomCName},
+(@code{Basic1}, @code{Basic1Chars}, @code{EoiBlank}, @code{Screen2001},
+@code{ChargenName}, @code{KernalName}, @code{BasicName}, @code{EditorName},
+@code{RomModule9Name}, @code{RomModuleAName}, @code{RomModuleBName},
+@code{H6809RomAName}, @code{H6809RomBName}, @code{H6809RomCName},
 @code{H6809RomDName}, @code{H6809RomEName}, @code{H6809RomFName}).
 (2001, 3008, 3016, 3032, 3032B, 4016, 4032, 4032B, 8032, 8096, 8296, SuperPET)
 
@@ -13803,10 +13804,17 @@ Enable/disable PET 2001 character generator
 @findex -eoiblank, +eoiblank
 @item -eoiblank
 @itemx +eoiblank
+Model-2001-only quirk:
 Enable/disable EOI blanking the screen.
-This also affects the other 2001-only display quirk:
-the screen memory is mirrored all the way through the $8*** block.
 (@code{EoiBlank=1}, @code{EoiBlank=0}).
+
+@findex -screen2001, +screen2001
+@item -screen2001
+@itemx +screen2001
+Model-2001-only quirk:
+the 1 KiB of screen memory is mirrored all the way through the $8*** block.
+This option is incompatible with 80 columns and the Colour PET extension.
+(@code{Screen2001=1}, @code{Screen2001=0}).
 
 @findex -diagpin, +diagpin
 @item -diagpin

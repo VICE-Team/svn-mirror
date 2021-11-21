@@ -354,6 +354,18 @@ static void pet_blank_callback(int state)
 }
 
 
+/** \brief  Function called on PET screen-mirrors-like-2001 changes
+ *
+ * \param[in]   state   new blank-on-eoi state (unused)
+ */
+static void pet_screen2001_callback(int state)
+{
+    if (get_model_func != NULL) {
+        machine_model_widget_update(machine_widget);
+    }
+}
+
+
 /** \brief  Function called on PET I/O changes
  *
  * \param[in]   state   new I/O state (unused)
@@ -1420,6 +1432,7 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
     pet_misc_widget = pet_misc_widget_create();
     pet_misc_widget_set_crtc_callback(pet_crtc_callback);
     pet_misc_widget_set_blank_callback(pet_blank_callback);
+    pet_misc_widget_set_screen2001_callback(pet_screen2001_callback);
     gtk_grid_attach(GTK_GRID(pet_grid), pet_misc_widget, 1, 2, 2, 1);
 
     /* SuperPET widgets */

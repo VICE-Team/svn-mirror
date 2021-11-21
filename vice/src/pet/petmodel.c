@@ -84,6 +84,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = PATCH_2K_KERNAL,
         .pet2kchar = PATCH_2K_CHARGEN,
         .eoiblank = EOI_BLANKS,
+        .screenmirrors2001 = SCREEN_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL1NAME,
@@ -104,6 +105,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL2NAME,
@@ -124,6 +126,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL2NAME,
@@ -144,6 +147,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL2NAME,
@@ -164,6 +168,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL2NAME,
@@ -184,6 +189,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL4NAME,
@@ -204,6 +210,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL4NAME,
@@ -224,6 +231,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL4NAME,
@@ -244,6 +252,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL4NAME,
@@ -264,6 +273,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL4NAME,
@@ -284,6 +294,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = NORMAL_IO,
         .chargenName = PET_CHARGEN_NAME,
         .kernalName = PET_KERNAL4NAME,
@@ -304,6 +315,7 @@ static const pet_table_t pet_table[] = {
         .pet2k = NO_KERNAL_PATCH,
         .pet2kchar = NO_CHARGEN_PATCH,
         .eoiblank = NO_EOI,
+        .screenmirrors2001 = NO_MIRRORS_2001,
         .superpet = SUPERPET_IO,
         .chargenName = SUPERPET_CHARGEN_NAME,
         .kernalName = PET_KERNAL4NAME,
@@ -334,6 +346,7 @@ static int petmem_get_conf_info(petinfo_t *pi)
         || (resources_get_int("Ram9", &pi->ramsel9) < 0)
         || (resources_get_int("RamA", &pi->ramselA) < 0)
         || (resources_get_int("EoiBlank", &pi->eoiblank) < 0)
+        || (resources_get_int("Screen2001", &pi->screenmirrors2001) < 0)
         || (resources_get_int("SuperPET", &pi->superpet) < 0)
         || (resources_get_int("KeyboardType", &ktype) < 0)) {
         return -1;
@@ -353,6 +366,7 @@ int petmem_set_conf_info(const petinfo_t *pi)
     resources_set_int("Ram9", pi->ramsel9);
     resources_set_int("RamA", pi->ramselA);
     resources_set_int("EoiBlank", pi->eoiblank);
+    resources_set_int("Screen2001", pi->screenmirrors2001);
     resources_set_int("SuperPET", pi->superpet);
     resources_set_int("KeyboardType", pi->kbd_type);
     return 0;
@@ -422,6 +436,7 @@ static int petmodel_get_temp(petinfo_t *pi)
             && (pet_table[i].info.crtc == pi->crtc)
             && (pet_table[i].info.video == pi->video)
             && (pet_table[i].info.eoiblank == pi->eoiblank)
+            && (pet_table[i].info.screenmirrors2001 == pi->screenmirrors2001)
             && (pet_table[i].info.superpet == pi->superpet)
             && (pet_table[i].info.kbd_type == pi->kbd_type)) {
             if ((pet_table[i].info.ramsel9 != pi->ramsel9)
@@ -446,8 +461,8 @@ int petmodel_get(void)
     if (petmem_get_conf_info(&pi) < 0) {
         return -1;
     }
-    DBG(("ramSize: %d IOSize: %d crtc: %d video: %d eoiblank: %d superpet: %d kbd_type: %d\n",
-           pi.ramSize, pi.IOSize, pi.crtc, pi.video, pi.eoiblank, pi.superpet, pi.kbd_type));
+    DBG(("ramSize: %d IOSize: %d crtc: %d video: %d eoiblank: %d screen2001: %s superpet: %d kbd_type: %d\n",
+           pi.ramSize, pi.IOSize, pi.crtc, pi.video, pi.eoiblank, pi.screenmirrors2001, pi.superpet, pi.kbd_type));
 
     return petmodel_get_temp(&pi);
 }

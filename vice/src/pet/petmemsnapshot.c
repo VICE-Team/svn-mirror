@@ -100,6 +100,8 @@ static const char module_ram_name[] = "PETMEM";
  *                              Added in format V1.2
  * BYTE         EOIBLANK        bit 0=0: EOI does not blank screen
  *                                   =1: EOI does blank screen
+ *                              bit 1=0: Screen memory like 3000 and later
+ *                                    1: Screen memory like 2001
  *
  *                              Added in format V1.3
  * WORD         CPU_SWITCH      6502 / 6809 / PROG
@@ -174,7 +176,8 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
     /* V1.1 */
     SMW_B(m, (uint8_t)(kbdindex & 1));
     /* V1.2 */
-    SMW_B(m, (uint8_t)(petres.eoiblank ? 1 : 0));
+    SMW_B(m, (uint8_t)((petres.eoiblank ? 1 : 0) |
+                       (petres.screenmirrors2001 ? 2 : 0)));
     /* V1.3 */
     SMW_W(m, (uint16_t)petres.superpet_cpu_switch);
     SMW_B(m, (uint8_t)dongle6702.val);
@@ -204,8 +207,11 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
     uint8_t config, rconf, byte, memsize, conf8x96, superpet;
     petinfo_t peti = {
-        32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, { NULL }
+        /* Defaults like a 8032 */
+        .ramSize = RAM_32K,
+        .IOSize = IO_2048,
+        .crtc = HAS_CRTC,
+        .video = COLS_80,
     };
     int old6809mode;
     int spetbank = 0;
@@ -301,6 +307,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
     if (vminor > 1) {
         SMR_B(m, &byte);
         resources_set_int("EoiBlank", byte & 1);
+        resources_set_int("Screen2001", (byte & 2) >> 1);
     }
     if (vminor > 2) {
         int new6809mode, i;
