@@ -571,10 +571,27 @@ static int attach_disk_image(disk_image_t *oldimage, vdrive_t *vdrive,
     disk_image_t *image;
     disk_image_t new_image;
     int err = -1;
+    int test_unit;
 
     if (filename == NULL) {
         log_error(attach_log, "No name, cannot attach floppy image.");
         return -1;
+    }
+
+    /* Make sure that we aren't attaching a disk image that is already
+     * attached */
+    for (test_unit = 8; test_unit < 8 + NUM_DISK_UNITS; ++test_unit) {
+        int test_drive;
+        for (test_drive = 0; test_drive < NUM_DRIVES; ++test_drive) {
+            /* It's OK to replace ourselves with the same disk */
+            if (unit != test_unit || drive != test_drive) {
+                const char *test_name = file_system_get_disk_name(test_unit, test_drive);
+                if (test_name && !strcmp(test_name, filename)) {
+                    log_error(attach_log, "`%s' is already mounted on drive %d:%d", filename, test_unit, test_drive);
+                    return -1;
+                }
+            }            
+        }
     }
 
     new_image.gcr = NULL;
