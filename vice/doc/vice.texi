@@ -20235,16 +20235,16 @@ supported by the emulators.
 Brenner, additional format v2 expansion by Markus Brenner, plus some editing
 by groepaz, with some more VICE extensions)
 
-Designed by Per Hakan Sundell (author of the CCS64 C64 emulator) in 1997,
-this format attempts to duplicate the data stored on a cassette  tape,
-bit for bit. Since it is simply a representation of  the  raw  serial  data
-from a tape, it should handle *any* custom tape loaders that exist.
+Designed by Per Hakan Sundell (author of the CCS64 C64 emulator) in 1997, this
+format attempts to duplicate the data stored on a cassette tape, bit for bit.
+Since it is simply a representation of the raw serial data from a tape, it
+should handle *any* custom tape loaders that exist.
 
-The TAP images are generally very large, being a minimum of eight  times,
-and up to sixteen times as large as what a raw PRG file would be.  This  is
-due to the way the data is stored, with each bit of the original  file  now
-being one byte large in the TAP file. The layout is fairly simple,  with  a
-small 14-byte header followed by file data.
+The TAP images are generally very large, being a minimum of eight times, and up
+to sixteen times as large as what a raw PRG file would be. This is due to the
+way the data is stored, with each bit of the original file now being one byte
+large in the TAP file. The layout is fairly simple, with a small 14-byte header
+followed by file data.
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
@@ -20271,27 +20271,28 @@ $01 - Updated, $02 - Halfwave Extension
 @item $000F
 @tab reserved for future expansion
 @item $0010-0013
-@tab File  data  size  (not  including  this  header,  in LOW/HIGH format) i.e. 
-The above example image is $00082151  bytes long.
+@tab File data size (not including this header, in LOW/HIGH format) i.e. The
+above example image is $00082151  bytes long.
 @item $0014-xxxx
 @tab File data
 @end multitable
 
-  In TAP version $00 files, each data byte in the file data area represents
-the length of a pulse, when the hardware  will  trigger  again.  This
-pulse length is determined by the following formula:
+In TAP version $00 files, each data byte in the file data area represents the
+length of a pulse, when the hardware will trigger again. This pulse length is
+determined by the following formula:
 @example
     pulse length (in seconds) = (8 * data byte) / (clock cycles)
 @end example
-  A data value of $00 represents an "overflow" condition, any pulse  length
-which is more that 255 * 8 in length.
+A data value of $00 represents an "overflow" condition, any pulse length which
+is more that 255 * 8 in length.
 
-  For example, assuming the image was made on a PAL C64, a data value of $2F (47 in decimal) would be:
+For example, assuming the image was made on a PAL C64, a data value of $2F (47
+in decimal) would be:
 @example
     (47 * 8) / 985248 = .00038975 seconds.
 @end example
 
-  The number of clock cycles per second can be derived from the given computer
+The number of clock cycles per second can be derived from the given computer
 platform and video standard, as in the following table:
 
 @multitable @columnfractions .3 .3 .4
@@ -20356,22 +20357,22 @@ TAP Version 2 is an extension made by Markus Brenner for C16 tapes. It is
 version 1, but each value represents a halfwave, starting with a '0'->'1'
 transition. The time encoding doesn't change.
 
-The actual interpretation of the serial data takes a little more work  to
-explain.  The  typical  ROM  tape  loader  (and  some of the  turbo  loaders)
-will initialize a timer with a specified value and start it  counting  down.  If
-either the tape data changes or the timer runs out, an IRQ will occur.  The
-loader will determine which condition caused the  IRQ.  If  the  tape  data
-changed before the timer ran out, we have a short pulse, or a "0"  bit.  If
-the timer ran out first, we have a long pulse, or a  "1"  bit.  Doing  this
-continuously and we decode the entire file.
+The actual interpretation of the serial data takes a little more work to
+explain. The typical ROM tape loader (and some of the turbo loaders) will
+initialize a timer with a specified value and start it counting down. If either
+the tape data changes or the timer runs out, an IRQ will occur. The loader will
+determine which condition caused the IRQ. If the tape data changed before the
+timer ran out, we have a short pulse, or a "0" bit. If the timer ran out first,
+we have a long pulse, or a  "1"  bit. Doing this continuously and we decode the
+entire file.
 
 @node T64, G64, File formats, File formats
 @section The T64 tape image format
 
 (This section was taken from the C64S distribution.)
 
-The @code{T64} File Structure was developed by Miha Peternel for use in
-the C64S emulator.  It is easy to use and allows future extensions.
+The @code{T64} File Structure was developed by Miha Peternel for use in the
+C64S emulator. It is easy to use and allows future extensions.
 
 @menu
 * T64 file structure::
