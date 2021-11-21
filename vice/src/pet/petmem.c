@@ -218,6 +218,22 @@ static void store_vmirror(uint16_t addr, uint8_t value)
     last_access = value;
 }
 
+/*
+ * On the 2001, the very first model, the 1K of screen was mirrored
+ * through the whole $8xxx block.
+ */
+static uint8_t read_vmirror_2001(uint16_t addr)
+{
+    last_access = mem_ram[0x8000 + (addr & 0x03ff)];
+    return last_access;
+}
+
+static void store_vmirror_2001(uint16_t addr, uint8_t value)
+{
+    mem_ram[0x8000 + (addr & 0x3ff)] = value;
+    last_access = value;
+}
+
 uint8_t rom_read(uint16_t addr)
 {
     last_access = mem_rom[addr & 0x7fff];
@@ -1356,7 +1372,22 @@ void petmem_set_vidmem(void)
         mem_read_limit_tab[i] = 0;
     }
 
-    if (pet_colour_type == PET_COLOUR_TYPE_OFF) {
+    /*
+     * This is not the best way to test for the model being 2001,
+     * which has its screen memory mirrored all over $8xxx, unlike later
+     * models.
+     * However, eoiblank is also a 2001-only property, and it is also
+     * display-related, so it will do for now.
+     */
+    if (petres.eoiblank) {
+        /* Setup screen mirror 3 and 4 from $8800 to $8FFF */
+        for (; i < 0x90; i++) {
+            _mem_read_tab[i] = read_vmirror_2001;
+            _mem_write_tab[i] = store_vmirror_2001;
+            _mem_read_base_tab[i] = NULL;
+            mem_read_limit_tab[i] = 0;
+        }
+    } else if (pet_colour_type == PET_COLOUR_TYPE_OFF) {
         /* Setup unused from $8800 to $8FFF */
         /* falls through if videoSize >= 0x1000 */
         for (; i < 0x90; i++) {
