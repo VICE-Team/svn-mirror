@@ -127,9 +127,10 @@ GtkWidget *pet_misc_widget_create(void)
 
     crtc_widget = gtk_check_button_new_with_label("CRTC chip enable");
     g_object_set(crtc_widget, "margin-left", 16, NULL);
-    blank_widget = gtk_check_button_new_with_label("EOI blanks screen");
+    blank_widget = gtk_check_button_new_with_label("2001 quirks: EOI blanks screen; extra screen mirrors");
+    g_object_set(blank_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), crtc_widget, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), blank_widget, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), blank_widget, 0, 2, 1, 1);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(crtc_widget), crtc);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(blank_widget), blank);
@@ -178,6 +179,6 @@ void pet_misc_widget_sync(GtkWidget *widget)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
 
     resources_get_int("EoiBlank", &state);
-    check = gtk_grid_get_child_at(GTK_GRID(widget), 1, 1);
+    check = gtk_grid_get_child_at(GTK_GRID(widget), 0, 2);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
 }

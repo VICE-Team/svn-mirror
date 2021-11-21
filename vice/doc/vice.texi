@@ -13803,7 +13803,9 @@ Enable/disable PET 2001 character generator
 @findex -eoiblank, +eoiblank
 @item -eoiblank
 @itemx +eoiblank
-Enable/disable EOI blanking the screen
+Enable/disable EOI blanking the screen.
+This also affects the other 2001-only display quirk:
+the screen memory is mirrored all the way through the $8*** block.
 (@code{EoiBlank=1}, @code{EoiBlank=0}).
 
 @findex -diagpin, +diagpin
@@ -13938,9 +13940,9 @@ This information comes from @email{kontakt@@michau.name, Michal Pleban},
 
 @cindex HRE
 This is a short information about the HRE (HiRes Emulator) graphics
-board for PET 8296. This is a small board that is installed on the
-mainboard into sockets for the CRTC and character ROM. It adds the
-ability to display 512x256 graphics on the built-in monitor.
+board for PET 8296 (ASSY No. 324890-01).  This is a small board that is
+installed on the mainboard into sockets for the CRTC and character ROM.
+It adds the ability to display 512x256 graphics on the built-in monitor.
 
 The board is accompanied with two extension ROMs:
 
