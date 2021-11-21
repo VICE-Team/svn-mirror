@@ -44,6 +44,9 @@
 #include "machine.h"
 #include "resources.h"
 
+/* Logging goes here.  */
+static log_t tape_log = LOG_DEFAULT;
+
 #define TAP_DEBUG 0
 
 #define TAP_PULSE_SHORT(x) \
@@ -78,6 +81,41 @@ static int tap_pulse_tt_short_max = 0x22;
 static int tap_pulse_tt_long_min = 0x23;
 static int tap_pulse_tt_long_max = 0x36;
 
+typedef struct {
+    int system;
+    int video;
+    int clock;
+} CLKLIST;
+
+static CLKLIST clklist[] = {
+    { TAP_HDR_SYSTEM_C64, TAP_HDR_VIDEO_PAL, 985248 },
+    { TAP_HDR_SYSTEM_C64, TAP_HDR_VIDEO_NTSC, 1022730 },
+    { TAP_HDR_SYSTEM_C64, TAP_HDR_VIDEO_NTSCOLD, 1022730 },
+    { TAP_HDR_SYSTEM_C64, TAP_HDR_VIDEO_PALN, 1023440 },
+    { TAP_HDR_SYSTEM_VIC20, TAP_HDR_VIDEO_PAL, 1108405 },
+    { TAP_HDR_SYSTEM_VIC20, TAP_HDR_VIDEO_NTSC, 1022727 },
+    { TAP_HDR_SYSTEM_C16, TAP_HDR_VIDEO_PAL, 1773447 },
+    { TAP_HDR_SYSTEM_C16, TAP_HDR_VIDEO_NTSC, 1789772 },
+    { TAP_HDR_SYSTEM_PET, TAP_HDR_VIDEO_PAL, 1000000 },
+    { TAP_HDR_SYSTEM_PET, TAP_HDR_VIDEO_NTSC, 1000000 },
+    { TAP_HDR_SYSTEM_C500, TAP_HDR_VIDEO_PAL, 985248 },
+    { TAP_HDR_SYSTEM_C500, TAP_HDR_VIDEO_NTSC, 1022730 },
+    { TAP_HDR_SYSTEM_C600, TAP_HDR_VIDEO_PAL, 2000000 },
+    { TAP_HDR_SYSTEM_C600, TAP_HDR_VIDEO_NTSC, 2000000 },
+    { -1, -1, -1 }
+};
+
+static int tap_get_clockspeed(int system, int video)
+{
+    int n = 0;
+    while (clklist[n].system != -1) {
+        if ((clklist[n].system == system) && (clklist[n].video == video)) {
+            return clklist[n].clock;
+        }
+        n++;
+    }
+    return 985248; /* PAL C64 is default */
+}
 
 static int tap_header_read(tap_t *tap, FILE *fd)
 {
@@ -106,41 +144,51 @@ static int tap_header_read(tap_t *tap, FILE *fd)
     switch (tap->system) {
         case TAP_HDR_SYSTEM_C16:
             if (tagsystem != TAP_HDR_SYSTEM_C16) {
-                log_warning(LOG_DEFAULT, ".tap header vs tag mismatch (expected C16 in tag).");
+                log_warning(tape_log, ".tap header vs tag mismatch (expected C16 in tag).");
             }
             break;
-        case TAP_HDR_SYSTEM_C64:    /* fall through */
-        case TAP_HDR_SYSTEM_VIC20:  /* fall through */
+        case TAP_HDR_SYSTEM_C64:   /* fall through */
+        case TAP_HDR_SYSTEM_VIC20: /* fall through */
+        case TAP_HDR_SYSTEM_C500:  /* fall through */
+        case TAP_HDR_SYSTEM_C600:  /* fall through */
+        case TAP_HDR_SYSTEM_PET:   /* fall through */
         default:
             if (tagsystem != TAP_HDR_SYSTEM_C64) {
-                log_warning(LOG_DEFAULT, ".tap header vs tag mismatch (expected C64 in tag).");
+                log_warning(tape_log, ".tap header vs tag mismatch (expected C64 in tag).");
             }
             break;
     }
 
     if ((machine_class == VICE_MACHINE_PLUS4) && (tap->system != TAP_HDR_SYSTEM_C16)) {
-        log_error(LOG_DEFAULT, ".tap header system mismatch (expected C16/PLUS4).");
+        log_error(tape_log, ".tap header system mismatch (expected C16/PLUS4).");
     }
 
     switch (video) {
         case MACHINE_SYNC_NTSC:
             if (tap->video != TAP_HDR_VIDEO_NTSC) {
-                log_warning(LOG_DEFAULT, ".tap header video system mismatch (expected NTSC).");
+                log_warning(tape_log, ".tap header video system mismatch (expected NTSC).");
             }
             break;
         case MACHINE_SYNC_NTSCOLD:
             if (tap->video != TAP_HDR_VIDEO_NTSCOLD) {
-                log_warning(LOG_DEFAULT, ".tap header video system mismatch (expected NTSCOLD).");
+                log_warning(tape_log, ".tap header video system mismatch (expected NTSCOLD).");
+            }
+            break;
+        case MACHINE_SYNC_PALN:
+            if (tap->video != TAP_HDR_VIDEO_PALN) {
+                log_warning(tape_log, ".tap header video system mismatch (expected PALN).");
             }
             break;
         case MACHINE_SYNC_PAL:      /* fall through */
-        case MACHINE_SYNC_PALN:     /* fall through */ /* FIXME */
         default:
             if (tap->video != TAP_HDR_VIDEO_PAL) {
-                log_warning(LOG_DEFAULT, ".tap header video system mismatch (expected PAL).");
+                log_warning(tape_log, ".tap header video system mismatch (expected PAL).");
             }
             break;
     }
+
+    tap->tap_clock = tap_get_clockspeed(tap->system, tap->video);
+    log_message(tape_log, ".tap clock is %dHz", tap->tap_clock);
 
     memcpy(tap->name, &buf[TAP_HDR_MAGIC_OFFSET], 12);
 
@@ -225,7 +273,7 @@ int tap_close(tap_t *tap)
             uint8_t buf[4];
             /* sanity check */
             if (tap->size != datasize) {
-                log_warning(LOG_DEFAULT,
+                log_warning(tape_log,
                             "tap data size mismatch, expected: 0x%06lx is: 0x%06x",
                             (unsigned long)datasize, (unsigned)tap->size);
                 tap->size = (int)datasize;
@@ -279,13 +327,24 @@ int tap_create(const char *name)
         case VICE_MACHINE_VIC20:
             block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_VIC20;
             break;
+        case VICE_MACHINE_PET:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_PET;
+            break;
+        case VICE_MACHINE_CBM5x0:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C500;
+            break;
+        case VICE_MACHINE_CBM6x0:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C600;
+            break;
         case VICE_MACHINE_PLUS4:
 #if 0   /* FIXME: saving v2 C16 format doesnt actually work */
-            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C16;
             block[TAP_HDR_VERSION] = 2;
-            break;
 #endif
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C16;
+            break;
         case VICE_MACHINE_C64:  /* fall through */
+        case VICE_MACHINE_C64SC:  /* fall through */
+        case VICE_MACHINE_C128:  /* fall through */
         default:
             block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C64;
             break;
@@ -300,8 +359,10 @@ int tap_create(const char *name)
         case MACHINE_SYNC_NTSCOLD:
             block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_NTSCOLD;
             break;
+        case MACHINE_SYNC_PALN:
+            block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_PALN;
+            break;
         case MACHINE_SYNC_PAL:      /* fall through */
-        case MACHINE_SYNC_PALN:     /* fall through */ /* FIXME */
         default:
             block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_PAL;
             break;
@@ -1616,4 +1677,8 @@ void tap_init(const tape_init_t *init)
     tap_pulse_middle_max = init->pulse_middle_max / 8;
     tap_pulse_long_min = init->pulse_long_min / 8;
     tap_pulse_long_max = init->pulse_long_max / 8;
+
+    if (tape_log == LOG_DEFAULT) {
+        tape_log = log_open("TAP");
+    }
 }
