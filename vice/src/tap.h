@@ -42,10 +42,14 @@
 #define TAP_HDR_SYSTEM_C64      0
 #define TAP_HDR_SYSTEM_VIC20    1
 #define TAP_HDR_SYSTEM_C16      2
+#define TAP_HDR_SYSTEM_PET      3
+#define TAP_HDR_SYSTEM_C500     4
+#define TAP_HDR_SYSTEM_C600     5
 
 #define TAP_HDR_VIDEO_PAL       0
 #define TAP_HDR_VIDEO_NTSC      1
 #define TAP_HDR_VIDEO_NTSCOLD   2
+#define TAP_HDR_VIDEO_PALN      3
 
 struct tape_init_s;
 struct tape_file_record_s;
@@ -68,6 +72,9 @@ typedef struct tap_s {
 
     /* Videostandard the image is made for.  */
     uint8_t video;
+
+    /* clock speed the tap file was created with */
+    int tap_clock;
 
     /* Tape name.  */
     uint8_t name[12];
