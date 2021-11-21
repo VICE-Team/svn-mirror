@@ -118,8 +118,7 @@ static gboolean create_tape_image(const char *filename, int port)
     } else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(auto_attach))) {
         /* try to attach the image */
         if (tape_image_attach(port, fname_copy) < 0) {
-            ui_error("Datasette error",
-                     "Failed to attach tape image '%s' to port #%d",
+            ui_error("Failed to attach tape image '%s' to port #%d",
                      fname_copy, port);
             status = FALSE;
         }
