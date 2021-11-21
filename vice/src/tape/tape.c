@@ -531,6 +531,15 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
 
     if (!name || !*name) {
         return -1;
+    } else {
+        /* Make sure this tape isn't already in the other datasette */
+        unsigned int other_index = 2 - unit;
+        if (tape_image_dev[other_index] &&
+            tape_image_dev[other_index]->name &&
+            !strcmp(tape_image_dev[other_index]->name, name)) {
+            log_error(tape_log, "File `%s' already mounted on other tape unit", name);
+            return -1;
+        }
     }
 
     tape_image.name = lib_strdup(name);
