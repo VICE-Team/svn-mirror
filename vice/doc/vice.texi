@@ -20302,13 +20302,14 @@ in decimal) would be:
     (47 * 8) / 985248 = .00038975 seconds.
 @end example
 
-The number of clock cycles per second can be derived from the given computer
-platform and video standard, as in the following table:
+The number of clock cycles per second refer to the clock rate the timers used
+for the tape routines in the respective computer system count with, and can be
+derived from the given computer platform and video standard, as in the following table:
 
 @multitable @columnfractions .3 .3 .4
-@item @b{Computer Platform}
-@tab @b{Video Standard}
-@tab @b{System Clock}
+@item @b{Computer platform}
+@tab @b{Video standard}
+@tab @b{Timer clock speed}
 @item 0 = C64
 @tab 0 = PAL
 @tab 985248 kHz
@@ -20327,12 +20328,12 @@ platform and video standard, as in the following table:
 @item
 @tab 1 = NTSC
 @tab 1022727 kHz
-@item 2 = C16 / Plus4
+@item 2 = C16 / Plus4 (*)
 @tab 0 = PAL
-@tab 1773447 kHz
+@tab 886724 kHz
 @item
 @tab 1 = NTSC
-@tab 1789772 kHz
+@tab 894886 kHz
 @item 3 = PET
 @tab 0 = PAL
 @tab 1000000 kHz
@@ -20352,6 +20353,9 @@ platform and video standard, as in the following table:
 @tab 1 = NTSC
 @tab 2000000 kHz
 @end multitable
+
+(*) The TED timers always run with the slower clock rate (886724 Hz for PAL
+machines), so the length of one TAP pulse should be relative to this frequency.
 
 The original format did not include the "computer platform" and "video system"
 field, and the number of clock cycles per second was assumed to always be 985248,
@@ -20375,6 +20379,13 @@ determine which condition caused the IRQ. If the tape data changed before the
 timer ran out, we have a short pulse, or a "0" bit. If the timer ran out first,
 we have a long pulse, or a  "1"  bit. Doing this continuously and we decode the
 entire file.
+
+Plus4 implementation hints: When playing back a TAP on a Plus/4 emulator,
+you should write a routine that sets the CAS_READ line to '0' for half of the
+time and '1' for the other half. This should be easy to implement, as your
+emulator probably counts in units of clock cycles anyway :) As for writing to
+a TAP file, you need to watch the CAS_WRITE register (processor port, bit 0x02)
+and start counting whenever a 0->1 transition happens.
 
 @node T64, G64, File formats, File formats
 @section The T64 tape image format
