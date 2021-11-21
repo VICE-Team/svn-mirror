@@ -1373,13 +1373,10 @@ void petmem_set_vidmem(void)
     }
 
     /*
-     * This is not the best way to test for the model being 2001,
-     * which has its screen memory mirrored all over $8xxx, unlike later
-     * models.
-     * However, eoiblank is also a 2001-only property, and it is also
-     * display-related, so it will do for now.
+     * Model 2001 has its 1K screen memory mirrored all over $8xxx,
+     * unlike later models.
      */
-    if (petres.eoiblank) {
+    if (petres.screenmirrors2001) {
         /* Setup screen mirror 3 and 4 from $8800 to $8FFF */
         for (; i < 0x90; i++) {
             _mem_read_tab[i] = read_vmirror_2001;

@@ -98,6 +98,9 @@
 #define NO_EOI     0
 #define EOI_BLANKS 1
 
+#define NO_MIRRORS_2001 0
+#define SCREEN_MIRRORS_2001 1
+
 #define NORMAL_IO   0
 #define SUPERPET_IO 1
 
@@ -114,6 +117,7 @@ typedef struct petinfo_s {
     int pet2k;                  /* 1 = do PET 2001 kernal patches */
     int pet2kchar;              /* 1 = do PET 2001 chargen patches */
     int eoiblank;               /* 1 = EOI blanks screen */
+    int screenmirrors2001;      /* 1 = 4x1K screen mirrors all over $8*** */
     int superpet;               /* 1 = enable SuperPET I/O */
 
     /* ROM image resources */
@@ -141,6 +145,7 @@ typedef struct petres_s {
     int pet2k;                  /* 1 = do PET 2001 kernal patches */
     int pet2kchar;              /* 1 = do PET 2001 chargen patches */
     int eoiblank;               /* 1 = EOI blanks screen */
+    int screenmirrors2001;      /* 1 = 4x1K screen mirrors all over $8*** */
     int superpet;               /* 1 = enable SuperPET I/O */
 
     /* ROM image resources */
