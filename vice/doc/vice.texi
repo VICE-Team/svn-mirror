@@ -20262,7 +20262,7 @@ followed by file data.
 @item @b{Offset}
 @tab @b{Description}
 @item $0000-000B
-@tab File signature (@code{C64-TAPE-RAW} (v0 and v1) or @code{C16-TAPE-RAW}) (v2 only)
+@tab File signature (@code{C64-TAPE-RAW} (v0 and v1) or @code{C16-TAPE-RAW} (v2 only))
 @item $000C
 @tab @code{TAP} version (see below for description), $00 - Original layout, 
 $01 - Updated, $02 - Halfwave Extension
@@ -20319,7 +20319,7 @@ platform and video standard, as in the following table:
 @item
 @tab 1 = NTSC
 @tab 1022727 kHz
-@item 3 = C16 / Plus4
+@item 2 = C16 / Plus4
 @tab 0 = PAL
 @tab 1773447 kHz
 @item
