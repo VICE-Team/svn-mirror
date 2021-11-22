@@ -52,6 +52,7 @@
 #include <gtk/gtk.h>
 
 #include "archdep_defs.h"
+#include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
 #include "contentpreviewwidget.h"
@@ -69,6 +70,7 @@
 #include "joystickmenupopup.h"
 #include "kbddebugwidget.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "mainlock.h"
 #include "resources.h"
@@ -142,14 +144,22 @@ enum {
 #define UNIT_11_ROW 1
 
 
+/** \brief  Column indexes for the drive widgets
+ *
+ * These are columns in their containing grid, not the status bar grid.
+ */
 static const int unit_cols[NUM_DISK_UNITS] = {
     UNIT_8_COL, UNIT_9_COL, UNIT_10_COL, UNIT_11_COL
 };
 
+
+/** \brief  Row indexes for the drive widgets
+ *
+ * These are rows in their containing grid, not the status bar grid.
+ */
 static const int unit_rows[NUM_DISK_UNITS] = {
     UNIT_8_ROW, UNIT_9_ROW, UNIT_10_ROW, UNIT_11_ROW
 };
-
 
 
 /** \brief  Column indexes for the drive status widgets
@@ -173,6 +183,7 @@ enum {
  * \param[in]   D   drive number
  */
 #define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
+
 
 /** \brief  CSS for the drive widgets
  */
@@ -421,10 +432,6 @@ typedef struct ui_statusbar_s {
 
     /** \brief The joyport status widget. */
     GtkWidget *joysticks;
-#if 0
-    /** \brief The drive status widgets. */
-    GtkWidget *drives[NUM_DISK_UNITS];
-#endif
 
     /*
      * New diskdrive layout code
@@ -432,13 +439,9 @@ typedef struct ui_statusbar_s {
 
     /* Four diskdrive units (8-11) */
     GtkWidget *drive_unit[NUM_DISK_UNITS];
+
     /* Four units with max two drives each: */
     GtkWidget *drive_menu[NUM_DISK_UNITS][DRIVE_UNIT_DRIVE_MAX];
-
-#if 0
-    /** \brief The popup menus associated with each drive. */
-    GtkWidget *drive_popups[NUM_DISK_UNITS];
-#endif
 
     /** \brief The volume control
      *
@@ -1407,13 +1410,30 @@ static GtkWidget *ui_drive_widget_create(int unit, int bar_index)
 }
 
 
-
+/** \brief  Get disk unit widget
+ *
+ * \param[in]   bar     status bar index (0 or 1)
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *drive_get_unit_widget(int bar, int unit)
 {
     return allocated_bars[bar].drive_unit[unit - DRIVE_UNIT_MIN];
 }
 
 
+/** \brief  Get drive status widget
+ *
+ * \param[in]   bar     status bar index (0 or 1)
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  GtkEventBox containing the GtkGrid with the drive widgets
+ *
+ * \note    Perhaps this can be changed to return the contained GtkGrid if we
+ *          find out we never need to work directly with the GtkEventBox.
+ */
 static GtkWidget *drive_get_drive_widget(int bar, int unit, int drive)
 {
     GtkWidget *unit_widget;
@@ -1423,6 +1443,16 @@ static GtkWidget *drive_get_drive_widget(int bar, int unit, int drive)
 }
 
 
+/** \brief  Get child widget of a drive status widget
+ *
+ * \param[in]   bar     status bar index (0 or 1)
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ * \param[in]   column  column, see #DRIVE_STATUS_NUMBER, #DRIVE_STATUS_HEAD,
+ *                      #DRIVE_STATUS_LED
+ *
+ * \return  Child widget
+ */
 static GtkWidget *drive_get_child_widget(int bar, int unit, int drive, int column)
 {
     GtkWidget *event_box;
@@ -1439,17 +1469,42 @@ static GtkWidget *drive_get_child_widget(int bar, int unit, int drive, int colum
 }
 
 
+/** \brief  Get widget displaying the unit[:drive] number
+ *
+ * \param[in]   bar     status bar index (0 or 1)
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  GtkLabel
+ */
 static GtkWidget *drive_get_number_widget(int bar, int unit, int drive)
 {
     return drive_get_child_widget(bar, unit, drive, DRIVE_STATUS_NUMBER);
 }
 
 
+/** \brief  Get widget displaying the drive head position
+ *
+ * \param[in]   bar     status bar index (0 or 1)
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  GtkLabel
+ */
 static GtkWidget *drive_get_head_widget(int bar, int unit, int drive)
 {
     return drive_get_child_widget(bar, unit, drive, DRIVE_STATUS_HEAD);
 }
 
+
+/** \brief  Get widget displaying the LED
+ *
+ * \param[in]   bar     status bar index (0 or 1)
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  GtkDrawingArea
+ */
 static GtkWidget *drive_get_led_widget(int bar, int unit, int drive)
 {
     return drive_get_child_widget(bar, unit, drive, DRIVE_STATUS_LED);
@@ -1671,11 +1726,9 @@ static GtkWidget *ui_joystick_widget_create(void)
 
 /** \brief Lay out the disk drive widgets inside a status bar.
  *
- *  Depending on which drives are enabled, any given drive may appear
- *  on different columns or even rows. This routine handles that flow
- *  as the configuration changes.
+ * Enable/disable unit, drive, LED widgets based on current configuration.
  *
- *  \param bar_index Which status bar to lay out.
+ * \param[in]   bar_index   Which status bar to lay out.
  */
 static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index)
 {
@@ -1688,39 +1741,8 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
         return;
     }
 
-#if 0
-    /* Delete all the drives and dividers that may exist. WARNING:
-     * This code assumes that the drive widgets are the rightmost
-     * elements of the status bar. */
-    for (i = 0; i < ((NUM_DISK_UNITS + 1) / 2) * 2; ++i) {
-        for (j = 0; j < 2; ++j) {
-            GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(bar),
-                    SB_COL_DRIVE + i, j);
-            if (child) {
-                /* Fun GTK3 fact! If you destroy an event box, then
-                 * even if the thing it contains still has references
-                 * left, that child is destroyed _anyway_. To avoid
-                 * this tragic eventuality, we detach the child files
-                 * before removing the box. */
-                /* TODO: This implies that we really should not be
-                 * relying on g_object_ref to preserve objects, and
-                 * instead keep track of widget indices the hard
-                 * way. */
-                if (GTK_IS_EVENT_BOX(child)) {
-                    GtkWidget *grandchild = gtk_bin_get_child(GTK_BIN(child));
-                    gtk_container_remove(GTK_CONTAINER(child), grandchild);
-                }
-                gtk_container_remove(GTK_CONTAINER(bar), child);
-            }
-        }
-    }
-#endif
-
     state = state_snapshot->drives_enabled;
     tde = state_snapshot->drives_tde_enabled;
-
-    debug_gtk3("state = %02x, tde = %02x.",
-               (unsigned int)state, (unsigned int)tde);
 
     for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
         GtkWidget *unit_widget;
@@ -1739,18 +1761,14 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
 
         /* update unit and drives visibility */
         if (state & 1) {
-            debug_gtk3("Showing unit #%d.", unit);
             gtk_widget_show(unit_widget);
             gtk_widget_show(drive0_widget);
             if (dual) {
-                debug_gtk3("Showing drive #1.");
                 gtk_widget_show(drive1_widget);
             } else {
-                debug_gtk3("Hiding drive #1.");
                 gtk_widget_hide(drive1_widget);
             }
         } else {
-            debug_gtk3("Hiding unit #%d, drive #0, drive #1.", unit);
             gtk_widget_hide(unit_widget);
             gtk_widget_hide(drive0_widget);
             gtk_widget_hide(drive1_widget);
@@ -1764,61 +1782,10 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
             gtk_widget_hide(led1_widget);
         }
 
-
-#if 0
-        if ((state & 1) || (dual & 1)) {
-            GtkWidget *drive = allocated_bars[bar_index].drives[i];
-            GtkWidget *event_box = gtk_event_box_new();
-            int row = enabled_drive_index % 2;
-            int column = (enabled_drive_index / 2) * 2 + SB_COL_DRIVE;
-            unsigned int drive_dual = drive_check_dual(diskunit_context[i]->type);
-
-            if (row == 0) {
-                gtk_grid_attach(GTK_GRID(bar),
-                        gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-                        column - 1, 0, 1, 2);
-            }
-            gtk_container_add(GTK_CONTAINER(event_box), drive);
-            gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-            g_signal_connect(event_box, "button-press-event",
-                    G_CALLBACK(ui_do_drive_popup), GINT_TO_POINTER(i));
-            g_signal_connect(event_box, "enter-notify-event",
-                    G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[bar_index]);
-            g_signal_connect(event_box, "leave-notify-event",
-                    G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[bar_index]);
-            gtk_widget_show_all(event_box);
-
-            if (drive_dual) {
-                /* drive:unit and track.sector */
-                gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 0, 1));
-                gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 1, 1));
-            } else {
-                /* all widgets for the second drive */
-                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 0, 1));
-                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 1, 1));
-                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 2, 1));
-            }
-
-            if (tde & 1) {
-                /* drive LEDs */
-                gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
-                if (drive_dual) {
-                    gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 1));
-                }
-            } else {
-                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
-                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 2, 1));
-            }
-
-            gtk_grid_attach(GTK_GRID(bar), event_box, column, row, 1, 2);
-            ++enabled_drive_index;
-        }
-#endif
         state >>= 1;
         tde >>= 1;
         dual >>= 1;
     }
-    //gtk_widget_show_all(bar);
 }
 
 
@@ -1985,8 +1952,9 @@ GtkWidget *ui_statusbar_create(int window_identity)
     }
 
     if (i >= MAX_STATUS_BARS) {
-        /* Fatal error? */
-        return NULL;
+        /* Fatal error (should never happen) */
+        log_error(LOG_ERR, "Maxium number of status bars (%d) exceeded.", i);
+        archdep_vice_exit(1);
     }
 
     allocated_bars[i].window_identity = window_identity;
@@ -2139,7 +2107,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     /* Third column :Drives */
     drive_units = gtk_grid_new();
-    /* results in dual drives of a unit being grouped closer together than the units */
+    /* results in dual drives of a unit being grouped closer together than the units: */
     gtk_grid_set_row_spacing(GTK_GRID(drive_units), 8);
     gtk_widget_set_hexpand(drive_units, FALSE);
     gtk_widget_set_vexpand(drive_units, FALSE);
@@ -2160,6 +2128,9 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
         gtk_grid_attach(GTK_GRID(drive_units), drive_unit, unit_cols[j], unit_rows[j], 1, 1);
     }
+    /* XXX: Once all 'top widgets' are properly wrapped in grids the column
+     *      span needs to be changed from 2 to 1.
+     */
     gtk_grid_attach(GTK_GRID(sb), drive_units, SB_COL_DRIVE, 0, 1, 2);
 
     /*
@@ -2851,7 +2822,7 @@ void ui_update_statusbars(void)
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         bar = &allocated_bars[i];
-        if (!bar->bar) {
+        if (bar->bar == NULL) {
             continue;
         }
 
@@ -2902,10 +2873,6 @@ void ui_update_statusbars(void)
          */
 
         if (state_snapshot.drives_layout_needed) {
-            /* WARNING: The current implementation of ui_enable_drive_status()
-             * relies on the fact that the drives are the last elements of the
-             * statusbar display. If more widgets are added past this point,
-             * that function will need to change as well. */
             layout_statusbar_drives(&state_snapshot, i);
         }
 
@@ -3053,4 +3020,3 @@ void ui_display_reset(int device, int mode)
 
     ui_display_statustext(buffer, 1 /* fadeout */);
 }
-
