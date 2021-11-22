@@ -186,11 +186,17 @@ enum {
 
 
 /** \brief  CSS for the drive widgets
+ *
+ * The negative margins look weird, but otherwise we have a lot of padding, and
+ * the drive widgets already take up a lot of space when having dual-drives
+ * enabled.
  */
 #define DRIVE_WIDGET_CSS \
     "label {\n" \
     "    font-family: monospace;\n" \
     "    font-size:100%;\n" \
+    "    margin-top: -2px;\n" \
+    "    margin-bottom: -4px;\n" \
     "}\n"
 
 
@@ -1268,8 +1274,11 @@ static int compute_drives_enabled_mask(void)
  */
 static GtkWidget *ui_drive_widget_create(int unit, int bar_index)
 {
-    GtkWidget *grid, *number, *track, *led;
-    GtkCssProvider *css_provider;
+    GtkWidget *grid;
+    GtkWidget *number;
+    GtkWidget *track;
+    GtkWidget *led;
+    GtkCssProvider *drive_css;
     int drive_num;
 
     mainlock_assert_is_not_vice_thread();
@@ -1278,7 +1287,7 @@ static GtkWidget *ui_drive_widget_create(int unit, int bar_index)
     gtk_widget_set_hexpand(grid, FALSE);
     gtk_widget_set_vexpand(grid, FALSE);
     /* create reusable CSS provider for the unit/drive and track labels */
-    css_provider = vice_gtk3_css_provider_new(DRIVE_WIDGET_CSS);
+    drive_css = vice_gtk3_css_provider_new(DRIVE_WIDGET_CSS);
 
     for (drive_num = 0; drive_num < DRIVE_UNIT_DRIVE_MAX; drive_num++) {
         GtkWidget *drive_grid;  /* grid for a single drive of a unit */
@@ -1292,12 +1301,12 @@ static GtkWidget *ui_drive_widget_create(int unit, int bar_index)
                    drive_num);
         number = gtk_label_new(drive_id);
         gtk_widget_set_halign(number, GTK_ALIGN_START);
-        vice_gtk3_css_provider_add(number, css_provider);
+        vice_gtk3_css_provider_add(number, drive_css);
 
         track = gtk_label_new(" 18.5");
         gtk_widget_set_hexpand(track, TRUE);
         gtk_widget_set_halign(track, GTK_ALIGN_END);
-        vice_gtk3_css_provider_add(track, css_provider);
+        vice_gtk3_css_provider_add(track, drive_css);
 
         led = gtk_drawing_area_new();
         gtk_widget_set_size_request(led, 30, 15);
@@ -2035,7 +2044,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /* Third column :Drives */
     drive_units = gtk_grid_new();
     /* results in dual drives of a unit being grouped closer together than the units: */
-    gtk_grid_set_row_spacing(GTK_GRID(drive_units), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(drive_units), 4);
     gtk_widget_set_hexpand(drive_units, FALSE);
     gtk_widget_set_vexpand(drive_units, FALSE);
     gtk_widget_set_halign(drive_units, GTK_ALIGN_START);
