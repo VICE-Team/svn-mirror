@@ -1144,9 +1144,7 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget,
         display = gtk_widget_get_display(widget);
         if (display != NULL && sb->hand_ptr == NULL) {
             sb->hand_ptr = gdk_cursor_new_from_name(display, "pointer");
-            if (sb->hand_ptr != NULL) {
-                g_object_ref_sink(G_OBJECT(sb->hand_ptr));
-            } else {
+            if (sb->hand_ptr == NULL) {
                 fprintf(stderr, "GTK3 CURSOR: Could not allocate custom"
                        " pointer for status bar\n");
             }
@@ -1179,69 +1177,7 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget,
  */
 static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 {
-    int i, j;
-
-    mainlock_assert_is_not_vice_thread();
-
-    for (i = 0; i < MAX_STATUS_BARS; ++i) {
-        if (allocated_bars[i].bar == sb) {
-            allocated_bars[i].bar = NULL;
-
-            if (allocated_bars[i].msg) {
-                g_object_unref(G_OBJECT(allocated_bars[i].msg));
-            }
-
-            if (allocated_bars[i].record) {
-                g_object_unref(G_OBJECT(allocated_bars[i].record));
-                allocated_bars[i].record = NULL;
-            }
-
-            if (allocated_bars[i].speed != NULL) {
-                g_object_unref(G_OBJECT(allocated_bars[i].speed));
-                allocated_bars[i].speed = NULL;
-            }
-
-            if (allocated_bars[i].crt != NULL) {
-                g_object_unref(G_OBJECT(allocated_bars[i].crt));
-                allocated_bars[i].crt = NULL;
-            }
-            if (allocated_bars[i].mixer != NULL) {
-                g_object_unref(G_OBJECT(allocated_bars[i].mixer));
-                allocated_bars[i].mixer = NULL;
-            }
-
-            for (j = 0; j < TAPEPORT_MAX_PORTS; j++) {
-                if (allocated_bars[i].tape_status[j] != NULL) {
-                    g_object_unref(G_OBJECT(allocated_bars[i].tape_status[j]));
-                    allocated_bars[i].tape_status[j] = NULL;
-                }
-                if (allocated_bars[i].tape_menu[j] != NULL) {
-                    g_object_unref(G_OBJECT(allocated_bars[i].tape_menu[j]));
-                    allocated_bars[i].tape_menu[j] = NULL;
-                }
-            }
-
-            if (allocated_bars[i].joysticks) {
-                g_object_unref(G_OBJECT(allocated_bars[i].joysticks));
-                allocated_bars[i].joysticks = NULL;
-            }
-            if (allocated_bars[i].volume != NULL) {
-                g_object_unref(G_OBJECT(allocated_bars[i].volume));
-                allocated_bars[i].volume = NULL;
-            }
-            /* why? */
-            if (allocated_bars[i].kbd_debug != NULL) {
-                g_object_unref(G_OBJECT(allocated_bars[i].kbd_debug));
-                allocated_bars[i].kbd_debug = NULL;
-            }
-
-
-            if (allocated_bars[i].hand_ptr) {
-                g_object_unref(G_OBJECT(allocated_bars[i].hand_ptr));
-                allocated_bars[i].hand_ptr = NULL;
-            }
-        }
-    }
+    /* NOP */
 }
 
 
@@ -1851,7 +1787,6 @@ static GtkWidget *ui_volume_button_create(void)
     int sound_vol = 0;
 
     volume = gtk_volume_button_new();
-    g_object_ref_sink(volume);
     gtk_widget_set_can_focus(volume, FALSE);
 
     resources_get_int("SoundVolume", &sound_vol);
@@ -1972,7 +1907,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     /* First column: CPU/FPS - No FPS on VDC Window for now */
     speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
-    g_object_ref_sink(G_OBJECT(speed));
     g_object_set(speed, "margin-left", 8, NULL);
 
     allocated_bars[i].speed = speed;
@@ -1988,7 +1922,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
     if (machine_class != VICE_MACHINE_VSID) {
         crt = gtk_check_button_new_with_label("CRT controls");
         gtk_widget_set_can_focus(crt, FALSE);
-        g_object_ref_sink(G_OBJECT(crt));
         gtk_widget_set_halign(crt, GTK_ALIGN_START);
         gtk_widget_set_hexpand(crt, FALSE);
         gtk_widget_show_all(crt);
@@ -1996,7 +1929,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
         mixer = gtk_check_button_new_with_label("Mixer controls");
         gtk_widget_set_can_focus(mixer, FALSE);
-        g_object_ref_sink(G_OBJECT(mixer));
         gtk_widget_set_halign(mixer, GTK_ALIGN_START);
         gtk_widget_set_hexpand(mixer, FALSE);
         gtk_widget_show_all(mixer);
@@ -2020,7 +1952,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
                  "margin-left", 8,
                  "margin-right", 8,
                  NULL);
-    g_object_ref_sink(message);
     allocated_bars[i].msg = message;
     gtk_grid_attach(GTK_GRID(sb), message, SB_COL_MSG, SB_ROW_MSG, 5, 1);
     /* add horizontal separator */
@@ -2031,7 +1962,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /* Recording */
     recording = statusbar_recording_widget_create();
     gtk_widget_set_hexpand(recording, TRUE);
-    g_object_ref_sink(recording);
     allocated_bars[i].record = recording;
     gtk_grid_attach(GTK_GRID(sb), recording, SB_COL_RECORD, SB_ROW_RECORD, 5, 1);
 
@@ -2065,8 +1995,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
             tape_status = ui_tape_widget_create(port_number);
             tape_menu = ui_create_datasette_control_menu(port_number);
-            g_object_ref_sink(G_OBJECT(tape_status));
-            g_object_ref_sink(G_OBJECT(tape_menu));
 
             /* Clicking the tape status is supposed to pop up a window. This
              * requires a way to make sure events are captured by random
@@ -2099,7 +2027,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /* Joystick widgets: row below tape widget(s) */
     if (machine_class != VICE_MACHINE_VSID) {
         joysticks = ui_joystick_widget_create();
-        g_object_ref(joysticks);
         gtk_widget_set_halign(joysticks, GTK_ALIGN_START);
         gtk_grid_attach(GTK_GRID(sb), joysticks, SB_COL_TAPE, 1, 1, 1);
         allocated_bars[i].joysticks = joysticks;
@@ -2171,7 +2098,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
         kbd_debug_widget = kbd_debug_widget_create();
         allocated_bars[i].kbd_debug = kbd_debug_widget;
-        g_object_ref_sink(kbd_debug_widget);
         gtk_grid_attach(GTK_GRID(sb), kbd_debug_widget, 0, SB_ROW_KBD, 11, 1);
     }
 
