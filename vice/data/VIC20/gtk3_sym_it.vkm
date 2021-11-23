@@ -128,16 +128,16 @@ exclam          0 0 1
 # underscore = arrow left
 underscore      0 1 0
 End             0 1 8
-# Tab = CTRL
-Tab             0 2 16392
-# Shift + Tab = CTRL
-ISO_Left_Tab    0 2 16392
+# Tab = CBM
+Tab             0 5 8200
+# Shift + Tab = CBM
+ISO_Left_Tab    0 5 8200
 # Escape = run/stop
 Escape          0 3 8
 Help            0 3 8
 space           0 4 8
-# Control_L = CBM
-Control_L       0 5 8
+# Control_L = CTRL
+Control_L       0 2 16392
 quotedbl        0 7 1
 
 #####################
@@ -168,14 +168,14 @@ parenright      4 0 1
 #####################
 # |Bit 5|  +  |  P  |  L  | , < | . > | : [ |  @  |  -  |
 
-plus            5 0 0
+plus            5 0 16
 comma           5 3 0
 less            5 3 1
 period          5 4 0
 greater         5 4 1
-colon           5 5 0
+colon           5 5 16
 bracketleft     5 5 1
-at              5 6 0
+at              5 6 16
 minus           5 7 0
 
 #####################
@@ -184,7 +184,7 @@ minus           5 7 0
 sterling        6 0 0
 bar             6 0 8
 backslash       6 0 0
-asterisk        6 1 0
+asterisk        6 1 16
 semicolon       6 2 0
 bracketright    6 2 1
 slash           6 3 0
@@ -192,8 +192,8 @@ question        6 3 1
 Shift_R         6 4 4
 equal           6 5 0
 # Page down -> Arrow Up
-asciicircum     6 6 0
-asciitilde      6 6 0
+asciicircum     6 6 16
+asciitilde      6 6 16
 Page_Down       6 6 8
 Home            6 7 8
 Find            6 7 8
@@ -295,43 +295,61 @@ Page_Up -3 0
 Prior -3 1
 
 # Dead keys support for those using US-International keyboard layout.
-dead_acute      3 0 1  # '
-dead_grave      3 0 1  # '
-dead_circumflex 6 6 0  # A_UP
-dead_tilde      6 6 0  # A_UP
-dead_diaeresis  0 7 1  # "
-
+dead_acute       3 0 1  # '
+dead_grave       3 0 1  # '
+dead_circumflex  6 6 16 # A_UP
+dead_tilde       6 6 16 # A_UP
+dead_perispomeni 6 6 16 # A_UP
+dead_diaeresis   0 7 1  # "
 #-----------------------------------------------------------------------------------------------------------
 
 #
 # Symbolic Mapping, IT Layout, VIC20, GTK (Custom keys)
 #
 
+#Shift Lock
+Caps_Lock       1 3 64
 
-# Control_L = CBM (new method)
-Control_L       0 5 8192
-
-
-#underscore = CBM + @  CHR$(164) _  (new method) 
+#UNDERSCORE = CBM + @  CHR$(164) _  (new method) 
 underscore      5 6 2064  #16 (deshift key) + 2048 (combined with cbm)
 
+#APOSTROPHE ' = CBM + 7
+apostrophe      3 0 2064  #16 (deshift key) + 2048 (combined with cbm)
+
+#LESS < = CBM + ,
+less            5 3 2064  #16 (deshift key) + 2048 (combined with cbm)
 
 #LEFT ARROW
 backslash       0 1 8
 bar             0 1 8
 
-#UP ARROW
-igrave          6 6 0
+#UP ARROW   (to allow graphic symbols with Shift and CBM)
+igrave          6 6 8
 
-#Pound £ (to allow graphic symbols with Shift and CBM)
+#SLASH /
+slash           6 3 16
+
+#ASTERISK * (to allow graphic symbols with Shift and CBM)
+section         6 1 0
+ugrave          6 1 0
+
+#SEMICOLON ;
+semicolon       6 2 16
+
+
+#STERLING £ (to allow graphic symbols with Shift and CBM)
 Insert          6 0 8
+sterling        6 0 16
 
 #ARROW UP (to allow graphic symbols with Shift and CBM)
 Delete          6 6 8
 
-#@ (to allow graphic symbols with Shift and CBM)
-ugrave          5 6 8
-section         5 6 8
+#AT @ (to allow graphic symbols with Shift and CBM)
+egrave          5 6 8
+eacute          5 6 8
+ccedilla        5 6 8
+ograve          5 6 8
+
 
 #* from KeynumPad
 KP_Multiply     6 1 8
