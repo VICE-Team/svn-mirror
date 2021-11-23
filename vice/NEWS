@@ -265,10 +265,12 @@ We welcome to the team:
 - Added support for C128, VIC20 and Plus4 cartridges.
 
 
-** cartconv fixes
+** petcat fixes
 -----------------
 
 - correctly align (5 digit) line numbers.
+
+- Added support for Mega65 BASIC
 
 
 ** Monitor fixes

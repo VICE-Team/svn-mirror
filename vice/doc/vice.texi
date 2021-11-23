@@ -20135,6 +20135,8 @@ Basic v2.0 with Basic v4.0 extension (C64)
 Basic v2.0 with Basic v4.0 extension (VIC20)
 @item 5
 Basic v2.0 with Basic v5.0 extension (VIC20)
+@item 65
+Basic v65.0 (Mega65)
 @item 70
 Basic v7.0 (C128)
 @item 71
