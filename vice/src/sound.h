@@ -202,7 +202,7 @@ extern int sound_init_vorbis_device(void);
 extern int sound_init_pulse_device(void);
 
 /* internal function for sound device registration */
-extern int sound_register_device(sound_device_t *pdevice);
+extern int sound_register_device(const sound_device_t *pdevice);
 
 /* other internal functions used around sound -code */
 extern int sound_read(uint16_t addr, int chipno);

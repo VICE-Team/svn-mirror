@@ -150,7 +150,7 @@ static void flac_close(void)
     FLAC__stream_encoder_delete(encoder);
 }
 
-static sound_device_t flac_device =
+static const sound_device_t flac_device =
 {
     "flac",
     flac_init,

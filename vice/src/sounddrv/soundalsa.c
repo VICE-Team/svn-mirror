@@ -242,7 +242,7 @@ static int alsa_resume(void)
     return 0;
 }
 
-static sound_device_t alsa_device =
+static const sound_device_t alsa_device =
 {
     "alsa",
     alsa_init,
