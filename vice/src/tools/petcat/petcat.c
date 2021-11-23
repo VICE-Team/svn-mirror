@@ -138,6 +138,7 @@
 #define B_TT64          41
 #define B_HANDY         42
 
+#define B_65            43      /* Basic 65 on the Mega65 */
 
 /* Handy Basic (VIC20) -- Tokens 0xCC - 0xE1 */
 
@@ -586,6 +587,7 @@ static basic_list_t basic_list[] = {
     { B_EVE,      46, 0xF9, 0x0801, 0, 0xCC, evekwcc,           "eve",       0, 0, 0, "Basic v2.0 with Eve Basic (C64)" },
     { B_TT64,     26, 0xF4, 0x5b01, 0, 0xDB, tt64kwdb,          "tt64",      0, 0, 0, "Basic v2.0 with The Tool 64 (C64)" },
     { B_HANDY,    22, 0xE1, 0x1801, 0, 0xCC, handykwcc,         "handy",     0, 0, 0, "Basic v2.0 with Handy Basic v1.0 (VIC20)" },
+    { B_65,       73, 0x48, 0x2001, 2, 0,    NULL, /* fix */    "65",        0, 1, 1, "Basic v65.0 (Mega65)" },
     { 0,          0,  0,    0,     0 , 0,    NULL,              NULL,        0, 0, 0, NULL }
 };
 
@@ -824,10 +826,13 @@ static const char *keyword[] = {
     "tan",    "atn",    "peek", "len",  "str$",    "val",    "asc",    "chr$",
     "left$",  "right$", "mid$", "go",
     /*
-     * The following codes (0xcc- 0xfe) are for 3.5, 7.0, and 10.0 only.
-     * On 10.0 gshape, sshape, and draw are replaced with paste, cut, and line
-     * respectively. */
-    "rgr", "rclr", "rlum" /* 0xce -- v7 prefix */, "joy",
+     * The following codes (0xcc- 0xfe) are for 3.5, 7.0, 10.0, 65.0 only.
+     * On 10.0 and 65.0 gshape, sshape, and draw are replaced with paste, cut, and line
+     * respectively.
+     * On 65.0 rgr, rclr, rdot, locate, scale, directory are replaced with
+     * rgraphic, rcolor, rpen, merge, xor and dir respectively. */
+
+    "rgr", "rclr", "rlum" /* 0xce -- v7 and v65 prefix */, "joy",
 
     "rdot",     "dec",    "hex$",    "err$",    "instr",  "else",   "resume",    "trap",
     "tron",     "troff",  "sound",   "vol",     "auto",   "pudef",  "graphic",   "paint",
@@ -854,6 +859,12 @@ static const char *kwce10[] = {
     "",    "",        "pot",     "bump", "lpen", "rsppos", "rsprite", "rspcolor",
     "xor", "rwindow", "pointer"
 };
+
+static const char *kwce65[] = {
+    "",    "",        "pot",     "bump", "lpen", "rsppos", "rsprite", "rspcolor",
+    "log10", "rwindow", "pointer", "mod", "pixel", "rpalette", "rspeed", "rplay"
+};
+#define NUM_KWCE65 (sizeof(kwce65) / sizeof(kwce65[0]))
 
 static const char *kwfe[] = {
     "",         "",      "bank",     "filter", "play",    "tempo",  "movspr", "sprite",
@@ -882,6 +893,19 @@ static const char *kwfe71[] = {
     "cwind", "sscrn", "lscrn", "hide",  "show", "sfont", "lfont", "view",
     "fcopy", "esave", "send",  "check", "esc",  "old",   "find",  "dump",
     "merge"
+};
+
+static const char *kwfe65[] = {
+    "",         "",           "bank",     "filter",     "play",    "tempo",     "movspr",  "sprite",
+    "sprcolor", "rreg",       "envelope", "sleep",      "catalog", "dopen",     "append",  "dclose",
+    "bsave",    "bload",      "record",   "concat",     "dverify", "dclear",    "sprsav",  "collision",
+    "begin",    "bend",       "window",   "boot",       "fread#",  "sprdef",    "fwrite#", "dma",
+    "",         "edma",       "",         "mem",        "off",     "fast",      "speed",   "type",
+    "bverify",  "ectory",     "erase",    "find",       "change",  "set",       "screen",  "polygon",
+    "ellipse",  "viewport",   "gcopy",    "pen",        "palette", "dmode",     "dpat",    "format",
+    "genlock",  "foreground", "",         "background", "border",  "highlight", "mouse",   "rmouse",
+    "disk",     "cursor",     "rcursor",  "loadiff",    "saveiff", "edit",      "font",    "fgoto",
+    "fgosub"
 };
 
 /* ------------------------------------------------------------------------- */
@@ -1042,6 +1066,20 @@ int main(int argc, char **argv)
         kwfe[0x1f] = "dma";
         kwfe[0x21] = "dma";
         kwfe[0x23] = "dma";
+    }
+
+    /* BASIC 65.0 changes the keyword associated with some of the unprefixed
+       tokens listed in the keyword table. */
+    if (version == B_65) {
+        keyword[0x4c] = "rgraphic";
+        keyword[0x4d] = "rcolor";
+        keyword[0x50] = "rpen";
+        keyword[0x63] = "paste";
+        keyword[0x64] = "cut";
+        keyword[0x65] = "line";
+        keyword[0x66] = "merge";
+        keyword[0x69] = "xor";
+        keyword[0x6e] = "dir";
     }
 
     if (show_words) {
@@ -1343,7 +1381,7 @@ static void list_keywords(int version)
 
     if (version == B_1) {
         max = basic_list[B_1 - 1].num_tokens;
-    } else if (version == B_35 || version == B_7 || version == B_71 || version == B_10) {
+    } else if (version == B_35 || version == B_7 || version == B_71 || version == B_10 || version == B_65) {
         max = basic_list[B_35 - 1].num_tokens;
     } else {
         max = basic_list[B_2 - 1].num_tokens;
@@ -1372,6 +1410,15 @@ static void list_keywords(int version)
             for (n = basic_list[version - 1].token_offset; n < NUM_KWCE; n++) {
                 printf("%s\t", (version == B_10) ? kwce10[n] : kwce[n] /*, 0xce, n*/);
             }
+        }
+    } else if (version == B_65) {
+        /* BASIC 65.0 has separate tables for 0xce and 0xfe prefixed keywords. */
+        /* Match the order of the tokens and keywords tables in the BASIC 65 reference */
+        for (n = basic_list[version - 1].token_offset; n < NUM_KWCE65; n++) {
+            printf("%s\t", kwce65[n] /*, 0xce, n*/);
+        }
+        for (n = basic_list[version - 1].token_offset; n < basic_list[version - 1].num_tokens; n++) {
+            printf("%s\t", kwfe65[n] /*, 0xfe, n*/);
         }
     } else {
         switch (version) {
@@ -1700,7 +1747,7 @@ static int p_expand(int version, int addr, int ctrls)
                 }
             }
 
-            /* basic 2.0, 7.0 & 10.0 and extensions */
+            /* basic 2.0, 7.0, 10.0, 65.0 and extensions */
 
             if (!quote && c > 0x7f) {
                 /* check for keywords common to all versions, include pi */
@@ -1714,16 +1761,34 @@ static int p_expand(int version, int addr, int ctrls)
                 }
                 if (version != B_35 && version != B_FC3) {
                     if (c == 0xce && basic_list[version - 1].prefixce) {            /* 'rlum' on V3.5*/
-                        if ((c = getc(source)) <= MAX_KWCE) {
-                            fprintf(dest, "%s", (version == B_10) ? kwce10[c] : kwce[c]);
+                        if (version == B_65) {
+                            /* Use the kwce65 table for BASIC 65.0, which is
+                               longer than the kwce and kwce10 tables. */
+                            if ((c = getc(source)) < NUM_KWCE65) {
+                                fprintf(dest, "%s", kwce65[c]);
+                            } else {
+                                fprintf(dest, "($ce%02x)", (unsigned int)c);
+                            }
                         } else {
-                            fprintf(dest, "($ce%02x)", (unsigned int)c);
+                            if ((c = getc(source)) <= MAX_KWCE) {
+                                fprintf(dest, "%s", (version == B_10) ? kwce10[c] : kwce[c]);
+                            } else {
+                                fprintf(dest, "($ce%02x)", (unsigned int)c);
+                            }
                         }
                         continue;
                     } else if (c == 0xfe && basic_list[version - 1].prefixfe) {
                         if (version == B_SXC) {
                             if ((c = getc(source)) <= basic_list[B_SXC - 1].max_token) {
                                 fprintf(dest, "%s", basic_list[version - 1].tokens[c]);
+                            } else {
+                                fprintf(dest, "($fe%02x)", (unsigned int)c);
+                            }
+                        } else if (version == B_65) {
+                            /* Use the kwfe65 table for BASIC 65.0, which is
+                               longer than the kwfe and kwfe71 tables. */
+                            if ((c = getc(source)) <= basic_list[B_65 - 1].max_token) {
+                                fprintf(dest, "%s", kwfe65[c]);
                             } else {
                                 fprintf(dest, "($fe%02x)", (unsigned int)c);
                             }
@@ -1972,11 +2037,26 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                  * and this part will copy the char over to the new buffer */
             } else if (isalpha(*p2) || strchr("+-*/^>=<", *p2)) {
                 /* FE and CE prefixes are checked first */
-                if (version == B_7 || version == B_71 || version == B_10 || version == B_SXC || version == B_SIMON) {
+                if (version == B_7 || version == B_71 || version == B_10 || version == B_65 || version == B_SXC || version == B_SIMON) {
                     switch (version) {
                        case B_SIMON:
                             if ((c = sstrcmp(p2, basic_list[version - 1].tokens, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
                                 *p1++ = 0x64;
+                                *p1++ = (unsigned char)c;
+                                p2 += kwlen;
+                                match++;
+                                match2++;
+                            }
+                            break;
+                        case B_65:
+                            if ((c = sstrcmp(p2, kwfe65, basic_list[version - 1].token_offset, basic_list[version - 1].num_tokens)) != KW_NONE) {
+                                *p1++ = 0xfe;
+                                *p1++ = (unsigned char)c;
+                                p2 += kwlen;
+                                match++;
+                                match2++;
+                            } else if ((c = sstrcmp(p2, kwce65, basic_list[version - 1].token_offset, NUM_KWCE65)) != KW_NONE) {
+                                *p1++ = 0xce;
                                 *p1++ = (unsigned char)c;
                                 p2 += kwlen;
                                 match++;
@@ -2051,7 +2131,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     if (version == B_1) {
                         max = basic_list[B_1 - 1].num_tokens;
                     } else if ((version == B_35) || (version == B_7) || (version == B_71) ||
-                               (version == B_10) || (version == B_SXC)) {
+                               (version == B_10) || (version == B_65) || (version == B_SXC)) {
                         max = basic_list[B_35 - 1].num_tokens;
                     } else {
                         max = basic_list[B_2 - 1].num_tokens;
@@ -2156,7 +2236,21 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     rem_data_mode = 0;
                 }
 
+                p3 = p2;
                 ++p2;
+
+                /* BASIC 65 has hex literals starting with a $. After a $,
+                   0-9 and a-f are greadily consumed as being a part of the hex
+                   literal. This avoids tokenizing DEF. But this also leads to
+                   AND after a hex literal needing a space, otherwise the A is
+                   consumed as part of the hex literal. However this is the way
+                   BASIC 65 works. */
+                if ((version == B_65) && (*p3 == 0x24)) {
+                    while (((*p2 >= 0x30) && (*p2 <= 0x39)) || ((*p2 >= 0x61) && (*p2 <=0x66))) {
+                        *p1++ = (unsigned char)(_a_topetscii(*p2 & 0xff, ctrls));
+                        ++p2;
+                    }
+                }
             } /* match */
         } /* while */
 
