@@ -396,13 +396,8 @@ static const resource_int_t resid_resources_int[] = {
       &sid_resid_8580_passband, set_sid_resid_8580_passband, NULL },
     { "SidResid8580Gain", 97, RES_EVENT_NO, NULL,
       &sid_resid_8580_gain, set_sid_resid_8580_gain, NULL },
-#ifdef HAVE_NEW_8580_FILTER
-    { "SidResid8580FilterBias", 500, RES_EVENT_NO, NULL,
-      &sid_resid_8580_filter_bias, set_sid_resid_8580_filter_bias, NULL },
-#else
     { "SidResid8580FilterBias", 0, RES_EVENT_NO, NULL,
       &sid_resid_8580_filter_bias, set_sid_resid_8580_filter_bias, NULL },
-#endif
     RESOURCE_INT_LIST_END
 };
 #endif
