@@ -62,7 +62,7 @@
 
 static log_t sound_log = LOG_ERR;
 
-static void sounddev_close(sound_device_t **dev);
+static void sounddev_close(const sound_device_t **dev);
 
 /* ------------------------------------------------------------------------- */
 
@@ -77,13 +77,13 @@ static void sounddev_close(sound_device_t **dev);
 /* ------------------------------------------------------------------------- */
 
 typedef struct sound_register_devices_s {
-    char *name;
+    const char *name;
     int (*init)(void);
     int is_playback_device;
 } sound_register_devices_t;
 
 /* This table is used to specify the order of inits of the playback and recording devices */
-static sound_register_devices_t sound_register_devices[] = {
+static const sound_register_devices_t sound_register_devices[] = {
 
     /* the "native" platform specific drivers should come first, sorted by
        priority (most wanted first) */
@@ -672,10 +672,10 @@ typedef struct {
     int bufptr;
 
     /* pointer to playback device structure in use */
-    sound_device_t *playdev;
+    const sound_device_t *playdev;
 
     /* pointer to playback device structure in use */
-    sound_device_t *recdev;
+    const sound_device_t *recdev;
 
     /* number of samples in a fragment */
     int fragsize;
@@ -696,11 +696,11 @@ static snddata_t snddata;
 /* device registration code */
 #define MAX_SOUND_DEVICES 24
 
-static sound_device_t *sound_devices[MAX_SOUND_DEVICES];
+static const sound_device_t *sound_devices[MAX_SOUND_DEVICES];
 
 static int sound_device_count = 0;
 
-int sound_register_device(sound_device_t *pdevice)
+int sound_register_device(const sound_device_t *pdevice)
 {
     if (sound_device_count < MAX_SOUND_DEVICES) {
         sound_devices[sound_device_count] = pdevice;
@@ -871,7 +871,7 @@ int sound_open(void)
     int c, i, j;
     int channels_cap;
     int channels;
-    sound_device_t *pdev, *rdev;
+    const sound_device_t *pdev, *rdev;
     char *playname, *recname;
     char *playparam, *recparam;
     char *err;
@@ -1079,7 +1079,7 @@ int sound_open(void)
     return 0;
 }
 
-static void sounddev_close(sound_device_t **dev)
+static void sounddev_close(const sound_device_t **dev)
 {
     if (*dev) {
         log_message(sound_log, "Closing device `%s'", (*dev)->name);

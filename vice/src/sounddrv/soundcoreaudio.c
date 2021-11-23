@@ -766,7 +766,7 @@ static int coreaudio_resume(void)
     return result;
 }
 
-static sound_device_t coreaudio_device =
+static const sound_device_t coreaudio_device =
 {
     "coreaudio",
     coreaudio_init,

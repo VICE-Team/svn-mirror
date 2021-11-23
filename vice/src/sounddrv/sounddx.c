@@ -593,7 +593,7 @@ static int dx_resume(void)
     return 0;
 }
 
-static sound_device_t dx_device =
+static const sound_device_t dx_device =
 {
     "dx",
     dx_init,

@@ -114,7 +114,7 @@ static void pulsedrv_close(void)
     }
 }
 
-static sound_device_t pulsedrv_device =
+static const sound_device_t pulsedrv_device =
 {
     "pulse",
     pulsedrv_init,
