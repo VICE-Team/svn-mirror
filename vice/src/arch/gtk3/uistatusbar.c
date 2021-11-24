@@ -200,6 +200,17 @@ enum {
     "}\n"
 
 
+/** \brief  Joysticks widget: column of label
+ */
+#define JOYSTICK_COL_LABEL  0
+
+/** \brief  Joysticks widget: column of first joystick indicator widget
+ */
+#define JOYSTICK_COL_STATUS 1
+
+
+
+
 /** \brief  Status bar column indexes
  *
  * These values assume a proper emulator statusbar (ie not VSID).
@@ -1579,28 +1590,42 @@ static void update_joyport_layout(void)
 {
     int i;
     int j;
-    
+
     for (j = 0; j < MAX_STATUS_BARS; ++j) {
         GtkWidget *joyports_grid;
+        GtkWidget *child;
+        int active;
 
         if (allocated_bars[j].joysticks == NULL) {
             continue;
         }
-        joyports_grid =  gtk_bin_get_child(
-                GTK_BIN(allocated_bars[j].joysticks));
+        joyports_grid =  gtk_bin_get_child(GTK_BIN(allocated_bars[j].joysticks));
 
         /* Hide and show the joystick ports as required */
+        active = 0;     /* count number of active joysticks */
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-            GtkWidget *child = gtk_grid_get_child_at(
-                    GTK_GRID(joyports_grid), 1+i, 0);
+            child = gtk_grid_get_child_at(GTK_GRID(joyports_grid),
+                                          i + JOYSTICK_COL_STATUS, 0);
             if (child) {
                 if (joyport_port_is_active(i)) {
                     gtk_widget_set_no_show_all(child, FALSE);
                     gtk_widget_show_all(child);
+                    active++;
                 } else {
                     gtk_widget_set_no_show_all(child, TRUE);
                     gtk_widget_hide(child);
                 }
+            }
+        }
+        /* Hide the label when no joysticks are active */
+        child = gtk_grid_get_child_at(GTK_GRID(joyports_grid),
+                                      JOYSTICK_COL_LABEL, 0);
+        if (child != NULL) {
+            if (active == 0) {
+                /* hide the label */
+                gtk_widget_hide(child);
+            } else {
+                gtk_widget_show(child);
             }
         }
     }
