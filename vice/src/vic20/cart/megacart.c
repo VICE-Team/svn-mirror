@@ -327,15 +327,18 @@ static uint8_t megacart_io3_read(uint16_t addr)
 
 static uint8_t megacart_io3_peek(uint16_t addr)
 {
-    if ((addr & 0x180) == 0x080) { /* $9c80 */
+    if ((addr & 0x3ff) == 0x080) { /* $9c80 */
         return bank_high_reg;
     }
 
-    if ((addr & 0x180) == 0x100) { /* $9d00 */
+    if ((addr & 0x3ff) == 0x100) { /* $9d00 */
         return bank_low_reg;
     }
 
-    return cart_nvram[0x1c00 + (addr & 0x3ff)];
+    if (nvram_en_flop) {
+        return cart_nvram[0x1c00 + (addr & 0x3ff)];
+    }
+    return vic20_cpu_last_data;
 }
 
 /* store 0x9c00-0x9fff (nvram 0x1c00 - 0x1fff) */
