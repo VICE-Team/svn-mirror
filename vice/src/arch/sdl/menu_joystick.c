@@ -471,20 +471,7 @@ static const ui_menu_entry_t define_keyset_menu[] = {
 };
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
-static const char *joy_pin[] = {
-    "Up",
-    "Down",
-    "Left",
-    "Right",
-    "Fire (or SNES-A)",
-    "Fire 2 (or SNES-B)",
-    "Fire 3 (or SNES-X)",
-    "Fire 4 (SNES-Y)",
-    "Fire 5 (SNES-LB)",
-    "Fire 6 (SNES-RB)",
-    "Fire 7 (SNES-SELECT)",
-    "Fire 8 (SNES-START)"
-};
+static const char *joy_pin[JOYPORT_MAX_PORTS][JOYPORT_MAX_PINS];
 
 static const char *joy_pot[] = {
     "Pot-X",
@@ -501,7 +488,7 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     port = (vice_ptr_to_int(param)) >> 5;
 
     if (activated) {
-        target = lib_msprintf("Port %i %s", port + 1, joy_pin[pin]);
+        target = lib_msprintf("Port %i %s (press del to clear)", port + 1, joy_pin[port][pin]);
         e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
         lib_free(target);
 
@@ -536,7 +523,7 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
     port = (vice_ptr_to_int(param)) >> 5;
 
     if (activated) {
-        target = lib_msprintf("Port %i %s", port + 1, joy_pot[pot]);
+        target = lib_msprintf("Port %i %s (del clears mappings)", port + 1, joy_pot[pot]);
         e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
         lib_free(target);
 
@@ -632,6 +619,7 @@ static const char *joystick_mapping_dynmenu_helper(int port)
     ui_menu_entry_t *entry = joystick_mapping_dyn_menu[port];
     int i;
     int j = 0;
+    char *mapname;
 
     /* rebuild menu if it already exists. */
     if (joystick_mapping_dyn_menu_init[port] != 0) {
@@ -645,10 +633,12 @@ static const char *joystick_mapping_dynmenu_helper(int port)
         if (mappings != NULL) {
             if (mappings->pinmap != NULL) {
                 for (i = 0; mappings->pinmap[i].name; i++) {
-                    entry[j].string = (char *)lib_strdup(mappings->pinmap[i].name);
+                    mapname = (char *)lib_strdup(mappings->pinmap[i].name);
+                    entry[j].string = mapname;
                     entry[j].type = MENU_ENTRY_DIALOG;
                     entry[j].callback = custom_joymap_callback;
                     entry[j].data = (ui_callback_data_t)int_to_void_ptr((mappings->pinmap[i].pin | (port << 5)));
+                    joy_pin[port][mappings->pinmap[i].pin] = mapname;
                     j++;
                 }
             }
