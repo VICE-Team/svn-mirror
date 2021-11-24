@@ -209,6 +209,14 @@ enum {
 #define JOYSTICK_COL_STATUS 1
 
 
+/** \brief  CSS for the checkbuttons
+ */
+#define CHECKBUTTON_CSS \
+    "checkbutton {\n" \
+    "    font-size:100%;\n" \
+    "    margin-top: -2px;\n" \
+    "    margin-bottom: -2px;\n" \
+    "}\n"
 
 
 /** \brief  Status bar column indexes
@@ -1903,8 +1911,8 @@ GtkWidget *ui_statusbar_create(int window_identity)
     GtkWidget *tape_events;
 
     GtkWidget *sep;
-    GtkWidget *crt = NULL;
-    GtkWidget *mixer = NULL;
+    GtkWidget *crt;
+    GtkWidget *mixer;
     GtkWidget *volume = NULL;
     GtkWidget *message;
     GtkWidget *recording;
@@ -1954,20 +1962,35 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     /* don't add CRT or Mixer controls when VSID */
     if (machine_class != VICE_MACHINE_VSID) {
-        crt = gtk_check_button_new_with_label("CRT controls");
+        GtkCssProvider *css;
+
+        css = vice_gtk3_css_provider_new(CHECKBUTTON_CSS);
+
+        crt = gtk_check_button_new_with_label("CRT");
+        vice_gtk3_css_provider_add(crt, css);
         gtk_widget_set_can_focus(crt, FALSE);
         gtk_widget_set_halign(crt, GTK_ALIGN_START);
+        gtk_widget_set_valign(crt, GTK_ALIGN_START);
         gtk_widget_set_hexpand(crt, FALSE);
+        gtk_widget_set_vexpand(crt, FALSE);
         gtk_widget_show_all(crt);
         g_signal_connect(crt, "toggled", G_CALLBACK(on_crt_toggled), NULL);
 
-        mixer = gtk_check_button_new_with_label("Mixer controls");
+        mixer = gtk_check_button_new_with_label("Mixer");
+        vice_gtk3_css_provider_add(mixer, css);
         gtk_widget_set_can_focus(mixer, FALSE);
         gtk_widget_set_halign(mixer, GTK_ALIGN_START);
+        gtk_widget_set_valign(mixer, GTK_ALIGN_START);
         gtk_widget_set_hexpand(mixer, FALSE);
+        gtk_widget_set_vexpand(mixer, FALSE);
         gtk_widget_show_all(mixer);
         g_signal_connect(mixer, "toggled", G_CALLBACK(on_mixer_toggled), NULL);
+    } else {
+        crt = NULL;
+        mixer = NULL;
     }
+    allocated_bars[i].crt = crt;
+    allocated_bars[i].mixer = mixer;
 
     /* Messages
      *
@@ -2001,10 +2024,13 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     /* TODO: skip VSID and add another separator after the checkbox */
     if (machine_class != VICE_MACHINE_VSID) {
-        allocated_bars[i].crt = crt;
-        gtk_grid_attach(GTK_GRID(sb), crt, SB_COL_CRT, SB_ROW_CRT, 1, 1);
-        allocated_bars[i].mixer = mixer;
-        gtk_grid_attach(GTK_GRID(sb), mixer, SB_COL_MIXER, SB_ROW_MIXER, 1, 1);
+        /* wrap checkboxes in a grid to avoid extra vertical spacing */
+        GtkWidget *checkboxes = gtk_grid_new();
+
+        gtk_grid_attach(GTK_GRID(checkboxes), crt, 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(checkboxes), mixer, 0, 1, 1, 1);
+
+        gtk_grid_attach(GTK_GRID(sb), checkboxes, SB_COL_CRT, SB_ROW_CRT, 1, 3);
         /* add separator */
         gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
                 SB_COL_SEP_CRT, SB_ROW_SEP_CRT, 1, 3);
