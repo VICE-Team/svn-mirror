@@ -736,6 +736,7 @@ void machine_specific_powerup(void)
 {
     petdww_powerup();
     pethre_powerup();
+    userport_power_toggle();
 }
 
 /* PET-specific initialization.  */

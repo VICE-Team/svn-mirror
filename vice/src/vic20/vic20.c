@@ -1168,6 +1168,7 @@ void machine_specific_reset(void)
 void machine_specific_powerup(void)
 {
     cartridge_powerup();
+    userport_power_toggle();
 }
 
 void machine_specific_shutdown(void)

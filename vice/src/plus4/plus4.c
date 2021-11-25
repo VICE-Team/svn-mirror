@@ -936,6 +936,7 @@ void machine_specific_reset(void)
 void machine_specific_powerup(void)
 {
     ted_reset_registers();
+    userport_power_toggle();
 }
 
 void machine_specific_shutdown(void)

@@ -95,6 +95,7 @@ static userport_device_t diag_586220_harness_device = {
     userport_diag_586220_harness_store_sp2, /* store sp2 pin function */
     userport_diag_586220_harness_read_sp2,  /* read sp2 pin function */
     NULL,                                   /* NO reset function */
+    NULL,                                   /* NO power toggle function */
     NULL,                                   /* NO snapshot write function */
     NULL                                    /* NO snapshot read function */
 };

@@ -124,6 +124,7 @@ static userport_device_t dac_device = {
     NULL,                               /* NO store sp2 pin function */
     NULL,                               /* NO read sp2 pin function */
     NULL,                               /* NO reset function */
+    NULL,                               /* NO power toggle function */
     userport_dac_write_snapshot_module, /* snapshot write function */
     userport_dac_read_snapshot_module   /* snapshot read function */
 };
