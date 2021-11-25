@@ -470,6 +470,15 @@ void cartridge_reset(void)
     }
 }
 
+void cartridge_powerup(void)
+{
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_VIC20_MEGACART:
+            megacart_powerup();
+            break;
+    }
+}
+
 void cartridge_attach(int type, uint8_t *rawcart)
 {
     int cartridge_reset;

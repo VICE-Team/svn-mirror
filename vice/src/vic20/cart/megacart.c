@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUGCART
+/* #define DEBUGCART */
 
 #include "vice.h"
 
@@ -44,6 +44,7 @@
 #include "megacart.h"
 #include "mem.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -371,15 +372,39 @@ static void megacart_io3_store(uint16_t addr, uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM nvramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
 void megacart_init(void)
 {
     if (megacart_log == LOG_ERR) {
         megacart_log = log_open(CARTRIDGE_VIC20_NAME_MEGACART);
     }
-
-    reset_mode = BUTTON_RESET;
-    oe_flop = 0;
-    nvram_en_flop = 0;
 }
 
 void megacart_reset(void)
@@ -390,6 +415,19 @@ void megacart_reset(void)
         oe_flop = 0;
     }
     reset_mode = BUTTON_RESET;
+}
+
+void megacart_powerup(void)
+{
+    reset_mode = BUTTON_RESET;
+    oe_flop = 0;
+    nvram_en_flop = 1;
+    if (cart_ram) {
+        ram_init_with_pattern(cart_ram, CART_RAM_SIZE, &ramparam);
+    }
+    if (cart_nvram) {
+        ram_init_with_pattern(cart_nvram, CART_NVRAM_SIZE, &ramparam);
+    }
 }
 
 void megacart_config_setup(uint8_t *rawcart)
@@ -461,9 +499,11 @@ int megacart_crt_attach(FILE *fd, uint8_t *rawcart)
 
     if (!cart_ram) {
         cart_ram = lib_malloc(CART_RAM_SIZE);
+        ram_init_with_pattern(cart_ram, CART_RAM_SIZE, &ramparam);
     }
     if (!cart_nvram) {
         cart_nvram = lib_malloc(CART_NVRAM_SIZE);
+        ram_init_with_pattern(cart_nvram, CART_NVRAM_SIZE, &nvramparam);
     }
     if (!cart_rom) {
         cart_rom = lib_malloc(CART_ROM_SIZE);
