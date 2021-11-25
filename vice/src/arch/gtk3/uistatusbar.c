@@ -1185,14 +1185,46 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget,
 
 /** \brief  Widget destruction callback for status bars.
  *
- * \param sb      The status bar being destroyed. This should be
- *                registered in some ui_statusbar_t structure as the
- *                bar field.
- * \param ignored User data pointer mandated by GTK. Unused.
+ * \param[in]   sb      The status bar being destroyed. This should be
+ *                      registered in some ui_statusbar_t structure as the
+ *                      bar field.
+ * \param[in]   index   status bar index
  */
-static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
+static void destroy_statusbar_cb(GtkWidget *sb, gpointer index)
 {
-    /* NOP */
+    ui_statusbar_t *bar;
+    int w;
+    int idx = GPOINTER_TO_INT(index);
+
+    debug_gtk3("Got index %d.", idx);
+    bar = &(allocated_bars[idx]);
+
+    /* Invalidate all widget references. We need to do this so we can guard
+     * against UI update requests after the UI has been destroyed.
+     */
+    bar->bar = NULL;
+    bar->top_row_grid = NULL;
+    bar->speed = NULL;
+    bar->msg = NULL;
+    bar->record = NULL;
+    bar->crt = NULL;
+    bar->mixer = NULL;
+    for (w = 0; w < TAPEPORT_MAX_PORTS; w++) {
+        bar->tape_status[w] = NULL;
+        bar->tape_menu[w] = NULL;
+    }
+    bar->joysticks = NULL;
+    for (w = 0; w < NUM_DISK_UNITS; w++) {
+        int d;
+
+        bar->drive_unit[w] = NULL;
+        for (d = 0; d < DRIVE_UNIT_DRIVE_MAX; d++) {
+            bar->drive_menu[w][d] = NULL;
+        }
+    }
+    bar->volume = NULL;
+    bar->hand_ptr = NULL;
+    bar->kbd_debug = NULL;
 }
 
 
@@ -2030,7 +2062,8 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     sb = vice_gtk3_grid_new_spaced(8, 0);
     gtk_widget_set_hexpand(sb, FALSE);
-    g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
+    g_signal_connect(sb, "destroy",
+                     G_CALLBACK(destroy_statusbar_cb), GINT_TO_POINTER(i));
     allocated_bars[i].bar = sb;
 
     /* First row: variable amount of widgets */
