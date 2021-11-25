@@ -2261,7 +2261,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     if (machine_class == VICE_MACHINE_VSID) {
         volume = ui_volume_button_create();
         gtk_widget_set_hexpand(volume, TRUE);
-        statusbar_append_end(i, volume, TRUE);
+        statusbar_append_end(i, volume);
     }
 #endif
     allocated_bars[i].volume = volume;
