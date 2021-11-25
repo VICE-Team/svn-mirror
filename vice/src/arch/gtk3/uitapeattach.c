@@ -43,6 +43,7 @@
 #include "tapecontents.h"
 #include "tapeport.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uimachinewindow.h"
 
 #include "uitapeattach.h"
@@ -142,6 +143,7 @@ static void do_autostart(GtkWidget *widget, int port, int index, int autostart)
                 port - 1    /* function uses 0/1 */) < 0) {
         /* oeps */
         log_error(LOG_ERR, "autostarting tape '%s' failed.", filename_locale);
+        ui_error("Autostarting tape '%s' failed.", filename_locale);
     }
     g_free(filename_locale);
 }
@@ -166,6 +168,8 @@ static void do_attach(GtkWidget *widget, int port)
     if (tape_image_attach(TAPEPORT_PORT_1 + port, filename_locale) < 0) {
         /* failed */
         log_error(LOG_ERR, "attaching tape '%s' to port #%d failed.",
+                 filename_locale, port);
+        ui_error("Attaching tape '%s' to port #%d failed.",
                  filename_locale, port);
     }
     g_free(filename_locale);

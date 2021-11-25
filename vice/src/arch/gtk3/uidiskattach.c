@@ -51,6 +51,7 @@
 #include "mainlock.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uistatusbar.h"
 #include "uimachinewindow.h"
 #include "lastdir.h"
@@ -221,6 +222,7 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
                 autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
         /* oeps */
         log_error(LOG_ERR, "autostart disk attach failed.");
+        ui_error("Autostart disk attach failed.");
     }
     g_free(filename);
     g_free(filename_locale);
@@ -289,10 +291,6 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
  * \param[in]   user_data   unit number
- *
- * TODO:    proper (error) messages, which requires implementing ui_error() and
- *          ui_message() and moving them into gtk3/widgets to avoid circular
- *          references
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
