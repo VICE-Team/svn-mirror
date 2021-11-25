@@ -1194,7 +1194,7 @@ gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
  *
  * \param[in]   param   video canvas
  */
-void ui_media_screenshot_vsync_callback(void *param)
+static void screenshot_vsync_callback(void *param)
 {
     char *filename;
     video_canvas_t *canvas = param;
@@ -1216,6 +1216,5 @@ void ui_media_screenshot_vsync_callback(void *param)
 void ui_media_auto_screenshot(void)
 {
     /* queue screenshot grab on vsync to avoid tearing */
-    vsync_on_vsync_do(ui_media_screenshot_vsync_callback,
-                      (void *)ui_get_active_canvas());
+    vsync_on_vsync_do(screenshot_vsync_callback, (void *)ui_get_active_canvas());
 }
