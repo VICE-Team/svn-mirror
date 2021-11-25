@@ -204,6 +204,7 @@ static joyport_t joyport_coplin_keypad_device = {
     NULL,                         /* NO digital line store function */
     NULL,                         /* NO pot-x read function */
     NULL,                         /* NO pot-y read function */
+    NULL,                         /* NO reset function */
     NULL,                         /* NO device write snapshot function */
     NULL,                         /* NO device read snapshot function */
     NULL,                         /* NO device hook function */

@@ -256,6 +256,7 @@ static joyport_t joyport_cx21_device = {
     cx21_store_dig,           /* digital line store function */
     cx21_read_potx,           /* pot-x read function */
     cx21_read_poty,           /* pot-y read function */
+    NULL,                     /* NO reset function */
     cx21_write_snapshot,      /* device write snapshot function */
     cx21_read_snapshot,       /* device read snapshot function */
     NULL,                     /* NO device hook function */

@@ -132,6 +132,7 @@ static joyport_t joyport_spaceballs_device = {
     NULL,                             /* NO digital line store function */
     NULL,                             /* NO pot-x read function */
     NULL,                             /* NO pot-y read function */
+    NULL,                             /* NO reset function */
     spaceballs_write_snapshot,        /* device write snapshot function */
     spaceballs_read_snapshot,         /* device read snapshot function */
     NULL,                             /* NO device hook function */

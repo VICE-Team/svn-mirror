@@ -87,6 +87,11 @@ static uint8_t vizawrite64_dongle_read_poty(int port)
     return retval;
 }
 
+static void vizawrite64_reset(int port)
+{
+    counter[port] = 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static int vizawrite64_write_snapshot(struct snapshot_s *s, int p);
@@ -105,6 +110,7 @@ static joyport_t joyport_vizawrite64_dongle_device = {
     NULL,                              /* NO digital line store function */
     vizawrite64_dongle_read_potx,      /* pot-x read function */
     vizawrite64_dongle_read_poty,      /* pot-y read function */
+    vizawrite64_reset,                 /* reset function */
     vizawrite64_write_snapshot,        /* device write snapshot function */
     vizawrite64_read_snapshot,         /* device read snapshot function */
     NULL,                              /* NO device hook function */

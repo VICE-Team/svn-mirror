@@ -872,6 +872,7 @@ void machine_specific_powerup(void)
 {
     vicii_reset_registers();
     userport_power_toggle();
+    joyport_reset();
 }
 
 void machine_specific_shutdown(void)
