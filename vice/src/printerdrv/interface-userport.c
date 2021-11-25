@@ -82,6 +82,7 @@ static userport_device_t printer_device = {
     NULL,                                   /* NO store sp2 pin function */
     NULL,                                   /* NO read sp2 pin function */
     NULL,                                   /* NO reset function */
+    NULL,                                   /* NO power toggle function */
     userport_printer_write_snapshot_module, /* snapshot write function */
     userport_printer_read_snapshot_module   /* snapshot read function */
 };

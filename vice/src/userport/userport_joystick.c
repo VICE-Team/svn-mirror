@@ -262,6 +262,7 @@ static userport_device_t cga_device = {
     NULL,                                        /* NO store sp2 pin function */
     NULL,                                        /* NO read sp2 pin function */
     NULL,                                        /* NO reset function */
+    NULL,                                        /* NO power toggle function */
     userport_joystick_cga_write_snapshot_module, /* snapshot write function */
     userport_joystick_cga_read_snapshot_module   /* snapshot read function */
 };
@@ -283,6 +284,7 @@ static userport_device_t pet_device = {
     NULL,                                        /* NO store sp2 pin function */
     NULL,                                        /* NO read sp2 pin function */
     NULL,                                        /* NO reset function */
+    NULL,                                        /* NO power toggle function */
     userport_joystick_pet_write_snapshot_module, /* snapshot write function */
     userport_joystick_pet_read_snapshot_module   /* snapshot read function */
 };
@@ -304,6 +306,7 @@ static userport_device_t hummer_device = {
     NULL,                                           /* NO store sp2 pin function */
     NULL,                                           /* NO read sp2 pin function */
     NULL,                                           /* NO reset function */
+    NULL,                                           /* NO power toggle function */
     userport_joystick_hummer_write_snapshot_module, /* snapshot write function */
     userport_joystick_hummer_read_snapshot_module   /* snapshot read function */
 };
@@ -325,6 +328,7 @@ static userport_device_t oem_device = {
     NULL,                                        /* NO store sp2 pin function */
     NULL,                                        /* NO read sp2 pin function */
     NULL,                                        /* NO reset function */
+    NULL,                                        /* NO power toggle function */
     userport_joystick_oem_write_snapshot_module, /* snapshot write function */
     userport_joystick_oem_read_snapshot_module   /* snapshot read function */
 };
@@ -346,6 +350,7 @@ static userport_device_t hit_device = {
     NULL,                                        /* NO store sp2 pin function */
     userport_joystick_hit_read_sp2,              /* read sp2 pin function */
     NULL,                                        /* NO reset function */
+    NULL,                                        /* NO power toggle function */
     userport_joystick_hit_write_snapshot_module, /* snapshot write function */
     userport_joystick_hit_read_snapshot_module   /* snapshot read function */
 };
@@ -367,6 +372,7 @@ static userport_device_t kingsoft_device = {
     NULL,                                             /* NO store sp2 pin function */
     userport_joystick_kingsoft_read_sp2,              /* read sp2 pin function */
     NULL,                                             /* NO reset function */
+    NULL,                                             /* NO power toggle function */
     userport_joystick_kingsoft_write_snapshot_module, /* snapshot write function */
     userport_joystick_kingsoft_read_snapshot_module   /* snapshot read function */
 };
@@ -388,6 +394,7 @@ static userport_device_t starbyte_device = {
     NULL,                                             /* NO store sp2 pin function */
     userport_joystick_starbyte_read_sp2,              /* read sp2 pin function */
     NULL,                                             /* NO reset function */
+    NULL,                                             /* NO power toggle function */
     userport_joystick_starbyte_write_snapshot_module, /* snapshot write function */
     userport_joystick_starbyte_read_snapshot_module   /* snapshot read function */
 };
@@ -409,6 +416,7 @@ static userport_device_t synergy_device = {
     NULL,                                            /* NO store sp2 pin function */
     NULL,                                            /* NO read sp2 pin function */
     NULL,                                            /* NO reset function */
+    NULL,                                            /* NO power toggle function */
     userport_joystick_synergy_write_snapshot_module, /* snapshot write function */
     userport_joystick_synergy_read_snapshot_module   /* snapshot read function */
 };

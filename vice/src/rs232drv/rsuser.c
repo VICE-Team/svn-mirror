@@ -140,6 +140,7 @@ static userport_device_t rs232_device = {
     NULL,                       /* NO store sp2 pin function */
     NULL,                       /* NO read sp2 pin function */
     rsuser_reset,               /* NO reset function */
+    NULL,                       /* NO power toggle function */
     NULL,                       /* NO snapshot write function */
     NULL                        /* NO snapshot read function */
 };

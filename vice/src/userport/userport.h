@@ -132,8 +132,11 @@ typedef struct userport_device_s {
     /* Read sp2 pin */
     uint8_t (*read_sp2)(uint8_t orig);
 
-    /* device reset function */
+    /* device reset function, reset line on the userport */
     void (*reset)(void);
+
+    /* device power toggle function, gets called when a hard reset is done */
+    void (*power_toggle)(void);
 
     /* Snapshot write */
     int (*write_snapshot)(struct snapshot_s *s);
@@ -173,6 +176,7 @@ extern void store_userport_sp1(uint8_t val);
 extern uint8_t read_userport_sp2(uint8_t orig);
 extern void store_userport_sp2(uint8_t val);
 extern void userport_reset(void);
+extern void userport_power_toggle(void);
 
 /* use this function from userport device code to set the userport flag */
 extern void set_userport_flag(uint8_t val);
