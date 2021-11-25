@@ -1169,6 +1169,7 @@ void machine_specific_powerup(void)
 {
     cartridge_powerup();
     userport_power_toggle();
+    tapeport_reset();
 }
 
 void machine_specific_shutdown(void)

@@ -737,6 +737,7 @@ void machine_specific_powerup(void)
     petdww_powerup();
     pethre_powerup();
     userport_power_toggle();
+    tapeport_reset();
 }
 
 /* PET-specific initialization.  */

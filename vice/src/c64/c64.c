@@ -1322,6 +1322,7 @@ void machine_specific_powerup(void)
 {
     vicii_reset_registers();
     userport_power_toggle();
+    tapeport_reset();
     reset_poweron = 1;
 }
 
