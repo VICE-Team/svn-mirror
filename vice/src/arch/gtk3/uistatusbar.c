@@ -2124,6 +2124,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     /* Tape widget(s) and joysticks */
     tape_wrapper = NULL;
+    joysticks = NULL;
     /* No datasette for DTV, SCPU or VSID */
     if ((machine_class != VICE_MACHINE_C64DTV) &&
             (machine_class != VICE_MACHINE_SCPU64) &&
