@@ -166,6 +166,11 @@ static void snespad_store(int port, uint8_t val)
     clock_line[port] = new_clock;
 }
 
+static void snespad_reset(int port)
+{
+    counter[port] = 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static int trapthem_snespad_write_snapshot(struct snapshot_s *s, int p);
@@ -184,6 +189,7 @@ static joyport_t joyport_snespad_device = {
     snespad_store,                     /* digital line store function */
     NULL,                              /* NO pot-x read function */
     NULL,                              /* NO pot-y read function */
+    snespad_reset,                     /* reset function */
     trapthem_snespad_write_snapshot,   /* device write snapshot function */
     trapthem_snespad_read_snapshot,    /* device read snapshot function */
     NULL,                              /* NO device hook function */

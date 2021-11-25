@@ -306,6 +306,15 @@ static uint8_t protopad_read_poty(int port)
     return (uint8_t)(button ? 0x00 : 0xff);
 }
 
+static void protopad_reset(int port)
+{
+        counter[port] = 0;
+        dpad_mode[port] = 0;
+        rapid_button[port] = 0;
+        permanent_rapid[port] = 0;
+        rapid_speed[port] = 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static int protopad_lb_state[JOYPORT_MAX_PORTS] = {0};
@@ -380,6 +389,7 @@ static joyport_t joyport_protopad_device = {
     protopad_store,              /* digital line store function */
     protopad_read_potx,          /* pot-x read function */
     protopad_read_poty,          /* pot-y read function */
+    protopad_reset,              /* reset function */
     protopad_write_snapshot,     /* device write snapshot function */
     protopad_read_snapshot,      /* device read snapshot function */
     protopad_state_button_hook,  /* device hook function */

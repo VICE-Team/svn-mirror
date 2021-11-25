@@ -246,6 +246,7 @@ static joyport_t joyport_cardkey_device = {
     NULL,                        /* NO digital line store function */
     NULL,                        /* NO pot-x read function */
     cardkey_read_pot,            /* pot-y read function */
+    NULL,                        /* NO reset function */
     NULL,                        /* NO device write snapshot function */
     NULL,                        /* NO device read snapshot function */
     NULL,                        /* NO device hook function */
