@@ -1164,8 +1164,10 @@ void machine_specific_reset(void)
     sampler_reset();
 }
 
+/* VIC20-specific powerup/hardreset  */
 void machine_specific_powerup(void)
 {
+    cartridge_powerup();
 }
 
 void machine_specific_shutdown(void)

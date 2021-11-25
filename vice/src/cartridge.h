@@ -68,6 +68,8 @@ void cartridge_unset_default(void);
 
 /* reset button pressed in UI */
 extern void cartridge_reset(void);
+/* powerup / hardreset */
+extern void cartridge_powerup(void);
 
 /* FIXME: this should also be made a generic function that takes the type */
 /* freeze button pressed in UI */
