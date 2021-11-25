@@ -65,7 +65,7 @@ static void userport_snespad_store_pbx(uint8_t value, int pulse);
 static int userport_petscii_write_snapshot_module(snapshot_t *s);
 static int userport_petscii_read_snapshot_module(snapshot_t *s);
 static int userport_petscii_enable(int val);
-static int userport_petscii_power_toggle(void);
+static void userport_petscii_power_toggle(void);
 
 static userport_device_t userport_snespad_device = {
     "Userport Petscii SNES pad",               /* device name */
@@ -125,7 +125,7 @@ int userport_petscii_snespad_resources_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static int userport_petscii_power_toggle(void)
+static void userport_petscii_power_toggle(void)
 {
     counter = 0;
 }
