@@ -33,7 +33,6 @@
 
 gboolean ui_media_dialog_show(GtkWidget *parent, gpointer user_data);
 gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data);
-void     ui_media_screenshot_vsync_callback(void *param);
 void     ui_media_auto_screenshot(void);
 
 #endif
