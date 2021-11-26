@@ -1730,6 +1730,7 @@ void ui_destroy_main_window(int index)
     video_canvas_t *canvas;
 
     window = ui_resources.window_widget[index];
+    ui_resources.window_widget[index] = NULL;
 
     if (!window) {
         /* This function is called blindly for both primary and secondary windows */
@@ -2070,8 +2071,11 @@ void ui_dispatch_events(void)
 static gboolean ui_error_impl(gpointer user_data)
 {
     char *buffer = (char *)user_data;
+    GtkWidget *dialog;
 
-    vice_gtk3_message_error("VICE Error", buffer);
+    dialog = vice_gtk3_message_error("VICE Error", buffer);
+    gtk_dialog_run(GTK_DIALOG(dialog));
+
     lib_free(buffer);
 
     return FALSE;
@@ -2259,6 +2263,11 @@ void ui_exit(void)
 
     /* unregister the CBM font */
     archdep_unregister_cbmfont();
+    
+    /* Show any async errors that haven't been shown yet. */
+    while (gtk_events_pending()) {
+        gtk_main_iteration();
+    }
 
     mainlock_release();
 }
