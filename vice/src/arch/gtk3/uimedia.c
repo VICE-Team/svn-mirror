@@ -216,6 +216,31 @@ static void save_audio_recording_handler(GtkWidget *parent);
 static void save_video_recording_handler(GtkWidget *parent);
 
 
+/** \brief  Screenshot filename for save_screenshot_vsync_callback()
+ *
+ * This gets allocated by the UI thread and freed by the VICE thread.
+ *
+ * If non-NULL the UI thread will not free and reallocate, it simply refuses
+ * to queue another screenshot. Queuing a second screenshot while the vsync
+ * handler hasn't processed the current one is an unlikely scenario, but could
+ * happen with a very low custom emulation speed and a quick user. Once the
+ * vsync handler has used the filename, it is deallocated and set to NULL to
+ * indicate to the UI another screenshot can be queued.
+ */
+static char *screenshot_filename = NULL;
+
+
+/** \brief  Screenshot driver name for save_screenshot_vsync_callback()
+ *
+ * When the dialog is closed the video drive list is also destroyed, so we
+ * cannot access the list in the vsync callback.
+ * The UI thread created a copy of the requested driver and the VICE thread
+ * then frees it in the vsync callback function.
+ */
+static char *screenshot_driver = NULL;
+
+
+
 /** \brief  Reference to the GtkStack containing the media types
  *
  * Used in the dialog response callback to determine recording mode and params
@@ -449,6 +474,53 @@ static char *create_proposed_audio_recording_name(const char *ext)
 }
 
 
+/** \brief  UI error message handler for saving screenshots
+ *
+ * \param[in]   data    filename of screenshot
+ *
+ * \return  G_SOURCE_REMOVE to make this a one-shot timer event
+ */
+static gboolean save_screenshot_error_impl(gpointer data)
+{
+    char *filename = data;
+
+    vice_gtk3_message_error("Screenshot error",
+                            "Failed to write screenshot file '%s.'",
+                            filename);
+    lib_free(filename);
+    return G_SOURCE_REMOVE;
+}
+
+
+/** \brief  Callback to make a screenshot on vsync to avoid tearing
+ *
+ * The `screenshot_filename` variable is allocated by the UI thread and freed
+ * and set to `NULL` by this function, thus indicating to the UI it is allowed
+ * to queue another screenshot on vsync.
+ *
+ * \param[in]   param   video canvas to take screenshot of
+ */
+static void save_screenshot_vsync_callback(void *param)
+{
+
+    video_canvas_t *canvas = param;
+
+    if (screenshot_save(screenshot_driver, screenshot_filename, canvas) < 0) {
+        char *filename_copy;
+
+        log_error(LOG_ERR, "Failed to write screenshot file '%s'.",
+                  screenshot_filename);
+        /* push error message handler onto the UI thread */
+        filename_copy = lib_strdup(screenshot_filename);
+        g_timeout_add(0, save_screenshot_error_impl, (gpointer)filename_copy);
+    }
+    lib_free(screenshot_filename);
+    lib_free(screenshot_driver);
+    screenshot_filename = NULL; /* signal UI it can queue another screenshot */
+    screenshot_driver = NULL;
+}
+
+
 /** \brief  Callback for the save-screenshot dialog
  *
  * \param[in,out]   dialog      dialog
@@ -459,18 +531,19 @@ static void on_save_screenshot_filename(GtkDialog *dialog,
                                         gchar *filename,
                                         gpointer data)
 {
-    const char *name;
-
-    name = video_driver_list[screenshot_driver_index].name;
-
     if (filename != NULL) {
 
         gchar *filename_locale = file_chooser_convert_to_locale(filename);
 
         /* TODO: add extension if not present? */
-        if (screenshot_save(name, filename_locale, ui_get_active_canvas()) < 0) {
-            vice_gtk3_message_error("VICE Error",
-                    "Failed to write screenshot file '%s'", filename);
+
+        /* check if a screenshot is pending */
+        if (screenshot_filename == NULL) {
+            /* no, queue screenshot on vsync */
+            screenshot_filename = lib_strdup(filename_locale);
+            screenshot_driver = lib_strdup(video_driver_list[screenshot_driver_index].name);
+            vsync_on_vsync_do(save_screenshot_vsync_callback,
+                              (void *)ui_get_active_canvas());
         }
         g_free(filename);
         g_free(filename_locale);
@@ -479,7 +552,6 @@ static void on_save_screenshot_filename(GtkDialog *dialog,
     gtk_widget_destroy(GTK_WIDGET(dialog));
     mainlock_obtain();
 }
-
 
 
 /** \brief  Save a screenshot
@@ -1194,7 +1266,7 @@ gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
  *
  * \param[in]   param   video canvas
  */
-static void screenshot_vsync_callback(void *param)
+static void auto_screenshot_vsync_callback(void *param)
 {
     char *filename;
     video_canvas_t *canvas = param;
@@ -1216,5 +1288,6 @@ static void screenshot_vsync_callback(void *param)
 void ui_media_auto_screenshot(void)
 {
     /* queue screenshot grab on vsync to avoid tearing */
-    vsync_on_vsync_do(screenshot_vsync_callback, (void *)ui_get_active_canvas());
+    vsync_on_vsync_do(auto_screenshot_vsync_callback,
+                      (void *)ui_get_active_canvas());
 }
