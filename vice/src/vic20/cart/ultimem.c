@@ -49,6 +49,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -580,6 +581,27 @@ static void vic_um_io3_store(uint16_t addr, uint8_t value)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void vic_um_powerup(void)
+{
+    if (cart_ram) {
+        ram_init_with_pattern(cart_ram, cart_ram_size, &ramparam);
+    }
+}
 
 void vic_um_init(void)
 {
