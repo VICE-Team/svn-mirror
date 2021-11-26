@@ -47,6 +47,7 @@
 #include <assert.h>
 
 #include "attach.h"
+#include "archdep.h"
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "drive-check.h"
@@ -67,12 +68,16 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "rotation.h"
+#include "sound.h"
 #include "types.h"
 #include "uiapi.h"
 #include "ds1216e.h"
 #include "drive-sound.h"
 #include "p64.h"
 #include "monitor.h"
+#include "monitor_network.h"
+#include "monitor_binary.h"
+#include "vsync.h"
 
 #ifdef DEBUG_DRIVE
 #define DBG(x) log_debug x
@@ -93,6 +98,9 @@ int rom_loaded = 0;
 /* ------------------------------------------------------------------------- */
 
 static int drive_led_color[NUM_DISK_UNITS];
+static bool is_jammed[NUM_DISK_UNITS] = { false, false, false, false };
+static char *jam_reason[NUM_DISK_UNITS] = { NULL, NULL, NULL, NULL };
+static int jam_action = MACHINE_JAM_ACTION_DIALOG;
 
 /* ------------------------------------------------------------------------- */
 
@@ -570,6 +578,7 @@ void drive_cpu_trigger_reset(unsigned int dnr)
     } else {
         drivecpu_trigger_reset(dnr);
     }
+    is_jammed[dnr] = false;
 }
 
 /* called by machine_specific_reset() */
@@ -595,7 +604,85 @@ void drive_reset(void)
             drive->led_last_uiupdate_clk = *(drive->clk);
             drive->led_active_ticks = 0;
         }
+        is_jammed[dnr] = false;
     }
+}
+
+/* NOTE: this function is very similar to machine_jam - in case the behavior
+         changes, change machine_jam too */
+unsigned int drive_jam(int mynumber, const char *format, ...)
+{
+    va_list ap;
+    ui_jam_action_t ret = JAM_NONE;
+
+    /* always ignore subsequent JAMs. reset would clear the flag again, not
+     * setting it when going to the monitor would just repeatedly pop up the
+     * jam dialog (until reset)
+     */
+    if (is_jammed[mynumber]) {
+        return JAM_NONE;
+    }
+
+    is_jammed[mynumber] = true;
+
+    va_start(ap, format);
+    if (jam_reason[mynumber]) {
+        lib_free(jam_reason[mynumber]);
+        jam_reason[mynumber] = NULL;
+    }
+    jam_reason[mynumber] = lib_mvsprintf(format, ap);
+    va_end(ap);
+
+    log_message(LOG_DEFAULT, "*** %s", jam_reason[mynumber]);
+
+    vsync_suspend_speed_eval();
+    sound_suspend();
+
+    /* FIXME: perhaps we want a seperate setting for drives? */
+    resources_get_int("JAMAction", &jam_action);
+
+    if (jam_action == MACHINE_JAM_ACTION_DIALOG) {
+        if (monitor_is_remote() || monitor_is_binary()) {
+            if (monitor_is_remote()) {
+                ret = monitor_network_ui_jam_dialog(jam_reason[mynumber]);
+            }
+
+            if (monitor_is_binary()) {
+                ret = monitor_binary_ui_jam_dialog(jam_reason[mynumber]);
+            }
+        } else if (!console_mode) {
+            ret = ui_jam_dialog(jam_reason[mynumber]);
+        }
+    } else if (jam_action == MACHINE_JAM_ACTION_QUIT) {
+        archdep_vice_exit(EXIT_SUCCESS);
+    } else {
+        int actions[4] = {
+            -1, UI_JAM_MONITOR, UI_JAM_RESET, UI_JAM_HARD_RESET
+        };
+        ret = actions[jam_action - 1];
+    }
+
+    switch (ret) {
+        case UI_JAM_RESET:
+            return JAM_RESET;
+        case UI_JAM_HARD_RESET:
+            return JAM_HARD_RESET;
+        case UI_JAM_MONITOR:
+            return JAM_MONITOR;
+        default:
+            break;
+    }
+    return JAM_NONE;
+}
+
+bool drive_is_jammed(int mynumber)
+{
+    return is_jammed[mynumber];
+}
+
+char *drive_jam_reason(int mynumber)
+{
+    return jam_reason[mynumber];
 }
 
 /* Move the head to half track `num'.  */
