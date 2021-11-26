@@ -3090,6 +3090,7 @@ GtkWidget *ui_statusbar_get_recording_widget(void)
  */
 void ui_display_reset(int device, int mode)
 {
+#if 0
     gchar buffer[256];
 
     debug_gtk3("Got RESET for device #%d, type: %d.", device, mode);
@@ -3115,4 +3116,5 @@ void ui_display_reset(int device, int mode)
     }
 
     ui_display_statustext(buffer, 1 /* fadeout */);
+#endif
 }
