@@ -61,7 +61,7 @@
 /* Global clock counters.  */
 CLOCK diskunit_clk[NUM_DISK_UNITS];
 
-static void drive_jam(diskunit_context_t *drv);
+static void drivecpu_jam(diskunit_context_t *drv);
 
 static void drivecpu_set_bank_base(void *context);
 
@@ -402,7 +402,7 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
 
 #define ALARM_CONTEXT (cpu->alarm_context)
 
-#define JAM() drive_jam(drv)
+#define JAM() drivecpu_jam(drv)
 
 #define ROM_TRAP_ALLOWED() 1
 
@@ -453,7 +453,7 @@ static void drivecpu_set_bank_base(void *context)
 }
 
 /* Inlining this fuction makes no sense and would only bloat the code.  */
-static void drive_jam(diskunit_context_t *drv)
+static void drivecpu_jam(diskunit_context_t *drv)
 {
     unsigned int tmp;
     char *dname = "  Drive";
@@ -512,7 +512,7 @@ static void drive_jam(diskunit_context_t *drv)
             break;
     }
 
-    tmp = machine_jam("%s (%d) CPU: JAM at $%04X  ", dname, drv->mynumber + 8, (int)reg_pc);
+    tmp = drive_jam(drv->mynumber, "%s (%d) CPU: JAM at $%04X  ", dname, drv->mynumber + 8, (int)reg_pc);
     switch (tmp) {
         case JAM_RESET:
             reg_pc = 0xeaa0;
