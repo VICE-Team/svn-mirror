@@ -1454,6 +1454,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     int minimized = 0;
     int full = 0;
     int restore;
+    int restored = 0;
 
     if (machine_class != VICE_MACHINE_VSID) {
         resources_get_int("Mouse", &mouse_grab);
@@ -1615,8 +1616,21 @@ void ui_create_main_window(video_canvas_t *canvas)
         } else {
             gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
             gtk_window_resize(GTK_WINDOW(new_window), width, height);
+            restored = 1;
         }
     }
+    
+    if (!restored) {
+        /*
+         * If not restoring location and size from config, attempt to place
+         * the new application window centred on the active screen at launch.
+         * Doesn't work perfectly because the size of the UI at this point
+         * doesn't include the size of the canvas. But it's better than 0,0
+         * on some random screen.
+         */
+        gtk_window_set_position(GTK_WINDOW(new_window), GTK_WIN_POS_CENTER);
+    }
+
 
     /*
      * Do we start minimized?
