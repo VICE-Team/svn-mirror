@@ -48,6 +48,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -293,6 +294,27 @@ void vic_fp_io2_store(uint16_t addr, uint8_t value)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void vic_fp_powerup(void)
+{
+    if (cart_ram) {
+        ram_init_with_pattern(cart_ram, CART_RAM_SIZE, &ramparam);
+    }
+}
 
 void vic_fp_init(void)
 {

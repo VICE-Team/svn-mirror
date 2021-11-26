@@ -473,8 +473,17 @@ void cartridge_reset(void)
 void cartridge_powerup(void)
 {
     switch (mem_cartridge_type) {
+        case CARTRIDGE_VIC20_UM:
+            vic_um_powerup();
+            break;
+        case CARTRIDGE_VIC20_FP:
+            vic_fp_powerup();
+            break;
         case CARTRIDGE_VIC20_MEGACART:
             megacart_powerup();
+            break;
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            finalexpansion_powerup();
             break;
     }
 }
