@@ -55,7 +55,7 @@
 #include "zfile.h"
 
 #ifdef DEBUGCART
-#define DBG(x) printf x
+#define DBG(x) log_debug x
 #else
 #define DBG(x)
 #endif
@@ -106,6 +106,7 @@ static int oe_flop = 0;
 static int nvram_en_flop = 0;
 static uint8_t bank_low_reg = 0;
 static uint8_t bank_high_reg = 0;
+static int powerup_after_attach = 0;
 
 /* Resource variables */
 static char *nvram_filename = NULL;
@@ -372,6 +373,67 @@ static void megacart_io3_store(uint16_t addr, uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
+static int zfile_load(const char *filename, uint8_t *dest, size_t size)
+{
+    FILE *fd;
+
+    fd = zfile_fopen(filename, MODE_READ);
+    if (!fd) {
+        return -1;
+    }
+    if (util_file_length(fd) != size) {
+        zfile_fclose(fd);
+        return -1;
+    }
+    if (fread(dest, size, 1, fd) < 1) {
+        zfile_fclose(fd);
+        return -1;
+    }
+    zfile_fclose(fd);
+    return 0;
+}
+
+static int try_nvram_load(const char *filename)
+{
+    DBG(("cart_nvram: %p filename: %s", cart_nvram, filename ? filename : "NULL"));
+    if (cart_nvram && filename && *filename != '\0') {
+        if (zfile_load(filename, cart_nvram, (size_t)CART_NVRAM_SIZE) < 0) {
+            log_message(megacart_log, "Failed to read NvRAM image `%s'!", filename);
+            return -1;
+        } else {
+            log_message(megacart_log, "Read NvRAM image `%s'.", filename);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int try_nvram_save(const char *filename)
+{
+    int ret = 0;
+    if (cart_nvram && filename && *filename != '\0') {
+        FILE *fd;
+        fd = fopen(filename, "wb");
+        if (fd) {
+            if (fwrite(cart_nvram, (size_t)CART_NVRAM_SIZE, 1, fd) > 0) {
+                log_message(megacart_log, "Wrote back NvRAM image `%s'.", filename);
+            } else {
+                ret = -1;
+            }
+            fclose(fd);
+        } else {
+            ret = -1;
+        }
+        if (ret == -1) {
+            log_message(megacart_log, "Failed to write back NvRAM image `%s'!", filename);
+        }
+    }
+
+    return ret;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* FIXME: this still needs to be tweaked to match the hardware */
 static RAMINITPARAM ramparam = {
     .start_value = 255,
@@ -400,6 +462,31 @@ static RAMINITPARAM nvramparam = {
     .random_chance = 0,
 };
 
+static void allocate_rom_ram(void)
+{
+    if (!cart_ram) {
+        cart_ram = lib_malloc(CART_RAM_SIZE);
+    }
+    if (!cart_nvram) {
+        cart_nvram = lib_malloc(CART_NVRAM_SIZE);
+    }
+    if (!cart_rom) {
+        cart_rom = lib_malloc(CART_ROM_SIZE);
+    }
+}
+
+static void clear_ram(void)
+{
+    if (cart_ram) {
+        DBG(("clear_ram: cart_ram"));
+        ram_init_with_pattern(cart_ram, CART_RAM_SIZE, &ramparam);
+    }
+    if (cart_nvram) {
+        DBG(("clear_ram: cart_nvram"));
+        ram_init_with_pattern(cart_nvram, CART_NVRAM_SIZE, &nvramparam);
+    }
+}
+
 void megacart_init(void)
 {
     if (megacart_log == LOG_ERR) {
@@ -422,74 +509,15 @@ void megacart_powerup(void)
     reset_mode = BUTTON_RESET;
     oe_flop = 0;
     nvram_en_flop = 1;
-    if (cart_ram) {
-        ram_init_with_pattern(cart_ram, CART_RAM_SIZE, &ramparam);
+    DBG(("megacart_powerup powerup_after_attach: %d", powerup_after_attach));
+    if (!powerup_after_attach) {
+        clear_ram();
     }
-    if (cart_nvram) {
-        ram_init_with_pattern(cart_nvram, CART_NVRAM_SIZE, &ramparam);
-    }
+    powerup_after_attach = 0;
 }
 
 void megacart_config_setup(uint8_t *rawcart)
 {
-}
-
-static int zfile_load(const char *filename, uint8_t *dest, size_t size)
-{
-    FILE *fd;
-
-    fd = zfile_fopen(filename, MODE_READ);
-    if (!fd) {
-        return -1;
-    }
-    if (util_file_length(fd) != size) {
-        zfile_fclose(fd);
-        return -1;
-    }
-    if (fread(dest, size, 1, fd) < 1) {
-        zfile_fclose(fd);
-        return -1;
-    }
-    zfile_fclose(fd);
-    return 0;
-}
-
-static int try_nvram_load(const char *filename)
-{
-    if (cart_nvram && filename && *filename != '\0') {
-        if (zfile_load(filename, cart_nvram, (size_t)CART_NVRAM_SIZE) < 0) {
-            log_message(megacart_log, "Failed to read NvRAM image `%s'!", filename);
-            return -1;
-        } else {
-            log_message(megacart_log, "Read NvRAM image `%s'.", filename);
-        }
-    }
-
-    return 0;
-}
-
-static int try_nvram_save(const char *filename)
-{
-    int ret = 0;
-    if (cart_nvram && filename && *filename != '\0') {
-        FILE *fd;
-        fd = fopen(filename, "wb");
-        if (fd) {
-            if (fwrite(cart_nvram, (size_t)CART_NVRAM_SIZE, 1, fd) > 0) {
-                log_message(megacart_log, "Wrote back NvRAM image `%s'.", filename);
-            } else {
-                ret = -1;
-            }
-            fclose(fd);
-        } else {
-            ret = -1;
-        }
-        if (ret == -1) {
-            log_message(megacart_log, "Failed to write back NvRAM image `%s'!", filename);
-        }
-    }
-
-    return ret;
 }
 
 int megacart_crt_attach(FILE *fd, uint8_t *rawcart)
@@ -497,24 +525,15 @@ int megacart_crt_attach(FILE *fd, uint8_t *rawcart)
     crt_chip_header_t chip;
     int idx = 0;
 
-    if (!cart_ram) {
-        cart_ram = lib_malloc(CART_RAM_SIZE);
-        ram_init_with_pattern(cart_ram, CART_RAM_SIZE, &ramparam);
-    }
-    if (!cart_nvram) {
-        cart_nvram = lib_malloc(CART_NVRAM_SIZE);
-        ram_init_with_pattern(cart_nvram, CART_NVRAM_SIZE, &nvramparam);
-    }
-    if (!cart_rom) {
-        cart_rom = lib_malloc(CART_ROM_SIZE);
-    }
+    allocate_rom_ram();
+    clear_ram();
 
     for (idx = 0; idx < 256; idx++) {
         if (crt_read_chip_header(&chip, fd)) {
             goto exiterror;
         }
 
-        DBG(("chip %d at %02x len %02x\n", idx, chip.start, chip.size));
+        DBG(("chip %d at %02x len %02x", idx, chip.start, chip.size));
         if (chip.size != 0x2000) {
             goto exiterror;
         }
@@ -528,7 +547,9 @@ int megacart_crt_attach(FILE *fd, uint8_t *rawcart)
         goto exiterror;
     }
 
-    try_nvram_load(nvram_filename);
+    if (try_nvram_load(nvram_filename) > 0) {
+        powerup_after_attach = 1;
+    }
 
     cart_rom_low = cart_rom;
     cart_rom_high = cart_rom + 0x100000;
@@ -550,15 +571,8 @@ exiterror:
 
 int megacart_bin_attach(const char *filename)
 {
-    if (!cart_ram) {
-        cart_ram = lib_malloc(CART_RAM_SIZE);
-    }
-    if (!cart_nvram) {
-        cart_nvram = lib_malloc(CART_NVRAM_SIZE);
-    }
-    if (!cart_rom) {
-        cart_rom = lib_malloc(CART_ROM_SIZE);
-    }
+    allocate_rom_ram();
+    clear_ram();
 
     if (zfile_load(filename, cart_rom, (size_t)CART_ROM_SIZE) < 0) {
         megacart_detach();
@@ -568,8 +582,11 @@ int megacart_bin_attach(const char *filename)
     if (export_add(&export_res) < 0) {
         return -1;
     }
-
-    try_nvram_load(nvram_filename);
+DBG(("megacart_bin_attach try_nvram_load")); 
+    if (try_nvram_load(nvram_filename) > 0) {
+        powerup_after_attach = 1;
+    }
+DBG(("megacart_bin_attach powerup_after_attach: %d", powerup_after_attach)); 
 
     cart_rom_low = cart_rom;
     cart_rom_high = cart_rom + 0x100000;
