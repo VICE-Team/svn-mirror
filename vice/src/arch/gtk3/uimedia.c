@@ -412,7 +412,7 @@ static gchar *create_datetime_string(void)
     m = g_date_time_get_microsecond(d);
     s = g_date_time_format(d, "%Y%m%d%H%M%S");
     g_date_time_unref(d);
-    t = g_strdup_printf("%s%06d", s, m);
+    t = g_strdup_printf("%s%02d", s, m / 10000);
     g_free(s);
     return t;
 }
