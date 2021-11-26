@@ -252,6 +252,7 @@ GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
 GtkWidget *vice_gtk3_message_error(const char *title,
                                    const char *fmt, ...)
 {
+    GtkWindow *active_window;
     GtkWidget *dialog;
     va_list args;
     char *buffer;
@@ -263,12 +264,21 @@ GtkWidget *vice_gtk3_message_error(const char *title,
     dialog = create_dialog(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
 
     lib_free(buffer);
-
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
-    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
-
+    
     g_signal_connect(dialog, "response", G_CALLBACK(on_response_error), NULL);
+    
+    active_window = ui_get_active_window();
+
+    if (active_window) {
+        gtk_window_set_transient_for(GTK_WINDOW(dialog), active_window);
+        gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+        gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    } else {
+        gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
+    }
+
     gtk_widget_show(dialog);
+    
     return dialog;
 }
 
