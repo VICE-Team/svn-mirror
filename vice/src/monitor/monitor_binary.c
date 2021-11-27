@@ -105,6 +105,10 @@ enum t_binary_command {
 
     e_MON_CMD_PALETTE_GET = 0x91,
 
+    e_MON_CMD_JOYPORT_SET = 0xa2,
+
+    e_MON_CMD_USERPORT_SET = 0xb2,
+
     e_MON_CMD_EXIT = 0xaa,
     e_MON_CMD_QUIT = 0xbb,
     e_MON_CMD_RESET = 0xcc,
@@ -147,6 +151,10 @@ enum t_binary_response {
     e_MON_RESPONSE_VICE_INFO = 0x85,
 
     e_MON_RESPONSE_PALETTE_GET = 0x91,
+
+    e_MON_RESPONSE_JOYPORT_SET = 0xa2,
+
+    e_MON_RESPONSE_USERPORT_SET = 0xb2,
 
     e_MON_RESPONSE_EXIT = 0xaa,
     e_MON_RESPONSE_QUIT = 0xbb,
@@ -1326,6 +1334,60 @@ static void monitor_binary_process_palette_get(binary_command_t *command)
     lib_free(response);
 }
 
+static void monitor_binary_process_joyport_set(binary_command_t *command)
+{
+    IO_SIM_RESULT ret;
+    unsigned char *body = command->body;
+    uint16_t port = little_endian_to_uint16(&body[0]);
+    uint16_t value = little_endian_to_uint16(&body[2]);
+
+    if (command->length < 4) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    ret = mon_joyport_set_output((int)port, (int)value);
+    if (ret != e_IO_SIM_RESULT_OK) {
+        if (ret == e_IO_SIM_RESULT_ILLEGAL_PORT) {
+            monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
+            return;
+        } else if (ret == e_IO_SIM_RESULT_ILLEGAL_VALUE) {
+            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            return;
+        } else {
+            monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
+            return;
+        }
+    }
+
+    monitor_binary_response(0, e_MON_RESPONSE_JOYPORT_SET, e_MON_ERR_OK, command->request_id, NULL);
+}
+
+static void monitor_binary_process_userport_set(binary_command_t *command)
+{
+    IO_SIM_RESULT ret;
+    unsigned char *body = command->body;
+    uint16_t value = little_endian_to_uint16(&body[0]);
+
+    if(command->length < 1) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    ret = mon_userport_set_output((int)value);
+    if(ret != e_IO_SIM_RESULT_OK) {
+        if (ret == e_IO_SIM_RESULT_ILLEGAL_VALUE) {
+            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            return;
+        } else {
+            monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
+            return;
+        }
+    }
+
+    monitor_binary_response(0, e_MON_RESPONSE_USERPORT_SET, e_MON_ERR_OK, command->request_id, NULL);
+}
+
 static void monitor_binary_process_vice_info(binary_command_t *command)
 {
     unsigned char response[10] = { 
@@ -1534,14 +1596,14 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
     } else if (command_type == e_MON_CMD_EXECUTE_UNTIL_RETURN) {
         monitor_binary_process_execute_until_return(&command);
 
-    } else if (command_type == e_MON_CMD_EXIT) {
-        monitor_binary_process_exit(&command);
-    } else if (command_type == e_MON_CMD_QUIT) {
-        monitor_binary_process_quit(&command);
-    } else if (command_type == e_MON_CMD_RESET) {
-        monitor_binary_process_reset(&command);
-    } else if (command_type == e_MON_CMD_AUTOSTART) {
-        monitor_binary_process_autostart(&command);
+    } else if (command_type == e_MON_CMD_PALETTE_GET) {
+        monitor_binary_process_palette_get(&command);
+
+    } else if (command_type == e_MON_CMD_JOYPORT_SET) {
+        monitor_binary_process_joyport_set(&command);
+
+    } else if (command_type == e_MON_CMD_USERPORT_SET) {
+        monitor_binary_process_userport_set(&command);
 
     } else if (command_type == e_MON_CMD_BANKS_AVAILABLE) {
         monitor_binary_process_banks_available(&command);
@@ -1552,8 +1614,15 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
     } else if (command_type == e_MON_CMD_VICE_INFO) {
         monitor_binary_process_vice_info(&command);
 
-    } else if (command_type == e_MON_CMD_PALETTE_GET) {
-        monitor_binary_process_palette_get(&command);
+    } else if (command_type == e_MON_CMD_EXIT) {
+        monitor_binary_process_exit(&command);
+    } else if (command_type == e_MON_CMD_QUIT) {
+        monitor_binary_process_quit(&command);
+    } else if (command_type == e_MON_CMD_RESET) {
+        monitor_binary_process_reset(&command);
+    } else if (command_type == e_MON_CMD_AUTOSTART) {
+        monitor_binary_process_autostart(&command);
+
     } else {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_TYPE, command.request_id);
         log_message(LOG_DEFAULT,

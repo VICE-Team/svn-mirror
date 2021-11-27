@@ -18417,6 +18417,8 @@ mentioned above.
 * MON_CMD_DISPLAY_GET::
 * MON_CMD_VICE_INFO::
 * MON_CMD_PALETTE_GET::
+* MON_CMD_JOYPORT_SET::
+* MON_CMD_USERPORT_SET::
 * MON_CMD_EXIT::
 * MON_CMD_QUIT::
 * MON_CMD_RESET::
@@ -19153,6 +19155,52 @@ Response body:
 @end table
 
 @end table
+
+@node MON_CMD_JOYPORT_SET
+@subsection Joyport set (0xa2)
+
+Set the simulated joyport value.
+
+Minimum VICE version: 3.6
+
+Command body:
+
+@table @strong
+@item byte 0-1: The port to set the value on
+@item byte 2-3: The value to set
+
+@end table
+
+Response type:
+
+0xa2: MON_RESPONSE_JOYPORT_SET
+
+Response body:
+
+Currently empty.
+
+
+@node MON_CMD_USERPORT_SET
+@subsection Userport set (0xb2)
+
+Set the simulated userport value.
+
+Minimum VICE version: 3.6
+
+Command body:
+
+@table @strong
+@item byte 0-1: The value to set
+
+@end table
+
+Response type:
+
+0xb2: MON_RESPONSE_USERPORT_SET
+
+Response body:
+
+Currently empty.
 
 @node MON_CMD_EXIT
 @subsection Exit (0xaa)
