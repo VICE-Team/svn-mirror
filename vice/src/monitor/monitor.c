@@ -1246,25 +1246,30 @@ void mon_cart_freeze(void)
     }
 }
 
-void mon_userport_set_output(int value)
+IO_SIM_RESULT mon_userport_set_output(int value)
 { 
     if (machine_class == VICE_MACHINE_CBM5x0) {
         mon_out("Unsupported.\n");
+        return e_IO_SIM_RESULT_GENERAL_FAILURE;
     } else if (value >= 0x00 && value <= 0xff) {
         userport_io_sim_set_pbx_out_lines((uint8_t)value);
+        return e_IO_SIM_RESULT_OK;
     } else {
         mon_out("Illegal value.\n");
+        return e_IO_SIM_RESULT_ILLEGAL_VALUE;
     }
+
+    return 0;
 }
 
-void mon_joyport_set_output(int port, int value)
+IO_SIM_RESULT mon_joyport_set_output(int port, int value)
 {
     int command_ok = 0;
     int port_ok = 1;
 
     if (value < 0x00 || value > 0xff) {
         mon_out("Illegal value.\n");
-        return;
+        return e_IO_SIM_RESULT_ILLEGAL_VALUE;
     }
 
     switch (machine_class) {
@@ -1298,10 +1303,13 @@ void mon_joyport_set_output(int port, int value)
 
     if (command_ok) {
         joyport_io_sim_set_out_lines((uint8_t)value, port);
+        return e_IO_SIM_RESULT_OK;
     } else if (!port_ok) {
         mon_out("Illegal port.\n");
+        return e_IO_SIM_RESULT_ILLEGAL_PORT;
     } else {
         mon_out("Unsupported.\n");
+        return e_IO_SIM_RESULT_GENERAL_FAILURE;
     }
 }
 
