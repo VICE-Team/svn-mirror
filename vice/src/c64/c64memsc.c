@@ -750,7 +750,6 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
 void mem_powerup(void)
 {
     ram_init(mem_ram, 0x10000);
-    cartridge_ram_init();  /* Clean cartridge ram too */
 }
 
 /* ------------------------------------------------------------------------- */

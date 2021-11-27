@@ -38,6 +38,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "export.h"
+#include "ram.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -98,6 +99,8 @@
 static const export_resource_t export_res = {
     CARTRIDGE_NAME_CAPTURE, 1, 1, NULL, NULL, CARTRIDGE_CAPTURE
 };
+
+#define CART_RAM_SIZE (8 * 1024)
 
 static int cart_enabled = 0;
 static int freeze_pressed = 0;
@@ -208,6 +211,25 @@ int capture_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
     return CART_READ_THROUGH;
 }
 /******************************************************************************/
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void capture_powerup(void)
+{
+    ram_init_with_pattern(export_ram0, CART_RAM_SIZE, &ramparam);
+}
 
 void capture_freeze(void)
 {

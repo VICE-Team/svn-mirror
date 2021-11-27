@@ -1941,17 +1941,6 @@ void cart_init(void)
 #endif
 }
 
-/* Initialize RAM for power-up.  */
-void cartridge_ram_init(void)
-{
-    /* "Slot 0" */
-    /* "Main Slot" */
-    sdbox_ram_init();
-    memset(export_ram0, 0xff, C64CART_RAM_LIMIT);
-    /* "Slot 1" */
-    /* "IO Slot" */
-}
-
 /* called once by c64.c:machine_specific_shutdown at machine shutdown */
 void cartridge_shutdown(void)
 {
@@ -2397,57 +2386,59 @@ void cartridge_powerup(void)
     }
 
     /* "Main Slot" */
+    memset(export_ram0, 0xff, C64CART_RAM_LIMIT);
+
     switch (mem_cartridge_type) {
         case CARTRIDGE_ACTION_REPLAY:
-            /* actionreplay_powerup(); */
+            actionreplay_powerup();
             break;
         case CARTRIDGE_ATOMIC_POWER:
-            /* atomicpower_powerup(); */
+            atomicpower_powerup();
             break;
         case CARTRIDGE_CAPTURE:
-            /* capture_powerup(); */
+            capture_powerup();
             break;
         case CARTRIDGE_EASYFLASH:
-            /* easyflash_powerup(); */
+            easyflash_powerup();
             break;
         case CARTRIDGE_KCS_POWER:
-            /* kcs_powerup(); */
+            kcs_powerup();
             break;
         case CARTRIDGE_LT_KERNAL:
-            /* ltkernal_powerup(); */
+            ltkernal_powerup();
             break;
         case CARTRIDGE_MAGIC_FORMEL:
-            /* magicformel_powerup(); */
+            magicformel_powerup();
             break;
         case CARTRIDGE_MAX_BASIC:
-            /* maxbasic_powerup(); */
+            maxbasic_powerup();
             break;
         case CARTRIDGE_MMC_REPLAY:
-            /* mmcreplay_powerup(); */
+            mmcreplay_powerup();
             break;
         case CARTRIDGE_MULTIMAX:
-            /* multimax_powerup(); */
+            multimax_powerup();
             break;
         case CARTRIDGE_PAGEFOX:
-            /* pagefox_powerup(); */
+            pagefox_powerup();
             break;
         case CARTRIDGE_RAMLINK:
             /* ramlink_powerup(); */
             break;
         case CARTRIDGE_RETRO_REPLAY:
-            /* retroreplay_powerup(); */
+            retroreplay_powerup();
             break;
         case CARTRIDGE_REX_RAMFLOPPY:
             /* rexramfloppy_powerup(); */
             break;
         case CARTRIDGE_SDBOX:
-            /* sdbox_powerup(); */
+            sdbox_powerup();
             break;
         case CARTRIDGE_SUPER_SNAPSHOT:
-            /* supersnapshot_v4_powerup(); */
+            supersnapshot_v4_powerup();
             break;
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
-            /* supersnapshot_v5_powerup(); */
+            supersnapshot_v5_powerup();
             break;
     }
 
@@ -2463,10 +2454,6 @@ void cartridge_powerup(void)
     }
     if (isepic_cart_enabled()) {
         /* isepic_powerup(); */
-    }
-    /* "Slot 0" */
-    if (mmc64_cart_enabled()) {
-        /* mmc64_powerup(); */
     }
 }
 

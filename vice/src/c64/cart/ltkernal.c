@@ -49,6 +49,7 @@
 #include "crt.h"
 #include "lib.h"
 #include "machine.h"
+#include "ram.h"
 #include "resources.h"
 #include "cmdline.h"
 #include "maincpu.h"
@@ -221,6 +222,8 @@ from the bus until a reset, essentially reconfiguring to a stock system.
     4    Freeze state (0: active, 1: inactive)
 
 */
+
+#define CART_RAM_SIZE (16 * 1024)
 
 /* largest supported HD in 512 bytes sectors for LTK for DOS up to 7.3 */
 #define ltk_imagesize  (32 * 1024 * 1024 * 10 / 512)
@@ -892,6 +895,25 @@ int ltkernal_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 }
 
 /* ---------------------------------------------------------------------*/
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void ltkernal_powerup(void)
+{
+    ram_init_with_pattern(export_ram0, CART_RAM_SIZE, &ramparam);
+}
 
 void ltkernal_freeze(void)
 {
