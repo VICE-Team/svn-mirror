@@ -184,7 +184,7 @@ static void inception_store(int port, uint8_t val)
     clock_line = new_clock;
 }
 
-static void inception_reset(int port)
+static void inception_powerup(int port)
 {
     counter = 0;
 }
@@ -208,7 +208,7 @@ static joyport_t joyport_inception_device = {
     inception_store,                  /* digital line store function */
     NULL,                             /* NO pot-x read function */
     NULL,                             /* NO pot-y read function */
-    inception_reset,                  /* reset function */
+    inception_powerup,                /* powerup function */
     inception_write_snapshot,         /* device write snapshot function */
     inception_read_snapshot,          /* device read snapshot function */
     NULL,                             /* NO device hook function */

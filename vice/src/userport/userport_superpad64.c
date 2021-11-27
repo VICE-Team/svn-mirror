@@ -71,7 +71,7 @@ static void userport_superpad64_store_pa2(uint8_t value);
 static int userport_superpad64_write_snapshot_module(snapshot_t *s);
 static int userport_superpad64_read_snapshot_module(snapshot_t *s);
 static int userport_superpad64_enable(int value);
-static void userport_superpad64_power_toggle(void);
+static void userport_superpad64_powerup(void);
 
 static userport_device_t userport_superpad64_device = {
     "Userport SuperPad64",                     /* device name */
@@ -90,7 +90,7 @@ static userport_device_t userport_superpad64_device = {
     NULL,                                      /* NO store sp2 pin function */
     NULL,                                      /* NO read sp2 pin function */
     NULL,                                      /* NO reset function */
-    userport_superpad64_power_toggle,          /* power toggle function */
+    userport_superpad64_powerup,               /* powerup function */
     userport_superpad64_write_snapshot_module, /* snapshot write function */
     userport_superpad64_read_snapshot_module   /* snapshot read function */
 };
@@ -129,7 +129,7 @@ int userport_superpad64_resources_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void userport_superpad64_power_toggle(void)
+static void userport_superpad64_powerup(void)
 {
     counter = 0;
 }

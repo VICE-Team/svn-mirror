@@ -96,7 +96,7 @@ static void waasoft_dongle_store_dig(int port, uint8_t val)
     waasoft_reset_line[port] = reset;
 }
 
-static void waasoft_reset(int port)
+static void waasoft_powerup(int port)
 {
     counter[port] = 0;
 }
@@ -119,7 +119,7 @@ static joyport_t joyport_waasoft_dongle_device = {
     waasoft_dongle_store_dig,      /* digital line store function */
     NULL,                          /* NO pot-x read function */
     waasoft_dongle_read_poty,      /* pot-y read function */
-    waasoft_reset,                 /* reset function */
+    waasoft_powerup,               /* powerup function */
     waasoft_write_snapshot,        /* device write snapshot function */
     waasoft_read_snapshot,         /* device read snapshot function */
     NULL,                          /* NO device hook function */

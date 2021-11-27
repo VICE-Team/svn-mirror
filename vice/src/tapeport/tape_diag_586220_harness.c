@@ -76,7 +76,7 @@ static tapeport_device_t tape_diag_586220_harness_device = {
     VICE_MACHINE_MASK,                         /* device works on x64/x64sc machines */
     TAPEPORT_PORT_1_MASK,                      /* device only works on port 1 */
     tape_diag_586220_harness_enable,           /* device enable function */
-    NULL,                                      /* NO device specific reset function */
+    NULL,                                      /* NO device specific hard reset function */
     NULL,                                      /* NO device shutdown function */
     tape_diag_586220_harness_set_motor,        /* set motor line function */
     tape_diag_586220_harness_toggle_write_bit, /* set write line function */

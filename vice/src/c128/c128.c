@@ -1334,9 +1334,9 @@ void machine_specific_reset(void)
 void machine_specific_powerup(void)
 {
     cartridge_powerup();
-    userport_power_toggle();
-    tapeport_reset();
-    joyport_reset();
+    userport_powerup();
+    tapeport_powerup();
+    joyport_powerup();
 }
 
 void machine_specific_shutdown(void)

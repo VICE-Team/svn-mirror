@@ -88,8 +88,8 @@ typedef struct tapeport_device_s {
     /* enable device function */
     int (*enable)(int port, int val);
 
-    /* reset device */
-    void (*reset)(int port);
+    /* hard reset the device / powerup */
+    void (*powerup)(int port);
 
     /* shutdown device */
     void (*shutdown)(void);
@@ -119,7 +119,7 @@ extern void tapeport_set_motor(int port, int flag);
 extern void tapeport_toggle_write_bit(int port, int write_bit);
 extern void tapeport_set_sense_out(int port, int sense);
 
-extern void tapeport_reset(void);
+extern void tapeport_powerup(void);
 
 extern int tapeport_valid_port(int port);
 

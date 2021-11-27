@@ -976,7 +976,7 @@ static joyport_t paddles_joyport_device = {
     NULL,                     /* NO digital line store function */
     mouse_get_paddle_x,       /* pot-x read function */
     mouse_get_paddle_y,       /* pot-y read function */
-    NULL,                     /* NO reset function */
+    NULL,                     /* NO powerup function */
     paddles_write_snapshot,   /* device write snapshot function */
     paddles_read_snapshot,    /* device read snapshot function */
     NULL,                     /* NO device hook function */
@@ -998,7 +998,7 @@ static joyport_t mf_joystick_joyport_device = {
     NULL,                      /* NO digital line store function */
     mouse_get_paddle_x,        /* pot-x read function */
     mouse_get_paddle_y,        /* pot-y read function */
-    NULL,                      /* NO reset function */
+    NULL,                      /* NO powerup function */
     paddles_write_snapshot,    /* device write snapshot function */
     paddles_read_snapshot,     /* device read snapshot function */
     NULL,                      /* NO device hook function */
@@ -1022,7 +1022,7 @@ static joyport_t mouse_1351_joyport_device = {
     NULL,                      /* NO digital line store function */
     mouse_get_1351_x,          /* pot-x read function */
     mouse_get_1351_y,          /* pot-y read function */
-    NULL,                      /* NO reset function */
+    NULL,                      /* NO powerup function */
     mouse_1351_write_snapshot, /* device write snapshot function */
     mouse_1351_read_snapshot,  /* device read snapshot function */
     NULL,                      /* NO device hook function */
@@ -1071,7 +1071,7 @@ static joyport_t mouse_neos_joyport_device = {
     neos_mouse_store,                      /* digital line store function */
     joyport_mouse_neos_amiga_st_read_potx, /* pot-x read function */
     NULL,                                  /* NO pot-y read function */
-    NULL,                                  /* NO reset function */
+    NULL,                                  /* NO powerup function */
     mouse_neos_write_snapshot,             /* device write snapshot function */
     mouse_neos_read_snapshot,              /* device read snapshot function */
     NULL,                                  /* NO device hook function */
@@ -1113,7 +1113,7 @@ static joyport_t mouse_amiga_joyport_device = {
     NULL,                                  /* NO digital line store function */
     joyport_mouse_neos_amiga_st_read_potx, /* pot-x read function */
     joyport_mouse_amiga_st_read_poty,      /* pot-y read function */
-    NULL,                                  /* NO reset function */
+    NULL,                                  /* NO powerup function */
     mouse_amiga_write_snapshot,            /* device write snapshot function */
     mouse_amiga_read_snapshot,             /* device read snapshot function */
     NULL,                                  /* NO device hook function */
@@ -1137,7 +1137,7 @@ static joyport_t mouse_cx22_joyport_device = {
     NULL,                      /* NO digital line store function */
     NULL,                      /* NO pot-x read function */
     NULL,                      /* NO pot-y read function */
-    NULL,                      /* NO reset function */
+    NULL,                      /* NO powerup function */
     mouse_cx22_write_snapshot, /* device write snapshot function */
     mouse_cx22_read_snapshot,  /* device read snapshot function */
     NULL,                      /* NO device hook function */
@@ -1162,7 +1162,7 @@ static joyport_t mouse_st_joyport_device = {
     NULL,                                  /* NO digital line store function */
     joyport_mouse_neos_amiga_st_read_potx, /* pot-x read function */
     joyport_mouse_amiga_st_read_poty,      /* pot-y read function */
-    NULL,                                  /* NO reset function */
+    NULL,                                  /* NO powerup function */
     mouse_st_write_snapshot,               /* device write snapshot function */
     mouse_st_read_snapshot,                /* device read snapshot function */
     NULL,                                  /* NO device hook function */
@@ -1199,7 +1199,7 @@ static joyport_t mouse_smart_joyport_device = {
     smart_mouse_store,          /* digital line store function */
     mouse_get_1351_x,           /* pot-x read function */
     mouse_get_1351_y,           /* pot-y read function */
-    NULL,                       /* NO reset function */
+    NULL,                       /* NO powerup function */
     mouse_smart_write_snapshot, /* device write snapshot function */
     mouse_smart_read_snapshot,  /* device read snapshot function */
     NULL,                       /* NO device hook function */
@@ -1234,7 +1234,7 @@ static joyport_t mouse_micromys_joyport_device = {
     NULL,                          /* NO digital line store function */
     mouse_get_1351_x,              /* pot-x read function */
     mouse_get_1351_y,              /* pot-y read function */
-    NULL,                          /* NO reset function */
+    NULL,                          /* NO powerup function */
     mouse_micromys_write_snapshot, /* device write snapshot function */
     mouse_micromys_read_snapshot,  /* device read snapshot function */
     NULL,                          /* NO device hook function */
@@ -1263,7 +1263,7 @@ static joyport_t koalapad_joyport_device = {
     NULL,                       /* NO digital line store function */
     joyport_koalapad_pot_x,     /* pot-x read function */
     mouse_get_paddle_y,         /* pot-y read function */
-    NULL,                       /* NO reset function */
+    NULL,                       /* NO powerup function */
     koalapad_write_snapshot,    /* device write snapshot function */
     koalapad_read_snapshot,     /* device read snapshot function */
     NULL,                       /* NO device hook function */

@@ -44,7 +44,7 @@ static int sense_dongle_enabled[TAPEPORT_MAX_PORTS] = { 0 };
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static void sense_dongle_reset(int port);
+static void sense_dongle_powerup(int port);
 static int sense_dongle_enable(int port, int val);
 
 static tapeport_device_t sense_dongle_device = {
@@ -53,7 +53,7 @@ static tapeport_device_t sense_dongle_device = {
     VICE_MACHINE_ALL,            /* device works on all machines */
     TAPEPORT_PORT_ALL_MASK,      /* device works on all ports */
     sense_dongle_enable,         /* device enable function */
-    sense_dongle_reset,          /* device specific reset function */
+    sense_dongle_powerup,        /* device specific hard reset function */
     NULL,                        /* NO device shutdown function */
     NULL,                        /* NO set motor line function */
     NULL,                        /* NO set write line function */
@@ -88,7 +88,7 @@ int sense_dongle_resources_init(int amount)
 
 /* ---------------------------------------------------------------------*/
 
-static void sense_dongle_reset(int port)
+static void sense_dongle_powerup(int port)
 {
     tapeport_set_tape_sense(1, port);
 }

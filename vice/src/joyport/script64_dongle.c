@@ -88,7 +88,7 @@ static joyport_t joyport_script64_dongle_device = {
     NULL,                           /* NO digital line store function */
     script64_dongle_read_potx,      /* pot-x read function */
     script64_dongle_read_poty,      /* pot-y read function */
-    NULL,                           /* NO reset function */
+    NULL,                           /* NO powerup function */
     NULL,                           /* NO device write snapshot function */
     NULL,                           /* NO device read snapshot function */
     NULL,                           /* NO device hook function */
