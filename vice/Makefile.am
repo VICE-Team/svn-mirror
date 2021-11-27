@@ -82,15 +82,6 @@ petcat:
 cartconv:
 	(cd src/tools/cartconv; $(MAKE))
 
-ffmpeglibs:
-	(cd src/lib; $(MAKE) ffmpeglibs)
-
-ffmpeglibs-install:
-	(cd src/lib; $(MAKE) ffmpeglibs-install)
-
-ffmpeglibs-clean:
-	(cd src/lib; $(MAKE) clean)
-
 install: installvice
 
 
@@ -185,18 +176,8 @@ bindist:
 	@echo this platform doesn\'t use \"make bindist\", use \"make install\" instead
 endif
 
-if HAVE_SHARED_FFMPEG
-EXTRA_INSTALLS = ffmpeglibs-install
-EXTRA_CLEANS = ffmpeglibs-clean
-else
-if HAVE_STATIC_FFMPEG
-EXTRA_INSTALLS =
-EXTRA_CLEANS = ffmpeglibs-clean
-else
 EXTRA_INSTALLS =
 EXTRA_CLEANS =
-endif
-endif
 
 if MAKE_INSTALL
 installvice: install-recursive $(EXTRA_INSTALLS)

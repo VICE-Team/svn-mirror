@@ -85,8 +85,6 @@ VICE_ARG_WITH_LIST(gif,                 [  --with-gif              use GIF scree
 VICE_ARG_WITH_LIST(jpeg,                [  --with-jpeg             use JPEG screenshot system])
 VICE_ARG_WITH_LIST(png,                 [  --without-png           do not use the PNG screenshot system])
 VICE_ARG_ENABLE_LIST(external-ffmpeg,   [  --enable-external-ffmpeg  enable external FFmpeg support])
-VICE_ARG_ENABLE_LIST(shared-ffmpeg,     [  --enable-shared-ffmpeg  enable included shared FFmpeg support])
-VICE_ARG_ENABLE_LIST(static-ffmpeg,     [  --enable-static-ffmpeg  enable included static FFmpeg support])
 VICE_ARG_ENABLE_LIST(quicktime,         [  --enable-quicktime      enables Apple QuickTime support])
 dnl Only supported for SDL1
 VICE_ARG_ENABLE_LIST(hwscale,           [  --disable-hwscale       disables GPU scaling of emulated screen (SDL1 UI only)])
@@ -174,7 +172,6 @@ AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK()])
 
 dnl check for conflicting options
 VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-native-gtk3ui --enable-headlessui], [UI])
-VICE_ARG_LIST_AT_MOST_ONE([--enable-static-ffmpeg --enable-shared-ffmpeg --enable-external-ffmpeg], [FFMPEG])
 AS_IF([test x"$enable_native_gtk3ui" = "xno" -a x"$enable_sdlui" = "xno" -a x"$enable_sdlui2" = "xno" -a x"$enable_headlessui" = "xno"],
       [AC_MSG_ERROR([You cannot disable all GUIs])])
 
@@ -326,49 +323,6 @@ AC_CHECK_PROG(AR, ar, ar, ar)
 AC_CHECK_PROG(SVN, svn, svn, :)
 AC_CHECK_PROG(TAR, tar, tar, :)
 AC_CHECK_PROG(SVNVERSION, svnversion, svnversion, :)
-AS_IF([test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"],
-[
-  AC_CHECK_PROG(BASH, bash, bash, :)
-  AS_IF([test x"$BASH" = "x:"],
-        [AC_MSG_ERROR([bash is required for ffmpeg compiling])])
-  AS_CASE(["$host_cpu"], [i*86 | x86_64* | amd64*],
-  [
-    AC_CHECK_PROG(YASM, yasm, yasm, no)
-    AS_IF([test x"$YASM" = "xno"],
-          [AC_MSG_ERROR([yasm needed for ffmpeg compile])])
-    dnl Check minimum yasm version required
-    YASM_VERSION_MAJOR=1
-    YASM_VERSION_MINOR=2
-    YASM_VERSION_BUILD=0
-    yasm_ver=`$YASM --version | head -n 1 | cut -d ' ' -f 2`
-    yasm_maj=`echo "$yasm_ver" | cut -d '.' -f 1`
-    yasm_min=`echo "$yasm_ver" | cut -d '.' -f 2`
-    yasm_rev=`echo "$yasm_ver" | cut -d '.' -f 3`
-    yasm_ok=false
-
-    AS_IF([test $yasm_maj -gt $YASM_VERSION_MAJOR], [yasm_ok=true])
-    AS_IF([test $yasm_maj -eq $YASM_VERSION_MAJOR -a $yasm_min -gt $YASM_VERSION_MINOR], [yasm_ok=true])
-    AS_IF([test $yasm_maj -eq $YASM_VERSION_MAJOR -a $yasm_min -eq $YASM_VERSION_MINOR -a $yasm_rev -ge $YASM_VERSION_BUILD], [yasm_ok=true])
-    AS_IF([test x"$yasm_ok" != "xtrue"],
-          [AC_MSG_ERROR([yasm $YASM_VERSION_MAJOR.$YASM_VERSION_MINOR.$YASM_VERSION_BUILD or higher required])])
-  ], [])
-  make_cmd=""
-  AC_MSG_CHECKING(Whether our make is a GNU make)
-  for i in "$MAKE" make gmake gnumake
-  do
-    test -x "$i" && continue
-    AS_IF([ ( sh -c "$i --version" 2>/dev/null | grep GNU >/dev/null ) ],
-          [
-             AC_MSG_RESULT($i);
-             make_cmd=$i;
-             break;
-          ])
-  done
-  AS_IF([test x"$make_cmd" = "x"], [
-    AC_MSG_RESULT(no);
-    AC_MSG_ERROR([When using internal FFMPEG a GNU make command is needed])
-  ], [MAKE="$make_cmd"])
-])
 AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
 AS_IF([test x"$YACC" = "xno"], [AC_MSG_ERROR([Could not find byacc, yacc or bison!])])
 
@@ -515,8 +469,6 @@ HAVE_SYS_AUDIO_H_SUPPORT="no "
 HAVE_ZLIB_SUPPORT="no "
 LINUX_JOYSTICK_SUPPORT="no "
 MAC_JOYSTICK_SUPPORT="no "
-SHARED_FFMPEG_SUPPORT="no "
-STATIC_FFMPEG_SUPPORT="no "
 USE_ALSA_SUPPORT="no "
 USE_COREAUDIO_SUPPORT="no "
 USE_DMEDIA_SUPPORT="no "
@@ -1828,9 +1780,7 @@ if test x"$with_resid" = "xno"; then
   dnl macro is used.
   dnl Another workaround must be found if other self-contained packages go
   dnl into VICE.
-  if test x"$enable_shared_ffmpeg" != "xyes" -a x"$enable_static_ffmpeg" != "xyes"; then
-    no_recursion=yes
-  fi
+  
   dnl A workaround for an autoconf bug when not using/checking the C++
   dnl compiler, we'll define am__fastdepCXX_TRUE as #
   am__fastdepCXX_TRUE=#
@@ -2332,99 +2282,11 @@ LIBS="$old_LIBS"
 AC_SUBST(NETPLAY_LIBS)
 
 dnl ----- FFMPEG -----
-FFMPEG_DIR=
-FFMPEG_LIBS=
 FFMPEG_INCLUDES=
-FFMPEG_DEP=
 
-HAVE_SHARED_FFMPEG=no
-HAVE_STATIC_FFMPEG=no
 HAVE_EXTERNAL_FFMPEG=no
 
 AC_MSG_CHECKING([for FFMPEG support])
-
-dnl shared vice included ffmpeg
-if test x"$enable_shared_ffmpeg" = "xyes"; then
-  if test x"$is_win32" = "xyes" -o x"$is_unix" = "xyes" -a x"$dynlib_support" = "xyes" ; then
-    FFMPEG_DEP=libffmpeg
-    FFMPEG_LIBS="\$(top_builddir)/src/libffmpeg.a"
-    FFMPEG_DIR="$FFMPEG_DIR liblame libx264 libffmpeg"
-    AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
-    HAVE_FFMPEG_SUPPORT="yes"
-    AC_DEFINE([SHARED_FFMPEG],,[FFMPEG libraries are shared])
-    SHARED_FFMPEG_SUPPORT="yes"
-    FFMPEG_INCLUDES="-I\$(top_srcdir)/src/lib/libffmpeg"
-
-    FFMPEG_DO_SUBDIRS=yes
-    HAVE_SHARED_FFMPEG=yes
-
-    dnl --- define obsolete variables as long as they are not removed from driver code ---
-    AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
-    HAVE_FFMPEG_SWSCALE_SUPPORT="yes"
-    AC_DEFINE([HAVE_FFMPEG_HEADER_SUBDIRS],,[FFMPEG uses subdirs for headers])
-    AC_MSG_RESULT([yes (shared internal)])
-    GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
-  else
-    AC_MSG_RESULT([shared not available])
-  fi
-fi
-
-dnl static vice included ffmpeg
-if test x"$enable_static_ffmpeg" = "xyes"; then
-  FFMPEG_DEP=libffmpeg
-  FFMPEG_LIBS="\$(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a \$(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a \$(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a \$(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a \$(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a \$(top_builddir)/src/lib/libffmpeg/lib/libmp3lame.a \$(top_builddir)/src/lib/libffmpeg/lib/libx264.a"
-  FFMPEG_DIR="$FFMPEG_DIR liblame libx264 libffmpeg"
-  AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
-  HAVE_FFMPEG_SUPPORT="yes"
-  AC_DEFINE([STATIC_FFMPEG],,[FFMPEG libraries are static])
-  STATIC_FFMPEG_SUPPORT="yes"
-  FFMPEG_INCLUDES="-I\$(top_srcdir)/src/lib/libffmpeg"
-
-  AC_MSG_RESULT([yes (static internal)])
-
-  AC_CHECK_LIB(rt, clock_gettime,,)
-  AC_CHECK_LIB(bz2, BZ2_bzDecompressInit,,)
-  AC_CHECK_LIB(lzma, lzma_code,,)
-  AC_CHECK_LIB(va, vaBeginPicture,,)
-  AC_CHECK_LIB(m, sqrt,,)
-
-  if test x"$is_win32" = "xyes"; then
-    win32_pthreads=no
-    AC_CHECK_LIB(pthreadGC2, _imp__pthread_self, [ win32_pthreads=yes ])
-    if test x"$win32_pthreads" = "xno"; then
-      AC_CHECK_LIB(pthreadGC2, pthread_self, [ win32_pthreads=yes ])
-    fi
-    if test x"$win32_pthreads" = "xno"; then
-      AC_CHECK_LIB(pthread, _imp__pthread_self, [ win32_pthreads=yes ])
-    else
-      LIBS="$LIBS -lpthreadGC2"
-    fi
-    if test x"$win32_pthreads" = "xno"; then
-      AC_CHECK_LIB(pthread, pthread_self, [ win32_pthreads=yes ])
-    else
-      LIBS="$LIBS -lpthread"
-    fi
-    if test x"$win32_pthreads" = "xno"; then
-      AC_MSG_ERROR([Needed pthread lib missing])
-    else
-      LIBS="$LIBS -lpthread"
-    fi
-    dnl Add -lws2_32
-    LIBS="$LIBS -lws2_32"
-  else
-    AC_CHECK_LIB(pthread, pthread_create,,)
-  fi
-
-  FFMPEG_DO_SUBDIRS=yes
-  HAVE_STATIC_FFMPEG=yes
-
-  dnl --- define obsolete variables as long as they are not removed from driver code ---
-  AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
-  HAVE_FFMPEG_SWSCALE_SUPPORT="yes"
-  AC_DEFINE([HAVE_FFMPEG_HEADER_SUBDIRS],,[FFMPEG uses subdirs for headers])
-
-  GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
-fi
 
 dnl external ffmpeg
 if test x"$enable_external_ffmpeg" = "xyes"; then
@@ -2501,58 +2363,10 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
 fi
 
 AC_SUBST(FFMPEG_INCLUDES)
-AC_SUBST(FFMPEG_LIBS)
-AC_SUBST(FFMPEG_DIR)
-AC_SUBST(FFMPEG_DEP)
 
-if test x"$HAVE_SHARED_FFMPEG" != "xyes" -a x"$HAVE_STATIC_FFMPEG" != "xyes" -a x"$HAVE_EXTERNAL_FFMPEG" != "xyes"; then
+if test x"$HAVE_EXTERNAL_FFMPEG" != "xyes"; then
   AC_MSG_RESULT([disabled])
 fi
-
-if test x"$FFMPEG_DO_SUBDIRS" = "xyes"; then
-  if test x"$is_win32" = "xyes"; then
-      ac_configure_args="$ac_configure_args --enable-yasm-command=${YASM} --enable-make-command=${MAKE-make} --enable-w32threads --enable-full-host=${ac_cv_host} --enable-compiler=${CC} --prefix=${prefix}"
-  else
-      ac_configure_args="$ac_configure_args --enable-yasm-command=${YASM} --enable-make-command=${MAKE-make} --enable-full-host=${ac_cv_host} --enable-compiler=${CC} --prefix=${prefix}"
-  fi
-  AC_CONFIG_SUBDIRS(src/lib/ffmpeg)
-fi
-
-if test x"$HAVE_SHARED_FFMPEG" = "xyes"; then
-  AM_CONDITIONAL(HAVE_SHARED_FFMPEG, true)
-else
-  AM_CONDITIONAL(HAVE_SHARED_FFMPEG, false)
-fi
-
-if test x"$HAVE_STATIC_FFMPEG" = "xyes"; then
-  AM_CONDITIONAL(HAVE_STATIC_FFMPEG, true)
-else
-  AM_CONDITIONAL(HAVE_STATIC_FFMPEG, false)
-fi
-
-if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
-  LAMEMP3SUB=liblame
-  LIBX264SUB=libx264
-  LIBFFMPEGSUB=libffmpeg
-  FFMPEGSUB=ffmpeg
-else
-  LAMEMP3SUB=""
-  LIBX264SUB=""
-  LIBFFMPEGSUB=""
-  FFMPEGSUB=""
-fi
-
-AC_SUBST(LAMEMP3SUB)
-AC_SUBST(LIBX264SUB)
-AC_SUBST(LIBFFMPEGSUB)
-AC_SUBST(FFMPEGSUB)
-
-if test x"$LAMEMP3SUB" = "xliblame"; then
-  AM_CONDITIONAL(LAMEMP3_DIR_USED, true)
-else
-  AM_CONDITIONAL(LAMEMP3_DIR_USED, false)
-fi
-
 
 
 dnl check for glibc 2.20+
@@ -3664,15 +3478,6 @@ else
     AC_SUBST(PROGRAM_SUFFIX, [$program_suffix])
 fi
 
-dnl I think this is supposed to handle --enable-internal-ffmpeg
-dnl It does not check for that situation and internal-ffmpeg on Unix (the only
-dnl system supported,I think) requires running `make` as root, which sucks.
-dnl So let's not do that.
-# Add path with private dynamic ffmpeg libs to the search path
-#rpath_line=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "$VICEDIR/lib"`
-#LDFLAGS="$LDFLAGS $rpath_line"
-
-
 AC_OUTPUT([Makefile
            build/Makefile
            build/android/Makefile
@@ -3814,7 +3619,6 @@ AC_OUTPUT([Makefile
            src/joyport/Makefile
            src/joystickdrv/Makefile
            src/lib/Makefile
-           src/lib/ffmpeg/Makefile
            src/lib/p64/Makefile
            src/lib/linenoise-ng/Makefile
            src/mididrv/Makefile
@@ -4013,12 +3817,10 @@ echo ""
 echo "VIDEO RECORDING"
 echo "---------------"
 
-echo "FFMPEG support                : $HAVE_FFMPEG_SUPPORT (--enable-shared-ffmpeg/--enable-static-ffmpeg/--enable-external-ffmpeg)"
+echo "FFMPEG support                : $HAVE_FFMPEG_SUPPORT (--enable-external-ffmpeg)"
 echo "FFMPEG swscale support        : $HAVE_FFMPEG_SWSCALE_SUPPORT"
 echo "FFMPEG swresample support     : $HAVE_FFMPEG_SWRESAMPLE_SUPPORT"
 echo "FFMPEG avresample support     : $HAVE_FFMPEG_AVRESAMPLE_SUPPORT"
-echo "included shared FFMPEG support: $SHARED_FFMPEG_SUPPORT (--enable-shared-ffmpeg)"
-echo "included static FFMPEG support: $STATIC_FFMPEG_SUPPORT (--enable-static-ffmpeg)"
 
 echo ""
 echo "INPUT"
