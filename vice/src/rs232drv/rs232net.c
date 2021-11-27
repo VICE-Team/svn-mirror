@@ -387,7 +387,7 @@ enum rs232handshake_in rs232net_get_status(int fd)
             }
         }
 #endif
-        if (fds[fd].dcd_in) {
+        if (fds[fd].dcd_in && fds[fd].dtr_out) {
             status |= RS232_HSI_DCD;
         }
     } else {
