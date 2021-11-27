@@ -2380,6 +2380,96 @@ void cartridge_reset(void)
     }
 }
 
+/*
+    called by c64.c:machine_specific_powerup (calls XYZ_powerup)
+
+    we call the hooks in "back to front" order, so carts closer
+    to the "front" will win with whatever they do.
+*/
+void cartridge_powerup(void)
+{
+    /* "IO Slot" */
+    if (georam_cart_enabled()) {
+        /* georam_powerup(); */
+    }
+    if (reu_cart_enabled()) {
+        /* reu_powerup(); */
+    }
+
+    /* "Main Slot" */
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_ACTION_REPLAY:
+            /* actionreplay_powerup(); */
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            /* atomicpower_powerup(); */
+            break;
+        case CARTRIDGE_CAPTURE:
+            /* capture_powerup(); */
+            break;
+        case CARTRIDGE_EASYFLASH:
+            /* easyflash_powerup(); */
+            break;
+        case CARTRIDGE_KCS_POWER:
+            /* kcs_powerup(); */
+            break;
+        case CARTRIDGE_LT_KERNAL:
+            /* ltkernal_powerup(); */
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            /* magicformel_powerup(); */
+            break;
+        case CARTRIDGE_MAX_BASIC:
+            /* maxbasic_powerup(); */
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            /* mmcreplay_powerup(); */
+            break;
+        case CARTRIDGE_MULTIMAX:
+            /* multimax_powerup(); */
+            break;
+        case CARTRIDGE_PAGEFOX:
+            /* pagefox_powerup(); */
+            break;
+        case CARTRIDGE_RAMLINK:
+            /* ramlink_powerup(); */
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            /* retroreplay_powerup(); */
+            break;
+        case CARTRIDGE_REX_RAMFLOPPY:
+            /* rexramfloppy_powerup(); */
+            break;
+        case CARTRIDGE_SDBOX:
+            /* sdbox_powerup(); */
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT:
+            /* supersnapshot_v4_powerup(); */
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+            /* supersnapshot_v5_powerup(); */
+            break;
+    }
+
+    /* "Slot 1" */
+    if (dqbb_cart_enabled()) {
+        /* dqbb_powerup(); */
+    }
+    if (expert_cart_enabled()) {
+        /* expert_powerup(); */
+    }
+    if (ramcart_cart_enabled()) {
+        /* ramcart_powerup(); */
+    }
+    if (isepic_cart_enabled()) {
+        /* isepic_powerup(); */
+    }
+    /* "Slot 0" */
+    if (mmc64_cart_enabled()) {
+        /* mmc64_powerup(); */
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* called by cart_nmi_alarm_triggered, after an alarm occured */

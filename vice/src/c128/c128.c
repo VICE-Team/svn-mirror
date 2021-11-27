@@ -1333,6 +1333,7 @@ void machine_specific_reset(void)
 
 void machine_specific_powerup(void)
 {
+    cartridge_powerup();
     userport_power_toggle();
     tapeport_reset();
     joyport_reset();

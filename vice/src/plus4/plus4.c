@@ -935,6 +935,7 @@ void machine_specific_reset(void)
 
 void machine_specific_powerup(void)
 {
+    cartridge_powerup();
     ted_reset_registers();
     userport_power_toggle();
     tapeport_reset();
