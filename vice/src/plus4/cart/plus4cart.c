@@ -398,6 +398,13 @@ void cartridge_reset(void)
     }
 }
 
+/*
+    called by plus4.c:machine_specific_powerup (calls XYZ_reset)
+*/
+void cartridge_powerup(void)
+{
+}
+
 static void cart_power_off(void)
 {
     if (plus4cartridge_reset) {
