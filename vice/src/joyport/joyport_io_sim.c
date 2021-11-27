@@ -165,7 +165,7 @@ static joyport_t joyport_io_hw_device = {
     joyport_io_hw_store,          /* digital line store function */
     joyport_io_hw_read_potx,      /* pot-x read function */
     joyport_io_hw_read_poty,      /* pot-y read function */
-    NULL,                         /* NO reset function */
+    NULL,                         /* NO powerup function */
     NULL,                         /* NO device write snapshot function */
     NULL,                         /* NO device read snapshot function */
     NULL,                         /* NO device hook function */
@@ -185,7 +185,7 @@ static joyport_t joyport_io_sim_device = {
     joyport_io_sim_store,          /* digital line store function */
     joyport_io_sim_read_potx,      /* pot-x read function */
     joyport_io_sim_read_poty,      /* pot-y read function */
-    NULL,                          /* NO reset function */
+    NULL,                          /* NO powerup function */
     joyport_io_sim_write_snapshot, /* device write snapshot function */
     joyport_io_sim_read_snapshot,  /* device read snapshot function */
     NULL,                          /* NO device hook function */

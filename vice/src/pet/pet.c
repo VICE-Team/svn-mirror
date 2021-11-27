@@ -736,9 +736,9 @@ void machine_specific_powerup(void)
 {
     petdww_powerup();
     pethre_powerup();
-    userport_power_toggle();
-    tapeport_reset();
-    joyport_reset();
+    userport_powerup();
+    tapeport_powerup();
+    joyport_powerup();
 }
 
 /* PET-specific initialization.  */

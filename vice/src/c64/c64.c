@@ -1322,9 +1322,9 @@ void machine_specific_powerup(void)
 {
     vicii_reset_registers();
     cartridge_powerup();
-    userport_power_toggle();
-    tapeport_reset();
-    joyport_reset();
+    userport_powerup();
+    tapeport_powerup();
+    joyport_powerup();
     reset_poweron = 1;
 }
 

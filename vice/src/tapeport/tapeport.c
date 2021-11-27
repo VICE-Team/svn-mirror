@@ -99,7 +99,7 @@ int tapeport_device_register(int id, tapeport_device_t *device)
     tapeport_device[id].machine_mask = device->machine_mask;
     tapeport_device[id].port_mask = device->port_mask;
     tapeport_device[id].enable = device->enable;
-    tapeport_device[id].reset = device->reset;
+    tapeport_device[id].powerup = device->powerup;
     tapeport_device[id].shutdown = device->shutdown;
     tapeport_device[id].set_motor = device->set_motor;
     tapeport_device[id].toggle_write_bit = device->toggle_write_bit;
@@ -274,7 +274,7 @@ void tapeport_set_sense_out(int port, int sense)
     }
 }
 
-void tapeport_reset(void)
+void tapeport_powerup(void)
 {
     int i;
 
@@ -283,8 +283,8 @@ void tapeport_reset(void)
             /* use new tapeport system if the device has been registered */
             if (tapeport_current_device[i] != TAPEPORT_DEVICE_NONE) {
                 if (tapeport_device[tapeport_current_device[i]].name) {
-                    if (tapeport_device[tapeport_current_device[i]].reset) {
-                        tapeport_device[tapeport_current_device[i]].reset(i);
+                    if (tapeport_device[tapeport_current_device[i]].powerup) {
+                        tapeport_device[tapeport_current_device[i]].powerup(i);
                     }
                 }
             }

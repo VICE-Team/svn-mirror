@@ -1131,8 +1131,8 @@ void machine_specific_powerup(void)
 {
     cartridge_powerup();
     vicii_reset_registers();
-    userport_power_toggle();
-    joyport_reset();
+    userport_powerup();
+    joyport_powerup();
     reset_poweron = 1;
 }
 

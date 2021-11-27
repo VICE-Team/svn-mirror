@@ -77,7 +77,7 @@ static userport_device_t sampler_device = {
     NULL,                            /* NO store sp2 pin function */
     NULL,                            /* NO read sp2 pin function */
     NULL,                            /* NO reset function */
-    NULL,                            /* NO power toggle function */
+    NULL,                            /* NO powerup function */
     NULL,                            /* NO snapshot write function */
     NULL                             /* NO snapshot read function */
 };

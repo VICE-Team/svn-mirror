@@ -803,7 +803,7 @@ static joyport_t joystick_device = {
     NULL,                           /* NO digital line store function */
     read_potx,                      /* pot-x read function */
     read_poty,                      /* pot-y read function */
-    NULL,                           /* NO reset function */
+    NULL,                           /* NO powerup function */
     joystick_snapshot_write_module, /* device write snapshot function */
     joystick_snapshot_read_module,  /* device read snapshot function */
     NULL,                           /* NO device hook function */

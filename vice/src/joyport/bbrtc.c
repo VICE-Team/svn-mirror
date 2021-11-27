@@ -140,7 +140,7 @@ static joyport_t joyport_bbrtc_device = {
     bbrtc_store,              /* digital line store function */
     NULL,                     /* NO pot-x read function */
     NULL,                     /* NO pot-y read function */
-    NULL,                     /* NO reset function */
+    NULL,                     /* NO powerup function */
     bbrtc_write_snapshot,     /* device snapshot write function */
     bbrtc_read_snapshot,      /* device snapshot read function */
     NULL,                     /* NO device hook function */

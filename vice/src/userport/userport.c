@@ -145,7 +145,7 @@ int userport_device_register(int id, userport_device_t *device)
         userport_device[id].store_sp2 = device->store_sp2;
         userport_device[id].read_sp2 = device->read_sp2;
         userport_device[id].reset = device->reset;
-        userport_device[id].power_toggle = device->power_toggle;
+        userport_device[id].powerup = device->powerup;
         userport_device[id].write_snapshot = device->write_snapshot;
         userport_device[id].read_snapshot = device->read_snapshot;
         return 0;
@@ -425,12 +425,12 @@ uint8_t read_userport_sp2(uint8_t orig)
     return retval;
 }
 
-void userport_power_toggle(void)
+void userport_powerup(void)
 {
     if (userport_current_device != USERPORT_DEVICE_NONE) {
         if (userport_device[userport_current_device].name) {
-            if (userport_device[userport_current_device].power_toggle) {
-                userport_device[userport_current_device].power_toggle();
+            if (userport_device[userport_current_device].powerup) {
+                userport_device[userport_current_device].powerup();
             }
         }
     }

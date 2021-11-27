@@ -119,7 +119,7 @@ static tapeport_device_t tapecart_device = {
     VICE_MACHINE_MASK,            /* device works on x64/x64sc/x128 machines */
     TAPEPORT_PORT_1_MASK,         /* device only works on port 1 */
     tapecart_enable,              /* device enable function */
-    NULL,                         /* NO device specific reset function */
+    NULL,                         /* NO device specific hard reset function */
     tapecart_shutdown,            /* device shutdown function */
     tapecart_store_motor,         /* set motor line function */
     tapecart_store_write,         /* set write line function */

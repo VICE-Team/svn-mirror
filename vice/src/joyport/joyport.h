@@ -247,7 +247,7 @@ typedef struct joyport_s {
     void (*store_digital)(int port, uint8_t val);          /* pointer to the device digital lines store function */
     uint8_t (*read_potx)(int port);                        /* pointer to the device X potentiometer read function */
     uint8_t (*read_poty)(int port);                        /* pointer to the device Y potentiometer read function */
-    void (*reset)(int port);                               /* pointer to the device reset function, called on hard reset */
+    void (*powerup)(int port);                             /* pointer to the device powerup function, called on hard reset */
     int (*write_snapshot)(struct snapshot_s *s, int port); /* pointer to the device snapshot write function */
     int (*read_snapshot)(struct snapshot_s *s, int port);  /* pointer to the device snapshot read function */
     void (*hook)(int port, uint16_t state);                /* pointer to the device hook function for state changing buttons */
@@ -317,7 +317,7 @@ extern uint8_t read_joyport_poty(void);
 
 extern void set_joyport_pot_mask(int mask);
 
-extern void joyport_reset(void);
+extern void joyport_powerup(void);
 
 extern int joyport_resources_init(void);
 extern int joyport_cmdline_options_init(void);

@@ -86,7 +86,7 @@ static int dtlbasic_state = DTLBASIC_DONGLE_IDLE;
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static void dtlbasic_reset(int port);
+static void dtlbasic_powerup(int port);
 static void dtlbasic_write(int port, int write_bit);
 static void dtlbasic_sense_out(int port, int sense);
 static int dtlbasic_write_snapshot(int port, struct snapshot_s *s, int write_image);
@@ -101,7 +101,7 @@ static tapeport_device_t dtlbasic_dongle_device = {
     VICE_MACHINE_MASK,           /* device works on x64/x64sc/x128 machines */
     TAPEPORT_PORT_1_MASK,        /* device only works on port 1 */
     dtlbasic_enable,             /* device enable function */
-    dtlbasic_reset,              /* device specific reset function */
+    dtlbasic_powerup,            /* device specific hard reset function */
     NULL,                        /* NO device shutdown function */
     NULL,                        /* NO set motor line function */
     dtlbasic_write,              /* set write line function */
@@ -138,7 +138,7 @@ int dtlbasic_dongle_resources_init(int amount)
 
 /* ---------------------------------------------------------------------*/
 
-static void dtlbasic_reset(int port)
+static void dtlbasic_powerup(int port)
 {
     dtlbasic_state = DTLBASIC_DONGLE_IDLE;
     dtlbasic_counter = -1;

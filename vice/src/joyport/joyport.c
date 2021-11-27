@@ -378,15 +378,15 @@ uint8_t read_joyport_poty(void)
     }
 }
 
-/* reset the device, called on hard reset only */
-void joyport_reset(void)
+/* powerup the device, called on hard reset only */
+void joyport_powerup(void)
 {
     int i;
 
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
         if (joy_port[i] != JOYPORT_ID_NONE) {
-            if (joyport_device[joy_port[i]].reset) {
-                joyport_device[joy_port[i]].reset(i);
+            if (joyport_device[joy_port[i]].powerup) {
+                joyport_device[joy_port[i]].powerup(i);
             }
         }
     }
@@ -432,7 +432,7 @@ int joyport_device_register(int id, joyport_t *device)
     joyport_device[id].store_digital = device->store_digital;
     joyport_device[id].read_potx = device->read_potx;
     joyport_device[id].read_poty = device->read_poty;
-    joyport_device[id].reset = device->reset;
+    joyport_device[id].powerup = device->powerup;
     joyport_device[id].write_snapshot = device->write_snapshot;
     joyport_device[id].read_snapshot = device->read_snapshot;
     joyport_device[id].hook = device->hook;
