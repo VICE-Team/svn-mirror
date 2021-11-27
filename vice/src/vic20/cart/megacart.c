@@ -106,7 +106,6 @@ static int oe_flop = 0;
 static int nvram_en_flop = 0;
 static uint8_t bank_low_reg = 0;
 static uint8_t bank_high_reg = 0;
-static int powerup_after_attach = 0;
 
 /* Resource variables */
 static char *nvram_filename = NULL;
@@ -509,11 +508,6 @@ void megacart_powerup(void)
     reset_mode = BUTTON_RESET;
     oe_flop = 0;
     nvram_en_flop = 1;
-    DBG(("megacart_powerup powerup_after_attach: %d", powerup_after_attach));
-    if (!powerup_after_attach) {
-        clear_ram();
-    }
-    powerup_after_attach = 0;
 }
 
 void megacart_config_setup(uint8_t *rawcart)
@@ -547,9 +541,7 @@ int megacart_crt_attach(FILE *fd, uint8_t *rawcart)
         goto exiterror;
     }
 
-    if (try_nvram_load(nvram_filename) > 0) {
-        powerup_after_attach = 1;
-    }
+    try_nvram_load(nvram_filename);
 
     cart_rom_low = cart_rom;
     cart_rom_high = cart_rom + 0x100000;
@@ -582,11 +574,8 @@ int megacart_bin_attach(const char *filename)
     if (export_add(&export_res) < 0) {
         return -1;
     }
-DBG(("megacart_bin_attach try_nvram_load")); 
-    if (try_nvram_load(nvram_filename) > 0) {
-        powerup_after_attach = 1;
-    }
-DBG(("megacart_bin_attach powerup_after_attach: %d", powerup_after_attach)); 
+
+    try_nvram_load(nvram_filename);
 
     cart_rom_low = cart_rom;
     cart_rom_high = cart_rom + 0x100000;
