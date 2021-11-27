@@ -1247,7 +1247,6 @@ void mem_powerup(void)
     ram_init(mem_ram, SCPU64_RAM_SIZE);
     ram_init(mem_sram, SCPU64_SRAM_SIZE);
     ram_init(mem_trap_ram, SCPU64_KERNAL_ROM_SIZE);
-    cartridge_ram_init();  /* Clean cartridge ram too */
 }
 
 /* ------------------------------------------------------------------------- */
