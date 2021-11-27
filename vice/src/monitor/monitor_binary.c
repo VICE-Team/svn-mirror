@@ -1369,7 +1369,7 @@ static void monitor_binary_process_userport_set(binary_command_t *command)
     unsigned char *body = command->body;
     uint16_t value = little_endian_to_uint16(&body[0]);
 
-    if(command->length < 1) {
+    if(command->length < 2) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
         return;
     }
