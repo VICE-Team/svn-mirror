@@ -202,8 +202,6 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     gchar *filename;
     gchar *filename_locale;
 
-    mainlock_assert_lock_obtained();
-
     lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     /* convert filename to current locale */

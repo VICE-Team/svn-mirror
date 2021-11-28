@@ -153,34 +153,16 @@ static inline void sleep_impl(tick_t sleep_ticks)
 /* Sleep a number of timer units. */
 void tick_sleep(tick_t sleep_ticks)
 {
-    tick_t before_yield_tick = tick_now(); /* do this asap. */
-    tick_t after_yield_tick;
-    tick_t yield_ticks;
-    tick_t adjusted_sleep_ticks;
-
 #ifdef OVERSLEEP_COMPENSATION
+#   define OVERSLEEP_PUSH_FACTOR (0.99)
+    
+    tick_t before_yield_tick = tick_now(); /* do this asap. */
+    tick_t adjusted_sleep_ticks;
+    
     static double rolling_oversleep_ticks;
     tick_t slept_ticks;
     tick_t oversleep_ticks;
-#endif
 
-    /* Since we're about to sleep, give another thread a go of the lock */
-    mainlock_yield_once();
-
-    after_yield_tick    = tick_now_after(before_yield_tick);
-    yield_ticks         = after_yield_tick - before_yield_tick;
-
-    if (yield_ticks >= sleep_ticks) {
-        /* The lock yield took as long as we needed to sleep (or longer) */
-        return;
-    }
-
-    /* Adjust sleep_ticks to account for the yield time */
-    adjusted_sleep_ticks = sleep_ticks - yield_ticks;
-
-#ifndef OVERSLEEP_COMPENSATION
-    sleep_impl(adjusted_sleep_ticks);
-#else
     /*
      * Oversleep compensation. Systems will typically sleep for longer than
      * requested. This code measures a rolling average amount of oversleep
@@ -192,25 +174,34 @@ void tick_sleep(tick_t sleep_ticks)
      */
 
     /* Push the oversleep compensation towards zero */
-    rolling_oversleep_ticks *= 0.99;
+    rolling_oversleep_ticks *= OVERSLEEP_PUSH_FACTOR;
 
     /* Sleep, if we're not expecting to oversleep by more than the requested amount */
-    if (adjusted_sleep_ticks > rolling_oversleep_ticks) {
-        adjusted_sleep_ticks -= rolling_oversleep_ticks;
+    if (sleep_ticks > rolling_oversleep_ticks) {
+        adjusted_sleep_ticks = sleep_ticks - rolling_oversleep_ticks;
 
+        mainlock_yield_begin();
         sleep_impl(adjusted_sleep_ticks);
+        mainlock_yield_end();
 
-        slept_ticks = tick_now_delta(after_yield_tick);
+        slept_ticks = tick_now_delta(before_yield_tick);
         if (slept_ticks > adjusted_sleep_ticks) {
             /* Then we overslept */
             oversleep_ticks = slept_ticks - adjusted_sleep_ticks;
-            rolling_oversleep_ticks += (double)oversleep_ticks * 0.01;
+            rolling_oversleep_ticks += (double)oversleep_ticks * (1.0 - OVERSLEEP_PUSH_FACTOR);
         }
     }
 
     while (tick_now_delta(before_yield_tick) < sleep_ticks) {
         /* hot loop to catch up */
     }
+    
+#else /*#ifdef OVERSLEEP_COMPENSATION */
+    
+    mainlock_yield_begin();
+    sleep_impl(sleep_ticks);
+    mainlock_yield_end();
+    
 #endif
 }
 

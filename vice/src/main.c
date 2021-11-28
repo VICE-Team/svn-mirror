@@ -403,9 +403,7 @@ void vice_thread_shutdown(void)
         return;
     }
 
-    mainlock_obtain();
     mainlock_initiate_shutdown();
-    mainlock_release();
 
     pthread_join(vice_thread, NULL);
 

@@ -101,8 +101,6 @@ static int vsync_callback_queue_size;
 /** \brief Call callback_func(callback_param) once at vsync time (or machine reset) */
 void vsync_on_vsync_do(vsync_callback_func_t callback_func, void *callback_param)
 {
-    mainlock_assert_lock_obtained();
-
     /* Grow the queue as needed */
     if (vsync_callback_queue_size == vsync_callback_queue_size_max) {
         vsync_callback_queue_size_max += 1;
@@ -493,7 +491,7 @@ void vsync_do_end_of_line(void)
      */
 
     if (archdep_is_exiting()) {
-        mainlock_yield_once();
+        mainlock_yield();
         return;
     }
 

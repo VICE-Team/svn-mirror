@@ -38,17 +38,15 @@
 void mainlock_init(void);
 void mainlock_initiate_shutdown(void);
 
+void mainlock_yield(void);
 void mainlock_yield_begin(void);
 void mainlock_yield_end(void);
-void mainlock_yield_once(void);
 
 void mainlock_obtain(void);
 void mainlock_release(void);
-void mainlock_release_if_locked(void);
 
 bool mainlock_is_vice_thread(void);
 
-void mainlock_assert_lock_obtained(void);
 void mainlock_assert_is_not_vice_thread(void);
 
 #else

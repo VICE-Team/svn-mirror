@@ -1660,11 +1660,6 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
     char *name = NULL;
 
     DBG(("autostart_disk(unit: %d drive: %d)", unit, drive));
-#ifdef USE_NATIVE_GTK3
-    if (!mainlock_is_vice_thread()) {
-        mainlock_assert_lock_obtained();
-    }
-#endif
 
     if (network_connected() || event_record_active() || event_playback_active()
         || !file_name || !autostart_enabled) {
