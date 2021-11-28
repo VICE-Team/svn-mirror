@@ -1552,12 +1552,8 @@ uint8_t machine_tape_behaviour(void)
 
 static int get_cart_emulation_state(void)
 {
-    int value;
-
-    if (resources_get_int("CartridgeType", &value) < 0) {
-        return CARTRIDGE_NONE;
-    }
-
+    /* FIXME: we should also check the other slots */
+    int value = cart_getid_slotmain();
     return value;
 }
 
