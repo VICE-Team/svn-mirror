@@ -640,19 +640,13 @@ static void invertblock(unsigned int addr, unsigned int len)
     }
 }
 
-static int reu_activate(void)
+static void reu_init_ram(void)
 {
-    if (!reu_size) {
-        return 0;
-    }
-
-    reu_ram = lib_realloc(reu_ram, reu_size);
-
-    /* Clear newly allocated RAM.  */
-    ram_init_with_pattern(reu_ram, reu_size, &reuramparam);
-    /* apply additional slightly odd invert pattern, observed by x1541 */
-    {
-        unsigned int b, i;
+    unsigned int b, i;
+    DEBUG_LOG(DEBUG_LEVEL_REGISTER, (reu_log, "reu_init_ram"));
+    if (reu_ram) {
+        ram_init_with_pattern(reu_ram, reu_size, &reuramparam);
+        /* apply additional slightly odd invert pattern, observed by x1541 */
         for (b = 0; b < (reu_size >> 16); b += 4) {
             for (i = 0; i < 2; i++) {
                 invertblock(0x002a00 + ((i + b) << 16), 0x2a00);
@@ -666,6 +660,25 @@ static int reu_activate(void)
             }
         }
     }
+}
+
+void reu_powerup(void)
+{
+    DEBUG_LOG(DEBUG_LEVEL_REGISTER, (reu_log, "reu_powerup"));
+    reu_init_ram();
+}
+
+static int reu_activate(void)
+{
+    DEBUG_LOG(DEBUG_LEVEL_REGISTER, (reu_log, "reu_activate"));
+    if (!reu_size) {
+        return 0;
+    }
+
+    reu_ram = lib_realloc(reu_ram, reu_size);
+
+    /* Clear newly allocated RAM.  */
+    reu_init_ram();
 
     old_reu_ram_size = reu_size;
 

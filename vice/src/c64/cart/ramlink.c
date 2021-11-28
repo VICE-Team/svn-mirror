@@ -49,6 +49,7 @@
 #include "crt.h"
 #include "lib.h"
 #include "machine.h"
+#include "ram.h"
 #include "resources.h"
 #include "cmdline.h"
 #include "maincpu.h"
@@ -757,6 +758,20 @@ static int ramlink_load_image(void)
     return 0;
 }
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
 static int ramlink_activate(void)
 {
     i8255a_reset(&rl_i8255a);
@@ -774,7 +789,9 @@ static int ramlink_activate(void)
 
     /* Clear newly allocated RAM.  */
     if (rl_cardsize > rl_cardsize_old) {
-        memset(rl_card, 0, (size_t)(rl_cardsize - rl_cardsize_old));
+        /* memset(rl_card, 0, (size_t)(rl_cardsize - rl_cardsize_old)); */
+        ram_init_with_pattern(&rl_card[rl_cardsize_old],
+                              (size_t)(rl_cardsize - rl_cardsize_old), &ramparam);
     }
 
     rl_cardsize_old = rl_cardsize;
