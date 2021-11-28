@@ -4194,8 +4194,8 @@ Set the host input for the potentiometers of joystick port 1 to a joystick axis.
 Set the host input for the potentiometers of joystick port 2 to the mouse.
 (@code{PaddlesInput2=0})
 
-@findex -paddles1inputjoyaxis
-@item -paddles1inputmouse
+@findex -paddles2inputjoyaxis
+@item -paddles2inputmouse
 Set the host input for the potentiometers of joystick port 2 to a joystick axis.
 (@code{PaddlesInput2=1})
 
