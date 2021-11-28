@@ -913,7 +913,7 @@ darwin*)
     [AC_HELP_STRING([--enable-macos-target-sdk-version[[=version]]],
       [compile for a specific sdk version such as 10.10 or 11.0 [default=no]])],
     [],
-    [enable_macos_target_sdk_version=no])
+    [enable_macos_target_sdk_version=10.10])
   AS_IF([test "$enable_macos_target_sdk_version" != no],
    [VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
     VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
