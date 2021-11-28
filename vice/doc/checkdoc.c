@@ -707,6 +707,8 @@ void checkresources(void)
                     || !strcmp(list1->string, "GTKBackend")
                     || !strcmp(list1->string, "GTKFilter")
                     || !strcmp(list1->string, "FullscreenEnable")
+                    || !strcmp(list1->string, "MonitorFG")
+                    || !strcmp(list1->string, "MonitorBG")
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
@@ -1070,6 +1072,7 @@ void checkoptions(void)
                     || !strcmp(list1->string, "+sdlglfilter")
                     || !strcmp(list1->string, "-sdl2renderer")
                     || !strcmp(list1->string, "-sdl2dualwindow")
+                    || !strcmp(list1->string, "-paddles2inputjoyaxis")
                     || !strcmp(list1->string, "-hotkeyfile")
                     || !strcmp(list1->string, "-menukey")
                     || !strcmp(list1->string, "-menukeyup")

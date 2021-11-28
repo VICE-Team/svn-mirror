@@ -4750,9 +4750,9 @@ needs it, without prompting the user.
 @vindex Drive10TrueEmulation
 @vindex Drive11TrueEmulation
 @item Drive8TrueEmulation
-@item Drive9TrueEmulation
-@item Drive10TrueEmulation
-@item Drive11TrueEmulation
+@itemx Drive9TrueEmulation
+@itemx Drive10TrueEmulation
+@itemx Drive11TrueEmulation
 Boolean controlling whether the ``true'' drive emulation is turned on.
 
 @vindex DriveSoundEmulation
@@ -6043,15 +6043,15 @@ maximum compatibility.
 @vindex VirtualDevice10
 @vindex VirtualDevice11
 @item VirtualDevice1
-@item VirtualDevice2
-@item VirtualDevice4
-@item VirtualDevice5
-@item VirtualDevice6
-@item VirtualDevice7
-@item VirtualDevice8
-@item VirtualDevice9
-@item VirtualDevice10
-@item VirtualDevice11
+@itemx VirtualDevice2
+@itemx VirtualDevice4
+@itemx VirtualDevice5
+@itemx VirtualDevice6
+@itemx VirtualDevice7
+@itemx VirtualDevice8
+@itemx VirtualDevice9
+@itemx VirtualDevice10
+@itemx VirtualDevice11
 Boolean specifying whether all the mechanisms for virtual device
 emulation should be enabled. Serial IEC devices use kernal traps,
 parallel IEEE488 devices use an own IEEE488 engine. Both are switched
@@ -6708,7 +6708,22 @@ Integer specifying the number of lines to keep in the monitor scrollback buffer 
 
 @vindex MonitorFont
 @item MonitorFont
-String specifying the font to use in the Gtk3 UI's VTE monitor window. Should be in the form accepted by Pango, for example "Liberation Mono 11".
+String specifying the font to use in the Gtk3 UI's VTE monitor window. Should be
+in the form accepted by Pango, for example "Liberation Mono 11".
+
+@vindex MonitorFG
+@item MonitorFG
+String specifying the foreground color to use in the Gtk3 UI's VTE monitor window.
+Should be in form accepted by Pango: either a CSS color name (for example 'limegreen'),
+three/six digit hex string ("#rgb"/"#rrggbb") or three decimal values in the range 0-255 
+("rbg(red,green,blue"), for example "rgb(27,180,33)").
+
+@vindex MonitorBG
+@item MonitorBG
+String specifying the background color to use in the Gtk3 UI's VTE monitor window.
+Should be in form accepted by Pango: either a CSS color name (for example 'limegreen'),
+three/six digit hex string ("#rgb"/"#rrggbb") or three decimal values in the range 0-255 
+("rbg(red,green,blue"), for example "rgb(27,180,33)").
 
 @end table
 
@@ -6796,6 +6811,16 @@ Set number of lines to keep in the monitor scrollback buffer (-1 for no limit).
 @item -monitorfont <font-description>
 Set the monitor font for the Gtk3 UI's VTE-monitor.
 (@code{MonitorFont}).
+
+@findex -monitorfg
+@item -monitorfg <colour-description>
+Set the monitor foreground colour for the Gtk3 UI's VTE-monitor.
+(@code{MonitorFG}).
+
+@findex -monitorbg
+@item -monitorbg <colour-description>
+Set the monitor background colour for the Gtk3 UI's VTE-monitor.
+(@code{MonitorFG}).
 
 @end table
 
@@ -8250,6 +8275,15 @@ time. This option emulates the behavior of the Normal/Direct switch on the unit.
 @item RAMLINKRTCSave
 Boolean specifying whether the RTC data should be saved when changed or not.
 
+@vindex RRFfilename
+@item RRFfilename
+String that specifies the filename for the REX RAM-Floppy RAM image
+
+@vindex RRFImageWrite
+@item RRFImageWrite
+Boolean, if true write back the REX RAM-Floppy RAM image file automatically, incase the
+contents changed, when detaching or quitting the emulator.
+
 @vindex RGCDrevision
 @item RGCDrevision
 Integer specifying the RGCD-cartridge hardware variant.
@@ -8695,20 +8729,27 @@ Enable/disable IEEE Flash! 64 interface
 Set IEEE Flash! 64 ROM image name
 (@code{IEEEFlash64Image}).
 
-@findex -ieeeflash64dev8
+@findex -ieeeflash64dev8, +ieeeflash64dev8
 @item -ieeeflash64dev8
-Route device 8 to IEEE bus of IEEE Flash! 64 interface
+@itemx +ieeeflash64dev8
+Route/do not route device 8 to IEEE bus of IEEE Flash! 64 interface
 (@code{IEEEFlash64Dev8}).
 
-@findex -ieeeflash64dev910
+@findex -ieeeflash64dev910, +ieeeflash64dev910
 @item -ieeeflash64dev910
-Route devices 9 and 10 to IEEE bus of IEEE Flash! 64 interface
+@itemx +ieeeflash64dev910
+Route/do not route devices 9 and 10 to IEEE bus of IEEE Flash! 64 interface
 (@code{IEEEFlash64Dev910}).
 
-@findex -ieeeflash64dev4
+@findex -ieeeflash64dev4, +ieeeflash64dev4
 @item -ieeeflash64dev4
-Route device 4 to IEEE bus of IEEE Flash! 64 interface
+@item +ieeeflash64dev4
+Route/do not route device 4 to IEEE bus of IEEE Flash! 64 interface
 (@code{IEEEFlash64Dev4}).
+
+@findex -cartieeeflash64
+@item -cartieeeflash64 <Name>
+Attach raw 8KiB IEEE Flash! 64 cartridge image
 
 @findex -isepic, +isepic
 @item -isepic
@@ -9102,6 +9143,17 @@ Save/Do not save the RRNETMK3 bios when changed
 @findex -cartrrf
 @item -cartrrf <name>
 Attach raw 8KiB REX RAM-Floppy cartridge image.
+
+@findex -rexramfloppyimage
+@item -rexramfloppyimage <name>
+Set filename for the REX RAM-Floppy RAM image
+(@code{RRFfilename}).
+
+@findex -rexramfloppyimagerw, +rexramfloppyimagerw
+@item -rexramfloppyimagerw
+@itemx +rexramfloppyimagerw
+Save/Do not save the REX RAM-Floppy RAM when changed
+(@code{RRFImageWrite=1}, @code{RRFImageWrite=0}).
 
 @findex -cartru
 @item -cartru <name>
@@ -19760,8 +19812,8 @@ are empty (filled with $ff).
 @item -q
 This parameter is optional, it disables all non-error messages
 @findex -v
-@findex --verbose
 @item -v
+@findex --verbose
 @item --verbose
 This parameter is optional, it enables more verbose messages
 @findex --types
