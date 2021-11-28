@@ -1471,6 +1471,9 @@ Attach and autoload tape/disk image <name>
 @findex -1
 @item -1 <Name>
 Attach <Name> as a tape image file.
+@findex -2
+@item -2 <Name>
+Attach <Name> as a tape image file for datasette #2 (PET)
 
 @findex -8
 @item -8 <Name>
@@ -4295,11 +4298,6 @@ the 'file' method/device.
 @item Sound
 Boolean specifying whether audio emulation is turned on.
 
-@vindex SoundSpeedAdjustment
-@item SoundSpeedAdjustment
-Integer specifying what speed adjustment method the audio renderer should use.
-(0: flexible, 1: adjusting, 2: exact)
-
 @vindex SoundSampleRate
 @item SoundSampleRate
 Integer specifying the sampling frequency in Hz
@@ -4541,10 +4539,6 @@ drive.
 
 @table @code
 
-@vindex Datasette
-@item Datasette
-Boolean specifying whether to emulate the datasette.
-
 @vindex DatasetteResetWithCPU
 @item DatasetteResetWithCPU
 Boolean specifying whether to reset (rewind) the tape when resetting the CPU.
@@ -4582,12 +4576,6 @@ Integer specifying the volume of the tape sound. Meaningful values are in the ra
 @subsection Tape command-line options
 
 @table @code
-
-@findex -datasette, +datasette
-@item -datasette
-@itemx +datasette
-Enable/disable datasette emulation
-(@code{Datasette=1}, @code{Datasette=0}).
 
 @findex -dsresetwithcpu, +dsresetwithcpu
 @item -dsresetwithcpu
@@ -6003,12 +5991,6 @@ Specify name of printer driver for device #6
 (@code{Printer6Driver}).
 (raw, 1520)
 
-@findex -pruser, +pruser
-@item -pruser
-@itemx +pruser
-Enable/disable emulation of the userport printer emulation
-(@code{PrUser=1}, @code{PrUser=0}).
-
 @findex -prusertxtdev
 @item -prusertxtdev <0-2>
 Specify printer text output device for userport printer
@@ -6629,7 +6611,7 @@ Boolean specifying whether the userport RTC data is saved when changed or not
 @table @code
 
 @findex -userportdevice
-@item -userport1device <device>
+@item -userportdevice <device>
 Set the device attached to the userport:
 (@code{UserportDevice}).
 (x64, x64sc, x128, xscpu64: 0: None, 1: Userport printer, 2: Userport RS232/Modem, 3: CGA userport joy adapter, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 7: HIT userport joy adapter, 8: KingSoft userport joy adapter, 9: StarByte userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 12: Userport DigiMAX, 13: Userport 4bit sampler, 14: Userport 8bit stereo sampler, 15: Userport RTC (RTC58321A), 16: Userport RTC (DS1307), 17: Userport Petscii SNES pad, 18: Joystick Adapter (Spaceballs), 19: Userport SuperPad64, 20: Userport parallel drive cable, 21: Userport I/O Simulation)
@@ -6964,18 +6946,6 @@ Set the chance of any bit to randomly toggle (0-4096)
 
 @table @code
 
-@vindex TapeLog
-@item TapeLog
-Boolean specifying whether the tape log device is enabled.
-
-@vindex TapeLogDestination
-@item TapeLogDestination
-Integer specifying where the tape log goes to (0=Enable logging to the emulator log file 1=Enable logging to a file).
-
-@vindex TapeLogfilename
-@item TapeLogfilename
-String that specifies the tape log file name
-
 @vindex DebugCartEnable
 @item DebugCartEnable
 Boolean specifying whether the debug "cartridge" used for the test suite is enabled.
@@ -7035,23 +7005,6 @@ Disable/enable calling of the exception handler
 @item -debugcart
 @itemx +debugcart
 Enable/disable the debug "cartridge" used for the test suite.
-
-@findex -tapelog, +tapelog
-@item -tapelog
-@itemx +tapelog
-Enable/Disable the tape log device. (@code{TapeLog=1}, @code{TapeLog=0}).
-
-@findex -tapelogtofile
-@item -tapelogtofile
-Enable logging to a file (@code{TapeLogDestination=1}).
-
-@findex -tapelogtolog
-@item -tapelogtolog
-Enable logging to the emulator log file (@code{TapeLogDestination=0}).
-
-@findex -tapelogimage
-@item -tapelogimage <name>
-Specify tape log file name (@code{TapeLogfilename}).
 
 @b{The following are only available when the emulators were compiled in DEBUG mode:}
 
@@ -13080,13 +13033,6 @@ Set active memory expansion hack
 @itemx +acia
 Enable/Disable the ACIA emulation
 
-@findex -userportdac, +userportdac
-@item -userportdac
-@itemx +userportdac
-Enable/disable the userport DAC
-(@code{UserportDAC=1}, @code{UserportDAC=0}).
-
-
 @end table
 
 @c -----------------------------------------------------------------------------
@@ -13485,10 +13431,6 @@ Integer selecting the colour extension.
 Iteger specifying the analog colour background on PET 4032.
 (0..255)
 
-@vindex UserportDAC
-@item UserportDAC
-Boolean specifying whether userport DAC emulation is enabled.
-
 @vindex SidCart
 @item SidCart
 Boolean specifying whether SID Cartridge emulation is enabled or not.
@@ -13526,12 +13468,6 @@ Specify name of PET Ram and Expansion Unit image
 Size of the PET Ram and Expansion Unit
 (@code{PETREUsize}).
 (128, 512, 1024, 2048)
-
-@findex -userportdac, +userportdac
-@item -userportdac
-@itemx +userportdac
-Enable/disable the userport DAC
-(@code{UserportDAC=1}, @code{UserportDAC=0}).
 
 @findex -petdww, +petdww
 @item -petdww
