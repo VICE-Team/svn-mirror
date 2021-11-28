@@ -645,6 +645,7 @@ static void render(void *job_data, void *pool_data)
     render_job_t job = (render_job_t)vice_ptr_to_int(job_data);
     video_canvas_t *canvas = pool_data;
     vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
+    backbuffer_t *backbuffer;
     int vsync = 1;
     int keepaspect = 1;
     int trueaspect = 0;
@@ -677,17 +678,8 @@ static void render(void *job_data, void *pool_data)
 
     vice_opengl_renderer_make_current(context);
 
-    /*
-     * Correct interlaced output always requires the previous frame.
-     * Find up to 2 of the most recent frames.
-     */
-
-    for (;;) {
-        backbuffer_t *backbuffer = render_queue_dequeue_for_display(context->render_queue);
-        if (!backbuffer) {
-            break;
-        }
-
+    backbuffer = render_queue_dequeue_for_display(context->render_queue);
+    if (backbuffer) {
         /* Upload the frame(s) to the GPU and then return it */
         update_frame_textures(context, backbuffer);
         render_queue_return_to_pool(context->render_queue, backbuffer);
