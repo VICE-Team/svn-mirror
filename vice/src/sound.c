@@ -1340,7 +1340,7 @@ bool sound_flush()
 done:
 
     if (!slept) {
-        mainlock_yield_once();
+        mainlock_yield();
     }
 
     /*
