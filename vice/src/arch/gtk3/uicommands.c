@@ -180,7 +180,7 @@ gboolean ui_action_toggle_mouse_grab(void)
     mouse = !mouse;
 
     if (mouse) {
-        ui_menu_item_t *item = ui_get_vice_menu_item_by_name("mouse-grab-toggle");
+        ui_menu_item_t *item = ui_get_vice_menu_item_by_name(ACTION_MOUSE_GRAB_TOGGLE);
         gchar *name = gtk_accelerator_name(item->keysym, item->modifier);
         g_snprintf(title, sizeof(title),
                 "VICE (%s) (Use %s to disable mouse grab)",
@@ -195,7 +195,7 @@ gboolean ui_action_toggle_mouse_grab(void)
     window = ui_get_active_window();
     gtk_window_set_title(window, title);
 
-    ui_set_gtk_check_menu_item_blocked_by_name("toggle-mouse-grab", mouse);
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_MOUSE_GRAB_TOGGLE, mouse);
 
     return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }

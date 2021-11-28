@@ -1097,14 +1097,6 @@ GtkWidget *ui_machine_menu_bar_create(void)
 #endif
     GtkWidget *help_submenu;
 
-#if 0
-    /* Test looking up a menu item via name */
-    ui_menu_item_t *item = ui_get_vice_menu_item_by_name("reset-soft");
-    if (item != NULL) {
-        ui_set_vice_menu_item_hotkey(item, "z", GDK_MOD1_MASK | GDK_SHIFT_MASK);
-    }
-#endif
-
     /* create the top menu bar */
     menu_bar = gtk_menu_bar_new();
 

@@ -1479,7 +1479,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     if (!mouse_grab) {
         g_snprintf(title, 256, "VICE (%s)", machine_get_name());
     } else {
-        ui_menu_item_t *item = ui_get_vice_menu_item_by_name("mouse-grab-toggle");
+        ui_menu_item_t *item = ui_get_vice_menu_item_by_name(ACTION_MOUSE_GRAB_TOGGLE);
         gchar *name = gtk_accelerator_name(item->keysym, item->modifier);
 
         g_snprintf(title, 256, "VICE (%s) (Use %s to disable mouse grab)",
@@ -2211,7 +2211,7 @@ void ui_pause_toggle(void)
 gboolean ui_action_toggle_pause(void)
 {
     ui_pause_toggle();
-    ui_set_gtk_check_menu_item_blocked_by_name("toggle-pause",
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_PAUSE_TOGGLE,
                                                (gboolean)ui_pause_active());
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+P into the emu */
@@ -2226,7 +2226,7 @@ gboolean ui_action_toggle_pause(void)
 gboolean ui_action_toggle_warp(void)
 {
     vsync_set_warp_mode(!vsync_get_warp_mode());
-    ui_set_gtk_check_menu_item_blocked_by_name("toggle-warp-mode",
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_WARP_MODE_TOGGLE,
                                                (gboolean)vsync_get_warp_mode());
 
     return TRUE;
@@ -2247,6 +2247,8 @@ gboolean ui_action_advance_frame(void)
         vsyncarch_advance_frame();
     } else {
         ui_pause_enable();
+        ui_set_gtk_check_menu_item_blocked_by_name(ACTION_PAUSE_TOGGLE,
+                                                   (gboolean)ui_pause_active());
     }
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */
