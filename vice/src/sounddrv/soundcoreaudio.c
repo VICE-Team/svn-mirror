@@ -72,16 +72,16 @@ static uint8_t *copybuffer;
 static int copybuffer_size_bytes;
 
 /* current read position: no. of fragment in soundbuffer */
-static volatile int read_position;
+static int read_position;
 
 /* the next position to write: no. of fragment in soundbuffer */
-static volatile int write_position;
+static int write_position;
 
 /* current number of fragments in buffer */
-static volatile int fragments_in_queue;
+static atomic_int fragments_in_queue;
 
 /* samples left in current fragment */
-static volatile int frames_left_in_fragment;
+static int frames_left_in_fragment;
 
 
 
@@ -181,7 +181,7 @@ static OSStatus converter_input(AudioConverterRef inAudioConverter,
             frames_left_in_fragment = frames_in_fragment;
 
             read_position = (read_position + 1) % fragment_count;
-            OSAtomicDecrement32(&fragments_in_queue);
+            atomic_fetch_sub(&fragments_in_queue, 1);
         }
     }
 
@@ -705,7 +705,7 @@ static int coreaudio_write(int16_t *pbuf, size_t nr)
 
         write_position = (write_position + 1) % fragment_count;
 
-        OSAtomicIncrement32(&fragments_in_queue);
+        atomic_fetch_add(&fragments_in_queue, 1);
     }
     
     /* coreaudio_buffer_stats(false); */
