@@ -440,7 +440,12 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 
             kdb_debug_widget_update(report);
 
+            /* Don't hold the mainlock while dealing with hotkeys. Some of these
+               need to run with an unlocked handler in order to avoid glitching VICE. */
+            mainlock_release();
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
+                mainlock_obtain();
+                
                 /* mnemonic or accelerator was found and activated. */
                 /* release all previously pressed keys to prevent stuck keys */
                 keyspressed = 0;
@@ -449,6 +454,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 kbd_sync_caps_lock();
                 return TRUE;
             }
+            mainlock_obtain();
 
             /* Disable weird hack, doesn't appear to be required anymore
              * --compyx
