@@ -237,6 +237,8 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         return FALSE;
     }
 
+    pthread_mutex_lock(&canvas->lock);
+
     /* GDK_ENTER_NOTIFY isn't reliable on fullscreen transitions, so we reenable this here too */
     if (canvas->still_frame_callback_id == 0) {
         canvas->still_frame_callback_id =
@@ -282,7 +284,8 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
             (widget_y + motion->y) * scale);
 
 #endif
-
+        
+        pthread_mutex_unlock(&canvas->lock);
         return FALSE;
     }
 
@@ -306,7 +309,8 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         canvas->pen_x = pen_x;
         canvas->pen_y = pen_y;
     }
-
+    
+    pthread_mutex_unlock(&canvas->lock);
     return FALSE;
 }
 

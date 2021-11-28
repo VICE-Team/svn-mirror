@@ -85,6 +85,7 @@ void main_loop_forever(void);
 #ifdef USE_VICE_THREAD
 void *vice_thread_main(void *);
 static pthread_t vice_thread;
+static pthread_mutex_t init_lock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
 
@@ -110,6 +111,15 @@ int main_program(int argc, char **argv)
     int reserr;
     char *cmdline;
 
+#ifdef USE_VICE_THREAD
+    /*
+     * The init lock guarantees that all main thread init outcomes are visible
+     * to the VICE thread.
+     */
+    
+    pthread_mutex_lock(&init_lock);
+#endif
+    
     /*
      * OpenMP defaults to spinning threads for a couple hundred ms
      * after they are used, which means they max out forever in our
@@ -351,6 +361,8 @@ int main_program(int argc, char **argv)
         log_error(LOG_DEFAULT, "Fatal: failed to launch main thread");
         return 1;
     }
+    
+    pthread_mutex_unlock(&init_lock);
 
 #else /* #ifdef USE_VICE_THREAD */
 
@@ -402,9 +414,12 @@ void vice_thread_shutdown(void)
 
 void *vice_thread_main(void *unused)
 {
+    pthread_mutex_lock(&init_lock);
+    
     archdep_thread_init();
-
     mainlock_init();
+    
+    pthread_mutex_unlock(&init_lock);
 
     main_loop_forever();
 

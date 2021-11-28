@@ -2292,16 +2292,21 @@ void ui_update_lightpen(void)
 {
     video_canvas_t *canvas;
     canvas = ui_resources.canvas[PRIMARY_WINDOW];
+    
     if (machine_class == VICE_MACHINE_C128) {
         /* According to lightpen.c, x128 flips primary and secondary
          * windows compared to what the GTK3 backend expects. */
         if (canvas) {
+            pthread_mutex_lock(&canvas->lock);
             lightpen_update(1, canvas->pen_x, canvas->pen_y, canvas->pen_buttons);
+            pthread_mutex_unlock(&canvas->lock);
         }
         canvas = ui_resources.canvas[SECONDARY_WINDOW];
     }
     if (canvas) {
+        pthread_mutex_lock(&canvas->lock);
         lightpen_update(0, canvas->pen_x, canvas->pen_y, canvas->pen_buttons);
+        pthread_mutex_unlock(&canvas->lock);
     }
 }
 

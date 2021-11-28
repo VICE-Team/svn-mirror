@@ -290,6 +290,12 @@ int video_arch_get_active_chip(void)
  */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
+    pthread_mutexattr_t lock_attributes;
+
+    pthread_mutexattr_init(&lock_attributes);
+    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&canvas->lock, &lock_attributes);
+    
     /*
      * the render output can always be read from in GTK3,
      * it's not a direct video memory buffer.
@@ -355,12 +361,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
 {
-    pthread_mutexattr_t lock_attributes;
-
-    pthread_mutexattr_init(&lock_attributes);
-    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&canvas->lock, &lock_attributes);
-
     canvas->renderer_context = NULL;
     canvas->blank_ptr = NULL;
     canvas->pen_ptr = NULL;

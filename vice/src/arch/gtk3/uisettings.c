@@ -65,7 +65,6 @@
 #include "util.h"
 #include "machine.h"
 #include "resources.h"
-#include "vsync.h"
 
 #include "vice_gtk3.h"
 
@@ -2959,8 +2958,6 @@ static GtkWidget *dialog_create_helper(void)
     GtkWidget *dialog;
     GtkWidget *content;
     char title[256];
-
-    vsync_suspend_speed_eval();
 
     g_snprintf(title, sizeof(title), "%s Settings", machine_name);
 
