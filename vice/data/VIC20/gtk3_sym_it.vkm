@@ -121,6 +121,22 @@
 !LCTRL 0 2
 !VCTRL LCTRL
 
+# keys that can't be mapped symbolically are:
+# (row0) arrow left (-> end), clr/home (-> home)
+# (row1) restore (-> F12)
+# (row2) run/stop (-> escape)
+# (row3) commodore (-> tab)
+
+# extra keys are:
+# ins/del (-> delete)
+# ins/del+shift (-> insert)
+# arrow left (-> backslash)
+# f1 (-> page up)
+# f7 (-> page down)
+# @ (-> ò, è)
+# pound (-> ù)
+# pi (-> degree)
+
 #####################
 # |Bit 0| 1 ! |A_LFT| CTRL| R/S |SPACE|  C= |  Q  | 2 " |
 
@@ -143,7 +159,7 @@ quotedbl        0 7 1
 #####################
 # |Bit 1| 3 # |  W  |  A  | S_L |  Z  |  S  |  E  | 4 $ |
 
-numbersign      1 0 1
+numbersign      1 0 2064  #16 (deshift key) + 2048 (combined with cbm)
 Shift_L         1 3 2
 dollar          1 7 1
 
@@ -156,7 +172,7 @@ ampersand       2 7 1
 #####################
 # |Bit 3| 7 ' |  Y  |  G  |  V  |  B  |  H  |  U  | 8 ( |
 
-apostrophe      3 0 1
+apostrophe      3 0 2064  #16 (deshift key) + 2048 (combined with cbm)
 grave           3 0 1
 parenleft       3 7 1
 
@@ -170,7 +186,7 @@ parenright      4 0 1
 
 plus            5 0 16
 comma           5 3 0
-less            5 3 1
+less            5 3 2064  #16 (deshift key) + 2048 (combined with cbm)
 period          5 4 0
 greater         5 4 1
 colon           5 5 16
@@ -181,13 +197,13 @@ minus           5 7 0
 #####################
 # |Bit 6|POUND|  *  | ; ] | / ? | S_R |  =  | A_UP| HOME|
 
-sterling        6 0 0
+sterling        6 0 16
 bar             6 0 8
 backslash       6 0 0
 asterisk        6 1 16
-semicolon       6 2 0
+semicolon       6 2 16
 bracketright    6 2 1
-slash           6 3 0
+slash           6 3 16
 question        6 3 1
 Shift_R         6 4 4
 equal           6 5 0
@@ -203,7 +219,7 @@ Find            6 7 8
 
 BackSpace       7 0 8
 Delete          7 0 8
-Insert          7 0 16
+Insert          7 0 1
 Return          7 1 8
 Linefeed        7 1 1
 Right           7 2 8
@@ -291,8 +307,8 @@ L 5 2 1
 Q 0 6 1
 
 # Restore key mappings
-Page_Up -3 0
-Prior -3 1
+F12 -3 0
+F12 -3 1
 
 # Dead keys support for those using US-International keyboard layout.
 dead_acute       3 0 1  # '
@@ -310,45 +326,38 @@ dead_diaeresis   0 7 1  # "
 #Shift Lock
 Caps_Lock       1 3 64
 
-#UNDERSCORE = CBM + @  CHR$(164) _  (new method) 
+# extra: underscore -> CBM + @  CHR$(164) _  (new method) 
 underscore      5 6 2064  #16 (deshift key) + 2048 (combined with cbm)
 
-#APOSTROPHE ' = CBM + 7
-apostrophe      3 0 2064  #16 (deshift key) + 2048 (combined with cbm)
-
-#LESS < = CBM + ,
-less            5 3 2064  #16 (deshift key) + 2048 (combined with cbm)
-
-#LEFT ARROW
+# extra: backslash, bar -> arrow left
 backslash       0 1 8
 bar             0 1 8
 
-#UP ARROW   (to allow graphic symbols with Shift and CBM)
-igrave          6 6 8
+# extra: ì -> arrow up (same as asciicircum)
+igrave          6 6 16
 
-#SLASH /
-slash           6 3 16
+# extra: ù § -> sterling £ to allow graphic symbols with Shift and CBM)
+ugrave          6 0 8
+section         6 0 8
 
-#ASTERISK * (to allow graphic symbols with Shift and CBM)
-section         6 1 0
-ugrave          6 1 0
-
-#SEMICOLON ;
-semicolon       6 2 16
-
-
-#STERLING £ (to allow graphic symbols with Shift and CBM)
-Insert          6 0 8
-sterling        6 0 16
-
-#ARROW UP (to allow graphic symbols with Shift and CBM)
-Delete          6 6 8
-
-#AT @ (to allow graphic symbols with Shift and CBM)
+# extra: è, é ç -> at @ (to allow graphic symbols with Shift and CBM)
 egrave          5 6 8
 eacute          5 6 8
 ccedilla        5 6 8
 ograve          5 6 8
+
+# extra: à -> numbersign #
+agrave         1 0 2064  #16 (deshift key) + 2048 (combined with cbm)
+
+# extra: degree ->  pi
+degree         6 6 8
+
+# extra: pagedown -> f7
+Page_Down      7 7 8
+
+# extra: pagedown -> f1
+Page_Up        7 4 8
+
 
 
 #* from KeynumPad
@@ -382,8 +391,7 @@ KP_9            4 0 16
 KP_Decimal      5 3 16
 
 
-#Do not use Page_Down
-!UNDEF Page_Down
+
 
 
 #
