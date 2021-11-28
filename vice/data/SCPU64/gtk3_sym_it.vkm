@@ -118,16 +118,15 @@
 !VCTRL LCTRL
 
 # keys that can't be mapped symbolically are:
-# (row0) arrow left (-> end), pound (-> ), clr/home (-> home)
+# (row0) arrow left (-> end), clr/home (-> home)
 # (row1) restore (-> F12)
 # (row2) run/stop (-> escape)
-# (row3) commodore (-> control)
+# (row3) commodore (-> tab)
 
 # extra keys are:
-# clr/home (-> altgr+\)
 # ins/del (-> delete)
 # ins/del+shift (-> insert)
-# arrow left (-> underscore, ssharp, altgr+~)
+# arrow left (-> backslash, ssharp, altgr+~)
 # arrow up+shift (-> altgr+m)
 # f1 (-> page up)
 # f7 (-> page down)
@@ -137,6 +136,9 @@
 # ;+shift (-> AE, altgr+])
 # @ (-> ue, altgr+Q)
 # @+shift (-> UE)
+# @ (-> ò, è)
+# pound (-> ù)
+# pi (-> degree)
 
 #####################
 # |Bit 0| DEL |Retrn|C_L/R|  F7 |  F1 |  F3 |  F5 |C_U/D|
@@ -220,7 +222,7 @@ grave          5 3 8
 period         5 4 8
 greater        5 4 1
 # colon
-colon          5 5 0
+colon          5 5 16
 # extra: oe -> colon
 odiaeresis     5 5 0
 # extra: OE -> :+shift
@@ -228,7 +230,7 @@ Odiaeresis     5 5 1
 # extra: altgr+[ -> :+shift
 bracketleft    5 5 1
 # @-key
-at             5 6 0
+at             5 6 16
 # extra: ue -> @
 udiaeresis     5 6 8
 # extra: UE -> @+shift
@@ -241,7 +243,7 @@ less           5 7 1
 #####################
 # |Bit 6|POUND|  *  | ; ] | HOME| S_R |  =  | A_UP| / ? |
 
-sterling        6 0 0
+sterling        6 0 16
 # pound
 bar            6 0 8
 brokenbar      6 0 8
@@ -250,7 +252,7 @@ grave          6 0 8
 # *
 asterisk       6 1 16
 # semicolon
-semicolon      6 2 0
+semicolon      6 2 16
 # extra: ae -> ;
 adiaeresis     6 2 8
 # extra: AE -> ;+shift
@@ -267,7 +269,7 @@ Shift_R        6 4 4
 # =
 equal          6 5 16
 # arrow up / pi
-asciicircum    6 6 0
+asciicircum    6 6 16
 degree         6 6 8
 # extra: altgr+m -> arrow up+shift (pi)
 mu             6 6 1
@@ -289,14 +291,14 @@ asciitilde     7 1 8
 # extra: ssharp -> arrow left
 ssharp         7 1 8
 # ctrl
-Tab            7 2 16392
-ISO_Left_Tab   7 2 16392
+Control_L      7 2 16392
 # shift+2
 quotedbl       7 3 8
 # space
 space          7 4 8
 # cbm
-Control_L      7 5 8200
+Tab            7 5 8200
+ISO_Left_Tab   7 5 8200
 # run/stop
 Escape         7 7 8
 
@@ -374,6 +376,65 @@ z 1 4 8
 F12 -3 0
 F12 -3 1
 
+
+#-----------------------------------------------------------------------------------------------------------
+
+#
+# Symbolic Mapping, IT Layout, VIC20, GTK (Custom keys)
+#
+
+# extra: underscore -> CBM + @  CHR$(164) _  (new method) 
+underscore      5 6 2064  #16 (deshift key) + 2048 (combined with cbm)
+
+# extra: backslash, bar -> arrow left
+backslash       7 1 8
+bar             7 1 8
+
+# extra: ì -> arrow up (same as asciicircum)
+igrave          6 6 16
+
+# extra: ù § -> sterling £ to allow graphic symbols with Shift and CBM)
+ugrave          6 0 8
+section         6 0 8
+
+# extra: è, é ç -> at @ (to allow graphic symbols with Shift and CBM)
+egrave          5 6 8
+eacute          5 6 8
+ccedilla        5 6 8
+#ograve          5 6 8
+
+
+#* from KeynumPad
+KP_Multiply     6 1 8
+
+#- from KeynumPad
+KP_Subtract     5 3 8
+
+#+ from KeynumPad
+KP_Add          5 0 8
+
+#/ from KeynumPad
+KP_Divide       6 7 8
+
+#
+# KeynumPad mapped if user-defined keysets are disabled on Settings->Input devices->Joystick
+#
+# Use (Alt+Shift+J) to quickly enable (Joy_ON-KP_OFF) or disable (Joy_OFF-KP_ON)
+#
+
+KP_0            4 3 16
+KP_1            7 0 16
+KP_2            7 3 16
+KP_3            1 0 16
+KP_4            1 3 16
+KP_5            2 0 16
+KP_6            2 3 16
+KP_7            3 0 16
+KP_8            3 3 16
+KP_9            4 0 16
+KP_Decimal      5 7 16
+
+
 #
 # joyport attached keypad
 #
@@ -397,3 +458,12 @@ KP_0        -5 16
 KP_Delete   -5 17
 KP_Enter    -5 18
 KP_Add      -5 19
+
+#
+# joystick keymap A
+#
+Up          -1 7
+Left        -1 4
+Right       -1 5
+Down        -1 2
+Control_R   -1 0
