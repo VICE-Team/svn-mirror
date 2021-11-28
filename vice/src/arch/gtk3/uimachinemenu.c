@@ -810,35 +810,17 @@ static ui_menu_item_t settings_menu_head[] = {
 };
 /* }}} */
 
-/* {{{ settings_menu_joy_both[] */
+/* {{{ settings_menu_joy_swap[] */
 
-/** \brief  Settings menu - joystick - with controlport swap
+/** \brief  Settings menu - joystick controlport swap
  *
- * Has controlport, userport and keyset items
- *
- * Vaalid for x64/x64sc/x64dtv/xscpu64/x128/xplus4/xcbm5x0
+ * Valid for x64/x64sc/x64dtv/xscpu64/x128/xplus4/xcbm5x0
  */
-static ui_menu_item_t settings_menu_joy_with_swap[] = {
+static ui_menu_item_t settings_menu_joy_swap[] = {
     { "Swap joysticks", UI_MENU_TYPE_ITEM_CHECK,
-      ACTION_SWAP_CONTROLPORT_TOGGLE, (void *)(ui_action_toggle_controlport_swap), NULL,
+      ACTION_SWAP_CONTROLPORT_TOGGLE,
+      (void *)(ui_action_toggle_controlport_swap), NULL,
       GDK_KEY_J, VICE_MOD_MASK, false },
-    { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
-      ACTION_KEYSET_JOYSTICK_TOGGLE, (void *)(ui_toggle_resource), (void *)"KeySetEnable",
-      GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
-    UI_MENU_TERMINATOR
-};
-/* }}} */
-
-
-/* {{{ settings_menu_joy_userport[] */
-/** \brief  Settings menu - joystick - without controlport swap
- *
- * Only valid for xvic/xpet/xcbm2
- */
-static ui_menu_item_t settings_menu_joy_without_swap[] = {
-    { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
-        "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
-        GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
     UI_MENU_TERMINATOR
 };
 /* }}} */
@@ -847,6 +829,12 @@ static ui_menu_item_t settings_menu_joy_without_swap[] = {
 /** \brief  'Settings' menu tail section
  */
 static ui_menu_item_t settings_menu_tail[] = {
+    /* Needs to go here to avoid duplicate action names */
+    { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
+      ACTION_KEYSET_JOYSTICK_TOGGLE,
+      (void *)(ui_action_toggle_keyset_joystick), NULL,
+      GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
+
     UI_MENU_SEPARATOR,
     /* the settings dialog */
     { "Settings ...", UI_MENU_TYPE_ITEM_ACTION,
@@ -1045,8 +1033,7 @@ static ui_menu_ref_t menu_references[] = {
 
     /* Settings */
     { "settings-section-head",              settings_menu_head },
-    { "settings-section-joy-with-swap",     settings_menu_joy_with_swap },
-    { "settings-section-joy-without-swap",  settings_menu_joy_without_swap },
+    { "settings-section-joy-swap",          settings_menu_joy_swap },
     { "settings-section-tail",              settings_menu_tail },
 
     /* Debug */
@@ -1127,51 +1114,48 @@ GtkWidget *ui_machine_menu_bar_create(void)
         case VICE_MACHINE_C64SC:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_with_swap;
+            settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_C64DTV:
-            settings_menu_joy_section = settings_menu_joy_with_swap;
+            settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_SCPU64:
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_with_swap;
+            settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_C128:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_with_swap;
+            settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_VIC20:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_without_swap;
             break;
 
         case VICE_MACHINE_PLUS4:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_with_swap;
+            settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_CBM5x0:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_with_swap;
+            settings_menu_joy_section = settings_menu_joy_swap;
             break;
 
         case VICE_MACHINE_CBM6x0:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
-            settings_menu_joy_section = settings_menu_joy_without_swap;
             break;
 
         case VICE_MACHINE_PET:
             file_menu_tape_section = file_menu_tape_xpet;
-            settings_menu_joy_section = settings_menu_joy_without_swap;
             break;
 
         case VICE_MACHINE_VSID:
@@ -1375,7 +1359,7 @@ ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
                  type == UI_MENU_TYPE_ITEM_CHECK)) {
             if (ui_vice_menu_iter_get_name(&iter, &item_name) &&
                     item_name != NULL) {
-                //debug_gtk3("Checking '%s'.", item_name);
+                debug_gtk3("Checking '%s'.", item_name);
                 if (strcmp(item_name, name) == 0) {
                     return iter.menu_item;
                 }

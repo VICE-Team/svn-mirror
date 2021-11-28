@@ -89,12 +89,12 @@ static void on_configure_activate(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Toggle the KeySetEnable resource
  *
- * \param[in]   widget  widget triggering the event
- * \param[in]   data    extra event data
+ * \param[in]   widget  widget triggering the event (unused)
+ * \param[in]   data    extra event data (unused)
  */
 static void on_keyset_toggled(GtkWidget *widget, gpointer data)
 {
-    (void)ui_toggle_keyset_joysticks(widget, data);
+    (void)ui_action_toggle_keyset_joystick();
 }
 
 

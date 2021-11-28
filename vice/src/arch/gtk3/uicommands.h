@@ -47,7 +47,7 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data);
 
 gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data);
 
-gboolean ui_toggle_keyset_joysticks(GtkWidget *widget, gpointer data);
+gboolean ui_action_toggle_keyset_joystick(void);
 gboolean ui_action_toggle_controlport_swap(void);
 gboolean ui_action_toggle_mouse_grab(void);
 gboolean ui_get_controlport_swapped(void);

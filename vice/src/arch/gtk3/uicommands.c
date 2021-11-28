@@ -149,14 +149,16 @@ gboolean ui_action_toggle_controlport_swap(void)
  *
  * \return  TRUE (so the UI eats the event)
  *
- * TODO:    refactor into `gboolean ui_action_toggle_keyset_swap(void)`
  */
-gboolean ui_toggle_keyset_joysticks(GtkWidget *widget, gpointer data)
+gboolean ui_action_toggle_keyset_joystick(void)
 {
     int enable;
 
     resources_get_int("KeySetEnable", &enable);
     resources_set_int("KeySetEnable", !enable);
+
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_KEYSET_JOYSTICK_TOGGLE,
+                                               !enable);
 
     return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }
