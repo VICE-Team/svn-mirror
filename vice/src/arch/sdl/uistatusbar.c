@@ -459,10 +459,16 @@ void uistatusbar_draw(void)
         }
     }
 
+    text = statusbar_text;
     if (machine_is_jammed()) {
         text = machine_jam_reason();
     } else {
-        text = statusbar_text;
+        for (i = 0; i < NUM_DISK_UNITS; i++) {
+            if (drive_is_jammed(i)) {
+                text = drive_jam_reason(i);
+                break;
+            }
+        }
     }
     text_len = strlen(text);
 
