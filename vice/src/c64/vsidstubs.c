@@ -1000,6 +1000,16 @@ unsigned int drive_get_half_tracks(unsigned int type)
     return 0;
 }
 
+bool drive_is_jammed(int mynumber)
+{
+    return false;
+}
+
+char *drive_jam_reason(int mynumber)
+{
+    return NULL;
+}
+
 userport_desc_t *userport_get_valid_devices(int sort)
 {
     return NULL;

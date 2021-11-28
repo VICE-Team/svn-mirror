@@ -38,6 +38,7 @@
 
 #include "vice_gtk3.h"
 #include "basedialogs.h"
+#include "drive.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
@@ -527,6 +528,8 @@ void statusbar_speed_widget_update(GtkWidget *widget,
 #   define STR(x) STR_(x)
 
     static bool jammed = false;
+    static bool drivejammed[NUM_DISK_UNITS] = { false, false, false, false };
+    int drv;
 
     GtkWidget *grid = NULL;
     GtkWidget *label;
@@ -574,6 +577,15 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         return;
     } else if (jammed) {
         jammed = false;
+    }
+
+    for (drv = 0; drv < NUM_DISK_UNITS; drv++) {
+        if (drive_is_jammed(drv) && (drivejammed[drv] == false)) {
+            drivejammed[drv] = true;
+            ui_display_statustext(drive_jam_reason(drv), 1);
+        } else {
+            drivejammed[drv] = false;
+        }
     }
 
     vsyncarch_get_metrics(&vsync_metric_cpu_percent, &vsync_metric_emulated_fps, &vsync_metric_warp_enabled);
