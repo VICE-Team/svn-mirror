@@ -504,6 +504,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     render_job_t job = (render_job_t)vice_ptr_to_int(job_data);
     video_canvas_t *canvas = (video_canvas_t *)pool_data;
     vice_directx_renderer_context_t *context = (vice_directx_renderer_context_t *)canvas->renderer_context;
+    backbuffer_t *backbuffer;
     HRESULT result = S_OK;
     bool interlaced;
     int vsync;
@@ -543,12 +544,8 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
      * especially when the monitor is open and stepping through code.
      */
 
-    for (;;) {
-        backbuffer_t *backbuffer = render_queue_dequeue_for_display(context->render_queue);
-        if (!backbuffer) {
-            break;
-        }
-
+    backbuffer = render_queue_dequeue_for_display(context->render_queue);
+    if (backbuffer) {
         build_render_bitmap(context, backbuffer);
         render_queue_return_to_pool(context->render_queue, backbuffer);
     }
