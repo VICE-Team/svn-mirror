@@ -13162,6 +13162,12 @@ that have changed between the first PET 2001 and all newer versions.
 @item EoiBlank
 Boolean to enable/disable the "blank screen on EOI" feature of the oldest PET 2001.
 
+@vindex Screen2001
+@item Screen2001
+Boolean specifying if the screen memory should have "mirrors" like on
+the oldest PET 2001: $8000-$83FF is visible 3 more times, up to $8FFF.
+Otherwise, mirrors (if any) only go up to $87FF.
+
 @vindex DiagPin
 @item DiagPin
 Boolean to enable/disable the diagnostic pin on the PET userport (see below).
