@@ -2379,10 +2379,10 @@ void cartridge_powerup(void)
 {
     /* "IO Slot" */
     if (georam_cart_enabled()) {
-        /* georam_powerup(); */
+        georam_powerup();
     }
     if (reu_cart_enabled()) {
-        /* reu_powerup(); */
+        reu_powerup();
     }
 
     /* "Main Slot" */
@@ -2422,14 +2422,8 @@ void cartridge_powerup(void)
         case CARTRIDGE_PAGEFOX:
             pagefox_powerup();
             break;
-        case CARTRIDGE_RAMLINK:
-            /* ramlink_powerup(); */
-            break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_powerup();
-            break;
-        case CARTRIDGE_REX_RAMFLOPPY:
-            /* rexramfloppy_powerup(); */
             break;
         case CARTRIDGE_SDBOX:
             sdbox_powerup();
@@ -2444,16 +2438,13 @@ void cartridge_powerup(void)
 
     /* "Slot 1" */
     if (dqbb_cart_enabled()) {
-        /* dqbb_powerup(); */
+        dqbb_powerup();
     }
     if (expert_cart_enabled()) {
-        /* expert_powerup(); */
-    }
-    if (ramcart_cart_enabled()) {
-        /* ramcart_powerup(); */
+        expert_powerup();
     }
     if (isepic_cart_enabled()) {
-        /* isepic_powerup(); */
+        isepic_powerup();
     }
 }
 

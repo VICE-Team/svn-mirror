@@ -40,6 +40,7 @@
 #include "export.h"
 #include "lib.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -64,7 +65,7 @@
     REX RAM-Floppy
 
     8k ROM
-    up to 256k RAM
+    32k up to 256k RAM (Battery buffered)
 
     dfa0    (write) selects RAM bank
 
@@ -74,6 +75,7 @@
 
     TODO:
     - implement the disable switch
+    - implement RAM size option
 */
 
 static int ram_bank = 0;
@@ -252,6 +254,20 @@ static int rexramfloppy_save_ram_image(int force)
     return 0;
 }
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
 static int rexramfloppy_common_attach(void)
 {
     if (export_add(&export_res) < 0) {
@@ -259,6 +275,7 @@ static int rexramfloppy_common_attach(void)
     }
 
     rexramfloppy_ram = lib_malloc(RRF_RAM_SIZE);
+    ram_init_with_pattern(rexramfloppy_ram, RRF_RAM_SIZE, &ramparam);
 
     if (rexramfloppy_load_ram_image() < 0) {
         lib_free(rexramfloppy_ram);

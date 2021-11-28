@@ -40,6 +40,7 @@
 #include "machine.h"
 #include "mem.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "georam.h"
 #include "snapshot.h"
@@ -230,6 +231,27 @@ static int georam_dump(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void georam_powerup(void)
+{
+    if (georam_ram) {
+        ram_init_with_pattern(georam_ram, georam_size, &ramparam);
+    }
+}
+
 static int georam_activate(void)
 {
     if (!georam_size) {
@@ -240,7 +262,9 @@ static int georam_activate(void)
 
     /* Clear newly allocated RAM.  */
     if (georam_size > old_georam_ram_size) {
-        memset(georam_ram, 0, (size_t)(georam_size - old_georam_ram_size));
+        /* memset(georam_ram, 0, (size_t)(georam_size - old_georam_ram_size)); */
+        ram_init_with_pattern(&georam_ram[old_georam_ram_size],
+                              (size_t)(georam_size - old_georam_ram_size), &ramparam);
     }
 
     old_georam_ram_size = georam_size;
