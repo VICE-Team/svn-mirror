@@ -316,9 +316,6 @@ GtkWidget *speed_menu_popup_create(void)
     item = gtk_menu_item_new_with_label(NULL);
     child = gtk_bin_get_child(GTK_BIN(item));
     gtk_label_set_markup(GTK_LABEL(child), "Advance frame");
-    if (!ui_pause_active()) {
-        gtk_widget_set_sensitive(item, FALSE);
-    }
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "activate", G_CALLBACK(on_advance_frame_activate),
             NULL);
