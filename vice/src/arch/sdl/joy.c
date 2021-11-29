@@ -145,6 +145,7 @@ struct sdljoystick_s {
     char *name;
     int input_max[NUM_INPUT_TYPES];
     sdljoystick_mapping_t *input[NUM_INPUT_TYPES];
+    SDL_JoystickID joystickid;
 };
 typedef struct sdljoystick_s sdljoystick_t;
 
@@ -396,6 +397,7 @@ int joy_sdl_init(void)
             sdljoystick[i].name = lib_strdup(SDL_JoystickName(i));
 #else
             sdljoystick[i].name = lib_strdup(SDL_JoystickName(sdljoystick[i].joyptr));
+            sdljoystick[i].joystickid = SDL_JoystickInstanceID(joy);
 #endif
             axis = sdljoystick[i].input_max[AXIS] = SDL_JoystickNumAxes(joy);
             button = sdljoystick[i].input_max[BUTTON] = SDL_JoystickNumButtons(joy);
@@ -423,6 +425,96 @@ int joy_sdl_init(void)
     SDL_JoystickEventState(SDL_ENABLE);
     return 0;
 }
+
+#ifdef USE_SDLUI2
+int joy_sdl_rescan(void)
+{
+    int i, k, axis, button, hat, ball;
+    sdljoystick_input_t j;
+    SDL_Joystick *joy;
+    sdljoystick_t *sdljoystick_old = sdljoystick;
+    int num_joysticks_old = num_joysticks;
+
+    if (sdljoystick == NULL) {
+        return joy_sdl_init();
+    }
+
+    SDL_JoystickEventState(SDL_DISABLE);
+
+    /* close all joysticks */
+    for (i = 0; i < num_joysticks; ++i) {
+        lib_free(sdljoystick[i].name);
+        if (sdljoystick[i].joyptr) {
+            SDL_JoystickClose(sdljoystick[i].joyptr);
+        }
+    }
+
+    num_joysticks = SDL_NumJoysticks();
+
+    if (num_joysticks == 0) {
+        log_message(sdljoy_log, "No joysticks found");
+        for (i = 0; i < num_joysticks_old; ++i) {
+            lib_free(sdljoystick[i].name);
+            sdljoystick[i].name = NULL;
+
+            for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
+                lib_free(sdljoystick[i].input[j]);
+                sdljoystick[i].input[j] = NULL;
+            }
+        }
+        lib_free(sdljoystick);
+        sdljoystick = NULL;
+        return 0;
+    }
+        
+    log_message(sdljoy_log, "%i joysticks found", num_joysticks);
+
+    sdljoystick = lib_malloc(sizeof(sdljoystick_t) * num_joysticks);
+
+    for (i = 0; i < num_joysticks; ++i) {
+        joy = sdljoystick[i].joyptr = SDL_JoystickOpen(i);
+        if (joy) {
+            sdljoystick[i].name = lib_strdup(SDL_JoystickName(sdljoystick[i].joyptr));
+            sdljoystick[i].joystickid = SDL_JoystickInstanceID(joy);
+            axis = sdljoystick[i].input_max[AXIS] = SDL_JoystickNumAxes(joy);
+            button = sdljoystick[i].input_max[BUTTON] = SDL_JoystickNumButtons(joy);
+            hat = sdljoystick[i].input_max[HAT] = SDL_JoystickNumHats(joy);
+            ball = sdljoystick[i].input_max[BALL] = SDL_JoystickNumBalls(joy);
+
+            for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
+                if (sdljoystick[i].input_max[j] > 0) {
+                    sdljoystick[i].input[j] = lib_malloc(sizeof(sdljoystick_mapping_t) * sdljoystick[i].input_max[j] * input_mult[j]);
+                } else {
+                    sdljoystick[i].input[j] = NULL;
+                }
+            }
+
+            log_message(sdljoy_log, "Device %i \"%s\" (%i axes, %i buttons, %i hats, %i balls)", i, sdljoystick[i].name, axis, button, hat, ball);
+
+            joy_arch_init_default_mapping(i);
+        } else {
+            log_warning(sdljoy_log, "Couldn't open joystick %i", i);
+        }
+    }
+
+    joy_arch_mapping_load(joymap_file);
+
+    /* copy over input mappings */
+    for (i = 0; i < num_joysticks; ++i) {
+        for (k = 0; k < num_joysticks_old; ++k) {
+            if (sdljoystick[i].joystickid == sdljoystick_old[k].joystickid) {
+                for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
+                    lib_free(sdljoystick[i].input[j]);
+                   sdljoystick[i].input[j] = sdljoystick_old[k].input[j];
+                }
+            }
+        }
+    }
+
+    SDL_JoystickEventState(SDL_ENABLE);
+    return 0;
+}
+#endif
 
 void joystick(void)
 {

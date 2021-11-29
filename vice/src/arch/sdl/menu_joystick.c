@@ -348,6 +348,16 @@ static UI_MENU_CALLBACK(custom_swap_ports_callback)
     return sdljoy_get_swap_ports() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
 }
 
+#ifdef USE_SDLUI2
+static UI_MENU_CALLBACK(custom_rescan_joy_callback)
+{
+    if (activated) {
+        joy_sdl_rescan();
+    }
+    return NULL;
+}
+#endif
+
 static UI_MENU_CALLBACK(custom_keyset_callback)
 {
     SDL_Event e;
@@ -847,6 +857,12 @@ const ui_menu_entry_t joystick_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+#ifdef USE_SDLUI2
+    { "Rescan host joysticks",
+      MENU_ENTRY_OTHER,
+      custom_rescan_joy_callback,
+      NULL },
+#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -923,6 +939,12 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+#ifdef USE_SDLUI2
+    { "Rescan host joysticks",
+      MENU_ENTRY_OTHER,
+      custom_rescan_joy_callback,
+      NULL },
+#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -999,6 +1021,12 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+#ifdef USE_SDLUI2
+    { "Rescan host joysticks",
+      MENU_ENTRY_OTHER,
+      custom_rescan_joy_callback,
+      NULL },
+#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1066,6 +1094,12 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+#ifdef USE_SDLUI2
+    { "Rescan host joysticks",
+      MENU_ENTRY_OTHER,
+      custom_rescan_joy_callback,
+      NULL },
+#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1134,6 +1168,12 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+#ifdef USE_SDLUI2
+    { "Rescan host joysticks",
+      MENU_ENTRY_OTHER,
+      custom_rescan_joy_callback,
+      NULL },
+#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1174,6 +1214,12 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+#ifdef USE_SDLUI2
+    { "Rescan host joysticks",
+      MENU_ENTRY_OTHER,
+      custom_rescan_joy_callback,
+      NULL },
+#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1238,6 +1284,12 @@ const ui_menu_entry_t joystick_userport_cbm2_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
+#ifdef USE_SDLUI2
+    { "Rescan host joysticks",
+      MENU_ENTRY_OTHER,
+      custom_rescan_joy_callback,
+      NULL },
+#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
