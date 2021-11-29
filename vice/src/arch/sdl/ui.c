@@ -478,6 +478,12 @@ ui_menu_action_t ui_dispatch_events(void)
             case SDL_JOYHATMOTION:
                 retval = sdljoy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
                 break;
+#ifdef USE_SDLUI2
+            case SDL_JOYDEVICEADDED:
+            case SDL_JOYDEVICEREMOVED:
+                retval = joy_sdl_rescan();
+                break;
+#endif
 #endif
             case SDL_MOUSEMOTION:
                 sdl_ui_consume_mouse_event(&e);
