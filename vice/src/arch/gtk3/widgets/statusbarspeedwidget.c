@@ -522,8 +522,8 @@ void statusbar_speed_widget_update(GtkWidget *widget,
                                   statusbar_speed_widget_state_t *state,
                                   int window_identity)
 {
-#   define CPU_DECIMAL_PLACES 2
-#   define FPS_DECIMAL_PLACES 3
+#   define CPU_DECIMAL_PLACES 0
+#   define FPS_DECIMAL_PLACES 1
 #   define STR_(x) #x
 #   define STR(x) STR_(x)
 
