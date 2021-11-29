@@ -88,7 +88,7 @@ static gboolean uimon_window_resume_impl(gpointer user_data);
  */
 static struct console_private_s {
     pthread_mutex_t lock;
-    
+
     GtkWidget *window;  /**< windows */
     GtkWidget *term;    /**< could be a VTE instance? */
     char *input_buffer;
@@ -170,7 +170,7 @@ void uimon_write_to_terminal(struct console_private_s *t,
 
     memcpy(fixed.output_buffer + fixed.output_buffer_used_size, data, length);
     fixed.output_buffer_used_size += length;
-    
+
     if (!write_scheduled) {
         /* schedule a call on the ui thread */
         gdk_threads_add_timeout(0, write_to_terminal, NULL);
@@ -443,7 +443,7 @@ static gboolean key_press_event (GtkWidget   *widget,
     gboolean retval = FALSE;
 
     gdk_event_get_state((GdkEvent*)event, &state);
-    
+
     pthread_mutex_lock(&fixed.lock);
 
     if (event->type == GDK_KEY_PRESS) {
@@ -460,10 +460,10 @@ static gboolean key_press_event (GtkWidget   *widget,
         retval = plain_key_pressed(&fixed.input_buffer, event->keyval);
         goto done;
     }
-    
+
 done:
     pthread_mutex_unlock(&fixed.lock);
-    
+
     return retval;
 }
 
@@ -482,19 +482,19 @@ static gboolean button_press_event(GtkWidget *widget,
     pthread_mutex_lock(&fixed.lock);
     fixed.input_buffer = append_string_to_input_buffer(fixed.input_buffer, widget, GDK_SELECTION_PRIMARY);
     pthread_mutex_unlock(&fixed.lock);
-    
+
     return TRUE;
 }
 
 static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
     pthread_mutex_lock(&fixed.lock);
-    
+
     lib_free(fixed.input_buffer);
     fixed.input_buffer = NULL;
-    
+
     pthread_mutex_unlock(&fixed.lock);
-    
+
     return gtk_widget_hide_on_delete(widget);
 }
 
@@ -506,20 +506,20 @@ int uimon_get_string(struct console_private_s *t, char* string, int string_len)
         int i;
 
         pthread_mutex_lock(&t->lock);
-        
+
         if (!t->input_buffer) {
             /* TODO: Not sure if this check makes sense anymore, needs testing without */
             pthread_mutex_unlock(&t->lock);
             return -1;
         }
-        
+
         if (strlen(t->input_buffer) == 0) {
             /* There's no input yet, so have a little sleep and look again. */
             pthread_mutex_unlock(&t->lock);
             tick_sleep(tick_per_second() / 60);
             continue;
         }
-        
+
         for (i = 0; i < strlen(t->input_buffer) && retval < string_len; i++, retval++) {
             string[retval]=t->input_buffer[i];
         }
@@ -738,7 +738,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     } else {
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
     }
-    
+
     pthread_mutex_unlock(&fixed.lock);
 
     if (display_now) {
@@ -989,7 +989,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         fixed.input_buffer = lib_strdup("");
     }
     pthread_mutex_unlock(&fixed.lock);
-    
+
     vte_linenoiseSetCompletionCallback(monitor_completions);
     p = vte_linenoise(prompt, &fixed);
     if (p) {
@@ -1012,7 +1012,7 @@ int console_init(void)
     char *short_name;
     int takes_filename_as_arg;
     pthread_mutexattr_t lock_attributes;
-    
+
     /* our console lock needs to be recursive */
     pthread_mutexattr_init(&lock_attributes);
     pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
@@ -1045,7 +1045,7 @@ int console_init(void)
 int console_close_all(void)
 {
     int i;
-    
+
     pthread_mutex_lock(&fixed.lock);
 
     if (fixed.input_buffer) {
@@ -1055,7 +1055,7 @@ int console_close_all(void)
         lib_free(fixed.input_buffer);
         fixed.input_buffer = NULL;
     }
-    
+
     pthread_mutex_unlock(&fixed.lock);
 
     if (native_monitor()) {
