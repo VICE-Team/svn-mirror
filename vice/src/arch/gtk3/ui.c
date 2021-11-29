@@ -79,6 +79,7 @@
 #include "uicommands.h"
 #include "uimachinemenu.h"
 #include "uimenu.h"
+#include "uimon.h"
 #include "uisettings.h"
 #include "uistatusbar.h"
 #include "jamdialog.h"
@@ -1046,12 +1047,18 @@ static int set_monitor_font(const char *val, void *param)
  * \param[in]   val     color
  * \param[in]   param   extra argument (unused)
  *
- * \return  0 (success)
+ * \return  0 on success, -1 if \a val could not be parsed by gdk_rgba_parse()
  */
 static int set_monitor_bg(const char *val, void *param)
 {
-    util_string_set(&ui_resources.monitor_bg, val);
-    return 0;
+    GdkRGBA color;
+
+    if (gdk_rgba_parse(&color, val)) {
+        util_string_set(&ui_resources.monitor_bg, val);
+        uimon_set_background_color(val);
+        return 0;
+    }
+    return -1;
 }
 
 
@@ -1060,17 +1067,19 @@ static int set_monitor_bg(const char *val, void *param)
  * \param[in]   val     color
  * \param[in]   param   extra argument (unused)
  *
- * \return  0 (success)
+ * \return  0 on success, -1 if \a val could not be parsed by gdk_rgba_parse()
  */
 static int set_monitor_fg(const char *val, void *param)
 {
-    util_string_set(&ui_resources.monitor_fg, val);
-    return 0;
+    GdkRGBA color;
+
+    if (gdk_rgba_parse(&color, val)) {
+        util_string_set(&ui_resources.monitor_fg, val);
+        uimon_set_foreground_color(val);
+        return 0;
+    }
+    return -1;
 }
-
-
-
-
 
 
 /** \brief  Set Window[X]Width resource (int)
