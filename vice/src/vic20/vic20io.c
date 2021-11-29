@@ -536,49 +536,28 @@ void vic20io3_store(uint16_t addr, uint8_t value)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-static int decodemask(uint16_t mask)
+static void io_source_ioreg_add_onelist(struct mem_ioreg_list_s **mem_ioreg_list, io_source_list_t *current)
 {
-    int len = 255;
+    uint16_t end;
 
-    while (((mask & 0x200) == 0) && (len > 0)) {
-        mask <<= 1;
-        len >>= 1;
+    while (current) {
+        end = current->device->end_address;
+        if (end > current->device->start_address + current->device->address_mask) {
+            end = current->device->start_address + current->device->address_mask;
+        }
+
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address,
+                           end, current->device->dump, NULL, current->device->mirror_mode);
+        current = current->next;
     }
-
-    return len;
 }
 
 /* add all registered I/O devices to the list for the monitor */
 void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
-    io_source_list_t *current;
-
-    current = vic20io0_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address,
-                           current->device->start_address + decodemask(current->device->address_mask),
-                           current->device->dump, NULL, current->device->mirror_mode);
-        current = current->next;
-    }
-
-    current = vic20io2_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address,
-                           current->device->start_address + decodemask(current->device->address_mask),
-                           current->device->dump, NULL, current->device->mirror_mode);
-        current = current->next;
-    }
-
-    current = vic20io3_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address,
-                           current->device->start_address + decodemask(current->device->address_mask),
-                           current->device->dump, NULL, current->device->mirror_mode);
-        current = current->next;
-    }
+    io_source_ioreg_add_onelist(mem_ioreg_list, vic20io0_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, vic20io2_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, vic20io3_head.next);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
