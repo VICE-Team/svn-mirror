@@ -655,6 +655,55 @@ bool uimon_set_font(void)
     return true;
 }
 
+
+/** \brief  Set foreground color
+ *
+ * Set VTE terminal foreground color to \a color.
+ *
+ * \param[in]   color   Gdk RGBA color string
+ *
+ * \return  bool
+ *
+ * \see     https://docs.gtk.org/gdk3/method.RGBA.parse.html
+ */
+bool uimon_set_foreground_color(const char *color)
+{
+    if (fixed.term != NULL) {
+        GdkRGBA rgba;
+
+        if (gdk_rgba_parse(&rgba, color)) {
+            vte_terminal_set_color_foreground(VTE_TERMINAL(fixed.term), &rgba);
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/** \brief  Set foreground color
+ *
+ * Set VTE terminal foreground color to \a color.
+ *
+ * \param[in]   color   Gdk RGBA color string
+ *
+ * \return  bool
+ *
+ * \see     https://docs.gtk.org/gdk3/method.RGBA.parse.html
+ */
+bool uimon_set_background_color(const char *color)
+{
+    if (fixed.term != NULL) {
+        GdkRGBA rgba;
+
+        if (gdk_rgba_parse(&rgba, color)) {
+            vte_terminal_set_color_background(VTE_TERMINAL(fixed.term), &rgba);
+            return true;
+        }
+    }
+    return false;
+}
+
+
 static gboolean uimon_window_open_impl(gpointer user_data)
 {
     bool display_now = (bool)user_data;
