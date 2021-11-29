@@ -453,15 +453,6 @@ int joy_sdl_rescan(void)
 
     if (num_joysticks == 0) {
         log_message(sdljoy_log, "No joysticks found");
-        for (i = 0; i < num_joysticks_old; ++i) {
-            lib_free(sdljoystick[i].name);
-            sdljoystick[i].name = NULL;
-
-            for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
-                lib_free(sdljoystick[i].input[j]);
-                sdljoystick[i].input[j] = NULL;
-            }
-        }
         lib_free(sdljoystick);
         sdljoystick = NULL;
         return 0;
