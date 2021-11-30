@@ -84,6 +84,7 @@
 #include "uisnapshot.h"
 #include "uitapeattach.h"
 #include "uitapecreate.h"
+#include "vsync.h"
 
 #include "uimachinemenu.h"
 
@@ -651,6 +652,7 @@ static ui_menu_item_t file_menu_tail[] = {
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_MONITOR_OPEN,
       ui_monitor_activate_callback, NULL,
+      /* XXX: This bit doesn't work anymore since the custom hotkeys. */
 #ifdef MACOSX_SUPPORT
       /* use Command-Option-M on Mac */
       GDK_KEY_M, VICE_MOD_MASK | GDK_MOD1_MASK,
@@ -757,7 +759,7 @@ static ui_menu_item_t snapshot_menu[] = {
 static ui_menu_item_t settings_menu_head[] = {
     { "Fullscreen", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_FULLSCREEN_TOGGLE,
-      (void *)ui_action_toggle_fullscreen, NULL,
+      (void *)ui_action_toggle_fullscreen, "FullscreenEnable",
       GDK_KEY_D, VICE_MOD_MASK, true },
     { "Restore display state", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_RESTORE_DISPLAY,
@@ -766,7 +768,7 @@ static ui_menu_item_t settings_menu_head[] = {
 #if 1
     { "Show menu/status in fullscreen", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
-      (void *)ui_action_toggle_fullscreen_decorations, NULL,
+      (void *)ui_action_toggle_fullscreen_decorations, "FullscreenDecorations",
       GDK_KEY_B, VICE_MOD_MASK, true },
 #else
     /* Mac menubar version */
@@ -794,7 +796,7 @@ static ui_menu_item_t settings_menu_head[] = {
 
     { "Mouse grab", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_MOUSE_GRAB_TOGGLE,
-      (void *)ui_action_toggle_mouse_grab, NULL,
+      (void *)ui_action_toggle_mouse_grab, "Mouse",
       GDK_KEY_M, VICE_MOD_MASK, false },
 #if 0
     { "Swap controlport joysticks", UI_MENU_TYPE_ITEM_CHECK,
@@ -832,7 +834,7 @@ static ui_menu_item_t settings_menu_tail[] = {
     /* Needs to go here to avoid duplicate action names */
     { "Allow keyset joysticks", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_KEYSET_JOYSTICK_TOGGLE,
-      (void *)(ui_action_toggle_keyset_joystick), NULL,
+      (void *)(ui_action_toggle_keyset_joystick), "KeySetEnable",
       GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
 
     UI_MENU_SEPARATOR,
@@ -1201,6 +1203,7 @@ GtkWidget *ui_machine_menu_bar_create(void)
 
     main_menu_bar = menu_bar;    /* XXX: do I need g_object_ref()/g_object_unref()
                                          for this */
+
     return menu_bar;
 }
 

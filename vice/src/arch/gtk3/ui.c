@@ -1665,6 +1665,14 @@ void ui_create_main_window(video_canvas_t *canvas)
     }
 
 
+    /* set any menu checkboxes that aren't connected to resources */
+
+    /* FIXME:   This is apparently too early in the boot sequence for -warp
+     *          to take effect.
+     */
+    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_WARP_MODE_TOGGLE,
+                                               vsync_get_warp_mode());
+
     /* VSID doesn't have the keyboard debugging widget on the statusbar
      *
      * But it's still added, so disable always. Probably a big FIXME
