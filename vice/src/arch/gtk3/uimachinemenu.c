@@ -830,7 +830,7 @@ static ui_menu_item_t settings_menu_joy_swap[] = {
  */
 static ui_menu_item_t settings_menu_tail[] = {
     /* Needs to go here to avoid duplicate action names */
-    { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
+    { "Allow keyset joysticks", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_KEYSET_JOYSTICK_TOGGLE,
       (void *)(ui_action_toggle_keyset_joystick), NULL,
       GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
@@ -1359,7 +1359,7 @@ ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
                  type == UI_MENU_TYPE_ITEM_CHECK)) {
             if (ui_vice_menu_iter_get_name(&iter, &item_name) &&
                     item_name != NULL) {
-                debug_gtk3("Checking '%s'.", item_name);
+                //debug_gtk3("Checking '%s'.", item_name);
                 if (strcmp(item_name, name) == 0) {
                     return iter.menu_item;
                 }
@@ -1536,4 +1536,29 @@ void ui_clear_vice_menu_item_hotkeys(void)
         iter.menu_item->modifier = 0;
         iter.menu_item->keysym = 0;
     } while (ui_vice_menu_iter_next(&iter));
+}
+
+
+/** \brief  Get menu item keysym and modifier mask by action name
+ *
+ * \param[in]   name        action name
+ * \param[out]  keysym      GDK keysym
+ * \param[out]  modifier    GDK modifier mask
+ *
+ * \return  TRUE if the \a name was found
+ */
+gboolean ui_get_vice_menu_item_hotkey_by_name(const char *name,
+                                              guint *keysym,
+                                              GdkModifierType *modifier)
+{
+    ui_menu_item_t *item = ui_get_vice_menu_item_by_name(name);
+
+    if (item != NULL) {
+        *keysym = item->keysym;
+        *modifier = item->modifier;
+        return TRUE;
+    }
+    *keysym = 0;
+    *modifier = 0;
+    return FALSE;
 }

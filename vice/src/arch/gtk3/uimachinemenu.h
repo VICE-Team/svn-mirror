@@ -64,7 +64,11 @@ gboolean        ui_set_vice_menu_item_hotkey(ui_menu_item_t *item,
 gboolean        ui_set_vice_menu_item_hotkey_by_name(const char *name,
                                                      const char *keyval_name,
                                                      GdkModifierType modifier);
+gboolean        ui_get_vice_menu_item_hotkey_by_name(const char *name,
+                                                     guint *keysym,
+                                                     GdkModifierType *modifier);
 GtkWidget *     ui_get_gtk_menu_item_by_name(const char *name);
+
 /* for 'live' changing of hotkeys, needs UI support */
 GtkWidget *     ui_get_gtk_menu_item_by_hotkey(GdkModifierType mask, guint keyval);
 void            ui_clear_vice_menu_item_hotkeys(void);
