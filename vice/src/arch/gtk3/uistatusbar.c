@@ -1602,14 +1602,14 @@ static uint32_t build_active_joyport_mask(void)
 {
     int active_joyport_mask = 0;
     int i;
-    
+
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         active_joyport_mask <<= 1;
         if (joyport_port_is_active(i)) {
             active_joyport_mask |= 1;
         }
     }
-    
+
     return active_joyport_mask;
 }
 
@@ -2863,7 +2863,7 @@ void ui_update_statusbars(void)
     bool active_joyports_changed = false;
     int unit;
     sb_state = lock_sb_state();
-    
+
     /* Have any joyports been enabled / disabled? */
     active_joyports = build_active_joyport_mask();
     if (active_joyports != sb_state->active_joyports) {
