@@ -2023,20 +2023,22 @@ void ui_statusbar_shutdown(void)
 GtkWidget *ui_statusbar_create(int window_identity)
 {
     GtkWidget *sb;
-    GtkWidget *speed;
-    GtkWidget *joysticks;
 
-    GtkWidget *drive_units; /* grid for the disk drive unit widgets */
+    /* top row widgets/wrappers */
+    GtkWidget *speed;
+    GtkWidget *checkboxes;
+    GtkWidget *tape_and_joy;
+    GtkWidget *drive_units;
+    GtkWidget *volume;
 
     GtkWidget *tape_wrapper;
     GtkWidget *tape_status;
     GtkWidget *tape_menu;
     GtkWidget *tape_events;
-
+    GtkWidget *joysticks;
     GtkWidget *sep;
     GtkWidget *crt;
     GtkWidget *mixer;
-    GtkWidget *volume = NULL;
     GtkWidget *message;
     GtkWidget *recording;
     GtkWidget *kbd_debug_widget;
@@ -2106,12 +2108,16 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /*
      * Add widgets to the top row
      */
+    speed = NULL;
+    checkboxes = NULL;
+    tape_and_joy = NULL;
+    drive_units = NULL;
+    volume = NULL;
 
     /* CPU/FPS - No FPS on VDC Window for now */
     speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
     g_object_set(speed, "margin-left", 8, NULL);
     allocated_bars[i].speed = speed;
-    statusbar_append(i, speed, FALSE);
 
     /* CRT and Mixer controls */
     if (machine_class != VICE_MACHINE_VSID) {
@@ -2145,17 +2151,17 @@ GtkWidget *ui_statusbar_create(int window_identity)
     allocated_bars[i].crt = crt;
     allocated_bars[i].mixer = mixer;
 
+    /* Mixer/CRT checkboxes (all expect VSID) */
     if (machine_class != VICE_MACHINE_VSID) {
         /* wrap checkboxes in a grid to avoid extra vertical spacing */
-        GtkWidget *checkboxes = gtk_grid_new();
+        checkboxes = gtk_grid_new();
 
         gtk_grid_attach(GTK_GRID(checkboxes), crt, 0, 0, 1, 1);
         gtk_grid_attach(GTK_GRID(checkboxes), mixer, 0, 1, 1, 1);
 
-        statusbar_append(i, checkboxes, TRUE);
     }
 
-    /* Tape widget(s) and joysticks */
+    /* Tape widget(s) and joysticks (neither for VSID) */
     tape_wrapper = NULL;
     joysticks = NULL;
     /* No datasette for DTV, SCPU or VSID */
@@ -2205,7 +2211,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     /* Append tape widgets and/or joysticks widget to top row */
     if (tape_wrapper != NULL || joysticks != NULL) {
-        GtkWidget *tape_and_joy = gtk_grid_new();
+        tape_and_joy = gtk_grid_new();
         int row = 0;
 
         if (tape_wrapper != NULL) {
@@ -2214,36 +2220,35 @@ GtkWidget *ui_statusbar_create(int window_identity)
         if (joysticks != NULL) {
             gtk_grid_attach(GTK_GRID(tape_and_joy), joysticks, 0, row, 1, 1);
         }
-        statusbar_append(i, tape_and_joy, TRUE);
     }
 
 
-    /* Drive widgets */
-    drive_units = gtk_grid_new();
-    /* results in dual drives of a unit being grouped closer together than the
-     * units: */
-    gtk_grid_set_row_spacing(GTK_GRID(drive_units), 4);
-    gtk_widget_set_hexpand(drive_units, FALSE);
-    gtk_widget_set_vexpand(drive_units, FALSE);
-    gtk_widget_set_halign(drive_units, GTK_ALIGN_START);
-    gtk_widget_set_valign(drive_units, GTK_ALIGN_START);
+    /* Drive widgets (all expect VSID) */
+    if (machine_class != VICE_MACHINE_VSID) {
+        drive_units = gtk_grid_new();
+        /* results in dual drives of a unit being grouped closer together than the
+         * units: */
+        gtk_grid_set_row_spacing(GTK_GRID(drive_units), 4);
+        gtk_widget_set_hexpand(drive_units, FALSE);
+        gtk_widget_set_vexpand(drive_units, FALSE);
+        gtk_widget_set_halign(drive_units, GTK_ALIGN_START);
+        gtk_widget_set_valign(drive_units, GTK_ALIGN_START);
 
-    for (j = 0; j < NUM_DISK_UNITS; ++j) {
-        GtkWidget *drive_unit;
-        GtkWidget *drive_menu;
-        int drive_num;
+        for (j = 0; j < NUM_DISK_UNITS; ++j) {
+            GtkWidget *drive_unit;
+            GtkWidget *drive_menu;
+            int drive_num;
 
-        drive_unit = ui_drive_widget_create(j, i);
-        gtk_widget_set_hexpand(drive_unit, FALSE);
-        allocated_bars[i].drive_unit[j] = drive_unit;
-        for (drive_num = 0; drive_num < DRIVE_UNIT_DRIVE_MAX; drive_num++) {
-            drive_menu = ui_drive_menu_create(j, drive_num);
-            allocated_bars[i].drive_menu[j][drive_num] = drive_menu;
+            drive_unit = ui_drive_widget_create(j, i);
+            gtk_widget_set_hexpand(drive_unit, FALSE);
+            allocated_bars[i].drive_unit[j] = drive_unit;
+            for (drive_num = 0; drive_num < DRIVE_UNIT_DRIVE_MAX; drive_num++) {
+                drive_menu = ui_drive_menu_create(j, drive_num);
+                allocated_bars[i].drive_menu[j][drive_num] = drive_menu;
+            }
+            gtk_grid_attach(GTK_GRID(drive_units), drive_unit, unit_cols[j], unit_rows[j], 1, 1);
         }
-
-        gtk_grid_attach(GTK_GRID(drive_units), drive_unit, unit_cols[j], unit_rows[j], 1, 1);
     }
-    statusbar_append(i, drive_units, TRUE);
 
     /*
      * Add volume control widget
@@ -2255,19 +2260,36 @@ GtkWidget *ui_statusbar_create(int window_identity)
 #if (!defined(ARCHDEP_OS_WINDOWS)) && (!defined(ARCHDEP_OS_MACOS))
     volume = ui_volume_button_create();
     gtk_widget_set_hexpand(volume, TRUE);
-    statusbar_append_end(i, volume);
 #else
     /* Windows or MacOS, only create the volume button for VSID */
     if (machine_class == VICE_MACHINE_VSID) {
         volume = ui_volume_button_create();
         gtk_widget_set_hexpand(volume, TRUE);
-        statusbar_append_end(i, volume);
     }
 #endif
     allocated_bars[i].volume = volume;
 
     /*
-     * Add keyboard debugging widget
+     * Add all valid widgets to the top row
+     */
+    if (speed != NULL) {
+        statusbar_append(i, speed, FALSE);
+    }
+    if (checkboxes != NULL) {
+        statusbar_append(i, checkboxes, TRUE);
+    }
+    if (tape_and_joy != NULL) {
+        statusbar_append(i, tape_and_joy, TRUE);
+    }
+    if (drive_units != NULL) {
+        statusbar_append(i, drive_units, TRUE);
+    }
+    if (volume != NULL) {
+        statusbar_append_end(i, volume);
+    }
+
+    /*
+     * Add keyboard debugging widget (all except VSID)
      */
     if (machine_class != VICE_MACHINE_VSID) {
         sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
