@@ -373,11 +373,17 @@ static uint8_t via1_via2_peek(uint16_t addr)
     return retval;
 }
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 static io_source_t vic_device = {
     "VIC",                 /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+#if 0
     0x9000, 0x90ff, 0x3f,  /* address range for the device, must include A5/A4 */
+#endif
+    0x9000, 0x90ff, 0xf03f,  /* address range for the device, must include A5/A4 */
     1,                     /* read is always valid */
     vic_via1_via2_store,   /* store function */
     NULL,                  /* NO poke function */
@@ -389,11 +395,17 @@ static io_source_t vic_device = {
     0                      /* insertion order, gets filled in by the registration function */
 };
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 static io_source_t via2_device = {
     "VIA2",                /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+#if 0
     0x9110, 0x93ff, 0x3f,  /* address range for the device, must include A5/A4 */
+#endif
+    0x9110, 0x93ff, 0xf03f,  /* address range for the device, must include A5/A4 */
     1,                     /* read is always valid */
     via1_via2_store,       /* store function */
     NULL,                  /* NO poke function */
@@ -405,11 +417,17 @@ static io_source_t via2_device = {
     0                      /* insertion order, gets filled in by the registration function */
 };
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 static io_source_t via1_device = {
     "VIA1",                /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+#if 0
     0x9120, 0x93ff, 0x3f,  /* address range for the device, must include A5/A4 */
+#endif
+    0x9120, 0x93ff, 0xf03f,  /* address range for the device, must include A5/A4 */
     1,                     /* read is always valid */
     via1_via2_store,       /* store function */
     NULL,                  /* NO poke function */

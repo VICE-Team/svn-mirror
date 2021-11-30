@@ -274,6 +274,9 @@ static void io_source_log_collisions(uint16_t addr, int amount, io_source_list_t
     }
 }
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
 {
     io_source_list_t *current = list->next;
@@ -286,7 +289,7 @@ static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
     while (current) {
         if (current->device->read != NULL) {
             if ((addr >= current->device->start_address) && (addr <= current->device->end_address)) {
-                retval = current->device->read((uint16_t)(addr & current->device->address_mask));
+                retval = current->device->read((uint16_t)(addr & (current->device->address_mask & 0x3ff)));
                 if (current->device->io_source_valid) {
                     if (current->device->io_source_prio == 1) {
                         return retval;
@@ -350,6 +353,9 @@ static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
     return vic20_cpu_last_data;
 }
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 /* peek from I/O area with no side-effects */
 static inline uint8_t io_peek(io_source_list_t *list, uint16_t addr)
 {
@@ -358,9 +364,9 @@ static inline uint8_t io_peek(io_source_list_t *list, uint16_t addr)
     while (current) {
         if (addr >= current->device->start_address && addr <= current->device->end_address) {
             if (current->device->peek) {
-                return current->device->peek((uint16_t)(addr & current->device->address_mask));
+                return current->device->peek((uint16_t)(addr & (current->device->address_mask & 0x3ff)));
             } else if (current->device->read) {
-                return current->device->read((uint16_t)(addr & current->device->address_mask));
+                return current->device->read((uint16_t)(addr & (current->device->address_mask & 0x3ff)));
             }
         }
         current = current->next;
@@ -369,6 +375,9 @@ static inline uint8_t io_peek(io_source_list_t *list, uint16_t addr)
     return vic20_cpu_last_data;
 }
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 static inline void io_store(io_source_list_t *list, uint16_t addr, uint8_t value)
 {
     io_source_list_t *current = list->next;
@@ -378,7 +387,7 @@ static inline void io_store(io_source_list_t *list, uint16_t addr, uint8_t value
     while (current) {
         if (current->device->store != NULL) {
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
-                current->device->store((uint16_t)(addr & current->device->address_mask), value);
+                current->device->store((uint16_t)(addr & (current->device->address_mask & 0x3ff)), value);
             }
         }
         current = current->next;
@@ -536,13 +545,18 @@ void vic20io3_store(uint16_t addr, uint8_t value)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 static void io_source_ioreg_add_onelist(struct mem_ioreg_list_s **mem_ioreg_list, io_source_list_t *current)
 {
     uint16_t end;
 
     while (current) {
         end = current->device->end_address;
-        if (end > current->device->start_address + current->device->address_mask) {
+        if (current->device->address_mask & 0xf000) {
+            end = current->device->start_address + (current->device->address_mask >> 12);
+        } else if (end > current->device->start_address + current->device->address_mask) {
             end = current->device->start_address + current->device->address_mask;
         }
 
