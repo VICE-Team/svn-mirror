@@ -443,9 +443,10 @@ int joy_sdl_rescan(void)
 
     /* close all joysticks */
     for (i = 0; i < num_joysticks; ++i) {
-        lib_free(sdljoystick[i].name);
         if (sdljoystick[i].joyptr) {
-            SDL_JoystickClose(sdljoystick[i].joyptr);
+            if (SDL_JoystickGetAttached(sdljoystick[i].joyptr)) {
+                SDL_JoystickClose(sdljoystick[i].joyptr);
+            }
         }
     }
 
@@ -453,6 +454,15 @@ int joy_sdl_rescan(void)
 
     if (num_joysticks == 0) {
         log_message(sdljoy_log, "No joysticks found");
+        for (i = 0; i < num_joysticks_old; ++i) {
+            lib_free(sdljoystick[i].name);
+            sdljoystick[i].name = NULL;
+
+            for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
+                lib_free(sdljoystick[i].input[j]);
+                sdljoystick[i].input[j] = NULL;
+            }
+        }
         lib_free(sdljoystick);
         sdljoystick = NULL;
         return 0;
@@ -481,26 +491,40 @@ int joy_sdl_rescan(void)
             }
 
             log_message(sdljoy_log, "Device %i \"%s\" (%i axes, %i buttons, %i hats, %i balls)", i, sdljoystick[i].name, axis, button, hat, ball);
-
-            joy_arch_init_default_mapping(i);
         } else {
             log_warning(sdljoy_log, "Couldn't open joystick %i", i);
         }
     }
-
-    joy_arch_mapping_load(joymap_file);
 
     /* copy over input mappings */
     for (i = 0; i < num_joysticks; ++i) {
         for (k = 0; k < num_joysticks_old; ++k) {
             if (sdljoystick[i].joystickid == sdljoystick_old[k].joystickid) {
                 for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
-                    lib_free(sdljoystick[i].input[j]);
-                   sdljoystick[i].input[j] = sdljoystick_old[k].input[j];
+                    if (sdljoystick[i].input[j] != NULL) {
+                        lib_free(sdljoystick[i].input[j]);
+                    }
+                    sdljoystick[i].input[j] = sdljoystick_old[k].input[j];
+                    sdljoystick_old[k].input[j] = NULL;
                 }
             }
         }
     }
+
+    for (i = 0; i < num_joysticks_old; ++i) {
+        lib_free(sdljoystick_old[i].name);
+        sdljoystick_old[i].name = NULL;
+
+        for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
+            if (sdljoystick_old[i].input[j] != NULL) {
+                lib_free(sdljoystick_old[i].input[j]);
+                sdljoystick_old[i].input[j] = NULL;
+            }
+        }
+    }
+
+    lib_free(sdljoystick_old);
+    sdljoystick_old = NULL;
 
     SDL_JoystickEventState(SDL_ENABLE);
     return 0;
