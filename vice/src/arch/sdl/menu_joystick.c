@@ -352,7 +352,7 @@ static UI_MENU_CALLBACK(custom_swap_ports_callback)
 static UI_MENU_CALLBACK(custom_rescan_joy_callback)
 {
     if (activated) {
-        joy_sdl_rescan();
+        sdljoy_rescan();
     }
     return NULL;
 }

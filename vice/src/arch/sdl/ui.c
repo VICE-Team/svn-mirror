@@ -210,6 +210,7 @@ ui_menu_action_t ui_dispatch_events(void)
 {
     SDL_Event e;
     ui_menu_action_t retval = MENU_ACTION_NONE;
+    int joynum;
 
 #ifdef ANDROID_COMPILE
     struct locnet_al_event event1;
@@ -467,21 +468,33 @@ ui_menu_action_t ui_dispatch_events(void)
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
-                retval = sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
+                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                if (joynum != -1) {
+                    retval = sdljoy_axis_event(joynum, e.jaxis.axis, e.jaxis.value);
+                }
                 break;
             case SDL_JOYBUTTONDOWN:
-                retval = sdljoy_button_event(e.jbutton.which, e.jbutton.button, 1);
+                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+                if (joynum != -1) {
+                    retval = sdljoy_button_event(joynum, e.jbutton.button, 1);
+                }
                 break;
             case SDL_JOYBUTTONUP:
-                retval = sdljoy_button_event(e.jbutton.which, e.jbutton.button, 0);
+                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+                if (joynum != -1) {
+                    retval = sdljoy_button_event(joynum, e.jbutton.button, 0);
+                }
                 break;
             case SDL_JOYHATMOTION:
-                retval = sdljoy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
+                joynum = sdljoy_get_joynum_for_event(e.jhat.which);
+                if (joynum != -1) {
+                    retval = sdljoy_hat_event(joynum, e.jhat.hat, e.jhat.value);
+                }
                 break;
 #ifdef USE_SDLUI2
             case SDL_JOYDEVICEADDED:
             case SDL_JOYDEVICEREMOVED:
-                retval = joy_sdl_rescan();
+                retval = sdljoy_rescan();
                 break;
 #endif
 #endif
