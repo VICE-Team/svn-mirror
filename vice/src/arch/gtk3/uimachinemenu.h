@@ -69,7 +69,11 @@ gboolean        ui_get_vice_menu_item_hotkey_by_name(const char *name,
                                                      GdkModifierType *modifier);
 GtkWidget *     ui_get_gtk_menu_item_by_name(const char *name);
 
-/* for 'live' changing of hotkeys, needs UI support */
+void            ui_set_gtk_menu_item_accel_label(GtkWidget *item,
+                                                 const char *action);
+
+
+/* for 'live' changing of hotkeys */
 GtkWidget *     ui_get_gtk_menu_item_by_hotkey(GdkModifierType mask, guint keyval);
 void            ui_clear_vice_menu_item_hotkeys(void);
 
