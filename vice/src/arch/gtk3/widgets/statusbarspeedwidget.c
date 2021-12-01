@@ -586,14 +586,20 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         }
         return;
     } else if (jammed) {
+        /* machine is not jammed, but was jammed before */
+        ui_display_statustext("", 0);
         jammed = false;
     }
 
     for (drv = 0; drv < NUM_DISK_UNITS; drv++) {
-        if (drive_is_jammed(drv) && (drivejammed[drv] == false)) {
-            drivejammed[drv] = true;
-            ui_display_statustext(drive_jam_reason(drv), 1);
-        } else {
+        if (drive_is_jammed(drv)) {
+            if (drivejammed[drv] == false) {
+                drivejammed[drv] = true;
+                ui_display_statustext(drive_jam_reason(drv), 0);
+            }
+        } else if (drivejammed[drv] == true) {
+            /* drive is not jammed, but was jammed before */
+            ui_display_statustext("", 0);
             drivejammed[drv] = false;
         }
     }
