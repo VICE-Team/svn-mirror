@@ -96,6 +96,7 @@ typedef struct acia_struct {
     uint8_t txdata;     /*!< data prepared to be send */
     uint8_t status;     /*!< value of the 6551 status register */
     uint8_t ectrl;      /*!< value of the extended control register of the turbo232 card */
+    uint8_t datamask;   /*!< Word length bitmask used on received and sent data */
     int alarm_active_tx;    /*!< 1 if TX alarm is set; else 0 */
     int alarm_active_rx;    /*!< 1 if RX alarm is set; else 0 */
 
@@ -163,7 +164,7 @@ typedef struct acia_struct {
 /******************************************************************/
 
 static acia_type acia = { NULL, NULL, 0, 0, 0, (enum acia_tx_state)0,
-                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0, 0, 0, 0xff, 0, 0, 0, 0, 0, 0, 0,
                           (enum cpu_int)0, 0, 0, (enum rs232handshake_out)0 };
 
 static void acia_preinit(void)
@@ -396,6 +397,10 @@ static void set_acia_ticks(void)
             break;
     }
 
+    /* set the data bitmask */
+
+    acia.datamask = 0xff >> (8 - bits);
+
     /*
      * we neglect the fact that we might have 1.5 stop bits instead of 2
      *
@@ -600,13 +605,11 @@ static void acia_set_handshake_lines(void)
                 acia.alarm_active_rx = 1;
                 set_acia_ticks();
             }
-            /* start tx if byte in DR */
-            if (acia.in_tx == ACIA_TX_STATE_DR_WRITTEN) {
-                if (acia.alarm_active_tx == 0) {
-                        acia.alarm_clk_tx = myclk + 1;
-                        alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
-                        acia.alarm_active_tx = 1;
-                }
+            /* start tx alarm */
+            if (acia.alarm_active_tx == 0) {
+                    acia.alarm_clk_tx = myclk + 1;
+                    alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
+                    acia.alarm_active_tx = 1;
             }
             break;
     }
@@ -937,7 +940,7 @@ void myacia_store(uint16_t addr, uint8_t byte)
                 }
                 DEBUG_LOG_MESSAGE((acia.log, "DR write at %d: 0x%02x", myclk, acia.txdata));
                 acia.in_tx = ACIA_TX_STATE_DR_WRITTEN;
-                if ((acia.alarm_active_rx == 1) && (acia.alarm_active_tx == 0)) {
+                if ((acia.alarm_active_tx == 0)) {
                     acia.alarm_clk_tx = myclk + 1;
                     alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
                     acia.alarm_active_tx = 1;
@@ -980,6 +983,13 @@ void myacia_store(uint16_t addr, uint8_t byte)
                 /* enable RX alarm */
                 acia.alarm_active_rx = 1;
                 set_acia_ticks();
+                /* Set Tx alarm if Tx IRQs are enabled */
+                if ((acia.cmd & ACIA_CMD_BITS_TRANSMITTER_MASK) == ACIA_CMD_BITS_TRANSMITTER_TX_WITH_IRQ) {
+                    acia.alarm_clk_tx = myclk + 1;
+                    alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
+                    acia.alarm_active_tx = 1;
+                    acia.in_tx = ACIA_TX_STATE_NO_TRANSMIT;
+                }
             } else
             if ((acia.fd >= 0) && !(acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ) && !rs232_useip232[acia.device]) {
                 rs232drv_close(acia.fd);
@@ -1141,16 +1151,17 @@ static void int_acia_tx(CLOCK offset, void *data)
     assert(data == NULL);
 
     if ((acia.in_tx == ACIA_TX_STATE_DR_WRITTEN) && (acia.fd >= 0)) {
-        rs232drv_putc(acia.fd, acia.txdata);
+        rs232drv_putc(acia.fd, acia.txdata & acia.datamask);
 
         /* tell the status register that the transmit register is empty */
         acia.status |= ACIA_SR_BITS_TRANSMIT_DR_EMPTY;
+    }
 
-        /* generate an interrupt if the ACIA was programmed to generate one */
-        if ((acia.cmd & ACIA_CMD_BITS_TRANSMITTER_MASK) == ACIA_CMD_BITS_TRANSMITTER_TX_WITH_IRQ) {
-            acia_set_int(acia.irq_type, acia.int_num, acia.irq_type);
-            acia.irq = 1;
-        }
+    /* generate an interrupt if the ACIA was programmed to generate one */
+    /* interrupt will occur everytime even if no data was transmitted */
+    if ((acia.cmd & ACIA_CMD_BITS_TRANSMITTER_MASK) == ACIA_CMD_BITS_TRANSMITTER_TX_WITH_IRQ) {
+        acia_set_int(acia.irq_type, acia.int_num, acia.irq_type);
+        acia.irq = 1;
     }
 
     if (acia.in_tx != ACIA_TX_STATE_NO_TRANSMIT) {
@@ -1161,7 +1172,7 @@ static void int_acia_tx(CLOCK offset, void *data)
         acia.in_tx--;
     }
 
-    if (acia.in_tx != ACIA_TX_STATE_NO_TRANSMIT) {
+    if ((acia.in_tx != ACIA_TX_STATE_NO_TRANSMIT) || ((acia.cmd & ACIA_CMD_BITS_TRANSMITTER_MASK) == ACIA_CMD_BITS_TRANSMITTER_TX_WITH_IRQ)) {
         /* re-schedule alarm */
         acia.alarm_clk_tx = myclk + acia.ticks;
         alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
@@ -1219,7 +1230,7 @@ static void int_acia_rx(CLOCK offset, void *data)
         /* Datasheet (https://downloads.reactivemicro.com/Electronics/Interface%20Adapters/R65C51.pdf)
          * says that new data is discarded on overrun */
         if (!(acia.status & ACIA_SR_BITS_RECEIVE_DR_FULL)) {
-            acia.rxdata = received_byte;
+            acia.rxdata = received_byte & acia.datamask;
         } else {
             acia.status |= ACIA_SR_BITS_OVERRUN_ERROR;
             DEBUG_LOG_MESSAGE((acia.log, "Overrun! Discarding received byte",
@@ -1239,7 +1250,7 @@ static void int_acia_rx(CLOCK offset, void *data)
     if (acia.alarm_active_rx == 1) {
         acia.alarm_clk_rx = myclk + acia.ticks;
         alarm_set(acia.alarm_rx, acia.alarm_clk_rx);
-        acia.alarm_active_rx = 1;
+        /*acia.alarm_active_rx = 1;*/
     } else {
         alarm_unset(acia.alarm_rx);
     }
