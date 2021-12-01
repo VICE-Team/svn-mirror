@@ -450,15 +450,18 @@ int sdljoy_rescan(void)
                     sdljoystick[i].input[j] = NULL;
                 }
             }
-            
-            joy_arch_init_default_mapping(i);
+
+            /* only use default mapping if previously there were no joysticks found */
+            if (num_joysticks_old == 0) {
+                joy_arch_init_default_mapping(i);
+            }
 
             log_message(sdljoy_log, "Device %i \"%s\" (%i axes, %i buttons, %i hats, %i balls)", i, sdljoystick[i].name, axis, button, hat, ball);
         } else {
             log_warning(sdljoy_log, "Couldn't open joystick %i", i);
         }
     }
-    
+
     joy_arch_mapping_load(joymap_file);
 
     /* copy over input mapping customisations from this session */
