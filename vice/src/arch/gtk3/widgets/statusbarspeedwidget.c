@@ -616,7 +616,7 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         /* get grid containing the two labels */
         grid = gtk_bin_get_child(GTK_BIN(widget));
 
-        /* get CPU/Warp label and update its text */
+        /* get CPU label and update its text */
         label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
 
         g_snprintf(buffer,
@@ -666,7 +666,7 @@ void statusbar_speed_widget_update(GtkWidget *widget,
                 grid = gtk_bin_get_child(GTK_BIN(widget));
             }
 
-            /* get FPS/Pause label and update its text */
+            /* get FPS label and update its text */
             label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
 
             g_snprintf(buffer,
