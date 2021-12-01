@@ -42,6 +42,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "statusbarledwidget.h"
 #include "uiapi.h"
 #include "ui.h"
 #include "uiactions.h"
@@ -417,7 +418,12 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     GtkWidget *grid;
     GtkWidget *label_cpu;
     GtkWidget *label_fps;
+#if 0
     GtkWidget *label_status;
+#endif
+    GtkWidget *led_warp;
+    GtkWidget *led_pause;
+    GtkWidget *wrapper;
     PangoContext *context;
     const PangoFontDescription *desc_static;
     PangoFontDescription *desc;
@@ -460,11 +466,22 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     pango_font_description_free(desc);
     gtk_widget_set_halign(label_fps, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label_fps, 0, 1, 1, 1);
-
+#if 0
     /* label for pause/warp and perhaps CPU jam */
     label_status = gtk_label_new("");
     gtk_widget_set_halign(label_status, GTK_ALIGN_CENTER);
     gtk_grid_attach(GTK_GRID(grid), label_status, 0, 2, 1, 1);
+#endif
+    /* warp mode and pause LEDs */
+    wrapper = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
+    led_warp = statusbar_led_widget_create("warp:", "#00ff00", "#000");
+    gtk_widget_set_halign(led_warp, GTK_ALIGN_START);
+    led_pause = statusbar_led_widget_create("pause:", "#00ff00", "#000");
+    gtk_widget_set_halign(led_pause, GTK_ALIGN_END);
+    gtk_grid_attach(GTK_GRID(wrapper), led_warp, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), led_pause, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 2, 1, 1);
 
     /* create event box to capture mouse clicks to spawn popup menus */
     event_box = gtk_event_box_new();
@@ -532,11 +549,11 @@ void statusbar_speed_widget_update(GtkWidget *widget,
     double vsync_metric_emulated_fps;
     int vsync_metric_warp_enabled;
     tick_t now;
-    
+
     /*
      * FIXME: Don't redraw too often, as it will trigger layout issues and slow joystick widget redraw
      */
-    
+
     now = tick_now();
     if (now - state->last_render_tick < tick_per_second() / 5) {
         return;
@@ -593,6 +610,8 @@ void statusbar_speed_widget_update(GtkWidget *widget,
     bool is_paused = ui_pause_active();
 
     if (state->last_cpu_int != this_cpu_int || state->last_warp != vsync_metric_warp_enabled || state->last_paused != is_paused) {
+        GtkWidget *wrapper;
+        GtkWidget *led;
 
         /* get grid containing the two labels */
         grid = gtk_bin_get_child(GTK_BIN(widget));
@@ -602,11 +621,11 @@ void statusbar_speed_widget_update(GtkWidget *widget,
 
         g_snprintf(buffer,
                    sizeof(buffer),
-                   "%9." STR(CPU_DECIMAL_PLACES) "f%% cpu",
+                   "%7." STR(CPU_DECIMAL_PLACES) "f%% cpu",
                    vsync_metric_cpu_percent);
 
         gtk_label_set_text(GTK_LABEL(label), buffer);
-
+#if 0
         /* update status label */
         label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
         if (!is_paused && !vsync_metric_warp_enabled) {
@@ -621,6 +640,18 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         } else {
             /* pause and warp */
             gtk_label_set_text(GTK_LABEL(label), "[Paused] [Warp]");
+        }
+#endif
+        wrapper = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+        /* warp */
+        if (state->last_warp != vsync_metric_warp_enabled) {
+            led = gtk_grid_get_child_at(GTK_GRID(wrapper), 0, 0);
+            statusbar_led_widget_set_active(led, vsync_metric_warp_enabled);
+        }
+        /* pause */
+        if (state->last_paused != is_paused) {
+            led = gtk_grid_get_child_at(GTK_GRID(wrapper), 1, 0);
+            statusbar_led_widget_set_active(led, is_paused);
         }
 
         state->last_cpu_int = this_cpu_int;
@@ -640,7 +671,7 @@ void statusbar_speed_widget_update(GtkWidget *widget,
 
             g_snprintf(buffer,
                        sizeof(buffer),
-                       "%10." STR(FPS_DECIMAL_PLACES) "f fps",
+                       "%8." STR(FPS_DECIMAL_PLACES) "f fps",
                        vsync_metric_emulated_fps);
 
             gtk_label_set_text(GTK_LABEL(label), buffer);
