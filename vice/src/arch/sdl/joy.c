@@ -462,7 +462,10 @@ int sdljoy_rescan(void)
         }
     }
 
-    joy_arch_mapping_load(joymap_file);
+    /* only load joy map file if previously there were no joysticks found */
+    if (num_joysticks_old == 0) {
+        joy_arch_mapping_load(joymap_file);
+    }
 
     /* copy over input mapping customisations from this session */
     for (i = 0; i < num_joysticks; ++i) {
