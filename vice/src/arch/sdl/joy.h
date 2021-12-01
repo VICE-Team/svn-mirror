@@ -62,10 +62,8 @@ extern char *get_joy_pin_mapping_string(int joy, int pin);
 extern char *get_joy_pot_mapping_string(int joynr, int pot);
 extern void sdljoy_delete_pin_mapping(int port, int pin);
 extern void sdljoy_delete_pot_mapping(int port, int pot);
-
-#ifdef USE_SDLUI2
-extern int joy_sdl_rescan(void);
-#endif
+extern int sdljoy_get_joynum_for_event(Uint8 event_device_id);
+extern int sdljoy_rescan(void);
 
 #endif
 
