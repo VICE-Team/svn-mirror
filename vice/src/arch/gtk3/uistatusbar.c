@@ -81,9 +81,11 @@
 #include "types.h"
 #include "ui.h"
 #include "uiapi.h"
+#include "uiactions.h"
 #include "uidatasette.h"
 #include "uidiskattach.h"
 #include "uifliplist.h"
+#include "uimachinemenu.h"
 #include "uisettings.h"
 #include "userport/userport_joystick.h"
 #include "vice_gtk3.h"
@@ -922,6 +924,26 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
         tape_menu = bar.tape_menu[tape_index];
 
         if (tape_status != NULL && tape_menu != NULL) {
+            GList *children;
+            GList *child;
+            const char *action;
+
+            /* Set accelerators for attach/detach items
+             *
+             * Needs to happen here since the tape menus are created on status
+             * bar initialization and the hotkeys can change in the mean time.
+             */
+            child = children = gtk_container_get_children(GTK_CONTAINER(tape_menu));
+
+            action = port == 1 ? ACTION_TAPE_ATTACH_1 : ACTION_TAPE_ATTACH_2;
+            ui_set_gtk_menu_item_accel_label(GTK_WIDGET(child->data), action);
+
+            child = child->next;
+            action = port == 1 ? ACTION_TAPE_DETACH_1 : ACTION_TAPE_DETACH_2;
+            ui_set_gtk_menu_item_accel_label(GTK_WIDGET(child->data), action);
+
+            g_list_free(children);
+
             ui_datasette_update_sensitive(tape_menu, port);
             gtk_menu_popup_at_widget(GTK_MENU(tape_menu),
                                      tape_status,
