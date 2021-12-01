@@ -140,6 +140,10 @@ struct sdljoystick_mapping_s {
 };
 typedef struct sdljoystick_mapping_s sdljoystick_mapping_t;
 
+#ifndef USE_SDLUI2
+typedef int SDL_JoystickID;
+#endif
+
 struct sdljoystick_s {
     SDL_Joystick *joyptr;
     char *name;
@@ -391,9 +395,13 @@ int sdljoy_rescan(void)
     /* close all joysticks */
     for (i = 0; i < num_joysticks; ++i) {
         if (sdljoystick[i].joyptr) {
+#ifdef USE_SDLUI2
             if (SDL_JoystickGetAttached(sdljoystick[i].joyptr)) {
                 SDL_JoystickClose(sdljoystick[i].joyptr);
             }
+#else
+            SDL_JoystickClose(sdljoystick[i].joyptr);
+#endif
         }
     }
 
@@ -423,8 +431,13 @@ int sdljoy_rescan(void)
     for (i = 0; i < num_joysticks; ++i) {
         joy = sdljoystick[i].joyptr = SDL_JoystickOpen(i);
         if (joy) {
+#ifdef USE_SDLUI2
             sdljoystick[i].name = lib_strdup(SDL_JoystickName(sdljoystick[i].joyptr));
             sdljoystick[i].joystickid = SDL_JoystickInstanceID(joy);
+#else
+            sdljoystick[i].name = lib_strdup(SDL_JoystickName(i));
+            sdljoystick[i].joystickid = SDL_JoystickIndex(joy);
+#endif
             axis = sdljoystick[i].input_max[AXIS] = SDL_JoystickNumAxes(joy);
             button = sdljoystick[i].input_max[BUTTON] = SDL_JoystickNumButtons(joy);
             hat = sdljoystick[i].input_max[HAT] = SDL_JoystickNumHats(joy);
