@@ -175,6 +175,7 @@ libwidgets_a_SOURCES = \
 	soundoutputmodewidget.c \
 	soundsampleratewidget.c \
 	speedwidget.c \
+	statusbarledwidget.c \
 	statusbarrecordingwidget.c \
 	statusbarspeedwidget.c \
 	superpetwidget.c \
@@ -337,6 +338,7 @@ EXTRA_DIST = \
 	soundoutputmodewidget.h \
 	soundsampleratewidget.h \
 	speedwidget.h \
+	statusbarledwidget.h \
 	statusbarrecordingwidget.h \
 	statusbarspeedwidget.h \
 	superpetwidget.h \
