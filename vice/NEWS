@@ -311,6 +311,10 @@ We welcome to the team:
 
 - New SDL2 dual window support (VDC in x128).
 
+- New automatic SDL2 host joystick hot-plug rescan.
+
+- New SDL2 rescan host joysticks menu item.
+
 - Removed unneeded items from some SDL menus.
 
 - New D67 image creation menu items.
