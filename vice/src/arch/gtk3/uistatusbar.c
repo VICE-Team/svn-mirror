@@ -3068,11 +3068,6 @@ static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
 
     mainlock_assert_is_not_vice_thread();
 
-    debug_gtk3("getting child of %p, GTK_IS_WINDOW() = %d",
-            (const void*)window, GTK_IS_WINDOW(window));
-
-
-
     main_grid = gtk_bin_get_child(GTK_BIN(window));
     if (main_grid != NULL) {
         statusbar = gtk_grid_get_child_at(GTK_GRID(main_grid), 0, 2);
