@@ -1673,16 +1673,12 @@ void ui_create_main_window(video_canvas_t *canvas)
     ui_set_gtk_check_menu_item_blocked_by_name(ACTION_WARP_MODE_TOGGLE,
                                                vsync_get_warp_mode());
 
-    /* VSID doesn't have the keyboard debugging widget on the statusbar
-     *
-     * But it's still added, so disable always. Probably a big FIXME
-     */
     if (machine_class != VICE_MACHINE_VSID) {
 
         if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
             kbd_status = 0;
         }
-        ui_statusbar_set_kbd_debug(kbd_status);
+        ui_statusbar_set_kbd_debug_for_window(new_window, kbd_status);
     }
 
     if (grid != NULL) {
