@@ -450,6 +450,8 @@ int sdljoy_rescan(void)
                     sdljoystick[i].input[j] = NULL;
                 }
             }
+            
+            joy_arch_init_default_mapping(i);
 
             log_message(sdljoy_log, "Device %i \"%s\" (%i axes, %i buttons, %i hats, %i balls)", i, sdljoystick[i].name, axis, button, hat, ball);
         } else {
