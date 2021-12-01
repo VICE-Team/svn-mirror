@@ -1565,3 +1565,28 @@ gboolean ui_get_vice_menu_item_hotkey_by_name(const char *name,
     *modifier = 0;
     return FALSE;
 }
+
+
+/** \brief  Set accelator label according to the related main menu item
+ *
+ * Doesn't actually add an active accelerator, just the formatted label, the
+ * actual keypress is handled by the related main menu item.
+ *
+ * Used to set popup menu item accelerators that trigger an action also present
+ * as a main menu item.
+ *
+ * \param[in]   item    popup menu item
+ * \param[in]   action  UI action name
+ *
+ * \see     uiactions.h for action names
+ */
+void ui_set_gtk_menu_item_accel_label(GtkWidget *item, const char *action)
+{
+    GtkWidget *accel_label;
+    guint keysym;
+    GdkModifierType modifier;
+
+    accel_label = gtk_bin_get_child(GTK_BIN(item));
+    ui_get_vice_menu_item_hotkey_by_name(action, &keysym, &modifier);
+    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(accel_label), keysym, modifier);
+}

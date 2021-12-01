@@ -111,7 +111,6 @@ static void on_mousegrab_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-
 /** \brief  Handler for the 'activate' event of "Swap controlport joysticks"
  *
  * \param[in]   widget  widget triggering the event (unused)
@@ -120,30 +119,6 @@ static void on_mousegrab_toggled(GtkWidget *widget, gpointer data)
 static void on_swap_controlport_toggled(GtkWidget *widget, gpointer data)
 {
     ui_action_toggle_controlport_swap();
-}
-
-
-/** \brief  Set accelator label according to the related main menu item
- *
- * Doesn't actually add an active accelerator, just the formatted label, the
- * actual keypress is handled by the related main menu item.
- *
- * \param[in]   item    popup menu item
- * \param[in]   action  UI action name
- *
- * \see     uiactions.h for action names
- *
- * \todo    Rename and move, make usable for other popup menus as well
- */
-static void set_item_accelerator_label(GtkWidget *item, const char *action)
-{
-    GtkWidget *accel_label;
-    guint keysym;
-    GdkModifierType modifier;
-
-    accel_label = gtk_bin_get_child(GTK_BIN(item));
-    ui_get_vice_menu_item_hotkey_by_name(action, &keysym, &modifier);
-    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(accel_label), keysym, modifier);
 }
 
 
@@ -163,7 +138,7 @@ GtkWidget *joystick_menu_popup_create(void)
     if (joystick_swap_possible()) {
         /* Swap joysticks */
         item = gtk_check_menu_item_new_with_label("Swap joysticks");
-        set_item_accelerator_label(item, ACTION_SWAP_CONTROLPORT_TOGGLE);
+        ui_set_gtk_menu_item_accel_label(item, ACTION_SWAP_CONTROLPORT_TOGGLE);
         gtk_container_add(GTK_CONTAINER(menu), item);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
                                        ui_get_controlport_swapped());
@@ -173,7 +148,7 @@ GtkWidget *joystick_menu_popup_create(void)
 
     /* Enable keyset joysticks */
     item = gtk_check_menu_item_new_with_label("Allow keyset joysticks");
-    set_item_accelerator_label(item, ACTION_KEYSET_JOYSTICK_TOGGLE);
+    ui_set_gtk_menu_item_accel_label(item, ACTION_KEYSET_JOYSTICK_TOGGLE);
     resources_get_int("KeySetEnable", &keyset);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)keyset);
     gtk_container_add(GTK_CONTAINER(menu), item);
@@ -181,7 +156,7 @@ GtkWidget *joystick_menu_popup_create(void)
 
     /* Enable mouse grab */
     item = gtk_check_menu_item_new_with_label("Enable mouse grab");
-    set_item_accelerator_label(item, ACTION_MOUSE_GRAB_TOGGLE);
+    ui_set_gtk_menu_item_accel_label(item, ACTION_MOUSE_GRAB_TOGGLE);
     resources_get_int("Mouse", &mouse);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)mouse);
     gtk_container_add(GTK_CONTAINER(menu), item);
