@@ -68,7 +68,7 @@ static int autorepeat_delay;
 static char *joymap_file = NULL;
 
 /* Total number of joysticks */
-static int num_joysticks;
+static int num_joysticks = 0;
 
 /* Joystick threshold (0..32767) */
 static int joystick_threshold;
