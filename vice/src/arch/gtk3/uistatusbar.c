@@ -3090,6 +3090,13 @@ static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
 }
 
 
+/** \brief  Show/hide the keyboard debugging widget on the status bar
+ *
+ * Show/hide the keyboard debugging widget on the status bar of a single window.
+ *
+ * \param[in]   window  main window instance
+ * \param[in]   state   visible state
+ */
 void ui_statusbar_set_kbd_debug_for_window(GtkWidget *window, gboolean state)
 {
     mainlock_assert_is_not_vice_thread();
@@ -3098,7 +3105,10 @@ void ui_statusbar_set_kbd_debug_for_window(GtkWidget *window, gboolean state)
 }
 
 
-/** \brief  Show/hide the keyboard debugging widget on the statusbar
+/** \brief  Show/hide the keyboard debugging widget on the status bar
+ *
+ * Show/hide the keyboard debugging widget on the status bar (of both windows
+ * in the case of x128).
  *
  * \param[in]   state   visible state
  *
