@@ -3068,6 +3068,11 @@ static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
 
     mainlock_assert_is_not_vice_thread();
 
+    debug_gtk3("getting child of %p, GTK_IS_WINDOW() = %d",
+            (const void*)window, GTK_IS_WINDOW(window));
+
+
+
     main_grid = gtk_bin_get_child(GTK_BIN(window));
     if (main_grid != NULL) {
         statusbar = gtk_grid_get_child_at(GTK_GRID(main_grid), 0, 2);
@@ -3085,9 +3090,19 @@ static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
 }
 
 
+void ui_statusbar_set_kbd_debug_for_window(GtkWidget *window, gboolean state)
+{
+    mainlock_assert_is_not_vice_thread();
+
+    kbd_statusbar_widget_enable(window, state);
+}
+
+
 /** \brief  Show/hide the keyboard debugging widget on the statusbar
  *
  * \param[in]   state   visible state
+ *
+ * \note    Only call from a finalized UI.
  */
 void ui_statusbar_set_kbd_debug(gboolean state)
 {
@@ -3098,18 +3113,11 @@ void ui_statusbar_set_kbd_debug(gboolean state)
     /* standard VIC/VICII/TED/CRTC window */
     window = ui_get_window_by_index(0);
     kbd_statusbar_widget_enable(window, state);
-    /* reduce window size so we don't have weird extra lines */
-#if 0
-    gtk_window_resize(GTK_WINDOW(window), 1, 1);
-#endif
 
     /* C128: Handle the VDC */
     if (machine_class == VICE_MACHINE_C128) {
         window = ui_get_window_by_index(1); /* VDC */
         kbd_statusbar_widget_enable(window, state);
-#if 0
-        gtk_window_resize(GTK_WINDOW(window), 1, 1);
-#endif
     }
 }
 
