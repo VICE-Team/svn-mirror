@@ -827,10 +827,12 @@ static ui_menu_item_t settings_menu_joy_swap[] = {
 };
 /* }}} */
 
-/* {{{ settings_menu_tail[] */
-/** \brief  'Settings' menu tail section
+/* {{{ settings_menu_non_vsid[] */
+/** \brief  'Settings' menu section before the tail section
+ *
+ * Only valid for non-VSID
  */
-static ui_menu_item_t settings_menu_tail[] = {
+static ui_menu_item_t settings_menu_non_vsid[] = {
     /* Needs to go here to avoid duplicate action names */
     { "Allow keyset joysticks", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_KEYSET_JOYSTICK_TOGGLE,
@@ -838,7 +840,15 @@ static ui_menu_item_t settings_menu_tail[] = {
       GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
 
     UI_MENU_SEPARATOR,
-    /* the settings dialog */
+    UI_MENU_TERMINATOR
+};
+/* }}} */
+
+/* {{{ settings_menu_tail[] */
+/** \brief  'Settings' menu tail section
+ */
+static ui_menu_item_t settings_menu_tail[] = {
+   /* the settings dialog */
     { "Settings ...", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_SETTINGS_DIALOG, ui_settings_dialog_create_and_activate_node_callback, NULL,
       GDK_KEY_O, VICE_MOD_MASK, true },
@@ -1036,6 +1046,7 @@ static ui_menu_ref_t menu_references[] = {
     /* Settings */
     { "settings-section-head",              settings_menu_head },
     { "settings-section-joy-swap",          settings_menu_joy_swap },
+    { "settings-section-non-vsid",          settings_menu_non_vsid },
     { "settings-section-tail",              settings_menu_tail },
 
     /* Debug */
@@ -1186,6 +1197,9 @@ GtkWidget *ui_machine_menu_bar_create(void)
     ui_menu_add(settings_submenu, settings_menu_head);
     if (settings_menu_joy_section != NULL) {
         ui_menu_add(settings_submenu, settings_menu_joy_section);
+    }
+    if (machine_class != VICE_MACHINE_VSID) {
+        ui_menu_add(settings_submenu, settings_menu_non_vsid);
     }
     ui_menu_add(settings_submenu, settings_menu_tail);
 
@@ -1463,7 +1477,14 @@ gboolean ui_set_vice_menu_item_hotkey_by_name(const char *name,
  */
 GtkWidget *ui_get_gtk_menu_item_by_name(const char *name)
 {
-    GList *node = gtk_container_get_children(GTK_CONTAINER(main_menu_bar));
+    GList *node;
+
+    if (main_menu_bar == NULL) {
+        /* XXX: Happens with VSID for some reason, needs proper fix. */
+        debug_gtk3("FIXME: main_menu_bar == NULL.");
+        return NULL;
+    }
+    node = gtk_container_get_children(GTK_CONTAINER(main_menu_bar));
 
 #if 0
     debug_gtk3("Iterating menu main bar children.");

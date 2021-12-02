@@ -38,6 +38,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
+#include "debug_gtk3.h"
 #include "debug.h"
 #include "lib.h"
 #include "machine.h"
@@ -278,6 +279,12 @@ void ui_vsid_tune_menu_set_tune_count(int count) {
     GtkWidget *item = NULL;
     long i;
     char *buf;
+
+
+    if (tune_submenu == NULL || !GTK_IS_CONTAINER(tune_submenu)) {
+        debug_gtk3("tune_submenu invalid.");
+        return;
+    }
 
     gtk_container_foreach(GTK_CONTAINER(tune_submenu), remove_item_from_menu, NULL);
     for (i = count; i >0; i--) {
