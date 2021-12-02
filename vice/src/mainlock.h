@@ -34,6 +34,7 @@
 
 #include <pthread.h>
 #include <stdbool.h>
+#include <assert.h>
 
 void mainlock_init(void);
 void mainlock_initiate_shutdown(void);
@@ -47,11 +48,10 @@ void mainlock_release(void);
 
 bool mainlock_is_vice_thread(void);
 
-void mainlock_assert_is_not_vice_thread(void);
+#define mainlock_assert_is_not_vice_thread() assert(!mainlock_is_vice_thread())
 
 #else
 
-#include <assert.h>
 
 #define mainlock_assert_is_not_vice_thread()
 #define mainlock_yield()
