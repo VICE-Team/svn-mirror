@@ -1233,7 +1233,6 @@ bool sound_flush()
 {
     int c, i, nr, space;
     char *state;
-    bool yielded = false;
     
     if (!playback_enabled) {
         if (sdev_open) {
@@ -1313,7 +1312,6 @@ bool sound_flush()
             }
 
             mainlock_yield_begin();
-            yielded = true;
             
             /* Flush buffer, all channels are already mixed into it. */
             if (snddata.playdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
@@ -1339,7 +1337,6 @@ bool sound_flush()
         
         /* We can't write yet, try again after a minimal sleep. */
         tick_sleep(tick_per_second() / 1000);
-        yielded = true;
     }
 
     snddata.bufptr -= nr;
@@ -1358,16 +1355,11 @@ bool sound_flush()
     
 done:
 
-    if (!yielded) {
-        /* If we haven't yielded here, the UI will get stuck trying to obtain the mainlock */
-        mainlock_yield();
-    }
-
     /*
      * If the sound device is not a timing source, then we need
      * the host to sleep to sync time with the emulator.
      */
-    
+
     return !sound_is_timing_source;
 }
 

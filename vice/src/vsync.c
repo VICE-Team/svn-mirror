@@ -518,11 +518,11 @@ void vsync_do_end_of_line(void)
 
     /* is it time to consider keyboard, joystick ? */
     if (tick_delta >= tick_between_sync) {
-
-        /* deal with user input */
-        joystick();
         
-        if (!warp_enabled) {
+        if (warp_enabled) {
+            /* During warp we need to periodically allow the UI a chance with the mainlock */
+            tick_sleep(1);
+        } else {
             /*
              * Compare the emulated time vs host time.
              *
@@ -572,6 +572,9 @@ void vsync_do_end_of_line(void)
                 sync_reset = true;
             }
         }
+        
+        /* deal with pending user input */
+        joystick();
 
         last_sync_tick = tick_now;
         last_sync_clk = main_cpu_clock;
