@@ -89,6 +89,8 @@ We welcome to the team:
 - when mounting Dxx GCR images, add a reasonable skew per track to make the
   disk layout a bit more realistic
 
+- Remove tearing in screenshots.
+
 
 ** build system
 ---------------
