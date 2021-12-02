@@ -44,11 +44,14 @@ else
   exit 1
 fi
 
+CPU_ARCH=$(uname -m)
+
 echo "Generating macOS binary distribution."
 echo "  UI type: $UI_TYPE"
+echo " CPU arch: $CPU_ARCH"
 
 # setup BUILD dir
-BUILD_DIR=$(echo "vice-$UI_TYPE-$VICE_VERSION" | tr '[:upper:]' '[:lower:]')
+BUILD_DIR=$(echo "vice-$CPU_ARCH-$UI_TYPE-$VICE_VERSION" | tr '[:upper:]' '[:lower:]')
 
 SVN_VERSION=$(svn info --show-item revision "$TOP_DIR" 2>/dev/null || true)
 if [[ ! -z "$SVN_VERSION" ]]; then
