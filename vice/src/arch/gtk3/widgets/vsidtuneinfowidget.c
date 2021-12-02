@@ -545,8 +545,8 @@ GtkWidget *vsid_tune_info_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), author_widget, 1, row, 1, 1);
     row++;
 
-    /* copyright */
-    label = create_left_aligned_label("(C):");
+    /* copyright (now called "released" according to HVSC people */
+    label = create_left_aligned_label("Released:");
     copyright_widget = create_readonly_entry();
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), copyright_widget, 1, row, 1, 1);
