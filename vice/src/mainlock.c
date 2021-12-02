@@ -172,12 +172,6 @@ bool mainlock_is_vice_thread(void)
 }
 
 
-void mainlock_assert_is_not_vice_thread(void)
-{
-    assert(!mainlock_is_vice_thread());
-}
-
-
 void mainlock_release(void)
 {
     pthread_mutex_unlock(&lock);
