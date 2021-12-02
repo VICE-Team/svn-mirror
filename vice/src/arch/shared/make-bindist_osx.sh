@@ -572,7 +572,7 @@ done
 if [ "$UI_TYPE" = "GTK3" ]; then
   # --- copy vice.gresource ---
   echo "  copying vice.gresource"
-  cp /data/common/vice.gresource "$APP_COMMON/"
+  cp data/common/vice.gresource "$APP_COMMON/"
 
   # --- copy hotkeys files ---
   cp "$TOP_DIR/data/common/"*.vhk "$APP_COMMON/"
