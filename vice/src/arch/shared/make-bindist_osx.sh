@@ -44,7 +44,7 @@ else
   exit 1
 fi
 
-CPU_ARCH=$(uname -m)
+CPU_ARCH=$(uname -m | tr _ -)
 
 echo "Generating macOS binary distribution."
 echo "  UI type: $UI_TYPE"
