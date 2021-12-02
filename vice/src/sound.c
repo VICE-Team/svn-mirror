@@ -740,6 +740,17 @@ static int sound_error(const char *msg)
     return 1;
 }
 
+
+/* close sid device and show error dialog */
+static int sound_error_log_only(const char *msg)
+{
+    sound_close();
+    log_message(sound_log, "%s", msg);
+    playback_enabled = 0;
+
+    return 1;
+}
+
 static int16_t *temp_buffer = NULL;
 static int temp_buffer_size = 0;
 
@@ -1151,7 +1162,7 @@ static int sound_run_sound(void)
                                              snddata.sound_chip_channels,
                                              &delta_t);
         if (delta_t) {
-            sound_error("Sound buffer overflow (cycle based)");
+            sound_error_log_only("Sound buffer overflow (cycle based)");
             return -1;
 #if 0
             if (overflow_warning_count < 25) {
