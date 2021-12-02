@@ -156,7 +156,7 @@ int main_program(int argc, char **argv)
     for (i = 1; i < argc; i++) {
         if ((!strcmp(argv[i], "-console")) || (!strcmp(argv[i], "--console"))) {
             console_mode = 1;
-            video_disabled_mode = 1;
+            /* video_disabled_mode = 1;  Breaks exitscreenshot */
         } else
         if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
             if ((i + 1) < argc) {
@@ -341,7 +341,7 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
-    if (!console_mode && video_init() < 0) {
+    if (/*!console_mode && */video_init() < 0) {
         return -1;
     }
 
