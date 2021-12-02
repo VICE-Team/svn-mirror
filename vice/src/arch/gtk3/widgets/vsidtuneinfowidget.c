@@ -34,11 +34,12 @@
 
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
-#include "machine.h"
+#include "hvsc.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
+#include "mainlock.h"
 #include "util.h"
-#include "hvsc.h"
 #include "vsidcontrolwidget.h"
 
 #include "vsidtuneinfowidget.h"
@@ -618,6 +619,8 @@ void vsid_tune_info_widget_set_name(const char *name)
 {
     char *utf8;
 
+    mainlock_assert_is_not_vice_thread();
+
     utf8 = convert_to_utf8(name);
     gtk_label_set_text(GTK_LABEL(name_widget), utf8);
     g_free(utf8);
@@ -631,6 +634,8 @@ void vsid_tune_info_widget_set_name(const char *name)
 void vsid_tune_info_widget_set_author(const char *name)
 {
     char *utf8;
+
+    mainlock_assert_is_not_vice_thread();
 
     utf8 = convert_to_utf8(name);
     gtk_label_set_text(GTK_LABEL(author_widget), utf8);
@@ -646,6 +651,8 @@ void vsid_tune_info_widget_set_copyright(const char *name)
 {
     char *utf8;
 
+    mainlock_assert_is_not_vice_thread();
+
     utf8 = convert_to_utf8(name);
     gtk_label_set_text(GTK_LABEL(copyright_widget), utf8);
     g_free(utf8);
@@ -658,6 +665,8 @@ void vsid_tune_info_widget_set_copyright(const char *name)
  */
 void vsid_tune_info_widget_set_tune_count(int num)
 {
+    mainlock_assert_is_not_vice_thread();
+
     tune_count = num;
     update_tune_num_widget();
 }
@@ -669,6 +678,8 @@ void vsid_tune_info_widget_set_tune_count(int num)
  */
 void vsid_tune_info_widget_set_tune_default(int num)
 {
+    mainlock_assert_is_not_vice_thread();
+
     tune_default = num;
     update_tune_num_widget();
 }
@@ -680,6 +691,8 @@ void vsid_tune_info_widget_set_tune_default(int num)
  */
 void vsid_tune_info_widget_set_tune_current(int num)
 {
+    mainlock_assert_is_not_vice_thread();
+
     tune_current = num;
     update_tune_num_widget();
 }
@@ -691,17 +704,8 @@ void vsid_tune_info_widget_set_tune_current(int num)
  */
 void vsid_tune_info_widget_set_model(int model)
 {
+    mainlock_assert_is_not_vice_thread();
     update_model_widget(model);
-}
-
-
-/** \brief  Set sync factor
- *
- * \param[in]   sync    sync factor (0 = 60Hz/NTSC, 1 = 50Hz/PAL)
- */
-void vsid_tune_info_widget_set_sync(int sync)
-{
-    update_sync_widget(sync);
 }
 
 
@@ -711,7 +715,19 @@ void vsid_tune_info_widget_set_sync(int sync)
  */
 void vsid_tune_info_widget_set_irq(const char *irq)
 {
+    mainlock_assert_is_not_vice_thread();
     update_irq_widget(irq);
+}
+
+
+/** \brief  Set sync factor
+ *
+ * \param[in]   sync    sync factor (0 = 60Hz/NTSC, 1 = 50Hz/PAL)
+ */
+void vsid_tune_info_widget_set_sync(int sync)
+{
+    mainlock_assert_is_not_vice_thread();
+    update_sync_widget(sync);
 }
 
 
@@ -736,6 +752,7 @@ void vsid_tune_info_widget_set_time(unsigned int dsec)
 void vsid_tune_info_widget_set_driver(const char *text)
 {
     /* NOP: replaced with separate driver parameter funcions */
+    debug_gtk3("Deprecated! use set_driver_addr(), set_load_addr() etc.");
 }
 
 
@@ -745,6 +762,7 @@ void vsid_tune_info_widget_set_driver(const char *text)
  */
 void vsid_tune_info_widget_set_driver_addr(uint16_t addr)
 {
+    mainlock_assert_is_not_vice_thread();
     driver_info_set_addr(DRV_INFO_DRIVER_ADDR, addr);
 }
 
@@ -755,6 +773,8 @@ void vsid_tune_info_widget_set_driver_addr(uint16_t addr)
  */
 void vsid_tune_info_widget_set_load_addr(uint16_t addr)
 {
+    mainlock_assert_is_not_vice_thread();
+
     load_addr = addr;   /* keep for calculating SID memory range */
     driver_info_set_addr(DRV_INFO_LOAD_ADDR, addr);
 
@@ -774,6 +794,7 @@ void vsid_tune_info_widget_set_load_addr(uint16_t addr)
  */
 void vsid_tune_info_widget_set_init_addr(uint16_t addr)
 {
+    mainlock_assert_is_not_vice_thread();
     driver_info_set_addr(DRV_INFO_INIT_ADDR, addr);
 }
 
@@ -784,6 +805,7 @@ void vsid_tune_info_widget_set_init_addr(uint16_t addr)
  */
 void vsid_tune_info_widget_set_play_addr(uint16_t addr)
 {
+    mainlock_assert_is_not_vice_thread();
     driver_info_set_addr(DRV_INFO_PLAY_ADDR, addr);
 }
 
@@ -794,6 +816,7 @@ void vsid_tune_info_widget_set_play_addr(uint16_t addr)
  */
 void vsid_tune_info_widget_set_data_size(uint16_t size)
 {
+    mainlock_assert_is_not_vice_thread();
     data_size = size;   /* keep for calculating SID memory range */
     driver_info_set_image();
 }
