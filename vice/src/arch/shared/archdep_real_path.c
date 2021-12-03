@@ -27,18 +27,23 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
+#ifndef ARCHDEP_OS_WINDOWS
+#include <limits.h>
+#endif
 #include <stdlib.h>
+#include <string.h>
 
 #include "archdep_real_path.h"
 
-
 /** \brief  Resolve \a pathname to its canonicalized absolute form
  *
- * \param[in]   pathname             pathname to normalize
- * \param[out]  resolved_pathname    buffer for result (must be at least PATH_MAX long)
+ * \param[in]   pathname             pathname to normalize. This file must
+ *                                   exist.
+ * \param[out]  resolved_pathname    buffer for result (must be at least
+ *                                   PATH_MAX/_MAX_PATH long)
  *
- * \return      resolved_pathname on success, NULL on failure. On failure, contents of
- *              resolved_pathname are undefined.
+ * \return      resolved_pathname on success, NULL on failure. On failure, 
+ *              contents of resolved_pathname are undefined.
  */
 char *archdep_real_path(const char *pathname, char *resolved_pathname)
 {
@@ -47,4 +52,29 @@ char *archdep_real_path(const char *pathname, char *resolved_pathname)
 #else
     return realpath(pathname, resolved_pathname);
 #endif
+}
+
+/** \brief  Compare \a path1 to \a path2 in their canonicalized forms
+ *
+ * \param[in]  path1   The first path to compare
+ * \param[in]  path2   The second path to compare
+ *
+ * \return     nonzero if path1 and path2 both refer to the same canonicalized
+ *             path; zero otherwise. If path1 or path2 do not actually exist
+ *             the results are unspecified.
+ */
+int archdep_real_path_equal(const char *path1, const char *path2)
+{
+#ifdef ARCHDEP_OS_WINDOWS
+    char path1_norm[_MAX_PATH], path2_norm[_MAX_PATH];
+#else
+    char path1_norm[PATH_MAX], path2_norm[PATH_MAX];
+#endif
+    if (!archdep_real_path(path1, path1_norm)) {
+        return 0;
+    }
+    if (!archdep_real_path(path2, path2_norm)) {
+        return 0;
+    }
+    return !strcmp(path1_norm, path2_norm);
 }

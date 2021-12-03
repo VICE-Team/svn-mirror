@@ -52,6 +52,7 @@
 #include "vdrive.h"
 #include "vice-event.h"
 #include "p64.h"
+#include "arch/shared/archdep_real_path.h"
 
 #ifdef DEBUG_ATTACH
 #define DBG(x)  log_debug x
@@ -586,7 +587,7 @@ static int attach_disk_image(disk_image_t *oldimage, vdrive_t *vdrive,
             /* It's OK to replace ourselves with the same disk */
             if (unit != test_unit || drive != test_drive) {
                 const char *test_name = file_system_get_disk_name(test_unit, test_drive);
-                if (test_name && !strcmp(test_name, filename)) {
+                if (test_name && archdep_real_path_equal(test_name, filename)) {
                     log_error(attach_log, "`%s' is already mounted on drive %d:%d", filename, test_unit, test_drive);
                     return -1;
                 }
