@@ -494,7 +494,7 @@ static const resource_int_t resources_int[] = {
       (void *)&sample_rate, set_sample_rate, NULL },
     { "SoundBufferSize", SOUND_SAMPLE_BUFFER_SIZE, RES_EVENT_NO, NULL,
       (void *)&buffer_size, set_buffer_size, NULL },
-    { "SoundFragmentSize", SOUND_FRAGMENT_MEDIUM, RES_EVENT_NO, NULL,
+    { "SoundFragmentSize", SOUND_FRAGMENT_SIZE, RES_EVENT_NO, NULL,
       (void *)&fragment_size, set_fragment_size, NULL },
     { "SoundVolume", 100, RES_EVENT_NO, NULL,
       (void *)&volume, set_volume, NULL },

@@ -60,14 +60,31 @@
 
 #endif
 
+/* Fragment sizes */
+#define SOUND_FRAGMENT_VERY_SMALL    0
+#define SOUND_FRAGMENT_SMALL         1
+#define SOUND_FRAGMENT_MEDIUM        2
+#define SOUND_FRAGMENT_LARGE         3
+#define SOUND_FRAGMENT_VERY_LARGE    4
+
+/* Sound output modes */
+#define SOUND_OUTPUT_SYSTEM   0
+#define SOUND_OUTPUT_MONO     1
+#define SOUND_OUTPUT_STEREO   2
 
 /* Sound defaults.  */
 #ifdef ANDROID_COMPILE
 #define SOUND_SAMPLE_RATE 22050
 #define SOUND_SAMPLE_BUFFER_SIZE 100
+#define SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
+#elif defined(MACOSX_SUPPORT)
+#define SOUND_SAMPLE_RATE 48000
+#define SOUND_SAMPLE_BUFFER_SIZE 20
+#define SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_VERY_SMALL
 #else
 #define SOUND_SAMPLE_RATE 48000
 #define SOUND_SAMPLE_BUFFER_SIZE 30
+#define SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 #endif
 
 #define SOUND_CHANNELS_MAX 2
@@ -136,18 +153,6 @@ static inline int16_t sound_audio_mix(int ch1, int ch2)
 
     return (int16_t)-((-(ch1) + -(ch2)) - (-(ch1) * -(ch2) / 32768));
 }
-
-/* Fragment sizes */
-#define SOUND_FRAGMENT_VERY_SMALL    0
-#define SOUND_FRAGMENT_SMALL         1
-#define SOUND_FRAGMENT_MEDIUM        2
-#define SOUND_FRAGMENT_LARGE         3
-#define SOUND_FRAGMENT_VERY_LARGE    4
-
-/* Sound output modes */
-#define SOUND_OUTPUT_SYSTEM   0
-#define SOUND_OUTPUT_MONO     1
-#define SOUND_OUTPUT_STEREO   2
 
 /* external functions for vice */
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
