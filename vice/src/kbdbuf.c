@@ -31,6 +31,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
 #include "alarm.h"
@@ -83,6 +84,9 @@ static int KbdbufDelay = 0;
 static int use_kbdbuf_flush_alarm = 0;
 
 static alarm_t *kbdbuf_flush_alarm = NULL;
+
+/* Only feed the cmdline -kbdbuf argument to the buffer once */
+static bool kbdbuf_init_cmdline_fed = false;
 
 CLOCK kbdbuf_flush_alarm_time = 0;
 
@@ -300,7 +304,16 @@ void kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
     /* inject string given to -keybuf option on commandline into keyboard buffer,
        except autoload/start was used, then it is postponed to after the loading */
     if (!isautoload) {
-        kbdbuf_feed_cmdline();
+        /* only feed command line argument when the buffer can be fed */
+        if (size > 0) {
+            /* only feed the command line argument once, see src/pet/petrom.c:
+             * petrom_checksum() calls kbdbuf_init() for $reason and that
+             * function is called twice */
+            if (!kbdbuf_init_cmdline_fed) {
+                kbdbuf_feed_cmdline();
+                kbdbuf_init_cmdline_fed = true; /* trigger diet */
+            }
+        }
     }
 }
 
