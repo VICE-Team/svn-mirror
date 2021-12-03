@@ -414,6 +414,7 @@ void petrom_checksum(void)
             autostart_init(3, 0);
         }
         tape_init(&tapeinit4);
+        petrom_keybuf_init();
     } else if (petres.kernal_checksum == PET_KERNAL2_CHECKSUM) {
         if (petres.kernal_checksum != last_kernal) {
             log_message(petrom_log, "Identified Kernal 2 ROM by checksum.");
@@ -421,6 +422,7 @@ void petrom_checksum(void)
         petres.rom_video = 40;
         autostart_init(3, 0);
         tape_init(&tapeinit2);
+        petrom_keybuf_init();
     } else if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
         if (petres.kernal_checksum != last_kernal) {
             log_message(petrom_log, "Identified Kernal 1 ROM by checksum.");
@@ -428,6 +430,7 @@ void petrom_checksum(void)
         petres.rom_video = 40;
         autostart_init(3, 0);
         tape_init(&tapeinit1);
+        petrom_keybuf_init();
     } else {
         log_warning(petrom_log, "Unknown PET ROM.");
     }
@@ -840,7 +843,6 @@ int mem_load(void)
         }
     }
 
-    petrom_keybuf_init();
 
     mem_initialize_memory();
 
