@@ -29,6 +29,8 @@
 
 #ifndef ARCHDEP_OS_WINDOWS
 #include <limits.h>
+#else
+#include <windows.h>
 #endif
 #include <stdlib.h>
 #include <string.h>
@@ -48,7 +50,19 @@
 char *archdep_real_path(const char *pathname, char *resolved_pathname)
 {
 #ifdef ARCHDEP_OS_WINDOWS
-    return _fullpath(resolved_pathname, pathname, _MAX_PATH);
+    DWORD size = GetFullPathNameA(pathname, _MAX_PATH, resolved_pathname, NULL);
+    if (size == 0 || size >= _MAX_PATH) {
+        return NULL;
+    }
+    size = GetShortPathNameA(resolved_pathname, resolved_pathname, _MAX_PATH);
+    if (size == 0 || size >= _MAX_PATH) {
+        return NULL;
+    }
+    size = GetLongPathNameA(resolved_pathname, resolved_pathname, _MAX_PATH);
+    if (size == 0 || size >= _MAX_PATH) {
+        return NULL;
+    }
+    return resolved_pathname;
 #else
     return realpath(pathname, resolved_pathname);
 #endif
