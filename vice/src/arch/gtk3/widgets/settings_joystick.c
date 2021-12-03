@@ -17,6 +17,10 @@
  * $VICERES JoyDevice9      -xplus4 -xpet -vsid
  * $VICERES JoyDevice10     -xplus4 -xpet -vsid
  *
+ * Only altered when two control ports are available, so not for xvic:
+ * $VICERES JoyPort1Device  -xcbm2 -xpet -xvic -vsid
+ * $VICERES JoyPort2Device  -xcbm2 -xpet -xvic -vsid
+ *
  * $VICERES JoyOpposite     -vsid
  * $VICERES KeySetEnable    -vsid
  *
@@ -49,17 +53,17 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-#include "vice_gtk3.h"
 #include "debug_gtk3.h"
-#include "lib.h"
-#include "ui.h"
-#include "machine.h"
-#include "resources.h"
 #include "joyport.h"
 #include "joystick.h"
-
 #include "joystickdevicewidget.h"
 #include "keysetdialog.h"
+#include "lib.h"
+#include "machine.h"
+#include "resources.h"
+#include "ui.h"
+#include "uicommands.h"
+#include "vice_gtk3.h"
 
 #include "settings_joystick.h"
 
@@ -127,31 +131,34 @@ static GtkWidget *device_widgets[JOYPORT_MAX_PORTS + 1];
  *                                Event handlers                             *
  ****************************************************************************/
 
-/** \brief  Handler for the 'clicked' event of the "swap joysticks" button
+/** \brief  Handler for the 'toggled' event of the "Swap joysticks" button
  *
- * Swaps resources JoyDevice1 and JoyDevice2 and updates UI accordingly.
+ * Swaps resources JoyDevice1/JoyDevice2 and JoyPort1Device/JoyPort2Device and
+ * updates the UI accordingly.
  *
- * \param[in]   button      button (unused)
- * \param[in]   user_data   extra event data (unused)
+ * \param[in]   button  toggle button
+ * \param[in]   data    extra event data (unused)
  */
-static void on_swap_joysticks_clicked(GtkWidget *button, gpointer user_data)
+static void on_swap_joysticks_toggled(GtkWidget *button, gpointer data)
 {
-    int joy1;
-    int joy2;
+    int joy1 = -1;
+    int joy2 = -1;
 
-    /* guard against updating non-existing widgets */
-    if (device_widgets[JOYPORT_1] == NULL
-            || device_widgets[JOYPORT_2] == NULL) {
-        return; /* cannot swap */
-    }
+    ui_action_toggle_controlport_swap();
+
+    /* make sure to set the correct state, swapping might fail due to certain
+     * devices not being allowed on certain ports */
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
+                                 ui_get_controlport_swapped());
 
     /* get current values */
     resources_get_int_sprintf("JoyDevice%d", &joy1, 1);
     resources_get_int_sprintf("JoyDevice%d", &joy2, 2);
 
-    /* updating the widgets triggers updating the resources */
-    joystick_device_widget_update(device_widgets[JOYPORT_1], joy2);
-    joystick_device_widget_update(device_widgets[JOYPORT_2], joy1);
+    /* updating the widgets (triggers updating the resources but since they're
+     * the same nothing will happen) */
+    joystick_device_widget_update(device_widgets[JOYPORT_1], joy1);
+    joystick_device_widget_update(device_widgets[JOYPORT_2], joy2);
 }
 
 
@@ -177,10 +184,17 @@ static void on_keyset_dialog_button_clicked(GtkWidget *widget, gpointer data)
 static GtkWidget *create_swap_joysticks_button(void)
 {
     GtkWidget *button;
-
+#if 0
     button = gtk_button_new_with_label("Swap Joysticks");
     g_signal_connect(button, "clicked", G_CALLBACK(on_swap_joysticks_clicked),
             NULL);
+#endif
+    button = gtk_check_button_new_with_label("Swap joysticks");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
+                                 ui_get_controlport_swapped());
+    g_signal_connect(button, "toggled",
+                     G_CALLBACK(on_swap_joysticks_toggled), NULL);
+
     gtk_widget_set_vexpand(button, FALSE);
     gtk_widget_set_valign(button, GTK_ALIGN_END);
     gtk_widget_show(button);
@@ -195,7 +209,7 @@ static GtkWidget *create_swap_joysticks_button(void)
 static GtkWidget *create_keyset_enable_checkbox(void)
 {
     return vice_gtk3_resource_check_button_new("KeySetEnable",
-            "Enable keyboard joysticks");
+                                               "Allow keyset joysticks");
 }
 
 
@@ -513,6 +527,13 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
      * layout functions.
      */
 
+    /* add check buttons for resources */
+    keyset_widget = create_keyset_enable_checkbox();
+    opposite_widget = create_opposite_enable_checkbox();
+    gtk_grid_attach(GTK_GRID(layout), keyset_widget, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), opposite_widget, 1, row, 1, 1);
+    row++;
+
     /* add buttons to activate keyset dialog */
     keyset_1_button = gtk_button_new_with_label("Configure keyset A");
     gtk_grid_attach(GTK_GRID(layout), keyset_1_button, 0, row, 1, 1);
@@ -524,15 +545,6 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     g_signal_connect(keyset_2_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(2));
     g_object_set(keyset_2_button, "margin-top", 16, NULL);
-    row++;
-
-    /* add check buttons for resources */
-    keyset_widget = create_keyset_enable_checkbox();
-    g_object_set(keyset_widget, "margin-top", 16, NULL);
-    opposite_widget = create_opposite_enable_checkbox();
-    g_object_set(opposite_widget, "margin-top", 16, NULL);
-    gtk_grid_attach(GTK_GRID(layout), keyset_widget, 0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), opposite_widget, 1, row, 1, 1);
     row++;
 
     gtk_widget_show_all(layout);
