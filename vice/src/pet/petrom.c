@@ -413,7 +413,6 @@ void petrom_checksum(void)
             petres.rom_video = 40;
             autostart_init(3, 0);
         }
-        petrom_keybuf_init();
         tape_init(&tapeinit4);
     } else if (petres.kernal_checksum == PET_KERNAL2_CHECKSUM) {
         if (petres.kernal_checksum != last_kernal) {
@@ -421,7 +420,6 @@ void petrom_checksum(void)
         }
         petres.rom_video = 40;
         autostart_init(3, 0);
-        petrom_keybuf_init();
         tape_init(&tapeinit2);
     } else if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
         if (petres.kernal_checksum != last_kernal) {
@@ -429,7 +427,6 @@ void petrom_checksum(void)
         }
         petres.rom_video = 40;
         autostart_init(3, 0);
-        petrom_keybuf_init();
         tape_init(&tapeinit1);
     } else {
         log_warning(petrom_log, "Unknown PET ROM.");
@@ -842,6 +839,8 @@ int mem_load(void)
             return -1;
         }
     }
+
+    petrom_keybuf_init();
 
     mem_initialize_memory();
 
