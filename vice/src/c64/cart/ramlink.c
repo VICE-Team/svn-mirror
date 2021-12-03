@@ -30,9 +30,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#define CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64cartsystem.h"
-#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
+#undef CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64cart.h"
 #include "c64mem.h"
 #include "c64cartmem.h"
@@ -123,6 +123,7 @@ static char *rl_filename = NULL;
 /* internal stuff */
 static uint8_t rl_on = 0;
 static uint8_t rl_dos = 0;
+static uint8_t rl_mapped = 0;
 static uint32_t rl_rombase = 0;
 static uint32_t rl_kernbase = 0;
 static uint32_t rl_rambase = 0;
@@ -138,6 +139,10 @@ static uint32_t rl_cardsize = 0;
 static uint32_t rl_cardsize_old = 0;
 static uint32_t rl_scanned = 0;
 static uint32_t rl_reu_trap = 0;
+static uint8_t *rl_ram = NULL;
+static uint8_t *rl_rom = NULL;
+static int rl_extexrom = 0;
+static int rl_extgame = 0;
 
 /* some prototypes are needed */
 static uint8_t ramlink_io1_read(uint16_t addr);
@@ -336,7 +341,7 @@ static io_source_t *ramlink_source_items[RAMLINKIOS] = {
 };
 
 static uint8_t (*ramlink_source_read_items[RAMLINKIOS])(uint16_t address) = {
-    NULL,                    /* the orider of the first two */
+    NULL,                    /* the order of the first two */
     ramlink_io1_read,        /*  are important */
     NULL,
     ramlink_io2_40_43_read,
@@ -483,6 +488,7 @@ static void ramlink_other1_off(void)
     for (i = 0; i < ramlink_devices_io1_count; i++) {
         /* skip georam */
         if (i == ramlink_devices_io1_georam) continue;
+        LOG2((LOG, "RAMLINK: OFF IO1 %s", ramlink_devices_io1[i]->name));
         ramlink_devices_io1[i]->read = NULL;
         ramlink_devices_io1[i]->store = NULL;
     }
@@ -496,6 +502,7 @@ static void ramlink_other1_on(void)
     for (i = 0; i < ramlink_devices_io1_count; i++) {
         /* skip georam */
         if (i == ramlink_devices_io1_georam) continue;
+        LOG2((LOG, "RAMLINK: ON IO1 %s", ramlink_devices_io1[i]->name));
         ramlink_devices_io1[i]->read = ramlink_devices_io1_entry[i].read;
         ramlink_devices_io1[i]->store = ramlink_devices_io1_entry[i].store;
     }
@@ -633,6 +640,7 @@ static void ramlink_off(void)
     rl_on = 0;
     rl_dos = 0;
     rl_reu_trap = 0;
+    cart_port_config_changed_slot0();
 }
 
 /* Turn on RL */
@@ -644,6 +652,7 @@ static void ramlink_on(void)
     ramlink_reu_on();
     ramlink_georam2_on();
     rl_on = 1;
+    cart_port_config_changed_slot0();
 }
 
 /* ---------------------------------------------------------------------*/
@@ -822,8 +831,6 @@ static int ramlink_deactivate(void)
     return res;
 }
 
-extern int mem_cartridge_type;
-
 static int set_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
@@ -837,6 +844,7 @@ static int set_enabled(int value, void *param)
         ramlink_restore_io();
         ramlink_unregisterio();
         rl_enabled = 0;
+        cart_port_config_changed_slot0();
     } else if ((val) && (!rl_enabled)) {
         if (ramlink_activate() < 0) {
             return -1;
@@ -844,6 +852,7 @@ static int set_enabled(int value, void *param)
         ramlink_registerio();
         rl_enabled = 1;
         rl_scanned = 0;
+        cart_port_config_changed_slot0();
     }
     return 0;
 }
@@ -999,6 +1008,14 @@ int ramlink_resources_init(void)
         return -1;
     }
 
+    if (!rl_ram) {
+        rl_ram = lib_malloc(0x2000);
+    }
+
+    if (!rl_rom) {
+        rl_rom = lib_malloc(0x10000);
+    }
+
     return 0;
 }
 
@@ -1012,6 +1029,16 @@ int ramlink_resources_shutdown(void)
 
     if (rl_card) {
         lib_free(rl_card);
+    }
+
+    if (rl_ram) {
+        lib_free(rl_ram);
+        rl_ram = NULL;
+    }
+
+    if (rl_rom) {
+        lib_free(rl_rom);
+        rl_rom = NULL;
     }
 
     return 0;
@@ -1128,6 +1155,7 @@ static void set_pc(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
     rl_i8255a_o[2] = byte;
 
     rl_rombase = ( rl_i8255a_o[2] & 3 ) * 0x4000;
+    cart_port_config_changed_slot0();
 }
 
 static uint8_t get_pc(struct _i8255a_state *ctx, int8_t reg)
@@ -1144,7 +1172,7 @@ static uint8_t ramlink_io1_read(uint16_t addr)
     uint8_t val = 0;
 
     if (rl_io1mode == 0) {
-        val = export_ram0[rl_rambase | (addr & 0xff)];
+        val = rl_ram[rl_rambase | (addr & 0xff)];
         IDBG((LOG, "RAMLINK: io1 r ram[%04x] = %02x at 0x%04x", rl_rambase |
             (addr & 0xff), val, reg_pc));
         return val;
@@ -1210,9 +1238,9 @@ static void ramlink_io1_store(uint16_t addr, uint8_t value)
 #endif
     if (rl_io1mode == 0) {
 #ifdef RLDEBUGIO
-        old_val = export_ram0[rl_rambase | (addr & 0xff)];
+        old_val = rl_ram[rl_rambase | (addr & 0xff)];
 #endif
-        export_ram0[rl_rambase | (addr & 0xff)] = value;
+        rl_ram[rl_rambase | (addr & 0xff)] = value;
         IDBG((LOG, "RAMLINK: io1 w ram[%04x] < %02x (%02x) at 0x%04x", rl_rambase |
             (addr & 0xff), value, old_val, reg_pc));
         return;
@@ -1264,6 +1292,7 @@ static void ramlink_io2_40_43_store(uint16_t addr, uint8_t value)
 static void ramlink_io2_60_60_store(uint16_t addr, uint8_t value)
 {
     rl_dos = 1;
+    cart_port_config_changed_slot0();
 
     IDBG((LOG, "RAMLINK: io2 w %04x < %02x at 0x%04x", addr, value, reg_pc));
 }
@@ -1271,6 +1300,7 @@ static void ramlink_io2_60_60_store(uint16_t addr, uint8_t value)
 static void ramlink_io2_70_70_store(uint16_t addr, uint8_t value)
 {
     rl_dos = 0;
+    cart_port_config_changed_slot0();
 
     IDBG((LOG, "RAMLINK: io2 w %04x < %02x at 0x%04x", addr, value, reg_pc));
 }
@@ -1280,9 +1310,11 @@ static void ramlink_io2_7e_7f_store(uint16_t addr, uint8_t value)
     if (rl_on && (addr == 0x7f)) {
         ramlink_off();
     } else if (addr == 0x7e) {
+/*
         if (!rl_scanned) {
             ramlink_scan_io();
         }
+*/
         ramlink_on();
     }
 
@@ -1366,134 +1398,191 @@ static int ramlink_io2_dump(void)
 
 /* ---------------------------------------------------------------------*/
 /* read 8000-9fff */
-uint8_t ramlink_roml_read(uint16_t addr)
+int ramlink_roml_read(uint16_t addr, uint8_t *value)
 {
-    uint8_t val;
+    /* check IO if not done already */
+    if (!rl_scanned) {
+        ramlink_scan_io();
+        ramlink_off();
+    }
 
+    /* do not map this for super cpu */
     if (machine_class == VICE_MACHINE_SCPU64) {
-        return mem_read_without_ultimax(addr);
+        return CART_READ_THROUGH;
     }
 
-    if (rl_dos && rl_enabled) {
-        val = roml_banks[rl_rombase | (addr & 0x1fff)];
-    } else {
-        val = mem_read_without_ultimax(addr);
+    if (rl_mapped && rl_dos && rl_enabled) {
+        *value = rl_rom[rl_rombase | (addr & 0x1fff)];
+        MDBG((LOG, "RAMLINK: roml_read %04x = %02x", addr, *value));
+        return CART_READ_VALID;
     }
-    MDBG((LOG, "RAMLINK: roml_read %04x = %02x", addr, val));
 
-    return val;
+    return CART_READ_THROUGH;
 }
 
 /* read e000-efff */
-uint8_t ramlink_romh_read(uint16_t addr)
+int ramlink_romh_read(uint16_t addr, uint8_t *value)
 {
-    uint8_t val;
+    /* check IO if not done already */
+    if (!rl_scanned) {
+        ramlink_scan_io();
+        ramlink_off();
+    }
 
     /* get from ram based on $1 */
-    if ((~pport.dir | pport.data) & 2) {
+    if (rl_mapped && ((~pport.dir | pport.data) & 2)) {
         /* other wise pull from one of the ROMS */
         if (!rl_enabled) {
-            val = mem_bank_read(2, 0xe000 | (addr & 0x1fff), NULL);
+            return CART_READ_THROUGH;
         } else if (rl_on) {
-            val = roml_banks[rl_kernbase | (addr & 0x1fff)];
+            *value = rl_rom[rl_kernbase | (addr & 0x1fff)];
         } else {
-            val = roml_banks[rl_kernbase | 0x2000 | (addr & 0x1fff)];
+            *value = rl_rom[rl_kernbase | 0x2000 | (addr & 0x1fff)];
         }
-    } else {
-        val = mem_read_without_ultimax(addr);
+        MDBG((LOG, "RAMLINK: romh_read %04x = %02x pport=%02x",
+            (int)addr, (int)*value, (int)(~pport.dir | pport.data)));
+        return CART_READ_VALID;
     }
-    MDBG((LOG, "RAMLINK: romh_read %04x = %02x pport=%02x",
-        (int)addr, (int)val, (int)(~pport.dir | pport.data)));
 
-    return val;
+    return CART_READ_THROUGH;
 }
 
 /* read a000-bfff */
-uint8_t ramlink_a000_bfff_read(uint16_t addr)
+int ramlink_a000_bfff_read(uint16_t addr, uint8_t *value)
 {
-    uint8_t val;
+    /* check IO if not done already */
+    if (!rl_scanned) {
+        ramlink_scan_io();
+        ramlink_off();
+    }
 
+    /* do not map this for super cpu */
     if (machine_class == VICE_MACHINE_SCPU64) {
-        return mem_read_without_ultimax(addr);
+        return CART_READ_THROUGH;
     }
 
-    if (rl_dos && rl_enabled) {
-        val = roml_banks[rl_rombase | 0x2000 | (addr & 0x1fff)];
-    } else {
-        /* get from ram based on $1 */
-        if (((~pport.dir | pport.data) & 3) == 3) {
-            val = mem_bank_read(2, 0xa000 | (addr & 0x1fff), NULL);
-        } else {
-            val = mem_read_without_ultimax(addr);
-        }
+    if (rl_mapped && rl_dos && rl_enabled) {
+        *value = rl_rom[rl_rombase | 0x2000 | (addr & 0x1fff)];
+        MDBG((LOG, "RAMLINK: rom_a000_read %04x = %02x",
+            (int)addr, (int)*value));
+        return CART_READ_VALID;
     }
-    MDBG((LOG, "RAMLINK: rom_a000_read %04x = %02x",
-        (int)addr, (int)val));
 
-    return val;
+    return CART_READ_THROUGH;
 }
 
-int ramlink_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
+int ramlink_peek_mem(uint16_t addr, uint8_t *value)
 {
     if (machine_class == VICE_MACHINE_SCPU64) {
-        return mem_read_without_ultimax(addr);
+        return CART_READ_THROUGH;
     }
 
-    /* read through doesn't work properly with ultimax so we try to
-        do everything here */
+    if (!rl_mapped || !rl_enabled) {
+        return CART_READ_THROUGH;
+    }
 
     if (addr >= 0x8000 && addr <= 0x9fff) {
-        if (rl_dos && rl_enabled) {
-            *value = roml_banks[rl_rombase | (addr & 0x3fff)];
+        if (rl_dos) {
+            *value = rl_rom[rl_rombase | (addr & 0x3fff)];
             return CART_READ_VALID;
         }
     } else if (addr >= 0xa000 && addr <= 0xbfff) {
-        if (rl_dos && rl_enabled) {
-            *value = roml_banks[rl_rombase | (addr & 0x3fff)];
+        if (rl_dos) {
+            *value = rl_rom[rl_rombase | (addr & 0x3fff)];
             return CART_READ_VALID;
-        } else {
-            /* get from ram based on $1 */
-            if (((~pport.dir | pport.data) & 3) == 3) {
-                *value = mem_bank_read(2, addr, NULL);
-                return CART_READ_VALID;
-            }
         }
     } else if (addr >= 0xe000 && ((~pport.dir | pport.data) & 2)) {
-        if (rl_enabled) {
-            if (rl_on) {
-                *value = roml_banks[rl_kernbase | (addr & 0x1fff)];
-            } else {
-                *value = roml_banks[rl_kernbase | 0x2000 | (addr & 0x1fff)];
-            }
+        if (rl_on) {
+            *value = rl_rom[rl_kernbase | (addr & 0x1fff)];
         } else {
-            *value = mem_bank_read(2, addr, NULL);
+            *value = rl_rom[rl_kernbase | 0x2000 | (addr & 0x1fff)];
         }
         return CART_READ_VALID;
     }
 
-    /* if it wasn't any of the above, then it is ram */
-    *value = mem_read_without_ultimax(addr);
-    return CART_READ_VALID;
-
-/*    return CART_READ_THROUGH; */
+    return CART_READ_THROUGH;
 }
 
 /* ---------------------------------------------------------------------*/
 
-void ramlink_config_init(void)
+int ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
+{
+/*
+    LOG2((LOG, "RAMLINK: mmu translate: addr=%04x (mapped=%d,on=%d,dos=%d,rombase=%04x)", addr,rl_mapped,rl_on,rl_dos,rl_rombase));
+*/
+
+    if (!rl_mapped || !rl_enabled) {
+        return CART_READ_THROUGH;
+    }
+
+    if (addr >= 0x8000 && addr <= 0x9fff) {
+        if (rl_dos) {
+            *base = rl_rom + rl_rombase - 0x8000;
+            *start = 0x8000;
+            *limit = 0x9ffd;
+            return CART_READ_VALID;
+        }
+    } else if (addr >= 0xa000 && addr <= 0xbfff) {
+        if (rl_dos) {
+            *base = rl_rom + rl_rombase + 0x2000 - 0xa000;
+            *start = 0xa000;
+            *limit = 0xbffd;
+            return CART_READ_VALID;
+        }
+    } else if (addr >= 0xe000 && ((~pport.dir | pport.data) & 2)) {
+        if (rl_on) {
+            *base = rl_rom + rl_kernbase - 0xe000;
+        } else {
+            *base = rl_rom + rl_kernbase + 0x2000 - 0xe000;
+        }
+        *start = 0xe000;
+        *limit = 0xfffd;
+        return CART_READ_VALID;
+    }
+
+    return CART_READ_THROUGH;
+}
+
+void ramlink_passthrough_changed(export_t *ex)
+{
+    rl_extexrom = ex->exrom;
+    rl_extgame = ex->game;
+
+    if (!rl_extexrom && rl_extgame) {
+        /* make sure passthough carts with ultimax get priority */
+        rl_mapped = 0;
+    } else {
+        /* everything else stays in ultimax mode and we handle it later */
+        rl_mapped = 1;
+        cart_set_port_exrom_slot0(0);
+        cart_set_port_game_slot0(1);
+    }
+    cart_port_config_changed_slot0();
+}
+
+/* used by c64cartmem.c to determine the original intended mode */
+int ramlink_cart_mode(void)
+{
+    return ( rl_extgame << 4 ) | ( rl_extexrom << 3 ) | 
+       ( ( ~pport.dir | pport.data ) & 7 );
+}
+
+void ramlink_config_init(export_t *ex)
 {
     int32_t i;
     LOG2((LOG, "RAMLINK: config init"));
 
+    rl_extexrom = ex->exrom;
+    rl_extgame = ex->game;
+
     /* future code will have 128 stuff in here too once we have a cart API */
     if ( machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_C64 ) {
-        cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ |
-            CMODE_PHI2_RAM);
+        cart_config_changed_slot0(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ);
     }
 
     for (i = 0; i < 0x2000; i++) {
-        export_ram0[i] = (i >> 8);
+        rl_ram[i] = (i >> 8);
     }
 
     /* "pull-ups" */
@@ -1520,7 +1609,7 @@ void ramlink_config_setup(uint8_t *rawcart)
     LOG2((LOG, "RAMLINK: config setup"));
 
     /* copy supplied ROM image to memory */
-    memcpy(roml_banks, rawcart, 0x10000);
+    memcpy(rl_rom, rawcart, 0x10000);
 
     /* set the base address for kernal access */
     if ( machine_class == VICE_MACHINE_C128 ) {
@@ -1531,7 +1620,7 @@ void ramlink_config_setup(uint8_t *rawcart)
     }
 
     /* setup the cart */
-    cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slot0(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -1606,9 +1695,9 @@ void ramlink_detach(void)
    BYTE   | dos            | rl_dos
    ARRAY  | i8255a_i       | 3 internal inputs for I8255A
    ARRAY  | i8255a_o       | 3 internal outputs for I8255A
-   ARRAY  | ROMH           | 64 KiB for firmware
-   ARRAY  | export_ram0    | 8 KiB for SRAM
-   I8255A | SNAPSHOTI8255A | rl_6821
+   ARRAY  | rom            | rl_rom 64 KiB for firmware
+   ARRAY  | ram            | rl_ram 8 KiB for SRAM
+   I8255A | SNAPSHOTI8255A | rl_8255
    ARRAY  | rl_card        | Contents of RAMCARD (cardsibemb) in MiB
 */
 
@@ -1640,8 +1729,8 @@ int ramlink_snapshot_write_module(snapshot_t *s)
         || (SMW_B(m, rl_dos) < 0)
         || (SMW_BA(m, rl_i8255a_i, 3) < 0)
         || (SMW_BA(m, rl_i8255a_o, 3) < 0)
-        || (SMW_BA(m, romh_banks, 0x10000) < 0)
-        || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
+        || (SMW_BA(m, rl_rom, 0x10000) < 0)
+        || (SMW_BA(m, rl_ram, 0x2000) < 0)) {
         goto fail;
     }
 
@@ -1694,8 +1783,8 @@ int ramlink_snapshot_read_module(snapshot_t *s)
         || (SMR_B(m, &rl_dos) < 0)
         || (SMR_BA(m, rl_i8255a_i, 3) < 0)
         || (SMR_BA(m, rl_i8255a_o, 3) < 0)
-        || (SMR_BA(m, romh_banks, 0x10000) < 0)
-        || (SMR_BA(m, export_ram0, 0x2000) < 0)) {
+        || (SMR_BA(m, rl_rom, 0x10000) < 0)
+        || (SMR_BA(m, rl_ram, 0x2000) < 0)) {
         goto fail;
     }
 
