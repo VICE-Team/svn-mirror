@@ -51,6 +51,7 @@
 #include "types.h"
 #include "uiapi.h"
 #include "vice-event.h"
+#include "arch/shared/archdep_real_path.h"
 
 /* #define DEBUG_TAPE */
 
@@ -536,7 +537,7 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
         unsigned int other_index = 2 - unit;
         if (tape_image_dev[other_index] &&
             tape_image_dev[other_index]->name &&
-            !strcmp(tape_image_dev[other_index]->name, name)) {
+            archdep_real_path_equal(tape_image_dev[other_index]->name, name)) {
             log_error(tape_log, "File `%s' already mounted on other tape unit", name);
             return -1;
         }

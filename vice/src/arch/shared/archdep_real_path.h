@@ -27,6 +27,21 @@
 #ifndef VICE_ARCHDEP_REAL_PATH_H
 #define VICE_ARCHDEP_REAL_PATH_H
 
+/* These functions convert, or compare, pathnames in their
+ * canonicalized forms: aboslute paths, symlinks resolved, and
+ * capitalization normalized for case-preserving case-insensitive
+ * filesystems like NTFS and AFS. The following caveats apply to all
+ * of these functions:
+ *
+ * - input paths should be in a form fopen() expects.
+ * - input paths should be at most PATH_MAX (_MAX_PATH on Windows) long.
+ * - output paths should fit PATH_MAX (_MAX_PATH on Windows) characters.
+ * - input paths should exist: canonicalizing paths potentially involves
+ *   directory traversals and if these fail the whole conversion is
+ *   allowed to (but not required to) fail.
+ */
+
 char *archdep_real_path(const char *pathname, char *resolved_pathname);
+int archdep_real_path_equal(const char *path1, const char *path2);
 
 #endif
