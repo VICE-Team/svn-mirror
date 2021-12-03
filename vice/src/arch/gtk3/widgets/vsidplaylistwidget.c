@@ -845,7 +845,7 @@ GtkWidget *vsid_playlist_widget_create(void)
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>Playlist</b>");
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Playlist:</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-bottom", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
@@ -854,6 +854,7 @@ GtkWidget *vsid_playlist_widget_create(void)
     scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_set_size_request(scroll, 400, 500);
     gtk_widget_set_hexpand(scroll, TRUE);
+    gtk_widget_set_vexpand(scroll, TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -862,8 +863,8 @@ GtkWidget *vsid_playlist_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), scroll, 0, 1, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid),
-            vsid_playlist_controls_create(),
-            0, 2, 1, 1);
+                    vsid_playlist_controls_create(),
+                    0, 2, 1, 1);
 
     g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
