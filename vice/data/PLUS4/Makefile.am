@@ -26,7 +26,10 @@ gtk3_keymaps = \
 	gtk3_sym.vkm \
 	gtk3_sym_fr.vkm \
 	gtk3_sym_de.vkm \
-	gtk3_sym_it.vkm
+	gtk3_sym_it.vkm \
+	gtk3_pos_it.vkm \
+	gtk3_c16_pos_it.vkm \
+	gtk3_c116_pos_it.vkm
 
 sdl_keymaps = \
 	sdl_sym_de.vkm \
