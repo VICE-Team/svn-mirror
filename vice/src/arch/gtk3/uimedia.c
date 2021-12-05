@@ -685,8 +685,6 @@ static void on_save_video_filename(GtkDialog *dialog,
         resources_get_int("FFMPEGAudioCodec", &ac);
         resources_get_int("FFMPEGAudioBitrate", &ab);
 
-        ui_pause_disable();
-
         filename_locale = file_chooser_convert_to_locale(filename);
 
         /* TODO: add extension if not present? */
