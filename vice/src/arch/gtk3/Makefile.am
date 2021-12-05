@@ -105,6 +105,7 @@ libarch_a_SOURCES = \
 	uivsidwindow.c \
 	vic20ui.c \
 	video.c \
+	vsidstate.c \
 	vsidui.c \
 	vsyncarch.c
 
@@ -176,5 +177,7 @@ EXTRA_DIST = \
 	vice_gtk3_locking.h \
 	vice-launcher.sh \
 	videoarch.h \
+	vsidstate.h \
+	vsidui.h \
 	winjoy.h \
 	x11-launcher.sh

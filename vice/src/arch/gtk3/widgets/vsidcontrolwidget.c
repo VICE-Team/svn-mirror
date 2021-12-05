@@ -102,6 +102,20 @@ static void fake_callback(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Trigger play of current tune */
+static void play_current_tune(void)
+{
+    debug_gtk3("current: %d, total: %d, default: %d.",
+            tune_current, tune_count, tune_default);
+    debug_gtk3("calling machine_trigger_reset(SOFT).");
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    debug_gtk3("calling psid_init_driver().");
+    psid_init_driver();
+    debug_gtk3("calling machine_play_psid(%d).", tune_current);
+    machine_play_psid(tune_current);
+}
+
+
 /** \brief  Callback for 'next subtune'
  *
  * Select next subtune, or wrap around to the first subtune
@@ -111,15 +125,13 @@ static void fake_callback(GtkWidget *widget, gpointer data)
  */
 static void next_tune_callback(GtkWidget *widget, gpointer data)
 {
+    debug_gtk3("called.");
     if (tune_current >= tune_count || tune_current <= 0 ) {
         tune_current = 1;
     } else {
         tune_current++;
     }
-
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-    psid_init_driver();
-    machine_play_psid(tune_current);
+    play_current_tune();
 }
 
 
@@ -132,15 +144,13 @@ static void next_tune_callback(GtkWidget *widget, gpointer data)
  */
 static void prev_tune_callback(GtkWidget *widget, gpointer data)
 {
+    debug_gtk3("called.");
     if (tune_current == 1) {
         tune_current = tune_count;
     } else {
         tune_current--;
     }
-
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-    psid_init_driver();
-    machine_play_psid(tune_current);
+    play_current_tune();
 }
 
 
