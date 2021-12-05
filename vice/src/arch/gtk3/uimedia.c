@@ -502,7 +502,6 @@ static gboolean save_screenshot_error_impl(gpointer data)
  */
 static void save_screenshot_vsync_callback(void *param)
 {
-
     video_canvas_t *canvas = param;
 
     if (screenshot_save(screenshot_driver, screenshot_filename, canvas) < 0) {

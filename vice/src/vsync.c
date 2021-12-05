@@ -94,35 +94,51 @@ static int    vsync_metric_warp_enabled;
 
 /* ------------------------------------------------------------------------- */
 
-static vsync_callback_t *vsync_callback_queue;
-static int vsync_callback_queue_size_max;
-static int vsync_callback_queue_size;
+typedef struct callback_queue_s {
+    vsync_callback_t *queue;
+    int size_max;
+    int size;
+} callback_queue_t;
+
+static callback_queue_t callback_queues[2];
+static callback_queue_t *callback_queue = callback_queues;
+static int callback_queue_index;
 
 /** \brief Call callback_func(callback_param) once at vsync time (or machine reset) */
 void vsync_on_vsync_do(vsync_callback_func_t callback_func, void *callback_param)
 {
     /* Grow the queue as needed */
-    if (vsync_callback_queue_size == vsync_callback_queue_size_max) {
-        vsync_callback_queue_size_max += 1;
-        vsync_callback_queue = lib_realloc(vsync_callback_queue, vsync_callback_queue_size_max * sizeof(vsync_callback_t));
+    if (callback_queue->size == callback_queue->size_max) {
+        callback_queue->size_max++;
+        callback_queue->queue = lib_realloc(callback_queue->queue, callback_queue->size_max * sizeof(vsync_callback_t));
     }
 
-    vsync_callback_queue[vsync_callback_queue_size].callback = callback_func;
-    vsync_callback_queue[vsync_callback_queue_size].param = callback_param;
+    callback_queue->queue[callback_queue->size].callback = callback_func;
+    callback_queue->queue[callback_queue->size].param = callback_param;
 
-    vsync_callback_queue_size++;
+    callback_queue->size++;
 }
 
+/** \brief Keep executing on_vsync_do callbacks until none are scheduled. */
 static void execute_vsync_callbacks(void)
 {
     int i;
-
-    /* Execute each callback in turn. */
-    if (vsync_callback_queue_size) {
-        for (i = 0; i < vsync_callback_queue_size; i++) {
-            vsync_callback_queue[i].callback(vsync_callback_queue[i].param);
+    callback_queue_t *executing_queue;
+    
+    while (callback_queue->size) {
+        
+        /* We'll iterate over this queue */
+        executing_queue = callback_queue;
+        
+        /* Flip to the other queue to collect any new callbacks queued within these callbacks */
+        callback_queue_index = 1 - callback_queue_index;
+        callback_queue = &callback_queues[callback_queue_index];
+        
+        for (i = 0; i < executing_queue->size; i++) {
+            executing_queue->queue[i].callback(executing_queue->queue[i].param);
         }
-        vsync_callback_queue_size = 0;
+        
+        executing_queue->size = 0;
     }
 }
 
@@ -327,10 +343,13 @@ void vsync_init(void (*hook)(void))
 
 void vsync_shutdown(void)
 {
-    if (vsync_callback_queue)
-    {
-        lib_free(vsync_callback_queue);
-        vsync_callback_queue = NULL;
+    int i;
+    
+    for (i = 0; i < 2; i++) {
+        if (callback_queues[0].queue) {
+            lib_free(callback_queues[0].queue);
+            callback_queues[0].queue = NULL;
+        }
     }
 }
 
