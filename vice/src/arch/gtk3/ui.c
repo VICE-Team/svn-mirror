@@ -2184,8 +2184,10 @@ int ui_pause_active(void)
  */
 void ui_pause_enable(void)
 {
-    is_paused = 1;
-    interrupt_maincpu_trigger_trap(pause_trap, 0);
+    if (!is_paused) {
+        is_paused = 1;
+        interrupt_maincpu_trigger_trap(pause_trap, 0);
+    }
 }
 
 
