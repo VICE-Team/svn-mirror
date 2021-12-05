@@ -2150,12 +2150,10 @@ void ui_message(const char *format, ...)
  * \param[in]   addr    unused
  * \param[in]   data    unused
  */
-static void pause_trap(uint16_t addr, void *data)
+static void pause_loop(void *param)
 {
     vsync_suspend_speed_eval();
     sound_suspend();
-
-    is_paused = 1;
 
     while (is_paused)
     {
@@ -2186,7 +2184,7 @@ void ui_pause_enable(void)
 {
     if (!is_paused) {
         is_paused = 1;
-        interrupt_maincpu_trigger_trap(pause_trap, 0);
+        vsync_on_vsync_do(pause_loop, NULL);
     }
 }
 
