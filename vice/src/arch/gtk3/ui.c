@@ -2154,16 +2154,27 @@ static void pause_loop(void *param)
 {
     vsync_suspend_speed_eval();
     sound_suspend();
-
-    while (is_paused)
-    {
+    
+    if (!is_paused) {
+        return;
+    }
+    
+    /* Enter monitor directly if needed. */
+    if (enter_monitor_while_paused) {
+        enter_monitor_while_paused = 0;
+        monitor_startup(e_default_space);
+    } else {
+        /* Otherwise give the UI the lock for a while */
         tick_sleep(tick_per_second() / 60);
-
-        /* Enter monitor directly if needed. */
-        if (enter_monitor_while_paused) {
-            enter_monitor_while_paused = 0;
-            monitor_startup(e_default_space);
-        }
+    }
+    
+    if (is_paused) {
+        /*
+         * Still paused, schedule another run. Doing it this way allows
+         * other, perhaps newly queued, vsync_on_vsync_do callcacks to
+         * be called.
+         */
+        vsync_on_vsync_do(pause_loop, NULL);
     }
 }
 
