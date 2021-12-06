@@ -77,6 +77,11 @@ void mainlock_init(void)
 
 static void consider_exit(void)
 {
+    /* NASTY - some emulation can continue on the main thread during shutdown. */
+    if (!pthread_equal(pthread_self(), vice_thread)) {
+        return;
+    }
+
     /* Check if the vice thread has been told to die. */
     if (!vice_thread_keepalive) {
         
