@@ -437,7 +437,6 @@ GtkWidget *vsid_main_widget_create(void)
  */
 void vsid_main_widget_set_tune_count(int n)
 {
-    vsid_control_widget_set_tune_count(n);
     vsid_tune_info_widget_set_tune_count(n);
 }
 
@@ -447,8 +446,6 @@ void vsid_main_widget_set_tune_count(int n)
  */
 void vsid_main_widget_set_tune_current(int n)
 {
-
-    vsid_control_widget_set_tune_current(n);
     vsid_tune_info_widget_set_tune_current(n);
 
     /* update mixer widget to use the SID model of the current tune */
@@ -471,6 +468,5 @@ void vsid_main_widget_set_tune_current(int n)
  */
 void vsid_main_widget_set_tune_default(int n)
 {
-    vsid_control_widget_set_tune_default(n);
     vsid_tune_info_widget_set_tune_default(n);
 }

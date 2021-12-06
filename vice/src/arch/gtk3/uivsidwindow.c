@@ -393,8 +393,6 @@ void vsid_ui_set_default_tune(int nr)
     state->tune_default = nr;
     state->tune_default_pending = true;
     vsid_state_unlock();
-
-    vsid_main_widget_set_tune_default(nr);
 }
 
 
