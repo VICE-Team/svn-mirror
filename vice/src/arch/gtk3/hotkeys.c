@@ -36,6 +36,7 @@
 #include <ctype.h>
 #include <inttypes.h>
 #include <time.h>
+#include <sys/time.h>
 #include <errno.h>
 
 #include "archdep.h"
@@ -409,6 +410,22 @@ void ui_hotkeys_shutdown(void)
     log_close(hotkeys_log);
 }
 
+
+/** \brief  Log current time, including microseconds
+ */
+static void hotkeys_log_timestamp(void)
+{
+    struct timeval tv;
+
+    if (gettimeofday(&tv, NULL) == 0) {
+        const struct tm *tm;
+        char buffer[256];
+
+        tm = localtime(&(tv.tv_sec));
+        strftime(buffer, sizeof(buffer), "%H:%M", tm);
+        log_message(hotkeys_log, "Hotkeys: timestamp: %s.%lld", buffer, (long long)tv.tv_usec);
+    }
+}
 
 
 /* {{{ textfile_reader_t methods */
@@ -1628,6 +1645,8 @@ bool ui_hotkeys_parse(const char *path)
     /* disable debugging */
     hotkeys_debug = false;
 
+    hotkeys_log_timestamp();
+
     /* initialize file stack and open the file */
     textfile_reader_init(&reader);
     if (textfile_reader_open(&reader, path)) {
@@ -1680,6 +1699,8 @@ bool ui_hotkeys_parse(const char *path)
         status = false;
     }
     textfile_reader_free(&reader);
+
+    hotkeys_log_timestamp();
 
     return status;
 }
