@@ -118,6 +118,10 @@ int main_program(int argc, char **argv)
      */
     
     pthread_mutex_lock(&init_lock);
+
+    archdep_thread_init();
+
+    mainlock_init();
 #endif
     
     /*
@@ -412,19 +416,14 @@ void vice_thread_shutdown(void)
 
 void *vice_thread_main(void *unused)
 {
-    pthread_mutex_lock(&init_lock);
-    
-    archdep_thread_init();
-    mainlock_init();
-    
-    pthread_mutex_unlock(&init_lock);
-
-    main_loop_forever();
+    /* Let the mainlock system know which thread is the vice thread */
+    mainlock_set_vice_thread();
 
     /*
      * main_loop_forever() does not return, so we call archdep_thread_shutdown()
      * in the mainlock system which manages a direct pthread based thread exit.
      */
+    main_loop_forever();
 
     return NULL;
 }

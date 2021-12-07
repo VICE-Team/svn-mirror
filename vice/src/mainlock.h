@@ -37,6 +37,7 @@
 #include <assert.h>
 
 void mainlock_init(void);
+void mainlock_set_vice_thread(void);
 void mainlock_initiate_shutdown(void);
 
 void mainlock_yield(void);

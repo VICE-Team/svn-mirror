@@ -55,23 +55,22 @@ static pthread_mutex_t lock;
 static pthread_t vice_thread;
 static bool vice_thread_is_running = false;
 
-static unsigned long tick_per_ms;
-static unsigned long start_time;
-
 void mainlock_init(void)
 {
     pthread_mutexattr_t lock_attributes;
     pthread_mutexattr_init(&lock_attributes);
     pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
     pthread_mutex_init(&lock, &lock_attributes);
+}
+
+
+void mainlock_set_vice_thread(void)
+{
+    /* The vice thread owns this lock except when explicitly releasing it */
+    pthread_mutex_lock(&lock);
 
     vice_thread = pthread_self();
     vice_thread_is_running = true;
-
-    tick_per_ms = tick_per_second() / 1000;
-    start_time = tick_now();
-    
-    pthread_mutex_lock(&lock);
 }
 
 
