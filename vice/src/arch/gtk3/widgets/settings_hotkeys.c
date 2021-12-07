@@ -473,7 +473,6 @@ static void on_row_activated(GtkTreeView *view,
                          NULL);
         gtk_widget_show_all(dialog);
 
-        // g_free(action);
         g_free(hotkey);
     }
 }

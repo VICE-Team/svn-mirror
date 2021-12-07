@@ -2633,13 +2633,7 @@ static GtkTreeStore *populate_tree_model(void)
             for (c = 0; list[c].name != NULL; c++) {
                 char buffer[256];
 
-                /* mark items without callback with 'TODO' */
-                //if (list[c].callback != NULL) {
                 g_snprintf(buffer, 256, "%s", list[c].name);
-                //} else {
-                //    g_snprintf(buffer, 256, "TODO: %s", list[c].name);
-                //}
-
                 gtk_tree_store_append(model, &child, &iter);
                 gtk_tree_store_set(model, &child,
                         COLUMN_NAME, buffer,

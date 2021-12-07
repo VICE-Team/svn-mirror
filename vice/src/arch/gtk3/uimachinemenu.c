@@ -1376,7 +1376,6 @@ ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
                  type == UI_MENU_TYPE_ITEM_CHECK)) {
             if (ui_vice_menu_iter_get_name(&iter, &item_name) &&
                     item_name != NULL) {
-                //debug_gtk3("Checking '%s'.", item_name);
                 if (strcmp(item_name, name) == 0) {
                     return iter.menu_item;
                 }

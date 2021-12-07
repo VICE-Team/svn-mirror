@@ -152,9 +152,6 @@ int archdep_init(int *argc, char **argv)
     debug_gtk3("MSYSTEM = '%s'", getenv("MSYSTEM"));
 #endif
 
-    /* initialize hotkeys *before* hotkeys cmdline/resources are set */
-    //ui_hotkeys_init();
-
     return 0;
 }
 
