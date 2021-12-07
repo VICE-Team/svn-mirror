@@ -699,9 +699,9 @@ static void rotation_1541_p64(drive_t *dptr, CLOCK ref_cycles)
             /****************************************************************************************************************************************/
             {
                 /* Clock logic */
-                
+
                 /* update UE7 before a possible reset of decoder to start with requested speedzone instead of todo value */
-				rptr->ue7_counter += ToDo;
+                rptr->ue7_counter += ToDo;
                 /* 2.5 microseconds filter */
                 rptr->filter_counter += (rptr->filter_counter < 40) ? ToDo : 0;
                 if (((rptr->filter_counter >= 40) && (rptr->filter_state != rptr->filter_last_state))) {
