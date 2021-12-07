@@ -411,6 +411,9 @@ void ui_hotkeys_shutdown(void)
 }
 
 
+/* This fails on msys2 and I don't want to spend too much time (heh) on this.
+ * Can be reenabled if required. */
+#if 0
 /** \brief  Log current time, including microseconds
  */
 static void hotkeys_log_timestamp(void)
@@ -422,10 +425,12 @@ static void hotkeys_log_timestamp(void)
         char buffer[256];
 
         tm = localtime(&(tv.tv_sec));
-        strftime(buffer, sizeof(buffer), "%H:%M", tm);
+        strftime(buffer, sizeof(buffer), "%H:%M.%S", tm);
         log_message(hotkeys_log, "Hotkeys: timestamp: %s.%lld", buffer, (long long)tv.tv_usec);
     }
 }
+#endif
+
 
 
 /* {{{ textfile_reader_t methods */
@@ -1629,9 +1634,9 @@ bool ui_hotkeys_parse(const char *path)
 
     /* disable debugging */
     hotkeys_debug = false;
-
+#if 0
     hotkeys_log_timestamp();
-
+#endif
     /* initialize file stack and open the file */
     textfile_reader_init(&reader);
     if (textfile_reader_open(&reader, path)) {
@@ -1683,9 +1688,9 @@ bool ui_hotkeys_parse(const char *path)
         status = false;
     }
     textfile_reader_free(&reader);
-
+#if 0
     hotkeys_log_timestamp();
-
+#endif
     return status;
 }
 
