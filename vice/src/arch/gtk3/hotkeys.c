@@ -1715,6 +1715,10 @@ char *ui_hotkeys_get_hotkey_string_for_action(const char *action)
 }
 
 
+/** \brief  Helper: log I/O error
+ *
+ * Logs libc I/O errors to the hotkeys log, including errno and description.
+ */
 static void export_log_io_error(void)
 {
     log_error(hotkeys_log,
@@ -1723,7 +1727,12 @@ static void export_log_io_error(void)
 }
 
 
-
+/** \brief  Output the header for an exported hotkeys file
+ *
+ * \param[in]   fp  file descriptor
+ *
+ * \return  true on success
+ */
 static bool export_header(FILE *fp)
 {
     int result;
@@ -1740,8 +1749,6 @@ static bool export_header(FILE *fp)
         export_log_io_error();
         return false;
     }
-
-
 
     /* add current datetime */
     t = time(NULL);
@@ -1767,7 +1774,6 @@ static bool export_header(FILE *fp)
         return false;
     }
 
-
     result = fprintf(fp,
 "!debug disable\n"
 "!clear\n"
@@ -1780,8 +1786,6 @@ static bool export_header(FILE *fp)
     }
     return true;
 }
-
-
 
 
 /** \brief  Export all currently registered hotkeys to file \a path
@@ -1845,7 +1849,5 @@ bool ui_hotkeys_export(const char *path)
     } while (ui_vice_menu_iter_next(&iter));
 
     fclose(fp);
-
     return true;
 }
-
