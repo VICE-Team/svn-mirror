@@ -76,6 +76,7 @@ typedef struct vsid_ctrl_button_s {
 } vsid_ctrl_button_t;
 
 
+#if 0
 /** \brief  Number of subtunes in the SID */
 static int tune_count;
 
@@ -84,6 +85,8 @@ static int tune_current;
 
 /** \brief  Default subtune number */
 static int tune_default;
+#endif
+
 
 /** \brief  Progress bar */
 static GtkWidget *progress = NULL;
