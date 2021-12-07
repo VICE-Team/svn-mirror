@@ -60,64 +60,64 @@ typedef struct _JoyInfo {
     int numaxes;
     int numbuttons;
     int numPOVs;
-	LPDIRECTINPUTDEVICE8 di_device;
+    LPDIRECTINPUTDEVICE8 di_device;
 } JoyInfo;
 
 #ifndef HAVE_DINPUT_LIB
 static DIOBJECTDATAFORMAT joystick_objects[] = {
-	{ &GUID_XAxis, 0, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-	{ &GUID_YAxis, 4, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-	{ &GUID_ZAxis, 8, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-	{ &GUID_RxAxis, 0x0c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-	{ &GUID_RyAxis, 0x10, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-	{ &GUID_RzAxis, 0x14, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-	{ &GUID_Slider, 0x18, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-	{ &GUID_Slider, 0x1c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
-	{ &GUID_POV, 0x20, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
-	{ &GUID_POV, 0x24, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
-	{ &GUID_POV, 0x28, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
-	{ &GUID_POV, 0x2c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
-	{ NULL, 0x30, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x31, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x32, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x33, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x34, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x35, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x36, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x37, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x38, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x39, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x3a, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x3b, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x3c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x3d, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x3e, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x3f, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x40, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x41, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x42, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x43, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x44, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x45, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x46, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x47, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x48, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x49, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x4a, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x4b, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x4c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x4d, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x4e, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
-	{ NULL, 0x4f, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 }
+    { &GUID_XAxis, 0, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
+    { &GUID_YAxis, 4, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
+    { &GUID_ZAxis, 8, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
+    { &GUID_RxAxis, 0x0c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
+    { &GUID_RyAxis, 0x10, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
+    { &GUID_RzAxis, 0x14, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
+    { &GUID_Slider, 0x18, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
+    { &GUID_Slider, 0x1c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_AXIS, DIDOI_ASPECTPOSITION },
+    { &GUID_POV, 0x20, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
+    { &GUID_POV, 0x24, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
+    { &GUID_POV, 0x28, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
+    { &GUID_POV, 0x2c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_POV, 0 },
+    { NULL, 0x30, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x31, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x32, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x33, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x34, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x35, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x36, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x37, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x38, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x39, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x3a, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x3b, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x3c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x3d, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x3e, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x3f, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x40, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x41, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x42, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x43, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x44, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x45, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x46, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x47, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x48, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x49, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x4a, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x4b, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x4c, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x4d, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x4e, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 },
+    { NULL, 0x4f, DIDFT_OPTIONAL | DIDFT_ANYINSTANCE | DIDFT_BUTTON, 0 }
 };
 
 static DIDATAFORMAT data_format_struct = {
-	sizeof(DIDATAFORMAT),
-	sizeof(DIOBJECTDATAFORMAT),
-	DIDF_ABSAXIS,
-	sizeof(DIJOYSTATE),
-	sizeof(joystick_objects) / sizeof(*joystick_objects),
-	joystick_objects
+    sizeof(DIDATAFORMAT),
+    sizeof(DIOBJECTDATAFORMAT),
+    DIDF_ABSAXIS,
+    sizeof(DIJOYSTATE),
+    sizeof(joystick_objects) / sizeof(*joystick_objects),
+    joystick_objects
 };
 #endif
 
@@ -255,24 +255,24 @@ static void joystick_di5_update(int joyport, void* priv)
         joy_axis_event(joyport, 1, JOY_AXIS_MIDDLE);
     }
 
-	for (i = 0; i < joy->numPOVs; ++i) {
-		if (LOWORD(js.rgdwPOV[i]) != 0xffff) {
-			if (js.rgdwPOV[i] > 20250 && js.rgdwPOV[i] < 33750) {
-				value |= 4;
-			}
-			if (js.rgdwPOV[i] > 2250 && js.rgdwPOV[i] < 15750) {
-				value |= 8;
-			}
-			if (js.rgdwPOV[i] > 29250 || js.rgdwPOV[i] < 6750) {
-				value |= 1;
-			}
-			if (js.rgdwPOV[i] > 11250 && js.rgdwPOV[i] < 24750) {
-				value |= 2;
-			}
-		}
-		joy_hat_event(joyport, i, value);
+    for (i = 0; i < joy->numPOVs; ++i) {
+        if (LOWORD(js.rgdwPOV[i]) != 0xffff) {
+            if (js.rgdwPOV[i] > 20250 && js.rgdwPOV[i] < 33750) {
+                value |= 4;
+            }
+            if (js.rgdwPOV[i] > 2250 && js.rgdwPOV[i] < 15750) {
+                value |= 8;
+            }
+            if (js.rgdwPOV[i] > 29250 || js.rgdwPOV[i] < 6750) {
+                value |= 1;
+            }
+            if (js.rgdwPOV[i] > 11250 && js.rgdwPOV[i] < 24750) {
+                value |= 2;
+            }
+        }
+        joy_hat_event(joyport, i, value);
     }
-	for (i = 0; i < joy->numbuttons; ++i) {
+    for (i = 0; i < joy->numbuttons; ++i) {
         joy_button_event(joyport, i, (js.rgbButtons[i] & 0x80));
     }
 }
@@ -280,11 +280,11 @@ static void joystick_di5_update(int joyport, void* priv)
 static void joystick_release_joystick(void* priv)
 {
     JoyInfo *joystick = priv;
-	joystick_release_axes(joystick->axes);
-	joystick_release_buttons(joystick->buttons);
-	IDirectInputDevice8_Unacquire(joystick->di_device);
-	IDirectInputDevice8_Release(joystick->di_device);
-	lib_free(joystick);
+    joystick_release_axes(joystick->axes);
+    joystick_release_buttons(joystick->buttons);
+    IDirectInputDevice8_Unacquire(joystick->di_device);
+    IDirectInputDevice8_Release(joystick->di_device);
+    lib_free(joystick);
 }
 
 static joystick_driver_t win32_directinput_joystick_driver = {
@@ -295,7 +295,7 @@ static joystick_driver_t win32_directinput_joystick_driver = {
 static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
 {
     JoyInfo *new_joystick;
-	HINSTANCE ui_active_window = GetModuleHandle(NULL); /* FIXME */
+    HINSTANCE ui_active_window = GetModuleHandle(NULL); /* FIXME */
 
     new_joystick = lib_malloc(sizeof(JoyInfo));
     memcpy(&new_joystick->guid, &lpddi->guidInstance, sizeof(GUID));
@@ -304,25 +304,25 @@ static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
     new_joystick->numPOVs = 0;
     new_joystick->numaxes = 0;
     new_joystick->numbuttons = 0;
-	IDirectInput8_CreateDevice(di, &new_joystick->guid, &new_joystick->di_device, NULL);
+    IDirectInput8_CreateDevice(di, &new_joystick->guid, &new_joystick->di_device, NULL);
 #ifdef HAVE_DINPUT_LIB
-	IDirectInputDevice8_SetDataFormat(new_joystick->di_device, &c_dfDIJoystick);
+    IDirectInputDevice8_SetDataFormat(new_joystick->di_device, &c_dfDIJoystick);
 #else
-	IDirectInputDevice8_SetDataFormat(new_joystick->di_device, &data_format_struct);
+    IDirectInputDevice8_SetDataFormat(new_joystick->di_device, &data_format_struct);
 #endif
-	IDirectInputDevice8_SetCooperativeLevel(new_joystick->di_device,
-		(HWND)ui_active_window, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
-	IDirectInputDevice8_Acquire(new_joystick->di_device);
-	IDirectInputDevice8_EnumObjects(new_joystick->di_device, EnumJoyAxes, (LPVOID)new_joystick, DIDFT_AXIS);
-	IDirectInputDevice8_EnumObjects(new_joystick->di_device, EnumJoyButtons, (LPVOID)new_joystick, DIDFT_BUTTON);
-	IDirectInputDevice8_EnumObjects(new_joystick->di_device, EnumJoyPOVs, (LPVOID)new_joystick, DIDFT_POV);
-	register_joystick_driver(&win32_directinput_joystick_driver,
-		lpddi->tszInstanceName,
-		new_joystick,
-		new_joystick->numaxes,
-		new_joystick->numbuttons,
-		new_joystick->numPOVs
-	);
+    IDirectInputDevice8_SetCooperativeLevel(new_joystick->di_device,
+        (HWND)ui_active_window, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
+    IDirectInputDevice8_Acquire(new_joystick->di_device);
+    IDirectInputDevice8_EnumObjects(new_joystick->di_device, EnumJoyAxes, (LPVOID)new_joystick, DIDFT_AXIS);
+    IDirectInputDevice8_EnumObjects(new_joystick->di_device, EnumJoyButtons, (LPVOID)new_joystick, DIDFT_BUTTON);
+    IDirectInputDevice8_EnumObjects(new_joystick->di_device, EnumJoyPOVs, (LPVOID)new_joystick, DIDFT_POV);
+    register_joystick_driver(&win32_directinput_joystick_driver,
+        lpddi->tszInstanceName,
+        new_joystick,
+        new_joystick->numaxes,
+        new_joystick->numbuttons,
+        new_joystick->numPOVs
+    );
 
     return DIENUM_CONTINUE;
 }
@@ -333,21 +333,21 @@ int win32_directinput_joystick_init(void)
     HRESULT res;
 #endif
 
-	HINSTANCE winmain_instance = GetModuleHandle(NULL); /* FIXME */
+    HINSTANCE winmain_instance = GetModuleHandle(NULL); /* FIXME */
 #ifdef HAVE_DINPUT_LIB
     if (DirectInput8Create(winmain_instance, DIRECTINPUT_VERSION, &IID_IDirectInput8, (LPVOID*)&di, NULL) != DI_OK) {
-		return 0;
-	}
+        return 0;
+    }
 #else
-	res = CoCreateInstance(&CLSID_DirectInput8, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectInput8, (PVOID*)&di);
-	if (res != S_OK) {
-		return 0;
-	}
-	if (IDirectInput8_Initialize(di, winmain_instance, DIRECTINPUT_VERSION) != S_OK) {
-		IDirectInput8_Release(di);
-		return 0;
-	}
+    res = CoCreateInstance(&CLSID_DirectInput8, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectInput8, (PVOID*)&di);
+    if (res != S_OK) {
+        return 0;
+    }
+    if (IDirectInput8_Initialize(di, winmain_instance, DIRECTINPUT_VERSION) != S_OK) {
+        IDirectInput8_Release(di);
+        return 0;
+    }
 #endif
-	IDirectInput8_EnumDevices(di, DIDEVTYPE_JOYSTICK, EnumCallBack, NULL, DIEDFL_ALLDEVICES);
-	return 1;
+    IDirectInput8_EnumDevices(di, DIDEVTYPE_JOYSTICK, EnumCallBack, NULL, DIEDFL_ALLDEVICES);
+    return 1;
 }
