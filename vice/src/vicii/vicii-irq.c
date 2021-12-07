@@ -123,12 +123,7 @@ void vicii_irq_set_raster_line(unsigned int line)
 
     if (line < (unsigned int)vicii.screen_height) {
         unsigned int current_line = VICII_RASTER_Y(maincpu_clk);
-#if 0
-        CLOCK c1 = VICII_LINE_START_CLK(maincpu_clk);
-        c1 += VICII_RASTER_IRQ_DELAY;
-        c1 -= INTERRUPT_DELAY;
-        c1 += (vicii.cycles_per_line * (line - current_line));
-#endif
+
         if (line > current_line) {
             vicii.raster_irq_clk = (VICII_LINE_START_CLK(maincpu_clk)
                                     + VICII_RASTER_IRQ_DELAY - INTERRUPT_DELAY
