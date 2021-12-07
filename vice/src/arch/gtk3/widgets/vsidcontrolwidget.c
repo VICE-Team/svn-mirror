@@ -111,8 +111,10 @@ static void play_current_tune(void)
 {
     vsid_state_t *state = vsid_state_lock();
     int current = state->tune_current;
+#ifdef HAVE_DEBUG_GTK3UI
     int count = state->tune_count;
     int def = state->tune_default;
+#endif
 
     vsid_state_unlock();
 
