@@ -408,12 +408,6 @@ static gboolean hide_all_timer_callback(gpointer data)
  */
 void statusbar_recording_widget_hide_all(GtkWidget *widget, guint timeout)
 {
-    /* setup a one-shot timer to hide the labels and button */
-//    if (timeout == 0) {
-//        /* don't bother setting up timer, trigger directly */
-//        hide_all_timer_callback((gpointer)widget);
-//    } else {
-
     /* remove previous timeout */
     if (timeout_id > 0) {
         g_source_remove(timeout_id);
@@ -421,5 +415,4 @@ void statusbar_recording_widget_hide_all(GtkWidget *widget, guint timeout)
     timeout_id = g_timeout_add_seconds(timeout,
                                        hide_all_timer_callback,
                                        (gpointer)widget);
- //   }
 }

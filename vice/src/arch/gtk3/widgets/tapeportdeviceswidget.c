@@ -362,7 +362,6 @@ static GtkWidget *create_f83_widget(void)
     GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced(16, 8);
-//    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>CP Clock F83</b>");
@@ -391,8 +390,6 @@ static GtkWidget *create_tapecart_widget(void)
     int row = 0;
 
     grid = vice_gtk3_grid_new_spaced(16, 8);
-    /* add some extra vertical spacing */
-//    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
 
     /* Tapecart label */
     label = gtk_label_new(NULL);
