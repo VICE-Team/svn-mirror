@@ -1582,7 +1582,7 @@ int joystick_init(void)
     joy_hidlib_init();
 #elif defined HAVE_DINPUT
     if (win32_directinput_joystick_init()) {
-	}
+    }
 #elif defined HAVE_SDL_NUMJOYSTICKS
     joy_sdl_init();
 #endif
