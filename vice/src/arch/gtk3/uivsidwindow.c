@@ -56,6 +56,7 @@
 #include "vsidtuneinfowidget.h"
 #include "vsidui.h"
 #include "vsync.h"
+#include "uistatusbar.h"
 
 #include "uivsidwindow.h"
 
@@ -173,7 +174,7 @@ static void vsid_ui_update(void)
  */
 static void on_frame_clock_update(GdkFrameClock *clock, gpointer user_data)
 {
-    ui_update_statusbars();
+    ui_update_vsid_statusbar();
     vsid_main_widget_update();  /* this should be merged with in the function
                                    below, I think */
     vsid_ui_update();

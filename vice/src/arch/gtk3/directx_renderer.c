@@ -45,6 +45,7 @@
 #include "render_queue.h"
 #include "resources.h"
 #include "ui.h"
+#include "uistatusbar.h"
 
 #define CANVAS_LOCK() pthread_mutex_lock(&canvas->lock)
 #define CANVAS_UNLOCK() pthread_mutex_unlock(&canvas->lock)

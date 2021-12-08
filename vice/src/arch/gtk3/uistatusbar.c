@@ -2893,54 +2893,12 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
 }
 
 
-/** \brief  Statusbar API to display emulation metrics and drive status
+/** \brief  Update status bar message widget
  *
- * \todo    Better handling of VSID status bar, probably a separate
- *          `ui_update_vsid_statusbar()` function is in order.
+ * \param[in]   state   statusbar state, obtained through lock_sb_state()
  */
-void ui_update_statusbars(void)
+static void statusbar_update_message(ui_sb_state_t *sb_state)
 {
-    /* TODO: Don't call this for each top level window as it updates all statusbars */
-    ui_statusbar_t *bar;
-    GtkWidget *speed_widget;
-    int i;
-    int j;
-    ui_sb_state_t *sb_state;
-    ui_sb_state_t state_snapshot;
-    uint32_t active_joyports;
-    bool active_joyports_changed = false;
-    int unit;
-    sb_state = lock_sb_state();
-
-    if (machine_class != VICE_MACHINE_VSID) {
-        /* Have any joyports been enabled / disabled? */
-        active_joyports = build_active_joyport_mask();
-        if (active_joyports != sb_state->active_joyports) {
-            active_joyports_changed = true;
-            sb_state->active_joyports = active_joyports;
-        }
-    }
-
-    /* Take a safe copy of the sb_state so we don't hold the lock during display */
-    state_snapshot = *sb_state;
-
-    if (machine_class != VICE_MACHINE_VSID) {
-        /* Reset any 'updated needed' flags */
-        sb_state->drives_layout_needed = false;
-
-        for (j = 0; j < NUM_DISK_UNITS; ++j) {
-            sb_state->current_drive_track_str_updated[j][0] = false;
-            sb_state->current_drive_track_str_updated[j][1] = false;
-            sb_state->current_drive_unit_str_updated[j][0]  = false;
-            sb_state->current_drive_unit_str_updated[j][1]  = false;
-            for (int d = 0; d < 2; d++) {
-                sb_state->current_drive_leds_updated[j][d][0] = false;
-                sb_state->current_drive_leds_updated[j][d][1] = false;
-            }
-        }
-    }
-
-    /* Message widget */
     if (sb_state->message_pending) {
         /* Only the primary window gets statusbar messages (?) */
         GtkWidget *msg = allocated_bars[0].msg;
@@ -2965,7 +2923,75 @@ void ui_update_statusbars(void)
         /* we're done */
         sb_state->message_pending = false;
     }
+}
 
+
+
+/** \brief  Update VSID-specific status bar
+ */
+void ui_update_vsid_statusbar(void)
+{
+    GtkWidget *speed_widget;
+    ui_statusbar_t *bar = &allocated_bars[0];
+    ui_sb_state_t *sb_state = lock_sb_state();
+
+    /* cpu/fps */
+    speed_widget = bar->speed;
+    if (speed_widget != NULL) {
+        statusbar_speed_widget_update(speed_widget, &bar->speed_state, bar->window_identity);
+    }
+
+    /* messages */
+    statusbar_update_message(sb_state);
+
+    unlock_sb_state();
+}
+
+
+/** \brief  Update status bars for non-VSID machines
+ */
+void ui_update_statusbars(void)
+{
+    /* TODO: Don't call this for each top level window as it updates all statusbars */
+    ui_statusbar_t *bar;
+    GtkWidget *speed_widget;
+    int i;
+    int j;
+    ui_sb_state_t *sb_state;
+    ui_sb_state_t state_snapshot;
+    uint32_t active_joyports;
+    bool active_joyports_changed = false;
+    int unit;
+    sb_state = lock_sb_state();
+
+    /* Have any joyports been enabled / disabled? */
+    active_joyports = build_active_joyport_mask();
+    if (active_joyports != sb_state->active_joyports) {
+        active_joyports_changed = true;
+        sb_state->active_joyports = active_joyports;
+    }
+
+    /* Take a safe copy of the sb_state so we don't hold the lock during display */
+    state_snapshot = *sb_state;
+
+    /* Reset any 'updated needed' flags */
+    sb_state->drives_layout_needed = false;
+
+    for (j = 0; j < NUM_DISK_UNITS; ++j) {
+        sb_state->current_drive_track_str_updated[j][0] = false;
+        sb_state->current_drive_track_str_updated[j][1] = false;
+        sb_state->current_drive_unit_str_updated[j][0]  = false;
+        sb_state->current_drive_unit_str_updated[j][1]  = false;
+        for (int d = 0; d < 2; d++) {
+            sb_state->current_drive_leds_updated[j][d][0] = false;
+            sb_state->current_drive_leds_updated[j][d][1] = false;
+        }
+    }
+
+    /* statusbar messages */
+    statusbar_update_message(sb_state);
+
+    /* we can release the lock now */
     unlock_sb_state();
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
@@ -2981,10 +3007,6 @@ void ui_update_statusbars(void)
         speed_widget = bar->speed;
         if (speed_widget != NULL) {
             statusbar_speed_widget_update(speed_widget, &bar->speed_state, bar->window_identity);
-        }
-        if (machine_class == VICE_MACHINE_VSID) {
-            /* no more widget update required for VSID */
-            continue;
         }
 
         /*
