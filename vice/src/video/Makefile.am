@@ -17,7 +17,6 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libvideo.a
 
 libvideo_a_SOURCES = \
-	render-common.c \
 	render-common.h \
 	render1x1.c \
 	render1x1.h \
@@ -60,3 +59,5 @@ libvideo_a_SOURCES = \
 	video-sound.c \
 	video-sound.h \
 	video-viewport.c
+
+EXTRA_DIST = render-common.c
