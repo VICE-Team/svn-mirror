@@ -61,6 +61,7 @@ void vsid_state_init(void)
      * when the meaning of 0/NULL for a member changes we're in for some weird
      * bugs.
      */
+    state->psid_filename = NULL;
     state->name = NULL;
     state->author = NULL;
     state->copyright = NULL;
@@ -97,6 +98,10 @@ void vsid_state_shutdown(void)
 {
     vsid_state_t *state = vsid_state_lock();
 
+    if (state->psid_filename != NULL) {
+        lib_free(state->psid_filename);
+        state->psid_filename = NULL;
+    }
     if (state->name != NULL) {
         lib_free(state->name);
         state->name = NULL;

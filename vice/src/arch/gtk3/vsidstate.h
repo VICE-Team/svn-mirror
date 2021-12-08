@@ -26,6 +26,14 @@
  * the same time.
  */
 typedef struct vsid_state_s {
+
+    /** \brief  Path to the PSID file loaded
+     *
+     * Absolute path to the PSID file currently loaded, used to reload the PSID
+     * file after stopping playback.
+     */
+    char *psid_filename;
+
     /* PSID data */
 
     /** \brief  Author field of a PSID file */
