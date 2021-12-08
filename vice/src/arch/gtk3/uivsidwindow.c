@@ -36,6 +36,7 @@
 
 #include <gtk/gtk.h>
 
+#include "archdep_real_path.h"
 #include "hvsc.h"
 #include "hvscstilwidget.h"
 #include "lib.h"
@@ -236,12 +237,22 @@ static void vsid_window_create(video_canvas_t *canvas)
  */
 int ui_vsid_window_load_psid(const char *filename)
 {
+    vsid_state_t *state;
+
     vsync_suspend_speed_eval();
 
     if (machine_autodetect_psid(filename) < 0) {
         ui_error("'%s' is not a valid PSID file.", filename);
         return -1;
     }
+
+    state = vsid_state_lock();
+    if (state->psid_filename != NULL) {
+        lib_free(state->psid_filename);
+    }
+    state->psid_filename = lib_strdup(filename);
+    vsid_state_unlock();
+
     psid_init_driver();
     machine_play_psid(0);
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);

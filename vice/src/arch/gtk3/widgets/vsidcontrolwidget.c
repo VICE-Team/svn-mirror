@@ -46,6 +46,7 @@
 
 #include "archdep_defs.h"
 #include "vice_gtk3.h"
+#include "c64mem.h"
 #include "debug_gtk3.h"
 #include "debug.h"
 #include "machine.h"
@@ -58,6 +59,7 @@
 #include "uisidattach.h"
 #include "vsidstate.h"
 #include "vsidtuneinfowidget.h"
+#include "vsync.h"
 
 #include "vsidcontrolwidget.h"
 
@@ -65,6 +67,7 @@
 /** \brief  Emulation speed during fast forward
  */
 #define FFWD_SPEED  500
+
 
 
 /** \brief  Object containing icon and callback
@@ -219,13 +222,19 @@ static void play_callback(GtkWidget *widget, gpointer data)
     current = state->tune_current;
 
     if (current <= 0) {
+        /* restart previous tune if stopped before */
         current = state->tune_current = state->tune_default;
         vsid_state_unlock();
-        vsid_tune_info_widget_set_time(0);
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+
+        /* reload unloaded PSID file if loaded before */
+        if (state->psid_filename != NULL) {
+            psid_load_file(state->psid_filename);
+        }
+
         psid_init_driver();
-        /* psid_init_tune(1); */
         machine_play_psid(current);
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        ui_pause_disable();
     } else {
         /* return emulation speed back to 100% */
         vsid_state_unlock();
@@ -244,6 +253,18 @@ static void play_callback(GtkWidget *widget, gpointer data)
 static void pause_callback(GtkWidget *widget, gpointer data)
 {
     ui_pause_toggle();
+}
+
+
+static void stop_callback(GtkWidget *widget, gpointer data)
+{
+    vsid_state_t *state = vsid_state_lock();
+
+    state->tune_current = -1;
+    vsid_state_unlock();
+
+    machine_play_psid(-1);
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
 
 
@@ -267,10 +288,8 @@ static const vsid_ctrl_button_t buttons[] = {
         "Play tune" },
     { "media-playback-pause", pause_callback,
         "Pause playback" },
-#if 0
     { "media-playback-stop", stop_callback,
-        "Stop playback (slightly screwed up at the moment, so it doesn't work)"},
-#endif
+        "Stop playback" },
     { "media-seek-forward", ffwd_callback,
         "Fast forward" },
     { "media-skip-forward", next_tune_callback,
