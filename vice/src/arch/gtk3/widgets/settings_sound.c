@@ -102,7 +102,7 @@ static GtkWidget *create_inner_grid(void)
     gtk_grid_attach(GTK_GRID(grid),
             wrapper,
             2, 1, 1, 1);
- 
+
     /* row 1, columm 3 */
     gtk_grid_attach(GTK_GRID(grid),
             sound_fragment_size_widget_create(),

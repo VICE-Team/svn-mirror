@@ -70,4 +70,4 @@ void vice_locking_gtk_accel_group_connect(
 #define g_signal_connect_unlocked(instance, detailed_signal, callback, data) \
     g_signal_connect_data((instance), (detailed_signal), (G_CALLBACK(callback)), (data), NULL, (GConnectFlags) 0)
 
-#endif 
+#endif

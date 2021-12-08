@@ -80,7 +80,7 @@ static const vice_gtk3_radiogroup_entry_t plus_60k_base_addresses[] = {
 
 
 /*
- * References to widget that need to be enabled/disabled, depending on the 
+ * References to widget that need to be enabled/disabled, depending on the
  * memory expansion hack selected
  */
 

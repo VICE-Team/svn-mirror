@@ -260,7 +260,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
 
 #ifdef MACOSX_SUPPORT
         CGRect native_frame, content_rect;
-        
+
         vice_macos_get_widget_frame_and_content_rect(widget, &native_frame, &content_rect);
 
         /* macOS CoreGraphics coordinates origin is bottom-left of primary display */
@@ -284,7 +284,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
             (widget_y + motion->y) * scale);
 
 #endif
-        
+
         pthread_mutex_unlock(&canvas->lock);
         return FALSE;
     }
@@ -309,7 +309,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         canvas->pen_x = pen_x;
         canvas->pen_y = pen_y;
     }
-    
+
     pthread_mutex_unlock(&canvas->lock);
     return FALSE;
 }
@@ -659,23 +659,23 @@ void ui_mouse_grab_pointer(void)
 {
     GtkWidget *window;
     float warp_x, warp_y;
-    
+
     if (!_mouse_enabled) {
         return;
     }
 
     window = ui_get_window_by_index(PRIMARY_WINDOW);
-    
+
     if (!window) {
         /* Probably mouse grab via config or command line, we'll grab it later via on_focus_in_event(). */
         return;
     }
-    
+
     /*
      * We warp the mouse to the center of the primary window and move it back there
      * each time we detect mouse movement.
      */
-        
+
 #ifdef MACOSX_SUPPORT
 
     CGRect native_frame, content_rect;

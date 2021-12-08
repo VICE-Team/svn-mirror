@@ -30,8 +30,8 @@
 #include <stdbool.h>
 #include <string.h>
 
-#ifdef __cplusplus  
-extern "C" { 
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 typedef enum render_job {
@@ -51,7 +51,7 @@ void render_thread_shutdown_and_join_all(void);
 
 void render_thread_push_job(render_thread_t render_thread, render_job_t job_context);
 
-#ifdef __cplusplus  
+#ifdef __cplusplus
 } /* extern "C" { */
 #endif
 

@@ -51,7 +51,7 @@
 
 
 /** \brief The callbacks registered for mouse buttons being pressed or
- *         released. 
+ *         released.
  *  \sa mousedrv_resources_init which sets these values properly
  *  \sa mouse_button which uses them
  */
@@ -110,7 +110,7 @@ void mousedrv_mouse_changed(void)
 {
     /** \todo Tell UI level to capture mouse cursor if necessary and
      *        permitted */
-    log_message(LOG_DEFAULT, "GTK3MOUSE: Status changed: %d (%s)\n", 
+    log_message(LOG_DEFAULT, "GTK3MOUSE: Status changed: %d (%s)\n",
             _mouse_enabled, _mouse_enabled ? "enabled" : "disabled");
     if (_mouse_enabled) {
         ui_mouse_grab_pointer();

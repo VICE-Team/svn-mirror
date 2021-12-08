@@ -134,7 +134,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     /* Get a visual */
     PFNGLXGETVISUALFROMFBCONFIGPROC vice_glXGetVisualFromFBConfig = (PFNGLXGETVISUALFROMFBCONFIGPROC)glXGetProcAddressARB((const GLubyte *)"glXGetVisualFromFBConfig");
     XVisualInfo *x_visual = vice_glXGetVisualFromFBConfig(context->x_display, framebuffer_config);
-    
+
     XSetWindowAttributes x_set_window_attributes;
 
     x_set_window_attributes.colormap =
@@ -158,7 +158,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
             x_visual->visual,
             CWColormap | CWBackPixmap | CWBorderPixel | CWEventMask,
             &x_set_window_attributes);
-    
+
     XMapWindow(context->x_display, context->x_overlay_window);
 
     /* Done with the visual info data */
@@ -190,7 +190,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
             };
 
         oldHandler = XSetErrorHandler(catch_x_error);
-        
+
         context->gl_context = vice_glXCreateContextAttribsARB(context->x_display, framebuffer_config, NULL, True, context_attribs);
 
         /* Sync to ensure any errors generated are processed. */
@@ -224,7 +224,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     int major = -1;
     int minor = -1;
     sscanf((const char *)glGetString(GL_VERSION), "%d.%d", &major, &minor);
-    
+
     /* Anything less than OpenGL 3.2 will use the legacy renderer */
     context->gl_context_is_legacy = major < 3 || (major == 3 && minor < 2);
 
@@ -234,7 +234,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         glGetString(GL_VENDOR),
         glGetString(GL_RENDERER),
         glGetString(GL_VERSION),
-        context->gl_context_is_legacy ? "yes" : "no");    
+        context->gl_context_is_legacy ? "yes" : "no");
 
     /* Not sure if an indirect context will work but lets leave some useful output for bug reports */
     if (!glXIsDirect(context->x_display, context->gl_context)) {
@@ -302,7 +302,7 @@ void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *cont
         context->native_view_y,
         context->gl_backing_layer_width,
         context->gl_backing_layer_height);
-    
+
     RENDER_UNLOCK();
 }
 

@@ -1427,7 +1427,7 @@ static ui_settings_tree_node_t host_nodes_scpu64[] = {
 static ui_settings_tree_node_t machine_nodes_scpu64[] = {
     { "Model",
       "model",
-      settings_model_widget_create, NULL }, 
+      settings_model_widget_create, NULL },
     { "SCPU64",
       "scpu64",
       scpu64_settings_widget_create, NULL },

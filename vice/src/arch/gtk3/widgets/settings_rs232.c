@@ -177,8 +177,8 @@ static GtkWidget *rsuser_baud_widget;
  */
 static void on_rsinterface_changed(GtkWidget *widget)
 {
-    int up9600; 
-    
+    int up9600;
+
     GtkWidget *baud;
     GtkWidget *rts;
     GtkWidget *cts;
@@ -202,7 +202,7 @@ static void on_rsinterface_changed(GtkWidget *widget)
         switch (index) {
             case USERPORT_RS_NONINVERTED:
                 vice_gtk3_resource_check_button_set(rts, false);
-                vice_gtk3_resource_check_button_set(cts, false); 
+                vice_gtk3_resource_check_button_set(cts, false);
                 /*vice_gtk3_resource_check_button_set(dcd, false);*/
                 vice_gtk3_resource_check_button_set(dsr, false);
                 vice_gtk3_resource_check_button_set(dtr, false);

@@ -295,7 +295,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     pthread_mutexattr_init(&lock_attributes);
     pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
     pthread_mutex_init(&canvas->lock, &lock_attributes);
-    
+
     /*
      * the render output can always be read from in GTK3,
      * it's not a direct video memory buffer.
@@ -368,10 +368,10 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     canvas->pen_x = -1;
     canvas->pen_y = -1;
     canvas->pen_buttons = 0;
-    
+
     if (!console_mode) {
         ui_create_main_window(canvas);
-    
+
         if (width && height && canvas->renderer_backend) {
             canvas->renderer_backend->update_context(canvas, *width, *height);
         }
@@ -407,7 +407,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 }
 
 /** \brief Update the display on a video canvas to reflect the machine
- *         state. 
+ *         state.
  * \param canvas The canvas to update.
  * \param xs     A parameter to forward to video_canvas_render()
  * \param ys     A parameter to forward to video_canvas_render()

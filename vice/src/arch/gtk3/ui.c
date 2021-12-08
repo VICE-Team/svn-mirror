@@ -1628,7 +1628,7 @@ void ui_create_main_window(video_canvas_t *canvas)
             restored = 1;
         }
     }
-    
+
     if (!restored) {
         /*
          * If not restoring location and size from config, attempt to place
@@ -2154,11 +2154,11 @@ static void pause_loop(void *param)
 {
     vsync_suspend_speed_eval();
     sound_suspend();
-    
+
     if (!is_paused) {
         return;
     }
-    
+
     /* Enter monitor directly if needed. */
     if (enter_monitor_while_paused) {
         enter_monitor_while_paused = 0;
@@ -2167,7 +2167,7 @@ static void pause_loop(void *param)
         /* Otherwise give the UI the lock for a while */
         tick_sleep(tick_per_second() / 60);
     }
-    
+
     if (is_paused) {
         /*
          * Still paused, schedule another run. Doing it this way allows
@@ -2303,7 +2303,7 @@ void ui_exit(void)
 
     /* unregister the CBM font */
     archdep_unregister_cbmfont();
-    
+
     /* Show any async errors that haven't been shown yet. */
     while (gtk_events_pending()) {
         gtk_main_iteration();
@@ -2318,7 +2318,7 @@ void ui_update_lightpen(void)
 {
     video_canvas_t *canvas;
     canvas = ui_resources.canvas[PRIMARY_WINDOW];
-    
+
     if (machine_class == VICE_MACHINE_C128) {
         /* According to lightpen.c, x128 flips primary and secondary
          * windows compared to what the GTK3 backend expects. */

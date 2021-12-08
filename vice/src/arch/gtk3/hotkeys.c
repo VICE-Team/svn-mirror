@@ -82,7 +82,7 @@ static int hotkeys_file_set(const char *val, void *param);
 
 /** \brief  Initial size of the buffer of the textfile reader
  *
- * The buffer will be automatically doubled in size 
+ * The buffer will be automatically doubled in size
  */
 #define TEXTFILE_READER_BUFSIZE 1024
 
