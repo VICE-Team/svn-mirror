@@ -11,7 +11,7 @@
  * $VICERES RAMInitPatternInvert        all
  * $VICERES RAMInitValueOffset          all
  * $VICERES RAMInitPatternInvertValue   all
- * $VICERES RAMInitStartRandom          all 
+ * $VICERES RAMInitStartRandom          all
  * $VICERES RAMInitRepeatRandom         all
  * $VICERES RAMInitRandomChance         all
  */
@@ -220,7 +220,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     g_object_set(scrolled, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), scrolled, 0, 10, 2, 1);
 
-    g_signal_connect(start_value_widget, "value-changed", 
+    g_signal_connect(start_value_widget, "value-changed",
             G_CALLBACK(on_value_changed), view);
     g_signal_connect(value_offset_widget, "changed",
             G_CALLBACK(on_value_changed), view);

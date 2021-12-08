@@ -249,8 +249,8 @@ static void kbd_sync_caps_lock(void)
 static int kbd_get_modifier(GdkEvent *report)
 {
     int ret = 0;
-    /* printf("key.state: %04x key.keyval: %04x (%s) key.hardware_keycode: %04x\n", 
-            report->key.state, report->key.keyval, gdk_keyval_name(report->key.keyval), 
+    /* printf("key.state: %04x key.keyval: %04x (%s) key.hardware_keycode: %04x\n",
+            report->key.state, report->key.keyval, gdk_keyval_name(report->key.keyval),
             report->key.hardware_keycode); */
     if (report->key.state & GDK_SHIFT_MASK) {
         if (shiftl_state || capslock_state) {
@@ -445,7 +445,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             mainlock_release();
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
                 mainlock_obtain();
-                
+
                 /* mnemonic or accelerator was found and activated. */
                 /* release all previously pressed keys to prevent stuck keys */
                 keyspressed = 0;

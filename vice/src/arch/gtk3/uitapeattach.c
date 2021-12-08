@@ -221,7 +221,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     debug_gtk3("Index %d.", index);
 #endif
     /* first, to make the following logic less funky, map some events to others,
-       depending on whether autostart-on-doubleclick is enabled or not, and 
+       depending on whether autostart-on-doubleclick is enabled or not, and
        depending on the event coming from the preview window or not. */
     switch (response_id) {
         /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */

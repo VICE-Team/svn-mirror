@@ -69,7 +69,7 @@ render_thread_t render_thread_create(render_thread_callback_t callback, void *th
     thread = threads + thread_count;
     memset(thread, 0, sizeof(struct render_thread_s));
     thread->index = thread_count++;
-    
+
     thread->executor = g_thread_pool_new(callback, thread_context, 1, TRUE, NULL);
 
     /* Schedule the init job */
@@ -88,7 +88,7 @@ void render_thread_initiate_shutdown(render_thread_t thread)
 
     if (thread->is_shutdown_initiated) {
         UNLOCK();
-        return;    
+        return;
     }
 
     log_message(LOG_DEFAULT, "Initiating render thread %d shutdown", thread->index);
@@ -110,18 +110,18 @@ void render_thread_join(render_thread_t thread)
     LOCK();
     thread->is_shut_down = true;
     UNLOCK();
-    
+
     log_message(LOG_DEFAULT, "Joined render thread %d.", thread->index);
 }
 
 void render_thread_shutdown_and_join_all(void)
 {
-    for (int i = 0; i < thread_count; i++) {        
+    for (int i = 0; i < thread_count; i++) {
         render_thread_initiate_shutdown(threads + i);
     }
-    
+
     for (int i = 0; i < thread_count; i++) {
-        render_thread_join(threads + i);        
+        render_thread_join(threads + i);
     }
 }
 
@@ -140,7 +140,3 @@ void render_thread_push_job(render_thread_t thread, render_job_t job)
 
     UNLOCK();
 }
-
-
-
-    

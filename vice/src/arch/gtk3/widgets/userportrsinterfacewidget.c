@@ -64,7 +64,7 @@ static const vice_gtk3_combo_entry_int_t userport_rsinterfacesvic[] = {
     { NULL,             -1 }
 };
 
-/** \brief  Get RS-232 interface combo box index from the control lines checkboxes combinations 
+/** \brief  Get RS-232 interface combo box index from the control lines checkboxes combinations
  *
  * \return  int
  */

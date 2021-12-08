@@ -261,7 +261,7 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
            0xe200-0xe2ff codepoints cover the same characters, but contain the
                          respective inverted glyphs.
 
-           regular valid petscii codes are converted as is, petscii control 
+           regular valid petscii codes are converted as is, petscii control
            codes will produce the glyph that the petscii code would produce
            in so called "quote mode".
         */

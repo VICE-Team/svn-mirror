@@ -59,7 +59,7 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief A queue of backbuffers ready for painting to the widget */
     void *render_queue;
-    
+
 #ifdef MACOSX_SUPPORT
     /** \brief native child window for OpenGL to draw on */
     void *native_view;
@@ -81,7 +81,7 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief size of the backing layer in pixels. Can be higher than native_view_width (high dpi) */
     unsigned int gl_backing_layer_width;
-    
+
     /** \brief size of the backing layer in pixels. Can be higher than native_view_height (high dpi) */
     unsigned int gl_backing_layer_height;
 
@@ -93,7 +93,7 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief size of the native view in gtk coordinates (which are not pixels) */
     unsigned int native_view_width;
-    
+
     /** \brief size of the native view in gtk coordinates (which are not pixels) */
     unsigned int native_view_height;
 
@@ -102,13 +102,13 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief minimum size for the drawing area, based on emu and aspect ratio settings */
     unsigned int native_view_min_height;
-    
+
     /** \brief background colour for the native view */
     float native_view_bg_r;
-    
+
     /** \brief background colour for the native view */
     float native_view_bg_g;
-    
+
     /** \brief background colour for the native view */
     float native_view_bg_b;
 
@@ -142,10 +142,10 @@ typedef struct vice_opengl_renderer_context_s {
     GLuint previous_frame_texture;
     unsigned int previous_frame_width;
     unsigned int previous_frame_height;
-    
+
     /** \brief size of the next frame to be emulated */
     unsigned int emulated_width_next;
-    
+
     /** \brief size of the next frame to be emulated */
     unsigned int emulated_height_next;
 
@@ -154,7 +154,7 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief when the last frame was rendered */
     unsigned long last_render_time;
-        
+
     /** \brief cached value of the vsync resource to avoid setting it each frame */
     unsigned long cached_vsync_resource;
 
@@ -163,7 +163,7 @@ typedef struct vice_opengl_renderer_context_s {
 void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context);
 void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *context);
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context);
-     
+
 void vice_opengl_renderer_make_current(vice_opengl_renderer_context_t *context);
 void vice_opengl_renderer_set_viewport(vice_opengl_renderer_context_t *context);
 void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, bool enable_vsync);

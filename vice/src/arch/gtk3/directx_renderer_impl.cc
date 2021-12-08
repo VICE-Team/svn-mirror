@@ -83,7 +83,7 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
 
     /* Create the Direct 3D device */
 
-    D3D_FEATURE_LEVEL featureLevels[] = 
+    D3D_FEATURE_LEVEL featureLevels[] =
         {
             D3D_FEATURE_LEVEL_11_1,
             D3D_FEATURE_LEVEL_11_0,
@@ -93,7 +93,7 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
             D3D_FEATURE_LEVEL_9_2,
             D3D_FEATURE_LEVEL_9_1
         };
-    
+
     if (!context->d3d_device) {
         ID3D11Device *d3d_device;
         ID3D11DeviceContext *d3d_device_context;
@@ -105,7 +105,7 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
                 D3D11_CREATE_DEVICE_BGRA_SUPPORT,   /* needed for Direct2D compatibility */
                 featureLevels,
                 ARRAYSIZE(featureLevels),
-                D3D11_SDK_VERSION,          
+                D3D11_SDK_VERSION,
                 &d3d_device,
                 NULL,                               /* don't return resulting feature level */
                 &d3d_device_context
@@ -135,7 +135,7 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
         }
         d3d_device_context->Release();
     }
-    
+
     /* Get the underlying DXGI Device */
 
     if (!context->dxgi_device) {
@@ -149,7 +149,7 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
     }
 
     /* now get the Direct2D device and device context */
-    
+
     if (!context->d2d_device) {
         result = context->d2d_factory->CreateDevice(context->dxgi_device, &context->d2d_device);
         if (FAILED(result))
@@ -239,7 +239,7 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
         swap_chain_desc.Width                 = 0;                                // use automatic sizing
         swap_chain_desc.Height                = 0;
         swap_chain_desc.Format                = DXGI_FORMAT_B8G8R8A8_UNORM;       // this is the most common swapchain format
-        swap_chain_desc.Stereo                = false; 
+        swap_chain_desc.Stereo                = false;
         swap_chain_desc.SampleDesc.Count      = 1;                                // don't use multi-sampling
         swap_chain_desc.SampleDesc.Quality    = 0;
         swap_chain_desc.BufferUsage           = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -267,7 +267,7 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
         // Ensure that DXGI doesn't queue more than one frame at a time.
         context->dxgi_device->SetMaximumFrameLatency(1);
     }
-    
+
     /*
      * Frame dependant resources
      */
@@ -289,7 +289,7 @@ static void build_directx_resources(vice_directx_renderer_context_t *context)
     context->d2d_factory->GetDesktopDpi(&dpiX, &dpiY);
 
     if (!context->dxgi_bitmap) {
-        D2D1_BITMAP_PROPERTIES1 bitmap_properties = 
+        D2D1_BITMAP_PROPERTIES1 bitmap_properties =
             D2D1::BitmapProperties1(
                 D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
                 D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED),
@@ -325,10 +325,10 @@ static void destroy_device_dependent_resources(vice_directx_renderer_context_t *
 {
     DX_RELEASE(context->render_bitmap);
     DX_RELEASE(context->previous_frame_render_bitmap);
-    
+
     DX_RELEASE(context->d2d_effect_scale);
     DX_RELEASE(context->d2d_effect_combine);
-    DX_RELEASE(context->d2d_effect_premultiply_alpha);    
+    DX_RELEASE(context->d2d_effect_premultiply_alpha);
     DX_RELEASE(context->d2d_effect_strip_alpha);
     DX_RELEASE(context->d2d_device_context);
     DX_RELEASE(context->d2d_device);
@@ -386,7 +386,7 @@ static void build_render_bitmap(vice_directx_renderer_context_t *context, backbu
                     D2D1::SizeU(backbuffer->width, backbuffer->height),
                     bitmap_properies,
                     &context->render_bitmap);
-            
+
             if (FAILED(result))
             {
                 vice_directx_impl_log_windows_error("CreateBitmap1");
@@ -510,7 +510,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     int vsync;
     int filter;
     DXGI_PRESENT_PARAMETERS present_parameters = { 0 };
-    
+
     if (job == render_thread_init) {
         archdep_thread_init();
 
@@ -551,7 +551,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     }
 
     build_directx_resources(context);
-    
+
     recalculate_layout(canvas, context);
 
     interlaced = context->interlaced;
@@ -574,7 +574,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     if (interlaced && context->previous_frame_render_bitmap && context->render_bitmap) {
         /* Render the previous frame ignoring alpha */
         context->d2d_effect_strip_alpha->SetInput(0, context->previous_frame_render_bitmap);
-        
+
         /* Premultiply the alpha on the new frame */
         context->d2d_effect_premultiply_alpha->SetInput(0, context->render_bitmap);
 
@@ -613,7 +613,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
             )
     );
     context->d2d_device_context->DrawImage(context->d2d_effect_scale);
-    
+
     result = context->d2d_device_context->EndDraw();
 
     if (result == D2DERR_RECREATE_TARGET) {

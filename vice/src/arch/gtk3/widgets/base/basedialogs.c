@@ -264,9 +264,9 @@ GtkWidget *vice_gtk3_message_error(const char *title,
     dialog = create_dialog(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
 
     lib_free(buffer);
-    
+
     g_signal_connect(dialog, "response", G_CALLBACK(on_response_error), NULL);
-    
+
     active_window = ui_get_active_window();
 
     if (active_window) {
@@ -278,7 +278,7 @@ GtkWidget *vice_gtk3_message_error(const char *title,
     }
 
     gtk_widget_show(dialog);
-    
+
     return dialog;
 }
 

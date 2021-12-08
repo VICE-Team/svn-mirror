@@ -76,7 +76,7 @@ void copy_quoted(WCHAR *dest, WCHAR *src)
         *dest++ = L'"';
         while (c = *src++) {
             if (c == L'\\') {
-                /* Backslashes must be escaped if and only if they are 
+                /* Backslashes must be escaped if and only if they are
                  * part of a string of backslashes preceding a quote. */
                 int i, n = 1;
                 while (*src == L'\\') {
@@ -128,7 +128,7 @@ WCHAR *skip_argument(WCHAR *src)
             ++src;
         }
     }
-    /* The token is the entire string. Return pointer to the null 
+    /* The token is the entire string. Return pointer to the null
      * terminator. */
     return src;
 }

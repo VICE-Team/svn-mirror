@@ -720,7 +720,7 @@ void _vte_keymap_map(guint keyval,
     g_return_if_fail(normal != NULL);
     g_return_if_fail(normal_length != NULL);
 
-    _VTE_DEBUG_IF(VTE_DEBUG_KEYBOARD) 
+    _VTE_DEBUG_IF(VTE_DEBUG_KEYBOARD)
         _vte_keysym_print(keyval, modifiers);
 
     /* Start from scratch. */

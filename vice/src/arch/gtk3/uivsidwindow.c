@@ -167,7 +167,7 @@ static void vsid_ui_update(void)
 
 
 /** \brief  Called once per frame for frequent asynchronous UI updates.
- * 
+ *
  * For example, vsid.c provides an updated play time from the VICE thread.
  * It's not safe for the VICE thread to call GTK code - so instead we just
  * store the value and update the UI each frame in here.

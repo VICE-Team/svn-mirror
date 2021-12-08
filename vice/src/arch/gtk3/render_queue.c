@@ -43,7 +43,7 @@ typedef struct vice_render_queue_s {
 
     /** Holds all currently unused backbuffers */
     backbuffer_t *backbuffer_stack[RENDER_QUEUE_MAX_BACKBUFFERS];
-    
+
     /** How many unused backbuffers in the stack */
     unsigned int backbuffer_stack_size;
 
@@ -72,7 +72,7 @@ void *render_queue_create(void)
 {
     render_queue_t *rq;
     backbuffer_t *bb;
-    
+
     rq = lib_calloc(1, sizeof(render_queue_t));
     pthread_mutex_init(&rq->lock, NULL);
 
@@ -88,7 +88,7 @@ void *render_queue_create(void)
 
         rq->backbuffer_stack[rq->backbuffer_stack_size++] = bb;
     }
-    
+
     return rq;
 }
 
@@ -108,7 +108,7 @@ void render_queue_destroy(void *render_queue)
         free_backbuffer(rq->render_queue[rq->render_queue_next++]);
         rq->render_queue_next = rq->render_queue_next % RENDER_QUEUE_MAX_BACKBUFFERS;
     }
-    
+
     pthread_mutex_destroy(&rq->lock);
     lib_free(render_queue);
 }
@@ -128,10 +128,10 @@ backbuffer_t *render_queue_get_from_pool(void *render_queue, int pixel_data_size
         UNLOCK();
         return NULL;
     }
-    
+
     bb = rq->backbuffer_stack[rq->backbuffer_stack_size - 1];
     rq->backbuffer_stack_size--;
-    
+
     UNLOCK();
 
     /* Make sure there's at least the requested size in bytes */
@@ -190,7 +190,7 @@ backbuffer_t *render_queue_dequeue_for_display(void *render_queue)
         UNLOCK();
         return NULL;
     }
-    
+
     void *backbuffer = rq->render_queue[rq->render_queue_next];
     rq->render_queue_next = (rq->render_queue_next + 1) % RENDER_QUEUE_MAX_BACKBUFFERS;
     rq->render_queue_length--;

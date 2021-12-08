@@ -664,7 +664,7 @@ static void
 _vte_boa_encrypt (VteBoa *boa, gsize offset, guint32 overwrite_counter, char *data, unsigned int len)
 {
 #ifndef VTESTREAM_MAIN
-#if 0    
+#if 0
 # ifdef WITH_GNUTLS
     boa->iv.offset = offset;
     boa->iv.overwrite_counter = overwrite_counter;
@@ -756,8 +756,8 @@ static unsigned int _vte_boa_compress (char *dst, unsigned int dstlen, const cha
     unsigned int len = 0, prevrepeat = 0;
     while (srclen) {
         unsigned int repeat = 1;
-        while (repeat < srclen && src[repeat] == src[0]) { 
-            repeat++; 
+        while (repeat < srclen && src[repeat] == src[0]) {
+            repeat++;
         }
         if (repeat != prevrepeat) {
             *dst++ = '0' + repeat;

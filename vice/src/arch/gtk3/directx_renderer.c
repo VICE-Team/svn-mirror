@@ -325,11 +325,11 @@ static void vice_directx_set_palette(video_canvas_t *canvas)
     int i;
     video_render_color_tables_t *color_tables = &canvas->videoconfig->color_tables;
     struct palette_s *palette = canvas ? canvas->palette : NULL;
-    
+
     if (!palette) {
         return;
     }
-    
+
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
         uint32_t color_code = color.red | (color.green << 8) | (color.blue << 16) | (0xffU << 24);
