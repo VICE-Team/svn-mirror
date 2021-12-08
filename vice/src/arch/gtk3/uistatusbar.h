@@ -53,5 +53,7 @@ void ui_statusbar_set_kbd_debug(gboolean state);
 
 GtkWidget *ui_statusbar_get_recording_widget(void);
 
+void ui_update_vsid_statusbar(void);
+void ui_update_statusbars(void);
 
 #endif

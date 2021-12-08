@@ -49,6 +49,7 @@
 #include "sysfile.h"
 #include "tick.h"
 #include "ui.h"
+#include "uistatusbar.h"
 #include "util.h"
 #include "vsync.h"
 #include "vsyncapi.h"
@@ -411,7 +412,7 @@ static void macos_set_host_mouse_visibility(GtkWindow *gtk_window)
 static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *canvas)
 {
     context_t *context = canvas->renderer_context;
-    
+
     ui_update_statusbars();
 
     CANVAS_LOCK();
