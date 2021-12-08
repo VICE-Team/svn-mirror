@@ -271,7 +271,7 @@ noinst_HEADERS = \
 	serial.h \
 	sidcart.h \
 	signals.h \
-	snespad.h
+	snespad.h \
 	sound.h \
 	ssi2001.h \
 	sysfile.h \
