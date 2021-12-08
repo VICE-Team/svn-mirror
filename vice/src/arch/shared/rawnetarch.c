@@ -335,7 +335,7 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
             "rawnet_arch_transmit() called (driver: %s), with: force = %s, onecoll = %s, "
             "inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
             rawnet_arch_driver->name,
-            force ? "TRUE" : "FALSE", 
+            force ? "TRUE" : "FALSE",
             onecoll ? "TRUE" : "FALSE",
             inhibit_crc ? "TRUE" : "FALSE",
             tx_pad_dis ? "TRUE" : "FALSE",

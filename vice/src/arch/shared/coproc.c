@@ -166,7 +166,7 @@ static int CreateChildProcess(
     HANDLE hChildStd_IN_Rd,
     HANDLE hChildStd_OUT_Wr)
 {
-    PROCESS_INFORMATION piProcInfo; 
+    PROCESS_INFORMATION piProcInfo;
     STARTUPINFO siStartInfo;
     BOOL bSuccess = FALSE;
 
@@ -176,7 +176,7 @@ static int CreateChildProcess(
     /* Set up members of the STARTUPINFO structure. */
     /* This structure specifies the STDIN and STDOUT handles for redirection. */
     ZeroMemory( &siStartInfo, sizeof(STARTUPINFO) );
-    siStartInfo.cb = sizeof(STARTUPINFO); 
+    siStartInfo.cb = sizeof(STARTUPINFO);
     siStartInfo.hStdError = hChildStd_OUT_Wr;
     siStartInfo.hStdOutput = hChildStd_OUT_Wr;
     siStartInfo.hStdInput = hChildStd_IN_Rd;
@@ -184,16 +184,16 @@ static int CreateChildProcess(
     siStartInfo.wShowWindow = SW_HIDE;
 
     /* Create the child process.  */
-    bSuccess = CreateProcess(NULL, 
+    bSuccess = CreateProcess(NULL,
         szCmdline,     /* command line */
         NULL,          /* process security attributes */
-        NULL,          /* primary thread security attributes */ 
-        TRUE,          /* handles are inherited */ 
-        0,             /* creation flags */ 
-        NULL,          /* use parent's environment */ 
+        NULL,          /* primary thread security attributes */
+        TRUE,          /* handles are inherited */
+        0,             /* creation flags */
+        NULL,          /* use parent's environment */
         NULL,          /* use parent's current directory */
-        &siStartInfo,  /* STARTUPINFO pointer */ 
-        &piProcInfo);  /* receives PROCESS_INFORMATION */ 
+        &siStartInfo,  /* STARTUPINFO pointer */
+        &piProcInfo);  /* receives PROCESS_INFORMATION */
 
     /* If an error occurs, exit */
     if (!bSuccess) {
@@ -224,8 +224,8 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
 
     /* Set the bInheritHandle flag so pipe handles are inherited.  */
     saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
-    saAttr.bInheritHandle = TRUE; 
-    saAttr.lpSecurityDescriptor = NULL; 
+    saAttr.bInheritHandle = TRUE;
+    saAttr.lpSecurityDescriptor = NULL;
 
     /* Create a pipe for the child process's STDOUT. */
      if (!CreatePipe(&hChildStd_OUT_Rd, &hChildStd_OUT_Wr, &saAttr, 0)) {
@@ -238,7 +238,7 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     }
 
     /* Create a pipe for the child process's STDIN. */
-    if (!CreatePipe(&hChildStd_IN_Rd, &hChildStd_IN_Wr, &saAttr, 0)) { 
+    if (!CreatePipe(&hChildStd_IN_Rd, &hChildStd_IN_Wr, &saAttr, 0)) {
         return -1;
     }
 
@@ -246,18 +246,18 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     if (!SetHandleInformation(hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0)) {
         return -1;
     }
-    
+
     /* use a subshell to execute the given cmdline */
     cmdline = lib_malloc(strlen(cmd) + 20);
     strcpy(cmdline, "cmd.exe /C ");
     strcat(cmdline, cmd);
- 
+
     /* Create the child process. */
     if (CreateChildProcess(cmdline, hChildStd_IN_Rd, hChildStd_OUT_Wr) < 0) {
         lib_free(cmdline);
         return -1;
     }
-    
+
     lib_free(cmdline);
 
     /* convert the windows HANDLEs to a regular file handle */

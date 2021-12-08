@@ -1,5 +1,5 @@
 /** \file   archdep_require_vkbd.h
- * \brief   
+ * \brief
  * \author  groepaz <groepaz@gmx.net>
  */
 
@@ -30,5 +30,3 @@
 int archdep_require_vkbd(void);
 
 #endif
- 
- 

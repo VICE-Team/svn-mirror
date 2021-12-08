@@ -125,7 +125,7 @@ void archdep_vice_exit(int exit_code)
 
         if (mainlock_is_vice_thread()) {
             /* The vice thread should shut itself down so that archdep_vice_exit does not return */
-            mainlock_initiate_shutdown();            
+            mainlock_initiate_shutdown();
         }
     }
 }

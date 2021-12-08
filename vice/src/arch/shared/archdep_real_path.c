@@ -44,7 +44,7 @@
  * \param[out]  resolved_pathname    buffer for result (must be at least
  *                                   PATH_MAX/_MAX_PATH long)
  *
- * \return      resolved_pathname on success, NULL on failure. On failure, 
+ * \return      resolved_pathname on success, NULL on failure. On failure,
  *              contents of resolved_pathname are undefined.
  */
 char *archdep_real_path(const char *pathname, char *resolved_pathname)

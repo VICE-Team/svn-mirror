@@ -47,9 +47,9 @@ static OSStatus on_default_device_changed(AudioObjectID inObjectID,
      * requesting a specific device. Therefore when the default output device
      * changes, reinitialise sound so that our sound targets the new default device
      */
-    
+
     sound_state_changed = 1;
-    
+
     return 0;
 }
 
