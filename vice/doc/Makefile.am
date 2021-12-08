@@ -46,7 +46,7 @@ endif
 		echo "ERROR: vice.texi contains content that is not valid iso-8859-x" >&2; \
 		false; \
 	fi
-	touch .vice-texi-charset-ok
+	@touch .vice-texi-charset-ok
 
 #if 0
 $(builddir)/vice.txt:	.vice-texi-charset-ok
