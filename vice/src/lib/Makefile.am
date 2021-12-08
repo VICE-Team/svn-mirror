@@ -8,6 +8,3 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 
 libp64:
 	(cd p64; $(MAKE))
-
-dist-hook:
-	@$(SHELL) $(srcdir)/../buildtools/ffmpeg_dist.sh $(srcdir) $(distdir)
