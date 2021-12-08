@@ -30,5 +30,3 @@
 int archdep_rtc_get_centisecond(void);
 
 #endif
- 
- 

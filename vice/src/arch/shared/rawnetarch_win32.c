@@ -133,7 +133,7 @@ static void EthernetPcapFreeLibrary(void)
         log_message(rawnet_arch_log, "GetProcAddress " #_name_ " failed!"); \
         EthernetPcapFreeLibrary();                                            \
         return FALSE;                                                    \
-    } 
+    }
 
 static BOOL EthernetPcapLoadLibrary(void)
 {
@@ -238,7 +238,7 @@ int rawnet_arch_enumadapter_close(void)
     return 1;
 }
 
-static BOOL EthernetPcapOpenAdapter(const char *interface_name) 
+static BOOL EthernetPcapOpenAdapter(const char *interface_name)
 {
     pcap_if_t *EthernetPcapDevice = NULL;
 
@@ -393,8 +393,8 @@ static void EthernetPcapPacketHandler(u_char *param, const struct pcap_pkthdr *h
 {
     Ethernet_PCAP_internal_t *pinternal = (void*)param;
 
-    /* determine the count of bytes which has been returned, 
-     * but make sure not to overrun the buffer 
+    /* determine the count of bytes which has been returned,
+     * but make sure not to overrun the buffer
      */
     if (header->caplen < pinternal->len) {
         pinternal->len = header->caplen;
@@ -408,7 +408,7 @@ static void EthernetPcapPacketHandler(u_char *param, const struct pcap_pkthdr *h
    If there's none, it returns a -1.
    If there is one, it returns the length of the frame in bytes.
 
-   It copies the frame to *buffer and returns the number of copied 
+   It copies the frame to *buffer and returns the number of copied
    bytes as return value.
 
    At most 'len' bytes are copied.
@@ -474,7 +474,7 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
     cleared.
   - if the dest. address was accepted by the hash filter, *phash_index is
     set to the number of the rule leading to the acceptance
-  - if the receive was ok (good CRC and valid length), *prx_ok is set, 
+  - if the receive was ok (good CRC and valid length), *prx_ok is set,
     else cleared.
   - if the dest. address was accepted because it's exactly our MAC address
     (set by rawnet_arch_set_mac()), *pcorrect_mac is set, else cleared.
@@ -484,8 +484,8 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
 */
 
 /* uint8_t *pbuffer     - where to store a frame */
-/* int *plen         - IN: maximum length of frame to copy; 
-                       OUT: length of received frame 
+/* int *plen         - IN: maximum length of frame to copy;
+                       OUT: length of received frame
                             OUT can be bigger than IN if received frame was
                             longer than supplied buffer */
 /* int *phashed      - set if the dest. address is accepted by the hash filter */
