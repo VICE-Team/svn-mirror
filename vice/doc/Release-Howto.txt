@@ -65,7 +65,7 @@ needed because make dist propagates through the source tree, and if resid is
 not configured it will not have any makefiles to get 'make dist'ed
 
 $ ./autogen.sh
-$ ./configure --enable-native-gtk3ui --enable-arch=no --enable-midi --enable-lame --with-flac --with-vorbis --with-gif --with-jpeg --with-png --enable-static-ffmpeg --enable-ethernet --enable-cpuhistory
+$ ./configure --enable-native-gtk3ui --enable-arch=no --enable-midi --enable-lame --with-flac --with-vorbis --with-gif --with-jpeg --with-png --enable-external-ffmpeg --enable-ethernet --enable-cpuhistory
 $ make dist
 
 now unpack into a separate directory and test if compiling works. fix makefiles
