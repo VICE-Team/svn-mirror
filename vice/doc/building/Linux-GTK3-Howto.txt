@@ -115,9 +115,6 @@ $ sudo apt-get install libmpg123-dev      # required for MP3 decoding (and for
 $ sudo apt-get install libvorbis-de       # Ogg/Vorbis support
 $ sudo apt-get install libflac-dev        # FLAC support
 
-$ sudo apt-get install yasm               # required for --enable-static-ffmpeg
-                                          # and --enable-shared-ffmpeg, yasm
-                                          # needs to be >=1.2.0
 
 reconfigure with a few more options (check if you really want/need them!):
 $ ./configure --enable-arch=native --with-resid --enable-native-gtk3ui \
