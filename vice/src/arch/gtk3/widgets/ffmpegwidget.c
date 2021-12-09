@@ -74,6 +74,7 @@ static void update_video_combo_box(int id);
 static void update_audio_combo_box(int id);
 
 
+
 /*****************************************************************************
  *                              Event handlers                               *
  ****************************************************************************/
@@ -389,6 +390,7 @@ static void update_video_combo_box(int id)
         gtk_tree_model_get(model, &iter, 1, &codec_id, -1);
         if (codec_id == id) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(video_widget), index);
+            return;
         }
         index++;
     } while (gtk_tree_model_iter_next(model, &iter));
@@ -420,6 +422,7 @@ static void update_audio_combo_box(int id)
         gtk_tree_model_get(model, &iter, 1, &codec_id, -1);
         if (codec_id == id) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(audio_widget), index);
+            return;
         }
         index++;
     } while (gtk_tree_model_iter_next(model, &iter));
