@@ -40,6 +40,9 @@
  * \endcode
  * to clean up the resources used.
  *
+ * Both `last_dir` and `last_file` are allowed to be `NULL`, in which case
+ * the code ignores the directory or filename components of a dialog.
+ *
  * Maybe just look at src/arch/gtk3/uidiskattach.c to get an idea.
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -85,9 +88,9 @@ void lastdir_set(GtkWidget *widget, gchar **last_dir, gchar **last_file)
 {
     if (last_dir != NULL && *last_dir != NULL) {
         gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(widget), *last_dir);
-        if (last_file != NULL && *last_file != NULL) {
-            gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(widget), *last_file);
-        }
+    }
+    if (last_file != NULL && *last_file != NULL) {
+        gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(widget), *last_file);
     }
 }
 
@@ -109,16 +112,20 @@ void lastdir_update(GtkWidget *widget, gchar **last_dir, gchar **last_file)
     new_file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     if (new_dir != NULL) {
         /* clean up previous value */
-        if (*last_dir != NULL) {
-            g_free(*last_dir);
+        if (last_dir != NULL) {
+            if (*last_dir != NULL) {
+                g_free(*last_dir);
+            }
+            *last_dir = new_dir;
         }
-        *last_dir = new_dir;
     }
     if (new_file != NULL) {
-        if (*last_file != NULL) {
-            g_free(*last_file);
+        if (last_file != NULL) {
+            if (*last_file != NULL) {
+                g_free(*last_file);
+            }
+            *last_file = new_file;
         }
-        *last_file = new_file;
     }
 }
 
@@ -137,20 +144,24 @@ void lastdir_update(GtkWidget *widget, gchar **last_dir, gchar **last_file)
 void lastdir_update_raw(char *dirname, char **last_dir,
                         char *filename, char **last_file)
 {
-    if (*last_dir != NULL) {
-        g_free(*last_dir);
-        *last_dir = NULL;
-    }
-    if (dirname != NULL) {
-        *last_dir = g_strdup(dirname);
+    if (last_dir != NULL) {
+        if (*last_dir != NULL) {
+            g_free(*last_dir);
+            *last_dir = NULL;
+        }
+        if (dirname != NULL) {
+            *last_dir = g_strdup(dirname);
+        }
     }
 
-    if (*last_file != NULL) {
-        g_free(*last_file);
-        *last_file = NULL;
-    }
-    if (filename != NULL) {
-        *last_file = g_strdup(filename);
+    if (last_file != NULL) {
+        if (*last_file != NULL) {
+            g_free(*last_file);
+            *last_file = NULL;
+        }
+        if (filename != NULL) {
+            *last_file = g_strdup(filename);
+        }
     }
 }
 
@@ -165,11 +176,15 @@ void lastdir_update_raw(char *dirname, char **last_dir,
 void lastdir_shutdown(gchar **last_dir, gchar **last_file)
 {
     if (last_dir != NULL) {
-        g_free(*last_dir);
-        *last_dir = NULL;
+        if (*last_dir != NULL) {
+            g_free(*last_dir);
+            *last_dir = NULL;
+        }
     }
     if (last_file != NULL) {
-        g_free(*last_file);
-        *last_file = NULL;
+        if (*last_file != NULL) {
+            g_free(*last_file);
+            *last_file = NULL;
+        }
     }
 }
