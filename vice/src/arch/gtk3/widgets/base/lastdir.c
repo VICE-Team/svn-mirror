@@ -92,7 +92,7 @@ void lastdir_set(GtkWidget *widget, gchar **last_dir, gchar **last_file)
 }
 
 
-/** \brief  Update the last used directory
+/** \brief  Update the last used directory and/or filename
  *
  * Updates *\a last to the directory currently used by \a widget
  *
@@ -123,7 +123,7 @@ void lastdir_update(GtkWidget *widget, gchar **last_dir, gchar **last_file)
 }
 
 
-/** \brief  Update \a last with \a path
+/** \brief  Update last used directory and/or filename
  *
  * Store new values for dir and filename freeing the old data.
  *

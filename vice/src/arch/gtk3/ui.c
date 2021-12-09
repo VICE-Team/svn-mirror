@@ -78,6 +78,7 @@
 #include "uiapi.h"
 #include "uicommands.h"
 #include "uimachinemenu.h"
+#include "uimedia.h"
 #include "uimenu.h"
 #include "uimon.h"
 #include "uisettings.h"
@@ -2293,6 +2294,7 @@ void ui_exit(void)
         ui_disk_attach_shutdown();
         ui_tape_attach_shutdown();
         ui_smart_attach_shutdown();
+        ui_media_shutdown();
     }
 
     ui_settings_shutdown();
