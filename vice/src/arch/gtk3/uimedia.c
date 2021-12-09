@@ -46,6 +46,7 @@
 #include <stdint.h>
 
 #include "gfxoutput.h"
+#include "lastdir.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -138,6 +139,17 @@ static int video_driver_index = 0;
  * Set to last selected driver on subsequent uses of the dialog.
  */
 static int audio_driver_index = -1;
+
+
+/** \brief  Last used directory of the file chooser dialogs
+ *
+ * We only remember the directory, not the last filename, since we propose a
+ * filename with a timestamp in it to quickly save new media files without having
+ * to type a new name. Using last_file would mean the generated filename gets
+ * overwritten with the old one, so the convenience of the generated filenames
+ * would be lost.
+ */
+static gchar *media_last_dir = NULL;
 
 
 /** \brief  List of available audio recording drivers
@@ -538,6 +550,8 @@ static void on_save_screenshot_filename(GtkDialog *dialog,
 
         /* check if a screenshot is pending */
         if (screenshot_filename == NULL) {
+            /* update last dir/file */
+            lastdir_update(GTK_WIDGET(dialog), &media_last_dir, NULL);
             /* no, queue screenshot on vsync */
             screenshot_filename = lib_strdup(filename_locale);
             screenshot_driver = lib_strdup(video_driver_list[screenshot_driver_index].name);
@@ -579,6 +593,8 @@ static void save_screenshot_handler(GtkWidget *parent)
             title, proposed, TRUE, NULL,
             on_save_screenshot_filename,
             NULL);
+    lastdir_set(dialog, &media_last_dir, NULL);
+
     /* destroy parent dialog when the dialog is destroyed */
     g_signal_connect_swapped(
             dialog,
@@ -604,6 +620,8 @@ static void on_save_audio_filename(GtkDialog *dialog,
     gchar *filename_locale;
 
     if (filename != NULL) {
+        lastdir_update(GTK_WIDGET(dialog), &media_last_dir, NULL);
+
         filename_locale = file_chooser_convert_to_locale(filename);
         const char *name = audio_driver_list[audio_driver_index].name;
         /* XXX: setting resources doesn't exactly help with catching errors */
@@ -645,7 +663,7 @@ static void save_audio_recording_handler(GtkWidget *parent)
             title, proposed, TRUE, NULL,
             on_save_audio_filename,
             NULL);
-
+    lastdir_set(dialog, &media_last_dir, NULL);
     /* destroy parent dialog when the dialog is destroyed */
     g_signal_connect_swapped(
             dialog,
@@ -677,6 +695,8 @@ static void on_save_video_filename(GtkDialog *dialog,
         int ab;
         int vb;
         gchar *filename_locale;
+
+        lastdir_update(GTK_WIDGET(dialog), &media_last_dir, NULL);
 
         resources_get_string("FFMPEGFormat", &driver);
         resources_get_int("FFMPEGVideoCodec", &vc);
@@ -730,6 +750,7 @@ static void save_video_recording_handler(GtkWidget *parent)
     dialog = vice_gtk3_save_file_dialog(
             title, proposed, TRUE, NULL,
             on_save_video_filename, NULL);
+    lastdir_set(dialog, &media_last_dir, NULL);
 
     /* destroy parent dialog when the dialog is destroyed */
     g_signal_connect_swapped(
@@ -1287,4 +1308,14 @@ void ui_media_auto_screenshot(void)
     /* queue screenshot grab on vsync to avoid tearing */
     vsync_on_vsync_do(auto_screenshot_vsync_callback,
                       (void *)ui_get_active_canvas());
+}
+
+
+/** \brief  Clean up resources used
+ *
+ * Frees the last dir/file strings
+ */
+void ui_media_shutdown(void)
+{
+    lastdir_shutdown(&media_last_dir, NULL);
 }
