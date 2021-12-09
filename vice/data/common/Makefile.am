@@ -91,7 +91,8 @@ EXTRA_DIST = $(common_DATA) \
 	      xpet.rc \
 	      xcbm2.rc \
 	      xcbm5x0.rc \
-	      vsid.rc
+	      vsid.rc \
+	      vice.gresource.xml
 
 
 #all: x64.res x64sc.res x64dtv.res xscpu64.res x128.res xvic.res xplus4.res xpet.res xcbm2.res xcbm5x0.res vsid.res $(GRESOURCE_TARGET)
@@ -136,13 +137,4 @@ CLEANFILES = \
 	xcbm5x0.res \
 	vsid.res
 
-
-
-
-EXTRA_DIST += $(GRESOURCE_XML)
-
 endif
-
-
-
-
