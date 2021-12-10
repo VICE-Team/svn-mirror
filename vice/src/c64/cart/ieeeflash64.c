@@ -693,7 +693,8 @@ int ieeeflash64_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    /* TODO: malloc */
+    set_ieeeflash64_enabled(1, NULL);
+
     if (SMR_BA(m, ieeeflash64_rom, 0x2000) < 0) {
         goto fail;
     }
