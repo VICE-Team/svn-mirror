@@ -33,6 +33,12 @@ GtkWidget * statusbar_led_widget_create(const gchar *text,
                                         const gchar *on,
                                         const gchar *off);
 
+void        statusbar_led_widget_set_toggleable(GtkWidget *widget,
+                                                gboolean toggleable);
+gboolean    statusbar_led_widget_get_toggleable(GtkWidget *widget);
+void        statusbar_led_widget_set_toggle_callback(GtkWidget *widget,
+                                                     void (*cb)(GtkWidget *, gboolean));
+
 gboolean    statusbar_led_widget_get_active(GtkWidget *widget);
 void        statusbar_led_widget_set_active(GtkWidget *widget, gboolean active);
 

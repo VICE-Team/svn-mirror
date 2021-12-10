@@ -1,12 +1,20 @@
 /** \file   statusbarledwidget.c
  * \brief   Small LED widgets for the status bar
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * A small widget with a label and a drawing area displaying on/off status.
  *
  * Can be used to display statuses like 'Pause' and 'Warp', and perhaps also
  * key states such as 'ShiftLock', '40/80 Column' etc.
  *
- * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * The widget is structured as follows:
+ *
+ * +-GtkEventBox-------------------+
+ * | +-GtkGrid--+----------------+ |
+ * | | GtkLabel | GtkDrawingArea | |
+ * | +----------+----------------+ |
+ * +-------------------------------+
+ *
  */
 
 /*
@@ -58,7 +66,7 @@ enum {
     "label {\n" \
     "    font-size: 90%;\n" \
     "    margin-top: -2px;\n" \
-    "    margin-bottom: -2px;\n" \
+    "    margin-bottom: 0px;\n" \
     "}\n"
 
 
@@ -72,17 +80,29 @@ typedef struct led_state_s {
 
 
 
+/** \brief  Get grid inside the event box
+ *
+ * \param[in]   widget  event box
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *get_grid(GtkWidget *widget)
+{
+    return gtk_bin_get_child(GTK_BIN(widget));
+}
+
+
 /** \brief  Get internal state object of the widget
  *
- * Small helper function to get the internal state object of \a widget.
+ * Small helper function to get the internal state object of \a grid.
  *
- * \param[in]   widget  status bar led widget
+ * \param[in]   grid    status bar led widget grid
  *
  * \return  state object
  */
-static led_state_t *get_state(GtkWidget *widget)
+static led_state_t *get_state(GtkWidget *grid)
 {
-    return g_object_get_data(G_OBJECT(widget), "InternalState");
+    return g_object_get_data(G_OBJECT(grid), "InternalState");
 }
 
 
@@ -94,20 +114,25 @@ static led_state_t *get_state(GtkWidget *widget)
  */
 static GtkWidget *get_led_widget(GtkWidget *widget)
 {
-    return gtk_grid_get_child_at(GTK_GRID(widget), COLUMN_LED, 0);
+    GtkWidget *grid = get_grid(widget);
+
+    if (grid != NULL) {
+        return gtk_grid_get_child_at(GTK_GRID(grid), COLUMN_LED, 0);
+    }
+    return NULL;
 }
 
 
-/** \brief  Handler for the 'destroy' event of the widget
+/** \brief  Handler for the 'destroy' event of the **grid**
  *
  * Deallocates memory used for the internal state.
  *
- * \param[in]   widget  status bar led widget
+ * \param[in]   widget  status bar led widget grid
  * \param[in]   data    extra event data (unused)
  */
-static void on_destroy(GtkWidget *widget, gpointer data)
+static void on_destroy(GtkWidget *grid, gpointer data)
 {
-    led_state_t *state = get_state(widget);
+    led_state_t *state = get_state(grid);
 
     if (state != NULL) {
         lib_free(state);
@@ -157,6 +182,40 @@ static gboolean on_led_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
 }
 
 
+/** \brief  Handler for button press events
+ *
+ * \param[in]   self    widget triggering the event
+ * \param[in]   event   event data
+ * \param[in]   data    extra event data (unused)
+ *
+ * \return  FALSE, don't propagate further
+ */
+static gboolean on_button_press_event(GtkWidget *self, GdkEvent *event, gpointer data)
+{
+    if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
+
+        GtkWidget *grid;
+        gboolean toggleable;
+        gboolean active;
+        void (*callback)(GtkWidget *, gboolean);
+
+        grid = get_grid(self);
+        toggleable = statusbar_led_widget_get_toggleable(self);
+        active = statusbar_led_widget_get_active(self);
+        callback = g_object_get_data(G_OBJECT(grid), "ToggleCallback");
+
+        if (toggleable) {
+            active = !active;
+            statusbar_led_widget_set_active(self, active);
+            if (callback != NULL) {
+                callback(self, active);
+            }
+        }
+    }
+    return FALSE;
+}
+
+
 /** \brief  Create LED widget for status bar
  *
  * Create a small widget with a label and a two-state LED.
@@ -174,6 +233,7 @@ GtkWidget *statusbar_led_widget_create(const gchar *text,
                                        const gchar *on,
                                        const gchar *off)
 {
+    GtkWidget *event_box;
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *led;
@@ -198,7 +258,7 @@ GtkWidget *statusbar_led_widget_create(const gchar *text,
     gtk_widget_set_vexpand(led, FALSE);
     gtk_widget_set_size_request(led, 24, 12);
     /*  drawing areas don't respond to button clicks by default */
-    gtk_widget_add_events(led, GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
+    /* gtk_widget_add_events(led, GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK); */
     gtk_grid_attach(GTK_GRID(grid), led, COLUMN_LED, 0, 1, 1);
     g_signal_connect_unlocked(led, "draw", G_CALLBACK(on_led_draw), NULL);
 
@@ -210,6 +270,9 @@ GtkWidget *statusbar_led_widget_create(const gchar *text,
         off = COLOR_DEFAULT_OFF;
     }
 
+    /* wrap grid in event box to capture button press events */
+    event_box = gtk_event_box_new();
+    gtk_container_add(GTK_CONTAINER(event_box), grid);
 
     /* create internal state object */
     state = lib_malloc(sizeof *state);
@@ -228,13 +291,16 @@ GtkWidget *statusbar_led_widget_create(const gchar *text,
         gdk_rgba_parse(&(state->color_off), COLOR_DEFAULT_OFF);
     }
     state->active = FALSE;
-    /* keep reference to internal state */
-    g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)state);
 
+    g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)state);
+    g_object_set_data(G_OBJECT(grid), "IsToggleable", GINT_TO_POINTER(FALSE));
+    g_object_set_data(G_OBJECT(grid), "ToggleCallback", NULL);
+
+    g_signal_connect(event_box, "button-press-event", G_CALLBACK(on_button_press_event), NULL);
     g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
-    return grid;
+    return event_box;
 }
 
 
@@ -245,12 +311,15 @@ GtkWidget *statusbar_led_widget_create(const gchar *text,
  */
 void statusbar_led_widget_set_active(GtkWidget *widget, gboolean active)
 {
-    led_state_t *state = get_state(widget);
-    gboolean old_state = state->active;
+    led_state_t *state;
+    gboolean old_state;
+
+    state = get_state(get_grid(widget));
+    old_state = state->active;
 
     state->active = active;
     if (old_state != active) {
-        gtk_widget_queue_draw(get_led_widget(widget));
+       gtk_widget_queue_draw(get_led_widget(widget));
     }
 }
 
@@ -263,7 +332,53 @@ void statusbar_led_widget_set_active(GtkWidget *widget, gboolean active)
  */
 gboolean statusbar_led_widget_get_active(GtkWidget *widget)
 {
-    led_state_t *state = get_state(widget);
+    led_state_t *state = get_state(get_grid(widget));
 
     return state->active;
+}
+
+
+/** \brief  Make \a widget toggleable, toggling state on mouse click
+ *
+ * Make the widget accept mouse clicks, toggling its state.
+ *
+ * \param[in]   widget      status bar led widget
+ * \param[in]   toggleable  accept mouse clicks to toggle state
+ */
+void statusbar_led_widget_set_toggleable(GtkWidget *widget, gboolean toggleable)
+{
+    GtkWidget *grid = get_grid(widget);
+
+    g_object_set_data(G_OBJECT(grid), "IsToggleable", GINT_TO_POINTER(toggleable));
+}
+
+
+/** \brief  Get toggleable state of \a widget
+ *
+ * \return  LED widget is toggleable via mouse click
+ */
+gboolean statusbar_led_widget_get_toggleable(GtkWidget *widget)
+{
+    GtkWidget *grid = gtk_bin_get_child(GTK_BIN(widget));
+    gpointer data = g_object_get_data(G_OBJECT(grid), "IsToggleable");
+
+    return (gboolean)GPOINTER_TO_INT(data);
+}
+
+
+/** \brief  Set callback to trigger on state change
+ *
+ * Set callback function \a cb to be triggered on LED status change, which
+ * means through mouse clicks (enabled via statusbar_led_widget_set_toggleable())
+ * but not through statusbar_led_widget_set_active().
+ *
+ * \param[in]   widget  status bar led widget
+ * \param[in]   cb      callback function
+ */
+void statusbar_led_widget_set_toggle_callback(GtkWidget *widget,
+                                              void (*cb)(GtkWidget *, gboolean))
+{
+    GtkWidget *grid = gtk_bin_get_child(GTK_BIN(widget));
+
+    g_object_set_data(G_OBJECT(grid), "ToggleCallback", (gpointer)cb);
 }

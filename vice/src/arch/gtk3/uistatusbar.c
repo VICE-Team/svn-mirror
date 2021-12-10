@@ -74,6 +74,7 @@
 #include "machine.h"
 #include "mainlock.h"
 #include "resources.h"
+#include "statusbarledwidget.h"
 #include "statusbarrecordingwidget.h"
 #include "statusbarspeedwidget.h"
 #include "tapecontents.h"
@@ -222,7 +223,8 @@ enum {
 
 
 /* Status bar column indexes */
-#define SB_COL_TOP_WIDGETS      0
+#define SB_COL_LEDS             0
+#define SB_COL_WIDGETS          0
 #define SB_COL_MESSAGES         0
 #define SB_COL_KBD_DEBUG        0
 #define SB_COL_MESSAGES_VSEP    (SB_COL_MESSAGES + 1)
@@ -233,13 +235,16 @@ enum {
 /** \brief  Status bar row indexes
  */
 enum {
-    SB_ROW_TOP_WIDGETS,         /**< top row widgets */
-    SB_ROW_TOP_WIDGETS_HSEP,    /**< horizontal separator between top widgets
-                                     and messages/recording */
-    SB_ROW_MESSAGES,            /**< messages AND separator AND recording */
-    SB_ROW_MESSAGES_HSEP,       /**< horizontal separator between messages/recording
-                                     and the keyboard debugging widget */
-    SB_ROW_KBD_DEBUG
+    SB_ROW_LEDS,            /**< row with small LEDs */
+    SB_ROW_LEDS_HSEP,       /**< horizontal separator between LEDs and large
+                                 widgets */
+    SB_ROW_WIDGETS,         /**< large widgets/containers */
+    SB_ROW_WIDGETS_HSEP,    /**< horizontal separator between large widgets
+                                 and messages/recording */
+    SB_ROW_MESSAGES,        /**< messages AND separator AND recording */
+    SB_ROW_MESSAGES_HSEP,   /**< horizontal separator between messages/recording
+                                 and the keyboard debugging widget */
+    SB_ROW_KBD_DEBUG        /**< keyboard debugging */
 };
 
 
@@ -394,11 +399,19 @@ typedef struct ui_statusbar_s {
      *  into windows. */
     GtkWidget *bar;
 
-    /** \brief  Top row of a status bar
-     *
-     * A grid containing widgets for the top row of a status bar.
+    /** \brief  Row with LED widgets
      */
-    GtkWidget *top_row_grid;
+    GtkWidget *led_row_grid;
+
+    /** \brief  Current index in the LED row to append new LEDs
+     */
+    int led_row_column;
+
+    /** \brief  Row with large/composed widgets of a status bar
+     *
+     * A grid containing widgets for the large row of a status bar.
+     */
+    GtkWidget *widget_row_grid;
 
     /** \brief  Current column to append new widgets
      *
@@ -410,7 +423,13 @@ typedef struct ui_statusbar_s {
      * to put the last top widget (volume) on the status bar setting its aligment
      * and hexpand properties so it appears to the right of the status bar.
      */
-    int top_row_column;
+    int widget_row_column;
+
+    /** \brief  Warp mode LED widget */
+    GtkWidget *warp_led;
+
+    /** \brief  Pause LED widget */
+    GtkWidget *pause_led;
 
     /** \brief  Widget displaying CPU speed and FPS
      *
@@ -1225,7 +1244,10 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer index)
      * against UI update requests after the UI has been destroyed.
      */
     bar->bar = NULL;
-    bar->top_row_grid = NULL;
+    bar->led_row_grid = NULL;
+    bar->widget_row_grid = NULL;
+    bar->warp_led = NULL;
+    bar->pause_led = NULL;
     bar->speed = NULL;
     bar->msg = NULL;
     bar->record = NULL;
@@ -1892,13 +1914,106 @@ static GtkWidget *ui_volume_button_create(void)
 }
 
 
+/** \brief  Callback function for the Warp mode LED
+ *
+ * \param[in]   led     warp mode LED
+ * \param[in]   active  new state of the LED
+ */
+static void warp_led_callback(GtkWidget *widget, gboolean active)
+{
+    /* this updates warp state throughout the UI */
+    ui_action_toggle_warp();
+}
+
+
+/** \brief  Create status bar LED for Warp mode
+ *
+ * \return  LED widget
+ */
+static GtkWidget *warp_led_create(void)
+{
+    GtkWidget *led;
+
+    led = statusbar_led_widget_create("warp:", "#00ff00", "#000");
+    statusbar_led_widget_set_toggleable(led, TRUE);
+    statusbar_led_widget_set_toggle_callback(led, warp_led_callback);
+    gtk_widget_show(led);
+
+    return led;
+}
+
+
+/** \brief  Set Warp mode LED state
+ *
+ * \param[in]   bar     status bar index
+ * \param[in]   active  LED status
+ */
+void warp_led_set_active(int bar, gboolean active)
+{
+    GtkWidget *led;
+
+    led = allocated_bars[bar].warp_led;
+    if (led != NULL) {
+        statusbar_led_widget_set_active(led, active);
+    }
+}
+
+
+/** \brief  Callback function for the Pause LED
+ *
+ * \param[in]   led     pause LED
+ * \param[in]   active  new state of the LED
+ */
+static void pause_led_callback(GtkWidget *widget, gboolean active)
+{
+    /* this updates pause state throughout the UI */
+    ui_action_toggle_pause();
+}
+
+
+/** \brief  Create status bar LED for Pause
+ *
+ * \return  LED widget
+ */
+static GtkWidget *pause_led_create(void)
+{
+    GtkWidget *led;
+
+    led = statusbar_led_widget_create("pause:", "#ff0000", "#000");
+    statusbar_led_widget_set_toggleable(led, TRUE);
+    statusbar_led_widget_set_toggle_callback(led, pause_led_callback);
+    gtk_widget_show(led);
+
+    return led;
+}
+
+
+/** \brief  Set Pause LED state
+ *
+ * \param[in]   bar     status bar index
+ * \param[in]   active  LED status
+ */
+void pause_led_set_active(int bar, gboolean active)
+{
+    GtkWidget *led;
+
+    debug_gtk3("bar = %d, active = %s.", bar, active ? "true" : "false");
+
+    led = allocated_bars[bar].pause_led;
+    if (led != NULL) {
+        statusbar_led_widget_set_active(led, active);
+    }
+}
+
+
+
 /** \brief  Get status bar index for \a window
  *
  * \param[in]   window  GtkWindow instance
  *
  * \return  index or -1 on error
  */
-static int statusbar_index_for_window(GtkWidget *window)
+int ui_statusbar_index_for_window(GtkWidget *window)
 {
     GtkWidget *bin;
 
@@ -1917,16 +2032,16 @@ static int statusbar_index_for_window(GtkWidget *window)
 }
 
 
-/** \brief  Append a widget to the top row of a status bar
+/** \brief  Append a widget to the LEDs row of a status bar
  *
- * Append \a widget to status bar with index \a bar, optionally adding a
+ * Append \a led to status bar with index \a bar, optionally adding a
  * separator before the new widget.
  *
  * \param[in]   bar         status bar index
  * \param[in]   widget      widget to append
  * \param[in]   separator   append separator before appending the widget
  */
-static void statusbar_append(int bar, GtkWidget *widget, gboolean separator)
+static void statusbar_append_led(int bar, GtkWidget *led, gboolean separator)
 {
     GtkWidget *grid;
     int column;
@@ -1937,18 +2052,53 @@ static void statusbar_append(int bar, GtkWidget *widget, gboolean separator)
         return;
     }
 
-    grid = allocated_bars[bar].top_row_grid;
-    column = allocated_bars[bar].top_row_column;
+    grid = allocated_bars[bar].led_row_grid;
+    column = allocated_bars[bar].led_row_column;
 
     if (separator && column > 0) {
         GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
 
         gtk_grid_attach(GTK_GRID(grid), sep, column, 0, 1, 1);
-        allocated_bars[bar].top_row_column = ++column;
+        allocated_bars[bar].led_row_column = ++column;
+    }
+
+    gtk_grid_attach(GTK_GRID(grid), led, column, 0, 1, 1);
+    allocated_bars[bar].led_row_column++;
+}
+
+
+/** \brief  Append a widget to the widgets row of a status bar
+ *
+ * Append \a widget to status bar with index \a bar, optionally adding a
+ * separator before the new widget.
+ *
+ * \param[in]   bar         status bar index
+ * \param[in]   widget      widget to append
+ * \param[in]   separator   append separator before appending the widget
+ */
+static void statusbar_append_widget(int bar, GtkWidget *widget, gboolean separator)
+{
+    GtkWidget *grid;
+    int column;
+
+    /* sanity check */
+    if (bar < 0 || bar >= MAX_STATUS_BARS) {
+        log_error(LOG_ERR, "Invalid status bar index of %d.", bar);
+        return;
+    }
+
+    grid = allocated_bars[bar].widget_row_grid;
+    column = allocated_bars[bar].widget_row_column;
+
+    if (separator && column > 0) {
+        GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
+
+        gtk_grid_attach(GTK_GRID(grid), sep, column, 0, 1, 1);
+        allocated_bars[bar].widget_row_column = ++column;
     }
 
     gtk_grid_attach(GTK_GRID(grid), widget, column, 0, 1, 1);
-    allocated_bars[bar].top_row_column++;
+    allocated_bars[bar].widget_row_column++;
 }
 
 
@@ -1960,7 +2110,7 @@ static void statusbar_append(int bar, GtkWidget *widget, gboolean separator)
  * \param[in]   widget      widget to append
  * \param[in]   separator   append separator before appending the widget
  */
-static void statusbar_append_end(int bar, GtkWidget *widget)
+static void statusbar_append_widget_end(int bar, GtkWidget *widget)
 {
     GtkWidget *grid;
     int column;
@@ -1971,13 +2121,13 @@ static void statusbar_append_end(int bar, GtkWidget *widget)
         return;
     }
 
-    grid = allocated_bars[bar].top_row_grid;
-    column = allocated_bars[bar].top_row_column;
+    grid = allocated_bars[bar].widget_row_grid;
+    column = allocated_bars[bar].widget_row_column;
 
     gtk_widget_set_halign(widget, GTK_ALIGN_END);
     gtk_widget_set_hexpand(widget, TRUE);
     gtk_grid_attach(GTK_GRID(grid), widget, column, 0, 1, 1);
-    allocated_bars[bar].top_row_column++;
+    allocated_bars[bar].widget_row_column++;
 }
 
 
@@ -2002,18 +2152,24 @@ void ui_statusbar_init(void)
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         GtkWidget *grid;
 
+
         grid = gtk_grid_new();
         gtk_widget_set_valign(grid, GTK_ALIGN_START);
         gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
         gtk_grid_set_row_spacing(GTK_GRID(grid), 0);
-        allocated_bars[i].top_row_grid = grid;
-        allocated_bars[i].top_row_column = 0;
+        allocated_bars[i].led_row_grid = grid;
+        allocated_bars[i].led_row_column = 0;
+
+        grid = gtk_grid_new();
+        gtk_widget_set_valign(grid, GTK_ALIGN_START);
+        gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+        gtk_grid_set_row_spacing(GTK_GRID(grid), 0);
+        allocated_bars[i].widget_row_grid = grid;
+        allocated_bars[i].widget_row_column = 0;
 
         allocated_bars[i].displayed_tape_counter[0] = -1;
         allocated_bars[i].displayed_tape_counter[1] = -1;
-
     }
-
 
     sb_state = lock_sb_state();
     /* Set an impossible number of joyports to enabled so that the status
@@ -2045,6 +2201,10 @@ void ui_statusbar_shutdown(void)
 GtkWidget *ui_statusbar_create(int window_identity)
 {
     GtkWidget *sb;
+
+    /* LEDs */
+    GtkWidget *warp_led;
+    GtkWidget *pause_led;
 
     /* top row widgets/wrappers */
     GtkWidget *speed;
@@ -2090,18 +2250,29 @@ GtkWidget *ui_statusbar_create(int window_identity)
                      G_CALLBACK(destroy_statusbar_cb), GINT_TO_POINTER(i));
     allocated_bars[i].bar = sb;
 
-    /* First row: variable amount of widgets */
+    /* First row: LEDs */
     gtk_grid_attach(GTK_GRID(sb),
-                    allocated_bars[i].top_row_grid,
-                    SB_COL_TOP_WIDGETS, SB_ROW_TOP_WIDGETS, SB_COLUMN_COUNT, 1);
+                    allocated_bars[i].led_row_grid,
+                    SB_COL_LEDS, SB_ROW_LEDS, SB_COLUMN_COUNT, 1);
 
     /* Second row: horizontal separator */
     sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_attach(GTK_GRID(sb),
                     sep,
-                    SB_COL_TOP_WIDGETS, SB_ROW_TOP_WIDGETS_HSEP, SB_COLUMN_COUNT, 1);
+                    SB_COL_LEDS, SB_ROW_LEDS_HSEP, SB_COLUMN_COUNT, 1);
 
-    /* Thrid row: messages, separator and recording */
+    /* Third row: variable amount of widgets */
+    gtk_grid_attach(GTK_GRID(sb),
+                    allocated_bars[i].widget_row_grid,
+                    SB_COL_WIDGETS, SB_ROW_WIDGETS, SB_COLUMN_COUNT, 1);
+
+    /* Fourth row: horizontal separator */
+    sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_grid_attach(GTK_GRID(sb),
+                    sep,
+                    SB_COL_WIDGETS, SB_ROW_WIDGETS_HSEP, SB_COLUMN_COUNT, 1);
+
+    /* Fifth row: messages, separator and recording */
     message = gtk_label_new(NULL);
     gtk_widget_set_hexpand(message, TRUE);
     gtk_widget_set_halign(message, GTK_ALIGN_START);
@@ -2128,7 +2299,23 @@ GtkWidget *ui_statusbar_create(int window_identity)
                     SB_COL_RECORDING, SB_ROW_MESSAGES, 1, 1);
 
     /*
-     * Add widgets to the top row
+     * Add LEds
+     */
+
+    /* Warp mode */
+    warp_led = warp_led_create();
+    /* add a little margin */
+    g_object_set(G_OBJECT(warp_led), "margin-left", 8, NULL);
+    allocated_bars[i].warp_led = warp_led;
+    statusbar_append_led(i, warp_led, FALSE);
+
+    /* Pause */
+    pause_led = pause_led_create();
+    allocated_bars[i].pause_led = pause_led;
+    statusbar_append_led(i, pause_led, FALSE);  /* no separator, for now */
+
+    /*
+     * Add widgets to the widgets row
      */
     speed = NULL;
     checkboxes = NULL;
@@ -2295,19 +2482,19 @@ GtkWidget *ui_statusbar_create(int window_identity)
      * Add all valid widgets to the top row
      */
     if (speed != NULL) {
-        statusbar_append(i, speed, FALSE);
+        statusbar_append_widget(i, speed, FALSE);
     }
     if (checkboxes != NULL) {
-        statusbar_append(i, checkboxes, TRUE);
+        statusbar_append_widget(i, checkboxes, TRUE);
     }
     if (tape_and_joy != NULL) {
-        statusbar_append(i, tape_and_joy, TRUE);
+        statusbar_append_widget(i, tape_and_joy, TRUE);
     }
     if (drive_units != NULL) {
-        statusbar_append(i, drive_units, TRUE);
+        statusbar_append_widget(i, drive_units, TRUE);
     }
     if (volume != NULL) {
-        statusbar_append_end(i, volume);
+        statusbar_append_widget_end(i, volume);
     }
 
     /*
@@ -2857,7 +3044,7 @@ gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window)
 
     mainlock_assert_is_not_vice_thread();
 
-    bar = statusbar_index_for_window(window);
+    bar = ui_statusbar_index_for_window(window);
     if (bar >= 0) {
         GtkWidget *crt = allocated_bars[bar].crt;
 
@@ -2881,7 +3068,7 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
 
     mainlock_assert_is_not_vice_thread();
 
-    bar = statusbar_index_for_window(window);
+    bar = ui_statusbar_index_for_window(window);
     if (bar >= 0) {
         GtkWidget *mixer = allocated_bars[bar].mixer;
 
@@ -3106,7 +3293,7 @@ static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
     if (main_grid != NULL) {
         statusbar = gtk_grid_get_child_at(GTK_GRID(main_grid), 0, 2);
         if (statusbar != NULL) {
-            kbd = gtk_grid_get_child_at(GTK_GRID(statusbar), 0, 4);
+            kbd = gtk_grid_get_child_at(GTK_GRID(statusbar), 0, SB_ROW_KBD_DEBUG);
             if (kbd != NULL) {
                 if (state) {
                     gtk_widget_show_all(kbd);
