@@ -47,6 +47,7 @@
 #include "ui.h"
 #include "uiactions.h"
 #include "uimachinemenu.h"
+#include "uistatusbar.h"
 #include "vsync.h"
 #include "vsyncapi.h"
 
@@ -421,9 +422,6 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
 #if 0
     GtkWidget *label_status;
 #endif
-    GtkWidget *led_warp;
-    GtkWidget *led_pause;
-    GtkWidget *wrapper;
     PangoContext *context;
     const PangoFontDescription *desc_static;
     PangoFontDescription *desc;
@@ -473,6 +471,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     gtk_grid_attach(GTK_GRID(grid), label_status, 0, 2, 1, 1);
 #endif
     /* warp mode and pause LEDs */
+#if 0
     wrapper = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
     led_warp = statusbar_led_widget_create("warp:", "#00ff00", "#000");
@@ -482,7 +481,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     gtk_grid_attach(GTK_GRID(wrapper), led_warp, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), led_pause, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 2, 1, 1);
-
+#endif
     /* create event box to capture mouse clicks to spawn popup menus */
     event_box = gtk_event_box_new();
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
@@ -615,49 +614,28 @@ void statusbar_speed_widget_update(GtkWidget *widget,
     int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
     bool is_paused = ui_pause_active();
 
-    if (state->last_cpu_int != this_cpu_int || state->last_warp != vsync_metric_warp_enabled || state->last_paused != is_paused) {
-        GtkWidget *wrapper;
-        GtkWidget *led;
+    if (state->last_cpu_int != this_cpu_int ||
+            state->last_warp != vsync_metric_warp_enabled ||
+            state->last_paused != is_paused) {
 
         /* get grid containing the two labels */
         grid = gtk_bin_get_child(GTK_BIN(widget));
 
         /* get CPU label and update its text */
         label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-
         g_snprintf(buffer,
                    sizeof(buffer),
                    "%7." STR(CPU_DECIMAL_PLACES) "f%% cpu",
                    vsync_metric_cpu_percent);
-
         gtk_label_set_text(GTK_LABEL(label), buffer);
-#if 0
-        /* update status label */
-        label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
-        if (!is_paused && !vsync_metric_warp_enabled) {
-            /* no pause, no warp */
-            gtk_label_set_text(GTK_LABEL(label), "");
-        } else if (!is_paused && vsync_metric_warp_enabled) {
-            /* warp */
-            gtk_label_set_text(GTK_LABEL(label), "[Warp]");
-        } else if (is_paused && !vsync_metric_warp_enabled) {
-            /* pause */
-            gtk_label_set_text(GTK_LABEL(label), "[Paused)");
-        } else {
-            /* pause and warp */
-            gtk_label_set_text(GTK_LABEL(label), "[Paused] [Warp]");
-        }
-#endif
-        wrapper = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+
         /* warp */
         if (state->last_warp != vsync_metric_warp_enabled) {
-            led = gtk_grid_get_child_at(GTK_GRID(wrapper), 0, 0);
-            statusbar_led_widget_set_active(led, vsync_metric_warp_enabled);
+            warp_led_set_active(window_identity, vsync_metric_warp_enabled);
         }
         /* pause */
         if (state->last_paused != is_paused) {
-            led = gtk_grid_get_child_at(GTK_GRID(wrapper), 1, 0);
-            statusbar_led_widget_set_active(led, is_paused);
+            pause_led_set_active(window_identity, is_paused);
         }
 
         state->last_cpu_int = this_cpu_int;
