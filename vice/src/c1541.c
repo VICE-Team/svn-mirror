@@ -127,6 +127,20 @@
 #define BLOCK_CMD_WIDTH     16
 
 
+/** \brief  Track/Sector link object
+ *
+ * Used in the `chain` command to detect cyclic references. Could perhaps be
+ * reused for other commands, in which case it would make sense to add a
+ * `prev` node to be able to iterate both ways and print links in their proper
+ * order.
+ */
+typedef struct link_s {
+    unsigned int track;     /**< track number */
+    unsigned int sector;    /**< sector number */
+    struct link_s *next;    /**< next node in linked list */
+} link_t;
+
+
 /** \brief  CBM DOS file type strings
  */
 static const char *cbm_filetypes[] = {
@@ -985,6 +999,80 @@ static int is_valid_cbm_file_name(const char *name)
     /* Notice that ':' is the same on PETSCII and ASCII.  */
     return strchr(name, ':') == NULL;
 }
+
+
+/*
+ * Simple linked list to keep track of track/sector links, currently only
+ * used for the `chain` command to detect cyclic references.
+ */
+
+/** \brief  Add (\a track, \a sector) to links
+ *
+ * \param[in]   link    linked list with track/sector links
+ * \param[in]   track   track number
+ * \param[in]   sector  sector number
+ *
+ * \return  new head of the linked list
+ */
+static link_t *link_add(link_t *link, unsigned int track, unsigned int sector)
+{
+    link_t *node = lib_malloc(sizeof *node);
+
+    node->track = track;
+    node->sector = sector;
+    node->next = link;
+
+    return node;
+}
+
+/* unused at the moment, but useful for debugging */
+#if 0
+/** \brief  Dump \a link and its siblings on stdout
+ *
+ * \param[in]   link    linked list node
+ */
+static void link_print(link_t *link)
+{
+    while (link != NULL) {
+        printf("(%2u,%2u) -> ", link->track, link->sector);
+        link = link->next;
+    }
+}
+#endif
+
+/** \brief  Free linked list
+ *
+ * \param[in]   link    linked list node
+ */
+static void link_free(link_t *link)
+{
+    while (link != NULL) {
+        link_t *next = link->next;
+        lib_free(link);
+        link = next;
+    }
+}
+
+
+/** \brief  Find linked list node for (\a track, \a sector)
+ *
+ * \param[in]   link    linked list node to start looking
+ * \param[in]   track   track number
+ * \param[in]   sector  track sector
+ *
+ * \return  node when found or `NULL` when not found
+ */
+static link_t *link_find(link_t *link, unsigned int track, unsigned int sector)
+{
+    while (link != NULL) {
+        if (link-> track == track && link->sector == sector) {
+            break;
+        }
+        link = link->next;
+    }
+    return link;
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -2045,6 +2133,7 @@ static int bwrite_cmd(int nargs, char **args)
 }
 
 
+
 /** \brief  Follow and print a block chain
  *
  * \param[in]   nargs   number of arguments
@@ -2061,6 +2150,7 @@ static int chain_cmd(int nargs, char **args)
     unsigned int sector;
     vdrive_t *vdrive;
     int err;
+    link_t *link;
 
     if (nargs == 2) {
         /* assume filename, not (track,sector) */
@@ -2149,6 +2239,9 @@ static int chain_cmd(int nargs, char **args)
      *      checks the number of blocks against the maximum block size of the
      *      largest image type.
      */
+
+    link = link_add(NULL, track, sector);
+
     do {
         unsigned char buffer[RAW_BLOCK_SIZE];
 
@@ -2161,8 +2254,24 @@ static int chain_cmd(int nargs, char **args)
         }
         track = buffer[0];
         sector = buffer[1];
+
+        if (link_find(link, track, sector) != NULL) {
+            printf("cyclic reference found to (%u,%u)!\n", track, sector);
+            break;
+        }
+        link = link_add(link, track, sector);
+
     } while (track > 0);
-    printf("%u\n", sector);
+
+    if (track > 0) {
+        printf("%u\n", sector);
+    }
+#if 0
+    printf("Dumping links:\n");
+    link_print(link);
+    putchar('\n');
+#endif
+    link_free(link);
 
     return FD_OK;
 }
