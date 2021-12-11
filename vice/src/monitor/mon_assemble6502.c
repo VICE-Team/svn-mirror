@@ -126,6 +126,17 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
                 found = TRUE;
                 break;
             }
+
+            /* Special case: Absolute Indirect with operand < 256
+             * (which can only be JMP ($xx)
+             */
+            if (operand_mode == ASM_ADDR_MODE_INDIRECT
+                && opinfo->addr_mode == ASM_ADDR_MODE_ABS_INDIRECT) {
+                opcode = i;
+                operand_mode = ASM_ADDR_MODE_ABS_INDIRECT;
+                found = TRUE;
+                break;
+            }
         }
         i++;
     } while (i != 0);
