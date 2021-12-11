@@ -607,7 +607,7 @@ static void acia_set_handshake_lines(void)
             }
             /* start tx alarm */
             if (acia.alarm_active_tx == 0) {
-                    acia.alarm_clk_tx = myclk + 1;
+                    acia.alarm_clk_tx = myclk + acia.ticks;
                     alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
                     acia.alarm_active_tx = 1;
             }
@@ -985,7 +985,7 @@ void myacia_store(uint16_t addr, uint8_t byte)
                 set_acia_ticks();
                 /* Set Tx alarm if Tx IRQs are enabled */
                 if ((acia.cmd & ACIA_CMD_BITS_TRANSMITTER_MASK) == ACIA_CMD_BITS_TRANSMITTER_TX_WITH_IRQ) {
-                    acia.alarm_clk_tx = myclk + 1;
+                    acia.alarm_clk_tx = myclk + acia.ticks;
                     alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
                     acia.alarm_active_tx = 1;
                     acia.in_tx = ACIA_TX_STATE_NO_TRANSMIT;
