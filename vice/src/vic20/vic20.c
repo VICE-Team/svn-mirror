@@ -1211,6 +1211,8 @@ void machine_specific_shutdown(void)
     /* close the video chip(s) */
     vic_shutdown();
 
+    sidcart_cmdline_options_shutdown();
+
     if (!console_mode) {
         vic20ui_shutdown();
     }
