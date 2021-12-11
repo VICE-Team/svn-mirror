@@ -889,6 +889,8 @@ void machine_specific_shutdown(void)
 
     c64dtvmem_shutdown();
 
+    sid_cmdline_options_shutdown();
+
     if (!console_mode) {
         c64dtvui_shutdown();
     }
