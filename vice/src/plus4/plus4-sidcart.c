@@ -300,6 +300,14 @@ int sidcart_cmdline_options_init(void)
     return cmdline_register_options(sidcart_cmdline_options);
 }
 
+/** \brief  Free memory allocated for the sidcart command line options
+ */
+void sidcart_cmdline_options_shutdown(void)
+{
+    /* clean up the runtime-constructed sid cmdline help */
+    sid_cmdline_options_shutdown();
+}
+
 /* ------------------------------------------------------------------------- */
 
 static void sidcartjoy_store(uint16_t addr, uint8_t value)

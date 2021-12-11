@@ -956,6 +956,8 @@ void machine_specific_shutdown(void)
     mouse_shutdown();
 #endif
 
+    sidcart_cmdline_options_shutdown();
+
     if (!console_mode) {
         plus4ui_shutdown();
     }
