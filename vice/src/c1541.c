@@ -5267,6 +5267,7 @@ static int write_cmd(int nargs, char **args)
     fileio_info_t *finfo;
     char *src_name;
     long rel_record_length = 0;
+    int result = FD_OK;
 
     if (nargs == 3) {
         /* write <source> <dest> */
@@ -5318,9 +5319,15 @@ static int write_cmd(int nargs, char **args)
 
     if (check_drive_index(dnr) < 0) {
         printf("check_drive_index() failed\n");
+        if (dest_name != NULL) {
+           lib_free(dest_name);
+        }
         return FD_BADDEV;
     }
     if (check_drive_ready(dnr) < 0) {
+        if (dest_name != NULL) {
+           lib_free(dest_name);
+        }
         return FD_NOTREADY;
     }
 
@@ -5335,6 +5342,9 @@ static int write_cmd(int nargs, char **args)
         fprintf(stderr, "cannot read file `%s': %s\n", args[1],
                 strerror(errno));
         lib_free(src_name);
+        if (dest_name != NULL) {
+           lib_free(dest_name);
+        }
         return FD_NOTRD;
     }
 
@@ -5372,6 +5382,7 @@ static int write_cmd(int nargs, char **args)
 
             if (vdrive_iec_write(drives[dnr], c, 1)) {
                 fprintf(stderr, "no space on image?\n");
+                result = FD_WRTERR;
                 break;
             }
         }
@@ -5422,6 +5433,7 @@ static int write_cmd(int nargs, char **args)
 
                 if ((err = vdrive_iec_write(drives[dnr], c, 1)) != SERIAL_OK) {
                     fprintf(stderr, "no space on image? (err %d)\n", err);
+                    result = FD_WRTERR;
                     break;
                 }
             }
@@ -5433,7 +5445,7 @@ static int write_cmd(int nargs, char **args)
 
     lib_free(dest_name);
     lib_free(src_name);
-    return FD_OK;
+    return result;
 }
 
 static int unzip_cmd(int nargs, char **args)
