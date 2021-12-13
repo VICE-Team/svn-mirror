@@ -525,6 +525,9 @@ int myacia_init_cmdline_options(void)
 
  \return
    The new value of the status register
+
+ \todo
+   Changes in DSR and DCD should trigger an interrupt 
 */
 static int acia_get_status(void)
 {
@@ -1089,9 +1092,6 @@ static uint8_t myacia_read_(uint16_t addr)
 
   \return
     The value the register has
-
-  \todo
-    Currently unused
 */
 uint8_t myacia_peek(uint16_t addr)
 {
@@ -1140,9 +1140,6 @@ uint8_t myacia_peek(uint16_t addr)
    ensure that we do not send out faster than a real ACIA could
    do.
 
- \todo
-   If no transmit is in progress (in_tx == ACIA_TX_STATE_NO_TRANSMIT),
-   it is not necessary to schedule a new alarm.
 */
 static void int_acia_tx(CLOCK offset, void *data)
 {
