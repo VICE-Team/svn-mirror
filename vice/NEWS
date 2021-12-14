@@ -248,6 +248,14 @@ We welcome to the team:
 - Fixed datasette emulation (only with .tap files right now)
 
 
+** VSID fixes
+-------------
+
+- Fixed various issues with threading.
+
+- Implemented proper STOP of playback.
+
+
 ** C1541 fixes
 --------------
 
@@ -307,6 +315,8 @@ We welcome to the team:
 
 - Fixed display of multicolor sprites.
 
+- Fixed assembling indirect absolute JMP with zero page argument.
+
 
 ** SDL fixes
 ------------
@@ -358,6 +368,9 @@ We welcome to the team:
 - Improve widgets setting file paths: use the directory of a file's path in
   dialogs as the default directory.
 
+- Media recording dialog: remember previously used audio/video codecs when
+  starting a new recording.
+
 - Fix VSID not allowing .MUS files to be added to the playlist.
 
 - Allow unlimited host controllers for josticks
@@ -382,8 +395,6 @@ We welcome to the team:
 
 - Add joystick autofire settings.
 
-- Add drive widgets on the statusbar for dual drives.
-
 - Simplify userport devices settings.
 
 - Simplify tapeport devices settings.
@@ -394,10 +405,23 @@ We welcome to the team:
 
 - Fix tape autostart via a tape's 'directory'.
 
-- Fix statusbar layout issues.
+- Status bar: overhaul layout, add small row with LEDs for Pause/Warp.
+
+- Status bar: add support for dual-drive units.
+
+- Status bar: add support for two datasettes.
+
+- Status bar: fix directory popup menus to display the correct directory for
+              dual-drive units and to autostart the correct file.
+
+- Status bar: display main/drive CPU JAMs in the messages row, rather than in
+              the CPU/FPS widget, properly remove JAM messages on reset of
+              affected device.
 
 - Add customizable keyboard shortcuts ('hotkeys'). Those who were missing the
   old WinVICE hotkeys can use gtk3-winvice-legacy.vhk
+
+- Immediately apply color changes of the monitor.
 
 
 * Changes in Vice 3.5
