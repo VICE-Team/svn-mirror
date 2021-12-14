@@ -27,8 +27,24 @@
 #ifndef VICE__VERSION_H__
 #define VICE__VERSION_H__
 
+#ifndef VICE_VERSION_MAJOR
+#define VICE_VERSION_MAJOR @VICE_VERSION_MAJOR@
+#endif
+
+#ifndef VICE_VERSION_MINOR
+#define VICE_VERSION_MINOR @VICE_VERSION_MINOR@
+#endif
+
+#ifndef VICE_VERSION_BUILD
+#define VICE_VERSION_BUILD @VICE_VERSION_BUILD@
+#endif
+
 #ifndef VERSION
 #define VERSION "@VERSION@"
+#endif
+
+#ifndef VERSION_WITH_BUILD
+#define VERSION_WITH_BUILD "@VERSION@.@VICE_VERSION_BUILD@"
 #endif
 
 #ifndef VERSION_RC_NUMBER
@@ -38,5 +54,7 @@
 #ifndef PACKAGE
 #define PACKAGE "@PACKAGE@"
 #endif
+
+
 
 #endif
