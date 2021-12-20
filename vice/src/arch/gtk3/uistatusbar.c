@@ -2326,16 +2326,19 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /* CPU/FPS - No FPS on VDC Window for now */
     speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
     g_object_set(speed, "margin-left", 8, NULL);
+    gtk_widget_set_valign(speed, GTK_ALIGN_CENTER);
     allocated_bars[i].speed = speed;
 
     /* CRT and Mixer controls */
     if (machine_class != VICE_MACHINE_VSID) {
+#if 0
         GtkCssProvider *css;
-
         css = vice_gtk3_css_provider_new(CHECKBUTTON_CSS);
-
+#endif
         crt = gtk_check_button_new_with_label("CRT");
+#if 0
         vice_gtk3_css_provider_add(crt, css);
+#endif
         gtk_widget_set_can_focus(crt, FALSE);
         gtk_widget_set_halign(crt, GTK_ALIGN_START);
         gtk_widget_set_valign(crt, GTK_ALIGN_START);
@@ -2345,7 +2348,9 @@ GtkWidget *ui_statusbar_create(int window_identity)
         g_signal_connect(crt, "toggled", G_CALLBACK(on_crt_toggled), NULL);
 
         mixer = gtk_check_button_new_with_label("Mixer");
+#if 0
         vice_gtk3_css_provider_add(mixer, css);
+#endif
         gtk_widget_set_can_focus(mixer, FALSE);
         gtk_widget_set_halign(mixer, GTK_ALIGN_START);
         gtk_widget_set_valign(mixer, GTK_ALIGN_START);
