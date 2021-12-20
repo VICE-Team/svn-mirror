@@ -943,7 +943,7 @@ void myacia_store(uint16_t addr, uint8_t byte)
                 }
                 DEBUG_LOG_MESSAGE((acia.log, "DR write at %d: 0x%02x", myclk, acia.txdata));
                 acia.in_tx = ACIA_TX_STATE_DR_WRITTEN;
-                if ((acia.alarm_active_tx == 0)) {
+                if (acia.alarm_active_tx == 0) {
                     acia.alarm_clk_tx = myclk + 1;
                     alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
                     acia.alarm_active_tx = 1;
