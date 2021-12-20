@@ -599,7 +599,7 @@ static RAMINITPARAM ramparam = {
 void vic_um_powerup(void)
 {
     if (cart_ram) {
-        ram_init_with_pattern(cart_ram, cart_ram_size, &ramparam);
+        ram_init_with_pattern(cart_ram, (unsigned int)cart_ram_size, &ramparam);
     }
 }
 

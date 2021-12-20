@@ -800,7 +800,7 @@ static int ramlink_activate(void)
     if (rl_cardsize > rl_cardsize_old) {
         /* memset(rl_card, 0, (size_t)(rl_cardsize - rl_cardsize_old)); */
         ram_init_with_pattern(&rl_card[rl_cardsize_old],
-                              (size_t)(rl_cardsize - rl_cardsize_old), &ramparam);
+                              (unsigned int)(rl_cardsize - rl_cardsize_old), &ramparam);
     }
 
     rl_cardsize_old = rl_cardsize;
