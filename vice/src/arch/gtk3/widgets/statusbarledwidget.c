@@ -65,8 +65,6 @@ enum {
 #define LABEL_CSS \
     "label {\n" \
     "    font-size: 90%;\n" \
-    "    margin-top: -2px;\n" \
-    "    margin-bottom: 0px;\n" \
     "}\n"
 
 
@@ -170,10 +168,10 @@ static gboolean on_led_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
 
     cairo_set_source_rgb(cr, rgba.red, rgba.green, rgba.blue);
 
-    led_height = area_height / 4.0;                 /* half the widget height */
+    led_height = area_height / 2.0;                 /* half the widget height */
     led_width = area_width / 2.0;                   /* 2x1 ratio */
     led_xpos = (area_width - led_width) / 2.0;      /* centered horizontally */
-    led_ypos = (area_height - led_height) / 4.0;
+    led_ypos = (area_height - led_height) / 2.0;
 
     cairo_rectangle(cr, led_xpos, led_ypos, led_width, led_height);
     cairo_fill(cr);
