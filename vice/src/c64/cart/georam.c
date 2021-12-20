@@ -264,7 +264,7 @@ static int georam_activate(void)
     if (georam_size > old_georam_ram_size) {
         /* memset(georam_ram, 0, (size_t)(georam_size - old_georam_ram_size)); */
         ram_init_with_pattern(&georam_ram[old_georam_ram_size],
-                              (size_t)(georam_size - old_georam_ram_size), &ramparam);
+                              (unsigned int)(georam_size - old_georam_ram_size), &ramparam);
     }
 
     old_georam_ram_size = georam_size;

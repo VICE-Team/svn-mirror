@@ -310,7 +310,7 @@ static int ramcart_activate(void)
     if (ramcart_size > old_ramcart_ram_size) {
         /* memset(ramcart_ram, 0, (size_t)(ramcart_size - old_ramcart_ram_size)); */
         ram_init_with_pattern(&ramcart_ram[old_ramcart_ram_size],
-                              (size_t)(ramcart_size - old_ramcart_ram_size), &ramparam);
+                              (unsigned int)(ramcart_size - old_ramcart_ram_size), &ramparam);
         DBG(("ramcart clear offset: %x length: %x total size: %x old size: %x",
              old_ramcart_ram_size, ramcart_size - old_ramcart_ram_size, ramcart_size, old_ramcart_ram_size));
     }
