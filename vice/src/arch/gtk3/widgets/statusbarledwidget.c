@@ -164,14 +164,14 @@ static gboolean on_led_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
         rgba = state->color_off;
     }
     area_width = gtk_widget_get_allocated_width(widget);
-    area_height = gtk_widget_get_allocated_width(widget);
+    area_height = gtk_widget_get_allocated_height(widget);
 
     cairo_set_source_rgb(cr, rgba.red, rgba.green, rgba.blue);
 
     led_height = area_height / 2.0;                 /* half the widget height */
     led_width = area_width / 2.0;                   /* 2x1 ratio */
     led_xpos = (area_width - led_width) / 2.0;      /* centered horizontally */
-    led_ypos = (area_height - led_height) / 2.0;
+    led_ypos = area_height / 4.0;
 
     cairo_rectangle(cr, led_xpos, led_ypos, led_width, led_height);
     cairo_fill(cr);
@@ -243,7 +243,7 @@ GtkWidget *statusbar_led_widget_create(const gchar *text,
 
     label = gtk_label_new(text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_valign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
     gtk_widget_set_hexpand(label, FALSE);
     gtk_widget_set_vexpand(label, FALSE);
     vice_gtk3_css_provider_add(label, css);
@@ -251,10 +251,10 @@ GtkWidget *statusbar_led_widget_create(const gchar *text,
 
     led = gtk_drawing_area_new();
     gtk_widget_set_halign(led, GTK_ALIGN_START);
-    gtk_widget_set_valign(led, GTK_ALIGN_START);
+    gtk_widget_set_valign(led, GTK_ALIGN_CENTER);
     gtk_widget_set_hexpand(led, FALSE);
     gtk_widget_set_vexpand(led, FALSE);
-    gtk_widget_set_size_request(led, 24, 12);
+    gtk_widget_set_size_request(led, 28, 14);
     /*  drawing areas don't respond to button clicks by default */
     /* gtk_widget_add_events(led, GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK); */
     gtk_grid_attach(GTK_GRID(grid), led, COLUMN_LED, 0, 1, 1);
