@@ -2256,22 +2256,24 @@ GtkWidget *ui_statusbar_create(int window_identity)
                     SB_COL_LEDS, SB_ROW_LEDS, SB_COLUMN_COUNT, 1);
 
     /* Second row: horizontal separator */
+#if 0
     sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_attach(GTK_GRID(sb),
                     sep,
                     SB_COL_LEDS, SB_ROW_LEDS_HSEP, SB_COLUMN_COUNT, 1);
-
+#endif
     /* Third row: variable amount of widgets */
     gtk_grid_attach(GTK_GRID(sb),
                     allocated_bars[i].widget_row_grid,
                     SB_COL_WIDGETS, SB_ROW_WIDGETS, SB_COLUMN_COUNT, 1);
 
     /* Fourth row: horizontal separator */
+#if 0
     sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_attach(GTK_GRID(sb),
                     sep,
                     SB_COL_WIDGETS, SB_ROW_WIDGETS_HSEP, SB_COLUMN_COUNT, 1);
-
+#endif
     /* Fifth row: messages, separator and recording */
     message = gtk_label_new(NULL);
     gtk_widget_set_hexpand(message, TRUE);
