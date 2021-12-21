@@ -156,16 +156,6 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     archdep_runtime_info_t runtime_info;
 
-    debug_gtk3("MAJOR: %d, MINOR: %d, BUILD: %d.",
-               VICE_VERSION_MAJOR, VICE_VERSION_MINOR, VICE_VERSION_BUILD);
-
-    /* Only add build number if not 0 */
-#if VICE_VERSION_BUILD > 0
-# define VICE_VERSION_STRING    VERSION_WITH_BUILD
-#else
-# define VICE_VERSION_STRING    VERSION
-#endif
-
     /* set toplevel window, Gtk doesn't like dialogs without parents */
     gtk_window_set_transient_for(GTK_WINDOW(about), ui_get_active_window());
 
@@ -179,7 +169,7 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 #ifdef USE_SVN_REVISION
     g_snprintf(version, sizeof(version),
             "%s r%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cairo %s, Pango %s)",
-            VICE_VERSION_STRING, VICE_SVN_REV_STRING,
+            VERSION, VICE_SVN_REV_STRING,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
             GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION,
             cairo_version_string(),
@@ -187,7 +177,7 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 #else
     g_snprintf(version, sizeof(version),
             "%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cairo %s, Pango %s)",
-            VICE_VERSION_STRING,
+            VERSION,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
             GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION,
             cairo_version_string(),
