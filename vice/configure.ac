@@ -8,7 +8,7 @@ dnl Set VICE version number
 m4_define([vice_version_major], [3])
 m4_define([vice_version_minor], [6])
 m4_define([vice_version_build], [0])
-m4_define([vice_version_number], [vice_version_major.vice_version_minor])
+m4_define([vice_version_number], [vice_version_major.vice_version_minor.vice_version_build])
 
 dnl The major/minor stuff gets replaced in autogen.sh
 AC_INIT([vice], [vice_version_number])
@@ -403,12 +403,8 @@ AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
 AC_SUBST(VICE_VERSION_BUILD)
 
-AS_IF([test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0"],
-      [VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR
-       VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR",0,0"],
-      [VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR"."$VICE_VERSION_BUILD
-       VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR","$VICE_VERSION_BUILD",0"
-       AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])])
+VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR"."$VICE_VERSION_BUILD
+VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR","$VICE_VERSION_BUILD",0"
 AC_SUBST(VICE_VERSION)
 AC_SUBST(VERSION_RC)
 
