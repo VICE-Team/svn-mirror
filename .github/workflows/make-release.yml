@@ -48,7 +48,7 @@ jobs:
         run: |
           cd vice
           ./autogen.sh
-          ./configure --with-resid
+          ./configure --with-resid --disable-pdf-docs
           make dist
           echo ::set-output name=tarball_path::$($(pwd)/vice/vice-*.tar.gz)
           echo ::set-output name=tarball_name::$(basename vice/vice-*.tar.gz)
