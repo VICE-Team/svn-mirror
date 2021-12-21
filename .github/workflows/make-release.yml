@@ -1,0 +1,114 @@
+name: Make Release
+on:
+  push:
+    tags:
+    - '[0-9]+\.[0-9]+\.[0-9]+' # any tag that looks like a release version, ex. 3.6.0
+concurrency: 
+  group: Release Build
+  cancel-in-progress: true
+
+jobs:
+  create_release:
+    name: Create Draft Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      release_id: ${{ steps.create_release.outputs.id }}
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: true
+
+  build_tarball:
+    name: Build Tarball
+    needs: create_release
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - shell: bash
+        run: git config --global core.autocrlf input
+      
+      - name: Checkout Source
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix
+          
+      - name: Build
+        id: build
+        shell: bash
+        run: |
+          cd vice
+          ./autogen.sh
+          ./configure --with-resid
+          make dist
+          echo ::set-output name=tarball_path::$($(pwd)/vice/vice-*.tar.gz)
+          echo ::set-output name=tarball_name::$(basename vice/vice-*.tar.gz)
+
+      - name: Upload Artifact Tarball
+        uses: actions/upload-artifact@v2
+        with:
+          name: vice-tarball
+          path: ${{ steps.build.outputs.tarball_path }}
+          retention-days: 1
+
+      - name: Upload Release Tarball
+        id: upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.build.outputs.tarball_path }}
+          asset_name: ${{ steps.build.outputs.tarball_name }}
+          asset_content_type: application/gzip
+
+  build_doc:
+    name: Test Headless, Build Documentation
+    needs: build_tarball
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - name: Download Tarball
+        uses: actions/download-artifact@v2
+        with:
+          name: vice-tarball
+      
+      - name: Unpack Source
+        shell: bash
+        run: |
+          tar xzvf vice-*.tar.gz
+          rm vice-*.tar.gz
+
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix
+          sudo apt-get install texinfo texlive-fonts-recommended
+          
+      - name: Build
+        id: build
+        shell: bash
+        run: |
+          cd vice-*/
+          cd vice
+          ./autogen.sh
+          ./configure --enable-headlessui --enable-html-docs --without-pulse --without-alsa --without-png
+          make -j2
+
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: vice-pdf
+          path: vice/doc/vice.pdf
+          retention-days: 1
+  
+            
