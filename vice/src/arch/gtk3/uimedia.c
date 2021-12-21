@@ -51,6 +51,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mainlock.h"
+#include "monitor.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "sound.h"
@@ -555,8 +556,14 @@ static void on_save_screenshot_filename(GtkDialog *dialog,
             /* no, queue screenshot on vsync */
             screenshot_filename = lib_strdup(filename_locale);
             screenshot_driver = lib_strdup(video_driver_list[screenshot_driver_index].name);
-            vsync_on_vsync_do(save_screenshot_vsync_callback,
-                              (void *)ui_get_active_canvas());
+
+            if (monitor_is_inside_monitor()) {
+                /* screenshot immediately if monitor is open */
+                save_screenshot_vsync_callback((void*)ui_get_active_canvas());
+            } else {
+                /* queue screenshot grab on vsync to avoid tearing */
+                vsync_on_vsync_do(save_screenshot_vsync_callback, (void *)ui_get_active_canvas());
+            }
         }
         g_free(filename);
         g_free(filename_locale);
@@ -1305,9 +1312,13 @@ static void auto_screenshot_vsync_callback(void *param)
  */
 void ui_media_auto_screenshot(void)
 {
-    /* queue screenshot grab on vsync to avoid tearing */
-    vsync_on_vsync_do(auto_screenshot_vsync_callback,
-                      (void *)ui_get_active_canvas());
+    if (monitor_is_inside_monitor()) {
+        /* screenshot immediately if monitor is open */
+        auto_screenshot_vsync_callback((void *)ui_get_active_canvas());
+    } else {
+        /* queue screenshot grab on vsync to avoid tearing */
+        vsync_on_vsync_do(auto_screenshot_vsync_callback, (void *)ui_get_active_canvas());
+    }
 }
 
 
