@@ -2,7 +2,7 @@ name: Snapshot Build
 on:
   push:
     tags:
-    - '*' # any tag name for now
+    - 'r[0-9]+' # any tag name that looks like an svn commit
 concurrency: 
   group: Snapshot Build
   cancel-in-progress: true
