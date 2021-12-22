@@ -282,7 +282,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            github.repos.updateRelease(
+            await github.repos.updateRelease(
               {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
