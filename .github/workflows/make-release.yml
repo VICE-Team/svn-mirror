@@ -164,6 +164,7 @@ jobs:
           install: >-
             git
             base-devel
+            autotools
             mingw-w64-${{ matrix.arch.arch }}-toolchain
             zip
             subversion
@@ -188,6 +189,7 @@ jobs:
           install: >-
             git
             base-devel
+            autotools
             mingw-w64-${{ matrix.arch.arch }}-toolchain
             zip
             subversion
