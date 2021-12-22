@@ -146,7 +146,7 @@ jobs:
   
   build:
     name: Build
-    needs: build_doc
+    needs: [create_release, build_doc]
     runs-on: windows-latest
     strategy:
       fail-fast: false
