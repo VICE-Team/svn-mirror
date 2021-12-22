@@ -2146,33 +2146,39 @@ void ui_message(const char *format, ...)
 }
 
 
-/** \brief  Keeps the ui events going while the emulation is paused
+/** \brief Perform a single iteration of the pause loop
  *
- * \param[in]   addr    unused
- * \param[in]   data    unused
+ * \return boolean whether to keep iterating
  */
-static void pause_loop(void *param)
+bool ui_pause_loop_iteration(void)
 {
-    vsync_suspend_speed_eval();
-    sound_suspend();
-
     if (!is_paused) {
-        return;
+        return false;
     }
 
     /* Exit pause loop to enter monitor if needed. */
     if (enter_monitor_while_paused) {
         enter_monitor_while_paused = 0;
-        /* Interleaved pause/monitor is very tricky so disable for now */
-        ui_pause_disable();
         monitor_startup_trap();
-        return;
-    } else {
-        /* Otherwise give the UI the lock for a while */
-        tick_sleep(tick_per_second() / 60);
+        return false;
     }
+    
+    /* Otherwise give the UI the lock for a while */
+    tick_sleep(tick_per_second() / 60);
+    
+    /* Another iteration needed unless pause was disabled during sleep */
+    return is_paused;
+}
 
-    if (is_paused) {
+
+/** \brief  Keeps the ui events going while the emulation is paused
+ */
+static void pause_loop(void *param)
+{
+    vsync_suspend_speed_eval();
+    sound_suspend();
+    
+    if (ui_pause_loop_iteration()) {
         /*
          * Still paused, schedule another run. Doing it this way allows
          * other, perhaps newly queued, vsync_on_vsync_do callcacks to

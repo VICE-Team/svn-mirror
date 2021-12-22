@@ -174,6 +174,8 @@ int break_on_dummy_access = 0;
 RADIXTYPE default_radix;
 MEMSPACE default_memspace = e_comp_space;
 static bool inside_monitor = false;
+static bool should_pause_on_exit_mon = false;
+static bool pause_on_exit_mon = false;
 static unsigned int instruction_count;
 static bool skip_jsrs;
 static int wait_for_return_level;
@@ -957,6 +959,11 @@ void mon_jump(MON_ADDR addr)
 void mon_go(void)
 {
     exit_mon = 1;
+    
+    if (should_pause_on_exit_mon || ui_pause_active()) {
+        should_pause_on_exit_mon = false;
+        pause_on_exit_mon = true;
+    }
 }
 
 /* exit monitor, close monitor window  */
@@ -964,6 +971,11 @@ void mon_exit(void)
 {
     exit_mon = 1;
     mon_console_close_on_leaving = 1;
+    
+    if (should_pause_on_exit_mon || ui_pause_active()) {
+        should_pause_on_exit_mon = false;
+        pause_on_exit_mon = true;
+    }
 }
 
 /* If we want 'quit' for OS/2 I couldn't leave the emulator by calling exit(0)
@@ -3109,6 +3121,12 @@ void monitor_startup(MEMSPACE mem)
          */
         return;
     }
+    
+    if (ui_pause_active()) {
+        should_pause_on_exit_mon = true;
+        
+        ui_pause_disable();
+    }
 
     if (mem != e_default_space) {
         default_memspace = mem;
@@ -3131,12 +3149,6 @@ void monitor_startup(MEMSPACE mem)
             
             make_prompt(prompt);
             p = uimon_in(prompt);
-
-            if (ui_pause_active()) {
-                /* Interleaved pause/monitor is very tricky so disable for now */
-                ui_pause_disable();
-            }
-
             if (p) {
                 exit_mon = monitor_process(p);
             } else if (exit_mon < 1) {
@@ -3150,6 +3162,14 @@ void monitor_startup(MEMSPACE mem)
         }
     }
     monitor_close(true);
+    
+    if (pause_on_exit_mon) {
+        pause_on_exit_mon = false;
+        
+        ui_pause_enable();
+        
+        while (ui_pause_loop_iteration());
+    }
 }
 
 static void monitor_trap(uint16_t addr, void *unused_data)

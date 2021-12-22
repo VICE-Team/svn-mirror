@@ -309,6 +309,17 @@ void ui_message(const char *format, ...)
 }
 
 
+bool ui_pause_loop_iteration(void)
+{
+    /* printf("%s\n", __func__); */
+    /*
+    ui_dispatch_next_event();
+    g_usleep(10000);
+    */
+    return is_paused;
+}   
+
+
 /** \brief  Keeps the ui events going while the emulation is paused
  *
  * \param[in]   addr    unused
@@ -320,10 +331,8 @@ static void pause_trap(uint16_t addr, void *data)
 /*
     vsync_suspend_speed_eval();
     sound_suspend();
-    while (is_paused) {
-        ui_dispatch_next_event();
-        g_usleep(10000);
-    }
+ 
+    while (ui_pause_loop_iteration());
 */
 }
 

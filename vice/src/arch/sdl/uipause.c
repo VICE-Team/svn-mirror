@@ -43,15 +43,20 @@
 
 static int is_paused = 0;
 
+bool ui_pause_loop_iteration(void)
+{
+    ui_dispatch_events();
+    SDL_Delay(10);
+
+    return is_paused;
+}
+
 static void pause_trap(uint16_t addr, void *data)
 {
     vsync_suspend_speed_eval();
     sound_suspend();
 
-    while (is_paused) {
-        ui_dispatch_events();
-        SDL_Delay(10);
-    }
+    while (ui_pause_loop_iteration());
 }
 
 
