@@ -480,99 +480,98 @@ struct userport_opt_s {
     int id;
 };
 
-/* CAUTION: add new devices at the bottom of the list, do NOT change the assigned
- * numeric values! */
 static const struct userport_opt_s id_match[] = {
-    { "0",                  USERPORT_DEVICE_NONE },
+    { "-",                  USERPORT_DEVICE_NONE },
     { "none",               USERPORT_DEVICE_NONE },
-    { "1",                  USERPORT_DEVICE_PRINTER },
+    { "-",                  USERPORT_DEVICE_PRINTER },
     { "printer",            USERPORT_DEVICE_PRINTER },
     { "plotter",            USERPORT_DEVICE_PRINTER },
-    { "2",                  USERPORT_DEVICE_RS232_MODEM },
+    { "-",                  USERPORT_DEVICE_RS232_MODEM },
     { "modem",              USERPORT_DEVICE_RS232_MODEM },
-    { "3",                  USERPORT_DEVICE_JOYSTICK_CGA },
+    { "-",                  USERPORT_DEVICE_JOYSTICK_CGA },
     { "cga",                USERPORT_DEVICE_JOYSTICK_CGA },
     { "cgajoy",             USERPORT_DEVICE_JOYSTICK_CGA },
     { "cgajoystick",        USERPORT_DEVICE_JOYSTICK_CGA },
-    { "4",                  USERPORT_DEVICE_JOYSTICK_PET },
+    { "-",                  USERPORT_DEVICE_JOYSTICK_PET },
     { "pet",                USERPORT_DEVICE_JOYSTICK_PET },
     { "petjoy",             USERPORT_DEVICE_JOYSTICK_PET },
     { "petjoystick",        USERPORT_DEVICE_JOYSTICK_PET },
-    { "5",                  USERPORT_DEVICE_JOYSTICK_HUMMER },
+    { "-",                  USERPORT_DEVICE_JOYSTICK_HUMMER },
     { "hummer",             USERPORT_DEVICE_JOYSTICK_HUMMER },
     { "hummerjoy",          USERPORT_DEVICE_JOYSTICK_HUMMER },
     { "hummerjoystick",     USERPORT_DEVICE_JOYSTICK_HUMMER },
-    { "6",                  USERPORT_DEVICE_JOYSTICK_OEM },
+    { "-",                  USERPORT_DEVICE_JOYSTICK_OEM },
     { "oem",                USERPORT_DEVICE_JOYSTICK_OEM },
     { "oemjoy",             USERPORT_DEVICE_JOYSTICK_OEM },
     { "oemjoystick",        USERPORT_DEVICE_JOYSTICK_OEM },
-    { "7",                  USERPORT_DEVICE_JOYSTICK_HIT },
+    { "-",                  USERPORT_DEVICE_JOYSTICK_HIT },
     { "hit",                USERPORT_DEVICE_JOYSTICK_HIT },
     { "dxs",                USERPORT_DEVICE_JOYSTICK_HIT },
     { "hitjoy",             USERPORT_DEVICE_JOYSTICK_HIT },
     { "dxsjoy",             USERPORT_DEVICE_JOYSTICK_HIT },
     { "hitjoystick",        USERPORT_DEVICE_JOYSTICK_HIT },
     { "dxsjoystick",        USERPORT_DEVICE_JOYSTICK_HIT },
-    { "8",                  USERPORT_DEVICE_JOYSTICK_KINGSOFT },
+    { "-",                  USERPORT_DEVICE_JOYSTICK_KINGSOFT },
     { "kingsoft",           USERPORT_DEVICE_JOYSTICK_KINGSOFT },
     { "kingsoftjoy",        USERPORT_DEVICE_JOYSTICK_KINGSOFT },
     { "kingsoftjoystick",   USERPORT_DEVICE_JOYSTICK_KINGSOFT },
-    { "9",                  USERPORT_DEVICE_JOYSTICK_STARBYTE },
+    { "-",                  USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { "starbyte",           USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { "starbytejoy",        USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { "starbytejoystick",   USERPORT_DEVICE_JOYSTICK_STARBYTE },
-    { "10",                 USERPORT_DEVICE_JOYSTICK_SYNERGY },
+    { "-",                  USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergy",            USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoy",         USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoystick",    USERPORT_DEVICE_JOYSTICK_SYNERGY },
-    { "11",                 USERPORT_DEVICE_DAC },
+    { "-",                  USERPORT_DEVICE_DAC },
     { "dac",                USERPORT_DEVICE_DAC },
-    { "12",                 USERPORT_DEVICE_DIGIMAX },
+    { "-",                  USERPORT_DEVICE_DIGIMAX },
     { "digimax",            USERPORT_DEVICE_DIGIMAX },
-    { "13",                 USERPORT_DEVICE_4BIT_SAMPLER },
+    { "-",                  USERPORT_DEVICE_4BIT_SAMPLER },
     { "4bitsampler",        USERPORT_DEVICE_4BIT_SAMPLER },
-    { "14",                 USERPORT_DEVICE_8BSS },
+    { "-",                  USERPORT_DEVICE_8BSS },
     { "8bss",               USERPORT_DEVICE_8BSS },
-    { "15",                 USERPORT_DEVICE_RTC_58321A },
+    { "-",                  USERPORT_DEVICE_RTC_58321A },
     { "58321a",             USERPORT_DEVICE_RTC_58321A },
     { "58321artc",          USERPORT_DEVICE_RTC_58321A },
     { "58321rtc",           USERPORT_DEVICE_RTC_58321A },
     { "rtc58321a",          USERPORT_DEVICE_RTC_58321A },
     { "rtc58321",           USERPORT_DEVICE_RTC_58321A },
-    { "16",                 USERPORT_DEVICE_RTC_DS1307 },
+    { "-",                  USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307",             USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307rtc",          USERPORT_DEVICE_RTC_DS1307 },
     { "rtcds1307",          USERPORT_DEVICE_RTC_DS1307 },
     { "rtc1307",            USERPORT_DEVICE_RTC_DS1307 },
-    { "17",                 USERPORT_DEVICE_PETSCII_SNESPAD },
+    { "-",                  USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petscii",            USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnes",        USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnespad",     USERPORT_DEVICE_PETSCII_SNESPAD },
-    { "18",                 USERPORT_DEVICE_SUPERPAD64 },
+    { "-",                  USERPORT_DEVICE_SUPERPAD64 },
     { "superpad",           USERPORT_DEVICE_SUPERPAD64 },
     { "superpad64",         USERPORT_DEVICE_SUPERPAD64 },
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
-    { "19",                 USERPORT_DEVICE_DIAG_586220_HARNESS },
+    { "-",                  USERPORT_DEVICE_DIAG_586220_HARNESS },
     { "diag",               USERPORT_DEVICE_DIAG_586220_HARNESS },
     { "diagharness",        USERPORT_DEVICE_DIAG_586220_HARNESS },
 #endif
-    { "20",                 USERPORT_DEVICE_DRIVE_PAR_CABLE },
+    { "-",                  USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "parcable",           USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "driveparcable",      USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "driveparallelcable", USERPORT_DEVICE_DRIVE_PAR_CABLE },
-    { "21",                 USERPORT_DEVICE_IO_SIMULATION },
+    { "-",                  USERPORT_DEVICE_IO_SIMULATION },
     { "io",                 USERPORT_DEVICE_IO_SIMULATION },
     { "iosim",              USERPORT_DEVICE_IO_SIMULATION },
     { "iosimulation",       USERPORT_DEVICE_IO_SIMULATION },
-    { "22",                 USERPORT_DEVICE_SPACEBALLS },
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
-    { "23",                 USERPORT_DEVICE_WIC64 },
+    { "-",                  USERPORT_DEVICE_WIC64 },
 #endif
+    { "-",                  USERPORT_DEVICE_SPACEBALLS },
     { NULL, -1 }
 };
 
 static int set_userport_cmdline_device(const char *param, void *extra_param)
 {
+    char number[4];
     int temp = -1;
     int i = 0;
 
@@ -581,10 +580,11 @@ static int set_userport_cmdline_device(const char *param, void *extra_param)
     }
 
     do {
-        if (strcmp(id_match[i].name, param) == 0) {
-            temp = id_match[i].id;
+        sprintf(number, "%d", id_match[i].id);
+        if (((strcmp(id_match[i].name, "-") == 0) && (strcmp(number, param) == 0))
+            || (strcmp(id_match[i].name, param) == 0)) {
+            i++;
         }
-        i++;
     } while ((temp == -1) && (id_match[i].name != NULL));
 
     if (temp == -1) {
@@ -596,7 +596,7 @@ static int set_userport_cmdline_device(const char *param, void *extra_param)
 
 static char *build_userport_string(int something)
 {
-    int i = 0, ii = 0;
+    int i = 0;
     char *tmp1;
     char *tmp2;
     char number[4];
@@ -605,13 +605,7 @@ static char *build_userport_string(int something)
     tmp1 = lib_msprintf("Set userport device (0: None");
 
     for (i = 1; devices[i].name; ++i) {
-        strncpy(number, "na", 3);
-        for (ii = 0; id_match[ii].id != -1; ii++) {
-            if (id_match[ii].id == devices[i].id) {
-                strncpy(number, id_match[ii].name, 3);
-                break;
-            }
-        }
+        sprintf(number, "%d", devices[i].id);
         tmp2 = util_concat(tmp1, ", ", number, ": ", devices[i].name, NULL);
         lib_free(tmp1);
         tmp1 = tmp2;
