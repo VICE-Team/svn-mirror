@@ -95,6 +95,7 @@
 #include "sysfile.h"
 #include "traps.h"
 #include "types.h"
+#include "ui.h"
 #include "uiapi.h"
 #include "uimon.h"
 #include "util.h"
@@ -3130,6 +3131,12 @@ void monitor_startup(MEMSPACE mem)
             
             make_prompt(prompt);
             p = uimon_in(prompt);
+
+            if (ui_pause_active()) {
+                /* Interleaved pause/monitor is very tricky so disable for now */
+                ui_pause_disable();
+            }
+
             if (p) {
                 exit_mon = monitor_process(p);
             } else if (exit_mon < 1) {

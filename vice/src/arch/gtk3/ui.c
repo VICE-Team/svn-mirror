@@ -2160,10 +2160,13 @@ static void pause_loop(void *param)
         return;
     }
 
-    /* Enter monitor directly if needed. */
+    /* Exit pause loop to enter monitor if needed. */
     if (enter_monitor_while_paused) {
         enter_monitor_while_paused = 0;
-        monitor_startup(e_default_space);
+        /* Interleaved pause/monitor is very tricky so disable for now */
+        ui_pause_disable();
+        monitor_startup_trap();
+        return;
     } else {
         /* Otherwise give the UI the lock for a while */
         tick_sleep(tick_per_second() / 60);
