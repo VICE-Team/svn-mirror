@@ -480,6 +480,8 @@ struct userport_opt_s {
     int id;
 };
 
+/* CAUTION: add new devices at the bottom of the list, do NOT change the assigned
+ * numeric values! */
 static const struct userport_opt_s id_match[] = {
     { "0",                  USERPORT_DEVICE_NONE },
     { "none",               USERPORT_DEVICE_NONE },
@@ -562,6 +564,10 @@ static const struct userport_opt_s id_match[] = {
     { "io",                 USERPORT_DEVICE_IO_SIMULATION },
     { "iosim",              USERPORT_DEVICE_IO_SIMULATION },
     { "iosimulation",       USERPORT_DEVICE_IO_SIMULATION },
+    { "22",                 USERPORT_DEVICE_SPACEBALLS },
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
+    { "23",                 USERPORT_DEVICE_WIC64 },
+#endif
     { NULL, -1 }
 };
 
@@ -590,7 +596,7 @@ static int set_userport_cmdline_device(const char *param, void *extra_param)
 
 static char *build_userport_string(int something)
 {
-    int i = 0;
+    int i = 0, ii = 0;
     char *tmp1;
     char *tmp2;
     char number[4];
@@ -599,7 +605,13 @@ static char *build_userport_string(int something)
     tmp1 = lib_msprintf("Set userport device (0: None");
 
     for (i = 1; devices[i].name; ++i) {
-        sprintf(number, "%d", devices[i].id);
+        strncpy(number, "na", 3);
+        for (ii = 0; id_match[ii].id != -1; ii++) {
+            if (id_match[ii].id == devices[i].id) {
+                strncpy(number, id_match[ii].name, 3);
+                break;
+            }
+        }
         tmp2 = util_concat(tmp1, ", ", number, ": ", devices[i].name, NULL);
         lib_free(tmp1);
         tmp1 = tmp2;
