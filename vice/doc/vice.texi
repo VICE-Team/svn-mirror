@@ -6486,14 +6486,36 @@ If it is able to detect an
 
 @vindex TapePort1Device
 @item TapePort1Device
-Set the device attached to the (first) tape port:
-(x64, x64sc, x128: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 3: DTL BASIC dongle, 4: Sense dongle, 5: tapecart)
-(xcbm2, xcbm5x0, xpet, xplus4, xvic: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 4: Sense dongle)
+Set the device attached to the (first) tape port (see table below):
 
 @vindex TapePort2Device
 @item TapePort2Device
-Set the device attached to the second tape port (xpet only):
-(xpet: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 4: Sense dongle)
+Set the device attached to the second tape port (xpet only, see table below):
+
+@end table
+
+@multitable @columnfractions .005 .37 .8
+@item 0
+@tab None
+@tab x64, x64sc, x128, xvic, xplus4, xpet, xcbm2
+@item 1
+@tab Datasette
+@tab x64, x64sc, x128, xvic, xplus4, xpet, xcbm2
+@item 2
+@tab Tape RTC (PCF8583)
+@tab x64, x64sc, x128, xvic, xplus4, xpet, xcbm2
+@item 3
+@tab DTL BASIC dongle
+@tab x64, x64sc, x128
+@item 4
+@tab Sense dongle
+@tab x64, x64sc, x128, xvic, xplus4, xpet, xcbm2
+@item 5
+@tab tapecart
+@tab x64, x64sc, x128
+@end multitable
+
+@table @code
 
 @vindex CPClockF83Save
 @item CPClockF83Save
@@ -6530,15 +6552,12 @@ String specifying the file name of the current tapecart image.
 @findex -tapeport1device
 @item -tapeport1device <device>
 Set the device attached to the (first) tape port:
-(@code{TapePort1Device}).
-(x64, x64sc, x128: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 3: DTL BASIC dongle, 4: Sense dongle, 5: tapecart)
-(xcbm2, xcbm5x0, xpet, xplus4, xvic: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 4: Sense dongle)
+(see table for @code{TapePort1Device} above).
 
 @findex -tapeport2device
 @item -tapeport2device <device>
 Set the device attached to the second tape port:
-(@code{TapePort2Device}).
-(xpet: 0: None, 1: Datasette, 2: Tape RTC (PCF8583), 4: Sense dongle)
+(see table for @code{TapePort2Device} above).
 
 @findex -cpclockf83save, +cpclockf83save
 @item -cpclockf83save
