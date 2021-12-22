@@ -49,43 +49,79 @@ while at it, also check the following:
 - are the "banners" on various sourceforge pages (tickets) still up to date?
 - are the "readmes" in the files areas still up to date?
 
+****************************************
+ Tarball and Windows Builds - Automated
+****************************************
 
-generate tarball:
------------------
+  The file in .github/workflows/make-release.yml implements a release process that
+  will create the dist tarball and then windows builds from that tarball. To trigger it,
+  push a git tag like v3.6.0 to our github mirror. This will create a release on Github
+  which can be seen at https://github.com/VICE-Team/svn-mirror/releases. The build
+  process can be observed at https://github.com/VICE-Team/svn-mirror/actions.
 
-(make sure dos2unix is installed)
+  Please note that the 'clean' git branch is a direct sync from our svn repo. The 'main'
+  branch adds in the Readme.md file that is displayed on Github but not present in the
+  svn repo.
 
-first update and clean your sourcetree
+  Before triggering the build, you might want to make sure that the most recent SVN commit
+  has a nice commit message about the release, as this will appear in certain places in
+  Github. Make sure that the commit has synchronised over to Github before you trigger the
+  build process.
 
-$ svn up
-$ make distclean
+  $ RELEASE=v3.5.99999
+  $ git clone --branch clean --depth 1 git@github.com:VICE-Team/svn-mirror.git
+  $ cd svn-mirror
+  $ git tag $RELEASE
+  $ git push origin $RELEASE
 
-now configure the source tree with sid engines included. this is
-needed because make dist propagates through the source tree, and if resid is
-not configured it will not have any makefiles to get 'make dist'ed
+  You may find yourself needing to delete a tag from both local and remote git repos.
+  To do this:
 
-$ ./autogen.sh
-$ ./configure --with-resid
-$ make dist
+  $ git tag -d <tag>
+  $ git push origin -d <tag>
 
-now unpack into a separate directory and test if compiling works. fix makefiles
-in case files are missing and build the tarball again.
+*************************************
+ Tarball and Windows Builds - Manual
+*************************************
 
-create a tagged branch on the svn
+  generate tarball:
+  -----------------
 
-$ svn cp <url of svn trunk> <url of svn tag>
+  (make sure dos2unix is installed)
 
-eg
+  first update and clean your sourcetree
 
-$ svn cp --username=gpz svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/trunk/ svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/tags/v3.4/
+  $ svn up
+  $ make distclean
+
+  now configure the source tree with sid engines included. this is
+  needed because make dist propagates through the source tree, and if resid is
+  not configured it will not have any makefiles to get 'make dist'ed
+
+  $ ./autogen.sh
+  $ ./configure --with-resid
+  $ make dist
+
+  now unpack into a separate directory and test if compiling works. fix makefiles
+  in case files are missing and build the tarball again.
+
+  create a tagged branch on the svn
+
+  $ svn cp <url of svn trunk> <url of svn tag>
+
+  eg
+
+  $ svn cp --username=gpz svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/trunk/ svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/tags/v3.4/
 
 
-generate windows binaries:
---------------------------
+  generate windows binaries:
+  --------------------------
 
-in msys2 configure the source as described above, then do
+  in msys2 configure the source as described above, then do
 
-$ make bindist7zip
+  $ make bindistzip
+
+*************************************
 
 
 publish the release
