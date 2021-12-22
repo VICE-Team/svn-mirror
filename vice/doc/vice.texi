@@ -6585,13 +6585,80 @@ level 2 adds details of command parameters.
 
 @vindex UserportDevice
 @item UserportDevice
-Set the device attached to the userport:
-(x64, x64sc, x128, xscpu64: 0: None, 1: Userport printer, 2: Userport RS232/Modem, 3: CGA userport joy adapter, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 7: HIT userport joy adapter, 8: KingSoft userport joy adapter, 9: StarByte userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 12: Userport DigiMAX, 13: Userport 4bit sampler, 14: Userport 8bit stereo sampler, 15: Userport RTC (RTC58321A), 16: Userport RTC (DS1307), 17: Userport Petscii SNES pad, 18: Joystick Adapter (Spaceballs), 19: Userport SuperPad64, 20: Userport parallel drive cable, 21: Userport I/O Simulation)
-(x64dtv: 0: None, 5: Hummer userport joy adapter, 21: Userport I/O Simulation)
-(xvic: 0: None, 1: Userport printer, 2: Userport RS232/Modem, 3: CGA userport joy adapter, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 15: Userport RTC (RTC58321A), 16: Userport RTC (DS1307), 17: Userport Petscii SNES pad, 18: Joystick Adapter (Spaceballs), 21: Userport I/O Simulation)
-(xplus4: 0: None, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 20: Userport parallel drive cable, 21: Userport I/O Simulation)
-(xpet: 0: None, 1: Userport printer, 3: CGA userport joy adapter, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 15: Userport RTC (RTC58321A), 16: Userport RTC (DS1307), 17: Userport Petscii SNES pad, 21: Userport I/O Simulation)
-(xcbm2: 0: None, 1: Userport printer, 3: CGA userport joy adapter, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 12: Userport DigiMAX, 13: Userport 4bit sampler, 14: Userport 8bit stereo sampler, 15: Userport RTC (RTC58321A), 16: Userport RTC (DS1307), 17: Userport Petscii SNES pad, 19: Userport SuperPad64, 21: Userport I/O Simulation)
+Set the device attached to the userport (see table below):
+
+@end table
+
+@multitable @columnfractions .005 .37 .8
+@item 0
+@tab None
+@tab x64, x64sc, x128, xscpu64, x64dtv, xvic, xplus4, xpet, xcbm2
+@item 1
+@tab Userport printer
+@tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
+@item 2
+@tab Userport RS232/Modem
+@tab x64, x64sc, x128, xscpu64, xvic
+@item 3
+@tab CGA userport joy adapter
+@tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
+@item 4
+@tab PET userport joy adapter
+@tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
+@item 5
+@tab Hummer userport joy adapter
+@tab x64, x64sc, x128, xscpu64, x64dtv, xvic, xplus4, xpet, xcbm2
+@item 6
+@tab OEM userport joy adapter
+@tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
+@item 7
+@tab HIT userport joy adapter
+@tab x64, x64sc, x128, xscpu64
+@item 8
+@tab KingSoft userport joy adapter
+@tab x64, x64sc, x128, xscpu64
+@item 9
+@tab StarByte userport joy adapter
+@tab x64, x64sc, x128, xscpu64
+@item 10
+@tab Synergy userport joy adapter
+@tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
+@item 11
+@tab Userport DAC
+@tab x64, x64sc, x128, xscpu64, xvic, xplus4, xpet, xcbm2
+@item 12
+@tab Userport DigiMAX
+@tab x64, x64sc, x128, xscpu64, xcbm2
+@item 13
+@tab Userport 4bit sampler
+@tab x64, x64sc, x128, xscpu64, xcbm2
+@item 14
+@tab Userport 8bit stereo sampler
+@tab x64, x64sc, x128, xscpu64, xcbm2
+@item 15
+@tab Userport RTC (RTC58321A)
+@tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
+@item 16
+@tab Userport RTC (DS1307)
+@tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
+@item 17
+@tab Userport Petscii SNES pad
+@tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
+@item 18
+@tab Joystick Adapter (Spaceballs)
+@tab x64, x64sc, x128, xscpu64, xvic
+@item 19
+@tab Userport SuperPad64
+@tab x64, x64sc, x128, xscpu64, xcbm2
+@item 20
+@tab Userport parallel drive cable
+@tab x64, x64sc, x128, xscpu64, xplus4
+@item 21
+@tab Userport I/O Simulation
+@tab x64, x64sc, x128, xscpu64, x64dtv, xvic, xplus4, xpet, xcbm2
+@end multitable
+
+@table @code
 
 @vindex UserportRTC58321aSave
 @item UserportRTC58321aSave
@@ -6612,14 +6679,7 @@ Boolean specifying whether the userport RTC data is saved when changed or not
 
 @findex -userportdevice
 @item -userportdevice <device>
-Set the device attached to the userport:
-(@code{UserportDevice}).
-(x64, x64sc, x128, xscpu64: 0: None, 1: Userport printer, 2: Userport RS232/Modem, 3: CGA userport joy adapter, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 7: HIT userport joy adapter, 8: KingSoft userport joy adapter, 9: StarByte userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 12: Userport DigiMAX, 13: Userport 4bit sampler, 14: Userport 8bit stereo sampler, 15: Userport RTC (RTC58321A), 16: Userport RTC (DS1307), 17: Userport Petscii SNES pad, 18: Joystick Adapter (Spaceballs), 19: Userport SuperPad64, 20: Userport parallel drive cable, 21: Userport I/O Simulation)
-(x64dtv: 0: None, 5: Hummer userport joy adapter, 21: Userport I/O Simulation)
-(xvic: 0: None, 1: Userport printer, 2: Userport RS232/Modem, 3: CGA userport joy adapter, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 15: Userport RTC (RTC58321A), 16: Userport RTC (DS1307), 17: Userport Petscii SNES pad, 18: Joystick Adapter (Spaceballs), 21: Userport I/O Simulation)
-(xplus4: 0: None, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 20: Userport parallel drive cable, 21: Userport I/O Simulation)
-(xpet: 0: None, 1: Userport printer, 3: CGA userport joy adapter, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 15: Userport RTC (RTC58321A), 16: Userport RTC (DS1307), 17: Userport Petscii SNES pad, 21: Userport I/O Simulation)
-(xcbm2: 0: None, 1: Userport printer, 3: CGA userport joy adapter, 4: PET userport joy adapter, 5: Hummer userport joy adapter, 6: OEM userport joy adapter, 10: Synergy userport joy adapter, 11: Userport DAC, 12: Userport DigiMAX, 13: Userport 4bit sampler, 14: Userport 8bit stereo sampler, 15: Userport RTC (RTC58321A), 16: Userport RTC (DS1307), 17: Userport Petscii SNES pad, 19: Userport SuperPad64, 21: Userport I/O Simulation)
+Set the device attached to the userport (see table for @code{UserportDevice} above).
 
 @findex -userportrtc58321asave, +userportrtc58321asave
 @item -userportrtc58321asave
