@@ -2,7 +2,7 @@ name: Make Release
 on:
   push:
     tags:
-    - 'v[0-9]+\.[0-9]+\.[0-9]+' # any tag that looks like a release version, ex. v3.6.0
+    - '[0-9]+\.[0-9]+\.[0-9]+' # any tag that looks like a release version, ex. 3.6.0
 concurrency: 
   group: Release Build
   cancel-in-progress: true
