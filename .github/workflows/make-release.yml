@@ -24,39 +24,6 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
           draft: true
-  
-  # remove_default_release_assets: # the default release assets don't seem to get listed
-  #   name: Remove Default Release Assets
-  #   runs-on: ubuntu-latest
-  #   needs: create_release
-  #   steps:
-  #     - uses: actions/github-script@v3
-  #       with:
-  #         github-token: ${{secrets.GITHUB_TOKEN}}
-  #         script: |
-  #           console.log('GET RELEASE: o: ' + context.repo.owner + ' repo: ' + context.repo.repo + ' rel: ' + '${{ needs.create_release.outputs.release_id }}');
-  #           let assets =
-  #             (await github.paginate(
-  #               github.repos.listReleaseAssets,
-  #               {
-  #                 owner: context.repo.owner,
-  #                 repo: context.repo.repo,
-  #                 release_id: '${{ needs.create_release.outputs.release_id }}'
-  #               }));
-  #           console.log('ASSETS: ' + JSON.stringify(assets));
-
-  #           for (const asset of assets)
-  #           {
-  #             console.log("Deleting default asset: " + asset.name);
-  #             await github.repos.deleteReleaseAsset(
-  #               {
-  #                 owner: context.repo.owner,
-  #                 repo: context.repo.repo,
-  #                 asset_id: asset.id
-  #               });
-  #           }
-
-  #           console.log("Done.");
 
   build_tarball:
     name: Build Tarball
@@ -241,7 +208,7 @@ jobs:
         id: build
         shell: msys2 {0}
         run: |
-          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/github-actions-build.sh ${{ matrix.ui }} ""
+          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/github-actions-build.sh ${{ matrix.ui }} "release"
           echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
           echo ::set-output name=zip_name::$(basename vice/*.zip)
 
