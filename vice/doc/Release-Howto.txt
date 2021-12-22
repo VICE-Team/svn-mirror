@@ -71,23 +71,12 @@ while at it, also check the following:
   $ RELEASE=3.6.0
   $ git clone --branch clean --depth 1 git@github.com:VICE-Team/svn-mirror.git
   $ cd svn-mirror
-  $ git tag v$RELEASE
   $ git tag $RELEASE
-  $ git push origin v$RELEASE
   $ git push origin $RELEASE
 
-  Note that we are pushing two tags: 3.6.0, and v3.6.0.
-
-  3.6.0 till trigger the release build, and create a 'release' on Github called 3.6.0.
+  Pushing the tag triggers the release build, and creates a 'release' on Github called 3.6.0.
   Annoyingly, this release will automatically include a zip and tgz of the source for that
-  commit, without any way to prevent it. However - if we delete the tag AFTER release build
-  has started, Github will no longer inject these assets into the release:
-
-  $ git tag -d $RELEASE
-  $ git push origin -d $RELEASE
-
-  This leaves a v3.6.0 tag, which is purely there so we can easily checkout the source from
-  the point of time of the release.
+  commit, without any way to prevent it.
 
 *************************************
  Tarball and Windows Builds - Manual
