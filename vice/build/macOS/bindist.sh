@@ -16,7 +16,9 @@ SOURCE="$1"
 if [ ! -d "$SOURCE" ]; then
     err "$SOURCE is not a directory"
 fi
-
+if [ -z "$DEPS_PREFIX" ]; then
+    err "Missing env DEPS_PREFIX. Set to something like /opt/homebrew, /usr/local, or /opt/local"
+fi
 if [ -z "$CODE_SIGN_ID" ]; then
     err "Missing env CODE_SIGN_ID. Set to something like 'Developer ID Application: <NAME> (<ID>)', try $ security find-identity -v -p codesigning"
 fi
@@ -105,7 +107,7 @@ cd gtk3
 "$SOURCE/configure" --enable-native-gtk3ui $BUILD_FLAGS
 
 make -j $THREADS
-DEPS_PREFIX=/opt/homebrew make bindistzip
+make bindistzip
 notarise *.dmg
 mv *.dmg "$SOURCE"
 cd ..
@@ -120,7 +122,7 @@ cd sdl2
 "$SOURCE/configure" --enable-sdlui2 $BUILD_FLAGS
 
 make -j $THREADS
-DEPS_PREFIX=/opt/homebrew make bindistzip
+make bindistzip
 notarise *.dmg
 mv *.dmg "$SOURCE"
 cd ..
