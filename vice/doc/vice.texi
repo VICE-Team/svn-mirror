@@ -7592,7 +7592,7 @@ Set the device attached to the second tape port (xpet only, see table below):
 @item 4
 @tab Sense dongle
 @tab x64, x64sc, x128, xvic, xplus4, xpet, xcbm2
-@item 5
+@item 6
 @tab tapecart
 @tab x64, x64sc, x128
 @end multitable
@@ -7746,9 +7746,6 @@ Set the device attached to the userport (see table below):
 @tab Userport Petscii SNES pad
 @tab x64, x64sc, x128, xscpu64, xvic, xpet, xcbm2
 @item 18
-@tab Joystick Adapter (Spaceballs)
-@tab x64, x64sc, x128, xscpu64, xvic
-@item 19
 @tab Userport SuperPad64
 @tab x64, x64sc, x128, xscpu64, xcbm2
 @item 20
@@ -7757,6 +7754,9 @@ Set the device attached to the userport (see table below):
 @item 21
 @tab Userport I/O Simulation
 @tab x64, x64sc, x128, xscpu64, x64dtv, xvic, xplus4, xpet, xcbm2
+@item 23
+@tab Joystick Adapter (Spaceballs)
+@tab x64, x64sc, x128, xscpu64, xvic
 @end multitable
 
 @table @code
