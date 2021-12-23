@@ -97,7 +97,7 @@ We welcome to the team:
 
 - Remove linking to vice libraries for petcat and cartconv.
 
-- All targets can now be build separately (e.g. 'make x64sc').
+- All targets can now be built separately (e.g. 'make x64sc').
 
 - Fixed building on cygwin.
 
