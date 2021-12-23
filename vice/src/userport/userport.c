@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "cmdline.h"
 #include "joyport.h"
@@ -481,97 +482,89 @@ struct userport_opt_s {
 };
 
 static const struct userport_opt_s id_match[] = {
-    { "-",                  USERPORT_DEVICE_NONE },
     { "none",               USERPORT_DEVICE_NONE },
-    { "-",                  USERPORT_DEVICE_PRINTER },
     { "printer",            USERPORT_DEVICE_PRINTER },
     { "plotter",            USERPORT_DEVICE_PRINTER },
-    { "-",                  USERPORT_DEVICE_RS232_MODEM },
     { "modem",              USERPORT_DEVICE_RS232_MODEM },
-    { "-",                  USERPORT_DEVICE_JOYSTICK_CGA },
     { "cga",                USERPORT_DEVICE_JOYSTICK_CGA },
     { "cgajoy",             USERPORT_DEVICE_JOYSTICK_CGA },
     { "cgajoystick",        USERPORT_DEVICE_JOYSTICK_CGA },
-    { "-",                  USERPORT_DEVICE_JOYSTICK_PET },
     { "pet",                USERPORT_DEVICE_JOYSTICK_PET },
     { "petjoy",             USERPORT_DEVICE_JOYSTICK_PET },
     { "petjoystick",        USERPORT_DEVICE_JOYSTICK_PET },
-    { "-",                  USERPORT_DEVICE_JOYSTICK_HUMMER },
     { "hummer",             USERPORT_DEVICE_JOYSTICK_HUMMER },
     { "hummerjoy",          USERPORT_DEVICE_JOYSTICK_HUMMER },
     { "hummerjoystick",     USERPORT_DEVICE_JOYSTICK_HUMMER },
-    { "-",                  USERPORT_DEVICE_JOYSTICK_OEM },
     { "oem",                USERPORT_DEVICE_JOYSTICK_OEM },
     { "oemjoy",             USERPORT_DEVICE_JOYSTICK_OEM },
     { "oemjoystick",        USERPORT_DEVICE_JOYSTICK_OEM },
-    { "-",                  USERPORT_DEVICE_JOYSTICK_HIT },
     { "hit",                USERPORT_DEVICE_JOYSTICK_HIT },
     { "dxs",                USERPORT_DEVICE_JOYSTICK_HIT },
     { "hitjoy",             USERPORT_DEVICE_JOYSTICK_HIT },
     { "dxsjoy",             USERPORT_DEVICE_JOYSTICK_HIT },
     { "hitjoystick",        USERPORT_DEVICE_JOYSTICK_HIT },
     { "dxsjoystick",        USERPORT_DEVICE_JOYSTICK_HIT },
-    { "-",                  USERPORT_DEVICE_JOYSTICK_KINGSOFT },
     { "kingsoft",           USERPORT_DEVICE_JOYSTICK_KINGSOFT },
     { "kingsoftjoy",        USERPORT_DEVICE_JOYSTICK_KINGSOFT },
     { "kingsoftjoystick",   USERPORT_DEVICE_JOYSTICK_KINGSOFT },
-    { "-",                  USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { "starbyte",           USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { "starbytejoy",        USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { "starbytejoystick",   USERPORT_DEVICE_JOYSTICK_STARBYTE },
-    { "-",                  USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergy",            USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoy",         USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoystick",    USERPORT_DEVICE_JOYSTICK_SYNERGY },
-    { "-",                  USERPORT_DEVICE_DAC },
     { "dac",                USERPORT_DEVICE_DAC },
-    { "-",                  USERPORT_DEVICE_DIGIMAX },
     { "digimax",            USERPORT_DEVICE_DIGIMAX },
-    { "-",                  USERPORT_DEVICE_4BIT_SAMPLER },
     { "4bitsampler",        USERPORT_DEVICE_4BIT_SAMPLER },
-    { "-",                  USERPORT_DEVICE_8BSS },
     { "8bss",               USERPORT_DEVICE_8BSS },
-    { "-",                  USERPORT_DEVICE_RTC_58321A },
     { "58321a",             USERPORT_DEVICE_RTC_58321A },
     { "58321artc",          USERPORT_DEVICE_RTC_58321A },
     { "58321rtc",           USERPORT_DEVICE_RTC_58321A },
     { "rtc58321a",          USERPORT_DEVICE_RTC_58321A },
     { "rtc58321",           USERPORT_DEVICE_RTC_58321A },
-    { "-",                  USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307",             USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307rtc",          USERPORT_DEVICE_RTC_DS1307 },
     { "rtcds1307",          USERPORT_DEVICE_RTC_DS1307 },
     { "rtc1307",            USERPORT_DEVICE_RTC_DS1307 },
-    { "-",                  USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petscii",            USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnes",        USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnespad",     USERPORT_DEVICE_PETSCII_SNESPAD },
-    { "-",                  USERPORT_DEVICE_SUPERPAD64 },
     { "superpad",           USERPORT_DEVICE_SUPERPAD64 },
     { "superpad64",         USERPORT_DEVICE_SUPERPAD64 },
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
-    { "-",                  USERPORT_DEVICE_DIAG_586220_HARNESS },
     { "diag",               USERPORT_DEVICE_DIAG_586220_HARNESS },
     { "diagharness",        USERPORT_DEVICE_DIAG_586220_HARNESS },
 #endif
-    { "-",                  USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "parcable",           USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "driveparcable",      USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "driveparallelcable", USERPORT_DEVICE_DRIVE_PAR_CABLE },
-    { "-",                  USERPORT_DEVICE_IO_SIMULATION },
     { "io",                 USERPORT_DEVICE_IO_SIMULATION },
     { "iosim",              USERPORT_DEVICE_IO_SIMULATION },
     { "iosimulation",       USERPORT_DEVICE_IO_SIMULATION },
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
-    { "-",                  USERPORT_DEVICE_WIC64 },
+    { "wic",                USERPORT_DEVICE_WIC64 },
+    { "wic64",              USERPORT_DEVICE_WIC64 },
 #endif
-    { "-",                  USERPORT_DEVICE_SPACEBALLS },
+    { "space",              USERPORT_DEVICE_SPACEBALLS },
+    { "spaceballs",         USERPORT_DEVICE_SPACEBALLS },
     { NULL, -1 }
 };
 
+static int is_a_number(const char *str)
+{
+    size_t i;
+    size_t len = strlen(str);
+
+    for (i = 0; i < len; i++) {
+        if (!isdigit(str[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 static int set_userport_cmdline_device(const char *param, void *extra_param)
 {
-    char number[4];
     int temp = -1;
     int i = 0;
 
@@ -580,15 +573,17 @@ static int set_userport_cmdline_device(const char *param, void *extra_param)
     }
 
     do {
-        sprintf(number, "%d", id_match[i].id);
-        if (((strcmp(id_match[i].name, "-") == 0) && (strcmp(number, param) == 0))
-            || (strcmp(id_match[i].name, param) == 0)) {
-            i++;
+        if (strcmp(id_match[i].name, param) == 0) {
+            temp = id_match[i].id;
         }
+        i++;
     } while ((temp == -1) && (id_match[i].name != NULL));
 
     if (temp == -1) {
-        return -1;
+        if (!is_a_number(param)) {
+            return -1;
+        }
+        temp = atoi(param);
     }
 
     return set_userport_device(temp, NULL);
