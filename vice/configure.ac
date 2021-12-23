@@ -6,8 +6,8 @@ dnl
 
 dnl Set VICE version number
 m4_define([vice_version_major], [3])
-m4_define([vice_version_minor], [6])
-m4_define([vice_version_build], [0])
+m4_define([vice_version_minor], [5])
+m4_define([vice_version_build], [9999])
 m4_define([vice_version_number], [vice_version_major.vice_version_minor.vice_version_build])
 
 dnl The major/minor stuff gets replaced in autogen.sh
