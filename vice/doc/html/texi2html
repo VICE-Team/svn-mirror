@@ -1032,7 +1032,7 @@ EOC
 		next;
 	    }
 	    # list item
-	    if (/^\@itemx?\s+/) {
+	    if (/^\@itemx?\s+/ || /^\@headitemx?\s+/) {
 		$what = $';
 		$what =~ s/\s+$//;
 		if ($in_bibliography && $use_bibliography) {
