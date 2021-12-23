@@ -3551,11 +3551,127 @@ port device is connected to a control port.
 Set the device attached to:
 control port 1 (x64, x64sc, x64dtv, xscpu64, x128, xcbm5x0, xplus4)
 control port (xvic).
-(x64, x64sc, xscpu64, x128: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Trackball (Atari CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Light Pen (Datel), 14: Light Gun (Magnum Light Phaser), 15: Light Gun (Stack Light Rifle), 16: Light Pen (Inkwell), 17: Sampler (2bit), 18: Sampler (4bit), 19: RTC (BBRTC), 20: Dongle (Paperclip64), 21: Keypad (Coplin), 22: Keypad (Cardco Cardkey 1), 23: Keypad (Atari CX85), 24: Keypad (RushWare), 25: Keypad (Atari CX21), 26: Dongle (Script 64), 27: Dongle (VizaWrite 64), 28: Dongle (WaaSoft), 29: SNES Pad Adapter (Trapthem), 30: SNES Pad Adapter (Ninja), 31: Joystick Adapter (Spaceballs), 32: Joystick Adapter (Inception), 33: Joystick Adapter (MultiJoy Joysticks), 34: Joystick Adapter (MultiJoy Logic), 35: Protopad, 36: Joyport I/O simulation, 37: Microflyte Joystick)
-(x64dtv: 0: None, 1: Joystick, 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Trackball (Atari CX-22), 7: Mouse (Atari ST), 17: Sampler (2bit), 18: Sampler (4bit), 19: RTC (BBRTC), 20: Dongle (Paperclip64), 21: Keypad (Coplin), 24: Keypad (RushWare), 29: SNES Pad Adapter (Trapthem), 30: SNES Pad Adapter (Ninja), 32: Joystick Adapter (Inception), 33: Joystick Adapter (MultiJoy Joysticks), 34: Joystick Adapter (MultiJoy Logic), 35: Protopad, 36: Joyport I/O simulation)
-(xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Trackball (Atari CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Light Pen (Datel), 14: Light Gun (Magnum Light Phaser), 15: Light Gun (Stack Light Rifle), 16: Light Pen (Inkwell), 17: Sampler (2bit), 18: Sampler (4bit), 19: RTC (BBRTC), 21: Keypad (Coplin), 22: Keypad (Cardco Cardkey 1), 23: Keypad (Atari CX85), 24: Keypad (RushWare), 25: Keypad (Atari CX21), 29: SNES Pad Adapter (Trapthem), 30: SNES Pad Adapter (Ninja), 31: Joystick Adapter (Spaceballs), 32: Joystick Adapter (Inception), 35: Protopad, 36: Joyport I/O simulation, 37: Microflyte Joystick)
-(xplus4: 0: None, 1: Joystick, 5: Mouse (Amiga), 6: Trackball (Atari CX-22), 7: Mouse (Atari ST), 17: Sampler (2bit), 18: Sampler (4bit), 21: Keypad (Coplin), 24: Keypad (RushWare), 36: Joyport I/O simulation)
-(xcbm5x0: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Trackball (Atari CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit), 18: Sampler (4bit), 19: RTC (BBRTC), 29: SNES Pad Adapter (Trapthem), 30: SNES Pad Adapter (Ninja), 32: Joystick Adapter (Inception), 33: Joystick Adapter (MultiJoy Joysticks), 34: Joystick Adapter (MultiJoy Logic), 35: Protopad, 36: Joyport I/O simulation, 37: Microflyte Joystick)
+
+@end table
+
+@multitable @columnfractions .005 .37 .8
+@item 0
+@tab None
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4, xcbm5x0
+@item 1
+@tab Joystick
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4, xcbm5x0
+@item 2
+@tab Paddles
+@tab x64, x64sc, xscpu64, x128, xvic, xcbm5x0
+@item 3
+@tab Mouse (1351)
+@tab x64, x64sc, xscpu64, x128, xvic, xcbm5x0
+@item 4
+@tab Mouse (NEOS)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xcbm5x0
+@item 5
+@tab Mouse (Amiga)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4, xcbm5x0
+@item 6
+@tab Trackball (Atari CX-22)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4, xcbm5x0
+@item 7
+@tab Mouse (Atari ST)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4, xcbm5x0
+@item 8
+@tab Mouse (SmartMouse)
+@tab x64, x64sc, xscpu64, x128, xvic, xcbm5x0
+@item 9
+@tab Mouse (Micromys)
+@tab x64, x64sc, xscpu64, x128, xvic, xcbm5x0
+@item 10
+@tab KoalaPad
+@tab x64, x64sc, xscpu64, x128, xvic, xcbm5x0
+@item 11
+@tab Light Pen (up trigger)
+@tab x64, x64sc, xscpu64, x128, xvic
+@item 12
+@tab Light Pen (left trigger)
+@tab x64, x64sc, xscpu64, x128, xvic
+@item 13
+@tab Light Pen (Datel)
+@tab x64, x64sc, xscpu64, x128, xvic
+@item 14
+@tab Light Gun (Magnum Light Phaser)
+@tab x64, x64sc, xscpu64, x128, xvic
+@item 15
+@tab Light Gun (Stack Light Rifle)
+@tab x64, x64sc, xscpu64, x128, xvic
+@item 16
+@tab Light Pen (Inkwell)
+@tab x64, x64sc, xscpu64, x128, xvic
+@item 17
+@tab Sampler (2bit)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4, xcbm5x0
+@item 18
+@tab Sampler (4bit)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4, xcbm5x0
+@item 19
+@tab RTC (BBRTC)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xcbm5x0
+@item 20
+@tab Dongle (Paperclip64)
+@tab x64, x64sc, xscpu64, x128, x64dtv
+@item 21
+@tab Keypad (Coplin)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4
+@item 22
+@tab Keypad (Cardco Cardkey 1)
+@tab x64, x64sc, xscpu64, x128, xvic
+@item 23
+@tab Keypad (Atari CX85)
+@tab x64, x64sc, xscpu64, x128, xvic
+@item 24
+@tab Keypad (RushWare)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4
+@item 25
+@tab Keypad (Atari CX21)
+@tab x64, x64sc, xscpu64, x128, xvic, xvic
+@item 26
+@tab Dongle (Script 64)
+@tab x64, x64sc, xscpu64, x128
+@item 27
+@tab Dongle (VizaWrite 64)
+@tab x64, x64sc, xscpu64, x128
+@item 28
+@tab Dongle (WaaSoft)
+@tab x64, x64sc, xscpu64, x128
+@item 29
+@tab SNES Pad Adapter (Trapthem)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xcbm5x0
+@item 30
+@tab SNES Pad Adapter (Ninja)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xcbm5x0
+@item 31
+@tab Joystick Adapter (Spaceballs)
+@tab x64, x64sc, xscpu64, x128, xvic
+@item 32
+@tab Joystick Adapter (Inception)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xcbm5x0
+@item 33
+@tab Joystick Adapter (MultiJoy Joysticks)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xcbm5x0
+@item 34
+@tab Joystick Adapter (MultiJoy Logic)
+@tab x64, x64sc, xscpu64, x128, x64dtv, xcbm5x0
+@item 35
+@tab Protopad
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xcbm5x0
+@item 36
+@tab Joyport I/O simulation
+@tab x64, x64sc, xscpu64, x128, x64dtv, xvic, xplus4, xcbm5x0
+@item 37
+@tab Microflyte Joystick)
+@tab x64, x64sc, xscpu64, x128, xvic, xcbm5x0
+@end multitable
+
+@table @code
 
 @vindex JoyPort2Device
 @item JoyPort2Device
