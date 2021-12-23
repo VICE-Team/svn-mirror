@@ -58,7 +58,7 @@ We welcome to the team:
 - Fixed problems related to Caps-Lock and Shift-Lock emulation
 
 - Added support for piping printer output and RS232 I/O through an external
-  executable on windows.
+  executable on Windows.
 
 - Fliplist (.vfl) support tweaked to be compatible with devices like sd2iec,
   pi1541 and Turbo Chameleon. Fliplists in the old format can still be loaded,
@@ -97,7 +97,7 @@ We welcome to the team:
 
 - Remove linking to vice libraries for petcat and cartconv.
 
-- All targets can now be build seperately (eg make x64sc).
+- All targets can now be build separately (e.g. 'make x64sc').
 
 - Fixed building on cygwin.
 
@@ -358,7 +358,7 @@ We welcome to the team:
 - Add setting colors of the monitor.
 
 - Add 'Cartridge -> Default cartridge' to settings. This allows the user to
-  see the current default cartidge, unset it and set another cartridge as
+  see the current default cartridge, unset it and set another cartridge as
   default.
 
 - Fix 'extend image' dialog.
@@ -373,7 +373,7 @@ We welcome to the team:
 
 - Fix VSID not allowing .MUS files to be added to the playlist.
 
-- Allow unlimited host controllers for josticks
+- Allow unlimited host controllers for joysticks
 
 - Fix resetting of scroll position in RAM reset pattern view.
 
