@@ -1,5 +1,5 @@
 
-  VICE  3.5                                                        Dec 2020
+  VICE  3.6                                                        Dec 2021
 
 
                  _______________
@@ -24,7 +24,7 @@
 
  ----------------------------------------------------------------------------
 
- This is version 3.5 of VICE, the multi-platform C64, C128, VIC20,
+ This is version 3.6 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
  Win32, macOS, Haiku and for most Unix systems provided with the X Window
  System version 11, R5 or later.
