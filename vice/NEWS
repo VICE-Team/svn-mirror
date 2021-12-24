@@ -55,7 +55,7 @@ We welcome to the team:
 - Various fixes related to keyboard mappings. For details please read
   https://sourceforge.net/p/vice-emu/mailman/message/37380515/
 
-- Fixed problems related to Caps-Lock and Shift-Lock emulation
+- Fixed problems related to Caps-Lock and Shift-Lock emulation.
 
 - Added support for piping printer output and RS232 I/O through an external
   executable on Windows.
