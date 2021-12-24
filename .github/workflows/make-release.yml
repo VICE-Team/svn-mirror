@@ -133,7 +133,7 @@ jobs:
         shell: bash
         run: |
           mv vice/build/msys2/github-actions-build.sh .
-          rm -rf vice
+          ls -A1 | grep -v github-actions-build.sh | xargs rm -rf
       
       - name: Download Documentation
         uses: actions/download-artifact@v2
