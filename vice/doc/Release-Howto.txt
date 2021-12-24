@@ -69,7 +69,11 @@ while at it, also check the following:
   build process.
 
   $ RELEASE=3.6.0
+
   $ git clone --branch clean --depth 1 git@github.com:VICE-Team/svn-mirror.git
+     or if that doesnt work because github doesnt have your ssh key:
+  $ git clone --branch clean --depth 1 https://github.com/VICE-Team/svn-mirror.git
+
   $ cd svn-mirror
   $ git tag $RELEASE
   $ git push origin $RELEASE
@@ -128,6 +132,10 @@ publish the release
 - upload changes to the website on sf (don't forget the html documentation)
 
 - upload the tarball to sf
+
+- in the file list (downloads) on sf, click on the (I) symbol on the right of
+  the new file(s) and then set it to the respective platform to change the
+  default downloads
 
 - announce the release on the ml (and eventually elsewhere)
 
