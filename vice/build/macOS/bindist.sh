@@ -45,23 +45,6 @@ BUILD_DIR=$(mktemp -d)
 cd $BUILD_DIR
 echo "Build Dir: $BUILD_DIR"
 
-BUILD_FLAGS="\
-    --with-jpeg \
-    --with-png \
-    --with-gif \
-    --with-vorbis \
-    --with-flac \
-    --enable-ethernet \
-    --enable-new8580filter \
-    --enable-lame \
-    --enable-midi \
-    --enable-cpuhistory \
-    --enable-external-ffmpeg \
-    --enable-macos-target-sdk-version=11.0 \
-    "
-
-THREADS=$(sysctl -n hw.ncpu)
-
 #
 # Notarisation utility
 #
@@ -96,6 +79,34 @@ function notarise {
 
     xcrun stapler staple "$1"
 }
+
+#
+# Build flags
+#
+
+BUILD_FLAGS="\
+    --disable-arch \
+    --with-jpeg \
+    --with-png \
+    --with-gif \
+    --with-vorbis \
+    --with-flac \
+    --enable-ethernet \
+    --enable-new8580filter \
+    --enable-lame \
+    --enable-midi \
+    --enable-cpuhistory \
+    --enable-external-ffmpeg \
+    "
+
+if [ "$(uname -m)" == "x86_64" ]; then
+    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-target-sdk-version=10.10"
+else
+    # First Apple silicon shipped with macOS 11
+    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-target-sdk-version=11.0"
+fi
+
+THREADS=$(sysctl -n hw.ncpu)
 
 #
 # GTK3 build
