@@ -318,6 +318,7 @@ static const palette_info_t palettelist[] = {
     { "VIC",   "Mike (PAL)",         "mike-pal"}, /* default */
     { "VIC",   "Mike (NTSC)",        "mike-ntsc"},
     { "VIC",   "Colodore (PAL)",     "colodore_vic"},
+    { "VIC",   "PALette 6561",       "PALette"},
     { "VIC",   "VICE",               "vice"},
     /* data/CBM-II/ */
     /* data/PET/ */
