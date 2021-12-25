@@ -7886,6 +7886,22 @@ Should be in form accepted by Pango: either a CSS color name (for example 'limeg
 three/six digit hex string ("#rgb"/"#rrggbb") or three decimal values in the range 0-255 
 ("rbg(red,green,blue"), for example "rgb(27,180,33)").
 
+@vindex MonitorXPos
+@item MonitorXPos
+Integer specifying the Gtk3 VTE-monitor window's X position.
+
+@vindex MonitorYPos
+@item MonitorYPos
+Integer specifying the Gtk3 VTE-monitor window's Y position.
+
+@vindex MonitorWidth
+@item MonitorWidth
+Integer specifying the Gtk3 VTE-monitor window's width.
+
+@vindex MonitorHeight
+@item MonitorHeight
+Integer specifying the Gtk3 VTE-monitor window's height.
+
 @end table
 
 @subsection Monitor command-line options
@@ -7982,6 +7998,27 @@ Set the monitor foreground colour for the Gtk3 UI's VTE-monitor.
 @item -monitorbg <colour-description>
 Set the monitor background colour for the Gtk3 UI's VTE-monitor.
 (@code{MonitorFG}).
+
+@findex -monitorxpos
+@item -monitorxpos <X-position>
+Set window X position for the Gtk3 UI's VTE-monitor.
+(@code{MonitorXPos}).
+
+@findex -monitorypos
+@item -monitorxpos <Y-position>
+Set window Y position for the Gtk3 UI's VTE-monitor.
+(@code{MonitorYPos}).
+
+@findex -monitorwidth
+@item -monitorwidth <width>
+Set window width for the Gtk3 UI's VTE-monitor.
+(@code{MonitorWidth}).
+
+@findex -monitorheight
+@item -monitorheight <height>
+Set window height for the Gtk3 UI's VTE-monitor.
+(@code{MonitorHeight}).
+
 
 @end table
 

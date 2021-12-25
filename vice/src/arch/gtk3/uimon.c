@@ -551,10 +551,13 @@ static void screen_resize_window_cb2 (VteTerminal *terminal,
                          gpointer* window)
 {
     gint width, height;
+    gint xpos;
+    gint ypos;
     glong cwidth, cheight;
     glong newwidth, newheight;
 
     gtk_window_get_size (GTK_WINDOW(fixed.window), &width, &height);
+    gtk_window_get_position(GTK_WINDOW(fixed.window), &xpos, &ypos);
     cwidth = vte_terminal_get_char_width (VTE_TERMINAL(fixed.term));
     cheight = vte_terminal_get_char_height (VTE_TERMINAL(fixed.term));
 
@@ -566,6 +569,16 @@ static void screen_resize_window_cb2 (VteTerminal *terminal,
     if (newheight < 1) {
         newheight = 1;
     }
+
+    if (xpos >= 0 && ypos >= 0) {
+        resources_set_int("MonitorXPos", xpos);
+        resources_set_int("MonitorYPos", ypos);
+    }
+    if (width > 0 && height > 0) {
+        resources_set_int("MonitorWidth", width);
+        resources_set_int("MonitorHeight", height);
+    }
+
 
     vte_terminal_set_size(VTE_TERMINAL(fixed.term), newwidth, newheight);
 }
@@ -711,15 +724,28 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     GdkGeometry hints;
     GdkPixbuf *icon;
     int sblines;
+    int xpos = -1;
+    int ypos = -1;
+    int width = -1;
+    int height = -1;
 
     pthread_mutex_lock(&fixed.lock);
 
     resources_get_int("MonitorScrollbackLines", &sblines);
+    resources_get_int("MonitorXPos", &xpos);
+    resources_get_int("MonitorYPos", &ypos);
+    resources_get_int("MonitorHeight", &height);
+    resources_get_int("MonitorWidth", &width);
 
     if (fixed.window == NULL) {
         fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_title(GTK_WINDOW(fixed.window), "VICE monitor");
-        gtk_window_set_position(GTK_WINDOW(fixed.window), GTK_WIN_POS_CENTER);
+        if (xpos < 0 && ypos < 0) {
+            /* Only center if we didn't get either a previous position or
+             * the position was set via the command line.
+             */
+            gtk_window_set_position(GTK_WINDOW(fixed.window), GTK_WIN_POS_CENTER);
+        }
         gtk_widget_set_app_paintable(fixed.window, TRUE);
         gtk_window_set_deletable(GTK_WINDOW(fixed.window), TRUE);
 
@@ -750,6 +776,15 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                      GDK_HINT_RESIZE_INC |
                                      GDK_HINT_MIN_SIZE |
                                      GDK_HINT_BASE_SIZE);
+
+         if (xpos >= 0 && ypos >= 0) {
+            gtk_window_move(GTK_WINDOW(fixed.window), xpos, ypos);
+        }
+        if (width >= 0 && height >= 0) {
+            gtk_window_resize(GTK_WINDOW(fixed.window), width, height);
+        }
+
+
         scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,
                 gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(fixed.term)));
 

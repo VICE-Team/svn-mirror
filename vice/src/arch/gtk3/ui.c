@@ -68,6 +68,7 @@
 #include "lightpen.h"
 #include "resources.h"
 #include "tick.h"
+#include "types.h"
 #include "util.h"
 #include "videoarch.h"
 #include "vsync.h"
@@ -119,6 +120,10 @@ static int set_fullscreen_decorations(int val, void *param);
 static int set_pause_on_settings(int val, void *param);
 static int set_autostart_on_doubleclick(int val, void *param);
 static int set_settings_node_path(const char *val, void *param);
+static int set_monitor_xpos(const char *val, void *param);
+static int set_monitor_ypos(const char *val, void *param);
+static int set_monitor_width(const char *val, void *param);
+static int set_monitor_height(const char *val, void *param);
 
 
 /*****************************************************************************
@@ -229,7 +234,7 @@ static const resource_string_t resources_string[] = {
 };
 
 
-/** \brief  Boolean resources shared between windows
+/** \brief  Boolean and integer resources shared between windows
  */
 static const resource_int_t resources_int_shared[] = {
     { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
@@ -255,6 +260,20 @@ static const resource_int_t resources_int_shared[] = {
     { "AutostartOnDoubleclick", 0, RES_EVENT_NO, NULL,
         &ui_resources.autostart_on_doubleclick, set_autostart_on_doubleclick,
         NULL },
+
+    { "MonitorXPos", -1, RES_EVENT_NO, NULL,
+        &(ui_resources.window_xpos[MONITOR_WINDOW]), set_window_xpos,
+        (void*)MONITOR_WINDOW },
+    { "MonitorYPos", -1, RES_EVENT_NO, NULL,
+        &(ui_resources.window_ypos[MONITOR_WINDOW]), set_window_ypos,
+        (void*)MONITOR_WINDOW },
+    { "MonitorWidth", -1, RES_EVENT_NO, NULL,
+        &(ui_resources.window_width[MONITOR_WINDOW]), set_window_width,
+        (void*)MONITOR_WINDOW },
+    { "MonitorHeight", -1, RES_EVENT_NO, NULL,
+        &(ui_resources.window_height[MONITOR_WINDOW]), set_window_height,
+        (void*)MONITOR_WINDOW },
+
     RESOURCE_INT_LIST_END
 };
 
@@ -367,6 +386,19 @@ static const cmdline_option_t cmdline_options_common[] =
     { "-settings-node", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
         set_settings_node_path, NULL, NULL, NULL,
         "settings-node", "Open settings dialog at <settings-node>" },
+    { "-monitorxpos", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_xpos, (void*)MONITOR_WINDOW, "MonitorXPos", NULL,
+        "X", "Set monitor window X position" },
+    { "-monitorypos", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_ypos, (void*)MONITOR_WINDOW, "MonitorYPos", NULL,
+        "Y", "Set monitor window Y position" },
+    { "-monitorwidth", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_width, (void*)MONITOR_WINDOW, "MonitorWidth", NULL,
+        "width", "Set monitor window width" },
+    { "-monitorheight", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_height, (void*)MONITOR_WINDOW, "MonitorHeight", NULL,
+        "height", "Set monitor window height" },
+
     CMDLINE_LIST_END
 };
 
@@ -1093,7 +1125,7 @@ static int set_monitor_fg(const char *val, void *param)
 static int set_window_width(int val, void *param)
 {
     int index = window_index_from_param(param);
-    if (index < 0 || val < 0) {
+    if (index < 0) {
         return -1;
     }
     ui_resources.window_width[index] = val;
@@ -1111,7 +1143,7 @@ static int set_window_width(int val, void *param)
 static int set_window_height(int val, void *param)
 {
     int index = window_index_from_param(param);
-    if (index < 0 || val < 0) {
+    if (index < 0) {
         return -1;
     }
     ui_resources.window_height[index] = val;
@@ -1129,7 +1161,8 @@ static int set_window_height(int val, void *param)
 static int set_window_xpos(int val, void *param)
 {
     int index = window_index_from_param(param);
-    if (index < 0 || val < 0) {
+
+    if (index < 0) {
         return -1;
     }
     ui_resources.window_xpos[index] = val;
@@ -1147,12 +1180,93 @@ static int set_window_xpos(int val, void *param)
 static int set_window_ypos(int val, void *param)
 {
     int index = window_index_from_param(param);
-    if (index < 0 || val < 0) {
+    if (index < 0) {
         return -1;
     }
     ui_resources.window_ypos[index] = val;
     return 0;
 }
+
+
+/** \brief  Cmdline handler for -monitorxpos
+ *
+ * \param[in]   val     cmdline option argument as string
+ * \param[in]   param   extra data
+ *
+ * \return  0 on success
+ */
+static int set_monitor_xpos(const char *val, void *param)
+{
+    char *endptr;
+    long result;
+
+    result = strtol(val, &endptr, 0);
+    if (*endptr != '\0') {
+        return -1;
+    }
+    return set_window_xpos((int)result, param);
+}
+
+
+/** \brief  Cmdline handler for -monitorypos
+ *
+ * \param[in]   val     cmdline option argument as string
+ * \param[in]   param   extra data
+ *
+ * \return  0 on success
+ */
+static int set_monitor_ypos(const char *val, void *param)
+{
+    char *endptr;
+    long result;
+
+    result = strtol(val, &endptr, 0);
+    if (*endptr != '\0') {
+        return -1;
+    }
+    return set_window_ypos((int)result, param);
+}
+
+
+/** \brief  Cmdline handler for -monitorwidth
+ *
+ * \param[in]   val     cmdline option argument as string
+ * \param[in]   param   extra data
+ *
+ * \return  0 on success
+ */
+static int set_monitor_width(const char *val, void *param)
+{
+    char *endptr;
+    long result;
+
+    result = strtol(val, &endptr, 0);
+    if (*endptr != '\0') {
+        return -1;
+    }
+    return set_window_width((int)result, param);
+}
+
+
+/** \brief  Cmdline handler for -monitorheight
+ *
+ * \param[in]   val     cmdline option argument as string
+ * \param[in]   param   extra data
+ *
+ * \return  0 on success
+ */
+static int set_monitor_height(const char *val, void *param)
+{
+    char *endptr;
+    long result;
+
+    result = strtol(val, &endptr, 0);
+    if (*endptr != '\0') {
+        return -1;
+    }
+    return set_window_height((int)result, param);
+}
+
 
 
 /* FIXME: Why is this here? */
