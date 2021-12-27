@@ -35,6 +35,8 @@
 #include "log.h"
 #ifdef ARCHDEP_OS_UNIX
 #include "unistd.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 #endif
 #include "archdep_open_default_log_file.h"
 
@@ -110,17 +112,24 @@ FILE *archdep_open_default_log_file(void)
        started from a terminal, and only if not open a file instead of stdout */
 #ifdef ARCHDEP_OS_UNIX
     if (!isatty(fileno(fp))) {
+        struct stat statinfo;
+        fstat(fileno(fp), &statinfo);
+        /* also check if stdout is connected to a pipe or regular file, in that
+           case do not open a logfile either, so we can redirect the output on
+           the shell */
+        if (!S_ISFIFO(statinfo.st_mode) && !S_ISREG(statinfo.st_mode)) {
 #endif
-        path = archdep_join_paths(archdep_user_config_path(), "vice.log", NULL);
-        fp = fopen(path, "w");
-        if (fp == NULL) {
-            log_error(LOG_ERR,
-                    "failed to open log file '%s' for writing, reverting to stdout",
-                    path);
-            fp = stdout;
-        }
-        lib_free(path);
+            path = archdep_join_paths(archdep_user_config_path(), "vice.log", NULL);
+            fp = fopen(path, "w");
+            if (fp == NULL) {
+                log_error(LOG_ERR,
+                        "failed to open log file '%s' for writing, reverting to stdout",
+                        path);
+                fp = stdout;
+            }
+            lib_free(path);
 #ifdef UNIX_COMPILE
+        }
     }
 #endif
     return fp;
