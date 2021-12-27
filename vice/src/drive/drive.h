@@ -174,8 +174,9 @@
 #define DRIVE_PC_STANDARD 1  /* speed-dos userport cable */
 #define DRIVE_PC_DD3      2  /* dolphin-dos 3 userport cable */
 #define DRIVE_PC_FORMEL64 3  /* formel 64 cartridge */
+#define DRIVE_PC_21SEC_BACKUP 4  /* 21 second backup userport cable */
 
-#define DRIVE_PC_NUM 4
+#define DRIVE_PC_NUM 5
 
 /* ------------------------------------------------------------------------- */
 

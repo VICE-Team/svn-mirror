@@ -52,6 +52,7 @@ static int set_drive_parallel_cable(int val, void *param)
         case DRIVE_PC_STANDARD:
         case DRIVE_PC_DD3:
         case DRIVE_PC_FORMEL64:
+        case DRIVE_PC_21SEC_BACKUP:
             break;
         default:
             return -1;

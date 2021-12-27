@@ -53,6 +53,7 @@ static const vice_gtk3_combo_entry_int_t parallel_cables_c64[] = {
     { "Standard",       DRIVE_PC_STANDARD },
     { "Dolphin DOS 3",  DRIVE_PC_DD3 },
     { "Formel 64",      DRIVE_PC_FORMEL64 },
+    { "21sec Backup",   DRIVE_PC_21SEC_BACKUP },
     { NULL,             -1 }
 };
 
