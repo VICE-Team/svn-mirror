@@ -130,7 +130,8 @@ typedef enum hotkeys_modifier_id_e {
     HOTKEYS_MOD_ID_ALT,             /**< Alt */
     HOTKEYS_MOD_ID_COMMAND,         /**< Command (MacOS) */
     HOTKEYS_MOD_ID_CONTROL,         /**< Control */
-    HOTKEYS_MOD_ID_HYPER,           /**< Hyper (MacOS?) */
+    HOTKEYS_MOD_ID_HYPER,           /**< Hyper (MacOS) */
+    HOTKEYS_MOD_ID_META,            /**< Meta (MacOS?) */
     HOTKEYS_MOD_ID_OPTION,          /**< Option (MacOS) */
     HOTKEYS_MOD_ID_SHIFT,           /**< Shift */
     HOTKEYS_MOD_ID_SUPER            /**< Super ("Windows" key) */
@@ -251,9 +252,10 @@ static const hotkeys_keyword_t hotkeys_keyword_list[] = {
  */
 static const hotkeys_modifier_t hotkeys_modifier_list[] = {
     { "Alt",        HOTKEYS_MOD_ID_ALT,     GDK_MOD1_MASK },
-    { "Command",    HOTKEYS_MOD_ID_COMMAND, GDK_CONTROL_MASK },
+    { "Command",    HOTKEYS_MOD_ID_COMMAND, GDK_MOD2_MASK },
     { "Control",    HOTKEYS_MOD_ID_CONTROL, GDK_CONTROL_MASK },
     { "Hyper",      HOTKEYS_MOD_ID_HYPER,   GDK_HYPER_MASK },
+    { "Meta",       HOTKEYS_MOD_ID_META,    GDK_META_MASK },
     { "Option",     HOTKEYS_MOD_ID_OPTION,  GDK_MOD1_MASK },
     { "Shift",      HOTKEYS_MOD_ID_SHIFT,   GDK_SHIFT_MASK },
     { "Super",      HOTKEYS_MOD_ID_SUPER,   GDK_SUPER_MASK }
@@ -914,9 +916,9 @@ static char *parser_strsubst(const char *original,
 static int parser_strncasecmp(const char *s1, const char *s2, size_t n)
 {
     size_t i;
-
+#if 0
     debug_gtk3("compare (%s, %s).", s1, s2);
-
+#endif
     for (i = 0; *s1 != '\0' && *s2 != '\0' && i < n; s1++, s2++, i++) {
         int c1 = tolower((int)*s1);
         int c2 = tolower((int)*s2);
@@ -1046,7 +1048,7 @@ static hotkeys_modifier_id_t parser_get_modifier_id(const char *name,
         }
     }
 
-    return 0;
+    return HOTKEYS_MOD_ID_ILLEGAL;
 }
 
 
@@ -1143,6 +1145,7 @@ static bool parser_get_gdk_mask_and_keyval(const char *line,
     while (*s != '\0') {
         const char *end = NULL;
         hotkeys_modifier_id_t id;
+
 #if 0
         debug_gtk3("Scanning '%s'", s);
 #endif
@@ -1248,17 +1251,19 @@ static bool parser_do_debug(const char *line, textfile_reader_t *reader)
 {
     const char *arg;
     size_t i;
-
+#if 0
     debug_gtk3("Found !DEBUG, check arg.");
-
+#endif
     arg = skip_whitespace(line);
     for (i = 0; i < ARRAY_LEN(debug_arglist); i++) {
         if (parser_strncasecmp(debug_arglist[i].symbol,
                                arg,
                                strlen(debug_arglist[i].symbol)) == 0) {
+#if 0
             debug_gtk3("Found '%s' -> '%s'.",
                        debug_arglist[i].symbol,
                        debug_arglist[i].value ? "True" : "False");
+#endif
             /* TODO: report debug on/off as part of debugging, but only
              *       mention 'off' if it was previously 'on': this way using
              *       '!debug off' at the start of a vhk file won't trigger a
@@ -1270,10 +1275,11 @@ static bool parser_do_debug(const char *line, textfile_reader_t *reader)
     }
     /* no match */
     log_message(hotkeys_log,
-                "Hotkeys: %s:%ld: syntax error: unknown argument to !DEBUG.",
+                "Hotkeys: %s:%ld: syntax error: unknown argument to !DEBUG, assuming False",
                 textfile_reader_filename(reader),
                 textfile_reader_linenum(reader));
-    return false;
+    hotkeys_debug = false;
+    return true;
 }
 
 
