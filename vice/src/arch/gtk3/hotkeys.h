@@ -53,7 +53,39 @@
  * GDK_MOD1_MASK refers to Alt/Option.
  */
 #define VKM_ACCEPTED_MODIFIERS \
-    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
+    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_MOD2_MASK|GDK_META_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
+
+
+/** \brief  Modifier IDs
+ */
+typedef enum hotkeys_modifier_id_e {
+    HOTKEYS_MOD_ID_ILLEGAL = -1,    /**< illegal modifier */
+    HOTKEYS_MOD_ID_NONE,            /**< no modifer */
+    HOTKEYS_MOD_ID_ALT,             /**< Alt */
+    HOTKEYS_MOD_ID_COMMAND,         /**< Command (MacOS) */
+    HOTKEYS_MOD_ID_CONTROL,         /**< Control */
+    HOTKEYS_MOD_ID_HYPER,           /**< Hyper (MacOS) */
+    HOTKEYS_MOD_ID_META,            /**< Meta (MacOS?) */
+    HOTKEYS_MOD_ID_OPTION,          /**< Option (MacOS) */
+    HOTKEYS_MOD_ID_SHIFT,           /**< Shift */
+    HOTKEYS_MOD_ID_SUPER            /**< Super ("Windows" key) */
+} hotkeys_modifier_id_t;
+
+
+/** \brief  Parser modifier type
+ *
+ * The modifier IDs are there to allow dumping a hotkeys file with PC-specific
+ * modifier names on Linux, BSD, Windows and MacOS-specific modifier names on
+ * MacOS. So "<Control><Alt>X" would be dumped as "<Command><Option>X" on MacOS,
+ * but the parser wouldn't care when reading back the file.
+ */
+typedef struct hotkeys_modifier_s {
+    const char *            name;   /**< modifier name */
+    hotkeys_modifier_id_t   id;     /**< modifier ID */
+    GdkModifierType         mask;   /**< GDK modifier mask */
+    const char *            html;   /**< used for hotkeys UI display, non-ASCII
+                                         glyphs are encoded with HTML entities */
+} hotkeys_modifier_t;
 
 
 int     ui_hotkeys_resources_init(void);
@@ -67,6 +99,8 @@ bool    ui_hotkeys_parse(const char *path);
 char *  ui_hotkeys_get_hotkey_string_for_action(const char *action);
 
 bool    ui_hotkeys_export(const char *path);
+
+const hotkeys_modifier_t *ui_hotkeys_get_modifier_list(void);
 
 #endif
 
