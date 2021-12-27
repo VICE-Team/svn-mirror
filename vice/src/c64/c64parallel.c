@@ -82,6 +82,7 @@ static const int portmap[DRIVE_PC_NUM] = {
     PC_PORT_STANDARD, /* DRIVE_PC_STANDARD */
     PC_PORT_STANDARD, /* DRIVE_PC_DD3 */
     PC_PORT_FORMEL64, /* DRIVE_PC_FORMEL64 */
+    PC_PORT_STANDARD, /* DRIVE_PC_21SEC_BACKUP */
 };
 
 static uint8_t parallel_cable_value(int type)
@@ -269,6 +270,9 @@ void parallel_cable_cpu_pulse(int type)
                     break;
                 case DRIVE_PC_FORMEL64:
                     viacore_signal(unit->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
+                    break;
+                case DRIVE_PC_21SEC_BACKUP:
+                    /* do nothing */
                     break;
                 default:
                     if (unit->type == DRIVE_TYPE_1570 ||

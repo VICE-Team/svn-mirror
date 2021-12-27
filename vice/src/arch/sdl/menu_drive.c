@@ -514,6 +514,10 @@ static UI_MENU_CALLBACK(set_par_callback)
           MENU_ENTRY_OTHER_TOGGLE,                               \
           set_par_callback,                                      \
           (ui_callback_data_t)(DRIVE_PC_FORMEL64 + (x << 16)) }, \
+        { "21sec backup"                                         \
+          MENU_ENTRY_OTHER_TOGGLE,                               \
+          set_par_callback,                                      \
+          (ui_callback_data_t)(DRIVE_PC_21SEC_BACKUP + (x << 16)) }, \
         SDL_MENU_LIST_END                                        \
     };
 
