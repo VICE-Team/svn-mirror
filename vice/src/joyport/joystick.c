@@ -44,6 +44,7 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "network.h"
@@ -847,6 +848,8 @@ typedef struct joystick_mapping_s {
         /* key[0] = row, key[1] = column */
         int key[2];
     } value;
+    /* Previous state of input */
+    uint8_t prev;
 } joystick_mapping_t;
 
 typedef struct joystick_axis_mapping_s {
@@ -882,6 +885,9 @@ typedef struct joystick_device_s {
     joystick_axis_mapping_t *axis_mapping;
     joystick_mapping_t *button_mapping;
     joystick_hat_mapping_t *hat_mapping;
+    int num_axes;
+    int num_hats;
+    int num_buttons;
 } joystick_device_t;
 
 
@@ -1674,11 +1680,17 @@ void register_joystick_driver(
     new_joystick_device->driver = driver;
     strncpy(new_joystick_device->jname, jname, JOYDEV_NAME_SIZE - 1);
     new_joystick_device->jname[JOYDEV_NAME_SIZE - 1] = '\0';
+    new_joystick_device->num_axes = num_axes;
+    new_joystick_device->num_hats = num_hats;
+    new_joystick_device->num_buttons = num_buttons;
+
+    log_message(LOG_DEFAULT, "registered controller '%s' with %d axes, %d hats, %d buttons",
+                new_joystick_device->jname, num_axes, num_hats, num_buttons);
+
     new_joystick_device->axis_mapping = (joystick_axis_mapping_t*)lib_calloc(num_axes, sizeof(joystick_axis_mapping_t));
-
     new_joystick_device->button_mapping = (joystick_mapping_t *)lib_calloc(num_buttons, sizeof(joystick_mapping_t));
-
     new_joystick_device->hat_mapping = (joystick_hat_mapping_t *)lib_calloc(num_hats, sizeof(joystick_hat_mapping_t));
+
     new_joystick_device->joyport = -1;
     new_joystick_device->priv = priv;
 
@@ -1841,9 +1853,25 @@ void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value)
 
 void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value)
 {
-    DBG(("joy_button_event: joynum: %d, button: %d value: %d\n", joynum, button, value));
+    int num_buttons = joystick_devices[joynum].num_buttons;
+    int joy_pin = joystick_devices[joynum].button_mapping[button].value.joy_pin;
+    int pressed = value ? 1 : 0;
+    int n;
+
+    DBG(("joy_button_event: joynum: %d, button: %d pressed: %d num_buttons: %d joy_pin: %d\n",
+         joynum, button, pressed, num_buttons, joy_pin));
+
+    /* combine state of all controller buttons that are mapped to the same
+       joystick pin */
+    joystick_devices[joynum].button_mapping[button].prev = pressed ? 1 : 0;
+    for (n = 0 ; n < num_buttons; n++) {
+        if (joystick_devices[joynum].button_mapping[n].value.joy_pin == joy_pin) {
+            pressed |= joystick_devices[joynum].button_mapping[n].prev;
+        }
+    }
+
     joy_perform_event(&(joystick_devices[joynum].button_mapping[button]),
-                      joystick_devices[joynum].joyport, value);
+                      joystick_devices[joynum].joyport, pressed);
 }
 
 void joy_hat_event(uint8_t joynum, uint8_t hat, uint8_t value)
