@@ -580,10 +580,12 @@ static void DBGSTATUS(int keysetnum, int value, int joyport, int key, int flg)
     for (column = 5; column >= 0; column--) {
         DBG((((joypad_hmask[keysetnum] >> column) & 1) ? "*" : "."));
     }
+#if 0
     DBG(("|"));
     for (column = 5; column >= 0; column--) {
         DBG((((latch_joystick_value[joyport] >> column) & 1) ? "*" : "."));
     }
+#endif
     DBG((" (%s)\n", flags[flg]));
 }
 #else
@@ -1663,6 +1665,8 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port)
 /* ------------------------------------------------------------------------- */
 
 #ifndef HAVE_SDL_NUMJOYSTICKS
+static int gtkjoy_pins[JOYPORT_MAX_PORTS][JOYPORT_MAX_PINS];
+
 void register_joystick_driver(
     struct joystick_driver_s *driver,
     const char *jname,
@@ -1700,6 +1704,8 @@ void register_joystick_driver(
      * - if the controller has four axes, map the next two to joystick directions too
      * - if the controller has six or more axes, map axis 3 and 4 to joystick directions
      *   (this makes the second analog stick on ps3/4 controllers work)
+     * - if the controller has eight or more axes, map axis 6 and 7 to joystick directions
+     *   (this makes the dpad on ps5 pad work)
      * - if the controller has no axes nor hats, use the first four buttons for the
      *   joystick directions
      * - all remaining buttons are mapped to fire buttons. the second next to fire button 2
@@ -1739,7 +1745,7 @@ void register_joystick_driver(
             new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
         }
         if (num_axes >= 6) {
-            /* next two axes */
+            /* next two axes (eg second analog stick on ps3/ps4 pads) */
             new_joystick_device->axis_mapping[3].positive_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[3].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
             new_joystick_device->axis_mapping[3].negative_direction.action = JOYSTICK;
@@ -1748,6 +1754,17 @@ void register_joystick_driver(
             new_joystick_device->axis_mapping[4].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
             new_joystick_device->axis_mapping[4].negative_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[4].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
+        }
+        if (num_axes >= 8) {
+            /* next two axes (dpad on ps5 pad) */
+            new_joystick_device->axis_mapping[6].positive_direction.action = JOYSTICK;
+            new_joystick_device->axis_mapping[6].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
+            new_joystick_device->axis_mapping[6].negative_direction.action = JOYSTICK;
+            new_joystick_device->axis_mapping[6].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
+            new_joystick_device->axis_mapping[7].positive_direction.action = JOYSTICK;
+            new_joystick_device->axis_mapping[7].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
+            new_joystick_device->axis_mapping[7].negative_direction.action = JOYSTICK;
+            new_joystick_device->axis_mapping[7].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
         }
     }
 
@@ -1787,6 +1804,39 @@ void register_joystick_driver(
             new_joystick_device->button_mapping[n].value.joy_pin = 16;
         }
     }
+
+    memset(gtkjoy_pins, 0, sizeof(int) * JOYPORT_MAX_PORTS * JOYPORT_MAX_PINS);
+}
+
+/* When a host joystick event happens that cause a 'press' of a pin, increment the 'press amount' of that pin */
+static void gtkjoy_set_value_press(unsigned int joyport, uint16_t value)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_PINS; i++) {
+        if (value & (1 << i)) {
+            gtkjoy_pins[joyport][i]++;
+        }
+    }
+    joystick_set_value_or(joyport, value);
+}
+
+/* When a host joystick event happens that cause a 'release' of a pin, decrement the 'press amount' of that pin,
+   and only release the pin for real if the 'press amount' is 0 */
+static void gtkjoy_set_value_release(unsigned int joyport, uint16_t value)
+{
+    int i;
+
+    for (i = 0; i < JOYPORT_MAX_PINS; i++) {
+        if (value & (1 << i)) {
+            if (gtkjoy_pins[joyport][i] > 0) {
+                gtkjoy_pins[joyport][i]--;
+            }
+            if (gtkjoy_pins[joyport][i] == 0) {
+                joystick_set_value_and(joyport, ~value);
+            }
+        }
+    }
 }
 
 static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
@@ -1796,9 +1846,9 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
             DBG(("joy_perform_event joyport: %d value: %d pin: %02x\n", joyport, value, event->value.joy_pin));
             if (joyport >=0 && joyport < JOYPORT_MAX_PORTS) {
                 if (value) {
-                    joystick_set_value_or(joyport, event->value.joy_pin);
+                    gtkjoy_set_value_press(joyport, event->value.joy_pin);
                 } else {
-                    joystick_set_value_and(joyport, (uint8_t) ~(event->value.joy_pin));
+                    gtkjoy_set_value_release(joyport, event->value.joy_pin);
                 }
             }
             break;
@@ -1814,19 +1864,15 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
 
 void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value)
 {
-    joystick_axis_value_t prev;
-    int joyport;
-
-    prev = joystick_devices[joynum].axis_mapping[axis].prev;
-
+    joystick_axis_value_t prev = joystick_devices[joynum].axis_mapping[axis].prev;
+    int joyport = joystick_devices[joynum].joyport;
 
     if (value == prev) {
         return;
     }
 
-    joyport = joystick_devices[joynum].joyport;
-
     DBG(("joy_axis_event: joynum: %d axis: %d value: %d prev: %d\n", joynum, axis, value, prev));
+
     if (value == JOY_AXIS_POSITIVE) {
         DBG(("joy_axis_event: JOY_AXIS_POSITIVE\n"));
         if (prev == JOY_AXIS_NEGATIVE) {
@@ -1853,14 +1899,11 @@ void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value)
 
 void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value)
 {
+    int pressed = value ? 1 : 0;
+#if 0
     int num_buttons = joystick_devices[joynum].num_buttons;
     int joy_pin = joystick_devices[joynum].button_mapping[button].value.joy_pin;
-    int pressed = value ? 1 : 0;
     int n;
-
-    DBG(("joy_button_event: joynum: %d, button: %d pressed: %d num_buttons: %d joy_pin: %d\n",
-         joynum, button, pressed, num_buttons, joy_pin));
-
     /* combine state of all controller buttons that are mapped to the same
        joystick pin */
     joystick_devices[joynum].button_mapping[button].prev = pressed ? 1 : 0;
@@ -1869,7 +1912,9 @@ void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value)
             pressed |= joystick_devices[joynum].button_mapping[n].prev;
         }
     }
-
+#endif
+    DBG(("joy_button_event: joynum: %d, button: %d pressed: %d num_buttons: %d joy_pin: %d\n",
+         joynum, button, pressed, num_buttons, joy_pin));
     joy_perform_event(&(joystick_devices[joynum].button_mapping[button]),
                       joystick_devices[joynum].joyport, pressed);
 }
