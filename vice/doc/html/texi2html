@@ -184,6 +184,7 @@ $html2_doctype = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0 Strict Level 2//E
 # texinfo styles (@foo{bar}) to HTML ones
 #
 %style_map = (
+	      'anchor', '&do_anchor',	# <A NAME="bar"></A>
 	      'asis', '',
 	      'b', 'B',
 	      'cite', 'CITE',
@@ -227,6 +228,7 @@ $html2_doctype = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0 Strict Level 2//E
 	       # poorly supported
 	       'flushleft', 'PRE',
 	       'flushright', 'PRE',
+	       'verbatim', 'PRE',
 	       );
 
 #
@@ -1761,6 +1763,13 @@ sub menu_entry {
     } else {
 	warn "$ERROR Undefined node ($node): $_";
     }
+}
+
+sub do_anchor {
+    my $name = $_[0];
+
+    $name =~ s/^#//;
+    return anchor($name, undef, "", 0)
 }
 
 sub do_ctrl { "^$_[0]" }
