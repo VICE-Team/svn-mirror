@@ -53,8 +53,15 @@
 #ifdef USE_VICE_THREAD
 #include <pthread.h>
 
+static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 static int vice_exit_code;
 static pthread_t main_thread;
+
+#define LOCK()   pthread_mutex_lock(&lock)
+#define UNLOCK() pthread_mutex_unlock(&lock)
+#else
+#define LOCK()
+#define UNLOCK()
 #endif /* #ifdef USE_VICE_THREAD */
 
 #include "archdep.h"
@@ -71,28 +78,27 @@ static pthread_t main_thread;
 static bool is_exiting;
 
 bool archdep_is_exiting(void) {
-    /*
-     * If the UI code needs to access this directly, we'll
-     * need to add code to make sure it holds the mainlock.
-     * VICE thread holds the mainlock whenever it's doing stuff.
-     */
-    mainlock_assert_is_vice_thread();
-
-    return is_exiting;
+    bool result;
+    
+    LOCK();
+    result = is_exiting;
+    UNLOCK();
+    
+    return result;
 }
 
 static void actually_exit(int exit_code)
 {
-    mainlock_assert_is_not_vice_thread();
-    mainlock_obtain();
+    LOCK();
     
     if (is_exiting) {
         log_message(LOG_DEFAULT, "Ignoring recursive call to archdep_vice_exit()");
-        mainlock_release();
+        UNLOCK();
         return;
     }
     is_exiting = true;
-    mainlock_release();
+    
+    UNLOCK();
 
     /* Some exit stuff not safe to run afer exit() is called so we do it here */
     main_exit();
