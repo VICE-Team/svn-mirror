@@ -48,16 +48,18 @@
 
 #ifdef USE_NATIVE_GTK3
 #include <gtk/gtk.h>
-#include <pthread.h>
+#endif /* #ifdef USE_NATIVE_GTK3 */
 
-#include "mainlock.h"
+#ifdef USE_VICE_THREAD
+#include <pthread.h>
 
 static int vice_exit_code;
 static pthread_t main_thread;
-#endif /* #ifdef USE_NATIVE_GTK3 */
+#endif /* #ifdef USE_VICE_THREAD */
 
 #include "archdep.h"
 #include "main.h"
+#include "mainlock.h"
 
 #ifdef MACOSX_SUPPORT
 #include "macOS-util.h"
@@ -66,20 +68,31 @@ static pthread_t main_thread;
 #include "archdep_exit.h"
 #include "log.h"
 
-
-static volatile bool is_exiting;
+static bool is_exiting;
 
 bool archdep_is_exiting(void) {
+    /*
+     * If the UI code needs to access this directly, we'll
+     * need to add code to make sure it holds the mainlock.
+     * VICE thread holds the mainlock whenever it's doing stuff.
+     */
+    mainlock_assert_is_vice_thread();
+
     return is_exiting;
 }
 
 static void actually_exit(int exit_code)
 {
+    mainlock_assert_is_not_vice_thread();
+    mainlock_obtain();
+    
     if (is_exiting) {
         log_message(LOG_DEFAULT, "Ignoring recursive call to archdep_vice_exit()");
+        mainlock_release();
         return;
     }
     is_exiting = true;
+    mainlock_release();
 
     /* Some exit stuff not safe to run afer exit() is called so we do it here */
     main_exit();

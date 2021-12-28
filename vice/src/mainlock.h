@@ -50,14 +50,19 @@ void mainlock_release(void);
 bool mainlock_is_vice_thread(void);
 
 #define mainlock_assert_is_not_vice_thread() assert(!mainlock_is_vice_thread())
+#define mainlock_assert_is_vice_thread() assert(mainlock_is_vice_thread())
 
 #else
 
-
-#define mainlock_assert_is_not_vice_thread()
 #define mainlock_yield()
 #define mainlock_yield_begin()
 #define mainlock_yield_end()
+
+#define mainlock_obtain()
+#define mainlock_release()
+
+#define mainlock_assert_is_not_vice_thread()
+#define mainlock_assert_is_vice_thread()
 
 #endif /* #ifdef USE_VICE_THREAD */
 
