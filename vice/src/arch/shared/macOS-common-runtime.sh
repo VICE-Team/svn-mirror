@@ -26,7 +26,7 @@
 #  02111-1307  USA.
 #
 
-BUNDLE_DIR="$(cd "$(dirname $0)/../.." && pwd -P)"
+BUNDLE_DIR="$(cd ../.. && pwd -P)"
 BUNDLE_NAME="$(basename \"$BUNDLE_DIR\" .app)"
 BUNDLE_CONTENTS="$BUNDLE_DIR/Contents"
 BUNDLE_RESOURCES="$BUNDLE_CONTENTS/Resources"

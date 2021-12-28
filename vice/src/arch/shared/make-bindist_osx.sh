@@ -534,15 +534,16 @@ for emu in $EMULATORS $TOOLS; do
   emu=$(basename $emu)
   cat << "HEREDOC" | sed 's/^    //' > "$BIN_DIR/$emu"
     #!/bin/bash
+    export VICE_INITIAL_CWD="$(pwd)"
     export PROGRAM="$(basename "$0")"
     "$(dirname "$0")/../VICE.app/Contents/Resources/script" "$@"
 HEREDOC
   chmod +x "$BIN_DIR/$emu"
 done
 
-cat << "HEREDOC" | sed 's/^  //' > "$BIN_DIR/README.txt"
-  These launchers are intended to be invoked from a terminal and make
-  visible the log output that is hidden when lanching the *.app versions.
+cat << "HEREDOC" | sed 's/^  //' > "$BUILD_DIR/Terminal-README.txt"
+  The launchers in bin are intended to be invoked from a terminal, and make
+  visible the log output that is hidden when lanching the .app versions.
 
   From macOS 10.15 (Catalina) onwards, double clicking these in Finder
   will not initially work due to not being able to codesign a shell script.
