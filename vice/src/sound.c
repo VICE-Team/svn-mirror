@@ -41,6 +41,7 @@
 #endif
 
 #include "archdep.h"
+#include "archdep_exit.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "fixpoint.h"
@@ -1162,7 +1163,7 @@ static int sound_run_sound(void)
                                              snddata.sound_output_channels,
                                              snddata.sound_chip_channels,
                                              &delta_t);
-        if (delta_t) {
+        if (delta_t && !archdep_is_exiting()) {
 #if 0
             sound_error_log_only("Sound buffer overflow (cycle based)");
             return -1;
