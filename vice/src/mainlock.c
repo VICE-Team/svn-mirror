@@ -42,6 +42,7 @@
 #include <pthread.h>
 
 #include "archdep.h"
+#include "debug.h"
 #include "log.h"
 #include "machine.h"
 #include "mainlock.h"
@@ -153,6 +154,7 @@ void mainlock_yield_end(void)
 
 void mainlock_obtain(void)
 {
+#ifdef DEBUG
     if (pthread_equal(pthread_self(), vice_thread)) {
         /*
          * Bad - likely the vice thread directly triggered some UI code.
@@ -165,6 +167,7 @@ void mainlock_obtain(void)
         printf("FIXME! VICE thread is trying to obtain the mainlock!\n"); fflush(stderr);
         return;
     }
+#endif
 
     pthread_mutex_lock(&lock);
 }
@@ -178,13 +181,15 @@ bool mainlock_is_vice_thread(void)
 
 void mainlock_release(void)
 {
-    pthread_mutex_unlock(&lock);
-
+#ifdef DEBUG
     if (pthread_equal(pthread_self(), vice_thread)) {
         /* See detailed comment in mainlock_obtain() */
         printf("FIXME! VICE thread is trying to release the mainlock!\n"); fflush(stdout);
         return;
     }
+#endif
+    
+    pthread_mutex_unlock(&lock);
 }
 
 #endif /* #ifdef USE_VICE_THREAD */
