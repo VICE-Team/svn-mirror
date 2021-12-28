@@ -34,9 +34,17 @@ if [[ "$1" = -psn_* ]]; then
     shift
 fi
 
-ROOT_DIR="$(dirname "$0")"
-source "$ROOT_DIR/bin/common-runtime.sh"
-source "$ROOT_DIR/bin/ui-runtime.sh"
+ROOT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
+
+cd "$ROOT_DIR"
+source "./bin/common-runtime.sh"
+source "./bin/ui-runtime.sh"
+cd -
+
+# Unless overriden by env, set cwd to home.
+if [ -z "$VICE_INITIAL_CWD" ]; then
+    cd ~
+fi
 
 # --- find VICE binary ---
 # if not provided via $PROGRAM, derive emu name from executing script name
