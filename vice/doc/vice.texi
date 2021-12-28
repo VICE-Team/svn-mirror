@@ -1067,13 +1067,9 @@ true 2031 emulation at unit #8, and still have filesystem access at
 units #10 or #11, because monitoring the IEEE488 lines does not
 interfere with the true drive emulation.
 
-The IEEE488 disk drives 2040, 3040, 4040, 8050 and 8250 are Dual Drive
-Floppy Disks.  This means that these drives handle two disks. To
-accomplish the emulation, only two disks can be emulated, namely units
-#8 and #10. The attached image, track display and LED display of unit
-#9 and #11 are used for the second drive of the dual disk drives. On
-unix the unit number display (8 or 9, 10 or 11) in the emulation
-window changes to the drive number display (0 or 1).
+The IEEE488 disk units 2040, 3040, 4040, 8050 and 8250 are Dual Drive
+Floppy Disks.  This means that these devices handle two disks.
+The drives are numbered 0 and 1.
 
 The Commodore 2040, 3040, 4040, 1001, 8050, 8250, and D9090/60 drives are
 so-called "old-style" disk drives. Their architecture includes not
