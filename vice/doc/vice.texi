@@ -21625,7 +21625,7 @@ emulator probably counts in units of clock cycles anyway :) As for writing to
 a TAP file, you need to watch the CAS_WRITE register (processor port, bit 0x02)
 and start counting whenever a 0->1 transition happens.
 
-@node T64, G64, File formats, File formats
+@node T64, G64, TAP, File formats
 @section The T64 tape image format
 
 (This section was taken from the C64S distribution.)
