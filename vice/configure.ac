@@ -1322,7 +1322,9 @@ if test x"$check_sdl2" = "xyes"; then
                         [have_sdl2_image=yes],
                         [have_sdl2_image=no; AC_MSG_RESULT([no])])
       if test x"$have_sdl2_image" = "xyes"; then
-        LIBS="$LIBS -lSDL2_image"
+        VICE_CFLAGS="$VICE_CFLAGS $SDL2_IMAGE_CFLAGS"
+        VICE_CXXFLAGS="$VICE_CXXFLAGS $SDL2_IMAGE_CFLAGS"
+        LIBS="$LIBS $SDL2_IMAGE_LIBS"
       else
         AC_MSG_ERROR([SDL2_image-dev is required.])
       fi
