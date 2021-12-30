@@ -70,14 +70,23 @@ common_DATA = CBM_Logo.svg \
 	      VIC20_256.png \
 	      VIC20_1024.svg \
 	      gtk3-hotkeys-cartridge.vhk \
+	      gtk3-hotkeys-cartridge-mac.vhk \
 	      gtk3-hotkeys-debug.vhk \
+	      gtk3-hotkeys-debug-mac.vhk \
 	      gtk3-hotkeys-drive.vhk \
+	      gtk3-hotkeys-drive-mac.vhk \
 	      gtk3-hotkeys-datasette1.vhk \
+	      gtk3-hotkeys-datasette1-mac.vhk \
 	      gtk3-hotkeys-datasette2.vhk \
+	      gtk3-hotkeys-datasette2-mac.vhk \
 	      gtk3-hotkeys-fliplist.vhk \
+	      gtk3-hotkeys-fliplist-mac.vhk \
 	      gtk3-hotkeys-help.vhk \
+	      gtk3-hotkeys-help-mac.vhk \
 	      gtk3-hotkeys-settings.vhk \
-	      gtk3-hotkeys-snapshot.vhk
+	      gtk3-hotkeys-settings-mac.vhk \
+	      gtk3-hotkeys-snapshot.vhk \
+	      gtk3-hotkeys-snapshot-mac.vhk
 
 
 EXTRA_DIST = $(common_DATA) \

@@ -1,0 +1,17 @@
+# VICE Gtk3 Hotkeys for debug items
+#
+# Author:   Bas Wassink
+# Updated:  2021-10-01
+#
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+;debug-trace-mode
+;debug-trace-cpu-toggle
+;debug-trace-iec-toggle
+;debug-trace-ieee488-toggle
+;debug-trace-drive-8-toggle
+;debug-trace-drive-9-toggle
+;debug-trace-drive-10-toggle
+;debug-trace-drive-11-toggle
+;debug-autoplayback-frames
+;debug-core-dump-toggle

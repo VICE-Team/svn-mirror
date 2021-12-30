@@ -1,0 +1,21 @@
+# VICE Gtk3 Hotkeys for snapshots, events and media recording
+#
+# Author:   Bas Wassink
+# Updated:  2021-09-25
+#
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+# Snapshots
+snapshot-load           <Command>l
+snapshot-save           <Command>s
+snapshot-quickload      <Command>F10
+snapshot-quicksave      <Command>F11
+
+# History
+history-milestone-set   <Command>e
+history-milestone-reset <Command>u
+
+# Audio, video recording, screenshots
+media-record            <Command><Shift>r
+media-stop              <Command><Shift>s
+screenshot-quicksave    Pause
