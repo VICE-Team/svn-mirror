@@ -42,7 +42,8 @@ palettes = \
 	white.vpl
 
 gtk3_hotkeys = \
-	gtk3-hotkeys.vhk
+	gtk3-hotkeys.vhk \
+	gtk3-hotkeys-mac.vhk
 
 gtk3_keymaps = \
 	gtk3_pos.vkm \

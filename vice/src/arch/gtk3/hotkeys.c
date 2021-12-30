@@ -359,7 +359,7 @@ void ui_hotkeys_init(void)
     log_message(hotkeys_log, "Hotkeys: Initializing.");
 
     log_message(hotkeys_log, "Hotkeys: Parsing %s hotkeys file:", machine_name);
-    if (!ui_hotkeys_parse("gtk3-hotkeys.vhk")) {
+    if (!ui_hotkeys_parse(VKM_DEFAULT_NAME)) {
         log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
     } else {
         log_message(hotkeys_log, "Hotkeys: OK.");

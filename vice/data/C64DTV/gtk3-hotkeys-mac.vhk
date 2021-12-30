@@ -1,0 +1,76 @@
+# VICE Gtk3 Hotkeys for x64dtv, MacOS version
+#
+# Author:   Bas Wassink
+# Updated:  2021-12-30
+#
+# See doc/gtk3-hotkeys.md for documentation on the syntax of hotkeys files.
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+# Disable debugging
+!debug disable
+
+# Clear hotkeys
+!clear
+
+
+#
+# Hotkey mappings, in the order of the menu items.
+#
+
+
+# "File" - Smart attach
+smart-attach        <Command>a
+
+# "File" - drive items
+!include "$VICEDIR/common/gtk3-hotkeys-drive-mac.vhk"
+
+# "File" - fliplist items
+!include $VICEDIR/common/gtk3-hotkeys-fliplist-mac.vhk
+
+# "File" - monitor, reset, quit
+monitor-open        <Command>h
+reset-soft          <Command>F9
+reset-hard          <Command>F12
+quit                <Command>q
+
+
+# "Edit" - copy/paste
+edit-copy           <Command>Delete
+edit-paste          <Command>Insert
+
+
+# "Snapshot" - event history recording, capturing media, screenshots etc.
+!include $VICEDIR/common/gtk3-hotkeys-snapshot-mac.vhk
+
+
+# "Preferences - host display stuff
+fullscreen-toggle               <Command>d
+restore-display                 <Command>r
+fullscreen-decorations-toggle   <Command>b
+
+# "Preferences  - run control
+warp-mode-toggle        <Command>w
+pause-toggle            <Command>p
+advance-frame           <Command><Shift>p
+
+
+# "Preferences" - joystick, mouse
+mouse-grab-toggle       <Command>m
+swap-controlport-toggle <Command>j
+keyset-joystick-toggle  <Command><Shift>j
+
+
+# Settings dialog, load, save, default
+!include $VICEDIR/common/gtk3-hotkeys-settings-mac.vhk
+
+
+# "Debug" menu items
+# TODO: implement some kind of `!ifdef DEBUG` to conditionally include this
+!include $VICEDIR/common/gtk3-hotkeys-debug-mac.vhk
+# DTV-specific debug items:
+;debug-blitter-log-toggle
+;debug-dma-log-toggle
+;debug-flash-log-toggle
+
+# "Help" menu items
+!include $VICEDIR/common/gtk3-hotkeys-help-mac.vhk

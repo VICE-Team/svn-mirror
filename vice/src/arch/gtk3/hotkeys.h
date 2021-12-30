@@ -29,11 +29,16 @@
 
 #include <gtk/gtk.h>
 #include <stdbool.h>
+#include "archdep_defs.h"
 
 
-/** \brief  Prefix of Gtk3 hotkeys files
+/** \brief  Name of Gtk3 main hotkeys files
  */
-#define VKM_PREFIX  "gtk3_hotkeys"
+#ifdef ARCHDEP_OS_MACOS
+#define VKM_PREFIX  "gtk3-hotkeys-mac"
+#else
+#define VKM_PREFIX  "gtk3-hotkeys"
+#endif
 
 /** \brief  Extension of Gtk3 hotkeys files
  *
@@ -44,7 +49,7 @@
 
 /** \brief  Filename of default Gtk3 hotkeys files
  */
-#define VKM_DEFAULT_NAME    VKM_PREFIX##VKM_EXT
+#define VKM_DEFAULT_NAME    VKM_PREFIX VKM_EXT
 
 
 /** \brief  Accepted GDK modifiers for hotkeys
