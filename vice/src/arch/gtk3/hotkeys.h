@@ -83,8 +83,7 @@ typedef struct hotkeys_modifier_s {
     const char *            name;   /**< modifier name */
     hotkeys_modifier_id_t   id;     /**< modifier ID */
     GdkModifierType         mask;   /**< GDK modifier mask */
-    const char *            html;   /**< used for hotkeys UI display, non-ASCII
-                                         glyphs are encoded with HTML entities */
+    const char *            utf8;   /**< used for hotkeys UI display */
 } hotkeys_modifier_t;
 
 
