@@ -34,11 +34,7 @@
 
 /** \brief  Name of Gtk3 main hotkeys files
  */
-#ifdef ARCHDEP_OS_MACOS
-#define VKM_PREFIX  "gtk3-hotkeys-mac"
-#else
 #define VKM_PREFIX  "gtk3-hotkeys"
-#endif
 
 /** \brief  Extension of Gtk3 hotkeys files
  *
