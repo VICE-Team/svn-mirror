@@ -66,6 +66,9 @@ enum {
  */
 static GtkWidget *hotkeys_view;
 
+static GtkWidget *modifiers_grid;
+static GtkWidget *modifiers_label;
+static guint modifiers_mask = 0;
 
 /** \brief  Label holding the hotkey string
  */
@@ -357,6 +360,86 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 }
 
 
+static void on_modifier_toggled(GtkToggleButton *check, gpointer data)
+{
+    GdkModifierType mask;
+    GdkModifierType mod;
+    gboolean active;
+    gchar markup[256];
+    int i;
+
+    active = gtk_toggle_button_get_active(check);
+    mod = GPOINTER_TO_UINT(data);
+    i = 0;
+    mask = 0;
+
+    while (TRUE) {
+        GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(modifiers_grid), 0, i);
+
+        if (widget == NULL) {
+            break;
+        }
+
+        active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+        mod = GPOINTER_TO_UINT(g_object_get_data(G_OBJECT(widget), "ModifierMask"));
+
+        if (active) {
+            mask |= mod;
+        }
+        i++;
+    }
+    modifiers_mask = mask;
+    g_snprintf(markup, sizeof(markup),
+               "(debug: mask = <tt>%04x %04x</tt>)",
+               (mask & 0xfff0000) >> 16U, mask & 0xffff);
+    gtk_label_set_markup(GTK_LABEL(modifiers_label), markup);
+}
+
+
+/** \brief  Create list of check buttons for modifiers
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_modifier_list(void)
+{
+    const hotkeys_modifier_t *list;
+    GtkWidget *grid;
+    int row;
+    int i;
+
+    list = ui_hotkeys_get_modifier_list();
+    grid = gtk_grid_new();
+
+    row = 0;
+    for (i = 0; list[i].name != NULL; i++) {
+        GtkWidget *check;
+        gpointer data;
+
+        /* exception: Alt and Option are the same modifier */
+        if (list[i].id == HOTKEYS_MOD_ID_ALT) {
+            check = gtk_check_button_new_with_label("Alt / Option \u2325");
+        } else if (list[i].id == HOTKEYS_MOD_ID_OPTION) {
+            continue;
+        } else {
+            check = gtk_check_button_new_with_label(list[i].utf8);
+        }
+        data = GINT_TO_POINTER(list[i].id);
+        g_object_set_data(G_OBJECT(check), "ModifierID", data);
+        data = GUINT_TO_POINTER(list[i].mask);
+        g_object_set_data(G_OBJECT(check), "ModifierMask", data);
+
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+                                     hotkey_mask & list[i].mask);
+
+        g_signal_connect(check, "toggled", G_CALLBACK(on_modifier_toggled), data);
+        gtk_grid_attach(GTK_GRID(grid), check, 0, row, 1, 1);
+        row ++;
+    }
+    return grid;
+}
+
+
+
 /** \brief  Create content widget for the hotkey dialog
  *
  * \param[in]   action  hotkey action name
@@ -371,6 +454,7 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     GtkWidget *hotkey_label;
     gchar text[1024];
     gchar *escaped;
+    int row = 0;
 
     grid = vice_gtk3_grid_new_spaced(16, 32);
     g_object_set(grid, "margin-left", 16, "margin-right", 16, NULL);
@@ -383,22 +467,41 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
                "Press Clear to clear the hotkey and press Cancel to cancel.",
                action);
     gtk_label_set_markup(GTK_LABEL(instructions), text);
+    gtk_grid_attach(GTK_GRID(grid), instructions, 0, row, 2, 1);
+    row++;
+ 
+    modifiers_grid = create_modifier_list();
+    gtk_grid_attach(GTK_GRID(grid), modifiers_grid, 0, row, 1, 1);
+    row++;
+
+    modifiers_label = gtk_label_new(NULL);
+    g_snprintf(text, sizeof(text),
+               "(debug: mask = <tt>%04x %04x</tt>)",
+               (hotkey_mask & 0xffff0000) >> 16U, hotkey_mask & 0xffff);
+    gtk_label_set_markup(GTK_LABEL(modifiers_label), text);
+    gtk_grid_attach(GTK_GRID(grid), modifiers_label, 0, row, 2, 1);
+    row++;
 
     hotkey_label = gtk_label_new("Current hotkey:");
     gtk_widget_set_halign(hotkey_label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(hotkey_label, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), hotkey_label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), hotkey_label, 0, row, 1, 1);
 
-    escaped = g_markup_escape_text(hotkey, -1);
-    g_snprintf(text, sizeof(text), "<b>%s</b>", escaped);
-    g_free(escaped);
+
     hotkey_string = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(hotkey_string), text);
+    if (hotkey != NULL && *hotkey != '\0') {
+        escaped = g_markup_escape_text(hotkey, -1);
+        g_snprintf(text, sizeof(text), "<b>%s</b>", escaped);
+        g_free(escaped);
+        gtk_label_set_markup(GTK_LABEL(hotkey_string), text);
+    } else {
+        gtk_label_set_markup(GTK_LABEL(hotkey_string), "<i>Undefined</i>");
+    }
     gtk_widget_set_halign(hotkey_string, GTK_ALIGN_START);
     gtk_widget_set_hexpand(hotkey_string, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), hotkey_string, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), hotkey_string, 1, row, 1, 1);
+    row++;
 
-    gtk_grid_attach(GTK_GRID(grid), instructions, 0, 0, 2, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -437,6 +540,9 @@ static void on_row_activated(GtkTreeView *view,
                            COL_ACTION_NAME, &action,
                            COL_HOTKEY, &hotkey,
                            -1);
+
+        /* This needs to happen *before* calling create_content_widget(),
+         * since that function uses these values */
         if (hotkey != NULL) {
             gtk_accelerator_parse(hotkey, &keysym, &mask);
             hotkey_keysym = keysym;
@@ -444,7 +550,13 @@ static void on_row_activated(GtkTreeView *view,
             hotkey_mask = mask;
             hotkey_mask_old = mask;
 
+        } else {
+            hotkey_keysym = 0;
+            hotkey_keysym_old = 0;
+            hotkey_mask = 0;
+            hotkey_mask_old = 0;
         }
+
         debug_gtk3("Row clicked: '%s' -> %s (mask: %04x, keysym: %04x).",
                    action,
                    hotkey != NULL ? hotkey : NULL,
