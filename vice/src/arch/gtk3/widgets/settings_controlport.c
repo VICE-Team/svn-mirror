@@ -142,6 +142,7 @@ static void free_combo_list(int port)
 {
     if (joyport_combo_lists[port] != NULL) {
         lib_free(joyport_combo_lists[port]);
+        joyport_combo_lists[port] = NULL;
     }
 }
 
@@ -230,13 +231,17 @@ static int layout_add_control_ports(GtkGrid *layout, int row, int count)
         return row;
     }
 
-    gtk_grid_attach(layout,
-                    create_joyport_widget(JOYPORT_1, "Control Port #1"),
-                    0, row, 1, 1);
-    if (count > 1) {
+    if (joyport_port_is_active(0)) {
         gtk_grid_attach(layout,
-                        create_joyport_widget(JOYPORT_2, "Control Port #2"),
-                        1, row, 1, 1);
+                        create_joyport_widget(JOYPORT_1, "Control Port #1"),
+                        0, row, 1, 1);
+    }
+    if (count > 1) {
+        if (joyport_port_is_active(1)) {
+            gtk_grid_attach(layout,
+                            create_joyport_widget(JOYPORT_2, "Control Port #2"),
+                            1, row, 1, 1);
+        }
     }
 
     return row + 1;
@@ -264,10 +269,12 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
 
         char label[256];
 
-        g_snprintf(label, sizeof(label), "Extra Joystick #%d", i + 1);
-        gtk_grid_attach(layout,
-                        create_joyport_widget(d, label),
-                        c, r, 1, 1);
+        if (joyport_port_is_active(d)) {
+            g_snprintf(label, sizeof(label), "Extra Joystick #%d", i + 1);
+            gtk_grid_attach(layout,
+                            create_joyport_widget(d, label),
+                            c, r, 1, 1);
+        }
         c ^= 1; /* swap column */
         if (c == 0) {
             r++;
@@ -293,9 +300,11 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
  */
 static int layout_add_sidcard_port(GtkGrid *layout, int row)
 {
-    gtk_grid_attach(layout,
-                    create_joyport_widget(JOYPORT_5, "SIDCard Joystick Port"),
-                    0, row, 1, 1);
+    if (joyport_port_is_active(5)) {
+        gtk_grid_attach(layout,
+                        create_joyport_widget(JOYPORT_5, "SIDCard Joystick Port"),
+                        0, row, 1, 1);
+    }
     return row + 1;
 }
 
