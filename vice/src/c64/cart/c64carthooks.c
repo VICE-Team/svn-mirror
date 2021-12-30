@@ -1410,6 +1410,9 @@ int cartridge_enable(int type)
         case CARTRIDGE_RAMCART:
             ramcart_enable();
             break;
+        case CARTRIDGE_RAMLINK:
+            ramlink_enable();
+            break;
         /* "I/O Slot" */
         case CARTRIDGE_DIGIMAX:
             digimax_enable();
@@ -1504,6 +1507,9 @@ int cartridge_disable(int type)
             break;
         case CARTRIDGE_RAMCART:
             ramcart_disable();
+            break;
+        case CARTRIDGE_RAMLINK:
+            ramlink_disable();
             break;
         /* "I/O Slot" */
         case CARTRIDGE_DIGIMAX:
