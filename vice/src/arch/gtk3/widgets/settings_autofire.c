@@ -33,6 +33,7 @@
 #include "vice_gtk3.h"
 #include "machine.h"
 #include "joystickautofirewidget.h"
+#include "joyport.h"
 
 #include "settings_autofire.h"
 
@@ -57,9 +58,11 @@ static int add_userport_widgets(GtkWidget *layout, int row, int count)
         GtkWidget *widget;
         char title[256];
 
-        g_snprintf(title, sizeof(title), "Extra Joystick #%d", joy - 2);
-        widget = joystick_autofire_widget_create(joy, title);
-        gtk_grid_attach(GTK_GRID(layout), widget, column, row, 1, 1);
+        if (joyport_has_mapping(joy - 1)) {
+            g_snprintf(title, sizeof(title), "Extra Joystick #%d", joy - 2);
+            widget = joystick_autofire_widget_create(joy, title);
+            gtk_grid_attach(GTK_GRID(layout), widget, column, row, 1, 1);
+        }
         column ^= 1;
         if (column == 0) {
             row++;
@@ -171,9 +174,11 @@ static int create_plus4_layout(GtkWidget *layout, int row)
     row = add_userport_widgets(layout, row, 3);
 
     /* SID Card joyport (joy 6) */
-    gtk_grid_attach(GTK_GRID(layout),
-                    joystick_autofire_widget_create(6, "SIDCard Joystick"),
-                    1, row - 1, 1, 1);
+    if (joyport_has_mapping(5)) {
+        gtk_grid_attach(GTK_GRID(layout),
+                        joystick_autofire_widget_create(6, "SIDCard Joystick"),
+                        1, row - 1, 1, 1);
+    }
     return row;
 }
 
