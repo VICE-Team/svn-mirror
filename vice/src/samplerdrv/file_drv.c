@@ -2116,7 +2116,7 @@ static void file_load_sample(int channels)
                 sound_cycles_per_frame = (unsigned int)machine_get_cycles_per_frame();
                 sound_frames_per_sec = (unsigned int)machine_get_cycles_per_second() / sound_cycles_per_frame;
                 sound_samples_per_frame = sound_audio_rate / sound_frames_per_sec;
-                log_warning(filedrv_log, "using %s as the sampler file", sample_name);
+                log_message(filedrv_log, "using %s as the sampler file", sample_name);
             } else {
                 lib_free(file_buffer);
                 file_buffer = NULL;
