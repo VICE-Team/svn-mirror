@@ -166,7 +166,8 @@
     mmc64
     Magic Voice
     ieee488
-    (ramlink, scpu, ...)
+    ramlink
+    (scpu, ...)
 
     "Slot 1"
     - other ROM/RAM carts that can be enabled individually

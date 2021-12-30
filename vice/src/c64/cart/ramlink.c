@@ -942,7 +942,7 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "RAMLINKImageWrite", 0, RES_EVENT_NO, NULL,
       &rl_write_image, set_image_write, NULL },
-    { "RAMLINKsize", 0, RES_EVENT_NO, NULL,
+    { "RAMLINKsize", 16, RES_EVENT_NO, NULL,
       &rl_cardsizemb, set_size, 0 },
     { "RAMLINKmode", 1, RES_EVENT_NO, NULL,
       &rl_normal, set_mode, 0 },
@@ -1632,7 +1632,7 @@ static int ramlink_common_attach(void)
     if (ramlink_registerio() < 0) {
         return -1;
     }
-
+    set_enabled(1, NULL);
     return 0;
 }
 
