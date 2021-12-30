@@ -119,6 +119,7 @@ static int rl_cardsizemb = 0;
 static int rl_normal = 1; /* either 1=normal, 0=direct */
 static int rl_rtcsave = 0;
 static char *rl_filename = NULL;
+static char *rl_bios_filename = NULL;
 
 /* internal stuff */
 static uint8_t rl_on = 0;
@@ -691,6 +692,8 @@ static void ramlink_unregisterio(void)
     }
 }
 
+/* FIXME: the xxx_bin_save API call is supposed to save the "primary" ROM
+ * image of a cartridge. we need to create another API for the RAM image */
 /* save a RAMCard image file */
 int ramlink_bin_save(const char *filename)
 {
@@ -714,6 +717,8 @@ int ramlink_bin_save(const char *filename)
     return 0;
 }
 
+/* FIXME: the xxx_flush_image API call is supposed to flush the "primary" ROM
+ * image of a cartridge. we need to create another API for the RAM image */
 /* save RAMCard to set image file */
 int ramlink_flush_image(void)
 {
@@ -838,6 +843,7 @@ static int set_enabled(int value, void *param)
     LOG2((LOG, "RAMLINK: set_enabled"));
 
     if ((!val) && (rl_enabled)) {
+        cart_power_off();
         if (ramlink_deactivate() < 0) {
             return -1;
         }
@@ -846,13 +852,30 @@ static int set_enabled(int value, void *param)
         rl_enabled = 0;
         cart_port_config_changed_slot0();
     } else if ((val) && (!rl_enabled)) {
-        if (ramlink_activate() < 0) {
-            return -1;
+        /* activate mmc64 */
+        if (param) {
+            /* if the param is != NULL, then we should load the default image file */
+            LOG1(("RAMLINK: set_enabled(1) '%s'", rl_bios_filename));
+            if (rl_bios_filename) {
+                if (*rl_bios_filename) {
+                    if (cartridge_attach_image(CARTRIDGE_RAMLINK, rl_bios_filename) < 0) {
+                        LOG1(("RAMLINK: set_enabled(1) did not register"));
+                        return -1;
+                    }
+                    /* rl_enabled = 1; */ /* cartridge_attach_image will end up calling set_enabled again */
+                    return 0;
+                }
+            }
+        } else {
+            cart_power_off();
+            if (ramlink_activate() < 0) {
+                return -1;
+            }
+            ramlink_registerio();
+            rl_enabled = 1;
+            rl_scanned = 0;
+            cart_port_config_changed_slot0();
         }
-        ramlink_registerio();
-        rl_enabled = 1;
-        rl_scanned = 0;
-        cart_port_config_changed_slot0();
     }
     return 0;
 }
@@ -907,6 +930,31 @@ static int set_image_write(int val, void *param)
     return 0;
 }
 
+static int set_bios_filename(const char *name, void *param)
+{
+    int enabled;
+
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0) {
+            return -1;
+        }
+    }
+    LOG1(("RAMLINK: set_bios_filename: %d '%s'", rl_enabled, rl_bios_filename));
+
+    util_string_set(&rl_bios_filename, name);
+    resources_get_int("MMC64", &enabled);
+
+    if (set_enabled(enabled, (void*)1) < 0) {
+        lib_free(rl_bios_filename);
+        rl_bios_filename = NULL;
+        LOG1(("RAMLINK: set_bios_filename done: %d '%s'", rl_enabled, rl_bios_filename));
+        return -1;
+    }
+    LOG1(("RAMLINK: set_bios_filename done: %d '%s'", rl_enabled, rl_bios_filename));
+
+    return 0;
+}
+
 static int set_filename(const char *name, void *param)
 {
     if (rl_filename != NULL && name != NULL && strcmp(name, rl_filename) == 0) {
@@ -934,6 +982,8 @@ static int set_filename(const char *name, void *param)
 }
 
 static const resource_string_t resources_string[] = {
+    { "RAMLINKBIOSfilename", "", RES_EVENT_NO, NULL,
+      &rl_bios_filename, set_bios_filename, NULL },
     { "RAMLINKfilename", "", RES_EVENT_NO, NULL,
       &rl_filename, set_filename, NULL },
     RESOURCE_STRING_LIST_END
@@ -950,7 +1000,7 @@ static const resource_int_t resources_int[] = {
       &rl_rtcsave, set_rtcsave, 0 },
     /* keeping "enable" resource last prevents unnecessary (re)init when loading config file */
     { "RAMLINK", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &rl_enabled, set_enabled, NULL },
+      &rl_enabled, set_enabled, (void *)1 },
     RESOURCE_INT_LIST_END
 };
 
@@ -958,10 +1008,13 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-ramlink", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMLINK", (resource_value_t)1,
-      NULL, "Enable the RAMLINK Unit" },
+      NULL, "Enable the " CARTRIDGE_NAME_RAMLINK " Unit" },
     { "+ramlink", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMLINK", (resource_value_t)0,
-      NULL, "Disable the RAMLINK Unit" },
+      NULL, "Disable the " CARTRIDGE_NAME_RAMLINK " Unit" },
+    { "-ramlinkbios", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "RAMLINKBIOSfilename", NULL,
+      "<Name>", "Specify name of " CARTRIDGE_NAME_RAMLINK " BIOS image" },
     { "-ramlinkmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RAMLINKmode", NULL,
       NULL, "RAMPort Mode (1=Normal, 0=Direct)" },
@@ -973,16 +1026,16 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Disable saving of the RTC data when changed." },
     { "-ramlinksize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RAMLINKsize", NULL,
-      "<value>", "RAMLINK RAMCARD size in MiB (0=Disabled)" },
+      "<value>", CARTRIDGE_NAME_RAMLINK " RAMCARD size in MiB (0=Disabled)" },
     { "-ramlinkimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RAMLINKfilename", NULL,
-      "<Name>", "Specify name of RAMLINK image" },
+      "<Name>", "Specify name of " CARTRIDGE_NAME_RAMLINK " image" },
     { "-ramlinkimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMLINKImageWrite", (resource_value_t)1,
-      NULL, "Allow writing to REU image" },
+      NULL, "Allow writing to " CARTRIDGE_NAME_RAMLINK " image" },
     { "+ramlinkimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMLINKImageWrite", (resource_value_t)0,
-      NULL, "Do not write to REU image" },
+      NULL, "Do not write to " CARTRIDGE_NAME_RAMLINK " image" },
     CMDLINE_LIST_END
 };
 
@@ -1025,6 +1078,12 @@ int ramlink_resources_shutdown(void)
 
     if (rl_filename) {
         lib_free(rl_filename);
+        rl_filename = NULL;
+    }
+
+    if (rl_bios_filename) {
+        lib_free(rl_bios_filename);
+        rl_bios_filename = NULL;
     }
 
     if (rl_card) {
@@ -1044,6 +1103,8 @@ int ramlink_resources_shutdown(void)
     return 0;
 }
 
+/* FIXME: this should really return the name of the ROM image, we need to create
+ * an API for returning the name of the RAM image */
 const char *ramlink_get_file_name(void)
 {
     return rl_filename;
@@ -1676,6 +1737,16 @@ void ramlink_detach(void)
     LOG2((LOG, "RAMLINK: detach"));
 
     set_enabled(0, NULL);
+}
+
+int ramlink_enable(void)
+{
+    return set_enabled(1, (void*)1);
+}
+
+int ramlink_disable(void)
+{
+    return set_enabled(0, (void*)1);
 }
 
 /* ---------------------------------------------------------------------*/

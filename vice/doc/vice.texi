@@ -9445,6 +9445,10 @@ Integer specifying the size of the RAMCart in KiB.
 Boolean specifying whether the RAMLink module should be emulated or not.
 This option emulates the behavior of the enable/disable switch on the unit.
 
+@vindex RAMLINKBIOSfilename
+@item RAMLINKBIOSfilename
+String specifying the filename of the RAMLINK ROM image.
+
 @vindex RAMLINKfilename
 @item RAMLINKfilename
 String specifying the filename of the RAMCard image.
@@ -10233,6 +10237,16 @@ behavior of the enable/disable switch on the unit
 @findex -cartramlink
 @item -cartramlink <name>
 Attach the raw 64 KiB ROM image.
+
+@findex -ramlinkbios
+@item -ramlinkbios <name>
+Specify name of RAMLink BIOS image
+(@code{RAMLINKBIOSfilename}).
+
+@findex -ramlinkbios
+@item -ramlinkbios <name>
+Specify name of RAMLink BIOS image
+(@code{RAMLINKBIOSfilename}).
 
 @findex -ramlinkimage
 @item -ramlinkimage <name>
