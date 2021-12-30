@@ -34,6 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <limits.h>
 
 #include "novte/novte.h"
 
@@ -777,7 +778,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                      GDK_HINT_MIN_SIZE |
                                      GDK_HINT_BASE_SIZE);
 
-         if (xpos >= 0 && ypos >= 0) {
+         if (xpos > INT_MIN && ypos > INT_MIN) {
             gtk_window_move(GTK_WINDOW(fixed.window), xpos, ypos);
         }
         if (width >= 0 && height >= 0) {

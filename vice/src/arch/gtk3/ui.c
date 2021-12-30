@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 #include <gtk/gtk.h>
 
 #ifdef UNIX_COMPILE
@@ -261,10 +262,10 @@ static const resource_int_t resources_int_shared[] = {
         &ui_resources.autostart_on_doubleclick, set_autostart_on_doubleclick,
         NULL },
 
-    { "MonitorXPos", -1, RES_EVENT_NO, NULL,
+    { "MonitorXPos", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_xpos[MONITOR_WINDOW]), set_window_xpos,
         (void*)MONITOR_WINDOW },
-    { "MonitorYPos", -1, RES_EVENT_NO, NULL,
+    { "MonitorYPos", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_ypos[MONITOR_WINDOW]), set_window_ypos,
         (void*)MONITOR_WINDOW },
     { "MonitorWidth", -1, RES_EVENT_NO, NULL,
@@ -1732,7 +1733,7 @@ void ui_create_main_window(video_canvas_t *canvas)
 #if 0
         debug_gtk3("X: %d, Y: %d, W: %d, H: %d", xpos, ypos, width, height);
 #endif
-        if (xpos < 0 || ypos < 0 || width <= 0 || height <= 0) {
+        if (xpos == INT_MIN || ypos == INT_MIN || width <= 0 || height <= 0) {
             /* def. not legal */
 #if 0
             debug_gtk3("shit ain't legal!");
