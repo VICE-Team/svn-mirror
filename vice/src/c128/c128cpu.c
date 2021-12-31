@@ -99,6 +99,14 @@ static uint8_t c128_cpu_mmu_wrap_read(uint16_t address)
         }
     }
 
+    if (c128_cpu_mmu_page_1 != 1) {
+        if (page == 1) {
+            page = c128_cpu_mmu_page_1;
+        } else if (page == c128_cpu_mmu_page_1) {
+           page = 1;
+        }
+    }
+
     addr = (page << 8) | page_pos;
 
     return _mem_read_tab_ptr[page]((uint16_t)addr);
@@ -115,6 +123,14 @@ static void c128_cpu_mmu_wrap_store(uint16_t address, uint8_t value)
             page = c128_cpu_mmu_page_0;
         } else if (page == c128_cpu_mmu_page_0) {
            page = 0;
+        }
+    }
+
+    if (c128_cpu_mmu_page_1 != 1) {
+        if (page == 1) {
+            page = c128_cpu_mmu_page_1;
+        } else if (page == c128_cpu_mmu_page_1) {
+           page = 1;
         }
     }
 
