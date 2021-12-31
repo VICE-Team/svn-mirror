@@ -53,8 +53,16 @@
  * This is required to avoid keys like NumLock showing up in the accelerators.
  * GDK_MOD1_MASK refers to Alt/Option.
  */
-#define VKM_ACCEPTED_MODIFIERS \
+#ifdef ARCHDEP_OS_MACOS
+/* Guess work: I need someone to report what Gtk actually uses on MacOS, NOT
+ * what their fucked up docs claim.
+ */
+# define VKM_ACCEPTED_MODIFIERS \
     (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_MOD2_MASK|GDK_META_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
+#else 
+# define VKM_ACCEPTED_MODIFIERS \
+    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
+#endif
 
 
 /** \brief  Modifier IDs
@@ -66,7 +74,8 @@ typedef enum hotkeys_modifier_id_e {
     HOTKEYS_MOD_ID_COMMAND,         /**< Command (MacOS) */
     HOTKEYS_MOD_ID_CONTROL,         /**< Control */
     HOTKEYS_MOD_ID_HYPER,           /**< Hyper (MacOS) */
-    HOTKEYS_MOD_ID_META,            /**< Meta (MacOS?) */
+    HOTKEYS_MOD_ID_META,            /**< Meta (MacOS?, might map to Command for
+                                         some weird reason) */
     HOTKEYS_MOD_ID_OPTION,          /**< Option (MacOS) */
     HOTKEYS_MOD_ID_SHIFT,           /**< Shift */
     HOTKEYS_MOD_ID_SUPER            /**< Super ("Windows" key) */
