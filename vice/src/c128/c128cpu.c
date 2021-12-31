@@ -33,6 +33,7 @@
 #include "vicii.h"
 #include "viciitypes.h"
 #include "z80.h"
+#include "c128mmu.h"
 
 #ifdef FEATURE_CPUMEMHISTORY
 #include "monitor.h"
@@ -66,6 +67,64 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* functions for mmu region swap handling */
+
+/* FIXME: currently only the simple swap of page 0 is handled,
+   the rest will be implemented based on the results of tests
+   on real hardware. */
+static uint8_t c128_cpu_mmu_page_0 = 0;
+static uint8_t c128_cpu_mmu_page_1 = 1;
+
+void c128_cpu_set_mmu_page_0(uint8_t val)
+{
+    c128_cpu_mmu_page_0 = val;
+}
+
+void c128_cpu_set_mmu_page_1(uint8_t val)
+{
+    c128_cpu_mmu_page_1 = val;
+}
+
+static uint8_t c128_cpu_mmu_wrap_read(uint16_t address)
+{
+    uint8_t page_pos = (address & 0xff);
+    uint8_t page = (address >> 8);
+    uint16_t addr;
+
+    if (c128_cpu_mmu_page_0 != 0) {
+        if (page == 0) {
+            page = c128_cpu_mmu_page_0;
+        } else if (page == c128_cpu_mmu_page_0) {
+           page = 0;
+        }
+    }
+
+    addr = (page << 8) | page_pos;
+
+    return _mem_read_tab_ptr[page]((uint16_t)addr);
+}
+
+static void c128_cpu_mmu_wrap_store(uint16_t address, uint8_t value)
+{
+    uint8_t page_pos = (address & 0xff);
+    uint8_t page = (address >> 8);
+    uint16_t addr;
+
+    if (c128_cpu_mmu_page_0 != 0) {
+        if (page == 0) {
+            page = c128_cpu_mmu_page_0;
+        } else if (page == c128_cpu_mmu_page_0) {
+           page = 0;
+        }
+    }
+
+    addr = (page << 8) | page_pos;
+
+    _mem_write_tab_ptr[page]((uint16_t)addr, value);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static int opcode_cycle[2];
 
 /* 8502 cycle stretch indicator */
@@ -79,6 +138,14 @@ CLOCK c128cpu_memory_refresh_clk;
 #define PAGE_ONE mem_page_one
 
 #define DMA_FUNC z80_mainloop(CPU_INT_STATUS, ALARM_CONTEXT)
+
+#define LOAD(addr) (c128_cpu_mmu_wrap_read((uint16_t)(addr)))
+
+#define STORE(addr, value) (c128_cpu_mmu_wrap_store((uint16_t)(addr), (uint8_t)(value)))
+
+#define LOAD_ZERO(addr) (c128_cpu_mmu_wrap_read((uint16_t)(addr)))
+
+#define STORE_ZERO(addr, value) (c128_cpu_mmu_wrap_store((uint16_t)(addr), (uint8_t)(value)))
 
 #define DMA_ON_RESET                   \
     EXPORT_REGISTERS();                \
