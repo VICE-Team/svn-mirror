@@ -158,6 +158,9 @@
 #define DRIVE_LED2_RED     0
 #define DRIVE_LED2_GREEN   2
 
+/* maximum number of LEDs per drive (not unit!) */
+#define DRIVE_LEDS_MAX  2
+
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
 #define DRIVE_ATTACH_DELAY           (3 * 600000)

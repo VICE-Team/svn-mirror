@@ -309,20 +309,15 @@ typedef struct ui_sb_state_s {
     /** \brief true if drive ui layout is needed */
     bool drives_layout_needed;
 
-    /** \brief Color descriptors for the drive LED colors.
-     *
-     *  This value is a bitmask, with bit 0 and 1 set if the
-     *  corresponding LED is green. Otherwise it is red. Drives that
-     *  only have one LED will have their 'second' LED permanently at
-     *  intensity zero so the value is irrelevant in that case. */
-    int drive_led_types[NUM_DISK_UNITS];
+    /** \brief Color descriptors for the drive LED colors, 0=red, 1=green */
+    int drive_led_types[NUM_DISK_UNITS][2][DRIVE_LEDS_MAX];
 
     /** \brief Current intensity of each drive LED, 0=off,
      *         1000=max. */
-    unsigned int current_drive_leds[NUM_DISK_UNITS][2][2];
+    unsigned int current_drive_leds[NUM_DISK_UNITS][2][DRIVE_LEDS_MAX];
 
     /** \brief true if a drive led has been changed */
-    bool current_drive_leds_updated[NUM_DISK_UNITS][2][2];
+    bool current_drive_leds_updated[NUM_DISK_UNITS][2][DRIVE_LEDS_MAX];
 
     /** \brief unit:drive label for each unit and its drives */
     char current_drive_unit_str[NUM_DISK_UNITS][2][DRIVE_UNIT_STR_MAX_LEN];
@@ -801,8 +796,10 @@ static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 #endif
     sb_state = lock_sb_state();
 
-    for (i = 0; i < 2; ++i) {
-        int led_color = sb_state->drive_led_types[unit] & (1 << i);
+    /* FIXME: this should display two LEDs some day, right now we combine the
+       two LEDs of a drive into one that we display. */
+    for (i = 0; i < DRIVE_LEDS_MAX; ++i) {
+        int led_color = sb_state->drive_led_types[unit][drive][i];
         if (led_color) {
             green += sb_state->current_drive_leds[unit][drive][i] / 1000.0;
         } else {
@@ -2943,7 +2940,7 @@ void ui_display_drive_track(unsigned int drive_number,
  */
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
-    int i, enabled;
+    int unit, enabled, drive, i;
     ui_sb_state_t *sb_state;
 
     /* Ok to call from VICE thread */
@@ -2952,43 +2949,44 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 
     /* Update the drive LEDs first, unconditionally. */
     enabled = state;
-    for (i = 0; i < NUM_DISK_UNITS; ++i) {
-        for (int d = 0; d < 2; d++) {
+    for (unit = 0; unit < NUM_DISK_UNITS; ++unit) {
+        for (drive = 0; drive < 2; drive++) {
             if (enabled & 1) {
-                sb_state->drive_led_types[i] = drive_led_color[i];
-                sb_state->current_drive_leds[i][d][0] = 0;
-                sb_state->current_drive_leds[i][d][1] = 0;
+                for (i = 0; i < DRIVE_LEDS_MAX; i++) {
+                    sb_state->drive_led_types[unit][drive][i] = (drive_led_color[unit] >> i) & 1;
+                    sb_state->current_drive_leds[unit][drive][i] = 0;
+                }
             }
-            enabled >>= 1;
         }
+        enabled >>= 1;
     }
 
     /* Determine drive types and determine dual-drive changes */
     sb_state->drives_dual = 0;
-    for (i = 0; i < NUM_DISK_UNITS; i++) {
+    for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         int curtype;
         bool old_dual;
         bool new_dual;
 
-        if (resources_get_int_sprintf("Drive%dType", &curtype, i + DRIVE_UNIT_MIN) < 0) {
+        if (resources_get_int_sprintf("Drive%dType", &curtype, unit + DRIVE_UNIT_MIN) < 0) {
             curtype = 0;
         }
 #if 0
-        debug_gtk3("Old drive %d type = %d", i + 8, sb_state->drives_type[i]);
-        debug_gtk3("New drive %d type = %d", i + 8, curtype);
+        debug_gtk3("Old drive %d type = %d", unit + 8, sb_state->drives_type[unit]);
+        debug_gtk3("New drive %d type = %d", unit + 8, curtype);
 #endif
-        old_dual = (bool)drive_check_dual(sb_state->drives_type[i]);
+        old_dual = (bool)drive_check_dual(sb_state->drives_type[unit]);
         new_dual = (bool)drive_check_dual(curtype);
 #if 0
-        debug_gtk3("Old drive %d dual = %s", i + 8, old_dual ? "true" : "false");
-        debug_gtk3("New drive %d dual = %s", i + 8, new_dual ? "true" : "false");
+        debug_gtk3("Old drive %d dual = %s", unit + 8, old_dual ? "true" : "false");
+        debug_gtk3("New drive %d dual = %s", unit + 8, new_dual ? "true" : "false");
 #endif
         if (old_dual != new_dual) {
-            sb_state->drives_dual |= 1 << i;
+            sb_state->drives_dual |= 1 << unit;
         }
 
         /* update drive type */
-        sb_state->drives_type[i] = curtype;
+        sb_state->drives_type[unit] = curtype;
     }
 #if 0
     debug_gtk3("drives_dual = %02x", sb_state->drives_dual);
