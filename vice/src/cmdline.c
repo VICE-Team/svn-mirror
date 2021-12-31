@@ -412,12 +412,12 @@ void cmdline_log_active(void)
                 if (resval_int != resval_int_default) {
                     char tmp[32];
                     sprintf(tmp, "%d", resval_int);
-                    cmd = util_concat(optname, " ", tmp, NULL);
+                    cmd = util_concat(optname, " \"", tmp, "\"", NULL);
                 }
             } else if (restype == RES_STRING) {
                 if ((resval_str != NULL) && (resval_str_default != NULL)) {
                     if (strcmp(resval_str, resval_str_default)) {
-                        cmd = util_concat(optname, " ", resval_str, NULL);
+                        cmd = util_concat(optname, " \"", resval_str, "\"", NULL);
                     }
                 }
             }
