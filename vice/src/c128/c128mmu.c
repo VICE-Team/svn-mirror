@@ -192,14 +192,14 @@ static void mmu_update_page01_pointers(void)
 {
     /* update pointers for page 0/1 in case they or the shared RAM settings changed */
     /* (shared window has priority over P0H/P1H) */
-    unsigned int page_zero_bank, page_one_bank;
+    uint8_t page_zero_bank, page_one_bank;
 
     if (c128_full_banks) {
-        page_zero_bank = (mmu[0x8] & 0x3) * 0x10000U;
-        page_one_bank  = (mmu[0xa] & 0x3) * 0x10000U;
+        page_zero_bank = (mmu[0x8] & 0x3);
+        page_one_bank  = (mmu[0xa] & 0x3);
     } else {
-        page_zero_bank = (mmu[0x8] & 0x1) * 0x10000U;
-        page_one_bank  = (mmu[0xa] & 0x1) * 0x10000U;
+        page_zero_bank = (mmu[0x8] & 0x1);
+        page_one_bank  = (mmu[0xa] & 0x1);
     }
 
     if (mmu_is_in_shared_ram(mmu[0x7] << 8)) {
@@ -209,10 +209,8 @@ static void mmu_update_page01_pointers(void)
         page_one_bank = 0;
     }
 
-#if 0
-    mem_page_zero = mem_ram + page_zero_bank + (mmu[0x7] << 8);
-    mem_page_one  = mem_ram + page_one_bank  + (mmu[0x9] << 8);
-#endif
+    c128_cpu_set_mmu_page_0_bank(page_zero_bank);
+    c128_cpu_set_mmu_page_1_bank(page_one_bank);
 }
 
 /* returns 1 if MMU is in C64 mode */
