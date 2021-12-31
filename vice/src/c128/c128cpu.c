@@ -78,6 +78,9 @@ static uint8_t c128_cpu_mmu_page_1 = 1;
 static uint8_t c128_cpu_mmu_page_0_bank = 0;
 static uint8_t c128_cpu_mmu_page_1_bank = 0;
 
+static uint8_t c128_cpu_mmu_page_0_target_ram = 1;
+static uint8_t c128_cpu_mmu_page_1_target_ram = 1;
+
 void c128_cpu_set_mmu_page_0(uint8_t val)
 {
     c128_cpu_mmu_page_0 = val;
@@ -98,11 +101,21 @@ void c128_cpu_set_mmu_page_1_bank(uint8_t val)
     c128_cpu_mmu_page_1_bank = val;
 }
 
+void c128_cpu_set_mmu_page_0_target_ram(uint8_t val)
+{
+    c128_cpu_mmu_page_0_target_ram = val;
+}
+
+void c128_cpu_set_mmu_page_1_target_ram(uint8_t val)
+{
+    c128_cpu_mmu_page_1_target_ram = val;
+}
+
 static uint8_t c128_cpu_mmu_wrap_read(uint16_t address)
 {
     uint8_t addr_pos = (address & 0xff);
     uint8_t addr_page = (address >> 8);
-    uint8_t addr_bank = 0; /* hard coded to 0 till current bank checking is implemented */
+    uint8_t addr_bank = 0;
     uint16_t addr;
     int use_ram_only = 0;
 
@@ -116,13 +129,13 @@ static uint8_t c128_cpu_mmu_wrap_read(uint16_t address)
         addr_page = c128_cpu_mmu_page_1;
         addr_bank = c128_cpu_mmu_page_1_bank;
         use_ram_only = 1;
-    /* check if the address page is page 0 target and replace addr with page 0 and bank 0 */
-    } else if (addr_page == c128_cpu_mmu_page_0 && addr_bank == c128_cpu_mmu_page_0_bank) {
+    /* check if the address page is page 0 target and if it is current RAM, ifso replace addr with page 0 and bank 0 */
+    } else if (addr_page == c128_cpu_mmu_page_0 && c128_cpu_mmu_page_0_target_ram) {
         addr_page = 0;
         addr_bank = 0;
         use_ram_only = 1;
-    /* check if the address page is page 1 target and replace addr with page 1 and bank 0 */
-    } else if (addr_page == c128_cpu_mmu_page_1 && addr_bank == c128_cpu_mmu_page_1_bank) {
+    /* check if the address page is page 1 target and if it is current RAM, ifso replace addr with page 1 and bank 0 */
+    } else if (addr_page == c128_cpu_mmu_page_1 && c128_cpu_mmu_page_1_target_ram) {
         addr_page = 1;
         addr_bank = 0;
         use_ram_only = 1;
@@ -141,7 +154,7 @@ static void c128_cpu_mmu_wrap_store(uint16_t address, uint8_t value)
 {
     uint8_t addr_pos = (address & 0xff);
     uint8_t addr_page = (address >> 8);
-    uint8_t addr_bank = 0; /* hard coded to 0 till current bank checking is implemented */
+    uint8_t addr_bank = 0;
     uint16_t addr;
     int use_ram_only = 0;
 
@@ -155,13 +168,13 @@ static void c128_cpu_mmu_wrap_store(uint16_t address, uint8_t value)
         addr_page = c128_cpu_mmu_page_1;
         addr_bank = c128_cpu_mmu_page_1_bank;
         use_ram_only = 1;
-    /* check if the address page is page 0 target and replace addr with page 0 and bank 0 */
-    } else if (addr_page == c128_cpu_mmu_page_0 && addr_bank == c128_cpu_mmu_page_0_bank) {
+    /* check if the address page is page 0 target and if it is current RAM, ifso replace addr with page 0 and bank 0 */
+    } else if (addr_page == c128_cpu_mmu_page_0 && c128_cpu_mmu_page_0_target_ram) {
         addr_page = 0;
         addr_bank = 0;
         use_ram_only = 1;
-    /* check if the address page is page 1 target and replace addr with page 1 and bank 0 */
-    } else if (addr_page == c128_cpu_mmu_page_1 && addr_bank == c128_cpu_mmu_page_1_bank) {
+    /* check if the address page is page 1 target and if it is current RAM, ifso replace addr with page 1 and bank 0 */
+    } else if (addr_page == c128_cpu_mmu_page_1 && c128_cpu_mmu_page_1_target_ram) {
         addr_page = 1;
         addr_bank = 0;
         use_ram_only = 1;

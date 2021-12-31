@@ -53,4 +53,7 @@ extern void c128_cpu_set_mmu_page_1(uint8_t val);
 extern void c128_cpu_set_mmu_page_0_bank(uint8_t val);
 extern void c128_cpu_set_mmu_page_1_bank(uint8_t val);
 
+extern void c128_cpu_set_mmu_page_0_target_ram(uint8_t val);
+extern void c128_cpu_set_mmu_page_1_target_ram(uint8_t val);
+
 #endif
