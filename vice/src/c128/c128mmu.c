@@ -209,7 +209,10 @@ static void mmu_update_page01_pointers(void)
         page_one_bank = 0;
     }
 
+#if 0
     mem_page_zero = mem_ram + page_zero_bank + (mmu[0x7] << 8);
+#endif
+
     mem_page_one  = mem_ram + page_one_bank  + (mmu[0x9] << 8);
 }
 
@@ -235,8 +238,10 @@ static void mmu_switch_to_c64mode(void)
         mmu[5] = 0xf7;
         /* force standard addresses for stack and zeropage */
         mmu[7] = 0;
+        c128_cpu_set_mmu_page_0(0);
         mmu[8] = 0;
         mmu[9] = 1;
+        c128_cpu_set_mmu_page_1(1);
         mmu[10] = 0;
         mmu_update_page01_pointers();
     }
@@ -386,12 +391,17 @@ void mmu_store(uint16_t address, uint8_t value)
                 p1h_latch = value;
                 break;
             case 7:
+                mmu[8] = p0h_latch;
+                c128_cpu_set_mmu_page_0(mmu[7]);
+#ifdef MMU_DEBUG
+                log_message(mmu_log, "PAGE ZERO %05x PAGE ONE %05x",
+                            (mmu[0x8] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x7] << 8),
+                            (mmu[0xa] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x9] << 8));
+#endif
+                break;
             case 9:
-                if (address == 7) {
-                    mmu[8] = p0h_latch;
-                } else {
-                    mmu[10] = p1h_latch;
-                }
+                mmu[10] = p1h_latch;
+                c128_cpu_set_mmu_page_1(mmu[9]);
 #ifdef MMU_DEBUG
                 log_message(mmu_log, "PAGE ZERO %05x PAGE ONE %05x",
                             (mmu[0x8] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x7] << 8),
