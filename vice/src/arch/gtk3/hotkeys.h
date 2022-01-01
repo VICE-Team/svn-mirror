@@ -61,7 +61,7 @@
     (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_MOD2_MASK|GDK_META_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
 #else 
 # define VKM_ACCEPTED_MODIFIERS \
-    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK)
+    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_META_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
 #endif
 
 
@@ -90,10 +90,12 @@ typedef enum hotkeys_modifier_id_e {
  * but the parser wouldn't care when reading back the file.
  */
 typedef struct hotkeys_modifier_s {
-    const char *            name;   /**< modifier name */
-    hotkeys_modifier_id_t   id;     /**< modifier ID */
-    GdkModifierType         mask;   /**< GDK modifier mask */
-    const char *            utf8;   /**< used for hotkeys UI display */
+    const char *            name;       /**< modifier name */
+    hotkeys_modifier_id_t   id;         /**< modifier ID */
+    GdkModifierType         mask;       /**< GDK modifier mask */
+    const char *            mask_str;   /**< string form of macro, without the
+                                             "GDK_" prefix or the "_MASK" suffix */
+    const char *            utf8;       /**< used for hotkeys UI display */
 } hotkeys_modifier_t;
 
 
