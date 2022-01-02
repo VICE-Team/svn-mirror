@@ -255,6 +255,34 @@ static void joystick_di5_update(int joyport, void* priv)
         joy_axis_event(joyport, 1, JOY_AXIS_MIDDLE);
     }
 
+    /* Get boundary values for X-rotation axis */
+    prop.diph.dwSize = sizeof(DIPROPRANGE);
+    prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+    prop.diph.dwObj = 0x0c;    /* Offset of X-rotation axis */
+    prop.diph.dwHow = DIPH_BYOFFSET;
+    IDirectInputDevice8_GetProperty(joy->di_device, DIPROP_RANGE, (DIPROPHEADER*)&prop);
+    if (js.lRx <= prop.lMin + (prop.lMax - prop.lMin) / 4) {
+        joy_axis_event(joyport, 2, JOY_AXIS_NEGATIVE);
+    } else if (js.lRx >= prop.lMin + (prop.lMax - prop.lMin) / 4 * 3) {
+        joy_axis_event(joyport, 2, JOY_AXIS_POSITIVE);
+    } else {
+        joy_axis_event(joyport, 2, JOY_AXIS_MIDDLE);
+    }
+
+    /* Get boundary values for Y-rotation axis */
+    prop.diph.dwSize = sizeof(DIPROPRANGE);
+    prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+    prop.diph.dwObj = 0x10;    /* Offset of Y-rotation axis */
+    prop.diph.dwHow = DIPH_BYOFFSET;
+    IDirectInputDevice8_GetProperty(joy->di_device, DIPROP_RANGE, (DIPROPHEADER*)&prop);
+    if (js.lRy <= prop.lMin + (prop.lMax - prop.lMin) / 4) {
+        joy_axis_event(joyport, 3, JOY_AXIS_NEGATIVE);
+    } else if (js.lRy >= prop.lMin + (prop.lMax - prop.lMin) / 4 * 3) {
+        joy_axis_event(joyport, 3, JOY_AXIS_POSITIVE);
+    } else {
+        joy_axis_event(joyport, 3, JOY_AXIS_MIDDLE);
+    }
+
     for (i = 0; i < joy->numPOVs; ++i) {
         if (LOWORD(js.rgdwPOV[i]) != 0xffff) {
             if (js.rgdwPOV[i] > 20250 && js.rgdwPOV[i] < 33750) {
