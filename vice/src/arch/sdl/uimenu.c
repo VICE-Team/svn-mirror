@@ -804,6 +804,8 @@ static void sdl_ui_trap(uint16_t addr, void *data)
 
     sdl_ui_destroy_draw_buffer_backup();
 
+    sdljoy_clear_presses();
+
     DBG(("sdl_ui_trap end\n"));
 }
 

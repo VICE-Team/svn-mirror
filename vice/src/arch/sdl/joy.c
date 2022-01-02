@@ -1107,6 +1107,18 @@ static sdljoystick_mapping_t *sdljoy_get_mapping(SDL_Event e)
 
 static int sdljoy_pins[JOYPORT_MAX_PORTS][JOYPORT_MAX_PINS] = { 0 };
 
+void sdljoy_clear_presses(void)
+{
+    int i, j;
+
+    for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
+        for (j = 0; j < JOYPORT_MAX_PINS; j++) {
+            sdljoy_pins[i][j] = 0;
+        }
+        joystick_set_value_and(i, 0);
+    }
+}
+
 /* When a host joystick event happens that cause a 'press' of a pin, increment the 'press amount' of that pin */
 static void sdljoy_set_value_press(unsigned int joyport, uint16_t value)
 {
