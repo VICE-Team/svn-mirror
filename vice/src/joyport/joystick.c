@@ -1733,7 +1733,7 @@ void register_joystick_driver(
         new_joystick_device->axis_mapping[1].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
         new_joystick_device->axis_mapping[1].negative_direction.action = JOYSTICK;
         new_joystick_device->axis_mapping[1].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
-        if (num_axes == 4) {
+        if (num_axes >= 4) {
             /* next two axes */
             new_joystick_device->axis_mapping[2].positive_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[2].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
