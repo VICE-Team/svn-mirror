@@ -1934,29 +1934,32 @@ void joy_hat_event(uint8_t joynum, uint8_t hat, uint8_t value)
 
     joyport = joystick_devices[joynum].joyport;
     DBG(("joy_hat_event:\n"));
-    if (!(value & JOYSTICK_DIRECTION_UP) && (prev & JOYSTICK_DIRECTION_UP)) {
+    /* release directions first if needed */
+    if (prev & JOYSTICK_DIRECTION_UP && !(value & JOYSTICK_DIRECTION_UP)) {
         joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].up, joyport, 0);
-        if ((value & JOYSTICK_DIRECTION_DOWN) && !(prev & JOYSTICK_DIRECTION_DOWN)) {
-            joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].down, joyport, 1);
-        }
     }
-    if (!(value & JOYSTICK_DIRECTION_DOWN) && (prev & JOYSTICK_DIRECTION_DOWN)) {
+    if (prev & JOYSTICK_DIRECTION_DOWN && !(value & JOYSTICK_DIRECTION_DOWN)) {
         joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].down, joyport, 0);
-        if ((value & JOYSTICK_DIRECTION_UP) && !(prev & JOYSTICK_DIRECTION_UP)) {
-            joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].up, joyport, 1);
-        }
     }
-    if (!(value & JOYSTICK_DIRECTION_LEFT) && (prev & JOYSTICK_DIRECTION_LEFT)) {
+    if (prev & JOYSTICK_DIRECTION_LEFT && !(value & JOYSTICK_DIRECTION_LEFT)) {
         joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].left, joyport, 0);
-        if ((value & JOYSTICK_DIRECTION_RIGHT) && !(prev & JOYSTICK_DIRECTION_RIGHT)) {
-            joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].right, joyport, 1);
-        }
     }
-    if (!(value & JOYSTICK_DIRECTION_RIGHT) && (prev & JOYSTICK_DIRECTION_RIGHT)) {
+    if (prev & JOYSTICK_DIRECTION_RIGHT && !(value & JOYSTICK_DIRECTION_RIGHT)) {
         joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].right, joyport, 0);
-        if ((value & JOYSTICK_DIRECTION_LEFT) && !(prev & JOYSTICK_DIRECTION_LEFT)) {
-            joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].left, joyport, 1);
-        }
+    }
+
+    /* press new direction if needed */
+    if (!(prev & JOYSTICK_DIRECTION_UP) && value & JOYSTICK_DIRECTION_UP) {
+        joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].up, joyport, 1);
+    }
+    if (!(prev & JOYSTICK_DIRECTION_DOWN) && value & JOYSTICK_DIRECTION_DOWN) {
+        joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].down, joyport, 1);
+    }
+    if (!(prev & JOYSTICK_DIRECTION_LEFT) && value & JOYSTICK_DIRECTION_LEFT) {
+        joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].left, joyport, 1);
+    }
+    if (!(prev & JOYSTICK_DIRECTION_RIGHT) && value & JOYSTICK_DIRECTION_RIGHT) {
+        joy_perform_event(&joystick_devices[joynum].hat_mapping[hat].right, joyport, 1);
     }
 
     joystick_devices[joynum].hat_mapping[hat].prev = value;
