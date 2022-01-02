@@ -2,6 +2,9 @@
  * \brief   Hotkeys settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \todo    Make all the current debugging stuff compile-time selectable via
+ *          a macro.
  */
 
 /*
@@ -44,7 +47,17 @@
 #include "settings_hotkeys.h"
 
 
-static void update_modifier_list(void);
+#ifndef ARRAY_LEN
+#define ARRAY_LEN(arr)  (sizeof arr / sizeof arr[0])
+#endif
+
+
+typedef struct mod_mask_s {
+    guint mask;         /**< GDKModifierType constant */
+    const char *name;   /**< stringified macro name */
+    int column;         /**< GtkGrid column */
+    int row;            /**< GtkGrid row */
+} mod_mask_t;
 
 
 /** \brief  Columns for the hotkeys table
@@ -61,6 +74,30 @@ enum {
 enum {
     RESPONSE_CLEAR  /**< clear hotkey for selected item */
 };
+
+
+/*
+ * Forward declarations
+ */
+static void update_modifier_list(void);
+
+
+#define mod_item(M) M, #M
+static const mod_mask_t mod_mask_list[] = {
+    { mod_item(GDK_SHIFT_MASK),     0, 0 },
+    { mod_item(GDK_LOCK_MASK),      0, 1 },
+    { mod_item(GDK_CONTROL_MASK),   0, 2 },
+    { mod_item(GDK_SUPER_MASK),     0, 3 },
+    { mod_item(GDK_HYPER_MASK),     0, 4 },
+    { mod_item(GDK_META_MASK),      0, 5 },
+    { mod_item(GDK_MOD1_MASK),      1, 0 },
+    { mod_item(GDK_MOD2_MASK),      1, 1 },
+    { mod_item(GDK_MOD3_MASK),      1, 2 },
+    { mod_item(GDK_MOD4_MASK),      1, 3 },
+    { mod_item(GDK_MOD5_MASK),      1, 4 }
+};
+#undef mod_item
+
 
 
 /** \brief  Reference to the hotkeys table widget
@@ -83,6 +120,14 @@ static guint hotkey_mask;   /* modifiers mask */
 static guint hotkey_keysym_old;
 static guint hotkey_mask_old;   /* modifiers mask */
 
+/** \brief  Bitmask with accepted modifiers
+ */
+static guint accepted_mods = VKM_ACCEPTED_MODIFIERS;
+
+/** \brief  Label used to display the accepted mods mask as hex */
+static GtkWidget *accepted_mods_string;
+
+static GtkWidget *accepted_mods_grid;
 
 
 /** \brief  Callback for the 'Export' button
@@ -212,7 +257,7 @@ static gboolean on_key_release_event(GtkWidget *dialog,
         gchar text[256];
 
         hotkey_keysym = event->keyval;
-        hotkey_mask = event->state & VKM_ACCEPTED_MODIFIERS;
+        hotkey_mask = event->state & accepted_mods;
 
 #if 0
         if (hotkey_mask & GDK_CONTROL_MASK) {
@@ -456,6 +501,85 @@ static GtkWidget *create_modifier_list(void)
 }
 
 
+static void on_accepted_mod_toggled(GtkToggleButton *toggle, gpointer data)
+{
+    int i;
+    gchar text[256];
+
+    debug_gtk3("Old mask: 0x%08x.", accepted_mods);
+
+    accepted_mods = 0;
+    for (i = 0; i < (int)ARRAY_LEN(mod_mask_list); i++) {
+        GtkWidget *check;
+
+        check = gtk_grid_get_child_at(GTK_GRID(accepted_mods_grid),
+                                      mod_mask_list[i].column,
+                                      mod_mask_list[i].row);
+        if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check))) {
+            accepted_mods |= mod_mask_list[i].mask;
+        }
+    }
+
+    debug_gtk3("New mask: 0x%08x.", accepted_mods);
+    g_snprintf(text, sizeof(text), "<tt><b>0x%08x</b></tt>", accepted_mods);
+    gtk_label_set_markup(GTK_LABEL(accepted_mods_string), text);
+
+}
+
+
+
+static GtkWidget *create_accepted_mods_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *wrapper;
+    GtkWidget *label;
+    gchar text[256];
+    int i;
+    int maxrow = 0;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 32);
+
+    /* add check boxes for the modifier masks */
+    for (i = 0; i < (int)ARRAY_LEN(mod_mask_list); i++) {
+        GtkWidget *check;
+        guint mask = mod_mask_list[i].mask;
+
+        g_snprintf(text, sizeof(text), "%s (0x%08x)", mod_mask_list[i].name, mask);
+        check = gtk_check_button_new_with_label(text);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+                                     accepted_mods & mask);
+        gtk_grid_attach(GTK_GRID(grid), check,
+                        mod_mask_list[i].column, mod_mask_list[i].row, 1, 1);
+        g_signal_connect(check, "toggled", G_CALLBACK(on_accepted_mod_toggled), NULL);
+
+        if (mod_mask_list[i].row > maxrow) {
+            maxrow = mod_mask_list[i].row;
+        }
+    }
+
+    wrapper = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
+
+    label = gtk_label_new("Current modifier mask filter:");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, 0, 1, 1);
+
+    g_snprintf(text, sizeof(text), "<tt><b>0x%08x</b></tt>", accepted_mods);
+    accepted_mods_string = gtk_label_new(NULL);
+    gtk_widget_set_halign(accepted_mods_string, GTK_ALIGN_START);
+    gtk_label_set_markup(GTK_LABEL(accepted_mods_string), text);
+    gtk_grid_attach(GTK_GRID(wrapper), accepted_mods_string, 1, 0, 1, 1);
+
+    g_object_set(wrapper, "margin-top", 8, NULL);
+    gtk_widget_show_all(wrapper);
+
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, maxrow + 1, 2, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
 
 /** \brief  Create content widget for the hotkey dialog
  *
@@ -467,38 +591,44 @@ static GtkWidget *create_modifier_list(void)
 static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey)
 {
     GtkWidget *grid;
-    GtkWidget *instructions;
-    GtkWidget *hotkey_label;
-    GtkWidget *modifiers_label;
-    GtkWidget *keysym_label;
+    GtkWidget *label;
     gchar text[1024];
     gchar *escaped;
     gchar *keyname;
     int row = 0;
 
-    grid = vice_gtk3_grid_new_spaced(16, 8);
+    grid = vice_gtk3_grid_new_spaced(16, 0);
     g_object_set(grid, "margin-left", 16, "margin-right", 16, NULL);
 
-    instructions = gtk_label_new(NULL);
+    label = gtk_label_new(NULL);
     g_snprintf(text,
                sizeof(text),
                "Press a key or key combination to set the hotkey"
                " for '<b>%s</b>'.\n\n"
-               "Please note the check boxes are for debugging and are set when"
-               " pushing a new hotkey.\nToggling them by hand does nothing at"
-               " the moment.",
+               "Please note the <i>reported modifiers</i> check boxes for are"
+               " for debugging\nand are set when pushing a new hotkey.\n"
+               "Toggling them by hand does nothing at the moment.",
                action);
-    gtk_label_set_markup(GTK_LABEL(instructions), text);
-    gtk_grid_attach(GTK_GRID(grid), instructions, 0, row, 2, 1);
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
- 
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Reported modifiers:</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-top", 32, NULL);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
+    row++;
+
     modifiers_grid = create_modifier_list();
+    g_object_set(modifiers_grid, "margin-top", 8, "margin-bottom", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), modifiers_grid, 0, row, 2, 1);
     row++;
 
-    modifiers_label = gtk_label_new("GDK modifier mask:");
-    gtk_widget_set_halign(modifiers_label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), modifiers_label, 0, row, 1, 1);
+    label = gtk_label_new("GDK modifier mask:");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
 
     modifiers_string = gtk_label_new(NULL);
     gtk_widget_set_halign(modifiers_string, GTK_ALIGN_START);
@@ -507,10 +637,10 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     gtk_grid_attach(GTK_GRID(grid), modifiers_string, 1, row, 1, 1);
     row++;
 
-    keysym_label = gtk_label_new("GDK keysym:");
-    gtk_widget_set_halign(keysym_label, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(keysym_label, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), keysym_label, 0, row, 1, 1);
+    label = gtk_label_new("GDK keysym:");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(label, FALSE);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
 
     keysym_string = gtk_label_new(NULL);
     keyname = gdk_keyval_name(hotkey_keysym);
@@ -528,10 +658,10 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     gtk_grid_attach(GTK_GRID(grid), keysym_string, 1, row, 1, 1);
     row++;
 
-    hotkey_label = gtk_label_new("GTK accelerator name:");
-    gtk_widget_set_halign(hotkey_label, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(hotkey_label, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), hotkey_label, 0, row, 1, 1);
+    label = gtk_label_new("GTK accelerator name:");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(label, FALSE);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
 
     hotkey_string = gtk_label_new(NULL);
     if (hotkey != NULL && *hotkey != '\0') {
@@ -547,6 +677,16 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     gtk_grid_attach(GTK_GRID(grid), hotkey_string, 1, row, 1, 1);
     row++;
 
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Accepted GDK modifier masks:</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-top", 24, "margin-bottom", 8, NULL);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
+    row++;
+
+    accepted_mods_grid = create_accepted_mods_widget();
+    gtk_grid_attach(GTK_GRID(grid), accepted_mods_grid, 0, row, 2, 1);
+    row++;
 
     gtk_widget_show_all(grid);
     return grid;
