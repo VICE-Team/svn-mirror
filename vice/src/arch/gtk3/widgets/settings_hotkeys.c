@@ -418,7 +418,17 @@ static GtkWidget *create_modifier_list(void)
         gpointer data;
         gchar buffer[256];
 
-        check = gtk_check_button_new_with_label(list[i].utf8);
+
+        if (list[i].id == HOTKEYS_MOD_ID_ALT) {
+            /* Alt and Option are the same, merge: */
+            check = gtk_check_button_new_with_label("Alt / Option \u2325");
+        } else if (list[i].id == HOTKEYS_MOD_ID_OPTION) {
+            /* skip, already taken care of */
+            continue;
+        } else {
+            /* not Alt nor Option */
+            check = gtk_check_button_new_with_label(list[i].utf8);
+        }
         data = GINT_TO_POINTER(list[i].id);
         g_object_set_data(G_OBJECT(check), "ModifierID", data);
         data = GUINT_TO_POINTER(list[i].mask);
@@ -463,6 +473,7 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     GtkWidget *keysym_label;
     gchar text[1024];
     gchar *escaped;
+    gchar *keyname;
     int row = 0;
 
     grid = vice_gtk3_grid_new_spaced(16, 8);
@@ -502,7 +513,14 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     gtk_grid_attach(GTK_GRID(grid), keysym_label, 0, row, 1, 1);
 
     keysym_string = gtk_label_new(NULL);
-    g_snprintf(text, sizeof(text), "GDK_KEY_%s", gdk_keyval_name(hotkey_keysym));
+    keyname = gdk_keyval_name(hotkey_keysym);
+    if (keyname == NULL) {
+        /* no valid key -> no hotkey defined */
+        strncpy(text, "<i>Undefined</i>", sizeof(text) - 1UL);
+        text[sizeof(text) - 1UL] = '\0';
+    } else {
+        g_snprintf(text, sizeof(text), "GDK_KEY_%s", keyname);
+    }
     gtk_widget_set_halign(keysym_string, GTK_ALIGN_START);
     gtk_label_set_markup(GTK_LABEL(keysym_string), text);
     gtk_widget_set_halign(keysym_string, GTK_ALIGN_START);
