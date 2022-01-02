@@ -1913,10 +1913,13 @@ void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value)
         }
     }
 #endif
-    DBG(("joy_button_event: joynum: %d, button: %d pressed: %d num_buttons: %d joy_pin: %d\n",
-         joynum, button, pressed, num_buttons, joy_pin));
-    joy_perform_event(&(joystick_devices[joynum].button_mapping[button]),
-                      joystick_devices[joynum].joyport, pressed);
+    if (pressed != joystick_devices[joynum].button_mapping[button].prev) {
+        DBG(("joy_button_event: joynum: %d, button: %d pressed: %d num_buttons: %d joy_pin: %d\n",
+             joynum, button, pressed, num_buttons, joy_pin));
+        joy_perform_event(&(joystick_devices[joynum].button_mapping[button]),
+                          joystick_devices[joynum].joyport, pressed);
+        joystick_devices[joynum].button_mapping[button].prev = pressed;
+    }
 }
 
 void joy_hat_event(uint8_t joynum, uint8_t hat, uint8_t value)
