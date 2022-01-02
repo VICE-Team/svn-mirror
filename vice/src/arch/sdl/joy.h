@@ -64,6 +64,7 @@ extern void sdljoy_delete_pin_mapping(int port, int pin);
 extern void sdljoy_delete_pot_mapping(int port, int pot);
 extern int sdljoy_get_joynum_for_event(Uint8 event_device_id);
 extern int sdljoy_rescan(void);
+extern void sdljoy_clear_presses(void);
 
 #endif
 
