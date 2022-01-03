@@ -564,7 +564,7 @@ static void DBGSTATUS(int keysetnum, int value, int joyport, int key, int flg)
     int column;
     char *flags[3] = { "set", "unset", "ignored" };
 
-    DBG((" key:%02x |", key));
+    DBG((" key:%02x |", (unsigned int)key));
     for (column = 0; column < JOYSTICK_KEYSET_NUM_KEYS; column++) {
         DBG((joypad_status[keysetnum][column] ? "*" : "."));
     }
@@ -1701,7 +1701,7 @@ void register_joystick_driver(
     /* now create a default mapping, using the following logic:
      * - map all hats to joystick directions
      * - if the controller has at least two axes, map first two axis to joystick directions
-     * - if the controller has four axes, map the next two to joystick directions too
+     * - if the controller has exactly four axes, map the next two to joystick directions too
      * - if the controller has six or more axes, map axis 3 and 4 to joystick directions
      *   (this makes the second analog stick on ps3/4 controllers work)
      * - if the controller has eight or more axes, map axis 6 and 7 to joystick directions
@@ -1733,8 +1733,11 @@ void register_joystick_driver(
         new_joystick_device->axis_mapping[1].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
         new_joystick_device->axis_mapping[1].negative_direction.action = JOYSTICK;
         new_joystick_device->axis_mapping[1].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
-        if (num_axes >= 4) {
+        if (num_axes == 4) {
             /* next two axes */
+            /* CAUTION: make sure to not map axes 2 and/or 5 for pads with > 4 axes, those are
+                        the analog triggers on ps3/ps4 pads and their neutral position is at
+                        one extreme of the axis, resulting in some direction being pressed all the time */
             new_joystick_device->axis_mapping[2].positive_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[2].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
             new_joystick_device->axis_mapping[2].negative_direction.action = JOYSTICK;
@@ -1863,7 +1866,7 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
             break;
         case KEYBOARD:
             DBG(("joy_perform_event (KEYBOARD) joyport: %d value: %d key: %02x/%02x\n",
-                 joyport, value,event->value.key[0], event->value.key[1]));
+                 joyport, value, (unsigned int)event->value.key[0], (unsigned int)event->value.key[1]));
             keyboard_set_keyarr_any(event->value.key[0], event->value.key[1], value);
             break;
 #if 0   /* FIXME */
@@ -1888,27 +1891,22 @@ void joy_axis_event(uint8_t joynum, uint8_t axis, joystick_axis_value_t value)
         return;
     }
 
-    DBG(("joy_axis_event: joynum: %d axis: %d value: %d prev: %d\n", joynum, axis, value, prev));
+    DBG(("joy_axis_event: joynum: %d axis: %d value: %u prev: %u\n", joynum, axis, value, prev));
 
+    /* release directions first if needed */
+    if (prev == JOY_AXIS_POSITIVE) {
+        joy_perform_event(&joystick_devices[joynum].axis_mapping[axis].positive_direction, joyport, 0);
+    }
+    if (prev == JOY_AXIS_NEGATIVE) {
+        joy_perform_event(&joystick_devices[joynum].axis_mapping[axis].negative_direction, joyport, 0);
+    }
+
+    /* press new direction if needed */
     if (value == JOY_AXIS_POSITIVE) {
-        DBG(("joy_axis_event: JOY_AXIS_POSITIVE\n"));
-        if (prev == JOY_AXIS_NEGATIVE) {
-            joy_perform_event(&joystick_devices[joynum].axis_mapping[axis].negative_direction, joyport, 0);
-        }
         joy_perform_event(&joystick_devices[joynum].axis_mapping[axis].positive_direction, joyport, 1);
-    } else if (value == JOY_AXIS_NEGATIVE) {
-        DBG(("joy_axis_event: JOY_AXIS_NEGATIVE\n"));
-        if (prev == JOY_AXIS_POSITIVE) {
-            joy_perform_event(&joystick_devices[joynum].axis_mapping[axis].positive_direction, joyport, 0);
-        }
+    }
+    if (value == JOY_AXIS_NEGATIVE) {
         joy_perform_event(&joystick_devices[joynum].axis_mapping[axis].negative_direction, joyport, 1);
-    } else {
-        DBG(("joy_axis_event: other\n"));
-        if (prev == JOY_AXIS_POSITIVE) {
-            joy_perform_event(&joystick_devices[joynum].axis_mapping[axis].positive_direction, joyport, 0);
-        } else {
-            joy_perform_event(&joystick_devices[joynum].axis_mapping[axis].negative_direction, joyport, 0);
-        }
     }
 
     joystick_devices[joynum].axis_mapping[axis].prev = value;
@@ -1931,8 +1929,8 @@ void joy_button_event(uint8_t joynum, uint8_t button, uint8_t value)
     }
 #endif
     if (pressed != joystick_devices[joynum].button_mapping[button].prev) {
-        DBG(("joy_button_event: joynum: %d, button: %d pressed: %d num_buttons: %d joy_pin: %d\n",
-             joynum, button, pressed, num_buttons, joy_pin));
+        DBG(("joy_button_event: joynum: %d, button: %d pressed: %d\n",
+             joynum, button, pressed));
         joy_perform_event(&(joystick_devices[joynum].button_mapping[button]),
                           joystick_devices[joynum].joyport, pressed);
         joystick_devices[joynum].button_mapping[button].prev = pressed;
