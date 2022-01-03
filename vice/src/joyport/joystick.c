@@ -1804,8 +1804,16 @@ void register_joystick_driver(
             new_joystick_device->button_mapping[n].value.joy_pin = 16;
         }
     }
-
     memset(gtkjoy_pins, 0, sizeof(int) * JOYPORT_MAX_PORTS * JOYPORT_MAX_PINS);
+#if 0 /* for testing */
+    new_joystick_device->button_mapping[0].action = KEYBOARD;
+    new_joystick_device->button_mapping[0].value.key[0] = 2; /* row */
+    new_joystick_device->button_mapping[0].value.key[1] = 7; /* column */
+#endif
+#if 0 /* for testing */ /* FIXME */
+    new_joystick_device->button_mapping[0].action = MENUACTION;
+    new_joystick_device->button_mapping[0].value.action = 2;
+#endif
 }
 
 /* When a host joystick event happens that cause a 'press' of a pin, increment the 'press amount' of that pin */
@@ -1843,7 +1851,8 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
 {
     switch (event->action) {
         case JOYSTICK:
-            DBG(("joy_perform_event joyport: %d value: %d pin: %02x\n", joyport, value, event->value.joy_pin));
+            DBG(("joy_perform_event (JOYSTICK) joyport: %d value: %d pin: %02x\n",
+                 joyport, value, event->value.joy_pin));
             if (joyport >=0 && joyport < JOYPORT_MAX_PORTS) {
                 if (value) {
                     gtkjoy_set_value_press(joyport, event->value.joy_pin);
@@ -1853,8 +1862,16 @@ static void joy_perform_event(joystick_mapping_t *event, int joyport, int value)
             }
             break;
         case KEYBOARD:
+            DBG(("joy_perform_event (KEYBOARD) joyport: %d value: %d key: %02x/%02x\n",
+                 joyport, value,event->value.key[0], event->value.key[1]));
             keyboard_set_keyarr_any(event->value.key[0], event->value.key[1], value);
             break;
+#if 0   /* FIXME */
+        case MENUACTION:
+            DBG(("joy_perform_event (MENUACTION) joyport: %d value: %d action: %d\n",
+                 joyport, value,event->value.action));
+            break;
+#endif
         case NONE:
         default:
             break;
