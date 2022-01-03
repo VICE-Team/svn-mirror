@@ -1747,7 +1747,7 @@ void register_joystick_driver(
             new_joystick_device->axis_mapping[3].negative_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
         }
-#ifdef UNIX_COMPILE
+#if defined(UNIX_COMPILE) && !defined(UNIX_MACOSX_COMPILE) && !defined(MACOSX_SUPPORT)
         /* CAUTION: this does not work correctly with the current windows joystick code */
         if (num_axes >= 6) {
             /* next two axes (eg second analog stick on ps3/ps4 pads) */
