@@ -40,7 +40,7 @@
  *
  * <pre>
  *  ARCHDEP_OS_UNIX
- *    ARCHDEP_OS_OSX
+ *    ARCHDEP_OS_MACOS
  *    ARCHDEP_OS_LINUX
  *    ARCHDEP_OS_BSD
  *      ARCHDEP_OS_BSD_FREE
