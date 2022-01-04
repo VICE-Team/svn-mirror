@@ -7,8 +7,8 @@ earlier, though you may be able to manually download and compile GTK3.22 for
 your platform (untested).
 
 Tested on:  Linux Mint 19, 20
-            Ubuntu 17.10.1, 18.04, 19.04,
-            Debian 9.0-9.8, 10.0, 10.3, 10.4, 10.5
+            Ubuntu 17.10.1, 18.04, 19.04, 20.04.3-LTS
+            Debian 9.0-9.8, 10.0, 10.3, 10.4, 10.5, 10.6, 11.0, 11.1, 11.2
 
 --------------------------------------------------------------------------------
 1. adhoc build from SVN
@@ -64,20 +64,14 @@ try running x64sc
 $ ./src/x64sc
 
 
-Note: VICE expects ROM images at $PREFIX/share/vice, if you've not installed
-      VICE before, these won't be present and x64sc will fail.
-      In that case, tell x64sc where to find the ROM's:
-      $ ./src/x64sc -kernal data/C64/kernal \
-                    -basic data/C64/basic \
-                    -chargen data/C64/chargen
+Note: VICE expects ROM images, shaders and other data at $PREFIX/share/vice,
+      if you've not installed VICE before, these won't be found and x64sc will
+      fail.
+      In that case, tell x64sc where to find the data:
+      $ ./src/x64sc -directory ./data
+
       Once you've succesfully run `make install`, the ROMs will be present at
       $PREFIX/share/vice/$EMU and the above command won't be necessary anymore.
-
-      Another way to test VICE before installing is creating a data dir with
-      the required files (the stuff below assumes x64sc):
-
-      $ mkdir ~/alldata-c64
-      $ cp src/data/{C64,DRIVES,common}/* ~/alldata-d64/
 
 
 Finally, once one is satisfied with the compiler options etc:
