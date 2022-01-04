@@ -465,7 +465,7 @@ static int create_plus4_layout(GtkGrid *layout)
     int row = 0;
 
     row = layout_add_control_ports(layout, row, 2);
-    row = layout_add_adapter_ports(layout, row, 2);
+    row = layout_add_adapter_ports(layout, row, 3);
     row = layout_add_sidcard_port(layout, row);
     row = layout_add_bbrtc_widget(layout, row);
 
@@ -485,7 +485,7 @@ static int create_pet_layout(GtkGrid *layout)
 {
     int row = 0;
 
-    row = layout_add_adapter_ports(layout, row, 2);
+    row = layout_add_adapter_ports(layout, row, 3);
     row = layout_add_bbrtc_widget(layout, row);
 
     return row;
