@@ -314,16 +314,16 @@ static void joystick_di5_update(int joyport, void* priv)
     for (i = 0; i < joy->numPOVs; ++i) {
         if (LOWORD(js.rgdwPOV[i]) != 0xffff) {
             if (js.rgdwPOV[i] > 20250 && js.rgdwPOV[i] < 33750) {
-                value |= 4;
+                value |= JOYSTICK_DIRECTION_LEFT;
             }
             if (js.rgdwPOV[i] > 2250 && js.rgdwPOV[i] < 15750) {
-                value |= 8;
+                value |= JOYSTICK_DIRECTION_RIGHT;
             }
             if (js.rgdwPOV[i] > 29250 || js.rgdwPOV[i] < 6750) {
-                value |= 1;
+                value |= JOYSTICK_DIRECTION_UP;
             }
             if (js.rgdwPOV[i] > 11250 && js.rgdwPOV[i] < 24750) {
-                value |= 2;
+                value |= JOYSTICK_DIRECTION_DOWN;
             }
         }
         joy_hat_event(joyport, i, value);
