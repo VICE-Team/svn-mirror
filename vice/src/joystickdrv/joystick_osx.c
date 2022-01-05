@@ -36,6 +36,20 @@
 
 #include <IOKit/hid/IOHIDManager.h>
 
+/* This hat map was created from values observed on macOS 12 with PS4 controller (bluetooth) */
+#define MAX_HAT_MAP_INDEX 8
+static const uint8_t hat_map[MAX_HAT_MAP_INDEX + 1] = {
+    JOYSTICK_DIRECTION_UP,                              /* 0 */
+    JOYSTICK_DIRECTION_UP | JOYSTICK_DIRECTION_RIGHT,   /* 1 */
+    JOYSTICK_DIRECTION_RIGHT,                           /* 2 */
+    JOYSTICK_DIRECTION_RIGHT | JOYSTICK_DIRECTION_DOWN, /* 3 (Not seen) */
+    JOYSTICK_DIRECTION_DOWN,                            /* 4 */
+    JOYSTICK_DIRECTION_DOWN | JOYSTICK_DIRECTION_LEFT,  /* 5 */
+    JOYSTICK_DIRECTION_LEFT,                            /* 6 */
+    JOYSTICK_DIRECTION_LEFT | JOYSTICK_DIRECTION_UP,    /* 7 */
+    0,                                                  /* 8 */
+};
+
 /* ----- Statics ----- */
 
 static IOHIDManagerRef mgr;
@@ -318,8 +332,13 @@ static void osx_joystick_read(int joyport, void* priv) {
                     if (joy_hidlib_get_value(device,
                                         &e,
                                         &value, 0) >= 0) {
-                        if (value >= 0 && value <= 8) {
+                        if (value >= 0 && value <= MAX_HAT_MAP_INDEX) {
                             joy_hat_event(joyport, e.ordinal, hat_map[value]);
+                        }
+                        static int last_value = -1;
+                        if (value != last_value) {
+                            last_value = value;
+                            printf("%d\n", value); fflush(stdout);
                         }
                     }
                 }

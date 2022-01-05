@@ -141,18 +141,6 @@ static const uint16_t joystick_opposite_direction[] = {
     JOYPAD_E | JOYPAD_W | JOYPAD_S | JOYPAD_N  /* + + + + */
 };
 
-const uint8_t hat_map[9] = {
-    0,
-    JOYSTICK_DIRECTION_UP,
-    JOYSTICK_DIRECTION_UP|JOYSTICK_DIRECTION_RIGHT,
-    JOYSTICK_DIRECTION_RIGHT,
-    JOYSTICK_DIRECTION_RIGHT|JOYSTICK_DIRECTION_DOWN,
-    JOYSTICK_DIRECTION_DOWN,
-    JOYSTICK_DIRECTION_DOWN|JOYSTICK_DIRECTION_LEFT,
-    JOYSTICK_DIRECTION_LEFT,
-    JOYSTICK_DIRECTION_LEFT|JOYSTICK_DIRECTION_UP
-};
-
 /* Callback to machine specific joystick routines, needed for lightpen triggering */
 static joystick_machine_func_t joystick_machine_func = NULL;
 
