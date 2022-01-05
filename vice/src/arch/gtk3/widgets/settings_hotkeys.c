@@ -30,11 +30,13 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <time.h>
 #include "vice_gtk3.h"
 
 #include "archdep.h"
-#include "lib.h"
 #include "hotkeys.h"
+#include "lib.h"
+#include "log.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
@@ -255,6 +257,10 @@ static gboolean on_key_release_event(GtkWidget *dialog,
         gchar *accel;
         gchar *escaped;
         gchar text[256];
+        time_t t;
+        struct tm *tm;
+        int i;
+        int n;
 
         hotkey_keysym = event->keyval;
         hotkey_mask = event->state & accepted_mods;
@@ -276,10 +282,27 @@ static gboolean on_key_release_event(GtkWidget *dialog,
         g_snprintf(text, sizeof(text), "<b>%s</b>", escaped);
         gtk_label_set_markup(GTK_LABEL(hotkey_string), text);
         g_free(escaped);
-        g_free(accel);
 
+        t = time(NULL);
+        tm = localtime(&t);
+        strftime(text, sizeof(text), "%H:%M:%S", tm);
+
+        log_message(LOG_DEFAULT, "Hotkeys: --- accelerator entered [%s] ---", text);
+        log_message(LOG_DEFAULT, "Hotkeys: gtk accel name: %s", accel);
+        log_message(LOG_DEFAULT, "Hotkeys: keysym        : 0x%04x (GDK_KEY_%s)",
+                hotkey_keysym, gdk_keyval_name(hotkey_keysym));
+        log_message(LOG_DEFAULT, "Hotkeys: modifier mask : 0x%08x", hotkey_mask);
+        for (i = 0, n = 1; i < (int)ARRAY_LEN(mod_mask_list); i++) {
+            if (hotkey_mask & mod_mask_list[i].mask) {
+                log_message(LOG_DEFAULT, "Hotkeys: modifier %-2d   : 0x%08x (%s)",
+                        n, mod_mask_list[i].mask, mod_mask_list[i].name);
+                n++;
+            }
+        }
 
         update_modifier_list();
+
+        g_free(accel);
         return TRUE;
     }
 
@@ -505,8 +528,15 @@ static void on_accepted_mod_toggled(GtkToggleButton *toggle, gpointer data)
 {
     int i;
     gchar text[256];
+    time_t t;
+    struct tm *tm;
 
-    debug_gtk3("Old mask: 0x%08x.", accepted_mods);
+    t = time(NULL);
+    tm = localtime(&t);
+    strftime(text, sizeof(text), "%H:%M:%S", tm);
+
+    log_message(LOG_DEFAULT, "Hotkeys: --- accepted modifiers changed [%s] ---", text);
+    log_message(LOG_DEFAULT, "Hotkeys: old mask: 0x%08x", accepted_mods);
 
     accepted_mods = 0;
     for (i = 0; i < (int)ARRAY_LEN(mod_mask_list); i++) {
@@ -517,10 +547,12 @@ static void on_accepted_mod_toggled(GtkToggleButton *toggle, gpointer data)
                                       mod_mask_list[i].row);
         if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check))) {
             accepted_mods |= mod_mask_list[i].mask;
+            log_message(LOG_DEFAULT, "Hotkeys: modifier: 0x%08x (%s)",
+                    mod_mask_list[i].mask, mod_mask_list[i].name);
         }
     }
 
-    debug_gtk3("New mask: 0x%08x.", accepted_mods);
+    log_message(LOG_DEFAULT, "Hotkeys: new mask: 0x%08x", accepted_mods);
     g_snprintf(text, sizeof(text), "<tt><b>0x%08x</b></tt>", accepted_mods);
     gtk_label_set_markup(GTK_LABEL(accepted_mods_string), text);
 
