@@ -148,8 +148,8 @@ extern void joystick_close(void);
 extern void joystick_ui_reset_device_list(void);
 extern const char *joystick_ui_get_next_device_name(int *id);
 
-#define JOYSTICK_DIRECTION_DOWN  1
-#define JOYSTICK_DIRECTION_UP    2
+#define JOYSTICK_DIRECTION_UP    1
+#define JOYSTICK_DIRECTION_DOWN  2
 #define JOYSTICK_DIRECTION_LEFT  4
 #define JOYSTICK_DIRECTION_RIGHT 8
 
