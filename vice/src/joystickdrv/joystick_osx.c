@@ -36,7 +36,11 @@
 
 #include <IOKit/hid/IOHIDManager.h>
 
-/* This hat map was created from values observed on macOS 12 with PS4 controller (bluetooth) */
+/*
+ * This hat map was created from values observed on macOS 12 with PS4 and PS5 controller (bluetooth),
+ * and based on various searches other controllers use this scheme. Xbox controllers are slightly
+ * different which is handled via a hack later.
+ */
 #define MAX_HAT_MAP_INDEX 8
 static const uint8_t hat_map[MAX_HAT_MAP_INDEX + 1] = {
     JOYSTICK_DIRECTION_UP,                              /* 0 */
@@ -329,9 +333,28 @@ static void osx_joystick_read(int joyport, void* priv) {
                     }
                     break;
                     case kHIDUsage_GD_Hatswitch:
-                    if (joy_hidlib_get_value(device,
-                                        &e,
-                                        &value, 0) >= 0) {
+                    if (joy_hidlib_get_value(device, &e, &value, 0) >= 0) {
+                        if (device->vendor_id == 0x45e) {
+                            /*
+                             * Microsoft device hack ... idea from godot source:
+                             * https://github.com/godotengine/godot/blob/master/platform/osx/joypad_osx.cpp
+                             *
+                             * Basically the order is the same, but xbox starts with center rather than ends
+                             * with it. Which makes more sense tbh.
+                             *
+                             * Anyway we'll just assume all Microsoft hats are like this rather than
+                             * checking for product_id in (0x0b05, 0x02e0, 0x02fd, 0x0b13) like they do.
+                             * If there are older exceptions, they should be handled, and we'll assume that
+                             * newer devices won't change from this scheme. Tested with whatever controller
+                             * came with Xbox Series X.
+                             */
+                            if (value) {
+                                value--;
+                            } else {
+                                value = 8;
+                            }
+                        }
+                        
                         if (value >= 0 && value <= MAX_HAT_MAP_INDEX) {
                             joy_hat_event(joyport, e.ordinal, hat_map[value]);
                         }
