@@ -1718,9 +1718,9 @@ void register_joystick_driver(
         new_joystick_device->axis_mapping[0].negative_direction.action = JOYSTICK;
         new_joystick_device->axis_mapping[0].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
         new_joystick_device->axis_mapping[1].positive_direction.action = JOYSTICK;
-        new_joystick_device->axis_mapping[1].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
+        new_joystick_device->axis_mapping[1].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
         new_joystick_device->axis_mapping[1].negative_direction.action = JOYSTICK;
-        new_joystick_device->axis_mapping[1].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
+        new_joystick_device->axis_mapping[1].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
         if (num_axes == 4) {
             /* next two axes */
             /* CAUTION: make sure to not map axes 2 and/or 5 for pads with > 4 axes, those are
@@ -1731,9 +1731,9 @@ void register_joystick_driver(
             new_joystick_device->axis_mapping[2].negative_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[2].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
             new_joystick_device->axis_mapping[3].positive_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[3].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
+            new_joystick_device->axis_mapping[3].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
             new_joystick_device->axis_mapping[3].negative_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
+            new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
         }
 #if defined(UNIX_COMPILE) && !defined(UNIX_MACOSX_COMPILE) && !defined(MACOSX_SUPPORT)
         /* CAUTION: this does not work correctly with the current windows joystick code */
@@ -1744,9 +1744,9 @@ void register_joystick_driver(
             new_joystick_device->axis_mapping[3].negative_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
             new_joystick_device->axis_mapping[4].positive_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[4].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
+            new_joystick_device->axis_mapping[4].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
             new_joystick_device->axis_mapping[4].negative_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[4].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
+            new_joystick_device->axis_mapping[4].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
         }
         if (num_axes >= 8) {
             /* next two axes (dpad on ps5 pad) */
@@ -1755,9 +1755,9 @@ void register_joystick_driver(
             new_joystick_device->axis_mapping[6].negative_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[6].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
             new_joystick_device->axis_mapping[7].positive_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[7].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
+            new_joystick_device->axis_mapping[7].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
             new_joystick_device->axis_mapping[7].negative_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[7].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
+            new_joystick_device->axis_mapping[7].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
         }
 #endif
     }
