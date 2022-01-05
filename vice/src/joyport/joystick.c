@@ -1721,11 +1721,17 @@ void register_joystick_driver(
         new_joystick_device->axis_mapping[1].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
         new_joystick_device->axis_mapping[1].negative_direction.action = JOYSTICK;
         new_joystick_device->axis_mapping[1].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
+
+#if !defined(MACOSX_SUPPORT)
         if (num_axes == 4) {
             /* next two axes */
             /* CAUTION: make sure to not map axes 2 and/or 5 for pads with > 4 axes, those are
                         the analog triggers on ps3/ps4 pads and their neutral position is at
                         one extreme of the axis, resulting in some direction being pressed all the time */
+#else
+        if (num_axes >= 4) {
+            /* the caution above does not apply to macOS. */
+#endif
             new_joystick_device->axis_mapping[2].positive_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[2].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
             new_joystick_device->axis_mapping[2].negative_direction.action = JOYSTICK;
@@ -1735,7 +1741,7 @@ void register_joystick_driver(
             new_joystick_device->axis_mapping[3].negative_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
         }
-#if defined(UNIX_COMPILE) && !defined(UNIX_MACOSX_COMPILE) && !defined(MACOSX_SUPPORT)
+#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
         /* CAUTION: this does not work correctly with the current windows joystick code */
         if (num_axes >= 6) {
             /* next two axes (eg second analog stick on ps3/ps4 pads) */
