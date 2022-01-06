@@ -39,6 +39,7 @@
 #include "vice_gtk3.h"
 #include "basedialogs.h"
 #include "drive.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
@@ -431,6 +432,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     state->last_fps_int = -1;
     state->last_paused = -1;
     state->last_warp = -1;
+    state->last_shiftlock = -1;
 
     grid = gtk_grid_new();
 
@@ -613,9 +615,11 @@ void statusbar_speed_widget_update(GtkWidget *widget,
     int this_cpu_int = (int)(vsync_metric_cpu_percent  * pow(10, CPU_DECIMAL_PLACES) + 0.5);
     int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
     bool is_paused = ui_pause_active();
+    bool is_shiftlock = keyboard_get_shiftlock();
 
     if (state->last_cpu_int != this_cpu_int ||
             state->last_warp != vsync_metric_warp_enabled ||
+            state->last_shiftlock != is_shiftlock ||
             state->last_paused != is_paused) {
 
         /* get grid containing the two labels */
@@ -637,10 +641,15 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         if (state->last_paused != is_paused) {
             pause_led_set_active(window_identity, is_paused);
         }
+        /* shiftlock */
+        if (state->last_shiftlock != is_shiftlock) {
+            shiftlock_led_set_active(window_identity, is_shiftlock);
+        }
 
         state->last_cpu_int = this_cpu_int;
         state->last_warp = vsync_metric_warp_enabled;
         state->last_paused = is_paused;
+        state->last_shiftlock = is_shiftlock;
     }
 
     if (window_identity == PRIMARY_WINDOW) {

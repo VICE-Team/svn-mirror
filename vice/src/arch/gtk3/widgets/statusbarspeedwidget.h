@@ -41,6 +41,7 @@ typedef struct statusbar_speed_widget_state_s {
     int last_fps_int;
     int last_warp;
     int last_paused;
+    int last_shiftlock;
 } statusbar_speed_widget_state_t;
 
 GtkWidget *speed_menu_popup_create(void);
