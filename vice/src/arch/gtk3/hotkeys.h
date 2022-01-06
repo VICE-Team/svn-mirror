@@ -34,7 +34,11 @@
 
 /** \brief  Name of Gtk3 main hotkeys files
  */
-#define VKM_PREFIX  "gtk3-hotkeys"
+#ifdef ARCHDEP_OS_MACOS
+# define VKM_PREFIX "gtk3-hotkeys-mac"
+#else
+# define VKM_PREFIX "gtk3-hotkeys"
+#endif
 
 /** \brief  Extension of Gtk3 hotkeys files
  *
@@ -58,7 +62,7 @@
  * what their fucked up docs claim.
  */
 # define VKM_ACCEPTED_MODIFIERS \
-    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_MOD2_MASK|GDK_META_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
+    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_META_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
 #else 
 # define VKM_ACCEPTED_MODIFIERS \
     (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_META_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
@@ -74,11 +78,13 @@ typedef enum hotkeys_modifier_id_e {
     HOTKEYS_MOD_ID_COMMAND,         /**< Command (MacOS) */
     HOTKEYS_MOD_ID_CONTROL,         /**< Control */
     HOTKEYS_MOD_ID_HYPER,           /**< Hyper (MacOS) */
-    HOTKEYS_MOD_ID_META,            /**< Meta (MacOS?, might map to Command for
-                                         some weird reason) */
-    HOTKEYS_MOD_ID_OPTION,          /**< Option (MacOS) */
+    HOTKEYS_MOD_ID_META,            /**< Meta, on MacOS GDK_META_MASK maps to
+                                         Command */
+    HOTKEYS_MOD_ID_OPTION,          /**< Option (MacOS), GDK_MOD1_MASK, same as
+                                         Alt */
     HOTKEYS_MOD_ID_SHIFT,           /**< Shift */
-    HOTKEYS_MOD_ID_SUPER            /**< Super ("Windows" key) */
+    HOTKEYS_MOD_ID_SUPER            /**< Super ("Windows" key), could be Apple
+                                         key on MacOS */
 } hotkeys_modifier_id_t;
 
 
