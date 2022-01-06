@@ -224,10 +224,9 @@ static const hotkeys_keyword_t hotkeys_keyword_list[] = {
  */
 static const hotkeys_modifier_t hotkeys_modifier_list[] = {
     { "Alt",        HOTKEYS_MOD_ID_ALT,     GDK_MOD1_MASK,      "MOD1",     "Alt" },
-    { "Command",    HOTKEYS_MOD_ID_COMMAND, GDK_MOD2_MASK,      "MOD2",     "Command \u2318" },
+    { "Command",    HOTKEYS_MOD_ID_COMMAND, GDK_META_MASK,      "META",     "Command \u2318" },
     { "Control",    HOTKEYS_MOD_ID_CONTROL, GDK_CONTROL_MASK,   "CONTROL",  "Control \u2303" },
     { "Hyper",      HOTKEYS_MOD_ID_HYPER,   GDK_HYPER_MASK,     "HYPER",    "Hyper" },
-    { "Meta",       HOTKEYS_MOD_ID_META,    GDK_META_MASK,      "META",     "Meta" },
     { "Option",     HOTKEYS_MOD_ID_OPTION,  GDK_MOD1_MASK,      "MOD1",     "Option \u2325" },
     { "Shift",      HOTKEYS_MOD_ID_SHIFT,   GDK_SHIFT_MASK,     "SHIFT",    "Shift \u21e7" },
     { "Super",      HOTKEYS_MOD_ID_SUPER,   GDK_SUPER_MASK,     "SUPER",    "Super" },
