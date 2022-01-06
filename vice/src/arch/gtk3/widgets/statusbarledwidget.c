@@ -150,20 +150,33 @@ static GtkWidget *get_led_widget(GtkWidget *self)
 }
 
 
-/** \brief  Handler for the 'destroy' event of the **grid**
+/** \brief  Handler for the 'destroy' event of the event box
  *
  * Deallocates memory used for the internal state.
  *
- * \param[in]   widget  status bar led widget grid
+ * \param[in]   self    status bar led widget (GtkEventBox)
  * \param[in]   data    extra event data (unused)
  */
-static void on_destroy(GtkWidget *grid, gpointer data)
+static void on_destroy(GtkWidget *self, gpointer data)
 {
-    led_state_t *state = get_state(grid);
+    led_state_t *state;
+#if 0
+    GdkCursor *cursor;
+#endif
 
+    state = get_state(self);
     if (state != NULL) {
         lib_free(state);
     }
+
+    /* Gdk docs (incorrectly) state the caller is responsible for freeing the
+     * cursor, this however triggers a double free: */
+#if 0
+    cursor = get_data(self, "HandPointer");
+    if (cursor != NULL) {
+        g_free(cursor);
+    }
+#endif
 }
 
 
@@ -217,7 +230,9 @@ static gboolean on_led_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
  *
  * \return  FALSE, don't propagate further
  */
-static gboolean on_button_press_event(GtkWidget *self, GdkEvent *event, gpointer data)
+static gboolean on_button_press_event(GtkWidget *self,
+                                      GdkEvent *event,
+                                      gpointer data)
 {
     if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
 
@@ -239,6 +254,60 @@ static gboolean on_button_press_event(GtkWidget *self, GdkEvent *event, gpointer
     }
     return FALSE;
 }
+
+
+/** \brief  Handler for enter/leave events of the widget
+ *
+ * Set the mouse pointer shape when hovering over the widget.
+ *
+ * \param[in]   self    event box
+ * \param[in]   event   event object
+ * \param[in]   data    extra event data (unused)
+ *
+ * \note    Gtk docs incorrectly state the second argument should be
+ *          `GdkEventCrossing event`, this doesn't work.
+ *
+ * \return  FALSE to propagate the event further
+ */
+static gboolean on_crossing_event(GtkWidget *self,
+                                  GdkEvent *event,
+                                  gpointer data)
+{
+    GdkWindow *window;
+    GdkCursor *cursor = NULL;   /* NULL reverts cursor back to default shape */
+
+    if (event->type == GDK_ENTER_NOTIFY) {
+        GdkDisplay *display;
+
+        debug_gtk3("Entering")
+
+        display = gtk_widget_get_display(self);
+        cursor = get_data(self, "HandPointer");
+        if (cursor == NULL) {
+            /* create new cursor */
+            cursor = gdk_cursor_new_from_name(display, "pointer");
+            if (cursor == NULL) {
+                fprintf(stderr,
+                        "%s:%d:%s(): Error: failed to create custom cursor!\n",
+                        __FILE__, __LINE__, __func__);
+            } else {
+                set_data(self, "HandPointer", cursor);
+            }
+        }
+    }
+
+    window = gtk_widget_get_window(self);
+    if (window != NULL) {
+        gdk_window_set_cursor(window, cursor);
+    } else {
+        fprintf(stderr,
+                "%s:%d:%s(): Error: failed to get window for widget!\n",
+                __FILE__, __LINE__, __func__);
+    }
+
+    return FALSE;   /* propagate the event further */
+}
+
 
 
 /*
@@ -324,10 +393,16 @@ GtkWidget *statusbar_led_widget_create(const gchar *text,
     set_data(event_box, "InternalState", (gpointer)state);
     set_data(event_box, "IsToggleable", GINT_TO_POINTER(FALSE));
     set_data(event_box, "ToggleCallback", NULL);
+    set_data(event_box, "HandPointer", NULL);
 
     g_signal_connect(event_box, "button-press-event",
                      G_CALLBACK(on_button_press_event), NULL);
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect(event_box, "enter-notify-event",
+                     G_CALLBACK(on_crossing_event), NULL);
+    g_signal_connect(event_box, "leave-notify-event",
+                     G_CALLBACK(on_crossing_event), NULL);
+    g_signal_connect(event_box, "destroy",
+                     G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return event_box;
