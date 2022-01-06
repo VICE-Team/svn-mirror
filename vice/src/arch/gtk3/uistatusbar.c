@@ -426,6 +426,9 @@ typedef struct ui_statusbar_s {
     /** \brief  Pause LED widget */
     GtkWidget *pause_led;
 
+    /** \brief  shiftlock LED widget */
+    GtkWidget *shiftlock_led;
+
     /** \brief  Widget displaying CPU speed and FPS
      *
      * Also used to set refresh rate, CPU speed, pause, warp and adv-frame
@@ -1245,6 +1248,7 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer index)
     bar->widget_row_grid = NULL;
     bar->warp_led = NULL;
     bar->pause_led = NULL;
+    bar->shiftlock_led = NULL;
     bar->speed = NULL;
     bar->msg = NULL;
     bar->record = NULL;
@@ -2002,6 +2006,39 @@ void pause_led_set_active(int bar, gboolean active)
     }
 }
 
+/** \brief  Create status bar LED for shiftlock
+ *
+ * \return  LED widget
+ */
+static GtkWidget *shiftlock_led_create(void)
+{
+    GtkWidget *led;
+
+    led = statusbar_led_widget_create("shift-lock:", "#ff0000", "#000");
+    /*statusbar_led_widget_set_toggleable(led, TRUE);
+      statusbar_led_widget_set_toggle_callback(led, shiftlock_led_callback);*/
+    gtk_widget_show(led);
+
+    return led;
+}
+
+
+/** \brief  Set shiftlock LED state
+ *
+ * \param[in]   bar     status bar index
+ * \param[in]   active  LED status
+ */
+void shiftlock_led_set_active(int bar, gboolean active)
+{
+    GtkWidget *led;
+
+    debug_gtk3("bar = %d, active = %s.", bar, active ? "true" : "false");
+
+    led = allocated_bars[bar].shiftlock_led;
+    if (led != NULL) {
+        statusbar_led_widget_set_active(led, active);
+    }
+}
 
 
 /** \brief  Get status bar index for \a window
@@ -2202,6 +2239,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /* LEDs */
     GtkWidget *warp_led;
     GtkWidget *pause_led;
+    GtkWidget *shiftlock_led;
 
     /* top row widgets/wrappers */
     GtkWidget *speed;
@@ -2312,6 +2350,11 @@ GtkWidget *ui_statusbar_create(int window_identity)
     pause_led = pause_led_create();
     allocated_bars[i].pause_led = pause_led;
     statusbar_append_led(i, pause_led, FALSE);  /* no separator, for now */
+
+    /* shiftlock */
+    shiftlock_led = shiftlock_led_create();
+    allocated_bars[i].shiftlock_led = shiftlock_led;
+    statusbar_append_led(i, shiftlock_led, FALSE);  /* no separator, for now */
 
     /*
      * Add widgets to the widgets row
