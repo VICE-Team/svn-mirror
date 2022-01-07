@@ -56,7 +56,9 @@ C64/C128   |  I/O
 #include <stdlib.h>
 #include <string.h>
 
+#include "alarm.h"
 #include "cmdline.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "joyport.h"
 #include "joystick.h"
@@ -132,6 +134,159 @@ int userport_wic64_resources_init(void)
 
 #define HTTPREPLY_MAXLEN    (0x18000)
 
+size_t httpbufferptr = 0;
+uint8_t httpbuffer[HTTPREPLY_MAXLEN];
+
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
+#ifndef WIN32
+#include <unistd.h>
+#endif
+#include <curl/curl.h>
+ 
+// static const char *urls[] = {
+//   "https://www.google.com",
+// };
+ 
+#define MAX_PARALLEL 1 /* number of simultaneous transfers */
+#define NUM_URLS 10
+ 
+static size_t write_cb(char *data, size_t n, size_t l, void *userp)
+{
+  /* take care of the data here, ignored in this example */
+  printf("write_cb n: %d l: %d %d\n", n, l, httpbufferptr);
+  memcpy(&httpbuffer[httpbufferptr], data, n * l);
+  httpbufferptr += (n * l);
+//   (void)data;
+//   (void)userp;
+  return n*l;
+}
+ 
+static void add_transfer(CURLM *cm, char *url)
+{
+  CURL *eh = curl_easy_init();
+  curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, write_cb);
+  curl_easy_setopt(eh, CURLOPT_URL, url);
+  curl_easy_setopt(eh, CURLOPT_PRIVATE, url);
+  curl_multi_add_handle(cm, eh);
+}
+
+static struct alarm_s *http_get_alarm = NULL;
+static void send_binary_reply(uint8_t *reply, int len);
+int still_alive = 0;
+CURLM *cm;
+
+static void http_get_alarm_handler(CLOCK offset, void *data)
+{
+        CURLMsg *msg;
+          int msgs_left = -1;
+    curl_multi_perform(cm, &still_alive);
+  if (still_alive) {
+ 
+//    while((msg = curl_multi_info_read(cm, &msgs_left))) {
+    if((msg = curl_multi_info_read(cm, &msgs_left))) {
+      if(msg->msg == CURLMSG_DONE) {
+        char *url;
+        CURL *e = msg->easy_handle;
+        curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
+        fprintf(stderr, "R: %d - %s <%s>\n",
+                msg->data.result, curl_easy_strerror(msg->data.result), url);
+        curl_multi_remove_handle(cm, e);
+        curl_easy_cleanup(e);
+      }
+      else {
+        fprintf(stderr, "E: CURLMsg (%d)\n", msg->msg);
+      }
+//       if(transfers < NUM_URLS)
+//         add_transfer(cm, transfers++);
+    }
+//     if(still_alive)
+//       curl_multi_wait(cm, NULL, 0, 1000, NULL);
+ 
+  } else {
+ 
+  curl_multi_cleanup(cm);
+  curl_global_cleanup();
+
+    alarm_unset(http_get_alarm);
+    
+  printf("do_http_get ready\n");
+    DBG(("got %d bytes", httpbufferptr));
+    if (httpbufferptr > 0) {
+        send_binary_reply(httpbuffer, httpbufferptr);
+    }
+
+  }
+}
+ 
+static int do_http_get(char *hostname, char *path, unsigned short server_port)
+{
+  
+//   CURLMsg *msg;
+//   unsigned int transfers = 0;
+//   int msgs_left = -1;
+//   int still_alive = 1;
+  char thisurl[0x1000];
+
+  strcpy(thisurl, "http://");
+  strcat(thisurl, hostname);
+  strcat(thisurl, "/");
+  strcat(thisurl, path);
+  printf("do_http_get url: '%s'\n", thisurl);
+
+  curl_global_init(CURL_GLOBAL_ALL);
+  cm = curl_multi_init();
+
+  /* Limit the amount of simultaneous connections curl should allow: */
+  curl_multi_setopt(cm, CURLMOPT_MAXCONNECTS, (long)MAX_PARALLEL);
+
+still_alive = 1;
+httpbufferptr = 0;
+  add_transfer(cm, thisurl);
+
+  if (http_get_alarm == NULL) {
+      http_get_alarm = alarm_new(maincpu_alarm_context, "HTTPGetAlarm", http_get_alarm_handler, NULL);
+  }
+    alarm_unset(http_get_alarm);
+    alarm_set(http_get_alarm, maincpu_clk + (312 * 65));
+#if 0
+  do {
+    curl_multi_perform(cm, &still_alive);
+ 
+    while((msg = curl_multi_info_read(cm, &msgs_left))) {
+      if(msg->msg == CURLMSG_DONE) {
+        char *url;
+        CURL *e = msg->easy_handle;
+        curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE, &url);
+        fprintf(stderr, "R: %d - %s <%s>\n",
+                msg->data.result, curl_easy_strerror(msg->data.result), url);
+        curl_multi_remove_handle(cm, e);
+        curl_easy_cleanup(e);
+      }
+      else {
+        fprintf(stderr, "E: CURLMsg (%d)\n", msg->msg);
+      }
+//       if(transfers < NUM_URLS)
+//         add_transfer(cm, transfers++);
+    }
+    if(still_alive)
+      curl_multi_wait(cm, NULL, 0, 1000, NULL);
+ 
+  } while(still_alive /*|| (transfers < NUM_URLS)*/);
+ 
+  curl_multi_cleanup(cm);
+  curl_global_cleanup();
+  printf("do_http_get ready\n");
+#endif 
+  
+  
+//  return httpbufferptr;
+  return 0;
+}
+
+/* ---------------------------------------------------------------------*/
+#if 0
 /* https://cirosantilli.com/linux-kernel-module-cheat#socket */
 
 #define _XOPEN_SOURCE 700
@@ -265,7 +420,7 @@ static int do_http_get(char *hostname, char *path, unsigned short server_port) {
 
     return nbytes_read;
 }
-
+#endif
 /* ---------------------------------------------------------------------*/
 #define WLAN_SSID   "VICE WiC64 emulation"
 #define WLAN_RSSI   "123"
@@ -280,11 +435,11 @@ char default_server_hostname[0x100];
 
 #define COMMANDBUFFER_MAXLEN    0x1000
 
-#define FLAG2_ACTIVE    1
-#define FLAG2_INACTIVE  0
+#define FLAG2_ACTIVE    0
+#define FLAG2_INACTIVE  1
 
 uint8_t input_state = 0, input_command = 0;
-uint8_t wic64_ddr = 1;
+uint8_t wic64_inputmode = 1;
 uint16_t input_length = 0, commandptr = 0;
 uint8_t commandbuffer[COMMANDBUFFER_MAXLEN];
 
@@ -292,10 +447,29 @@ uint8_t replybuffer[0x10010];
 uint16_t replyptr = 0, reply_length = 0;
 uint8_t reply_port_value = 0;
 
+static struct alarm_s *flag2_alarm = NULL;
+
+static void flag2_alarm_handler(CLOCK offset, void *data)
+{
+    set_userport_flag(FLAG2_INACTIVE);
+    alarm_unset(flag2_alarm);
+}
+
+/* a handshake is triggered after:
+   - each byte the esp received from the c64 (inputmode = true)
+   - each byte put on the userport for the c64 to fetch (inputmode = false, transferdata = true)
+   - a command, to signal the c64 there is a reply
+*/
 static void handshake_flag2(void)
 {
+    if (flag2_alarm == NULL) {
+        flag2_alarm = alarm_new(maincpu_alarm_context, "FLAG2Alarm", flag2_alarm_handler, NULL);
+    }
+    alarm_unset(flag2_alarm);
+    alarm_set(flag2_alarm, maincpu_clk + 3);
+
     set_userport_flag(FLAG2_ACTIVE);
-    set_userport_flag(FLAG2_INACTIVE);
+//    set_userport_flag(FLAG2_INACTIVE);
 }
 
 static void reply_next_byte(void)
@@ -319,6 +493,9 @@ static void send_reply(char * reply)
     strcpy((char*)replybuffer + 2, reply);
     reply_length = len + 2;
     replyptr = 0;
+    printf("send_reply %d: %02x %02x %02x %02x %02x %02x...\n",
+           len, replybuffer[0], replybuffer[1], replybuffer[2], replybuffer[3], replybuffer[4], replybuffer[5]);
+    handshake_flag2();
 }
 
 static void send_binary_reply(uint8_t *reply, int len)
@@ -329,6 +506,9 @@ static void send_binary_reply(uint8_t *reply, int len)
     memcpy((char*)replybuffer + 2, reply, len);
     reply_length = len + 2;
     replyptr = 0;
+    printf("send_binary_reply %d: %02x %02x %02x %02x %02x %02x...\n",
+           len, replybuffer[0], replybuffer[1], replybuffer[2], replybuffer[3], replybuffer[4], replybuffer[5]);
+    handshake_flag2();
 }
 
 /* http get */
@@ -530,10 +710,10 @@ static void do_command_01_0f(int encode)
     DBG(("path:%s", path));
 
     gotlen = do_http_get(hostname, path, port);
-    DBG(("got %d bytes", gotlen));
-    if (gotlen > 0) {
-        send_binary_reply(httpbuffer, gotlen);
-    }
+//     DBG(("got %d bytes", gotlen));
+//     if (gotlen > 0) {
+//         send_binary_reply(httpbuffer, gotlen);
+//     }
 #endif
 }
 
@@ -815,18 +995,22 @@ static void do_command(void)
     }
 }
 
+/* PC2 irq (pulse) triggers when C64 reads/writes to userport */
 static void userport_wic64_store_pbx(uint8_t value, int pulse)
 {
-#if 0
+#if 1
     DBG(("userport_wic64_store_pbx val:%02x pulse:%d", value, pulse));
 #endif
-    if (reply_length) {
-        if (wic64_ddr == 0) {
-            reply_next_byte();
-        }
-    } else {
+    if (pulse == 1) {
+//     if (reply_length) {
+//         if (wic64_inputmode == 0) {
+//             reply_next_byte();
+// //    handshake_flag2();
+//         }
+//     } else {
+        if (wic64_inputmode) {
 
-        if (pulse) {
+//        if (pulse) {
             switch (input_state) {
                 case 0:
                     input_length = 0;
@@ -834,18 +1018,22 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                     if (value == 0x57) {    /* 'w' */
                         input_state++;
                     }
+    handshake_flag2();
                 break;
                 case 1: /* lenght low byte */
                     input_length = value;
                     input_state++;
+    handshake_flag2();
                 break;
                 case 2: /* lenght high byte */
                     input_length |= (value << 8);
                     input_state++;
+    handshake_flag2();
                 break;
                 case 3: /* command */
                     input_command = value;
                     input_state++;
+    handshake_flag2();
                 break;
                 default:    /* additional data depending on command */
                     if ((commandptr + 4) < input_length) {
@@ -853,6 +1041,7 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                         commandptr++;
                         commandbuffer[commandptr] = 0;
                     }
+    handshake_flag2();
                 break;
             }
 #if 0
@@ -863,32 +1052,51 @@ static void userport_wic64_store_pbx(uint8_t value, int pulse)
                 do_command();
                 commandptr = input_command = input_state = input_length = 0;
             }
+//    handshake_flag2();
 
+        } else {
+            if (reply_length) {
+             
+                    reply_next_byte();
+                }
+          handshake_flag2();
+              
         }
-    }
+//    }
 
-    handshake_flag2();
+//    handshake_flag2();
+    }
 }
 
 static uint8_t userport_wic64_read_pbx(uint8_t orig)
 {
     uint8_t retval = reply_port_value;
     /* FIXME: what do we have to do with original value? */
-    /* DBG(("userport_wic64_read_pbx orig:%02x retval: %02x", orig, retval)); */
+    DBG(("userport_wic64_read_pbx orig:%02x retval: %02x", orig, retval));
+    /* FIXME: trigger mainloop */
     return retval;
 }
 
+/* PA2 interrupt toggles input/output mode */
 static void userport_wic64_store_pa2(uint8_t value)
 {
-    /* DBG(("userport_wic64_store_pa2 val:%02x", value)); */
-    wic64_ddr = value;
+    DBG(("userport_wic64_store_pa2 val:%02x (c64 %s)", value, value ? "sends" : "receives"));
+    
+#if 1 // this kindof keeps it going but it is wrong
+    if ((wic64_inputmode == 1) && (value == 0) && (reply_length)) {
+                    reply_next_byte();
+        handshake_flag2();
+    }
+#endif
+    wic64_inputmode = value;
+    /* FIXME: trigger mainloop */
 }
 
 static void userport_wic64_reset(void)
 {
     /* DBG(("userport_wic64_reset")); */
     commandptr = input_command = input_state = input_length = 0;
-    wic64_ddr = 1;
+    wic64_inputmode = 1;
 }
 
 /* ---------------------------------------------------------------------*/

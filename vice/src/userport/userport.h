@@ -30,7 +30,7 @@
 #include "snapshot.h"
 #include "types.h"
 
-/* #define USERPORT_EXPERIMENTAL_DEVICES */
+#define USERPORT_EXPERIMENTAL_DEVICES
 
 #define USERPORT_NO_PULSE   0
 #define USERPORT_PULSE      1
