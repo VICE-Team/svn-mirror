@@ -265,10 +265,11 @@ static gboolean on_key_release_event(GtkWidget *dialog,
     int i;
     int n;
     
-    GdkKeymap *keymap = gdk_keymap_get_for_display(gdk_display_get_default());
+    GdkKeymap *keymap = gdk_keymap_get_for_display(gtk_widget_get_display(dialog));
     GdkKeymapKey *keys;
     guint *keyvals;
     gint keymap_entry_count;
+    bool base_key_found = false;
     
     /* Default to what the event provided */
     hotkey_keysym = event->keyval;
@@ -300,20 +301,50 @@ static gboolean on_key_release_event(GtkWidget *dialog,
      * Keyboards can generate lots of weird keys, for example alt-w produces ∑ on macOS.
      * We can ask GDK for a list of them given a hardware keycode and a keymap.
      *
-     * So ... we assume that the first returned is the naked keyval, which seems to be
-     * true on macOS at least.
+     * We use the entry with a group and level of 0 for the raw key with no modifiers,
+     * which we need to successfully match with a hotkey combo.
+     * 
+     * We've obvserved that on windows, sometimes the returned array is many hundreds
+     * of entries long, and it's clear that beyond the valid entries we see uninitialised
+     * memory. This is probably a GDK bug, unless we're writing to a pointer somewhere
+     * that we shouldn't.
      */
     
-    if (gdk_keymap_get_entries_for_keycode (keymap, event->hardware_keycode, &keys, &keyvals, &keymap_entry_count)) {
-        log_message(LOG_DEFAULT, "Hotkeys: keymap entries:");
-        for (i = 0; i < keymap_entry_count; i++) {
-            log_message(LOG_DEFAULT, "Hotkeys:   keyval: %04x keyname: %s", keyvals[i], gdk_keyval_name(keyvals[i]));
+    if (gdk_keymap_get_entries_for_keycode(keymap, event->hardware_keycode, &keys, &keyvals, &keymap_entry_count)) {
+        if (keys && keyvals) {
+            log_message(LOG_DEFAULT, "Hotkeys: keymap entries (%d total):", keymap_entry_count);
+            for (i = 0; i < keymap_entry_count; i++) {
+                log_message(LOG_DEFAULT,
+                            "Hotkeys:   index: %d keyval: %04x group: %d level: %d keyname: %s",
+                            i, keyvals[i], keys[i].group, keys[i].level, gdk_keyval_name(keyvals[i]));
+
+                if (keys[i].group == 0 && keys[i].level == 0) {
+                    if (base_key_found) {
+                        log_message(LOG_DEFAULT, "Hotkeys: Aborting keyval iteration due to likely GDK bug");
+                        break;
+                    }
+                    
+                    base_key_found = true;
+
+                    if (keymap_entry_count && keyvals[i] != hotkey_keysym) {
+                        /* Override the detected keyval */
+                        log_message(LOG_DEFAULT, "Hotkeys: Overriding key from %s to %s", gdk_keyval_name(hotkey_keysym), gdk_keyval_name(keyvals[0]));
+                        hotkey_keysym = keyvals[i];
+                    }
+                }
+
+                if (keys[i].group < 0 || keys[i].group > 1 || keys[i].level < 0) {
+                    log_message(LOG_DEFAULT, "Hotkeys: Aborting keyval iteration due to likely GDK bug");
+                    break;
+                }
+            }
         }
-        
-        if (keymap_entry_count && keyvals[0] != hotkey_keysym) {
-            /* Override the detected keyval */
-            log_message(LOG_DEFAULT, "Hotkeys: Overriding key from %s to %s", gdk_keyval_name(hotkey_keysym), gdk_keyval_name(keyvals[0]));
-            hotkey_keysym = keyvals[0];
+
+        if (keys) {
+            g_free(keys);
+        }
+        if (keyvals) {
+            g_free(keyvals);
         }
     }
     
