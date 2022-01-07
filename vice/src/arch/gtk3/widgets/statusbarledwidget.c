@@ -276,7 +276,7 @@ static gboolean on_crossing_event(GtkWidget *self,
     GdkWindow *window;
     GdkCursor *cursor = NULL;   /* NULL reverts cursor back to default shape */
 
-    if (event->type == GDK_ENTER_NOTIFY) {
+    if (get_data(self, "IsToggleable") && event->type == GDK_ENTER_NOTIFY) {
         GdkDisplay *display;
 
         debug_gtk3("Entering")
