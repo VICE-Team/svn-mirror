@@ -191,6 +191,7 @@
 274 0 7 8              /*         Down -> CRSR DOWN    */
 277 6 0 8              /*          Ins -> Pound        */
 127 6 6 8              /*          Del -> Up Arrow     */
+279 6 6 8              /*          End -> Up Arrow     */
 
 # Restore key mappings
 280 -3 0
