@@ -430,7 +430,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             debug_gtk3("Response ID %d: Accept '%s'", response_id, action);
 
 
-            accel = gtk_accelerator_name(hotkey_keysym, hotkey_mask);
+            accel = gtk_accelerator_get_label(hotkey_keysym, hotkey_mask);
             debug_gtk3("Setting accelerator: %s.", accel);
 
             debug_gtk3("hotkey keysym: %04x, mask: %04x.",
