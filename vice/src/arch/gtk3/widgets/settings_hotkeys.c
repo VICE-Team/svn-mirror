@@ -253,59 +253,91 @@ static gboolean on_key_release_event(GtkWidget *dialog,
                                      GdkEventKey *event,
                                      gpointer data)
 {
-    if (!event->is_modifier) {
-        gchar *accel;
-        gchar *escaped;
-        gchar text[256];
-        time_t t;
-        struct tm *tm;
-        int i;
-        int n;
-
-        hotkey_keysym = event->keyval;
-        hotkey_mask = event->state & accepted_mods;
-
-#if 0
-        if (hotkey_mask & GDK_CONTROL_MASK) {
-            /* we don't want CTRL */
-            return FALSE;
-        }
-#endif
-        if (hotkey_keysym == GDK_KEY_Return && hotkey_mask == 0) {
-            return TRUE;    /* Return means accept */
-        }
-#if 0
-        debug_gtk3("keysym = %04x, mask = %04x.", hotkey_keysym, hotkey_mask);
-#endif
-        accel = gtk_accelerator_name(hotkey_keysym, hotkey_mask);
-        escaped = g_markup_escape_text(accel, -1);
-        g_snprintf(text, sizeof(text), "<b>%s</b>", escaped);
-        gtk_label_set_markup(GTK_LABEL(hotkey_string), text);
-        g_free(escaped);
-
-        t = time(NULL);
-        tm = localtime(&t);
-        strftime(text, sizeof(text), "%H:%M:%S", tm);
-
-        log_message(LOG_DEFAULT, "Hotkeys: --- accelerator entered [%s] ---", text);
-        log_message(LOG_DEFAULT, "Hotkeys: gtk accel name: %s", accel);
-        log_message(LOG_DEFAULT, "Hotkeys: keysym        : 0x%04x (GDK_KEY_%s)",
-                hotkey_keysym, gdk_keyval_name(hotkey_keysym));
-        log_message(LOG_DEFAULT, "Hotkeys: modifier mask : 0x%08x", hotkey_mask);
-        for (i = 0, n = 1; i < (int)ARRAY_LEN(mod_mask_list); i++) {
-            if (hotkey_mask & mod_mask_list[i].mask) {
-                log_message(LOG_DEFAULT, "Hotkeys: modifier %-2d   : 0x%08x (%s)",
-                        n, mod_mask_list[i].mask, mod_mask_list[i].name);
-                n++;
-            }
-        }
-
-        update_modifier_list();
-
-        g_free(accel);
+    if (event->is_modifier) {
         return TRUE;
     }
+    
+    gchar *accel;
+    gchar *escaped;
+    gchar text[256];
+    time_t t;
+    struct tm *tm;
+    int i;
+    int n;
+    
+    GdkKeymap *keymap = gdk_keymap_get_for_display(gdk_display_get_default());
+    GdkKeymapKey *keys;
+    guint *keyvals;
+    gint keymap_entry_count;
+    
+    /* Default to what the event provided */
+    hotkey_keysym = event->keyval;
+    hotkey_mask = event->state & accepted_mods;
 
+#if 0
+    if (hotkey_mask & GDK_CONTROL_MASK) {
+        /* we don't want CTRL */
+        return FALSE;
+    }
+#endif
+    if (hotkey_keysym == GDK_KEY_Return && hotkey_mask == 0) {
+        return TRUE;    /* Return means accept */
+    }
+#if 0
+    debug_gtk3("keysym = %04x, mask = %04x.", hotkey_keysym, hotkey_mask);
+#endif
+    
+    t = time(NULL);
+    tm = localtime(&t);
+    strftime(text, sizeof(text), "%H:%M:%S", tm);
+
+    log_message(LOG_DEFAULT, "Hotkeys: --- accelerator entered [%s] ---", text);
+    
+    accel = gtk_accelerator_name(hotkey_keysym, hotkey_mask);
+    log_message(LOG_DEFAULT, "Hotkeys: initial gtk accel name: %s", accel);
+    
+    /*
+     * Keyboards can generate lots of weird keys, for example alt-w produces ∑ on macOS.
+     * We can ask GDK for a list of them given a hardware keycode and a keymap.
+     *
+     * So ... we assume that the first returned is the naked keyval, which seems to be
+     * true on macOS at least.
+     */
+    
+    if (gdk_keymap_get_entries_for_keycode (keymap, event->hardware_keycode, &keys, &keyvals, &keymap_entry_count)) {
+        log_message(LOG_DEFAULT, "Hotkeys: keymap entries:");
+        for (i = 0; i < keymap_entry_count; i++) {
+            log_message(LOG_DEFAULT, "Hotkeys:   keyval: %04x keyname: %s", keyvals[i], gdk_keyval_name(keyvals[i]));
+        }
+        
+        if (keymap_entry_count && keyvals[0] != hotkey_keysym) {
+            /* Override the detected keyval */
+            log_message(LOG_DEFAULT, "Hotkeys: Overriding key from %s to %s", gdk_keyval_name(hotkey_keysym), gdk_keyval_name(keyvals[0]));
+            hotkey_keysym = keyvals[0];
+        }
+    }
+    
+    accel = gtk_accelerator_name(hotkey_keysym, hotkey_mask);
+    escaped = g_markup_escape_text(accel, -1);
+    g_snprintf(text, sizeof(text), "<b>%s</b>", escaped);
+    gtk_label_set_markup(GTK_LABEL(hotkey_string), text);
+    g_free(escaped);
+    
+    log_message(LOG_DEFAULT, "Hotkeys: final gtk accel name: %s", accel);
+    log_message(LOG_DEFAULT, "Hotkeys: keysym        : 0x%04x (GDK_KEY_%s)",
+            hotkey_keysym, gdk_keyval_name(hotkey_keysym));
+    log_message(LOG_DEFAULT, "Hotkeys: modifier mask : 0x%08x", hotkey_mask);
+    for (i = 0, n = 1; i < (int)ARRAY_LEN(mod_mask_list); i++) {
+        if (hotkey_mask & mod_mask_list[i].mask) {
+            log_message(LOG_DEFAULT, "Hotkeys: modifier %-2d   : 0x%08x (%s)",
+                    n, mod_mask_list[i].mask, mod_mask_list[i].name);
+            n++;
+        }
+    }
+
+    update_modifier_list();
+
+    g_free(accel);
     return TRUE;
 }
 
