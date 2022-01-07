@@ -1693,12 +1693,10 @@ char *ui_hotkeys_get_hotkey_string_for_action(const char *action)
 
     item = ui_get_vice_menu_item_by_name(action);
     if (item != NULL) {
-        str = gtk_accelerator_name(item->keysym, item->modifier);
+        str = gtk_accelerator_get_label(item->keysym, item->modifier);
         if (str != NULL) {
-            char *tmp;
-
-            /* replace 'Primary' with 'Command' or 'Control' */
-            tmp = parser_strsubst(str, "Primary", PRIMARY_REPLACEMENT);
+            /* make VICE take ownership */
+            char *tmp = lib_strdup(str);
             g_free(str);
             str = tmp;
         }
