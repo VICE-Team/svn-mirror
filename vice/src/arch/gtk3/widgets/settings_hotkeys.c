@@ -212,6 +212,9 @@ static GtkWidget *create_browse_widget(void)
 /** \brief  Create model for the hotkeys table
  *
  * \return  new list store
+ *
+ * \todo    Implement proper Gtk menu items iterator so we can avoid having to
+ *          look up each action in the menus to test if it's actually available.
  */
 static GtkListStore *create_hotkeys_model(void)
 {
@@ -228,19 +231,23 @@ static GtkListStore *create_hotkeys_model(void)
     list = ui_action_get_info_list();
     for (action = list; action->name != NULL; action++) {
         GtkTreeIter iter;
+        GtkWidget *item;
         char *hotkey;
 
-        hotkey = ui_hotkeys_get_hotkey_string_for_action(action->name);
-
-        gtk_list_store_append(model, &iter);
-        gtk_list_store_set(model,
-                           &iter,
-                           COL_ACTION_NAME, action->name,
-                           COL_ACTION_DESC, action->desc,
-                           COL_HOTKEY, hotkey,
-                           -1);
-        if (hotkey != NULL) {
-            lib_free(hotkey);
+        /* is the action present in the current menu structure? */
+        item = ui_get_gtk_menu_item_by_name(action->name);
+        if (item != NULL) {
+            hotkey = ui_hotkeys_get_hotkey_string_for_action(action->name);
+            gtk_list_store_append(model, &iter);
+            gtk_list_store_set(model,
+                               &iter,
+                               COL_ACTION_NAME, action->name,
+                               COL_ACTION_DESC, action->desc,
+                               COL_HOTKEY, hotkey,
+                               -1);
+            if (hotkey != NULL) {
+                lib_free(hotkey);
+            }
         }
     }
     lib_free(list);
