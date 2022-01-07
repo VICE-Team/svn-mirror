@@ -256,21 +256,22 @@ static gboolean on_key_release_event(GtkWidget *dialog,
     if (event->is_modifier) {
         return TRUE;
     }
-    
-    gchar *accel;
+
+    gchar *accel_name;
+    gchar *accel_label;
     gchar *escaped;
     gchar text[256];
     time_t t;
     struct tm *tm;
     int i;
     int n;
-    
+
     GdkKeymap *keymap = gdk_keymap_get_for_display(gtk_widget_get_display(dialog));
     GdkKeymapKey *keys;
     guint *keyvals;
     gint keymap_entry_count;
     bool base_key_found = false;
-    
+
     /* Default to what the event provided */
     hotkey_keysym = event->keyval;
     hotkey_mask = event->state & accepted_mods;
@@ -287,29 +288,33 @@ static gboolean on_key_release_event(GtkWidget *dialog,
 #if 0
     debug_gtk3("keysym = %04x, mask = %04x.", hotkey_keysym, hotkey_mask);
 #endif
-    
+
     t = time(NULL);
     tm = localtime(&t);
     strftime(text, sizeof(text), "%H:%M:%S", tm);
 
     log_message(LOG_DEFAULT, "Hotkeys: --- accelerator entered [%s] ---", text);
-    
-    accel = gtk_accelerator_name(hotkey_keysym, hotkey_mask);
-    log_message(LOG_DEFAULT, "Hotkeys: initial gtk accel name: %s", accel);
-    
+
+    accel_name = gtk_accelerator_name(hotkey_keysym, hotkey_mask);
+    accel_label = gtk_accelerator_get_label(hotkey_keysym, hotkey_mask);
+    log_message(LOG_DEFAULT, "Hotkeys: initial gtk accel name : %s", accel_name);
+    log_message(LOG_DEFAULT, "Hotkeys: initial gtk accel label: %s", accel_label);
+    g_free(accel_name);
+    g_free(accel_label);
+
     /*
      * Keyboards can generate lots of weird keys, for example alt-w produces ∑ on macOS.
      * We can ask GDK for a list of them given a hardware keycode and a keymap.
      *
      * We use the entry with a group and level of 0 for the raw key with no modifiers,
      * which we need to successfully match with a hotkey combo.
-     * 
+     *
      * We've obvserved that on windows, sometimes the returned array is many hundreds
      * of entries long, and it's clear that beyond the valid entries we see uninitialised
      * memory. This is probably a GDK bug, unless we're writing to a pointer somewhere
      * that we shouldn't.
      */
-    
+
     if (gdk_keymap_get_entries_for_keycode(keymap, event->hardware_keycode, &keys, &keyvals, &keymap_entry_count)) {
         if (keys && keyvals) {
             log_message(LOG_DEFAULT, "Hotkeys: keymap entries (%d total):", keymap_entry_count);
@@ -323,7 +328,7 @@ static gboolean on_key_release_event(GtkWidget *dialog,
                         log_message(LOG_DEFAULT, "Hotkeys: Aborting keyval iteration due to likely GDK bug");
                         break;
                     }
-                    
+
                     base_key_found = true;
 
                     if (keymap_entry_count && keyvals[i] != hotkey_keysym) {
@@ -347,14 +352,16 @@ static gboolean on_key_release_event(GtkWidget *dialog,
             g_free(keyvals);
         }
     }
-    
-    accel = gtk_accelerator_name(hotkey_keysym, hotkey_mask);
-    escaped = g_markup_escape_text(accel, -1);
+
+    accel_name = gtk_accelerator_name(hotkey_keysym, hotkey_mask);
+    accel_label = gtk_accelerator_get_label(hotkey_keysym, hotkey_mask);
+    escaped = g_markup_escape_text(accel_label, -1);
     g_snprintf(text, sizeof(text), "<b>%s</b>", escaped);
     gtk_label_set_markup(GTK_LABEL(hotkey_string), text);
     g_free(escaped);
-    
-    log_message(LOG_DEFAULT, "Hotkeys: final gtk accel name: %s", accel);
+
+    log_message(LOG_DEFAULT, "Hotkeys: final gtk accel name : %s", accel_name);
+    log_message(LOG_DEFAULT, "Hotkeys: final gtk accel label: %s", accel_label);
     log_message(LOG_DEFAULT, "Hotkeys: keysym        : 0x%04x (GDK_KEY_%s)",
             hotkey_keysym, gdk_keyval_name(hotkey_keysym));
     log_message(LOG_DEFAULT, "Hotkeys: modifier mask : 0x%08x", hotkey_mask);
@@ -368,7 +375,9 @@ static gboolean on_key_release_event(GtkWidget *dialog,
 
     update_modifier_list();
 
-    g_free(accel);
+    g_free(accel_name);
+    g_free(accel_label);
+
     return TRUE;
 }
 
