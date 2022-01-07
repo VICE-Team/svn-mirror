@@ -173,7 +173,6 @@ static void kbd_buf_parse_string(const char *string)
 
 int kbdbuf_feed_string(const char *string)
 {
-    printf("kbdbuf_feed_string: '%s'\n", string);
     kbd_buf_parse_string(string);
 
     return kbdbuf_feed(kbd_buf_string);
@@ -230,8 +229,6 @@ static int string_to_queue(const char *string)
 {
     const int num = (int)strlen(string);
     int i, p;
-
-    printf("string_to_queue '%s'\n", string);
 
     if ((num_pending + num) > QUEUE_SIZE || !kbd_buf_enabled) {
         return -1;
@@ -327,14 +324,12 @@ void kbdbuf_shutdown(void)
 
 int kbdbuf_feed(const char *string)
 {
-    printf("kbdbuf_feed '%s'\n", string);
     use_kbdbuf_flush_alarm = 0;
     return string_to_queue(string);
 }
 
 int kbdbuf_feed_runcmd(const char *string)
 {
-    printf("kbdbuf_feed_runcmd '%s'\n", string);
     use_kbdbuf_flush_alarm = 1;
     return string_to_queue(string);
 }
