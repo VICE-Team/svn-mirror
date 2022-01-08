@@ -66,3 +66,4 @@ fi
 
 make -j $(( $NUMBER_OF_PROCESSORS )) -s
 make bindistzip
+make bindist7zip

@@ -263,8 +263,10 @@ jobs:
           MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/github-actions-build.sh ${{ matrix.ui }} "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
           echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
           echo ::set-output name=zip_name::$(basename vice/*.zip)
+          echo ::set-output name=seven_zip_path::$(cygpath -w -a vice/*.7z)
+          echo ::set-output name=seven_zip_name::$(basename vice/*.7z)
 
-      - name: Upload
+      - name: Upload Zip
         id: upload
         uses: actions/upload-release-asset@v1
         env:
@@ -274,6 +276,17 @@ jobs:
           asset_path: ${{ steps.build.outputs.zip_path }}
           asset_name: ${{ steps.build.outputs.zip_name }}
           asset_content_type: application/zip
+      
+      - name: Upload 7Zip
+        id: upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.build.outputs.seven_zip_path }}
+          asset_name: ${{ steps.build.outputs.seven_zip_name }}
+          asset_content_type: application/x-7z-compressed
 
   publish_release:
     name: Publish Release
