@@ -322,6 +322,12 @@ static gboolean on_key_release_event(GtkWidget *dialog,
      * that we shouldn't.
      */
 
+    /*
+     * Workaround for GTK 3.24.31 bug where this output value isn't initialised to zero
+     * before being incremented for each key found. GTK have fixed this in newer versions.
+     */
+    keymap_entry_count = 0;
+    
     if (gdk_keymap_get_entries_for_keycode(keymap, event->hardware_keycode, &keys, &keyvals, &keymap_entry_count)) {
         if (keys && keyvals) {
             log_message(LOG_DEFAULT, "Hotkeys: keymap entries (%d total):", keymap_entry_count);
@@ -332,8 +338,8 @@ static gboolean on_key_release_event(GtkWidget *dialog,
 
                 if (keys[i].group == 0 && keys[i].level == 0) {
                     if (base_key_found) {
-                        log_message(LOG_DEFAULT, "Hotkeys: Aborting keyval iteration due to likely GDK bug");
-                        break;
+                        log_message(LOG_DEFAULT, "Hotkeys: Ignoring additional (group 0, level 0) base key that shouldn't be there");
+                        continue;
                     }
 
                     base_key_found = true;
@@ -343,11 +349,6 @@ static gboolean on_key_release_event(GtkWidget *dialog,
                         log_message(LOG_DEFAULT, "Hotkeys: Overriding key from %s to %s", gdk_keyval_name(hotkey_keysym), gdk_keyval_name(keyvals[0]));
                         hotkey_keysym = keyvals[i];
                     }
-                }
-
-                if (keys[i].group < 0 || keys[i].group > 1 || keys[i].level < 0) {
-                    log_message(LOG_DEFAULT, "Hotkeys: Aborting keyval iteration due to likely GDK bug");
-                    break;
                 }
             }
         }
