@@ -261,6 +261,8 @@ static void mmu_update_page01_pointers(void)
     c128_cpu_set_mmu_page_0_bank(page_zero_bank);
     c128_cpu_set_mmu_page_1_bank(page_one_bank);
 
+    c128_cpu_set_mmu_zp_sp_shared(mmu_is_in_shared_ram(0));
+
     if (mmu_is_in_shared_ram(mmu[0x7] << 8)) {
         page_zero_bank = 0;
     }

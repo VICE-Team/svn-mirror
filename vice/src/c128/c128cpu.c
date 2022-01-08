@@ -81,6 +81,8 @@ static uint8_t c128_cpu_mmu_page_1_bank = 0;
 static uint8_t c128_cpu_mmu_page_0_target_ram = 1;
 static uint8_t c128_cpu_mmu_page_1_target_ram = 1;
 
+static uint8_t c128_cpu_mmu_zp_sp_shared = 0;
+
 void c128_cpu_set_mmu_page_0(uint8_t val)
 {
     c128_cpu_mmu_page_0 = val;
@@ -111,6 +113,11 @@ void c128_cpu_set_mmu_page_1_target_ram(uint8_t val)
     c128_cpu_mmu_page_1_target_ram = val;
 }
 
+void c128_cpu_set_mmu_zp_sp_shared(uint8_t val)
+{
+    c128_cpu_mmu_zp_sp_shared = val;
+}
+
 static uint8_t c128_cpu_mmu_wrap_read(uint16_t address)
 {
     uint8_t addr_pos = (address & 0xff);
@@ -124,8 +131,16 @@ static uint8_t c128_cpu_mmu_wrap_read(uint16_t address)
         return _mem_read_tab_ptr[addr_page]((uint16_t)address);
     }
 
+    /* check if the address page is page 1 and in shared memory then bank does not change */
+    if (c128_cpu_mmu_zp_sp_shared && addr_page == 1) {
+        addr_page = c128_cpu_mmu_page_1;
+        use_ram_only = 1;
+    /* check if the address page is page 0 and in shared memory then bank does not change */
+    } else if (c128_cpu_mmu_zp_sp_shared && addr_page == 0) {
+        addr_page = c128_cpu_mmu_page_0;
+        use_ram_only = 1;
     /* check if the address page is page 1 and replace addr with mmu given page and bank */
-    if (addr_page == 1) {
+    } else if (addr_page == 1) {
         addr_page = c128_cpu_mmu_page_1;
         addr_bank = c128_cpu_mmu_page_1_bank;
         use_ram_only = 1;
@@ -168,8 +183,16 @@ static void c128_cpu_mmu_wrap_store(uint16_t address, uint8_t value)
         _mem_write_tab_ptr[addr_page]((uint16_t)address, value);
     }
 
+    /* check if the address page is page 1 and in shared memory then bank does not change */
+    if (c128_cpu_mmu_zp_sp_shared && addr_page == 1) {
+        addr_page = c128_cpu_mmu_page_1;
+        use_ram_only = 1;
+    /* check if the address page is page 0 and in shared memory then bank does not change */
+    } else if (c128_cpu_mmu_zp_sp_shared && addr_page == 0) {
+        addr_page = c128_cpu_mmu_page_0;
+        use_ram_only = 1;
     /* check if the address page is page 1 and replace addr with mmu given page and bank */
-    if (addr_page == 1) {
+    } else if (addr_page == 1) {
         addr_page = c128_cpu_mmu_page_1;
         addr_bank = c128_cpu_mmu_page_1_bank;
         use_ram_only = 1;
