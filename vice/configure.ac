@@ -5,13 +5,23 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 dnl Set VICE version number
-m4_define([vice_version_major], [3])
-m4_define([vice_version_minor], [6])
-m4_define([vice_version_build], [0])
-m4_define([vice_version_number], [vice_version_major.vice_version_minor.vice_version_build])
+m4_define(vice_version_major, 3)
+m4_define(vice_version_minor, 6)
+m4_define(vice_version_build, 0)
+m4_define(vice_version_label, )
+
+dnl Some people lose their shit if a version ends in .0
+m4_define(vice_version,
+          ifelse(vice_version_build, 0,
+                 ifelse(vice_version_label, ,
+                        [vice_version_major.vice_version_minor],
+                        [vice_version_major.vice_version_minor-vice_version_label]),
+                 ifelse(vice_version_label, ,
+                        [vice_version_major.vice_version_minor.vice_version_build],
+                        [vice_version_major.vice_version_minor.vice_version_build-vice_version_label])))
 
 dnl The major/minor stuff gets replaced in autogen.sh
-AC_INIT([vice], [vice_version_number])
+AC_INIT([vice], [vice_version])
 AC_CONFIG_SRCDIR([src/maincpu.c])
 AM_INIT_AUTOMAKE([-Wno-portability foreign])
 
@@ -39,9 +49,21 @@ AC_SUBST(AR_FLAGS)
 
 AC_CONFIG_MACRO_DIR([m4])
 
+dnl Make version number visible to generated files and source
 VICE_VERSION_MAJOR=vice_version_major
 VICE_VERSION_MINOR=vice_version_minor
 VICE_VERSION_BUILD=vice_version_build
+VICE_VERSION_LABEL=vice_version_label
+VICE_VERSION=vice_version
+VERSION_RC="$VICE_VERSION_MAJOR,$VICE_VERSION_MINOR,$VICE_VERSION_BUILD,0"
+VERSION_COMBINED=`expr $VICE_VERSION_MAJOR \* 65536 + $VICE_VERSION_MINOR \* 256 + $VICE_VERSION_BUILD`
+AC_SUBST(VICE_VERSION_MAJOR)
+AC_SUBST(VICE_VERSION_MINOR)
+AC_SUBST(VICE_VERSION_BUILD)
+AC_SUBST(VICE_VERSION_LABEL)
+AC_SUBST(VICE_VERSION)
+AC_SUBST(VERSION_RC)
+AC_SUBST(VERSION_COMBINED)
 
 
 dnl Command-line options
@@ -399,18 +421,6 @@ AC_SYS_LARGEFILE
 
 AC_CONFIG_HEADERS([src/config.h])
 
-AC_SUBST(VICE_VERSION_MAJOR)
-AC_SUBST(VICE_VERSION_MINOR)
-AC_SUBST(VICE_VERSION_BUILD)
-
-VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR"."$VICE_VERSION_BUILD
-VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR","$VICE_VERSION_BUILD",0"
-AC_SUBST(VICE_VERSION)
-AC_SUBST(VERSION_RC)
-
-
-VERSION_COMBINED=`expr $VICE_VERSION_MAJOR \* 65536 + $VICE_VERSION_MINOR \* 256 + $VICE_VERSION_BUILD`
-AC_SUBST(VERSION_COMBINED)
 
 is_unix=no
 is_unix_x11=no

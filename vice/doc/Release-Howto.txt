@@ -35,9 +35,10 @@ $ make -f checkdoc.mak full
 
 - make sure the version in configure.ac is updated:
 
-    m4_define([vice_version_major], [3])
-    m4_define([vice_version_minor], [4])
-    m4_define([vice_version_build], [0])
+    m4_define(vice_version_major, 3)
+    m4_define(vice_version_minor, 6)
+    m4_define(vice_version_build, 0)
+    m4_define(vice_version_label, )
 
 - make sure the version is updated in other files (html/index.html).
 
