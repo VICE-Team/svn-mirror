@@ -267,7 +267,7 @@ jobs:
           echo ::set-output name=seven_zip_name::$(basename vice/*.7z)
 
       - name: Upload Zip
-        id: upload
+        id: upload-zip
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -278,7 +278,7 @@ jobs:
           asset_content_type: application/zip
       
       - name: Upload 7Zip
-        id: upload
+        id: upload-7zip
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
