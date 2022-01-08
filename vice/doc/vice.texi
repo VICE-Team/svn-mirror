@@ -29451,7 +29451,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
     There are two control registers, one at $DE00 and one at $DE02.
 
-    The register at $DE00 does the following:
+    The register at $DE00 controls which bank  is  mapped  into  ROMH  and
+    ROML.
+
+    The register at $DE02 does the following:
 
 @example
     bit  meaning
@@ -29462,9 +29465,6 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
     1    Exrom line control
     0    Game line control
 @end example
-
-    The register at $DE02 controls which bank  is  mapped  into  ROMH  and
-    ROML.
 
 @c @node FIXME
 @subsubsection 33 - EasyFlash Xbank
