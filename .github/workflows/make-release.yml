@@ -167,6 +167,7 @@ jobs:
             autotools
             mingw-w64-${{ matrix.arch.arch }}-toolchain
             zip
+            p7zip
             subversion
             git
             mingw-w64-${{ matrix.arch.arch }}-pkg-config
@@ -192,6 +193,7 @@ jobs:
             autotools
             mingw-w64-${{ matrix.arch.arch }}-toolchain
             zip
+            p7zip
             subversion
             git
             mingw-w64-${{ matrix.arch.arch }}-pkg-config
@@ -214,8 +216,8 @@ jobs:
           echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
           echo ::set-output name=zip_name::$(basename vice/*.zip)
 
-      - name: Upload
-        id: upload
+      - name: Upload Zip
+        id: upload-zip
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -224,6 +226,17 @@ jobs:
           asset_path: ${{ steps.build.outputs.zip_path }}
           asset_name: ${{ steps.build.outputs.zip_name }}
           asset_content_type: application/zip
+      
+      - name: Upload 7Zip
+        id: upload-7zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.build.outputs.seven_zip_path }}
+          asset_name: ${{ steps.build.outputs.seven_zip_name }}
+          asset_content_type: application/x-7z-compressed
   
   publish_release:
     name: Publish Release
