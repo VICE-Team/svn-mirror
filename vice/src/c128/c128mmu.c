@@ -157,15 +157,6 @@ static uint8_t mmu_is_valid_ram(uint8_t page, uint8_t bank, uint8_t current_bank
     uint8_t lo_ram = (mmu[0] & 0x02) >> 1;
     uint8_t io_ram = (mmu[0] & 0x01);
 
-    /* check if the bank is not 0 */
-    if (bank != 0) {
-        /* check if page is in shared ram */
-        if (mmu_is_in_shared_ram(page << 8)) {
-            /* page is in shared ram, shared ram is not the needed bank, so return not-valid */
-            return 0;
-        }
-    }
-
     /* check if the needed bank is the current ram bank */
     if (bank != current_bank) {
         /* needed bank is not current ram bank, so return not-valid */
@@ -267,15 +258,15 @@ static void mmu_update_page01_pointers(void)
     c128_cpu_set_mmu_page_0_target_ram(mmu_is_valid_ram(mmu[0x7], page_zero_bank, current_bank));
     c128_cpu_set_mmu_page_1_target_ram(mmu_is_valid_ram(mmu[0x9], page_one_bank, current_bank));
 
+    c128_cpu_set_mmu_page_0_bank(page_zero_bank);
+    c128_cpu_set_mmu_page_1_bank(page_one_bank);
+
     if (mmu_is_in_shared_ram(mmu[0x7] << 8)) {
         page_zero_bank = 0;
     }
     if (mmu_is_in_shared_ram(mmu[0x9] << 8)) {
         page_one_bank = 0;
     }
-
-    c128_cpu_set_mmu_page_0_bank(page_zero_bank);
-    c128_cpu_set_mmu_page_1_bank(page_one_bank);
 }
 
 /* returns 1 if MMU is in C64 mode */
