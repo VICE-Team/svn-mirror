@@ -7,8 +7,8 @@ dnl
 dnl Set VICE version number
 m4_define(vice_version_major, 3)
 m4_define(vice_version_minor, 6)
-m4_define(vice_version_build, 0)
-m4_define(vice_version_label, )
+m4_define(vice_version_build, 1)
+m4_define(vice_version_label, beta)
 
 dnl Some people lose their shit if a version ends in .0
 m4_define(vice_version,
