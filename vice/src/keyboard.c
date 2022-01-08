@@ -2113,6 +2113,7 @@ int keyboard_get_num_mappings(void)
             arch/shared/archdep_kbd_get_host_mapping.c */
 static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "American (us)", KBD_MAPPING_US, "" },    /* this must be first (=0) always */
+    { "Belgian (dutch) (be)", KBD_MAPPING_BE, "be" },
     { "British (uk)", KBD_MAPPING_UK, "uk" },
     { "Danish (da)", KBD_MAPPING_DA, "da" },
     { "Dutch (nl)", KBD_MAPPING_NL, "nl" },
