@@ -718,9 +718,10 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
                "Press a key or key combination to set the hotkey"
                " for '<b>%s</b>'.\n\n"
                "Please note the <i>reported modifiers</i> check boxes for are"
-               " for debugging\nand are set when pushing a new hotkey.\n"
-               "Toggling them by hand does nothing at the moment.",
+               " for debugging and are set when pushing a new hotkey."
+               " Toggling them by hand does nothing at the moment.",
                action);
+    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
     gtk_label_set_markup(GTK_LABEL(label), text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
