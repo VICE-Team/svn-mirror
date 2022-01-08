@@ -181,6 +181,7 @@ static void c128_cpu_mmu_wrap_store(uint16_t address, uint8_t value)
     /* Make sure the internal cpu port is always used for address 0 and 1 */
     if (address == 0 || address == 1) {
         _mem_write_tab_ptr[addr_page]((uint16_t)address, value);
+        return;
     }
 
     /* check if the address page is page 1 and in shared memory then bank does not change */
