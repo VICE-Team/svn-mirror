@@ -300,6 +300,12 @@ static uint8_t internal_read(uint16_t addr, int blk, uint16_t base, int sel)
             bank = register_a & REGA_BANK_MASK;
             break;
         case MODE_ROM_RAM:
+            if (sel) {
+                bank = 0;
+            } else {
+                bank = 1;
+            }
+            break;
         case MODE_RAM1:
             bank = 1;
             break;
@@ -397,10 +403,6 @@ static void internal_store(uint16_t addr, uint8_t value, int blk, uint16_t base,
             flash040core_store(&flash_state, faddr, value);
             break;
         case MODE_ROM_RAM:
-            if (sel) {
-                cart_ram[faddr] = value;
-            }
-            break;
         case MODE_START:
         case MODE_RAM1:
         case MODE_RAM2:
@@ -1015,10 +1017,10 @@ static void finalexpansion_mon_dump_blk(int blk)
             acc_mode_w = ACC_RAM;
             break;
         case MODE_ROM_RAM:
-            bank_r = 1;
+            bank_r = sel ? 0 : 1;
             bank_w = sel ? 2 : 1;
             acc_mode_r = sel ? ACC_FLASH : ACC_RAM;
-            acc_mode_w = sel ? ACC_RAM : ACC_OFF;
+            acc_mode_w = ACC_RAM;
             break;
         case MODE_RAM1:
             bank_r = 1;
