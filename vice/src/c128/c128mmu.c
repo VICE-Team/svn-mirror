@@ -269,6 +269,8 @@ static void mmu_update_page01_pointers(void)
     if (mmu_is_in_shared_ram(mmu[0x9] << 8)) {
         page_one_bank = 0;
     }
+    mem_page_zero = mem_ram + (page_zero_bank << 16) + (mmu[0x7] << 8);
+    mem_page_one  = mem_ram + (page_one_bank << 16) + (mmu[0x9] << 8);
 }
 
 /* returns 1 if MMU is in C64 mode */
