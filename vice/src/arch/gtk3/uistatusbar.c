@@ -1617,10 +1617,13 @@ static void tape_dir_autostart_callback(const char *image,
 
 /** \brief Create a new tape widget for inclusion in the status bar.
  *
+ * \param[in]   port    port number
+ * \param[in]   bar     status bar index
+ *
  *  \return The constructed widget. This widget will be a floating
  *          reference.
  */
-static GtkWidget *ui_tape_widget_create(int port)
+static GtkWidget *ui_tape_widget_create(int port, int bar)
 {
     GtkWidget *grid;
     GtkWidget *header;
@@ -1650,7 +1653,11 @@ static GtkWidget *ui_tape_widget_create(int port)
     gtk_widget_set_size_request(motor, 20, 20);
     /* Labels will notice clicks by default, but drawing areas need to
      * be told to. */
-    gtk_widget_add_events(motor, GDK_BUTTON_PRESS_MASK);
+    gtk_widget_add_events(motor, GDK_BUTTON_PRESS_MASK|GDK_ENTER_NOTIFY_MASK|GDK_LEAVE_NOTIFY_MASK);
+    g_signal_connect(motor, "enter-notify-event",
+            G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[bar]);
+    g_signal_connect(motor, "leave-notify-event",
+            G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[bar]);
 
     gtk_grid_attach(GTK_GRID(grid), header, TAPE_STATUS_COL_HEADER, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), counter, TAPE_STATUS_COL_COUNTER, 0, 1, 1);
@@ -2457,7 +2464,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
         for (j = 0; j < ports; j++) {
             int port_number = j + TAPEPORT_UNIT_1;
 
-            tape_status = ui_tape_widget_create(port_number);
+            tape_status = ui_tape_widget_create(port_number, i);
             tape_menu = ui_create_datasette_control_menu(port_number);
 
             /* Clicking the tape status is supposed to pop up a window. This
