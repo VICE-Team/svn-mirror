@@ -1737,7 +1737,7 @@ void ui_create_main_window(video_canvas_t *canvas)
             gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
             restored = 1;
         }
-        if (width == INT_MIN || height == INT_MIN) {
+        if (width > 0 && height > 0) {
             gtk_window_resize(GTK_WINDOW(new_window), width, height);
             restored = 1;
         }
