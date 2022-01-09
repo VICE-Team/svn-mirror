@@ -268,10 +268,10 @@ static const resource_int_t resources_int_shared[] = {
     { "MonitorYPos", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_ypos[MONITOR_WINDOW]), set_window_ypos,
         (void*)MONITOR_WINDOW },
-    { "MonitorWidth", -1, RES_EVENT_NO, NULL,
+    { "MonitorWidth", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_width[MONITOR_WINDOW]), set_window_width,
         (void*)MONITOR_WINDOW },
-    { "MonitorHeight", -1, RES_EVENT_NO, NULL,
+    { "MonitorHeight", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_height[MONITOR_WINDOW]), set_window_height,
         (void*)MONITOR_WINDOW },
 
@@ -284,16 +284,16 @@ static const resource_int_t resources_int_shared[] = {
  * These are used by all emulators.
  */
 static const resource_int_t resources_int_primary_window[] = {
-    { "Window0Height", 0, RES_EVENT_NO, NULL,
+    { "Window0Height", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_height[PRIMARY_WINDOW]), set_window_height,
         (void*)PRIMARY_WINDOW },
-    { "Window0Width", 0, RES_EVENT_NO, NULL,
+    { "Window0Width", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_width[PRIMARY_WINDOW]), set_window_width,
         (void*)PRIMARY_WINDOW },
-    { "Window0Xpos", 0, RES_EVENT_NO, NULL,
+    { "Window0Xpos", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_xpos[PRIMARY_WINDOW]), set_window_xpos,
         (void*)PRIMARY_WINDOW },
-    { "Window0Ypos", 0, RES_EVENT_NO, NULL,
+    { "Window0Ypos", INT_MIN, RES_EVENT_NO, NULL,
         &(ui_resources.window_ypos[PRIMARY_WINDOW]), set_window_ypos,
         (void*)PRIMARY_WINDOW },
 
@@ -1733,13 +1733,11 @@ void ui_create_main_window(video_canvas_t *canvas)
 #if 0
         debug_gtk3("X: %d, Y: %d, W: %d, H: %d", xpos, ypos, width, height);
 #endif
-        if (xpos == INT_MIN || ypos == INT_MIN || width <= 0 || height <= 0) {
-            /* def. not legal */
-#if 0
-            debug_gtk3("shit ain't legal!");
-#endif
-        } else {
+        if (xpos > INT_MIN && ypos > INT_MIN) {
             gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
+            restored = 1;
+        }
+        if (width == INT_MIN || height == INT_MIN) {
             gtk_window_resize(GTK_WINDOW(new_window), width, height);
             restored = 1;
         }
