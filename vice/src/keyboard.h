@@ -72,20 +72,24 @@
    CAUTION: keep in sync with constants in keyboard.h and code in
             arch/shared/archdep_kbd_get_host_mapping.c and also with the
             description of the KeyboardMapping resource in vice.texi
+
+   CAUTION: append new mappings to the end of the list, do not change the
+            existing IDs, since these are referenced by number in config files
+            and cmdline options.
 */
 #define KBD_MAPPING_US    0     /* "" (us mapping) this must be first (=0) always */
-#define KBD_MAPPING_BE    1     /* "be" */
-#define KBD_MAPPING_UK    2     /* "uk" */
-#define KBD_MAPPING_DA    3     /* "da" */
-#define KBD_MAPPING_NL    4     /* "nl" */
-#define KBD_MAPPING_FI    5     /* "fi" */
-#define KBD_MAPPING_FR    6     /* "fr" */
-#define KBD_MAPPING_DE    7     /* "de" */
-#define KBD_MAPPING_IT    8     /* "it" */
-#define KBD_MAPPING_NO    9     /* "no" */
-#define KBD_MAPPING_ES    10    /* "es" */
-#define KBD_MAPPING_SE    11    /* "se" */
-#define KBD_MAPPING_CH    12    /* "ch" */
+#define KBD_MAPPING_UK    1     /* "uk" */
+#define KBD_MAPPING_DA    2     /* "da" */
+#define KBD_MAPPING_NL    3     /* "nl" */
+#define KBD_MAPPING_FI    4     /* "fi" */
+#define KBD_MAPPING_FR    5     /* "fr" */
+#define KBD_MAPPING_DE    6     /* "de" */
+#define KBD_MAPPING_IT    7     /* "it" */
+#define KBD_MAPPING_NO    8     /* "no" */
+#define KBD_MAPPING_ES    9     /* "es" */
+#define KBD_MAPPING_SE    10    /* "se" */
+#define KBD_MAPPING_CH    11    /* "ch" */
+#define KBD_MAPPING_BE    12    /* "be" */
 #define KBD_MAPPING_LAST  12
 #define KBD_MAPPING_NUM   13
 extern int keyboard_get_num_mappings(void);
