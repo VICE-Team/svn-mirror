@@ -1778,6 +1778,10 @@ static GtkWidget *ui_joystick_widget_create(void)
         gtk_container_add(GTK_CONTAINER(grid), joyport);
         g_signal_connect_unlocked(joyport, "draw", G_CALLBACK(draw_joyport_cb),
                 GINT_TO_POINTER(i));
+        g_signal_connect(joyport, "enter-notify-event",
+                G_CALLBACK(on_joystick_widget_hover), NULL);
+        g_signal_connect(joyport, "leave-notify-event",
+                G_CALLBACK(on_joystick_widget_hover), NULL);
         gtk_widget_set_no_show_all(joyport, TRUE);
         gtk_widget_hide(joyport);
     }
