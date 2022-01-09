@@ -1189,11 +1189,17 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget,
 {
     ui_statusbar_t *sb = (ui_statusbar_t *)user_data;
 
+    debug_gtk3("Called.");
+
     if (event && event->type == GDK_ENTER_NOTIFY) {
         GdkDisplay *display;
+
+        debug_gtk3("ENTER-NOTIFY\n");
+
         /* Sanity check arguments */
         if (sb == NULL) {
             /* Should be impossible */
+            fprintf(stderr, "Error: ui_statusbar_t* is NULL.\n");
             return FALSE;
         }
         /* If the "hand" pointer hasn't been created yet, create it */
@@ -1216,6 +1222,10 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget,
         /* We're leaving the target widget, so change the pointer back
          * to default */
         GdkWindow *window = gtk_widget_get_window(widget);
+
+
+        debug_gtk3("LEAVE-NOTIFY\n");
+
         if (window) {
             gdk_window_set_cursor(window, NULL);
         }
@@ -1397,7 +1407,26 @@ static GtkWidget *ui_drive_widget_create(int unit, int bar_index)
         led = gtk_drawing_area_new();
         gtk_widget_set_size_request(led, 30, 15);
         gtk_widget_set_no_show_all(led, TRUE);
+        gtk_widget_set_has_window(led, TRUE);
+        /* Labels will notice clicks by default, but drawing areas need to
+         * be told to. */
+        gtk_widget_add_events(led, GDK_BUTTON_PRESS_MASK|GDK_ENTER_NOTIFY_MASK|GDK_LEAVE_NOTIFY_MASK);
+        g_signal_connect_unlocked(led,
+                                  "draw",
+                                  G_CALLBACK(draw_drive_led_cb),
+                                  GINT_TO_POINTER(unit | (drive_num << 8)));
+        /* for some reason we need to set the crossing event handlers on the led
+         * itself, otherwise changing the mouse pointer on hover doesn't work. */
+        g_signal_connect(led,
+                         "enter-notify-event",
+                         G_CALLBACK(ui_statusbar_cross_cb),
+                         &allocated_bars[bar_index]);
+        g_signal_connect(led,
+                         "leave-notify-event",
+                         G_CALLBACK(ui_statusbar_cross_cb),
+                         &allocated_bars[bar_index]);
 
+        /* wrap the widgets into a grid */
         drive_grid = gtk_grid_new();
         gtk_widget_set_hexpand(drive_grid, FALSE);
         gtk_widget_set_vexpand(drive_grid, FALSE);
@@ -1407,13 +1436,6 @@ static GtkWidget *ui_drive_widget_create(int unit, int bar_index)
         gtk_grid_attach(GTK_GRID(drive_grid), led, DRIVE_STATUS_LED, 0, 1, 1);
         gtk_widget_show_all(drive_grid);
 
-        /* Labels will notice clicks by default, but drawing areas need to
-         * be told to. */
-        gtk_widget_add_events(led, GDK_BUTTON_PRESS_MASK);
-        g_signal_connect_unlocked(led,
-                                  "draw",
-                                  G_CALLBACK(draw_drive_led_cb),
-                                  GINT_TO_POINTER(unit | (drive_num << 8)));
 
         event_box = gtk_event_box_new();
         gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
@@ -1430,6 +1452,7 @@ static GtkWidget *ui_drive_widget_create(int unit, int bar_index)
                          "leave-notify-event",
                          G_CALLBACK(ui_statusbar_cross_cb),
                          &allocated_bars[bar_index]);
+
         gtk_container_add(GTK_CONTAINER(event_box), drive_grid);
         gtk_widget_show_all(event_box);
 
