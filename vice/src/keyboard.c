@@ -2135,7 +2135,13 @@ mapping_info_t *keyboard_get_info_list(void)
 
 static char *keyboard_get_mapping_name(int mapping)
 {
-    return kbdinfo[mapping].mapping_name;
+    int n;
+    for (n = 0; n < KBD_MAPPING_NUM; n++) {
+        if (kbdinfo[n].mapping == mapping) {
+            return kbdinfo[n].mapping_name;
+        }
+    }
+    return kbdinfo[0].mapping_name;
 }
 
 static char *keyboard_get_keymap_name(int idx, int mapping, int type)
