@@ -1159,10 +1159,13 @@ static gboolean on_joystick_widget_button_press(GtkWidget *widget,
                                                 GdkEvent *event,
                                                 gpointer user_data)
 {
+    GdkEventButton *ev = (GdkEventButton *)event;
+
     mainlock_assert_is_not_vice_thread();
 
-    if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
+    if (ev->button == GDK_BUTTON_PRIMARY || ev->button == GDK_BUTTON_SECONDARY) {
         GtkWidget *menu = joystick_menu_popup_create();
+
         gtk_menu_popup_at_widget(GTK_MENU(menu), widget,
                 GDK_GRAVITY_NORTH_WEST, GDK_GRAVITY_SOUTH_WEST,
                 event);
