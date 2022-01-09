@@ -279,8 +279,6 @@ static gboolean on_crossing_event(GtkWidget *self,
     if (get_data(self, "IsToggleable") && event->type == GDK_ENTER_NOTIFY) {
         GdkDisplay *display;
 
-        debug_gtk3("Entering")
-
         display = gtk_widget_get_display(self);
         cursor = get_data(self, "HandPointer");
         if (cursor == NULL) {
