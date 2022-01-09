@@ -429,6 +429,9 @@ typedef struct ui_statusbar_s {
     /** \brief  shiftlock LED widget */
     GtkWidget *shiftlock_led;
 
+    /** \brief  40/80 LED widget */
+    GtkWidget *mode4080_led;
+
     /** \brief  Widget displaying CPU speed and FPS
      *
      * Also used to set refresh rate, CPU speed, pause, warp and adv-frame
@@ -1262,6 +1265,7 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer index)
     bar->warp_led = NULL;
     bar->pause_led = NULL;
     bar->shiftlock_led = NULL;
+    bar->mode4080_led = NULL;
     bar->speed = NULL;
     bar->msg = NULL;
     bar->record = NULL;
@@ -2077,6 +2081,49 @@ void shiftlock_led_set_active(int bar, gboolean active)
     }
 }
 
+/** \brief  Callback function for the 40/80 LED
+ *
+ * \param[in]   led     40/80 LED
+ * \param[in]   active  new state of the LED
+ */
+static void mode4080_led_callback(GtkWidget *widget, gboolean active)
+{
+    resources_set_int("C128ColumnKey", (active ^ 1) & 1);
+}
+
+/** \brief  Create status bar LED for 40/80 key
+ *
+ * \return  LED widget
+ */
+static GtkWidget *mode4080_led_create(void)
+{
+    GtkWidget *led;
+
+    led = statusbar_led_widget_create("80col:", "#00ff00", "#000");
+    statusbar_led_widget_set_toggleable(led, TRUE);
+    statusbar_led_widget_set_toggle_callback(led, mode4080_led_callback);
+    gtk_widget_show(led);
+
+    return led;
+}
+
+/** \brief  Set 40/80 LED state
+ *
+ * \param[in]   bar     status bar index
+ * \param[in]   active  LED status
+ */
+void mode4080_led_set_active(int bar, gboolean active)
+{
+    GtkWidget *led;
+
+    debug_gtk3("bar = %d, active = %s.", bar, active ? "true" : "false");
+
+    led = allocated_bars[bar].mode4080_led;
+    if (led != NULL) {
+        statusbar_led_widget_set_active(led, active);
+    }
+}
+
 
 /** \brief  Get status bar index for \a window
  *
@@ -2277,6 +2324,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     GtkWidget *warp_led;
     GtkWidget *pause_led;
     GtkWidget *shiftlock_led;
+    GtkWidget *mode4080_led;
 
     /* top row widgets/wrappers */
     GtkWidget *speed;
@@ -2392,6 +2440,13 @@ GtkWidget *ui_statusbar_create(int window_identity)
     shiftlock_led = shiftlock_led_create();
     allocated_bars[i].shiftlock_led = shiftlock_led;
     statusbar_append_led(i, shiftlock_led, FALSE);  /* no separator, for now */
+
+    if (machine_class == VICE_MACHINE_C128) {
+        /* 40/80 */
+        mode4080_led = mode4080_led_create();
+        allocated_bars[i].mode4080_led = mode4080_led;
+        statusbar_append_led(i, mode4080_led, FALSE);  /* no separator, for now */
+    }
 
     /*
      * Add widgets to the widgets row

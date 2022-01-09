@@ -62,5 +62,6 @@ void ui_update_statusbars(void);
 void warp_led_set_active(int bar, gboolean active);
 void pause_led_set_active(int bar, gboolean active);
 void shiftlock_led_set_active(int bar, gboolean active);
+void mode4080_led_set_active(int bar, gboolean active);
 
 #endif
