@@ -342,7 +342,9 @@ static gboolean on_widget_clicked(GtkWidget *widget,
                                   GdkEvent *event,
                                   gpointer data)
 {
-    if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
+    GdkEventButton *ev = (GdkEventButton *)event;
+
+    if (ev->button == GDK_BUTTON_PRIMARY || ev->button == GDK_BUTTON_SECONDARY) {
         GtkWidget *menu = speed_menu_popup_create();
         gtk_menu_popup_at_widget(GTK_MENU(menu), widget,
                 GDK_GRAVITY_NORTH_WEST, GDK_GRAVITY_SOUTH_WEST,
@@ -380,28 +382,25 @@ static gboolean on_widget_hover(GtkWidget *widget,
     if (event != NULL) {
 
         GdkDisplay *display;
+        GdkWindow *window;
         int mouse;
 
         if (resources_get_int("Mouse", &mouse) < 0) {
             mouse = 0;
         }
 
+        display = gtk_widget_get_display(widget);
+        window = gtk_widget_get_window(widget);
+
         if (event->type == GDK_ENTER_NOTIFY) {
-            display = gtk_widget_get_display(widget);
             if (display != NULL && mouse_ptr == NULL) {
                 mouse_ptr = gdk_cursor_new_from_name(display, "pointer");
             }
-            if (mouse_ptr != NULL) {
-                GdkWindow *window = gtk_widget_get_window(widget);
-                if (window != NULL) {
-                    gdk_window_set_cursor(window, mouse_ptr);
-                }
+            if (mouse_ptr != NULL && window != NULL) {
+                gdk_window_set_cursor(window, mouse_ptr);
             }
-        } else {
-            GdkWindow *window = gtk_widget_get_window(widget);
-            if (window != NULL) {
-                gdk_window_set_cursor(window, NULL);
-            }
+        } else if (window != NULL) {
+            gdk_window_set_cursor(window, NULL);
         }
         return TRUE;
     }
