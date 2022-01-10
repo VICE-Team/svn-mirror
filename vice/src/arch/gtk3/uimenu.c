@@ -166,6 +166,8 @@ static void handle_accelerator(GtkAccelGroup *accel_grp,
 GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 {
     size_t i = 0;
+    GSList *group = NULL;
+
     while (items[i].label != NULL || items[i].type >= 0) {
         GtkWidget *item = NULL;
         GtkWidget *submenu;
@@ -173,8 +175,10 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
         gulong handler_id = 0;
 
         switch (items[i].type) {
-            case UI_MENU_TYPE_ITEM_ACTION:  /* fall through */
+            case UI_MENU_TYPE_ITEM_ACTION:
                 /* normal callback item */
+                group = NULL;   /* terminate radio button group */
+
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
                 if (items[i].callback != NULL) {
                     if (items[i].unlocked) {
@@ -195,19 +199,79 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                     gtk_widget_set_sensitive(item, FALSE);
                 }
                 break;
+
             case UI_MENU_TYPE_ITEM_CHECK:
                 /* check mark item */
+                group = NULL;   /* terminate radio button group */
+
                 item = gtk_check_menu_item_new_with_mnemonic(items[i].label);
                 if (items[i].callback != NULL) {
                    /* use `data` as the resource to determine the state of
                      * the checkmark
                      */
-                    if (items[i].data != NULL) {
+                    if (items[i].resource != NULL) {
                         int state;
-                        resources_get_int((const char *)items[i].data, & state);
-                        gtk_check_menu_item_set_active(
-                                GTK_CHECK_MENU_ITEM(item), (gboolean)state);
+
+                        resources_get_int((const char *)items[i].resource, &state);
+                        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
+                                                       (gboolean)state);
                     }
+                    /* connect signal handler AFTER setting the state, otherwise
+                     * the callback gets triggered, leading to odd results */
+                    if (items[i].unlocked) {
+                        handler_id = g_signal_connect_unlocked(
+                            item,
+                            "activate",
+                            G_CALLBACK(items[i].callback),
+                            items[i].resource);
+                    } else {
+                        handler_id = g_signal_connect(
+                            item,
+                            "activate",
+                            G_CALLBACK(items[i].callback),
+                            items[i].resource);
+                    }
+                } else {
+                    /* grey out */
+                    gtk_widget_set_sensitive(item, FALSE);
+                }
+                break;
+
+            case UI_MENU_TYPE_ITEM_RADIO_INT:   /* fall through */
+            case UI_MENU_TYPE_ITEM_RADIO_STR:
+                /* radio button item */
+
+                item = gtk_radio_menu_item_new_with_label(group, items[i].label);
+                group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(item));
+
+                if (items[i].callback != NULL) {
+                    /* use `data` and the resource to determine the state of
+                     * the checkmark
+                     */
+                    if (items[i].resource != NULL) {
+                        bool active = false;
+
+                        if (items[i].type == UI_MENU_TYPE_ITEM_RADIO_INT) {
+                            int res_val = 0;
+                            int item_val = GPOINTER_TO_INT(items[i].data);
+
+                            resources_get_int(items[i].resource, &res_val);
+                            active = (bool)(res_val == item_val);
+                        } else {
+                            const char *res_val = NULL;
+                            const char *item_val = items[i].data;
+
+                            resources_get_string(items[i].resource, &res_val);
+                            if (res_val != NULL && item_val != NULL) {
+                                active = (bool)(strcmp(res_val, item_val) == 0);
+                            } else if (res_val == NULL && item_val == NULL) {
+                                active = true;
+                            }
+                        }
+                        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
+                                                       active);
+                    }
+
                     /* connect signal handler AFTER setting the state, otherwise
                      * the callback gets triggered, leading to odd results */
                     if (items[i].unlocked) {
@@ -231,11 +295,13 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 
             case UI_MENU_TYPE_SEPARATOR:
                 /* add a separator */
+                group = NULL;   /* terminate radio button group */
                 item = gtk_separator_menu_item_new();
                 break;
 
             case UI_MENU_TYPE_SUBMENU:
                 /* add a submenu */
+                group = NULL;   /* terminate radio button group */
                 submenu = gtk_menu_new();
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
                 gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
@@ -243,6 +309,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                 break;
 
             default:
+                group = NULL;
                 item = NULL;
                 break;
         }
@@ -267,16 +334,28 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                                                accel_data,
                                                ui_accel_data_delete);
                 if (items[i].unlocked) {
-                    gtk_accel_group_connect(accel_group, items[i].keysym, items[i].modifier, GTK_ACCEL_MASK, accel_closure);
+                    gtk_accel_group_connect(accel_group,
+                                            items[i].keysym,
+                                            items[i].modifier,
+                                            GTK_ACCEL_MASK,
+                                            accel_closure);
                 } else {
-                    vice_locking_gtk_accel_group_connect(accel_group, items[i].keysym, items[i].modifier, GTK_ACCEL_MASK, accel_closure);
+                    vice_locking_gtk_accel_group_connect(accel_group,
+                                                         items[i].keysym,
+                                                         items[i].modifier,
+                                                         GTK_ACCEL_MASK,
+                                                         accel_closure);
                 }
-                gtk_accel_label_set_accel(GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(item))), items[i].keysym, items[i].modifier);
+                gtk_accel_label_set_accel(GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(item))),
+                                          items[i].keysym,
+                                          items[i].modifier);
             }
 
             gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
             /* the closure's callback doesn't trigger due to mysterious reasons,
              * so we use the menu item to free the accelerator's data
+             *
+             * FIXME: This should no longer be required.
              */
             g_signal_connect_unlocked(item,
                                       "destroy",
@@ -296,6 +375,10 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
             g_object_set_data(G_OBJECT(item),
                               "ActionName",
                               items[i].action_name);
+            /* set resource name */
+            g_object_set_data(G_OBJECT(item),
+                              "ResourceName",
+                              items[i].resource);
         }
         i++;
     }

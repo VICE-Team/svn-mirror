@@ -153,6 +153,20 @@ static const ui_action_info_internal_t action_info_list[] = {
     mkinfo(ACTION_ADVANCE_FRAME),
     mkinfo(ACTION_WARP_MODE_TOGGLE),
 
+    /* CPU speed */
+    mkinfo(ACTION_SPEED_CPU_10),
+    mkinfo(ACTION_SPEED_CPU_20),
+    mkinfo(ACTION_SPEED_CPU_50),
+    mkinfo(ACTION_SPEED_CPU_100),
+    mkinfo(ACTION_SPEED_CPU_200),
+    mkinfo(ACTION_SPEED_CPU_CUSTOM),
+
+    /* video clock */
+    mkinfo(ACTION_SPEED_FPS_50),
+    mkinfo(ACTION_SPEED_FPS_60),
+    mkinfo(ACTION_SPEED_FPS_CUSTOM),
+    mkinfo(ACTION_SPEED_FPS_REAL),
+
     /* fullscreen, fullscreen decs, restore display */
     mkinfo(ACTION_FULLSCREEN_TOGGLE),
     mkinfo(ACTION_FULLSCREEN_DECORATIONS_TOGGLE),

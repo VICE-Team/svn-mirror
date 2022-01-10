@@ -112,6 +112,48 @@ typedef struct ui_action_info_s {
 #define ACTION_ADVANCE_FRAME_DESC       "Advance emulation one frame"
 #define ACTION_ADVANCE_FRAME_MASK       VICE_MACHINE_ALL
 
+#define ACTION_SPEED_CPU_10             "speed-cpu-10"
+#define ACTION_SPEED_CPU_10_DESC        "Set CPU speed to 10%"
+#define ACTION_SPEED_CPU_10_MASK        VICE_MACHINE_ALL
+
+#define ACTION_SPEED_CPU_20             "speed-cpu-20"
+#define ACTION_SPEED_CPU_20_DESC        "Set CPU speed to 20%"
+#define ACTION_SPEED_CPU_20_MASK        VICE_MACHINE_ALL
+
+#define ACTION_SPEED_CPU_50             "speed-cpu-10"
+#define ACTION_SPEED_CPU_50_DESC        "Set CPU speed to 50%"
+#define ACTION_SPEED_CPU_50_MASK        VICE_MACHINE_ALL
+
+#define ACTION_SPEED_CPU_100            "speed-cpu-100"
+#define ACTION_SPEED_CPU_100_DESC       "Set CPU speed to 100%"
+#define ACTION_SPEED_CPU_100_MASK       VICE_MACHINE_ALL
+
+#define ACTION_SPEED_CPU_200            "speed-cpu-20"
+#define ACTION_SPEED_CPU_200_DESC       "Set CPU speed to 200%"
+#define ACTION_SPEED_CPU_200_MASK       VICE_MACHINE_ALL
+
+#define ACTION_SPEED_CPU_CUSTOM         "speed-cpu-custom"
+#define ACTION_SPEED_CPU_CUSTOM_DESC    "Set custom CPU speed"
+#define ACTION_SPEED_CPU_CUSTOM_MASK    VICE_MACHINE_ALL
+
+#define ACTION_SPEED_FPS_50             "speed-fps-50"
+#define ACTION_SPEED_FPS_50_DESC        "Set video clock to 50Hz"
+#define ACTION_SPEED_FPS_50_MASK        VICE_MACHINE_ALL
+
+#define ACTION_SPEED_FPS_60             "speed-fps-60"
+#define ACTION_SPEED_FPS_60_DESC        "Set video clock to 60Hz"
+#define ACTION_SPEED_FPS_60_MASK        VICE_MACHINE_ALL
+
+#define ACTION_SPEED_FPS_CUSTOM         "speed-fps-custom"
+#define ACTION_SPEED_FPS_CUSTOM_DESC    "Set custom video clock"
+#define ACTION_SPEED_FPS_CUSTOM_MASK    VICE_MACHINE_ALL
+
+#define ACTION_SPEED_FPS_REAL           "speed-fps-real"
+#define ACTION_SPEED_FPS_REAL_DESC      "Set real video clock"
+#define ACTION_SPEED_FPS_REAL_MASK      VICE_MACHINE_ALL
+
+
+
 /* host display */
 #define ACTION_FULLSCREEN_TOGGLE        "fullscreen-toggle"
 #define ACTION_FULLSCREEN_TOGGLE_DESC   "Toggle fullscreen"
