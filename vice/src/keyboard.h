@@ -146,6 +146,10 @@ extern void keyboard_register_column4080_key(key_ctrl_column4080_func_t func);
 
 typedef void (*key_ctrl_caps_func_t)(void);
 extern void keyboard_register_caps_key(key_ctrl_caps_func_t func);
+extern void keyboard_toggle_caps_key(void);
+typedef int (*key_ctrl_get_caps_func_t)(void);
+extern void keyboard_register_get_caps_key(key_ctrl_get_caps_func_t func);
+extern int keyboard_get_caps_key(void);
 
 typedef void (*key_joy_keypad_func_t)(int row, int col, int pressed);
 extern void keyboard_register_joy_keypad(key_joy_keypad_func_t func);

@@ -69,6 +69,7 @@
 #include "joyport.h"
 #include "joystickmenupopup.h"
 #include "kbddebugwidget.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -431,6 +432,9 @@ typedef struct ui_statusbar_s {
 
     /** \brief  40/80 LED widget */
     GtkWidget *mode4080_led;
+
+    /** \brief  capslock LED widget */
+    GtkWidget *capslock_led;
 
     /** \brief  Widget displaying CPU speed and FPS
      *
@@ -2124,6 +2128,49 @@ void mode4080_led_set_active(int bar, gboolean active)
     }
 }
 
+/** \brief  Callback function for the capslock LED
+ *
+ * \param[in]   led     capslock LED
+ * \param[in]   active  new state of the LED
+ */
+static void capslock_led_callback(GtkWidget *widget, gboolean active)
+{
+    keyboard_toggle_caps_key();
+}
+
+/** \brief  Create status bar LED for capslock key
+ *
+ * \return  LED widget
+ */
+static GtkWidget *capslock_led_create(void)
+{
+    GtkWidget *led;
+
+    led = statusbar_led_widget_create("caps:", "#00ff00", "#000");
+    statusbar_led_widget_set_toggleable(led, TRUE);
+    statusbar_led_widget_set_toggle_callback(led, capslock_led_callback);
+    gtk_widget_show(led);
+
+    return led;
+}
+
+/** \brief  Set capslock LED state
+ *
+ * \param[in]   bar     status bar index
+ * \param[in]   active  LED status
+ */
+void capslock_led_set_active(int bar, gboolean active)
+{
+    GtkWidget *led;
+
+    debug_gtk3("bar = %d, active = %s.", bar, active ? "true" : "false");
+
+    led = allocated_bars[bar].capslock_led;
+    if (led != NULL) {
+        statusbar_led_widget_set_active(led, active ^ 1);
+    }
+}
+
 
 /** \brief  Get status bar index for \a window
  *
@@ -2325,6 +2372,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     GtkWidget *pause_led;
     GtkWidget *shiftlock_led;
     GtkWidget *mode4080_led;
+    GtkWidget *capslock_led;
 
     /* top row widgets/wrappers */
     GtkWidget *speed;
@@ -2446,6 +2494,10 @@ GtkWidget *ui_statusbar_create(int window_identity)
         mode4080_led = mode4080_led_create();
         allocated_bars[i].mode4080_led = mode4080_led;
         statusbar_append_led(i, mode4080_led, FALSE);  /* no separator, for now */
+        /* capslock */
+        capslock_led = capslock_led_create();
+        allocated_bars[i].capslock_led = capslock_led;
+        statusbar_append_led(i, capslock_led, FALSE);  /* no separator, for now */
     }
 
     /*
