@@ -43,11 +43,13 @@
  * UI_CREATE_TOGGLE_BUTTON() stuff.
  */
 typedef enum ui_menu_item_type_e {
-    UI_MENU_TYPE_GUARD = -1,    /**< list terminator */
-    UI_MENU_TYPE_ITEM_ACTION,   /**< standard list item: activate dialog */
-    UI_MENU_TYPE_ITEM_CHECK,    /**< menu item with checkmark */
-    UI_MENU_TYPE_SUBMENU,       /**< submenu */
-    UI_MENU_TYPE_SEPARATOR      /**< items separator */
+    UI_MENU_TYPE_GUARD = -1,        /**< list terminator */
+    UI_MENU_TYPE_ITEM_ACTION,       /**< standard list item: activate dialog */
+    UI_MENU_TYPE_ITEM_CHECK,        /**< menu item with checkmark */
+    UI_MENU_TYPE_ITEM_RADIO_INT,    /**< menu item with radio button, int value */
+    UI_MENU_TYPE_ITEM_RADIO_STR,    /**< menu item with radio button, string value */
+    UI_MENU_TYPE_SUBMENU,           /**< submenu */
+    UI_MENU_TYPE_SEPARATOR          /**< items separator */
 } ui_menu_item_type_t;
 
 
@@ -57,43 +59,95 @@ typedef enum ui_menu_item_type_e {
  * Contains information on a menu item
  */
 typedef struct ui_menu_item_s {
-    char *              label;  /**< menu item label */
-    ui_menu_item_type_t type;   /**< menu item type, \see ui_menu_item_type_t */
+    /** \brief  Menu item label
+     *
+     * The label displayed in the menu. Do not add any accelerator description
+     * here, that is set and updated dynamically.
+     */
+    char *label;
 
-    /* callbacks, accelerators and other things, again light on the CPP/layer
-     * stuff to keep things clean and maintainable. */
+    /** \brief  Menu item type
+     *
+     * \see ui_menu_item_type_t
+     */
+    ui_menu_item_type_t type;
 
-    /** GAction name (must be unique or NULL for no action) */
+    /** \brief  UI action name
+     *
+     * UI action name as defined in uiactions.h.
+     *
+     * The action name is used for the hotkeys to be able to set and alter the
+     * hotkey assigned to the menu item.
+     *
+     * \note    Must be unique or NULL.
+     * \note    Do NOT use the same action name for similar actions in different
+     *          emulators, thanks to the run-time checking of the machine this
+     *          will lead to the hotkeys code updating the first matching action
+     *          it finds and ignoring the other actions with the same name.
+     */
     char *action_name;
 
-    /** \brief  menu item callback function
+    /** \brief  Menu item callback function
      *
      * The return value determines whether or not the keypress was 'consumed'
-     * by the UI. Normally you'd return TRUE here.
+     * by the UI.
      *
-     * If `NULL`, there is no callback (for separators or placeholders for
-     * not yet implemented items)
+     * Normally you'd return TRUE here.
+     *
+     * The \a widget argument is the menu item and the \a user_data argument is
+     * the data member for anything except check buttons; check buttons get the
+     * resource name as their \a user_data argument.
+     *
+     * If `NULL`, there is no callback (for separators and placeholders for
+     * not-yet-implemented items).
      */
     gboolean (*callback)(GtkWidget *widget, gpointer user_data);
 
-    /** \brief  Callback data (optional)
+    /** \brief  Resource name
      *
-     *  - UI_MENU_TYPE_ITEM_ACTION:  scalar
+     * Resource name for check buttons and radio buttons.
+     *
+     * For check buttons the resource is read and interpreted as boolean to
+     * set the check button state.
+     * For radio buttons the resource is read and its value compared against the
+     * data member to set the radio button state. For string types strcmp(3) is
+     * used, meaning the data member must match the case of the expected resource
+     * value. (radio groups really shouldn't use strings as IDs anyway)
+     */
+    char *resource;
+
+    /** \brief  Callback data
+     *
+     * The callback data is used when triggering the callback.
+     *
+     *  - UI_MENU_TYPE_ITEM_ACTION: 'variant', optional
      *  - UI_MENU_TYPE_SUBMENU: array of submenu items
-     *  - UI_MENU_TYPE_ITEM_CHECK: resource name
+     *  - UI_MENU_TYPE_ITEM_CHECK: ignored
+     *  - UI_MENU_TYPE_ITEM_RADIO_INT: integer value
+     *  - UI_MENU_TYPE_ITEM_RADIO_STRING: string value
      *  - UI_MENU_TYPE_SEPARATOR: ignored
      */
     void *data;
 
-    /** accelerator key, without modifier
-     * (see /usr/include/gtk-3.0/gdk/gdkkeysyms.h)
+    /** \brief  Gdk accelerator keysym
+     *
+     * Gdk keysym value, set by the hotkeys code.
+     *
+     * \see     /usr/include/gtk-3.0/gdk/gdkkeysyms.h
      */
     guint keysym;
 
-    /** modifier (ie Alt) */
+    /** \brief  Gdk modifier mask
+     *
+     * Bitmask containing Gdk modifier masks, set by the hotkeys code.
+     */
     GdkModifierType modifier;
 
-    /** whether the callback should be called while holding the vice mainlock */
+    /** \brief  Hold VICE mainlock
+     *
+     * Determines whether the callback should be called while holding the VICE
+     * mainlock.
+     */
     bool unlocked;
 
 } ui_menu_item_t;
@@ -111,12 +165,12 @@ typedef struct ui_menu_ref_s {
 
 /** \brief  Terminator of a menu items list
  */
-#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL, NULL, 0, 0 }
+#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL, NULL, NULL, 0, 0 }
 
 
 /** \brief  Menu items separator
  */
-#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, NULL, NULL, NULL, 0, 0 }
+#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, NULL, NULL, NULL, NULL, 0, 0 }
 
 
 /** \brief  Platform-dependent accelerator key defines

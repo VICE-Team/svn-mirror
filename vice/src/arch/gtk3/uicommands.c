@@ -203,6 +203,41 @@ gboolean ui_action_toggle_mouse_grab(void)
 }
 
 
+void ui_action_set_speed(int speed)
+{
+    resources_set_int("Speed", speed);
+    /* TODO: update menu items */
+}
+
+
+gboolean ui_cpu_speed_callback(GtkWidget *widget, gpointer data)
+{
+    int speed = GPOINTER_TO_INT(data);
+
+    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+        ui_action_set_speed(speed);
+    }
+    return TRUE;
+}
+
+
+void ui_action_set_fps(int fps)
+{
+    debug_gtk3("new fps: %d.", fps);
+}
+
+
+gboolean ui_fps_callback(GtkWidget *widget, gpointer data)
+{
+    int fps = GPOINTER_TO_INT(data);
+
+    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+        ui_action_set_fps(fps);
+    }
+    return TRUE;
+}
+
+
 /** \brief  Callback for the soft/hard reset items
  *
  * \param[in]   widget      menu item triggering the event (unused)
