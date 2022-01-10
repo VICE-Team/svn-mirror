@@ -276,6 +276,7 @@ static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 /* CAPS (ASCII/DIN) key.  */
 static signed long key_ctrl_caps = -1;
 static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+static key_ctrl_get_caps_func_t key_ctrl_get_caps_func = NULL;
 
 /* joyport attached keypad. */
 static signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KBD_JOY_KEYPAD_COLS];
@@ -289,6 +290,26 @@ void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
 void keyboard_register_caps_key(key_ctrl_caps_func_t func)
 {
     key_ctrl_caps_func = func;
+}
+
+void keyboard_toggle_caps_key(void)
+{
+    if (key_ctrl_caps_func != NULL) {
+        key_ctrl_caps_func();
+    }
+}
+
+void keyboard_register_get_caps_key(key_ctrl_get_caps_func_t func)
+{
+    key_ctrl_get_caps_func = func;
+}
+
+int keyboard_get_caps_key(void)
+{
+    if (key_ctrl_get_caps_func != NULL) {
+        return key_ctrl_get_caps_func();
+    }
+    return 0;
 }
 
 void keyboard_register_joy_keypad(key_joy_keypad_func_t func)

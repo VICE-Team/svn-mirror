@@ -332,6 +332,11 @@ static void mem_toggle_caps_key(void)
     log_message(c128_mem_log, "CAPS key (ASCII/DIN) %s.", (caps_sense) ? "released" : "pressed");
 }
 
+static int mem_get_caps_key(void)
+{
+    return caps_sense;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* $00/$01 unused bits emulation
@@ -888,6 +893,7 @@ void mem_initialize_memory(void)
     mmu_reset();
 
     keyboard_register_caps_key(mem_toggle_caps_key);
+    keyboard_register_get_caps_key(mem_get_caps_key);
 
     top_shared_limit = 0xffff;
     bottom_shared_limit = 0x0000;

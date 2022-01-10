@@ -617,6 +617,7 @@ void statusbar_speed_widget_update(GtkWidget *widget,
     bool is_paused = ui_pause_active();
     bool is_shiftlock = keyboard_get_shiftlock();
     bool is_mode4080 = 0;
+    bool is_capslock = keyboard_get_caps_key();
 
     if (machine_class == VICE_MACHINE_C128) {
         int n = 0;
@@ -628,6 +629,7 @@ void statusbar_speed_widget_update(GtkWidget *widget,
             state->last_warp != vsync_metric_warp_enabled ||
             state->last_shiftlock != is_shiftlock ||
             state->last_mode4080 != is_mode4080 ||
+            state->last_capslock != is_capslock ||
             state->last_paused != is_paused) {
 
         /* get grid containing the two labels */
@@ -653,16 +655,21 @@ void statusbar_speed_widget_update(GtkWidget *widget,
         if (state->last_shiftlock != is_shiftlock) {
             shiftlock_led_set_active(window_identity, is_shiftlock);
         }
-
-        /* shiftlock */
+        /* 40/80 colums */
         if (state->last_mode4080 != is_mode4080) {
             mode4080_led_set_active(window_identity, is_mode4080);
+        }
+        /* capslock */
+        if (state->last_capslock != is_capslock) {
+            capslock_led_set_active(window_identity, is_capslock);
         }
 
         state->last_cpu_int = this_cpu_int;
         state->last_warp = vsync_metric_warp_enabled;
         state->last_paused = is_paused;
         state->last_shiftlock = is_shiftlock;
+        state->last_mode4080 = is_mode4080;
+        state->last_capslock = is_capslock;
     }
 
     if (window_identity == PRIMARY_WINDOW) {
