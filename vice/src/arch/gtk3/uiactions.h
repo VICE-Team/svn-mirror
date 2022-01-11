@@ -120,7 +120,7 @@ typedef struct ui_action_info_s {
 #define ACTION_SPEED_CPU_20_DESC        "Set CPU speed to 20%"
 #define ACTION_SPEED_CPU_20_MASK        VICE_MACHINE_ALL
 
-#define ACTION_SPEED_CPU_50             "speed-cpu-10"
+#define ACTION_SPEED_CPU_50             "speed-cpu-50"
 #define ACTION_SPEED_CPU_50_DESC        "Set CPU speed to 50%"
 #define ACTION_SPEED_CPU_50_MASK        VICE_MACHINE_ALL
 
@@ -128,7 +128,7 @@ typedef struct ui_action_info_s {
 #define ACTION_SPEED_CPU_100_DESC       "Set CPU speed to 100%"
 #define ACTION_SPEED_CPU_100_MASK       VICE_MACHINE_ALL
 
-#define ACTION_SPEED_CPU_200            "speed-cpu-20"
+#define ACTION_SPEED_CPU_200            "speed-cpu-200"
 #define ACTION_SPEED_CPU_200_DESC       "Set CPU speed to 200%"
 #define ACTION_SPEED_CPU_200_MASK       VICE_MACHINE_ALL
 

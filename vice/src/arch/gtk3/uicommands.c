@@ -203,27 +203,80 @@ gboolean ui_action_toggle_mouse_grab(void)
 }
 
 
+/** \brief  Set new CPU speed
+ *
+ * Set new CPU speed and update the menu items to reflect this.
+ *
+ * \param[in]   speed   CPU speed in percentage points (100 == 100%)
+ */
 void ui_action_set_speed(int speed)
 {
+    const char *action;
+    int old;
+
+    resources_get_int("Speed", &old);
+    if (old == speed) {
+        /* avoid any menu iteration, signal handlers etc */
+        return;
+    }
+
     resources_set_int("Speed", speed);
-    /* TODO: update menu items */
+
+    /* Update main menu radio buttons */
+    switch (speed) {
+        case 200:
+            action = ACTION_SPEED_CPU_200;
+            break;
+        case 100:
+            action = ACTION_SPEED_CPU_100;
+            break;
+        case 50:
+            action = ACTION_SPEED_CPU_50;
+            break;
+        case 20:
+            action = ACTION_SPEED_CPU_20;
+            break;
+        case 10:
+            action = ACTION_SPEED_CPU_10;
+            break;
+        default:
+            action = ACTION_SPEED_CPU_CUSTOM;
+            break;
+    }
+
+    /* the radio group takes care of disabling the other radio buttons, so we
+     * only need to set the new active item */
+    ui_set_gtk_check_menu_item_blocked_by_name(action, TRUE);
 }
 
 
+/** \brief  Callback for the main and popup menu 'custom speed' items
+ *
+ * \param[in]   widget  menu item
+ * \param[in]   data    speed
+ *
+ * \return  FALSE to not let event propagate further
+ */
 gboolean ui_cpu_speed_callback(GtkWidget *widget, gpointer data)
 {
     int speed = GPOINTER_TO_INT(data);
 
+    /* don't trigger on radio/check buttons getting deselected */
     if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
         ui_action_set_speed(speed);
     }
-    return TRUE;
+    return FALSE;
 }
 
 
+/** \brief  Set FPS
+ *
+ * \param[in]   fps     frames per second, 0 to use realthing timing
+ */
 void ui_action_set_fps(int fps)
 {
     debug_gtk3("new fps: %d.", fps);
+    resources_set_int("Speed", 0 - fps);
 }
 
 
@@ -233,6 +286,48 @@ gboolean ui_fps_callback(GtkWidget *widget, gpointer data)
 
     if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
         ui_action_set_fps(fps);
+    }
+    return TRUE;
+}
+
+
+/** \brief  Callback for custom speed
+ *
+ * \param[in]   dialog  integer-dialog reference
+ * \param[in]   result  result from the dialog
+ * \param[in]   valid   \a result is valid
+ */
+static void speed_custom_callback(GtkDialog *dialog, int result, gboolean valid)
+{
+    if (valid) {
+        ui_action_set_speed(result);
+    }
+}
+
+
+/** \brief  Handler for the "toggled" event of the "custom speed" menu item
+ *
+ * Pops up a dialog to set a custom emulation speed.
+ *
+ * \param[in]   widget  menu item
+ * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE to 
+ */
+gboolean ui_speed_custom_toggled(GtkWidget *widget, gpointer data)
+{
+    /* only show the dialog when the radio/check button is toggled ON */
+    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+        int old_value;
+
+        resources_get_int("Speed", &old_value);
+
+        vice_gtk3_integer_input_box(
+                speed_custom_callback,
+                "Set new emulation speed",
+                "Enter a new custom emulation speed",
+                old_value,
+                1, 100000);
     }
     return TRUE;
 }

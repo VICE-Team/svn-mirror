@@ -532,8 +532,10 @@ void ui_set_gtk_check_menu_item_blocked_by_name(const char *name, gboolean state
 {
     GtkWidget *item;
 
+    debug_gtk3("Got name '%s'.", name);
     item = ui_get_gtk_menu_item_by_name(name);
     if (item != NULL) {
+        debug_gtk3("found item.");
         ui_set_gtk_check_menu_item_blocked(item, state);
     }
 }

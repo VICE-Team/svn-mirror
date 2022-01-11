@@ -110,9 +110,11 @@ gboolean ui_action_toggle_warp(void);
 gboolean ui_action_advance_frame(void);
 gboolean ui_action_toggle_fullscreen(void);
 gboolean ui_action_toggle_fullscreen_decorations(void);
-void ui_action_set_speed(int speed);
+void     ui_action_set_speed(int speed);
+void     ui_action_set_fps(int fps);
+
+gboolean ui_speed_custom_toggled(GtkWidget *widget, gpointer data);
 gboolean ui_cpu_speed_callback(GtkWidget *widget, gpointer data);
-void ui_action_set_fps(int fps);
 gboolean ui_fps_callback(GtkWidget *widget, gpointer data);
 
 void ui_update_lightpen(void);
