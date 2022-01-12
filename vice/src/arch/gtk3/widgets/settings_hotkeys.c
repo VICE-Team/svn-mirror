@@ -491,7 +491,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             item_vice = ui_get_vice_menu_item_by_hotkey(hotkey_mask & 0x1fff,
                                                         hotkey_keysym);
             if (item_vice != NULL) {
-                debug_gtk3("Label: %s, action: %s.", item_vice->label,
+                debug_gtk3("Removing old hotkey: label: %s, action: %s.", item_vice->label,
                         item_vice->action_name);
                 ui_menu_remove_accel_via_vice_item(item_vice);
                 item_vice->keysym = 0;
@@ -499,11 +499,13 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             }
 
 
+            debug_gtk3("Looking up action '%s'.", action);
             item_vice = ui_get_vice_menu_item_by_name(action);
             item_gtk = ui_get_gtk_menu_item_by_name(action);
 
             /* update vice item and gtk item */
             if (item_vice != NULL && item_gtk != NULL) {
+                debug_gtk3("FOUND.");
                 /* remove old accelerator */
                 ui_menu_remove_accel_via_vice_item(item_vice);
                 /* update vice menu item */
@@ -514,6 +516,8 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 ui_menu_set_accel_via_vice_item(item_gtk, item_vice);
                 /* update treeview */
                 update_treeview_hotkey(accel);
+            } else {
+                debug_gtk3("NOT FOUND.");
             }
 
             g_free(accel);

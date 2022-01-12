@@ -1378,6 +1378,29 @@ void ui_machine_menu_bar_vsid_patch(GtkWidget *menu)
  */
 
 
+/** \brief  Determine if the item can be assigned a hotkey
+ *
+ * Hotkeys can only be assigned to items directly triggering an action, not
+ * submenus or separators.
+ *
+ * \param[in]   type    menu item type (\see #ui_menu_item_type_t)
+ *
+ * \return  TRUE if the item can be assigned a hotkey
+ */
+static gboolean item_type_valid(ui_menu_item_type_t type)
+{
+    switch (type) {
+        case UI_MENU_TYPE_ITEM_ACTION:      /* fall through */
+        case UI_MENU_TYPE_ITEM_CHECK:       /* fall through */
+        case UI_MENU_TYPE_ITEM_RADIO_INT:   /* fall through */
+        case UI_MENU_TYPE_ITEM_RADIO_STR:
+            return TRUE;
+        default:
+            return FALSE;
+    }
+}
+
+
 /* Iterator API */
 
 /** \brief  Initialize VICE menu item iterator
@@ -1512,9 +1535,7 @@ ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
 
     ui_vice_menu_iter_init(&iter);
     do {
-        if (ui_vice_menu_iter_get_type(&iter, &type) &&
-                (type == UI_MENU_TYPE_ITEM_ACTION ||
-                 type == UI_MENU_TYPE_ITEM_CHECK)) {
+        if (ui_vice_menu_iter_get_type(&iter, &type) && item_type_valid(type)) {
             if (ui_vice_menu_iter_get_name(&iter, &item_name) &&
                     item_name != NULL) {
                 if (strcmp(item_name, name) == 0) {
@@ -1544,9 +1565,7 @@ ui_menu_item_t* ui_get_vice_menu_item_by_hotkey(GdkModifierType mask,
 
     ui_vice_menu_iter_init(&iter);
     do {
-        if (ui_vice_menu_iter_get_type(&iter, &type) &&
-                (type == UI_MENU_TYPE_ITEM_ACTION ||
-                 type == UI_MENU_TYPE_ITEM_CHECK)) {
+        if (ui_vice_menu_iter_get_type(&iter, &type) && item_type_valid(type)) {
             bool result = ui_vice_menu_iter_get_hotkey(&iter, &item_mask, &item_keysym);
 #if 0
             debug_gtk3("iter keysym: %04x, iter mask: %04x (%s)", item_keysym, item_mask,
