@@ -826,7 +826,7 @@ static ui_menu_item_t speed_submenu[] = {
       0, 0, false },
     { "Custom video clock ...", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_FPS_CUSTOM,
-      NULL, "Speed", NULL,
+      ui_fps_custom_toggled, "Speed", NULL,
       0, 0, false },
 
     UI_MENU_TERMINATOR

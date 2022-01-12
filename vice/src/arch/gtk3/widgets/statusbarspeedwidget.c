@@ -123,43 +123,18 @@ static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-
-
-
-/** \brief  Callback for custom FPS
+/** \brief  Handler for the toggled event of an FPS submenu item
  *
- * \param[in]   dialog  integer-dialog reference
- * \param[in]   result  result from the dialog
- * \param[in]   valid   \a result is valid
+ * \param[in]   widget  emulation speed submenu item
+ * \param[in]   data    new emulation speed
  */
-static void fps_custom_callback(GtkDialog *dialog, int result, gboolean valid)
+static void on_fps_toggled(GtkWidget *widget, gpointer data)
 {
-    if (valid) {
-        ui_action_set_fps(result);
-    }
+    int fps = 0 - GPOINTER_TO_INT(data);
+
+    ui_action_set_fps(fps);
 }
 
-
-/** \brief  Handler for the "toggled" event of the "custom fps" menu item
- *
- * Pops up a dialog to set a custom emulation fps target.
- *
- * \param[in]   widget  menu item
- * \param[in]   data    extra event data (unused)
- */
-static void on_fps_custom_toggled(GtkWidget *widget, gpointer data)
-{
-    int old_value;
-
-    resources_get_int("Speed", &old_value);
-
-    vice_gtk3_integer_input_box(
-            fps_custom_callback,
-            "Set new fps target",
-            "Enter a new custom fps target",
-            0 - old_value,
-            1, 100000);
-}
 
 
 /** \brief  Create emulation speed submenu
@@ -224,8 +199,8 @@ static GtkWidget *emulation_speed_submenu_create(void)
         gtk_container_add(GTK_CONTAINER(menu), item);
 
         g_signal_connect(item, "toggled",
-                G_CALLBACK(on_emulation_speed_toggled),
-                GINT_TO_POINTER(0 - emu_fps_targets[i]));
+                G_CALLBACK(on_fps_toggled),
+                GINT_TO_POINTER(emu_fps_targets[i]));
     }
 
     /* custom fps target */
@@ -239,7 +214,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "toggled",
-            G_CALLBACK(on_fps_custom_toggled), GINT_TO_POINTER(curr_speed));
+            G_CALLBACK(ui_fps_custom_toggled), GINT_TO_POINTER(curr_speed));
 
     gtk_widget_show_all(menu);
     return menu;
