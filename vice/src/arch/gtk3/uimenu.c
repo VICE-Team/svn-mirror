@@ -152,7 +152,14 @@ static void handle_accelerator(GtkAccelGroup *accel_grp,
                                gpointer user_data)
 {
     ui_accel_data_t *accel_data = (ui_accel_data_t *)user_data;
-    accel_data->item->callback(accel_data->widget, accel_data->item->data);
+
+    if (accel_data->item->type == UI_MENU_TYPE_ITEM_CHECK) {
+        /* check items get the 'resource' member as event data */
+        accel_data->item->callback(accel_data->widget, accel_data->item->resource);
+    } else {
+        /* other items get the 'data' member as event data */
+        accel_data->item->callback(accel_data->widget, accel_data->item->data);
+    }
 }
 
 
@@ -277,13 +284,13 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                     if (items[i].unlocked) {
                         handler_id = g_signal_connect_unlocked(
                             item,
-                            "activate",
+                            "toggled",
                             G_CALLBACK(items[i].callback),
                             items[i].data);
                     } else {
                         handler_id = g_signal_connect(
                             item,
-                            "activate",
+                            "toggled",
                             G_CALLBACK(items[i].callback),
                             items[i].data);
                     }

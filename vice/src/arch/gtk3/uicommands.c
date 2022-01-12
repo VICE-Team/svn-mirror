@@ -314,7 +314,8 @@ gboolean ui_cpu_speed_callback(GtkWidget *widget, gpointer data)
     if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
         ui_action_set_speed(speed);
     }
-    return FALSE;
+
+    return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }
 
 
@@ -340,16 +341,18 @@ void ui_action_set_fps(int fps)
  * \param[in]   widget  radio button menu item
  * \param[in]   data    FPS target (negative value)
  *
- * \return  FALSE to not let the event propagate further
+ * \return  TRUE to not let a hotkey end up in the emulator
  */
 gboolean ui_fps_callback(GtkWidget *widget, gpointer data)
 {
     int fps = GPOINTER_TO_INT(data);
 
+    debug_gtk3("Triggered with %d FPS.", fps);
     if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+        debug_gtk3("Item is active.");
         ui_action_set_fps(fps);
     }
-    return FALSE;
+    return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }
 
 
