@@ -88,6 +88,29 @@ static log_t bsd_joystick_log;
 
 #define MAX_DEV 4   /* number of uhid devices to try */
 
+/*
+ * This hat map was created from values observed on NetBSD 9.2
+ * with an analog joystick "ADDISON TECHNOLOGY" that also has a hat switch.
+ * uhidev1 at uhub1 port 6 configuration 1 interface 0
+ * uhidev1: vendor 0907 (0x907) product 0523 (0x523), rev 1.00/1.00, addr 40, iclass 3/0
+ * uhid0 at uhidev1: input=3, output=0, feature=0
+ *
+ * Only 0 and the odd values (horizontal and vertical) were observed
+ * but let's leave the diagonals in too, just in case.
+ */
+#define MAX_HAT_MAP_INDEX 8
+static const uint8_t hat_map[MAX_HAT_MAP_INDEX + 1] = {
+    0,                                                  /* 0 */
+    JOYSTICK_DIRECTION_UP,                              /* 1 */
+    JOYSTICK_DIRECTION_UP | JOYSTICK_DIRECTION_RIGHT,   /* 2 */
+    JOYSTICK_DIRECTION_RIGHT,                           /* 3 */
+    JOYSTICK_DIRECTION_RIGHT | JOYSTICK_DIRECTION_DOWN, /* 4 */
+    JOYSTICK_DIRECTION_DOWN,                            /* 5 */
+    JOYSTICK_DIRECTION_DOWN | JOYSTICK_DIRECTION_LEFT,  /* 6 */
+    JOYSTICK_DIRECTION_LEFT,                            /* 7 */
+    JOYSTICK_DIRECTION_LEFT | JOYSTICK_DIRECTION_UP,    /* 8 */
+};
+
 struct usb_joy_item {
     struct hid_item item;
     struct usb_joy_item *next;
@@ -181,7 +204,7 @@ static void usb_joystick(int jp, void* priv)
     for (it = joypriv->usb_joy_item; it; it = it->next) {
         val = hid_get_data(joypriv->usb_joy_buf, &it->item);
         if (it->type == ITEM_HAT) {
-            if (val >= 0 && val <= 8) {
+            if (val >= 0 && val <= MAX_HAT_MAP_INDEX) {
                 joy_hat_event(jp, it->ordinal_number, hat_map[val]);
             }
         } else {
