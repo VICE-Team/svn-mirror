@@ -215,7 +215,9 @@ static void update_cpu_radio_buttons(void)
     int speed = 0;
 
     resources_get_int("Speed", &speed);
-
+#if 0
+    debug_gtk3("Speed = %d.", speed);
+#endif
     /* Update main menu radio buttons */
     switch (speed) {
         case 200:
@@ -240,6 +242,9 @@ static void update_cpu_radio_buttons(void)
 
     /* the radio group takes care of disabling the other radio buttons, so we
      * only need to set the new active item */
+#if 0
+    debug_gtk3("Selecting action '%s'.", action);
+#endif
     ui_set_gtk_check_menu_item_blocked_by_name(action, TRUE);
 }
 
@@ -252,7 +257,9 @@ static void update_fps_radio_buttons(void)
     int speed = 0;
 
     resources_get_int("Speed", &speed);
-
+#if 0
+    debug_gtk3("Speed = %d.", speed);
+#endif
     switch (speed) {
         case 100:
             action = ACTION_SPEED_FPS_REAL;
@@ -266,6 +273,9 @@ static void update_fps_radio_buttons(void)
         default:
             action = ACTION_SPEED_FPS_CUSTOM;
     }
+#if 0
+    debug_gtk3("Selecting action '%s'.", action);
+#endif
     ui_set_gtk_check_menu_item_blocked_by_name(action, TRUE);
 }
 
