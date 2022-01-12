@@ -964,6 +964,9 @@ int vic_um_snapshot_read_module(snapshot_t *s)
                       VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
 
+    io2_list_item = io_source_register(&ultimem_io2);
+    io3_list_item = io_source_register(&ultimem_io3);
+
     return 0;
 }
 
