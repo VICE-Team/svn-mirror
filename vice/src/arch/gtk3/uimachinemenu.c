@@ -784,6 +784,13 @@ static ui_menu_item_t snapshot_menu[] = {
 };
 /* }}} */
 
+/** \brief  Index in the speed submenu for the "$MACHINE_NAME FPS" item
+ *
+ * Bit of a hack since the menu item labels are reused for all emus and we can't
+ * dynamically set them via some printf()-ish construct
+ */
+#define MACHINE_FPS_INDEX   7
+
 static ui_menu_item_t speed_submenu[] = {
     { "200% CPU", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_CPU_200,
@@ -812,19 +819,19 @@ static ui_menu_item_t speed_submenu[] = {
 
     UI_MENU_SEPARATOR,
 
-    { "Real video clock", UI_MENU_TYPE_ITEM_RADIO_INT,
+    { "MACHINE_NAME FPS", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_FPS_REAL,
       ui_fps_callback, "Speed", (void*)0,
       0, 0, false },
-    { "50Hz video clock", UI_MENU_TYPE_ITEM_RADIO_INT,
+    { "50 FPS", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_FPS_50,
       ui_fps_callback, "Speed", (void*)50,
       0, 0, false },
-    { "60Hz video clock", UI_MENU_TYPE_ITEM_RADIO_INT,
+    { "60 FPS", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_FPS_60,
       ui_fps_callback, "Speed", (void*)60,
       0, 0, false },
-    { "Custom video clock ...", UI_MENU_TYPE_ITEM_RADIO_INT,
+    { "Custom FPS", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_FPS_CUSTOM,
       ui_fps_custom_toggled, "Speed", NULL,
       0, 0, false },
@@ -1252,10 +1259,12 @@ GtkWidget *ui_machine_menu_bar_create(void)
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
             settings_menu_joy_section = settings_menu_joy_swap;
+            speed_submenu[MACHINE_FPS_INDEX].label = "C64 FPS";
             break;
 
         case VICE_MACHINE_C64DTV:
             settings_menu_joy_section = settings_menu_joy_swap;
+            speed_submenu[MACHINE_FPS_INDEX].label = "C64DTV FPS";
             break;
 
         case VICE_MACHINE_SCPU64:
@@ -1267,40 +1276,48 @@ GtkWidget *ui_machine_menu_bar_create(void)
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
             settings_menu_joy_section = settings_menu_joy_swap;
+            speed_submenu[MACHINE_FPS_INDEX].label = "C128 FPS";
             break;
 
         case VICE_MACHINE_VIC20:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
+            speed_submenu[MACHINE_FPS_INDEX].label = "VIC20 FPS";
             break;
 
         case VICE_MACHINE_PLUS4:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
             settings_menu_joy_section = settings_menu_joy_swap;
+            speed_submenu[MACHINE_FPS_INDEX].label = "Plus4 FPS";
             break;
 
         case VICE_MACHINE_CBM5x0:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
             settings_menu_joy_section = settings_menu_joy_swap;
+            speed_submenu[MACHINE_FPS_INDEX].label = "CBM-II FPS";
             break;
 
         case VICE_MACHINE_CBM6x0:
             file_menu_tape_section = file_menu_tape;
             file_menu_cart_section = file_menu_cart;
+            speed_submenu[MACHINE_FPS_INDEX].label = "CBM-II FPS";
             break;
 
         case VICE_MACHINE_PET:
             file_menu_tape_section = file_menu_tape_xpet;
+            speed_submenu[MACHINE_FPS_INDEX].label = "PET FPS";
             break;
 
         case VICE_MACHINE_VSID:
             archdep_vice_exit(1);
+            speed_submenu[MACHINE_FPS_INDEX].label = "VSID FPS";
             break;
         default:
             break;
     }
+
 
     /* add items to the File menu */
     ui_menu_add(file_submenu, file_menu_head);

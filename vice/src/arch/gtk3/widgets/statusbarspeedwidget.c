@@ -110,6 +110,7 @@ static void on_pause_toggled(GtkWidget *widget, gpointer data)
 }
 
 
+#if 0
 /** \brief  Handler for the toggled event of a emulation speed submenu item
  *
  * \param[in]   widget  emulation speed submenu item
@@ -121,8 +122,9 @@ static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
 
     ui_action_set_speed(speed);
 }
+#endif
 
-
+#if 0
 /** \brief  Handler for the toggled event of an FPS submenu item
  *
  * \param[in]   widget  emulation speed submenu item
@@ -134,7 +136,7 @@ static void on_fps_toggled(GtkWidget *widget, gpointer data)
 
     ui_action_set_fps(fps);
 }
-
+#endif
 
 
 /** \brief  Create emulation speed submenu
@@ -166,7 +168,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
         gtk_container_add(GTK_CONTAINER(menu), item);
 
         g_signal_connect(item, "toggled",
-                G_CALLBACK(on_emulation_speed_toggled),
+                G_CALLBACK(ui_cpu_speed_callback),
                 GINT_TO_POINTER(emu_speeds[i]));
     }
 
@@ -187,6 +189,17 @@ static GtkWidget *emulation_speed_submenu_create(void)
 
     add_separator(menu);
 
+    /* True emulated FPS (sets Speed to 100) */
+    g_snprintf(buffer, sizeof(buffer), "%s FPS", machine_name);
+    item = gtk_check_menu_item_new_with_label(buffer);
+    gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
+    if (curr_speed == 100) {
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
+    }
+    g_signal_connect(item, "toggled",
+                     G_CALLBACK(ui_fps_callback), GINT_TO_POINTER(100));
+    gtk_container_add(GTK_CONTAINER(menu), item);
+
     /* predefined fps targets */
     for (i = 0; emu_fps_targets[i] != 0; i++) {
         g_snprintf(buffer, 256, "%d FPS", emu_fps_targets[i]);
@@ -199,7 +212,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
         gtk_container_add(GTK_CONTAINER(menu), item);
 
         g_signal_connect(item, "toggled",
-                G_CALLBACK(on_fps_toggled),
+                G_CALLBACK(ui_fps_callback),
                 GINT_TO_POINTER(emu_fps_targets[i]));
     }
 
