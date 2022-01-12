@@ -343,6 +343,7 @@ void usb_joystick_init(void)
         }
 
         hid_end_parse(d);
+        hid_dispose_report_desc(report);
         if (!priv) {
             continue;
         }
