@@ -142,7 +142,7 @@ static int joyport_set_device(int port, int id)
     /* check if id conflicts with devices on other ports */
     if (joyport_device_is_single_port(id)) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-            if (port != i && joy_port[i] == id) {
+            if (port != i && joy_port[i] == id && joy_port[i] != JOYPORT_ID_MULTIJOY_CONTROL) {
                 ui_error("Selected control port device %s on %s is already attached to %s", joyport_device[id].name, port_props[port].name, port_props[i].name);
                 return -1;
             }
