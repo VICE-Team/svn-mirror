@@ -2484,10 +2484,12 @@ GtkWidget *ui_statusbar_create(int window_identity)
     allocated_bars[i].pause_led = pause_led;
     statusbar_append_led(i, pause_led, FALSE);  /* no separator, for now */
 
-    /* shiftlock */
-    shiftlock_led = shiftlock_led_create();
-    allocated_bars[i].shiftlock_led = shiftlock_led;
-    statusbar_append_led(i, shiftlock_led, FALSE);  /* no separator, for now */
+    if (machine_class != VICE_MACHINE_VSID) {
+        /* shiftlock */
+        shiftlock_led = shiftlock_led_create();
+        allocated_bars[i].shiftlock_led = shiftlock_led;
+        statusbar_append_led(i, shiftlock_led, FALSE);  /* no separator, for now */
+    }
 
     if (machine_class == VICE_MACHINE_C128) {
         /* 40/80 */
