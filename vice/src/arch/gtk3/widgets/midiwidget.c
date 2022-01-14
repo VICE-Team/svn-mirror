@@ -6,7 +6,7 @@
 
 /*
  * $VICERES MIDIEnable      x64 x64sc xscpu64 x128 xvic
- * $VICERES MIDIMode        x64 x64sc xscpu64 x128 xvic
+ * $VICERES MIDIMode        x64 x64sc xscpu64 x128
  * $VICERE$S MIDIDriver     x64 x64sc xscpu64 x128 xvic
  *  (Unix only)
  * $VICERES MIDIInDev       x64 x64sc xscpu64 x128 xvic
@@ -113,7 +113,9 @@ static void on_midi_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-    gtk_widget_set_sensitive(midi_mode, state);
+    if (machine_class != VICE_MACHINE_VIC20) {
+        gtk_widget_set_sensitive(midi_mode, state);
+    }
 #ifdef ARCHDEP_OS_UNIX
 # ifdef ARCHDEP_OS_MACOS
     gtk_widget_set_sensitive(midi_name_entry, state);
@@ -248,12 +250,14 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     midi_enable = create_midi_enable_widget();
     gtk_grid_attach(GTK_GRID(grid), midi_enable, 0, 0, 3, 1);
 
-    label = gtk_label_new("MIDI mode");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    midi_mode = create_midi_mode_widget();
-    gtk_grid_attach(GTK_GRID(grid), midi_mode, 1, 1, 1, 1);
+    if (machine_class != VICE_MACHINE_VIC20) {
+        label = gtk_label_new("MIDI mode");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        g_object_set(label, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+        midi_mode = create_midi_mode_widget();
+        gtk_grid_attach(GTK_GRID(grid), midi_mode, 1, 1, 1, 1);
+    }
 
     row = 2;
 
