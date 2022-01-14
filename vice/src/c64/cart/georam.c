@@ -247,6 +247,10 @@ static RAMINITPARAM ramparam = {
 
 void georam_powerup(void)
 {
+    if ((georam_filename != NULL) && (*georam_filename != 0)) {
+        /* do not init ram if a file is used for ram content (like battery backup) */
+        return;
+    }
     if (georam_ram) {
         ram_init_with_pattern(georam_ram, georam_size, &ramparam);
     }
