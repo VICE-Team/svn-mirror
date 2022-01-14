@@ -1111,12 +1111,24 @@ if test x"$check_gtk3" = "xyes"; then
   PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.22], [have_gtk3_module=yes], [have_gtk3_module=no; AC_MSG_RESULT([no])])
   PKG_CHECK_MODULES(GLIB, [glib-2.0], [have_glib2_module=yes], [have_glib2_module=no; AC_MSG_RESULT([no])])
 
+  dnl Extra tools required for Gtk builds
+  dnl These programs live in libglib2.0-dev-bin on Debian
+
   dnl error out if gtk3 support is missing and gtk3 ui was requested
   if test x"$have_gtk3_module" = "xno" -o x"$have_glib2_module" = "xno"; then
     if test x"$enable_native_gtk3ui" = "xyes"; then
       AC_MSG_ERROR([GTK3 UI requested, but GTK3 support packages are missing])
     fi
   fi
+
+  dnl Used to compile the vice.gresource.xml file
+  AC_CHECK_PROG(GLIB_COMPILE_RESOURCES, [glib-compile-resources], [glib-compile-resources], [no])
+  AS_IF([test x"$GLIB_COMPILE_RESOURCES" = "xno"],
+        [AC_MSG_ERROR([glib-compile-resources is missing, please install glib development binaries])])
+  dnl Used by VTE for signal marshalling
+  AC_CHECK_PROG(GLIB_GENMARSHAL, [glib-genmarshal], [glib-genmarshal], [no])
+  AS_IF([test x"$GLIB_GENMARSHAL" = "xno"],
+        [AC_MSG_ERROR([glib-genmarshal is missing, please install glib development binaries])])
 
   dnl only continue to test if gtk3 support was present
   if test x"$have_gtk3_module" = "xyes" -a x"$have_glib2_module" = "xyes"; then
