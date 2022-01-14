@@ -665,6 +665,10 @@ static void reu_init_ram(void)
 void reu_powerup(void)
 {
     DEBUG_LOG(DEBUG_LEVEL_REGISTER, (reu_log, "reu_powerup"));
+    if ((reu_filename != NULL) && (*reu_filename != 0)) {
+        /* do not init ram if a file is used for ram content (like battery backup) */
+        return;
+    }
     reu_init_ram();
 }
 
