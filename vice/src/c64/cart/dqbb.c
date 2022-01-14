@@ -201,6 +201,10 @@ static RAMINITPARAM ramparam = {
 void dqbb_powerup(void)
 {
     DBG(("dqbb_powerup"));
+    if ((dqbb_filename != NULL) && (*dqbb_filename != 0)) {
+        /* do not init ram if a file is used for ram content (like battery backup) */
+        return;
+    }
     if (dqbb_ram) {
         DBG(("dqbb_powerup ram clear"));
         ram_init_with_pattern(dqbb_ram, DQBB_RAM_SIZE, &ramparam);
