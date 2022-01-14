@@ -196,6 +196,10 @@ static RAMINITPARAM ramparam = {
 void isepic_powerup(void)
 {
     DBG(("isepic_powerup"));
+    if ((isepic_filename != NULL) && (*isepic_filename != 0)) {
+        /* do not init ram if a file is used for ram content (like battery backup) */
+        return;
+    }
     if (isepic_ram) {
         DBG(("isepic_powerup ram clear"));
         ram_init_with_pattern(isepic_ram, ISEPIC_RAM_SIZE, &ramparam);
