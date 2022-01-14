@@ -320,6 +320,10 @@ static RAMINITPARAM ramparam = {
 void expert_powerup(void)
 {
     DBG(("expert_powerup\n"));
+    if ((expert_filename != NULL) && (*expert_filename != 0)) {
+        /* do not init ram if a file is used for ram content (like battery backup) */
+        return;
+    }
     if (expert_ram) {
         DBG(("expert_powerup ram clear\n"));
         ram_init_with_pattern(expert_ram, EXPERT_RAM_SIZE, &ramparam);
