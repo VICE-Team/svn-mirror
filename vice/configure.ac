@@ -2369,14 +2369,14 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
     if test x"$have_swresample" = "xyes"; then
       AC_DEFINE([HAVE_FFMPEG_SWRESAMPLE],,[Have FFMPEG swresample lib available])
       HAVE_FFMPEG_SWRESAMPLE_SUPPORT="yes"
-    else
-      PKG_CHECK_MODULES(FFMPEG_AVRESAMPLE, [libavresample], [have_avresample=yes], [have_avresample=no])
-      if test x"$have_avresample" = "xyes"; then
-        AC_DEFINE([HAVE_FFMPEG_AVRESAMPLE],,[Have FFMPEG avresample lib available])
-        HAVE_FFMPEG_AVRESAMPLE_SUPPORT="yes"
-      else
+    fi
+    PKG_CHECK_MODULES(FFMPEG_AVRESAMPLE, [libavresample], [have_avresample=yes], [have_avresample=no])
+    if test x"$have_avresample" = "xyes"; then
+      AC_DEFINE([HAVE_FFMPEG_AVRESAMPLE],,[Have FFMPEG avresample lib available])
+      HAVE_FFMPEG_AVRESAMPLE_SUPPORT="yes"
+    fi
+    if (test x"$have_avresample" != "xyes") && (test x"$have_swresample" != "xyes"); then
         AC_MSG_ERROR([No swresample or avresample library available!])
-      fi
     fi
   else
     AC_MSG_RESULT([not available])
