@@ -2276,6 +2276,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     int old_addr;
     MEMSPACE mem = addr_memspace(addr);
     uint16_t loc = addr_location(addr);
+    int silent = (playback_fp != NULL); /* suppress warnings when playing back label file */
 
     if (mem == e_default_space) {
         mem = default_memspace;
@@ -2290,11 +2291,11 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
 
     old_name = mon_symbol_table_lookup_name(mem, loc);
     old_addr = mon_symbol_table_lookup_addr(mem, name);
-    if (old_name && (MON_ADDR)addr_location(old_addr) != addr) {
+    if ((old_name && (MON_ADDR)addr_location(old_addr) != addr) && (!silent)) {
         mon_out("Warning: label(s) for address $%04x already exist.\n", loc);
     }
     if (old_addr >= 0) {
-        if (old_addr != loc) {
+        if ((old_addr != loc) && (!silent)) {
             mon_out("Changing address of label %s from $%04x to $%04x\n",
                     name, (unsigned int)old_addr, loc);
         }
