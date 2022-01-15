@@ -29,9 +29,8 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *kbd_debug_widget_create(void);
-
-void kdb_debug_widget_update(GdkEvent *event);
+GtkWidget * kbd_debug_widget_create(void);
+void        kbd_debug_widget_update(GtkWidget *widget, GdkEvent *event);
 
 #endif
 

@@ -42,6 +42,7 @@
 #include "mainlock.h"
 #include "uimenu.h"
 #include "uimedia.h"
+#include "uistatusbar.h"
 
 #include "kbd.h"
 
@@ -438,7 +439,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 key = report->key.keyval = GDK_KEY_KP_Decimal;
             }
 
-            kdb_debug_widget_update(report);
+            ui_statusbar_update_kbd_debug(report);
 
             /* Don't hold the mainlock while dealing with hotkeys. Some of these
                need to run with an unlocked handler in order to avoid glitching VICE. */
@@ -522,7 +523,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 key = report->key.keyval = GDK_KEY_KP_Decimal;
             }
 
-            kdb_debug_widget_update(report);
+            ui_statusbar_update_kbd_debug(report);
 
             if (removepressedkey(report, &key, &mod)) {
 #if 0

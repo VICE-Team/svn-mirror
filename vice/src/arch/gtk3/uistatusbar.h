@@ -51,6 +51,7 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window);
 
 void ui_statusbar_set_kbd_debug_for_window(GtkWidget *window, gboolean state);
 void ui_statusbar_set_kbd_debug(gboolean state);
+void ui_statusbar_update_kbd_debug(GdkEvent *report);
 
 GtkWidget *ui_statusbar_get_recording_widget(void);
 
