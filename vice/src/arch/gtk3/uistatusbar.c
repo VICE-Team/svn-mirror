@@ -1204,8 +1204,6 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget,
     if (event && event->type == GDK_ENTER_NOTIFY) {
         GdkDisplay *display;
 
-        debug_gtk3("ENTER-NOTIFY\n");
-
         /* Sanity check arguments */
         if (sb == NULL) {
             /* Should be impossible */
@@ -1232,9 +1230,6 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget,
         /* We're leaving the target widget, so change the pointer back
          * to default */
         GdkWindow *window = gtk_widget_get_window(widget);
-
-
-        debug_gtk3("LEAVE-NOTIFY\n");
 
         if (window) {
             gdk_window_set_cursor(window, NULL);
