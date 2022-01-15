@@ -50,7 +50,7 @@
  * Enable debugging messages and widgets
  */
 #ifndef DEBUG_HOTKEYS
-#define DEBUG_HOTKEYS
+/* #define DEBUG_HOTKEYS */
 #endif
 
 #ifndef ARRAY_LEN
