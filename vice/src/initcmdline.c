@@ -358,7 +358,7 @@ static const cmdline_option_t common_cmdline_options[] =
 {
     { "-help", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_help, NULL, NULL, NULL,
-      NULL, "Show a list of the available options an_vice_xit normally" },
+      NULL, "Show a list of the available options and exit normally" },
     { "-?", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
