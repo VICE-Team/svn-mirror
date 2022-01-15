@@ -3590,3 +3590,34 @@ void ui_display_reset(int device, int mode)
     ui_display_statustext(buffer, 1 /* fadeout */);
 #endif
 }
+
+
+/** \brief  Update status bar debug widget instances
+ *
+ * \param[in]   report  Gdk key event
+ *
+ * \note    Can only be called from the UI thread.
+ */
+void ui_statusbar_update_kbd_debug(GdkEvent *report)
+{
+    GtkWidget *widget;
+
+    mainlock_assert_is_not_vice_thread();
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        return;
+    }
+
+    /* update primary window debug widget */
+    widget = allocated_bars[0].kbd_debug;
+    if (widget != NULL) {
+        kbd_debug_widget_update(widget, report);
+    }
+    if (machine_class == VICE_MACHINE_C128) {
+        /* update secondary window debug widget */
+        widget = allocated_bars[1].kbd_debug;
+        if (widget != NULL) {
+            kbd_debug_widget_update(widget, report);
+        }
+    }
+}
