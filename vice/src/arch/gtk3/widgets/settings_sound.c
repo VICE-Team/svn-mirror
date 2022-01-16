@@ -53,21 +53,6 @@
 #include "settings_sound.h"
 
 
-/** \brief  Event handler for the 'toggled' event of the Sound checkbox
- *
- * Extra event handler to toggle sensitivity of the other sound widgets.
- *
- * \param[in]       widget  toggle button
- * \param[in,out]   data    grid containing the sound widgets
- */
-static void on_sound_toggled(GtkWidget *widget, gpointer data)
-{
-    /* kort door de bocht, maar het werkt */
-    gtk_widget_set_sensitive(GTK_WIDGET(data),
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
-}
-
-
 /** \brief  Create the 'inner' grid, the one containing all the widgets
  *
  * \return  GtkGrid
@@ -121,11 +106,9 @@ static GtkWidget *create_inner_grid(void)
  */
 GtkWidget *settings_sound_create(GtkWidget *widget)
 {
-    GtkWidget * outer;
-    GtkWidget * inner;
-    GtkWidget * enabled_check;
-    int         enabled_state;
-
+    GtkWidget *outer;
+    GtkWidget *inner;
+    GtkWidget *enabled_check;
 
     /* outer grid: contains the checkbox and an 'inner' grid for the widgets */
     outer = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
@@ -140,14 +123,7 @@ GtkWidget *settings_sound_create(GtkWidget *widget)
     inner = create_inner_grid();
     gtk_grid_set_column_spacing(GTK_GRID(inner), 8);
     g_object_set(inner, "margin", 8, NULL);
-
-    resources_get_int("Sound", &enabled_state);
-    gtk_widget_set_sensitive(inner, enabled_state); /* set enabled state */
-
     gtk_grid_attach(GTK_GRID(outer), inner, 0, 1, 1, 1);
-
-    g_signal_connect(enabled_check, "toggled", G_CALLBACK(on_sound_toggled),
-            (gpointer)inner);
 
     gtk_widget_show_all(outer);
     return outer;
