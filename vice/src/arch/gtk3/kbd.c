@@ -34,12 +34,14 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "debug_gtk3.h"
+#include "hotkeys.h"
 #include "lib.h"
 #include "log.h"
 #include "ui.h"
 #include "kbddebugwidget.h"
 #include "keyboard.h"
 #include "mainlock.h"
+#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uimedia.h"
 #include "uistatusbar.h"
@@ -390,6 +392,33 @@ static int removepressedkey(GdkEvent *report, int *key, int *mod)
     return 0;
 }
 
+/** \brief  Check if a key event report refers to a "reset" action
+ *
+ * \param[in]   report  event object
+ *
+ * \return  TRUE if reported key combo is mapped to a "reset" action
+ */
+static gboolean isresethotkey(GdkEvent *report)
+{
+    static char *checkaccel[2] = { "reset-soft", "reset-hard" };
+    gboolean res = FALSE;
+    int i;
+    char *this_accel = gtk_accelerator_get_label(report->key.keyval, report->key.state & VKM_ACCEPTED_MODIFIERS);
+    for (i = 0; i < 2; i++) {
+        ui_menu_item_t *item = ui_get_vice_menu_item_by_name(checkaccel[i]);
+        if (item != NULL) {
+            char *accel = gtk_accelerator_get_label(item->keysym, item->modifier);
+            if (!strcmp(this_accel, accel)) {
+                i = 2;
+                res = TRUE;
+            }
+            g_free(accel);
+        }
+    }
+    g_free(this_accel);
+    return res;
+}
+
 /** \brief  Gtk keyboard event handler
  *
  * \param[in]   w       widget triggering the event
@@ -446,12 +475,15 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             mainlock_release();
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
                 mainlock_obtain();
-
                 /* mnemonic or accelerator was found and activated. */
-                /* release all previously pressed keys to prevent stuck keys */
-                keyspressed = 0;
-                kbd_fix_shift_clear();
-                keyboard_key_clear();
+                /* release all previously pressed keys to prevent stuck keys,
+                   except we detected a "reset" hotkey (because certain cartridges
+                   or kernals want you to hold a key on reset for certain features) */
+                if (!isresethotkey(report)) {
+                    keyspressed = 0;
+                    keyboard_key_clear();
+                    kbd_fix_shift_clear();
+                }
                 kbd_sync_caps_lock();
                 return TRUE;
             }
