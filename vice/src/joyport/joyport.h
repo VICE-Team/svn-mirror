@@ -105,6 +105,8 @@
 #define JOYPORT_9   8
 #define JOYPORT_10  9
 
+#define JOYPORT_PLUS4_SIDCART JOYPORT_6
+
 #define JOYPORT_MAX_PORTS     10
 
 #define JOYPORT_IS_NOT_LIGHTPEN   0

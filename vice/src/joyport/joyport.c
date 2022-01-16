@@ -849,15 +849,34 @@ uint8_t joystick_adapter_activate(uint8_t id, char *name)
 
 void joystick_adapter_deactivate(void)
 {
+    int i;
+
     joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
     joystick_adapter_name = NULL;
     joystick_adapter_ports = 0;
     joystick_output_check_function = NULL;
+
+    /* deactivate all extra joy ports */
+    for (i = JOYPORT_3; i < JOYPORT_MAX_PORTS; i++) {
+        port_props[i].active = 0;
+    }
+
+    /* turn plus4 sidcard joy back on if it was still on */
+    if (joystick_adapter_additional_ports) {
+        port_props[JOYPORT_PLUS4_SIDCART].active = 1;
+    }
 }
 
 void joystick_adapter_set_ports(int ports)
 {
+    int i;
+
     joystick_adapter_ports = ports;
+
+    /* activate the extra joy ports */
+    for (i = 0; i < ports; i++) {
+        port_props[JOYPORT_3 + i].active = 1;
+    }
 }
 
 int joystick_adapter_get_ports(void)
@@ -868,6 +887,8 @@ int joystick_adapter_get_ports(void)
 void joystick_adapter_set_add_ports(int ports)
 {
     joystick_adapter_additional_ports = ports;
+
+    port_props[JOYPORT_PLUS4_SIDCART].active = ports;
 }
 
 
@@ -885,32 +906,7 @@ int joyport_port_is_active(int port)
 {
     int active = 0;
 
-    switch (port) {
-        case JOYPORT_1:    /* Fallthrough */
-        case JOYPORT_2:
-            if (port_props[port].name) {
-                active = 1;
-            }
-            break;
-        case JOYPORT_3:    /* Fallthrough */
-        case JOYPORT_4:    /* Fallthrough */
-        case JOYPORT_5:    /* Fallthrough */
-        case JOYPORT_7:    /* Fallthrough */
-        case JOYPORT_8:    /* Fallthrough */
-        case JOYPORT_9:    /* Fallthrough */
-        case JOYPORT_10:
-            if (joystick_adapter_ports > (port - 2)) {
-                active = 1;
-            }
-            break;
-        case JOYPORT_6:
-            if (joystick_adapter_additional_ports || joystick_adapter_ports > (port - 2)) {
-                active = 1;
-            }
-            break;
-    }
-
-    return active;
+    return port_props[port].active;
 }
 
 void joyport_set_mapping(joyport_mapping_t *map, int port)
