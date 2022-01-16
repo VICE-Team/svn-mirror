@@ -53,7 +53,7 @@ If you have those installed, do run autogen.sh inside the vice dir:
 that should complete without error (and generate the actual configure scripts)
 
 try configuring now:
-# ./configure --enable-native-gtk3ui
+# ./configure --enable-native-gtk3ui --disable-pdf-docs
 it should complete without error
 
 lets try compiling it... we'll reconfigure again later and enable the options
