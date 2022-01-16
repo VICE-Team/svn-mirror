@@ -42,6 +42,8 @@
 #include "debug_gtk3.h"
 #include "contentpreviewwidget.h"
 #include "diskcontents.h"
+#include "diskimage.h"
+#include "driveimage.h"
 #include "tapecontents.h"
 #include "machine.h"
 #include "mainlock.h"
@@ -132,6 +134,47 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     g_free(filename_locale);
 }
 
+/** \brief  try attach a disk image, change drive type if needed
+ *
+ * \param[in]   unit_number
+ * \param[in]   drive_number
+ * \param[in]   filename_locale
+ */
+static int try_attach_disk(int unit_number, int drive_number, char *filename_locale)
+{
+    if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
+        /* failed */
+        return -1;
+    } else {
+        /* shitty code, we really need to extend the drive API to
+        * get at these sorts for things without breaking into core code
+        */
+        struct disk_image_s *diskimg = file_system_get_image(unit_number, drive_number);
+
+        if (diskimg == NULL) {
+            log_error(LOG_ERR, "Failed to get disk image for unit %d.", unit_number);
+            return -1;
+        } else {
+            int chk = drive_check_image_format(diskimg->type, 0);
+            log_message(LOG_DEFAULT, "mounted image is type: %u, %schanging drive.",
+                        diskimg->type, (chk < 0) ? "" : "not ");
+            /* change drive type only when image does not work in current drive */
+            if (chk < 0) {
+                if (resources_set_int_sprintf("Drive%dType", diskimg->type, unit_number) < 0) {
+                    log_error(LOG_ERR, "Failed to set drive type.");
+                }
+            }
+
+            /* detach disk before reattaching */
+            file_system_detach_disk(unit_number, drive_number);
+
+            if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
+                return -1;
+            }
+        }
+    }
+    return 0;
+}
 
 /** \brief  Do smart attach
  *
@@ -157,7 +200,7 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
             || (machine_class == VICE_MACHINE_SCPU64)
             || (machine_class == VICE_MACHINE_C128)
             || (machine_class == VICE_MACHINE_PLUS4)) {
-        if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+        if (try_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0
                 && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
@@ -166,7 +209,7 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
             log_error(LOG_ERR, "smart attach failed for '%s' failed", filename);
         }
     } else if (machine_class == VICE_MACHINE_VIC20) {
-        if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+        if (try_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0
                 /* && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0 */
@@ -178,7 +221,7 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
         /* Smart attach for other emulators: don't try to attach a file
             * as a cartidge, it'll result in false positives
             */
-        if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+        if (try_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0)
         {
