@@ -590,9 +590,9 @@ case "$host_os" in
   freebsd*)
     AM_CONDITIONAL([HAVE_BSD], true)
     AM_CONDITIONAL([HAVE_BSD_FREE], true)
-    dnl VICE_CPPFLAGS="$VICE_CPPFLAGS -I/usr/local/include"
-    dnl fbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
-    dnl VICE_LDFLAGS="$VICE_LDFLAGS $fbsdrtp -L/usr/local/lib"
+    CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+    fbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
+    VICE_LDFLAGS="$VICE_LDFLAGS $fbsdrtp -L/usr/local/lib"
     ;;
   netbsd*)
     AM_CONDITIONAL([HAVE_BSD], true)
