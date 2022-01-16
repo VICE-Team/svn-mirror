@@ -904,8 +904,6 @@ static int joystick_mapped[JOYPORT_MAX_PORTS] = { 0 };
 
 int joyport_port_is_active(int port)
 {
-    int active = 0;
-
     return port_props[port].active;
 }
 
