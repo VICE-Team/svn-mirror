@@ -457,6 +457,42 @@ static gboolean update_treeview_hotkey(const gchar *accel)
 }
 
 
+/** \brief  Remove the accelerator label \a accel from the model
+ *
+ * \param[in]   accel   accelerator label
+ *
+ * \return  TRUE on success
+ */
+static gboolean remove_treeview_hotkey(const gchar *accel)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    model = gtk_tree_view_get_model(GTK_TREE_VIEW(hotkeys_view));
+    if (model == NULL) {
+        return FALSE;   /* shouldn't happen */
+    }
+    if (!gtk_tree_model_get_iter_first(model, &iter)) {
+        return FALSE;   /* shouldn't happen either */
+    }
+
+    do {
+        gchar *s = NULL;
+
+        gtk_tree_model_get(model, &iter, COL_HOTKEY, &s, -1);
+        if (s != NULL && strcmp(s, accel) == 0) {
+            gtk_list_store_set(GTK_LIST_STORE(model), &iter, COL_HOTKEY, NULL, -1);
+            g_free(s);
+            return TRUE;
+        }
+        if (s != NULL) {
+            g_free(s);
+        }
+    } while (gtk_tree_model_iter_next(model, &iter));
+
+    return FALSE;
+}
+
 
 /** \brief  Handler for the 'response' event of the dialog
  *
@@ -488,12 +524,17 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             /* XXX: somehow the mask gets OR'ed with $2000, which is a reserved
              *      flag, so we mask out any reserved bits:
              * TODO: Better do the masking out in the called function */
-            item_vice = ui_get_vice_menu_item_by_hotkey(hotkey_mask & 0x1fff,
+            item_vice = ui_get_vice_menu_item_by_hotkey(hotkey_mask & accepted_mods,
                                                         hotkey_keysym);
             if (item_vice != NULL) {
                 debug_gtk3("Removing old hotkey: label: %s, action: %s.", item_vice->label,
                         item_vice->action_name);
                 ui_menu_remove_accel_via_vice_item(item_vice);
+                if (!remove_treeview_hotkey(accel)) {
+                    /* since we found the menu item via the hotkey, the call
+                     * shouldn't have failed */
+                    debug_gtk3("Failed to remove hotkey from table!");
+                }
                 item_vice->keysym = 0;
                 item_vice->modifier = 0;
             }
