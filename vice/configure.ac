@@ -613,9 +613,11 @@ case "$host_os" in
     fi
     ;;
   openbsd*)
-    dnl Either OpenBSD doesn't need the rpath stuff, or we never implemented it
     AM_CONDITIONAL([HAVE_BSD], true)
     AM_CONDITIONAL([HAVE_BSD_OPEN], true)
+    CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+    obsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
+    VICE_LDFLAGS="$VICE_LDFLAGS $obsdrtp -L/usr/local/lib"
     ;;
   dragonfly*)
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
