@@ -503,7 +503,12 @@ else
 SVN_VERSION_HEADER =
 endif
 
-BUILT_SOURCES = $(SVN_VERSION_HEADER) infocontrib.h
+BUILT_SOURCES = $(SVN_VERSION_HEADER) infocontrib.h vicedate.h
+
+vicedate.h: FORCE
+	@$(SHELL) $(srcdir)/buildtools/genvicedate_h.sh
+
+FORCE:
 
 if USE_SVN_REVISION
 svnversion.h.indirect:

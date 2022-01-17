@@ -59,6 +59,8 @@
 
 #include "version.h"
 
+#include "vicedate.h"
+
 #ifdef USE_SVN_REVISION
 # include "svnversion.h"
 #endif
@@ -5671,7 +5673,7 @@ int main(int argc, char **argv)
         /* TODO: Add completions on Windows, somehow, or perhaps not */
 
         version_cmd(0, NULL);
-        printf("Copyright 1995-2021 The VICE Development Team.\n"
+        printf("Copyright 1995-" VICEDATE_YEAR_STR " The VICE Development Team.\n"
                "C1541 is free software, covered by the GNU General Public License,"
                " and you are\n"
                "welcome to change it and/or distribute copies of it under certain"
