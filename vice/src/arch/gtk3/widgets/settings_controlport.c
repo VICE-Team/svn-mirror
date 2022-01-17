@@ -59,6 +59,7 @@
 
 static void joyport_devices_list_shutdown(void);
 static void free_combo_list(int port);
+static void update_adapter_ports_visibility(GtkGrid *grid, int row);
 
 
 /** \brief  Lists of valid devices for each joyport
@@ -214,10 +215,27 @@ static GtkWidget *create_joyport_widget(int port, const char *title)
 }
 
 
+/** \brief  Handler for the 'changed' event of the control port combo boxes
+ *
+ * \param[in]   widget  control port widget's combo box
+ * \param[in]   data    row in grid of the first adapter port widget
+ */
+static void on_control_port_changed(GtkWidget *widget, gpointer data)
+{
+    GtkWidget *grid = gtk_widget_get_parent(gtk_widget_get_parent(widget));
+    int row = GPOINTER_TO_INT(data);
+
+    debug_gtk3("calling adapter port visibilty update with row %d.", row);
+    update_adapter_ports_visibility(GTK_GRID(grid), row);
+}
+
 
 /** \brief  Add widgets for the control ports
  *
  * Adds \a count comboboxes to select the emulated device for the control ports.
+ *
+ * We don't use joyport_port_is_active() here due to the number of control ports
+ * for a specific machine being fixed.
  *
  * \param[in,out]   layout  main widget grid
  * \param[in]       row     starting row in \a layout
@@ -227,21 +245,29 @@ static GtkWidget *create_joyport_widget(int port, const char *title)
  */
 static int layout_add_control_ports(GtkGrid *layout, int row, int count)
 {
+    GtkWidget *widget;
+    GtkWidget *combo;
+
     if (count <= 0) {
         return row;
     }
 
-    if (joyport_port_is_active(0)) {
-        gtk_grid_attach(layout,
-                        create_joyport_widget(JOYPORT_1, "Control Port #1"),
-                        0, row, 1, 1);
-    }
+    widget = create_joyport_widget(JOYPORT_1, "Control Port #1");
+    gtk_grid_attach(layout, widget, 0, row, 1, 1);
+    combo = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    g_signal_connect(combo, "changed",
+                     G_CALLBACK(on_control_port_changed),
+                     GINT_TO_POINTER(row + 1));
+    gtk_widget_show(widget);
+
     if (count > 1) {
-        if (joyport_port_is_active(1)) {
-            gtk_grid_attach(layout,
-                            create_joyport_widget(JOYPORT_2, "Control Port #2"),
-                            1, row, 1, 1);
-        }
+        widget = create_joyport_widget(JOYPORT_2, "Control Port #2"),
+        gtk_grid_attach(layout, widget, 1, row, 1, 1);
+        combo = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+        g_signal_connect(combo, "changed",
+                         G_CALLBACK(on_control_port_changed),
+                         GINT_TO_POINTER(row + 1));
+        gtk_widget_show(widget);
     }
 
     return row + 1;
@@ -250,7 +276,12 @@ static int layout_add_control_ports(GtkGrid *layout, int row, int count)
 
 /** \brief  Add widgets for the joystick adapter ports
  *
- * Adds \a count comboboxes to select the emulated device for the adapter ports.
+ * Adds \a count widgets to select the emulated device for the adapter ports.
+ *
+ * Only the widgets for active adapter ports (according to current configuration)
+ * will be shown. The function update_adapter_ports_visibility() is used when
+ * the control port devices change to update the adapter port widgets' visibility
+ * due to a changed configuration.
  *
  * \param[in,out]   layout  main widget grid
  * \param[in]       row     starting row in \a layout
@@ -266,15 +297,18 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
     int d = JOYPORT_3;
 
     for (i = 0; i < count; i++, d++) {
-
+        GtkWidget *widget;
         char label[256];
 
+        g_snprintf(label, sizeof(label), "Extra Joystick #%d", i + 1);
+        widget = create_joyport_widget(d, label);
+        gtk_grid_attach(layout, widget, c, r, 1, 1);
         if (joyport_port_is_active(d)) {
-            g_snprintf(label, sizeof(label), "Extra Joystick #%d", i + 1);
-            gtk_grid_attach(layout,
-                            create_joyport_widget(d, label),
-                            c, r, 1, 1);
+            gtk_widget_show(widget);
+        } else {
+            gtk_widget_hide(widget);
         }
+
         c ^= 1; /* swap column */
         if (c == 0) {
             r++;
@@ -283,6 +317,43 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
 
     return r + 1 + c;
 }
+
+
+/** \brief  Update visibility of adapter port widgets
+ *
+ * Show/hide adapter port widgets based on current configuration.
+ *
+ * \param[in]   grid    Grid containing all the widgets
+ * \param[in]   row     row in \a grid of the first adapter port widget
+ */
+static void update_adapter_ports_visibility(GtkGrid *grid, int row)
+{
+    int r;
+
+    for (r = 0; r < 4; r++) {
+        GtkWidget *widget;
+
+        debug_gtk3("Updating Joydevice%d visibility.", r * 2 + 1);
+        widget = gtk_grid_get_child_at(grid, 0, row + r);
+        if (widget != NULL) {
+            if (joyport_port_is_active(r * 2 + 2)) {
+                gtk_widget_show(widget);
+            } else {
+                gtk_widget_hide(widget);
+            }
+        }
+        debug_gtk3("Updating Joydevice%d visibility.", r * 2 + 2);
+        widget = gtk_grid_get_child_at(grid, 1, row + r);
+        if (widget != NULL) {
+            if (joyport_port_is_active(r * 2 + 3)) {
+                gtk_widget_show(widget);
+            } else {
+                gtk_widget_hide(widget);
+            }
+        }
+    }
+}
+
 
 
 /** \brief  Add widget for the Plus4 SIDCart joystick port
@@ -300,10 +371,13 @@ static int layout_add_adapter_ports(GtkGrid *layout, int row, int count)
  */
 static int layout_add_sidcard_port(GtkGrid *layout, int row)
 {
-    if (joyport_port_is_active(5)) {
-        gtk_grid_attach(layout,
-                        create_joyport_widget(JOYPORT_5, "SIDCard Joystick Port"),
-                        0, row, 1, 1);
+    GtkWidget *widget = create_joyport_widget(JOYPORT_5, "SIDCard Joystick Port");
+
+    gtk_grid_attach(layout, widget, 0, row, 1, 1);
+    if (joyport_port_is_active(JOYPORT_5)) {
+        gtk_widget_show(widget);
+    } else {
+        gtk_widget_hide(widget);
     }
     return row + 1;
 }
@@ -328,6 +402,7 @@ static int layout_add_bbrtc_widget(GtkGrid *layout, int row)
             "Save battery-backed real time clock data when changed");
     g_object_set(check, "margin-top", 16, NULL);
     gtk_grid_attach(layout, check, 0, row, 2, 1);
+    gtk_widget_show(check);
 
     return row + 1;
 }
@@ -353,6 +428,7 @@ static int layout_add_smartmouse_rtc_widget(GtkGrid *layout, int row)
     check = vice_gtk3_resource_check_button_new("SmartMouseRTCSave",
             "Enable SmartMouse RTC Saving");
     gtk_grid_attach(layout, check, 0, row, 2, 1);
+    gtk_widget_show(check);
 
     return row + 1;
 }
@@ -378,6 +454,7 @@ static int layout_add_ps2mouse_widget(GtkGrid *layout, int row)
     check = vice_gtk3_resource_check_button_new("ps2mouse",
             "Enable PS/2 mouse on Userport");
     gtk_grid_attach(layout, check, 0, row, 2, 1);
+    gtk_widget_show(check);
 
     return row + 1;
 }
@@ -533,6 +610,7 @@ static int create_cbm6x0_layout(GtkGrid *layout)
 
 
 
+
 /** \brief  Create widget to control control ports
  *
  * Creates a widget to control the settings for the control ports, userport
@@ -550,6 +628,7 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
     joyport_devices_list_init();
 
     layout = vice_gtk3_grid_new_spaced(16, 8);
+    gtk_widget_set_no_show_all(layout, TRUE);
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
@@ -583,6 +662,7 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
     }
 
     g_signal_connect_unlocked(layout, "destroy", G_CALLBACK(on_destroy), NULL);
-    gtk_widget_show_all(layout);
+    gtk_widget_show(layout);
+
     return layout;
 }
