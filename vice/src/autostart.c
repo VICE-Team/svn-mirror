@@ -1709,7 +1709,7 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
                             diskimg->type, (chk < 0) ? "" : "not ");
                 /* change drive type only when image does not work in current drive */
                 if (chk < 0) {
-                    if (resources_set_int_sprintf("Drive%dType", diskimg->type, unit) < 0) {
+                    if (resources_set_int_sprintf("Drive%dType", drive_image_type_to_drive_type(diskimg->type), unit) < 0) {
                         log_error(LOG_ERR, "Failed to set drive type.");
                     }
                 }
