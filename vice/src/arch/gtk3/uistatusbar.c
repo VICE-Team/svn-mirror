@@ -1010,9 +1010,13 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
 {
     GtkWidget *drive_menu;
     GtkWidget *drive_menu_item;
+    GtkWidget *label;
     gchar buffer[256];
+    GList *children;
+    GList *child;
     int i = GPOINTER_TO_INT(data) & 0xff;
     int drive = GPOINTER_TO_INT(data) >> 8;
+
 
     mainlock_assert_is_not_vice_thread();
 
@@ -1020,8 +1024,50 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                i + DRIVE_UNIT_MIN, drive);
 
     drive_menu = allocated_bars[0].drive_menu[i][drive];
-    ui_populate_fliplist_menu(drive_menu, i + DRIVE_UNIT_MIN, 0);
 
+    /* set "Attach" item label based on dual-drive status */
+    child = children = gtk_container_get_children(GTK_CONTAINER(drive_menu));
+    if (child != NULL && child->data != NULL) {
+
+        drive_menu_item = child->data;
+        label = gtk_bin_get_child(GTK_BIN(drive_menu_item));
+
+        if (drive_is_dualdrive_by_devnr(i + DRIVE_UNIT_MIN)) {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Attach disk to drive #%d:%d...",
+                       i + DRIVE_UNIT_MIN, drive);
+        } else {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Attach disk to drive #%d...",
+                       i + DRIVE_UNIT_MIN);
+        }
+        debug_gtk3("Setting top item text to '%s'.", buffer);
+        gtk_label_set_text(GTK_LABEL(label), buffer);
+    }
+
+    /* set "Detach" item label based on dual-drive status */
+    child = child->next;
+    if (child != NULL && child->data != NULL) {
+
+        drive_menu_item = child->data;
+        label = gtk_bin_get_child(GTK_BIN(drive_menu_item));
+
+        if (drive_is_dualdrive_by_devnr(i + DRIVE_UNIT_MIN)) {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Detach disk from drive #%d:%d...",
+                       i + DRIVE_UNIT_MIN, drive);
+        } else {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Detach disk from drive #%d...",
+                       i + DRIVE_UNIT_MIN);
+        }
+        debug_gtk3("Setting next item text to '%s'.", buffer);
+        gtk_label_set_text(GTK_LABEL(label), buffer);
+    }
+
+    g_list_free(children);
+
+    ui_populate_fliplist_menu(drive_menu, i + DRIVE_UNIT_MIN, 0);
     /* XXX: this code is a duplicate of the drive_menu creation code, so we
      *      should probably refactor this a bit
      */
@@ -1075,7 +1121,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     /* Add 'clear fliplist' */
     g_snprintf(buffer,
                sizeof(buffer),
-               "Clear drive #%d:0 fliplist",
+               "Clear drive #%d fliplist",
                i + DRIVE_UNIT_MIN);
     drive_menu_item = gtk_menu_item_new_with_label(buffer);
     g_signal_connect(drive_menu_item,
@@ -1198,8 +1244,6 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget,
                                       gpointer user_data)
 {
     ui_statusbar_t *sb = (ui_statusbar_t *)user_data;
-
-    debug_gtk3("Called.");
 
     if (event && event->type == GDK_ENTER_NOTIFY) {
         GdkDisplay *display;
@@ -1884,26 +1928,17 @@ static GtkWidget *ui_drive_menu_create(int unit, int drive)
 {
     GtkWidget *drive_menu;
     GtkWidget *drive_menu_item;
-    char buf[128];
 
     mainlock_assert_is_not_vice_thread();
 
-
-    g_snprintf(buf, sizeof(buf), "Attach disk to drive #%d:%d...",
-               unit + DRIVE_UNIT_MIN, drive);
-
     drive_menu = gtk_menu_new();
-    drive_menu_item = gtk_menu_item_new_with_label(buf);
+    drive_menu_item = gtk_menu_item_new_with_label("Attach <fill-in-details>");
     g_signal_connect(drive_menu_item, "activate",
             G_CALLBACK(ui_disk_attach_dialog_show),
             GINT_TO_POINTER(unit + DRIVE_UNIT_MIN));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
-
-    g_snprintf(buf, sizeof(buf), "Detach disk from drive #%d:%d",
-             unit + DRIVE_UNIT_MIN, drive);
-
-    drive_menu_item = gtk_menu_item_new_with_label(buf);
+    drive_menu_item = gtk_menu_item_new_with_label("Detach <fill-in-details>");
     g_signal_connect(drive_menu_item, "activate",
                      G_CALLBACK(ui_disk_detach_callback),
                      UNIT_DRIVE_TO_PTR(unit + DRIVE_UNIT_MIN, drive));
@@ -1916,7 +1951,7 @@ static GtkWidget *ui_drive_menu_create(int unit, int drive)
     gtk_container_add(GTK_CONTAINER(drive_menu),
             gtk_separator_menu_item_new());
 
-    drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
+    drive_menu_item = gtk_menu_item_new_with_label("Configure drives...");
     g_signal_connect(drive_menu_item, "activate",
             G_CALLBACK(on_drive_configure_activate), NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);

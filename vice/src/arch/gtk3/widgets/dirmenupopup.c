@@ -48,6 +48,7 @@
 #include "imagecontents/diskcontents.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "tape.h"
 #include "tapeport.h"
 #include "util.h"
@@ -232,11 +233,25 @@ GtkWidget *dir_menu_popup_create(
         util_fname_split(autostart_diskimage, NULL, &tmp);
     }
     if (unit >= DRIVE_UNIT_MIN) {
-        g_snprintf(buffer, sizeof(buffer), "Directory of unit %d drive %u (%s):",
-                   unit, drv, tmp ? tmp : "n/a");
+        if (drive_is_dualdrive_by_devnr(unit)) {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Directory of drive #%d:%u (%s):",
+                       unit, drv, tmp ? tmp : "n/a");
+        } else {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Directory of drive #%d (%s):",
+                       unit, tmp ? tmp : "n/a");
+        }
     } else {
-        g_snprintf(buffer, sizeof(buffer), "Directory of tape #%d (%s):",
-                   unit, tmp ? tmp : "n/a");
+        if (machine_class == VICE_MACHINE_PET) {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Directory of tape #%d (%s):",
+                       unit, tmp ? tmp : "n/a");
+        } else {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Directory of tape (%s):",
+                       tmp ? tmp : "n/a");
+        }
     }
     item = gtk_menu_item_new_with_label(buffer);
     gtk_container_add(GTK_CONTAINER(menu), item);
