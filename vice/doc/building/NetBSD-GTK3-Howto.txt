@@ -35,8 +35,6 @@ now ... you will need some packages:
 # pkgin install glib2-tools
 # pkgin install gtexinfo
 # pkgin install dos2unix         # only used when doing `make dist`
-# pkgin install pulseaudio       # for Pulse Audio sound support
-# pkgin install alsa-utils       # for ALSA sound support
 # pkgin install glew             # for OpenGL hardware scaling support
 
 (libpng-dev is required but is a hard dependency of libgtk-3-dev)
@@ -53,7 +51,7 @@ If you have those installed, do run autogen.sh inside the vice dir:
 that should complete without error (and generate the actual configure scripts)
 
 try configuring now:
-# ./configure --enable-native-gtk3ui --disable-pdf-docs
+# ./configure --enable-native-gtk3ui --disable-pdf-docs --without-alsa --without-pulse
 it should complete without error
 
 lets try compiling it... we'll reconfigure again later and enable the options
