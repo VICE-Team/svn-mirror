@@ -45,6 +45,7 @@
 #include "archdep_get_runtime_info.h"
 
 #include "uiabout.h"
+#include "vicedate.h"
 
 
 /** \brief  Maximum length of generated version string
@@ -220,12 +221,8 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     /* set list of current team members */
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about), (const gchar **)authors);
     /* set copyright string */
-    /*
-     * TODO:    Get the current year from [svn]version.h or something similar,
-     *          so altering this file by hand won't be required anymore.
-     */
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about),
-            "Copyright 1996-2021, VICE team");
+            "Copyright 1996-" VICEDATE_YEAR_STR ", VICE team");
 
     /* set logo */
     if (logo != NULL) {

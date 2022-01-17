@@ -3,6 +3,7 @@ EXTRA_DIST = \
 	convert_owcc_libs.sh \
 	geninfocontrib_h.sh \
 	gensvnversion.sh \
+	genvicedate_h.sh \
 	infocontrib.sed \
 	od2c.sh \
 	palette2c.sh
