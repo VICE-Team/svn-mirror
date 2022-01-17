@@ -985,6 +985,11 @@ int drive_has_buttons(unsigned int dnr)
     return 0;
 }
 
+int drive_image_type_to_drive_type(unsigned int type)
+{
+    return 0;
+}
+
 unsigned int drive_check_dual(unsigned int type)
 {
     return 0;
