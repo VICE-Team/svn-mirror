@@ -134,6 +134,41 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     g_free(filename_locale);
 }
 
+/** \brief  convert image type to drive type
+ *
+ * \param[in]   image_type
+ */
+static int convert_image_type_to_drive_type(unsigned int type)
+{
+    switch (type) {
+        case DISK_IMAGE_TYPE_G64:
+        case DISK_IMAGE_TYPE_P64:
+        case DISK_IMAGE_TYPE_D64:
+            return DRIVE_TYPE_1541;
+        case DISK_IMAGE_TYPE_G71:
+        case DISK_IMAGE_TYPE_D71:
+            return DRIVE_TYPE_1571;
+        case DISK_IMAGE_TYPE_D81:
+            return DRIVE_TYPE_1581;
+        case DISK_IMAGE_TYPE_D1M:
+        case DISK_IMAGE_TYPE_D2M:
+            return DRIVE_TYPE_2000;
+        case DISK_IMAGE_TYPE_D4M:
+            return DRIVE_TYPE_4000;
+        case DISK_IMAGE_TYPE_D67:
+            return DRIVE_TYPE_2040;
+        case DISK_IMAGE_TYPE_D80:
+            return DRIVE_TYPE_8050;
+        case DISK_IMAGE_TYPE_D82:
+            return DRIVE_TYPE_8250;
+        case DISK_IMAGE_TYPE_D90:
+            return DRIVE_TYPE_9000;
+        case DISK_IMAGE_TYPE_DHD:
+            return DRIVE_TYPE_CMDHD;
+    }
+    return DRIVE_TYPE_NONE;
+}
+
 /** \brief  try attach a disk image, change drive type if needed
  *
  * \param[in]   unit_number
@@ -142,6 +177,7 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
  */
 static int try_attach_disk(int unit_number, int drive_number, char *filename_locale)
 {
+
     if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
         /* failed */
         return -1;
@@ -160,7 +196,7 @@ static int try_attach_disk(int unit_number, int drive_number, char *filename_loc
                         diskimg->type, (chk < 0) ? "" : "not ");
             /* change drive type only when image does not work in current drive */
             if (chk < 0) {
-                if (resources_set_int_sprintf("Drive%dType", diskimg->type, unit_number) < 0) {
+                if (resources_set_int_sprintf("Drive%dType", convert_image_type_to_drive_type(diskimg->type), unit_number) < 0) {
                     log_error(LOG_ERR, "Failed to set drive type.");
                 }
             }
