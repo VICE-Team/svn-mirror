@@ -303,20 +303,25 @@ static gboolean on_key_release_event(GtkWidget *dialog,
         return TRUE;
     }
 
+
+    /* Check for plain Return/Enter or Escape: these we want to pass to the
+     * dialog's event handler to trigger the response handler. */
+    if (((event->state & accepted_mods) == 0)) {
+        if (event->keyval == GDK_KEY_Return ||
+                event->keyval == GDK_KEY_KP_Enter ||
+                event->keyval == GDK_KEY_Escape) {
+            log_message(LOG_DEFAULT,
+                        "Hotkeys: plain Return/KP-Enter/Escape pressed,"
+                        " let event pass to the dialog keyboard handler.");
+            return TRUE;
+        }
+    }
+
     keymap = gdk_keymap_get_for_display(gtk_widget_get_display(dialog));
-       /* Default to what the event provided */
+    /* Default to what the event provided */
     hotkey_keysym = event->keyval;
     hotkey_mask = event->state & accepted_mods;
 
-#if 0
-    if (hotkey_mask & GDK_CONTROL_MASK) {
-        /* we don't want CTRL */
-        return FALSE;
-    }
-#endif
-    if (hotkey_keysym == GDK_KEY_Return && hotkey_mask == 0) {
-        return TRUE;    /* Return means accept */
-    }
 #if 0
     debug_gtk3("keysym = %04x, mask = %04x.", hotkey_keysym, hotkey_mask);
 #endif
@@ -512,6 +517,10 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
         case GTK_RESPONSE_ACCEPT:
             debug_gtk3("Response ID %d: Accept '%s'", response_id, action);
 
+            if (hotkey_keysym == 0) {
+                debug_gtk3("User clicked accepted/pressed enter without having set a hotkey.");
+                break;
+            }
 
             accel = gtk_accelerator_get_label(hotkey_keysym, hotkey_mask);
             debug_gtk3("Setting accelerator: %s.", accel);
@@ -585,8 +594,10 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 
             break;
 
-        case GTK_RESPONSE_REJECT:
-            debug_gtk3("Response ID %d: Cancel pushed.", response_id);
+        case GTK_RESPONSE_CANCEL:       /* fall through */
+        case GTK_RESPONSE_CLOSE:        /* fall through */
+        case GTK_RESPONSE_DELETE_EVENT:
+            debug_gtk3("Response ID %d: cancel/close/delete event.", response_id);
             break;
 
         default:
