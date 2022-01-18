@@ -47,7 +47,7 @@ jobs:
         shell: bash
         run: |
           cd vice
-          ./src/buildtoold/genvicedate_h.sh
+          ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
           ./configure --with-resid --disable-pdf-docs --enable-headlessui --without-pulse --without-alsa --without-png
           make dist
@@ -100,7 +100,7 @@ jobs:
         shell: bash
         run: |
           cd vice-*/
-          ./src/buildtoold/genvicedate_h.sh
+          ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
           ./configure --enable-headlessui --enable-html-docs --without-pulse --without-alsa --without-png
           make -j2
