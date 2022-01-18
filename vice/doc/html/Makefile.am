@@ -100,7 +100,11 @@ noinst_DATA = \
 .NOTPARALLEL:
 
 if HAVE_PERL
-$(GEN_HTML): $(top_srcdir)/doc/vice.texi $(srcdir)/texi2html
+vice.texi: $(top_srcdir)/doc/vice.texi $(srcdir)/texi2html
+	@cp $(top_srcdir)/doc/vice.texi vice.texi
+	@$(top_srcdir)/doc/fixdates.sh vice.texi
+
+$(GEN_HTML): vice.texi $(srcdir)/texi2html
 	@echo "generating html documentation..."
 	$(PERL) "$(srcdir)"/texi2html -number -split_chapter -D$(PLATFORM_DOX_FLAGS) "$<"
 endif

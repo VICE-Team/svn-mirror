@@ -295,27 +295,29 @@ if test x"$1" = "xinfocontrib.h"; then
     fi
   done
 
+  year=`date +"%Y"`
+
   $ECHO ""
   $ECHO "vice_team_t core_team[] = {"
-  cat coreteam.tmp
+  cat coreteam.tmp | sed "s/@year/$year/g"
   rm -f coreteam.tmp
   $ECHO "    { NULL, NULL, NULL }"
   $ECHO "};"
   $ECHO ""
   $ECHO "vice_team_t ex_team[] = {"
-  cat exteam.tmp
+  cat exteam.tmp | sed "s/@year/$year/g"
   rm -f exteam.tmp
   $ECHO "    { NULL, NULL, NULL }"
   $ECHO "};"
   $ECHO ""
   $ECHO "char *doc_team[] = {"
   cat docteam.tmp
-  rm -f docteam.tmp
+  rm -f docteam.tmp | sed "s/@year/$year/g"
   $ECHO "    NULL"
   $ECHO "};"
   $ECHO ""
   $ECHO "vice_trans_t trans_team[] = {"
-  cat transteam.tmp
+  cat transteam.tmp | sed "s/@year/$year/g"
   rm -f transteam.tmp
   $ECHO "    { NULL, NULL, NULL, NULL }"
   $ECHO "};"
@@ -326,7 +328,7 @@ fi
 # README output type
 
 if test x"$1" = "xREADME"; then
-  MEMBERS=`cat team.tmp`
+  MEMBERS=`cat team.tmp | sed "s/@year/$year/g"`
   buildlists
   outputok=yes
 
@@ -343,6 +345,7 @@ if test x"$1" = "xREADME"; then
       do
         decodedall=`$ECHO "$i" | sed 's/+/ /g'`
         splititem4 $decodedall
+        decodedyear=`$ECHO "$item2" | sed 's/_/ /g'`
         decodedyear=`$ECHO "$item2" | sed 's/_/ /g'`
         decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
         $ECHO "    $decodedyear $decodedname"
@@ -363,7 +366,7 @@ if test x"$1" = "xREADME"; then
       do
         decodedall=`$ECHO "$i" | sed 's/+/ /g'`
         splititem4 $decodedall
-        decodedyear=`$ECHO "$item2" | sed 's/_/ /g'`
+        decodedyear=`$ECHO "$item2" | sed -e 's/_/ /g' -e "s/@year/$year/g"`
         decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
         $ECHO "    $decodedyear $decodedname"
       done
