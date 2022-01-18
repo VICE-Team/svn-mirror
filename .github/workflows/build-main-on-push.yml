@@ -171,7 +171,7 @@ jobs:
         shell: bash
         run: |
           cd vice
-          ./src/buildtoold/genvicedate_h.sh
+          ./src/buildtools/genvicedate_h.sh
           ./autogen.sh
           ./configure --enable-headlessui --enable-html-docs --without-pulse --without-alsa --without-png
           make
