@@ -123,24 +123,24 @@ notice identical to this one.
 @vskip 0pt plus 1filll
 @c section used in file generation, keep to the format used.
 @c ---vice-core-team---
-Copyright @copyright{} 1999-2021 Martin Pottendorfer
-Copyright @copyright{} 2005-2021 Marco van den Heuvel
-Copyright @copyright{} 2007-2021 Fabrizio Gennari
-Copyright @copyright{} 2009-2021 Groepaz
-Copyright @copyright{} 2009-2021 Errol Smith
-Copyright @copyright{} 2009-2021 Ingo Korb
-Copyright @copyright{} 2010-2021 Olaf Seibert
-Copyright @copyright{} 2011-2021 Marcus Sutton
-Copyright @copyright{} 2011-2021 Kajtar Zsolt
-Copyright @copyright{} 2016-2021 AreaScout
-Copyright @copyright{} 2016-2021 Bas Wassink
-Copyright @copyright{} 2017-2021 Michael C. Martin
-Copyright @copyright{} 2018-2021 Christopher Phillips
-Copyright @copyright{} 2019-2021 David Hogan
-Copyright @copyright{} 2020-2021 Empathic Qubit
-Copyright @copyright{} 2020-2021 Roberto Muscedere
-Copyright @copyright{} 2021 June Tate-Gans
-Copyright @copyright{} 2021 Pablo Roldan
+Copyright @copyright{} 1999-@year Martin Pottendorfer
+Copyright @copyright{} 2005-@year Marco van den Heuvel
+Copyright @copyright{} 2007-@year Fabrizio Gennari
+Copyright @copyright{} 2009-@year Groepaz
+Copyright @copyright{} 2009-@year Errol Smith
+Copyright @copyright{} 2009-@year Ingo Korb
+Copyright @copyright{} 2010-@year Olaf Seibert
+Copyright @copyright{} 2011-@year Marcus Sutton
+Copyright @copyright{} 2011-@year Kajtar Zsolt
+Copyright @copyright{} 2016-@year AreaScout
+Copyright @copyright{} 2016-@year Bas Wassink
+Copyright @copyright{} 2017-@year Michael C. Martin
+Copyright @copyright{} 2018-@year Christopher Phillips
+Copyright @copyright{} 2019-@year David Hogan
+Copyright @copyright{} 2020-@year Empathic Qubit
+Copyright @copyright{} 2020-@year Roberto Muscedere
+Copyright @copyright{} 2021-@year June Tate-Gans
+Copyright @copyright{} 2021-@year Pablo Roldan
 @c ---vice-core-team-end---
 
 @c ---ex-team---
@@ -33899,41 +33899,41 @@ for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1999-2021 Martin Pottendorfer
+Copyright @copyright{} 1999-@year Martin Pottendorfer
 @item
-Copyright @copyright{} 2005-2021 Marco van den Heuvel
+Copyright @copyright{} 2005-@year Marco van den Heuvel
 @item
-Copyright @copyright{} 2007-2021 Fabrizio Gennari
+Copyright @copyright{} 2007-@year Fabrizio Gennari
 @item
-Copyright @copyright{} 2009-2021 Groepaz
+Copyright @copyright{} 2009-@year Groepaz
 @item
-Copyright @copyright{} 2009-2021 Errol Smith
+Copyright @copyright{} 2009-@year Errol Smith
 @item
-Copyright @copyright{} 2009-2021 Ingo Korb
+Copyright @copyright{} 2009-@year Ingo Korb
 @item
-Copyright @copyright{} 2010-2021 Olaf Seibert
+Copyright @copyright{} 2010-@year Olaf Seibert
 @item
-Copyright @copyright{} 2011-2021 Marcus Sutton
+Copyright @copyright{} 2011-@year Marcus Sutton
 @item
-Copyright @copyright{} 2011-2021 Kajtar Zsolt
+Copyright @copyright{} 2011-@year Kajtar Zsolt
 @item
-Copyright @copyright{} 2016-2021 AreaScout
+Copyright @copyright{} 2016-@year AreaScout
 @item
-Copyright @copyright{} 2016-2021 Bas Wassink
+Copyright @copyright{} 2016-@year Bas Wassink
 @item
-Copyright @copyright{} 2017-2021 Michael C. Martin
+Copyright @copyright{} 2017-@year Michael C. Martin
 @item
-Copyright @copyright{} 2018-2021 Christopher Phillips
+Copyright @copyright{} 2018-@year Christopher Phillips
 @item
-Copyright @copyright{} 2019-2021 David Hogan
+Copyright @copyright{} 2019-@year David Hogan
 @item
-Copyright @copyright{} 2020-2021 Empathic Qubit
+Copyright @copyright{} 2020-@year Empathic Qubit
 @item
-Copyright @copyright{} 2020-2021 Roberto Muscedere
+Copyright @copyright{} 2020-@year Roberto Muscedere
 @item
-Copyright @copyright{} 2021 June Tate-Gans
+Copyright @copyright{} 2021-@year June Tate-Gans
 @item
-Copyright @copyright{} 2021 Pablo Roldan
+Copyright @copyright{} 2021-@year Pablo Roldan
 
 @item
 Copyright @copyright{} 2011-2016 Stefan Haubenthal
