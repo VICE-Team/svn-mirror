@@ -59,7 +59,7 @@ $(builddir)/vice.txt:	.vice-texi-charset-ok
 if ENABLE_PDF_DOCS
 $(builddir)/vice.pdf:	.vice-texi-charset-ok
 	@LC_ALL=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
-	@$(srcdir)/fixdates.sh vicepdf.texi
+	@$(srcdir)/fixdates.sh vicepdf.texi `grep "VICEDATE_YEAR " $(top_srcdir)/src/vicedate.h | cut -d " " -f 3`
 	@LC_ALL=C $(TEXI2DVI) -I $(srcdir) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi
 	@rm -f vicepdf.texi
 endif

@@ -123,24 +123,24 @@ notice identical to this one.
 @vskip 0pt plus 1filll
 @c section used in file generation, keep to the format used.
 @c ---vice-core-team---
-Copyright @copyright{} 1999-@year Martin Pottendorfer
-Copyright @copyright{} 2005-@year Marco van den Heuvel
-Copyright @copyright{} 2007-@year Fabrizio Gennari
-Copyright @copyright{} 2009-@year Groepaz
-Copyright @copyright{} 2009-@year Errol Smith
-Copyright @copyright{} 2009-@year Ingo Korb
-Copyright @copyright{} 2010-@year Olaf Seibert
-Copyright @copyright{} 2011-@year Marcus Sutton
-Copyright @copyright{} 2011-@year Kajtar Zsolt
-Copyright @copyright{} 2016-@year AreaScout
-Copyright @copyright{} 2016-@year Bas Wassink
-Copyright @copyright{} 2017-@year Michael C. Martin
-Copyright @copyright{} 2018-@year Christopher Phillips
-Copyright @copyright{} 2019-@year David Hogan
-Copyright @copyright{} 2020-@year Empathic Qubit
-Copyright @copyright{} 2020-@year Roberto Muscedere
-Copyright @copyright{} 2021-@year June Tate-Gans
-Copyright @copyright{} 2021-@year Pablo Roldan
+Copyright @copyright{} 1999-__VICE_CURRENT_YEAR__ Martin Pottendorfer
+Copyright @copyright{} 2005-__VICE_CURRENT_YEAR__ Marco van den Heuvel
+Copyright @copyright{} 2007-__VICE_CURRENT_YEAR__ Fabrizio Gennari
+Copyright @copyright{} 2009-__VICE_CURRENT_YEAR__ Groepaz
+Copyright @copyright{} 2009-__VICE_CURRENT_YEAR__ Errol Smith
+Copyright @copyright{} 2009-__VICE_CURRENT_YEAR__ Ingo Korb
+Copyright @copyright{} 2010-__VICE_CURRENT_YEAR__ Olaf Seibert
+Copyright @copyright{} 2011-__VICE_CURRENT_YEAR__ Marcus Sutton
+Copyright @copyright{} 2011-__VICE_CURRENT_YEAR__ Kajtar Zsolt
+Copyright @copyright{} 2016-__VICE_CURRENT_YEAR__ AreaScout
+Copyright @copyright{} 2016-__VICE_CURRENT_YEAR__ Bas Wassink
+Copyright @copyright{} 2017-__VICE_CURRENT_YEAR__ Michael C. Martin
+Copyright @copyright{} 2018-__VICE_CURRENT_YEAR__ Christopher Phillips
+Copyright @copyright{} 2019-__VICE_CURRENT_YEAR__ David Hogan
+Copyright @copyright{} 2020-__VICE_CURRENT_YEAR__ Empathic Qubit
+Copyright @copyright{} 2020-__VICE_CURRENT_YEAR__ Roberto Muscedere
+Copyright @copyright{} 2021-__VICE_CURRENT_YEAR__ June Tate-Gans
+Copyright @copyright{} 2021-__VICE_CURRENT_YEAR__ Pablo Roldan
 @c ---vice-core-team-end---
 
 @c ---ex-team---
@@ -33899,41 +33899,41 @@ for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1999-@year Martin Pottendorfer
+Copyright @copyright{} 1999-__VICE_CURRENT_YEAR__ Martin Pottendorfer
 @item
-Copyright @copyright{} 2005-@year Marco van den Heuvel
+Copyright @copyright{} 2005-__VICE_CURRENT_YEAR__ Marco van den Heuvel
 @item
-Copyright @copyright{} 2007-@year Fabrizio Gennari
+Copyright @copyright{} 2007-__VICE_CURRENT_YEAR__ Fabrizio Gennari
 @item
-Copyright @copyright{} 2009-@year Groepaz
+Copyright @copyright{} 2009-__VICE_CURRENT_YEAR__ Groepaz
 @item
-Copyright @copyright{} 2009-@year Errol Smith
+Copyright @copyright{} 2009-__VICE_CURRENT_YEAR__ Errol Smith
 @item
-Copyright @copyright{} 2009-@year Ingo Korb
+Copyright @copyright{} 2009-__VICE_CURRENT_YEAR__ Ingo Korb
 @item
-Copyright @copyright{} 2010-@year Olaf Seibert
+Copyright @copyright{} 2010-__VICE_CURRENT_YEAR__ Olaf Seibert
 @item
-Copyright @copyright{} 2011-@year Marcus Sutton
+Copyright @copyright{} 2011-__VICE_CURRENT_YEAR__ Marcus Sutton
 @item
-Copyright @copyright{} 2011-@year Kajtar Zsolt
+Copyright @copyright{} 2011-__VICE_CURRENT_YEAR__ Kajtar Zsolt
 @item
-Copyright @copyright{} 2016-@year AreaScout
+Copyright @copyright{} 2016-__VICE_CURRENT_YEAR__ AreaScout
 @item
-Copyright @copyright{} 2016-@year Bas Wassink
+Copyright @copyright{} 2016-__VICE_CURRENT_YEAR__ Bas Wassink
 @item
-Copyright @copyright{} 2017-@year Michael C. Martin
+Copyright @copyright{} 2017-__VICE_CURRENT_YEAR__ Michael C. Martin
 @item
-Copyright @copyright{} 2018-@year Christopher Phillips
+Copyright @copyright{} 2018-__VICE_CURRENT_YEAR__ Christopher Phillips
 @item
-Copyright @copyright{} 2019-@year David Hogan
+Copyright @copyright{} 2019-__VICE_CURRENT_YEAR__ David Hogan
 @item
-Copyright @copyright{} 2020-@year Empathic Qubit
+Copyright @copyright{} 2020-__VICE_CURRENT_YEAR__ Empathic Qubit
 @item
-Copyright @copyright{} 2020-@year Roberto Muscedere
+Copyright @copyright{} 2020-__VICE_CURRENT_YEAR__ Roberto Muscedere
 @item
-Copyright @copyright{} 2021-@year June Tate-Gans
+Copyright @copyright{} 2021-__VICE_CURRENT_YEAR__ June Tate-Gans
 @item
-Copyright @copyright{} 2021-@year Pablo Roldan
+Copyright @copyright{} 2021-__VICE_CURRENT_YEAR__ Pablo Roldan
 
 @item
 Copyright @copyright{} 2011-2016 Stefan Haubenthal

@@ -102,7 +102,7 @@ noinst_DATA = \
 if HAVE_PERL
 vice.texi: $(top_srcdir)/doc/vice.texi $(srcdir)/texi2html
 	@cp $(top_srcdir)/doc/vice.texi vice.texi
-	@$(top_srcdir)/doc/fixdates.sh vice.texi
+	@$(top_srcdir)/doc/fixdates.sh vice.texi `grep "VICEDATE_YEAR " $(top_srcdir)/src/vicedate.h | cut -d " " -f 3`
 
 $(GEN_HTML): vice.texi $(srcdir)/texi2html
 	@echo "generating html documentation..."
