@@ -293,6 +293,7 @@ noinst_HEADERS = \
 	vic20ui.h \
 	vice.h \
 	vice_sdl.h \
+	vicedate.h \
 	vice-event.h \
 	vicemaxpath.h \
 	vicesocket.h \
@@ -503,12 +504,7 @@ else
 SVN_VERSION_HEADER =
 endif
 
-BUILT_SOURCES = $(SVN_VERSION_HEADER) infocontrib.h vicedate.h
-
-vicedate.h: FORCE
-	@$(SHELL) $(srcdir)/buildtools/genvicedate_h.sh
-
-FORCE:
+BUILT_SOURCES = $(SVN_VERSION_HEADER) infocontrib.h
 
 if USE_SVN_REVISION
 svnversion.h.indirect:
@@ -523,7 +519,7 @@ infocontrib.h: $(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.t
 		echo "ERROR: geninfocontrib_h.sh contains content that is not valid iso-8859-x" >&2; \
 		false; \
 	fi
-	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | LC_ALL=C sed -f $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi `grep "VICEDATE_YEAR " $(top_srcdir)/src/vicedate.h | cut -d " " -f 3` | LC_ALL=C sed -f $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
 	@if [ "`file --mime-encoding infocontrib.h`" != "infocontrib.h: iso-8859-1" ]; then \
 		echo "ERROR: generated infocontrib.h contains content that is not valid iso-8859-x" >&2; \
 		false; \

@@ -24,13 +24,11 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: fixdox.sh <filename>
-#                   $1
+# Usage: fixdox.sh <filename> <year>
+#                   $1        $2
 #
 
 INFILE=$1
-OUTFILE=$2
+year=$2
 
-year=`date +"%Y"`
-
-sed -i "s/@year/$year/g" $1
+sed -i "s/__VICE_CURRENT_YEAR__/$year/g" $1

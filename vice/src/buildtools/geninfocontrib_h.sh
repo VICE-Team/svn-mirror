@@ -24,8 +24,8 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: geninfocontrib_h.sh <outputtype>
-#                             $1
+# Usage: geninfocontrib_h.sh <outputtype> <year>
+#                             $1          $2
 #
 
 # Fuck.
@@ -204,6 +204,8 @@ if test x"$1" = "xinfocontrib.h"; then
 
   rm -f coreteam.tmp exteam.tmp transteam.tmp docteam.tmp team.tmp
 
+  year=$2
+
   while read data
   do
     if test x"$data" = "x@c ---vice-core-team-end---"; then
@@ -295,29 +297,27 @@ if test x"$1" = "xinfocontrib.h"; then
     fi
   done
 
-  year=`date +"%Y"`
-
   $ECHO ""
   $ECHO "vice_team_t core_team[] = {"
-  cat coreteam.tmp | sed "s/@year/$year/g"
+  cat coreteam.tmp | sed "s/__VICE_CURRENT_YEAR__/$year/g"
   rm -f coreteam.tmp
   $ECHO "    { NULL, NULL, NULL }"
   $ECHO "};"
   $ECHO ""
   $ECHO "vice_team_t ex_team[] = {"
-  cat exteam.tmp | sed "s/@year/$year/g"
+  cat exteam.tmp | sed "s/__VICE_CURRENT_YEAR__/$year/g"
   rm -f exteam.tmp
   $ECHO "    { NULL, NULL, NULL }"
   $ECHO "};"
   $ECHO ""
   $ECHO "char *doc_team[] = {"
   cat docteam.tmp
-  rm -f docteam.tmp | sed "s/@year/$year/g"
+  rm -f docteam.tmp | sed "s/__VICE_CURRENT_YEAR__/$year/g"
   $ECHO "    NULL"
   $ECHO "};"
   $ECHO ""
   $ECHO "vice_trans_t trans_team[] = {"
-  cat transteam.tmp | sed "s/@year/$year/g"
+  cat transteam.tmp | sed "s/__VICE_CURRENT_YEAR__/$year/g"
   rm -f transteam.tmp
   $ECHO "    { NULL, NULL, NULL, NULL }"
   $ECHO "};"
@@ -328,7 +328,7 @@ fi
 # README output type
 
 if test x"$1" = "xREADME"; then
-  MEMBERS=`cat team.tmp | sed "s/@year/$year/g"`
+  MEMBERS=`cat team.tmp`
   buildlists
   outputok=yes
 
@@ -366,7 +366,7 @@ if test x"$1" = "xREADME"; then
       do
         decodedall=`$ECHO "$i" | sed 's/+/ /g'`
         splititem4 $decodedall
-        decodedyear=`$ECHO "$item2" | sed -e 's/_/ /g' -e "s/@year/$year/g"`
+        decodedyear=`$ECHO "$item2" | sed 's/_/ /g'`
         decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
         $ECHO "    $decodedyear $decodedname"
       done
