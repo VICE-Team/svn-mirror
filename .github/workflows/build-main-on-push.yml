@@ -39,7 +39,7 @@ jobs:
         - name: Analyse
           shell: bash
           run: |
-            ./vice/build/build-macos.sh analyse "${{ matrix.ui }}" "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
+            ./vice/build/github-actions/build-macos.sh analyse "${{ matrix.ui }}" "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
 
         - name: Publish Results
           shell: bash
@@ -264,7 +264,7 @@ jobs:
         id: build
         shell: msys2 {0}
         run: |
-          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/build-msys2.sh ${{ matrix.ui }} "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
+          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/github-actions/build-msys2.sh ${{ matrix.ui }} "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
           echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
           echo ::set-output name=zip_name::$(basename vice/*.zip)
           echo ::set-output name=seven_zip_path::$(cygpath -w -a vice/*.7z)
