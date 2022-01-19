@@ -19,18 +19,18 @@ fi
 
 set -o errexit
 
-IRC_USER=vice-builder
+IRC_ bUSER=vice-builder
 HASH=$(echo -e -n "$IRC_USER\0$IRC_USER\0$IRC_PASS" | base64)
 CHAN=#vice-dev
 
 (
-echo "CAP REQ :sasl"
-echo "NICK $IRC_USER"
-echo "USER $IRC_USER 8 * : $IRC_USER"
-echo "AUTHENTICATE PLAIN"
-echo "AUTHENTICATE $HASH"
-echo "CAP END"
-echo "JOIN $CHAN"
-echo "PRIVMSG $CHAN" :"$MSG"
+echo    "CAP REQ :sasl"
+echo    "NICK $IRC_USER"
+echo    "USER $IRC_USER 8 * : $IRC_USER"
+echo    "AUTHENTICATE PLAIN"
+echo    "AUTHENTICATE $HASH"
+echo    "CAP END"
+echo    "JOIN $CHAN"
+echo -e "PRIVMSG $CHAN :\x01ACTION $MSG\x01"
 echo QUIT
 ) | openssl s_client -quiet -ign_eof -connect irc.libera.chat:6697
