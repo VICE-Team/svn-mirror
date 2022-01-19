@@ -31,4 +31,11 @@
 INFILE=$1
 year=$2
 
-sed -i "s/__VICE_CURRENT_YEAR__/$year/g" $1
+case "$OSTYPE" in
+darwin*)
+    LC_ALL=C sed -i '' "s/__VICE_CURRENT_YEAR__/$year/g" $1
+    ;;
+*)
+    LC_ALL=C sed -i "s/__VICE_CURRENT_YEAR__/$year/g" $1
+    ;;
+esac
