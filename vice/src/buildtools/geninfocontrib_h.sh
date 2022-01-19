@@ -328,7 +328,8 @@ fi
 # README output type
 
 if test x"$1" = "xREADME"; then
-  MEMBERS=`cat team.tmp`
+  year=$2
+  MEMBERS=`cat team.tmp | sed "s/__VICE_CURRENT_YEAR__/$year/g"`
   buildlists
   outputok=yes
 
@@ -336,7 +337,7 @@ if test x"$1" = "xREADME"; then
   IFS=''
   while read data
   do
-    if test x"$data" = "x VICE, the Versatile Commodore Emulator"; then
+    if test x"$data" = "x}VICE,}the}Versatile}Commodore}Emulator"; then
       IFS=$old_IFS
       $ECHO " VICE, the Versatile Commodore Emulator"
       $ECHO ""
@@ -373,7 +374,7 @@ if test x"$1" = "xREADME"; then
       $ECHO ""
       IFS=''
       read data
-      while test x"$data" != "x  This program is free software; you can redistribute it and/or"
+      while test x"$data" != "x}}This}program}is}free}software;}you}can}redistribute}it}and/or"
       do
         read data
       done
