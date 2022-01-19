@@ -310,7 +310,8 @@ jobs:
               });
             
   build_error_notify:
-    needs: [build_doc, build]
+    name: IRC Notification of Build Errors
+    needs: [static_analysis, cleanup_previous_builds, create_release, build_doc, build, publish_release]
     runs-on: ubuntu-latest
     if: ${{ failure() }}
     steps:
