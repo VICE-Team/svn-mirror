@@ -39,7 +39,7 @@ jobs:
         - name: Analyse
           shell: bash
           run: |
-            ./vice/build/macOS/github-actions-build.sh analyse "${{ matrix.ui }}" "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
+            ./vice/build/build-macos.sh analyse "${{ matrix.ui }}" "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
 
         - name: Publish Results
           shell: bash
@@ -150,7 +150,7 @@ jobs:
   build_doc:
     name: Test Headless, Build Documentation
     needs: create_release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     
     steps:
       - shell: bash
@@ -264,7 +264,7 @@ jobs:
         id: build
         shell: msys2 {0}
         run: |
-          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/github-actions-build.sh ${{ matrix.ui }} "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
+          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/build-msys2.sh ${{ matrix.ui }} "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
           echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
           echo ::set-output name=zip_name::$(basename vice/*.zip)
           echo ::set-output name=seven_zip_path::$(cygpath -w -a vice/*.7z)
@@ -309,3 +309,21 @@ jobs:
                 draft: false
               });
             
+  build_error_notify:
+    needs: [build_doc, build]
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    steps:
+      - shell: bash
+        run: git config --global core.autocrlf input
+      
+      - name: Checkout Source
+        uses: actions/checkout@v2
+
+      - name: Notify IRC of Build Failure
+        env:
+          IRC_USER: ${{ secrets.IRC_USER }}
+          IRC_PASS: ${{ secrets.IRC_PASS }}
+        shell: bash
+        run: |
+          ./vice/build/github-actions/irc-message.sh "Build failure for $(echo "${{ github.ref }}" | sed 's,.*/,,')!"

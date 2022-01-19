@@ -136,8 +136,8 @@ jobs:
       - name: Extract Github Actions Build Script
         shell: bash
         run: |
-          mv vice/build/msys2/github-actions-build.sh .
-          ls -A1 | grep -v github-actions-build.sh | xargs rm -rf
+          mv vice/build/github-actions/build-msys2.sh .
+          ls -A1 | grep -v build-msys2.sh | xargs rm -rf
       
       - name: Download Documentation
         uses: actions/download-artifact@v2
@@ -157,7 +157,7 @@ jobs:
           mv vice-* vice
           mv vice.pdf vice/doc/
           mkdir -p vice/build/msys2/
-          mv github-actions-build.sh vice/build/msys2/
+          mv build-msys2.sh vice/build/github-actions/
 
       - name: Install GTK3 Dependencies if Applicable
         if: ${{ matrix.ui == 'GTK3' }}
@@ -216,7 +216,7 @@ jobs:
         id: build
         shell: msys2 {0}
         run: |
-          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/github-actions-build.sh ${{ matrix.ui }} "release"
+          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/build-msys2.sh ${{ matrix.ui }} "release"
           echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
           echo ::set-output name=zip_name::$(basename vice/*.zip)
 

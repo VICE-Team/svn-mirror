@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Usage: github-actions-build.sh <UI> [SVN rXXXXX override, or 'release']
+# Usage: build-msys2.sh <UI> [SVN rXXXXX override, or 'release']
 
 set -o errexit
 set -o nounset
