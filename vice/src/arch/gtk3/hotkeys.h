@@ -54,18 +54,25 @@
 
 /** \brief  Accepted GDK modifiers for hotkeys
  *
- * This is required to avoid keys like NumLock showing up in the accelerators.
+ * This is required to avoid keys like NumLock showing up in the accelerators,
+ * and sometimes GDK will pass along reserved bits (MOD27 etc).
+ *
  * GDK_MOD1_MASK refers to Alt/Option.
+ * GDK_MOD2_MASK refers to NumLock, so we filter it out.
+ * GDK_META_MASK refers to the Command key on MacOS, doesn't appear to do
+ * anything on Linux.
+ * GDK_SUPER_MASK refers to the "Windows key" on PC keyboards. Since window
+ * managers on Linux, and Windows itself, use this key for all sorts of things,
+ * we filter it out.
  */
 #ifdef ARCHDEP_OS_MACOS
-/* Guess work: I need someone to report what Gtk actually uses on MacOS, NOT
- * what their fucked up docs claim.
- */
+/* Command, Control, Option, Shift */
 # define VKM_ACCEPTED_MODIFIERS \
-    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_META_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
-#else 
+    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_META_MASK)
+#else
+/* Control, Alt, Shift */
 # define VKM_ACCEPTED_MODIFIERS \
-    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_META_MASK|GDK_SUPER_MASK|GDK_HYPER_MASK)
+    (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK)
 #endif
 
 
