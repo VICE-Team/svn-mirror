@@ -323,7 +323,6 @@ jobs:
 
       - name: Notify IRC of Build Failure
         env:
-          IRC_USER: ${{ secrets.IRC_USER }}
           IRC_PASS: ${{ secrets.IRC_PASS }}
         shell: bash
         run: |
