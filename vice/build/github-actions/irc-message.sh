@@ -19,7 +19,7 @@ fi
 
 set -o errexit
 
-USER=vice-builder
+IRC_USER=vice-builder
 HASH=$(echo -e -n "$IRC_USER\0$IRC_USER\0$IRC_PASS" | base64)
 CHAN=#vice-dev
 
