@@ -831,6 +831,8 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
                sizeof(text),
                "Press a key or key combination to set the hotkey"
                " for '<b>%s</b>'.\n\n"
+               "Click Accept to use the new hotkey and remove the current one, if any.\n"
+               "Click Clear to remove the current hotkey."
 #ifdef DEBUG_HOTKEYS
                "Please note the <i>reported modifiers</i> check boxes for are"
                " for debugging and are set when\npushing a new hotkey."
@@ -843,6 +845,7 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     gtk_label_set_markup(GTK_LABEL(label), text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, FALSE);
+    g_object_set(G_OBJECT(label), "margin-bottom", 32, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 #ifdef DEBUG_HOTKEYS
@@ -891,29 +894,38 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     row++;
 #endif
 
-#ifdef DEBUG_HOTKEYS
-    label = gtk_label_new("GTK accelerator name:");
-#else
+    /* Currently defined hotkey */
+    label = gtk_label_new("Current hotkey:");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(label, FALSE);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+
+    label = gtk_label_new(NULL);
+    if (hotkey != NULL && *hotkey != '\0') {
+        escaped = g_markup_escape_text(hotkey, -1);
+        g_snprintf(text, sizeof(text), "<b>%s</b>", escaped);
+        g_free(escaped);
+        gtk_label_set_markup(GTK_LABEL(label), text);
+    } else {
+        gtk_label_set_markup(GTK_LABEL(label), "<i>Undefined</i>");
+    }
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(label, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label, 1, row, 1, 1);
+    row++;
+
+    /* New hotkey definition */
     label = gtk_label_new("New hotkey:");
-#endif
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, FALSE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
 
     hotkey_string = gtk_label_new(NULL);
-    if (hotkey != NULL && *hotkey != '\0') {
-        escaped = g_markup_escape_text(hotkey, -1);
-        g_snprintf(text, sizeof(text), "<b>%s</b>", escaped);
-        g_free(escaped);
-        gtk_label_set_markup(GTK_LABEL(hotkey_string), text);
-    } else {
-        gtk_label_set_markup(GTK_LABEL(hotkey_string), "<i>Undefined</i>");
-    }
+    gtk_label_set_markup(GTK_LABEL(hotkey_string), "<i>Undefined</i>");
     gtk_widget_set_halign(hotkey_string, GTK_ALIGN_START);
     gtk_widget_set_hexpand(hotkey_string, TRUE);
     gtk_grid_attach(GTK_GRID(grid), hotkey_string, 1, row, 1, 1);
     row++;
-
 
 #ifdef DEBUG_HOTKEYS
     label = gtk_label_new(NULL);
