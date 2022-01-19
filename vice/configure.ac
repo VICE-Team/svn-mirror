@@ -928,6 +928,14 @@ darwin*)
   VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
   VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
 
+  dnl
+  dnl Yeah, OpenGL and other stuff is deprecated, we don't need to be warned about it.
+  dnl Please don't remove this again whoever did last time :)
+  dnl
+
+  VICE_CFLAGS="$VICE_CFLAGS -Wno-deprecated-declarations"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -Wno-deprecated-declarations"
+
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
     HAVE_RS232DEV_SUPPORT="yes"
