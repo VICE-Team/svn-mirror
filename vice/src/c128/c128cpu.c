@@ -336,11 +336,13 @@ inline static void c128cpu_memory_refresh_alarm_handler(void)
 
 #ifdef FEATURE_CPUMEMHISTORY
 #warning "CPUMEMHISTORY implementation for x128 is incomplete"
+#if 0
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     monitor_memmap_store(addr, MEMMAP_RAM_W);
     (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value));
 }
+#endif
 
 static void memmap_mark_read(unsigned int addr)
 {
@@ -348,11 +350,13 @@ static void memmap_mark_read(unsigned int addr)
     memmap_state &= ~(MEMMAP_STATE_OPCODE);
 }
 
+#if 0
 static uint8_t memmap_mem_read(unsigned int addr)
 {
     memmap_mark_read(addr);
     return (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr));
 }
+#endif
 
 static uint8_t memmap_mem_read_dummy(unsigned int addr)
 {
