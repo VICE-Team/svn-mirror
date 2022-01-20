@@ -33,9 +33,11 @@ year=$2
 
 case "$OSTYPE" in
 darwin*)
-    LC_ALL=C sed -i '' "s/__VICE_CURRENT_YEAR__/$year/g" $1
+    LC_ALL=C sed '' "s/__VICE_CURRENT_YEAR__/$year/g" <$INFILE >vicetmp
     ;;
 *)
-    LC_ALL=C sed -i "s/__VICE_CURRENT_YEAR__/$year/g" $1
+    LC_ALL=C sed "s/__VICE_CURRENT_YEAR__/$year/g" <$INFILE >vicetmp
     ;;
 esac
+
+mv vicetmp $INFILE
