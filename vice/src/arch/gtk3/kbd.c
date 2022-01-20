@@ -403,7 +403,8 @@ static gboolean isresethotkey(GdkEvent *report)
     static char *checkaccel[2] = { "reset-soft", "reset-hard" };
     gboolean res = FALSE;
     int i;
-    char *this_accel = gtk_accelerator_get_label(report->key.keyval, report->key.state & VKM_ACCEPTED_MODIFIERS);
+    char *this_accel = gtk_accelerator_get_label(report->key.keyval,
+                                                 report->key.state & VHK_ACCEPTED_MODIFIERS);
     for (i = 0; i < 2; i++) {
         ui_menu_item_t *item = ui_get_vice_menu_item_by_name(checkaccel[i]);
         if (item != NULL) {

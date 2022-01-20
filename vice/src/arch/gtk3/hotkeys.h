@@ -35,9 +35,9 @@
 /** \brief  Name of Gtk3 main hotkeys files
  */
 #ifdef ARCHDEP_OS_MACOS
-# define VKM_PREFIX "gtk3-hotkeys-mac"
+# define VHK_PREFIX "gtk3-hotkeys-mac"
 #else
-# define VKM_PREFIX "gtk3-hotkeys"
+# define VHK_PREFIX "gtk3-hotkeys"
 #endif
 
 /** \brief  Extension of Gtk3 hotkeys files
@@ -45,11 +45,11 @@
  * Although the extension is the same as for the SDL UI, the format is slightly
  * different.
  */
-#define VKM_EXT     ".vkm"
+#define VHK_EXT     ".vhk"
 
 /** \brief  Filename of default Gtk3 hotkeys files
  */
-#define VKM_DEFAULT_NAME    VKM_PREFIX VKM_EXT
+#define VHK_DEFAULT_NAME    VHK_PREFIX VHK_EXT
 
 
 /** \brief  Accepted GDK modifiers for hotkeys
@@ -67,11 +67,11 @@
  */
 #ifdef ARCHDEP_OS_MACOS
 /* Command, Control, Option, Shift */
-# define VKM_ACCEPTED_MODIFIERS \
+# define VHK_ACCEPTED_MODIFIERS \
     (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_META_MASK)
 #else
 /* Control, Alt, Shift */
-# define VKM_ACCEPTED_MODIFIERS \
+# define VHK_ACCEPTED_MODIFIERS \
     (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK)
 #endif
 
