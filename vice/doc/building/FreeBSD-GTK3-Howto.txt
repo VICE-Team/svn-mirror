@@ -37,6 +37,7 @@ now ... you will need some packages:
 # pkg install gtk3
 # pkg install texinfo
 # pkg install unix2dos         # only used when doing `make dist`
+# pkg install bash             # needed for some shell scripts that are bash only
 # pkg install pulseaudio       # for Pulse Audio sound support
 # pkg install alsa-utils       # for ALSA sound support
 # pkg install glew             # for OpenGL hardware scaling support
@@ -55,6 +56,15 @@ If you have those installed, do run autogen.sh inside the vice dir:
 that should complete without error (and generate the actual configure scripts)
 
 try configuring now:
+# ./configure --enable-native-gtk3ui --disable-pdf-docs
+it should complete without error
+
+if you want to be able to generate the pdf docs you will need to install the
+fairly big texlive, you can do this with
+
+# pkg install texlive-full
+
+and then try configure without --disable-pdf-docs
 # ./configure --enable-native-gtk3ui --disable-pdf-docs
 it should complete without error
 
