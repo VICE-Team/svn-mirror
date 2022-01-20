@@ -306,14 +306,13 @@ static int hotkeys_file_set(const char *val, void *param)
     }
 
     /* process hotkeys */
+    if (help_requested) {
+        debug_gtk3("--help on command line, skip parsing.");
+        return 0;
+    }
+
     log_message(hotkeys_log, "Hotkeys: parsing '%s':", val);
     ui_hotkeys_parse(val);
-
-#if 0
-    debug_gtk3("Faking hotkeys loading: swapping Alt+H/Alt+M.");
-    ui_set_vice_menu_item_hotkey_by_name("monitor", "m", GDK_MOD1_MASK);
-    ui_set_vice_menu_item_hotkey_by_name("toggle-mouse-grab", "h", GDK_MOD1_MASK);
-#endif
     return 0;
 }
 /* }}} */
@@ -358,7 +357,7 @@ void ui_hotkeys_init(void)
     log_message(hotkeys_log, "Hotkeys: Initializing.");
 
     log_message(hotkeys_log, "Hotkeys: Parsing %s hotkeys file:", machine_name);
-    if (!ui_hotkeys_parse(VKM_DEFAULT_NAME)) {
+    if (!ui_hotkeys_parse(VHK_DEFAULT_NAME)) {
         log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
     } else {
         log_message(hotkeys_log, "Hotkeys: OK.");

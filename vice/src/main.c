@@ -80,6 +80,14 @@
 int console_mode = 0;
 int video_disabled_mode = 0;
 
+/** \brief  Help was requested on the command line
+ *
+ * The command line contained -?/-h/-help/--help.
+ *
+ * Include "machine.h" to use this variable.
+ */
+int help_requested = 0;
+
 void main_loop_forever(void);
 
 #ifdef USE_VICE_THREAD
@@ -104,7 +112,6 @@ int main_program(int argc, char **argv)
 {
     int i, n;
     const char *program_name;
-    int ishelp = 0;
     int loadconfig = 1;
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
@@ -198,7 +205,7 @@ int main_program(int argc, char **argv)
                    (!strcmp(argv[i], "--help")) ||
                    (!strcmp(argv[i], "-h")) ||
                    (!strcmp(argv[i], "-?"))) {
-            ishelp = 1;
+            help_requested = 1;
         }
     }
 
@@ -221,9 +228,11 @@ int main_program(int argc, char **argv)
     /* hotkeys init needs to be called after sysfile_init() but before the
      * resources and cmdline options of the hotkeys are registered.
      */
-    ui_hotkeys_init();
+    if (!help_requested) {
+        ui_hotkeys_init();
+    }
 
-    gfxoutput_early_init(ishelp);
+    gfxoutput_early_init(help_requested);
     if ((init_resources() < 0) || (init_cmdline_options() < 0)) {
         return -1;
     }
@@ -242,7 +251,7 @@ int main_program(int argc, char **argv)
         ui_init_with_args(&argc, argv);
     }
 
-    if ((!ishelp) && (loadconfig)) {
+    if ((!help_requested) && (loadconfig)) {
         /* Load the user's default configuration file.  */
         reserr = resources_load(NULL);
         if (reserr < 0 && reserr != RESERR_FILE_NOT_FOUND) {
@@ -365,7 +374,7 @@ int main_program(int argc, char **argv)
         log_error(LOG_DEFAULT, "Fatal: failed to launch main thread");
         return 1;
     }
-    
+
     pthread_mutex_unlock(&init_lock);
 
 #else /* #ifdef USE_VICE_THREAD */

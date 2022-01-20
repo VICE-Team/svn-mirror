@@ -75,6 +75,7 @@ const
 #endif
 int console_mode;
 extern int video_disabled_mode;
+extern int help_requested;
 
 #define MACHINE_JAM_ACTION_DIALOG       0
 #define MACHINE_JAM_ACTION_CONTINUE     1

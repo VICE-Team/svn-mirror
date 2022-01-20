@@ -136,7 +136,7 @@ static guint hotkey_mask_old;   /* modifiers mask */
 
 /** \brief  Bitmask with accepted modifiers
  */
-static guint accepted_mods = VKM_ACCEPTED_MODIFIERS;
+static guint accepted_mods = VHK_ACCEPTED_MODIFIERS;
 
 
 #ifdef DEBUG_HOTKEYS
