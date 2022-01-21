@@ -62,15 +62,17 @@ static void free_combo_list(int port);
 static void update_adapter_ports_visibility(GtkGrid *grid, int row);
 
 
-/** \brief  Lists of valid devices for each joyport
- */
+/** \brief  Lists of valid devices for each joyport */
 static joyport_desc_t *joyport_devices[JOYPORT_MAX_PORTS];
 
-
-/** \brief  Combo box entry lists for each joyport
- */
+/** \brief  Combo box entry lists for each joyport */
 static vice_gtk3_combo_entry_int_t *joyport_combo_lists[JOYPORT_MAX_PORTS];
 
+/** \brief  Resource combo box for control port #1 */
+static GtkWidget *control_port_1_combo = NULL;
+
+/** \brief  Resource combo box for control port #2 */
+static GtkWidget *control_port_2_combo = NULL;
 
 
 /** \brief  Handler for the "destroy" event of the main widget
@@ -222,11 +224,31 @@ static GtkWidget *create_joyport_widget(int port, const char *title)
  */
 static void on_control_port_changed(GtkWidget *widget, gpointer data)
 {
-    GtkWidget *grid = gtk_widget_get_parent(gtk_widget_get_parent(widget));
+    GtkWidget *grid;
+    GtkWidget *other;
     int row = GPOINTER_TO_INT(data);
+
+    grid = gtk_widget_get_parent(gtk_widget_get_parent(widget));
 
     debug_gtk3("calling adapter port visibilty update with row %d.", row);
     update_adapter_ports_visibility(GTK_GRID(grid), row);
+
+    debug_gtk3("synchronizing control port combo boxes with resources.");
+    if (machine_class == VICE_MACHINE_VIC20) {
+        return; /* VIC20 only has a single control port */
+    }
+    if (widget == control_port_1_combo) {
+        debug_gtk3("syncing port 2");
+        other = control_port_2_combo;
+    } else {
+        debug_gtk3("syncing port 1");
+        other = control_port_1_combo;
+    }
+
+    /* temporarily block this signal handler so we don't trigger it again */
+    g_signal_handlers_block_by_func(other, G_CALLBACK(on_control_port_changed), data);
+    vice_gtk3_resource_combo_box_int_sync(other);
+    g_signal_handlers_unblock_by_func(other, G_CALLBACK(on_control_port_changed), data);
 }
 
 
@@ -246,7 +268,6 @@ static void on_control_port_changed(GtkWidget *widget, gpointer data)
 static int layout_add_control_ports(GtkGrid *layout, int row, int count)
 {
     GtkWidget *widget;
-    GtkWidget *combo;
 
     if (count <= 0) {
         return row;
@@ -254,8 +275,8 @@ static int layout_add_control_ports(GtkGrid *layout, int row, int count)
 
     widget = create_joyport_widget(JOYPORT_1, "Control Port #1");
     gtk_grid_attach(layout, widget, 0, row, 1, 1);
-    combo = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
-    g_signal_connect(combo, "changed",
+    control_port_1_combo = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    g_signal_connect(control_port_1_combo, "changed",
                      G_CALLBACK(on_control_port_changed),
                      GINT_TO_POINTER(row + 1));
     gtk_widget_show(widget);
@@ -263,8 +284,8 @@ static int layout_add_control_ports(GtkGrid *layout, int row, int count)
     if (count > 1) {
         widget = create_joyport_widget(JOYPORT_2, "Control Port #2"),
         gtk_grid_attach(layout, widget, 1, row, 1, 1);
-        combo = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
-        g_signal_connect(combo, "changed",
+        control_port_2_combo = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+        g_signal_connect(control_port_2_combo, "changed",
                          G_CALLBACK(on_control_port_changed),
                          GINT_TO_POINTER(row + 1));
         gtk_widget_show(widget);
