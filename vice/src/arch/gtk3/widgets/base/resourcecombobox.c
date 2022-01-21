@@ -35,6 +35,7 @@
 /* for GULONG_TO_POINTER() and GPOINTER_TO_ULONG() */
 #include "archdep_defs.h"
 #include "basewidget_types.h"
+#include "debug_gtk3.h"
 #include "lib.h"
 #include "log.h"
 #include "resourcehelpers.h"
@@ -427,13 +428,21 @@ gboolean vice_gtk3_resource_combo_box_int_sync(GtkWidget *widget)
 {
     const char *resource_name;
     int resource_value;
+    gulong handler_id;
+    gboolean result;
 
     resource_name = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource_name, &resource_value) < 0) {
         return FALSE;
     }
 
-    return set_combo_int_id(GTK_COMBO_BOX(widget), resource_value);
+    handler_id = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(widget),
+                                                     "ChangedHandlerID"));
+    debug_gtk3("changed handler id = %lu.", handler_id);
+    g_signal_handler_block(G_OBJECT(widget), handler_id);
+    result = set_combo_int_id(GTK_COMBO_BOX(widget), resource_value);
+    g_signal_handler_unblock(G_OBJECT(widget), handler_id);
+    return result;
 }
 
 
