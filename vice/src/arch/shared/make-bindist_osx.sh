@@ -387,7 +387,12 @@ if grep -q "^#define EXTERNAL_FFMPEG " "src/config.h"; then
   copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavcodec.*.dylib')"
   copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavutil.*.dylib')"
   copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libswscale.*.dylib')"
-  copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libswresample.*.dylib')"
+  if grep -q "^#define HAVE_FFMPEG_AVRESAMPLE " "src/config.h"; then
+    copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libavresample.*.dylib')"
+  fi
+  if grep -q "^#define HAVE_FFMPEG_SWRESAMPLE " "src/config.h"; then
+    copy_lib_recursively "$(find $DEPS_PREFIX/lib -type f -name 'libswresample.*.dylib')"
+  fi
 fi
 
 # --- copy tools ---------------------------------------------------------------
