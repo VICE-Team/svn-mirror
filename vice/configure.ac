@@ -2379,14 +2379,15 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
     if test x"$have_swresample" = "xyes"; then
       AC_DEFINE([HAVE_FFMPEG_SWRESAMPLE],,[Have FFMPEG swresample lib available])
       HAVE_FFMPEG_SWRESAMPLE_SUPPORT="yes"
-    fi
-    PKG_CHECK_MODULES(FFMPEG_AVRESAMPLE, [libavresample], [have_avresample=yes], [have_avresample=no])
-    if test x"$have_avresample" = "xyes"; then
-      AC_DEFINE([HAVE_FFMPEG_AVRESAMPLE],,[Have FFMPEG avresample lib available])
-      HAVE_FFMPEG_AVRESAMPLE_SUPPORT="yes"
-    fi
-    if (test x"$have_avresample" != "xyes") && (test x"$have_swresample" != "xyes"); then
+    else
+      # dnl libav is abandoned and support should be removed, but check for it if swresample is missing.
+      PKG_CHECK_MODULES(FFMPEG_AVRESAMPLE, [libavresample], [have_avresample=yes], [have_avresample=no])
+      if test x"$have_avresample" = "xyes"; then
+        AC_DEFINE([HAVE_FFMPEG_AVRESAMPLE],,[Have libav avresample lib available])
+        HAVE_FFMPEG_AVRESAMPLE_SUPPORT="yes"
+      else
         AC_MSG_ERROR([No swresample or avresample library available!])
+      fi
     fi
   else
     AC_MSG_RESULT([not available])
@@ -3850,8 +3851,11 @@ echo "---------------"
 
 echo "FFMPEG support                : $HAVE_FFMPEG_SUPPORT (--enable-external-ffmpeg)"
 echo "FFMPEG swscale support        : $HAVE_FFMPEG_SWSCALE_SUPPORT"
-echo "FFMPEG swresample support     : $HAVE_FFMPEG_SWRESAMPLE_SUPPORT"
-echo "FFMPEG avresample support     : $HAVE_FFMPEG_AVRESAMPLE_SUPPORT"
+if test x"$have_swresample" = "xyes"; then
+  echo "Audio resampling library      : swresample"
+elif test x"$have_avresample" = "xyes"; then
+  echo "Audio resampling library      : avresample"
+fi
 
 echo ""
 echo "INPUT"
