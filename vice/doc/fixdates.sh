@@ -31,13 +31,6 @@
 INFILE=$1
 year=$2
 
-case "$OSTYPE" in
-darwin*)
-    LC_ALL=C sed '' "s/__VICE_CURRENT_YEAR__/$year/g" <$INFILE >vicetmp
-    ;;
-*)
-    LC_ALL=C sed "s/__VICE_CURRENT_YEAR__/$year/g" <$INFILE >vicetmp
-    ;;
-esac
+LC_ALL=C sed "s/__VICE_CURRENT_YEAR__/$year/g" <$INFILE >vicetmp
 
 mv vicetmp $INFILE
