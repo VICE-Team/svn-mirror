@@ -335,7 +335,6 @@ inline static void c128cpu_memory_refresh_alarm_handler(void)
 #define CPU_ADDITIONAL_RESET() c128cpu_memory_refresh_clk = 11
 
 #ifdef FEATURE_CPUMEMHISTORY
-#warning "CPUMEMHISTORY implementation for x128 is incomplete"
 #if 0
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
