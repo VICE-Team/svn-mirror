@@ -67,8 +67,8 @@ static gfxoutputdrv_codec_t avi_audio_codeclist[] = {
 };
 
 static gfxoutputdrv_codec_t mp4_audio_codeclist[] = {
-    { AV_CODEC_ID_MP3, "MP3" },
     { AV_CODEC_ID_AAC, "AAC" },
+    { AV_CODEC_ID_MP3, "MP3" },    
     { AV_CODEC_ID_AC3, "AC3" },
     { 0, NULL }
 };
@@ -109,10 +109,10 @@ static gfxoutputdrv_codec_t none_codeclist[] = {
 gfxoutputdrv_format_t *ffmpegdrv_formatlist = NULL;
 gfxoutputdrv_format_t formats_to_test[] =
 {
-    { "avi", avi_audio_codeclist, avi_video_codeclist },
     { "mp4", mp4_audio_codeclist, mp4_video_codeclist },
-    { "matroska", mp4_audio_codeclist, mp4_video_codeclist },
     { "ogg", ogg_audio_codeclist, ogg_video_codeclist },
+    { "avi", avi_audio_codeclist, avi_video_codeclist },    
+    { "matroska", mp4_audio_codeclist, mp4_video_codeclist },    
     { "wav", NULL, NULL },
     { "mp3", NULL, none_codeclist }, /* formats expects png which fails in VICE */
     { "mp2", NULL, NULL },
@@ -247,7 +247,7 @@ static int set_video_halve_framerate(int value, void *param)
 /*---------- Resources ------------------------------------------------*/
 
 static const resource_string_t resources_string[] = {
-    { "FFMPEGFormat", "avi", RES_EVENT_NO, NULL,
+    { "FFMPEGFormat", "mp4", RES_EVENT_NO, NULL,
       &ffmpeg_format, set_container_format, NULL },
     RESOURCE_STRING_LIST_END
 };
@@ -259,9 +259,9 @@ static const resource_int_t resources_int[] = {
     { "FFMPEGVideoBitrate", VICE_FFMPEG_VIDEO_RATE_DEFAULT,
       RES_EVENT_NO, NULL,
       &video_bitrate, set_video_bitrate, NULL },
-    { "FFMPEGAudioCodec", AV_CODEC_ID_MP3, RES_EVENT_NO, NULL,
+    { "FFMPEGAudioCodec", AV_CODEC_ID_AAC, RES_EVENT_NO, NULL,
       &audio_codec, set_audio_codec, NULL },
-    { "FFMPEGVideoCodec", AV_CODEC_ID_MPEG4, RES_EVENT_NO, NULL,
+    { "FFMPEGVideoCodec", AV_CODEC_ID_H264, RES_EVENT_NO, NULL,
       &video_codec, set_video_codec, NULL },
     { "FFMPEGVideoHalveFramerate", 0, RES_EVENT_NO, NULL,
       &video_halve_framerate, set_video_halve_framerate, NULL },
