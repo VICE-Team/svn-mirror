@@ -34,6 +34,7 @@ now ... you will need some packages:
 # pkgin install gtk3+
 # pkgin install glib2-tools
 # pkgin install gtexinfo
+# pkgin install tex-pdftex
 # pkgin install dos2unix         # only used when doing `make dist`
 # pkgin install glew             # for OpenGL hardware scaling support
 
@@ -51,7 +52,7 @@ If you have those installed, do run autogen.sh inside the vice dir:
 that should complete without error (and generate the actual configure scripts)
 
 try configuring now:
-# ./configure --enable-native-gtk3ui --disable-pdf-docs --without-alsa --without-pulse
+# ./configure --enable-native-gtk3ui --without-alsa --without-pulse
 it should complete without error
 
 lets try compiling it... we'll reconfigure again later and enable the options
