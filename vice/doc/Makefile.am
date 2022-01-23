@@ -10,7 +10,7 @@ MISC_DOX = \
 	vice.texi
 
 TEXI_TOOLS = \
-	fixdox.sh
+	fixdates.sh
 
 DOC_TOOLS = \
 	checkdoc.c \
