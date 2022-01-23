@@ -21,13 +21,11 @@ $ ./checklinks.sh
 
 $ make -f checkdoc.mak full
 
-- make sure (c) dates are correct (README, index.html)
-
 - run the vicedate.h update script to upated the current year.
 
 $ src/buildtools/genvicedate_h.sh
 
-- make sure to 'touch' vice.texi so that the curren year will be put into all
+- make sure to 'touch' vice.texi so that the current year will be put into all
   needed files.
 
 $ touch doc/vice.texi
