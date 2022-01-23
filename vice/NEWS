@@ -19,6 +19,136 @@ with the "-default" command line argument or use "restore default config"
 in the UI).
 
 
+* Changes in Vice 3.6.1
+=======================
+
+This is a service release which fixes some regressions and annoyances reported
+by our users after the 3.6 release.
+
+
+** general
+----------
+
+- Fixed sound buffer underrun behaviour, it will now cause a small glitch and
+  no more disable sound or flood the log with warnings.
+
+- Do not write the log to a file instead of stdout when stdout is already 
+  redirected to a file or pipe, so we can do just that on the shell.
+
+- At exit, put quotes around parameters of the regenerated command line options
+  so eg filenames with spaces in them will not break it.
+
+- Suppress warnings about duplicated labels when playing back monitor commands
+  to make mrsid a happy bunny.
+
+- For cartridges that contain RAM that can be loaded from (and saved to) a file,
+  do not init RAM on powerup if backed up by a file (mimic battery backup)
+
+- Do not clear the keyboard input when a 'reset' hotkey was pressed. this allows
+  to "hold" keys when pressing reset, for example "run/stop" when resetting FC3.
+  Note that this still is limited by various other things, like the keyboard
+  mapping and keys reserved by your window manager.
+
+- FFMPEG recordings now default to mp4/h264/AAC instead of some divx avi bullshit.
+
+- On smart attach automatically change the drive type also when not autostarting.
+- In some cases the wrong drive was selected automatically on smart attach.
+
+- Fixed sampler file loading
+
+** build system
+---------------
+
+- Version x.y.0 builds will now generate a version number of x.y (no .0).
+  Additionally, support for semver style build labels has been added, allowing
+  versions such as 3.6-beta, 3.6.1-beta, etc.
+
+- Make configure check for *both* avresample and swresample, prefer swresample.
+
+- macOS bindist support for bundling avresample.
+
+** C64 fixes
+------------
+
+- Added belgian/dutch keymap provided by sorex.
+
+- Added support for the 21sec backup parallel cable.
+
+- Set default ram size for ramlink to 16mb, enable it on ROM attach.
+- Fix ramlink API calls for slot0, add missing ROM image setting to UIs.
+
+** C128 fixes
+-------------
+
+- various MMU mapping fixes
+
+** GTK3 fixes
+-------------
+
+- Tracked down and helped fixing an upstream GTK bug that made VICE crash on any
+  keypress under certain conditions, making VICE work again for Jazzcat :)
+
+- Fixed default joystick/gamecontroller mappings on windows/linux/macos.
+- Fixed mapping logic to handle multiple events and duplicate mappings correctly.
+
+- Allow negative coordinates for windows, this should fix restoring the window
+  position that was broken on some multi-monitor setups.
+
+- Monitor: remember and restore VTE window size and position
+ - Make the monitor window "remember" its position and size between invocations.
+ - Allow setting the position and size via command line, using `-monitorxpos`,
+   `-monitorypos`, `-monitorwidth` and `-monitorheight`.
+ - Position and size is saved along with the settings
+
+- Made joystick/control port tabs only show the extra ports when they are
+  available.
+
+- Mouse pointer changes shape when hovering over clickable status bar items
+
+- CPU speed / FPS settings added to the main menu.
+
+- Correctly use the LED colors for drives > 8
+
+- Fixed drive/tap popup menu labels, only display "#8:0" etc if the drive is a
+  dual drive device in the context menus and directory popup menus. Only show
+  "Directory of tape #1/#2" in xpet, show "Directory of tape" in other emulators.
+
+- added statusbar led for shiftlock
+- added clickable 40/80colums LED to x128
+- added clickable LED for the CAPS aka DIN/ASCII key in x128
+
+- Properly update both keyboard debugging widgets on x128
+
+- Don't grey-out sound setting widgets when sound is disabled, so configuration
+  can be changed before enabling sound again
+
+- various fixes related to the new hotkeys feature:
+  - allow for a few more modifiers when setting hotkeys
+  - filter certain modifiers that are only getting in the way (eg numlock)
+  - remove old hotkey from the table when redefining
+  - Make Return/Enter trigger Accept in the dialog, make Escape trigger Cancel
+  - Only show actions that have a corresponding menu item
+  - use hardware keycodes to figure out the key that was pressed. fixes eg the
+    situation on macOS that hotkeys could not be defined because they produce
+    various symbols.
+
+** SDL fixes
+------------
+
+- Fixed mapping logic to handle multiple events and duplicate mappings correctly.
+
+** macOS fixes
+--------------
+
+- Fixed macOS bindist not working if placed in path with a space in it. Also
+  the runtime cwd will now default to the user’s home directory, unless launched
+  using the CLI scripts in the root bin folder in which case the current cwd
+  will be preserved.
+
+- Gtk3: added MacOS specific .vhk (hotkey) files
+
+
+
 * Changes in Vice 3.6
 =====================
 
