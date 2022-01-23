@@ -147,6 +147,9 @@ by our users after the 3.6 release.
 
 - Gtk3: added MacOS specific .vhk (hotkey) files.
 
+- FFMPEG recordings now work on Apple Silicon binary distributions
+
+- The launcher .app apps no longer require Rosetta on Apple Silicon
 
 
 * Changes in Vice 3.6
