@@ -30,7 +30,7 @@ by our users after the 3.6 release.
 ----------
 
 - Fixed sound buffer underrun behaviour, it will now cause a small glitch and
-  no more disable sound or flood the log with warnings.
+  no longer disable sound or flood the log with warnings.
 
 - Do not write the log to a file instead of stdout when stdout is already 
   redirected to a file or pipe, so we can do just that on the shell.
@@ -42,7 +42,7 @@ by our users after the 3.6 release.
   to make mrsid a happy bunny.
 
 - For cartridges that contain RAM that can be loaded from (and saved to) a file,
-  do not init RAM on powerup if backed up by a file (mimic battery backup)
+  do not init RAM on powerup if backed up by a file (mimic battery backup).
 
 - Do not clear the keyboard input when a 'reset' hotkey was pressed. this allows
   to "hold" keys when pressing reset, for example "run/stop" when resetting FC3.
@@ -54,7 +54,7 @@ by our users after the 3.6 release.
 - On smart attach automatically change the drive type also when not autostarting.
 - In some cases the wrong drive was selected automatically on smart attach.
 
-- Fixed sampler file loading
+- Fixed sampler file loading.
 
 ** build system
 ---------------
@@ -65,7 +65,7 @@ by our users after the 3.6 release.
 
 - Make configure check for *both* avresample and swresample, prefer swresample.
 
-- macOS bindist support for bundling avresample.
+- MacOS bindist support for bundling avresample.
 
 ** C64 fixes
 ------------
@@ -80,7 +80,7 @@ by our users after the 3.6 release.
 ** C128 fixes
 -------------
 
-- various MMU mapping fixes
+- Various MMU mapping fixes.
 
 ** GTK3 fixes
 -------------
@@ -88,47 +88,47 @@ by our users after the 3.6 release.
 - Tracked down and helped fixing an upstream GTK bug that made VICE crash on any
   keypress under certain conditions, making VICE work again for Jazzcat :)
 
-- Fixed default joystick/gamecontroller mappings on windows/linux/macos.
+- Fixed default joystick/gamecontroller mappings on Windows/Linux/MacOS.
 - Fixed mapping logic to handle multiple events and duplicate mappings correctly.
 
 - Allow negative coordinates for windows, this should fix restoring the window
   position that was broken on some multi-monitor setups.
 
-- Monitor: remember and restore VTE window size and position
+- Monitor: remember and restore VTE window size and position.
  - Make the monitor window "remember" its position and size between invocations.
  - Allow setting the position and size via command line, using `-monitorxpos`,
    `-monitorypos`, `-monitorwidth` and `-monitorheight`.
- - Position and size is saved along with the settings
+ - Position and size is saved along with the settings.
 
 - Made joystick/control port tabs only show the extra ports when they are
   available.
 
-- Mouse pointer changes shape when hovering over clickable status bar items
+- Mouse pointer changes shape when hovering over clickable status bar items.
 
 - CPU speed / FPS settings added to the main menu.
 
-- Correctly use the LED colors for drives > 8
+- Correctly use the LED colors for drives > 8.
 
 - Fixed drive/tap popup menu labels, only display "#8:0" etc if the drive is a
   dual drive device in the context menus and directory popup menus. Only show
   "Directory of tape #1/#2" in xpet, show "Directory of tape" in other emulators.
 
-- added statusbar led for shiftlock
-- added clickable 40/80colums LED to x128
-- added clickable LED for the CAPS aka DIN/ASCII key in x128
+- Added statusbar led for shiftlock.
+- Added clickable 40/80colums LED to x128.
+- Added clickable LED for the CAPS aka DIN/ASCII key in x128.
 
-- Properly update both keyboard debugging widgets on x128
+- Properly update both keyboard debugging widgets on x128.
 
 - Don't grey-out sound setting widgets when sound is disabled, so configuration
-  can be changed before enabling sound again
+  can be changed before enabling sound again.
 
-- various fixes related to the new hotkeys feature:
-  - allow for a few more modifiers when setting hotkeys
-  - filter certain modifiers that are only getting in the way (eg numlock)
-  - remove old hotkey from the table when redefining
-  - Make Return/Enter trigger Accept in the dialog, make Escape trigger Cancel
-  - Only show actions that have a corresponding menu item
-  - use hardware keycodes to figure out the key that was pressed. fixes eg the
+- Various fixes related to the new hotkeys feature:
+  - Allow for a few more modifiers when setting hotkeys.
+  - Filter certain modifiers that are only getting in the way (eg numlock).
+  - Remove old hotkey from the table when redefining.
+  - Make Return/Enter trigger Accept in the dialog, make Escape trigger Cancel.
+  - Only show actions that have a corresponding menu item.
+  - Use hardware keycodes to figure out the key that was pressed. fixes eg the
     situation on macOS that hotkeys could not be defined because they produce
     various symbols.
 
@@ -145,7 +145,7 @@ by our users after the 3.6 release.
   using the CLI scripts in the root bin folder in which case the current cwd
   will be preserved.
 
-- Gtk3: added MacOS specific .vhk (hotkey) files
+- Gtk3: added MacOS specific .vhk (hotkey) files.
 
 
 
