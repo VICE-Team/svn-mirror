@@ -326,4 +326,4 @@ jobs:
           IRC_PASS: ${{ secrets.IRC_PASS }}
         shell: bash
         run: |
-          ./vice/build/github-actions/irc-message.sh "tried to build $(echo "${{ github.ref }}" | sed 's,.*/,,') but it failed :("
+          ./vice/build/github-actions/irc-message.sh "tried to build $(echo "${{ github.ref }}" | sed 's,.*/,,') but it failed :( $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
