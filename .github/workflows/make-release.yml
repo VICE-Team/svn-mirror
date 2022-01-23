@@ -156,7 +156,7 @@ jobs:
           rm vice-*.tar.gz
           mv vice-* vice
           mv vice.pdf vice/doc/
-          mkdir -p vice/build/msys2/
+          mkdir -p vice/build/github-actions/
           mv build-msys2.sh vice/build/github-actions/
 
       - name: Install GTK3 Dependencies if Applicable
