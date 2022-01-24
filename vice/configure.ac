@@ -119,7 +119,7 @@ dnl
 
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
 VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]  enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
-VICE_ARG_ENABLE_LIST(cpuhistory,        [  --enable-cpuhistory     enable the 65xx cpu history feature])
+VICE_ARG_ENABLE_LIST(cpuhistory,        [  --disable-cpuhistory    disable the 65xx cpu history feature])
 VICE_ARG_ENABLE_LIST(ethernet,          [  --enable-ethernet       enables The Final Ethernet emulation])
 VICE_ARG_ENABLE_LIST(ipv6,              [  --disable-ipv6          disables the checking for IPv6 compatibility])
 VICE_ARG_ENABLE_LIST(libieee1284,       [  --enable-libieee1284    enables libieee1284 support])
@@ -500,7 +500,7 @@ HAVE_LIBCURL_SUPPORT="no "
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
 
-AS_IF([test x"$enable_cpuhistory" = "xyes"],
+AS_IF([test x"$enable_cpuhistory" != "xno"],
   [
     AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the 65xx cpu history feature.])
     FEATURE_CPUMEMHISTORY_SUPPORT="yes"
