@@ -1121,8 +1121,8 @@ void snapshot_display_error(void)
             break;
     }
     if (snapshot_error != SNAPSHOT_NO_ERROR) {
-        log_error(LOG_DEFAULT, "snapshot error at position 0x%lx module '%s' in file '%s'",
-                  current_fpos, current_module, current_filename);
+        log_error(LOG_DEFAULT, "snapshot error at position 0x%llx module '%s' in file '%s'",
+                  (unsigned long long)current_fpos, current_module, current_filename);
     }
 }
 
