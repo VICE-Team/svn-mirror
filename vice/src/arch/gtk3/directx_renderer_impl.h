@@ -41,6 +41,8 @@
 extern "C" {
 #endif
 
+#include "videoarch.h"
+
 /** \brief Rendering context for the DirectX backend.
  *  \sa video_canvas_s::renderer_context */
 typedef struct vice_directx_renderer_context_s {
@@ -143,7 +145,7 @@ void vice_directx_impl_log_windows_error(const char *prefix);
 
 void vice_directx_destroy_context_impl(vice_directx_renderer_context_t *context);
 
-void vice_directx_impl_async_render(void *pool_data, void *job_data);
+void vice_directx_impl_render(video_canvas_t *canvas);
 
 #ifdef __cplusplus
 } /* extern "C" { */

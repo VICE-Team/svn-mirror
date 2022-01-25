@@ -308,7 +308,7 @@ static void vice_directx_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t 
     gtk_widget_set_size_request(canvas->event_box, context->window_min_width, context->window_min_height);
 
     /* Draw every frame. */
-    render(canvas);
+    vice_directx_impl_render(canvas);
 
     CANVAS_UNLOCK();
 }

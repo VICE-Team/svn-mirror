@@ -211,11 +211,8 @@ void archdep_set_vice_thread(void)
 #endif /* #ifdef UNIX_COMPILE */
 
 #ifdef WIN32_COMPILE
-    /* Increase Windows scheduler accuracy */
-    timeBeginPeriod(1);
-
-    /* Of course VICE is more important than other puny Windows applications */
-    SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
+    /* Make sure the render thread wakes up and does its thing asap. */
+    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 #endif
 }
 

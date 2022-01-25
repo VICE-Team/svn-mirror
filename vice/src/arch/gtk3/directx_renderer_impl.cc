@@ -48,8 +48,6 @@ extern "C"
 
 #define CANVAS_LOCK() pthread_mutex_lock(&context->canvas_lock)
 #define CANVAS_UNLOCK() pthread_mutex_unlock(&context->canvas_lock)
-#define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
-#define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
 
 #define DX_RELEASE(x) if (x) { (x)->Release(); (x) = NULL; }
 
@@ -499,10 +497,8 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
     context->render_dest_rect.bottom = canvas->screen_origin_y + canvas->screen_display_h;
 }
 
-void vice_directx_impl_async_render(void *job_data, void *pool_data)
+void vice_directx_impl_render(video_canvas_t *canvas)
 {
-    render_job_t job = (render_job_t)vice_ptr_to_int(job_data);
-    video_canvas_t *canvas = (video_canvas_t *)pool_data;
     vice_directx_renderer_context_t *context = (vice_directx_renderer_context_t *)canvas->renderer_context;
     backbuffer_t *backbuffer;
     HRESULT result = S_OK;
@@ -510,22 +506,6 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     int vsync;
     int filter;
     DXGI_PRESENT_PARAMETERS present_parameters = { 0 };
-
-    if (job == render_thread_init) {
-        archdep_thread_init();
-
-        /* Make sure the render thread wakes up and does its thing asap. */
-        SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-
-        log_message(LOG_DEFAULT, "Render thread initialised");
-        return;
-    }
-
-    if (job == render_thread_shutdown) {
-        archdep_thread_shutdown();
-        log_message(LOG_DEFAULT, "Render thread shutdown");
-        return;
-    }
 
     resources_get_int("VSync", &vsync);
     resources_get_int("GTKFilter", &filter);
@@ -536,8 +516,6 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         destroy_size_dependent_resources(context);
         context->resized = false;
     }
-
-    RENDER_LOCK();
 
     /*
      * Update the bitmaps. All need to be processed for correct interlace rendering,
@@ -560,7 +538,6 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
 
     if (!context->d2d_device_context) {
         log_message(LOG_DEFAULT, "no render target, not rendering this frame");
-        RENDER_UNLOCK();
         return;
     }
 
@@ -623,8 +600,6 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     } else {
         context->d3d_swap_chain->Present1(vsync ? 1 : 0, 0, &present_parameters);
     }
-
-    RENDER_UNLOCK();
 }
 
 /*
