@@ -272,7 +272,7 @@ static int parsid_GetAddressLptPortInTheMemory(int myPort)
         return -1;
     }
 
-    myProcPointer = (PROCTYPE_Toolhelp32ReadProcessMemory)GetProcAddress(hDLL, "Toolhelp32ReadProcessMemory");
+    myProcPointer = (PROCTYPE_Toolhelp32ReadProcessMemory)(void*)GetProcAddress(hDLL, "Toolhelp32ReadProcessMemory");
     if (myProcPointer == NULL) {
         FreeLibrary(hDLL);
         return -1;
@@ -478,9 +478,9 @@ int ps_dll_open(void)
     }
 
     if (parsid_use_inpout_dll) {
-        inpout_inp32fp = (inpout_inpfuncPtr)GetProcAddress(hLib, "Inp32");
+        inpout_inp32fp = (inpout_inpfuncPtr)(void*)GetProcAddress(hLib, "Inp32");
         if (inpout_inp32fp != NULL) {
-            inpout_oup32fp = (inpout_oupfuncPtr)GetProcAddress(hLib, "Out32");
+            inpout_oup32fp = (inpout_oupfuncPtr)(void*)GetProcAddress(hLib, "Out32");
             if (inpout_oup32fp != NULL) {
                 log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", libname);
             } else {
@@ -492,13 +492,13 @@ int ps_dll_open(void)
             return -1;
         }
     } else {
-        winio_inp32fp = (winio_inpfuncPtr)GetProcAddress(hLib, "GetPortVal");
+        winio_inp32fp = (winio_inpfuncPtr)(void*)GetProcAddress(hLib, "GetPortVal");
         if (winio_inp32fp != NULL) {
-            winio_oup32fp = (winio_oupfuncPtr)GetProcAddress(hLib, "SetPortVal");
+            winio_oup32fp = (winio_oupfuncPtr)(void*)GetProcAddress(hLib, "SetPortVal");
             if (winio_oup32fp != NULL) {
-                init32fp = (initfuncPtr)GetProcAddress(hLib, "InitializeWinIo");
+                init32fp = (initfuncPtr)(void*)GetProcAddress(hLib, "InitializeWinIo");
                 if (init32fp != NULL) {
-                    shutdown32fp = (shutdownfuncPtr)GetProcAddress(hLib, "ShutdownWinIo");
+                    shutdown32fp = (shutdownfuncPtr)(void*)GetProcAddress(hLib, "ShutdownWinIo");
                     if (shutdown32fp != NULL) {
                         if (init32fp()) {
                             log_message(LOG_DEFAULT, "Using %s for ISA I/O access.", libname);
@@ -578,4 +578,3 @@ int ps_dll_available(void)
 }
 #endif
 #endif
-
