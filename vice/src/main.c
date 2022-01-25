@@ -425,6 +425,8 @@ void vice_thread_shutdown(void)
 
 void *vice_thread_main(void *unused)
 {
+    archdep_set_vice_thread();
+    
     /* Let the mainlock system know which thread is the vice thread */
     mainlock_set_vice_thread();
 

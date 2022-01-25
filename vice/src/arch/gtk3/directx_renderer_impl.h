@@ -41,8 +41,6 @@
 extern "C" {
 #endif
 
-#include "render_thread.h"
-
 /** \brief Rendering context for the DirectX backend.
  *  \sa video_canvas_s::renderer_context */
 typedef struct vice_directx_renderer_context_s {
@@ -51,9 +49,6 @@ typedef struct vice_directx_renderer_context_s {
 
     /** \brief used to coordinate access to native rendering resources */
     pthread_mutex_t render_lock;
-
-    /** \brief A 'pool' of one thread used to render backbuffers via directx */
-    render_thread_t render_thread;
 
     /** \brief A queue of backbuffers ready for painting to the widget */
     void *render_queue;

@@ -69,27 +69,24 @@ static LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, 
         /* We don't want mouse events - send them to the gdk parent window */
         return HTTRANSPARENT;
 
-    case WM_PAINT:
-        /* We need to repaint the current bitmap, which we do in the render thread */
-        {
-            video_canvas_t *canvas = (video_canvas_t *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-            context_t *context = canvas->renderer_context;
+    // case WM_PAINT:
+    //     /* We need to repaint the current bitmap, which we do in the render thread */
+    //     {
+    //         video_canvas_t *canvas = (video_canvas_t *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+    //         context_t *context = canvas->renderer_context;
 
-            /* Prevent this event from being reposted continually */
-            ValidateRect(hwnd, NULL);
+    //         /* Prevent this event from being reposted continually */
+    //         ValidateRect(hwnd, NULL);
 
-            CANVAS_LOCK();
-            /* If there is no pending render job, schedule one */
-            if (!render_queue_length(context->render_queue)) {
-                render_thread_push_job(context->render_thread, render_thread_render);
-            }
-            CANVAS_UNLOCK();
-        }
-        return 0;
+    //         CANVAS_LOCK();
+    //         render_thread_push_job(context->render_thread, render_thread_render);
+    //         CANVAS_UNLOCK();
+    //     }
+    //     return 0;
 
-    case WM_DISPLAYCHANGE:
-        InvalidateRect(hwnd, NULL, FALSE);
-        return 0;
+    // case WM_DISPLAYCHANGE:
+    //     InvalidateRect(hwnd, NULL, FALSE);
+    //     return 0;
     }
 
     return DefWindowProc(hwnd, message, wParam, lParam);
@@ -174,9 +171,6 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
 
     context->render_queue = render_queue_create();
     context->render_bg_colour.a = 1.0f;
-
-    /* Create an exclusive single thread 'pool' for executing render jobs */
-    context->render_thread = render_thread_create(vice_directx_impl_async_render, canvas);
 }
 
 static void on_widget_unrealized(GtkWidget *widget, gpointer data)
@@ -236,9 +230,6 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
     /* Update the size of the native child window to match the gtk drawing area */
     if (context->window) {
         MoveWindow(context->window, context->viewport_x, context->viewport_y, context->viewport_width, context->viewport_height, TRUE);
-        if (!render_queue_length(context->render_queue)) {
-            render_thread_push_job(context->render_thread, render_thread_render);
-        }
         context->resized = true;
     }
 
@@ -302,7 +293,6 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
 
     CANVAS_LOCK();
     render_queue_enqueue_for_display(context->render_queue, backbuffer);
-    render_thread_push_job(context->render_thread, render_thread_render);
     CANVAS_UNLOCK();
 }
 
@@ -316,6 +306,9 @@ static void vice_directx_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t 
 
     /* TODO we really shouldn't be setting this every frame! */
     gtk_widget_set_size_request(canvas->event_box, context->window_min_width, context->window_min_height);
+
+    /* Draw every frame. */
+    render(canvas);
 
     CANVAS_UNLOCK();
 }
