@@ -128,7 +128,7 @@ static void EthernetPcapFreeLibrary(void)
 
 /* since I don't like typing too much... */
 #define GET_PROC_ADDRESS_AND_TEST( _name_ )                              \
-    p_##_name_ = (_name_##_t) GetProcAddress(pcap_library, #_name_);     \
+    p_##_name_ = (_name_##_t)(void*)GetProcAddress(pcap_library, #_name_);     \
     if (!p_##_name_ ) {                                                  \
         log_message(rawnet_arch_log, "GetProcAddress " #_name_ " failed!"); \
         EthernetPcapFreeLibrary();                                            \

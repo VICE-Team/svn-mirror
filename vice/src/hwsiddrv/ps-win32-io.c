@@ -227,7 +227,7 @@ static int parsid_GetAddressLptPortInTheMemory(int myPort)
         return -1;
     }
 
-    myProcPointer = (PROCTYPE_Toolhelp32ReadProcessMemory)GetProcAddress(hDLL, "Toolhelp32ReadProcessMemory");
+    myProcPointer = (PROCTYPE_Toolhelp32ReadProcessMemory)(void*)GetProcAddress(hDLL, "Toolhelp32ReadProcessMemory");
     if (myProcPointer == NULL) {
         FreeLibrary(hDLL);
         return -1;

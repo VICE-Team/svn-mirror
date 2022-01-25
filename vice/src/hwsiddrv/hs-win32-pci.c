@@ -366,13 +366,13 @@ int hs_pci_open(void)
         if (hLib != NULL) {
             log_message(LOG_DEFAULT, "Opened %s.", openedlib);
 
-            inp32fp = (inpfuncPtr)GetProcAddress(hLib, "GetPortVal");
+            inp32fp = (inpfuncPtr)(void*)GetProcAddress(hLib, "GetPortVal");
             if (inp32fp != NULL) {
-                oup32fp = (oupfuncPtr)GetProcAddress(hLib, "SetPortVal");
+                oup32fp = (oupfuncPtr)(void*)GetProcAddress(hLib, "SetPortVal");
                 if (oup32fp != NULL) {
-                    init32fp = (initfuncPtr)GetProcAddress(hLib, "InitializeWinIo");
+                    init32fp = (initfuncPtr)(void*)GetProcAddress(hLib, "InitializeWinIo");
                     if (init32fp != NULL) {
-                        shutdown32fp = (shutdownfuncPtr)GetProcAddress(hLib, "ShutdownWinIo");
+                        shutdown32fp = (shutdownfuncPtr)(void*)GetProcAddress(hLib, "ShutdownWinIo");
                         if (shutdown32fp != NULL) {
                             if (init32fp()) {
                                 hardsid_use_lib = 1;
@@ -488,4 +488,3 @@ void hs_pci_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)
 }
 #endif
 #endif
-

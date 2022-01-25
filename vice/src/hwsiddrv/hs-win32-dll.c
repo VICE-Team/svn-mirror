@@ -116,20 +116,20 @@ static int init_interface(void)
     if (dll == NULL) {
         dll = LoadLibrary("HARDSID.DLL");
         if (dll != NULL) {
-            GetHardSIDCount = (GetHardSIDCount_t)GetProcAddress(dll, "GetHardSIDCount");
-            InitHardSID_Mapper = (InitHardSID_Mapper_t)GetProcAddress(dll, "InitHardSID_Mapper");
-            MuteHardSID_Line = (MuteHardSID_Line_t)GetProcAddress(dll, "MuteHardSID_Line");
-            ReadFromHardSID = (ReadFromHardSID_t)GetProcAddress(dll, "ReadFromHardSID");
-            SetDebug = (SetDebug_t)GetProcAddress(dll, "SetDebug");
-            WriteToHardSID = (WriteToHardSID_t)GetProcAddress(dll, "WriteToHardSID");
+            GetHardSIDCount = (GetHardSIDCount_t)(void*)GetProcAddress(dll, "GetHardSIDCount");
+            InitHardSID_Mapper = (InitHardSID_Mapper_t)(void*)GetProcAddress(dll, "InitHardSID_Mapper");
+            MuteHardSID_Line = (MuteHardSID_Line_t)(void*)GetProcAddress(dll, "MuteHardSID_Line");
+            ReadFromHardSID = (ReadFromHardSID_t)(void*)GetProcAddress(dll, "ReadFromHardSID");
+            SetDebug = (SetDebug_t)(void*)GetProcAddress(dll, "SetDebug");
+            WriteToHardSID = (WriteToHardSID_t)(void*)GetProcAddress(dll, "WriteToHardSID");
 
 /* HardSID USB (HardSID 4U) */
-            HardSID_Reset = (HardSID_Reset_t)GetProcAddress(dll, "HardSID_Reset");
-            HardSID_Lock = (HardSID_Lock_t)GetProcAddress(dll, "HardSID_Lock");
-            HardSID_AbortPlay = (HardSID_AbortPlay_t)GetProcAddress(dll, "HardSID_Flush");
-            HardSID_Flush = (HardSID_Flush_t)GetProcAddress(dll, "HardSID_SoftFlush");
-            HardSID_Write = (HardSID_Write_t)GetProcAddress(dll, "HardSID_Write");
-            HardSID_Delay = (HardSID_Delay_t)GetProcAddress(dll, "HardSID_Delay");
+            HardSID_Reset = (HardSID_Reset_t)(void*)GetProcAddress(dll, "HardSID_Reset");
+            HardSID_Lock = (HardSID_Lock_t)(void*)GetProcAddress(dll, "HardSID_Lock");
+            HardSID_AbortPlay = (HardSID_AbortPlay_t)(void*)GetProcAddress(dll, "HardSID_Flush");
+            HardSID_Flush = (HardSID_Flush_t)(void*)GetProcAddress(dll, "HardSID_SoftFlush");
+            HardSID_Write = (HardSID_Write_t)(void*)GetProcAddress(dll, "HardSID_Write");
+            HardSID_Delay = (HardSID_Delay_t)(void*)GetProcAddress(dll, "HardSID_Delay");
 
             if (HardSID_Flush == NULL) {
                 has_usb_hardsid = 0;
@@ -207,7 +207,7 @@ int hs_dll_open(void)
         lastaccess_ms = 0;
         lastaccess_chipno = -1;
         chipused = -1;
-        ftimer = SetTimer(NULL, ftimer, 1, (TIMERPROC) ftimerproc);
+        ftimer = SetTimer(NULL, ftimer, 1, (TIMERPROC)(void*)ftimerproc);
     }
 #endif
     sids_found = GetHardSIDCount();
