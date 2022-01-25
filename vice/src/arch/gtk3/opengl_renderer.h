@@ -36,7 +36,6 @@
 
 #include <stdbool.h>
 
-#include "render_thread.h"
 #include "videoarch.h"
 
 /** \brief A renderer that uses OpenGL to render to a native child window.
@@ -48,14 +47,6 @@ extern vice_renderer_backend_t vice_opengl_backend;
 /** \brief Rendering context for the OpenGL backend.
  *  \sa video_canvas_s::renderer_context */
 typedef struct vice_opengl_renderer_context_s {
-    /** \brief needed to coordinate access to the context between vice and main threads */
-    pthread_mutex_t canvas_lock;
-
-    /** \brief used to coordinate access to native rendering resources */
-    pthread_mutex_t render_lock;
-
-    /** \brief A 'pool' of one thread used to render backbuffers */
-    render_thread_t render_thread;
 
     /** \brief A queue of backbuffers ready for painting to the widget */
     void *render_queue;

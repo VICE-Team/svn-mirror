@@ -149,13 +149,23 @@ void archdep_set_main_thread(void)
 {
     main_thread = pthread_self();
 
-#if defined(MACOSX_SUPPORT)
-
+#ifdef UNIX_COMPILE
+#ifdef MACOSX_SUPPORT
     /* macOS specific main thread init written in objective-c */
     vice_macos_set_main_thread();
 
-#elif defined(UNIX_COMPILE)
-
+#else
+    /* TODO Linux / BSD thread priority */
+    {
+    //    struct sched_param param;
+    //    int32_t policy;
+    //
+    //    pthread_getschedparam(pthread_self(), &policy, &param);
+    //    policy = SCHED_FIFO;
+    //    param.sched_priority = 'slighly lower than vice thread';
+    //    pthread_setschedparam(pthread_self(), policy, &param);
+    }
+    
 #ifdef USE_NATIVE_GTK3
     /* Our GLX OpenGL init stuff will crash if we let GDK use wayland directly */
     putenv("GDK_BACKEND=x11");
@@ -166,16 +176,46 @@ void archdep_set_main_thread(void)
     XInitThreads();
 #endif
 
-    /* TODO - set UI/main thread priority for X11 */
+#endif /* #ifdef MACOSX_SUPPORT */
+#endif /* #ifdef UNIX_COMPILE */
 
-#elif defined(WIN32_COMPILE)
-
+#ifdef WIN32_COMPILE
     /* Increase Windows scheduler accuracy */
     timeBeginPeriod(1);
 
     /* Of course VICE is more important than other puny Windows applications */
     SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
+#endif
+}
 
+void archdep_set_vice_thread(void)
+{
+#ifdef UNIX_COMPILE
+#ifdef MACOSX_SUPPORT
+    /* macOS specific main thread init written in objective-c */
+    vice_macos_set_vice_thread();
+
+#else
+    /* TODO Linux / BSD thread priority */
+    {
+    //    struct sched_param param;
+    //    int32_t policy;
+    //
+    //    pthread_getschedparam(pthread_self(), &policy, &param);
+    //    policy = SCHED_FIFO;
+    //    param.sched_priority = 'slighly higher than main thread';
+    //    pthread_setschedparam(pthread_self(), policy, &param);
+    }
+    
+#endif
+#endif /* #ifdef UNIX_COMPILE */
+
+#ifdef WIN32_COMPILE
+    /* Increase Windows scheduler accuracy */
+    timeBeginPeriod(1);
+
+    /* Of course VICE is more important than other puny Windows applications */
+    SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
 #endif
 }
 

@@ -137,6 +137,7 @@ void mainlock_yield(void)
 void mainlock_yield_begin(void)
 {
     pthread_mutex_unlock(&lock);
+    sched_yield();
 }
 
 

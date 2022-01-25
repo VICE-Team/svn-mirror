@@ -161,9 +161,6 @@ static int initial_warp_mode_cmdline = -1;
 /* When the next frame should be rendered, not skipped, during warp. */
 static tick_t warp_render_tick_interval;
 
-/* Triggers the vice thread to update its priorty */
-static volatile int update_thread_priority = 1;
-
 static int set_relative_speed(int val, void *param)
 {
     if (val == 0) {
@@ -184,8 +181,6 @@ void vsync_set_warp_mode(int val)
 
     sound_set_warp_mode(warp_enabled);
     vsync_suspend_speed_eval();
-
-    update_thread_priority = 1;
 }
 
 int vsync_get_warp_mode(void)
@@ -540,7 +535,7 @@ void vsync_do_end_of_line(void)
         
         if (warp_enabled) {
             /* During warp we need to periodically allow the UI a chance with the mainlock */
-            tick_sleep(1);
+            mainlock_yield();
         } else {
             /*
              * Compare the emulated time vs host time.
@@ -597,19 +592,6 @@ void vsync_do_end_of_line(void)
 
         last_sync_tick = tick_now;
         last_sync_clk = main_cpu_clock;
-    }
-
-    /* Do we need to update the thread priority? */
-    if (update_thread_priority) {
-        update_thread_priority = 0;
-
-#if defined(MACOSX_SUPPORT)
-        vice_macos_set_vice_thread_priority(warp_enabled);
-#elif defined(__linux__)
-        /* TODO: Linux thread prio stuff, need root or some 'capability' though */
-#else
-        /* TODO: BSD thread prio stuff */
-#endif
     }
 }
 
@@ -709,4 +691,8 @@ void vsync_do_vsync(struct video_canvas_s *c)
     kbdbuf_flush();
 
     last_vsync = now;
+    
+    // if (!warp_enabled) {
+    //     mainlock_yield();
+    // }
 }
