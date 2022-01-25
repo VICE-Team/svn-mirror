@@ -270,7 +270,8 @@ m4_foreach([flag],
             [-Wfatal-errors],
             [-fdiagnostics-absolute-paths],
             [-Wshorten-64-to-32],
-            [-Wdiscarded-qualifiers]],
+            [-Wdiscarded-qualifiers],
+            [-Wno-unknown-pragmas]],
            [TEST_FLAG=flag
             VICE_CFLAG_REQUEST([$TEST_FLAG])
            ])
