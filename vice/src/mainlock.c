@@ -127,8 +127,9 @@ void mainlock_initiate_shutdown(void)
  */
 void mainlock_yield(void)
 {
-    mainlock_yield_begin();
-    mainlock_yield_end();
+    // mainlock_yield_begin();
+    // mainlock_yield_end();
+    tick_sleep(1);
 }
 
 
@@ -137,7 +138,7 @@ void mainlock_yield(void)
 void mainlock_yield_begin(void)
 {
     pthread_mutex_unlock(&lock);
-    sched_yield();
+    //sched_yield();
 }
 
 

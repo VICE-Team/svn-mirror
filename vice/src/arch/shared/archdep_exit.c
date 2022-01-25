@@ -157,13 +157,13 @@ void archdep_set_main_thread(void)
 #else
     /* TODO Linux / BSD thread priority */
     {
-    //    struct sched_param param;
-    //    int32_t policy;
-    //
-    //    pthread_getschedparam(pthread_self(), &policy, &param);
-    //    policy = SCHED_FIFO;
-    //    param.sched_priority = 'slighly lower than vice thread';
-    //    pthread_setschedparam(pthread_self(), policy, &param);
+       struct sched_param param;
+       int32_t policy;
+    
+       pthread_getschedparam(pthread_self(), &policy, &param);
+       policy = SCHED_FIFO;
+       param.sched_priority = sched_get_priority_max(SCHED_FIFO);
+       pthread_setschedparam(pthread_self(), policy, &param);
     }
     
 #ifdef USE_NATIVE_GTK3
@@ -198,13 +198,13 @@ void archdep_set_vice_thread(void)
 #else
     /* TODO Linux / BSD thread priority */
     {
-    //    struct sched_param param;
-    //    int32_t policy;
-    //
-    //    pthread_getschedparam(pthread_self(), &policy, &param);
-    //    policy = SCHED_FIFO;
-    //    param.sched_priority = 'slighly higher than main thread';
-    //    pthread_setschedparam(pthread_self(), policy, &param);
+       struct sched_param param;
+       int32_t policy;
+    
+       pthread_getschedparam(pthread_self(), &policy, &param);
+       policy = SCHED_FIFO;
+       param.sched_priority = sched_get_priority_max(SCHED_FIFO);
+       pthread_setschedparam(pthread_self(), policy, &param);
     }
     
 #endif
