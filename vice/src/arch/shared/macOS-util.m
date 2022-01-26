@@ -69,7 +69,7 @@ void vice_macos_set_main_thread(void)
                                                    reason: @"Accurate emulation requires low latency access to resources."];
 
     /* The main thread benefits from interactive response levels */
-    [[NSThread currentThread] setQualityOfService: NSQualityOfServiceUserInitiated];
+    [[NSThread currentThread] setQualityOfService: NSQualityOfServiceUserInteractive];
     [[NSThread currentThread] setThreadPriority: 1.0];
 }
 

@@ -142,13 +142,11 @@ void mainlock_yield(void)
         /*
          * The UI thread is waiting for the vice lock, so we release it and
          * perform a minimal sleep to give the UI thread its chance.
-         * 
-         * Sleeping appears to be necessary on the linux kernel to avoid
-         * the vice thread immediately regaining the lock.
-         * 
+         *
          * Note that our tick_sleep() implementation releases the vice lock.
          */
-        tick_sleep(0);
+
+        tick_sleep(1);
     }
 }
 
