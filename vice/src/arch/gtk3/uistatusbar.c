@@ -199,7 +199,7 @@ enum {
     "label {\n" \
     "    font-family: monospace;\n" \
     "    font-size:100%;\n" \
-    "    margin-top: -2px;\n" \
+    "    margin-top: 0px;\n" \
     "    margin-bottom: -4px;\n" \
     "}\n"
 
@@ -217,7 +217,7 @@ enum {
  */
 #define CHECKBUTTON_CSS \
     "checkbutton {\n" \
-    "    font-size:100%;\n" \
+    "    font-size: 100%;\n" \
     "    margin-top: -2px;\n" \
     "    margin-bottom: -2px;\n" \
     "}\n"
@@ -2544,7 +2544,6 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /* CPU/FPS - No FPS on VDC Window for now */
     speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
     g_object_set(speed, "margin-left", 8, NULL);
-    gtk_widget_set_valign(speed, GTK_ALIGN_CENTER);
     allocated_bars[i].speed = speed;
 
     /* CRT and Mixer controls */

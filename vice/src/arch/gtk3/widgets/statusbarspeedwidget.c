@@ -387,6 +387,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     state->last_mode4080 = -1;
 
     grid = gtk_grid_new();
+    gtk_widget_set_valign(grid, GTK_ALIGN_START);
 
     /* Use fixed width font to show cpu/fps, to avoid the displayed values
      * jumping around when being updated.
@@ -406,6 +407,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     pango_context_set_font_description(context, desc);
     pango_font_description_free(desc);
     gtk_widget_set_halign(label_cpu, GTK_ALIGN_START);
+    gtk_widget_set_valign(label_cpu, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label_cpu, 0, 0, 1, 1);
 
     /* label just for FPS  */
@@ -417,6 +419,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     pango_context_set_font_description(context, desc);
     pango_font_description_free(desc);
     gtk_widget_set_halign(label_fps, GTK_ALIGN_START);
+    gtk_widget_set_valign(label_fps, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label_fps, 0, 1, 1, 1);
 #if 0
     /* label for pause/warp and perhaps CPU jam */
