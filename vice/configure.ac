@@ -105,7 +105,6 @@ dnl
 dnl Graphics options
 dnl
 VICE_ARG_WITH_LIST(gif,                 [  --with-gif              use GIF screenshot system])
-VICE_ARG_WITH_LIST(jpeg,                [  --with-jpeg             use JPEG screenshot system])
 VICE_ARG_WITH_LIST(png,                 [  --without-png           do not use the PNG screenshot system])
 VICE_ARG_ENABLE_LIST(external-ffmpeg,   [  --enable-external-ffmpeg  enable external FFmpeg support])
 dnl Only supported for SDL1
@@ -453,7 +452,6 @@ HAVE_HARDSID_SUPPORT="no "
 HAVE_HWSCALE_SUPPORT="no "
 HAVE_IOSID_SUPPORT="no "
 HAVE_IPV6_SUPPORT="no "
-HAVE_JPEG_SUPPORT="no "
 HAVE_LIBIEEE1284_SUPPORT="no "
 HAVE_LIGHTPEN_SUPPORT="no "
 HAVE_MIDI_SUPPORT="no "
@@ -3122,22 +3120,6 @@ if test x"$with_gif" = "xyes"; then
  fi
 fi
 
-dnl check for jpeg support
-if test x"$with_jpeg" = "xyes" ; then
-  dnl Check for the JPEG library.
-  AC_CHECK_HEADER(jpeglib.h,,,-)
-
-  if test x"$ac_cv_header_jpeglib_h" = "xyes" ; then
-    AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [
-                 GFXOUTPUT_LIBS="-ljpeg $GFXOUTPUT_LIBS";
-                 GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS jpegdrv.o";
-                 HAVE_JPEG_SUPPORT="yes";
-                 AC_DEFINE(HAVE_JPEG,,[Can we use the JPEG library?]) ],,)
-  fi
-  if test x"$with_jpeg" = "xyes" -a x"$HAVE_JPEG_SUPPORT" != "xyes"; then
-    AC_MSG_ERROR([JPEG support is missing])
-  fi
-fi
 
 LIBS="$old_LIBS"
 AC_SUBST(GFXOUTPUT_DRIVERS)
@@ -3843,7 +3825,6 @@ echo "SCREENSHOTS"
 echo "-----------"
 
 echo "GIF encoding support : $HAVE_GIF_SUPPORT (--with/without-gif)"
-echo "JPEG encoding support: $HAVE_JPEG_SUPPORT (--with/without-jpeg)"
 echo "PNG encoding support : $HAVE_PNG_SUPPORT (--with/without-png)"
 
 echo ""
