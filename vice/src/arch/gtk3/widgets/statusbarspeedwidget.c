@@ -197,7 +197,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     }
     g_signal_connect(item, "toggled",
-                     G_CALLBACK(ui_fps_callback), GINT_TO_POINTER(100));
+                     G_CALLBACK(ui_cpu_speed_callback), GINT_TO_POINTER(100));
     gtk_container_add(GTK_CONTAINER(menu), item);
 
     /* predefined fps targets */

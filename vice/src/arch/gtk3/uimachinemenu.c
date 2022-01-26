@@ -821,7 +821,7 @@ static ui_menu_item_t speed_submenu[] = {
 
     { "MACHINE_NAME FPS", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_FPS_REAL,
-      ui_fps_callback, "Speed", (void*)0,
+      ui_cpu_speed_callback, "Speed", (void*)100,
       0, 0, false },
     { "50 FPS", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_FPS_50,
