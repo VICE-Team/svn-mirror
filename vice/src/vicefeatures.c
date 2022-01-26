@@ -203,13 +203,6 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-/* (all) */
-    { "HAVE_JPEG", "Can we use the JPEG library?",
-#ifndef HAVE_JPEG
-        0 },
-#else
-        1 },
-#endif
 #if defined(UNIX) || defined(WIN32) /* (unix/windows) */
     { "HAVE_LIBIEEE1284", "Define to 1 if you have the `ieee1284' library", /* (-lieee1284) */
 #ifndef HAVE_LIBIEEE1284

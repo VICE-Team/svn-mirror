@@ -43,7 +43,6 @@ $ sudo apt-get install libglew-dev      # for OpenGL hardware scaling support
 The following are optional but recommended (not required for a basic build):
 
 $ sudo apt-get install libgif-dev       # GIF screenshot support
-$ sudo apt-get install libjpeg-dev      # JPEG screenshot support
 $ sudo apt-get install libpcap-dev      # Ethernet support
 
 
