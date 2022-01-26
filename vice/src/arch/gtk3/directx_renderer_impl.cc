@@ -46,9 +46,6 @@ extern "C"
 #include "videoarch.h"
 }
 
-#define CANVAS_LOCK() pthread_mutex_lock(&context->canvas_lock)
-#define CANVAS_UNLOCK() pthread_mutex_unlock(&context->canvas_lock)
-
 #define DX_RELEASE(x) if (x) { (x)->Release(); (x) = NULL; }
 
 static void build_directx_resources(vice_directx_renderer_context_t *context)
@@ -510,8 +507,6 @@ void vice_directx_impl_render(video_canvas_t *canvas)
     resources_get_int("VSync", &vsync);
     resources_get_int("GTKFilter", &filter);
 
-    CANVAS_LOCK();
-
     if (context->resized) {
         destroy_size_dependent_resources(context);
         context->resized = false;
@@ -533,8 +528,6 @@ void vice_directx_impl_render(video_canvas_t *canvas)
     recalculate_layout(canvas, context);
 
     interlaced = context->interlaced;
-
-    CANVAS_UNLOCK();
 
     if (!context->d2d_device_context) {
         log_message(LOG_DEFAULT, "no render target, not rendering this frame");

@@ -42,6 +42,7 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <objbase.h>
+#include <avrt.h>
 #endif
 
 #include <assert.h>
@@ -184,6 +185,16 @@ void archdep_set_main_thread(void)
 
     /* Of course VICE is more important than other puny Windows applications */
     SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
+
+    {
+        DWORD task_index;
+        HANDLE task_handle = AvSetMmThreadCharacteristics("Games", &task_index);
+        if (task_handle) {
+            AvSetMmThreadPriority(task_handle, AVRT_PRIORITY_CRITICAL);
+        }
+    }
+
+    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 #endif
 }
 
@@ -209,7 +220,14 @@ void archdep_set_vice_thread(void)
 #endif /* #ifdef UNIX_COMPILE */
 
 #ifdef WIN32_COMPILE
-    /* Make sure the render thread wakes up and does its thing asap. */
+    {
+        DWORD task_index;
+        HANDLE task_handle = AvSetMmThreadCharacteristics("Games", &task_index);
+        if (task_handle) {
+            AvSetMmThreadPriority(task_handle, AVRT_PRIORITY_CRITICAL);
+        }
+    }
+
     SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 #endif
 }
