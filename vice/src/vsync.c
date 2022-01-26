@@ -483,7 +483,7 @@ static void update_performance_metrics(tick_t frame_tick)
 
 void vsync_do_end_of_line(void)
 {
-    const int microseconds_between_sync = 20 * 1000;
+    const int microseconds_between_sync = 2 * 1000;
 
     tick_t tick_between_sync = tick_per_second() / (1000000 / microseconds_between_sync);
     tick_t tick_now;
