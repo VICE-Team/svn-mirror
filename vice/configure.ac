@@ -751,9 +751,9 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
   AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
   HAVE_RS232NET_SUPPORT="yes"
   if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-    LIBS="$LIBS -lwinmm -lws2_32 -lntdll -ld2d1 -ld3d11"
+    LIBS="$LIBS -lwinmm -lntdll -ld2d1 -ld3d11 -lavrt -lws2_32"
   else
-    LIBS="$LIBS -lwinmm -lwsock32 -lmingwex -lmsvcrt -lntdll -ld2d1 -ld3d11"
+    LIBS="$LIBS -lwinmm -lntdll -ld2d1 -ld3d11 -lavrt -lwsock32 -lmingwex -lmsvcrt"
   fi
   if test x"$enable_catweasel" != "xno"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
