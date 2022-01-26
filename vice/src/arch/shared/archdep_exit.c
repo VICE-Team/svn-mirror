@@ -155,15 +155,14 @@ void archdep_set_main_thread(void)
     vice_macos_set_main_thread();
 
 #else
-    /* TODO Linux / BSD thread priority */
+    /* Linux doesn't benefit from messing with the priority on my 3700X */
     {
-       struct sched_param param;
-       int32_t policy;
+    //    struct sched_param param;
+    //    int32_t policy;
     
-       pthread_getschedparam(pthread_self(), &policy, &param);
-       policy = SCHED_FIFO;
-       param.sched_priority = sched_get_priority_max(SCHED_FIFO);
-       pthread_setschedparam(pthread_self(), policy, &param);
+    //    pthread_getschedparam(pthread_self(), &policy, &param);
+    //    param.sched_priority = sched_get_priority_max(policy);
+    //    pthread_setschedparam(pthread_self(), policy, &param);
     }
     
 #ifdef USE_NATIVE_GTK3
@@ -196,15 +195,14 @@ void archdep_set_vice_thread(void)
     vice_macos_set_vice_thread();
 
 #else
-    /* TODO Linux / BSD thread priority */
+    /* Linux doesn't benefit from messing with the priority on my 3700X */
     {
-       struct sched_param param;
-       int32_t policy;
+    //    struct sched_param param;
+    //    int32_t policy;
     
-       pthread_getschedparam(pthread_self(), &policy, &param);
-       policy = SCHED_FIFO;
-       param.sched_priority = sched_get_priority_max(SCHED_FIFO);
-       pthread_setschedparam(pthread_self(), policy, &param);
+    //    pthread_getschedparam(pthread_self(), &policy, &param);
+    //    param.sched_priority = sched_get_priority_max(policy);
+    //    pthread_setschedparam(pthread_self(), policy, &param);
     }
     
 #endif
