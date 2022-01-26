@@ -653,7 +653,7 @@ static void render(video_canvas_t *canvas)
     }
 
     vice_opengl_renderer_present_backbuffer(context);
-    glFinish();
+    glFlush();
 
     vice_opengl_renderer_clear_current(context);
 }
