@@ -431,21 +431,21 @@ static gboolean isresethotkey(GdkEvent *report)
  * keyval on Windows and the third the state of bit 8 in the scancode.
  *
  * The list is terminated with 0 in the first (Linux) entry.
- *
- * If similar fixing is needed for macOS, this table should be duplicated in
- * #ifdef ARCHDEP_OS_MACOS (the code below can be shared)
  */
+
 static const guint numpad_fixes[][3] = {
     /* Linux                Windows             scancode bit 8 */
     { GDK_KEY_KP_Home,      GDK_KEY_Home,       0 },    /* 7 Home */
     { GDK_KEY_KP_Up,        GDK_KEY_Up,         0 },    /* 8 arrow up */
-    { GDK_KEY_KP_Page_Up,   GDK_KEY_Page_Up,    0 },    /* 9 PgUp */
+    { GDK_KEY_KP_Page_Up,   GDK_KEY_Page_Up,    0 },    /* 9 PgUp (same keyval as _Prior) */
+    { GDK_KEY_KP_Prior,     GDK_KEY_Prior,      0 },    /* 9 Prior (same keyval as _Page_Up) */
     { GDK_KEY_KP_Left,      GDK_KEY_Left,       0 },    /* 4 arrow left */
     { GDK_KEY_KP_Begin,     GDK_KEY_Begin,      0 },    /* 5 */
     { GDK_KEY_KP_Right,     GDK_KEY_Right,      0 },    /* 6 arrow right */
     { GDK_KEY_KP_End,       GDK_KEY_End,        0 },    /* 1 End */
     { GDK_KEY_KP_Down,      GDK_KEY_Down,       0 },    /* 2 arrow down */
-    { GDK_KEY_KP_Page_Down, GDK_KEY_Page_Down,  0 },    /* 3 PgDn */
+    { GDK_KEY_KP_Page_Down, GDK_KEY_Page_Down,  0 },    /* 3 PgDn (same keyval as _Next) */
+    { GDK_KEY_KP_Next,      GDK_KEY_Next,       0 },    /* 3 Next (same keyval as _Page_Down) */
     { GDK_KEY_KP_Insert,    GDK_KEY_Insert,     0 },    /* 0 Ins */
     { GDK_KEY_KP_Delete,    GDK_KEY_Delete,     0 },    /* . Del */
     { GDK_KEY_KP_Enter,     GDK_KEY_Return,     1 },    /* Enter */
@@ -461,7 +461,7 @@ static const guint numpad_fixes[][3] = {
  *
  * ShiftLock OFF (US keyboard):
  *
- *  Key             Linux           Windows
+ *  Key             Linux           Windows 
  *  ----------      --------------- -----------
  *  /               KP_Divide       KP_Divide
  *  *               KP_Multiply     KP_Multiply
@@ -483,9 +483,6 @@ static const guint numpad_fixes[][3] = {
  *
  * \return  fixed keyval for numpad keys
  */
-/* NOTE: this doesnt actually appear to work for me at all, the only key
-         were the scancode actually has bit 8 set is KP_Enter, all others
-         have the exact same keycodes as the regular keys (gpz) */
 static guint fix_numpad_keyval(GdkEvent *event)
 {
     guint keyval = event->key.keyval;
@@ -504,6 +501,47 @@ static guint fix_numpad_keyval(GdkEvent *event)
 }
 #endif
 
+/** \brief  Table of numpad aliases
+ *
+ * Depending on the Keyboard layout some keys produce different keycodes, which
+ * we try to combat here. Eg on a german keyboard there is a comma on the "delete"
+ * key instead of the decimal point.
+ *
+ * The first entry is the (correct) keyval, the second the (incorrect) alias.
+ *
+ * The list is terminated with 0 in the first (Linux) entry.
+ */
+static const guint numpad_aliases[][2] = {
+    /* Linux                Linux (alias) */
+    { GDK_KEY_KP_Decimal,   GDK_KEY_KP_Separator }, /* . Del (same physical key) */
+    { GDK_KEY_KP_Page_Up,   GDK_KEY_Prior        }, /* 9 PgUp (same keyval) */
+    { GDK_KEY_KP_Page_Down, GDK_KEY_Next         }, /* 3 PgDn (same keyval) */
+    { 0,                    0,                   }
+};
+
+/** \brief  Fix numpad aliases
+ *
+ * Depending on the Keyboard Layout/Localisation some numpad keys produce
+ * a different keyval - we fix it here so the joystick mappings can always
+ * use the same values
+ *
+ * \param[in]   event   key press/release event
+ *
+ * \return  fixed keyval for numpad keys
+ */
+static guint fix_numpad_aliases(GdkEvent *event)
+{
+    guint keyval = event->key.keyval;
+    int i = 0;
+    debug_gtk3("fix_numpad_aliases: keyval 0x%04x", (unsigned int)keyval);
+    while (numpad_aliases[i][0] != 0) {
+        if (keyval == numpad_aliases[i][1]) {
+            return numpad_aliases[i][0];
+        }
+        i++;
+    }
+    return keyval;
+}
 
 /** \brief  Gtk keyboard event handler
  *
@@ -546,27 +584,20 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             /* fprintf(stderr, "               %u %04x.\n",
                        report->key.keyval,  report->key.state); */
 #endif
-            /* On a german keyboard there is a comma on the "delete" key instead
-               of a decimal point, and we get KP_Seperator instead of KP_decimal.
-               Remap it here so we don't have to handle it elsewhere. */
-            if (report->key.keyval == GDK_KEY_KP_Separator) {
-                key = report->key.keyval = GDK_KEY_KP_Decimal;
-            }
+
 #ifdef ARCHDEP_OS_WINDOWS
-            debug_gtk3("key before numpad fix: 0x%04x (GDK_KEY_%s).",
+            debug_gtk3("(press) key before numpad fix: 0x%04x (GDK_KEY_%s).",
                        (unsigned int)key, gdk_keyval_name(key));
-            key = fix_numpad_keyval(report); 
-            debug_gtk3("key after numpad fix : 0x%04x (GDK_KEY_%s).",
+            key = report->key.keyval = fix_numpad_keyval(report); 
+            debug_gtk3("(press) key after numpad fix : 0x%04x (GDK_KEY_%s).",
                        (unsigned int)key, gdk_keyval_name(key));
 #endif
-#ifdef ARCHDEP_OS_MACOS
-            {
-    int scancode = gdk_event_get_scancode(report);
-    gboolean numpad = (scancode & 0x100) ? TRUE : FALSE;
-    debug_gtk3("key: 0x%04x (GDK_KEY_%s) scancode 0x%04x numpad: %d",
-                (unsigned int)key, gdk_keyval_name(key), (unsigned int)scancode, numpad);
-            }
-#endif
+            debug_gtk3("(press) key before aliases fix : 0x%04x (GDK_KEY_%s).",
+                       (unsigned int)key, gdk_keyval_name(key));
+            key = report->key.keyval = fix_numpad_aliases(report);
+            debug_gtk3("(press) key after aliases fix : 0x%04x (GDK_KEY_%s).",
+                       (unsigned int)key, gdk_keyval_name(key));
+
             /* FIXME:   This still gets the unmodified keyval, but we cannot
              *          modify `report` since that's owned by Gdk.
              */
@@ -627,12 +658,19 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             /* fprintf(stderr, "                 %u %04x.\n",
                        report->key.keyval,  report->key.state); */
 #endif
-            /* On a german keyboard there is a comma on the "delete" key instead
-               of a decimal point, and we get KP_Seperator instead of KP_decimal.
-               Remap it here so we don't have to handle it elsewhere. */
-            if (report->key.keyval == GDK_KEY_KP_Separator) {
-                key = report->key.keyval = GDK_KEY_KP_Decimal;
-            }
+
+#ifdef ARCHDEP_OS_WINDOWS
+            debug_gtk3("(release) key before numpad fix: 0x%04x (GDK_KEY_%s).",
+                       (unsigned int)key, gdk_keyval_name(key));
+            key = report->key.keyval = fix_numpad_keyval(report); 
+            debug_gtk3("(release) key after numpad fix : 0x%04x (GDK_KEY_%s).",
+                       (unsigned int)key, gdk_keyval_name(key));
+#endif
+            debug_gtk3("(release) key before aliases fix : 0x%04x (GDK_KEY_%s).",
+                       (unsigned int)key, gdk_keyval_name(key));
+            key = report->key.keyval = fix_numpad_aliases(report);
+            debug_gtk3("(release) key after aliases fix : 0x%04x (GDK_KEY_%s).",
+                       (unsigned int)key, gdk_keyval_name(key));
 
             ui_statusbar_update_kbd_debug(report);
 
