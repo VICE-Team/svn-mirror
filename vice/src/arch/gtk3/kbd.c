@@ -28,6 +28,8 @@
  *  02111-1307  USA.
  *
  */
+ 
+#define HAVE_DEBUG_GTK3UI
 
 #include "vice.h"
 
@@ -47,7 +49,6 @@
 #include "uistatusbar.h"
 
 #include "kbd.h"
-
 
 /** \brief  Initialize keyboard handling
  */
@@ -423,34 +424,36 @@ static gboolean isresethotkey(GdkEvent *report)
 #ifdef ARCHDEP_OS_WINDOWS
 /** \brief  Table of numpad keyval translations
  *
- * Array of translations from Gdk Windows/MacOS keyvals to "proper" Gdk keyvals
+ * Array of translations from Gdk Windows keyvals to "proper" Gdk keyvals
  * on Linux, as expected by the VICE keymaps.
  *
  * The first entry is the (correct) keyval on Linux, the second the (incorrect)
- * keyval on Windows and the third the (incorrect) keyval on MacOS.
- * Please note I (compyx) don't have a Mac, so someone with a Mac should fill
- * this in and enable the function call with an #ifdef ARCHDEP_OS_MACOS check.
+ * keyval on Windows and the third the state of bit 8 in the scancode.
  *
  * The list is terminated with 0 in the first (Linux) entry.
+ *
+ * If similar fixing is needed for macOS, this table should be duplicated in
+ * #ifdef ARCHDEP_OS_MACOS (the code below can be shared)
  */
 static const guint numpad_fixes[][3] = {
-    /* Linux                Windows             MacOS */
+    /* Linux                Windows             scancode bit 8 */
     { GDK_KEY_KP_Home,      GDK_KEY_Home,       0 },    /* 7 Home */
     { GDK_KEY_KP_Up,        GDK_KEY_Up,         0 },    /* 8 arrow up */
     { GDK_KEY_KP_Page_Up,   GDK_KEY_Page_Up,    0 },    /* 9 PgUp */
     { GDK_KEY_KP_Left,      GDK_KEY_Left,       0 },    /* 4 arrow left */
-    { GDK_KEY_KP_Begin,     GDK_KEY_Clear,      0 },    /* 5 */
+    { GDK_KEY_KP_Begin,     GDK_KEY_Begin,      0 },    /* 5 */
     { GDK_KEY_KP_Right,     GDK_KEY_Right,      0 },    /* 6 arrow right */
     { GDK_KEY_KP_End,       GDK_KEY_End,        0 },    /* 1 End */
     { GDK_KEY_KP_Down,      GDK_KEY_Down,       0 },    /* 2 arrow down */
-    { GDK_KEY_KP_Next,      GDK_KEY_Page_Down,  0 },    /* 3 PgDn */
+    { GDK_KEY_KP_Page_Down, GDK_KEY_Page_Down,  0 },    /* 3 PgDn */
     { GDK_KEY_KP_Insert,    GDK_KEY_Insert,     0 },    /* 0 Ins */
     { GDK_KEY_KP_Delete,    GDK_KEY_Delete,     0 },    /* . Del */
-    { GDK_KEY_KP_Enter,     GDK_KEY_Return,     0 },    /* Enter */
+    { GDK_KEY_KP_Enter,     GDK_KEY_Return,     1 },    /* Enter */
     { 0,                    0,                  0 }
 };
+#endif
 
-
+#ifdef ARCHDEP_OS_WINDOWS
 /** \brief  Fix numpad keyvals
  *
  * On Windows Gdk doesn't discriminate between some "normal" keys and some
@@ -480,15 +483,19 @@ static const guint numpad_fixes[][3] = {
  *
  * \return  fixed keyval for numpad keys
  */
+/* NOTE: this doesnt actually appear to work for me at all, the only key
+         were the scancode actually has bit 8 set is KP_Enter, all others
+         have the exact same keycodes as the regular keys (gpz) */
 static guint fix_numpad_keyval(GdkEvent *event)
 {
     guint keyval = event->key.keyval;
     int scancode = gdk_event_get_scancode(event);
-    gboolean numpad = !(scancode & 0x100);
+    gboolean numpad = (scancode & 0x100) ? TRUE : FALSE;
     int i = 0;
-
+    debug_gtk3("fix_numpad_keyval: scancode 0x%04x numpad: %d",
+               (unsigned int)scancode, numpad);
     while (numpad_fixes[i][0] != 0) {
-        if (keyval == numpad_fixes[i][1] && numpad) {
+        if (keyval == numpad_fixes[i][1] && numpad == numpad_fixes[i][2]) {
             return numpad_fixes[i][0];
         }
         i++;
