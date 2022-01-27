@@ -68,26 +68,7 @@ common_DATA = CBM_Logo.svg \
 	      VIC20_48.png \
 	      VIC20_64.png \
 	      VIC20_256.png \
-	      VIC20_1024.svg \
-	      gtk3-hotkeys-cartridge.vhk \
-	      gtk3-hotkeys-cartridge-mac.vhk \
-	      gtk3-hotkeys-debug.vhk \
-	      gtk3-hotkeys-debug-mac.vhk \
-	      gtk3-hotkeys-drive.vhk \
-	      gtk3-hotkeys-drive-mac.vhk \
-	      gtk3-hotkeys-datasette1.vhk \
-	      gtk3-hotkeys-datasette1-mac.vhk \
-	      gtk3-hotkeys-datasette2.vhk \
-	      gtk3-hotkeys-datasette2-mac.vhk \
-	      gtk3-hotkeys-fliplist.vhk \
-	      gtk3-hotkeys-fliplist-mac.vhk \
-	      gtk3-hotkeys-help.vhk \
-	      gtk3-hotkeys-help-mac.vhk \
-	      gtk3-hotkeys-settings.vhk \
-	      gtk3-hotkeys-settings-mac.vhk \
-	      gtk3-hotkeys-snapshot.vhk \
-	      gtk3-hotkeys-snapshot-mac.vhk
-
+	      VIC20_1024.svg
 
 EXTRA_DIST = $(common_DATA) \
 	      x64.rc \
@@ -116,7 +97,25 @@ GRESOURCE_XML = $(srcdir)/vice.gresource.xml
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	glib-compile-resources --sourcedir $(top_srcdir) $< --target $@
 
-common_DATA += $(GRESOURCE_TARGET)
+common_DATA += $(GRESOURCE_TARGET) \
+	       gtk3-hotkeys-cartridge.vhk \
+	       gtk3-hotkeys-cartridge-mac.vhk \
+	       gtk3-hotkeys-debug.vhk \
+	       gtk3-hotkeys-debug-mac.vhk \
+	       gtk3-hotkeys-drive.vhk \
+	       gtk3-hotkeys-drive-mac.vhk \
+	       gtk3-hotkeys-datasette1.vhk \
+	       gtk3-hotkeys-datasette1-mac.vhk \
+	       gtk3-hotkeys-datasette2.vhk \
+	       gtk3-hotkeys-datasette2-mac.vhk \
+	       gtk3-hotkeys-fliplist.vhk \
+	       gtk3-hotkeys-fliplist-mac.vhk \
+	       gtk3-hotkeys-help.vhk \
+	       gtk3-hotkeys-help-mac.vhk \
+	       gtk3-hotkeys-settings.vhk \
+	       gtk3-hotkeys-settings-mac.vhk \
+	       gtk3-hotkeys-snapshot.vhk \
+	       gtk3-hotkeys-snapshot-mac.vhk
 
 # The *.ico and *.res files are currently generated in
 # src/arch/gtk3/data/win32/Makefile.am, but the plan is to move that to here
