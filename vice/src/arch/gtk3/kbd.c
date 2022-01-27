@@ -559,6 +559,14 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             debug_gtk3("key after numpad fix : 0x%04x (GDK_KEY_%s).",
                        (unsigned int)key, gdk_keyval_name(key));
 #endif
+#ifdef ARCHDEP_OS_MACOS
+            {
+    int scancode = gdk_event_get_scancode(report);
+    gboolean numpad = (scancode & 0x100) ? TRUE : FALSE;
+    debug_gtk3("key: 0x%04x (GDK_KEY_%s) scancode 0x%04x numpad: %d",
+                (unsigned int)key, gdk_keyval_name(key), (unsigned int)scancode, numpad);
+            }
+#endif
             /* FIXME:   This still gets the unmodified keyval, but we cannot
              *          modify `report` since that's owned by Gdk.
              */
