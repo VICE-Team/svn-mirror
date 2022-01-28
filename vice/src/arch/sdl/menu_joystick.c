@@ -523,6 +523,21 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     return NULL;
 }
 
+static UI_MENU_CALLBACK(clear_joymap_callback)
+{
+    int pin, port;
+
+    port = (vice_ptr_to_int(param)) >> 5;
+
+    if (activated) {
+        for (pin = 0; pin < JOYPORT_MAX_PINS; pin++) {
+            sdljoy_delete_pin_mapping(port, 1 << pin);
+        }
+    }
+
+    return NULL;
+}
+
 static UI_MENU_CALLBACK(custom_joymap_axis_callback)
 {
     char *target = NULL;
@@ -608,7 +623,7 @@ static const ui_menu_entry_t define_joy_misc_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static ui_menu_entry_t joystick_mapping_dyn_menu[JOYPORT_MAX_PORTS][JOYPORT_MAX_PINS + JOYPORT_MAX_POTS + 1];
+static ui_menu_entry_t joystick_mapping_dyn_menu[JOYPORT_MAX_PORTS][JOYPORT_MAX_PINS + JOYPORT_MAX_POTS + 2];
 static int joystick_mapping_dyn_menu_init[JOYPORT_MAX_PORTS] = { 0 };
 
 static void sdl_menu_joystick_mapping_free(int port)
@@ -661,6 +676,11 @@ static const char *joystick_mapping_dynmenu_helper(int port)
                     j++;
                 }
             }
+            entry[j].string = (char *)lib_strdup("Clear all mappings");
+            entry[j].type = MENU_ENTRY_DIALOG;
+            entry[j].callback = clear_joymap_callback;
+            entry[j].data = (ui_callback_data_t)int_to_void_ptr(port << 5);
+            j++;
         }
         entry[j].string = NULL;
         entry[j].type = 0;
