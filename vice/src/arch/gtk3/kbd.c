@@ -50,6 +50,16 @@
 
 #include "kbd.h"
 
+/** \brief  Gdk keyval translation table array indexes
+ */
+enum {
+    KV_FIXED,       /**< target keysym (Unix) */
+    KV_ALIAS,       /**< Windows/MacOS keysym alias */
+    KV_BIT8,        /**< bit 8 of the scancode */
+    KV_ARR_SIZE     /**< size of the array for a single translation entry */
+};
+
+
 /** \brief  Initialize keyboard handling
  */
 void kbd_arch_init(void)
@@ -432,24 +442,24 @@ static gboolean isresethotkey(GdkEvent *report)
  *
  * The list is terminated with 0 in the first (Linux) entry.
  */
-
-static const guint numpad_fixes[][3] = {
+static const guint numpad_fixes[][KV_ARR_SIZE] = {
     /* Linux                Windows             scancode bit 8 */
-    { GDK_KEY_KP_Home,      GDK_KEY_Home,       0 },    /* 7 Home */
-    { GDK_KEY_KP_Up,        GDK_KEY_Up,         0 },    /* 8 arrow up */
-    { GDK_KEY_KP_Page_Up,   GDK_KEY_Page_Up,    0 },    /* 9 PgUp (same keyval as _Prior) */
-    { GDK_KEY_KP_Prior,     GDK_KEY_Prior,      0 },    /* 9 Prior (same keyval as _Page_Up) */
-    { GDK_KEY_KP_Left,      GDK_KEY_Left,       0 },    /* 4 arrow left */
-    { GDK_KEY_KP_Begin,     GDK_KEY_Begin,      0 },    /* 5 */
-    { GDK_KEY_KP_Right,     GDK_KEY_Right,      0 },    /* 6 arrow right */
-    { GDK_KEY_KP_End,       GDK_KEY_End,        0 },    /* 1 End */
-    { GDK_KEY_KP_Down,      GDK_KEY_Down,       0 },    /* 2 arrow down */
-    { GDK_KEY_KP_Page_Down, GDK_KEY_Page_Down,  0 },    /* 3 PgDn (same keyval as _Next) */
-    { GDK_KEY_KP_Next,      GDK_KEY_Next,       0 },    /* 3 Next (same keyval as _Page_Down) */
-    { GDK_KEY_KP_Insert,    GDK_KEY_Insert,     0 },    /* 0 Ins */
-    { GDK_KEY_KP_Delete,    GDK_KEY_Delete,     0 },    /* . Del */
-    { GDK_KEY_KP_Enter,     GDK_KEY_Return,     1 },    /* Enter */
-    { 0,                    0,                  0 }
+    { GDK_KEY_KP_Home,      GDK_KEY_Home,       FALSE },    /* 7 Home */
+    { GDK_KEY_KP_Up,        GDK_KEY_Up,         FALSE },    /* 8 arrow up */
+    { GDK_KEY_KP_Page_Up,   GDK_KEY_Page_Up,    FALSE },    /* 9 PgUp (same keyval as _Prior) */
+    { GDK_KEY_KP_Prior,     GDK_KEY_Prior,      FALSE },    /* 9 Prior (same keyval as _Page_Up) */
+    { GDK_KEY_KP_Left,      GDK_KEY_Left,       FALSE },    /* 4 arrow left */
+    { GDK_KEY_KP_Begin,     GDK_KEY_Begin,      FALSE },    /* 5 (groepaz' DE kbd) */
+    { GDK_KEY_KP_Begin,     GDK_KEY_Clear,      FALSE },    /* 5 (compyx' US kbd) */
+    { GDK_KEY_KP_Right,     GDK_KEY_Right,      FALSE },    /* 6 arrow right */
+    { GDK_KEY_KP_End,       GDK_KEY_End,        FALSE },    /* 1 End */
+    { GDK_KEY_KP_Down,      GDK_KEY_Down,       FALSE },    /* 2 arrow down */
+    { GDK_KEY_KP_Page_Down, GDK_KEY_Page_Down,  FALSE },    /* 3 PgDn (same keyval as _Next) */
+    { GDK_KEY_KP_Next,      GDK_KEY_Next,       FALSE },    /* 3 Next (same keyval as _Page_Down) */
+    { GDK_KEY_KP_Insert,    GDK_KEY_Insert,     FALSE },    /* 0 Ins */
+    { GDK_KEY_KP_Delete,    GDK_KEY_Delete,     FALSE },    /* . Del */
+    { GDK_KEY_KP_Enter,     GDK_KEY_Return,     TRUE },     /* Enter */
+    { 0,                    0,                  FALSE }
 };
 #endif
 
@@ -489,11 +499,11 @@ static guint fix_numpad_keyval(GdkEvent *event)
     int scancode = gdk_event_get_scancode(event);
     gboolean numpad = (scancode & 0x100) ? TRUE : FALSE;
     int i = 0;
-    debug_gtk3("fix_numpad_keyval: scancode 0x%04x numpad: %d",
+    debug_gtk3("scancode 0x%04x numpad: %d",
                (unsigned int)scancode, numpad);
-    while (numpad_fixes[i][0] != 0) {
-        if (keyval == numpad_fixes[i][1] && numpad == numpad_fixes[i][2]) {
-            return numpad_fixes[i][0];
+    while (numpad_fixes[i][KV_FIXED] != 0) {
+        if (keyval == numpad_fixes[i][KV_ALIAS] && numpad == numpad_fixes[i][KV_BIT8]) {
+            return numpad_fixes[i][KV_FIXED];
         }
         i++;
     }
