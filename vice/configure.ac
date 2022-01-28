@@ -395,9 +395,6 @@ AC_SUBST(VICE_PDF_FILE_NAME)
 AM_CONDITIONAL([ENABLE_HTML_DOCS], [test x"${enable_html_docs:-yes}" != xno])
 AM_CONDITIONAL([HAVE_PERL], [test x"$PERL" != x])
 
-dnl Seems to be used for AmigaOS, not available on Debian:
-AC_CHECK_PROGS(MAKEGUIDE, makeguide, no)
-
 AC_CHECK_PROGS(ICONV, iconv, no)
 AS_IF([test x"$ICONV" = x"no"], [AC_MSG_ERROR([iconv is missing])])
 AC_CHECK_TOOL(RANLIB, ranlib, :)
