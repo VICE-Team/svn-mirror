@@ -15,7 +15,7 @@ extern int loadfile_offset;
 extern int load_address;
 extern FILE *outfile;
 extern char *input_filename[MAX_INPUT_FILES];
-extern unsigned char input_filenames;
+extern int input_filenames;
 extern char loadfile_is_crt;
 
 extern int convert_to_c2;

@@ -15,7 +15,7 @@ extern unsigned char cart_subtype;
 extern signed char cart_type;
 extern char *cart_name;
 extern FILE *outfile;
-extern char *output_filename;
+extern char *output_filename[MAX_OUTPUT_FILES];
 extern unsigned char filebuffer[CARTRIDGE_SIZE_MAX + 2];
 extern int loadfile_offset;
 extern int machine_class;
@@ -145,15 +145,15 @@ int write_crt_header(unsigned char gameline, unsigned char exromline)
         }
     }
 
-    outfile = fopen(output_filename, "wb");
+    outfile = fopen(output_filename[0], "wb");
     if (outfile == NULL) {
-        fprintf(stderr, "Error: Can't open output file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't open output file %s\n", output_filename[0]);
         return -1;
     }
     if (fwrite(crt_header, 1, 0x40, outfile) != 0x40) {
-        fprintf(stderr, "Error: Can't write crt header to file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't write crt header to file %s\n", output_filename[0]);
         fclose(outfile);
-        unlink(output_filename);
+        unlink(output_filename[0]);
         return -1;
     }
     return 0;
@@ -181,15 +181,15 @@ int write_chip_package(unsigned int length, unsigned int bank, unsigned int addr
     chip_header[CRT_CHIP_OFFS_SIZE_HI] = (unsigned char)(length >> 8);
     chip_header[CRT_CHIP_OFFS_SIZE_LO] = (unsigned char)(length & 0xff);
     if (fwrite(chip_header, 1, 0x10, outfile) != 0x10) {
-        fprintf(stderr, "Error: Can't write chip header to file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't write chip header to file %s\n", output_filename[0]);
         fclose(outfile);
-        unlink(output_filename);
+        unlink(output_filename[0]);
         return -1;
     }
     if (fwrite(filebuffer + loadfile_offset, 1, length, outfile) != length) {
-        fprintf(stderr, "Error: Can't write data to file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't write data to file %s\n", output_filename[0]);
         fclose(outfile);
-        unlink(output_filename);
+        unlink(output_filename[0]);
         return -1;
     }
     loadfile_offset += (int)length;
