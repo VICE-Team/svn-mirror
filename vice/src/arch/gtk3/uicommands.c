@@ -724,8 +724,8 @@ static void restore_default_callback(GtkDialog *dialog, gboolean result)
 {
     if (result) {
         mainlock_obtain();
-        resources_set_defaults();
         ui_hotkeys_load_default();
+        resources_set_defaults();
         mainlock_release();
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
