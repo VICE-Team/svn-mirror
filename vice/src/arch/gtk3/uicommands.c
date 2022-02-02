@@ -47,6 +47,7 @@
 #include "basedialogs.h"
 #include "drive.h"
 #include "log.h"
+#include "hotkeys.h"
 #include "machine.h"
 #include "mainlock.h"
 #include "uimenu.h"
@@ -724,6 +725,7 @@ static void restore_default_callback(GtkDialog *dialog, gboolean result)
     if (result) {
         mainlock_obtain();
         resources_set_defaults();
+        ui_hotkeys_load_default();
         mainlock_release();
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
