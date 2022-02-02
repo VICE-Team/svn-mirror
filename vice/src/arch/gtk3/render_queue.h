@@ -27,7 +27,7 @@
 #ifndef VICE_RENDER_QUEUE_H
 #define VICE_RENDER_QUEUE_H
 
-#define RENDER_QUEUE_MAX_BACKBUFFERS 2
+#define RENDER_QUEUE_MAX_BACKBUFFERS 1
 
 #include <stdbool.h>
 
@@ -48,6 +48,7 @@ backbuffer_t *render_queue_get_from_pool(void *render_queue, int pixel_data_size
 void render_queue_enqueue_for_display(void *render_queue, backbuffer_t *backbuffer);
 unsigned int render_queue_length(void *render_queue);
 backbuffer_t *render_queue_dequeue_for_display(void *render_queue);
+void render_queue_interrupt_dequeue(void *render_queue);
 void render_queue_return_to_pool(void *render_queue, backbuffer_t *backbuffer);
 
 #endif /* #ifndef VICE_RENDER_QUEUE_H */

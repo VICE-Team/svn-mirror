@@ -58,14 +58,15 @@
 #include "macOS-util.h"
 #endif
 
-
 typedef vice_opengl_renderer_context_t context_t;
 
 static void on_widget_realized(GtkWidget *widget, gpointer data);
 static void on_widget_unrealized(GtkWidget *widget, gpointer data);
 static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpointer data);
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data);
-static void render(video_canvas_t *canvas);
+static bool should_redraw(void);
+static void *render_thread(void *ptr);
+static void render(video_canvas_t *canvas, vice_opengl_renderer_context_t *context, backbuffer_t *backbuffer);
 
 static GLuint create_shader(GLenum shader_type, const char *text);
 static GLuint create_shader_program(char *vertex_shader_filename, char *fragment_shader_filename);
@@ -91,26 +92,42 @@ static float vertexData[] = {
 
 static void vice_opengl_initialise_canvas(video_canvas_t *canvas)
 {
-    context_t *context;
+    context_t           *context;
+    pthread_attr_t      attr;
+
+    pthread_mutex_lock(&canvas->lock);
 
     /* First initialise the context_t that we'll need everywhere */
     context = lib_calloc(1, sizeof(context_t));
-    context->cached_vsync_resource = -1;
 
+    context->canvas = canvas;
+    context->cached_vsync_resource = -1;
     context->render_queue = render_queue_create();
+
+    atomic_flag_set(&context->render_keepalive);
+    pthread_attr_init(&attr);
+    pthread_create(&context->render_thread, &attr, render_thread, (void *)canvas);
 
     canvas->renderer_context = context;
 
     g_signal_connect(canvas->event_box, "realize", G_CALLBACK (on_widget_realized), canvas);
     g_signal_connect(canvas->event_box, "unrealize", G_CALLBACK (on_widget_unrealized), canvas);
     g_signal_connect_unlocked(canvas->event_box, "size-allocate", G_CALLBACK(on_widget_resized), canvas);
+
+    pthread_mutex_unlock(&canvas->lock);
 }
 
 static void vice_opengl_destroy_context(video_canvas_t *canvas)
 {
     context_t *context;
+    void *render_thread_exit_val;
 
     context = canvas->renderer_context;
+
+    /* Shut down the render thread */
+    atomic_flag_clear(&context->render_keepalive);
+    render_queue_interrupt_dequeue(context->render_queue);
+    pthread_join(context->render_thread, &render_thread_exit_val);
 
     /* Release all backbuffers on the render queue and delloc it */
     render_queue_destroy(context->render_queue);
@@ -192,6 +209,8 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
         return;
     }
 
+    pthread_mutex_lock(&canvas->lock);
+
 #ifdef MACOSX_SUPPORT
     /* The content area coordinates include the menu on macOS */
     gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &context->native_view_x, &context->native_view_y);
@@ -214,6 +233,8 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
         context->native_view_bg_g = 0.5f;
         context->native_view_bg_b = 0.5f;
     }
+
+    pthread_mutex_unlock(&canvas->lock);
 
     /* Update the size of the native child window to match the gtk drawing area */
     vice_opengl_renderer_resize_child_view(context);
@@ -358,6 +379,12 @@ static void macos_set_host_mouse_visibility(GtkWindow *gtk_window)
 #endif
 
 
+static bool should_redraw(void)
+{
+    return ui_pause_active() || monitor_is_inside_monitor() || machine_is_jammed();
+}
+
+
 static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *canvas)
 {
     context_t *context = canvas->renderer_context;
@@ -365,10 +392,27 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
     ui_update_statusbars();
 
     /* TODO we really shouldn't be setting this every frame! */
+    pthread_mutex_lock(&canvas->lock);
     gtk_widget_set_size_request(canvas->event_box, context->native_view_min_width, context->native_view_min_height);
+    pthread_mutex_unlock(&canvas->lock);
+    
+    /*
+     * Sometimes the OS wants to redraw part of the window. Haven't been able to
+     * reliably detect those events in some linux environments so we don't trigger
+     * a redraw on that sort of event. It's not as simple as catching the GTK draw
+     * signal, because we have our own native Xlib window/NSView added over the top
+     * of the GTK/GDK window.
+     *
+     * So, each GdkFrameClock event, check if we are currently paused, and if we
+     * are, queue up a refresh of the existing emu frame.
+     *
+     * This ensures that resizing while paused doesn't glitch like busy win95,
+     * and also fixes various issues on some crappy X11 setups :)
+     */
 
-    /* Draw every frame. */
-    render(canvas);
+    if (should_redraw()) {
+        render_queue_interrupt_dequeue(context->render_queue);
+    }
 
 #ifdef MACOSX_SUPPORT
     GtkWindow *window = GTK_WINDOW(gtk_widget_get_toplevel(canvas->event_box));
@@ -569,31 +613,55 @@ static void modern_render(context_t *context, float scale_x, float scale_y)
     glUseProgram(0);
 }
 
-static void render(video_canvas_t *canvas)
+static void *render_thread(void *ptr)
 {
-    vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
+    video_canvas_t *canvas = (video_canvas_t *)ptr;
     backbuffer_t *backbuffer;
-    int vsync = 1;
-    int keepaspect = 1;
-    int trueaspect = 0;
-    float scale_x = 1.0f;
-    float scale_y = 1.0f;
+    
+    pthread_mutex_lock(&canvas->lock);
+    vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
+    pthread_mutex_unlock(&canvas->lock);
+    
+    for (;;)
+    {
+        backbuffer = render_queue_dequeue_for_display(context->render_queue);
+        
+        if (!atomic_flag_check(&context->render_keepalive)) {
+            /* Time to exit from the render thread */
+            break;
+        }
+        
+        render(canvas, context, backbuffer);
+    }
+    
+    return (void *)0;
+}
 
+static void render(video_canvas_t *canvas, vice_opengl_renderer_context_t *context, backbuffer_t *backbuffer)
+{
+    int vsync;
+    int keepaspect;
+    int trueaspect;
+    float scale_x;
+    float scale_y;
+    
+    resources_get_int("KeepAspectRatio", &keepaspect);
+    resources_get_int("TrueAspectRatio", &trueaspect);
+    resources_get_int("VSync", &vsync);
+    
     vice_opengl_renderer_make_current(context);
-
-    backbuffer = render_queue_dequeue_for_display(context->render_queue);
+    
     if (backbuffer) {
-        /* Upload the frame(s) to the GPU and then return it */
+        /* Upload the frame(s) to the GPU and then return it to the pool */
         update_frame_textures(context, backbuffer);
         render_queue_return_to_pool(context->render_queue, backbuffer);
     }
 
+    pthread_mutex_lock(&canvas->lock);
+
     /*
      * Recalculate layout
      */
-
-    resources_get_int("KeepAspectRatio", &keepaspect);
-    resources_get_int("TrueAspectRatio", &trueaspect);
 
     if (keepaspect) {
         float viewport_aspect;
@@ -613,6 +681,9 @@ static void render(video_canvas_t *canvas)
             scale_x = 1.0f;
             scale_y = viewport_aspect / emulated_aspect;
         }
+    } else {
+        scale_x = 1.0f;
+        scale_y = 1.0f;
     }
 
     canvas->screen_display_w = (float)context->native_view_width  * scale_x;
@@ -631,11 +702,10 @@ static void render(video_canvas_t *canvas)
 
     context->last_render_time = tick_now();
 
+    /* Update the size of the native child window to match the gtk drawing area */
     vice_opengl_renderer_set_viewport(context);
-
+    
     /* Enable or disable vsync as needed */
-    resources_get_int("VSync", &vsync);
-
     if (vsync != context->cached_vsync_resource) {
         vice_opengl_renderer_set_vsync(context, vsync ? true : false);
         context->cached_vsync_resource = vsync;
@@ -651,6 +721,8 @@ static void render(video_canvas_t *canvas)
     } else {
         modern_render(context, scale_x, scale_y);
     }
+    
+    pthread_mutex_unlock(&canvas->lock);
 
     vice_opengl_renderer_present_backbuffer(context);
     glFlush();

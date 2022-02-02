@@ -37,9 +37,12 @@
 
 #define LOCK() pthread_mutex_lock(&rq->lock)
 #define UNLOCK() pthread_mutex_unlock(&rq->lock)
+#define WAIT() pthread_cond_wait(&rq->lock_condition, &rq->lock)
+#define SIGNAL() pthread_cond_signal(&rq->lock_condition)
 
 typedef struct vice_render_queue_s {
     pthread_mutex_t lock;
+    pthread_cond_t  lock_condition;
 
     /** Holds all currently unused backbuffers */
     backbuffer_t *backbuffer_stack[RENDER_QUEUE_MAX_BACKBUFFERS];
@@ -75,6 +78,7 @@ void *render_queue_create(void)
 
     rq = lib_calloc(1, sizeof(render_queue_t));
     pthread_mutex_init(&rq->lock, NULL);
+    pthread_cond_init(&rq->lock_condition, NULL);
 
     /* Seed the pool with the maximum number of backbuffers */
     for (int i = 0; i < RENDER_QUEUE_MAX_BACKBUFFERS; i++) {
@@ -110,6 +114,8 @@ void render_queue_destroy(void *render_queue)
     }
 
     pthread_mutex_destroy(&rq->lock);
+    pthread_cond_destroy(&rq->lock_condition);
+    
     lib_free(render_queue);
 }
 
@@ -159,6 +165,8 @@ void render_queue_enqueue_for_display(void *render_queue, backbuffer_t *backbuff
 
     rq->render_queue[(rq->render_queue_next + rq->render_queue_length) % RENDER_QUEUE_MAX_BACKBUFFERS] = backbuffer;
     rq->render_queue_length++;
+    
+    SIGNAL();
 
     UNLOCK();
 }
@@ -187,8 +195,14 @@ backbuffer_t *render_queue_dequeue_for_display(void *render_queue)
 
     /* Are there any available? */
     if (!rq->render_queue_length) {
-        UNLOCK();
-        return NULL;
+        /* no buffers available, wait until one is enqueued */
+        WAIT();
+        
+        /* If still no buffers, we got interrupted for redraw or shutdown */
+        if (!rq->render_queue_length) {
+            UNLOCK();
+            return NULL;
+        }
     }
 
     void *backbuffer = rq->render_queue[rq->render_queue_next];
@@ -198,6 +212,15 @@ backbuffer_t *render_queue_dequeue_for_display(void *render_queue)
     UNLOCK();
 
     return backbuffer;
+}
+
+void render_queue_interrupt_dequeue(void *render_queue)
+{
+    render_queue_t *rq = (render_queue_t *)render_queue;
+    
+    LOCK();
+    SIGNAL();
+    UNLOCK();
 }
 
 void render_queue_return_to_pool(void *render_queue, backbuffer_t *backbuffer)
