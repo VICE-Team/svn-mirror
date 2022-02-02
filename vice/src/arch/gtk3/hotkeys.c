@@ -343,9 +343,24 @@ int ui_hotkeys_cmdline_options_init(void)
 }
 
 
+/** \brief  Load the default hotkeys
+ *
+ * Parse the VICE-provided hotkey files, clearing any user-defined hotkeys.
+ */
+void ui_hotkeys_load_default(void)
+{
+    log_message(hotkeys_log, "Hotkeys: Parsing %s hotkeys file:", machine_name);
+    if (!ui_hotkeys_parse(VHK_DEFAULT_NAME)) {
+        log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
+    } else {
+        log_message(hotkeys_log, "Hotkeys: OK.");
+    }
+}
+
+
 /** \brief  Initialize hotkeys
  *
- * Initialize hotkey handling resources such as logs and objects.
+ * Initialize hotkey resources such as logs and objects; load default hotkeys.
  *
  * \note    Does *not* initialize command line options or vice resources, that
  *          is done separately in hotkeys_cmdline_options_init() and
@@ -355,13 +370,7 @@ void ui_hotkeys_init(void)
 {
     hotkeys_log = log_open("HOTKEYS");
     log_message(hotkeys_log, "Hotkeys: Initializing.");
-
-    log_message(hotkeys_log, "Hotkeys: Parsing %s hotkeys file:", machine_name);
-    if (!ui_hotkeys_parse(VHK_DEFAULT_NAME)) {
-        log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
-    } else {
-        log_message(hotkeys_log, "Hotkeys: OK.");
-    }
+    ui_hotkeys_load_default();
 }
 
 
