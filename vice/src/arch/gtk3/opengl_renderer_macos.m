@@ -69,6 +69,9 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
     [self setWantsBestResolutionOpenGLSurface: YES];
     [self setPixelFormat: pixel_format];
     [self setOpenGLContext: opengl_context];
+    
+    // Enable macOS OpenGL multithreading ...
+//    CGLEnable(CGLGetCurrentContext(), kCGLCEMPEngine);
 
     [pixel_format release];
     [opengl_context release];
@@ -80,10 +83,21 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
 {
     [super update];
 
-    /* glViewport co-ordinates use the backing layer resolution, which can change on drag between screens */
+    /*
+     * glViewport co-ordinates use the backing layer resolution, which can change on drag between screens
+     */
+    
+    pthread_mutex_lock(&context->canvas->lock);
+    
     NSSize backing_layer_size = [self convertSizeToBacking: CGSizeMake(context->native_view_width, context->native_view_height)];
     context->gl_backing_layer_width = backing_layer_size.width;
     context->gl_backing_layer_height = backing_layer_size.height;
+    
+    pthread_mutex_unlock(&context->canvas->lock);
+}
+
+-(void) drawRect: (NSRect) bounds
+{
 }
 
 @end
@@ -94,6 +108,7 @@ void vice_opengl_renderer_make_current(vice_opengl_renderer_context_t *context)
 {
     ViceOpenGLView *opengl_view = context->native_view;
 
+    [[opengl_view openGLContext] lock];
     [[opengl_view openGLContext] makeCurrentContext];
 }
 
@@ -116,7 +131,10 @@ void vice_opengl_renderer_present_backbuffer(vice_opengl_renderer_context_t *con
 
 void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context)
 {
+    ViceOpenGLView *opengl_view = context->native_view;
+    
     [NSOpenGLContext clearCurrentContext];
+    [[opengl_view openGLContext] unlock];
 }
 
 /**/

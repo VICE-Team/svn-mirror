@@ -42,6 +42,7 @@
 #include <pthread.h>
 
 #include "archdep.h"
+#include "atomic.h"
 #include "debug.h"
 #include "log.h"
 #include "machine.h"
@@ -54,17 +55,8 @@ static pthread_mutex_t lock;
 static pthread_t vice_thread;
 
 /* Atomic flags */
-
-
-#if defined(_MSC_VER) && !defined(__clang__)
-#error "You'll need to implement these using msvc intrinsics"
-#else
-static int32_t vice_thread_keepalive    = 1;
-static int32_t ui_waiting_for_vice_lock = 0;
-#define atomic_flag_set(x) __atomic_store_n((x), 1, __ATOMIC_RELEASE)
-#define atomic_flag_clear(x) __atomic_store_n((x), 0, __ATOMIC_RELEASE)
-#define atomic_flag_check(x) __atomic_load_n((x), __ATOMIC_ACQUIRE)
-#endif
+static atomic_flag_t vice_thread_keepalive    = 1;
+static atomic_flag_t ui_waiting_for_vice_lock = 0;
 
 void mainlock_init(void)
 {
