@@ -29,7 +29,7 @@
  *
  */
  
-#define HAVE_DEBUG_GTK3UI
+/* #define HAVE_DEBUG_GTK3UI */
 
 #include "vice.h"
 
