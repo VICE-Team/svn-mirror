@@ -449,8 +449,11 @@ static const guint numpad_fixes[][KV_ARR_SIZE] = {
     { GDK_KEY_KP_Page_Up,   GDK_KEY_Page_Up,    FALSE },    /* 9 PgUp (same keyval as _Prior) */
     { GDK_KEY_KP_Prior,     GDK_KEY_Prior,      FALSE },    /* 9 Prior (same keyval as _Page_Up) */
     { GDK_KEY_KP_Left,      GDK_KEY_Left,       FALSE },    /* 4 arrow left */
-    { GDK_KEY_KP_Begin,     GDK_KEY_Begin,      FALSE },    /* 5 (groepaz' DE kbd) */
-    { GDK_KEY_KP_Begin,     GDK_KEY_Clear,      FALSE },    /* 5 (compyx' US kbd) */
+    { GDK_KEY_KP_Begin,     GDK_KEY_Begin,      FALSE },    /* 5 Begin */
+#if 0
+    /* GDK_KEY_KP_Clear does not exist, the alias is remapped instead */
+    { GDK_KEY_KP_Clear,     GDK_KEY_Clear,      FALSE },    /* 5 Clear */
+#endif
     { GDK_KEY_KP_Right,     GDK_KEY_Right,      FALSE },    /* 6 arrow right */
     { GDK_KEY_KP_End,       GDK_KEY_End,        FALSE },    /* 1 End */
     { GDK_KEY_KP_Down,      GDK_KEY_Down,       FALSE },    /* 2 arrow down */
@@ -518,14 +521,21 @@ static guint fix_numpad_keyval(GdkEvent *event)
  * key instead of the decimal point.
  *
  * The first entry is the (correct) keyval, the second the (incorrect) alias.
+ * 
+ * CAUTION: when a key exist on KP and as a regular key (example: HOME), you
+ *          MUST make sure to only map KP to KP and non KP to non KP symbols here.
  *
  * The list is terminated with 0 in the first (Linux) entry.
  */
 static const guint numpad_aliases[][2] = {
     /* Linux                Linux (alias) */
     { GDK_KEY_KP_Decimal,   GDK_KEY_KP_Separator }, /* . Del (same physical key) */
-    { GDK_KEY_KP_Page_Up,   GDK_KEY_Prior        }, /* 9 PgUp (same keyval) */
-    { GDK_KEY_KP_Page_Down, GDK_KEY_Next         }, /* 3 PgDn (same keyval) */
+    { GDK_KEY_KP_Page_Up,   GDK_KEY_KP_Prior     }, /* 9 PgUp */
+    { GDK_KEY_KP_Page_Down, GDK_KEY_KP_Next      }, /* 3 PgDn */
+    /* GDK_KEY_KP_Clear does not exist, but Clear only exists on numpad */
+    { GDK_KEY_KP_Begin,     GDK_KEY_Clear        }, /* 5 Begin */
+    { GDK_KEY_Page_Up,      GDK_KEY_Prior        }, /* 9 PgUp */
+    { GDK_KEY_Page_Down,    GDK_KEY_Next         }, /* 3 PgDn */
     { 0,                    0,                   }
 };
 
