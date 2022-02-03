@@ -38,7 +38,8 @@
 #endif
 
 void vice_macos_set_main_thread(void);
-void vice_macos_set_vice_thread(void);
+void vice_macos_set_vice_thread_priority(bool warp_enabled);
+void vice_macos_set_render_thread_priority(void);
 
 #ifdef USE_NATIVE_GTK3
 void vice_macos_get_widget_frame_and_content_rect(GtkWidget *widget, CGRect *native_frame, CGRect *content_rect);

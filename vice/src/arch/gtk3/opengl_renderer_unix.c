@@ -38,6 +38,11 @@
 #include "log.h"
 #include "render_queue.h"
 
+#define CANVAS_LOCK() pthread_mutex_lock(&context->canvas_lock)
+#define CANVAS_UNLOCK() pthread_mutex_unlock(&context->canvas_lock)
+#define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
+#define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
+
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display *, GLXFBConfig, GLXContext, Bool, const int *);
 
 static bool isExtensionSupported(const char *extList, const char *extension);
@@ -288,6 +293,8 @@ void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *cont
         return;
     }
 
+    RENDER_LOCK();
+
     XMoveResizeWindow(
         context->x_display,
         context->x_overlay_window,
@@ -295,6 +302,8 @@ void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *cont
         context->native_view_y,
         context->gl_backing_layer_width,
         context->gl_backing_layer_height);
+
+    RENDER_UNLOCK();
 }
 
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context)

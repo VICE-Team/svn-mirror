@@ -42,7 +42,6 @@
 #include <pthread.h>
 
 #include "archdep.h"
-#include "atomic.h"
 #include "debug.h"
 #include "log.h"
 #include "machine.h"
@@ -50,13 +49,12 @@
 #include "tick.h"
 #include "vsyncapi.h"
 
+static volatile bool vice_thread_keepalive = true;
+
 static pthread_mutex_t lock;
 
 static pthread_t vice_thread;
-
-/* Atomic flags */
-static atomic_flag_t vice_thread_keepalive    = 1;
-static atomic_flag_t ui_waiting_for_vice_lock = 0;
+static bool vice_thread_is_running = false;
 
 void mainlock_init(void)
 {
@@ -73,74 +71,64 @@ void mainlock_set_vice_thread(void)
     pthread_mutex_lock(&lock);
 
     vice_thread = pthread_self();
+    vice_thread_is_running = true;
 }
 
 
 static void consider_exit(void)
 {
-    /* Check if the vice thread has been told to die. */
-    if (atomic_flag_check(&vice_thread_keepalive)) {
-        // Nope, keep going.
-        return;
-    }
-
-    /* NASTY - some emulation can continue on the vice thread during shutdown. */
+    /* NASTY - some emulation can continue on the main thread during shutdown. */
     if (!pthread_equal(pthread_self(), vice_thread)) {
         return;
     }
-    
-    pthread_mutex_unlock(&lock);
-    
-    log_message(LOG_DEFAULT, "VICE thread is exiting");
 
-    archdep_thread_shutdown();
+    /* Check if the vice thread has been told to die. */
+    if (!vice_thread_keepalive) {
+        
+        /* This needs to be set before unlocking to avoid a shutdown race condition */
+        vice_thread_is_running = false;
+        
+        pthread_mutex_unlock(&lock);
+        
+        log_message(LOG_DEFAULT, "VICE thread is exiting");
 
-    /* Execution ends here - this function does not return. */
-    pthread_exit(NULL);
+        archdep_thread_shutdown();
+
+        /* Execution ends here - this function does not return. */
+        pthread_exit(NULL);
+    }
 }
 
 
 void mainlock_initiate_shutdown(void)
 {
-    if (!atomic_flag_check(&vice_thread_keepalive)) {
-        /* Already shuttting down */
+    pthread_mutex_lock(&lock);
+
+    if (!vice_thread_keepalive) {
         pthread_mutex_unlock(&lock);
         return;
     }
 
     log_message(LOG_DEFAULT, "VICE thread initiating shutdown");
 
-    atomic_flag_clear(&vice_thread_keepalive);
+    vice_thread_keepalive = false;
+
+    pthread_mutex_unlock(&lock);
 
     /* If called on the vice thread itself, run the exit code immediately */
     if (pthread_equal(pthread_self(), vice_thread)) {
         consider_exit();
         log_error(LOG_ERR, "VICE thread didn't immediately exit when it should have");
-    } else {
-        /*
-         * The UI thread is initiating shutdown, so we need to let the vice
-         * thread know that it should release the lock and consider exit.
-         */
-
-        atomic_flag_set(&ui_waiting_for_vice_lock);
     }
 }
 
 
-/** \brief Offer the vice mainlock to the ui thread.
+/** \brief Yield the mainlock and attempt to regain it immediately
  */
 void mainlock_yield(void)
 {
-    if (atomic_flag_check(&ui_waiting_for_vice_lock)) {
-        /*
-         * The UI thread is waiting for the vice lock, so we release it and
-         * perform a minimal sleep to give the UI thread its chance.
-         *
-         * Note that our tick_sleep() implementation releases the vice lock.
-         */
-
-        tick_sleep(1);
-    }
+    mainlock_yield_begin();
+    mainlock_yield_end();
 }
 
 
@@ -181,17 +169,7 @@ void mainlock_obtain(void)
     }
 #endif
 
-    /*
-     * Indicate that we are waiting for the vice mainlock. This will trigger an
-     * unlock and minimal sleep next time the vice thread can yield.
-     */
-     
-    atomic_flag_set(&ui_waiting_for_vice_lock);
-
     pthread_mutex_lock(&lock);
-
-    /* Not waiting anymore */
-    atomic_flag_clear(&ui_waiting_for_vice_lock);
 }
 
 
