@@ -1392,6 +1392,10 @@ initialize the emulator in some way:
 @itemx -?
 List all the available command-line options and their meaning.
 
+@findex -version
+@item -version
+Show the program name and version.
+
 @findex -features
 @item -features
 List all compile time features
