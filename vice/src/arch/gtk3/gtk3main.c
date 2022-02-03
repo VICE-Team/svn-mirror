@@ -37,6 +37,7 @@
 #include "machine.h"
 #include "main.h"
 #include "mainlock.h"
+#include "render_thread.h"
 #include "ui.h"
 #include "video.h"
 
@@ -101,6 +102,12 @@ int main(int argc, char **argv)
  */
 void main_exit(void)
 {
+    /*
+     * The render thread MUST be joined before the platform exit() is called
+     * otherwise gl calls can deadlock
+     */
+    render_thread_shutdown_and_join_all();
+
     /*
      * This needs to happen before machine_shutdown as various things get freed
      * in that process.

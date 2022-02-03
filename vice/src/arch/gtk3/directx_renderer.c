@@ -47,6 +47,11 @@
 #include "ui.h"
 #include "uistatusbar.h"
 
+#define CANVAS_LOCK() pthread_mutex_lock(&canvas->lock)
+#define CANVAS_UNLOCK() pthread_mutex_unlock(&canvas->lock)
+#define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
+#define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
+
 typedef vice_directx_renderer_context_t context_t;
 
 #define VICE_DIRECTX_WINDOW_CLASS "VICE_DIRECTX_WINDOW_CLASS"
@@ -64,24 +69,27 @@ static LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, 
         /* We don't want mouse events - send them to the gdk parent window */
         return HTTRANSPARENT;
 
-    // case WM_PAINT:
-    //     /* We need to repaint the current bitmap, which we do in the render thread */
-    //     {
-    //         video_canvas_t *canvas = (video_canvas_t *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-    //         context_t *context = canvas->renderer_context;
+    case WM_PAINT:
+        /* We need to repaint the current bitmap, which we do in the render thread */
+        {
+            video_canvas_t *canvas = (video_canvas_t *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+            context_t *context = canvas->renderer_context;
 
-    //         /* Prevent this event from being reposted continually */
-    //         ValidateRect(hwnd, NULL);
+            /* Prevent this event from being reposted continually */
+            ValidateRect(hwnd, NULL);
 
-    //         CANVAS_LOCK();
-    //         render_thread_push_job(context->render_thread, render_thread_render);
-    //         CANVAS_UNLOCK();
-    //     }
-    //     return 0;
+            CANVAS_LOCK();
+            /* If there is no pending render job, schedule one */
+            if (!render_queue_length(context->render_queue)) {
+                render_thread_push_job(context->render_thread, render_thread_render);
+            }
+            CANVAS_UNLOCK();
+        }
+        return 0;
 
-    // case WM_DISPLAYCHANGE:
-    //     InvalidateRect(hwnd, NULL, FALSE);
-    //     return 0;
+    case WM_DISPLAYCHANGE:
+        InvalidateRect(hwnd, NULL, FALSE);
+        return 0;
     }
 
     return DefWindowProc(hwnd, message, wParam, lParam);
@@ -94,6 +102,8 @@ static void vice_directx_initialise_canvas(video_canvas_t *canvas)
     /* First create the context_t that we'll need everywhere */
     context = lib_calloc(1, sizeof(context_t));
 
+    context->canvas_lock = canvas->lock;
+    pthread_mutex_init(&context->render_lock, NULL);
     canvas->renderer_context = context;
 
     g_signal_connect (canvas->event_box, "realize", G_CALLBACK (on_widget_realized), canvas);
@@ -105,12 +115,17 @@ static void vice_directx_destroy_context(video_canvas_t *canvas)
 {
     context_t *context;
 
+    CANVAS_LOCK();
+
     context = canvas->renderer_context;
 
     if (context) {
+        pthread_mutex_destroy(&context->render_lock);
         lib_free(context);
         canvas->renderer_context = NULL;
     }
+
+    CANVAS_UNLOCK();
 }
 
 static void on_widget_realized(GtkWidget *widget, gpointer data)
@@ -159,12 +174,17 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
 
     context->render_queue = render_queue_create();
     context->render_bg_colour.a = 1.0f;
+
+    /* Create an exclusive single thread 'pool' for executing render jobs */
+    context->render_thread = render_thread_create(vice_directx_impl_async_render, canvas);
 }
 
 static void on_widget_unrealized(GtkWidget *widget, gpointer data)
 {
     video_canvas_t *canvas = data;
     context_t *context = canvas->renderer_context;
+
+    CANVAS_LOCK();
 
     vice_directx_destroy_context_impl(context);
 
@@ -175,6 +195,8 @@ static void on_widget_unrealized(GtkWidget *widget, gpointer data)
 
     render_queue_destroy(context->render_queue);
     context->render_queue = NULL;
+
+    CANVAS_UNLOCK();
 }
 
 /** The underlying GtkDrawingArea has changed size (possibly before being realised) */
@@ -185,9 +207,11 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
     gint viewport_x, viewport_y;
     gint gtk_scale = gtk_widget_get_scale_factor(widget);
 
+    CANVAS_LOCK();
 
     context = canvas->renderer_context;
     if (!context) {
+        CANVAS_UNLOCK();
         return;
     }
 
@@ -212,8 +236,13 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
     /* Update the size of the native child window to match the gtk drawing area */
     if (context->window) {
         MoveWindow(context->window, context->viewport_x, context->viewport_y, context->viewport_width, context->viewport_height, TRUE);
+        if (!render_queue_length(context->render_queue)) {
+            render_thread_push_job(context->render_thread, render_thread_render);
+        }
         context->resized = true;
     }
+
+    CANVAS_UNLOCK();
 }
 
 /******/
@@ -223,11 +252,15 @@ static void vice_directx_update_context(video_canvas_t *canvas, unsigned int wid
 {
     context_t *context;
 
+    CANVAS_LOCK();
+
     context = canvas->renderer_context;
 
     context->emulated_width_next = width;
     context->emulated_height_next = height;
     context->pixel_aspect_ratio_next = canvas->geometry->pixel_aspect_ratio;
+
+    CANVAS_UNLOCK();
 }
 
 /** \brief It's time to draw a complete emulated frame */
@@ -240,8 +273,11 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
     backbuffer_t *backbuffer;
     int pixel_data_size_bytes;
 
+    CANVAS_LOCK();
+
     context = canvas->renderer_context;
     if (!context || !context->render_queue) {
+        CANVAS_UNLOCK();
         return;
     }
 
@@ -250,19 +286,24 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
     backbuffer = render_queue_get_from_pool(context->render_queue, pixel_data_size_bytes);
 
     if (!backbuffer) {
+        CANVAS_UNLOCK();
         return;
     }
 
     backbuffer->width = context->emulated_width_next;
     backbuffer->height = context->emulated_height_next;
     backbuffer->pixel_aspect_ratio = context->pixel_aspect_ratio_next;
-
     backbuffer->interlaced = canvas->videoconfig->interlaced;
     backbuffer->interlace_field = canvas->videoconfig->interlace_field;
 
+    CANVAS_UNLOCK();
+
     video_canvas_render(canvas, backbuffer->pixel_data, w, h, xs, ys, xi, yi, backbuffer->width * 4);
 
+    CANVAS_LOCK();
     render_queue_enqueue_for_display(context->render_queue, backbuffer);
+    render_thread_push_job(context->render_thread, render_thread_render);
+    CANVAS_UNLOCK();
 }
 
 static void vice_directx_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *canvas)
@@ -271,11 +312,12 @@ static void vice_directx_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t 
 
     ui_update_statusbars();
 
+    CANVAS_LOCK();
+
     /* TODO we really shouldn't be setting this every frame! */
     gtk_widget_set_size_request(canvas->event_box, context->window_min_width, context->window_min_height);
 
-    /* Draw every frame. */
-    vice_directx_impl_render(canvas);
+    CANVAS_UNLOCK();
 }
 
 static void vice_directx_set_palette(video_canvas_t *canvas)

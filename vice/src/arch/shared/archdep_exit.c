@@ -42,7 +42,6 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <objbase.h>
-#include <avrt.h>
 #endif
 
 #include <assert.h>
@@ -150,22 +149,13 @@ void archdep_set_main_thread(void)
 {
     main_thread = pthread_self();
 
-#ifdef UNIX_COMPILE
-#ifdef MACOSX_SUPPORT
+#if defined(MACOSX_SUPPORT)
+
     /* macOS specific main thread init written in objective-c */
     vice_macos_set_main_thread();
 
-#else
-    /* Linux doesn't benefit from messing with the priority on my 3700X */
-    {
-    //    struct sched_param param;
-    //    int32_t policy;
-    
-    //    pthread_getschedparam(pthread_self(), &policy, &param);
-    //    param.sched_priority = sched_get_priority_max(policy);
-    //    pthread_setschedparam(pthread_self(), policy, &param);
-    }
-    
+#elif defined(UNIX_COMPILE)
+
 #ifdef USE_NATIVE_GTK3
     /* Our GLX OpenGL init stuff will crash if we let GDK use wayland directly */
     putenv("GDK_BACKEND=x11");
@@ -176,59 +166,16 @@ void archdep_set_main_thread(void)
     XInitThreads();
 #endif
 
-#endif /* #ifdef MACOSX_SUPPORT */
-#endif /* #ifdef UNIX_COMPILE */
+    /* TODO - set UI/main thread priority for X11 */
 
-#ifdef WIN32_COMPILE
+#elif defined(WIN32_COMPILE)
+
     /* Increase Windows scheduler accuracy */
     timeBeginPeriod(1);
 
     /* Of course VICE is more important than other puny Windows applications */
     SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
 
-    {
-        DWORD task_index;
-        HANDLE task_handle = AvSetMmThreadCharacteristics("Games", &task_index);
-        if (task_handle) {
-            AvSetMmThreadPriority(task_handle, AVRT_PRIORITY_CRITICAL);
-        }
-    }
-
-    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-#endif
-}
-
-void archdep_set_vice_thread(void)
-{
-#ifdef UNIX_COMPILE
-#ifdef MACOSX_SUPPORT
-    /* macOS specific main thread init written in objective-c */
-    vice_macos_set_vice_thread();
-
-#else
-    /* Linux doesn't benefit from messing with the priority on my 3700X */
-    {
-    //    struct sched_param param;
-    //    int32_t policy;
-    
-    //    pthread_getschedparam(pthread_self(), &policy, &param);
-    //    param.sched_priority = sched_get_priority_max(policy);
-    //    pthread_setschedparam(pthread_self(), policy, &param);
-    }
-    
-#endif
-#endif /* #ifdef UNIX_COMPILE */
-
-#ifdef WIN32_COMPILE
-    {
-        DWORD task_index;
-        HANDLE task_handle = AvSetMmThreadCharacteristics("Games", &task_index);
-        if (task_handle) {
-            AvSetMmThreadPriority(task_handle, AVRT_PRIORITY_CRITICAL);
-        }
-    }
-
-    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 #endif
 }
 
