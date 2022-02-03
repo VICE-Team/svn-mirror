@@ -168,8 +168,14 @@ int main_program(int argc, char **argv)
         if ((!strcmp(argv[i], "-console")) || (!strcmp(argv[i], "--console"))) {
             console_mode = 1;
             /* video_disabled_mode = 1;  Breaks exitscreenshot */
-        } else
-        if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
+        } else if ((!strcmp(argv[i], "-version")) || (!strcmp(argv[i], "--version"))) {
+#ifdef USE_SVN_REVISION
+            printf("%s (VICE %s SVN r%d)\n", archdep_program_name(), VERSION, VICE_SVN_REV_NUMBER);
+#else
+            printf("%s (VICE %s)\n", archdep_program_name(), VERSION);
+#endif
+            exit(EXIT_SUCCESS);
+        } else if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
             if ((i + 1) < argc) {
                 vice_config_file = lib_strdup(argv[++i]);
                 loadconfig = 1;

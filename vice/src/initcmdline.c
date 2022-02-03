@@ -71,6 +71,9 @@
 #include "vsync.h"
 #include "zfile.h"
 
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
 
 #ifdef DEBUG_CMDLINE
 #define DBG(x)  printf x
@@ -316,6 +319,17 @@ static int cmdline_seed(const char *param, void *extra_param)
     return 0;
 }
 
+static int cmdline_version(const char *param, void *extra_param)
+{
+#ifdef USE_SVN_REVISION
+    printf("%s (VICE %s SVN r%d)\n", archdep_program_name(), VERSION, VICE_SVN_REV_NUMBER);
+#else
+    printf("%s (VICE %s)\n", archdep_program_name(), VERSION);
+#endif
+    exit(EXIT_SUCCESS);
+    return 0; /* get rid of warning */
+}
+
 static int cmdline_attach(const char *param, void *extra_param)
 {
     int unit = vice_ptr_to_int(extra_param);
@@ -365,6 +379,9 @@ static const cmdline_option_t common_cmdline_options[] =
     { "-h", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
+    { "-version", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
+      cmdline_version, NULL, NULL, NULL,
+      NULL, "Show the program name and version" },
     { "-features", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_features, NULL, NULL, NULL,
       NULL, "Show a list of the available compile-time options and their configuration." },
