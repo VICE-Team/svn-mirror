@@ -560,7 +560,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 
 
     /* add wrapper to main grid */
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 3);
 
 
     /* row 0, column 1 */
@@ -646,7 +646,7 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
 
 
     /* add wrapper to main grid */
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);    /* row 0 & 1, column 0 */
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 3);    /* row 0 & 1, column 0 */
 
 
     /* row 0 & 1, column 2 */
@@ -732,7 +732,7 @@ static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(wrapper), iec_wrapper, 0, 3, 1, 1);
 
     /* add wrapper to main grid */
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);    /* row 0 & 1, column 0 */
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 3);    /* row 0 & 1, column 0 */
 
 
     /* row 0 & 1, column 2 */
@@ -770,7 +770,7 @@ static GtkWidget *create_stack_child_widget(int unit)
     GtkWidget *grid;
 
     grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 32);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
     g_object_set(grid, "margin-left", 8, NULL);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
