@@ -250,7 +250,7 @@ static void load_snapshot_trap(uint16_t addr, void *data)
 
     /* block until the operation is done */
     while (!ui_done) {
-        tick_sleep(tick_per_second() / 60);
+        mainlock_yield_and_sleep(tick_per_second() / 60);
     }
 }
 
@@ -293,7 +293,7 @@ static void save_snapshot_trap(uint16_t addr, void *data)
 
     /* block until the operation is done */
     while (!ui_done) {
-        tick_sleep(tick_per_second() / 60);
+        mainlock_yield_and_sleep(tick_per_second() / 60);
     }
 }
 

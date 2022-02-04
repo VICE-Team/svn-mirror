@@ -180,9 +180,7 @@ void tick_sleep(tick_t sleep_ticks)
     if (sleep_ticks > rolling_oversleep_ticks) {
         adjusted_sleep_ticks = sleep_ticks - rolling_oversleep_ticks;
 
-        mainlock_yield_begin();
         sleep_impl(adjusted_sleep_ticks);
-        mainlock_yield_end();
 
         slept_ticks = tick_now_delta(before_yield_tick);
         if (slept_ticks > adjusted_sleep_ticks) {
@@ -197,10 +195,8 @@ void tick_sleep(tick_t sleep_ticks)
     }
     
 #else /*#ifdef OVERSLEEP_COMPENSATION */
-    
-    mainlock_yield_begin();
+
     sleep_impl(sleep_ticks);
-    mainlock_yield_end();
     
 #endif
 }

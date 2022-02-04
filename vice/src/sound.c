@@ -1339,7 +1339,7 @@ bool sound_flush()
         }
         
         /* We can't write yet, try again after a minimal sleep. */
-        tick_sleep(tick_per_second() / 1000);
+        mainlock_yield_and_sleep(tick_per_second() / 1000);
     }
 
     snddata.bufptr -= nr;

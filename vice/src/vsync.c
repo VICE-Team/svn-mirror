@@ -540,7 +540,7 @@ void vsync_do_end_of_line(void)
         
         if (warp_enabled) {
             /* During warp we need to periodically allow the UI a chance with the mainlock */
-            tick_sleep(1);
+            mainlock_yield_and_sleep(1);
         } else {
             /*
              * Compare the emulated time vs host time.
@@ -578,7 +578,7 @@ void vsync_do_end_of_line(void)
 
                 /* If we can't rely on the audio device for timing, slow down here. */
                 if (tick_based_sync_timing) {
-                    tick_sleep(ticks_until_target);
+                    mainlock_yield_and_sleep(ticks_until_target);
                 }
 
             } else if ((tick_t)0 - ticks_until_target > tick_per_second()) {

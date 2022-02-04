@@ -150,6 +150,15 @@ void mainlock_yield_end(void)
     consider_exit();
 }
 
+/** \brief Release the mainlock and sleep
+ */
+void mainlock_yield_and_sleep(tick_t ticks)
+{
+    mainlock_yield_begin();
+    tick_sleep(ticks);
+    mainlock_yield_end();
+}
+
 /****/
 
 void mainlock_obtain(void)
