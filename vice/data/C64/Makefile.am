@@ -41,10 +41,12 @@ gtk3_keymaps = \
 	gtk3_pos_se.vkm \
 	gtk3_pos_it.vkm \
 	gtk3_pos_es.vkm \
+	gtk3_pos_uk.vkm \
 	gtk3_sym_de.vkm \
 	gtk3_sym_be.vkm \
 	gtk3_sym_nl.vkm \
 	gtk3_sym_da.vkm \
+	gtk3_sym_uk.vkm \
 	gtk3_keyrah.vkm \
 	gtk3_keyrah_de.vkm \
 	gtk3_the64_de.vkm \
