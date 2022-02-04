@@ -2062,7 +2062,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     /* block until the result is set */
     while (jam_dialog_result == UI_JAM_INVALID) {
-        tick_sleep(tick_per_second() / 60);
+        mainlock_yield_and_sleep(tick_per_second() / 60);
     }
 
     lib_free(buffer);
@@ -2184,7 +2184,7 @@ int ui_extend_image_dialog(void)
 
         /* block until the result is set */
         while (extendimage_dialog_result == UI_EXTEND_IMAGE_INVALID) {
-            tick_sleep(tick_per_second() / 60);
+            mainlock_yield_and_sleep(tick_per_second() / 60);
         }
     } else {
         /*
@@ -2277,7 +2277,7 @@ bool ui_pause_loop_iteration(void)
     }
     
     /* Otherwise give the UI the lock for a while */
-    tick_sleep(tick_per_second() / 60);
+    mainlock_yield_and_sleep(tick_per_second() / 60);
     
     /* Another iteration needed unless pause was disabled during sleep */
     return is_paused;

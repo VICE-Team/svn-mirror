@@ -525,7 +525,7 @@ int uimon_get_string(struct console_private_s *t, char* string, int string_len)
         if (strlen(t->input_buffer) == 0) {
             /* There's no input yet, so have a little sleep and look again. */
             pthread_mutex_unlock(&t->lock);
-            tick_sleep(tick_per_second() / 60);
+            mainlock_yield_and_sleep(tick_per_second() / 60);
             continue;
         }
 
