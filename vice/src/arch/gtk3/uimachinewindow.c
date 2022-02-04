@@ -36,6 +36,8 @@
 
 #include "vice.h"
 
+#include <string.h>
+
 #include <gtk/gtk.h>
 #if !defined(MACOSX_SUPPORT) && !defined(WIN32_COMPILE)
 #include <gdk/gdkx.h>
@@ -56,6 +58,7 @@
 
 #include "lightpen.h"
 #include "log.h"
+#include "machine.h"
 #include "mousedrv.h"
 #include "resources.h"
 #include "videoarch.h"
@@ -609,6 +612,7 @@ static void machine_window_create(video_canvas_t *canvas)
     GtkWidget *menu_bar;
     int backend = 0;
     char *backend_label;
+    unsigned w, h, vstretch = 0, hstretch = 0;
 
     resources_get_int("GTKBackend", &backend);
 
@@ -652,7 +656,72 @@ static void machine_window_create(video_canvas_t *canvas)
 
     gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
     gtk_container_add(GTK_CONTAINER(canvas->grid), new_event_box);
+    
+    /* Crazy hack to make the initial window open at the right place of the screen. The Problem here is, that
+       if we don't explicitly set a window position (eg because we start with -default), then the window would
+       be initially created smaller than it will be when initialization finished. The window manager will take
+       that small size for determining the initial position, and if it then resizes after that, the window may
+       no more be centered, or even partially off screen.
+       
+       To prevent this from happening, we try to set the correct final size here.
+       
+       CAUTION: since the resources are not properly initialized yet, this is tricky and we must use some dirty
+       tricks and assumptions. the following also shows shortcomings / problems in other parts of the code.
+    */
+#if 1
+    printf("chip_name: %s\n", canvas->videoconfig->chip_name);
+    printf(" screen_size: %u x %u\n", canvas->geometry->screen_size.width, canvas->geometry->screen_size.height);
+    printf(" first/lastline: %u x %u\n", canvas->viewport->first_line, canvas->viewport->last_line);
+    printf(" gfx_size: %u x %u\n", canvas->geometry->gfx_size.width, canvas->geometry->gfx_size.height);
+    printf(" gfx_position: %u x %u\n", canvas->geometry->gfx_position.x, canvas->geometry->gfx_position.y);
+    printf(" first/last displayed line: %u x %u\n", canvas->geometry->first_displayed_line, canvas->geometry->last_displayed_line);
+    printf(" extra offscreen border left/right: %u x %u\n", canvas->geometry->extra_offscreen_border_left, canvas->geometry->extra_offscreen_border_right);
+    printf(" screen_display_wh: %f x %f\n", (float)canvas->screen_display_w, (float)canvas->screen_display_h);
+    printf(" canvas_physical_wh: %u x %u\n", canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_width);
+    printf(" scalexy: %d x %d\n", canvas->videoconfig->scalex, canvas->videoconfig->scaley);
+    printf(" sizexy: %u x %u\n", canvas->videoconfig->cap->single_mode.sizex, canvas->videoconfig->cap->single_mode.sizey);
+    printf(" rmode: %u\n", canvas->videoconfig->cap->single_mode.rmode);
+    printf(" aspect ratio: %f\n", (float)canvas->geometry->pixel_aspect_ratio);
+#endif    
+    /* find out if we have a videochip that uses vertical stretching. since the resources are not
+       initialized, assume it always is stretched (this is the default) */
+    if (!strcmp("Crtc", canvas->videoconfig->chip_name)) {
+        /* resources_get_int("CrtcStretchVertical", &vstretch); */
+        if (machine_class == VICE_MACHINE_PET) {
+            vstretch = 1; /* HACK: doing it for xcbm2 gives wrong result */
+            hstretch = 1; /* HACK: compensate for missing scalex setup */
+        }
+    } else if (!strcmp("VDC", canvas->videoconfig->chip_name)) {
+        /* resources_get_int("VDCStretchVertical", &vstretch); */
+        /* vstretch = 1; */ /* HACK: for some reason that doesn't give the wanted result */
+    }
+#if 1
+    printf(" hstretch: %u\n", hstretch);
+    printf(" vstretch: %u\n", vstretch);
+#endif
+    /* calculate the initial size from the values we have 
+       WARNING: terrible hacks coming up
+    */
+    w = (canvas->geometry->screen_size.width - canvas->geometry->gfx_position.x)
+        * canvas->videoconfig->scalex * (hstretch ? 2 : 1);
+    if (machine_class == VICE_MACHINE_VIC20) {
+        w = canvas->geometry->gfx_size.width
+            * canvas->videoconfig->scalex * (hstretch ? 2 : 1);
+    }
 
+    h = (canvas->geometry->last_displayed_line - canvas->geometry->first_displayed_line)
+        * canvas->videoconfig->scaley * (vstretch ? 2 : 1);
+    if (machine_class != VICE_MACHINE_PLUS4) {
+        h = (unsigned)(((double)h) * canvas->geometry->pixel_aspect_ratio);
+    }
+#if 1
+    printf(" initializing with width, height: %u x %u\n", w, h);
+#endif
+    /* finally set the size. use -1 for width and height to compensate for single pixel errors. this
+       will be corrected by the resize that will happen at the end of initialization */
+    gtk_widget_set_size_request (new_event_box, w - 1, h - 1);
+    /* finally trigger a resize of the window to adjust to smallest size */
+    gtk_window_resize(GTK_WINDOW(gtk_widget_get_parent(canvas->grid)), 1, 1);
     return;
 }
 
