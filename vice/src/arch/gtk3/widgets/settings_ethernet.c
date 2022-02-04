@@ -5,6 +5,7 @@
  */
 
 /*
+ * $VICERES ETHERNET_DRIVER     x64 x64sc xscpu64 x128 xvic
  * $VICERES ETHERNET_INTERFACE  x64 x64sc xscpu64 x128 xvic
  */
 
@@ -30,24 +31,22 @@
  */
 
 #include "vice.h"
-
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-#include "vice_gtk3.h"
-#include "resources.h"
+#include "archdep_defs.h"
+#include "archdep_ethernet_available.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
 #ifdef HAVE_RAWNET
 # include "rawnet.h"
 #endif
-#include "archdep_defs.h"
+#include "resources.h"
 #include "uisettings.h"
-#include "archdep_ethernet_available.h"
-
+#include "vice_gtk3.h"
 
 #include "settings_ethernet.h"
 
@@ -56,7 +55,6 @@
 static void clean_iface_list(void);
 static void clean_driver_list(void);
 #endif
-
 
 
 /** \brief  Handler for the 'destroy' event of the main widget
@@ -73,9 +71,7 @@ static void on_settings_ethernet_destroy(GtkWidget *widget, gpointer data)
 }
 
 
-
 #ifdef HAVE_RAWNET
-
 /** \brief  List of available interfaces
  *
  * This list is dynamically generated and destroyed when the main widget
@@ -208,6 +204,7 @@ static gboolean build_driver_list(void)
     return TRUE;
 }
 
+
 /** \brief  Free memory used by the interface list
  */
 static void clean_iface_list(void)
@@ -223,6 +220,7 @@ static void clean_iface_list(void)
         iface_list = NULL;
     }
 }
+
 
 /** \brief  Free memory used by the driver list
  */
@@ -241,6 +239,10 @@ static void clean_driver_list(void)
 }
 
 
+/** \brief  Create combo box with ethernet drivers
+ *
+ * \return  GtkComboBox
+ */
 static GtkWidget *create_driver_combo(void)
 {
     GtkWidget *combo;
@@ -333,6 +335,7 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), iface_combo, 1, 1, 1, 1);
 
     if (!available) {
+        gtk_widget_set_sensitive(driver_combo, FALSE);
         gtk_widget_set_sensitive(iface_combo, FALSE);
         label = gtk_label_new(NULL);
 # ifdef ARCHDEP_OS_UNIX
@@ -340,19 +343,14 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
                 "<i>VICE needs TUN/TAP support or the proper permissions (with libpcap) to be able to use ethernet emulation.</i>");
 # elif defined(ARCHDEP_OS_WINDOWS)
         gtk_label_set_markup(GTK_LABEL(label),
-                "<i><tt>wpcap.dll</tt> not found, please install WinPCAP to use ethernet emulation.</i>");
+                "<i>Couldn't load <b>wpcap.dll</b>, please install WinPCAP to use ethernet emulation.</i>");
 # else
         gtk_label_set_markup(GTK_LABEL(label),
                 "<i>Ethernet emulation disabled due to unsupported OS.</i>");
 # endif
-        g_object_set(label, "margin-left", 16, NULL);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-        gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 2, 1);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 2, 1);
     }
-
-
-
-
 #else
     label = gtk_label_new("Ethernet not supported, please compile with "
             "--enable-ethernet.");
