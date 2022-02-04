@@ -136,6 +136,7 @@ ISO_Left_Tab    7 2 16392    # CTRL     (Shift + Tab)
 space           7 4 8        # Space    (SPACE)
 
 Shift_L         1 7 2        # Shift    (Left Shift)
+Caps_Lock       1 7 64
 Shift_R         6 4 4        # Shift    (Right Shift)
 
 Control_L       7 5 8200     # CBM      (Ctrl)
