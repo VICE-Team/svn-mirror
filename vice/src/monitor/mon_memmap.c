@@ -139,7 +139,9 @@ void monitor_cpuhistory_store(CLOCK cycle, unsigned int addr, unsigned int op,
     }
     
     ++cpuhistory_i;
-    cpuhistory_i %= cpuhistory_lines;
+    if (cpuhistory_i == cpuhistory_lines) {
+        cpuhistory_i = 0;
+    }
     cpuhistory[cpuhistory_i].cycle = cycle;
     cpuhistory[cpuhistory_i].addr = addr;
     cpuhistory[cpuhistory_i].op = op;
