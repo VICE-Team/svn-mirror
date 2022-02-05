@@ -19420,15 +19420,15 @@ The checkpoint is temporary.
 the regular monitor. This causes the server to respond with a list of register
 values. @*
 @*
-@code{02 | 01 | 26 00 00 00 | 31 | 00 | ff ff ff ff | 09 00 [ 03 @{ 03 | cf e5 @} 03 @{ 00 | 00 00 @} ... ] } @*
+@code{02 | 02 | 26 00 00 00 | 31 | 00 | ff ff ff ff | 09 00 [ 03 @{ 03 | cf e5 @} 03 @{ 00 | 00 00 @} ... ] } @*
 @*
 
 @table @code
 @item 0x02
 Begin response
 
-@item 0x01
-API Version 1
+@item 0x02
+API Version 2
 
 @item 0x00000026
 Response length is 38
@@ -19479,15 +19479,15 @@ The register value is 0x0000
 
 @item After the register information, the server sends a stopped event to indicate that the emulator is stopped. @*
 @*
-@code{02 | 01 | 02 00 00 00 | 62 | 00 | ff ff ff ff | cf e5 } @*
+@code{02 | 02 | 02 00 00 00 | 62 | 00 | ff ff ff ff | cf e5 } @*
 @*
 
 @table @code
 @item 0x02
 Begin response
 
-@item 0x01
-API Version 1
+@item 0x02
+API Version 2
 
 @item 0x00000002
 Response is two bytes long.
@@ -19756,13 +19756,13 @@ Command body:
 @item byte 2-3: end address
 
 @item byte 4: stop when hit
-0x01: true, 0x00: false
+>=0x01: true, 0x00: false
 
 @item byte 5: enabled
-0x01: true, 0x00: false
+>=0x01: true, 0x00: false
 
 @item byte 6: CPU operation
-0x01: load, 0x02: store, 0x04: exec
+>=0x01: load, 0x02: store, 0x04: exec
 
 @item byte 7: temporary
     Deletes the checkpoint after it has been hit once. This is similar to
@@ -19950,10 +19950,10 @@ Command body:
 
 @table @strong
 @item byte 0: Save ROMs to snapshot file?
-0x01: true, 0x00: false
+>=0x01: true, 0x00: false
 
 @item byte 1: Save disks to snapshot file?
-0x01: true, 0x00: false
+>=0x01: true, 0x00: false
 
 @item byte 2: Length of filename
 
@@ -20250,7 +20250,7 @@ Command body:
 
 @table @strong
 @item byte 0: USE VIC-II? 
-Must be included, but ignored for all but the C128. If true, (0x01) the screen
+Must be included, but ignored for all but the C128. If true, (>=0x01) the screen
 returned will be from the VIC-II. If false (0x00), it will be from the VDC.
 
 @item byte 1: Format
@@ -20333,7 +20333,7 @@ Command body:
 
 @table @strong
 @item byte 0: USE VIC-II? 
-Must be included, but ignored for all but the C128. If true, (0x01) the screen
+Must be included, but ignored for all but the C128. If true, (>=0x01) the screen
 returned will be from the VIC-II. If false (0x00), it will be from the VDC.
 
 @end table
@@ -20485,7 +20485,7 @@ Command body:
 
 @table @strong
 @item byte 0: Run after loading?
-0x01: true, 0x00: false
+>=0x01: true, 0x00: false
 
 @item byte 1-2: File index
 The index of the file to execute, if a disk image. 0x00 is the default value.
@@ -20542,17 +20542,17 @@ Response body:
 @item byte 0-3: Checkpoint number
 
 @item byte 4: Currently hit?
-0x01: true, 0x00: false
+>=0x01: true, 0x00: false
 
 @item byte 5-6: start address
 
 @item byte 7-8: end address
 
 @item byte 9: stop when hit
-0x01: true, 0x00: false
+>=0x01: true, 0x00: false
 
 @item byte 10: enabled
-0x01: true, 0x00: false
+>=0x01: true, 0x00: false
 
 @item byte 11: CPU operation
 0x01: load, 0x02: store, 0x04: exec
@@ -20566,7 +20566,7 @@ Deletes the checkpoint after it has been hit once. This is similar to
 @item byte 17-20: ignore count
 
 @item byte 21: Has condition?
-0x01: true, 0x00: false
+>=0x01: true, 0x00: false
 
 @item byte 22: memspace
 
