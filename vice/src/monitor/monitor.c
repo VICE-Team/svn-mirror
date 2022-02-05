@@ -3011,7 +3011,7 @@ static void monitor_open(void)
 static int monitor_process(char *cmd)
 {
     char *trimmed_command;
-    
+
     mon_stop_output = 0;
 
     if (cmd == NULL) {
@@ -3029,9 +3029,9 @@ static int monitor_process(char *cmd)
 
         if (cmd) {
             if (recording) {
-                
+
                 trimmed_command = lib_strdup_trimmed(cmd);
-                
+
                 if (strcmp(trimmed_command, "stop") != 0) {
                     if (fprintf(recording_fp, "%s\n", trimmed_command) < 0) {
                         mon_out("Error while recording commands. Output file closed.\n");
@@ -3040,11 +3040,9 @@ static int monitor_process(char *cmd)
                         recording = false;
                     }
                 }
-                
                 lib_free(trimmed_command);
                 trimmed_command = NULL;
             }
-            
             parse_and_execute_line(cmd);
         }
     }
