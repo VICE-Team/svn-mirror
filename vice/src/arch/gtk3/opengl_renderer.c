@@ -241,10 +241,13 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
         context->native_view_bg_b = 0.5f;
     }
 
+    RENDER_LOCK();
+    CANVAS_UNLOCK();
+    
     /* Update the size of the native child window to match the gtk drawing area */
     vice_opengl_renderer_resize_child_view(context);
-
-    CANVAS_UNLOCK();
+    
+    RENDER_UNLOCK();
 }
 
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
