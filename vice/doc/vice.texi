@@ -20513,12 +20513,26 @@ Events are generated with a request ID of 0xffffffff, so that they can be easily
 distinguished from regular requests.
 
 @menu
+* MON_RESPONSE_INVALID::
 * MON_RESPONSE_CHECKPOINT_INFO::
 * MON_RESPONSE_REGISTER_INFO::
 * MON_RESPONSE_JAM::
 * MON_RESPONSE_STOPPED::
 * MON_RESPONSE_RESUMED::
 @end menu
+
+@node MON_RESPONSE_INVALID
+@subsection Invalid Response (0x00)
+
+This response type is returned for errors.
+
+Response type:
+
+0x00: MON_RESPONSE_INVALID
+
+Response body:
+
+Usually empty
 
 @node MON_RESPONSE_CHECKPOINT_INFO
 @subsection Checkpoint Response (0x11)
