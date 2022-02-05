@@ -197,6 +197,218 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 /* ------------------------------------------------------------------------- */
 
+/* functions for mmu region swap handling */
+
+/* FIXME: some cases might not be handled correctly yet
+          they will be implemented based on the results
+          of tests on real hardware. */
+static uint8_t c128_mem_mmu_page_0 = 0;
+static uint8_t c128_mem_mmu_page_1 = 1;
+
+static uint8_t c128_mem_mmu_page_0_bank = 0;
+static uint8_t c128_mem_mmu_page_1_bank = 0;
+
+static uint8_t c128_mem_mmu_page_0_target_ram = 1;
+static uint8_t c128_mem_mmu_page_1_target_ram = 1;
+
+static uint8_t c128_mem_mmu_zp_sp_shared = 0;
+
+void c128_mem_set_mmu_page_0(uint8_t val)
+{
+    c128_mem_mmu_page_0 = val;
+}
+
+void c128_mem_set_mmu_page_1(uint8_t val)
+{
+    c128_mem_mmu_page_1 = val;
+}
+
+void c128_mem_set_mmu_page_0_bank(uint8_t val)
+{
+    c128_mem_mmu_page_0_bank = val;
+}
+
+void c128_mem_set_mmu_page_1_bank(uint8_t val)
+{
+    c128_mem_mmu_page_1_bank = val;
+}
+
+void c128_mem_set_mmu_page_0_target_ram(uint8_t val)
+{
+    c128_mem_mmu_page_0_target_ram = val;
+}
+
+void c128_mem_set_mmu_page_1_target_ram(uint8_t val)
+{
+    c128_mem_mmu_page_1_target_ram = val;
+}
+
+void c128_mem_set_mmu_zp_sp_shared(uint8_t val)
+{
+    c128_mem_mmu_zp_sp_shared = val;
+}
+
+/* returns 0x100 if normal read needs to be done, or <0x100 if the read was remapped */
+static uint16_t c128_mem_mmu_wrap_read_zero(uint16_t address)
+{
+    uint8_t addr_pos = (address & 0xff);
+    uint8_t addr_page = 0;
+    uint8_t addr_bank = 0;
+    uint16_t addr;
+    int use_ram_only = 0;
+
+    /* Make sure the internal cpu port is always used for address 0 and 1 */
+    if (address == 0 || address == 1) {
+        return 0x100;
+    }
+
+    /* Check if there is no translation that needs to be done */
+    if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_0_bank == 0) {
+        return 0x100;
+    }
+
+    /* check if the address page is page 0 and in shared memory then bank does not change */
+    if (c128_mem_mmu_zp_sp_shared && addr_page == 0) {
+        addr_page = c128_mem_mmu_page_0;
+        use_ram_only = 1;
+    /* check if the address page is page 0 and replace addr with mmu given page and bank */
+    } else if (addr_page == 0) {
+        addr_page = c128_mem_mmu_page_0;
+        addr_bank = c128_mem_mmu_page_0_bank;
+        use_ram_only = 1;
+    /* check if the address page is page 0 target and if it is current RAM, ifso replace addr with page 0 and bank 0 */
+    } else if (addr_page == c128_mem_mmu_page_0 && c128_mem_mmu_page_0_target_ram) {
+        addr_page = 0;
+        addr_bank = c128_mem_mmu_page_0_bank;
+        use_ram_only = 1;
+    }
+
+    if (use_ram_only) {
+        addr = (addr_page << 8) | addr_pos;
+        return mem_ram[addr | (addr_bank << 16)];
+    }
+
+    return 0x100;
+}
+
+/* returns 0x100 if normal read needs to be done, or <0x100 if the read was remapped */
+static uint16_t c128_mem_mmu_wrap_read(uint16_t address)
+{
+    uint8_t addr_pos = (address & 0xff);
+    uint8_t addr_page = (address >> 8);
+    uint8_t addr_bank = 0;
+    uint16_t addr;
+    int use_ram_only = 0;
+
+    /* Check if there is no translation that needs to be done */
+    if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_1 == 1 && c128_mem_mmu_page_0_bank == 0 && c128_mem_mmu_page_1_bank == 0) {
+        return 0x100;
+    }
+
+    /* Make sure the internal cpu port is always used for address 0 and 1 */
+    if (address == 0 || address == 1) {
+        return 0x100;
+    }
+
+    /* check if the address page is page 1 and in shared memory then bank does not change */
+    if (c128_mem_mmu_zp_sp_shared && addr_page == 1) {
+        addr_page = c128_mem_mmu_page_1;
+        use_ram_only = 1;
+    /* check if the address page is page 0 and in shared memory then bank does not change */
+    } else if (c128_mem_mmu_zp_sp_shared && addr_page == 0) {
+        addr_page = c128_mem_mmu_page_0;
+        use_ram_only = 1;
+    /* check if the address page is page 1 and replace addr with mmu given page and bank */
+    } else if (addr_page == 1) {
+        addr_page = c128_mem_mmu_page_1;
+        addr_bank = c128_mem_mmu_page_1_bank;
+        use_ram_only = 1;
+    /* check if the address page is page 1 target and if it is current RAM, ifso replace addr with page 1 and bank 0 */
+    } else if (addr_page == c128_mem_mmu_page_1 && c128_mem_mmu_page_1_target_ram) {
+        addr_page = 1;
+        addr_bank = c128_mem_mmu_page_1_bank;
+        use_ram_only = 1;
+    /* check if the address page is page 0 and replace addr with mmu given page and bank */
+    } else if (addr_page == 0) {
+        addr_page = c128_mem_mmu_page_0;
+        addr_bank = c128_mem_mmu_page_0_bank;
+        use_ram_only = 1;
+    /* check if the address page is page 0 target and if it is current RAM, ifso replace addr with page 0 and bank 0 */
+    } else if (addr_page == c128_mem_mmu_page_0 && c128_mem_mmu_page_0_target_ram) {
+        addr_page = 0;
+        addr_bank = c128_mem_mmu_page_0_bank;
+        use_ram_only = 1;
+    }
+
+    addr = (addr_page << 8) | addr_pos;
+
+    if (use_ram_only) {
+        return (uint16_t)mem_ram[addr | (addr_bank << 16)];
+    }
+
+    return 0x100;
+}
+
+/* returns 1 if normal write needs to be done, or 0 if write was remapped and done */
+static uint8_t c128_mem_mmu_wrap_store(uint16_t address, uint8_t value)
+{
+    uint8_t addr_pos = (address & 0xff);
+    uint8_t addr_page = (address >> 8);
+    uint8_t addr_bank = 0;
+    uint16_t addr;
+    int use_ram_only = 0;
+
+    /* Check if there is no translation that needs to be done */
+    if (c128_mem_mmu_page_0 == 0 && c128_mem_mmu_page_1 == 1 && c128_mem_mmu_page_0_bank == 0 && c128_mem_mmu_page_1_bank == 0) {
+        return 1;
+    }
+
+
+    /* Make sure the internal cpu port is always used for address 0 and 1 */
+    if (address == 0 || address == 1) {
+        return 1;
+    }
+
+    /* check if the address page is page 1 and in shared memory then bank does not change */
+    if (c128_mem_mmu_zp_sp_shared && addr_page == 1) {
+        addr_page = c128_mem_mmu_page_1;
+        use_ram_only = 1;
+    /* check if the address page is page 0 and in shared memory then bank does not change */
+    } else if (c128_mem_mmu_zp_sp_shared && addr_page == 0) {
+        addr_page = c128_mem_mmu_page_0;
+        use_ram_only = 1;
+    /* check if the address page is page 1 and replace addr with mmu given page and bank */
+    } else if (addr_page == 1) {
+        addr_page = c128_mem_mmu_page_1;
+        addr_bank = c128_mem_mmu_page_1_bank;
+        use_ram_only = 1;
+    /* check if the address page is page 1 target and if it is current RAM, ifso replace addr with page 1 and bank 0 */
+    } else if (addr_page == c128_mem_mmu_page_1 && c128_mem_mmu_page_1_target_ram) {
+        addr_page = 1;
+        addr_bank = c128_mem_mmu_page_1_bank;
+        use_ram_only = 1;
+    /* check if the address page is page 0 and replace addr with mmu given page and bank */
+    } else if (addr_page == 0) {
+        addr_page = c128_mem_mmu_page_0;
+        addr_bank = c128_mem_mmu_page_0_bank;
+        use_ram_only = 1;
+    /* check if the address page is page 0 target and if it is current RAM, ifso replace addr with page 0 and bank 0 */
+    } else if (addr_page == c128_mem_mmu_page_0 && c128_mem_mmu_page_0_target_ram) {
+        addr_page = 0;
+        addr_bank = c128_mem_mmu_page_0_bank;
+        use_ram_only = 1;
+    }
+
+    addr = (addr_page << 8) | addr_pos;
+
+    if (use_ram_only) {
+        mem_ram[addr | (addr_bank << 16)] = value;
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
 static void mem_update_chargen(unsigned int chargen_high)
 {
     uint8_t *old_chargen_rom_ptr;
@@ -358,6 +570,7 @@ static int mem_get_caps_key(void)
 
 uint8_t zero_read(uint16_t addr)
 {
+    uint16_t retval = 0;
     addr &= 0xff;
 
     switch ((uint8_t)addr) {
@@ -384,7 +597,12 @@ uint8_t zero_read(uint16_t addr)
             }
             break;
         default:
-            vicii.last_cpu_val = mem_page_zero[addr];
+            retval = c128_mem_mmu_wrap_read_zero(addr);
+            if (retval == 0x100) {
+                vicii.last_cpu_val = mem_page_zero[addr];
+            } else {
+                vicii.last_cpu_val = (uint8_t)retval;
+            }
     }
 
     return vicii.last_cpu_val;
@@ -398,16 +616,9 @@ void zero_store(uint16_t addr, uint8_t value)
 
     switch ((uint8_t)addr) {
         case 0:
-#if 0
-            if (vbank == 0) {
-                vicii_mem_vbank_store((uint16_t)0, vicii_read_phi1_lowlevel());
-            } else {
-#endif
             mem_page_zero[0] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-#if 0
-    }
-#endif
+
             /* when switching an unused bit from output (where it contained a
                stable value) to input mode (where the input is floating), some
                of the charge is transferred to the floating input */
@@ -427,16 +638,9 @@ void zero_store(uint16_t addr, uint8_t value)
             }
             break;
         case 1:
-#if 0
-            if (vbank == 0) {
-                vicii_mem_vbank_store((uint16_t)1, vicii_read_phi1_lowlevel());
-            } else {
-#endif
             mem_page_zero[1] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-#if 0
-    }
-#endif
+
             /* when writing to an unused bit that is output, charge the "capacitor",
                otherwise don't touch it */
             if (pport.dir & 0x80) {
@@ -451,15 +655,9 @@ void zero_store(uint16_t addr, uint8_t value)
             }
             break;
         default:
-#if 0
-            if (vbank == 0) {
-                vicii_mem_vbank_store(addr, value);
-            } else {
-#endif
-            mem_page_zero[addr] = value;
-#if 0
-    }
-#endif
+            if (c128_mem_mmu_wrap_store(addr, value)) {
+                mem_page_zero[addr] = value;
+            }
     }
 }
 
@@ -467,12 +665,19 @@ void zero_store(uint16_t addr, uint8_t value)
 
 uint8_t one_read(uint16_t addr)
 {
-    return mem_page_one[addr - 0x100];
+    uint16_t retval = c128_mem_mmu_wrap_read(addr);
+
+    if (retval == 0x100) {
+        return mem_page_one[addr - 0x100];
+    }
+    return (uint8_t)retval;
 }
 
 void one_store(uint16_t addr, uint8_t value)
 {
-    mem_page_one[addr - 0x100] = value;
+    if (c128_mem_mmu_wrap_store(addr, value)) {
+        mem_page_one[addr - 0x100] = value;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -560,7 +765,13 @@ void mem_store_without_romlh(uint16_t addr, uint8_t value)
 /* $0200 - $3FFF: RAM (normal or shared).  */
 uint8_t lo_read(uint16_t addr)
 {
-    vicii.last_cpu_val = READ_BOTTOM_SHARED(addr);
+    uint16_t retval = c128_mem_mmu_wrap_read(addr);
+
+    if (retval == 0x100) {
+        vicii.last_cpu_val = READ_BOTTOM_SHARED(addr);
+    } else {
+        vicii.last_cpu_val = (uint8_t)retval;
+    }
 
     return vicii.last_cpu_val;
 }
@@ -568,12 +779,21 @@ uint8_t lo_read(uint16_t addr)
 void lo_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
-    STORE_BOTTOM_SHARED(addr, value);
+
+    if (c128_mem_mmu_wrap_store(addr, value)) {
+        STORE_BOTTOM_SHARED(addr, value);
+    }
 }
 
 uint8_t ram_read(uint16_t addr)
 {
-    vicii.last_cpu_val = ram_bank[addr];
+    uint16_t retval = c128_mem_mmu_wrap_read(addr);
+
+    if (retval == 0x100) {
+        vicii.last_cpu_val = ram_bank[addr];
+    } else {
+        vicii.last_cpu_val = (uint8_t)retval;
+    }
 
     return vicii.last_cpu_val;
 }
@@ -582,7 +802,9 @@ void ram_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
-    ram_bank[addr] = value;
+    if (c128_mem_mmu_wrap_store(addr, value)) {
+        ram_bank[addr] = value;
+    }
 }
 
 void ram_hi_store(uint16_t addr, uint8_t value)
@@ -718,14 +940,24 @@ void hi_store(uint16_t addr, uint8_t value)
 
 uint8_t top_shared_read(uint16_t addr)
 {
-    vicii.last_cpu_val = READ_TOP_SHARED(addr);
+    uint16_t retval = c128_mem_mmu_wrap_read(addr);
+
+    if (retval == 0x100) {
+        vicii.last_cpu_val = READ_TOP_SHARED(addr);
+    } else {
+        vicii.last_cpu_val = (uint8_t)retval;
+    }
+
     return vicii.last_cpu_val;
 }
 
 void top_shared_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
-    STORE_TOP_SHARED(addr, value);
+
+    if (c128_mem_mmu_wrap_store(addr, value)) {
+        STORE_TOP_SHARED(addr, value);
+    }
 }
 
 /* ------------------------------------------------------------------------- */

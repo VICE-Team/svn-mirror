@@ -255,13 +255,13 @@ static void mmu_update_page01_pointers(void)
         current_bank = ((mmu[0] >> 6) & 0x1);
     }
 
-    c128_cpu_set_mmu_page_0_target_ram(mmu_is_valid_ram(mmu[0x7], page_zero_bank, current_bank));
-    c128_cpu_set_mmu_page_1_target_ram(mmu_is_valid_ram(mmu[0x9], page_one_bank, current_bank));
+    c128_mem_set_mmu_page_0_target_ram(mmu_is_valid_ram(mmu[0x7], page_zero_bank, current_bank));
+    c128_mem_set_mmu_page_1_target_ram(mmu_is_valid_ram(mmu[0x9], page_one_bank, current_bank));
 
-    c128_cpu_set_mmu_page_0_bank(page_zero_bank);
-    c128_cpu_set_mmu_page_1_bank(page_one_bank);
+    c128_mem_set_mmu_page_0_bank(page_zero_bank);
+    c128_mem_set_mmu_page_1_bank(page_one_bank);
 
-    c128_cpu_set_mmu_zp_sp_shared(mmu_is_in_shared_ram(0));
+    c128_mem_set_mmu_zp_sp_shared(mmu_is_in_shared_ram(0));
 
     if (mmu_is_in_shared_ram(mmu[0x7] << 8)) {
         page_zero_bank = 0;
@@ -295,10 +295,10 @@ static void mmu_switch_to_c64mode(void)
         mmu[5] = 0xf7;
         /* force standard addresses for stack and zeropage */
         mmu[7] = 0;
-        c128_cpu_set_mmu_page_0(0);
+        c128_mem_set_mmu_page_0(0);
         mmu[8] = 0;
         mmu[9] = 1;
-        c128_cpu_set_mmu_page_1(1);
+        c128_mem_set_mmu_page_1(1);
         mmu[10] = 0;
         mmu_update_page01_pointers();
     }
@@ -449,7 +449,7 @@ void mmu_store(uint16_t address, uint8_t value)
                 break;
             case 7:
                 mmu[8] = p0h_latch;
-                c128_cpu_set_mmu_page_0(mmu[7]);
+                c128_mem_set_mmu_page_0(mmu[7]);
 #ifdef MMU_DEBUG
                 log_message(mmu_log, "PAGE ZERO %05x PAGE ONE %05x",
                             (mmu[0x8] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x7] << 8),
@@ -458,7 +458,7 @@ void mmu_store(uint16_t address, uint8_t value)
                 break;
             case 9:
                 mmu[10] = p1h_latch;
-                c128_cpu_set_mmu_page_1(mmu[9]);
+                c128_mem_set_mmu_page_1(mmu[9]);
 #ifdef MMU_DEBUG
                 log_message(mmu_log, "PAGE ZERO %05x PAGE ONE %05x",
                             (mmu[0x8] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x7] << 8),
