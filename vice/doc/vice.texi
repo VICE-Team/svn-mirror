@@ -15933,6 +15933,10 @@ Integer specifying the joystick threshold.
 Integer specifying the joystick fuzz.
 (0..32767)
 
+@vindex JoyMenuControl
+@item JoyMenuControl
+Boolean to enable/disable controlling the SDL menu using a joystick.
+
 @end table
 
 @c -----------------------------------------------------------------
@@ -16262,6 +16266,12 @@ Set the joystick threshold
 @item -joyfuzz <0-32767>
 Set the joystick fuzz
 (@code{JoyFuzz}).
+
+@findex -joymenucontrol, +joymenucontrol
+@item -joymenucontrol
+@itemx +joymenucontrol
+Enable/disable controlling the SDL menu with a joystick
+(@code{JoyMenuControl=1}, @code{JoyMenuControl=0}).
 
 @end table
 
