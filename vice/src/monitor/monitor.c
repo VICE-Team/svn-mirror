@@ -2165,11 +2165,11 @@ static void playback_next_command(void)
 {
     char line[1024];
     char *command;
-    
+
     if (fgets(line, sizeof(line), playback_fp) == NULL) {
         /* Reached the end of the file */
         playback_end_file();
-        
+
         if (playback_fp) {
             playback_next_command();
         }
@@ -2178,7 +2178,7 @@ static void playback_next_command(void)
 
     line[strlen(line) - 1] = '\0';
     command = lib_strdup_trimmed(line);
-    
+
     log_message(LOG_DEFAULT, "Monitor playback command: %s", command);
     parse_and_execute_line(command);
 
@@ -2362,7 +2362,7 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
     sym_ptr = monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)];
     prev_ptr = NULL;
     while (sym_ptr) {
-        if (addr == sym_ptr->addr) {
+        if ((addr == sym_ptr->addr) && !strcmp(sym_ptr->name, name)) {
             lib_free(sym_ptr->name);
             if (prev_ptr) {
                 prev_ptr->next = sym_ptr->next;
