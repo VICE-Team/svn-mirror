@@ -19673,7 +19673,7 @@ Response type:
 Response body:
 
 @table @strong
-@item byte 0-1: The length of the memory segment.
+@item byte 0-1: The length of the memory segment. Will be zero for start 0x0000, end 0xffff.
 
 @item byte 2+: The memory at the address.
 
