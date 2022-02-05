@@ -83,16 +83,12 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
 
 - (void)update
 {
-    RENDER_LOCK();
-
     [super update];
 
     /* glViewport co-ordinates use the backing layer resolution, which can change on drag between screens */
     NSSize backing_layer_size = [self convertSizeToBacking: CGSizeMake(context->native_view_width, context->native_view_height)];
     context->gl_backing_layer_width = backing_layer_size.width;
     context->gl_backing_layer_height = backing_layer_size.height;
-
-    RENDER_UNLOCK();
 }
 
 @end
