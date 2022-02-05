@@ -117,6 +117,7 @@ enum t_binary_command {
 typedef enum t_binary_command BINARY_COMMAND;
 
 enum t_binary_response {
+    e_MON_RESPONSE_INVALID = 0x00,
     e_MON_RESPONSE_MEM_GET = 0x01,
     e_MON_RESPONSE_MEM_SET = 0x02,
 
