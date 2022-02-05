@@ -179,6 +179,15 @@ static uint16_t sdljoystick_axis_mapping[4] = {
 /* Resources.  */
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
+static int use_joysticks_for_menu = 0;
+
+static int set_use_joysticks_for_menu(int val, void *param)
+{
+    use_joysticks_for_menu = val ? 1 : 0;
+
+    return 0;
+}
+
 static int set_joystick_threshold(int val, void *param)
 {
     if (val < 0 || val > 32767) {
@@ -219,6 +228,8 @@ static const resource_int_t resources_int[] = {
       &joystick_threshold, set_joystick_threshold, NULL },
     { "JoyFuzz", DEFAULT_JOYSTICK_FUZZ, RES_EVENT_NO, NULL,
       &joystick_fuzz, set_joystick_fuzz, NULL },
+    { "JoyMenuControl", 0, RES_EVENT_NO, NULL,
+      &use_joysticks_for_menu, set_use_joysticks_for_menu, NULL },
     RESOURCE_INT_LIST_END
 };
 #endif /* HAVE_SDL_NUMJOYSTICKS */
@@ -237,49 +248,12 @@ static const cmdline_option_t cmdline_options[] =
     { "-joyfuzz", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyFuzz", NULL,
       "<0-32767>", "Set joystick fuzz" },
-    CMDLINE_LIST_END
-};
-#endif
-
-
-#if 0
-static const cmdline_option_t joydev1cmdline_options[] =
-{
-    { "-joydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice1", NULL,
-      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_1 },
-    CMDLINE_LIST_END
-};
-
-static const cmdline_option_t joydev2cmdline_options[] =
-{
-    { "-joydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice2", NULL,
-      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_2 },
-    CMDLINE_LIST_END
-};
-
-static const cmdline_option_t joydev3cmdline_options[] =
-{
-    { "-extrajoydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice3", NULL,
-      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_3 },
-    CMDLINE_LIST_END
-};
-
-static const cmdline_option_t joydev4cmdline_options[] =
-{
-    { "-extrajoydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice4", NULL,
-      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_4 },
-    CMDLINE_LIST_END
-};
-
-static const cmdline_option_t joydev5cmdline_options[] =
-{
-    { "-extrajoydev3", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice5", NULL,
-      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_5 },
+    { "-joymenucontrol", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyMenuControl", (resource_value_t)1,
+      NULL, "Enable controlling the menu with joysticks" },
+    { "+joymenucontrol", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "JoyMenuControl", (resource_value_t)0,
+      NULL, "Disable controlling the menu with joysticks" },
     CMDLINE_LIST_END
 };
 #endif
@@ -331,33 +305,6 @@ int joy_sdl_cmdline_options_init(void)
     if (sdlkbd_init_cmdline() < 0) {
         return -1;
     }
-#if 0
-    if (joyport_get_port_name(JOYPORT_1)) {
-        if (cmdline_register_options(joydev1cmdline_options) < 0) {
-            return -1;
-        }
-    }
-    if (joyport_get_port_name(JOYPORT_2)) {
-        if (cmdline_register_options(joydev2cmdline_options) < 0) {
-            return -1;
-        }
-    }
-    if (joyport_get_port_name(JOYPORT_3)) {
-        if (cmdline_register_options(joydev3cmdline_options) < 0) {
-            return -1;
-        }
-    }
-    if (joyport_get_port_name(JOYPORT_4)) {
-        if (cmdline_register_options(joydev4cmdline_options) < 0) {
-            return -1;
-        }
-    }
-    if (joyport_get_port_name(JOYPORT_5)) {
-        if (cmdline_register_options(joydev5cmdline_options) < 0) {
-            return -1;
-        }
-    }
-#endif
     return 0;
 }
 
@@ -1159,24 +1106,26 @@ static ui_menu_action_t sdljoy_perform_event(sdljoystick_mapping_t *event, int v
 
     if (sdl_menu_state || (sdl_vkbd_state & SDL_VKBD_ACTIVE)) {
         if (event->action == JOYSTICK) {
-            switch (event->value.joy[1]) {
-                case 0x01:
-                    retval = autorepeat = MENU_ACTION_UP;
-                    break;
-                case 0x02:
-                    retval = autorepeat = MENU_ACTION_DOWN;
-                    break;
-                case 0x04:
-                    retval = autorepeat = MENU_ACTION_LEFT;
-                    break;
-                case 0x08:
-                    retval = autorepeat = MENU_ACTION_RIGHT;
-                    break;
-                case 0x10:
-                    retval = MENU_ACTION_SELECT;
-                    break;
-                default:
-                    break;
+            if (use_joysticks_for_menu) {
+                switch (event->value.joy[1]) {
+                    case 0x01:
+                        retval = autorepeat = MENU_ACTION_UP;
+                        break;
+                    case 0x02:
+                        retval = autorepeat = MENU_ACTION_DOWN;
+                        break;
+                    case 0x04:
+                        retval = autorepeat = MENU_ACTION_LEFT;
+                        break;
+                    case 0x08:
+                        retval = autorepeat = MENU_ACTION_RIGHT;
+                        break;
+                    case 0x10:
+                        retval = MENU_ACTION_SELECT;
+                        break;
+                    default:
+                        break;
+                }
             }
         } else if (event->action == UI_ACTIVATE) {
             retval = MENU_ACTION_CANCEL;
@@ -1555,5 +1504,4 @@ int joy_arch_init(void)
 {
     return 0;
 }
-
 #endif
