@@ -293,8 +293,6 @@ void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *cont
         return;
     }
 
-    RENDER_LOCK();
-
     XMoveResizeWindow(
         context->x_display,
         context->x_overlay_window,
@@ -302,8 +300,6 @@ void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *cont
         context->native_view_y,
         context->gl_backing_layer_width,
         context->gl_backing_layer_height);
-
-    RENDER_UNLOCK();
 }
 
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context)
