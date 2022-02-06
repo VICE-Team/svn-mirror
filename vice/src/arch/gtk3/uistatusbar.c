@@ -2192,9 +2192,9 @@ static GtkWidget *capslock_led_create(void)
 void capslock_led_set_active(int bar, gboolean active)
 {
     GtkWidget *led;
-
+#if 0
     debug_gtk3("bar = %d, active = %s.", bar, active ? "true" : "false");
-
+#endif
     led = allocated_bars[bar].capslock_led;
     if (led != NULL) {
         statusbar_led_widget_set_active(led, active ^ 1);
