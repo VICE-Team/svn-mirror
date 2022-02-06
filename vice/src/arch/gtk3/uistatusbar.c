@@ -2072,9 +2072,9 @@ static GtkWidget *pause_led_create(void)
 void pause_led_set_active(int bar, gboolean active)
 {
     GtkWidget *led;
-
+#if 0
     debug_gtk3("bar = %d, active = %s.", bar, active ? "true" : "false");
-
+#endif
     led = allocated_bars[bar].pause_led;
     if (led != NULL) {
         statusbar_led_widget_set_active(led, active);
@@ -2106,9 +2106,9 @@ static GtkWidget *shiftlock_led_create(void)
 void shiftlock_led_set_active(int bar, gboolean active)
 {
     GtkWidget *led;
-
+#if 0
     debug_gtk3("bar = %d, active = %s.", bar, active ? "true" : "false");
-
+#endif
     led = allocated_bars[bar].shiftlock_led;
     if (led != NULL) {
         statusbar_led_widget_set_active(led, active);
@@ -2149,9 +2149,9 @@ static GtkWidget *mode4080_led_create(void)
 void mode4080_led_set_active(int bar, gboolean active)
 {
     GtkWidget *led;
-
+#if 0
     debug_gtk3("bar = %d, active = %s.", bar, active ? "true" : "false");
-
+#endif
     led = allocated_bars[bar].mode4080_led;
     if (led != NULL) {
         statusbar_led_widget_set_active(led, active);
