@@ -344,11 +344,11 @@ void vsync_init(void (*hook)(void))
 void vsync_shutdown(void)
 {
     int i;
-    
+
     for (i = 0; i < 2; i++) {
-        if (callback_queues[0].queue) {
-            lib_free(callback_queues[0].queue);
-            callback_queues[0].queue = NULL;
+        if (callback_queues[i].queue) {
+            lib_free(callback_queues[i].queue);
+            callback_queues[i].queue = NULL;
         }
     }
 }
