@@ -174,6 +174,9 @@ int main_program(int argc, char **argv)
 #else
             printf("%s (VICE %s)\n", archdep_program_name(), VERSION);
 #endif
+            archdep_program_name_free();
+            archdep_program_path_free();
+            lib_free(cmdline);
             exit(EXIT_SUCCESS);
         } else if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
             if ((i + 1) < argc) {
