@@ -105,7 +105,7 @@ $ sudo apt-get install libswscale-dev
 $ sudo apt-get install libmp3lame-dev     # required for MP3 encoding
 $ sudo apt-get install libmpg123-dev      # required for MP3 decoding (and for
                                           # mp3@64 cartridge support)
-$ sudo apt-get install libvorbis-de       # Ogg/Vorbis support
+$ sudo apt-get install libvorbis-dev      # Ogg/Vorbis support
 $ sudo apt-get install libflac-dev        # FLAC support
 
 
