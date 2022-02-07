@@ -1930,7 +1930,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
           function (perhaps we need to handle all drives?) */
 int autostart_tapecart(const char *file_name, void *unused)
 {
-    /* check if \a file_name is actuallt a TCRT image */
+    /* check if a file_name is actually a TCRT image */
     if (!tapecart_is_valid(file_name)) {
         return -1;
     }
@@ -1990,7 +1990,7 @@ static void set_tapeport_device(int datasette, int tapecart)
 {
     /* first disable all devices, so we dont get any conflicts */
     if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_NONE) < 0) {
-        log_error(LOG_ERR, "Failed to disable the Tapecart.");
+        log_error(LOG_ERR, "Failed to disable the tape port device.");
     }
     /* now enable the one we want to enable */
     if (datasette) {
