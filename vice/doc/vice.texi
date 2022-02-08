@@ -16542,7 +16542,7 @@ Set the aspect ratio
 @findex -gtkfilter
 @item -gtkfilter <filter>
 (@code{GTKFilter})
-(0: Nearest neighbor, 1: Bilinear 2: Cubic (Windows only)
+(0: Nearest neighbor, 1: Bilinear 2: Bicubic).
 
 @findex -keepaspect, +keepaspect
 @item -keepaspect
