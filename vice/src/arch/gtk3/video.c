@@ -66,10 +66,6 @@ static int display_depth = 24;
 /** \brief  Display filter (0: nearest 1: bilinear) */
 static int display_filter = 1;
 
-/** \brief  Render Backend (0: Software 1: OpenGL) */
-static int render_backend = 1;
-
-
 /** \brief  Restore window geometry when booting emu
  */
 static int restore_window_geometry = 0;
@@ -159,22 +155,6 @@ static int set_display_filter(int val, void *param)
 }
 
 
-/** \brief Set the backend for rendering
- *  \param     val   new backend (0: software, 1: opengl)
- *  \param[in] param extra parameter (unused).
- *  \return  0
- */
-static int set_render_backend(int val, void *param)
-{
-#if 0
-    render_backend = val ? 1 : 0;
-#else
-    render_backend = 1; /* always dx / gl now */
-#endif
-    return 0;
-}
-
-
 static int set_window_restore_geometry(int val, void *param)
 {
     restore_window_geometry = val ? 1 : 0;
@@ -208,9 +188,6 @@ static const cmdline_option_t cmdline_options[] =
     { "-gtkfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GTKFilter", NULL,
       "<mode>", "Set filtering mode (0 = nearest, 1 = bilinear, 2 = cubic (Windows only))" },
-    { "-gtkbackend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "GTKBackend", NULL,
-      "<mode>", "Set rendering mode (0 = Software, 1 = OpenGL)" },
     { "-restore-window-geometry", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RestoreWindowGeometry", (resource_value_t)1,
       NULL, "Restore window geometry from resources" },
@@ -251,8 +228,6 @@ static const resource_int_t resources_int[] = {
       &display_depth, set_display_depth, NULL },
     { "GTKFilter", 2, RES_EVENT_NO, NULL,
       &display_filter, set_display_filter, NULL },
-    { "GTKBackend", 1, RES_EVENT_NO, NULL,
-      &render_backend, set_render_backend, NULL },
     { "RestoreWindowGeometry", 1, RES_EVENT_NO, NULL,
       &restore_window_geometry, set_window_restore_geometry, NULL },
     RESOURCE_INT_LIST_END
