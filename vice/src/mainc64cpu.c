@@ -65,7 +65,7 @@
 */
 
 /* ------------------------------------------------------------------------- */
-#ifdef DEBUG
+#if defined (DEBUG) || defined (FEATURE_CPUMEMHISTORY)
 CLOCK debug_clk;
 #endif
 
@@ -186,11 +186,11 @@ static void maincpu_steal_cycles(void)
 inline static void check_ba(void)
 {
     if (maincpu_ba_low_flags) {
-#ifdef DEBUG
+#if defined (DEBUG) || defined (FEATURE_CPUMEMHISTORY)
         CLOCK old_maincpu_clk = maincpu_clk;
 #endif
         maincpu_steal_cycles();
-#ifdef DEBUG
+#if defined (DEBUG) || defined (FEATURE_CPUMEMHISTORY)
         if (debug_clk == old_maincpu_clk) {
             debug_clk = maincpu_clk;
         }

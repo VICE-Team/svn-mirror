@@ -1697,7 +1697,7 @@ static const uint8_t fetch_tab[] = {
 
     {
         opcode_t opcode;
-#ifdef DEBUG
+#if defined (DEBUG) || defined (FEATURE_CPUMEMHISTORY)
         debug_clk = maincpu_clk;
 #endif
 
@@ -1713,7 +1713,7 @@ static const uint8_t fetch_tab[] = {
         /* If reg_pc >= bank_limit  then JSR (0x20) hasn't load p2 yet.
            The earlier LOAD(reg_pc+2) hack can break stealing badly on x64sc.
            The fixing is now handled in JSR(). */
-        monitor_cpuhistory_store(maincpu_clk, reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x, reg_y, reg_sp, LOCAL_STATUS(), 0);
+        monitor_cpuhistory_store(debug_clk, reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x, reg_y, reg_sp, LOCAL_STATUS(), 0);
         memmap_state &= ~(MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
 #endif
 

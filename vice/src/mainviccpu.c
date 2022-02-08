@@ -56,7 +56,7 @@
 */
 
 /* ------------------------------------------------------------------------- */
-#ifdef DEBUG
+#if defined (DEBUG) || defined (FEATURE_CPUMEMHISTORY)
 CLOCK debug_clk;
 #endif
 
