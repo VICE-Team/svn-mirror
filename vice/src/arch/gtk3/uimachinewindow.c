@@ -610,11 +610,8 @@ static void machine_window_create(video_canvas_t *canvas)
 {
     GtkWidget *new_event_box;
     GtkWidget *menu_bar;
-    int backend = 0;
     char *backend_label;
     unsigned w, h, vstretch = 0, hstretch = 0;
-
-    resources_get_int("GTKBackend", &backend);
 
 #ifdef WIN32_COMPILE
     canvas->renderer_backend = &vice_directx_backend;
