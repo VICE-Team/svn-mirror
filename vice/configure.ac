@@ -2418,8 +2418,7 @@ if test x"$HAVE_FFMPEG" = "xyes"; then
   fi
   
   CFLAGS=$ORIG_CFLAGS
-
-  [ AC_SUBST(FFMPEG_INCLUDES) ],
+  AC_SUBST(FFMPEG_INCLUDES)
 else
   AC_MSG_RESULT([disabled])
 fi
