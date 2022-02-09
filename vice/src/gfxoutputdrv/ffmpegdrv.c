@@ -172,12 +172,10 @@ static int set_container_format(const char *val, void *param)
 {
     int i;
 
-/* kludges to prevent crash at startup when using --help on the commandline */
-#ifndef STATIC_FFMPEG
+    /* kludge to prevent crash at startup when using --help on the commandline */
     if (ffmpegdrv_formatlist == NULL) {
         return 0;
     }
-#endif
 
     format_index = -1;
 
@@ -957,11 +955,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
 
         if (sws_ctx != NULL) {
             VICE_P_SWS_SCALE(sws_ctx,
-#if defined(STATIC_FFMPEG) || defined(SHARED_FFMPEG)
-                (const uint8_t * const *)video_st.tmp_frame->data,
-#else
                 video_st.tmp_frame->data,
-#endif
                 video_st.tmp_frame->linesize, 0, c->height,
                 video_st.frame->data, video_st.frame->linesize);
         }
@@ -1118,12 +1112,10 @@ static void ffmpeg_get_formats_and_codecs(void)
 
 void gfxoutput_init_ffmpeg(int help)
 {
-#ifndef STATIC_FFMPEG
     if (help) {
         gfxoutput_register(&ffmpeg_drv);
         return;
     }
-#endif
 
     if (ffmpeglib_open(&ffmpeglib) < 0) {
         return;
