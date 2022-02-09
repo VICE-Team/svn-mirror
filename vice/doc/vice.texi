@@ -1,6 +1,5 @@
 \input texinfo @c -*- texinfo -*-
 @c %**start of header
-@setfilename vice.info
 @settitle VICE Manual
 @documentencoding ISO-8859-15
 @c %**end of header
