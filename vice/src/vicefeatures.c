@@ -160,20 +160,6 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
  /* (all) */
-    { "SHARED_FFMPEG", "FFMPEG libraries are shared",
-#ifndef SHARED_FFMPEG
-        0 },
-#else
-        1 },
-#endif
- /* (all) */
-    { "STATIC_FFMPEG", "FFMPEG libraries are static",
-#ifndef STATIC_FFMPEG
-        0 },
-#else
-        1 },
-#endif
- /* (all) */
     { "HAVE_GIF", "Can we use the GIF or UNGIF library?",
 #ifndef HAVE_GIF
         0 },
