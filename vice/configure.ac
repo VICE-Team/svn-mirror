@@ -2311,7 +2311,8 @@ AC_SUBST(NETPLAY_LIBS)
 dnl ----- FFMPEG -----
 FFMPEG_INCLUDES=
 
-HAVE_EXTERNAL_FFMPEG=no
+HAVE_FFMPEG=no
+ffmpeg_use_header_subdirs=no
 
 AC_MSG_CHECKING([for FFMPEG support])
 
@@ -2339,7 +2340,8 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
        CPPFLAGS="$CPPFLAGS $FFMPEG_AV_CFLAGS"
 
        AC_CHECK_HEADER(libavformat/avformat.h,
-        [AC_DEFINE([HAVE_FFMPEG_HEADER_SUBDIRS],,[FFMPEG uses subdirs for headers])],
+        [AC_DEFINE([HAVE_FFMPEG_HEADER_SUBDIRS],,[FFMPEG uses subdirs for headers])
+         ffmpeg_use_header_subdirs="yes"],
         [AC_CHECK_HEADER(avformat.h,,
           [AC_MSG_ERROR([No suitable FFMPEG header found!])])])
 
@@ -2370,7 +2372,7 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
       [echo "no. disabled."]
     )
     AC_DEFINE([EXTERNAL_FFMPEG],,[External FFMPEG libraries are used])
-    HAVE_EXTERNAL_FFMPEG=yes
+    HAVE_FFMPEG=yes
     PKG_CHECK_MODULES(FFMPEG_SWRESAMPLE, [libswresample], [have_swresample=yes], [have_swresample=no])
     if test x"$have_swresample" = "xyes"; then
       AC_DEFINE([HAVE_FFMPEG_SWRESAMPLE],,[Have FFMPEG swresample lib available])
@@ -2390,12 +2392,37 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
   fi
 fi
 
-AC_SUBST(FFMPEG_INCLUDES)
+if test x"$HAVE_FFMPEG" = "xyes"; then
 
-if test x"$HAVE_EXTERNAL_FFMPEG" != "xyes"; then
+  dnl
+  dnl After all that, is the version of ffmpeg compatible with our code.
+  dnl ffmpeg 4.x is, ffmpeg 5 is not.
+  dnl
+
+  ORIG_CFLAGS="$CFLAGS"
+  CFLAGS="$CFLAGS $FFMPEG_INCLUDES"
+
+  TEST_FFMPEG_C=" AVCodecContext *context_dropped_in_ffmpeg_5;
+                  "
+
+  if test x"$ffmpeg_use_header_subdirs" = "xyes"; then
+    AC_TRY_COMPILE([ #include "libavformat/avformat.h" ],
+                   [ $TEST_FFMPEG_C ],
+                   ,
+                   [ AC_MSG_ERROR([ffmpeg version is not comnpatible. Use 4.x]) ])
+  else
+    AC_TRY_COMPILE([ #include "avformat.h" ],
+                   [ $TEST_FFMPEG_C ],
+                   ,
+                   [ AC_MSG_ERROR([ffmpeg version is not comnpatible. Use 4.x])])
+  fi
+  
+  CFLAGS=$ORIG_CFLAGS
+
+  [ AC_SUBST(FFMPEG_INCLUDES) ],
+else
   AC_MSG_RESULT([disabled])
 fi
-
 
 dnl check for glibc 2.20+
 linux_glibc_220_and_up=yes
