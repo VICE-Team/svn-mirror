@@ -451,18 +451,18 @@ Filter::Filter()
       // DAC table.
       // W/L ratio for frequency DAC, bits are proportional.
       // scaled 5 bits
-      unsigned short dacWL = 3; // 0,0029296875 * 1024 (actual value is ~= 0.003075)
-      f.f0_dac[0] = dacWL;
+      unsigned int dacWL = 806; // 0,00307464599609375 * 1024 * 256 (actual value is ~= 0.003075)
+      f.f0_dac[0] = dacWL >> 8;
       for (int n = 1; n < (1 << dac_bits); n++) {
         // Calculate W/L ratio for parallel NMOS resistances
-        unsigned short wl = 0;
+        unsigned int wl = 0;
         for (unsigned int i = 0; i < dac_bits; i++) {
           unsigned int bitmask = 1 << i;
           if (n & bitmask) {
             wl += dacWL * (bitmask<<1);
           }
         }
-        f.f0_dac[n] = wl;
+        f.f0_dac[n] = wl >> 8;
       }
     }
 
