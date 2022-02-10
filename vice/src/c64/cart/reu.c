@@ -819,7 +819,11 @@ inline static void reu_clk_inc_post(void)
 {
     if (reu_ba.enabled) {
         maincpu_clk++;
-        if (reu_ba.check()) reu_ba.delay++; else reu_ba.delay = 0;
+        if (reu_ba.check()) {
+            reu_ba.delay++; 
+        } else {
+            reu_ba.delay = 0;
+        }
         reu_ba.last_cycle = (reu_ba.delay > 1);
         if (reu_ba.last_cycle) {
             reu_ba.steal();
@@ -1477,20 +1481,20 @@ static void reu_dma_compare(uint16_t host_addr, unsigned int reu_addr, int host_
    If it has been previously armed (with immediate == 0), then the DMA operation is
    executed.
 */
-void reu_dma(int immediate)
+int reu_dma(int immediate)
 {
     static int delay = 0;
 
     if (!reu_enabled) {
-        return;
+        return 0;
     }
 
     if (!immediate) {
         delay = 1;
-        return;
+        return 0;
     } else {
         if (!delay && immediate < 0) {
-            return;
+            return 0;
         }
         delay = 0;
     }
@@ -1503,6 +1507,8 @@ void reu_dma(int immediate)
         /* start the operation right away */
         reu_dma_start();
     }
+
+    return 1;
 }
 
 void reu_dma_start(void)

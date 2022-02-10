@@ -408,10 +408,6 @@ void ram_store(uint16_t addr, uint8_t value)
 void ram_hi_store(uint16_t addr, uint8_t value)
 {
     mem_ram[addr] = value;
-
-    if (addr == 0xff00) {
-        reu_dma(-1);
-    }
 }
 
 /* unconnected memory space */
