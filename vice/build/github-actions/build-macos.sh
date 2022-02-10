@@ -11,7 +11,6 @@ ARGS="\
     --disable-arch \
     --disable-pdf-docs \
     --enable-ethernet \
-    --with-jpeg \
     --with-png \
     --with-gif \
     --with-vorbis \
@@ -19,8 +18,11 @@ ARGS="\
     --enable-lame \
     --enable-midi \
     --enable-cpuhistory \
-    --enable-external-ffmpeg \
     "
+
+# FIXME: ffmpeg doesnt work at the moment
+#    --enable-external-ffmpeg \
+#
 
 case "$UI" in
 GTK3)
