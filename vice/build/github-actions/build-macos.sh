@@ -17,12 +17,10 @@ ARGS="\
     --with-flac \
     --enable-lame \
     --enable-midi \
-    --enable-cpuhistory \
-    "
+    --enable-external-ffmpeg
 
-# FIXME: ffmpeg doesnt work at the moment
-#    --enable-external-ffmpeg \
-#
+# Make non-latest ffmpeg version 4 visible to pkgconfig
+export PKG_CONFIG_PATH="/usr/local/opt/ffmpeg@4/lib/pkgconfig"
 
 case "$UI" in
 GTK3)
