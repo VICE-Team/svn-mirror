@@ -69,6 +69,8 @@
 CLOCK debug_clk;
 #endif
 
+static int reu_dma_triggered = 0;
+
 #define NEED_REG_PC
 
 /* ------------------------------------------------------------------------- */
@@ -272,12 +274,21 @@ static uint8_t memmap_mem_read_dummy(unsigned int addr)
 
 #ifndef STORE
 #define STORE(addr, value) \
-    memmap_mem_store(addr, value)
+    if (reu_dma_triggered == 0) { \
+        memmap_mem_store(addr, value); \
+        if (addr == 0xff00) { \
+            reu_dma(-1); \
+        } \
+    } \
+    reu_dma_triggered = 0
 #endif
 
 #ifndef STORE_DUMMY
 #define STORE_DUMMY(addr, value) \
-    memmap_mem_store_dummy(addr, value)
+    memmap_mem_store_dummy(addr, value); \
+    if (addr == 0xff00) { \
+        reu_dma_triggered = reu_dma(-1); \
+    }
 #endif
 
 #ifndef LOAD
@@ -346,12 +357,21 @@ inline static uint8_t mem_read_check_ba_dummy(unsigned int addr)
 
 #ifndef STORE
 #define STORE(addr, value) \
-    (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value))
+    if (reu_dma_triggered == 0) { \
+        (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value)); \
+        if (addr == 0xff00) { \
+            reu_dma(-1); \
+        } \
+    } \
+    reu_dma_triggered = 0
 #endif
 
 #ifndef STORE_DUMMY
 #define STORE_DUMMY(addr, value) \
-    (*_mem_write_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value))
+    (*_mem_write_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value)); \
+    if (addr == 0xff00) { \
+        reu_dma_triggered = reu_dma(-1); \
+    }
 #endif
 
 #ifndef LOAD
