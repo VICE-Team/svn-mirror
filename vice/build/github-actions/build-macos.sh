@@ -17,7 +17,8 @@ ARGS="\
     --with-flac \
     --enable-lame \
     --enable-midi \
-    --enable-external-ffmpeg
+    --enable-external-ffmpeg \
+    "
 
 # Make non-latest ffmpeg version 4 visible to pkgconfig
 export PKG_CONFIG_PATH="/usr/local/opt/ffmpeg@4/lib/pkgconfig"
