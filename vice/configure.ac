@@ -597,11 +597,13 @@ case "$host_os" in
     nbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/pkg/lib"`
     VICE_LDFLAGS="$VICE_LDFLAGS $nbsdrtp -L/usr/pkg/lib"
     if test -d "/usr/X11R7/lib"; then
+      CPPFLAGS="$CPPFLAGS -I/usr/X11R7/include"
       rtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R7/lib"`
       VICE_LDFLAGS="$VICE_LDFLAGS $rtp"
       LDFLAGS="$LDFLAGS -L/usr/X11R7/lib"
     else
       if test -d "/usr/X11R6/lib"; then
+        CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
         rtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R6/lib"`
         VICE_LDFLAGS="$VICE_LDFLAGS $rtp -L/usr/X11R6/lib"
         LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
