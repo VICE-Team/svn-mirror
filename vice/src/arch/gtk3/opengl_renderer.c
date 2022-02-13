@@ -779,10 +779,17 @@ static void vice_opengl_set_palette(video_canvas_t *canvas)
         video_render_setphysicalcolor(canvas->videoconfig, i, color_code, 32);
     }
 
+#ifdef WORDS_BIGENDIAN
+    for (i = 0; i < 256; i++) {
+        video_render_setrawrgb(color_tables, i, i << 24, i << 16, i << 8);
+    }
+    video_render_setrawalpha(color_tables, 0xffU);
+#else
     for (i = 0; i < 256; i++) {
         video_render_setrawrgb(color_tables, i, i, i << 8, i << 16);
     }
     video_render_setrawalpha(color_tables, 0xffU << 24);
+#endif
     video_render_initraw(canvas->videoconfig);
 }
 
