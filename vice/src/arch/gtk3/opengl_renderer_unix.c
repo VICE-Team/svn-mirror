@@ -289,24 +289,37 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
 
 void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *context)
 {
-    CANVAS_LOCK();
+    Display *x_display;
+    Window x_overlay_window;
+    unsigned int gl_backing_layer_width;
+    unsigned int gl_backing_layer_height;
 
     if (!context->x_overlay_window) {
         return;
     }
 
+    CANVAS_LOCK();
+
+    x_display               = context->x_display;
+    x_overlay_window        = context->x_overlay_window;
+    gl_backing_layer_width  = context->gl_backing_layer_width;
+    gl_backing_layer_height = context->gl_backing_layer_height;
+
     CANVAS_UNLOCK();
-    RENDER_LOCK();
+
+    /* 
+     * Getting the render lock here causes a deadlock within glFinish().
+     * Thankfully, it seems to be ok to call XMoveResizeWindow during a render
+     * without any glitches or crashes, unlike on macOS.
+     */
 
     XMoveResizeWindow(
-        context->x_display,
-        context->x_overlay_window,
-        context->native_view_x,
-        context->native_view_y,
-        context->gl_backing_layer_width,
-        context->gl_backing_layer_height);
-
-    RENDER_UNLOCK();
+        x_display,
+        x_overlay_window,
+        0,
+        0,
+        gl_backing_layer_width,
+        gl_backing_layer_height);
 }
 
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context)
