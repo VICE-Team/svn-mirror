@@ -32,7 +32,8 @@
 
 #include "vice_sdl.h"
 
-#ifdef HAVE_UNISTD_H
+#if defined(HAVE_UNISTD_H) && defined(WORDS_BIGENDIAN) && defined(HAVE_SWAB)
+#define __USE_XOPEN
 #include <unistd.h>
 #endif
 
