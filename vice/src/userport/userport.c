@@ -614,7 +614,7 @@ static char *build_userport_string(int something)
 static cmdline_option_t cmdline_options[] =
 {
     { "-userportdevice", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_userport_cmdline_device, NULL, NULL, NULL,
+      set_userport_cmdline_device, NULL, "UserportDevice", NULL,
       "<device>", NULL },
     CMDLINE_LIST_END
 };
