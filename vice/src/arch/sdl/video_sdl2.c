@@ -127,11 +127,7 @@ static int set_sdl_bitdepth(int d, void *param)
     switch (d) {
         case 32:
             texformat = SDL_PIXELFORMAT_ARGB8888;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            rmask = 0x0000ff00, gmask = 0x00ff0000, bmask = 0xff000000, amask = 0x000000ff;
-#else
             rmask = 0x00ff0000, gmask = 0x0000ff00, bmask = 0x000000ff, amask = 0xff000000;
-#endif
             break;
         default:
             return -1;
