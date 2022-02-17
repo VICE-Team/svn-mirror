@@ -25,15 +25,15 @@
 #endif
 
 #include "sid.h"
-#include <math.h>
-
-#ifndef round
-#define round(x) (x>=0.0?floor(x+0.5):ceil(x-0.5))
-#endif
+#include <cmath>
 
 #include <iostream>
 #include <fstream>
 using namespace std;
+
+#ifndef round
+#define round(x) (x>=0.0?floor(x+0.5):ceil(x-0.5))
+#endif
 
 namespace reSID
 {
