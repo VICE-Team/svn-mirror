@@ -56,17 +56,26 @@
  * alter them to more sensible values   -- compyx
  */
 
-#define RPM_MIN     26000       /**< Drive RPM minimum */
-#define RPM_MAX     34000       /**< Drive RPM maximum */
-#define RPM_STEP    100         /**< Drive RPM stepping for the widget */
+/** \brief  Drive RPM minimum */
+#define RPM_MIN             26000
+/** \brief  Drive RPM maximum */
+#define RPM_MAX             34000
+/** \brief  Drive RPM stepping for the spinbox */
+#define RPM_STEP              100
 
-#define WOBBLE_FREQ_MIN  0      /**< Drive RPM wobble freq minimum */
-#define WOBBLE_FREQ_MAX  10000  /**< Drive RPM wobble freq maximum */
-#define WOBBLE_FREQ_STEP 10     /**< Drive RPM wobble freq stepping for the widget */
+/** \brief  Drive RPM wobble frequency minimum */
+#define WOBBLE_FREQ_MIN         0
+/** \brief  Drive RPM wobble frequency maximum */
+#define WOBBLE_FREQ_MAX     10000
+/** \brief  Drive RPM wobble frequency stepping for the spinbox */
+#define WOBBLE_FREQ_STEP       10
 
-#define WOBBLE_AMP_MIN  0       /**< Drive RPM wobble amplitude minimum */
-#define WOBBLE_AMP_MAX  5000    /**< Drive RPM wobble amplitude maximum */
-#define WOBBLE_AMP_STEP 10      /**< Drive RPM wobble amplitude stepping for the widget */
+/** \brief  Drive RPM wobble amplitude minimum */
+#define WOBBLE_AMP_MIN          0
+/** \brief  Drive RPM wobble amplitude maximum */
+#define WOBBLE_AMP_MAX       5000
+/** \brief  Drive RPM wobble amplitude stepping for the spinbox*/
+#define WOBBLE_AMP_STEP        10
 
 
 /** \brief  Create widget to control drive RPM and wobble
@@ -83,39 +92,33 @@ GtkWidget *drive_rpm_widget_create(int unit)
     GtkWidget *wobble_amp;
     GtkWidget *label;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RPM settings", 2);
+    grid = vice_gtk3_grid_new_spaced_with_label(8, 0, "RPM settings", 2);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
     /* RPM */
-    label = gtk_label_new("RPM");
-    g_object_set(label, "margin-left", 16, NULL);
+    label = gtk_label_new("Drive RPM");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     rpm = vice_gtk3_resource_spin_int_new_sprintf("Drive%dRPM",
             RPM_MIN, RPM_MAX, RPM_STEP, unit);
     vice_gtk3_resource_spin_int_set_fake_digits(rpm, 2);
-    g_object_set(rpm, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rpm, 1, 1, 1, 1);
 
     /* Wobble Frequency */
-    label = gtk_label_new("Wobble Frequency");
-    g_object_set(label, "margin-left", 16, NULL);
+    label = gtk_label_new("Wobble frequency");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     wobble_freq = vice_gtk3_resource_spin_int_new_sprintf("Drive%dWobbleFrequency",
             WOBBLE_FREQ_MIN, WOBBLE_FREQ_MAX, WOBBLE_FREQ_STEP, unit);
     vice_gtk3_resource_spin_int_set_fake_digits(wobble_freq, 0);
-    g_object_set(wobble_freq, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wobble_freq, 1, 2, 1, 1);
 
     /* Wobble Amplitude */
-    label = gtk_label_new("Wobble Amplitude");
-    g_object_set(label, "margin-left", 16, NULL);
+    label = gtk_label_new("Wobble amplitude");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     wobble_amp = vice_gtk3_resource_spin_int_new_sprintf("Drive%dWobbleAmplitude",
             WOBBLE_AMP_MIN, WOBBLE_AMP_MAX, WOBBLE_AMP_STEP, unit);
     vice_gtk3_resource_spin_int_set_fake_digits(wobble_amp, 0);
-    g_object_set(wobble_amp, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wobble_amp, 1, 3, 1, 1);
 

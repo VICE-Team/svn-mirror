@@ -36,6 +36,7 @@
 
 #include <gtk/gtk.h>
 
+#include "archdep_defs.h"
 #include "vice_gtk3.h"
 #include "drive-check.h"
 #include "drive.h"
@@ -250,4 +251,213 @@ void drive_model_widget_add_callback(GtkWidget *widget,
 {
     g_object_set_data(G_OBJECT(widget), "CallbackFunc", (gpointer)cb_func);
     g_object_set_data(G_OBJECT(widget), "CallbackData", cb_data);
+}
+
+
+/*****************************************************************************
+ *          Drive model widget implementation using a GtkComboBox            *
+ *****************************************************************************/
+
+
+/* Combo box columns */
+enum {
+    COL_NAME,   /**< drive model name column */
+    COL_ID,     /**< drive model id column */
+    COL_COUNT   /**< number of columns */
+};
+
+
+/** \brief  Get drive unit number
+ *
+ * \param[in]   self    combo box
+ *
+ * \return  unit number
+ */
+static int get_unit_number(GtkWidget *self)
+{
+    return GPOINTER_TO_INT(g_object_get_data(G_OBJECT(self), "UnitNumber"));
+}
+
+
+/** \brief  Get drive type (called model in the UI)
+ *
+ * \param[in]   self    combo box
+ *
+ * \return  drive type
+ */
+static int get_drive_type(GtkWidget *self)
+{
+    int unit;
+    int type;
+
+    unit = get_unit_number(self);
+    resources_get_int_sprintf("Drive%dType", &type, unit);
+    return type;
+}
+
+
+/** \brief  Handler for the 'changed' event of the combo box
+ *
+ * Trigger user-defined callback on value change.
+ *
+ * \param[in]   self    drive model combo box
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_combo_changed(GtkWidget *self, gpointer data)
+{
+    int combo_val = drive_model_widget_value_combo(self);
+    int resource_val = get_drive_type(self);
+    int unit = get_unit_number(self);
+
+
+    if (combo_val != resource_val) {
+        void (*callback)(GtkWidget *, gpointer);
+
+        debug_gtk3("New value %d differs from resource %d: triggering callback.",
+                   combo_val, resource_val);
+        if (resources_set_int_sprintf("Drive%dType", combo_val, unit) < 0) {
+            /* TODO: flip combo back to previous value? */
+            debug_gtk3("Failed to set resource Drive%dType to %d.", unit, combo_val);
+            return;
+        }
+
+        callback = g_object_get_data(G_OBJECT(self), "CallbackFunc");
+        if (callback != NULL) {
+            callback(self, g_object_get_data(G_OBJECT(self), "CallbackData"));
+        }
+    }
+}
+
+
+/** \brief  Create model for the combo box
+ *
+ * \param[in]   self        drive model widget
+ * \param[in]   show_all    show all drive types, use FALSE to only show types
+ *                          supported by the current machine config
+ *
+ * \return  GtkListStore
+ */
+static GtkListStore *create_combo_model(GtkWidget *self, gboolean show_all)
+{
+    GtkListStore *model;
+    GtkTreeIter iter;
+    drive_type_info_t *list;
+    int unit;
+    int i;
+
+    unit = get_unit_number(self);
+    list = machine_drive_get_type_info_list();
+    model = gtk_list_store_new(COL_COUNT, G_TYPE_STRING, G_TYPE_INT);
+
+    for (i = 0; list[i].name != NULL; i++) {
+        /* TODO: check if supported by current config */
+        if (show_all || drive_check_type((unsigned int)(list[i].id),
+                                         (unsigned int)(unit - DRIVE_UNIT_MIN))) {
+            gtk_list_store_append(model, &iter);
+            gtk_list_store_set(model, &iter,
+                               COL_NAME, list[i].name,
+                               COL_ID, list[i].id,
+                               -1);
+        }
+    }
+    return model;
+}
+
+
+/** \brief  Create drive model combo box
+ *
+ * \param[in]   unit        drive unit (8-11)
+ * \param[in]   show_all    show all drive types, use FALSE to only show types
+ *                          supported by the current machine config
+ *
+ * \return  GtkComboBox
+ */
+GtkWidget *drive_model_widget_create_combo(int unit, gboolean show_all)
+{
+    GtkWidget *combo;
+    GtkListStore *model;
+    GtkCellRenderer *renderer;
+    gulong handler_id;
+
+    combo = gtk_combo_box_new();
+    g_object_set_data(G_OBJECT(combo), "UnitNumber", GINT_TO_POINTER(unit));
+
+    model = create_combo_model(combo, show_all);
+    gtk_combo_box_set_model(GTK_COMBO_BOX(combo), GTK_TREE_MODEL(model));
+
+    renderer = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo),
+                                   renderer,
+                                   "text", 0,
+                                   NULL);
+
+    handler_id = g_signal_connect(combo, "changed", G_CALLBACK(on_combo_changed), NULL);
+    g_object_set_data(G_OBJECT(combo), "ChangedHandlerID", GULONG_TO_POINTER(handler_id));
+
+    drive_model_widget_sync_combo(combo);
+    gtk_widget_show_all(combo);
+    return combo;
+}
+
+
+/** \brief  Synchronize the widget with its resource
+ *
+ * Select current item based on resource without triggering the 'changed' event.
+ *
+ * \param[in]   widget  drive model widget
+ *
+ * \return  TRUE if an item matched the current resource value
+ */
+gboolean drive_model_widget_sync_combo(GtkWidget *widget)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gulong handler_id;
+    int unit;
+    int type;
+
+    model = gtk_combo_box_get_model(GTK_COMBO_BOX(widget));
+    unit = get_unit_number(widget);
+    type = get_drive_type(widget);
+    handler_id = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(widget),
+                                                     "ChangedHandlerID"));
+
+    if (gtk_tree_model_get_iter_first(model, &iter)) {
+        do {
+            int id;
+
+            gtk_tree_model_get(model, &iter, COL_ID, &id, -1);
+            if (id == type) {
+                g_signal_handler_block(G_OBJECT(widget), handler_id);
+                gtk_combo_box_set_active_iter(GTK_COMBO_BOX(widget), &iter);
+                g_signal_handler_unblock(G_OBJECT(widget), handler_id);
+                return TRUE;
+            }
+        } while (gtk_tree_model_iter_next(model, &iter));
+    }
+    return FALSE;
+}
+
+
+/** \brief  Get current drive model
+ *
+ * \param[in]   widget  drive model widget
+ *
+ * \return  drive model ID or -1 when no item is selected in the widget
+ */
+int drive_model_widget_value_combo(GtkWidget *widget)
+{
+    if (gtk_combo_box_get_active(GTK_COMBO_BOX(widget)) >= 0) {
+        GtkTreeModel *model;
+        GtkTreeIter iter;
+        int id;
+
+        model = gtk_combo_box_get_model(GTK_COMBO_BOX(widget));
+        if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(widget), &iter)) {
+            gtk_tree_model_get(model, &iter, COL_ID, &id, -1);
+            return id;
+        }
+    }
+    return -1;
 }
