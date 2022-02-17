@@ -48,9 +48,9 @@
 /** \brief  Idle method (name,id) tuples
  */
 static const vice_gtk3_combo_entry_int_t idle_methods[] = {
-    { "None",           0 },
-    { "Skip cycles",    1 },
-    { "Trap idle",      2 },
+    { "None",           DRIVE_IDLE_NO_IDLE },
+    { "Skip cycles",    DRIVE_IDLE_SKIP_CYCLES },
+    { "Trap idle",      DRIVE_IDLE_TRAP_IDLE },
     { NULL,             -1 }
 };
 
@@ -63,17 +63,12 @@ static const vice_gtk3_combo_entry_int_t idle_methods[] = {
  */
 GtkWidget *drive_idle_method_widget_create(int unit)
 {
-    GtkWidget *grid;
     GtkWidget *combo;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Idle method", 1);
-    g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
     combo = vice_gtk3_resource_combo_box_int_new_sprintf(
             "Drive%dIdleMethod", idle_methods, unit);
+    g_object_set_data(G_OBJECT(combo), "UnitNumber", GINT_TO_POINTER(unit));
     gtk_widget_set_hexpand(combo, TRUE);
-    g_object_set(combo, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
+    gtk_widget_show_all(combo);
+    return combo;
 }

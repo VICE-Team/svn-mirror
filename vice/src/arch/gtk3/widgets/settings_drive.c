@@ -60,58 +60,61 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#include "vice.h"
-
-#include "vice_gtk3.h"
-#include "debug_gtk3.h"
 #include "attach.h"
-#include "drive.h"
+#include "debug_gtk3.h"
 #include "drive-check.h"
+#include "drive.h"
+#include "drivedoswidget.h"
+#include "driveextendpolicywidget.h"
+#include "drivefixedsizewidget.h"
+#include "driveidlemethodwidget.h"
+#include "drivemodelwidget.h"
+#include "driveparallelcablewidget.h"
+#include "driveramwidget.h"
+#include "driverpmwidget.h"
+#include "driveunitwidget.h"
+#include "drivewidgethelpers.h"
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
-#include "drivewidgethelpers.h"
-#include "driveunitwidget.h"
-#include "drivemodelwidget.h"
-#include "driveextendpolicywidget.h"
-#include "driveidlemethodwidget.h"
-#include "driveparallelcablewidget.h"
-#include "driverpmwidget.h"
-#include "driveramwidget.h"
-#include "drivedoswidget.h"
-#include "drivefixedsizewidget.h"
+#include "vice_gtk3.h"
 
 #include "settings_drive.h"
 
 
-/** \brief  List of file system types
+/** \brief  List of (virtual) file system types
  */
 static const vice_gtk3_combo_entry_int_t device_types[] = {
-    { "Disk images", ATTACH_DEVICE_NONE },
-    { "Host file system", ATTACH_DEVICE_FS },
+    { "Disk images",            ATTACH_DEVICE_NONE },
+    { "Host file system",       ATTACH_DEVICE_FS },
 #ifdef HAVE_REALDEVICE
-    { "Real device (OpenCBM)", ATTACH_DEVICE_REAL },
+    { "Real device (OpenCBM)",  ATTACH_DEVICE_REAL },
 #endif
-    { NULL, -1 }
+    { NULL,                     -1 }
 };
 
 
-/* FIXME: this needs proper documentation */
+/* Widget references for the glue logic that updates sensitivity of those widgets
+ * on drive model changes and IEC device check button toggling.
+ */
 
 /** \brief  Drive model widgets */
 static GtkWidget *drive_model[NUM_DISK_UNITS];
 
-#if 0
-/** \brief  Drive options widgets */
-static GtkWidget *drive_options[NUM_DISK_UNITS];
-#endif
-
+/** \brief  TDE check buttons */
 static GtkWidget *drive_tde[NUM_DISK_UNITS];
-static GtkWidget *drive_virtualdev[NUM_DISK_UNITS];
-static GtkWidget *drive_read_only[NUM_DISK_UNITS];
-static GtkWidget *drive_rtc_save[NUM_DISK_UNITS];
-static GtkWidget *drive_iec_device[NUM_DISK_UNITS];
 
+/** \brief  Virtual device check buttons */
+static GtkWidget *drive_virtualdev[NUM_DISK_UNITS];
+
+/** \brief  Read-only device check buttons */
+static GtkWidget *drive_read_only[NUM_DISK_UNITS];
+
+/** \brief  Real time clock save check buttons */
+static GtkWidget *drive_rtc_save[NUM_DISK_UNITS];
+
+/** \brief  IEC device check buttons */
+static GtkWidget *drive_iec_device[NUM_DISK_UNITS];
 
 /** \brief  Drive extend-policy widgets */
 static GtkWidget *drive_extend[NUM_DISK_UNITS];
@@ -134,10 +137,16 @@ static GtkWidget *drive_dos[NUM_DISK_UNITS];
 /** \brief  Drive device type widgets */
 static GtkWidget *drive_device_type[NUM_DISK_UNITS];
 
+/** \brief  Drive device type labels */
+static GtkWidget *drive_device_type_label[NUM_DISK_UNITS];
+
 /** \brief  Drive fixed-size widgets */
 static GtkWidget *drive_size[NUM_DISK_UNITS];
 
 
+/*
+ * Gtk event handlers and custom widget callbacks
+ */
 
 /** \brief  Custom callback for the IEC widget in driveoptions.c
  *
@@ -147,12 +156,15 @@ static GtkWidget *drive_size[NUM_DISK_UNITS];
 static void iec_callback(GtkWidget *widget, int unit)
 {
     if (unit >= DRIVE_UNIT_MIN && unit <= DRIVE_UNIT_MAX) {
-        int state1 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-        int state2 = 0;
-        if (resources_get_int_sprintf("VirtualDevice%d", &state2, unit) < 0) {
-            state2 = 0;
+        int iecdev = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+        int virtdev = 0;
+        int index = unit - DRIVE_UNIT_MIN;
+
+        if (resources_get_int_sprintf("VirtualDevice%d", &virtdev, unit) < 0) {
+            virtdev = 0;
         }
-        gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN], state1 | state2);
+        gtk_widget_set_sensitive(drive_device_type_label[index], iecdev | virtdev);
+        gtk_widget_set_sensitive(drive_device_type[index], iecdev | virtdev);
     }
 }
 
@@ -164,9 +176,9 @@ static void iec_callback(GtkWidget *widget, int unit)
  */
 static void on_model_changed(GtkWidget *widget, gpointer user_data)
 {
-    int unit = GPOINTER_TO_INT(user_data);
-    int model = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "ModelID"));
     GtkWidget *option;
+    int unit = GPOINTER_TO_INT(user_data);
+    int model = drive_model_widget_value_combo(widget);
 
     option = drive_extend[unit - DRIVE_UNIT_MIN];
     if (option != NULL) {
@@ -184,31 +196,16 @@ static void on_model_changed(GtkWidget *widget, gpointer user_data)
     /* RAM extensions */
     option = drive_ram[unit - DRIVE_UNIT_MIN];
     if (option != NULL) {
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(option), 0, 1),
-                drive_check_expansion2000(model));
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(option), 0, 2),
-                drive_check_expansion4000(model));
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(option), 0, 3),
-                drive_check_expansion6000(model));
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(option), 0, 4),
-                drive_check_expansion8000(model));
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(option), 0, 5),
-                drive_check_expansionA000(model));
+        drive_ram_widget_update(option, model);
     }
 
     /* DOS extensions */
     option = drive_dos[unit - DRIVE_UNIT_MIN];
     if (option != NULL) {
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(option), 0, 1),
-                drive_check_profdos(model));
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(option), 0, 2),
-                drive_check_stardos(model));
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(option), 0, 3),
-                drive_check_supercard(model));
+        drive_dos_widget_sync_combo(option);
     }
-
-    /* drive read-only widget */
-    option = drive_read_only[unit - DRIVE_UNIT_MIN];
+    /* RTC save widget */
+    option = drive_rtc_save[unit - DRIVE_UNIT_MIN];
     if (option != NULL) {
         gtk_widget_set_sensitive(option, drive_check_rtc(model));
     }
@@ -230,30 +227,6 @@ static void on_model_changed(GtkWidget *widget, gpointer user_data)
 static gchar *on_drive_volume_format(GtkScale *scale, gdouble value)
 {
     return g_strdup_printf("%d", (int)(value / 40));
-}
-
-
-/** \brief  Create slider to control drive sound emulation volume
- *
- * \return  GtkScale
- */
-static GtkWidget *create_drive_volume_widget(void)
-{
-    GtkWidget *scale;
-
-    scale = vice_gtk3_resource_scale_int_new("DriveSoundEmulationVolume",
-            GTK_ORIENTATION_HORIZONTAL, 0, 4000, 100);
-    gtk_widget_set_hexpand(scale, TRUE);
-    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
-    g_signal_connect_unlocked(scale, "format-value", G_CALLBACK(on_drive_volume_format),
-            NULL);
-    /* Set a minimum size so we always have enough space for the widget to
-     * actually show a scale, not just the handle.
-     * This was an issue when we still had the global 'Enable TDE' checkbox
-     * on top of the page, that's no longer the case. Still, better safe than
-     * sorry. */
-    gtk_widget_set_size_request(scale, 100, -1);
-    return scale;
 }
 
 
@@ -281,105 +254,6 @@ static void on_iec_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Create checkbox to toggle IEC-Device emulation for \a unit
- *
- * \param[in]   unit        unit number (8-11)
- * \param[in]   callback    function to call on checkbutton toggle events
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_iec_check_button(int unit,
-                                          void (*callback)(GtkWidget *, int))
-{
-    GtkWidget *check;
-
-    check = vice_gtk3_resource_check_button_new_sprintf(
-            "IECDevice%d", "IEC-Device", unit);
-
-    g_object_set_data(G_OBJECT(check), "UnitCallback", (gpointer)callback);
-    g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(on_iec_toggled),
-            GINT_TO_POINTER(unit));
-
-    return check;
-}
-
-
-/** \brief  Create widget to control read-only mode for \a unit
- *
-  * \param[in]   unit    unit number (8-11)
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_readonly_check_button(int unit)
-{
-    return vice_gtk3_resource_check_button_new_sprintf("AttachDevice%dReadonly",
-            "Read Only", unit);
-}
-
-
-/** \brief  Create widget to control Real time clock emulation for \a unit
- *
-  * \param[in]   unit    unit number (8-11)
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_rtc_check_button(int unit)
-{
-    GtkWidget *check;
-    int drive_type;
-
-    check = vice_gtk3_resource_check_button_new_sprintf("Drive%dRTCSave",
-            "RTC Save", unit);
-
-    drive_type = ui_get_drive_type(unit);
-    gtk_widget_set_sensitive(check,
-            drive_type == DRIVE_TYPE_2000 || drive_type == DRIVE_TYPE_4000);
-    return check;
-}
-
-
-/** \brief  Create widget to control IEC device type
- *
- * \param[in]   unit    unit number (8-11)
- *
- * \return  GtkGrid
- */
-static GtkWidget *create_drive_device_type_widget(int unit)
-{
-    GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *combo;
-
-    grid = vice_gtk3_grid_new_spaced(16, 0);
-
-    label = gtk_label_new("Device type");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-
-    combo = vice_gtk3_resource_combo_box_int_new_sprintf(
-            "FileSystemDevice%d", device_types, unit);
-    gtk_widget_set_hexpand(combo, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
-}
-
-
-/** \brief  Create per-unit True Drive Emulation check button
- *
- * \param[in]   unit    unit number (8-11)
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_drive_true_emulation_widget(int unit)
-{
-    return vice_gtk3_resource_check_button_new_sprintf(
-            "Drive%dTrueEmulation",
-            "Enable True Drive Emulation",
-            unit);
-}
-
 /** \brief  Handler for the 'toggled' event of the Virtual Devices checkbox
  *
  * Triggers the user-provided callback function on toggle.
@@ -398,6 +272,147 @@ static void on_virtual_device_toggled(GtkWidget *widget, gpointer data)
     }
 }
 
+
+
+/*
+ * Private functions
+ */
+
+/** \brief  Create left aligned GtkLabel with Pango markup
+ *
+ * \param[in]   text    label text with Pango markup allowed
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *create_left_aligned_label(const char *text)
+{
+    GtkWidget *label = gtk_label_new(NULL);
+
+    gtk_label_set_markup(GTK_LABEL(label), text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    return label;
+}
+
+
+/** \brief  Create slider to control drive sound emulation volume
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_drive_volume_widget(void)
+{
+    GtkWidget *scale;
+
+    scale = vice_gtk3_resource_scale_int_new("DriveSoundEmulationVolume",
+                                             GTK_ORIENTATION_HORIZONTAL,
+                                             0, 4000, 100);
+    gtk_widget_set_hexpand(scale, TRUE);
+    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+    g_signal_connect_unlocked(scale,
+                              "format-value",
+                              G_CALLBACK(on_drive_volume_format),
+                              NULL);
+    /* Set a minimum size so we always have enough space for the widget to
+     * actually show a scale, not just the handle.
+     * This was an issue when we still had the global 'Enable TDE' checkbox
+     * on top of the page, that's no longer the case. Still, better safe than
+     * sorry. */
+    gtk_widget_set_size_request(scale, 100, -1);
+    return scale;
+}
+
+
+/** \brief  Create checkbox to toggle IEC-Device emulation for \a unit
+ *
+ * \param[in]   unit        unit number (8-11)
+ * \param[in]   callback    function to call on checkbutton toggle events
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_iec_check_button(int unit,
+                                          void (*callback)(GtkWidget *, int))
+{
+    GtkWidget *check;
+
+    check = vice_gtk3_resource_check_button_new_sprintf("IECDevice%d",
+                                                        "IEC device",
+                                                        unit);
+    g_object_set_data(G_OBJECT(check), "UnitCallback", (gpointer)callback);
+    g_signal_connect(GTK_TOGGLE_BUTTON(check),
+                     "toggled",
+                     G_CALLBACK(on_iec_toggled),
+                     GINT_TO_POINTER(unit));
+    return check;
+}
+
+
+/** \brief  Create widget to control read-only mode for \a unit
+ *
+  * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_readonly_check_button(int unit)
+{
+    return vice_gtk3_resource_check_button_new_sprintf("AttachDevice%dReadonly",
+                                                       "Read Only",
+                                                       unit);
+}
+
+
+/** \brief  Create widget to control Real time clock emulation for \a unit
+ *
+  * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_rtc_check_button(int unit)
+{
+    GtkWidget *check;
+    int drive_type;
+
+    check = vice_gtk3_resource_check_button_new_sprintf("Drive%dRTCSave",
+                                                        "Save real-time clock data",
+                                                        unit);
+    drive_type = ui_get_drive_type(unit);
+    gtk_widget_set_sensitive(check, drive_check_rtc(drive_type));
+    return check;
+}
+
+
+/** \brief  Create widget to control IEC device type
+ *
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_drive_device_type_widget(int unit)
+{
+    GtkWidget *combo;
+
+    combo = vice_gtk3_resource_combo_box_int_new_sprintf("FileSystemDevice%d",
+                                                         device_types,
+                                                         unit);
+    gtk_widget_set_hexpand(combo, TRUE);
+    gtk_widget_show_all(combo);
+    return combo;
+}
+
+
+/** \brief  Create per-unit True Drive Emulation check button
+ *
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_drive_true_emulation_widget(int unit)
+{
+    return vice_gtk3_resource_check_button_new_sprintf("Drive%dTrueEmulation",
+                                                       "True drive emulation",
+                                                       unit);
+}
+
+
+
 /** \brief  Create per-unit Virtual Devices check button
  *
  * \param[in]   unit    unit number (8-11)
@@ -408,15 +423,14 @@ static GtkWidget *create_drive_virtual_device_widget(int unit, void (*callback)(
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_new_sprintf(
-            "VirtualDevice%d",
-            "Enable Virtual Device",
-            unit);
-
+    check = vice_gtk3_resource_check_button_new_sprintf("VirtualDevice%d",
+                                                        "Virtual device",
+                                                        unit);
     g_object_set_data(G_OBJECT(check), "UnitCallback", (gpointer)callback);
-    g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(on_virtual_device_toggled),
-            GINT_TO_POINTER(unit));
-
+    g_signal_connect(GTK_TOGGLE_BUTTON(check),
+                     "toggled",
+                     G_CALLBACK(on_virtual_device_toggled),
+                     GINT_TO_POINTER(unit));
     return check;
 }
 
@@ -431,78 +445,95 @@ static GtkWidget *create_drive_virtual_device_widget(int unit, void (*callback)(
 static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
 {
     GtkWidget *wrapper;
-    GtkWidget *iec_wrapper;
+    GtkWidget *label;
+    int row = 0;
     int index = unit - DRIVE_UNIT_MIN;  /* index in widget arrays */
 
-    /* row 0 & 1, column 0 */
-    wrapper = vice_gtk3_grid_new_spaced(32, 8);
+    /* column 0 wrapper */
+    wrapper = vice_gtk3_grid_new_spaced(8, 0);
 
-    drive_model[unit - DRIVE_UNIT_MIN] = drive_model_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_model[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
+    label = create_left_aligned_label("<b>Drive model</b>");
+    /* only show currently available models */
+    drive_model[index] = drive_model_widget_create_combo(unit, FALSE);
+    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
+    g_object_set(G_OBJECT(drive_model[index]), "margin-bottom", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 1, row, 1, 1);
+    row++;
 
     /* read-only check button */
     drive_read_only[index] = create_readonly_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, row, 2, 1);
+    row++;
 
     /* RTC save check button */
     drive_rtc_save[index] = create_rtc_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_rtc_save[index], 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_rtc_save[index], 0, row, 2, 1);
+    row++;
 
     /* true drive emulation check button */
     drive_tde[index] = create_drive_true_emulation_widget(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_tde[index], 0, 3, 1, 1);
-    g_object_set(drive_tde[index], "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_tde[index], 0, row, 2, 1);
+    row++;
 
-    /* wrapper for IEC check button and IEC device type combo box */
-    iec_wrapper = gtk_grid_new();
-    /* Virtual Device check button */
+    /* Virtual Device */
     drive_virtualdev[index] = create_drive_virtual_device_widget(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_virtualdev[index], 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_virtualdev[index], 0, row, 2, 1);
+    row++;
+
     /* IEC device check button */
-#if 0
     /* FIXME: xvic does not use the generic IEC bus code in src/iecbus/iecbus.c yet */
+#if 0
     drive_iec_device[index] = create_iec_check_button(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_iec_device[index], 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_iec_device[index], 0, row, 2, 1);
+    row++;
 #endif
+
     /* IEC device type combo box */
+    drive_device_type_label[index] = create_left_aligned_label("IEC device type");
     drive_device_type[index] = create_drive_device_type_widget(unit);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_device_type[index], 0, 2, 1, 1);
-    g_object_set(drive_device_type[index], "margin-left", 16, NULL);
-    /* add iec-wrapper to parent wrapper */
-    gtk_grid_attach(GTK_GRID(wrapper), iec_wrapper, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type_label[index], 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type[index], 1, row, 1, 1);
+    row++;
+
+    /* Drive RAM */
+    drive_ram[index] = drive_ram_widget_create(unit);
+    g_object_set(G_OBJECT(drive_ram[index]), "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_ram[index], 0, row, 2, 1);
+
+    /* add wrapper to main grid */
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 1);
 
 
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
+    /* column 1 */
+    wrapper = vice_gtk3_grid_new_spaced(8, 0);
+    row = 0;    /* row in wrapper */
 
-    /* row 0, column 1 */
-    drive_ram[unit - DRIVE_UNIT_MIN] = drive_ram_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_ram[unit - DRIVE_UNIT_MIN], 1, 0, 1, 1);
+    /* wrapper row 0: image extend policy for track 36+ */
+    label = create_left_aligned_label("40-track policy");
+    drive_extend[index] = drive_extend_policy_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_extend[index], 1, row, 1, 1);
+    row++;
 
-    /* row 1, column 1 */
-    /*    drive_dos = drive_dos_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_dos, 1, 1, 1, 1);
-    */
+    /* wrapper row 1: idle method */
+    label = create_left_aligned_label("Idle method");
+    drive_idle[index] = drive_idle_method_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_idle[index], 1, row, 1, 1);
+    row++;
 
-    /* row 0 & 1, column 2 */
-    wrapper = vice_gtk3_grid_new_spaced(0, 16);
-    drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
-    drive_idle[unit - DRIVE_UNIT_MIN] = drive_idle_method_widget_create(unit);
-    /*    drive_parallel = drive_parallel_cable_widget_create(unit); */
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_extend[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_idle[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
-    /*    gtk_grid_attach(GTK_GRID(wrapper), drive_parallel, 0, 2, 1, 1); */
+    /* wrapper row 2, RPM settings */
+    drive_rpm[index] = drive_rpm_widget_create(unit);
+    g_object_set(G_OBJECT(drive_rpm[index]), "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_rpm[index], 0, row, 2, 1);
+
     gtk_widget_show_all(wrapper);
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 0, 1, 1);
 
-    /* row 2, column 0 */
-    drive_rpm[unit - DRIVE_UNIT_MIN] = drive_rpm_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_rpm[unit - DRIVE_UNIT_MIN], 1, 1, 2, 1);
-
-    drive_model_widget_add_callback(drive_model[unit - DRIVE_UNIT_MIN],
-            on_model_changed, GINT_TO_POINTER(unit));
+    drive_model_widget_add_callback(drive_model[index],
+                                    on_model_changed,
+                                    GINT_TO_POINTER(unit));
     return grid;
 }
 
@@ -517,87 +548,118 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
 static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 {
     GtkWidget *wrapper;
-    GtkWidget *iec_wrapper;
+    GtkWidget *label;
     int index = unit - DRIVE_UNIT_MIN;  /* index in widget arrays */
+    int row = 0;
 
-    /* row 0 & 1, column 0 */
+    /* column 0 */
+    wrapper = vice_gtk3_grid_new_spaced(8, 0);
 
-    wrapper = vice_gtk3_grid_new_spaced(32, 8);
-
-    drive_model[index] = drive_model_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 0, 0, 1, 1);
+    label = create_left_aligned_label("<b>Drive model</b>");
+    /* only show currently available models */
+    drive_model[index] = drive_model_widget_create_combo(unit, FALSE);
+    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
+    g_object_set(G_OBJECT(drive_model[index]), "margin-bottom", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 1, row, 1, 1);
+    row++;
 
     /* read-only check button */
     drive_read_only[index] = create_readonly_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, row, 2, 1);
+    row++;
 
     /* RTC save check button */
     drive_rtc_save[index] = create_rtc_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_rtc_save[index], 0, 2, 1, 1);
-
-    drive_size[index] = drive_fixed_size_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_size[index], 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_rtc_save[index], 0, row, 2, 1);
+    row++;
 
     /* true drive emulation check button */
     drive_tde[index] = create_drive_true_emulation_widget(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_tde[index], 0, 4, 1, 1);
-    g_object_set(drive_tde[index], "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_tde[index], 0, row, 2, 1);
+    row++;
 
-    /* wrapper for IEC check button and IEC device type combo box */
-    iec_wrapper = gtk_grid_new();
     /* Virtual Device */
     drive_virtualdev[index] = create_drive_virtual_device_widget(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_virtualdev[index], 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_virtualdev[index], 0, row, 2, 1);
+    row++;
+
     /* IEC device check button */
     drive_iec_device[index] = create_iec_check_button(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_iec_device[index], 0, 1, 1, 1);
-    /* IEC device type combo box */
-    drive_device_type[index] = create_drive_device_type_widget(unit);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_device_type[index], 0, 2, 1, 1);
-    g_object_set(drive_device_type[index], "margin-left", 16, NULL);
-    /* add iec-wrapper to parent wrapper */
-    gtk_grid_attach(GTK_GRID(wrapper), iec_wrapper, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_iec_device[index], 0, row, 2, 1);
+    row++;
 
+    /* IEC device type combo box */
+    drive_device_type_label[index] = create_left_aligned_label("IEC device type");
+    drive_device_type[index] = create_drive_device_type_widget(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type_label[index], 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type[index], 1, row, 1, 1);
+    row++;
+
+    /* Fixed HD size */
+    label = create_left_aligned_label("CMD-HD size");
+    drive_size[index] = drive_fixed_size_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_size[index], 1, row, 1, 1);
+    row++;
+
+    /* Drive RAM */
+    drive_ram[index] = drive_ram_widget_create(unit);
+    g_object_set(G_OBJECT(drive_ram[index]), "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_ram[index], 0, row, 2, 1);
 
     /* add wrapper to main grid */
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 3);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 1);
 
 
-    /* row 0, column 1 */
-    drive_ram[unit - DRIVE_UNIT_MIN] = drive_ram_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_ram[unit - DRIVE_UNIT_MIN], 1, 0, 1, 1);
+    /* column 1 */
+    wrapper = vice_gtk3_grid_new_spaced(8, 0);
+    row = 0;    /* row in wrapper */
 
-    /* row 1, column 1 */
-    drive_dos[unit - DRIVE_UNIT_MIN] = drive_dos_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_dos[unit - DRIVE_UNIT_MIN], 1, 1, 1, 1);
+    /* wrapper row 0: DOS expansion */
+    label = create_left_aligned_label("DOS expansion");
+    drive_dos[index] = drive_dos_widget_create_combo(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_dos[index], 1, row, 1, 1);
+    row++;
 
-    /* row 0 & 1, column 2 */
-    wrapper = vice_gtk3_grid_new_spaced(16, 16);
-    drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
-    drive_idle[unit - DRIVE_UNIT_MIN] = drive_idle_method_widget_create(unit);
-    drive_parallel[unit - DRIVE_UNIT_MIN] = drive_parallel_cable_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_extend[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_idle[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_parallel[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+    /* wrapper row 1: image extend policy for track 36+ */
+    label = create_left_aligned_label("40-track policy");
+    drive_extend[index] = drive_extend_policy_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_extend[index], 1, row, 1, 1);
+    row++;
+
+    /* wrapper row 2: idle method */
+    label = create_left_aligned_label("Idle method");
+    drive_idle[index] = drive_idle_method_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_idle[index], 1, row, 1, 1);
+    row++;
+
+    /* wrapper row 3: parallel cable */
+    label = create_left_aligned_label("Parallel cable");
+    drive_parallel[index] = drive_parallel_cable_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_parallel[index], 1, row, 1, 1);
+    row++;
+
+    /* wrapper row 4: RPM settings */
+    drive_rpm[index] = drive_rpm_widget_create(unit);
+    g_object_set(G_OBJECT(drive_rpm[index]), "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_rpm[index], 0, row, 2, 1);
+
     gtk_widget_show_all(wrapper);
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 0, 1, 1);
 
-    /* row 2, column 1 & 2 */
-    drive_rpm[unit - DRIVE_UNIT_MIN] = drive_rpm_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_rpm[unit - DRIVE_UNIT_MIN], 1, 2, 2, 1);
-
-    drive_model_widget_add_callback(
-            drive_model[unit - DRIVE_UNIT_MIN],
-            on_model_changed,
-            GINT_TO_POINTER(unit));
+    drive_model_widget_add_callback(drive_model[index],
+                                    on_model_changed,
+                                    GINT_TO_POINTER(unit));
     return grid;
 }
 
 
-/** \brief  Create layout for xplus4, vic20, dtv
+/** \brief  Create layout for xplus4 and c64dtv
  *
  * \param[in]   grid    main widget grid
  * \param[in]   unit    unit number
@@ -607,79 +669,108 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
 {
     GtkWidget *wrapper;
-    GtkWidget *iec_wrapper;
+    GtkWidget *label;
     int index = unit - DRIVE_UNIT_MIN;  /* index in widget arrays */
+    int row = 0;
 
-    /* row 0 & 1, column 0 */
-    wrapper = vice_gtk3_grid_new_spaced(32, 8);
+    /* column 0 */
+    wrapper = vice_gtk3_grid_new_spaced(8, 0);
 
-    drive_model[index] = drive_model_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 0, 0, 1, 1);
+    label = create_left_aligned_label("<b>Drive model</b>");
+    /* only show currently available models */
+    drive_model[index] = drive_model_widget_create_combo(unit, FALSE);
+    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
+    g_object_set(G_OBJECT(drive_model[index]), "margin-bottom", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 1, row, 1, 1);
+    row++;
 
     /* read-only check button */
     drive_read_only[index] = create_readonly_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, row, 2, 1);
+    row++;
 
     /* RTC save check button */
     drive_rtc_save[index] = create_rtc_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_rtc_save[index], 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_rtc_save[index], 0, row, 2, 1);
+    row++;
 
     /* true drive emulation check button */
     drive_tde[index] = create_drive_true_emulation_widget(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_tde[index], 0, 3, 1, 1);
-    g_object_set(drive_tde[index], "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_tde[index], 0, row, 2, 1);
+    row++;
 
-    /* wrapper for IEC check button and IEC device type combo box */
-    iec_wrapper = gtk_grid_new();
     /* Virtual Device */
     drive_virtualdev[index] = create_drive_virtual_device_widget(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_virtualdev[index], 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_virtualdev[index], 0, row, 2, 1);
+    row++;
+
     /* IEC device check button */
     drive_iec_device[index] = create_iec_check_button(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_iec_device[index], 0, 1, 1, 1);
-    /* IEC device type combo box */
-    drive_device_type[index] = create_drive_device_type_widget(unit);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_device_type[index], 0, 2, 1, 1);
-    g_object_set(drive_device_type[index], "margin-left", 16, NULL);
-    /* add iec-wrapper to parent wrapper */
-    gtk_grid_attach(GTK_GRID(wrapper), iec_wrapper, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_iec_device[index], 0, row, 2, 1);
+    row++;
 
+    /* IEC device type combo box */
+    drive_device_type_label[index] = create_left_aligned_label("IEC device type");
+    drive_device_type[index] = create_drive_device_type_widget(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type_label[index], 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type[index], 1, row, 1, 1);
+    row++;
+
+    /* Drive RAM */
+    drive_ram[index] = drive_ram_widget_create(unit);
+    g_object_set(G_OBJECT(drive_ram[index]), "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_ram[index], 0, row, 2, 1);
 
     /* add wrapper to main grid */
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 3);    /* row 0 & 1, column 0 */
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 1);
 
 
-    /* row 0 & 1, column 2 */
-    wrapper = vice_gtk3_grid_new_spaced(0, 16);
-    drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
-    drive_idle[unit - DRIVE_UNIT_MIN]  = drive_idle_method_widget_create(unit);
+    /* column 1 */
+    wrapper = vice_gtk3_grid_new_spaced(8, 0);
+    row = 0;    /* row in wrapper */
+
+    /* wrapper row 0: image extend policy for track 36+ */
+    label = create_left_aligned_label("40-track policy");
+    drive_extend[index] = drive_extend_policy_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_extend[index], 1, row, 1, 1);
+    row++;
+
+    /* wrapper row 1: idle method */
+    label = create_left_aligned_label("Idle method");
+    drive_idle[index] = drive_idle_method_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_idle[index], 1, row, 1, 1);
+    row++;
+
+    /* wrapper row 2: parallel cable */
     /* XXX: vice.texi mentions parallel support for Plus4, and the resource
      *      is there, but the implementation is missing, the files
      *      src/drive/iec/plus4exp/ contain stubs.
      */
+#if 0
     if (machine_class != VICE_MACHINE_C64DTV) {
-        drive_parallel[unit - DRIVE_UNIT_MIN] = drive_parallel_cable_widget_create(unit);
+
+        label = create_left_aligned_label("Parallel cable");
+        drive_parallel[index] = drive_parallel_cable_widget_create(unit);
+        gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+        gtk_grid_attach(GTK_GRID(wrapper), drive_parallel[index], 1, row, 1, 1);
+        row++;
     }
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_extend[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_idle[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
-    if (machine_class != VICE_MACHINE_C64DTV) {
-        gtk_grid_attach(GTK_GRID(wrapper),
-                drive_parallel[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
-    }
+#endif
+
+    /* wrapper row 2/3: RPM settings */
+    drive_rpm[index] = drive_rpm_widget_create(unit);
+    g_object_set(G_OBJECT(drive_rpm[index]), "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_rpm[index], 0, row, 2, 1);
 
     gtk_widget_show_all(wrapper);
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 0, 1, 1);
 
-    /* row 1, column 1 & 2 */
-    drive_rpm[unit - DRIVE_UNIT_MIN] = drive_rpm_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_rpm[unit - DRIVE_UNIT_MIN], 1, 2, 2, 1);
-
-    drive_model_widget_add_callback(
-            drive_model[unit - DRIVE_UNIT_MIN],
-            on_model_changed,
-            GINT_TO_POINTER(unit));
+    drive_model_widget_add_callback(drive_model[index],
+                                    on_model_changed,
+                                    GINT_TO_POINTER(unit));
     return grid;
 }
 
@@ -694,67 +785,77 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
 static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
 {
     GtkWidget *wrapper;
-    GtkWidget *iec_wrapper;
+    GtkWidget *label;
     int index = unit - DRIVE_UNIT_MIN;  /* index in widget arrays */
+    int row = 0;
 
-    /* row 0 & 1, column 0 */
-    wrapper = vice_gtk3_grid_new_spaced(32, 8);
+    /* column 0 */
+    wrapper = vice_gtk3_grid_new_spaced(8, 0);
 
-    drive_model[index] = drive_model_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 0, 0, 1, 1);
+    label = create_left_aligned_label("<b>Drive model</b>");
+    /* only show currently available models */
+    drive_model[index] = drive_model_widget_create_combo(unit, FALSE);
+    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
+    g_object_set(G_OBJECT(drive_model[index]), "margin-bottom", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 1, row, 1, 1);
+    row++;
 
     /* read-only check button */
     drive_read_only[index] = create_readonly_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, row, 2, 1);
+    row++;
 
     /* true drive emulation check button */
     drive_tde[index] = create_drive_true_emulation_widget(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_tde[index], 0, 2, 1, 1);
-    g_object_set(drive_tde[index], "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_tde[index], 0, row, 2, 1);
+    row++;
 
-    /* wrapper for IEC check button and IEC device type combo box */
-    iec_wrapper = gtk_grid_new();
     /* Virtual Device */
     drive_virtualdev[index] = create_drive_virtual_device_widget(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_virtualdev[index], 0, 0, 1, 1);
-    /* FIXME: the IEEE machines have no "IECDevice" resource, instead the
-              "VirtualDevice" resource relates to traps AND virtual IEEE devices */
-#if 0
-    /* IEC device check button */
-    drive_iec_device[index] = create_iec_check_button(unit, iec_callback);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_iec_device[index], 0, 1, 1, 1);
-#endif
-    /* IEC device type combo box */
+    gtk_grid_attach(GTK_GRID(wrapper), drive_virtualdev[index], 0, row, 2, 1);
+    row++;
+
+    /* IEEE/Virtual device type combo box */
+    drive_device_type_label[index] = create_left_aligned_label("IEEE device type");
     drive_device_type[index] = create_drive_device_type_widget(unit);
-    gtk_grid_attach(GTK_GRID(iec_wrapper), drive_device_type[index], 0, 1, 1, 1);
-    g_object_set(drive_device_type[index], "margin-left", 16, NULL);
-    /* add iec-wrapper to parent wrapper */
-    gtk_grid_attach(GTK_GRID(wrapper), iec_wrapper, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type_label[index], 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type[index], 1, row, 1, 1);
+    row++;
 
     /* add wrapper to main grid */
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 3);    /* row 0 & 1, column 0 */
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 1);
 
 
-    /* row 0 & 1, column 2 */
-    wrapper = vice_gtk3_grid_new_spaced(0, 16);
-    drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
-    drive_idle[unit - DRIVE_UNIT_MIN]  = drive_idle_method_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_extend[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_idle[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
+    /* column 1 */
+    wrapper = vice_gtk3_grid_new_spaced(8, 0);
+    row = 0;
+
+    /* wrapper row 0: image extend policy for track 36+ */
+    label = create_left_aligned_label("40-track policy");
+    drive_extend[index] = drive_extend_policy_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_extend[index], 1, row, 1, 1);
+    row++;
+
+    /* wrapper row 1: idle method */
+    label = create_left_aligned_label("Idle method");
+    drive_idle[index] = drive_idle_method_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_idle[index], 1, row, 1, 1);
+    row++;
+
+    /* wrapper row 2, RPM settings */
+    drive_rpm[index] = drive_rpm_widget_create(unit);
+    g_object_set(G_OBJECT(drive_rpm[index]), "margin-top", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_rpm[index], 0, row, 2, 1);
 
     gtk_widget_show_all(wrapper);
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 0, 1, 1);
 
-    /* row 2, column 1 */
-    drive_rpm[unit - DRIVE_UNIT_MIN] = drive_rpm_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_rpm[unit - DRIVE_UNIT_MIN], 1, 2, 1, 1);
-
-    drive_model_widget_add_callback(
-            drive_model[unit - DRIVE_UNIT_MIN],
-            on_model_changed,
-            GINT_TO_POINTER(unit));
+    drive_model_widget_add_callback(drive_model[index],
+                                    on_model_changed,
+                                    GINT_TO_POINTER(unit));
     return grid;
 }
 
@@ -813,9 +914,6 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *wrapper;
-#if 0
-    GtkWidget *tde;
-#endif
     GtkWidget *sound;
     GtkWidget *stack;
     GtkWidget *switcher;
@@ -830,13 +928,9 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     wrapper = gtk_grid_new();
     g_object_set(wrapper, "margin-left", 16, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
-#if 0
-    tde = vice_gtk3_resource_check_button_new("DriveTrueEmulation",
-            "True drive emulation");
-    gtk_grid_attach(GTK_GRID(wrapper), tde, 0, 0, 1, 1);
-#endif
+
     sound = vice_gtk3_resource_check_button_new("DriveSoundEmulation",
-            "Drive sound emulation");
+                                                "Drive sound emulation");
     gtk_grid_attach(GTK_GRID(wrapper), sound, 0, 0, 1, 1);
 
     volume_wrapper = gtk_grid_new();
@@ -846,27 +940,25 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(volume_wrapper), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(volume_wrapper), volume, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), volume_wrapper, 1, 0, 1, 1);
-
     gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 0, 1, 1);
 
     stack = gtk_stack_new();
     for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
         char title[256];
 
-        g_snprintf(title, 256, "Drive %d", unit);
+        g_snprintf(title, sizeof(title), "Drive %d", unit);
         gtk_stack_add_titled(GTK_STACK(stack),
-                create_stack_child_widget(unit),
-                title, title);
+                             create_stack_child_widget(unit),
+                             title,
+                             title);
     }
     gtk_stack_set_transition_type(GTK_STACK(stack),
-            GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
-    gtk_stack_set_transition_duration(GTK_STACK(stack), 1000);
+                                  GTK_STACK_TRANSITION_TYPE_NONE);
 
     switcher = gtk_stack_switcher_new();
     gtk_widget_set_halign(switcher, GTK_ALIGN_CENTER);
     gtk_widget_set_hexpand(switcher, TRUE);
-    gtk_stack_switcher_set_stack(GTK_STACK_SWITCHER(switcher),
-            GTK_STACK(stack));
+    gtk_stack_switcher_set_stack(GTK_STACK_SWITCHER(switcher), GTK_STACK(stack));
 
     gtk_widget_show_all(stack);
     gtk_widget_show_all(switcher);
@@ -877,26 +969,29 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     /* set sensitivity of the filesystem-type comboboxes, depending on the
      * IECDevice (not for VIC20 and PET/CBM-II) and VirtualDevice resource
      */
-
     for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
-        int state1 = 0, state2 = 0;
+        int iecdev = 0;
+        int virtdev = 0;
+        int index = unit - DRIVE_UNIT_MIN;  /* index in the widget arrays */
 
+        /* FIXME: xvic doesn't use IEDevice (yet), uses its own iecbus code */
         if (machine_class != VICE_MACHINE_VIC20 &&
             machine_class != VICE_MACHINE_PET &&
             machine_class != VICE_MACHINE_CBM5x0 &&
             machine_class != VICE_MACHINE_CBM6x0) {
-            if (resources_get_int_sprintf("IECDevice%d", &state1, unit) < 0) {
-                state1 = 0;
+            if (resources_get_int_sprintf("IECDevice%d", &iecdev, unit) < 0) {
+                iecdev = 0;
             }
         }
-        if (resources_get_int_sprintf("VirtualDevice%d", &state2, unit) < 0) {
-            state2 = 0;
+        if (resources_get_int_sprintf("VirtualDevice%d", &virtdev, unit) < 0) {
+            virtdev = 0;
         }
         /* try to set sensitive, regardless of if the widget actually
             * exists, this helps with debugging since Gtk will print a warning
             * on the console.
             */
-        gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN], state1 | state2);
+        gtk_widget_set_sensitive(drive_device_type_label[index], iecdev | virtdev);
+        gtk_widget_set_sensitive(drive_device_type[index], iecdev | virtdev);
     }
     gtk_widget_show_all(layout);
     return layout;

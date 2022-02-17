@@ -49,36 +49,26 @@
  *
  * \param[in]   unit    drive unit number (8-11)
  *
- * \return  GtkGrid
+ * \return  GtkEntry
  */
 GtkWidget *drive_fixed_size_widget_create(int unit)
 {
-    GtkWidget *grid;
-    GtkWidget *label;
     GtkWidget *entry;
     char resource[1024];
 
-    grid = vice_gtk3_grid_new_spaced(16, 0);
-
-    /* set unit number */
-    g_object_set_data(G_OBJECT(grid), "Unit", GINT_TO_POINTER(unit));
-
-    label = gtk_label_new("CMD-HD fixed size");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-
-    /* create entry */
+    /* create entry for drive-specific resource */
     g_snprintf(resource, sizeof(resource), "Drive%dFixedSize", unit);
     entry = vice_gtk3_resource_numeric_string_new(resource);
     /* set limits */
-    vice_gtk3_resource_numeric_string_set_limits(
-            entry, 75 * 1024, UINT64_MAX, TRUE);
-
-    gtk_widget_set_halign(entry, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(entry, TRUE);
-    g_object_set(entry, "margin-left", 16, "margin-top", 8, NULL);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 0, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
+    vice_gtk3_resource_numeric_string_set_limits(entry,
+                                                 75 * 1024,
+                                                 UINT64_MAX,
+                                                 TRUE);
+    /* set unit number */
+    g_object_set_data(G_OBJECT(entry), "Unit", GINT_TO_POINTER(unit));
+    /* add tooltip* */
+    gtk_widget_set_tooltip_markup(entry,
+            "Minimum size is 76800 bytes. Suffixes <b>K</b> (KiB), <b>M</b>"
+            " (MiB) and <b>G</b> (GiB) are allowed.");
+    return entry;
 }

@@ -61,21 +61,22 @@ static const vice_gtk3_combo_entry_int_t parallel_cables_c64[] = {
 /** \brief  List of possible parallel cables for Plus4
  */
 static const vice_gtk3_combo_entry_int_t parallel_cables_plus4[] = {
-    { "None", DRIVE_PC_NONE },
-    { "Standard", DRIVE_PC_STANDARD },
-    { NULL, -1 }
+    { "None",       DRIVE_PC_NONE },
+    { "Standard",   DRIVE_PC_STANDARD },
+    { NULL,         -1 }
 };
 
 
 /** \brief  Create drive parallel cable widget
  *
+ * Create combo box to select parallel cable type.
+ *
  * \param[in]   unit    drive unit (8-11)
  *
- * \return  GtkGrid
+ * \return  GtkComboBox
  */
 GtkWidget *drive_parallel_cable_widget_create(int unit)
 {
-    GtkWidget *grid;
     GtkWidget *combo;
     const vice_gtk3_combo_entry_int_t *list;
 
@@ -85,25 +86,20 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
         list = parallel_cables_c64;
     }
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Parallel cable", 1);
-    g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
-
     combo = vice_gtk3_resource_combo_box_int_new_sprintf(
             "Drive%dParallelCable", list, unit);
+    g_object_set_data(G_OBJECT(combo), "UnitNumber", GINT_TO_POINTER(unit));
     gtk_widget_set_hexpand(combo, TRUE);
-    g_object_set(combo, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
+    drive_parallel_cable_widget_update(combo);
 
-    drive_parallel_cable_widget_update(grid);
-
-    gtk_widget_show_all(grid);
-    return grid;
+    gtk_widget_show_all(combo);
+    return combo;
 }
 
 
 /** \brief  Update the widget
  *
- * Enables/disable both the widget and its children depending on the drive type
+ * Enables/disable both the widget and its children depending on the drive type.
  *
  * \param[in,out]   widget  drive parallel cable widget
  */
