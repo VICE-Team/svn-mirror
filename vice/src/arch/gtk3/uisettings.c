@@ -228,7 +228,7 @@ enum {
  * This is not how tall the dialog will actually become, that is determined by
  * the Gtk theme applied. But it's a rough estimate.
  */
-#define DIALOG_HEIGHT 560
+#define DIALOG_HEIGHT 500
 
 
 /** \brief  Maximum width the UI can be
@@ -2826,7 +2826,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(settings_tree);
 
-    gtk_widget_set_size_request(scrolled_window, 250, 500);
+    gtk_widget_set_size_request(scrolled_window, 250, 400);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));
