@@ -414,11 +414,21 @@ inline static void draw_point2(nl10_t *nl10, int x, int y)
 */
 
     nl10->line[y][x] = 1;
-    nl10->line[y][x + 1] = 1;
-    nl10->line[y + 1][x] = 1;
-    nl10->line[y - 1][x] = 1;
-    nl10->line[y + 1][x + 1] = 1;
-    nl10->line[y - 1][x + 1] = 1;
+    if (x < MAX_COL - 1) {
+        nl10->line[y][x + 1] = 1;
+    }
+    if (y < BUF_ROW - 1) {
+        nl10->line[y + 1][x] = 1;
+    }
+    if (y > 0) {
+        nl10->line[y - 1][x] = 1;
+    }
+    if ((y < BUF_ROW - 1) && (x < MAX_COL - 1)) {
+        nl10->line[y + 1][x + 1] = 1;
+    }
+    if ((y > 0) && (x < MAX_COL - 1)) {
+        nl10->line[y - 1][x + 1] = 1;
+    }
 }
 
 inline static void draw_point3(nl10_t *nl10, int x, int y)
@@ -429,11 +439,22 @@ inline static void draw_point3(nl10_t *nl10, int x, int y)
     *
 */
 
+    if ((x < 0) || (x >= MAX_COL) || (y < 0) || (y >= BUF_ROW)) {
+        return;
+    }
     nl10->line[y][x] = 1;
-    nl10->line[y][x - 1] = 1;
-    nl10->line[y][x + 1] = 1;
-    nl10->line[y - 1][x] = 1;
-    nl10->line[y + 1][x] = 1;
+    if (x > 0) {
+        nl10->line[y][x - 1] = 1;
+    }
+    if (x < MAX_COL - 1) {
+        nl10->line[y][x + 1] = 1;
+    }
+    if (y > 0) {
+        nl10->line[y - 1][x] = 1;
+    }
+    if (y < BUF_ROW - 1) {
+        nl10->line[y + 1][x] = 1;
+    }
 }
 
 static void draw_char_nlq(nl10_t *nl10, const uint8_t c)
