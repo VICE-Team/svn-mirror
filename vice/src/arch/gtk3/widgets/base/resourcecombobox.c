@@ -32,8 +32,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* for GULONG_TO_POINTER() and GPOINTER_TO_ULONG() */
-#include "archdep_defs.h"
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
 #include "lib.h"

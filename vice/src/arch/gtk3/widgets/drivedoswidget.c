@@ -40,18 +40,13 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-/* for GULONG_TO_POINTER()/GPOINTER_TO_ULONG() */
-#include "archdep_defs.h"
-#include "basewidgets.h"
-#include "debug_gtk3.h"
 #include "drive-check.h"
 #include "drive.h"
 #include "machine.h"
 #include "resources.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "drivedoswidget.h"
 

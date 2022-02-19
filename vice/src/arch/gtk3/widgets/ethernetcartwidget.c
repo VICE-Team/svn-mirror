@@ -36,15 +36,12 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-#include "archdep_defs.h"
 #include "archdep_ethernet_available.h"
-#include "basedialogs.h"
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "widgethelpers.h"
+
 #include "ethernetcartwidget.h"
 
 

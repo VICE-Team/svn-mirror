@@ -32,8 +32,7 @@
 #include <gtk/gtk.h>
 
 #include "debug_gtk3.h"
-
-#include "archdep_defs.h"
+#include "vice_gtk3.h"
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
