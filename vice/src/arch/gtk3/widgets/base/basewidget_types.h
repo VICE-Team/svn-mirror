@@ -32,6 +32,33 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+/** \def    GULONG_TO_POINTER
+ * \brief   Cast gulong to pointer
+ *
+ * GLib appears to be "missing" this macro, so we define it here.
+ *
+ * \param[in]   ul  gulong value
+ *
+ * \return  gpointer
+ */
+
+#ifndef GULONG_TO_POINTER
+# define GULONG_TO_POINTER(ul) (gpointer)(uintptr_t)(ul)
+#endif
+
+/** \def    GPOINTER_TO_ULONG
+ * \brief   Cast pointer to gulong
+ *
+ * GLib appears to be "missing" this macro, so we define it here.
+ *
+ * \param[in]   p   gpointer
+ *
+ * \return  gulong
+ */
+
+#ifndef GPOINTER_TO_ULONG
+# define GPOINTER_TO_ULONG(p) (gulong)(uintptr_t)(p)
+#endif
 
 /** \brief  Entry for a combo box using an integer as ID
  */
@@ -64,6 +91,5 @@ typedef struct vice_gtk3_radiogroup_entry_s {
 
 /** \brief  radiogroup entry list terminator */
 #define VICE_GTK3_RADIOGROUP_ENTRY_LIST_END { NULL, -1 }
-
 
 #endif

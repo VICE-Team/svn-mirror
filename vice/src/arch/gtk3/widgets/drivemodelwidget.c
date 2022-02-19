@@ -33,10 +33,8 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "archdep_defs.h"
 #include "vice_gtk3.h"
 #include "drive-check.h"
 #include "drive.h"
