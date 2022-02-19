@@ -414,11 +414,9 @@ gboolean drive_model_widget_sync_combo(GtkWidget *widget)
     GtkTreeModel *model;
     GtkTreeIter iter;
     gulong handler_id;
-    int unit;
     int type;
 
     model = gtk_combo_box_get_model(GTK_COMBO_BOX(widget));
-    unit = get_unit_number(widget);
     type = get_drive_type(widget);
     handler_id = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(widget),
                                                      "ChangedHandlerID"));
