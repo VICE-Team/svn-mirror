@@ -214,7 +214,7 @@ static void reset_alarm_handler(CLOCK offset, void *data)
 {
     cmdhd_context_t *hd = (cmdhd_context_t *)data;
 
-    CLOG((LOG, "CMDHD: alarm triggered at %u; releasing buttons",
+    CLOG((LOG, "CMDHD: alarm triggered at %lu; releasing buttons",
         *(hd->mycontext->clk_ptr)));
     /* stop pressing WP, SWAP8, and SWAP9 buttons */
     hd->i8255a_i[1] |= (0x08 | 0x04 | 0x02);
@@ -1263,7 +1263,7 @@ void cmdhd_reset(cmdhd_context_t *hd)
         about 8M cycles, where as if it is a soft reset, wait 500K cycles. */
     c = *(hd->mycontext->clk_ptr) +
         cmdhd_has_sig(&(hd->mycontext->drive_ram[0x9000])) ? 8000000 : 500000;
-    CLOG((LOG, "CMDHD: alarm set for %u from %u", c, *(hd->mycontext->clk_ptr)));
+    CLOG((LOG, "CMDHD: alarm set for %lu from %lu", c, *(hd->mycontext->clk_ptr)));
     alarm_set(hd->reset_alarm, c);
 
     /* look for base lba as it may have changed on reset */
