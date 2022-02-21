@@ -580,20 +580,31 @@ static UI_MENU_CALLBACK(custom_joy_misc_callback)
 {
     char *target = NULL;
     SDL_Event e;
+    int type;
+
+    type = vice_ptr_to_int(param);
 
     if (activated) {
-        e = sdl_ui_poll_event("joystick", (vice_ptr_to_int(param)) ? "Map" : "Menu activate", SDL_POLL_JOYSTICK, 5);
+        target = lib_msprintf("%s (del clears mappings)", type ? "Map" : "Menu activate");
+        e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
         lib_free(target);
 
         switch (e.type) {
             case SDL_JOYAXISMOTION:
             case SDL_JOYBUTTONDOWN:
             case SDL_JOYHATMOTION:
-                sdljoy_set_extra(e, vice_ptr_to_int(param));
+                sdljoy_set_extra(e, type);
+                break;
+            case SDL_KEYDOWN:
+                if (e.key.keysym.sym == SDLK_DELETE || e.key.keysym.sym == SDLK_BACKSPACE) {
+                    sdljoy_delete_extra_mapping(type);
+                }
                 break;
             default:
                 break;
         }
+    } else {
+        return get_joy_extra_mapping_string(type);
     }
 
     return NULL;
