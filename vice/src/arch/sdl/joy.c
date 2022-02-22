@@ -534,10 +534,14 @@ void joy_arch_init_default_mapping(int joynum)
                 sdljoystick[joynum].input[BUTTON][i].value.joy[1] = pin;
                 break;
             case 1:
-                sdljoystick[joynum].input[BUTTON][i].action = UI_ACTIVATE;
+                if (use_joysticks_for_menu) {
+                    sdljoystick[joynum].input[BUTTON][i].action = UI_ACTIVATE;
+                }
                 break;
             case 2:
-                sdljoystick[joynum].input[BUTTON][i].action = MAP;
+                if (use_joysticks_for_menu) {
+                    sdljoystick[joynum].input[BUTTON][i].action = MAP;
+                }
                 break;
         }
     }
