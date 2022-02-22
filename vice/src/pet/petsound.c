@@ -46,7 +46,6 @@
 /* Some prototypes are needed */
 static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, CLOCK *delta_t);
-static void pet_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
 static void pet_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int pet_sound_machine_cycle_based(void)
@@ -65,7 +64,7 @@ static sound_chip_t pet_sound_chip = {
     pet_sound_machine_init,              /* sound chip init function */
     NULL,                                /* NO sound chip close function */
     pet_sound_machine_calculate_samples, /* sound chip calculate samples function */
-    pet_sound_machine_store,             /* sound chip store function */
+    NULL,                                /* NO sound chip store function */
     NULL,                                /* NO sound chip read function */
     pet_sound_reset,                     /* sound chip reset function */
     pet_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
@@ -139,7 +138,7 @@ struct pet_sound_s {
     int speed;          /* sample rate * 100 / speed_percent */
     int cycles_per_sec;
 
-    int manual;       /* 1 if CB2 set to manual control "high", 0 otherwise */
+    int manual;         /* 1 if CB2 set to manual control "high", 0 otherwise */
 };
 
 static struct pet_sound_s snd;
@@ -153,11 +152,8 @@ static struct pet_sound_s snd;
  *
  * s: starting bit in the shift register (remember: counting from left)
  * e: ending bit in the SR.
- *
- * This doesn't work well if s and e are within the same bit time 
- * (which can happen if snd.bs < 1.0).
  */
-static uint16_t pet_makesample_downsampled(double s, double e, uint8_t waveform)
+static uint16_t pet_makesample(double s, double e, uint8_t waveform)
 {
     double v;
     int sc, sf, ef, i, nr;
@@ -190,58 +186,41 @@ static uint16_t pet_makesample_downsampled(double s, double e, uint8_t waveform)
 
     v = nr;
 
-    /*
-     * Now add the signal during fractional bit times.
-     * The bit at the start is (if set) sc - s wide.
-     */
-    if (waveform & (0x80 >> (sf % 8))) {
-        v += sc - s;
+    if (sf == ef) {
+        /*
+         * The method of counting fractional bits above doesn't work if s and e
+         * fall within the same bit time:
+         * - sc-s is more than the time period we're processing
+         * - e-ef is also more than the time period we're processing
+         *
+         *      <-----------snd.bs------------->
+         *      s                               e
+         * |-------------------------------------------|....more...bits...
+         * sf                                          sc
+         * ef
+         */
+        if (waveform & (0x80 >> (sf % 8))) {
+            v += e - s;
+        }
+    } else {
+        /*
+         * Now add the signal during fractional bit times.
+         * The bit at the start is (if set) sc - s wide.
+         */
+        if (waveform & (0x80 >> (sf % 8))) {
+            v += sc - s;
+        }
+        /* And similar at the end. */
+        if (waveform & (0x80 >> (ef % 8))) {
+            v += e - ef;
+        }
     }
-    /* And similar at the end. */
-    if (waveform & (0x80 >> (ef % 8))) {
-        v += e - ef;
-    }
-    /*
-     * The method of counting fractional bits above doesn't work if s and e
-     * fall within the same bit time:
-     * - sc-s is more than the time period we're processing
-     * - e-ef is also more than the time period we're processing
-     *
-     *      <-----------snd.bs------------->
-     *      s                               e
-     * |-------------------------------------------|....more...bits...
-     * sf                                          sc
-     * ef
-     * 
-     * so for that case the contribution of the bit would be
-     *
-     *     if (waveform & (0x80 >> (sf % 8))) {
-     *        v += e - s;
-     *     }
-     *
-     * Since nr == 0 for this case, the final result is always 0 or 4095.
-     * pet_makesample_exact() calculates the same thing much simpler.
-     *
-     * Now that we are only called when snd.bs > 1.0 this case cannot happen
-     * any more.
-     */
 
     /*
      * Average over the whole period (e - s) and scale
      * to a range of 0 ... 4095.
      */
     return (uint16_t)(v * 4095.0 / (e - s));
-}
-
-static uint16_t pet_makesample_exact(uint8_t bit, uint8_t waveform)
-{
-    uint8_t output_bit = waveform & (0x80 >> bit);
-
-    if (output_bit) {
-        return 4095;
-    } else {
-        return 0;
-    }
 }
 
 static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
@@ -251,13 +230,11 @@ static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, in
 
     for (i = 0; i < nr; i++) {
         if (snd.on) {
-            if (snd.bs <= 1.0) {
-                v = pet_makesample_exact(snd.b, snd.waveform);
-            } else {
-                v = pet_makesample_downsampled(snd.b, snd.b + snd.bs, snd.waveform);
-            }
+            v = pet_makesample(snd.b, snd.b + snd.bs, snd.waveform);
         } else if (snd.manual) {
             v = 4095;
+        } else {
+            v = 0;
         }
 
         pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], (int16_t)v);
@@ -273,63 +250,41 @@ static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, in
     return nr;
 }
 
-#define PETSOUND_ONOFF          0
-#define PETSOUND_WAVEFORM       1
-#define PETSOUND_RATE_LO        2
-#define PETSOUND_RATE_HI        3
-#define PETSOUND_MANUAL         4
-
 void petsound_store_onoff(int value)
 {
-    sound_store(pet_sound_chip_offset | PETSOUND_ONOFF, value, 0);
+    /* Run sound on previous values */
+    sound_store(pet_sound_chip_offset, 0, 0);
+
+    snd.on = value;
 }
 
 void petsound_store_rate(CLOCK t)
 {
-    uint8_t lo = (uint8_t)(t & 0xff);
-    uint8_t hi = (uint8_t)((t >> 8) & 0xff);
-    sound_store((uint16_t)(pet_sound_chip_offset | PETSOUND_RATE_LO), lo, 0);
-    sound_store((uint16_t)(pet_sound_chip_offset | PETSOUND_RATE_HI), hi, 0);
+    /* Run sound on previous values */
+    sound_store(pet_sound_chip_offset, 0, 0);
+
+    snd.t = (uint16_t)t;
+    snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
 }
 
 void petsound_store_waveform(uint8_t waveform)
 {
-    sound_store((uint16_t)(pet_sound_chip_offset | PETSOUND_WAVEFORM),
-                waveform, 0);
+    /* Run sound on previous values */
+    sound_store(pet_sound_chip_offset, 0, 0);
+
+    snd.waveform = waveform;
+    while (snd.b >= 1.0) {
+        snd.b -= 1.0;
+    }
 }
 
 /* For manual control of CB2 sound using $E84C */
 void petsound_store_manual(int value)
 {
-    sound_store((uint16_t)(pet_sound_chip_offset | PETSOUND_MANUAL),
-                (uint8_t)value, 0);
-}
+    /* Run sound on previous values */
+    sound_store(pet_sound_chip_offset, 0, 0);
 
-static void pet_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
-{
-    switch (addr) {
-        case PETSOUND_ONOFF:
-            snd.on = val;
-            break;
-        case PETSOUND_WAVEFORM:
-            snd.waveform = val;
-            while (snd.b >= 1.0) {
-                snd.b -= 1.0;
-            }
-            break;
-        case PETSOUND_RATE_LO:
-            snd.t = val;
-            break;
-        case PETSOUND_RATE_HI:
-            snd.t = (snd.t & 0xff) | (val << 8);
-            snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
-            break;
-        case PETSOUND_MANUAL:
-            snd.manual = val;
-            break;
-        default:
-            abort();
-    }
+    snd.manual = value;
 }
 
 static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
