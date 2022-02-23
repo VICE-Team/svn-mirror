@@ -545,8 +545,8 @@ static uint8_t get_pc(struct _i8255a_state *ctx, int8_t reg)
 
 static void updateleds(diskunit_context_t *ctxptr)
 {
-    ctxptr->drives[0]->led_status = (ctxptr->cmdhd->LEDs & 0x02) ? 1 : 0;
-    ctxptr->drives[0]->led_status |= (ctxptr->cmdhd->LEDs & 0x01) ? 2 : 0;
+    ctxptr->drives[0]->led_status = (ctxptr->cmdhd->LEDs & 0x02) ? 0 : 2;
+    ctxptr->drives[0]->led_status |= (ctxptr->cmdhd->LEDs & 0x01) ? 0 : 1;
 }
 
 void cmdhd_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
