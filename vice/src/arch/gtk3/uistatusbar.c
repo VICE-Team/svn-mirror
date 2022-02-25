@@ -952,7 +952,7 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
         if (tape_status != NULL && tape_menu != NULL) {
             GList *children;
             GList *child;
-            const char *action;
+            int action;
 
             /* Set accelerators for attach/detach items
              *

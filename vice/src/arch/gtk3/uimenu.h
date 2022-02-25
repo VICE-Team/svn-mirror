@@ -44,17 +44,16 @@
 
 GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
 GtkWidget * ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
-GtkWidget * ui_get_gtk_submenu_item_by_name(GtkWidget *submenu,
-                                            const char *name);
+GtkWidget * ui_get_gtk_submenu_item_by_action(GtkWidget *submenu, int action);
 GtkWidget * ui_get_gtk_submenu_item_by_hotkey(GtkWidget *submenu,
                                               GdkModifierType mask,
                                               guint keyval);
 void        ui_set_gtk_check_menu_item_blocked(GtkWidget *item,
                                                gboolean state);
-void        ui_set_gtk_check_menu_item_blocked_by_name(const char *name,
-                                                       gboolean state);
-void        ui_set_gtk_check_menu_item_blocked_by_resource(const char *name,
+void        ui_set_gtk_check_menu_item_blocked_by_resource(int action,
                                                            const char *resource);
+
+void        ui_set_gtk_check_menu_item_blocked_by_action(int action, gboolean state);
 
 
 

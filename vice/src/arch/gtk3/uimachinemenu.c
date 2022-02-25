@@ -525,7 +525,7 @@ static ui_menu_item_t file_menu_head[] = {
       GDK_KEY_A, VICE_MOD_MASK, true },
     UI_MENU_SEPARATOR,
     { "Attach disk image", UI_MENU_TYPE_SUBMENU,
-      "attach-disk-submenu",
+      0,
       NULL, NULL, disk_attach_submenu,
       0, 0, false },
     { "Create and attach an empty disk image ...", UI_MENU_TYPE_ITEM_ACTION,
@@ -533,11 +533,11 @@ static ui_menu_item_t file_menu_head[] = {
       ui_disk_create_dialog_show, NULL, GINT_TO_POINTER(8),
       0, 0, true },
     { "Detach disk image", UI_MENU_TYPE_SUBMENU,
-      "detach-disk-submenu",
+      0,
       NULL, NULL, disk_detach_submenu,
       0, 0, false },
     { "Flip list", UI_MENU_TYPE_SUBMENU,
-      "fliplist-submenu",
+      0,
       NULL, NULL, disk_fliplist_submenu,
       0, 0, false },
 
@@ -564,7 +564,7 @@ static ui_menu_item_t file_menu_tape[] = {
       ui_tape_detach_callback, NULL, (void*)1,
       0, 0, false },
     { "Datasette controls", UI_MENU_TYPE_SUBMENU,
-      "datasette-controls-submenu",
+      0,
       NULL, NULL, datasette_1_control_submenu,
       0, 0, false },
 
@@ -593,7 +593,7 @@ static ui_menu_item_t file_menu_tape_xpet[] = {
       0, 0, false },
     /* TODO: fix the submenus: */
     { "Datasette #1 controls", UI_MENU_TYPE_SUBMENU,
-      "datasette1-controls-submenu",
+      0,
       NULL, NULL, datasette_1_control_submenu,
       0, 0, false },
 
@@ -612,7 +612,7 @@ static ui_menu_item_t file_menu_tape_xpet[] = {
       ui_tape_detach_callback, NULL, (void*)TAPEPORT_UNIT_2,
       0, 0, false },
     { "Datasette #2 controls", UI_MENU_TYPE_SUBMENU,
-      "datasette2-controls-submenu",
+      0,
       NULL, NULL, datasette_2_control_submenu,
       0, 0, false },
 
@@ -669,7 +669,7 @@ static ui_menu_item_t file_menu_tail[] = {
     UI_MENU_SEPARATOR,
 
     { "Reset", UI_MENU_TYPE_SUBMENU,
-      "reset-submenu",
+      0,
       NULL, NULL, reset_submenu,
       0, 0, false },
 
@@ -882,7 +882,7 @@ static ui_menu_item_t settings_menu_head[] = {
     UI_MENU_SEPARATOR,
 
     { "Emulation speed", UI_MENU_TYPE_SUBMENU,
-      "speed-submenu",
+      0,
       NULL, NULL, speed_submenu,
       0, 0, false },
 
@@ -1473,23 +1473,23 @@ gboolean ui_vice_menu_iter_get_type(ui_vice_menu_iter_t *iter,
 }
 
 
-/** \brief  Get VICE menu item action name via iterator
+/** \brief  Get VICE menu item action ID via iterator
  *
  * \param[in]   iter    VICE menu item iterator
- * \param[out]  name    object to store action name
+ * \param[out]  id      object to store action ID
  *
  * \return  TRUE when iter was valid
  *
- * \note    name can be `NULL` for submenus and separators
+ * \note    ID can be 0 (ACTION_NONE) on success and will be -1 (ACTION_INVALID)
+ *          on failure.
  */
-gboolean ui_vice_menu_iter_get_name(ui_vice_menu_iter_t *iter,
-                                    const char **name)
+gboolean ui_vice_menu_iter_get_action_id(ui_vice_menu_iter_t *iter, int *id)
 {
     if (iter->menu_item != NULL) {
-        *name = iter->menu_item->action_name;
+        *id = iter->menu_item->action_id;
         return TRUE;
     } else {
-        *name = NULL;
+        *id = ACTION_INVALID;
         return FALSE;
     }
 }
@@ -1504,8 +1504,8 @@ gboolean ui_vice_menu_iter_get_name(ui_vice_menu_iter_t *iter,
  * \return  TRUE when iter was valid
  */
 gboolean ui_vice_menu_iter_get_hotkey(ui_vice_menu_iter_t *iter,
-                                    GdkModifierType *mask,
-                                    guint *keysym)
+                                      GdkModifierType *mask,
+                                      guint *keysym)
 {
     if (iter->menu_item != NULL) {
         *mask = iter->menu_item->modifier;
@@ -1521,24 +1521,24 @@ gboolean ui_vice_menu_iter_get_hotkey(ui_vice_menu_iter_t *iter,
 
 /* Menu item API */
 
-/** \brief  Scan menu items for an action called \a name
+/** \brief  Scan menu items for action ID
  *
- * \param[in]   name    item action name
+ * \param[in]   id  action ID
  *
  * \return  pointer to menu item or `NULL` when not found
  */
-ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name)
+ui_menu_item_t *ui_get_vice_menu_item_by_action(int action)
 {
     ui_vice_menu_iter_t iter;
     ui_menu_item_type_t type;
-    const char *item_name;
+    int action_id;
 
     ui_vice_menu_iter_init(&iter);
     do {
         if (ui_vice_menu_iter_get_type(&iter, &type) && item_type_valid(type)) {
-            if (ui_vice_menu_iter_get_name(&iter, &item_name) &&
-                    item_name != NULL) {
-                if (strcmp(item_name, name) == 0) {
+            if (ui_vice_menu_iter_get_action_id(&iter, &action_id)
+                    && action_id > ACTION_NONE) {
+                if (action_id == action) {
                     return iter.menu_item;
                 }
             }
@@ -1607,17 +1607,17 @@ gboolean ui_set_vice_menu_item_hotkey(ui_menu_item_t *item,
 
 /** \brief  Set key and modifiers for a menu item by \a name
  *
- * \param[in,out]   name        menu item name
+ * \param[in,out]   action      action ID
  * \param[in]       keyval_name GDK key name without 'GDK_KEY_' prefix
  * \param[in]       modifier    bitmask with GDK modifiers
  *
  * \return  TRUE if set
  */
-gboolean ui_set_vice_menu_item_hotkey_by_name(const char *name,
-                                              const char *keyval_name,
-                                              GdkModifierType modifier)
+gboolean ui_set_vice_menu_item_hotkey_by_action(int action,
+                                                const char *keyval_name,
+                                                GdkModifierType modifier)
 {
-    ui_menu_item_t *item = ui_get_vice_menu_item_by_name(name);
+    ui_menu_item_t *item = ui_get_vice_menu_item_by_action(action);
 
     if (item != NULL) {
         return ui_set_vice_menu_item_hotkey(item, keyval_name, modifier);
@@ -1630,11 +1630,11 @@ gboolean ui_set_vice_menu_item_hotkey_by_name(const char *name,
  *
  * Try to look up a menu item for the action \a name.
  *
- * \param[in]   name    menu action name
+ * \param[in]   action  menu action ID
  *
  * \return  GtkMenuItem reference or `NULL` when not found
  */
-GtkWidget *ui_get_gtk_menu_item_by_name(const char *name)
+GtkWidget *ui_get_gtk_menu_item_by_action(int action)
 {
     GList *node;
 
@@ -1656,7 +1656,7 @@ GtkWidget *ui_get_gtk_menu_item_by_name(const char *name)
 #endif
             GtkWidget *submenu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(item));
             if (submenu != NULL) {
-                item = ui_get_gtk_submenu_item_by_name(submenu, name);
+                item = ui_get_gtk_submenu_item_by_action(submenu, action);
                 if (item != NULL) {
                     return item;
                 }
@@ -1724,17 +1724,17 @@ void ui_clear_vice_menu_item_hotkeys(void)
 
 /** \brief  Get menu item keysym and modifier mask by action name
  *
- * \param[in]   name        action name
+ * \param[in]   action      action ID
  * \param[out]  keysym      GDK keysym
  * \param[out]  modifier    GDK modifier mask
  *
  * \return  TRUE if the \a name was found
  */
-gboolean ui_get_vice_menu_item_hotkey_by_name(const char *name,
-                                              guint *keysym,
-                                              GdkModifierType *modifier)
+gboolean ui_get_vice_menu_item_hotkey_by_action(int action,
+                                                guint *keysym,
+                                                GdkModifierType *modifier)
 {
-    ui_menu_item_t *item = ui_get_vice_menu_item_by_name(name);
+    ui_menu_item_t *item = ui_get_vice_menu_item_by_action(action);
 
     if (item != NULL) {
         *keysym = item->keysym;
@@ -1756,17 +1756,17 @@ gboolean ui_get_vice_menu_item_hotkey_by_name(const char *name,
  * as a main menu item.
  *
  * \param[in]   item    popup menu item
- * \param[in]   action  UI action name
+ * \param[in]   action  UI action ID
  *
  * \see     uiactions.h for action names
  */
-void ui_set_gtk_menu_item_accel_label(GtkWidget *item, const char *action)
+void ui_set_gtk_menu_item_accel_label(GtkWidget *item, int action)
 {
     GtkWidget *accel_label;
     guint keysym;
     GdkModifierType modifier;
 
     accel_label = gtk_bin_get_child(GTK_BIN(item));
-    ui_get_vice_menu_item_hotkey_by_name(action, &keysym, &modifier);
+    ui_get_vice_menu_item_hotkey_by_action(action, &keysym, &modifier);
     gtk_accel_label_set_accel(GTK_ACCEL_LABEL(accel_label), keysym, modifier);
 }

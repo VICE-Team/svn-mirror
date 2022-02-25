@@ -43,6 +43,7 @@
 #include "kbddebugwidget.h"
 #include "keyboard.h"
 #include "mainlock.h"
+#include "uiactions.h"
 #include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uimedia.h"
@@ -411,13 +412,13 @@ static int removepressedkey(GdkEvent *report, int *key, int *mod)
  */
 static gboolean isresethotkey(GdkEvent *report)
 {
-    static char *checkaccel[2] = { "reset-soft", "reset-hard" };
+    int checkaccel[2] = { ACTION_RESET_SOFT, ACTION_RESET_HARD };
     gboolean res = FALSE;
     int i;
     char *this_accel = gtk_accelerator_get_label(report->key.keyval,
                                                  report->key.state & VHK_ACCEPTED_MODIFIERS);
     for (i = 0; i < 2; i++) {
-        ui_menu_item_t *item = ui_get_vice_menu_item_by_name(checkaccel[i]);
+        ui_menu_item_t *item = ui_get_vice_menu_item_by_action(checkaccel[i]);
         if (item != NULL) {
             char *accel = gtk_accelerator_get_label(item->keysym, item->modifier);
             if (!strcmp(this_accel, accel)) {
