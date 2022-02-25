@@ -28,6 +28,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 #include <time.h>
+#include <string.h>
 #include "vice_gtk3.h"
 
 #include "archdep.h"
