@@ -127,7 +127,7 @@ static ui_menu_item_t reset_submenu[] = {
  */
 static ui_menu_item_t file_menu[] = {
     { "Load PSID file ...", UI_MENU_TYPE_ITEM_ACTION,
-      "load-psid",
+      0,
       uisidattach_show_dialog, NULL, NULL,
       GDK_KEY_L, VICE_MOD_MASK, true },
 
@@ -137,12 +137,12 @@ static ui_menu_item_t file_menu[] = {
      *      contains sound recording options
      */
     { "Record sound file ...", UI_MENU_TYPE_ITEM_ACTION,
-      "sound-save",
+      0,
       ui_media_dialog_show, NULL, NULL,
       GDK_KEY_R, VICE_MOD_MASK|GDK_SHIFT_MASK, false },
 
     { "Stop sound recording", UI_MENU_TYPE_ITEM_ACTION,
-      "sound-stop",
+      0,
       ui_media_stop_recording, NULL, NULL,
       GDK_KEY_S, VICE_MOD_MASK|GDK_SHIFT_MASK, false },
 
@@ -150,7 +150,7 @@ static ui_menu_item_t file_menu[] = {
 
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
-      "monitor",
+      0,
       ui_monitor_activate_callback, NULL, NULL,
 #ifdef MACOSX_SUPPORT
       /* use Command-Option-M on Mac */
@@ -163,7 +163,7 @@ static ui_menu_item_t file_menu[] = {
     UI_MENU_SEPARATOR,
 
     { "Reset", UI_MENU_TYPE_SUBMENU,
-      "reset-submenu",
+      0,
       NULL, NULL, reset_submenu,
       0, 0, false },
 
@@ -195,7 +195,7 @@ static ui_menu_item_t settings_menu[] = {
      *      added to the settings dialog
      */
     { "Override PSID settings", UI_MENU_TYPE_ITEM_CHECK,
-      "psid-keep-env",
+      0,
       ui_toggle_resource, (void*)"PSIDKeepEnv", NULL,
       0, 0, false },
 
@@ -208,14 +208,14 @@ static ui_menu_item_t settings_menu[] = {
 #ifdef DEBUG
 static ui_menu_item_t debug_menu[] = {
     { "Trace mode...", UI_MENU_TYPE_ITEM_ACTION,
-      "tracemode",
+      0,
       ui_debug_trace_mode_dialog_show, NULL, NULL,
       0, 0, false },
 
     UI_MENU_SEPARATOR,
 
     { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-      "trace-maincpu",
+      0,
       ui_toggle_resource, (void*)"MainCPU_TRACE", NULL,
       0, 0, false },
 
@@ -226,7 +226,7 @@ static ui_menu_item_t debug_menu[] = {
       ui_debug_playback_frames_dialog_show, NULL, NULL,
       0, 0, false },
     { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
-      "coredump",
+      0,
       ui_toggle_resource, (void*)"DoCoreDump", NULL,
       0, 0, false },
 
@@ -239,19 +239,19 @@ static ui_menu_item_t debug_menu[] = {
  */
 static ui_menu_item_t help_menu[] = {
     { "Browse manual", UI_MENU_TYPE_ITEM_ACTION,
-      "manual",
+      0,
       ui_open_manual_callback, NULL, NULL,
       0, 0, true },
     { "Command line options ...", UI_MENU_TYPE_ITEM_ACTION,
-      "cmdline",
+      0,
       uicmdline_dialog_show, NULL, NULL,
       0, 0, true },
     { "Compile time features ...", UI_MENU_TYPE_ITEM_ACTION,
-      "features",
+      0,
       uicompiletimefeatures_dialog_show, NULL, NULL,
       0, 0, true },
     { "About VICE", UI_MENU_TYPE_ITEM_ACTION,
-      "about",
+      0,
       ui_about_dialog_callback, NULL, NULL,
       0, 0, true },
 

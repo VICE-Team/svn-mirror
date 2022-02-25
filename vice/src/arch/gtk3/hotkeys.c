@@ -1551,7 +1551,8 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
 {
     const char *s;
     const char *oldpos;
-    char action[256];
+    char action_name[256];
+    int action_id = ACTION_INVALID;
     guint keyval = 0;
     GdkModifierType mask = 0;
 
@@ -1572,7 +1573,7 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
                     textfile_reader_linenum(reader));
         return false;
     }
-    if (s - oldpos >= sizeof(action)) {
+    if (s - oldpos >= sizeof(action_name)) {
         log_message(hotkeys_log,
                     "Hotkeys: %s:%ld: error: action name is too long.",
                     textfile_reader_filename(reader),
@@ -1581,8 +1582,8 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     }
 
     /* make properly nul-terminated string of action name for lookups*/
-    memcpy(action, oldpos, s - oldpos);
-    action[s - oldpos] = '\0';
+    memcpy(action_name, oldpos, s - oldpos);
+    action_name[s - oldpos] = '\0';
 
     s = skip_whitespace(s);
 
@@ -1595,12 +1596,17 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     if (hotkeys_debug) {
         log_message(hotkeys_log,
                     "Hotkeys: mask: %04x, keyval: %08x, keyname: %s, action: %s",
-                    (unsigned int)mask, keyval, gdk_keyval_name(keyval), action);
+                    (unsigned int)mask, keyval, gdk_keyval_name(keyval), action_name);
     }
+
     /* finally try to register the hotkey */
-    if (!ui_set_vice_menu_item_hotkey_by_name(action,
-                                              gdk_keyval_name(keyval),
-                                              mask)) {
+    debug_gtk3("Getting ID for action '%s':", action_name);
+    action_id = ui_action_get_id(action_name);
+    debug_gtk3("Got ID %d.", action_id);
+
+    if (!ui_set_vice_menu_item_hotkey_by_action(action_id,
+                                                gdk_keyval_name(keyval),
+                                                mask)) {
         log_message(hotkeys_log,
                     "Hotkeys: %s:%ld: failed to register hotkey.",
                     textfile_reader_filename(reader),
@@ -1689,17 +1695,17 @@ bool ui_hotkeys_parse(const char *path)
 
 /** \brief  Return a string describing the key+modifiers for \a action
  *
- * \param[in]   action  action name
+ * \param[in]   action  action IUD
  *
  * \return  string with key name and modifiers
  * \note    free the string after use with lib_free()
  */
-char *ui_hotkeys_get_hotkey_string_for_action(const char *action)
+char *ui_hotkeys_get_hotkey_string_for_action(int action)
 {
     ui_menu_item_t *item;
     char *str = NULL;
 
-    item = ui_get_vice_menu_item_by_name(action);
+    item = ui_get_vice_menu_item_by_action(action);
     if (item != NULL) {
         str = gtk_accelerator_get_label(item->keysym, item->modifier);
         if (str != NULL) {
@@ -1816,12 +1822,14 @@ bool ui_hotkeys_export(const char *path)
         GdkModifierType mask;
         guint keysym;
         ui_menu_item_type_t type;
+        int id;
         const char *name;
 
         ui_vice_menu_iter_get_type(&iter, &type);
-        if (type == UI_MENU_TYPE_ITEM_ACTION ||
-                type == UI_MENU_TYPE_ITEM_CHECK) {
-            ui_vice_menu_iter_get_name(&iter, &name);
+        if (type == UI_MENU_TYPE_ITEM_ACTION || type == UI_MENU_TYPE_ITEM_CHECK) {
+
+            ui_vice_menu_iter_get_action_id(&iter, &id);
+            name = ui_action_get_name(id);
             ui_vice_menu_iter_get_hotkey(&iter, &mask, &keysym);
             if (keysym != 0 && name != NULL) {
                 char *accel;

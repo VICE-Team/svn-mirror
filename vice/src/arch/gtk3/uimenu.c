@@ -37,6 +37,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uiabout.h"
 #include "uistatusbar.h"
@@ -379,8 +380,8 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 
             /* set action name */
             g_object_set_data(G_OBJECT(item),
-                              "ActionName",
-                              items[i].action_name);
+                              "ActionID",
+                              GINT_TO_POINTER(items[i].action_id));
             /* set resource name */
             g_object_set_data(G_OBJECT(item),
                               "ResourceName",
@@ -406,11 +407,11 @@ void ui_menu_init_accelerators(GtkWidget *window)
 /** \brief  Recursively look up \a name in \a submenu
  *
  * \param[in]   submenu GtkMenuItem
- * \param[in]   name    item action name
+ * \param[in]   action  item action ID
  *
  * \return  GtkMenuItem or `NULL` when not found
  */
-GtkWidget *ui_get_gtk_submenu_item_by_name(GtkWidget *submenu, const char *name)
+GtkWidget *ui_get_gtk_submenu_item_by_action(GtkWidget *submenu, int action)
 {
     GList *node = gtk_container_get_children(GTK_CONTAINER(submenu));
 #if 0
@@ -419,14 +420,13 @@ GtkWidget *ui_get_gtk_submenu_item_by_name(GtkWidget *submenu, const char *name)
     while (node != NULL) {
         GtkWidget *item = node->data;
         if (GTK_IS_CONTAINER(item)) {
-            const char *action_name = g_object_get_data(G_OBJECT(item),
-                                                    "ActionName");
-            if (action_name != NULL) {
+            int id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(item), "ActionID"));
+            if (id > ACTION_NONE) {
 #if 0
                 debug_gtk3("Checking action-name '%s' against '%s'.",
                         action_name, name);
 #endif
-                if (strcmp(action_name, name) == 0) {
+                if (action == id) {
 #if 0
                     debug_gtk3("FOUND");
 #endif
@@ -436,7 +436,7 @@ GtkWidget *ui_get_gtk_submenu_item_by_name(GtkWidget *submenu, const char *name)
             /* recurse into submenu if present */
             item = gtk_menu_item_get_submenu(GTK_MENU_ITEM(item));
             if (item != NULL) {
-                item = ui_get_gtk_submenu_item_by_name(item, name);
+                item = ui_get_gtk_submenu_item_by_action(item, action);
                 if (item != NULL) {
                     return item;
                 }
@@ -534,11 +534,11 @@ void ui_set_gtk_check_menu_item_blocked(GtkWidget *item, gboolean state)
  * \param[in]   name    item name
  * \param[in]   state   new state for \a name
  */
-void ui_set_gtk_check_menu_item_blocked_by_name(const char *name, gboolean state)
+void ui_set_gtk_check_menu_item_blocked_by_action(int action, gboolean state)
 {
     GtkWidget *item;
 
-    item = ui_get_gtk_menu_item_by_name(name);
+    item = ui_get_gtk_menu_item_by_action(action);
     if (item != NULL) {
         ui_set_gtk_check_menu_item_blocked(item, state);
     }
@@ -550,15 +550,15 @@ void ui_set_gtk_check_menu_item_blocked_by_name(const char *name, gboolean state
  * Set a checkbox menu item's state via a boolean resource while blocking the
  * 'activate' handler so the handler won't recursively call itself.
  *
- * \param[in]   name        item name
+ * \param[in]   action      item's action ID
  * \param[in]   resource    boolean resource to use for the item's state
  */
-void ui_set_gtk_check_menu_item_blocked_by_resource(const char *name,
+void ui_set_gtk_check_menu_item_blocked_by_resource(int action,
                                                     const char *resource)
 {
     GtkWidget *item;
 
-    item = ui_get_gtk_menu_item_by_name(name);
+    item = ui_get_gtk_menu_item_by_action(action);
     if (item != NULL) {
         int value;
 

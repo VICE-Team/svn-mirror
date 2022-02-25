@@ -122,7 +122,7 @@ bool    ui_hotkeys_parse(const char *path);
 bool    ui_hotkeys_export(const char *path);
 void    ui_hotkeys_load_default(void);
 
-char *  ui_hotkeys_get_hotkey_string_for_action(const char *action);
+char *  ui_hotkeys_get_hotkey_string_for_action(int action);
 const hotkeys_modifier_t *ui_hotkeys_get_modifier_list(void);
 
 #endif

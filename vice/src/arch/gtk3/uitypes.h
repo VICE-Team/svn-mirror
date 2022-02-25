@@ -74,18 +74,18 @@ typedef struct ui_menu_item_s {
 
     /** \brief  UI action name
      *
-     * UI action name as defined in uiactions.h.
+     * UI action ID as defined in uiactions.h.
      *
-     * The action name is used for the hotkeys to be able to set and alter the
+     * The action ID is used for the hotkeys to be able to set and alter the
      * hotkey assigned to the menu item.
      *
-     * \note    Must be unique or NULL.
-     * \note    Do NOT use the same action name for similar actions in different
+     * \note    Must be unique or 0.
+     * \note    Do NOT use the same action ID for similar actions in different
      *          emulators, thanks to the run-time checking of the machine this
      *          will lead to the hotkeys code updating the first matching action
      *          it finds and ignoring the other actions with the same name.
      */
-    char *action_name;
+    int action_id;
 
     /** \brief  Menu item callback function
      *
@@ -165,12 +165,12 @@ typedef struct ui_menu_ref_s {
 
 /** \brief  Terminator of a menu items list
  */
-#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL, NULL, NULL, 0, 0 }
+#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, 0, NULL, NULL, NULL, 0, 0 }
 
 
 /** \brief  Menu items separator
  */
-#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, NULL, NULL, NULL, NULL, 0, 0 }
+#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, 0, NULL, NULL, NULL, 0, 0 }
 
 
 /** \brief  Platform-dependent accelerator key defines

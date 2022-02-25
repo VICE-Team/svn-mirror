@@ -931,8 +931,8 @@ gboolean ui_action_toggle_fullscreen(void)
         gtk_window_unfullscreen(window);
     }
 
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_FULLSCREEN_TOGGLE,
-                                               is_fullscreen);
+    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_TOGGLE,
+                                                 is_fullscreen);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -945,8 +945,8 @@ gboolean ui_action_toggle_fullscreen(void)
 gboolean ui_action_toggle_fullscreen_decorations(void)
 {
     fullscreen_has_decorations = !fullscreen_has_decorations;
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
-                                               fullscreen_has_decorations);
+    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
+                                                 fullscreen_has_decorations);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -1604,7 +1604,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     if (!mouse_grab) {
         g_snprintf(title, 256, "VICE (%s)", machine_get_name());
     } else {
-        ui_menu_item_t *item = ui_get_vice_menu_item_by_name(ACTION_MOUSE_GRAB_TOGGLE);
+        ui_menu_item_t *item = ui_get_vice_menu_item_by_action(ACTION_MOUSE_GRAB_TOGGLE);
         gchar *name = gtk_accelerator_name(item->keysym, item->modifier);
 
         g_snprintf(title, 256, "VICE (%s) (Use %s to disable mouse grab)",
@@ -1784,8 +1784,8 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* FIXME:   This is apparently too early in the boot sequence for -warp
      *          to take effect.
      */
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_WARP_MODE_TOGGLE,
-                                               vsync_get_warp_mode());
+    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+                                                 vsync_get_warp_mode());
 
     if (machine_class != VICE_MACHINE_VSID) {
 
@@ -2358,8 +2358,8 @@ void ui_pause_toggle(void)
 gboolean ui_action_toggle_pause(void)
 {
     ui_pause_toggle();
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_PAUSE_TOGGLE,
-                                               (gboolean)ui_pause_active());
+    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+                                                 (gboolean)ui_pause_active());
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+P into the emu */
 }
@@ -2373,8 +2373,8 @@ gboolean ui_action_toggle_pause(void)
 gboolean ui_action_toggle_warp(void)
 {
     vsync_set_warp_mode(!vsync_get_warp_mode());
-    ui_set_gtk_check_menu_item_blocked_by_name(ACTION_WARP_MODE_TOGGLE,
-                                               (gboolean)vsync_get_warp_mode());
+    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+                                                 (gboolean)vsync_get_warp_mode());
 
     return TRUE;
 }
@@ -2394,8 +2394,8 @@ gboolean ui_action_advance_frame(void)
         vsyncarch_advance_frame();
     } else {
         ui_pause_enable();
-        ui_set_gtk_check_menu_item_blocked_by_name(ACTION_PAUSE_TOGGLE,
-                                                   (gboolean)ui_pause_active());
+        ui_set_gtk_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+                                                     (gboolean)ui_pause_active());
     }
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */
