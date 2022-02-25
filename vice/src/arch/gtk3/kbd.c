@@ -35,7 +35,9 @@
 
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include <string.h>
 #include "debug_gtk3.h"
+
 #include "hotkeys.h"
 #include "lib.h"
 #include "log.h"
