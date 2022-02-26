@@ -37,7 +37,7 @@
 
 /** \brief  Unicode text for the VICE_MOD_MASK (Command) modifier
  */
-# define VICE_MOD_MASK_TEXT "⌘"
+# define VICE_MOD_MASK_TEXT "\u2318"
 
 /** \brief  HTML text for the VICE_MOD_MASK (Command) modifier
  */
