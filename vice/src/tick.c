@@ -27,7 +27,6 @@
 
 #include "vice.h"
 
-#include "mainlock.h"
 #include "tick.h"
 
 #ifdef WIN32_COMPILE

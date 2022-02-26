@@ -540,7 +540,7 @@ void vsync_do_end_of_line(void)
         
         if (warp_enabled) {
             /* During warp we need to periodically allow the UI a chance with the mainlock */
-            mainlock_yield_and_sleep(1);
+            mainlock_yield();
         } else {
             /*
              * Compare the emulated time vs host time.
