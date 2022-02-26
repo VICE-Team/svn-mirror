@@ -346,7 +346,7 @@ static gboolean on_key_release_event(GtkWidget *dialog,
 #endif
 
     /*
-     * Keyboards can generate lots of weird keys, for example alt-w produces ∑ on macOS.
+     * Keyboards can generate lots of weird keys, for example alt-w produces Sigma on macOS.
      * We can ask GDK for a list of them given a hardware keycode and a keymap.
      *
      * We use the entry with a group and level of 0 for the raw key with no modifiers,

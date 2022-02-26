@@ -2,7 +2,7 @@
  * \brief   Widget to set the RAM9 area type (PET 8296 only)
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- * \author  André Fachat <fachat@web.de>
+ * \author  Andre Fachat <fachat@web.de>
  */
 
 /*
