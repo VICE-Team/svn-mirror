@@ -71,7 +71,7 @@ extern char *lib_strdup_pinpoint(const char *str, const char *name, unsigned int
 
 #endif /* !COMPILING_LIB_DOT_C */
 
-#if defined(AMIGA_SUPPORT) || defined(__VBCC__)
+#if defined(AMIGA_SUPPORT)
 extern void *lib_AllocVec_pinpoint(unsigned long size, unsigned long attributes, char *name, unsigned int line);
 extern void lib_FreeVec_pinpoint(void *ptr, char *name, unsigned int line);
 extern void *lib_AllocMem_pinpoint(unsigned long size, unsigned long attributes, char *name, unsigned int line);
@@ -93,7 +93,7 @@ extern void lib_free(void *ptr);
 
 extern char *lib_strdup(const char *str);
 
-#if defined(AMIGA_SUPPORT) || defined(__VBCC__)
+#if defined(AMIGA_SUPPORT)
 extern void *lib_AllocVec(unsigned long size, unsigned long attributes);
 extern void lib_FreeVec(void *ptr);
 extern void *lib_AllocMem(unsigned long size, unsigned long attributes);
