@@ -26,21 +26,22 @@
 #
 
 # list of all VALID arch-dependent global defines
+ARCHDEFS+=" USE_SDLUI"
+ARCHDEFS+=" USE_SDLUI2"
 ARCHDEFS+=" WIN32_COMPILE"
-ARCHDEFS+=" MACOSX_SUPPORT"
-ARCHDEFS+=" __linux__"
-ARCHDEFS+=" __FreeBSD__"
 ARCHDEFS+=" WIN32"
 ARCHDEFS+=" _WIN64"
+ARCHDEFS+=" __APPLE__"
+ARCHDEFS+=" MACOSX_SUPPORT"
+ARCHDEFS+=" __linux__"
 ARCHDEFS+=" __OS2__"
 ARCHDEFS+=" __BEOS__"
+ARCHDEFS+=" __HAIKU__"
 ARCHDEFS+=" __MSDOS__"
 ARCHDEFS+=" AMIGA_SUPPORT"
 ARCHDEFS+=" AMIGA_AROS"
 ARCHDEFS+=" AMIGA_M68K"
 ARCHDEFS+=" AMIGA_MORPHOS"
-ARCHDEFS+=" USE_SDLUI"
-ARCHDEFS+=" USE_SDLUI2"
 ARCHDEFS+=" DINGOO_NATIVE"
 ARCHDEFS+=" DINGUX_SDL"
 ARCHDEFS+=" __XBOX__"
@@ -60,14 +61,12 @@ ARCHDEFS+=" __QNX__"
 ARCHDEFS+=" __QNXNTO__"
 ARCHDEFS+=" __osf__"
 ARCHDEFS+=" __osf"
-ARCHDEFS+=" __APPLE__"
 ARCHDEFS+=" __MACH__"
 ARCHDEFS+=" __FreeBSD__"
 ARCHDEFS+=" __NetBSD__"
-ARCHDEFS+=" __DragonflyBSD__"
-ARCHDEFS+=" __HAIKU__"
 ARCHDEFS+=" __OpenBSD__"
 ARCHDEFS+=" __DragonFly__"
+ARCHDEFS+=" __DragonflyBSD__"
 ARCHDEFS+=" __bsdi__"
 ARCHDEFS+=" MINIXVMD"
 ARCHDEFS+=" MINIX_SUPPORT"
@@ -194,19 +193,19 @@ OBSOLETERESOURCES+=" PALOddLineOffset"
 
 ################################################################################
 
-# find ifdef in portable code
+# find archdep ifdefs in portable code
 function findifdefs
 {
     echo "checking define: \"$1\""
-    find -wholename './vicefeatures.c' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
+    find -wholename './vicefeatures.c' -prune -o -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
     echo " "
 }
 
-# find ifdef in all code
+# find obsolete ifdefs in all code
 function findifdefsfulltree
 {
     echo "checking define: \"$1\""
-    find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
+    find  -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
     echo " "
 }
 
@@ -226,10 +225,10 @@ function findnonlatin
     echo " "
 }
 
-
+# find archdep ifdefs in portable code
 function finddefsfiles
 {
-    FILES+=`find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
+    FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
 }
 
 function finddefsfilesfulltree
