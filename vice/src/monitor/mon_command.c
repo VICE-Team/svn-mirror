@@ -51,8 +51,8 @@
 
 /* FIXME:
  * Removing `const` from `str` and `abbrev` fixes this warning:
-../../../../vice/src/arch/gtk3/uimon.c: In function ‘console_init’:
-../../../../vice/src/arch/gtk3/uimon.c:710:17: warning: to be safe all intermediate pointers in cast from ‘char **’ to ‘const char **’ must be ‘const’ qualified [-Wcast-qual
+../../../../vice/src/arch/gtk3/uimon.c: In function 'console_init':
+../../../../vice/src/arch/gtk3/uimon.c:710:17: warning: to be safe all intermediate pointers in cast from 'char **' to 'const char **' must be 'const' qualified [-Wcast-qual
 (const char **)&full_name,
 
   Also had to do some additional hacking, would be nice to see a better solution.
