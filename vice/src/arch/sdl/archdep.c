@@ -261,7 +261,7 @@ static int archdep_init_extra(int *argc, char **argv)
     _setmode(_fileno(stdout), O_BINARY);
 #endif
 
-#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_BEOS) || defined(ARCHDEP_OS_OS2)
+#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_BEOS)
     argv0 = lib_strdup(argv[0]);
 #endif
 #if defined(ARCHDEP_OS_BEOS)
