@@ -2,7 +2,7 @@
  * blackbox9.c - Cartridge handling, Black BOX 9 cart.
  *
  * Written by
- *  Kamil Zbróg <kamil.zbrog@gmail.com>
+ *  Kamil Zbrog <kamil.zbrog@gmail.com>
  * Based on code written by
  *  Artur Sidor <ff8@poczta.wp.pl>
  * Based on code from VICE written by

@@ -206,10 +206,10 @@ tick_t tick_now_after(tick_t previous_tick)
      * Fark, high performance counters, called from different threads / cpus, can be off by 1 tick.
      * 
      *    "When you compare performance counter results that are acquired from different
-     *     threads, consider values that differ by ± 1 tick to have an ambiguous ordering.
-     *     If the time stamps are taken from the same thread, this ± 1 tick uncertainty
+     *     threads, consider values that differ by +/- 1 tick to have an ambiguous ordering.
+     *     If the time stamps are taken from the same thread, this +/- 1 tick uncertainty
      *     doesn't apply. In this context, the term tick refers to a period of time equal
-     *     to 1 ÷ (the frequency of the performance counter obtained from
+     *     to 1 divided by (the frequency of the performance counter obtained from
      *     QueryPerformanceFrequency)."
      * 
      * https://docs.microsoft.com/en-us/windows/win32/sysinfo/acquiring-high-resolution-time-stamps#guidance-for-acquiring-time-stamps

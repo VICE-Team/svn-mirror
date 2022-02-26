@@ -71,7 +71,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data);
    so that means that the ratio is 12.2727 / 16 = 0.76704375
  * The article above compensates for the VIC-II's not quite standard line
    frequency but that is not necessary here as the VDC produces exact PAL & NTSC
-   line frequency of 64µs & 63.5µs respectively with default kernal values.
+   line frequency of 64us & 63.5us respectively with default kernal values.
  * NOTE if we were not using Stretch_Vertically by default we could be halving
    the value here to achieve the correct aspect naturally..
 */
