@@ -26,6 +26,10 @@
 #
 
 # list of all VALID arch-dependent global defines
+ARCHDEFS+=" WIN32_COMPILE"
+ARCHDEFS+=" MACOSX_SUPPORT"
+ARCHDEFS+=" __linux__"
+ARCHDEFS+=" __FreeBSD__"
 ARCHDEFS+=" WIN32"
 ARCHDEFS+=" _WIN64"
 ARCHDEFS+=" __OS2__"
@@ -210,8 +214,12 @@ function findnonlatin
     echo "- files with non ASCII characters in them. usually this should only be"
     echo "- the case for files that have translation-related string tables in them."
     echo "-"
+    echo "- expected files with different encoding are: infocontrib.h"
+    echo "-"
+    echo "- all other files should be ASCII"
+    echo "-"
     echo "checking character encoding"
-    find -wholename './lib' -prune -o -name "*.[ch]" -exec file {} \; | grep -v "ASCII text" | grep -v "^./src/lib/"
+    find -wholename './lib' -prune -o -name "*.[ch]" -exec file {} \; | grep -v "ASCII text" | grep -v "CSV text"
     echo " "
 }
 

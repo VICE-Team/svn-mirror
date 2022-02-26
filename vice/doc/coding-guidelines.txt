@@ -273,6 +273,11 @@ src/infocontrib.h:                 ISO-8859                     (generated file)
 Keep in mind that editing the translation related files need special care, make
 sure not to mess up the file by somehow converting the encoding!
 
+you may use the findhacks.sh script in src/ to check all sourcefiles and find
+any that contain non ascii characters:
+
+$ ./findhacks.sh encoding
+
 
 Documentation
 -------------
