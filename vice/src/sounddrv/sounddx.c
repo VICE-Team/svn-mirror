@@ -568,6 +568,7 @@ static int dx_write(int16_t *pbuf, size_t nr)
 
 static int dx_suspend(void)
 {
+#if 0 /* This would result in constant sounds playing during warp, sometimes! */
     int i;
     int16_t *p = lib_malloc(stream_buffer_size * sizeof(int16_t));
 
@@ -581,6 +582,9 @@ static int dx_suspend(void)
 
     i = dx_write(p, stream_buffer_size);
     lib_free(p);
+#else
+    IDirectSoundBuffer_Stop(buffer);
+#endif
 
     return 0;
 }
