@@ -77,7 +77,7 @@ c2lo    exp. port (or internal) $8000-$bfff reserved / v364 speech software low
 c2hi    exp. port (or internal) $c000-$ffff reserved / v364 speech software high
 
 TED controls all banking. The cs0 and cs1 are active when the CPU is
-accessing $8000-$bfff and $c000-$ffff respectively, but can be “overridden”
+accessing $8000-$bfff and $c000-$ffff respectively, but can be "overridden"
 by writing anything to TED registers $3e and $3f. Writing anything to $FF3E
 will page in the currently configured ROMs to the upper memory area
 ($8000..$FFFF), and writing anything to $FF3F will page in RAM to the same
