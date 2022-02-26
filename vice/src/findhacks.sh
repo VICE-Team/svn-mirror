@@ -228,7 +228,7 @@ function findnonlatin
 # find archdep ifdefs in portable code
 function finddefsfiles
 {
-    FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
+    FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
 }
 
 function finddefsfilesfulltree
