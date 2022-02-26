@@ -192,6 +192,9 @@ int         archdep_is_windows_nt(void);
 /* Icon handling */
 char *      archdep_app_icon_path_png(int size);
 
+/* openmp */
+void        archdep_set_openmp_wait_policy(void);
+
 /*
  * Not yet moved to arch/shared/
  */

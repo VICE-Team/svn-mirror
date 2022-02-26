@@ -88,6 +88,7 @@ libarchdep_a_SOURCES = \
 	archdep_rtc_get_centisecond.c \
 	archdep_sanitize_filename.c \
 	archdep_set_current_drive.c \
+	archdep_set_openmp_wait_policy.c \
 	archdep_signals.c \
 	archdep_sound.c \
 	archdep_spawn.c \
@@ -169,6 +170,7 @@ EXTRA_DIST = \
 	archdep_rmdir.h \
 	archdep_rtc_get_centisecond.h \
 	archdep_sanitize_filename.h \
+	archdep_set_openmp_wait_policy.h \
 	archdep_signals.h \
 	archdep_sound.h \
 	archdep_spawn.h \

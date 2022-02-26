@@ -130,18 +130,8 @@ int main_program(int argc, char **argv)
 
     mainlock_init();
 #endif
-    
-    /*
-     * OpenMP defaults to spinning threads for a couple hundred ms
-     * after they are used, which means they max out forever in our
-     * use case. Setting OMP_WAIT_POLICY to PASSIVE fixes that.
-     */
-    
-#if defined(WIN32_COMPILE)
-    _putenv("OMP_WAIT_POLICY=PASSIVE");
-#else
-    setenv("OMP_WAIT_POLICY", "PASSIVE", 1);
-#endif
+
+    archdep_set_openmp_wait_policy();
 
     lib_init();
 
