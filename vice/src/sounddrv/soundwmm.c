@@ -3,7 +3,7 @@
  * Version 1.07 + stereo sid support
  *
  * Written by
- *  Lasse ��rni <loorni@student.oulu.fi>
+ *  Lasse Oorni <loorni@student.oulu.fi>
  *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * Based on the DirectSound driver by
