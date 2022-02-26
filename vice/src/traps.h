@@ -42,7 +42,7 @@ typedef struct trap_s {
     uint16_t address;
     uint16_t resume_address;
     uint8_t check[3];
-#if defined(__STDC__) || defined(__IBMC__)
+#if defined(__STDC__)
     int (*func)(void);
 #else
     int (*func)();

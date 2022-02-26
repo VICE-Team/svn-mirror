@@ -41,10 +41,6 @@
 #include <stdint.h>
 #include <errno.h>
 
-#ifdef __IBMC__
-#include <direct.h>
-#endif
-
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
