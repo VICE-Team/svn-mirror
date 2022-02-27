@@ -150,13 +150,19 @@ static int noop;
 #endif
 
 #if defined(__GNUC__)
+/* like regular printf, func(format, ...) */
 #define VICE_ATTR_PRINTF    __attribute__((format(printf, 1, 2)))
+/* one extra param on the left, func(param, format, ...) */
 #define VICE_ATTR_PRINTF2   __attribute__((format(printf, 2, 3)))
+/* two extra param on the left, func(param, param, format, ...) */
 #define VICE_ATTR_PRINTF3   __attribute__((format(printf, 3, 4)))
+/* one extra param after the format, func(format, param, ...) (used for resource sprintf) */
+#define VICE_ATTR_RESPRINTF __attribute__((format(printf, 1, 3)))
 #else
 #define VICE_ATTR_PRINTF
 #define VICE_ATTR_PRINTF2
 #define VICE_ATTR_PRINTF3
+#define VICE_ATTR_RESPRINTF
 #endif
 
 /* Not all platforms have fseeko()/fseeko(), so we define macros here that use
