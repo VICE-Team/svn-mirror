@@ -480,7 +480,7 @@ static void on_device_changed(GtkComboBox *combo, gpointer portnum)
                            COL_DEVICE_NAME, &name,
                            -1);
         debug_gtk3("Got device #%d (%s) for port #%d", id, name, port);
-        resources_set_int_sprintf("TapePort%dDevice", id, port, NULL);
+        resources_set_int_sprintf("TapePort%iDevice", id, port);
 
         set_options_widgets_sensitivity(id);
 
