@@ -1063,7 +1063,7 @@ int sound_open(void)
         }
 
         if (rdev->bufferspace != NULL) {
-            ui_error("Warning! Recording device %s seems to be a realtime device!");
+            ui_error("Warning! Recording device %s seems to be a realtime device!", recname);
         }
 
         if (rdev->init) {

@@ -526,8 +526,10 @@ void psid_init_tune(int install_driver_hook)
     } else {
         if (machine_class == VICE_MACHINE_VSID) {
             char * driver_info_text;
-            driver_info_text = lib_msprintf("Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X", reloc_addr, psid->load_addr,
-                                            psid->load_addr + psid->data_size - 1, psid->init_addr, psid->play_addr);
+            driver_info_text = lib_msprintf("Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X",
+                                            reloc_addr, psid->load_addr,
+                                            psid->load_addr + psid->data_size - 1U,
+                                            psid->init_addr, psid->play_addr);
             vsid_ui_setdrv(driver_info_text);
             lib_free(driver_info_text);
 

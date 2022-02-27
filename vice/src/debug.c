@@ -367,7 +367,7 @@ static void debug_int(interrupt_cpu_status_t *cs, const char *name,
         }
     }
 
-    texttmp = lib_msprintf("%s %ld", textout, iclk);
+    texttmp = lib_msprintf("%s %llu", textout, (unsigned long long)iclk);
     lib_free(textout);
     textout = texttmp;
 
