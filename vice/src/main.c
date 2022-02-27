@@ -59,7 +59,6 @@
 #include "mainlock.h"
 #include "resources.h"
 #include "sysfile.h"
-#include "tick.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"

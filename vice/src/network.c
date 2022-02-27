@@ -48,7 +48,6 @@
 #include "mos6510.h"
 #include "network.h"
 #include "resources.h"
-#include "tick.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"

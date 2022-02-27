@@ -36,7 +36,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-#include "archdep_ethernet_available.h"
+#include "archdep.h"
 #include "vice_gtk3.h"
 #include "cartridge.h"
 #include "machine.h"

@@ -30,7 +30,7 @@
 
 #include "vice.h"
 
-#include "tick.h"
+#include "archdep.h"
 
 #ifdef USE_VICE_THREAD
 

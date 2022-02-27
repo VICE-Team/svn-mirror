@@ -50,10 +50,10 @@
 #include <stdatomic.h>
 #include <libkern/OSAtomic.h>
 
+#include "archdep.h"
 #include "lib.h"
 #include "log.h"
 #include "sound.h"
-#include "tick.h"
 #include "vsyncapi.h"
 
 /* Requested audio device name */

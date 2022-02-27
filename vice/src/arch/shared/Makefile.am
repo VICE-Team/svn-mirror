@@ -80,6 +80,7 @@ libarchdep_a_SOURCES = \
 	archdep_program_path.c \
 	archdep_quote_parameter.c \
 	archdep_quote_unzip.c \
+	archdep_tick.c \
 	archdep_rawnet_capability.c \
 	archdep_real_path.c \
 	archdep_rename.c \
@@ -117,6 +118,7 @@ libarchdep_a_SOURCES += macOS-util.m
 endif
 
 EXTRA_DIST = \
+	archapi.h \
 	archdep_defs.h \
 	archdep_boot_path.h \
 	archdep_cbmfont.h \
@@ -127,8 +129,8 @@ EXTRA_DIST = \
 	archdep_default_hotkey_file_name.h \
 	archdep_default_joymap_file_name.h \
 	archdep_default_logger.h \
-	archdep_default_resource_file_name.h \
 	archdep_default_portable_resource_file_name.h \
+	archdep_default_resource_file_name.h \
 	archdep_default_rtc_file_name.h \
 	archdep_default_sysfile_pathlist.h \
 	archdep_ethernet_available.h \
@@ -157,12 +159,14 @@ EXTRA_DIST = \
 	archdep_make_backup_filename.h \
 	archdep_mkdir.h \
 	archdep_mkstemp_fd.h \
+	archdep_network.h \
 	archdep_open_default_log_file.h \
 	archdep_path_is_relative.h \
 	archdep_program_name.h \
 	archdep_program_path.h \
 	archdep_quote_parameter.h \
 	archdep_quote_unzip.h \
+	archdep_tick.h \
 	archdep_rawnet_capability.h \
 	archdep_real_path.h \
 	archdep_rename.h \
@@ -170,6 +174,7 @@ EXTRA_DIST = \
 	archdep_rmdir.h \
 	archdep_rtc_get_centisecond.h \
 	archdep_sanitize_filename.h \
+	archdep_set_current_drive.h \
 	archdep_set_openmp_wait_policy.h \
 	archdep_signals.h \
 	archdep_sound.h \

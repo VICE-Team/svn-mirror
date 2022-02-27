@@ -30,6 +30,8 @@
 
 #include <stdlib.h>
 
+#include "archdep_set_openmp_wait_policy.h"
+
 /*
  * OpenMP defaults to spinning threads for a couple hundred ms
  * after they are used, which means they max out forever in our

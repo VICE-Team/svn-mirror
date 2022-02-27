@@ -49,6 +49,7 @@
 #include "vice.h"
 
 #include "alarm.h"
+#include "archdep.h"
 #include "cmdline.h"
 #include "joyport.h"
 #include "joystick.h"
@@ -59,7 +60,6 @@
 #include "mousedrv.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "tick.h"
 #include "vsyncapi.h"
 #include "ds1202_1302.h"
 

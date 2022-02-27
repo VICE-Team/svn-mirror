@@ -1,4 +1,4 @@
-/** \file   tick.c
+/** \file   archdep_tick.c
  * \brief   Relating to the management of time.
  *
  * \author  David Hogan <david.q.hogan@gmail.com>
@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#include "tick.h"
+#include "archdep_tick.h"
 
 #ifdef WIN32_COMPILE
 #   include <windows.h>

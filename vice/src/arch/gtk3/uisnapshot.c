@@ -44,7 +44,6 @@
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 #include "selectdirectorydialog.h"
-#include "tick.h"
 #include "basedialogs.h"
 #include "interrupt.h"
 #include "vsync.h"

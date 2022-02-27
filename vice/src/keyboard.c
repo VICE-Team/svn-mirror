@@ -46,7 +46,6 @@
 
 #include "alarm.h"
 #include "archdep.h"
-#include "archdep_kbd_get_host_mapping.h"
 #include "cmdline.h"
 #include "joystick.h"
 #include "kbd.h"

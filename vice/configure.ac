@@ -3262,9 +3262,9 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/sdl"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   if test x"$is_win32" = "xyes"; then
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
   else
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch"
   fi
   if test x"$ac_cv_lib_readline_readline" = "xyes"; then
     AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
@@ -3315,11 +3315,11 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/gtk3"
   ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a $ARCH_DIR/widgets/base/libbasewidgets.a $ARCH_DIR/novte/libnovte.a"
   if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
     AM_CONDITIONAL(MAKE_INSTALL, false)
     AM_CONDITIONAL(MAKE_BINDIST, true)
   else
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch"
   fi
   if test x"$ac_cv_lib_readline_readline" = "xyes"; then
     AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
@@ -3355,11 +3355,11 @@ if test x"$enable_headlessui" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/headless"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   if test x"$is_win32" = "xyes"; then
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
     AM_CONDITIONAL(MAKE_INSTALL, false)
     AM_CONDITIONAL(MAKE_BINDIST, true)
   else
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch"
   fi
   if test x"$ac_cv_lib_readline_readline" = "xyes"; then
     AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
