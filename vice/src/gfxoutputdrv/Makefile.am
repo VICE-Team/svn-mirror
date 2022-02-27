@@ -2,7 +2,7 @@
 
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
-	-I$(top_srcdir)/src/arch/shared \
+	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/sounddrv \

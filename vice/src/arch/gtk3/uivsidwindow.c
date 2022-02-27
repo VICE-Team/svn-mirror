@@ -36,7 +36,7 @@
 
 #include <gtk/gtk.h>
 
-#include "archdep_real_path.h"
+#include "archdep.h"
 #include "hvsc.h"
 #include "hvscstilwidget.h"
 #include "lib.h"

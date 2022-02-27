@@ -36,8 +36,7 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-#include "archdep_defs.h"
-#include "archdep_ethernet_available.h"
+#include "archdep.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"

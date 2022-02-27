@@ -1,4 +1,4 @@
-/** \file   tick.c
+/** \file   archdep_tick.h
  * \brief   Relating to the management of time.
  *
  * \author  David Hogan <david.q.hogan@gmail.com>

@@ -68,7 +68,6 @@
 #include "monitor.h"
 #include "lightpen.h"
 #include "resources.h"
-#include "tick.h"
 #include "types.h"
 #include "util.h"
 #include "videoarch.h"

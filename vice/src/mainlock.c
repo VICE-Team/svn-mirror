@@ -46,7 +46,6 @@
 #include "log.h"
 #include "machine.h"
 #include "mainlock.h"
-#include "tick.h"
 #include "vsyncapi.h"
 
 /* This is lock coordinates access to VICE data structures */

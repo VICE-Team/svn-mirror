@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "attach.h"
 #include "cmdline.h"
 #include "diskimage.h"
@@ -52,7 +53,6 @@
 #include "vdrive.h"
 #include "vice-event.h"
 #include "p64.h"
-#include "arch/shared/archdep_real_path.h"
 
 #ifdef DEBUG_ATTACH
 #define DBG(x)  log_debug x

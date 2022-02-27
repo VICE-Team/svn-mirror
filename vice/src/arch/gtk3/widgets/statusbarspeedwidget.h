@@ -30,7 +30,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "tick.h"
+#include "archdep.h"
 #include "vice_gtk3.h"
 
 /** \brief Used to optimise display updates

@@ -49,7 +49,7 @@
 #include <limits.h>
 #endif
 
-#include "archdep_exit.h"
+#include "archdep.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "joystick.h"
@@ -66,7 +66,6 @@
 #include "resources.h"
 #include "sound.h"
 #include "types.h"
-#include "tick.h"
 #include "videoarch.h"
 #include "vsync.h"
 #include "vsyncapi.h"

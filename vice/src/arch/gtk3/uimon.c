@@ -58,6 +58,7 @@
 #include <sys/ioctl.h>
 #endif
 
+#include "archdep.h"
 #include "console.h"
 #include "debug_gtk3.h"
 #include "machine.h"
@@ -68,7 +69,6 @@
 #include "log.h"
 #include "ui.h"
 #include "linenoise.h"
-#include "tick.h"
 #include "uimon.h"
 #include "uimonarch.h"
 #include "uimon-fallback.h"

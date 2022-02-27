@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "debug_gtk3.h"
 #include "info.h"
 #include "lib.h"
@@ -42,7 +43,6 @@
 #include "svnversion.h"
 #endif
 #include "uidata.h"
-#include "archdep_get_runtime_info.h"
 
 #include "uiabout.h"
 #include "vicedate.h"

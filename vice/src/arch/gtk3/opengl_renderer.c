@@ -47,7 +47,6 @@
 #include "render_queue.h"
 #include "resources.h"
 #include "sysfile.h"
-#include "tick.h"
 #include "ui.h"
 #include "uistatusbar.h"
 #include "util.h"

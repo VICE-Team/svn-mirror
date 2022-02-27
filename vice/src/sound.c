@@ -41,7 +41,6 @@
 #endif
 
 #include "archdep.h"
-#include "archdep_exit.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "fixpoint.h"
@@ -53,7 +52,6 @@
 #include "resources.h"
 #include "sound.h"
 #include "types.h"
-#include "tick.h"
 #include "uiapi.h"
 #include "util.h"
 #include "vsync.h"
