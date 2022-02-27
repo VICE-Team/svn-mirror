@@ -1411,12 +1411,9 @@ int vdrive_ispartvalid(vdrive_t *vdrive, int part)
     return 0;
 }
 
-static inline int min(int a, int b);
-static inline int min(int a, int b) {
-    if (a > b)
-        return b;
-    return a;
-}
+#ifndef min
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#endif
 
 /* this functions examines the partition table and packs everything to the
    beginning as much as possible. This is used for when a parition is deleted and data
