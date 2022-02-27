@@ -1391,7 +1391,7 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
             /* skip first disk as it has a DHD extension */
             for (j = (i == 0); j < 8; j++) {
                /* generate the name */
-               testname = lib_msprintf("%s%1u%1u", basename, i, j);
+               testname = lib_msprintf("%s%zu%1zu", basename, i, j);
                /* open the file */
                test = fopen(testname, "rb+");
                if (test) {
