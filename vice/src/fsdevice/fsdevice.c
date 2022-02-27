@@ -77,7 +77,7 @@ void fsdevice_set_directory(char *filename, unsigned int unit)
         case 9:
         case 10:
         case 11:
-            resources_set_string_sprintf("FSDevice%iDir", filename, unit);
+            resources_set_string_sprintf("FSDevice%uDir", filename, unit);
             break;
         default:
             log_message(LOG_DEFAULT, "Invalid unit number %u.", unit);

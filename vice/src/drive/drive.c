@@ -215,7 +215,7 @@ int drive_init(void)
         machine_drive_port_default(diskunit);
 
         if (drive_check_type(diskunit->type, unit) < 1) {
-            resources_set_int_sprintf("Drive%iType", DRIVE_TYPE_NONE, unit + 8);
+            resources_set_int_sprintf("Drive%uType", DRIVE_TYPE_NONE, unit + 8);
         }
 
         machine_drive_rom_setup_image(unit);
