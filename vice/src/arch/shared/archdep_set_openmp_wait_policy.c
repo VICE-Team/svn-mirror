@@ -26,6 +26,7 @@
 
 #include "vice.h"
 #include "archdep_defs.h"
+#include "archdep_set_openmp_wait_policy.h"
 
 #include <stdlib.h>
 
