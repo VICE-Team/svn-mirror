@@ -50,7 +50,7 @@ extern double lib_double_rand_unit(void);
 extern void lib_rand_seed(uint64_t seed);
 extern void lib_rand_printseed(void);
 
-extern char *lib_msprintf(const char *fmt, ...);
+extern char *lib_msprintf(const char *fmt, ...) VICE_ATTR_PRINTF;
 extern char *lib_mvsprintf(const char *fmt, va_list args);
 
 #ifdef LIB_DEBUG_PINPOINT

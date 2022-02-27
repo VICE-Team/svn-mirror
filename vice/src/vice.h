@@ -143,10 +143,21 @@ static int noop;
 /* see https://clang.llvm.org/docs/AttributeReference.html */
 #ifdef __clang__
 #define VICE_ATTR_NORETURN  __attribute__((analyzer_noreturn))
+#elif defined(__GNUC__)
+#define VICE_ATTR_NORETURN  __attribute__((noreturn))
 #else
 #define VICE_ATTR_NORETURN
 #endif
 
+#if defined(__GNUC__)
+#define VICE_ATTR_PRINTF    __attribute__((format(printf, 1, 2)))
+#define VICE_ATTR_PRINTF2   __attribute__((format(printf, 2, 3)))
+#define VICE_ATTR_PRINTF3   __attribute__((format(printf, 3, 4)))
+#else
+#define VICE_ATTR_PRINTF
+#define VICE_ATTR_PRINTF2
+#define VICE_ATTR_PRINTF3
+#endif
 
 /* Not all platforms have fseeko()/fseeko(), so we define macros here that use
  * fseek()/ftell() instead. Which is wrong, but will have to do before proper
