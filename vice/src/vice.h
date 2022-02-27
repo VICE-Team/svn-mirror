@@ -98,12 +98,6 @@ typedef int ssize_t;
 #endif
 
 /* ------------------------------------------------------------------------- */
-/* A common define for the SDL UIs. */
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
-#define SDL_UI_SUPPORT
-#endif
-
-/* ------------------------------------------------------------------------- */
 
 #ifdef __OS2__
 int yyparse (void);
@@ -144,6 +138,7 @@ int yyparse (void);
 #define VICE_ATTR_NORETURN
 #endif
 
+/* format checking attributes for printf style functions */
 #if defined(__GNUC__)
 /* like regular printf, func(format, ...) */
 #define VICE_ATTR_PRINTF    __attribute__((format(printf, 1, 2)))
