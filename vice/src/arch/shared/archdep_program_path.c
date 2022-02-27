@@ -307,6 +307,7 @@ const char *archdep_program_path(void)
                 archdep_vice_exit(1);
             }
         }
+    }
 #  endif    /* end BSD's */
 
 # endif /* end UNIX */
