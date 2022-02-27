@@ -48,18 +48,9 @@
 static inline
 void yuv_to_rgb(int32_t y, int32_t u, int32_t v, int16_t *red, int16_t *grn, int16_t *blu)
 {
-#ifdef _MSC_VER
-# pragma warning( push )
-# pragma warning( disable: 4244 )
-#endif
-
     *red = (y + ((209 * u +  41 * v) >> 7)) >> 15;
     *grn = (y - (( 48 * u +  69 * v) >> 7)) >> 15;
     *blu = (y - ((139 * u - 215 * v) >> 7)) >> 15;
-
-#ifdef _MSC_VER
-# pragma warning( pop )
-#endif
 }
 
 /* Often required function that stores gamma-corrected pixel to current line,
