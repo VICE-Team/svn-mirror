@@ -2213,7 +2213,7 @@ static gboolean ui_error_impl(gpointer user_data)
     char *buffer = (char *)user_data;
     GtkWidget *dialog;
 
-    dialog = vice_gtk3_message_error("VICE Error", buffer);
+    dialog = vice_gtk3_message_error("VICE Error", "%s", buffer);
     gtk_dialog_run(GTK_DIALOG(dialog));
 
     lib_free(buffer);
@@ -2253,7 +2253,7 @@ void ui_message(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    vice_gtk3_message_info("VICE Message", buffer);
+    vice_gtk3_message_info("VICE Message", "%s", buffer);
     lib_free(buffer);
 }
 

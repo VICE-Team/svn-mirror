@@ -644,14 +644,14 @@ unsigned int drive_jam(int mynumber, const char *format, ...)
     if (jam_action == MACHINE_JAM_ACTION_DIALOG) {
         if (monitor_is_remote() || monitor_is_binary()) {
             if (monitor_is_remote()) {
-                ret = monitor_network_ui_jam_dialog(jam_reason[mynumber]);
+                ret = monitor_network_ui_jam_dialog("%s", jam_reason[mynumber]);
             }
 
             if (monitor_is_binary()) {
-                ret = monitor_binary_ui_jam_dialog(jam_reason[mynumber]);
+                ret = monitor_binary_ui_jam_dialog("%s", jam_reason[mynumber]);
             }
         } else if (!console_mode) {
-            ret = ui_jam_dialog(jam_reason[mynumber]);
+            ret = ui_jam_dialog("%s", jam_reason[mynumber]);
         }
     } else if (jam_action == MACHINE_JAM_ACTION_QUIT) {
         archdep_vice_exit(EXIT_SUCCESS);
