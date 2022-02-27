@@ -42,7 +42,7 @@
 
 /* Program start.  */
 extern int archdep_init(int *argc, char **argv);
-extern void archdep_startup_log_error(const char *format, ...);
+extern void archdep_startup_log_error(const char *format, ...) VICE_ATTR_PRINTF;
 
 /*
  * refactored into src/arch/shared/

@@ -58,16 +58,16 @@ extern void ui_shutdown(void);
 extern int ui_init(void);
 
 /* Print a message.  */
-extern void ui_message(const char *format, ...);
+extern void ui_message(const char *format, ...) VICE_ATTR_PRINTF;
 
 /* Print an error message.  */
-extern void ui_error(const char *format, ...);
+extern void ui_error(const char *format, ...) VICE_ATTR_PRINTF;
 
 /* Display a mesage without interrupting emulation */
 extern void ui_display_statustext(const char *text, int fade_out);
 
 /* Let the user browse for a filename; display format as a titel */
-extern char* ui_get_file(const char *format, ...);
+extern char* ui_get_file(const char *format, ...) VICE_ATTR_PRINTF;
 
 /* Drive related UI.  */
 extern void ui_enable_drive_status(ui_drive_enable_t state,
@@ -92,7 +92,7 @@ extern void ui_display_tape_counter(int port, int counter);
 extern void ui_display_tape_current_image(int port, const char *image);
 
 /* Show a CPU JAM dialog.  */
-extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
+extern ui_jam_action_t ui_jam_dialog(const char *format, ...) VICE_ATTR_PRINTF;
 
 /* Reset */
 extern void ui_display_reset(int device, int mode);

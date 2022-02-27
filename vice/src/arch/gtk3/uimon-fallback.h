@@ -34,7 +34,7 @@
 
 int consolefb_close_all(void);
 int consolefb_init(void);
-int consolefb_out(console_t *log, const char *format, ...);
+int consolefb_out(console_t *log, const char *format, ...) VICE_ATTR_PRINTF2;
 console_t *uimonfb_window_open(void);
 void uimonfb_window_close(void);
 void uimonfb_window_suspend( void );

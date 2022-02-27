@@ -114,9 +114,9 @@ extern void ciat_init_table(void);
 
 #ifdef CIAT_NEED_LOG
 
-extern void ciat_login(const char *format, ...);
-extern void ciat_logout(const char *format, ...);
-extern void ciat_log(const char *format, ...);
+extern void ciat_login(const char *format, ...) VICE_ATTR_PRINTF;
+extern void ciat_logout(const char *format, ...) VICE_ATTR_PRINTF;
+extern void ciat_log(const char *format, ...) VICE_ATTR_PRINTF;
 
 extern void ciat_print_state(const ciat_t *state);
 

@@ -28,6 +28,6 @@
 #ifndef VICE_ARCHDEP_STARTUP_LOG_ERROR_H
 #define VICE_ARCHDEP_STARTUP_LOG_ERROR_H
 
-void archdep_startup_log_error(const char *format, ...);
+void archdep_startup_log_error(const char *format, ...) VICE_ATTR_PRINTF;
 
 #endif
