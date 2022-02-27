@@ -729,9 +729,7 @@ static int sound_error(const char *msg)
     log_message(sound_log, "%s", msg);
 
     if (!console_mode && !video_disabled_mode) {
-        char *txt = lib_msprintf("Sound: %s", msg);
-        ui_error(txt);
-        lib_free(txt);
+        ui_error("Sound: %s", msg);
     }
 
     playback_enabled = 0;
