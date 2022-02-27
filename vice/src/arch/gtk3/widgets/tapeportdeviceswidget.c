@@ -684,7 +684,7 @@ static GtkWidget *create_device_types_widget(void)
         gtk_widget_set_halign(label, GTK_ALIGN_START);
         gtk_widget_set_hexpand(label, FALSE);
         g_object_set(label, "margin-left", 16, NULL);
-        port2_type = create_device_combobox(TAPEPORT_UNIT_1);
+        port2_type = create_device_combobox(TAPEPORT_UNIT_2);
         gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), port2_type, 1, 2, 1, 1);
     }
