@@ -249,6 +249,12 @@ static char *orig_workdir = NULL;
 static int run_from_wb = 0;
 #endif
 
+
+#ifdef ARCHDEP_OS_WINDOWS
+/* for O_BINARY */
+#include <fcntl.h>
+#endif
+
 /* called from archdep.c:archdep_init */
 static int archdep_init_extra(int *argc, char **argv)
 {
