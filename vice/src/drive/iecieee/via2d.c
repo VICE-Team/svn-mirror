@@ -502,8 +502,8 @@ void via2d_setup_context(diskunit_context_t *ctxptr)
     via->rmw_flag = &(ctxptr->cpu->rmw_flag);
     via->clk_ptr = ctxptr->clk_ptr;
 
-    via->myname = lib_msprintf("Drive%dVia2", via2p->number);
-    via->my_module_name = lib_msprintf("VIA2D%d", via2p->number);
+    via->myname = lib_msprintf("Drive%uVia2", via2p->number);
+    via->my_module_name = lib_msprintf("VIA2D%u", via2p->number);
 
     viacore_setup_context(via);
 

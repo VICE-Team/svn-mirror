@@ -2402,7 +2402,7 @@ static int copy_cmd(int nargs, char **args)
                 *comma = '\0';
             }
 
-            newname = lib_msprintf("%s,L,%c", oldname, rel_record_length);
+            newname = lib_msprintf("%s,L,%c", oldname, (int)rel_record_length);
 
             if (comma) {
                 *comma = ',';

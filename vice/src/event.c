@@ -258,7 +258,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
                 uint32_t file_crc;
 
                 filename = ui_get_file(
-                        "Please attach image %s (CRC32 checksum 0x" PRIu32 ")",
+                        "Please attach image %s (CRC32 checksum 0x%" PRIu32 ")",
                         (char *) data + 4 + sizeof(uint32_t), crc_to_attach);
                 if (filename == NULL) {
                     break;
@@ -288,7 +288,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
             fd = archdep_mkstemp_fd(&filename, MODE_WRITE);
 
             if (fd == NULL) {
-                ui_error("Cannot create image file!", filename);
+                ui_error("Cannot create image file '%s'!", filename);
                 goto error;
             }
 

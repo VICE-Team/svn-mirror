@@ -84,12 +84,12 @@ int cmdline_register_options(const cmdline_option_t *c)
     p = options + num_options;
     for (; c->name != NULL; c++, p++) {
         if (lookup_exact(c->name)) {
-            archdep_startup_log_error("CMDLINE: (%d) Duplicated option '%s'.\n", num_options, c->name);
+            archdep_startup_log_error("CMDLINE: (%u) Duplicated option '%s'.\n", num_options, c->name);
             return -1;
         }
 
         if (c->description == NULL) {
-            archdep_startup_log_error("CMDLINE: (%d) description id not used and description NULL for '%s'.\n", num_options, c->name);
+            archdep_startup_log_error("CMDLINE: (%u) description id not used and description NULL for '%s'.\n", num_options, c->name);
             return -1;
         }
 

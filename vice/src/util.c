@@ -894,7 +894,7 @@ char *util_gen_hex_address_list(int start, int stop, int step)
 
     temp1 = lib_strdup("");
     while (i < stop) {
-        temp2 = lib_msprintf("0x%X", i);
+        temp2 = lib_msprintf("0x%X", (unsigned int)i);
         temp3 = util_concat(temp1, temp2, NULL);
         lib_free(temp1);
         lib_free(temp2);
