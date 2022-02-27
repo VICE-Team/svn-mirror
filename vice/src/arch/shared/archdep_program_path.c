@@ -46,7 +46,7 @@
 /* for readlink(2) */
 #if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
 # include <unistd.h>
-# ifdef ARCHDEP_OS_BSD_FREE
+# if defined(ARCHDEP_OS_BSD_FREE) || defined(ARCHDEP_OS_BSD_DRAGON)
 #  include <sys/sysctl.h>
 # endif
 # ifdef ARCHDEP_OS_MACOS
@@ -285,8 +285,28 @@ const char *archdep_program_path(void)
         archdep_vice_exit(1);
     }
 #  elif defined(ARCHDEP_OS_BSD_DRAGON)
-#   error DragonFly BSD support missing
 
+    int mib[4];
+    size_t bufsize = PATH_BUFSIZE;
+
+    /* /proc may not be available on FreeBSD */
+    if (readlink("/proc/curproc/file", buffer, PATH_BUFSIZE - 1) < 0) {
+        printf("%s(): failed to read /proc/curproc/file: %d: %s\n",
+                __func__, errno, strerror(errno));
+        /* try sysctl call */
+        mib[0] = CTL_KERN;
+        mib[1] = KERN_PROC;
+        mib[2] = KERN_PROC_PATHNAME;
+        mib[3] = -1;
+
+        if (sysctl(mib, 4, buffer, &bufsize, NULL, 0) < 0) {
+            log_error(LOG_ERR,
+                    "failed to retrieve executable path, falling back"
+                    " to getcwd() + argv[0]");
+            if (!argv_fallback()) {
+                archdep_vice_exit(1);
+            }
+        }
 #  endif    /* end BSD's */
 
 # endif /* end UNIX */
