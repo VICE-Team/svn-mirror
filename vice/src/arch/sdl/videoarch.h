@@ -37,7 +37,7 @@
 
 #include "vice_sdl.h"
 
-#include "tick.h"
+#include "archdep.h"
 #include "viewport.h"
 #include "video.h"
 
