@@ -265,7 +265,8 @@ static ui_menu_item_t help_menu[] = {
  * \param[in]       user_data   tune index
  */
 static void select_tune_from_menu(GtkMenuItem *menuitem,
-                                  gpointer     user_data) {
+                                  gpointer     user_data)
+{
     int tune;
 
     if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem))) {
@@ -283,7 +284,8 @@ static void select_tune_from_menu(GtkMenuItem *menuitem,
  * \param[in,out]   widget  menu item widget
  * \param[in]       data    extra data (unused)
  */
-static void remove_item_from_menu (GtkWidget *widget, gpointer data) {
+static void remove_item_from_menu (GtkWidget *widget, gpointer data)
+{
     gtk_widget_destroy(widget);
 }
 
@@ -292,11 +294,10 @@ static void remove_item_from_menu (GtkWidget *widget, gpointer data) {
  *
  * \param[in]   count   number of items to remove from the old menu
  */
-void ui_vsid_tune_menu_set_tune_count(int count) {
+void ui_vsid_tune_menu_set_tune_count(int count)
+{
     GtkWidget *item = NULL;
-    long i;
-    char *buf;
-
+    int i;
 
     if (tune_submenu == NULL || !GTK_IS_CONTAINER(tune_submenu)) {
         debug_gtk3("tune_submenu invalid.");
@@ -304,16 +305,16 @@ void ui_vsid_tune_menu_set_tune_count(int count) {
     }
 
     gtk_container_foreach(GTK_CONTAINER(tune_submenu), remove_item_from_menu, NULL);
-    for (i = count; i >0; i--) {
-        buf = lib_msprintf("Tune %s%ld", i < 10 ? "_" :"", i);
+    for (i = count; i > 0; i--) {
+        gchar buf[256];
+
+        g_snprintf(buf, sizeof(buf), "Tune %s%d", i < 10 ? "_" : "", i);
         item = gtk_radio_menu_item_new_with_mnemonic_from_widget (GTK_RADIO_MENU_ITEM(item), buf);
-        lib_free(buf);
         gtk_widget_show(item);
-        g_signal_connect(
-            item,
-            "activate",
-            G_CALLBACK(select_tune_from_menu),
-            GINT_TO_POINTER(i));
+        g_signal_connect(item,
+                         "activate",
+                         G_CALLBACK(select_tune_from_menu),
+                         GINT_TO_POINTER(i));
         gtk_menu_shell_prepend(GTK_MENU_SHELL(tune_submenu), item);
     }
     tune_submenu_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
@@ -324,14 +325,16 @@ void ui_vsid_tune_menu_set_tune_count(int count) {
  *
  * \param[in]   count   number of menu items
  */
-void ui_vsid_tune_set_tune_current(int count) {
-    if (tune_submenu_group) {
+void ui_vsid_tune_set_tune_current(int count)
+{
+    if (tune_submenu_group != NULL) {
         gpointer nth_item = g_slist_nth_data(tune_submenu_group, (guint)count - 1);
-        if (nth_item) {
-            gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (nth_item), TRUE);
+        if (nth_item != NULL) {
+            gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(nth_item), TRUE);
         }
     }
 }
+
 
 /** \brief  Create the top menu bar with standard submenus
  *
