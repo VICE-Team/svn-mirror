@@ -118,11 +118,6 @@ int yyparse (void);
 #endif
 #endif
 
-/* interix using c89 doesn't like empty files, this will work around that */
-#if defined(_MSC_VER) && defined(__INTERIX)
-static int noop;
-#endif
-
 #ifdef USE_GCC
 #define int64_t_C(c) (c ## ll)
 #define uint64_t_C(c) (c ## ull)
