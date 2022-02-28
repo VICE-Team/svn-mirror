@@ -35,6 +35,7 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libarchdep.a
 
 libarchdep_a_SOURCES = \
+	archdep_access.c \
 	archdep_boot_path.c \
 	archdep_cbmfont.c \
 	archdep_create_user_cache_dir.c \
@@ -120,6 +121,7 @@ endif
 
 EXTRA_DIST = \
 	archapi.h \
+	archdep_access.h \
 	archdep_defs.h \
 	archdep_boot_path.h \
 	archdep_cbmfont.h \

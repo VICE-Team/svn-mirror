@@ -179,7 +179,7 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
         return NULL;
     }
 
-    p = findpath(name, expanded_system_path, subpath, IOUTIL_ACCESS_R_OK);
+    p = findpath(name, expanded_system_path, subpath, ARCHDEP_ACCESS_R_OK);
 
     if (p == NULL) {
         if (complete_path_return != NULL) {

@@ -600,7 +600,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 
             DBG(("file full name: '%s'", buffer_fullname));
 
-            if (ioutil_access(buffer_fullname, IOUTIL_ACCESS_R_OK) == 0) {
+            if (archdep_access(buffer_fullname, ARCHDEP_ACCESS_R_OK) == 0) {
                 tmp = lib_malloc(sizeof(struct fliplist_s));
                 tmp->image = lib_strdup(buffer_fullname);
                 tmp->unit = unit;

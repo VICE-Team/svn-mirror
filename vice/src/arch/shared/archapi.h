@@ -40,6 +40,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "archdep_access.h"
 #include "archdep_boot_path.h"
 #include "archdep_cbmfont.h"
 #include "archdep_create_user_cache_dir.h"

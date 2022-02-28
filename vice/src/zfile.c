@@ -957,13 +957,13 @@ static int zfile_compress(const char *src, const char *dest,
     }
 
     /* If we have no write permissions for `dest', give up.  */
-    if (ioutil_access(dest, IOUTIL_ACCESS_W_OK) < 0) {
+    if (archdep_access(dest, ARCHDEP_ACCESS_W_OK) < 0) {
         ZDEBUG(("compress: no write permissions for `%s'",
                 dest));
         return -1;
     }
 
-    if (ioutil_access(dest, IOUTIL_ACCESS_R_OK) < 0) {
+    if (archdep_access(dest, ARCHDEP_ACCESS_R_OK) < 0) {
         ZDEBUG(("compress: no read permissions for `%s'", dest));
         dest_backup_name = NULL;
     } else {
@@ -1048,7 +1048,7 @@ FILE *zfile_fopen(const char *name, const char *mode)
     }
 
     /* Check for write permissions.  */
-    if (write_mode && ioutil_access(name, IOUTIL_ACCESS_W_OK) < 0) {
+    if (write_mode && archdep_access(name, ARCHDEP_ACCESS_W_OK) < 0) {
         return NULL;
     }
 

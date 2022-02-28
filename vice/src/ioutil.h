@@ -30,11 +30,6 @@
 
 #include <stddef.h>
 
-#define IOUTIL_ACCESS_R_OK 4
-#define IOUTIL_ACCESS_W_OK 2
-#define IOUTIL_ACCESS_X_OK 1
-#define IOUTIL_ACCESS_F_OK 0
-
 #define IOUTIL_MKDIR_RWXU   0700
 #define IOUTIL_MKDIR_RWXUG  0770
 #define IOUTIL_MKDIR_RWXUGO 0777
@@ -48,7 +43,6 @@
 #define IOUTIL_ERRNO_ENOENT 3
 #define IOUTIL_ERRNO_ERANGE 4
 
-extern int ioutil_access(const char *pathname, int mode);
 extern int ioutil_chdir(const char *path);
 extern int ioutil_errno(unsigned int check);
 extern int ioutil_isatty(int desc);
