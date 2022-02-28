@@ -29,6 +29,7 @@
 ARCHDEFS+=" USE_SDLUI"
 ARCHDEFS+=" USE_SDLUI2"
 ARCHDEFS+=" SDL_UI_SUPPORT"
+ARCHDEFS+=" USE_NATIVE_GTK3"
 ARCHDEFS+=" HEADLESS_COMPILE"
 ARCHDEFS+=" WIN32_COMPILE"
 ARCHDEFS+=" WIN32"
@@ -307,6 +308,11 @@ FILES=""
 echo "-------------------------------------------------------------------------"
 echo "- compiler specific defines (these should be avoided!):"
 echo "-" $CCARCHDEFS
+echo "-"
+echo "- we expect these in vice.h, besides that there shouldnt be any - except"
+echo "- in generated code (mon_parse.c, mon_lex.c) and 'external' code like"
+echo "- novte, mingw32-pcap."
+echo "-"
 echo " "
 
 for I in $CCARCHDEFS; do
