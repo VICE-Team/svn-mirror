@@ -131,29 +131,6 @@ int ioutil_errno(unsigned int check)
     return 0;
 }
 
-#ifndef HAVE_GETCWD
-char *getcwd (char *buf, size_t len)
-{
-    char ourbuf[PATH_MAX];
-    char *result;
-
-    result = getwd (ourbuf);
-    if (result) {
-        if (strlen (ourbuf) >= len) {
-            errno = ERANGE;
-            return 0;
-        }
-        strcpy (buf, ourbuf);
-    }
-    return buf;
-}
-#endif
-
-char *ioutil_getcwd(char *buf, int size)
-{
-    return getcwd(buf, (size_t)size);
-}
-
 int ioutil_isatty(int desc)
 {
     return isatty(desc);
