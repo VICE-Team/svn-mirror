@@ -898,6 +898,7 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
             fclose(infile);
             if (!ok) {
                 lib_free(indata);
+                lib_free(filename);
                 return 0;
             }
             for (i = 0; rtc_items[i].emulator; i++) {
@@ -923,6 +924,7 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
                 }
             }
             lib_free(indata);
+            lib_free(filename);
             if (ok) {
                 return 0;
             } else {
