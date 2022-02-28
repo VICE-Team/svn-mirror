@@ -66,12 +66,6 @@
 /* Default location of raw disk images.  */
 #define ARCHDEP_RAWDRIVE_DEFAULT "A:"
 
-/* Access types */
-#define ARCHDEP_R_OK 4
-#define ARCHDEP_W_OK 2
-#define ARCHDEP_X_OK 1
-#define ARCHDEP_F_OK 0
-
 /* Standard line delimiter.  */
 #define ARCHDEP_LINE_DELIMITER "\r\n"
 

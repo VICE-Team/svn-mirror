@@ -1239,7 +1239,7 @@ int resources_load(const char *fname)
             /* try the alternative name/location first */
             default_name = archdep_default_portable_resource_file_name();
             if (default_name != NULL) {
-                if (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) != 0)  {
+                if (archdep_access(default_name, ARCHDEP_ACCESS_R_OK) != 0)  {
                     /* if not found at alternative location, try the normal one */
                     lib_free(default_name);
                     default_name = archdep_default_resource_file_name();
@@ -1353,7 +1353,7 @@ int resources_save(const char *fname)
             /* try the alternative name/location first */
             default_name = archdep_default_portable_resource_file_name();
             if (default_name != NULL) {
-                if (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) != 0) {
+                if (archdep_access(default_name, ARCHDEP_ACCESS_R_OK) != 0) {
                     /* if not found at alternative location, try the normal one
                      this also creates the .vice directory if not present */
                     lib_free(default_name);
@@ -1369,7 +1369,7 @@ int resources_save(const char *fname)
     /* make a backup of an existing config, open it */
     if (util_file_exists(fname) != 0) {
         /* try to open it */
-        if (ioutil_access(fname, IOUTIL_ACCESS_W_OK) != 0) {
+        if (archdep_access(fname, ARCHDEP_ACCESS_W_OK) != 0) {
             lib_free(default_name);
             return RESERR_WRITE_PROTECTED;
         }
@@ -1377,7 +1377,7 @@ int resources_save(const char *fname)
         backup_name = archdep_make_backup_filename(fname);
         /* if backup exists, remove it */
         if (util_file_exists(backup_name) != 0) {
-            if (ioutil_access(backup_name, IOUTIL_ACCESS_W_OK) != 0) {
+            if (archdep_access(backup_name, ARCHDEP_ACCESS_W_OK) != 0) {
                 lib_free(backup_name);
                 lib_free(default_name);
                 return RESERR_WRITE_PROTECTED;

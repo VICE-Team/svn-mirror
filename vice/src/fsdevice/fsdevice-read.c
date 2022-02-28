@@ -552,7 +552,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
             }
         }
 
-        if (ioutil_access(buf, IOUTIL_ACCESS_W_OK)) {
+        if (archdep_access(buf, ARCHDEP_ACCESS_W_OK)) {
             *p++ = '<'; /* read-only file */
         }
 

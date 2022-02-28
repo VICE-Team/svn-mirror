@@ -191,15 +191,15 @@ char *findpath(const char *cmd, const char *syspath, const char *subpath, int mo
 #endif
 #endif
             }
-            if (ioutil_access(buf + 1, mode) == 0) {
+            if (archdep_access(buf + 1, mode) == 0) {
                 pd = p /* + cl*/;
                 break;
             }
-            
+
             if (s == NULL) {
                 break;
             }
-                
+
             path = s + 1;
         }
     }
