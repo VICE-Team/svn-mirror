@@ -3034,23 +3034,13 @@ static int extract_cmd_common(int nargs, char **args, int geos)
 
                     p00_name = p00_filename_create((const char *)name,
                             file_type & 7);
-#ifdef ARCHDEP_OS_UNIX
-                    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+                    if (archdep_getcwd(cwd, sizeof(cwd)) == NULL) {
                         fprintf(stderr,
                                 "Couldn't get the cwd, all bets are off. "
                                 "Aborting to get a stack dump.\n");
                         abort();
                     }
-#else
-                    /* Assume crap */
-#ifdef ARCHDEP_OS_HAIKU
-                    getcwd(cwd, sizeof(cwd));
-#else
-                    _getcwd(cwd, sizeof(cwd));
-#endif
-#endif
                     total = archdep_join_paths(cwd, p00_name, NULL);
-
 
                     printf("Trying filename '%s'\n", total);
                     while (archdep_file_exists(total) && idx < 100) {
@@ -5838,7 +5828,7 @@ static int pwd_cmd(int nargs, char **args)
 {
     char buffer[4096];
 
-    ioutil_getcwd(buffer, (int)(sizeof(buffer) - 1));
+    archdep_getcwd(buffer, sizeof(buffer));
     printf("%s\n", buffer);
     return FD_OK;
 }

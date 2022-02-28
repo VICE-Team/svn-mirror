@@ -467,7 +467,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
     /* KLUDGES: we need to change the current dir to the fliplist path, else
        the archdep_expand_path below will not work as expected */
     cwd = lib_malloc(ioutil_maxpathlen() + 1);
-    ioutil_getcwd(cwd, ioutil_maxpathlen());
+    archdep_getcwd(cwd, ioutil_maxpathlen());
     ioutil_chdir(fliplist_path);
 
     /* remove current fliplist */
