@@ -557,14 +557,14 @@ static UI_MENU_CALLBACK(set_expand_callback)
 
     if (activated) {
         if (drive_check_expansion(current) && check_memory_expansion(parameter, current)) {
-            resources_get_int_sprintf("Drive%iRAM%X", &memory, drive, parameter);
-            resources_set_int_sprintf("Drive%iRAM%X", !memory, drive, parameter);
+            resources_get_int_sprintf("Drive%iRAM%X", &memory, drive, (unsigned int)parameter);
+            resources_set_int_sprintf("Drive%iRAM%X", !memory, drive, (unsigned int)parameter);
         }
     } else {
         if (!drive_check_extend_policy(current) || !check_memory_expansion(parameter, current)) {
             return MENU_NOT_AVAILABLE_STRING;
         } else {
-            resources_get_int_sprintf("Drive%iRAM%X", &memory, drive, parameter);
+            resources_get_int_sprintf("Drive%iRAM%X", &memory, drive, (unsigned int)parameter);
             if (memory) {
                 return sdl_menu_text_tick;
             }
