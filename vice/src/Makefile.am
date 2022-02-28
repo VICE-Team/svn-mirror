@@ -3,6 +3,7 @@
 # We have to override the automake default, because we need to use
 # $(CXX) instead of $(CC) when compiling with reSID.
 LINK = @LINKCC@ @VICE_CFLAGS@ @VICE_LDFLAGS@ $(LDFLAGS) -o $@
+# We shouldnt have to add the flags here, but without it doesn't add them
 CCLD = @LINKCC@ @VICE_LDFLAGS@ $(LDFLAGS)
 
 AM_CFLAGS = @VICE_CFLAGS@
