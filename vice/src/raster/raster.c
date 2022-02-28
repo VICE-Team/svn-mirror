@@ -282,7 +282,7 @@ int raster_init(raster_t *raster,
     memset(raster->zero_gfx_msk, 0, RASTER_GFX_MSK_SIZE);
 
     video_viewport_get(raster->canvas, &raster->viewport, &raster->geometry);
-#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(USE_NATIVE_GTK3)
+#if !defined(HEADLESS_COMPILE)
     raster->canvas->initialized = 1;
 #endif
     raster_set_canvas_refresh(raster, 1);
