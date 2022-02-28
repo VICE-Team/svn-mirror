@@ -229,6 +229,33 @@ Common code guidelines
 
 Many different compilers are used to compile the common code parts.
 
+- There should be no compiler specific hacks anywhere and no ifdefs checking
+  for specific compilers. The only exception to this rule is the global vice.h.
+  The same is true for CPU/Arch specific checks.
+
+  There are still some of these compiler specific hacks dangling around, all of
+  which are subject for removal. Do not add any new ones :)
+
+  You can find such things using ./src/findhacks.sh ccarchdep
+
+- Generally no arch specific hacks and ifdefs should be present in common code.
+  If possible, all arch specific code should be abstracted into functions which
+  then live in src/arch/shared. Code that is specific to a GUI should live in
+  src/arch/<gui>.
+
+  When a platform specific ifdef can not be avoided in common code, it should
+  always come with a comment that explains why exactly that ifdef exists and
+  what the respective portion of code is supposed to do.
+
+  Since this rule did not exist in the past, there is still a lot of arch 
+  specific code around elsewhere that needs to be moved - this is no excuse for
+  ignoring the rule when writing new code however.
+
+  You can find such thing using: ./src/findhacks.sh archdep
+
+- 3rd party libraries which have been pulled into the sourcetree live in
+  src/lib/
+
 - When using headers which are tested for in configure.proto don't assume they
   exist, use the #ifdef HAVE_*_H instead.
 
@@ -303,16 +330,6 @@ When adding a windows/dos batch file use the following svn properties:
 svn:eol-style   CRLF
 svn:mime-type   text/plain
 svn:executable  *
-
-When adding a windows msvc template file use the following svn properties:
-
-svn:eol-style   CRLF
-svn:mime-type   text/plain
-
-When adding an openwatcom target or project file use the following svn properties:
-
-svn:eol-style   CRLF
-svn:mime-type   text/plain
 
 When adding a non-text file use only the correct mime-type.
 
