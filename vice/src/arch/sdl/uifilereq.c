@@ -520,7 +520,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                     case SDL_FILEREQ_META_PATH:
                         inputstring = sdl_ui_text_input_dialog("Enter path", NULL);
                         if (inputstring != NULL) {
-                            ioutil_chdir(inputstring);
+                            archdep_chdir(inputstring);
                             lib_free(inputstring);
                             ioutil_closedir(directory);
                             archdep_getcwd(current_dir, maxpathlen);
@@ -557,7 +557,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                     default:
                         if (offset + cur < (dirs + SDL_FILEREQ_META_NUM)) {
                             /* enter subdirectory */
-                            ioutil_chdir(directory->dirs[offset + cur - SDL_FILEREQ_META_NUM].name);
+                            archdep_chdir(directory->dirs[offset + cur - SDL_FILEREQ_META_NUM].name);
                             ioutil_closedir(directory);
                             archdep_getcwd(current_dir, maxpathlen);
                             directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
@@ -598,7 +598,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
             case MENU_ACTION_EXIT:
                 retval = NULL;
                 active = 0;
-                ioutil_chdir(backup_dir);
+                archdep_chdir(backup_dir);
                 break;
 
             default:

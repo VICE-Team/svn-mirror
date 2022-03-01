@@ -90,7 +90,8 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
     }
 
     er = CBMDOS_IPE_OK;
-    if (ioutil_chdir(fsdevice_get_path(vdrive->unit)) || ioutil_chdir(arg)) {
+    if ((archdep_chdir(fsdevice_get_path(vdrive->unit)) != 0)
+            || (archdep_chdir(arg) != 0)) {
         er = CBMDOS_IPE_NOT_FOUND;
         if (ioutil_errno(IOUTIL_ERRNO_EPERM)) {
             er = CBMDOS_IPE_PERMISSION;

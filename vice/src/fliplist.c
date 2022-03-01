@@ -468,7 +468,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
        the archdep_expand_path below will not work as expected */
     cwd = lib_malloc(ioutil_maxpathlen() + 1);
     archdep_getcwd(cwd, ioutil_maxpathlen());
-    ioutil_chdir(fliplist_path);
+    archdep_chdir(fliplist_path);
 
     /* remove current fliplist */
     if (unit == FLIPLIST_ALL_UNITS) {
@@ -549,7 +549,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
                             "Invalid unit number %ld for fliplist\n", unit_long);
                     /* perhaps VICE should properly error out, ie quit? */
                     fclose(fp);
-                    ioutil_chdir(cwd);
+                    archdep_chdir(cwd);
                     lib_free(cwd);
                     lib_free(fliplist_fullname);
                     lib_free(fliplist_path);
@@ -590,7 +590,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
             /* always use full path for attaching in the fliplist */
             if (archdep_expand_path(&buffer_fullname, buffer) != 0) {
                 fclose(fp);
-                ioutil_chdir(cwd);
+                archdep_chdir(cwd);
                 lib_free(cwd);
                 lib_free(fliplist_fullname);
                 lib_free(fliplist_path);
@@ -627,7 +627,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
     }
 
     fclose(fp);
-    ioutil_chdir(cwd);
+    archdep_chdir(cwd);
     lib_free(cwd);
     lib_free(fliplist_fullname);
     lib_free(fliplist_path);

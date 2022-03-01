@@ -1947,7 +1947,7 @@ void mon_change_dir(const char *path)
     if (path != NULL && path[0] == '~' && path[1] == '\0') {
         path = archdep_home_path();
     }
-    if (ioutil_chdir(path) < 0) {
+    if (archdep_chdir(path) != 0) {
         mon_out("Cannot change to directory: '%s'\n", path);
     } else {
         mon_out("Changing to directory: '%s'\n", path);

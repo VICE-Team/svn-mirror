@@ -43,6 +43,7 @@
 #include "archdep_access.h"
 #include "archdep_boot_path.h"
 #include "archdep_cbmfont.h"
+#include "archdep_chdir.h"
 #include "archdep_create_user_cache_dir.h"
 #include "archdep_create_user_config_dir.h"
 #include "archdep_default_autostart_disk_image_file_name.h"
