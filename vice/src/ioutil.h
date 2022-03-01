@@ -37,13 +37,6 @@
 #define IOUTIL_OPENDIR_NO_DOTFILES  1
 #define IOUTIL_OPENDIR_ALL_FILES    0
 
-#define IOUTIL_ERRNO_EPERM  0
-#define IOUTIL_ERRNO_EEXIST 1
-#define IOUTIL_ERRNO_EACCES 2
-#define IOUTIL_ERRNO_ENOENT 3
-#define IOUTIL_ERRNO_ERANGE 4
-
-extern int ioutil_errno(unsigned int check);
 extern int ioutil_isatty(int desc);
 extern unsigned int ioutil_maxpathlen(void);
 extern int ioutil_mkdir(const char *pathname, int mode);

@@ -93,7 +93,7 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
     if ((archdep_chdir(fsdevice_get_path(vdrive->unit)) != 0)
             || (archdep_chdir(arg) != 0)) {
         er = CBMDOS_IPE_NOT_FOUND;
-        if (ioutil_errno(IOUTIL_ERRNO_EPERM)) {
+        if (errno == EPERM) {
             er = CBMDOS_IPE_PERMISSION;
         }
     } else { /* get full path and save */
@@ -135,13 +135,11 @@ static int fsdevice_flush_mkdir(vdrive_t *vdrive, char *arg)
     er = CBMDOS_IPE_OK;
     if (ioutil_mkdir(path, IOUTIL_MKDIR_RWXUG)) {
         er = CBMDOS_IPE_INVAL;
-        if (ioutil_errno(IOUTIL_ERRNO_EEXIST)) {
+        if (errno == EEXIST) {
             er = CBMDOS_IPE_FILE_EXISTS;
-        }
-        if (ioutil_errno(IOUTIL_ERRNO_EACCES)) {
+        } else if (errno == EACCES) {
             er = CBMDOS_IPE_PERMISSION;
-        }
-        if (ioutil_errno(IOUTIL_ERRNO_ENOENT)) {
+        } else if (errno == ENOENT) {
             er = CBMDOS_IPE_NOT_FOUND;
         }
     }
@@ -201,7 +199,7 @@ static int fsdevice_flush_rmdir(vdrive_t *vdrive, char *arg)
      */
     if (ioutil_rmdir(path) != 0) {
         er = CBMDOS_IPE_NOT_EMPTY;
-        if (ioutil_errno(IOUTIL_ERRNO_EPERM)) {
+        if (errno == EPERM) {
             er = CBMDOS_IPE_PERMISSION;
         }
     }

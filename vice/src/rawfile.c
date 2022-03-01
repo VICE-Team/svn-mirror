@@ -26,7 +26,10 @@
 
 #include "vice.h"
 
+#include <stddef.h>
 #include <stdio.h>
+#include <stdint.h>
+#include <errno.h>
 
 #include "archdep.h"
 #include "fileio.h"
@@ -199,7 +202,7 @@ unsigned int rawfile_rename(const char *src_name, const char *dst_name,
     lib_free(complete_dst);
 
     if (rc < 0) {
-        if (ioutil_errno(IOUTIL_ERRNO_EPERM)) {
+        if (errno == EPERM) {
             return FILEIO_FILE_PERMISSION;
         }
         return FILEIO_FILE_NOT_FOUND;
