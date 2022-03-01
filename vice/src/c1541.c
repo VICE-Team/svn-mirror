@@ -48,6 +48,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <errno.h>
 #include <limits.h>
 #include <string.h>
 
@@ -63,10 +64,6 @@
 
 #ifdef USE_SVN_REVISION
 # include "svnversion.h"
-#endif
-
-#ifdef HAVE_ERRNO_H
-#include <errno.h>
 #endif
 
 #ifdef HAVE_FCNTL_H
@@ -730,10 +727,9 @@ static int arg_to_int(const char *arg, int *return_value)
             break;  /* base is already 10 */
     }
 
-
     *return_value = (int)strtol(arg, &tailptr, base);
 
-    if (ioutil_errno(IOUTIL_ERRNO_ERANGE)) {
+    if (errno == ERANGE) {
         return -1;
     }
 

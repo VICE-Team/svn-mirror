@@ -30,15 +30,13 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <errno.h>
 
 #ifdef HAVE_DIRECT_H
 #include <direct.h>
 #endif
 #if defined(HAVE_DIRENT_H) || defined(AMIGA_AROS)
 #include <dirent.h>
-#endif
-#ifdef HAVE_ERRNO_H
-#include <errno.h>
 #endif
 #ifdef HAVE_IO_H
 #include <io.h>
@@ -70,42 +68,6 @@
 #include "vicemaxpath.h"
 
 /* Mostly POSIX compatibily */
-
-
-int ioutil_errno(unsigned int check)
-{
-    switch (check) {
-        case IOUTIL_ERRNO_EPERM:
-            if (errno == EPERM) {
-                return 1;
-            }
-            break;
-        case IOUTIL_ERRNO_EEXIST:
-            if (errno == EEXIST) {
-                return 1;
-            }
-            break;
-        case IOUTIL_ERRNO_EACCES:
-            if (errno == EACCES) {
-                return 1;
-            }
-            break;
-        case IOUTIL_ERRNO_ENOENT:
-            if (errno == ENOENT) {
-                return 1;
-            }
-            break;
-        case IOUTIL_ERRNO_ERANGE:
-            if (errno == ERANGE) {
-                return 1;
-            }
-            break;
-        default:
-            return 0;
-    }
-
-    return 0;
-}
 
 int ioutil_isatty(int desc)
 {
