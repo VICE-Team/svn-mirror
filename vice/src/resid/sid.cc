@@ -76,6 +76,8 @@ SID::SID()
   write_pipeline = 0;
 
   databus_ttl = 0;
+
+  raw_debug_output = false;
 }
 
 
