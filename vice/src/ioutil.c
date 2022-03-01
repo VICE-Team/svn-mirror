@@ -69,11 +69,6 @@
 
 /* Mostly POSIX compatibily */
 
-int ioutil_isatty(int desc)
-{
-    return isatty(desc);
-}
-
 unsigned int ioutil_maxpathlen(void)
 {
     return PATH_MAX;
