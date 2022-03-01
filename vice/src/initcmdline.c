@@ -274,7 +274,7 @@ static int cmdline_default(const char *param, void *extra_param)
 
 static int cmdline_chdir(const char *param, void *extra_param)
 {
-    return ioutil_chdir(param);
+    return archdep_chdir(param);
 }
 
 static int cmdline_limitcycles(const char *param, void *extra_param)

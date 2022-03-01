@@ -38,6 +38,7 @@ libarchdep_a_SOURCES = \
 	archdep_access.c \
 	archdep_boot_path.c \
 	archdep_cbmfont.c \
+	archdep_chdir.c \
 	archdep_create_user_cache_dir.c \
 	archdep_create_user_config_dir.c \
 	archdep_default_autostart_disk_image_file_name.c \
@@ -125,6 +126,7 @@ EXTRA_DIST = \
 	archdep_defs.h \
 	archdep_boot_path.h \
 	archdep_cbmfont.h \
+	archdep_chdir.h \
 	archdep_create_user_cache_dir.h \
 	archdep_create_user_config_dir.h \
 	archdep_default_autostart_disk_image_file_name.h \

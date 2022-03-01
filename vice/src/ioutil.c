@@ -71,10 +71,6 @@
 
 /* Mostly POSIX compatibily */
 
-int ioutil_chdir(const char *path)
-{
-    return chdir(path);
-}
 
 int ioutil_errno(unsigned int check)
 {

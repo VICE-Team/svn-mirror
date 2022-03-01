@@ -43,7 +43,6 @@
 #define IOUTIL_ERRNO_ENOENT 3
 #define IOUTIL_ERRNO_ERANGE 4
 
-extern int ioutil_chdir(const char *path);
 extern int ioutil_errno(unsigned int check);
 extern int ioutil_isatty(int desc);
 extern unsigned int ioutil_maxpathlen(void);

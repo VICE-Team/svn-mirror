@@ -5813,7 +5813,7 @@ static int p00save_cmd(int nargs, char **args)
  */
 static int cd_cmd(int nargs, char **args)
 {
-    return ioutil_chdir(args[1]) ? FD_BADNAME : FD_OK;
+    return archdep_chdir(args[1]) == 0 ? FD_OK : FD_BADNAME;
 }
 
 
