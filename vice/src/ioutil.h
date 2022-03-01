@@ -37,7 +37,6 @@
 #define IOUTIL_OPENDIR_NO_DOTFILES  1
 #define IOUTIL_OPENDIR_ALL_FILES    0
 
-extern int ioutil_isatty(int desc);
 extern unsigned int ioutil_maxpathlen(void);
 extern int ioutil_mkdir(const char *pathname, int mode);
 extern int ioutil_remove(const char *name);
