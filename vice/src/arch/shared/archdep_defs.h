@@ -163,7 +163,7 @@
  * longest possible path including the terminating NUL character.
  */
 
-#if ARCHDEP_OS_WINDOWS
+#ifdef ARCHDEP_OS_WINDOWS
 # include <stdlib.h>
 # define ARCHDEP_PATH_MAX   _MAX_PATH
 #elif defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
