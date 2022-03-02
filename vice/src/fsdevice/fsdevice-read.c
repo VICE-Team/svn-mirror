@@ -386,9 +386,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
     unsigned int isdir;
     fileio_info_t *finfo = NULL;
     unsigned int format = 0;
-    char *buf;
-
-    buf = lib_malloc(ioutil_maxpathlen());
+    char buf[ARCHDEP_PATH_MAX];
 
     bufinfo->bufp = bufinfo->name;
 
@@ -591,8 +589,6 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
     if (finfo != NULL) {
         fileio_close(finfo);
     }
-
-    lib_free(buf);
 }
 
 

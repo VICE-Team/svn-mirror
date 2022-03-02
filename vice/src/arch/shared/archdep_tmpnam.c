@@ -29,7 +29,6 @@
 
 #include "lib.h"
 #include "log.h"
-#include "ioutil.h"
 #include "util.h"
 #include "archdep_exit.h"
 #include "archdep_boot_path.h"
@@ -54,39 +53,29 @@
 
 char *archdep_tmpnam(void)
 {
-#if defined(ARCHDEP_OS_BEOS)
+#if defined(ARCHDEP_OS_BEOS) && !defined(ARCHDEP_OS_HAIKU)
     return lib_strdup(tmpnam(NULL));
-#elif defined(ARCHDEP_OS_UNIX)
+#elif defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
     /*
      * Linux manpage for tmpnam(3) says to never use it, FreeBSD indicates the
      * same.
      */
-
-
-    size_t maxlen = ioutil_maxpathlen();
 # ifdef HAVE_MKSTEMP
     char *tmp_name;
-    const char *mkstemp_template = "/vice.XXXXXX";
+    const char mkstemp_template[] = "/vice.XXXXXX";
     int fd;
     char *tmp;
-    char *final_name;
 
-    tmp_name = lib_malloc(maxlen);
+    tmp_name = lib_malloc(ARCHDEP_PATH_MAX + 1U);
 
-#  ifdef USE_EXE_RELATIVE_TMP
-    fprintf("USING EXE REL CRAP\n");
-    strcpy(tmp_name, archdep_boot_path());
-    strcat(tmp_name, "/tmp");
-#  else
     tmp = getenv("TMPDIR");
     if (tmp != NULL) {
-        strncpy(tmp_name, tmp, maxlen);
-        tmp_name[maxlen - sizeof(mkstemp_template)] = '\0';
+        strncpy(tmp_name, tmp, ARCHDEP_PATH_MAX);
+        tmp_name[ARCHDEP_PATH_MAX - sizeof(mkstemp_template)] = '\0';
     } else {
         /* fall back to /tmp */
         strcpy(tmp_name, "/tmp");
     }
-#  endif
     strcat(tmp_name, mkstemp_template);
     fd = mkstemp(tmp_name);
     if (fd < 0) {
@@ -95,27 +84,22 @@ char *archdep_tmpnam(void)
         close(fd);
     }
 
-    /* reduce memory usage, not strictly required since I think on Linux
-     * MAXPATH is 4096 or so, not a big slab memory */
-    final_name = lib_strdup(tmp_name);
-    lib_free(tmp_name);
-    return final_name;
+    return tmp_name;
 # else
     return lib_strdup(tmpnam(NULL));
 # endif
 #elif defined(ARCHDEP_OS_WINDOWS)
     /*
-     * This blows and should probably be replaced with GetTempFileName() or
+     * This blows and should probably be replaced with GetTempFileNameA() or
      * something similar
      */
     char *temp_path;
     char *temp_name;
-    size_t maxlen = ioutil_maxpathlen();
 
-    temp_path = lib_malloc(maxlen);
-    temp_name = lib_malloc(maxlen);
+    temp_path = lib_malloc(ARCHDEP_PATH_MAX + 1U);
+    temp_name = lib_malloc(ARCHDEP_PATH_MAX + 1U);
 
-    if (GetTempPath(maxlen, temp_path) == 0) {
+    if (GetTempPath(ARCHDEP_PATH_MAX, temp_path) == 0) {
         log_error(LOG_ERR, "failed to get Windows temp dir.");
         lib_free(temp_path);
         lib_free(temp_name);
@@ -123,14 +107,12 @@ char *archdep_tmpnam(void)
     }
 
 
-    if (GetTempFileName(temp_path, "vic", 0, temp_name) == 0) {
-        log_error(LOG_ERR, "failed to construct as Windows temp file.");
+    if (GetTempFileName(temp_path, "vice", 0, temp_name) == 0) {
+        log_error(LOG_ERR, "failed to construct a Windows temp file.");
         lib_free(temp_path);
         lib_free(temp_name);
         archdep_vice_exit(1);
     }
-
-    printf("GOT TEMP FILE '%s'\n", temp_name);
 
     lib_free(temp_path);
     return temp_name;

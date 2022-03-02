@@ -380,7 +380,7 @@ static int fsdevice_open_buffer(vdrive_t *vdrive, unsigned int secondary,
 int fsdevice_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
                   unsigned int secondary, cbmdos_cmd_parse_t *cmd_parse_ext)
 {
-    char *rname;
+    char rname[ARCHDEP_PATH_MAX];
     int status = 0, rc;
     unsigned int i;
     cbmdos_cmd_parse_t cmd_parse;
@@ -425,8 +425,6 @@ int fsdevice_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     bufinfo[secondary].type = cmd_parse.filetype;
     bufinfo[secondary].reclen = cmd_parse.recordlength;
     bufinfo[secondary].num_records = -1;
-
-    rname = lib_malloc(ioutil_maxpathlen());
 
     cmd_parse.parsecmd[cmd_parse.parselength] = 0;
     strncpy(rname, cmd_parse.parsecmd, cmd_parse.parselength + 1);
@@ -475,8 +473,6 @@ int fsdevice_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     } else {
         status = fsdevice_open_file(vdrive, secondary, bufinfo, &cmd_parse, rname);
     }
-
-    lib_free(rname);
 
     if (status != FLOPPY_COMMAND_OK) {
         goto out;

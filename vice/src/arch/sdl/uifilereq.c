@@ -36,9 +36,11 @@
 #include "lib.h"
 #include "ui.h"
 #include "uimenu.h"
-#include "uifilereq.h"
 #include "util.h"
 #include "menu_common.h"
+
+#include "uifilereq.h"
+
 
 static menu_draw_t *menu_draw;
 static char *last_selected_file = NULL;
@@ -384,19 +386,16 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
     char *retval = NULL;
     int cur = 0, cur_old = -1;
     ioutil_dir_t *directory;
-    char *current_dir;
-    char *backup_dir;
+    char current_dir[ARCHDEP_PATH_MAX];
+    char backup_dir[ARCHDEP_PATH_MAX];
     char *inputstring;
-    unsigned int maxpathlen;
 
     last_selected_image_pos = 0;
 
     menu_draw = sdl_ui_get_menu_param();
-    maxpathlen = ioutil_maxpathlen();
-    current_dir = lib_malloc(maxpathlen);
 
-    archdep_getcwd(current_dir, maxpathlen);
-    backup_dir = lib_strdup(current_dir);
+    archdep_getcwd(current_dir, ARCHDEP_PATH_MAX);
+    memcpy(backup_dir, current_dir, sizeof(backup_dir));
 
     directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
     if (directory == NULL) {
@@ -523,7 +522,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             archdep_chdir(inputstring);
                             lib_free(inputstring);
                             ioutil_closedir(directory);
-                            archdep_getcwd(current_dir, maxpathlen);
+                            archdep_getcwd(current_dir, ARCHDEP_PATH_MAX);
                             directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
@@ -542,7 +541,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             archdep_set_current_drive(inputstring);
                             lib_free(inputstring);
                             ioutil_closedir(directory);
-                            archdep_getcwd(current_dir, maxpathlen);
+                            archdep_getcwd(current_dir, ARCHDEP_PATH_MAX);
                             directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
@@ -559,7 +558,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             /* enter subdirectory */
                             archdep_chdir(directory->dirs[offset + cur - SDL_FILEREQ_META_NUM].name);
                             ioutil_closedir(directory);
-                            archdep_getcwd(current_dir, maxpathlen);
+                            archdep_getcwd(current_dir, ARCHDEP_PATH_MAX);
                             directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
@@ -607,8 +606,6 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
         }
     }
     ioutil_closedir(directory);
-    lib_free(current_dir);
-    lib_free(backup_dir);
 
     return retval;
 }
