@@ -601,7 +601,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
 {
     unsigned int dnr;
     char *cmd, *realarg, *arg, *realname;
-    char *cbmcmd;
+    char cbmcmd[ARCHDEP_PATH_MAX];
     int er = CBMDOS_IPE_SYNTAX;
 
     dnr = vdrive->unit - DRIVE_UNIT_MIN;
@@ -609,8 +609,6 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     if ((secondary != 15) || (!(fsdevice_dev[dnr].cptr))) {
         return;
     }
-
-    cbmcmd = lib_malloc(ioutil_maxpathlen());
 
     /*
                                             '41 '71 '81  FD
@@ -823,8 +821,6 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
 leave:
 
     fsdevice_dev[dnr].cptr = 0;
-
-    lib_free(cbmcmd);
 }
 
 int fsdevice_flush_write_byte(vdrive_t *vdrive, uint8_t data)
@@ -836,7 +832,7 @@ int fsdevice_flush_write_byte(vdrive_t *vdrive, uint8_t data)
     rc = SERIAL_OK;
 
     /* FIXME: Consider the real size of the input buffer. */
-    if (fsdevice_dev[dnr].cptr < ioutil_maxpathlen() - 1) {
+    if (fsdevice_dev[dnr].cptr < (ARCHDEP_PATH_MAX - 1U)) {
         fsdevice_dev[dnr].cmdbuf[(fsdevice_dev[dnr].cptr)++] = data;
         rc = SERIAL_OK;
     } else {

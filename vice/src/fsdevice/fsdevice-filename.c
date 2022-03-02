@@ -30,14 +30,17 @@
 
 #include <string.h>
 
+#include "archdep.h"
 #include "charset.h"
-#include "fsdevice-filename.h"
 #include "fsdevicetypes.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "vdrive.h"
+
+#include "fsdevice-filename.h"
+
 
 #ifdef DEBUGFILENAME
 #define DBG(x)  printf x
@@ -95,7 +98,7 @@
 static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, char *longname, int mode)
 {
     char *direntry;
-    char *newname;
+    char newname[ARCHDEP_PATH_MAX];
     int longnames;
     int dirpos = 0;
     int tmppos;
@@ -107,9 +110,6 @@ static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, ch
     if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {    
         return -1;
     }
-
-    /* get a buffer for the new name */
-    newname = lib_malloc(ioutil_maxpathlen());
 
     if (!longnames) {
         if (strlen(longname) > 16) {
@@ -148,7 +148,6 @@ static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, ch
         }
     }
     DBG(("limit_longname return '%s'\n", longname));
-    lib_free(newname);
 
     return 0;
 }
@@ -191,7 +190,7 @@ static char *expand_shortname(vdrive_t *vdrive, char *shortname, int mode)
     DBG(("expand_shortname shortname '%s' mode: %d\n", shortname, mode));
 
     /* get a buffer for the new name */
-    longname = lib_malloc(ioutil_maxpathlen());
+    longname = lib_malloc(ARCHDEP_PATH_MAX);
 
     if (!longnames) {
         prefix = fsdevice_get_path(vdrive->unit);

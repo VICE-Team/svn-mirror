@@ -151,6 +151,40 @@
 #endif
 
 
+/** \def ARCHDEP_PATH_MAX
+ *
+ * \brief   Arch-independent replacement for PATH_MAX/MAX_PATH
+ *
+ * The maximum size of a pathname.
+ *
+ * Note that there are some serious flaws with PATH_MAX and similar constants,
+ * so only use this if dynamically allocating memory isn't possible. There also
+ * doesn't seem to be consencus on whether PATH_MAX is enough to hold the
+ * longest possible path including the terminating NUL character.
+ */
+
+#if ARCHDEP_OS_WINDOWS
+# include <stdlib.h>
+# define ARCHDEP_PATH_MAX   _MAX_PATH
+#elif defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+# include <limits.h>
+/* Not sure we need this fallback: on FreeBSD, NetBSD and OpenBSD using
+ * `#include <limits.h>` worked even with -pedantic -ansi passed to the compiler.
+ */
+#if 0
+# ifndef PATH_MAX 
+#  if defined(ARCHDEP_OS_BSD) || defined(ARCHDEP_OS_MACOS)
+#   include <sys/syslimits.h>
+#  endif
+# endif
+#endif
+# define ARCHDEP_PATH_MAX   PATH_MAX
+#else
+/* Paniek! */
+# define ARCHDEP_PATH_MAX   4096
+#endif
+
+
 /** \brief  XDG Base Directory Specifiction user cache dir
  *
  * This defines only the final element of the `XDG_CACHE_HOME` variable.

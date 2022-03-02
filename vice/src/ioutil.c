@@ -61,18 +61,14 @@
 #include <stdlib.h>
 
 #include "archdep.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "types.h"
 #include "util.h"
-#include "vicemaxpath.h"
+
+#include "ioutil.h"
+
 
 /* Mostly POSIX compatibily */
-
-unsigned int ioutil_maxpathlen(void)
-{
-    return PATH_MAX;
-}
 
 int ioutil_mkdir(const char *pathname, int mode)
 {

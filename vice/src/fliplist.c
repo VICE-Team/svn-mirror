@@ -445,7 +445,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
     int c;
     char *fliplist_fullname, *fliplist_path, *fliplist_name;
     char *buffer_fullname;
-    char *cwd;
+    char cwd[ARCHDEP_PATH_MAX];
 
     if (filename == NULL || *filename == 0 || (fp = fopen(filename, MODE_READ)) == NULL) {
         return -1;
@@ -466,8 +466,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 
     /* KLUDGES: we need to change the current dir to the fliplist path, else
        the archdep_expand_path below will not work as expected */
-    cwd = lib_malloc(ioutil_maxpathlen() + 1);
-    archdep_getcwd(cwd, ioutil_maxpathlen());
+    archdep_getcwd(cwd, ARCHDEP_PATH_MAX);
     archdep_chdir(fliplist_path);
 
     /* remove current fliplist */
@@ -550,7 +549,6 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
                     /* perhaps VICE should properly error out, ie quit? */
                     fclose(fp);
                     archdep_chdir(cwd);
-                    lib_free(cwd);
                     lib_free(fliplist_fullname);
                     lib_free(fliplist_path);
                     lib_free(fliplist_name);
@@ -591,7 +589,6 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
             if (archdep_expand_path(&buffer_fullname, buffer) != 0) {
                 fclose(fp);
                 archdep_chdir(cwd);
-                lib_free(cwd);
                 lib_free(fliplist_fullname);
                 lib_free(fliplist_path);
                 lib_free(fliplist_name);
@@ -628,7 +625,6 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 
     fclose(fp);
     archdep_chdir(cwd);
-    lib_free(cwd);
     lib_free(fliplist_fullname);
     lib_free(fliplist_path);
     lib_free(fliplist_name);

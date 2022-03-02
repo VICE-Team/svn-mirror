@@ -115,17 +115,12 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     FILE *fd;
     char *tmpdir;
 
-#ifdef USE_EXE_RELATIVE_TMP
-    tmp = lib_msprintf("%s/tmp%s", archdep_boot_path(), template);
-#else
     tmpdir = getenv("TMPDIR");
-
     if (tmpdir != NULL) {
         tmp = util_concat(tmpdir, template, NULL);
     } else {
         tmp = util_concat("/tmp", template, NULL);
     }
-#endif
 
     fildes = mkstemp(tmp);
 

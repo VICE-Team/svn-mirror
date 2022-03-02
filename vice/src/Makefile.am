@@ -293,7 +293,6 @@ noinst_HEADERS = \
 	vice_sdl.h \
 	vicedate.h \
 	vice-event.h \
-	vicemaxpath.h \
 	vicesocket.h \
 	vicefeatures.h \
 	vicii.h \
