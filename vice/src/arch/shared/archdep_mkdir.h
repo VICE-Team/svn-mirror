@@ -27,6 +27,10 @@
 #ifndef VICE_ARCHDEP_MKDIR_H
 #define VICE_ARCHDEP_MKDIR_H
 
+#define ARCHDEP_MKDIR_RWXU   0700
+#define ARCHDEP_MKDIR_RWXUG  0770
+#define ARCHDEP_MKDIR_RWXUGO 0777
+
 int archdep_mkdir(const char *pathname, int mode);
 
 #endif

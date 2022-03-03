@@ -70,11 +70,6 @@
 
 /* Mostly POSIX compatibily */
 
-int ioutil_mkdir(const char *pathname, int mode)
-{
-    return archdep_mkdir(pathname, mode);
-}
-
 int ioutil_remove(const char *name)
 {
     return unlink(name);

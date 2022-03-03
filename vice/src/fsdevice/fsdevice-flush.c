@@ -133,7 +133,7 @@ static int fsdevice_flush_mkdir(vdrive_t *vdrive, char *arg)
     path = util_concat(prefix, FSDEV_DIR_SEP_STR, arg, NULL);
 
     er = CBMDOS_IPE_OK;
-    if (ioutil_mkdir(path, IOUTIL_MKDIR_RWXUG)) {
+    if (archdep_mkdir(path, ARCHDEP_MKDIR_RWXUG)) {
         er = CBMDOS_IPE_INVAL;
         if (errno == EEXIST) {
             er = CBMDOS_IPE_FILE_EXISTS;

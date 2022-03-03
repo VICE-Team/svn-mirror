@@ -826,7 +826,7 @@ void rtc_save_context(uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, c
     /* create the directory where the context should be written first */
     util_fname_split(filename, &savedir, NULL);
     if ((savedir != NULL) && (*savedir != 0) && (!strcmp(savedir, "."))) {
-        ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
+        archdep_mkdir(savedir, ARCHDEP_MKDIR_RWXU);
     }
     lib_free(savedir);
 

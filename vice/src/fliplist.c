@@ -374,7 +374,7 @@ int fliplist_save_list(unsigned int unit, const char *filename)
     /* create the directory where the fliplist should be written first */
     util_fname_split(fliplist_fullname, &fliplist_path, &fliplist_name);
     if ((fliplist_path != NULL) && (*fliplist_path != 0) && (!strcmp(fliplist_path, "."))) {
-        ioutil_mkdir(fliplist_path, IOUTIL_MKDIR_RWXU);
+        archdep_mkdir(fliplist_path, ARCHDEP_MKDIR_RWXU);
     }
     DBG(("path: '%s' name: '%s'", fliplist_path, fliplist_name));
 
