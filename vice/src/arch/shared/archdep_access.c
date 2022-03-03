@@ -42,7 +42,7 @@
  */
 int archdep_access(const char *pathname, int mode)
 {
-    int access_mode = 0;
+    int access_mode = 0;    /* this is the same as F_OK */
 
     if (mode & ARCHDEP_ACCESS_R_OK) {
         access_mode |= ARCHDEP_R_OK;
@@ -52,9 +52,6 @@ int archdep_access(const char *pathname, int mode)
     }
     if (mode & ARCHDEP_ACCESS_X_OK) {
         access_mode |= ARCHDEP_X_OK;
-    }
-    if (mode & ARCHDEP_ACCESS_F_OK) {
-        access_mode |= ARCHDEP_F_OK;
     }
 
 #if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
