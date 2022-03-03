@@ -37,7 +37,6 @@
 #include "lib.h"
 #include "ioutil.h"
 #include "log.h"
-#include "snapshot.h"
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
 #endif
@@ -46,6 +45,9 @@
 #include "version.h"
 #include "vsync.h"
 #include "zfile.h"
+
+#include "snapshot.h"
+
 
 #ifdef DEBUG_SNAPSHOT
 #define DBG(x)  printf x
@@ -858,7 +860,7 @@ snapshot_t *snapshot_create(const char *filename, uint8_t major_version, uint8_t
 
 fail:
     fclose(f);
-    ioutil_remove(filename);
+    archdep_remove(filename);
     return NULL;
 }
 

@@ -56,8 +56,9 @@
 #include "lib.h"
 #include "log.h"
 #include "util.h"
-#include "zfile.h"
 #include "zipcode.h"
+
+#include "zfile.h"
 
 
 /* ------------------------------------------------------------------------- */
@@ -218,7 +219,7 @@ static char *try_uncompress_with_gzip(const char *name)
     fdsrc = gzopen(name, MODE_READ);
     if (fdsrc == NULL) {
         fclose(fddest);
-        ioutil_remove(tmp_name);
+        archdep_remove(tmp_name);
         lib_free(tmp_name);
         return NULL;
     }
@@ -231,7 +232,7 @@ static char *try_uncompress_with_gzip(const char *name)
             if (fwrite((void *)buf, 1, (size_t)len, fddest) < len) {
                 gzclose(fdsrc);
                 fclose(fddest);
-                ioutil_remove(tmp_name);
+                archdep_remove(tmp_name);
                 lib_free(tmp_name);
                 return NULL;
             }
@@ -269,7 +270,7 @@ static char *try_uncompress_with_gzip(const char *name)
         return tmp_name;
     } else {
         ZDEBUG(("try_uncompress_with_gzip: failed"));
-        ioutil_remove(tmp_name);
+        archdep_remove(tmp_name);
         lib_free(tmp_name);
         return NULL;
     }
@@ -311,7 +312,7 @@ static char *try_uncompress_with_bzip(const char *name)
         return tmp_name;
     } else {
         ZDEBUG(("try_uncompress_with_bzip: failed"));
-        ioutil_remove(tmp_name);
+        archdep_remove(tmp_name);
         lib_free(tmp_name);
         return NULL;
     }
@@ -345,7 +346,7 @@ static char *try_uncompress_with_tzx(const char *name)
         return tmp_name;
     } else {
         ZDEBUG(("try_uncompress_with_tzx: failed"));
-        ioutil_remove(tmp_name);
+        archdep_remove(tmp_name);
         lib_free(tmp_name);
         return NULL;
     }
@@ -452,7 +453,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     /* No luck?  */
     if (exit_status != 0) {
         ZDEBUG(("try_uncompress_archive: `%s %s' failed.", program, listopts));
-        ioutil_remove(tmp_name);
+        archdep_remove(tmp_name);
         lib_free(tmp_name);
         return NULL;
     }
@@ -463,7 +464,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     if (!fd) {
         ZDEBUG(("try_uncompress_archive: cannot read `%s %s' output.",
                 program, tmp_name));
-        ioutil_remove(tmp_name);
+        archdep_remove(tmp_name);
         lib_free(tmp_name);
         return NULL;
     }
@@ -496,7 +497,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     }
 
     fclose(fd);
-    ioutil_remove(tmp_name);
+    archdep_remove(tmp_name);
     if (!found) {
         ZDEBUG(("try_uncompress_archive: no valid file found."));
         lib_free(tmp_name);
@@ -557,7 +558,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     if (exit_status != 0) {
         ZDEBUG(("try_uncompress_archive: `%s %s' failed.",
                 program, extractopts));
-        ioutil_remove(tmp_name);
+        archdep_remove(tmp_name);
         lib_free(tmp_name);
         return NULL;
     }
@@ -636,7 +637,7 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
     lib_free(argv[3]);
 
     if (exit_status) {
-        ioutil_remove(tmp_name);
+        archdep_remove(tmp_name);
         lib_free(tmp_name);
         return NULL;
     }
@@ -736,7 +737,7 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
     lib_free(argv[6]);
 
     if (exit_status) {
-        ioutil_remove(tmp_name);
+        archdep_remove(tmp_name);
         lib_free(tmp_name);
         return NULL;
     }
@@ -1003,7 +1004,7 @@ static int zfile_compress(const char *src, const char *dest,
     } else {
         /* Compression succeeded: remove backup file.  */
         if (dest_backup_name != NULL
-            && ioutil_remove(dest_backup_name) < 0) {
+            && archdep_remove(dest_backup_name) < 0) {
             log_error(zlog, "Warning: could not remove backup file.");
             /* Do not return an error anyway (no data is lost).  */
         }
@@ -1095,7 +1096,7 @@ static int handle_close_action(zfile_t *ptr)
           break;
         */
         case ZFILE_DEL:
-            if (ioutil_remove(ptr->orig_name) < 0) {
+            if (archdep_remove(ptr->orig_name) < 0) {
                 log_error(zlog, "Cannot unlink `%s': %s",
                           ptr->orig_name, strerror(errno));
             }
@@ -1120,7 +1121,7 @@ static int handle_close(zfile_t *ptr)
         }
 
         /* Remove temporary file.  */
-        if (ioutil_remove(ptr->tmp_name) < 0) {
+        if (archdep_remove(ptr->tmp_name) < 0) {
             log_error(zlog, "Cannot unlink `%s': %s", ptr->tmp_name, strerror(errno));
         }
     }

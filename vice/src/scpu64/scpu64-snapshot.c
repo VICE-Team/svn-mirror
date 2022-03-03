@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "scpu64-snapshot.h"
 #include "scpu64.h"
 #include "scpu64gluelogic.h"
@@ -86,7 +87,7 @@ int scpu64_snapshot_write(const char *name, int save_roms, int save_disks, int e
         || joyport_snapshot_write_module(s, JOYPORT_2) < 0
         || userport_snapshot_write_module(s) < 0) {
         snapshot_close(s);
-        ioutil_remove(name);
+        archdep_remove(name);
         return -1;
     }
 

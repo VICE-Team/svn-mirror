@@ -53,9 +53,11 @@
 #include "lib.h"
 #include "log.h"
 #include "network.h"
-#include "resources.h"
 #include "util.h"
 #include "vice-event.h"
+
+#include "resources.h"
+
 
 #ifdef VICE_DEBUG_RESOURCES
 #define DBG(x)  printf x
@@ -1382,7 +1384,7 @@ int resources_save(const char *fname)
                 lib_free(default_name);
                 return RESERR_WRITE_PROTECTED;
             }
-            if (ioutil_remove(backup_name) != 0) {
+            if (archdep_remove(backup_name) != 0) {
                 lib_free(backup_name);
                 lib_free(default_name);
                 return RESERR_CANNOT_REMOVE_BACKUP;
@@ -1469,7 +1471,7 @@ int resources_save(const char *fname)
         }
         fclose(in_file);
         /* remove the backup */
-        ioutil_remove(backup_name);
+        archdep_remove(backup_name);
     }
 
     fclose(out_file);
