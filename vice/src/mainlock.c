@@ -90,7 +90,19 @@ static void consider_exit(void)
     /* Check if the vice thread has been told to die. */
     pthread_mutex_lock(&internal_lock);
     if (!vice_thread_keepalive) {
+
+        /*
+         * The VICE thread will exit!
+         */
+
+        /* Setting this lets the UI thread know not to wait for signals in future mainlock_obtain() calls */
         vice_thread_is_running = false;
+        
+        if (ui_is_waiting) {
+            /* Wake up the UI thread, otherwise it will be waiting forever */
+            pthread_cond_signal(&ui_waiting_cond);
+        }
+
         pthread_mutex_unlock(&internal_lock);
         pthread_mutex_unlock(&main_lock);
         
@@ -98,8 +110,14 @@ static void consider_exit(void)
 
         archdep_thread_shutdown();
 
-        /* Execution ends here - this function does not return. */
         pthread_exit(NULL);
+        
+        /*
+         * EXECUTION DOES NOT REACH HERE - pthread_exit() does not return
+         */
+
+        assert(false);
+
     } else {
         pthread_mutex_unlock(&internal_lock);
     }
