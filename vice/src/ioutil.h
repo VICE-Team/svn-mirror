@@ -30,14 +30,9 @@
 
 #include <stddef.h>
 
-#define IOUTIL_MKDIR_RWXU   0700
-#define IOUTIL_MKDIR_RWXUG  0770
-#define IOUTIL_MKDIR_RWXUGO 0777
-
 #define IOUTIL_OPENDIR_NO_DOTFILES  1
 #define IOUTIL_OPENDIR_ALL_FILES    0
 
-extern int ioutil_mkdir(const char *pathname, int mode);
 extern int ioutil_remove(const char *name);
 extern int ioutil_rmdir(const char *pathname);
 extern int ioutil_rename(const char *oldpath, const char *newpath);

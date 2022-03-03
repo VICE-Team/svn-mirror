@@ -1862,7 +1862,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             /* create the directory where the image should be written first */
             util_fname_split(AutostartPrgDiskImage, &savedir, NULL);
             if ((savedir != NULL) && (*savedir != 0) && (strcmp(savedir, "."))) {
-                ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
+                archdep_mkdir(savedir, ARCHDEP_MKDIR_RWXU);
             }
             lib_free(savedir);
             result = autostart_prg_with_disk_image(unit, drive, file_name, finfo,
