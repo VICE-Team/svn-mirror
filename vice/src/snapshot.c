@@ -1063,8 +1063,8 @@ void snapshot_display_error(void)
             ui_error("Cannot find first module in snapshot %s", current_filename);
             break;
         case SNAPSHOT_MODULE_HEADER_READ_ERROR:
-            ui_error("Error while reading module header (after module '%s' at pos 0x%lx) in snapshot %s",
-                     current_module, current_fpos, current_filename);
+            ui_error("Error while reading module header (after module '%s' at pos 0x%llx) in snapshot %s",
+                     current_module, (unsigned long long)current_fpos, current_filename);
             break;
         case SNAPSHOT_MODULE_NOT_FOUND_ERROR:
             ui_error("Cannot find module %s in snapshot %s", current_module, current_filename);
