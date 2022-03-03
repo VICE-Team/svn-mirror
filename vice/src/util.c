@@ -50,11 +50,12 @@
 #endif
 
 #include "archdep.h"
-#include "archdep_defs.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
+
 #include "util.h"
+
 
 /* #define DBGUTIL */
 
@@ -300,7 +301,7 @@ int util_check_filename_access(const char *filename)
             return -1;
         } else {
             fclose(file);
-            ioutil_remove(filename);
+            archdep_remove(filename);
             return 0;
         }
     } else {

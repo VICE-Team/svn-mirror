@@ -35,8 +35,9 @@
 #include "fileio.h"
 #include "ioutil.h"
 #include "lib.h"
-#include "rawfile.h"
 #include "util.h"
+
+#include "rawfile.h"
 
 
 struct rawfile_info_s {
@@ -195,7 +196,7 @@ unsigned int rawfile_rename(const char *src_name, const char *dst_name,
         complete_dst = util_concat(path, FSDEV_DIR_SEP_STR, dst_name, NULL);
     }
 
-    /*ioutil_remove(dst_name);*/
+    /*archdep_remove(dst_name);*/
     rc = ioutil_rename(complete_src, complete_dst);
 
     lib_free(complete_src);
@@ -222,7 +223,7 @@ unsigned int rawfile_remove(const char *src_name, const char *path)
         complete_src = util_concat(path, FSDEV_DIR_SEP_STR, src_name, NULL);
     }
 
-    rc = ioutil_remove(complete_src);
+    rc = archdep_remove(complete_src);
 
     lib_free(complete_src);
 

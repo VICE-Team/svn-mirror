@@ -78,7 +78,7 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks, int even
         || event_snapshot_write_module(s, event_mode) < 0
         || keyboard_snapshot_write_module(s)) {
         snapshot_close(s);
-        ioutil_remove(name);
+        archdep_remove(name);
         return -1;
     }
 

@@ -70,11 +70,6 @@
 
 /* Mostly POSIX compatibily */
 
-int ioutil_remove(const char *name)
-{
-    return unlink(name);
-}
-
 int ioutil_rmdir(const char *pathname)
 {
     return archdep_rmdir(pathname);
