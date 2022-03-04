@@ -197,7 +197,7 @@ static int fsdevice_flush_rmdir(vdrive_t *vdrive, char *arg)
     /* FIXME: rmdir() can set a lot of different errors codes, so this probably
      *        is a little naive
      */
-    if (ioutil_rmdir(path) != 0) {
+    if (archdep_rmdir(path) != 0) {
         er = CBMDOS_IPE_NOT_EMPTY;
         if (errno == EPERM) {
             er = CBMDOS_IPE_PERMISSION;

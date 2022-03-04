@@ -33,7 +33,6 @@
 #define IOUTIL_OPENDIR_NO_DOTFILES  1
 #define IOUTIL_OPENDIR_ALL_FILES    0
 
-extern int ioutil_rmdir(const char *pathname);
 extern int ioutil_rename(const char *oldpath, const char *newpath);
 extern int ioutil_stat(const char *file_name, size_t *len, unsigned int *isdir);
 
