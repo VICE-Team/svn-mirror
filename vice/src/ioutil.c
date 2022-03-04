@@ -68,13 +68,6 @@
 #include "ioutil.h"
 
 
-/* Mostly POSIX compatibily */
-
-int ioutil_stat(const char *file_name, size_t *len, unsigned int *isdir)
-{
-    return archdep_stat(file_name, len, isdir);
-}
-
 /* ------------------------------------------------------------------------- */
 /* IO helper functions.  */
 char *ioutil_current_dir(void)
@@ -155,7 +148,7 @@ static int ioutil_count_dir_items(const char *path, int mode)
 #ifdef DT_LNK
                 } else if (dp->d_type == DT_LNK) {
                     filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-                    retval = ioutil_stat(filename, &len, &isdir);
+                    retval = archdep_stat(filename, &len, &isdir);
                     if (retval == 0) {
                         if (isdir) {
                             dirs_amount++;
@@ -175,7 +168,7 @@ static int ioutil_count_dir_items(const char *path, int mode)
             } else {
 #endif /* _DIRENT_HAVE_D_TYPE */
                 filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-                retval = ioutil_stat(filename, &len, &isdir);
+                retval = archdep_stat(filename, &len, &isdir);
                 if (retval == 0) {
                     if (isdir) {
                         dirs_amount++;
@@ -223,7 +216,7 @@ static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_n
 #ifdef DT_LNK
                 } else if (dp->d_type == DT_LNK) {
                     filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-                    retval = ioutil_stat(filename, &len, &isdir);
+                    retval = archdep_stat(filename, &len, &isdir);
                     if (retval == 0) {
                         if (isdir) {
                             dirs[dir_count].name = lib_strdup(dp->d_name);
@@ -246,7 +239,7 @@ static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_n
             } else {
 #endif /* _DIRENT_HAVE_D_TYPE */
                 filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-                retval = ioutil_stat(filename, &len, &isdir);
+                retval = archdep_stat(filename, &len, &isdir);
                 if (retval == 0) {
                     if (isdir) {
                         dirs[dir_count].name = lib_strdup(dp->d_name);

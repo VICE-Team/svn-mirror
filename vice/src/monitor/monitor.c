@@ -1170,10 +1170,10 @@ void mon_show_dir(const char *path)
         int ret;
         if (path) {
             fullname = util_concat(path, FSDEV_DIR_SEP_STR, name, NULL);
-            ret = ioutil_stat(fullname, &len, &isdir);
+            ret = archdep_stat(fullname, &len, &isdir);
             lib_free(fullname);
         } else {
-            ret = ioutil_stat(name, &len, &isdir);
+            ret = archdep_stat(name, &len, &isdir);
         }
         if (!ret) {
             if (isdir) {
