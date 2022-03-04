@@ -38,7 +38,6 @@
 
 #include "archdep.h"
 #include "cmdline.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -109,7 +108,7 @@ static char *prepend_dir_to_path(const char *dir)
                                saved_path,
                                NULL);
     } else {
-        char *current_dir = ioutil_current_dir();
+        char *current_dir = archdep_current_dir();
         new_path = util_concat(current_dir,
                                ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                saved_path,

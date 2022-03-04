@@ -70,22 +70,6 @@
 
 /* ------------------------------------------------------------------------- */
 /* IO helper functions.  */
-char *ioutil_current_dir(void)
-{
-    static size_t len = 128;
-    char *p = lib_malloc(len);
-
-    while (getcwd(p, len) == NULL) {
-        if (errno == ERANGE) {
-            len *= 2;
-            p = lib_realloc(p, len);
-        } else {
-            return NULL;
-        }
-    }
-
-    return p;
-}
 
 static int dirs_amount = 0;
 static int files_amount = 0;

@@ -34,8 +34,6 @@
 #define IOUTIL_OPENDIR_ALL_FILES    0
 
 
-extern char *ioutil_current_dir(void);
-
 struct ioutil_name_table_s {
     char *name;
 };

@@ -32,12 +32,11 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "ioutil.h"
+#include "archdep_current_dir.h"
+#include "archdep_home_path.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
-#include "archdep_defs.h"
-#include "archdep_home_path.h"
 
 #include "archdep_expand_path.h"
 
@@ -66,7 +65,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     } else {
         char *cwd;
 
-        cwd = ioutil_current_dir();
+        cwd = archdep_current_dir();
         *return_path = util_concat(cwd, "/", orig_name, NULL);
         lib_free(cwd);
     }

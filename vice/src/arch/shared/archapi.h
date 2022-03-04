@@ -47,6 +47,7 @@
 #include "archdep_chdir.h"
 #include "archdep_create_user_cache_dir.h"
 #include "archdep_create_user_config_dir.h"
+#include "archdep_current_dir.h"
 #include "archdep_default_autostart_disk_image_file_name.h"
 #include "archdep_default_fliplist_file_name.h"
 #include "archdep_default_hotkey_file_name.h"

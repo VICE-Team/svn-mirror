@@ -52,7 +52,6 @@
 #include "fsdevice-resources.h"
 #include "fsdevice.h"
 #include "fsdevicetypes.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "types.h"
@@ -97,7 +96,7 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
             er = CBMDOS_IPE_PERMISSION;
         }
     } else { /* get full path and save */
-        arg = ioutil_current_dir();
+        arg = archdep_current_dir();
         fsdevice_set_directory(arg, vdrive->unit);
         lib_free(arg);
     }

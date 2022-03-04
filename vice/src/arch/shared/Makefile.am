@@ -41,6 +41,7 @@ libarchdep_a_SOURCES = \
 	archdep_chdir.c \
 	archdep_create_user_cache_dir.c \
 	archdep_create_user_config_dir.c \
+	archdep_current_dir.c \
 	archdep_default_autostart_disk_image_file_name.c \
 	archdep_default_fliplist_file_name.c \
 	archdep_default_hotkey_file_name.c \
@@ -130,6 +131,7 @@ EXTRA_DIST = \
 	archdep_chdir.h \
 	archdep_create_user_cache_dir.h \
 	archdep_create_user_config_dir.h \
+	archdep_current_dir.h \
 	archdep_default_autostart_disk_image_file_name.h \
 	archdep_default_fliplist_file_name.h \
 	archdep_default_hotkey_file_name.h \
