@@ -70,11 +70,6 @@
 
 /* Mostly POSIX compatibily */
 
-int ioutil_rename(const char *oldpath, const char *newpath)
-{
-    return archdep_rename(oldpath, newpath);
-}
-
 int ioutil_stat(const char *file_name, size_t *len, unsigned int *isdir)
 {
     return archdep_stat(file_name, len, isdir);

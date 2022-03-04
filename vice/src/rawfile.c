@@ -197,7 +197,7 @@ unsigned int rawfile_rename(const char *src_name, const char *dst_name,
     }
 
     /*archdep_remove(dst_name);*/
-    rc = ioutil_rename(complete_src, complete_dst);
+    rc = archdep_rename(complete_src, complete_dst);
 
     lib_free(complete_src);
     lib_free(complete_dst);
