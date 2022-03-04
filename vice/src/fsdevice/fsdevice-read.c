@@ -471,7 +471,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
         *p++ = 1;
         *p++ = 1;
 
-        statrc = ioutil_stat(buf, &filelen, &isdir);
+        statrc = archdep_stat(buf, &filelen, &isdir);
         if (statrc == 0) {
             blocks = (filelen + 253) / 254;
         } else {
