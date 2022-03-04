@@ -49,7 +49,6 @@
 
 #include "archdep.h"
 #include "cartridge.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "network.h"
@@ -1391,7 +1390,7 @@ int resources_save(const char *fname)
             }
         }
         /* move existing config to backup */
-        if (ioutil_rename(fname, backup_name) != 0) {
+        if (archdep_rename(fname, backup_name) != 0) {
             lib_free(backup_name);
             lib_free(default_name);
             return RESERR_CANNOT_RENAME_FILE;

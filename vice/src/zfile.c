@@ -52,7 +52,6 @@
 #endif
 
 #include "archdep.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -974,7 +973,7 @@ static int zfile_compress(const char *src, const char *dest,
             ZDEBUG(("compress: making backup %s... ", dest_backup_name));
         }
         if (dest_backup_name != NULL
-            && ioutil_rename(dest, dest_backup_name) < 0) {
+            && archdep_rename(dest, dest_backup_name) < 0) {
             ZDEBUG(("failed."));
             log_error(zlog, "Could not make pre-compression backup.");
             return -1;
@@ -997,7 +996,7 @@ static int zfile_compress(const char *src, const char *dest,
     if (retval == -1) {
         /* Compression failed: restore original file.  */
         if (dest_backup_name != NULL
-            && ioutil_rename(dest_backup_name, dest) < 0) {
+            && archdep_rename(dest_backup_name, dest) < 0) {
             log_error(zlog,
                       "Could not restore backup file after failed compression.");
         }
