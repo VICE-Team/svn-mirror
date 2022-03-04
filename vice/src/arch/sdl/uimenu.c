@@ -1573,7 +1573,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
         if (size < max) {
             new_string = lib_realloc(new_string, max);
         } else {
-            ui_error("Readline: previous %zu >= max %zu, returning NULL.", size, max);
+            ui_error("Readline: previous %" PRI_SIZE_T " >= max %" PRI_SIZE_T ", returning NULL.", size, max);
             lib_free(new_string);
             return NULL;
         }
