@@ -36,6 +36,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#include "archdep.h"
 #include "diskimage.h"
 #include "debug.h"
 #include "drive.h"
@@ -1391,10 +1392,8 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
             /* skip first disk as it has a DHD extension */
             for (j = (i == 0); j < 8; j++) {
                /* generate the name */
-               testname = lib_msprintf("%s%llu%1llu",
-                                       basename,
-                                       (unsigned long long)i,
-                                       (unsigned long long)j);
+               testname = lib_msprintf("%s%" PRI_SIZE_T" %1" PRI_SIZE_T,
+                                       basename, i, j);
                /* open the file */
                test = fopen(testname, "rb+");
                if (test) {
