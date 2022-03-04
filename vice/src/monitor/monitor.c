@@ -1138,7 +1138,7 @@ void mon_screenshot_save(const char* filename, int format)
  */
 void mon_show_pwd(void)
 {
-    char *p = ioutil_current_dir();
+    char *p = archdep_current_dir();
     mon_out("%s\n", p);
     lib_free(p);
 }
@@ -1153,7 +1153,7 @@ void mon_show_dir(const char *path)
     if (path) {
         mpath = lib_strdup(path);
     } else {
-        mpath = ioutil_current_dir();
+        mpath = archdep_current_dir();
     }
     mon_out("Displaying directory: `%s'\n", mpath);
 

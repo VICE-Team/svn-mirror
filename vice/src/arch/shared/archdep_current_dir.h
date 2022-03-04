@@ -1,6 +1,10 @@
-/** \file   archdep_get_current_drive.c
- * \brief   Get current drive on Windows
- * \author  Unknown (probably copied from old SDL code)
+/** \file   archdep_current_dir.h
+ * \brief   Get heap-allocated current working directory - header
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  trikalio
+ *
  */
 
 /*
@@ -24,35 +28,9 @@
  *
  */
 
-#include "vice.h"
-#include "archdep_defs.h"
-#include <string.h>
-#include "archdep_current_dir.h"
+#ifndef VICE_ARCHDEP_CURRENT_DIR_H
+#define VICE_ARCHDEP_CURRENT_DIR_H
 
-#include "archdep_get_current_drive.h"
+char *archdep_current_dir(void);
 
-
-/** \fn     archdep_get_current_drive
- * \brief   Get current Windows drive
- *
- * Gets current Windows drive and replaces '\\' with '/' for some reason.
- *
- * \return  Current Windows drive, including ':/'
- *
- * \note    free result after use with lib_free().
- */
-
-#ifdef ARCHDEP_OS_WINDOWS
-/* FIXME: is this needed* */
-# ifdef SDL_CHOOSE_DRIVES
-
-char *archdep_get_current_drive(void)
-{
-    char *p = archdep_current_dir();
-    char *p2 = strchr(p, '\\');
-    p2[0] = '/';
-    p2[1] = '\0';
-    return p;
-}
-# endif
 #endif

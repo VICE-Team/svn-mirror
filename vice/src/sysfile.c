@@ -33,7 +33,6 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "findpath.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -65,7 +64,7 @@ static int set_system_path(const char *val, void *param)
 
     tmp_path_save = util_subst(system_path, "$$", default_path); /* malloc'd */
 
-    current_dir = ioutil_current_dir();
+    current_dir = archdep_current_dir();
 
     tmp_path = tmp_path_save; /* tmp_path points into tmp_path_save */
     for (;;) {
