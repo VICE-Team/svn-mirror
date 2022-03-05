@@ -51,6 +51,7 @@ libarchdep_a_SOURCES = \
 	archdep_default_resource_file_name.c \
 	archdep_default_rtc_file_name.c \
 	archdep_default_sysfile_pathlist.c \
+	archdep_dir.c \
 	archdep_ethernet_available.c \
 	archdep_exit.c \
 	archdep_expand_path.c \
@@ -142,6 +143,7 @@ EXTRA_DIST = \
 	archdep_default_rtc_file_name.h \
 	archdep_default_sysfile_pathlist.h \
 	archdep_defs.h \
+	archdep_dir.h \
 	archdep_ethernet_available.h \
 	archdep_exit.h \
 	archdep_expand_path.h \

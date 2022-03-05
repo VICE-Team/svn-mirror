@@ -58,7 +58,6 @@
 #include "diskcontents.h"
 #include "initcmdline.h"
 #include "interrupt.h"
-#include "ioutil.h"
 #include "kbdbuf.h"
 #include "lib.h"
 #include "log.h"

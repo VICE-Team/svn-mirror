@@ -35,7 +35,6 @@
 #include "diskcontents.h"
 #include "tapecontents.h"
 #include "imagecontents.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "ui.h"
 #include "uimenu.h"

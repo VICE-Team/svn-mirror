@@ -37,7 +37,6 @@
 #include "cia.h"
 #include "drive-snapshot.h"
 #include "drive.h"
-#include "ioutil.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
@@ -50,6 +49,7 @@
 #include "types.h"
 #include "vice-event.h"
 #include "vicii.h"
+
 
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1

@@ -42,14 +42,15 @@
 #include "cbmdos.h"
 #include "fileio.h"
 #include "fsdevice-filename.h"
-#include "fsdevice-read.h"
 #include "fsdevice-resources.h"
 #include "fsdevicetypes.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "tape.h"
 #include "types.h"
 #include "vdrive.h"
+
+#include "fsdevice-read.h"
+
 
 /* #define REL_DEBUG */
 
@@ -409,7 +410,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
         uint8_t *p;
         finfo = NULL;
 
-        direntry = ioutil_readdir(bufinfo->ioutil_dir);
+        direntry = archdep_readdir(bufinfo->host_dir);
 
         if (direntry == NULL) {
             break;
@@ -595,7 +596,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
 static int command_directory(vdrive_t *vdrive, bufinfo_t *bufinfo,
                              uint8_t *data, unsigned int secondary)
 {
-    if (bufinfo->ioutil_dir == NULL) {
+    if (bufinfo->host_dir == NULL) {
         return FLOPPY_ERROR;
     }
 

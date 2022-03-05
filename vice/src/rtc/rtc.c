@@ -35,11 +35,12 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "machine.h"
-#include "rtc.h"
 #include "util.h"
+
+#include "rtc.h"
+
 
 inline static int int_to_bcd(int dec)
 {

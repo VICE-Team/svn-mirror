@@ -34,7 +34,6 @@
 #include "archdep.h"
 #include "crtc.h"
 #include "drive-snapshot.h"
-#include "ioutil.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "log.h"

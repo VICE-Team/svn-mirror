@@ -33,7 +33,6 @@
 #include "archdep.h"
 #include "charset.h"
 #include "fsdevicetypes.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -95,7 +94,7 @@
 
 #define MAXDIRPOSMARK (10+26+26)
 
-static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, char *longname, int mode)
+static int _limit_longname(archdep_dir_t *archdep_dir, vdrive_t *vdrive, char *longname, int mode)
 {
     char *direntry;
     char newname[ARCHDEP_PATH_MAX];
@@ -113,11 +112,11 @@ static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, ch
 
     if (!longnames) {
         if (strlen(longname) > 16) {
-            tmppos = ioutil_getdirpos(ioutil_dir);
-            ioutil_resetdir(ioutil_dir);
+            tmppos = archdep_getdirpos(archdep_dir);
+            archdep_resetdir(archdep_dir);
 
             while(1) {
-                direntry = ioutil_readdir(ioutil_dir);
+                direntry = archdep_readdir(archdep_dir);
                 if (direntry == NULL) {
                     break;
                 }
@@ -130,7 +129,7 @@ static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, ch
                     /* handle max count */
                     if (dirpos == MAXDIRPOSMARK) {
                         log_error(LOG_DEFAULT, "could not make a unique short name for '%s'", longname);
-                        ioutil_setdirpos(ioutil_dir, tmppos);
+                        archdep_setdirpos(archdep_dir, tmppos);
                         return -1;
                     }
                     DBG(("limit_longname found partial '%s'\n", longname));
@@ -144,7 +143,7 @@ static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, ch
                     break;
                 }
             }
-            ioutil_setdirpos(ioutil_dir, tmppos);
+            archdep_setdirpos(archdep_dir, tmppos);
         }
     }
     DBG(("limit_longname return '%s'\n", longname));
@@ -154,16 +153,16 @@ static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, ch
 
 static int limit_longname(vdrive_t *vdrive, char *longname, int mode)
 {
-    struct ioutil_dir_s *ioutil_dir;
+    archdep_dir_t *archdep_dir;
     char *prefix;
     int ret = -1;
 
     prefix = fsdevice_get_path(vdrive->unit);
     DBG(("limit_longname path '%s'\n", prefix));
 
-    ioutil_dir = ioutil_opendir(prefix, IOUTIL_OPENDIR_ALL_FILES);
-    ret = _limit_longname(ioutil_dir, vdrive, longname, mode);
-    ioutil_closedir(ioutil_dir);
+    archdep_dir = archdep_opendir(prefix, ARCHDEP_OPENDIR_ALL_FILES);
+    ret = _limit_longname(archdep_dir, vdrive, longname, mode);
+    archdep_closedir(archdep_dir);
 
     return ret;
 }
@@ -177,7 +176,7 @@ static int limit_longname(vdrive_t *vdrive, char *longname, int mode)
 
 static char *expand_shortname(vdrive_t *vdrive, char *shortname, int mode)
 {
-    struct ioutil_dir_s *ioutil_dir;
+    archdep_dir_t *host_dir;
     char *direntry;
     char *prefix;
     char *longname;
@@ -196,16 +195,16 @@ static char *expand_shortname(vdrive_t *vdrive, char *shortname, int mode)
         prefix = fsdevice_get_path(vdrive->unit);
         DBG(("expand_shortname path '%s'\n", prefix));
 
-        ioutil_dir = ioutil_opendir(prefix, IOUTIL_OPENDIR_ALL_FILES);
+        host_dir = archdep_opendir(prefix, ARCHDEP_OPENDIR_ALL_FILES);
 
         while(1) {
-            direntry = ioutil_readdir(ioutil_dir);
+            direntry = archdep_readdir(host_dir);
             if (direntry == NULL) {
                 break;
             }
             /* create the short name for this entry and see if it matches */
             strcpy(longname, direntry);
-            _limit_longname(ioutil_dir, vdrive, longname, 0);
+            _limit_longname(host_dir, vdrive, longname, 0);
             if (mode) {
                 charset_petconvstring((uint8_t *)longname, CONVERT_TO_PETSCII);   /* ASCII name to PETSCII */
             }
@@ -215,11 +214,11 @@ static char *expand_shortname(vdrive_t *vdrive, char *shortname, int mode)
                 if (mode) {
                     charset_petconvstring((uint8_t *)longname, CONVERT_TO_PETSCII);   /* ASCII name to PETSCII */
                 }
-                ioutil_closedir(ioutil_dir);
+                archdep_closedir(host_dir);
                 return longname;
             }
         }
-        ioutil_closedir(ioutil_dir);
+        archdep_closedir(host_dir);
     }
     /* copy original string to the new name */
     strcpy(longname, shortname);

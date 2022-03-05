@@ -51,7 +51,6 @@
 # include <process.h>
 #endif
 
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"

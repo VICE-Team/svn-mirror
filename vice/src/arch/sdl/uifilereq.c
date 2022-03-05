@@ -32,7 +32,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "ui.h"
 #include "uimenu.h"
@@ -68,7 +67,7 @@ int last_selected_image_pos = 0;    /* FIXME: global variable. ugly. */
 /* ------------------------------------------------------------------ */
 /* static functions */
 
-static int sdl_ui_file_selector_recall_location(ioutil_dir_t *directory)
+static int sdl_ui_file_selector_recall_location(archdep_dir_t *directory)
 {
     unsigned int i, j, k, count;
     int direction;
@@ -100,7 +99,7 @@ static int sdl_ui_file_selector_recall_location(ioutil_dir_t *directory)
     return 0;
 }
 
-static char* sdl_ui_get_file_selector_entry(ioutil_dir_t *directory, int offset, int *isdir, ui_menu_filereq_mode_t mode)
+static char* sdl_ui_get_file_selector_entry(archdep_dir_t *directory, int offset, int *isdir, ui_menu_filereq_mode_t mode)
 {
     *isdir = 0;
 
@@ -214,7 +213,7 @@ static void sdl_ui_display_path(const char *current_dir)
     lib_free(text);
 }
 
-static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *title, const char *current_dir, int offset, int num_items, int more, ui_menu_filereq_mode_t mode, int cur_offset)
+static void sdl_ui_file_selector_redraw(archdep_dir_t *directory, const char *title, const char *current_dir, int offset, int num_items, int more, ui_menu_filereq_mode_t mode, int cur_offset)
 {
     int i, j, isdir = 0;
     char* title_string;
@@ -251,7 +250,7 @@ static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *tit
     }
 }
 
-static void sdl_ui_file_selector_redraw_cursor(ioutil_dir_t *directory, int offset, int num_items, ui_menu_filereq_mode_t mode, int cur_offset, int old_offset)
+static void sdl_ui_file_selector_redraw_cursor(archdep_dir_t *directory, int offset, int num_items, ui_menu_filereq_mode_t mode, int cur_offset, int old_offset)
 {
     int i, j, isdir = 0;
     char* name;
@@ -372,9 +371,9 @@ static char * display_drive_menu(void)
 /* External UI interface */
 
 #ifdef UNIX_COMPILE
-#define SDL_FILESELECTOR_DIRMODE    IOUTIL_OPENDIR_NO_DOTFILES
+#define SDL_FILESELECTOR_DIRMODE    ARCHDEP_OPENDIR_NO_DOTFILES
 #else
-#define SDL_FILESELECTOR_DIRMODE    IOUTIL_OPENDIR_ALL_FILES
+#define SDL_FILESELECTOR_DIRMODE    ARCHDEP_OPENDIR_ALL_FILES
 #endif
 
 char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mode)
@@ -385,7 +384,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
     int redraw = 1;
     char *retval = NULL;
     int cur = 0, cur_old = -1;
-    ioutil_dir_t *directory;
+    archdep_dir_t *directory;
     char current_dir[ARCHDEP_PATH_MAX];
     char backup_dir[ARCHDEP_PATH_MAX];
     char *inputstring;
@@ -397,7 +396,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
     archdep_getcwd(current_dir, ARCHDEP_PATH_MAX);
     memcpy(backup_dir, current_dir, sizeof(backup_dir));
 
-    directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
+    directory = archdep_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
     if (directory == NULL) {
         return NULL;
     }
@@ -521,9 +520,9 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                         if (inputstring != NULL) {
                             archdep_chdir(inputstring);
                             lib_free(inputstring);
-                            ioutil_closedir(directory);
+                            archdep_closedir(directory);
                             archdep_getcwd(current_dir, ARCHDEP_PATH_MAX);
-                            directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
+                            directory = archdep_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
@@ -540,9 +539,9 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                         if (inputstring != NULL) {
                             archdep_set_current_drive(inputstring);
                             lib_free(inputstring);
-                            ioutil_closedir(directory);
+                            archdep_closedir(directory);
                             archdep_getcwd(current_dir, ARCHDEP_PATH_MAX);
-                            directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
+                            directory = archdep_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
@@ -557,9 +556,9 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                         if (offset + cur < (dirs + SDL_FILEREQ_META_NUM)) {
                             /* enter subdirectory */
                             archdep_chdir(directory->dirs[offset + cur - SDL_FILEREQ_META_NUM].name);
-                            ioutil_closedir(directory);
+                            archdep_closedir(directory);
                             archdep_getcwd(current_dir, ARCHDEP_PATH_MAX);
-                            directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
+                            directory = archdep_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
@@ -605,7 +604,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                 break;
         }
     }
-    ioutil_closedir(directory);
+    archdep_closedir(directory);
 
     return retval;
 }
@@ -685,7 +684,7 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
     int i;
 
     menu_draw = sdl_ui_get_menu_param();
-    maxpathlen = ioutil_maxpathlen();
+    maxpathlen = archdep_maxpathlen();
 
     /* workaround to get the "home" directory of the emulator*/
     current_dir = archdep_default_resource_file_name();

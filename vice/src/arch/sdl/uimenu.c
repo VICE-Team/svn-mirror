@@ -34,7 +34,6 @@
 
 #include "archdep.h"
 #include "interrupt.h"
-#include "ioutil.h"
 #include "joy.h"
 #include "kbd.h"
 #include "lib.h"

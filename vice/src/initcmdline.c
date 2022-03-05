@@ -45,7 +45,6 @@
 #include "fsdevice.h"
 #include "gfxoutput.h"
 #include "initcmdline.h"
-#include "ioutil.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "lib.h"

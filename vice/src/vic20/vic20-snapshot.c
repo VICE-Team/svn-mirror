@@ -35,7 +35,6 @@
 
 #include "archdep.h"
 #include "drive-snapshot.h"
-#include "ioutil.h"
 #include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"

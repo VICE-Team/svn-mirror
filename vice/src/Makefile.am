@@ -220,7 +220,6 @@ noinst_HEADERS = \
 	init.h \
 	initcmdline.h \
 	interrupt.h \
-	ioutil.h \
 	kbdbuf.h \
 	keyboard.h \
 	lib.h \
@@ -329,7 +328,6 @@ base_sources = \
 	init.c \
 	initcmdline.c \
 	interrupt.c \
-	ioutil.c \
 	kbdbuf.c \
 	keyboard.c \
 	lib.c \
@@ -1161,7 +1159,6 @@ c1541_SOURCES = \
 	gcr.c \
 	cbmimage.c \
 	info.c \
-	ioutil.c \
 	lib.c \
 	log.c \
 	opencbmlib.c \
@@ -1173,7 +1170,6 @@ c1541_SOURCES = \
 
 c1541_libs = \
 	$(toolarch_lib) \
-	$(archdep_lib) \
 	$(p64_lib) \
 	$(blockdev_lib) \
 	$(vdrive_lib) \
@@ -1183,7 +1179,8 @@ c1541_libs = \
 	$(tape_lib) \
 	$(serial_lib) \
 	$(socketdrv_lib) \
-	$(linenoise_ng_lib)
+	$(linenoise_ng_lib) \
+	$(archdep_lib)
 
 c1541_LDADD = \
 	$(c1541_libs) \
