@@ -33,8 +33,13 @@
 #include <errno.h>
 
 #if defined(ARCHDEP_OS_WINDOWS)
-# include <direct.h>
-# include <io.h>
+/* FIXME:   This is obviously wrong and would require a user of MVSC to install
+ *          some kind of drop-in dirent.h compatibility file in their build
+ *          environment.
+ *          This code should be amended to use FindFirstFile(), FindNextFile()
+ *          etcetera from the win32 API on Windows.
+ */
+# include <dirent.h>
 #elif defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
 # include <sys/types.h>
 # include <dirent.h>
