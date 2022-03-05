@@ -85,7 +85,6 @@
 #include "fsimage-check.h"
 #include "gcr.h"
 #include "imagecontents.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "serial.h"

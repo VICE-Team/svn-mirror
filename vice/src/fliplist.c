@@ -42,7 +42,6 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "fliplist.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"

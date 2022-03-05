@@ -50,7 +50,6 @@
 #endif
 
 #include "archdep.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 

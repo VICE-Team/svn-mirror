@@ -46,12 +46,10 @@
 #include "charset.h"
 #include "fileio.h"
 #include "fsdevice-filename.h"
-#include "fsdevice-open.h"
 #include "fsdevice-read.h"
 #include "fsdevice-resources.h"
 #include "fsdevice-write.h"
 #include "fsdevicetypes.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -59,6 +57,8 @@
 #include "vdrive-command.h"
 #include "vdrive.h"
 #include "util.h"
+
+#include "fsdevice-open.h"
 
 #ifdef DEBUG_DRIVEOPEN
 #define DBG(x)  printf x
@@ -105,7 +105,7 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
                                    bufinfo_t *bufinfo,
                                    cbmdos_cmd_parse_t *cmd_parse, char *rname)
 {
-    struct ioutil_dir_s *ioutil_dir;
+    archdep_dir_t *host_dir;
     char *mask;
     uint8_t *p;
     int i;
@@ -138,15 +138,15 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
     }
 
     /* trying to open */
-    ioutil_dir = ioutil_opendir((char *)(cmd_parse->parsecmd), IOUTIL_OPENDIR_ALL_FILES);
-    if (ioutil_dir == NULL) {
+    host_dir = archdep_opendir((char *)(cmd_parse->parsecmd), ARCHDEP_OPENDIR_ALL_FILES);
+    if (host_dir == NULL) {
         for (p = (uint8_t *)(cmd_parse->parsecmd); *p; p++) {
             if (isupper((int)*p)) {
                 *p = tolower((int)*p);
             }
         }
-        ioutil_dir = ioutil_opendir((char *)(cmd_parse->parsecmd), IOUTIL_OPENDIR_ALL_FILES);
-        if (ioutil_dir == NULL) {
+        host_dir = archdep_opendir((char *)(cmd_parse->parsecmd), ARCHDEP_OPENDIR_ALL_FILES);
+        if (host_dir == NULL) {
             fsdevice_error(vdrive, CBMDOS_IPE_NOT_FOUND);
             return FLOPPY_ERROR;
         }
@@ -204,7 +204,7 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
     bufinfo[secondary].buflen = (int)(p - bufinfo[secondary].name);
     bufinfo[secondary].bufp = bufinfo[secondary].name;
     bufinfo[secondary].mode = Directory;
-    bufinfo[secondary].ioutil_dir = ioutil_dir;
+    bufinfo[secondary].host_dir = host_dir;
     bufinfo[secondary].eof = 0;
 
     return FLOPPY_COMMAND_OK;

@@ -38,7 +38,6 @@
 #include "drive-snapshot.h"
 #include "drive.h"
 #include "serial.h"
-#include "ioutil.h"
 #include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"

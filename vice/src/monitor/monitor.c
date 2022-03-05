@@ -55,7 +55,6 @@
 #include "drive.h"
 
 #include "interrupt.h"
-#include "ioutil.h"
 #include "kbdbuf.h"
 #include "lib.h"
 #include "util.h"
@@ -1145,7 +1144,7 @@ void mon_show_pwd(void)
 
 void mon_show_dir(const char *path)
 {
-    struct ioutil_dir_s *dir;
+    archdep_dir_t *dir;
     char *name;
     char *mpath;
     char *fullname;
@@ -1157,14 +1156,14 @@ void mon_show_dir(const char *path)
     }
     mon_out("Displaying directory: `%s'\n", mpath);
 
-    dir = ioutil_opendir(mpath, IOUTIL_OPENDIR_ALL_FILES);
+    dir = archdep_opendir(mpath, ARCHDEP_OPENDIR_ALL_FILES);
     if (!dir) {
         mon_out("Couldn't open directory.\n");
         lib_free(mpath);
         return;
     }
 
-    while ((name = ioutil_readdir(dir))) {
+    while ((name = archdep_readdir(dir))) {
         size_t len;
         unsigned int isdir;
         int ret;
@@ -1186,7 +1185,7 @@ void mon_show_dir(const char *path)
         }
     }
     lib_free(mpath);
-    ioutil_closedir(dir);
+    archdep_closedir(dir);
 }
 
 void mon_resource_get(const char *name)

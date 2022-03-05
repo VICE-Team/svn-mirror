@@ -27,8 +27,6 @@
  */
 
 #include "vice.h"
-
-#include "archdep.h"
 #include "archdep_defs.h"
 
 #include <stdio.h>
@@ -38,7 +36,6 @@
 # include <windows.h>
 #endif
 
-#include "ioutil.h"
 #include "lib.h"
 #include "util.h"
 

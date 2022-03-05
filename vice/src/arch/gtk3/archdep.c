@@ -43,7 +43,6 @@
 #include "debug_gtk3.h"
 #include "findpath.h"
 #include "hotkeys.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"

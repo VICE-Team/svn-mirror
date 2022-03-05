@@ -1,9 +1,8 @@
-/** \file   ioutil.c
- * \brief   Miscellaneous IO utility functions
- *
- * \author  Andreas Boose <viceteam@t-online.de>
+/** \file   archdep_dir.c
+ * \brief   Read host directory
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Andreas Boose <viceteam@t-online.de>
  */
 
 /*
@@ -28,65 +27,43 @@
  */
 
 #include "vice.h"
-
-#include <stdio.h>
-#include <errno.h>
-
-#ifdef HAVE_DIRECT_H
-#include <direct.h>
-#endif
-#if defined(HAVE_DIRENT_H) || defined(AMIGA_AROS)
-#include <dirent.h>
-#endif
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif
-#ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
+#include "archdep.h"
 
 #include <string.h>
-#include <stdlib.h>
+#include <errno.h>
 
-#include "archdep.h"
+#if defined(ARCHDEP_OS_WINDOWS)
+# include <direct.h>
+# include <io.h>
+#elif defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+# include <sys/types.h>
+# include <dirent.h>
+#else
+# error "Unsupported OS!"
+#endif
+
 #include "lib.h"
-#include "types.h"
 #include "util.h"
 
-#include "ioutil.h"
+#include "archdep_dir.h"
 
-
-/* ------------------------------------------------------------------------- */
-/* IO helper functions.  */
 
 static int dirs_amount = 0;
 static int files_amount = 0;
 
-static int ioutil_compare_names(const void* a, const void* b)
+static int archdep_compare_names(const void* a, const void* b)
 {
-    const ioutil_name_table_t *arg1 = (const ioutil_name_table_t*)a;
-    const ioutil_name_table_t *arg2 = (const ioutil_name_table_t*)b;
+    const archdep_name_table_t *arg1 = (const archdep_name_table_t*)a;
+    const archdep_name_table_t *arg2 = (const archdep_name_table_t*)b;
     return strcmp(arg1->name, arg2->name);
 }
 
 /* checks a direntry for the given filter mode, 
    returns 1 if the file is not filtered out, 
            0 when the file is filtered out */
-static int ioutil_check_dir_filter(struct dirent *dp, int mode)
+static int archdep_check_dir_filter(struct dirent *dp, int mode)
 {
-    if (mode & IOUTIL_OPENDIR_NO_DOTFILES) {
+    if (mode & ARCHDEP_OPENDIR_NO_DOTFILES) {
         /* checks for a *nix "dotfile" */
         if ((dp->d_name[0] == '.') &&
             (dp->d_name[1] != 0) &&
@@ -101,7 +78,7 @@ static int ioutil_check_dir_filter(struct dirent *dp, int mode)
     NOTE: even when _DIRENT_HAVE_D_TYPE is defined, d_type may still be returned
           as DT_UNKNOWN - in that case we must fall back to using stat instead.
  */
-static int ioutil_count_dir_items(const char *path, int mode)
+static int archdep_count_dir_items(const char *path, int mode)
 {
     DIR *dirp;
     struct dirent *dp;
@@ -124,7 +101,7 @@ static int ioutil_count_dir_items(const char *path, int mode)
     dp = readdir(dirp);
 
     while (dp != NULL) {
-        if (ioutil_check_dir_filter(dp, mode)) {
+        if (archdep_check_dir_filter(dp, mode)) {
 #ifdef _DIRENT_HAVE_D_TYPE
             if (dp->d_type != DT_UNKNOWN) {
                 if (dp->d_type == DT_DIR) {
@@ -173,7 +150,7 @@ static int ioutil_count_dir_items(const char *path, int mode)
     return 0;
 }
 
-static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_name_table_t *files, int mode)
+static void archdep_filldir(const char *path, archdep_name_table_t *dirs, archdep_name_table_t *files, int mode)
 {
     DIR *dirp = NULL;
     struct dirent *dp = NULL;
@@ -191,7 +168,7 @@ static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_n
     dp = readdir(dirp);
 
     while (dp != NULL) {
-        if (ioutil_check_dir_filter(dp, mode)) {
+        if (archdep_check_dir_filter(dp, mode)) {
 #ifdef _DIRENT_HAVE_D_TYPE
             if (dp->d_type != DT_UNKNOWN) {
                 if (dp->d_type == DT_DIR) {
@@ -245,77 +222,77 @@ static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_n
     closedir(dirp);
 }
 
-ioutil_dir_t *ioutil_opendir(const char *path, int mode)
+archdep_dir_t *archdep_opendir(const char *path, int mode)
 {
     int retval;
-    ioutil_dir_t *ioutil_dir;
+    archdep_dir_t *archdep_dir;
 
-    retval = ioutil_count_dir_items(path, mode);
+    retval = archdep_count_dir_items(path, mode);
     if (retval < 0) {
         return NULL;
     }
 
-    ioutil_dir = lib_malloc(sizeof(ioutil_dir_t));
+    archdep_dir = lib_malloc(sizeof(archdep_dir_t));
 
-    ioutil_dir->dirs = lib_malloc(sizeof(ioutil_name_table_t) * dirs_amount);
-    ioutil_dir->files = lib_malloc(sizeof(ioutil_name_table_t) * files_amount);
+    archdep_dir->dirs = lib_malloc(sizeof(archdep_name_table_t) * dirs_amount);
+    archdep_dir->files = lib_malloc(sizeof(archdep_name_table_t) * files_amount);
 
-    ioutil_filldir(path, ioutil_dir->dirs, ioutil_dir->files, mode);
-    qsort(ioutil_dir->dirs, dirs_amount, sizeof(ioutil_name_table_t), ioutil_compare_names);
-    qsort(ioutil_dir->files, files_amount, sizeof(ioutil_name_table_t), ioutil_compare_names);
+    archdep_filldir(path, archdep_dir->dirs, archdep_dir->files, mode);
+    qsort(archdep_dir->dirs, dirs_amount, sizeof(archdep_name_table_t), archdep_compare_names);
+    qsort(archdep_dir->files, files_amount, sizeof(archdep_name_table_t), archdep_compare_names);
 
-    ioutil_dir->dir_amount = dirs_amount;
-    ioutil_dir->file_amount = files_amount;
-    ioutil_dir->counter = 0;
+    archdep_dir->dir_amount = dirs_amount;
+    archdep_dir->file_amount = files_amount;
+    archdep_dir->counter = 0;
 
-    return ioutil_dir;
+    return archdep_dir;
 }
 
-char *ioutil_readdir(ioutil_dir_t *ioutil_dir)
+char *archdep_readdir(archdep_dir_t *archdep_dir)
 {
     char *retval;
 
-    if (ioutil_dir->counter >= (ioutil_dir->dir_amount + ioutil_dir->file_amount)) {
+    if (archdep_dir->counter >= (archdep_dir->dir_amount + archdep_dir->file_amount)) {
         return NULL;
     }
 
-    if (ioutil_dir->counter >= ioutil_dir->dir_amount) {
-        retval = ioutil_dir->files[ioutil_dir->counter - ioutil_dir->dir_amount].name;
+    if (archdep_dir->counter >= archdep_dir->dir_amount) {
+        retval = archdep_dir->files[archdep_dir->counter - archdep_dir->dir_amount].name;
     } else {
-        retval = ioutil_dir->dirs[ioutil_dir->counter].name;
+        retval = archdep_dir->dirs[archdep_dir->counter].name;
     }
-    ioutil_dir->counter++;
+    archdep_dir->counter++;
 
     return retval;
 }
 
-void ioutil_closedir(ioutil_dir_t *ioutil_dir)
+void archdep_closedir(archdep_dir_t *archdep_dir)
 {
     int i;
 
-    for (i = 0; i < ioutil_dir->dir_amount; i++) {
-        lib_free(ioutil_dir->dirs[i].name);
+    for (i = 0; i < archdep_dir->dir_amount; i++) {
+        lib_free(archdep_dir->dirs[i].name);
     }
-    for (i = 0; i < ioutil_dir->file_amount; i++) {
-        lib_free(ioutil_dir->files[i].name);
+    for (i = 0; i < archdep_dir->file_amount; i++) {
+        lib_free(archdep_dir->files[i].name);
     }
-    lib_free(ioutil_dir->dirs);
-    lib_free(ioutil_dir->files);
-    lib_free(ioutil_dir);
+    lib_free(archdep_dir->dirs);
+    lib_free(archdep_dir->files);
+    lib_free(archdep_dir);
 }
 
-void ioutil_resetdir(ioutil_dir_t *ioutil_dir)
+void archdep_resetdir(archdep_dir_t *archdep_dir)
 {
-    ioutil_dir->counter = 0;
+    archdep_dir->counter = 0;
 }
 
-void ioutil_setdirpos(ioutil_dir_t *ioutil_dir, int pos)
+void archdep_setdirpos(archdep_dir_t *archdep_dir, int pos)
 {
-    ioutil_dir->counter = pos;
+    archdep_dir->counter = pos;
 }
 
-int ioutil_getdirpos(ioutil_dir_t *ioutil_dir)
+int archdep_getdirpos(archdep_dir_t *archdep_dir)
 {
-    return ioutil_dir->counter;
+    return archdep_dir->counter;
 }
 

@@ -35,7 +35,6 @@
 
 #include "archdep.h"
 #include "lib.h"
-#include "ioutil.h"
 #include "log.h"
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"

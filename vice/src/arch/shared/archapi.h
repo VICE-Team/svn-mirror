@@ -57,6 +57,7 @@
 #include "archdep_default_resource_file_name.h"
 #include "archdep_default_rtc_file_name.h"
 #include "archdep_default_sysfile_pathlist.h"
+#include "archdep_dir.h"
 #include "archdep_ethernet_available.h"
 #include "archdep_exit.h"
 #include "archdep_expand_path.h"
