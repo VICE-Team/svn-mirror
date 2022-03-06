@@ -163,7 +163,8 @@ static char *p00_file_find(const char *file_name, const char *path)
     archdep_dir_t *host_dir;
     struct rawfile_info_s *rawfile;
     uint8_t p00_header_file_name[P00_HDR_CBMNAME_LEN];
-    char *name, *alloc_name = NULL;
+    const char *name;
+    char *alloc_name = NULL;
     int rc;
 
     host_dir = archdep_opendir(path, ARCHDEP_OPENDIR_ALL_FILES);

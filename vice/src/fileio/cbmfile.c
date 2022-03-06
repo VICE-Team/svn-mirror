@@ -44,7 +44,8 @@ static char *cbmfile_find_file(const char *fsname, const char *path)
 {
     archdep_dir_t *host_dir;
     uint8_t *name1, *name2;
-    char *name, *retname = NULL;
+    const char *name;
+    char *retname = NULL;
     const char *open_path;
 
     open_path = path;

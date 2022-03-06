@@ -1145,7 +1145,7 @@ void mon_show_pwd(void)
 void mon_show_dir(const char *path)
 {
     archdep_dir_t *dir;
-    char *name;
+    const char *name;
     char *mpath;
     char *fullname;
 
