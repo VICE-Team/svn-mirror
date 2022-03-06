@@ -61,11 +61,9 @@
  *
  * \return  \< 0 if \a a \< \a b, 0 if \a a == \a b, \> 0 if \a a \> \a b
  */ 
-static int compare_names(const void* a, const void* b)
+static int compare_names(const void *a, const void *b)
 {
-    const archdep_name_table_t *arg1 = (const archdep_name_table_t*)a;
-    const archdep_name_table_t *arg2 = (const archdep_name_table_t*)b;
-    return strcmp(arg1->name, arg2->name);
+    return strcmp(*(const char **)a, *(const char **)b);
 }
 
 
@@ -185,10 +183,7 @@ static int count_dir_items(const char *path, int mode, int *num_dirs, int *num_f
  * \param[out]  file    list of files inside \a path
  * \param[in]   mode    filter to test pathnames against
  */
-static void populate_lists(const char *path,
-                           archdep_name_table_t *dirs,
-                           archdep_name_table_t *files,
-                           int mode)
+static void populate_lists(const char *path, char **dirs, char **files, int mode)
 {
     DIR *dirp = NULL;
     struct dirent *dp = NULL;
@@ -197,7 +192,6 @@ static void populate_lists(const char *path,
     size_t len;
     unsigned int isdir;
     char *filename;
-    int retval;
 
     dirp = opendir(path);
     if (dirp == NULL) {
@@ -211,19 +205,15 @@ static void populate_lists(const char *path,
 #ifdef _DIRENT_HAVE_D_TYPE
             if (dp->d_type != DT_UNKNOWN) {
                 if (dp->d_type == DT_DIR) {
-                    dirs[dir_count].name = lib_strdup(dp->d_name);
-                    dir_count++;
+                    dirs[dir_count++]= lib_strdup(dp->d_name);
 #ifdef DT_LNK
                 } else if (dp->d_type == DT_LNK) {
                     filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-                    retval = archdep_stat(filename, &len, &isdir);
-                    if (retval == 0) {
+                    if (archdep_stat(filename, &len, &isdir) == 0) {
                         if (isdir) {
-                            dirs[dir_count].name = lib_strdup(dp->d_name);
-                            dir_count++;
+                            dirs[dir_count++] = lib_strdup(dp->d_name);
                         } else {
-                            files[file_count].name = lib_strdup(dp->d_name);
-                            file_count++;
+                            files[file_count++] = lib_strdup(dp->d_name);
                         }
                     }
                     if (filename) {
@@ -232,21 +222,17 @@ static void populate_lists(const char *path,
                     }
 #endif /* DT_LNK */
                 } else {
-                    files[file_count].name = lib_strdup(dp->d_name);
-                    file_count++;
+                    files[file_count++] = lib_strdup(dp->d_name);
                 }
                 dp = readdir(dirp);
             } else {
 #endif /* _DIRENT_HAVE_D_TYPE */
                 filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-                retval = archdep_stat(filename, &len, &isdir);
-                if (retval == 0) {
+                if (archdep_stat(filename, &len, &isdir) == 0) {
                     if (isdir) {
-                        dirs[dir_count].name = lib_strdup(dp->d_name);
-                        dir_count++;
+                        dirs[dir_count++] = lib_strdup(dp->d_name);
                     } else {
-                        files[file_count].name = lib_strdup(dp->d_name);
-                        file_count++;
+                        files[file_count++] = lib_strdup(dp->d_name);
                     }
                 }
                 dp = readdir(dirp);
@@ -271,7 +257,7 @@ static void populate_lists(const char *path,
  */
 archdep_dir_t *archdep_opendir(const char *path, int mode)
 {
-    archdep_dir_t *archdep_dir;
+    archdep_dir_t *dir;
     int dirs_amount = 0;
     int files_amount = 0;
 
@@ -279,20 +265,19 @@ archdep_dir_t *archdep_opendir(const char *path, int mode)
         return NULL;
     }
 
-    archdep_dir = lib_malloc(sizeof(archdep_dir_t));
+    dir = lib_malloc(sizeof *dir);
+    dir->dirs = lib_malloc(sizeof *(dir->dirs) * dirs_amount);
+    dir->files = lib_malloc(sizeof *(dir->files) * files_amount);
 
-    archdep_dir->dirs = lib_malloc(sizeof(archdep_name_table_t) * dirs_amount);
-    archdep_dir->files = lib_malloc(sizeof(archdep_name_table_t) * files_amount);
+    populate_lists(path, dir->dirs, dir->files, mode);
+    qsort(dir->dirs, dirs_amount, sizeof *(dir->dirs), compare_names);
+    qsort(dir->files, files_amount, sizeof *(dir->files), compare_names);
 
-    populate_lists(path, archdep_dir->dirs, archdep_dir->files, mode);
-    qsort(archdep_dir->dirs, dirs_amount, sizeof(archdep_name_table_t), compare_names);
-    qsort(archdep_dir->files, files_amount, sizeof(archdep_name_table_t), compare_names);
+    dir->dir_amount = dirs_amount;
+    dir->file_amount = files_amount;
+    dir->pos = 0;
 
-    archdep_dir->dir_amount = dirs_amount;
-    archdep_dir->file_amount = files_amount;
-    archdep_dir->pos = 0;
-
-    return archdep_dir;
+    return dir;
 }
 
 
@@ -310,9 +295,9 @@ const char *archdep_readdir(archdep_dir_t *dir)
     int pos = dir->pos;
 
     if (pos >= 0 && pos < dir_amount) {
-        retval = dir->dirs[pos].name;
+        retval = dir->dirs[pos];
     } else if (pos >= dir_amount && pos <= (dir_amount + file_amount)) {
-        retval = dir->files[pos - dir_amount].name;
+        retval = dir->files[pos - dir_amount];
     }
     return retval;
 }
@@ -330,10 +315,10 @@ void archdep_closedir(archdep_dir_t *dir)
     int i;
 
     for (i = 0; i < dir->dir_amount; i++) {
-        lib_free(dir->dirs[i].name);
+        lib_free(dir->dirs[i]);
     }
     for (i = 0; i < dir->file_amount; i++) {
-        lib_free(dir->files[i].name);
+        lib_free(dir->files[i]);
     }
     lib_free(dir->dirs);
     lib_free(dir->files);
@@ -372,10 +357,98 @@ void archdep_seekdir(archdep_dir_t *dir, int pos)
  *
  * \return  position in \a dir or -1 when \a dir is exhausted
  */
-int archdep_telldir(archdep_dir_t *dir)
+int archdep_telldir(const archdep_dir_t *dir)
 {
     if (dir->pos >= (dir->dir_amount + dir->file_amount)) {
         return -1;
     }
     return dir->pos;
+}
+
+
+/** \brief  Get directory entry from directory object
+ *
+ * \param[in]   dir     directory object
+ * \param[in]   pos     position in directories list in \a dir
+ *
+ * \return  directory name or NULL when \a pos is out of bounds
+ */
+const char *archdep_readdir_get_dir(const archdep_dir_t *dir, int pos)
+{
+    if (pos >= 0 && pos < dir->dir_amount) {
+        return dir->dirs[pos];
+    }
+    return NULL;
+}
+
+
+/** \brief  Get filename entry from directory object
+ *
+ * \param[in]   dir     directory object
+ * \param[in]   pos     position in files list in \a dir
+ *
+ * \return  filename or NULL when \a pos is out of bounds
+ */
+const char *archdep_readdir_get_file(const archdep_dir_t *dir, int pos)
+{
+    if (pos >= 0 && pos < dir->file_amount) {
+        return dir->files[pos];
+    }
+    return NULL;
+}
+
+
+/** \brief  Get entry from directory object
+ *
+ * Get entry from \a dir with the assumption that the directories come before
+ * the files, joining the two lists as a single list for the \a pos argument.
+ *
+ * \param[in]   dir     directory object
+ * \param[in]   pos     position in directories and files list in \a dir
+ *
+ * \return  entry or NULL when \a pos is out of bounds
+ */
+const char *archdep_readdir_get_entry(const archdep_dir_t *dir, int pos)
+{
+    if (pos < dir->dir_amount) {
+        return archdep_readdir_get_dir(dir, pos);
+    } else {
+        return archdep_readdir_get_file(dir, pos - dir->dir_amount);
+    }
+}
+
+
+/** \brief  Get total number of entries
+ *
+ * \param[in]   dir directory object
+ *
+ * \return  total number of entries (dirs + files)
+ */
+int archdep_readdir_num_entries(const archdep_dir_t *dir)
+{
+    return dir->dir_amount + dir->file_amount;
+}
+
+
+/** \brief  Get number of directory entries
+ *
+ * \param[in]   dir directory object
+ *
+ * \return  number of directory entries
+ */
+int archdep_readdir_num_dirs(const archdep_dir_t *dir)
+{
+    return dir->dir_amount;
+}
+
+
+/** \brief  Get number of file entries
+ *
+ * \param[in]   dir directory object
+ *
+ * \return  number of file entries
+ */
+int archdep_readdir_num_files(const archdep_dir_t *dir)
+{
+    return dir->file_amount;
 }
