@@ -382,7 +382,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
 {
     int i, l, f, statrc;
     unsigned long blocks;
-    char *direntry;
+    const char *direntry;
     size_t filelen;
     unsigned int isdir;
     fileio_info_t *finfo = NULL;

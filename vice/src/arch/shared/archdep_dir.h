@@ -44,28 +44,36 @@
 #define ARCHDEP_OPENDIR_ALL_FILES   0
 
 
-/* XXX: This is a bit weird */
+/* XXX: This is a bit weird, could just use a list of strings instead? */
 typedef struct archdep_name_table_s {
     char *name; /**< filename */
 } archdep_name_table_t;
 
+
 /** \brief  Directory object
+ *
+ * Contains a list of directories and a list of files for a given host directory.
+ *
+ * For the position in the directory the API concatenates the dirs and files
+ * with the dirs coming first. The directories and files are sorted in ascending
+ * order in a case-sensitive manner and thus sorted Unix-style and not Windows-
+ * style (where case folding is normally applied).
  */
 typedef struct archdep_dir_s {
     archdep_name_table_t *dirs;     /**< list of directories */
     archdep_name_table_t *files;    /**< list of files */
     int dir_amount;                 /**< number of entries in `dirs` */
     int file_amount;                /**< number of entries in `files` */
-    int counter;                    /**< ??? */
+    int pos;                        /**< position in directory, adding together
+                                         dirs and files with dirs coming first */
 } archdep_dir_t;
 
 
-
 archdep_dir_t * archdep_opendir(const char *path, int mode);
-char *          archdep_readdir(archdep_dir_t *archdep_dir);
-void            archdep_closedir(archdep_dir_t *archdep_dir);
-void            archdep_resetdir(archdep_dir_t *archdep_dir);
-void            archdep_setdirpos(archdep_dir_t *archdep_dir, int pos);
-int             archdep_getdirpos(archdep_dir_t *archdep_dir);
+const char *    archdep_readdir(archdep_dir_t *dir);
+void            archdep_closedir(archdep_dir_t *dir);
+void            archdep_rewinddir(archdep_dir_t *dir);
+void            archdep_seekdir(archdep_dir_t *dir, int pos);
+int             archdep_telldir(archdep_dir_t *dir);
 
 #endif

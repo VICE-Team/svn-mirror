@@ -96,7 +96,7 @@
 
 static int _limit_longname(archdep_dir_t *archdep_dir, vdrive_t *vdrive, char *longname, int mode)
 {
-    char *direntry;
+    const char *direntry;
     char newname[ARCHDEP_PATH_MAX];
     int longnames;
     int dirpos = 0;
@@ -112,8 +112,8 @@ static int _limit_longname(archdep_dir_t *archdep_dir, vdrive_t *vdrive, char *l
 
     if (!longnames) {
         if (strlen(longname) > 16) {
-            tmppos = archdep_getdirpos(archdep_dir);
-            archdep_resetdir(archdep_dir);
+            tmppos = archdep_telldir(archdep_dir);
+            archdep_rewinddir(archdep_dir);
 
             while(1) {
                 direntry = archdep_readdir(archdep_dir);
@@ -129,7 +129,7 @@ static int _limit_longname(archdep_dir_t *archdep_dir, vdrive_t *vdrive, char *l
                     /* handle max count */
                     if (dirpos == MAXDIRPOSMARK) {
                         log_error(LOG_DEFAULT, "could not make a unique short name for '%s'", longname);
-                        archdep_setdirpos(archdep_dir, tmppos);
+                        archdep_seekdir(archdep_dir, tmppos);
                         return -1;
                     }
                     DBG(("limit_longname found partial '%s'\n", longname));
@@ -143,7 +143,7 @@ static int _limit_longname(archdep_dir_t *archdep_dir, vdrive_t *vdrive, char *l
                     break;
                 }
             }
-            archdep_setdirpos(archdep_dir, tmppos);
+            archdep_seekdir(archdep_dir, tmppos);
         }
     }
     DBG(("limit_longname return '%s'\n", longname));
@@ -177,7 +177,7 @@ static int limit_longname(vdrive_t *vdrive, char *longname, int mode)
 static char *expand_shortname(vdrive_t *vdrive, char *shortname, int mode)
 {
     archdep_dir_t *host_dir;
-    char *direntry;
+    const char *direntry;
     char *prefix;
     char *longname;
     int longnames;
