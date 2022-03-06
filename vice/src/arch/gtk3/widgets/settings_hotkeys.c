@@ -513,11 +513,11 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
     gchar *accel;
     int action_id = GPOINTER_TO_INT(data);
-    const char *action_name;
     ui_menu_item_t *item_vice;
     GtkWidget *item_gtk;
-
-    action_name = ui_action_get_name(action_id);
+#ifdef HAVE_DEBUG_GTK3UI
+    const char *action_name = ui_action_get_name(action_id);
+#endif
 
     switch (response_id) {
 
