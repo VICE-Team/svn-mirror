@@ -78,32 +78,35 @@ static int sdl_ui_file_selector_recall_location(archdep_dir_t *directory)
 
     /* the file list is sorted by ioutil, do binary search */
     i = 0;
-    k = directory->file_amount;
+    k = archdep_readdir_num_files(directory);
 
     /* ...but keep a failsafe in case the above assumption breaks */
     count = 50;
 
     while ((i < k) && (--count)) {
         j = i + ((k - i) >> 1);
-        direction = strcmp(last_selected_file, directory->files[j].name);
+        direction = strcmp(last_selected_file,
+                           archdep_readdir_get_file(directory, j));
 
         if (direction > 0) {
             i = j + 1;
         } else if (direction < 0) {
             k = j;
         } else {
-            return j + directory->dir_amount + SDL_FILEREQ_META_NUM;
+            return j + archdep_readdir_num_dirs(directory) + SDL_FILEREQ_META_NUM;
         }
     }
 
     return 0;
 }
 
-static char* sdl_ui_get_file_selector_entry(archdep_dir_t *directory, int offset, int *isdir, ui_menu_filereq_mode_t mode)
+static const char* sdl_ui_get_file_selector_entry(archdep_dir_t *directory, int offset, int *isdir, ui_menu_filereq_mode_t mode)
 {
+    int num_dirs;
+
     *isdir = 0;
 
-    if (offset >= (directory->dir_amount + directory->file_amount + SDL_FILEREQ_META_NUM)) {
+    if (offset >= archdep_readdir_num_entries(directory) + SDL_FILEREQ_META_NUM) {
         return NULL;
     }
 
@@ -129,11 +132,14 @@ static char* sdl_ui_get_file_selector_entry(archdep_dir_t *directory, int offset
     }
 #endif
 
-    if (offset >= (directory->dir_amount + SDL_FILEREQ_META_NUM)) {
-        return directory->files[offset - (directory->dir_amount + SDL_FILEREQ_META_NUM)].name;
+    num_dirs = archdep_readdir_num_dirs(directory);
+    if (offset >= num_dirs + SDL_FILEREQ_META_NUM) {
+        //return directory->files[offset - (directory->dir_amount + SDL_FILEREQ_META_NUM)].name;
+        return archdep_readdir_get_file(directory, offset - (num_dirs + SDL_FILEREQ_META_NUM));
     } else {
         *isdir = 1;
-        return directory->dirs[offset - SDL_FILEREQ_META_NUM].name;
+//        return directory->dirs[offset - SDL_FILEREQ_META_NUM].name;
+        return archdep_readdir_get_dir(directory, offset - SDL_FILEREQ_META_NUM);
     }
 }
 
@@ -217,7 +223,7 @@ static void sdl_ui_file_selector_redraw(archdep_dir_t *directory, const char *ti
 {
     int i, j, isdir = 0;
     char* title_string;
-    char* name;
+    const char* name;
     uint8_t oldbg = 0x0d;   /* This is the worst color, doesn't fit next to
                                3, 7 or F, only fits somewhat next to 5, but that
                                ramp is too high, or 1, but then the ramp down
@@ -253,7 +259,7 @@ static void sdl_ui_file_selector_redraw(archdep_dir_t *directory, const char *ti
 static void sdl_ui_file_selector_redraw_cursor(archdep_dir_t *directory, int offset, int num_items, ui_menu_filereq_mode_t mode, int cur_offset, int old_offset)
 {
     int i, j, isdir = 0;
-    char* name;
+    const char *name;
     uint8_t oldbg = 0;
 
     for (i = 0; i < num_items; ++i) {
@@ -401,8 +407,8 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
         return NULL;
     }
 
-    dirs = directory->dir_amount;
-    files = directory->file_amount;
+    dirs = archdep_readdir_num_dirs(directory);
+    files = archdep_readdir_num_files(directory);
     total = dirs + files + SDL_FILEREQ_META_NUM;
     menu_max = menu_draw->max_text_y - (MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
 
@@ -526,8 +532,8 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
-                            dirs = directory->dir_amount;
-                            files = directory->file_amount;
+                            dirs = archdep_readdir_num_dirs(directory);
+                            files = archdep_readdir_num_files(directory);
                             total = dirs + files + SDL_FILEREQ_META_NUM;
                         }
                         redraw = 1;
@@ -545,8 +551,8 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
-                            dirs = directory->dir_amount;
-                            files = directory->file_amount;
+                            dirs = archdep_readdir_num_dirs(directory);
+                            files = archdep_readdir_num_files(directory);
                             total = dirs + files + SDL_FILEREQ_META_NUM;
                         }
                         redraw = 1;
@@ -555,19 +561,19 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                     default:
                         if (offset + cur < (dirs + SDL_FILEREQ_META_NUM)) {
                             /* enter subdirectory */
-                            archdep_chdir(directory->dirs[offset + cur - SDL_FILEREQ_META_NUM].name);
+                            archdep_chdir(archdep_readdir_get_dir(directory, offset + cur - SDL_FILEREQ_META_NUM));
                             archdep_closedir(directory);
                             archdep_getcwd(current_dir, ARCHDEP_PATH_MAX);
                             directory = archdep_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
-                            dirs = directory->dir_amount;
-                            files = directory->file_amount;
+                            dirs = archdep_readdir_num_dirs(directory);
+                            files = archdep_readdir_num_files(directory);
                             total = dirs + files + SDL_FILEREQ_META_NUM;
                             redraw = 1;
                         } else {
-                            char *selected_file = directory->files[offset + cur - dirs - SDL_FILEREQ_META_NUM].name;
+                            const char *selected_file = archdep_readdir_get_file(directory, offset + cur - dirs - SDL_FILEREQ_META_NUM);
                             if ((mode == FILEREQ_MODE_CHOOSE_FILE) || (mode == FILEREQ_MODE_CHOOSE_FILE_IN_IMAGE) || (mode == FILEREQ_MODE_CHOOSE_FILE_IN_IMAGE)) {
                                 lib_free(last_selected_file);
                                 last_selected_file = lib_strdup(selected_file);

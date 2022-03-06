@@ -44,12 +44,6 @@
 #define ARCHDEP_OPENDIR_ALL_FILES   0
 
 
-/* XXX: This is a bit weird, could just use a list of strings instead? */
-typedef struct archdep_name_table_s {
-    char *name; /**< filename */
-} archdep_name_table_t;
-
-
 /** \brief  Directory object
  *
  * Contains a list of directories and a list of files for a given host directory.
@@ -60,12 +54,12 @@ typedef struct archdep_name_table_s {
  * style (where case folding is normally applied).
  */
 typedef struct archdep_dir_s {
-    archdep_name_table_t *dirs;     /**< list of directories */
-    archdep_name_table_t *files;    /**< list of files */
-    int dir_amount;                 /**< number of entries in `dirs` */
-    int file_amount;                /**< number of entries in `files` */
-    int pos;                        /**< position in directory, adding together
-                                         dirs and files with dirs coming first */
+    char **dirs;        /**< list of directories */
+    char **files;       /**< list of files */
+    int dir_amount;     /**< number of entries in `dirs` */
+    int file_amount;    /**< number of entries in `files` */
+    int pos;            /**< position in directory, adding together dirs and
+                             files, with dirs coming first */
 } archdep_dir_t;
 
 
@@ -74,6 +68,12 @@ const char *    archdep_readdir(archdep_dir_t *dir);
 void            archdep_closedir(archdep_dir_t *dir);
 void            archdep_rewinddir(archdep_dir_t *dir);
 void            archdep_seekdir(archdep_dir_t *dir, int pos);
-int             archdep_telldir(archdep_dir_t *dir);
+int             archdep_telldir(const archdep_dir_t *dir);
+const char *    archdep_readdir_get_entry(const archdep_dir_t *dir, int pos);
+const char *    archdep_readdir_get_dir(const archdep_dir_t *dir, int pos);
+const char *    archdep_readdir_get_file(const archdep_dir_t *dir, int pos);
+int             archdep_readdir_num_entries(const archdep_dir_t *dir);
+int             archdep_readdir_num_dirs(const archdep_dir_t *dir);
+int             archdep_readdir_num_files(const archdep_dir_t *dir);
 
 #endif
