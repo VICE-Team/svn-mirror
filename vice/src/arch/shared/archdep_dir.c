@@ -48,6 +48,17 @@
 #include "archdep_dir.h"
 
 
+/** \brief  Initial size of an array of file/directory entries
+ *
+ * Number of elements in the arrays when initially allocating them.
+ *
+ * This number was chosen arbitrarily, reasonable trade-off between wasting
+ * memory for small directories and not triggering too many realloc calls with
+ * larger directories.
+ */
+#define INITIAL_ARRAY_SIZE  64
+
+
 /** \brief  Comparision function for qsort() in archdep_opendir()
  *
  * \param[in]   a   first item
@@ -60,16 +71,17 @@ static int compare_names(const void *a, const void *b)
     return strcmp(*(const char **)a, *(const char **)b);
 }
 
+
 #if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
 /** \brief  Check if an entry must be shown
  *
  * Check if \a name matches the \a mode filter.
  *
- * Currently checks if a dotfile must be shown according to \a mode.
+ * Checks if a dotfile must be shown according to \a mode.
  *
  * \return  true if the file or directory must be shown
  */
-static bool must_show_entry(const char *name, int mode)
+static bool must_show_dotfile(const char *name, int mode)
 {
     if (mode & ARCHDEP_OPENDIR_NO_HIDDEN_FILES) {
         /* checks for a *nix "dotfile" */
@@ -84,145 +96,54 @@ static bool must_show_entry(const char *name, int mode)
 #endif
 
 
-/** \brief  Count the number of directories and files in a given directory
+/** \brief  Add dir entry to directory object
  *
- * Count the number of directories and files in \a path, filtered according to
- * \a mode, storing the results in \a num_dir and \a num_files.
+ * Add \a path to the list of directory in \a dir.
  *
- * \param[in]   path        directory to scan
- * \param[in]   mode        filter to apply
- * \param[out]  num_dirs    number of directories found
- * \param[out]  num_files   number of files found
- *
- * \return  0 on success, -1 on failure
- *
+ * \param[in]   dir     directory object
+ * \param[in]   path    dirname to add
  */
-static int count_dir_items(const char *path, int mode, int *num_dirs, int *num_files)
+static void add_dir_entry(archdep_dir_t *dir, const char *path)
 {
-    int dirs_amount = 0;
-    int files_amount = 0;
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
-    DIR *dirp;
-    struct dirent *dp;
-
-    dirp = opendir(path);
-    if (dirp == NULL) {
-        *num_dirs = 0;
-        *num_files = 0;
-        return -1;
+    if (dir->dir_amount == dir->dirs_size) {
+        /* double array size */
+        dir->dirs_size *= 2;
+        dir->dirs = lib_realloc(dir->dirs, dir->dirs_size * sizeof *(dir->dirs));
     }
+    dir->dirs[dir->dir_amount++] = lib_strdup(path);
+}
 
-    dp = readdir(dirp);
-    while (dp != NULL) {
-        if (must_show_entry(dp->d_name, mode)) {
-            char *filename = NULL;
-            unsigned int isdir;
-            size_t len;
 
-    /* NOTE: even when _DIRENT_HAVE_D_TYPE is defined, d_type may still be
-     *       returned as DT_UNKNOWN - in that case we must fall back to using
-     *       stat instead.
-     */
-#ifdef _DIRENT_HAVE_D_TYPE
-            if (dp->d_type != DT_UNKNOWN) {
-                if (dp->d_type == DT_DIR) {
-                    dirs_amount++;
-#ifdef DT_LNK
-                } else if (dp->d_type == DT_LNK) {
-                    filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-                    if (archdep_stat(filename, &len, &isdir) == 0) {
-                        if (isdir) {
-                            dirs_amount++;
-                        } else {
-                            files_amount++;
-                        }
-                    }
-#endif /* DT_LNK */
-                } else {
-                    files_amount++;
-                }
-            } else {
-#endif /* _DIRENT_HAVE_D_TYPE */
-                filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-                if (archdep_stat(filename, &len, &isdir) == 0) {
-                    if (isdir) {
-                        dirs_amount++;
-                    } else {
-                        files_amount++;
-                    }
-                }
-#ifdef _DIRENT_HAVE_D_TYPE
-            }
-#endif
-            if (filename != NULL) {
-                lib_free(filename);
-            }
-        }
-        dp = readdir(dirp);
+/** \brief  Add file entry to directory object
+ *
+ * Add \a path to the list of files in \a dir.
+ *
+ * \param[in]   dir     directory object
+ * \param[in]   path    filename to add
+ */
+static void add_file_entry(archdep_dir_t *dir, const char *path)
+{
+    if (dir->file_amount == dir->files_size) {
+        /* double array size */
+        dir->files_size *= 2;
+        dir->files = lib_realloc(dir->files, dir->files_size * sizeof *(dir->files));
     }
-
-    closedir(dirp);
-
-#elif defined(ARCHDEP_OS_WINDOWS)
-    HANDLE ffhandle;
-    WIN32_FIND_DATA ffdata;
-    char pattern[ARCHDEP_PATH_MAX];
-    
-    printf("%s(): Got dir '%s'\n", __func__, path);
-    snprintf(pattern, sizeof(pattern), "%s\\*", path);
-    pattern[sizeof(pattern) - 1] = '\0';
-
-    ffhandle = FindFirstFile(pattern, &ffdata);
-    if (ffhandle == INVALID_HANDLE_VALUE) {
-        *num_dirs = -1;
-        *num_files = -1;
-        return -1;
-    }
-
-    do {
-        /* show hidden files? */
-        if ((ffdata.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) &&
-                (mode & ARCHDEP_OPENDIR_NO_HIDDEN_FILES)) {
-            continue;   /* nope */
-        }
-        if (ffdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            dirs_amount++;
-        } else {
-            files_amount++;
-        }
-    } while (FindNextFile(ffhandle, &ffdata));
-
-    if (GetLastError() != ERROR_NO_MORE_FILES) {
-        /* we're fucked */
-        FindClose(ffhandle);
-        *num_dirs = -1;
-        *num_files = -1;
-        return -1;
-    }
-    FindClose(ffhandle);
-#endif
-
-    *num_dirs = dirs_amount;
-    *num_files = files_amount;
-    return 0;
+    dir->files[dir->file_amount++] = lib_strdup(path);
 }
 
 
 /** \brief  Populate the directory and file lists
  *
  * Scan \a path for files and directories, filtering them according to \a mode.
- * The \a dirs and \a files arguments are expected to have been allocated with
- * to count_dir_items().
  *
+ * \param[in]   dir     directory object
  * \param[in]   path    directory to scan
- * \param[out]  dirs    list of directories inside \a path
- * \param[out]  file    list of files inside \a path
- * \param[in]   mode    filter to test pathnames against
+ * \param[in]   mode    filter to apply to each directory entry
+ *
+ * \return  true on success
  */
-static void populate_lists(const char *path, char **dirs, char **files, int mode)
+static bool scan_directory(archdep_dir_t *dir, const char *path, int mode)
 {
-    int dir_count = 0;
-    int file_count = 0;
 #if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
     DIR *dirp = NULL;
     struct dirent *dp = NULL;
@@ -232,25 +153,25 @@ static void populate_lists(const char *path, char **dirs, char **files, int mode
 
     dirp = opendir(path);
     if (dirp == NULL) {
-        return;
+        return false;
     }
 
     dp = readdir(dirp);
 
     while (dp != NULL) {
-        if (must_show_entry(dp->d_name, mode)) {
+        if (must_show_dotfile(dp->d_name, mode)) {
 #ifdef _DIRENT_HAVE_D_TYPE
             if (dp->d_type != DT_UNKNOWN) {
                 if (dp->d_type == DT_DIR) {
-                    dirs[dir_count++]= lib_strdup(dp->d_name);
+                    add_dir_entry(dir, dp->d_name);
 #ifdef DT_LNK
                 } else if (dp->d_type == DT_LNK) {
                     filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
                     if (archdep_stat(filename, &len, &isdir) == 0) {
                         if (isdir) {
-                            dirs[dir_count++] = lib_strdup(dp->d_name);
+                            add_dir_entry(dir, dp->d_name);
                         } else {
-                            files[file_count++] = lib_strdup(dp->d_name);
+                            add_file_entry(dir, dp->d_name);
                         }
                     }
                     if (filename) {
@@ -259,7 +180,7 @@ static void populate_lists(const char *path, char **dirs, char **files, int mode
                     }
 #endif /* DT_LNK */
                 } else {
-                    files[file_count++] = lib_strdup(dp->d_name);
+                    add_file_entry(dir, dp->d_name);
                 }
                 dp = readdir(dirp);
             } else {
@@ -267,9 +188,9 @@ static void populate_lists(const char *path, char **dirs, char **files, int mode
                 filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
                 if (archdep_stat(filename, &len, &isdir) == 0) {
                     if (isdir) {
-                        dirs[dir_count++] = lib_strdup(dp->d_name);
+                        add_dir_entry(dir, dp->d_name);
                     } else {
-                        files[file_count++] = lib_strdup(dp->d_name);
+                        add_file_entry(dir, dp->d_name);
                     }
                 }
                 dp = readdir(dirp);
@@ -293,7 +214,7 @@ static void populate_lists(const char *path, char **dirs, char **files, int mode
 
     ffhandle = FindFirstFile(pattern, &ffdata);
     if (ffhandle == INVALID_HANDLE_VALUE) {
-        return;
+        return false;
     }
 
     do {
@@ -302,17 +223,21 @@ static void populate_lists(const char *path, char **dirs, char **files, int mode
                 (mode & ARCHDEP_OPENDIR_NO_HIDDEN_FILES)) {
             continue;   /* nope */
         }
-        
+
         if (ffdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            dirs[dir_count++] = lib_strdup(ffdata.cFileName);
+            add_dir_entry(dir, ffdata.cFileName);
         } else {
-            files[file_count++] = lib_strdup(ffdata.cFileName);
+            add_file_entry(dir, ffdata.cFileName);
         }
     } while (FindNextFile(ffhandle, &ffdata));
 
-    /* We should check for errors, but let's not in true VICE style */
+    if (GetLastError() != ERROR_NO_MORE_FILES) {
+        FindClose(ffhandle);
+        return false;
+    }
     FindClose(ffhandle);
 #endif
+    return true;
 }
 
 
@@ -325,25 +250,24 @@ static void populate_lists(const char *path, char **dirs, char **files, int mode
  */
 archdep_dir_t *archdep_opendir(const char *path, int mode)
 {
-    archdep_dir_t *dir;
-    int dirs_amount = 0;
-    int files_amount = 0;
+    archdep_dir_t *dir = lib_malloc(sizeof *dir);
 
-    if (count_dir_items(path, mode, &dirs_amount, &files_amount) < 0) {
+    dir->pos = 0;
+    dir->dir_amount = 0;
+    dir->dirs_size = INITIAL_ARRAY_SIZE;
+    dir->dirs = lib_malloc(sizeof *(dir->dirs) * dir->dirs_size);
+    dir->file_amount = 0;
+    dir->files_size = INITIAL_ARRAY_SIZE;
+    dir->files = lib_malloc(sizeof *(dir->files) * dir->files_size);
+
+    if (!scan_directory(dir, path, mode)) {
+        /* clean up */
+        archdep_closedir(dir);
         return NULL;
     }
 
-    dir = lib_malloc(sizeof *dir);
-    dir->dirs = lib_malloc(sizeof *(dir->dirs) * dirs_amount);
-    dir->files = lib_malloc(sizeof *(dir->files) * files_amount);
-
-    populate_lists(path, dir->dirs, dir->files, mode);
-    qsort(dir->dirs, dirs_amount, sizeof *(dir->dirs), compare_names);
-    qsort(dir->files, files_amount, sizeof *(dir->files), compare_names);
-
-    dir->dir_amount = dirs_amount;
-    dir->file_amount = files_amount;
-    dir->pos = 0;
+    qsort(dir->dirs, dir->dir_amount, sizeof *(dir->dirs), compare_names);
+    qsort(dir->files, dir->file_amount, sizeof *(dir->files), compare_names);
 
     return dir;
 }

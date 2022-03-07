@@ -61,6 +61,8 @@ typedef struct archdep_dir_s {
     int file_amount;    /**< number of entries in `files` */
     int pos;            /**< position in directory, adding together dirs and
                              files, with dirs coming first */
+    int dirs_size;      /**< size of the `dirs` array, in number of elements */
+    int files_size;     /**< size of the `files` array, in number of elements */
 } archdep_dir_t;
 
 
