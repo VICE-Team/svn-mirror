@@ -311,23 +311,23 @@ Filter::Filter()
         //
         //   m*2^N*x = x_n - m*2^N*xmin
         //
-        scaled_voltage[fi.opamp_voltage_size - 1 - i][0] = int(N16*(fi.opamp_voltage[i][1] - fi.opamp_voltage[i][0] + denorm)/2 + 0.5);
+        scaled_voltage[fi.opamp_voltage_size - 1 - i][0] = N16*(fi.opamp_voltage[i][1] - fi.opamp_voltage[i][0] + denorm)/2.;
         scaled_voltage[fi.opamp_voltage_size - 1 - i][1] = N31*(fi.opamp_voltage[i][0] - vmin);
       }
 
-      // Clamp x to 16 bits (rounding may cause overflow).
-      if (scaled_voltage[fi.opamp_voltage_size - 1][0] >= (1 << 16)) {
+      // Clamp x to 16 bit range (rounding may cause overflow).
+      if (scaled_voltage[fi.opamp_voltage_size - 1][0] > 65535.) {
         // The last point is repeated.
         scaled_voltage[fi.opamp_voltage_size - 1][0] =
-            scaled_voltage[fi.opamp_voltage_size - 2][0] = (1 << 16) - 1;
+            scaled_voltage[fi.opamp_voltage_size - 2][0] = 65535.;
       }
 
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
                     PointPlotter<unsigned int>(voltages), 1.0);
 
       // Store both fn and dfn in the same table.
-      mf.ak = (int)scaled_voltage[0][0];
-      mf.bk = (int)scaled_voltage[fi.opamp_voltage_size - 1][0];
+      mf.ak = (int)(scaled_voltage[0][0] + 0.5);
+      mf.bk = (int)(scaled_voltage[fi.opamp_voltage_size - 1][0] + 0.5);
       int j;
       for (j = 0; j < mf.ak; j++) {
         opamp[j].vx = 0;
