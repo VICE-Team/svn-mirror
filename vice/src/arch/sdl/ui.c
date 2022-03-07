@@ -610,12 +610,16 @@ void ui_set_mouse_grab_window_title(int enabled)
         strcpy(name, "C64 (x64sc)");
     }
     if (enabled && mouse_key != NULL) {
-        snprintf(title, 256, "VICE: %s%s Use %s to disable mouse grab.",
+        snprintf(title, sizeof(title), "VICE: %s%s Use %s to disable mouse grab.",
             name, archdep_extra_title_text(), mouse_key);
-        lib_free(mouse_key);
     } else {
-        snprintf(title, 256, "VICE: %s%s", name, archdep_extra_title_text());
-    }        
+        snprintf(title, sizeof(title), "VICE: %s%s", name, archdep_extra_title_text());
+    }
+    title[sizeof(title) - 1] = '\0';
+
+    if (mouse_key != NULL) {
+        lib_free(mouse_key);
+    }
 
     sdl_ui_set_window_title(title);
 }
