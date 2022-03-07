@@ -59,9 +59,9 @@ static char *extra_title_text = NULL;
 const char *archdep_extra_title_text(void)
 {
 #if defined(USE_SDLUI) || defined(USE_SDLUI2)
-    char *menu_keyname = kbd_get_menu_keyname();
-
     if (extra_title_text == NULL) {
+        char *menu_keyname = kbd_get_menu_keyname();
+
         extra_title_text = util_concat(", press \"",
                                        menu_keyname,
                                        "\" for the menu.",
