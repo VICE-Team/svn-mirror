@@ -700,10 +700,13 @@ char *kbd_get_path_keyname(char *path)
     for (i = 0; i < SDLKBD_UI_HOTKEYS_MAX; ++i) {
         if (sdlkbd_ui_hotkeys[i]) {
             hotkey_path = sdl_ui_hotkey_path(sdlkbd_ui_hotkeys[i]);
-            if (!strcmp(hotkey_path, path)) {
-                mod_key = (i / SDL_NUM_SCANCODES);
-                key = i - (mod_key * SDL_NUM_SCANCODES);
-                found++;
+            if (hotkey_path != NULL) {
+                if (strcmp(hotkey_path, path) == 0) {
+                    mod_key = (i / SDL_NUM_SCANCODES);
+                    key = i - (mod_key * SDL_NUM_SCANCODES);
+                    found++;
+                }
+                lib_free(hotkey_path);
             }
         }
     }
