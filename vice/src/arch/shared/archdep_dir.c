@@ -30,18 +30,12 @@
 #include "archdep.h"
 
 #include <string.h>
-#include <errno.h>
 #include <stdbool.h>
 
 #if defined(ARCHDEP_OS_WINDOWS)
-/* FIXME:   This is obviously wrong and would require a user of MVSC to install
- *          some kind of drop-in dirent.h compatibility file in their build
- *          environment.
- *          This code should be amended to use FindFirstFile(), FindNextFile()
- *          etcetera from the win32 API on Windows.
- */
-# include <dirent.h>
+# include <windows.h>
 #elif defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+# include <errno.h>
 # include <sys/types.h>
 # include <dirent.h>
 #else
@@ -66,7 +60,7 @@ static int compare_names(const void *a, const void *b)
     return strcmp(*(const char **)a, *(const char **)b);
 }
 
-
+#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
 /** \brief  Check if an entry must be shown
  *
  * Check if \a name matches the \a mode filter.
@@ -77,7 +71,7 @@ static int compare_names(const void *a, const void *b)
  */
 static bool must_show_entry(const char *name, int mode)
 {
-    if (mode & ARCHDEP_OPENDIR_NO_DOTFILES) {
+    if (mode & ARCHDEP_OPENDIR_NO_HIDDEN_FILES) {
         /* checks for a *nix "dotfile" */
         if ((name[0] == '.') &&
             (name[1] != 0) &&
@@ -87,6 +81,7 @@ static bool must_show_entry(const char *name, int mode)
     }
     return true;
 }
+#endif
 
 
 /** \brief  Count the number of directories and files in a given directory
@@ -104,10 +99,11 @@ static bool must_show_entry(const char *name, int mode)
  */
 static int count_dir_items(const char *path, int mode, int *num_dirs, int *num_files)
 {
-    DIR *dirp;
-    struct dirent *dp;
     int dirs_amount = 0;
     int files_amount = 0;
+#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+    DIR *dirp;
+    struct dirent *dp;
 
     dirp = opendir(path);
     if (dirp == NULL) {
@@ -166,6 +162,46 @@ static int count_dir_items(const char *path, int mode, int *num_dirs, int *num_f
     }
 
     closedir(dirp);
+
+#elif defined(ARCHDEP_OS_WINDOWS)
+    HANDLE ffhandle;
+    WIN32_FIND_DATA ffdata;
+    char pattern[ARCHDEP_PATH_MAX];
+    
+    printf("%s(): Got dir '%s'\n", __func__, path);
+    snprintf(pattern, sizeof(pattern), "%s\\*", path);
+    pattern[sizeof(pattern) - 1] = '\0';
+
+    ffhandle = FindFirstFile(pattern, &ffdata);
+    if (ffhandle == INVALID_HANDLE_VALUE) {
+        *num_dirs = -1;
+        *num_files = -1;
+        return -1;
+    }
+
+    do {
+        /* show hidden files? */
+        if ((ffdata.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) &&
+                (mode & ARCHDEP_OPENDIR_NO_HIDDEN_FILES)) {
+            continue;   /* nope */
+        }
+        if (ffdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+            dirs_amount++;
+        } else {
+            files_amount++;
+        }
+    } while (FindNextFile(ffhandle, &ffdata));
+
+    if (GetLastError() != ERROR_NO_MORE_FILES) {
+        /* we're fucked */
+        FindClose(ffhandle);
+        *num_dirs = -1;
+        *num_files = -1;
+        return -1;
+    }
+    FindClose(ffhandle);
+#endif
+
     *num_dirs = dirs_amount;
     *num_files = files_amount;
     return 0;
@@ -185,13 +221,14 @@ static int count_dir_items(const char *path, int mode, int *num_dirs, int *num_f
  */
 static void populate_lists(const char *path, char **dirs, char **files, int mode)
 {
-    DIR *dirp = NULL;
-    struct dirent *dp = NULL;
     int dir_count = 0;
     int file_count = 0;
+#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+    DIR *dirp = NULL;
+    struct dirent *dp = NULL;
+    char *filename;
     size_t len;
     unsigned int isdir;
-    char *filename;
 
     dirp = opendir(path);
     if (dirp == NULL) {
@@ -245,6 +282,37 @@ static void populate_lists(const char *path, char **dirs, char **files, int mode
         }
     }
     closedir(dirp);
+
+#elif defined(ARCHDEP_OS_WINDOWS)
+    HANDLE ffhandle;
+    WIN32_FIND_DATA ffdata;
+    char pattern[ARCHDEP_PATH_MAX];
+
+    snprintf(pattern, sizeof(pattern), "%s\\*", path);
+    pattern[sizeof(pattern) - 1] = '\0';
+
+    ffhandle = FindFirstFile(pattern, &ffdata);
+    if (ffhandle == INVALID_HANDLE_VALUE) {
+        return;
+    }
+
+    do {
+        /* show hidden files? */
+        if ((ffdata.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) &&
+                (mode & ARCHDEP_OPENDIR_NO_HIDDEN_FILES)) {
+            continue;   /* nope */
+        }
+        
+        if (ffdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+            dirs[dir_count++] = lib_strdup(ffdata.cFileName);
+        } else {
+            files[file_count++] = lib_strdup(ffdata.cFileName);
+        }
+    } while (FindNextFile(ffhandle, &ffdata));
+
+    /* We should check for errors, but let's not in true VICE style */
+    FindClose(ffhandle);
+#endif
 }
 
 
