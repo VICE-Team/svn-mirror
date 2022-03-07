@@ -376,11 +376,7 @@ static char * display_drive_menu(void)
 /* ------------------------------------------------------------------ */
 /* External UI interface */
 
-#ifdef UNIX_COMPILE
-#define SDL_FILESELECTOR_DIRMODE    ARCHDEP_OPENDIR_NO_DOTFILES
-#else
-#define SDL_FILESELECTOR_DIRMODE    ARCHDEP_OPENDIR_ALL_FILES
-#endif
+#define SDL_FILESELECTOR_DIRMODE    ARCHDEP_OPENDIR_NO_HIDDEN_FILES
 
 char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mode)
 {

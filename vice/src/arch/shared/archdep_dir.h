@@ -32,16 +32,17 @@
 #include <stddef.h>
 #include "archdep_defs.h"
 
-/** \brief  Do not display files starting with '.'
+/** \brief  Do not display hidden files
  *
- * Do not display 'hidden' files on Unix.
- * Will still display the special files '.' and '..'
+ * Do not display "dotfiles" on Unix or files with the hidden attribute on
+ * Windows.
+ * Will still display the special files '.' and '..'.
  */
-#define ARCHDEP_OPENDIR_NO_DOTFILES 1
+#define ARCHDEP_OPENDIR_NO_HIDDEN_FILES 1
 
 /** \brief  Show all files
  */
-#define ARCHDEP_OPENDIR_ALL_FILES   0
+#define ARCHDEP_OPENDIR_ALL_FILES       0
 
 
 /** \brief  Directory object
