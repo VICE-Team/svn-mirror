@@ -16074,6 +16074,14 @@ Set initial window width.
 @item -sdlinitialh <height>
 Set initial window height.
 
+@findex -sdlinitialw1
+@item -sdlinitialw1 <width>
+Set initial window width for the second window (C128),
+
+@findex -sdlinitialh1
+@item -sdlinitialh1 <height>
+Set initial window height for the second window (C128),
+
 @c Move to generic options
 @findex -kbdstatusbar, +kbdstatusbar
 @item -kbdstatusbar

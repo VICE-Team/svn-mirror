@@ -85,8 +85,8 @@ static log_t sdlvideo_log = LOG_ERR;
 static int sdl_bitdepth;
 
 /* Initial w/h for windowed display */
-static int sdl_initial_width = 0;
-static int sdl_initial_height = 0;
+static int sdl_initial_width[2] = { 0, 0 };
+static int sdl_initial_height[2] = { 0, 0 };
 
 /* Custom w/h, used for non-desktop fullscreen */
 static int sdl_custom_width = 0;
@@ -175,21 +175,23 @@ static int set_sdl_custom_height(int h, void *param)
 
 static int set_sdl_initial_width(int w, void *param)
 {
+    int idx = vice_ptr_to_int(param);
     if (w < 0) {
         return -1;
     }
 
-    sdl_initial_width = w;
+    sdl_initial_width[idx] = w;
     return 0;
 }
 
 static int set_sdl_initial_height(int h, void *param)
 {
+    int idx = vice_ptr_to_int(param);
     if (h < 0) {
         return -1;
     }
 
-    sdl_initial_height = h;
+    sdl_initial_height[idx] = h;
     return 0;
 }
 
@@ -390,9 +392,9 @@ static const resource_int_t resources_int[] = {
     { "SDLCustomHeight", SDLCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_custom_height, set_sdl_custom_height, NULL },
     { "Window0Width", 0, RES_EVENT_NO, NULL,
-      &sdl_initial_width, set_sdl_initial_width, NULL },
+      &sdl_initial_width[0], set_sdl_initial_width, (void*)0 },
     { "Window0Height", 0, RES_EVENT_NO, NULL,
-      &sdl_initial_height, set_sdl_initial_height, NULL },
+      &sdl_initial_height[0], set_sdl_initial_height, (void*)0 },
     { "SDLGLAspectMode", SDL_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
       &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
     { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
@@ -407,6 +409,15 @@ static const resource_int_t resources_int[] = {
 #endif
     RESOURCE_INT_LIST_END
 };
+
+static const resource_int_t resources_int_c128[] = {
+    { "Window1Width", 0, RES_EVENT_NO, NULL,
+      &sdl_initial_width[1], set_sdl_initial_width, (void*)1 },
+    { "Window1Height", 0, RES_EVENT_NO, NULL,
+      &sdl_initial_height[1], set_sdl_initial_height, (void*)1 },
+    RESOURCE_INT_LIST_END
+};
+
 
 int video_arch_resources_init(void)
 {
@@ -427,6 +438,12 @@ int video_arch_resources_init(void)
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_C128) {
+        if (resources_register_int(resources_int_c128) < 0) {
+            return -1;
+        }
     }
 
     return resources_register_int(resources_int);
@@ -502,12 +519,29 @@ static const cmdline_option_t cmdline_options[] =
     CMDLINE_LIST_END
 };
 
+static const cmdline_option_t cmdline_options_c128[] =
+{
+    { "-sdlinitialw1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Window1Width", NULL,
+      "<width>", "Set initial window width" },
+    { "-sdlinitialh1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "Window1Height", NULL,
+      "<height>", "Set initial window height" },
+    CMDLINE_LIST_END
+};
+
 int video_arch_cmdline_options_init(void)
 {
     DBG(("%s", __func__));
 
     if (machine_class == VICE_MACHINE_VSID) {
         if (joystick_cmdline_options_init() < 0) {
+            return -1;
+        }
+    }
+
+    if (machine_class == VICE_MACHINE_C128) {
+        if (cmdline_register_options(cmdline_options_c128) < 0) {
             return -1;
         }
     }
@@ -629,11 +663,11 @@ static video_container_t* sdl_container_create(int canvas_idx)
     window_height = height;
 
     /* Obtain the Window with the corresponding size and behavior based on the flags */
-    if (sdl_initial_width > window_width) {
-        window_width = sdl_initial_width;
+    if (sdl_initial_width[canvas_idx] > window_width) {
+        window_width = sdl_initial_width[canvas_idx];
     }
-    if (sdl_initial_height > window_height) {
-        window_height = sdl_initial_height;
+    if (sdl_initial_height[canvas_idx] > window_height) {
+        window_height = sdl_initial_height[canvas_idx];
     }
 
     container->window = SDL_CreateWindow(canvas->viewport->title,
@@ -1028,6 +1062,9 @@ void sdl2_video_resize_event(int canvas_idx, unsigned int w, unsigned int h)
          * what we see when we leave fullscreen. */
         container->last_width = w;
         container->last_height = h;
+
+        resources_set_int_sprintf("Window%dWidth", w, canvas_idx);
+        resources_set_int_sprintf("Window%dHeight", h, canvas_idx);
     }
 
     sdl_correct_logical_size();
