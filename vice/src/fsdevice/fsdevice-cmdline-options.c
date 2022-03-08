@@ -46,7 +46,7 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
 
     unit = vice_ptr_to_uint(extra_param);
 
-    snprintf(directory, ARCHDEP_PATH_MAX - 1U, "%s%s", param, FSDEV_DIR_SEP_STR);
+    snprintf(directory, ARCHDEP_PATH_MAX - 1U, "%s%s", param, ARCHDEP_DIR_SEP_STR);
     directory[sizeof(directory) - 1] = '\0';
 
     fsdevice_set_directory(directory, unit);

@@ -85,13 +85,13 @@ static int set_system_path(const char *val, void *param)
         } else { /* relative path */
             if (expanded_system_path == NULL) {
                 s = util_concat(current_dir,
-                                FSDEV_DIR_SEP_STR,
+                                ARCHDEP_DIR_SEP_STR,
                                 tmp_path, NULL );
             } else {
                 s = util_concat(expanded_system_path,
                                 ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                 current_dir,
-                                FSDEV_DIR_SEP_STR,
+                                ARCHDEP_DIR_SEP_STR,
                                 tmp_path, NULL );
             }
         }
@@ -232,7 +232,7 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
     if (fp == NULL) {
         /* Try to open the file from the current directory. */
         const char working_dir_prefix[3] = {
-            '.', FSDEV_DIR_SEP_CHR, '\0'
+            '.', ARCHDEP_DIR_SEP_CHR, '\0'
         };
         char *local_name = NULL;
 

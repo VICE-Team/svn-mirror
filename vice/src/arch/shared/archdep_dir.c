@@ -166,7 +166,7 @@ static bool scan_directory(archdep_dir_t *dir, const char *path, int mode)
                     add_dir_entry(dir, dp->d_name);
 #ifdef DT_LNK
                 } else if (dp->d_type == DT_LNK) {
-                    filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
+                    filename = util_concat(path, ARCHDEP_DIR_SEP_STR, dp->d_name, NULL);
                     if (archdep_stat(filename, &len, &isdir) == 0) {
                         if (isdir) {
                             add_dir_entry(dir, dp->d_name);
@@ -185,7 +185,7 @@ static bool scan_directory(archdep_dir_t *dir, const char *path, int mode)
                 dp = readdir(dirp);
             } else {
 #endif /* _DIRENT_HAVE_D_TYPE */
-                filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
+                filename = util_concat(path, ARCHDEP_DIR_SEP_STR, dp->d_name, NULL);
                 if (archdep_stat(filename, &len, &isdir) == 0) {
                     if (isdir) {
                         add_dir_entry(dir, dp->d_name);

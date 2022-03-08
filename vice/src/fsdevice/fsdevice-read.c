@@ -464,7 +464,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
         uint8_t *p = bufinfo->name;
 
         strcpy(buf, bufinfo->dir);
-        strcat(buf, FSDEV_DIR_SEP_STR);
+        strcat(buf, ARCHDEP_DIR_SEP_STR);
         strcat(buf, direntry);
 
         /* Line link, Length and spaces */

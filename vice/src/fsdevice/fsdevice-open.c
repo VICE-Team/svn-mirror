@@ -309,10 +309,10 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     /* Open file for read or relative mode access.  */
     tape = bufinfo[secondary].tape;
     tape->name = util_concat(fsdevice_get_path(vdrive->unit),
-                             FSDEV_DIR_SEP_STR, rname, NULL);
+                             ARCHDEP_DIR_SEP_STR, rname, NULL);
     charset_petconvstring((uint8_t *)(tape->name) +
                           strlen(fsdevice_get_path(vdrive->unit)) +
-                          strlen(FSDEV_DIR_SEP_STR), CONVERT_TO_ASCII);
+                          strlen(ARCHDEP_DIR_SEP_STR), CONVERT_TO_ASCII);
     tape->read_only = 1;
     /* Prepare for buffered reads */
     bufinfo[secondary].isbuffered = 0;
