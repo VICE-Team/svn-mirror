@@ -61,6 +61,8 @@ libarchdep_a_SOURCES = \
 	archdep_file_is_chardev.c \
 	archdep_filename_parameter.c \
 	archdep_fix_permissions.c \
+	archdep_fseeko.c \
+	archdep_ftello.c \
 	archdep_get_current_drive.c \
 	archdep_get_runtime_info.c \
 	archdep_get_vice_datadir.c \
@@ -153,6 +155,8 @@ EXTRA_DIST = \
 	archdep_file_is_chardev.h \
 	archdep_filename_parameter.h \
 	archdep_fix_permissions.h \
+	archdep_fseeko.h \
+	archdep_ftello.h \
 	archdep_get_current_drive.h \
 	archdep_get_runtime_info.h \
 	archdep_get_vice_datadir.h \
