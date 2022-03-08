@@ -1168,7 +1168,7 @@ void mon_show_dir(const char *path)
         unsigned int isdir;
         int ret;
         if (path) {
-            fullname = util_concat(path, FSDEV_DIR_SEP_STR, name, NULL);
+            fullname = util_concat(path, ARCHDEP_DIR_SEP_STR, name, NULL);
             ret = archdep_stat(fullname, &len, &isdir);
             lib_free(fullname);
         } else {

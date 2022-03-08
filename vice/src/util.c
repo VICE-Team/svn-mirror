@@ -536,9 +536,9 @@ void util_fname_split(const char *path, char **directory_return,
     }
 
     /* get ptr to last dir seperator before the filename */
-    p = strrchr(path, FSDEV_DIR_SEP_CHR);
+    p = strrchr(path, ARCHDEP_DIR_SEP_CHR);
 
-#if (FSDEV_DIR_SEP_CHR == '\\')
+#if (ARCHDEP_DIR_SEP_CHR == '\\')
 # if 0
     printf("WE HAVE \\ AS A DIR SEPARATOR!\n");
 # endif
@@ -807,7 +807,7 @@ void util_add_extension(char **name, const char *extension)
     }
 
     *name = lib_realloc(*name, name_len + ext_len + 2);
-    (*name)[name_len] = FSDEV_EXT_SEP_CHR;
+    (*name)[name_len] = ARCHDEP_EXT_SEP_CHR;
     memcpy(&((*name)[name_len + 1]), extension, ext_len + 1);
 }
 
@@ -849,7 +849,7 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
         return;
     }
 
-    name[name_len] = FSDEV_EXT_SEP_CHR;
+    name[name_len] = ARCHDEP_EXT_SEP_CHR;
     memcpy(name + name_len + 1, extension, ext_len + 1);
 }
 
@@ -861,7 +861,7 @@ char *util_get_extension(const char *filename)
         return NULL;
     }
 
-    s = strrchr(filename, FSDEV_EXT_SEP_CHR);
+    s = strrchr(filename, ARCHDEP_EXT_SEP_CHR);
     if (s) {
         return s + 1;
     } else {

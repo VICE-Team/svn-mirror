@@ -59,9 +59,9 @@
 #include "vice-event.h"
 
 
-#define EVENT_START_SNAPSHOT "start" FSDEV_EXT_SEP_STR "vsf"
-#define EVENT_END_SNAPSHOT "end" FSDEV_EXT_SEP_STR "vsf"
-#define EVENT_MILESTONE_SNAPSHOT "milestone" FSDEV_EXT_SEP_STR "vsf"
+#define EVENT_START_SNAPSHOT "start" ARCHDEP_EXT_SEP_STR "vsf"
+#define EVENT_END_SNAPSHOT "end" ARCHDEP_EXT_SEP_STR "vsf"
+#define EVENT_MILESTONE_SNAPSHOT "milestone" ARCHDEP_EXT_SEP_STR "vsf"
 
 
 /** \brief  Size of the CRC32 entries
@@ -1159,12 +1159,12 @@ static int set_event_snapshot_dir(const char *val, void *param)
 {
     const char *s = val;
 
-    /* Make sure that the string ends with FSDEV_DIR_SEP_STR */
-    if (s[strlen(s) - 1] == FSDEV_DIR_SEP_CHR) {
+    /* Make sure that the string ends with ARCHDEP_DIR_SEP_STR */
+    if (s[strlen(s) - 1] == ARCHDEP_DIR_SEP_CHR) {
         util_string_set(&event_snapshot_dir, s);
     } else {
         lib_free(event_snapshot_dir);
-        event_snapshot_dir = util_concat(s, FSDEV_DIR_SEP_STR, NULL);
+        event_snapshot_dir = util_concat(s, ARCHDEP_DIR_SEP_STR, NULL);
     }
 
     return 0;
@@ -1214,7 +1214,7 @@ static int set_event_image_include(int enable, void *param)
 
 static const resource_string_t resources_string[] = {
     { "EventSnapshotDir",
-      FSDEVICE_DEFAULT_DIR FSDEV_DIR_SEP_STR, RES_EVENT_NO, NULL,
+      FSDEVICE_DEFAULT_DIR ARCHDEP_DIR_SEP_STR, RES_EVENT_NO, NULL,
       &event_snapshot_dir, set_event_snapshot_dir, NULL },
     { "EventStartSnapshot", EVENT_START_SNAPSHOT, RES_EVENT_NO, NULL,
       &event_start_snapshot, set_event_start_snapshot, NULL },

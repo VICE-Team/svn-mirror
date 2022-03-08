@@ -5453,7 +5453,7 @@ static int unzip_cmd(int nargs, char **args)
         return FD_BADIMAGE;
     }
 
-    p = strrchr(args[2], FSDEV_DIR_SEP_CHR);
+    p = strrchr(args[2], ARCHDEP_DIR_SEP_CHR);
     if (p == NULL) {
         /* ignore '[0-4]!' if found */
         if (args[2][0] >= '1' && args[2][0] <= '4' && args[2][1] == '!') {

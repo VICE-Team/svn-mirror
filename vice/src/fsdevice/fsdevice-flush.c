@@ -129,7 +129,7 @@ static int fsdevice_flush_mkdir(vdrive_t *vdrive, char *arg)
     prefix = fsdevice_get_path(vdrive->unit);
 
     /* construct absolute path */
-    path = util_concat(prefix, FSDEV_DIR_SEP_STR, arg, NULL);
+    path = util_concat(prefix, ARCHDEP_DIR_SEP_STR, arg, NULL);
 
     er = CBMDOS_IPE_OK;
     if (archdep_mkdir(path, ARCHDEP_MKDIR_RWXUG)) {
@@ -189,7 +189,7 @@ static int fsdevice_flush_rmdir(vdrive_t *vdrive, char *arg)
     /* since the cwd can differ from the FSDeviceDir, we need to obtain the
      * absolute path to the directory to remove.
      */
-    char *path = util_concat(prefix, FSDEV_DIR_SEP_STR, arg, NULL);
+    char *path = util_concat(prefix, ARCHDEP_DIR_SEP_STR, arg, NULL);
 
     DBG(("fsdevice_flush_rmdir '%s'\n", arg));
 
