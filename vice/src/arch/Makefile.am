@@ -2,7 +2,7 @@
 
 if DUMMY_COMPILE
 
-SUBDIRS = shared android
+SUBDIRS = shared
 
 endif
 
