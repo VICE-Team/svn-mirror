@@ -41,7 +41,7 @@
  */
 #include <stdio.h>
 #include <string.h>
-#ifdef ARCHDEP_OS_UNIX
+#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
 # include <unistd.h>
 #endif
 #ifdef ARCHDEP_OS_WINDOWS
