@@ -3521,7 +3521,6 @@ fi
 
 AC_OUTPUT([Makefile
            build/Makefile
-           build/android/Makefile
            build/beos/Makefile
            build/mingw/Makefile
            build/mingw/frankenvice/Makefile
@@ -3548,72 +3547,6 @@ AC_OUTPUT([Makefile
            src/Makefile
            src/debug.h
            src/arch/Makefile
-           src/arch/android/Makefile
-           src/arch/android/AnVICE/AndroidManifest.xml
-           src/arch/android/AnVICE/Makefile
-           src/arch/android/AnVICE/.settings/Makefile
-           src/arch/android/AnVICE/assets-proto/Makefile
-           src/arch/android/AnVICE/jni/Makefile
-           src/arch/android/AnVICE/jni/locnet/Makefile
-           src/arch/android/AnVICE/jni/locnet_x64/Makefile
-           src/arch/android/AnVICE/jni/locnet_x64dtv/Makefile
-           src/arch/android/AnVICE/jni/locnet_x64sc/Makefile
-           src/arch/android/AnVICE/jni/locnet_x128/Makefile
-           src/arch/android/AnVICE/jni/locnet_xcbm2/Makefile
-           src/arch/android/AnVICE/jni/locnet_xcbm5x0/Makefile
-           src/arch/android/AnVICE/jni/locnet_xpet/Makefile
-           src/arch/android/AnVICE/jni/locnet_xplus4/Makefile
-           src/arch/android/AnVICE/jni/locnet_xscpu64/Makefile
-           src/arch/android/AnVICE/jni/locnet_xvic/Makefile
-           src/arch/android/AnVICE/jni/locnet_al/Makefile
-           src/arch/android/AnVICE/jni/sdl/Makefile
-           src/arch/android/AnVICE/jni/vice_x64/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_128_5x0/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_dtv_128_5x0/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_128/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_128_2_5x0_pet_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_128_2_5x0_pet_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_pet_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_scpu/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_5x0_pet_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_4/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_5x0_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x64dtv/Makefile
-           src/arch/android/AnVICE/jni/vice_x64sc/Makefile
-           src/arch/android/AnVICE/jni/vice_x64sc_scpu/Makefile
-           src/arch/android/AnVICE/jni/vice_x64sc_scpu_128_2_pet_4_20/Makefile
-           src/arch/android/AnVICE/jni/vice_x128/Makefile
-           src/arch/android/AnVICE/jni/vice_x128_2_5x0_pet/Makefile
-           src/arch/android/AnVICE/jni/vice_xcbm2/Makefile
-           src/arch/android/AnVICE/jni/vice_xcbm2_5x0/Makefile
-           src/arch/android/AnVICE/jni/vice_xcbm2_pet/Makefile
-           src/arch/android/AnVICE/jni/vice_xcbm5x0/Makefile
-           src/arch/android/AnVICE/jni/vice_xpet/Makefile
-           src/arch/android/AnVICE/jni/vice_xplus4/Makefile
-           src/arch/android/AnVICE/jni/vice_xscpu64/Makefile
-           src/arch/android/AnVICE/jni/vice_xvic/Makefile
-           src/arch/android/AnVICE/res-proto/Makefile
-           src/arch/android/AnVICE/res-proto/layout/Makefile
-           src/arch/android/AnVICE/res-proto/values/Makefile
-           src/arch/android/AnVICE/src-proto/Makefile
-           src/arch/android/AnVICE/src-proto/com/Makefile
-           src/arch/android/AnVICE/src-proto/com/locnet/Makefile
-           src/arch/android/AnVICE/src-proto/com/locnet/vice/Makefile
            src/arch/gtk3/Makefile
            src/arch/gtk3/data/Makefile
            src/arch/gtk3/data/macos/Makefile

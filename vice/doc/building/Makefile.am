@@ -1,5 +1,4 @@
 BUILDING_DOX = \
-	Android-Howto.txt \
 	SDL-Howto.txt \
 	Windows-MinGW-GTK3-Howto.txt \
 	FreeBSD-GTK3-Howto.txt \
