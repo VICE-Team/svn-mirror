@@ -1214,7 +1214,7 @@ static int set_event_image_include(int enable, void *param)
 
 static const resource_string_t resources_string[] = {
     { "EventSnapshotDir",
-      FSDEVICE_DEFAULT_DIR ARCHDEP_DIR_SEP_STR, RES_EVENT_NO, NULL,
+      ARCHDEP_FSDEVICE_DEFAULT_DIR ARCHDEP_DIR_SEP_STR, RES_EVENT_NO, NULL,
       &event_snapshot_dir, set_event_snapshot_dir, NULL },
     { "EventStartSnapshot", EVENT_START_SNAPSHOT, RES_EVENT_NO, NULL,
       &event_start_snapshot, set_event_start_snapshot, NULL },

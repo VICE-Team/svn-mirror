@@ -32,8 +32,8 @@
 #include "archapi.h"
 #undef VICE_ARCHAPI_PRIVATE_API
 
-/* Filesystem dependant operators.  */
-#define FSDEVICE_DEFAULT_DIR "."
+/* Filesystem-dependent constants  */
+#define ARCHDEP_FSDEVICE_DEFAULT_DIR "."
 #define ARCHDEP_DIR_SEP_STR "\\"
 #define ARCHDEP_DIR_SEP_CHR '\\'
 #define ARCHDEP_EXT_SEP_STR "."
