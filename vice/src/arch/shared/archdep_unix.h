@@ -95,8 +95,6 @@
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE "eth0"
 
 
-#define VICEUSERDIR ".vice"
-
 /*
     these are used for socket send/recv. in this case we might
     get SIGPIPE if the connection is unexpectedly closed.

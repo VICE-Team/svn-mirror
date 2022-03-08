@@ -60,16 +60,6 @@
 #include "archdep.h"
 #include "archdep_defs.h"
 
-/* WTF? */
-/* fix VICE userdir */
-#ifdef VICEUSERDIR
-# undef VICEUSERDIR
-#endif
-/** \brief  User directory inside ./config
- */
-#define VICEUSERDIR "vice"
-
-
 #include "archdep_spawn.h"
 
 
