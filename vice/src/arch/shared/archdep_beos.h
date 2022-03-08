@@ -48,8 +48,8 @@
 #define ARCHDEP_TED_DSIZE     1
 #define ARCHDEP_TED_DSCAN     1
 
-/* Filesystem dependant operators.  */
-#define FSDEVICE_DEFAULT_DIR "."
+/* Filesystem-dependent constants  */
+#define ARCHDEP_FSDEVICE_DEFAULT_DIR "."
 #define ARCHDEP_DIR_SEP_STR "/"
 #define ARCHDEP_DIR_SEP_CHR '/'
 #define ARCHDEP_EXT_SEP_STR "."

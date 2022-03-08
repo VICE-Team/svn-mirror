@@ -37,9 +37,8 @@
 #define ARCHDEP_MIDI_OUT_DEV "/dev/midi"    /**< MIDI output dev */
 
 
-/* Filesystem dependent operators.
- * FIXME: Rename to ARCHDEP_* */
-#define FSDEVICE_DEFAULT_DIR "."    /**< CWD */
+/* Filesystem-dependent constants */
+#define ARCHDEP_FSDEVICE_DEFAULT_DIR "."    /**< CWD */
 #define ARCHDEP_DIR_SEP_STR "/"     /**< directory separator as a string */
 #define ARCHDEP_DIR_SEP_CHR '/'     /**< directory separator as an integer */
 #define ARCHDEP_EXT_SEP_STR "."     /**< file extension separator as a string
