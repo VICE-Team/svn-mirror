@@ -360,6 +360,7 @@ char *util_subst(const char *s, const char *string, const char *replacement)
 /* ------------------------------------------------------------------------- */
 
 /* Return the length of an open file in bytes.  */
+/* TODO: Replace all calls to this function with calls to archdep_file_size() */
 off_t util_file_length(FILE *fd)
 {
     off_t off, filesize;
