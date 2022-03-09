@@ -59,6 +59,7 @@ libarchdep_a_SOURCES = \
 	archdep_file_exists.c \
 	archdep_file_is_blockdev.c \
 	archdep_file_is_chardev.c \
+	archdep_file_size.c \
 	archdep_filename_parameter.c \
 	archdep_fix_permissions.c \
 	archdep_fseeko.c \
@@ -153,6 +154,7 @@ EXTRA_DIST = \
 	archdep_file_exists.h \
 	archdep_file_is_blockdev.h \
 	archdep_file_is_chardev.h \
+	archdep_file_size.h \
 	archdep_filename_parameter.h \
 	archdep_fix_permissions.h \
 	archdep_fseeko.h \
