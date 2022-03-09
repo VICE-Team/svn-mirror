@@ -298,8 +298,6 @@ static const cmdline_option_t cmdline_options[] = {
  */
 static int hotkeys_file_set(const char *val, void *param)
 {
-    debug_gtk3("Got hotkey file '%s'", val);
-
     if (util_string_set(&hotkeys_file, val) != 0) {
         /* new value was the same as the old value, don't do anything */
         return 0;
@@ -538,10 +536,8 @@ static bool textfile_reader_open(textfile_reader_t *reader, const char *path)
     }
 
     /* try to open new file */
-    debug_gtk3("Opening new file '%s':", path);
     reader->fp = sysfile_open(path, machine_name, &complete_path, "rb");
     if (reader->fp == NULL) {
-        debug_gtk3("failed.");
         return false;
     } else {
         /* add new file to stack */
@@ -1287,11 +1283,7 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
     char *a;
     bool result;
 
-    debug_gtk3("called.");
-
     s = skip_whitespace(line);
-    debug_gtk3("!INCLUDE argument: '%s'.", s);
-
     if (*s == '\0') {
         /* missing argument */
         log_message(hotkeys_log,
@@ -1389,8 +1381,6 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     ui_menu_item_t *item;
 
     s = skip_whitespace(line);
-    debug_gtk3("!UNDEF argument: '%s'.", s);
-
     if (*s == '\0') {
         /* error: missing argument */
         log_message(hotkeys_log,
@@ -1600,10 +1590,7 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     }
 
     /* finally try to register the hotkey */
-    debug_gtk3("Getting ID for action '%s':", action_name);
     action_id = ui_action_get_id(action_name);
-    debug_gtk3("Got ID %d.", action_id);
-
     if (!ui_set_vice_menu_item_hotkey_by_action(action_id,
                                                 gdk_keyval_name(keyval),
                                                 mask)) {
