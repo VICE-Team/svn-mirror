@@ -1090,7 +1090,7 @@ static int retroreplay_common_attach(void)
 
 int retroreplay_bin_attach(const char *filename, uint8_t *rawcart)
 {
-    size_t len = 0;
+    off_t len;
     FILE *fd;
 
     retroreplay_filetype = 0;
@@ -1100,7 +1100,11 @@ int retroreplay_bin_attach(const char *filename, uint8_t *rawcart)
     if (fd == NULL) {
         return -1;
     }
-    len = util_file_length(fd);
+    len = archdep_file_size(fd);
+    if (len < 0) {
+        fclose(fd);
+        return -1;
+    }
     fclose(fd);
 
     memset(rawcart, 0xff, 0x20000);

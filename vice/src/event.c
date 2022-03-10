@@ -179,19 +179,19 @@ void event_record_attach_in_list(event_list_state_t *list, unsigned int unit,
         strcpy(&event_data[3], filename);
         if (event_image_append(filename, NULL, 0) == 1) {
             FILE *fd;
-            size_t file_len = 0;
+            off_t file_len = 0;
 
             fd = fopen(filename, MODE_READ);
 
             if (fd != NULL) {
-                file_len = util_file_length(fd);
-                event_data = lib_realloc(event_data, size + file_len);
-
-                if (fread(&event_data[size], file_len, 1, fd) != 1) {
-                    log_error(event_log, "Cannot load image file %s", filename);
+                file_len = archdep_file_size(fd);
+                if (file_len >= 0) {
+                    event_data = lib_realloc(event_data, size + (unsigned int)file_len);
+                    if (fread(&event_data[size], (size_t)file_len, 1, fd) != 1) {
+                        log_error(event_log, "Cannot load image file %s", filename);
+                    }
+                    fclose(fd);
                 }
-
-                fclose(fd);
             } else {
                 log_error(event_log, "Cannot open image file %s", filename);
             }

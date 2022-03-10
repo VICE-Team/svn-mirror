@@ -1563,19 +1563,23 @@ static int ide64_common_attach(uint8_t *rawcart, int detect)
 
 int ide64_bin_attach(const char *filename, uint8_t *rawcart)
 {
-    size_t len;
+    off_t len;
     FILE *fd;
 
     fd = fopen(filename, MODE_READ);
     if (fd == NULL) {
         return -1;
     }
-    len = util_file_length(fd);
+    len = archdep_file_size(fd);
+    if (len < 0) {
+        fclose(fd);
+        return -1;
+    }
     fclose(fd);
 
     /* we accept 64k, 128k and full 512k images */
     if (len == 0x10000 || len == 0x20000 || len == 0x80000) {
-        if (util_file_load(filename, rawcart, len, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        if (util_file_load(filename, rawcart, (size_t)len, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
             return -1;
         }
     }

@@ -224,6 +224,7 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
 {
     FILE *fp = NULL;
     size_t rsize = 0;
+    off_t tmpsize;
     char *complete_path = NULL;
     int load_at_end;
 
@@ -248,7 +249,12 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
 
     log_message(LOG_DEFAULT, "Loading system file `%s'.", complete_path);
 
-    rsize = util_file_length(fp);
+    tmpsize = archdep_file_size(fp);
+    if (tmpsize < 0) {
+        log_message(LOG_DEFAULT, "Failed to determine size of '%s'.", complete_path);
+        goto fail;
+    }
+    rsize = (size_t)tmpsize;
     if (minsize < 0) {
         minsize = -minsize;
         load_at_end = 0;

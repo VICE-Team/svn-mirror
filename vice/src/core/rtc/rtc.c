@@ -817,7 +817,7 @@ void rtc_save_context(uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, c
     FILE *infile = NULL;
     char *filename;
     char *indata = NULL;
-    size_t len = 0;
+    off_t len;
     int ok = 0;
     int i;
     char *savedir;
@@ -834,10 +834,10 @@ void rtc_save_context(uint8_t *ram, int ram_size, uint8_t *regs, int reg_size, c
     if (util_file_exists(filename)) {
         infile = fopen(filename, "rb");
         if (infile) {
-            len = util_file_length(infile);
-            indata = lib_malloc(len + 1);
+            len = archdep_file_size(infile);
+            indata = lib_malloc((size_t)len + 1);
             memset(indata, 0, len + 1);
-            if (fread(indata, 1, len, infile) == len) {
+            if (fread(indata, 1, (size_t)len, infile) == (size_t)len) {
                 ok = rtc_parse_buffer(indata);
             }
             fclose(infile);
@@ -877,7 +877,7 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
     FILE *infile = NULL;
     char *filename = archdep_default_rtc_file_name();
     char *indata = NULL;
-    size_t len = 0;
+    off_t len;
     int ok = 0;
     int i;
 
@@ -890,10 +890,10 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
     if (util_file_exists(filename)) {
         infile = fopen(filename, "rb");
         if (infile) {
-            len = util_file_length(infile);
-            indata = lib_malloc(len + 1);
+            len = archdep_file_size(infile);
+            indata = lib_malloc((size_t)len + 1);
             memset(indata, 0, len + 1);
-            if (fread(indata, 1, len, infile) == len) {
+            if (fread(indata, 1, (size_t)len, infile) == (size_t)len) {
                 ok = rtc_parse_buffer(indata);
             }
             fclose(infile);

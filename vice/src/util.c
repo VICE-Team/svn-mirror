@@ -359,27 +359,15 @@ char *util_subst(const char *s, const char *string, const char *replacement)
 
 /* ------------------------------------------------------------------------- */
 
-/* Return the length of an open file in bytes.  */
-/* TODO: Replace all calls to this function with calls to archdep_file_size() */
-off_t util_file_length(FILE *fd)
-{
-    off_t off, filesize;
-
-    off = ftello(fd);
-    fseeko(fd, 0, SEEK_END);
-    filesize = ftello(fd);
-    fseeko(fd, off, SEEK_SET);
-    return filesize;
-}
-
 /* Load the first `size' bytes of file named `name' into `dest'.  Return 0 on
    success, -1 on failure.  */
 int util_file_load(const char *name, uint8_t *dest, size_t size,
                    unsigned int load_flag)
 {
     FILE *fd;
-    size_t length, r = 0;
+    size_t r = 0;
     long start = 0;
+    off_t length;
 
     if (util_check_null_string(name)) {
         log_error(LOG_ERR, "No file name given for util_file_load().");
@@ -392,14 +380,18 @@ int util_file_load(const char *name, uint8_t *dest, size_t size,
         return -1;
     }
 
-    length = util_file_length(fd);
+    length = archdep_file_size(fd);
+    if (length < 0) {
+        fclose(fd);
+        return -1;
+    }
 
     if ((load_flag & UTIL_FILE_LOAD_SKIP_ADDRESS) && (length & 2)) {
         start = 2;
         length -= 2;
     }
 
-    if (length != size) {
+    if ((size_t)length != size) {
         fclose(fd);
         return -1;
     }
@@ -419,17 +411,22 @@ int util_file_load(const char *name, uint8_t *dest, size_t size,
 int util_file_load_string(FILE *fd, char **dest)
 {
     char *buffer;
-    size_t size;
+    off_t size;
     size_t r;
 
-    size = util_file_length(fd);
-    buffer = lib_malloc(size + 1);
+    size = archdep_file_size(fd);
+    if (size < 0) {
+        return -1;
+    }
+    buffer = lib_malloc((size_t)size + 1);
 
-    r = fread(buffer, 1, size, fd);
+    r = fread(buffer, 1, (size_t)size, fd);
 
-    if (r < size) {
+    if (r < (size_t)size) {
         lib_free(buffer);
-        log_error(LOG_ERR, "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes", r, size);
+        log_error(LOG_ERR,
+                  "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes",
+                  r, (size_t)size);
         return -1;
     }
 
