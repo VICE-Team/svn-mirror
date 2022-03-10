@@ -458,8 +458,8 @@ static void detect_ide64_image(struct drive_s *drive)
             }
         } else {
             off_t size = 0;
-            if (fseeko(file, 0, SEEK_END) == 0) {
-                size = ftello(file);
+            if (archdep_fseeko(file, 0, SEEK_END) == 0) {
+                size = archdep_ftello(file);
                 if (size < 0) {
                     size = 0;
                 }
