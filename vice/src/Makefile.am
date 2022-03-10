@@ -71,7 +71,6 @@ SUBDIRS = \
 	sid \
 	monitor \
 	core \
-	rtc \
 	userport \
 	tapeport \
 	diag \
@@ -123,7 +122,6 @@ DIST_SUBDIRS = \
 	sid \
 	monitor \
 	core \
-	rtc \
 	diag \
 	userport \
 	tapeport \
@@ -163,7 +161,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/joyport \
-	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/socketdrv \
@@ -588,7 +586,7 @@ resid_lib = $(top_builddir)/src/resid/libresid.a
 resid_dtv_lib = $(top_builddir)/src/resid-dtv/libresiddtv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
-rtc_lib = $(top_builddir)/src/rtc/librtc.a
+rtc_lib = $(top_builddir)/src/core/rtc/librtc.a
 samplerdrv_lib = $(top_builddir)/src/samplerdrv/libsamplerdrv.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
@@ -1377,7 +1375,7 @@ $(raster_lib):
 	@(cd raster && $(MAKE) libraster.a)
 $(rtc_lib):
 	@echo "making librtc.a in rtc"
-	@(cd rtc && $(MAKE) librtc.a)
+	@(cd core/rtc && $(MAKE) librtc.a)
 $(resid_lib):
 	@echo "making all in resid"
 	@(cd resid && $(MAKE))

@@ -11,7 +11,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/joyport \
-	-I$(top_srcdir)/src/lib/p64
+	-I$(top_srcdir)/src/lib/p64 \
+	-I$(top_srcdir)/src/core/rtc
 
 AM_CFLAGS = @VICE_CFLAGS@ @MONITOR_CFLAGS@
 
