@@ -3570,6 +3570,7 @@ AC_OUTPUT([Makefile
            src/cbm2/Makefile
            src/cbm2/cart/Makefile
            src/core/Makefile
+           src/core/rtc/Makefile
            src/crtc/Makefile
            src/datasette/Makefile
            src/diag/Makefile
@@ -3604,7 +3605,6 @@ AC_OUTPUT([Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
            src/rs232drv/Makefile
-           src/rtc/Makefile
            src/samplerdrv/Makefile
            src/serial/Makefile
            src/sid/Makefile

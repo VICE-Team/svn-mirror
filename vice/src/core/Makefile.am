@@ -10,6 +10,7 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 
 AM_LDFLAGS = @VICE_LDFLAGS@
 
+SUBDIRS = rtc
 
 noinst_LIBRARIES = libcore.a
 

@@ -7,7 +7,7 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/samplerdrv \
-	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/userport
 
 AM_CFLAGS = @VICE_CFLAGS@

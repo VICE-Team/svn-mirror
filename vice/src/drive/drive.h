@@ -30,7 +30,7 @@
 #define VICE_DRIVE_H
 
 #include "types.h"
-#include "rtc/ds1216e.h"
+#include "ds1216e.h"
 #include "p64.h"
 
 /** \brief  Number of supported disk units

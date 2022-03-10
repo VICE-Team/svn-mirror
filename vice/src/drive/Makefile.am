@@ -12,7 +12,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/vdrive \
-	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/core \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/drive/iec \
 	-I$(top_srcdir)/src/drive/tcbm \
