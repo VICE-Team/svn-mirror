@@ -1204,6 +1204,7 @@ c1541-program: \
 DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 
 # Special targets to build libraries in subdirectories.
+.PHONY: @RESID_DEP@ @RESID_DTV_DEP@
 
 info.c: infocontrib.h
 
