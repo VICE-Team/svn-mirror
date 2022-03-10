@@ -170,7 +170,7 @@ int32_t scsi_image_read(struct scsi_context_s *context)
 
     fhd = context->file[(context->target << 3) | context->lun];
 
-    if (fseeko(fhd, (off_t)context->address * 512, SEEK_SET) < 0) {
+    if (archdep_fseeko(fhd, (off_t)context->address * 512, SEEK_SET) < 0) {
         CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
             context->target, context->address));
         return -3;
@@ -218,7 +218,7 @@ int32_t scsi_image_write(struct scsi_context_s *context)
 
     fhd = context->file[(context->target << 3) | context->lun];
 
-    if (fseeko(fhd, (off_t)context->address * 512, SEEK_SET) < 0) {
+    if (archdep_fseeko(fhd, (off_t)context->address * 512, SEEK_SET) < 0) {
         CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
             context->target, context->address));
         return -3;
