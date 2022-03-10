@@ -515,13 +515,13 @@ int cartridge_detect(const char *filename)
 {
     int type = CARTRIDGE_NONE;
     FILE *fd;
-    size_t len;
+    off_t len;
 
     fd = fopen(filename, "rb");
     if (fd == NULL) {
         return CARTRIDGE_NONE;
     }
-    len = util_file_length(fd);
+    len = archdep_file_size(fd);
 
     if (len == 8192) {
         type = CARTRIDGE_PLUS4_GENERIC_C1LO;

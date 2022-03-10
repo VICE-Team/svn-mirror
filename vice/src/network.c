@@ -453,7 +453,7 @@ static void network_server_connect_trap(uint16_t addr, void *data)
 {
     FILE *f;
     uint8_t *buf;
-    size_t buf_size;
+    off_t buf_size;
     uint8_t send_size4[4];
     long i;
     event_list_state_t settings_list;
@@ -470,9 +470,9 @@ static void network_server_connect_trap(uint16_t addr, void *data)
             lib_free(snapshotfilename);
             return;
         }
-        buf_size = util_file_length(f);
-        buf = lib_malloc(buf_size);
-        if (fread(buf, 1, buf_size, f) == 0) {
+        buf_size = archdep_file_size(f);
+        buf = lib_malloc((size_t)buf_size);
+        if (fread(buf, 1, (size_t)buf_size, f) == 0) {
             log_debug("network_server_connect_trap read failed.");
         }
         fclose(f);

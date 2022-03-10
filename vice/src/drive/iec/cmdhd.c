@@ -1398,7 +1398,7 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
                test = fopen(testname, "rb+");
                if (test) {
                    /* if it is there, check the length */
-                   filelength = util_file_length(test);
+                   filelength = archdep_file_size(test);
                    /* must be multiple of 512 */
                    if ((filelength % 512) == 0) {
                        /* set the FILE pointer */

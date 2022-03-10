@@ -247,7 +247,7 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
     new->fd = fd;
     new->read_only = *read_only;
 
-    new->size = (int)util_file_length(fd) - TAP_HDR_SIZE;
+    new->size = (int)archdep_file_size(fd) - TAP_HDR_SIZE;
 
     if (new->size < 3) {
         zfile_fclose(new->fd);
@@ -270,10 +270,10 @@ int tap_close(tap_t *tap)
     if (tap->fd != NULL) {
         /* write data size into header */
         if (tap->has_changed) {
-            size_t datasize = util_file_length(tap->fd) - TAP_HDR_SIZE;
             uint8_t buf[4];
+            off_t datasize = archdep_file_size(tap->fd) - TAP_HDR_SIZE;
             /* sanity check */
-            if (tap->size != datasize) {
+            if (tap->size != (int)datasize) {
                 log_warning(tape_log,
                             "tap data size mismatch, expected: 0x%06lx is: 0x%06x",
                             (unsigned long)datasize, (unsigned)tap->size);
