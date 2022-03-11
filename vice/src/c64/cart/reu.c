@@ -253,7 +253,7 @@ struct reu_ba_s {
 };
 
 static struct reu_ba_s reu_ba = {
-    NULL, NULL, NULL, 0, 0, 0, 0, 0
+    NULL, NULL, NULL, 0, 0, 0, 0
 };
 
 static int reu_write_image = 0;
