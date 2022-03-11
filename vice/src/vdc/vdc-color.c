@@ -63,7 +63,6 @@ static video_cbm_palette_t vdc_palette =
 {
     VDC_NUM_COLORS,
     vdc_colors,
-    VDC_SATURATION,     /* FIXME: remove */
     VDC_PHASE,
     CBM_PALETTE_RGB
 };

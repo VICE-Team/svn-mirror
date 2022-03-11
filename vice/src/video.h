@@ -318,7 +318,6 @@ typedef struct video_cbm_color_s {
 typedef struct video_cbm_palette_s {
     unsigned int num_entries;           /* number of colors in palette */
     video_cbm_color_t *entries;         /* array of colors             */
-    float saturation; /* base saturation of all colors except the grey tones */
     float phase;      /* color phase (will be added to all color angles) */
     int type;
 } video_cbm_palette_t;

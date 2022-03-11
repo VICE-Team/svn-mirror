@@ -61,7 +61,6 @@ static video_cbm_palette_t crtc_palette =
 {
     CRTC_NUM_COLORS,
     crtc_colors,
-    CRTC_SATURATION,    /* FIXME: remove */
     CRTC_PHASE,
     CBM_PALETTE_YUV
 };

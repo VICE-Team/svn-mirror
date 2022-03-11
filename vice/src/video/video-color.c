@@ -308,16 +308,16 @@ static inline void video_convert_rgb_to_ycbcr(const palette_entry_t *src, video_
 #define INT_SAT_ADJ (1.75f)
 
 static void video_convert_cbm_to_ycbcr(const video_cbm_color_t *src,
-                                       float basesat, float phase,
+                                       float phase,
                                        video_ycbcr_color_t *dst, int video)
 {
+    float basesat = src->saturation / INT_SAT_ADJ;
     /* DBG(("video_convert_cbm_to_ycbcr sat:%f phase:%f", basesat, phase)); */
 
     dst->y = src->luminance;
     /* FIXME: this is a hack to adjust the output of the internal color generator somewhat
               to align with the pepto palette when all neutral parameters are used */
     dst->y /= INT_LUMA_ADJ;
-    basesat /= INT_SAT_ADJ;
 
     /* chrominance (U and V) of color */
     if (video) {
@@ -722,7 +722,7 @@ static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p, video_ycbcr
         }
     } else {
         for (i = 0; i < p->num_entries; i++) {
-            video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation, p->phase, &ycbcr->entries[i], video);
+            video_convert_cbm_to_ycbcr(&p->entries[i], p->phase, &ycbcr->entries[i], video);
 #ifdef DEBUG_VIDEO
             cb = ycbcr->entries[i].cb;
             cr = ycbcr->entries[i].cr;
@@ -766,7 +766,7 @@ static void video_cbm_palette_to_ycbcr_oddlines(video_resources_t *video_resourc
     DBG(("video_cbm_palette_to_ycbcr_oddlines"));
 
     for (i = 0; i < p->num_entries; i++) {
-        video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation, (p->phase + offs), &ycbcr->entries[i], video);
+        video_convert_cbm_to_ycbcr(&p->entries[i], (p->phase + offs), &ycbcr->entries[i], video);
     }
 }
 

@@ -140,7 +140,6 @@ static video_cbm_palette_t vic_palette =
 {
     VIC_NUM_COLORS,
     vic_colors_pal,
-    VIC_SATURATION, /* FIXME: remove */
     VIC_PHASE,
     CBM_PALETTE_YUV
 };
