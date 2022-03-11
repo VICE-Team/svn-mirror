@@ -161,7 +161,7 @@ static bool argv_fallback(void)
  */
 const char *archdep_program_path(void)
 {
-#if defined(ARCHDEP_OS_WINDOW)
+#if defined(ARCHDEP_OS_WINDOWS)
     DWORD result;
 #endif
     if (program_path != NULL) {
