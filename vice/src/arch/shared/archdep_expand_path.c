@@ -32,7 +32,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "archdep_current_dir.h"
+#include "archdep_getcwd.h"
 #include "archdep_home_path.h"
 #include "lib.h"
 #include "log.h"
@@ -60,14 +60,16 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 #ifdef ARCHDEP_OS_UNIX
     if (*orig_name == '/') {
         *return_path = lib_strdup(orig_name);
-    } else if (*orig_name == '~' && *(orig_name +1) == '/') {
+    } else if ((orig_name[0] == '~') && (orig_name[1] == '/')) {
         *return_path = util_concat(archdep_home_path(), orig_name + 1, NULL);
     } else {
-        char *cwd;
+        char buffer[ARCHDEP_PATH_MAX];
 
-        cwd = archdep_current_dir();
-        *return_path = util_concat(cwd, "/", orig_name, NULL);
-        lib_free(cwd);
+        if (archdep_getcwd(buffer, sizeof(buffer)) == NULL) {
+            *return_path = NULL;
+            return -1;
+        }
+        *return_path = util_concat(buffer, "/", orig_name, NULL);
     }
     return 0;
 

@@ -240,10 +240,6 @@ void close_libs(void)
 
 
 /******************************************************************************/
-static char *argv0 = NULL;
-#if defined(ARCHDEP_OS_BEOS)
-static char *orig_workdir = NULL;
-#endif
 #if defined(ARCHDEP_OS_AMIGA)
 static int run_from_wb = 0;
 #endif
@@ -264,13 +260,6 @@ static int archdep_init_extra(int *argc, char **argv)
     _setmode(_fileno(stdout), O_BINARY);
 #endif
 
-#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_BEOS)
-    argv0 = lib_strdup(argv[0]);
-#endif
-#if defined(ARCHDEP_OS_BEOS)
-    orig_workdir = getcwd(NULL, PATH_MAX);
-#endif
-
 #if defined(ARCHDEP_OS_AMIGA)
     if (*argc == 0) { /* run from WB */
         run_from_wb = 1;
@@ -285,11 +274,7 @@ static int archdep_init_extra(int *argc, char **argv)
 /* called from archdep.c:archdep_shutdown */
 static void archdep_shutdown_extra(void)
 {
-    if (argv0) {
-        lib_free(argv0);
-    }
 #if defined(ARCHDEP_OS_AMIGA)
-    lib_free(boot_path);
     close_libs();
 #endif
 }
