@@ -36,7 +36,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "archdep_defs.h"
+#include "archdep.h"
 #include "lib.h"
 #include "archdep_program_path.h"
 
@@ -74,7 +74,7 @@ const char *archdep_boot_path(void)
 
     full_path = archdep_program_path();
 
-    p = strrchr(full_path, ARCHDEP_DIR_SEPARATOR);
+    p = strrchr(full_path, ARCHDEP_DIR_SEP_CHR);
     if (p == NULL) {
         /* didn't find a '/' or '\' anywhere */
         boot_path = lib_strdup(".");

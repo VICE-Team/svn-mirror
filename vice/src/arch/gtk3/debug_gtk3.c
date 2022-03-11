@@ -26,7 +26,7 @@
  */
 
 #include <string.h>
-#include "archdep_defs.h"
+#include "archdep.h"
 
 #include "debug_gtk3.h"
 
@@ -60,7 +60,7 @@ const char *debug_gtk3_basename(const char *path)
         const char *p = path + strlen(path) - 1;
 
         /* scan for directory separator */
-        while (p >= path && *p != ARCHDEP_DIR_SEPARATOR) {
+        while (p >= path && *p != ARCHDEP_DIR_SEP_CHR) {
             p--;
         }
         if (p >= path) {

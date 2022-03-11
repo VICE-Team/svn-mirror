@@ -122,17 +122,6 @@
 #endif
 
 
-/** \brief  Arch-dependent directory separator used in paths
- */
-#if defined(ARCHDEP_OS_WINDOWS)
-
-/** \brief  OS-dependent directory separator
- */
-# define ARCHDEP_DIR_SEPARATOR  '\\'
-#else
-# define ARCHDEP_DIR_SEPARATOR  '/'
-#endif
-
 /** \brief  Extension used for autostart disks
  */
 #define ARCHDEP_AUTOSTART_DISK_EXTENSION    "d64"
