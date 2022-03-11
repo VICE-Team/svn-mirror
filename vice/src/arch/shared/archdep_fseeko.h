@@ -28,13 +28,8 @@
 #define VICE_ARCHDEP_FSEEKO_H
 
 #include "vice.h"
-#include "archdep_defs.h"
-
+#include "types.h"
 #include <stdio.h>
-#ifdef ARCHDEP_OS_WINDOWS
-/* for off_t */
-# include <sys/types.h>
-#endif
 
 int archdep_fseeko(FILE *stream, off_t offset, int whence);
 

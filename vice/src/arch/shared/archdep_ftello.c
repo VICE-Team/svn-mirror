@@ -25,13 +25,8 @@
  */
 
 #include "vice.h"
-#include "archdep_defs.h"
-
+#include "types.h"
 #include <stdio.h>
-#ifdef ARCHDEP_OS_WINDOWS
-/* for off_t */
-# include <sys/types.h>
-#endif
 
 #include "archdep_ftello.h"
 
@@ -52,14 +47,12 @@ off_t archdep_ftello(FILE *stream)
     return ftello(stream);
 #else
     /* Mingw appears to provide ftello() on Windows, this is for non-Mingw */
-# if defined(ARCHDEP_OS_WINDOWS)
+# ifdef HAVE__FTELLI64
     /* this assumes `off_t` matches `long long` on Windows */
     return _ftelli64(stream);
 # else
-    fprintf(stderr,
-            "%s:%d:%s(): missing support for current system, returning -1.\n",
-            __FILE__, __LINE__, __func__);
-    return -1;
+    /* paniek! */
+    return (off_t)ftell(stream);
 # endif
 #endif
 }

@@ -46,6 +46,17 @@
 #  endif
 #endif
 
+/* According to POSIX including <stdio.h> provides off_t, but on Windows we
+ * need to include <sys/types.h> */
+#ifdef HAVE_OFF_T
+# ifdef HAVE_OFF_T_IN_SYS_TYPES
+#  include <sys/types.h>
+# endif
+#else
+/* Fallback */
+typedef long long off_t;
+#endif
+
 typedef uint64_t CLOCK;
 
 /* Maximum value of a CLOCK.  */
