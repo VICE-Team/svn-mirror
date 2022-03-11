@@ -69,29 +69,29 @@
 
 static video_cbm_color_t vicii_colors[VICII_NUM_COLORS] =
 {
-    { LUMN0, ANGLE_ORN, -0, "Black"       },
-    { LUMN8, ANGLE_BRN,  0, "White"       },
-    { LUMN2, ANGLE_RED,  1, "Red"         },
-    { LUMN6, ANGLE_RED, -1, "Cyan"        },
-    { LUMN3, ANGLE_GRN, -1, "Purple"      },
-    { LUMN5, ANGLE_GRN,  1, "Green"       },
-    { LUMN1, ANGLE_BLU,  1, "Blue"        },
-    { LUMN7, ANGLE_BLU, -1, "Yellow"      },
-    { LUMN3, ANGLE_ORN, -1, "Orange"      },
-    { LUMN1, ANGLE_BRN,  1, "Brown"       },
-    { LUMN5, ANGLE_RED,  1, "Light Red"   },
-    { LUMN2, ANGLE_RED, -0, "Dark Grey"   },
-    { LUMN4, ANGLE_GRN, -0, "Medium Grey" },
-    { LUMN7, ANGLE_GRN,  1, "Light Green" },
-    { LUMN4, ANGLE_BLU,  1, "Light Blue"  },
-    { LUMN6, ANGLE_BLU, -0, "Light Grey"  }
+    { LUMN0, ANGLE_ORN, VICII_SATURATION, -0, "Black"       },
+    { LUMN8, ANGLE_BRN, VICII_SATURATION,  0, "White"       },
+    { LUMN2, ANGLE_RED, VICII_SATURATION,  1, "Red"         },
+    { LUMN6, ANGLE_RED, VICII_SATURATION, -1, "Cyan"        },
+    { LUMN3, ANGLE_GRN, VICII_SATURATION, -1, "Purple"      },
+    { LUMN5, ANGLE_GRN, VICII_SATURATION,  1, "Green"       },
+    { LUMN1, ANGLE_BLU, VICII_SATURATION,  1, "Blue"        },
+    { LUMN7, ANGLE_BLU, VICII_SATURATION, -1, "Yellow"      },
+    { LUMN3, ANGLE_ORN, VICII_SATURATION, -1, "Orange"      },
+    { LUMN1, ANGLE_BRN, VICII_SATURATION,  1, "Brown"       },
+    { LUMN5, ANGLE_RED, VICII_SATURATION,  1, "Light Red"   },
+    { LUMN2, ANGLE_RED, VICII_SATURATION, -0, "Dark Grey"   },
+    { LUMN4, ANGLE_GRN, VICII_SATURATION, -0, "Medium Grey" },
+    { LUMN7, ANGLE_GRN, VICII_SATURATION,  1, "Light Green" },
+    { LUMN4, ANGLE_BLU, VICII_SATURATION,  1, "Light Blue"  },
+    { LUMN6, ANGLE_BLU, VICII_SATURATION, -0, "Light Grey"  }
 };
 
 static video_cbm_palette_t vicii_palette =
 {
     VICII_NUM_COLORS,
     vicii_colors,
-    VICII_SATURATION,
+    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };

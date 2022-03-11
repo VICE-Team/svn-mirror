@@ -121,82 +121,82 @@ FIXME: measurements missing for: 8565 (PAL), 6562 (NTSC), 6572 (PAL-N)
 
 static video_cbm_color_t vicii_colors_6567r56a[VICII_NUM_COLORS] =
 {
-    { LUMA( 560,560,1825), ANGLE_ORN, -0, "Black"       },
-    { LUMA(1825,560,1825), ANGLE_BRN,  0, "White"       },
-    { LUMA( 840,560,1825), ANGLE_RED,  1, "Red"         },
-    { LUMA(1500,560,1825), ANGLE_RED, -1, "Cyan"        },
-    { LUMA(1180,560,1825), ANGLE_GRN, -1, "Purple"      },
-    { LUMA(1180,560,1825), ANGLE_GRN,  1, "Green"       },
-    { LUMA( 840,560,1825), ANGLE_BLU,  1, "Blue"        },
-    { LUMA(1500,560,1825), ANGLE_BLU, -1, "Yellow"      },
-    { LUMA(1180,560,1825), ANGLE_ORN, -1, "Orange"      },
-    { LUMA( 840,560,1825), ANGLE_BRN,  1, "Brown"       },
-    { LUMA(1180,560,1825), ANGLE_RED,  1, "Light Red"   },
-    { LUMA( 840,560,1825), ANGLE_RED, -0, "Dark Grey"   },
-    { LUMA(1180,560,1825), ANGLE_GRN, -0, "Medium Grey" },
-    { LUMA(1500,560,1825), ANGLE_GRN,  1, "Light Green" },
-    { LUMA(1180,560,1825), ANGLE_BLU,  1, "Light Blue"  },
-    { LUMA(1500,560,1825), ANGLE_BLU, -0, "Light Grey"  }
+    { LUMA( 560,560,1825), ANGLE_ORN, VICII_SATURATION, -0, "Black"       },
+    { LUMA(1825,560,1825), ANGLE_BRN, VICII_SATURATION,  0, "White"       },
+    { LUMA( 840,560,1825), ANGLE_RED, VICII_SATURATION,  1, "Red"         },
+    { LUMA(1500,560,1825), ANGLE_RED, VICII_SATURATION, -1, "Cyan"        },
+    { LUMA(1180,560,1825), ANGLE_GRN, VICII_SATURATION, -1, "Purple"      },
+    { LUMA(1180,560,1825), ANGLE_GRN, VICII_SATURATION,  1, "Green"       },
+    { LUMA( 840,560,1825), ANGLE_BLU, VICII_SATURATION,  1, "Blue"        },
+    { LUMA(1500,560,1825), ANGLE_BLU, VICII_SATURATION, -1, "Yellow"      },
+    { LUMA(1180,560,1825), ANGLE_ORN, VICII_SATURATION, -1, "Orange"      },
+    { LUMA( 840,560,1825), ANGLE_BRN, VICII_SATURATION,  1, "Brown"       },
+    { LUMA(1180,560,1825), ANGLE_RED, VICII_SATURATION,  1, "Light Red"   },
+    { LUMA( 840,560,1825), ANGLE_RED, VICII_SATURATION, -0, "Dark Grey"   },
+    { LUMA(1180,560,1825), ANGLE_GRN, VICII_SATURATION, -0, "Medium Grey" },
+    { LUMA(1500,560,1825), ANGLE_GRN, VICII_SATURATION,  1, "Light Green" },
+    { LUMA(1180,560,1825), ANGLE_BLU, VICII_SATURATION,  1, "Light Blue"  },
+    { LUMA(1500,560,1825), ANGLE_BLU, VICII_SATURATION, -0, "Light Grey"  }
 };
 
 static video_cbm_color_t vicii_colors_6567r8[VICII_NUM_COLORS] =
 {
-    { LUMA( 590,590,1825), ANGLE_ORN, -0, "Black"       },
-    { LUMA(1825,590,1825), ANGLE_BRN,  0, "White"       },
-    { LUMA( 950,590,1825), ANGLE_RED,  1, "Red"         },
-    { LUMA(1380,590,1825), ANGLE_RED, -1, "Cyan"        },
-    { LUMA(1030,590,1825), ANGLE_GRN, -1, "Purple"      },
-    { LUMA(1210,590,1825), ANGLE_GRN,  1, "Green"       },
-    { LUMA( 860,590,1825), ANGLE_BLU,  1, "Blue"        },
-    { LUMA(1560,590,1825), ANGLE_BLU, -1, "Yellow"      },
-    { LUMA(1030,590,1825), ANGLE_ORN, -1, "Orange"      },
-    { LUMA( 860,590,1825), ANGLE_BRN,  1, "Brown"       },
-    { LUMA(1210,590,1825), ANGLE_RED,  1, "Light Red"   },
-    { LUMA( 950,590,1825), ANGLE_RED, -0, "Dark Grey"   },
-    { LUMA(1160,590,1825), ANGLE_GRN, -0, "Medium Grey" },
-    { LUMA(1560,590,1825), ANGLE_GRN,  1, "Light Green" },
-    { LUMA(1160,590,1825), ANGLE_BLU,  1, "Light Blue"  },
-    { LUMA(1380,590,1825), ANGLE_BLU, -0, "Light Grey"  }
+    { LUMA( 590,590,1825), ANGLE_ORN, VICII_SATURATION, -0, "Black"       },
+    { LUMA(1825,590,1825), ANGLE_BRN, VICII_SATURATION,  0, "White"       },
+    { LUMA( 950,590,1825), ANGLE_RED, VICII_SATURATION,  1, "Red"         },
+    { LUMA(1380,590,1825), ANGLE_RED, VICII_SATURATION, -1, "Cyan"        },
+    { LUMA(1030,590,1825), ANGLE_GRN, VICII_SATURATION, -1, "Purple"      },
+    { LUMA(1210,590,1825), ANGLE_GRN, VICII_SATURATION,  1, "Green"       },
+    { LUMA( 860,590,1825), ANGLE_BLU, VICII_SATURATION,  1, "Blue"        },
+    { LUMA(1560,590,1825), ANGLE_BLU, VICII_SATURATION, -1, "Yellow"      },
+    { LUMA(1030,590,1825), ANGLE_ORN, VICII_SATURATION, -1, "Orange"      },
+    { LUMA( 860,590,1825), ANGLE_BRN, VICII_SATURATION,  1, "Brown"       },
+    { LUMA(1210,590,1825), ANGLE_RED, VICII_SATURATION,  1, "Light Red"   },
+    { LUMA( 950,590,1825), ANGLE_RED, VICII_SATURATION, -0, "Dark Grey"   },
+    { LUMA(1160,590,1825), ANGLE_GRN, VICII_SATURATION, -0, "Medium Grey" },
+    { LUMA(1560,590,1825), ANGLE_GRN, VICII_SATURATION,  1, "Light Green" },
+    { LUMA(1160,590,1825), ANGLE_BLU, VICII_SATURATION,  1, "Light Blue"  },
+    { LUMA(1380,590,1825), ANGLE_BLU, VICII_SATURATION, -0, "Light Grey"  }
 };
 
 static video_cbm_color_t vicii_colors_6569r1[VICII_NUM_COLORS] =
 {
-    { LUMA( 630,630,1850), ANGLE_ORN, -0, "Black"       },
-    { LUMA(1850,630,1850), ANGLE_BRN,  0, "White"       },
-    { LUMA( 900,630,1850), ANGLE_RED,  1, "Red"         },
-    { LUMA(1560,630,1850), ANGLE_RED, -1, "Cyan"        },
-    { LUMA(1260,630,1850), ANGLE_GRN, -1, "Purple"      },
-    { LUMA(1260,630,1850), ANGLE_GRN,  1, "Green"       },
-    { LUMA( 900,630,1850), ANGLE_BLU,  1, "Blue"        },
-    { LUMA(1560,630,1850), ANGLE_BLU, -1, "Yellow"      },
-    { LUMA(1260,630,1850), ANGLE_ORN, -1, "Orange"      },
-    { LUMA( 900,630,1850), ANGLE_BRN,  1, "Brown"       },
-    { LUMA(1260,630,1850), ANGLE_RED,  1, "Light Red"   },
-    { LUMA( 900,630,1850), ANGLE_RED, -0, "Dark Grey"   },
-    { LUMA(1260,630,1850), ANGLE_GRN, -0, "Medium Grey" },
-    { LUMA(1560,630,1850), ANGLE_GRN,  1, "Light Green" },
-    { LUMA(1260,630,1850), ANGLE_BLU,  1, "Light Blue"  },
-    { LUMA(1560,630,1850), ANGLE_BLU, -0, "Light Grey"  }
+    { LUMA( 630,630,1850), ANGLE_ORN, VICII_SATURATION, -0, "Black"       },
+    { LUMA(1850,630,1850), ANGLE_BRN, VICII_SATURATION,  0, "White"       },
+    { LUMA( 900,630,1850), ANGLE_RED, VICII_SATURATION,  1, "Red"         },
+    { LUMA(1560,630,1850), ANGLE_RED, VICII_SATURATION, -1, "Cyan"        },
+    { LUMA(1260,630,1850), ANGLE_GRN, VICII_SATURATION, -1, "Purple"      },
+    { LUMA(1260,630,1850), ANGLE_GRN, VICII_SATURATION,  1, "Green"       },
+    { LUMA( 900,630,1850), ANGLE_BLU, VICII_SATURATION,  1, "Blue"        },
+    { LUMA(1560,630,1850), ANGLE_BLU, VICII_SATURATION, -1, "Yellow"      },
+    { LUMA(1260,630,1850), ANGLE_ORN, VICII_SATURATION, -1, "Orange"      },
+    { LUMA( 900,630,1850), ANGLE_BRN, VICII_SATURATION,  1, "Brown"       },
+    { LUMA(1260,630,1850), ANGLE_RED, VICII_SATURATION,  1, "Light Red"   },
+    { LUMA( 900,630,1850), ANGLE_RED, VICII_SATURATION, -0, "Dark Grey"   },
+    { LUMA(1260,630,1850), ANGLE_GRN, VICII_SATURATION, -0, "Medium Grey" },
+    { LUMA(1560,630,1850), ANGLE_GRN, VICII_SATURATION,  1, "Light Green" },
+    { LUMA(1260,630,1850), ANGLE_BLU, VICII_SATURATION,  1, "Light Blue"  },
+    { LUMA(1560,630,1850), ANGLE_BLU, VICII_SATURATION, -0, "Light Grey"  }
 };
 
 static video_cbm_color_t vicii_colors_6569r3[VICII_NUM_COLORS] =
 {
-    { LUMA( 700,700,1850), ANGLE_ORN, -0, "Black"       },
-    { LUMA(1850,700,1850), ANGLE_BRN,  0, "White"       },
-    { LUMA(1090,700,1850), ANGLE_RED,  1, "Red"         },
-    { LUMA(1480,700,1850), ANGLE_RED, -1, "Cyan"        },
-    { LUMA(1180,700,1850), ANGLE_GRN, -1, "Purple"      },
-    { LUMA(1340,700,1850), ANGLE_GRN,  1, "Green"       },
-    { LUMA(1020,700,1850), ANGLE_BLU,  1, "Blue"        },
-    { LUMA(1620,700,1850), ANGLE_BLU, -1, "Yellow"      },
-    { LUMA(1180,700,1850), ANGLE_ORN, -1, "Orange"      },
-    { LUMA(1020,700,1850), ANGLE_BRN,  1, "Brown"       },
-    { LUMA(1340,700,1850), ANGLE_RED,  1, "Light Red"   },
-    { LUMA(1090,700,1850), ANGLE_RED, -0, "Dark Grey"   },
-    { LUMA(1300,700,1850), ANGLE_GRN, -0, "Medium Grey" },
-    { LUMA(1620,700,1850), ANGLE_GRN,  1, "Light Green" },
-    { LUMA(1300,700,1850), ANGLE_BLU,  1, "Light Blue"  },
-    { LUMA(1480,700,1850), ANGLE_BLU, -0, "Light Grey"  }
+    { LUMA( 700,700,1850), ANGLE_ORN, VICII_SATURATION, -0, "Black"       },
+    { LUMA(1850,700,1850), ANGLE_BRN, VICII_SATURATION,  0, "White"       },
+    { LUMA(1090,700,1850), ANGLE_RED, VICII_SATURATION,  1, "Red"         },
+    { LUMA(1480,700,1850), ANGLE_RED, VICII_SATURATION, -1, "Cyan"        },
+    { LUMA(1180,700,1850), ANGLE_GRN, VICII_SATURATION, -1, "Purple"      },
+    { LUMA(1340,700,1850), ANGLE_GRN, VICII_SATURATION,  1, "Green"       },
+    { LUMA(1020,700,1850), ANGLE_BLU, VICII_SATURATION,  1, "Blue"        },
+    { LUMA(1620,700,1850), ANGLE_BLU, VICII_SATURATION, -1, "Yellow"      },
+    { LUMA(1180,700,1850), ANGLE_ORN, VICII_SATURATION, -1, "Orange"      },
+    { LUMA(1020,700,1850), ANGLE_BRN, VICII_SATURATION,  1, "Brown"       },
+    { LUMA(1340,700,1850), ANGLE_RED, VICII_SATURATION,  1, "Light Red"   },
+    { LUMA(1090,700,1850), ANGLE_RED, VICII_SATURATION, -0, "Dark Grey"   },
+    { LUMA(1300,700,1850), ANGLE_GRN, VICII_SATURATION, -0, "Medium Grey" },
+    { LUMA(1620,700,1850), ANGLE_GRN, VICII_SATURATION,  1, "Light Green" },
+    { LUMA(1300,700,1850), ANGLE_BLU, VICII_SATURATION,  1, "Light Blue"  },
+    { LUMA(1480,700,1850), ANGLE_BLU, VICII_SATURATION, -0, "Light Grey"  }
 };
 
 /******************************************************************************/
@@ -245,44 +245,44 @@ static video_cbm_color_t vicii_colors_6569r3[VICII_NUM_COLORS] =
 #if 0
 static video_cbm_color_t vicii_colors_old[VICII_NUM_COLORS] =
 {
-    { LUMO0, ANGLE_ORN, -0, "Black"       },
-    { LUMO4, ANGLE_BRN,  0, "White"       },
-    { LUMO1, ANGLE_RED,  1, "Red"         },
-    { LUMO3, ANGLE_RED, -1, "Cyan"        },
-    { LUMO2, ANGLE_GRN, -1, "Purple"      },
-    { LUMO2, ANGLE_GRN,  1, "Green"       },
-    { LUMO1, ANGLE_BLU,  1, "Blue"        },
-    { LUMO3, ANGLE_BLU, -1, "Yellow"      },
-    { LUMO2, ANGLE_ORN, -1, "Orange"      },
-    { LUMO1, ANGLE_BRN,  1, "Brown"       },
-    { LUMO2, ANGLE_RED,  1, "Light Red"   },
-    { LUMO1, ANGLE_RED, -0, "Dark Grey"   },
-    { LUMO2, ANGLE_GRN, -0, "Medium Grey" },
-    { LUMO3, ANGLE_GRN,  1, "Light Green" },
-    { LUMO2, ANGLE_BLU,  1, "Light Blue"  },
-    { LUMO3, ANGLE_BLU, -0, "Light Grey"  }
+    { LUMO0, ANGLE_ORN, VICII_SATURATION, -0, "Black"       },
+    { LUMO4, ANGLE_BRN, VICII_SATURATION,  0, "White"       },
+    { LUMO1, ANGLE_RED, VICII_SATURATION,  1, "Red"         },
+    { LUMO3, ANGLE_RED, VICII_SATURATION, -1, "Cyan"        },
+    { LUMO2, ANGLE_GRN, VICII_SATURATION, -1, "Purple"      },
+    { LUMO2, ANGLE_GRN, VICII_SATURATION,  1, "Green"       },
+    { LUMO1, ANGLE_BLU, VICII_SATURATION,  1, "Blue"        },
+    { LUMO3, ANGLE_BLU, VICII_SATURATION, -1, "Yellow"      },
+    { LUMO2, ANGLE_ORN, VICII_SATURATION, -1, "Orange"      },
+    { LUMO1, ANGLE_BRN, VICII_SATURATION,  1, "Brown"       },
+    { LUMO2, ANGLE_RED, VICII_SATURATION,  1, "Light Red"   },
+    { LUMO1, ANGLE_RED, VICII_SATURATION, -0, "Dark Grey"   },
+    { LUMO2, ANGLE_GRN, VICII_SATURATION, -0, "Medium Grey" },
+    { LUMO3, ANGLE_GRN, VICII_SATURATION,  1, "Light Green" },
+    { LUMO2, ANGLE_BLU, VICII_SATURATION,  1, "Light Blue"  },
+    { LUMO3, ANGLE_BLU, VICII_SATURATION, -0, "Light Grey"  }
 };
 #endif
 /* the wellknown vic-ii palette used for 99% of all vic-ii chips */
 
 static video_cbm_color_t vicii_colors[VICII_NUM_COLORS] =
 {
-    { LUMN0, ANGLE_ORN, -0, "Black"       },
-    { LUMN8, ANGLE_BRN,  0, "White"       },
-    { LUMN2, ANGLE_RED,  1, "Red"         },
-    { LUMN6, ANGLE_RED, -1, "Cyan"        },
-    { LUMN3, ANGLE_GRN, -1, "Purple"      },
-    { LUMN5, ANGLE_GRN,  1, "Green"       },
-    { LUMN1, ANGLE_BLU,  1, "Blue"        },
-    { LUMN7, ANGLE_BLU, -1, "Yellow"      },
-    { LUMN3, ANGLE_ORN, -1, "Orange"      },
-    { LUMN1, ANGLE_BRN,  1, "Brown"       },
-    { LUMN5, ANGLE_RED,  1, "Light Red"   },
-    { LUMN2, ANGLE_RED, -0, "Dark Grey"   },
-    { LUMN4, ANGLE_GRN, -0, "Medium Grey" },
-    { LUMN7, ANGLE_GRN,  1, "Light Green" },
-    { LUMN4, ANGLE_BLU,  1, "Light Blue"  },
-    { LUMN6, ANGLE_BLU, -0, "Light Grey"  }
+    { LUMN0, ANGLE_ORN, VICII_SATURATION, -0, "Black"       },
+    { LUMN8, ANGLE_BRN, VICII_SATURATION,  0, "White"       },
+    { LUMN2, ANGLE_RED, VICII_SATURATION,  1, "Red"         },
+    { LUMN6, ANGLE_RED, VICII_SATURATION, -1, "Cyan"        },
+    { LUMN3, ANGLE_GRN, VICII_SATURATION, -1, "Purple"      },
+    { LUMN5, ANGLE_GRN, VICII_SATURATION,  1, "Green"       },
+    { LUMN1, ANGLE_BLU, VICII_SATURATION,  1, "Blue"        },
+    { LUMN7, ANGLE_BLU, VICII_SATURATION, -1, "Yellow"      },
+    { LUMN3, ANGLE_ORN, VICII_SATURATION, -1, "Orange"      },
+    { LUMN1, ANGLE_BRN, VICII_SATURATION,  1, "Brown"       },
+    { LUMN5, ANGLE_RED, VICII_SATURATION,  1, "Light Red"   },
+    { LUMN2, ANGLE_RED, VICII_SATURATION, -0, "Dark Grey"   },
+    { LUMN4, ANGLE_GRN, VICII_SATURATION, -0, "Medium Grey" },
+    { LUMN7, ANGLE_GRN, VICII_SATURATION,  1, "Light Green" },
+    { LUMN4, ANGLE_BLU, VICII_SATURATION,  1, "Light Blue"  },
+    { LUMN6, ANGLE_BLU, VICII_SATURATION, -0, "Light Grey"  }
 };
 
 /******************************************************************************/
@@ -291,7 +291,7 @@ static video_cbm_palette_t vicii_palette_6567r56a =
 {
     VICII_NUM_COLORS,
     vicii_colors_6567r56a,
-    VICII_SATURATION,
+    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -300,7 +300,7 @@ static video_cbm_palette_t vicii_palette_6567r8 =
 {
     VICII_NUM_COLORS,
     vicii_colors_6567r8,
-    VICII_SATURATION,
+    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -309,7 +309,7 @@ static video_cbm_palette_t vicii_palette_6569r1 =
 {
     VICII_NUM_COLORS,
     vicii_colors_6569r1,
-    VICII_SATURATION,
+    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -318,7 +318,7 @@ static video_cbm_palette_t vicii_palette_6569r3 =
 {
     VICII_NUM_COLORS,
     vicii_colors_6569r3,
-    VICII_SATURATION,
+    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -328,7 +328,7 @@ static video_cbm_palette_t vicii_palette_old =
 {
     VICII_NUM_COLORS,
     vicii_colors_old,
-    VICII_SATURATION,
+    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -337,7 +337,7 @@ static video_cbm_palette_t vicii_palette =
 {
     VICII_NUM_COLORS,
     vicii_colors,
-    VICII_SATURATION,
+    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
