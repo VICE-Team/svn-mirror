@@ -2975,6 +2975,13 @@ AC_TYPE_SIGNAL
 AC_FUNC_VFORK
 AC_CHECK_TYPES(u_short)
 AC_CHECK_TYPES(socklen_t, [], [], [[#include <sys/socket.h>]])
+dnl POSIX provides off_t by including <stdio.h>, but on Windows we have to
+dnl include <sys/types.h>
+AC_CHECK_TYPES(off_t)
+AC_CHECK_TYPES(off_t,
+               [AC_DEFINE(HAVE_OFF_T_IN_SYS_TYPES,,[Include sys/types.h for off_t])],
+               [],
+               [[#include <sys/types.h>]])
 
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
@@ -2984,7 +2991,7 @@ dnl some platforms have some of the functions in libposix,
 dnl so we check it out second.
 AC_CHECK_LIB(posix,gettimeofday,,,$LIBS)
 
-AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid random rewinddir strtok strtok_r strtoul snprintf vsnprintf ltoa ultoa stpcpy strlcpy strlwr strrev fseeko ftello)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid random rewinddir strtok strtok_r strtoul snprintf vsnprintf ltoa ultoa stpcpy strlcpy strlwr strrev fseeko ftello _fseeki64 _ftelli64)
 AC_CHECK_FUNCS(strdup, [have_strdup_func=yes], [have_strdup_func=no])
 
 if test x"$have_strdup_func" = "xno"; then

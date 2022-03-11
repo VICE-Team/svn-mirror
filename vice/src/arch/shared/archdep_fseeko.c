@@ -25,13 +25,10 @@
  */
 
 #include "vice.h"
-#include "archdep_defs.h"
-
+/* For off_t on system where off_t doesn't live in stdio.h or where off_t
+ * doesn't exist at all */
+#include "types.h"
 #include <stdio.h>
-#ifdef ARCHDEP_OS_WINDOWS
-/* for off_t */
-# include <sys/types.h>
-#endif
 
 #include "archdep_fseeko.h"
 
@@ -52,14 +49,12 @@ int archdep_fseeko(FILE *stream, off_t offset, int whence)
     return fseeko(stream, offset, whence);
 #else
     /* Mingw appears to provide fseeko() on Windows, this is for non-Mingw */
-# if defined(ARCHDEP_OS_WINDOWS)
+# ifdef HAVE__FSEEKI64
     /* this assumes `off_t` matches `long long` on Windows */
     return _fseeki64(stream, offset, whence);
 # else
-    fprintf(stderr,
-            "%s:%d:%s(): missing support for current system, returning -1.\n",
-            __FILE__, __LINE__, __func__);
-    return -1;
+    /* paniek! */
+    return fseek(stream, (long)offset, whence);
 # endif
 #endif
 }

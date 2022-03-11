@@ -28,13 +28,8 @@
 #define VICE_ARCHDEP_FTELLO_H
 
 #include "vice.h"
-#include "archdep_defs.h"
-
+#include "types.h"
 #include <stdio.h>
-#ifdef ARCHDEP_OS_WINDOWS
-/* for off_t */
-# include <sys/types.h>
-#endif
 
 off_t archdep_ftello(FILE *stream);
 
