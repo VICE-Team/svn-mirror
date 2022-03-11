@@ -291,7 +291,6 @@ static video_cbm_palette_t vicii_palette_6567r56a =
 {
     VICII_NUM_COLORS,
     vicii_colors_6567r56a,
-    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -300,7 +299,6 @@ static video_cbm_palette_t vicii_palette_6567r8 =
 {
     VICII_NUM_COLORS,
     vicii_colors_6567r8,
-    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -309,7 +307,6 @@ static video_cbm_palette_t vicii_palette_6569r1 =
 {
     VICII_NUM_COLORS,
     vicii_colors_6569r1,
-    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -318,7 +315,6 @@ static video_cbm_palette_t vicii_palette_6569r3 =
 {
     VICII_NUM_COLORS,
     vicii_colors_6569r3,
-    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -328,7 +324,6 @@ static video_cbm_palette_t vicii_palette_old =
 {
     VICII_NUM_COLORS,
     vicii_colors_old,
-    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -337,7 +332,6 @@ static video_cbm_palette_t vicii_palette =
 {
     VICII_NUM_COLORS,
     vicii_colors,
-    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };

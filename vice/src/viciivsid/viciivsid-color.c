@@ -91,7 +91,6 @@ static video_cbm_palette_t vicii_palette =
 {
     VICII_NUM_COLORS,
     vicii_colors,
-    VICII_SATURATION,   /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
