@@ -41,8 +41,8 @@
 
 /** \brief  Get heap-allocated current working directory
  *
- * Get the current working directory via cwd(2), reallocating the buffer until
- * the result fits.
+ * Get the current working directory via archdep_cwd(), reallocating the buffer
+ * until the result fits.
  *
  * \return  current working directory or NULL on failure
  *

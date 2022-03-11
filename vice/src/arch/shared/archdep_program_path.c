@@ -41,6 +41,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <errno.h>
 /* for readlink(2) */
 #if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
@@ -54,21 +55,18 @@
 #endif
 /* for GetModuleFileName() */
 #ifdef ARCHDEP_OS_WINDOWS
-# include "windows.h"
+# include <windows.h>
 # include <direct.h>
 #endif
 
 #include "archdep_exit.h"
+#include "archdep_getcwd.h"
 #include "archdep_path_is_relative.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
 
 #include "archdep_program_path.h"
-
-
-/* FIXME:   Use ARCHDEP_PATH_MAX */
-#define PATH_BUFSIZE    4096
 
 
 /** \brief  Reference to program path string
@@ -89,8 +87,7 @@ static char *argv0_ref = NULL;
 /** \brief  Buffer used to retrieve pathnames
  *
  * Various OS calls use this buffer to store the path to the running binary, if
- * such a call exists. The buffer should be large enough (I think Linux
- * defines PATH_MAX as 4096 by default, but that can be changed).
+ * such a call exists.
  */
 static char buffer[ARCHDEP_PATH_MAX];
 
@@ -111,58 +108,47 @@ void archdep_program_path_set_argv0(char *argv0)
  *
  * \return  bool (if this fails, we have to give up)
  */
-static int argv_fallback(void)
+static bool argv_fallback(void)
 {
-    char cwd_buf[4096];
+    char cwd_buf[ARCHDEP_PATH_MAX];
     char *result;
     size_t res_len;
 
     if (argv0_ref == NULL) {
         log_error(LOG_ERR, "argv[0] is NULL, giving up.");
-        return 0;
+        return false;
     }
     if (*argv0_ref == '\0') {
         log_error(LOG_ERR, "argv[0] is empty, giving up.");
-        return 0;
+        return false;
     }
 
     /* do we have an absolute path in argv[0]? */
     if (!archdep_path_is_relative(argv0_ref)) {
-        strcpy(buffer, argv0_ref);
-        return 1;
+        strncpy(buffer, argv0_ref, sizeof(buffer));
+        buffer[sizeof(buffer) - 1] = '\0';
+        return true;
     }
 
     /*
      * Relative path in argv[0], try to get cwd and join it with argv[0]
      */
-    memset(cwd_buf, 0, 4096);
-
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
-    if (getcwd(cwd_buf, 4096 - 1) == NULL) {
+    if (archdep_getcwd(cwd_buf, sizeof(cwd_buf)) == NULL) {
         log_error(LOG_ERR, "failed to get cwd, giving up.");
-        return 0;
+        return false;
     }
-#elif defined(ARCHDEP_OS_WINDOWS)
-    if (_getcwd(cwd_buf, 4096 -1) == NULL) {
-        log_error(LOG_ERR, "failed to get cwd, giving up.");
-        return 0;
-    }
-#else
-    log_error(LOG_ERR,"no getcwd() support for current OS, giving up.");
-    return 0;
-#endif
 
     result = util_join_paths(cwd_buf, argv0_ref, NULL);
     res_len = strlen(result);
-    if (res_len >= 4096) {
+    if (res_len >= sizeof(buffer)) {
         /* insufficient space */
         log_error(LOG_ERR, "insufficient space for path, giving up.");
         lib_free(result);
-        return 0;
+        return false;
     }
     memcpy(buffer, result, res_len + 1);
     lib_free(result);
-    return 1;
+    return true;
 }
 
 
@@ -175,18 +161,23 @@ static int argv_fallback(void)
  */
 const char *archdep_program_path(void)
 {
+#if defined(ARCHDEP_OS_WINDOW)
+    DWORD result;
+#endif
     if (program_path != NULL) {
         /* already got it, return */
         return program_path;
     }
 
     /* zero out the buffer since readlink(2) doesn't add a nul character */
-    memset(buffer, 0, PATH_BUFSIZE);
-
+    memset(buffer, 0, sizeof(buffer));
 
 #if defined(ARCHDEP_OS_WINDOWS)
 
-    if (GetModuleFileName(NULL, buffer, PATH_BUFSIZE - 1) == PATH_BUFSIZE - 1) {
+    /* We use -1 since Windows XP will not include the terminating nul character,
+     * while later versions do, yay! :) */
+    result = GetModuleFileName(NULL, buffer, sizeof(buffer) - 1);
+    if (result == 0 || ((result == sizeof(buffer) - 1) && GetLastError() != 0)) {
         log_error(LOG_ERR,
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
@@ -212,7 +203,7 @@ const char *archdep_program_path(void)
 
     /* get path via libproc */
     pid_t pid = getpid();
-    if (proc_pidpath(pid, buffer, PATH_BUFSIZE - 1) <= 0) {
+    if (proc_pidpath(pid, buffer, sizeof(buffer) - 1) <= 0) {
         log_error(LOG_ERR,
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
@@ -223,8 +214,7 @@ const char *archdep_program_path(void)
 
 # elif defined(ARCHDEP_OS_LINUX)
 
-    /* Linux as a fallback (has it really come to this?) */
-    if (readlink("/proc/self/exe", buffer, PATH_BUFSIZE - 1) < 0) {
+    if (readlink("/proc/self/exe", buffer, sizeof(buffer) - 1) < 0) {
         log_error(LOG_ERR,
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
@@ -241,7 +231,7 @@ const char *archdep_program_path(void)
     size_t bufsize = PATH_BUFSIZE;
 
     /* /proc may not be available on FreeBSD */
-    if (readlink("/proc/curproc/file", buffer, PATH_BUFSIZE - 1) < 0) {
+    if (readlink("/proc/curproc/file", buffer, sizeof(buffer) - 1) < 0) {
         printf("%s(): failed to read /proc/curproc/file: %d: %s\n",
                 __func__, errno, strerror(errno));
         /* try sysctl call */
@@ -265,7 +255,7 @@ const char *archdep_program_path(void)
 
 #  elif defined(ARCHDEP_OS_BSD_NET)
 
-    if (readlink("/proc/curproc/exe", buffer, PATH_BUFSIZE - 1) < 0) {
+    if (readlink("/proc/curproc/exe", buffer, sizeof(buffer) - 1) < 0) {
         log_error(LOG_ERR,
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
@@ -285,10 +275,10 @@ const char *archdep_program_path(void)
 #  elif defined(ARCHDEP_OS_BSD_DRAGON)
 
     int mib[4];
-    size_t bufsize = PATH_BUFSIZE;
+    size_t bufsize = sizeof(buffer);
 
     /* /proc may not be available on FreeBSD */
-    if (readlink("/proc/curproc/file", buffer, PATH_BUFSIZE - 1) < 0) {
+    if (readlink("/proc/curproc/file", buffer, sizeof(buffer) - 1) < 0) {
         printf("%s(): failed to read /proc/curproc/file: %d: %s\n",
                 __func__, errno, strerror(errno));
         /* try sysctl call */
