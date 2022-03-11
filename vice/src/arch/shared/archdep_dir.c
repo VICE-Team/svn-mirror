@@ -288,8 +288,10 @@ const char *archdep_readdir(archdep_dir_t *dir)
 
     if (pos >= 0 && pos < dir_amount) {
         retval = dir->dirs[pos];
-    } else if (pos >= dir_amount && pos <= (dir_amount + file_amount)) {
+        dir->pos++;
+    } else if (pos >= dir_amount && pos < (dir_amount + file_amount)) {
         retval = dir->files[pos - dir_amount];
+        dir->pos++;
     }
     return retval;
 }
