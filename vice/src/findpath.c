@@ -54,7 +54,7 @@ char *findpath(const char *cmd, const char *syspath, const char *subpath, int mo
 
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
-    if (strchr(cmd, ARCHDEP_DIR_SEPARATOR)) {
+    if (strchr(cmd, ARCHDEP_DIR_SEP_CHR)) {
         size_t l;
         int state;
         const char *ps;
@@ -78,7 +78,7 @@ char *findpath(const char *cmd, const char *syspath, const char *subpath, int mo
         ps = cmd;
         pd = buf + l; /* buf + 1 + l - 1 */
 
-#if (ARCHDEP_DIR_SEPARATOR == '/')
+#if (ARCHDEP_DIR_SEP_CHR == '/')
         if (*pd++ != '/') {
             *pd++ = '/';
         }
@@ -175,12 +175,12 @@ char *findpath(const char *cmd, const char *syspath, const char *subpath, int mo
             memcpy(p, cmd, cl);
 
             for (c = buf + 1; *c != '\0'; c++) {
-#if (ARCHDEP_DIR_SEPARATOR == '\\')
+#if (ARCHDEP_DIR_SEP_CHR == '\\')
                 if (*c == '/') {
                     *c = '\\';
                 }
 #else
-#if (ARCHDEP_DIR_SEPARATOR == '/')
+#if (ARCHDEP_DIR_SEP_CHR == '/')
                 if (*c == '\\') {
                     *c = '/';
                 }

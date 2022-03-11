@@ -2,6 +2,8 @@
  * \brief   Concatenate multiple string into a single path
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * TODO:    Move to src/util.{c,h} and rename!
  */
 
 /*
@@ -26,7 +28,7 @@
  */
 
 #include "vice.h"
-#include "archdep_defs.h"
+#include "archdep.h"
 
 #include <stdio.h>
 #include <stddef.h>
@@ -85,8 +87,8 @@ char *archdep_join_paths(const char *path, ...)
         printf("%s: adding '%s' to the result.", __func__, arg);
 #endif
         len = strlen(arg);
-        if (*arg != ARCHDEP_DIR_SEPARATOR) {
-            *endptr++ = ARCHDEP_DIR_SEPARATOR;
+        if (*arg != ARCHDEP_DIR_SEP_CHR) {
+            *endptr++ = ARCHDEP_DIR_SEP_CHR;
         }
         memcpy(endptr, arg, len + 1);
         endptr += (ptrdiff_t)len;
