@@ -82,7 +82,6 @@
 #include "archdep_is_haiku.h"
 #include "archdep_is_macos_bindist.h"
 #include "archdep_is_windows_nt.h"
-#include "archdep_join_paths.h"
 #include "archdep_kbd_get_host_mapping.h"
 #include "archdep_list_drives.h"
 #include "archdep_make_backup_filename.h"

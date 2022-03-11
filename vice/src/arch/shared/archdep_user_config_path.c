@@ -37,33 +37,27 @@
  */
 
 #include "vice.h"
-
-#include <stddef.h>
-
 #include "archdep_defs.h"
 
-#include "archdep.h"
-
+#include <stddef.h>
 #ifdef ARCHDEP_OS_WINDOWS
-# include "windows.h"
-# include "shlobj.h"
+# include <windows.h>
+# include <shlobj.h>
 #endif
 
-#include <stddef.h>
-
-#include "lib.h"
-
+/* TODO: Haiku is a lot more POSIX-like than classic BeOS, so perhaps we should
+ *       test for classic BeOS or Haiku and act accordingly.
+ */
 #if !defined(ARCHDEP_OS_UNIX) && !defined(ARCHDEP_OS_WINDOWS) \
     && !(defined(ARCHDEP_OS_BEOS))
 # include "archdep_boot_path.h"
 #endif
-
 #ifdef ARCHDEP_OS_BEOS
 # include "archdep_home_path.h"
 #endif
-
-#include "archdep_join_paths.h"
 #include "archdep_xdg.h"
+#include "lib.h"
+#include "util.h"
 
 #include "archdep_user_config_path.h"
 
@@ -104,7 +98,7 @@ const char *archdep_user_config_path(void)
 
 #if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
     char *xdg_config = archdep_xdg_config_home();
-    user_config_dir = archdep_join_paths(xdg_config, "vice", NULL);
+    user_config_dir = util_join_paths(xdg_config, "vice", NULL);
     lib_free(xdg_config);
 
 #elif defined(ARCHDEP_OS_WINDOWS)
@@ -114,7 +108,7 @@ const char *archdep_user_config_path(void)
      * since SDL should be able to run on Windows XP and perhaps even lower.
      */
     if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, szPath))) {
-        user_config_dir = archdep_join_paths(szPath, "vice", NULL);
+        user_config_dir = util_join_paths(szPath, "vice", NULL);
     } else {
         user_config_dir = NULL;
     }

@@ -25,9 +25,9 @@
  */
 
 #include "vice.h"
-#include "archdep_boot_path.h"
 #include "archdep_defs.h"
-#include "archdep_join_paths.h"
+
+#include "archdep_boot_path.h"
 #include "archdep_stat.h"
 #include "lib.h"
 #include "log.h"

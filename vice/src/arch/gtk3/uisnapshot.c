@@ -91,7 +91,7 @@ static char *quicksnap_filename(void)
     /* construct the filename */
     g_snprintf(filename, sizeof(filename), "%s.vsf", machine_get_name());
 
-    return archdep_join_paths(archdep_user_config_path(), filename, NULL);
+    return util_join_paths(archdep_user_config_path(), filename, NULL);
 }
 
 

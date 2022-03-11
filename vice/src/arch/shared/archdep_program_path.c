@@ -9,6 +9,9 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku (untested)
+ *
+ * TODO:    Use archdep_getcwd() and ARCHDEP_PATH_MAX in the argv[0] fallback
+ *          function.
  */
 
 /*
@@ -39,10 +42,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-
-#include "lib.h"
-#include "log.h"
-
 /* for readlink(2) */
 #if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
 # include <unistd.h>
@@ -53,7 +52,6 @@
 #  include <libproc.h>
 # endif
 #endif
-
 /* for GetModuleFileName() */
 #ifdef ARCHDEP_OS_WINDOWS
 # include "windows.h"
@@ -61,15 +59,15 @@
 #endif
 
 #include "archdep_exit.h"
-#include "archdep_join_paths.h"
 #include "archdep_path_is_relative.h"
+#include "lib.h"
+#include "log.h"
+#include "util.h"
 
 #include "archdep_program_path.h"
 
 
-/** \brief  Size of the buffer used to retrieve the path
- *
- */
+/* FIXME:   Use ARCHDEP_PATH_MAX */
 #define PATH_BUFSIZE    4096
 
 
@@ -94,7 +92,7 @@ static char *argv0_ref = NULL;
  * such a call exists. The buffer should be large enough (I think Linux
  * defines PATH_MAX as 4096 by default, but that can be changed).
  */
-static char buffer[PATH_BUFSIZE];
+static char buffer[ARCHDEP_PATH_MAX];
 
 
 /** \brief  Set reference to argv[0]
@@ -154,7 +152,7 @@ static int argv_fallback(void)
     return 0;
 #endif
 
-    result = archdep_join_paths(cwd_buf, argv0_ref, NULL);
+    result = util_join_paths(cwd_buf, argv0_ref, NULL);
     res_len = strlen(result);
     if (res_len >= 4096) {
         /* insufficient space */

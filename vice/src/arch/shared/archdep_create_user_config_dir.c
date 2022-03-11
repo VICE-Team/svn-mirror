@@ -33,13 +33,13 @@
 #include <errno.h>
 #include <string.h>
 
-#include "lib.h"
-#include "log.h"
 #include "archdep_exit.h"
 #include "archdep_home_path.h"
-#include "archdep_join_paths.h"
 #include "archdep_mkdir.h"
 #include "archdep_user_config_path.h"
+#include "lib.h"
+#include "log.h"
+#include "util.h"
 
 #include "archdep_create_user_config_dir.h"
 
@@ -62,7 +62,7 @@ void archdep_create_user_config_dir(void)
      * XDG is a Freedesktop spec. We use it however for vicerc and other files
      * and it expected to be there
      */
-    tmp = archdep_join_paths(home, ARCHDEP_XDG_CONFIG_HOME, NULL);
+    tmp = util_join_paths(home, ARCHDEP_XDG_CONFIG_HOME, NULL);
     archdep_mkdir(tmp, 0755);
     errno = 0;
     lib_free(tmp);

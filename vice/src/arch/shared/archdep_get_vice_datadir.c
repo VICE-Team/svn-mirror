@@ -26,18 +26,15 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stddef.h>
 
 #include "archdep_boot_path.h"
-#include "archdep_defs.h"
 #include "archdep_is_macos_bindist.h"
-#include "archdep_join_paths.h"
 #include "archdep_user_config_path.h"
-
 #include "lib.h"
+#include "util.h"
 
 #include "archdep_get_vice_datadir.h"
 
@@ -56,11 +53,11 @@ char *archdep_get_vice_datadir(void)
 # if defined(USE_SDLUI) || defined(USE_SDLUI2)
     path = lib_strdup(archdep_boot_path());
 # else
-    path = archdep_join_paths(archdep_boot_path(), "..", NULL);
+    path = util_join_paths(archdep_boot_path(), "..", NULL);
 # endif
 #elif defined(ARCHDEP_OS_MACOS)
     if (archdep_is_macos_bindist()) {
-        path = archdep_join_paths(archdep_boot_path(), "..", "share", "vice", NULL);
+        path = util_join_paths(archdep_boot_path(), "..", "share", "vice", NULL);
     } else {
         path = lib_strdup(VICE_DATADIR);
     }

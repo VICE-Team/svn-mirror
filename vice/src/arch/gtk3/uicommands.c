@@ -617,7 +617,7 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     path = archdep_get_vice_docsdir();
 
     /* first try opening the pdf */
-    uri = archdep_join_paths(path, "vice.pdf", NULL);
+    uri = util_join_paths(path, "vice.pdf", NULL);
     debug_gtk3("URI before GTK3: %s", uri);
     final_uri = g_filename_to_uri(uri, NULL, &error);
     debug_gtk3("final URI (pdf): %s", final_uri);

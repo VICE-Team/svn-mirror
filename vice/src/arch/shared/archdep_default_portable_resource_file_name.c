@@ -39,9 +39,9 @@
 
 #include <stdlib.h>
 
-#include "archdep_join_paths.h"
 #include "archdep_boot_path.h"
 #include "archdep_home_path.h"
+#include "util.h"
 
 #include "archdep_default_portable_resource_file_name.h"
 
@@ -53,15 +53,15 @@
 char *archdep_default_portable_resource_file_name(void)
 {
 #ifdef ARCHDEP_OS_WINDOWS
-    return archdep_join_paths(archdep_boot_path(),
+    return util_join_paths(archdep_boot_path(),
 # ifdef USE_NATIVE_GTK3
-                              "..", /* Gtk-Win binaries live in bin/, so go up */
-#endif
-                              ARCHDEP_VICERC_NAME,
-                              NULL);
+                           "..", /* Gtk-Win binaries live in bin/, so go up */
+# endif
+                           ARCHDEP_VICERC_NAME,
+                           NULL);
 #else
-    return archdep_join_paths(archdep_home_path(),
-                              "." ARCHDEP_VICERC_NAME, /* ".vicerc" */
-                              NULL);
+    return util_join_paths(archdep_home_path(),
+                           "." ARCHDEP_VICERC_NAME, /* ".vicerc" */
+                           NULL);
 #endif
 }
