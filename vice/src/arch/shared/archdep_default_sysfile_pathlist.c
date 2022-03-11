@@ -42,22 +42,18 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <stddef.h>
 
+#include "archdep_boot_path.h"
+#include "archdep_get_vice_datadir.h"
+#include "archdep_xdg.h"
+#include "archdep_user_config_path.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
 
-#include "archdep_boot_path.h"
-#include "archdep_get_vice_datadir.h"
-#include "archdep_join_paths.h"
-#include "archdep_user_config_path.h"
-#include "archdep_xdg.h"
-
-
 #include "archdep_default_sysfile_pathlist.h"
+
 
 /** \brief  Total number of pathnames to store in the pathlist
  *
@@ -106,7 +102,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
 # ifdef ARCHDEP_OS_UNIX
     xdg_data = archdep_xdg_data_home();
-    home_path = archdep_join_paths(xdg_data, "vice", NULL);
+    home_path = util_join_paths(xdg_data, "vice", NULL);
     lib_free(xdg_data);
 # else
     home_path = archdep_user_config_path();

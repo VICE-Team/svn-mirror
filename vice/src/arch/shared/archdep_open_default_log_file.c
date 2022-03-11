@@ -25,20 +25,22 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "archdep_defs.h"
-#include "archdep_join_paths.h"
-#include "archdep_user_config_path.h"
-#include "lib.h"
-#include "log.h"
 #ifdef ARCHDEP_OS_UNIX
-#include "unistd.h"
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif
+#include "archdep_user_config_path.h"
+#include "lib.h"
+#include "log.h"
+#include "util.h"
+
 #include "archdep_open_default_log_file.h"
+
 
 /* amiga */
 #if 0
@@ -119,7 +121,7 @@ FILE *archdep_open_default_log_file(void)
            the shell */
         if (!S_ISFIFO(statinfo.st_mode) && !S_ISREG(statinfo.st_mode)) {
 #endif
-            path = archdep_join_paths(archdep_user_config_path(), "vice.log", NULL);
+            path = util_join_paths(archdep_user_config_path(), "vice.log", NULL);
             fp = fopen(path, "w");
             if (fp == NULL) {
                 log_error(LOG_ERR,

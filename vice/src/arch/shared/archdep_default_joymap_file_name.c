@@ -34,10 +34,10 @@
 
 #include "archdep.h"
 #include "archdep_boot_path.h"
-#include "archdep_join_paths.h"
 #include "archdep_user_config_path.h"
 #include "kbd.h"
 #include "machine.h"
+#include "util.h"
 
 #include "archdep_default_joymap_file_name.h"
 
@@ -58,8 +58,8 @@ char *archdep_default_joymap_file_name(void)
              machine_get_name());
 
 #ifdef ARCHDEP_OS_WINDOWS
-    return archdep_join_paths(archdep_boot_path(), filename, NULL);
+    return util_join_paths(archdep_boot_path(), filename, NULL);
 #else
-    return archdep_join_paths(archdep_user_config_path(), filename, NULL);
+    return util_join_paths(archdep_user_config_path(), filename, NULL);
 #endif
 }

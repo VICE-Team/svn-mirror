@@ -27,14 +27,7 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#include "lib.h"
-#include "log.h"
-#include "util.h"
-#include "archdep_exit.h"
-#include "archdep_boot_path.h"
-#include "archdep_join_paths.h"
-
-/* TODO: include for BeOS/Haiku tmpnam() */
+/* TODO: include for BeOS (not Haiku) tmpnam() */
 
 /* Seems like tmpnam() is available in stdio.h for Linux, BSD, Windows and
  * perhaps others
@@ -45,8 +38,13 @@
 # include <unistd.h>
 #endif
 #ifdef ARCHDEP_OS_WINDOWS
-# include "windows.h"
+# include <windows.h>
 #endif
+
+#include "archdep_exit.h"
+#include "archdep_boot_path.h"
+#include "lib.h"
+#include "log.h"
 
 #include "archdep_tmpnam.h"
 

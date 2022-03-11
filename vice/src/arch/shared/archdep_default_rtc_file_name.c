@@ -26,12 +26,10 @@
  */
 
 #include "vice.h"
-
-#include "machine.h"
-#include "util.h"
 #include "archdep_defs.h"
-#include "archdep_join_paths.h"
+
 #include "archdep_user_config_path.h"
+#include "util.h"
 
 #include "archdep_default_rtc_file_name.h"
 
@@ -42,6 +40,7 @@
  */
 char *archdep_default_rtc_file_name(void)
 {
-    return archdep_join_paths(archdep_user_config_path(),
-            ARCHDEP_VICE_RTC_NAME, NULL);
+    return util_join_paths(archdep_user_config_path(),
+                           ARCHDEP_VICE_RTC_NAME,
+                           NULL);
 }

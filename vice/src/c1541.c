@@ -3022,7 +3022,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 }
 
                 if (p00save[dnr]) {
-                    char cwd[4096];
+                    char cwd[ARCHDEP_PATH_MAX];
                     char *total;
                     long idx = 0;
 
@@ -3034,7 +3034,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                                 "Aborting to get a stack dump.\n");
                         abort();
                     }
-                    total = archdep_join_paths(cwd, p00_name, NULL);
+                    total = util_join_paths(cwd, p00_name, NULL);
 
                     printf("Trying filename '%s'\n", total);
                     while (archdep_file_exists(total) && idx < 100) {

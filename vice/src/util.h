@@ -98,4 +98,6 @@ extern char util_toupper(char c);
 
 extern char *util_gen_hex_address_list(int start, int stop, int step);
 
+char *util_join_paths(const char *path, ...);
+
 #endif

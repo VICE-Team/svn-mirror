@@ -84,6 +84,7 @@
 #include "uisnapshot.h"
 #include "uitapeattach.h"
 #include "uitapecreate.h"
+#include "util.h"
 #include "vsync.h"
 
 #include "uimachinemenu.h"
@@ -118,16 +119,16 @@ static char *get_config_file_path(void)
         if (archdep_path_is_relative(vice_config_file)) {
             char *cwd = g_get_current_dir();
 
-            path = archdep_join_paths(cwd, vice_config_file, NULL);
+            path = util_join_paths(cwd, vice_config_file, NULL);
             g_free(cwd);
         } else {
             path = lib_strdup(vice_config_file);
         }
     } else {
         /* default vicerc or vice.ini */
-        path = archdep_join_paths(archdep_user_config_path(),
-                                  ARCHDEP_VICERC_NAME,
-                                  NULL);
+        path = util_join_paths(archdep_user_config_path(),
+                               ARCHDEP_VICERC_NAME,
+                               NULL);
     }
     return path;
 }

@@ -26,13 +26,12 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
+#include "archdep_user_cache_path.h"
 #include "lib.h"
 #include "machine.h"
 #include "util.h"
-#include "archdep_defs.h"
-#include "archdep_join_paths.h"
-#include "archdep_user_cache_path.h"
 
 #include "archdep_default_autostart_disk_image_file_name.h"
 
@@ -54,7 +53,7 @@ char *archdep_default_autostart_disk_image_file_name(void)
             ARCHDEP_AUTOSTART_DISKIMAGE_SUFFIX,
             NULL);
 
-    path = archdep_join_paths(archdep_user_cache_path(), name, NULL);
+    path = util_join_paths(archdep_user_cache_path(), name, NULL);
     lib_free(name);
     return path;
 }
