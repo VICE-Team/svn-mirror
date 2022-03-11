@@ -124,7 +124,7 @@ static video_cbm_palette_t dtv_palette =
 {
     VICIIDTV_NUM_COLORS,
     dtv_colors_with_lum,
-    VICII_SATURATION,
+    VICII_SATURATION,       /* FIXME: remove */
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -150,6 +150,7 @@ int vicii_color_update_palette(struct video_canvas_s *canvas)
         for (lum = 0; lum < 16; lum++) {
             dtv_colors_with_lum[cl].luminance = lm[lum];
             dtv_colors_with_lum[cl].angle = an;
+            dtv_colors_with_lum[cl].saturation = VICII_SATURATION;  /* FIXME: remove */
             dtv_colors_with_lum[cl].direction = (col == 0) ? 0 : 1;
             dtv_colors_with_lum[cl].name = dtv_color_names[col];
             cl++;

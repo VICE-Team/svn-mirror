@@ -306,8 +306,9 @@ extern void video_arch_resources_shutdown(void);
 #define CBM_PALETTE_RGB  1
 
 typedef struct video_cbm_color_s {
-    float luminance;        /* luminance                      */
-    float angle;            /* angle on color wheel           */
+    float luminance;        /* (R) luminance                      */
+    float angle;            /* (G) angle on color wheel           */
+    float saturation;       /* (B) */
     int direction;          /* +1 (pos), -1 (neg) or 0 (grey) */
     char *name;             /* name of this color             */
 } video_cbm_color_t;

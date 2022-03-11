@@ -53,15 +53,15 @@
 /* FIXME: this is just hand tuned to look somewhat like P1 Phosphor (#41ff00) */
 static video_cbm_color_t crtc_colors[CRTC_NUM_COLORS] =
 {
-    {   0.0f, ANGLE_BLK, -0, "Black"       },
-    { 128.0f, ANGLE_GRN + 20.0f,  1, "Green"       },
+    {   0.0f, ANGLE_BLK,         CRTC_SATURATION, -0, "Black"       },
+    { 128.0f, ANGLE_GRN + 20.0f, CRTC_SATURATION,  1, "Green"       },
 };
 
 static video_cbm_palette_t crtc_palette =
 {
     CRTC_NUM_COLORS,
     crtc_colors,
-    CRTC_SATURATION,
+    CRTC_SATURATION,    /* FIXME: remove */
     CRTC_PHASE,
     CBM_PALETTE_YUV
 };

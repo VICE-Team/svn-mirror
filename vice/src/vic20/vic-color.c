@@ -96,51 +96,51 @@
 
 static video_cbm_color_t vic_colors_pal[VIC_NUM_COLORS] =
 {
-    { LUMA0 , ANGLE_ORN, -0, "Black"       },
-    { LUMA1 , ANGLE_ORN, -0, "White"       },
-    { LUMA2 , ANGLE_RED,  1, "Red"         },
-    { LUMA3 , ANGLE_RED, -1, "Cyan"        },
-    { LUMA4 , ANGLE_GRN, -1, "Purple"      },
-    { LUMA5 , ANGLE_GRN,  1, "Green"       },
-    { LUMA6 , ANGLE_BLU,  1, "Blue"        },
-    { LUMA7 , ANGLE_BLU, -1, "Yellow"      },
-    { LUMA8 , ANGLE_ORN, -1, "Orange"      },
-    { LUMA9 , ANGLE_ORN, -1, "Light Orange"},
-    { LUMA10, ANGLE_RED,  1, "Pink"        },
-    { LUMA11, ANGLE_RED, -1, "Light Cyan"  },
-    { LUMA12, ANGLE_GRN, -1, "Light Purple"},
-    { LUMA13, ANGLE_GRN,  1, "Light Green" },
-    { LUMA14, ANGLE_BLU,  1, "Light Blue"  },
-    { LUMA15, ANGLE_BLU, -1, "Light Yellow"}
+    { LUMA0 , ANGLE_ORN, VIC_SATURATION, -0, "Black"       },
+    { LUMA1 , ANGLE_ORN, VIC_SATURATION, -0, "White"       },
+    { LUMA2 , ANGLE_RED, VIC_SATURATION,  1, "Red"         },
+    { LUMA3 , ANGLE_RED, VIC_SATURATION, -1, "Cyan"        },
+    { LUMA4 , ANGLE_GRN, VIC_SATURATION, -1, "Purple"      },
+    { LUMA5 , ANGLE_GRN, VIC_SATURATION,  1, "Green"       },
+    { LUMA6 , ANGLE_BLU, VIC_SATURATION,  1, "Blue"        },
+    { LUMA7 , ANGLE_BLU, VIC_SATURATION, -1, "Yellow"      },
+    { LUMA8 , ANGLE_ORN, VIC_SATURATION, -1, "Orange"      },
+    { LUMA9 , ANGLE_ORN, VIC_SATURATION, -1, "Light Orange"},
+    { LUMA10, ANGLE_RED, VIC_SATURATION,  1, "Pink"        },
+    { LUMA11, ANGLE_RED, VIC_SATURATION, -1, "Light Cyan"  },
+    { LUMA12, ANGLE_GRN, VIC_SATURATION, -1, "Light Purple"},
+    { LUMA13, ANGLE_GRN, VIC_SATURATION,  1, "Light Green" },
+    { LUMA14, ANGLE_BLU, VIC_SATURATION,  1, "Light Blue"  },
+    { LUMA15, ANGLE_BLU, VIC_SATURATION, -1, "Light Yellow"}
 };
 
 /* FIXME: the following is hand-tuned to somehow match mikes/tokras palette. it
           is not necessarily correct and should get backed up by measurements. */
 static video_cbm_color_t vic_colors_ntsc[VIC_NUM_COLORS] =
 {
-    { LUMA0 , ANGLE_ORN, -0, "Black"       },
-    { LUMA1 , ANGLE_ORN, -0, "White"       },
-    { LUMA2 , ANGLE_RED,  1, "Red"         },
-    { LUMA3 , ANGLE_RED, -1, "Cyan"        },
-    { LUMA4 , ANGLE_GRN + 35.0f, -1, "Purple"      },
-    { LUMA5 , ANGLE_GRN + 45.0f,  1, "Green"       },
-    { LUMA6 , ANGLE_BLU,  1, "Blue"        },
-    { LUMA7 , ANGLE_BLU, -1, "Yellow"      },
-    { LUMA8 , ANGLE_ORN, -1, "Orange"      },
-    { LUMA9 , ANGLE_ORN - 30.0f, -1, "Light Orange"},
-    { LUMA10, ANGLE_RED - 30.0f,  1, "Pink"        },
-    { LUMA11, ANGLE_RED, -1, "Light Cyan"  },
-    { LUMA12, ANGLE_GRN, -1, "Light Purple"},
-    { LUMA13, ANGLE_GRN + 30.0f,  1, "Light Green" },
-    { LUMA14, ANGLE_BLU,  1, "Light Blue"  },
-    { LUMA15, ANGLE_BLU, -1, "Light Yellow"}
+    { LUMA0 , ANGLE_ORN,         VIC_SATURATION, -0, "Black"       },
+    { LUMA1 , ANGLE_ORN,         VIC_SATURATION, -0, "White"       },
+    { LUMA2 , ANGLE_RED,         VIC_SATURATION,  1, "Red"         },
+    { LUMA3 , ANGLE_RED,         VIC_SATURATION, -1, "Cyan"        },
+    { LUMA4 , ANGLE_GRN + 35.0f, VIC_SATURATION, -1, "Purple"      },
+    { LUMA5 , ANGLE_GRN + 45.0f, VIC_SATURATION,  1, "Green"       },
+    { LUMA6 , ANGLE_BLU,         VIC_SATURATION,  1, "Blue"        },
+    { LUMA7 , ANGLE_BLU,         VIC_SATURATION, -1, "Yellow"      },
+    { LUMA8 , ANGLE_ORN,         VIC_SATURATION, -1, "Orange"      },
+    { LUMA9 , ANGLE_ORN - 30.0f, VIC_SATURATION, -1, "Light Orange"},
+    { LUMA10, ANGLE_RED - 30.0f, VIC_SATURATION,  1, "Pink"        },
+    { LUMA11, ANGLE_RED,         VIC_SATURATION, -1, "Light Cyan"  },
+    { LUMA12, ANGLE_GRN,         VIC_SATURATION, -1, "Light Purple"},
+    { LUMA13, ANGLE_GRN + 30.0f, VIC_SATURATION,  1, "Light Green" },
+    { LUMA14, ANGLE_BLU,         VIC_SATURATION,  1, "Light Blue"  },
+    { LUMA15, ANGLE_BLU,         VIC_SATURATION, -1, "Light Yellow"}
 };
 
 static video_cbm_palette_t vic_palette =
 {
     VIC_NUM_COLORS,
     vic_colors_pal,
-    VIC_SATURATION,
+    VIC_SATURATION, /* FIXME: remove */
     VIC_PHASE,
     CBM_PALETTE_YUV
 };

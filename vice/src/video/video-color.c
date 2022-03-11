@@ -717,7 +717,7 @@ static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p, video_ycbcr
         for (i = 0; i < p->num_entries; i++) {
             src.red = (uint8_t)p->entries[i].luminance;
             src.green = (uint8_t)p->entries[i].angle;
-            src.blue = p->entries[i].direction;
+            src.blue = (uint8_t)p->entries[i].saturation;
             video_convert_rgb_to_renderer(&src, &ycbcr->entries[i], video);
         }
     } else {
