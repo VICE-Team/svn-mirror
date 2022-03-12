@@ -62,6 +62,10 @@
 /* define if the platform supports the monitor in a seperate window */
 /* #define ARCHDEP_SEPERATE_MONITOR_WINDOW */
 
+/** \brief  Default state of mouse grab
+ */
+#define ARCHDEP_MOUSE_ENABLE_DEFAULT    0
+
 /* FIXME: Ugly hack for preventing SDL crash using -help */
 extern int sdl_help_shutdown;
 
