@@ -65,6 +65,11 @@
  */
 #define ARCHDEP_SEPERATE_MONITOR_WINDOW
 
+/** \brief  Default state of mouse grab
+ */
+#define ARCHDEP_MOUSE_ENABLE_DEFAULT    0
+
+
 /******************************************************************************/
 
 #ifdef UNIX_COMPILE
