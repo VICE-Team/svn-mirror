@@ -614,7 +614,7 @@ static int split_args(const char *line, int *nargs, char **args)
                 begin_of_arg = 0;
                 in_quote = !in_quote;
                 continue;
-#ifndef WIN32_COMPILE
+#ifndef ARCHDEP_OS_WINDOWS
             case '\\':
                 begin_of_arg = 0;
                 *(d++) = *(++s);
