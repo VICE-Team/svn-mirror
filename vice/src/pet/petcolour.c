@@ -143,6 +143,7 @@ static video_cbm_palette_t rgbi_palette =
 {
     RGBI_NUM_COLORS,
     rgbi_colors,
+    NULL, NULL,
     RGBI_PHASE,
     CBM_PALETTE_RGB
 };
@@ -153,6 +154,7 @@ static video_cbm_palette_t analog_palette =
 {
     ANALOG_NUM_COLORS,
     analog_colors,
+    NULL, NULL,
     RGBI_PHASE,
     CBM_PALETTE_RGB
 };

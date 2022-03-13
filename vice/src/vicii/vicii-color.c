@@ -293,6 +293,7 @@ static video_cbm_palette_t vicii_palette_6567r56a =
 {
     VICII_NUM_COLORS,
     vicii_colors_6567r56a,
+    NULL, NULL,
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -301,6 +302,7 @@ static video_cbm_palette_t vicii_palette_6567r8 =
 {
     VICII_NUM_COLORS,
     vicii_colors_6567r8,
+    NULL, NULL,
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -309,6 +311,7 @@ static video_cbm_palette_t vicii_palette_6569r1 =
 {
     VICII_NUM_COLORS,
     vicii_colors_6569r1,
+    NULL, NULL,
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -317,6 +320,7 @@ static video_cbm_palette_t vicii_palette_6569r3 =
 {
     VICII_NUM_COLORS,
     vicii_colors_6569r3,
+    NULL, NULL,
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -326,6 +330,7 @@ static video_cbm_palette_t vicii_palette_old =
 {
     VICII_NUM_COLORS,
     vicii_colors_old,
+    NULL, NULL,
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
@@ -334,6 +339,7 @@ static video_cbm_palette_t vicii_palette =
 {
     VICII_NUM_COLORS,
     vicii_colors,
+    NULL, NULL,
     VICII_PHASE,
     CBM_PALETTE_YUV
 };

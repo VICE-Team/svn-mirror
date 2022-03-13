@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include "crtctypes.h"
 #include "crtc-color.h"
 #include "crtc-resources.h"
@@ -61,6 +63,7 @@ static video_cbm_palette_t crtc_palette =
 {
     CRTC_NUM_COLORS,
     crtc_colors,
+    NULL, NULL,
     CRTC_PHASE,
     CBM_PALETTE_YUV
 };

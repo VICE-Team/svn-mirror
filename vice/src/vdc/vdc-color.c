@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include "vdctypes.h"
 #include "vdc-color.h"
 #include "vdc-resources.h"
@@ -63,6 +65,7 @@ static video_cbm_palette_t vdc_palette =
 {
     VDC_NUM_COLORS,
     vdc_colors,
+    NULL, NULL,
     VDC_PHASE,
     CBM_PALETTE_RGB
 };

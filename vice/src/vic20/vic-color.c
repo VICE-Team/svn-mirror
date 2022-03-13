@@ -140,6 +140,7 @@ static video_cbm_palette_t vic_palette =
 {
     VIC_NUM_COLORS,
     vic_colors_pal,
+    NULL, NULL,
     VIC_PHASE,
     CBM_PALETTE_YUV
 };

@@ -145,6 +145,7 @@ static video_cbm_palette_t ted_palette =
 {
     TED_NUM_COLORS,
     ted_colors_with_lum,
+    NULL, NULL,
     TED_PHASE,
     CBM_PALETTE_YUV
 };

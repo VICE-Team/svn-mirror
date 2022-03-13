@@ -316,8 +316,10 @@ typedef struct video_cbm_color_s {
          is currently abused for RGB colors also. */
 
 typedef struct video_cbm_palette_s {
-    unsigned int num_entries;           /* number of colors in palette */
-    video_cbm_color_t *entries;         /* array of colors             */
+    unsigned int num_entries;           /* number of colors in palette  */
+    video_cbm_color_t *entries;         /* array of colors              */
+    video_cbm_color_t *entries_odd;     /* array of colors (odd lines)  */
+    video_cbm_color_t *entries_even;    /* array of colors (even lines) */
     float phase;      /* color phase (will be added to all color angles) */
     int type;
 } video_cbm_palette_t;

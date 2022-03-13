@@ -30,6 +30,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include "viciitypes.h"
 #include "vicii-color.h"
 #include "vicii-resources.h"
@@ -91,6 +93,7 @@ static video_cbm_palette_t vicii_palette =
 {
     VICII_NUM_COLORS,
     vicii_colors,
+    NULL, NULL,
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
