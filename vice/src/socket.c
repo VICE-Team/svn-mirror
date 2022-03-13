@@ -431,6 +431,17 @@ vice_network_socket_t *vice_network_server(
 #else
         if ((server_address->domain == PF_INET)) {
 #endif
+#if defined(SO_REUSEPORT) || defined(SO_REUSEADDR) || defined(TCP_NODELAY)
+            const int so_setting = 1;
+#if defined(SO_REUSEPORT)
+            setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, (const void*)&so_setting, sizeof(so_setting));
+#elif defined(SO_REUSEADDR)
+            setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void*)&so_setting, sizeof(so_setting));
+#endif
+#if defined(TCP_NODELAY)
+            setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&so_setting, sizeof(so_setting));
+#endif
+#endif
         }
         if (bind(sockfd, &server_address->address.generic, server_address->len) < 0) {
             break;
