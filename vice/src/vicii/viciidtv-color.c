@@ -29,6 +29,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include "viciitypes.h"
 #include "vicii-color.h"
 #include "vicii-resources.h"
@@ -124,6 +126,7 @@ static video_cbm_palette_t dtv_palette =
 {
     VICIIDTV_NUM_COLORS,
     dtv_colors_with_lum,
+    NULL, NULL,
     VICII_PHASE,
     CBM_PALETTE_YUV
 };
