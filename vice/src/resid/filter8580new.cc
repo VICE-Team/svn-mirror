@@ -254,6 +254,8 @@ Filter::Filter()
   if (!class_init) {
     double tmp_n_param[2];
 
+    unsigned int dac_bits = 11;
+
     // Temporary tables for op-amp transfer function.
     unsigned int* voltages = new unsigned int[1 << 16];
     opamp_t* opamp = new opamp_t[1 << 16];
@@ -419,210 +421,196 @@ Filter::Filter()
 
       // Create lookup table mapping capacitor voltage to op-amp input voltage:
       // vc -> vx
-      for (int m = 0; m < (1 << 16); m++) {
-        mf.opamp_rev[m] = opamp[m].vx;
+      for (int i = 0; i < (1 << 16); i++) {
+        mf.opamp_rev[i] = opamp[i].vx;
       }
 
       mf.vc_max = (int)(N30*(fi.opamp_voltage[0][1] - fi.opamp_voltage[0][0]));
       mf.vc_min = (int)(N30*(fi.opamp_voltage[fi.opamp_voltage_size - 1][1] - fi.opamp_voltage[fi.opamp_voltage_size - 1][0]));
-    }
 
-    // Free temporary table.
-    delete[] voltages;
+      if (m == 0) {
+        // 6581 only
 
-    unsigned int dac_bits = 11;
-
-    {
-      // 8580 only
-      model_filter_init_t& fi = model_filter_init[1];
-      model_filter_t& f = model_filter[1];
-
-     // In the MOS 8580, the resonance "resistor" ladder above the bp feedback
-     // op-amp is split in two parts; one ladder for the op-amp input and one
-     // ladder for the op-amp feedback.
-     //
-     // input:         feedback:
-     //
-     //             Rf
-     // Ri R4 RC R8    R3
-     //             R2
-     //             R1
-     //
-     //
-     // The "resistors" are switched in as follows by bits in register $17:
-     //
-     // feedback:
-     // R1: bit4&!bit5
-     // R2: !bit4&bit5
-     // R3: bit4&bit5
-     // Rf: always on
-     //
-     // input:
-     // R4: bit6&!bit7
-     // R8: !bit6&bit7
-     // RC: bit6&bit7
-     // Ri: !(R4|R8|RC) = !(bit6|bit7) = !bit6&!bit7
-     //
-     //
-     // The relative "resistor" values are approximately (using channel length):
-     //
-     // R1 = 15.3*Ri
-     // R2 =  7.3*Ri
-     // R3 =  4.7*Ri
-     // Rf =  1.4*Ri
-     // R4 =  1.4*Ri
-     // R8 =  2.0*Ri
-     // RC =  2.8*Ri
-     //
-     //
-     // Approximate values for 1/Q can now be found as follows (assuming an
-     // ideal op-amp):
-     //
-     // res  feedback  input  -gain (1/Q)
-     // ---  --------  -----  ----------
-     // 0   Rf        Ri     Rf/Ri      = 1/(Ri*(1/Rf))      = 1/0.71
-     // 1   Rf|R1     Ri     (Rf|R1)/Ri = 1/(Ri*(1/Rf+1/R1)) = 1/0.78
-     // 2   Rf|R2     Ri     (Rf|R2)/Ri = 1/(Ri*(1/Rf+1/R2)) = 1/0.85
-     // 3   Rf|R3     Ri     (Rf|R3)/Ri = 1/(Ri*(1/Rf+1/R3)) = 1/0.92
-     // 4   Rf        R4     Rf/R4      = 1/(R4*(1/Rf))      = 1/1.00
-     // 5   Rf|R1     R4     (Rf|R1)/R4 = 1/(R4*(1/Rf+1/R1)) = 1/1.10
-     // 6   Rf|R2     R4     (Rf|R2)/R4 = 1/(R4*(1/Rf+1/R2)) = 1/1.20
-     // 7   Rf|R3     R4     (Rf|R3)/R4 = 1/(R4*(1/Rf+1/R3)) = 1/1.30
-     // 8   Rf        R8     Rf/R8      = 1/(R8*(1/Rf))      = 1/1.43
-     // 9   Rf|R1     R8     (Rf|R1)/R8 = 1/(R8*(1/Rf+1/R1)) = 1/1.56
-     // A   Rf|R2     R8     (Rf|R2)/R8 = 1/(R8*(1/Rf+1/R2)) = 1/1.70
-     // B   Rf|R3     R8     (Rf|R3)/R8 = 1/(R8*(1/Rf+1/R3)) = 1/1.86
-     // C   Rf        RC     Rf/RC      = 1/(RC*(1/Rf))      = 1/2.00
-     // D   Rf|R1     RC     (Rf|R1)/RC = 1/(RC*(1/Rf+1/R1)) = 1/2.18
-     // E   Rf|R2     RC     (Rf|R2)/RC = 1/(RC*(1/Rf+1/R2)) = 1/2.38
-     // F   Rf|R3     RC     (Rf|R3)/RC = 1/(RC*(1/Rf+1/R3)) = 1/2.60
-     //
-     //
-     // These data indicate that the following function for 1/Q has been
-     // modeled in the MOS 8580:
-     //
-     // 1/Q = 2^(1/2)*2^(-x/8) = 2^(1/2 - x/8) = 2^((4 - x)/8)
-      for (int n8 = 0; n8 < 16; n8++) {
-        int x = f.ak;
-        for (int vi = 0; vi < (1 << 16); vi++) {
-          f.resonance[n8][vi] = solve_gain(opamp, resGain[n8], vi, x, f);
-        }
-      }
-
-      // scaled 5 bits
-      n_param = (int)(tmp_n_param[1] * 32 + 0.5);
-
-
-      double Vgt = (fi.voice_DC_voltage * 1.6) - fi.Vth;
-      nVgt = (int)(f.vo_N16 * (Vgt - fi.opamp_voltage[0][0]) + 0.5);
-
-      // DAC table.
-      // W/L ratio for frequency DAC, bits are proportional.
-      // scaled 5 bits
-      unsigned int dacWL = 806; // 0,00307464599609375 * 1024 * 256 (actual value is ~= 0.003075)
-      f.f0_dac[0] = dacWL >> 8;
-      for (int n = 1; n < (1 << dac_bits); n++) {
-        // Calculate W/L ratio for parallel NMOS resistances
-        unsigned int wl = 0;
-        for (unsigned int i = 0; i < dac_bits; i++) {
-          unsigned int bitmask = 1 << i;
-          if (n & bitmask) {
-            wl += dacWL * (bitmask<<1);
+        // In the MOS 6581, 1/Q is controlled linearly by res. From die photographs
+        // of the resonance "resistor" ladder it follows that 1/Q ~ ~res/8
+        // (assuming an ideal op-amp and ideal "resistors"). This implies that Q
+        // ranges from 0.533 (res = 0) to 8 (res = E). For res = F, Q is actually
+        // theoretically unlimited, which is quite unheard of in a filter
+        // circuit.
+        //
+        // To obtain Q ~ 1/sqrt(2) = 0.707 for maximally flat frequency response,
+        // res should be set to 4: Q = 8/~4 = 8/11 = 0.7272 (again assuming an ideal
+        // op-amp and ideal "resistors").
+        //
+        // Q as low as 0.707 is not achievable because of low gain op-amps; res = 0
+        // should yield the flattest possible frequency response at Q ~ 0.8 - 1.0
+        // in the op-amp's pseudo-linear range (high amplitude signals will be
+        // clipped). As resonance is increased, the filter must be clocked more
+        // often to keep it stable.
+        for (int n8 = 0; n8 < 16; n8++) {
+          int n = (~n8 & 0xf) << (7 - 3);  // Scaled by 2^7
+          int x = mf.ak;
+          for (int vi = 0; vi < (1 << 16); vi++) {
+            mf.resonance[n8][vi] = solve_gain(opamp, n, vi, x, mf);
           }
         }
-        f.f0_dac[n] = wl >> 8;
-      }
-    }
 
-    // Free temporary table.
-    delete[] opamp;
+        Vw_bias = 0;
 
-    {
-      // 6581 only
-      model_filter_init_t& fi = model_filter_init[0];
-      model_filter_t& f = model_filter[0];
+        // Normalized snake current factor, 1 cycle at 1MHz.
+        // Fit in 5 bits.
+        n_snake = (int)(fi.WL_snake * tmp_n_param[0] + 0.5);
 
-      // In the MOS 6581, 1/Q is controlled linearly by res. From die photographs
-      // of the resonance "resistor" ladder it follows that 1/Q ~ ~res/8
-      // (assuming an ideal op-amp and ideal "resistors"). This implies that Q
-      // ranges from 0.533 (res = 0) to 8 (res = E). For res = F, Q is actually
-      // theoretically unlimited, which is quite unheard of in a filter
-      // circuit.
-      //
-      // To obtain Q ~ 1/sqrt(2) = 0.707 for maximally flat frequency response,
-      // res should be set to 4: Q = 8/~4 = 8/11 = 0.7272 (again assuming an ideal
-      // op-amp and ideal "resistors").
-      //
-      // Q as low as 0.707 is not achievable because of low gain op-amps; res = 0
-      // should yield the flattest possible frequency response at Q ~ 0.8 - 1.0
-      // in the op-amp's pseudo-linear range (high amplitude signals will be
-      // clipped). As resonance is increased, the filter must be clocked more
-      // often to keep it stable.
-      for (int n8 = 0; n8 < 16; n8++) {
-        int n = (~n8 & 0xf) << (7 - 3);  // Scaled by 2^7
-        int x = f.ak;
-        for (int vi = 0; vi < (1 << 16); vi++) {
-          f.resonance[n8][vi] = solve_gain(opamp, n, vi, x, f);
+        // DAC table.
+        build_dac_table(mf.f0_dac, dac_bits, fi.dac_2R_div_R, fi.dac_term);
+        for (int n = 0; n < (1 << dac_bits); n++) {
+          mf.f0_dac[n] = (unsigned short)(N16*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << dac_bits) - vmin) + 0.5);
+        }
+      
+        // VCR table.
+        double k = fi.k;
+        double kVddt = N16*(k*(fi.Vdd - fi.Vth));
+        vmin *= N16;
+
+        for (int i = 0; i < (1 << 16); i++) {
+          // The table index is right-shifted 16 times in order to fit in
+          // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
+          //
+          // The returned value must be corrected for translation. Vg always
+          // takes part in a subtraction as follows:
+          //
+          //   k*Vg - Vx = (k*Vg - t) - (Vx - t)
+          //
+          // I.e. k*Vg - t must be returned.
+          double Vg = kVddt - sqrt((double)i*(1 << 16));
+          vcr_kVg[i] = (unsigned short)(k*Vg - vmin + 0.5);
+        }
+
+        /*
+          EKV model:
+      
+          Ids = Is*(if - ir)
+          Is = ((2*u*Cox*Ut^2)/k)*W/L
+          if = ln^2(1 + e^((k*(Vg - Vt) - Vs)/(2*Ut))
+          ir = ln^2(1 + e^((k*(Vg - Vt) - Vd)/(2*Ut))
+        */
+        double kVt = fi.k*fi.Vth;
+        double Ut = fi.Ut;
+        double Is = ((2*fi.uCox*Ut*Ut)/fi.k)*fi.WL_vcr;
+        // Normalized current factor for 1 cycle at 1MHz.
+        double N15 = N16/2;
+        double n_Is = N15*1.0e-6/fi.C*Is;
+
+        // kVg_Vx = k*Vg - Vx
+        // I.e. if k != 1.0, Vg must be scaled accordingly.
+        for (int kVg_Vx = 0; kVg_Vx < (1 << 16); kVg_Vx++) {
+          double log_term = log1p(exp((kVg_Vx/N16 - kVt)/(2*Ut)));
+          // Scaled by m*2^15
+          vcr_n_Ids_term[kVg_Vx] = (unsigned short)(n_Is*log_term*log_term);
+        }
+      } else {
+        // 8580 only
+
+        // In the MOS 8580, the resonance "resistor" ladder above the bp feedback
+        // op-amp is split in two parts; one ladder for the op-amp input and one
+        // ladder for the op-amp feedback.
+        //
+        // input:         feedback:
+        //
+        //             Rf
+        // Ri R4 RC R8    R3
+        //             R2
+        //             R1
+        //
+        //
+        // The "resistors" are switched in as follows by bits in register $17:
+        //
+        // feedback:
+        // R1: bit4&!bit5
+        // R2: !bit4&bit5
+        // R3: bit4&bit5
+        // Rf: always on
+        //
+        // input:
+        // R4: bit6&!bit7
+        // R8: !bit6&bit7
+        // RC: bit6&bit7
+        // Ri: !(R4|R8|RC) = !(bit6|bit7) = !bit6&!bit7
+        //
+        //
+        // The relative "resistor" values are approximately (using channel length):
+        //
+        // R1 = 15.3*Ri
+        // R2 =  7.3*Ri
+        // R3 =  4.7*Ri
+        // Rf =  1.4*Ri
+        // R4 =  1.4*Ri
+        // R8 =  2.0*Ri
+        // RC =  2.8*Ri
+        //
+        //
+        // Approximate values for 1/Q can now be found as follows (assuming an
+        // ideal op-amp):
+        //
+        // res  feedback  input  -gain (1/Q)
+        // ---  --------  -----  ----------
+        // 0   Rf        Ri     Rf/Ri      = 1/(Ri*(1/Rf))      = 1/0.71
+        // 1   Rf|R1     Ri     (Rf|R1)/Ri = 1/(Ri*(1/Rf+1/R1)) = 1/0.78
+        // 2   Rf|R2     Ri     (Rf|R2)/Ri = 1/(Ri*(1/Rf+1/R2)) = 1/0.85
+        // 3   Rf|R3     Ri     (Rf|R3)/Ri = 1/(Ri*(1/Rf+1/R3)) = 1/0.92
+        // 4   Rf        R4     Rf/R4      = 1/(R4*(1/Rf))      = 1/1.00
+        // 5   Rf|R1     R4     (Rf|R1)/R4 = 1/(R4*(1/Rf+1/R1)) = 1/1.10
+        // 6   Rf|R2     R4     (Rf|R2)/R4 = 1/(R4*(1/Rf+1/R2)) = 1/1.20
+        // 7   Rf|R3     R4     (Rf|R3)/R4 = 1/(R4*(1/Rf+1/R3)) = 1/1.30
+        // 8   Rf        R8     Rf/R8      = 1/(R8*(1/Rf))      = 1/1.43
+        // 9   Rf|R1     R8     (Rf|R1)/R8 = 1/(R8*(1/Rf+1/R1)) = 1/1.56
+        // A   Rf|R2     R8     (Rf|R2)/R8 = 1/(R8*(1/Rf+1/R2)) = 1/1.70
+        // B   Rf|R3     R8     (Rf|R3)/R8 = 1/(R8*(1/Rf+1/R3)) = 1/1.86
+        // C   Rf        RC     Rf/RC      = 1/(RC*(1/Rf))      = 1/2.00
+        // D   Rf|R1     RC     (Rf|R1)/RC = 1/(RC*(1/Rf+1/R1)) = 1/2.18
+        // E   Rf|R2     RC     (Rf|R2)/RC = 1/(RC*(1/Rf+1/R2)) = 1/2.38
+        // F   Rf|R3     RC     (Rf|R3)/RC = 1/(RC*(1/Rf+1/R3)) = 1/2.60
+        //
+        //
+        // These data indicate that the following function for 1/Q has been
+        // modeled in the MOS 8580:
+        //
+        // 1/Q = 2^(1/2)*2^(-x/8) = 2^(1/2 - x/8) = 2^((4 - x)/8)
+        for (int n8 = 0; n8 < 16; n8++) {
+          int x = mf.ak;
+          for (int vi = 0; vi < (1 << 16); vi++) {
+            mf.resonance[n8][vi] = solve_gain(opamp, resGain[n8], vi, x, mf);
+          }
+        }
+
+        // scaled 5 bits
+        n_param = (int)(tmp_n_param[1] * 32 + 0.5);
+
+        double Vgt = (fi.voice_DC_voltage * 1.6) - fi.Vth;
+        nVgt = (int)(N16 * (Vgt - vmin) + 0.5);
+
+        // DAC table.
+        // W/L ratio for frequency DAC, bits are proportional.
+        // scaled 5 bits
+        unsigned int dacWL = 806; // 0,00307464599609375 * 1024 * 256 (actual value is ~= 0.003075)
+        mf.f0_dac[0] = dacWL >> 8;
+        for (int n = 1; n < (1 << dac_bits); n++) {
+          // Calculate W/L ratio for parallel NMOS resistances
+          unsigned int wl = 0;
+          for (unsigned int i = 0; i < dac_bits; i++) {
+            unsigned int bitmask = 1 << i;
+            if (n & bitmask) {
+                wl += dacWL * (bitmask<<1);
+            }
+          }
+          mf.f0_dac[n] = wl >> 8;
         }
       }
-
-      double N16 = f.vo_N16;
-      double vmin = fi.opamp_voltage[0][0];
-
-      Vw_bias = 0;
-
-      // Normalized snake current factor, 1 cycle at 1MHz.
-      // Fit in 5 bits.
-      n_snake = (int)(fi.WL_snake * tmp_n_param[0] + 0.5);
-
-      // DAC table.
-      build_dac_table(f.f0_dac, dac_bits, fi.dac_2R_div_R, fi.dac_term);
-      for (int n = 0; n < (1 << dac_bits); n++) {
-        f.f0_dac[n] = (unsigned short)(N16*(fi.dac_zero + f.f0_dac[n]*fi.dac_scale/(1 << dac_bits) - vmin) + 0.5);
-      }
-
-      // VCR table.
-      double k = fi.k;
-      double kVddt = N16*(k*(fi.Vdd - fi.Vth));
-      vmin *= N16;
-
-      for (int i = 0; i < (1 << 16); i++) {
-        // The table index is right-shifted 16 times in order to fit in
-        // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
-        //
-        // The returned value must be corrected for translation. Vg always
-        // takes part in a subtraction as follows:
-        //
-        //   k*Vg - Vx = (k*Vg - t) - (Vx - t)
-        //
-        // I.e. k*Vg - t must be returned.
-        double Vg = kVddt - sqrt((double)i*(1 << 16));
-        vcr_kVg[i] = (unsigned short)(k*Vg - vmin + 0.5);
-      }
-
-      /*
-        EKV model:
-
-        Ids = Is*(if - ir)
-        Is = ((2*u*Cox*Ut^2)/k)*W/L
-        if = ln^2(1 + e^((k*(Vg - Vt) - Vs)/(2*Ut))
-        ir = ln^2(1 + e^((k*(Vg - Vt) - Vd)/(2*Ut))
-      */
-      double kVt = fi.k*fi.Vth;
-      double Ut = fi.Ut;
-      double Is = ((2*fi.uCox*Ut*Ut)/fi.k)*fi.WL_vcr;
-      // Normalized current factor for 1 cycle at 1MHz.
-      double N15 = N16/2;
-      double n_Is = N15*1.0e-6/fi.C*Is;
-
-      // kVg_Vx = k*Vg - Vx
-      // I.e. if k != 1.0, Vg must be scaled accordingly.
-      for (int kVg_Vx = 0; kVg_Vx < (1 << 16); kVg_Vx++) {
-        double log_term = log1p(exp((kVg_Vx/N16 - kVt)/(2*Ut)));
-        // Scaled by m*2^15
-        vcr_n_Ids_term[kVg_Vx] = (unsigned short)(n_Is*log_term*log_term);
-      }
     }
+
+    // Free temporary tables.
+    delete[] voltages;
+    delete[] opamp;
 
     class_init = true;
   }
