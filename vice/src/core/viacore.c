@@ -1910,7 +1910,7 @@ int viacore_dump(via_context_t *via_context)
     mon_out("Port B: %02x DDR: %02x\n", viacore_peek(via_context, VIA_PRB), viacore_peek(via_context, VIA_DDRB));
     mon_out("Timer 1: %04x Latch: %04x\n", viacore_peek(via_context, VIA_T1CL) + (viacore_peek(via_context, VIA_T1CH) * 256U),
             viacore_peek(via_context, VIA_T1LL) + (viacore_peek(via_context, VIA_T1LH) * 256U));
-    mon_out("Timer 2: %04x Latch:   %02x t2_zero_alarm: +%lu (idx %d)\n",
+    mon_out("Timer 2: %04x Latch:   %02x t2_zero_alarm: +%llu (idx %d)\n",
             viacore_peek(via_context, VIA_T2CL) + (viacore_peek(via_context, VIA_T2CH) * 256U),
             via_context->via[VIA_T2LL],
             alarm_clk(via_context->t2_zero_alarm) - *(via_context->clk_ptr),
@@ -1924,25 +1924,25 @@ int viacore_dump(via_context_t *via_context)
             ((via_context->via[VIA_ACR] & 0x1c) == 0) ? "disabled" : "enabled",
             (via_context->via[VIA_ACR] & 0x10) ? "out" : "in",
             via_context->shift_state);
-    mon_out("tbi: %lu (clock+%ld),  t2zero: %lu (clock+%ld)\n",
+    mon_out("tbi: %llu (clock+%llu),  t2zero: %llu (clock+%llu)\n",
             via_context->tbi,
-            (int64_t)(via_context->tbi - *(via_context->clk_ptr)),
+            via_context->tbi - *(via_context->clk_ptr),
             via_context->t2zero,
-            (int64_t)(via_context->t2zero - *(via_context->clk_ptr)));
+            via_context->t2zero - *(via_context->clk_ptr));
     if (alarm_is_pending(via_context->t2_underflow_alarm)) {
-        mon_out("t2_underflow_alarm: %lu (clock+%ld)\n",
+        mon_out("t2_underflow_alarm: %llu (clock+%llu)\n",
                 alarm_clk(via_context->t2_underflow_alarm),
-                (long)(alarm_clk(via_context->t2_underflow_alarm) - *(via_context->clk_ptr)));
+                alarm_clk(via_context->t2_underflow_alarm) - *(via_context->clk_ptr));
     }
     if (alarm_is_pending(via_context->t2_underflow_alarm)) {
-        mon_out("t2_shift_alarm: %lu (clock+%ld)\n",
+        mon_out("t2_shift_alarm: %llu (clock+%llu)\n",
                 alarm_clk(via_context->t2_shift_alarm),
-                (long)(alarm_clk(via_context->t2_shift_alarm) - *(via_context->clk_ptr)));
+                alarm_clk(via_context->t2_shift_alarm) - *(via_context->clk_ptr));
     }
     if (alarm_is_pending(via_context->phi2_sr_alarm)) {
-        mon_out("phi2_sr_alarm: %lu (clock+%ld)\n",
+        mon_out("phi2_sr_alarm: %llu (clock+%llu)\n",
                 alarm_clk(via_context->phi2_sr_alarm),
-                (long)(alarm_clk(via_context->phi2_sr_alarm) - *(via_context->clk_ptr)));
+                alarm_clk(via_context->phi2_sr_alarm) - *(via_context->clk_ptr));
     }
 
     return 0;
