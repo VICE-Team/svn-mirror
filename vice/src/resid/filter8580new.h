@@ -1488,7 +1488,7 @@ Using substitution constants
 the equations for the root function and its derivative can be written as:
 
   f = a*(b - vx)^2 - c - (b - (vx + x))^2
-  df = 2*((b - (vx + x))*(dvx + 1) - a*(b - vx)*dvx)
+  df = 2*((b - (vx + x))*dvx - a*(b - vx)*dvx)
 */
 RESID_INLINE
 int Filter::solve_gain(opamp_t* opamp, int n, int vi, int& x, model_filter_t& mf)
@@ -1516,7 +1516,7 @@ int Filter::solve_gain(opamp_t* opamp, int n, int vi, int& x, model_filter_t& mf
     int dvx = opamp[x].dvx;    // Scaled by 2^11
 
     // f = a*(b - vx)^2 - c - (b - vo)^2
-    // df = 2*((b - vo)*(dvx + 1) - a*(b - vx)*dvx)
+    // df = 2*((b - vo)*dvx - a*(b - vx)*dvx)
     //
     int vo = vx + (x << 1) - (1 << 16);
     if (vo >= (1 << 16)) {
@@ -1532,7 +1532,7 @@ int Filter::solve_gain(opamp_t* opamp, int n, int vi, int& x, model_filter_t& mf
     // The dividend is scaled by m^2*2^27.
     int f = a*int(unsigned(b_vx)*unsigned(b_vx) >> 12) - c - int(unsigned(b_vo)*unsigned(b_vo) >> 5);
     // The divisor is scaled by m*2^11.
-    int df = ((b_vo*(dvx + (1 << 11)) >> 1) - (a*(b_vx*dvx >> 8))) >> 14;
+    int df = (((b_vo >> 1) - ((a*b_vx) >> 8))*dvx) >> 14;
     // The resulting quotient is thus scaled by m*2^16.
 
     // Newton-Raphson step: xk1 = xk - f(xk)/f'(xk)
