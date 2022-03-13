@@ -411,12 +411,17 @@ vice_network_socket_t *vice_network_server(
 
     do {
         if (socket_init() < 0) {
+            log_error(LOG_DEFAULT,
+                "vice_network_server(): socket_init() failed");
             break;
         }
 
         sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
-
         if (sockfd == INVALID_SOCKET) {
+            int err = errno;
+            log_error(LOG_DEFAULT,
+                "vice_network_server(): socket() returned INVALID_SOCKET: %s",
+                strerror(err));
             break;
         }
 
@@ -443,10 +448,19 @@ vice_network_socket_t *vice_network_server(
 #endif
 #endif
         }
+
         if (bind(sockfd, &server_address->address.generic, server_address->len) < 0) {
+            int err = errno;
+            log_error(LOG_DEFAULT,
+                "vice_network_server(): bind() failed: %s",
+                strerror(err));
             break;
         }
         if (listen(sockfd, 2) < 0) {
+            int err = errno;
+            log_error(LOG_DEFAULT,
+                "vice_network_server(): listen() failed: %s",
+                strerror(err));
             break;
         }
         error = 0;
