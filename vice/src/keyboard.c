@@ -1315,10 +1315,16 @@ static void keyboard_parse_keyword(char *buffer, int line, const char *filename)
     }
 }
 
-static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
+static int keyboard_parse_set_pos_row(signed long sym, int row, int col,
                                        int shift)
 {
     int i;
+
+    /* FIXME: we should check against the actual size of the emulated
+              keyboard here */
+    if ((row >= KBD_ROWS) || (col >= KBD_COLS)) {
+        return -1;
+    }
 
     for (i = 0; i < keyc_num; i++) {
         if (sym == keyconvmap[i].sym
@@ -1346,6 +1352,7 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
             keyconvmap[++keyc_num].sym = ARCHDEP_KEYBOARD_SYM_NONE;
         }
     }
+    return 0;
 }
 
 static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
@@ -1409,7 +1416,11 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                 }
 
                 if (row >= 0) {
-                    keyboard_parse_set_pos_row(sym, (int)row, col, shift);
+                    if (keyboard_parse_set_pos_row(sym, (int)row, col, shift) < 0) {
+                        log_error(keyboard_log,
+                                  "%s:%d: Bad row/column value (%ld/%d) for keysym `%s'.",
+                                  filename, line, row, col, key);
+                    }
                 } else {
                     if (keyboard_parse_set_neg_row(sym, (int)row, col) < 0) {
                         log_error(keyboard_log,
