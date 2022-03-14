@@ -139,7 +139,7 @@ Return       6 5 8
 Down         1 6 8
 Right        0 7 8
 Home         0 6 8
-BackSpace    1 7 8
+BackSpace    8 2 8
 Delete       1 7 0
 Tab          9 0 8
 KP_Tab       9 0 8
