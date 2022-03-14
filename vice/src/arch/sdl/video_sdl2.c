@@ -908,6 +908,10 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
 
     canvas->palette = palette;
 
+    if (canvas->screen == NULL) {
+        log_error(LOG_DEFAULT, "FIXME: video_canvas_set_palette() canvas->screen is NULL");
+        return 0;
+    }
     fmt = canvas->screen->format;
 
     /* Fixme: needs further investigation how it can reach here without being fully initialized */
