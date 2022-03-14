@@ -2231,13 +2231,8 @@ static int chain_cmd(int nargs, char **args)
     }
 #endif
 
-    /* XXX: needs check for circular pattern, or perhaps some counter that
-     *      checks the number of blocks against the maximum block size of the
-     *      largest image type.
-     */
-
+    /* we keep a list of sectors visited so we can detect cyclic references */
     link = link_add(NULL, track, sector);
-
     do {
         unsigned char buffer[RAW_BLOCK_SIZE];
 
@@ -2267,6 +2262,7 @@ static int chain_cmd(int nargs, char **args)
     link_print(link);
     putchar('\n');
 #endif
+    /* free list of visited sectors */
     link_free(link);
 
     return FD_OK;
