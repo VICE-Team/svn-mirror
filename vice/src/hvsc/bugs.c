@@ -6,7 +6,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2022  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <inttypes.h>
 #include <string.h>
 #include <limits.h>
@@ -49,7 +50,6 @@ static void bugs_init_handle(hvsc_bugs_t *handle)
     handle->psid_path = NULL;
     handle->text = NULL;
     handle->user = NULL;
-
 }
 
 
@@ -61,10 +61,10 @@ static void bugs_free_handle(hvsc_bugs_t *handle)
 {
     hvsc_text_file_close(&(handle->bugs));
     if (handle->text != NULL) {
-        free(handle->text);
+        hvsc_free(handle->text);
     }
     if (handle->user != NULL) {
-        free(handle->user);
+        hvsc_free(handle->user);
     }
 }
 
@@ -75,7 +75,7 @@ static void bugs_free_handle(hvsc_bugs_t *handle)
  *
  * \return  bool
  */
-static int bugs_parse(hvsc_bugs_t *handle)
+static bool bugs_parse(hvsc_bugs_t *handle)
 {
     const char *line;
     char *bug;
@@ -83,59 +83,44 @@ static int bugs_parse(hvsc_bugs_t *handle)
     /* grab first line, should contain 'BUG:' */
     line = hvsc_text_file_read(&(handle->bugs));
     if (line == NULL) {
-        return 0;
+        return false;
     }
 
     hvsc_dbg("First line of entry: %s\n", line);
     if (hvsc_get_field_type(line) != HVSC_FIELD_BUG) {
         hvsc_dbg("Fail: not a BUG field\n");
-        return 0;
+        return false;
     }
 
     /* store first line of BUG field */
     bug = hvsc_strdup(line + 9);
-    if (bug == NULL) {
-        return 0;
-    }
 
     /* add rest of BUG field */
-    while (1) {
+    while (true) {
         line = hvsc_text_file_read(&(handle->bugs));
         if (line == NULL) {
             /* not supposed to happen */
-            free(bug);
-            return 0;
+            hvsc_free(bug);
+            return false;
         }
 
         if (strncmp("         ", line, 9) == 0) {
             /* new line for the bug field */
             size_t len;
-            char *tmp;
 
             /* strip off 8 spaces, leaving one to add to the result */
             len = strlen(line) - 8;
-            tmp = realloc(bug, strlen(bug) + len + 1);
-            if (tmp == NULL) {
-                hvsc_errno = HVSC_ERR_OOM;
-                free(bug);
-                return 0;
-            }
-            bug = tmp;
+            bug = hvsc_realloc(bug, strlen(bug) + len + 1);
             strcat(bug, line + 8);
         } else {
             /* store bug in handle */
             handle->text = bug;
             /* assume (user) field */
             handle->user = hvsc_strdup(line);
-            if (handle->user == NULL) {
-                free(handle->text);
-                handle->text = NULL;
-                return 0;
-            }
-            return 1;
+            return true;
         }
     }
-    return 1;
+    return true;
 }
 
 
@@ -146,13 +131,13 @@ static int bugs_parse(hvsc_bugs_t *handle)
  *
  * \return  bool
  */
-int hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle)
+bool hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle)
 {
     bugs_init_handle(handle);
 
     /* open BUGlist.txt */
     if (!hvsc_text_file_open(hvsc_bugs_path, &(handle->bugs))) {
-        return 0;
+        return false;
     }
 
     /* make copy of psid, ripping off the HVSC root directory */
@@ -164,11 +149,11 @@ int hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle)
     hvsc_dbg("stripped path is '%s'\n", handle->psid_path);
     if (handle->psid_path == NULL) {
         hvsc_bugs_close(handle);
-        return 0;
+        return false;
     }
 
     /* find the entry */
-    while (1) {
+    while (true) {
         const char *line;
 
         line = hvsc_text_file_read(&(handle->bugs));
@@ -179,7 +164,7 @@ int hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle)
             }
             hvsc_bugs_close(handle);
             /* I/O error is already set */
-            return 0;
+            return false;
         }
 
         if (strcmp(line, handle->psid_path) == 0) {
@@ -192,7 +177,7 @@ int hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle)
     /* not found */
     hvsc_errno = HVSC_ERR_NOT_FOUND;
     hvsc_bugs_close(handle);
-    return 1;
+    return true;
 #endif
 }
 
@@ -205,6 +190,6 @@ void hvsc_bugs_close(hvsc_bugs_t *handle)
 {
     bugs_free_handle(handle);
     if (handle->psid_path != NULL) {
-        free(handle->psid_path);
+        hvsc_free(handle->psid_path);
     }
 }

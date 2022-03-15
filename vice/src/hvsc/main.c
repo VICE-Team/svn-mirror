@@ -10,7 +10,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2022  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@
  *
  * \param[in]   path    absolute path to HVSC root directory
  *
- * \return  bool
+ * \return  true on success (always atm)
  *
  * For example:
  * \code{.c}
@@ -64,10 +64,14 @@
  *
  * \ingroup main
  */
-int hvsc_init(const char *path)
+bool hvsc_init(const char *path)
 {
     hvsc_errno = 0;
-    return hvsc_set_paths(path);
+    /* TODO:    Perhaps check if the path contains the files the library needs,
+     *          otherwise this function doesn't need to return anything.
+     */
+    hvsc_set_paths(path);
+    return true;
 }
 
 

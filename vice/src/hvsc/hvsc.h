@@ -12,7 +12,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2022  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -32,8 +32,19 @@
 #ifndef HVSC_HVSC_H
 #define HVSC_HVSC_H
 
+#if 0
+/** \brief  Make hvsclib standalone
+ *
+ * If defined hvsclib will use its own memory allocation, string and path
+ * handling functions, not the ones provided by VICE, this allows me to further
+ * develop hvsclib as a standalone library as well.
+ */
+#define HVSC_STANDALONE
+#endif
+
 /* for size_t, fixed width types and bool */
-#include <stdlib.h>
+#include <stddef.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 /*
@@ -56,7 +67,6 @@
  */
 typedef enum hvsc_err_e {
     HVSC_ERR_OK = 0,            /**< no error */
-    HVSC_ERR_OOM,               /**< out of memory error */
     HVSC_ERR_IO,                /**< I/O error */
     HVSC_ERR_FILE_TOO_LARGE,    /**< file too large (> 2GB) */
     HVSC_ERR_GCRYPT,            /**< error in gcrypt library */
@@ -286,7 +296,7 @@ typedef struct hvsc_psid_s {
  * main.c stuff
  */
 
-int         hvsc_init(const char *path);
+bool        hvsc_init(const char *path);
 void        hvsc_exit(void);
 const char *hvsc_lib_version_str(void);
 void        hvsc_lib_version_num(int *major, int *minor, int *revision);
@@ -294,7 +304,6 @@ void        hvsc_lib_version_num(int *major, int *minor, int *revision);
 /*
  * base.c stuff
  */
-
 
 extern int hvsc_errno;
 
@@ -317,11 +326,11 @@ int         hvsc_sldb_get_lengths(const char *psid, long **lengths);
  * stil.c stuff
  */
 
-int         hvsc_stil_open(const char *psid, hvsc_stil_t *handle);
+bool        hvsc_stil_open(const char *psid, hvsc_stil_t *handle);
 void        hvsc_stil_close(hvsc_stil_t *handle);
-int         hvsc_stil_read_entry(hvsc_stil_t *handle);
+bool        hvsc_stil_read_entry(hvsc_stil_t *handle);
 void        hvsc_stil_dump_entry(hvsc_stil_t *handle);
-int         hvsc_stil_parse_entry(hvsc_stil_t *handle);
+void        hvsc_stil_parse_entry(hvsc_stil_t *handle);
 void        hvsc_stil_dump(hvsc_stil_t *handle);
 
 /* XXX: needs much better name
@@ -329,9 +338,9 @@ void        hvsc_stil_dump(hvsc_stil_t *handle);
  * This combines calls of stil_open(), stil_read_entry() and stil_parse_entry()
  * It's probably best to make those functions static and leave this one.
  * */
-int         hvsc_stil_get(hvsc_stil_t *stil, const char *path);
+bool        hvsc_stil_get(hvsc_stil_t *stil, const char *path);
 
-int         hvsc_stil_get_tune_entry(const hvsc_stil_t *handle,
+bool        hvsc_stil_get_tune_entry(const hvsc_stil_t *handle,
                                      hvsc_stil_tune_entry_t *entry,
                                      int tune);
 void        hvsc_stil_dump_tune_entry(const hvsc_stil_tune_entry_t *entry);
@@ -340,7 +349,7 @@ void        hvsc_stil_dump_tune_entry(const hvsc_stil_tune_entry_t *entry);
  * bugs.c stuff
  */
 
-int         hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle);
+bool        hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle);
 void        hvsc_bugs_close(hvsc_bugs_t *handle);
 
 
@@ -348,10 +357,10 @@ void        hvsc_bugs_close(hvsc_bugs_t *handle);
  * psid.c stuff
  */
 
-int             hvsc_psid_open(const char *path, hvsc_psid_t *handle);
+bool            hvsc_psid_open(const char *path, hvsc_psid_t *handle);
 void            hvsc_psid_close(hvsc_psid_t *handle);
 void            hvsc_psid_dump(const hvsc_psid_t *handle);
-int             hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path);
+bool            hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path);
 unsigned int    hvsc_psid_get_model_id(const hvsc_psid_t *handle, int sid);
 const char *    hvsc_psid_get_model_str(const hvsc_psid_t *handle, int sid);
 unsigned int    hvsc_psid_get_clock_id(const hvsc_psid_t *handle);

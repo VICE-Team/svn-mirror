@@ -6,7 +6,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2022  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "hvsc_defs.h"
@@ -69,21 +70,26 @@ extern char *hvsc_sldb_path;
 extern char *hvsc_stil_path;
 extern char *hvsc_bugs_path;
 
+void *      hvsc_malloc(size_t size);
+void *      hvsc_calloc(size_t nmemb, size_t size);
+void *      hvsc_realloc(void *ptr, size_t size);
+void        hvsc_free(void *ptr);
+
 char *      hvsc_strdup(const char *s);
 char *      hvsc_strndup(const char *s, size_t n);
 char *      hvsc_paths_join(const char *p1, const char *p2);
 long        hvsc_read_file(uint8_t **dest, const char *path);
-int         hvsc_set_paths(const char *path);
+void        hvsc_set_paths(const char *path);
 void        hvsc_free_paths(void);
 void        hvsc_text_file_init_handle(hvsc_text_file_t *handle);
-int         hvsc_text_file_open(const char *path, hvsc_text_file_t *handle);
+bool        hvsc_text_file_open(const char *path, hvsc_text_file_t *handle);
 const char *hvsc_text_file_read(hvsc_text_file_t *handle);
 void        hvsc_text_file_close(hvsc_text_file_t *handle);
 
 char *      hvsc_path_strip_root(const char *path);
 void        hvsc_path_fix_separators(char *path);
-int         hvsc_string_is_empty(const char *s);
-int         hvsc_string_is_comment(const char *s);
+bool        hvsc_string_is_empty(const char *s);
+bool        hvsc_string_is_comment(const char *s);
 long        hvsc_parse_simple_timestamp(char *t, char **endptr);
 int         hvsc_get_field_type(const char *s);
 const char *hvsc_get_field_display(int type);

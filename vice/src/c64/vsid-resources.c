@@ -241,4 +241,5 @@ void c64_resources_shutdown(void)
     if (hvsc_root != NULL) {
         lib_free(hvsc_root);
     }
+    hvsc_exit();
 }

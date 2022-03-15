@@ -6,7 +6,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2022  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,17 +28,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <inttypes.h>
 #include <ctype.h>
 
 #ifdef HVSC_USE_MD5
 # include <gcrypt.h>
 #endif
-
-#include "log.h"
-
+#ifndef HVSC_STANDALONE
+# include "log.h"
+#endif
 #include "hvsc.h"
-
 #include "hvsc_defs.h"
 #include "base.h"
 
@@ -54,7 +54,7 @@
  *
  * \return  bool
  */
-static int create_md5_hash(const char *psid, unsigned char *digest)
+static bool create_md5_hash(const char *psid, unsigned char *digest)
 {
     unsigned char *data;
     long size;
@@ -67,7 +67,7 @@ static int create_md5_hash(const char *psid, unsigned char *digest)
     size = hvsc_read_file(&data, psid);
     if (size < 0) {
         fprintf(stderr, "failed!\n");
-        return 0;
+        return false;
     }
     hvsc_dbg("got %ld bytes\n", size);
 
@@ -77,8 +77,8 @@ static int create_md5_hash(const char *psid, unsigned char *digest)
     err = gcry_md_open(&handle, GCRY_MD_MD5, 0);
     if (err != 0) {
         hvsc_errno = HVSC_ERR_GCRYPT;
-        free(data);
-        return 0;
+        hvsc_free(data);
+        return false;
     }
 
     gcry_md_write(handle, data, (size_t)size);
@@ -86,10 +86,8 @@ static int create_md5_hash(const char *psid, unsigned char *digest)
     memcpy(digest, d, HVSC_DIGEST_SIZE);
 
     gcry_md_close(handle);
-
-    free(data);
-
-    return 1;
+    hvsc_free(data);
+    return true;
 }
 #endif
 
@@ -126,9 +124,6 @@ static char *find_sldb_entry_md5(const char *digest)
             /* copy the current line before closing the file */
             char *s = hvsc_strdup(handle.buffer);
             hvsc_text_file_close(&handle);
-            if (s == NULL) {
-                return NULL;
-            }
             return s;
         }
     }
@@ -151,21 +146,26 @@ static char *find_sldb_entry_txt(const char *path)
     hvsc_text_file_t handle;
     size_t plen;
     const char *line;
-
+#ifndef HVSC_STANDALONE
     log_message(LOG_DEFAULT, "Vsid: Opening '%s'.", hvsc_sldb_path);
+#endif
     if (!hvsc_text_file_open(hvsc_sldb_path, &handle)) {
+#ifndef HVSC_STANDALONE
         log_warning(LOG_DEFAULT, "Vsid: Failed to open the SLDB.");
+#endif
         return NULL;
     }
 
     plen = strlen(path);
 
-    while (1) {
+    while (true) {
         line = hvsc_text_file_read(&handle);
         if (line == NULL) {
             hvsc_text_file_close(&handle);
+#ifndef HVSC_STANDALONE
             log_warning(LOG_DEFAULT,
                     "Vsid: Could not find song length data for current SID.");
+#endif
             return NULL;
         }
 
@@ -212,7 +212,7 @@ static int parse_sldb_entry(char *line, long **lengths)
     int i = 0;
     long secs;
 
-    entries = malloc(256 * sizeof *entries);
+    entries = hvsc_malloc(256 * sizeof *entries);
     if (entries == NULL) {
         return -1;
     }
@@ -231,7 +231,7 @@ static int parse_sldb_entry(char *line, long **lengths)
 
         secs = hvsc_parse_simple_timestamp(p, &endptr);
         if (secs < 0) {
-            free(entries);
+            hvsc_free(entries);
             return -1;
         }
         entries[i++] = secs;
@@ -278,10 +278,9 @@ char *hvsc_sldb_get_entry_md5(const char *psid)
 
     /* parse SLDB */
     entry = find_sldb_entry_md5(hash_text);
-    if (entry == NULL) {
-        return NULL;
+    if (entry != NULL) {
+        hvsc_dbg("Got it: %s\n", entry);
     }
-    hvsc_dbg("Got it: %s\n", entry);
     return entry;
 }
 
@@ -308,19 +307,17 @@ char *hvsc_sldb_get_entry_txt(const char *psid)
     /* fix directory separators */
     hvsc_path_fix_separators(path);
 #endif
-    if (path == NULL) {
-        return NULL;
-    }
 
     entry = find_sldb_entry_txt(path);
-    free(path);
+    hvsc_free(path);
     if (entry != NULL) {
         /* hvsc_dbg("Got it: %s\n", entry); */
+#ifndef HVSC_STANDALONE
         log_message(LOG_DEFAULT, "Vsid: Song length(s): %s.", entry);
+#endif
     }
     return entry;
 }
-
 
 
 /** \brief  Get a list of song lengths for PSID file \a psid
@@ -348,9 +345,9 @@ int hvsc_sldb_get_lengths(const char *psid, long **lengths)
 
     result = parse_sldb_entry(entry, lengths);
     if (result < 0) {
-        free(*lengths);
+        hvsc_free(*lengths);
         return -1;
     }
-    free(entry);
+    hvsc_free(entry);
     return result;
 }
