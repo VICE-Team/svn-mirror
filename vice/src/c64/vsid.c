@@ -48,6 +48,7 @@
 #include "drive.h"
 #include "imagecontents.h"
 #include "init.h"
+#include "joystick.h"
 #include "kbdbuf.h"
 #include "log.h"
 #include "machine-drive.h"
@@ -209,6 +210,10 @@ int machine_specific_init(void)
 
     cia1_init(machine_context.cia1);
     cia2_init(machine_context.cia2);
+
+    if (!video_disabled_mode) {
+        joystick_init();
+    }
 
     c64_monitor_init();
 
