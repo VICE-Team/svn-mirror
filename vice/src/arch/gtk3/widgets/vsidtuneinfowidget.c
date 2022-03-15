@@ -156,7 +156,7 @@ static int song_lengths_count;
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
     if (song_lengths != NULL) {
-        free(song_lengths);
+        lib_free(song_lengths);
         song_lengths = NULL;
         song_lengths_count = 0;
     }
