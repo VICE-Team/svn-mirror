@@ -277,6 +277,9 @@ static void mmu_update_page01_pointers(void)
 int mmu_is_c64config(void)
 {
     return (mmu[5] & 0x40) ? 1 : 0; /* FIXME: is this correct? */
+    /* c128.c:machine_addr_in_ram() uses this check:
+     * ((mmu_peek(0) == 0x3e) && ((mmu_peek(5) == 0xb7) || (mmu_peek(5) == 0x91)))
+     */
 }
 
 static void mmu_switch_to_c64mode(void)

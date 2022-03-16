@@ -1564,7 +1564,9 @@ int machine_addr_in_ram(unsigned int addr)
 {
     uint8_t mmucfg = mmu_peek(0);
 
-    if ((mmucfg == 0x3e) && (mmu_peek(5) == 0xb7)) {
+    /* FIXME: this should use c128mmu.c:mmu_is_c64config(), but the check there
+     *        looks different? */
+    if ((mmucfg == 0x3e) && ((mmu_peek(5) == 0xb7) || (mmu_peek(5) == 0x91))) {
         /* c64 mode */
         return (
             addr < 0xe000
