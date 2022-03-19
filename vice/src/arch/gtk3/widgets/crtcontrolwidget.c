@@ -169,9 +169,13 @@ enum {
 typedef struct crt_control_resource_s {
     const char *label;  /**< Displayed name (label) */
     const char *name;   /**< Resource name excluding CHIP prefix */
-    int low;            /**< lowest value for resoource */
+    int low;            /**< lowest value for resource */
     int high;           /**< highest value for resource */
     int step;           /**< stepping for the spin button */
+    gdouble disp_low;   /**< display low */
+    gdouble disp_high;  /**< display high */
+    gdouble disp_step;  /**< stepping for the displayed values */
+    const char *disp_fmt;   /**< format string for the displayed value */
 } crt_control_resource_t;
 
 
@@ -199,15 +203,15 @@ typedef struct crt_control_data_s {
 /** \brief  List of CRT emulation resources
  */
 static const crt_control_resource_t resource_table[RESOURCE_COUNT_MAX] = {
-    { "Brightness",     "ColorBrightness",  0, 2000, 100 },
-    { "Contrast",       "ColorContrast",    0, 2000, 100 },
-    { "Saturation",     "ColorSaturation",  0, 2000, 100 },
-    { "Tint",           "ColorTint",        0, 2000, 100 },
-    { "Gamma",          "ColorGamma",       0, 4000, 200 },
-    { "Blur",           "PALBlur",          0, 1000, 50 },
-    { "Scanline shade", "PALScanLineShade", 0, 1000, 50 },
-    { "Oddline phase",  "PALOddLinePhase",  0, 2000, 100 },
-    { "Oddline offset", "PALOddLineOffset", 0, 2000, 100 }
+    { "Brightness",     "ColorBrightness",  0, 2000, 100, 0.0, 100.0, 5.0, "%3.1f%%" },
+    { "Contrast",       "ColorContrast",    0, 2000, 100, -45.0, +45.0, 1.0, "%3.1f\u00b0" },
+    { "Saturation",     "ColorSaturation",  0, 2000, 100, 0.0, 451.0, 5.0, "%3.1f\u2109" },
+    { "Tint",           "ColorTint",        0, 2000, 100, 0.0, 100.0, 5.0, "%3.1f%%" },
+    { "Gamma",          "ColorGamma",       0, 4000, 200, 0.0, 54.0, 5.0, "%3.1fm\u00b2\u2219s\u207b\u00b2" },
+    { "Blur",           "PALBlur",          0, 1000,  50, 0.0, 100.0, 5.0, "%3.1f%%" },
+    { "Scanline shade", "PALScanLineShade", 0, 1000,  50, 0.0, 100.0, 5.0, "%3.1f%%" },
+    { "Oddline phase",  "PALOddLinePhase",  0, 2000, 100, 0.0, 100.0, 5.0, "%3.1f%%" },
+    { "Oddline offset", "PALOddLineOffset", 0, 2000, 100, 0.0, 100.0, 5.0, "%3.1f%%" }
 };
 
 
@@ -281,7 +285,7 @@ static void on_reset_clicked(GtkWidget *widget, gpointer user_data)
 #if 0
             debug_gtk3("Resetting '%s' to factory value.", control.res.label);
 #endif
-            vice_gtk3_resource_scale_int_factory(control.scale);
+            vice_gtk3_resource_scale_custom_factory(control.scale);
             /* No need to reset the spin button, that gets triggered via
              * the scale widget
              */
@@ -315,10 +319,11 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
  */
 static void on_spin_value_changed(GtkWidget *spin, gpointer scale)
 {
-    gdouble spinval;
+ //   gdouble spinval;
 
-    spinval = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin));
-    gtk_range_set_value(GTK_RANGE(scale), (int)spinval);
+//    spinval = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin));
+    vice_gtk3_resource_scale_custom_sync(scale);
+//    gtk_range_set_value(GTK_RANGE(scale), (int)spinval);
 }
 
 
@@ -333,7 +338,7 @@ static void on_scale_value_changed(GtkWidget *scale, gpointer spin)
 {
     int scaleval;
 
-    scaleval = gtk_range_get_value(GTK_RANGE(scale));
+    vice_gtk3_resource_scale_custom_get(scale, &scaleval);
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (double)scaleval);
 }
 
@@ -363,18 +368,23 @@ static GtkWidget *create_label(const char *text, gboolean minimal)
 
 /** \brief  Create a customized GtkScale for \a resource
  *
- * \param[in]   resource    resource name without the video \a chip name prefix
- * \param[in]   chip        video chip name
- * \param[in]   low         lower bound
- * \param[in]   high        upper bound
- * \param[in]   step        step used to increase/decrease slider value
- * \param[in]   minimal     reduced size (for the statusbar widget)
+ * \param[in]   resource        resource name without the \a chip prefix
+ * \param[in]   chip            video chip name
+ * \param[in]   resource_low    resource value lower bound
+ * \param[in]   resource_high   resource value upper bound
+ * \param[in]   display_low     display value lower bound
+ * \param[in]   display_high    display value upper bound
+ * \param[in]   display_step    display value stepping
+ * \param[in]   display_format  format string for displaying value
+ * \param[in]   minimal         reduced size (for the statusbar widget)
  *
  * \return  GtkScale
  */
 static GtkWidget *create_slider(
         const char *resource, const char *chip,
-        int low, int high, int step,
+        int resource_low, int resource_high,
+        gdouble display_low, gdouble display_high, gdouble display_step,
+        const char *display_format,
         gboolean minimal)
 {
     GtkWidget *scale;
@@ -383,11 +393,14 @@ static GtkWidget *create_slider(
      * sliders. This only works in the settings menu, not in the popup CRT
      * controls since the keyboard is captured for the running emulator.
      */
-    step = 1;
+    //step = 1;
 
-    scale = vice_gtk3_resource_scale_int_new_sprintf("%s%s",
-            GTK_ORIENTATION_HORIZONTAL, low, high, step,
-            chip, resource);
+    scale = vice_gtk3_resource_scale_custom_new_printf(
+            "%s%s",
+            GTK_ORIENTATION_HORIZONTAL,
+            resource_low, resource_high,
+            display_low, display_high, display_step,
+            display_format, chip, resource);
     gtk_widget_set_hexpand(scale, TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
     /* Disable tickmarks. This looks nice and could help to quickly set a value,
@@ -474,7 +487,9 @@ static void add_sliders(GtkGrid *grid,
             label = create_label(control->res.label, minimal);
             gtk_grid_attach(grid, label, 0, row, 1, 1);
             control->scale = create_slider(control->res.name, chip,
-                    control->res.low, control->res.high, control->res.step,
+                    control->res.low, control->res.high,
+                    control->res.disp_low, control->res.disp_high, control->res.disp_step,
+                    control->res.disp_fmt,
                     minimal);
             gtk_grid_attach(grid, control->scale, 1, row, 1, 1);
 
@@ -499,7 +514,9 @@ static void add_sliders(GtkGrid *grid,
             label = create_label(control->res.label, minimal);
             gtk_grid_attach(grid, label, col + 0, row, 1, 1);
             control->scale = create_slider(control->res.name, chip,
-                    control->res.low, control->res.high, control->res.step,
+                    control->res.low, control->res.high,
+                    control->res.disp_low, control->res.disp_high, control->res.disp_step,
+                    control->res.disp_fmt,
                     minimal);
             gtk_grid_attach(grid, control->scale, col + 1, row, 1, 1);
             if (col > 0) {
@@ -556,6 +573,10 @@ static crt_control_data_t *create_control_data(const char *chip)
         control->res.low = resource_table[i].low;
         control->res.high = resource_table[i].high;
         control->res.step = resource_table[i].step;
+        control->res.disp_low = resource_table[i].disp_low;
+        control->res.disp_high = resource_table[i].disp_high;
+        control->res.disp_step = resource_table[i].disp_step;
+        control->res.disp_fmt = resource_table[i].disp_fmt;
         control->scale = NULL;
         control->spin = NULL;
     }
