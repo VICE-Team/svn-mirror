@@ -56,4 +56,27 @@ gboolean vice_gtk3_resource_scale_int_reset(GtkWidget *widget);
 gboolean vice_gtk3_resource_scale_int_factory(GtkWidget *widget);
 gboolean vice_gtk3_resource_scale_int_sync(GtkWidget *widget);
 
+
+
+GtkWidget *vice_gtk3_resource_scale_custom_new(
+        const gchar *resource,
+        GtkOrientation orientation,
+        gint resource_low, gint resource_high,
+        gdouble display_low, gdouble display_high, gdouble display_step,
+        const gchar *display_fmt);
+
+GtkWidget *vice_gtk3_resource_scale_custom_new_printf(
+        const gchar *resource,
+        GtkOrientation orientation,
+        gint resource_low, gint resource_high,
+        gdouble display_low, gdouble display_high, gdouble display_step,
+        const gchar *display_fmt,
+        ...);
+
+gboolean vice_gtk3_resource_scale_custom_set(GtkWidget *widget, int value);
+gboolean vice_gtk3_resource_scale_custom_get(GtkWidget *widget, int *value);
+gboolean vice_gtk3_resource_scale_custom_reset(GtkWidget *widget);
+gboolean vice_gtk3_resource_scale_custom_factory(GtkWidget *widget);
+gboolean vice_gtk3_resource_scale_custom_sync(GtkWidget *widget);
+
 #endif
