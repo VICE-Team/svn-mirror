@@ -377,6 +377,7 @@ static int custom_display_to_resource(GtkWidget *self, gdouble value)
     gint resource_low;
     gint resource_high;
     gint resource_range;
+    gint resource;
     gdouble display_low;
     gdouble display_high;
     gdouble display_range;
@@ -385,10 +386,13 @@ static int custom_display_to_resource(GtkWidget *self, gdouble value)
     custom_get_params(self,
                       &resource_low, &resource_high, &resource_range,
                       &display_low, &display_high, &display_range);
+
     if (display_range != 0) {
-        factor = (value - display_low) / display_range;
+        factor = (gdouble)(resource_range) / display_range;
     }
-    return (int)(factor * (gdouble)resource_range);
+    resource = (int)(factor * (value - display_low)) + resource_low;
+    debug_gtk3("custom_display_to_resource display:%f resource:%d\n", value, resource);
+    return resource;
 }
 
 
@@ -410,14 +414,17 @@ static gdouble custom_resource_to_display(GtkWidget *self, int value)
     gdouble display_high;
     gdouble display_range;
     gdouble factor = 0.0;
+    gdouble display;
 
     custom_get_params(self,
                       &resource_low, &resource_high, &resource_range,
                       &display_low, &display_high, &display_range);
     if (resource_range != 0) {
-        factor = (gdouble)(value - resource_low) / (gdouble)resource_range;
+        factor = display_range / (gdouble)resource_range;
     }
-    return factor * display_range;
+    display = (factor * (gdouble)(value - resource_low)) + display_low;
+    debug_gtk3("custom_resource_to_display resource:%d display:%f\n", value, display);
+    return display;
 }
 
 
