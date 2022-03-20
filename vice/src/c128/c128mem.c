@@ -1414,12 +1414,12 @@ static uint8_t peek_bank_io(uint16_t addr)
 }
 
 /* Exported banked memory access functions for the monitor.  */
-#define MAXBANKS (5 + 2 + 5)
+#define MAXBANKS (5 + 2 + 5 + 2)
 
 /* FIXME: add ram00 bank, make 'ram' bank always show selected ram bank, ram00
  * and ram01 always physical ram bank */
 
-static const char *banknames[MAXBANKS + 1] = {
+static const char *banknames128[MAXBANKS + 1] = {
     "default",
     "cpu",
     "ram",
@@ -1436,37 +1436,90 @@ static const char *banknames[MAXBANKS + 1] = {
     NULL
 };
 
-enum {
-    bank_cpu = 0,
-    bank_ram,
-    bank_rom,
-    bank_io,
-    bank_ram00,
-    bank_ram01,
-    bank_intfunc,
-    bank_extfunc,
-    bank_cart,
-    bank_c64rom,
-    bank_vdc
+static const char *banknames256[MAXBANKS + 1] = {
+    "default",
+    "cpu",
+    "ram",
+    "rom",
+    "io",
+    /* by convention, a "bank array" has a 2-hex-digit bank index appended */
+    "ram00",
+    "ram01",
+    "ram02",
+    "ram03",
+    "intfunc",
+    "extfunc",
+    "cart",
+    "c64rom",
+    "vdc",
+    NULL
 };
 
-static const int banknums[MAXBANKS + 1] = {
-    bank_cpu, /* default */
-    bank_cpu,
-    bank_ram,
-    bank_rom,
-    bank_io,
-    bank_ram00,
-    bank_ram01,
-    bank_intfunc,
-    bank_extfunc,
-    bank_cart,
-    bank_c64rom,
-    bank_vdc,
+enum {
+    bank128_cpu = 0,
+    bank128_ram,
+    bank128_rom,
+    bank128_io,
+    bank128_ram00,
+    bank128_ram01,
+    bank128_intfunc,
+    bank128_extfunc,
+    bank128_cart,
+    bank128_c64rom,
+    bank128_vdc
+};
+
+enum {
+    bank256_cpu = 0,
+    bank256_ram,
+    bank256_rom,
+    bank256_io,
+    bank256_ram00,
+    bank256_ram01,
+    bank256_ram02,
+    bank256_ram03,
+    bank256_intfunc,
+    bank256_extfunc,
+    bank256_cart,
+    bank256_c64rom,
+    bank256_vdc
+};
+
+static const int banknums128[MAXBANKS + 1] = {
+    bank128_cpu, /* default */
+    bank128_cpu,
+    bank128_ram,
+    bank128_rom,
+    bank128_io,
+    bank128_ram00,
+    bank128_ram01,
+    bank128_intfunc,
+    bank128_extfunc,
+    bank128_cart,
+    bank128_c64rom,
+    bank128_vdc,
     -1
 };
 
-static const int bankindex[MAXBANKS + 1] = {
+static const int banknums256[MAXBANKS + 1] = {
+    bank256_cpu, /* default */
+    bank256_cpu,
+    bank256_ram,
+    bank256_rom,
+    bank256_io,
+    bank256_ram00,
+    bank256_ram01,
+    bank256_ram02,
+    bank256_ram03,
+    bank256_intfunc,
+    bank256_extfunc,
+    bank256_cart,
+    bank256_c64rom,
+    bank256_vdc,
+    -1
+};
+
+static const int bankindex128[MAXBANKS + 1] = {
     -1,
     -1,
     -1,
@@ -1482,7 +1535,25 @@ static const int bankindex[MAXBANKS + 1] = {
     -1
 };
 
-static const int bankflags[MAXBANKS + 1] = {
+static const int bankindex256[MAXBANKS + 1] = {
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    0,
+    1,
+    2,
+    3,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+};
+
+static const int bankflags128[MAXBANKS + 1] = {
     0,
     0,
     0,
@@ -1498,13 +1569,31 @@ static const int bankflags[MAXBANKS + 1] = {
     -1
 };
 
+static const int bankflags256[MAXBANKS + 1] = {
+    0,
+    0,
+    0,
+    0,
+    0,
+    MEM_BANK_ISARRAY | MEM_BANK_ISARRAYFIRST,
+    MEM_BANK_ISARRAY,
+    MEM_BANK_ISARRAY,
+    MEM_BANK_ISARRAY | MEM_BANK_ISARRAYLAST,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -1
+};
+
 const char **mem_bank_list(void)
 {
-    return banknames;
+    return (c128_full_banks) ? banknames256 : banknames128;
 }
 
 const int *mem_bank_list_nos(void) {
-    return banknums;
+    return (c128_full_banks) ? banknums256 : banknums128;
 }
 
 /* return bank number for a given literal bank name */
@@ -1512,11 +1601,20 @@ int mem_bank_from_name(const char *name)
 {
     int i = 0;
 
-    while (banknames[i]) {
-        if (!strcmp(name, banknames[i])) {
-            return banknums[i];
+    if (c128_full_banks) {
+        while (banknames256[i]) {
+            if (!strcmp(name, banknames256[i])) {
+                return banknums256[i];
+            }
+            i++;
         }
-        i++;
+    } else {
+        while (banknames128[i]) {
+            if (!strcmp(name, banknames128[i])) {
+                return banknums128[i];
+            }
+            i++;
+        }
     }
     return -1;
 }
@@ -1526,11 +1624,20 @@ int mem_bank_index_from_bank(int bank)
 {
     int i = 0;
 
-    while (banknums[i] > -1) {
-        if (banknums[i] == bank) {
-            return bankindex[i];
+    if (c128_full_banks) {
+        while (banknums256[i] > -1) {
+            if (banknums256[i] == bank) {
+                return bankindex256[i];
+            }
+            i++;
         }
-        i++;
+    } else {
+        while (banknums128[i] > -1) {
+            if (banknums128[i] == bank) {
+                return bankindex128[i];
+            }
+            i++;
+        }
     }
     return -1;
 }
@@ -1539,30 +1646,78 @@ int mem_bank_flags_from_bank(int bank)
 {
     int i = 0;
 
-    while (banknums[i] > -1) {
-        if (banknums[i] == bank) {
-            return bankflags[i];
+    if (c128_full_banks) {
+        while (banknums256[i] > -1) {
+            if (banknums256[i] == bank) {
+                return bankflags256[i];
+            }
+            i++;
         }
-        i++;
+    } else {
+        while (banknums128[i] > -1) {
+            if (banknums128[i] == bank) {
+                return bankflags128[i];
+            }
+            i++;
+        }
     }
     return -1;
 }
 
-uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
+static int mem_bank_translate_128_to_256(int bank)
 {
     switch (bank) {
-        case bank_cpu:                   /* current */
+        case bank128_cpu:
+            return bank256_cpu;
+        case bank128_ram:
+            return bank256_ram;
+        case bank128_rom:
+            return bank256_rom;
+        case bank128_io:
+            return bank256_io;
+        case bank128_ram00:
+            return bank256_ram00;
+        case bank128_ram01:
+            return bank256_ram01;
+        case bank128_intfunc:
+            return bank256_intfunc;
+        case bank128_extfunc:
+            return bank256_extfunc;
+        case bank128_cart:
+            return bank256_cart;
+        case bank128_c64rom:
+            return bank256_c64rom;
+        case bank128_vdc:
+            return bank256_vdc;
+    }
+    return bank256_cpu;
+};
+
+uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
+{
+    int real_bank = bank;
+
+    if (!c128_full_banks) {
+        real_bank = mem_bank_translate_128_to_256(bank);
+    }
+
+    switch (real_bank) {
+        case bank256_cpu:                   /* current */
             return mem_read(addr);
-        case bank_ram00:                   /* ram0 */
+        case bank256_ram00:                   /* ram0 */
             return mem_ram[addr];
-        case bank_ram01:                   /* ram1 */
+        case bank256_ram01:                   /* ram1 */
             return mem_ram[addr + 0x10000];
-        case bank_io:                   /* io */
+        case bank256_ram02:                   /* ram2 */
+            return mem_ram[addr + 0x20000];
+        case bank256_ram03:                   /* ram3 */
+            return mem_ram[addr + 0x30000];
+        case bank256_io:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return read_bank_io(addr);
             }
             /* FALL THROUGH */
-        case bank_rom:                   /* rom */
+        case bank256_rom:                   /* rom */
             if (addr <= 0x0fff) {
                 return bios_read(addr);
             }
@@ -1576,21 +1731,21 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
                 return c128memrom_kernal_rom[addr & 0x1fff];
             }
             /* FALL THROUGH */
-        case bank_ram:                   /* ram */
+        case bank256_ram:                   /* ram */
             break;
-        case bank_intfunc:
+        case bank256_intfunc:
             if (addr >= 0x8000) {
                 return int_function_rom[addr & 0x7fff];
             }
             break;
-        case bank_extfunc:
+        case bank256_extfunc:
             if (addr >= 0x8000) {
                 return ext_function_rom[addr & 0x7fff];
             }
             break;
-        case bank_cart:
+        case bank256_cart:
             return cartridge_peek_mem(addr);
-        case bank_c64rom:
+        case bank256_c64rom:
             if (addr >= 0xa000 && addr <= 0xbfff) {
                 return c64memrom_basic64_rom[addr & 0x1fff];
             }
@@ -1601,7 +1756,7 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
                 return c64memrom_kernal64_rom[addr & 0x1fff];
             }
             break;
-        case bank_vdc:
+        case bank256_vdc:
             return vdc_ram_read(addr);
     }
     return mem_ram[addr];
@@ -1610,8 +1765,14 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 /* used by monitor if sfx off */
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
-    switch (bank) {
-        case bank_cpu:                   /* current */
+    int real_bank = bank;
+
+    if (!c128_full_banks) {
+        real_bank = mem_bank_translate_128_to_256(bank);
+    }
+
+    switch (real_bank) {
+        case bank256_cpu:                   /* current */
             /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
                       when needed. doing this without checking is wrong, but we do it anyways to
                       avoid side effects
@@ -1621,12 +1782,12 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
             }
             return mem_read(addr);
             break;
-        case bank_io:                   /* io */
+        case bank256_io:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return peek_bank_io(addr);
             }
             break;
-        case bank_cart:
+        case bank256_cart:
             return cartridge_peek_mem(addr);
     }
     return mem_bank_read(bank, addr, context);
@@ -1634,23 +1795,35 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
-    switch (bank) {
-        case bank_cpu:                   /* current */
+    int real_bank = bank;
+
+    if (!c128_full_banks) {
+        real_bank = mem_bank_translate_128_to_256(bank);
+    }
+
+    switch (real_bank) {
+        case bank256_cpu:                   /* current */
             mem_store(addr, byte);
             return;
-        case bank_ram00:                   /* ram0 */
+        case bank256_ram00:                   /* ram0 */
             mem_ram[addr] = byte;
             return;
-        case bank_ram01:                   /* ram1 */
+        case bank256_ram01:                   /* ram1 */
             mem_ram[addr + 0x10000] = byte;
             return;
-        case bank_io:                   /* io */
+        case bank256_ram02:                   /* ram2 */
+            mem_ram[addr + 0x20000] = byte;
+            return;
+        case bank256_ram03:                   /* ram3 */
+            mem_ram[addr + 0x30000] = byte;
+            return;
+        case bank256_io:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 store_bank_io(addr, byte);
                 return;
             }
             /* FALL THROUGH */
-        case bank_rom:                   /* rom */
+        case bank256_rom:                   /* rom */
             if (addr >= 0x4000 && addr <= 0xcfff) {
                 return;
             }
@@ -1658,19 +1831,19 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
                 return;
             }
             /* FALL THROUGH */
-        case bank_ram:                   /* ram */
+        case bank256_ram:                   /* ram */
             break;
-        case bank_intfunc:
+        case bank256_intfunc:
             if (addr >= 0x8000) {
                 return;
             }
             break;
-        case bank_extfunc:
+        case bank256_extfunc:
             if (addr >= 0x8000 && addr <= 0xbfff) {
                 return;
             }
             break;
-        case bank_cart:
+        case bank256_cart:
             if (addr >= 0x8000 && addr <= 0x9fff) {
                 return;
             }
@@ -1678,7 +1851,7 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
                 return;
             }
             /* FALL THROUGH */
-        case bank_c64rom:
+        case bank256_c64rom:
             if (addr >= 0xa000 && addr <= 0xbfff) {
                 return;
             }
@@ -1689,7 +1862,7 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
                 return;
             }
             break;
-        case bank_vdc:
+        case bank256_vdc:
             vdc_ram_store(addr, byte);
             break;
     }
@@ -1736,7 +1909,11 @@ void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, i
             *base = (vdc.regs[12] << 8) | vdc.regs[13];
             *rows = vdc.regs[6];
             *columns = vdc.regs[1];
-            *bank = bank_vdc;
+            if (c128_full_banks) {
+                *bank = bank256_vdc;
+            } else {
+                *bank = bank128_vdc;
+            }
             break;
 
         case VIDEO_CHIP_VICII:
