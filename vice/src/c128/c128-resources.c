@@ -112,7 +112,7 @@ static char *basic64_rom_name = NULL;
 static char *kernal64_rom_name = NULL;
 
 /* Flag: Do we enable the emulation of banks 2 and 3 of ram? */
-int c128_full_banks;
+int c128_full_banks = 0;
 
 
 /* Hide the VDC window
