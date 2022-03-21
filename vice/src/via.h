@@ -111,7 +111,7 @@
 #define VIA_PCR_CB1_NEG_ACTIVE_EDGE		0x00	/* bit */
 #define VIA_PCR_CB1_POS_ACTIVE_EDGE		0x10	/* bit */
 
-#define VIA_PCR_CA2_CONTROL	0x0E
+#define VIA_PCR_CA2_CONTROL	0x0E    /* 3 bits */
 #define VIA_PCR_CA2_I_OR_O			0x08	/* bit */
 #define VIA_PCR_CA2_INPUT			0x00	/* bit */
 #define VIA_PCR_CA2_INPUT_NEG_ACTIVE_EDGE	0x00	/* bit */
@@ -149,24 +149,20 @@ typedef struct via_context_s {
     uint8_t via[16];
     int ifr;
     int ier;
-    unsigned int tal;
+    unsigned int tal;   /* T1 latch */
     uint8_t t2cl; /* T2 counter low */
     uint8_t t2ch; /* T2 counter high */
-    CLOCK tau;
+    CLOCK tau;  /* T1 reload-from-latch time (it reads LLLL) + TAUOFFSET */
     CLOCK t2zero;  /* When T2 reaches/last read 0000 or at least yy00 */
-    CLOCK tai;
+    CLOCK tai;  /* T1: when alarm viacore_t1_alarm() goes off, sets VIA_IM_T1, after 0000 */
     CLOCK tbi;  /* T2: set if T2 should give an IRQ at the first 0000, or if it is in 8-bit mode */
-    int pb7;
-    int pb7x;
-    int pb7o;
-    int pb7xx;
-    int pb7sx;
+    uint8_t t1_pb7; /* 0x00 or 0x80 */
     uint8_t oldpa;
     uint8_t oldpb;
     uint8_t ila;
     uint8_t ilb;
-    int ca2_state;
-    int cb2_state;
+    uint8_t ca2_state;
+    uint8_t cb2_state;
     uint8_t shift_state;          /* state helper for shift register */
 #define START_SHIFTING          0
 #define FINISHED_SHIFTING       16
@@ -180,7 +176,7 @@ typedef struct via_context_s {
     CLOCK read_clk;             /* init to 0 */
     int read_offset;            /* init to 0 */
     uint8_t last_read;          /* init to 0 */
-    uint8_t t2_irq_allowed;     /* each write to T2H allows one IRQ */
+    bool t2_irq_allowed;        /* each write to T2H allows one IRQ */
 
     int irq_line;              /* IK_... */
     unsigned int int_num;

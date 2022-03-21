@@ -58,7 +58,7 @@
  * which signals the corresponding edge to the VIA. The constants
  * are defined in via.h.
  *
- * Except for shift register affecting CB1 (and associated IFR bits),
+ * Except for shift register affecting CB1/CB2 (and associated IFR bits),
  * T2 counting PB6 pulses, and input latching everything should be ok now.
  * T1 affecting PB7 doesn't seem to work (properly), though.
  */
@@ -157,11 +157,11 @@
                            |<---- N + 1.5 CYCLES ----->|<--- N + 2 cycles --->
                                                          +---+
  myviat*u* clk ------------------------------------------+   +--------
-                                                         ^
-                                                         |
-                                                      call of
-                                                    viacore_t2_zero_alarm
-                                                       here
+                                                    ^
+                                                    |
+                                                 call of
+                                            viacore_t2_zero_alarm
+                                                   here
 
    real myviatau value = myviatau* + TAUOFFSET
    myviatbu = myviatbu* + 0
@@ -173,8 +173,9 @@
  * PB7 output is still to be implemented
  */
 
-/* timer values do not depend on a certain value here, but PB7 does... */
-#define TAUOFFSET       (-1)
+/* timer values do not depend on a certain value here, and neither does PB7 anymore,
+ * so this should be removed... */
+#define TAUOFFSET       (0)
 
 /*
  * Timing as can be observed by the CPU.
@@ -195,7 +196,7 @@ IFR          0..+SR?                                      +T2         +SR?
                                       t2_shift_alarm --------------+
  */
 
-static void viacore_intt1(CLOCK offset, void *data);
+static void viacore_t1_alarm(CLOCK offset, void *data);
 static void viacore_t2_zero_alarm(CLOCK offset, void *data);
 static void viacore_t2_underflow_alarm(CLOCK offset, void *data);
 static void do_shiftregister(CLOCK offset, via_context_t *via_context);
@@ -219,20 +220,70 @@ inline static void update_myviairq(via_context_t *via_context)
     update_myviairq_rclk(via_context, *(via_context->clk_ptr));
 }
 
+#define FULL_CYCLE_2            2
+
 /* the next two are used in viacore_read() */
 
-inline static CLOCK myviata(via_context_t *via_context)
+/*
+ * Get the current Timer 1 value.
+ *
+ * The datasheet claims:
+ * Only in continuous mode, T1 reloads from the latch after it shows underflow (FFFF).
+ * A full cycle of T1 therefore takes (tal + 2) cycles: N, N-1, ..., 1, , 0, FFFF.
+ * FULL_CYCLE_2 is the name of this 2, to make it clear where it occurs.
+ *
+ * In practice it seems that this happens also in one-shot mode.
+ *
+ * tau - TAUOFFSET is used to indicate when T1 gets/was reloaded from the latch.
+ *
+ * tau is used for several purposes:
+ * - the next time T1 gets reloaded and will raise the T1 IRQ some time before;
+ *   tai is set in this case (alarm time when IRQ is raised; because it is an
+ *   alarm it has to be set to the cycle before the CPU must see it).
+ * - the previous time it was reloaded (if no more IRQ is wanted);
+ *   tai is 0 in this case.
+ * - up to when the PB7 machinery is updated
+ *
+ * If the current clock has not yet rached tau - TAUOFFSET, the difference -2
+ * is the clock value. Minus 2 to reach 0 and FFFF.
+ *
+ * T1:  3     2     1     0    FFFF   42
+ *     rclk                    tai    tau-TAO
+ *
+ * Otherwise, calculate the total time since the last reload.
+ * We take the remainder of this elapsed time when dividing by the full cycle time.
+ * The timer is the start value minus the partial cycle completed.
+ *
+ * tau might as well be called t1_reload_time (apart from the pb7 stuff).
+ *
+ * T1 can be in one-shot VIA_ACR_T1_ONE_SHOT or continuous mode VIA_ACR_T1_FREE_RUN.
+ *
+ * The interval timer one-shot mode allows generation of a single interrupt for
+ * each timer load operation. After underflow, the timer is reloaded from
+ * the latch. (contrary to the datasheet...)
+ * 
+ * If used, PB7 is used in pulse mode: set low when T1 starts from the latch,
+ * and high (essentially also a toggle) when the IRQ happens.
+ *
+ * In the free-running mode the interrupt flag is set and the signal on PB7 is
+ * inverted each time the counter reaches zero. After FFFF, the latch is
+ * reloaded into the timer. 
+ */
+inline static uint16_t myviata(via_context_t *via_context, CLOCK rclk)
 {
-    if (*(via_context->clk_ptr) < via_context->tau - TAUOFFSET) {
-        return via_context->tau - TAUOFFSET - *(via_context->clk_ptr) - 2;
-    } else {
-        return (via_context->tal - (*(via_context->clk_ptr) - via_context->tau
-                                    + TAUOFFSET) % (via_context->tal + 2));
+    if (rclk < via_context->tau - TAUOFFSET) {
+        return via_context->tau - TAUOFFSET - rclk - FULL_CYCLE_2;
+    } else {    /* always reload from latch, contrary to datasheet */
+        unsigned int full_cycle = via_context->tal + FULL_CYCLE_2;
+        CLOCK time_past_last_reload = rclk - (via_context->tau - TAUOFFSET);
+        unsigned int partial_cycle = time_past_last_reload % full_cycle;
+
+        return via_context->tal - partial_cycle;
     }
 }
 
 #define TBI_OFFSET              1
-#define TBU_NEXT_OFFSET         2
+#define TBU_NEXT_OFFSET         FULL_CYCLE_2
 
 #define SR_PHI2_FIRST_OFFSET    3
 #define SR_PHI2_NEXT_OFFSET     1
@@ -250,7 +301,7 @@ inline static CLOCK myviata(via_context_t *via_context)
  *              given the current rclk we calculate the current full T2 value.
  *              The t2_zero_alarm is not set.
  *
- * If the shift register mode sets the timer in 8-bit mode, tbi must be 0.
+ * If the shift register mode sets the timer in 8-bit mode, tbi must be != 0.
  *
  * In 16-bit mode, tbi *may* be 0. This is typically after the T2 IRQ has
  * triggered. But it may also be non-0. In that case, it will keep setting
@@ -281,38 +332,35 @@ inline static uint16_t myviatb(via_context_t *via_context, CLOCK rclk)
     return t2;
 }
 
-inline static void update_myviatal(via_context_t *via_context, CLOCK rclk)
+/*
+ * Set the new value of tal from the via's latch register.
+ * But it has to update pb7 stuff first, based on the old value.
+ *
+ * Also it has to make sure that rclk < tau, so that reading T1 in myviata()
+ * does not depend on the newly updated latch value yet.
+ * That value will only be loaded into the timer after the next underflow.
+ */
+inline static void update_via_t1_latch(via_context_t *via_context, CLOCK rclk)
 {
-    via_context->pb7x = 0;
-    via_context->pb7xx = 0;
+    if (rclk >= via_context->tau - TAUOFFSET) {
+        unsigned int full_cycle = via_context->tal + FULL_CYCLE_2;
+        CLOCK time_past_last_reload = rclk - (via_context->tau - TAUOFFSET);
+        /*
+         * Calculate the number of full T1 cycles, rounded way up,
+         * to get tau-TAUOFFSET ahead of rclk, but at most by 1 full_cycle.
+         */
+        CLOCK nuf = 1 + (time_past_last_reload / full_cycle);
+        via_context->tau += nuf * full_cycle;
 
-    if (rclk > via_context->tau) {
-        CLOCK nuf = (via_context->tal + 1 + rclk - via_context->tau)
-                  / (via_context->tal + 2);
-
-        if (!(via_context->via[VIA_ACR] & VIA_ACR_T1_FREE_RUN)) {
-            /* one shot mode */
-            if (((nuf - via_context->pb7sx) > 1) || (!(via_context->pb7))) {
-                via_context->pb7o = 1;
-                via_context->pb7sx = 0;
-            }
+        if (!(rclk < via_context->tau - TAUOFFSET) ||
+            !(rclk + full_cycle >= via_context->tau - TAUOFFSET)) {
+            VIALOG("update_via_t1_latch: tau too far into the future: rclk %lu, tau %lu, full_cycle %u, T1 %04x, nuf %lu\n", rclk, via_context->tau, full_cycle, myviata(via_context, rclk), nuf);
         }
-        via_context->pb7 ^= (nuf & 1);
-
-        via_context->tau = TAUOFFSET + via_context->tal + 2
-                   + (rclk - (rclk - via_context->tau + TAUOFFSET)
-                   % (via_context->tal + 2));
-        if (rclk == via_context->tau - via_context->tal - 1) {
-            via_context->pb7xx = 1;
-        }
-    }
-
-    if (via_context->tau == rclk) {
-        via_context->pb7x = 1;
     }
 
     via_context->tal = via_context->via[VIA_T1LL]
                        + (via_context->via[VIA_T1LH] << 8);
+    VIALOG2("tal %u (0x%04x)\n", via_context->tal, via_context->tal);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -360,14 +408,10 @@ void viacore_reset(via_context_t *via_context)
     via_context->ier = 0;
     via_context->ifr = 0;
 
-    via_context->pb7 = 0;
-    via_context->pb7x = 0;
-    via_context->pb7o = 0;
-    via_context->pb7xx = 0;
-    via_context->pb7sx = 0;
+    via_context->t1_pb7 = 0x80;
 
     via_context->shift_state = FINISHED_SHIFTING;      /* not shifting */
-    via_context->t2_irq_allowed = 0;
+    via_context->t2_irq_allowed = false;
 
     /* disable vice interrupts */
     via_context->tai = 0;
@@ -414,6 +458,7 @@ void viacore_signal(via_context_t *via_context, int line, int edge)
             break;
         case VIA_SIG_CA2:
             if (!(via_context->via[VIA_PCR] & 0x08)) {
+                VIALOG2("signal: maybe set VIA_IM_CA2\n");
                 via_context->ifr |= (((edge << 2)
                                     ^ via_context->via[VIA_PCR]) & 0x04) ?
                                     0 : VIA_IM_CA2;
@@ -517,12 +562,19 @@ inline static void alarm_set_if_not_pending(alarm_t *alarm, CLOCK cpu_clk)
  * tbi is set to indicate that T2 is in 8-bit mode (but the exact value
  * is not important any more) OR the next 0000 value should cause an IRQ.
  *
+ * If there is an underflow alarm scheduled, cancel it, since the underflow
+ * doesn't happen. Also it would wrongly re-schedule the t2_zero_alarm.
+ *
  * See also myviatb() and comments.
  */
 inline static void schedule_t2_zero_alarm(via_context_t *via_context, CLOCK rclk)
 {
+    VIALOG2("schedule_t2_zero_alarm: T1CL=%02x; t2_zero_alarm %lu, rclk %lu (t2_underflow_alarm: %lu)\n", via_context->t2cl, via_context->t2zero, rclk, alarm_clk(via_context->t2_underflow_alarm));
+
     via_context->t2zero = rclk + via_context->t2cl;
     via_context->tbi    = rclk + via_context->t2cl + TBI_OFFSET;
+
+    alarm_unset(via_context->t2_underflow_alarm);
     alarm_set(via_context->t2_zero_alarm, via_context->t2zero);
 }
 
@@ -530,7 +582,8 @@ inline static void schedule_t2_zero_alarm(via_context_t *via_context, CLOCK rclk
  * Potentially enable the shifting of SR, by setting the shift_state,
  * in reaction to a read or write of the shift register.
  * Depending on the mode (phi2), will set an alarm to do the shifting.
- * For other modes, the alarm is already managed elsewhere.
+ * For other modes, the alarm is already managed elsewhere
+ * (such as with the T2 alarms).
  */
 static inline void setup_shifting(via_context_t *via_context, CLOCK rclk)
 {
@@ -591,6 +644,9 @@ static inline void setup_shifting(via_context_t *via_context, CLOCK rclk)
     }
 }
 
+/*
+ * The CPU writes a byte to the VIA.
+ */
 void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
 {
     CLOCK rclk;
@@ -614,7 +670,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
 
     addr &= 0xf;
 
-    if (addr >= VIA_T1CL && addr <= VIA_IER) {
+    if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
 	run_pending_alarms(rclk, via_context->alarm_context);
     }
 
@@ -629,6 +685,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                 via_context->ca2_state = 0;
                 (via_context->set_ca2)(via_context, via_context->ca2_state);
                 if (IS_CA2_PULSE_MODE()) {
+                    /* This is a bit soon... should be a clock later */
                     via_context->ca2_state = 1;
                     (via_context->set_ca2)(via_context, via_context->ca2_state);
                 }
@@ -659,6 +716,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                 via_context->cb2_state = 0;
                 (via_context->set_cb2)(via_context, via_context->cb2_state);
                 if (IS_CB2_PULSE_MODE()) {
+                    /* FIXME: This pulse is a bit short... */
                     via_context->cb2_state = 1;
                     (via_context->set_cb2)(via_context, via_context->cb2_state);
                 }
@@ -671,13 +729,15 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
         case VIA_DDRB:
             via_context->via[addr] = byte;
             byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
+            if (via_context->via[VIA_ACR] & VIA_ACR_T1_PB7_USED) {
+                byte = (byte & 0x7f) | via_context->t1_pb7;
+            }
             (via_context->store_prb)(via_context, byte, via_context->oldpb, addr);
             via_context->oldpb = byte;
             break;
 
         case VIA_SR:            /* Serial Port output buffer */
             via_context->via[addr] = byte;
-            /* shift state can only be reset once 8 bits are complete */
             VIALOG2("writ VIA_SR  :          rclk %lu SR %02x shift_state %d\n", rclk, via_context->via[addr], via_context->shift_state);
             setup_shifting(via_context, rclk);
             if (via_context->ifr & VIA_IM_SR) {
@@ -693,20 +753,26 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
         case VIA_T1CL:
         case VIA_T1LL:
             via_context->via[VIA_T1LL] = byte;
-            update_myviatal(via_context, rclk);
+            update_via_t1_latch(via_context, rclk);
             break;
 
         case VIA_T1CH:  /* Write timer A high */
             via_context->via[VIA_T1LH] = byte;
-            update_myviatal(via_context, rclk);
-            /* load counter with latch value */
-            via_context->tau = rclk + via_context->tal + 3 + TAUOFFSET;
-            via_context->tai = rclk + via_context->tal + 2;
+            update_via_t1_latch(via_context, rclk);
+            /*
+             * Load counter with latch value (next time it will read that value);
+             * add 1 because this value is to be observed in the NEXT cycle.
+             *
+             * Each write allows 1 IRQ. This is purely indicated by tai.
+             * Unlike timer 2, we don't need a separate t1_irq_allowed.
+             */
+            via_context->tau = rclk+1 + via_context->tal + FULL_CYCLE_2 + TAUOFFSET;
+            via_context->tai = rclk+1 + via_context->tal                             ;
+            VIALOG2("write VIA_T1CH: set t1_alarm tai=%lu, tau %lu\n", via_context->tai, via_context->tau);
             alarm_set(via_context->t1_alarm, via_context->tai);
 
             /* set pb7 state */
-            via_context->pb7 = 0;
-            via_context->pb7o = 0;
+            via_context->t1_pb7 = 0;
 
             /* Clear T1 interrupt */
             via_context->ifr &= ~VIA_IM_T1;
@@ -715,7 +781,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
 
         case VIA_T1LH:          /* Write timer A high order latch */
             via_context->via[addr] = byte;
-            update_myviatal(via_context, rclk);
+            update_via_t1_latch(via_context, rclk);
 
             /* CAUTION: according to the synertek notes, writing to T1LH does
                NOT change the interrupt flags. however, not doing so breaks eg
@@ -744,7 +810,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
 
         case VIA_T2CH:            /* Write timer 2 high counter/latch */
             /* update counter and latch values */
-            VIALOG2("write VIA_T2CH: %02x\n", byte);
+            VIALOG2("write VIA_T2CH: %02x at %lu\n", byte, rclk);
             via_context->via[VIA_T2LH] = byte;
             via_context->t2cl = via_context->via[VIA_T2LL];
             via_context->t2ch = byte;
@@ -769,7 +835,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
             via_context->ifr &= ~VIA_IM_T2;
             update_myviairq_rclk(via_context, rclk);
             /* Each write to T2H allows one interrupt to occur */
-            via_context->t2_irq_allowed = 1;
+            via_context->t2_irq_allowed = true;
             break;
 
         /* Interrupts */
@@ -800,30 +866,12 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
         case VIA_ACR:
             /* bit 7 timer 1 output to PB7 */
             VIALOG2("write VIA_ACR: %02x\n", byte);
-            update_myviatal(via_context, rclk);
             if ((via_context->via[VIA_ACR] ^ byte) & VIA_ACR_T1_PB7_USED) {
+		/* On the rising edge of the VIA_ACR_T1_PB7_USED bit, set PB7 high */
                 if (byte & VIA_ACR_T1_PB7_USED) {
-                    via_context->pb7 = 1 ^ via_context->pb7x;
+                    via_context->t1_pb7 = 0x80;
                 }
             }
-            if ((via_context->via[VIA_ACR] ^ byte) & VIA_ACR_T1_FREE_RUN) {
-                via_context->pb7 ^= via_context->pb7sx;
-                if ((byte & VIA_ACR_T1_FREE_RUN)) {
-                    if (via_context->pb7x || via_context->pb7xx) {
-                        if (via_context->tal) {
-                            via_context->pb7o = 1;
-                        } else {
-                            via_context->pb7o = 0;
-                            if ((via_context->via[VIA_ACR] & VIA_ACR_T1_PB7_USED)
-                                && via_context->pb7x
-                                && (!(via_context->pb7xx))) {
-                                via_context->pb7 ^= 1;
-                            }
-                        }
-                    }
-                }
-            }
-            via_context->pb7sx = via_context->pb7x;
 
             /* bit 1, 0  latch enable port B and A */
 #ifdef MYVIA_NEED_LATCHING
@@ -941,17 +989,19 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
             break;
 
         case VIA_PCR:
-
+            VIALOG2("write VIA_PCR: %02x\n", byte);
             /* bit 7, 6, 5  CB2 handshake/interrupt control */
             /* bit 4  CB1 interrupt control */
 
             /* bit 3, 2, 1  CA2 handshake/interrupt control */
             /* bit 0  CA1 interrupt control */
 
-            if ((byte & 0x0e) == 0x0c) { /* set output low */
+            if ((byte & VIA_PCR_CA2_CONTROL) == VIA_PCR_CA2_LOW_OUTPUT) {
+                /* set output low */
                 via_context->ca2_state = 0;
             } else
-            if ((byte & 0x0e) == 0x0e) { /* set output high */
+            if ((byte & VIA_PCR_CA2_CONTROL) == VIA_PCR_CA2_HIGH_OUTPUT) {
+                /* set output high */
                 via_context->ca2_state = 1;
             } else {                    /* set to toggle/pulse/input */
                 /* FIXME: is this correct if handshake is already active? */
@@ -959,10 +1009,12 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
             }
             (via_context->set_ca2)(via_context, via_context->ca2_state);
 
-            if ((byte & 0xe0) == 0xc0) { /* set output low */
+            if ((byte & VIA_PCR_CB2_CONTROL) == VIA_PCR_CB2_LOW_OUTPUT) {
+                /* set output low */
                 via_context->cb2_state = 0;
             } else
-            if ((byte & 0xe0) == 0xe0) { /* set output high */
+            if ((byte & VIA_PCR_CB2_CONTROL) == VIA_PCR_CB2_HIGH_OUTPUT) {
+                /* set output high */
                 via_context->cb2_state = 1;
             } else {                    /* set to toggle/pulse/input */
                 /* FIXME: is this correct if handshake is already active? */
@@ -984,6 +1036,9 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * The CPU reads a byte from the VIA.
+ */
 uint8_t viacore_read(via_context_t *via_context, uint16_t addr)
 {
 #ifdef MYVIA_TIMER_DEBUG
@@ -1017,7 +1072,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
     }
 #endif
 
-    if (addr >= VIA_T1CL && addr <= VIA_IER) {
+    if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
 	run_pending_alarms(rclk, via_context->alarm_context);
     }
 
@@ -1081,11 +1136,8 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             byte = (byte & ~(via_context->via[VIA_DDRB]))
                    | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
 
-            if (via_context->via[VIA_ACR] & 0x80) {
-                update_myviatal(via_context, rclk);
-                byte = (byte & 0x7f)
-                       | (((via_context->pb7 ^ via_context->pb7x)
-                           | via_context->pb7o) ? 0x80 : 0);
+            if (via_context->via[VIA_ACR] & VIA_ACR_T1_PB7_USED) {
+                byte = (byte & 0x7f) | via_context->t1_pb7;
             }
             via_context->last_read = byte;
             return byte;
@@ -1095,11 +1147,11 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
         case VIA_T1CL /*TIMER_AL */:    /* timer A low counter */
             via_context->ifr &= ~VIA_IM_T1;
             update_myviairq_rclk(via_context, rclk);
-            via_context->last_read = (uint8_t)(myviata(via_context) & 0xff);
+            via_context->last_read = (uint8_t)(myviata(via_context, rclk) & 0xff);
             return via_context->last_read;
 
         case VIA_T1CH /*TIMER_AH */:    /* timer A high counter */
-            via_context->last_read = (uint8_t)((myviata(via_context) >> 8) & 0xff);
+            via_context->last_read = (uint8_t)((myviata(via_context, rclk) >> 8) & 0xff);
             return via_context->last_read;
 
         case VIA_T2CL /*TIMER_BL */:    /* timer B low counter */
@@ -1133,6 +1185,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
                     t |= 0x80;
                 }
                 via_context->last_read = t;
+                VIALOG2("read VIA_IFR: %02x at %lu\n", t, rclk);
                 return (t);
             }
 
@@ -1192,10 +1245,8 @@ uint8_t viacore_peek(via_context_t *via_context, uint16_t addr)
 #endif
                 byte = (byte & ~(via_context->via[VIA_DDRB]))
                        | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
-                if (via_context->via[VIA_ACR] & 0x80) {
-                    /* update_myviatal(via_context, rclk); */
-                    byte = (byte & 0x7f) | (((via_context->pb7 ^ via_context->pb7x)
-                                             | via_context->pb7o) ? 0x80 : 0);
+                if (via_context->via[VIA_ACR] & VIA_ACR_T1_PB7_USED) {
+                    byte = (byte & 0x7f) | via_context->t1_pb7;
                 }
                 return byte;
             }
@@ -1206,10 +1257,10 @@ uint8_t viacore_peek(via_context_t *via_context, uint16_t addr)
         /* Timers */
 
         case VIA_T1CL /*TIMER_AL */:    /* timer A low */
-            return (uint8_t)(myviata(via_context) & 0xff);
+            return (uint8_t)(myviata(via_context, *(via_context->clk_ptr)) & 0xff);
 
         case VIA_T1CH /*TIMER_AH */:    /* timer A high */
-            return (uint8_t)((myviata(via_context) >> 8) & 0xff);
+            return (uint8_t)((myviata(via_context, *(via_context->clk_ptr)) >> 8) & 0xff);
 
         case VIA_T1LL: /* timer A low order latch */
         case VIA_T1LH: /* timer A high order latch */
@@ -1238,41 +1289,41 @@ uint8_t viacore_peek(via_context_t *via_context, uint16_t addr)
 
 /* ------------------------------------------------------------------------- */
 
-static void viacore_intt1(CLOCK offset, void *data)
+/*
+ * This alarm takes care of generating the T1 IRQ: VIA_IM_T1.
+ * It also toggles PB7.
+ * It runs after the T1 reads 0000.
+ */
+static void viacore_t1_alarm(CLOCK offset, void *data)
 {
     CLOCK rclk;
     via_context_t *via_context = (via_context_t *)data;
 
     rclk = *(via_context->clk_ptr) - offset;
 
+    VIALOG2("viacore_t1_alarm (%s) after T1=%04x\n", via_context->myname, myviata(via_context,  rclk));
 
-#ifdef MYVIA_TIMER_DEBUG
-    if (app_resources.debugFlag) {
-        log_message(via_context->log, "myvia timer A interrupt");
-    }
-#endif
-
-    if (!(via_context->via[VIA_ACR] & 0x40)) {     /* one-shot mode */
-#ifdef MYVIA_TIMER_DEBUG
-        log_message(via_context->log,
-                    "MYVIA Timer A interrupt -- one-shot mode: next int won't happen");
-#endif
+    if (!(via_context->via[VIA_ACR] & VIA_ACR_T1_FREE_RUN)) { /* one-shot mode */
+        VIALOG2("MYVIA Timer A interrupt -- one-shot mode: next int won't happen, tai := 0\n");
         alarm_unset(via_context->t1_alarm);
         via_context->tai = 0;
     } else {                    /* continuous mode */
-        /* load counter with latch value */
-        via_context->tai += via_context->tal + 2;
+        /* we want another alarm for the next T1 interrupt */
+        unsigned int full_cycle = via_context->tal + FULL_CYCLE_2;
+        via_context->tai += full_cycle;
         alarm_set(via_context->t1_alarm, via_context->tai);
 
-        /* Let tau also keep up with the cpu clock
-           this should avoid "% (via_context->tal + 2)" case */
-        via_context->tau += via_context->tal + 2;
+        /* Let tau also keep up with the cpu clock;
+           this should avoid `% full_cycle` case. */
+        via_context->tau += full_cycle;
+
+        VIALOG2("viacore_t1_alarm: re-set t1_alarm at %lu, tal=%04x, tau=%lu\n", via_context->tai, via_context->tal, via_context->tau);
     }
+
+    via_context->t1_pb7 ^= 0x80;
+    VIALOG2("viacore_t1_alarm: set VIA_IM_T1\n");
     via_context->ifr |= VIA_IM_T1;
     update_myviairq_rclk(via_context, rclk);
-
-    /* TODO: toggle PB7? */
-    /*(viaier & VIA_IM_T1) ? 1:0; */
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1287,7 +1338,7 @@ void viacore_set_sr(via_context_t *via_context, uint8_t data)
         update_myviairq(via_context);
         via_context->shift_state = FINISHED_SHIFTING;
 
-        VIALOG("burstmodehack engaged... data %02x\n", data);
+        VIALOG2("burstmodehack engaged... data %02x\n", data);
     }
 }
 
@@ -1314,25 +1365,28 @@ static void viacore_t2_zero_alarm(CLOCK offset, void *data)
     via_context_t *via_context = (via_context_t *)data;
 
     rclk = *(via_context->clk_ptr) - offset;
-    VIALOG2("viacore_t2_zero_alarm %2x %2x tbi %lu offset %lu rclk %lu\n", via_context->t2ch, via_context->t2cl, via_context->tbi, offset, rclk);
+    VIALOG2("viacore_t2_zero_alarm %2x %2x tbi %lu offset %lu rclk %lu after T2=%04x\n", via_context->t2ch, via_context->t2cl, via_context->tbi, offset, rclk, myviatb(via_context, rclk));
 
     /* T2 low count underflow always decreases T2 high count */
     via_context->t2ch--;
     VIALOG2("viacore_t2_zero_alarm %2x %2x (decremented) offset %lu rclk %lu\n", via_context->t2ch, via_context->t2cl, offset, rclk);
 
-    /* 16 bit timer underflow generates an interrupt */
-    /* FIXME: does 16 bit underflow generate an IRQ in 8 bit mode? 8 bit underflow does not. Probable answer: YES. */
-    /* FIXME: no IRQ when shift register is in free running mode? */
-    if (via_context->t2ch == 0xff) {
+    /*
+     * 16 bit timer underflow generates an interrupt.
+     * Q: Can 16 bit underflow generate an IRQ in 8 bit mode?
+     *    8 bit underflow does not.
+     * A: YES. See viavarious/via20
+     */
+
+    if (via_context->t2ch == 0xff && via_context->t2_irq_allowed) {
         /*
-         * At this point, maybe we should check t2_irq_allowed here;
+         * At this point, we check t2_irq_allowed;
          * each write to T2H is supposed to trigger no more than one IRQ.
-         * However we have no test program to cover this case.
          */
         via_context->ifr |= VIA_IM_T2;
         update_myviairq_rclk(via_context, rclk);
-        via_context->t2_irq_allowed = 0;
-        VIALOG2("viacore_t2_zero_alarm set VIA_IM_T2\n");
+        via_context->t2_irq_allowed = false;
+        VIALOG2("viacore_t2_zero_alarm set VIA_IM_T2 at (after) %lu\n", rclk);
     }
 
     alarm_unset(via_context->t2_zero_alarm);
@@ -1359,7 +1413,7 @@ static void viacore_t2_underflow_alarm(CLOCK offset, void *data)
         via_context->t2cl = via_context->via[VIA_T2LL];
 
         /* set next alarm to T2 low period */
-        next_alarm = via_context->via[VIA_T2LL] + TBU_NEXT_OFFSET;
+        next_alarm = via_context->via[VIA_T2LL] + FULL_CYCLE_2;
 
         /* T2 acts as a pulse generator for CB1
            every second underflow is a pulse updating the shift register, 
@@ -1371,7 +1425,7 @@ static void viacore_t2_underflow_alarm(CLOCK offset, void *data)
         via_context->t2cl = via_context->via[VIA_T2LL];
 
         /* set next alarm to T2 low period */
-        next_alarm = via_context->via[VIA_T2LL] + TBU_NEXT_OFFSET;
+        next_alarm = via_context->via[VIA_T2LL] + FULL_CYCLE_2;
 
         /* same as above, except bits will we clocked out CB2 repeatedly without
          * stopping after 8 bits */
@@ -1563,7 +1617,7 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->via[9] = 0xff;
 
     via_context->sr_underflow = NULL;
-    via_context->t2_irq_allowed = 0;
+    via_context->t2_irq_allowed = false;
 }
 
 void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,
@@ -1578,7 +1632,7 @@ void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,
     via_context->alarm_context = alarm_context;
 
     buffer = lib_msprintf("%sT1", via_context->myname);
-    via_context->t1_alarm = alarm_new(alarm_context, buffer, viacore_intt1, via_context);
+    via_context->t1_alarm = alarm_new(alarm_context, buffer, viacore_t1_alarm, via_context);
     lib_free(buffer);
 
     buffer = lib_msprintf("%sT2zero", via_context->myname);
@@ -1638,7 +1692,7 @@ void viacore_shutdown(via_context_t *via_context)
  * UBYTE        PCR
  * UBYTE        IFR              active interrupts
  * UBYTE        IER              interrupt masks
- * UBYTE        PB7              bit 7 = pb7 state
+ * UBYTE        PB7              byte4  bit 7 = pb7 state
  * UBYTE        SRHBITS          shift register state helper
  * UBYTE        CABSTATE         bit 7 = ca2 state, bi 6 = cb2 state
  * UBYTE        ILA              input latch port A
@@ -1657,19 +1711,9 @@ int viacore_snapshot_write_module(via_context_t *via_context, snapshot_t *s)
 {
     snapshot_module_t *m;
     CLOCK rclk = *(via_context->clk_ptr);
+    uint8_t byte4;
 
-#if 0
-    if (via_context->tai && (via_context->tai <= *(via_context->clk_ptr))) {
-        viacore_intt1(*(via_context->clk_ptr) - via_context->tai,
-                      (void *)via_context);
-    }
-    if (via_context->tbi && (via_context->tbi <= *(via_context->clk_ptr))) {
-        viacore_t2_zero_alarm(*(via_context->clk_ptr) - via_context->tbi,
-                      (void *)via_context);
-    }
-#else
     run_pending_alarms(rclk, via_context->alarm_context);
-#endif
 
     m = snapshot_module_create(s, via_context->my_module_name, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
 
@@ -1677,13 +1721,15 @@ int viacore_snapshot_write_module(via_context_t *via_context, snapshot_t *s)
         return -1;
     }
 
+    byte4 = via_context->t1_pb7 & 0x80;
+
     if (0
         || SMW_B(m, via_context->via[VIA_PRA]) < 0
         || SMW_B(m, via_context->via[VIA_DDRA]) < 0
         || SMW_B(m, via_context->via[VIA_PRB]) < 0
         || SMW_B(m, via_context->via[VIA_DDRB]) < 0
         || SMW_W(m, (uint16_t)(via_context->tal)) < 0
-        || SMW_W(m, (uint16_t)myviata(via_context)) < 0
+        || SMW_W(m, (uint16_t)myviata(via_context, rclk)) < 0
         || SMW_B(m, via_context->via[VIA_T2LL]) < 0
         || SMW_B(m, via_context->via[VIA_T2LH]) < 0
         || SMW_B(m, via_context->t2cl) < 0
@@ -1695,8 +1741,7 @@ int viacore_snapshot_write_module(via_context_t *via_context, snapshot_t *s)
         || SMW_B(m, via_context->via[VIA_PCR]) < 0
         || SMW_B(m, (uint8_t)(via_context->ifr)) < 0
         || SMW_B(m, (uint8_t)(via_context->ier)) < 0
-        /* FIXME! */
-        || SMW_B(m, (uint8_t)((((via_context->pb7 ^ via_context->pb7x) | via_context->pb7o) ? 0x80 : 0))) < 0
+        || SMW_B(m, byte4) < 0
         /* SRHBITS */
         || SMW_B(m, (uint8_t)via_context->shift_state) < 0
         || SMW_B(m, (uint8_t)((via_context->ca2_state ? 0x80 : 0) | (via_context->cb2_state ? 0x40 : 0))) < 0
@@ -1836,8 +1881,8 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
     via_context->via[VIA_T1LL] = via_context->tal & 0xff;
     via_context->via[VIA_T1LH] = (via_context->tal >> 8) & 0xff;
 
-    via_context->tau = rclk + word2 + 2 /* 3 */ + TAUOFFSET;
-    via_context->tai = rclk + word2 + 1;
+    via_context->tau = rclk + word2 + FULL_CYCLE_2 /* 3 */ + TAUOFFSET;
+    via_context->tai = rclk + word2 + 0 /* 1 */;
 
     /* word3 is the effective value of T2 */
     /* I think tbi and t2zero are set wrong; should probably use word3 & 0xFF */
@@ -1868,10 +1913,7 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
 
     via_restore_int(via_context, via_context->ifr & via_context->ier & 0x7f);
 
-    /* FIXME! */
-    via_context->pb7 = byte4 ? 1 : 0;
-    via_context->pb7x = 0;
-    via_context->pb7o = 0;
+    via_context->t1_pb7 = byte4 & 0x80;
     via_context->shift_state = byte5;
 
     via_context->ca2_state = byte6 & 0x80;
@@ -1925,25 +1967,31 @@ int viacore_dump(via_context_t *via_context)
             ((via_context->via[VIA_ACR] & 0x1c) == 0) ? "disabled" : "enabled",
             (via_context->via[VIA_ACR] & 0x10) ? "out" : "in",
             via_context->shift_state);
-    mon_out("tbi: %"PRIu64" (clock+%"PRIu64"),  t2zero: %"PRIu64" (clock+%"PRIu64")\n",
+    mon_out("tai: %"PRIu64" (clock+%ld),  tau: %"PRIu64" (clock+%ld)\n",
+            via_context->tai,
+            (long)(via_context->tai - *(via_context->clk_ptr)),
+            via_context->tau,
+            (long)(via_context->tau - *(via_context->clk_ptr)));
+    mon_out("t1_pb7: %02x\n", (uint8_t)via_context->t1_pb7);
+    mon_out("tbi: %"PRIu64" (clock+%ld),  t2zero: %"PRIu64" (clock+%ld)\n",
             via_context->tbi,
-            via_context->tbi - *(via_context->clk_ptr),
+            (long)(via_context->tbi - *(via_context->clk_ptr)),
             via_context->t2zero,
-            via_context->t2zero - *(via_context->clk_ptr));
+            (long)(via_context->t2zero - *(via_context->clk_ptr)));
     if (alarm_is_pending(via_context->t2_underflow_alarm)) {
-        mon_out("t2_underflow_alarm: %"PRIu64" (clock+%"PRIu64")\n",
+        mon_out("t2_underflow_alarm: %"PRIu64" (clock+%ld)\n",
                 alarm_clk(via_context->t2_underflow_alarm),
-                alarm_clk(via_context->t2_underflow_alarm) - *(via_context->clk_ptr));
+                (long)(alarm_clk(via_context->t2_underflow_alarm) - *(via_context->clk_ptr)));
     }
     if (alarm_is_pending(via_context->t2_underflow_alarm)) {
-        mon_out("t2_shift_alarm: %"PRIu64" (clock+%"PRIu64")\n",
+        mon_out("t2_shift_alarm: %"PRIu64" (clock+%ld)\n",
                 alarm_clk(via_context->t2_shift_alarm),
-                alarm_clk(via_context->t2_shift_alarm) - *(via_context->clk_ptr));
+                (long)(alarm_clk(via_context->t2_shift_alarm) - *(via_context->clk_ptr)));
     }
     if (alarm_is_pending(via_context->phi2_sr_alarm)) {
-        mon_out("phi2_sr_alarm: %"PRIu64" (clock+%"PRIu64")\n",
+        mon_out("phi2_sr_alarm: %"PRIu64" (clock+%ld)\n",
                 alarm_clk(via_context->phi2_sr_alarm),
-                alarm_clk(via_context->phi2_sr_alarm) - *(via_context->clk_ptr));
+                (long)(alarm_clk(via_context->phi2_sr_alarm) - *(via_context->clk_ptr)));
     }
 
     return 0;
