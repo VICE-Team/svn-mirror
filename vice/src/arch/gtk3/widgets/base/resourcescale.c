@@ -33,6 +33,7 @@
 
 #include <gtk/gtk.h>
 #include <stdarg.h>
+#include <math.h>
 
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
@@ -356,7 +357,7 @@ static void custom_get_params(GtkWidget *self,
 
     *resource_low = resource_widget_get_int(self, "ResourceLow");
     *resource_high = resource_widget_get_int(self, "ResourceHigh");
-    *resource_range = *resource_high - *resource_low + 1;
+    *resource_range = *resource_high - *resource_low;
     *display_low = gtk_adjustment_get_lower(adjustment);
     *display_high = gtk_adjustment_get_upper(adjustment);
     *display_range = *display_high - *display_low;
@@ -390,8 +391,8 @@ static int custom_display_to_resource(GtkWidget *self, gdouble value)
     if (display_range != 0) {
         factor = (gdouble)(resource_range) / display_range;
     }
-    resource = (int)(factor * (value - display_low)) + resource_low;
-    debug_gtk3("custom_display_to_resource display:%f resource:%d\n", value, resource);
+    resource = round(factor * (value - display_low)) + resource_low;
+    debug_gtk3("display: %f, resource: %d.", value, resource);
     return resource;
 }
 
@@ -423,7 +424,7 @@ static gdouble custom_resource_to_display(GtkWidget *self, int value)
         factor = display_range / (gdouble)resource_range;
     }
     display = (factor * (gdouble)(value - resource_low)) + display_low;
-    debug_gtk3("custom_resource_to_display resource:%d display:%f\n", value, display);
+    debug_gtk3("resource: %d,  display: %f.", value, display);
     return display;
 }
 
