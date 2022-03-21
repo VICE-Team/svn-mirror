@@ -149,14 +149,14 @@ typedef struct via_context_s {
     uint8_t via[16];
     int ifr;
     int ier;
-    unsigned int tal;   /* T1 latch */
-    uint8_t t2cl; /* T2 counter low */
-    uint8_t t2ch; /* T2 counter high */
-    CLOCK tau;  /* T1 reload-from-latch time (it reads LLLL) + TAUOFFSET */
-    CLOCK t2zero;  /* When T2 reaches/last read 0000 or at least yy00 */
-    CLOCK tai;  /* T1: when alarm viacore_t1_alarm() goes off, sets VIA_IM_T1, after 0000 */
-    CLOCK tbi;  /* T2: set if T2 should give an IRQ at the first 0000, or if it is in 8-bit mode */
-    uint8_t t1_pb7; /* 0x00 or 0x80 */
+    unsigned int tal;/* T1 latch */
+    uint8_t t2cl;    /* T2 counter low */
+    uint8_t t2ch;    /* T2 counter high */
+    CLOCK t1reload;  /* T1 reload-from-latch time (it reads LLLL again) */
+    CLOCK t2zero;    /* When T2 reaches/last read 0000 or at least yy00 */
+    CLOCK t1zero;    /* T1: when alarm viacore_t1_zero_alarm() goes off, sets VIA_IM_T1, after 0000 */
+    bool t2xx00;     /* T2: set if T2 should give an IRQ at the first 0000, or if it is in 8-bit mode */
+    uint8_t t1_pb7;  /* 0x00 or 0x80 */
     uint8_t oldpa;
     uint8_t oldpb;
     uint8_t ila;
@@ -166,7 +166,7 @@ typedef struct via_context_s {
     uint8_t shift_state;          /* state helper for shift register */
 #define START_SHIFTING          0
 #define FINISHED_SHIFTING       16
-    struct alarm_s *t1_alarm;
+    struct alarm_s *t1_zero_alarm;
     struct alarm_s *t2_zero_alarm;          /* after T2 has reached xx00 */
     struct alarm_s *t2_underflow_alarm;     /* after T2 has reached xxFF */
     struct alarm_s *t2_shift_alarm;         /* 1 clock later than t2_underflow_alarm */
