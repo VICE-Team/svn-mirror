@@ -1864,7 +1864,7 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
             break;
         case bank256_vdc:
             vdc_ram_store(addr, byte);
-            break;
+            return;
     }
     mem_ram[addr] = byte;
 }
