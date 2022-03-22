@@ -551,9 +551,9 @@ static void add_sliders(GtkGrid *grid,
      * What the hell am I doing here?
      * --compyx, 2020-06-14
      */
-    int is_pal = ((video_standard == 0 /* PAL */
-                || video_standard == 1 /* Old PAL */
-                || video_standard == 4 /* PAL-N/Drean */
+    int is_pal = ((video_standard == 0 /* PAL, no define in machine.h, but (new) PAL according to vice.texi */
+                || video_standard == MACHINE_SYNC_PAL /* Old PAL according to vice.texi */
+                || video_standard == MACHINE_SYNC_PALN /* PAL-N/Drean */
                 ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC);
 
     if (!is_pal) {
