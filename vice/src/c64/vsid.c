@@ -400,7 +400,7 @@ void machine_change_timing(int timeval, int border_mode)
     debug_set_machine_parameter(machine_timing.cycles_per_line, machine_timing.screen_lines);
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
 
-    vicii_change_timing(&machine_timing, 0);
+    vicii_change_timing(&machine_timing, border_mode);
 
     cia1_set_timing(machine_context.cia1,
                     (int)machine_timing.cycles_per_sec,
