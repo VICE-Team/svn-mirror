@@ -125,10 +125,16 @@ UI_MENU_DEFINE_TOGGLE(VICIIVSPBug)
 /* audio leak */
 
 UI_MENU_DEFINE_TOGGLE(VICIIAudioLeak)
-UI_MENU_DEFINE_TOGGLE(VDCAudioLeak)
-UI_MENU_DEFINE_TOGGLE(CrtcAudioLeak)
 UI_MENU_DEFINE_TOGGLE(TEDAudioLeak)
 UI_MENU_DEFINE_TOGGLE(VICAudioLeak)
+UI_MENU_DEFINE_TOGGLE(VDCAudioLeak)
+UI_MENU_DEFINE_TOGGLE(CrtcAudioLeak)
+
+/* delayline type */
+
+UI_MENU_DEFINE_TOGGLE(VICIIPALDelaylineType)
+UI_MENU_DEFINE_TOGGLE(TEDPALDelaylineType)
+UI_MENU_DEFINE_TOGGLE(VICPALDelaylineType)
 
 /* CRT emulation menu */
 
@@ -139,8 +145,6 @@ UI_MENU_DEFINE_SLIDER_VIDEO(VICPALOddLineOffset, 0, 2000)
 
 UI_MENU_DEFINE_SLIDER_VIDEO(VDCPALScanLineShade, 0, 1000)
 UI_MENU_DEFINE_SLIDER_VIDEO(VDCPALBlur, 0, 1000)
-UI_MENU_DEFINE_SLIDER_VIDEO(VDCPALOddLinePhase, 0, 2000)
-UI_MENU_DEFINE_SLIDER_VIDEO(VDCPALOddLineOffset, 0, 2000)
 
 UI_MENU_DEFINE_SLIDER_VIDEO(VICIIPALScanLineShade, 0, 1000)
 UI_MENU_DEFINE_SLIDER_VIDEO(VICIIPALBlur, 0, 1000)
@@ -154,10 +158,18 @@ UI_MENU_DEFINE_SLIDER_VIDEO(TEDPALOddLineOffset, 0, 2000)
 
 UI_MENU_DEFINE_SLIDER_VIDEO(CrtcPALScanLineShade, 0, 1000)
 UI_MENU_DEFINE_SLIDER_VIDEO(CrtcPALBlur, 0, 1000)
-UI_MENU_DEFINE_SLIDER_VIDEO(CrtcPALOddLinePhase, 0, 2000)
-UI_MENU_DEFINE_SLIDER_VIDEO(CrtcPALOddLineOffset, 0, 2000)
 
 #define VICE_SDL_CRTEMU_MENU_ITEMS(chip)                        \
+    { "Scanline shade",                                         \
+      MENU_ENTRY_RESOURCE_INT,                                  \
+      slider_##chip##PALScanLineShade_callback,                 \
+      (ui_callback_data_t)"Set PAL shade (0-1000)" },           \
+    { "Blur",                                                   \
+      MENU_ENTRY_RESOURCE_INT,                                  \
+      slider_##chip##PALBlur_callback,                          \
+      (ui_callback_data_t)"Set PAL blur (0-1000)" }
+
+#define VICE_SDL_CRTEMU_PALNTSC_MENU_ITEMS(chip)                \
     { "Scanline shade",                                         \
       MENU_ENTRY_RESOURCE_INT,                                  \
       slider_##chip##PALScanLineShade_callback,                 \
@@ -173,15 +185,19 @@ UI_MENU_DEFINE_SLIDER_VIDEO(CrtcPALOddLineOffset, 0, 2000)
     { "Oddline offset",                                         \
       MENU_ENTRY_RESOURCE_INT,                                  \
       slider_##chip##PALOddLineOffset_callback,                 \
-      (ui_callback_data_t)"Set PAL oddline offset (0-2000)" }
+      (ui_callback_data_t)"Set PAL oddline offset (0-2000)" },  \
+    { "U-only Delayline",                                       \
+      MENU_ENTRY_RESOURCE_TOGGLE,                               \
+      toggle_##chip##PALDelaylineType_callback,                 \
+      NULL }
 
 static const ui_menu_entry_t vic_crt_controls_menu[] = {
-    VICE_SDL_CRTEMU_MENU_ITEMS(VIC),
+    VICE_SDL_CRTEMU_PALNTSC_MENU_ITEMS(VIC),
     SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t vicii_crt_controls_menu[] = {
-    VICE_SDL_CRTEMU_MENU_ITEMS(VICII),
+    VICE_SDL_CRTEMU_PALNTSC_MENU_ITEMS(VICII),
     SDL_MENU_LIST_END
 };
 
@@ -191,7 +207,7 @@ static const ui_menu_entry_t vdc_crt_controls_menu[] = {
 };
 
 static const ui_menu_entry_t ted_crt_controls_menu[] = {
-    VICE_SDL_CRTEMU_MENU_ITEMS(TED),
+    VICE_SDL_CRTEMU_PALNTSC_MENU_ITEMS(TED),
     SDL_MENU_LIST_END
 };
 
