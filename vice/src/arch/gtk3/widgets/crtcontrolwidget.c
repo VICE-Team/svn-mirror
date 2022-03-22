@@ -105,7 +105,7 @@
 #include "crtcontrolwidget.h"
 
 
-/** \brief  CSS for the scales
+/** \brief  CSS for the scale widgets in the status bar CRT widget
  *
  * This makes the sliders take up less vertical space. The margin can be set
  * to a negative value (in px) to allow the slider to be larger than the scale
@@ -114,7 +114,7 @@
  * Probably will require some testing/tweaking to get this to look acceptable
  * with various themes (and OSes).
  */
-#define SLIDER_CSS \
+#define SCALE_CSS_STATUSBAR \
     "scale slider {\n" \
     "  min-width: 10px;\n" \
     "  min-height: 10px;\n" \
@@ -127,6 +127,17 @@
     "scale {\n" \
     "  margin-top: -8px;\n" \
     "  margin-bottom: -8px;\n" \
+    "}"
+
+
+/** \brief  CSS used to tweak looks of CRT sliders in the settings dialog
+ *
+ * We use monospace for the value labels to keep them aligned on the decimal
+ * point and to keep the width of the sliders consistent.
+ */
+#define SCALE_CSS_DIALOG \
+    "scale value {\n" \
+    "  font-family: monospace;\n" \
     "}"
 
 
@@ -242,9 +253,13 @@ static const chip_id_t chips[CHIP_ID_COUNT] = {
  */
 static GtkCssProvider *label_css_provider;
 
-/** \brief  CSS provider for scales
+/** \brief  CSS provider for scales in the CRT widget for the statusbar
  */
-static GtkCssProvider *scale_css_provider;
+static GtkCssProvider *scale_css_statusbar;
+
+/** \brief  CSS provider for scales in the settings dialog
+ */
+static GtkCssProvider *scale_css_dialog;
 
 
 /** \brief  Find chip ID by \a name
@@ -416,7 +431,9 @@ static GtkWidget *create_slider(
 
     /* set up custom CSS to make the scale take up less space */
     if (minimal) {
-        vice_gtk3_css_provider_add(scale, scale_css_provider);
+        vice_gtk3_css_provider_add(scale, scale_css_statusbar);
+    } else {
+        vice_gtk3_css_provider_add(scale, scale_css_dialog);
     }
 
 #if 0
@@ -612,8 +629,12 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
     if (label_css_provider == NULL) {
         return NULL;
     }
-    scale_css_provider = vice_gtk3_css_provider_new(SLIDER_CSS);
-    if (scale_css_provider == NULL) {
+    scale_css_statusbar = vice_gtk3_css_provider_new(SCALE_CSS_STATUSBAR);
+    if (scale_css_statusbar == NULL) {
+        return NULL;
+    }
+    scale_css_dialog = vice_gtk3_css_provider_new(SCALE_CSS_DIALOG);
+    if (scale_css_dialog == NULL) {
         return NULL;
     }
 
