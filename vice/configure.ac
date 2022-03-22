@@ -3008,10 +3008,6 @@ fi
 
 AC_SUBST(LIBS)
 
-dnl check for usleep (do we need this anymore?)
-if test x"$is_win32" != "xyes" ; then
-  AC_REPLACE_FUNCS(usleep)
-fi
 
 AC_CHECK_FUNC(nanosleep,
               [ AC_DEFINE(HAVE_NANOSLEEP,,[Use nanosleep instead of usleep]) ])
