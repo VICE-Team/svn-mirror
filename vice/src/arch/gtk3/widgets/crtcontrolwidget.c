@@ -120,6 +120,10 @@
     "  min-height: 10px;\n" \
     "  margin: -3px;\n" \
     "}\n\n" \
+    "scale value {\n" \
+    "  font-family: monospace;\n" \
+    "  font-size: 80%;\n" \
+    "}\n" \
     "scale {\n" \
     "  margin-top: -8px;\n" \
     "  margin-bottom: -8px;\n" \
@@ -203,15 +207,15 @@ typedef struct crt_control_data_s {
 /** \brief  List of CRT emulation resources
  */
 static const crt_control_resource_t resource_table[RESOURCE_COUNT_MAX] = {
-    { "Brightness",     "ColorBrightness",  0, 2000, 100,   0.0, 200.0,  0.1, "%3.1f%%" },
-    { "Contrast",       "ColorContrast",    0, 2000, 100,   0.0, 200.0,  0.1, "%3.1f%%" },
-    { "Saturation",     "ColorSaturation",  0, 2000, 100,   0.0, 200.0,  0.1, "%3.1f%%" },
-    { "Tint",           "ColorTint",        0, 2000, 100, -25.0,  25.0,  0.1, "%3.1f%%" },
-    { "Gamma",          "ColorGamma",       0, 4000, 200,   0.0,   4.0, 0.01, "%1.2" },
-    { "Blur",           "PALBlur",          0, 1000,  50,   0.0, 100.0,  0.1, "%3.1f%%" },
-    { "Scanline shade", "PALScanLineShade", 0, 1000,  50,   0.0, 100.0,  0.1, "%3.1f%%" },
-    { "Oddline phase",  "PALOddLinePhase",  0, 2000, 100, -25.0,  25.0,  0.1, "%3.1f\u00b0" },
-    { "Oddline offset", "PALOddLineOffset", 0, 2000, 100, -50.0,  50.0,  0.1, "%3.1f%%" }
+    { "Brightness",     "ColorBrightness",  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%" },
+    { "Contrast",       "ColorContrast",    0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%" },
+    { "Saturation",     "ColorSaturation",  0, 2000, 100,   0.0, 200.0,  0.1, "%5.1f%%" },
+    { "Tint",           "ColorTint",        0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f%%" },
+    { "Gamma",          "ColorGamma",       0, 4000, 200,   0.0,   4.0, 0.01, "%6.2f" },
+    { "Blur",           "PALBlur",          0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%" },
+    { "Scanline shade", "PALScanLineShade", 0, 1000,  50,   0.0, 100.0,  0.1, "%5.1f%%" },
+    { "Oddline phase",  "PALOddLinePhase",  0, 2000, 100, -25.0,  25.0,  0.1, "%+5.1f\u00b0" },
+    { "Oddline offset", "PALOddLineOffset", 0, 2000, 100, -50.0,  50.0,  0.1, "%+4.1f%%" }
 };
 
 
