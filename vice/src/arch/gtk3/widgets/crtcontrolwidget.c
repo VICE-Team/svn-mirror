@@ -547,10 +547,10 @@ static void add_sliders(GtkGrid *grid,
         }
     }
 
-    is_pal = ((video_standard == 0 /* PAL, no define in machine.h, but (new) PAL according to vice.texi */
-            || video_standard == MACHINE_SYNC_PAL /* Old PAL according to vice.texi */
-            || video_standard == MACHINE_SYNC_PALN /* PAL-N/Drean */
-            ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC);
+    /* Determine if we're using PAL or NTSC: the *PAL* resource sliders should be
+     * disabled when the video standard is NTSC: */
+    is_pal = ((video_standard == MACHINE_SYNC_PAL || video_standard == MACHINE_SYNC_PALN)
+            && chip_id != CHIP_CRTC && chip_id != CHIP_VDC);
 
     if (!is_pal) {
         for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
