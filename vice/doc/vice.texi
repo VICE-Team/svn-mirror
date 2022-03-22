@@ -11740,7 +11740,7 @@ Integer that specifies the base address of the 256KiB RAM expansion.
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
-(0: PAL, 1: Old PAL, 2: NTSC, 3: Old NTSC, 4: PAL-N).
+(1: PAL, 2: NTSC, 3: Old NTSC, 4: PAL-N).
 
 @vindex CPMCart
 @item CPMCart
@@ -15556,7 +15556,7 @@ Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
-(4: PAL-N, 3: Old NTSC, 1: PAL, 2: NTSC).
+(1: PAL, 2: NTSC, 3: Old NTSC, 4: PAL-N).
 
 @end table
 
