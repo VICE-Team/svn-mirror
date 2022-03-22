@@ -270,9 +270,9 @@ static int vicii_get_crt_type(void)
     switch (video) {
         case MACHINE_SYNC_PAL:
         case MACHINE_SYNC_PALN:
-            return 1; /* PAL */
+            return VIDEO_CRT_TYPE_PAL;
         default:
-            return 0; /* NTSC */
+            return VIDEO_CRT_TYPE_NTSC;
     }
 }
 

@@ -468,7 +468,8 @@ static int set_color_tint(int val, void *param)
     return 0;
 }
 
-static const char * const vname_chip_colors[] = { "ColorSaturation", "ColorContrast", "ColorBrightness", "ColorGamma", "ColorTint", NULL };
+static const char * const vname_chip_colors[] = {
+    "ColorSaturation", "ColorContrast", "ColorBrightness", "ColorGamma", "ColorTint", NULL };
 
 static resource_int_t resources_chip_colors[] =
 {
@@ -541,6 +542,13 @@ static int set_pal_blur(int val, void *param)
     return 0;
 }
 
+static int set_delaylinetype(int val, void *param)
+{
+    video_canvas_t *canvas = (video_canvas_t *)param;
+    canvas->videoconfig->video_resources.delaylinetype = val ? 1 : 0;
+    return 0;
+}
+
 static int set_audioleak(int val, void *param)
 {
     video_canvas_t *canvas = (video_canvas_t *)param;
@@ -548,7 +556,8 @@ static int set_audioleak(int val, void *param)
     return 0;
 }
 
-static const char * const vname_chip_crtemu[] = { "PALScanLineShade", "PALBlur", "PALOddLinePhase", "PALOddLineOffset", "AudioLeak", NULL };
+static const char * const vname_chip_crtemu[] = { 
+    "PALScanLineShade", "PALBlur", "PALOddLinePhase", "PALOddLineOffset", "PALDelaylineType", "AudioLeak", NULL };
 
 static resource_int_t resources_chip_crtemu[] =
 {
@@ -560,6 +569,8 @@ static resource_int_t resources_chip_crtemu[] =
       NULL, set_pal_oddlinesphase, NULL },
     { NULL, 500, RES_EVENT_NO, NULL,
       NULL, set_pal_oddlinesoffset, NULL },
+    { NULL, 0, RES_EVENT_NO, NULL,
+      NULL, set_delaylinetype, NULL },
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_audioleak, NULL },
     RESOURCE_INT_LIST_END
@@ -825,7 +836,8 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_crtemu[1].value_ptr = &((*canvas)->videoconfig->video_resources.pal_blur);
         resources_chip_crtemu[2].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_phase);
         resources_chip_crtemu[3].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_offset);
-        resources_chip_crtemu[4].value_ptr = &((*canvas)->videoconfig->video_resources.audioleak);
+        resources_chip_crtemu[4].value_ptr = &((*canvas)->videoconfig->video_resources.delaylinetype);
+        resources_chip_crtemu[5].value_ptr = &((*canvas)->videoconfig->video_resources.audioleak);
 
         resources_chip_crtemu[2].factory_value = 1000; /* oddlines phase */
         resources_chip_crtemu[3].factory_value = 1000; /* oddlines offset */
@@ -854,6 +866,7 @@ int video_resources_chip_init(const char *chipname,
         set_pal_blur(0, (void *)*canvas);
         set_pal_oddlinesphase(1000, (void *)*canvas);
         set_pal_oddlinesoffset(1000, (void *)*canvas);
+        set_delaylinetype(0, (void *)*canvas);
         set_audioleak(0, (void *)*canvas);
     }
 

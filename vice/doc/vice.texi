@@ -10635,6 +10635,10 @@ Integer specifying phase for color carrier in odd lines.
 Integer specifying phase offset for color carrier in odd lines.
 (0..2000)
 
+@vindex VICIIPALDelaylineType
+@item VICIIPALDelaylineType
+Integer specifying the type of delay line used in the CRT (0: normal, 1: U only)
+
 @vindex VICIIAudioLeak
 @item VICIIAudioLeak
 Boolean specifying whether to enable/disable video to audio leak emulation.
@@ -10778,6 +10782,11 @@ Amount of horizontal blur for the CRT emulation
 @item -VICIIcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation
 (@code{VICIIPALScanLineShade}).
+
+@findex -VICIIcrtdelaylinetype
+@item -VICIIcrtscanlineshade <type>
+Type of delay line used in the CRT (0: normal, 1: U only)
+(@code{VICIIPALDelaylineType}).
 
 @findex -VICIIaudioleak, +VICIIaudioleak
 @item -VICIIaudioleak

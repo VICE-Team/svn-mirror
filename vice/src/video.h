@@ -56,6 +56,12 @@
 #define VIDEO_RENDER_RGBI_2X2         9
 #define VIDEO_RENDER_RGBI_2X4        10 /* needed for y-stretch */
 
+/* type of monitor/display that is connected */
+#define VIDEO_CRT_TYPE_NTSC           0
+#define VIDEO_CRT_TYPE_PAL            1
+#define VIDEO_CRT_TYPE_RGB            2
+#define VIDEO_CRT_TYPE_MONO           3
+
 struct video_canvas_s;
 struct video_cbm_palette_s;
 struct viewport_s;
@@ -201,6 +207,7 @@ typedef struct video_resources_s {
     int pal_blur;               /* luma blur */
     int pal_oddlines_phase;     /* oddlines UV phase offset */
     int pal_oddlines_offset;    /* oddlines UV multiplier */
+    int delaylinetype;          /* type of delayline, UV or just U (1084 style) */
 
     int audioleak;              /* flag: enable video->audio leak emulation */
 } video_resources_t;

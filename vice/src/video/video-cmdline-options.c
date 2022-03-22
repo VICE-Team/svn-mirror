@@ -215,6 +215,7 @@ static const char * const cname_chip_crtemu_palntsc[] =
 {
     "-", "oddlinesphase", "PALOddLinePhase",
     "-", "oddlinesoffset", "PALOddLineOffset",
+    "-", "crtdelaylinetype", "PALDelaylineType",
     NULL
 };
 
@@ -233,6 +234,9 @@ static cmdline_option_t cmdline_options_chip_crtemu_palntsc[] =
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, NULL, NULL,
       "<0-2000>", "Set phase offset for color carrier in odd lines" },
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, NULL, NULL,
+      "<type>", "Set type of delay line used in the CRT (0: normal, 1: U only)." },
     CMDLINE_LIST_END
 };
 

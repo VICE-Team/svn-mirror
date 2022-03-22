@@ -362,7 +362,7 @@ static float crtc_get_pixel_aspect(void)
 /* return type of monitor used for current video mode */
 static int crtc_get_crt_type(void)
 {
-    return 2; /* RGB */
+    return VIDEO_CRT_TYPE_MONO;
 }
 
 /* update screen window */
