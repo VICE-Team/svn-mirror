@@ -280,7 +280,6 @@ noinst_HEADERS = \
 	uicmdline.h \
 	uicolor.h \
 	uimon.h \
-	usleep.h \
 	util.h \
 	version.h.in \
 	version.h \
