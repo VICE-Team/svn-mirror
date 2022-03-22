@@ -186,6 +186,7 @@ int ted_color_update_palette(struct video_canvas_s *canvas)
             }
             vc->angle = tc[col].angle;
             vc->direction = tc[col].direction;
+            vc->saturation = tc[col].saturation;
             vc->name = tc[col].name;
             cl++;
         }
