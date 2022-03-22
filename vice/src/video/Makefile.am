@@ -37,6 +37,8 @@ libvideo_a_SOURCES = \
 	render2x2ntsc.h \
 	render2x2pal.c \
 	render2x2pal.h \
+	render2x2palu.c \
+	render2x2palu.h \
 	render2x4.c \
 	render2x4.h \
 	render2x4rgbi.c \

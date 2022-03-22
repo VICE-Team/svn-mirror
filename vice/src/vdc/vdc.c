@@ -94,7 +94,7 @@ static float vdc_get_pixel_aspect(void)
 /* return type of monitor used for current video mode */
 static int vdc_get_crt_type(void)
 {
-    return 2; /* RGB */
+    return VIDEO_CRT_TYPE_RGB;
 }
 
 static void vdc_set_geometry(void)
