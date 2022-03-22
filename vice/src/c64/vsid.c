@@ -62,7 +62,7 @@
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
-#include "viciivsid.h"
+#include "vicii.h"
 #include "vicii-mem.h"
 #include "video.h"
 #include "vsid-cmdline-options.h"
@@ -400,7 +400,7 @@ void machine_change_timing(int timeval, int border_mode)
     debug_set_machine_parameter(machine_timing.cycles_per_line, machine_timing.screen_lines);
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
 
-    vicii_change_timing(&machine_timing);
+    vicii_change_timing(&machine_timing, 0);
 
     cia1_set_timing(machine_context.cia1,
                     (int)machine_timing.cycles_per_sec,
