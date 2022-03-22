@@ -62,7 +62,6 @@ SUBDIRS = \
 	raster \
 	vicii \
 	viciisc \
-	viciivsid \
 	vdc \
 	crtc \
 	gfxoutputdrv \
@@ -113,7 +112,6 @@ DIST_SUBDIRS = \
 	raster \
 	vicii \
 	viciisc \
-	viciivsid \
 	vdc \
 	crtc \
 	gfxoutputdrv \
@@ -603,7 +601,6 @@ vic20cart_lib = $(top_builddir)/src/vic20/cart/libvic20cart.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 viciidtv_lib = $(top_builddir)/src/vicii/libviciidtv.a
 viciisc_lib = $(top_builddir)/src/viciisc/libviciisc.a
-viciivsid_lib = $(top_builddir)/src/viciivsid/libviciivsid.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 vsid_lib = $(top_builddir)/src/c64/libvsid.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
@@ -646,7 +643,7 @@ vsid_libs =  \
 	$(iodrv_lib) \
 	$(serial_lib) \
 	$(core_lib) \
-	$(viciivsid_lib) \
+	$(vicii_lib) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -1436,9 +1433,6 @@ $(viciidtv_lib):
 $(viciisc_lib):
 	@echo "making libviciisc.a in viciisc"
 	@(cd viciisc && $(MAKE) libviciisc.a)
-$(viciivsid_lib):
-	@echo "making libviciivsid.a in viciivsid"
-	@(cd viciivsid && $(MAKE) libviciivsid.a)
 $(video_lib):
 	@echo "making all in video"
 	@(cd video && $(MAKE))
