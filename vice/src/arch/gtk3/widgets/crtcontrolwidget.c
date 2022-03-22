@@ -488,6 +488,7 @@ static void add_sliders(GtkGrid *grid,
     int row = 1;
     int chip_id;
     size_t i;
+    gboolean is_pal;
 
     chip = data->chip;
     chip_id = get_chip_id(chip);
@@ -546,15 +547,10 @@ static void add_sliders(GtkGrid *grid,
         }
     }
 
-    /* TODO: make this work again
-     *
-     * What the hell am I doing here?
-     * --compyx, 2020-06-14
-     */
-    int is_pal = ((video_standard == 0 /* PAL, no define in machine.h, but (new) PAL according to vice.texi */
-                || video_standard == MACHINE_SYNC_PAL /* Old PAL according to vice.texi */
-                || video_standard == MACHINE_SYNC_PALN /* PAL-N/Drean */
-                ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC);
+    is_pal = ((video_standard == 0 /* PAL, no define in machine.h, but (new) PAL according to vice.texi */
+            || video_standard == MACHINE_SYNC_PAL /* Old PAL according to vice.texi */
+            || video_standard == MACHINE_SYNC_PALN /* PAL-N/Drean */
+            ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC);
 
     if (!is_pal) {
         for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
