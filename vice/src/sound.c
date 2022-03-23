@@ -128,10 +128,6 @@ static const sound_register_devices_t sound_register_devices[] = {
     { "bsp", sound_init_bsp_device, SOUND_PLAYBACK_DEVICE },
 #endif
 
-#if defined(AMIGA_SUPPORT) && defined(HAVE_DEVICES_AHI_H)
-    { "ahi", sound_init_ahi_device, SOUND_PLAYBACK_DEVICE },
-#endif
-
     /* SDL driver last, after all platform specific ones */
 #ifdef USE_SDL_AUDIO
     { "sdl", sound_init_sdl_device, SOUND_PLAYBACK_DEVICE },

@@ -104,28 +104,6 @@ char *util_concat(const char *s, ...)
     *ptr = '\0';
     va_end(ap);
 
-    /* FIXME:   util_concat() is a generic function to join strings together,
-     *          so any Amiga-specific path handling should not be here at all.
-     *          If you need to build paths, use util_join_paths() --compyx
-     */
-#ifdef AMIGA_SUPPORT
-    /* util_concat is often used to build complete paths, but the AmigaOS paths
-     * are a little special as they should look like <device>:<directory>/<file>
-     * but VICE doesn't handle this and will add a slash "/" after the colon
-     * making VICE fail to open files. I know this isn't the place to fix this,
-     * but I'm lazy and don't feel like changing a lot of places right now.
-     *     An alternative would be to override the fopen commands to make it
-     * possible to make this change as needed when opening the file.
-     */
-#if 0
-    while ((ptr = strstr(newp, ":/")) != NULL) {
-        strcpy(ptr + 1, ptr + 2);
-    }
-#else
-    log_error(LOG_ERR, "%s(): Amiga-specific-hack removed.", __func__);
-#endif
-
-#endif
     DBG(("util_concat %p - %s\n", newp, newp));
     return newp;
 }
