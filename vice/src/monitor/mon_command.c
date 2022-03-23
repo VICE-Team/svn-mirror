@@ -40,10 +40,6 @@
 #include "asm.h"
 #include "montypes.h"
 
-#ifdef AMIGA_MORPHOS
-#undef REG_PC
-#endif
-
 #include "mon_parse.h"
 #include "mon_util.h"
 #include "uimon.h"

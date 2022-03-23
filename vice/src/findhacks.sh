@@ -46,6 +46,7 @@ ARCHDEFS+=" AMIGA_SUPPORT"
 ARCHDEFS+=" AMIGA_AROS"
 ARCHDEFS+=" AMIGA_M68K"
 ARCHDEFS+=" AMIGA_MORPHOS"
+ARCHDEFS+=" HAVE_DEVICES_AHI_H"
 ARCHDEFS+=" __XBOX__"
 ARCHDEFS+=" UNIX_COMPILE"
 ARCHDEFS+=" __MACH__"
@@ -236,15 +237,16 @@ function findifdefs
     echo " "
 }
 
-# find obsolete ifdefs in all code
+# find obsolete/compiler ifdefs in all code
 function findifdefsfulltree
 {
     echo "checking define: \"$1\""
     find  -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
+    grep -Hn --color "$1" ../configure.ac
     echo " "
 }
 
-# find ifdef in all code
+# find non latin chars
 function findnonlatin
 {
     echo "-------------------------------------------------------------------------"
@@ -266,9 +268,11 @@ function finddefsfiles
     FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
 }
 
+# find obsolete/compiler ifdefs in all code
 function finddefsfilesfulltree
 {
     FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
+    FILES+=`grep -l "$1" ../configure.ac`":"
 }
 
 function findres
@@ -360,7 +364,7 @@ function findobsolete
 FILES=""
 
 echo "-------------------------------------------------------------------------"
-echo "- obsolete defines (these should be fixed/removed!):"
+echo "- obsolete defines (these should be removed!):"
 echo "-" $OBSOLETEARCHDEFS
 echo " "
 
@@ -398,7 +402,7 @@ function usage
     echo "encoding  - find non ASCII characters"
     echo "archdep   - find arch dependant ifdefs in portable code"
     echo "ccarchdep - find compiler specific ifdefs"
-    echo "obsolete  - find obsolete ifdefs"
+    echo "obsolete  - find obsolete ifdefs in all code"
     echo "printf    - find printfs (which perhaps should go to the log instead)"
     echo "res       - find obsolete resources"
     echo "all       - all of the above"
