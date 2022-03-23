@@ -33,9 +33,7 @@
 #ifndef __OS2__
 #ifdef __GNUC__
 #undef alloca
-#ifndef ANDROID_COMPILE
 #define        alloca(n)       __builtin_alloca (n)
-#endif
 #else
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>

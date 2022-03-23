@@ -79,11 +79,7 @@ extern int sdljoy_get_swap_ports(void) ;
 #define JOYDEV_KEYSET2  3
 #define JOYDEV_JOYSTICK 4
 
-#ifdef ANDROID_COMPILE
-#define JOYDEV_DEFAULT JOYDEV_JOYSTICK
-#else
 #define JOYDEV_DEFAULT JOYDEV_NUMPAD
-#endif
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
 #define JOYDEV_MAX            JOYDEV_JOYSTICK

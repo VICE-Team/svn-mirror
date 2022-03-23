@@ -2162,10 +2162,3 @@ void autostart_shutdown(void)
 
     autostart_prg_shutdown();
 }
-
-#ifdef ANDROID_COMPILE
-void loader_set_warpmode(int on)
-{
-    set_warp_mode(on);
-}
-#endif

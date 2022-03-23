@@ -526,15 +526,6 @@ void ui_display_kbd_status(SDL_Event *e)
     }
 }
 
-
-#ifdef ANDROID_COMPILE
-void loader_set_statusbar(int val)
-{
-    set_statusbar(val, 0);
-}
-#endif
-
-
 /** \brief  Show reset on statusbar
  *
  * A device was reset, so we show it on the statusbar

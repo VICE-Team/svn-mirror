@@ -41,10 +41,6 @@
 #include "log.h"
 #include "sound.h"
 
-#ifdef ANDROID_COMPILE
-#include "loader.h"
-#endif
-
 static int16_t *sdl_buf = NULL;
 static SDL_AudioSpec sdl_spec;
 static volatile int sdl_inptr = 0;
@@ -56,15 +52,6 @@ static void sdl_callback(void *userdata, Uint8 *stream, int len)
 {
     int amount, total;
     total = 0;
-
-#ifdef ANDROID_COMPILE
-    if ((!sdl_full) && (sdl_inptr == sdl_outptr)) {
-        if (userdata) {
-            *(short *)userdata = 0;
-        }
-        return;
-    }
-#endif
 
     while (total < (len / (int)sizeof(int16_t))) {
         amount = sdl_inptr - sdl_outptr;
@@ -80,11 +67,6 @@ static void sdl_callback(void *userdata, Uint8 *stream, int len)
 
         if (!amount) {
             memset(stream + total * (int)sizeof(int16_t), 0, (size_t)(len - total) * sizeof(int16_t));
-#ifdef ANDROID_COMPILE
-            if (userdata) {
-                *(short *)userdata = (short)(len / (int)sizeof(int16_t));
-            }
-#endif
             return;
         }
 
@@ -96,11 +78,6 @@ static void sdl_callback(void *userdata, Uint8 *stream, int len)
             sdl_outptr = 0;
         }
     }
-#ifdef ANDROID_COMPILE
-    if (userdata) {
-        *(short *)userdata = (short)total;
-    }
-#endif
 }
 
 static int sdl_init(const char *param, int *speed,
@@ -225,31 +202,6 @@ void swab(void *src, void *dst, size_t length)
         }                                         \
     } while (0)
 #endif
-#endif
-
-#ifdef ANDROID_COMPILE
-void loader_writebuffer()
-{
-    int total;
-
-    for(;;) {
-        int old_sdl_outptr = sdl_outptr;
-
-        total = sdl_inptr - sdl_outptr;
-        if (total <= 0) {
-            total = sdl_len - sdl_outptr + sdl_inptr;
-        }
-        if (total > (sdl_spec.samples << 1)) {
-            Android_AudioWriteBuffer();
-        } else {
-            break;
-        }
-
-        if (sdl_outptr == old_sdl_outptr) {
-            break;
-        }
-    };
-}
 #endif
 
 static int sdl_write(int16_t *pbuf, size_t nr)
