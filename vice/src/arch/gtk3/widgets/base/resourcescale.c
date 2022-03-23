@@ -47,7 +47,7 @@
 
 /** \brief  Handler for the 'destroy' event of the \a scale widget
  *
- * Frees memory used by the copy of the resource name
+ * Frees memory used by the copy of the resource name.
  *
  * \param[in,out]   widget      integer scale widget
  * \param[in]       user_data   extra event data (unused)
@@ -60,7 +60,7 @@ static void on_scale_int_destroy(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Handler for the 'value-changed' event of the \a scale widget
  *
- * Updates resource value
+ * Updates resource value.
  *
  * \param[in]   widget      integer scale widget
  * \param[in]   user_data   extra event data (unused)
@@ -300,6 +300,20 @@ static int custom_display_to_resource(GtkWidget *self, gdouble value);
 static gdouble custom_resource_to_display(GtkWidget *self, int value);
 
 
+/** \brief  Handler for the 'destroy' event of the \a scale widget
+ *
+ * Frees memory used by the resource name and the display format string.
+ *
+ * \param[in,out]   widget      integer scale widget
+ * \param[in]       user_data   extra event data (unused)
+ */
+static void on_scale_custom_destroy(GtkWidget *widget, gpointer user_data)
+{
+    resource_widget_free_resource_name(widget);
+    resource_widget_free_string(widget, "DisplayFormat");
+}
+
+
 /** \brief  Handler for the 'value-changed' event of the custom scale widget
  *
  * \param[in]   self    custom scale widget
@@ -502,6 +516,7 @@ static GtkWidget *custom_new_helper(GtkWidget *self,
 #endif
     gtk_range_set_value(GTK_RANGE(self), display_value);
 
+    g_signal_connect(self, "destroy", G_CALLBACK(on_scale_custom_destroy), NULL);
     changed_handler = g_signal_connect(self,
                                        "value-changed",
                                        G_CALLBACK(on_custom_changed),
@@ -517,6 +532,7 @@ static GtkWidget *custom_new_helper(GtkWidget *self,
     g_object_set_data(G_OBJECT(self),
                      "FormatHandler",
                      GULONG_TO_POINTER(format_handler));
+
 
     return self;
 }
