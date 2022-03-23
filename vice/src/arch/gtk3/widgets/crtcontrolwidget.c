@@ -31,6 +31,7 @@
  * $VICERES CrtcColorTint           xpet xcbm2
  * $VICERES CrtcPALBlur             xpet xcbm2
  * $VICERES CrtcPALScanLineShade    xpet xcbm2
+ * $VICERES CrtcPALDelaylineType    xpet xcbm2
  *
  * $VICERES TEDColorBrightness      xplus4
  * $VICERES TEDColorContrast        xplus4
@@ -41,6 +42,7 @@
  * $VICERES TEDPALOddLineOffset     xplus4
  * $VICERES TEDPALOddLinePhase      xplus4
  * $VICERES TEDPALScanLineShade     xplus4
+ * $VICERES TEDPALDelaylineType     xplus4
  *
  * $VICERES VDCColorBrightness      x128
  * $VICERES VDCColorContrast        x128
@@ -49,6 +51,7 @@
  * $VICERES VDCColorTint            x128
  * $VICERES VDCPALBlur              x128
  * $VICERES VDCPALScanLineShade     x128
+ * $VICERES VDCPALDelaylineType     x128
  *
  * $VICERES VICColorBrightness      xvic
  * $VICERES VICColorContrast        xvic
@@ -59,6 +62,7 @@
  * $VICERES VICPALOddLineOffset     xvic
  * $VICERES VICPALOddLinePhase      xvic
  * $VICERES VICPALScanLineShade     xvic
+ * $VICERES VICPALDelaylineType     xvic
  *
  * $VICERES VICIIColorBrightness    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIIColorContrast      x64 x64sc x64dtv xscpu64 x128 xcbm5x0
@@ -69,6 +73,7 @@
  * $VICERES VICIIPALOddLineOffset   x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIIPALOddLinePhase    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIIPALScanLineShade   x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIPALDelaylineType   x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  */
 
 /*
