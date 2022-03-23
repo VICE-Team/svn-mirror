@@ -332,15 +332,9 @@ static resource_string_t resources_string[] = {
 
 #define VICE_DEFAULT_BITDEPTH 0
 
-#ifdef ANDROID_COMPILE
-#define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_MAX
-#define SDLCUSTOMWIDTH_DEFAULT   320
-#define SDLCUSTOMHEIGHT_DEFAULT  200
-#else
 #define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_OFF
 #define SDLCUSTOMWIDTH_DEFAULT   800
 #define SDLCUSTOMHEIGHT_DEFAULT  600
-#endif
 
 /* FIXME: more resources should have the same name as their GTK counterparts,
           and the SDL prefix removed */
@@ -713,9 +707,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     if (canvas == sdl_active_canvas) {
-#ifndef ANDROID_COMPILE
         SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE);
-#endif
 #ifndef HAVE_HWSCALE
         new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags);
         new_width = new_screen->w;
@@ -758,9 +750,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             }
         }
 #endif
-#ifndef ANDROID_COMPILE
         SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE);
-#endif
     } else {
 #ifdef HAVE_HWSCALE
         /* free the old hwscale screen when hwscaled screen is switched away */
@@ -1073,13 +1063,9 @@ static void sdl_video_resize(unsigned int w, unsigned int h)
             flags = SDL_OPENGL | SDL_SWSURFACE | SDL_RESIZABLE;
         }
 
-#ifndef ANDROID_COMPILE
         SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE);
-#endif
         sdl_active_canvas->hwscale_screen = SDL_SetVideoMode((int)w, (int)h, sdl_bitdepth, flags);
-#ifndef ANDROID_COMPILE
         SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE);
-#endif
 
 #ifdef SDL_DEBUG
         if (!sdl_active_canvas->hwscale_screen) {

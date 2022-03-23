@@ -307,19 +307,3 @@ const ui_menu_entry_t snapshot_menu[] = {
       NULL },
     SDL_MENU_LIST_END
 };
-
-#ifdef ANDROID_COMPILE
-void loader_load_snapshot(char *name)
-{
-    if (machine_read_snapshot(name, 0) < 0) {
-        snapshot_display_error();
-    }
-}
-
-void loader_save_snapshot(char *name)
-{
-    if (machine_write_snapshot(name, save_roms, save_disks, 0) < 0) {
-        snapshot_display_error();
-    }
-}
-#endif

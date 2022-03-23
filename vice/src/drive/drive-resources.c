@@ -460,16 +460,3 @@ void drive_resources_shutdown(void)
 {
     machine_drive_resources_shutdown();
 }
-
-/* FIXME: (re)move this! */
-#ifdef ANDROID_COMPILE
-void loader_set_drive_true_emulation(int val)
-{
-    set_drive_true_emulation(val, 0);
-}
-
-int loader_get_drive_true_emulation()
-{
-    return drive_true_emulation;
-}
-#endif

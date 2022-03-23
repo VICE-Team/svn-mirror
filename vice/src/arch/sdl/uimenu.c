@@ -54,10 +54,6 @@
 #include "vsidui_sdl.h"
 #include "vsync.h"
 
-#ifdef ANDROID_COMPILE
-#include "loader.h"
-#endif
-
 #include "vice_sdl.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -967,65 +963,8 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 #endif
 
     do {
-#ifdef ANDROID_COMPILE
-        struct locnet_al_event event1;
-        struct locnet_al_event *event = &event1;
-        ui_menu_action_t action2;
-#endif
         action = MENU_ACTION_NONE;
 
-#ifdef ANDROID_COMPILE
-        while (!Android_PollEvent(&event1)) {
-            SDL_Delay(20);
-        }
-        switch (event->eventType) {
-            case SDL_JOYAXISMOTION:
-                {
-                    action = sdljoy_axis_event(0, 0, event->x / 256.0f * 32767);
-                    action2 = sdljoy_axis_event(0, 1, event->y / 256.0f * 32767);
-                    if (action == MENU_ACTION_NONE) {
-                        action = action2;
-                    }
-                }
-                break;
-            case SDL_JOYBUTTONDOWN:
-                {
-                    action = sdljoy_button_event(0, event->keycode, 1);
-                }
-                break;
-            case SDL_JOYBUTTONUP:
-                {
-                    action = sdljoy_button_event(0, event->keycode, 0);
-                }
-                break;
-            case SDL_KEYDOWN:
-                {
-                    unsigned long modifier = event->modifier;
-                    int ctrl = ((modifier & KEYBOARD_CTRL_FLAG) != 0);
-                    int alt = ((modifier & KEYBOARD_ALT_FLAG) != 0);
-                    int shift = ((modifier & KEYBOARD_SHIFT_FLAG) != 0);
-                    unsigned long kcode = (unsigned long)event->keycode;
-
-                    int kmod = 0;
-
-                    if (ctrl) {
-                        kmod |= KMOD_LCTRL;
-                    }
-                    if (alt) {
-                        kmod |= KMOD_LALT;
-                    }
-                    if (shift) {
-                        kmod |= KMOD_LSHIFT;
-                    }
-
-                    *key = kcode;
-                    *mod = kmod;
-                    *c_uni = event->unicode;
-                    got_key = 1;
-                }
-                break;
-        }
-#else
         SDL_WaitEvent(&e);
 
         switch (e.type) {
@@ -1083,7 +1022,6 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
                 ui_handle_misc_sdl_event(e);
                 break;
         }
-#endif
 
         switch (action) {
             case MENU_ACTION_LEFT:

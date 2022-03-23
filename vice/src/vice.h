@@ -31,11 +31,7 @@
 #ifndef VICE_VICE_H
 #define VICE_VICE_H
 
-#ifdef ANDROID_COMPILE
-#  include "config.android.h"
-#else
-#  include "config.h" /* Automagically created by the `configure' script.  */
-#endif
+#include "config.h" /* Automagically created by the `configure' script.  */
 
 /* ------------------------------------------------------------------------- */
 
