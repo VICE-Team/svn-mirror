@@ -494,7 +494,7 @@ static gboolean confirm_exit(void)
     vice_gtk3_message_confirm(
             confirm_exit_callback,
             "Exit VICE",
-            "Do you really wish to exit VICE?`");
+            "Do you really wish to exit VICE?");
 
     return FALSE;
 }
