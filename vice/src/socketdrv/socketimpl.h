@@ -29,10 +29,6 @@
 
 #include "vice.h"
 
-#ifdef AMIGA_SUPPORT
-#include "socket-amiga-impl.h"
-#endif
-
 #ifdef BEOS_COMPILE
 #include "socket-beos-impl.h"
 #endif

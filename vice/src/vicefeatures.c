@@ -34,7 +34,7 @@
 #include "vicefeatures.h"
 
 /* FIXME: define "UNIX" for all supported unixish OS */
-#if !defined(BEOS_COMPILE) && !defined(AMIGA_SUPPORT) && !defined(WIN32)
+#if !defined(BEOS_COMPILE) && !defined(WIN32)
 # define UNIX
 #endif
 
@@ -92,7 +92,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(UNIX) || defined(WIN32) /* (amiga/beos/unix/windows) */
+#if defined(BEOS_COMPILE) || defined(UNIX) || defined(WIN32) /* (beos/unix/windows) */
     { "HAVE_CATWEASELMKIII", "Support for Catweasel MKIII.",
 #ifndef HAVE_CATWEASELMKIII
         0 },
@@ -100,14 +100,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#ifdef AMIGA_SUPPORT  /* (amiga) */
-    { "HAVE_DEVICES_AHI_H", "Define to 1 if you have the <devices/ahi.h> header file.",
-#ifndef HAVE_DEVICES_AHI_H
-        0 },
-#else
-        1 },
-#endif
-#endif
+
 #ifdef WIN32 /* (windows) */
     { "HAVE_DINPUT", "Use DirectInput joystick driver",
 #ifndef HAVE_DINPUT
@@ -166,7 +159,7 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(UNIX) || defined(WIN32) /* (amiga/beos/unix/windows) */
+#if defined(BEOS_COMPILE) || defined(UNIX) || defined(WIN32) /* (beos/unix/windows) */
     { "HAVE_HARDSID", "Support for HardSID.",
 #ifndef HAVE_HARDSID
         0 },
@@ -256,14 +249,7 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#ifdef AMIGA_SUPPORT /* (amiga) */
-    { "HAVE_PROTO_OPENPCI_H", "Define to 1 if you have the <proto/openpci.h> header file.",
-#ifndef HAVE_PROTO_OPENPCI_H
-        0 },
-#else
-        1 },
-#endif
-#endif
+
 /* (all) */
     { "HAVE_FASTSID", "Enable FASTSID support.",
 #ifndef HAVE_FASTSID
@@ -316,7 +302,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(UNIX) || defined(WIN32) /* (amiga/beos/unix/windows) */
+#if defined(BEOS_COMPILE) || defined(UNIX) || defined(WIN32) /* (amiga/beos/unix/windows) */
     { "HAVE_SSI2001", "Support for SSI-2001.",
 #ifndef HAVE_SSI2001
         0 },

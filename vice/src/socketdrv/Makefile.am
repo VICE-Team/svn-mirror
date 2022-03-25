@@ -19,8 +19,6 @@ libsocketdrv_a_SOURCES = \
 	socketdrv.c
 
 EXTRA_DIST = \
-	socket-amiga-drv.c \
-	socket-amiga-impl.h \
 	socket-beos-impl.h \
 	socket-unix-impl.h \
 	socket-win32-drv.c \
