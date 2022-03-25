@@ -472,22 +472,16 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
 {
     GtkWidget *widget;
     const vice_gtk3_combo_entry_int_t *entries;
-    char label[256];
-    char *resource_name;
+    char label[32];
+    char resource_name[64];
 
-    resource_name = lib_msprintf("Sid%dAddressStart", sid + 1);
-
-    g_snprintf(label, 256, "SID #%d", sid + 1);
-    entries = machine_class == VICE_MACHINE_C128
-        ? sid_address_c128 : sid_address_c64;
-
+    g_snprintf(resource_name, sizeof(resource_name), "SID%dAddressStart", sid + 1);
+    g_snprintf(label, sizeof(label), "SID #%d", sid + 1);
+    entries = machine_class == VICE_MACHINE_C128 ? sid_address_c128 : sid_address_c64;
     widget = vice_gtk3_resource_combo_box_int_new_with_label(resource_name,
                                                              entries,
                                                              label);
     gtk_widget_show_all(widget);
-
-    lib_free(resource_name);
-
     return widget;
 }
 
