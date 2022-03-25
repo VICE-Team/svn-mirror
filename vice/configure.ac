@@ -3317,7 +3317,7 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   LINKCC='$(CXX)'
   ARCH_DIR="\$(top_builddir)/src/arch/gtk3"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/gtk3"
-  ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a $ARCH_DIR/widgets/base/libbasewidgets.a $ARCH_DIR/novte/libnovte.a"
+  ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a $ARCH_DIR/widgets/base/libbasewidgets.a $ARCH_DIR/novte/libnovte.a $ARCH_DIR/joystickdrv/libjoystickdrv.a"
   if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
     AM_CONDITIONAL(MAKE_INSTALL, false)
@@ -3555,6 +3555,7 @@ AC_OUTPUT([Makefile
            src/arch/gtk3/data/macos/Makefile
            src/arch/gtk3/data/unix/Makefile
            src/arch/gtk3/data/win32/Makefile
+           src/arch/gtk3/joystickdrv/Makefile
            src/arch/gtk3/novte/Makefile
            src/arch/gtk3/widgets/Makefile
            src/arch/gtk3/widgets/base/Makefile
@@ -3595,7 +3596,6 @@ AC_OUTPUT([Makefile
            src/imagecontents/Makefile
            src/iodrv/Makefile
            src/joyport/Makefile
-           src/joystickdrv/Makefile
            src/lib/Makefile
            src/lib/p64/Makefile
            src/lib/linenoise-ng/Makefile

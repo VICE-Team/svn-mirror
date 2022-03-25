@@ -6,7 +6,7 @@ else
 extra_includes =
 endif
 
-SUBDIRS = data novte widgets
+SUBDIRS = data joystickdrv novte widgets
 
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
@@ -27,6 +27,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/arch/gtk3/widgets \
 	-I$(top_srcdir)/src/arch/gtk3/widgets/base \
 	-I$(top_srcdir)/src/arch/gtk3/novte \
+	-I$(top_srcdir)/src/arch/gtk3/joystickdrv \
 	-I$(top_builddir)/src/arch/gtk3/novte \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64dtv \
