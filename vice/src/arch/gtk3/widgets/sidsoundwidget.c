@@ -58,6 +58,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "sid.h"
+#include "sound.h"
 
 
 #ifdef HAVE_CATWEASELMKIII
@@ -441,8 +442,7 @@ static GtkWidget *create_num_sids_widget(void)
     grid = vice_gtk3_grid_new_spaced_with_label(16, 8, "Extra SIDs", 2);
 
     if (machine_class == VICE_MACHINE_VSID) {
-        /* FIXME: perhaps rename to SOUNDS_SIDS_MAX_[P|V]SID? */
-        max_sids = SID_COUNT_MAX_PSID;
+        max_sids = SOUND_SIDS_MAX_PSID;
     } else {
         max_sids = SOUND_SIDS_MAX;
     }

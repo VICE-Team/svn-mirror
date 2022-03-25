@@ -90,24 +90,6 @@ struct sid_snapshot_state_s;
 #define SIDTYPE_SIDDTV    1
 #define SIDTYPE_SIDCART   2
 
-
-/** \brief  Maximum number of SIDs supported by the emulation
- *
- * This differs from the number of SIDs actually possible per emu.
- */
-#define SID_COUNT_MAX   8
-
-
-/** \brief  Maximum number of SIDs supported by the PSID file format
- *
- * VSID specific: this differs from the number of SIDs actually possible per
- * emu, although it can easily be extended to support more SIDs, since the
- * header has on offset to the tune data, so expanding the header is easy, but
- * will probably break some SID tools.
- */
-#define SID_COUNT_MAX_PSID  3
-
-
 #define SID_MACHINE_MAX_SID_C64     8
 #define SID_MACHINE_MAX_SID_C64DTV  1
 #define SID_MACHINE_MAX_SID_C128    8
