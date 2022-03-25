@@ -93,13 +93,18 @@ struct sid_snapshot_state_s;
 #define SID_MACHINE_MAX_SID_C64     8
 #define SID_MACHINE_MAX_SID_C64DTV  1
 #define SID_MACHINE_MAX_SID_C128    8
-#define SID_MACHINE_MAX_SID_VIC20   0
+/** \brief  The VIC20 has an optional SID cartridge */
+#define SID_MACHINE_MAX_SID_VIC20   1
+/** \brief  The Plus4 has an optional SIDCard expansion */
 #define SID_MACHINE_MAX_SID_PLUS4   1
 #define SID_MACHINE_MAX_SID_CBM5x0  1
 #define SID_MACHINE_MAX_SID_CBM6x0  0
-#define SID_MACHINE_MAX_SID_PET     0
-/** \brief  This can be the same as C64 in emulation, but PSID currently only
- *          manages 3 SIDs
+/** \brief  The PET has an optional SID Card expansion */
+#define SID_MACHINE_MAX_SID_PET     1
+/** \brief  VSID supports up to three SIDS
+ *
+ * This can be the same as C64 in emulation, but PSID currently only manages 3
+ * SIDs.
  */
 #define SID_MACHINE_MAX_SID_VSID    3
 
