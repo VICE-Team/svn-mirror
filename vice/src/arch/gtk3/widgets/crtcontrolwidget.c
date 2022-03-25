@@ -380,11 +380,7 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
  */
 static void on_spin_value_changed(GtkWidget *spin, gpointer scale)
 {
- //   gdouble spinval;
-
-//    spinval = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin));
     vice_gtk3_resource_scale_custom_sync(scale);
-//    gtk_range_set_value(GTK_RANGE(scale), (int)spinval);
 }
 
 
@@ -450,12 +446,6 @@ static GtkWidget *create_slider(
 {
     GtkWidget *scale;
 
-    /* Set stepping to 1, for now, to allow more finegrained control of the
-     * sliders. This only works in the settings menu, not in the popup CRT
-     * controls since the keyboard is captured for the running emulator.
-     */
-    //step = 1;
-
     scale = vice_gtk3_resource_scale_custom_new_printf(
             "%s%s",
             GTK_ORIENTATION_HORIZONTAL,
@@ -464,12 +454,6 @@ static GtkWidget *create_slider(
             display_format, chip, resource);
     gtk_widget_set_hexpand(scale, TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
-    /* Disable tickmarks. This looks nice and could help to quickly set a value,
-     * but in reality it screws with the user's mouse control over the sliders
-     */
-#if 0
-    vice_gtk3_resource_scale_int_set_marks(scale, step);
-#endif
 
     /* set up custom CSS to make the scale take up less space */
     if (minimal) {
@@ -478,10 +462,6 @@ static GtkWidget *create_slider(
         vice_gtk3_css_provider_add(scale, scale_css_dialog);
     }
 
-#if 0
-    /* don't draw the value next to the scale if used a statusbar popup */
-    gtk_scale_set_draw_value(GTK_SCALE(scale), !minimal);
-#endif
     return scale;
 }
 
@@ -688,14 +668,13 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
     data = create_control_data(chip);
 
     grid = vice_gtk3_grid_new_spaced(16, 0);
-    /* g_object_set(grid, "font-size", 9, NULL); */
     g_object_set(grid, "margin-left", 8, "margin-right", 8, NULL);
-
     if (minimal) {
         g_snprintf(buffer, 256, "<small><b>CRT settings (%s)</b></small>", chip);
     } else {
         g_snprintf(buffer, 256, "<b>CRT settings (%s)</b>", chip);
     }
+
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), buffer);
     gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
@@ -707,7 +686,6 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
     /* add U-only delayline check button */
     data->delayline = create_delayline_widget(chip);
     if (minimal) {
-        /* TODO: apply CSS to reduce size of widget */
         vice_gtk3_css_add(data->delayline, CHECKBUTTON_CSS_STATUSBAR);
         gtk_grid_attach(GTK_GRID(grid), data->delayline, 2, row - 1, 2, 1);
     } else {
