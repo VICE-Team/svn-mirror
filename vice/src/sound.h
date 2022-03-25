@@ -84,7 +84,16 @@
 #endif
 
 #define SOUND_CHANNELS_MAX 2
+
+/** \brief  Maximum number of SIDs supported by the emulation.
+ */
 #define SOUND_SIDS_MAX 8
+
+/** \brief  Maximum number of SIDs supported by PSID files
+ *
+ * Maximum number of SIDs for .psid files and thus VSID.
+ */
+#define SOUND_SIDS_MAX_PSID 3
 
 #define SOUND_CHIPS_MAX 20
 
