@@ -35,11 +35,6 @@
 #error No HAVE_NETWORK
 #endif
 
-#ifdef AMIGA_SUPPORT
-#include "socket-amiga-drv.c"
-#define NETWORK_SUPPORT_HANDLED
-#endif
-
 #ifdef WIN32_COMPILE
 #include "socket-win32-drv.c"
 #define NETWORK_SUPPORT_HANDLED

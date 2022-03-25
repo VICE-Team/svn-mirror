@@ -147,12 +147,6 @@ static UI_MENU_CALLBACK(start_recording_callback)
 }
 
 static ui_menu_entry_t sound_output_driver_menu[] = {
-#ifdef HAVE_DEVICES_AHI_H
-    { "AHI",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"ahi" },
-#endif
 #ifdef USE_ALSA
     { "ALSA",
       MENU_ENTRY_RESOURCE_RADIO,
