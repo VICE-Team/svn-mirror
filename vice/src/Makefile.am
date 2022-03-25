@@ -42,7 +42,6 @@ SUBDIRS = \
 	@RESID_DTV_DIR@ \
 	samplerdrv \
 	joyport \
-	joystickdrv \
 	sounddrv \
 	mididrv \
 	socketdrv \
@@ -97,7 +96,6 @@ DIST_SUBDIRS = \
 	iodrv \
 	samplerdrv \
 	joyport \
-	joystickdrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -531,6 +529,7 @@ arch_gtk3_lib = $(top_builddir)/src/arch/gtk3/libarch.a
 arch_gtk3_widgets_lib = $(top_builddir)/src/arch/gtk3/widgets/libwidgets.a
 arch_gtk3_base_widgets_lib = $(top_builddir)/src/arch/gtk3/widgets/base/libbasewidgets.a
 arch_gtk3_novte_lib = $(top_builddir)/src/arch/gtk3/novte/libnovte.a
+arch_gtk3_joystickdrv_lib = $(top_builddir)/src/arch/gtk3/joystickdrv/libjoystickdrv.a
 arch_sdl_lib = $(top_builddir)/src/arch/sdl/libarch.a
 arch_headless_lib = $(top_builddir)/src/arch/headless/libarch.a
 archdep_lib = $(top_builddir)/src/arch/shared/libarchdep.a
@@ -568,7 +567,6 @@ iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 iodrv_lib = $(top_builddir)/src/iodrv/libiodrv.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
-joystickdrv_lib = $(top_builddir)/src/joystickdrv/libjoystickdrv.a
 linenoise_ng_lib = $(top_builddir)/src/lib/linenoise-ng/liblinenoiseng.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
 mididrv_lib = $(top_builddir)/src/mididrv/libmididrv.a
@@ -614,7 +612,7 @@ resid_dtv_libs = @RESID_DTV_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @ARCH_LIBS@ $(archdep_lib)
 
-driver_libs = $(joyport_lib) $(joystickdrv_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if SUPPORT_X64
 x64_bin = x64
@@ -1213,6 +1211,9 @@ $(arch_gtk3_base_widgets_lib):
 $(arch_gtk3_novte_lib):
 	@(echo "making libnovte.a")
 	@(cd arch/gtk3/novte && $(MAKE))
+$(arch_gtk3_joystickdrv_lib):
+	@(echo "making libjoystickdrv.a")
+	@(cd arch/gtk3/joystickdrv && $(MAKE))
 $(arch_gtk3_lib):
 	@(echo "making libarch.a")
 	@(cd arch && $(MAKE) libarch)
