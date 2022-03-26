@@ -1203,9 +1203,9 @@ if test x"$check_gtk3" = "xyes"; then
       fi
     fi
 
-    AC_DEFINE(USE_NATIVE_GTK3,,[Use native GTK3 UI.])
+    AC_DEFINE(USE_GTK3UI,,[Use GTK3 UI.])
     if test x"$enable_debug_gtk3ui" = "xyes"; then
-      AC_DEFINE(HAVE_DEBUG_GTK3UI,,[Add native GTK3 UI debugging code.])
+      AC_DEFINE(HAVE_DEBUG_GTK3UI,,[Add GTK3 UI debugging code.])
     fi
 
     dnl Platform canonical names for Win32-GTK3 have names like "i686-w64-mingw32"
