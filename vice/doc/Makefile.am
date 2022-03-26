@@ -36,7 +36,7 @@ dist_doc_DATA = $(MISC_DOX) $(VICE_DOX)
 
 EXTRA_DIST = $(DOC_TOOLS) $(TEXI_TOOLS) $(STYLE_TOOLS)
 
-if UNIX_MACOSX_COMPILE
+if MACOS_COMPILE
 # Use brew supplied texi2dvi over buggy Apple version
 export PATH := /usr/local/opt/texinfo/bin:$(PATH)
 endif
