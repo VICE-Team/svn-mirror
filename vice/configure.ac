@@ -456,7 +456,6 @@ HAVE_PARSID_SUPPORT="no "
 HAVE_PCIUTILS_SUPPORT="no "
 HAVE_PNG_SUPPORT="no "
 HAVE_PORTSID_SUPPORT="no "
-HAVE_PROTO_OPENPCI_H_SUPPORT="no "
 HAVE_RAWNET_SUPPORT="no "
 HAVE_REALDEVICE_SUPPORT="no "
 HAVE_RESID_SUPPORT="no "
@@ -3690,9 +3689,6 @@ if test "x$ac_cv_func_SDL_NumJoysticks" = xyes; then
     HAVE_SDL_NUMJOYSTICKS_SUPPORT="yes"
 fi
 
-if test "x$ac_cv_header_proto_openpci_h" = xyes; then
-    HAVE_PROTO_OPENPCI_H_SUPPORT="yes"
-fi
 
 echo "----------------------------------------------------------------------"
 echo ""
