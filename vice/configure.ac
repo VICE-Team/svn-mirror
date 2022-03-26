@@ -3394,7 +3394,6 @@ if test x"$is_unix" = "xyes"; then
      AM_CONDITIONAL(WIN32_COMPILE, false)
   fi
   AM_CONDITIONAL(BEOS_COMPILE, false)
-  AM_CONDITIONAL(AMIGA_COMPILE, false)
 
   if test x"$is_unix_macosx" = "xyes" ; then
     AM_CONDITIONAL(UNIX_MACOSX_COMPILE, true)
@@ -3419,7 +3418,6 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
-  AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
@@ -3427,7 +3425,6 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
-  AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
@@ -3727,9 +3724,7 @@ echo "FastSID support              : $HAVE_FASTSID_SUPPORT (--with/without-fasts
 echo "ReSID support                : $HAVE_RESID_SUPPORT (--with/without-resid)"
 echo "New 8580 filter support      : $USE_NEW_8580_FILTER (--enable/disable-new8580filter)"
 
-if test x"$real_arch" != "xAmiga"; then
-    echo "PortAudio sound input support: $USE_PORTAUDIO_SUPPORT (--enable/disable-portaudio)"
-fi
+echo "PortAudio sound input support: $USE_PORTAUDIO_SUPPORT (--enable/disable-portaudio)"
 
 if test x"$real_arch" = "xUnix"; then
     echo "OSS sound support            : $USE_OSS_SUPPORT (--with/without-oss)"
@@ -3740,10 +3735,6 @@ fi
 if test x"$real_arch" = "xOSX"; then
     echo "CoreAudio sound support      : $USE_COREAUDIO_SUPPORT"
     echo "AudioUnit sound support      : $HAVE_AUDIO_UNIT_SUPPORT"
-fi
-
-if test x"$real_arch" = "xAmiga"; then
-    echo "AHI sound support            : $HAVE_DEVICES_AHI_H_SUPPORT (--enable/disable-ahi)"
 fi
 
 if test x"$real_arch" = "xWin32" -o x"$is_win32_gtk3" = "xyes"; then
@@ -3805,14 +3796,8 @@ echo "INPUT"
 echo "-----"
 
 echo "Mouse support               : $HAVE_MOUSE_SUPPORT"
+echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
 
-if test x"$real_arch" = "xAmiga" -o x"$real_arch" = "xBeOS"; then
-    if test x"$show_gui" = "xSDL" -o x"$show_gui" = "xSDL2"; then
-        echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
-    fi
-else
-    echo "Lightpen support            : $HAVE_LIGHTPEN_SUPPORT"
-fi
 
 if test x"$real_arch" = "xUnix"; then
     if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
@@ -3885,9 +3870,6 @@ if test x"$real_arch" = "xUnix"; then
     echo "libieee1284 support               : $HAVE_LIBIEEE1284_SUPPORT"
 fi
 
-if test x"$real_arch" = "xAmiga"; then
-    echo "OpenPCI support        : $HAVE_PROTO_OPENPCI_H_SUPPORT"
-fi
 
 echo ""
 echo "DOCUMENTATION"
