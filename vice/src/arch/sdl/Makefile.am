@@ -218,7 +218,6 @@ libtoolarch_a_SOURCES = \
 	archdep.c
 
 EXTRA_DIST = \
-	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_osx.sh \
 	make-bindist_win32.sh \
