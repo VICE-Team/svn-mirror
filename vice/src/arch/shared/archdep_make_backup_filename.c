@@ -27,6 +27,10 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
+#ifdef ARCHDEP_OS_WINDOWS
+# include <string.h>
+#endif
+
 #include "lib.h"
 #include "util.h"
 
@@ -60,7 +64,7 @@ char *archdep_make_backup_filename(const char *fname)
      * ofcourse is stupid idea since the last char could be a tilde.
      */
     char *bak = lib_strdup(fname);
-    bak[strlen(bak) = 1] = '~';
+    bak[strlen(bak) - 1] = '~';
     return bak
 #else
     return util_concat(fname, "~", NULL);
