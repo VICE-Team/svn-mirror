@@ -55,7 +55,7 @@ char *archdep_make_backup_filename(const char *fname)
  */
 char *archdep_make_backup_filename(const char *fname)
 {
-#ifdef ARCHDEP_OS_WIN32
+#ifdef ARCHDEP_OS_WINDOWS
     /* For some reason on Windows, we replace the last char with a tilde, which
      * ofcourse is stupid idea since the last char could be a tilde.
      */
