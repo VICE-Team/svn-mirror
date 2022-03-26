@@ -179,23 +179,16 @@ extern int sound_cmdline_options_init(void);
 
 
 /* device initialization prototypes */
-extern int sound_init_allegro_device(void);
 extern int sound_init_alsa_device(void);
-extern int sound_init_sb_device(void);
 extern int sound_init_dummy_device(void);
 extern int sound_init_dump_device(void);
 extern int sound_init_fs_device(void);
 extern int sound_init_wav_device(void);
-extern int sound_init_midas_device(void);
 extern int sound_init_sdl_device(void);
 extern int sound_init_sun_device(void);
 extern int sound_init_uss_device(void);
 extern int sound_init_dx_device(void);
-extern int sound_init_ce_device(void);
-extern int sound_init_vidc_device(void);
-extern int sound_init_mmos2_device(void);
 extern int sound_init_dart_device(void);
-extern int sound_init_dart2_device(void);
 extern int sound_init_beos_device(void);
 extern int sound_init_bsp_device(void);
 extern int sound_init_arts_device(void);
