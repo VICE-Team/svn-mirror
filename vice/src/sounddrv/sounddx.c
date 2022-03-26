@@ -71,7 +71,7 @@ static HWND ui_get_main_hwnd(void)
     return info.window;
 }
 
-#elif defined(USE_NATIVE_GTK3)
+#elif defined(USE_GTK3UI)
 
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>

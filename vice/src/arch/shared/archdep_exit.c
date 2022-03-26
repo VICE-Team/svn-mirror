@@ -47,9 +47,9 @@
 
 #include <assert.h>
 
-#ifdef USE_NATIVE_GTK3
+#ifdef USE_GTK3UI
 #include <gtk/gtk.h>
-#endif /* #ifdef USE_NATIVE_GTK3 */
+#endif /* #ifdef USE_GTK3UI */
 
 #ifdef USE_VICE_THREAD
 #include <pthread.h>
@@ -116,7 +116,7 @@ static void actually_exit(int exit_code)
     exit(exit_code);
 }
 
-#ifdef USE_NATIVE_GTK3
+#ifdef USE_GTK3UI
 
 /*
  * GTK3 needs a more controlled shutdown due to the multiple threads involved.
@@ -157,7 +157,7 @@ void archdep_set_main_thread(void)
 
 #elif defined(UNIX_COMPILE)
 
-#ifdef USE_NATIVE_GTK3
+#ifdef USE_GTK3UI
     /* Our GLX OpenGL init stuff will crash if we let GDK use wayland directly */
     putenv("GDK_BACKEND=x11");
 #endif
@@ -203,7 +203,7 @@ void archdep_vice_exit(int exit_code)
     }
 }
 
-#else /* #ifdef USE_NATIVE_GTK3 */
+#else /* #ifdef USE_GTK3UI */
 
 /** \brief  Wrapper around exit()
  */
@@ -212,4 +212,4 @@ void archdep_vice_exit(int exit_code)
     actually_exit(exit_code);
 }
 
-#endif /* #ifdef USE_NATIVE_GTK3 else */
+#endif /* #ifdef USE_GTK3UI else */

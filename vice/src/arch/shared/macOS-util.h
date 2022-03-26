@@ -32,7 +32,7 @@
 
 #import <stdbool.h>
 
-#ifdef USE_NATIVE_GTK3
+#ifdef USE_GTK3UI
 #import <CoreGraphics/CGGeometry.h>
 #import <gtk/gtk.h>
 #endif
@@ -41,7 +41,7 @@ void vice_macos_set_main_thread(void);
 void vice_macos_set_vice_thread_priority(bool warp_enabled);
 void vice_macos_set_render_thread_priority(void);
 
-#ifdef USE_NATIVE_GTK3
+#ifdef USE_GTK3UI
 void vice_macos_get_widget_frame_and_content_rect(GtkWidget *widget, CGRect *native_frame, CGRect *content_rect);
 #endif
 
