@@ -111,7 +111,7 @@ libarch_a_SOURCES = \
 	vsidui.c \
 	vsyncarch.c
 
-if NATIVE_GTK3_COMPILE
+if USE_GTK3UI
 libarch_a_SOURCES += vice_gtk3_locking.c
 endif
 

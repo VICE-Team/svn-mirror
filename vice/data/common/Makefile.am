@@ -88,7 +88,7 @@ EXTRA_DIST = $(common_DATA) \
 #all: x64.res x64sc.res x64dtv.res xscpu64.res x128.res xvic.res xplus4.res xpet.res xcbm2.res xcbm5x0.res vsid.res $(GRESOURCE_TARGET)
 #
 
-if NATIVE_GTK3_COMPILE
+if USE_GTK3UI
 
 # Generate gresource binary file, required by all Gtk3 emus
 GRESOURCE_TARGET = $(builddir)/vice.gresource

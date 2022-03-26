@@ -3329,10 +3329,10 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
 
-  AM_CONDITIONAL(NATIVE_GTK3_COMPILE, true)
+  AM_CONDITIONAL(USE_GTK3UI, true)
 
 else
-  AM_CONDITIONAL(NATIVE_GTK3_COMPILE, false)
+  AM_CONDITIONAL(USE_GTK3UI, false)
 fi
 
 
