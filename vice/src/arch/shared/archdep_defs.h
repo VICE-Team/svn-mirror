@@ -41,7 +41,7 @@
  * <pre>
  *  ARCHDEP_OS_UNIX
  *    ARCHDEP_OS_MACOS
- *    ARCHDEP_OS_LINUX
+ *    LINUX_COMPILE
  *    ARCHDEP_OS_BSD
  *      ARCHDEP_OS_BSD_FREE
  *      ARCHDEP_OS_BSD_NET
@@ -66,7 +66,7 @@
 # elif defined(__linux__)
 
 /** \brief  OS is Linux (yay!) */
-#  define ARCHDEP_OS_LINUX
+#  define LINUX_COMPILE             /* FIXME: configure should define this */
 
 # elif defined(__FreeBSD__)
 
