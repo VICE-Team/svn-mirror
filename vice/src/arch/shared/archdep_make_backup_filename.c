@@ -65,7 +65,7 @@ char *archdep_make_backup_filename(const char *fname)
      */
     char *bak = lib_strdup(fname);
     bak[strlen(bak) - 1] = '~';
-    return bak
+    return bak;
 #else
     return util_concat(fname, "~", NULL);
 #endif
