@@ -99,7 +99,7 @@ endif
 endif
 
 if MACOS_COMPILE
-if NATIVE_GTK3_COMPILE
+if USE_GTK3UI
 bindist:
 	/bin/bash @ARCH_SRC_DIR@/../gtk3/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip
 
@@ -116,7 +116,7 @@ endif
 
 
 if WIN32_COMPILE
-if NATIVE_GTK3_COMPILE
+if USE_GTK3UI
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTMLDOCS)
 

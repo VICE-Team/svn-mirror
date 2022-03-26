@@ -6,7 +6,7 @@ SUBDIRS = shared
 
 endif
 
-if NATIVE_GTK3_COMPILE
+if USE_GTK3UI
 
 SUBDIRS = shared gtk3
 
