@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include "archdep_defs.h"
 #include "archdep_tick.h"
 
 #ifdef WIN32_COMPILE
@@ -100,7 +101,7 @@ tick_t tick_now(void)
 {
     struct timespec now;
     
-#if defined(__linux__)
+#if defined(LINUX_COMPILE)
     clock_gettime(CLOCK_MONOTONIC_RAW, &now);
 #elif defined(__FreeBSD__)
     clock_gettime(CLOCK_MONOTONIC_PRECISE, &now);

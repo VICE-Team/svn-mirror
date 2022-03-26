@@ -212,7 +212,7 @@ const char *archdep_program_path(void)
         }
     }
 
-# elif defined(ARCHDEP_OS_LINUX)
+# elif defined(LINUX_COMPILE)
 
     if (readlink("/proc/self/exe", buffer, sizeof(buffer) - 1) < 0) {
         log_error(LOG_ERR,

@@ -238,24 +238,25 @@ OBSOLETERESOURCES+=" PALOddLineOffset"
 function findifdefs
 {
     echo "checking define: \"$1\""
-    find -wholename './vicefeatures.c' -prune -o -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
-    find -wholename './vicefeatures.c' -prune -o -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
+    find -wholename './vicefeatures.c' -prune -o -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
+    find -wholename './vicefeatures.c' -prune -o -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
     echo " "
 }
 
 # find archdep ifdefs in portable code
 function finddefsfiles
 {
-    FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
-    FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
+    FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
+    FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
 }
 
 # find obsolete/compiler ifdefs in all code
 function findifdefsfulltree
 {
     echo "checking define: \"$1\""
-    find  -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
-    find  -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
+    find  -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
+    find  -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *elif' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
+    find  -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
     grep -Hn --color "$1[^a-zA-Z_]" ../configure.ac
     grep -Hn --color "$1$" ../configure.ac
     find .. -name "Makefile.am" -print | xargs grep -Hn --color "$1[^a-zA-Z_]"
@@ -266,8 +267,9 @@ function findifdefsfulltree
 # find obsolete/compiler ifdefs in all code
 function finddefsfilesfulltree
 {
-    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
-    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
+    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
+    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *elif' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
+    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
     FILES+=`grep -l "$1[^a-zA-Z_]" ../configure.ac`":"
     FILES+=`grep -l "$1$" ../configure.ac`":"
     FILES+=`find .. -name "Makefile.am" -print | xargs grep -l "$1[^a-zA-Z_]" | sed 's:\(.*\)$:\1\::g'`
