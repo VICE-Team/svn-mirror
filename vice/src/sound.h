@@ -202,7 +202,6 @@ extern int sound_init_arts_device(void);
 extern int sound_init_wmm_device(void);
 extern int sound_init_movie_device(void);
 extern int sound_init_coreaudio_device(void);
-extern int sound_init_ahi_device(void);
 extern int sound_init_voc_device(void);
 extern int sound_init_iff_device(void);
 extern int sound_init_aiff_device(void);

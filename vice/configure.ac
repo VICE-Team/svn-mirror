@@ -88,8 +88,6 @@ VICE_ARG_WITH_LIST(resid,               [  --without-resid         do not use th
 VICE_ARG_WITH_LIST(sdlsound,            [  --with-sdlsound         use SDL sound system])
 VICE_ARG_WITH_LIST(sun,                 [  --without-sun           do not use the sun/netbsd sound system])
 VICE_ARG_WITH_LIST(vorbis,              [  --with-vorbis           use Ogg/Vorbis support])
-
-VICE_ARG_ENABLE_LIST(ahi,               [  --disable-ahi           disables AHI support])
 VICE_ARG_ENABLE_LIST(catweasel,         [  --disable-catweasel     disables CatWeasel (PCI/Zorro/Clockport SID card) support])
 VICE_ARG_ENABLE_LIST(hardsid,           [  --disable-hardsid       disables HardSID support])
 VICE_ARG_ENABLE_LIST(lame,              [  --enable-lame           Enable MP3 export with LAME])
@@ -436,7 +434,6 @@ HAS_HIDMGR_SUPPORT="no "
 HAS_USB_JOYSTICK_SUPPORT="no "
 HAVE_AUDIO_UNIT_SUPPORT="no "
 HAVE_CATWEASELMKIII_SUPPORT="no "
-HAVE_DEVICES_AHI_H_SUPPORT="no "
 HAVE_DINPUT_SUPPORT="no "
 HAVE_DYNLIB_SUPPORT_TOO="no "
 HAVE_FASTSID_SUPPORT="no "
