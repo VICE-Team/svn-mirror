@@ -3392,11 +3392,11 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
 
   if test x"$is_unix_macosx" = "xyes" ; then
-    AM_CONDITIONAL(UNIX_MACOSX_COMPILE, true)
+    AM_CONDITIONAL(MACOS_COMPILE, true)
     dnl macOS supports both make install and make bindist
     AM_CONDITIONAL(MAKE_BINDIST, true)
   else
-    AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+    AM_CONDITIONAL(MACOS_COMPILE, false)
   fi
 
 
@@ -3414,14 +3414,14 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
-  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(MACOS_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
-  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(MACOS_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 else

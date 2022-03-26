@@ -98,7 +98,7 @@ bindistzip:
 endif
 endif
 
-if UNIX_MACOSX_COMPILE
+if MACOS_COMPILE
 if NATIVE_GTK3_COMPILE
 bindist:
 	/bin/bash @ARCH_SRC_DIR@/../gtk3/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip

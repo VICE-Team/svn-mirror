@@ -121,7 +121,7 @@ libarchdep_a_SOURCES += \
 	rawnetarch_unix.c
 endif
 
-if UNIX_MACOSX_COMPILE
+if MACOS_COMPILE
 libarchdep_a_SOURCES += macOS-util.m
 endif
 

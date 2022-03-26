@@ -79,6 +79,7 @@ OBSOLETEARCHDEFS+=" UNIX_MACOSX_COMPILE"
 OBSOLETEARCHDEFS+=" ARCHDEP_OS_LINUX"
 OBSOLETEARCHDEFS+=" __linux__"
 OBSOLETEARCHDEFS+=" USE_NATIVE_GTK3"
+OBSOLETEARCHDEFS+=" NATIVE_GTK3_COMPILE"
 OBSOLETEARCHDEFS+=" USE_GNOMEUI"
 OBSOLETEARCHDEFS+=" USE_XAWUI"
 OBSOLETEARCHDEFS+=" USE_XF86_EXTENSIONS"
@@ -245,6 +246,9 @@ function findifdefsfulltree
     echo "checking define: \"$1\""
     find  -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
     grep -Hn --color "$1[^a-zA-Z_]" ../configure.ac
+    grep -Hn --color "$1$" ../configure.ac
+    find .. -name "Makefile.am" -print | xargs grep -Hn --color "$1[^a-zA-Z_]"
+    find .. -name "Makefile.am" -print | xargs grep -Hn --color "$1$"
     echo " "
 }
 
@@ -275,6 +279,9 @@ function finddefsfilesfulltree
 {
     FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
     FILES+=`grep -l "$1[^a-zA-Z_]" ../configure.ac`":"
+    FILES+=`grep -l "$1$" ../configure.ac`":"
+    FILES+=`find .. -name "Makefile.am" -print | xargs grep -l "$1[^a-zA-Z_]"`":"
+    FILES+=`find .. -name "Makefile.am" -print | xargs grep -l "$1$"`":"
 }
 
 function findres
