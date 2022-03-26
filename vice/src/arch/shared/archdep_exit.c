@@ -29,8 +29,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-#if !defined(USE_HEADLESSUI) && !defined(USE_SDLUI2) && !defined(USE_SDLUI)
+#if !defined(HEADLESS_COMPILE) && !defined(USE_SDLUI2) && !defined(USE_SDLUI)
 #ifdef UNIX_COMPILE
 #ifndef MACOSX_SUPPORT
 #include <X11/Xlib.h>
@@ -79,25 +80,25 @@ static bool is_exiting;
 
 bool archdep_is_exiting(void) {
     bool result;
-    
+
     LOCK();
     result = is_exiting;
     UNLOCK();
-    
+
     return result;
 }
 
 static void actually_exit(int exit_code)
 {
     LOCK();
-    
+
     if (is_exiting) {
         log_message(LOG_DEFAULT, "Ignoring recursive call to archdep_vice_exit()");
         UNLOCK();
         return;
     }
     is_exiting = true;
-    
+
     UNLOCK();
 
     /* Some exit stuff not safe to run afer exit() is called so we do it here */
@@ -161,7 +162,7 @@ void archdep_set_main_thread(void)
     putenv("GDK_BACKEND=x11");
 #endif
 
-#ifndef USE_HEADLESSUI
+#ifndef HEADLESS_COMPILE
     /* We're calling xlib from our own thread so need this to avoid problems */
     XInitThreads();
 #endif
