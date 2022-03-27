@@ -727,6 +727,8 @@ fi
 
 JOYSTICK_DRIVERS=""
 
+AM_CONDITIONAL(LINUX_COMPILE, false)
+
 dnl Setup crosscompiling.
 
 if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
@@ -987,9 +989,6 @@ dnl All other UN*X systems
   linux*)
     AC_DEFINE(LINUX_COMPILE,,[Are we compiling for Linux?])
     AM_CONDITIONAL(LINUX_COMPILE, true)
-    ;;
-  *)
-    AM_CONDITIONAL(LINUX_COMPILE, false)
     ;;
   esac
 
