@@ -51,7 +51,7 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 
 noinst_LIBRARIES = libarch.a libtoolarch.a
 
-if SDL2_COMPILE
+if USE_SDL2UI
 
 libarch_a_VERDEP_SOURCES = \
 	video_sdl2.c
