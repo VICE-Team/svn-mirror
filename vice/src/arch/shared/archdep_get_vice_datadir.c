@@ -55,7 +55,7 @@ char *archdep_get_vice_datadir(void)
 # else
     path = util_join_paths(archdep_boot_path(), "..", NULL);
 # endif
-#elif defined(ARCHDEP_OS_MACOS)
+#elif defined(MACOS_COMPILE)
     if (archdep_is_macos_bindist()) {
         path = util_join_paths(archdep_boot_path(), "..", "share", "vice", NULL);
     } else {

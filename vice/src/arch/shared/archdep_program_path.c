@@ -8,10 +8,7 @@
  *  - Linux
  *  - Windows
  *  - MacOS
- *  - BeOS/Haiku (untested)
- *
- * TODO:    Use archdep_getcwd() and ARCHDEP_PATH_MAX in the argv[0] fallback
- *          function.
+ *  - Haiku
  */
 
 /*
@@ -50,7 +47,7 @@
 # if defined(FREEBSD_COMPILE) || defined(DRAGONFLYBSD_COMPILE)
 #  include <sys/sysctl.h>
 # endif
-# ifdef ARCHDEP_OS_MACOS
+# ifdef MACOS_COMPILE
 #  include <libproc.h>
 # endif
 #endif
@@ -200,7 +197,7 @@ const char *archdep_program_path(void)
      *      OpenBSD:    ??? (using argv[0] fallback)
      */
 
-# ifdef ARCHDEP_OS_MACOS
+# ifdef MACOS_COMPILE
 
     /* get path via libproc */
     pid_t pid = getpid();

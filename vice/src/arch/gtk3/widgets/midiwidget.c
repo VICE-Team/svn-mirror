@@ -65,7 +65,7 @@ static GtkWidget *midi_in_entry;
 /** \brief  MIDI out device */
 static GtkWidget *midi_out_entry;
 #ifdef UNIX_COMPILE
-# ifdef ARCHDEP_OS_MACOS
+# ifdef MACOS_COMPILE
 /** \brief  MIDI name entry */
 static GtkWidget *midi_name_entry;
 # else
@@ -93,7 +93,7 @@ static const vice_gtk3_combo_entry_int_t midi_modes[] = {
 };
 
 
-#if defined(UNIX_COMPILE) && !defined(ARCHDEP_OS_MACOS)
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
 /** \brief  List of MIDI drivers
  */
 static const vice_gtk3_combo_entry_int_t midi_drivers[]= {
@@ -117,7 +117,7 @@ static void on_midi_enable_toggled(GtkWidget *widget, gpointer user_data)
         gtk_widget_set_sensitive(midi_mode, state);
     }
 #ifdef UNIX_COMPILE
-# ifdef ARCHDEP_OS_MACOS
+# ifdef MACOS_COMPILE
     gtk_widget_set_sensitive(midi_name_entry, state);
 # else
     gtk_widget_set_sensitive(midi_driver, state);
@@ -125,14 +125,14 @@ static void on_midi_enable_toggled(GtkWidget *widget, gpointer user_data)
 #endif
     gtk_widget_set_sensitive(midi_in_entry, state);
     gtk_widget_set_sensitive(midi_out_entry, state);
-#if defined(UNIX_COMPILE) && !defined(ARCHDEP_OS_MACOS)
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
     gtk_widget_set_sensitive(midi_in_browse, state);
     gtk_widget_set_sensitive(midi_out_browse, state);
 #endif
 }
 
 
-#if defined(UNIX_COMPILE) && !defined(ARCHDEP_OS_MACOS)
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
 
 
 static void midi_in_filename_callback(GtkDialog *dialog,
@@ -221,7 +221,7 @@ static GtkWidget *create_midi_mode_widget(void)
 }
 
 
-#if defined(UNIX_COMPILE) && !defined(ARCHDEP_OS_MACOS)
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
 /** \brief  Create MIDI driver selection widget
  *
  * \return  GtkComboBoxText
@@ -262,7 +262,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     row = 2;
 
 #ifdef UNIX_COMPILE
-# ifdef ARCHDEP_OS_MACOS
+# ifdef MACOS_COMPILE
     label = gtk_label_new("MIDI Name");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -289,14 +289,14 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
     midi_in_entry = vice_gtk3_resource_entry_full_new("MIDIInName");
 #else
     midi_in_entry = vice_gtk3_resource_entry_full_new("MIDIInDev");
 #endif
     gtk_widget_set_hexpand(midi_in_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_in_entry, 1, row, 1, 1);
-#if defined(UNIX_COMPILE) && !defined(ARCHDEP_OS_MACOS)
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
     midi_in_browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(midi_in_browse, "clicked", G_CALLBACK(on_midi_in_browse),
             (gpointer)midi_in_entry);
@@ -308,14 +308,14 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
     midi_out_entry = vice_gtk3_resource_entry_full_new("MIDIOutName");
 #else
     midi_out_entry = vice_gtk3_resource_entry_full_new("MIDIOutDev");
 #endif
     gtk_widget_set_hexpand(midi_out_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_out_entry, 1, row, 1, 1);
-#if defined(UNIX_COMPILE) && !defined(ARCHDEP_OS_MACOS)
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
     midi_out_browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(midi_out_browse, "clicked",
             G_CALLBACK(on_midi_out_browse), (gpointer)midi_out_entry);

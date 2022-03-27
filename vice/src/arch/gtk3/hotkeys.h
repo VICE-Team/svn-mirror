@@ -27,6 +27,8 @@
 #ifndef VICE_HOTKEYS_H
 #define VICE_HOTKEYS_H
 
+#include "vice.h"
+
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include "archdep_defs.h"
@@ -34,7 +36,7 @@
 
 /** \brief  Name of Gtk3 main hotkeys files
  */
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
 # define VHK_PREFIX "gtk3-hotkeys-mac"
 #else
 # define VHK_PREFIX "gtk3-hotkeys"
@@ -65,7 +67,7 @@
  * managers on Linux, and Windows itself, use this key for all sorts of things,
  * we filter it out.
  */
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
 /* Command, Control, Option, Shift */
 # define VHK_ACCEPTED_MODIFIERS \
     (GDK_SHIFT_MASK|GDK_CONTROL_MASK|GDK_MOD1_MASK|GDK_META_MASK)

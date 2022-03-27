@@ -172,7 +172,7 @@ static void kbd_fix_shift_press(GdkEvent *report)
                     caps-lock key. on macOS we get a key down event when caps
                     become locked, and a key up event when it becomes unlocked */
         case GDK_KEY_Caps_Lock:
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
             capslock_lock_state = 1;
 #else
             capslock_state = 1;
@@ -180,7 +180,7 @@ static void kbd_fix_shift_press(GdkEvent *report)
             break;
         /* HACK: this will update the capslock state from other keypresses,
                  hopefully making sure its kept in sync at all times */
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
         default:
             capslock_lock_state = (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
             break;
@@ -206,7 +206,7 @@ static void kbd_fix_shift_release(GdkEvent *report)
                     caps-lock key. on macOS we get a key down event when caps
                     become locked, and a key up event when it becomes unlocked */
         case GDK_KEY_Caps_Lock:
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
             capslock_lock_state = 0;
 #else
             capslock_lock_state ^= 1;
@@ -215,7 +215,7 @@ static void kbd_fix_shift_release(GdkEvent *report)
             break;
         /* HACK: this will update the capslock state from other keypresses,
                  hopefully making sure its kept in sync at all times */
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
         default:
             capslock_lock_state = (report->key.state & GDK_LOCK_MASK) ? 1 : 0;
             break;
@@ -237,7 +237,7 @@ static void kbd_fix_shift_clear(void)
  */
 static void kbd_sync_caps_lock(void)
 {
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
     if (keyboard_get_shiftlock() != capslock_lock_state) {
         keyboard_set_shiftlock(capslock_lock_state);
     }
@@ -665,7 +665,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #endif
 /* HACK: on macOS caps-lock ON and OFF generate events, checking the state as
          such does not work, so we must track und update on our own */
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
             kbd_sync_caps_lock();
 #endif
             return TRUE;
@@ -721,7 +721,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #endif
 /* HACK: on macOS caps-lock ON and OFF generate events, checking the state as
          such does not work, so we must track und update on our own */
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
             kbd_sync_caps_lock();
 #endif
             break;
