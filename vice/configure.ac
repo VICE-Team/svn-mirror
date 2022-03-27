@@ -492,6 +492,21 @@ HAVE_LIBCURL_SUPPORT="no "
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
 
+dnl Set all FOO_COMPILE conditionals to false to simplify the code below
+
+dnl BEOS_COMPILE means both 'classic' BeOS and Haiku
+AM_CONDITIONAL(BEOS_COMPILE, false)
+dnl HAIKU_COMPILE means specifically Haiku
+AM_CONDITIONAL(HAIKU_COMPILE, false)
+AM_CONDITIONAL(LINUX_COMPILE, false)
+dnl BSD_COMPILE means Free, Net, Open and DragonFly BSD
+AM_CONDITIONAL(BSD_COMPILE, false)
+AM_CONDITIONAL(FREEBSD_COMPILE, false)
+AM_CONDITIONAL(NETBSD_COMPILE, false)
+AM_CONDITIONAL(OPENBSD_COMPILE, false)
+AM_CONDITIONAL(DRAGONFLYBSD_COMPILE, false)
+
+
 AS_IF([test x"$enable_cpuhistory" != "xno"],
   [
     AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the 65xx cpu history feature.])
@@ -567,29 +582,25 @@ else
   AC_MSG_ERROR([can not figure type of time_t])
 fi
 
-dnl We probably shouldn't need these:
-AM_CONDITIONAL([HAVE_BSD], false)
-AM_CONDITIONAL([HAVE_BSD_FREE], false)
-AM_CONDITIONAL([HAVE_BSD_NET], false)
-AM_CONDITIONAL([HAVE_BSD_OPEN], false)
-AM_CONDITIONAL([HAVE_BSD_DRAGON], false)
 
-CFLAGS="$old_CFLAGS"
 dnl Add runtime/linker paths for *BSD
-dnl
-dnl This needs to be altered to use VICE_**FLAGS, but I'm kinda busy making that
-dnl work on Linux and Windows. So once that works, alter this:
+CFLAGS="$old_CFLAGS"
+
 case "$host_os" in
   freebsd*)
-    AM_CONDITIONAL([HAVE_BSD], true)
-    AM_CONDITIONAL([HAVE_BSD_FREE], true)
+    AC_DEFINE(BSD_COMPILE,,[Are we compiling for *BSD?])
+    AC_DEFINE(FREEBSD_COMPILE,,[Are we compiling for FreeBSD?])
+    AM_CONDITIONAL(BSD_COMPILE, true)
+    AM_CONDITIONAL(FREEBSD_COMPILE, true)
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
     fbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
     VICE_LDFLAGS="$VICE_LDFLAGS $fbsdrtp -L/usr/local/lib"
     ;;
   netbsd*)
-    AM_CONDITIONAL([HAVE_BSD], true)
-    AM_CONDITIONAL([HAVE_BSD_NET], true)
+    AC_DEFINE(BSD_COMPILE,,[Are we compiling for *BSD?])
+    AC_DEFINE(NETBSD_COMPILE,,[Are we compiling for NetBSD?])
+    AM_CONDITIONAL(BSD_COMPILE, true)
+    AM_CONDITIONAL(NETBSD_COMPILE, true)
     CPPFLAGS="$CPPFLAGS -I/usr/pkg/include -I/usr/include"
     nbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/pkg/lib"`
     VICE_LDFLAGS="$VICE_LDFLAGS $nbsdrtp -L/usr/pkg/lib"
@@ -608,20 +619,28 @@ case "$host_os" in
     fi
     ;;
   openbsd*)
-    AM_CONDITIONAL([HAVE_BSD], true)
-    AM_CONDITIONAL([HAVE_BSD_OPEN], true)
+    AC_DEFINE(BSD_COMPILE,,[Are we compiling for *BSD?])
+    AC_DEFINE(OPENBSD_COMPILE,,[Are we compiling for OpenBSD?])
+    AM_CONDITIONAL(BSD_COMPILE, true)
+    AM_CONDITIONAL(OPENBSD_COMPILE, true)
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
     obsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
     VICE_LDFLAGS="$VICE_LDFLAGS $obsdrtp -L/usr/local/lib"
     ;;
   dragonfly*)
+    AC_DEFINE(BSD_COMPILE,,[Are we compiling for *BSD?])
+    AC_DEFINE(DRAGONFLYBSD_COMPILE,,[Are we compiling for DragonFly BSD?])
+    AM_CONDITIONAL(BSD_COMPILE, true)
+    AM_CONDITIONAL(DRAGONFLYBSD_COMPILE, true)
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
     dfbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
     VICE_LDFLAGS="$VICE_LDFLAGS $dfbsdrtp -L/usr/local/lib"
     ;;
+  dnl Why is this in BSD section?
   cygwin*)
     VICE_CPPFLAGS="$VICE_CPPFLAGS -D_GNU_SOURCE=1"
     ;;
+  dnl Again: why?
   mingw32*)
     is_win32=yes
     ;;
@@ -727,14 +746,6 @@ fi
 
 JOYSTICK_DRIVERS=""
 
-
-dnl Set all FOO_COMPILE conditionals to false to simplify the code below
-
-dnl BEOS_COMPILE means both 'classic' BeOS and Haiku
-AM_CONDITIONAL(BEOS_COMPILE, false)
-dnl HAIKU_COMPILE means specifically Haiku
-AM_CONDITIONAL(HAIKU_COMPILE, false)
-AM_CONDITIONAL(LINUX_COMPILE, false)
 
 
 if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then

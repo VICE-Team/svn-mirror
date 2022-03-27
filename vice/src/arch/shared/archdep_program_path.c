@@ -47,7 +47,7 @@
 /* FIXME: This works for Haiku but might not for classic BeOS! */
 #if defined(ARCHDEP_OS_UNIX) || defined(BEOS_COMPILE)
 # include <unistd.h>
-# if defined(ARCHDEP_OS_BSD_FREE) || defined(ARCHDEP_OS_BSD_DRAGON)
+# if defined(FREEBSD_COMPILE) || defined(DRAGONFLYBSD_COMPILE)
 #  include <sys/sysctl.h>
 # endif
 # ifdef ARCHDEP_OS_MACOS
@@ -225,8 +225,8 @@ const char *archdep_program_path(void)
     }
 
     /* BSD's */
-# elif defined(ARCHDEP_OS_BSD)
-#  if defined(ARCHDEP_OS_BSD_FREE)
+# elif defined(BSD_COMPILE)
+#  if defined(FREEBSD_COMPILE)
 
     int mib[4];
     size_t bufsize = PATH_BUFSIZE;
@@ -254,7 +254,7 @@ const char *archdep_program_path(void)
 #endif
     }
 
-#  elif defined(ARCHDEP_OS_BSD_NET)
+#  elif defined(NETBSD_COMPILE)
 
     if (readlink("/proc/curproc/exe", buffer, sizeof(buffer) - 1) < 0) {
         log_error(LOG_ERR,
@@ -265,7 +265,7 @@ const char *archdep_program_path(void)
         }
     }
 
-#  elif defined(ARCHDEP_OS_BSD_OPEN)
+#  elif defined(OPENBSD_COMPILE)
     /*
      * I couldn't find any non-argv[0] solution for OpenBSD, so this will have
      * to do. --compyx
@@ -273,7 +273,7 @@ const char *archdep_program_path(void)
     if (!argv_fallback()) {
         archdep_vice_exit(1);
     }
-#  elif defined(ARCHDEP_OS_BSD_DRAGON)
+#  elif defined(DRAGONFLYBSD_COMPILE)
 
     int mib[4];
     size_t bufsize = sizeof(buffer);
