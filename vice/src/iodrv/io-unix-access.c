@@ -57,27 +57,6 @@
 #include <machine/cpufunc.h>
 #endif
 
-#if defined(SVR4) && defined(i386)
-#  include <sys/types.h>
-#  ifdef NCR
-       /* broken NCR <sys/sysi86.h> */
-#    define __STDC
-#    include <sys/sysi86.h>
-#    undef __STDC
-#  else
-#    include <sys/sysi86.h>
-#  endif
-#  ifdef SVR4
-#    if !defined(sun)
-#      include <sys/seg.h>
-#    endif
-#  endif
-#  include <sys/v86.h>
-#  ifdef sun
-#    include <sys/psw.h>
-#  endif
-#endif
-
 #include "log.h"
 #include "types.h"
 
