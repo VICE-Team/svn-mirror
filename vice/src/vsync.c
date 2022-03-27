@@ -72,7 +72,7 @@
 
 #include "ui.h"
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #include "macOS-util.h"
 #endif
 
@@ -602,9 +602,9 @@ void vsync_do_end_of_line(void)
     if (update_thread_priority) {
         update_thread_priority = 0;
 
-#if defined(MACOSX_SUPPORT)
+#if defined(MACOS_COMPILE)
         vice_macos_set_vice_thread_priority(warp_enabled);
-#elif defined(__linux__)
+#elif defined(LINUX_COMPILE)
         /* TODO: Linux thread prio stuff, need root or some 'capability' though */
 #else
         /* TODO: BSD thread prio stuff */

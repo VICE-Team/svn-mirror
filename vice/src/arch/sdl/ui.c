@@ -451,7 +451,7 @@ static int set_start_minimized(int val, void *param)
 #endif
 
 #ifndef DEFAULT_MENU_KEY
-# ifdef MACOSX_SUPPORT
+# ifdef MACOS_COMPILE
 #  define DEFAULT_MENU_KEY SDLK_F10
 # else
 #  define DEFAULT_MENU_KEY SDLK_F12

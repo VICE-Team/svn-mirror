@@ -33,7 +33,7 @@
 
 #include "sound.h"
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 
 #include <CoreAudio/CoreAudio.h>
 
@@ -67,7 +67,7 @@ void archdep_sound_enable_default_device_tracking(void)
                                 nil);
 }
 
-#else /* #ifdef MACOSX_SUPPORT */
+#else /* #ifdef MACOS_COMPILE */
 
 /* Not supported on puny Linux and Windows yet */
 
@@ -75,4 +75,4 @@ void archdep_sound_enable_default_device_tracking(void)
 {
 }
 
-#endif /* #ifdef MACOSX_SUPPORT */
+#endif /* #ifdef MACOS_COMPILE */

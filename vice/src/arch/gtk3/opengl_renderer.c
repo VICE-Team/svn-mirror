@@ -34,7 +34,7 @@
 #include <gtk/gtk.h>
 #include <math.h>
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #include <CoreGraphics/CGDirectDisplay.h>
 #endif
 
@@ -53,7 +53,7 @@
 #include "vsync.h"
 #include "vsyncapi.h"
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #include "macOS-util.h"
 #endif
 
@@ -141,7 +141,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
 
     CANVAS_LOCK();
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
     /* The content area coordinates include the menu on macOS */
     gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &context->native_view_x, &context->native_view_y);
 #endif
@@ -217,7 +217,7 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
         return;
     }
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
     /* The content area coordinates include the menu on macOS */
     gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &context->native_view_x, &context->native_view_y);
 #endif
@@ -337,7 +337,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
 }
 
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 static void macos_set_host_mouse_visibility(GtkWindow *gtk_window)
 {
     /*
@@ -437,7 +437,7 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
         render_thread_push_job(context->render_thread, render_thread_render);
     }
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
     GtkWindow *window = GTK_WINDOW(gtk_widget_get_toplevel(canvas->event_box));
 
     CANVAS_UNLOCK();
@@ -655,9 +655,9 @@ static void render(void *job_data, void *pool_data)
     if (job == render_thread_init) {
         archdep_thread_init();
 
-#if defined(MACOSX_SUPPORT)
+#if defined(MACOS_COMPILE)
         vice_macos_set_render_thread_priority();
-#elif defined(__linux__)
+#elif defined(LINUX_COMPILE)
         /* TODO: Linux thread prio stuff, need root or some 'capability' though */
 #else
         /* TODO: BSD thread prio stuff */

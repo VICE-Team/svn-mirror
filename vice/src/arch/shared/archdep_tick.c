@@ -40,7 +40,7 @@
 #   include <sys/time.h>
 #endif
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #   include <mach/mach.h>
 #   include <mach/mach_time.h>
 #endif
@@ -58,7 +58,7 @@
 #ifdef WIN32_COMPILE
 static LARGE_INTEGER timer_frequency;
 static HANDLE wait_timer;
-#elif defined(MACOSX_SUPPORT)
+#elif defined(MACOS_COMPILE)
 static mach_timebase_info_data_t timebase_info;
 #endif
 
@@ -69,7 +69,7 @@ void tick_init(void)
 
     wait_timer = CreateWaitableTimer(NULL, TRUE, NULL);
 
-#elif defined(MACOSX_SUPPORT)
+#elif defined(MACOS_COMPILE)
     mach_timebase_info(&timebase_info);
 
 #endif
@@ -90,7 +90,7 @@ tick_t tick_now(void)
     return (tick_t)(time_now.QuadPart / ((double)timer_frequency.QuadPart / TICK_PER_SECOND));
 }
 
-#elif defined(MACOSX_SUPPORT)
+#elif defined(MACOS_COMPILE)
 tick_t tick_now(void)
 {
     return NANO_TO_TICK(mach_absolute_time() * timebase_info.numer / timebase_info.denom);
@@ -100,10 +100,10 @@ tick_t tick_now(void)
 tick_t tick_now(void)
 {
     struct timespec now;
-    
+
 #if defined(LINUX_COMPILE)
     clock_gettime(CLOCK_MONOTONIC_RAW, &now);
-#elif defined(__FreeBSD__)
+#elif defined(FREEBSD_COMPILE)
     clock_gettime(CLOCK_MONOTONIC_PRECISE, &now);
 #else
     clock_gettime(CLOCK_MONOTONIC, &now);

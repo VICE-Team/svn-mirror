@@ -34,6 +34,8 @@
 #ifndef VICE_UITYPES_H
 #define VICE_UITYPES_H
 
+#include "vice.h"
+
 /** \brief  Menu item types
  *
  * The submenu types needs special handling, no more callbacks to create the
@@ -175,7 +177,7 @@ typedef struct ui_menu_ref_s {
 
 /** \brief  Platform-dependent accelerator key defines
  */
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
   /* Mac Command key (Windows key on PC keyboards) */
   #define VICE_MOD_MASK GDK_META_MASK
 #else

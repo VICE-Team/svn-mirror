@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#if defined(MACOSX_SUPPORT)
+#if defined(MACOS_COMPILE)
 #import <CoreGraphics/CGRemoteOperation.h>
 #import <CoreGraphics/CGEvent.h>
 #elif defined(WIN32_COMPILE)

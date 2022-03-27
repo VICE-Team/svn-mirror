@@ -401,7 +401,7 @@ static gboolean ctrl_plus_key_pressed(char **input_buffer, guint keyval, GtkWidg
             /* ctrl+e, go to the end of the line */
             *input_buffer = append_char_to_input_buffer(*input_buffer, 5);
             return TRUE;
-#ifndef MACOSX_SUPPORT
+#ifndef MACOS_COMPILE
         case GDK_KEY_c:
         case GDK_KEY_C:
             vte_terminal_copy_clipboard(VTE_TERMINAL(terminal));
@@ -416,7 +416,7 @@ static gboolean ctrl_plus_key_pressed(char **input_buffer, guint keyval, GtkWidg
     }
 }
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidget *terminal)
 {
     switch (keyval) {
@@ -460,7 +460,7 @@ static gboolean key_press_event (GtkWidget   *widget,
             retval = ctrl_plus_key_pressed(&fixed.input_buffer, event->keyval, widget);
             goto done;
         }
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
         if (state & GDK_MOD2_MASK) {
             retval = cmd_plus_key_pressed(&fixed.input_buffer, event->keyval, widget);
             goto done;

@@ -28,6 +28,8 @@
 #ifndef VICE_ARCHDEP_UNIX_H
 #define VICE_ARCHDEP_UNIX_H
 
+#include "vice.h"
+
 #define VICE_ARCHAPI_PRIVATE_API
 #include "archapi.h"
 #undef VICE_ARCHAPI_PRIVATE_API
@@ -103,7 +105,7 @@ void archdep_signals_init(int do_core_dumps);
 void archdep_signals_pipe_set(void);
 void archdep_signals_pipe_unset(void);
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #define MAKE_SO_NAME_VERSION_PROTO(name, version)  "lib" #name "." #version ".dylib"
 #else
 #define MAKE_SO_NAME_VERSION_PROTO(name, version)  "lib" #name ".so." #version
@@ -112,7 +114,7 @@ void archdep_signals_pipe_unset(void);
 /* add second level macro to allow expansion and stringification */
 #define ARCHDEP_MAKE_SO_NAME_VERSION(n, v) MAKE_SO_NAME_VERSION_PROTO(n, v)
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #define ARCHDEP_OPENCBM_SO_NAME  "libopencbm.dylib"
 #define ARCHDEP_LAME_SO_NAME     "libmp3lame.dylib"
 #else

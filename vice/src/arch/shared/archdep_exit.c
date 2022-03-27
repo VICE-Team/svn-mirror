@@ -33,7 +33,7 @@
 
 #if !defined(USE_HEADLESSUI) && !defined(USE_SDLUI2) && !defined(USE_SDLUI)
 #ifdef UNIX_COMPILE
-#ifndef MACOSX_SUPPORT
+#ifndef MACOS_COMPILE
 #include <X11/Xlib.h>
 #endif
 #endif
@@ -69,7 +69,7 @@ static pthread_t main_thread;
 #include "main.h"
 #include "mainlock.h"
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #include "macOS-util.h"
 #endif
 
@@ -150,7 +150,7 @@ void archdep_set_main_thread(void)
 {
     main_thread = pthread_self();
 
-#if defined(MACOSX_SUPPORT)
+#if defined(MACOS_COMPILE)
 
     /* macOS specific main thread init written in objective-c */
     vice_macos_set_main_thread();

@@ -47,7 +47,7 @@
 # include <unistd.h>
 #endif
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 # include <libproc.h>
 #endif
 

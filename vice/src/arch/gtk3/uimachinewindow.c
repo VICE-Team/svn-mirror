@@ -39,11 +39,11 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#if !defined(MACOSX_SUPPORT) && !defined(WIN32_COMPILE)
+#if !defined(MACOS_COMPILE) && !defined(WIN32_COMPILE)
 #include <gdk/gdkx.h>
 #endif
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #import <CoreGraphics/CGEvent.h>
 
 #elif defined(WIN32_COMPILE)
@@ -68,7 +68,7 @@
 #include "uimachinemenu.h"
 #include "uimachinewindow.h"
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #include "macOS-util.h"
 #endif
 
@@ -121,7 +121,7 @@ static int host_delta_origin_y = 0.0;
  */
 static void warp(int x, int y)
 {
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 
     CGWarpMouseCursorPosition(CGPointMake(x, y));
     CGAssociateMouseAndMouseCursorPosition(true);
@@ -261,7 +261,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         int widget_x, widget_y;
         gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &widget_x, &widget_y);
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
         CGRect native_frame, content_rect;
 
         vice_macos_get_widget_frame_and_content_rect(widget, &native_frame, &content_rect);
@@ -751,7 +751,7 @@ void ui_mouse_grab_pointer(void)
      * each time we detect mouse movement.
      */
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 
     CGRect native_frame, content_rect;
     vice_macos_get_widget_frame_and_content_rect(window, &native_frame, &content_rect);

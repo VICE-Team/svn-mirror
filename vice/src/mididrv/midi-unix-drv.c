@@ -30,7 +30,7 @@
 
 #include "vice.h"
 
-#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
 
 #ifdef HAVE_MIDI
 

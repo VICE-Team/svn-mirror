@@ -59,7 +59,7 @@
 
 /** \brief  OS is UNIX */
 
-# if defined(MACOSX_SUPPORT)
+# if defined(MACOS_COMPILE)
 
 /** \brief  OS is Unix and MacOS */
 #  define ARCHDEP_OS_MACOS

@@ -152,7 +152,7 @@ static ui_menu_item_t file_menu[] = {
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
       0,
       ui_monitor_activate_callback, NULL, NULL,
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
       /* use Command-Option-M on Mac */
       GDK_KEY_M, VICE_MOD_MASK|GDK_MOD1_MASK,
 #else
