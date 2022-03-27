@@ -503,7 +503,7 @@ void ui_display_kbd_status(SDL_Event *e)
          * warnings, but that might bite us in the arse in the future.
          * So I use conditional compiling to make the issue clear.  -- compyx
          */
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
         sprintf(p, "%c%03d>%03d %c%04x    ",
 #else
         sprintf(p, "%c%03u>%03u %c%04x    ",
@@ -513,7 +513,7 @@ void ui_display_kbd_status(SDL_Event *e)
                 SDL2x_to_SDL1x_Keys(e->key.keysym.sym),
                 ((e->key.keysym.sym & 0xffff0000) == 0x40000000) ? 'M' : ((e->key.keysym.sym & 0xffff0000) != 0x00000000) ? 'E' : ' ',
                 e->key.keysym.mod);
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
         log_message(LOG_DEFAULT, "%s %03d>%03d %c%04x",
 #else
         log_message(LOG_DEFAULT, "%s %03u>%03u %c%04x",

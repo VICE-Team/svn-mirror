@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#if !defined(USE_HEADLESSUI) && !defined(USE_SDLUI2) && !defined(USE_SDLUI)
+#if !defined(USE_HEADLESSUI) && !defined(USE_SDL2UI) && !defined(USE_SDLUI)
 #ifdef UNIX_COMPILE
 #ifndef MACOS_COMPILE
 #include <X11/Xlib.h>

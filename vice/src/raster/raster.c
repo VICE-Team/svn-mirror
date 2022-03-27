@@ -190,7 +190,7 @@ static int realize_canvas(raster_t *raster)
 
         raster->canvas = new_canvas;
 
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
         /* A hack to allow raster_force_repaint() calls for SDL UI & vkbd */
         raster->canvas->parent_raster = raster;
 #endif

@@ -137,7 +137,7 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("c64");
         return -1;
     }
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
     if (vicii_cmdline_options_init() < 0) {
         init_cmdline_options_fail("vicii");
         return -1;
@@ -188,7 +188,7 @@ void machine_setup_context(void)
 /* C64-specific initialization.  */
 int machine_specific_init(void)
 {
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
     if (console_mode) {
         video_disabled_mode = 1;
     }

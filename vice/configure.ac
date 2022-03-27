@@ -1356,7 +1356,7 @@ if test x"$check_sdl2" = "xyes"; then
     dnl SDL2 is much more consistent than SDL1 so none of these
     dnl actually require tests.
     if test x"$enable_sdlui2" != "xno"; then
-      AC_DEFINE(USE_SDLUI2,,[Enable SDL2 UI support.])
+      AC_DEFINE(USE_SDL2UI,,[Enable SDL2 UI support.])
       AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
       HAVE_FULLSCREEN_SUPPORT="yes"
       AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])

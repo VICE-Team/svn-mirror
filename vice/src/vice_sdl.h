@@ -43,7 +43,7 @@
 #undef HAVE_NANOSLEEP
 #endif
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 #  include <SDL.h>
 #  include <SDL_keycode.h>
 #  ifdef INCLUDE_SDL_SYSWM_H

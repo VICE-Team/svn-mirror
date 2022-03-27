@@ -1807,7 +1807,7 @@ void mon_display_screen(long addr)
 
     for (r = 0; r < rows; r++) {
         /* Only show addresses of each line in non-SDL */
-#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
+#if !defined(USE_SDLUI) && !defined(USE_SDL2UI)
         mon_out("%04x  ", base);
 #endif
         for (c = 0; c < cols; c++) {

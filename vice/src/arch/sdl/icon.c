@@ -43,7 +43,7 @@
 #include "icon.h"
 
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 
 /** \brief  Set window icon
  *

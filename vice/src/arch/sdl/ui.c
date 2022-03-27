@@ -86,7 +86,7 @@ static void (*psid_play_func)(int) = NULL;
 /* Misc. SDL event handling */
 void ui_handle_misc_sdl_event(SDL_Event e)
 {
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     int capslock;
 
     if (e.type == SDL_WINDOWEVENT) {
@@ -129,7 +129,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             DBG(("ui_handle_misc_sdl_event: SDL_QUIT"));
             ui_sdl_quit();
             break;
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         case SDL_VIDEORESIZE:
             DBG(("ui_handle_misc_sdl_event: SDL_VIDEORESIZE (%d,%d)", (unsigned int)e.resize.w, (unsigned int)e.resize.h));
             sdl_video_resize_event((unsigned int)e.resize.w, (unsigned int)e.resize.h);
@@ -222,7 +222,7 @@ ui_menu_action_t ui_dispatch_events(void)
                     retval = sdljoy_hat_event(joynum, e.jhat.hat, e.jhat.value);
                 }
                 break;
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
             case SDL_JOYDEVICEADDED:
             case SDL_JOYDEVICEREMOVED:
                 retval = sdljoy_rescan();
@@ -262,7 +262,7 @@ ui_menu_action_t ui_dispatch_events(void)
  * TODO: and perhaps in windowed mode enable it when the mouse is moved.
  */
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 static SDL_Cursor *arrow_cursor = NULL;
 static SDL_Cursor *crosshair_cursor = NULL;
 
@@ -290,7 +290,7 @@ void ui_check_mouse_cursor(void)
     if (_mouse_enabled && !lightpen_enabled && !sdl_menu_state) {
         /* mouse grabbed, not in menu. grab input but do not show a pointer */
         SDL_ShowCursor(SDL_DISABLE);
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         SDL_WM_GrabInput(SDL_GRAB_ON);
 #else
         set_arrow_cursor();
@@ -299,7 +299,7 @@ void ui_check_mouse_cursor(void)
     } else if (lightpen_enabled && !sdl_menu_state) {
         /* lightpen active, not in menu. show a pointer for the lightpen emulation */
         SDL_ShowCursor(SDL_ENABLE);
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
         set_crosshair_cursor();
@@ -309,7 +309,7 @@ void ui_check_mouse_cursor(void)
         if (sdl_active_canvas->fullscreenconfig->enable) {
             /* fullscreen, never show pointer (we really never need it) */
             SDL_ShowCursor(SDL_DISABLE);
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
             SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
             set_arrow_cursor();
@@ -318,7 +318,7 @@ void ui_check_mouse_cursor(void)
         } else {
             /* windowed */
             SDL_ShowCursor(mouse_pointer_hidden ? SDL_DISABLE : SDL_ENABLE);
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
             SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
             set_arrow_cursor();
@@ -508,11 +508,11 @@ void ui_sdl_quit(void)
 /* Initialization  */
 int ui_resources_init(void)
 {
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     int i;
 #endif
     DBG(("%s", __func__));
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     /* this converts the default keycodes as needed */
     for (i = 0; i < 13; i++) {
         resources_int[i].factory_value = SDL2x_to_SDL1x_Keys(resources_int[i].factory_value);
@@ -660,7 +660,7 @@ int ui_init_finalize(void)
 
     if (!console_mode) {
         sdl_ui_init_finalize();
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         SDL_WM_SetCaption(sdl_active_canvas->viewport->title, "VICE");
 #endif
         sdl_ui_ready = 1;
@@ -671,7 +671,7 @@ int ui_init_finalize(void)
 void ui_shutdown(void)
 {
     DBG(("%s", __func__));
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     if (arrow_cursor) {
         SDL_FreeCursor(arrow_cursor);
         arrow_cursor = NULL;

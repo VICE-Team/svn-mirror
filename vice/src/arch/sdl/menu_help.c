@@ -400,7 +400,7 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("Version " VERSION, i);
 #endif
         i++;
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
         sdl_ui_print_center("SDL2", i++);
 #else
         sdl_ui_print_center("SDL", i++);

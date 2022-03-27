@@ -50,7 +50,7 @@ char *archdep_get_vice_datadir(void)
     char *path;
 
 #ifdef ARCHDEP_OS_WINDOWS
-# if defined(USE_SDLUI) || defined(USE_SDLUI2)
+# if defined(USE_SDLUI) || defined(USE_SDL2UI)
     path = lib_strdup(archdep_boot_path());
 # else
     path = util_join_paths(archdep_boot_path(), "..", NULL);

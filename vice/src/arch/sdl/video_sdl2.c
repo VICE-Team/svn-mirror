@@ -403,7 +403,7 @@ static const resource_int_t resources_int[] = {
       &sdl_gl_flipy, set_sdl_gl_flipy, NULL },
     { "SDLGLFilter", SDL_FILTER_LINEAR, RES_EVENT_NO, NULL,
       &sdl_gl_filter_res, set_sdl_gl_filter, NULL },
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     { "SDL2DualWindow", 0, RES_EVENT_NO, NULL,
       &sdl2_dual_window, set_sdl2_dual_window, NULL },
 #endif
@@ -508,7 +508,7 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdl2renderer", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDL2Renderer", NULL,
       "<renderer name>", "Set the preferred SDL2 renderer" },
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     { "-sdl2dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SDL2DualWindow", (void *)1,
       NULL, "Enable dual window rendering"},
@@ -1148,7 +1148,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     canvas->real_width = 0;
     canvas->real_height = 0;
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     canvas->container = NULL;
 #endif
 
@@ -1167,7 +1167,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 
     for (i = 0; i < sdl_num_screens; ++i) {
         if (sdl_canvaslist[i] == canvas) {
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
             /* If the second window isn't visible, then both canvas lists should
                be sharing the same container. Set the other one to NULL
                directly so we don't accidentally double free. */
