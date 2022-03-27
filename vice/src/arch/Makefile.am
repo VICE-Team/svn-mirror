@@ -15,7 +15,7 @@ libarch:
 
 else
 
-if SDL_COMPILE
+if USE_SDLUI
 
 SUBDIRS = shared sdl
 

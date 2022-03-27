@@ -41,7 +41,7 @@ sdl_keymaps = \
 sdl_hotkeys = \
 	sdl-hotkeys.vhk
 
-if SDL_COMPILE
+if USE_SDLUI
 plus4_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
 
 EXTRA_DIST = $(plus4_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
