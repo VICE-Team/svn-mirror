@@ -85,14 +85,6 @@
 #define ALLOW_UNALIGNED_ACCESS
 #endif
 
-/* SunOS 4.x specific stuff */
-#if defined(sun) || defined(__sun)
-#  if !defined(__SVR4) && !defined(__svr4__)
-#    include <unistd.h>
-typedef int ssize_t;
-#  endif
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 #if (defined(__BEOS__) && defined(WORDS_BIGENDIAN))

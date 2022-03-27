@@ -66,22 +66,6 @@ static char *parport_name[MAXSID] = { "/dev/ppi0", "/dev/ppi1", "/dev/ppi2" };
 #define PARPORT_NULL -1
 #endif
 
-#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-#define IOPREAD 1
-#define IOPWRITE 2
-#define PARPORT_TYPE int
-#define PARPORT_NULL -1
-
-typedef struct iopbuf_struct {
-    unsigned int port;
-    unsigned char port_value;
-} iopbuf;
-
-static int fd = -1;
-
-static int ports[MAXSID] = {0x3bc, 0x378, 0x278};
-#endif
-
 static int sids_found = -1;
 static PARPORT_TYPE pssids[MAXSID] = {PARPORT_NULL, PARPORT_NULL, PARPORT_NULL};
 static int psctrl[MAXSID] = {-1, -1, -1};
@@ -90,116 +74,6 @@ static int psctrl[MAXSID] = {-1, -1, -1};
 static uint8_t detect_sid_read(uint16_t addr, int chipno);
 static void detect_sid_store(uint16_t addr, uint8_t outval, int chipno);
 static int detect_sid(int chipno);
-
-#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-uint8_t ps_file_in_data(int chipno)
-{
-    iopbuf tmpbuf;
-
-    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
-        tmpbuf.port_value = 0;
-        tmpbuf.port = pssids[chipno];
-
-        ioctl(fd, IOPREAD, &tmpbuf);
-    }
-    return tmpbuf.port_value;
-}
-
-void ps_file_out_data(uint8_t outval, int chipno)
-{
-    iopbuf tmpbuf;
-
-    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
-        tmpbuf.port_value = outval;
-        tmpbuf.port = pssids[chipno];
-
-        ioctl(fd, IOPWRITE, &tmpbuf);
-    }
-}
-
-void ps_file_out_ctr(uint8_t parsid_ctrport, int chipno)
-{
-    iopbuf tmpbuf;
-
-    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
-        tmpbuf.port_value = parsid_ctrport;
-        tmpbuf.port = pssids[chipno] + 2;
-
-        ioctl(fd, IOPWRITE, &tmpbuf);
-        psctrl[chipno] = parsid_ctrport;
-    }
-}
-
-uint8_t ps_file_in_ctr(int chipno)
-{
-    iopbuf tmpbuf;
-
-    if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
-        if (psctrl[chipno] == -1) {
-            tmpbuf.port_value = 0;
-            tmpbuf.port = pssids[chipno] + 2;
-            ioctl(fd, IOPWRITE, &tmpbuf);
-            psctrl[chipno] = 0;
-        } else {
-            return (uint8_t)psctrl[chipno];
-        }
-    }
-    return 0;
-}
-
-int ps_file_open(void)
-{
-    int i;
-
-    if (!sids_found) {
-        return -1;
-    }
-
-    if (sids_found > 0) {
-        return 0;
-    }
-
-    sids_found = 0;
-
-    log_message(LOG_DEFAULT, "Detecting Solaris ParSIDs.");
-
-    fd = open("/devices/pseudo/iop@0:iop", O_RDONLY);
-
-    if (fd < 0) {
-        log_message(LOG_DEFAULT, "Solaris IOP device not found.");
-        return -1;
-    }
-
-    for (i = 0; i < MAXSID; ++i) {
-        pssids[sids_found] = ports[i];
-        if (detect_sid(sids_found)) {
-            sids_found++;
-            log_message(LOG_DEFAULT, "ParSID found at $%X.", ports[i]);
-        } else {
-            log_message(LOG_DEFAULT, "No ParSID at $%X.", ports[i]);
-        }
-    }
-
-    if (!sids_found) {
-        log_message(LOG_DEFAULT, "No Solaris ParSIDs found.");
-        close(fd);
-        return -1;
-    }
-
-    log_message(LOG_DEFAULT, "Solaris ParSID: opened, found %d SIDs.", sids_found);
-
-    return 0;
-}
-
-int ps_file_close(void)
-{
-    close(fd);
-
-    log_message(LOG_DEFAULT, "Solaris ParSID: closed.");
-
-    return 0;
-}
-#endif
 
 #ifdef HAVE_LINUX_PARPORT_HEADERS
 uint8_t ps_file_in_data(int chipno)

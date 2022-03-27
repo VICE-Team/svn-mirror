@@ -42,10 +42,6 @@
 #include <sys/ioctl.h>
 #endif
 
-#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-#include <sys/stat.h>
-#endif
-
 #ifdef WIN32_COMPILE
 #include <windows.h>
 #include <winternl.h>
