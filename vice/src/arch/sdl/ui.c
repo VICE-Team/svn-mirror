@@ -446,10 +446,6 @@ static int set_start_minimized(int val, void *param)
     return 0;
 }
 
-#ifdef __sortix__
-#define DEFAULT_MENU_KEY SDLK_END
-#endif
-
 #ifndef DEFAULT_MENU_KEY
 # ifdef MACOS_COMPILE
 #  define DEFAULT_MENU_KEY SDLK_F10

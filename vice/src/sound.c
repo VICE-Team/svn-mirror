@@ -114,9 +114,6 @@ static const sound_register_devices_t sound_register_devices[] = {
 #ifdef USE_DXSOUND
     { "dx", sound_init_dx_device, SOUND_PLAYBACK_DEVICE },
 #endif
-#if !defined(__XBOX__)
-    { "wmm", sound_init_wmm_device, SOUND_PLAYBACK_DEVICE },
-#endif
 #endif
 
 #ifdef BEOS_COMPILE
