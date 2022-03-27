@@ -47,15 +47,6 @@ extern char *alloca();
 #endif /* HAVE_ALLOCA_H.  */
 #endif /* GCC.  */
 
-/* SunOS 4.x specific stuff */
-#if defined(sun) || defined(__sun)
-#  if !defined(__SVR4) && !defined(__svr4__)
-#    ifdef __sparc__
-#      define YYFREE
-#    endif
-#  endif
-#endif
-
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

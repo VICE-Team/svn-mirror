@@ -83,55 +83,11 @@
 
 #include "io-access.h"
 
-#if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
+#if defined(__linux) || defined(__FreeBSD__)
 
 #define IO_PORT_ACCESS
 
 static int io_fd = -1;
-#endif
-
-#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-#define IOPREAD 1
-#define IOPWRITE 2
-
-typedef struct iopbuf_struct {
-        unsigned int port;
-        unsigned char port_value;
-} iopbuf;
-
-static int device_io_open(void)
-{
-    io_fd = open("/devices/pseudo/iop@0:iop", O_RDWR);
-
-    if (io_fd == -1) {
-        log_message(LOG_DEFAULT, "Could not open '/devices/pseudo/iop@0:iop'.");
-        return -1;
-    }
-    log_message(LOG_DEFAULT, "Opened '/devices/pseudo/iop@0:iop' for I/O access.");
-    return 0;
-}
-
-static uint8_t device_io_inb(uint16_t addr)
-{
-    iopbuf tmpbuf;
-
-    tmpbuf.port_value = 0;
-    tmpbuf.port = addr;
-
-    ioctl(io_fd, IOPREAD, &tmpbuf);
-
-    return tmpbuf.port_value;
-}
-
-static void device_io_outb(uint16_t addr, uint8_t val)
-{
-    iopbuf tmpbuf;
-
-    tmpbuf.port_value = val;
-    tmpbuf.port = addr;
-
-    ioctl(io_fd, IOPWRITE, &tmpbuf);
-}
 #endif
 
 #ifdef __linux
@@ -318,25 +274,6 @@ static inline uint8_t vice_inb(uint16_t port)
 }
 #endif
 
-#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-#if !defined(__sparc64__) && !defined(sparc64) && !defined(__sparc__) && !defined(sparc) && !defined(__PPC__) && !defined(__ppc)
-#define VICE_OUTB_DEFINED
-static inline void vice_outb(uint16_t port, uint8_t val)
-{
-    __asm__ __volatile__ ("outb (%w1)": :"a" (val), "Nd" (port));
-}
-
-static inline uint8_t vice_inb(uint16_t port)
-{
-    uint8_t retval;
-
-    __asm__ __volatile__ ("inb (%w1)":"=a" (retval):"Nd" (port));
-
-    return retval;
-}
-#endif
-#endif
-
 #ifndef VICE_OUTB_DEFINED
 #  ifdef HAVE_OUTB_P
 static inline void vice_outb(uint16_t port, uint8_t val)
@@ -438,19 +375,6 @@ int io_access_map(uint16_t addr, uint16_t space)
        return 0;
     }
 #endif
-
-#if defined(SVR4) && defined(i386)
-#  ifndef SI86IOPL
-    if (sysi86(SI86V86, V86SC_IOPL, PS_IOPL) != -1) {
-        return 0;
-    }
-#  else
-    if (sysi86(SI86IOPL, 3) != -1) {
-        return 0;
-    }
-#  endif
-#endif
-
     return -1;
 }
 
@@ -491,12 +415,5 @@ void io_access_unmap(uint16_t addr, uint16_t space)
     ioperm(addr, space, 0);
 #endif
 
-#if defined(SVR4) && defined(i386)
-#  ifndef SI86IOPL
-    sysi86(SI86V86, V86SC_IOPL, 0);
-#  else
-    sysi86(SI86IOPL, 0);
-#  endif
-#endif
 }
 #endif

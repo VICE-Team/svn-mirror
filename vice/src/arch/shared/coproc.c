@@ -53,11 +53,6 @@
 
 #ifdef UNIX_COMPILE
 
-/* Solaris and Gtk3 eh? */
-#ifdef __svr4__
-#define _POSIX_SOURCE
-#endif
-
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -77,12 +72,6 @@
 #ifndef sigset_t
 #define sigset_t int
 #endif
-
-/* HP-UX 9 fix */
-#ifndef SA_RESTART
-#define SA_RESTART 0
-#endif
-
 
 static struct sigaction ignore;
 
