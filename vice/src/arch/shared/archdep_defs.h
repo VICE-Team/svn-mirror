@@ -38,15 +38,18 @@
  * The question marks indicate ports I have my doubts about they'll even run
  * VICE at all.
  *
+ * XXX: Non of the ARCHDEP_OS_* macros should be left when we've finished the
+ *      archdep cleanup!
+ *
  * <pre>
  *  ARCHDEP_OS_UNIX
  *    ARCHDEP_OS_MACOS
  *    LINUX_COMPILE
- *    ARCHDEP_OS_BSD
- *      ARCHDEP_OS_BSD_FREE
- *      ARCHDEP_OS_BSD_NET
- *      ARCHDEP_OS_BSD_OPEN
- *      ARCHDEP_OS_BSD_DRAGON
+ *    BSD_COMPILE
+ *      FREEBSD_COMPILE
+ *      NETBSD_COMPILE
+ *      OPENBSD_COMPILE
+ *      DRAGONFLYBSD_COMPILE
  *  ARCHDEP_OS_WINDOWS
  *  BEOS_COMPILE
  *    HAIKU_COMPILE
@@ -61,33 +64,6 @@
 
 /** \brief  OS is Unix and MacOS */
 #  define ARCHDEP_OS_MACOS
-
-# elif defined(__FreeBSD__)
-
-/** \brief  OS is BSD */
-#  define ARCHDEP_OS_BSD
-
-/** \brief  OS is FreeBSD */
-#  define ARCHDEP_OS_BSD_FREE
-
-# elif defined(__NetBSD__)
-
-#  define ARCHDEP_OS_BSD
-/** \brief  OS is NetBSD */
-#  define ARCHDEP_OS_BSD_NET
-
-# elif defined(__OpenBSD__)
-#  define ARCHDEP_OS_BSD
-
-/** \brief  OS is OpenBSD */
-#  define ARCHDEP_OS_BSD_OPEN
-
-# elif defined(__DragonFly__)
-#  define ARCHDEP_OS_BSD
-
-
-/** \brief  OS is DragonFly BSD */
-#  define ARCHDEP_OS_BSD_DRAGON
 
 # endif /* ifdef UNIX_COMPILE */
 
@@ -139,7 +115,7 @@
  */
 #if 0
 # ifndef PATH_MAX 
-#  if defined(ARCHDEP_OS_BSD) || defined(ARCHDEP_OS_MACOS)
+#  if defined(BSD_COMPILE) || defined(ARCHDEP_OS_MACOS)
 #   include <sys/syslimits.h>
 #  endif
 # endif
