@@ -195,7 +195,7 @@ cleanup:
     return retval;
 }
 
-#elif defined(ARCHDEP_OS_BEOS)
+#elif defined(BEOS_COMPILE)
 
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)

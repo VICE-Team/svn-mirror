@@ -44,7 +44,8 @@
 #include <stdbool.h>
 #include <errno.h>
 /* for readlink(2) */
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
+/* FIXME: This works for Haiku but might not for classic BeOS! */
+#if defined(ARCHDEP_OS_UNIX) || defined(BEOS_COMPILE)
 # include <unistd.h>
 # if defined(ARCHDEP_OS_BSD_FREE) || defined(ARCHDEP_OS_BSD_DRAGON)
 #  include <sys/sysctl.h>

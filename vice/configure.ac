@@ -727,9 +727,15 @@ fi
 
 JOYSTICK_DRIVERS=""
 
+
+dnl Set all FOO_COMPILE conditionals to false to simplify the code below
+
+dnl BEOS_COMPILE means both 'classic' BeOS and Haiku
+AM_CONDITIONAL(BEOS_COMPILE, false)
+dnl HAIKU_COMPILE means specifically Haiku
+AM_CONDITIONAL(HAIKU_COMPILE, false)
 AM_CONDITIONAL(LINUX_COMPILE, false)
 
-dnl Setup crosscompiling.
 
 if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
 
@@ -816,6 +822,12 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
 
   is_beos=yes
   AC_DEFINE(BEOS_COMPILE,,[Are we compiling for either BeOS or Haiku?])
+  AM_CONDITIONAL(BEOS_COMPILE, true)
+
+  if test x"$host_os" = "xhaiku"; then
+    AC_DEFINE(HAIKU_COMPILE,,[Are we compiling for Haiku?])
+    AM_CONDITIONAL(HAIKU_COMPILE, true)
+  fi
 
   if test x"$enable_catweasel" != "xno"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
@@ -3398,7 +3410,6 @@ if test x"$is_unix" = "xyes"; then
   else
      AM_CONDITIONAL(WIN32_COMPILE, false)
   fi
-  AM_CONDITIONAL(BEOS_COMPILE, false)
 
   if test x"$is_unix_macosx" = "xyes" ; then
     AM_CONDITIONAL(MACOS_COMPILE, true)
@@ -3422,14 +3433,12 @@ elif test x"$is_win32" = "xyes"; then
 
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(MACOS_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
-  AM_CONDITIONAL(BEOS_COMPILE, true)
   AM_CONDITIONAL(MACOS_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)

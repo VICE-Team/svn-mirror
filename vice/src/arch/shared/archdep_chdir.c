@@ -35,7 +35,7 @@
 #include "archdep_defs.h"
 
 #include <stddef.h>
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
 # include <unistd.h>
 #elif defined(ARCHDEP_OS_WINDOWS)
 # include <direct.h>
@@ -54,7 +54,7 @@
  */
 int archdep_chdir(const char *path)
 {
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
     return chdir(path);
 #elif defined(ARCHDEP_OS_WINDOWS)
     return _chdir(path);

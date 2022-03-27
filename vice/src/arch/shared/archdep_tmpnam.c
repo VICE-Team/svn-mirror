@@ -34,7 +34,7 @@
  */
 #include <stdio.h>
 #include <string.h>
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
 # include <unistd.h>
 #endif
 #ifdef ARCHDEP_OS_WINDOWS
@@ -51,9 +51,9 @@
 
 char *archdep_tmpnam(void)
 {
-#if defined(ARCHDEP_OS_BEOS) && !defined(ARCHDEP_OS_HAIKU)
+#if defined(BEOS_COMPILE) && !defined(HAIKU_COMPILE)
     return lib_strdup(tmpnam(NULL));
-#elif defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#elif defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
     /*
      * Linux manpage for tmpnam(3) says to never use it, FreeBSD indicates the
      * same.

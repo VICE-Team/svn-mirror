@@ -80,7 +80,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     const char *boot_path = NULL;
     char *datadir = NULL;
-#if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
+#if !defined(ARCHDEP_OS_WINDOWS) && !defined(BEOS_COMPILE)
     char *home_path = NULL;
 # ifdef ARCHDEP_OS_UNIX
     char *xdg_data = NULL;
@@ -98,7 +98,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
     boot_path = archdep_boot_path();
     datadir = archdep_get_vice_datadir();
-#if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
+#if !defined(ARCHDEP_OS_WINDOWS) && !defined(BEOS_COMPILE)
 
 # ifdef ARCHDEP_OS_UNIX
     xdg_data = archdep_xdg_data_home();
@@ -118,7 +118,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     i = 0;
 
     /* home paths */
-#if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
+#if !defined(ARCHDEP_OS_WINDOWS) && !defined(BEOS_COMPILE)
     if (home_path != NULL) {
         paths[i++] = home_path;
     }
@@ -143,7 +143,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         lib_free(datadir);
     }
 
-#if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
+#if !defined(ARCHDEP_OS_WINDOWS) && !defined(BEOS_COMPILE)
     if (home_path != NULL) {
         lib_free(home_path);
     }

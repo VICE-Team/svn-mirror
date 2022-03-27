@@ -52,7 +52,7 @@
  * \note    The filename must be freed with lib_free().
  */
 
-#if defined(ARCHDEP_OS_BEOS)
+#if defined(BEOS_COMPILE)
 /*
  * Looks like this can be used as a fallback for some of the other functions
  */

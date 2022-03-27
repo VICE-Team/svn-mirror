@@ -114,7 +114,7 @@ const char *archdep_home_path(void)
         home[1] = '\0';
     }
     home_dir = lib_strdup(home);
-#elif defined(ARCHDEP_OS_BEOS)
+#elif defined(BEOS_COMPILE)
     /* Beos/Haiku is single-user */
     home_dir = lib_strdup("/boot/home");
 #else

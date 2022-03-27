@@ -59,7 +59,7 @@ int archdep_fix_permissions(const char *name)
     mode_t mask = umask(0);
     umask(mask);
     return chmod(name, mask ^ 0666); /* this is really octal here! */
-#elif defined(ARCHDEP_OS_BEOS)
+#elif defined(BEOS_COMPILE)
     /* there's got to be some beos-ish stuff to change permissions, at least
      * with Haiku */
     return 0;
