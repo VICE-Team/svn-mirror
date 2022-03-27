@@ -3307,11 +3307,11 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   HAVE_LIGHTPEN_SUPPORT="yes"
   AM_CONDITIONAL(USE_SDLUI, true)
   if test x"$enable_sdlui2" = "xyes"; then
-    AM_CONDITIONAL(SDL2_COMPILE, true)
+    AM_CONDITIONAL(USE_SDL2UI, true)
     SDL_VERSION=2
     SDLCONFIG="$sdl2_config"
   else
-    AM_CONDITIONAL(SDL2_COMPILE, false)
+    AM_CONDITIONAL(USE_SDL2UI, false)
     SDL_VERSION=1
     SDLCONFIG="$sdl_config"
   fi
@@ -3319,7 +3319,7 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   AC_SUBST(SDLCONFIG)
 else
   AM_CONDITIONAL(USE_SDLUI, false)
-  AM_CONDITIONAL(SDL2_COMPILE, false)
+  AM_CONDITIONAL(USE_SDL2UI, false)
 fi
 
 SDL_EXTRA_LIBS=""
