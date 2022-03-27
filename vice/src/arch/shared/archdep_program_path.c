@@ -229,7 +229,7 @@ const char *archdep_program_path(void)
 #  if defined(FREEBSD_COMPILE)
 
     int mib[4];
-    size_t bufsize = PATH_BUFSIZE;
+    size_t bufsize = ARCHDEP_PATH_MAX;
 
     /* /proc may not be available on FreeBSD */
     if (readlink("/proc/curproc/file", buffer, sizeof(buffer) - 1) < 0) {
