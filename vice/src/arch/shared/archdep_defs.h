@@ -43,7 +43,7 @@
  *
  * <pre>
  *  UNIX_COMPILE
- *    ARCHDEP_OS_MACOS
+ *    MACOS_COMPILE
  *    LINUX_COMPILE
  *    BSD_COMPILE
  *      FREEBSD_COMPILE
@@ -55,18 +55,7 @@
  *    HAIKU_COMPILE
  * </pre>
  */
-#ifdef UNIX_COMPILE
-
-/** \brief  OS is UNIX */
-
-# if defined(MACOS_COMPILE)
-
-/** \brief  OS is Unix and MacOS */
-#  define ARCHDEP_OS_MACOS
-
-# endif /* ifdef UNIX_COMPILE */
-
-#elif defined(WIN32_COMPILE)
+#if defined(WIN32_COMPILE)
 
 /** \brief  OS is Windows */
 # define ARCHDEP_OS_WINDOWS
@@ -114,7 +103,7 @@
  */
 #if 0
 # ifndef PATH_MAX 
-#  if defined(BSD_COMPILE) || defined(ARCHDEP_OS_MACOS)
+#  if defined(BSD_COMPILE) || defined(MACOS_COMPILE)
 #   include <sys/syslimits.h>
 #  endif
 # endif

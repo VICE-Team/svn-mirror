@@ -71,7 +71,7 @@ static int hotkeys_file_set(const char *val, void *param);
 #define ARRAY_LEN(arr)  (sizeof(arr) / sizeof(arr[0]))
 
 
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
 /** \brief  Replacement of 'Primary' for MacOS */
 #define PRIMARY_REPLACEMENT "Command"
 #else

@@ -52,7 +52,7 @@ char *archdep_get_vice_docsdir(void)
 # else
     return util_join_paths(archdep_boot_path(), "..", "doc", NULL);
 # endif
-#elif defined(ARCHDEP_OS_MACOS)
+#elif defined(MACOS_COMPILE)
     if (archdep_is_macos_bindist()) {
         return util_join_paths(archdep_boot_path(), "..", "share", "vice", "doc", NULL);
     } else {
