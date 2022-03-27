@@ -75,7 +75,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
-#elif defined(ARCHDEP_OS_UNIX) || defined(ARCHEP_OS_BEOS)
+#elif defined(UNIX_COMPILE) || defined(ARCHEP_OS_BEOS)
 
 /** \brief  Write log message to stdout
  *

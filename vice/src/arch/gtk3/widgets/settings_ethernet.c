@@ -337,7 +337,7 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
         gtk_widget_set_sensitive(driver_combo, FALSE);
         gtk_widget_set_sensitive(iface_combo, FALSE);
         label = gtk_label_new(NULL);
-# ifdef ARCHDEP_OS_UNIX
+# ifdef UNIX_COMPILE
         gtk_label_set_markup(GTK_LABEL(label),
                 "<i>VICE needs TUN/TAP support or the proper permissions (with libpcap) to be able to use ethernet emulation.</i>");
 # elif defined(ARCHDEP_OS_WINDOWS)

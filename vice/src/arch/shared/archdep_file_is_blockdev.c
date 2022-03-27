@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <sys/stat.h>
 # include <sys/types.h>
 #endif
@@ -53,7 +53,7 @@
  */
 int archdep_file_is_blockdev(const char *name)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     struct stat buf;
 
     if (stat(name, &buf) != 0) {

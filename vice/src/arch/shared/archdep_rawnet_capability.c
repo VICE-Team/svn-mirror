@@ -34,7 +34,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <unistd.h>
 # include <sys/types.h>
 # ifdef HAVE_CAPABILITIES
@@ -52,7 +52,7 @@
 #define DBG(x)
 #endif
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # ifdef HAVE_PCAP
 #  ifdef HAVE_CAPABILITIES
 static bool cap_check(cap_value_t cap_flag)
@@ -86,7 +86,7 @@ static bool cap_check(cap_value_t cap_flag)
  */
 bool archdep_rawnet_capability(void)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # ifdef HAVE_PCAP
     /* if we are root then rawnet works, regardless of capabilities */
     if (geteuid() == 0) {

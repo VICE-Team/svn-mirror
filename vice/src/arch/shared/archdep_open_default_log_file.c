@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -112,7 +112,7 @@ FILE *archdep_open_default_log_file(void)
 
     /* quick fix. on non windows platforms this should check if VICE has been
        started from a terminal, and only if not open a file instead of stdout */
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     if (!isatty(fileno(fp))) {
         struct stat statinfo;
         fstat(fileno(fp), &statinfo);

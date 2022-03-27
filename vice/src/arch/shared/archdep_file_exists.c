@@ -34,7 +34,7 @@
 #include "archdep_defs.h"
 
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <unistd.h>
 #endif
 
@@ -54,7 +54,7 @@
  */
 bool archdep_file_exists(const char *path)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     if (access(path, F_OK) == 0) {
         return true;
     }

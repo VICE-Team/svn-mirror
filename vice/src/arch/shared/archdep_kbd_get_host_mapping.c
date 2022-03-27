@@ -35,7 +35,7 @@
 #ifdef ARCHDEP_OS_WINDOWS
 # include <windows.h>
 #endif
-#if defined(ARCHDEP_OS_UNIX)
+#if defined(UNIX_COMPILE)
 # include <locale.h>
 # include <string.h>
 #endif

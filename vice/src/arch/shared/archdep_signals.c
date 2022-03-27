@@ -38,7 +38,7 @@
 
 #include "archdep_signals.h"
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 
 typedef void (*signal_handler_t)(int);
 

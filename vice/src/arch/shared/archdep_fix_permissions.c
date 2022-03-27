@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_WINDOWS)
+#if defined(UNIX_COMPILE) || defined(ARCHDEP_OS_WINDOWS)
 # include <sys/stat.h>
 # include <sys/types.h>
 #endif
@@ -55,7 +55,7 @@ int archdep_fix_permissions(const char *name)
 {
 #ifdef ARCHDEP_OS_WINDOWS
     return _chmod(name, _S_IREAD|_S_IWRITE);
-#elif defined(ARCHDEP_OS_UNIX)
+#elif defined(UNIX_COMPILE)
     mode_t mask = umask(0);
     umask(mask);
     return chmod(name, mask ^ 0666); /* this is really octal here! */

@@ -57,7 +57,7 @@
  */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     if (*orig_name == '/') {
         *return_path = lib_strdup(orig_name);
     } else if ((orig_name[0] == '~') && (orig_name[1] == '/')) {

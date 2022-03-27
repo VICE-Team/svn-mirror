@@ -45,7 +45,7 @@
 #include <errno.h>
 /* for readlink(2) */
 /* FIXME: This works for Haiku but might not for classic BeOS! */
-#if defined(ARCHDEP_OS_UNIX) || defined(BEOS_COMPILE)
+#if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
 # include <unistd.h>
 # if defined(FREEBSD_COMPILE) || defined(DRAGONFLYBSD_COMPILE)
 #  include <sys/sysctl.h>
@@ -187,7 +187,7 @@ const char *archdep_program_path(void)
         }
     }
 
-#elif defined(ARCHDEP_OS_UNIX)
+#elif defined(UNIX_COMPILE)
 
     /* XXX: Only works on Linux, OSX and FreeBSD/NetBSD, anyone wanting support
      *      for OpenBSD or DragonflyBSD will have to add it.

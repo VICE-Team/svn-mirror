@@ -52,7 +52,7 @@ void archdep_create_user_config_dir(void)
 {
     const char *cfg = archdep_user_config_path();
 
-#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
+#if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
     const char *home = archdep_home_path();
     char *tmp;
 

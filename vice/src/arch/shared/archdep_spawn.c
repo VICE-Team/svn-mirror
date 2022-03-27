@@ -41,7 +41,7 @@
 #include <sys/stat.h>
 # include <fcntl.h>
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <sys/wait.h>
 #endif
 
@@ -63,7 +63,7 @@
 #include "archdep_spawn.h"
 
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)

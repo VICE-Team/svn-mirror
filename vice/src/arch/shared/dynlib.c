@@ -31,7 +31,7 @@
 
 #include "archdep_defs.h"
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include "dynlib-unix.c"
 #elif defined(ARCHDEP_OS_WINDOWS)
 # include "dynlib-win32.c"

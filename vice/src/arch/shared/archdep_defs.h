@@ -42,7 +42,7 @@
  *      archdep cleanup!
  *
  * <pre>
- *  ARCHDEP_OS_UNIX
+ *  UNIX_COMPILE
  *    ARCHDEP_OS_MACOS
  *    LINUX_COMPILE
  *    BSD_COMPILE
@@ -58,7 +58,6 @@
 #ifdef UNIX_COMPILE
 
 /** \brief  OS is UNIX */
-# define ARCHDEP_OS_UNIX
 
 # if defined(MACOSX_SUPPORT)
 
@@ -108,7 +107,7 @@
 #ifdef ARCHDEP_OS_WINDOWS
 # include <stdlib.h>
 # define ARCHDEP_PATH_MAX   _MAX_PATH
-#elif defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
+#elif defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 # include <limits.h>
 /* Not sure we need this fallback: on FreeBSD, NetBSD and OpenBSD using
  * `#include <limits.h>` worked even with -pedantic -ansi passed to the compiler.
