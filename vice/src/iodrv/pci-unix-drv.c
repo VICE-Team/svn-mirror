@@ -65,7 +65,7 @@ static int pciutils_get_base(int vendorID, int deviceID, uint32_t *base1, uint32
 }
 #endif
 
-#ifdef __linux
+#ifdef LINUX_COMPILE
 static int pci_get_linux_proc_base(int vendorID, int deviceID, uint32_t *base1, uint32_t *base2)
 {
     FILE *f;
@@ -105,7 +105,7 @@ int pci_get_base(int vendorID, int deviceID, uint32_t *base1, uint32_t *base2)
 #endif
 
 
-#ifdef __linux
+#ifdef LINUX_COMPILE
     if (retval < 0) {
         retval = pci_get_linux_proc_base(vendorID, deviceID, base1, base2);
     }

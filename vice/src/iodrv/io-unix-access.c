@@ -62,14 +62,14 @@
 
 #include "io-access.h"
 
-#if defined(__linux) || defined(__FreeBSD__)
+#if defined(LINUX_COMPILE) || defined(__FreeBSD__)
 
 #define IO_PORT_ACCESS
 
 static int io_fd = -1;
 #endif
 
-#ifdef __linux
+#ifdef LINUX_COMPILE
 static int device_io_open(void)
 {
     io_fd = open("/dev/port", O_RDWR);

@@ -27,7 +27,7 @@
 #include <glib.h>
 
 /* Temporary define until glibc release catches up */
-#ifdef __linux__
+#ifdef LINUX_COMPILE
 
 #include <sys/ioctl.h>
 #include <linux/fs.h>
@@ -39,7 +39,7 @@
 #define O_TMPFILE (__O_TMPFILE | O_DIRECTORY)
 #endif
 
-#endif /* __linux__ */
+#endif /* LINUX_COMPILE */
 
 int
 _vte_mkstemp (void)
@@ -72,7 +72,7 @@ _vte_mkstemp (void)
  done:
 #endif
 
-#ifdef __linux__
+#ifdef LINUX_COMPILE
 {
         /* Mark the tmpfile as no-cow on file systems that support it.
          *
@@ -88,7 +88,7 @@ _vte_mkstemp (void)
                 ioctl (fd, FS_IOC_SETFLAGS, &flags);
         }
 }
-#endif /* __linux__ */
+#endif /* LINUX_COMPILE */
 
         return fd;
 }
