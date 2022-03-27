@@ -52,7 +52,7 @@ void archdep_create_user_cache_dir(void)
 {
     const char *cache = archdep_user_cache_path();
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
     const char *home = archdep_home_path();
     char *tmp;
 

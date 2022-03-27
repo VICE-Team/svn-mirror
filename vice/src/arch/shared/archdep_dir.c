@@ -34,7 +34,7 @@
 
 #if defined(ARCHDEP_OS_WINDOWS)
 # include <windows.h>
-#elif defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#elif defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
 # include <errno.h>
 # include <sys/types.h>
 # include <dirent.h>
@@ -72,7 +72,7 @@ static int compare_names(const void *a, const void *b)
 }
 
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
 /** \brief  Check if an entry must be shown
  *
  * Check if \a name matches the \a mode filter.
@@ -144,7 +144,7 @@ static void add_file_entry(archdep_dir_t *dir, const char *path)
  */
 static bool scan_directory(archdep_dir_t *dir, const char *path, int mode)
 {
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
     DIR *dirp = NULL;
     struct dirent *dp = NULL;
     char *filename;

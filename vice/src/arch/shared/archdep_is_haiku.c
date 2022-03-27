@@ -25,7 +25,7 @@
  *
  */
 
-#include "archdep_defs.h"
+#include "vice.h"
 
 #include "archdep_is_haiku.h"
 
@@ -41,7 +41,7 @@
  *          name contains *is*.
  */
 
-#ifdef ARCHDEP_OS_BEOS
+#ifdef BEOS_COMPILE
 #include <sys/utsname.h>
 #include <strings.h>
 

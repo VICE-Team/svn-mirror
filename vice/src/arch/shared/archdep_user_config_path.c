@@ -49,10 +49,10 @@
  *       test for classic BeOS or Haiku and act accordingly.
  */
 #if !defined(ARCHDEP_OS_UNIX) && !defined(ARCHDEP_OS_WINDOWS) \
-    && !(defined(ARCHDEP_OS_BEOS))
+    && !(defined(BEOS_COMPILE))
 # include "archdep_boot_path.h"
 #endif
-#ifdef ARCHDEP_OS_BEOS
+#ifdef BEOS_COMPILE
 # include "archdep_home_path.h"
 #endif
 #include "archdep_xdg.h"
@@ -96,7 +96,7 @@ const char *archdep_user_config_path(void)
         return user_config_dir;
     }
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
     char *xdg_config = archdep_xdg_config_home();
     user_config_dir = util_join_paths(xdg_config, "vice", NULL);
     lib_free(xdg_config);

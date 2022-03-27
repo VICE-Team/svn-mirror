@@ -51,10 +51,10 @@
  *       test for classic BeOS or Haiku and act accordingly.
  */
 #if !defined(ARCHDEP_OS_UNIX) && !defined(ARCHDEP_OS_WINDOWS) \
-    && !(defined(ARCHDEP_OS_BEOS))
+    && !(defined(BEOS_COMPILE))
 # include "archdep_boot_path.h"
 #endif
-#ifdef ARCHDEP_OS_BEOS
+#ifdef BEOS_COMPILE
 # include "archdep_home_path.h"
 #endif
 #include "lib.h"
@@ -95,7 +95,8 @@ const char *archdep_user_cache_path(void)
         return user_cache_dir;
     }
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
+    /* FIXME: Probably Haiku-specific, not classic BeOS */
+#if defined(ARCHDEP_OS_UNIX) || defined(BEOS_COMPILE)
     char *xdg_cache = archdep_xdg_cache_home();
     user_cache_dir = util_join_paths(xdg_cache, "vice", NULL);
     lib_free(xdg_cache);

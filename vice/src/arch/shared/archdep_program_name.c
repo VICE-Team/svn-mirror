@@ -106,7 +106,7 @@ static char *prg_name_win32(const char *buf)
 #endif
 
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
+#if defined(ARCHDEP_OS_UNIX) || defined(BEOS_COMPILE)
 /** \brief  Helper function for Unix-ish systems
  *
  * \param[in]   buf string to parse binary name from
@@ -149,7 +149,7 @@ const char *archdep_program_name(void)
 
     execpath = archdep_program_path();
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
+#if defined(ARCHDEP_OS_UNIX) || defined(BEOS_COMPILE)
     program_name = prg_name_unix(execpath);
 #endif
 

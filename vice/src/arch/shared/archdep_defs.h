@@ -48,9 +48,8 @@
  *      ARCHDEP_OS_BSD_OPEN
  *      ARCHDEP_OS_BSD_DRAGON
  *  ARCHDEP_OS_WINDOWS
- *  ARCHDEP_OS_BEOS
- *    ARCHDEP_OS_BEOS_R5
- *    ARCHDEP_OS_HAIKU
+ *  BEOS_COMPILE
+ *    HAIKU_COMPILE
  * </pre>
  */
 #ifdef UNIX_COMPILE
@@ -97,23 +96,6 @@
 /** \brief  OS is Windows */
 # define ARCHDEP_OS_WINDOWS
 
-#elif defined(BEOS_COMPILE)
-
-/** \brief  OS is in the BeOS family */
-# define ARCHDEP_OS_BEOS
-
-# if defined(__BEOS__)
-
-/** \brief  Assume OS is BeOS R5 compatible (if we still support that) */
-#  define ARCHDEP_OS_BEOS_R5
-
-# elif defined(__HAIKU__)
-
-/** \brief  OS is Haiku */
-#  define ARCHDEP_OS_HAIKU
-
-# endif /* ifdef BEOS_COMPILE */
-
 #endif
 
 
@@ -150,7 +132,7 @@
 #ifdef ARCHDEP_OS_WINDOWS
 # include <stdlib.h>
 # define ARCHDEP_PATH_MAX   _MAX_PATH
-#elif defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#elif defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
 # include <limits.h>
 /* Not sure we need this fallback: on FreeBSD, NetBSD and OpenBSD using
  * `#include <limits.h>` worked even with -pedantic -ansi passed to the compiler.
@@ -198,8 +180,7 @@
 # define ARCHDEP_USE_SDL
 #endif
 
-#if defined(ARCHDEP_OS_WINDOWS) \
-    || defined(ARCHDEP_OS_BEOS)
+#if defined(ARCHDEP_OS_WINDOWS) || defined(BEOS_COMPILE)
 # ifdef ARCHDEP_USE_SDL
 #  define ARCHDEP_VICERC_NAME   "sdl-vice.ini"
 /* Just copying stuff, I'm backwards */

@@ -35,7 +35,7 @@
 #include "archdep_defs.h"
 
 #include <stddef.h>
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
 # include <unistd.h>
 #elif defined(ARCHDEP_OS_WINDOWS)
 # include <direct.h>
@@ -59,7 +59,7 @@
  */
 char *archdep_getcwd(char *buf, size_t size)
 {
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
     return getcwd(buf, size);
 #elif defined(ARCHDEP_OS_WINDOWS)
     return _getcwd(buf, (int)size);

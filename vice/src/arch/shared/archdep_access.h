@@ -27,9 +27,10 @@
 #ifndef VICE_ARCHDEP_ACCESS_H
 #define VICE_ARCHDEP_ACCESS_H
 
+#include "vice.h"
 #include "archdep_defs.h"
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
 
 /* covers linux, bsd, macos and haiku */
 # include <unistd.h>

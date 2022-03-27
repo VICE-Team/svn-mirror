@@ -54,7 +54,7 @@ int archdep_access(const char *pathname, int mode)
         access_mode |= ARCHDEP_X_OK;
     }
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
     return access(pathname, access_mode);
 #elif defined(ARCHDEP_OS_WINDOWS)
     return _access(pathname, access_mode);

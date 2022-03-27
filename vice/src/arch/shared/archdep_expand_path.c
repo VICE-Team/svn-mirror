@@ -76,7 +76,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 #elif defined(ARCHDEP_OS_WINDOWS)
     /* taken from the old WinVICE port (src/arch/win32/archdep.c): */
     *return_path = lib_strdup(orig_name);
-#elif defined(ARCHDEP_OS_BEOS)
+#elif defined(BEOS_COMPILE)
     /* taken from src/arch/sdl/archdep_beos.c: */
 
     /* XXX: Haiku uses a Unix-like approach, so we could use the Unix codepath
