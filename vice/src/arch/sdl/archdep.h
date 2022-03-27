@@ -75,12 +75,6 @@ extern int sdl_help_shutdown;
 #include "archdep_beos.h"
 #endif
 
-#ifdef __OS2__
-#include "archdep_os2.h"
-/* This platform supports choosing drives. */
-#define SDL_CHOOSE_DRIVES
-#endif
-
 #if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
 #include "archdep_unix.h"
 /* Allow native monitor code (on host console) */

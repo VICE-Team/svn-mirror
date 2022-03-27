@@ -119,10 +119,6 @@ static const sound_register_devices_t sound_register_devices[] = {
 #endif
 #endif
 
-#if defined(__OS2__) && !defined(USE_SDLUI)
-    { "dart", sound_init_dart_device, SOUND_PLAYBACK_DEVICE },
-#endif
-
 #ifdef BEOS_COMPILE
     { "beos", sound_init_beos_device, SOUND_PLAYBACK_DEVICE },
     { "bsp", sound_init_bsp_device, SOUND_PLAYBACK_DEVICE },

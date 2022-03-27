@@ -95,13 +95,7 @@ typedef int ssize_t;
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef __OS2__
-int yyparse (void);
-#undef __GNUC__
-#endif
-
-
-#if (defined(__BEOS__) && defined(WORDS_BIGENDIAN)) || defined(__OS2__)
+#if (defined(__BEOS__) && defined(WORDS_BIGENDIAN))
 #ifndef __cplusplus
 #undef inline
 #define inline

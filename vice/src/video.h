@@ -71,9 +71,6 @@ struct palette_s;
 struct canvas_refresh_s {
     uint8_t *draw_buffer;
     int draw_buffer_line_size;
-#ifdef __OS2__
-    int bufh;
-#endif
     int x;
     int y;
 };

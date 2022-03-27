@@ -303,7 +303,7 @@ static int cmdline_autoload(const char *param, void *extra_param)
     return 0;
 }
 
-#if !defined(__OS2__) && !defined(__BEOS__)
+#if !defined(__BEOS__)
 static int cmdline_console(const char *param, void *extra_param)
 {
     console_mode = 1;

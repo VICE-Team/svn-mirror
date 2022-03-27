@@ -69,11 +69,7 @@ struct machine_timing_s {
 typedef struct machine_timing_s machine_timing_t;
 
 extern int machine_class;
-extern
-#ifdef __OS2__
-const
-#endif
-int console_mode;
+extern int console_mode;
 extern int video_disabled_mode;
 extern int help_requested;
 
