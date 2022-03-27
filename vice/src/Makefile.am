@@ -16,7 +16,7 @@ ARCH_LIBS = @ARCH_LIBS@
 # Windows .res files to be linked to each binary 
 if WIN32_COMPILE
 # .. but NOT in headless mode
-if !HEADLESS_COMPILE
+if !USE_HEADLESSUI
 X64_RES = $(top_builddir)/data/common/x64.res
 X64DTV_RES = $(top_builddir)/data/common/x64dtv.res
 X64SC_RES = $(top_builddir)/data/common/x64sc.res

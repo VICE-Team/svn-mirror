@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#if !defined(HEADLESS_COMPILE) && !defined(USE_SDLUI2) && !defined(USE_SDLUI)
+#if !defined(USE_HEADLESSUI) && !defined(USE_SDLUI2) && !defined(USE_SDLUI)
 #ifdef UNIX_COMPILE
 #ifndef MACOSX_SUPPORT
 #include <X11/Xlib.h>
@@ -162,7 +162,7 @@ void archdep_set_main_thread(void)
     putenv("GDK_BACKEND=x11");
 #endif
 
-#ifndef HEADLESS_COMPILE
+#ifndef USE_HEADLESSUI
     /* We're calling xlib from our own thread so need this to avoid problems */
     XInitThreads();
 #endif

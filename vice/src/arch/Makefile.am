@@ -24,7 +24,7 @@ libarch:
 
 else
 
-if HEADLESS_COMPILE
+if USE_HEADLESSUI
 
 SUBDIRS = shared headless
 

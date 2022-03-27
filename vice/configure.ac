@@ -1632,7 +1632,7 @@ if test x"$check_sdl1" = "xyes"; then
 fi
 
 if test x"$enable_headlessui" = "xyes"; then
-  AC_DEFINE(HEADLESS_COMPILE,,[Enable Headless UI support.])
+  AC_DEFINE(USE_HEADLESSUI,,[Enable Headless UI support.])
   enable_native_gtk3ui=no
   enable_sdlui=no
   enable_sdlui2=no
@@ -3401,9 +3401,9 @@ if test x"$enable_headlessui" = "xyes"; then
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
 
-  AM_CONDITIONAL(HEADLESS_COMPILE, true)
+  AM_CONDITIONAL(USE_HEADLESSUI, true)
 else
-  AM_CONDITIONAL(HEADLESS_COMPILE, false)
+  AM_CONDITIONAL(USE_HEADLESSUI, false)
 fi
 
 if test x"$is_unix" = "xyes"; then
