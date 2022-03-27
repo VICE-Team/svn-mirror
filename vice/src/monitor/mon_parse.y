@@ -30,7 +30,6 @@
 
 #include "vice.h"
 
-#ifndef __OS2__
 #ifdef __GNUC__
 #undef alloca
 #define        alloca(n)       __builtin_alloca (n)
@@ -47,7 +46,6 @@ extern char *alloca();
 #endif /* Not AIX and not WINCE.  */
 #endif /* HAVE_ALLOCA_H.  */
 #endif /* GCC.  */
-#endif /* __OS2__ */
 
 /* SunOS 4.x specific stuff */
 #if defined(sun) || defined(__sun)
