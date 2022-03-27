@@ -140,7 +140,7 @@ struct sdljoystick_mapping_s {
 };
 typedef struct sdljoystick_mapping_s sdljoystick_mapping_t;
 
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
 typedef int SDL_JoystickID;
 #endif
 
@@ -342,7 +342,7 @@ int sdljoy_rescan(void)
     /* close all joysticks */
     for (i = 0; i < num_joysticks; ++i) {
         if (sdljoystick[i].joyptr) {
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
             if (SDL_JoystickGetAttached(sdljoystick[i].joyptr)) {
                 SDL_JoystickClose(sdljoystick[i].joyptr);
             }
@@ -378,7 +378,7 @@ int sdljoy_rescan(void)
     for (i = 0; i < num_joysticks; ++i) {
         joy = sdljoystick[i].joyptr = SDL_JoystickOpen(i);
         if (joy) {
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
             sdljoystick[i].name = lib_strdup(SDL_JoystickName(sdljoystick[i].joyptr));
             sdljoystick[i].joystickid = SDL_JoystickInstanceID(joy);
 #else

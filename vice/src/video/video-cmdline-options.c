@@ -143,7 +143,7 @@ static cmdline_option_t cmdline_options_chip_palette[] =
 
 static const char * const cname_chip_fullscreen[] =
 {
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
     "-", "full", "Fullscreen",
     "+", "full", "Fullscreen",
 #endif
@@ -153,7 +153,7 @@ static const char * const cname_chip_fullscreen[] =
 
 static cmdline_option_t cmdline_options_chip_fullscreen[] =
 {
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)1,
       NULL, "Enable fullscreen" },

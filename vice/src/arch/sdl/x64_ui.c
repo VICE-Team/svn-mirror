@@ -169,7 +169,7 @@ static ui_menu_entry_t x64_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)settings_manager_menu },
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     { "Edit",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

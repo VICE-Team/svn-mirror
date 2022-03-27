@@ -47,7 +47,7 @@ char *archdep_get_vice_docsdir(void)
     /* Cannot use VICE_DOCDIR here since Windows installs assume any file to
      * be relative to the emu binary.
      */
-# if defined(USE_SDLUI) || defined(USE_SDLUI2)
+# if defined(USE_SDLUI) || defined(USE_SDL2UI)
     return util_join_paths(archdep_boot_path(), "doc", NULL);
 # else
     return util_join_paths(archdep_boot_path(), "..", "doc", NULL);

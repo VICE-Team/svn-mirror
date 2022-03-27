@@ -39,7 +39,7 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
 #define KBD_PORT_PREFIX "sdl"
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 #define SDLKey SDL_Keycode
 #define SDLMod SDL_Keymod
 #define SDLK_KP0 SDLK_KP_0

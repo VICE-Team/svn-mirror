@@ -30,7 +30,7 @@
 
 #include "vice.h"
 #if 0
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 #  include "vice_sdl.h"
 #endif
 #endif

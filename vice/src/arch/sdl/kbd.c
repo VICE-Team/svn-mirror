@@ -139,7 +139,7 @@ int sdlkbd_init_cmdline(void)
    SDL1 key handling, but a proper solution for
    handling unicode will still need to be made.
  */
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 typedef struct SDL2Key_s {
     SDLKey SDL1x;
     SDLKey SDL2x;

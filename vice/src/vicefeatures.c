@@ -290,7 +290,7 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(USE_SDLUI) || defined(USE_SDLUI2) /* (sdl) */
+#if defined(USE_SDLUI) || defined(USE_SDL2UI) /* (sdl) */
     { "HAVE_SDL_NUMJOYSTICKS", "Define to 1 if you have the `SDL_NumJoysticks' function.",
 #ifndef HAVE_SDL_NUMJOYSTICKS
         0 },

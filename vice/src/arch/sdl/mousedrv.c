@@ -79,7 +79,7 @@ void mouse_button(int bnumber, int state)
             mouse_funcs.mbr(state);
             break;
 /* FIXME: fix for SDL2 */
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         case SDL_BUTTON_WHEELUP:
             mouse_funcs.mbu(state);
             break;

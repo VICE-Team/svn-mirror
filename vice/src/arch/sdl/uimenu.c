@@ -951,14 +951,14 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
     int got_key = 0;
     ui_menu_action_t action = MENU_ACTION_NONE;
     int joynum;
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     int i;
 #endif
 
     *mod = KMOD_NONE;
     *c_uni = 0;
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     SDL_StartTextInput();
 #endif
 
@@ -971,7 +971,7 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
             case SDL_KEYDOWN:
                 *key = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
                 *mod = e.key.keysym.mod;
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
                 /* For SDL2x only get 'special' keys from keydown event. */
                 for (i = 0; keytable_pc_special[i] != -1; ++i) {
                     SDLKey special = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
@@ -986,7 +986,7 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 #endif
                 break;
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
             case SDL_TEXTINPUT:
                 if (e.text.text[0] != 0) {
                     *key = e.text.text[0];
@@ -1049,7 +1049,7 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
     } while (!got_key);
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     SDL_StopTextInput();
 #endif
 
@@ -1250,7 +1250,7 @@ void sdl_ui_activate_pre_action(void)
         sdl_vsid_close();
     }
 
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 #endif
     sdl_menu_state = 1;
@@ -1265,7 +1265,7 @@ void sdl_ui_activate_post_action(void)
 
     sdl_menu_state = 0;
     ui_check_mouse_cursor();
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
     SDL_EnableKeyRepeat(0, 0);
 #endif
 
@@ -1532,7 +1532,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
     /* draw previous string (if any), initialize size and cursor position */
     size = i = sdl_ui_print_wrap(new_string, pos_x, &pos_y);
 
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
     SDL_EnableUNICODE(1);
 #endif
 
@@ -1649,7 +1649,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
         }
     } while (!done);
 
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
     SDL_EnableUNICODE(0);
 #endif
 

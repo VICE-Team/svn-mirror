@@ -34,7 +34,7 @@
 #include "lib.h"
 #include "kbdbuf.h"
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 /** \brief  Callback for the edit->paste menu item
  *
  * Copies the host clipboard into the emulated machine's screen

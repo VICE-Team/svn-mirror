@@ -86,7 +86,7 @@ static int sdl_init(const char *param, int *speed,
     SDL_AudioSpec spec;
     int nr;
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     int i;
 
     log_message(LOG_DEFAULT, "SDLAudio: list of drivers:");
@@ -99,7 +99,7 @@ static int sdl_init(const char *param, int *speed,
     spec.freq = *speed;
     spec.format = AUDIO_S16SYS;
     spec.channels = (Uint8)*channels;
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     spec.samples = (Uint16)(*fragsize * 2);
 #else
     spec.samples = (Uint16)((*fragsize < 512) ? 1024 : (*fragsize * 2));
@@ -130,7 +130,7 @@ static int sdl_init(const char *param, int *speed,
      * 'SDL_AUDIODRIVER', so for example:
      * $ SDL_AUDIODRIVER="directsound" x64sc.exe
      */
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     log_message(LOG_DEFAULT, "SDLAudio: current driver: %s",
             SDL_GetCurrentAudioDriver());
 #endif

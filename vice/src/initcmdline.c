@@ -156,7 +156,7 @@ static int cmdline_help(const char *param, void *extra_param)
 
 /* FIXME: a hack to prevent -help crashing on the SDL ui.
           This needs to be fixed properly!! */
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
     /* remove any trace of this variable once this is properly fixed! */
     sdl_help_shutdown = 1;
 #endif
