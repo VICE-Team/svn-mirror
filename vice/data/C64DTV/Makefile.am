@@ -61,7 +61,7 @@ sdl_hotkeys = \
 sym_file = \
 	c64mem.sym
 
-if SDL_COMPILE
+if USE_SDLUI
 c64dtv_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file) $(sdl_hotkeys)
 
 EXTRA_DIST = $(c64dtv_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)

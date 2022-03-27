@@ -3305,7 +3305,7 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
-  AM_CONDITIONAL(SDL_COMPILE, true)
+  AM_CONDITIONAL(USE_SDLUI, true)
   if test x"$enable_sdlui2" = "xyes"; then
     AM_CONDITIONAL(SDL2_COMPILE, true)
     SDL_VERSION=2
@@ -3318,7 +3318,7 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   AC_SUBST(SDL_VERSION)
   AC_SUBST(SDLCONFIG)
 else
-  AM_CONDITIONAL(SDL_COMPILE, false)
+  AM_CONDITIONAL(USE_SDLUI, false)
   AM_CONDITIONAL(SDL2_COMPILE, false)
 fi
 
