@@ -88,7 +88,7 @@ int archdep_register_cbmfont(void)
     return 1;
 }
 
-#elif defined(ARCHDEP_OS_UNIX)
+#elif defined(UNIX_COMPILE)
 
 # ifdef HAVE_FONTCONFIG
 

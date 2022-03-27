@@ -50,7 +50,7 @@
 /* TODO: Haiku is a lot more POSIX-like than classic BeOS, so perhaps we should
  *       test for classic BeOS or Haiku and act accordingly.
  */
-#if !defined(ARCHDEP_OS_UNIX) && !defined(ARCHDEP_OS_WINDOWS) \
+#if !defined(UNIX_COMPILE) && !defined(ARCHDEP_OS_WINDOWS) \
     && !(defined(BEOS_COMPILE))
 # include "archdep_boot_path.h"
 #endif
@@ -96,7 +96,7 @@ const char *archdep_user_cache_path(void)
     }
 
     /* FIXME: Probably Haiku-specific, not classic BeOS */
-#if defined(ARCHDEP_OS_UNIX) || defined(BEOS_COMPILE)
+#if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
     char *xdg_cache = archdep_xdg_cache_home();
     user_cache_dir = util_join_paths(xdg_cache, "vice", NULL);
     lib_free(xdg_cache);

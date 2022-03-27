@@ -34,7 +34,7 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
+#if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 # include <unistd.h>
 #elif defined(ARCHDEP_OS_WINDOWS)
 # include <stdio.h>
@@ -53,7 +53,7 @@
  */
 int archdep_remove(const char *path)
 {
-#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
+#if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
     return unlink(path);
 #elif defined(ARCHDEP_OS_WINDOWS)
     return remove(path);

@@ -47,7 +47,7 @@
 #include "lib.h"
 #include "log.h"
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <unistd.h>
 # include <sys/types.h>
 # include <pwd.h>
@@ -80,7 +80,7 @@ static char *home_dir = NULL;
 const char *archdep_home_path(void)
 {
     /* stupid vice code rules, only declare vars at the top */
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     char *home;
 #elif defined(ARCHDEP_OS_WINDOWS)
     DWORD err;
@@ -91,7 +91,7 @@ const char *archdep_home_path(void)
         return home_dir;
     }
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     home = getenv("HOME");
     if (home == NULL) {
         struct passwd *pwd;

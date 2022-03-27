@@ -102,7 +102,7 @@
 
 #include "lib/linenoise-ng/linenoise.h"
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 #include <unistd.h>
 #endif
 

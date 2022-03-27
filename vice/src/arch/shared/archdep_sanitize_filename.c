@@ -50,7 +50,7 @@
 
 /** \brief  Tokens that are illegal in a path/filename
  */
-#if defined(ARCHDEP_OS_UNIX) || defined(BEOS_COMPILE)
+#if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
 static const char illegal_name_tokens[] = "/";
 #elif defined(ARCHDEP_OS_WINDOWS)
 static const char illegal_name_tokens[] = "/\\?*:|\"<>";

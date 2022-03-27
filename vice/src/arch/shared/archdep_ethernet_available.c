@@ -32,7 +32,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <unistd.h>
 # include <sys/types.h>
 #elif defined(ARCHDEP_OS_WINDOWS)
@@ -55,7 +55,7 @@
  */
 bool archdep_ethernet_available(void)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # ifdef HAVE_TUNTAP
     /* When TUN/TAP is available, ethernet support is available for all users */
     return true;

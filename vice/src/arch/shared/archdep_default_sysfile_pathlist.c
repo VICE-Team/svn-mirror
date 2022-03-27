@@ -82,7 +82,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     char *datadir = NULL;
 #if !defined(ARCHDEP_OS_WINDOWS) && !defined(BEOS_COMPILE)
     char *home_path = NULL;
-# ifdef ARCHDEP_OS_UNIX
+# ifdef UNIX_COMPILE
     char *xdg_data = NULL;
 # endif
 #endif
@@ -100,7 +100,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     datadir = archdep_get_vice_datadir();
 #if !defined(ARCHDEP_OS_WINDOWS) && !defined(BEOS_COMPILE)
 
-# ifdef ARCHDEP_OS_UNIX
+# ifdef UNIX_COMPILE
     xdg_data = archdep_xdg_data_home();
     home_path = util_join_paths(xdg_data, "vice", NULL);
     lib_free(xdg_data);

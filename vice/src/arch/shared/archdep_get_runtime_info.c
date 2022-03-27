@@ -35,7 +35,7 @@
 #include "archdep_defs.h"
 #include "log.h"
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <sys/utsname.h>
 #elif defined(ARCHDEP_OS_WINDOWS)
 # include <windows.h>
@@ -107,7 +107,7 @@ static BOOL os_is_win64(void)
  */
 bool archdep_get_runtime_info(archdep_runtime_info_t *info)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     struct utsname buf;
 #endif
 #ifdef ARCHDEP_OS_WINDOWS
@@ -121,7 +121,7 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
     memset(info->os_release, 0, ARCHDEP_RUNTIME_STRMAX);
     memset(info->machine, 0, ARCHDEP_RUNTIME_STRMAX);
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     if (uname(&buf) == 0) {
         /* OK */
         printf("sysname = '%s'\n", buf.sysname);

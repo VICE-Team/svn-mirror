@@ -30,7 +30,7 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#if defined(ARCHDEP_OS_UNIX) || defined(HAIKU_COMPILE)
+#if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 
 /* covers linux, bsd, macos and haiku */
 # include <unistd.h>
