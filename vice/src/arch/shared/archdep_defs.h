@@ -63,11 +63,6 @@
 /** \brief  OS is Unix and MacOS */
 #  define ARCHDEP_OS_MACOS
 
-# elif defined(__linux__)
-
-/** \brief  OS is Linux (yay!) */
-#  define LINUX_COMPILE             /* FIXME: configure should define this */
-
 # elif defined(__FreeBSD__)
 
 /** \brief  OS is BSD */
