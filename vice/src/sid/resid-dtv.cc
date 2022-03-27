@@ -42,12 +42,7 @@ using std::sprintf;
 
 extern "C" {
 
-/* QNX has problems with const and inline definitions
-   in its string.h file when using g++ */
-
-#ifndef __QNX__
 #include <string.h>
-#endif
 
 #include "sid/sid.h" /* sid_engine_t */
 #include "lib.h"

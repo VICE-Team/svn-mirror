@@ -32,7 +32,7 @@
 
 #include "vice.h"
 
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
+#if defined(WIN32_COMPILE)
 
 #include <stdio.h>
 

@@ -99,11 +99,6 @@
 #define uint64_t_C(c) (c ## ull)
 #endif
 
-/* sortix does not have rs232 support */
-#ifdef __sortix__
-#undef HAVE_RS232DEV
-#endif
-
 /* Avoid windows.h including too much garbage
  */
 #ifdef WIN32_COMPILE
