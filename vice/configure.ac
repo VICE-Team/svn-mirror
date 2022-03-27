@@ -983,6 +983,16 @@ dnl All other UN*X systems
   is_unix=yes
   is_unix_x11=yes
 
+  case "$host_os" in
+  linux*)
+    AC_DEFINE(LINUX_COMPILE,,[Are we compiling for Linux?])
+    AM_CONDITIONAL(LINUX_COMPILE, true)
+    ;;
+  *)
+    AM_CONDITIONAL(LINUX_COMPILE, false)
+    ;;
+  esac
+
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
