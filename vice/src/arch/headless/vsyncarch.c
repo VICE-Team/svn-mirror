@@ -48,7 +48,7 @@
 #   include <sys/time.h>
 #endif
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #   include <mach/mach.h>
 #   include <mach/mach_time.h>
 #endif

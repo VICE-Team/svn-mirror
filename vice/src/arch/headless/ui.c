@@ -36,7 +36,7 @@
 #include <unistd.h>
 #endif
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #include <objc/runtime.h>
 #include <objc/message.h>
 #include <CoreFoundation/CFString.h>

@@ -659,7 +659,7 @@ static ui_menu_item_t file_menu_tail[] = {
       ACTION_MONITOR_OPEN,
       ui_monitor_activate_callback, NULL, NULL,
       /* XXX: This bit doesn't work anymore since the custom hotkeys. */
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
       /* use Command-Option-M on Mac */
       GDK_KEY_M, VICE_MOD_MASK|GDK_MOD1_MASK,
 #else

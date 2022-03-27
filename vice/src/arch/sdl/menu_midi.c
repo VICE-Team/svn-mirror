@@ -37,7 +37,7 @@
 #include "uimenu.h"
 
 /* *nix MIDI settings */
-#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
 
 void sdl_menu_midi_in_free(void)
 {
@@ -90,10 +90,10 @@ static const ui_menu_entry_t midi_driver_menu[] = {
 #define VICE_SDL_MIDI_ARCHDEP_ITEMS
 #endif
 
-#endif /* defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT) */
+#endif /* defined(UNIX_COMPILE) && !defined(MACOS_COMPILE) */
 
 /* OSX MIDI settings */
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 UI_MENU_DEFINE_STRING(MIDIName)
 UI_MENU_DEFINE_STRING(MIDIInName)
 UI_MENU_DEFINE_STRING(MIDIOutName)
@@ -121,7 +121,7 @@ void sdl_menu_midi_out_free(void)
       string_MIDIOutName_callback,                  \
       (ui_callback_data_t)"Name of MIDI-Out Port" },
 
-#endif /* defined(MACOSX_SUPPORT) */
+#endif /* defined(MACOS_COMPILE) */
 
 /* win32 MIDI settings */
 #ifdef WIN32_COMPILE

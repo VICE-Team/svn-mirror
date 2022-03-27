@@ -966,7 +966,7 @@ darwin*)
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
 
-  AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
+  AC_DEFINE(MACOS_COMPILE,,[Enable MacOS-specific code.])
 
   dnl Set CPPFLAGS as well as VICE_CPPFLAGS for the macports / homebrew dep search paths.
   dnl If we don't, then various header / compile checks won't succeed.

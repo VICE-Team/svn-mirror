@@ -40,7 +40,7 @@
 #include <unistd.h>
 #endif
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #include <objc/runtime.h>
 #include <objc/message.h>
 #include <CoreFoundation/CFString.h>
@@ -770,7 +770,7 @@ static GdkPixbuf *get_default_icon(void)
         g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
     }
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
     /* The icon is SVG, so lets try to figure out the right size to render */
     id application;
     id dock_tile;
@@ -1425,7 +1425,7 @@ static gboolean on_window_configure_event(GtkWidget *widget,
     return FALSE;
 }
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 
 void macos_set_dock_icon_workaround(GdkPixbuf *icon);
 void macos_activate_application_workaround(void);
@@ -1591,7 +1591,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* set the dock / taskbar icon */
     icon = get_default_icon();
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
     macos_set_dock_icon_workaround(icon);
 #else
     if (icon != NULL) {
@@ -1841,7 +1841,7 @@ void ui_display_main_window(int index)
      * gtk_widget_set_no_show_all(). */
     gtk_widget_show_all(window);
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
     macos_activate_application_workaround();
 #endif
 

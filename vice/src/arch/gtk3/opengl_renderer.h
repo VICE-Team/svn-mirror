@@ -27,9 +27,11 @@
 #ifndef VICE_OPENGL_RENDERER_H
 #define VICE_OPENGL_RENDERER_H
 
+#include "vice.h"
+
 #include <GL/glew.h>
 
-#ifndef MACOSX_SUPPORT
+#ifndef MACOS_COMPILE
 #include <X11/Xlib.h>
 #include <GL/glxew.h>
 #endif
@@ -60,7 +62,7 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief A queue of backbuffers ready for painting to the widget */
     void *render_queue;
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
     /** \brief native child window for OpenGL to draw on */
     void *native_view;
 #else

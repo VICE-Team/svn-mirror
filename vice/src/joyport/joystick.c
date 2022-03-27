@@ -1722,7 +1722,7 @@ void register_joystick_driver(
         new_joystick_device->axis_mapping[1].negative_direction.action = JOYSTICK;
         new_joystick_device->axis_mapping[1].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
 
-#if !defined(MACOSX_SUPPORT)
+#if !defined(MACOS_COMPILE)
         if (num_axes == 4) {
             /* next two axes */
             /* CAUTION: make sure to not map axes 2 and/or 5 for pads with > 4 axes, those are
@@ -1741,7 +1741,7 @@ void register_joystick_driver(
             new_joystick_device->axis_mapping[3].negative_direction.action = JOYSTICK;
             new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
         }
-#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
+#if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
         /* CAUTION: this does not work correctly with the current windows joystick code */
         if (num_axes >= 6) {
             /* next two axes (eg second analog stick on ps3/ps4 pads) */

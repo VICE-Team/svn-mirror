@@ -33,7 +33,7 @@
 
 #include "basewidget_types.h"
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 
 /** \brief  Unicode text for the VICE_MOD_MASK (Command) modifier
  */
