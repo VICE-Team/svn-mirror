@@ -87,7 +87,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-#if (defined(__BEOS__) && defined(WORDS_BIGENDIAN))
+#if (defined(BEOS_COMPILE) && defined(WORDS_BIGENDIAN))
 #ifndef __cplusplus
 #undef inline
 #define inline

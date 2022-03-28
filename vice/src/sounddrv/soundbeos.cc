@@ -28,7 +28,7 @@
 
 #ifdef BEOS_COMPILE
 
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
 /* Workaround an issue in the Haiku headers. */
 #include <List.h>
 #endif
