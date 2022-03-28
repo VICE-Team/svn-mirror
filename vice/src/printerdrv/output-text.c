@@ -44,9 +44,7 @@
 
 /* TODO: configure check that matches what arch/shared/coproc.c does... */
 #if defined(HAVE_FORK)
-# if !defined(OPENSTEP_COMPILE) && !defined(RHAPSODY_COMPILE) \
-   && !defined(NEXTSTEP_COMPILE) && !defined(BEOS_COMPILE) \
-   && !defined(__ANDROID__)
+# if !defined(BEOS_COMPILE)
 #   define COPROC_SUPPORT
 # endif
 #elif defined(WIN32_COMPILE)

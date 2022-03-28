@@ -54,10 +54,6 @@
 #include <alsa/asoundlib.h>
 #endif
 
-#if defined(OPENSTEP_COMPILE) || defined(NEXTSTEP_COMPILE)
-#define ssize_t int
-#endif
-
 #include "archdep.h"
 #include "cmdline.h"
 #include "lib.h"
