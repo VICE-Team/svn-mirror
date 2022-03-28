@@ -37,7 +37,7 @@
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 # include <unistd.h>
 #endif
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 #endif
 
@@ -86,7 +86,7 @@ char *archdep_tmpnam(void)
 # else
     return lib_strdup(tmpnam(NULL));
 # endif
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     /*
      * This blows and should probably be replaced with GetTempFileNameA() or
      * something similar

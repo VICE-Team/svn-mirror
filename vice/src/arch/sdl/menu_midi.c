@@ -124,7 +124,7 @@ void sdl_menu_midi_out_free(void)
 #endif /* defined(MACOS_COMPILE) */
 
 /* win32 MIDI settings */
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -253,7 +253,7 @@ UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
       MIDIOutDev_dynmenu_callback,            \
       (ui_callback_data_t)midi_out_dyn_menu },
 
-#endif /* defined(WIN32_COMPILE) */
+#endif /* defined(WINDOWS_COMPILE) */
 
 /* Common menus */
 

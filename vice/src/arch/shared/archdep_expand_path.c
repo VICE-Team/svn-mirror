@@ -73,7 +73,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     }
     return 0;
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     /* taken from the old WinVICE port (src/arch/win32/archdep.c): */
     *return_path = lib_strdup(orig_name);
 #elif defined(BEOS_COMPILE)

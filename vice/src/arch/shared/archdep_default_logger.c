@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 #endif
 
@@ -42,7 +42,7 @@
 #include "archdep_default_logger.h"
 
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 
 /** \brief  Write message to Windows debugger/logger
  *

@@ -28,7 +28,6 @@
 /* #define DEBUG_ARCHDEP_RAWNET_CAPABILITY */
 
 #include "vice.h"
-#include "config.h"
 #include "archdep_defs.h"
 
 #include <stdbool.h>
@@ -40,7 +39,7 @@
 # ifdef HAVE_CAPABILITIES
 #  include <sys/capability.h>
 # endif
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 # include <windows.h>
 #endif
 
@@ -102,7 +101,7 @@ bool archdep_rawnet_capability(void)
     }
 #  endif
 # endif
-#elif defined ARCHDEP_OS_WINDOWS
+#elif defined WINDOWS_COMPILE
     /* on windows always return true for the time being, perhaps we should also
        check permissions somehow? */
     return true;

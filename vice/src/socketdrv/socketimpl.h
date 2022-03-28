@@ -37,7 +37,7 @@
 #include "socket-unix-impl.h"
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #include "socket-win32-impl.h"
 #endif
 

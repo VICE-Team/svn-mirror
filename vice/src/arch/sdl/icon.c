@@ -90,7 +90,7 @@ void sdl_ui_set_window_icon(void *window)
     /* SDL1.2 docs say Win32 icons need to be 32x32. On Win7 using 256x256
      * also works fine, but let's do what the docs say anyway.
      */
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     path = archdep_app_icon_path_png(32);
 #else
     path = archdep_app_icon_path_png(256);

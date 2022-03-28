@@ -88,7 +88,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WIN32_COMPILE) /* (beos/unix/windows) */
+#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
     { "HAVE_CATWEASELMKIII", "Support for Catweasel MKIII.",
 #ifndef HAVE_CATWEASELMKIII
         0 },
@@ -97,7 +97,7 @@ static const feature_list_t featurelist[] = {
 #endif
 #endif
 
-#ifdef WIN32_COMPILE /* (windows) */
+#ifdef WINDOWS_COMPILE /* (windows) */
     { "HAVE_DINPUT", "Use DirectInput joystick driver",
 #ifndef HAVE_DINPUT
         0 },
@@ -105,7 +105,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(UNIX_COMPILE) || defined(MACOS_COMPILE) || defined(WIN32_COMPILE) /* (unix/osx/windows) */
+#if defined(UNIX_COMPILE) || defined(MACOS_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/osx/windows) */
     { "HAVE_DYNLIB_SUPPORT", "Support for dynamic library loading.",
 #ifndef HAVE_DYNLIB_SUPPORT
         0 },
@@ -155,7 +155,7 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WIN32_COMPILE) /* (beos/unix/windows) */
+#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
     { "HAVE_HARDSID", "Support for HardSID.",
 #ifndef HAVE_HARDSID
         0 },
@@ -178,7 +178,7 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(UNIX_COMPILE) || defined(WIN32_COMPILE) /* (unix/windows) */
+#if defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/windows) */
     { "HAVE_LIBIEEE1284", "Define to 1 if you have the `ieee1284' library", /* (-lieee1284) */
 #ifndef HAVE_LIBIEEE1284
         0 },
@@ -186,7 +186,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(UNIX_COMPILE) || defined(MACOS_COMPILE) || defined(WIN32_COMPILE) /* (unix/osx/windows) */
+#if defined(UNIX_COMPILE) || defined(MACOS_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/osx/windows) */
     { "HAVE_MIDI", "Enable MIDI emulation.",
 #ifndef HAVE_MIDI
         0 },
@@ -215,7 +215,7 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(UNIX_COMPILE) || defined(WIN32_COMPILE) /* (unix/windows) */
+#if defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (unix/windows) */
     { "HAVE_REALDEVICE", "Support for OpenCBM", /* (former CBM4Linux). */
 #ifndef HAVE_REALDEVICE
         0 },
@@ -230,7 +230,7 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WIN32_COMPILE) /* (beos/unix/windows) */
+#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (beos/unix/windows) */
     { "HAVE_PARSID", "Support for ParSID.",
 #ifndef HAVE_PARSID
         0 },
@@ -298,7 +298,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WIN32_COMPILE) /* (amiga/beos/unix/windows) */
+#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE) || defined(WINDOWS_COMPILE) /* (amiga/beos/unix/windows) */
     { "HAVE_SSI2001", "Support for SSI-2001.",
 #ifndef HAVE_SSI2001
         0 },
@@ -398,7 +398,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(WIN32_COMPILE) /* (windows) */
+#if defined(WINDOWS_COMPILE) /* (windows) */
     { "USE_DXSOUND", "Enable directx sound support.",
 #ifndef USE_DXSOUND
         0 },

@@ -4,7 +4,7 @@
 
 
 # Make sure we use Windows' console mode since this is a command line tool
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 petcat_LDFLAGS = -mconsole
 else
 petcat_LDFLAGS = 

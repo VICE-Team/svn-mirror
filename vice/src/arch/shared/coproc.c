@@ -60,12 +60,11 @@
 #include <errno.h>
 #include <signal.h>
 
-
 #include "archdep.h"
+#include "log.h"
 
 #include "coproc.h"
 
-#include "log.h"
 
 #define SHELL "/bin/sh"
 
@@ -132,7 +131,7 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
 
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 
 #include "archdep.h"
 #include "coproc.h"

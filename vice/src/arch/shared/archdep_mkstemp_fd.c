@@ -76,7 +76,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 }
 
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {

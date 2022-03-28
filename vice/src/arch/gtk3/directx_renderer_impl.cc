@@ -29,7 +29,7 @@
 
 #include "directx_renderer_impl.h"
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 
 #include <assert.h>
 #include <math.h>
@@ -651,4 +651,4 @@ void vice_directx_impl_log_windows_error(const char *prefix)
     LocalFree(error_message);
 }
 
-#endif /* #ifdef WIN32_COMPILE */
+#endif /* #ifdef WINDOWS_COMPILE */

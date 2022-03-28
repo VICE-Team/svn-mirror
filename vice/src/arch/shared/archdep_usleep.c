@@ -27,17 +27,15 @@
  */
 
 #include "vice.h"
-#include "archdep_defs.h"
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 # include <stdint.h>
 #endif
 
-#include "archdep.h"
 #include "archdep_usleep.h"
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 
 /* Provide a usleep replacement */
 void archdep_usleep(uint64_t waitTime)

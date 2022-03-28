@@ -137,7 +137,7 @@ int archdep_register_cbmfont(void)
  * Windows part of the API
  */
 
-# ifdef ARCHDEP_OS_WINDOWS
+# ifdef WINDOWS_COMPILE
 
 /* Make sure AddFontResourceEx prototyped is used in wingdi.h */
 #ifndef _WIN32_WINNT
@@ -188,7 +188,7 @@ int archdep_register_cbmfont(void)
  */
 void archdep_unregister_cbmfont(void)
 {
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     char *path;
 
     if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {

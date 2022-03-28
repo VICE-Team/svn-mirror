@@ -33,13 +33,14 @@
 #include <inttypes.h>
 
 
-/** \brief  Various OS-identification macros
+/* \brief  Various OS-identification macros
  *
  * The question marks indicate ports I have my doubts about they'll even run
  * VICE at all.
  *
- * XXX: Non of the ARCHDEP_OS_* macros should be left when we've finished the
- *      archdep cleanup!
+ * XXX:     Non of the ARCHDEP_OS_* macros should be left when we've finished
+ *          the archdep cleanup!
+ * TODO:    Move this comment to either src/vice.h or configure.ac.
  *
  * <pre>
  *  UNIX_COMPILE
@@ -50,17 +51,11 @@
  *      NETBSD_COMPILE
  *      OPENBSD_COMPILE
  *      DRAGONFLYBSD_COMPILE
- *  ARCHDEP_OS_WINDOWS
+ *  WINDOWS_COMPILE
  *  BEOS_COMPILE
  *    HAIKU_COMPILE
  * </pre>
  */
-#if defined(WIN32_COMPILE)
-
-/** \brief  OS is Windows */
-# define ARCHDEP_OS_WINDOWS
-
-#endif
 
 
 /** \brief  Extension used for autostart disks
@@ -68,7 +63,7 @@
 #define ARCHDEP_AUTOSTART_DISK_EXTENSION    "d64"
 
 
-#if defined(ARCHDEP_OS_WINDOWS)
+#if defined(WINDOWS_COMPILE)
 /** \brief  Separator used for a pathlist
  */
 # define ARCHDEP_FINDPATH_SEPARATOR_STRING  ";"
@@ -93,7 +88,7 @@
  * longest possible path including the terminating NUL character.
  */
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <stdlib.h>
 # define ARCHDEP_PATH_MAX   _MAX_PATH
 #elif defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
@@ -144,7 +139,7 @@
 # define ARCHDEP_USE_SDL
 #endif
 
-#if defined(ARCHDEP_OS_WINDOWS) || defined(BEOS_COMPILE)
+#if defined(WINDOWS_COMPILE) || defined(BEOS_COMPILE)
 # ifdef ARCHDEP_USE_SDL
 #  define ARCHDEP_VICERC_NAME   "sdl-vice.ini"
 /* Just copying stuff, I'm backwards */

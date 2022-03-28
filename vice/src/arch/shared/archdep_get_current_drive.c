@@ -43,7 +43,7 @@
  * \note    free result after use with lib_free().
  */
 
-#if defined(ARCHDEP_OS_WINDOWS) && defined(SDL_CHOOSE_DRIVES)
+#if defined(WINDOWS_COMPILE) && defined(SDL_CHOOSE_DRIVES)
 char *archdep_get_current_drive(void)
 {
     char *p = archdep_current_dir();

@@ -32,7 +32,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#if defined(ARCHDEP_OS_WINDOWS)
+#if defined(WINDOWS_COMPILE)
 # include <windows.h>
 #elif defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 # include <errno.h>
@@ -204,7 +204,7 @@ static bool scan_directory(archdep_dir_t *dir, const char *path, int mode)
     }
     closedir(dirp);
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     HANDLE ffhandle;
     WIN32_FIND_DATA ffdata;
     char pattern[ARCHDEP_PATH_MAX];

@@ -32,7 +32,7 @@
 
 #include "vice.h"
 
-#if defined(WIN32_COMPILE)
+#if defined(WINDOWS_COMPILE)
 
 #include <stdio.h>
 

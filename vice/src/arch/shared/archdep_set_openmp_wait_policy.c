@@ -40,7 +40,7 @@
 
 void archdep_set_openmp_wait_policy(void)
 {
-#if defined(WIN32_COMPILE)
+#if defined(WINDOWS_COMPILE)
     _putenv("OMP_WAIT_POLICY=PASSIVE");
 #else
     setenv("OMP_WAIT_POLICY", "PASSIVE", 1);

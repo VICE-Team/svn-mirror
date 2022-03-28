@@ -33,7 +33,7 @@ libarch:
 
 else
 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 
 SUBDIRS = shared mingw32-pcap
 

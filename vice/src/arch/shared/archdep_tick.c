@@ -28,9 +28,8 @@
 #include "vice.h"
 
 #include "archdep_defs.h"
-#include "archdep_tick.h"
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #   include <windows.h>
 #elif defined(HAVE_NANOSLEEP)
 #   include <time.h>
@@ -39,13 +38,14 @@
 #   include <errno.h>
 #   include <sys/time.h>
 #endif
-
 #ifdef MACOS_COMPILE
 #   include <mach/mach.h>
 #   include <mach/mach_time.h>
 #endif
-
 #include <stdio.h>
+
+#include "archdep_tick.h"
+
 
 #ifndef MIN
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
@@ -55,7 +55,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 static LARGE_INTEGER timer_frequency;
 static HANDLE wait_timer;
 #elif defined(MACOS_COMPILE)
@@ -64,7 +64,7 @@ static mach_timebase_info_data_t timebase_info;
 
 void tick_init(void)
 {
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
     QueryPerformanceFrequency(&timer_frequency);
 
     wait_timer = CreateWaitableTimer(NULL, TRUE, NULL);
@@ -80,7 +80,7 @@ tick_t tick_per_second(void)
     return TICK_PER_SECOND;
 }
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 tick_t tick_now(void)
 {
     LARGE_INTEGER time_now;
@@ -113,7 +113,7 @@ tick_t tick_now(void)
 }
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 static inline void sleep_impl(tick_t sleep_ticks)
 {
     LARGE_INTEGER timeout;

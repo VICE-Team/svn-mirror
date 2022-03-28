@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 
 #include "directx_renderer.h"
 #include "directx_renderer_impl.h"

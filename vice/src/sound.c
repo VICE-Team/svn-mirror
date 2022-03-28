@@ -110,7 +110,7 @@ static const sound_register_devices_t sound_register_devices[] = {
 #endif /* __NetBSD__*/
 #endif /* HAVE_SYS_AUDIOIO_H */
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #ifdef USE_DXSOUND
     { "dx", sound_init_dx_device, SOUND_PLAYBACK_DEVICE },
 #endif

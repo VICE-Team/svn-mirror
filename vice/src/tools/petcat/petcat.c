@@ -59,7 +59,6 @@
 /* #define DEBUG */
 
 #include "vice.h"
-#include "archdep_defs.h"
 
 #include "version.h"
 
@@ -74,7 +73,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 #include <fcntl.h>
 #include <io.h>
 #endif
@@ -1091,7 +1090,7 @@ int main(int argc, char **argv)
         ctrls = (textmode ? 0 : 1);     /*default ON for prgs, OFF for text */
     }
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     /* HACK: when outputting a prg to stdout, switch stdout to binary mode, 
        else redirecting the binary output to a file will result in a broken 
        file due to translation of the line endings. */

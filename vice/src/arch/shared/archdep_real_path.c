@@ -27,7 +27,7 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#ifndef ARCHDEP_OS_WINDOWS
+#ifndef WINDOWS_COMPILE
 #include <limits.h>
 #else
 #include <windows.h>
@@ -49,7 +49,7 @@
  */
 char *archdep_real_path(const char *pathname, char *resolved_pathname)
 {
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     DWORD size = GetFullPathNameA(pathname, _MAX_PATH, resolved_pathname, NULL);
     if (size == 0 || size >= _MAX_PATH) {
         return NULL;
@@ -79,7 +79,7 @@ char *archdep_real_path(const char *pathname, char *resolved_pathname)
  */
 int archdep_real_path_equal(const char *path1, const char *path2)
 {
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     char path1_norm[_MAX_PATH], path2_norm[_MAX_PATH];
 #else
     char path1_norm[PATH_MAX], path2_norm[PATH_MAX];

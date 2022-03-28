@@ -101,7 +101,7 @@
 
 /* Avoid windows.h including too much garbage
  */
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 # define WIN32_LEAN_AND_MEAN
 #endif
 

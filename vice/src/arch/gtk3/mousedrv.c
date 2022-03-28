@@ -30,7 +30,7 @@
 #if defined(MACOS_COMPILE)
 #import <CoreGraphics/CGRemoteOperation.h>
 #import <CoreGraphics/CGEvent.h>
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 #include <windows.h>
 #else
 #include <X11/Xlib.h>

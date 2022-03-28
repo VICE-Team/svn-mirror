@@ -47,7 +47,7 @@
 # if !defined(BEOS_COMPILE)
 #   define COPROC_SUPPORT
 # endif
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 # include <windows.h>
 # define COPROC_SUPPORT
 #endif

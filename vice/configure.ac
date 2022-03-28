@@ -3409,7 +3409,7 @@ fi
 if test x"$is_unix" = "xyes"; then
 
   if test x"$is_win32_gtk3" = "xyes"; then
-    AC_DEFINE(WIN32_COMPILE,,[Are we compiling for windows?])
+    AC_DEFINE(WINDOWS_COMPILE,,[Are we compiling for windows?])
     LIBS="$LIBS -lntdll"
   else
     AC_DEFINE(UNIX_COMPILE,,[Are we compiling for unix?])
@@ -3417,9 +3417,9 @@ if test x"$is_unix" = "xyes"; then
 
   AM_CONDITIONAL(UNIX_COMPILE, true)
   if test x"$is_win32_gtk3" = "xyes"; then
-     AM_CONDITIONAL(WIN32_COMPILE, true)
+     AM_CONDITIONAL(WINDOWS_COMPILE, true)
   else
-     AM_CONDITIONAL(WIN32_COMPILE, false)
+     AM_CONDITIONAL(WINDOWS_COMPILE, false)
   fi
 
   if test x"$is_unix_macosx" = "xyes" ; then
@@ -3432,7 +3432,7 @@ if test x"$is_unix" = "xyes"; then
 
 
 elif test x"$is_win32" = "xyes"; then
-  AC_DEFINE(WIN32_COMPILE,,[Are we compiling for win32?])
+  AC_DEFINE(WINDOWS_COMPILE,,[Are we compiling for win32?])
 
   if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
     if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
@@ -3442,14 +3442,14 @@ elif test x"$is_win32" = "xyes"; then
     fi
   fi
 
-  AM_CONDITIONAL(WIN32_COMPILE, true)
+  AM_CONDITIONAL(WINDOWS_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(MACOS_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(WIN32_COMPILE, false)
+  AM_CONDITIONAL(WINDOWS_COMPILE, false)
   AM_CONDITIONAL(MACOS_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)

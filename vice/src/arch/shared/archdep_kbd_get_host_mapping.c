@@ -32,7 +32,7 @@
 
 #include "archdep.h"
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 #endif
 #if defined(UNIX_COMPILE)
@@ -53,7 +53,7 @@
  * \see     keyboard.h
  */
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a blank (default) config, so an educated guess works good

@@ -25,7 +25,7 @@
  *
  */
 
-#include "archdep_defs.h"
+#include "vice.h"
 
 #include "archdep_is_windows_nt.h"
 
@@ -38,8 +38,7 @@
  * \return  1 if true, 0 if not
  */
 
-
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 #include <windows.h>
 
 int archdep_is_windows_nt(void)

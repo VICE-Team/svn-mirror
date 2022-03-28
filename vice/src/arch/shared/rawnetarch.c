@@ -64,7 +64,7 @@
 #include "archdep_rawnet_capability.h"
 #include "rawnetarch.h"
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #include "rawnetarch_win32.c"
 #endif
 

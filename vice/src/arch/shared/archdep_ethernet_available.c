@@ -35,7 +35,7 @@
 #ifdef UNIX_COMPILE
 # include <unistd.h>
 # include <sys/types.h>
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 # include <windows.h>
 #endif
 
@@ -65,7 +65,7 @@ bool archdep_ethernet_available(void)
 # else
     return false;
 # endif
-#elif defined ARCHDEP_OS_WINDOWS
+#elif defined WINDOWS_COMPILE
     /* check if the wpcap .dll is loaded */
     return GetModuleHandleA("WPCAP.DLL") != NULL;
 #else

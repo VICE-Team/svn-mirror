@@ -37,7 +37,7 @@
 #include "video.h"
 
 /* For the ugly hack below */
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 # include "windows.h"
 #endif
 

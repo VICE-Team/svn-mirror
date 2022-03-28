@@ -40,7 +40,7 @@
 #include "archdep_defs.h"
 
 #include <stddef.h>
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 # include <shlobj.h>
 #endif
@@ -50,7 +50,7 @@
 /* TODO: Haiku is a lot more POSIX-like than classic BeOS, so perhaps we should
  *       test for classic BeOS or Haiku and act accordingly.
  */
-#if !defined(UNIX_COMPILE) && !defined(ARCHDEP_OS_WINDOWS) \
+#if !defined(UNIX_COMPILE) && !defined(WINDOWS_COMPILE) \
     && !(defined(BEOS_COMPILE))
 # include "archdep_boot_path.h"
 #endif
@@ -87,7 +87,7 @@ static char *user_cache_dir = NULL;
  */
 const char *archdep_user_cache_path(void)
 {
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     TCHAR szPath[MAX_PATH];
 #endif
     /* don't recalculate path if it's already known */
@@ -101,7 +101,7 @@ const char *archdep_user_cache_path(void)
     user_cache_dir = util_join_paths(xdg_cache, "vice", NULL);
     lib_free(xdg_cache);
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     /*
      * Use WinAPI to get %APPDATA% directory, hopefully more reliable than
      * hardcoding 'AppData/Roaming'. We can't use SHGetKnownFolderPath() here

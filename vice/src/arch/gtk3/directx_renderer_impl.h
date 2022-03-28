@@ -27,7 +27,9 @@
 #ifndef VICE_DIRECTX_RENDERER_IMPL_H
 #define VICE_DIRECTX_RENDERER_IMPL_H
 
-#ifdef WIN32_COMPILE
+#include "vice.h"
+
+#ifdef WINDOWS_COMPILE
 
 #include <windows.h>
 
@@ -154,6 +156,6 @@ void vice_directx_impl_async_render(void *pool_data, void *job_data);
 } /* extern "C" { */
 #endif
 
-#endif /* #ifdef WIN32_COMPILE */
+#endif /* #ifdef WINDOWS_COMPILE */
 
 #endif /* #ifndef VICE_DIRECTX_RENDERER_IMPL_H */

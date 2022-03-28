@@ -482,7 +482,7 @@ ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod)
 #ifdef SDL_DEBUG
     log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
 #endif
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 /* HACK: The Alt-Gr Key seems to work differently on windows and linux.
          On Linux one Keypress "SDLK_RALT" will be produced.
          On Windows two Keypresses will be produced, first "SDLK_LCTRL"
@@ -537,7 +537,7 @@ ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod)
     log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 /* HACK: The Alt-Gr Key seems to work differently on windows and linux.
          see above */
     if (SDL1x_to_SDL2x_Keys(key) == SDLK_RALT) {

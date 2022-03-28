@@ -20,27 +20,17 @@
  */
 
 #include "vice.h"
-#include "archdep_defs.h"
-
-#if defined(ARCHDEP_OS_WINDOWS)
-# include <direct.h>
-#endif
-
+/* Provides SDL_CHOOSE_DRIVES and the function prototype: */
 #include "archdep.h"
-#include "ui.h"
 
-/* FIXME: includes for amiga */
+#if defined(WINDOWS_COMPILE) && defined(SDL_CHOOSE_DRIVES)
+# include <direct.h>
+# include "ui.h"
 
-#if defined(ARCHDEP_OS_WINDOWS)
-
-/* FIXME: is this needed* */
-#ifdef SDL_CHOOSE_DRIVES
 void archdep_set_current_drive(const char *drive)
 {
     if (_chdir(drive)) {
         ui_error("Failed to change drive to %s", drive);
     }
 }
-#endif
-
 #endif

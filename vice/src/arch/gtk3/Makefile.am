@@ -1,6 +1,6 @@
 ## Makefile.am for the native GTK3 version of `libarch.a'.
 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
 else
 extra_includes =
@@ -115,7 +115,7 @@ if USE_GTK3UI
 libarch_a_SOURCES += vice_gtk3_locking.c
 endif
 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 libarch_a_SOURCES += directx_renderer.c directx_renderer_impl.cc
 else
 libarch_a_SOURCES += opengl_renderer.c
