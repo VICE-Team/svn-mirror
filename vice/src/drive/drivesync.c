@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#if !defined(__BEOS__) || !defined(WORDS_BIGENDIAN)
+#if !defined(BEOS_COMPULE) || !defined(WORDS_BIGENDIAN)
 #include <math.h>
 #endif
 

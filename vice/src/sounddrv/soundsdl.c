@@ -165,7 +165,7 @@ static int sdl_init(const char *param, int *speed,
     return 0;
 }
 
-#if defined(WORDS_BIGENDIAN) && (!defined(HAVE_SWAB) || defined(__BEOS__))
+#if defined(WORDS_BIGENDIAN) && (!defined(HAVE_SWAB) || defined(BEOS_COMPILE))
 void swab(void *src, void *dst, size_t length)
 {
     const char *from = src;
