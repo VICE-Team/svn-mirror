@@ -30,13 +30,12 @@
 #ifndef ARCHDEP_USLEEP_H
 #define ARCHDEP_USLEEP_H
 
-#include "archdep_defs.h"
+#include "vice.h"
 
-#ifdef ARCHDEP_OS_WINDOWS
-
-#include <stdint.h>
+#ifdef WINDOWS_COMPILE
+# include <stdint.h>
 
 void archdep_usleep(uint64_t waitTime);
 
-#endif
+# endif
 #endif

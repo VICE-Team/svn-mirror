@@ -52,7 +52,7 @@
 #endif
 
 /* for GetModuleFileName() */
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 # include "windows.h"
 #endif
 
@@ -70,7 +70,7 @@
 static char *program_name = NULL;
 
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 /** \brief  Helper function for Windows
  *
  * \param[in]   buf string to parse binary name from
@@ -153,7 +153,7 @@ const char *archdep_program_name(void)
     program_name = prg_name_unix(execpath);
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     program_name = prg_name_win32(execpath);
 #endif
 

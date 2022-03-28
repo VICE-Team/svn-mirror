@@ -36,7 +36,7 @@
 
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 # include <unistd.h>
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 # include <stdio.h>
 #else
 # error "Unsupported OS!"
@@ -55,7 +55,7 @@ int archdep_remove(const char *path)
 {
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
     return unlink(path);
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     return remove(path);
 #else
     return -1;

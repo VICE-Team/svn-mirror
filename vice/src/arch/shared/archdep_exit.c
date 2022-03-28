@@ -39,7 +39,7 @@
 #endif
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #include <windows.h>
 #include <mmsystem.h>
 #include <objbase.h>
@@ -104,7 +104,7 @@ static void actually_exit(int exit_code)
     /* Some exit stuff not safe to run afer exit() is called so we do it here */
     main_exit();
 
-#if defined(WIN32_COMPILE)
+#if defined(WINDOWS_COMPILE)
     /* Relax scheduler accuracy */
     timeEndPeriod(1);
 #endif
@@ -134,14 +134,14 @@ static gboolean exit_on_main_thread(gpointer not_used)
 
 void archdep_thread_init(void)
 {
-#if defined(WIN32_COMPILE)
+#if defined(WINDOWS_COMPILE)
     CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 #endif
 }
 
 void archdep_thread_shutdown(void)
 {
-#if defined(WIN32_COMPILE)
+#if defined(WINDOWS_COMPILE)
     CoUninitialize();
 #endif
 }
@@ -169,7 +169,7 @@ void archdep_set_main_thread(void)
 
     /* TODO - set UI/main thread priority for X11 */
 
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 
     /* Increase Windows scheduler accuracy */
     timeBeginPeriod(1);

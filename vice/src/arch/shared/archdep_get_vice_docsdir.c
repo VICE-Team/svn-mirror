@@ -43,7 +43,7 @@
  */
 char *archdep_get_vice_docsdir(void)
 {
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     /* Cannot use VICE_DOCDIR here since Windows installs assume any file to
      * be relative to the emu binary.
      */

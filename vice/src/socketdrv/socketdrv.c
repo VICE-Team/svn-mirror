@@ -35,7 +35,7 @@
 #error No HAVE_NETWORK
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #include "socket-win32-drv.c"
 #define NETWORK_SUPPORT_HANDLED
 #endif

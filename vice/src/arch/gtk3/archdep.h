@@ -76,7 +76,7 @@
 #include "archdep_unix.h"
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #include "archdep_win32.h"
 #endif
 

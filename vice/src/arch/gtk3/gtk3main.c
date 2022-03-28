@@ -66,7 +66,7 @@ int main(int argc, char **argv)
      *
      * --Compyx
      */
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
     _putenv("LANG=C");
 #endif
 

@@ -27,7 +27,7 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <string.h>
 #endif
 
@@ -59,7 +59,7 @@ char *archdep_make_backup_filename(const char *fname)
  */
 char *archdep_make_backup_filename(const char *fname)
 {
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     /* For some reason on Windows, we replace the last char with a tilde, which
      * ofcourse is stupid idea since the last char could be a tilde.
      */

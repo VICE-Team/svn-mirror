@@ -2688,7 +2688,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
      *        canvas somehow having z-index priority over the widget. This
      *        works fine on Linux (as far as we know).
      */
-#if (!defined(ARCHDEP_OS_WINDOWS)) && (!defined(MACOS_COMPILE))
+#if (!defined(WINDOWS_COMPILE)) && (!defined(MACOS_COMPILE))
     volume = ui_volume_button_create();
     gtk_widget_set_hexpand(volume, TRUE);
 #else

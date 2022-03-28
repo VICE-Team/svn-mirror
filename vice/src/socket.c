@@ -56,8 +56,6 @@
 
 #include "socketimpl.h"
 
-#include "archdep_defs.h"
-
 /* Fix Windows' definition of 'INVALID_SOCKET (SOCKET)(~0)', which breaks the
  * code further down. Any 'normal' OS uses -1, but Microsft had to use an
  * unsigned int with INVALID_SOCKET being the largest value for that unsigned
@@ -65,7 +63,7 @@
  *
  * Since Windows only works on two's complement systems, this will work.
  */
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # undef INVALID_SOCKET
 # define INVALID_SOCKET -1
 #endif

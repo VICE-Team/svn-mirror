@@ -115,7 +115,7 @@ endif
 endif
 
 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 if USE_GTK3UI
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTMLDOCS)

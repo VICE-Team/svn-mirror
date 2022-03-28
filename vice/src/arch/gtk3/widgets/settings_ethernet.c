@@ -340,7 +340,7 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 # ifdef UNIX_COMPILE
         gtk_label_set_markup(GTK_LABEL(label),
                 "<i>VICE needs TUN/TAP support or the proper permissions (with libpcap) to be able to use ethernet emulation.</i>");
-# elif defined(ARCHDEP_OS_WINDOWS)
+# elif defined(WINDOWS_COMPILE)
         gtk_label_set_markup(GTK_LABEL(label),
                 "<i>Couldn't load <b>wpcap.dll</b>, please install WinPCAP to use ethernet emulation.</i>");
 # else

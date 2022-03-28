@@ -39,7 +39,7 @@
 # define ARCHDEP_X_OK   X_OK
 # define ARCHDEP_F_OK   F_OK
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 
 /* shitty windows */
 # include <io.h>

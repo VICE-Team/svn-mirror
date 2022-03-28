@@ -38,7 +38,7 @@
 # include <sys/types.h>
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 # include <direct.h>
 #endif
 
@@ -59,7 +59,7 @@ int archdep_mkdir(const char *pathname, int mode)
 {
 #if defined(BEOS_COMPILE) || defined(UNIX_COMPILE)
     return mkdir(pathname, (mode_t)mode);
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
     return _mkdir(pathname);
 #else
     log_error(LOG_ERR,

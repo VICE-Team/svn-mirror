@@ -52,7 +52,7 @@
  */
 char *archdep_default_portable_resource_file_name(void)
 {
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     return util_join_paths(archdep_boot_path(),
 # ifdef USE_GTK3UI
                            "..", /* Gtk-Win binaries live in bin/, so go up */

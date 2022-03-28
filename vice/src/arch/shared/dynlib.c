@@ -25,16 +25,13 @@
  *
  */
 
+#include "vice.h"
 #include "dynlib.h"
 
 #ifdef HAVE_DYNLIB_SUPPORT
-
-#include "archdep_defs.h"
-
-#ifdef UNIX_COMPILE
-# include "dynlib-unix.c"
-#elif defined(ARCHDEP_OS_WINDOWS)
-# include "dynlib-win32.c"
-#endif
-
+# ifdef UNIX_COMPILE
+#  include "dynlib-unix.c"
+# elif defined(WINDOWS_COMPILE)
+#  include "dynlib-win32.c"
+# endif
 #endif

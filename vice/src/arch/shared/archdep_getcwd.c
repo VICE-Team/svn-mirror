@@ -37,7 +37,7 @@
 #include <stddef.h>
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 # include <unistd.h>
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 # include <direct.h>
 #else
 # error "Unsupported OS!"
@@ -61,7 +61,7 @@ char *archdep_getcwd(char *buf, size_t size)
 {
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
     return getcwd(buf, size);
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     return _getcwd(buf, (int)size);
 #else
     return NULL;

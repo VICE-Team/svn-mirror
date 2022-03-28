@@ -14,7 +14,7 @@ ARCH_LIBS = @ARCH_LIBS@
 
 
 # Windows .res files to be linked to each binary 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 # .. but NOT in headless mode
 if !USE_HEADLESSUI
 X64_RES = $(top_builddir)/data/common/x64.res
@@ -1180,7 +1180,7 @@ c1541_LDADD = \
 	@READLINE@ @READLINE_LIBS@ \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 c1541_LDFLAGS = -mconsole
 endif
 
@@ -1222,7 +1222,7 @@ $(arch_gtk3_lib):
 $(arch_sdl_lib):
 	@(echo "making libarch.a")
 	@(cd arch && $(MAKE) libarch)
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 	@(echo "making win32 res")
 	@(cd arch/gtk3/data/win32 && $(MAKE))
 endif

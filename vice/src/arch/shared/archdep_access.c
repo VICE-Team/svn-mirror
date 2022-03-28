@@ -56,7 +56,7 @@ int archdep_access(const char *pathname, int mode)
 
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
     return access(pathname, access_mode);
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     return _access(pathname, access_mode);
 #else
     errno = EINVAL;

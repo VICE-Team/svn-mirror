@@ -39,18 +39,18 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#if !defined(MACOS_COMPILE) && !defined(WIN32_COMPILE)
+#if !defined(MACOS_COMPILE) && !defined(WINDOWS_COMPILE)
 #include <gdk/gdkx.h>
 #endif
 
 #ifdef MACOS_COMPILE
 #import <CoreGraphics/CGEvent.h>
 
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 #include <windows.h>
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #include "directx_renderer.h"
 #else
 #include "opengl_renderer.h"
@@ -126,7 +126,7 @@ static void warp(int x, int y)
     CGWarpMouseCursorPosition(CGPointMake(x, y));
     CGAssociateMouseAndMouseCursorPosition(true);
 
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 
     SetCursorPos(x, y);
 
@@ -274,7 +274,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
             main_display_height - native_frame.origin.y - content_rect.size.height + widget_y + motion->y
             );
 
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 
         int scale = gtk_widget_get_scale_factor(widget);
         mouse_host_moved(motion->x_root * scale, motion->y_root * scale);
@@ -613,7 +613,7 @@ static void machine_window_create(video_canvas_t *canvas)
     char *backend_label;
     unsigned w, h, vstretch = 0, hstretch = 0;
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
     canvas->renderer_backend = &vice_directx_backend;
     backend_label = "DirectX";
 #else
@@ -764,7 +764,7 @@ void ui_mouse_grab_pointer(void)
 
 #else
 
-    /* First calculate destination relateive to window */
+    /* First calculate destination relative to window */
     int window_width, window_height;
     gtk_window_get_size(GTK_WINDOW(window), &window_width, &window_height);
 
@@ -773,7 +773,7 @@ void ui_mouse_grab_pointer(void)
     warp_x = (float)window_width  / 2.0f * scale;
     warp_y = (float)window_height / 2.0f * scale;
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 
     /* Windows uses SetCursorPos, which needs screen co-ordinates */
     int window_x, window_y;

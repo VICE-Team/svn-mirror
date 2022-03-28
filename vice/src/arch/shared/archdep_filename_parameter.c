@@ -47,7 +47,7 @@
  */
 char *archdep_filename_parameter(const char *name)
 {
-#if defined(ARCHDEP_OS_WINDOWS)
+#if defined(WINDOWS_COMPILE)
     char *path;
     char *result;
 

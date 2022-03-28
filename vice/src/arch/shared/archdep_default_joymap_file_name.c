@@ -57,7 +57,7 @@ char *archdep_default_joymap_file_name(void)
              KBD_PORT_PREFIX "-joymap-%s.vjm",
              machine_get_name());
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     return util_join_paths(archdep_boot_path(), filename, NULL);
 #else
     return util_join_paths(archdep_user_config_path(), filename, NULL);

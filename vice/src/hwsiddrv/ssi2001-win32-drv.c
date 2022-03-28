@@ -46,7 +46,7 @@
 
 #include "vice.h"
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 
 #ifdef HAVE_SSI2001
 #include <windows.h>

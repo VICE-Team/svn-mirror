@@ -37,7 +37,7 @@
 
 #ifdef UNIX_COMPILE
 # include <sys/utsname.h>
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 # include <windows.h>
 # include <versionhelpers.h>
 #endif
@@ -46,7 +46,7 @@
 #include "archdep_get_runtime_info.h"
 
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 
 /* The following might seem weird and convoluted, and it is: Windows does not
  * have a simple method to determine what arch a process is running on.
@@ -110,7 +110,7 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
 #ifdef UNIX_COMPILE
     struct utsname buf;
 #endif
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     const char *name;
     OSVERSIONINFOA version;
 #endif
@@ -135,7 +135,7 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
         strncpy(info->machine, buf.machine, ARCHDEP_RUNTIME_STRMAX - 1U);
         return true;
     }
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 
     version.dwOSVersionInfoSize = sizeof(version);
     if (!GetVersionEx(&version)) {

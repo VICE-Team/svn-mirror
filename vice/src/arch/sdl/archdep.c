@@ -70,7 +70,7 @@ static void archdep_shutdown_extra(void);
 
 /******************************************************************************/
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 /* for O_BINARY */
 #include <fcntl.h>
 #endif
@@ -78,7 +78,7 @@ static void archdep_shutdown_extra(void);
 /* called from archdep.c:archdep_init */
 static int archdep_init_extra(int *argc, char **argv)
 {
-#if defined(ARCHDEP_OS_WINDOWS)
+#if defined(WINDOWS_COMPILE)
     _fmode = O_BINARY;
 
     _setmode(_fileno(stdin), O_BINARY);

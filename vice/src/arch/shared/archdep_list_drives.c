@@ -39,7 +39,7 @@
  * \note    the list and its elements need to be freed with lib_free().
  */
 
-#if defined(ARCHDEP_OS_WINDOWS)
+#if defined(WINDOWS_COMPILE)
 
 /* FIXME: is this needed* */
 # ifdef SDL_CHOOSE_DRIVES
@@ -78,4 +78,4 @@ char **archdep_list_drives(void)
 }
 # endif /* SDL_CHOOSE_DRIVES */
 
-#endif  /* ARCHDEP_OS_WINDOWS */
+#endif  /* WINDOWS_COMPILE */

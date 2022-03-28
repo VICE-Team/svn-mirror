@@ -37,7 +37,7 @@
 #include <stddef.h>
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 # include <unistd.h>
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 # include <direct.h>
 #else
 # error "Unsupported OS!"
@@ -56,7 +56,7 @@ int archdep_chdir(const char *path)
 {
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
     return chdir(path);
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     return _chdir(path);
 #else
     return -1;

@@ -31,6 +31,6 @@
 #include "rs232-unix-dev.c"
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #include "rs232-win32-dev.c"
 #endif

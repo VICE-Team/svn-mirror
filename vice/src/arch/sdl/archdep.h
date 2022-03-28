@@ -81,7 +81,7 @@ extern int sdl_help_shutdown;
 #define ALLOW_NATIVE_MONITOR
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #include "archdep_win32.h"
 /* This platform supports choosing drives. */
 #define SDL_CHOOSE_DRIVES

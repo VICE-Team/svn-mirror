@@ -53,7 +53,7 @@
 # include <pwd.h>
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 # include <shlobj.h>
 #endif
@@ -82,7 +82,7 @@ const char *archdep_home_path(void)
     /* stupid vice code rules, only declare vars at the top */
 #ifdef UNIX_COMPILE
     char *home;
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     DWORD err;
     char home[MAX_PATH];
 #endif
@@ -104,7 +104,7 @@ const char *archdep_home_path(void)
         }
     }
     home_dir = lib_strdup(home);
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     if (FAILED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, home))) {
         /* error */
         err = GetLastError();

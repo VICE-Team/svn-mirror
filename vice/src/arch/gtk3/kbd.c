@@ -434,7 +434,7 @@ static gboolean isresethotkey(GdkEvent *report)
     return res;
 }
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 /** \brief  Table of numpad keyval translations
  *
  * Array of translations from Gdk Windows keyvals to "proper" Gdk keyvals
@@ -469,7 +469,7 @@ static const guint numpad_fixes[][KV_ARR_SIZE] = {
 };
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 /** \brief  Fix numpad keyvals
  *
  * On Windows Gdk doesn't discriminate between some "normal" keys and some
@@ -584,7 +584,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             /* fprintf(stderr, "GDK_KEY_PRESS: %u %04x.\n",
                        report->key.keyval,  report->key.state); */
             kbd_fix_shift_press(report);
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 /* HACK: The Alt-Gr Key seems to work differently on windows and linux.
          On Linux one Keypress "ISO_Level3_Shift" will be produced, and
          the modifier mask for combined keys will be GDK_MOD5_MASK.
@@ -608,7 +608,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                        report->key.keyval,  report->key.state); */
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
             debug_gtk3("(press) key before numpad fix: 0x%04x (GDK_KEY_%s).",
                        (unsigned int)key, gdk_keyval_name(key));
             key = report->key.keyval = fix_numpad_keyval(report); 
@@ -658,7 +658,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 /* HACK: on windows the caps-lock key generates an invalid keycode of 0xffffff,
          so when we see this in the event we explicitly sync caps-lock state
          to make it work in the emulation */
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
             if (report->key.keyval == 0xffffff) {
                 kbd_sync_caps_lock();
             }
@@ -673,7 +673,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",
                        report->key.keyval,  report->key.state); */
             kbd_fix_shift_release(report);
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
             /* HACK: remap control,alt+r to alt-gr, see above */
             if (report->key.keyval == GDK_KEY_Alt_R) {
                 key = report->key.keyval = GDK_KEY_ISO_Level3_Shift;
@@ -682,7 +682,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                        report->key.keyval,  report->key.state); */
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
             debug_gtk3("(release) key before numpad fix: 0x%04x (GDK_KEY_%s).",
                        (unsigned int)key, gdk_keyval_name(key));
             key = report->key.keyval = fix_numpad_keyval(report); 
@@ -714,7 +714,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 /* HACK: on windows the caps-lock key generates an invalid keycode of 0xffffff,
          so when we see this in the event we explicitly sync caps-lock state
          to make it work in the emulation */
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
             if (report->key.keyval == 0xffffff) {
                 kbd_sync_caps_lock();
             }

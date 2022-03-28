@@ -38,7 +38,7 @@
 
 #include "joystick.h"
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #   include "windows.h"
 #elif defined(HAVE_NANOSLEEP)
 #   include <time.h>

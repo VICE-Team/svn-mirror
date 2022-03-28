@@ -45,7 +45,7 @@
 # include <sys/wait.h>
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 # include <io.h>
 # include <process.h>
@@ -113,7 +113,7 @@ int archdep_spawn(const char *name, char **argv,
     }
 }
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 
 /** \brief  Spawn new process
  *

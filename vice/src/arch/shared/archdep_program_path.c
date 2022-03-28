@@ -52,7 +52,7 @@
 # endif
 #endif
 /* for GetModuleFileName() */
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 # include <direct.h>
 #endif
@@ -159,7 +159,7 @@ static bool argv_fallback(void)
  */
 const char *archdep_program_path(void)
 {
-#if defined(ARCHDEP_OS_WINDOWS)
+#if defined(WINDOWS_COMPILE)
     DWORD result;
 #endif
     if (program_path != NULL) {
@@ -170,7 +170,7 @@ const char *archdep_program_path(void)
     /* zero out the buffer since readlink(2) doesn't add a nul character */
     memset(buffer, 0, sizeof(buffer));
 
-#if defined(ARCHDEP_OS_WINDOWS)
+#if defined(WINDOWS_COMPILE)
 
     /* We use -1 since Windows XP will not include the terminating nul character,
      * while later versions do, yay! :) */

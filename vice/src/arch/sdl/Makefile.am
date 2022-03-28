@@ -2,7 +2,7 @@
 
 sdldatadir = $(VICE_DATADIR)/common
 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
 else
 extra_includes =
@@ -227,7 +227,7 @@ EXTRA_DIST = \
 	vice-launcher.sh \
 	x11-launcher.sh
 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 
 # Use Gtk's icon stuff to generate icon sets
 all:
