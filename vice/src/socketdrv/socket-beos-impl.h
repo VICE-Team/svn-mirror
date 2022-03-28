@@ -34,13 +34,15 @@
 #define VICE_SOCKET_BEOS_IMPL_H
 
 #ifdef HAVE_NETWORK
+
+#include "vice.h"
  
 #include <sys/time.h> 
 #include <sys/socket.h>
 #include <netdb.h>
 #include <ByteOrder.h>
 
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
 #include <arpa/inet.h>
 #endif
 
@@ -55,14 +57,14 @@ typedef struct timeval TIMEVAL;
  *       following hack takes care of that. Since Haiku is fairly POSIX
  *       compatible this works. But feel free to solve this properly (compyx)
  */
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
 #  ifndef closesocket
 #    include <unistd.h>
 #    define closesocket(FD) close(FD)
 #  endif
 #endif
 
-#ifndef __HAIKU__
+#ifndef HAIKU_COMPILE
 typedef unsigned long in_addr_t;
 #endif
 
