@@ -46,7 +46,7 @@
 #include "uiapi.h"
 
 /* What the hell is this? */
-#if !defined(_WIN64)
+#if !defined(WIN64_COMPILE)
 #define DWORD_PTR DWORD
 #endif
 

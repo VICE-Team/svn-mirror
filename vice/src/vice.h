@@ -105,6 +105,24 @@
 # define WIN32_LEAN_AND_MEAN
 #endif
 
+/* Note: The define for checking for Windows in general is WINDOWS_COMPILE,
+ *       the WIN32_COMPILE and WIN64_COMPILE defines can be used to determine
+ *       the specific word size. Use of these defines should ideally be kept to
+ *       a minimum.
+ */
+
+/* _WIN32 is defined on both 32- and 64-bit Windows */
+#ifdef _WIN32
+/* _WIN64 is only defined on 64-bit Windows */
+# ifdef _WIN64
+/** \brief  We're compiling for 64-bit Windows */
+#  define WIN64_COMPILE
+# else
+/** \brief  We're compiling for 32-bit Windows */
+#  define WIN32_COMPILE
+# endif
+#endif
+
 /* some attribute defines that are useful mostly for static analysis */
 /* see https://clang.llvm.org/docs/AttributeReference.html */
 #ifdef __clang__
