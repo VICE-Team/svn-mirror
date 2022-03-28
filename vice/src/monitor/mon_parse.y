@@ -33,19 +33,17 @@
 #ifdef __GNUC__
 #undef alloca
 #define        alloca(n)       __builtin_alloca (n)
-#else
+#else /* not __GNUC__ */
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
-#else  /* Not HAVE_ALLOCA_H.  */
-#if !defined(WINCE)
+#else  /* Not HAVE_ALLOCA_H  */
 #ifndef _MSC_VER
 extern char *alloca();
-#else
+#else  /* Not _MSC_VER */
 #define alloca(n)   _alloca(n)
-#endif  /* MSVC */
-#endif /* Not WINCE.  */
+#endif /* _MSC_VER */
 #endif /* HAVE_ALLOCA_H.  */
-#endif /* GCC.  */
+#endif /* __GNUC__ */
 
 #include <assert.h>
 #include <stdio.h>
