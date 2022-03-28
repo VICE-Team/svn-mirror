@@ -303,7 +303,7 @@ static int cmdline_autoload(const char *param, void *extra_param)
     return 0;
 }
 
-#if !defined(__BEOS__)
+#if !defined(BEOS_COMPILE)
 static int cmdline_console(const char *param, void *extra_param)
 {
     console_mode = 1;
@@ -402,9 +402,11 @@ static const cmdline_option_t common_cmdline_options[] =
     { "-limitcycles", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_limitcycles, NULL, NULL, NULL,
       "<value>", "Specify number of cycles to run before quitting with an error." },
+#ifndef BEOS_COMPILE
     { "-console", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_console, NULL, NULL, NULL,
       NULL, "Console mode (for music playback)" },
+#endif
     { "-seed", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_seed, NULL, NULL, NULL,
       "<value>", "Set random seed (for debugging)" },

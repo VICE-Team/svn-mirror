@@ -36,7 +36,7 @@
 
 #include <image.h>
 
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
 #include <Drivers.h>
 #include <ISA.h>
 #include <PCI.h>
@@ -50,7 +50,7 @@ static int (*vice_write_isa_io)(int dummy, void *addr, int size, uint32_t val) =
 #endif
 #endif
 
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
 enum {
     POKE_PORT_READ = B_DEVICE_OP_CODES_END + 1,
     POKE_PORT_WRITE,
@@ -71,7 +71,7 @@ image_id addon_image = NULL;
 
 int io_access_init(void)
 {
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
     poke_driver_fd = open(POKE_DEVICE_FULLNAME, O_RDWR);
     return (poke_driver_fd < 0) ? -1 : 0;
 #else
@@ -88,14 +88,14 @@ int io_access_init(void)
 
 void io_access_shutdown(void)
 {
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
     close(poke_driver_fd);
 #endif
 }
 
 void io_access_store_byte(uint16_t addr, uint8_t value)
 {
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
     port_io_args args = { POKE_SIGNATURE, addr, 1, value };
 
     ioctl(poke_driver_fd, POKE_PORT_WRITE, &args, sizeof(args));
@@ -110,7 +110,7 @@ void io_access_store_byte(uint16_t addr, uint8_t value)
 
 uint8_t io_access_read_byte(uint16_t addr)
 {
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
     port_io_args args = { POKE_SIGNATURE, addr, 1, 0 };
 
     if (ioctl(poke_driver_fd, POKE_PORT_READ, &args, sizeof(args)) < 0) {
@@ -129,7 +129,7 @@ uint8_t io_access_read_byte(uint16_t addr)
 
 void io_access_store_long(uint16_t addr, uint32_t value)
 {
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
     port_io_args args = { POKE_SIGNATURE, addr, 4, value };
 
     ioctl(poke_driver_fd, POKE_PORT_WRITE, &args, sizeof(args));
@@ -144,7 +144,7 @@ void io_access_store_long(uint16_t addr, uint32_t value)
 
 uint32_t io_access_read_long(uint16_t addr)
 {
-#ifdef __HAIKU__
+#ifdef HAIKU_COMPILE
     port_io_args args = { POKE_SIGNATURE, addr, 4, 0 };
 
     if (ioctl(poke_driver_fd, POKE_PORT_READ, &args, sizeof(args)) < 0) {
