@@ -42,6 +42,21 @@
 #define HVSC_STANDALONE
 #endif
 
+#ifndef HVSC_STANDALONE
+# include "vice.h"
+#else
+/* Compatibility with VICE's defines (keeps hits in src/findhacks.sh low): */
+# ifdef _WIN32
+#  define WINDOWS_COMPILE
+#  ifdef _WIN64
+#   define WIN64_COMPILE
+#  else 
+#   define WIN32_COMPILE
+#  endif
+# endif
+#endif
+
+
 /* for size_t, fixed width types and bool */
 #include <stddef.h>
 #include <stdbool.h>
@@ -55,7 +70,7 @@
  * from VICE code so it can be used in other projects.
  */
 #ifndef PRI_SIZE_T
-# ifdef _WIN32
+# ifdef WINDOWS_COMPILE
 #  define PRI_SIZE_T    "Iu"
 # else
 #  define PRI_SIZE_T    "zu"

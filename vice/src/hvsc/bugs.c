@@ -142,7 +142,7 @@ bool hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle)
 
     /* make copy of psid, ripping off the HVSC root directory */
     handle->psid_path = hvsc_path_strip_root(psid);
-#if defined(_WIN32) || defined(_WIN64)
+#ifdef WINDOWS_COMPILE
     /* fix directory separators */
     hvsc_path_fix_separators(handle->psid_path);
 #endif

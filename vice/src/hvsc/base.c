@@ -505,7 +505,7 @@ char *hvsc_paths_join(const char *p1, const char *p2)
 
     result = hvsc_malloc(len1 + len2 + 2);   /* +2 for / and '\0' */
     memcpy(result, p1, len1);
-# if defined(_WIN32) || defined(_WIN64)
+# ifdef WINDOWS_COMPILE
     *(result + len1) = '\\';
 # else
     *(result + len1) = '/';

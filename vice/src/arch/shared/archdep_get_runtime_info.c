@@ -77,7 +77,7 @@ typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 static BOOL os_is_win64(void)
 {
     /* IsWow64Process() returns FALSE when both OS and process are 64-bit */
-#ifdef _WIN64
+#ifdef WIN64_COMPILE
     return TRUE;
 #else
     BOOL amd64 = FALSE;
