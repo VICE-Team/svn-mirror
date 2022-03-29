@@ -2834,10 +2834,6 @@ if test x"$is_unix_macosx" = "xyes"; then
   fi
 fi
 
-if test x"$is_win32_gtk3" = "xyes" -a x"$enable_native_gtk3ui" = "xyes"; then
-  SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
-fi
-
 AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)
 
