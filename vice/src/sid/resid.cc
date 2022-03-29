@@ -33,22 +33,7 @@
 #define _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE 1
 #endif
 
-#ifdef WATCOM_COMPILE
-#define _STDIO_H_INCLUDED
-#include <cstdio>
-using std::FILE;
-using std::sprintf;
-#endif
-
 extern "C" {
-
-#ifdef _MSC_VER
-#  if (_MSC_VER == 1500)
-#    define _IVEC_H_INCLUDED
-#    define _FVEC_H_INCLUDED
-#    define _DVEC_H_INCLUDED
-#  endif
-#endif
 
 #include <string.h>
 
