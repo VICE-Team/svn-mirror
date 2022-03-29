@@ -48,14 +48,8 @@
 /* Compatibility with VICE's defines (keeps hits in src/findhacks.sh low): */
 # ifdef _WIN32
 #  define WINDOWS_COMPILE
-#  ifdef _WIN64
-#   define WIN64_COMPILE
-#  else 
-#   define WIN32_COMPILE
-#  endif
 # endif
 #endif
-
 
 /* for size_t, fixed width types and bool */
 #include <stddef.h>
