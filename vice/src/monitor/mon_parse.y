@@ -37,11 +37,7 @@
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #else  /* Not HAVE_ALLOCA_H  */
-#ifndef _MSC_VER
 extern char *alloca();
-#else  /* Not _MSC_VER */
-#define alloca(n)   _alloca(n)
-#endif /* _MSC_VER */
 #endif /* HAVE_ALLOCA_H.  */
 #endif /* __GNUC__ */
 
@@ -81,10 +77,6 @@ static int temp;
 static int resolve_datatype(unsigned guess_type, const char *num);
 static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
                          const char *num);
-
-#ifdef __IBMC__
-static void __yy_memcpy (char *to, char *from, int count);
-#endif
 
 /* Defined in the lexer */
 extern int new_cmd, opt_asm;

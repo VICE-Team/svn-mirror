@@ -33,13 +33,6 @@
 
 #include "vice.h"
 
-#ifdef WATCOM_COMPILE
-#define _STDIO_H_INCLUDED
-#include <cstdio>
-using std::FILE;
-using std::sprintf;
-#endif
-
 extern "C" {
 
 #include <string.h>
