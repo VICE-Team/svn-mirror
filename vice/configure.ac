@@ -83,7 +83,6 @@ VICE_ARG_WITH_LIST(flac,                [  --with-flac             use FLAC supp
 VICE_ARG_WITH_LIST(mpg123,              [  --with-mpg123           use MPG123 support])
 VICE_ARG_WITH_LIST(oss,                 [  --with-oss              use the OSS sound system])
 VICE_ARG_WITH_LIST(pulse,               [  --without-pulse         do not use PulseAudio sound system])
-VICE_ARG_WITH_LIST(readline,            [  --without-readline      do not try to use the system readline library])
 VICE_ARG_WITH_LIST(resid,               [  --without-resid         do not use the reSID engine])
 VICE_ARG_WITH_LIST(sdlsound,            [  --with-sdlsound         use SDL sound system])
 VICE_ARG_WITH_LIST(sun,                 [  --without-sun           do not use the sun/netbsd sound system])
@@ -113,6 +112,7 @@ dnl
 dnl Misc build options
 dnl
 
+VICE_ARG_WITH_LIST(readline,            [  --without-readline      do not try to use the system readline library])
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
 VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]  enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(cpuhistory,        [  --disable-cpuhistory    disable the 65xx cpu history feature])
