@@ -102,7 +102,7 @@ static const sound_register_devices_t sound_register_devices[] = {
 
 /* Don't use the NetBSD/SUN sound driver for OpenBSD */
 #if defined(HAVE_SYS_AUDIOIO_H) && !defined(OPENBSD_COMPILE)
-#if defined(NetBSD_COMPULE)
+#if defined(NETBSD_COMPILE)
     { "netbsd", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
 #else
     { "sun", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
