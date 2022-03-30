@@ -284,7 +284,7 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
         if (!vicii.idle_state) {
             vbuf_pipe0_reg = vicii.vbuf[dmli];
             cbuf_pipe0_reg = vicii.cbuf[dmli];
-	    dmli++;
+            dmli++;
         } else {
             vbuf_pipe0_reg = 0;
             cbuf_pipe0_reg = 0;

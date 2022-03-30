@@ -162,8 +162,8 @@ static int usb_joy_add_item(struct usb_joy_item **item, struct hid_item *hi, int
             it->max_val = hi->logical_maximum - 1;
             break;
         case ITEM_HAT:
-            it->min_val = -1;	/* mapping not autodetected yet */
-	    break;
+            it->min_val = -1;   /* mapping not autodetected yet */
+            break;
     }
 
     return 0;
@@ -214,21 +214,21 @@ static void usb_joystick(int jp, void* priv)
         val = hid_get_data(joypriv->usb_joy_buf, &it->item);
         if (it->type == ITEM_HAT) {
             if (val >= 0 && val <= MAX_HAT_MAP_INDEX) {
-		/* Autodect if 0 is neutral, or 8 */
-		if (it->min_val < 0) {
-		    if (val == 0) {
-			it->min_val = 0;
-		    } else if (val == 8) {
-			it->min_val = 1;
-		    } else {
-			/* Not yet autodetected */
-		    }
-		    /* Report neutral position for now */
-		    joy_hat_event(jp, it->ordinal_number, 0);
-		} else {
-		    val += it->min_val;
-		    joy_hat_event(jp, it->ordinal_number, hat_map[val]);
-		}
+                /* Autodect if 0 is neutral, or 8 */
+                if (it->min_val < 0) {
+                    if (val == 0) {
+                    it->min_val = 0;
+                    } else if (val == 8) {
+                    it->min_val = 1;
+                    } else {
+                    /* Not yet autodetected */
+                    }
+                    /* Report neutral position for now */
+                    joy_hat_event(jp, it->ordinal_number, 0);
+                } else {
+                    val += it->min_val;
+                    joy_hat_event(jp, it->ordinal_number, hat_map[val]);
+                }
             }
         } else {
             if (it->type == ITEM_BUTTON) {

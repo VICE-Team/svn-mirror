@@ -92,42 +92,42 @@
 #define VIA_ACR_PB_LATCH        0x02
 #define VIA_ACR_PA_LATCH        0x01
 
-#define VIA_PCR_CB2_CONTROL	0xE0			/* 3 bits */
+#define VIA_PCR_CB2_CONTROL        0xE0                        /* 3 bits */
 
-#define VIA_PCR_CB2_I_OR_O			0x80	/* bit */
-#define VIA_PCR_CB2_INPUT			0x00	/* bit */
-#define VIA_PCR_CB2_INPUT_NEG_ACTIVE_EDGE	0x00	/* bit */
-#define VIA_PCR_CB2_INPUT_POS_ACTIVE_EDGE	0x40	/* bit */
-#define VIA_PCR_CB2_INDEPENDENT_INTERRUPT	0x20	/* bit */
+#define VIA_PCR_CB2_I_OR_O                       0x80        /* bit */
+#define VIA_PCR_CB2_INPUT                        0x00        /* bit */
+#define VIA_PCR_CB2_INPUT_NEG_ACTIVE_EDGE        0x00        /* bit */
+#define VIA_PCR_CB2_INPUT_POS_ACTIVE_EDGE        0x40        /* bit */
+#define VIA_PCR_CB2_INDEPENDENT_INTERRUPT        0x20        /* bit */
 /* If INDEPENDENT_INTERRUPT is set, "reading or writing ORB does not clear the CB2 interrupt flag" */
 
-#define VIA_PCR_CB2_HANDSHAKE_OUTPUT		0x80	/* 3 bits */
-#define VIA_PCR_CB2_PULSE_OUTPUT		0xA0	/* 3 bits */
-#define VIA_PCR_CB2_LOW_OUTPUT			0xC0	/* 3 bits */
-#define VIA_PCR_CB2_HIGH_OUTPUT			0xE0	/* 3 bits */
+#define VIA_PCR_CB2_HANDSHAKE_OUTPUT             0x80        /* 3 bits */
+#define VIA_PCR_CB2_PULSE_OUTPUT                 0xA0        /* 3 bits */
+#define VIA_PCR_CB2_LOW_OUTPUT                   0xC0        /* 3 bits */
+#define VIA_PCR_CB2_HIGH_OUTPUT                  0xE0        /* 3 bits */
 
-#define VIA_PCR_CB1_CONTROL	0x10	/* 1 bit */
+#define VIA_PCR_CB1_CONTROL                      0x10        /* 1 bit */
 
-#define VIA_PCR_CB1_NEG_ACTIVE_EDGE		0x00	/* bit */
-#define VIA_PCR_CB1_POS_ACTIVE_EDGE		0x10	/* bit */
+#define VIA_PCR_CB1_NEG_ACTIVE_EDGE              0x00        /* bit */
+#define VIA_PCR_CB1_POS_ACTIVE_EDGE              0x10        /* bit */
 
-#define VIA_PCR_CA2_CONTROL	0x0E    /* 3 bits */
-#define VIA_PCR_CA2_I_OR_O			0x08	/* bit */
-#define VIA_PCR_CA2_INPUT			0x00	/* bit */
-#define VIA_PCR_CA2_INPUT_NEG_ACTIVE_EDGE	0x00	/* bit */
-#define VIA_PCR_CA2_INPUT_POS_ACTIVE_EDGE	0x04	/* bit */
-#define VIA_PCR_CA2_INDEPENDENT_INTERRUPT	0x02	/* bit */
+#define VIA_PCR_CA2_CONTROL                      0x0E        /* 3 bits */
+#define VIA_PCR_CA2_I_OR_O                       0x08        /* bit */
+#define VIA_PCR_CA2_INPUT                        0x00        /* bit */
+#define VIA_PCR_CA2_INPUT_NEG_ACTIVE_EDGE        0x00        /* bit */
+#define VIA_PCR_CA2_INPUT_POS_ACTIVE_EDGE        0x04        /* bit */
+#define VIA_PCR_CA2_INDEPENDENT_INTERRUPT        0x02        /* bit */
 /* If INDEPENDENT_INTERRUPT is set, "reading or writing ORA does not clear the CA2 interrupt flag" */
 
-#define VIA_PCR_CA2_HANDSHAKE_OUTPUT		0x08	/* 3 bits */
-#define VIA_PCR_CA2_PULSE_OUTPUT		0x0A	/* 3 bits */
-#define VIA_PCR_CA2_LOW_OUTPUT			0x0C	/* 3 bits */
-#define VIA_PCR_CA2_HIGH_OUTPUT			0x0E	/* 3 bits */
+#define VIA_PCR_CA2_HANDSHAKE_OUTPUT             0x08        /* 3 bits */
+#define VIA_PCR_CA2_PULSE_OUTPUT                 0x0A        /* 3 bits */
+#define VIA_PCR_CA2_LOW_OUTPUT                   0x0C        /* 3 bits */
+#define VIA_PCR_CA2_HIGH_OUTPUT                  0x0E        /* 3 bits */
 
-#define VIA_PCR_CA1_CONTROL	0x01	/* 1 bit */
+#define VIA_PCR_CA1_CONTROL                      0x01        /* 1 bit */
 
-#define VIA_PCR_CA1_NEG_ACTIVE_EDGE		0x00	/* bit */
-#define VIA_PCR_CA1_POS_ACTIVE_EDGE		0x01	/* bit */
+#define VIA_PCR_CA1_NEG_ACTIVE_EDGE              0x00        /* bit */
+#define VIA_PCR_CA1_POS_ACTIVE_EDGE              0x01        /* bit */
 
 
 /* Signal values (for signaling edges on the control lines)  */

@@ -230,7 +230,7 @@ const char *archdep_program_path(void)
 
     /* /proc may not be available on FreeBSD */
     if (readlink("/proc/curproc/file", buffer, sizeof(buffer) - 1) < 0) {
-		/* testing with FreeBSD 13.0 indicates it is indeed not present */
+        /* testing with FreeBSD 13.0 indicates it is indeed not present */
 #if 0
         printf("%s(): failed to read /proc/curproc/file: %d: %s\n",
                 __func__, errno, strerror(errno));

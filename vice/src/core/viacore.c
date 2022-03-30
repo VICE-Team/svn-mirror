@@ -613,14 +613,14 @@ static inline void setup_shifting(via_context_t *via_context, CLOCK rclk)
     case VIA_ACR_SR_IN_CB1:
     case VIA_ACR_SR_OUT_CB1:
         if (via_context->shift_state == FINISHED_SHIFTING) {
-	    VIALOG2("setup_shifting: enable (change state 16 to 0)\n");
+            VIALOG2("setup_shifting: enable (change state 16 to 0)\n");
             via_context->shift_state = START_SHIFTING;
         }
         break;
     case VIA_ACR_SR_IN_PHI2:
     case VIA_ACR_SR_OUT_PHI2:
         if (via_context->shift_state == FINISHED_SHIFTING) {
-	    VIALOG2("setup_shifting: enable (change state 16 to 0)\n");
+            VIALOG2("setup_shifting: enable (change state 16 to 0)\n");
             via_context->shift_state = START_SHIFTING;
             /*
              * The phi2_sr_alarm triggers every cycle. If we just start shifting,
@@ -665,7 +665,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
     addr &= 0xf;
 
     if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
-	run_pending_alarms(rclk, via_context->alarm_context);
+        run_pending_alarms(rclk, via_context->alarm_context);
     }
 
     switch (addr) {
@@ -861,7 +861,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
             /* bit 7 timer 1 output to PB7 */
             VIALOG2("write VIA_ACR: %02x\n", byte);
             if ((via_context->via[VIA_ACR] ^ byte) & VIA_ACR_T1_PB7_USED) {
-		/* On the rising edge of the VIA_ACR_T1_PB7_USED bit, set PB7 high */
+                /* On the rising edge of the VIA_ACR_T1_PB7_USED bit, set PB7 high */
                 if (byte & VIA_ACR_T1_PB7_USED) {
                     via_context->t1_pb7 = 0x80;
                 }
@@ -953,7 +953,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                 break;
             case VIA_ACR_SR_IN_PHI2:
             case VIA_ACR_SR_OUT_PHI2:
-		/* Only schedule the alarm if it isn't scheduled already */
+                /* Only schedule the alarm if it isn't scheduled already */
                 alarm_set_if_not_pending(via_context->phi2_sr_alarm, rclk + SR_PHI2_FIRST_OFFSET);
                 break;
             case VIA_ACR_SR_IN_CB1:
@@ -1067,7 +1067,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
 #endif
 
     if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
-	run_pending_alarms(rclk, via_context->alarm_context);
+        run_pending_alarms(rclk, via_context->alarm_context);
     }
 
     switch (addr) {
