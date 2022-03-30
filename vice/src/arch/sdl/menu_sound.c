@@ -173,7 +173,7 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"dummy" },
-#if defined(WIN32) && defined(USE_DXSOUND)
+#if defined(WINDOWS_COMPILE) && defined(USE_DXSOUND)
     { "DirectX",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
@@ -216,7 +216,7 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"uss" },
 #endif
-#ifdef WIN32
+#ifdef WINDOWS_COMPILE
     { "WMM",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
