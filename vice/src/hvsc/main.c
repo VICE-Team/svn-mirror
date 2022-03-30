@@ -43,22 +43,27 @@
 
 /** \brief  Initialize the library
  *
- * This sets the paths to the HSVC and the SLDB, STIL, and BUGlist files. The
- * \a path is expected to be an absolute path to the HVSC's root directory.
+ * This sets the paths to the HSVC and the SLDB, STIL, and BUGlist files.
+ *
+ * The \a path is expected to be an absolute path to the HVSC's root directory,
+ * or `NULL` to use the environment variable `HVSC_BASE`.
  *
  * \param[in]   path    absolute path to HVSC root directory
  *
- * \return  true on success (always atm)
+ * \return  true on success
  *
  * For example:
  * \code{.c}
  *
- *  // Initialize the library for use
+ *  // Initialize the library for use:
  *  hvsc_init("/home/compyx/C64Music");
+ *
+ *  // Or pass NULL to use the HVSC_BASE environment variable:
+ *  hvsc_init(NULL);
  *
  *  // Do stuff with hvsclib ...
  *
- *  // Clean up properly
+ *  // Clean up properly:
  *  hvsc_exit();
  * \endcode
  *
@@ -67,6 +72,15 @@
 bool hvsc_init(const char *path)
 {
     hvsc_errno = 0;
+
+    if (path == NULL || *path == '\0') {
+        path = getenv("HVSC_BASE");
+    }
+    if (path == NULL) {
+        hvsc_errno = HVSC_ERR_INVALID;  /* TODO: better error code */
+        return false;
+    }
+
     /* TODO:    Perhaps check if the path contains the files the library needs,
      *          otherwise this function doesn't need to return anything.
      */

@@ -173,10 +173,13 @@ static int set_sync_factor(int val, void *param)
 
 static int set_hvsc_root(const char *path, void *param)
 {
-    char *result;
+    char *result = NULL;
 
-    /* expand ~, no effect on Windows */
-    archdep_expand_path(&result, path);
+    /* empty means use the 'HVSC_BASE' env var */
+    if (path != NULL && *path != '\0') {
+        /* expand ~, no effect on Windows */
+        archdep_expand_path(&result, path);
+    }
 
     util_string_set(&hvsc_root, result);
 
@@ -198,6 +201,7 @@ static const resource_string_t resources_string[] = {
     { "BasicName", "basic", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &basic_rom_name, set_basic_rom_name, NULL },
+    /* When empty the HVSC_BASE env var is used */
     { "HVSCRoot", "", RES_EVENT_NO, NULL,
       &hvsc_root, set_hvsc_root, NULL },
     RESOURCE_STRING_LIST_END

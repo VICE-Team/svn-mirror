@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <stdlib.h>
 
 #include "debug_gtk3.h"
 #include "basedialogs.h"
@@ -211,7 +212,11 @@ static GtkWidget *create_sid_attach_dialog(GtkWidget *parent)
     if (last_dir == NULL) {
         const char *hvsc_root;
 
-        if (resources_get_string("HVSCRoot", &hvsc_root) >= 0) {
+        if (resources_get_string("HVSCRoot", &hvsc_root) == 0) {
+            if (hvsc_root == NULL || *hvsc_root == '\0') {
+                /* try the environment variable HVSC_BASE: */
+                hvsc_root = getenv("HVSC_BASE");
+            }
             if (hvsc_root != NULL && *hvsc_root != '\0') {
                 /*
                  * The last_dir.c code uses GLib memory management, so use

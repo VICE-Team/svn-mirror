@@ -59,7 +59,7 @@
  * was added. Set via the Makefile.
  */
 #ifndef HVSC_LIB_VERSION_MIN
-#define HVSC_LIB_VERSION_MIN    0
+#define HVSC_LIB_VERSION_MIN    1
 #endif
 
 /** \brief  Library version number revision
