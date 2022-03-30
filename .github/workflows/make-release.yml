@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix
+          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix libpcap-dev
           
       - name: Build
         id: build
@@ -95,7 +95,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix
-          sudo apt-get install texinfo texlive-fonts-recommended
+          sudo apt-get install texinfo texlive-fonts-recommended libpcap-dev
           
       - name: Build
         id: build
