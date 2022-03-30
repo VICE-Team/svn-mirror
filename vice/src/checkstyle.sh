@@ -8,7 +8,7 @@ function checkcppcomments
 {
     echo "finding c++ style comments:"
 # first make a list of files, omitting those we dont want to check
-    find -name '*.[ch]' | \
+    find -name '*.[chm]' | \
         grep -v "/arch/gtk3/novte/" | \
         grep -v "/lib/" | \
         grep -v '/resid/' | \
@@ -32,7 +32,13 @@ function checktabs
 {
     echo "finding TABs:"
 # first make a list of files, omitting those we dont want to check
-    find -name '*.[ch]' | \
+    find -name '*.[chm]' | \
+        grep -v '/monitor/mon_parse.c' | \
+        grep -v '/monitor/mon_lex.c' | \
+        grep -v '/arch/mingw32-pcap/wpcap/' | \
+        grep -v '/arch/gtk3/novte/box_drawing.h' | \
+        grep -v "/lib/" > .checktabs
+    find -name '*.cc' | \
         grep -v '/monitor/mon_parse.c' | \
         grep -v '/monitor/mon_lex.c' | \
         grep -v '/arch/mingw32-pcap/wpcap/' | \
@@ -55,7 +61,13 @@ function checkwhitespace
 {
     echo "finding trailing whitespace:"
 # first make a list of files, omitting those we dont want to check
-    find -name '*.[ch]' | \
+    find -name '*.[chm]' | \
+        grep -v '/monitor/mon_parse.c' | \
+        grep -v '/monitor/mon_lex.c' | \
+        grep -v '/arch/mingw32-pcap/wpcap/' | \
+        grep -v '/arch/gtk3/novte/box_drawing.h' | \
+        grep -v "/lib/" > .checkws
+    find -name '*.cc' | \
         grep -v '/monitor/mon_parse.c' | \
         grep -v '/monitor/mon_lex.c' | \
         grep -v '/arch/mingw32-pcap/wpcap/' | \

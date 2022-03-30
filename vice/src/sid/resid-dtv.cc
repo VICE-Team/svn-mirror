@@ -110,7 +110,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
     if (resources_get_int("SidResidGain", &gain_percentage) < 0) {
         return 0;
     }
-    
+
     if (resources_get_int("SidResidFilterBias", &filter_bias_mV) < 0) {
         return 0;
     }
@@ -191,14 +191,14 @@ static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr,
                                    int interleave, CLOCK *delta_t)
 {
     int retval;
-    
+
     int int_delta_t_original = (int)*delta_t;
     int int_delta_t = (int)*delta_t;
-    
+
     retval = psid->sid->clock(int_delta_t, pbuf, nr, interleave);
-    
+
     (*delta_t) += int_delta_t - int_delta_t_original;
-    
+
     return retval;
 }
 
@@ -212,7 +212,7 @@ static char *resid_dump_state(sound_t *psid)
     } else {
         return lib_strdup("no state available when sound is disabled.");
     }
-    sprintf(strbuf, 
+    sprintf(strbuf,
             "FREQ:   %04x %04x %04x\n"
             "PULSE:  %04x %04x %04x\n"
             "CTRL:     %02x   %02x   %02x\n"

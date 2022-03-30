@@ -71,7 +71,7 @@ static void init_lut() {
             env_train_lut[env][phase1] = envtrain;
         }
     }
-    
+
     for (int vol = 0; vol < 16; vol ++) {
         unsigned int volcounter = (16 - vol) & 0xf;
         unsigned int voltrain = 0;
@@ -432,7 +432,7 @@ double SID::I0(double x)
 // E.g. provided a clock frequency of ~ 1MHz, the sample frequency can not
 // be set lower than ~ 8kHz. A lower sample frequency would make the
 // resampling code overfill its 16k sample ring buffer.
-// 
+//
 // The end of passband frequency is also limited:
 //   pass_freq <= 0.9*sample_freq/2
 
@@ -464,7 +464,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   const int bits = 16;
 
   if (pass_freq > 20000)
-    pass_freq = 20000;  
+    pass_freq = 20000;
   if (2*pass_freq/sample_freq > 0.9)
     pass_freq = 0.9f*sample_freq/2;
 
@@ -478,7 +478,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   // http://www.mathworks.com/access/helpdesk/help/toolbox/signal/kaiserord.html
   const double beta = 0.1102*(A - 8.7);
   const double I0beta = I0(beta);
-  
+
   double f_samples_per_cycle = sample_freq/clock_freq;
   double f_cycles_per_sample = clock_freq/sample_freq;
 
@@ -517,7 +517,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   // Allocate memory for FIR tables.
   delete[] fir;
   fir = new short[fir_N*fir_RES];
-  
+
   // The cutoff frequency is midway through the transition band.
   double wc = (pass_freq + transition_bandwidth/2) / sample_freq * pi * 2;
 
@@ -594,7 +594,7 @@ void SID::clock()
 //   write(dsp, buf, bufindex*2);
 //   bufindex = 0;
 // }
-// 
+//
 // ----------------------------------------------------------------------------
 int SID::clock(cycle_count& delta_t, short* buf, int n, int interleave)
 {
@@ -673,7 +673,7 @@ static inline int convolve(const short *a, const short *b, int n)
         int i32[2];
     } tmp;
     tmp.i32[0] = 0;
-    tmp.i32[1] = 0;    
+    tmp.i32[1] = 0;
     while (n >= 4) {
         tmp.m64 = _mm_add_pi32(tmp.m64,
                                _mm_madd_pi16(*((__m64 *)a),
