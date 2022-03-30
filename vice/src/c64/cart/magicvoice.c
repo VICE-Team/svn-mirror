@@ -320,7 +320,7 @@ static void set_eos(t6721_state *state)
  LA05-124 Gate Array
 
  4bit parallel to serial converter/buffer:
- 
+
 18 in   t6721 DTRD
 20 in   t6721 phi2
  6 in   t6721 APD (reset, will also reset FIFO)
@@ -862,7 +862,7 @@ static int magicvoice_sound_machine_channels(void)
 
 /* MagicVoice cartridge sound chip */
 static sound_chip_t magicvoice_sound_chip = {
-    NULL,                                       /* NO sound chip open function */ 
+    NULL,                                       /* NO sound chip open function */
     magicvoice_sound_machine_init,              /* sound chip init function */
     magicvoice_sound_machine_close,             /* sound chip close function */
     magicvoice_sound_machine_calculate_samples, /* sound chip calculate samples function */

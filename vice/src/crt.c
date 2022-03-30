@@ -78,7 +78,7 @@ FILE *crt_open(const char *filename, crt_header_t *header)
             break;
         }
 
-        if (machine_class == VICE_MACHINE_C64 || 
+        if (machine_class == VICE_MACHINE_C64 ||
             machine_class == VICE_MACHINE_C64SC ||
             machine_class == VICE_MACHINE_C128 ||
             machine_class == VICE_MACHINE_SCPU64) {

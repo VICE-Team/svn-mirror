@@ -307,7 +307,7 @@ void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *cont
 
     CANVAS_UNLOCK();
 
-    /* 
+    /*
      * Getting the render lock here causes a deadlock within glFinish().
      * Thankfully, it seems to be ok to call XMoveResizeWindow during a render
      * without any glitches or crashes, unlike on macOS.

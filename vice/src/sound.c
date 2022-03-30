@@ -714,7 +714,7 @@ const char *sound_device_name(unsigned int num)
 static int sound_error(const char *msg)
 {
     sound_close();
-    
+
     log_message(sound_log, "%s", msg);
 
     if (!console_mode && !video_disabled_mode) {
@@ -804,7 +804,7 @@ static int sid_open(void)
             /* already open */
             continue;
         }
-        
+
         if (!(snddata.psid[c] = sound_machine_open(c))) {
             return sound_error("Cannot open SID engine");
         }
@@ -836,7 +836,7 @@ static int sid_init(void)
     snddata.fclk = SOUNDCLK_CONSTANT(maincpu_clk);
     snddata.wclk = maincpu_clk;
     snddata.lastclk = maincpu_clk;
-    
+
     for (c = 0; c < snddata.sound_chip_channels; c++) {
         if (!sound_machine_init(snddata.psid[c], speed, cycles_per_sec) || !playback_enabled) {
             return sound_error("Cannot initialize SID engine");
@@ -963,13 +963,13 @@ int sound_open(void)
     fragnr = (int)((speed * bufsize + fragsize - 1) / fragsize);
 
     if (pdev) {
-        
+
         snddata.playdev = pdev;
         snddata.fragsize = fragsize;
         snddata.fragnr = fragnr;
         snddata.bufsize = fragsize * fragnr;
         snddata.bufptr = 0;
-        
+
         if (pdev->init) {
             channels_cap = channels;
             if (pdev->init(playparam, &speed, &fragsize, &fragnr, &channels_cap)) {
@@ -1221,7 +1221,7 @@ bool sound_flush()
 {
     int c, i, nr, space;
     char *state;
-    
+
     if (!playback_enabled) {
         if (sdev_open) {
             sound_close();
@@ -1278,21 +1278,21 @@ bool sound_flush()
 
     /*
      * At this point we have to block until we have written at least one fragment.
-     * 
+     *
      * The 'push against the audio device' sync method depends on this.
      */
-    
+
     while (!warp_mode_enabled) {
 
         if (snddata.playdev->bufferspace) {
-            space = snddata.playdev->bufferspace();            
+            space = snddata.playdev->bufferspace();
         } else {
             /* We are using a blocking driver like simple pulse - write everything we have. */
             space = nr;
         }
 
         space -= space % snddata.fragsize;
-        
+
         if (space) {
             if (nr > space) {
                 /* Write as much as we can */
@@ -1300,7 +1300,7 @@ bool sound_flush()
             }
 
             mainlock_yield_begin();
-            
+
             /* Flush buffer, all channels are already mixed into it. */
             if (snddata.playdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
                 sound_error("write to sound device failed.");
@@ -1317,12 +1317,12 @@ bool sound_flush()
                     goto done;
                 }
             }
-            
+
             /* Successful write to audio device, exit loop. */
             mainlock_yield_end();
             break;
         }
-        
+
         /* We can't write yet, try again after a minimal sleep. */
         mainlock_yield_and_sleep(tick_per_second() / 1000);
     }
@@ -1331,7 +1331,7 @@ bool sound_flush()
 
     /*
      * Move any incomplete fragments back to the start of the sample buffer
-     */ 
+     */
 
     for (c = 0; c < snddata.sound_output_channels; c++) {
         snddata.lastsample[c] = snddata.buffer[(nr - 1) * snddata.sound_output_channels + c];
@@ -1340,7 +1340,7 @@ bool sound_flush()
                 snddata.buffer[(i + nr) * snddata.sound_output_channels + c];
         }
     }
-    
+
 done:
 
     /*
@@ -1504,7 +1504,7 @@ void sound_set_relative_speed(int value)
 {
     double natural_fps;
     double new_percent;
-    
+
     if (value < 0) {
         natural_fps = (double)machine_get_cycles_per_second() / machine_get_cycles_per_frame();
         new_percent = 100.0 * (double)(0 - value) / natural_fps;

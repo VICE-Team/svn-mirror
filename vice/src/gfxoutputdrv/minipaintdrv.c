@@ -73,7 +73,7 @@
      1    charcolor   cram bit 2-0   bit 3 = 0    (colors 0..7)
 
     colors (all)        (bg and aux only)
- 
+
         0 - black         8 - orange
         1 - white         9 - light orange
         2 - red          10 - pink
@@ -373,7 +373,7 @@ static void minipaint_find_shared_colors_pass(native_data_t *source,
                 /* get block */
                 for (k = 0; k < MINIPAINT_BLOCK_HEIGHT; k++) {
                     for (l = 0; l < MINIPAINT_BLOCK_WIDTH; l++) {
-                        dest->colormap[(k * MINIPAINT_BLOCK_WIDTH) + l] = 
+                        dest->colormap[(k * MINIPAINT_BLOCK_WIDTH) + l] =
                         source->colormap[(i * MINIPAINT_BLOCK_HEIGHT * MINIPAINT_SCREEN_PIXEL_WIDTH) +
                                          (j * MINIPAINT_BLOCK_WIDTH) +
                                          (k * MINIPAINT_SCREEN_PIXEL_WIDTH) + l];
@@ -608,7 +608,7 @@ static int minipaint_render_and_save(native_data_t *source, int original_borderc
                 bordercolor = original_bordercolor;
                 DBG(("bgcolor == original_bordercolor, bgcolor: %d border: %d\n", bgcolor, bordercolor));
             }
-        } 
+        }
     }
     DBG(("using bg: %d border: %d aux: %d\n", bgcolor, bordercolor, auxcolor));
 
@@ -711,7 +711,7 @@ static int minipaint_vicii_save(screenshot_t *screenshot, const char *filename)
     }
     vicii_color_to_vic_color_colormap(data);
     if ((data->xsize != MINIPAINT_SCREEN_PIXEL_WIDTH) || (data->ysize != MINIPAINT_SCREEN_PIXEL_HEIGHT)) {
-        data = native_resize_colormap(data, MINIPAINT_SCREEN_PIXEL_WIDTH, MINIPAINT_SCREEN_PIXEL_HEIGHT, 
+        data = native_resize_colormap(data, MINIPAINT_SCREEN_PIXEL_WIDTH, MINIPAINT_SCREEN_PIXEL_HEIGHT,
                                         bordercolor, oversize_handling, undersize_handling);
     }
     return minipaint_render_and_save(data, 0);
@@ -730,7 +730,7 @@ static int minipaint_ted_save(screenshot_t *screenshot, const char *filename)
     }
     ted_color_to_vic_color_colormap(data, ted_lum_handling);
     if ((data->xsize != MINIPAINT_SCREEN_PIXEL_WIDTH) || (data->ysize != MINIPAINT_SCREEN_PIXEL_HEIGHT)) {
-        data = native_resize_colormap(data, MINIPAINT_SCREEN_PIXEL_WIDTH, MINIPAINT_SCREEN_PIXEL_HEIGHT, 
+        data = native_resize_colormap(data, MINIPAINT_SCREEN_PIXEL_WIDTH, MINIPAINT_SCREEN_PIXEL_HEIGHT,
                                         bordercolor, oversize_handling, undersize_handling);
     }
     return minipaint_render_and_save(data, 0);
@@ -752,7 +752,7 @@ static int minipaint_vic_save(screenshot_t *screenshot, const char *filename)
     }
 
     if ((data->xsize != MINIPAINT_SCREEN_PIXEL_WIDTH) || (data->ysize != MINIPAINT_SCREEN_PIXEL_HEIGHT)) {
-        data = native_resize_colormap(data, MINIPAINT_SCREEN_PIXEL_WIDTH, MINIPAINT_SCREEN_PIXEL_HEIGHT, 
+        data = native_resize_colormap(data, MINIPAINT_SCREEN_PIXEL_WIDTH, MINIPAINT_SCREEN_PIXEL_HEIGHT,
                                         bordercolor, oversize_handling, undersize_handling);
     }
     return minipaint_render_and_save(data, bordercolor);

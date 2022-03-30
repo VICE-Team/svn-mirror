@@ -123,20 +123,20 @@ static void execute_vsync_callbacks(void)
 {
     int i;
     callback_queue_t *executing_queue;
-    
+
     while (callback_queue->size) {
-        
+
         /* We'll iterate over this queue */
         executing_queue = callback_queue;
-        
+
         /* Flip to the other queue to collect any new callbacks queued within these callbacks */
         callback_queue_index = 1 - callback_queue_index;
         callback_queue = &callback_queues[callback_queue_index];
-        
+
         for (i = 0; i < executing_queue->size; i++) {
             executing_queue->queue[i].callback(executing_queue->queue[i].param);
         }
-        
+
         executing_queue->size = 0;
     }
 }
@@ -195,7 +195,7 @@ int vsync_get_warp_mode(void)
 static int set_initial_warp_mode_resource(int val, void *param)
 {
     initial_warp_mode_resource = val ? 1 : 0;
-    
+
     return 0;
 }
 
@@ -222,7 +222,7 @@ static int set_initial_warp_mode_cmdline(const char *param, void *extra_param)
      * We don't want -warp / +warp to end up in the config file,
      * so we don't use a resource.
      */
-    
+
     initial_warp_mode_cmdline = vice_ptr_to_int(extra_param) ? 1 : 0;
 
     return 0;
@@ -332,7 +332,7 @@ void vsync_init(void (*hook)(void))
     } else {
         vsync_set_warp_mode(initial_warp_mode_resource);
     }
-    
+
     /* Limit warp rendering to 10fps */
     warp_render_tick_interval = tick_per_second() / 10.0;
 
@@ -412,7 +412,7 @@ static void reset_performance_metrics(tick_t frame_tick)
 
     measurement_count = 0;
     next_measurement_index = 0;
-    
+
     cumulative_tick_delta = 0;
     cumulative_clock_delta = 0;
 
@@ -536,7 +536,7 @@ void vsync_do_end_of_line(void)
 
     /* is it time to consider keyboard, joystick ? */
     if (tick_delta >= tick_between_sync) {
-        
+
         if (warp_enabled) {
             /* During warp we need to periodically allow the UI a chance with the mainlock */
             mainlock_yield();
@@ -554,7 +554,7 @@ void vsync_do_end_of_line(void)
 
             /* combine with leftover offset from last sync */
             sync_emulated_ticks += sync_emulated_ticks_offset;
-            
+
             /* calculate the ideal host tick representing the emulated tick */
             sync_target_tick += sync_emulated_ticks;
 
@@ -590,7 +590,7 @@ void vsync_do_end_of_line(void)
                 sync_reset = true;
             }
         }
-        
+
         /* deal with pending user input */
         joystick();
 
@@ -635,7 +635,7 @@ bool vsync_should_skip_frame(struct video_canvas_s *canvas)
         if (now < canvas->warp_next_render_tick) {
             if (now < canvas->warp_next_render_tick - warp_render_tick_interval) {
                 /* next render tick is further ahead than it should be */
-                canvas->warp_next_render_tick = now + warp_render_tick_interval;    
+                canvas->warp_next_render_tick = now + warp_render_tick_interval;
             }
             /* skip this frame */
             return true;
@@ -650,7 +650,7 @@ bool vsync_should_skip_frame(struct video_canvas_s *canvas)
             return false;
         }
     }
-    
+
     /* render this frame */
     return false;
 }

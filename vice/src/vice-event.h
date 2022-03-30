@@ -96,7 +96,7 @@ extern void event_record_attach_in_list(event_list_state_t *list,
                                         unsigned int unit, unsigned int drive,
                                         const char *filename,
                                         unsigned int read_only);
-extern void event_record_attach_image(unsigned int unit, unsigned int drive, 
+extern void event_record_attach_image(unsigned int unit, unsigned int drive,
                                       const char *filename, unsigned int read_only);
 
 extern int event_snapshot_read_module(struct snapshot_s *s, int event_mode);

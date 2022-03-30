@@ -113,7 +113,7 @@ void render_generic_2x2_ntsc(video_render_color_tables_t *color_tab,
     int32_t *cbtable, *crtable;
     uint32_t x, y, wfirst, wlast, yys;
     int32_t l, l2, u, u2, unew, v, v2, vnew, off_flip, shade;
-    
+
     int first_line = viewport_first_line * 2;
     int last_line = (viewport_last_line * 2) + 1;
 

@@ -179,7 +179,7 @@ static resource_int_t resources_int_ieee[] = {
 int traps_resources_init(void)
 {
 #if 0
-    /* the IEEE488 based machines do not use "device traps" (ROM patches), 
+    /* the IEEE488 based machines do not use "device traps" (ROM patches),
        instead the virtual devices are actually interfaced to the IEEE bus.
        this makes them much more reliably, which is why we can enable them
        by default here. */

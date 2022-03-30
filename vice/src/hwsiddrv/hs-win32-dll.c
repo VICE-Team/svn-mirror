@@ -165,7 +165,7 @@ void hs_dll_reset(void)
 
 #ifndef SID_TEST_MODE
 static VOID CALLBACK ftimerproc(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime)
-{ 
+{
     if (lastaccess_chipno >= 0 && lastaccess_ms > 0 && (dwTime - lastaccess_ms) >= HARDSID_FLUSH_MS) {
         lastaccess_ms = 0;
         lastaccess_clk = 0;

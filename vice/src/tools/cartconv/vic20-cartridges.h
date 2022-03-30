@@ -1,4 +1,4 @@
- 
+
 #ifndef VIC20_CARTRIDGES_H_
 #define VIC20_CARTRIDGES_H_
 

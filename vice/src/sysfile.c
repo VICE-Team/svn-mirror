@@ -97,7 +97,7 @@ static int set_system_path(const char *val, void *param)
         }
         lib_free(expanded_system_path);
         expanded_system_path = s;
-        
+
         if (p == NULL) {
             break;
         }

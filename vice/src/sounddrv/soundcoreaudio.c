@@ -118,10 +118,10 @@ static OSStatus converter_input(AudioConverterRef inAudioConverter,
     int needed_bytes = needed_frames * in_frame_byte_size;
     int queued_frames;
     int queued_bytes;
-    
+
     int16_t *source;
     int16_t *dest;
-    
+
     /* ensure our copy buffer is large enough */
     if (needed_bytes > copybuffer_size_bytes) {
         lib_free(copybuffer);
@@ -130,13 +130,13 @@ static OSStatus converter_input(AudioConverterRef inAudioConverter,
         log_message(LOG_DEFAULT, "Copybuffer increase to %d bytes", copybuffer_size_bytes);
     }
     dest = (int16_t *)copybuffer;
-    
+
     /* prepare return buffer */
     ioData->mBuffers[0].mNumberChannels = in_channels;
     ioData->mBuffers[0].mData = (void *)copybuffer;
     ioData->mBuffers[0].mDataByteSize = needed_bytes;
     ioData->mNumberBuffers = 1;
-    
+
     /* Determine how much queued audio we have */
     if (fragments_in_queue) {
         queued_frames = frames_left_in_fragment + ((fragments_in_queue - 1) * frames_in_fragment);
@@ -144,18 +144,18 @@ static OSStatus converter_input(AudioConverterRef inAudioConverter,
         queued_frames = 0;
     }
     queued_bytes = queued_frames * in_frame_byte_size;
-    
+
     /* If we don't have enough audio queued, lead with silence */
     if (needed_bytes > queued_bytes) {
         memset(dest, 0, needed_bytes - queued_bytes);
         dest = (int16_t *)(copybuffer + needed_bytes - queued_bytes);
-        
+
         needed_frames   -= needed_frames - queued_frames;
         needed_bytes    -= needed_bytes - queued_bytes;
     }
-    
+
     while (fragments_in_queue && needed_frames) {
-        
+
         /*
          * Assemble a single block of samples for the converter
          */
@@ -462,7 +462,7 @@ static int audio_open(AudioStreamBasicDescription *in)
                   "sound (coreaudio_init): error setting device id");
         return -1;
     }
-    
+
     /* Set up a callback function to generate output to the output unit */
     AURenderCallbackStruct input;
     input.inputProc = audio_render;
@@ -478,7 +478,7 @@ static int audio_open(AudioStreamBasicDescription *in)
                   "sound (coreaudio_init): error setting render callback");
         return -1;
     }
-    
+
     /*
      * For accuracy, we want to convert directly from the emulator output
      * to the format used by the audio hardware, in a single step.
@@ -496,7 +496,7 @@ static int audio_open(AudioStreamBasicDescription *in)
         log_error(LOG_DEFAULT, "sound (coreaudio_init): error getting default input format");
         return -1;
     }
-    
+
     /* Tell the AudioUnit that we'll give it samples in the same format */
     err = AudioUnitSetProperty(outputUnit,
                                kAudioUnitProperty_StreamFormat,
@@ -507,7 +507,7 @@ static int audio_open(AudioStreamBasicDescription *in)
     if (err) {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): error setting desired sample rate");
     }
-    
+
     /* Get the final format that we'll need to use - the above may have failed */
     err = AudioUnitGetProperty(outputUnit,
                                kAudioUnitProperty_StreamFormat,
@@ -534,9 +534,9 @@ static int audio_open(AudioStreamBasicDescription *in)
         log_error(LOG_DEFAULT, "sound (coreaudio_init): error getting kAudioDevicePropertyBufferFrameSizeRange");
         return -1;
     }
-    
+
     size = range.mMinimum > frames_in_fragment ? range.mMinimum : frames_in_fragment;
-    
+
     log_message(LOG_DEFAULT, "sound (coreaudio_init): audio frame buffer size in samples min: %f max: %f fragment size: %u, chosen: %d", range.mMinimum, range.mMaximum, frames_in_fragment, size);
 
     /* set the buffer size */
@@ -545,7 +545,7 @@ static int audio_open(AudioStreamBasicDescription *in)
         kAudioObjectPropertyScopeGlobal,
         kAudioObjectPropertyElementMaster
     };
-    
+
     err = AudioObjectSetPropertyData(device, &buffer_size_address, 0, NULL, sizeof(UInt32), &size);
     if (err) {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): error setting buffer size to %d", size);
@@ -556,7 +556,7 @@ static int audio_open(AudioStreamBasicDescription *in)
         log_error(LOG_DEFAULT, "sound (coreaudio_init): error setting max frames per slice to %d", size);
         return -1;
     }
-    
+
     /* open converter */
     err = converter_open(in, &out);
     if (err) {
@@ -570,7 +570,7 @@ static int audio_open(AudioStreamBasicDescription *in)
 static int audio_start(void)
 {
     OSStatus err;
-    
+
     /* Init unit */
     err = AudioUnitInitialize(outputUnit);
     if (err) {
@@ -578,13 +578,13 @@ static int audio_start(void)
                   "sound (coreaudio_start): error initializing audio unit");
         return -1;
     }
-    
+
     err = AudioOutputUnitStart(outputUnit);
     if (err) {
         log_error(LOG_DEFAULT, "sound (coreaudio_start): failed to start audio device");
         return -1;
     }
-    
+
     log_message(LOG_DEFAULT, "sound (coreaudio_start): Started");
     return 0;
 }
@@ -592,13 +592,13 @@ static int audio_start(void)
 static int audio_stop(void)
 {
     OSStatus err;
-    
+
     err = AudioOutputUnitStop(outputUnit);
     if (err) {
         log_error(LOG_DEFAULT, "sound (audio_stop): error uninitializing audio unit");
         return -1;
     }
-    
+
     err = AudioUnitUninitialize(outputUnit);
     if (err) {
         log_error(LOG_DEFAULT, "sound (audio_stop): error uninitializing audio unit");
@@ -611,10 +611,10 @@ static int audio_stop(void)
 static void audio_close(void)
 {
     OSStatus err;
-    
+
     if (outputUnit) {
         audio_stop();
-        
+
         log_message(LOG_DEFAULT, "AudioComponentInstanceDispose");
         err = AudioComponentInstanceDispose(outputUnit);
         if (err) {
@@ -623,7 +623,7 @@ static void audio_close(void)
 
         outputUnit = NULL;
     }
-    
+
     converter_close();
 }
 
@@ -707,7 +707,7 @@ static int coreaudio_write(int16_t *pbuf, size_t nr)
 
         atomic_fetch_add(&fragments_in_queue, 1);
     }
-    
+
     /* coreaudio_buffer_stats(false); */
 
     return 0;

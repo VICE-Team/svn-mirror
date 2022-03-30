@@ -1442,7 +1442,7 @@ static int bam_print_tracks(vdrive_t *vdrive,
  *
  * Display a bitmap of used/free sectors for each track in the image
  *
- * Syntax: 
+ * Syntax:
  *
  * \param[in]   nargs   argument count
  * \param[in]   args    argument list
@@ -2720,7 +2720,7 @@ static int entry_cmd(int nargs, char **args)
 
         /* If this is a REL file, print the side sectors */
         if (show_side_sector &&
-            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL && 
+            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL &&
             slot[SLOT_SIDE_TRACK] != 0) {
             unsigned int super_track = bufferinfo->super_side_sector_track;
             unsigned int super_sector = bufferinfo->super_side_sector_sector;
@@ -2775,7 +2775,7 @@ static int entry_cmd(int nargs, char **args)
                                         &data_block_number);
             }
         } else if (!show_side_sector &&
-            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL && 
+            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL &&
             slot[SLOT_SIDE_TRACK] != 0) {
             printf("This file seems to have side sector(s). Use the +side option to show them.\n");
         }

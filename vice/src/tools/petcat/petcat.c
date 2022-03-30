@@ -1091,8 +1091,8 @@ int main(int argc, char **argv)
     }
 
 #ifdef WINDOWS_COMPILE
-    /* HACK: when outputting a prg to stdout, switch stdout to binary mode, 
-       else redirecting the binary output to a file will result in a broken 
+    /* HACK: when outputting a prg to stdout, switch stdout to binary mode,
+       else redirecting the binary output to a file will result in a broken
        file due to translation of the line endings. */
     if (!outf && !textmode) {
         _setmode(STDOUT_FILENO, _O_BINARY);
@@ -1492,7 +1492,7 @@ static void pet_2_asc(int version, int ctrls)
     - petscii codes 0x61-0x7f and (*) 0xc1-0xdf produce the same screencodes
     - petscii codes (*) 0xa1-0xbe and 0xe1-0xfe produce the same screencodes
     - petscii codes (*) 0xff, 0x7e and 0xde (PI) produces the same screencode
-    
+
  ******************************************************************************/
 static void out_ctrl(unsigned char c)
 {

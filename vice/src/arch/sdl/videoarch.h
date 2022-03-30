@@ -76,7 +76,7 @@ struct video_canvas_s {
     /** \brief Nonzero if it is safe to access other members of the
      *         structure. */
     unsigned int initialized;
-    
+
     /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
 
@@ -101,7 +101,7 @@ struct video_canvas_s {
 #ifdef USE_SDL2UI
     /** \brief The texture that can be rendered to for this window and renderer. */
     SDL_Texture* texture;
-    
+
     /** \brief Last frame's texture, used for interlaced modes. */
     SDL_Texture* previous_frame_texture;
 
@@ -125,7 +125,7 @@ struct video_canvas_s {
     /* OpenGL context */
     SDL_Surface *hwscale_screen;
 #endif
-    
+
     /** \brief Used to limit frame rate under warp. */
     tick_t warp_next_render_tick;
 };

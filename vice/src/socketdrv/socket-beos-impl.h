@@ -36,8 +36,8 @@
 #ifdef HAVE_NETWORK
 
 #include "vice.h"
- 
-#include <sys/time.h> 
+
+#include <sys/time.h>
 #include <sys/socket.h>
 #include <netdb.h>
 #include <ByteOrder.h>

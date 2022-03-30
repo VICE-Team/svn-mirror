@@ -155,13 +155,13 @@ int sdl_ui_image_file_selection_dialog(const char* filename, ui_menu_filereq_mod
         sdl_ui_set_active_font(MENU_FONT_IMAGES);
 
         if (redraw) {
-            sdl_ui_image_file_selector_redraw(contents, filename, offset, 
-                (total - offset > menu_max) ? menu_max : total - offset, 
+            sdl_ui_image_file_selector_redraw(contents, filename, offset,
+                (total - offset > menu_max) ? menu_max : total - offset,
                 (total - offset > menu_max) ? 1 : 0, mode, cur);
             redraw = 0;
         } else {
-            sdl_ui_image_file_selector_redraw_cursor(contents, offset, 
-                    (total - offset > menu_max) ? menu_max : total - offset, 
+            sdl_ui_image_file_selector_redraw_cursor(contents, offset,
+                    (total - offset > menu_max) ? menu_max : total - offset,
                     mode, cur, cur_old);
         }
 

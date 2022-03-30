@@ -108,7 +108,7 @@ void export_dump(void)
             mon_out("%s\n", current->device->name);
             current = current->next;
         }
-        mon_out("Current mode: %s, GAME status: (%d) (%s), EXROM status: (%d) (%s)\n", 
+        mon_out("Current mode: %s, GAME status: (%d) (%s), EXROM status: (%d) (%s)\n",
                 cart_config_string(((export.exrom ^ 1) << 1) | export.game),
                 !export.game, (export.game) ? "active" : "inactive",
                 !export.exrom, (export.exrom) ? "active" : "inactive");

@@ -68,7 +68,7 @@ static gfxoutputdrv_codec_t avi_audio_codeclist[] = {
 
 static gfxoutputdrv_codec_t mp4_audio_codeclist[] = {
     { AV_CODEC_ID_AAC, "AAC" },
-    { AV_CODEC_ID_MP3, "MP3" },    
+    { AV_CODEC_ID_MP3, "MP3" },
     { AV_CODEC_ID_AC3, "AC3" },
     { 0, NULL }
 };
@@ -111,8 +111,8 @@ gfxoutputdrv_format_t formats_to_test[] =
 {
     { "mp4", mp4_audio_codeclist, mp4_video_codeclist },
     { "ogg", ogg_audio_codeclist, ogg_video_codeclist },
-    { "avi", avi_audio_codeclist, avi_video_codeclist },    
-    { "matroska", mp4_audio_codeclist, mp4_video_codeclist },    
+    { "avi", avi_audio_codeclist, avi_video_codeclist },
+    { "matroska", mp4_audio_codeclist, mp4_video_codeclist },
     { "wav", NULL, NULL },
     { "mp3", NULL, none_codeclist }, /* formats expects png which fails in VICE */
     { "mp2", NULL, NULL },
@@ -316,7 +316,7 @@ static void close_stream(OutputStream *ost)
 /* audio stream encoding */
 /*-----------------------*/
 
-static AVFrame *alloc_audio_frame(enum AVSampleFormat sample_fmt, 
+static AVFrame *alloc_audio_frame(enum AVSampleFormat sample_fmt,
     uint64_t channel_layout,
     int sample_rate, int nb_samples)
 {
@@ -738,10 +738,10 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     video_width = c->width = screenshot->width & ~0xf;
     video_height = c->height = screenshot->height & ~0xf;
     /* frames per second */
-    st->time_base = VICE_P_AV_D2Q(machine_get_cycles_per_frame() 
-                                    / (double)(video_halve_framerate ? 
+    st->time_base = VICE_P_AV_D2Q(machine_get_cycles_per_frame()
+                                    / (double)(video_halve_framerate ?
                                         machine_get_cycles_per_second() / 2 :
-                                        machine_get_cycles_per_second()), 
+                                        machine_get_cycles_per_second()),
                                   (1 << 16) - 1);
     c->time_base = st->time_base;
 

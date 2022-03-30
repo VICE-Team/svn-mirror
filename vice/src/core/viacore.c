@@ -176,7 +176,7 @@
 /*
  * Timing as can be observed by the CPU.
  * Alarms for rclock N run after CPU accesses for rclock N.
- 
+
 rclk       1     2     3     4     5     6     7     8     9    10    11    12
         +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
 T2        1207  1206  1205  1204  1203  1202  1201  1200  11FF  1107  1106  1105
@@ -257,13 +257,13 @@ inline static void update_myviairq(via_context_t *via_context)
  * The interval timer one-shot mode allows generation of a single interrupt for
  * each timer load operation. After underflow, the timer is reloaded from
  * the latch. (contrary to the datasheet...)
- * 
+ *
  * If used, PB7 is used in pulse mode: set low when T1 starts from the latch,
  * and high (essentially also a toggle) when the IRQ happens.
  *
  * In the free-running mode the interrupt flag is set and the signal on PB7 is
  * inverted each time the counter reaches zero. After FFFF, the latch is
- * reloaded into the timer. 
+ * reloaded into the timer.
  */
 inline static uint16_t viacore_t1(via_context_t *via_context, CLOCK rclk)
 {
@@ -553,7 +553,7 @@ inline static void alarm_set_if_not_pending(alarm_t *alarm, CLOCK cpu_clk)
  * values for time rclk.
  *
  * Schedules an alarm for when T2 sets the interrupt flag (t2_zero_alarm).
- * t2xx00 is made true to indicate that T2 is in 8-bit mode 
+ * t2xx00 is made true to indicate that T2 is in 8-bit mode
  *                                   OR the next 0000 value should cause an IRQ.
  *
  * If there is an underflow alarm scheduled, cancel it, since the underflow
@@ -887,7 +887,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
             /* switch between timer and pulse counting mode if bit 5 changes */
             if ((via_context->via[VIA_ACR] ^ byte) & VIA_ACR_T2_CONTROL) {
                 if (byte & VIA_ACR_T2_COUNTPB6) {
-                    /* Pulse counting mode: set t2 to the current T2 value; 
+                    /* Pulse counting mode: set t2 to the current T2 value;
                     PB6 should always update t2 and update irq on underflow */
                     /* Just like starting T2 takes a cycle, so does stopping:
                      * it decrements one further tick.
@@ -1410,7 +1410,7 @@ static void viacore_t2_underflow_alarm(CLOCK offset, void *data)
         next_alarm = via_context->via[VIA_T2LL] + FULL_CYCLE_2;
 
         /* T2 acts as a pulse generator for CB1
-           every second underflow is a pulse updating the shift register, 
+           every second underflow is a pulse updating the shift register,
            until all 8 bits are complete */
         alarm_set(via_context->t2_shift_alarm, rclk + 1);
     } else if (IS_SR_FREE_RUNNING()) {
@@ -1680,7 +1680,7 @@ void viacore_shutdown(via_context_t *via_context)
  * UBYTE        T2CH
  * UWORD        T2C             word3   viacore_t2()
  * UBYTE        0x80:t1zero | 0x40:t2xx00     byte1
- * UBYTE        SR              
+ * UBYTE        SR
  * UBYTE        ACR
  * UBYTE        PCR
  * UBYTE        IFR              active interrupts
@@ -1956,7 +1956,7 @@ int viacore_dump(via_context_t *via_context)
     mon_out("IRQ flags: %02x\n", viacore_peek(via_context, VIA_IFR));
     mon_out("IRQ enable: %02x\n", viacore_peek(via_context, VIA_IER));
     mon_out("\nShift Register: %02x (%s, shifting %s, count=%d)\n",
-            viacore_peek(via_context, VIA_SR), 
+            viacore_peek(via_context, VIA_SR),
             ((via_context->via[VIA_ACR] & 0x1c) == 0) ? "disabled" : "enabled",
             (via_context->via[VIA_ACR] & 0x10) ? "out" : "in",
             via_context->shift_state);

@@ -65,7 +65,7 @@
  * \param[in]   b   second item
  *
  * \return  \< 0 if \a a \< \a b, 0 if \a a == \a b, \> 0 if \a a \> \a b
- */ 
+ */
 static int compare_names(const void *a, const void *b)
 {
     return strcmp(*(const char **)a, *(const char **)b);

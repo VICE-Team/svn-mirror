@@ -475,8 +475,8 @@ void monitor_binary_event_closed(void) {
 void monitor_binary_response_checkpoint_info(uint32_t request_id, mon_checkpoint_t *checkpt, bool hit) {
     unsigned char response[23];
     MEMORY_OP op = (MEMORY_OP)(
-        (checkpt->check_store ? e_store : 0) 
-        | (checkpt->check_load ? e_load : 0) 
+        (checkpt->check_store ? e_store : 0)
+        | (checkpt->check_load ? e_load : 0)
         | (checkpt->check_exec ? e_exec : 0)
     );
 
@@ -609,7 +609,7 @@ static void monitor_binary_process_checkpoint_toggle(binary_command_t *command)
     uint32_t brknum = little_endian_to_uint32(command->body);
     uint8_t enable = !!command->body[4];
     mon_checkpoint_t *checkpt;
-    
+
     if (command->length < 5) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
         return;
@@ -888,7 +888,7 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
     uint32_t response_length;
     char *str_value;
     int int_value;
-    
+
     char *body = (char *)command->body;
     uint8_t resource_name_length = body[0];
     char *resource_name = &body[1];
@@ -1185,8 +1185,8 @@ static void monitor_binary_screenshot_line_data(screenshot_t *screenshot, uint8_
     memset(data, 0x00, true_offset_x * bytes);
     except_right_border_width = true_offset_x + screenshot->width;
     memset(
-        &data[(except_right_border_width) * bytes], 
-        0x00, 
+        &data[(except_right_border_width) * bytes],
+        0x00,
         (screenshot->debug_width - except_right_border_width) * bytes
     );
 }
@@ -1391,7 +1391,7 @@ static void monitor_binary_process_userport_set(binary_command_t *command)
 
 static void monitor_binary_process_vice_info(binary_command_t *command)
 {
-    unsigned char response[10] = { 
+    unsigned char response[10] = {
         4, VERSION_RC_NUMBER, /* this expands to something like 3,5,0,0 */
         4, 0, 0, 0, 0,
     };
@@ -1534,7 +1534,7 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
 {
     BINARY_COMMAND command_type;
     binary_command_t command;
-    
+
     command.api_version = (uint8_t)pbuffer[1];
 
     command.request_id = little_endian_to_uint32(&pbuffer[6]);
@@ -1690,7 +1690,7 @@ int monitor_binary_get_command_line(void)
             monitor_binary_quit();
             return 0;
         }
-        
+
         if (buffer[0] != ASC_STX) {
             continue;
         }

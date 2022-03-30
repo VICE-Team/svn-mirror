@@ -212,7 +212,7 @@ void vsid_ui_set_data_size(uint16_t size)
 static int identify_canvas(video_canvas_t *canvas)
 {
     /* printf("%s\n", __func__); */
-    
+
     if (canvas != vicii_get_canvas()) {
         return -1;
     }

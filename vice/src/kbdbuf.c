@@ -366,13 +366,13 @@ void kbdbuf_flush(void)
             kbdbuf_flush_alarm_time = maincpu_clk + (CLOCK)machine_get_cycles_per_frame();
             kbdbuf_flush_alarm_time += lib_unsigned_rand(1, (unsigned int)machine_get_cycles_per_frame());
             alarm_set(kbdbuf_flush_alarm, kbdbuf_flush_alarm_time);
-            
+
             prevent_recursion = false;
             return;
         }
         tokbdbuffer(queue[head_idx]);
         removefromqueue();
     }
-    
+
     prevent_recursion = false;
 }

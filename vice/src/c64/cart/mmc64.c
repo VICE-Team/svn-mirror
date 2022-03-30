@@ -764,7 +764,7 @@ static void mmc64_reg_store(uint16_t addr, uint8_t value, int active)
                 if (mmc64_active) {
                     /* cart_set_port_exrom_slot0(0); */
                     log_message(mmc64_log, "disabling MMC64 (exrom:%d game:%d) mmc64_active: %d", mmc64_extexrom, mmc64_extgame, mmc64_active);
-                    cart_config_changed_slot0((uint8_t)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), 
+                    cart_config_changed_slot0((uint8_t)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame),
                                               (uint8_t)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), CMODE_READ);
                     mmc64_io2_device.io_source_prio = 0;
                 } else {

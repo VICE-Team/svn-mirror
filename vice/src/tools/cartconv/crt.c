@@ -195,4 +195,4 @@ int write_chip_package(unsigned int length, unsigned int bank, unsigned int addr
     loadfile_offset += (int)length;
     return 0;
 }
- 
+

@@ -268,7 +268,7 @@ static int joyport_io_sim_write_snapshot(struct snapshot_s *s, int p)
         return -1;
     }
 
-    if (0 
+    if (0
         || SMW_B(m, joyport_io_sim_data_out[p]) < 0
         || SMW_B(m, joyport_io_sim_data_in[p]) < 0
         || SMW_B(m, joyport_io_sim_potx[p]) < 0

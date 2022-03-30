@@ -327,11 +327,11 @@ static void neos_get_new_movement(void)
 {
     int16_t new_x16, new_y16;
     uint8_t new_x, new_y;
-    
+
     mouse_get_int16(&new_x16, &new_y16);
     new_x = (uint8_t)(new_x16 >> 1);
     new_y = (uint8_t)(new_y16 >> 1);
-    
+
     neos_x = (uint8_t)(neos_lastx - new_x);
     neos_lastx = new_x;
 
@@ -446,7 +446,7 @@ void mouse_move(float dx, float dy)
 }
 
 void mouse_get_int16(int16_t *x, int16_t *y)
-{    
+{
     *x = (int16_t)mouse_x;
     *y = (int16_t)mouse_y;
 }
@@ -458,7 +458,7 @@ static void mouse_move_apply_limit(void)
      * can result in either a move in the opposite direction, or the wrong
      * move in the right direction.
      */
-    
+
     if (fabsf(mouse_move_x) >= fabsf(mouse_move_y)) {
         if (mouse_move_x > MOUSE_MAX_DIFF) {
             mouse_move_y *= MOUSE_MAX_DIFF / mouse_move_x;
@@ -1035,9 +1035,9 @@ static uint8_t joyport_mouse_neos_value(int port)
 
     if (_mouse_enabled) {
         retval = (uint8_t)((~mouse_digital_val) & neos_mouse_read());
-        /* on a real NEOS mouse the left mouse button is connected to FIRE and 
-           will interfere with the STROBE line which is connected to the same 
-           I/O bit. in this case all direction bits will go inactive/high and 
+        /* on a real NEOS mouse the left mouse button is connected to FIRE and
+           will interfere with the STROBE line which is connected to the same
+           I/O bit. in this case all direction bits will go inactive/high and
            the mouse can not be moved */
         if (mouse_digital_val & 0x10) {
             retval &= ~0x0f;
@@ -1734,7 +1734,7 @@ static int paddles_write_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, paddles_snap_module_name, PADDLES_VER_MAJOR, PADDLES_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
@@ -1899,7 +1899,7 @@ static int mouse_neos_write_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, mouse_neos_snap_module_name, MOUSE_NEOS_VER_MAJOR, MOUSE_NEOS_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
@@ -2017,7 +2017,7 @@ static int mouse_amiga_write_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, mouse_amiga_snap_module_name, MOUSE_AMIGA_VER_MAJOR, MOUSE_AMIGA_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
@@ -2109,7 +2109,7 @@ static int mouse_cx22_write_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, mouse_cx22_snap_module_name, MOUSE_CX22_VER_MAJOR, MOUSE_CX22_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
@@ -2196,7 +2196,7 @@ static int mouse_st_write_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, mouse_st_snap_module_name, MOUSE_ST_VER_MAJOR, MOUSE_ST_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
@@ -2468,7 +2468,7 @@ static int koalapad_write_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, koalapad_snap_module_name, KOALAPAD_VER_MAJOR, KOALAPAD_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

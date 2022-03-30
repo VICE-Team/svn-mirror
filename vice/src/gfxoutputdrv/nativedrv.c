@@ -478,7 +478,7 @@ int native_is_colormap_multicolor(native_data_t *source)
             /* get block */
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
-                    dest->colormap[(k * 8) + l] = 
+                    dest->colormap[(k * 8) + l] =
                     source->colormap[(i * 8 * source->xsize) + (j * 8)
                                         + (k * source->xsize) + l];
                 }
@@ -746,7 +746,7 @@ static native_data_t *native_generic_render(screenshot_t *screenshot, const char
     for (i = 0; i < data->ysize; i++) {
         for (j = 0; j < data->xsize; j++) {
             data->colormap[(i * data->xsize) + (j)] =
-            linebuffer[(i * screenshot->width) + ((j * xstep) + leftborder)]; 
+            linebuffer[(i * screenshot->width) + ((j * xstep) + leftborder)];
         }
     }
     data->mc_data_present = native_is_colormap_multicolor(data);

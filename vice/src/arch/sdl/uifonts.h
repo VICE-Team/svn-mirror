@@ -43,10 +43,10 @@ extern void sdl_ui_font_shutdown(void);
  *         the defined values below.
  * - 20-7e are ascii
  * - 80-ff are reserved for extended ascii (FIXME)
- * 
+ *
  * second charset:
  * - uppercase petscii layout, used by image browser
- * 
+ *
  * third charset:
  * - lowercase petscii layout, used by the monitor
  */

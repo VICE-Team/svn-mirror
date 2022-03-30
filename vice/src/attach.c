@@ -591,7 +591,7 @@ static int attach_disk_image(disk_image_t *oldimage, vdrive_t *vdrive,
                     log_error(attach_log, "`%s' is already mounted on drive %d:%d", filename, test_unit, test_drive);
                     return -1;
                 }
-            }            
+            }
         }
     }
 

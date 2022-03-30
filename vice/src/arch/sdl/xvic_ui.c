@@ -195,7 +195,7 @@ static ui_menu_entry_t xvic_main_menu[] = {
 #endif
 static UI_MENU_CALLBACK(pause_callback_wrapper)
 {
-    xvic_main_menu[MENU_ADVANCE_FRAME_IDX].status = 
+    xvic_main_menu[MENU_ADVANCE_FRAME_IDX].status =
         sdl_pause_state || !sdl_menu_state ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     xvic_main_menu[MENU_VIRTUAL_KEYBOARD_IDX].status =
         sdl_pause_state ? MENU_STATUS_INACTIVE : MENU_STATUS_ACTIVE;
@@ -224,7 +224,7 @@ static void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
     menu_draw->extra_x += (videostandard == MACHINE_SYNC_PAL) ? 36 : 8;
 #endif
     menu_draw->extra_y += (videostandard == MACHINE_SYNC_PAL) ? 40 : 24;
-    
+
     menu_draw->color_front = menu_draw->color_default_front = 1;
     menu_draw->color_back = menu_draw->color_default_back = 0;
     menu_draw->color_cursor_back = 6;

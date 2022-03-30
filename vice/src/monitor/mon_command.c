@@ -543,13 +543,13 @@ static const mon_cmds_t mon_cmd_array[] = {
       "current state.",
       NO_FILENAME_ARG
     },
-    
+
     { "logname", "",
       "\"<filename>\"",
       "Sets the filename of the logfile.",
       FILENAME_ARG
     },
-    
+
     { "", "",
       "",
       "Disk commands:",

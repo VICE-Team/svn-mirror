@@ -770,7 +770,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
         /*log_debug("Vsync %d %d",ted.tv_current_line, ted.ted_raster_counter);*/
 
         vsync_do_vsync(ted.raster.canvas);
-                      
+
         ted.tv_current_line = 0;
 
         /* FIXME increment at appropriate cycle */

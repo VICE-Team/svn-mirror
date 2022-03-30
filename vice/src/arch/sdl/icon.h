@@ -32,5 +32,5 @@ void sdl_ui_set_window_icon(SDL_Window *window);
 #else
 void sdl_ui_set_window_icon(void *window);
 #endif
- 
+
 #endif

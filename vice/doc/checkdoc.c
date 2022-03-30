@@ -285,7 +285,7 @@ void readtexi(FILE *tf)
                         itm2->alias = itm1;
                     }
                     /* printf("ok %35s %p %p\n",tmp2,itm,aliasitm); */
-                } 
+                }
                 aliasitm = itm;
                 newline = 1;
             } else if (!strcmp(tmp, "end") || !strcmp(tmp, "bye")) {
@@ -304,7 +304,7 @@ void readtexi(FILE *tf)
                 }
                 status = 0;
                 newline = 1;
-            } 
+            }
 #endif
             else {
                 sprintf(tmpmsg, "@%s",tmp);
@@ -627,7 +627,7 @@ void checkresources(void)
         printf("none - well done.\n");
     }
     printf("\n");
-    
+
     printf("The following resources appear to have no description: ");
 
     list1 = &reslisttex;
@@ -1012,7 +1012,7 @@ void checkoptions(void)
             itm = list_findstr(&optlistvice, list1->string);
             if (list1->next && !strcmp(&list1->string[1], &list1->next->string[1])) {
 /*                printf("'%s' - '%s'\n", &list1->string[1], &list1->next->string[1]); */
-                skipnext = 1; 
+                skipnext = 1;
             }
             if (itm) {
                 DBG(("found: %s\n", list1->string));

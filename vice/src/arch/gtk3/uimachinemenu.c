@@ -815,7 +815,7 @@ static ui_menu_item_t speed_submenu[] = {
       0, 0, false },
     { "Custom CPU speed ...", UI_MENU_TYPE_ITEM_RADIO_INT,
       ACTION_SPEED_CPU_CUSTOM,
-      ui_speed_custom_toggled, "Speed", NULL, 
+      ui_speed_custom_toggled, "Speed", NULL,
       0, 0, false },
 
     UI_MENU_SEPARATOR,

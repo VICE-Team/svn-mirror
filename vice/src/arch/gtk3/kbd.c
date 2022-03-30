@@ -28,7 +28,7 @@
  *  02111-1307  USA.
  *
  */
- 
+
 /* #define HAVE_DEBUG_GTK3UI */
 
 #include "vice.h"
@@ -477,7 +477,7 @@ static const guint numpad_fixes[][KV_ARR_SIZE] = {
  *
  * ShiftLock OFF (US keyboard):
  *
- *  Key             Linux           Windows 
+ *  Key             Linux           Windows
  *  ----------      --------------- -----------
  *  /               KP_Divide       KP_Divide
  *  *               KP_Multiply     KP_Multiply
@@ -524,7 +524,7 @@ static guint fix_numpad_keyval(GdkEvent *event)
  * key instead of the decimal point.
  *
  * The first entry is the (correct) keyval, the second the (incorrect) alias.
- * 
+ *
  * CAUTION: when a key exist on KP and as a regular key (example: HOME), you
  *          MUST make sure to only map KP to KP and non KP to non KP symbols here.
  *
@@ -611,7 +611,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #ifdef WINDOWS_COMPILE
             debug_gtk3("(press) key before numpad fix: 0x%04x (GDK_KEY_%s).",
                        (unsigned int)key, gdk_keyval_name(key));
-            key = report->key.keyval = fix_numpad_keyval(report); 
+            key = report->key.keyval = fix_numpad_keyval(report);
             debug_gtk3("(press) key after numpad fix : 0x%04x (GDK_KEY_%s).",
                        (unsigned int)key, gdk_keyval_name(key));
 #endif
@@ -685,7 +685,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #ifdef WINDOWS_COMPILE
             debug_gtk3("(release) key before numpad fix: 0x%04x (GDK_KEY_%s).",
                        (unsigned int)key, gdk_keyval_name(key));
-            key = report->key.keyval = fix_numpad_keyval(report); 
+            key = report->key.keyval = fix_numpad_keyval(report);
             debug_gtk3("(release) key after numpad fix : 0x%04x (GDK_KEY_%s).",
                        (unsigned int)key, gdk_keyval_name(key));
 #endif

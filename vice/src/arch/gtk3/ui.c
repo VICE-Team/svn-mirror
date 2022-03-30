@@ -2274,10 +2274,10 @@ bool ui_pause_loop_iteration(void)
         monitor_startup_trap();
         return false;
     }
-    
+
     /* Otherwise give the UI the lock for a while */
     mainlock_yield_and_sleep(tick_per_second() / 60);
-    
+
     /* Another iteration needed unless pause was disabled during sleep */
     return is_paused;
 }
@@ -2289,7 +2289,7 @@ static void pause_loop(void *param)
 {
     vsync_suspend_speed_eval();
     sound_suspend();
-    
+
     if (ui_pause_loop_iteration()) {
         /*
          * Still paused, schedule another run. Doing it this way allows

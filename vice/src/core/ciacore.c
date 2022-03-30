@@ -839,7 +839,7 @@ uint8_t ciacore_peek(cia_context_t *cia_context, uint16_t addr)
         case CIA_TOD_HR:
             ret = cia_context->c_cia[addr];
             break;
-        /* Serial Port Shift Register 
+        /* Serial Port Shift Register
          * FIXME: does reading SDR have side effects? do we need to update it?
          */
         case CIA_SDR:
@@ -1031,7 +1031,7 @@ static void ciacore_inttod(CLOCK offset, void *data)
         return;
     }
 
-    /* set up new int 
+    /* set up new int
        the time between power ticks should be ticks_per_sec / power_freq
        in reality the deviation can be quite large in small time frames, but is
        very accurate in longer time frames. we try to maintain a stable tick

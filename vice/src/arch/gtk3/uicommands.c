@@ -379,7 +379,7 @@ static void speed_custom_callback(GtkDialog *dialog, int result, gboolean valid)
  * \param[in]   widget  menu item
  * \param[in]   data    extra event data (unused)
  *
- * \return  TRUE to 
+ * \return  TRUE to
  */
 gboolean ui_speed_custom_toggled(GtkWidget *widget, gpointer data)
 {
@@ -421,7 +421,7 @@ static void fps_custom_callback(GtkDialog *dialog, int result, gboolean valid)
  * \param[in]   widget  menu item
  * \param[in]   data    extra event data (unused)
  *
- * \return  TRUE to 
+ * \return  TRUE to
  */
 gboolean ui_fps_custom_toggled(GtkWidget *widget, gpointer data)
 {

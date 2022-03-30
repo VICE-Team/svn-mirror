@@ -100,7 +100,7 @@ static const char *joystick_device_dynmenu_helper(int port)
         entry[j].callback = uijoystick_device_callbacks[port];
         entry[j].data = (ui_callback_data_t)int_to_void_ptr(JOYDEV_NONE);
         j++;
-        
+
         entry[j].string = (char *)lib_strdup("Numpad");
         entry[j].type = MENU_ENTRY_RESOURCE_RADIO;
         entry[j].callback = uijoystick_device_callbacks[port];
@@ -334,7 +334,7 @@ static UI_MENU_CALLBACK(joystick_autofire_dynmenu_callback)
         joystick_autofire_dyn_menu[j].type = 0;
         joystick_autofire_dyn_menu[j].callback = NULL;
         joystick_autofire_dyn_menu[j].data = NULL;
-        
+
         return MENU_SUBMENU_STRING;
     }
     return MENU_NOT_AVAILABLE_STRING;
@@ -813,7 +813,7 @@ static UI_MENU_CALLBACK(joystick_host_mapping_dynmenu_callback)
         joystick_host_mapping_dyn_menu[j].type = 0;
         joystick_host_mapping_dyn_menu[j].callback = NULL;
         joystick_host_mapping_dyn_menu[j].data = NULL;
-        
+
         return MENU_SUBMENU_STRING;
     }
     return MENU_NOT_AVAILABLE_STRING;

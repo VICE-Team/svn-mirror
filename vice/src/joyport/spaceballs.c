@@ -54,7 +54,7 @@
    JOY6 | pin J (D5)
    JOY7 | pin K (D6)
    JOY8 | pin L (D7)
-   
+
    The userport is driven in such a way that only 1 joystick
    has ground.
 
@@ -202,7 +202,7 @@ static int spaceballs_write_snapshot(struct snapshot_s *s, int p)
         return -1;
     }
 
-    if (0 
+    if (0
         || SMW_B(m, spaceballs_grounds) < 0) {
             snapshot_module_close(m);
             return -1;

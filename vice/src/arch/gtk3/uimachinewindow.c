@@ -372,7 +372,7 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
             mouse_button(button - 1, 0);
         }
     }
-    
+
     /* Ignore all other mouse button events, though we'll be sent
      * things like double- and triple-click. */
     return FALSE;
@@ -653,15 +653,15 @@ static void machine_window_create(video_canvas_t *canvas)
 
     gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
     gtk_container_add(GTK_CONTAINER(canvas->grid), new_event_box);
-    
+
     /* Crazy hack to make the initial window open at the right place of the screen. The Problem here is, that
        if we don't explicitly set a window position (eg because we start with -default), then the window would
        be initially created smaller than it will be when initialization finished. The window manager will take
        that small size for determining the initial position, and if it then resizes after that, the window may
        no more be centered, or even partially off screen.
-       
+
        To prevent this from happening, we try to set the correct final size here.
-       
+
        CAUTION: since the resources are not properly initialized yet, this is tricky and we must use some dirty
        tricks and assumptions. the following also shows shortcomings / problems in other parts of the code.
     */
@@ -679,7 +679,7 @@ static void machine_window_create(video_canvas_t *canvas)
     printf(" sizexy: %u x %u\n", canvas->videoconfig->cap->single_mode.sizex, canvas->videoconfig->cap->single_mode.sizey);
     printf(" rmode: %u\n", canvas->videoconfig->cap->single_mode.rmode);
     printf(" aspect ratio: %f\n", (float)canvas->geometry->pixel_aspect_ratio);
-#endif    
+#endif
     /* find out if we have a videochip that uses vertical stretching. since the resources are not
        initialized, assume it always is stretched (this is the default) */
     if (!strcmp("Crtc", canvas->videoconfig->chip_name)) {
@@ -696,7 +696,7 @@ static void machine_window_create(video_canvas_t *canvas)
     printf(" hstretch: %u\n", hstretch);
     printf(" vstretch: %u\n", vstretch);
 #endif
-    /* calculate the initial size from the values we have 
+    /* calculate the initial size from the values we have
        WARNING: terrible hacks coming up
     */
     w = (canvas->geometry->screen_size.width - canvas->geometry->gfx_position.x)

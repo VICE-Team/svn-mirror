@@ -165,7 +165,7 @@ static char *joymap_factory = NULL;
    high byte is the joystick nr,
    low byte is the axis nr,
    0xffff means no mapping */
-static uint16_t sdljoystick_axis_mapping[4] = { 
+static uint16_t sdljoystick_axis_mapping[4] = {
     0xffff,    /* pot-x port 1 (x64/x64sc/xscpu64/x128/xcbm5x0/xvic and xplus4 sidcard) */
     0xffff,    /* pot-y port 1 (x64/x64sc/xscpu64/x128/xcbm5x0/xvic and xplus4 sidcard) */
     0xffff,    /* pot-x port 2 (x64/x64sc/xscpu64/x128/xcbm5x0) */
@@ -323,7 +323,7 @@ int joy_sdl_init(void)
         log_error(sdljoy_log, "Subsystem init failed!");
         return -1;
     }
-    
+
     sdljoy_rescan();
 
     return 0;
@@ -370,7 +370,7 @@ int sdljoy_rescan(void)
         SDL_JoystickEventState(SDL_ENABLE);
         return 0;
     }
-        
+
     log_message(sdljoy_log, "%i joysticks found", num_joysticks);
 
     sdljoystick = lib_malloc(sizeof(sdljoystick_t) * num_joysticks);
@@ -1288,7 +1288,7 @@ uint8_t sdljoy_check_axis_movement(SDL_Event e)
     Uint8 axis;
     Sint16 value;
 
-    joynum = sdljoy_get_joynum_for_event(e.jaxis.which);    
+    joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
     axis = e.jaxis.axis;
     value = e.jaxis.value;
 
@@ -1333,13 +1333,13 @@ uint8_t sdljoy_check_hat_movement(SDL_Event e)
 int sdljoy_get_joynum_for_event(Uint8 event_device_id)
 {
     int i;
-    
+
     for (i = 0; i < num_joysticks; i++) {
         if (sdljoystick[i].joystickid == event_device_id) {
             return i;
         }
     }
-    
+
     return -1;
 }
 
@@ -1481,7 +1481,7 @@ void sdljoy_set_joystick_axis(SDL_Event e, int port, int pot)
     uint8_t axis = e.jaxis.axis;
     sdljoystick_mapping_t *joyevent = sdljoy_get_mapping(e);
     int joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
-    
+
     if (joynum == -1) {
         return;
     }
@@ -1562,7 +1562,7 @@ void sdljoy_swap_ports(void)
     }
 }
 
-int sdljoy_get_swap_ports(void) 
+int sdljoy_get_swap_ports(void)
 {
     return _sdljoy_swap_ports;
 }

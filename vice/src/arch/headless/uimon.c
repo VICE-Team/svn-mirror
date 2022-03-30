@@ -47,7 +47,7 @@ console_t *uimon_window_resume(void)
 
     /* TODO: get actual values from the console the program runs in? */
     static console_t console_log = { 1024, 1024, 0, 0, NULL };
-    
+
     return &console_log;
 }
 
@@ -59,7 +59,7 @@ void uimon_window_suspend(void)
 int uimon_out(const char *buffer)
 {
     /* printf("%s\n", __func__); */
-    
+
     log_message(LOG_DEFAULT, "Monitor: %s", buffer);
 
     return 0;
@@ -83,6 +83,6 @@ void uimon_set_interface(struct monitor_interface_s **interf, int i)
 char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
     /* printf("%s\n", __func__); */
-    
+
     return NULL;
 }

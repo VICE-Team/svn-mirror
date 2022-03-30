@@ -47,9 +47,9 @@
 #define DBG(x)
 #endif
 
-/* A lot of programs will not work right with filenames that are longer than 16 
-   characters, so we must shorten them somehow. unfortunately this is less than 
-   trivial :/ 
+/* A lot of programs will not work right with filenames that are longer than 16
+   characters, so we must shorten them somehow. unfortunately this is less than
+   trivial :/
 
    - when creating a new file, we can just pad the name to 16 characters. this
      is pretty much what a real CBM drive would do and should cause no side
@@ -69,7 +69,7 @@
         testfoobartestest.prg   becomes     testfoobartest0/
         testfoobartestAB.prg    becomes     testfoobartest1/
 
-   - when opening an existing file, we iterate through the current work 
+   - when opening an existing file, we iterate through the current work
      directory, convert each filename to a short name using the algorithm above,
      and then compare if the result matches the filename we want to open. if so,
      we can use the long name of the file to open it.
@@ -101,12 +101,12 @@ static int _limit_longname(archdep_dir_t *archdep_dir, vdrive_t *vdrive, char *l
     int longnames;
     int dirpos = 0;
     int tmppos;
-    char *dirposmark[2] = { 
+    char *dirposmark[2] = {
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
         "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"};
 
     DBG(("limit_longname enter '%s' mode: %d\n", longname, mode));
-    if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {    
+    if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {
         return -1;
     }
 
@@ -182,7 +182,7 @@ static char *expand_shortname(vdrive_t *vdrive, char *shortname, int mode)
     char *longname;
     int longnames;
 
-    if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {    
+    if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {
         longnames = 0;
     }
 
@@ -259,7 +259,7 @@ char *fsdevice_expand_shortname_ascii(vdrive_t *vdrive, char *name)
 
 
 /* limit a filename length to 16 characters. works in-place, ie it changes
-   the input string 
+   the input string
 
    used when listing the directory, in this case we must create a unique short
    name that can be expanded to the full long name later.
@@ -272,7 +272,7 @@ int fsdevice_limit_namelength(vdrive_t *vdrive, uint8_t *name)
 }
 
 /* limit a filename length to 16 characters. works in-place, ie it changes
-   the input string 
+   the input string
 
    used when listing the directory, in this case we must create a unique short
    name that can be expanded to the full long name later.
@@ -285,7 +285,7 @@ int fsdevice_limit_namelength_ascii(vdrive_t *vdrive, char *name)
 }
 
 /* limit a filename length to 16 characters. works in-place, ie it changes
-   the input string 
+   the input string
 
     used when creating a file. in this case we can simply cut off the long
     name after 16 chars - just like a real CBM drive would do.
@@ -294,7 +294,7 @@ int fsdevice_limit_createnamelength(vdrive_t *vdrive, char *name)
 {
     int longnames;
 
-    if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {    
+    if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {
         return -1;
     }
 

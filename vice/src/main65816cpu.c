@@ -278,14 +278,14 @@ void maincpu_mainloop(void)
 #ifndef NEED_REG_PC
     unsigned int reg_pc;
 #endif
-    
+
     /*
      * Enable maincpu_resync_limits functionality .. in the old code
      * this is where the local stack var had its address copied to
      * the global.
      */
     bank_base_ready = true;
-    
+
     reg_c = 0;
 
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);

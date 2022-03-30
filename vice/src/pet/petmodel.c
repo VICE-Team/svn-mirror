@@ -63,14 +63,14 @@ typedef struct pet_table_s pet_table_t;
     "small" PETs use(d) the "graphics keyboard" (up to 4032). "big" PETs use(d)
     the "business keyboard" (8032 and up). there also existed versions of the
     "business keyboard" for the 4032 ("4032B").
-    
+
     since the different keyboards actually use different matrix positions for
     the keys, loading a new keymap is not enough, also the respective matching
     editor ROM must be used. this detail is NOT handled here, simply because
     that would inflate the list of models too much.
-    
+
     also see http://www.6502.org/users/andre/petindex/keyboards.html
-*/ 
+*/
 
 static const pet_table_t pet_table[] = {
     { "2001",
@@ -324,7 +324,7 @@ static const pet_table_t pet_table[] = {
         .memBname = NULL,
         .memAname = NULL,
         .mem9name = NULL,
-        .h6809romName = { 
+        .h6809romName = {
             [0] = "waterloo-a000.901898-01.bin",
             [1] = "waterloo-b000.901898-02.bin",
             [2] = "waterloo-c000.901898-03.bin",

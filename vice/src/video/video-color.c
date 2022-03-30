@@ -622,14 +622,14 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
             vf = (float)(0.877283f * (primary->cr + tin) * sat * con * 224.0 / 256.0 / 256.0 + 128.5);
         }
 
-        /* sanity check: cbtable and crtable must be kept in 16 bit range or we 
+        /* sanity check: cbtable and crtable must be kept in 16 bit range or we
                          might get overflows in eg the CRT renderer */
         /* FIXME: we need to check more and clamp the values accordingly - it is
                   still possible to "overdrive" the renderer in NTSC mode */
         len = sqrt(((double)color_tab->cbtable[i] * (double)color_tab->cbtable[i]) +
                    ((double)color_tab->crtable[i] * (double)color_tab->crtable[i]));
         if (len >= (double)0x10000) {
-            log_error(LOG_DEFAULT, 
+            log_error(LOG_DEFAULT,
                 "video_calc_ycbcrtable: color %u cbcr vector too long, use lower base saturation.", i);
         }
 

@@ -196,7 +196,7 @@ static int userport_rs232_enable(int value)
     }
 
     rsuser_enabled = newval;
-    
+
     LOG_DEBUG(("RS232 set_enable: enabled:%d fd:%d dtr:%d rts:%d",
         rsuser_enabled, fd, dtr, rts
     ));
@@ -413,7 +413,7 @@ void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(uint8_t)
 
 
     LOG_DEBUG(("rsuser_init: fd:%d dtr:%d rts:%d", fd, dtr, rts));
-    
+
     buf = (unsigned int)(~0); /* all 1s */
     valid = 0;
 }
@@ -461,11 +461,11 @@ static void rsuser_write_ctrl(uint8_t status, int pulse)
 
 #ifdef LOG_MODEM_STATUS
     if (status != oldstatus) {
-        printf("rsuser_write_ctrl(fd:%d) 1: status:%02x dtr:%d rts:%d\n", 
+        printf("rsuser_write_ctrl(fd:%d) 1: status:%02x dtr:%d rts:%d\n",
                fd, status, dtr ? 1 : 0, rts ? 1 : 0);
     }
 #endif
-    
+
     if (rsuser_enabled) {
         if (fd < 0) {
             if (new_dtr == (rsuser_dtrinv ? 0: DTR_OUT)) {
@@ -533,8 +533,8 @@ static void rsuser_write_ctrl(uint8_t status, int pulse)
 
 #ifdef LOG_MODEM_STATUS
     if (status != oldstatus) {
-        printf("rsuser_write_ctrl(fd:%d) 2: status:%02x dtr:%d rts:%d modem_status:%02x cts:%d dsr:%d dcd:%d ri:%d\n", 
-               fd, status, dtr ? 1 : 0, rts ? 1 : 0, modem_status, 
+        printf("rsuser_write_ctrl(fd:%d) 2: status:%02x dtr:%d rts:%d modem_status:%02x cts:%d dsr:%d dcd:%d ri:%d\n",
+               fd, status, dtr ? 1 : 0, rts ? 1 : 0, modem_status,
                modem_status & RS232_HSI_CTS ? 1 : 0,
                modem_status & RS232_HSI_DSR ? 1 : 0,
                modem_status & RS232_HSI_DCD ? 1 : 0,
@@ -663,10 +663,10 @@ static uint8_t rsuser_read_ctrl(uint8_t orig)
     uint8_t status = 0;
 #ifdef LOG_MODEM_STATUS
     static int oldstatus = -1;
-#endif    
+#endif
 #if 0
     if (status != oldstatus) {
-        printf("rsuser_read_ctrl(fd:%d) 1: mask:%02x modem_status:%02x cts:%d dsr:%d dcd:%d ri:%d\n", 
+        printf("rsuser_read_ctrl(fd:%d) 1: mask:%02x modem_status:%02x cts:%d dsr:%d dcd:%d ri:%d\n",
                fd, b, modem_status, modem_status & RS232_HSI_CTS ? 1 : 0,
                modem_status & RS232_HSI_DSR ? 1 : 0,
                modem_status & RS232_HSI_DCD ? 1 : 0,
@@ -688,7 +688,7 @@ static uint8_t rsuser_read_ctrl(uint8_t orig)
     }
 #ifdef LOG_MODEM_STATUS
     if (status != oldstatus) {
-        printf("rsuser_read_ctrl(fd:%d): mask:%02x status:%02x cts:%d dsr:%d dcd:%d ri:%d\n", 
+        printf("rsuser_read_ctrl(fd:%d): mask:%02x status:%02x cts:%d dsr:%d dcd:%d ri:%d\n",
                fd, b, status, modem_status & RS232_HSI_CTS ? 1 : 0,
                modem_status & RS232_HSI_DSR ? 1 : 0,
                modem_status & RS232_HSI_DCD ? 1 : 0,

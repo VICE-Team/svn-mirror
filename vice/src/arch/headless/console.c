@@ -1,5 +1,5 @@
 /** \file   console.c
- * \brief   
+ * \brief
  *
  * \author  David Hogan <david.q.hogan@gmail.com>
  */
@@ -33,13 +33,13 @@
 int console_init(void)
 {
     /* printf("%s\n", __func__); */
-    
+
     return 0;
 }
 
 int console_close_all(void)
 {
     /* printf("%s\n", __func__); */
-    
+
     return 0;
 }

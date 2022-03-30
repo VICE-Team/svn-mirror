@@ -1,4 +1,4 @@
-/** \file   icon.c 
+/** \file   icon.c
  * \brief   SDL Window icon(s) support
  *
  * Sets application icon on Unix for SDL1.2 and SDL2 and on Windows for SDL1.2.

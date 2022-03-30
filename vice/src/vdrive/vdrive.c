@@ -576,7 +576,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         vdrive->selected_part = vdrive->current_part;
     }
 
-#if 0 
+#if 0
     /* read whole bam to ensure image is good */
     if (vdrive_bam_read_bam(vdrive)) {
         log_error(vdrive_log, "Error accessing BAM.");
@@ -779,7 +779,7 @@ static const signed int tosec4171[71] = {
      683,  704,  725,  746,  767,  788,  809,  830,  851,  872, /* 36 */
      893,  914,  935,  956,  977,  998, 1019, 1040, 1059, 1078,
     1097, 1116, 1135, 1154, 1173, 1191, 1209, 1227, 1245, 1263,
-    1281, 1298, 1315, 1332, 1349 
+    1281, 1298, 1315, 1332, 1349
 };
 
 static const signed int max4171[71] = {
@@ -1486,7 +1486,7 @@ int vdrive_pack_parts(vdrive_t *vdrive)
             /* look again */
             continue;
         }
-        /* move it from bestpos to lowpos+length for psize[best] LBAs (512 byte sectors) */      
+        /* move it from bestpos to lowpos+length for psize[best] LBAs (512 byte sectors) */
         /* moving a lot of data is pretty serious, so we must take care that
             there will be no disk errors. */
         /* we will scan the whole source partition and destiation area to make

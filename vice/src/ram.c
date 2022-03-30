@@ -126,7 +126,7 @@ static int set_random_chance(int val, void *param)
 }
 
 /* FIXME: the defaults have been choosen so the result matches a real reported
-          pattern in x64sc, AND from those one was picked so all raminitvalue 
+          pattern in x64sc, AND from those one was picked so all raminitvalue
           tests pass.
 
           however, the respective defaults should probably be different per

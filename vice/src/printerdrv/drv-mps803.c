@@ -356,7 +356,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
         return;
     }
 
-   /* 
+   /*
     * When an odd number of CHR$(34) is detected in a line, the control
     * codes $00-$1F and $80-$9F will be made visible by printing a
     * reverse character for each of these controls. This will continue

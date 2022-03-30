@@ -97,7 +97,7 @@
  * `#include <limits.h>` worked even with -pedantic -ansi passed to the compiler.
  */
 #if 0
-# ifndef PATH_MAX 
+# ifndef PATH_MAX
 #  if defined(BSD_COMPILE) || defined(MACOS_COMPILE)
 #   include <sys/syslimits.h>
 #  endif
