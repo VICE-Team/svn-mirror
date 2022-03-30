@@ -3577,9 +3577,6 @@ AC_OUTPUT([Makefile
            src/arch/gtk3/novte/Makefile
            src/arch/gtk3/widgets/Makefile
            src/arch/gtk3/widgets/base/Makefile
-           src/arch/mingw32-pcap/Makefile
-           src/arch/mingw32-pcap/wpcap/Makefile
-           src/arch/mingw32-pcap/wpcap/net/Makefile
            src/arch/sdl/Makefile
            src/arch/headless/Makefile
            src/arch/shared/Makefile
