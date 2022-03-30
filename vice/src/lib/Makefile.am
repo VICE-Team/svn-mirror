@@ -4,6 +4,9 @@ AM_CFLAGS = @VICE_CFLAGS@
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
+noinst_HEADERS = \
+	opencbm.h
+
 .PHONY: libp64
 
 libp64:
