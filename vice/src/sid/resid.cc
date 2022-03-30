@@ -267,7 +267,7 @@ static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr,
     int retval;
     int int_delta_t_original = (int)*delta_t;
     int int_delta_t = (int)*delta_t;
-    
+
     /* Tried not to mess with resid during 64-bit conversion. clock(...) wants to modify *delta_t ... */
 
     if (psid->factor == 1000) {
@@ -275,12 +275,12 @@ static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr,
         (*delta_t) += int_delta_t - int_delta_t_original;
         return retval;
     }
-    
+
     tmp_buf = getbuf(2 * nr * psid->factor / 1000);
     retval = psid->sid->clock(int_delta_t, tmp_buf, nr * psid->factor / 1000, interleave) * 1000 / psid->factor;
     (*delta_t) += int_delta_t - int_delta_t_original;
     memcpy(pbuf, tmp_buf, 2 * nr);
-    
+
     return retval;
 }
 
@@ -294,7 +294,7 @@ static char *resid_dump_state(sound_t *psid)
     } else {
         return lib_strdup("no state available when sound is disabled.");
     }
-    sprintf(strbuf, 
+    sprintf(strbuf,
             "FREQ:   %04x %04x %04x\n"
             "PULSE:  %04x %04x %04x\n"
             "CTRL:     %02x   %02x   %02x\n"

@@ -85,7 +85,7 @@ static int beos_init(const char *param, int *speed,
                 return -1;
         }
 
-        if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength) 
+        if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength)
                         == BPushGameSound::lock_failed) {
                         log_error(LOG_DEFAULT, "sound (beos_init): LockForCyclic failed");
                         return -1;
@@ -122,7 +122,7 @@ static int beos_write(int16_t *pbuf, size_t nr)
 }
 
 static int beos_bufferspace(void)
-{       
+{
         int ret;
         int current = game_sound->CurrentPosition();
 
@@ -130,7 +130,7 @@ static int beos_bufferspace(void)
         if (ret < 0)
                 ret += (bufferlength/(2*num_of_channels));
 
-        return ret;                     
+        return ret;
 }
 
 static void beos_close(void)
@@ -147,7 +147,7 @@ static int beos_suspend(void)
 
 static int beos_resume(void)
 {
-        if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength) 
+        if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength)
                         == BPushGameSound::lock_failed) {
                         log_error(LOG_DEFAULT, "sound (beos_resume): LockForCyclic failed");
                         return -1;

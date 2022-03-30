@@ -3,7 +3,7 @@
  *
  * \author  Marcus Sutton <loggedoubt@gmail.com>
  */
- 
+
 /*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -165,12 +165,12 @@ static int bsp_write(int16_t *pbuf, size_t nr)
     if (buf_inptr == buf_outptr) {
         buf_full = 1;
     }
-        
+
         return 0;
 }
 
 static int bsp_bufferspace(void)
-{       
+{
     int amount;
 
     if (buf_full) {

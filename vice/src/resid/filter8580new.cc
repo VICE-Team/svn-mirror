@@ -466,7 +466,7 @@ Filter::Filter()
         for (int n = 0; n < (1 << dac_bits); n++) {
           mf.f0_dac[n] = (unsigned short)(N16*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << dac_bits) - vmin) + 0.5);
         }
-      
+
         // VCR table.
         double k = fi.k;
         double kVddt = N16*(k*(fi.Vdd - fi.Vth));
@@ -488,7 +488,7 @@ Filter::Filter()
 
         /*
           EKV model:
-      
+
           Ids = Is*(if - ir)
           Is = ((2*u*Cox*Ut^2)/k)*W/L
           if = ln^2(1 + e^((k*(Vg - Vt) - Vs)/(2*Ut))
