@@ -62,7 +62,7 @@
 
 #include "io-access.h"
 
-#if defined(LINUX_COMPILE) || defined(__FreeBSD__)
+#if defined(LINUX_COMPILE) || defined(FREEBSD_COMPILE)
 
 #define IO_PORT_ACCESS
 
@@ -103,7 +103,7 @@ static void device_io_outb(uint16_t addr, uint8_t val)
 }
 #endif
 
-#ifdef __FreeBSD__
+#ifdef FREEBSD_COMPILE
 static int device_io_open(void)
 {
     io_fd = open("/dev/io", O_RDWR);
@@ -143,7 +143,7 @@ static void device_io_close(void)
 }
 #endif
 
-#if !defined(__FreeBSD__) && (defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM))
+#if !defined(FREEBSD_COMPILE) && (defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM))
 static void setaccess(u_long * map, u_int bit, int allow)
 {
     u_int word;
@@ -162,7 +162,7 @@ static void setaccess(u_long * map, u_int bit, int allow)
 }
 #endif
 
-#if defined(__NetBSD__) && defined(HAVE_I386_SET_IOPERM)
+#if defined(NETBSD_COMPILE) && defined(HAVE_I386_SET_IOPERM)
 static int vice_set_ioperm(unsigned long *iomap)
 {
     struct i386_set_ioperm_args arg;
@@ -180,7 +180,7 @@ static int vice_get_ioperm(unsigned long *iomap)
 }
 #endif
 
-#if defined(__NetBSD__) && defined(HAVE_LIBAMD64)
+#if defined(NETBSD_COMPILE) && defined(HAVE_LIBAMD64)
 static int vice_set_ioperm(unsigned long *iomap)
 {
     struct x86_64_set_ioperm_args arg;
@@ -198,7 +198,7 @@ static int vice_get_ioperm(unsigned long *iomap)
 }
 #endif
 
-#if defined(__OpenBSD__) && defined(HAVE_I386_SET_IOPERM)
+#if defined(OPENBSD_COMPILE) && defined(HAVE_I386_SET_IOPERM)
 static int vice_set_ioperm(unsigned long *iomap)
 {
     return i386_set_ioperm(iomap);
@@ -210,7 +210,7 @@ static int vice_get_ioperm(unsigned long *iomap)
 }
 #endif
 
-#if defined(__OpenBSD__) && defined(HAVE_LIBAMD64)
+#if defined(OPENBSD_COMPILE) && defined(HAVE_LIBAMD64)
 static int vice_set_ioperm(unsigned long *iomap)
 {
     return amd64_set_ioperm(iomap);
@@ -222,7 +222,7 @@ static int vice_get_ioperm(unsigned long *iomap)
 }
 #endif
 
-#if defined(__NetBSD__) && (defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM))
+#if defined(NETBSD_COMPILE) && (defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM))
 #define VICE_OUTB_DEFINED
 static inline void vice_outb(uint16_t port, uint8_t val)
 {
@@ -265,7 +265,7 @@ static inline uint8_t vice_inb(uint16_t port)
     return inb_p(port);
 }
 #  else
-#    ifdef __OpenBSD__
+#    ifdef OPENBSD_COMPILE
 static inline void vice_outb(uint16_t port, uint8_t val)
 {
     outb(port, val);
@@ -313,7 +313,7 @@ uint8_t io_access_read(uint16_t addr)
 int io_access_map(uint16_t addr, uint16_t space)
 {
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
-#  ifndef __FreeBSD__
+#  ifndef FREEBSD_COMPILE
     int i;
     u_long iomap[32];
 #  endif
@@ -333,7 +333,7 @@ int io_access_map(uint16_t addr, uint16_t space)
 #endif
 
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
-#  ifndef __FreeBSD__
+#  ifndef FREEBSD_COMPILE
     if (vice_get_ioperm(iomap) != -1) {
         for (i = 0; i < space; ++i) {
             setaccess(iomap, addr + i, 1);
@@ -360,7 +360,7 @@ int io_access_map(uint16_t addr, uint16_t space)
 void io_access_unmap(uint16_t addr, uint16_t space)
 {
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
-#  ifndef __FreeBSD__
+#  ifndef FREEBSD_COMPILE
     int i;
     u_long iomap[32];
 #  endif
@@ -378,7 +378,7 @@ void io_access_unmap(uint16_t addr, uint16_t space)
 #endif
 
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
-#  ifndef __FreeBSD__
+#  ifndef FREEBSD_COMPILE
     if (vice_get_ioperm(iomap) != -1) {
         for (i = 0; i < space; ++i) {
             setaccess(iomap, addr + i, 0);

@@ -197,19 +197,20 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"sgi" },
 #endif
-#if defined(HAVE_SYS_AUDIOIO_H) && !defined(__NetBSD__) && !defined(__OpenBSD__)
+#if defined(HAVE_SYS_AUDIOIO_H) && !defined(OPENBSD_COMPILE)
+# if !defined(NETBSD_COMPILE)
     { "Sun audio",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"sun" },
-#endif
-#if defined(HAVE_SYS_AUDIOIO_H) && defined(__NetBSD__) && !defined(__OpenBSD__)
+# else
     { "NetBSD",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"netbsd" },
+# endif
 #endif
-#if defined(USE_OSS) && !defined(__FreeBSD__) && !defined(__bsdi__)
+#if defined(USE_OSS) && !defined(FREEBSD_COMPILE)
     { "OSS",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,

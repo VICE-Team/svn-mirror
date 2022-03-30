@@ -54,7 +54,7 @@ static log_t bsd_joystick_log;
 #include <usb.h>
 #endif
 
-#ifdef __DragonFly__
+#ifdef DRAGONFLYBSD_COMPILE
 /* sys/param.h contains the __DragonFly_version macro */
 # include <sys/param.h>
 # if __DragonFly_version >= 300200
@@ -67,7 +67,7 @@ static log_t bsd_joystick_log;
 #  include <bus/usb/usbhid.h>
 # endif
 #else
-# ifdef __FreeBSD__
+# ifdef FREEBSD_COMPILE
 #  include <sys/ioccom.h>
 # endif
 # include <dev/usb/usb.h>
@@ -278,7 +278,7 @@ void usb_joystick_init(void)
             continue;
         }
 
-#if defined(USB_GET_REPORT_IDusb_joy_add_item) && !defined(__DragonFly__)
+#if defined(USB_GET_REPORT_IDusb_joy_add_item) && !defined(DRAGONFLYBSD_COMPILE)
         if (ioctl(fd, USB_GET_REPORT_ID, &id) < 0) {
             log_warning(bsd_joystick_log, "Cannot get report id for joystick device `%s'.", dev);
             close(fd);
