@@ -105,6 +105,17 @@
 # define WIN32_LEAN_AND_MEAN
 #endif
 
+/* Provide define for checking 32/64-bit Windows
+ *
+ * No need for WIN32_COMPILE, just use !WIN64_COMPILE. Avoid confusion with the
+ * old WIN23_COMPILE define.
+ */
+#ifdef WINDOWS_COMPILE
+# ifdef _WIN64
+#  define WIN64_COMPILE
+# endif
+#endif
+
 /* some attribute defines that are useful mostly for static analysis */
 /* see https://clang.llvm.org/docs/AttributeReference.html */
 #ifdef __clang__

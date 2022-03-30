@@ -47,7 +47,12 @@
 #else
 /* Compatibility with VICE's defines (keeps hits in src/findhacks.sh low): */
 # ifdef _WIN32
+/* Windows */
 #  define WINDOWS_COMPILE
+#  ifdef _WIN64
+/* 64-bit Windows */
+#   define WIN64_COMPILE
+#  endif
 # endif
 #endif
 
