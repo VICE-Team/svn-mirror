@@ -32,7 +32,7 @@
 
 #include "vice.h"
 
-#if defined(USE_OSS) && !defined(__FreeBSD__) && !defined(__bsdi__)
+#if defined(USE_OSS) && !defined(FREEBSD_COMPILE)
 
 #include <stdio.h>
 #include <stdlib.h>
