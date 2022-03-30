@@ -43,7 +43,7 @@ function checktabs
         grep -v '/monitor/mon_lex.c' | \
         grep -v '/arch/mingw32-pcap/wpcap/' | \
         grep -v '/arch/gtk3/novte/box_drawing.h' | \
-        grep -v "/lib/" > .checktabs
+        grep -v "/lib/" >> .checktabs
 # find TABs
     while IFS= read -r line
     do
@@ -72,7 +72,7 @@ function checkwhitespace
         grep -v '/monitor/mon_lex.c' | \
         grep -v '/arch/mingw32-pcap/wpcap/' | \
         grep -v '/arch/gtk3/novte/box_drawing.h' | \
-        grep -v "/lib/" > .checkws
+        grep -v "/lib/" >> .checkws
 # find trailing whitespace
     while IFS= read -r line
     do
