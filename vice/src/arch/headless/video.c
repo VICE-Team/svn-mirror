@@ -151,7 +151,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 }
 
 /** \brief Update the display on a video canvas to reflect the machine
- *         state. 
+ *         state.
  * \param canvas The canvas to update.
  * \param xs     A parameter to forward to video_canvas_render()
  * \param ys     A parameter to forward to video_canvas_render()

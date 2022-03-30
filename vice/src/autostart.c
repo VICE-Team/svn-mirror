@@ -789,7 +789,7 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 
     /* Make sure breakpoints are still working after loading the snapshot */
     mon_update_all_checkpoint_state();
-    
+
     /* Enter monitor after done */
     if (trigger_monitor) {
         trigger_monitor = 0;
@@ -802,7 +802,7 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 
 /* Reset autostart.  */
 /* FIXME: cbm2 and pet pass 0,0 into this function before loading
-            kernal ... why is this? 
+            kernal ... why is this?
 
     default_seconds : initial delay before checking for READY
     handle_tde : if zero, "handle tde at autostart" will never be done
@@ -829,7 +829,7 @@ static void autostart_reinit(int default_seconds, int handle_tde)
 
 /* Initialize autostart.  */
 /* FIXME: cbm2 and pet pass 0,0 into this function before loading
-            kernal ... why is this? 
+            kernal ... why is this?
 
     default_seconds : initial delay before checking for READY
     handle_tde : if zero, "handle tde at autostart" will never be done
@@ -2073,7 +2073,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         return 0;
     }
 
-    if ((machine_class == VICE_MACHINE_C64) || 
+    if ((machine_class == VICE_MACHINE_C64) ||
         (machine_class == VICE_MACHINE_C64SC) ||
         (machine_class == VICE_MACHINE_SCPU64) ||
         (machine_class == VICE_MACHINE_VIC20) ||

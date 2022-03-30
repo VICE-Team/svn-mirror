@@ -481,7 +481,7 @@ void cartridge_set_default(void)
 #if 0
             if (crt_getid(cartfile) > 0) {
                 type = CARTRIDGE_CRT;
-            } else 
+            } else
 #endif
             {
                 type = plus4cart_type;

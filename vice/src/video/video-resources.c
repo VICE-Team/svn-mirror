@@ -142,7 +142,7 @@ static int set_double_scan_enabled(int val, void *param)
     canvas->videoconfig->color_tables.updated = 0;
 
     video_canvas_refresh_all(canvas);
-    
+
     return 0;
 }
 
@@ -202,7 +202,7 @@ static int set_chip_rendermode(int val, void *param)
     lib_free(dsize);
 
     video_canvas_refresh_all(canvas);
-    
+
     return 0;
 }
 
@@ -233,7 +233,7 @@ static int set_fullscreen_enabled(int value, void *param)
         (void) (video_chip_cap->fullscreen.statusbar)(canvas, 1);
         r = (video_chip_cap->fullscreen.enable)(canvas, val);
     }
-    
+
     return r;
 }
 
@@ -556,7 +556,7 @@ static int set_audioleak(int val, void *param)
     return 0;
 }
 
-static const char * const vname_chip_crtemu[] = { 
+static const char * const vname_chip_crtemu[] = {
     "PALScanLineShade", "PALBlur", "PALOddLinePhase", "PALOddLineOffset", "PALDelaylineType", "AudioLeak", NULL };
 
 static resource_int_t resources_chip_crtemu[] =

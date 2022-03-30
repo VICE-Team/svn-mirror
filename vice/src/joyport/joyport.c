@@ -1573,7 +1573,7 @@ int joyport_snapshot_write_module(struct snapshot_s *s, int port)
     sprintf(snapshot_name, "JOYPORT%d", port);
 
     m = snapshot_module_create(s, snapshot_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

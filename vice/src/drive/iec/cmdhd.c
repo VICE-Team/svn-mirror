@@ -1533,7 +1533,7 @@ int cmdhd_snapshot_write_module(cmdhd_context_t *drv, struct snapshot_s *s)
         || SMW_B(m, drv->LEDs) < 0
         || SMW_BA(m, drv->i8255a_i, 3) < 0
         || SMW_BA(m, drv->i8255a_o, 3) < 0
-        || SMW_B(m, drv->scsi_dir) < 0 
+        || SMW_B(m, drv->scsi_dir) < 0
         || SMW_B(m, drv->preadyff) < 0 ) {
         snapshot_module_close(m);
         return -1;
@@ -1590,7 +1590,7 @@ int cmdhd_snapshot_read_module(cmdhd_context_t *drv, struct snapshot_s *s)
         || SMR_B(m, &drv->LEDs) < 0
         || SMR_BA(m, drv->i8255a_i, 3) < 0
         || SMR_BA(m, drv->i8255a_o, 3) < 0
-        || SMR_B(m, &drv->scsi_dir) < 0  
+        || SMR_B(m, &drv->scsi_dir) < 0
         || SMR_B(m, &drv->preadyff) < 0 ) {
         snapshot_module_close(m);
         return -1;

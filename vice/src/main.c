@@ -122,7 +122,7 @@ int main_program(int argc, char **argv)
      * The init lock guarantees that all main thread init outcomes are visible
      * to the VICE thread.
      */
-    
+
     pthread_mutex_lock(&init_lock);
 
     archdep_thread_init();
@@ -143,7 +143,7 @@ int main_program(int argc, char **argv)
         lib_free(p); /* free old pointer */
     }
 
-    /* Check for some options at the beginning of the commandline before 
+    /* Check for some options at the beginning of the commandline before
        initializing the user interface or loading the config file.
        -default => use default config, do not load any config
        -config  => use specified configuration file

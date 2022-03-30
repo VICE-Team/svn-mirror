@@ -80,8 +80,8 @@ static int check_memory_expansion(int memory, int type)
 
 static int has_fs(void)
 {
-    if (machine_class == VICE_MACHINE_CBM5x0 || 
-        machine_class == VICE_MACHINE_CBM6x0 || 
+    if (machine_class == VICE_MACHINE_CBM5x0 ||
+        machine_class == VICE_MACHINE_CBM6x0 ||
         machine_class == VICE_MACHINE_PET) {
         return 0;
     }

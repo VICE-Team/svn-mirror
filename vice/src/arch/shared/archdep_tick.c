@@ -84,7 +84,7 @@ tick_t tick_per_second(void)
 tick_t tick_now(void)
 {
     LARGE_INTEGER time_now;
-    
+
     QueryPerformanceCounter(&time_now);
 
     return (tick_t)(time_now.QuadPart / ((double)timer_frequency.QuadPart / TICK_PER_SECOND));
@@ -155,10 +155,10 @@ void tick_sleep(tick_t sleep_ticks)
 {
 #ifdef OVERSLEEP_COMPENSATION
 #   define OVERSLEEP_PUSH_FACTOR (0.99)
-    
+
     tick_t before_yield_tick = tick_now(); /* do this asap. */
     tick_t adjusted_sleep_ticks;
-    
+
     static double rolling_oversleep_ticks;
     tick_t slept_ticks;
     tick_t oversleep_ticks;
@@ -169,7 +169,7 @@ void tick_sleep(tick_t sleep_ticks)
      * and uses it to request a shorter sleep, followed by a hotloop up to
      * the originally requested time. This yields more accurate timing at
      * a small cost to CPU usage.
-     * 
+     *
      * Disabled by default for now.
      */
 
@@ -193,11 +193,11 @@ void tick_sleep(tick_t sleep_ticks)
     while (tick_now_delta(before_yield_tick) < sleep_ticks) {
         /* hot loop to catch up */
     }
-    
+
 #else /*#ifdef OVERSLEEP_COMPENSATION */
 
     sleep_impl(sleep_ticks);
-    
+
 #endif
 }
 
@@ -205,14 +205,14 @@ tick_t tick_now_after(tick_t previous_tick)
 {
     /*
      * Fark, high performance counters, called from different threads / cpus, can be off by 1 tick.
-     * 
+     *
      *    "When you compare performance counter results that are acquired from different
      *     threads, consider values that differ by +/- 1 tick to have an ambiguous ordering.
      *     If the time stamps are taken from the same thread, this +/- 1 tick uncertainty
      *     doesn't apply. In this context, the term tick refers to a period of time equal
      *     to 1 divided by (the frequency of the performance counter obtained from
      *     QueryPerformanceFrequency)."
-     * 
+     *
      * https://docs.microsoft.com/en-us/windows/win32/sysinfo/acquiring-high-resolution-time-stamps#guidance-for-acquiring-time-stamps
      */
 
@@ -221,7 +221,7 @@ tick_t tick_now_after(tick_t previous_tick)
     if (after == previous_tick - 1) {
         after = previous_tick;
     }
-    
+
     return after;
 }
 

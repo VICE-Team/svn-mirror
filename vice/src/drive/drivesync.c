@@ -61,7 +61,7 @@ void drive_set_machine_parameter(long cycles_per_sec)
     }
 }
 
-void drivesync_set_1571(struct diskunit_context_s *drv, int new_sync) 
+void drivesync_set_1571(struct diskunit_context_s *drv, int new_sync)
 {
     unsigned int dnr;
 

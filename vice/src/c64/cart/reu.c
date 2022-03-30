@@ -825,7 +825,7 @@ inline static void reu_clk_inc_post_write(void)
     if (reu_ba.enabled) {
         maincpu_clk++;
         if (reu_ba.check()) {
-            reu_ba.delay++; 
+            reu_ba.delay++;
         } else {
             reu_ba.delay = 0;
         }

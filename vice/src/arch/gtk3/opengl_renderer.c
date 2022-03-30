@@ -241,7 +241,7 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     }
 
     CANVAS_UNLOCK();
-    
+
     /* Update the size of the native child window to match the gtk drawing area */
     vice_opengl_renderer_resize_child_view(context);
 }

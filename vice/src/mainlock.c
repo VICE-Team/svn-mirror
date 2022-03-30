@@ -74,7 +74,7 @@ void mainlock_set_vice_thread(void)
     vice_thread = pthread_self();
     vice_thread_is_running = true;
     pthread_mutex_unlock(&internal_lock);
-    
+
     /* The vice thread owns this lock except when explicitly releasing it */
     pthread_mutex_lock(&main_lock);
 }
@@ -97,7 +97,7 @@ static void consider_exit(void)
 
         /* Setting this lets the UI thread know not to wait for signals in future mainlock_obtain() calls */
         vice_thread_is_running = false;
-        
+
         if (ui_is_waiting) {
             /* Wake up the UI thread, otherwise it will be waiting forever */
             pthread_cond_signal(&ui_waiting_cond);
@@ -105,13 +105,13 @@ static void consider_exit(void)
 
         pthread_mutex_unlock(&internal_lock);
         pthread_mutex_unlock(&main_lock);
-        
+
         log_message(LOG_DEFAULT, "VICE thread is exiting");
 
         archdep_thread_shutdown();
 
         pthread_exit(NULL);
-        
+
         /*
          * EXECUTION DOES NOT REACH HERE - pthread_exit() does not return
          */
@@ -134,7 +134,7 @@ void mainlock_initiate_shutdown(void)
     }
     vice_thread_keepalive = false;
     pthread_mutex_unlock(&internal_lock);
-    
+
     log_message(LOG_DEFAULT, "VICE thread initiating shutdown");
 
     /* If called on the vice thread itself, run the exit code immediately */
@@ -159,7 +159,7 @@ void mainlock_yield(void)
 void mainlock_yield_begin(void)
 {
     pthread_mutex_unlock(&main_lock);
-    
+
     /*
      * If the UI thread is already waiting for the mainlock, attempt
      * to wake it immediately and block until it has it. This ensures
@@ -182,7 +182,7 @@ void mainlock_yield_begin(void)
 void mainlock_yield_end(void)
 {
     pthread_mutex_lock(&main_lock);
-    
+
     /* After the UI *might* have had the lock, check if we should exit. */
     consider_exit();
 }
@@ -206,7 +206,7 @@ void mainlock_obtain(void)
          * Bad - likely the vice thread directly triggered some UI code.
          * That UI code then generated a signal which is then synchronously
          * pushed through to the handler, which tries to obtain the lock.
-         * 
+         *
          * The solution is ALWAYS to make VICE asynchronously trigger the
          * UI code.
          */
@@ -226,21 +226,21 @@ void mainlock_obtain(void)
     if (main_lock_obtain_depth++ > 0) {
         return;
     }
-    
+
     pthread_mutex_lock(&internal_lock);
-    
+
     if (vice_thread_is_running) {
         /* Block until the VICE thread signals us */
         ui_is_waiting = true;
         pthread_cond_wait(&ui_waiting_cond, &internal_lock);
         ui_is_waiting = false;
     }
-    
+
     pthread_mutex_unlock(&internal_lock);
-    
+
     /* Get the main lock */
     pthread_mutex_lock(&main_lock);
-    
+
     /* Let the VICE thread know we have the mainlock now */
     pthread_cond_signal(&ui_has_lock_cond);
 }
@@ -261,7 +261,7 @@ void mainlock_release(void)
         return;
     }
 #endif
-    
+
     pthread_mutex_unlock(&main_lock);
 
     main_lock_obtain_depth--;

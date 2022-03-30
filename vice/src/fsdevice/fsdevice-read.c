@@ -500,7 +500,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
          */
 
         *p++ = '"';
-        
+
         fsdevice_limit_namelength(vdrive, finfo->name);
 
         for (i = 0; finfo->name[i] && (*p = finfo->name[i]); ++i, ++p) {

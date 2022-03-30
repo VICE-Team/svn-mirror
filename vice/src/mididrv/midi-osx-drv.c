@@ -221,7 +221,7 @@ static int create_client(void)
 {
     if (midi_client_usage == 0) {
         log_message(mididrv_log, "Opening MIDI client '%s'", midi_name);
-        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_name, kCFStringEncodingUTF8); 
+        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_name, kCFStringEncodingUTF8);
         OSStatus status = MIDIClientCreate(name, NULL, NULL, &midi_client);
         CFRelease(name);
         if (status != noErr) {
@@ -248,7 +248,7 @@ static void dispose_client(void)
 static void midi_read_proc(const MIDIPacketList *pktlist, void *refCon, void *connRefCon)
 {
     unsigned int i,j;
-    
+
     const MIDIPacket *packet = pktlist->packet;
     for (i = 0; i < pktlist->numPackets; ++i) {
         for (j = 0; j < packet->length; j++) {
@@ -266,7 +266,7 @@ static void dump_sources(void)
     unsigned long n;
     CFStringRef pname;
     char name[64];
-    
+
     n = MIDIGetNumberOfSources();
     log_message(mididrv_log,"found %lu sources", n);
     for (i = 0 ; i < n; ++i) {
@@ -285,7 +285,7 @@ static void dump_destinations(void)
     unsigned long n;
     CFStringRef pname;
     char name[64];
-    
+
     n = MIDIGetNumberOfDestinations();
     log_message(mididrv_log, "found %lu destinations", n);
     for (i = 0; i < n; ++i) {
@@ -317,7 +317,7 @@ int mididrv_in_open(void)
     if (midi_destination_usage == 0) {
         log_message(mididrv_log, "Opening MIDI-In port '%s'", midi_in_name);
 
-        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_in_name, kCFStringEncodingUTF8); 
+        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_in_name, kCFStringEncodingUTF8);
         OSStatus status = MIDIDestinationCreate(midi_client, name, midi_read_proc, NULL, &midi_destination);
         CFRelease(name);
         if (status != noErr) {
@@ -340,11 +340,11 @@ int mididrv_out_open(void)
     if (create_client() < 0) {
         return -1;
     }
-    
+
     if (midi_source_usage == 0) {
         log_message(mididrv_log, "Opening MIDI-Out port '%s'", midi_out_name);
 
-        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_out_name, kCFStringEncodingUTF8); 
+        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_out_name, kCFStringEncodingUTF8);
         OSStatus status = MIDISourceCreate(midi_client, name, &midi_source);
         CFRelease(name);
         if (status != noErr) {

@@ -71,7 +71,7 @@ static const struct model_s plus4models[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia, 
+static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia,
                                const char *plus1loname,
                                const char *plus1hiname,
                                const char* c2loname,

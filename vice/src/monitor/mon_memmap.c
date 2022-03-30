@@ -137,7 +137,7 @@ void monitor_cpuhistory_store(CLOCK cycle, unsigned int addr, unsigned int op,
     if (machine_is_jammed()) {
         return;
     }
-    
+
     ++cpuhistory_i;
     if (cpuhistory_i == cpuhistory_lines) {
         cpuhistory_i = 0;

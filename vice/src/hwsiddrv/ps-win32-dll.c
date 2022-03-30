@@ -340,7 +340,7 @@ static BYTE detect_sid_read(int chipno, BYTE addr)
     BYTE ctl = ps_dll_in_ctr(chipno);
 
     ps_dll_out_data((BYTE)(addr & 0x1f), chipno);
-    
+
     ctl &= ~parsid_AUTOFEED;
     ps_dll_out_ctr(ctl, chipno);
 

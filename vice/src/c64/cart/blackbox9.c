@@ -58,14 +58,14 @@
     - 32k ROM, 2*16k (16K Game mode)
       - starts from bank 1 in ultimax mode
     - cart ROM mirror is visible in IO1
-    
+
     a register is mapped to IO1, which is changed by accessing an address in
     the IO space, the address bits are mapped like this:
-    
+
     bit 7   -   bank    (inverted on write)
     bit 6   -   exrom
     bit 0   -   game
-    
+
 */
 
 /* #define BB9DEBUG */

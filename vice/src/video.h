@@ -169,7 +169,7 @@ struct video_render_color_tables_s {
     int32_t line_yuv_0[VIDEO_MAX_OUTPUT_WIDTH * 3];
     int16_t prevrgbline[VIDEO_MAX_OUTPUT_WIDTH * 3];
     uint8_t rgbscratchbuffer[VIDEO_MAX_OUTPUT_WIDTH * 4];
-    
+
     /*
      * All values below here formerly were globals in video-color.h.
      * This resulted in palette leaks between multiple rendering windows (VDC / VICII)
@@ -184,7 +184,7 @@ struct video_render_color_tables_s {
 
     /* optional alpha value for 32bit rendering */
     uint32_t alpha;
-    
+
     uint32_t color_red[256];
     uint32_t color_grn[256];
     uint32_t color_blu[256];

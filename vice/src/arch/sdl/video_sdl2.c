@@ -283,7 +283,7 @@ static void recreate_canvas_textures(video_canvas_t *canvas)
 {
     SDL_Surface *surface;
     int width, height;
-    
+
     if (!canvas || !canvas->container) {
         return;
     }
@@ -294,14 +294,14 @@ static void recreate_canvas_textures(video_canvas_t *canvas)
     }
     width = surface->w;
     height = surface->h;
-    
+
     /* This hint controls the scaling mode of textures created afterwards */
     if (sdl_gl_filter_res == SDL_FILTER_LINEAR) {
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     } else {
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
     }
-    
+
     if (canvas->texture) {
         SDL_DestroyTexture(canvas->texture);
     }
@@ -310,7 +310,7 @@ static void recreate_canvas_textures(video_canvas_t *canvas)
         log_error(sdlvideo_log, "SDL_CreateTexture() failed on recreation: %s\n", SDL_GetError());
         return;
     }
-    
+
     if (canvas->previous_frame_texture) {
         SDL_DestroyTexture(canvas->previous_frame_texture);
     }
@@ -325,7 +325,7 @@ static void recreate_canvas_textures(video_canvas_t *canvas)
 static void recreate_all_textures(void)
 {
     int i;
-    
+
     for (i = 0; i < sdl_num_screens; ++i) {
         recreate_canvas_textures(sdl_canvaslist[i]);
     }
@@ -849,10 +849,10 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 
     /* Upload the new frame to the GPU texture. TODO: use SDL_LockTexture for this as the docs day it's faster. */
     SDL_UpdateTexture(canvas->texture, NULL, canvas->screen->pixels, canvas->screen->pitch);
-    
+
     /* Render. */
     SDL_RenderClear(canvas->container->renderer);
-    
+
     if (canvas->videoconfig->interlaced && !sdl_menu_state) {
         /*
          * Interlaced mode: Re-render last frame to render new frame over.
@@ -866,9 +866,9 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
         SDL_SetTextureBlendMode(canvas->texture, SDL_BLENDMODE_NONE);
     }
     SDL_RenderCopyEx(canvas->container->renderer, canvas->texture, NULL, NULL, 0, NULL, flip);
-    
+
     SDL_RenderPresent(canvas->container->renderer);
-    
+
     /* Swap the textures references so we can easily re-render this frame under the next frame. */
     texture_swap = canvas->previous_frame_texture;
     canvas->previous_frame_texture = canvas->texture;

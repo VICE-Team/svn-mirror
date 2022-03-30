@@ -615,7 +615,7 @@ static int vice_network_address_generate_ipv4(
                     /* something weird happened... SHOULD NOT HAPPEN! */
                     log_message(LOG_DEFAULT,
                                 "gethostbyname() returned an IPv4 address, "
-                                "but the length is wrong: %d", 
+                                "but the length is wrong: %d",
                                 host_entry->h_length );
                     break;
                 }

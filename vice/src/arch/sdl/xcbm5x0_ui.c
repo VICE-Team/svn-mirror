@@ -191,7 +191,7 @@ static ui_menu_entry_t xcbm5x0_main_menu[] = {
 #endif
 static UI_MENU_CALLBACK(pause_callback_wrapper2)
 {
-    xcbm5x0_main_menu[MENU2_ADVANCE_FRAME_IDX].status = 
+    xcbm5x0_main_menu[MENU2_ADVANCE_FRAME_IDX].status =
         sdl_pause_state || !sdl_menu_state ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     xcbm5x0_main_menu[MENU2_VIRTUAL_KEYBOARD_IDX].status =
         sdl_pause_state ? MENU_STATUS_INACTIVE : MENU_STATUS_ACTIVE;

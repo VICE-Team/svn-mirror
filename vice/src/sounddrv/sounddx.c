@@ -334,7 +334,7 @@ static int dx_init(const char *param, int *speed, int *fragsize, int *fragnr,
             ui_error("Cannot initialize DirectSound:\n%s", ds_error(result));
             return -1;
         }
-        
+
         if (console_mode || video_disabled_mode) {
             result = IDirectSound_SetCooperativeLevel(ds, GetForegroundWindow() ? GetForegroundWindow() : GetDesktopWindow(), DSSCL_PRIORITY);
         } else {

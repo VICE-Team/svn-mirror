@@ -243,8 +243,8 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
 
     if (slot) {
         /* file exists */
-        if ((cmd_parse->command && 
-             (cmd_parse->commandlength > 0) && 
+        if ((cmd_parse->command &&
+             (cmd_parse->commandlength > 0) &&
              (cmd_parse->command[0] == '@')) || /* overwrite with @:filename */
             (((slot[SLOT_TYPE_OFFSET] & 0x80) == 0) &&
              ((slot[SLOT_TYPE_OFFSET] & 7) != CBMDOS_FT_REL)) /* overwrite 'splat file' */

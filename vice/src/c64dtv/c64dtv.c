@@ -1058,7 +1058,7 @@ int machine_addr_in_ram(unsigned int addr)
     if (maincpu_clk <= 6817181 && addr >= 0x824 && addr <= 0x884) {
         return 0;
     }
-    
+
 #if 0
     /*
      * If autostart stops working on DTV, use this to check if the splash screen is

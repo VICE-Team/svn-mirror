@@ -189,7 +189,7 @@ static video_cbm_color_t vic_colors_6561_101[VIC_NUM_COLORS] =
     { 0.748 * 256.0,          54.83 - 180.0, 0.137 * 256.0, -1, "Light Purple" },
     { 0.845 * 256.0,         238.95 - 360.0, 0.152 * 256.0,  1, "Light Green"  },
     { 0.660 * 256.0,         355.48 - 360.0, 0.112 * 256.0,  1, "Light Blue"   },
-    { 0.943 * 256.0,         174.35 - 180.0, 0.134 * 256.0, -1, "Light Yellow" } 
+    { 0.943 * 256.0,         174.35 - 180.0, 0.134 * 256.0, -1, "Light Yellow" }
 };
 
 static video_cbm_color_t vic_colors_6561_101_odd[VIC_NUM_COLORS] =

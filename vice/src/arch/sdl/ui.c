@@ -95,7 +95,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
 
         switch (e.window.event) {
             case SDL_WINDOWEVENT_RESIZED:
-                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d)", 
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d)",
                      e.window.data1, e.window.data2));
                 sdl2_video_resize_event(canvas->index, (unsigned int)e.window.data1, (unsigned int)e.window.data2);
                 video_canvas_refresh_all(sdl_active_canvas);

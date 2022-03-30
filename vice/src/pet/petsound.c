@@ -60,7 +60,7 @@ static int pet_sound_machine_channels(void)
 
 /* PET userport sound device */
 static sound_chip_t pet_sound_chip = {
-    NULL,                                /* NO sound chip open function */ 
+    NULL,                                /* NO sound chip open function */
     pet_sound_machine_init,              /* sound chip init function */
     NULL,                                /* NO sound chip close function */
     pet_sound_machine_calculate_samples, /* sound chip calculate samples function */

@@ -71,7 +71,7 @@ static int set_border_mode(int val, void *param)
         default:
             return -1;
     }
-    
+
     next_border_mode = val;
     vsync_on_vsync_do(on_vsync_set_border_mode, NULL);
 

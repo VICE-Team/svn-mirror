@@ -1395,7 +1395,7 @@ void machine_autostart_reset_c64(void)
 {
     /* autostart_reinit(3, 1); */
 }
- 
+
 /* ------------------------------------------------------------------------- */
 
 /* This hook is called at the end of every frame.  */

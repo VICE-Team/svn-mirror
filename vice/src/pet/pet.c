@@ -144,12 +144,12 @@ int machine_get_keyboard_type(void)
 
 char *machine_get_keyboard_type_name(int type)
 {
-    static char names[KBD_TYPE_NUM][5] = { 
+    static char names[KBD_TYPE_NUM][5] = {
         KBD_TYPE_STR_BUSINESS_UK,
-        KBD_TYPE_STR_BUSINESS_US, 
-        KBD_TYPE_STR_BUSINESS_DE, 
-        KBD_TYPE_STR_BUSINESS_JP, 
-        KBD_TYPE_STR_GRAPHICS_US 
+        KBD_TYPE_STR_BUSINESS_US,
+        KBD_TYPE_STR_BUSINESS_DE,
+        KBD_TYPE_STR_BUSINESS_JP,
+        KBD_TYPE_STR_GRAPHICS_US
     };
     return names[type]; /* return 0 if no different types exist */
 }

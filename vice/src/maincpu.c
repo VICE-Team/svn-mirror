@@ -184,7 +184,7 @@
 
 #define LOAD_ZERO_ADDR_DUMMY(addr) \
     (LOAD_ZERO_DUMMY(addr) | (LOAD_ZERO_DUMMY((addr) + 1) << 8))
-    
+
 /* Those may be overridden by the machine stuff.  Probably we want them in
    the .def files, but if most of the machines do not use, we might keep it
    here and only override it where needed.  */

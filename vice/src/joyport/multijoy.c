@@ -239,7 +239,7 @@ static int multijoy_write_snapshot(struct snapshot_s *s, int p)
         return -1;
     }
 
-    if (0 
+    if (0
         || SMW_B(m, multijoy_address) < 0) {
             snapshot_module_close(m);
             return -1;

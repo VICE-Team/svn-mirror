@@ -77,7 +77,7 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
     int er;
 
     DBG(("fsdevice_flush_cd '%s'\n", arg));
-    
+
     /* guard against NULL */
     if (arg == NULL) {
         return CBMDOS_IPE_SYNTAX;
@@ -124,7 +124,7 @@ static int fsdevice_flush_mkdir(vdrive_t *vdrive, char *arg)
     char *path;
 
     DBG(("fsdevice_flush_mkdir '%s'\n", arg));
-    
+
     /* get proper FS device path */
     prefix = fsdevice_get_path(vdrive->unit);
 
@@ -215,7 +215,7 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
     unsigned int format = 0, rc;
 
     DBG(("fsdevice_flush_rename '%s'\n", realarg));
-    
+
     tmp = strchr(realarg, '=');
 
     if (tmp == NULL) {
@@ -245,7 +245,7 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
 
     DBG(("fsdevice_flush_rename '%s' to '%s'\n", realsrc, dest));
     rc = fileio_rename(realsrc, dest, fsdevice_get_path(vdrive->unit), format);
-    
+
     lib_free(realsrc);
 
     switch (rc) {
@@ -266,7 +266,7 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
 
     /* FIXME: we need to handle a comma seperated list of files to scratch */
     DBG(("fsdevice_flush_scratch '%s'\n", realarg));
-    
+
     if (realarg == NULL || *realarg == '\0') {
         return CBMDOS_IPE_SYNTAX;
     }
@@ -674,7 +674,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     }
 
     DBG(("fsdevice_flush arg:'%s' realarg:'%s'\n", arg, realarg));
-    
+
     /*
                                             '41 '71 '81  FD
        i                                      *   *   *   *    initialize disk
@@ -686,12 +686,12 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
        d:                                   n/a n/a n/a n/a    backup
 
        p chn lo hi pos                        *   *   *   *    pointer positioning (REL)
-       
+
        b-r chn drv trk sec                    *   *   *   *    block-read
        u1  chn drv trk sec                    *   *   *   *    "
        ua  chn drv trk sec                    *   *   *        "
        b-R chn drv trk sec                  n/a n/a   *        block-read without range check
-       b-w chn drv trk sec                    *   *   *   *    block-write 
+       b-w chn drv trk sec                    *   *   *   *    block-write
        u2  chn drv trk sec                    *   *   *   *    "
        ub  chn drv trk sec                    *   *   *        "
        b-W chn drv trk sec                  n/a n/a   *        block-write without range check
@@ -700,9 +700,9 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
        b-f drv trk sec                        *   *   *   *    block-free
        b-e chn drv trk sec                    *   *   *   *    block execute
 
-       u9/ui                                  *   *   *   *    switch mode (NMI,warmstart)       
+       u9/ui                                  *   *   *   *    switch mode (NMI,warmstart)
        u:/uj                                  *   *   *   *    reset (powerup)
-       
+
        u3/uc                                  *   *   *   *    start at $0500
        u4/ud                                  *   *   *   *    start at $0503
        u5/ue                                  *   *   *   *    start at $0506
@@ -715,30 +715,30 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
        u0>side                              n/a   * n/a n/a    select active disk side
        u0>devnr                             n/a   * n/a n/a    set device nr.
        u0+cmd                               n/a n/a   *   *    burst utility cmd
-       
+
        cd                                   n/a n/a n/a   *    change directory
-       cd_                                  n/a n/a n/a    
-       cd:_                                 n/a n/a n/a   * 
-       
+       cd_                                  n/a n/a n/a
+       cd:_                                 n/a n/a n/a   *
+
        /<drv>:name trk src lenlo lenhi,c    n/a n/a   *        partition (create)
        /<drv>:name                          n/a n/a   *        partition (activate)
-       
+
        md                                   n/a n/a n/a   *    make directory
        rd                                   n/a n/a n/a   *    remove directory
-       
+
        cp<num>                              n/a n/a n/a   *    change partition
        g-p                                  n/a n/a n/a   *    get partition info
-       
+
        t-ra                                 n/a n/a n/a   *    read RTC (ascii format)
        t-wa                                 n/a n/a n/a   *    write RTC (ascii format)
        t-rd                                 n/a n/a n/a   *    read RTC (decimal ormat)
        t-wd                                 n/a n/a n/a   *    write RTC (decimal format)
-       
+
        r-h:<name>                           n/a n/a n/a   *    change directory header
        l:<name>                             n/a n/a n/a   *    (un)lock file (toggle)
        w-<state>                            n/a n/a n/a   *    set disk write protection
-       s-<dev>                              n/a n/a n/a   *    swap device nr.             
-       g-d                                  n/a n/a n/a   *    get disk change status     
+       s-<dev>                              n/a n/a n/a   *    swap device nr.
+       g-d                                  n/a n/a n/a   *    get disk change status
 
     */
     if (!strcmp(cmd, "u0")) {

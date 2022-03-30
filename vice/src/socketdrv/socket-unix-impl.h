@@ -34,7 +34,7 @@
 #define VICE_SOCKET_UNIX_IMPL_H
 
 #ifdef HAVE_NETWORK
- 
+
 #if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
 #include <sys/resource.h>
 #endif

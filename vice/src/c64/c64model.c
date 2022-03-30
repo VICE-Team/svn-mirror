@@ -137,12 +137,12 @@ static struct model_s c64models[] = {
 
     /* SX64 PAL, FIXME: guessed */
     { MACHINE_SYNC_PAL, OLD_CIA, OLD_SID, BOARD_C64,
-      IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, 
+      IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
       "sxkernal", "chargen", C64_KERNAL_SX64 },
 
     /* SX64 NTSC, FIXME: guessed */
     { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, BOARD_C64,
-      IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, 
+      IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
       "sxkernal", "chargen", C64_KERNAL_SX64 },
 
     /* C64 Japanese, FIXME: guessed */
@@ -167,7 +167,7 @@ static struct model_s c64models[] = {
 
     /* ultimax, FIXME: guessed */
     { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, BOARD_MAX,
-      IEC_SOFT_RESET, HAS_DATASETTE, NO_IEC, NO_USERPORT, HAS_KEYBOARD, 
+      IEC_SOFT_RESET, HAS_DATASETTE, NO_IEC, NO_USERPORT, HAS_KEYBOARD,
       "kernal", "chargen", C64_KERNAL_MAX },
 };
 

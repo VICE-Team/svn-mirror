@@ -283,7 +283,7 @@ static uint8_t koala_find_bgcolor(native_data_t *source)
             /* get block */
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
-                    dest->colormap[(k * 8) + l] = 
+                    dest->colormap[(k * 8) + l] =
                     source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8)
                                         + (k * KOALA_SCREEN_PIXEL_WIDTH) + l];
                 }
@@ -586,7 +586,7 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename)
     vic_color_to_vicii_color_colormap(data);
 
     if ((data->xsize != KOALA_SCREEN_PIXEL_WIDTH) || (data->ysize != KOALA_SCREEN_PIXEL_HEIGHT)) {
-        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, 
+        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT,
                                         bordercolor, oversize_handling, undersize_handling);
     }
 

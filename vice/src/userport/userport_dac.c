@@ -80,7 +80,7 @@ static int userport_dac_sound_machine_channels(void)
 
 /* Userport DAC device sound chip */
 static sound_chip_t userport_dac_sound_chip = {
-    NULL,                                         /* NO sound chip open function */ 
+    NULL,                                         /* NO sound chip open function */
     userport_dac_sound_machine_init,              /* sound chip init function */
     NULL,                                         /* NO sound chip close function */
     userport_dac_sound_machine_calculate_samples, /* sound chip calculate samples function */
@@ -209,7 +209,7 @@ static int userport_dac_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

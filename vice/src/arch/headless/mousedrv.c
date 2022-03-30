@@ -47,14 +47,14 @@ void mousedrv_mouse_changed(void)
 int mousedrv_resources_init(const mouse_func_t *funcs)
 {
     /* printf("%s\n", __func__); */
-    
+
     return 0;
 }
 
 int mousedrv_cmdline_options_init(void)
 {
     /* printf("%s\n", __func__); */
-    
+
     return 0;
 }
 

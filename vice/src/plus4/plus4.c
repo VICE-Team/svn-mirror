@@ -1119,12 +1119,12 @@ int machine_addr_in_ram(unsigned int addr)
     if (addr >= 0x8000) {
         return 0;
     }
-    
+
     if (addr >= 0x473 && addr <= 04E6) {
         /* bunch of ROM routines  */
         return 0;
     }
-    
+
     return 1;
 }
 

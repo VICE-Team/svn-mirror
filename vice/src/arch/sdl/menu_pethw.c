@@ -247,7 +247,7 @@ void uikeyboard_update_pet_type_menu(void)
     resources_get_int("KeymapIndex", &idx);
     resources_get_int("KeyboardMapping", &mapping);
 }
-#endif    
+#endif
 
 static UI_MENU_CALLBACK(radio_KeyboardType_callback)
 {

@@ -653,7 +653,7 @@ int userport_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

@@ -674,7 +674,7 @@ int network_start_server(void)
 
         vsync_suspend_speed_eval();
         sound_suspend();
-        
+
         ui_display_statustext("Server is waiting for a client...", 1);
 
         ret = 0;

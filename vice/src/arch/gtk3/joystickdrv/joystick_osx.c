@@ -354,7 +354,7 @@ static void osx_joystick_read(int joyport, void* priv) {
                                 value = 8;
                             }
                         }
-                        
+
                         if (value >= 0 && value <= MAX_HAT_MAP_INDEX) {
                             joy_hat_event(joyport, e.ordinal, hat_map[value]);
                         }
@@ -414,7 +414,7 @@ void joy_hidlib_init(void)
     if( !mgr ) {
         return;
     }
-    
+
     {
         const void *vals[] = {
             (void *) CreateHIDDeviceMatchDictionary(kHIDPage_GenericDesktop, kHIDUsage_GD_Joystick),
@@ -422,21 +422,21 @@ void joy_hidlib_init(void)
             (void *) CreateHIDDeviceMatchDictionary(kHIDPage_GenericDesktop, kHIDUsage_GD_MultiAxisController),
         };
         CFArrayRef array = CFArrayCreate(kCFAllocatorDefault, vals, 3, &kCFTypeArrayCallBacks);
-        
+
         IOHIDManagerSetDeviceMatchingMultiple(mgr, array);
-        
+
         CFRelease(array);
         CFRelease(vals[0]);
         CFRelease(vals[1]);
         CFRelease(vals[2]);
     }
-    
+
     /* open it */
     IOReturn tIOReturn = IOHIDManagerOpen( mgr, 0L);
     if ( kIOReturnSuccess != tIOReturn ) {
         return;
     }
-    
+
     /* create set of devices */
     CFSetRef device_set = IOHIDManagerCopyDevices( mgr );
     if ( !device_set ) {

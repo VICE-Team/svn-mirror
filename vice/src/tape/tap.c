@@ -587,7 +587,7 @@ static int tap_cbm_skip_pilot(tap_t *tap)
 }
 
 
-#if TAP_DEBUG>0 
+#if TAP_DEBUG>0
 void tap_cbm_print_error(int ret)
 {
     switch (ret) {

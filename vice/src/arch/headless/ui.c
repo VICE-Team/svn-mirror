@@ -317,7 +317,7 @@ bool ui_pause_loop_iteration(void)
     g_usleep(10000);
     */
     return is_paused;
-}   
+}
 
 
 /** \brief  Keeps the ui events going while the emulation is paused
@@ -331,7 +331,7 @@ static void pause_trap(uint16_t addr, void *data)
 /*
     vsync_suspend_speed_eval();
     sound_suspend();
- 
+
     while (ui_pause_loop_iteration());
 */
 }

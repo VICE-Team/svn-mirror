@@ -412,13 +412,13 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
 
     while (active) {
         if (redraw) {
-            sdl_ui_file_selector_redraw(directory, title, current_dir, offset, 
-                (total - offset > menu_max) ? menu_max : total - offset, 
+            sdl_ui_file_selector_redraw(directory, title, current_dir, offset,
+                (total - offset > menu_max) ? menu_max : total - offset,
                 (total - offset > menu_max) ? 1 : 0, mode, cur);
             redraw = 0;
         } else {
-            sdl_ui_file_selector_redraw_cursor(directory, offset, 
-                    (total - offset > menu_max) ? menu_max : total - offset, 
+            sdl_ui_file_selector_redraw_cursor(directory, offset,
+                    (total - offset > menu_max) ? menu_max : total - offset,
                     mode, cur, cur_old);
         }
         sdl_ui_refresh();

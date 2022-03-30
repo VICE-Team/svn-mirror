@@ -1377,12 +1377,12 @@ int machine_addr_in_ram(unsigned int addr)
         /* CHRGET zero page routine */
         return 0;
     }
-    
+
     if (addr >= 0xc000) {
         /* ROM */
         return 0;
     }
-    
+
     return 1;
 }
 

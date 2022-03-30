@@ -300,12 +300,12 @@ static const ui_menu_entry_t crtc_color_controls_menu[] = {
 
 UI_MENU_DEFINE_INT(SDLCustomWidth)
 UI_MENU_DEFINE_INT(SDLCustomHeight)
-#ifndef USE_SDL2UI    
+#ifndef USE_SDL2UI
 UI_MENU_DEFINE_RADIO(SDLLimitMode)
 #endif
 UI_MENU_DEFINE_INT(Window0Width)
 UI_MENU_DEFINE_INT(Window0Height)
-    
+
 
 #define VICE_SDL_SIZE_MENU_DOUBLESIZE(chip)         \
     { "Double size",                                \

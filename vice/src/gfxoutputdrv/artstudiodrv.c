@@ -283,7 +283,7 @@ static void artstudio_check_and_correct_cell(native_data_t *source)
             /* get block */
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
-                    dest->colormap[(k * 8) + l] = 
+                    dest->colormap[(k * 8) + l] =
                         source->colormap[(i * 8 * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + (j * 8)
                                             + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l];
                 }

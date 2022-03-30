@@ -143,7 +143,7 @@ struct lp_type_s {
 };
 typedef struct lp_type_s lp_type_t;
 
-/* note: xoffs=0; yoffs=0 gives "pixel perfect" match, use 
+/* note: xoffs=0; yoffs=0 gives "pixel perfect" match, use
  * testprogs/VICII/lpcoordinates to determine the offset.
  */
 /* note: the following offset values should be tweaked against the original

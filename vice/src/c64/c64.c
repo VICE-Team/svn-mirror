@@ -267,7 +267,7 @@ static io_source_t vicii_d100_device = {
     NULL,                         /* NO poke function */
     vicii_read,                   /* read function */
     vicii_peek,                   /* peek function */
-    vicii_dump,                   /* chip state information dump function */ 
+    vicii_dump,                   /* chip state information dump function */
     IO_CART_ID_NONE,              /* not a cartridge */
     IO_PRIO_HIGH,                 /* high priority, mirrors never involved in collisions */
     0,                            /* insertion order, gets filled in by the registration function */
@@ -287,7 +287,7 @@ static io_source_t vicii_d200_device = {
     NULL,                         /* NO poke function */
     vicii_read,                   /* read function */
     vicii_peek,                   /* peek function */
-    vicii_dump,                   /* chip state information dump function */ 
+    vicii_dump,                   /* chip state information dump function */
     IO_CART_ID_NONE,              /* not a cartridge */
     IO_PRIO_HIGH,                 /* high priority, mirrors never involved in collisions */
     0,                            /* insertion order, gets filled in by the registration function */
@@ -307,7 +307,7 @@ static io_source_t vicii_d300_device = {
     NULL,                         /* NO poke function */
     vicii_read,                   /* read function */
     vicii_peek,                   /* peek function */
-    vicii_dump,                   /* chip state information dump function */ 
+    vicii_dump,                   /* chip state information dump function */
     IO_CART_ID_NONE,              /* not a cartridge */
     IO_PRIO_HIGH,                 /* high priority, mirrors never involved in collisions */
     0,                            /* insertion order, gets filled in by the registration function */
@@ -1331,7 +1331,7 @@ void machine_specific_powerup(void)
 void machine_specific_shutdown(void)
 {
     tape_image_detach_internal(TAPEPORT_PORT_1 + 1);
-    
+
     /* and cartridge */
     cartridge_detach_image(-1);
 

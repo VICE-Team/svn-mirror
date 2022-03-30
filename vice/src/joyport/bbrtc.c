@@ -228,7 +228,7 @@ static int bbrtc_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (0 
+    if (0
         || SMW_B(m, rst_line[port]) < 0
         || SMW_B(m, clk_line[port]) < 0
         || SMW_B(m, data_line[port]) < 0) {

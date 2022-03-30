@@ -750,7 +750,7 @@ unsigned int psid_increment_frames(void)
  * compute sidplayer (.mus/.str) support
  *
  * to minimize code duplication and to simplify the integration with the rest
- * of the code, the sidplayer data is simply converted into PSID like format 
+ * of the code, the sidplayer data is simply converted into PSID like format
  * at load time. heavily inspired by the respective code in libsidplay2.
  ******************************************************************************/
 

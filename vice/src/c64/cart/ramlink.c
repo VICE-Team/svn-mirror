@@ -1313,7 +1313,7 @@ static void ramlink_io1_store(uint16_t addr, uint8_t value)
         IDBG((LOG, "RAMLINK: io1 w card[%06x] < %02x (%02x) at 0x%04x", rl_cardbase |
             (addr & 0xff), value, old_val, reg_pc));
         return;
-    } 
+    }
 
     IDBG((LOG, "RAMLINK: unhandled io1 w %04x (%02x) at 0x%04x", addr, value, reg_pc));
 }
@@ -1624,7 +1624,7 @@ void ramlink_passthrough_changed(export_t *ex)
 /* used by c64cartmem.c to determine the original intended mode */
 int ramlink_cart_mode(void)
 {
-    return ( rl_extgame << 4 ) | ( rl_extexrom << 3 ) | 
+    return ( rl_extgame << 4 ) | ( rl_extexrom << 3 ) |
        ( ( ~pport.dir | pport.data ) & 7 );
 }
 

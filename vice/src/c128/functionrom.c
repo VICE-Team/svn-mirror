@@ -279,7 +279,7 @@ static int functionrom_load_internal(void)
                 return -1;
             } else {
                 /* create a mirror */
-                memcpy(&int_function_rom[INTERNAL_FUNCTION_ROM_SIZE / 2], 
+                memcpy(&int_function_rom[INTERNAL_FUNCTION_ROM_SIZE / 2],
                     int_function_rom, INTERNAL_FUNCTION_ROM_SIZE / 2);
             }
         }
@@ -308,14 +308,14 @@ static int functionrom_load_external(void)
                     return -1;
                 } else {
                     /* create a mirror */
-                    memcpy(&ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE / 4], 
+                    memcpy(&ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE / 4],
                         ext_function_rom, EXTERNAL_FUNCTION_ROM_SIZE / 4);
-                    memcpy(&ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE / 2], 
+                    memcpy(&ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE / 2],
                         ext_function_rom, EXTERNAL_FUNCTION_ROM_SIZE / 2);
                 }
             } else {
                 /* create a mirror */
-                memcpy(&ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE / 2], 
+                memcpy(&ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE / 2],
                     ext_function_rom, EXTERNAL_FUNCTION_ROM_SIZE / 2);
             }
         }

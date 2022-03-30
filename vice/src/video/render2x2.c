@@ -90,7 +90,7 @@ void render_32_2x2_interlaced(const video_render_color_tables_t *color_tab, cons
                 render_solid_line(tmptrg, tmpsrc, scanline_color, wstart, wfast, wend);
             }
         }
-        
+
         if (y & 1) {
             src += pitchs;
         }
@@ -146,10 +146,10 @@ void render_32_2x2_non_interlaced(const video_render_color_tables_t *color_tab,
         const uint8_t *tmpsrc;
         uint32_t *tmptrg;
         uint32_t color;
-        
+
         tmpsrc = (src + pitchs * ys + xs) + ((y - yys) / 2 * pitchs);
         tmptrg = (uint32_t *)((trg + pitcht * yt + (xt << 2)) + (y - yys) * pitcht);
-        
+
         if (!(y & 1) || doublescan) {
             if ((y & 1) && readable && y > yys) { /* copy previous line */
                 memcpy(tmptrg, (uint8_t *)tmptrg - pitcht, ((width << 1) + wfirst + wlast) << 2);

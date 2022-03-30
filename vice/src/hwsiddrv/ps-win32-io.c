@@ -267,7 +267,7 @@ static BYTE detect_sid_read(int chipno, BYTE addr)
     BYTE ctl = ps_io_in_ctr(chipno);
 
     ps_io_out_data((BYTE)(addr & 0x1f), chipno);
-    
+
     ctl &= ~parsid_AUTOFEED;
     ps_io_out_ctr(ctl, chipno);
 

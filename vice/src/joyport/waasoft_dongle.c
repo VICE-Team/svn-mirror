@@ -158,7 +158,7 @@ static int waasoft_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (0 
+    if (0
         || SMW_B(m, counter[port]) < 0
         || SMW_B(m, waasoft_reset_line[port]) < 0
         || SMW_B(m, waasoft_clock_line[port]) < 0) {

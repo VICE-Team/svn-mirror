@@ -985,7 +985,7 @@ void machine_change_timing(int timeval, int border_mode)
 #ifdef HAVE_MOUSE
     neos_mouse_set_machine_parameter(machine_timing.cycles_per_sec);
 #endif
-    
+
     vicii_change_timing(&machine_timing, border_mode);
     cia1_set_timing(machine_context.cia1,
                     (int)machine_timing.cycles_per_sec,
@@ -1086,20 +1086,20 @@ uint8_t machine_tape_behaviour(void)
 int machine_addr_in_ram(unsigned int addr)
 {
     /* FIXME: handle the banking */
-    
+
     if (addr >= 0x25a && addr <= 0x25d) {
         /* 'Pickup subroutine' */
         return 0;
     }
-    
+
     if (addr >= 0x8000 && addr < 0xc000) {
         return 0;
     }
-    
+
     if (addr > 0xe000) {
         return 0;
     }
-    
+
     return 1;
 }
 
