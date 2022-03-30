@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <stdlib.h>
 
 #include "resources.h"
 #include "vice_gtk3.h"
@@ -100,6 +101,8 @@ GtkWidget *hvsc_settings_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *browse;
+    gchar buffer[1024];
+    char *hvsc_base = getenv("HVSC_BASE");
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -112,6 +115,15 @@ GtkWidget *hvsc_settings_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), hvsc_root_entry, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 0, 1, 1);
+
+    g_snprintf(buffer,
+               sizeof(buffer),
+               "Leave empty to use the <tt>HVSC_BASE</tt> environment variable.\n"
+               "(Current value: <tt>%s</tt>)",
+               hvsc_base != NULL && *hvsc_base != '\0' ? hvsc_base : "&lt;none&gt;");
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), buffer);
+    gtk_grid_attach(GTK_GRID(grid), label, 1, 1, 2, 1);
 
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
 
