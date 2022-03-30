@@ -1,7 +1,7 @@
-/** \file	soundbsp.cc
- * \brief	Implementation of the BeOS Media Kit (BSoundPlayer) device.
+/** \file   soundbsp.cc
+ * \brief   Implementation of the BeOS Media Kit (BSoundPlayer) device.
  *
- * \author	Marcus Sutton <loggedoubt@gmail.com>
+ * \author  Marcus Sutton <loggedoubt@gmail.com>
  */
  
 /*

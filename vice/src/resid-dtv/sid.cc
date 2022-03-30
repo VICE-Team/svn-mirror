@@ -441,8 +441,8 @@ double SID::I0(double x)
 // not overfilled.
 // ----------------------------------------------------------------------------
 bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
-				  double sample_freq, double pass_freq,
-				  double filter_scale)
+                    double sample_freq, double pass_freq,
+                    double filter_scale)
 {
   cycles_per_sample =
     cycle_count(clock_freq/sample_freq*(1 << FIXP_SHIFT) + 0.5);
@@ -531,11 +531,11 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
       double wt = wc*jx/f_cycles_per_sample;
       double temp = jx/(fir_N/2);
       double Kaiser =
-	fabs(temp) <= 1 ? I0(beta*sqrt(1 - temp*temp))/I0beta : 0;
+        fabs(temp) <= 1 ? I0(beta*sqrt(1 - temp*temp))/I0beta : 0;
       double sincwt =
-	fabs(wt) >= 1e-8 ? sin(wt)/wt : 1;
+        fabs(wt) >= 1e-8 ? sin(wt)/wt : 1;
       double val =
-	(1 << FIR_SHIFT)*filter_scale*f_samples_per_cycle*wc/pi*sincwt*Kaiser;
+        (1 << FIR_SHIFT)*filter_scale*f_samples_per_cycle*wc/pi*sincwt*Kaiser;
       fir[i * fir_N + j] = short(val + 0.5);
     }
   }
@@ -621,7 +621,7 @@ int SID::clock(cycle_count& delta_t, short* buf, int n, int interleave)
 // ----------------------------------------------------------------------------
 RESID_INLINE
 int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
-			   int interleave)
+                int interleave)
 {
   int s = 0;
   int i;
@@ -728,7 +728,7 @@ static inline int convolve(const short *a, const short *b, int n)
 // ----------------------------------------------------------------------------
 RESID_INLINE
 int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
-				    int interleave)
+                        int interleave)
 {
   int s = 0;
 
@@ -805,7 +805,7 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
 // ----------------------------------------------------------------------------
 RESID_INLINE
 int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
-			     int interleave)
+                    int interleave)
 {
   int s = 0;
 
