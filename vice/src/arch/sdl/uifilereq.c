@@ -134,11 +134,9 @@ static const char* sdl_ui_get_file_selector_entry(archdep_dir_t *directory, int 
 
     num_dirs = archdep_readdir_num_dirs(directory);
     if (offset >= num_dirs + SDL_FILEREQ_META_NUM) {
-        //return directory->files[offset - (directory->dir_amount + SDL_FILEREQ_META_NUM)].name;
         return archdep_readdir_get_file(directory, offset - (num_dirs + SDL_FILEREQ_META_NUM));
     } else {
         *isdir = 1;
-//        return directory->dirs[offset - SDL_FILEREQ_META_NUM].name;
         return archdep_readdir_get_dir(directory, offset - SDL_FILEREQ_META_NUM);
     }
 }

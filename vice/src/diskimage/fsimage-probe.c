@@ -94,7 +94,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
     fsimage = image->media.fsimage;
 
     checkimage_errorinfo = 0;
-    //checkimage_realsize = archdep_file_size(fsimage->fd);
+
     checkimage_realsize = archdep_file_size(fsimage->fd);
     checkimage_tracks = NUM_TRACKS_1541; /* start at track 35 */
     checkimage_blocks = D64_FILE_SIZE_35 / 256;
