@@ -155,6 +155,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/diag \
 	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/lib/ \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/core/rtc \
@@ -239,7 +240,6 @@ noinst_HEADERS = \
 	mos6510.h \
 	mos6510dtv.h \
 	network.h \
-	opencbm.h \
 	opencbmlib.h \
 	palette.h \
 	parallel.h \
