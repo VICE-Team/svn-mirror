@@ -183,6 +183,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-icoutils
             mingw-w64-${{ matrix.arch.arch }}-ffmpeg
+            mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-gtk3
       
       - name: Install SDL2 Dependencies if Applicable
@@ -209,6 +210,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-icoutils
             mingw-w64-${{ matrix.arch.arch }}-ffmpeg
+            mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-SDL2
             mingw-w64-${{ matrix.arch.arch }}-SDL2_image
 
