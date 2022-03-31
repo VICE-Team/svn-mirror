@@ -8,62 +8,206 @@ There are two distinct parts to the VICE source code, the architecture code
 parts which are located in src/arch, and the common code parts which are
 located everywhere in src except in src/arch.
 
-The architecture code parts are in their own respective directories and *may*
-have their own coding style, however try to stick to these guidelines at least
-for C code, if possible.
+The common code is used by all supported architectures and therefor needs to be
+as portable as possible.
 
-The common code however is used by all supported architectures and therefor
-needs to be as portable as possible. To achieve this portability some
+To achieve this portability, and to keep the codebase tidy and clean, some
 guidelines have to be followed.
 
 Project Folders Hierarchy Descriptions
 --------------------------------------
+
 Here are short descriptions of the project code folders and their functions:
 
-src/           - common code
- arch          - architecture specific code for various platforms (win, unix, amigaos, etc)
- c64           - c64 specific code
- c64/cart      - c64 cartridge specific code
- c64dtv        - c64 direct tv specific code
- c128          - commodore 128 specific code
- cbm2          - Commodore CBM-II computer emulator
- core          - various chip emulations (CIA, VIA and Cart specific chip emulations)
- crtc          - CRTC emulation
- diskimage     - various file types support (.d64, .d81, etc..)
- drive         - various disk drive hardware emulations and bus systems used (iec or ieee)
- fileio        - for accessing prg files directly
- fsdevice      - for host filesystem as if an iec device is used
- gfxoutputdrv  - screen capture (image and video drivers)
- iecbus        - iec bus handling
- imagecontents - disk and tape directory interface
- lib           - anything related to external libraries (ffmpeg codec, etc..)
- monitor       - code for built-in monitor
- parallel      - ieee488 emulation code
- pet           - pet computer specific emulation code
- platform      - platform specific discovery/reporting code (os, cpu, compiler used, etc..)
- plus4         - commodore plus4 specific code
- printerdrv    - specific printer type emulation and drivers
- raster        - raster-based video chip emulation
- resid folders - cycle exact sid engine (made by dag lem)
- rs232drv      - rs232 communication and modem code for interfacing with arch specific drivers
- rtc           - real time clock emulation used in some devices (fd2000/4000, ide64, etc..)
- serial        - iec interface code and real iec access (for using real drives on usb with vice)
- sid           - SID chip interface and emulation for fallback sid engine (fastsid)
- sounddrv      - framework specific sound drivers
- tape          - tape drive specific emulation and T64 support
- userport      - userport device emulation code
- vdc           - MOS8563 VDC emulation
- vdrive        - virtual drives code, opposed to "true drive emulation" found in drive folder
- vic20         - commodore vic20 specific code
- vicii         - almost cycle exact VICII emulation code for x64, x128, xcbm2, and x64dtv
- viciisc       - more cycle exact then vicii code emulation used in x64sc and xscpu64
- video         - pixel framebuffer to physical screen interface code
+generally:
 
+- All code in the root of the tree is common code that contains no architecture
+  specific parts.
+
+- 3rd party libraries and headers which have been pulled into the sourcetree
+  live in src/lib/ . Files in this directory tree do not have to follow the
+  codestyle lined out here, as they could be replaced/updated at any time.
+
+- Architecture specific code lives in src/arch/shared.
+
+- Code that is specific to a (G)UI should live in src/arch/<gui>.
+
+in detail:
+
+build
+ beos
+ github-actions
+ macOS
+ mingw
+  docker
+  frankenvice
+
+data
+ C128
+ C64
+ C64DTV
+ CBM-II
+ common
+ DRIVES
+ GLSL
+ PET
+ PLUS4
+ PRINTER
+ SCPU64
+ VIC20
+
+doc
+ building
+ html
+  fonts
+  images
+ readmes
+ vim
+  ftdetect
+  syntax
+
+m4                          - m4 code used by the buildsystem
+
+src                         - common code
+ arch                       - architecture specific code for various platforms (win, unix, amigaos, etc)
+  gtk3
+   data
+    macos
+    unix
+    win32
+   joystickdrv
+   novte
+   Resources
+   widgets
+    base
+  headless
+  sdl
+   Resources
+  shared
+  systemheaderoverride
+   gtk
+
+ buildtools
+
+ c128                       - commodore 128 specific code
+ c64                        - c64 specific code
+  cart                      - c64 cartridge specific code
+ c64dtv                     - c64 direct tv specific code
+ cbm2                       - Commodore CBM-II computer emulator
+  cart
+ pet                        - pet computer specific emulation code
+ plus4                      - commodore plus4 specific code
+  cart
+ scpu64
+ vic20                      - commodore vic20 specific code
+  cart
+
+ core                       - various chip emulations (CIA, VIA and Cart specific chip emulations)
+  rtc                       - real time clock emulation used in some devices (fd2000/4000, ide64, etc..)
+ crtc                       - CRTC emulation
+ resid                      - cycle exact sid engine (made by dag lem)
+ resid-dtv
+ sid                        - SID chip interface and emulation for fallback sid engine (fastsid)
+ vdc                        - MOS8563 VDC emulation
+ vicii                      - almost cycle exact VICII emulation code for x64, x128, xcbm2, and x64dtv
+ viciisc                    - more cycle exact then vicii code emulation used in x64sc and xscpu64
+
+ datasette
+ diag
+ diskimage                  - various file types support (.d64, .d81, etc..)
+ drive                      - various disk drive hardware emulations and bus systems used (iec or ieee)
+  iec
+   c64exp
+   plus4exp
+  iec128dcr
+  iecieee
+  ieee
+  tcbm
+ fileio                     - for accessing prg files directly
+ fsdevice                   - for host filesystem as if an iec device is used
+ hvsc
+ iecbus                     - iec bus handling
+ imagecontents              - disk and tape directory interface
+ joyport
+ monitor                    - code for built-in monitor
+ parallel                   - ieee488 emulation code
+ raster                     - raster-based video chip emulation
+ serial                     - iec interface code and real iec access (for using real drives on usb with vice)
+ tape                       - tape drive specific emulation and T64 support
+ tapeport
+ userport                   - userport device emulation code
+ vdrive                     - virtual drives code, opposed to "true drive emulation" found in drive folder
+ video                      - pixel framebuffer to physical screen interface code
+
+ lib                        - anything related to external libraries (ffmpeg codec, etc.. see above)
+  linenoise-ng
+  p64
+
+ tools
+  cartconv
+  petcat
+
+ gfxoutputdrv               - screen capture (image and video drivers)
+ hwsiddrv
+ iodrv
+ mididrv
+ printerdrv                 - specific printer type emulation and drivers
+ rs232drv                   - rs232 communication and modem code for interfacing with arch specific drivers
+ samplerdrv
+ socketdrv
+ sounddrv                   - framework specific sound drivers
 
 Cosmetic guidelines for all code
 --------------------------------
 
-To keep the code easy to follow please read the following statements:
+To keep the code tidy and easy to follow please read the following statements:
+
+
+- Don't use C++ style comments in C code (// comment), use C-style comments
+  instead (/* comment */). This goes for C99 code as well.
+
+  You may use the ./checkstyle.sh script to find dangling c++ comments:
+
+  $ ./checkstyle.sh comments
+
+- We strictly indent by 4 spaces. Don't use mixtures of tabs and spaces as
+  indentation, using 4 spaces per level will make the code look the same no
+  matter what editor you use.
+
+  You may use the checkstyle.sh script to find dangling tabs:
+
+  $ ./checkstyle.sh tabs
+
+- Avoid trailing whitespace. Many editors can show this and remove this.
+
+  You may use the checkstyle.sh script to find trailing whitespace:
+
+  $ ./checkstyle.sh whitespace
+
+- Refrain from using any non ASCII characters in source files, unless absolutely
+  necessary. Previously a common trap were copyright headers - make sure to
+  use latin letters only to write your name etc. or in other words: such chars
+  should not be used anywhere, except in a few selected (usually translation
+  related) files that contain tables of strings.
+  The reason for this is that various tools get confused or even choke on any-
+  thing that isnt the encoding they expect (and plain ascii always works). It
+  also ensures that all files can be edited by anyone at any time without intro-
+  ducing weird side effects.
+  On a *nix system you may use the "file" command to check the files you
+  changed, normally it should always say "ASCII text" (not ISO-8859, and
+  definately not UTF-8 Unicode).
+
+  current exceptions from this rule are:
+
+  src/infocontrib.h: ISO-8859 (generated file)
+
+  Keep in mind that editing the translation related files need special care,
+  make sure not to mess up the file by somehow converting the encoding!
+
+  You may use the findhacks.sh script in src/ to check all sourcefiles and find
+  any that contain non ascii characters:
+
+  $ ./findhacks.sh encoding
 
 - Use the types in <stdint.h> for fixed-width types, so `uint8_t` rather than
   `BYTE`, `uint16_t` for `WORD` and `uint32_t` for `DWORD`.
@@ -223,44 +367,9 @@ To keep the code easy to follow please read the following statements:
    } numbers_t;
 
 
-
-Common code guidelines
-----------------------
-
-Many different compilers are used to compile the common code parts.
-
-- There should be no compiler specific hacks anywhere and no ifdefs checking
-  for specific compilers. The only exception to this rule is the global vice.h.
-  The same is true for CPU/Arch specific checks.
-
-  There are still some of these compiler specific hacks dangling around, all of
-  which are subject for removal. Do not add any new ones :)
-
-  You can find such things using ./src/findhacks.sh ccarchdep
-
-- Generally no arch specific hacks and ifdefs should be present in common code.
-  If possible, all arch specific code should be abstracted into functions which
-  then live in src/arch/shared. Code that is specific to a GUI should live in
-  src/arch/<gui>.
-
-  When a platform specific ifdef can not be avoided in common code, it should
-  always come with a comment that explains why exactly that ifdef exists and
-  what the respective portion of code is supposed to do.
-
-  Since this rule did not exist in the past, there is still a lot of arch 
-  specific code around elsewhere that needs to be moved - this is no excuse for
-  ignoring the rule when writing new code however.
-
-  You can find such thing using: ./src/findhacks.sh archdep
-
-- 3rd party libraries which have been pulled into the sourcetree live in
-  src/lib/
-
 - When using headers which are tested for in configure.proto don't assume they
   exist, use the #ifdef HAVE_*_H instead.
 
-- Don't use C++ style comments (// comment), use C-style comments instead
-  (/* comment */). This goes for C99 code as well.
 
 - When adding header files use VICE_*_H as shown in the following example:
 
@@ -273,37 +382,34 @@ Many different compilers are used to compile the common code parts.
 #endif
 
 
-- Don't use mixtures of tabs and spaces as indentation, using 4 spaces per
-  level will make the code look the same no matter what editor you use.
-  When changing an existing file, make sure the indentation style is the
-  same throughout the source file.
+Common code guidelines
+----------------------
 
-- Avoid trailing whitespace. Many editors can show this and remove this.
+Many different compilers may be used to compile the common code parts, although
+in practise this will be either GCC or MSVC.
 
-- Refrain from using any non ASCII characters in source files, unless absolutely
-  necessary. Previously a common trap were copyright headers - make sure to
-  use latin letters only to write your name etc. or in other words: such chars
-  should not be used anywhere, except in a few selected (usually translation
-  related) files that contain tables of strings.
-  The reason for this is that various tools get confused or even choke on any-
-  thing that isnt the encoding they expect (and plain ascii always works). It
-  also ensures that all files can be edited by anyone at any time without intro-
-  ducing weird side effects.
-  On a *nix system you may use the "file" command to check the files you
-  changed, normally it should always say "ASCII text" (not ISO-8859, and
-  definately not UTF-8 Unicode).
+- There should be no compiler specific hacks anywhere and no ifdefs checking
+  for specific compilers. The only exception to this rule is the global vice.h.
+  The same is true for CPU/Arch specific checks.
 
-current exceptions from this rule are:
+  There are still some of these compiler specific hacks dangling around, all of
+  which are subject for removal. Do not add any new ones :)
 
-src/infocontrib.h:                 ISO-8859                     (generated file)
+  You can find such things using ./src/findhacks.sh ccarchdep
 
-Keep in mind that editing the translation related files need special care, make
-sure not to mess up the file by somehow converting the encoding!
+- Generally no arch specific hacks and ifdefs should be present in common code.
+  All arch specific code should be abstracted into functions which then live in
+  src/arch/shared. Code that is specific to a GUI should live in src/arch/<gui>.
 
-you may use the findhacks.sh script in src/ to check all sourcefiles and find
-any that contain non ascii characters:
+  When a platform specific ifdef can not be avoided in common code, it should
+  always come with a comment that explains why exactly that ifdef exists and
+  what the respective portion of code is supposed to do.
 
-$ ./findhacks.sh encoding
+  Since this rule did not exist in the past, there is still a lot of arch 
+  specific code around elsewhere that needs to be moved - this is no excuse for
+  ignoring the rule when writing new code however.
+
+  You can find such thing using: ./src/findhacks.sh archdep
 
 
 Documentation
