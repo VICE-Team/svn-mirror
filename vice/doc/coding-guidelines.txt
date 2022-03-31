@@ -75,16 +75,16 @@ src                         - common code
     macos
     unix
     win32
-   joystickdrv
-   novte
+   joystickdrv              - gtk joystick handling
+   novte                    - gtk monitor console
    Resources
    widgets
     base
-  headless
+  headless                  - headless "ui"
   sdl
    Resources
   shared
-  systemheaderoverride
+  systemheaderoverride      - headers that override headers usually provided by system libraries
    gtk
 
  buildtools
@@ -112,9 +112,15 @@ src                         - common code
  vicii                      - almost cycle exact VICII emulation code for x64, x128, xcbm2, and x64dtv
  viciisc                    - more cycle exact then vicii code emulation used in x64sc and xscpu64
 
- datasette
  diag
+
  diskimage                  - various file types support (.d64, .d81, etc..)
+ imagecontents              - disk and tape directory interface
+
+ iecbus                     - iec bus handling
+ parallel                   - ieee488 emulation code
+ serial                     - iec interface code and real iec access (for using real drives on usb with vice)
+
  drive                      - various disk drive hardware emulations and bus systems used (iec or ieee)
   iec
    c64exp
@@ -123,20 +129,22 @@ src                         - common code
   iecieee
   ieee
   tcbm
+ vdrive                     - virtual drives code, opposed to "true drive emulation" found in drive folder
+
  fileio                     - for accessing prg files directly
  fsdevice                   - for host filesystem as if an iec device is used
+
  hvsc
- iecbus                     - iec bus handling
- imagecontents              - disk and tape directory interface
  joyport
  monitor                    - code for built-in monitor
- parallel                   - ieee488 emulation code
- raster                     - raster-based video chip emulation
- serial                     - iec interface code and real iec access (for using real drives on usb with vice)
+ 
+ datasette
  tape                       - tape drive specific emulation and T64 support
  tapeport
+
  userport                   - userport device emulation code
- vdrive                     - virtual drives code, opposed to "true drive emulation" found in drive folder
+
+ raster                     - raster-based video chip emulation
  video                      - pixel framebuffer to physical screen interface code
 
  lib                        - anything related to external libraries (ffmpeg codec, etc.. see above)
@@ -367,19 +375,63 @@ To keep the code tidy and easy to follow please read the following statements:
    } numbers_t;
 
 
+Symbols in ifdefs
+-----------------
+
+- If tests for a certain (G)UI are needed, they can use the following symbols.
+  No other symbols should be defined to "shortcut" certain combinations!
+
+  USE_SDLUI
+  USE_SDL2UI
+  USE_GTK3UI
+  USE_HEADLESSUI
+
+  Remember this kind of tests should ideally not occur anywhere in common code -
+  but if they can not be avoided, they should always come with a comment that
+  tells why this test exists.
+
+- For tests for a certain architecture/operating system the build system defines
+  some symbols. No other symbols should be used for this, in particular not the
+  various things defined by compilers or system libraries. Eg do not use
+  "_WIN32" when you need to check for "is this windows?", use "WINDOWS_COMPILE"
+  instead.
+
+  The architecture symbols are nested in a hierarchic way:
+
+  WINDOWS_COMPILE           - compiling for windows (32bit AND 64bit)
+    WIN64_COMPILE           - compiling for 64bit windows
+  UNIX_COMPILE              - any *nix system
+    LINUX_COMPILE
+    MACOS_COMPILE
+    BSD_COMPILE
+      FREEBSD_COMPILE
+      DRAGONFLYBSD_COMPILE
+      NETBSD_COMPILE
+      OPENBSD_COMPILE
+  BEOS_COMPILE
+  HAIKU_COMPILE
+
+  Remember this kind of tests should ideally not occur anywhere in common code -
+  but if they can not be avoided, they should always come with a comment that
+  tells why this test exists.
+
 - When using headers which are tested for in configure.proto don't assume they
   exist, use the #ifdef HAVE_*_H instead.
 
+   #ifdef HAVE_SYS_TYPES_H
+   #include <sys/types.h>
+   #endif
+
+  you can look at src/config.h to see which symbols are available
 
 - When adding header files use VICE_*_H as shown in the following example:
 
+   #ifndef VICE_RS232_H
+   #define VICE_RS232_H
 
-#ifndef VICE_RS232_H
-#define VICE_RS232_H
+   ...code...
 
-...code...
-
-#endif
+   #endif
 
 
 Common code guidelines
@@ -416,10 +468,15 @@ Documentation
 -------------
 
 Please add documentation to code you add or alter.
+
 We use Doxygen to document our code, add docblocks for each public function or
 data structure, at a minimum. Adding documentation is boring and the discipline
 to do that is even harder, but it'll help out your fellow (future) devs and
-probably even you after not working on a piece of code for some time.
+probably even you after not working on a piece of code for some time. (Also
+see Doxygen-Howto.txt)
+
+This also applies to the user manual - when you are adding new features, please
+document it in vice.texi (see Documentation-Howto.txt)
 
 
 Adding new files to the svn repo
