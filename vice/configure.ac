@@ -805,11 +805,6 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
     AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
     HAVE_MIDI_SUPPORT="yes"
   fi
-  if test x"$enable_ethernet" = "xyes"; then
-    AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
-    AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
-    HAVE_RAWNET_SUPPORT="yes"
-  fi
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
     HAVE_RS232DEV_SUPPORT="yes"
@@ -2475,66 +2470,79 @@ dnl ----- Ethernet -----
 TFE_LIBS=""
 if test x"$enable_ethernet" = "xyes"; then
   have_tuntap="no"
-  if test x"$is_win32_gtk3" = "xyes"; then
-    AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
-    AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
-    HAVE_RAWNET_SUPPORT="yes"
+  if test x"$is_win32" = "xyes"; then
+    dnl We don't set TFE_LIBS here since we dynload the DLLs required on Windows
+    dnl TODO: Maybe use AC_SEARCH_LIBS to support the npcap SDK headers?
+    AC_CHECK_LIB(pcap, pcap_inject,[
+      AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+      AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+      HAVE_RAWNET_SUPPORT="yes";
+      AC_DEFINE(HAVE_PCAP_INJECT,,[A libpcap version with pcap_inject is available])
+    ],,$LIBS)
+    AC_CHECK_LIB(pcap, pcap_sendpacket,[
+      AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+      AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+      HAVE_RAWNET_SUPPORT="yes";
+      AC_DEFINE(HAVE_PCAP_SENDPACKET,,[A libpcap version with pcap_sendpacket is available])
+    ],,$LIBS)
+    if test x"$HAVE_RAWNET_SUPPORT" != "xyes"; then
+      AC_MSG_ERROR([Ethernet support requested via --enable-ethernet, but the pcap headers were not found.])
+    fi
   else
-    if test x"$is_win32" = "xno"; then
+    dnl libpcap.a on Unix
+    AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS" ],,)
+    AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS" ],,)
+    AC_CHECK_LIB(pcap, pcap_inject,[
+      AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+      AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+      HAVE_RAWNET_SUPPORT="yes";
+      AC_DEFINE(HAVE_PCAP_INJECT,,[A libpcap version with pcap_inject is available])
+      TFE_LIBS="-lpcap"
+    ],,$LIBS)
+    AC_CHECK_LIB(pcap, pcap_sendpacket,[
+      AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+      AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+      HAVE_RAWNET_SUPPORT="yes";
+      AC_DEFINE(HAVE_PCAP_SENDPACKET,,[A libpcap version with pcap_sendpacket is available])
+      TFE_LIBS="-lpcap"
+    ],,$LIBS)
     dnl libpcap.a
-      AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS" ],,)
-      AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS" ],,)
-      AC_CHECK_LIB(pcap, pcap_inject,[
+    dnl libnet.a
+    AC_CHECK_LIB(pcap, pcap_open_live,[
+      AC_CHECK_LIB(net, libnet_init,[
         AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
         AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
         HAVE_RAWNET_SUPPORT="yes";
-        AC_DEFINE(HAVE_PCAP_INJECT,,[A libpcap version with pcap_inject is available])
-        TFE_LIBS="-lpcap"
-      ],,$LIBS)
-      AC_CHECK_LIB(pcap, pcap_sendpacket,[
+        AC_DEFINE(VICE_USE_LIBNET_1_1,,[Support for The Final Ethernet])
+        TFE_LIBS="-lpcap `libnet-config --libs`"
+        libnet_cflags="`libnet-config --defines`"
+    ],,$LIBS)],,$LIBS)
+    dnl libpcap.a
+    dnl libnet.a
+    AC_CHECK_LIB(pcap, pcap_open_live,[
+      AC_CHECK_LIB(net, libnet_write_link_layer,[
         AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
         AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
         HAVE_RAWNET_SUPPORT="yes";
-        AC_DEFINE(HAVE_PCAP_SENDPACKET,,[A libpcap version with pcap_sendpacket is available])
-        TFE_LIBS="-lpcap"
-      ],,$LIBS)
-    dnl libpcap.a
-    dnl libnet.a
-      AC_CHECK_LIB(pcap, pcap_open_live,[
-        AC_CHECK_LIB(net, libnet_init,[
-          AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
-          AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
-          HAVE_RAWNET_SUPPORT="yes";
-          AC_DEFINE(VICE_USE_LIBNET_1_1,,[Support for The Final Ethernet])
-          TFE_LIBS="-lpcap `libnet-config --libs`"
-          libnet_cflags="`libnet-config --defines`"
-      ],,$LIBS)],,$LIBS)
-    dnl libpcap.a
-    dnl libnet.a
-      AC_CHECK_LIB(pcap, pcap_open_live,[
-        AC_CHECK_LIB(net, libnet_write_link_layer,[
-          AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
-          AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
-          HAVE_RAWNET_SUPPORT="yes";
-          TFE_LIBS="-lpcap `libnet-config --libs`"
-          libnet_cflags="`libnet-config --defines`"
-      ],,$LIBS)],,$LIBS)
-      if test x"$libnet_cflags" != "x"; then
-        if test x"$linux_glibc_220_and_up" = "xyes"; then
-          new_libnet_cflags=""
-          for i in $libnet_cflags
-          do
-            if test x"$i" = "x-D_BSD_SOURCE"; then
-              new_libnet_cflags="$new_libnet_cflags -D_DEFAULT_SOURCE"
-            else
-              new_libnet_cflags="$new_libnet_cflags $i"
-            fi
-          done
-          CFLAGS="$CFLAGS $new_libnet_cflags"
-        else
-          CFLAGS="$CFLAGS $libnet_cflags"
-        fi
+        TFE_LIBS="-lpcap `libnet-config --libs`"
+        libnet_cflags="`libnet-config --defines`"
+    ],,$LIBS)],,$LIBS)
+    if test x"$libnet_cflags" != "x"; then
+      if test x"$linux_glibc_220_and_up" = "xyes"; then
+        new_libnet_cflags=""
+        for i in $libnet_cflags
+        do
+          if test x"$i" = "x-D_BSD_SOURCE"; then
+            new_libnet_cflags="$new_libnet_cflags -D_DEFAULT_SOURCE"
+          else
+            new_libnet_cflags="$new_libnet_cflags $i"
+          fi
+        done
+        CFLAGS="$CFLAGS $new_libnet_cflags"
+      else
+        CFLAGS="$CFLAGS $libnet_cflags"
       fi
+    fi
     dnl check for tuntap
     AC_CHECK_HEADER(linux/if_tun.h,
                     [AC_DEFINE(HAVE_TUNTAP,,
@@ -2542,7 +2550,6 @@ if test x"$enable_ethernet" = "xyes"; then
                      AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
                      have_tuntap=yes
                      HAVE_RAWNET_SUPPORT="yes"])
-    fi
   fi
   if test x"$TFE_LIBS" = "x" -a x"$is_win32" = "xno" -a x"$is_win32_gtk3" = "xno" -a x"$have_tuntap" = "xno"; then
     AC_MSG_ERROR([Needed pcap library not found, please install libpcap-dev or equivalent])
