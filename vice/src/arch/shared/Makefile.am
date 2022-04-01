@@ -11,7 +11,9 @@
 # and MacOS dmg things.
 #
 # -- compyx, 2020-02-08
-#
+
+SUBDIRS = sounddrv
+
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
