@@ -42,7 +42,6 @@ SUBDIRS = \
 	@RESID_DTV_DIR@ \
 	samplerdrv \
 	joyport \
-	sounddrv \
 	mididrv \
 	socketdrv \
 	hwsiddrv \
@@ -89,7 +88,6 @@ SUBDIRS = \
 endif
 
 DIST_SUBDIRS = \
-	sounddrv \
 	mididrv \
 	socketdrv \
 	hwsiddrv \
@@ -587,7 +585,7 @@ serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sid_dtv_lib = $(top_builddir)/src/sid/libsid_dtv.a
 socketdrv_lib = $(top_builddir)/src/socketdrv/libsocketdrv.a
-sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+sounddrv_lib = $(top_builddir)/src/arch/shared/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
 tapeport_lib = $(top_builddir)/src/tapeport/libtapeport.a
 toolarch_lib = $(ARCH_DIR)/libtoolarch.a
@@ -1203,38 +1201,38 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 info.c: infocontrib.h
 
 $(arch_gtk3_widgets_lib):
-	@(echo "making libwidgets.a")
+	@echo "making libwidgets.a"
 	@(cd arch/gtk3/widgets && $(MAKE) libwidgets.a)
 $(arch_gtk3_base_widgets_lib):
-	@(echo "making libbasewidgets.a")
+	@echo "making libbasewidgets.a"
 	@(cd arch/gtk3/widgets/base && $(MAKE))
 $(arch_gtk3_novte_lib):
-	@(echo "making libnovte.a")
+	@echo "making libnovte.a"
 	@(cd arch/gtk3/novte && $(MAKE))
 $(arch_gtk3_joystickdrv_lib):
-	@(echo "making libjoystickdrv.a")
+	@echo "making libjoystickdrv.a"
 	@(cd arch/gtk3/joystickdrv && $(MAKE))
 $(arch_gtk3_lib):
-	@(echo "making libarch.a")
+	@echo "making libarch.a"
 	@(cd arch && $(MAKE) libarch)
-	@(echo "making gtk3 data")
+	@echo "making gtk3 data"
 	@(cd arch/gtk3/data && $(MAKE))
 $(arch_sdl_lib):
-	@(echo "making libarch.a")
+	@echo "making libarch.a"
 	@(cd arch && $(MAKE) libarch)
 if WINDOWS_COMPILE
-	@(echo "making win32 res")
+	@echo "making win32 res"
 	@(cd arch/gtk3/data/win32 && $(MAKE))
 endif
 $(arch_headless_lib):
-	@(echo "making libarch.a")
+	@echo "making libarch.a"
 	@(cd arch && $(MAKE) libarch)
 $(toolarch_lib):
 	@(cd $(ARCH_DIR) && $(MAKE) libtoolarch.a)
-${archdep_lib}:
-	@(echo "making libarchdep.a")
+$(archdep_lib):
+	@echo "making libarchdep.a"
 	@(cd arch/shared && $(MAKE))
-${c128_lib}:
+$(c128_lib):
 	@echo "making all in c128"
 	@(cd c128 && $(MAKE))
 $(c64_lib):
@@ -1386,9 +1384,6 @@ $(samplerdrv_lib):
 $(joyport_lib):
 	@echo "making all in joyport"
 	@(cd joyport && $(MAKE))
-$(joystickdrv_lib):
-	@echo "making all in joystickdrv"
-	@(cd joystickdrv && $(MAKE))
 $(serial_lib):
 	@echo "making all in serial"
 	@(cd serial && $(MAKE))
@@ -1402,8 +1397,8 @@ $(socketdrv_lib):
 	@echo "making libsocketdrv.a in socketdrv"
 	@(cd socketdrv && $(MAKE) libsocketdrv.a)
 $(sounddrv_lib):
-	@echo "making all in sounddrv"
-	@(cd sounddrv && $(MAKE))
+	@echo "making all in arch/shared/sounddrv"
+	@(cd arch/shared/sounddrv && $(MAKE))
 $(tape_lib):
 	@echo "making all in tape"
 	@(cd tape && $(MAKE))
