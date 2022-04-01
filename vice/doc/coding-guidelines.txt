@@ -84,6 +84,7 @@ src                         - common code
   sdl
    Resources
   shared
+   sounddrv                 - framework specific sound drivers
   systemheaderoverride      - headers that override headers usually provided by system libraries
    gtk
 
@@ -163,7 +164,6 @@ src                         - common code
  rs232drv                   - rs232 communication and modem code for interfacing with arch specific drivers
  samplerdrv
  socketdrv
- sounddrv                   - framework specific sound drivers
 
 Cosmetic guidelines for all code
 --------------------------------
