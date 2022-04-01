@@ -278,6 +278,41 @@ static void find_pot_ports(void)
     }
 }
 
+/* calculate the paddle value that will show in the registers when both
+   ports are selected at the same time */
+static uint8_t calc_parallel_paddle_value(uint8_t t1, uint8_t t2)
+{
+    const double scale = 470000.0f / 255.0f; /* CBM paddles should use 470kOhm */
+    double r1, r2, r;
+
+    /* first handle the special cases:
+       - either port is directly connected to VCC (value = 0), then
+         the value will be always 0
+       - one port is "open" (value = 255), then the value will come
+         from the other port
+    */
+    if ((t1 == 0) || (t2 == 0)) {
+        return 0;
+    } else if (t1 == 255) {
+        return t2;
+    } else if (t2 == 255) {
+        return t1;
+    }
+    /* we assume the time value is equivalent to the resistor value at the pot
+       input. scale it up to match the actual resistor value */
+    r1 = scale * (double)t1;
+    r2 = scale * (double)t2;
+    /* calculate value of two parallel resistors */
+    r = (r1 * r2) / (r1 + r2);
+    /* scale back to 8bit range */
+    r /= scale;
+    /* clamp the value and return it */
+    if (r > 255.0) {
+        return 255;
+    }
+    return (uint8_t)r;
+}
+
 /* read the X potentiometer value */
 uint8_t read_joyport_potx(void)
 {
@@ -323,7 +358,7 @@ uint8_t read_joyport_potx(void)
         case 2:
             return ret2;
         case 3:
-            return ret1 & ret2;
+            return calc_parallel_paddle_value(ret1, ret2);
         default:
             return 0xff;
     }
@@ -372,7 +407,7 @@ uint8_t read_joyport_poty(void)
         case 2:
             return ret2;
         case 3:
-            return ret1 & ret2;
+            return calc_parallel_paddle_value(ret1, ret2);
         default:
             return 0xff;
     }
