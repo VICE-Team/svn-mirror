@@ -1459,7 +1459,7 @@ static cmdline_option_t cmdline_options_port9[] =
 static cmdline_option_t cmdline_options_port10[] =
 {
     { "-controlport10device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_10, "JoyPort1Device", NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_10, "JoyPort10Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
