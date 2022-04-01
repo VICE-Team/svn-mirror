@@ -3059,23 +3059,23 @@ value, causes the emulator to save the current
 (changed) settings before exiting, and can be toggled with the ``Save
 settings on exit'' item from the options menu.
 
-
-@menu
-* Resource files::              Format of resource files.
-* Resources and command-line::  Specifying settings from the
-                                command-line
-
-* Performance settings::        Settings that affect speed of execution.
-* Video settings::              Settings dealing with the video output.
-* Keyboard settings::           Settings relative to the keyboard emulation.
-* Control port settings::       Settings that control what device is emulated on available control ports.
-* Sound settings::              Settings that control audio playback
-* Drive settings::              Settings that control disk-drive emulation.
-* Peripheral settings::         Settings for emulated external devices.
-* RS232 settings::              Settings for the RS232 emulation.
-* Monitor settings::            Settings for the built-in monitor.
-* Misc settings::               Other settings.
-@end menu
+@c @menu
+@c * Resource files::              Format of resource files.
+@c * Resources and command-line::  Specifying settings from the
+@c                                 command-line
+@c 
+@c * Performance settings::        Settings that affect speed of execution.
+@c * Video settings::              Settings dealing with the video output.
+@c * Keyboard settings::           Settings relative to the keyboard emulation.
+@c * Control port settings::       Settings that control what device is emulated on available control ports.
+@c * Sound settings::              Settings that control audio playback
+@c * Drive settings::              Settings that control disk-drive emulation.
+@c * Peripheral settings::         Settings for emulated external devices.
+@c * RS232 settings::              Settings for the RS232 emulation.
+@c * Ethernet settings::           Settings for the Ethernet emulation.
+@c * Monitor settings::            Settings for the built-in monitor.
+@c * Misc settings::               Other settings.
+@c @end menu
 
 @node Resource files, Resources and command-line, Settings and resources, Settings and resources
 @section Format of resource files
@@ -3326,10 +3326,10 @@ will cause the emulator to disable any speed limit, turn sound output
 off and use a 1/10 refresh rate, so that it will run at the maximum
 possible speed.
 
-@menu
-* Performance resources::
-* Performance options::
-@end menu
+@c @menu
+@c * Performance resources::
+@c * Performance options::
+@c @end menu
 
 @node Performance resources, Performance options, Performance settings, Performance settings
 @subsection Performance resources
@@ -3439,10 +3439,10 @@ file'').
 @end itemize
 
 
-@menu
-* Keyboard resources::
-* Keyboard options::
-@end menu
+@c @menu
+@c * Keyboard resources::
+@c * Keyboard options::
+@c @end menu
 
 @node Keyboard resources, Keyboard options, Keyboard settings, Keyboard settings
 @subsection Keyboard resources
@@ -3535,11 +3535,11 @@ machine specific, currently always 0 except for xpet: 0: Business (us)
 The control port settings submenu allows you to select which control
 port device is connected to a control port.
 
-@menu
-* Control port resources::
-* Control port options::
-* Control port and devices::
-@end menu
+@c @menu
+@c * Control port resources::
+@c * Control port options::
+@c * Control port and devices::
+@c @end menu
 
 @node Control port resources, Control port options, Control port settings, Control port settings
 @subsection Control port resources
@@ -6535,11 +6535,11 @@ These features depend on some @dfn{kernal traps} that replace the
 existing routines in the original Commodore operating system with
 custom-made C routines.
 
-@menu
-* File system device settings::  Settings for file system devices.
-* Printer settings::            Settings for emulating a printer.
-* No kernal traps::             Disabling kernal traps completely.
-@end menu
+@c @menu
+@c * File system device settings::  Settings for file system devices.
+@c * Printer settings::            Settings for emulating a printer.
+@c * No kernal traps::             Disabling kernal traps completely.
+@c @end menu
 
 @node File system device settings, Printer settings, Peripheral settings, Peripheral settings
 @subsection Settings for file system devices
@@ -6582,10 +6582,10 @@ raw CBM files) whenever a program creates a file.
 
 Note that, by default, all drives create P00 files on save.
 
-@menu
-* File system device resources::
-* File system device options::
-@end menu
+@c @menu
+@c * File system device resources::
+@c * File system device options::
+@c @end menu
 
 
 @node File system device resources, File system device options, File system device settings, File system device settings
@@ -6873,10 +6873,10 @@ output from the Commodore printer code) and then to the printer via
 @code{lpr}.
 
 
-@menu
-* Printer resources::
-* Printer options::
-@end menu
+@c @menu
+@c * Printer resources::
+@c * Printer options::
+@c @end menu
 
 @node Printer resources, Printer options, Printer settings, Printer settings
 @subsubsection Printer resources
@@ -7103,10 +7103,10 @@ to be able to read or write disk images) and tape (t64) support.
 Since the 3.0 release kernal traps have been disabled by default to ensure
 maximum compatibility.
 
-@menu
-* No traps resources::
-* No traps options::
-@end menu
+@c @menu
+@c * No traps resources::
+@c * No traps options::
+@c @end menu
 
 @node No traps resources, No traps options, No kernal traps, No kernal traps
 @subsubsection Resources to control Kernal traps
@@ -7245,11 +7245,11 @@ device 4, whose default value is @code{|nc 127.0.0.1:25232}.
 You can change the baudrate the tty device is set to by specifying it on the 
 commandline or in the menu.
 
-@menu
-* RS232 resources::
-* RS232 options::
-* RS232 usage::
-@end menu
+@c @menu
+@c * RS232 resources::
+@c * RS232 options::
+@c * RS232 usage::
+@c @end menu
 
 @node RS232 resources, RS232 options, RS232 settings, RS232 settings
 @subsection RS232 resources
@@ -7552,6 +7552,99 @@ If it is able to detect an
   if enabled.
   Otherwise just set the baudrate to either 300, 1200, 2400 or 9600 according
   to what you enabled in the VICE menu for the userport.
+
+@end table
+
+@c -----------------------------------------------------------------------------
+
+@c @node FIXME
+@section Ethernet emulation
+
+To use the ethernet emulation features, VICE must be configured with --enable-ethernet
+before compiling, and the system headers for libpcap, libnet and/or tuntap must
+be present.
+
+In Windows you will have to install the npcap driver, which is available from
+@uref{https://npcap.com/#download} (select winpcap compatibility mode when installing).
+
+It should be clear to you that it may pose a security problem using these 
+libraries in a network. Using libpcap can result in disclosure of any information
+that is available on your network which is not secured by other means! Furthermore,
+libnet might allow even further attacks on your infrastructure!
+
+Installing libpcap and libnet, you acknowledge that you're well aware of these
+security problems and that the VICE team cannot be made responsible for any
+problems and/or damage which may arise from the use of these libraries! If you
+don't acknowledge this, don't install the tools and/or use VICE networking.
+
+@c @node FIXME
+@subsection Ethernet usage example
+
+@itemize @bullet
+@item
+Go to Preferences -> Peripherial Devices -> Ethernet and select the driver and
+network interface you want to use. If this option is not present at all, then
+VICE was compiled without ethernet support or the respective libraries could not
+be found on your system (see note above). If the option exists but is not
+enabled, you may not have the required permissions to use the raw ethernet device -
+you can try to run VICE as root/Administrator (the usual precautions apply), on
+*nix platforms VICE also supports the "capabilities" mechanism.
+
+@item
+Go to Preferences -> Cartridges - Ethernet Cartridge and select "Enable ethernet cartridge".
+Most likely you want to enable "RR-Net compatibility mode", too. (If this option is not set,
+the ethernet emulation runs in "The Final Ethernet" mode). The cartridge I/O base should be
+at its default value of $de00.
+
+@item
+Run the RR-Net enabled C64 program.
+
+@item 
+If the program can not access the network, check your router setup. The raw
+ethernet emulation works exactly like a "real" ethernet device in the network,
+eg the emulated ethernet device gets its own MAC adress, which you may have to
+allow to access the internet at your router.
+@end itemize
+
+@c @node FIXME
+@subsection Ethernet resources
+
+The following are the generic ethernet resources, some more may exist for the
+individual emulators:
+
+@table @code
+
+@vindex ETHERNET_INTERFACE
+@item ETHERNET_INTERFACE
+String specifying the device name of the ethernet device to use for the emulation.
+
+@vindex ETHERNET_DRIVER
+@item ETHERNET_DRIVER
+String specifying the low-level ethernet driver for Ethernet Cartridge emulation
+(tuntap, pcap).
+
+@vindex ETHERNET_DISABLED
+@item ETHERNET_DISABLED
+Boolean that specified whether ethernet emulation has been disabled because it is
+not available in the current configuration.
+
+@end table
+
+@c @node FIXME
+@subsection Ethernet command line options
+
+@table @code
+
+@findex -ethernetioif
+@item -ethernetioif <name>
+Set the system ethernet interface for Ethernet Cartridge emulation
+(@code{ETHERNET_INTERFACE}).
+
+@findex -ethernetiodriver
+@item -ethernetiodriver <name>
+Set the low-level ethernet driver for Ethernet Cartridge emulation
+(@code{ETHERNET_DRIVER}).
+(tuntap, pcap)
 
 @end table
 
@@ -11343,25 +11436,12 @@ Boolean specifying whether the DS12C887 RTC data should be saved when changed or
 @vindex ETHERNETCART_ACTIVE
 @item ETHERNETCART_ACTIVE
 Boolean that specifies whether the CS8900 ethernet interface emulation is active.
-@vindex ETHERNET_INTERFACE
-@item ETHERNET_INTERFACE
-String specifying the device name of the ethernet device to use for the emulation.
-@vindex ETHERNET_DRIVER
-@item ETHERNET_DRIVER
-String specifying the low-level ethernet driver for Ethernet Cartridge emulation
-(tuntap, pcap).
-
-@vindex ETHERNET_DISABLED
-@item ETHERNET_DISABLED
-Boolean that specified whether ethernet emulation has been disabled because it is
-not available in the current configuration.
 @vindex ETHERNETCARTMode
 @item ETHERNETCARTMode
 Boolean that specifies whether RR-Net compatible mapping is enabled.
 @vindex ETHERNETCARTBase
 @item ETHERNETCARTBase
 Integer specifying the I/O base address of the emulated ethernet cartridge,
-
 
 @vindex GEORAM
 @item GEORAM
@@ -11561,17 +11641,6 @@ Set YM chip type
 @itemx +sfxss
 Enable/disable the SFX Sound Sampler cartridge
 (@code{SFXSoundSampler=1}, @code{SFXSoundSampler=0}).
-
-@findex -ethernetioif
-@item -ethernetioif <name>
-Set the system ethernet interface for Ethernet Cartridge emulation
-(@code{ETHERNET_INTERFACE}).
-
-@findex -ethernetiodriver
-@item -ethernetiodriver <name>
-Set the low-level ethernet driver for Ethernet Cartridge emulation
-(@code{ETHERNET_DRIVER}).
-(tuntap, pcap)
 
 @findex -ethernetcart, +ethernetcart
 @item -ethernetcart
@@ -13242,17 +13311,6 @@ Specify address of the SID Cartridge
 Specify clock of the SID Cartridge
 (@code{SidClock}).
 (0: C64, 1: VIC20)
-
-@findex -ethernetioif
-@item -ethernetioif <name>
-Set the system ethernet interface for Ethernet Cartridge emulation
-(@code{ETHERNET_INTERFACE}).
-
-@findex -ethernetiodriver
-@item -ethernetiodriver <name>
-Set the low-level ethernet driver for Ethernet Cartridge emulation
-(@code{ETHERNET_DRIVER}).
-(tuntap, pcap)
 
 @findex -ethernetcart, +ethernetcart
 @item -ethernetcart
