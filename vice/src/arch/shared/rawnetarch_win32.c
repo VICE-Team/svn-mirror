@@ -31,6 +31,17 @@
 
 /* #define WPCAP */
 
+/*
+    To compile with PCAP support, the respective header files must be present.
+    These Headers are NOT in the VICE tree anymore, but have to be provided
+    when compiling. One easy way to do this is installing libpcap in msys2. The
+    more "correct" way would be downloading the SDK from the npcap website at
+    https://npcap.com/#download and point the CFLAGS at them when configuring.
+
+    To actually use the resulting binary with npcap, simple install it using
+    the installer from https://npcap.com/#download (select winpcap compatible
+    mode) and then run the emulator.
+*/
 #include <pcap.h>
 
 #include <assert.h>
