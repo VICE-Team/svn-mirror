@@ -1387,7 +1387,7 @@ static char *build_joyport_string(int port)
 static cmdline_option_t cmdline_options_port1[] =
 {
     { "-controlport1device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_1, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_1, "JoyPort1Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -1395,7 +1395,7 @@ static cmdline_option_t cmdline_options_port1[] =
 static cmdline_option_t cmdline_options_port2[] =
 {
     { "-controlport2device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_2, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_2, "JoyPort2Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -1403,7 +1403,7 @@ static cmdline_option_t cmdline_options_port2[] =
 static cmdline_option_t cmdline_options_port3[] =
 {
     { "-controlport3device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_3, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_3, "JoyPort3Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -1411,7 +1411,7 @@ static cmdline_option_t cmdline_options_port3[] =
 static cmdline_option_t cmdline_options_port4[] =
 {
     { "-controlport4device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_4, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_4, "JoyPort4Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -1419,7 +1419,7 @@ static cmdline_option_t cmdline_options_port4[] =
 static cmdline_option_t cmdline_options_port5[] =
 {
     { "-controlport5device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_5, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_5, "JoyPort5Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -1427,7 +1427,7 @@ static cmdline_option_t cmdline_options_port5[] =
 static cmdline_option_t cmdline_options_port6[] =
 {
     { "-controlport6device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_6, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_6, "JoyPort6Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -1435,7 +1435,7 @@ static cmdline_option_t cmdline_options_port6[] =
 static cmdline_option_t cmdline_options_port7[] =
 {
     { "-controlport7device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_7, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_7, "JoyPort7Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -1443,7 +1443,7 @@ static cmdline_option_t cmdline_options_port7[] =
 static cmdline_option_t cmdline_options_port8[] =
 {
     { "-controlport8device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_8, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_8, "JoyPort8Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -1451,7 +1451,7 @@ static cmdline_option_t cmdline_options_port8[] =
 static cmdline_option_t cmdline_options_port9[] =
 {
     { "-controlport9device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_9, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_9, "JoyPort9Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -1459,7 +1459,7 @@ static cmdline_option_t cmdline_options_port9[] =
 static cmdline_option_t cmdline_options_port10[] =
 {
     { "-controlport10device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_joyport_cmdline_device, (void *)JOYPORT_10, NULL, NULL,
+      set_joyport_cmdline_device, (void *)JOYPORT_10, "JoyPort1Device", NULL,
       "Device", NULL },
     CMDLINE_LIST_END
 };
