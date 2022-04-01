@@ -438,7 +438,7 @@ Common code guidelines
 ----------------------
 
 Many different compilers may be used to compile the common code parts, although
-in practise this will be either GCC or MSVC.
+in practise this will be GCC, Clang or MSVC.
 
 - There should be no compiler specific hacks anywhere and no ifdefs checking
   for specific compilers. The only exception to this rule is the global vice.h.
