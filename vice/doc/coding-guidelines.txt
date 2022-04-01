@@ -409,7 +409,7 @@ Symbols in ifdefs
       NETBSD_COMPILE
       OPENBSD_COMPILE
   BEOS_COMPILE
-  HAIKU_COMPILE
+    HAIKU_COMPILE
 
   Remember this kind of tests should ideally not occur anywhere in common code -
   but if they can not be avoided, they should always come with a comment that
