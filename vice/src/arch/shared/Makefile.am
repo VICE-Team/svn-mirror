@@ -1,5 +1,3 @@
-# vim: set noet ts=8:
-#
 # Makefile.am for the shared archdep code
 
 # Set directory constants here as well. Somehow that seems to be the way
@@ -12,7 +10,7 @@
 #
 # -- compyx, 2020-02-08
 
-SUBDIRS = mididrv samplerdrv sounddrv
+SUBDIRS = iodrv mididrv samplerdrv sounddrv
 
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \

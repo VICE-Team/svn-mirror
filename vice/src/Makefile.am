@@ -43,7 +43,6 @@ SUBDIRS = \
 	joyport \
 	socketdrv \
 	hwsiddrv \
-	iodrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -88,7 +87,6 @@ endif
 DIST_SUBDIRS = \
 	socketdrv \
 	hwsiddrv \
-	iodrv \
 	joyport \
 	drive \
 	vdrive \
@@ -559,7 +557,7 @@ hwsiddrv_lib = $(top_builddir)/src/hwsiddrv/libhwsiddrv.a
 hvsc_lib = $(top_builddir)/src/hvsc/libhvsc.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
-iodrv_lib = $(top_builddir)/src/iodrv/libiodrv.a
+iodrv_lib = $(top_builddir)/src/arch/shared/iodrv/libiodrv.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
 linenoise_ng_lib = $(top_builddir)/src/lib/linenoise-ng/liblinenoiseng.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
@@ -1331,7 +1329,7 @@ $(imagecontents_lib):
 	@(cd imagecontents && $(MAKE))
 $(iodrv_lib):
 	@echo "making all in iodrv"
-	@(cd iodrv && $(MAKE))
+	@(cd arch/shared/iodrv && $(MAKE))
 $(linenoise_ng_lib):
 	@echo "making liblinenoise_ng.a in lib/linenoise-ng"
 	@(cd lib/linenoise-ng && $(MAKE))
