@@ -40,7 +40,6 @@ else
 SUBDIRS = \
 	@RESID_DIR@ \
 	@RESID_DTV_DIR@ \
-	samplerdrv \
 	joyport \
 	socketdrv \
 	hwsiddrv \
@@ -90,7 +89,6 @@ DIST_SUBDIRS = \
 	socketdrv \
 	hwsiddrv \
 	iodrv \
-	samplerdrv \
 	joyport \
 	drive \
 	vdrive \
@@ -578,7 +576,7 @@ resid_dtv_lib = $(top_builddir)/src/resid-dtv/libresiddtv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 rtc_lib = $(top_builddir)/src/core/rtc/librtc.a
-samplerdrv_lib = $(top_builddir)/src/samplerdrv/libsamplerdrv.a
+samplerdrv_lib = $(top_builddir)/src/arch/shared/samplerdrv/libsamplerdrv.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sid_dtv_lib = $(top_builddir)/src/sid/libsid_dtv.a

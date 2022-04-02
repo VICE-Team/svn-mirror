@@ -18,7 +18,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/joyport \
-	-I$(top_srcdir)/src/samplerdrv \
+	-I$(top_srcdir)/src/arch/shared/samplerdrv \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/core \
 	-I$(top_srcdir)/src/rs232drv \
