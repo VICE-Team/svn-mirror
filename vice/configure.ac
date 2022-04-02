@@ -3587,6 +3587,7 @@ AC_OUTPUT([Makefile
            src/arch/sdl/Makefile
            src/arch/headless/Makefile
            src/arch/shared/Makefile
+           src/arch/shared/mididrv/Makefile
            src/arch/shared/sounddrv/Makefile
            src/buildtools/Makefile
            src/c128/Makefile
@@ -3622,7 +3623,6 @@ AC_OUTPUT([Makefile
            src/lib/Makefile
            src/lib/p64/Makefile
            src/lib/linenoise-ng/Makefile
-           src/mididrv/Makefile
            src/monitor/Makefile
            src/parallel/Makefile
            src/pet/Makefile
