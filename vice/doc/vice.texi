@@ -925,14 +925,27 @@ very familiar with the original emulated keyboards. Also not all keys can be
 mapped exactly this way either, which means some of them still need to be
 mapped to other keys (see above).
 
-@strong{Warning:} unlike the real C64, VICE ``presses'' the @key{Shift}
-key @emph{together} with the key to shift when the @key{Shift} must be
-forced.  In most cases this should work fine, but some keyboard routines
-are quite picky and tend not to recognize the shift key because of this.
-For instance, @kbd{F6} (which on the real C64 is obtained with
-@kbd{Shift + F5}) could be recognized as @kbd{F5}.  In that case, use
-the shift key manually (i.e., type @kbd{Shift + F5} in the example).
-Yes, we know this is a bug.
+@strong{Warning:} If you have symbolic keyboard mapping enabled, the emulator has
+to "de-shift" (remove the shift modifier) from some keys. For example, if you
+want to get a ":" on a german keyboard, you have to press "." and shift simulaneously.
+Then, the emulator sees the events "shift pressed" and ":" pressed. At the moment
+you have pressed shift, the emulator does not know what key you are using next
+(or even if you are actually going to use another key before releasing shift again),
+so it has to deliver this state to the keyboard matrix. If you press ".", then shift,
+to achive a ":", the emulator has to take back the shift key although it is still
+pressed, as the ":" is an unshifted key in the c64/c128 keyboard matrix.
+
+A similar problem exists when you press a key that is unshifted on the host keyboard,
+and the emulator must "shift" (add the shift modifier) for the emulated keyboard. For
+example on a US keyboard the brackets ([,]) are such a case. Unlike what would happen
+on the real C64 when typing, VICE ``presses'' the @key{Shift} key @emph{together}
+with the key to shift when the @key{Shift} must be forced.  In most cases this
+should work fine, but some keyboard routines are quite picky (eg x128 in CP/M mode) and tend not to
+recognize the shift key because of this. For instance, @kbd{F6} (which on the
+real C64 is obtained with @kbd{Shift + F5}) could be recognized as @kbd{F5}.
+In that case, use the shift key manually (i.e., type @kbd{Shift + F5} in the example).
+
+Yes, we know this is a bug. As a workaround, please use a positional keymap.
 
 We depend a lot on your support to improve the keyboard maps, as we can not
 test all emulators in all possible configurations and using all host keyboard
@@ -1280,10 +1293,9 @@ to play sound via SDL.
 @node Video problems, Printer problems , Sound problems, Common problems
 @subsection Video problems
 
-Due to the way VICE currently handles its main loop, a common problem with
-video sync occurs when the real (the monitors) frame rate is very close to, 
-equal, or lower than the framerate of the emulated machine. We recommend to
-use a framerate which is slightly higher than that (eg 51Hz for the C64).
+If you don't get video output, the problem may be that your system has no
+suitable Open-GL driver - which is strictly required for the GTK3 port. Have
+a look at the logfile to see if this is the problem.
 
 @node Printer problems, PET keyboard problems ,Video problems, Common problems
 @subsection Printer problems
@@ -2956,8 +2968,8 @@ compressed archives. Get gzip and unzip for Windows and for DOS at
 @uref{http://infozip.sourceforge.net}. Don't use pkunzip
 for DOS, it doesn't work. The programs to use BZip2 archives may be
 found at @uref{https://sourceware.org/bzip2/}.
-Just put the programs (unzip.exe, gzip.exe, bzip2.exe) into a directory
-of your search path (e.g. C:\DOS or C:\WINDOWS\COMMAND; have a look at
+Just put the programs (@code{unzip.exe}, @code{gzip.exe}, @code{bzip2.exe}) into a directory
+of your search path (e.g. @code{C:\DOS} or @code{C:\WINDOWS\COMMAND}; have a look at
 the PATH variable).
 
 @node Zipcode and Lynx,  , Compressed files, Disk and tape images
@@ -2997,6 +3009,29 @@ If you attach as a disk image (or smart-attach) any one of these files,
 the emulator will simply pick up the other three (by examining
 the name) and then build a disk image using all four.
 
+@section Using printer emulation
+
+@itemize @bullet
+@item
+Start the emulator (x64sc, for example) with default settings.
+@item
+go to "Preferences -> Peripheral devices -> Printer", select "Printer 4"
+@item
+Enable Virtual Device
+@item
+set "Printer Emulation" to "File system access".
+@item
+Print something, for example:
+@example
+open4,4
+cmd4:list
+print#4,"test":close4
+@end example
+@item
+Close the emulator or disable printer emulation. This is needed to flush the data to the file.
+@item
+Have a look at the file print.dump in your VICE working directory with your favourite editor.
+@end itemize
 
 @node Reset,  , Disk and tape images, Basics
 @section Resetting the machine
@@ -12910,6 +12945,46 @@ thus are not present in the other emulators.
 * VIC20 system ROM settings::
 @end menu
 
+@subsection Using prg files
+
+It's not alway easy to get VIC-20 games to work due to its different configurations.
+To run VIC-20 games, you can try the following:
+
+@itemize @bullet
+@item
+Try to autorun with different memory sets: "no expansion", "3KiB" and "Full"
+@item
+Load the file in a hex editor and have a look at the first two bytes. If they
+are e.g. @code{00 A0} the file should probably be attached as a cartridge image at @code {$A000}.
+@item
+Some programs, (eg the loadable Scott Adams text adventures) have to be loaded
+into the expanded memory blocks, and then run with the expansion disabled via
+software, like this:
+
+@itemize @bullet
+@item
+Enable the full memory expansion
+@item
+Disable the expanded memory
+@example
+POKE44,16:POKE56,30:POKE4096,0:new
+POKE648,30
+@end example
+@item
+Press @code{RUN/STOP + RESTORE} (which is @code{ESC + F12} on the default keymap)
+@item
+Load the program
+@example
+LOAD"4.Voodoo Castle",8,1
+@end example
+@item
+Start the program (other programs may have a different start address)
+@example
+SYS32592
+@end example
+@end itemize
+
+@end itemize
 
 @node VIC20 cartridges, VIC20 memory expansions, VIC20-specific, VIC20-specific
 @subsection Using cartridge images
