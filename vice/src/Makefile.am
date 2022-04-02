@@ -42,7 +42,6 @@ SUBDIRS = \
 	@RESID_DTV_DIR@ \
 	samplerdrv \
 	joyport \
-	mididrv \
 	socketdrv \
 	hwsiddrv \
 	iodrv \
@@ -88,7 +87,6 @@ SUBDIRS = \
 endif
 
 DIST_SUBDIRS = \
-	mididrv \
 	socketdrv \
 	hwsiddrv \
 	iodrv \
@@ -567,7 +565,7 @@ iodrv_lib = $(top_builddir)/src/iodrv/libiodrv.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
 linenoise_ng_lib = $(top_builddir)/src/lib/linenoise-ng/liblinenoiseng.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
-mididrv_lib = $(top_builddir)/src/mididrv/libmididrv.a
+mididrv_lib = $(top_builddir)/src/arch/shared/mididrv/libmididrv.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a

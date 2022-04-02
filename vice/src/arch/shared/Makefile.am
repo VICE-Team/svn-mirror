@@ -12,7 +12,7 @@
 #
 # -- compyx, 2020-02-08
 
-SUBDIRS = sounddrv
+SUBDIRS = mididrv sounddrv
 
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
