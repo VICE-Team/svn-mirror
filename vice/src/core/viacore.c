@@ -54,7 +54,7 @@
  *
  * A new function for signaling rising/falling edges on the
  * control lines is introduced:
- *      myvia_signal(VIA_SIG_[CA1|CA2|CB1|CB2], VIA_SIG_[RISE|FALL])
+ *      viacore_signal(VIA_SIG_[CA1|CA2|CB1|CB2], VIA_SIG_[RISE|FALL])
  * which signals the corresponding edge to the VIA. The constants
  * are defined in via.h.
  *
@@ -197,6 +197,8 @@ static void viacore_t2_zero_alarm(CLOCK offset, void *data);
 static void viacore_t2_underflow_alarm(CLOCK offset, void *data);
 static void do_shiftregister(CLOCK offset, via_context_t *via_context);
 inline static void schedule_t2_zero_alarm(via_context_t *via_context, CLOCK rclk);
+static void viacore_cache_cb12_io_status(via_context_t *via_context);
+static void set_cb2_output_state(via_context_t *via_context, uint8_t pcr);
 
 
 static void via_restore_int(via_context_t *via_context, int value)
@@ -365,7 +367,7 @@ void viacore_disable(via_context_t *via_context)
     alarm_unset(via_context->t2_underflow_alarm);
     alarm_unset(via_context->t2_shift_alarm);
     alarm_unset(via_context->phi2_sr_alarm);
-    via_context->enabled = 0;
+    via_context->enabled = false;
 }
 
 /*
@@ -420,26 +422,30 @@ void viacore_reset(via_context_t *via_context)
     via_context->oldpa = 0;
     via_context->oldpb = 0;
 
-    via_context->ca2_state = 1;
-    via_context->cb2_state = 1;
-    (via_context->set_ca2)(via_context, via_context->ca2_state);      /* input = high */
-    (via_context->set_cb2)(via_context, via_context->cb2_state);      /* input = high */
+    via_context->ca2_out_state = true;
+    via_context->cb1_out_state = true;
+    via_context->cb2_out_state = true;
+    via_context->cb2_in_state = true;
+    (via_context->set_ca2)(via_context, via_context->ca2_out_state);      /* input = high */
+    (via_context->set_cb2)(via_context, via_context->cb2_out_state);      /* input = high */
 
     if (via_context->reset) {
         (via_context->reset)(via_context);
     }
 
-    via_context->enabled = 1;
+    viacore_cache_cb12_io_status(via_context);
+
+    via_context->enabled = true;
 }
 
 void viacore_signal(via_context_t *via_context, int line, int edge)
 {
     switch (line) {
         case VIA_SIG_CA1:
-            if ((edge ? 1 : 0) == (via_context->via[VIA_PCR] & 0x01)) {
-                if (IS_CA2_TOGGLE_MODE() && !(via_context->ca2_state)) {
-                    via_context->ca2_state = 1;
-                    (via_context->set_ca2)(via_context, via_context->ca2_state);
+            if ((edge ? 1 : 0) == (via_context->via[VIA_PCR] & VIA_PCR_CA1_CONTROL)) {
+                if (IS_CA2_TOGGLE_MODE() && !(via_context->ca2_out_state)) {
+                    via_context->ca2_out_state = true;
+                    (via_context->set_ca2)(via_context, via_context->ca2_out_state);
                 }
                 via_context->ifr |= VIA_IM_CA1;
                 update_myviairq(via_context);
@@ -451,8 +457,7 @@ void viacore_signal(via_context_t *via_context, int line, int edge)
             }
             break;
         case VIA_SIG_CA2:
-            if (!(via_context->via[VIA_PCR] & 0x08)) {
-                VIALOG2("signal: maybe set VIA_IM_CA2\n");
+            if ((via_context->via[VIA_PCR] & VIA_PCR_CA2_I_OR_O) == VIA_PCR_CA2_INPUT) {
                 via_context->ifr |= (((edge << 2)
                                     ^ via_context->via[VIA_PCR]) & 0x04) ?
                                     0 : VIA_IM_CA2;
@@ -460,27 +465,10 @@ void viacore_signal(via_context_t *via_context, int line, int edge)
             }
             break;
         case VIA_SIG_CB1:
-            if ((edge ? 0x10 : 0) == (via_context->via[VIA_PCR] & 0x10)) {
-                if (IS_CB2_TOGGLE_MODE() && !(via_context->cb2_state)) {
-                    via_context->cb2_state = 1;
-                    (via_context->set_cb2)(via_context, via_context->cb2_state);
-                }
-                via_context->ifr |= VIA_IM_CB1;
-                update_myviairq(via_context);
-#ifdef MYVIA_NEED_LATCHING
-                if (IS_PB_INPUT_LATCH()) {
-                    via_context->ilb = (via_context->read_prb)(via_context);
-                }
-#endif
-            }
+            viacore_set_cb1(via_context, edge);
             break;
         case VIA_SIG_CB2:
-            if (!(via_context->via[VIA_PCR] & 0x80)) {
-                via_context->ifr |= (((edge << 6)
-                                    ^ via_context->via[VIA_PCR]) & 0x40) ?
-                                    0 : VIA_IM_CB2;
-                update_myviairq(via_context);
-            }
+            viacore_set_cb2(via_context, edge);
             break;
     }
 }
@@ -676,12 +664,12 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                 via_context->ifr &= ~VIA_IM_CA2;
             }
             if (IS_CA2_HANDSHAKE()) {
-                via_context->ca2_state = 0;
-                (via_context->set_ca2)(via_context, via_context->ca2_state);
+                via_context->ca2_out_state = false;
+                (via_context->set_ca2)(via_context, via_context->ca2_out_state);
                 if (IS_CA2_PULSE_MODE()) {
                     /* This is a bit soon... should be a clock later */
-                    via_context->ca2_state = 1;
-                    (via_context->set_ca2)(via_context, via_context->ca2_state);
+                    via_context->ca2_out_state = true;
+                    (via_context->set_ca2)(via_context, via_context->ca2_out_state);
                 }
             }
             if (via_context->ier & (VIA_IM_CA1 | VIA_IM_CA2)) {
@@ -707,12 +695,12 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                 via_context->ifr &= ~VIA_IM_CB2;
             }
             if (IS_CB2_HANDSHAKE()) {
-                via_context->cb2_state = 0;
-                (via_context->set_cb2)(via_context, via_context->cb2_state);
+                via_context->cb2_out_state = 0;
+                (via_context->set_cb2)(via_context, via_context->cb2_out_state);
                 if (IS_CB2_PULSE_MODE()) {
                     /* FIXME: This pulse is a bit short... */
-                    via_context->cb2_state = 1;
-                    (via_context->set_cb2)(via_context, via_context->cb2_state);
+                    via_context->cb2_out_state = 1;
+                    (via_context->set_cb2)(via_context, via_context->cb2_out_state);
                 }
             }
             if (via_context->ier & (VIA_IM_CB1 | VIA_IM_CB2)) {
@@ -934,6 +922,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                     via_context->ifr &= ~VIA_IM_SR;
                     update_myviairq_rclk(via_context, rclk);
                 }
+                set_cb2_output_state(via_context, via_context->via[VIA_PCR]);
                 break;
             case VIA_ACR_SR_IN_T2:
             case VIA_ACR_SR_OUT_T2:
@@ -978,6 +967,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
             }
 
             via_context->via[addr] = byte;
+            viacore_cache_cb12_io_status(via_context);
             (via_context->store_acr)(via_context, byte);
 
             break;
@@ -992,34 +982,27 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
 
             if ((byte & VIA_PCR_CA2_CONTROL) == VIA_PCR_CA2_LOW_OUTPUT) {
                 /* set output low */
-                via_context->ca2_state = 0;
+                via_context->ca2_out_state = false;
             } else
             if ((byte & VIA_PCR_CA2_CONTROL) == VIA_PCR_CA2_HIGH_OUTPUT) {
                 /* set output high */
-                via_context->ca2_state = 1;
+                via_context->ca2_out_state = true;
             } else {                    /* set to toggle/pulse/input */
                 /* FIXME: is this correct if handshake is already active? */
-                via_context->ca2_state = 1;
+                via_context->ca2_out_state = true;
             }
-            (via_context->set_ca2)(via_context, via_context->ca2_state);
+            (via_context->set_ca2)(via_context, via_context->ca2_out_state);
 
-            if ((byte & VIA_PCR_CB2_CONTROL) == VIA_PCR_CB2_LOW_OUTPUT) {
-                /* set output low */
-                via_context->cb2_state = 0;
-            } else
-            if ((byte & VIA_PCR_CB2_CONTROL) == VIA_PCR_CB2_HIGH_OUTPUT) {
-                /* set output high */
-                via_context->cb2_state = 1;
-            } else {                    /* set to toggle/pulse/input */
-                /* FIXME: is this correct if handshake is already active? */
-                via_context->cb2_state = 1;
+            /* Shift register control overrides CB2 control */
+            if ((via_context->via[VIA_ACR] & VIA_ACR_SR_CONTROL) ==
+                    VIA_ACR_SR_DISABLED) {
+                set_cb2_output_state(via_context, byte);
             }
-            (via_context->set_cb2)(via_context, via_context->cb2_state);
 
             (via_context->store_pcr)(via_context, byte, addr);
 
             via_context->via[addr] = byte;
-
+            viacore_cache_cb12_io_status(via_context);
             break;
 
         default:
@@ -1077,11 +1060,11 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
                 via_context->ifr &= ~VIA_IM_CA2;
             }
             if (IS_CA2_HANDSHAKE()) {
-                via_context->ca2_state = 0;
-                (via_context->set_ca2)(via_context, via_context->ca2_state);
+                via_context->ca2_out_state = false;
+                (via_context->set_ca2)(via_context, via_context->ca2_out_state);
                 if (IS_CA2_PULSE_MODE()) {
-                    via_context->ca2_state = 1;
-                    (via_context->set_ca2)(via_context, via_context->ca2_state);
+                    via_context->ca2_out_state = true;
+                    (via_context->set_ca2)(via_context, via_context->ca2_out_state);
                 }
             }
             if (via_context->ier & (VIA_IM_CA1 | VIA_IM_CA2)) {
@@ -1322,6 +1305,145 @@ static void viacore_t1_zero_alarm(CLOCK offset, void *data)
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * Set the state of the CB2 output, if not controlled by the
+ * shift register.
+ */
+static void set_cb2_output_state(via_context_t *via_context, uint8_t pcr)
+{
+    uint8_t mode = pcr & VIA_PCR_CB2_CONTROL;
+
+    if ((mode & VIA_PCR_CB2_I_OR_O) == VIA_PCR_CB2_INPUT) {
+        /*
+         * Don't lose our input, but do output a 1
+         * for if somebody is listening.
+         */
+        via_context->cb2_out_state = true;
+        (via_context->set_cb2)(via_context, true);
+    } else {
+        switch (mode) {
+        case VIA_PCR_CB2_LOW_OUTPUT:
+            /* set output low */
+            via_context->cb2_out_state = false;
+            break;
+        case VIA_PCR_CB2_HIGH_OUTPUT:
+        case VIA_PCR_CB2_PULSE_OUTPUT:
+        case VIA_PCR_CB2_HANDSHAKE_OUTPUT:
+        default:
+            /* FIXME: is this correct if handshake is already active? */
+            via_context->cb2_out_state = true;
+            break;
+        }
+        (via_context->set_cb2)(via_context, via_context->cb2_out_state);
+    }
+}
+
+/*
+ * Because CB1 and CB2 can be used individually, or controlled by the
+ * shift register, determining if they are input or output is a bit
+ * complex. So we do it only once: here.
+ *
+ * To be called if either the ACR or the PCR changes.
+ */
+
+static void viacore_cache_cb12_io_status(via_context_t *via_context)
+{
+    const uint8_t acr = via_context->via[VIA_ACR];
+    const uint8_t pcr = via_context->via[VIA_PCR];
+
+    const bool cb1_drives_shifting = /* mask out the in/out bit */
+        ((acr & VIA_ACR_SR_CONTROL & 0x0C) == VIA_ACR_SR_IN_CB1) ||
+        ((acr & VIA_ACR_SR_CONTROL) == VIA_ACR_SR_DISABLED);
+
+    const bool sr_is_input =
+           ((acr & VIA_ACR_SR_OUT) == VIA_ACR_SR_IN) &&
+           ((acr & VIA_ACR_SR_CONTROL) != VIA_ACR_SR_DISABLED);
+
+    const bool cb2_is_input =
+           (pcr & VIA_PCR_CB2_I_OR_O) == VIA_PCR_CB2_INPUT;
+
+    /*
+     * If the shift register is disabled, it does apparently shift on CB1 pulses,
+     * but CB2 in/out status would be controlled in the PCR.
+     */
+    via_context->cb1_is_input = cb1_drives_shifting;
+    via_context->cb2_is_input = sr_is_input || cb2_is_input;
+}
+
+/* ------------------------------------------------------------------------- */
+
+
+/*
+ * CB1 is the clock line for the shift register output, CB2.
+ */
+
+void viacore_set_cb1(via_context_t *via_context, bool data) {
+    /*
+     * Is the shift register set to be under external control?
+     * Is the CB1 input changing?
+     */
+    if (via_context->cb1_is_input &&
+            data != via_context->cb1_in_state) {
+
+        /* Is this the right way to start shifting a byte? */
+        if (!data && via_context->shift_state == FINISHED_SHIFTING) {
+            via_context->shift_state = START_SHIFTING;
+        }
+
+        via_context->shift_state++;
+
+        /* Is it rising? */
+        if (data) {
+            /* Shift register */
+            via_context->via[VIA_SR] <<= 1;
+            via_context->via[VIA_SR] |= via_context->cb2_in_state;
+
+            if (via_context->shift_state == FINISHED_SHIFTING) {
+                viacore_set_sr(via_context, via_context->via[VIA_SR]);
+                via_context->shift_state = START_SHIFTING;
+            }
+        }
+        via_context->cb1_in_state = (data != 0);
+
+        const uint8_t pcr = via_context->via[VIA_PCR];
+        bool edge = (pcr & VIA_PCR_CB1_CONTROL) == VIA_PCR_CB1_POS_ACTIVE_EDGE;
+
+        if (data == edge) {
+            if (IS_CB2_TOGGLE_MODE() && !(via_context->cb2_out_state)) {
+                via_context->cb2_out_state = 1;
+                (via_context->set_cb2)(via_context, via_context->cb2_out_state);
+            }
+            /* Trigger CB1 interrupt */
+            via_context->ifr |= VIA_IM_CB1;
+            update_myviairq(via_context);
+#ifdef MYVIA_NEED_LATCHING
+            if (IS_PB_INPUT_LATCH()) {
+                via_context->ilb = (via_context->read_prb)(via_context);
+            }
+#endif
+        }
+    }
+}
+
+void viacore_set_cb2(via_context_t *via_context, bool data)
+{
+    if (via_context->cb2_is_input &&
+        data != via_context->cb2_in_state) {
+        via_context->cb2_in_state = !!data;
+
+        const uint8_t pcr = via_context->via[VIA_PCR];
+        bool edge = (pcr & VIA_PCR_CB2_INPUT_POS_ACTIVE_EDGE) != 0;
+
+        if (data == edge) {
+            /* Trigger CB2 interrupt */
+            via_context->ifr |= VIA_IM_CB2;
+            update_myviairq(via_context);
+        }
+    }
+}
+
+
+
 /* WARNING: this is a hack, used to interface with c64fastiec.c, c128fastiec.c */
 void viacore_set_sr(via_context_t *via_context, uint8_t data)
 {
@@ -1504,15 +1626,25 @@ static inline void do_shiftregister(CLOCK offset, via_context_t *via_context)
     VIALOG2("do_shiftregister: ->shift_state = %d %02x %lu\n", via_context->shift_state, via_context->via[VIA_SR], rclk);
     if (via_context->shift_state < FINISHED_SHIFTING) {
         /*
-         * When shifting out, it shifts first and then waits (holding the value),
-         * but when shifting in, it waits first and then shifts.
+         * When shifting out, it shifts first and then waits (holding the
+         * value), but when shifting in, it waits first and then shifts.
+         *
+         * We should not be getting here if we are shifting in or out under
+         * control of CB1 (or is disabled).
          */
-        int shift_out = via_context->via[VIA_ACR] & VIA_ACR_SR_OUT;
+        const uint8_t acr = via_context->via[VIA_ACR];
+        const int shift_out = acr & VIA_ACR_SR_OUT;
 
-        /* FIXME: CB1 should be toggled, and interrupt flag set according to
-         * edge detection in PCR */
         if ((via_context->shift_state & 1) == 0) {
-            /* TODO: Even state: set CB1 low, in the right modes. */
+            /* Even state: set CB1 low, in the right modes. */
+            if (!via_context->cb1_is_input) {
+                if (via_context->set_cb1) {
+                    (via_context->set_cb1)(via_context, 0);
+                }
+                /* FIXME: and interrupt flag set according to
+                 * edge detection in PCR? */
+            }
+
             if (shift_out) {
                 /* Shift out */
                 int cb2 = (via_context->via[VIA_SR] >> 7) & 1;
@@ -1522,16 +1654,21 @@ static inline void do_shiftregister(CLOCK offset, via_context_t *via_context)
                  * Commodore figure 11 shows first CB2 being set and ~half a clock
                  * later CB1 goes low.
                  */
+                via_context->cb2_out_state = cb2;
+                (via_context->set_cb2)(via_context, cb2);
             }
         } else {
-            /* TODO: Odd state: set CB1 high, in the right modes. */
+            /* Odd state: set CB1 high, in the right modes. */
+            if (!via_context->cb1_is_input) {
+                if (via_context->set_cb1) {
+                    (via_context->set_cb1)(via_context, 1);
+                }
+            }
+
             if (!shift_out) {
                 /* Shift in */
-                /* FIXME: We should read CB2 here instead of 1, but CB2 state
-                 * must not be controlled by PCR.
-                 * Until the signalling function is correct with shifter active,
-                 * just use 1 instead */
-                via_context->via[VIA_SR] = (via_context->via[VIA_SR] << 1 ) | 1;
+                via_context->via[VIA_SR] = (via_context->via[VIA_SR] << 1)
+                                         | via_context->cb2_in_state;
             }
         }
 
@@ -1610,6 +1747,7 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->via[9] = 0xff;
 
     via_context->sr_underflow = NULL;
+    via_context->set_cb1 = NULL;
     via_context->t2_irq_allowed = false;
 }
 
@@ -1687,7 +1825,7 @@ void viacore_shutdown(via_context_t *via_context)
  * UBYTE        IER              interrupt masks
  * UBYTE        PB7              byte4  bit 7 = pb7 state
  * UBYTE        SRHBITS          shift register state helper
- * UBYTE        CABSTATE         bit 7 = ca2 state, bi 6 = cb2 state
+ * UBYTE        CABSTATE         byte6 bit 7 = ca2 state, bit6 = cb2 state, bi5 = cb1
  * UBYTE        ILA              input latch port A
  * UBYTE        ILB              input latch port B
  *
@@ -1737,7 +1875,11 @@ int viacore_snapshot_write_module(via_context_t *via_context, snapshot_t *s)
         || SMW_B(m, byte4) < 0
         /* SRHBITS */
         || SMW_B(m, (uint8_t)via_context->shift_state) < 0
-        || SMW_B(m, (uint8_t)((via_context->ca2_state ? 0x80 : 0) | (via_context->cb2_state ? 0x40 : 0))) < 0
+        || SMW_B(m, (uint8_t)((via_context->ca2_out_state ? 0x80 : 0) |
+                              (via_context->cb2_out_state ? 0x40 : 0) |
+                              (via_context->cb2_in_state ? 0x40 : 0)  |
+                              (via_context->cb1_in_state ? 0x20 : 0)  |
+                              (via_context->cb1_out_state ? 0x20 : 0))) < 0
         || SMW_B(m, via_context->ila) < 0
         || SMW_B(m, via_context->ilb) < 0) {
         snapshot_module_close(m);
@@ -1909,8 +2051,11 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
     via_context->t1_pb7 = byte4 & 0x80;
     via_context->shift_state = byte5;
 
-    via_context->ca2_state = byte6 & 0x80;
-    via_context->cb2_state = byte6 & 0x40;
+    via_context->ca2_out_state = (byte6 & 0x80) != 0;
+    via_context->cb2_out_state = (byte6 & 0x40) != 0;
+    via_context->cb2_in_state =  (byte6 & 0x20) != 0;
+    via_context->cb1_in_state =  (byte6 & 0x10) != 0;
+    via_context->cb1_out_state = (byte6 & 0x08) != 0;
 
     via_context->t2_irq_allowed = m2_t2_irq_allowed;
 
@@ -1935,6 +2080,8 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
     addr = VIA_ACR;
     byte = via_context->via[addr];
     (via_context->undump_acr)(via_context, byte);
+
+    viacore_cache_cb12_io_status(via_context);
 
     return snapshot_module_close(m);
 }
