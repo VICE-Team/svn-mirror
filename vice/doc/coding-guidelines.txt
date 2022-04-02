@@ -70,7 +70,7 @@ m4                          - m4 code used by the buildsystem
 
 src                         - common code
  arch                       - architecture specific code for various platforms (win, unix, amigaos, etc)
-  gtk3
+  gtk3                      - gtk3 ui
    data
     macos
     unix
@@ -81,9 +81,14 @@ src                         - common code
    widgets
     base
   headless                  - headless "ui"
-  sdl
+  sdl                       - sdl1 and sdl2 ui
    Resources
   shared
+   hwsiddrv                 - drivers for hardware SID cards, mostly using direct I/O and thus obsolete
+   iodrv
+   mididrv
+   samplerdrv
+   socketdrv
    sounddrv                 - framework specific sound drivers
   systemheaderoverride      - headers that override headers usually provided by system libraries
    gtk
@@ -157,13 +162,9 @@ src                         - common code
   petcat
 
  gfxoutputdrv               - screen capture (image and video drivers)
- hwsiddrv
- iodrv
- mididrv
  printerdrv                 - specific printer type emulation and drivers
  rs232drv                   - rs232 communication and modem code for interfacing with arch specific drivers
- samplerdrv
- socketdrv
+
 
 Cosmetic guidelines for all code
 --------------------------------
