@@ -1376,7 +1376,7 @@ $(resid_dtv_lib):
 	@(cd resid-dtv && $(MAKE) libresiddtv.a)
 $(samplerdrv_lib):
 	@echo "making all in samplerdrv"
-	@(cd samplerdrv && $(MAKE))
+	@(cd arch/shared/samplerdrv && $(MAKE))
 $(joyport_lib):
 	@echo "making all in joyport"
 	@(cd joyport && $(MAKE))
