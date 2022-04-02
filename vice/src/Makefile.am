@@ -1,5 +1,3 @@
-# vim: set noet ts=8 sw=8 sts=8:
-
 # We have to override the automake default, because we need to use
 # $(CXX) instead of $(CC) when compiling with reSID.
 LINK = @LINKCC@ @VICE_CFLAGS@ @VICE_LDFLAGS@ $(LDFLAGS) -o $@
@@ -41,8 +39,6 @@ SUBDIRS = \
 	@RESID_DIR@ \
 	@RESID_DTV_DIR@ \
 	joyport \
-	socketdrv \
-	hwsiddrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -85,8 +81,6 @@ SUBDIRS = \
 endif
 
 DIST_SUBDIRS = \
-	socketdrv \
-	hwsiddrv \
 	joyport \
 	drive \
 	vdrive \
@@ -153,7 +147,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/tape \
-	-I$(top_srcdir)/src/socketdrv \
+	-I$(top_srcdir)/src/arch/shared/socketdrv \
 	-I$(top_srcdir)/src/hvsc \
 	-I$(top_srcdir)/src/lib/linenoise-ng \
 	-I$(top_srcdir)/src/cart
@@ -553,7 +547,7 @@ drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 fileio_lib = $(top_builddir)/src/fileio/libfileio.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
-hwsiddrv_lib = $(top_builddir)/src/hwsiddrv/libhwsiddrv.a
+hwsiddrv_lib = $(top_builddir)/src/arch/shared/hwsiddrv/libhwsiddrv.a
 hvsc_lib = $(top_builddir)/src/hvsc/libhvsc.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
@@ -578,7 +572,7 @@ samplerdrv_lib = $(top_builddir)/src/arch/shared/samplerdrv/libsamplerdrv.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sid_dtv_lib = $(top_builddir)/src/sid/libsid_dtv.a
-socketdrv_lib = $(top_builddir)/src/socketdrv/libsocketdrv.a
+socketdrv_lib = $(top_builddir)/src/arch/shared/socketdrv/libsocketdrv.a
 sounddrv_lib = $(top_builddir)/src/arch/shared/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
 tapeport_lib = $(top_builddir)/src/tapeport/libtapeport.a
@@ -1193,6 +1187,254 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 .PHONY: @RESID_DEP@ @RESID_DTV_DEP@
 
 info.c: infocontrib.h
+
+
+# The following rules are not used during `make all`, but *are* used for single
+# target builds:
+
+$(arch_gtk3_widgets_lib):
+	@echo "making libwidgets.a in arch/gtk3/widgets"
+	@(cd arch/gtk3/widgets && $(MAKE) libwidgets.a)
+$(arch_gtk3_base_widgets_lib):
+	@echo "making all in arch/gtk3"
+	@(cd arch/gtk3/widgets/base && $(MAKE))
+$(arch_gtk3_novte_lib):
+	@echo "making all in arch/gtk3/novte"
+	@(cd arch/gtk3/novte && $(MAKE))
+$(arch_gtk3_joystickdrv_lib):
+	@echo "making all in arch/gtk3/joystickdrv"
+	@(cd arch/gtk3/joystickdrv && $(MAKE))
+$(arch_gtk3_lib):
+	@echo "making libarch in arch"
+	@(cd arch && $(MAKE) libarch)
+	@echo "making all in arch/gtk3/data"
+	@(cd arch/gtk3/data && $(MAKE))
+$(arch_sdl_lib):
+	@echo "making libarch in arch"
+	@(cd arch && $(MAKE) libarch)
+if WINDOWS_COMPILE
+	@echo "making all in arch/gtk3/data/win32"
+	@(cd arch/gtk3/data/win32 && $(MAKE))
+endif
+$(arch_headless_lib):
+	@echo "making libarch in arch"
+	@(cd arch && $(MAKE) libarch)
+$(toolarch_lib):
+	@echo "making libtoolarch.a in $(ARCHDIR)"
+	@(cd $(ARCH_DIR) && $(MAKE) libtoolarch.a)
+$(archdep_lib):
+	@echo "making all in arch/shared"
+	@(cd arch/shared && $(MAKE))
+$(c128_lib):
+	@echo "making all in c128"
+	@(cd c128 && $(MAKE))
+$(c64_lib):
+	@echo "making libc64.a in c64"
+	@(cd c64 && $(MAKE) libc64.a)
+$(scpu64_lib):
+	@echo "making libscpu64.a in scpu64"
+	@(cd scpu64 && $(MAKE) libscpu64.a)
+$(c64sc_lib):
+	@echo "making libc64sc.a in c64"
+	@(cd c64 && $(MAKE) libc64sc.a)
+$(c64c128_lib):
+	@echo "making libc64c128.a in c64"
+	@(cd c64 && $(MAKE) libc64c128.a)
+$(c64scpu64_lib):
+	@echo "making libc64scpu64.a in c64"
+	@(cd c64 && $(MAKE) libc64scpu64.a)
+$(c64c64dtv_lib):
+	@echo "making libc64c64dtv.a in c64"
+	@(cd c64 && $(MAKE) libc64c64dtv.a)
+$(c64cart_lib):
+	@echo "making libc64cart in c64"
+	@(cd c64 && $(MAKE) libc64cart)
+$(c64cartsystem_lib):
+	@echo "making libc64cartsystem in c64"
+	@(cd c64 && $(MAKE) libc64cartsystem)
+$(c64commoncart_lib):
+	@echo "making libc64commoncart in c64"
+	@(cd c64 && $(MAKE) libc64commoncart)
+$(c64dtv_lib):
+	@echo "making libc64dtv.a in c64dtv"
+	@(cd c64dtv && $(MAKE) libc64dtv.a)
+$(c64dtvstubs_lib):
+	@echo "making libc64dtvstubs.a in c64dtv"
+	@(cd c64dtv && $(MAKE) libc64dtvstubs.a)
+$(xcbm2_lib):
+	@echo "making libcbm2.a in cbm2"
+	@(cd cbm2 && $(MAKE) libcbm2.a)
+$(xcbm5x0_lib):
+	@echo "making libcbm5x0.a in cbm2"
+	@(cd cbm2 && $(MAKE) libcbm5x0.a)
+$(cbm2cart_lib):
+	@echo "making libcbm2cart in cbm2"
+	@(cd cbm2 && $(MAKE) libcbm2cart)
+$(core_lib):
+	@echo "making all in core"
+	@(cd core && $(MAKE))
+$(crtc_lib):
+	@echo "making all in crtc"
+	@(cd crtc && $(MAKE))
+$(datasette_lib):
+	@echo "making all in datasette"
+	@(cd datasette && $(MAKE))
+$(diag_lib):
+	@echo "making all in diag"
+	@(cd diag && $(MAKE))
+$(diskimage_lib):
+	@echo "making all in diskimage"
+	@(cd diskimage && $(MAKE))
+$(drive_lib):
+	@echo "making libdrive.a in drive"
+	@(cd drive && $(MAKE) libdrive.a)
+$(p64_lib):
+	@echo "making libp64 in lib"
+	@(cd lib && $(MAKE) libp64)
+$(driveiec_lib):
+	@echo "making libdriveiec.a in drive/iec"
+	@(cd drive/iec && $(MAKE) libdriveiec.a)
+$(driveiec128dcr_lib):
+	@echo "making all in drive/iec128dcr"
+	@(cd drive/iec128dcr && $(MAKE))
+$(driveiecc64exp_lib):
+	@echo "making all in drive/iec/c64exp"
+	@(cd drive/iec/c64exp && $(MAKE))
+$(driveiecieee_lib):
+	@echo "making all in drive/iecieee"
+	@(cd drive/iecieee && $(MAKE))
+$(driveiecplus4exp_lib):
+	@echo "making all drive/iec/plus4exp"
+	@(cd drive/iec/plus4exp && $(MAKE))
+$(driveieee_lib):
+	@echo "making all in drive/ieee"
+	@(cd drive/ieee && $(MAKE))
+$(drivetcbm_lib):
+	@echo "making all in drive/tcbm"
+	@(cd drive/tcbm && $(MAKE))
+$(fileio_lib):
+	@echo "making all in fileio"
+	@(cd fileio && $(MAKE))
+$(fsdevice_lib):
+	@echo "making all in fsdevice"
+	@(cd fsdevice && $(MAKE))
+$(gfxoutputdrv_lib):
+	@echo "making all in gfxoutputdrv"
+	@(cd gfxoutputdrv && $(MAKE))
+$(hvsc_lib):
+	@echo "making all in hvsc"
+	@(cd hvsc && $(MAKE))
+$(hwsiddrv_lib):
+	@echo "making all in arch/shared/hwsiddrv"
+	@(cd arch/shared/hwsiddrv && $(MAKE))
+$(iecbus_lib):
+	@echo "making all in iecbus"
+	@(cd iecbus && $(MAKE))
+$(imagecontents_lib):
+	@echo "making all in imagecontents"
+	@(cd imagecontents && $(MAKE))
+$(iodrv_lib):
+	@echo "making all in arch/shared/iodrv"
+	@(cd arch/shared/iodrv && $(MAKE))
+$(linenoise_ng_lib):
+	@echo "making all in lib/linenoise-ng"
+	@(cd lib/linenoise-ng && $(MAKE))
+$(mascuerade_lib):
+	@echo "making libmascuerade.a in vic20/cart"
+	@(cd vic20/cart && $(MAKE) libmascuerade.a)
+$(mididrv_lib):
+	@echo "making libmididrv.a in arch/shared/mididrv"
+	@(cd arch/shared/mididrv && $(MAKE) libmididrv.a)
+$(monitor_lib):
+	@echo "making all in monitor"
+	@(cd monitor && $(MAKE))
+$(parallel_lib):
+	@echo "making all in parallel"
+	@(cd parallel && $(MAKE))
+$(pet_lib):
+	@echo "making all in pet"
+	@(cd pet && $(MAKE))
+$(plus4_lib):
+	@echo "making libplus4.a in plus4"
+	@(cd plus4 && $(MAKE) libplus4.a)
+$(plus4cart_lib):
+	@echo "making libplus4cart.a in plus4/cart"
+	@(cd plus4/cart && $(MAKE) libplus4cart.a)
+$(printerdrv_lib):
+	@echo "making all in printerdrv"
+	@(cd printerdrv && $(MAKE))
+$(rs232drv_lib):
+	@echo "making all in rs232drv"
+	@(cd rs232drv && $(MAKE))
+$(raster_lib):
+	@echo "making libraster.a in raster"
+	@(cd raster && $(MAKE) libraster.a)
+$(rtc_lib):
+	@echo "making librtc.a in core/rtc"
+	@(cd core/rtc && $(MAKE) librtc.a)
+$(resid_lib):
+	@echo "making all in resid"
+	@(cd resid && $(MAKE))
+$(resid_dtv_lib):
+	@echo "making libresiddtv.a in resid-dtv"
+	@(cd resid-dtv && $(MAKE) libresiddtv.a)
+$(samplerdrv_lib):
+	@echo "making all in arch/shared/samplerdrv"
+	@(cd arch/shared/samplerdrv && $(MAKE))
+$(joyport_lib):
+	@echo "making all in joyport"
+	@(cd joyport && $(MAKE))
+$(serial_lib):
+	@echo "making all in serial"
+	@(cd serial && $(MAKE))
+$(sid_lib):
+	@echo "making libsid.a in sid"
+	@(cd sid && $(MAKE) libsid.a)
+$(sid_dtv_lib):
+	@echo "making libsid_dtv.a in sid"
+	@(cd sid && $(MAKE) libsid_dtv.a)
+$(socketdrv_lib):
+	@echo "making libsocketdrv.a in arch/shared/socketdrv"
+	@(cd arch/shared/socketdrv && $(MAKE) libsocketdrv.a)
+$(sounddrv_lib):
+	@echo "making all in arch/shared/sounddrv"
+	@(cd arch/shared/sounddrv && $(MAKE))
+$(tape_lib):
+	@echo "making all in tape"
+	@(cd tape && $(MAKE))
+$(tapeport_lib):
+	@echo "making all in tapeport"
+	@(cd tapeport && $(MAKE))
+$(userport_lib):
+	@echo "making all in userport"
+	@(cd userport && $(MAKE))
+$(vdc_lib):
+	@echo "making all in vdc"
+	@(cd vdc && $(MAKE))
+$(vdrive_lib):
+	@echo "making all in vdrive"
+	@(cd vdrive && $(MAKE))
+$(vic20_lib):
+	@echo "making all in vic20"
+	@(cd vic20 && $(MAKE) libvic20.a)
+$(vic20cart_lib):
+	@echo "making libvic20cart.a in vic20/cart"
+	@(cd vic20/cart && $(MAKE) libvic20cart.a)
+$(vicii_lib):
+	@echo "making libvicii.a in vicii"
+	@(cd vicii && $(MAKE) libvicii.a)
+$(viciidtv_lib):
+	@echo "making libviciidtv.a in vicii"
+	@(cd vicii && $(MAKE) libviciidtv.a)
+$(viciisc_lib):
+	@echo "making libviciisc.a in viciisc"
+	@(cd viciisc && $(MAKE) libviciisc.a)
+$(video_lib):
+	@echo "making all in video"
+	@(cd video && $(MAKE))
+$(vsid_lib):
+	@echo "making libvsid.a in c64"
+	@(cd c64 && $(MAKE) psiddrv.h libvsid.a)
 
 
 clean: clean-recursive
