@@ -3587,9 +3587,11 @@ AC_OUTPUT([Makefile
            src/arch/sdl/Makefile
            src/arch/headless/Makefile
            src/arch/shared/Makefile
+           src/arch/shared/hwsiddrv/Makefile
            src/arch/shared/iodrv/Makefile
            src/arch/shared/mididrv/Makefile
            src/arch/shared/samplerdrv/Makefile
+           src/arch/shared/socketdrv/Makefile
            src/arch/shared/sounddrv/Makefile
            src/buildtools/Makefile
            src/c128/Makefile
@@ -3616,7 +3618,6 @@ AC_OUTPUT([Makefile
            src/fileio/Makefile
            src/fsdevice/Makefile
            src/gfxoutputdrv/Makefile
-           src/hwsiddrv/Makefile
            src/hvsc/Makefile
            src/iecbus/Makefile
            src/imagecontents/Makefile
@@ -3634,7 +3635,6 @@ AC_OUTPUT([Makefile
            src/rs232drv/Makefile
            src/serial/Makefile
            src/sid/Makefile
-           src/socketdrv/Makefile
            src/tape/Makefile
            src/tapeport/Makefile
            src/tools/Makefile
