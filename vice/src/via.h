@@ -89,10 +89,10 @@
 # define VIA_ACR_SR_OUT_PHI2     0x18   /* mode 6 Shift out at System Clock Rate */
 # define VIA_ACR_SR_OUT_CB1      0x1C   /* mode 7 Shift out under control of an External Pulse */
 
-#define VIA_ACR_PB_LATCH        0x02
-#define VIA_ACR_PA_LATCH        0x01
+#define VIA_ACR_PB_LATCH         0x02
+#define VIA_ACR_PA_LATCH         0x01
 
-#define VIA_PCR_CB2_CONTROL        0xE0                        /* 3 bits */
+#define VIA_PCR_CB2_CONTROL      0xE0                        /* 3 bits */
 
 #define VIA_PCR_CB2_I_OR_O                       0x80        /* bit */
 #define VIA_PCR_CB2_INPUT                        0x00        /* bit */
@@ -106,12 +106,12 @@
 #define VIA_PCR_CB2_LOW_OUTPUT                   0xC0        /* 3 bits */
 #define VIA_PCR_CB2_HIGH_OUTPUT                  0xE0        /* 3 bits */
 
-#define VIA_PCR_CB1_CONTROL                      0x10        /* 1 bit */
+#define VIA_PCR_CB1_CONTROL      0x10        /* 1 bit */
 
 #define VIA_PCR_CB1_NEG_ACTIVE_EDGE              0x00        /* bit */
 #define VIA_PCR_CB1_POS_ACTIVE_EDGE              0x10        /* bit */
 
-#define VIA_PCR_CA2_CONTROL                      0x0E        /* 3 bits */
+#define VIA_PCR_CA2_CONTROL      0x0E        /* 3 bits */
 #define VIA_PCR_CA2_I_OR_O                       0x08        /* bit */
 #define VIA_PCR_CA2_INPUT                        0x00        /* bit */
 #define VIA_PCR_CA2_INPUT_NEG_ACTIVE_EDGE        0x00        /* bit */
@@ -124,7 +124,7 @@
 #define VIA_PCR_CA2_LOW_OUTPUT                   0x0C        /* 3 bits */
 #define VIA_PCR_CA2_HIGH_OUTPUT                  0x0E        /* 3 bits */
 
-#define VIA_PCR_CA1_CONTROL                      0x01        /* 1 bit */
+#define VIA_PCR_CA1_CONTROL      0x01        /* 1 bit */
 
 #define VIA_PCR_CA1_NEG_ACTIVE_EDGE              0x00        /* bit */
 #define VIA_PCR_CA1_POS_ACTIVE_EDGE              0x01        /* bit */
@@ -161,8 +161,13 @@ typedef struct via_context_s {
     uint8_t oldpb;
     uint8_t ila;
     uint8_t ilb;
-    uint8_t ca2_state;
-    uint8_t cb2_state;
+    bool ca2_out_state;
+    bool cb1_in_state;
+    bool cb1_out_state;
+    bool cb2_in_state;
+    bool cb2_out_state;
+    bool cb1_is_input;
+    bool cb2_is_input;
     uint8_t shift_state;          /* state helper for shift register */
 #define START_SHIFTING          0
 #define FINISHED_SHIFTING       16
@@ -190,7 +195,7 @@ typedef struct via_context_s {
     int *rmw_flag;
     int write_offset;          /* 1 if CPU core does CLK++ before store */
 
-    int enabled;
+    bool enabled;
 
     void *prv;                /* typically drivevia1_context_t */
     void *context;            /* typically diskunit_context_t */
@@ -213,6 +218,7 @@ typedef struct via_context_s {
     void (*set_int)(struct via_context_s *, unsigned int, int, CLOCK);
     void (*restore_int)(struct via_context_s *, unsigned int, int);
     void (*set_ca2)(struct via_context_s *, int state);
+    void (*set_cb1)(struct via_context_s *, int state);
     void (*set_cb2)(struct via_context_s *, int state);
     void (*reset)(struct via_context_s *);
 } via_context_t;
@@ -237,6 +243,9 @@ extern uint8_t viacore_peek(struct via_context_s *via_context,
 
 /* WARNING: this is a hack */
 extern void viacore_set_sr(via_context_t *via_context, uint8_t data);
+
+extern void viacore_set_cb1(struct via_context_s *via_context, bool data);
+extern void viacore_set_cb2(struct via_context_s *via_context, bool data);
 
 extern int viacore_snapshot_write_module(struct via_context_s *via_context,
                                          struct snapshot_s *s);
