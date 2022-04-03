@@ -325,9 +325,6 @@ static void on_custom_changed(GtkWidget *self, gpointer data)
     int old_val;
     int new_val;
 
-    debug_gtk3("called: display value: %f",
-            gtk_range_get_value(GTK_RANGE(self)));
-
     resource = resource_widget_get_resource_name(self);
     if (resources_get_int(resource, &old_val) < 0) {
         log_error(LOG_ERR, "failed to get value for resource '%s'\n",
@@ -406,7 +403,6 @@ static int custom_display_to_resource(GtkWidget *self, gdouble value)
         factor = (gdouble)(resource_range) / display_range;
     }
     resource = round(factor * (value - display_low)) + resource_low;
-    debug_gtk3("display: %f, resource: %d.", value, resource);
     return resource;
 }
 
@@ -438,7 +434,6 @@ static gdouble custom_resource_to_display(GtkWidget *self, int value)
         factor = display_range / (gdouble)resource_range;
     }
     display = (factor * (gdouble)(value - resource_low)) + display_low;
-    debug_gtk3("resource: %d,  display: %f.", value, display);
     return display;
 }
 
@@ -510,10 +505,6 @@ static GtkWidget *custom_new_helper(GtkWidget *self,
     resource_widget_set_string(self, "DisplayFormat", display_fmt);
 
     display_value = custom_get_display_value(self);
-#if 0
-    debug_gtk3("resource value: %d, display value: %.2f",
-               resource_value, display_value);
-#endif
     gtk_range_set_value(GTK_RANGE(self), display_value);
 
     g_signal_connect(self, "destroy", G_CALLBACK(on_scale_custom_destroy), NULL);
