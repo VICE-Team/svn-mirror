@@ -51,7 +51,9 @@
 
 #include "vice.h"
 
-#ifdef UNIX_COMPILE
+/* TODO: Perhaps implement fork_coproc() on Haiku using Haiku-specific code
+ * 	 instead of relying on the POSIX compatibility layer? */	
+#if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 
 #include <sys/types.h>
 #include <stdio.h>
@@ -65,7 +67,9 @@
 
 #include "coproc.h"
 
-
+/* On Haiku /bin/sh is symlinked to /boot/system/bin/bash, so the following
+ * also works on Haiku:
+ */
 #define SHELL "/bin/sh"
 
 #ifndef sigset_t
@@ -255,11 +259,10 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
 
 #else
 
-/* TODO: Check if we can use the Unix version for Haiku. */
-
+/* Stub for systems other than Unix, MacOS, Windows or Haiku: */
 int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
 {
-    log_error(LOG_DEFAULT, "fork_coproc() not implemented for this system.");
+    log_error(LOG_DEFAULT, "FIXME: fork_coproc() not implemented for this system.");
     return -1;
 }
 
