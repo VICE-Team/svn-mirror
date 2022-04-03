@@ -15755,7 +15755,6 @@ Specify name of the Kernal ROM image
 Specify Kernal revision
 (@code{KernalRev}).
 (0/jap: japanese 1: rev. 1, 2: rev. 2, 3: rev. 3, 39/gs: C64 GS, 67/sx: sx64, 100/4064: 4064)
-@end table
 
 @findex -basic
 @item -basic <name>
