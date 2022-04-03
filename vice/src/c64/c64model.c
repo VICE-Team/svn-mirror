@@ -167,7 +167,7 @@ static struct model_s c64models[] = {
     /* ultimax, FIXME: guessed */
     { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, BOARD_MAX,
       IEC_SOFT_RESET, HAS_DATASETTE, NO_IEC, NO_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_MAX },
+      "chargen", C64_KERNAL_NONE },
 };
 
 /* ------------------------------------------------------------------------- */

@@ -122,13 +122,14 @@ struct kernal_s {
 };
 
 static struct kernal_s kernal_match[] = {
-    { "kernal-901227-01.bin", C64_KERNAL_REV1 },
-    { "kernal-901227-02.bin", C64_KERNAL_REV2 },
-    { "kernal-901227-03.bin", C64_KERNAL_REV3 },
-    { "jpkernal", C64_KERNAL_JAP },
-    { "sxkernal", C64_KERNAL_SX64 },
-    { "gskernal", C64_KERNAL_GS64 },
-    { "edkernal", C64_KERNAL_4064 },
+    { C64_KERNAL_REV1_NAME, C64_KERNAL_REV1 },
+    { C64_KERNAL_REV2_NAME, C64_KERNAL_REV2 },
+    { C64_KERNAL_REV3_NAME, C64_KERNAL_REV3 },
+    { C64_KERNAL_JAP_NAME,  C64_KERNAL_JAP },
+    { C64_KERNAL_SX64_NAME, C64_KERNAL_SX64 },
+    { C64_KERNAL_GS64_NAME, C64_KERNAL_GS64 },
+    { C64_KERNAL_4064_NAME, C64_KERNAL_4064 },
+    { C64_KERNAL_NONE_NAME, C64_KERNAL_NONE },
     { NULL, C64_KERNAL_UNKNOWN }
 };
 

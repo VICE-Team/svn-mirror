@@ -7,10 +7,10 @@ roms = \
 	kernal-901227-01.bin \
 	kernal-901227-02.bin \
 	kernal-901227-03.bin \
-	sxkernal \
-	edkernal \
-	gskernal \
-	jpkernal
+	kernal-251104-04.bin \
+	kernal-901246-01.bin \
+	kernal-390852-01.bin \
+	kernal-906145-02.bin
 
 romsets = \
 	default.vrs

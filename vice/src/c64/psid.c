@@ -94,13 +94,18 @@ struct kernal_s {
     int rev;
 };
 
+/* NOTE: this table is duplicated in c64-cmdline-options.c */
 static struct kernal_s kernal_match[] = {
-    { "1", C64_KERNAL_REV1 },
-    { "2", C64_KERNAL_REV2 },
-    { "3", C64_KERNAL_REV3 },
-    { "67", C64_KERNAL_SX64 },
-    { "sx", C64_KERNAL_SX64 },
-    { "100", C64_KERNAL_4064 },
+    { "0",    C64_KERNAL_JAP },
+    { "jap",  C64_KERNAL_JAP },
+    { "1",    C64_KERNAL_REV1 },
+    { "2",    C64_KERNAL_REV2 },
+    { "3",    C64_KERNAL_REV3 },
+    { "67",   C64_KERNAL_SX64 },
+    { "sx",   C64_KERNAL_SX64 },
+    { "39",   C64_KERNAL_GS64 },
+    { "gs",   C64_KERNAL_GS64 },
+    { "100",  C64_KERNAL_4064 },
     { "4064", C64_KERNAL_4064 },
     { NULL, C64_KERNAL_UNKNOWN }
 };
@@ -201,7 +206,8 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Specify name of character generator ROM image" },
     { "-kernalrev", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_kernal_revision, NULL, NULL, NULL,
-      "<Revision>", "Patch the Kernal ROM to the specified <revision> (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/sx: sx64, 100/4064: 4064)" },
+      "<Revision>", "Patch the Kernal ROM to the specified <revision> "
+      "(0/jap: japanese 1: rev. 1, 2: rev. 2, 3: rev. 3, 39/gs: C64 GS, 67/sx: sx64, 100/4064: 4064)" },
     CMDLINE_LIST_END
 };
 
