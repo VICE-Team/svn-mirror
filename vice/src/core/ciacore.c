@@ -378,11 +378,11 @@ static inline void strange_extra_sdr_flags(cia_context_t *cia_context, CLOCK rcl
     }
 
     if ((sr_bits || sdr_off) && continuous) {
-        if (latch == 0) {           // not quite passing yet
+        if (latch == 0) {
             /* handled above */
-        } else if (latch == 1) {    // not quite passing yet
+        } else if (latch == 1) { /* This case needs to be improved */
             set_flag = true;
-        } else if (latch == 2) {    // not quite passing yet
+        } else if (latch == 2) { /* This is close but not perfect */
             switch (timer) {
             case 0:
                 set_flag = (sr_bits != 2) && !sdr_off;
