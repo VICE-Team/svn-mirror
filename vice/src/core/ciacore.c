@@ -1600,11 +1600,12 @@ void ciacore_shutdown(cia_context_t *cia_context)
 /* FIXME!!!  Error check.  */
 int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
 {
+    CLOCK rclk = *(cia_context->clk_ptr);
     snapshot_module_t *m;
     uint8_t byte;
 
-    cia_update_ta(cia_context, *(cia_context->clk_ptr));
-    cia_update_tb(cia_context, *(cia_context->clk_ptr));
+    cia_update_ta(cia_context, rclk);
+    cia_update_tb(cia_context, rclk);
 
     m = snapshot_module_create(s, cia_context->myname,
                                (uint8_t)CIA_DUMP_VER_MAJOR,
@@ -1616,7 +1617,7 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
 
 #ifdef cia_DUMP_DEBUG
     log_message(cia_context->log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",
-                *(cia_context->clk_ptr), cia[CIA_CRA], cia[CIA_CRB], cia_tas,
+                rclk, cia[CIA_CRA], cia[CIA_CRB], cia_tas,
                 cia_tbs);
     log_message(cia_context->log, "tai=%d, tau=%d, tac=%04x, tal=%04x",
                 cia_tai, cia_tau, cia_tac, cia_tal);
@@ -1631,8 +1632,8 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     SMW_B(m, (uint8_t)(cia_context->c_cia[CIA_PRB]));
     SMW_B(m, (uint8_t)(cia_context->c_cia[CIA_DDRA]));
     SMW_B(m, (uint8_t)(cia_context->c_cia[CIA_DDRB]));
-    SMW_W(m, ciat_read_timer(cia_context->ta, *(cia_context->clk_ptr)));
-    SMW_W(m, ciat_read_timer(cia_context->tb, *(cia_context->clk_ptr)));
+    SMW_W(m, ciat_read_timer(cia_context->ta, rclk));
+    SMW_W(m, ciat_read_timer(cia_context->tb, rclk));
     SMW_B(m, (uint8_t)(cia_context->c_cia[CIA_TOD_TEN]));
     SMW_B(m, (uint8_t)(cia_context->c_cia[CIA_TOD_SEC]));
     SMW_B(m, (uint8_t)(cia_context->c_cia[CIA_TOD_MIN]));
@@ -1642,16 +1643,16 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     SMW_B(m, (uint8_t)(cia_context->c_cia[CIA_CRA]));
     SMW_B(m, (uint8_t)(cia_context->c_cia[CIA_CRB]));
 
-    SMW_W(m, ciat_read_latch(cia_context->ta, *(cia_context->clk_ptr)));
-    SMW_W(m, ciat_read_latch(cia_context->tb, *(cia_context->clk_ptr)));
+    SMW_W(m, ciat_read_latch(cia_context->ta, rclk));
+    SMW_W(m, ciat_read_latch(cia_context->tb, rclk));
     SMW_B(m, ciacore_peek(cia_context, CIA_ICR));
 
     /* Bits 2 & 3 are compatibility to snapshot format v1.0 */
     SMW_B(m, (uint8_t)((cia_context->tat ? 0x40 : 0)
                     | (cia_context->tbt ? 0x80 : 0)
                     | (ciat_is_underflow_clk(cia_context->ta,
-                                             *(cia_context->clk_ptr)) ? 0x04 : 0)
-                    | (ciat_is_underflow_clk(cia_context->tb, *(cia_context->clk_ptr))
+                                             rclk) ? 0x04 : 0)
+                    | (ciat_is_underflow_clk(cia_context->tb, rclk)
                        ? 0x08 : 0)));
     SMW_B(m, (uint8_t)cia_context->sr_bits);
     SMW_B(m, cia_context->todalarm[0]);
@@ -1660,10 +1661,10 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     SMW_B(m, cia_context->todalarm[3]);
 
     if (cia_context->rdi) {
-        if ((*(cia_context->clk_ptr) - cia_context->rdi) > 120) {
+        if ((rclk - cia_context->rdi) > 120) {
             byte = 0;
         } else {
-            byte = *(cia_context->clk_ptr) + 128 - cia_context->rdi;
+            byte = rclk + 128 - cia_context->rdi;
         }
     } else {
         byte = 0;
@@ -1677,11 +1678,11 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     SMW_B(m, cia_context->todlatch[2]);
     SMW_B(m, cia_context->todlatch[3]);
 
-    SMW_CLOCK(m, (cia_context->todclk - *(cia_context->clk_ptr)));
+    SMW_CLOCK(m, (cia_context->todclk - rclk));
 
-    ciat_save_snapshot(cia_context->ta, *(cia_context->clk_ptr), m,
+    ciat_save_snapshot(cia_context->ta, rclk, m,
                        (CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
-    ciat_save_snapshot(cia_context->tb, *(cia_context->clk_ptr), m,
+    ciat_save_snapshot(cia_context->tb, rclk, m,
                        (CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
 
     SMW_B(m, cia_context->shifter & 0xFF);
@@ -1695,7 +1696,7 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
 
     CLOCK sdr_alarm_pending = alarm_clk(cia_context->sdr_alarm);
     if (sdr_alarm_pending > 0) {
-        byte = 1 + sdr_alarm_pending - *(cia_context->clk_ptr);
+        byte = 1 + sdr_alarm_pending - rclk;
     } else {
         byte = 0;
     }
