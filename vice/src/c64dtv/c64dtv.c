@@ -82,7 +82,6 @@
 #include "ninja_snespad.h"
 #include "paperclip64.h"
 #include "parallel.h"
-#include "patchrom.h"
 #include "printer.h"
 #include "protopad.h"
 #include "ps2mouse.h"

@@ -4,7 +4,9 @@ roms = \
 	basic \
 	chargen \
 	jpchrgen \
-	kernal \
+	kernal-901227-01.bin \
+	kernal-901227-02.bin \
+	kernal-901227-03.bin \
 	sxkernal \
 	edkernal \
 	gskernal \

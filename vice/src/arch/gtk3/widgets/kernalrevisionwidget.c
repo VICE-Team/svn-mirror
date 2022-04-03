@@ -35,7 +35,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
-#include "c64-resources.h"
+#include "c64rom.h"
 #include "lib.h"
 #include "resources.h"
 #include "vsync.h"
@@ -52,7 +52,9 @@ static const vice_gtk3_radiogroup_entry_t revisions[] = {
     { "Revision 2",         C64_KERNAL_REV2 },
     { "Revision 3",         C64_KERNAL_REV3 },
     { "SX-64",              C64_KERNAL_SX64 },
+    { "C64 GS",             C64_KERNAL_GS64 },
     { "PET64/Educator64",   C64_KERNAL_4064 },
+    { "Japanese",           C64_KERNAL_JAP },
     { NULL, -1 }
 };
 

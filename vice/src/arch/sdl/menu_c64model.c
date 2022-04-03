@@ -31,7 +31,7 @@
 #include "types.h"
 
 #include "c64model.h"
-#include "c64-resources.h"
+#include "c64rom.h"
 #include "cia.h"
 #include "machine.h"
 #include "menu_common.h"
@@ -215,10 +215,18 @@ static const ui_menu_entry_t kernal_rev_submenu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_KernalRev_callback,
       (ui_callback_data_t)C64_KERNAL_SX64 },
+    { "C64 GS",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KernalRev_callback,
+      (ui_callback_data_t)C64_KERNAL_GS64 },
     { "4064",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_KernalRev_callback,
       (ui_callback_data_t)C64_KERNAL_4064 },
+    { "Japanese",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KernalRev_callback,
+      (ui_callback_data_t)C64_KERNAL_JAP },
     SDL_MENU_LIST_END
 };
 

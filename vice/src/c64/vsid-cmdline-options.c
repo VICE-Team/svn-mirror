@@ -40,7 +40,6 @@
 #include "cmdline.h"
 #include "log.h"
 #include "machine.h"
-#include "patchrom.h"
 #include "resources.h"
 #include "vicii.h"
 

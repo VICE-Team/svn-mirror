@@ -43,8 +43,8 @@
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
-#include "patchrom.h"
 #include "resources.h"
 #include "reu.h"
 #include "georam.h"
@@ -116,17 +116,62 @@ static int set_basic_rom_name(const char *val, void *param)
     return c64rom_load_basic(basic_rom_name);
 }
 
+struct kernal_s {
+    const char *name;
+    int rev;
+};
+
+static struct kernal_s kernal_match[] = {
+    { "kernal-901227-01.bin", C64_KERNAL_REV1 },
+    { "kernal-901227-02.bin", C64_KERNAL_REV2 },
+    { "kernal-901227-03.bin", C64_KERNAL_REV3 },
+    { "jpkernal", C64_KERNAL_JAP },
+    { "sxkernal", C64_KERNAL_SX64 },
+    { "gskernal", C64_KERNAL_GS64 },
+    { "edkernal", C64_KERNAL_4064 },
+    { NULL, C64_KERNAL_UNKNOWN }
+};
+
 static int set_kernal_revision(int val, void *param)
 {
-    if(!c64rom_isloaded()) {
+    int n = 0, rev = C64_KERNAL_UNKNOWN;
+    const char *name = NULL;
+    log_verbose("set_kernal_revision was kernal_revision: %d new val:%d", kernal_revision, val);
+
+    if (val == C64_KERNAL_UNKNOWN) {
+        kernal_revision = C64_KERNAL_UNKNOWN;
         return 0;
     }
-    if ((val != -1) && (patch_rom_idx(val) < 0)) {
-        kernal_revision = -1;
-    } else {
-        kernal_revision = val;
+
+    /* find given revision */
+    do {
+        if (kernal_match[n].rev == val) {
+            rev = kernal_match[n].rev;
+            name = kernal_match[n].name;
+        }
+        ++n;
+    } while ((rev == C64_KERNAL_UNKNOWN) && (kernal_match[n].name != NULL));
+
+    if (rev == C64_KERNAL_UNKNOWN) {
+        log_error(LOG_DEFAULT, "invalid kernal revision (%d)", val);
+        return -1;
     }
+
+    log_verbose("set_kernal_revision found rev:%d name: %s", rev, name);
+
+    if (resources_set_string("KernalName", name) < 0) {
+        log_error(LOG_DEFAULT, "failed to set kernal name (%s)", name);
+        return -1;
+    }
+
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
+
+    if (kernal_revision != rev) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
+
+    kernal_revision = rev;
+    log_verbose("set_kernal_revision new kernal_revision: %d", kernal_revision);
     return 0;
 }
 

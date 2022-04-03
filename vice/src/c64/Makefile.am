@@ -64,8 +64,6 @@ libvsid_a_SOURCES = \
 	vsid-debugcart.c \
 	vsid-debugcart.h \
 	musdrv.h \
-	patchrom.c \
-	patchrom.h \
 	psid.c \
 	psid.h \
 	psiddrv.a65 \
@@ -137,8 +135,6 @@ libc64_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	c64video.c \
-	patchrom.c \
-	patchrom.h \
 	plus256k.c \
 	plus256k.h \
 	plus60k.c \
@@ -199,8 +195,6 @@ libc64sc_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	c64video.c \
-	patchrom.c \
-	patchrom.h \
 	plus256k.c \
 	plus256k.h \
 	plus60k.c \
@@ -220,9 +214,7 @@ libc64c64dtv_a_SOURCES = \
 	c64romset.c \
 	c64rsuser.c \
 	c64rsuser.h \
-	c64video.c \
-	patchrom.c \
-	patchrom.h
+	c64video.c
 
 libc64c128_a_SOURCES = \
 	c64bus.c \
@@ -249,9 +241,7 @@ libc64c128_a_SOURCES = \
 	c64parallel.h \
 	c64rsuser.c \
 	c64rsuser.h \
-	c64sound.c \
-	patchrom.c \
-	patchrom.h
+	c64sound.c
 
 libc64scpu64_a_SOURCES = \
 	c64bus.c \
@@ -279,9 +269,7 @@ libc64scpu64_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64sound.c \
-	c64video.c \
-	patchrom.c \
-	patchrom.h
+	c64video.c
 
 BUILT_SOURCES = psiddrv.h
 

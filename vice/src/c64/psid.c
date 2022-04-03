@@ -39,7 +39,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "patchrom.h"
 #include "psid.h"
 #include "resources.h"
 #include "types.h"
@@ -108,8 +107,6 @@ static struct kernal_s kernal_match[] = {
 
 static int set_kernal_revision(const char *param, void *extra_param)
 {
-    uint16_t sum;                   /* ROM checksum */
-    int id;                     /* ROM identification number */
     int rev = C64_KERNAL_UNKNOWN;
     int i = 0;
 
@@ -124,24 +121,19 @@ static int set_kernal_revision(const char *param, void *extra_param)
         i++;
     } while ((rev == C64_KERNAL_UNKNOWN) && (kernal_match[i].name != NULL));
 
-    if(!c64rom_isloaded()) {
-        kernal_revision = rev;
-        return 0;
+    log_verbose("set_kernal_revision (\"-kernalrev\") val:'%s' rev: %d", param, rev);
+
+    if (rev == C64_KERNAL_UNKNOWN) {
+        log_error(LOG_DEFAULT, "invalid kernal revision (%d)", rev);
+        return -1;
     }
 
-    if (c64rom_get_kernal_chksum_id(&sum, &id) < 0) {
-        id = C64_KERNAL_UNKNOWN;
-        kernal_revision = id;
-    } else {
-        if (patch_rom_idx(rev) >= 0) {
-            kernal_revision = rev;
-        } else {
-            kernal_revision = id;
-        }
+    if (resources_set_int("KernalRev", rev) < 0) {
+        log_error(LOG_DEFAULT, "failed to set kernal revision (%d)", rev);
     }
+
     return 0;
 }
-
 
 static int set_keepenv(int val, void *param)
 {
