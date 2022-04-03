@@ -983,7 +983,7 @@ void machine_change_timing(int timeval, int border_mode)
                                 machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
 #ifdef HAVE_MOUSE
-    neos_mouse_set_machine_parameter(machine_timing.cycles_per_sec);
+    mouse_set_machine_parameter(machine_timing.cycles_per_sec);
 #endif
 
     vicii_change_timing(&machine_timing, border_mode);
