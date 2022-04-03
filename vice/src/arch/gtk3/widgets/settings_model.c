@@ -560,7 +560,9 @@ static void machine_model_handler_c64(int model)
     cia_model_widget_sync(cia_widget);
 
     /* synchronize kernal-revision widget */
-    kernal_revision_widget_sync(kernal_widget);
+    if (machine_class != VICE_MACHINE_SCPU64) {
+        kernal_revision_widget_sync(kernal_widget);
+    }
     /* synchronize misc widget */
     c64_misc_widget_sync();
 }
