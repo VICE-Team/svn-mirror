@@ -39,7 +39,6 @@
 #include "cmdline.h"
 #include "log.h"
 #include "machine.h"
-#include "patchrom.h"
 #include "resources.h"
 #include "vicii.h"
 
@@ -185,7 +184,16 @@ static int set_kernal_revision(const char *param, void *extra_param)
     } while ((rev == C64_KERNAL_UNKNOWN) && (kernal_match[i].name != NULL));
 
     log_verbose("set_kernal_revision (\"-kernalrev\") val:'%s' rev: %d", param, rev);
-    kernal_revision_cmdline = rev;
+
+    if (rev == C64_KERNAL_UNKNOWN) {
+        log_error(LOG_DEFAULT, "invalid kernal revision (%d)", rev);
+        return -1;
+    }
+
+    if (resources_set_int("KernalRev", rev) < 0) {
+        log_error(LOG_DEFAULT, "failed to set kernal revision (%d)", rev);
+    }
+
     return 0;
 }
 

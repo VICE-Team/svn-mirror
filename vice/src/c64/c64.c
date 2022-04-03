@@ -96,7 +96,6 @@
 #include "ninja_snespad.h"
 #include "paperclip64.h"
 #include "parallel.h"
-#include "patchrom.h"
 #include "plus256k.h"
 #include "plus60k.h"
 #include "printer.h"

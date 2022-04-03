@@ -36,12 +36,9 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
-#include "patchrom.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
-
-int kernal_revision_cmdline = -1;
 
 static log_t c64rom_log = LOG_ERR;
 
@@ -52,6 +49,25 @@ int c64rom_isloaded(void)
 {
     return rom_loaded;
 }
+
+struct kernal_s {
+    int id;         /* the value located at 0xff80 */
+    int chksum;
+    int rev;
+};
+
+/* NOTE: also update the table in c64-resources.c */
+static struct kernal_s kernal_match[] = {
+    { C64_KERNAL_ID_R01,    C64_KERNAL_CHECKSUM_R01,    C64_KERNAL_REV1 },
+    { C64_KERNAL_ID_R02,    C64_KERNAL_CHECKSUM_R02,    C64_KERNAL_REV2 },
+    { C64_KERNAL_ID_R03,    C64_KERNAL_CHECKSUM_R03,    C64_KERNAL_REV3 },
+/*  { C64_KERNAL_ID_R03swe, C64_KERNAL_CHECKSUM_R03swe, C64_KERNAL_REV3swe }, */
+    { C64_KERNAL_ID_JAP,    C64_KERNAL_CHECKSUM_JAP,    C64_KERNAL_JAP },
+    { C64_KERNAL_ID_R43,    C64_KERNAL_CHECKSUM_R43,    C64_KERNAL_SX64 },
+    { C64_KERNAL_ID_GS64,   C64_KERNAL_CHECKSUM_GS64,   C64_KERNAL_GS64 },
+    { C64_KERNAL_ID_R64,    C64_KERNAL_CHECKSUM_R64,    C64_KERNAL_4064 },
+    { 0,                    0,                          C64_KERNAL_UNKNOWN }
+};
 
 int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
 {
@@ -65,34 +81,35 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
     }
     /* get ID from Kernal ROM */
     id = c64memrom_rom64_read(0xff80);
+
+    /*printf("sum: %d id: %d\n", sum, id);*/
+
     if (sumout) {
         *sumout = sum;
     }
     if (idout) {
         *idout = id;
     }
-    /* check against known kernal versions */
-    if (((id == C64_KERNAL_ID_R01) && (sum == C64_KERNAL_CHECKSUM_R01)) ||
-        ((id == C64_KERNAL_ID_R02) && (sum == C64_KERNAL_CHECKSUM_R02)) ||
-        ((id == C64_KERNAL_ID_R03) && (sum == C64_KERNAL_CHECKSUM_R03)) ||
-        /* ((id == C64_KERNAL_ID_R03swe) && (sum == C64_KERNAL_CHECKSUM_R03swe)) || */
-        ((id == C64_KERNAL_ID_R43) && (sum == C64_KERNAL_CHECKSUM_R43)) ||
-        ((id == C64_KERNAL_ID_R64) && (sum == C64_KERNAL_CHECKSUM_R64))
-       ) {
-        /* known */
-        return 0;
-    }
-    return -1; /* unknown */
+
+    i= 0; do {
+        if ((kernal_match[i].id == id) && (kernal_match[i].chksum == sum)) {
+            return kernal_match[i].rev;
+        }
+        i++;
+    } while (kernal_match[i].rev != C64_KERNAL_UNKNOWN);
+
+    return C64_KERNAL_UNKNOWN; /* unknown */
 }
 
-/* FIXME: this function should perhaps not patch the kernal, but return -1 on
-          unknown kernals, like the respective vic-20 functions */
+/* FIXME: this function has a misleading name, only called from snapshot stuff atm
+          it was used to patch the kernal before, but not anymore
+*/
 int c64rom_get_kernal_checksum(void)
 {
     uint16_t sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
 
-    if (c64rom_get_kernal_chksum_id(&sum, &id) < 0) {
+    if (c64rom_get_kernal_chksum_id(&sum, &id) == C64_KERNAL_UNKNOWN) {
         log_warning(c64rom_log, "Unknown Kernal image.  ID: %d ($%02X) Sum: %d ($%04X).", id, (unsigned int)id, sum, sum);
         return -1;
     } else {
@@ -172,30 +189,16 @@ int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
         c64rom_cartkernal_active = 1;
     }
 
-    if (machine_class != VICE_MACHINE_C64DTV) {
-        resources_get_int("KernalRev", &rev);
-    }
-    if (c64rom_get_kernal_chksum_id(&sum, &id) < 0) {
+    rev = c64rom_get_kernal_chksum_id(&sum, &id);
+    if (rev == C64_KERNAL_UNKNOWN) {
         log_verbose("loaded unknown kernal revision:%d chksum: %d", id, sum);
-        rev =  C64_KERNAL_UNKNOWN;
     } else {
         log_verbose("loaded known kernal revision:%d chksum: %d", id, sum);
-        rev = id;
     }
     if (machine_class != VICE_MACHINE_C64DTV) {
-        /* patch kernal to revision given on cmdline */
-        if (kernal_revision_cmdline != -1) {
-            if (rev !=  C64_KERNAL_UNKNOWN) {
-                log_verbose("patching kernal revision:%d to revision: %d", rev, kernal_revision_cmdline);
-                if (patch_rom_idx(kernal_revision_cmdline) >= 0) {
-                    rev = kernal_revision_cmdline;
-                }
-            }
-            /* do this only once */
-            kernal_revision_cmdline = -1;
-        }
         resources_set_int("KernalRev", rev);
     }
+
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
 
     if (machine_class != VICE_MACHINE_VSID) {
