@@ -129,9 +129,7 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     return 0;
 }
 
-#endif
-
-#ifdef WINDOWS_COMPILE
+#elif defined(WINDOWS_COMPILE)
 
 #include "archdep.h"
 #include "coproc.h"
@@ -253,6 +251,16 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     *fd_rd = _open_osfhandle((intptr_t)hChildStd_OUT_Rd, _O_RDONLY | _O_BINARY);
 
     return 0;
+}
+
+#else
+
+/* TODO: Check if we can use the Unix version for Haiku. */
+
+int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
+{
+    log_error(LOG_DEFAULT, "fork_coproc() not implemented for this system.");
+    return -1;
 }
 
 #endif
