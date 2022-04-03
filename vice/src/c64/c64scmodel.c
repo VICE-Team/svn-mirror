@@ -184,7 +184,7 @@ static const struct model_s c64models[] = {
     { VICII_MODEL_6567, MACHINE_SYNC_NTSC,
       CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_MAX,
       IEC_SOFT_RESET, HAS_DATASETTE, NO_IEC, NO_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_MAX },
+      "chargen", C64_KERNAL_NONE },
 };
 
 /* ------------------------------------------------------------------------- */

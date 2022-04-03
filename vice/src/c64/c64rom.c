@@ -75,6 +75,15 @@ int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
     uint16_t sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
 
+    /* special case to support MAX machine, if kernal is all zeros, return C64_KERNAL_NONE */
+    for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++) {
+        sum |= c64memrom_kernal64_rom[i];
+    }
+    if (sum == 0) {
+        *sumout = 0; *idout = 0;
+        return C64_KERNAL_NONE;
+    }
+
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++) {
         sum += c64memrom_kernal64_rom[i];
@@ -177,12 +186,17 @@ int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
             return -1;
         }
 
-        if (sysfile_load(rom_name, machine_name, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
-            log_error(c64rom_log, "Couldn't load kernal ROM `%s'.", rom_name);
-            if (machine_class != VICE_MACHINE_VSID) {
-                restore_trapflags();
+        if (strcmp(rom_name, C64_KERNAL_NONE_NAME) == 0) {
+            /* special case handling for "no kernal" (MAX machine) */
+            memset(c64memrom_kernal64_rom, 0, C64_KERNAL_ROM_SIZE);
+        } else {
+            if (sysfile_load(rom_name, machine_name, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
+                log_error(c64rom_log, "Couldn't load kernal ROM `%s'.", rom_name);
+                if (machine_class != VICE_MACHINE_VSID) {
+                    restore_trapflags();
+                }
+                return -1;
             }
-            return -1;
         }
     } else {
         memcpy(c64memrom_kernal64_rom, cartkernal, 0x2000);
