@@ -42,6 +42,8 @@ libjoyport_a_SOURCES = \
 	lightpen.h \
 	mouse.c \
 	mouse.h \
+	mouse_neos.c \
+	mouse_neos.h \
 	multijoy.c \
 	multijoy.h \
 	ninja_snespad.c \
