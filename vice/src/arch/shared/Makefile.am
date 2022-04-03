@@ -39,6 +39,7 @@ libarchdep_a_SOURCES = \
 	archdep_boot_path.c \
 	archdep_cbmfont.c \
 	archdep_chdir.c \
+	archdep_close.c \
 	archdep_create_user_cache_dir.c \
 	archdep_create_user_config_dir.c \
 	archdep_current_dir.c \
@@ -56,6 +57,7 @@ libarchdep_a_SOURCES = \
 	archdep_exit.c \
 	archdep_expand_path.c \
 	archdep_extra_title_text.c \
+	archdep_fdopen.c \
 	archdep_file_exists.c \
 	archdep_file_is_blockdev.c \
 	archdep_file_is_chardev.c \
@@ -132,6 +134,7 @@ EXTRA_DIST = \
 	archdep_boot_path.h \
 	archdep_cbmfont.h \
 	archdep_chdir.h \
+	archdep_close.h \
 	archdep_create_user_cache_dir.h \
 	archdep_create_user_config_dir.h \
 	archdep_current_dir.h \
@@ -150,6 +153,7 @@ EXTRA_DIST = \
 	archdep_exit.h \
 	archdep_expand_path.h \
 	archdep_extra_title_text.h \
+	archdep_fdopen.h \
 	archdep_file_exists.h \
 	archdep_file_is_blockdev.h \
 	archdep_file_is_chardev.h \
