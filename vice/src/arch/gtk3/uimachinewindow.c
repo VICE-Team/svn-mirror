@@ -117,6 +117,10 @@ static int host_delta_origin_x = 0.0;
  */
 static int host_delta_origin_y = 0.0;
 
+/** \brief Number of frames the mouse didn't move, used for pointer hiding
+ */
+static int _mouse_still_frames = 0;
+
 /** \brief Mouse warp for each platform.
  */
 static void warp(int x, int y)

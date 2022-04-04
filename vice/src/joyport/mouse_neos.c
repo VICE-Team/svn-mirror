@@ -35,8 +35,8 @@
      3   | D2           |  I
      4   | D3           |  I
      6   | strobe       |  O
-     6   | left button  |  I
-     9   | right button |  I
+     6   | left button  |  I    ("Fire")
+     9   | right button |  I    ("POTX")
 
    Works on:
    - native joystick port(s) (x64/x64sc/xscpu64/x128/x64dtv/xcbm5x0/xvic)
@@ -77,8 +77,6 @@
 extern uint8_t mouse_digital_val;
 extern int16_t mouse_latest_x;
 extern int16_t mouse_latest_y;
-extern int16_t mouse_x;
-extern int16_t mouse_y;
 extern int last_mouse_x;
 extern int last_mouse_y;
 extern tick_t mouse_latest_os_timestamp;
@@ -224,31 +222,49 @@ void mouse_neos_button_right(int pressed)
     }
 }
 
+void mouse_neos_button_left(int pressed)
+{
+    if (pressed) {
+        mouse_digital_val |= JOYPORT_FIRE_1;
+    } else {
+        mouse_digital_val &= (uint8_t)~JOYPORT_FIRE_1;
+    }
+}
+
 static uint8_t joyport_mouse_neos_potx(int port)
 {
     return _mouse_enabled ? ((neos_buttons & 1) ? 0xff : 0) : 0xff;
 }
 
-void mouse_neos_set_enabled(void)
+void mouse_neos_set_enabled(int enabled)
 {
-    neos_lastx = (uint8_t)(mouse_latest_x >> 1);
-    neos_lasty = (uint8_t)(mouse_latest_y >> 1);
+    if (enabled) {
+        mouse_get_int16(&mouse_latest_x, &mouse_latest_y);
+        neos_lastx = (uint8_t)(mouse_latest_x >> 1);
+        neos_lasty = (uint8_t)(mouse_latest_y >> 1);
+    }
 }
 
-static int joyport_mouse_enable(int port, int val)
+static int joyport_mouse_neos_enable(int port, int joyportid)
 {
     int mt;
 
     mousedrv_mouse_changed();
-    mouse_latest_x = (int16_t)mouse_x;
-    mouse_latest_y = (int16_t)mouse_y;
+
+    /* FIXME: clean up the following */
+    mouse_get_int16(&mouse_latest_x, &mouse_latest_y);
     last_mouse_x = mouse_latest_x;
     last_mouse_y = mouse_latest_y;
     neos_lastx = (uint8_t)(mouse_latest_x >> 1);
     neos_lasty = (uint8_t)(mouse_latest_y >> 1);
     mouse_latest_os_timestamp = 0;
 
-    mt = mouse_id_to_type(val);
+    if (joyportid == JOYPORT_ID_NONE) {
+        mouse_type = -1;
+        return 0;
+    }
+
+    mt = mouse_id_to_type(joyportid);
 
     if (mt == -1) {
         return -1;
@@ -276,7 +292,7 @@ joyport_t mouse_neos_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
     0x10,                                  /* bit 4 is an output bit */
-    joyport_mouse_enable,                  /* device enable function */
+    joyport_mouse_neos_enable,             /* device enable function */
     joyport_mouse_neos_value,              /* digital line read function */
     neos_mouse_store,                      /* digital line store function */
     joyport_mouse_neos_potx,               /* pot-x read function */

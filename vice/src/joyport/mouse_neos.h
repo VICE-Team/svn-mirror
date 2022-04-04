@@ -29,15 +29,15 @@
 #define VICE_MOUSE_NEOS_H
 
 extern joyport_t mouse_neos_joyport_device;
+
 extern void mouse_neos_init(void);
-extern void mouse_neos_set_enabled(void);
+extern void mouse_neos_set_enabled(int enabled);
 extern void mouse_neos_button_right(int pressed);
+extern void mouse_neos_button_left(int pressed);
 
 extern void neos_mouse_set_machine_parameter(long clock_rate);
+
 extern void neos_mouse_store(int port, uint8_t val);
 extern uint8_t neos_mouse_read(void);
-
-extern int mouse_neos_read_snapshot(struct snapshot_s *s, int port);
-extern int mouse_neos_write_snapshot(struct snapshot_s *s, int port);
 
 #endif
