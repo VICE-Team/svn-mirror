@@ -5,9 +5,6 @@
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *  Andreas Boose <viceteam@t-online.de>
  *
- * NEOS and Amiga mouse support by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -49,18 +46,13 @@ extern void mouse_init(void);
 extern void mouse_shutdown(void);
 
 extern int _mouse_enabled;
-extern int _mouse_still_frames;
 extern int mouse_type;
 
 extern void mouse_set_machine_parameter(long clock_rate);
 
 extern void mouse_move(float dx, float dy);
-extern void mouse_get_int16(int16_t *x, int16_t *y);
-
 extern uint8_t mouse_poll(void);
-extern void smart_mouse_store(int port, uint8_t val);
-extern uint8_t smart_mouse_read(void);
-extern uint8_t micromys_mouse_read(void);
+extern void mouse_get_int16(int16_t *x, int16_t *y);
 
 #define MOUSE_TYPE_1351     0
 #define MOUSE_TYPE_NEOS     1
