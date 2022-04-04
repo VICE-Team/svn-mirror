@@ -43,7 +43,7 @@
 
 /* #define JOYPORT_EXPERIMENTAL_DEVICES */
 
-#define JOYPORT_ID_NONE                0
+#define JOYPORT_ID_NONE                0    /* CAUTION: some code relies on this being 0 */
 #define JOYPORT_ID_JOYSTICK            1
 #define JOYPORT_ID_PADDLES             2
 #define JOYPORT_ID_MOUSE_1351          3
@@ -241,7 +241,7 @@ typedef struct joyport_s {
     int joystick_adapter_id;                               /* flag to indicate that the device is a joystick/pad adapter */
     int device_type;                                       /* device type */
     uint8_t output_bits;                                   /* flag to indicate which bits are output */
-    int (*enabledisable)(int port, int enabled);           /* device enable/disable function */
+    int (*set_enabled)(int port, int joyport_id);          /* device enable/disable function, passes JOYPORT_ID_NONE to disable */
     uint8_t (*read_digital)(int port);                     /* device digital lines read function */
     void (*store_digital)(int port, uint8_t val);          /* device digital lines store function */
     uint8_t (*read_potx)(int port);                        /* device X potentiometer read function */
