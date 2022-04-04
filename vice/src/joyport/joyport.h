@@ -241,15 +241,15 @@ typedef struct joyport_s {
     int joystick_adapter_id;                               /* flag to indicate that the device is a joystick/pad adapter */
     int device_type;                                       /* device type */
     uint8_t output_bits;                                   /* flag to indicate which bits are output */
-    int (*enable)(int port, int val);                      /* pointer to the device enable function */
-    uint8_t (*read_digital)(int port);                     /* pointer to the device digital lines read function */
-    void (*store_digital)(int port, uint8_t val);          /* pointer to the device digital lines store function */
-    uint8_t (*read_potx)(int port);                        /* pointer to the device X potentiometer read function */
-    uint8_t (*read_poty)(int port);                        /* pointer to the device Y potentiometer read function */
-    void (*powerup)(int port);                             /* pointer to the device powerup function, called on hard reset */
-    int (*write_snapshot)(struct snapshot_s *s, int port); /* pointer to the device snapshot write function */
-    int (*read_snapshot)(struct snapshot_s *s, int port);  /* pointer to the device snapshot read function */
-    void (*hook)(int port, uint16_t state);                /* pointer to the device hook function for state changing buttons */
+    int (*enabledisable)(int port, int enabled);           /* device enable/disable function */
+    uint8_t (*read_digital)(int port);                     /* device digital lines read function */
+    void (*store_digital)(int port, uint8_t val);          /* device digital lines store function */
+    uint8_t (*read_potx)(int port);                        /* device X potentiometer read function */
+    uint8_t (*read_poty)(int port);                        /* device Y potentiometer read function */
+    void (*powerup)(int port);                             /* device powerup function, called on hard reset */
+    int (*write_snapshot)(struct snapshot_s *s, int port); /* device snapshot write function */
+    int (*read_snapshot)(struct snapshot_s *s, int port);  /* device snapshot read function */
+    void (*hook)(int port, uint16_t state);                /* device hook function for state changing buttons */
     uint16_t hook_mask;                                    /* mask used for the device hook */
 } joyport_t;
 
