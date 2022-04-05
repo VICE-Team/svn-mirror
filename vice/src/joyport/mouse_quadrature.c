@@ -103,6 +103,7 @@
 #include "joyport.h"
 #include "maincpu.h"
 #include "log.h"
+#include "machine.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "snapshot.h"
@@ -112,46 +113,64 @@
 
 /******************************************************************************/
 
-/* FIXME: "private" global variables for mouse - we should get rid of most of these */
+/* FIXME: "private" global variables for mouse - we should get rid of these */
 
-extern uint8_t mouse_digital_val;
-extern int16_t mouse_latest_x;
-extern int16_t mouse_latest_y;
-extern int last_mouse_x;
-extern int last_mouse_y;
-extern tick_t mouse_latest_os_timestamp;
-
-extern int update_limit;
-extern float emu_units_per_os_units;
+extern tick_t mouse_timestamp;
+extern int mouse_sx, mouse_sy;
 
 /******************************************************************************/
 
-/* FIXME: most of these should be private */
+static int16_t last_mouse_x;
+static int16_t last_mouse_y;
 
-CLOCK update_x_emu_iv = 0;      /* in cpu cycle units */
-CLOCK update_y_emu_iv = 0;      /* in cpu cycle units */
-CLOCK next_update_x_emu_ts = 0; /* in cpu cycle units */
-CLOCK next_update_y_emu_ts = 0; /* in cpu cycle units */
+static uint8_t mouse_digital_val = 0;
 
-int sx, sy;
+/* The current emulated quadrature state of the polled mouse, range is [0,3] */
+static uint8_t quadrature_x = 0;
+static uint8_t quadrature_y = 0;
 
-/* The current emulated quadrature state of the polled mouse, range is
- * [0,3] */
-uint8_t quadrature_x = 0;
-uint8_t quadrature_y = 0;
+static int amiga_and_atarist_buttons = 0;
 
-int amiga_and_atarist_buttons;
-
-uint8_t polled_joyval = 0xff;
+static uint8_t polled_joyval = 0xff;
 
 /******************************************************************************/
+static const uint8_t amiga_mouse_table[4] = { 0x0, 0x1, 0x5, 0x4 };
+static const uint8_t st_mouse_table[4] = { 0x0, 0x2, 0x3, 0x1 };
+
+static uint8_t joyport_mouse_amiga_st_read(int port)
+{
+    mouse_get_last_int16(&last_mouse_x, &last_mouse_y);
+
+    if ((quadrature_x != ((last_mouse_x >> 1) & 3)) || (quadrature_y != ((~last_mouse_y >> 1) & 3))) {
+        /* keep within range */
+        quadrature_x = (last_mouse_x >> 1) & 3;
+        quadrature_y = (~last_mouse_y >> 1) & 3;
+
+        switch (mouse_type) {
+            case MOUSE_TYPE_AMIGA:
+                polled_joyval = (uint8_t)((amiga_mouse_table[quadrature_x] << 1) | amiga_mouse_table[quadrature_y] | 0xf0);
+                break;
+            case MOUSE_TYPE_CX22:
+                polled_joyval = (uint8_t)(((quadrature_y & 1) << 3) | ((mouse_sy > 0) << 2) | ((quadrature_x & 1) << 1) | (mouse_sx > 0) | 0xf0);
+                break;
+            case MOUSE_TYPE_ST:
+                polled_joyval =(uint8_t)(st_mouse_table[quadrature_x] | (st_mouse_table[quadrature_y] << 2) | 0xf0);
+                break;
+            default:
+                polled_joyval = 0xff;
+        }
+    }
+
+    return polled_joyval;
+}
 
 static uint8_t joyport_mouse_poll_value(int port)
 {
     uint8_t retval = 0xff;
 
     if (_mouse_enabled) {
-        retval = (uint8_t)((~mouse_digital_val) & mouse_poll());
+        mouse_poll();
+        retval = (uint8_t)((~mouse_digital_val) & joyport_mouse_amiga_st_read(port));
         if (retval != (uint8_t)~mouse_digital_val) {
             joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
         }
@@ -200,13 +219,7 @@ static int joyport_mouse_enable(int port, int joyportid)
 {
     int mt;
 
-    mousedrv_mouse_changed();
-
-    /* FIXME: clean up the following */
-    mouse_get_int16(&mouse_latest_x, &mouse_latest_y);
-    last_mouse_x = mouse_latest_x;
-    last_mouse_y = mouse_latest_y;
-    mouse_latest_os_timestamp = 0;
+    mouse_reset();
 
     if (joyportid == JOYPORT_ID_NONE) {
         mouse_type = -1;
@@ -296,7 +309,7 @@ joyport_t mouse_st_joyport_device = {
     joyport_mouse_enable,                  /* device enable function */
     joyport_mouse_poll_value,              /* digital line read function */
     NULL,                                  /* NO digital line store function */
-    joyport_mouse_amiga_st_read_potx, /* pot-x read function */
+    joyport_mouse_amiga_st_read_potx,      /* pot-x read function */
     joyport_mouse_amiga_st_read_poty,      /* pot-y read function */
     NULL,                                  /* NO powerup function */
     mouse_st_write_snapshot,               /* device write snapshot function */
@@ -307,36 +320,12 @@ joyport_t mouse_st_joyport_device = {
 
 /* --------------------------------------------------------- */
 
-static int write_mouse_digital_val_snapshot(snapshot_module_t *m)
-{
-    return SMW_B(m, mouse_digital_val);
-}
-
-static int read_mouse_digital_val_snapshot(snapshot_module_t *m)
-{
-    return SMR_B(m, &mouse_digital_val);
-}
-
-
 static int write_poll_val_snapshot(snapshot_module_t *m)
 {
     if (0
         || SMW_B(m, quadrature_x) < 0
         || SMW_B(m, quadrature_y) < 0
-        || SMW_B(m, polled_joyval) < 0
-        || SMW_W(m, (uint16_t)mouse_latest_x) < 0
-        || SMW_W(m, (uint16_t)mouse_latest_y) < 0
-        || SMW_DW(m, (uint32_t)last_mouse_x) < 0
-        || SMW_DW(m, (uint32_t)last_mouse_y) < 0
-        || SMW_DW(m, (uint32_t)sx) < 0
-        || SMW_DW(m, (uint32_t)sy) < 0
-        || SMW_DW(m, (uint32_t)update_limit) < 0
-        || SMW_DW(m, (uint32_t)mouse_latest_os_timestamp) < 0
-        || SMW_DB(m, (double)emu_units_per_os_units) < 0
-        || SMW_DW(m, (uint32_t)next_update_x_emu_ts) < 0
-        || SMW_DW(m, (uint32_t)next_update_y_emu_ts) < 0
-        || SMW_DW(m, (uint32_t)update_x_emu_iv) < 0
-        || SMW_DW(m, (uint32_t)update_y_emu_iv) < 0) {
+        || SMW_B(m, polled_joyval) < 0) {
         return -1;
     }
     return 0;
@@ -344,55 +333,14 @@ static int write_poll_val_snapshot(snapshot_module_t *m)
 
 static int read_poll_val_snapshot(snapshot_module_t *m)
 {
-    uint16_t tmp_mouse_latest_x;
-    uint16_t tmp_mouse_latest_y;
-    double tmp_db;
-    uint32_t tmpc1;
-    uint32_t tmpc2;
-    uint32_t tmpc3;
-    uint32_t tmpc4;
-    unsigned long tmp_mouse_latest_os_timestamp;
-
     if (0
         || SMR_B(m, &quadrature_x) < 0
         || SMR_B(m, &quadrature_y) < 0
-        || SMR_B(m, &polled_joyval) < 0
-        || SMR_W(m, &tmp_mouse_latest_x) < 0
-        || SMR_W(m, &tmp_mouse_latest_y) < 0
-        || SMR_DW_INT(m, &last_mouse_x) < 0
-        || SMR_DW_INT(m, &last_mouse_y) < 0
-        || SMR_DW_INT(m, &sx) < 0
-        || SMR_DW_INT(m, &sy) < 0
-        || SMR_DW_INT(m, &update_limit) < 0
-        || SMR_DW_UL(m, &tmp_mouse_latest_os_timestamp) < 0
-        || SMR_DB(m, &tmp_db) < 0
-        || SMR_DW(m, &tmpc1) < 0
-        || SMR_DW(m, &tmpc2) < 0
-        || SMR_DW(m, &tmpc3) < 0
-        || SMR_DW(m, &tmpc4) < 0) {
+        || SMR_B(m, &polled_joyval) < 0) {
         return -1;
     }
 
-    mouse_latest_x = (int16_t)tmp_mouse_latest_x;
-    mouse_latest_y = (int16_t)tmp_mouse_latest_y;
-    emu_units_per_os_units = (float)tmp_db;
-    mouse_latest_os_timestamp = (tick_t)tmp_mouse_latest_os_timestamp;
-    next_update_x_emu_ts = (CLOCK)tmpc1;
-    next_update_y_emu_ts = (CLOCK)tmpc2;
-    update_x_emu_iv = (CLOCK)tmpc3;
-    update_y_emu_iv = (CLOCK)tmpc4;
-
     return 0;
-}
-
-static int write_amiga_val_snapshot(snapshot_module_t *m)
-{
-    return SMW_DW(m, (uint32_t)amiga_and_atarist_buttons);
-}
-
-static int read_amiga_val_snapshot(snapshot_module_t *m)
-{
-    return SMR_DW_INT(m, &amiga_and_atarist_buttons);
 }
 
 /* MOUSE_AMIGA snapshot module format:
@@ -403,24 +351,11 @@ static int read_amiga_val_snapshot(snapshot_module_t *m)
    BYTE   | quadrature X           | quadrature X
    BYTE   | quadrature Y           | quadrature Y
    BYTE   | polled joyval          | polled joyval
-   WORD   | latest X               | latest X
-   WORD   | latest Y               | latest Y
-   DWORD  | last mouse X           | last mouse X
-   DWORD  | last mouse Y           | last mouse Y
-   DWORD  | sx                     | SX
-   DWORD  | sy                     | SY
-   DWORD  | update limit           | update limit
-   DWORD  | latest os ts           | latest os ts
-   DOUBLE | emu units per os units | emu units per os units
-   DWORD  | next update x emu ts   | next update X emu ts
-   DWORD  | next update y emu ts   | next update Y emu ts
-   DWORD  | update x emu iv        | update X emu IV
-   DWORD  | update y emu iv        | update Y emu IV
    DWORD  | buttons                | buttons state
  */
 
 static const char mouse_amiga_snap_module_name[] = "MOUSE_AMIGA";
-#define MOUSE_AMIGA_VER_MAJOR   0
+#define MOUSE_AMIGA_VER_MAJOR   1
 #define MOUSE_AMIGA_VER_MINOR   0
 
 static int mouse_amiga_write_snapshot(struct snapshot_s *s, int port)
@@ -433,7 +368,11 @@ static int mouse_amiga_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (write_mouse_digital_val_snapshot(m) < 0) {
+    if (write_mouse_common_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (SMW_B(m, mouse_digital_val) < 0) {
         goto fail;
     }
 
@@ -441,7 +380,7 @@ static int mouse_amiga_write_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (write_amiga_val_snapshot(m) < 0) {
+    if (SMW_DW(m, (uint32_t)amiga_and_atarist_buttons) < 0) {
         goto fail;
     }
     return snapshot_module_close(m);
@@ -468,7 +407,11 @@ static int mouse_amiga_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_mouse_digital_val_snapshot(m) < 0) {
+    if (read_mouse_common_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (SMR_B(m, &mouse_digital_val) < 0) {
         goto fail;
     }
 
@@ -476,7 +419,7 @@ static int mouse_amiga_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_amiga_val_snapshot(m) < 0) {
+    if (SMR_DW_INT(m, &amiga_and_atarist_buttons) < 0) {
         goto fail;
     }
     return snapshot_module_close(m);
@@ -496,23 +439,10 @@ fail:
    BYTE   | quadrature X           | quadrature X
    BYTE   | quadrature Y           | quadrature Y
    BYTE   | polled joyval          | polled joyval
-   WORD   | latest X               | latest X
-   WORD   | latest Y               | latest Y
-   DWORD  | last mouse X           | last mouse X
-   DWORD  | last mouse Y           | last mouse Y
-   DWORD  | sx                     | SX
-   DWORD  | sy                     | SY
-   DWORD  | update limit           | update limit
-   DWORD  | latest os ts           | latest os ts
-   DOUBLE | emu units per os units | emu units per os units
-   DWORD  | next update x emu ts   | next update X emu ts
-   DWORD  | next update y emu ts   | next update Y emu ts
-   DWORD  | update x emu iv        | update X emu IV
-   DWORD  | update y emu iv        | update Y emu IV
  */
 
 static const char mouse_cx22_snap_module_name[] = "MOUSE_CX22";
-#define MOUSE_CX22_VER_MAJOR   0
+#define MOUSE_CX22_VER_MAJOR   1
 #define MOUSE_CX22_VER_MINOR   0
 
 static int mouse_cx22_write_snapshot(struct snapshot_s *s, int port)
@@ -525,7 +455,11 @@ static int mouse_cx22_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (write_mouse_digital_val_snapshot(m) < 0) {
+    if (write_mouse_common_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (SMW_B(m, mouse_digital_val) < 0) {
         goto fail;
     }
 
@@ -557,7 +491,11 @@ static int mouse_cx22_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_mouse_digital_val_snapshot(m) < 0) {
+    if (read_mouse_common_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (SMR_B(m, &mouse_digital_val) < 0) {
         goto fail;
     }
 
@@ -582,24 +520,11 @@ fail:
    BYTE   | quadrature X           | quadrature X
    BYTE   | quadrature Y           | quadrature Y
    BYTE   | polled joyval          | polled joyval
-   WORD   | latest X               | latest X
-   WORD   | latest Y               | latest Y
-   DWORD  | last mouse X           | last mouse X
-   DWORD  | last mouse Y           | last mouse Y
-   DWORD  | sx                     | SX
-   DWORD  | sy                     | SY
-   DWORD  | update limit           | update limit
-   DWORD  | latest os ts           | latest os ts
-   DOUBLE | emu units per os units | emu units per os units
-   DWORD  | next update x emu ts   | next update X emu ts
-   DWORD  | next update y emu ts   | next update Y emu ts
-   DWORD  | update x emu iv        | update X emu IV
-   DWORD  | update y emu iv        | update Y emu IV
    DWORD  | buttons                | buttons state
  */
 
 static const char mouse_st_snap_module_name[] = "MOUSE_ST";
-#define MOUSE_ST_VER_MAJOR   0
+#define MOUSE_ST_VER_MAJOR   1
 #define MOUSE_ST_VER_MINOR   0
 
 static int mouse_st_write_snapshot(struct snapshot_s *s, int port)
@@ -612,7 +537,11 @@ static int mouse_st_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (write_mouse_digital_val_snapshot(m) < 0) {
+    if (write_mouse_common_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (SMW_B(m, mouse_digital_val) < 0) {
         goto fail;
     }
 
@@ -620,7 +549,7 @@ static int mouse_st_write_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (write_amiga_val_snapshot(m) < 0) {
+    if (SMW_DW(m, (uint32_t)amiga_and_atarist_buttons) < 0) {
         goto fail;
     }
     return snapshot_module_close(m);
@@ -647,7 +576,11 @@ static int mouse_st_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_mouse_digital_val_snapshot(m) < 0) {
+    if (read_mouse_common_snapshot(m) < 0) {
+        goto fail;
+    }
+
+    if (SMR_B(m, &mouse_digital_val) < 0) {
         goto fail;
     }
 
@@ -655,7 +588,7 @@ static int mouse_st_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_amiga_val_snapshot(m) < 0) {
+    if (SMR_DW_INT(m, &amiga_and_atarist_buttons) < 0) {
         goto fail;
     }
     return snapshot_module_close(m);

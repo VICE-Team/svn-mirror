@@ -44,24 +44,19 @@
 #endif
 
 #include <stdlib.h> /* abs */
-#include <string.h> /* memset */
 #include <math.h>   /* fabsf */
+
 #include "vice.h"
 
-#include "alarm.h"
 #include "archdep.h"
 #include "cmdline.h"
 #include "joyport.h"
-#include "joystick.h"
-#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "vsyncapi.h"
-#include "ds1202_1302.h"
 
 #include "mouse_1351.h"
 #include "mouse_neos.h"
@@ -76,65 +71,52 @@ static log_t mouse_log = LOG_ERR;
 /* Weird trial and error based number here :( larger causes mouse jumps. */
 #define MOUSE_MAX_DIFF 63.0f
 
-static float mouse_move_x = 0.0f;
-static float mouse_move_y = 0.0f;
-static tick_t mouse_timestamp = 0;
-
 /******************************************************************************/
 
 /* FIXME: "private" global variables for mouse - we should get rid of most of these */
 
-int last_mouse_x = 0;
-int last_mouse_y = 0;
-uint8_t mouse_digital_val = 0;
-int16_t mouse_x = 0;
-int16_t mouse_y = 0;
+tick_t mouse_timestamp = 0;         /* FIXME: needed in mouse_quadrature.c */
 
-/* --------------------------------------------------------- */
+int mouse_sx, mouse_sy;  /* FIXME: needed in mouse_quadrature.c */
+
+/******************************************************************************/
 /* extern variables (used elsewhere in the codebase) */
 
 int _mouse_enabled = 0;
 
-/* Use xvic defaults, if resources get registered the factory
-   default will overwrite these */
+/* Use xvic defaults, if resources get registered the factory default will overwrite these */
 int mouse_type = MOUSE_TYPE_PADDLE;
 
-/* --------------------------------------------------------- */
-/* quadrature encoding mice support (currently experimental) */
+/******************************************************************************/
+static float mouse_move_x = 0.0f;
+static float mouse_move_y = 0.0f;
 
-/* FIXME: all of the following variables should get moved into mouse_quadrature.c
-          and made private to it */
+static int last_mouse_x = 0;
+static int last_mouse_y = 0;
+
+static int16_t mouse_x = 0;
+static int16_t mouse_y = 0;
 
 /* The mousedev only updates its returned coordinates at certain *
  * frequency. We try to estimate this interval by timestamping unique
  * successive readings. The estimated interval is then converted from
  * vsynchapi units to emulated cpu cycles which in turn are used to
  * clock the quardrature emulation. */
-tick_t mouse_latest_os_timestamp = 0; /* in vsynchapi units */
-/* The mouse coordinates returned from the latest unique mousedrv
- * reading */
-int16_t mouse_latest_x = 0;
-int16_t mouse_latest_y = 0;
+static tick_t mouse_latest_os_timestamp = 0; /* in vsynchapi units */
 
-extern CLOCK update_x_emu_iv;      /* in cpu cycle units */
-extern CLOCK update_y_emu_iv;      /* in cpu cycle units */
-extern CLOCK next_update_x_emu_ts; /* in cpu cycle units */
-extern CLOCK next_update_y_emu_ts; /* in cpu cycle units */
+/* The mouse coordinates returned from the latest unique mousedrv reading */
+static int16_t mouse_latest_x = 0;
+static int16_t mouse_latest_y = 0;
 
-extern int sx, sy;
+static CLOCK update_x_emu_iv;      /* in cpu cycle units */
+static CLOCK update_y_emu_iv;      /* in cpu cycle units */
+static CLOCK next_update_x_emu_ts; /* in cpu cycle units */
+static CLOCK next_update_y_emu_ts; /* in cpu cycle units */
 
 /* the ratio between emulated cpu cycles and vsynchapi time units */
-float emu_units_per_os_units;
+static float emu_units_per_os_units;
 
-extern uint8_t quadrature_x;
-extern uint8_t quadrature_y;
-
-extern uint8_t polled_joyval;
-
-static const uint8_t amiga_mouse_table[4] = { 0x0, 0x1, 0x5, 0x4 };
-static const uint8_t st_mouse_table[4] = { 0x0, 0x2, 0x3, 0x1 };
-
-int update_limit = 512;
+static int update_limit = 512;
 
 /* --------------------------------------------------------- */
 
@@ -149,10 +131,16 @@ void mouse_move(float dx, float dy)
 }
 
 /* used by the individual devices to get the mouse position */
-void mouse_get_int16(int16_t *x, int16_t *y)
+void mouse_get_raw_int16(int16_t *x, int16_t *y)
 {
     *x = (int16_t)mouse_x;
     *y = (int16_t)mouse_y;
+}
+
+void mouse_get_last_int16(int16_t *x, int16_t *y)
+{
+    *x = (int16_t)last_mouse_x;
+    *y = (int16_t)last_mouse_y;
 }
 
 /*
@@ -194,7 +182,7 @@ static void mouse_move_apply_limit(void)
 
 /* FIXME: at least the quadrature specific stuff should get moved out of this
           and made private to mouse_quadrature.c */
-uint8_t mouse_poll(void)
+void mouse_poll(void)
 {
     int16_t delta_x, delta_y;
 
@@ -231,13 +219,13 @@ uint8_t mouse_poll(void)
 
     /* update x-wheel until we're ahead */
     while (((mouse_latest_x ^ last_mouse_x) & 0xffff) && next_update_x_emu_ts <= emu_now) {
-        last_mouse_x += sx;
+        last_mouse_x += mouse_sx;
         next_update_x_emu_ts += update_x_emu_iv;
     }
 
     /* update y-wheel until we're ahead */
     while (((mouse_latest_y ^ last_mouse_y) & 0xffff) && next_update_y_emu_ts <= emu_now) {
-        last_mouse_y -= sy;
+        last_mouse_y -= mouse_sy;
         next_update_y_emu_ts += update_y_emu_iv;
     }
 
@@ -273,23 +261,23 @@ uint8_t mouse_poll(void)
         diff_y = (int16_t)(new_y - last_mouse_y);
 
         if (diff_x != 0) {
-            sx = diff_x >= 0 ? 1 : -1;
+            mouse_sx = diff_x >= 0 ? 1 : -1;
             /* lets calculate the interval between x-quad rotations */
             update_x_emu_iv = emu_iv / (CLOCK)abs(diff_x);
             /* and the emulated cpu cycle count when to do the first one */
             next_update_x_emu_ts = emu_now;
         } else {
-            sx = 0;
+            mouse_sx = 0;
             update_x_emu_iv = (CLOCK)update_limit;
         }
         if (diff_y != 0) {
-            sy = diff_y >= 0 ? -1 : 1;
+            mouse_sy = diff_y >= 0 ? -1 : 1;
             /* lets calculate the interval between y-quad rotations */
             update_y_emu_iv = (emu_iv / (CLOCK)abs(diff_y));
             /* and the emulated cpu cycle count when to do the first one */
             next_update_y_emu_ts = emu_now;
         } else {
-            sy = 0;
+            mouse_sy = 0;
             update_y_emu_iv = (CLOCK)update_limit;
         }
         if (update_x_emu_iv < (unsigned int)update_limit) {
@@ -325,13 +313,13 @@ uint8_t mouse_poll(void)
 
         /* update x-wheel until we're ahead */
         while (((new_x ^ last_mouse_x) & 0xffff) && next_update_x_emu_ts < emu_now + emu_iv2) {
-            last_mouse_x += sx;
+            last_mouse_x += mouse_sx;
             next_update_x_emu_ts += update_x_emu_iv;
         }
 
         /* update y-wheel until we're ahead */
         while (((new_y ^ last_mouse_y) & 0xffff) && next_update_y_emu_ts <= emu_now + emu_iv2) {
-            last_mouse_y -= sy;
+            last_mouse_y -= mouse_sy;
             next_update_y_emu_ts += update_y_emu_iv;
         }
 
@@ -340,29 +328,17 @@ uint8_t mouse_poll(void)
         mouse_latest_y = new_y;
         mouse_latest_os_timestamp = os_now;
     }
-
-    if ((quadrature_x != ((last_mouse_x >> 1) & 3)) || (quadrature_y != ((~last_mouse_y >> 1) & 3))) {
-        /* keep within range */
-        quadrature_x = (last_mouse_x >> 1) & 3;
-        quadrature_y = (~last_mouse_y >> 1) & 3;
-
-        switch (mouse_type) {
-            case MOUSE_TYPE_AMIGA:
-                polled_joyval = (uint8_t)((amiga_mouse_table[quadrature_x] << 1) | amiga_mouse_table[quadrature_y] | 0xf0);
-                break;
-            case MOUSE_TYPE_CX22:
-                polled_joyval = (uint8_t)(((quadrature_y & 1) << 3) | ((sy > 0) << 2) | ((quadrature_x & 1) << 1) | (sx > 0) | 0xf0);
-                break;
-            case MOUSE_TYPE_ST:
-                polled_joyval =(uint8_t)(st_mouse_table[quadrature_x] | (st_mouse_table[quadrature_y] << 2) | 0xf0);
-                break;
-            default:
-                polled_joyval = 0xff;
-        }
-    }
-    return polled_joyval;
 }
 
+void mouse_reset(void)
+{
+    mousedrv_mouse_changed();
+
+    mouse_get_raw_int16(&mouse_latest_x, &mouse_latest_y);
+    last_mouse_x = mouse_latest_x;
+    last_mouse_y = mouse_latest_y;
+    mouse_latest_os_timestamp = 0;
+}
 
 void mouse_init(void)
 {
@@ -371,14 +347,14 @@ void mouse_init(void)
     update_limit = (int)(machine_get_cycles_per_frame() / 31 / 2);
 #ifdef DEBUG_MOUSE
     mouse_log = log_open("Mouse");
-    log_message(mouse_log, "cpu cycles / time unit %.5f",
-                emu_units_per_os_units);
+    log_message(mouse_log, "cpu cycles / time unit %.5f", emu_units_per_os_units);
 #endif
 
     mouse_amiga_st_init();
     mouse_neos_init();
 
     mousedrv_init();
+    mouse_reset();
 }
 
 void mouse_shutdown(void)
@@ -389,13 +365,8 @@ void mouse_shutdown(void)
 /*--------------------------------------------------------------------------*/
 /* Main API */
 
-/* FIXME: some devices do not use mouse_digital_val for (some) digital lines,
-          that makes the joystick lines indicators in the UIs not work */
-
 static void mouse_button_left(int pressed)
 {
-    uint8_t old_val = mouse_digital_val;
-
     switch (mouse_type) {
         case MOUSE_TYPE_1351:
         case MOUSE_TYPE_SMART:
@@ -416,17 +387,10 @@ static void mouse_button_left(int pressed)
         default:
             break;
     }
-
-    if (old_val == mouse_digital_val || mouse_type == -1) {
-        return;
-    }
-    joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)mouse_digital_val);
 }
 
 static void mouse_button_right(int pressed)
 {
-    uint8_t old_val = mouse_digital_val;
-
     switch (mouse_type) {
         case MOUSE_TYPE_1351:
         case MOUSE_TYPE_SMART:
@@ -447,16 +411,10 @@ static void mouse_button_right(int pressed)
         default:
             break;
     }
-    if (old_val == mouse_digital_val || mouse_type == -1) {
-        return;
-    }
-    joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)mouse_digital_val);
 }
 
 static void mouse_button_middle(int pressed)
 {
-    uint8_t old_val = mouse_digital_val;
-
     switch (mouse_type) {
         case MOUSE_TYPE_MICROMYS:
             micromys_mouse_button_middle(pressed);
@@ -468,10 +426,6 @@ static void mouse_button_middle(int pressed)
         default:
             break;
     }
-    if (old_val == mouse_digital_val || mouse_type == -1) {
-        return;
-    }
-    joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)mouse_digital_val);
 }
 
 static void mouse_button_up(int pressed)
@@ -594,14 +548,7 @@ static int set_mouse_enabled(int val, void *param)
 
     _mouse_enabled = val ? 1 : 0;
 
-    mousedrv_mouse_changed();
-
-    /* FIXME: these should move into individual devices */
-    mouse_get_int16(&mouse_latest_x, &mouse_latest_y);
-    last_mouse_x = mouse_latest_x;
-    last_mouse_y = mouse_latest_y;
-    mouse_latest_os_timestamp = 0;
-
+    mouse_reset();
     mouse_neos_set_enabled(_mouse_enabled);
 
     if (mouse_type != -1) {
@@ -672,4 +619,86 @@ int mouse_cmdline_options_init(void)
     }
 
     return mousedrv_cmdline_options_init();
+}
+
+/* --------------------------------------------------------- */
+
+
+/* Format of the common part of the mouse snapshots:
+
+   type   | name                   | description
+   ---------------------------------------------
+   WORD   | latest X               | latest X
+   WORD   | latest Y               | latest Y
+   DWORD  | last mouse X           | last mouse X
+   DWORD  | last mouse Y           | last mouse Y
+   DWORD  | mouse_sx               | SX
+   DWORD  | mouse_sy               | SY
+   DWORD  | update limit           | update limit
+   DWORD  | latest os ts           | latest os ts
+   DOUBLE | emu units per os units | emu units per os units
+   DWORD  | next update x emu ts   | next update X emu ts
+   DWORD  | next update y emu ts   | next update Y emu ts
+   DWORD  | update x emu iv        | update X emu IV
+   DWORD  | update y emu iv        | update Y emu IV
+ */
+
+int write_mouse_common_snapshot(snapshot_module_t *m)
+{
+    if (0
+        || SMW_W(m, (uint16_t)mouse_latest_x) < 0
+        || SMW_W(m, (uint16_t)mouse_latest_y) < 0
+        || SMW_DW(m, (uint32_t)last_mouse_x) < 0
+        || SMW_DW(m, (uint32_t)last_mouse_y) < 0
+        || SMW_DW(m, (uint32_t)mouse_sx) < 0
+        || SMW_DW(m, (uint32_t)mouse_sy) < 0
+        || SMW_DW(m, (uint32_t)update_limit) < 0
+        || SMW_DW(m, (uint32_t)mouse_latest_os_timestamp) < 0
+        || SMW_DB(m, (double)emu_units_per_os_units) < 0
+        || SMW_DW(m, (uint32_t)next_update_x_emu_ts) < 0
+        || SMW_DW(m, (uint32_t)next_update_y_emu_ts) < 0
+        || SMW_DW(m, (uint32_t)update_x_emu_iv) < 0
+        || SMW_DW(m, (uint32_t)update_y_emu_iv) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+int read_mouse_common_snapshot(snapshot_module_t *m)
+{
+    uint16_t tmp_mouse_latest_x;
+    uint16_t tmp_mouse_latest_y;
+    double tmp_db;
+    uint32_t tmpc1;
+    uint32_t tmpc2;
+    uint32_t tmpc3;
+    uint32_t tmpc4;
+    unsigned long tmp_mouse_latest_os_timestamp;
+
+    if (0
+        || SMR_W(m, &tmp_mouse_latest_x) < 0
+        || SMR_W(m, &tmp_mouse_latest_y) < 0
+        || SMR_DW_INT(m, &last_mouse_x) < 0
+        || SMR_DW_INT(m, &last_mouse_y) < 0
+        || SMR_DW_INT(m, &mouse_sx) < 0
+        || SMR_DW_INT(m, &mouse_sy) < 0
+        || SMR_DW_INT(m, &update_limit) < 0
+        || SMR_DW_UL(m, &tmp_mouse_latest_os_timestamp) < 0
+        || SMR_DB(m, &tmp_db) < 0
+        || SMR_DW(m, &tmpc1) < 0
+        || SMR_DW(m, &tmpc2) < 0
+        || SMR_DW(m, &tmpc3) < 0
+        || SMR_DW(m, &tmpc4) < 0) {
+        return -1;
+    }
+
+    mouse_latest_x = (int16_t)tmp_mouse_latest_x;
+    mouse_latest_y = (int16_t)tmp_mouse_latest_y;
+    emu_units_per_os_units = (float)tmp_db;
+    mouse_latest_os_timestamp = (tick_t)tmp_mouse_latest_os_timestamp;
+    next_update_x_emu_ts = (CLOCK)tmpc1;
+    next_update_y_emu_ts = (CLOCK)tmpc2;
+    update_x_emu_iv = (CLOCK)tmpc3;
+    update_y_emu_iv = (CLOCK)tmpc4;
+    return 0;
 }

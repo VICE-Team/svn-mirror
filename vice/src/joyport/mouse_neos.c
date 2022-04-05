@@ -72,16 +72,10 @@
 
 /******************************************************************************/
 
-/* FIXME: "private" global variables for mouse - we should get rid of most of these */
+static uint8_t mouse_digital_val = 0;
 
-extern uint8_t mouse_digital_val;
-extern int16_t mouse_latest_x;
-extern int16_t mouse_latest_y;
-extern int last_mouse_x;
-extern int last_mouse_y;
-extern tick_t mouse_latest_os_timestamp;
-
-/******************************************************************************/
+static int16_t mouse_latest_x;
+static int16_t mouse_latest_y;
 
 static CLOCK neos_last_trigger = 0;
 static CLOCK neos_time_out_cycles = 232;
@@ -101,6 +95,7 @@ enum {
     NEOS_YL
 } neos_state = NEOS_YL;
 
+/******************************************************************************/
 
 void neos_mouse_set_machine_parameter(long clock_rate)
 {
@@ -112,7 +107,7 @@ static void neos_get_new_movement(void)
     int16_t new_x16, new_y16;
     uint8_t new_x, new_y;
 
-    mouse_get_int16(&new_x16, &new_y16);
+    mouse_get_raw_int16(&new_x16, &new_y16);
     new_x = (uint8_t)(new_x16 >> 1);
     new_y = (uint8_t)(new_y16 >> 1);
 
@@ -239,7 +234,7 @@ static uint8_t joyport_mouse_neos_potx(int port)
 void mouse_neos_set_enabled(int enabled)
 {
     if (enabled) {
-        mouse_get_int16(&mouse_latest_x, &mouse_latest_y);
+        mouse_get_raw_int16(&mouse_latest_x, &mouse_latest_y);
         neos_lastx = (uint8_t)(mouse_latest_x >> 1);
         neos_lasty = (uint8_t)(mouse_latest_y >> 1);
     }
@@ -249,15 +244,9 @@ static int joyport_mouse_neos_enable(int port, int joyportid)
 {
     int mt;
 
-    mousedrv_mouse_changed();
-
-    /* FIXME: clean up the following */
-    mouse_get_int16(&mouse_latest_x, &mouse_latest_y);
-    last_mouse_x = mouse_latest_x;
-    last_mouse_y = mouse_latest_y;
+    mouse_reset();
     neos_lastx = (uint8_t)(mouse_latest_x >> 1);
     neos_lasty = (uint8_t)(mouse_latest_y >> 1);
-    mouse_latest_os_timestamp = 0;
 
     if (joyportid == JOYPORT_ID_NONE) {
         mouse_type = -1;
@@ -329,28 +318,8 @@ void mouse_neos_init(void)
  */
 
 static const char mouse_neos_snap_module_name[] = "MOUSE_NEOS";
-#define MOUSE_NEOS_VER_MAJOR   0
+#define MOUSE_NEOS_VER_MAJOR   1
 #define MOUSE_NEOS_VER_MINOR   0
-
-static int write_mouse_digital_val_snapshot(snapshot_module_t *m)
-{
-    return SMW_B(m, mouse_digital_val);
-}
-
-static int read_mouse_digital_val_snapshot(snapshot_module_t *m)
-{
-    return SMR_B(m, &mouse_digital_val);
-}
-
-static int write_neos_and_amiga_val_snapshot(snapshot_module_t *m)
-{
-    return SMW_DW(m, (uint32_t)neos_buttons);
-}
-
-static int read_neos_and_amiga_val_snapshot(snapshot_module_t *m)
-{
-    return SMR_DW_INT(m, &neos_buttons);
-}
 
 int mouse_neos_write_snapshot(struct snapshot_s *s, int port)
 {
@@ -362,15 +331,13 @@ int mouse_neos_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (write_mouse_digital_val_snapshot(m) < 0) {
-        goto fail;
-    }
-
-    if (write_neos_and_amiga_val_snapshot(m) < 0) {
+    if (write_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
     if (0
+        || SMW_B(m, mouse_digital_val) < 0
+        || SMW_DW(m, (uint32_t)neos_buttons) < 0
         || SMW_B(m, neos_x) < 0
         || SMW_B(m, neos_y) < 0
         || SMW_B(m, neos_lastx) < 0
@@ -409,15 +376,13 @@ int mouse_neos_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_mouse_digital_val_snapshot(m) < 0) {
-        goto fail;
-    }
-
-    if (read_neos_and_amiga_val_snapshot(m) < 0) {
+    if (read_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
     if (0
+        || SMR_B(m, &mouse_digital_val) < 0
+        || SMR_DW_INT(m, &neos_buttons) < 0
         || SMR_B(m, &neos_x) < 0
         || SMR_B(m, &neos_y) < 0
         || SMR_B(m, &neos_lastx) < 0
