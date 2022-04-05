@@ -92,10 +92,20 @@ sym_file = \
 
 if USE_SDLUI
 c64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file) $(sdl_hotkeys)
-
 EXTRA_DIST = $(c64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
-else
-c64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys) $(sym_file)
+endif
 
+if USE_SDL2UI
+c64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file) $(sdl_hotkeys)
+EXTRA_DIST = $(c64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
+
+if USE_GTK3UI
+c64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys) $(sym_file)
 EXTRA_DIST = $(c64_DATA) $(sdl_keymaps) $(sdl_hotkeys)
+endif
+
+if USE_HEADLESSUI
+c64_DATA = $(roms) $(romsets) $(palettes) $(sym_file)
+EXTRA_DIST = $(c64_DATA) $(sdl_keymaps) $(sdl_hotkeys) $(gtk3_keymaps) $(gtk3_hotkeys)
 endif

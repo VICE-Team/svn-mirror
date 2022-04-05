@@ -1318,7 +1318,7 @@ if test x"$check_sdl2" = "xyes"; then
   ],[
     dnl fail if SDL2 ui was requested, otherwise restore flags and continue
     if test x"$enable_sdlui2" = "xyes"; then
-      AC_MSG_ERROR([SDL2 UI requested, but SDL2 is missing])
+      AC_MSG_ERROR([SDL 2.x UI requested, but SDL 2.x library is missing.])
     fi
   ])
 
@@ -1360,7 +1360,7 @@ if test x"$check_sdl2" = "xyes"; then
     dnl SDL2 is much more consistent than SDL1 so none of these
     dnl actually require tests.
     if test x"$enable_sdlui2" != "xno"; then
-      AC_DEFINE(USE_SDL2UI,,[Enable SDL2 UI support.])
+      AC_DEFINE(USE_SDL2UI,,[Enable SDL 2.x UI support.])
       AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
       HAVE_FULLSCREEN_SUPPORT="yes"
       AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
@@ -1368,7 +1368,7 @@ if test x"$check_sdl2" = "xyes"; then
 
       AC_CHECK_FUNCS(SDL_NumJoysticks)
 
-      dnl now that the SDL2 UI support has been detected, define
+      dnl now that the SDL 2.0 UI support has been detected, define
       dnl enable_sdlui2 and undefine the others to prevent checks
 
       if test x"$check_sdlaudio_only" != "xyes"; then
@@ -1413,7 +1413,8 @@ if test x"$with_sdlsound" = "xyes"; then
   check_sdl1=yes
 fi
 
-dnl Check and setup SDL compilation.
+
+dnl Check and setup SDL 1.2 compilation.
 if test x"$check_sdl1" = "xyes"; then
 
   dnl check for the 2 cases where audio needs to be checked
@@ -1473,12 +1474,12 @@ if test x"$check_sdl1" = "xyes"; then
       fi
     fi
 
-    dnl only check if sdl ui is needed
+    dnl only check if SDL 1.2 ui is needed
     if test x"$enable_sdlui" != "xno"; then
       AC_CHECK_HEADERS(SDL/SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
                          [use_sdl_prefix=yes;
                           AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
-                          AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
+                          AC_DEFINE(USE_SDLUI,,[Enable SDL 1.2 UI support.])],
                          [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
                          [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break])
 
@@ -1486,14 +1487,14 @@ if test x"$check_sdl1" = "xyes"; then
           unset ac_cv_lib_SDL_SDL_SetVideoMode
           AC_CHECK_HEADERS(SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
                            [use_sdl_prefix=no;
-                            AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
+                            AC_DEFINE(USE_SDLUI,,[Enable SDL 1.2 UI support.])],
                            [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
                            [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
         fi
 
-        dnl fail if SDL ui was requested
+        dnl fail if SDL 1.2 ui was requested
         if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes" -a x"$enable_sdlui" = "xyes"; then
-          AC_MSG_ERROR([SDL headers and/or libraries missing])
+          AC_MSG_ERROR([SDL 1.2 headers and/or libraries missing])
         fi
 
       dnl only continue if SDL headers/libs are present
@@ -1532,7 +1533,7 @@ if test x"$check_sdl1" = "xyes"; then
           fi
 
           if test x"$have_opengl_lib" != "xyes"; then
-            AC_MSG_ERROR(The SDL1 UI requires OpenGL for hardware scaling. Install OpenGL development headers or set --disable-hwscale to disable scaling.)
+            AC_MSG_ERROR(The SDL 1.2 UI requires OpenGL for hardware scaling. Install OpenGL development headers or set --disable-hwscale to disable scaling.)
           fi
         fi
 
@@ -3306,15 +3307,13 @@ fi
 
 
 dnl Setup the system-specific object files.
+AM_CONDITIONAL(USE_SDLUI, false)
+AM_CONDITIONAL(USE_SDL2UI, false)
 if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/sdl"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/sdl"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
-  if test x"$is_win32" = "xyes"; then
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
-  else
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared -I\$(top_srcdir)/src/arch"
-  fi
+  ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/shared"
   if test x"$ac_cv_lib_readline_readline" = "xyes"; then
     AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
   fi
@@ -3322,21 +3321,15 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
-  AM_CONDITIONAL(USE_SDLUI, true)
+
   if test x"$enable_sdlui2" = "xyes"; then
     AM_CONDITIONAL(USE_SDL2UI, true)
-    SDL_VERSION=2
     SDLCONFIG="$sdl2_config"
   else
-    AM_CONDITIONAL(USE_SDL2UI, false)
-    SDL_VERSION=1
+    AM_CONDITIONAL(USE_SDLUI, true)
     SDLCONFIG="$sdl_config"
   fi
-  AC_SUBST(SDL_VERSION)
   AC_SUBST(SDLCONFIG)
-else
-  AM_CONDITIONAL(USE_SDLUI, false)
-  AM_CONDITIONAL(USE_SDL2UI, false)
 fi
 
 SDL_EXTRA_LIBS=""
