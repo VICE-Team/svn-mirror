@@ -765,7 +765,7 @@ static joyport_t joystick_device = {
     JOYSTICK_ADAPTER_ID_NONE,       /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_JOYSTICK,        /* device is a Joystick */
     0,                              /* NO output bits */
-    joyport_enable_joystick,        /* device enable function */
+    joyport_enable_joystick,        /* device enable/disable function */
     read_joystick,                  /* digital line read function */
     NULL,                           /* NO digital line store function */
     read_potx,                      /* pot-x read function */
