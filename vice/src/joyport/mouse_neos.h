@@ -1,4 +1,3 @@
-
 /*
  * mouse_neos.h - NEOS mouse handling (header)
  *
@@ -28,12 +27,12 @@
 #ifndef VICE_MOUSE_NEOS_H
 #define VICE_MOUSE_NEOS_H
 
-extern joyport_t mouse_neos_joyport_device;
-
 extern void mouse_neos_init(void);
 extern void mouse_neos_set_enabled(int enabled);
 extern void mouse_neos_button_right(int pressed);
 extern void mouse_neos_button_left(int pressed);
+
+extern int mouse_neos_register(void);
 
 extern void neos_mouse_set_machine_parameter(long clock_rate);
 

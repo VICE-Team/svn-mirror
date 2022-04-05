@@ -1,4 +1,3 @@
-
 /*
  * mouse_neos.c - NEOS mouse handling
  *
@@ -276,7 +275,7 @@ static int joyport_mouse_neos_enable(int port, int joyportid)
 int mouse_neos_write_snapshot(struct snapshot_s *s, int port);
 int mouse_neos_read_snapshot(struct snapshot_s *s, int port);
 
-joyport_t mouse_neos_joyport_device = {
+static joyport_t mouse_neos_joyport_device = {
     "Mouse (NEOS)",                        /* name of the device */
     JOYPORT_RES_ID_MOUSE,                  /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,               /* device is NOT a lightpen */
@@ -295,6 +294,12 @@ joyport_t mouse_neos_joyport_device = {
     NULL,                                  /* NO device hook function */
     0                                      /* NO device hook function mask */
 };
+
+int mouse_neos_register(void)
+{
+    return joyport_device_register(JOYPORT_ID_MOUSE_NEOS, &mouse_neos_joyport_device);
+}
+
 
 void mouse_neos_init(void)
 {

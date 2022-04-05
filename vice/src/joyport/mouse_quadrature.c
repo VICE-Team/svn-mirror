@@ -248,7 +248,7 @@ void mouse_amiga_st_init(void)
 static int mouse_amiga_write_snapshot(struct snapshot_s *s, int port);
 static int mouse_amiga_read_snapshot(struct snapshot_s *s, int port);
 
-joyport_t mouse_amiga_joyport_device = {
+static joyport_t mouse_amiga_joyport_device = {
     "Mouse (Amiga)",                       /* name of the device */
     JOYPORT_RES_ID_MOUSE,                  /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,               /* device is NOT a lightpen */
@@ -272,7 +272,7 @@ joyport_t mouse_amiga_joyport_device = {
 static int mouse_cx22_write_snapshot(struct snapshot_s *s, int port);
 static int mouse_cx22_read_snapshot(struct snapshot_s *s, int port);
 
-joyport_t mouse_cx22_joyport_device = {
+static joyport_t mouse_cx22_joyport_device = {
     "Trackball (Atari CX-22)", /* name of the device */
     JOYPORT_RES_ID_MOUSE,      /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
@@ -297,7 +297,7 @@ joyport_t mouse_cx22_joyport_device = {
 static int mouse_st_write_snapshot(struct snapshot_s *s, int port);
 static int mouse_st_read_snapshot(struct snapshot_s *s, int port);
 
-joyport_t mouse_st_joyport_device = {
+static joyport_t mouse_st_joyport_device = {
     "Mouse (Atari ST)",                    /* name of the device */
     JOYPORT_RES_ID_MOUSE,                  /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,               /* device is NOT a lightpen */
@@ -316,6 +316,19 @@ joyport_t mouse_st_joyport_device = {
     NULL,                                  /* NO device hook function */
     0                                      /* NO device hook function mask */
 };
+
+/* --------------------------------------------------------- */
+
+int mouse_quadrature_register(void)
+{
+    if (joyport_device_register(JOYPORT_ID_MOUSE_AMIGA, &mouse_amiga_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_device_register(JOYPORT_ID_MOUSE_CX22, &mouse_cx22_joyport_device) < 0) {
+        return -1;
+    }
+    return joyport_device_register(JOYPORT_ID_MOUSE_ST, &mouse_st_joyport_device);
+}
 
 /* --------------------------------------------------------- */
 

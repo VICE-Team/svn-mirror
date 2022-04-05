@@ -1,4 +1,3 @@
-
 /*
  * mouse_paddle.h - Paddle-like devices (header)
  *
@@ -29,14 +28,12 @@
 #ifndef VICE_PADDLE_H
 #define VICE_PADDLE_H
 
+extern int mouse_paddle_register(void);
+
 extern void paddles_button_left(int pressed);
 extern void paddles_button_right(int pressed);
 
 extern int paddles_resources_init(void);
 extern int paddles_cmdline_options_init(void);
-
-extern joyport_t paddles_joyport_device;
-extern joyport_t koalapad_joyport_device;
-extern joyport_t mf_joystick_joyport_device;
 
 #endif
