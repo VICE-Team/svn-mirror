@@ -141,6 +141,7 @@ static int joyport_cx21_set_enabled(int prt, int enabled)
         keyboard_register_joy_keypad(NULL);
     }
 
+    /* set the current state */
     cx21_enabled = new_state;
 
     return 0;
