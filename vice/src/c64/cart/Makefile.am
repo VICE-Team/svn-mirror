@@ -11,7 +11,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/vicii \
 	-I$(top_srcdir)/src/rtc \
-	-I$(top_srcdir)/src/arch/shared/samplerdrv \
+	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/arch/shared
 

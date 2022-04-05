@@ -568,7 +568,7 @@ resid_dtv_lib = $(top_builddir)/src/resid-dtv/libresiddtv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 rtc_lib = $(top_builddir)/src/core/rtc/librtc.a
-samplerdrv_lib = $(top_builddir)/src/arch/shared/samplerdrv/libsamplerdrv.a
+samplerdrv_lib = $(top_builddir)/src/samplerdrv/libsamplerdrv.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sid_dtv_lib = $(top_builddir)/src/sid/libsid_dtv.a
@@ -1379,8 +1379,8 @@ $(resid_dtv_lib):
 	@echo "making libresiddtv.a in resid-dtv"
 	@(cd resid-dtv && $(MAKE) libresiddtv.a)
 $(samplerdrv_lib):
-	@echo "making all in arch/shared/samplerdrv"
-	@(cd arch/shared/samplerdrv && $(MAKE))
+	@echo "making all in samplerdrv"
+	@(cd samplerdrv && $(MAKE))
 $(joyport_lib):
 	@echo "making all in joyport"
 	@(cd joyport && $(MAKE))
