@@ -163,6 +163,7 @@ static uint8_t joystick_axis_value[4] = { 0x80, 0x80, 0x80, 0x80 };
 static void joystick_latch_matrix(CLOCK offset)
 {
     uint8_t idx;
+    int port;
 
     if (network_connected()) {
         idx = network_joystick_value.last_used_joyport;
@@ -179,35 +180,10 @@ static void joystick_latch_matrix(CLOCK offset)
         joystick_machine_func();
     }
 
-    if (joyport_joystick[0]) {
-        joyport_display_joyport(JOYPORT_ID_JOY1, joystick_value[JOYPORT_1]);
-    }
-    if (joyport_joystick[1]) {
-        joyport_display_joyport(JOYPORT_ID_JOY2, joystick_value[JOYPORT_2]);
-    }
-    if (joyport_joystick[2]) {
-        joyport_display_joyport(JOYPORT_ID_JOY3, joystick_value[JOYPORT_3]);
-    }
-    if (joyport_joystick[3]) {
-        joyport_display_joyport(JOYPORT_ID_JOY4, joystick_value[JOYPORT_4]);
-    }
-    if (joyport_joystick[4]) {
-        joyport_display_joyport(JOYPORT_ID_JOY5, joystick_value[JOYPORT_5]);
-    }
-    if (joyport_joystick[5]) {
-        joyport_display_joyport(JOYPORT_ID_JOY6, joystick_value[JOYPORT_6]);
-    }
-    if (joyport_joystick[6]) {
-        joyport_display_joyport(JOYPORT_ID_JOY7, joystick_value[JOYPORT_7]);
-    }
-    if (joyport_joystick[7]) {
-        joyport_display_joyport(JOYPORT_ID_JOY8, joystick_value[JOYPORT_8]);
-    }
-    if (joyport_joystick[8]) {
-        joyport_display_joyport(JOYPORT_ID_JOY9, joystick_value[JOYPORT_9]);
-    }
-    if (joyport_joystick[9]) {
-        joyport_display_joyport(JOYPORT_ID_JOY10, joystick_value[JOYPORT_10]);
+    for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
+        if (joyport_joystick[port]) {
+            joyport_display_joyport(port, JOYPORT_ID_JOYSTICK, joystick_value[port]);
+        }
     }
 }
 

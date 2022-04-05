@@ -30,19 +30,9 @@
 #include "snapshot.h"
 #include "types.h"
 
-#define JOYPORT_ID_JOY1               -1
-#define JOYPORT_ID_JOY2               -2
-#define JOYPORT_ID_JOY3               -3
-#define JOYPORT_ID_JOY4               -4
-#define JOYPORT_ID_JOY5               -5
-#define JOYPORT_ID_JOY6               -6
-#define JOYPORT_ID_JOY7               -7
-#define JOYPORT_ID_JOY8               -8
-#define JOYPORT_ID_JOY9               -9
-#define JOYPORT_ID_JOY10              -10
-
 /* #define JOYPORT_EXPERIMENTAL_DEVICES */
 
+#define JOYPORT_ID_UNKNOWN             -1   /* used with joyport_display_joyport() */
 #define JOYPORT_ID_NONE                0    /* CAUTION: some code relies on this being 0 */
 #define JOYPORT_ID_JOYSTICK            1
 #define JOYPORT_ID_PADDLES             2
@@ -325,7 +315,7 @@ extern int joyport_port_register(int port, joyport_port_props_t *props);
 
 extern joyport_desc_t *joyport_get_valid_devices(int port, int sort);
 
-extern void joyport_display_joyport(int id, uint16_t status);
+extern void joyport_display_joyport(int port, int id, uint16_t status);
 
 extern char *joyport_get_port_name(int port);
 

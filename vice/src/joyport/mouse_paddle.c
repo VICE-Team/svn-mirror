@@ -269,7 +269,7 @@ static uint8_t joyport_paddles_value(int port)
         }
     }
 
-    joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+    joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
     return retval;
 }
 
@@ -501,7 +501,7 @@ static uint8_t joyport_mouse_value(int port)
     uint8_t retval = 0xff;
     if (_mouse_enabled) {
         retval = (uint8_t)((~mouse_digital_val));
-        joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+        joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
     }
     return retval;
 }
@@ -652,7 +652,7 @@ static uint8_t joyport_mf_joystick_value(int port)
             retval = _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
         }
     }
-    joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+    joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
     return retval;
 }
 

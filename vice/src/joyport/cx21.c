@@ -146,7 +146,7 @@ static int joyport_cx21_set_enabled(int prt, int enabled)
     return 0;
 }
 
-static uint8_t cx21_read_dig(int p)
+static uint8_t cx21_read_dig(int joyport)
 {
     uint8_t retval = 0;
 
@@ -178,7 +178,7 @@ static uint8_t cx21_read_dig(int p)
         }
     }
 
-    joyport_display_joyport(JOYPORT_ID_CX21_KEYPAD, (uint16_t)retval);
+    joyport_display_joyport(joyport, JOYPORT_ID_CX21_KEYPAD, (uint16_t)retval);
 
     return (uint8_t)~retval;
 }

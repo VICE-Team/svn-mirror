@@ -218,7 +218,7 @@ static uint8_t cardkey_read_dig(int port)
 
     retval |= 0xf0;
 
-    joyport_display_joyport(JOYPORT_ID_CARDCO_KEYPAD, (uint16_t)~retval);
+    joyport_display_joyport(port, JOYPORT_ID_CARDCO_KEYPAD, (uint16_t)~retval);
 
     return (uint8_t)retval;
 }

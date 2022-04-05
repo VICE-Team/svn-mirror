@@ -34,6 +34,7 @@
 #include "cmdline.h"
 #include "joyport.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "uiapi.h"
@@ -722,92 +723,32 @@ joyport_desc_t *joyport_get_valid_devices(int port, int sort)
     return retval;
 }
 
-static int joyport_valid_joyport_display(int id)
-{
-    switch (id) {
-        case JOYPORT_ID_JOY1:
-        case JOYPORT_ID_JOY2:
-        case JOYPORT_ID_JOY3:
-        case JOYPORT_ID_JOY4:
-        case JOYPORT_ID_JOY5:
-        case JOYPORT_ID_JOY6:
-        case JOYPORT_ID_JOY7:
-        case JOYPORT_ID_JOY8:
-        case JOYPORT_ID_JOY9:
-        case JOYPORT_ID_JOY10:
-            return 1;
-    }
-    return 0;
-}
-
 /* FIXME: this should also take the port as parameter, and not use the magic
           negative ids (which should be removed alltogether). We should also
           loop over all ports instead of these hardcoded IFs */
-void joyport_display_joyport(int id, uint16_t status)
+void joyport_display_joyport(int port, int id, uint16_t status)
 {
-    if (joyport_valid_joyport_display(id)) {
-        if (id == JOYPORT_ID_JOY1 && joy_port[0] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[1] = status;
+    int n;
+
+    if (port == JOYPORT_ID_UNKNOWN) {
+        /* the calling function does not "know" the port, only the ID, so we
+           search all ports for the given ID and use the first one found */
+        for (n = 0; n < JOYPORT_MAX_PORTS; n++) {
+            if (id == joy_port[n]) {
+                joyport_display[n + 1] = status;
+                break;
+            }
         }
-        if (id == JOYPORT_ID_JOY2 && joy_port[1] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[2] = status;
-        }
-        if (id == JOYPORT_ID_JOY3 && joy_port[2] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[3] = status;
-        }
-        if (id == JOYPORT_ID_JOY4 && joy_port[3] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[4] = status;
-        }
-        if (id == JOYPORT_ID_JOY5 && joy_port[4] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[5] = status;
-        }
-        if (id == JOYPORT_ID_JOY6 && joy_port[5] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[6] = status;
-        }
-        if (id == JOYPORT_ID_JOY7 && joy_port[6] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[7] = status;
-        }
-        if (id == JOYPORT_ID_JOY8 && joy_port[7] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[8] = status;
-        }
-        if (id == JOYPORT_ID_JOY9 && joy_port[8] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[9] = status;
-        }
-        if (id == JOYPORT_ID_JOY10 && joy_port[9] == JOYPORT_ID_JOYSTICK) {
-            joyport_display[10] = status;
+    } else if ((port >= 0) && (port < JOYPORT_MAX_PORTS)) {
+        if (id == joy_port[port]) {
+            joyport_display[port + 1] = status;
+        } else {
+            log_error(LOG_DEFAULT, "joyport_display_joyport: device with id '%d' not in port '%d'\n", id, port);
         }
     } else {
-        if (id == joy_port[0]) {
-            joyport_display[1] = status;
-        }
-        if (id == joy_port[1]) {
-            joyport_display[2] = status;
-        }
-        if (id == joy_port[2]) {
-            joyport_display[3] = status;
-        }
-        if (id == joy_port[3]) {
-            joyport_display[4] = status;
-        }
-        if (id == joy_port[4]) {
-            joyport_display[5] = status;
-        }
-        if (id == joy_port[5]) {
-            joyport_display[6] = status;
-        }
-        if (id == joy_port[6]) {
-            joyport_display[7] = status;
-        }
-        if (id == joy_port[7]) {
-            joyport_display[8] = status;
-        }
-        if (id == joy_port[8]) {
-            joyport_display[9] = status;
-        }
-        if (id == joy_port[9]) {
-            joyport_display[10] = status;
-        }
+        log_error(LOG_DEFAULT, "joyport_display_joyport: invalid port '%d'\n", port);
     }
+
     ui_display_joyport(joyport_display);
 }
 

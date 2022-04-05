@@ -336,7 +336,7 @@ static uint8_t joyport_mouse_micromys_value(int port)
 
     if (_mouse_enabled) {
         retval = (uint8_t)((~mouse_digital_val) & micromys_mouse_read());
-        joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+        joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
     }
     return retval;
 }
@@ -453,7 +453,7 @@ static uint8_t joyport_mouse_smart_value(int port)
     if (_mouse_enabled) {
         retval = (uint8_t)((~mouse_digital_val) & smart_mouse_read());
         if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+            joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
         }
     }
     return retval;
