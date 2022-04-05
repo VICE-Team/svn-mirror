@@ -552,7 +552,10 @@ static int set_mouse_enabled(int val, void *param)
     mouse_neos_set_enabled(_mouse_enabled);
 
     if (mouse_type != -1) {
-        joyport_display_joyport(mouse_type_to_id(mouse_type), 0);
+        /* FIXME: we don't know the port here, using JOYPORT_ID_UNKNOWN will
+                  make joyport_display_joyport search for the device in all
+                  available ports */
+        joyport_display_joyport(JOYPORT_ID_UNKNOWN, mouse_type_to_id(mouse_type), 0);
     }
     return 0;
 }

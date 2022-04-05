@@ -205,7 +205,7 @@ static uint8_t joyport_mouse_neos_value(int port)
             retval &= ~0x0f;
         }
         if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+            joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
         }
     }
     return retval;

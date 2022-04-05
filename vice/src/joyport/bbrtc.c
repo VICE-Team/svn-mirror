@@ -101,7 +101,7 @@ static uint8_t bbrtc_read(int port)
     /* get data line value from the DS1602 RTC */
     retval = (ds1602_read_data_line(bbrtc_context[port]) ? 0 : 1) << 1;
 
-    joyport_display_joyport(JOYPORT_ID_BBRTC, (uint16_t)~retval);
+    joyport_display_joyport(port, JOYPORT_ID_BBRTC, (uint16_t)~retval);
 
     return (uint8_t)(~retval);
 }

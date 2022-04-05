@@ -175,7 +175,7 @@ static uint8_t joyport_mouse_poll_value(int port)
         mouse_poll();
         retval = (uint8_t)((~mouse_digital_val) & joyport_mouse_amiga_st_read(port));
         if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+            joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
         }
     }
     return retval;

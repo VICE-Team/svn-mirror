@@ -240,7 +240,10 @@ static inline void lightpen_check_button_mask(uint8_t mask, int pressed)
     if (id == -1) {
         return;
     }
-    joyport_display_joyport(id, (uint16_t)lightpen_value);
+    /* FIXME: we don't know the port here (is it really always port 1?, using
+              JOYPORT_ID_UNKNOWN will make joyport_display_joyport search for
+              the device in all available ports */
+    joyport_display_joyport(JOYPORT_ID_UNKNOWN, id, (uint16_t)lightpen_value);
 }
 
 static inline void lightpen_update_buttons(int buttons)
