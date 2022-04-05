@@ -740,11 +740,11 @@ static int joyport_valid_joyport_display(int id)
     return 0;
 }
 
+/* FIXME: this should also take the port as parameter, and not use the magic
+          negative ids (which should be removed alltogether). We should also
+          loop over all ports instead of these hardcoded IFs */
 void joyport_display_joyport(int id, uint16_t status)
 {
-    int i;
-    int all = 1;
-
     if (joyport_valid_joyport_display(id)) {
         if (id == JOYPORT_ID_JOY1 && joy_port[0] == JOYPORT_ID_JOYSTICK) {
             joyport_display[1] = status;
@@ -777,52 +777,33 @@ void joyport_display_joyport(int id, uint16_t status)
             joyport_display[10] = status;
         }
     } else {
-        for (i = 0; i < 10; i++) {
-            if (id == joy_port[i]) {
-                all = 0;
-            }
-        }
-
-        if (!all) {
-            return;
-        }
-
         if (id == joy_port[0]) {
             joyport_display[1] = status;
         }
-
         if (id == joy_port[1]) {
             joyport_display[2] = status;
         }
-
         if (id == joy_port[2]) {
             joyport_display[3] = status;
         }
-
         if (id == joy_port[3]) {
             joyport_display[4] = status;
         }
-
         if (id == joy_port[4]) {
             joyport_display[5] = status;
         }
-
         if (id == joy_port[5]) {
             joyport_display[6] = status;
         }
-
         if (id == joy_port[6]) {
             joyport_display[7] = status;
         }
-
         if (id == joy_port[7]) {
             joyport_display[8] = status;
         }
-
         if (id == joy_port[8]) {
             joyport_display[9] = status;
         }
-
         if (id == joy_port[9]) {
             joyport_display[10] = status;
         }
