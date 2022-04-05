@@ -1,4 +1,3 @@
-
 /*
  * mouse_quadrature.h - Quadrature mouse handling (header)
  *
@@ -28,14 +27,12 @@
 #ifndef VICE_QUADRATURE_H
 #define VICE_QUADRATURE_H
 
+extern int mouse_quadrature_register(void);
+
 extern void mouse_amiga_st_init(void);
 
 extern void mouse_amiga_st_button_left(int pressed);
 extern void mouse_amiga_st_button_right(int pressed);
 extern void mouse_amiga_st_button_middle(int pressed);
-
-extern joyport_t mouse_amiga_joyport_device;
-extern joyport_t mouse_cx22_joyport_device;
-extern joyport_t mouse_st_joyport_device;
 
 #endif

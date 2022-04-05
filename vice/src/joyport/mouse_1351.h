@@ -1,4 +1,3 @@
-
 /*
  * mouse_1351.h - C1351-like mouse handling (header)
  *
@@ -29,11 +28,12 @@
 #ifndef VICE_1351_H
 #define VICE_1351_H
 
+extern int mouse_1351_register(void);
+
 /* commodore 1351 */
 
 extern void mouse_1351_button_left(int pressed);
 extern void mouse_1351_button_right(int pressed);
-extern joyport_t mouse_1351_joyport_device;
 
 /* micromys */
 
@@ -41,7 +41,6 @@ extern uint8_t micromys_mouse_read(void);
 extern void micromys_mouse_button_middle(int pressed);
 extern void micromys_mouse_button_up(int pressed);
 extern void micromys_mouse_button_down(int pressed);
-extern joyport_t mouse_micromys_joyport_device;
 
 /* smartmouse */
 
@@ -50,6 +49,5 @@ extern uint8_t smart_mouse_read(void);
 extern int smart_mouse_resources_init(void);
 extern int smart_mouse_cmdline_options_init(void);
 extern void smart_mouse_shutdown(void);
-extern joyport_t mouse_smart_joyport_device;
 
 #endif

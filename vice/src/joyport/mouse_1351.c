@@ -1,4 +1,3 @@
-
 /*
  * mouse_1351.c - C1351-like mouse handling
  *
@@ -193,7 +192,7 @@ static int mouse_1351_enabled(int port, int joyportid)
 static int mouse_1351_write_snapshot(struct snapshot_s *s, int port);
 static int mouse_1351_read_snapshot(struct snapshot_s *s, int port);
 
-joyport_t mouse_1351_joyport_device = {
+static joyport_t mouse_1351_joyport_device = {
     "Mouse (1351)",            /* name of the device */
     JOYPORT_RES_ID_MOUSE,      /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
@@ -345,7 +344,7 @@ static uint8_t joyport_mouse_micromys_value(int port)
 static int mouse_micromys_write_snapshot(struct snapshot_s *s, int port);
 static int mouse_micromys_read_snapshot(struct snapshot_s *s, int port);
 
-joyport_t mouse_micromys_joyport_device = {
+static joyport_t mouse_micromys_joyport_device = {
     "Mouse (Micromys)",            /* name of the device */
     JOYPORT_RES_ID_MOUSE,          /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,       /* device is NOT a lightpen */
@@ -481,7 +480,7 @@ void smart_mouse_shutdown(void)
 static int mouse_smart_write_snapshot(struct snapshot_s *s, int port);
 static int mouse_smart_read_snapshot(struct snapshot_s *s, int port);
 
-joyport_t mouse_smart_joyport_device = {
+static joyport_t mouse_smart_joyport_device = {
     "Mouse (SmartMouse)",       /* name of the device */
     JOYPORT_RES_ID_MOUSE,       /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
@@ -529,6 +528,21 @@ static const cmdline_option_t cmdline_extra_option[] =
       NULL, "Disable saving of smart mouse RTC data when changed." },
     CMDLINE_LIST_END
 };
+
+/*--------------------------------------------------------------------------*/
+
+int mouse_1351_register(void)
+{
+    if (joyport_device_register(JOYPORT_ID_MOUSE_MICROMYS, &mouse_micromys_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_device_register(JOYPORT_ID_MOUSE_1351, &mouse_1351_joyport_device) < 0) {
+        return -1;
+    }
+    return joyport_device_register(JOYPORT_ID_MOUSE_SMART, &mouse_smart_joyport_device);
+}
+
+/* --------------------------------------------------------- */
 
 int smart_mouse_cmdline_options_init(void)
 {

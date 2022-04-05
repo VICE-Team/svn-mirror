@@ -1,4 +1,3 @@
-
 /*
  * mouse_paddle.c - Paddle-like devices
  *
@@ -312,7 +311,7 @@ static int joyport_paddles_enable(int port, int val)
 static int paddles_write_snapshot(struct snapshot_s *s, int port);
 static int paddles_read_snapshot(struct snapshot_s *s, int port);
 
-joyport_t paddles_joyport_device = {
+static joyport_t paddles_joyport_device = {
     "Paddles",                /* name of the device */
     JOYPORT_RES_ID_NONE,      /* device normally uses the mouse for input,
                                  but it can be mapped to a joystick axis too,
@@ -510,7 +509,7 @@ static uint8_t joyport_mouse_value(int port)
 static int koalapad_write_snapshot(struct snapshot_s *s, int port);
 static int koalapad_read_snapshot(struct snapshot_s *s, int port);
 
-joyport_t koalapad_joyport_device = {
+static joyport_t koalapad_joyport_device = {
     "KoalaPad",                 /* name of the device */
     JOYPORT_RES_ID_MOUSE,       /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
     JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
@@ -656,7 +655,7 @@ static uint8_t joyport_mf_joystick_value(int port)
     return retval;
 }
 
-joyport_t mf_joystick_joyport_device = {
+static joyport_t mf_joystick_joyport_device = {
     "Microflyte Joystick",     /* name of the device */
     JOYPORT_RES_ID_NONE,       /* device normally uses the mouse for input,
                                  but it can be mapped to a joystick axis too,
@@ -678,3 +677,13 @@ joyport_t mf_joystick_joyport_device = {
     0                          /* NO device hook function mask */
 };
 
+int mouse_paddle_register(void)
+{
+    if (joyport_device_register(JOYPORT_ID_PADDLES, &paddles_joyport_device) < 0) {
+        return -1;
+    }
+    if (joyport_device_register(JOYPORT_ID_MF_JOYSTICK, &mf_joystick_joyport_device) < 0) {
+        return -1;
+    }
+    return joyport_device_register(JOYPORT_ID_KOALAPAD, &koalapad_joyport_device);
+}

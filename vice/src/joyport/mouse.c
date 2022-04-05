@@ -516,34 +516,17 @@ int mouse_type_to_id(int mt)
 static int mouse_joyport_register(void)
 {
     DBG(("mouse_joyport_register\n"));
-    if (joyport_device_register(JOYPORT_ID_PADDLES, &paddles_joyport_device) < 0) {
+
+    if (mouse_1351_register() < 0) {
         return -1;
     }
-    if (joyport_device_register(JOYPORT_ID_MF_JOYSTICK, &mf_joystick_joyport_device) < 0) {
+    if (mouse_neos_register() < 0) {
         return -1;
     }
-    if (joyport_device_register(JOYPORT_ID_MOUSE_1351, &mouse_1351_joyport_device) < 0) {
+    if (mouse_paddle_register() < 0) {
         return -1;
     }
-    if (joyport_device_register(JOYPORT_ID_MOUSE_NEOS, &mouse_neos_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_MOUSE_AMIGA, &mouse_amiga_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_MOUSE_CX22, &mouse_cx22_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_MOUSE_ST, &mouse_st_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_MOUSE_SMART, &mouse_smart_joyport_device) < 0) {
-        return -1;
-    }
-    if (joyport_device_register(JOYPORT_ID_MOUSE_MICROMYS, &mouse_micromys_joyport_device) < 0) {
-        return -1;
-    }
-    return joyport_device_register(JOYPORT_ID_KOALAPAD, &koalapad_joyport_device);
+    return mouse_quadrature_register();
 }
 
 /* --------------------------------------------------------- */
