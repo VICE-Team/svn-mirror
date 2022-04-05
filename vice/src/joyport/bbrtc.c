@@ -101,6 +101,8 @@ static uint8_t bbrtc_read(int port)
     /* get data line value from the DS1602 RTC */
     retval = (ds1602_read_data_line(bbrtc_context[port]) ? 0 : 1) << 1;
 
+    joyport_display_joyport(JOYPORT_ID_BBRTC, (uint16_t)~retval);
+
     return (uint8_t)(~retval);
 }
 
@@ -143,7 +145,7 @@ static joyport_t joyport_bbrtc_device = {
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_RTC,        /* device is an RTC */
     0x0B,                      /* bits 3, 1 and 0 are output */
-    joyport_bbrtc_set_enabled, /* device enable function */
+    joyport_bbrtc_set_enabled, /* device enable/disable function */
     bbrtc_read,                /* digital line read function */
     bbrtc_store,               /* digital line store function */
     NULL,                      /* NO pot-x read function */
