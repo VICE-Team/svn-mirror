@@ -73,9 +73,9 @@ static log_t mouse_log = LOG_ERR;
 
 /******************************************************************************/
 
-/* FIXME: "private" global variables for mouse - we should get rid of most of these */
+static tick_t mouse_timestamp = 0;
 
-tick_t mouse_timestamp = 0;         /* FIXME: needed in mouse_quadrature.c */
+/* FIXME: "private" global variables for mouse - we should get rid of most of these */
 
 int mouse_sx, mouse_sy;  /* FIXME: needed in mouse_quadrature.c */
 

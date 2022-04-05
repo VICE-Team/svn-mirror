@@ -118,7 +118,6 @@
 
 /* FIXME: "private" global variables for mouse - we should get rid of these */
 
-extern tick_t mouse_timestamp;
 extern int mouse_sx, mouse_sy;
 
 /******************************************************************************/
