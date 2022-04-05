@@ -114,9 +114,6 @@ int gfxoutput_early_init(int help)
 #ifdef HAVE_FFMPEG
     gfxoutput_init_ffmpeg(help);
 #endif
-#ifdef HAVE_QUICKTIME
-    gfxoutput_init_quicktime(help);
-#endif
     /* C64 formats */
     gfxoutput_init_godot(help);
     gfxoutput_init_artstudio(help);
