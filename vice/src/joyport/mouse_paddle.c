@@ -26,6 +26,10 @@
  *
  */
 
+/* This file contains the implementation for all devices that work like paddles,
+   ie the device puts absolute positions at the POT inputs, and uses the digital
+   lines for additional buttons. */
+
 /* Control port <--> mouse/paddles/pad connections:
 
    cport | paddles         | I/O

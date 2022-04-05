@@ -1,6 +1,6 @@
 
 /*
- * mouse_1351.c - C1351-like mouse handling (header)
+ * mouse_1351.c - C1351-like mouse handling
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -25,6 +25,10 @@
  *  02111-1307  USA.
  *
  */
+
+/* This file contains the implementation of all devices which work like the
+   1351 mouse, ie the device puts movement deltas on the POT inputs, and uses
+   the digital lines for additional buttons. */
 
 /* Control port <--> mouse/paddles/pad connections:
 

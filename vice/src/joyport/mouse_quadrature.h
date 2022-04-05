@@ -1,6 +1,6 @@
 
 /*
- * mouse_quadrature.h - Quadrature mouse handling
+ * mouse_quadrature.h - Quadrature mouse handling (header)
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
