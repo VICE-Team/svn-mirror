@@ -116,12 +116,6 @@
 
 /******************************************************************************/
 
-/* FIXME: "private" global variables for mouse - we should get rid of these */
-
-extern int mouse_sx, mouse_sy;
-
-/******************************************************************************/
-
 static int16_t last_mouse_x;
 static int16_t last_mouse_y;
 
@@ -141,6 +135,9 @@ static const uint8_t st_mouse_table[4] = { 0x0, 0x2, 0x3, 0x1 };
 
 static uint8_t joyport_mouse_amiga_st_read(int port)
 {
+    int mouse_sx = mouse_get_mouse_sx();
+    int mouse_sy = mouse_get_mouse_sy();
+
     mouse_get_last_int16(&last_mouse_x, &last_mouse_y);
 
     if ((quadrature_x != ((last_mouse_x >> 1) & 3)) || (quadrature_y != ((~last_mouse_y >> 1) & 3))) {

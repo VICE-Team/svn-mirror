@@ -58,6 +58,9 @@ extern void mouse_poll(void);
 extern void mouse_get_raw_int16(int16_t *x, int16_t *y);
 extern void mouse_get_last_int16(int16_t *x, int16_t *y);
 
+extern int mouse_get_mouse_sx(void);
+extern int mouse_get_mouse_sy(void);
+
 extern int read_mouse_common_snapshot(snapshot_module_t *m);
 extern int write_mouse_common_snapshot(snapshot_module_t *m);
 

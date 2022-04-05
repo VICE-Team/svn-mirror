@@ -75,9 +75,7 @@ static log_t mouse_log = LOG_ERR;
 
 static tick_t mouse_timestamp = 0;
 
-/* FIXME: "private" global variables for mouse - we should get rid of most of these */
-
-int mouse_sx, mouse_sy;  /* FIXME: needed in mouse_quadrature.c */
+static int mouse_sx, mouse_sy;
 
 /******************************************************************************/
 /* extern variables (used elsewhere in the codebase) */
@@ -117,6 +115,17 @@ static CLOCK next_update_y_emu_ts; /* in cpu cycle units */
 static float emu_units_per_os_units;
 
 static int update_limit = 512;
+
+
+int mouse_get_mouse_sx(void)
+{
+    return mouse_sx;
+}
+
+int mouse_get_mouse_sy(void)
+{
+    return mouse_sy;
+}
 
 /* --------------------------------------------------------- */
 
