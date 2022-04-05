@@ -3604,7 +3604,6 @@ AC_OUTPUT([Makefile
            src/arch/shared/hwsiddrv/Makefile
            src/arch/shared/iodrv/Makefile
            src/arch/shared/mididrv/Makefile
-           src/arch/shared/samplerdrv/Makefile
            src/arch/shared/socketdrv/Makefile
            src/arch/shared/sounddrv/Makefile
            src/buildtools/Makefile
@@ -3647,6 +3646,7 @@ AC_OUTPUT([Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
            src/rs232drv/Makefile
+           src/samplerdrv/Makefile
            src/serial/Makefile
            src/sid/Makefile
            src/tape/Makefile

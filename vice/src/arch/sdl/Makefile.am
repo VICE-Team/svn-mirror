@@ -20,7 +20,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/plus4/cart \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/rs232drv \
-	-I$(top_srcdir)/src/arch/shared/samplerdrv \
+	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/vdrive \

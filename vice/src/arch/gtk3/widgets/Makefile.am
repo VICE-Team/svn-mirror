@@ -27,7 +27,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/arch/gtk3/widgets \
 	-I$(top_srcdir)/src/arch/gtk3/widgets/base \
-	-I$(top_srcdir)/src/arch/shared/samplerdrv \
+	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/hvsc
