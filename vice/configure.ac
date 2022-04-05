@@ -87,14 +87,14 @@ VICE_ARG_WITH_LIST(resid,               [  --without-resid         do not use th
 VICE_ARG_WITH_LIST(sdlsound,            [  --with-sdlsound         use SDL sound system])
 VICE_ARG_WITH_LIST(sun,                 [  --without-sun           do not use the sun/netbsd sound system])
 VICE_ARG_WITH_LIST(vorbis,              [  --with-vorbis           use Ogg/Vorbis support])
-VICE_ARG_ENABLE_LIST(catweasel,         [  --disable-catweasel     disables CatWeasel (PCI/Zorro/Clockport SID card) support])
+VICE_ARG_ENABLE_LIST(catweasel,         [  --enable-catweasel      enables CatWeasel (PCI/Zorro/Clockport SID card) support])
 VICE_ARG_ENABLE_LIST(hardsid,           [  --disable-hardsid       disables HardSID support])
 VICE_ARG_ENABLE_LIST(lame,              [  --enable-lame           Enable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(midi,              [  --enable-midi           enable MIDI support])
 VICE_ARG_ENABLE_LIST(new8580filter,     [  --disable-new8580filter  disable new 8580 filters])
-VICE_ARG_ENABLE_LIST(parsid,            [  --disable-parsid        disables ParSID support])
+VICE_ARG_ENABLE_LIST(parsid,            [  --enable-parsid         enables ParSID support])
 VICE_ARG_ENABLE_LIST(portaudio,         [  --disable-portaudio     disables PortAudio support])
-VICE_ARG_ENABLE_LIST(ssi2001,           [  --disable-ssi2001       disables SSI2001 (ISA SID card) support])
+VICE_ARG_ENABLE_LIST(ssi2001,           [  --enable-ssi2001        enables SSI2001 (ISA SID card) support])
 VICE_ARG_ENABLE_LIST(static-lame,       [  --enable-static-lame    enable static LAME linking])
 
 
@@ -746,7 +746,10 @@ fi
 
 JOYSTICK_DRIVERS=""
 
-
+dnl Hardware SID drivers (obsolete so disabled by default)
+AM_CONDITIONAL(HAVE_CATWEASELMKIII, false)
+AM_CONDITIONAL(HAVE_PARSID, false)
+AM_CONDITIONAL(HAVE_SSI2001, false)
 
 if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
 
@@ -767,16 +770,18 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
   else
     LIBS="$LIBS -lwinmm -lntdll -ld2d1 -ld3d11 -lavrt -lwsock32 -lmingwex -lmsvcrt"
   fi
-  if test x"$enable_catweasel" != "xno"; then
+  if test x"$enable_catweasel" = "xyes"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    AM_CONDITIONAL(HAVE_CATWEASELMKIII, true)
     HAVE_CATWEASELMKIII_SUPPORT="yes"
   fi
   if test x"$enable_hardsid" != "xno"; then
     AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     HAVE_HARDSID_SUPPORT="yes"
   fi
-  if test x"$enable_parsid" != "xno"; then
+  if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+    AM_CONDITIONAL(HAVE_PARSID, true)
     HAVE_PARSID_SUPPORT="yes"
 
     if test x"$enable_libieee1284" = "xyes"; then
@@ -797,8 +802,9 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
       fi
     fi
   fi
-  if test x"$enable_ssi2001" != "xno"; then
+  if test x"$enable_ssi2001" = "xyes"; then
     AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
+    AM_CONDITIONAL(HAVE_SSI2001, true)
     HAVE_SSI2001_SUPPORT="yes"
   fi
   if test x"$enable_midi" = "xyes"; then
@@ -835,8 +841,9 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
     AM_CONDITIONAL(HAIKU_COMPILE, true)
   fi
 
-  if test x"$enable_catweasel" != "xno"; then
+  if test x"$enable_catweasel" = "xyes"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    AM_CONDITIONAL(HAVE_CATWEASELMKIII, true)
     HAVE_CATWEASELMKIII_SUPPORT="yes"
   fi
 
@@ -845,8 +852,9 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
     HAVE_HARDSID_SUPPORT="yes"
   fi
 
-  if test x"$enable_parsid" != "xno"; then
+  if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+    AM_CONDITIONAL(HAVE_PARSID, true)
     HAVE_PARSID_SUPPORT="yes"
 
     if test x"$enable_libieee1284" = "xyes"; then
@@ -868,8 +876,9 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
     fi
   fi
 
-  if test x"$enable_ssi2001" != "xno"; then
+  if test x"$enable_ssi2001" = "xyes"; then
     AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
+    AM_CONDITIONAL(HAVE_SSI2001, true)
     HAVE_SSI2001_SUPPORT="yes"
   fi
 
@@ -2859,7 +2868,7 @@ if test x"$is_unix" = "xyes"; then
       ;;
   esac
 
-  if test x"$enable_parsid" != "xno" -o x"$enable_ssi2001" != "xno" -o x"$enable_hardsid" != "xno" -o x"$enable_catweasel" != "xno"; then
+  if test x"$enable_parsid" = "xyes" -o x"$enable_ssi2001" = "xyes" -o x"$enable_hardsid" != "xno" -o x"$enable_catweasel" = "xyes"; then
 
     if test x"$enable_libieee1284" = "xyes"; then
       LIBIEEE1284_HEADERS_PRESENT=yes
@@ -2954,17 +2963,20 @@ if test x"$is_unix" = "xyes"; then
     fi
 
     if test x"$IOSID_SUPPORT" = "xyes"; then
-      if test x"$enable_parsid" != "xno"; then
+      if test x"$enable_parsid" = "xyno"; then
         AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+        AM_CONDITIONAL(HAVE_PARSID, true)
         HAVE_PARSID_SUPPORT="yes"
       fi
-      if test x"$enable_ssi2001" != "xno"; then
+      if test x"$enable_ssi2001" = "xyes"; then
         AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
+        AM_CONDITIONAL(HAVE_SSI2001, true)
         HAVE_SSI2001_SUPPORT="yes"
       fi
-      if test x"$enable_catweasel" != "xno"; then
+      if test x"$enable_catweasel" = "xyes"; then
         AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
         AC_DEFINE(HAVE_CATWEASELMKIII_IO,,[Support for direct PCI I/O access Catweasel MKIII.])
+        AM_CONDITIONAL(HAVE_CATWEASELMKIII, true)
         HAVE_CATWEASELMKIII_SUPPORT="yes"
       fi
       if test x"$enable_hardsid" != "xno"; then
@@ -2977,15 +2989,17 @@ if test x"$is_unix" = "xyes"; then
         AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
         HAVE_HARDSID_SUPPORT="yes"
       fi
-      if test x"$enable_catweasel" != "xno" -a x"$CATWEASEL_HEADER_PRESENT" = "xyes"; then
+      if test x"$enable_catweasel" = "xyes" -a x"$CATWEASEL_HEADER_PRESENT" = "xyes"; then
         AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+        AM_CONDITIONAL(HAVE_CATWEASELMKIII, true)
         HAVE_CATWEASELMKIII_SUPPORT="yes"
       fi
     fi
 
     if test x"$PORTSID_SUPPORT" = "xyes"; then
-      if test x"$enable_parsid" != "xno" -a x"HAVE_PARSID_SUPPORT" != "xyes"; then
+      if test x"$enable_parsid" = "xyes" -a x"HAVE_PARSID_SUPPORT" != "xyes"; then
         AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+        AM_CONDITIONAL(HAVE_PARSID, true)
         AC_DEFINE(HAVE_PORTSID,,[Support for file device based access to ParSID.])
         HAVE_PARSID_SUPPORT="yes"
       fi
