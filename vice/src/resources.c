@@ -53,6 +53,7 @@
 #include "log.h"
 #include "network.h"
 #include "util.h"
+#include "uiapi.h"
 #include "vice-event.h"
 
 #include "resources.h"
@@ -1054,7 +1055,7 @@ int resources_touch(const char *name)
 /* ------------------------------------------------------------------------- */
 
 /* Check whether `buf' is the emulator ID for the machine we are emulating.  */
-static int check_emu_id(const char *buf)
+static int check_emu_id(const char *buf, const char *checkstring)
 {
     size_t machine_id_len, buf_len;
 
@@ -1063,16 +1064,16 @@ static int check_emu_id(const char *buf)
         return 0;
     }
 
-    if (machine_id == NULL) {
+    if (checkstring == NULL) {
         return 1;
     }
 
-    machine_id_len = strlen(machine_id);
+    machine_id_len = strlen(checkstring);
     if (machine_id_len != buf_len - 2) {
         return 0;
     }
 
-    if (strncmp(buf + 1, machine_id, machine_id_len) == 0) {
+    if (strncmp(buf + 1, checkstring, machine_id_len) == 0) {
         return 1;
     } else {
         return 0;
@@ -1173,6 +1174,71 @@ int resources_read_item_from_file(FILE *f)
     }
 }
 
+static const char *versionmessage =
+    "Please notice that using configuration files from a different VICE "
+    "version is not supported. It should be mostly no problem in practise, "
+    "but if you experience any problems, you might have to reset the "
+    "settings to defaults.\n\n"
+    "Save the settings now to make this message go away.";
+
+static int check_resource_file_version(const char *fname)
+{
+    FILE *f;
+    int line_num;
+    int err = 1;
+
+    f = fopen(fname, MODE_READ_TEXT);
+    if (f == NULL) {
+        return RESERR_FILE_NOT_FOUND;
+    }
+
+    /* Find the version tag  */
+    for (line_num = 1;; line_num++) {
+        char buf[1024];
+
+        if (util_get_line(buf, 1024, f) < 0) {
+            break;
+        }
+
+        if (check_emu_id(buf, "Version")) {
+            line_num++;
+            err = 0;
+            break;
+        }
+    }
+
+    if (err == 0) {
+        char buf[1024];
+
+        if (util_get_line(buf, 1024, f) < 0) {
+            err = 1;
+        } if (*buf == 0) {
+            err = 1;
+        } else {
+            char *tag = strtok(buf, "=");
+            if (strcmp(tag, "ConfigVersion") == 0) {
+                tag = strtok(NULL, "=");
+                if (strcmp(tag, VERSION) != 0) {
+                    log_warning(LOG_DEFAULT, "Config file version mismatch (is '%s', expected '%s').\n",
+                                tag, VERSION);
+                    ui_error("WARNING: Configuration file version mismatch (is '%s', expected '%s').\n\n%s",
+                            tag, VERSION, versionmessage);
+                    err = 0;
+                }
+            }
+        }
+    }
+
+    fclose(f);
+
+    if (err) {
+        log_warning(LOG_DEFAULT, "No version tag found in config file.");
+        ui_error("WARNING: No version tag found in configuration file.\n\n%s", versionmessage);
+    }
+
+    return 0;
+}
+
 static int load_resource_file(const char *fname)
 {
     FILE *f;
@@ -1196,7 +1262,7 @@ static int load_resource_file(const char *fname)
             return RESERR_READ_ERROR;
         }
 
-        if (check_emu_id(buf)) {
+        if (check_emu_id(buf, machine_id)) {
             line_num++;
             break;
         }
@@ -1250,6 +1316,9 @@ int resources_load(const char *fname)
             default_name = lib_strdup(vice_config_file);
         }
         fname = default_name;
+        /* only check version if fname was NULL, that allows to load extra
+           settings without the check */
+        check_resource_file_version(fname);
     }
     res = load_resource_file(fname);
     lib_free(default_name);
@@ -1261,6 +1330,12 @@ int resources_load(const char *fname)
 int resources_reset_and_load(const char *fname)
 {
     resources_set_defaults();
+    if (fname != NULL) {
+        /* if fname was not NULL, check it's version here, as this function will
+           only be used for regular setting and resources_load will only check
+           if fname is NULL. */
+        check_resource_file_version(fname);
+    }
     return resources_load(fname);
 }
 
@@ -1419,6 +1494,9 @@ int resources_save(const char *fname)
 
     setbuf(out_file, NULL);
 
+    /* put version tag at the top of the config file */
+    fprintf(out_file, "[Version]\nConfigVersion=%s\n\n", VERSION);
+
     /* Copy the configuration for the other emulators.  */
     if (in_file != NULL) {
         while (1) {
@@ -1428,7 +1506,19 @@ int resources_save(const char *fname)
                 break;
             }
 
-            if (check_emu_id(buf)) {
+            /* skip version tag */
+            if (check_emu_id(buf, "Version")) {
+                /* skip lines until we hit another section start */
+                do {
+                    if (util_get_line(buf, 1024, in_file) < 0) {
+                        *buf = 0;
+                        break;
+                    }
+                } while (*buf != '[');
+            }
+
+            /* exit if we found ourselves */
+            if (check_emu_id(buf, machine_id)) {
                 break;
             }
 
@@ -1457,6 +1547,16 @@ int resources_save(const char *fname)
 
             /* Check if another emulation section starts.  */
             if (*buf == '[') {
+                /* skip version tag */
+                if (check_emu_id(buf, "Version")) {
+                    /* skip lines until we hit another section start */
+                    do {
+                        if (util_get_line(buf, 1024, in_file) < 0) {
+                            *buf = 0;
+                            break;
+                        }
+                    } while (*buf != '[');
+                }
                 fprintf(out_file, "%s\n", buf);
                 break;
             }
@@ -1465,6 +1565,16 @@ int resources_save(const char *fname)
         if (!feof(in_file)) {
             /* Copy the configuration for the other emulators.  */
             while (util_get_line(buf, 1024, in_file) >= 0) {
+                /* skip version tag */
+                if (check_emu_id(buf, "Version")) {
+                    /* skip lines until we hit another section start */
+                    do {
+                        if (util_get_line(buf, 1024, in_file) < 0) {
+                            *buf = 0;
+                            break;
+                        }
+                    } while (*buf != '[');
+                }
                 fprintf(out_file, "%s\n", buf);
             }
         }
