@@ -94,40 +94,36 @@
 
 /******************************************************************************/
 
-/* FIXME: "private" global variables for mouse - we should get rid of most of these */
-
-extern uint8_t mouse_digital_val;
-extern int16_t mouse_x;
-extern int16_t mouse_y;
-extern int16_t mouse_latest_x;
-extern int16_t mouse_latest_y;
-extern int last_mouse_x;
-extern int last_mouse_y;
-extern tick_t mouse_latest_os_timestamp;
-
-/******************************************************************************/
-
 static int paddles_p1_input = PADDLES_INPUT_MOUSE; /* host input source for paddles in port 1 */
 static int paddles_p2_input = PADDLES_INPUT_MOUSE; /* host input source for paddles in port 2 */
 
-/* --------------------------------------------------------- */
-/* Paddle support */
+static int16_t mouse_x;
+static int16_t mouse_y;
 
-/* FIXME: only paddle_val[2] and paddle_val[3] is actually used by the code */
-static uint8_t paddle_val[] = {
-/*  x     y  */
-    0x00, 0xff, /* no port */
-    0x00, 0xff, /* port 1 */
-    0x00, 0xff, /* port 2 */
-    0x00, 0xff  /* both ports */
+/******************************************************************************/
+
+/* FIXME: right now we only support one(!) paddle port */
+#define MAXPORTS 2
+
+typedef struct {
+    uint8_t x, y;
+} potvalues;
+
+static potvalues pot_val[MAXPORTS] = {
+    { 0x00, 0xff },
+    { 0x00, 0xff }
 };
 
-static int16_t paddle_old[] = {
-    -1, -1,
-    -1, -1,
-    -1, -1,
-    -1, -1
+typedef struct {
+    int16_t x, y;
+} potvalues_old;
+
+static potvalues_old pot_old[MAXPORTS] = {
+    { 0x00, 0xff },
+    { 0x00, 0xff }
 };
+
+static uint8_t mouse_digital_val;
 
 static inline uint8_t mouse_paddle_update(uint8_t paddle_v, int16_t *old_v, int16_t new_v)
 {
@@ -155,6 +151,8 @@ static inline uint8_t mouse_paddle_update(uint8_t paddle_v, int16_t *old_v, int1
 
 static uint8_t mouse_get_paddle_x(int port)
 {
+    mouse_get_raw_int16(&mouse_x, &mouse_y);
+
     DBG(("mouse_get_paddle_x port:%d mouse enabled:%d mouse_x:%d mouse_y:%d\n",
          port, _mouse_enabled, mouse_x, mouse_y));
 
@@ -163,8 +161,8 @@ static uint8_t mouse_get_paddle_x(int port)
             return joystick_get_axis_value(port << 1);
         } else {
             if (_mouse_enabled) {
-                paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mouse_x / PADDLE_DIV);
-                return (uint8_t)(0xff - paddle_val[2]);
+                pot_val[0].x = mouse_paddle_update(pot_val[0].x, &(pot_old[0].x), (int16_t)mouse_x / PADDLE_DIV);
+                return (uint8_t)(0xff - pot_val[0].x);
             }
         }
     }
@@ -174,8 +172,8 @@ static uint8_t mouse_get_paddle_x(int port)
             return joystick_get_axis_value(port << 1);
         } else {
             if (_mouse_enabled) {
-                paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mouse_x / PADDLE_DIV);
-                return (uint8_t)(0xff - paddle_val[2]);
+                pot_val[0].x = mouse_paddle_update(pot_val[0].x, &(pot_old[0].x), (int16_t)mouse_x / PADDLE_DIV);
+                return (uint8_t)(0xff - pot_val[0].x);
             }
         }
     }
@@ -184,13 +182,15 @@ static uint8_t mouse_get_paddle_x(int port)
 
 static uint8_t mouse_get_paddle_y(int port)
 {
+    mouse_get_raw_int16(&mouse_x, &mouse_y);
+
     if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
             return joystick_get_axis_value((port << 1) | 1);
         } else {
             if (_mouse_enabled) {
-                paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (int16_t)mouse_y / PADDLE_DIV);
-                return (uint8_t)(0xff - paddle_val[3]);
+                pot_val[0].y = mouse_paddle_update(pot_val[0].y, &(pot_old[0].y), (int16_t)mouse_y / PADDLE_DIV);
+                return (uint8_t)(0xff - pot_val[0].y);
             }
         }
     }
@@ -200,8 +200,8 @@ static uint8_t mouse_get_paddle_y(int port)
             return joystick_get_axis_value((port << 1) | 1);
         } else {
             if (_mouse_enabled) {
-                paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (int16_t)mouse_y / PADDLE_DIV);
-                return (uint8_t)(0xff - paddle_val[3]);
+                pot_val[0].y = mouse_paddle_update(pot_val[0].y, &(pot_old[0].y), (int16_t)mouse_y / PADDLE_DIV);
+                return (uint8_t)(0xff - pot_val[0].y);
             }
         }
     }
@@ -275,13 +275,7 @@ static int joyport_mouse_enable(int port, int joyportid)
 {
     int mt;
 
-    mousedrv_mouse_changed();
-
-    /* FIXME: clean up the following */
-    mouse_get_int16(&mouse_latest_x, &mouse_latest_y);
-    last_mouse_x = mouse_latest_x;
-    last_mouse_y = mouse_latest_y;
-    mouse_latest_os_timestamp = 0;
+    mouse_reset();
 
     if (joyportid == JOYPORT_ID_NONE) {
         mouse_type = -1;
@@ -390,32 +384,23 @@ int paddles_cmdline_options_init(void)
 
 /* PADDLES snapshot module format:
 
-   type  | name               | description
+   type  | name                   | description
    ----------------------------------------
-   BYTE  | digital value      | digital pins return value
-   BYTE  | paddle value 2     | paddle value 2
-   BYTE  | paddle value 3     | paddle value 3
-   BYTE  | old paddle value 2 | old paddle value 2
-   BYTE  | old paddle value 3 | old paddle value 3
+   BYTE  | digital value          | digital pins return value
+   BYTE  | paddle 1 x-value       | paddle 1 x-value
+   BYTE  | paddle 1 y-value       | paddle 1 y-value
+   BYTE  | old paddle 1 x-value   | old paddle 1 x-value
+   BYTE  | old paddle 1 y-value   | old paddle 1 y-value
  */
-
-static int write_mouse_digital_val_snapshot(snapshot_module_t *m)
-{
-    return SMW_B(m, mouse_digital_val);
-}
-
-static int read_mouse_digital_val_snapshot(snapshot_module_t *m)
-{
-    return SMR_B(m, &mouse_digital_val);
-}
 
 static int write_paddle_val_snapshot(snapshot_module_t *m)
 {
     if (0
-        || SMW_B(m, paddle_val[2]) < 0
-        || SMW_B(m, paddle_val[3]) < 0
-        || SMW_W(m, (uint16_t)paddle_old[2]) < 0
-        || SMW_W(m, (uint16_t)paddle_old[3]) < 0) {
+        || SMW_B(m, mouse_digital_val) < 0
+        || SMW_B(m, pot_val[0].x) < 0
+        || SMW_B(m, pot_val[0].y) < 0
+        || SMW_W(m, (uint16_t)pot_old[0].x) < 0
+        || SMW_W(m, (uint16_t)pot_old[0].y) < 0) {
         return -1;
     }
     return 0;
@@ -423,24 +408,25 @@ static int write_paddle_val_snapshot(snapshot_module_t *m)
 
 static int read_paddle_val_snapshot(snapshot_module_t *m)
 {
-    uint16_t paddle_old2;
-    uint16_t paddle_old3;
+    uint16_t paddle_old0;
+    uint16_t paddle_old1;
 
     if (0
-        || SMR_B(m, &paddle_val[2]) < 0
-        || SMR_B(m, &paddle_val[3]) < 0
-        || SMR_W(m, &paddle_old2) < 0
-        || SMR_W(m, &paddle_old3) < 0) {
+        || SMR_B(m, &mouse_digital_val) < 0
+        || SMR_B(m, &pot_val[0].x) < 0
+        || SMR_B(m, &pot_val[0].y) < 0
+        || SMR_W(m, &paddle_old0) < 0
+        || SMR_W(m, &paddle_old1) < 0) {
         return -1;
     }
-    paddle_old[2] = (int16_t)paddle_old2;
-    paddle_old[3] = (int16_t)paddle_old3;
+    pot_old[0].x = (int16_t)paddle_old0;
+    pot_old[0].y = (int16_t)paddle_old1;
 
     return 0;
 }
 
 static const char paddles_snap_module_name[] = "PADDLES";
-#define PADDLES_VER_MAJOR   0
+#define PADDLES_VER_MAJOR   1
 #define PADDLES_VER_MINOR   0
 
 static int paddles_write_snapshot(struct snapshot_s *s, int port)
@@ -453,7 +439,7 @@ static int paddles_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (write_mouse_digital_val_snapshot(m) < 0) {
+    if (write_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
@@ -485,7 +471,7 @@ static int paddles_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_mouse_digital_val_snapshot(m) < 0) {
+    if (read_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
@@ -534,13 +520,13 @@ joyport_t koalapad_joyport_device = {
 
 /* KOALAPAD snapshot module format:
 
-   type   | name               | description
-   -------------------------------------
-   BYTE   | digital value      | digital pins return value
-   BYTE   | paddle value 2     | paddle value 2
-   BYTE   | paddle value 3     | paddle value 3
-   WORD   | old paddle value 2 | old paddle value 2
-   WORD   | old paddle value 3 | old paddle value 3
+   type  | name                   | description
+   ----------------------------------------
+   BYTE  | digital value          | digital pins return value
+   BYTE  | paddle 1 x-value       | paddle 1 x-value
+   BYTE  | paddle 1 y-value       | paddle 1 y-value
+   BYTE  | old paddle 1 x-value   | old paddle 1 x-value
+   BYTE  | old paddle 1 y-value   | old paddle 1 y-value
  */
 
 static const char koalapad_snap_module_name[] = "KOALAPAD";
@@ -557,7 +543,7 @@ static int koalapad_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (write_mouse_digital_val_snapshot(m) < 0) {
+    if (write_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
@@ -589,7 +575,7 @@ static int koalapad_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_mouse_digital_val_snapshot(m) < 0) {
+    if (read_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 

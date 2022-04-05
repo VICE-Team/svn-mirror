@@ -31,6 +31,7 @@
 #include <stdbool.h>
 
 #include "types.h"
+#include "snapshot.h"
 
 typedef struct mouse_func_s {
     void (*mbl)(int pressed);
@@ -43,6 +44,7 @@ typedef struct mouse_func_s {
 extern int mouse_resources_init(void);
 extern int mouse_cmdline_options_init(void);
 extern void mouse_init(void);
+extern void mouse_reset(void);
 extern void mouse_shutdown(void);
 
 extern int _mouse_enabled;
@@ -51,8 +53,13 @@ extern int mouse_type;
 extern void mouse_set_machine_parameter(long clock_rate);
 
 extern void mouse_move(float dx, float dy);
-extern uint8_t mouse_poll(void);
-extern void mouse_get_int16(int16_t *x, int16_t *y);
+extern void mouse_poll(void);
+
+extern void mouse_get_raw_int16(int16_t *x, int16_t *y);
+extern void mouse_get_last_int16(int16_t *x, int16_t *y);
+
+extern int read_mouse_common_snapshot(snapshot_module_t *m);
+extern int write_mouse_common_snapshot(snapshot_module_t *m);
 
 #define MOUSE_TYPE_1351     0
 #define MOUSE_TYPE_NEOS     1

@@ -96,21 +96,16 @@
 
 /******************************************************************************/
 
-/* FIXME: "private" global variables for mouse - we should get rid of most of these */
-
-extern uint8_t mouse_digital_val;
-extern int16_t mouse_latest_x;
-extern int16_t mouse_latest_y;
-extern int last_mouse_x;
-extern int last_mouse_y;
-extern tick_t mouse_latest_os_timestamp;
-
-/******************************************************************************/
+static int16_t last_mouse_x;
+static int16_t last_mouse_y;
+static uint8_t mouse_digital_val = 0;
 
 static CLOCK up_down_pulse_end = 0;    /* in cpu cycle units */
 
 static rtc_ds1202_1302_t *ds1202; /* smartmouse */
 static int ds1202_rtc_save; /* smartmouse rtc data save */
+
+/******************************************************************************/
 
 /*
     note: for the expected behaviour look at testprogs/SID/paddles/readme.txt
@@ -123,11 +118,13 @@ static int ds1202_rtc_save; /* smartmouse rtc data save */
 
 static uint8_t mouse_get_1351_x(int port)
 {
+    mouse_get_last_int16(&last_mouse_x, &last_mouse_y);
     return (uint8_t)((last_mouse_x & 0x7f) + 0x40);
 }
 
 static uint8_t mouse_get_1351_y(int port)
 {
+    mouse_get_last_int16(&last_mouse_x, &last_mouse_y);
     return (uint8_t)((last_mouse_y & 0x7f) + 0x40);
 }
 
@@ -158,13 +155,7 @@ static int mouse_1351_enabled(int port, int joyportid)
 {
     int mt;
 
-    mousedrv_mouse_changed();
-
-    /* FIXME: clean up the following */
-    mouse_get_int16(&mouse_latest_x, &mouse_latest_y);
-    last_mouse_x = mouse_latest_x;
-    last_mouse_y = mouse_latest_y;
-    mouse_latest_os_timestamp = 0;
+    mouse_reset();
 
     if (joyportid == JOYPORT_ID_NONE) {
         if (ds1202) {
@@ -225,107 +216,11 @@ joyport_t mouse_1351_joyport_device = {
    type   | name                   | description
    ---------------------------------------------
    BYTE   | digital value          | digital pins return value
-    BYTE   | quadrature X           | quadrature X
-    BYTE   | quadrature Y           | quadrature Y
-    BYTE   | polled joyval          | polled joyval
-   WORD   | latest X               | latest X
-   WORD   | latest Y               | latest Y
-   DWORD  | last mouse X           | last mouse X
-   DWORD  | last mouse Y           | last mouse Y
-    DWORD  | sx                     | SX
-    DWORD  | sy                     | SY
-    DWORD  | update limit           | update limit
-   DWORD  | latest os ts           | latest os ts
-    DOUBLE | emu units per os units | emu units per os units
-    DWORD  | next update x emu ts   | next update X emu ts
-    DWORD  | next update y emu ts   | next update Y emu ts
-    DWORD  | update x emu iv        | update X emu IV
-    DWORD  | update y emu iv        | update Y emu IV
  */
 
 static const char mouse_1351_snap_module_name[] = "MOUSE_1351";
-#define MOUSE_1351_VER_MAJOR   0
+#define MOUSE_1351_VER_MAJOR   1
 #define MOUSE_1351_VER_MINOR   0
-
-static int write_mouse_digital_val_snapshot(snapshot_module_t *m)
-{
-    return SMW_B(m, mouse_digital_val);
-}
-
-static int read_mouse_digital_val_snapshot(snapshot_module_t *m)
-{
-    return SMR_B(m, &mouse_digital_val);
-}
-
-static int write_poll_val_snapshot(snapshot_module_t *m)
-{
-    if (0
-/*         || SMW_B(m, quadrature_x) < 0
-           || SMW_B(m, quadrature_y) < 0
-           || SMW_B(m, polled_joyval) < 0 */
-        || SMW_W(m, (uint16_t)mouse_latest_x) < 0
-        || SMW_W(m, (uint16_t)mouse_latest_y) < 0
-        || SMW_DW(m, (uint32_t)last_mouse_x) < 0
-        || SMW_DW(m, (uint32_t)last_mouse_y) < 0
-/*         || SMW_DW(m, (uint32_t)sx) < 0
-           || SMW_DW(m, (uint32_t)sy) < 0
-           || SMW_DW(m, (uint32_t)update_limit) < 0
-           || SMW_DW(m, (uint32_t)mouse_latest_os_timestamp) < 0
-           || SMW_DB(m, (double)emu_units_per_os_units) < 0
-           || SMW_DW(m, (uint32_t)next_update_x_emu_ts) < 0
-           || SMW_DW(m, (uint32_t)next_update_y_emu_ts) < 0
-           || SMW_DW(m, (uint32_t)update_x_emu_iv) < 0
-           || SMW_DW(m, (uint32_t)update_y_emu_iv) < 0 */
-    ) {
-        return -1;
-    }
-    return 0;
-}
-
-static int read_poll_val_snapshot(snapshot_module_t *m)
-{
-    uint16_t tmp_mouse_latest_x;
-    uint16_t tmp_mouse_latest_y;
-/*  double tmp_db;
-    uint32_t tmpc1;
-    uint32_t tmpc2;
-    uint32_t tmpc3;
-    uint32_t tmpc4;
-    unsigned long tmp_mouse_latest_os_timestamp; */
-
-    if (0
-/*         || SMR_B(m, &quadrature_x) < 0
-           || SMR_B(m, &quadrature_y) < 0
-           || SMR_B(m, &polled_joyval) < 0 */
-        || SMR_W(m, &tmp_mouse_latest_x) < 0
-        || SMR_W(m, &tmp_mouse_latest_y) < 0
-        || SMR_DW_INT(m, &last_mouse_x) < 0
-        || SMR_DW_INT(m, &last_mouse_y) < 0
-/*         || SMR_DW_INT(m, &sx) < 0
-           || SMR_DW_INT(m, &sy) < 0
-           || SMR_DW_INT(m, &update_limit) < 0
-           || SMR_DW_UL(m, &tmp_mouse_latest_os_timestamp) < 0
-           || SMR_DB(m, &tmp_db) < 0
-           || SMR_DW(m, &tmpc1) < 0
-           || SMR_DW(m, &tmpc2) < 0
-           || SMR_DW(m, &tmpc3) < 0
-           || SMR_DW(m, &tmpc4) < 0 */
-    ) {
-        return -1;
-    }
-
-    mouse_latest_x = (int16_t)tmp_mouse_latest_x;
-    mouse_latest_y = (int16_t)tmp_mouse_latest_y;
-/*     emu_units_per_os_units = (float)tmp_db;
-       mouse_latest_os_timestamp = (tick_t)tmp_mouse_latest_os_timestamp;
-       next_update_x_emu_ts = (CLOCK)tmpc1;
-       next_update_y_emu_ts = (CLOCK)tmpc2;
-       update_x_emu_iv = (CLOCK)tmpc3;
-       update_y_emu_iv = (CLOCK)tmpc4; */
-
-    return 0;
-}
-
 
 static int mouse_1351_write_snapshot(struct snapshot_s *s, int port)
 {
@@ -337,11 +232,11 @@ static int mouse_1351_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (write_mouse_digital_val_snapshot(m) < 0) {
+    if (write_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
-    if (write_poll_val_snapshot(m) < 0) {
+    if (SMW_B(m, mouse_digital_val) < 0) {
         goto fail;
     }
 
@@ -369,11 +264,11 @@ static int mouse_1351_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_mouse_digital_val_snapshot(m) < 0) {
+    if (read_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
-    if (read_poll_val_snapshot(m) < 0) {
+    if (SMR_B(m, &mouse_digital_val) < 0) {
         goto fail;
     }
 
@@ -471,28 +366,12 @@ joyport_t mouse_micromys_joyport_device = {
    type   | name                   | description
    ---------------------------------------------
    BYTE   | digital value          | digital pins return value
-   BYTE   | quadrature X           | quadrature X
-   BYTE   | quadrature Y           | quadrature Y
-   BYTE   | polled joyval          | polled joyval
-   WORD   | latest X               | latest X
-   WORD   | latest Y               | latest Y
-   DWORD  | last mouse X           | last mouse X
-   DWORD  | last mouse Y           | last mouse Y
-   DWORD  | sx                     | SX
-   DWORD  | sy                     | SY
-   DWORD  | update limit           | update limit
-   DWORD  | latest os ts           | latest os ts
-   DOUBLE | emu units per os units | emu units per os units
-   DWORD  | next update x emu ts   | next update X emu ts
-   DWORD  | next update y emu ts   | next update Y emu ts
-   DWORD  | update x emu iv        | update X emu IV
-   DWORD  | update y emu iv        | update Y emu IV
    DWORD  | up down counter        | up down counter
    DWORD  | up down pulse end      | up down pulse end
  */
 
 static const char mouse_micromys_snap_module_name[] = "MOUSE_MICROMYS";
-#define MOUSE_MICROMYS_VER_MAJOR   0
+#define MOUSE_MICROMYS_VER_MAJOR   1
 #define MOUSE_MICROMYS_VER_MINOR   0
 
 static int mouse_micromys_write_snapshot(struct snapshot_s *s, int port)
@@ -505,15 +384,12 @@ static int mouse_micromys_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (write_mouse_digital_val_snapshot(m) < 0) {
-        goto fail;
-    }
-
-    if (write_poll_val_snapshot(m) < 0) {
+    if (write_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
     if (0
+        || SMW_B(m, mouse_digital_val) < 0
         || SMW_DW(m, (uint32_t)up_down_counter) < 0
         || SMW_DW(m, (uint32_t)up_down_pulse_end) < 0) {
         goto fail;
@@ -544,15 +420,12 @@ static int mouse_micromys_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_mouse_digital_val_snapshot(m) < 0) {
-        goto fail;
-    }
-
-    if (read_poll_val_snapshot(m) < 0) {
+    if (read_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
     if (0
+        || SMR_B(m, &mouse_digital_val) < 0
         || SMR_DW_INT(m, &up_down_counter) < 0
         || SMR_DW(m, &tmpc1) < 0) {
         goto fail;
@@ -612,7 +485,7 @@ joyport_t mouse_smart_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,       /* device is a Mouse */
     0x0E,                       /* bits 3, 2 and 1 are output bits */
-    mouse_1351_enabled,       /* device enable function */
+    mouse_1351_enabled,         /* device enable function */
     joyport_mouse_smart_value,  /* digital line read function */
     smart_mouse_store,          /* digital line store function */
     mouse_get_1351_x,           /* pot-x read function */
@@ -663,26 +536,10 @@ int smart_mouse_cmdline_options_init(void)
    type   | name                   | description
    ---------------------------------------------
    BYTE   | digital value          | digital pins return value
-   BYTE   | quadrature X           | quadrature X
-   BYTE   | quadrature Y           | quadrature Y
-   BYTE   | polled joyval          | polled joyval
-   WORD   | latest X               | latest X
-   WORD   | latest Y               | latest Y
-   DWORD  | last mouse X           | last mouse X
-   DWORD  | last mouse Y           | last mouse Y
-   DWORD  | sx                     | SX
-   DWORD  | sy                     | SY
-   DWORD  | update limit           | update limit
-   DWORD  | latest os ts           | latest os ts
-   DOUBLE | emu units per os units | emu units per os units
-   DWORD  | next update x emu ts   | next update X emu ts
-   DWORD  | next update y emu ts   | next update Y emu ts
-   DWORD  | update x emu iv        | update X emu IV
-   DWORD  | update y emu iv        | update Y emu IV
  */
 
 static const char mouse_smart_snap_module_name[] = "MOUSE_SMART";
-#define MOUSE_SMART_VER_MAJOR   0
+#define MOUSE_SMART_VER_MAJOR   1
 #define MOUSE_SMART_VER_MINOR   0
 
 static int mouse_smart_write_snapshot(struct snapshot_s *s, int port)
@@ -695,11 +552,11 @@ static int mouse_smart_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (write_mouse_digital_val_snapshot(m) < 0) {
+    if (write_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
-    if (write_poll_val_snapshot(m) < 0) {
+    if (SMW_B(m, mouse_digital_val) < 0) {
         goto fail;
     }
 
@@ -729,13 +586,14 @@ static int mouse_smart_read_snapshot(struct snapshot_s *s, int port)
         goto fail;
     }
 
-    if (read_mouse_digital_val_snapshot(m) < 0) {
+    if (read_mouse_common_snapshot(m) < 0) {
         goto fail;
     }
 
-    if (read_poll_val_snapshot(m) < 0) {
+    if (SMR_B(m, &mouse_digital_val) < 0) {
         goto fail;
     }
+
     snapshot_module_close(m);
 
     return ds1202_1302_read_snapshot(ds1202, s);
