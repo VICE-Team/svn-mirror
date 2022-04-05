@@ -67,11 +67,12 @@ endif HAVE_SSI2001
 endif BEOS_COMPILE
 
 if UNIX_COMPILE
-if !MACOS_COMPILE
 HWSIDDRIVERS += \
 	hardsid-unix-drv.o \
-	hs-unix-isa.o \
 	hs-unix-pci.o
+if !MACOS_COMPILE
+HWSIDDRIVERS += hs-unix-isa.o
+endif !MACOS_COMPILE
 if LINUX_COMPILE
 HWSIDDRIVERS += hs-unix-linux.o
 endif LINUX_COMPILE
@@ -91,7 +92,6 @@ endif HAVE_PARSID
 if HAVE_SSI2001
 HWSIDDRIVERS += ssi2001-unix-drv.o
 endif HAVE_SSI2001
-endif !MACOS_COMPILE
 endif UNIX_COMPILE
 
 
