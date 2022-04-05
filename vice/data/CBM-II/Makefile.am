@@ -59,10 +59,20 @@ sdl_hotkeys = \
 
 if USE_SDLUI
 cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
-
 EXTRA_DIST = $(cbm2_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
-else
-cbm2_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
 
+if USE_SDL2UI
+cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
+EXTRA_DIST = $(cbm2_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
+
+if USE_GTK3UI
+cbm2_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
 EXTRA_DIST = $(cbm2_DATA) $(sdl_keymaps) $(sdl_hotkeys)
+endif
+
+if USE_HEADLESSUI
+cbm2_DATA = $(roms) $(romsets) $(palettes)
+EXTRA_DIST = $(cbm2_DATA) $(sdl_keymaps) $(sdl_hotkeys) $(gtk3_keymaps) $(gtk3_hotkeys)
 endif

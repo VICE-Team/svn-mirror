@@ -82,10 +82,20 @@ sdl_hotkeys = \
 
 if USE_SDLUI
 pet_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
-
 EXTRA_DIST = $(pet_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
-else
-pet_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
 
+if USE_SDL2UI
+pet_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
+EXTRA_DIST = $(pet_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
+
+if USE_GTK3UI
+pet_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
 EXTRA_DIST = $(pet_DATA) $(sdl_keymaps) $(sdl_hotkeys)
+endif
+
+if USE_HEADLESSUI
+pet_DATA = $(roms) $(romsets) $(palettes)
+EXTRA_DIST = $(pet_DATA) $(sdl_keymaps) $(sdl_hotkeys) $(gtk3_keymaps) $(gtk3_hotkeys)
 endif

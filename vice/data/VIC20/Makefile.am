@@ -41,10 +41,20 @@ sdl_hotkeys = \
 
 if USE_SDLUI
 vic20_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
-
 EXTRA_DIST = $(vic20_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
-else
-vic20_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
 
+if USE_SDL2UI
+vic20_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
+EXTRA_DIST = $(vic20_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
+
+if USE_GTK3UI
+vic20_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
 EXTRA_DIST = $(vic20_DATA) $(sdl_keymaps) $(sdl_hotkeys)
+endif
+
+if USE_HEADLESSUI
+vic20_DATA = $(roms) $(romsets) $(palettes)
+EXTRA_DIST = $(vic20_DATA) $(sdl_keymaps) $(sdl_hotkeys) $(gtk3_keymaps) $(gtk3_hotkeys)
 endif
