@@ -230,11 +230,6 @@ void paddles_button_right(int pressed)
     }
 }
 
-static uint8_t joyport_mouse_value(int port)
-{
-    return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
-}
-
 static joyport_mapping_t paddles_mapping =  {
     "Paddle",   /* name of the device */
     NULL,       /* NO mapping of pin 0 (UP) */
@@ -256,23 +251,26 @@ static joyport_mapping_t paddles_mapping =  {
 static uint8_t joyport_paddles_value(int port)
 {
     uint16_t paddle_fire_buttons = get_joystick_value(port);
+    uint8_t retval = 0xff;
 
     if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
-            return (uint8_t)~((paddle_fire_buttons & 0x30) >> 2);
+            retval = (uint8_t)~((paddle_fire_buttons & 0x30) >> 2);
         } else {
-            return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
+            retval = _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
         }
     }
 
     if (port == JOYPORT_2) {
         if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
-            return (uint8_t)~((paddle_fire_buttons & 0x30) >> 2);
+            retval = (uint8_t)~((paddle_fire_buttons & 0x30) >> 2);
         } else {
-            return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
+            retval = _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
         }
     }
-    return 0xff;
+
+    joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+    return retval;
 }
 
 static int joyport_mouse_enable(int port, int joyportid)
@@ -498,6 +496,16 @@ static uint8_t joyport_koalapad_pot_x(int port)
     return _mouse_enabled ? (uint8_t)(255 - mouse_get_paddle_x(port)) : 0xff;
 }
 
+static uint8_t joyport_mouse_value(int port)
+{
+    uint8_t retval = 0xff;
+    if (_mouse_enabled) {
+        retval = (uint8_t)((~mouse_digital_val));
+        joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+    }
+    return retval;
+}
+
 /* Some prototypes are needed */
 static int koalapad_write_snapshot(struct snapshot_s *s, int port);
 static int koalapad_read_snapshot(struct snapshot_s *s, int port);
@@ -627,23 +635,25 @@ static int joyport_mf_enable(int port, int val)
 static uint8_t joyport_mf_joystick_value(int port)
 {
     uint16_t mf_fire_buttons = get_joystick_value(port);
+    uint8_t retval = 0xff;
 
     if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
-            return (uint8_t)(~mf_fire_buttons);
+            retval = (uint8_t)(~mf_fire_buttons);
         } else {
-            return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
+            retval = _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
         }
     }
 
     if (port == JOYPORT_2) {
         if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
-            return (uint8_t)(~mf_fire_buttons);
+            retval = (uint8_t)(~mf_fire_buttons);
         } else {
-            return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
+            retval = _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
         }
     }
-    return 0xff;
+    joyport_display_joyport(mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+    return retval;
 }
 
 joyport_t mf_joystick_joyport_device = {
