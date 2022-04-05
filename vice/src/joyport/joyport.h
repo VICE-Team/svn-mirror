@@ -274,20 +274,20 @@ extern int joyport_port_has_pot(int port);
 /* this structure is used for host joystick to emulated input device mappings */
 typedef struct joyport_mapping_s {
     char *name;   /* name of the device on the port */
-    char *pin0;   /* name for the mapping of pin 0 (UP) */
-    char *pin1;   /* name for the mapping of pin 1 (DOWN) */
-    char *pin2;   /* name for the mapping of pin 2 (LEFT) */
-    char *pin3;   /* name for the mapping of pin 3 (RIGHT) */
-    char *pin4;   /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
-    char *pin5;   /* name for the mapping of pin 5 (FIRE-2/SNES-B) */
-    char *pin6;   /* name for the mapping of pin 6 (FIRE-3/SNES-X) */
-    char *pin7;   /* name for the mapping of pin 7 (SNES-Y) */
-    char *pin8;   /* name for the mapping of pin 8 (SNES-LB) */
-    char *pin9;   /* name for the mapping of pin 9 (SNES-RB) */
-    char *pin10;  /* name for the mapping of pin 10 (SNES-SELECT) */
-    char *pin11;  /* name for the mapping of pin 11 (SNES-START) */
-    char *pot1;   /* name for the mapping of pot 1 (POT-X) */
-    char *pot2;   /* name for the mapping of pot 2 (POT-Y) */
+    char *pin0;   /* name for the mapping of digital pin 0 (UP) */
+    char *pin1;   /* name for the mapping of digital pin 1 (DOWN) */
+    char *pin2;   /* name for the mapping of digital pin 2 (LEFT) */
+    char *pin3;   /* name for the mapping of digital pin 3 (RIGHT) */
+    char *pin4;   /* name for the mapping of digital pin 4 (FIRE-1/SNES-A) */
+    char *pin5;   /* name for the mapping of digital pin 5 (FIRE-2/SNES-B) */
+    char *pin6;   /* name for the mapping of digital pin 6 (FIRE-3/SNES-X) */
+    char *pin7;   /* name for the mapping of digital pin 7 (SNES-Y) */
+    char *pin8;   /* name for the mapping of digital pin 8 (SNES-LB) */
+    char *pin9;   /* name for the mapping of digital pin 9 (SNES-RB) */
+    char *pin10;  /* name for the mapping of digital pin 10 (SNES-SELECT) */
+    char *pin11;  /* name for the mapping of digital pin 11 (SNES-START) */
+    char *pot1;   /* name for the mapping of analog pot 1 (POT-X) */
+    char *pot2;   /* name for the mapping of analog pot 2 (POT-Y) */
 } joyport_mapping_t;
 
 extern void joyport_set_mapping(joyport_mapping_t *mapping, int port);
