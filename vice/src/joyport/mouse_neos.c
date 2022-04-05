@@ -25,6 +25,9 @@
  *
  */
 
+/* This file contains the implementation for the NEOS mouse, which uses the
+   digital lines for a custom protocol, and additionally POTX for one of the
+   buttons. */
 
 /* Control port <--> mouse/paddles/pad connections:
 

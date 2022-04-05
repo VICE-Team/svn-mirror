@@ -1,5 +1,5 @@
 /*
- * mouse.h - Common mouse handling
+ * mouse.h - Common mouse handling (header)
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

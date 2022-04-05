@@ -24,6 +24,9 @@
  *
  */
 
+/* This file contains the implementation for all quadrature based devices. The
+   device puts quadrature signals at the digital lines, and uses other digital
+   lines and/or POT lines for buttons */
 
 /* Control port <--> mouse/paddles/pad connections:
 
