@@ -25,10 +25,14 @@
  */
 
 /*
- * $VICERES AttachDevice8Readonly   -vsid
- * $VICERES AttachDevice9Readonly   -vsid
- * $VICERES AttachDevice10Readonly  -vsid
- * $VICERES AttachDevice11Readonly  -vsid
+ * $VICERES AttachDevice8d0Readonly   -vsid
+ * $VICERES AttachDevice9d0Readonly   -vsid
+ * $VICERES AttachDevice10d0Readonly  -vsid
+ * $VICERES AttachDevice11d0Readonly  -vsid
+ * $VICERES AttachDevice8d1Readonly   -vsid
+ * $VICERES AttachDevice9d1Readonly   -vsid
+ * $VICERES AttachDevice10d1Readonly  -vsid
+ * $VICERES AttachDevice11d1Readonly  -vsid
  */
 
 #include "vice.h"
@@ -130,7 +134,7 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    resources_set_int_sprintf("AttachDevice%dReadonly", state, unit_number);
+    resources_set_int_sprintf("AttachDevice%dd%dReadonly", state, unit_number, drive_number);
 }
 
 
@@ -413,7 +417,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     g_signal_connect(readonly_check, "toggled", G_CALLBACK(on_readonly_toggled),
             (gpointer)(parent));
     gtk_grid_attach(GTK_GRID(grid), readonly_check, 1, 0, 1, 1);
-    resources_get_int_sprintf("AttachDevice%dReadonly", &readonly_state, unit_number);
+    resources_get_int_sprintf("AttachDevice%dd%dReadonly", &readonly_state, unit_number, drive_number);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(readonly_check), readonly_state);
 
     /* second row, three cols wide */

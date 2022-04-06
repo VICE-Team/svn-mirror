@@ -311,7 +311,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
     if (unit == 1 || unit == 2) {
         tape_image_event_playback(unit, filename);
     } else {
-        resources_set_int_sprintf("AttachDevice%uReadonly", read_only, unit);
+        resources_set_int_sprintf("AttachDevice%ud%uReadonly", read_only, unit, drive);
         file_system_event_playback(unit, drive, filename);
     }
 

@@ -23,10 +23,14 @@
  * $VICERES FileSystemDevice9           -vsid
  * $VICERES FileSystemDevice10          -vsid
  * $VICERES FileSystemDevice11          -vsid
- * $VICERES AttachDevice8Readonly       -vsid
- * $VICERES AttachDevice9Readonly       -vsid
- * $VICERES AttachDevice10Readonly      -vsid
- * $VICERES AttachDevice11Readonly      -vsid
+ * $VICERES AttachDevice8d0Readonly     -vsid
+ * $VICERES AttachDevice9d0Readonly     -vsid
+ * $VICERES AttachDevice10d0Readonly    -vsid
+ * $VICERES AttachDevice11d0Readonly    -vsid
+ * $VICERES AttachDevice8d1Readonly     -vsid
+ * $VICERES AttachDevice9d1Readonly     -vsid
+ * $VICERES AttachDevice10d1Readonly    -vsid
+ * $VICERES AttachDevice11d1Readonly    -vsid
  * $VICERES Drive8RTCSave               -vsid -xcbm5x0 -xcbm2 -xpet
  * $VICERES Drive9RTCSave               -vsid -xcbm5x0 -xcbm2 -xpet
  * $VICERES Drive10RTCSave              -vsid -xcbm5x0 -xcbm2 -xpet
@@ -108,7 +112,7 @@ static GtkWidget *drive_tde[NUM_DISK_UNITS];
 static GtkWidget *drive_virtualdev[NUM_DISK_UNITS];
 
 /** \brief  Read-only device check buttons */
-static GtkWidget *drive_read_only[NUM_DISK_UNITS];
+static GtkWidget *drive_read_only[NUM_DISK_UNITS][2];
 
 /** \brief  Real time clock save check buttons */
 static GtkWidget *drive_rtc_save[NUM_DISK_UNITS];
@@ -179,6 +183,11 @@ static void on_model_changed(GtkWidget *widget, gpointer user_data)
     GtkWidget *option;
     int unit = GPOINTER_TO_INT(user_data);
     int model = drive_model_widget_value_combo(widget);
+
+    option = drive_read_only[unit - DRIVE_UNIT_MIN][1];
+    if (option != NULL) {
+        gtk_widget_set_sensitive(option, drive_check_dual(model));
+    }
 
     option = drive_extend[unit - DRIVE_UNIT_MIN];
     if (option != NULL) {
@@ -347,21 +356,30 @@ static GtkWidget *create_iec_check_button(int unit,
 
 /** \brief  Create widget to control read-only mode for \a unit
  *
-  * \param[in]   unit    unit number (8-11)
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0-1)
  *
  * \return  GtkCheckButton
  */
-static GtkWidget *create_readonly_check_button(int unit)
+static GtkWidget *create_readonly_check_button(int unit, int drive)
 {
-    return vice_gtk3_resource_check_button_new_sprintf("AttachDevice%dReadonly",
-                                                       "Read Only",
-                                                       unit);
+    GtkWidget *check;
+    int drive_type;
+    char label[] = "Drive 0 Read Only";
+
+    label[6] = '0' + drive;
+    check =  vice_gtk3_resource_check_button_new_sprintf("AttachDevice%dd%dReadonly",
+                                                        label,
+                                                        unit, drive);
+    drive_type = ui_get_drive_type(unit);
+    gtk_widget_set_sensitive(check, drive ? drive_check_dual(drive_type) : 1);
+    return check;
 }
 
 
 /** \brief  Create widget to control Real time clock emulation for \a unit
  *
-  * \param[in]   unit    unit number (8-11)
+ * \param[in]   unit    unit number (8-11)
  *
  * \return  GtkCheckButton
  */
@@ -462,8 +480,11 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
     row++;
 
     /* read-only check button */
-    drive_read_only[index] = create_readonly_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, row, 2, 1);
+    drive_read_only[index][0] = create_readonly_check_button(unit, 0);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index][0], 0, row, 2, 1);
+    row++;
+    drive_read_only[index][1] = create_readonly_check_button(unit, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index][1], 0, row, 2, 1);
     row++;
 
     /* RTC save check button */
@@ -565,8 +586,11 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     row++;
 
     /* read-only check button */
-    drive_read_only[index] = create_readonly_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, row, 2, 1);
+    drive_read_only[index][0] = create_readonly_check_button(unit, 0);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index][0], 0, row, 2, 1);
+    row++;
+    drive_read_only[index][1] = create_readonly_check_button(unit, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index][1], 0, row, 2, 1);
     row++;
 
     /* RTC save check button */
@@ -686,8 +710,11 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
     row++;
 
     /* read-only check button */
-    drive_read_only[index] = create_readonly_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, row, 2, 1);
+    drive_read_only[index][0] = create_readonly_check_button(unit, 0);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index][0], 0, row, 2, 1);
+    row++;
+    drive_read_only[index][1] = create_readonly_check_button(unit, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index][1], 0, row, 2, 1);
     row++;
 
     /* RTC save check button */
@@ -802,8 +829,11 @@ static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
     row++;
 
     /* read-only check button */
-    drive_read_only[index] = create_readonly_check_button(unit);
-    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index], 0, row, 2, 1);
+    drive_read_only[index][0] = create_readonly_check_button(unit, 0);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index][0], 0, row, 2, 1);
+    row++;
+    drive_read_only[index][1] = create_readonly_check_button(unit, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_read_only[index][1], 0, row, 2, 1);
     row++;
 
     /* true drive emulation check button */
