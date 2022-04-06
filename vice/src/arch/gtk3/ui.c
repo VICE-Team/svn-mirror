@@ -1577,7 +1577,6 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     int minimized = 0;
     int full = 0;
-    int restore;
     int restored = 0;
 
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1718,28 +1717,22 @@ void ui_create_main_window(video_canvas_t *canvas)
     /*
      * Try to restore windows position and size
      */
-    if (resources_get_int("RestoreWindowGeometry", &restore) < 0) {
-        restore = 0;
+    if (resources_get_int_sprintf("Window%dXpos", &xpos, target_window) < 0) {
+        log_error(LOG_ERR, "No for Window%dXpos", target_window);
     }
-
-    if (restore) {
-        if (resources_get_int_sprintf("Window%dXpos", &xpos, target_window) < 0) {
-            log_error(LOG_ERR, "No for Window%dXpos", target_window);
-        }
-        resources_get_int_sprintf("Window%dYpos", &ypos, target_window);
-        resources_get_int_sprintf("Window%dwidth", &width, target_window);
-        resources_get_int_sprintf("Window%dheight", &height, target_window);
+    resources_get_int_sprintf("Window%dYpos", &ypos, target_window);
+    resources_get_int_sprintf("Window%dwidth", &width, target_window);
+    resources_get_int_sprintf("Window%dheight", &height, target_window);
 #if 0
-        debug_gtk3("X: %d, Y: %d, W: %d, H: %d", xpos, ypos, width, height);
+    debug_gtk3("X: %d, Y: %d, W: %d, H: %d", xpos, ypos, width, height);
 #endif
-        if (xpos > INT_MIN && ypos > INT_MIN) {
-            gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
-            restored = 1;
-        }
-        if (width > 0 && height > 0) {
-            gtk_window_resize(GTK_WINDOW(new_window), width, height);
-            restored = 1;
-        }
+    if (xpos > INT_MIN && ypos > INT_MIN) {
+        gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
+        restored = 1;
+    }
+    if (width > 0 && height > 0) {
+        gtk_window_resize(GTK_WINDOW(new_window), width, height);
+        restored = 1;
     }
 
     if (!restored) {
