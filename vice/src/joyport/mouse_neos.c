@@ -204,7 +204,7 @@ static uint8_t joyport_mouse_neos_value(int port)
             retval &= ~0x0f;
         }
         if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+            joyport_display_joyport(port, JOYPORT_ID_MOUSE_NEOS, (uint16_t)(~retval));
         }
     }
     return retval;
@@ -242,7 +242,7 @@ void mouse_neos_set_enabled(int enabled)
     }
 }
 
-static int joyport_mouse_neos_enable(int port, int joyportid)
+static int joyport_mouse_neos_set_enabled(int port, int joyportid)
 {
     int mt;
 
@@ -251,10 +251,12 @@ static int joyport_mouse_neos_enable(int port, int joyportid)
     neos_lasty = (uint8_t)(mouse_latest_y >> 1);
 
     if (joyportid == JOYPORT_ID_NONE) {
+        /* disabled, set mouse type to invalid/none */
         mouse_type = -1;
         return 0;
     }
 
+    /* convert joyport ID to mouse type */
     mt = mouse_id_to_type(joyportid);
 
     if (mt == -1) {
@@ -276,23 +278,23 @@ int mouse_neos_write_snapshot(struct snapshot_s *s, int port);
 int mouse_neos_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_neos_joyport_device = {
-    "Mouse (NEOS)",                        /* name of the device */
-    JOYPORT_RES_ID_MOUSE,                  /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
-    JOYPORT_IS_NOT_LIGHTPEN,               /* device is NOT a lightpen */
-    JOYPORT_POT_OPTIONAL,                  /* device uses the potentiometer line for the right button, but could work without it */
-    JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
-    0x10,                                  /* bit 4 is an output bit */
-    joyport_mouse_neos_enable,             /* device enable function */
-    joyport_mouse_neos_value,              /* digital line read function */
-    neos_mouse_store,                      /* digital line store function */
-    joyport_mouse_neos_potx,               /* pot-x read function */
-    NULL,                                  /* NO pot-y read function */
-    NULL,                                  /* NO powerup function */
-    mouse_neos_write_snapshot,             /* device write snapshot function */
-    mouse_neos_read_snapshot,              /* device read snapshot function */
-    NULL,                                  /* NO device hook function */
-    0                                      /* NO device hook function mask */
+    "Mouse (NEOS)",                 /* name of the device */
+    JOYPORT_RES_ID_MOUSE,           /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,        /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,           /* device uses the potentiometer line for the right button, but could work without it */
+    JOYSTICK_ADAPTER_ID_NONE,       /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,           /* device is a Mouse */
+    0x10,                           /* bit 4 is an output bit */
+    joyport_mouse_neos_set_enabled, /* device enable/disable function */
+    joyport_mouse_neos_value,       /* digital line read function */
+    neos_mouse_store,               /* digital line store function */
+    joyport_mouse_neos_potx,        /* pot-x read function */
+    NULL,                           /* NO pot-y read function */
+    NULL,                           /* NO powerup function */
+    mouse_neos_write_snapshot,      /* device write snapshot function */
+    mouse_neos_read_snapshot,       /* device read snapshot function */
+    NULL,                           /* NO device hook function */
+    0                               /* NO device hook function mask */
 };
 
 int mouse_neos_register(void)
