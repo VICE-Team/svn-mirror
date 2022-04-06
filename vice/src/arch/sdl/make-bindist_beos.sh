@@ -54,7 +54,7 @@ else
 fi
 
 EMULATORS="$X64FILE x64dtv x64sc xscpu64 x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
-CONSOLE_TOOLS="c1541 cartconv petcat"
+CONSOLE_TOOLS="c1541 tools/cartconv/cartconv tools/petcat/petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
 for i in $EXECUTABLES
@@ -114,12 +114,6 @@ cp -a $TOPSRCDIR/data/PLUS4 $SDLNAME
 cp -a $TOPSRCDIR/data/PRINTER $SDLNAME
 cp -a $TOPSRCDIR/data/VIC20 $SDLNAME
 
-cp -a $TOPSRCDIR/doc/html $SDLNAME
-cp doc/html/*.html $SDLNAME/html
-rm $SDLNAME/html/checklinks.sh
-rm $SDLNAME/html/texi2html
-rm $SDLNAME/html/COPYING
-rm $SDLNAME/html/NEWS
 if test x"$SDLVERSION" = "x2"; then
   cp $TOPSRCDIR/doc/readmes/Readme-SDL2.txt $SDLNAME
 else
@@ -133,8 +127,10 @@ rm `find $SDLNAME -name "*.vkm" -and ! -name "sdl*.vkm"`
 # just in case ...
 rm -f -r `find $SDLNAME -name ".svn"`
 
-mkdir $SDLNAME/doc
-cp $TOPSRCDIR/doc/vice.pdf $SDLNAME/doc
+if test -f $TOPSRCDIR/doc/vice.pfd; then
+  mkdir $SDLNAME/doc
+  cp $TOPSRCDIR/doc/vice.pdf $SDLNAME/doc
+fi
 
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
