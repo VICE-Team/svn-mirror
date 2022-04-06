@@ -1290,7 +1290,7 @@ else
     check_sdl2=yes
   fi
 fi
-if test x"$with_sdlsound" = "xyes"; then
+if test x"$with_sdlsound" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   check_sdl2=yes
   if test x"$enable_headlessui" = "xyes" -o x"$enable_native_gtk3ui" = "xyes"; then
     check_sdlaudio_only=yes
