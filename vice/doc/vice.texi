@@ -15904,11 +15904,11 @@ Integer specifying the resolution limit mode.
 
 @vindex SDLCustomWidth
 @item SDLCustomWidth
-Integer specifying the custom resolution width.
+Integer specifying the custom fullscreen resolution width.
 
 @vindex SDLCustomHeight
 @item SDLCustomHeight
-Integer specifying the custom resolution height.
+Integer specifying the custom fullscreen resolution height.
 
 @vindex KbdStatusbar
 @item KbdStatusbar
@@ -15958,6 +15958,7 @@ Integer specifying which joystick device the emulator should use for the emulati
 @item CrtcSDLFullscreenMode
 Integer specifying the fullscreen mode
 (xcbm2 and xpet only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @vindex CrtcFullscreenDevice
 @item CrtcFullscreenDevice
@@ -15978,6 +15979,7 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 @item TEDSDLFullscreenMode
 Integer specifying the fullscreen mode
 (xplus4 only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @vindex TEDFullscreenDevice
 @item TEDFullscreenDevice
@@ -15998,6 +16000,7 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 @item VDCSDLFullscreenMode
 Integer specifying the fullscreen mode
 (x128 only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @vindex VDCFullscreenDevice
 @item VDCFullscreenDevice
@@ -16018,6 +16021,7 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 @item VICSDLFullscreenMode
 Integer specifying the fullscreen mode
 (xvic only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @vindex VICFullscreenDevice
 @item VICFullscreenDevice
@@ -16038,6 +16042,7 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 @item VICIISDLFullscreenMode
 Integer specifying the fullscreen mode
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @vindex VICIIFullscreenDevice
 @item VICIIFullscreenDevice
@@ -16224,12 +16229,12 @@ Set the resolution limit mode
 
 @findex -sdlcustomw
 @item -sdlcustomw <width>
-Set the custom resolution width
+Set the custom fullscreen resolution width
 (@code{SDLCustomWidth}).
 
 @findex -sdlcustomh
 @item -sdlcustomh <height>
-Set the custom resolution height
+Set the custom fullscreen resolution height
 (@code{SDLCustomHeight}).
 
 @findex -sdlinitialw
@@ -16298,6 +16303,7 @@ Set device for extra joystick port 2
 Set the fullscreen mode
 (@code{CrtcSDLFullscreenMode})
 (xcbm2 and xpet only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @findex -CRTCfulldevice
 @item -CRTCfulldevice <device>
@@ -16317,6 +16323,7 @@ Enable/Disable fullscreen
 Set the fullscreen mode
 (@code{TEDSDLFullscreenMode})
 (xplus4 only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @findex -TEDfulldevice
 @item -TEDfulldevice <device>
@@ -16336,6 +16343,7 @@ Enable/Disable fullscreen
 Set the fullscreen mode
 (@code{VDCSDLFullscreenMode})
 (x128 only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @findex -VDCfulldevice
 @item -VDCfulldevice <device>
@@ -16355,6 +16363,7 @@ Enable/Disable fullscreen
 Set the fullscreen mode
 (@code{VICSDLFullscreenMode})
 (xvic only).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @findex -VICfulldevice
 @item -VICfulldevice <device>
@@ -16374,6 +16383,7 @@ Enable/Disable fullscreen
 Set the fullscreen mode
 (@code{VICIISDLFullscreenMode})
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+(0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
 @findex -VICIIfulldevice
 @item -VICIIfulldevice <device>
