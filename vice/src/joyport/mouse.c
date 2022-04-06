@@ -487,6 +487,7 @@ static const mt_id_t mt_id[] = {
     { -1,                  -1 }
 };
 
+/* convert from joyport ID to mouse type */
 int mouse_id_to_type(int id)
 {
     int i;
@@ -499,6 +500,7 @@ int mouse_id_to_type(int id)
     return -1;
 }
 
+/* convert from mouse type to joyport ID */
 int mouse_type_to_id(int mt)
 {
     int i;
@@ -532,13 +534,13 @@ static int mouse_joyport_register(void)
 /* --------------------------------------------------------- */
 /* Resources & cmdline */
 
-static int set_mouse_enabled(int val, void *param)
+static int set_mouse_enabled(int new_state, void *param)
 {
-    if (_mouse_enabled == val) {
+    if (_mouse_enabled == new_state) {
         return 0;
     }
 
-    _mouse_enabled = val ? 1 : 0;
+    _mouse_enabled = new_state ? 1 : 0;
 
     mouse_reset();
     mouse_neos_set_enabled(_mouse_enabled);

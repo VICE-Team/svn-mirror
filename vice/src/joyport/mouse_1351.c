@@ -151,16 +151,25 @@ void mouse_1351_button_left(int pressed)
 
 static uint8_t joyport_mouse_value(int port)
 {
-    return _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
+    uint8_t retval = 0xff;
+
+    if (_mouse_enabled) {
+        retval = mouse_digital_val;
+    }
+
+    joyport_display_joyport(port, JOYPORT_ID_MOUSE_1351, (uint16_t)(~retval));
+
+    return ~retval;
 }
 
-static int mouse_1351_enabled(int port, int joyportid)
+static int mouse_1351_set_enabled(int port, int joyportid)
 {
     int mt;
 
     mouse_reset();
 
     if (joyportid == JOYPORT_ID_NONE) {
+        /* disabled, destroy the DS1202 RTC context if needed (smartmouse) */
         if (ds1202) {
             ds1202_1302_destroy(ds1202, ds1202_rtc_save);
             ds1202 = NULL;
@@ -169,6 +178,7 @@ static int mouse_1351_enabled(int port, int joyportid)
         return 0;
     }
 
+    /* convert joyport ID to mouse type */
     mt = mouse_id_to_type(joyportid);
 
     if (mt == -1) {
@@ -182,6 +192,7 @@ static int mouse_1351_enabled(int port, int joyportid)
     mouse_type = mt;
 
     if (mt == MOUSE_TYPE_SMART) {
+        /* smartmouse enabled, create DS1202 RTC context */
         ds1202 = ds1202_1302_init("SM", 1202);
     }
 
@@ -200,7 +211,7 @@ static joyport_t mouse_1351_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,      /* device is a Mouse */
     0,                         /* NO output bits */
-    mouse_1351_enabled,        /* device enable function */
+    mouse_1351_set_enabled,    /* device enable/disable function */
     joyport_mouse_value,       /* digital line read function */
     NULL,                      /* NO digital line store function */
     mouse_get_1351_x,          /* pot-x read function */
@@ -297,6 +308,7 @@ uint8_t micromys_mouse_read(void)
     if (up_down_counter & 1) {
         return (uint8_t)(~(4 << (up_down_counter < 0)));
     }
+
     return 0xff;
 }
 
@@ -335,7 +347,7 @@ static uint8_t joyport_mouse_micromys_value(int port)
 
     if (_mouse_enabled) {
         retval = (uint8_t)((~mouse_digital_val) & micromys_mouse_read());
-        joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+        joyport_display_joyport(port, JOYPORT_ID_MOUSE_MICROMYS, (uint16_t)(~retval));
     }
     return retval;
 }
@@ -352,7 +364,7 @@ static joyport_t mouse_micromys_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE,      /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,          /* device is a Mouse */
     0,                             /* NO output bits */
-    mouse_1351_enabled,          /* device enable function */
+    mouse_1351_set_enabled,        /* device enable/disable function */
     joyport_mouse_micromys_value,  /* digital line read function */
     NULL,                          /* NO digital line store function */
     mouse_get_1351_x,              /* pot-x read function */
@@ -452,7 +464,7 @@ static uint8_t joyport_mouse_smart_value(int port)
     if (_mouse_enabled) {
         retval = (uint8_t)((~mouse_digital_val) & smart_mouse_read());
         if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(port, mouse_type_to_id(mouse_type), (uint16_t)(~retval));
+            joyport_display_joyport(port, JOYPORT_ID_MOUSE_SMART, (uint16_t)(~retval));
         }
     }
     return retval;
@@ -488,7 +500,7 @@ static joyport_t mouse_smart_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,       /* device is a Mouse */
     0x0E,                       /* bits 3, 2 and 1 are output bits */
-    mouse_1351_enabled,         /* device enable function */
+    mouse_1351_set_enabled,     /* device enable/disable function */
     joyport_mouse_smart_value,  /* digital line read function */
     smart_mouse_store,          /* digital line store function */
     mouse_get_1351_x,           /* pot-x read function */
