@@ -28,7 +28,7 @@
  *
  */
 
-/* #define SDL_DEBUG */
+#define SDL_DEBUG
 
 #include "vice.h"
 
@@ -55,10 +55,6 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
     int count;
 
     DBG(("%s: %i", __func__, enable));
-
-    if (!canvas->fullscreenconfig->device_set) {
-        return 0;
-    }
 
     canvas->fullscreenconfig->enable = enable;
 
@@ -107,19 +103,6 @@ static int fullscreen_double_scan(struct video_canvas_s *canvas, int double_scan
     return 0;
 }
 
-static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
-{
-    DBG(("%s: %s", __func__, device));
-
-    if (strcmp("SDL", device) != 0) {
-        canvas->fullscreenconfig->device_set = 0;
-        return -1;
-    }
-
-    canvas->fullscreenconfig->device_set = 1;
-    return 0;
-}
-
 static int fullscreen_mode_sdl(struct video_canvas_s *canvas, int mode)
 {
     DBG(("%s: %i", __func__, mode));
@@ -132,13 +115,9 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     DBG(("%s", __func__));
 
-    cap_fullscreen->device_num = 0;
-    cap_fullscreen->device_name[cap_fullscreen->device_num] = "SDL";
     cap_fullscreen->enable = fullscreen_enable;
     cap_fullscreen->statusbar = fullscreen_statusbar;
     cap_fullscreen->double_size = fullscreen_double_size;
     cap_fullscreen->double_scan = fullscreen_double_scan;
-    cap_fullscreen->device = fullscreen_device;
-    cap_fullscreen->mode[cap_fullscreen->device_num] = fullscreen_mode_sdl;
-    cap_fullscreen->device_num += 1;
+    cap_fullscreen->mode[0] = fullscreen_mode_sdl;
 }

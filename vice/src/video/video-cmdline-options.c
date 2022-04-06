@@ -147,7 +147,6 @@ static const char * const cname_chip_fullscreen[] =
     "-", "full", "Fullscreen",
     "+", "full", "Fullscreen",
 #endif
-    "-", "fulldevice", "FullscreenDevice",
     NULL
 };
 
@@ -161,9 +160,6 @@ static cmdline_option_t cmdline_options_chip_fullscreen[] =
       NULL, NULL, NULL, (void *)0,
       NULL, "Disable fullscreen" },
 #endif
-    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, NULL, NULL,
-      "<device>", "Select fullscreen device" },
     CMDLINE_LIST_END
 };
 
@@ -254,7 +250,7 @@ static cmdline_option_t cmdline_options_chip_crtemu[] =
 int video_cmdline_options_chip_init(const char *chipname,
                                     video_chip_cap_t *video_chip_cap)
 {
-    unsigned int i, j;
+    unsigned int i;
 
     if (machine_class == VICE_MACHINE_VSID) {
         return 0;
@@ -374,7 +370,8 @@ int video_cmdline_options_chip_init(const char *chipname,
     }
 
     /* fullscreen options */
-    if (video_chip_cap->fullscreen.device_num > 0) {
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+    {
         for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {
             cmdline_options_chip_fullscreen[i].name
                 = util_concat(cname_chip_fullscreen[i * 3], chipname,
@@ -392,15 +389,15 @@ int video_cmdline_options_chip_init(const char *chipname,
             lib_free(cmdline_options_chip_fullscreen[i].resource_name);
         }
 
-        for (j = 0; j < video_chip_cap->fullscreen.device_num; j++) {
+        {
             for (i = 0; cname_chip_fullscreen_mode[i * 3] != NULL; i++) {
                 cmdline_options_chip_fullscreen_mode[i].name
                     = util_concat(cname_chip_fullscreen_mode[i * 3], chipname,
-                                  video_chip_cap->fullscreen.device_name[j],
+                                  "SDL",
                                   cname_chip_fullscreen_mode[i * 3 + 1], NULL);
                 cmdline_options_chip_fullscreen_mode[i].resource_name
                     = util_concat(chipname,
-                                  video_chip_cap->fullscreen.device_name[j],
+                                  "SDL",
                                   cname_chip_fullscreen_mode[i * 3 + 2], NULL);
             }
 
@@ -415,6 +412,7 @@ int video_cmdline_options_chip_init(const char *chipname,
             }
         }
     }
+#endif
 
     /* color generator */
     for (i = 0; cname_chip_colors[i * 3] != NULL; i++) {
