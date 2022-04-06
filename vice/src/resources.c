@@ -1176,9 +1176,9 @@ int resources_read_item_from_file(FILE *f)
 
 static const char *versionmessage =
     "Please notice that using configuration files from a different VICE "
-    "version is not supported. It should be mostly no problem in practise, "
-    "but if you experience any problems, you might have to reset the "
-    "settings to defaults.\n\n"
+    "version is not supported. It should be mostly no problem in practice - "
+    "however, if you experience any problems eg. after updating VICE, you might "
+    "have to reset the settings to defaults.\n\n"
     "Save the settings now to make this message go away.";
 
 static int check_resource_file_version(const char *fname)
