@@ -9,15 +9,8 @@
  * (Maybe also for VSID?)
  * $VICERES FullscreenDecorations   -vsid
  * $VICERES StartMinimized          -vsid
- * $VICERES RestoreWindowGeometry   -vsid
- * (I guess VSID could also use this?)
  *
  * $VICERES VSync                   -vsid
- *
- * Note:    RestoreWindowGeometry works fine on Linux with a display stretched
- *          over multiple monitors. No idea how this would work with separate
- *          'desktops' for each monitor, we might have to store GDK's monitor
- *          index as well.
  */
 
 /*
@@ -174,7 +167,6 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 {
     GtkWidget *grid;
     GtkWidget *filter_widget = canvas_render_filter_widget_create();
-    GtkWidget *restore_window_widget;
     GtkWidget *sync_widget;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
@@ -197,10 +189,6 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
         vice_gtk3_resource_check_button_add_callback(
                 minimized_widget, minimized_callback);
 
-        restore_window_widget = vice_gtk3_resource_check_button_new(
-                "RestoreWindowGeometry",
-                "Restore emulator window(s) position and size from settings");
-
         sync_widget = create_sync_widget();
 
         gtk_grid_attach(GTK_GRID(grid), filter_widget, col++, 1, 2, 1);
@@ -212,7 +200,6 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
         gtk_grid_attach(GTK_GRID(grid), fullscreen_widget, 0, 2, 2, 1);
         gtk_grid_attach(GTK_GRID(grid), decorations, 0, 3, 2, 1);
         gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 4, 2, 1);
-        gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 5, 2, 1);
 
         resources_get_int("FullscreenEnable", &fullscreen);
         resources_get_int("StartMinimized", &minimized);
