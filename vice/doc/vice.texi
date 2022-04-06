@@ -16506,13 +16506,6 @@ first, in case the settings have changed.
 @item ConfirmOnExit
 Boolean specifying whether to show a confirmation dialog on exit.
 
-@vindex DisplayDepth
-@item DisplayDepth
-Integer specifying the depth of the host display. The value @samp{0}
-(the default) causes the emulator to autodetect it
-(all emulators except vsid).
-(0..32)
-
 @vindex FullscreenDecorations
 @item FullscreenDecorations
 Boolean specifying whether the menu and statusbar are shown in full screen mode.
