@@ -60,9 +60,6 @@ static int trueaspect = 0;
 /** \brief  Prevent screen tearing */
 static int vsync = 1;
 
-/** \brief  Display depth in bits (8, 15, 16, 24, 32) */
-static int display_depth = 24;
-
 /** \brief  Display filter (0: nearest 1: bilinear) */
 static int display_filter = 1;
 
@@ -117,23 +114,6 @@ static int set_trueaspect(int val, void *param)
 static int set_vsync(int val, void *param)
 {
     vsync = val ? 1 : 0;
-    return 0;
-}
-
-
-/** \brief Set the display color depth.
- *  \param     val   new color depth
- *  \param[in] param extra parameter (unused).
- *  \return  Zero on success, nonzero on illegal argument
- *  \warning Neither Cairo nor GTK3's OpenGL system actually respect
- *           this value.
- */
-static int set_display_depth(int val, void *param)
-{
-    if (val != 0 && val != 8 && val != 15 && val != 16 && val != 24 && val != 32) {
-        return -1;
-    }
-    display_depth = val;
     return 0;
 }
 
@@ -224,8 +204,6 @@ static const resource_int_t resources_int[] = {
       &trueaspect, set_trueaspect, NULL },
     { "VSync", 1, RES_EVENT_NO, NULL,
       &vsync, set_vsync, NULL },
-    { "DisplayDepth", 0, RES_EVENT_NO, NULL,
-      &display_depth, set_display_depth, NULL },
     { "GTKFilter", 2, RES_EVENT_NO, NULL,
       &display_filter, set_display_filter, NULL },
     { "RestoreWindowGeometry", 1, RES_EVENT_NO, NULL,
