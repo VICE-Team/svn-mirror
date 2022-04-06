@@ -15960,11 +15960,6 @@ Integer specifying the fullscreen mode
 (xcbm2 and xpet only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@vindex CrtcFullscreenDevice
-@item CrtcFullscreenDevice
-String specifying the fullscreen device
-(xcbm2 and xpet only).
-
 @vindex CrtcFullscreen
 @item CrtcFullscreen
 Boolean specifying whether to use fullscreen mode or not
@@ -15980,11 +15975,6 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 Integer specifying the fullscreen mode
 (xplus4 only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@vindex TEDFullscreenDevice
-@item TEDFullscreenDevice
-String specifying the fullscreen device
-(xplus4 only).
 
 @vindex TEDFullscreen
 @item TEDFullscreen
@@ -16002,11 +15992,6 @@ Integer specifying the fullscreen mode
 (x128 only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@vindex VDCFullscreenDevice
-@item VDCFullscreenDevice
-String specifying the fullscreen device
-(x128 only).
-
 @vindex VDCFullscreen
 @item VDCFullscreen
 Boolean specifying whether to use fullscreen mode or not
@@ -16023,11 +16008,6 @@ Integer specifying the fullscreen mode
 (xvic only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@vindex VICFullscreenDevice
-@item VICFullscreenDevice
-String specifying the fullscreen device
-(xvic only).
-
 @vindex VICFullscreen
 @item VICFullscreen
 Boolean specifying whether to use fullscreen mode or not
@@ -16043,11 +16023,6 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 Integer specifying the fullscreen mode
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@vindex VICIIFullscreenDevice
-@item VICIIFullscreenDevice
-String specifying the fullscreen device
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreen
 @item VICIIFullscreen
@@ -16305,12 +16280,6 @@ Set the fullscreen mode
 (xcbm2 and xpet only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@findex -CRTCfulldevice
-@item -CRTCfulldevice <device>
-Select fullscreen device
-(@code{CrtcFullscreenDevice})
-(xcbm2 and xpet only).
-
 @findex -CRTCfull, +CRTCfull
 @item -CRTCfull
 @itemx +CRTCfull
@@ -16324,12 +16293,6 @@ Set the fullscreen mode
 (@code{TEDSDLFullscreenMode})
 (xplus4 only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@findex -TEDfulldevice
-@item -TEDfulldevice <device>
-Select fullscreen device
-(@code{TEDFullscreenDevice})
-(xplus4 only).
 
 @findex -TEDfull, +TEDfull
 @item -TEDfull
@@ -16345,12 +16308,6 @@ Set the fullscreen mode
 (x128 only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@findex -VDCfulldevice
-@item -VDCfulldevice <device>
-Select fullscreen device
-(@code{VDCFullscreenDevice})
-(x128 only).
-
 @findex -VDCfull, +VDCfull
 @item -VDCfull
 @itemx +VDCfull
@@ -16365,12 +16322,6 @@ Set the fullscreen mode
 (xvic only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
-@findex -VICfulldevice
-@item -VICfulldevice <device>
-Select fullscreen device
-(@code{VICFullscreenDevice})
-(xvic only).
-
 @findex -VICfull, +VICfull
 @item -VICfull
 @itemx +VICfull
@@ -16384,12 +16335,6 @@ Set the fullscreen mode
 (@code{VICIISDLFullscreenMode})
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
-
-@findex -VICIIfulldevice
-@item -VICIIfulldevice <device>
-Select fullscreen device
-(@code{VICIIFullscreenDevice})
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @findex -VICIIfull, +VICIIfull
 @item -VICIIfull
@@ -16538,11 +16483,6 @@ Integers specifying the position and size of the (first) emulator window
 Integers specifying the position and size of the (second) emulator window
 (x128 only).
 
-@vindex CrtcFullscreenDevice
-@item CrtcFullscreenDevice
-String specifying the fullscreen device
-(xcbm2 and xpet only).
-
 @vindex CrtcFullscreen
 @item CrtcFullscreen
 Boolean specifying whether to use fullscreen mode or not
@@ -16552,11 +16492,6 @@ Boolean specifying whether to use fullscreen mode or not
 @item CrtcFullscreenStatusbar
 Boolean specifying whether to show the status bar in fullscreen mode or not
 (xcbm2 and xpet only).
-
-@vindex TEDFullscreenDevice
-@item TEDFullscreenDevice
-String specifying the fullscreen device
-(xplus4 only).
 
 @vindex TEDFullscreen
 @item TEDFullscreen
@@ -16568,11 +16503,6 @@ Boolean specifying whether to use fullscreen mode or not
 Boolean specifying whether to show the status bar in fullscreen mode or not
 (xplus4 only).
 
-@vindex VDCFullscreenDevice
-@item VDCFullscreenDevice
-String specifying the fullscreen device
-(x128 only).
-
 @vindex VDCFullscreen
 @item VDCFullscreen
 Boolean specifying whether to use fullscreen mode or not
@@ -16583,11 +16513,6 @@ Boolean specifying whether to use fullscreen mode or not
 Boolean specifying whether to show the status bar in fullscreen mode or not
 (x128 only).
 
-@vindex VICFullscreenDevice
-@item VICFullscreenDevice
-String specifying the fullscreen device
-(xvic only).
-
 @vindex VICFullscreen
 @item VICFullscreen
 Boolean specifying whether to use fullscreen mode or not
@@ -16597,11 +16522,6 @@ Boolean specifying whether to use fullscreen mode or not
 @item VICFullscreenStatusbar
 Boolean specifying whether to show the status bar in fullscreen mode or not
 (xvic only).
-
-@vindex VICIIFullscreenDevice
-@item VICIIFullscreenDevice
-String specifying the fullscreen device
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreen
 @item VICIIFullscreen
@@ -16751,30 +16671,6 @@ Enable/disable fullscreen mode
 @item -fullscreen-decorations
 @itemx +fullscreen-decorations
 Enable/disable fullscreen decorations
-
-@findex -CRTCfulldevice
-@item -CRTCfulldevice <device>
-Select fullscreen device
-(@code{CrtcFullscreenDevice})
-(xcbm2 and xpet only).
-
-@findex -TEDfulldevice
-@item -TEDfulldevice <device>
-Select fullscreen device
-(@code{TEDFullscreenDevice})
-(xplus4 only).
-
-@findex -VICfulldevice
-@item -VICfulldevice <device>
-Select fullscreen device
-(@code{VICFullscreenDevice})
-(xvic only).
-
-@findex -VICIIfulldevice
-@item -VICIIfulldevice <device>
-Select fullscreen device
-(@code{VICIIFullscreenDevice})
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @findex -joydev1
 @item -joydev1 <0-3> / <0-9> / <0-11> / <0-13>

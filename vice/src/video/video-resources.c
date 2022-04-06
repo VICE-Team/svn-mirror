@@ -271,34 +271,8 @@ static int set_fullscreen_double_scan_enabled(int val, void *param)
 }
 #endif
 
-static int set_fullscreen_device(const char *val, void *param)
-{
-    video_canvas_t *canvas = (video_canvas_t *)param;
-    video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
-
-    if (canvas->videoconfig->fullscreen_enabled) {
-        log_message(LOG_DEFAULT,
-                    "Fullscreen (%s) already active - disable first.",
-                    canvas->videoconfig->fullscreen_device);
-        return 0;
-    }
-
-    if (util_string_set(&canvas->videoconfig->fullscreen_device, val)) {
-        return 0;
-    }
-
-    return (video_chip_cap->fullscreen.device)(canvas, val);
-}
-
 static const char * const vname_chip_fullscreen[] = {
-    "Fullscreen", "FullscreenStatusbar", "FullscreenDevice", NULL
-};
-
-static resource_string_t resources_chip_fullscreen_string[] =
-{
-    { NULL, NULL, RES_EVENT_NO, NULL,
-      NULL, set_fullscreen_device, NULL },
-    RESOURCE_STRING_LIST_END
+    "Fullscreen", "FullscreenStatusbar", NULL
 };
 
 static resource_int_t resources_chip_fullscreen_int[] =
@@ -331,6 +305,7 @@ static int set_fullscreen_mode(int val, void *param)
     return (video_chip_cap->fullscreen.mode[device])(canvas, val);
 }
 
+/* <CHIP>SDLFullscreenMode */
 static const char * const vname_chip_fullscreen_mode[] = { "FullscreenMode", NULL };
 
 static resource_int_t resources_chip_fullscreen_mode[] =
@@ -662,33 +637,24 @@ int video_resources_chip_init(const char *chipname,
         }
     }
 
-    if (video_chip_cap->fullscreen.device_num > 0) {
+    /* fullscreen options */
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+    {
         video_resource_chip_mode_t *resource_chip_mode;
 
         if (machine_class != VICE_MACHINE_VSID) {
+            /* <CHIP>Fullscreen */
             resources_chip_fullscreen_int[0].name
                 = util_concat(chipname, vname_chip_fullscreen[0], NULL);
             resources_chip_fullscreen_int[0].value_ptr
                 = &((*canvas)->videoconfig->fullscreen_enabled);
             resources_chip_fullscreen_int[0].param = (void *)*canvas;
-
+            /* <CHIP>FullscreenStatusbar */
             resources_chip_fullscreen_int[1].name
                 = util_concat(chipname, vname_chip_fullscreen[1], NULL);
             resources_chip_fullscreen_int[1].value_ptr
                 = &((*canvas)->videoconfig->fullscreen_statusbar_enabled);
             resources_chip_fullscreen_int[1].param = (void *)*canvas;
-
-            resources_chip_fullscreen_string[0].name
-                = util_concat(chipname, vname_chip_fullscreen[2], NULL);
-            resources_chip_fullscreen_string[0].factory_value
-                = video_chip_cap->fullscreen.device_name[0];
-            resources_chip_fullscreen_string[0].value_ptr
-                = &((*canvas)->videoconfig->fullscreen_device);
-            resources_chip_fullscreen_string[0].param = (void *)*canvas;
-
-            if (resources_register_string(resources_chip_fullscreen_string) < 0) {
-                return -1;
-            }
 
             if (resources_register_int(resources_chip_fullscreen_int) < 0) {
                 return -1;
@@ -696,25 +662,24 @@ int video_resources_chip_init(const char *chipname,
 
             lib_free(resources_chip_fullscreen_int[0].name);
             lib_free(resources_chip_fullscreen_int[1].name);
-            lib_free(resources_chip_fullscreen_string[0].name);
         } else {
             set_fullscreen_enabled(0, (void *)*canvas);
             set_fullscreen_statusbar(0, (void *)*canvas);
-            set_fullscreen_device(video_chip_cap->fullscreen.device_name[0], (void *)*canvas);
         }
 
-        for (i = 0; i < video_chip_cap->fullscreen.device_num; i++) {
+        {
             resource_chip_mode = get_resource_chip_mode();
             resource_chip_mode->resource_chip = *canvas;
-            resource_chip_mode->device = i;
+            resource_chip_mode->device = 0;
 
             if (machine_class != VICE_MACHINE_VSID) {
+                /* <CHIP>SDLFullscreenMode */
                 resources_chip_fullscreen_mode[0].name
                     = util_concat(chipname,
-                                  video_chip_cap->fullscreen.device_name[i],
+                                  "SDL",
                                   vname_chip_fullscreen_mode[0], NULL);
                 resources_chip_fullscreen_mode[0].value_ptr
-                    = &((*canvas)->videoconfig->fullscreen_mode[i]);
+                    = &((*canvas)->videoconfig->fullscreen_mode[0]);
                 resources_chip_fullscreen_mode[0].param
                     = (void *)resource_chip_mode;
 
@@ -728,6 +693,7 @@ int video_resources_chip_init(const char *chipname,
             }
         }
     }
+#endif
 
     /* Palette related */
     if (machine_class != VICE_MACHINE_VSID) {
@@ -894,9 +860,6 @@ void video_resources_chip_shutdown(struct video_canvas_s *canvas)
     lib_free(canvas->videoconfig->external_palette_name);
     lib_free(canvas->videoconfig->chip_name);
 
-    if (canvas->videoconfig->cap->fullscreen.device_num > 0) {
-        lib_free(canvas->videoconfig->fullscreen_device);
-    }
     /* NOTE: in x128 this actually shuts down the respective resources of both
      *       videochips at once. this is not exactly clean, but shouldnt matter
      *       in practise either.

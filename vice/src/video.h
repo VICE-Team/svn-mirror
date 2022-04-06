@@ -114,13 +114,11 @@ struct cap_render_s {
 };
 typedef struct cap_render_s cap_render_t;
 
-
+/* FIXME: get rid of this */
 #define FULLSCREEN_MAXDEV 4
 
 struct cap_fullscreen_s {
     /* FIXME: get rid of as much as possible of this. */
-    unsigned int device_num;
-    const char *device_name[FULLSCREEN_MAXDEV];
     int (*enable)(struct video_canvas_s *canvas, int enable);
     int (*statusbar)(struct video_canvas_s *canvas, int enable);
     int (*device)(struct video_canvas_s *canvas, const char *device);
@@ -219,7 +217,7 @@ struct video_render_config_s {
     int scalex;                    /* Horizontal scaling */
     int scaley;                    /* Vertical scaling */
     int doublescan;                /* Doublescan enabled?  */
-    int scale2x;                   /* Scale2x enabled?  */
+    int scale2x;                   /* Scale2x enabled? FIXME: get rid of this */
     int filter;                    /* VIDEO_FILTER_NONE, VIDEO_FILTER_CRT, VIDEO_FILTER_SCALE2X */
     int external_palette;          /* Use an external palette?  */
     char *external_palette_name;   /* Name of the external palette.  */
@@ -229,10 +227,9 @@ struct video_render_config_s {
     int interlace_field;           /* Which of the two interlaced frames is current? */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
     struct video_render_color_tables_s color_tables;
+    /* FIXME: get rid of as much as possible of the following: */
     int fullscreen_enabled;
     int fullscreen_statusbar_enabled;
-    char *fullscreen_device;
-    int fullscreen_device_num;
     int fullscreen_double_size_enabled;
     int fullscreen_double_scan_enabled;
     int fullscreen_mode[FULLSCREEN_MAXDEV];
