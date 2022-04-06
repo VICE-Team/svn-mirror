@@ -1515,7 +1515,7 @@ Attach <Name> as a disk image to the second drive of a dual-drive device 8, 9, 1
 @itemx -attach10ro
 @itemx -attach11ro
 Attach disk image for drive #8-11 read only
-(@code{AttachDevice8Readonly=1}, @code{AttachDevice9Readonly=1}, @code{AttachDevice10Readonly=1}, @code{AttachDevice11Readonly=1})
+(@code{AttachDevice8d0Readonly=1}, @code{AttachDevice9d0Readonly=1}, @code{AttachDevice10d0Readonly=1}, @code{AttachDevice11d0Readonly=1})
 (all emulators except vsid).
 
 @findex -attach8d1ro
@@ -1539,7 +1539,7 @@ Attach disk image for second drive of a dual-drive #8-11 read only
 @itemx -attach10rw
 @itemx -attach11rw
 Attach disk image for drive #8-11 read write (if possible)
-(@code{AttachDevice8Readonly=0}, @code{AttachDevice9Readonly=0}, @code{AttachDevice10Readonly=0}, @code{AttachDevice11Readonly=0})
+(@code{AttachDevice8d0Readonly=0}, @code{AttachDevice9d0Readonly=0}, @code{AttachDevice10d0Readonly=0}, @code{AttachDevice11d0Readonly=0})
 (all emulators except vsid).
 
 @findex -attach8d1rw
@@ -8539,14 +8539,14 @@ String specifying the filename of a screenshot file that will be written when th
 String specifying the filename of the current flip list. (Drive 8 only)
 (all emulators except vsid).
 
-@vindex AttachDevice8Readonly
-@vindex AttachDevice9Readonly
-@vindex AttachDevice10Readonly
-@vindex AttachDevice11Readonly
-@item AttachDevice8Readonly
-@itemx AttachDevice9Readonly
-@itemx AttachDevice10Readonly
-@itemx AttachDevice11Readonly
+@vindex AttachDevice8d0Readonly
+@vindex AttachDevice9d0Readonly
+@vindex AttachDevice10d0Readonly
+@vindex AttachDevice11d0Readonly
+@item AttachDevice8d0Readonly
+@itemx AttachDevice9d0Readonly
+@itemx AttachDevice10d0Readonly
+@itemx AttachDevice11d0Readonly
 Booleans that specify whether to attach images on drives 8 to 11 read-only or not
 (all emulators except vsid).
 
