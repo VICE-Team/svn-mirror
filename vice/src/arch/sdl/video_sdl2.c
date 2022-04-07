@@ -108,6 +108,7 @@ static int sdl_gl_flipy;
 static int sdl_gl_filter_res;
 static int sdl_gl_filter;
 static int sdl2_dual_window;
+static int sdl_vsync;
 
 static char *sdl2_renderer_name = NULL;
 static SDL_RendererFlip flip;
@@ -368,6 +369,13 @@ static int set_sdl2_dual_window(int v, void *param)
     return 0;
 }
 
+static int set_sdl_vsync(int v, void *param)
+{
+    sdl_vsync = v ? 1 : 0;
+
+    return 0;
+}
+
 static resource_string_t resources_string[] = {
     /* CAUTION: position hardcoded below */
     { "AspectRatio", NULL, RES_EVENT_NO, NULL,
@@ -407,6 +415,8 @@ static const resource_int_t resources_int[] = {
     { "SDL2DualWindow", 0, RES_EVENT_NO, NULL,
       &sdl2_dual_window, set_sdl2_dual_window, NULL },
 #endif
+    { "VSync", 1, RES_EVENT_NO, NULL,
+      &sdl_vsync, set_sdl_vsync, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -516,6 +526,12 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "SDL2DualWindow", (void *)0,
       NULL, "Disable dual window rendering"},
 #endif
+    { "-vsync", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "VSync", (void *)1,
+      NULL, "Enable vsync to prevent tearing"},
+    { "+vsync", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "VSync", (void *)0,
+      NULL, "Disable vsync"},
     CMDLINE_LIST_END
 };
 
@@ -647,6 +663,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
     video_canvas_t* canvas = sdl_canvaslist[canvas_idx];
     video_container_t* container = NULL;
     SDL_WindowFlags flags = sdl2_ui_generate_flags_for_canvas(canvas);
+    int vsync = 0;
 
     container = lib_calloc(1, sizeof(*container));
 
@@ -718,11 +735,27 @@ static video_container_t* sdl_container_create(int canvas_idx)
     lib_free(renderlist);
     renderlist = NULL;
 
+
     log_message(sdlvideo_log, "Available backends: %s", rendername);
 
-    container->renderer = SDL_CreateRenderer(container->window,
-                                             drv_index,
-                                             SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    /* setup vsync */ 
+    /* FIXME: this only works by setting the hint and then creating the
+       renderer - so to do this at runtime some magic has to be implemented
+       that destroys current renderer(s), changes the hint, and then creates
+       them again */
+    resources_get_int("VSync", &vsync);
+    log_message(sdlvideo_log, "VSync is %s.", vsync ? "enabled" : "disabled");
+    if (vsync) {
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_VSYNC, "1", SDL_HINT_OVERRIDE);
+        container->renderer = SDL_CreateRenderer(container->window,
+                                                drv_index,
+                                                SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    } else {
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_VSYNC, "0", SDL_HINT_OVERRIDE);
+        container->renderer = SDL_CreateRenderer(container->window,
+                                                drv_index,
+                                                SDL_RENDERER_ACCELERATED);
+    }
 
     if (!container->renderer) {
         log_error(sdlvideo_log, "SDL_CreateRenderer() failed: %s", SDL_GetError());
