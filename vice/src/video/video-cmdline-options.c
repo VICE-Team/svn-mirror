@@ -371,7 +371,7 @@ int video_cmdline_options_chip_init(const char *chipname,
     /* fullscreen options */
 #if defined(USE_SDLUI) || defined(USE_SDL2UI)
     {
-        /* <CHIP>Fullscreen */
+        /* <CHIP>Fullscreen (FIXME: use for GTK3 instead of FullscreenEnable) */
         for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {
             cmdline_options_chip_fullscreen[i].name
                 = util_concat(cname_chip_fullscreen[i * 3], chipname,
@@ -389,16 +389,14 @@ int video_cmdline_options_chip_init(const char *chipname,
             lib_free(cmdline_options_chip_fullscreen[i].resource_name);
         }
 
-        /* <CHIP>SDLFullscreenMode */
+        /* <CHIP>FullscreenMode (SDL only) */
         {
             for (i = 0; cname_chip_fullscreen_mode[i * 3] != NULL; i++) {
                 cmdline_options_chip_fullscreen_mode[i].name
                     = util_concat(cname_chip_fullscreen_mode[i * 3], chipname,
-                                  "SDL",
                                   cname_chip_fullscreen_mode[i * 3 + 1], NULL);
                 cmdline_options_chip_fullscreen_mode[i].resource_name
                     = util_concat(chipname,
-                                  "SDL",
                                   cname_chip_fullscreen_mode[i * 3 + 2], NULL);
             }
 

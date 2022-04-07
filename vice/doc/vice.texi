@@ -15954,8 +15954,8 @@ Integer specifying which joystick device the emulator should use for the emulati
 (all emulators except xcbm5x0, xplus4 and vsid).
 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
 
-@vindex CrtcSDLFullscreenMode
-@item CrtcSDLFullscreenMode
+@vindex CrtcFullscreenMode
+@item CrtcFullscreenMode
 Integer specifying the fullscreen mode
 (xcbm2 and xpet only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
@@ -15965,8 +15965,8 @@ Integer specifying the fullscreen mode
 Boolean specifying whether to use fullscreen mode or not
 (xcbm2 and xpet only).
 
-@vindex TEDSDLFullscreenMode
-@item TEDSDLFullscreenMode
+@vindex TEDFullscreenMode
+@item TEDFullscreenMode
 Integer specifying the fullscreen mode
 (xplus4 only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
@@ -15976,8 +15976,8 @@ Integer specifying the fullscreen mode
 Boolean specifying whether to use fullscreen mode or not
 (xplus4 only).
 
-@vindex VDCSDLFullscreenMode
-@item VDCSDLFullscreenMode
+@vindex VDCFullscreenMode
+@item VDCFullscreenMode
 Integer specifying the fullscreen mode
 (x128 only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
@@ -15987,8 +15987,8 @@ Integer specifying the fullscreen mode
 Boolean specifying whether to use fullscreen mode or not
 (x128 only).
 
-@vindex VICSDLFullscreenMode
-@item VICSDLFullscreenMode
+@vindex VICFullscreenMode
+@item VICFullscreenMode
 Integer specifying the fullscreen mode
 (xvic only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
@@ -15998,8 +15998,8 @@ Integer specifying the fullscreen mode
 Boolean specifying whether to use fullscreen mode or not
 (xvic only).
 
-@vindex VICIISDLFullscreenMode
-@item VICIISDLFullscreenMode
+@vindex VICIIFullscreenMode
+@item VICIIFullscreenMode
 Integer specifying the fullscreen mode
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
@@ -16248,10 +16248,10 @@ Set device for extra joystick port 2
 (all emulators except xcbm5x0, xplus4 and vsid).
 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
 
-@findex -CRTCSDLfullmode
-@item -CRTCSDLfullmode <Mode>
+@findex -CRTCfullmode
+@item -CRTCfullmode <Mode>
 Set the fullscreen mode
-(@code{CrtcSDLFullscreenMode})
+(@code{CrtcFullscreenMode})
 (xcbm2 and xpet only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
@@ -16262,10 +16262,10 @@ Enable/Disable fullscreen
 (@code{CrtcFullscreen=1}, @code{CrtcFullscreen=0})
 (xcbm2 and xpet only).
 
-@findex -TEDSDLfullmode
-@item -TEDSDLfullmode <Mode>
+@findex -TEDfullmode
+@item -TEDfullmode <Mode>
 Set the fullscreen mode
-(@code{TEDSDLFullscreenMode})
+(@code{TEDFullscreenMode})
 (xplus4 only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
@@ -16276,10 +16276,10 @@ Enable/Disable fullscreen
 (@code{TEDFullscreen=1}, @code{TEDFullscreen=0})
 (xplus4 only).
 
-@findex -VDCSDLfullmode
-@item -VDCSDLfullmode <Mode>
+@findex -VDCfullmode
+@item -VDCfullmode <Mode>
 Set the fullscreen mode
-(@code{VDCSDLFullscreenMode})
+(@code{VDCFullscreenMode})
 (x128 only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
@@ -16290,10 +16290,10 @@ Enable/Disable fullscreen
 (@code{VDCFullscreen=1}, @code{VDCFullscreen=0})
 (x128 only).
 
-@findex -VICSDLfullmode
-@item -VICSDLfullmode <Mode>
+@findex -VICfullmode
+@item -VICfullmode <Mode>
 Set the fullscreen mode
-(@code{VICSDLFullscreenMode})
+(@code{VICFullscreenMode})
 (xvic only).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
@@ -16304,10 +16304,10 @@ Enable/Disable fullscreen
 (@code{VICFullscreen=1}, @code{VICFullscreen=0})
 (xvic only).
 
-@findex -VICIISDLfullmode
-@item -VICIISDLfullmode <Mode>
+@findex -VICIIfullmode
+@item -VICIIfullmode <Mode>
 Set the fullscreen mode
-(@code{VICIISDLFullscreenMode})
+(@code{VICIIFullscreenMode})
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 (0: use desktop resolution, 1: switch to @code{SDLCustomWidth}, @code{SDLCustomHeight})
 
