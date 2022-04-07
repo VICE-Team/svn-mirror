@@ -121,9 +121,6 @@ struct cap_fullscreen_s {
     /* FIXME: get rid of as much as possible of this. */
     int (*enable)(struct video_canvas_s *canvas, int enable);
     int (*mode[FULLSCREEN_MAXDEV])(struct video_canvas_s *canvas, int mode);
-    /* needed in SDL */
-    int (*double_size)(struct video_canvas_s *canvas, int double_size);
-    int (*double_scan)(struct video_canvas_s *canvas, int double_scan);
 };
 typedef struct cap_fullscreen_s cap_fullscreen_t;
 
@@ -225,8 +222,6 @@ struct video_render_config_s {
     struct video_render_color_tables_s color_tables;
     /* FIXME: get rid of as much as possible of the following: */
     int fullscreen_enabled;
-    int fullscreen_double_size_enabled;
-    int fullscreen_double_scan_enabled;
     int fullscreen_mode[FULLSCREEN_MAXDEV];
 };
 typedef struct video_render_config_s video_render_config_t;
