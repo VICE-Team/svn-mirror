@@ -58,6 +58,7 @@ SUBDIRS = \
 	gfxoutputdrv \
 	printerdrv \
 	rs232drv \
+	samplerdrv \
 	sid \
 	monitor \
 	core \
@@ -101,6 +102,7 @@ DIST_SUBDIRS = \
 	gfxoutputdrv \
 	printerdrv \
 	rs232drv \
+	samplerdrv \
 	sid \
 	monitor \
 	core \
