@@ -141,28 +141,29 @@ static cmdline_option_t cmdline_options_chip_palette[] =
     CMDLINE_LIST_END
 };
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 static const char * const cname_chip_fullscreen[] =
 {
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
     "-", "full", "Fullscreen",
     "+", "full", "Fullscreen",
-#endif
     NULL
 };
+#endif
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 static cmdline_option_t cmdline_options_chip_fullscreen[] =
 {
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)1,
       NULL, "Enable fullscreen" },
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)0,
       NULL, "Disable fullscreen" },
-#endif
     CMDLINE_LIST_END
 };
+#endif
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 static const char * const cname_chip_fullscreen_mode[] =
 {
     "-", "fullmode", "FullscreenMode",
@@ -176,6 +177,7 @@ static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
       "<Mode>", "Select fullscreen mode" },
     CMDLINE_LIST_END
 };
+#endif
 
 static const char * const cname_chip_colors[] =
 {
@@ -312,9 +314,6 @@ int video_cmdline_options_chip_init(const char *chipname,
     }
 
     /* video render filters */
-    /* FIXME: scale2x is not available for all videochips
-              (video_chip_cap->scale2x_allowed) */
-
     for (i = 0; cname_chip_render_filter[i * 3] != NULL; i++) {
         cmdline_options_chip_render_filter[i].name
             = util_concat(cname_chip_render_filter[i * 3], chipname,

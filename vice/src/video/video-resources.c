@@ -178,7 +178,6 @@ static int set_chip_rendermode(int val, void *param)
     dsize = util_concat(chip, "DoubleSize", NULL);
 
     canvas->videoconfig->filter = val;
-    canvas->videoconfig->scale2x = 0; /* FIXME: remove this */
     canvas->videoconfig->color_tables.updated = 0;
     err = 0;
     switch (val) {
@@ -191,7 +190,6 @@ static int set_chip_rendermode(int val, void *param)
             if (resources_set_int(dsize, 1) < 0) {
                 err = 1;
             }
-            canvas->videoconfig->scale2x = 1; /* FIXME: remove this */
             break;
     }
 
@@ -215,6 +213,7 @@ static resource_int_t resources_chip_rendermode[] =
     RESOURCE_INT_LIST_END
 };
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 static int set_fullscreen_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
@@ -224,7 +223,9 @@ static int set_fullscreen_enabled(int value, void *param)
     canvas->videoconfig->fullscreen_enabled = val;
     return (video_chip_cap->fullscreen.enable)(canvas, val);
 }
+#endif
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 static const char * const vname_chip_fullscreen[] = {
     "Fullscreen", NULL
 };
@@ -244,12 +245,13 @@ static int set_fullscreen_mode(int val, void *param)
 
     unsigned device = video_resource_chip_mode->device;
 
-
     canvas->videoconfig->fullscreen_mode[device] = val;
 
     return (video_chip_cap->fullscreen.mode[device])(canvas, val);
 }
+#endif
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 /* <CHIP>SDLFullscreenMode */
 static const char * const vname_chip_fullscreen_mode[] = { "FullscreenMode", NULL };
 
@@ -259,6 +261,7 @@ static resource_int_t resources_chip_fullscreen_mode[] =
       NULL, set_fullscreen_mode, NULL },
     RESOURCE_INT_LIST_END
 };
+#endif
 
 static int set_ext_palette(int val, void *param)
 {
@@ -501,6 +504,7 @@ static resource_int_t resources_chip_crtemu[] =
 static video_resource_chip_mode_t *resource_chip_modes[RES_CHIP_MODE_MAX];
 static int resource_chip_modes_num = 0;
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 static video_resource_chip_mode_t *get_resource_chip_mode(void)
 {
     video_resource_chip_mode_t *p;
@@ -513,6 +517,7 @@ static video_resource_chip_mode_t *get_resource_chip_mode(void)
     }
     return p;
 }
+#endif
 
 static void shutdown_resource_chip_mode(void)
 {

@@ -60,8 +60,8 @@ void video_render_pal_ntsc_main(video_render_config_t *config,
     rendermode = config->rendermode;
     doublescan = config->doublescan;
     colortab = &config->color_tables;
-    scale2x = config->scale2x;
 
+    scale2x = (config->filter == VIDEO_FILTER_SCALE2X);
     crtemulation = (config->filter == VIDEO_FILTER_CRT);
 
     /*
