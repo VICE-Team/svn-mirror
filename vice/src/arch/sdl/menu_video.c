@@ -332,11 +332,11 @@ UI_MENU_DEFINE_INT(Window0Height)
     SDL_MENU_ITEM_TITLE("Fullscreen mode"),         \
     { "Automatic",                                  \
       MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_##chip##SDLFullscreenMode_callback,     \
+      radio_##chip##FullscreenMode_callback,     \
       (ui_callback_data_t)FULLSCREEN_MODE_AUTO },   \
     { "Custom",                                     \
       MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_##chip##SDLFullscreenMode_callback,     \
+      radio_##chip##FullscreenMode_callback,     \
       (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM }, \
     SDL_MENU_ITEM_SEPARATOR,                        \
     SDL_MENU_ITEM_TITLE("Custom resolution"),       \
@@ -479,7 +479,7 @@ UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
-UI_MENU_DEFINE_RADIO(VICIISDLFullscreenMode)
+UI_MENU_DEFINE_RADIO(VICIIFullscreenMode)
 
 static const ui_menu_entry_t vicii_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(VICII)
@@ -497,7 +497,7 @@ UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCStretchVertical)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCFullscreen)
-UI_MENU_DEFINE_RADIO(VDCSDLFullscreenMode)
+UI_MENU_DEFINE_RADIO(VDCFullscreenMode)
 
 static const ui_menu_entry_t vdc_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(VDC)
@@ -513,7 +513,7 @@ static const ui_menu_entry_t vdc_size_menu[] = {
 /* Crtc size menu */
 
 UI_MENU_DEFINE_TOGGLE(CrtcFullscreen)
-UI_MENU_DEFINE_RADIO(CrtcSDLFullscreenMode)
+UI_MENU_DEFINE_RADIO(CrtcFullscreenMode)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcStretchVertical)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
@@ -534,7 +534,7 @@ static const ui_menu_entry_t crtc_size_menu[] = {
 UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
-UI_MENU_DEFINE_RADIO(TEDSDLFullscreenMode)
+UI_MENU_DEFINE_RADIO(TEDFullscreenMode)
 
 static const ui_menu_entry_t ted_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(TED)
@@ -551,7 +551,7 @@ static const ui_menu_entry_t ted_size_menu[] = {
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICFullscreen)
-UI_MENU_DEFINE_RADIO(VICSDLFullscreenMode)
+UI_MENU_DEFINE_RADIO(VICFullscreenMode)
 
 static const ui_menu_entry_t vic_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(VIC)

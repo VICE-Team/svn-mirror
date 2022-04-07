@@ -223,9 +223,8 @@ static int set_fullscreen_enabled(int value, void *param)
     canvas->videoconfig->fullscreen_enabled = val;
     return (video_chip_cap->fullscreen.enable)(canvas, val);
 }
-#endif
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+/* <CHIP>Fullscreen */
 static const char * const vname_chip_fullscreen[] = {
     "Fullscreen", NULL
 };
@@ -236,7 +235,9 @@ static resource_int_t resources_chip_fullscreen_int[] =
       NULL, set_fullscreen_enabled, NULL },
     RESOURCE_INT_LIST_END
 };
+#endif
 
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 static int set_fullscreen_mode(int val, void *param)
 {
     video_resource_chip_mode_t *video_resource_chip_mode = (video_resource_chip_mode_t *)param;
@@ -249,10 +250,8 @@ static int set_fullscreen_mode(int val, void *param)
 
     return (video_chip_cap->fullscreen.mode[device])(canvas, val);
 }
-#endif
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
-/* <CHIP>SDLFullscreenMode */
+/* <CHIP>FullscreenMode (SDL only) */
 static const char * const vname_chip_fullscreen_mode[] = { "FullscreenMode", NULL };
 
 static resource_int_t resources_chip_fullscreen_mode[] =
@@ -616,10 +615,9 @@ int video_resources_chip_init(const char *chipname,
             resource_chip_mode->device = 0;
 
             if (machine_class != VICE_MACHINE_VSID) {
-                /* <CHIP>SDLFullscreenMode */
+                /* <CHIP>FullscreenMode */
                 resources_chip_fullscreen_mode[0].name
                     = util_concat(chipname,
-                                  "SDL",
                                   vname_chip_fullscreen_mode[0], NULL);
                 resources_chip_fullscreen_mode[0].value_ptr
                     = &((*canvas)->videoconfig->fullscreen_mode[0]);
