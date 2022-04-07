@@ -425,7 +425,6 @@ void viacore_reset(via_context_t *via_context)
     via_context->ca2_out_state = true;
     via_context->cb1_out_state = true;
     via_context->cb2_out_state = true;
-    via_context->cb2_in_state = true;
     (via_context->set_ca2)(via_context, via_context->ca2_out_state);      /* input = high */
     (via_context->set_cb2)(via_context, via_context->cb2_out_state);      /* input = high */
 
@@ -1300,7 +1299,8 @@ static void viacore_t1_zero_alarm(CLOCK offset, void *data)
     via_context->t1_pb7 ^= 0x80;
     VIALOG2("viacore_t1_zero_alarm: set VIA_IM_T1\n");
     via_context->ifr |= VIA_IM_T1;
-    update_myviairq_rclk(via_context, rclk);
+    /* It takes an extra cycle after the flag before the interrupt happens */
+    update_myviairq_rclk(via_context, rclk + 1);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1688,7 +1688,7 @@ static inline void do_shiftregister(CLOCK offset, via_context_t *via_context)
              * a mode with "enabled" counter.
              */
             if (IS_SR_FREE_RUNNING()) {
-                via_context->shift_state = 0;
+                via_context->shift_state = START_SHIFTING;
             } else {
                 via_context->ifr |= VIA_IM_SR;
                 update_myviairq_rclk(via_context, rclk);
@@ -1746,6 +1746,10 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->via[8] = 0xff;
     via_context->via[9] = 0xff;
 
+    /* Not internal but external state, really, so not set on reset */
+    via_context->cb1_in_state = true;
+    via_context->cb2_in_state = true;
+
     via_context->sr_underflow = NULL;
     via_context->set_cb1 = NULL;
     via_context->t2_irq_allowed = false;
@@ -1762,7 +1766,7 @@ void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,
 
     via_context->alarm_context = alarm_context;
 
-    buffer = lib_msprintf("%sT1", via_context->myname);
+    buffer = lib_msprintf("%sT1zero", via_context->myname);
     via_context->t1_zero_alarm = alarm_new(alarm_context, buffer, viacore_t1_zero_alarm, via_context);
     lib_free(buffer);
 
