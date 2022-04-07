@@ -372,6 +372,7 @@ int video_cmdline_options_chip_init(const char *chipname,
     /* fullscreen options */
 #if defined(USE_SDLUI) || defined(USE_SDL2UI)
     {
+        /* <CHIP>Fullscreen */
         for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {
             cmdline_options_chip_fullscreen[i].name
                 = util_concat(cname_chip_fullscreen[i * 3], chipname,
@@ -389,6 +390,7 @@ int video_cmdline_options_chip_init(const char *chipname,
             lib_free(cmdline_options_chip_fullscreen[i].resource_name);
         }
 
+        /* <CHIP>SDLFullscreenMode */
         {
             for (i = 0; cname_chip_fullscreen_mode[i * 3] != NULL; i++) {
                 cmdline_options_chip_fullscreen_mode[i].name

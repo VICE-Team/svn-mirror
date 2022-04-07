@@ -85,12 +85,6 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
     return 0;
 }
 
-static int fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
-{
-    DBG(("%s: %i", __func__, enable));
-    return 0;
-}
-
 static int fullscreen_double_size(struct video_canvas_s *canvas, int double_size)
 {
     DBG(("%s: %i", __func__, double_size));
@@ -116,7 +110,6 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
     DBG(("%s", __func__));
 
     cap_fullscreen->enable = fullscreen_enable;
-    cap_fullscreen->statusbar = fullscreen_statusbar;
     cap_fullscreen->double_size = fullscreen_double_size;
     cap_fullscreen->double_scan = fullscreen_double_scan;
     cap_fullscreen->mode[0] = fullscreen_mode_sdl;

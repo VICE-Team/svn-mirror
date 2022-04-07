@@ -120,8 +120,6 @@ typedef struct cap_render_s cap_render_t;
 struct cap_fullscreen_s {
     /* FIXME: get rid of as much as possible of this. */
     int (*enable)(struct video_canvas_s *canvas, int enable);
-    int (*statusbar)(struct video_canvas_s *canvas, int enable);
-    int (*device)(struct video_canvas_s *canvas, const char *device);
     int (*mode[FULLSCREEN_MAXDEV])(struct video_canvas_s *canvas, int mode);
     /* needed in SDL */
     int (*double_size)(struct video_canvas_s *canvas, int double_size);
@@ -229,7 +227,6 @@ struct video_render_config_s {
     struct video_render_color_tables_s color_tables;
     /* FIXME: get rid of as much as possible of the following: */
     int fullscreen_enabled;
-    int fullscreen_statusbar_enabled;
     int fullscreen_double_size_enabled;
     int fullscreen_double_scan_enabled;
     int fullscreen_mode[FULLSCREEN_MAXDEV];

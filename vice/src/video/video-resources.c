@@ -218,76 +218,21 @@ static resource_int_t resources_chip_rendermode[] =
 static int set_fullscreen_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
-    int r = 0;
     video_canvas_t *canvas = (video_canvas_t *)param;
     video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
 
     canvas->videoconfig->fullscreen_enabled = val;
-
-    if (val) {
-        r = (video_chip_cap->fullscreen.enable)(canvas, val);
-        (void) (video_chip_cap->fullscreen.statusbar)
-            (canvas, canvas->videoconfig->fullscreen_statusbar_enabled);
-    } else {
-        /* always show statusbar when coming back to window mode */
-        (void) (video_chip_cap->fullscreen.statusbar)(canvas, 1);
-        r = (video_chip_cap->fullscreen.enable)(canvas, val);
-    }
-
-    return r;
+    return (video_chip_cap->fullscreen.enable)(canvas, val);
 }
-
-static int set_fullscreen_statusbar(int value, void *param)
-{
-    int val = value ? 1 : 0;
-    video_canvas_t *canvas = (video_canvas_t *)param;
-    video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
-
-    canvas->videoconfig->fullscreen_statusbar_enabled = val;
-
-    return (video_chip_cap->fullscreen.statusbar)(canvas, val);
-}
-
-#if 0
-/* FIXME: unused ?? */
-static int set_fullscreen_double_size_enabled(int val, void *param)
-{
-    video_canvas_t *canvas = (video_canvas_t *)param;
-    video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
-
-    canvas->videoconfig->fullscreen_double_size_enabled = val;
-
-    return (video_chip_cap->fullscreen.double_size)(canvas, val);
-}
-
-static int set_fullscreen_double_scan_enabled(int val, void *param)
-{
-    video_canvas_t *canvas = (video_canvas_t *)param;
-    video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
-
-    canvas->videoconfig->fullscreen_double_scan_enabled = val;
-
-    return (video_chip_cap->fullscreen.double_scan)(canvas, val);
-}
-#endif
 
 static const char * const vname_chip_fullscreen[] = {
-    "Fullscreen", "FullscreenStatusbar", NULL
+    "Fullscreen", NULL
 };
 
 static resource_int_t resources_chip_fullscreen_int[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_fullscreen_enabled, NULL },
-    { NULL, 0, RES_EVENT_NO, NULL,
-      NULL, set_fullscreen_statusbar, NULL },
-#if 0
-    /* if 0'ed, because they don't seem to get initialized at all */
-    { NULL, 0, RES_EVENT_NO, NULL,
-      NULL, set_fullscreen_double_size_enabled, NULL },
-    { NULL, 0, RES_EVENT_NO, NULL,
-      NULL, set_fullscreen_double_scan_enabled, NULL },
-#endif
     RESOURCE_INT_LIST_END
 };
 
@@ -649,12 +594,6 @@ int video_resources_chip_init(const char *chipname,
             resources_chip_fullscreen_int[0].value_ptr
                 = &((*canvas)->videoconfig->fullscreen_enabled);
             resources_chip_fullscreen_int[0].param = (void *)*canvas;
-            /* <CHIP>FullscreenStatusbar */
-            resources_chip_fullscreen_int[1].name
-                = util_concat(chipname, vname_chip_fullscreen[1], NULL);
-            resources_chip_fullscreen_int[1].value_ptr
-                = &((*canvas)->videoconfig->fullscreen_statusbar_enabled);
-            resources_chip_fullscreen_int[1].param = (void *)*canvas;
 
             if (resources_register_int(resources_chip_fullscreen_int) < 0) {
                 return -1;
@@ -664,7 +603,6 @@ int video_resources_chip_init(const char *chipname,
             lib_free(resources_chip_fullscreen_int[1].name);
         } else {
             set_fullscreen_enabled(0, (void *)*canvas);
-            set_fullscreen_statusbar(0, (void *)*canvas);
         }
 
         {
