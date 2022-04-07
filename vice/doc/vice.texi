@@ -15965,11 +15965,6 @@ Integer specifying the fullscreen mode
 Boolean specifying whether to use fullscreen mode or not
 (xcbm2 and xpet only).
 
-@vindex CrtcFullscreenStatusbar
-@item CrtcFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
-(xcbm2 and xpet only).
-
 @vindex TEDSDLFullscreenMode
 @item TEDSDLFullscreenMode
 Integer specifying the fullscreen mode
@@ -15979,11 +15974,6 @@ Integer specifying the fullscreen mode
 @vindex TEDFullscreen
 @item TEDFullscreen
 Boolean specifying whether to use fullscreen mode or not
-(xplus4 only).
-
-@vindex TEDFullscreenStatusbar
-@item TEDFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
 (xplus4 only).
 
 @vindex VDCSDLFullscreenMode
@@ -15997,11 +15987,6 @@ Integer specifying the fullscreen mode
 Boolean specifying whether to use fullscreen mode or not
 (x128 only).
 
-@vindex VDCFullscreenStatusbar
-@item VDCFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
-(x128 only).
-
 @vindex VICSDLFullscreenMode
 @item VICSDLFullscreenMode
 Integer specifying the fullscreen mode
@@ -16013,11 +15998,6 @@ Integer specifying the fullscreen mode
 Boolean specifying whether to use fullscreen mode or not
 (xvic only).
 
-@vindex VICFullscreenStatusbar
-@item VICFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
-(xvic only).
-
 @vindex VICIISDLFullscreenMode
 @item VICIISDLFullscreenMode
 Integer specifying the fullscreen mode
@@ -16027,11 +16007,6 @@ Integer specifying the fullscreen mode
 @vindex VICIIFullscreen
 @item VICIIFullscreen
 Boolean specifying whether to use fullscreen mode or not
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-
-@vindex VICIIFullscreenStatusbar
-@item VICIIFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @end table
@@ -16488,19 +16463,9 @@ Integers specifying the position and size of the (second) emulator window
 Boolean specifying whether to use fullscreen mode or not
 (xcbm2 and xpet only).
 
-@vindex CrtcFullscreenStatusbar
-@item CrtcFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
-(xcbm2 and xpet only).
-
 @vindex TEDFullscreen
 @item TEDFullscreen
 Boolean specifying whether to use fullscreen mode or not
-(xplus4 only).
-
-@vindex TEDFullscreenStatusbar
-@item TEDFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
 (xplus4 only).
 
 @vindex VDCFullscreen
@@ -16508,29 +16473,14 @@ Boolean specifying whether to show the status bar in fullscreen mode or not
 Boolean specifying whether to use fullscreen mode or not
 (x128 only).
 
-@vindex VDCFullscreenStatusbar
-@item VDCFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
-(x128 only).
-
 @vindex VICFullscreen
 @item VICFullscreen
 Boolean specifying whether to use fullscreen mode or not
 (xvic only).
 
-@vindex VICFullscreenStatusbar
-@item VICFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
-(xvic only).
-
 @vindex VICIIFullscreen
 @item VICIIFullscreen
 Boolean specifying whether to use fullscreen mode or not
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-
-@vindex VICIIFullscreenStatusbar
-@item VICIIFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex JoyDevice1
