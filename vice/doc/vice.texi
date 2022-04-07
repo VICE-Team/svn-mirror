@@ -15914,9 +15914,11 @@ Integer specifying the custom fullscreen resolution height.
 @item KbdStatusbar
 Boolean specifying whether the keyboard-status bar is enabled.
 
-@vindex SDL2Renderer
-@item SDL2Renderer
-String specifying the preferred SDL2 renderer.
+@vindex SDL2Backend
+@item SDL2Backend
+String specifying the preferred SDL2 backend.
+(See startup log for available backends, valid ones might be eg: software, opengl,
+direct3d, direct3d11, opengles2)
 
 @vindex Window0Width
 @item Window0Width
@@ -16215,10 +16217,12 @@ Enable/Disable keyboard-status bar (when status bar is enabled)
 Set OpenGL filtering mode (0 = nearest, 1 = linear)
 (@code{SDLGLFilter}).
 
-@findex -sdl2renderer
-@item -sdl2renderer <renderer name>
-Set the preferred SDL2 renderer
-(@code{SDL2Renderer}).
+@findex -sdl2backend
+@item -sdl2backend <renderer name>
+Set the preferred SDL2 backend
+(@code{SDL2Backend}).
+See startup log for available backends, valid ones might be eg: software, opengl,
+direct3d, direct3d11, opengles2)
 
 @findex -joydev1
 @item -joydev1 <0-3> / <0-4>

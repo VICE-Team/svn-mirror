@@ -372,7 +372,7 @@ static resource_string_t resources_string[] = {
     /* CAUTION: position hardcoded below */
     { "AspectRatio", NULL, RES_EVENT_NO, NULL,
       &aspect_ratio_s, set_aspect_ratio, NULL },
-    { "SDL2Renderer", "", RES_EVENT_NO, NULL,
+    { "SDL2Backend", "", RES_EVENT_NO, NULL,
       &sdl2_renderer_name, set_sdl2_renderer_name, NULL },
     RESOURCE_STRING_LIST_END
 };
@@ -505,9 +505,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdlglfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLGLFilter", NULL,
       "<mode>", "Set OpenGL filtering mode (0 = nearest, 1 = linear)" },
-    { "-sdl2renderer", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDL2Renderer", NULL,
-      "<renderer name>", "Set the preferred SDL2 renderer" },
+    { "-sdl2backend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SDL2Backend", NULL,
+      "<backend name>", "Set the preferred SDL2 backend" },
 #ifdef USE_SDL2UI
     { "-sdl2dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SDL2DualWindow", (void *)1,
@@ -708,7 +708,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
             }
         }
         if (drv_index == -1) {
-            log_warning(sdlvideo_log, "Resource preferred renderer %s not available, trying arch default renderer(s)", sdl2_renderer_name);
+            log_warning(sdlvideo_log, "Resource preferred backend %s not available, trying arch default backend(s)", sdl2_renderer_name);
         }
     }
 
@@ -718,7 +718,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
     lib_free(renderlist);
     renderlist = NULL;
 
-    log_message(sdlvideo_log, "Available Renderers: %s", rendername);
+    log_message(sdlvideo_log, "Available backends: %s", rendername);
 
     container->renderer = SDL_CreateRenderer(container->window,
                                              drv_index,
@@ -731,7 +731,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
     }
 
     SDL_GetRendererInfo(container->renderer, &info);
-    log_message(sdlvideo_log, "SDL2 renderer driver selected: %s", info.name);
+    log_message(sdlvideo_log, "SDL2 backend driver selected: %s", info.name);
     SDL_SetRenderDrawColor(container->renderer, 0, 0, 0, 255);
     SDL_RenderClear(container->renderer);
     SDL_RenderPresent(container->renderer);
