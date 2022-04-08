@@ -102,72 +102,72 @@ static struct model_s c64models[] = {
     /* C64 PAL */
     { MACHINE_SYNC_PAL, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_REV3 },
+      C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* C64C PAL */
     { MACHINE_SYNC_PAL, NEW_CIA, NEW_SID, BOARD_C64,
       IEC_HARD_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_REV3 },
+      C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* C64 OLD PAL */
     { MACHINE_SYNC_PAL, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_REV2 },
+      C64_CHARGEN_NAME, C64_KERNAL_REV2 },
 
     /* C64 NTSC */
     { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_REV3 },
+      C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* C64C NTSC */
     { MACHINE_SYNC_NTSC, NEW_CIA, NEW_SID, BOARD_C64,
       IEC_HARD_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_REV3 },
+      C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* C64 OLD NTSC */
     { MACHINE_SYNC_NTSCOLD, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_REV1 },
+      C64_CHARGEN_NAME, C64_KERNAL_REV1 },
 
     /* C64 PAL-N */
     { MACHINE_SYNC_PALN, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_REV3 },
+      C64_CHARGEN_NAME, C64_KERNAL_REV3 },
 
     /* SX64 PAL, FIXME: guessed */
     { MACHINE_SYNC_PAL, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_SX64 },
+      C64_CHARGEN_NAME, C64_KERNAL_SX64 },
 
     /* SX64 NTSC, FIXME: guessed */
     { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_SX64 },
+      C64_CHARGEN_NAME, C64_KERNAL_SX64 },
 
     /* C64 Japanese, FIXME: guessed */
     { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "jpchrgen", C64_KERNAL_JAP },
+      C64_CHARGEN_JAP_NAME, C64_KERNAL_JAP },
 
     /* C64 GS, FIXME: guessed */
     { MACHINE_SYNC_PAL, NEW_CIA, NEW_SID, BOARD_C64,
       IEC_HARD_RESET, NO_DATASETTE, NO_IEC, NO_USERPORT, NO_KEYBOARD,
-      "chargen", C64_KERNAL_GS64 },
+      C64_CHARGEN_NAME, C64_KERNAL_GS64 },
 
     /* PET64 PAL, FIXME: guessed */
     { MACHINE_SYNC_PAL, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_4064 },
+      C64_CHARGEN_NAME, C64_KERNAL_4064 },
 
     /* PET64 NTSC, FIXME: guessed */
     { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, BOARD_C64,
       IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_4064 },
+      C64_CHARGEN_NAME, C64_KERNAL_4064 },
 
     /* ultimax, FIXME: guessed */
     { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, BOARD_MAX,
       IEC_SOFT_RESET, HAS_DATASETTE, NO_IEC, NO_USERPORT, HAS_KEYBOARD,
-      "chargen", C64_KERNAL_NONE },
+      C64_CHARGEN_NAME, C64_KERNAL_NONE },
 };
 
 /* ------------------------------------------------------------------------- */
@@ -193,7 +193,7 @@ static int c64model_get_temp(int video, int sid_model, int glue_logic,
             && (c64models[i].board == board)
             && (c64models[i].iecreset == iecreset)
             && (c64models[i].kernalrev == kernalrev)
-            && (chargen ? !strcmp(c64models[i].chargenname, chargen) : 1)) {
+            && (chargen && (strcmp(c64models[i].chargenname, chargen) == 0))) {
             return i;
         }
     }
@@ -212,8 +212,7 @@ int c64model_get_model(c64model_details_t *details)
 int c64model_get(void)
 {
     int video, sid_model, cia1model, cia2model, board, iecreset, kernalrev;
-    char c[0x10];
-    const char *chargen = c;
+    const char *chargen;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
         || (resources_get_int("SidModel", &sid_model) < 0)

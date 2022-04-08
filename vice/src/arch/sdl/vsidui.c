@@ -38,6 +38,7 @@
 
 #include "debug.h"
 #include "c64mem.h"
+#include "c64rom.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -388,7 +389,7 @@ int vsid_ui_init(void)
     uisid_menu_create();
 
     sdl_ui_set_main_menu(vsid_main_menu);
-    sdl_ui_font_init("chargen", 0, 0x800, 0);
+    sdl_ui_font_init(C64_CHARGEN_NAME, 0, 0x800, 0);
 
     sdl_vsid_draw_init(draw_func);
     sdl_vsid_activate();

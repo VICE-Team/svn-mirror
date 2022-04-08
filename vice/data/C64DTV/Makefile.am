@@ -1,9 +1,9 @@
 c64dtvdir = $(VICE_DATADIR)/C64DTV
 
 roms = \
-	basic \
-	chargen \
-	kernal \
+	basic-901226-01.bin \
+	chargen-901225-01.bin \
+	kernal-901227-03.bin \
 	dtvrom.bin
 
 romsets = \

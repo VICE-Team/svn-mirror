@@ -2,8 +2,8 @@ scpu64dir = $(VICE_DATADIR)/SCPU64
 
 roms = \
 	scpu64 \
-	chargen \
-	jpchrgen
+	chargen-901225-01.bin \
+	chargen-906143-02.bin
 
 romsets = \
 	default.vrs
