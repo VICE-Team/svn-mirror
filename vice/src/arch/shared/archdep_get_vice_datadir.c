@@ -50,10 +50,12 @@ char *archdep_get_vice_datadir(void)
     char *path;
 
 #ifdef WINDOWS_COMPILE
-# if defined(USE_SDLUI) || defined(USE_SDL2UI)
+# if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI)
     path = lib_strdup(archdep_boot_path());
-# else
+# elif defined(USE_GTK3UI)
     path = util_join_paths(archdep_boot_path(), "..", NULL);
+# else
+    /* any new UI should add code here to avoid build errors */
 # endif
 #elif defined(MACOS_COMPILE)
     if (archdep_is_macos_bindist()) {
@@ -62,6 +64,7 @@ char *archdep_get_vice_datadir(void)
         path = lib_strdup(VICE_DATADIR);
     }
 #else
+    /* TODO: Add proper implementation for Haiku using /boot/[system|home]/packages/vice */
     path = lib_strdup(VICE_DATADIR);
 #endif
     return path;
