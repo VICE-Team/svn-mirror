@@ -76,4 +76,5 @@ EXTRA_DIST = \
 	mousedrv.h \
 	ui.h \
 	uistatusbar.h \
-	videoarch.h
+	videoarch.h \
+	make-bindist_win32.sh
