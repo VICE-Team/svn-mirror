@@ -169,15 +169,15 @@ copy_bins()
     for b in $binaries; do
         binary="$TOPBUILDDIR/src/$b.exe"
         # check the binary exists
-        if [ ! -f "$binary" ]; then
+        if [ ! -f $binary ]; then
             echo "$SCRIPTNAME: error: missing binary $binary, run make first"
             exit 1
         fi
         verbose_echo ".. Copying $binary"
-        cp "$binary" "$BINDISTDIR"
+        cp $binary $BINDISTDIR
         if [ -n "$STRIP" ]; then
             verbose_echo ".. Stripping $binary"
-            $STRIP "$BINDISTDIR/$(basename $b).exe"
+            $STRIP $BINDISTDIR/$(basename $b).exe
         fi
     done
 }
@@ -187,12 +187,12 @@ copy_bins()
 copy_libs()
 {
     windir=$(cygpath -wW)
-    for lib in $(ntldd -R "$TOPBUILDDIR/src/x64sc.exe" \
+    for lib in $(ntldd -R $TOPBUILDDIR/src/x64sc.exe \
                  | sed -n 's/^.*=> \(.*\(dll\|DLL\)\).*$/\1/p'); do
         echo "$lib" | grep -Fq "$windir"
         if [ "$?" != "0" ]; then
             verbose_echo ".. Copying $lib"
-            cp "$lib" "$BINDISTDIR"
+            cp $lib $BINDISTDIR
         fi
     done
 }
@@ -201,17 +201,20 @@ copy_libs()
 # Copy data files: ROMs, romset files, palettes etc
 copy_data()
 {
-    verbose_echo ".. Creating data directory"
-    mkdir "$BINDISTDIR/data"
+    # create data/ dir to avoid deleting files in the root we might want to keep
+    verbose_echo ".. Creating temporary data directory"
+    mkdir $BINDISTDIR/data
     verbose_echo ".. Copying $TOPSRCDIR/data/*"
-    cp -R "$TOPSRCDIR/data" "$BINDISTDIR"
+    cp -R $TOPSRCDIR/data $BINDISTDIR
     verbose_echo ".. Deleting unwanted files"
-    find "$BINDISTDIR/data" -type f \
+    find $BINDISTDIR/data -type f \
         \( -name 'Makefile*' -o -name '*.vhk' -o -name '*.vjk' -o \
            -name '*.vjm' -o -name '*.vkm' -o -name '*.rc' -o -name '*.png' -o \
            -name '*.svg' -o -name '*.xml' -o -name '*.ttf' \) \
         -exec rm {} \;
-    rm -rfd "$BINDISTDIR/data/GLSL"
+    rm -rfd $BINDISTDIR/data/GLSL
+    mv $BINDISTDIR/data/* $BINDISTDIR
+    rmdir $BINDISTDIR/data
 }
 
 # Copy documentation files
@@ -220,11 +223,11 @@ copy_data()
 copy_docs()
 {
     docs="$TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $TOPSRCDIR/README $TOPBUILDDIR/doc/vice.pdf"
-    mkdir "$BINDISTDIR/doc"
+    mkdir $BINDISTDIR/doc
     for d in $docs; do
-        if [ -f "$d" ]; then
+        if [ -f $d ]; then
             verbose_echo ".. Copying $d"
-            cp "$d" "$BINDISTDIR/doc"
+            cp $d $BINDISTDIR/doc
         fi
     done
 }
@@ -233,19 +236,19 @@ copy_docs()
 create_archive()
 {
     if [ -f "$BINDISTZIP" ]; then
-        rm "$BINDISTZIP"
+        rm $BINDISTZIP
     fi
 
     # although we've set -q/-v in the info-zip command line options to enable
     # or disable output, 7z doesn't have any of those options, so we still have
     # to redirect to nul:
     if [ -z "$VERBOSE" ]; then
-        $ZIPEXE $ZIPOPT "$BINDISTZIP" "$BINDISTDIR" > /dev/null
+        $ZIPEXE $ZIPOPT $BINDISTZIP $BINDISTDIR > /dev/null
     else
-        $ZIPEXE $ZIPOPT "$BINDISTZIP" "$BINDISTDIR"
+        $ZIPEXE $ZIPOPT $BINDISTZIP $BINDISTDIR
     fi
     if [ "$?" = "0" ]; then
-        rm -rfd "$BINDISTDIR"
+        rm -rfd $BINDISTDIR
     fi
 }
 
@@ -388,12 +391,12 @@ fi
 
 
 # Create dist dir
-if [ -d "$BINDISTDIR" ]; then
+if [ -d $BINDISTDIR ]; then
     verbose_echo "Removing dist dir $BINDISTDIR"
-    rm -rfd "$BINDISTDIR"
+    rm -rfd $BINDISTDIR
 fi
 verbose_echo "Creating dist dir $BINDISTDIR"
-mkdir "$BINDISTDIR"
+mkdir $BINDISTDIR
 
 verbose_echo "Copying emulator binaries and tools"
 copy_bins
