@@ -238,13 +238,13 @@ static int set_hvsc_root(const char *path, void *param)
 
 
 static const resource_string_t resources_string[] = {
-    { "ChargenName", "chargen", RES_EVENT_NO, NULL,
+    { "ChargenName", C64_CHARGEN_NAME, RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &chargen_rom_name, set_chargen_rom_name, NULL },
-    { "KernalName", "kernal", RES_EVENT_NO, NULL,
+    { "KernalName", C64_KERNAL_REV3_NAME, RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &kernal_rom_name, set_kernal_rom_name, NULL },
-    { "BasicName", "basic", RES_EVENT_NO, NULL,
+    { "BasicName", C64_BASIC_NAME, RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &basic_rom_name, set_basic_rom_name, NULL },
     /* When empty the HVSC_BASE env var is used */

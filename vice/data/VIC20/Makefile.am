@@ -1,10 +1,12 @@
 vic20dir = $(VICE_DATADIR)/VIC20
 
 roms = \
-	basic \
-	chargen \
-	chargen-jp \
-	kernal
+	basic-901486-01.bin \
+	chargen-901460-03.bin \
+	chargen-901460-02.bin \
+	kernal.901486-02.bin \
+	kernal.901486-06.bin \
+	kernal.901486-07.bin
 
 romsets = \
 	default.vrs
@@ -17,7 +19,7 @@ palettes = \
 	PALette.vpl
 
 gtk3_hotkeys = \
-	gtk3-hotkeys.vhk
+	gtk3-hotkeys.vhk \
 	gtk3-hotkeys-mac.vhk
 
 gtk3_keymaps = \

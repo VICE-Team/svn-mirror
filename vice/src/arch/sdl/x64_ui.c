@@ -32,6 +32,7 @@
 
 #include "debug.h"
 #include "c64mem.h"
+#include "c64rom.h"
 #include "c64ui.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_c64cart.h"
@@ -249,7 +250,7 @@ int c64ui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(x64_main_menu);
-    sdl_ui_font_init("chargen", 0, 0x800, 0);
+    sdl_ui_font_init(C64_CHARGEN_NAME, 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_c64);
 
 #ifdef HAVE_FFMPEG

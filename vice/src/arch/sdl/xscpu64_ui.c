@@ -60,6 +60,7 @@
 #include "menu_speed.h"
 #include "menu_userport.h"
 #include "menu_video.h"
+#include "scpu64rom.h"
 #include "scpu64ui.h"
 #include "ui.h"
 #include "uifonts.h"
@@ -244,7 +245,7 @@ int scpu64ui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xscpu64_main_menu);
-    sdl_ui_font_init("chargen", 0, 0x800, 0);
+    sdl_ui_font_init(C64_CHARGEN_NAME, 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_c64);
 
 #ifdef HAVE_FFMPEG

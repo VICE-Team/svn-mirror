@@ -27,6 +27,9 @@
 #ifndef VICE_C64ROM_H
 #define VICE_C64ROM_H
 
+/* filenames used for the BASIC ROMs */
+#define C64_BASIC_NAME      "basic-901226-01.bin"
+
 /* unique IDs to refer to a kernal, used for the KernalRev resource */
 #define C64_KERNAL_UNKNOWN -1
 
@@ -52,6 +55,10 @@
 #define C64_KERNAL_4064_NAME    "kernal-901246-01.bin"
 
 #define C64_KERNAL_NONE_NAME    "kernal-none.bin"    /* dummy, used for the MAX machine, which has no kernal */
+
+/* filenames used for the chargen ROMs */
+#define C64_CHARGEN_NAME        "chargen-901225-01.bin"
+#define C64_CHARGEN_JAP_NAME    "chargen-906143-02.bin"
 
 /* simple additive checksum */
 #define C64_BASIC_CHECKSUM         15702

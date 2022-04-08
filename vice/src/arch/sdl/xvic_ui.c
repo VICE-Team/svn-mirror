@@ -67,6 +67,7 @@
 #include "uimenu.h"
 #include "vic.h"
 #include "victypes.h"
+#include "vic20rom.h"
 #include "vic20ui.h"
 #include "vic20memrom.h"
 #include "videoarch.h"
@@ -266,7 +267,7 @@ int vic20ui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xvic_main_menu);
-    sdl_ui_font_init("chargen", 0, 0x800, 0);
+    sdl_ui_font_init(VIC20_CHARGEN_NAME, 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_vic20);
 
 #ifdef HAVE_FFMPEG

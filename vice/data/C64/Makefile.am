@@ -1,9 +1,9 @@
 c64dir = $(VICE_DATADIR)/C64
 
 roms = \
-	basic \
-	chargen \
-	jpchrgen \
+	basic-901226-01.bin \
+	chargen-901225-01.bin \
+	chargen-906143-02.bin \
 	kernal-901227-01.bin \
 	kernal-901227-02.bin \
 	kernal-901227-03.bin \
