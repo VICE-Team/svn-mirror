@@ -261,19 +261,6 @@ static int set_pet2k_enabled(int val, void *param)
     return 0;
 }
 
-static int set_pet2kchar_enabled(int val, void *param)
-{
-    int i = (val) ? 1 : 0;
-
-    if (i != petres.pet2kchar) {
-        petres.pet2kchar = i;
-
-        /* function reverses itself -> no reload necessary */
-        petrom_convert_chargen_2k();
-    }
-    return 0;
-}
-
 static int set_eoiblank_enabled(int val, void *param)
 {
     int i = (val) ? 1 : 0;
@@ -386,7 +373,7 @@ static int set_pet_colour_bg(int val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    { "ChargenName", PET_CHARGEN_NAME, RES_EVENT_NO, NULL,
+    { "ChargenName", PET_CHARGEN2_NAME, RES_EVENT_NO, NULL,
       &petres.chargenName, set_chargen_rom_name, NULL },
     { "KernalName", PET_KERNAL4NAME, RES_EVENT_NO, NULL,
       &petres.kernalName, set_kernal_rom_name, NULL },
@@ -435,8 +422,6 @@ static const resource_int_t resources_int[] = {
       &petres.superpet, set_superpet_enabled, NULL },
     { "Basic1", 1, RES_EVENT_SAME, NULL,
       &petres.pet2k, set_pet2k_enabled, NULL },
-    { "Basic1Chars", 0, RES_EVENT_SAME, NULL,
-      &petres.pet2kchar, set_pet2kchar_enabled, NULL },
     { "EoiBlank", 0, RES_EVENT_SAME, NULL,
       &petres.eoiblank, set_eoiblank_enabled, NULL },
     { "Screen2001", 0, RES_EVENT_SAME, NULL,

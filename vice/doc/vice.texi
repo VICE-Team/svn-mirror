@@ -14515,11 +14515,6 @@ and disables/enables the 8x96 mappings.
 @item Basic1
 Boolean to enable/disable the patching of a version 1 kernal ROM to make the IEEE488 interface work.
 
-@vindex Basic1Chars
-@item Basic1Chars
-Boolean to enable/disable the exchanges of some characters in the character ROM
-that have changed between the first PET 2001 and all newer versions.
-
 @vindex EoiBlank
 @item EoiBlank
 Boolean to enable/disable the "blank screen on EOI" feature of the oldest PET 2001.
@@ -15150,12 +15145,6 @@ Set SuperPET CPU switch to 'Prog'
 @itemx +basic1
 Enable/disable patching the IEEE488 section of the PET2001 ROM when detected
 (@code{Basic1=1}, @code{Basic1=0}).
-
-@findex -basic1char, +basic1char
-@item -basic1char
-@itemx +basic1char
-Enable/disable PET 2001 character generator
-(@code{Basic1Chars=1}, @code{Basic1Chars=0}).
 
 @findex -eoiblank, +eoiblank
 @item -eoiblank

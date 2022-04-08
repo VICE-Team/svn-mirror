@@ -29,7 +29,8 @@
 
 #include "types.h"
 
-#define PET_CHARGEN_NAME        "characters-2.901447-10.bin"
+#define PET_CHARGEN1_NAME       "characters-1.901447-08.bin"
+#define PET_CHARGEN2_NAME       "characters-2.901447-10.bin"
 #define SUPERPET_CHARGEN_NAME   "characters.901640-01.bin"
 
 #define PET_KERNAL1NAME  "kernal-1.901439-04-07.bin"
@@ -115,7 +116,6 @@ typedef struct petinfo_s {
     int ramselA;                /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
     int kbd_type;               /* see pet-resources.h */
     int pet2k;                  /* 1 = do PET 2001 kernal patches */
-    int pet2kchar;              /* 1 = do PET 2001 chargen patches */
     int eoiblank;               /* 1 = EOI blanks screen */
     int screenmirrors2001;      /* 1 = 4x1K screen mirrors all over $8*** */
     int superpet;               /* 1 = enable SuperPET I/O */
@@ -143,7 +143,6 @@ typedef struct petres_s {
     int ramselA;                /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
     int kbd_type;               /* 1 = graphics, 0 = business (UK) */
     int pet2k;                  /* 1 = do PET 2001 kernal patches */
-    int pet2kchar;              /* 1 = do PET 2001 chargen patches */
     int eoiblank;               /* 1 = EOI blanks screen */
     int screenmirrors2001;      /* 1 = 4x1K screen mirrors all over $8*** */
     int superpet;               /* 1 = enable SuperPET I/O */
