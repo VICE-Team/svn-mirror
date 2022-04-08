@@ -19,6 +19,7 @@ roms = \
 	edit-4-80-b-60Hz.901474-03.bin \
 	edit-4-b-noCRTC.901474-02.bin \
 	chargen.de \
+	characters-1.901447-08.bin \
 	characters-2.901447-10.bin \
 	characters.901640-01.bin \
 	waterloo-a000.901898-01.bin \
