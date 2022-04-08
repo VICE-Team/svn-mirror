@@ -248,7 +248,7 @@ int petui_init_early(void)
 static const char *get_chargen_name(void)
 {
     if (machine_class == VICE_MACHINE_PET) {
-        return PET_CHARGEN_NAME;
+        return PET_CHARGEN2_NAME;
     }
     return "chargen";
 }
