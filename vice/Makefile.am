@@ -31,8 +31,10 @@ EXTRA_DIST = $(COMMON_EXTRA_DIST)
 
 if SUPPORT_X64
   X64_INCLUDED = yes
+  X64_ENABLE = "--enable-x64"
 else
   X64_INCLUDED = no
+  X64_ENABLE = ""
 endif
 
 
@@ -170,6 +172,51 @@ bindistzip:
 bindist7zip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
 endif USE_SDL2UI
+
+if USE_HEADLESSUI
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh \
+		--verbose \
+		--compiler-exe $(CC) \
+		--objdump-exe $(objdump) \
+		--strip-exe $(STRIP) \
+		--vice-version $(VICE_VERSION) \
+		--enable-arch @ENABLE_ARCH@ \
+		$(X64_ENABLE) \
+		--src-dir $(top_srcdir) \
+		--build-dir $(top_builddir) \
+		--cpu-type $(host_cpu)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh \
+		--verbose \
+		--compiler-exe $(CC) \
+		--objdump-exe $(objdump) \
+		--strip-exe $(STRIP) \
+		--vice-version $(VICE_VERSION) \
+		--enable-arch @ENABLE_ARCH@ \
+		$(X64_ENABLE) \
+		--src-dir $(top_srcdir) \
+		--build-dir $(top_builddir) \
+		--cpu-type $(host_cpu) \
+		--zip-type zip
+
+bindist7zip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh \
+		--verbose \
+		--compiler-exe $(CC) \
+		--objdump-exe $(objdump) \
+		--strip-exe $(STRIP) \
+		--vice-version $(VICE_VERSION) \
+		--enable-arch @ENABLE_ARCH@ \
+		$(X64_ENABLE) \
+		--src-dir $(top_srcdir) \
+		--build-dir $(top_builddir) \
+		--cpu-type $(host_cpu) \
+		--zip-type 7zip
+
+endif USE_HEADLESSUI
+
 
 endif WINDOWS_COMPILE
 
