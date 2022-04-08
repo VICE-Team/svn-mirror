@@ -120,7 +120,7 @@ set_zip_variables()
     if [ "x$ZIPTYPE" = "xzip" ]; then
         ZIPEXE="zip"
         ZIPEXT=".zip"
-        ZIPOPT="-r 9"
+        ZIPOPT="-r -9"
         if [ -n "$VERBOSE" ]; then
             ZIPOPT="$ZIPOPT -v"
         else
