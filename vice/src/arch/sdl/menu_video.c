@@ -665,15 +665,15 @@ static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
     int value = vice_ptr_to_int(param);
     int dual_window = 0;
 
-    resources_get_int("SDL2DualWindow", &dual_window);
+    resources_get_int("DualWindow", &dual_window);
 
     if (activated) {
         if (value < 2) {
             sdl_video_canvas_switch(value);
-            resources_set_int("SDL2DualWindow", 0);
+            resources_set_int("DualWindow", 0);
             sdl2_hide_second_window();
         } else if (value == 2) {
-            resources_set_int("SDL2DualWindow", 1);
+            resources_set_int("DualWindow", 1);
             sdl2_show_second_window();
         }
     } else {

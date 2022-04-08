@@ -12450,8 +12450,8 @@ Integer that specifies the video standard of the emulated machine
 @item C128HideVDC
 Boolean to enable/disable the VDC display window.
 
-@findex SDL2DualWindow
-@item SDL2DualWindow
+@findex DualWindow
+@item DualWindow
 Boolean to turn on dual-window rendering, opening two windows, one for each display.
 
 @end table
@@ -12514,10 +12514,10 @@ Set the C128 machine type
 Hide/show the VDC display window
 (@code{C128HideVDC=1}, @code{C128HideVDC=0}).
 
-@findex -sdl2dualwindow
-@item -sdl2dualwindow
+@findex -dualwindow
+@item -dualwindow
 Turn on dual-window rendering, opening two windows, one for each display.
-(@code{SDL2DualWindow}).
+(@code{DualWindow}).
 
 @end table
 
