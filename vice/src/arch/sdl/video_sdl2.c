@@ -412,7 +412,7 @@ static const resource_int_t resources_int[] = {
     { "SDLGLFilter", SDL_FILTER_LINEAR, RES_EVENT_NO, NULL,
       &sdl_gl_filter_res, set_sdl_gl_filter, NULL },
 #ifdef USE_SDL2UI
-    { "SDL2DualWindow", 0, RES_EVENT_NO, NULL,
+    { "DualWindow", 0, RES_EVENT_NO, NULL,
       &sdl2_dual_window, set_sdl2_dual_window, NULL },
 #endif
     { "VSync", 1, RES_EVENT_NO, NULL,
@@ -519,11 +519,11 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "SDL2Backend", NULL,
       "<backend name>", "Set the preferred SDL2 backend" },
 #ifdef USE_SDL2UI
-    { "-sdl2dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDL2DualWindow", (void *)1,
+    { "-dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "DualWindow", (void *)1,
       NULL, "Enable dual window rendering"},
-    { "+sdl2dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDL2DualWindow", (void *)0,
+    { "+dualwindow", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "DualWindow", (void *)0,
       NULL, "Disable dual window rendering"},
 #endif
     { "-vsync", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
@@ -1293,7 +1293,7 @@ void sdl_ui_init_finalize(void)
     int hide_vdc = 0;
     video_container_t* container = NULL;
 
-    resources_get_int("SDL2DualWindow", &dual_windows);
+    resources_get_int("DualWindow", &dual_windows);
     if (machine_class == VICE_MACHINE_C128) {
         resources_get_int("C128HideVDC", &hide_vdc);
     }
