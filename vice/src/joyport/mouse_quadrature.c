@@ -214,17 +214,19 @@ void  mouse_amiga_st_button_middle(int pressed)
     }
 }
 
-static int joyport_mouse_enable(int port, int joyportid)
+static int joyport_mouse_set_enabled(int port, int joyportid)
 {
     int mt;
 
     mouse_reset();
 
     if (joyportid == JOYPORT_ID_NONE) {
+        /* disabled, set mouse type to none */
         mouse_type = -1;
         return 0;
     }
 
+    /* convert joyport ID to mouse type */
     mt = mouse_id_to_type(joyportid);
 
     if (mt == -1) {
@@ -249,23 +251,23 @@ static int mouse_amiga_write_snapshot(struct snapshot_s *s, int port);
 static int mouse_amiga_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_amiga_joyport_device = {
-    "Mouse (Amiga)",                       /* name of the device */
-    JOYPORT_RES_ID_MOUSE,                  /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
-    JOYPORT_IS_NOT_LIGHTPEN,               /* device is NOT a lightpen */
-    JOYPORT_POT_OPTIONAL,                  /* device uses the potentiometer lines for the right and middle buttons, but could work without it */
-    JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
-    0,                                     /* NO output bits */
-    joyport_mouse_enable,                  /* device enable function */
-    joyport_mouse_poll_value,              /* digital line read function */
-    NULL,                                  /* NO digital line store function */
-    joyport_mouse_amiga_st_read_potx,      /* pot-x read function */
-    joyport_mouse_amiga_st_read_poty,      /* pot-y read function */
-    NULL,                                  /* NO powerup function */
-    mouse_amiga_write_snapshot,            /* device write snapshot function */
-    mouse_amiga_read_snapshot,             /* device read snapshot function */
-    NULL,                                  /* NO device hook function */
-    0                                      /* NO device hook function mask */
+    "Mouse (Amiga)",                  /* name of the device */
+    JOYPORT_RES_ID_MOUSE,             /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,             /* device uses the potentiometer lines for the right and middle buttons, but could work without it */
+    JOYSTICK_ADAPTER_ID_NONE,         /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,             /* device is a Mouse */
+    0,                                /* NO output bits */
+    joyport_mouse_set_enabled,        /* device enable/disable function */
+    joyport_mouse_poll_value,         /* digital line read function */
+    NULL,                             /* NO digital line store function */
+    joyport_mouse_amiga_st_read_potx, /* pot-x read function */
+    joyport_mouse_amiga_st_read_poty, /* pot-y read function */
+    NULL,                             /* NO powerup function */
+    mouse_amiga_write_snapshot,       /* device write snapshot function */
+    mouse_amiga_read_snapshot,        /* device read snapshot function */
+    NULL,                             /* NO device hook function */
+    0                                 /* NO device hook function mask */
 };
 
 /* Some prototypes are needed */
@@ -280,7 +282,7 @@ static joyport_t mouse_cx22_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_MOUSE,      /* device is a Mouse/Trackball */
     0,                         /* NO output bits */
-    joyport_mouse_enable,      /* device enable function */
+    joyport_mouse_set_enabled, /* device enable/disable function */
     joyport_mouse_poll_value,  /* digital line read function */
     NULL,                      /* NO digital line store function */
     NULL,                      /* NO pot-x read function */
@@ -298,23 +300,23 @@ static int mouse_st_write_snapshot(struct snapshot_s *s, int port);
 static int mouse_st_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_st_joyport_device = {
-    "Mouse (Atari ST)",                    /* name of the device */
-    JOYPORT_RES_ID_MOUSE,                  /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
-    JOYPORT_IS_NOT_LIGHTPEN,               /* device is NOT a lightpen */
-    JOYPORT_POT_OPTIONAL,                  /* device uses the potentiometer lines for the right button, but could work without it */
-    JOYSTICK_ADAPTER_ID_NONE,              /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_MOUSE,                  /* device is a Mouse */
-    0,                                     /* NO output bits */
-    joyport_mouse_enable,                  /* device enable function */
-    joyport_mouse_poll_value,              /* digital line read function */
-    NULL,                                  /* NO digital line store function */
-    joyport_mouse_amiga_st_read_potx,      /* pot-x read function */
-    joyport_mouse_amiga_st_read_poty,      /* pot-y read function */
-    NULL,                                  /* NO powerup function */
-    mouse_st_write_snapshot,               /* device write snapshot function */
-    mouse_st_read_snapshot,                /* device read snapshot function */
-    NULL,                                  /* NO device hook function */
-    0                                      /* NO device hook function mask */
+    "Mouse (Atari ST)",               /* name of the device */
+    JOYPORT_RES_ID_MOUSE,             /* device uses the mouse for input, only 1 mouse type device can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,          /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,             /* device uses the potentiometer lines for the right button, but could work without it */
+    JOYSTICK_ADAPTER_ID_NONE,         /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_MOUSE,             /* device is a Mouse */
+    0,                                /* NO output bits */
+    joyport_mouse_set_enabled,        /* device enable/disable function */
+    joyport_mouse_poll_value,         /* digital line read function */
+    NULL,                             /* NO digital line store function */
+    joyport_mouse_amiga_st_read_potx, /* pot-x read function */
+    joyport_mouse_amiga_st_read_poty, /* pot-y read function */
+    NULL,                             /* NO powerup function */
+    mouse_st_write_snapshot,          /* device write snapshot function */
+    mouse_st_read_snapshot,           /* device read snapshot function */
+    NULL,                             /* NO device hook function */
+    0                                 /* NO device hook function mask */
 };
 
 /* --------------------------------------------------------- */
