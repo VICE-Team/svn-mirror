@@ -160,10 +160,13 @@ static uint8_t mouse_get_paddle_x(int port)
          port, _mouse_enabled, mouse_x, mouse_y));
 
     if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+        /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
+            /* return analog value of a host axis converted to 8bit */
             return joystick_get_axis_value(port << 1);
         } else {
             if (_mouse_enabled) {
+                /* Use mouse for paddle value */
                 pot_val[0].x = mouse_paddle_update(pot_val[0].x, &(pot_old[0].x), (int16_t)mouse_x / PADDLE_DIV);
                 return (uint8_t)(0xff - pot_val[0].x);
             }
@@ -171,10 +174,13 @@ static uint8_t mouse_get_paddle_x(int port)
     }
 
     if (port == JOYPORT_2) {
+        /* Paddle on joystick port 2 */
         if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
+            /* return analog value of a host axis converted to 8bit */
             return joystick_get_axis_value(port << 1);
         } else {
             if (_mouse_enabled) {
+                /* Use mouse for paddle value */
                 pot_val[0].x = mouse_paddle_update(pot_val[0].x, &(pot_old[0].x), (int16_t)mouse_x / PADDLE_DIV);
                 return (uint8_t)(0xff - pot_val[0].x);
             }
@@ -188,10 +194,13 @@ static uint8_t mouse_get_paddle_y(int port)
     mouse_get_raw_int16(&mouse_x, &mouse_y);
 
     if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+        /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
+            /* return analog value of a host axis converted to 8bit */
             return joystick_get_axis_value((port << 1) | 1);
         } else {
             if (_mouse_enabled) {
+                /* Use mouse for paddle value */
                 pot_val[0].y = mouse_paddle_update(pot_val[0].y, &(pot_old[0].y), (int16_t)mouse_y / PADDLE_DIV);
                 return (uint8_t)(0xff - pot_val[0].y);
             }
@@ -199,10 +208,13 @@ static uint8_t mouse_get_paddle_y(int port)
     }
 
     if (port == JOYPORT_2) {
+        /* Paddle on joystick port 2 */
         if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
+            /* return analog value of a host axis converted to 8bit */
             return joystick_get_axis_value((port << 1) | 1);
         } else {
             if (_mouse_enabled) {
+                /* Use mouse for paddle value */
                 pot_val[0].y = mouse_paddle_update(pot_val[0].y, &(pot_old[0].y), (int16_t)mouse_y / PADDLE_DIV);
                 return (uint8_t)(0xff - pot_val[0].y);
             }
@@ -253,17 +265,23 @@ static uint8_t joyport_paddles_value(int port)
     uint8_t retval = 0xff;
 
     if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+        /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
+            /* return joystick mapped button state */
             retval = (uint8_t)~((paddle_fire_buttons & 0x30) >> 2);
         } else {
+            /* return mouse button */
             retval = _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
         }
     }
 
     if (port == JOYPORT_2) {
+        /* Paddle on joystick port 2 */
         if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
+            /* return joystick mapped button state */
             retval = (uint8_t)~((paddle_fire_buttons & 0x30) >> 2);
         } else {
+            /* return mouse button */
             retval = _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
         }
     }
@@ -272,17 +290,19 @@ static uint8_t joyport_paddles_value(int port)
     return retval;
 }
 
-static int joyport_mouse_enable(int port, int joyportid)
+static int joyport_mouse_set_enabled(int port, int joyportid)
 {
     int mt;
 
     mouse_reset();
 
     if (joyportid == JOYPORT_ID_NONE) {
+        /* disabled, set mouse type to none */
         mouse_type = -1;
         return 0;
     }
 
+    /* convert joyport ID to mouse type*/
     mt = mouse_id_to_type(joyportid);
 
     if (mt == -1) {
@@ -297,14 +317,16 @@ static int joyport_mouse_enable(int port, int joyportid)
     return 0;
 }
 
-static int joyport_paddles_enable(int port, int val)
+static int joyport_paddles_set_enabled(int port, int new_state)
 {
-    if (val) {
+    if (new_state) {
+        /* enabled, set paddle mapping for the port */
         joyport_set_mapping(&paddles_mapping, port);
     } else {
+        /* disabled, clear paddle mapping for the port */
         joyport_clear_mapping(port);
     }
-    return joyport_mouse_enable(port, val);
+    return joyport_mouse_set_enabled(port, new_state);
 }
 
 /* Some prototypes are needed */
@@ -312,37 +334,37 @@ static int paddles_write_snapshot(struct snapshot_s *s, int port);
 static int paddles_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t paddles_joyport_device = {
-    "Paddles",                /* name of the device */
-    JOYPORT_RES_ID_NONE,      /* device normally uses the mouse for input,
-                                 but it can be mapped to a joystick axis too,
-                                 therefor it is flagged as not using the mouse */
-    JOYPORT_IS_NOT_LIGHTPEN,  /* device is NOT a lightpen */
-    JOYPORT_POT_REQUIRED,     /* device uses the potentiometer lines */
-    JOYSTICK_ADAPTER_ID_NONE, /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_PADDLES,   /* device is a Paddle */
-    0,                        /* NO output bits */
-    joyport_paddles_enable,   /* device enable function */
-    joyport_paddles_value,    /* digital line read function */
-    NULL,                     /* NO digital line store function */
-    mouse_get_paddle_x,       /* pot-x read function */
-    mouse_get_paddle_y,       /* pot-y read function */
-    NULL,                     /* NO powerup function */
-    paddles_write_snapshot,   /* device write snapshot function */
-    paddles_read_snapshot,    /* device read snapshot function */
-    NULL,                     /* NO device hook function */
-    0                         /* NO device hook function mask */
+    "Paddles",                   /* name of the device */
+    JOYPORT_RES_ID_NONE,         /* device normally uses the mouse for input,
+                                    but it can be mapped to a joystick axis too,
+                                    therefor it is flagged as not using the mouse */
+    JOYPORT_IS_NOT_LIGHTPEN,     /* device is NOT a lightpen */
+    JOYPORT_POT_REQUIRED,        /* device uses the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,    /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_PADDLES,      /* device is a Paddle */
+    0,                           /* NO output bits */
+    joyport_paddles_set_enabled, /* device enable/disable function */
+    joyport_paddles_value,       /* digital line read function */
+    NULL,                        /* NO digital line store function */
+    mouse_get_paddle_x,          /* pot-x read function */
+    mouse_get_paddle_y,          /* pot-y read function */
+    NULL,                        /* NO powerup function */
+    paddles_write_snapshot,      /* device write snapshot function */
+    paddles_read_snapshot,       /* device read snapshot function */
+    NULL,                        /* NO device hook function */
+    0                            /* NO device hook function mask */
 };
 
-static int set_paddles_p1_input(int val, void *param)
+static int set_paddles_p1_input(int axis_enabled, void *param)
 {
-    paddles_p1_input = val ? PADDLES_INPUT_JOY_AXIS : PADDLES_INPUT_MOUSE;
+    paddles_p1_input = axis_enabled ? PADDLES_INPUT_JOY_AXIS : PADDLES_INPUT_MOUSE;
 
     return 0;
 }
 
-static int set_paddles_p2_input(int val, void *param)
+static int set_paddles_p2_input(int axis_enabled, void *param)
 {
-    paddles_p2_input = val ? PADDLES_INPUT_JOY_AXIS : PADDLES_INPUT_MOUSE;
+    paddles_p2_input = axis_enabled ? PADDLES_INPUT_JOY_AXIS : PADDLES_INPUT_MOUSE;
 
     return 0;
 }
@@ -517,7 +539,7 @@ static joyport_t koalapad_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE,   /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_DRAWING_PAD, /* device is a Drawing Tablet */
     0,                          /* NO output bits */
-    joyport_mouse_enable,       /* device enable function */
+    joyport_mouse_set_enabled,  /* device enable/disable function */
     joyport_mouse_value,        /* digital line read function */
     NULL,                       /* NO digital line store function */
     joyport_koalapad_pot_x,     /* pot-x read function */
@@ -621,14 +643,16 @@ static joyport_mapping_t mf_mapping =  {
     "Left/Right"           /* name for the mapping of pot 2 (POT-Y) */
 };
 
-static int joyport_mf_enable(int port, int val)
+static int joyport_mf_set_enabled(int port, int new_state)
 {
-    if (val) {
+    if (new_state) {
+        /* enabled, set analog joystick mapping for the port */
         joyport_set_mapping(&mf_mapping, port);
     } else {
+        /* disabled, clear analog joystick mapping for the port */
         joyport_clear_mapping(port);
     }
-    return joyport_mouse_enable(port, val);
+    return joyport_mouse_set_enabled(port, new_state);
 }
 
 static uint8_t joyport_mf_joystick_value(int port)
@@ -637,17 +661,23 @@ static uint8_t joyport_mf_joystick_value(int port)
     uint8_t retval = 0xff;
 
     if (port == JOYPORT_1 || (machine_class == VICE_MACHINE_PLUS4 && port == JOYPORT_6)) {
+        /* Paddle on joystick port 1, or, joystick port 6 for plus4 which is the joystick port on the SID cartridge */
         if (paddles_p1_input == PADDLES_INPUT_JOY_AXIS) {
+            /* return joystick mapped buttons */
             retval = (uint8_t)(~mf_fire_buttons);
         } else {
+            /* return mouse buttons */
             retval = _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
         }
     }
 
     if (port == JOYPORT_2) {
+        /* Paddle on joystick port 2 */
         if (paddles_p2_input == PADDLES_INPUT_JOY_AXIS) {
+            /* return joystick mapped buttons */
             retval = (uint8_t)(~mf_fire_buttons);
         } else {
+            /* return mouse buttons */
             retval = _mouse_enabled ? (uint8_t)~mouse_digital_val : 0xff;
         }
     }
@@ -665,7 +695,7 @@ static joyport_t mf_joystick_joyport_device = {
     JOYSTICK_ADAPTER_ID_NONE,  /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_PADDLES,    /* device is a Paddle */
     0,                         /* NO output bits */
-    joyport_mf_enable,         /* device enable function */
+    joyport_mf_set_enabled,    /* device enable/disable function */
     joyport_mf_joystick_value, /* digital line read function */
     NULL,                      /* NO digital line store function */
     mouse_get_paddle_x,        /* pot-x read function */
