@@ -6,7 +6,6 @@
  */
 
 /*
- * $VICERES WarpMode        all
  * $VICERES JoyDevice1      -vsid
  * $VICERES JoyDevice2      -vsid
  * $VICERES JoyDevice3      -vsid

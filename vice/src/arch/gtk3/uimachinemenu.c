@@ -6,7 +6,6 @@
  */
 
 /*
- * $VICERES WarpMode        all
  * $VICERES KeySetEnable    -vsid
  * $VICERES Mouse           -vsid
  * $VICERES DtvBlitterLog   x64dtv
