@@ -31,7 +31,6 @@
  * $VICERES CrtcColorTint           xpet xcbm2
  * $VICERES CrtcPALBlur             xpet xcbm2
  * $VICERES CrtcPALScanLineShade    xpet xcbm2
- * $VICERES CrtcPALDelaylineType    xpet xcbm2
  *
  * $VICERES TEDColorBrightness      xplus4
  * $VICERES TEDColorContrast        xplus4
@@ -51,7 +50,6 @@
  * $VICERES VDCColorTint            x128
  * $VICERES VDCPALBlur              x128
  * $VICERES VDCPALScanLineShade     x128
- * $VICERES VDCPALDelaylineType     x128
  *
  * $VICERES VICColorBrightness      xvic
  * $VICERES VICColorContrast        xvic
