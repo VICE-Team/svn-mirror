@@ -1,0 +1,7 @@
+.deps
+.*.out
+*.o
+*.a
+Makefile.in
+Makefile
+CMakeLists.txt
