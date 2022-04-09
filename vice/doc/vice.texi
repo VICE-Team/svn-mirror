@@ -15657,7 +15657,8 @@ Integer that specifies the currently played sub tune.
 
 @vindex HVSCRoot
 @item HVSCRoot
-String specifying the location of the HVSC "C64Music" directory.
+String specifying the location of the HVSC root directory, overriding the
+environment variable @code{HVSC_BASE}.
 
 @vindex ChargenName
 @item ChargenName
@@ -15726,7 +15727,9 @@ Specify PSID tune <number>
 
 @findex -hvsc-root
 @item -hvsc-root <path>
-Specify the location of the HVSC "C64Music" directory.
+Specify the location of the HVSC root directory, overriding the environment
+variable @code{HVSC_BASE}.
+
 (@code{HVSCRoot}).
 
 @findex -chargen
