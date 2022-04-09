@@ -1,14 +1,14 @@
 cbm2dir = $(VICE_DATADIR)/CBM-II
 
 roms = \
-	basic.128 \
-	basic.256 \
-	basic.500 \
-	chargen.500 \
-	chargen.600 \
-	chargen.700 \
-	kernal \
-	kernal.500
+	basic-901242+3-04a.bin \
+	basic-901240+1-03.bin \
+	basic-901235+6-02.bin \
+	chargen-901225-01.bin \
+	chargen-901237-01.bin \
+	chargen-901232-01.bin \
+	kernal-901244-04a.bin \
+	kernal-901234-02.bin
 
 romsets = \
 	rom500.vrs \
