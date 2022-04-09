@@ -25,7 +25,7 @@
  *
  */
 
-#define DEBUGCART
+/* #define DEBUGCART */
 /* #define DEBUGCARTRW */
 
 #include "vice.h"

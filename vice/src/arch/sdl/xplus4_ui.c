@@ -60,6 +60,7 @@
 #include "menu_video.h"
 #include "plus4memrom.h"
 #include "plus4ui.h"
+#include "plus4rom.h"
 #include "resources.h"
 #include "ui.h"
 #include "uifonts.h"
@@ -243,7 +244,7 @@ int plus4ui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xplus4_main_menu);
-    sdl_ui_font_init("kernal", 0x1000, 0x1400, 0);
+    sdl_ui_font_init(PLUS4_KERNAL_PAL_REV5_NAME, 0x1000, 0x1400, 0);
     sdl_vkbd_set_vkbd(&vkbd_plus4);
 
 #ifdef HAVE_FFMPEG

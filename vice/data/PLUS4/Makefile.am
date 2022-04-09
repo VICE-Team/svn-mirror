@@ -1,14 +1,14 @@
 plus4dir = $(VICE_DATADIR)/PLUS4
 
 roms = \
-	3plus1hi \
-	3plus1lo \
-	basic \
-	kernal \
-	kernal.005 \
-	kernal.232 \
-	kernal.364 \
-	c2lo.364
+	3plus1-317053-01.bin \
+	3plus1-317054-01.bin \
+	basic-318006-01.bin \
+	kernal-318004-05.bin \
+	kernal-318005-05.bin \
+	kernal-318004-01.bin \
+	kernal-364.bin \
+	c2lo-364.bin
 
 romsets = \
 	default.vrs

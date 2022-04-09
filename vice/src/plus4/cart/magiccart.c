@@ -32,7 +32,7 @@
     - bank register at $FDFE
  */
 
-#define DEBUG_MAGICCART
+/* #define DEBUG_MAGICCART */
 
 #include "vice.h"
 

@@ -32,7 +32,7 @@
     - bank register at $FDA0
  */
 
-#define DEBUG_MULTICART
+/* #define DEBUG_MULTICART */
 
 #include "vice.h"
 
