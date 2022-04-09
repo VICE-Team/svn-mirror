@@ -32,6 +32,7 @@
 #include "vice_sdl.h"
 
 #include "interrupt.h"
+#include "mainlock.h"
 #include "types.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -46,7 +47,7 @@ static int is_paused = 0;
 bool ui_pause_loop_iteration(void)
 {
     ui_dispatch_events();
-    SDL_Delay(10);
+    mainlock_yield_and_sleep(tick_per_second() / 120);
 
     return is_paused;
 }

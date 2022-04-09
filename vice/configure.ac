@@ -1675,21 +1675,16 @@ if test x"$with_sdlsound" = "xyes"; then
   fi
 fi
 
-dnl are we putting emu into a background thread (requires UI code support)
-if test x"$enable_native_gtk3ui" = "xyes"; then
-  AC_DEFINE(USE_VICE_THREAD,,[UI and emu each on different threads])
-  VICE_CFLAGS="$VICE_CFLAGS -pthread"
-  VICE_CXXFLAGS="$VICE_CXXFLAGS -pthread"
-  VICE_LDFLAGS="$VICE_LDFLAGS -pthread"
-  show_multithreaded="yes"
+dnl we are putting emu into a background thread
+VICE_CFLAGS="$VICE_CFLAGS -pthread"
+VICE_CXXFLAGS="$VICE_CXXFLAGS -pthread"
+VICE_LDFLAGS="$VICE_LDFLAGS -pthread"
 
+if test x"$enable_native_gtk3ui" = "xyes"; then
   if test x"$is_unix_x11" = x"yes" -a x"$is_unix_macosx" != x"yes"; then
     dnl xlib is used for adding a native child window for opengl rendering
     LIBS="$LIBS -lX11"
   fi
-
-else
-  show_multithreaded="no"
 fi
 
 if test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_headlessui" != "xyes"; then
@@ -3733,7 +3728,6 @@ echo ""
 echo "Platform canonical : $ac_cv_host"
 echo "Architecture       : $show_arch"
 echo "GUI                : $show_gui"
-echo "Multithreaded UI   : $show_multithreaded"
 echo "OpenMP             : $have_openmp"
 echo ""
 

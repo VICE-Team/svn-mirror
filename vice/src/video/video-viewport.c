@@ -66,7 +66,7 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     gfx_size = &geometry->gfx_size;
     gfx_position = &geometry->gfx_position;
 
-    if (resize_canvas && video_canvas_can_resize(canvas)) {
+    if (resize_canvas) {
         /* The emulated screen has changed:
            the size of the emulator's screen changes in order to adapt to it */
         canvas->draw_buffer->canvas_width = canvas->draw_buffer->visible_width;
@@ -156,7 +156,7 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     viewport->last_line = viewport->first_line + (unsigned int)displayed_height - 1;
 
     if (!video_disabled_mode) {
-        video_canvas_resize(canvas, (char)(resize_canvas && video_canvas_can_resize(canvas)));
+        video_canvas_resize(canvas);
     }
 
     video_canvas_refresh_all(canvas);

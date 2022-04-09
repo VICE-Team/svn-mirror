@@ -35,9 +35,9 @@
 #import <Cocoa/Cocoa.h>
 #import <mach/mach.h>
 #import <mach/mach_time.h>
-#import <pthread.h>
 #import <os/log.h>
 #import <os/signpost.h>
+#import <pthread.h>
 
 #import "log.h"
 #import "resources.h"

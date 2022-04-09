@@ -81,7 +81,6 @@ void ui_create_main_window(video_canvas_t *canvas);
 void ui_display_main_window(int index);
 void ui_destroy_main_window(int index);
 
-void ui_dispatch_events(void);
 void ui_exit(void);
 
 int  ui_is_fullscreen(void);

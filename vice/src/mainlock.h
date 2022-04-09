@@ -30,17 +30,21 @@
 
 #include "vice.h"
 
-#include "archdep.h"
-
-#ifdef USE_VICE_THREAD
-
 #include <pthread.h>
 #include <stdbool.h>
 #include <assert.h>
 
+#include "archdep.h"
+
+typedef void (*mainlock_callback_t)(void);
+
 void mainlock_init(void);
-void mainlock_set_vice_thread(void);
+void mainlock_shutdown(void);
+
 void mainlock_initiate_shutdown(void);
+
+void mainlock_set_vice_thread(void *thread);
+bool mainlock_is_vice_thread(void);
 
 void mainlock_yield(void);
 void mainlock_yield_and_sleep(tick_t ticks);
@@ -50,24 +54,10 @@ void mainlock_yield_end(void);
 void mainlock_obtain(void);
 void mainlock_release(void);
 
-bool mainlock_is_vice_thread(void);
+void mainlock_run_on_main_thread(mainlock_callback_t callback);
+void mainlock_execute_main_thread_callbacks(void);
 
-#define mainlock_assert_is_not_vice_thread() assert(!mainlock_is_vice_thread())
 #define mainlock_assert_is_vice_thread() assert(mainlock_is_vice_thread())
-
-#else
-
-#define mainlock_yield()
-#define mainlock_yield_begin()
-#define mainlock_yield_end()
-#define mainlock_yield_and_sleep(ticks) tick_sleep(ticks)
-
-#define mainlock_obtain()
-#define mainlock_release()
-
-#define mainlock_assert_is_not_vice_thread()
-#define mainlock_assert_is_vice_thread()
-
-#endif /* #ifdef USE_VICE_THREAD */
+#define mainlock_assert_is_not_vice_thread() assert(!mainlock_is_vice_thread())
 
 #endif /* #ifndef VICE_MAIN_LOCK_H */

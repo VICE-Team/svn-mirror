@@ -111,6 +111,7 @@
 #include "archdep_spawn.h"
 #include "archdep_startup_log_error.h"
 #include "archdep_stat.h"
+#include "archdep_thread.h"
 #include "archdep_tick.h"
 #include "archdep_tmpnam.h"
 #include "archdep_user_cache_path.h"

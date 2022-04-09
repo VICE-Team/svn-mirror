@@ -66,7 +66,6 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	petui.c \
 	plus4ui.c \
-	render_queue.c \
 	render_thread.c \
 	scpu64ui.c \
 	ui.c \
@@ -137,7 +136,6 @@ EXTRA_DIST = \
 	make-bindist_win32.sh \
 	mousedrv.h \
 	opengl_renderer.h \
-	render_queue.h \
 	render_thread.h \
 	ui.h \
 	uiabout.h \

@@ -94,9 +94,15 @@ struct video_canvas_s {
 
     /** \brief  Actual size of the window; in most cases the same as width/height */
     unsigned int actual_width, actual_height;
+    
+    /** \brief Used to coordinate vice thread access */
+    void *lock;
+    
+    /** \brief A queue of rendered backbuffers ready to be displayed */
+    void *render_queue;
 
     /** \brief Drawable surface. Main output for SDL1, SDL2 uses other members. */
-    SDL_Surface* screen;
+    SDL_Surface* sdl_surface;
 
 #ifdef USE_SDL2UI
     /** \brief The texture that can be rendered to for this window and renderer. */
@@ -132,6 +138,28 @@ struct video_canvas_s {
 typedef struct video_canvas_s video_canvas_t;
 
 extern video_canvas_t *sdl_active_canvas;
+
+/*
+ * sdl_event_* events are used by the VICE thread to defer some operations to the UI thread
+ */
+
+/* a new frame is available */
+extern Uint32 sdl_event_new_video_frame;
+
+/* a mouse move event has been processed */
+extern Uint32 sdl_event_mouse_move_processed;
+
+/* the emulated screen size has changed */
+extern Uint32 sdl_event_canvas_resized;
+
+/* the UI needs needs to rebuild windows, textures etc */
+extern Uint32 sdl_event_ui_needs_refresh;
+
+/* the second window needs to be displayed */
+extern Uint32 sdl_event_second_window_show;
+
+/* the second window needs to be hidden */
+extern Uint32 sdl_event_second_window_hide;
 
 /* Resize window to stored real size */
 extern void sdl_video_restore_size(void);
@@ -171,11 +199,17 @@ extern uint8_t *draw_buffer_vsid;
 #define SDL_FILTER_LINEAR      1
 #endif
 
+/* _impl versions of functions are asynchronously called from the main thread. */
+
 extern void sdl_ui_set_window_title(char *title);
 
 #ifdef USE_SDL2UI
 extern void sdl2_show_second_window(void);
+extern void sdl2_show_second_window_impl(void);
 extern void sdl2_hide_second_window(void);
+extern void sdl2_hide_second_window_impl(void);
 #endif
+
+extern void sdl2_video_canvas_resize_impl(struct video_canvas_s *canvas);
 
 #endif

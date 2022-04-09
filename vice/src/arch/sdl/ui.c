@@ -46,6 +46,7 @@
 #include "lib.h"
 #include "lightpen.h"
 #include "log.h"
+#include "mainlock.h"
 #include "machine.h"
 #include "mouse.h"
 #include "mousedrv.h"
@@ -57,6 +58,7 @@
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "uimsgbox.h"
+#include "uipoll.h"
 #include "uistatusbar.h"
 #include "videoarch.h"
 #include "vkbd.h"
@@ -187,7 +189,7 @@ ui_menu_action_t ui_dispatch_events(void)
     ui_menu_action_t retval = MENU_ACTION_NONE;
     int joynum;
 
-    while (SDL_PollEvent(&e)) {
+    while (sdl_ui_poll_pop_event(&e)) {
         switch (e.type) {
             case SDL_KEYDOWN:
                 ui_display_kbd_status(&e);
@@ -253,6 +255,7 @@ ui_menu_action_t ui_dispatch_events(void)
             break;
         }
     }
+
     return retval;
 }
 
@@ -644,6 +647,8 @@ void ui_init_with_args(int *argc, char **argv)
 
 int ui_init(void)
 {
+    sdl_ui_poll_init();
+    
     DBG(("%s", __func__));
     return 0;
 }
@@ -682,6 +687,7 @@ void ui_shutdown(void)
     }
 #endif
     sdl_ui_file_selection_dialog_shutdown();
+    sdl_ui_poll_shutdown();
 }
 
 /* Print an error message.  */

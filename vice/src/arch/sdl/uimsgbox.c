@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "lib.h"
+#include "mainlock.h"
 #include "resources.h"
 #include "sound.h"
 #include "ui.h"
@@ -308,7 +309,7 @@ static int handle_message_box(const char *title, const char *message, int messag
                 }
                 break;
             default:
-                SDL_Delay(10);
+                mainlock_yield_and_sleep(tick_per_second() / 120);
                 break;
         }
     }

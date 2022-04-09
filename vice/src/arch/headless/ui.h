@@ -45,8 +45,6 @@ enum {
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
 
-void ui_dispatch_events(void);
-
 /*
  * New pause 'API'
  */

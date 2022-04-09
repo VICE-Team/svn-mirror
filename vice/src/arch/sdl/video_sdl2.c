@@ -64,6 +64,7 @@
 #include "mousedrv.h"
 #include "palette.h"
 #include "raster.h"
+#include "render-queue.h"
 #include "resources.h"
 #include "ui.h"
 #include "uimenu.h"
@@ -289,7 +290,7 @@ static void recreate_canvas_textures(video_canvas_t *canvas)
         return;
     }
 
-    surface = canvas->screen;
+    surface = canvas->sdl_surface;
     if (!surface) {
         return;
     }
@@ -577,10 +578,7 @@ void video_shutdown(void)
 {
     DBG(("%s", __func__));
 
-    if (draw_buffer_vsid) {
-        lib_free(draw_buffer_vsid);
-    }
-
+    draw_buffer_vsid = NULL;
     sdl_active_canvas = NULL;
 }
 
@@ -810,23 +808,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     return canvas;
 }
 
-void video_canvas_refresh(struct video_canvas_s *canvas,
-                          unsigned int xs, unsigned int ys,
-                          unsigned int xi, unsigned int yi,
-                          unsigned int w, unsigned int h)
+void video_canvas_new_frame_hook(struct video_canvas_s *canvas)
 {
-    SDL_Texture *texture_swap;
-    uint8_t *backup;
-
-    /* If the canvas isn't initialized, skip this */
-    if ((canvas == NULL) || (canvas->screen == NULL)) {
-        return;
-    }
-
-    if (sdl_canvas_is_visible(canvas) == 0) {
-        return;
-    }
-
     if (sdl_vsid_state & SDL_VSID_ACTIVE) {
         sdl_vsid_draw();
     }
@@ -838,39 +821,34 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
         uistatusbar_draw();
     }
+}
 
-    xi *= canvas->videoconfig->scalex;
-    w *= canvas->videoconfig->scalex;
+void video_canvas_on_new_backbuffer(video_canvas_t *canvas)
+{
+    SDL_Event sdl_new_frame_event;
+    
+    sdl_new_frame_event.type        = sdl_event_new_video_frame;
+    sdl_new_frame_event.user.data1  = canvas;
+    SDL_PushEvent(&sdl_new_frame_event);
+}
 
-    yi *= canvas->videoconfig->scaley;
-    h *= canvas->videoconfig->scaley;
+void video_canvas_display_backbuffer(video_canvas_t *canvas)
+{
+    backbuffer_t *backbuffer;
+    void *pixels;
+    int pitch;
+    SDL_Texture *texture_swap;
 
-    w = MIN(w, canvas->width);
-    h = MIN(h, canvas->height);
-
-    /* FIXME attempt to draw outside canvas */
-    if ((xi + w > canvas->width) || (yi + h > canvas->height)) {
+    if (sdl_canvas_is_visible(canvas) == 0) {
         return;
     }
-
-    if (machine_class == VICE_MACHINE_VSID) {
-        canvas->draw_buffer_vsid->draw_buffer_width = canvas->draw_buffer->draw_buffer_width;
-        canvas->draw_buffer_vsid->draw_buffer_height = canvas->draw_buffer->draw_buffer_height;
-        canvas->draw_buffer_vsid->draw_buffer_pitch = canvas->draw_buffer->draw_buffer_pitch;
-        canvas->draw_buffer_vsid->canvas_physical_width = canvas->draw_buffer->canvas_physical_width;
-        canvas->draw_buffer_vsid->canvas_physical_height = canvas->draw_buffer->canvas_physical_height;
-        canvas->draw_buffer_vsid->canvas_width = canvas->draw_buffer->canvas_width;
-        canvas->draw_buffer_vsid->canvas_height = canvas->draw_buffer->canvas_height;
-        canvas->draw_buffer_vsid->visible_width = canvas->draw_buffer->visible_width;
-        canvas->draw_buffer_vsid->visible_height = canvas->draw_buffer->visible_height;
-
-        backup = canvas->draw_buffer->draw_buffer;
-        canvas->draw_buffer->draw_buffer = canvas->draw_buffer_vsid->draw_buffer;
-        video_canvas_render(canvas, (uint8_t *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch);
-        canvas->draw_buffer->draw_buffer = backup;
-    } else {
-        video_canvas_render(canvas, (uint8_t *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch);
+    
+    backbuffer = render_queue_dequeue_for_display(canvas->render_queue);
+    if (backbuffer == NULL) {
+        return;
     }
+    
+    video_canvas_render_backbuffer(backbuffer);
 
     if (recreate_textures) {
         recreate_all_textures();
@@ -880,9 +858,11 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
          *       SDL_UpdateTexture below updates the entire canvas */
     }
 
-    /* Upload the new frame to the GPU texture. TODO: use SDL_LockTexture for this as the docs day it's faster. */
-    SDL_UpdateTexture(canvas->texture, NULL, canvas->screen->pixels, canvas->screen->pitch);
-
+    SDL_LockTexture(canvas->texture, NULL, &pixels, &pitch);
+    memcpy(pixels, backbuffer->pixel_data, backbuffer->pixel_data_used_size_bytes);
+    render_queue_return_to_pool(canvas->render_queue, backbuffer);
+    SDL_UnlockTexture(canvas->texture);
+    
     /* Render. */
     SDL_RenderClear(canvas->container->renderer);
 
@@ -941,14 +921,14 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
 
     canvas->palette = palette;
 
-    if (canvas->screen == NULL) {
-        log_error(LOG_DEFAULT, "FIXME: video_canvas_set_palette() canvas->screen is NULL");
-        return 0;
-    }
-    fmt = canvas->screen->format;
+     if (canvas->sdl_surface == NULL) {
+         log_error(LOG_DEFAULT, "FIXME: video_canvas_set_palette() canvas->screen is NULL");
+         return 0;
+     }
+    fmt = canvas->sdl_surface->format;
 
     /* Fixme: needs further investigation how it can reach here without being fully initialized */
-    if (canvas != sdl_active_canvas || canvas->width != canvas->screen->w) {
+    if (canvas != sdl_active_canvas || canvas->width != canvas->sdl_surface->w) {
         DBG(("video_canvas_set_palette not active canvas or window not created, don't update hw palette"));
         return 0;
     }
@@ -1019,12 +999,24 @@ static void sdl_correct_logical_and_minimum_size(void)
  * responsible for setting the fullscreen behavior of a window. Despite its
  * name, this does resize the texture.
  */
-void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
+void video_canvas_resize(struct video_canvas_s *canvas)
 {
-    unsigned int width, height;
+    SDL_Event event;
+    
     if (!(canvas && canvas->container && canvas->draw_buffer && canvas->videoconfig && canvas->fullscreenconfig)) {
         return;
     }
+    
+    event.type = sdl_event_canvas_resized;
+    event.user.data1 = canvas;
+    
+    SDL_PushEvent(&event);
+}
+
+void sdl2_video_canvas_resize_impl(struct video_canvas_s *canvas)
+{
+    unsigned int width, height;
+    
     width = canvas->draw_buffer->canvas_width * canvas->videoconfig->scalex;
     height = canvas->draw_buffer->canvas_height * canvas->videoconfig->scaley;
 
@@ -1061,17 +1053,17 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     canvas->height = canvas->actual_height = height;
 
     if (canvas->container->renderer) {
-        SDL_Surface *new_screen;
+        SDL_Surface *sdl_surface;
 
-        new_screen = SDL_CreateRGBSurface(0, width, height, sdl_bitdepth, rmask, gmask, bmask, amask);
-        if (!new_screen) {
+        sdl_surface = SDL_CreateRGBSurface(0, width, height, sdl_bitdepth, rmask, gmask, bmask, amask);
+        if (!sdl_surface) {
             log_error(sdlvideo_log, "SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
             return;
         }
-        if (canvas->screen) {
-            SDL_FreeSurface(canvas->screen);
+        if (canvas->sdl_surface) {
+            SDL_FreeSurface(canvas->sdl_surface);
         }
-        canvas->screen = new_screen;
+        canvas->sdl_surface = sdl_surface;
 
         recreate_canvas_textures(canvas);
 
@@ -1124,6 +1116,8 @@ void sdl_video_restore_size(void)
 void sdl_video_canvas_switch(int index)
 {
     struct video_canvas_s *canvas;
+    int i;
+    backbuffer_t *backbuffer;
 
     DBG(("%s: %i->%i", __func__, sdl_active_canvas_num, index));
 
@@ -1133,6 +1127,20 @@ void sdl_video_canvas_switch(int index)
 
     if (index >= sdl_num_screens) {
         return;
+    }
+
+    /* Clear out any queued frames */
+    for (i = 0; i < MAX_CANVAS_NUM; i++) {
+        canvas = sdl_canvaslist[i];
+        if (!canvas) {
+            continue;
+        }
+
+        while (render_queue_length(canvas->render_queue)) {
+            render_queue_return_to_pool(
+                canvas->render_queue,
+                render_queue_dequeue_for_display(canvas->render_queue));
+        }
     }
 
     sdl_active_canvas_num = index;
@@ -1177,7 +1185,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 
     sdl_canvaslist[sdl_num_screens++] = canvas;
 
-    canvas->screen = NULL;
+    canvas->sdl_surface = NULL;
     canvas->real_width = 0;
     canvas->real_height = 0;
 
@@ -1213,24 +1221,27 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
             sdl_canvaslist[i]->container = NULL;
 #endif
 
-            SDL_FreeSurface(sdl_canvaslist[i]->screen);
-            sdl_canvaslist[i]->screen = NULL;
+            SDL_FreeSurface(sdl_canvaslist[i]->sdl_surface);
+            sdl_canvaslist[i]->sdl_surface = NULL;
         }
     }
 
     lib_free(canvas->fullscreenconfig);
 }
 
-char video_canvas_can_resize(video_canvas_t *canvas)
+void sdl2_hide_second_window(void)
 {
-    return 1;
+    SDL_Event event;
+    event.type = sdl_event_second_window_hide;
+
+    SDL_PushEvent(&event);
 }
 
 /** \brief  Hides the secondary window.
  *
  * Internally this just destroys the window and its textures.
  */
-void sdl2_hide_second_window(void)
+void sdl2_hide_second_window_impl(void)
 {
     int inactive_canvas_idx = sdl_active_canvas->index ^ 1;
     video_canvas_t* inactive_canvas = sdl_canvaslist[inactive_canvas_idx];
@@ -1258,11 +1269,19 @@ void sdl2_hide_second_window(void)
     }
 }
 
+void sdl2_show_second_window(void)
+{
+    SDL_Event event;
+    event.type = sdl_event_second_window_show;
+
+    SDL_PushEvent(&event);
+}
+
 /** \brief  Shows the secondary window.
  *
  * Internally, this creates a new window by calling `sdl_container_create`.
  */
-void sdl2_show_second_window(void)
+void sdl2_show_second_window_impl(void)
 {
     int inactive_canvas_idx = sdl_active_canvas->index ^ 1;
     video_canvas_t* inactive_canvas = sdl_canvaslist[inactive_canvas_idx];
@@ -1305,7 +1324,7 @@ void sdl_ui_init_finalize(void)
     for (int i = 0; i < sdl_num_screens; i++) {
         video_canvas_t* canvas = sdl_canvaslist[i];
         canvas->container = container;
-        video_canvas_resize(sdl_canvaslist[i], 1);
+        video_canvas_resize(sdl_canvaslist[i]);
     }
 
     /* If we're setup for dual windows, then we need to allocate a new container
@@ -1322,7 +1341,7 @@ void sdl_ui_init_finalize(void)
         }
 
         vdc_canvas->container = container;
-        video_canvas_resize(vdc_canvas, 1);
+        video_canvas_resize(vdc_canvas);
 
         /* Explicitly raise the VIC-II window in dual head mode -- creating the
          * windows in reverse order still results in the VDC window being on top
@@ -1381,11 +1400,15 @@ int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons)
 
 void sdl_ui_consume_mouse_event(SDL_Event *event)
 {
+    SDL_Event post_event;
+    
     if (event && event->type == SDL_MOUSEMOTION) {
         last_mouse_x = event->motion.x;
         last_mouse_y = event->motion.y;
     }
-    ui_autohide_mouse_cursor();
+    
+    post_event.type = sdl_event_mouse_move_processed;
+    SDL_PushEvent(&post_event);
 }
 
 void sdl_ui_set_window_title(char *title)

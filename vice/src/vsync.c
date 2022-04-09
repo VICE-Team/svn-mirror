@@ -81,15 +81,10 @@ static double vsync_metric_cpu_percent;
 static double vsync_metric_emulated_fps;
 static int    vsync_metric_warp_enabled;
 
-#ifdef USE_VICE_THREAD
-#   include <pthread.h>
-    pthread_mutex_t vsync_metric_lock = PTHREAD_MUTEX_INITIALIZER;
-#   define METRIC_LOCK() pthread_mutex_lock(&vsync_metric_lock)
-#   define METRIC_UNLOCK() pthread_mutex_unlock(&vsync_metric_lock)
-#else
-#   define METRIC_LOCK()
-#   define METRIC_UNLOCK()
-#endif
+static void *vsync_metric_lock;
+
+#define METRIC_LOCK() archdep_mutex_lock(vsync_metric_lock)
+#define METRIC_UNLOCK() archdep_mutex_unlock(vsync_metric_lock)
 
 /* ------------------------------------------------------------------------- */
 
@@ -325,6 +320,8 @@ double vsync_get_refresh_frequency(void)
 
 void vsync_init(void (*hook)(void))
 {
+    archdep_mutex_create(&vsync_metric_lock);
+
     /* Set the initial warp state. */
     if (initial_warp_mode_cmdline != -1) {
         /* Command line overrides config resource setting. */
@@ -350,6 +347,8 @@ void vsync_shutdown(void)
             callback_queues[i].queue = NULL;
         }
     }
+
+    archdep_mutex_destroy(vsync_metric_lock);
 }
 
 /* This should be called whenever something that has nothing to do with the

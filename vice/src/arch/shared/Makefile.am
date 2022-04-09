@@ -127,6 +127,10 @@ if MACOS_COMPILE
 libarchdep_a_SOURCES += macOS-util.m
 endif
 
+if !USE_SDLUI
+libarchdep_a_SOURCES += archdep_thread.c
+endif
+
 EXTRA_DIST = \
 	archapi.h \
 	archdep_access.h \
@@ -201,6 +205,7 @@ EXTRA_DIST = \
 	archdep_spawn.h \
 	archdep_startup_log_error.h \
 	archdep_stat.h \
+	archdep_thread.h \
 	archdep_tick.h \
 	archdep_tmpnam.h \
 	archdep_unix.h \

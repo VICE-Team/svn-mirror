@@ -29,7 +29,6 @@
 #include "render_thread.h"
 
 #include <glib.h>
-#include <pthread.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -39,6 +38,7 @@
 
 struct render_thread_s {
     int index;
+    void *lock;    
     GThreadPool *executor;
     bool is_shutdown_initiated;
     bool is_shut_down;
@@ -49,20 +49,12 @@ struct render_thread_s {
 static struct render_thread_s threads[RENDER_THREAD_MAX];
 static int thread_count;
 
-static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-
-#define LOCK() pthread_mutex_lock(&lock)
-#define UNLOCK() pthread_mutex_unlock(&lock)
-
 render_thread_t render_thread_create(render_thread_callback_t callback, void *thread_context)
 {
     render_thread_t thread;
 
-    LOCK();
-
     if (thread_count == RENDER_THREAD_MAX) {
         log_error(LOG_ERR, "Reach maximum render thread count (%d), cannot create another", RENDER_THREAD_MAX);
-        UNLOCK();
         archdep_vice_exit(-1);
     }
 
@@ -70,12 +62,12 @@ render_thread_t render_thread_create(render_thread_callback_t callback, void *th
     memset(thread, 0, sizeof(struct render_thread_s));
     thread->index = thread_count++;
 
+    archdep_mutex_create(&thread->lock);
+
     thread->executor = g_thread_pool_new(callback, thread_context, 1, TRUE, NULL);
 
     /* Schedule the init job */
     g_thread_pool_push(thread->executor, (void *)render_thread_init, NULL);
-
-    UNLOCK();
 
     log_message(LOG_DEFAULT, "Created render thread %d", thread->index);
 
@@ -84,10 +76,10 @@ render_thread_t render_thread_create(render_thread_callback_t callback, void *th
 
 void render_thread_initiate_shutdown(render_thread_t thread)
 {
-    LOCK();
+    archdep_mutex_lock(thread->lock);
 
     if (thread->is_shutdown_initiated) {
-        UNLOCK();
+        archdep_mutex_unlock(thread->lock);
         return;
     }
 
@@ -97,7 +89,7 @@ void render_thread_initiate_shutdown(render_thread_t thread)
     /* Schedule the shutdown job */
     g_thread_pool_push(thread->executor, (void *)render_thread_shutdown, NULL);
 
-    UNLOCK();
+    archdep_mutex_unlock(thread->lock);
 }
 
 void render_thread_join(render_thread_t thread)
@@ -107,9 +99,11 @@ void render_thread_join(render_thread_t thread)
     /* TODO: We should block until all jobs are done - but there's a race condition deadlock outcome here. Fix needed */
     g_thread_pool_free(thread->executor, TRUE, TRUE);
 
-    LOCK();
+    archdep_mutex_lock(thread->lock);
     thread->is_shut_down = true;
-    UNLOCK();
+    archdep_mutex_unlock(thread->lock);
+
+    archdep_mutex_destroy(thread->lock);
 
     log_message(LOG_DEFAULT, "Joined render thread %d.", thread->index);
 }
@@ -127,16 +121,16 @@ void render_thread_shutdown_and_join_all(void)
 
 void render_thread_push_job(render_thread_t thread, render_job_t job)
 {
-    LOCK();
+    archdep_mutex_lock(thread->lock);
 
     if (thread->is_shutdown_initiated)
     {
         log_message(LOG_DEFAULT, "Ignoring new render job as render thread %d %s down", thread->index, thread->is_shut_down ? "has shut" : "is shutting");
-        UNLOCK();
+        archdep_mutex_unlock(thread->lock);
         return;
     }
 
     g_thread_pool_push(thread->executor, int_to_void_ptr(job), NULL);
 
-    UNLOCK();
+    archdep_mutex_unlock(thread->lock);
 }

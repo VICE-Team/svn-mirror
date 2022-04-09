@@ -52,6 +52,14 @@
 #include "ui.h"
 #include "util.h"
 
+/* Used by the VICE thread to let the UI know that a new frame is available */
+Uint32 sdl_event_new_video_frame;
+Uint32 sdl_event_mouse_move_processed;
+Uint32 sdl_event_canvas_resized;
+Uint32 sdl_event_ui_needs_refresh;
+Uint32 sdl_event_second_window_show;
+Uint32 sdl_event_second_window_hide;
+
 /* FIXME: includes for beos */
 /* FIXME: includes for os/2 */
 
@@ -105,6 +113,14 @@ int archdep_init(int *argc, char **argv)
         fprintf(stderr, "SDL error: %s\n", SDL_GetError());
         return 1;
     }
+
+    /* Register the custom events used by the VICE thread */
+    sdl_event_new_video_frame       = SDL_RegisterEvents(1);
+    sdl_event_mouse_move_processed  = SDL_RegisterEvents(1);
+    sdl_event_canvas_resized        = SDL_RegisterEvents(1);
+    sdl_event_ui_needs_refresh      = SDL_RegisterEvents(1);
+    sdl_event_second_window_show    = SDL_RegisterEvents(1);
+    sdl_event_second_window_hide    = SDL_RegisterEvents(1);
 
     /*
      * Call SDL_Quit() via atexit() to avoid segfaults on exit.

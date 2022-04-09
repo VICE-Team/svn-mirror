@@ -828,7 +828,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     return canvas;
 }
 
-void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
+void video_canvas_refresh(struct video_canvas_s *canvas)
 {
     uint8_t *backup;
 
@@ -1192,11 +1192,6 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     }
 
     lib_free(canvas->fullscreenconfig);
-}
-
-char video_canvas_can_resize(video_canvas_t *canvas)
-{
-    return 1;
 }
 
 void sdl_ui_init_finalize(void)

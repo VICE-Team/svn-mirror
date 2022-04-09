@@ -53,6 +53,7 @@
 #include "menu_sound.h"
 #include "menu_speed.h"
 #include "psid.h"
+#include "raster.h"
 #include "ui.h"
 #include "uifonts.h"
 #include "uifilereq.h"
@@ -402,13 +403,13 @@ int vsid_ui_init(void)
 
     width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     height = sdl_active_canvas->draw_buffer->draw_buffer_height;
-    /* FIXME: this line leaks: */
+
     sdl_active_canvas->draw_buffer_vsid = lib_calloc(1, sizeof(draw_buffer_t));
-    sdl_active_canvas->draw_buffer_vsid->draw_buffer = lib_malloc(width * height);
+    if (raster_draw_buffer_init(sdl_active_canvas->draw_buffer_vsid, width, height, false)) {
+        return -1;
+    }
 
     draw_buffer_vsid = sdl_active_canvas->draw_buffer_vsid->draw_buffer;
-
-    memset(sdl_active_canvas->draw_buffer_vsid->draw_buffer, 0, width * height);
 
     return 0;
 }

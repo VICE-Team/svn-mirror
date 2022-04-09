@@ -31,14 +31,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#if !defined(USE_HEADLESSUI) && !defined(USE_SDL2UI) && !defined(USE_SDLUI)
-#ifdef UNIX_COMPILE
-#ifndef MACOS_COMPILE
-#include <X11/Xlib.h>
-#endif
-#endif
-#endif
-
 #ifdef WINDOWS_COMPILE
 #include <windows.h>
 #include <mmsystem.h>
@@ -49,21 +41,18 @@
 
 #ifdef USE_GTK3UI
 #include <gtk/gtk.h>
+#ifdef UNIX_COMPILE
+#ifndef MACOS_COMPILE
+#include <X11/Xlib.h>
+#endif
+#endif
 #endif /* #ifdef USE_GTK3UI */
 
-#ifdef USE_VICE_THREAD
-#include <pthread.h>
-
-static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+static void *lock;
 static int vice_exit_code;
-static pthread_t main_thread;
 
-#define LOCK()   pthread_mutex_lock(&lock)
-#define UNLOCK() pthread_mutex_unlock(&lock)
-#else
-#define LOCK()
-#define UNLOCK()
-#endif /* #ifdef USE_VICE_THREAD */
+#define LOCK()   archdep_mutex_lock(lock)
+#define UNLOCK() archdep_mutex_unlock(lock)
 
 #include "archdep.h"
 #include "main.h"
@@ -109,27 +98,11 @@ static void actually_exit(int exit_code)
     timeEndPeriod(1);
 #endif
 
-#ifdef USE_VICE_THREAD
     archdep_thread_shutdown();
-#endif
+    
+    archdep_mutex_destroy(lock);
 
     exit(exit_code);
-}
-
-#ifdef USE_GTK3UI
-
-/*
- * GTK3 needs a more controlled shutdown due to the multiple threads involved.
- * In particular, it's tricky to synchronously shut down rendering threads as
- * certain OpenGL calls can block if the main thread is blocked (either that, or
- * if certain UI resources are destroyed, i'm not sure which at this point --dqh)
- */
-
-static gboolean exit_on_main_thread(gpointer not_used)
-{
-    actually_exit(vice_exit_code);
-
-    return FALSE;
 }
 
 void archdep_thread_init(void)
@@ -148,7 +121,7 @@ void archdep_thread_shutdown(void)
 
 void archdep_set_main_thread(void)
 {
-    main_thread = pthread_self();
+    archdep_mutex_create(&lock);
 
 #if defined(MACOS_COMPILE)
 
@@ -180,6 +153,13 @@ void archdep_set_main_thread(void)
 #endif
 }
 
+
+static void exit_on_main_thread(void)
+{
+    actually_exit(vice_exit_code);
+}
+
+
 /** \brief  Wrapper around exit()
  *
  * \param[in]   exit_code   exit code
@@ -188,12 +168,12 @@ void archdep_vice_exit(int exit_code)
 {
     vice_exit_code = exit_code;
 
-    if (pthread_equal(pthread_self(), main_thread)) {
+    if (archdep_thread_current_is_main()) {
         /* The main thread is calling this, we can shut down directly */
         actually_exit(exit_code);
     } else {
         /* We need the main thread to process the exit handling. */
-        gdk_threads_add_timeout(0, exit_on_main_thread, NULL);
+        mainlock_run_on_main_thread(exit_on_main_thread);
 
         if (mainlock_is_vice_thread()) {
             /* The vice thread will shut itself down so that archdep_vice_exit does not return */
@@ -202,14 +182,3 @@ void archdep_vice_exit(int exit_code)
         }
     }
 }
-
-#else /* #ifdef USE_GTK3UI */
-
-/** \brief  Wrapper around exit()
- */
-void archdep_vice_exit(int exit_code)
-{
-    actually_exit(exit_code);
-}
-
-#endif /* #ifdef USE_GTK3UI else */

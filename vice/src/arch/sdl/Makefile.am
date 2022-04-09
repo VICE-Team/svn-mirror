@@ -61,6 +61,7 @@ endif
 
 libarch_a_SOURCES = \
 	archdep.c \
+	archdep_thread.c \
 	archdep.h \
 	fullscreen.c \
 	fullscreenarch.h \

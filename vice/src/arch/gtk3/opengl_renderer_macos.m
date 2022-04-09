@@ -36,10 +36,10 @@
 
 #import "render_queue.h"
 
-#define CANVAS_LOCK() pthread_mutex_lock(&context->canvas_lock)
-#define CANVAS_UNLOCK() pthread_mutex_unlock(&context->canvas_lock)
-#define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
-#define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
+#define CANVAS_LOCK() archdep_mutex_lock(context->canvas_lock)
+#define CANVAS_UNLOCK() archdep_mutex_unlock(context->canvas_lock)
+#define RENDER_LOCK() archdep_mutex_lock(context->render_lock)
+#define RENDER_UNLOCK() archdep_mutex_unlock(context->render_lock)
 
 /* For some reason this isn't in the GDK quartz headers */
 NSView *gdk_quartz_window_get_nsview(GdkWindow *window);

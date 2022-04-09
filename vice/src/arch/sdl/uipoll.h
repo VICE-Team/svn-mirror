@@ -38,6 +38,15 @@
 #define SDL_POLL_KEYBOARD (1 << 1)
 #define SDL_POLL_MODIFIER (1 << 2)
 
-extern SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, int timeout);
+void sdl_ui_poll_init(void);
+void sdl_ui_poll_shutdown(void);
+
+/* Async replacement for SDL_PollEvent() */
+extern int sdl_ui_poll_pop_event(SDL_Event *e);
+
+/* Copy an SDL_Event to the queue processed by sdl_ui_event_poll */
+extern void sdl_ui_poll_push_event(SDL_Event *e);
+
+extern SDL_Event sdl_ui_poll_specific_event(const char *what, const char *target, int options, int timeout);
 
 #endif

@@ -37,9 +37,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef USE_VICE_THREAD
-#include <pthread.h>
-#endif
 
 #include "archdep.h"
 #include "cmdline.h"
@@ -88,12 +85,10 @@ int video_disabled_mode = 0;
 int help_requested = 0;
 
 void main_loop_forever(void);
+void vice_thread_main(void *thread);
 
-#ifdef USE_VICE_THREAD
-void *vice_thread_main(void *);
-static pthread_t vice_thread;
-static pthread_mutex_t init_lock = PTHREAD_MUTEX_INITIALIZER;
-#endif
+static void *vice_thread;
+static void *init_lock;
 
 
 /** \brief  Size of buffer used to write core team members' names to log/stdout
@@ -107,7 +102,7 @@ static pthread_mutex_t init_lock = PTHREAD_MUTEX_INITIALIZER;
 /* ------------------------------------------------------------------------- */
 
 /* This is the main program entry point.  Call this from `main()'.  */
-int main_program(int argc, char **argv)
+int main_program_init(int argc, char **argv)
 {
     int i, n;
     const char *program_name;
@@ -117,18 +112,33 @@ int main_program(int argc, char **argv)
     int reserr;
     char *cmdline;
 
-#ifdef USE_VICE_THREAD
+    /*
+     * Each thread in VICE, including main, needs to call this before anything
+     * else. Basically this is for init COM on Windows.
+     */
+
+    archdep_thread_init();
+
+    /*
+     * The exit code needs to know what thread is the main thread, so that if
+     * archdep_vice_exit() is called from any other thread, it knows it needs
+     * to asynchronously call exit() on the main thread.
+     */
+
+    archdep_set_main_thread();
+
     /*
      * The init lock guarantees that all main thread init outcomes are visible
      * to the VICE thread.
      */
 
-    pthread_mutex_lock(&init_lock);
 
-    archdep_thread_init();
+    archdep_mutex_create(&init_lock);
+    archdep_mutex_lock(init_lock);
+
+    archdep_thread_set_main();
 
     mainlock_init();
-#endif
 
     archdep_set_openmp_wait_policy();
 
@@ -366,20 +376,12 @@ int main_program(int argc, char **argv)
 
     initcmdline_check_attach();
 
-#ifdef USE_VICE_THREAD
-
-    if (pthread_create(&vice_thread, NULL, vice_thread_main, NULL)) {
+    if (archdep_thread_create(&vice_thread, vice_thread_main)) {
         log_error(LOG_DEFAULT, "Fatal: failed to launch main thread");
         return 1;
     }
 
-    pthread_mutex_unlock(&init_lock);
-
-#else /* #ifdef USE_VICE_THREAD */
-
-    main_loop_forever();
-
-#endif /* #ifdef USE_VICE_THREAD */
+    archdep_mutex_unlock(init_lock);
 
     return 0;
 }
@@ -394,8 +396,6 @@ void main_loop_forever(void)
     log_error(LOG_DEFAULT, "perkele! (THREAD)");
 }
 
-#ifdef USE_VICE_THREAD
-
 void vice_thread_shutdown(void)
 {
     if (!vice_thread) {
@@ -408,7 +408,7 @@ void vice_thread_shutdown(void)
     /* log the active config as commandline options */
     cmdline_log_active();
 
-    if (pthread_equal(pthread_self(), vice_thread)) {
+    if (archdep_thread_current_is(vice_thread)) {
         printf("FIXME! VICE thread is trying to shut itself down directly, this needs to be called from the ui thread for a correct shutdown!\n");
         mainlock_initiate_shutdown();
         return;
@@ -416,23 +416,19 @@ void vice_thread_shutdown(void)
 
     mainlock_initiate_shutdown();
 
-    pthread_join(vice_thread, NULL);
+    archdep_thread_join(&vice_thread);
 
     log_message(LOG_DEFAULT, "VICE thread has been joined.");
 }
 
-void *vice_thread_main(void *unused)
+void vice_thread_main(void *thread)
 {
     /* Let the mainlock system know which thread is the vice thread */
-    mainlock_set_vice_thread();
+    mainlock_set_vice_thread(thread);
 
     /*
      * main_loop_forever() does not return, so we call archdep_thread_shutdown()
      * in the mainlock system which manages a direct pthread based thread exit.
      */
     main_loop_forever();
-
-    return NULL;
 }
-
-#endif /* #ifdef USE_VICE_THREAD */

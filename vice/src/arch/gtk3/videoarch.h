@@ -38,7 +38,6 @@
 #include "video.h"
 
 #include <gtk/gtk.h>
-#include <pthread.h>
 
 
 /** \brief  Enum for rendering backends for the Gtk3 port
@@ -70,7 +69,10 @@ typedef struct video_canvas_s {
     unsigned int created;
 
     /** \brief Used to coordinate vice thread access */
-    pthread_mutex_t lock;
+    void *lock;
+
+    /** \brief A queue of rendered backbuffers ready to be displayed */
+    void *render_queue;
 
     /** \brief Top-level widget that contains the full contents of the
      *         machine window. */
@@ -134,6 +136,9 @@ typedef struct video_canvas_s {
 
     /** \brief Drawing buffer as seen by the emulator core. */
     struct draw_buffer_s *draw_buffer;
+
+    /** \brief Drawing buffer as seen by the emulator core. */
+    struct draw_buffer_s *draw_buffer_vsid;
 
     /** \brief Display window as seen by the emulator core. */
     struct viewport_s *viewport;

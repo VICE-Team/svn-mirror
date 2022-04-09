@@ -244,13 +244,6 @@ void ui_shutdown(void)
 }
 
 
-/** \brief  Dispatch events pending in the GLib main context loop
- */
-void ui_dispatch_events(void)
-{
-    /* printf("%s\n", __func__); */
-}
-
 /** \brief  Display the "Do you want to extend the disk image to
  *          40-track format?" dialog
  *

@@ -104,17 +104,19 @@ void main_exit(void)
 
 }
 
-#ifdef USE_VICE_THREAD
 bool mainlock_is_vice_thread(void)
 {
-
     return false;
 }
 
 void mainlock_initiate_shutdown(void)
 {
 }
-#endif
+
+void mainlock_run_on_main_thread(mainlock_callback_t callback)
+{
+    callback();
+}
 
 #if 0
 void enable_text(void)

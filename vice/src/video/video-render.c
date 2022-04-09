@@ -86,8 +86,6 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
         return; /* some render routines don't like invalid width */
     }
 
-    video_sound_update(config, src, width, height, xs, ys, pitchs, viewport);
-
     rendermode = config->rendermode;
 
     switch (rendermode) {

@@ -39,7 +39,9 @@
 #include "fullscreenarch.h"
 #include "kbd.h"
 #include "log.h"
+#include "mainlock.h"
 #include "ui.h"
+#include "uipoll.h"
 #include "video.h"
 #include "videoarch.h"
 
@@ -71,7 +73,7 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 
         */
         count = 10; while (count--) {
-            while (SDL_PollEvent(&e)) {
+            while (sdl_ui_poll_pop_event(&e)) {
                 switch (e.type) {
                     case SDL_KEYDOWN:
                     case SDL_KEYUP:
@@ -79,7 +81,7 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
                         break;
                 }
             }
-            SDL_Delay(20);
+            mainlock_yield_and_sleep(tick_per_second() / 60);
         }
     }
     return 0;

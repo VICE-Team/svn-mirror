@@ -38,6 +38,7 @@
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "menu_common.h"
 #include "raster.h"
 #include "resources.h"
@@ -671,7 +672,7 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                 }
                 break;
             default:
-                SDL_Delay(10);
+                mainlock_yield_and_sleep(tick_per_second() / 120);
                 break;
         }
     }
@@ -1302,7 +1303,7 @@ void sdl_ui_init_draw_params(void)
         sdl_ui_set_menu_params(sdl_active_canvas->index, &menu_draw);
     }
 
-    menu_draw.pitch = sdl_active_canvas->draw_buffer->draw_buffer_pitch;
+    menu_draw.pitch = sdl_active_canvas->draw_buffer->draw_buffer_width;
     menu_draw.offset = sdl_active_canvas->geometry->gfx_position.x + menu_draw.extra_x
                        + (sdl_active_canvas->geometry->gfx_position.y + menu_draw.extra_y) * menu_draw.pitch
                        + sdl_active_canvas->geometry->extra_offscreen_border_left;
@@ -1322,7 +1323,7 @@ ui_menu_action_t sdl_ui_menu_poll_input(void)
     ui_menu_action_t retval = MENU_ACTION_NONE;
 
     do {
-        SDL_Delay(20);
+        mainlock_yield_and_sleep(tick_per_second() / 60);
         retval = ui_dispatch_events();
 #ifdef HAVE_SDL_NUMJOYSTICKS
         if (retval == MENU_ACTION_NONE || retval == MENU_ACTION_NONE_RELEASE) {

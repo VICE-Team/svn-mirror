@@ -47,10 +47,10 @@
 #include "ui.h"
 #include "uistatusbar.h"
 
-#define CANVAS_LOCK() pthread_mutex_lock(&canvas->lock)
-#define CANVAS_UNLOCK() pthread_mutex_unlock(&canvas->lock)
-#define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
-#define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
+#define CANVAS_LOCK() archdep_mutex_lock(canvas->lock)
+#define CANVAS_UNLOCK() archdep_mutex_unlock(canvas->lock)
+#define RENDER_LOCK() archdep_mutex_lock(context->render_lock)
+#define RENDER_UNLOCK() archdep_mutex_unlock(context->render_lock)
 
 typedef vice_directx_renderer_context_t context_t;
 
@@ -103,7 +103,7 @@ static void vice_directx_initialise_canvas(video_canvas_t *canvas)
     context = lib_calloc(1, sizeof(context_t));
 
     context->canvas_lock = canvas->lock;
-    pthread_mutex_init(&context->render_lock, NULL);
+    archdep_mutex_create(&context->render_lock);
     canvas->renderer_context = context;
 
     g_signal_connect (canvas->event_box, "realize", G_CALLBACK (on_widget_realized), canvas);
@@ -120,7 +120,7 @@ static void vice_directx_destroy_context(video_canvas_t *canvas)
     context = canvas->renderer_context;
 
     if (context) {
-        pthread_mutex_destroy(&context->render_lock);
+        archdep_mutex_destroy(context->render_lock);
         lib_free(context);
         canvas->renderer_context = NULL;
     }
