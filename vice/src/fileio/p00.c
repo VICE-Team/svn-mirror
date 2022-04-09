@@ -335,7 +335,7 @@ char *p00_filename_create(const char *file_name, unsigned int type)
             break;
     }
 
-    p00name = util_concat(main_name, ARCHDEP_EXT_SEP_STR, typeext, "00", NULL);
+    p00name = util_concat(main_name, ".", typeext, "00", NULL);
     lib_free(main_name);
 
     return p00name;

@@ -784,7 +784,7 @@ void util_add_extension(char **name, const char *extension)
     }
 
     *name = lib_realloc(*name, name_len + ext_len + 2);
-    (*name)[name_len] = ARCHDEP_EXT_SEP_CHR;
+    (*name)[name_len] = '.';
     memcpy(&((*name)[name_len + 1]), extension, ext_len + 1);
 }
 
@@ -826,7 +826,7 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
         return;
     }
 
-    name[name_len] = ARCHDEP_EXT_SEP_CHR;
+    name[name_len] = '.';
     memcpy(name + name_len + 1, extension, ext_len + 1);
 }
 
@@ -838,7 +838,7 @@ char *util_get_extension(const char *filename)
         return NULL;
     }
 
-    s = strrchr(filename, ARCHDEP_EXT_SEP_CHR);
+    s = strrchr(filename, '.');
     if (s) {
         return s + 1;
     } else {

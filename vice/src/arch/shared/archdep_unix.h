@@ -43,10 +43,6 @@
 #define ARCHDEP_FSDEVICE_DEFAULT_DIR "."    /**< CWD */
 #define ARCHDEP_DIR_SEP_STR "/"     /**< directory separator as a string */
 #define ARCHDEP_DIR_SEP_CHR '/'     /**< directory separator as an integer */
-#define ARCHDEP_EXT_SEP_STR "."     /**< file extension separator as a string
-                                         (doesn't exist on Unix) */
-#define ARCHDEP_EXT_SEP_CHR '.'     /**< file extension separator as an integer
-                                         (doesn't exist on Unix) */
 
 /* Path separator.  */
 
