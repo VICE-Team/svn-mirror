@@ -30,6 +30,7 @@
 
 #include "types.h"
 
+#include "c128.h"
 #include "c128model.h"
 #include "cartridge.h"
 #include "cia.h"
@@ -142,6 +143,44 @@ static const ui_menu_entry_t vdc_menu[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_RADIO(MachineType)
+
+static const ui_menu_entry_t machine_type_menu[] = {
+    { "International",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MachineType_callback,
+      (ui_callback_data_t)C128_MACHINE_INT },
+    { "Finnish",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MachineType_callback,
+      (ui_callback_data_t)C128_MACHINE_FINNISH },
+    { "French",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MachineType_callback,
+      (ui_callback_data_t)C128_MACHINE_FRENCH },
+    { "German",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MachineType_callback,
+      (ui_callback_data_t)C128_MACHINE_GERMAN },
+    { "Italian",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MachineType_callback,
+      (ui_callback_data_t)C128_MACHINE_ITALIAN },
+    { "Norwegian",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MachineType_callback,
+      (ui_callback_data_t)C128_MACHINE_NORWEGIAN },
+    { "Swedish",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MachineType_callback,
+      (ui_callback_data_t)C128_MACHINE_SWEDISH },
+    { "Swiss",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MachineType_callback,
+      (ui_callback_data_t)C128_MACHINE_SWISS },
+    SDL_MENU_LIST_END
+};
+
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 UI_MENU_DEFINE_TOGGLE(Go64Mode)
@@ -151,6 +190,10 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)c128_model_menu },
+    { "Select machine type",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)machine_type_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Joyport settings",
       MENU_ENTRY_SUBMENU,
@@ -164,6 +207,7 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sid_c128_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("CIA models"),
     { "CIA 1 model",
       MENU_ENTRY_SUBMENU,
@@ -173,6 +217,7 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)cia2_model_submenu },
+    SDL_MENU_ITEM_SEPARATOR,
     { "VDC settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
