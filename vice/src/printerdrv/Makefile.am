@@ -41,5 +41,6 @@ libprinterdrv_a_SOURCES = \
 	output.h \
 	printer-serial.c \
 	printer-userport.c \
-	printer.c
+	printer.c \
+	printer.h
 

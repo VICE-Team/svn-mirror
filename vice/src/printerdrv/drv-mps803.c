@@ -40,6 +40,7 @@
 #include "output-select.h"
 #include "output.h"
 #include "palette.h"
+#include "printer.h"
 #include "sysfile.h"
 #include "types.h"
 
@@ -51,8 +52,6 @@
 
 #define MAX_COL 480
 #define MAX_ROW 66 * 10
-
-#define MPS803_ROM_SIZE (7 * 512)
 
 #define MPS_REVERSE  0x01
 #define MPS_CRSRUP   0x02 /* set in gfxmode (default) unset in businessmode */
@@ -495,7 +494,7 @@ int drv_mps803_init(void)
 
     drv803_log = log_open("MPS-803");
 
-    init_charset(charset, "mps803");
+    init_charset(charset, MPS803_ROM_NAME);
 
     palette = palette_create(2, color_names);
 
