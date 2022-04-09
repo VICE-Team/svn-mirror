@@ -59,9 +59,9 @@
 #include "vice-event.h"
 
 
-#define EVENT_START_SNAPSHOT "start" ARCHDEP_EXT_SEP_STR "vsf"
-#define EVENT_END_SNAPSHOT "end" ARCHDEP_EXT_SEP_STR "vsf"
-#define EVENT_MILESTONE_SNAPSHOT "milestone" ARCHDEP_EXT_SEP_STR "vsf"
+#define EVENT_START_SNAPSHOT "start.vsf"
+#define EVENT_END_SNAPSHOT "end.vsf"
+#define EVENT_MILESTONE_SNAPSHOT "milestone.vsf"
 
 
 /** \brief  Size of the CRC32 entries

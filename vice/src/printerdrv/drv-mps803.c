@@ -502,9 +502,9 @@ int drv_mps803_init(void)
         return -1;
     }
 
-    if (palette_load("mps803" ARCHDEP_EXT_SEP_STR "vpl", "PRINTER", palette) < 0) {
+    if (palette_load("mps803.vpl", "PRINTER", palette) < 0) {
         log_error(drv803_log, "Cannot load palette file `%s'.",
-                  "mps803" ARCHDEP_EXT_SEP_STR "vpl");
+                  "mps803.vpl");
         return -1;
     }
 

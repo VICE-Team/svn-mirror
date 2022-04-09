@@ -36,8 +36,6 @@
 #define ARCHDEP_FSDEVICE_DEFAULT_DIR "."
 #define ARCHDEP_DIR_SEP_STR "\\"
 #define ARCHDEP_DIR_SEP_CHR '\\'
-#define ARCHDEP_EXT_SEP_STR "."
-#define ARCHDEP_EXT_SEP_CHR '.'
 
 /* Path separator.  */
 #define ARCHDEP_FINDPATH_SEPARATOR_CHAR   ';'

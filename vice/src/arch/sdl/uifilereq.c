@@ -709,7 +709,7 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
     slots->entries = lib_malloc(sizeof(ui_menu_slot_entry) * total);
 
     progname = archdep_program_name();
-    temp_name = strchr(progname, ARCHDEP_EXT_SEP_CHR);
+    temp_name = strchr(progname, '.');
     if (temp_name) {
         *temp_name = 0;
     }
