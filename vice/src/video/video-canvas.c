@@ -282,7 +282,7 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
     video_canvas_new_frame_hook(canvas);
     
     /* Rendering to the backbuffer happens here */
-    video_canvas_prepare_backbuffer(canvas, canvas->draw_buffer_vsid, backbuffer);
+    video_canvas_prepare_backbuffer(canvas, draw_buffer, backbuffer);
     
 //    if (machine_class == VICE_MACHINE_VSID) {
 //        canvas->draw_buffer_vsid->draw_buffer_width = canvas->draw_buffer->draw_buffer_width;

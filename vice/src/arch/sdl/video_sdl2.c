@@ -1117,7 +1117,6 @@ void sdl_video_canvas_switch(int index)
 {
     struct video_canvas_s *canvas;
     int i;
-    backbuffer_t *backbuffer;
 
     DBG(("%s: %i->%i", __func__, sdl_active_canvas_num, index));
 

@@ -114,7 +114,7 @@ void archdep_thread_exit(void *thread)
 
 void archdep_thread_join(void **thread)
 {
-    thread_internal_t *thread_internal = thread;
+    thread_internal_t *thread_internal = *thread;
     int thread_result;
     
     SDL_WaitThread(thread_internal->thread, &thread_result);
