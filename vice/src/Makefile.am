@@ -134,6 +134,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/fsdevice \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/plus4 \
@@ -235,7 +236,6 @@ noinst_HEADERS = \
 	petui.h \
 	piacore.h \
 	plus4ui.h \
-	printer.h \
 	ps2mouse.h \
 	r65c02.h \
 	ram.h \

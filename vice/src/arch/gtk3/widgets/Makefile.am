@@ -9,6 +9,7 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \

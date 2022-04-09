@@ -57,4 +57,11 @@ extern void printer_serial_shutdown(void);
 /* Userport interface.  */
 extern int printer_userport_init_resources(void);
 
+#define MPS803_ROM_SIZE (7 * 512)
+
+#define MPS801_ROM_NAME     "mps801.bin"
+#define CBM1526_ROM_NAME    "cbm1526-325341-08.bin"     /* same as mps802 ? */
+#define MPS803_ROM_NAME     "mps803.bin"
+#define NL10_ROM_NAME       "nl10.bin"
+
 #endif

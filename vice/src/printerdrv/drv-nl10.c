@@ -37,6 +37,7 @@
 #include "output-select.h"
 #include "output.h"
 #include "palette.h"
+#include "printer.h"
 #include "sysfile.h"
 #include "types.h"
 #include "lib.h"
@@ -2217,7 +2218,7 @@ static const uint8_t drv_nl10_charset_mapping[3][256] =
 
 static int drv_nl10_init_charset(void)
 {
-    char *name = "nl10-cbm";
+    char *name = NL10_ROM_NAME;
     int i, j;
 
     memset(drv_nl10_charset_nlq, 0, CHARSET_SIZE * 47);

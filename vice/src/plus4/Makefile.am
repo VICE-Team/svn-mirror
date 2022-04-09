@@ -9,6 +9,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/core \
 	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/monitor \
