@@ -69,22 +69,25 @@ static uint8_t latch_line[JOYPORT_MAX_PORTS] = {0};
 
 static joyport_t joyport_snespad_device;
 
-static int joyport_snespad_enable(int port, int value)
+static int joyport_snespad_set_enabled(int port, int enabled)
 {
-    int val = value ? 1 : 0;
+    int new_state = enabled ? 1 : 0;
 
-    if (val == snespad_enabled[port]) {
+    if (new_state == snespad_enabled[port]) {
         return 0;
     }
 
-    if (val) {
+    if (new_state) {
+        /* enabled, set counter to 0 and enable snes mapping instead of joystick mapping */
         counter[port] = 0;
         joystick_set_snes_mapping(port);
     } else {
+        /* disabled, disable snes mapping */
         joyport_clear_mapping(port);
     }
 
-    snespad_enabled[port] = val;
+    /* set current state */
+    snespad_enabled[port] = new_state;
 
     return 0;
 }
@@ -184,7 +187,7 @@ static joyport_t joyport_snespad_device = {
     JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_SNES_ADAPTER,       /* device is a SNES adapter */
     0x1C,                              /* bits 4 and 3 are output bits */
-    joyport_snespad_enable,            /* device enable function */
+    joyport_snespad_set_enabled,       /* device enable/disable function */
     snespad_read,                      /* digital line read function */
     snespad_store,                     /* digital line store function */
     NULL,                              /* NO pot-x read function */
