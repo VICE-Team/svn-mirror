@@ -34,6 +34,7 @@
 #include "debug.h"
 #include "c128mem.h"
 #include "c128ui.h"
+#include "c128rom.h"
 #include "menu_c128hw.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_c64cart.h"
@@ -266,7 +267,7 @@ int c128ui_init(void)
     uiclockport_ide64_menu_create();
     uimedia_menu_create();
     sdl_ui_set_main_menu(x128_main_menu);
-    sdl_ui_font_init("chargen", 0, 0x800, 0);
+    sdl_ui_font_init(C128_CHARGEN_NAME, 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_c128);
 
 #ifdef HAVE_FFMPEG
