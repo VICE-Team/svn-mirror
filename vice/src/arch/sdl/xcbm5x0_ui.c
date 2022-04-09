@@ -33,6 +33,7 @@
 #include "debug.h"
 #include "cbm2.h"
 #include "cbm2mem.h"
+#include "cbm2rom.h"
 #include "cbm2ui.h"
 #include "lib.h"
 #include "machine.h"
@@ -241,7 +242,7 @@ int cbm5x0ui_init(void)
 
     sdl_ui_set_main_menu(xcbm5x0_main_menu);
     sdl_video_canvas_switch(1);
-    sdl_ui_font_init("chargen.500", 0, 0x800, 0);
+    sdl_ui_font_init(CBM2_CHARGEN500_NAME, 0, 0x800, 0);
 
     sdl_vkbd_set_vkbd(&vkbd_cbm2);
 
