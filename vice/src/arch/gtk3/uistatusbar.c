@@ -23,7 +23,8 @@
  * (Do not add resources controlled by widgets #include'd by this widget, only
  *  add resources actually controlled from this widget)
  *
- * $VICERES SoundVolume all
+ * $VICERES SoundVolume     all
+ * $VICERES C128ColumnKey   x128
  */
 
 /*
