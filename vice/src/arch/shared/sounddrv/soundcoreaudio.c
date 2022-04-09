@@ -248,7 +248,6 @@ static int determine_output_device_id()
         kAudioObjectPropertyScopeGlobal,
         kAudioObjectPropertyElementMaster
     };
-    bool requested_device_found = false;
 
     /* get default audio device id */
     property_address.mSelector = kAudioHardwarePropertyDefaultOutputDevice;
@@ -354,7 +353,6 @@ static int determine_output_device_id()
         if (kCFCompareEqualTo == CFStringCompare(requested_device_name_ref, device_name_ref, 0)) {
             /* matches the requested audio device */
             device = audio_devices[i];
-            requested_device_found = true;
         }
 
         lib_free(device_name);
