@@ -221,7 +221,8 @@ EXTRA_DIST = \
 	macOS-ui-runtime.sh \
 	Resources/VICE.icns \
 	vice-launcher.sh \
-	x11-launcher.sh
+	x11-launcher.sh \
+	vice_sdl.h
 
 if WINDOWS_COMPILE
 

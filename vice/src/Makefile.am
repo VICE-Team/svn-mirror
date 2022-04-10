@@ -270,7 +270,6 @@ noinst_HEADERS = \
 	via.h \
 	vic20ui.h \
 	vice.h \
-	vice_sdl.h \
 	vicedate.h \
 	vice-event.h \
 	vicesocket.h \
