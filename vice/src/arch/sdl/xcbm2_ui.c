@@ -33,6 +33,7 @@
 #include "debug.h"
 #include "cbm2.h"
 #include "cbm2mem.h"
+#include "cbm2rom.h"
 #include "cbm2ui.h"
 #include "lib.h"
 #include "machine.h"
@@ -251,7 +252,7 @@ int cbm2ui_init(void)
 
     sdl_ui_set_menu_params = cbm2ui_set_menu_params;
     sdl_ui_set_main_menu(xcbm6x0_7x0_main_menu);
-    sdl_ui_font_init("chargen.600", 0x800, 0, 1);
+    sdl_ui_font_init(CBM2_CHARGEN600_NAME, 0x800, 0, 1);
 
     sdl_vkbd_set_vkbd(&vkbd_cbm2);
 

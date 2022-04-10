@@ -37,15 +37,6 @@
    original size at load time so we dont need extra code for this at runtime */
 #define CBM2_CHARGEN_ROM_SIZE   0x4000
 
-#define CBM2_CHARGEN500 "chargen" ARCHDEP_EXT_SEP_STR "500"
-#define CBM2_CHARGEN600 "chargen" ARCHDEP_EXT_SEP_STR "600"
-#define CBM2_CHARGEN700 "chargen" ARCHDEP_EXT_SEP_STR "700"
-#define CBM2_BASIC128   "basic" ARCHDEP_EXT_SEP_STR "128"
-#define CBM2_BASIC256   "basic" ARCHDEP_EXT_SEP_STR "256"
-#define CBM2_BASIC500   "basic" ARCHDEP_EXT_SEP_STR "500"
-#define CBM2_KERNAL     "kernal"
-#define CBM2_KERNAL500  "kernal" ARCHDEP_EXT_SEP_STR "500"
-
 extern uint8_t mem_rom[CBM2_ROM_SIZE];
 extern uint8_t mem_chargen_rom[CBM2_CHARGEN_ROM_SIZE];
 
