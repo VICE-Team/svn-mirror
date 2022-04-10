@@ -117,7 +117,6 @@ static Uint32 rmask = 0, gmask = 0, bmask = 0, amask = 0;
 static int texformat = 0;
 static int recreate_textures = 0;
 
-uint8_t *draw_buffer_vsid = NULL;
 /* ------------------------------------------------------------------------- */
 /* Video-related resources.  */
 
@@ -578,7 +577,6 @@ void video_shutdown(void)
 {
     DBG(("%s", __func__));
 
-    draw_buffer_vsid = NULL;
     sdl_active_canvas = NULL;
 }
 

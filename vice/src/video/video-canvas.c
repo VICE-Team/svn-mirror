@@ -251,9 +251,7 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
     h  = canvas->videoconfig->scaley * MIN(draw_buffer->canvas_height, viewport->last_line - viewport->first_line + 1);
     
     /*
-     * If there is an unused render buffer, render a new frame.
-     *
-     * TODO: Convert this to a copy of everything needed to render the frame, and push the work to the ui/render thread
+     * If there is no unused render buffer, we can't render a new frame.
      */
     
     backbuffer = render_queue_get_from_pool(canvas->render_queue, draw_buffer->padded_allocations_size_bytes, 4 * w * h);
@@ -276,30 +274,13 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
     backbuffer->screen_data_height  = draw_buffer->draw_buffer_height;
     backbuffer->screen_data_offset  = draw_buffer->padded_allocations_offset;
     
-//    video_sound_update(canvas->videoconfig, canvas->draw_buffer->draw_buffer,
-//                       w, h, xs, ys, canvas->draw_buffer->draw_buffer_width, canvas->viewport);
+    video_sound_update(canvas->videoconfig, draw_buffer->draw_buffer,
+                       w, h, xs, ys, draw_buffer->draw_buffer_width, canvas->viewport);
     
     video_canvas_new_frame_hook(canvas);
     
-    /* Rendering to the backbuffer happens here */
+    /* Copy the drawbuffer to be rendered off-thread */
     video_canvas_prepare_backbuffer(canvas, draw_buffer, backbuffer);
-    
-//    if (machine_class == VICE_MACHINE_VSID) {
-//        canvas->draw_buffer_vsid->draw_buffer_width = canvas->draw_buffer->draw_buffer_width;
-//        canvas->draw_buffer_vsid->draw_buffer_height = canvas->draw_buffer->draw_buffer_height;
-//        canvas->draw_buffer_vsid->canvas_physical_width = canvas->draw_buffer->canvas_physical_width;
-//        canvas->draw_buffer_vsid->canvas_physical_height = canvas->draw_buffer->canvas_physical_height;
-//        canvas->draw_buffer_vsid->canvas_width = canvas->draw_buffer->canvas_width;
-//        canvas->draw_buffer_vsid->canvas_height = canvas->draw_buffer->canvas_height;
-//        canvas->draw_buffer_vsid->visible_width = canvas->draw_buffer->visible_width;
-//        canvas->draw_buffer_vsid->visible_height = canvas->draw_buffer->visible_height;
-//
-//        video_canvas_prepare_backbuffer(canvas, canvas->draw_buffer_vsid, backbuffer);
-//        //video_canvas_render(canvas, (uint8_t *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch);
-//    } else {
-//        video_canvas_prepare_backbuffer(canvas, canvas->draw_buffer, backbuffer);
-//        // video_canvas_render(canvas, backbuffer->pixel_data, w, h, xs, ys, xi, yi, backbuffer->width * 4);
-//    }
 
     /* Place in the queue for another thread to pick up */
     render_queue_enqueue_for_display(canvas->render_queue, backbuffer);

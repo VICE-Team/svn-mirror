@@ -381,6 +381,8 @@ int vsid_ui_init(void)
 {
     unsigned int width;
     unsigned int height;
+    draw_buffer_t *draw_buffer;
+    draw_buffer_t *draw_buffer_vsid;
 
     /* set function pointers to handle drag-n-drop of SID files */
     sdl_vsid_set_init_func(psid_init_driver);
@@ -408,8 +410,16 @@ int vsid_ui_init(void)
     if (raster_draw_buffer_init(sdl_active_canvas->draw_buffer_vsid, width, height, false)) {
         return -1;
     }
-
-    draw_buffer_vsid = sdl_active_canvas->draw_buffer_vsid->draw_buffer;
+    
+    draw_buffer = sdl_active_canvas->draw_buffer;
+    draw_buffer_vsid = sdl_active_canvas->draw_buffer_vsid;
+    
+    draw_buffer_vsid->canvas_physical_width = draw_buffer->canvas_physical_width;
+    draw_buffer_vsid->canvas_physical_height = draw_buffer->canvas_physical_height;
+    draw_buffer_vsid->canvas_width = draw_buffer->canvas_width;
+    draw_buffer_vsid->canvas_height = draw_buffer->canvas_height;
+    draw_buffer_vsid->visible_width = draw_buffer->visible_width;
+    draw_buffer_vsid->visible_height = draw_buffer->visible_height;
 
     return 0;
 }
