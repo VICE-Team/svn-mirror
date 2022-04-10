@@ -2672,7 +2672,7 @@ fi
 dsound_header_no_lib="no"
 
 if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
-    if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+    dnl if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
         SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
         AC_MSG_CHECKING(whether we can use directx sound)
         AC_CHECK_HEADER(dsound.h,
@@ -2699,7 +2699,7 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
               [ LIBS="$old_LIBS" ]
         )
 
-        if test x"$dsound_header_no_lib" = "xyes" -o x"$dinput_header_no_lib" = "xyes"; then
+        dnl if test x"$dsound_header_no_lib" = "xyes" -o x"$dinput_header_no_lib" = "xyes"; then
               AC_MSG_CHECKING(if CoInitialize can be linked)
               LIBS="$LIBS -lole32"
               AC_LINK_IFELSE([
@@ -2711,10 +2711,10 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
                                [ AC_MSG_RESULT(yes) ],
                                [ AC_MSG_ERROR(no) ]
                               )
-        fi
-    else
-        SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
-    fi
+        dnl fi
+    dnl else
+    dnl    SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
+    dnl fi
 fi
 
 dnl Do not remove (yet), for some reason these things are required even for
