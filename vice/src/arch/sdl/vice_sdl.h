@@ -75,14 +75,6 @@
 #  endif
 #endif
 
-#ifdef SDL_AMIGA_INLINE
-#  include <inline/SDL.h>
-#endif
-
-#ifdef POWERSDL_AMIGA_INLINE
-#  include <ppcinline/powersdl.h>
-#endif
-
 /* restore HAVE_STRDUP definition if it is not defined */
 #ifdef HAVE_VICE_STRDUP
 #ifndef HAVE_STRDUP
