@@ -1,3 +1,4 @@
+*.exe
 c1541
 c64/psiddrv.h
 c64/psiddrv.o65

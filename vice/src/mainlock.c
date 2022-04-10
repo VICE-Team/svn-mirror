@@ -49,7 +49,7 @@
 static void *main_lock;
 
 /* How many times the UI has recursively obtained the main lock*/
-static int *main_lock_obtain_depth;
+static int main_lock_obtain_depth;
 
 /* Used to coordinate access to data within mainlock.c */
 static void *internal_lock;

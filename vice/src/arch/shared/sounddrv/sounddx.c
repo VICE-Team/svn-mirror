@@ -58,9 +58,10 @@
 #include "sound.h"
 #include "types.h"
 #include "uiapi.h"
+#include "videoarch.h"
 
 /* FIXME: each of the following should probably get moved to archdep */
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#if defined(USE_SDLUI)
 
 static HWND ui_get_main_hwnd(void)
 {
@@ -69,6 +70,18 @@ static HWND ui_get_main_hwnd(void)
     SDL_GetWMInfo(&info);
 
     return info.window;
+}
+
+#elif defined(USE_SDL2UI)
+
+static HWND ui_get_main_hwnd(void)
+{
+    SDL_SysWMinfo info;
+
+    SDL_VERSION(&info.version);
+    SDL_GetWindowWMInfo(sdl_active_canvas->container->window, &info);
+
+    return info.info.win.window;
 }
 
 #elif defined(USE_GTK3UI)
