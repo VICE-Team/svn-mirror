@@ -89,7 +89,7 @@ fi
 
 if [ "$PROGRAM" != "" ]; then
   "$ROOT_DIR/bin/$PROGRAM" "$@"
+else
+  exit 1
 fi
-
-exit 0
 
