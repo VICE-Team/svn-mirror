@@ -94,6 +94,6 @@ extern int driverom_snapshot_read(struct snapshot_s *s, struct drive_s *drive);
 
 #define DRIVE_ROM2000_NAME          "dos2000-cs-33cc6f.bin"
 #define DRIVE_ROM4000_NAME          "dos4000-fd-350022.bin"
-#define DRIVE_ROMCMDHD_NAME         "dosCMDHD"                  /* FIXME: identify */
+#define DRIVE_ROMCMDHD_NAME         "bootromCMDHD-v2-80.bin"
 
 #endif

@@ -1770,8 +1770,8 @@ drives, as well as the CMD hard drive:
 (CMD FD DOS 1.4, CMD ROM image fd-350022.bin)
 
 @item
-@file{dosCMDHD}, the CMD HD boot ROM (16 KiB)
-(CMD ROM image)
+@file{bootromCMDHD-v2-80.bin}, the CMD HD boot ROM (16 KiB)
+(Boot ROM V2.80, CMD ROM image)
 
 @end itemize
 
