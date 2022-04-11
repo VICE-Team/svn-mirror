@@ -175,6 +175,9 @@ int main(int argc, char **argv)
                 sdl2_hide_second_window_impl();
                 mainlock_release();
 #endif
+
+            } else if (e.type == sdl_event_readline_request) {
+                sdl_ui_readline_input_impl();
                 
             } else {
                 /* Copy SDL_Event to queue for VICE thread */

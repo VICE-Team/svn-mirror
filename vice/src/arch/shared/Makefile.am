@@ -32,7 +32,7 @@ AM_OBJCFLAGS = @VICE_OBJCFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libarchdep.a
+noinst_LIBRARIES = libarchdep.a libtoolarchdep.a
 
 libarchdep_a_SOURCES = \
 	archdep_access.c \
@@ -128,8 +128,13 @@ libarchdep_a_SOURCES += macOS-util.m
 endif
 
 if !USE_SDLUI
+if !USE_SDL2UI
 libarchdep_a_SOURCES += archdep_thread.c
 endif
+endif
+
+libtoolarchdep_a_SOURCES = \
+	archdep_thread.c
 
 EXTRA_DIST = \
 	archapi.h \

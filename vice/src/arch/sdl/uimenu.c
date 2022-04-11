@@ -48,6 +48,7 @@
 #include "ui.h"
 #include "uihotkey.h"
 #include "uimenu.h"
+#include "uipoll.h"
 #include "util.h"
 #include "video.h"
 #include "videoarch.h"
@@ -65,6 +66,13 @@
 #else
 #define DBG(x)
 #endif
+
+typedef struct readline_result_s {
+    int got_key;
+    SDLKey key;
+    SDLMod mod;
+    Uint16 c_uni;
+} readline_result_t;
 
 int sdl_menu_state = 0;
 int sdl_pause_state = 0;
@@ -948,16 +956,65 @@ static int sdl_ui_readline_vkbd_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
 static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 {
+    readline_result_t *data;
+    SDL_Event out_event;
+    SDL_Event in_event;
+    int got_key;
+    
+    /*
+     * Text input needs to happen on the main thread
+     */
+        
+    out_event.type = sdl_event_readline_request;
+    SDL_PushEvent(&out_event);
+    
+    /*
+     * Now wait for the result
+     */
+    
+    for (;;) {
+        if (sdl_ui_poll_pop_event(&in_event)) {
+            if (in_event.type == sdl_event_readline_result) {
+
+                /*
+                 * Copy the result key data sent from the main thread
+                 */
+
+                data = in_event.user.data1;
+                
+                *key = data->key;
+                *mod = data->mod;
+                *c_uni = data->c_uni;
+                got_key = data->got_key;
+                
+                lib_free(data);
+                
+                return got_key;
+            }
+        } else {
+            mainlock_yield_and_sleep(tick_per_second() / 60);
+        }
+    }
+}
+
+void sdl_ui_readline_input_impl(void)
+{
+    readline_result_t *result;
     SDL_Event e;
-    int got_key = 0;
+    SDL_Event return_event;
     ui_menu_action_t action = MENU_ACTION_NONE;
     int joynum;
 #ifdef USE_SDL2UI
     int i;
 #endif
-
-    *mod = KMOD_NONE;
-    *c_uni = 0;
+    
+    assert(archdep_thread_current_is_main());
+    
+    result = lib_malloc(sizeof(readline_result_t));
+    result->got_key = 0;
+    result->key = 0;
+    result->mod = KMOD_NONE;
+    result->c_uni = 0;
 
 #ifdef USE_SDL2UI
     SDL_StartTextInput();
@@ -970,31 +1027,31 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
         switch (e.type) {
             case SDL_KEYDOWN:
-                *key = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
-                *mod = e.key.keysym.mod;
+                result->key = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
+                result->mod = e.key.keysym.mod;
 #ifdef USE_SDL2UI
                 /* For SDL2x only get 'special' keys from keydown event. */
                 for (i = 0; keytable_pc_special[i] != -1; ++i) {
                     SDLKey special = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
                     if (special == keytable_pc_special[i]) {
-                        *c_uni = special;
-                        got_key = 1;
+                        result->c_uni = special;
+                        result->got_key = 1;
                     }
                 }
 #else
-                *c_uni = e.key.keysym.unicode;
-                got_key = 1;
+                *result->c_uni = e.key.keysym.unicode;
+                result->got_key = 1;
 #endif
                 break;
 
 #ifdef USE_SDL2UI
             case SDL_TEXTINPUT:
                 if (e.text.text[0] != 0) {
-                    *key = e.text.text[0];
-                    *c_uni = (Uint16)e.text.text[0];
+                    result->key = e.text.text[0];
+                    result->c_uni = (Uint16)e.text.text[0];
                     SDL_StopTextInput();
                     SDL_StartTextInput();
-                    got_key = 1;
+                    result->got_key = 1;
                 }
                 break;
 #endif
@@ -1026,21 +1083,21 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
         switch (action) {
             case MENU_ACTION_LEFT:
-                *key = VICE_SDLK_LEFT;
-                got_key = 1;
+                result->key = VICE_SDLK_LEFT;
+                result->got_key = 1;
                 break;
             case MENU_ACTION_RIGHT:
-                *key = VICE_SDLK_RIGHT;
-                got_key = 1;
+                result->key = VICE_SDLK_RIGHT;
+                result->got_key = 1;
                 break;
             case MENU_ACTION_SELECT:
-                *key = VICE_SDLK_RETURN;
-                got_key = 1;
+                result->key = VICE_SDLK_RETURN;
+                result->got_key = 1;
                 break;
             case MENU_ACTION_CANCEL:
             case MENU_ACTION_MAP:
-                *key = PC_VKBD_ACTIVATE;
-                got_key = 1;
+                result->key = PC_VKBD_ACTIVATE;
+                result->got_key = 1;
                 break;
             case MENU_ACTION_UP:
             case MENU_ACTION_DOWN:
@@ -1048,13 +1105,16 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
                 break;
         }
 
-    } while (!got_key);
+    } while (!result->got_key);
 
 #ifdef USE_SDL2UI
     SDL_StopTextInput();
 #endif
-
-    return got_key;
+    
+    /* Pass the result to the VICE thread */
+    return_event.type = sdl_event_readline_result;
+    return_event.user.data1 = result;
+    sdl_ui_poll_push_event(&return_event);
 }
 
 /*

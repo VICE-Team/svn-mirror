@@ -174,6 +174,7 @@ extern void sdl_ui_init_draw_params(void);
 extern void sdl_ui_reverse_colors(void);
 extern void sdl_ui_refresh(void);
 extern ui_menu_action_t sdl_ui_menu_poll_input(void);
+extern void sdl_ui_readline_input_impl(void);
 extern void sdl_ui_display_cursor(int pos, int old_pos);
 extern int sdl_ui_print(const char *text, int pos_x, int pos_y);
 extern int sdl_ui_print_center(const char *text, int pos_y);

@@ -95,7 +95,7 @@ void mainlock_set_vice_thread(void *thread)
 static void consider_exit(void)
 {
     /* NASTY - some emulation can continue on the main thread during shutdown. */
-    if (archdep_is_exiting()) {
+    if (!mainlock_is_vice_thread()) {
         return;
     }
 
@@ -227,6 +227,8 @@ void mainlock_obtain(void)
     }
 #endif
 
+    archdep_mutex_lock(internal_lock);
+
     /*
      * The UI may attempt to recursively obtain the mainlock during shutdown
      * and other cases where gtk event handlers recursively trigger other gtk
@@ -236,11 +238,10 @@ void mainlock_obtain(void)
      */
 
     if (main_lock_obtain_depth++ > 0) {
+        archdep_mutex_unlock(internal_lock);
         return;
     }
-
-    archdep_mutex_lock(internal_lock);
-
+    
     if (vice_thread_is_running) {
         /* Block until the VICE thread signals us */
         ui_is_waiting = true;
@@ -274,9 +275,13 @@ void mainlock_release(void)
     }
 #endif
 
-    archdep_mutex_unlock(main_lock);
+    archdep_mutex_lock(internal_lock);
 
-    main_lock_obtain_depth--;
+    if (--main_lock_obtain_depth == 0) {
+        archdep_mutex_unlock(main_lock);
+    }
+
+    archdep_mutex_unlock(internal_lock);
 }
 
 

@@ -161,6 +161,12 @@ extern Uint32 sdl_event_second_window_show;
 /* the second window needs to be hidden */
 extern Uint32 sdl_event_second_window_hide;
 
+/* the vice thread needs some text input */
+extern Uint32 sdl_event_readline_request;
+
+/* the main thread has the requested text input result */
+extern Uint32 sdl_event_readline_result;
+
 /* Resize window to stored real size */
 extern void sdl_video_restore_size(void);
 

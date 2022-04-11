@@ -83,8 +83,11 @@ static void increase_max_queue_size(void)
     
     /* Copy events to the start of the new queue */
     queue_write_index = 0;
-    while (sdl_ui_poll_pop_event(&resized_queue[queue_write_index])) {
-        queue_write_index++;
+    while(queue_length--) {
+        resized_queue[queue_write_index++] = queue[queue_read_index++];
+        if (queue_read_index == queue_alloc_size) {
+            queue_read_index = 0;
+        }
     }
     
     queue_length = queue_write_index;
@@ -114,10 +117,12 @@ void sdl_ui_poll_shutdown(void)
 
 int sdl_ui_poll_pop_event(SDL_Event *e)
 {
+    mainlock_yield_begin();
     archdep_mutex_lock(queue_lock);
     
     if (queue_length == 0) {
         archdep_mutex_unlock(queue_lock);
+        mainlock_yield_end();
         return 0;
     }
     
@@ -129,7 +134,8 @@ int sdl_ui_poll_pop_event(SDL_Event *e)
     }
     
     archdep_mutex_unlock(queue_lock);
-
+    mainlock_yield_end();
+    
     return 1;
 }
 
