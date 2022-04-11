@@ -66,6 +66,10 @@
  */
 #define ARCHDEP_MOUSE_ENABLE_DEFAULT    0
 
+/** \brief  Factory value of the CHIPShowStatusbar resource
+ */
+#define ARCHDEP_SHOW_STATUSBAR_FACTORY  0
+
 /* FIXME: Ugly hack for preventing SDL crash using -help */
 extern int sdl_help_shutdown;
 

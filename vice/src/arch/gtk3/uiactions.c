@@ -174,6 +174,7 @@ static const ui_action_info_internal_t action_info_list[] = {
     /* fullscreen, fullscreen decs, restore display */
     { ACTION_FULLSCREEN_TOGGLE,             "fullscreen-toggle",                "Toggle fullscreen",                        VICE_MACHINE_ALL },
     { ACTION_FULLSCREEN_DECORATIONS_TOGGLE, "fullscreen-decorations-toggle",    "Show menu/status in fullscreen",           VICE_MACHINE_ALL },
+    { ACTION_SHOW_STATUSBAR_TOGGLE,         "show-statusbar-toggle",            "Show status bar",                          VICE_MACHINE_ALL },
     { ACTION_RESTORE_DISPLAY,               "restore-display",                  "Resize application window to fit content", VICE_MACHINE_ALL },
 
     /* joystick, mouse etc */

@@ -43,6 +43,8 @@ void ui_statusbar_shutdown(void);
 
 GtkWidget *ui_statusbar_create(int window_identity);
 
+gboolean ui_statusbar_set_visible_for_window(GtkWidget *window, gboolean visible);
+
 void ui_display_statustext(const char *text, int fadeout);
 
 gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window);

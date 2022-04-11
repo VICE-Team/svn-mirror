@@ -863,6 +863,10 @@ static ui_menu_item_t settings_menu_head[] = {
         "fullscreen-widgets", ui_fullscreen_decorations_callback, NULL,
         GDK_KEY_B, VICE_MOD_MASK, false },
 #endif
+    { "Show status bar", UI_MENU_TYPE_ITEM_CHECK,
+      ACTION_SHOW_STATUSBAR_TOGGLE,
+      (void* )ui_action_toggle_show_statusbar, NULL, NULL,
+      0, 0, true },
 
     UI_MENU_SEPARATOR,
 
@@ -1228,6 +1232,7 @@ GtkWidget *ui_machine_menu_bar_create(void)
 #endif
     GtkWidget *help_submenu;
 
+
     /* create the top menu bar */
     menu_bar = gtk_menu_bar_new();
 
@@ -1358,7 +1363,6 @@ GtkWidget *ui_machine_menu_bar_create(void)
 
     main_menu_bar = menu_bar;    /* XXX: do I need g_object_ref()/g_object_unref()
                                          for this */
-
     return menu_bar;
 }
 
@@ -1636,15 +1640,26 @@ gboolean ui_set_vice_menu_item_hotkey_by_action(int action,
  */
 GtkWidget *ui_get_gtk_menu_item_by_action(int action)
 {
+    GtkWindow *window;
+    GtkWidget *grid;
+    GtkWidget *menu_bar;
     GList *node;
 
-    if (main_menu_bar == NULL) {
-        /* XXX: Happens with VSID for some reason, needs proper fix. */
-        debug_gtk3("FIXME: main_menu_bar == NULL.");
+    window = ui_get_active_window();
+    if (window == NULL) {
         return NULL;
     }
-    node = gtk_container_get_children(GTK_CONTAINER(main_menu_bar));
+    debug_gtk3("Window = %p (%s).", (void*)window, gtk_window_get_title(window));
+    grid = gtk_bin_get_child(GTK_BIN(window));
+    if (grid == NULL) {
+        return NULL;
+    }
+    menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    if (menu_bar == NULL) {
+        return NULL;
+    }
 
+    node = gtk_container_get_children(GTK_CONTAINER(menu_bar));
 #if 0
     debug_gtk3("Iterating menu main bar children.");
 #endif
@@ -1666,6 +1681,61 @@ GtkWidget *ui_get_gtk_menu_item_by_action(int action)
     }
     return NULL;
 }
+
+
+/** \brief  Get (sub)menu item from the Gtk menu bar by \a name and window index
+ *
+ * Try to look up a menu item for the action \a name in a specific window.
+ *
+ * \param[in]   action  menu action ID
+ * \param[in]   index   window index
+ *
+ * \return  GtkMenuItem reference or `NULL` when not found
+ */
+GtkWidget *ui_get_gtk_menu_item_by_action_for_window(int action, int index)
+{
+    GtkWidget *window;
+    GtkWidget *grid;
+    GtkWidget *menu_bar;
+    GList *node;
+
+    window = ui_get_window_by_index(index);
+    if (window == NULL) {
+        return NULL;
+    }
+    debug_gtk3("Window = %p (%s).", (void*)window, gtk_window_get_title(GTK_WINDOW(window)));
+    grid = gtk_bin_get_child(GTK_BIN(window));
+    if (grid == NULL) {
+        return NULL;
+    }
+    menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    if (menu_bar == NULL) {
+        return NULL;
+    }
+
+    node = gtk_container_get_children(GTK_CONTAINER(menu_bar));
+#if 0
+    debug_gtk3("Iterating menu main bar children.");
+#endif
+    while (node != NULL) {
+        GtkWidget *item = node->data;
+        if (item != NULL && GTK_IS_CONTAINER(item)) {
+#if 0
+            debug_gtk3("Item != NULL, getting submenu.");
+#endif
+            GtkWidget *submenu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(item));
+            if (submenu != NULL) {
+                item = ui_get_gtk_submenu_item_by_action(submenu, action);
+                if (item != NULL) {
+                    return item;
+                }
+            }
+        }
+        node = node->next;
+    }
+    return NULL;
+}
+
 
 
 /** \brief  Get (sub)menu item from the Gtk menu bar by hotkey

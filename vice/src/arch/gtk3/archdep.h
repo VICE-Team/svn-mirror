@@ -69,6 +69,10 @@
  */
 #define ARCHDEP_MOUSE_ENABLE_DEFAULT    0
 
+/** \brief  Factory value of the CHIPShowStatusbar resource
+ */
+#define ARCHDEP_SHOW_STATUSBAR_FACTORY  1
+
 
 /******************************************************************************/
 

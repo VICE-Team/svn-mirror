@@ -498,6 +498,42 @@ static resource_int_t resources_chip_crtemu[] =
     RESOURCE_INT_LIST_END
 };
 
+
+/** \brief  Setter for the "CHIPShowStatusbar" resource
+ *
+ * Set the boolean resource "CHIPShowStatusbar" resource, hiding or showing
+ * the status bar in the UI.
+ *
+ * \param[in]   hide    hide the status bar in the UI
+ * \param[in]   canvas  video canvas reference
+ *
+ * \return  0   (success)
+ */
+static int set_show_statusbar(int hide, void *canvas)
+{
+    video_canvas_t *c = (video_canvas_t *)canvas;
+    c->videoconfig->show_statusbar = hide ? 1 : 0;
+    return 0;
+}
+
+/** \brief  Resouce initializer template for CHIPShowStatusbar
+ *
+ * Values are filled in doing resource registration, dependent on CHIP and UI.
+ */
+static resource_int_t resources_chip_show_statusbar[] =
+{
+    { NULL,                             /* resource name: filled in */
+      ARCHDEP_SHOW_STATUSBAR_FACTORY,   /* factory default */
+      RES_EVENT_NO, NULL,               /* event stuff */
+      NULL,                             /* resource value pointer: filled in */
+      set_show_statusbar,               /* setter function */
+      NULL                              /* video_canvas reference for the setter:
+                                           filled in */
+    },
+    RESOURCE_INT_LIST_END
+};
+
+
 /*-----------------------------------------------------------------------*/
 #define RES_CHIP_MODE_MAX (2*4) /* assume max 2 videochips, 4 fullscreen devices */
 static video_resource_chip_mode_t *resource_chip_modes[RES_CHIP_MODE_MAX];
@@ -791,6 +827,21 @@ int video_resources_chip_init(const char *chipname,
         lib_free(resources_chip_rendermode[0].name);
     } else {
         set_chip_rendermode(VIDEO_FILTER_NONE, (void *)*canvas);
+    }
+
+    /* CHIPShowStatusbar */
+    if (machine_class != VICE_MACHINE_VSID) {
+        resources_chip_show_statusbar[0].name
+            = util_concat(chipname, "ShowStatusbar", NULL);
+        resources_chip_show_statusbar[0].value_ptr
+            = &((*canvas)->videoconfig->show_statusbar);
+        resources_chip_show_statusbar[0].param = (void *)*canvas;
+
+        if (resources_register_int(resources_chip_show_statusbar) < 0) {
+            lib_free(resources_chip_show_statusbar[0].name);
+            return -1;
+        }
+        lib_free(resources_chip_show_statusbar[0].name);
     }
 
     return 0;

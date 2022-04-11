@@ -1996,9 +1996,9 @@ int ui_init_finish(void)
 
 /** \brief  Finalize initialization after creating the main window(s)
  *
- * \note    This function exists for compatibility with other UIs,
- *          but could perhaps be used to activate fullscreen from the
- *          command-line or saved settings file (as it is in WinVICE.)
+ * Currently sets the proper state for the CHIPShowStatusbar toggle buttons since
+ * the resources aren't yet initialized when creating the menu structure(s) and
+ * the main window(s) is/are created.
  *
  * \return  0 on success, -1 on failure
  *
@@ -2006,6 +2006,38 @@ int ui_init_finish(void)
  */
 int ui_init_finalize(void)
 {
+   /* Set the CHIPShowStatusbar toggle button according to its resource */
+    if (machine_class != VICE_MACHINE_VSID) {
+        video_canvas_t *canvas;
+        int show_statusbar;
+
+        canvas = ui_resources.canvas[PRIMARY_WINDOW];
+        resources_get_int_sprintf("%sShowStatusbar",
+                                  &show_statusbar,
+                                  canvas->videoconfig->chip_name);
+        debug_gtk3("Setting primary window %sShowStatusbar toggle to %s.",\
+                   canvas->videoconfig->chip_name, 
+                   show_statusbar ? "ON" : "OFF");
+        ui_statusbar_set_visible_for_window(ui_resources.window_widget[PRIMARY_WINDOW],
+                                            show_statusbar);
+        ui_set_gtk_check_menu_item_blocked_by_action_for_window(
+                ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, PRIMARY_WINDOW);
+
+        if (machine_class == VICE_MACHINE_C128) {
+            /* set the secondary (VDC) window's menu toggle button */
+            canvas = ui_resources.canvas[SECONDARY_WINDOW];
+            resources_get_int_sprintf("%sShowStatusbar",
+                                      &show_statusbar,
+                                      canvas->videoconfig->chip_name);
+            debug_gtk3("Setting secondart window %sShowStatusbar toggle to %s.",\
+                       canvas->videoconfig->chip_name, 
+                       show_statusbar ? "ON" : "OFF");
+            ui_statusbar_set_visible_for_window(ui_resources.window_widget[SECONDARY_WINDOW],
+                                                show_statusbar);
+            ui_set_gtk_check_menu_item_blocked_by_action_for_window(
+                    ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, SECONDARY_WINDOW);
+        }
+    }
     return 0;
 }
 

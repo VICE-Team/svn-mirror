@@ -220,6 +220,7 @@ struct video_render_config_s {
     int interlace_field;           /* Which of the two interlaced frames is current? */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
     struct video_render_color_tables_s color_tables;
+    int show_statusbar;            /**< Show statusbar in the UI (boolean) */
     /* FIXME: get rid of as much as possible of the following: */
     int fullscreen_enabled;
     int fullscreen_mode[FULLSCREEN_MAXDEV];
