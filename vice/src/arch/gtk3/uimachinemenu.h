@@ -68,6 +68,7 @@ gboolean        ui_get_vice_menu_item_hotkey_by_action(int action,
                                                        guint *keysym,
                                                        GdkModifierType *modifier);
 GtkWidget *     ui_get_gtk_menu_item_by_action(int action);
+GtkWidget *     ui_get_gtk_menu_item_by_action_for_window(int action, int index);
 
 void            ui_set_gtk_menu_item_accel_label(GtkWidget *item, int action);
 

@@ -179,6 +179,37 @@ static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
 };
 #endif
 
+
+/** \brief  Template for [-+]CHIPshowstatusbar command line options
+ */
+static cmdline_option_t cmdline_options_chip_show_statusbar[] =
+{
+    /* -CHIPshowstatusbar */
+    { NULL,                 /* option name: filled in */
+      SET_RESOURCE,         /* set provided resource */
+      CMDLINE_ATTRIB_NONE,  /* boolean option, no arg */
+      NULL,                 /* function to set the resource (not used) */
+      NULL,                 /* extra param for the setter function (not used) */
+      NULL,                 /* resource name: filled in */
+      (void*)1,             /* resource value */
+      NULL,                 /* param name: none */
+      "Show status bar",    /* option description */
+    },
+    /* +CHIPshowstatusbar */
+    { NULL,                 /* option name: filled in */
+      SET_RESOURCE,         /* set provided resource */
+      CMDLINE_ATTRIB_NONE,  /* boolean option, no arg */
+      NULL,                 /* function to set the resource (not used) */
+      NULL,                 /* extra param for the setter function (not used) */
+      NULL,                 /* resource name: filled in */
+      (void*)0,             /* resource value */
+      NULL,                 /* param name: none */
+      "Hide status bar",    /* option description */
+    },
+    CMDLINE_LIST_END
+};
+
+
 static const char * const cname_chip_colors[] =
 {
     "-", "saturation", "ColorSaturation",
@@ -412,6 +443,28 @@ int video_cmdline_options_chip_init(const char *chipname,
         }
     }
 #endif
+
+    /* show status bar */
+    cmdline_options_chip_show_statusbar[0].name
+        = util_concat("-", chipname, "showstatusbar", NULL);
+    cmdline_options_chip_show_statusbar[0].resource_name
+        = util_concat(chipname, "ShowStatusbar", NULL);
+    /* hide status bar */
+    cmdline_options_chip_show_statusbar[1].name
+        = util_concat("+", chipname, "showstatusbar", NULL);
+    cmdline_options_chip_show_statusbar[1].resource_name
+        = util_concat(chipname, "ShowStatusbar", NULL);
+    if (cmdline_register_options(cmdline_options_chip_show_statusbar) < 0) {
+        lib_free(cmdline_options_chip_show_statusbar[0].name);
+        lib_free(cmdline_options_chip_show_statusbar[0].resource_name);
+        lib_free(cmdline_options_chip_show_statusbar[1].name);
+        lib_free(cmdline_options_chip_show_statusbar[1].resource_name);
+        return -1;
+    }
+    lib_free(cmdline_options_chip_show_statusbar[0].name);
+    lib_free(cmdline_options_chip_show_statusbar[0].resource_name);
+    lib_free(cmdline_options_chip_show_statusbar[1].name);
+    lib_free(cmdline_options_chip_show_statusbar[1].resource_name);
 
     /* color generator */
     for (i = 0; cname_chip_colors[i * 3] != NULL; i++) {

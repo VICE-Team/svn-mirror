@@ -54,6 +54,9 @@ void        ui_set_gtk_check_menu_item_blocked_by_resource(int action,
                                                            const char *resource);
 
 void        ui_set_gtk_check_menu_item_blocked_by_action(int action, gboolean state);
+void        ui_set_gtk_check_menu_item_blocked_by_action_for_window(int action,
+                                                                    gboolean state,
+                                                                    int index);
 
 
 

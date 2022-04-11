@@ -69,6 +69,12 @@
  */
 #define ARCHDEP_MOUSE_ENABLE_DEFAULT    0
 
+/** \brief  Factory value of the CHIPShowStatusbar resource
+ *
+ * XXX: A bit silly since the headless UI doesn't have a status bar.
+ */
+#define ARCHDEP_SHOW_STATUSBAR_FACTORY  0
+
 #ifdef UNIX_COMPILE
 #include "archdep_unix.h"
 #endif

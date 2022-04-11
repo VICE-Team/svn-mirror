@@ -23,8 +23,14 @@
  * (Do not add resources controlled by widgets #include'd by this widget, only
  *  add resources actually controlled from this widget)
  *
- * $VICERES SoundVolume     all
- * $VICERES C128ColumnKey   x128
+ * $VICERES SoundVolume         all
+ * $VICERES C128ColumnKey       x128
+ * $VICERES CrtcHideStatusbar   xcbm2 xpet
+ * $VICERES TEDHideStatusbar    xplus4
+ * $VICERES VDCHideStatusbar    x128
+ * $VICERES VICHideStatusbar    xvic
+ * $VICERES VICIIHideStatusbar  x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ *
  */
 
 /*
@@ -89,6 +95,7 @@
 #include "uidiskattach.h"
 #include "uifliplist.h"
 #include "uimachinemenu.h"
+#include "uimenu.h"
 #include "uisettings.h"
 #include "userport/userport_joystick.h"
 #include "vice_gtk3.h"
@@ -3650,4 +3657,62 @@ void ui_statusbar_update_kbd_debug(GdkEvent *report)
             kbd_debug_widget_update(widget, report);
         }
     }
+}
+
+
+/** \brief  Set visibility of the status bar for a main window
+ *
+ * \param[in]   window  main window
+ * \param[in]   visible visibility of status bar for \a window
+ *
+ * \return  TRUE on success
+ */
+gboolean ui_statusbar_set_visible_for_window(GtkWidget *window, gboolean visible)
+{
+    GtkWidget *main_grid;
+    GtkWidget *statusbar;
+
+    main_grid = gtk_bin_get_child(GTK_BIN(window));
+    if (main_grid == NULL) {
+        return FALSE;
+    }
+    statusbar = gtk_grid_get_child_at(GTK_GRID(main_grid), 0, 2);
+    if (statusbar == NULL) {
+        return FALSE;
+    }
+    if (visible) {
+        gtk_widget_show(statusbar);
+    } else {
+        gtk_widget_hide(statusbar);
+    }
+    return TRUE;
+}
+
+
+/** \brief  Show/Hide statusbar of the **active** window
+ *
+ * Toggle visibility of statusbar based on "${chip}HideStatusbar" resource.
+ *
+ * \return  TRUE (don't pass event along further)
+ */
+gboolean ui_action_toggle_show_statusbar(void)
+{
+    video_canvas_t *canvas = ui_get_active_canvas();
+    if (canvas != NULL) {
+        GtkWindow *window;
+        int show = 0;
+        const char *chip_name = canvas->videoconfig->chip_name;
+
+        resources_get_int_sprintf("%sShowStatusbar", &show, chip_name);
+        show = !show;
+        resources_set_int_sprintf("%sShowStatusbar", show, chip_name);
+        debug_gtk3("%sShowStatusbar => %s.", chip_name, show ? "True" : "False");
+
+        window = ui_get_active_window();
+        ui_statusbar_set_visible_for_window(GTK_WIDGET(window), show);
+        /* update menu item's toggled state! */
+        ui_set_gtk_check_menu_item_blocked_by_action(ACTION_SHOW_STATUSBAR_TOGGLE,
+                                                     show);
+    }
+    return TRUE;
 }

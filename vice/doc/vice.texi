@@ -10942,6 +10942,12 @@ Type of delay line used in the CRT (0: normal, 1: U only)
 Enable/disable video to audio leak emulation
 (@code{VICIIAudioLeak=1}, @code{VICIIAudioLeak=0}).
 
+@findex -VICIIshowstatusbar, +VICIIshowstatusbar
+@item -VICIIshowstatusbar
+@item +VICIIshowstatusbar
+Show/hide status bar
+(@code{VICIIShowStatusbar=1}, @code{VICIIShowStatusbar=0}).
+
 @end table
 
 
@@ -12194,6 +12200,12 @@ Enable/disable video to audio leak emulation
 Select rendering filter
 (@code{VDCFilter}).
 (0: None, 1: CRT emulation, 2: Scale2x)
+
+@findex -VDCshowstatusbar, +VDCshowstatusbar
+@item -VDCshowstatusbar
+@item +VDCshowstatusbar
+Show/hide status bar
+(@code{VDCShowStatusbar=1}, @code{VDCShowStatusbar=0}).
 
 @end table
 
@@ -13758,6 +13770,12 @@ Amount of scan line shading for the CRT emulation
 Enable/disable video to audio leak emulation
 (@code{VICAudioLeak=1}, @code{VICAudioLeak=0}).
 
+@findex -VICshowstatusbar, +VICshowstatusbar
+@item -VICshowstatusbar
+@item +VICshowstatusbar
+Show/hide status bar
+(@code{VICShowStatusbar=1}, @code{VICShowStatusbar=0}).
+
 @end table
 
 
@@ -14245,6 +14263,12 @@ Amount of scan line shading for the CRT emulation
 @item +TEDaudioleak
 Enable/disable video to audio leak emulation
 (@code{TEDAudioLeak=1}, @code{TEDAudioLeak=0}).
+
+@findex -TEDshowstatusbar, +TEDshowstatusbar
+@item -TEDshowstatusbar
+@item +TEDshowstatusbar
+Show/hide status bar
+(@code{TEDShowStatusbar=1}, @code{TEDShowStatusbar=0}).
 
 @end table
 
@@ -14820,6 +14844,12 @@ Amount of scan line shading for the CRT emulation
 @item +Crtcaudioleak
 Enable/disable video to audio leak emulation
 (@code{CrtcAudioLeak=1}, @code{CrtcAudioLeak=0}).
+
+@findex -Crtcshowstatusbar, +Crtcshowstatusbar
+@item -Crtcshowstatusbar
+@item +Crtcshowstatusbar
+Show/hide status bar
+(@code{CrtcShowStatusbar=1}, @code{CrtcShowStatusbar=0}).
 
 @end table
 
@@ -16022,6 +16052,32 @@ Integer specifying the fullscreen mode
 @item VICIIFullscreen
 Boolean specifying whether to use fullscreen mode or not
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@vindex CrtcShowStatusbar
+@item CrtcShowStatusbar
+Boolean specifying whether to show the status bar or not
+(xcbm2 and xpet only).
+
+@vindex TEDShowStatusbar
+@item TEDShowStatusbar
+Boolean specifying whether to show the status bar or not
+(xplus4 only).
+
+@vindex VDCShowStatusbar
+@item TEDShowStatusbar
+Boolean specifying whether to show the status bar or not
+(x128 only).
+
+@vindex VICShowStatusbar
+@item VICShowStatusbar
+Boolean specifying whether to show the status bar or not
+(xvic only).
+
+@vindex VICIIShowStatusbar
+@item VICIIShowStatusbar
+Boolean specifying whether to show the status bar or not
+(x64, x64sc, x64dtv, xscpu64, x128 and xcbm5x0).
+
 
 @end table
 
