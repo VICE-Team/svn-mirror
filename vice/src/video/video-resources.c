@@ -213,7 +213,7 @@ static resource_int_t resources_chip_rendermode[] =
     RESOURCE_INT_LIST_END
 };
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 static int set_fullscreen_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
@@ -237,7 +237,7 @@ static resource_int_t resources_chip_fullscreen_int[] =
 };
 #endif
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 static int set_fullscreen_mode(int val, void *param)
 {
     video_resource_chip_mode_t *video_resource_chip_mode = (video_resource_chip_mode_t *)param;
@@ -503,7 +503,7 @@ static resource_int_t resources_chip_crtemu[] =
 static video_resource_chip_mode_t *resource_chip_modes[RES_CHIP_MODE_MAX];
 static int resource_chip_modes_num = 0;
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 static video_resource_chip_mode_t *get_resource_chip_mode(void)
 {
     video_resource_chip_mode_t *p;
@@ -587,7 +587,7 @@ int video_resources_chip_init(const char *chipname,
     }
 
     /* fullscreen options */
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
     {
         video_resource_chip_mode_t *resource_chip_mode;
 

@@ -1183,10 +1183,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     canvas->sdl_surface = NULL;
     canvas->real_width = 0;
     canvas->real_height = 0;
-
-#ifdef USE_SDL2UI
     canvas->container = NULL;
-#endif
 
     /*
      * the render output can always be read from in SDL2,
@@ -1203,7 +1200,6 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 
     for (i = 0; i < sdl_num_screens; ++i) {
         if (sdl_canvaslist[i] == canvas) {
-#ifdef USE_SDL2UI
             /* If the second window isn't visible, then both canvas lists should
                be sharing the same container. Set the other one to NULL
                directly so we don't accidentally double free. */
@@ -1214,8 +1210,6 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
             }
             sdl_container_destroy(sdl_canvaslist[i]->container);
             sdl_canvaslist[i]->container = NULL;
-#endif
-
             SDL_FreeSurface(sdl_canvaslist[i]->sdl_surface);
             sdl_canvaslist[i]->sdl_surface = NULL;
         }

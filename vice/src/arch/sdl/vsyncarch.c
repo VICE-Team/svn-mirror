@@ -70,11 +70,9 @@ void vsyncarch_presync(void)
 
     sdl_lightpen_update();
 
-#ifdef USE_SDL2UI
     if (!console_mode) {
         raster_force_repaint(sdl_active_canvas->parent_raster);
     }
-#endif
 }
 
 void vsyncarch_postsync(void)

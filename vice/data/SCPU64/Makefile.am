@@ -78,11 +78,6 @@ sdl_hotkeys = \
 sym_file = \
 	scpu64mem.sym
 
-if USE_SDLUI
-scpu64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys) $(sym_file)
-EXTRA_DIST = $(scpu64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
-endif
-
 if USE_SDL2UI
 scpu64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys) $(sym_file)
 EXTRA_DIST = $(scpu64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)

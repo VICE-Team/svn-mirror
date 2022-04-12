@@ -164,7 +164,6 @@ int main(int argc, char **argv)
                 sdl_ui_refresh();
                 mainlock_release();
 
-#ifdef USE_SDL2UI
             } else if (e.type == sdl_event_second_window_show) {
                 mainlock_obtain();
                 sdl2_show_second_window_impl();
@@ -174,7 +173,6 @@ int main(int argc, char **argv)
                 mainlock_obtain();
                 sdl2_hide_second_window_impl();
                 mainlock_release();
-#endif
 
             } else if (e.type == sdl_event_readline_request) {
                 sdl_ui_readline_input_impl();

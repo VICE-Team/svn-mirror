@@ -141,7 +141,7 @@ static cmdline_option_t cmdline_options_chip_palette[] =
     CMDLINE_LIST_END
 };
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 static const char * const cname_chip_fullscreen[] =
 {
     "-", "full", "Fullscreen",
@@ -150,7 +150,7 @@ static const char * const cname_chip_fullscreen[] =
 };
 #endif
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 static cmdline_option_t cmdline_options_chip_fullscreen[] =
 {
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
@@ -163,7 +163,7 @@ static cmdline_option_t cmdline_options_chip_fullscreen[] =
 };
 #endif
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 static const char * const cname_chip_fullscreen_mode[] =
 {
     "-", "fullmode", "FullscreenMode",
@@ -369,7 +369,7 @@ int video_cmdline_options_chip_init(const char *chipname,
     }
 
     /* fullscreen options */
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
     {
         /* <CHIP>Fullscreen (FIXME: use for GTK3 instead of FullscreenEnable) */
         for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {

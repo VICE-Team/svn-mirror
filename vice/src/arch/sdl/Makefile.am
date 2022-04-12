@@ -47,18 +47,6 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 
 noinst_LIBRARIES = libarch.a libtoolarch.a
 
-if USE_SDL2UI
-
-libarch_a_VERDEP_SOURCES = \
-	video_sdl2.c
-
-else
-
-libarch_a_VERDEP_SOURCES = \
-	video_sdl1.c
-
-endif
-
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep_thread.c \
@@ -193,7 +181,7 @@ libarch_a_SOURCES = \
 	uipoll.h \
 	uistatusbar.c \
 	uistatusbar.h \
-	$(libarch_a_VERDEP_SOURCES) \
+	video_sdl2.c \
 	videoarch.h \
 	vkbd.c \
 	vkbd.h \

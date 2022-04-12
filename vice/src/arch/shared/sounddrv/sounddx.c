@@ -47,7 +47,7 @@
 #define DIRECTSOUND_VERSION 0x0500
 #include <dsound.h>
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 #define INCLUDE_SDL_SYSWM_H
 #include "vice_sdl.h"
 #endif
@@ -61,18 +61,8 @@
 #include "videoarch.h"
 
 /* FIXME: each of the following should probably get moved to archdep */
-#if defined(USE_SDLUI)
 
-static HWND ui_get_main_hwnd(void)
-{
-    SDL_SysWMinfo info;
-
-    SDL_GetWMInfo(&info);
-
-    return info.window;
-}
-
-#elif defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 
 static HWND ui_get_main_hwnd(void)
 {

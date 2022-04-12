@@ -49,7 +49,6 @@
 
 typedef void (*video_refresh_func_t)(struct video_canvas_s *, int, int, int, int, unsigned int, unsigned int);
 
-#ifdef USE_SDL2UI
 /** \brief Everything needed to render textures to the screen in a window */
 struct video_container_s {
     /** \brief The SDL window associated with this renderer and texture. */
@@ -70,7 +69,6 @@ struct video_container_s {
     int last_height;
 };
 typedef struct video_container_s video_container_t;
-#endif
 
 struct video_canvas_s {
     /** \brief Nonzero if it is safe to access other members of the
@@ -104,7 +102,6 @@ struct video_canvas_s {
     /** \brief Drawable surface. Main output for SDL1, SDL2 uses other members. */
     SDL_Surface* sdl_surface;
 
-#ifdef USE_SDL2UI
     /** \brief The texture that can be rendered to for this window and renderer. */
     SDL_Texture* texture;
 
@@ -113,7 +110,6 @@ struct video_canvas_s {
 
     /** \brief The SDL2 objects that this canvas can output to. */
     video_container_t* container;
-#endif
 
     struct video_render_config_s *videoconfig;
     int crt_type;
@@ -126,11 +122,6 @@ struct video_canvas_s {
 
     struct fullscreenconfig_s *fullscreenconfig;
     video_refresh_func_t video_fullscreen_refresh_func;
-
-#if defined(HAVE_HWSCALE) && !defined(USE_SDL2UI)
-    /* OpenGL context */
-    SDL_Surface *hwscale_screen;
-#endif
 
     /** \brief Used to limit frame rate under warp. */
     tick_t warp_next_render_tick;
@@ -170,13 +161,8 @@ extern Uint32 sdl_event_readline_result;
 /* Resize window to stored real size */
 extern void sdl_video_restore_size(void);
 
-#ifdef USE_SDL2UI
 /* special case handling for the SDL window resize event */
 extern void sdl2_video_resize_event(int canvas_id, unsigned int w, unsigned int h);
-#else
-/* special case handling for the SDL window resize event */
-extern void sdl_video_resize_event(unsigned int w, unsigned int h);
-#endif
 
 /* Switch to canvas with given index; used by x128 and xcbm2 */
 extern void sdl_video_canvas_switch(int index);
@@ -192,7 +178,6 @@ void sdl_ui_consume_mouse_event(SDL_Event *event);
 #define SDL_LIMIT_MODE_MAX   1
 #define SDL_LIMIT_MODE_FIXED 2
 
-#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 /* Modes of fixed aspect ratio */
 #define SDL_ASPECT_MODE_OFF    0
 #define SDL_ASPECT_MODE_CUSTOM 1
@@ -201,18 +186,15 @@ void sdl_ui_consume_mouse_event(SDL_Event *event);
 /* Filtering modes */
 #define SDL_FILTER_NEAREST     0
 #define SDL_FILTER_LINEAR      1
-#endif
 
 /* _impl versions of functions are asynchronously called from the main thread. */
 
 extern void sdl_ui_set_window_title(char *title);
 
-#ifdef USE_SDL2UI
 extern void sdl2_show_second_window(void);
 extern void sdl2_show_second_window_impl(void);
 extern void sdl2_hide_second_window(void);
 extern void sdl2_hide_second_window_impl(void);
-#endif
 
 extern void sdl2_video_canvas_resize_impl(struct video_canvas_s *canvas);
 

@@ -401,11 +401,7 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("Version " VERSION, i);
 #endif
         i++;
-#ifdef USE_SDL2UI
         sdl_ui_print_center("SDL2", i++);
-#else
-        sdl_ui_print_center("SDL", i++);
-#endif
         i++;
         sdl_ui_print_center("The VICE Team", i++);
         for (j = 0; core_team[j].name; j++) {

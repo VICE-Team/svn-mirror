@@ -127,10 +127,8 @@ if MACOS_COMPILE
 libarchdep_a_SOURCES += macOS-util.m
 endif
 
-if !USE_SDLUI
 if !USE_SDL2UI
 libarchdep_a_SOURCES += archdep_thread.c
-endif
 endif
 
 libtoolarchdep_a_SOURCES = \

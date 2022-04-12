@@ -607,8 +607,6 @@ void vsync_do_end_of_line(void)
 
 bool vsync_should_skip_frame(struct video_canvas_s *canvas)
 {
-    tick_t now = tick_now();
-
     /*
      * Ideally the draw alarm wouldn't be triggered
      * during shutdown but here we are - apply workaround.

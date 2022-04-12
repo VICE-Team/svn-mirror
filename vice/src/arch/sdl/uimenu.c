@@ -1004,9 +1004,7 @@ void sdl_ui_readline_input_impl(void)
     SDL_Event return_event;
     ui_menu_action_t action = MENU_ACTION_NONE;
     int joynum;
-#ifdef USE_SDL2UI
     int i;
-#endif
     
     assert(archdep_thread_current_is_main());
     
@@ -1016,9 +1014,7 @@ void sdl_ui_readline_input_impl(void)
     result->mod = KMOD_NONE;
     result->c_uni = 0;
 
-#ifdef USE_SDL2UI
     SDL_StartTextInput();
-#endif
 
     do {
         action = MENU_ACTION_NONE;
@@ -1029,7 +1025,7 @@ void sdl_ui_readline_input_impl(void)
             case SDL_KEYDOWN:
                 result->key = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
                 result->mod = e.key.keysym.mod;
-#ifdef USE_SDL2UI
+
                 /* For SDL2x only get 'special' keys from keydown event. */
                 for (i = 0; keytable_pc_special[i] != -1; ++i) {
                     SDLKey special = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
@@ -1038,13 +1034,8 @@ void sdl_ui_readline_input_impl(void)
                         result->got_key = 1;
                     }
                 }
-#else
-                *result->c_uni = e.key.keysym.unicode;
-                result->got_key = 1;
-#endif
                 break;
 
-#ifdef USE_SDL2UI
             case SDL_TEXTINPUT:
                 if (e.text.text[0] != 0) {
                     result->key = e.text.text[0];
@@ -1054,7 +1045,6 @@ void sdl_ui_readline_input_impl(void)
                     result->got_key = 1;
                 }
                 break;
-#endif
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
@@ -1107,9 +1097,7 @@ void sdl_ui_readline_input_impl(void)
 
     } while (!result->got_key);
 
-#ifdef USE_SDL2UI
     SDL_StopTextInput();
-#endif
     
     /* Pass the result to the VICE thread */
     return_event.type = sdl_event_readline_result;
@@ -1311,9 +1299,6 @@ void sdl_ui_activate_pre_action(void)
         sdl_vsid_close();
     }
 
-#ifndef USE_SDL2UI
-    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-#endif
     sdl_menu_state = 1;
     ui_check_mouse_cursor();
     DBG(("sdl_ui_activate_pre_action end\n"));
@@ -1326,9 +1311,6 @@ void sdl_ui_activate_post_action(void)
 
     sdl_menu_state = 0;
     ui_check_mouse_cursor();
-#ifndef USE_SDL2UI
-    SDL_EnableKeyRepeat(0, 0);
-#endif
 
     /* Do not resume sound if in warp mode */
     if (!vsync_get_warp_mode()) {
@@ -1593,10 +1575,6 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
     /* draw previous string (if any), initialize size and cursor position */
     size = i = sdl_ui_print_wrap(new_string, pos_x, &pos_y);
 
-#ifndef USE_SDL2UI
-    SDL_EnableUNICODE(1);
-#endif
-
     do {
         if (i != prev) {
             if ((pos_y * menu_draw.max_text_x + pos_x + i) >= (menu_draw.max_text_y * menu_draw.max_text_x)) {
@@ -1709,10 +1687,6 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
             string_changed = 1;
         }
     } while (!done);
-
-#ifndef USE_SDL2UI
-    SDL_EnableUNICODE(0);
-#endif
 
     if ((!string_changed && previous) || escaped) {
         lib_free(new_string);

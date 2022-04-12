@@ -39,7 +39,6 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
 #define KBD_PORT_PREFIX "sdl"
 
-#ifdef USE_SDL2UI
 #define SDLKey SDL_Keycode
 #define SDLMod SDL_Keymod
 #define SDLK_KP0 SDLK_KP_0
@@ -59,9 +58,6 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 #define SDLK_PRINT SDLK_PRINTSCREEN
 #define SDLK_NUMLOCK SDLK_NUMLOCKCLEAR
 #define SDLK_SCROLLOCK SDLK_SCROLLLOCK
-#else
-#define SDL_NUM_SCANCODES   512 /* this must be the same value as in SDL2 headers */
-#endif
 
 #define VICE_SDLK_RIGHT     275
 #define VICE_SDLK_LEFT      276

@@ -24,7 +24,7 @@
  *
  */
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 #error This file should not be used for SDL builds
 #endif
 

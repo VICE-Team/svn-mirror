@@ -50,7 +50,7 @@ char *archdep_get_vice_datadir(void)
     char *path;
 
 #ifdef WINDOWS_COMPILE
-# if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI)
+# if defined(USE_SDL2UI) || defined(USE_HEADLESSUI)
     path = lib_strdup(archdep_boot_path());
 # elif defined(USE_GTK3UI)
     path = util_join_paths(archdep_boot_path(), "..", NULL);

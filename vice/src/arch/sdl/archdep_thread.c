@@ -71,11 +71,7 @@ int archdep_thread_create(void **thread, thread_function_t thread_function)
     thread_internal->function = thread_function;
     *thread = thread_internal;
 
-#ifdef USE_SDL2UI
     thread_internal->thread = SDL_CreateThread(archdep_thread_wrap, "VICE thread", thread_internal);
-#else
-    thread_internal->thread = SDL_CreateThread(archdep_thread_wrap, thread_internal);
-#endif
     
     if (thread_internal->thread == NULL) {
         lib_free(thread);
