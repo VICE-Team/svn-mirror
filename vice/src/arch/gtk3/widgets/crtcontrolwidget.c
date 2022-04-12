@@ -214,7 +214,9 @@ typedef struct crt_control_resource_s {
 typedef struct crt_control_s {
     crt_control_resource_t res;     /**< resource info */
     GtkWidget *scale;               /**< GtkScale reference */
+#if 0
     GtkWidget *spin;                /**< GtkSpinButton reference */
+#endif
 } crt_control_t;
 
 
@@ -369,6 +371,7 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
 }
 
 
+#if 0
 /** \brief  Handler for the 'value-changed' event of the spin buttons
  *
  * Updates \a scale with the value of \a spin.
@@ -380,8 +383,10 @@ static void on_spin_value_changed(GtkWidget *spin, gpointer scale)
 {
     vice_gtk3_resource_scale_custom_sync(scale);
 }
+#endif
 
 
+#if 0
 /** \brief  Handler for the 'value-changed' event of the scale widgets
  *
  * Updates \a spin with the value of \a scale
@@ -396,7 +401,7 @@ static void on_scale_value_changed(GtkWidget *scale, gpointer spin)
     vice_gtk3_resource_scale_custom_get(scale, &scaleval);
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (double)scaleval);
 }
-
+#endif
 
 
 /** \brief  Create right-aligned label with a smaller font
@@ -463,7 +468,7 @@ static GtkWidget *create_slider(
     return scale;
 }
 
-
+#if 0
 /** \brief  Create spin button for \a resource of \a chip
  *
  * \param[in]   resource    resource name, excluding \a chip
@@ -488,6 +493,7 @@ static GtkWidget *create_spin(
             chip, resource);
     return spin;
 }
+#endif
 
 
 /** \brief  Create "U-only delayline" check button
@@ -542,7 +548,7 @@ static int add_sliders(GtkGrid *grid,
                     control->res.disp_fmt,
                     minimal);
             gtk_grid_attach(grid, control->scale, 1, row, 1, 1);
-
+#if 0
             control->spin = create_spin(control->res.name, chip,
                     control->res.low, control->res.high, control->res.step,
                     minimal);
@@ -554,6 +560,7 @@ static int add_sliders(GtkGrid *grid,
             g_signal_connect(control->spin, "value-changed",
                     G_CALLBACK(on_spin_value_changed),
                     (gpointer)(control->scale));
+#endif
             row++;
         }
     } else {
@@ -584,9 +591,11 @@ static int add_sliders(GtkGrid *grid,
 
             if (control->scale != NULL) {
                 gtk_widget_set_sensitive(control->scale, is_ntsc);
+#if 0
                 if (control->spin != NULL) {
                     gtk_widget_set_sensitive(control->spin, is_ntsc);
                 }
+#endif
             }
         }
     }
@@ -622,7 +631,9 @@ static crt_control_data_t *create_control_data(const char *chip)
         control->res.disp_step = resource_table[i].disp_step;
         control->res.disp_fmt = resource_table[i].disp_fmt;
         control->scale = NULL;
+#if 0
         control->spin = NULL;
+#endif
     }
     data->delayline = NULL;
     return data;
