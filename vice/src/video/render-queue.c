@@ -61,7 +61,9 @@ typedef struct vice_render_queue_s {
 } render_queue_t;
 
 static void free_backbuffer(backbuffer_t *backbuffer) {
+#ifdef MANAGED_PIXEL_DATA_BUFFER
     lib_free(backbuffer->pixel_data);
+#endif
     lib_free(backbuffer->screen_data_padded);
     lib_free(backbuffer);
 }
@@ -81,7 +83,9 @@ void *render_queue_create(void)
     for (int i = 0; i < RENDER_QUEUE_MAX_BACKBUFFERS; i++) {
 
         bb = lib_calloc(1, sizeof(backbuffer_t));
+#ifdef MANAGED_PIXEL_DATA_BUFFER
         bb->pixel_data          = lib_malloc(0);
+#endif
         bb->screen_data_padded  = lib_malloc(0);
 
         rq->backbuffer_stack[rq->backbuffer_stack_size++] = bb;
@@ -143,12 +147,14 @@ backbuffer_t *render_queue_get_from_pool(void *render_queue, int screen_data_siz
     }
     bb->screen_data_used_size_bytes = screen_data_size_bytes;
     
+#ifdef MANAGED_PIXEL_DATA_BUFFER
     if (bb->pixel_data_allocated_size_bytes < pixel_data_size_bytes) {
         lib_free(bb->pixel_data);
         bb->pixel_data                      = lib_malloc(pixel_data_size_bytes);
         bb->pixel_data_allocated_size_bytes = pixel_data_size_bytes;
     }
     bb->pixel_data_used_size_bytes = pixel_data_size_bytes;
+#endif
 
     return bb;
 }

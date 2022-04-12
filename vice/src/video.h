@@ -268,7 +268,7 @@ extern void video_canvas_resize(struct video_canvas_s *canvas);
 /* Called from VICE thread */
 extern void video_canvas_prepare_backbuffer(struct video_canvas_s *canvas, struct draw_buffer_s *draw_buffer, struct backbuffer_s *backbuffer);
 /* Called from render thread (GTK) or ui thread (SDL) to finalise the render */
-extern void video_canvas_render_backbuffer(struct backbuffer_s *backbuffer);
+extern void video_canvas_render_backbuffer(struct backbuffer_s *backbuffer, void *destination, int pitch);
 /* old style  all-in-one render */
 extern void video_canvas_render(struct video_canvas_s *canvas, uint8_t *trg,
                                 int width, int height, int xs, int ys,

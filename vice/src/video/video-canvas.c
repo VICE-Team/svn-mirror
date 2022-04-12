@@ -152,11 +152,11 @@ void video_canvas_prepare_backbuffer(video_canvas_t *canvas, draw_buffer_t *draw
         backbuffer->screen_data_used_size_bytes);
 }
 
-void video_canvas_render_backbuffer(backbuffer_t *backbuffer)
+void video_canvas_render_backbuffer(backbuffer_t *backbuffer, void *destination, int pitch)
 {
     video_render_main(&backbuffer->videoconfig,
                       backbuffer->screen_data_padded + backbuffer->screen_data_offset,
-                      backbuffer->pixel_data,
+                      destination,
                       backbuffer->width,
                       backbuffer->height,
                       backbuffer->xs,
@@ -164,7 +164,7 @@ void video_canvas_render_backbuffer(backbuffer_t *backbuffer)
                       backbuffer->xi,
                       backbuffer->yi,
                       backbuffer->screen_data_width,
-                      backbuffer->width * 4,
+                      pitch,
                       &backbuffer->viewport);
 }
 

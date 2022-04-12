@@ -34,12 +34,19 @@
 #include "video.h"
 #include "viewport.h"
 
+/* Some platforms use the managed backbuffer_t->pixel_data buffer, some do not */
+#ifdef WINDOWS_COMPILE
+#define MANAGED_PIXEL_DATA_BUFFER
+#endif
+
 typedef struct backbuffer_s {
     bool interlaced;
     int interlace_field;
+#ifdef MANAGED_PIXEL_DATA_BUFFER
     unsigned char *pixel_data;
     unsigned int pixel_data_allocated_size_bytes;
     unsigned int pixel_data_used_size_bytes;
+#endif
     unsigned int width;
     unsigned int height;
     float pixel_aspect_ratio;

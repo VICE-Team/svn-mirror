@@ -846,8 +846,6 @@ void video_canvas_display_backbuffer(video_canvas_t *canvas)
         return;
     }
     
-    video_canvas_render_backbuffer(backbuffer);
-
     if (recreate_textures) {
         recreate_all_textures();
         recreate_textures = 0;
@@ -857,7 +855,7 @@ void video_canvas_display_backbuffer(video_canvas_t *canvas)
     }
 
     SDL_LockTexture(canvas->texture, NULL, &pixels, &pitch);
-    memcpy(pixels, backbuffer->pixel_data, backbuffer->pixel_data_used_size_bytes);
+    video_canvas_render_backbuffer(backbuffer, pixels, pitch);
     render_queue_return_to_pool(canvas->render_queue, backbuffer);
     SDL_UnlockTexture(canvas->texture);
     
