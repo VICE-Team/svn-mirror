@@ -152,9 +152,6 @@ static int initial_warp_mode_resource;
 /* warp mode cmdline arg controlling whether warp should be enabled from launch. Overrides InitialWarpMode resource. */
 static int initial_warp_mode_cmdline = -1;
 
-/* When the next frame should be rendered, not skipped, during warp. */
-static tick_t warp_render_tick_interval;
-
 /* Triggers the vice thread to update its priorty */
 static volatile int update_thread_priority = 1;
 
@@ -329,9 +326,6 @@ void vsync_init(void (*hook)(void))
     } else {
         vsync_set_warp_mode(initial_warp_mode_resource);
     }
-
-    /* Limit warp rendering to 10fps */
-    warp_render_tick_interval = tick_per_second() / 10.0;
 
     vsync_hook = hook;
     vsync_suspend_speed_eval();
@@ -623,31 +617,6 @@ bool vsync_should_skip_frame(struct video_canvas_s *canvas)
     if (archdep_is_exiting()) {
         /* skip this frame */
         return true;
-    }
-
-    /*
-     * Limit rendering fps if we're in warp mode.
-     * It's ugly enough for dqh to weep but makes warp faster.
-     */
-
-    if (warp_enabled) {
-        if (now < canvas->warp_next_render_tick) {
-            if (now < canvas->warp_next_render_tick - warp_render_tick_interval) {
-                /* next render tick is further ahead than it should be */
-                canvas->warp_next_render_tick = now + warp_render_tick_interval;
-            }
-            /* skip this frame */
-            return true;
-        } else {
-            canvas->warp_next_render_tick += warp_render_tick_interval;
-
-            if (canvas->warp_next_render_tick < now) {
-                /* Warp rendering is behind, catch up */
-                canvas->warp_next_render_tick = now + warp_render_tick_interval;
-            }
-            /* render this frame */
-            return false;
-        }
     }
 
     /* render this frame */
