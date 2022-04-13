@@ -141,7 +141,7 @@ static cmdline_option_t cmdline_options_chip_palette[] =
     CMDLINE_LIST_END
 };
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
 static const char * const cname_chip_fullscreen[] =
 {
     "-", "full", "Fullscreen",
@@ -150,7 +150,7 @@ static const char * const cname_chip_fullscreen[] =
 };
 #endif
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
 static cmdline_option_t cmdline_options_chip_fullscreen[] =
 {
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
@@ -400,47 +400,45 @@ int video_cmdline_options_chip_init(const char *chipname,
     }
 
     /* fullscreen options */
+#if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
+    /* <CHIP>Fullscreen */
+    for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {
+        cmdline_options_chip_fullscreen[i].name
+            = util_concat(cname_chip_fullscreen[i * 3], chipname,
+                          cname_chip_fullscreen[i * 3 + 1], NULL);
+        cmdline_options_chip_fullscreen[i].resource_name
+            = util_concat(chipname, cname_chip_fullscreen[i * 3 + 2], NULL);
+    }
+
+    if (cmdline_register_options(cmdline_options_chip_fullscreen) < 0) {
+        return -1;
+    }
+
+    for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {
+        lib_free(cmdline_options_chip_fullscreen[i].name);
+        lib_free(cmdline_options_chip_fullscreen[i].resource_name);
+    }
+#endif
+
 #if defined(USE_SDLUI) || defined(USE_SDL2UI)
-    {
-        /* <CHIP>Fullscreen (FIXME: use for GTK3 instead of FullscreenEnable) */
-        for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {
-            cmdline_options_chip_fullscreen[i].name
-                = util_concat(cname_chip_fullscreen[i * 3], chipname,
-                              cname_chip_fullscreen[i * 3 + 1], NULL);
-            cmdline_options_chip_fullscreen[i].resource_name
-                = util_concat(chipname, cname_chip_fullscreen[i * 3 + 2], NULL);
-        }
+    /* <CHIP>FullscreenMode (SDL only) */
+    for (i = 0; cname_chip_fullscreen_mode[i * 3] != NULL; i++) {
+        cmdline_options_chip_fullscreen_mode[i].name
+            = util_concat(cname_chip_fullscreen_mode[i * 3], chipname,
+                          cname_chip_fullscreen_mode[i * 3 + 1], NULL);
+        cmdline_options_chip_fullscreen_mode[i].resource_name
+            = util_concat(chipname,
+                          cname_chip_fullscreen_mode[i * 3 + 2], NULL);
+    }
 
-        if (cmdline_register_options(cmdline_options_chip_fullscreen) < 0) {
-            return -1;
-        }
+    if (cmdline_register_options(cmdline_options_chip_fullscreen_mode)
+        < 0) {
+        return -1;
+    }
 
-        for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {
-            lib_free(cmdline_options_chip_fullscreen[i].name);
-            lib_free(cmdline_options_chip_fullscreen[i].resource_name);
-        }
-
-        /* <CHIP>FullscreenMode (SDL only) */
-        {
-            for (i = 0; cname_chip_fullscreen_mode[i * 3] != NULL; i++) {
-                cmdline_options_chip_fullscreen_mode[i].name
-                    = util_concat(cname_chip_fullscreen_mode[i * 3], chipname,
-                                  cname_chip_fullscreen_mode[i * 3 + 1], NULL);
-                cmdline_options_chip_fullscreen_mode[i].resource_name
-                    = util_concat(chipname,
-                                  cname_chip_fullscreen_mode[i * 3 + 2], NULL);
-            }
-
-            if (cmdline_register_options(cmdline_options_chip_fullscreen_mode)
-                < 0) {
-                return -1;
-            }
-
-            for (i = 0; cname_chip_fullscreen_mode[i * 3] != NULL; i++) {
-                lib_free(cmdline_options_chip_fullscreen_mode[i].name);
-                lib_free(cmdline_options_chip_fullscreen_mode[i].resource_name);
-            }
-        }
+    for (i = 0; cname_chip_fullscreen_mode[i * 3] != NULL; i++) {
+        lib_free(cmdline_options_chip_fullscreen_mode[i].name);
+        lib_free(cmdline_options_chip_fullscreen_mode[i].resource_name);
     }
 #endif
 
