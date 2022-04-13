@@ -501,8 +501,8 @@ static resource_int_t resources_chip_crtemu[] =
 
 /** \brief  Setter for the "CHIPShowStatusbar" resource
  *
- * Set the boolean resource "CHIPShowStatusbar" resource, hiding or showing
- * the status bar in the UI.
+ * Set the boolean resource "CHIPShowStatusbar", hiding or showing the status
+ * bar in the UI.
  *
  * \param[in]   hide    hide the status bar in the UI
  * \param[in]   canvas  video canvas reference
@@ -516,9 +516,9 @@ static int set_show_statusbar(int hide, void *canvas)
     return 0;
 }
 
-/** \brief  Resouce initializer template for CHIPShowStatusbar
+/** \brief  Resource registration template for CHIPShowStatusbar
  *
- * Values are filled in doing resource registration, dependent on CHIP and UI.
+ * Values are filled in during resource registration, dependent on CHIP and UI.
  */
 static resource_int_t resources_chip_show_statusbar[] =
 {
