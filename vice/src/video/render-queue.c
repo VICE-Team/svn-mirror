@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#define RENDER_QUEUE_MAX_BACKBUFFERS 2
+
 #include <assert.h>
 #include <string.h>
 

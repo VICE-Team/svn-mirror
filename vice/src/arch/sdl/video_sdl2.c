@@ -841,23 +841,20 @@ void video_canvas_display_backbuffer(video_canvas_t *canvas)
         return;
     }
     
-    backbuffer = render_queue_dequeue_for_display(canvas->render_queue);
-    if (backbuffer == NULL) {
-        return;
-    }
-    
     if (recreate_textures) {
         recreate_all_textures();
         recreate_textures = 0;
-        /* NOTE: The texture isn't holding the screen's values
-         *       here. We can get away with that because the call to
-         *       SDL_UpdateTexture below updates the entire canvas */
     }
-
-    SDL_LockTexture(canvas->texture, NULL, &pixels, &pitch);
-    video_canvas_render_backbuffer(backbuffer, pixels, pitch);
-    render_queue_return_to_pool(canvas->render_queue, backbuffer);
-    SDL_UnlockTexture(canvas->texture);
+    
+    backbuffer = render_queue_dequeue_for_display(canvas->render_queue);
+    
+    /* Update the texture if we got a new frame */
+    if (backbuffer) {
+        SDL_LockTexture(canvas->texture, NULL, &pixels, &pitch);
+        video_canvas_render_backbuffer(backbuffer, pixels, pitch);
+        render_queue_return_to_pool(canvas->render_queue, backbuffer);
+        SDL_UnlockTexture(canvas->texture);
+    }
     
     /* Render. */
     SDL_RenderClear(canvas->container->renderer);
@@ -878,10 +875,12 @@ void video_canvas_display_backbuffer(video_canvas_t *canvas)
 
     SDL_RenderPresent(canvas->container->renderer);
 
-    /* Swap the textures references so we can easily re-render this frame under the next frame. */
-    texture_swap = canvas->previous_frame_texture;
-    canvas->previous_frame_texture = canvas->texture;
-    canvas->texture = texture_swap;
+    if (canvas->videoconfig->interlaced && !sdl_menu_state) {
+        /* Swap the textures references so we can easily re-render this frame under the next frame. */
+        texture_swap = canvas->previous_frame_texture;
+        canvas->previous_frame_texture = canvas->texture;
+        canvas->texture = texture_swap;
+    }
 
     if (canvas->container->leaving_fullscreen) {
         int curr_w, curr_h, flags;

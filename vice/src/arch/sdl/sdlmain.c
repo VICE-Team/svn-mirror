@@ -47,12 +47,9 @@
 /* FIXME: Ugly hack for preventing SDL crash using -help */
 int sdl_help_shutdown = 0;
 
-#define HACK_REDRAW_EACH_RESIZE_EVENT 0
+#define HACK_REDRAW_EACH_RESIZE_EVENT 1
 
 #if HACK_REDRAW_EACH_RESIZE_EVENT
-static void *hack_lock;
-static bool hack_canvas_redraws[MAX_CANVAS_NUM];
-
 /*
  * HACK: Enables redraw of the SDL window during a resize.
  *
@@ -67,38 +64,21 @@ static int hack_event_observer(void *userdata, SDL_Event *e)
 {
     video_canvas_t *canvas;
     int i;
-    bool redraw_needed[MAX_CANVAS_NUM];
-
-    if (archdep_thread_current_is_main()) {
+    
+    /* Events are intercepted on the thread that pushes the event */
+    if (!archdep_thread_current_is_main()) {
+        return 1;
+    }
         
-        archdep_mutex_lock(hack_lock);
-        for (i = 0; i < MAX_CANVAS_NUM; i++) {
-            if (hack_canvas_redraws[i]) {
-                redraw_needed[i] = true;
-                hack_canvas_redraws[i]--;
-            } else {
-                redraw_needed[i] = false;
+    if (e->type == SDL_WINDOWEVENT) {
+        if (e->window.event == SDL_WINDOWEVENT_RESIZED) {
+            for (i = 0; i < MAX_CANVAS_NUM; i++) {
+                canvas = video_canvas_get(i);
+                if (canvas) {
+                    /* This will only paint if a new frame is available but better than nothing */
+                    video_canvas_display_backbuffer(canvas);
+                }
             }
-        }
-        archdep_mutex_unlock(hack_lock);
-        
-        for (i = 0; i < MAX_CANVAS_NUM; i++) {
-            if (redraw_needed[i]) {
-                video_canvas_display_backbuffer(video_canvas_get(i));
-            }
-        }
-        
-    } else {
-        /*
-         * Another thread is posting an event, likely the vice thread
-         */
-        
-        if (e->type == sdl_event_new_video_frame) {
-            /* A render event */
-            canvas = e->user.data1;
-            archdep_mutex_lock(hack_lock);
-            hack_canvas_redraws[canvas->index]++;
-            archdep_mutex_unlock(hack_lock);
         }
     }
     
@@ -118,8 +98,6 @@ int main(int argc, char **argv)
     }
     
 #if HACK_REDRAW_EACH_RESIZE_EVENT
-    archdep_mutex_create(&hack_lock);
-    
     /* Note - some events will have already been pushed by now, including render events */
     SDL_AddEventWatch(hack_event_observer, NULL);
 #endif
@@ -208,10 +186,6 @@ void main_exit(void)
     vice_thread_shutdown();
 
     machine_shutdown();
-    
-#if HACK_REDRAW_EACH_RESIZE_EVENT
-    archdep_mutex_destroy(hack_lock);
-#endif
     
     putchar('\n');
 }

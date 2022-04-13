@@ -117,12 +117,10 @@ void sdl_ui_poll_shutdown(void)
 
 int sdl_ui_poll_pop_event(SDL_Event *e)
 {
-    mainlock_yield_begin();
     archdep_mutex_lock(queue_lock);
     
     if (queue_length == 0) {
         archdep_mutex_unlock(queue_lock);
-        mainlock_yield_end();
         return 0;
     }
     
@@ -134,7 +132,6 @@ int sdl_ui_poll_pop_event(SDL_Event *e)
     }
     
     archdep_mutex_unlock(queue_lock);
-    mainlock_yield_end();
     
     return 1;
 }
