@@ -875,6 +875,26 @@ void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
 }
 
 
+/** \brief  Determine fullscreen state via canvas
+ *
+ * Work around situations where ui_is_fullscreen() cannot be used.
+ *
+ *  \param[in]   canvas  video canvas reference
+ *
+ *  \return non-0 if fullscreen is enabled
+ */
+int ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
+{
+    gchar resource[32];
+    int is_fullscreen;
+
+    /* Using resources_get_int_sprintf() is relatively expensive since it uses
+     * malloc()/free(): */
+    g_snprintf(resource, sizeof(resource), "%sFullscreen", canvas->videoconfig->chip_name);
+    resources_get_int(resource, &is_fullscreen);
+    return is_fullscreen;
+}
+
 
 /** \brief  Checks if we're in fullscreen mode
  *
@@ -1806,7 +1826,7 @@ void ui_create_main_window(video_canvas_t *canvas)
         gtk_window_iconify(GTK_WINDOW(new_window));
     } else {
         /* my guess is a minimized/iconified window cannot be fullscreen */
-        if (ui_is_fullscreen()) {
+        if (ui_is_fullscreen_from_canvas(canvas)) {
             gtk_window_fullscreen(GTK_WINDOW(new_window));
         } else {
             gtk_window_unfullscreen(GTK_WINDOW(new_window));

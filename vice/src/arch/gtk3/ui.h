@@ -85,6 +85,7 @@ void ui_dispatch_events(void);
 void ui_exit(void);
 
 int  ui_is_fullscreen(void);
+int  ui_is_fullscreen_from_canvas(const video_canvas_t *canvas);
 void ui_set_fullscreen_enabled(gboolean enabled);
 void ui_trigger_resize(void);
 
