@@ -84,10 +84,11 @@ void ui_destroy_main_window(int index);
 void ui_dispatch_events(void);
 void ui_exit(void);
 
-int  ui_is_fullscreen(void);
-int  ui_is_fullscreen_from_canvas(const video_canvas_t *canvas);
-void ui_set_fullscreen_enabled(gboolean enabled);
-void ui_trigger_resize(void);
+gboolean ui_is_fullscreen(void);
+gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas);
+void     ui_set_fullscreen_enabled(gboolean enabled);
+gboolean ui_fullscreen_has_decorations(void);
+void     ui_trigger_resize(void);
 
 GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
