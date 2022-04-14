@@ -846,7 +846,7 @@ static ui_menu_item_t speed_submenu[] = {
 static ui_menu_item_t settings_menu_head[] = {
     { "Fullscreen", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_FULLSCREEN_TOGGLE,
-      (void *)ui_action_toggle_fullscreen, "FullscreenEnable", NULL,
+      (void *)ui_action_toggle_fullscreen, NULL, NULL,
       GDK_KEY_D, VICE_MOD_MASK, true },
     { "Restore display state", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_RESTORE_DISPLAY,
@@ -1363,6 +1363,7 @@ GtkWidget *ui_machine_menu_bar_create(void)
 
     main_menu_bar = menu_bar;    /* XXX: do I need g_object_ref()/g_object_unref()
                                          for this */
+
     return menu_bar;
 }
 

@@ -5,7 +5,12 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  * \author  Marcus Sutton <loggedoubt@gmail.com>
  *
- * $VICRES  AutostartOnDoubleclick  all
+ * $VICERES AutostartOnDoubleclick  all
+ * $VICERES CrtcFullscreen          xcbm2 xpet
+ * $VICERES TEDFullscreen           xplus4
+ * $VICERES VDCFullscreen           x128
+ * $VICERES VICFullscreen           xvic
+ * $VICERES VICIIFullscreen         x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  */
 
 /*
@@ -115,7 +120,6 @@ static int set_native_monitor(int val, void *param);
 static int set_monitor_font(const char *, void *param);
 static int set_monitor_bg(const char *, void *param);
 static int set_monitor_fg(const char *, void *param);
-static int set_fullscreen_state(int val, void *param);
 static int set_fullscreen_decorations(int val, void *param);
 static int set_pause_on_settings(int val, void *param);
 static int set_autostart_on_doubleclick(int val, void *param);
@@ -184,14 +188,9 @@ typedef struct ui_resources_s {
  */
 static ui_resource_t ui_resources;
 
-/** \brief  Fullscreen state
- */
-static int fullscreen_enabled = 0;
-
-
 /** \brief  Flag inidicating whether fullscreen mode shows the decorations
  *
- * Used bt the resource "FullscreenDecorations".
+ * Used by the resource "FullscreenDecorations".
  */
 static int fullscreen_has_decorations = 0;
 
@@ -247,9 +246,6 @@ static const resource_int_t resources_int_shared[] = {
 
     { "NativeMonitor", 0, RES_EVENT_NO, NULL,
         &ui_resources.use_native_monitor, set_native_monitor, NULL },
-
-    { "FullscreenEnable", 0, RES_EVENT_NO, NULL,
-        &fullscreen_enabled, set_fullscreen_state, NULL },
 
     { "FullscreenDecorations", 0, RES_EVENT_NO, NULL,
         &fullscreen_has_decorations, set_fullscreen_decorations, NULL },
@@ -356,12 +352,6 @@ static const cmdline_option_t cmdline_options_common[] =
     { "+nativemonitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "NativeMonitor", (void *)0,
         NULL, "Use VICE Gtk3 monitor terminal" },
-    { "-fullscreen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-        NULL, NULL, "FullscreenEnable", (void*)1,
-        NULL, "Enable fullscreen" },
-    { "+fullscreen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-        NULL, NULL, "FullscreenEnable", (void*)0,
-        NULL, "Disable fullscreen" },
     { "-fullscreen-decorations", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "FullscreenDecorations", (void*)1,
         NULL, "Enable fullscreen decorations" },
@@ -414,11 +404,6 @@ static int enter_monitor_while_paused = 0;
 /** \brief  Index of the most recently focused main window
  */
 static int active_win_index = -1;
-
-/** \brief  Flag indicating whether we're supposed to be in fullscreen
- */
-static int is_fullscreen = 0;
-
 
 /** \brief  Function to handle files dropped on a main window
  */
@@ -581,20 +566,6 @@ static void ui_on_drag_data_received(
 }
 
 
-/** \brief  Set fullscreen state \a val
- *
- * \param[in]   val     fullscreen state (boolean)
- * \param[in]   param   extra argument (unused)
- *
- * \return 0
- */
-static int set_fullscreen_state(int val, void *param)
-{
-    fullscreen_enabled = val;
-    return 0;
-}
-
-
 /** \brief  Resource setter for "FullscreenDecorations"
  *
  * \param[in]   val     new value
@@ -652,12 +623,19 @@ GtkWindow *ui_get_active_window(void)
  */
 video_canvas_t *ui_get_active_canvas(void)
 {
+    video_canvas_t *canvas;
+
     if (active_win_index < 0) {
         /* If we end up here it probably means no main window has
          * been created yet. */
         return NULL;
     }
-    return ui_resources.canvas[active_win_index];
+
+    canvas = ui_resources.canvas[active_win_index];
+    if (canvas == NULL) {
+        log_error(LOG_ERR, "No canvas for window %d!", active_win_index);
+    }
+    return canvas;
 }
 
 
@@ -792,8 +770,16 @@ static GdkPixbuf *get_default_icon(void)
  */
 static void ui_update_fullscreen_decorations(void)
 {
-    GtkWidget *window, *grid, *menu_bar, *crt_grid, *mixer_grid, *status_bar;
+    GtkWidget *window;
+    GtkWidget *grid;
+    GtkWidget *menu_bar;
+    GtkWidget *crt_grid;
+    GtkWidget *mixer_grid;
+    GtkWidget *status_bar;
+    video_canvas_t *canvas;
+    const char *chipname;
     int has_decorations;
+    int is_fullscreen = 0;
 
     /* FIXME: this function does not work properly for vsid and should never
      * get called by it, but at least on Macs it can get called if the user
@@ -802,6 +788,15 @@ static void ui_update_fullscreen_decorations(void)
     if (active_win_index < 0 || machine_class == VICE_MACHINE_VSID) {
         return;
     }
+
+    /* determine fullscreen state */
+    canvas = ui_get_active_canvas();
+    if (canvas == NULL) {
+        debug_gtk3("failed: canvas == NULL.");
+        return;
+    }
+    chipname = canvas->videoconfig->chip_name;
+    resources_get_int_sprintf("%sFullscreen", &is_fullscreen, chipname);
 
     has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
     window = ui_resources.window_widget[active_win_index];
@@ -842,6 +837,7 @@ static gboolean on_window_state_event(GtkWidget *widget,
 {
     GdkWindowState win_state = event->new_window_state;
     int index = ui_get_window_index(widget);
+    int is_fullscreen = ui_is_fullscreen();
 
     if (index < 0) {
         /* We should never end up here. */
@@ -851,12 +847,12 @@ static gboolean on_window_state_event(GtkWidget *widget,
 
     if (win_state & GDK_WINDOW_STATE_FULLSCREEN) {
         if (!is_fullscreen) {
-            is_fullscreen = 1;
+            ui_set_fullscreen_enabled(TRUE);
             ui_update_fullscreen_decorations();
         }
     } else {
         if (is_fullscreen) {
-            is_fullscreen = 0;
+            ui_set_fullscreen_enabled(FALSE);
             ui_update_fullscreen_decorations();
         }
     }
@@ -882,12 +878,67 @@ void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
 
 /** \brief  Checks if we're in fullscreen mode
  *
+ * Determines fullscreen state by inspecting the "${CHIP}Fullscreen" resource
+ * for the active canvas.
+ *
  * \return  nonzero if we're in fullscreen mode
  */
 int ui_is_fullscreen(void)
 {
+    video_canvas_t *canvas;
+    const char *chip_name;
+    int is_fullscreen = 0;
+
+    /* FIXME:   During emu boot the array ui_resources.canvas[] will not be
+     *          properly initialized yet, so when the opengl renderer calls
+     *          this function during a realize() call the references will still
+     *          be NULL and we cannot access the chip name, and thus not access
+     *          CHIPFullscreen.
+     */
+    canvas = ui_get_active_canvas();
+    if (canvas == NULL) {
+        debug_gtk3("error: canvas is NULL.");
+        return 0;
+    }
+    chip_name = canvas->videoconfig->chip_name;
+    resources_get_int_sprintf("%sFullscreen", &is_fullscreen, chip_name);
+
     return is_fullscreen;
 }
+
+
+/** \brief  Enable/disable fullscreen for current canvas
+ *
+ * Set the "${CHIP}Fullscreen" resource and enables or disables fullscreen
+ * mode for the main window of the current canvas.
+ *
+ * \param[in]   enabled enable fullscreen
+ */
+void ui_set_fullscreen_enabled(gboolean enabled)
+{
+    GtkWindow *window;
+    video_canvas_t *canvas;
+    const char *chip_name;
+
+    window = ui_get_active_window();
+    if (window == NULL) {
+        debug_gtk3("error: window is NULL.");
+        return;
+    }
+    canvas = ui_get_active_canvas();
+    if (canvas == NULL) {
+        debug_gtk3("error: canvas is NULL.");
+        return;
+    }
+    chip_name = canvas->videoconfig->chip_name;
+    resources_set_int_sprintf("%sFullscreen", enabled, chip_name);
+    if (enabled) {
+        gtk_window_fullscreen(window);
+    } else {
+        gtk_window_unfullscreen(window);
+    }
+}
+
 
 /** \brief  Updates UI in response to the simulated machine screen
  *          changing its dimensions or aspect ratio
@@ -915,23 +966,17 @@ void ui_trigger_resize(void)
  */
 gboolean ui_action_toggle_fullscreen(void)
 {
-    GtkWindow *window;
+    int enabled;
 
     if (active_win_index < 0) {
         return FALSE;
     }
 
-    window = GTK_WINDOW(ui_resources.window_widget[active_win_index]);
-    is_fullscreen = !is_fullscreen;
-
-    if (is_fullscreen) {
-        gtk_window_fullscreen(window);
-    } else {
-        gtk_window_unfullscreen(window);
-    }
+    enabled = ui_is_fullscreen();
+    ui_set_fullscreen_enabled(!enabled);
 
     ui_set_gtk_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_TOGGLE,
-                                                 is_fullscreen);
+                                                 enabled);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -1576,7 +1621,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     gchar title[256];
 
     int minimized = 0;
-    int full = 0;
     int restored = 0;
 
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1762,8 +1806,7 @@ void ui_create_main_window(video_canvas_t *canvas)
         gtk_window_iconify(GTK_WINDOW(new_window));
     } else {
         /* my guess is a minimized/iconified window cannot be fullscreen */
-        resources_get_int("FullscreenEnable", &full);
-        if (full) {
+        if (ui_is_fullscreen()) {
             gtk_window_fullscreen(GTK_WINDOW(new_window));
         } else {
             gtk_window_unfullscreen(GTK_WINDOW(new_window));
