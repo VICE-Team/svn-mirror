@@ -107,28 +107,33 @@
 
 #include "ui.h"
 
-/* Forward declarations of static functions */
+/* Forward declarations of static functions
+ *
+ * Using `gboolean` in place of `int` is safe since gboolean is a typedef for
+ * `gint`, which in turn is a typedef for `int`. `FALSE` is defined as `0`,
+ * while `TRUE` is defined as `(!FALSE)`, resulting in `1` according to the
+ * C standard.
+ */
 
-static int set_save_resources_on_exit(int val, void *param);
-static int set_confirm_on_exit(int val, void *param);
-static int set_window_height(int val, void *param);
-static int set_window_width(int val, void *param);
-static int set_window_xpos(int val, void *param);
-static int set_window_ypos(int val, void *param);
-static int set_start_minimized(int val, void *param);
-static int set_native_monitor(int val, void *param);
-static int set_monitor_font(const char *, void *param);
-static int set_monitor_bg(const char *, void *param);
-static int set_monitor_fg(const char *, void *param);
-static int set_fullscreen_decorations(int val, void *param);
-static int set_pause_on_settings(int val, void *param);
-static int set_autostart_on_doubleclick(int val, void *param);
-static int set_settings_node_path(const char *val, void *param);
-static int set_monitor_xpos(const char *val, void *param);
-static int set_monitor_ypos(const char *val, void *param);
-static int set_monitor_width(const char *val, void *param);
-static int set_monitor_height(const char *val, void *param);
-
+static int set_save_resources_on_exit(gboolean save_on_exit, void *unused);
+static int set_confirm_on_exit(gboolean confirm_on_exit, void *unused);
+static int set_window_height(gint height, void *window_index);
+static int set_window_width(gint width, void *window_index);
+static int set_window_xpos(gint xpos, void *window_index);
+static int set_window_ypos(gint ypos, void *window_index);
+static int set_start_minimized(gboolean start_minimized, void *unused);
+static int set_native_monitor(gboolean use_native_monitorl, void *unused);
+static int set_monitor_font(const gchar *font_description, void *unused);
+static int set_monitor_bg(const gchar *color, void *unused);
+static int set_monitor_fg(const gchar *color, void *unused);
+static int set_fullscreen_decorations(gboolean fullscreen_decorations, void *unused);
+static int set_pause_on_settings(gboolean pause_on_settings, void *unused);
+static int set_autostart_on_doubleclick(gboolean autostart_on_doubleclick, void *unused);
+static int set_monitor_xpos(const gchar *xpos, void *window_index);
+static int set_monitor_ypos(const gchar *ypos, void *window_index);
+static int set_monitor_width(const gchar *width, void *window_index);
+static int set_monitor_height(const gchar *height, void *window_index);
+static int set_settings_node_path(const gchar *path, void *unused);
 
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
@@ -568,14 +573,14 @@ static void ui_on_drag_data_received(
 
 /** \brief  Resource setter for "FullscreenDecorations"
  *
- * \param[in]   val     new value
- * \param[in]   param   extra argument (unused)
+ * \param[in]   enabled enable fullscreen decorations
+ * \param[in]   unused   extra argument (unused)
  *
  * \return 0
  */
-static int set_fullscreen_decorations(int val, void *param)
+static int set_fullscreen_decorations(gboolean fullscreen_decorations, void *unused)
 {
-    fullscreen_has_decorations = val;
+    fullscreen_has_decorations = fullscreen_decorations;
     return 0;
 }
 
@@ -1045,339 +1050,311 @@ static int window_index_from_param(void *param)
  * Resource getters/setters
  */
 
-
 /** \brief  Set SaveResourcesOnExit resource
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * \param[in]   save_on_exit    save resources on emulator exit
+ * \param[in]   unused          extra param (ignored)
  *
  * \return 0
  */
-static int set_save_resources_on_exit(int val, void *param)
+static int set_save_resources_on_exit(gboolean save_on_exit, void *unused)
 {
-    ui_resources.save_resources_on_exit = val ? 1 : 0;
+    ui_resources.save_resources_on_exit = save_on_exit;
     return 0;
 }
 
-
-/** \brief  Set ConfirmOnExit resource (bool)
+/** \brief  Set ConfirmOnExit resource
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * \param[in]   confirm_on_exit pop up confirmation dialog on exit
+ * \param[in]   unused          extra param (ignored)
  *
  * \return 0
  */
-static int set_confirm_on_exit(int val, void *param)
+static int set_confirm_on_exit(gboolean confirm_on_exit, void *unused)
 {
-    ui_resources.confirm_on_exit = val ? 1 : 0;
+    ui_resources.confirm_on_exit = confirm_on_exit;
     return 0;
 }
 
-
-/** \brief  Set PauseOnSettings resource (bool)
+/** \brief  Set PauseOnSettings resource
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * \param[in]   pause_on_settings   pause emulation when entering the settings
+ *                                  dialog
+ * \param[in]   unused              extra param (ignored)
  *
  * \return 0
  */
-static int set_pause_on_settings(int val, void *param)
+static int set_pause_on_settings(gboolean pause_on_settings, void *param)
 {
-    ui_resources.pause_on_settings = val ? 1 : 0;
+    ui_resources.pause_on_settings = pause_on_settings;
     return 0;
 }
 
-/** \brief  Set AutostartOnDoubleClick resource (bool)
+/** \brief  Set AutostartOnDoubleClick resource
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * \param[in]   autostart_on_doublelick autostart when doubleclicking in attach
+ *                                      dialogs
+ * \param[in]   unused                  extra param (ignored)
  *
  * \return 0
  */
-static int set_autostart_on_doubleclick(int val, void *param)
+static int set_autostart_on_doubleclick(gboolean autostart_on_doubleclick, void *unused)
 {
-    ui_resources.autostart_on_doubleclick = val ? 1 : 0;
+    ui_resources.autostart_on_doubleclick = autostart_on_doubleclick;
     return 0;
 }
 
-/** \brief  Set StartMinimized resource (bool)
+/** \brief  Set StartMinimized resource
  *
- * \param[in]   val     0: start normal 1: start minimized
- * \param[in]   param   extra param (ignored)
+ * \param[in]   start_minimized start the emulator window minimized
+ * \param[in]   unused          extra param (ignored)
  *
  * \return 0
  */
-static int set_start_minimized(int val, void *param)
+static int set_start_minimized(gboolean start_minimized, void *unused)
 {
-    ui_resources.start_minimized = val ? 1 : 0;
+    ui_resources.start_minimized = start_minimized;
     return 0;
 }
-
 
 /** \brief  Set NativeMonitor resource (bool)
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * Use the spawning shell for the monitor instead of the VTE widget.
+ *
+ * \param[in]   use_native_monitor  use native monitor instead of VTE
+ * \param[in]   unused              extra param (ignored)
  *
  * \return 0
  */
-static int set_native_monitor(int val, void *param)
+static int set_native_monitor(gboolean use_native_monitor, void *unused)
 {
     /* FIXME: setting this to 1 should probably fail if either stdin or stdout
               is not a terminal. */
+    /* this doesn't work on Windows (Surprise!) */
 #if 0
     if (!isatty(stdin) || !isatty(stdout)) {
         return -1;
     }
 #endif
-    ui_resources.use_native_monitor = val ? 1 : 0;
+    ui_resources.use_native_monitor = use_native_monitor;
     return 0;
 }
-
 
 /** \brief  Resource handler: set monitor font for VTE-based monitor
  *
- * \param[in]   val     font description string
- * \param[in]   param   extra argument (unused)
+ * \param[in]   font_description    font description, passed to Pango
+ * \param[in]   unused              extra argument (unused)
  *
  * \return  0 (success)
  */
-static int set_monitor_font(const char *val, void *param)
+static int set_monitor_font(const gchar *font_description, void *param)
 {
-    util_string_set(&ui_resources.monitor_font, val);
+    util_string_set(&ui_resources.monitor_font, font_description);
     return 0;
 }
-
-
 
 /** \brief  Resource handler: set monitor background color for VTE-based monitor
  *
- * \param[in]   val     color
- * \param[in]   param   extra argument (unused)
+ * \param[in]   color   Gdk RGBA color string
+ * \param[in]   unused  extra argument (unused)
  *
- * \return  0 on success, -1 if \a val could not be parsed by gdk_rgba_parse()
+ * \return  0 on success, -1 if \a color could not be parsed by gdk_rgba_parse()
  */
-static int set_monitor_bg(const char *val, void *param)
+static int set_monitor_bg(const gchar *color, void *param)
 {
-    GdkRGBA color;
+    GdkRGBA rgba;
 
-    if (gdk_rgba_parse(&color, val)) {
-        util_string_set(&ui_resources.monitor_bg, val);
-        uimon_set_background_color(val);
+    if (gdk_rgba_parse(&rgba, color)) {
+        util_string_set(&ui_resources.monitor_bg, color);
+        uimon_set_background_color(color);
         return 0;
     }
     return -1;
 }
-
 
 /** \brief  Resource handler: set monitor foreground color for VTE-based monitor
  *
- * \param[in]   val     color
- * \param[in]   param   extra argument (unused)
+ * \param[in]   color   Gdk RGBA color string
+ * \param[in]   unused  extra argument (unused)
  *
- * \return  0 on success, -1 if \a val could not be parsed by gdk_rgba_parse()
+ * \return  0 on success, -1 if \a color could not be parsed by gdk_rgba_parse()
  */
-static int set_monitor_fg(const char *val, void *param)
+static int set_monitor_fg(const gchar *color, void *param)
 {
-    GdkRGBA color;
+    GdkRGBA rgba;
 
-    if (gdk_rgba_parse(&color, val)) {
-        util_string_set(&ui_resources.monitor_fg, val);
-        uimon_set_foreground_color(val);
+    if (gdk_rgba_parse(&rgba, color)) {
+        util_string_set(&ui_resources.monitor_fg, color);
+        uimon_set_foreground_color(color);
         return 0;
     }
     return -1;
 }
 
-
-/** \brief  Set Window[X]Width resource (int)
+/** \brief  Set Window[X]Width resource
  *
- * \param[in]   val     width in pixels
- * \param[in]   param   window index
- *
- * \return 0
- */
-static int set_window_width(int val, void *param)
-{
-    int index = window_index_from_param(param);
-    if (index < 0) {
-        return -1;
-    }
-    ui_resources.window_width[index] = val;
-    return 0;
-}
-
-
-/** \brief  Set Window[X]Height resource (int)
- *
- * \param[in]   val     height in pixels
- * \param[in]   param   window index
+ * \param[in]   width           width in pixels
+ * \param[in]   window_index    window index
  *
  * \return 0
  */
-static int set_window_height(int val, void *param)
+static int set_window_width(gint width, void *window_index)
 {
-    int index = window_index_from_param(param);
+    int index = window_index_from_param(window_index);
     if (index < 0) {
         return -1;
     }
-    ui_resources.window_height[index] = val;
+    ui_resources.window_width[index] = width;
     return 0;
 }
 
-
-/** \brief  Set Window[X]Xpos resource (int)
+/** \brief  Set Window[X]Height resource
  *
- * \param[in]   val     x-pos in pixels
- * \param[in]   param   window index
+ * \param[in]   height          height in pixels
+ * \param[in]   window_index    window index
  *
  * \return 0
  */
-static int set_window_xpos(int val, void *param)
+static int set_window_height(gint height, void *window_index)
 {
-    int index = window_index_from_param(param);
+    int index = window_index_from_param(window_index);
+    if (index < 0) {
+        return -1;
+    }
+    ui_resources.window_height[index] = height;
+    return 0;
+}
+
+/** \brief  Set Window[X]Xpos resource
+ *
+ * \param[in]   xpos            xpos in pixels
+ * \param[in]   window_index    window index
+ *
+ * \return 0
+ */
+static int set_window_xpos(gint xpos, void *window_index)
+{
+    int index = window_index_from_param(window_index);
 
     if (index < 0) {
         return -1;
     }
-    ui_resources.window_xpos[index] = val;
+    ui_resources.window_xpos[index] = xpos;
     return 0;
 }
-
 
 /** \brief  Set Window[X]Ypos resource (int)
  *
- * \param[in]   val     y-pos in pixels
- * \param[in]   param   window index
+ * \param[in]   ypos            ypos in pixels
+ * \param[in]   window_index    window index
  *
  * \return 0
  */
-static int set_window_ypos(int val, void *param)
+static int set_window_ypos(gint ypos, void *window_index)
 {
-    int index = window_index_from_param(param);
+    int index = window_index_from_param(window_index);
     if (index < 0) {
         return -1;
     }
-    ui_resources.window_ypos[index] = val;
+    ui_resources.window_ypos[index] = ypos;
     return 0;
 }
-
 
 /** \brief  Cmdline handler for -monitorxpos
  *
- * \param[in]   val     cmdline option argument as string
- * \param[in]   param   extra data
+ * \param[in]   xpos            xpos in pixels as string
+ * \param[in]   window_index    window index
  *
  * \return  0 on success
  */
-static int set_monitor_xpos(const char *val, void *param)
+static int set_monitor_xpos(const gchar *xpos, void *window_index)
 {
     char *endptr;
     long result;
 
-    result = strtol(val, &endptr, 0);
+    result = strtol(xpos, &endptr, 0);
     if (*endptr != '\0') {
         return -1;
     }
-    return set_window_xpos((int)result, param);
+    return set_window_xpos((gint)result, window_index);
 }
-
 
 /** \brief  Cmdline handler for -monitorypos
  *
- * \param[in]   val     cmdline option argument as string
- * \param[in]   param   extra data
+ * \param[in]   ypos            ypos in pixels as string
+ * \param[in]   window_index    window index
  *
  * \return  0 on success
  */
-static int set_monitor_ypos(const char *val, void *param)
+static int set_monitor_ypos(const gchar *ypos, void *window_index)
 {
     char *endptr;
     long result;
 
-    result = strtol(val, &endptr, 0);
+    result = strtol(ypos, &endptr, 0);
     if (*endptr != '\0') {
         return -1;
     }
-    return set_window_ypos((int)result, param);
+    return set_window_ypos((gint)result, window_index);
 }
-
 
 /** \brief  Cmdline handler for -monitorwidth
  *
- * \param[in]   val     cmdline option argument as string
- * \param[in]   param   extra data
+ * \param[in]   width           width in pixels as string
+ * \param[in]   window_index    window index
  *
  * \return  0 on success
  */
-static int set_monitor_width(const char *val, void *param)
+static int set_monitor_width(const gchar *width, void *window_index)
 {
     char *endptr;
     long result;
 
-    result = strtol(val, &endptr, 0);
+    result = strtol(width, &endptr, 0);
     if (*endptr != '\0') {
         return -1;
     }
-    return set_window_width((int)result, param);
+    return set_window_width((gint)result, window_index);
 }
-
 
 /** \brief  Cmdline handler for -monitorheight
  *
- * \param[in]   val     cmdline option argument as string
- * \param[in]   param   extra data
+ * \param[in]   height          height in pixels as string
+ * \param[in]   window_index    window index
  *
  * \return  0 on success
  */
-static int set_monitor_height(const char *val, void *param)
+static int set_monitor_height(const gchar *height, void *window_index)
 {
     char *endptr;
     long result;
 
-    result = strtol(val, &endptr, 0);
+    result = strtol(height, &endptr, 0);
     if (*endptr != '\0') {
         return -1;
     }
-    return set_window_height((int)result, param);
+    return set_window_height((gint)result, window_index);
 }
-
-
-
-/* FIXME: Why is this here? */
-#ifdef COMPYX_LAMER
-/** \brief  Set the 'AutostartOnDoubleclick' resource
- *
- * \param[in]   value   new value
- * \param[in]   param   extra data (unused)
- *
- * \return 0;
- */
-static int set_autostart_on_doubleclick(int val, void *param)
-{
-    ui_resources.autostart_on_doubleclick = val;
-    return 0;
-}
-#endif
-
 
 /** \brief  Set settings node path to activate on UI startup
  *
- * Triggers opening the settings dialog at node \a val once when starting VICE.
+ * Triggers opening the settings dialog at node \a path once when starting VICE.
  *
- * Useful for working on settings dialogs, avoid having to click through the UI.
+ * Useful for working on settings dialogs, avoiding clicking through the UI.
  * For example: `x64sc -settings-node peripheral/drive` will open the drive
  * settings.
  *
- * \param[in]   val     setting node path
- * \param[in]   param   extra data (unused);
+ * \param[in]   path    setting node path
+ * \param[in]   unused  extra data (unused);
  *
  * \return  0
  */
-static int set_settings_node_path(const char *val, void *param)
+static int set_settings_node_path(const gchar *path, void *param)
 {
-    debug_gtk3("Activating settings node '%s'.", val);
-    settings_node_path = val;
+#if 0
+    debug_gtk3("Activating settings node '%s'.", path);
+#endif
+    settings_node_path = path;
     return 0;   /* we won't know if the path is valid until later */
 }
 
@@ -1395,16 +1372,6 @@ void ui_set_handle_dropped_files_func(int (*func)(const char *))
 {
     handle_dropped_files_func = func;
 }
-
-
-#ifdef COMPYX_LAMER
-/** \brief  Get autostart-on-doubleclick state
- */
-gboolean ui_get_autostart_on_doubleclick(void)
-{
-    return (gboolean)ui_resources.autostart_on_doubleclick;
-}
-#endif
 
 
 /** \brief  Set function to help create the main window(s)
