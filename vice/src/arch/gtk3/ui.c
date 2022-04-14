@@ -786,6 +786,7 @@ static void ui_update_fullscreen_decorations(void)
      * clicks the fullscreen button in the main vsid window.
      */
     if (active_win_index < 0 || machine_class == VICE_MACHINE_VSID) {
+        debug_gtk3("Error: active_win_index < 0");
         return;
     }
 
@@ -799,6 +800,8 @@ static void ui_update_fullscreen_decorations(void)
     resources_get_int_sprintf("%sFullscreen", &is_fullscreen, chipname);
 
     has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
+    debug_gtk3("Has decorations = %d (is_fullscreen = %d, fullscreen_has_decorations = %d)",
+            has_decorations, is_fullscreen, fullscreen_has_decorations);
     window = ui_resources.window_widget[active_win_index];
     grid = gtk_bin_get_child(GTK_BIN(window));
     menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MENU_BAR);
@@ -1828,11 +1831,20 @@ void ui_create_main_window(video_canvas_t *canvas)
         /* my guess is a minimized/iconified window cannot be fullscreen */
         if (ui_is_fullscreen_from_canvas(canvas)) {
             gtk_window_fullscreen(GTK_WINDOW(new_window));
+            if (!fullscreen_has_decorations) {
+                /* hide window decorations */
+                GtkWidget *menu_bar;
+
+                menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+                gtk_widget_hide(menu_bar);
+                gtk_widget_hide(crt_controls);
+                gtk_widget_hide(mixer_controls);
+                gtk_widget_hide(status_bar);
+            }
         } else {
             gtk_window_unfullscreen(GTK_WINDOW(new_window));
         }
     }
-
 
     /* set any menu checkboxes that aren't connected to resources */
 
