@@ -777,9 +777,8 @@ static void ui_update_fullscreen_decorations(void)
     GtkWidget *mixer_grid;
     GtkWidget *status_bar;
     video_canvas_t *canvas;
-    const char *chipname;
     int has_decorations;
-    int is_fullscreen = 0;
+    gboolean is_fullscreen;
 
     /* FIXME: this function does not work properly for vsid and should never
      * get called by it, but at least on Macs it can get called if the user
@@ -796,9 +795,8 @@ static void ui_update_fullscreen_decorations(void)
         debug_gtk3("failed: canvas == NULL.");
         return;
     }
-    chipname = canvas->videoconfig->chip_name;
-    resources_get_int_sprintf("%sFullscreen", &is_fullscreen, chipname);
 
+    is_fullscreen = ui_is_fullscreen();
     has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
     debug_gtk3("Has decorations = %d (is_fullscreen = %d, fullscreen_has_decorations = %d)",
             has_decorations, is_fullscreen, fullscreen_has_decorations);
@@ -810,6 +808,11 @@ static void ui_update_fullscreen_decorations(void)
     status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_STATUS_BAR);
 
     if (has_decorations) {
+        int show_statusbar;
+
+        resources_get_int_sprintf("%sShowStatusbar",
+                                  &show_statusbar,
+                                  canvas->videoconfig->chip_name);
         gtk_widget_show(menu_bar);
         if (ui_statusbar_crt_controls_enabled(window)) {
             gtk_widget_show(crt_grid);
@@ -817,7 +820,11 @@ static void ui_update_fullscreen_decorations(void)
         if (ui_statusbar_mixer_controls_enabled(window)) {
             gtk_widget_show(mixer_grid);
         }
-        gtk_widget_show(status_bar);
+        if (show_statusbar) {
+            gtk_widget_show(status_bar);
+        } else {
+            gtk_widget_hide(status_bar);
+        }
     } else {
         gtk_widget_hide(menu_bar);
         gtk_widget_hide(crt_grid);
@@ -840,7 +847,7 @@ static gboolean on_window_state_event(GtkWidget *widget,
 {
     GdkWindowState win_state = event->new_window_state;
     int index = ui_get_window_index(widget);
-    int is_fullscreen = ui_is_fullscreen();
+    gboolean is_fullscreen = ui_is_fullscreen();
 
     if (index < 0) {
         /* We should never end up here. */
@@ -886,7 +893,7 @@ void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
  *
  *  \return non-0 if fullscreen is enabled
  */
-int ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
+gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
 {
     gchar resource[32];
     int is_fullscreen;
@@ -895,7 +902,7 @@ int ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
      * malloc()/free(): */
     g_snprintf(resource, sizeof(resource), "%sFullscreen", canvas->videoconfig->chip_name);
     resources_get_int(resource, &is_fullscreen);
-    return is_fullscreen;
+    return is_fullscreen ? TRUE : FALSE;
 }
 
 
@@ -906,7 +913,7 @@ int ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
  *
  * \return  nonzero if we're in fullscreen mode
  */
-int ui_is_fullscreen(void)
+gboolean ui_is_fullscreen(void)
 {
     video_canvas_t *canvas;
     const char *chip_name;
@@ -921,12 +928,12 @@ int ui_is_fullscreen(void)
     canvas = ui_get_active_canvas();
     if (canvas == NULL) {
         debug_gtk3("error: canvas is NULL.");
-        return 0;
+        return FALSE;
     }
     chip_name = canvas->videoconfig->chip_name;
     resources_get_int_sprintf("%sFullscreen", &is_fullscreen, chip_name);
 
-    return is_fullscreen;
+    return is_fullscreen ? TRUE : FALSE;
 }
 
 
@@ -989,7 +996,7 @@ void ui_trigger_resize(void)
  */
 gboolean ui_action_toggle_fullscreen(void)
 {
-    int enabled;
+    gboolean enabled = FALSE;
 
     if (active_win_index < 0) {
         return FALSE;
@@ -1902,12 +1909,14 @@ void ui_display_main_window(int index)
         /* This function is called blindly for both primary and secondary windows */
         return;
     }
+    active_win_index = index;
 
     /* Normally this would show everything in the window,
      * including hidden status bar displays, but we've
      * disabled secondary displays in the status bar code with
      * gtk_widget_set_no_show_all(). */
     gtk_widget_show_all(window);
+    ui_update_fullscreen_decorations();
 
 #ifdef MACOS_COMPILE
     macos_activate_application_workaround();
@@ -1922,7 +1931,6 @@ void ui_display_main_window(int index)
         gdk_frame_clock_begin_updating(frame_clock);
     }
 
-    active_win_index = index;
 }
 
 /** \brief  Destroy a main window
@@ -2677,4 +2685,7 @@ GtkWidget *ui_get_window_by_index(int index)
 }
 
 
-
+gboolean ui_fullscreen_has_decorations(void)
+{
+    return fullscreen_has_decorations ? TRUE : FALSE;
+}

@@ -3680,8 +3680,11 @@ gboolean ui_statusbar_set_visible_for_window(GtkWidget *window, gboolean visible
     if (statusbar == NULL) {
         return FALSE;
     }
+
     if (visible) {
-        gtk_widget_show(statusbar);
+        if (!ui_is_fullscreen() || ui_fullscreen_has_decorations()) {
+            gtk_widget_show(statusbar);
+        }
     } else {
         gtk_widget_hide(statusbar);
     }
