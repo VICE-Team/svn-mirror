@@ -2685,6 +2685,10 @@ GtkWidget *ui_get_window_by_index(int index)
 }
 
 
+/** \brief  Determine if the window should have decorations in fullscreen mode
+ *
+ * \return  bool
+ */
 gboolean ui_fullscreen_has_decorations(void)
 {
     return fullscreen_has_decorations ? TRUE : FALSE;
