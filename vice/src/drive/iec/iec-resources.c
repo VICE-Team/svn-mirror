@@ -277,24 +277,24 @@ static int set_drive_rama(int val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    { "DosName1540", "dos1540", RES_EVENT_NO, NULL,
+    { "DosName1540", DRIVE_ROM1540_NAME, RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &dos_rom_name_1540, set_dos_rom_name_1540, NULL },
-    { "DosName1541", "dos1541", RES_EVENT_NO, NULL,
+    { "DosName1541", DRIVE_ROM1541_NAME, RES_EVENT_NO, NULL,
       &dos_rom_name_1541, set_dos_rom_name_1541, NULL },
-    { "DosName1541ii", "d1541II", RES_EVENT_NO, NULL,
+    { "DosName1541ii", DRIVE_ROM1541II_NAME, RES_EVENT_NO, NULL,
       &dos_rom_name_1541ii, set_dos_rom_name_1541ii, NULL },
-    { "DosName1570", "dos1570", RES_EVENT_NO, NULL,
+    { "DosName1570", DRIVE_ROM1570_NAME, RES_EVENT_NO, NULL,
       &dos_rom_name_1570, set_dos_rom_name_1570, NULL },
-    { "DosName1571", "dos1571", RES_EVENT_NO, NULL,
+    { "DosName1571", DRIVE_ROM1571_NAME, RES_EVENT_NO, NULL,
       &dos_rom_name_1571, set_dos_rom_name_1571, NULL },
-    { "DosName1581", "dos1581", RES_EVENT_NO, NULL,
+    { "DosName1581", DRIVE_ROM1581_NAME, RES_EVENT_NO, NULL,
       &dos_rom_name_1581, set_dos_rom_name_1581, NULL },
-    { "DosName2000", "dos2000", RES_EVENT_NO, NULL,
+    { "DosName2000", DRIVE_ROM2000_NAME, RES_EVENT_NO, NULL,
       &dos_rom_name_2000, set_dos_rom_name_2000, NULL },
-    { "DosName4000", "dos4000", RES_EVENT_NO, NULL,
+    { "DosName4000", DRIVE_ROM4000_NAME, RES_EVENT_NO, NULL,
       &dos_rom_name_4000, set_dos_rom_name_4000, NULL },
-    { "DosNameCMDHD", "dosCMDHD", RES_EVENT_NO, NULL,
+    { "DosNameCMDHD", DRIVE_ROMCMDHD_NAME, RES_EVENT_NO, NULL,
       &dos_rom_name_CMDHD, set_dos_rom_name_CMDHD, NULL },
     RESOURCE_STRING_LIST_END
 };

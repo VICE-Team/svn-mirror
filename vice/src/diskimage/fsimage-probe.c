@@ -730,7 +730,7 @@ static int disk_image_check_for_dhd(disk_image_t *image)
     pos = 1024;
 
     while ( pos < blk ) {
-        if (fseeko(fsimage->fd, pos, SEEK_SET)) {
+        if (archdep_fseeko(fsimage->fd, pos, SEEK_SET)) {
             /* hit the end of file */
             break;
         }

@@ -213,15 +213,28 @@ static resource_int_t resources_chip_rendermode[] =
     RESOURCE_INT_LIST_END
 };
 
-#ifdef USE_SDL2UI
-static int set_fullscreen_enabled(int value, void *param)
+#ifndef USE_HEADLESSUI
+/** \brief  Setter for the boolean resource "CHIPFullscreen"
+ *
+ * \param[in]   enabled full screen enabled (bool)
+ * \param[in]   canvas  video canvas reference
+ *
+ * \return  0 on success, -1 on failure
+ */
+static int set_fullscreen_enabled(int enabled, void *canvas)
 {
-    int val = value ? 1 : 0;
-    video_canvas_t *canvas = (video_canvas_t *)param;
-    video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
+    video_canvas_t *cv = (video_canvas_t *)canvas;
+    video_chip_cap_t *video_chip_cap = cv->videoconfig->cap;
+    int (*enable_cb)(video_canvas_t *, int);
 
-    canvas->videoconfig->fullscreen_enabled = val;
-    return (video_chip_cap->fullscreen.enable)(canvas, val);
+    cv->videoconfig->fullscreen_enabled = enabled ? 1 : 0;
+    enable_cb = video_chip_cap->fullscreen.enable;
+    /* The enable() callback isn't set in the Gt3k UI.
+     * If we decide to use it, it must be called in a thread-safe manner! */
+    if (enable_cb != NULL) {
+        return enable_cb(cv, enabled ? 1 : 0);
+    }
+    return 0;
 }
 
 /* <CHIP>Fullscreen */
@@ -498,6 +511,42 @@ static resource_int_t resources_chip_crtemu[] =
     RESOURCE_INT_LIST_END
 };
 
+
+/** \brief  Setter for the "CHIPShowStatusbar" resource
+ *
+ * Set the boolean resource "CHIPShowStatusbar", hiding or showing the status
+ * bar in the UI.
+ *
+ * \param[in]   hide    hide the status bar in the UI
+ * \param[in]   canvas  video canvas reference
+ *
+ * \return  0   (success)
+ */
+static int set_show_statusbar(int hide, void *canvas)
+{
+    video_canvas_t *c = (video_canvas_t *)canvas;
+    c->videoconfig->show_statusbar = hide ? 1 : 0;
+    return 0;
+}
+
+/** \brief  Resource registration template for CHIPShowStatusbar
+ *
+ * Values are filled in during resource registration, dependent on CHIP and UI.
+ */
+static resource_int_t resources_chip_show_statusbar[] =
+{
+    { NULL,                             /* resource name: filled in */
+      ARCHDEP_SHOW_STATUSBAR_FACTORY,   /* factory default */
+      RES_EVENT_NO, NULL,               /* event stuff */
+      NULL,                             /* resource value pointer: filled in */
+      set_show_statusbar,               /* setter function */
+      NULL                              /* video_canvas reference for the setter:
+                                           filled in */
+    },
+    RESOURCE_INT_LIST_END
+};
+
+
 /*-----------------------------------------------------------------------*/
 #define RES_CHIP_MODE_MAX (2*4) /* assume max 2 videochips, 4 fullscreen devices */
 static video_resource_chip_mode_t *resource_chip_modes[RES_CHIP_MODE_MAX];
@@ -532,6 +581,9 @@ int video_resources_chip_init(const char *chipname,
                               struct video_canvas_s **canvas,
                               video_chip_cap_t *video_chip_cap)
 {
+#ifdef USE_SDL2UI
+    video_resource_chip_mode_t *resource_chip_mode;
+#endif
     unsigned int i;
 
     DBG(("video_resources_chip_init (%s) (canvas:%p) (cap:%p)", chipname, *canvas, video_chip_cap));
@@ -587,52 +639,50 @@ int video_resources_chip_init(const char *chipname,
     }
 
     /* fullscreen options */
+#ifndef USE_HEADLESSUI
+
+    if (machine_class != VICE_MACHINE_VSID) {
+        /* <CHIP>Fullscreen */
+        resources_chip_fullscreen_int[0].name
+            = util_concat(chipname, vname_chip_fullscreen[0], NULL);
+        resources_chip_fullscreen_int[0].value_ptr
+            = &((*canvas)->videoconfig->fullscreen_enabled);
+        resources_chip_fullscreen_int[0].param = (void *)*canvas;
+
+        if (resources_register_int(resources_chip_fullscreen_int) < 0) {
+            return -1;
+        }
+
+        lib_free(resources_chip_fullscreen_int[0].name);
+        lib_free(resources_chip_fullscreen_int[1].name);
+    } else {
+        set_fullscreen_enabled(0, (void *)*canvas);
+    }
+#endif
+
 #ifdef USE_SDL2UI
-    {
-        video_resource_chip_mode_t *resource_chip_mode;
 
-        if (machine_class != VICE_MACHINE_VSID) {
-            /* <CHIP>Fullscreen */
-            resources_chip_fullscreen_int[0].name
-                = util_concat(chipname, vname_chip_fullscreen[0], NULL);
-            resources_chip_fullscreen_int[0].value_ptr
-                = &((*canvas)->videoconfig->fullscreen_enabled);
-            resources_chip_fullscreen_int[0].param = (void *)*canvas;
+    resource_chip_mode = get_resource_chip_mode();
+    resource_chip_mode->resource_chip = *canvas;
+    resource_chip_mode->device = 0;
 
-            if (resources_register_int(resources_chip_fullscreen_int) < 0) {
-                return -1;
-            }
+    if (machine_class != VICE_MACHINE_VSID) {
+        /* <CHIP>FullscreenMode */
+        resources_chip_fullscreen_mode[0].name
+            = util_concat(chipname,
+                          vname_chip_fullscreen_mode[0], NULL);
+        resources_chip_fullscreen_mode[0].value_ptr
+            = &((*canvas)->videoconfig->fullscreen_mode[0]);
+        resources_chip_fullscreen_mode[0].param
+            = (void *)resource_chip_mode;
 
-            lib_free(resources_chip_fullscreen_int[0].name);
-            lib_free(resources_chip_fullscreen_int[1].name);
-        } else {
-            set_fullscreen_enabled(0, (void *)*canvas);
+        if (resources_register_int(resources_chip_fullscreen_mode) < 0) {
+            return -1;
         }
 
-        {
-            resource_chip_mode = get_resource_chip_mode();
-            resource_chip_mode->resource_chip = *canvas;
-            resource_chip_mode->device = 0;
-
-            if (machine_class != VICE_MACHINE_VSID) {
-                /* <CHIP>FullscreenMode */
-                resources_chip_fullscreen_mode[0].name
-                    = util_concat(chipname,
-                                  vname_chip_fullscreen_mode[0], NULL);
-                resources_chip_fullscreen_mode[0].value_ptr
-                    = &((*canvas)->videoconfig->fullscreen_mode[0]);
-                resources_chip_fullscreen_mode[0].param
-                    = (void *)resource_chip_mode;
-
-                if (resources_register_int(resources_chip_fullscreen_mode) < 0) {
-                    return -1;
-                }
-
-                lib_free(resources_chip_fullscreen_mode[0].name);
-            } else {
-                set_fullscreen_mode(0, (void *)resource_chip_mode);
-            }
-        }
+        lib_free(resources_chip_fullscreen_mode[0].name);
+    } else {
+        set_fullscreen_mode(0, (void *)resource_chip_mode);
     }
 #endif
 
@@ -791,6 +841,21 @@ int video_resources_chip_init(const char *chipname,
         lib_free(resources_chip_rendermode[0].name);
     } else {
         set_chip_rendermode(VIDEO_FILTER_NONE, (void *)*canvas);
+    }
+
+    /* CHIPShowStatusbar */
+    if (machine_class != VICE_MACHINE_VSID) {
+        resources_chip_show_statusbar[0].name
+            = util_concat(chipname, "ShowStatusbar", NULL);
+        resources_chip_show_statusbar[0].value_ptr
+            = &((*canvas)->videoconfig->show_statusbar);
+        resources_chip_show_statusbar[0].param = (void *)*canvas;
+
+        if (resources_register_int(resources_chip_show_statusbar) < 0) {
+            lib_free(resources_chip_show_statusbar[0].name);
+            return -1;
+        }
+        lib_free(resources_chip_show_statusbar[0].name);
     }
 
     return 0;

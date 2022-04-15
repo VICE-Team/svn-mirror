@@ -1730,28 +1730,48 @@ drives, as well as the CMD hard drive:
 @itemize @bullet
 
 @item
-@file{dos1540}, the 1540 drive ROM (16 KiB)
+@file{dos1540-325302+3-01.bin}, the 1540 drive ROM (16 KiB)
+(DOS 2.6 V170, Commodore ROM images 325302-01 and 325303-01)
 
 @item
-@file{dos1541}, the 1541 drive ROM (16 KiB)
+@file{dos1541-325302-01+901229-05.bin}, the 1541 drive ROM (16 KiB)
+(DOS 2.6, Commodore ROM images 325302-01 and 901229-05.bin)
 
 @item
-@file{dos1541II}, the 1541-II drive ROM (16 KiB)
+@file{dos1541ii-251968-03.bin}, the 1541-II drive ROM (16 KiB)
+(DOS 2.6, Commodore ROM image 251968-03)
 
 @item
-@file{dos1571}, the 1571 drive ROM (32 KiB)
+@file{dos1551-318008-01.bin}, the 1551 drive ROM (16 KiB)
+(DOS 2.6 TDISK, Commodore ROM image 318008-01)
 
 @item
-@file{dos1581}, the 1581 drive ROM (32 KiB)
+@file{dos1570-315090-01.bin}, the 1570 drive ROM (32 KiB)
+(DOS 3.0, Commodore ROM image 315090-01)
 
 @item
-@file{dos2000}, the 2000 drive ROM (32 KiB)
+@file{dos1571-310654-05.bin}, the 1571 drive ROM (32 KiB)
+(DOS 3.0, Commodore ROM image 310654-05)
 
 @item
-@file{dos4000}, the 4000 drive ROM (32 KiB)
+@file{dos1571cr-318047-01.bin}, the 1571CR drive ROM (32 KiB)
+(DOS 3.0, Commodore ROM image 318047-01)
 
 @item
-@file{dosCMDHD}, the CMD HD boot ROM (16 KiB)
+@file{dos1581-318045-02.bin}, the 1581 drive ROM (32 KiB)
+(DOS 10, Commodore ROM image 318045-02)
+
+@item
+@file{dos2000-cs-33cc6f.bin}, the CMD FD-2000 drive ROM (32 KiB)
+(CMD FD DOS 1.4, CMD ROM image cs-33cc6f)
+
+@item
+@file{dos4000-fd-350022.bin}, the CMD FD-4000 drive ROM (32 KiB)
+(CMD FD DOS 1.4, CMD ROM image fd-350022.bin)
+
+@item
+@file{bootromCMDHD-v2-80.bin}, the CMD HD boot ROM (16 KiB)
+(Boot ROM V2.80, CMD ROM image)
 
 @end itemize
 
@@ -1763,27 +1783,27 @@ so they also need the DOS ROM for the IEEE disk drives:
 @itemize @bullet
 
 @item
-@file{dos2031}, the 2031 drive ROM (16 KiB)
+@file{dos2031-901484-03+05.bin}, the 2031 drive ROM (16 KiB)
 (DOS 2.6, Commodore ROM images 901484-03 and 901484-05)
 
 @item
-@file{dos2040}, the 2040 drive ROM (8 KiB)
+@file{dos2040-901468-06+07.bin}, the 2040 drive ROM (8 KiB)
 (DOS 1, Commodore ROM images 901468-06, 901468-07)
 
 @item
-@file{dos3040}, the 3040 drive ROM (12 KiB)
+@file{dos3040-901468-11-13.bin}, the 3040 drive ROM (12 KiB)
 (DOS 2, Commodore ROM images 901468-11, 901468-12 and 901468-13)
 
 @item
-@file{dos4040}, the 4040 drive ROM (12 KiB)
+@file{dos4040-901468-14-16.bin}, the 4040 drive ROM (12 KiB)
 (DOS 2, Commodore ROM images 901468-14, 901468-15 and 901468-16)
 
 @item
-@file{dos1001}, the 1001/8050/8250 drive ROM (16 KiB)
+@file{dos1001-901887+8-01.bin}, the 1001/8050/8250 drive ROM (16 KiB)
 (DOS 2.7, Commodore ROM images 901887-01 and 901888-01)
 
 @item
-@file{dos9000}, the D9090/60 drive ROM (16 KiB)
+@file{dos9000-300516+7-revC.bin}, the D9090/60 drive ROM (16 KiB)
 (DOS 3.0, Commodore ROM images 300516-RevC and 300517-RevC)
 
 @end itemize
@@ -10922,6 +10942,12 @@ Type of delay line used in the CRT (0: normal, 1: U only)
 Enable/disable video to audio leak emulation
 (@code{VICIIAudioLeak=1}, @code{VICIIAudioLeak=0}).
 
+@findex -VICIIshowstatusbar, +VICIIshowstatusbar
+@item -VICIIshowstatusbar
+@item +VICIIshowstatusbar
+Show/hide status bar
+(@code{VICIIShowStatusbar=1}, @code{VICIIShowStatusbar=0}).
+
 @end table
 
 
@@ -12174,6 +12200,12 @@ Enable/disable video to audio leak emulation
 Select rendering filter
 (@code{VDCFilter}).
 (0: None, 1: CRT emulation, 2: Scale2x)
+
+@findex -VDCshowstatusbar, +VDCshowstatusbar
+@item -VDCshowstatusbar
+@item +VDCshowstatusbar
+Show/hide status bar
+(@code{VDCShowStatusbar=1}, @code{VDCShowStatusbar=0}).
 
 @end table
 
@@ -13738,6 +13770,12 @@ Amount of scan line shading for the CRT emulation
 Enable/disable video to audio leak emulation
 (@code{VICAudioLeak=1}, @code{VICAudioLeak=0}).
 
+@findex -VICshowstatusbar, +VICshowstatusbar
+@item -VICshowstatusbar
+@item +VICshowstatusbar
+Show/hide status bar
+(@code{VICShowStatusbar=1}, @code{VICShowStatusbar=0}).
+
 @end table
 
 
@@ -14225,6 +14263,12 @@ Amount of scan line shading for the CRT emulation
 @item +TEDaudioleak
 Enable/disable video to audio leak emulation
 (@code{TEDAudioLeak=1}, @code{TEDAudioLeak=0}).
+
+@findex -TEDshowstatusbar, +TEDshowstatusbar
+@item -TEDshowstatusbar
+@item +TEDshowstatusbar
+Show/hide status bar
+(@code{TEDShowStatusbar=1}, @code{TEDShowStatusbar=0}).
 
 @end table
 
@@ -14800,6 +14844,12 @@ Amount of scan line shading for the CRT emulation
 @item +Crtcaudioleak
 Enable/disable video to audio leak emulation
 (@code{CrtcAudioLeak=1}, @code{CrtcAudioLeak=0}).
+
+@findex -Crtcshowstatusbar, +Crtcshowstatusbar
+@item -Crtcshowstatusbar
+@item +Crtcshowstatusbar
+Show/hide status bar
+(@code{CrtcShowStatusbar=1}, @code{CrtcShowStatusbar=0}).
 
 @end table
 
@@ -16002,6 +16052,32 @@ Integer specifying the fullscreen mode
 @item VICIIFullscreen
 Boolean specifying whether to use fullscreen mode or not
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@vindex CrtcShowStatusbar
+@item CrtcShowStatusbar
+Boolean specifying whether to show the status bar or not
+(xcbm2 and xpet only).
+
+@vindex TEDShowStatusbar
+@item TEDShowStatusbar
+Boolean specifying whether to show the status bar or not
+(xplus4 only).
+
+@vindex VDCShowStatusbar
+@item TEDShowStatusbar
+Boolean specifying whether to show the status bar or not
+(x128 only).
+
+@vindex VICShowStatusbar
+@item VICShowStatusbar
+Boolean specifying whether to show the status bar or not
+(xvic only).
+
+@vindex VICIIShowStatusbar
+@item VICIIShowStatusbar
+Boolean specifying whether to show the status bar or not
+(x64, x64sc, x64dtv, xscpu64, x128 and xcbm5x0).
+
 
 @end table
 

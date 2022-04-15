@@ -545,6 +545,31 @@ void ui_set_gtk_check_menu_item_blocked_by_action(int action, gboolean state)
 }
 
 
+/** \brief  Set checkbox menu item \a name to \a state while blocking its handler
+ *
+ * Set a checkbox menu item's state while blocking the 'activate' handler so
+ * the handler won't recursively call itself.
+ *
+ * This function adds a window \a index parameter, required for x128.
+ *
+ * \param[in]   name    item name
+ * \param[in]   state   new state for \a name
+ * \param[in]   index   window index
+ */
+void ui_set_gtk_check_menu_item_blocked_by_action_for_window(int action,
+                                                             gboolean state,
+                                                             int index)
+{
+    GtkWidget *item;
+
+    item = ui_get_gtk_menu_item_by_action_for_window(action, index);
+    if (item != NULL) {
+        ui_set_gtk_check_menu_item_blocked(item, state);
+    }
+}
+
+
+
 /** \brief  Set checkbox menu item \a name to value of \a resource
  *
  * Set a checkbox menu item's state via a boolean resource while blocking the
