@@ -5,8 +5,6 @@
  */
 
 /*
- * $VICERES FullscreenEnable        -vsid
- * (Maybe also for VSID?)
  * $VICERES FullscreenDecorations   -vsid
  * $VICERES StartMinimized          -vsid
  *
@@ -46,71 +44,6 @@
 #include "settings_misc.h"
 
 #include "settings_host_display.h"
-
-
-/** \brief  Reference to the 'StartMinimized' checkbox */
-
-static GtkWidget *minimized_widget = NULL;
-
-/** \brief  Reference to the 'FullscreenEnable' checkbox */
-static GtkWidget *fullscreen_widget = NULL;
-
-
-/** \brief  Extra callback for the 'FullscreenEnable' widget
- *
- * When the resource is set, the 'StartMinimized' widget is toggled off and
- * disabled.
- *
- * \param[in]   widget  fullscreen checkbox (unused)
- * \param[in]   value   new value for \c widget
- */
-static void fullscreen_callback(GtkWidget *widget, int value)
-{
-    gtk_widget_set_sensitive(minimized_widget, !value);
-    if (value) {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(minimized_widget), FALSE);
-    }
-
-}
-
-
-/** \brief  Extra callback for the 'StartMinimized' widget
- *
- * When the resource is set, the 'FullscreenEnable' widget is toggled off and
- * disabled.
- *
- * \param[in]   widget  start-minimized checkbox (unused)
- * \param[in]   value   new value for \c widget
- */
-static void minimized_callback(GtkWidget *widget, int value)
-{
-    gtk_widget_set_sensitive(fullscreen_widget, !value);
-    if (value) {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fullscreen_widget), FALSE);
-    }
-
-}
-
-
-/** \brief  Create "Switch to fullscreen on boot" widget
- *
- * Currently completely ignores C128 VDC/VCII, maybe once we can differenciate
- * between displays (ie two or more) and put the GtkWindows there, we can
- * try to handle these scenarios. But for now, deh.
- *
- * \param[in]   index   window index (unused)
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_fullscreen_widget(int index)
-{
-    GtkWidget *widget;
-
-    widget = vice_gtk3_resource_check_button_new(
-            "FullscreenEnable", "Switch to fullscreen on boot");
-    vice_gtk3_resource_check_button_add_callback(widget, fullscreen_callback);
-    return widget;
-}
 
 
 /** \brief  Create "Enable fulllscreen decorations" widget
@@ -174,20 +107,14 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
     if (machine_class != VICE_MACHINE_VSID) {
 
         GtkWidget *decorations;
+        GtkWidget *minimized_widget;
         int col = 0;
-        int fullscreen = 0;
-        int minimized = 0;
-
-        fullscreen_widget = create_fullscreen_widget(0);
 
         decorations = create_fullscreen_decorations_widget(0);
 
         minimized_widget = vice_gtk3_resource_check_button_new(
                 "StartMinimized",
                 "Start the emulator window minimized");
-
-        vice_gtk3_resource_check_button_add_callback(
-                minimized_widget, minimized_callback);
 
         sync_widget = create_sync_widget();
 
@@ -196,28 +123,8 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 
         gtk_grid_attach(GTK_GRID(grid), sync_widget, col++, 1, 2, 1);
 
-        g_object_set(fullscreen_widget, "margin-top", 16, NULL);
-        gtk_grid_attach(GTK_GRID(grid), fullscreen_widget, 0, 2, 2, 1);
-        gtk_grid_attach(GTK_GRID(grid), decorations, 0, 3, 2, 1);
-        gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 4, 2, 1);
-
-        resources_get_int("FullscreenEnable", &fullscreen);
-        resources_get_int("StartMinimized", &minimized);
-
-        /* check situation regarding fullscreen and minimized */
-        if (fullscreen && minimized) {
-            /* illegal, clear both widgets */
-            resources_set_int("FullscreenEnable", 0);
-            resources_set_int("StartMinimized", 0);
-            vice_gtk3_resource_check_button_sync(fullscreen_widget);
-            vice_gtk3_resource_check_button_sync(minimized_widget);
-        } else if (fullscreen) {
-            /* fullscreen, so minimized cannot be active */
-            gtk_widget_set_sensitive(minimized_widget, FALSE);
-        } else if (minimized) {
-            /* minimized, so fullscreen cannot be active */
-            gtk_widget_set_sensitive(fullscreen_widget, FALSE);
-        }
+        gtk_grid_attach(GTK_GRID(grid), decorations, 0, 2, 2, 1);
+        gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 3, 2, 1);
     }
     gtk_widget_show_all(grid);
     return grid;

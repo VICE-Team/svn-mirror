@@ -230,7 +230,7 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     context->gl_backing_layer_height    = context->native_view_height   * gtk_scale;
 
     /* Set the background colour */
-    if (ui_is_fullscreen()) {
+    if (ui_is_fullscreen_from_canvas(canvas)) {
         context->native_view_bg_r = 0.0f;
         context->native_view_bg_g = 0.0f;
         context->native_view_bg_b = 0.0f;

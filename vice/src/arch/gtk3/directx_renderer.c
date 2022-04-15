@@ -223,7 +223,7 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
     context->viewport_height = allocation->height * gtk_scale;
 
     /* Set the background colour */
-    if (ui_is_fullscreen()) {
+    if (ui_is_fullscreen_from_canvas(canvas)) {
         context->render_bg_colour.r = 0.0f;
         context->render_bg_colour.g = 0.0f;
         context->render_bg_colour.b = 0.0f;

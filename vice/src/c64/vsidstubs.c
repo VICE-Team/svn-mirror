@@ -259,6 +259,17 @@ gfxoutputdrv_format_t ffmpegdrv_formatlist[] =
     { NULL, NULL, NULL }
 };
 
+
+int gfxoutput_resources_init(void)
+{
+    return 0;
+}
+
+int gfxoutput_cmdline_options_init(void)
+{
+    return 0;
+}
+
 /*******************************************************************************
     printers
 *******************************************************************************/

@@ -5,7 +5,12 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  * \author  Marcus Sutton <loggedoubt@gmail.com>
  *
- * $VICRES  AutostartOnDoubleclick  all
+ * $VICERES AutostartOnDoubleclick  all
+ * $VICERES CrtcFullscreen          xcbm2 xpet
+ * $VICERES TEDFullscreen           xplus4
+ * $VICERES VDCFullscreen           x128
+ * $VICERES VICFullscreen           xvic
+ * $VICERES VICIIFullscreen         x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  */
 
 /*
@@ -102,29 +107,33 @@
 
 #include "ui.h"
 
-/* Forward declarations of static functions */
+/* Forward declarations of static functions
+ *
+ * Using `gboolean` in place of `int` is safe since gboolean is a typedef for
+ * `gint`, which in turn is a typedef for `int`. `FALSE` is defined as `0`,
+ * while `TRUE` is defined as `(!FALSE)`, resulting in `1` according to the
+ * C standard.
+ */
 
-static int set_save_resources_on_exit(int val, void *param);
-static int set_confirm_on_exit(int val, void *param);
-static int set_window_height(int val, void *param);
-static int set_window_width(int val, void *param);
-static int set_window_xpos(int val, void *param);
-static int set_window_ypos(int val, void *param);
-static int set_start_minimized(int val, void *param);
-static int set_native_monitor(int val, void *param);
-static int set_monitor_font(const char *, void *param);
-static int set_monitor_bg(const char *, void *param);
-static int set_monitor_fg(const char *, void *param);
-static int set_fullscreen_state(int val, void *param);
-static int set_fullscreen_decorations(int val, void *param);
-static int set_pause_on_settings(int val, void *param);
-static int set_autostart_on_doubleclick(int val, void *param);
-static int set_settings_node_path(const char *val, void *param);
-static int set_monitor_xpos(const char *val, void *param);
-static int set_monitor_ypos(const char *val, void *param);
-static int set_monitor_width(const char *val, void *param);
-static int set_monitor_height(const char *val, void *param);
-
+static int set_save_resources_on_exit(gboolean save_on_exit, void *unused);
+static int set_confirm_on_exit(gboolean confirm_on_exit, void *unused);
+static int set_window_height(gint height, void *window_index);
+static int set_window_width(gint width, void *window_index);
+static int set_window_xpos(gint xpos, void *window_index);
+static int set_window_ypos(gint ypos, void *window_index);
+static int set_start_minimized(gboolean start_minimized, void *unused);
+static int set_native_monitor(gboolean use_native_monitorl, void *unused);
+static int set_monitor_font(const gchar *font_description, void *unused);
+static int set_monitor_bg(const gchar *color, void *unused);
+static int set_monitor_fg(const gchar *color, void *unused);
+static int set_fullscreen_decorations(gboolean fullscreen_decorations, void *unused);
+static int set_pause_on_settings(gboolean pause_on_settings, void *unused);
+static int set_autostart_on_doubleclick(gboolean autostart_on_doubleclick, void *unused);
+static int set_monitor_xpos(const gchar *xpos, void *window_index);
+static int set_monitor_ypos(const gchar *ypos, void *window_index);
+static int set_monitor_width(const gchar *width, void *window_index);
+static int set_monitor_height(const gchar *height, void *window_index);
+static int set_settings_node_path(const gchar *path, void *unused);
 
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
@@ -184,14 +193,9 @@ typedef struct ui_resources_s {
  */
 static ui_resource_t ui_resources;
 
-/** \brief  Fullscreen state
- */
-static int fullscreen_enabled = 0;
-
-
 /** \brief  Flag inidicating whether fullscreen mode shows the decorations
  *
- * Used bt the resource "FullscreenDecorations".
+ * Used by the resource "FullscreenDecorations".
  */
 static int fullscreen_has_decorations = 0;
 
@@ -247,9 +251,6 @@ static const resource_int_t resources_int_shared[] = {
 
     { "NativeMonitor", 0, RES_EVENT_NO, NULL,
         &ui_resources.use_native_monitor, set_native_monitor, NULL },
-
-    { "FullscreenEnable", 0, RES_EVENT_NO, NULL,
-        &fullscreen_enabled, set_fullscreen_state, NULL },
 
     { "FullscreenDecorations", 0, RES_EVENT_NO, NULL,
         &fullscreen_has_decorations, set_fullscreen_decorations, NULL },
@@ -356,12 +357,6 @@ static const cmdline_option_t cmdline_options_common[] =
     { "+nativemonitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "NativeMonitor", (void *)0,
         NULL, "Use VICE Gtk3 monitor terminal" },
-    { "-fullscreen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-        NULL, NULL, "FullscreenEnable", (void*)1,
-        NULL, "Enable fullscreen" },
-    { "+fullscreen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-        NULL, NULL, "FullscreenEnable", (void*)0,
-        NULL, "Disable fullscreen" },
     { "-fullscreen-decorations", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "FullscreenDecorations", (void*)1,
         NULL, "Enable fullscreen decorations" },
@@ -414,11 +409,6 @@ static int enter_monitor_while_paused = 0;
 /** \brief  Index of the most recently focused main window
  */
 static int active_win_index = -1;
-
-/** \brief  Flag indicating whether we're supposed to be in fullscreen
- */
-static int is_fullscreen = 0;
-
 
 /** \brief  Function to handle files dropped on a main window
  */
@@ -581,30 +571,16 @@ static void ui_on_drag_data_received(
 }
 
 
-/** \brief  Set fullscreen state \a val
- *
- * \param[in]   val     fullscreen state (boolean)
- * \param[in]   param   extra argument (unused)
- *
- * \return 0
- */
-static int set_fullscreen_state(int val, void *param)
-{
-    fullscreen_enabled = val;
-    return 0;
-}
-
-
 /** \brief  Resource setter for "FullscreenDecorations"
  *
- * \param[in]   val     new value
- * \param[in]   param   extra argument (unused)
+ * \param[in]   enabled enable fullscreen decorations
+ * \param[in]   unused   extra argument (unused)
  *
  * \return 0
  */
-static int set_fullscreen_decorations(int val, void *param)
+static int set_fullscreen_decorations(gboolean fullscreen_decorations, void *unused)
 {
-    fullscreen_has_decorations = val;
+    fullscreen_has_decorations = fullscreen_decorations;
     return 0;
 }
 
@@ -652,12 +628,19 @@ GtkWindow *ui_get_active_window(void)
  */
 video_canvas_t *ui_get_active_canvas(void)
 {
+    video_canvas_t *canvas;
+
     if (active_win_index < 0) {
         /* If we end up here it probably means no main window has
          * been created yet. */
         return NULL;
     }
-    return ui_resources.canvas[active_win_index];
+
+    canvas = ui_resources.canvas[active_win_index];
+    if (canvas == NULL) {
+        log_error(LOG_ERR, "No canvas for window %d!", active_win_index);
+    }
+    return canvas;
 }
 
 
@@ -792,18 +775,36 @@ static GdkPixbuf *get_default_icon(void)
  */
 static void ui_update_fullscreen_decorations(void)
 {
-    GtkWidget *window, *grid, *menu_bar, *crt_grid, *mixer_grid, *status_bar;
+    GtkWidget *window;
+    GtkWidget *grid;
+    GtkWidget *menu_bar;
+    GtkWidget *crt_grid;
+    GtkWidget *mixer_grid;
+    GtkWidget *status_bar;
+    video_canvas_t *canvas;
     int has_decorations;
+    gboolean is_fullscreen;
 
     /* FIXME: this function does not work properly for vsid and should never
      * get called by it, but at least on Macs it can get called if the user
      * clicks the fullscreen button in the main vsid window.
      */
     if (active_win_index < 0 || machine_class == VICE_MACHINE_VSID) {
+        debug_gtk3("Error: active_win_index < 0");
         return;
     }
 
+    /* determine fullscreen state */
+    canvas = ui_get_active_canvas();
+    if (canvas == NULL) {
+        debug_gtk3("failed: canvas == NULL.");
+        return;
+    }
+
+    is_fullscreen = ui_is_fullscreen();
     has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
+    debug_gtk3("Has decorations = %d (is_fullscreen = %d, fullscreen_has_decorations = %d)",
+            has_decorations, is_fullscreen, fullscreen_has_decorations);
     window = ui_resources.window_widget[active_win_index];
     grid = gtk_bin_get_child(GTK_BIN(window));
     menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MENU_BAR);
@@ -812,6 +813,11 @@ static void ui_update_fullscreen_decorations(void)
     status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_STATUS_BAR);
 
     if (has_decorations) {
+        int show_statusbar;
+
+        resources_get_int_sprintf("%sShowStatusbar",
+                                  &show_statusbar,
+                                  canvas->videoconfig->chip_name);
         gtk_widget_show(menu_bar);
         if (ui_statusbar_crt_controls_enabled(window)) {
             gtk_widget_show(crt_grid);
@@ -819,7 +825,11 @@ static void ui_update_fullscreen_decorations(void)
         if (ui_statusbar_mixer_controls_enabled(window)) {
             gtk_widget_show(mixer_grid);
         }
-        gtk_widget_show(status_bar);
+        if (show_statusbar) {
+            gtk_widget_show(status_bar);
+        } else {
+            gtk_widget_hide(status_bar);
+        }
     } else {
         gtk_widget_hide(menu_bar);
         gtk_widget_hide(crt_grid);
@@ -842,6 +852,7 @@ static gboolean on_window_state_event(GtkWidget *widget,
 {
     GdkWindowState win_state = event->new_window_state;
     int index = ui_get_window_index(widget);
+    gboolean is_fullscreen = ui_is_fullscreen();
 
     if (index < 0) {
         /* We should never end up here. */
@@ -851,12 +862,12 @@ static gboolean on_window_state_event(GtkWidget *widget,
 
     if (win_state & GDK_WINDOW_STATE_FULLSCREEN) {
         if (!is_fullscreen) {
-            is_fullscreen = 1;
+            ui_set_fullscreen_enabled(TRUE);
             ui_update_fullscreen_decorations();
         }
     } else {
         if (is_fullscreen) {
-            is_fullscreen = 0;
+            ui_set_fullscreen_enabled(FALSE);
             ui_update_fullscreen_decorations();
         }
     }
@@ -879,15 +890,90 @@ void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
 }
 
 
+/** \brief  Determine fullscreen state via canvas
+ *
+ * Work around situations where ui_is_fullscreen() cannot be used.
+ *
+ *  \param[in]   canvas  video canvas reference
+ *
+ *  \return non-0 if fullscreen is enabled
+ */
+gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
+{
+    gchar resource[32];
+    int is_fullscreen;
+
+    /* Using resources_get_int_sprintf() is relatively expensive since it uses
+     * malloc()/free(): */
+    g_snprintf(resource, sizeof(resource), "%sFullscreen", canvas->videoconfig->chip_name);
+    resources_get_int(resource, &is_fullscreen);
+    return is_fullscreen ? TRUE : FALSE;
+}
+
 
 /** \brief  Checks if we're in fullscreen mode
  *
+ * Determines fullscreen state by inspecting the "${CHIP}Fullscreen" resource
+ * for the active canvas.
+ *
  * \return  nonzero if we're in fullscreen mode
  */
-int ui_is_fullscreen(void)
+gboolean ui_is_fullscreen(void)
 {
-    return is_fullscreen;
+    video_canvas_t *canvas;
+    const char *chip_name;
+    int is_fullscreen = 0;
+
+    /* FIXME:   During emu boot the array ui_resources.canvas[] will not be
+     *          properly initialized yet, so when the opengl renderer calls
+     *          this function during a realize() call the references will still
+     *          be NULL and we cannot access the chip name, and thus not access
+     *          CHIPFullscreen.
+     */
+    canvas = ui_get_active_canvas();
+    if (canvas == NULL) {
+        debug_gtk3("error: canvas is NULL.");
+        return FALSE;
+    }
+    chip_name = canvas->videoconfig->chip_name;
+    resources_get_int_sprintf("%sFullscreen", &is_fullscreen, chip_name);
+
+    return is_fullscreen ? TRUE : FALSE;
 }
+
+
+/** \brief  Enable/disable fullscreen for current canvas
+ *
+ * Set the "${CHIP}Fullscreen" resource and enables or disables fullscreen
+ * mode for the main window of the current canvas.
+ *
+ * \param[in]   enabled enable fullscreen
+ */
+void ui_set_fullscreen_enabled(gboolean enabled)
+{
+    GtkWindow *window;
+    video_canvas_t *canvas;
+    const char *chip_name;
+
+    window = ui_get_active_window();
+    if (window == NULL) {
+        debug_gtk3("error: window is NULL.");
+        return;
+    }
+    canvas = ui_get_active_canvas();
+    if (canvas == NULL) {
+        debug_gtk3("error: canvas is NULL.");
+        return;
+    }
+    chip_name = canvas->videoconfig->chip_name;
+    resources_set_int_sprintf("%sFullscreen", enabled, chip_name);
+    if (enabled) {
+        gtk_window_fullscreen(window);
+    } else {
+        gtk_window_unfullscreen(window);
+    }
+}
+
 
 /** \brief  Updates UI in response to the simulated machine screen
  *          changing its dimensions or aspect ratio
@@ -915,23 +1001,17 @@ void ui_trigger_resize(void)
  */
 gboolean ui_action_toggle_fullscreen(void)
 {
-    GtkWindow *window;
+    gboolean enabled = FALSE;
 
     if (active_win_index < 0) {
         return FALSE;
     }
 
-    window = GTK_WINDOW(ui_resources.window_widget[active_win_index]);
-    is_fullscreen = !is_fullscreen;
-
-    if (is_fullscreen) {
-        gtk_window_fullscreen(window);
-    } else {
-        gtk_window_unfullscreen(window);
-    }
+    enabled = ui_is_fullscreen();
+    ui_set_fullscreen_enabled(!enabled);
 
     ui_set_gtk_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_TOGGLE,
-                                                 is_fullscreen);
+                                                 enabled);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -970,339 +1050,311 @@ static int window_index_from_param(void *param)
  * Resource getters/setters
  */
 
-
 /** \brief  Set SaveResourcesOnExit resource
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * \param[in]   save_on_exit    save resources on emulator exit
+ * \param[in]   unused          extra param (ignored)
  *
  * \return 0
  */
-static int set_save_resources_on_exit(int val, void *param)
+static int set_save_resources_on_exit(gboolean save_on_exit, void *unused)
 {
-    ui_resources.save_resources_on_exit = val ? 1 : 0;
+    ui_resources.save_resources_on_exit = save_on_exit;
     return 0;
 }
 
-
-/** \brief  Set ConfirmOnExit resource (bool)
+/** \brief  Set ConfirmOnExit resource
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * \param[in]   confirm_on_exit pop up confirmation dialog on exit
+ * \param[in]   unused          extra param (ignored)
  *
  * \return 0
  */
-static int set_confirm_on_exit(int val, void *param)
+static int set_confirm_on_exit(gboolean confirm_on_exit, void *unused)
 {
-    ui_resources.confirm_on_exit = val ? 1 : 0;
+    ui_resources.confirm_on_exit = confirm_on_exit;
     return 0;
 }
 
-
-/** \brief  Set PauseOnSettings resource (bool)
+/** \brief  Set PauseOnSettings resource
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * \param[in]   pause_on_settings   pause emulation when entering the settings
+ *                                  dialog
+ * \param[in]   unused              extra param (ignored)
  *
  * \return 0
  */
-static int set_pause_on_settings(int val, void *param)
+static int set_pause_on_settings(gboolean pause_on_settings, void *param)
 {
-    ui_resources.pause_on_settings = val ? 1 : 0;
+    ui_resources.pause_on_settings = pause_on_settings;
     return 0;
 }
 
-/** \brief  Set AutostartOnDoubleClick resource (bool)
+/** \brief  Set AutostartOnDoubleClick resource
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * \param[in]   autostart_on_doublelick autostart when doubleclicking in attach
+ *                                      dialogs
+ * \param[in]   unused                  extra param (ignored)
  *
  * \return 0
  */
-static int set_autostart_on_doubleclick(int val, void *param)
+static int set_autostart_on_doubleclick(gboolean autostart_on_doubleclick, void *unused)
 {
-    ui_resources.autostart_on_doubleclick = val ? 1 : 0;
+    ui_resources.autostart_on_doubleclick = autostart_on_doubleclick;
     return 0;
 }
 
-/** \brief  Set StartMinimized resource (bool)
+/** \brief  Set StartMinimized resource
  *
- * \param[in]   val     0: start normal 1: start minimized
- * \param[in]   param   extra param (ignored)
+ * \param[in]   start_minimized start the emulator window minimized
+ * \param[in]   unused          extra param (ignored)
  *
  * \return 0
  */
-static int set_start_minimized(int val, void *param)
+static int set_start_minimized(gboolean start_minimized, void *unused)
 {
-    ui_resources.start_minimized = val ? 1 : 0;
+    ui_resources.start_minimized = start_minimized;
     return 0;
 }
-
 
 /** \brief  Set NativeMonitor resource (bool)
  *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
+ * Use the spawning shell for the monitor instead of the VTE widget.
+ *
+ * \param[in]   use_native_monitor  use native monitor instead of VTE
+ * \param[in]   unused              extra param (ignored)
  *
  * \return 0
  */
-static int set_native_monitor(int val, void *param)
+static int set_native_monitor(gboolean use_native_monitor, void *unused)
 {
     /* FIXME: setting this to 1 should probably fail if either stdin or stdout
               is not a terminal. */
+    /* this doesn't work on Windows (Surprise!) */
 #if 0
     if (!isatty(stdin) || !isatty(stdout)) {
         return -1;
     }
 #endif
-    ui_resources.use_native_monitor = val ? 1 : 0;
+    ui_resources.use_native_monitor = use_native_monitor;
     return 0;
 }
-
 
 /** \brief  Resource handler: set monitor font for VTE-based monitor
  *
- * \param[in]   val     font description string
- * \param[in]   param   extra argument (unused)
+ * \param[in]   font_description    font description, passed to Pango
+ * \param[in]   unused              extra argument (unused)
  *
  * \return  0 (success)
  */
-static int set_monitor_font(const char *val, void *param)
+static int set_monitor_font(const gchar *font_description, void *param)
 {
-    util_string_set(&ui_resources.monitor_font, val);
+    util_string_set(&ui_resources.monitor_font, font_description);
     return 0;
 }
-
-
 
 /** \brief  Resource handler: set monitor background color for VTE-based monitor
  *
- * \param[in]   val     color
- * \param[in]   param   extra argument (unused)
+ * \param[in]   color   Gdk RGBA color string
+ * \param[in]   unused  extra argument (unused)
  *
- * \return  0 on success, -1 if \a val could not be parsed by gdk_rgba_parse()
+ * \return  0 on success, -1 if \a color could not be parsed by gdk_rgba_parse()
  */
-static int set_monitor_bg(const char *val, void *param)
+static int set_monitor_bg(const gchar *color, void *param)
 {
-    GdkRGBA color;
+    GdkRGBA rgba;
 
-    if (gdk_rgba_parse(&color, val)) {
-        util_string_set(&ui_resources.monitor_bg, val);
-        uimon_set_background_color(val);
+    if (gdk_rgba_parse(&rgba, color)) {
+        util_string_set(&ui_resources.monitor_bg, color);
+        uimon_set_background_color(color);
         return 0;
     }
     return -1;
 }
-
 
 /** \brief  Resource handler: set monitor foreground color for VTE-based monitor
  *
- * \param[in]   val     color
- * \param[in]   param   extra argument (unused)
+ * \param[in]   color   Gdk RGBA color string
+ * \param[in]   unused  extra argument (unused)
  *
- * \return  0 on success, -1 if \a val could not be parsed by gdk_rgba_parse()
+ * \return  0 on success, -1 if \a color could not be parsed by gdk_rgba_parse()
  */
-static int set_monitor_fg(const char *val, void *param)
+static int set_monitor_fg(const gchar *color, void *param)
 {
-    GdkRGBA color;
+    GdkRGBA rgba;
 
-    if (gdk_rgba_parse(&color, val)) {
-        util_string_set(&ui_resources.monitor_fg, val);
-        uimon_set_foreground_color(val);
+    if (gdk_rgba_parse(&rgba, color)) {
+        util_string_set(&ui_resources.monitor_fg, color);
+        uimon_set_foreground_color(color);
         return 0;
     }
     return -1;
 }
 
-
-/** \brief  Set Window[X]Width resource (int)
+/** \brief  Set Window[X]Width resource
  *
- * \param[in]   val     width in pixels
- * \param[in]   param   window index
- *
- * \return 0
- */
-static int set_window_width(int val, void *param)
-{
-    int index = window_index_from_param(param);
-    if (index < 0) {
-        return -1;
-    }
-    ui_resources.window_width[index] = val;
-    return 0;
-}
-
-
-/** \brief  Set Window[X]Height resource (int)
- *
- * \param[in]   val     height in pixels
- * \param[in]   param   window index
+ * \param[in]   width           width in pixels
+ * \param[in]   window_index    window index
  *
  * \return 0
  */
-static int set_window_height(int val, void *param)
+static int set_window_width(gint width, void *window_index)
 {
-    int index = window_index_from_param(param);
+    int index = window_index_from_param(window_index);
     if (index < 0) {
         return -1;
     }
-    ui_resources.window_height[index] = val;
+    ui_resources.window_width[index] = width;
     return 0;
 }
 
-
-/** \brief  Set Window[X]Xpos resource (int)
+/** \brief  Set Window[X]Height resource
  *
- * \param[in]   val     x-pos in pixels
- * \param[in]   param   window index
+ * \param[in]   height          height in pixels
+ * \param[in]   window_index    window index
  *
  * \return 0
  */
-static int set_window_xpos(int val, void *param)
+static int set_window_height(gint height, void *window_index)
 {
-    int index = window_index_from_param(param);
+    int index = window_index_from_param(window_index);
+    if (index < 0) {
+        return -1;
+    }
+    ui_resources.window_height[index] = height;
+    return 0;
+}
+
+/** \brief  Set Window[X]Xpos resource
+ *
+ * \param[in]   xpos            xpos in pixels
+ * \param[in]   window_index    window index
+ *
+ * \return 0
+ */
+static int set_window_xpos(gint xpos, void *window_index)
+{
+    int index = window_index_from_param(window_index);
 
     if (index < 0) {
         return -1;
     }
-    ui_resources.window_xpos[index] = val;
+    ui_resources.window_xpos[index] = xpos;
     return 0;
 }
-
 
 /** \brief  Set Window[X]Ypos resource (int)
  *
- * \param[in]   val     y-pos in pixels
- * \param[in]   param   window index
+ * \param[in]   ypos            ypos in pixels
+ * \param[in]   window_index    window index
  *
  * \return 0
  */
-static int set_window_ypos(int val, void *param)
+static int set_window_ypos(gint ypos, void *window_index)
 {
-    int index = window_index_from_param(param);
+    int index = window_index_from_param(window_index);
     if (index < 0) {
         return -1;
     }
-    ui_resources.window_ypos[index] = val;
+    ui_resources.window_ypos[index] = ypos;
     return 0;
 }
-
 
 /** \brief  Cmdline handler for -monitorxpos
  *
- * \param[in]   val     cmdline option argument as string
- * \param[in]   param   extra data
+ * \param[in]   xpos            xpos in pixels as string
+ * \param[in]   window_index    window index
  *
  * \return  0 on success
  */
-static int set_monitor_xpos(const char *val, void *param)
+static int set_monitor_xpos(const gchar *xpos, void *window_index)
 {
     char *endptr;
     long result;
 
-    result = strtol(val, &endptr, 0);
+    result = strtol(xpos, &endptr, 0);
     if (*endptr != '\0') {
         return -1;
     }
-    return set_window_xpos((int)result, param);
+    return set_window_xpos((gint)result, window_index);
 }
-
 
 /** \brief  Cmdline handler for -monitorypos
  *
- * \param[in]   val     cmdline option argument as string
- * \param[in]   param   extra data
+ * \param[in]   ypos            ypos in pixels as string
+ * \param[in]   window_index    window index
  *
  * \return  0 on success
  */
-static int set_monitor_ypos(const char *val, void *param)
+static int set_monitor_ypos(const gchar *ypos, void *window_index)
 {
     char *endptr;
     long result;
 
-    result = strtol(val, &endptr, 0);
+    result = strtol(ypos, &endptr, 0);
     if (*endptr != '\0') {
         return -1;
     }
-    return set_window_ypos((int)result, param);
+    return set_window_ypos((gint)result, window_index);
 }
-
 
 /** \brief  Cmdline handler for -monitorwidth
  *
- * \param[in]   val     cmdline option argument as string
- * \param[in]   param   extra data
+ * \param[in]   width           width in pixels as string
+ * \param[in]   window_index    window index
  *
  * \return  0 on success
  */
-static int set_monitor_width(const char *val, void *param)
+static int set_monitor_width(const gchar *width, void *window_index)
 {
     char *endptr;
     long result;
 
-    result = strtol(val, &endptr, 0);
+    result = strtol(width, &endptr, 0);
     if (*endptr != '\0') {
         return -1;
     }
-    return set_window_width((int)result, param);
+    return set_window_width((gint)result, window_index);
 }
-
 
 /** \brief  Cmdline handler for -monitorheight
  *
- * \param[in]   val     cmdline option argument as string
- * \param[in]   param   extra data
+ * \param[in]   height          height in pixels as string
+ * \param[in]   window_index    window index
  *
  * \return  0 on success
  */
-static int set_monitor_height(const char *val, void *param)
+static int set_monitor_height(const gchar *height, void *window_index)
 {
     char *endptr;
     long result;
 
-    result = strtol(val, &endptr, 0);
+    result = strtol(height, &endptr, 0);
     if (*endptr != '\0') {
         return -1;
     }
-    return set_window_height((int)result, param);
+    return set_window_height((gint)result, window_index);
 }
-
-
-
-/* FIXME: Why is this here? */
-#ifdef COMPYX_LAMER
-/** \brief  Set the 'AutostartOnDoubleclick' resource
- *
- * \param[in]   value   new value
- * \param[in]   param   extra data (unused)
- *
- * \return 0;
- */
-static int set_autostart_on_doubleclick(int val, void *param)
-{
-    ui_resources.autostart_on_doubleclick = val;
-    return 0;
-}
-#endif
-
 
 /** \brief  Set settings node path to activate on UI startup
  *
- * Triggers opening the settings dialog at node \a val once when starting VICE.
+ * Triggers opening the settings dialog at node \a path once when starting VICE.
  *
- * Useful for working on settings dialogs, avoid having to click through the UI.
+ * Useful for working on settings dialogs, avoiding clicking through the UI.
  * For example: `x64sc -settings-node peripheral/drive` will open the drive
  * settings.
  *
- * \param[in]   val     setting node path
- * \param[in]   param   extra data (unused);
+ * \param[in]   path    setting node path
+ * \param[in]   unused  extra data (unused);
  *
  * \return  0
  */
-static int set_settings_node_path(const char *val, void *param)
+static int set_settings_node_path(const gchar *path, void *param)
 {
-    debug_gtk3("Activating settings node '%s'.", val);
-    settings_node_path = val;
+#if 0
+    debug_gtk3("Activating settings node '%s'.", path);
+#endif
+    settings_node_path = path;
     return 0;   /* we won't know if the path is valid until later */
 }
 
@@ -1320,16 +1372,6 @@ void ui_set_handle_dropped_files_func(int (*func)(const char *))
 {
     handle_dropped_files_func = func;
 }
-
-
-#ifdef COMPYX_LAMER
-/** \brief  Get autostart-on-doubleclick state
- */
-gboolean ui_get_autostart_on_doubleclick(void)
-{
-    return (gboolean)ui_resources.autostart_on_doubleclick;
-}
-#endif
 
 
 /** \brief  Set function to help create the main window(s)
@@ -1576,7 +1618,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     gchar title[256];
 
     int minimized = 0;
-    int full = 0;
     int restored = 0;
 
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1762,14 +1803,22 @@ void ui_create_main_window(video_canvas_t *canvas)
         gtk_window_iconify(GTK_WINDOW(new_window));
     } else {
         /* my guess is a minimized/iconified window cannot be fullscreen */
-        resources_get_int("FullscreenEnable", &full);
-        if (full) {
+        if (ui_is_fullscreen_from_canvas(canvas)) {
             gtk_window_fullscreen(GTK_WINDOW(new_window));
+            if (!fullscreen_has_decorations) {
+                /* hide window decorations */
+                GtkWidget *menu_bar;
+
+                menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+                gtk_widget_hide(menu_bar);
+                gtk_widget_hide(crt_controls);
+                gtk_widget_hide(mixer_controls);
+                gtk_widget_hide(status_bar);
+            }
         } else {
             gtk_window_unfullscreen(GTK_WINDOW(new_window));
         }
     }
-
 
     /* set any menu checkboxes that aren't connected to resources */
 
@@ -1827,12 +1876,14 @@ void ui_display_main_window(int index)
         /* This function is called blindly for both primary and secondary windows */
         return;
     }
+    active_win_index = index;
 
     /* Normally this would show everything in the window,
      * including hidden status bar displays, but we've
      * disabled secondary displays in the status bar code with
      * gtk_widget_set_no_show_all(). */
     gtk_widget_show_all(window);
+    ui_update_fullscreen_decorations();
 
 #ifdef MACOS_COMPILE
     macos_activate_application_workaround();
@@ -1847,7 +1898,6 @@ void ui_display_main_window(int index)
         gdk_frame_clock_begin_updating(frame_clock);
     }
 
-    active_win_index = index;
 }
 
 /** \brief  Destroy a main window
@@ -2597,4 +2647,11 @@ GtkWidget *ui_get_window_by_index(int index)
 }
 
 
-
+/** \brief  Determine if the window should have decorations in fullscreen mode
+ *
+ * \return  bool
+ */
+gboolean ui_fullscreen_has_decorations(void)
+{
+    return fullscreen_has_decorations ? TRUE : FALSE;
+}
