@@ -240,14 +240,7 @@ int main_program_init(int argc, char **argv)
         ui_hotkeys_init();
     }
 
-//    gfxoutput_early_init(help_requested);
     if ((init_resources() < 0) || (init_cmdline_options() < 0)) {
-        return -1;
-    }
-
-    /* Set factory defaults.  */
-    if (resources_set_defaults() < 0) {
-        archdep_startup_log_error("Cannot set defaults.\n");
         return -1;
     }
 
@@ -255,6 +248,12 @@ int main_program_init(int argc, char **argv)
     gfxoutput_resources_init();
     if (gfxoutput_cmdline_options_init() < 0) {
         init_cmdline_options_fail("gfxoutput");
+        return -1;
+    }
+
+    /* Set factory defaults.  */
+    if (resources_set_defaults() < 0) {
+        archdep_startup_log_error("Cannot set defaults.\n");
         return -1;
     }
 

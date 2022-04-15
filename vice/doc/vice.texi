@@ -15111,6 +15111,12 @@ Integer that specifies the video standard of the emulated machine
 Integer specifying the status of the SuperPET CPU switch
 (0: 6502, 1: 6809, 2: Prog.)
 
+@vindex CB2Lowpass
+@item CB2Lowpass
+Integer specifying the frequency of the low-pass filter that is
+applied to the CB2 sound signal.
+Default: 16000
+
 @end table
 
 @subsubsection PET command line options
@@ -15216,6 +15222,12 @@ This option is incompatible with 80 columns and the Colour PET extension.
 @itemx +diagpin
 Enable/disable the diagnostic pin at the PET userport
 (@code{DiagPin=1}, @code{DiagPin=0}).
+
+@findex -cb2lowpass,
+@item -cb2lowpass
+Integer specifying the frequency of the low-pass filter that is
+applied to the CB2 sound signal.
+(@code{CB2Lowpass})
 
 @end table
 
