@@ -103,7 +103,7 @@ dnl Graphics options
 dnl
 VICE_ARG_WITH_LIST(gif,                 [  --with-gif              use GIF screenshot system])
 VICE_ARG_WITH_LIST(png,                 [  --without-png           do not use the PNG screenshot system])
-VICE_ARG_ENABLE_LIST(external-ffmpeg,   [  --enable-external-ffmpeg  enable external FFmpeg support])
+VICE_ARG_ENABLE_LIST(ffmpeg,            [  --enable-ffmpeg         enable FFmpeg support])
 dnl Only supported for SDL1
 VICE_ARG_ENABLE_LIST(hwscale,           [  --disable-hwscale       disables GPU scaling of emulated screen (SDL1 UI only)])
 
@@ -2352,7 +2352,7 @@ ffmpeg_use_header_subdirs=no
 AC_MSG_CHECKING([for FFMPEG support])
 
 dnl external ffmpeg
-if test x"$enable_external_ffmpeg" = "xyes"; then
+if test x"$enable_ffmpeg" = "xyes"; then
   PKG_PROG_PKG_CONFIG
 
   valid_ffmpeg_platform="no"
@@ -2444,14 +2444,14 @@ if test x"$HAVE_FFMPEG" = "xyes"; then
     AC_TRY_COMPILE([ #include "libavformat/avformat.h" ],
                    [ $TEST_FFMPEG_C ],
                    ,
-                   [ AC_MSG_ERROR([ffmpeg version is not comnpatible. Use 4.x]) ])
+                   [ AC_MSG_ERROR([ffmpeg version is not compatible. Use 4.x]) ])
   else
     AC_TRY_COMPILE([ #include "avformat.h" ],
                    [ $TEST_FFMPEG_C ],
                    ,
-                   [ AC_MSG_ERROR([ffmpeg version is not comnpatible. Use 4.x])])
+                   [ AC_MSG_ERROR([ffmpeg version is not compatible. Use 4.x])])
   fi
-  
+
   CFLAGS=$ORIG_CFLAGS
   AC_SUBST(FFMPEG_INCLUDES)
 else
@@ -3811,7 +3811,7 @@ echo ""
 echo "VIDEO RECORDING"
 echo "---------------"
 
-echo "FFMPEG support                : $HAVE_FFMPEG_SUPPORT (--enable-external-ffmpeg)"
+echo "FFMPEG support                : $HAVE_FFMPEG_SUPPORT (--enable-ffmpeg)"
 echo "FFMPEG swscale support        : $HAVE_FFMPEG_SWSCALE_SUPPORT"
 if test x"$have_swresample" = "xyes"; then
   echo "Audio resampling library      : swresample"
