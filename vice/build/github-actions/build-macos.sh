@@ -17,7 +17,7 @@ ARGS="\
     --with-flac \
     --enable-lame \
     --enable-midi \
-    --enable-external-ffmpeg \
+    --enable-ffmpeg \
     "
 
 # Make non-latest ffmpeg version 4 visible to pkgconfig

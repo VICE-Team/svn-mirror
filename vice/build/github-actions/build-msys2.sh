@@ -36,7 +36,6 @@ fi
 ARGS="
     --disable-arch \
     --disable-pdf-docs \
-    --with-jpeg \
     --with-png \
     --with-gif \
     --with-vorbis \
@@ -45,7 +44,7 @@ ARGS="
     --enable-lame \
     --enable-midi \
     --enable-cpuhistory \
-    --enable-external-ffmpeg \
+    --enable-ffmpeg \
     "
 
 case "$1" in
