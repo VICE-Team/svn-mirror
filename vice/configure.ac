@@ -1080,24 +1080,28 @@ if test x"$enable_openmp" != "xno"; then
   dnl It's probably there on Windows and Linux, probably not on macOS.
   dnl
 
-  TEST_OPENMP_C=" int thread_count = 0;
-                  #pragma omp parallel reduction(+:thread_count)
-                  thread_count += 1;
-                  if (thread_count > 1)
-                    return 0;
-                  return 1;"
+  TEST_OPENMP_C=" #include <omp.h>
+                  int main(int argc, char **argv)
+                  {
+                    int thread_count = 0;
+                    #pragma omp parallel reduction(+:thread_count)
+                    thread_count += 1;
+                    if (thread_count > 1)
+                      return 0;
+                    return omp_get_num_threads();
+                  }"
 
   AC_MSG_CHECKING([for native OpenMP])
   ORIG_CFLAGS="$CFLAGS"
   CFLAGS="$CFLAGS -fopenmp"
-  AC_TRY_LINK([ #include <omp.h> ],
-              [ $TEST_OPENMP_C ],
+  AC_TRY_RUN( [ $TEST_OPENMP_C ],
               [ AC_MSG_RESULT(yes)
                 have_openmp="yes"
                 VICE_CFLAGS="$VICE_CFLAGS -fopenmp"
                 VICE_CXXFLAGS="$VICE_CXXFLAGS -fopenmp"
                 VICE_LDFLAGS="$VICE_LDFLAGS -fopenmp" ],
-              [ AC_MSG_RESULT(no) ])
+              [ AC_MSG_RESULT(no) ],
+              [ AC_MSG_RESULT(no - TODO: cross compile OpenMP link check)])
   CFLAGS=$ORIG_CFLAGS
 
   if test x"$have_openmp" = "xno"; then
@@ -1109,16 +1113,13 @@ if test x"$enable_openmp" != "xno"; then
       AC_MSG_CHECKING([for MacPorts / Homebrew OpenMP])
       ORIG_CFLAGS="$CFLAGS"
       CFLAGS="$CFLAGS -Xpreprocessor -fopenmp -lomp"
-      AC_TRY_LINK([ #include <omp.h> ],
-                  [ $TEST_OPENMP_C ],
+      AC_TRY_RUN( [ $TEST_OPENMP_C ],
                   [ AC_MSG_RESULT(yes)
                     have_openmp="yes"
                     VICE_CFLAGS="$VICE_CFLAGS -Xpreprocessor -fopenmp"
                     VICE_CXXFLAGS="$VICE_CXXFLAGS -Xpreprocessor -fopenmp"
-                    LIBS="$LIBS -lomp"
-                    ],
-                  [ AC_MSG_RESULT(no)
-                    CFLAGS=$ORIG_CFLAGS ])
+                    VICE_LDFLAGS="$VICE_LDFLAGS -lomp" ],
+                  [ AC_MSG_RESULT(no) ])
       CFLAGS=$ORIG_CFLAGS
 
       if test x"$have_openmp" = "xno"; then
@@ -1128,6 +1129,11 @@ if test x"$enable_openmp" != "xno"; then
       echo "warning: OpenMP acceleration enabled, but not available"
     fi
   fi
+fi
+
+if test x"$have_openmp" = "xyes"; then
+  HAVE_OPENMP_SUPPORT="yes"
+  AC_DEFINE(HAVE_OPENMP,,[The compilation environment supports OpenMP.])
 fi
 
 
