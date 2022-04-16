@@ -247,15 +247,22 @@ void mainlock_obtain(void)
         ui_is_waiting = true;
         archdep_cond_wait(ui_waiting_cond, internal_lock);
         ui_is_waiting = false;
+        
+        archdep_mutex_unlock(internal_lock);
+        
+        /* Get the main lock */
+        archdep_mutex_lock(main_lock);
+        
+        /* Let the VICE thread know we have the mainlock now */
+        archdep_cond_signal(ui_has_lock_cond);
+    } else {
+        archdep_mutex_unlock(internal_lock);
+
+        /* Get the main lock */
+        archdep_mutex_lock(main_lock);
+        
+        /* VICE thread isn't running, so don't attempt to signal it! */
     }
-
-    archdep_mutex_unlock(internal_lock);
-
-    /* Get the main lock */
-    archdep_mutex_lock(main_lock);
-
-    /* Let the VICE thread know we have the mainlock now */
-    archdep_cond_signal(ui_has_lock_cond);
 }
 
 

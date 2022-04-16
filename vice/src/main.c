@@ -88,7 +88,6 @@ void main_loop_forever(void);
 void vice_thread_main(void *thread);
 
 static void *vice_thread;
-static void *init_lock;
 
 
 /** \brief  Size of buffer used to write core team members' names to log/stdout
@@ -127,18 +126,9 @@ int main_program_init(int argc, char **argv)
 
     archdep_set_main_thread();
 
-    /*
-     * The init lock guarantees that all main thread init outcomes are visible
-     * to the VICE thread.
-     */
-
-
-    archdep_mutex_create(&init_lock);
-    archdep_mutex_lock(init_lock);
-
-    archdep_thread_set_main();
-
+    /* Hold the mainlock during init */
     mainlock_init();
+    mainlock_obtain();
 
     archdep_set_openmp_wait_policy();
 
@@ -386,8 +376,8 @@ int main_program_init(int argc, char **argv)
         log_error(LOG_DEFAULT, "Fatal: failed to launch main thread");
         return 1;
     }
-
-    archdep_mutex_unlock(init_lock);
+    
+    mainlock_release();
 
     return 0;
 }
@@ -429,12 +419,17 @@ void vice_thread_shutdown(void)
 
 void vice_thread_main(void *thread)
 {
-    /* Let the mainlock system know which thread is the vice thread */
+    /*
+     * Let the mainlock system know which thread is the vice thread.
+     * This also obtains the mainlock for the VICE thread to hold.
+     */
+
     mainlock_set_vice_thread(thread);
 
     /*
      * main_loop_forever() does not return, so we call archdep_thread_shutdown()
      * in the mainlock system which manages a direct pthread based thread exit.
      */
+
     main_loop_forever();
 }
