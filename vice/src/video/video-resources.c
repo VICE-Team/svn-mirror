@@ -234,9 +234,7 @@ static int set_chip_rendermode(int filter, void *canvas)
     }
 
     lib_free(dsize);
-
     video_canvas_refresh_all(cv);
-
     return 0;
 }
 
@@ -311,28 +309,40 @@ static resource_int_t resources_chip_fullscreen_mode[] =
 };
 #endif
 
-static int set_ext_palette(int val, void *param)
+/** \brief  Setter for the boolean resource "${CHIP}ExternalPalette"
+ *
+ * \param[in]   external    use external palette
+ * \param[in]   canvas      video canvas
+ *
+ * \return  0
+ */
+static int set_palette_is_external(int external, void *canvas)
 {
-    video_canvas_t *canvas;
+    video_canvas_t *cv = canvas;
 
-    canvas = (video_canvas_t *)param;
-
-    canvas->videoconfig->external_palette = (unsigned int)(val ? 1 : 0);
-    canvas->videoconfig->color_tables.updated = 0;
+    cv->videoconfig->external_palette = external ? 1 : 0;
+    cv->videoconfig->color_tables.updated = 0;
     return 0;
 }
 
-static int set_palette_file_name(const char *val, void *param)
+/** \brief  Setter for the resource "${CHIP}PaletteFile"
+ *
+ * \param[in]   filename    palette filename
+ * \param[in]   canvas      video canvas
+ *
+ * \return  0
+ */
+static int set_palette_file_name(const char *filename, void *canvas)
 {
-    video_canvas_t *canvas = (video_canvas_t *)param;
+    video_canvas_t *cv = canvas;
 
-    util_string_set(&(canvas->videoconfig->external_palette_name), val);
-    canvas->videoconfig->color_tables.updated = 0;
+    util_string_set(&(cv->videoconfig->external_palette_name), filename);
+    cv->videoconfig->color_tables.updated = 0;
     return 0;
 }
 
-static const char * const vname_chip_palette[] = { "PaletteFile", "ExternalPalette", NULL };
-
+/** \brief  Resource registration template for "${CHIP}PaletteFile"
+ */
 static resource_string_t resources_chip_palette_string[] =
 {
     { NULL, NULL, RES_EVENT_NO, NULL,
@@ -340,24 +350,32 @@ static resource_string_t resources_chip_palette_string[] =
     RESOURCE_STRING_LIST_END
 };
 
+/** \brief  Resource registration template for "${CHIP}ExternalPalette"
+ */
 static resource_int_t resources_chip_palette_int[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
-      NULL, set_ext_palette, NULL },
+      NULL, set_palette_is_external, NULL },
     RESOURCE_INT_LIST_END
 };
 
-static int set_double_buffer_enabled(int val, void *param)
+/** \brief  Setter for the boolean resource "${CHIP}DoubleBuffer"
+ *
+ * \param[in]   double_buffer   enable double buffering
+ * \param[in]   canvas          video canvas
+ *
+ * \return  0
+ */
+static int set_double_buffer_enabled(int double_buffer, void *canvas)
 {
-    video_canvas_t *canvas = (video_canvas_t *)param;
+    video_canvas_t *cv = canvas;
 
-    canvas->videoconfig->double_buffer = val ? 1 : 0;
-
+    cv->videoconfig->double_buffer = double_buffer ? 1 : 0;
     return 0;
 }
 
-static const char * const vname_chip_double_buffer[] = { "DoubleBuffer", NULL };
-
+/** \brief  Resource registration template for "${CHIP}DoubleBuffer"
+ */
 static resource_int_t resources_chip_double_buffer[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
@@ -618,6 +636,7 @@ int video_resources_chip_init(const char *chipname,
     video_resource_chip_mode_t *resource_chip_mode;
 #endif
     unsigned int i;
+    int result;
 
     DBG(("video_resources_chip_init (%s) (canvas:%p) (cap:%p)", chipname, *canvas, video_chip_cap));
 
@@ -641,11 +660,13 @@ int video_resources_chip_init(const char *chipname,
             resources_chip_scan[0].value_ptr
                 = &((*canvas)->videoconfig->doublescan);
             resources_chip_scan[0].param = *canvas;
-            if (resources_register_int(resources_chip_scan) < 0) {
+
+            result = resources_register_int(resources_chip_scan);
+            lib_free(resources_chip_scan[0].name);
+            if (result < 0) {
                 return -1;
             }
 
-            lib_free(resources_chip_scan[0].name);
         } else {
             set_double_scan_enabled(0, *canvas);
         }
@@ -661,12 +682,12 @@ int video_resources_chip_init(const char *chipname,
             resources_chip_double_size[0].value_ptr
                 = &((*canvas)->videoconfig->double_size_enabled);
             resources_chip_double_size[0].param = *canvas;
-            if (resources_register_int(resources_chip_double_size) < 0) {
-                lib_free(resources_chip_double_size[0].name);
+
+            result = resources_register_int(resources_chip_double_size);
+            lib_free(resources_chip_double_size[0].name);
+            if (result < 0) {
                 return -1;
             }
-
-            lib_free(resources_chip_double_size[0].name);
         } else {
             set_double_size_enabled(0, *canvas);
         }
@@ -683,12 +704,11 @@ int video_resources_chip_init(const char *chipname,
             = &((*canvas)->videoconfig->fullscreen_enabled);
         resources_chip_fullscreen_int[0].param = (void *)*canvas;
 
-        if (resources_register_int(resources_chip_fullscreen_int) < 0) {
-            lib_free(resources_chip_fullscreen_int[0].name);
+        result = resources_register_int(resources_chip_fullscreen_int);
+        lib_free(resources_chip_fullscreen_int[0].name);
+        if (result < 0) {
             return -1;
         }
-
-        lib_free(resources_chip_fullscreen_int[0].name);
     } else {
         set_fullscreen_enabled(0, (void *)*canvas);
     }
@@ -710,11 +730,11 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_fullscreen_mode[0].param
             = (void *)resource_chip_mode;
 
-        if (resources_register_int(resources_chip_fullscreen_mode) < 0) {
+        result = resources_register_int(resources_chip_fullscreen_mode);
+        lib_free(resources_chip_fullscreen_mode[0].name);
+        if (result < 0) {
             return -1;
         }
-
-        lib_free(resources_chip_fullscreen_mode[0].name);
     } else {
         set_fullscreen_mode(0, (void *)resource_chip_mode);
     }
@@ -722,50 +742,55 @@ int video_resources_chip_init(const char *chipname,
 
     /* Palette related */
     if (machine_class != VICE_MACHINE_VSID) {
+        /* ${CHIP}PaletteFile: palette filename */
         resources_chip_palette_string[0].name
-            = util_concat(chipname, vname_chip_palette[0], NULL);
+            = util_concat(chipname, "PaletteFile", NULL);
         resources_chip_palette_string[0].factory_value
             = video_chip_cap->external_palette_name;
         resources_chip_palette_string[0].value_ptr
             = &((*canvas)->videoconfig->external_palette_name);
-        resources_chip_palette_string[0].param = (void *)*canvas;
+        resources_chip_palette_string[0].param = *canvas;
 
+        result = resources_register_string(resources_chip_palette_string);
+        lib_free(resources_chip_palette_string[0].name);
+        if (result < 0) {
+            return -1;
+        }
+
+        /* ${CHIP}ExternalPalette: boolean specifying whether the palette is
+         * a VICE-provided one or one provided by the user */
         resources_chip_palette_int[0].name
-            = util_concat(chipname, vname_chip_palette[1], NULL);
+            = util_concat(chipname, "ExternalPalette", NULL);
         resources_chip_palette_int[0].value_ptr
             = &((*canvas)->videoconfig->external_palette);
-        resources_chip_palette_int[0].param = (void *)*canvas;
+        resources_chip_palette_int[0].param = *canvas;
 
-        if (resources_register_string(resources_chip_palette_string) < 0) {
-            return -1;
-        }
-
-        if (resources_register_int(resources_chip_palette_int) < 0) {
-            return -1;
-        }
-
-        lib_free(resources_chip_palette_string[0].name);
+        result = resources_register_int(resources_chip_palette_int);
         lib_free(resources_chip_palette_int[0].name);
+        if (result < 0) {
+            return -1;
+        }
     } else {
-        set_palette_file_name(video_chip_cap->external_palette_name, (void *)*canvas);
-        set_ext_palette(0, (void *)*canvas);
+        set_palette_file_name(video_chip_cap->external_palette_name, *canvas);
+        set_palette_is_external(0, *canvas);
     }
 
-    /* double buffering */
+    /* ${CHIP}DoubleBuffer: double buffering  */
     if (video_chip_cap->double_buffering_allowed != 0) {
         if (machine_class != VICE_MACHINE_VSID) {
             resources_chip_double_buffer[0].name
-                = util_concat(chipname, vname_chip_double_buffer[0], NULL);
+                = util_concat(chipname, "DoubleBuffer", NULL);
             resources_chip_double_buffer[0].value_ptr
                 = &((*canvas)->videoconfig->double_buffer);
-            resources_chip_double_buffer[0].param = (void *)*canvas;
-            if (resources_register_int(resources_chip_double_buffer) < 0) {
+            resources_chip_double_buffer[0].param = *canvas;
+
+            result = resources_register_int(resources_chip_double_buffer);
+            lib_free(resources_chip_double_buffer[0].name);
+            if (result < 0) {
                 return -1;
             }
-
-            lib_free(resources_chip_double_buffer[0].name);
         } else {
-            set_double_buffer_enabled(0, (void *)*canvas);
+            set_double_buffer_enabled(0, *canvas);
         }
     }
 
