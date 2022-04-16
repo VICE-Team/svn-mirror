@@ -394,15 +394,16 @@ void main_loop_forever(void)
 
 void vice_thread_shutdown(void)
 {
+    /* log resources with non default values */
+    resources_log_active();
+    
+    /* log the active config as commandline options */
+    cmdline_log_active();
+    
     if (!vice_thread) {
         /* We're exiting early in program life, such as when invoked with -help */
         return;
     }
-
-    /* log resources with non default values */
-    resources_log_active();
-    /* log the active config as commandline options */
-    cmdline_log_active();
 
     if (archdep_thread_current_is(vice_thread)) {
         printf("FIXME! VICE thread is trying to shut itself down directly, this needs to be called from the ui thread for a correct shutdown!\n");
