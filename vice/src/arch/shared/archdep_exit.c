@@ -121,6 +121,9 @@ void archdep_thread_shutdown(void)
 
 void archdep_set_main_thread(void)
 {
+    /* Let the archdep_thread library know */
+    archdep_thread_set_main();
+
     archdep_mutex_create(&lock);
 
 #if defined(MACOS_COMPILE)
