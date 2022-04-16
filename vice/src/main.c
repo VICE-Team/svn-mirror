@@ -393,13 +393,7 @@ void main_loop_forever(void)
 }
 
 void vice_thread_shutdown(void)
-{
-    /* log resources with non default values */
-    resources_log_active();
-    
-    /* log the active config as commandline options */
-    cmdline_log_active();
-    
+{    
     if (!vice_thread) {
         /* We're exiting early in program life, such as when invoked with -help */
         return;

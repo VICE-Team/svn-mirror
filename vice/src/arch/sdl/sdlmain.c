@@ -153,6 +153,12 @@ void main_exit(void)
 {
     log_message(LOG_DEFAULT, "\nExiting...");
 
+    /* log resources with non default values */
+    resources_log_active();
+    
+    /* log the active config as commandline options */
+    cmdline_log_active();
+
     /*
      * Clean up dangling resources due to the 'Quit emu' callback not returning
      * to the calling menu code.
