@@ -47,9 +47,6 @@
 /* FIXME: Ugly hack for preventing SDL crash using -help */
 int sdl_help_shutdown = 0;
 
-#define HACK_REDRAW_EACH_RESIZE_EVENT 1
-
-#if HACK_REDRAW_EACH_RESIZE_EVENT
 /*
  * HACK: Enables redraw of the SDL window during a resize.
  *
@@ -65,13 +62,12 @@ static int hack_event_observer(void *userdata, SDL_Event *e)
     video_canvas_t *canvas;
     int i;
     
-    /* Events are intercepted on the thread that pushes the event */
-    if (!archdep_thread_current_is_main()) {
-        return 1;
-    }
-        
     if (e->type == SDL_WINDOWEVENT) {
         if (e->window.event == SDL_WINDOWEVENT_RESIZED) {
+            /* Events are intercepted on the thread that pushes the event - let's be certain we're on the right thread */
+            if (!archdep_thread_current_is_main()) {
+                return 1;
+            }
             for (i = 0; i < MAX_CANVAS_NUM; i++) {
                 canvas = video_canvas_get(i);
                 if (canvas) {
@@ -84,7 +80,6 @@ static int hack_event_observer(void *userdata, SDL_Event *e)
     
     return 1; /* Ignored when just observing */
 }
-#endif
 
 int main(int argc, char **argv)
 {
@@ -97,10 +92,8 @@ int main(int argc, char **argv)
         return init_result;
     }
     
-#if HACK_REDRAW_EACH_RESIZE_EVENT
     /* Note - some events will have already been pushed by now, including render events */
     SDL_AddEventWatch(hack_event_observer, NULL);
-#endif
     
     /*
      * Loop forever - VICE exits using exit()
@@ -113,13 +106,6 @@ int main(int argc, char **argv)
             if (e.type == sdl_event_new_video_frame) {
                 canvas = e.user.data1;
                 
-#if 0
-                archdep_mutex_lock(hack_lock);
-                if (hack_canvas_redraws[canvas->index]) {
-                    hack_canvas_redraws[canvas->index]--;
-                }
-                archdep_mutex_unlock(hack_lock);
-#endif
                 /*
                  * Unless we can get our event observer installed before the VICE thread
                  * starts generating sdl_event_new_video_frame events, we can't use the flag
