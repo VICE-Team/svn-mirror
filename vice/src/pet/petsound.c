@@ -280,7 +280,7 @@ static inline int lowpass_repeated(big_sample_t prev, big_sample_t next, int tim
  * The samples have been processed through a low-pass filter when
  * they were created.
  * We need to drop the extra bits used to make the filtering more precise.
-#else 
+#else
  * The samples have been created by averaging the CB2 signal over
  * the time of the sample. Here we apply a low-pass filter on that.
 #endif
@@ -381,7 +381,7 @@ static void create_intermediate_samples(CLOCK rclk)
          * fracs_per_sample is significant enough that we can't ignore it.
          */
         snd.samples[snd.next_sample_index] =
-            (snd.samples[snd.next_sample_index] * MAX_SAMPLE) / 
+            (snd.samples[snd.next_sample_index] * MAX_SAMPLE) /
             (snd.end_of_sample_time - snd.next_sample_time);
 #endif /* LOWPASS_CB2 */
 
@@ -446,7 +446,7 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     snd.cycles_per_sec = cycles_per_sec;
     snd.speed = speed;
 
-    CLOCK clocks_per_sample = ((CLOCK)snd.cycles_per_sec << FRAC_BITS) 
+    CLOCK clocks_per_sample = ((CLOCK)snd.cycles_per_sec << FRAC_BITS)
                             / snd.speed;
 
     snd.clocks_per_sample = (int)(clocks_per_sample >> FRAC_BITS);
