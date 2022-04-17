@@ -738,7 +738,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
 
     log_message(sdlvideo_log, "Available backends: %s", rendername);
 
-    /* setup vsync */ 
+    /* setup vsync */
     /* FIXME: this only works by setting the hint and then creating the
        renderer - so to do this at runtime some magic has to be implemented
        that destroys current renderer(s), changes the hint, and then creates

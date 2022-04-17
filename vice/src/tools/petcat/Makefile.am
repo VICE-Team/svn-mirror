@@ -7,10 +7,10 @@
 if WINDOWS_COMPILE
 petcat_LDFLAGS = -mconsole
 else
-petcat_LDFLAGS = 
+petcat_LDFLAGS =
 endif
 
-LIBS = 
+LIBS =
 
 if USE_SVN_REVISION
 # Generate svnversion.h if it doesn't exist yet (for `make petcat`)

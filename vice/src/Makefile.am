@@ -11,7 +11,7 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 ARCH_LIBS = @ARCH_LIBS@
 
 
-# Windows .res files to be linked to each binary 
+# Windows .res files to be linked to each binary
 if WINDOWS_COMPILE
 # .. but NOT in headless mode
 if !USE_HEADLESSUI
@@ -975,7 +975,7 @@ xpet_libs =  \
 
 xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ $(XPET_RES)
-xpet_DEPENDENCIES = $(xpet_libs) 
+xpet_DEPENDENCIES = $(xpet_libs)
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
 .PHONY: xpet-all xpet-program
@@ -1115,7 +1115,7 @@ xcbm5x0_libs = \
 
 xcbm5x0_SOURCES = $(base_sources)
 xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ $(XCBM5x0_RES)
-xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs) 
+xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs)
 xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
 
 .PHONY: xcbm5x0-all xcbm5x0-program
