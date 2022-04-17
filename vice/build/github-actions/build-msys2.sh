@@ -70,7 +70,6 @@ else
     ./configure $ARGS SVN_REVISION_OVERRIDE=$(echo "$2" | sed 's/^r//') || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
 fi
 
-make -j $(( $NUMBER_OF_PROCESSORS )) -s stylecheck
 make -j $(( $NUMBER_OF_PROCESSORS )) -s
 make bindistzip
 make bindist7zip
