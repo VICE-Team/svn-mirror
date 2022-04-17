@@ -52,7 +52,7 @@
 #include "vice.h"
 
 /* TODO: Perhaps implement fork_coproc() on Haiku using Haiku-specific code
- * 	 instead of relying on the POSIX compatibility layer? */	
+ *       instead of relying on the POSIX compatibility layer? */
 #if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
 
 #include <sys/types.h>
