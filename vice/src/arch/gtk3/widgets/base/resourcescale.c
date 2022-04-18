@@ -726,3 +726,252 @@ gboolean vice_gtk3_resource_scale_custom_sync(GtkWidget *widget)
     }
     return vice_gtk3_resource_scale_custom_set(widget, current);
 }
+
+/* Custom exponential widget: allows mapping an integer range to
+ * the slider in an exponential way.
+ * It differs from the "custom" slider in that the value which is shown
+ * to the user is also stored in the resource.  Just which position on
+ * the slider matches to which value is different.
+ */
+
+static void exponential_get_params(GtkWidget *self,
+                                   gdouble *power,
+                                   gint *display_low,
+                                   gint *display_high,
+                                   gint *display_range);
+static gint exp_slider_to_resource(GtkWidget *self, gint value);
+static gint exp_resource_to_slider(GtkWidget *self, gint value);
+
+/** \brief  Handler for the 'destroy' event of the \a exp widget
+ *
+ * Frees memory used by the resource name and the display format string.
+ *
+ * \param[in,out]   widget      integer exponential scale widget
+ * \param[in]       user_data   extra event data (unused)
+ */
+static void on_scale_exp_destroy(GtkWidget *widget, gpointer user_data)
+{
+    resource_widget_free_resource_name(widget);
+    resource_widget_free_string(widget, "DisplayFormat");
+}
+
+/** \brief  Handler for the 'value-changed' event of the exp scale widget
+ *
+ * \param[in]   self    custom scale widget
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_exp_changed(GtkWidget *self, gpointer data)
+{
+    const char *resource;
+    int old_val;
+    int new_val;
+
+    resource = resource_widget_get_resource_name(self);
+    if (resources_get_int(resource, &old_val) < 0) {
+        log_error(LOG_ERR, "failed to get value for resource '%s'\n",
+                resource);
+        return;
+    }
+    new_val = exp_slider_to_resource(self, gtk_range_get_value(GTK_RANGE(self)));
+    if (old_val != new_val) {
+        resources_set_int(resource, new_val);
+    }
+}
+
+static gchar *on_exp_format(GtkScale *self, gdouble value)
+{
+    const char *format = g_object_get_data(G_OBJECT(self), "DisplayFormat");
+
+    int new_val = exp_slider_to_resource(GTK_WIDGET(self), value);
+
+    return g_strdup_printf(format, new_val);
+}
+
+/** \brief  Get parameters required to convert between resource value and slider position
+ *
+ * \param[in]   self            custom scale widget
+ * \param[out]  power           exponent
+ * \param[out]  resource_low    resource value lower bound
+ * \param[out]  resource_high   resource value upper bound
+ * \param[out]  resource_range  resource value range
+ */
+static void exponential_get_params(GtkWidget *self,
+                              gdouble *power,
+                              gint *resource_low,
+                              gint *resource_high,
+                              gint *resource_range)
+{
+    *power = resource_widget_get_int(self, "Power") / 10000.0;
+    *resource_low = resource_widget_get_int(self, "ResourceLow");
+    *resource_low = resource_widget_get_int(self, "ResourceLow");
+    *resource_high = resource_widget_get_int(self, "ResourceHigh");
+    *resource_range = *resource_high - *resource_low + 1;
+}
+
+/** \brief  Convert slider value to resource value
+ *
+ * \param[in]   self    exponential scale widget
+ * \param[in]   value   linear slider value
+ *
+ * \return  resource value
+ *
+ * \note    Doesn't touch the resource
+ */
+static int exp_slider_to_resource(GtkWidget *self, gint value)
+{
+    gint resource_low;
+    gint resource_high;
+    gint resource_range;
+    gint resource;
+    gdouble power;
+
+    exponential_get_params(self,
+                           &power,
+                           &resource_low, &resource_high, &resource_range);
+
+    /* Normalize value to [0, 1] */
+    gdouble v = (gdouble)value / 1000.0;
+
+    /* Apply the power of exponents ;-) */
+    v = pow(v, power);
+
+    /* Scale to the range of the resource */
+    resource = resource_low + v * resource_range;
+
+    return resource;
+}
+
+
+/** \brief  Convert resource value to slider value
+ *
+ * \param[in]   self    exponential scale widget
+ * \param[in]   value   linear slider value
+ *
+ * \return  resource value
+ *
+ * \note    Doesn't touch the resource
+ */
+static gint exp_resource_to_slider(GtkWidget *self, gint value)
+{
+    gint resource_low;
+    gint resource_high;
+    gint resource_range;
+    gdouble result;
+    gdouble power;
+
+    exponential_get_params(self,
+                           &power,
+                           &resource_low, &resource_high, &resource_range);
+
+    /* Normalize the resource value to [0, 1] */
+    result = (double)(value - resource_low) / resource_range;
+
+    /*                                 power   ______ 
+     * Invert the power of exponents:        |/result
+     * = result ^ (1/power)
+     */
+    result = pow(result, 1.0 / power);
+
+    /* Scale to the range of the slider [0, 1000] */
+    result *= 1000.0;
+
+    return result + 0.5;
+}
+
+void vice_gtk3_resource_exp_range_set_value(GtkRange *self, gdouble value)
+{
+    gint slider_value = exp_resource_to_slider(GTK_WIDGET(self), value);
+    gtk_range_set_value(self, slider_value);
+}
+
+
+
+/** \brief  Helper function to create the exponential resource-bound scale
+ *          widget
+ *
+ * \param[in]   self            scale widget
+ * \param[in]   power           the exponent
+ * \param[in]   resource_low    resource lower bound (inclusive)
+ * \param[in]   resource_high   resource upper bound (inclusive)
+ * \param[in]   display_fmt     display format string
+ *
+ * \return  \a self
+ */
+static GtkWidget *exp_new_helper(GtkWidget *self,
+                                 gdouble power,
+                                 gint resource_low,
+                                 gint resource_high,
+                                 const gchar *display_fmt)
+{
+    gulong changed_handler;
+    gulong format_handler;
+    const char *resource_name;
+    int resource_value;
+
+    resource_name = resource_widget_get_resource_name(self);
+    resources_get_int(resource_name, &resource_value);
+    resource_widget_set_int(self, "Power", (int)(power * 10000.0 + 0.5));
+    resource_widget_set_int(self, "ResourceOrig", resource_value);
+    resource_widget_set_int(self, "ResourceLow", resource_low);
+    resource_widget_set_int(self, "ResourceHigh", resource_high);
+    resource_widget_set_string(self, "DisplayFormat", display_fmt);
+
+    vice_gtk3_resource_exp_range_set_value(GTK_RANGE(self), resource_value);
+
+    g_signal_connect(self, "destroy", G_CALLBACK(on_scale_exp_destroy), NULL);
+    changed_handler = g_signal_connect(self,
+                                       "value-changed",
+                                       G_CALLBACK(on_exp_changed),
+                                       NULL);
+    g_object_set_data(G_OBJECT(self),
+                     "ChangedHandler",
+                     GULONG_TO_POINTER(changed_handler));
+
+    format_handler = g_signal_connect(self,
+                                      "format-value",
+                                      G_CALLBACK(on_exp_format),
+                                      NULL);
+    g_object_set_data(G_OBJECT(self),
+                     "FormatHandler",
+                     GULONG_TO_POINTER(format_handler));
+
+
+    return self;
+}
+
+
+/** \brief  Create exponential scale widget displaying value bound to resource
+ *
+ * Create a scale widget that displays an integer resource's range to a
+ * slider which reacts exponentially.
+ *
+ * \param[in]   resource        resource name
+ * \param[in]   orientation     GtkScale orientation
+ * \param[in]   power           exponent
+ * \param[in]   resource_low    lower bound (inclusive)
+ * \param[in]   resource_high   upper bound (inclusive)
+ * \param[in]   display_step    stepping
+ * \param[in]   display_fmt     display format string
+ *
+ * \return  new exponential resource-bound scale widget
+ */
+GtkWidget *vice_gtk3_resource_scale_exp_new(
+        const gchar *resource,
+        GtkOrientation orientation,
+        gdouble power,
+        gint resource_low, gint resource_high, gint display_step,
+        const gchar *display_fmt)
+{
+    GtkWidget *scale;
+
+    scale = gtk_scale_new_with_range(orientation,
+                                     0,
+                                     1000,
+                                     display_step);
+    /* store copy of resource name */
+    resource_widget_set_resource_name(scale, resource);
+
+    return exp_new_helper(scale, power, resource_low, resource_high, display_fmt);
+}
+
+
