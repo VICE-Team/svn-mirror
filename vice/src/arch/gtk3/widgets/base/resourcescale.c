@@ -866,7 +866,7 @@ static gint exp_resource_to_slider(GtkWidget *self, gint value)
     /* Normalize the resource value to [0, 1] */
     result = (double)(value - resource_low) / resource_range;
 
-    /*                                 power   ______ 
+    /*                                 power   ______
      * Invert the power of exponents:        |/result
      * = result ^ (1/power)
      */
