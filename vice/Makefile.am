@@ -40,9 +40,9 @@ endif
 .PHONY: stylecheck
 stylecheck:
 	@echo "Doing some style checks..."
-	@$(SHELL) ./build/github-actions/check-lastline.sh
-	@$(SHELL) ./build/github-actions/check-spaces.sh
-	@$(SHELL) ./build/github-actions/check-tabs.sh
+	@cd $(top_srcdir) && $(SHELL) ./build/github-actions/check-lastline.sh
+	@cd $(top_srcdir) && $(SHELL) ./build/github-actions/check-spaces.sh
+	@cd $(top_srcdir) && $(SHELL) ./build/github-actions/check-tabs.sh
 
 .PHONY: vsid x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2 xcbm5x0 xscpu64 c1541 petcat cartconv
 
