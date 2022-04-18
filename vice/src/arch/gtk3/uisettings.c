@@ -1194,7 +1194,10 @@ static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
-    UI_SETTINGS_TERMINATOR
+    { "Userport devices",
+      "userport-devices",
+      userport_devices_widget_create, NULL },
+      UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
