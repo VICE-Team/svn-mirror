@@ -136,11 +136,11 @@ EXTRA_DIST = \
 	ps-unix.h \
 	ps-win32.h \
 	wininpoutp.h
-						 
+
 # Always built:
 # (needs to be declared empty to avoid `make` to try to build libhwsiddrv.o
 # from libhwsiddrv.c)
-libhwsiddrv_a_SOURCES = 
+libhwsiddrv_a_SOURCES =
 
 # Make sure we actually link the generated object files into the library:
 libhwsiddrv_a_LIBADD = $(HWSIDDRIVERS)

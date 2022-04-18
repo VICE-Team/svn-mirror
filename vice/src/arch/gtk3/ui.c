@@ -2072,7 +2072,7 @@ int ui_init_finalize(void)
                                   &show_statusbar,
                                   canvas->videoconfig->chip_name);
         debug_gtk3("Setting primary window %sShowStatusbar toggle to %s.",\
-                   canvas->videoconfig->chip_name, 
+                   canvas->videoconfig->chip_name,
                    show_statusbar ? "ON" : "OFF");
         ui_statusbar_set_visible_for_window(window, show_statusbar);
         ui_set_gtk_check_menu_item_blocked_by_action_for_window(
@@ -2100,7 +2100,7 @@ int ui_init_finalize(void)
                                       &show_statusbar,
                                       canvas->videoconfig->chip_name);
             debug_gtk3("Setting secondart window %sShowStatusbar toggle to %s.",\
-                       canvas->videoconfig->chip_name, 
+                       canvas->videoconfig->chip_name,
                        show_statusbar ? "ON" : "OFF");
             ui_statusbar_set_visible_for_window(window, show_statusbar);
             ui_set_gtk_check_menu_item_blocked_by_action_for_window(

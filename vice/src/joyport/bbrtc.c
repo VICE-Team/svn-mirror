@@ -78,7 +78,7 @@ static int joyport_bbrtc_set_enabled(int port, int enabled)
     }
 
     if (new_state) {
-        /* enabled, create new DS1602 RTC context for the RTC on this port */ 
+        /* enabled, create new DS1602 RTC context for the RTC on this port */
         bbrtc_context[port] = ds1602_init("BBRTC", 220953600);
     } else {
         /* disabled, if there is a DS1602 RTC context for this port, destroy it */
