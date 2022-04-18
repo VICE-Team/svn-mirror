@@ -79,4 +79,12 @@ gboolean vice_gtk3_resource_scale_custom_reset(GtkWidget *widget);
 gboolean vice_gtk3_resource_scale_custom_factory(GtkWidget *widget);
 gboolean vice_gtk3_resource_scale_custom_sync(GtkWidget *widget);
 
+GtkWidget *vice_gtk3_resource_scale_exp_new(
+        const gchar *resource,
+        GtkOrientation orientation,
+        gdouble power,
+        gint resource_low, gint resource_high, gint display_step,
+        const gchar *display_fmt);
+
+void vice_gtk3_resource_exp_range_set_value(GtkRange *self, gdouble value);
 #endif
