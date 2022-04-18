@@ -38,6 +38,7 @@
 #include "ui.h"
 #include "uifilereq.h"
 #include "uimenu.h"
+#include "util.h"
 #include "vic.h"
 #include "vicii.h"
 #include "videoarch.h"
@@ -569,7 +570,7 @@ UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
 static UI_MENU_CALLBACK(restore_size_callback)
 {
     if (activated) {
-        sdl_video_restore_size();
+        sdl2_video_restore_size();
     }
     return NULL;
 }
@@ -606,6 +607,20 @@ static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
                 return sdl_menu_text_tick;
             }
         }
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(active_chip_fullscreen_callback)
+{
+    char *fullscreen_resource_name;
+    int new_resource_value;
+
+    if (activated) {
+        /* Toggle the fullscreen resouce for the current active canvas, useful for x128 */
+        fullscreen_resource_name = util_concat(sdl_active_canvas->videoconfig->chip_name, "Fullscreen", NULL);
+        resources_toggle(fullscreen_resource_name, &new_resource_value);
+        lib_free(fullscreen_resource_name);
     }
     return NULL;
 }
@@ -706,6 +721,10 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIICheckSbColl_callback,
       NULL },
+    { "Callback: Fullscreen toggle",
+      MENU_ENTRY_HIDDEN,
+      active_chip_fullscreen_callback,
+      (ui_callback_data_t)0 },
     SDL_MENU_LIST_END
 };
 

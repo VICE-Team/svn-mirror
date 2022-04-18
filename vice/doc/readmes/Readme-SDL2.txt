@@ -228,14 +228,7 @@ in the recording.
 
 3.1 Bit depth
 
-By default, the bit depth for the video output is determined automatically;
-in most cases, this means the current desktop bit depth. The detected value
-is saved to the main settings file (resource "SDLBitdepth").
-
-There is no menu item for bit depth selection, as runtime switching is not
-implemented. To use a specific bit depth, use the command line parameter
-"-sdlbitdepth <bpp>". Supported bpp values are 0, 8, 15, 16, 24 and 32.
-The value 0 forces autodetection.
+The only supported bit depth is 32 bits per pixel.
 
 
 3.2 Fullscreen

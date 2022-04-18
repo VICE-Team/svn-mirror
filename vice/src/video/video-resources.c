@@ -103,7 +103,7 @@ static int set_double_size_enabled(int double_size, void *canvas)
 
     if (cap_render->sizex > 1
         && (video_chip_cap->dsize_limit_width == 0
-            || (cv->draw_buffer->canvas_width
+            || (cv->draw_buffer->width
                 <= video_chip_cap->dsize_limit_width))
         ) {
         cv->videoconfig->scalex = cap_render->sizex;
@@ -113,7 +113,7 @@ static int set_double_size_enabled(int double_size, void *canvas)
 
     if (cap_render->sizey > 1
         && (video_chip_cap->dsize_limit_height == 0
-            || (cv->draw_buffer->canvas_height
+            || (cv->draw_buffer->height
                 <= video_chip_cap->dsize_limit_height))
         ) {
         cv->videoconfig->scaley = cap_render->sizey;
@@ -123,8 +123,8 @@ static int set_double_size_enabled(int double_size, void *canvas)
 
 
     DBG(("set_double_size_enabled sizex:%d sizey:%d scalex:%d scaley:%d rendermode:%d",
-                cap_render->sizex, cap_render->sizey, canvas->videoconfig->scalex,
-                canvas->videoconfig->scaley, canvas->videoconfig->rendermode));
+                cap_render->sizex, cap_render->sizey, ((video_canvas_t*)canvas)->videoconfig->scalex,
+                ((video_canvas_t*)canvas)->videoconfig->scaley, ((video_canvas_t*)canvas)->videoconfig->rendermode));
 
     cv->videoconfig->color_tables.updated = 0;
     if ((cv->videoconfig->double_size_enabled != val
@@ -209,7 +209,7 @@ static int set_chip_rendermode(int filter, void *canvas)
     old = cv->videoconfig->filter;
     chip = cv->videoconfig->chip_name;
 
-    DBG(("set_chip_rendermode %s (canvas:%p) (%d->%d)", chip, cv, old, filter));
+    DBG(("set_chip_rendermode %s (canvas:%p) (%d->%d)", chip, (void*)cv, old, filter));
 
     dsize = util_concat(chip, "DoubleSize", NULL);
 
@@ -616,7 +616,7 @@ int video_resources_chip_init(const char *chipname,
 #endif
     unsigned int i;
 
-    DBG(("video_resources_chip_init (%s) (canvas:%p) (cap:%p)", chipname, *canvas, video_chip_cap));
+    DBG(("video_resources_chip_init (%s) (canvas:%p) (cap:%p)", chipname, (void*)*canvas, (void*)video_chip_cap));
 
     video_render_initconfig((*canvas)->videoconfig);
     (*canvas)->videoconfig->cap = video_chip_cap;

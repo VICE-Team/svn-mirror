@@ -79,15 +79,59 @@ static int hack_event_observer(void *userdata, SDL_Event *e)
     return 1; /* Ignored when just observing */
 }
 
+static void process_sdl_event(SDL_Event *e)
+{
+    if (e->type == sdl_event_mouse_move_processed) {
+        ui_autohide_mouse_cursor();
+    
+    } else if (e->type == sdl_event_ui_needs_refresh) {
+        mainlock_obtain();
+        sdl_ui_refresh();
+        mainlock_release();
+    
+    } else if (e->type == sdl_event_second_window_show) {
+        mainlock_obtain();
+        sdl2_show_second_window_impl();
+        mainlock_release();
+
+    } else if (e->type == sdl_event_second_window_hide) {
+        mainlock_obtain();
+        sdl2_hide_second_window_impl();
+        mainlock_release();
+
+    } else if (e->type == sdl_event_restore_window_size) {
+        sdl2_video_restore_size_impl();
+
+    } else if (e->type == sdl_event_readline_request) {
+        sdl_ui_readline_input_impl();
+    
+    } else if (e->type == sdl_event_run_on_main_thread) {
+        mainlock_obtain();
+        ((main_thread_function_t)e->user.data1)(e->user.data2);
+        mainlock_release();
+        
+    } else {
+        /* Copy SDL_Event to queue for VICE thread */
+        sdl_ui_poll_push_event(e);
+    }
+}
+
 int main(int argc, char **argv)
 {
     int init_result;
     SDL_Event e;
     video_canvas_t *canvas;
+    int i;
+    int deferred_render_count[MAX_CANVAS_NUM];
+    int total_outstanding_renders = 0;
 
     init_result = main_program_init(argc, argv);
     if (init_result) {
         return init_result;
+    }
+    
+    for (i = 0; i < MAX_CANVAS_NUM; i++) {
+        deferred_render_count[i] = 0;
     }
     
     /* Note - some events will have already been pushed by now, including render events */
@@ -98,54 +142,57 @@ int main(int argc, char **argv)
      */
 
     for (;;) {
-        while(SDL_WaitEventTimeout(&e, 1000 / 60) != 0)
-        {
-            /* Check for custom render frame event, which we handle directly */
-            if (e.type == sdl_event_new_video_frame) {
-                canvas = e.user.data1;
-                
-                /*
-                 * Unless we can get our event observer installed before the VICE thread
-                 * starts generating sdl_event_new_video_frame events, we can't use the flag
-                 * above to conditionally render here. REndering with no backbuffers queued
-                 * exits early with minimum performance impact so it's fine (for a hack).
-                 */
-                
-                video_canvas_display_backbuffer(canvas);
-                
-            } else if (e.type == sdl_event_mouse_move_processed) {
-                ui_autohide_mouse_cursor();
+
+        /*
+         * Perform any deferred rendering we know about, prioritising the active canvas
+         */
+
+        if (total_outstanding_renders) {
+            if (deferred_render_count[sdl_active_canvas->index]) {
+                video_canvas_display_backbuffer(sdl_active_canvas);
+                deferred_render_count[sdl_active_canvas->index]--;
+                total_outstanding_renders--;
+            }
             
-            } else if (e.type == sdl_event_canvas_resized) {
-                mainlock_obtain();
-                sdl2_video_canvas_resize_impl(e.user.data1);
-                mainlock_release();
-            
-            } else if (e.type == sdl_event_ui_needs_refresh) {
-                mainlock_obtain();
-                sdl_ui_refresh();
-                mainlock_release();
-
-            } else if (e.type == sdl_event_second_window_show) {
-                mainlock_obtain();
-                sdl2_show_second_window_impl();
-                mainlock_release();
-
-            } else if (e.type == sdl_event_second_window_hide) {
-                mainlock_obtain();
-                sdl2_hide_second_window_impl();
-                mainlock_release();
-
-            } else if (e.type == sdl_event_readline_request) {
-                sdl_ui_readline_input_impl();
-                
-            } else {
-                /* Copy SDL_Event to queue for VICE thread */
-                sdl_ui_poll_push_event(&e);
+            for (i = 0; i < MAX_CANVAS_NUM; i++) {
+                if (i != sdl_active_canvas->index) {
+                    if (deferred_render_count[i]) {
+                        video_canvas_display_backbuffer(video_canvas_get(i));
+                        deferred_render_count[i]--;
+                        total_outstanding_renders--;
+                    }
+                }
+            }
+        }
+        
+        if (total_outstanding_renders) {
+            /* We still have another render to perform, so don't block on SDL events */
+            if (SDL_PollEvent(&e) == 0) {
+                /* No pending events, loop around to the outstanding render */
+                continue;
+            }
+        } else {
+            /* Everything up to date, wait for the next event */
+            if (SDL_WaitEvent(&e) == 0) {
+                log_error(LOG_DEFAULT, "Error in SDL_WaitEvent(): %s", SDL_GetError());
+                archdep_vice_exit(1);
             }
         }
 
-        mainlock_execute_main_thread_callbacks();
+        /*
+         * Handle this event, then all queued events, deferring any renders until next iteration as
+         * they may block processing for a while on vsync.
+         */
+
+        do {
+            if (e.type == sdl_event_new_video_frame) {
+                canvas = e.user.data1;
+                deferred_render_count[canvas->index]++;
+                total_outstanding_renders++;
+            } else {
+                process_sdl_event(&e);
+            }
+        } while(SDL_PollEvent(&e));
     }
 }
 

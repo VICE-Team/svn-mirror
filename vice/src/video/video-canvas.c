@@ -70,7 +70,7 @@ video_canvas_t *video_canvas_init(void)
     video_canvas_t *canvas;
 
     canvas = lib_calloc(1, sizeof(video_canvas_t));
-    DBG(("video_canvas_init %p", canvas));
+    DBG(("video_canvas_init %p", (void*)canvas));
     
     archdep_mutex_create(&canvas->lock);
     
@@ -186,7 +186,7 @@ void video_canvas_render(video_canvas_t *canvas, uint8_t *trg, int width,
 
     video_render_main(canvas->videoconfig, canvas->draw_buffer->draw_buffer,
                       trg, width, height, xs, ys, xt, yt,
-                      canvas->draw_buffer->draw_buffer_width, pitcht,
+                      canvas->draw_buffer->width, pitcht,
                       viewport);
 }
 
@@ -229,7 +229,7 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
         return;
     }
     
-    if (canvas->width == 0 || canvas->height == 0) {
+    if (canvas->draw_buffer->width == 0 || canvas->draw_buffer->height == 0) {
         /* Happens during resource init */
         return;
     }
@@ -247,8 +247,8 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
     ys = viewport->first_line;
     xi = canvas->videoconfig->scalex * viewport->x_offset;
     yi = canvas->videoconfig->scaley * viewport->y_offset;
-    w  = canvas->videoconfig->scalex * MIN(draw_buffer->canvas_width, geometry->screen_size.width - viewport->first_x);
-    h  = canvas->videoconfig->scaley * MIN(draw_buffer->canvas_height, viewport->last_line - viewport->first_line + 1);
+    w  = canvas->videoconfig->scalex * MIN(draw_buffer->visible_width, geometry->screen_size.width - viewport->first_x);
+    h  = canvas->videoconfig->scaley * MIN(draw_buffer->visible_height, viewport->last_line - viewport->first_line + 1);
     
     /*
      * If there is no unused render buffer, we can't render a new frame.
@@ -259,23 +259,22 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
         return;
     }
 
-    backbuffer->width               = w;
-    backbuffer->height              = h;
-    backbuffer->pixel_aspect_ratio  = geometry->pixel_aspect_ratio;;
-    backbuffer->interlaced          = canvas->videoconfig->interlaced;
-    backbuffer->interlace_field     = canvas->videoconfig->interlace_field;
-    
     backbuffer->xs                  = xs;
     backbuffer->ys                  = ys;
     backbuffer->xi                  = xi;
     backbuffer->yi                  = yi;
+    backbuffer->width               = w;
+    backbuffer->height              = h;
+    backbuffer->pixel_aspect_ratio  = geometry->pixel_aspect_ratio;
+    backbuffer->interlaced          = canvas->videoconfig->interlaced;
+    backbuffer->interlace_field     = canvas->videoconfig->interlace_field;
     
-    backbuffer->screen_data_width   = draw_buffer->draw_buffer_width;
-    backbuffer->screen_data_height  = draw_buffer->draw_buffer_height;
+    backbuffer->screen_data_width   = draw_buffer->width;
+    backbuffer->screen_data_height  = draw_buffer->height;
     backbuffer->screen_data_offset  = draw_buffer->padded_allocations_offset;
     
     video_sound_update(canvas->videoconfig, draw_buffer->draw_buffer,
-                       w, h, xs, ys, draw_buffer->draw_buffer_width, canvas->viewport);
+                       w, h, xs, ys, draw_buffer->width, canvas->viewport);
     
     video_canvas_new_frame_hook(canvas);
     
@@ -311,12 +310,6 @@ int video_canvas_palette_set(struct video_canvas_s *canvas,
     if (old_palette != NULL) {
         video_color_palette_free(old_palette);
     }
-
-#if 0 /* WTF this was causing each frame to be rendered twice */
-   if (canvas->created) {
-       video_canvas_refresh_all(canvas);
-   }
-#endif
 
     return 0;
 }

@@ -76,5 +76,6 @@ void render_queue_enqueue_for_display(void *render_queue, backbuffer_t *backbuff
 unsigned int render_queue_length(void *render_queue);
 backbuffer_t *render_queue_dequeue_for_display(void *render_queue);
 void render_queue_return_to_pool(void *render_queue, backbuffer_t *backbuffer);
+void render_queue_reset_queue(void *render_queue);
 
 #endif /* #ifndef VICE_RENDER_QUEUE_H */

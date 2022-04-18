@@ -157,7 +157,7 @@ void archdep_set_main_thread(void)
 }
 
 
-static void exit_on_main_thread(void)
+static void exit_on_main_thread(void *data)
 {
     actually_exit(vice_exit_code);
 }
@@ -176,7 +176,7 @@ void archdep_vice_exit(int exit_code)
         actually_exit(exit_code);
     } else {
         /* We need the main thread to process the exit handling. */
-        mainlock_run_on_main_thread(exit_on_main_thread);
+        archdep_thread_run_on_main(exit_on_main_thread, NULL);
 
         if (mainlock_is_vice_thread()) {
             /* The vice thread will shut itself down so that archdep_vice_exit does not return */

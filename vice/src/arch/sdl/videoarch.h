@@ -50,12 +50,27 @@
 typedef void (*video_refresh_func_t)(struct video_canvas_s *, int, int, int, int, unsigned int, unsigned int);
 
 /** \brief Everything needed to render textures to the screen in a window */
-struct video_container_s {
+struct sdl_window_s {
     /** \brief The SDL window associated with this renderer and texture. */
     SDL_Window* window;
 
     /** \brief The renderer associated with this SDL_Window. */
     SDL_Renderer* renderer;
+    
+    /** \brief Drawable surface. */
+    SDL_Surface* sdl_surface;
+
+    /** \brief The texture that can be rendered to for this window and renderer. */
+    SDL_Texture* texture;
+
+    /** \brief Last frame's texture, used for interlaced modes. */
+    SDL_Texture* previous_frame_texture;
+    
+    /** \brief The size of the texures in pixels */
+    unsigned int texture_width, texture_height;
+    
+    /** \brief Triggers recreation of sdl renderer, surface, textures on next render */
+    bool recreate_resources;
 
     /** \brief State variable for making sure that the OS let us leave fullscreen sanely. */
     int leaving_fullscreen;
@@ -68,7 +83,7 @@ struct video_container_s {
      * how big the window was when leaving fullscreen. */
     int last_height;
 };
-typedef struct video_container_s video_container_t;
+typedef struct sdl_window_s sdl_window_t;
 
 struct video_canvas_s {
     /** \brief Nonzero if it is safe to access other members of the
@@ -80,18 +95,6 @@ struct video_canvas_s {
 
     /** \brief Index of the canvas, needed for x128 and xcbm2 */
     int index;
-
-    /** \brief Depth of the canvas in bpp */
-    unsigned int depth;
-
-    /** \brief Size of the drawable canvas area, including the black borders */
-    unsigned int width, height;
-
-    /** \brief Size of the canvas as requested by the emulator itself */
-    unsigned int real_width, real_height;
-
-    /** \brief  Actual size of the window; in most cases the same as width/height */
-    unsigned int actual_width, actual_height;
     
     /** \brief Used to coordinate vice thread access */
     void *lock;
@@ -99,17 +102,8 @@ struct video_canvas_s {
     /** \brief A queue of rendered backbuffers ready to be displayed */
     void *render_queue;
 
-    /** \brief Drawable surface. Main output for SDL1, SDL2 uses other members. */
-    SDL_Surface* sdl_surface;
-
-    /** \brief The texture that can be rendered to for this window and renderer. */
-    SDL_Texture* texture;
-
-    /** \brief Last frame's texture, used for interlaced modes. */
-    SDL_Texture* previous_frame_texture;
-
     /** \brief The SDL2 objects that this canvas can output to. */
-    video_container_t* container;
+    sdl_window_t* sdl_window;
 
     struct video_render_config_s *videoconfig;
     int crt_type;
@@ -122,9 +116,6 @@ struct video_canvas_s {
 
     struct fullscreenconfig_s *fullscreenconfig;
     video_refresh_func_t video_fullscreen_refresh_func;
-
-    /** \brief Used to limit frame rate under warp. */
-    tick_t warp_next_render_tick;
 };
 typedef struct video_canvas_s video_canvas_t;
 
@@ -140,9 +131,6 @@ extern Uint32 sdl_event_new_video_frame;
 /* a mouse move event has been processed */
 extern Uint32 sdl_event_mouse_move_processed;
 
-/* the emulated screen size has changed */
-extern Uint32 sdl_event_canvas_resized;
-
 /* the UI needs needs to rebuild windows, textures etc */
 extern Uint32 sdl_event_ui_needs_refresh;
 
@@ -152,17 +140,34 @@ extern Uint32 sdl_event_second_window_show;
 /* the second window needs to be hidden */
 extern Uint32 sdl_event_second_window_hide;
 
+/* set the window size to that of the current canvas size */
+extern Uint32 sdl_event_restore_window_size;
+
 /* the vice thread needs some text input */
 extern Uint32 sdl_event_readline_request;
 
 /* the main thread has the requested text input result */
 extern Uint32 sdl_event_readline_result;
 
+/* execute a callback on the main thread */
+extern Uint32 sdl_event_run_on_main_thread;
+
+/* _impl versions of functions are asynchronously called from the main thread. */
+
 /* Resize window to stored real size */
-extern void sdl_video_restore_size(void);
+extern void sdl2_video_restore_size(void);
+extern void sdl2_video_restore_size_impl(void);
 
 /* special case handling for the SDL window resize event */
 extern void sdl2_video_resize_event(int canvas_id, unsigned int w, unsigned int h);
+
+extern void sdl2_show_second_window(void);
+extern void sdl2_show_second_window_impl(void);
+
+extern void sdl2_hide_second_window(void);
+extern void sdl2_hide_second_window_impl(void);
+
+extern void sdl2_video_restore_size(void);
 
 /* Switch to canvas with given index; used by x128 and xcbm2 */
 extern void sdl_video_canvas_switch(int index);
@@ -187,15 +192,6 @@ void sdl_ui_consume_mouse_event(SDL_Event *event);
 #define SDL_FILTER_NEAREST     0
 #define SDL_FILTER_LINEAR      1
 
-/* _impl versions of functions are asynchronously called from the main thread. */
-
 extern void sdl_ui_set_window_title(char *title);
-
-extern void sdl2_show_second_window(void);
-extern void sdl2_show_second_window_impl(void);
-extern void sdl2_hide_second_window(void);
-extern void sdl2_hide_second_window_impl(void);
-
-extern void sdl2_video_canvas_resize_impl(struct video_canvas_s *canvas);
 
 #endif

@@ -41,9 +41,9 @@ int raster_snapshot_write(snapshot_module_t *m, raster_t *raster)
 
     if (0
         || SMW_DW(m, raster->current_line) < 0
-        || SMW_DW(m, draw_buffer->draw_buffer_width) < 0
-        || SMW_DW(m, draw_buffer->draw_buffer_height) < 0
-        || SMW_DW(m, draw_buffer->draw_buffer_width) < 0    /* was pitch, but that was removed, put in width for compatibility */
+        || SMW_DW(m, draw_buffer->width) < 0
+        || SMW_DW(m, draw_buffer->height) < 0
+        || SMW_DW(m, draw_buffer->width) < 0    /* was pitch, but that was removed, put in width for compatibility */
         ) {
         return -1;
     }
@@ -75,15 +75,15 @@ int raster_snapshot_read(snapshot_module_t *m, raster_t *raster)
 
     if (0
         || SMR_DW(m, &raster->current_line) < 0
-        || SMR_DW(m, &draw_buffer->draw_buffer_width) < 0
-        || SMR_DW(m, &draw_buffer->draw_buffer_height) < 0
+        || SMR_DW(m, &draw_buffer->width) < 0
+        || SMR_DW(m, &draw_buffer->height) < 0
         || SMR_DW(m, &unused_value) < 0 /* was pitch, value no longer used */
         ) {
         return -1;
     }
 
-    raster_calculate_padding_size(draw_buffer->draw_buffer_width,
-                                  draw_buffer->draw_buffer_height,
+    raster_calculate_padding_size(draw_buffer->width,
+                                  draw_buffer->height,
                                   &draw_buffer->padded_allocations_size_bytes,
                                   &draw_buffer->padded_allocations_offset);
 

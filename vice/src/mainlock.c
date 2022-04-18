@@ -60,8 +60,6 @@ static bool vice_thread_keepalive   = true;
 static bool vice_thread_is_running  = false;
 static bool ui_is_waiting           = false;
 
-static mainlock_callback_t HACK_main_thread_callback;
-
 void mainlock_init(void)
 {
     archdep_mutex_create(&main_lock);
@@ -94,13 +92,15 @@ void mainlock_set_vice_thread(void *thread)
 
 static void consider_exit(void)
 {
+    archdep_mutex_lock(internal_lock);
+    
     /* NASTY - some emulation can continue on the main thread during shutdown. */
-    if (!mainlock_is_vice_thread()) {
+    if (!vice_thread_is_running) {
+        archdep_mutex_unlock(internal_lock);
         return;
     }
 
-    /* Check if the vice thread has been told to die. */
-    archdep_mutex_lock(internal_lock);
+    /* Check if the vice thread has been told to die. */    
     if (!vice_thread_keepalive) {
 
         /*
@@ -289,31 +289,4 @@ void mainlock_release(void)
     }
 
     archdep_mutex_unlock(internal_lock);
-}
-
-
-void mainlock_run_on_main_thread(mainlock_callback_t callback)
-{
-    archdep_mutex_lock(internal_lock);
-    HACK_main_thread_callback = callback;
-    archdep_mutex_unlock(internal_lock);
-}
-
-void mainlock_execute_main_thread_callbacks(void)
-{
-    mainlock_callback_t callback;
-
-    archdep_mutex_lock(internal_lock);
-
-    if (HACK_main_thread_callback == NULL) {
-        archdep_mutex_unlock(internal_lock);
-        return;    
-    }
-
-    callback = HACK_main_thread_callback;
-    HACK_main_thread_callback = NULL;
-
-    archdep_mutex_unlock(internal_lock);
-
-    callback();
 }

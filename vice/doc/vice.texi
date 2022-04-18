@@ -15946,11 +15946,6 @@ triggering the settings UI.
 Boolean to enable/disable the statusbar
 (all emulators except vsid).
 
-@vindex SDLBitdepth
-@item SDLBitdepth
-Integer specifying the bitdepth used.
-(0: current, 8, 15, 16, 24, 32)
-
 @vindex SDLLimitMode
 @item SDLLimitMode
 Integer specifying the resolution limit mode.
@@ -16246,12 +16241,6 @@ Do not pause emulation when enabling the settings dialog.
 Enable/disable the statusbar
 (@code{SDLStatusbar=1}, @code{SDLStatusbar=0})
 (all emulators except vsid).
-
-@findex -sdlbitdepth
-@item -sdlbitdepth <bpp>
-Set the display bitdepth
-(@code{SDLBitdepth}).
-(0: current, 8, 15, 16, 24, 32)
 
 @findex -sdllimitmode
 @item -sdllimitmode <mode>

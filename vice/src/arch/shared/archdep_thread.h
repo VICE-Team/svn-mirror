@@ -30,8 +30,10 @@
 #include <stdbool.h>
 
 typedef void (*thread_function_t)(void *thread);
+typedef void (*main_thread_function_t)(void *data);
 
 void archdep_thread_set_main(void);
+void archdep_thread_run_on_main(main_thread_function_t callback, void *data);
 
 int archdep_thread_create(void **thread, thread_function_t thread_function);
 bool archdep_thread_current_is(void *thread);

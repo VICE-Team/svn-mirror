@@ -34,11 +34,13 @@
 #include "archdep_thread.h"
 #include "lib.h"
 #include "log.h"
+#include "videoarch.h"
 
 static SDL_threadID main_thread_id;
 
 typedef struct thread_internal_s {
     SDL_Thread *thread;
+    SDL_threadID thread_id;
     jmp_buf exit_jmp;
     thread_function_t function;
 } thread_internal_t;
@@ -49,11 +51,22 @@ void archdep_thread_set_main(void)
     main_thread_id = SDL_ThreadID();
 }
 
+void archdep_thread_run_on_main(main_thread_function_t callback, void *data)
+{
+    SDL_Event e;
+    e.type = sdl_event_run_on_main_thread;
+    e.user.data1 = callback;
+    e.user.data2 = data;
+
+    SDL_PushEvent(&e);
+}
 
 static int archdep_thread_wrap(void *thread)
 {
     int thread_result;
     thread_internal_t *thread_internal = thread;
+    
+    thread_internal->thread_id = SDL_ThreadID();
 
     thread_result = setjmp(thread_internal->exit_jmp);
 
@@ -69,14 +82,14 @@ int archdep_thread_create(void **thread, thread_function_t thread_function)
 {
     thread_internal_t *thread_internal = lib_malloc(sizeof(thread_internal_t));
     thread_internal->function = thread_function;
-    *thread = thread_internal;
-
     thread_internal->thread = SDL_CreateThread(archdep_thread_wrap, "VICE thread", thread_internal);
     
     if (thread_internal->thread == NULL) {
         lib_free(thread);
         return -1;
     }
+    
+    *thread = thread_internal;
 
     return 0;
 }
@@ -90,7 +103,7 @@ bool archdep_thread_current_is(void *thread)
         return false;
     }
 
-    return SDL_ThreadID() == SDL_GetThreadID(thread_internal->thread);
+    return SDL_ThreadID() == thread_internal->thread_id;
 }
 
 

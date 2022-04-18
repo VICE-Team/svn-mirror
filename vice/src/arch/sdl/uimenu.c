@@ -390,7 +390,7 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
     const char *itemdata;
     uint8_t oldbg = 0, oldfg = 1;
 
-    if ((item->string == NULL) || (item->string[0] == 0)) {
+    if (item->string == NULL || item->string[0] == 0 || item->type == MENU_ENTRY_HIDDEN) {
         return -1;
     }
 
@@ -493,36 +493,63 @@ dispitemexit:
 static void sdl_ui_menu_redraw(ui_menu_entry_t *menu, const char *title, int offset, int *value_offsets, int cur_offset)
 {
     int i = 0;
+    int y_pos = 0;
+    ui_menu_entry_t *item;
 
     sdl_ui_init_draw_params();
     sdl_ui_clear();
     sdl_ui_display_title(title);
 
     while ((menu[i + offset].string != NULL) && (i <= (menu_draw.max_text_y - MENU_FIRST_Y))) {
-        sdl_ui_display_item(&(menu[i + offset]), i, value_offsets[i + offset], (i == cur_offset));
+        item = &(menu[i + offset]);
+        if (item->type != MENU_ENTRY_HIDDEN) {
+            sdl_ui_display_item(item, y_pos++, value_offsets[i + offset], (i == cur_offset));
+        }
         ++i;
     }
 }
 
 static void sdl_ui_menu_redraw_cursor(ui_menu_entry_t *menu, int offset, int *value_offsets, int cur_offset, int old_offset)
 {
-    int i = 0, n;
+    int i = 0;
+    int y_pos = 0;
+    int n;
+    ui_menu_entry_t *item;
 
     while ((menu[i + offset].string != NULL) && (i <= (menu_draw.max_text_y - MENU_FIRST_Y))) {
+        item = &(menu[i + offset]);
         if (i == cur_offset) {
-            sdl_ui_display_item(&(menu[i + offset]), i, value_offsets[i + offset], 1);
+            if (item->type != MENU_ENTRY_HIDDEN) {
+                sdl_ui_display_item(item, y_pos, value_offsets[i + offset], 1);
+            }
         } else if (i == old_offset) {
-            n = sdl_ui_display_item(&(menu[i + offset]), i, value_offsets[i + offset], 0);
-            sdl_ui_print_eol(MENU_FIRST_X + n, MENU_FIRST_Y + i);
+            if (item->type != MENU_ENTRY_HIDDEN) {
+                n = sdl_ui_display_item(item, y_pos, value_offsets[i + offset], 0);
+                sdl_ui_print_eol(MENU_FIRST_X + n, MENU_FIRST_Y + y_pos);
+            }
+        }
+        if (item->type != MENU_ENTRY_HIDDEN) {
+            y_pos++;
         }
         ++i;
     }
+}
+
+static bool menu_entry_is_navigable(ui_menu_entry_t *menu)
+{
+    if (menu->type == MENU_ENTRY_TEXT || menu->type == MENU_ENTRY_HIDDEN) {
+        return false;
+    }
+
+    return true;
 }
 
 static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *title, int allow_mapping)
 {
     static int last_cur = -1, last_cur_offset = -1;
     int num_items = 0, cur = 0, cur_old = -1, cur_offset = 0, in_menu = 1, redraw = 1;
+    int first_navigable;
+    int last_navigable;
     int *value_offsets = NULL;
     ui_menu_retval_t menu_retval = MENU_RETVAL_DEFAULT;
     int i;
@@ -542,10 +569,22 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
 
     value_offsets = sdl_ui_menu_get_offsets(menu, num_items);
 
-    /* If a subtitle is at the top of the menu, then start at the next line. */
-    if (menu[0].type == MENU_ENTRY_TEXT) {
-        cur = 1;
+    /* Start cursor at the first navigable entry. */
+    while (!menu_entry_is_navigable(&menu[cur])) {
+        cur++;
     }
+    first_navigable = cur;
+    last_navigable = cur;
+    /* Find the last navigable entry */
+    while (menu[++cur].string) {
+        if (menu_entry_is_navigable(&menu[cur])) {
+            last_navigable = cur;
+        }
+    }
+    
+    /* Default to the first navigable entry */
+    cur = first_navigable;
+    
     /* restore last position in main menu */
     if (menu == main_menu) {
         if ((last_cur >= 0) && (last_cur_offset >= 0)) {
@@ -567,24 +606,14 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
         switch (sdl_ui_menu_poll_input()) {
             case MENU_ACTION_HOME:
                 cur_old = cur;
-                /* If a subtitle is at the top of the menu, then start at the next line. */
-                if (menu[0].type == MENU_ENTRY_TEXT) {
-                    cur = 1;
-                } else {
-                    cur = 0;
-                }
+                cur = first_navigable;
                 cur_offset = 0;
                 redraw = 1;
                 break;
             case MENU_ACTION_END:
-                redraw = 1;
-                cur_offset = num_items - (menu_draw.max_text_y - MENU_FIRST_Y);
-                cur = (menu_draw.max_text_y - MENU_FIRST_Y) - 1;
-                if (cur_offset < 0) {
-                    cur += cur_offset;
-                    cur_offset = 0;
-                }
-                break;
+                cur = 0;
+                cur_offset = 0;
+                /* Fall through as though we'd pressed up from the first item */
             case MENU_ACTION_UP:
                 cur_old = cur;
                 do {
@@ -603,8 +632,8 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                         }
                         redraw = 1;
                     }
-                /* Skip subtitles and blank lines. */
-                } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                /* Skip subtitles, hidden items, and blank lines. */
+                } while (!menu_entry_is_navigable(&menu[cur + cur_offset]));
                 break;
             case MENU_ACTION_PAGEUP:
                 cur_old = cur;
@@ -615,10 +644,12 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                         } else {
                             if (cur_offset > 0) {
                                 --cur_offset;
+                            } else {
+                                cur = first_navigable;
                             }
                         }
-                    /* Skip subtitles and blank lines. */
-                    } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                    /* Skip subtitles, hidden items, and blank lines. */
+                    } while (!menu_entry_is_navigable(&menu[cur + cur_offset]));
                 }
                 redraw = 1;
                 break;
@@ -635,22 +666,22 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                         cur = cur_offset = 0;
                         redraw = 1;
                     }
-
-                /* Skip subtitles and blank lines. */
-                } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                /* Skip subtitles, hidden items, and blank lines. */
+                } while (!menu_entry_is_navigable(&menu[cur + cur_offset]));
                 break;
             case MENU_ACTION_PAGEDOWN:
                 cur_old = cur;
                 for (i = 0; i < (menu_draw.max_text_y - MENU_FIRST_Y - 1); i++) {
                     do {
-                        if ((cur + cur_offset) < (num_items - 1)) {
+                        //if ((cur + cur_offset) < (num_items - 1)) {
+                        if ((cur + cur_offset) < (last_navigable)) {
                             if (++cur == (menu_draw.max_text_y - MENU_FIRST_Y)) {
                                 --cur;
                                 ++cur_offset;
                             }
                         }
-                    /* Skip subtitles and blank lines. */
-                    } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                    /* Skip subtitles, hidden items, and blank lines. */
+                    } while (!menu_entry_is_navigable(&menu[cur + cur_offset]));
                 }
                 redraw = 1;
                 break;
@@ -704,6 +735,7 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
     }
 
     switch (item->type) {
+        case MENU_ENTRY_HIDDEN:
         case MENU_ENTRY_OTHER:
         case MENU_ENTRY_OTHER_TOGGLE:
         case MENU_ENTRY_DIALOG:
@@ -731,8 +763,8 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
 /* make a backup of the current emulator screen contents */
 void sdl_ui_create_draw_buffer_backup(void)
 {
-    unsigned int width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-    unsigned int height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    unsigned int width = sdl_active_canvas->draw_buffer->width;
+    unsigned int height = sdl_active_canvas->draw_buffer->height;
 
     draw_buffer_backup = lib_malloc(width * height);
     memcpy(draw_buffer_backup, sdl_active_canvas->draw_buffer->draw_buffer, width * height);
@@ -743,8 +775,8 @@ void sdl_ui_create_draw_buffer_backup(void)
 /* copy the backup of the emulator output back to the canvas */
 void sdl_ui_restore_draw_buffer_backup(void)
 {
-    unsigned int width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-    unsigned int height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    unsigned int width = sdl_active_canvas->draw_buffer->width;
+    unsigned int height = sdl_active_canvas->draw_buffer->height;
 
     if (draw_buffer_backup && draw_buffer_backup_width == width && draw_buffer_backup_height == height) {
         memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
@@ -768,8 +800,8 @@ static void sdl_ui_trap(uint16_t addr, void *data)
 
     DBG(("sdl_ui_trap start\n"));
 
-    width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-    height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    width = sdl_active_canvas->draw_buffer->width;
+    height = sdl_active_canvas->draw_buffer->height;
 
     sdl_ui_create_draw_buffer_backup();
 
@@ -1345,7 +1377,7 @@ void sdl_ui_init_draw_params(void)
         sdl_ui_set_menu_params(sdl_active_canvas->index, &menu_draw);
     }
 
-    menu_draw.pitch = sdl_active_canvas->draw_buffer->draw_buffer_width;
+    menu_draw.pitch = sdl_active_canvas->draw_buffer->width;
     menu_draw.offset = sdl_active_canvas->geometry->gfx_position.x + menu_draw.extra_x
                        + (sdl_active_canvas->geometry->gfx_position.y + menu_draw.extra_y) * menu_draw.pitch
                        + sdl_active_canvas->geometry->extra_offscreen_border_left;
@@ -1512,6 +1544,7 @@ int sdl_ui_hotkey(ui_menu_entry_t *item)
     }
 
     switch (item->type) {
+        case MENU_ENTRY_HIDDEN:
         case MENU_ENTRY_OTHER:
         case MENU_ENTRY_OTHER_TOGGLE:
         case MENU_ENTRY_RESOURCE_TOGGLE:

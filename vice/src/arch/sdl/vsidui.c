@@ -403,8 +403,8 @@ int vsid_ui_init(void)
 
     sdl_ui_init_draw_params();
 
-    width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-    height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    width = sdl_active_canvas->draw_buffer->width;
+    height = sdl_active_canvas->draw_buffer->height;
 
     sdl_active_canvas->draw_buffer_vsid = lib_calloc(1, sizeof(draw_buffer_t));
     if (raster_draw_buffer_init(sdl_active_canvas->draw_buffer_vsid, width, height, false)) {
@@ -414,10 +414,6 @@ int vsid_ui_init(void)
     draw_buffer = sdl_active_canvas->draw_buffer;
     draw_buffer_vsid = sdl_active_canvas->draw_buffer_vsid;
     
-    draw_buffer_vsid->canvas_physical_width = draw_buffer->canvas_physical_width;
-    draw_buffer_vsid->canvas_physical_height = draw_buffer->canvas_physical_height;
-    draw_buffer_vsid->canvas_width = draw_buffer->canvas_width;
-    draw_buffer_vsid->canvas_height = draw_buffer->canvas_height;
     draw_buffer_vsid->visible_width = draw_buffer->visible_width;
     draw_buffer_vsid->visible_height = draw_buffer->visible_height;
 

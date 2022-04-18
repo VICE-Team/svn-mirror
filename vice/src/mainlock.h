@@ -54,9 +54,6 @@ void mainlock_yield_end(void);
 void mainlock_obtain(void);
 void mainlock_release(void);
 
-void mainlock_run_on_main_thread(mainlock_callback_t callback);
-void mainlock_execute_main_thread_callbacks(void);
-
 #define mainlock_assert_is_vice_thread() assert(mainlock_is_vice_thread())
 #define mainlock_assert_is_not_vice_thread() assert(!mainlock_is_vice_thread())
 

@@ -71,7 +71,10 @@ typedef enum {
     MENU_ENTRY_OTHER,
 
     /* Other: no UI needed */
-    MENU_ENTRY_OTHER_TOGGLE
+    MENU_ENTRY_OTHER_TOGGLE,
+
+    /* Callback: a hidden menu item for hotkeys not tied to a visible menu item */
+    MENU_ENTRY_HIDDEN
 } ui_menu_entry_type_t;
 
 typedef enum {
@@ -88,7 +91,7 @@ typedef struct ui_menu_entry_s {
     ui_menu_status_type_t status;
 } ui_menu_entry_t;
 
-#define SDL_MENU_LIST_END { NULL, MENU_ENTRY_TEXT, NULL, NULL }
+#define SDL_MENU_LIST_END { NULL, MENU_ENTRY_TEXT, NULL, NULL, MENU_STATUS_NA }
 
 typedef enum {
     MENU_RETVAL_DEFAULT,

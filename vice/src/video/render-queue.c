@@ -226,3 +226,17 @@ void render_queue_return_to_pool(void *render_queue, backbuffer_t *backbuffer)
 
     UNLOCK();
 }
+
+void render_queue_reset_queue(void *render_queue)
+{
+    render_queue_t *rq = (render_queue_t *)render_queue;
+    backbuffer_t *backbuffer;
+
+    LOCK();
+
+    while ((backbuffer = render_queue_dequeue_for_display(render_queue))) {
+        render_queue_return_to_pool(render_queue, backbuffer);
+    }
+
+    UNLOCK();
+}

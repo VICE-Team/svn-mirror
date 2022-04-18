@@ -87,7 +87,6 @@
    - in the doc/readmes directory:
 
      - Readme-GTK3.txt, GTK3 specific documentation;
-     - Readme-SDL.txt, SDL specific documentation;
      - Readme-SDL2.txt, SDL2 specific documentation;
 
    - in the doc/building directory:

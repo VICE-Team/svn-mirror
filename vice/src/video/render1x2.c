@@ -108,7 +108,6 @@ void render_32_1x2_non_interlaced(const video_render_color_tables_t *color_tab, 
     uint32_t *tmptrg;
     unsigned int y, wstart, wfast, wend, yys;
     uint32_t color;
-    int readable = config->readable;
 
     src = src + pitchs * ys + xs;
     trg = trg + pitcht * yt + (xt << 2);
@@ -132,13 +131,13 @@ void render_32_1x2_non_interlaced(const video_render_color_tables_t *color_tab, 
          * Non-interlace code path, supporting doublescan
          */
         if (!(y & 1) || doublescan) {
-            if ((y & 1) && readable && y > yys) { /* copy previous line */
+            if ((y & 1) && y > yys) { /* copy previous line */
                 memcpy(trg, trg - pitcht, width << 2);
             } else {
                 render_source_line(tmptrg, tmpsrc, colortab, wstart, wfast, wend);
             }
         } else {
-            if (readable && y > yys + 1) { /* copy 2 lines before */
+            if (y > yys + 1) { /* copy 2 lines before */
                 memcpy(trg, trg - pitcht * 2, width << 2);
             } else {
                 color = colortab[0];

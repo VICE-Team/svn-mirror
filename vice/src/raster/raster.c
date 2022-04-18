@@ -74,8 +74,8 @@ int raster_draw_buffer_init(draw_buffer_t *draw_buffer,
                              unsigned int fb_height,
                              bool interlace_allowed)
 {
-    draw_buffer->draw_buffer_width  = fb_width;
-    draw_buffer->draw_buffer_height = fb_height;
+    draw_buffer->width  = fb_width;
+    draw_buffer->height = fb_height;
 
     /*
      * FIXME: We have to allocate memory either size of the draw buffer because both the CRT and Scale2x
@@ -169,8 +169,8 @@ static int realize_canvas(raster_t *raster)
 
     if (!video_disabled_mode) {
         new_canvas = video_canvas_create(raster->canvas,
-                                         &raster->canvas->draw_buffer->canvas_width,
-                                         &raster->canvas->draw_buffer->canvas_height, 1);
+                                         &raster->canvas->draw_buffer->width,
+                                         &raster->canvas->draw_buffer->height, 1);
 
         if (new_canvas == NULL) {
             return -1;
@@ -442,8 +442,6 @@ int raster_realize(raster_t *raster)
     }
     raster_realize_init_done++;
 
-    video_canvas_refresh_all(raster->canvas);
-
     rlist = lib_malloc(sizeof(raster_list_t));
     rlist->raster = raster;
     rlist->next = NULL;
@@ -543,7 +541,7 @@ void raster_screenshot(raster_t *raster, screenshot_t *screenshot)
           + raster->canvas->viewport->first_x;
     screenshot->draw_buffer = raster->canvas->draw_buffer->draw_buffer;
     screenshot->draw_buffer_line_size
-        = raster->canvas->draw_buffer->draw_buffer_width;
+        = raster->canvas->draw_buffer->width;
 
     /* Default values. Should be replaced by the graphics chip screenshot code */
     screenshot->debug_offset_x = 0;
@@ -558,7 +556,7 @@ void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref)
 {
     ref->draw_buffer = raster->canvas->draw_buffer->draw_buffer;
     ref->draw_buffer_line_size
-        = raster->canvas->draw_buffer->draw_buffer_width;
+        = raster->canvas->draw_buffer->width;
     ref->x = raster->geometry->extra_offscreen_border_left
              + raster->canvas->viewport->first_x;
     ref->y = raster->geometry->first_displayed_line;

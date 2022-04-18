@@ -60,6 +60,8 @@
 1136 Pause
 # ALT+Q
 1137 Quit emulator
+# ALT+R
+1138 Video settings&Restore window size
 # ALT+S
 1139 Snapshot&Save snapshot image
 # ALT+T
