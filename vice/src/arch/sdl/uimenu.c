@@ -613,7 +613,7 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
             case MENU_ACTION_END:
                 cur = 0;
                 cur_offset = 0;
-                /* Fall through as though we'd pressed up from the first item */
+                /* Falls through */
             case MENU_ACTION_UP:
                 cur_old = cur;
                 do {

@@ -1419,9 +1419,8 @@ VICE_CFLAGS="$VICE_CFLAGS -pthread"
 VICE_CXXFLAGS="$VICE_CXXFLAGS -pthread"
 VICE_LDFLAGS="$VICE_LDFLAGS -pthread"
 
-if test x"$enable_native_gtk3ui" = "xyes"; then
+if test x"$enable_native_gtk3ui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   if test x"$is_unix_x11" = x"yes" -a x"$is_unix_macosx" != x"yes"; then
-    dnl xlib is used for adding a native child window for opengl rendering
     LIBS="$LIBS -lX11"
   fi
 fi

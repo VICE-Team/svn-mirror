@@ -54,6 +54,42 @@
           design elsewhere
  */
 
+
+void archdep_mutex_create(void **mutex)
+{
+
+}
+
+void archdep_mutex_destroy(void *mutex)
+{
+
+}
+
+void archdep_mutex_lock(void *mutex)
+{
+
+}
+
+void archdep_mutex_unlock(void *mutex)
+{
+
+}
+
+void archdep_thread_set_main(void)
+{
+
+}
+
+void archdep_thread_run_on_main(main_thread_function_t callback, void *data)
+{
+    callback(data);
+}
+
+bool archdep_thread_current_is_main(void)
+{
+    return true;
+}
+
 /* called from resources_set_defaults() */
 void cartridge_detach_image(int type)
 {
@@ -111,11 +147,6 @@ bool mainlock_is_vice_thread(void)
 
 void mainlock_initiate_shutdown(void)
 {
-}
-
-void mainlock_run_on_main_thread(mainlock_callback_t callback)
-{
-    callback();
 }
 
 #if 0

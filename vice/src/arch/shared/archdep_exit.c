@@ -37,16 +37,17 @@
 #include <objbase.h>
 #endif
 
-#include <assert.h>
-
-#ifdef USE_GTK3UI
-#include <gtk/gtk.h>
 #ifdef UNIX_COMPILE
 #ifndef MACOS_COMPILE
 #include <X11/Xlib.h>
 #endif
 #endif
-#endif /* #ifdef USE_GTK3UI */
+
+#ifdef USE_GTK3UI
+#include <gtk/gtk.h>
+#endif
+
+#include <assert.h>
 
 static void *lock;
 static int vice_exit_code;
