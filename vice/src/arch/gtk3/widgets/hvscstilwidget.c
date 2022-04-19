@@ -126,6 +126,9 @@ static GtkWidget *create_view(void)
     GtkWidget *textview = gtk_text_view_new();
 
     gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), FALSE);
+    /* work around bug in Gtk3 that still allows insertin emoji's in read-only
+     * textviews */
+    gtk_text_view_set_input_hints(GTK_TEXT_VIEW(textview), GTK_INPUT_HINT_NO_EMOJI);
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD_CHAR);
     gtk_widget_set_can_focus(textview, FALSE);
     gtk_widget_set_vexpand(textview, TRUE);
