@@ -331,7 +331,9 @@ void vsid_main_widget_update(void)
 GtkWidget *vsid_main_widget_create(void)
 {
     GtkWidget *grid;
+#if 0
     GtkWidget *view;
+#endif
 
     grid = vice_gtk3_grid_new_spaced(32, 32);
     g_object_set(G_OBJECT(grid),
@@ -397,10 +399,17 @@ GtkWidget *vsid_main_widget_create(void)
     g_signal_connect(stil_widget, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
 
+    /* Enabling the following makes the GtTextView widget accept all sorts of
+     * data, including pasting text from the clipboard with the context menu.
+     * So for now dropping a SID onto the text view is disabled until I find
+     * a better solution. --compyx
+     */
+#if 0
     /* not the cleanest method maybe, but somehow the GtkTextView doesn't
      * trigger the drag-drop events otherwise */
     view = hvsc_stil_widget_get_view();
     gtk_text_view_set_editable(GTK_TEXT_VIEW(view), TRUE);
+
     gtk_drag_dest_set(
             view,
             GTK_DEST_DEFAULT_ALL,
@@ -413,7 +422,11 @@ GtkWidget *vsid_main_widget_create(void)
                      G_CALLBACK(on_drag_drop), NULL);
     g_signal_connect(stil_widget, "drag-motion",
                      G_CALLBACK(on_drag_motion), NULL);
+#endif
+
     /* right pane: playlist */
+    /* Currently triggers a segfault =D */
+#if 0
     gtk_drag_dest_set(
             playlist_widget,
             GTK_DEST_DEFAULT_ALL,
@@ -424,7 +437,7 @@ GtkWidget *vsid_main_widget_create(void)
                      G_CALLBACK(on_drag_data_received), NULL);
     g_signal_connect(playlist_widget, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
-
+#endif
     main_widget = grid;
     gtk_widget_show_all(grid);
     return grid;
