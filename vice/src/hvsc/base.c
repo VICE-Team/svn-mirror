@@ -382,7 +382,6 @@ const char *hvsc_text_file_read(hvsc_text_file_t *handle)
 long hvsc_read_file(uint8_t **dest, const char *path)
 {
     uint8_t *data;
-    uint8_t *tmp;
     FILE *fd;
     size_t offset = 0;
     size_t size = READFILE_BLOCK_SIZE;
@@ -408,13 +407,6 @@ long hvsc_read_file(uint8_t **dest, const char *path)
         if (result < READFILE_BLOCK_SIZE) {
             if (feof(fd)) {
                 /* OK: EOF */
-                /* try to realloc to minimum size required */
-                tmp = realloc(data, offset + result);
-                if (tmp != NULL) {
-                    /* OK, no worries if it fails, the C standard guarantees
-                     * the original data is still intact */
-                    data = tmp;
-                }
                 *dest = data;
                 fclose(fd);
                 return (long)(offset + result);

@@ -425,8 +425,6 @@ GtkWidget *vsid_main_widget_create(void)
 #endif
 
     /* right pane: playlist */
-    /* Currently triggers a segfault =D */
-#if 0
     gtk_drag_dest_set(
             playlist_widget,
             GTK_DEST_DEFAULT_ALL,
@@ -437,7 +435,7 @@ GtkWidget *vsid_main_widget_create(void)
                      G_CALLBACK(on_drag_data_received), NULL);
     g_signal_connect(playlist_widget, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
-#endif
+
     main_widget = grid;
     gtk_widget_show_all(grid);
     return grid;
