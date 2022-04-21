@@ -142,6 +142,9 @@ int main_program(int argc, char **argv)
         cmdline = util_concat(p, " ", argv[i], NULL);
         lib_free(p); /* free old pointer */
     }
+    /* make stdin, stdout and stderr available on Windows when compiling with
+     * -mwindows */
+    archdep_fix_streams();
 
     /* Check for some options at the beginning of the commandline before
        initializing the user interface or loading the config file.
