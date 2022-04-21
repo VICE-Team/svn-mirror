@@ -1699,6 +1699,7 @@ void ui_create_main_window(video_canvas_t *canvas)
         }
     }
 
+    mixer_controls = NULL;
     if (machine_class != VICE_MACHINE_VSID) {
 
         /* add sound mixer controls */
@@ -1811,8 +1812,12 @@ void ui_create_main_window(video_canvas_t *canvas)
 
                 menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
                 gtk_widget_hide(menu_bar);
-                gtk_widget_hide(crt_controls);
-                gtk_widget_hide(mixer_controls);
+                if (crt_controls != NULL) {
+                    gtk_widget_hide(crt_controls);
+                }
+                if (mixer_controls != NULL) {
+                    gtk_widget_hide(mixer_controls);
+                }
                 gtk_widget_hide(status_bar);
             }
         } else {
