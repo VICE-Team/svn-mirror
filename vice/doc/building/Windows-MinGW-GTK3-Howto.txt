@@ -148,14 +148,14 @@ $ svn checkout http://svn.code.sf.net/p/vice-emu/code/trunk vice-trunk
 
 $ cd ~/vice-trunk/vice
 $ ./autogen.sh
-$ ./configure -C --enable-native-gtk3ui
+$ ./configure -C --enable-gtk3ui
 $ make -s --no-print-dir
 $ make -s --no-print-dir bindist
 
 NOTE: if you want to help us out with bug reports, please instead configure
 with:
 
-$ ./configure -C --enable-native-gtk3ui --enable-debug-gtk3ui --enable-debug
+$ ./configure -C --enable-gtk3ui --enable-debug-gtk3ui --enable-debug
 
 
 8. If it got through all those steps, you should have some executables to play
@@ -172,7 +172,7 @@ away the object files first.  Then, you must configure VICE again.
 
 $ make clean
 $ rm config.cache
-$ ./configure -C --enable-native-gtk3ui
+$ ./configure -C --enable-gtk3ui
 $ make -s --no-print-dir
 $ make -s --no-print-dir bindist
 
