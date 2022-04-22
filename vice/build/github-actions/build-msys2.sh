@@ -49,7 +49,7 @@ ARGS="
 
 case "$1" in
 GTK3)
-    ARGS="--enable-native-gtk3ui $ARGS"
+    ARGS="--enable-gtk3ui $ARGS"
     ;;
 
 SDL2)
