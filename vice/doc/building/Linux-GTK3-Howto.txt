@@ -52,7 +52,7 @@ $ ./autogen.sh
 that should complete without error (and generate the actual configure scripts)
 
 try configuring now:
-$ ./configure --enable-native-gtk3ui
+$ ./configure --enable-gtk3ui
 it should complete without error
 
 lets try compiling it... we'll reconfigure again later and enable the options
@@ -110,7 +110,7 @@ $ sudo apt-get install libflac-dev        # FLAC support
 
 
 reconfigure with a few more options (check if you really want/need them!):
-$ ./configure --enable-arch=native --with-resid --enable-native-gtk3ui \
+$ ./configure --enable-arch=native --with-resid --enable-gtk3ui \
     --enable-ethernet --with-pulse --with-alsa --enable-cpuhistory \
     --enable-vte --enable-external-ffmpeg
 

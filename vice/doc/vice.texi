@@ -33175,12 +33175,11 @@ Fixed some gtk2/3 issues. Fixed t64 file handling. Fixed memory
 leaks. Added more doxygen documentation. Fixed c1541 issues.
 Updated the Linux-Native-Howto.txt file. Added autoconf, automake and
 yasm version checking. Fixed runtime linker path issues with *BSD. Fixed
-out-of-tree building. One of the driving forces behind the 'native' GTK3
-port.
+out-of-tree building. One of the driving forces behind the GTK3 port.
 
 @item
 @b{Michael C. Martin}
-One of the driving forces behind the 'native' GTK3 port.
+One of the driving forces behind the GTK3 port.
 
 @item
 @b{June Tate-Gans}
