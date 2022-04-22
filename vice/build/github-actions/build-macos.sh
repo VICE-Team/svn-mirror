@@ -25,7 +25,7 @@ export PKG_CONFIG_PATH="/usr/local/opt/ffmpeg@4/lib/pkgconfig"
 
 case "$UI" in
 GTK3)
-    ARGS="--enable-native-gtk3ui $ARGS"
+    ARGS="--enable-gtk3ui $ARGS"
     OTHER_UI="SDL2"
     ;;
 
