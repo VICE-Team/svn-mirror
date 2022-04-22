@@ -146,7 +146,7 @@ dnl
 VICE_ARG_ENABLE_LIST(headlessui,        [  --enable-headlessui     enables building without a UI])
 VICE_ARG_ENABLE_LIST(sdlui,             [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(sdlui2,            [  --enable-sdlui2         enables SDL2 UI support])
-VICE_ARG_ENABLE_LIST(native-gtk3ui,     [  --enable-native-gtk3ui  enables native GTK3 UI support])
+VICE_ARG_ENABLE_LIST(gtk3ui,            [  --enable-gtk3ui         enables GTK3 UI support])
 
 dnl If enabled, tries to install XDG .desktop files for running the binaries
 dnl from a desktop menu. Only supported for Unix with the exception of MacOS.
@@ -190,8 +190,8 @@ echo "option checking is $enable_option_checking"
 AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK()])
 
 dnl check for conflicting options
-VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-native-gtk3ui --enable-headlessui], [UI])
-AS_IF([test x"$enable_native_gtk3ui" = "xno" -a x"$enable_sdlui" = "xno" -a x"$enable_sdlui2" = "xno" -a x"$enable_headlessui" = "xno"],
+VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-gtk3ui --enable-headlessui], [UI])
+AS_IF([test x"$enable_gtk3ui" = "xno" -a x"$enable_sdlui" = "xno" -a x"$enable_sdlui2" = "xno" -a x"$enable_headlessui" = "xno"],
       [AC_MSG_ERROR([You cannot disable all GUIs])])
 
 dnl cmake only works for in-tree configured source
@@ -530,16 +530,16 @@ PKG_PROG_PKG_CONFIG
 SOUND_DRIVERS=""
 
 dnl Check if a GUI order check needs to be done
-AS_IF([test x"$enable_native_gtk3ui" != "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_headlessui" != "xyes"],
+AS_IF([test x"$enable_gtk3ui" != "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_headlessui" != "xyes"],
       [check_guis=yes])
 
 dnl Check if gtk3 ui should be checked
 if test x"$check_guis" = "xyes"; then
-  if test x"$enable_native_gtk3ui" != "xno"; then
+  if test x"$enable_gtk3ui" != "xno"; then
     check_gtk3=yes
   fi
 else
-  if test x"$enable_native_gtk3ui" = "xyes"; then
+  if test x"$enable_gtk3ui" = "xyes"; then
     check_gtk3=yes
   fi
 fi
@@ -1145,7 +1145,7 @@ if test x"$enable_debug_threads" = x"yes"; then
 fi
 
 
-dnl Check and setup native GTK3 compilation, only fail if the gtk3 ui was requested
+dnl Check and setup GTK3 compilation, only fail if the gtk3 ui was requested
 if test x"$check_gtk3" = "xyes"; then
 
   PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.22], [have_gtk3_module=yes], [have_gtk3_module=no; AC_MSG_RESULT([no])])
@@ -1156,7 +1156,7 @@ if test x"$check_gtk3" = "xyes"; then
 
   dnl error out if gtk3 support is missing and gtk3 ui was requested
   if test x"$have_gtk3_module" = "xno" -o x"$have_glib2_module" = "xno"; then
-    if test x"$enable_native_gtk3ui" = "xyes"; then
+    if test x"$enable_gtk3ui" = "xyes"; then
       AC_MSG_ERROR([GTK3 UI requested, but GTK3 support packages are missing])
     fi
   fi
@@ -1265,8 +1265,8 @@ if test x"$check_gtk3" = "xyes"; then
       AC_DEFINE(HAVE_FONTCONFIG,,[Use fontconfig for custom fonts.])
     fi
 
-    dnl now that the GTK3 UI support has been detected, define enable_native_gtk3ui and undefine the others to prevent checks
-    enable_native_gtk3ui=yes
+    dnl now that the GTK3 UI support has been detected, define enable_gtk3ui and undefine the others to prevent checks
+    enable_gtk3ui=yes
     enable_sdlui=no
     enable_sdlui2=no
     enable_headlessui=no
@@ -1291,7 +1291,7 @@ else
 fi
 if test x"$with_sdlsound" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   check_sdl2=yes
-  if test x"$enable_headlessui" = "xyes" -o x"$enable_native_gtk3ui" = "xyes"; then
+  if test x"$enable_headlessui" = "xyes" -o x"$enable_gtk3ui" = "xyes"; then
     check_sdlaudio_only=yes
     enable_sdlui=no
     enable_sdlui2=no
@@ -1371,7 +1371,7 @@ if test x"$check_sdl2" = "xyes"; then
       dnl enable_sdlui2 and undefine the others to prevent checks
 
       if test x"$check_sdlaudio_only" != "xyes"; then
-        enable_native_gtk3ui=no
+        enable_gtk3ui=no
         enable_sdlui=no
         enable_sdlui2=yes
         enable_headlessui=no
@@ -1624,7 +1624,7 @@ if test x"$check_sdl1" = "xyes"; then
 
         dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
         if test x"$check_sdlaudio_only" != "xyes"; then
-          enable_native_gtk3ui=no
+          enable_gtk3ui=no
           enable_sdlui=yes
           enable_sdlui2=no
           enable_headlessui=no
@@ -1637,7 +1637,7 @@ fi
 
 if test x"$enable_headlessui" = "xyes"; then
   AC_DEFINE(USE_HEADLESSUI,,[Enable Headless UI support.])
-  enable_native_gtk3ui=no
+  enable_gtk3ui=no
   enable_sdlui=no
   enable_sdlui2=no
   found_gui=headless
@@ -1650,13 +1650,13 @@ fi
 
 
 dnl Check if --enable-debug-gtk3ui was requested but the UI isn't gtk3
-if test x"$enable_debug_gtk3ui" = "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
+if test x"$enable_debug_gtk3ui" = "xyes" -a x"$enable_gtk3ui" != "xyes"; then
     AC_MSG_ERROR([Requested Gtk3 UI debugging, but the requested UI isn't Gtk3.])
 fi
 
 
 dnl Check if --disable-hwscale was requested for the Gtk3 UI
-if test x"$enable_native_gtk3ui" = "xyes" -a x"$enable_hwscale" = "xno"; then
+if test x"$enable_gtk3ui" = "xyes" -a x"$enable_hwscale" = "xno"; then
   AC_MSG_ERROR([The option `--disable-hwscale` is illegal for the Gtk3 UI. Please remove the option and make sure the OpenGL development headers are installed.])
 fi
 
@@ -1676,7 +1676,7 @@ if test x"$with_sdlsound" = "xyes"; then
 fi
 
 dnl are we putting emu into a background thread (requires UI code support)
-if test x"$enable_native_gtk3ui" = "xyes"; then
+if test x"$enable_gtk3ui" = "xyes"; then
   AC_DEFINE(USE_VICE_THREAD,,[UI and emu each on different threads])
   VICE_CFLAGS="$VICE_CFLAGS -pthread"
   VICE_CXXFLAGS="$VICE_CXXFLAGS -pthread"
@@ -1703,9 +1703,9 @@ if test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2"
               [SAVELIBS="$LIBS"] [ LIBS="-ldinput8 $LIBS" ]
               [ AC_LINK_IFELSE([
                                AC_LANG_PROGRAM([
-							   #define DIRECTINPUT_VERSION 0x800
-							   #include <dinput.h>
-							   ],[return DirectInput8Create(0,0,0,0,0);])
+                               #define DIRECTINPUT_VERSION 0x800
+                               #include <dinput.h>
+                               ],[return DirectInput8Create(0,0,0,0,0);])
                                ],
                             [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput8.lib or libdinput8.a are present]) ]
                             [ AC_MSG_RESULT(yes) ],
@@ -1724,7 +1724,7 @@ dnl
 AM_CONDITIONAL(INSTALL_DESKTOP_FILES, false)
 if test x"$enable_desktop_files" = "xyes"; then
     dnl Check Gtk3 UI
-    if test x"$enable_native_gtk3ui" != "xyes"; then
+    if test x"$enable_gtk3ui" != "xyes"; then
         AC_MSG_ERROR([XDG desktop files requested but UI is not Gtk3.])
     fi
     dnl Check OS (Unix)
@@ -3062,7 +3062,7 @@ dnl Check time.h.
 dnl AC_HEADER_TIME
 dnl AC_STRUCT_TM
 
-dnl GTK3-FIXME: check if readline is even needed for native GTK3 UI and disable the check if needed
+dnl GTK3-FIXME: check if readline is even needed for GTK3 UI and disable the check if needed
 
 dnl ----- Readline -----
 dnl Check whether we have GNU readline.  If not, use our replacement.
@@ -3349,7 +3349,7 @@ else
 fi
 
 
-if test x"$enable_native_gtk3ui" = "xyes"; then
+if test x"$enable_gtk3ui" = "xyes"; then
   dnl Use C++ compiler/linker since novte uses C++
   LINKCC='$(CXX)'
   ARCH_DIR="\$(top_builddir)/src/arch/gtk3"
@@ -3491,7 +3491,7 @@ if test x"$enable_platformdox" = "xyes"; then
   if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
     PLATFORM_DOX_FLAGS="platformsdl"
   fi
-  if test x"$enable_native_gtk3ui" = "xyes"; then
+  if test x"$enable_gtk3ui" = "xyes"; then
     PLATFORM_DOX_FLAGS="platformgtk3"
   fi
 fi
@@ -3681,7 +3681,7 @@ else
         real_arch="OSX"
     fi
     if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
-        if test x"$enable_native_gtk3ui" = "xyes"; then
+        if test x"$enable_gtk3ui" = "xyes"; then
             show_arch="Win32-GTK3 (treated as Unix)"
             real_arch="Unix"
         fi
@@ -3700,11 +3700,11 @@ if test x"$enable_sdlui2" = "xyes"; then
     show_gui="SDL2"
 fi
 
-if test x"$enable_native_gtk3ui" = "xyes"; then
+if test x"$enable_gtk3ui" = "xyes"; then
     if test x"$enable_debug_gtk3ui" = "xyes"; then
-        show_gui="NATIVE GTK3 (debug)"
+        show_gui="GTK3 (debug)"
     else
-        show_gui="NATIVE GTK3"
+        show_gui="GTK3"
     fi
 fi
 
