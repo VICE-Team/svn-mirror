@@ -23,6 +23,9 @@ m4_define(vice_version,
 
 dnl The major/minor stuff gets replaced in autogen.sh
 AC_INIT([vice], [vice_version])
+dnl We save the command line options here since AM_INIT_AUTOMAKE and other
+dnl macros clobber $@:
+cmdline_options="$@"
 AC_CONFIG_SRCDIR([src/maincpu.c])
 AM_INIT_AUTOMAKE([-Wno-portability foreign])
 
@@ -180,14 +183,14 @@ dnl this hack is needed because the default for the auto-tools
 dnl is 'no', and we want the default to be 'yes' unless
 dnl '--disable-option-checking' is used.
 enable_option_checking=yes
-for command_option in $@
+for command_option in $cmdline_options
 do
   AS_IF([test x"$command_option" = "x--disable-option-checking"], [enable_option_checking=no])
 done
 
 dnl check for invalid options
 echo "option checking is $enable_option_checking"
-AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK()])
+AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK($cmdline_options)])
 
 dnl check for conflicting options
 VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-gtk3ui --enable-headlessui], [UI])
