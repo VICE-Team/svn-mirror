@@ -179,18 +179,11 @@ fi
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
 
-dnl this hack is needed because the default for the auto-tools
-dnl is 'no', and we want the default to be 'yes' unless
-dnl '--disable-option-checking' is used.
-enable_option_checking=yes
-for command_option in $cmdline_options
-do
-  AS_IF([test x"$command_option" = "x--disable-option-checking"], [enable_option_checking=no])
-done
-
 dnl check for invalid options
-echo "option checking is $enable_option_checking"
-AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK($cmdline_options)])
+dnl echo "option checking is $enable_option_checking"
+dnl AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK($cmdline_options)])
+
+VICE_ARG_LIST_CHECK($cmdline_options, $enable_option_checking)
 
 dnl check for conflicting options
 VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-gtk3ui --enable-headlessui], [UI])

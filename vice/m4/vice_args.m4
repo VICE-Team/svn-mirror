@@ -115,6 +115,7 @@ vice_arg_with_list="[$]vice_arg_with_list $1"
 # VICE_ARG_LIST_CHECK
 #
 # Arguments:    $1  options passed to configure
+#               $2  "yes" or "no" depending on --enable-option-checking
 # -------------------
 AC_DEFUN([VICE_ARG_LIST_CHECK],
 [
@@ -152,8 +153,12 @@ do
           AS_IF([test x"[$]argcheck" = x"--without-[$]i"], [argvalid=yes])
         done],
       [])
-  AS_IF([test x"[$]argvalid" = "xno"],
-        [AC_MSG_ERROR([invalid option: [$]argcheck])])
+  AS_IF([test x"$2" = "xyes"],
+    AS_IF([test x"[$]argvalid" = "xno"],
+        [AC_MSG_ERROR([invalid option: [$]argcheck])]))
+  AS_IF([test x"$2" = "xno"],
+    AS_IF([test x"[$]argvalid" = "xno"],
+        [AC_MSG_WARN([invalid option: [$]argcheck])]))
 done
 ])# VICE_ARG_LIST_CHECK
 
