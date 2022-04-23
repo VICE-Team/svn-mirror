@@ -3944,3 +3944,5 @@ echo "MONITOR_CFLAGS: $MONITOR_CFLAGS"
 echo "User LDFLAGS:   $LDFLAGS"
 echo "VICE LDFLAGS:   $VICE_LDFLAGS"
 echo "----------------------------------------------------------------------"
+
+VICE_ARG_LIST_CHECK($cmdline_options, $enable_option_checking)
