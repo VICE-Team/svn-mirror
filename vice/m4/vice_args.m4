@@ -25,7 +25,7 @@
 AC_DEFUN([VICE_ARG_INIT],
 [
 vice_arg_enable_list="dependency-tracking silent-rules"
-vice_arg_with_list="x"
+vice_arg_with_list=""
 ])# VICE_ARG_INIT
 
 #
@@ -113,28 +113,26 @@ vice_arg_with_list="[$]vice_arg_with_list $1"
 # 02111-1307, USA.
 
 # VICE_ARG_LIST_CHECK
+#
+# Arguments:    $1  options passed to configure
 # -------------------
 AC_DEFUN([VICE_ARG_LIST_CHECK],
 [
 
 dnl --enable-*, --disable-*, --with-* and --without-* sanity checks
-for argcheck in [$]@
+for argcheck in $1
 do
   argvalid=yes
   AS_CASE([[$]argcheck],
+      [--enable-option-checking], [argvalid=yes],
       [--enable-arch=*], [argvalid=yes],
-      [--enable-make-command*], [argvalid=yes],
-      [--enable-yasm-command*], [argvalid=yes],
-      [--enable-full-host*], [argvalid=yes],
-      [--enable-w32threads], [argvalid=yes],
-      [--enable-native-tools=*], [argvalid=yes],
-      [--enable-compiler=*], [argvalid=yes],
       [--enable-*], [
         argvalid=no
         for i in [$]vice_arg_enable_list
         do
           AS_IF([test x"[$]argcheck" = x"--enable-[$]i"], [argvalid=yes])
         done],
+      [--disable-option-checking], [argvalid=yes],
       [--disable-*], [
         argvalid=no
         for i in [$]vice_arg_enable_list
@@ -202,5 +200,3 @@ done
 AS_IF([test x"$vice_arg_list_amo_2" != "xnone"],
       [AC_MSG_ERROR([conflicting $2 options: $vice_arg_list_amo_1 $vice_arg_list_amo_2])])
 ])#VICE_ARG_LIST_AT_MOST_ONE
-
-          
