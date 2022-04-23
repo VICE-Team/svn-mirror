@@ -51,12 +51,17 @@
  *          Windows.
  */
 
+#if 0
+#define DEBUG_FIX
+#endif
+
 #ifdef WINDOWS_COMPILE
 
 #include <windows.h>
 #include <io.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void archdep_fix_streams(void)
 {
@@ -64,21 +69,44 @@ void archdep_fix_streams(void)
      * are available as they should be. */
 #ifndef DEBUG
     const char *msystem;
+#ifdef DEBUG_FIX
+    FILE *log = fopen("winapisux", "w");
+#endif
 
     /* try to attach a console to the spawning process (cmd.exe), but not when
      * running from an msys2 shell */
     msystem = getenv("MSYSTEM");
+#ifdef DEBUG_FIX
+    fprintf(log, "env('MSYSTEM') = %s\n", msystem ? msystem : "<NULL>");
+#endif
     if (msystem == NULL || *msystem == '\0') {
+#ifdef DEBUG_FIX
+        fprintf(log, "calling AttachConsole(ATTACH_PARENT_PROCESS): ");
+        fflush(log);
+#endif
         if (AttachConsole(ATTACH_PARENT_PROCESS)) {
+#ifdef DEBUG_FIX
+            fprintf(log, "OK\n");
+#endif
             FILE *fp_stdin = stdin;
             FILE *fp_stdout = stdout;
             FILE *fp_stderr = stderr;
             HANDLE stdhandle;
+            DWORD ftype;
+            BY_HANDLE_FILE_INFORMATION finfo; /* wtf? */
+#ifdef DEBUG_FIX
+            DWORD size;
+            char path[4096];
+#endif
 
             /* redirect stdin */
             stdhandle = GetStdHandle(STD_INPUT_HANDLE);
             if (stdhandle) {
-                if (GetFileType(stdhandle) == FILE_TYPE_CHAR) {
+                ftype = GetFileType(stdhandle);
+#ifdef DEBUG_FIX
+                fprintf(log, "GetFileType(STD_INPUT_HANDLE) = %lu\n", ftype);
+#endif
+                if (ftype == FILE_TYPE_CHAR) {
                     freopen_s(&fp_stdin, "CONIN$", "r", stdin);
                 }
                 CloseHandle(stdhandle);
@@ -87,7 +115,30 @@ void archdep_fix_streams(void)
             /* redirect stdout */
             stdhandle = GetStdHandle(STD_OUTPUT_HANDLE);
             if (stdhandle) {
-                if (GetFileType(stdhandle) == FILE_TYPE_CHAR) {
+                /* XXX: always 2 (FILE_TYPE_CHAR) */
+                ftype = GetFileType(stdhandle);
+#ifdef DEBUG_FIX
+                fprintf(log, "GetFileType(STD_OUTPUT_HANDLE) = %lu\n", ftype);
+#endif
+                /* XXX: always fails */
+                if (GetFileInformationByHandle(stdhandle, &finfo)) {
+#ifdef DEBUG_FIX
+                    fprintf(log,
+                            "GetFileInformationByHandle(STD_OUTPUT_HANDLE) = %lx\n",
+                            finfo.dwFileAttributes);
+#endif
+                }
+                
+                /* XXX: size is always 0 */
+#ifdef DEBUG_FIX
+                memset(path, 0, sizeof(path));
+                size = GetFinalPathNameByHandleA(stdhandle, path, sizeof(path), 0);
+                fprintf(log,
+                        "GetFinalPathNameByHandleA(STD_OUTPUT_HANDLE) = %lu, '%s'\n",
+                        size, path);
+#endif
+
+                if (ftype == FILE_TYPE_CHAR) {
                     freopen_s(&fp_stdout, "CONOUT$", "w", stdout);
                 }
             }
@@ -95,7 +146,11 @@ void archdep_fix_streams(void)
             /* redirect stderr */
             stdhandle = GetStdHandle(STD_ERROR_HANDLE);
             if (stdhandle) {
-                if (GetFileType(stdhandle) == FILE_TYPE_CHAR) {
+                ftype = GetFileType(stdhandle);
+#ifdef DEBUG_FIX
+                fprintf(log, "GetFileType(STD_ERROR_HANDLE) = %lu\n", ftype);
+#endif
+                if (ftype == FILE_TYPE_CHAR) {
                     freopen_s(&fp_stderr, "CONOUT$", "w", stderr);
                 }
                 CloseHandle(stdhandle);
@@ -104,14 +159,20 @@ void archdep_fix_streams(void)
             /* Can't report failure since we can't use (f)printf and VICE's
              * logging system isn't initialized yet =) */
             /* NOP */
+#ifdef DEBUG_FIX
+            fprintf(log, "failed, giving up.\n");
+#endif
         }
     }
+#ifdef DEBUG_FIX
+    fclose(log);
 #endif
+#endif  /* ifndef DEBUG */
 }
 
-#else
+#else   /* ifdef WINDOWS_COMPILE */
 void archdep_fix_streams(void)
 {
     /* Other OSes aren't retarded */
 }
-#endif
+#endif  /* ifdef WINDOWS_COMPILE */
