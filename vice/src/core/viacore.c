@@ -507,8 +507,13 @@ static CLOCK last_cpu_clock;
  *
  * The normal execution run uses "clk >= alarm...", but since we're running
  * this during CPU access, here we use "clk > ...".
+ *
+ * In some cases, clk here differs from the global clock by some offset
+ * (due to ->write_offset). The dispatch function needs the proper clock
+ * value to calculate the offset parameter to the alarm callbacks.
+ * So we need an offset here to re-calculate the correct clk.
  */
-inline static void run_pending_alarms(CLOCK clk, alarm_context_t *alarm_context)
+inline static void run_pending_alarms(CLOCK clk, int offset, alarm_context_t *alarm_context)
 {
     while (clk > alarm_context_next_pending_clk(alarm_context)) {
         VIALOG2("run_pending_alarms: %lu\n", clk);
@@ -516,7 +521,7 @@ inline static void run_pending_alarms(CLOCK clk, alarm_context_t *alarm_context)
         /* catch-up alarms don't count for checking which runs before which. */
         last_cpu_clock = 0;
 #endif
-        alarm_context_dispatch(alarm_context, clk);
+        alarm_context_dispatch(alarm_context, clk + offset);
 #if CHECK_CPU_VS_ALARM_CLOCKS
         last_alarm_clock = 0;
 #endif
@@ -652,7 +657,8 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
     addr &= 0xf;
 
     if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
-        run_pending_alarms(rclk, via_context->alarm_context);
+        run_pending_alarms(rclk, via_context->write_offset, via_context->alarm_context);
+        //run_pending_alarms(rclk, 0, via_context->alarm_context);
     }
 
     switch (addr) {
@@ -1049,7 +1055,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
 #endif
 
     if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
-        run_pending_alarms(rclk, via_context->alarm_context);
+        run_pending_alarms(rclk, 0, via_context->alarm_context);
     }
 
     switch (addr) {
@@ -1848,7 +1854,7 @@ int viacore_snapshot_write_module(via_context_t *via_context, snapshot_t *s)
     CLOCK rclk = *(via_context->clk_ptr);
     uint8_t byte4;
 
-    run_pending_alarms(rclk, via_context->alarm_context);
+    run_pending_alarms(rclk, 0, via_context->alarm_context);
 
     m = snapshot_module_create(s, via_context->my_module_name, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
 
