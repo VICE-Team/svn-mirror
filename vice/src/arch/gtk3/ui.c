@@ -2073,52 +2073,55 @@ int ui_init_finalize(void)
 
         window = ui_resources.window_widget[PRIMARY_WINDOW];
         canvas = ui_resources.canvas[PRIMARY_WINDOW];
-        resources_get_int_sprintf("%sShowStatusbar",
-                                  &show_statusbar,
-                                  canvas->videoconfig->chip_name);
-        debug_gtk3("Setting primary window %sShowStatusbar toggle to %s.",\
-                   canvas->videoconfig->chip_name,
-                   show_statusbar ? "ON" : "OFF");
-        ui_statusbar_set_visible_for_window(window, show_statusbar);
-        ui_set_gtk_check_menu_item_blocked_by_action_for_window(
-                ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, PRIMARY_WINDOW);
-
-        /* if any of the following is INT_MIN it means we don't want to restore
-         * window position and size, and thus can use the resize(1,1) trick to
-         * get rid of any extra space added by the hidden statusbar */
-        if (!show_statusbar) {
-            resources_get_int_sprintf("Window%dXpos", &xpos, PRIMARY_WINDOW);
-            resources_get_int_sprintf("Window%dYpos", &ypos, PRIMARY_WINDOW);
-            resources_get_int_sprintf("Window%dwidth", &width, PRIMARY_WINDOW);
-            resources_get_int_sprintf("Window%dheight", &height, PRIMARY_WINDOW);
-            if (xpos == INT_MIN || ypos == INT_MIN ||
-                    width == INT_MIN || height == INT_MIN) {
-                gtk_window_resize(GTK_WINDOW(window), 1, 1);
-            }
-        }
-
-        if (machine_class == VICE_MACHINE_C128) {
-            /* set the secondary (VDC) window's menu toggle button */
-            window = ui_resources.window_widget[SECONDARY_WINDOW];
-            canvas = ui_resources.canvas[SECONDARY_WINDOW];
+        /* guard against NULL in case of -console */
+        if (canvas != NULL && window != NULL) {
             resources_get_int_sprintf("%sShowStatusbar",
                                       &show_statusbar,
                                       canvas->videoconfig->chip_name);
-            debug_gtk3("Setting secondart window %sShowStatusbar toggle to %s.",\
+            debug_gtk3("Setting primary window %sShowStatusbar toggle to %s.",\
                        canvas->videoconfig->chip_name,
                        show_statusbar ? "ON" : "OFF");
             ui_statusbar_set_visible_for_window(window, show_statusbar);
             ui_set_gtk_check_menu_item_blocked_by_action_for_window(
-                    ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, SECONDARY_WINDOW);
+                    ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, PRIMARY_WINDOW);
 
+            /* if any of the following is INT_MIN it means we don't want to restore
+             * window position and size, and thus can use the resize(1,1) trick to
+             * get rid of any extra space added by the hidden statusbar */
             if (!show_statusbar) {
-                resources_get_int_sprintf("Window%dXpos", &xpos, SECONDARY_WINDOW);
-                resources_get_int_sprintf("Window%dYpos", &ypos, SECONDARY_WINDOW);
-                resources_get_int_sprintf("Window%dwidth", &width, SECONDARY_WINDOW);
-                resources_get_int_sprintf("Window%dheight", &height, SECONDARY_WINDOW);
+                resources_get_int_sprintf("Window%dXpos", &xpos, PRIMARY_WINDOW);
+                resources_get_int_sprintf("Window%dYpos", &ypos, PRIMARY_WINDOW);
+                resources_get_int_sprintf("Window%dwidth", &width, PRIMARY_WINDOW);
+                resources_get_int_sprintf("Window%dheight", &height, PRIMARY_WINDOW);
                 if (xpos == INT_MIN || ypos == INT_MIN ||
                         width == INT_MIN || height == INT_MIN) {
                     gtk_window_resize(GTK_WINDOW(window), 1, 1);
+                }
+            }
+
+            if (machine_class == VICE_MACHINE_C128) {
+                /* set the secondary (VDC) window's menu toggle button */
+                window = ui_resources.window_widget[SECONDARY_WINDOW];
+                canvas = ui_resources.canvas[SECONDARY_WINDOW];
+                resources_get_int_sprintf("%sShowStatusbar",
+                                          &show_statusbar,
+                                          canvas->videoconfig->chip_name);
+                debug_gtk3("Setting secondart window %sShowStatusbar toggle to %s.",\
+                           canvas->videoconfig->chip_name,
+                           show_statusbar ? "ON" : "OFF");
+                ui_statusbar_set_visible_for_window(window, show_statusbar);
+                ui_set_gtk_check_menu_item_blocked_by_action_for_window(
+                        ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, SECONDARY_WINDOW);
+
+                if (!show_statusbar) {
+                    resources_get_int_sprintf("Window%dXpos", &xpos, SECONDARY_WINDOW);
+                    resources_get_int_sprintf("Window%dYpos", &ypos, SECONDARY_WINDOW);
+                    resources_get_int_sprintf("Window%dwidth", &width, SECONDARY_WINDOW);
+                    resources_get_int_sprintf("Window%dheight", &height, SECONDARY_WINDOW);
+                    if (xpos == INT_MIN || ypos == INT_MIN ||
+                            width == INT_MIN || height == INT_MIN) {
+                        gtk_window_resize(GTK_WINDOW(window), 1, 1);
+                    }
                 }
             }
         }
