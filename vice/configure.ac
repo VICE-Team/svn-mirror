@@ -147,8 +147,8 @@ dnl
 dnl UI options
 dnl
 VICE_ARG_ENABLE_LIST(headlessui,        [  --enable-headlessui     enables building without a UI])
-VICE_ARG_ENABLE_LIST(sdlui,             [  --enable-sdlui          enables SDL UI support])
-VICE_ARG_ENABLE_LIST(sdlui2,            [  --enable-sdlui2         enables SDL2 UI support])
+VICE_ARG_ENABLE_LIST(sdl1ui,            [  --enable-sdl1ui         enables SDL 1.2 UI support])
+VICE_ARG_ENABLE_LIST(sdl2ui,            [  --enable-sdl2ui         enables SDL 2.x UI support])
 VICE_ARG_ENABLE_LIST(gtk3ui,            [  --enable-gtk3ui         enables GTK3 UI support])
 
 dnl If enabled, tries to install XDG .desktop files for running the binaries
@@ -187,7 +187,7 @@ VICE_ARG_LIST_CHECK($cmdline_options, $enable_option_checking)
 
 dnl check for conflicting options
 VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-gtk3ui --enable-headlessui], [UI])
-AS_IF([test x"$enable_gtk3ui" = "xno" -a x"$enable_sdlui" = "xno" -a x"$enable_sdlui2" = "xno" -a x"$enable_headlessui" = "xno"],
+AS_IF([test x"$enable_gtk3ui" = "xno" -a x"$enable_sdl1ui" = "xno" -a x"$enable_sdl2ui" = "xno" -a x"$enable_headlessui" = "xno"],
       [AC_MSG_ERROR([You cannot disable all GUIs])])
 
 dnl cmake only works for in-tree configured source
@@ -526,7 +526,7 @@ PKG_PROG_PKG_CONFIG
 SOUND_DRIVERS=""
 
 dnl Check if a GUI order check needs to be done
-AS_IF([test x"$enable_gtk3ui" != "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_headlessui" != "xyes"],
+AS_IF([test x"$enable_gtk3ui" != "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"],
       [check_guis=yes])
 
 dnl Check if gtk3 ui should be checked
@@ -1263,8 +1263,8 @@ if test x"$check_gtk3" = "xyes"; then
 
     dnl now that the GTK3 UI support has been detected, define enable_gtk3ui and undefine the others to prevent checks
     enable_gtk3ui=yes
-    enable_sdlui=no
-    enable_sdlui2=no
+    enable_sdl1ui=no
+    enable_sdl2ui=no
     enable_headlessui=no
     found_gui=gtk3
 
@@ -1277,20 +1277,20 @@ fi
 
 dnl Check if sdl2 ui should be checked
 if test x"$check_guis" = "xyes"; then
-  if test x"$enable_sdlui2" != "xno"; then
+  if test x"$enable_sdl2ui" != "xno"; then
     check_sdl2=yes
   fi
 else
-  if test x"$enable_sdlui2" = "xyes"; then
+  if test x"$enable_sdl2ui" = "xyes"; then
     check_sdl2=yes
   fi
 fi
-if test x"$with_sdlsound" = "xyes" -a x"$enable_sdlui" != "xyes"; then
+if test x"$with_sdlsound" = "xyes" -a x"$enable_sdl1ui" != "xyes"; then
   check_sdl2=yes
   if test x"$enable_headlessui" = "xyes" -o x"$enable_gtk3ui" = "xyes"; then
     check_sdlaudio_only=yes
-    enable_sdlui=no
-    enable_sdlui2=no
+    enable_sdl1ui=no
+    enable_sdl2ui=no
   fi
 fi
 
@@ -1312,7 +1312,7 @@ if test x"$check_sdl2" = "xyes"; then
     LIBS="$LIBS $SDL2_LIBS"
   ],[
     dnl fail if SDL2 ui was requested, otherwise restore flags and continue
-    if test x"$enable_sdlui2" = "xyes"; then
+    if test x"$enable_sdl2ui" = "xyes"; then
       AC_MSG_ERROR([SDL 2.x UI requested, but SDL 2.x library is missing.])
     fi
   ])
@@ -1322,7 +1322,7 @@ if test x"$check_sdl2" = "xyes"; then
 
     dnl check for the 2 cases where audio needs to be checked
     check_sdl2audio=no
-    if test x"$enable_sdlui2" = "xyes" -o x"$with_sdlsound" = "xyes"; then
+    if test x"$enable_sdl2ui" = "xyes" -o x"$with_sdlsound" = "xyes"; then
       check_sdl2audio=yes
     fi
 
@@ -1354,7 +1354,7 @@ if test x"$check_sdl2" = "xyes"; then
     dnl SDL2 now definitely works, so set the last few settings.
     dnl SDL2 is much more consistent than SDL1 so none of these
     dnl actually require tests.
-    if test x"$enable_sdlui2" != "xno"; then
+    if test x"$enable_sdl2ui" != "xno"; then
       AC_DEFINE(USE_SDL2UI,,[Enable SDL 2.x UI support.])
       AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
       HAVE_FULLSCREEN_SUPPORT="yes"
@@ -1364,12 +1364,12 @@ if test x"$check_sdl2" = "xyes"; then
       AC_CHECK_FUNCS(SDL_NumJoysticks)
 
       dnl now that the SDL 2.0 UI support has been detected, define
-      dnl enable_sdlui2 and undefine the others to prevent checks
+      dnl enable_sdl2ui and undefine the others to prevent checks
 
       if test x"$check_sdlaudio_only" != "xyes"; then
         enable_gtk3ui=no
-        enable_sdlui=no
-        enable_sdlui2=yes
+        enable_sdl1ui=no
+        enable_sdl2ui=yes
         enable_headlessui=no
         found_gui=sdl2
       fi
@@ -1396,11 +1396,11 @@ fi
 
 dnl Check if sdl ui should be checked
 if test x"$check_guis" = "xyes"; then
-  if test x"$enable_sdlui" != "xno"; then
+  if test x"$enable_sdl1ui" != "xno"; then
     check_sdl1=yes
   fi
 else
-  if test x"$enable_sdlui" = "xyes"; then
+  if test x"$enable_sdl1ui" = "xyes"; then
     check_sdl1=yes
   fi
 fi
@@ -1415,7 +1415,7 @@ if test x"$check_sdl1" = "xyes"; then
   dnl check for the 2 cases where audio needs to be checked
   check_sdlaudio=no
   if test x"$ac_cv_lib_SDL2_SDL_OpenAudio" != "xyes"; then
-    if test x"$enable_sdlui" = "xno"; then
+    if test x"$enable_sdl1ui" = "xno"; then
       if test x"$with_sdlsound" = "xyes"; then
         check_sdlaudio=yes
       fi
@@ -1425,7 +1425,7 @@ if test x"$check_sdl1" = "xyes"; then
   fi
 
   dnl fail if SDL ui was requested
-  if test x"$sdl_config" = "xno" -a x"$enable_sdlui" = "xyes"; then
+  if test x"$sdl_config" = "xno" -a x"$enable_sdl1ui" = "xyes"; then
     AC_MSG_ERROR([SDL UI requested, but sdl-config is missing])
   fi
 
@@ -1470,7 +1470,7 @@ if test x"$check_sdl1" = "xyes"; then
     fi
 
     dnl only check if SDL 1.2 ui is needed
-    if test x"$enable_sdlui" != "xno"; then
+    if test x"$enable_sdl1ui" != "xno"; then
       AC_CHECK_HEADERS(SDL/SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
                          [use_sdl_prefix=yes;
                           AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
@@ -1488,7 +1488,7 @@ if test x"$check_sdl1" = "xyes"; then
         fi
 
         dnl fail if SDL 1.2 ui was requested
-        if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes" -a x"$enable_sdlui" = "xyes"; then
+        if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes" -a x"$enable_sdl1ui" = "xyes"; then
           AC_MSG_ERROR([SDL 1.2 headers and/or libraries missing])
         fi
 
@@ -1618,11 +1618,11 @@ if test x"$check_sdl1" = "xyes"; then
           AC_MSG_ERROR([SDL_image1.2-dev is required.])
         fi
 
-        dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
+        dnl now that the SDL1 UI support has been detected, define enable_sdl1ui and undefine the others to prevent checks
         if test x"$check_sdlaudio_only" != "xyes"; then
           enable_gtk3ui=no
-          enable_sdlui=yes
-          enable_sdlui2=no
+          enable_sdl1ui=yes
+          enable_sdl2ui=no
           enable_headlessui=no
           found_gui=sdl1
         fi
@@ -1634,8 +1634,8 @@ fi
 if test x"$enable_headlessui" = "xyes"; then
   AC_DEFINE(USE_HEADLESSUI,,[Enable Headless UI support.])
   enable_gtk3ui=no
-  enable_sdlui=no
-  enable_sdlui2=no
+  enable_sdl1ui=no
+  enable_sdl2ui=no
   found_gui=headless
 fi
 
@@ -1658,7 +1658,7 @@ fi
 
 
 dnl Check if --disable-hwscale was requested for the Gtk3 UI
-if test x"$enable_sdlui2" = "xyes" -a x"$enable_hwscale" = "xno"; then
+if test x"$enable_sdl2ui" = "xyes" -a x"$enable_hwscale" = "xno"; then
   AC_MSG_ERROR([The option `--disable-hwscale` is illegal for the SDL2 UI.])
 fi
 
@@ -1688,7 +1688,7 @@ else
   show_multithreaded="no"
 fi
 
-if test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_headlessui" != "xyes"; then
+if test x"$is_win32" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
   dinput_header_no_lib="no"
 
   AC_CHECK_HEADER(dinput.h,
@@ -2019,7 +2019,7 @@ AC_SUBST(DYNLIB_LIBS)
 
 dnl ----- Joystick support -----
 JOY_LIBS=
-if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_headlessui" != "xyes"; then
+if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [
                    AC_CHECK_DECL(JS_VERSION,[
@@ -2088,7 +2088,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
   fi
 fi
 
-if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_headlessui" != "xyes"; then
+if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
   dnl --- Mac joystick support ---
 
   dnl check for HID Manager
@@ -2673,7 +2673,7 @@ fi
 dsound_header_no_lib="no"
 
 if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
-    if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+    if test x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes"; then
         SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
         AC_MSG_CHECKING(whether we can use directx sound)
         AC_CHECK_HEADER(dsound.h,
@@ -3098,7 +3098,7 @@ if test x"$is_unix_x11" = "xyes"; then
               [-lcurses],)
     fi
 
-    if test x"$enable_sdlui" != "xno" -o x"$enable_sdlui2" != "xno"; then
+    if test x"$enable_sdl1ui" != "xno" -o x"$enable_sdl2ui" != "xno"; then
       READLINE=""
     fi
 
@@ -3109,7 +3109,7 @@ if test x"$is_unix_x11" = "xyes"; then
     fi
     LIBS="${old_LIBS}"
   else
-    if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+    if test x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes"; then
       READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
     fi
   fi
@@ -3304,7 +3304,7 @@ fi
 dnl Setup the system-specific object files.
 AM_CONDITIONAL(USE_SDLUI, false)
 AM_CONDITIONAL(USE_SDL2UI, false)
-if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
+if test x"$enable_sdl1ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/sdl"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/sdl"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
@@ -3317,7 +3317,7 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
 
-  if test x"$enable_sdlui2" = "xyes"; then
+  if test x"$enable_sdl2ui" = "xyes"; then
     AM_CONDITIONAL(USE_SDL2UI, true)
     SDLCONFIG="$sdl2_config"
   else
@@ -3380,7 +3380,7 @@ fi
 #
 # For now though, let's keep this intact. -- compyx
 #
-if test x"$enable_sdl" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
+if test x"$enable_sdl" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
   WINDRES_LIB="$ARCH_DIR/icon.res"
 else
   WINDRES_LIB=""
@@ -3439,7 +3439,7 @@ if test x"$is_unix" = "xyes"; then
 elif test x"$is_win32" = "xyes"; then
   AC_DEFINE(WINDOWS_COMPILE,,[Are we compiling for win32?])
 
-  if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
+  if test x"$enable_sdl1ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
     if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
       SDL_EXTRA_LIBS="$UI_LIBS -lwinmm -lws2_32"
     else
@@ -3484,7 +3484,7 @@ AC_SUBST(WINDRES_LIB)
 
 PLATFORM_DOX_FLAGS=""
 if test x"$enable_platformdox" = "xyes"; then
-  if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
+  if test x"$enable_sdl1ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
     PLATFORM_DOX_FLAGS="platformsdl"
   fi
   if test x"$enable_gtk3ui" = "xyes"; then
@@ -3688,12 +3688,12 @@ fi
 
 dnl construct show_gui
 show_gui="Unknown"
-if test x"$enable_sdlui" = "xyes"; then
-    show_gui="SDL1"
+if test x"$enable_sdl1ui" = "xyes"; then
+    show_gui="SDL 1.2"
 fi
 
-if test x"$enable_sdlui2" = "xyes"; then
-    show_gui="SDL2"
+if test x"$enable_sdl2ui" = "xyes"; then
+    show_gui="SDL 2.x"
 fi
 
 if test x"$enable_gtk3ui" = "xyes"; then
