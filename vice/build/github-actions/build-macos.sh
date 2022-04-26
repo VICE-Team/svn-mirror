@@ -1,44 +1,21 @@
 #!/usr/bin/env bash
 set -o errexit
 set -o nounset
+source ./build-shared.sh
 cd "$(dirname $0)"/../..
 
 BUILD_TYPE="$1"
 UI="$2"
 REVISION_STRING="$3"
 
-ARGS="\
-    --disable-arch \
-    --disable-pdf-docs \
-    --enable-ethernet \
-    --with-png \
-    --with-gif \
-    --with-vorbis \
-    --with-flac \
-    --enable-lame \
-    --enable-midi \
-    --enable-ffmpeg \
-    "
 
 # Make non-latest ffmpeg version 4 visible to pkgconfig
 export PKG_CONFIG_PATH="/usr/local/opt/ffmpeg@4/lib/pkgconfig"
 
-case "$UI" in
-GTK3)
-    ARGS="--enable-gtk3ui $ARGS"
-    OTHER_UI="SDL2"
-    ;;
 
-SDL2)
-    ARGS="--enable-sdlui2 $ARGS"
-    OTHER_UI="GTK3"
-    ;;
+# Set proper configure options
+set_configure_options "$UI"
 
-*)
-    echo "Bad UI: $UI"
-    exit 1
-    ;;
-esac
 
 case "$BUILD_TYPE" in
 bindist)

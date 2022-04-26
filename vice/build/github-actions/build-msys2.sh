@@ -4,6 +4,7 @@
 
 set -o errexit
 set -o nounset
+source ./build-shared.sh
 cd "$(dirname $0)"/../..
 
 #
@@ -33,34 +34,10 @@ then
     popd
 fi
 
-ARGS="
-    --disable-arch \
-    --disable-pdf-docs \
-    --with-png \
-    --with-gif \
-    --with-vorbis \
-    --with-flac \
-    --enable-ethernet \
-    --enable-lame \
-    --enable-midi \
-    --enable-cpuhistory \
-    --enable-ffmpeg \
-    "
 
-case "$1" in
-GTK3)
-    ARGS="--enable-gtk3ui $ARGS"
-    ;;
+# Set proper configure options
+set_configure_options "$UI"
 
-SDL2)
-    ARGS="--enable-sdlui2 $ARGS"
-    ;;
-
-*)
-    echo "Bad UI: $1"
-    exit 1
-    ;;
-esac
 
 # Skip autogen.sh when building release from tarball
 if [ "$2" = "release" ]; then
