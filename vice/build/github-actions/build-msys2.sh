@@ -7,6 +7,8 @@ set -o nounset
 source $(dirname $(readlink -f $0))/build-shared.sh
 cd "$(dirname $0)"/../..
 
+UI="$1"
+
 #
 # Build and install xa65. When this stops working, check
 # https://www.floodgap.com/retrotech/xa/dists/ to see why
