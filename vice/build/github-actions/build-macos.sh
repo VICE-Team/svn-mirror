@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -o errexit
 set -o nounset
-source $(dirname $(readlink -f $0))/build-shared.sh
+# MacOS readlink doesn't have the -f switch, and there's no realpath either.
+# Brew has both in commands in coreutils: greadlink is the GNU readlink which
+# does support -f. So perhaps we need to `brew install coreutils`?
+source ./vice/build/github-actions/build-shared.sh
 cd "$(dirname $0)"/../..
 
 BUILD_TYPE="$1"
