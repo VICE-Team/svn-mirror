@@ -4,7 +4,7 @@
 
 set -o errexit
 set -o nounset
-source ./vice/build/github-actions/build-shared.sh
+source $(dirname $(readlink -f $0))/build-shared.sh
 cd "$(dirname $0)"/../..
 
 #
