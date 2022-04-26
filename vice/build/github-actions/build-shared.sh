@@ -18,7 +18,7 @@ ARGS="
     --enable-ffmpeg \
     "
 
-# Set configure options, check UI
+# Set configure options, check UI, set OTHER_UI
 #
 # params:   $1  UI identifier (GTK3, SDL2)
 #
@@ -27,9 +27,11 @@ set_configure_options()
     case "$1" in
         GTK3)
             ARGS="--enable-gtk3ui $ARGS"
+            OTHER_UI="SDL2"
             ;;
         SDL2)
             ARGS="--enable-sdl2ui $ARGS"
+            OTHER_UI="GTK3"
             ;;
         *)
             echo "Bad UI: $1"
