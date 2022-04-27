@@ -41,7 +41,7 @@ libsdl2-image-dev
 
 
 
-To build SDL1, pass --enable-sdlui to configure instead of --enable-sdlui2,
+To build SDL1, pass --enable-sdl1ui to configure instead of --enable-sdl2ui,
 and you will need OpenGL headers and libraries as well if you want free-scaling.
 
 
@@ -131,7 +131,7 @@ $ ./autogen.sh
 
 Now let's try to configure a minimal working SDL2 build:
 
-$ ./configure --enable-sdlui2
+$ ./configure --enable-sdl2ui
 (This will take a while on Windows, be patient)
 
 Once this passes succesfully, we can try to actually build SDL2-VICE:
@@ -178,7 +178,7 @@ it if required. For example copy/movce it to C:\opt\vice-sdl2 and update your
 Windows' $PATH to contain 'C:\opt\vice-sdl2'
 
 
-Creating a SDL(1) Version Instead of SDL2
+Creating a SDL(1.2) Version Instead of SDL2
 -----------------------------------------
 
 Almost identical to above except for following:
@@ -188,7 +188,7 @@ $ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: SDL libpng \
   SDL_image
 
 Configure:
-$ ./configure --enable-sdlui
+$ ./configure --enable-sdl1ui
 
 The bindist folder will be named SDLVICE-3.*
 
@@ -224,7 +224,7 @@ $ cd vice-trunk/vice
 $ ./autogen.sh
 
 # Run configure with a minimal set of switches:
-$ ./configure --enable-sdlui2 --with-sdlsound --without-png
+$ ./configure --enable-sdl2ui --with-sdlsound --without-png
 
 If that passes, it's time to build VICE:
 (The redirection of stdout and stderr to a file means we can inspect any errors)
