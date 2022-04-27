@@ -42,7 +42,8 @@ FONTS_FILES = \
 IMAGES_FILES = \
 	images/CIPS2008.png \
 	images/new.gif \
-	images/vice-logo.svg
+	images/vice-logo.svg \
+	images/vice-logo-black.png
 
 EXTRA_DIST = \
 	checklinks.sh \
