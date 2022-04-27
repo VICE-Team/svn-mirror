@@ -42,7 +42,7 @@ EXTRA_DIST = $(DOC_TOOLS) $(TEXI_TOOLS) $(STYLE_TOOLS)
 #TEXI2DVIFLAGS=-q
 # verbose mode
 Q=
-TEXI2DVIFLAGS=
+TEXI2DVIFLAGS=-V
 
 if MACOS_COMPILE
 # Use brew supplied texi2dvi over buggy Apple version
