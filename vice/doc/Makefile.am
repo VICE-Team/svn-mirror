@@ -38,11 +38,11 @@ EXTRA_DIST = $(DOC_TOOLS) $(TEXI_TOOLS) $(STYLE_TOOLS)
 
 # FIXME: this should depend on $(V) instead
 # quiet mode
-Q=@
-TEXI2DVIFLAGS=-q
+#Q=@
+#TEXI2DVIFLAGS=-q
 # verbose mode
-#Q=
-#TEXI2DVIFLAGS=
+Q=
+TEXI2DVIFLAGS=
 
 if MACOS_COMPILE
 # Use brew supplied texi2dvi over buggy Apple version
