@@ -45,7 +45,9 @@ IMAGES_FILES = \
 	images/vice-logo.svg \
 	images/vice-logo-black.png \
 	images/vice-c64-positional-keymap-de-small.png \
-	images/vice-c64-positional-keymap-de.png
+	images/vice-c64-positional-keymap-de.png \
+	images/vice-c64-positional-keymap-us-small.png \
+	images/vice-c64-positional-keymap-us.png
 
 EXTRA_DIST = \
 	checklinks.sh \

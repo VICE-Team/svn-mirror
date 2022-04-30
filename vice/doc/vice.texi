@@ -966,7 +966,16 @@ you can enable showing the keycodes in the status bar in the settings. For more
 information on making your own keymaps (or helping to fix/update the existing
 ones), @pxref{Keymap files}.
 
-@subsection C64 Keyboard Map
+@subsection C64 & VIC20 Keyboard Map
+
+This mapping applies to the C64, SCPU, VIC20 and DTV emulators.
+
+For the positional mappings first all keys are mapped at their exact positions,
+as far as possible, and then the remaining few (usually 2 or 3) will be mapped
+to other, yet unused, keys.
+
+@subsubsection Positional (US)
+@image{html/images/vice-c64-positional-keymap-us-small}
 @subsubsection Positional (DE)
 @image{html/images/vice-c64-positional-keymap-de-small}
 
