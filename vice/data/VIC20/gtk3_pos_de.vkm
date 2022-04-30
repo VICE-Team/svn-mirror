@@ -133,8 +133,6 @@
 # ins/del+shift (-> insert)
 # arrow up (-> altgr+~)
 # arrow up+shift (-> altgr+m)
-# f1 (-> page up)
-# f7 (-> page down)
 # :+shift (-> altgr+[)
 # ;+shift (-> altgr+])
 # @ (-> altgr+Q)
@@ -156,13 +154,9 @@ Left             7 2 1
 # f7
 F7               7 7 8
 F8               7 7 1
-# extra: pagedown -> f7
-Page_Down        7 7 8
 # f1
 F1               7 4 8
 F2               7 4 1
-# extra: pageup -> f1
-Page_Up          7 4 8
 # f3
 F3               7 5 8
 F4               7 5 1
@@ -367,6 +361,7 @@ y 1 4 8
 # Restore key mappings
 #
 F12 -3 0
+Page_Up -3 0
 F12 -3 1
 
 # Dead keys support
