@@ -196,6 +196,7 @@ $html2_doctype = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0 Strict Level 2//E
 	      'emph', 'EM',
 	      'file', '"TT',		# will put quotes, cf. &apply_style
 	      'i', 'I',
+	      'image', '&do_image',	# <A NAME="bar"><IMG SRC="bar"></A>
 	      'kbd', 'KBD',
 	      'key', 'KBD',
 	      'math', 'EM',
@@ -1792,25 +1793,46 @@ sub do_uref {
 
 sub do_url { &anchor('', $_[0], $_[0]) }
 
+# handle the @image tag
+sub do_image {
+    local($url);
+# get the image url
+    $url = $_[0];
+# remove the html/ prefix that is used in vice.texi
+    $url =~ s/html\///;
+# remove the -small suffix that is used in the texi for the small .png that
+# ends up in the .pdf
+    $url =~ s/-small$//;
+# add .png extension
+    $url =~ s/$/.png/;
+
+#    print "do_image url: $url\n";
+    return anchor("$url", "$url", "<img src=\"$url\">", 0)
+}
+
 sub apply_style {
     local($texi_style, $text) = @_;
     local($style);
 
     $style = $style_map{$texi_style};
     if (defined($style)) { # known style
-	if ($style =~ /^\"/) { # add quotes
-	    $style = $';
-	    $text = "\`$text\'";
-	}
-	if ($style =~ /^\&/) { # custom
-	    $style = $';
-	    $text = &$style($text);
-	} elsif ($style) { # good style
-	    $text = "<$style>$text</$style>";
-	} else { # no style
-	}
+		if ($style =~ /^\"/) { # add quotes
+			$style = $';
+			$text = "\`$text\'";
+		}
+		if ($style =~ /^\&/) { # custom
+#			print "apply_style custom style: $texi_style\n";
+			$style = $';
+			$text = &$style($text);
+		} elsif ($style) { # good style
+#			print "apply_style good style: $texi_style\n";
+			$text = "<$style>$text</$style>";
+		} else { # no style
+#			print "apply_style no style: $texi_style\n";
+		}
     } else { # unknown style
-	$text = undef;
+		warn "$ERROR unknown texi style: $texi_style";
+		$text = undef;
     }
     return($text);
 }
