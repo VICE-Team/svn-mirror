@@ -118,7 +118,7 @@ notice identical to this one.
 
 @title The Versatile Commodore Emulator
 
-@center @image {html/images/vice-logo-black}
+@center @image{html/images/vice-logo-black}
 
 @end titlepage
 
@@ -965,6 +965,10 @@ To find out the keycodes to use, incase you want to edit the keymaps yourself,
 you can enable showing the keycodes in the status bar in the settings. For more
 information on making your own keymaps (or helping to fix/update the existing
 ones), @pxref{Keymap files}.
+
+@subsection C64 Keyboard Map
+@subsubsection Positional (DE)
+@image{html/images/vice-c64-positional-keymap-de-small}
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
 @section The joystick emulation
