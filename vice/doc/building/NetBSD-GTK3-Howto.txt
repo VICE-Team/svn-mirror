@@ -34,7 +34,8 @@ now ... you will need some packages:
 # pkgin install gtk3+
 # pkgin install glib2-tools
 # pkgin install gtexinfo
-# pkgin install tex-pdftex
+# pkgin install tex-pdftex       # for vice.pdf
+# pkgin install tex-epsf
 # pkgin install dos2unix         # only used when doing `make dist`
 # pkgin install glew             # for OpenGL hardware scaling support
 
