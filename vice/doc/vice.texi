@@ -1875,6 +1875,18 @@ The -23 ROM is a revised -19 ROM)
 (Commodore ROM image 901474-04-?)
 
 @item
+@file{characters-1.901447-08.bin}, the character generator ROM (2KiB)
+for the PET 2001.
+It has two sets with 128 chars each.
+The second (inverted) half of each set is computed from
+the first half by inverting it.  This is a PET hardware feature.
+Compared to the character ROMs for later models, it has the upper case
+and lower case letters swapped: to get lower case letters, you need to
+use the shift key (so the basic abbreviation for "LIST" looks like "Li",
+instead of "lI" for "list".
+(Commodore ROM image 901447-08)
+
+@item
 @file{characters-2.901447-10.bin}, the character generator ROM (2KiB).
 It has two sets
 with 128 chars each.  The second (inverted) half of each set is computed from
