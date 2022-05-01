@@ -668,6 +668,8 @@ be as good as the C64 or VIC20 one, as they are still under construction.
 
 @emph{Notice:} This documentation is written for the Unix release of VICE, but is slowly being made universal.
 
+@section Emulator features
+
 @menu
 * C64 emulator features::
 * C64DTV emulator features::
@@ -685,7 +687,7 @@ be as good as the C64 or VIC20 one, as they are still under construction.
 
 
 @node C64 emulator features, C64DTV emulator features, Preface, Preface
-@section C64 emulator features
+@subsection C64 emulator features
 
 As of version 2.3, two C64 emulators are provided: @samp{x64} (fast)
 and @samp{x64sc} (accurate). As of version 3.4 @samp{x64} will no more get
@@ -713,7 +715,7 @@ and cycle accurate.
 
 
 @node C64DTV emulator features, C128 emulator features, C64 emulator features, Preface
-@section C64DTV emulator features
+@subsection C64DTV emulator features
 
 The C64DTV emulator, called @samp{x64dtv}, features emulation of C64DTV
 revisions 2 and 3. The emulator is under construction, but most of the
@@ -726,7 +728,7 @@ and decreased performance.
 
 
 @node C128 emulator features, VIC20 emulator features, C64DTV emulator features, Preface
-@section C128 emulator features
+@subsection C128 emulator features
 
 The C128 emulator, called @samp{x128}, features a complete emulation of
 the internal MMU (@dfn{Memory Management Unit}), 80 column VDC screen, fast
@@ -735,7 +737,7 @@ C64 emulation.
 
 
 @node VIC20 emulator features, PET emulator features, C128 emulator features, Preface
-@section VIC20 emulator features
+@subsection VIC20 emulator features
 
 The VIC20 emulates all the internal hardware, including the VIA chips.
 The VIC-I video chip is fully emulated except NTSC interlace mode, so most
@@ -750,7 +752,7 @@ The IEEE-488 code is then started by @code{SYS45065}.
 
 
 @node PET emulator features, CBM-II emulator features, VIC20 emulator features, Preface
-@section PET emulator features
+@subsection PET emulator features
 
 The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
 SuperPET (MicroMainFrame 9000) models, covering the whole series.
@@ -817,7 +819,7 @@ described in @pxref{PET model}
 
 
 @node CBM-II emulator features, SCPU64 emulator features, PET emulator features, Preface
-@section CBM-II emulator features
+@subsection CBM-II emulator features
 
 The CBM-II emulator emulates several types of CBM-II models.  Those
 models are known under different names in the USA and Europe.  In the
@@ -860,7 +862,7 @@ emulated as well.
 The different settings are described in @pxref{CBM-II model}.
 
 @node SCPU64 emulator features, Keyboard emulation, CBM-II emulator features, Preface
-@section SCPU64 emulator features
+@subsection SCPU64 emulator features
 
 The XSCPU64 emulator is a simulation of a C64 equipped with a SuperCPU64 V2B. Features:
 
@@ -1045,6 +1047,7 @@ Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050, 8250,
 and D9090/60 drives in one of the following ways:
 
 @itemize @bullet
+
 @item
 using disk images, i.e., files that contain a dump of all the blocks
 contained in a real floppy disk;
@@ -1055,6 +1058,13 @@ read and write files in the @code{P00} format.
 @item
 accessing a real device connected to the host machine. This works using the 
 OpenCBM library. You can get it from @uref{https://spiro.trikaliotis.net/opencbm}.
+Make sure to pick the right library (32 or 64bit) for your system. 
+@itemize @bullet
+@item To use it in the emulators, go to the drive tab in the settings and choose
+"IEC Device" and "Real Drive (OpenCBM)". Note that this will not work with all
+emulators right now.
+@item If you want to use OpenCBM with c1541, start it with c1541 /dev/cbm (on Linux).
+@end itemize
 
 @end itemize
 
@@ -8730,6 +8740,8 @@ The following cartridges are emulated in this slot:
 
 @itemize @bullet
 @item
+CMD RAMlink
+@item
 IEEE-488 Interface 
 (@uref{http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin})
 @item
@@ -8871,8 +8883,6 @@ Ocean
 Pagefox
 @item
 Prophet64
-@item
-RAMLink
 @item
 REX 256KiB EPROM Cart
 @item
