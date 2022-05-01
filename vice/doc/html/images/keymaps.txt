@@ -1,0 +1,8 @@
+The pictures (and json) of the keymaps have been created using the editor at
+http://www.keyboard-layout-editor.com
+
+C64 positional (US):
+http://www.keyboard-layout-editor.com/#/gists/42e0528ec071613fda39b0a28c45e860
+
+C64 positional (DE):
+http://www.keyboard-layout-editor.com/#/gists/658f280e1c5e1644694dc9b4806c3602
