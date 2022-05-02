@@ -116,7 +116,8 @@ libarchdep_a_SOURCES = \
 	dynlib.c \
 	rawnetarch.c \
 	rs232dev.c \
-	signals.c
+	signals.c \
+	uiactions.c
 
 if UNIX_COMPILE
 libarchdep_a_SOURCES += \
@@ -228,6 +229,7 @@ EXTRA_DIST = \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \
+	uiactions.h \
 	README-bindist.txt
 
 # FIXME: the Extra MacOS script stuff should live elsewhere
