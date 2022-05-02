@@ -111,5 +111,21 @@ void ui_display_volume(int vol);
 /* Hotkeys */
 void ui_hotkeys_init(void);
 
+/* UI Actions */
+
+/** \brief  UI action function pointer
+ *
+ * Should we decide to change the prototype of the UI action functions using
+ * this could save us a lot of typing.
+ */
+typedef void (*ui_action_func)(void);
+
+/** \brief  Trigger a UI action
+ *
+ * \param[in]   action_id   ID of the action to trigger
+ *
+ * \see src/arch/shared/uiactions.h for IDs
+ */
+void ui_trigger_action(int action_id);
 
 #endif

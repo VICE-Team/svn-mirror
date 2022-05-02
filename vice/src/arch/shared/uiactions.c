@@ -1,11 +1,11 @@
 /** \file   uiactions.c
- * \brief   Gtk3 UI action names and descriptions
+ * \brief   UI action names and descriptions
  *
- * Provides names and descriptions for Gtk3 UI actions.
+ * Provides names and descriptions for UI actions.
  *
- * Used by menu namedescs and custom hotkeys. There will be no Doxygen docblocks
- * for most of the defines, since they're self-explanatory. And obviously I will
- * not bitch about keeping the text within 80 columns :D
+ * Used by menu structs, hotkeys and joystick mappings. There will be no Doxygen
+ * docblocks for most of the defines, since they're self-explanatory. And
+ * obviously I will not bitch about keeping the text within 80 columns here :D
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -35,22 +35,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #include "lib.h"
 #include "machine.h"
 
 #include "uiactions.h"
-
-
-
-/** \brief  Generate name, description and mask for an array element
- *
- * Generate '{ ACTION_FOO_ID, ACTION_FOO, ACTION_FOO_DESC, ACTION_FOO_MASK }'
- * for use in the UI actions array.
- *
- * \param[in]   x   action name define
- */
-#define mkinfo(x) { ACTION_##x##_ID, ACTION_##x, ACTION_##x##_DESC, ACTION_##x##_MASK }
 
 
 /** \brief  Mapping of action names to descriptions and machine support
@@ -248,7 +238,12 @@ static bool is_current_machine_action(const ui_action_info_internal_t *action)
 }
 
 
-
+/** \brief  Get "internal" info about a UI action
+ *
+ * \param[in]   id  action ID
+ *
+ * \return  pointer to info or `NULL` on failure
+ */
 static const ui_action_info_internal_t *get_info_internal(int id)
 {
     if (id > ACTION_NONE) {
@@ -263,7 +258,6 @@ static const ui_action_info_internal_t *get_info_internal(int id)
     }
     return NULL;
 }
-
 
 
 /** \brief  Get action ID by name

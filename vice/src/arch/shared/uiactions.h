@@ -1,11 +1,5 @@
 /** \file   uiactions.h
- * \brief   Gtk3 UI action names and descriptions - header
- *
- * Provides names and descriptions for Gtk3 UI actions.
- *
- * Used by menu items and custom hotkeys. There will be no Doxygen docblocks
- * for most of the defines, since they're self-explanatory. And obviously I will
- * not bitch about keeping the text within 80 columns :D
+ * \brief   UI action names and descriptions - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -33,6 +27,8 @@
 #ifndef VICE_UIACTIONS_H
 #define VICE_UIACTIONS_H
 
+#include <stdbool.h>
+#include <stddef.h>
 /* this header is required if the macro IS_ACTION_NAME_CHAR() is used: */
 #include <ctype.h>
 
