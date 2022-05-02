@@ -53,6 +53,7 @@
 #include "petmem.h"
 #include "petmodel.h"
 #include "petpia.h"
+#include "petrom.h"
 #include "pets.h"
 #include "petvia.h"
 #include "ram.h"
