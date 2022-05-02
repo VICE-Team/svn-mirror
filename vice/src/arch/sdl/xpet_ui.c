@@ -61,6 +61,7 @@
 #include "menu_video.h"
 #include "petmem.h"
 #include "pets.h"
+#include "petrom.h"
 #include "petui.h"
 #include "pet-resources.h"
 #include "resources.h"
@@ -247,6 +248,9 @@ int petui_init_early(void)
 /* KLUDGES: this needs to be updated when ROM files are being renamed */
 static const char *get_chargen_name(void)
 {
+    /* XXX: This translation unit is called xpet_ui.c, so wouldn't
+     *      machine_class always be VICE_MACHINE_PET?
+     */
     if (machine_class == VICE_MACHINE_PET) {
         return PET_CHARGEN2_NAME;
     }
