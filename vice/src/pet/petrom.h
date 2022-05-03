@@ -46,8 +46,7 @@
 #define PET_CHARGEN1_NAME       "characters-1.901447-08.bin"
 #define PET_CHARGEN2_NAME       "characters-2.901447-10.bin"
 #define SUPERPET_CHARGEN_NAME   "characters.901640-01.bin"
-
-/* chargen.de unused? */
+#define PET_CHARGEN_DE_NAME     "chargen.de"
 
 #define PET_KERNAL1NAME  "kernal-1.901439-04-07.bin"
 #define PET_KERNAL2NAME  "kernal-2.901465-03.bin"
