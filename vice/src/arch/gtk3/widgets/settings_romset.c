@@ -104,6 +104,7 @@
 #include "diskimage.h"
 #include "romset.h"
 #include "lib.h"
+#include "petrom.h"
 #include "ui.h"
 #include "romsetmanagerwidget.h"
 
@@ -626,18 +627,20 @@ static GtkWidget *create_pet_roms_widget(void)
     grid = create_roms_widget(pet_machine_roms, path);
     lib_free(path);
 
+    /* FIXME: what are those buttons about? why do they exist, and why only for
+     * the german charset? this should be something handled by the model switching */
     /* add original/German charset buttons */
     wrapper = gtk_grid_new();
     gtk_widget_set_hexpand(wrapper, TRUE);
     button = gtk_button_new_with_label("Load original charset");
     gtk_widget_set_hexpand(button, TRUE);
     g_signal_connect(button, "clicked", G_CALLBACK(on_pet_select_chargen),
-            (gpointer)("chargen"));
+            (gpointer)(PET_CHARGEN2_NAME));
     gtk_grid_attach(GTK_GRID(wrapper), button, 0, 0, 1, 1);
     button = gtk_button_new_with_label("Load German charset");
     gtk_widget_set_hexpand(button, TRUE);
     g_signal_connect(button, "clicked", G_CALLBACK(on_pet_select_chargen),
-            (gpointer)("chargen.de"));
+            (gpointer)(PET_CHARGEN_DE_NAME));
     gtk_grid_attach(GTK_GRID(wrapper), button, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 4, 1, 1);
 
