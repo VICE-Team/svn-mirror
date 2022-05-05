@@ -183,7 +183,9 @@ enum {
     ACTION_TAPE_REWIND_2,
     ACTION_TAPE_STOP_1,
     ACTION_TAPE_STOP_2,
-    ACTION_WARP_MODE_TOGGLE
+    ACTION_WARP_MODE_TOGGLE,
+
+    ACTION_ID_COUNT     /**< number of action IDs */
 };
 
 

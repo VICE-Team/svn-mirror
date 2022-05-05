@@ -33,8 +33,8 @@
 #include "uitypes.h"
 
 
-GtkWidget * ui_machine_menu_bar_create(void);
-void        ui_machine_menu_bar_vsid_patch(GtkWidget *menu);
+GtkWidget * ui_machine_menu_bar_create(gint window_id);
+void        ui_machine_menu_bar_vsid_patch(GtkWidget *menu, gint window_id);
 
 /*
  * hotkeys API

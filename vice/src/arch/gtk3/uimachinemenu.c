@@ -1218,9 +1218,11 @@ static ui_menu_item_t *settings_menu_joy_section = NULL;
 
 /** \brief  Create the top menu bar with standard submenus
  *
+ * \param[in]   window_id   window ID (PRIMARY_WINDOW or SECONDARY_WINDOW)
+ *
  * \return  GtkMenuBar
  */
-GtkWidget *ui_machine_menu_bar_create(void)
+GtkWidget *ui_machine_menu_bar_create(gint window_id)
 {
     GtkWidget *menu_bar;
     GtkWidget *file_submenu;
@@ -1325,41 +1327,41 @@ GtkWidget *ui_machine_menu_bar_create(void)
 
 
     /* add items to the File menu */
-    ui_menu_add(file_submenu, file_menu_head);
+    ui_menu_add(file_submenu, file_menu_head, window_id);
     if (file_menu_tape_section != NULL) {
-        ui_menu_add(file_submenu, file_menu_tape_section);
+        ui_menu_add(file_submenu, file_menu_tape_section, window_id);
     }
     if (file_menu_cart_section != NULL) {
-        ui_menu_add(file_submenu, file_menu_cart_section);
+        ui_menu_add(file_submenu, file_menu_cart_section, window_id);
     }
-    ui_menu_add(file_submenu, file_menu_tail);
+    ui_menu_add(file_submenu, file_menu_tail, window_id);
 
     /* add items to the Edit menu */
-    ui_menu_add(edit_submenu, edit_menu);
+    ui_menu_add(edit_submenu, edit_menu, window_id);
     /* add items to the Snapshot menu */
-    ui_menu_add(snapshot_submenu, snapshot_menu);
+    ui_menu_add(snapshot_submenu, snapshot_menu, window_id);
 
     /* add items to the Settings menu */
-    ui_menu_add(settings_submenu, settings_menu_head);
+    ui_menu_add(settings_submenu, settings_menu_head, window_id);
     if (settings_menu_joy_section != NULL) {
-        ui_menu_add(settings_submenu, settings_menu_joy_section);
+        ui_menu_add(settings_submenu, settings_menu_joy_section, window_id);
     }
     if (machine_class != VICE_MACHINE_VSID) {
-        ui_menu_add(settings_submenu, settings_menu_non_vsid);
+        ui_menu_add(settings_submenu, settings_menu_non_vsid, window_id);
     }
-    ui_menu_add(settings_submenu, settings_menu_tail);
+    ui_menu_add(settings_submenu, settings_menu_tail, window_id);
 
 #ifdef DEBUG
     /* add items to the Debug menu */
     if (machine_class == VICE_MACHINE_C64DTV) {
-        ui_menu_add(debug_submenu, debug_menu_c64dtv);
+        ui_menu_add(debug_submenu, debug_menu_c64dtv, window_id);
     } else {
-        ui_menu_add(debug_submenu, debug_menu);
+        ui_menu_add(debug_submenu, debug_menu, window_id);
     }
 #endif
 
     /* add items to the Help menu */
-    ui_menu_add(help_submenu, help_menu);
+    ui_menu_add(help_submenu, help_menu, window_id);
 
     main_menu_bar = menu_bar;    /* XXX: do I need g_object_ref()/g_object_unref()
                                          for this */
@@ -1370,11 +1372,12 @@ GtkWidget *ui_machine_menu_bar_create(void)
 
 /** \brief  Add missing settings load/save items
  *
- * \param[in,out]   menu    GtkMenu
+ * \param[in,out]   menu        GtkMenu
+ * \param[in]       window_id   window ID (currently only 0/PRIMARY_WINDOW)
  */
-void ui_machine_menu_bar_vsid_patch(GtkWidget *menu)
+void ui_machine_menu_bar_vsid_patch(GtkWidget *menu, gint window_id)
 {
-    ui_menu_add(menu, settings_menu_tail);
+    ui_menu_add(menu, settings_menu_tail, window_id);
 }
 
 

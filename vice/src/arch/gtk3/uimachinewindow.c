@@ -616,6 +616,12 @@ static void machine_window_create(video_canvas_t *canvas)
     GtkWidget *menu_bar;
     char *backend_label;
     unsigned w, h, vstretch = 0, hstretch = 0;
+    gint window_id = PRIMARY_WINDOW;
+
+    /* hack to determine window index for use in UI action handling later */
+    if (strcmp(canvas->videoconfig->chip_name, "VDC") == 0) {
+        window_id = SECONDARY_WINDOW;
+    }
 
 #ifdef WINDOWS_COMPILE
     canvas->renderer_backend = &vice_directx_backend;
@@ -652,8 +658,11 @@ static void machine_window_create(video_canvas_t *canvas)
     /* I'm pretty sure when running x128 we get two menu instances, so this
      * should go somewhere else: call ui_menu_bar_create() once and attach the
      * result menu to each GtkWindow instance
+     *
+     *   Won't work since a GtkWidget cannot have two parents. I already tried
+     *   this, Gtk hade a huge fit. --compyx
      */
-    menu_bar = ui_machine_menu_bar_create();
+    menu_bar = ui_machine_menu_bar_create(window_id);
 
     gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
     gtk_container_add(GTK_CONTAINER(canvas->grid), new_event_box);

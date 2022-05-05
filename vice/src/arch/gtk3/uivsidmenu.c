@@ -343,6 +343,7 @@ void ui_vsid_tune_set_tune_current(int count)
 GtkWidget *ui_vsid_menu_bar_create(void)
 {
     GtkWidget *menu_bar;
+    gint window_id = 0;
 
     /* create the top menu bar */
     menu_bar = gtk_menu_bar_new();
@@ -366,7 +367,7 @@ GtkWidget *ui_vsid_menu_bar_create(void)
 
 
     /* add items to the File menu */
-    ui_menu_add(file_submenu, file_menu);
+    ui_menu_add(file_submenu, file_menu, window_id);
 
 #if 0
     /* TODO: add items to the Tune menu */
@@ -374,17 +375,17 @@ GtkWidget *ui_vsid_menu_bar_create(void)
 #endif
 
     /* add items to the Settings menu */
-    ui_menu_add(settings_submenu, settings_menu);
+    ui_menu_add(settings_submenu, settings_menu, window_id);
     /* bit of a hack: add load/save */
-    ui_machine_menu_bar_vsid_patch(settings_submenu);
+    ui_machine_menu_bar_vsid_patch(settings_submenu, window_id);
 
 #ifdef DEBUG
     /* add items to the Debug menu */
-    ui_menu_add(debug_submenu, debug_menu);
+    ui_menu_add(debug_submenu, debug_menu, window_id);
 #endif
 
     /* add items to the Help menu */
-    ui_menu_add(help_submenu, help_menu);
+    ui_menu_add(help_submenu, help_menu, window_id);
 
     main_menu_bar = menu_bar;    /* XXX: do I need g_object_ref()/g_object_unref()
                                          for this */
