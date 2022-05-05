@@ -24,6 +24,8 @@
  *
  */
 
+/* #define NETWORK_DEBUG */
+/* #define NETWORK_TRAFFIC_DEBUG */
 
 #include "vice.h"
 
@@ -56,7 +58,11 @@
 #include "vsync.h"
 #include "vsyncapi.h"
 
-/* #define NETWORK_DEBUG */
+#ifdef NETWORK_DEBUG
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 static network_mode_t network_mode = NETWORK_IDLE;
 
@@ -92,7 +98,7 @@ static int set_server_bind_address(const char *val, void *param)
 
 static int set_server_port(int val, void *param)
 {
-    if (val < 0 || val > 65535) {
+    if (val < 1024 || val > 65535) {
         return -1;
     }
 
@@ -416,11 +422,11 @@ static void network_test_delay(void)
                     packet_delay[j] = d;
                 }
             }
-#ifdef NETWORK_DEBUG
+#ifdef NETWORK_TRAFFIC_DEBUG
             log_debug("packet_delay[%d]=%ld", i, packet_delay[i]);
 #endif
         }
-#ifdef NETWORK_DEBUG
+#ifdef NETWORK_TRAFFIC_DEBUG
         log_debug("tick_per_second = %ld", tick_per_second());
 #endif
         /* calculate delay with 90% of packets beeing fast enough */
@@ -650,6 +656,8 @@ int network_start_server(void)
     vice_network_socket_address_t * server_addr = NULL;
     int ret = -1;
 
+    DBG(("network_start_server (network_mode is: %u)", network_mode));
+
     do {
         if (network_mode != NETWORK_IDLE) {
             break;
@@ -695,6 +703,8 @@ int network_connect_client(void)
     uint8_t *buf;
     uint8_t recv_buf4[4];
     size_t buf_size;
+
+    DBG(("network_connect_client (network_mode is: %u)", network_mode));
 
     if (network_mode != NETWORK_IDLE) {
         return -1;
@@ -756,6 +766,7 @@ int network_connect_client(void)
 
 void network_disconnect(void)
 {
+    DBG(("network_disconnect (network_mode was:%u)", network_mode));
     vice_network_socket_close(network_socket);
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         network_mode = NETWORK_SERVER;
@@ -778,7 +789,7 @@ void network_suspend(void)
     suspended = 1;
 }
 
-#ifdef NETWORK_DEBUG
+#ifdef NETWORK_TRAFFIC_DEBUG
 long t1, t2, t3, t4;
 #endif
 
@@ -792,7 +803,7 @@ static void network_hook_connected_send(void)
     network_event_record(EVENT_LIST_END, NULL, 0);
     send_len = network_create_event_buffer(&local_event_buf, &(frame_event_list[current_frame]));
 
-#ifdef NETWORK_DEBUG
+#ifdef NETWORK_TRAFFIC_DEBUG
     t1 = tick_now();
 #endif
 
@@ -802,7 +813,7 @@ static void network_hook_connected_send(void)
         ui_display_statustext("Remote host disconnected.", 1);
         network_disconnect();
     }
-#ifdef NETWORK_DEBUG
+#ifdef NETWORK_TRAFFIC_DEBUG
     t2 = tick_now_after(t1);
 #endif
 
@@ -852,7 +863,7 @@ static void network_hook_connected_receive(void)
             return;
         }
 
-#ifdef NETWORK_DEBUG
+#ifdef NETWORK_TRAFFIC_DEBUG
         t3 = tick_now_after(t2);
 #endif
 
@@ -891,7 +902,7 @@ static void network_hook_connected_receive(void)
         lib_free(remote_event_list);
     }
     network_prepare_next_frame();
-#ifdef NETWORK_DEBUG
+#ifdef NETWORK_TRAFFIC_DEBUG
     t4 = tick_now_after(t3);
 #endif
 }
@@ -916,7 +927,7 @@ void network_hook(void)
     if (network_connected()) {
         network_hook_connected_send();
         network_hook_connected_receive();
-#ifdef NETWORK_DEBUG
+#ifdef NETWORK_TRAFFIC_DEBUG
         log_debug("network_hook timing: %5ld %5ld %5ld; total: %5ld",
                   t2 - t1, t3 - t2, t4 - t3, t4 - t1);
 #endif
@@ -958,16 +969,19 @@ int network_connected(void)
 
 int network_start_server(void)
 {
+    DBG(("network_start_server (disabled)"));
     return 0;
 }
 
 int network_connect_client(void)
 {
+    DBG(("network_connect_client (disabled)"));
     return 0;
 }
 
 void network_disconnect(void)
 {
+    DBG(("network_disconnect (disabled)"));
 }
 
 void network_suspend(void)
