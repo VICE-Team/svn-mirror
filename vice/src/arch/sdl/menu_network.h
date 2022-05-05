@@ -31,6 +31,6 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t network_menu[];
+extern ui_menu_entry_t network_menu[];
 
 #endif
