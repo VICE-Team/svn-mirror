@@ -1644,16 +1644,21 @@ gboolean ui_set_vice_menu_item_hotkey_by_action(int action,
  */
 GtkWidget *ui_get_gtk_menu_item_by_action(int action)
 {
-    GtkWindow *window;
+    GtkWidget *window;
     GtkWidget *grid;
     GtkWidget *menu_bar;
     GList *node;
+    int index;
 
-    window = ui_get_active_window();
+    index = ui_get_main_window_index();
+    window = ui_get_main_window_by_index(index);
+
     if (window == NULL) {
         return NULL;
     }
-    debug_gtk3("Window = %p (%s).", (void*)window, gtk_window_get_title(window));
+#if 0
+    debug_gtk3("Window = %p (%s).", (void*)window, gtk_window_get_title(GTK_WINDOW(window)));
+#endif
     grid = gtk_bin_get_child(GTK_BIN(window));
     if (grid == NULL) {
         return NULL;
@@ -1662,7 +1667,9 @@ GtkWidget *ui_get_gtk_menu_item_by_action(int action)
     if (menu_bar == NULL) {
         return NULL;
     }
-
+#if 0
+    debug_gtk3("Got menu bar.");
+#endif
     node = gtk_container_get_children(GTK_CONTAINER(menu_bar));
 #if 0
     debug_gtk3("Iterating menu main bar children.");
