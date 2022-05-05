@@ -43,7 +43,7 @@
  */
 
 GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
-GtkWidget * ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
+GtkWidget * ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id);
 GtkWidget * ui_get_gtk_submenu_item_by_action(GtkWidget *submenu, int action);
 GtkWidget * ui_get_gtk_submenu_item_by_hotkey(GtkWidget *submenu,
                                               GdkModifierType mask,
@@ -66,5 +66,9 @@ void        ui_menu_init_accelerators(GtkWidget *window);
 gboolean    ui_menu_remove_accel_via_vice_item(ui_menu_item_t *item);
 void        ui_menu_set_accel_via_vice_item(GtkWidget *item_gtk,
                                             ui_menu_item_t *item_vice);
+
+
+ui_menu_item_ref_t *ui_menu_item_ref_by_action_id(gint action_id,
+                                                  gint window_id);
 
 #endif

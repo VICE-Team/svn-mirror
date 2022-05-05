@@ -31,10 +31,12 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
+#include "archdep.h"
 #include "debug_gtk3.h"
 #include "vice_gtk3.h"
 #include "kbd.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "uiactions.h"
@@ -47,11 +49,6 @@
 #include "uimenu.h"
 
 
-/** \brief  Size of the menu references array
- */
-#define MENU_REFERENCES_MAX     256
-
-
 /** \brief  Menu accelerator object
  */
 typedef struct ui_accel_data_s {
@@ -59,11 +56,91 @@ typedef struct ui_accel_data_s {
     ui_menu_item_t *item;   /**< menu item connected to the accelerator */
 } ui_accel_data_t;
 
-
 /** \brief  Reference to the accelerator group
  */
 static GtkAccelGroup *accel_group = NULL;
 
+
+/** \brief  Size of the menu references array
+ *
+ * \note    At the time of writing (may 2022) x128 has 252 items (including
+ *          items without an associated UI action), so yeah, we need a high
+ *          number.
+ */
+#define MENU_REFERENCES_MAX 512
+
+/** \brief  List of runtime references to menu items
+ */
+static ui_menu_item_ref_t menu_item_references[MENU_REFERENCES_MAX];
+
+/** \brief  Number of items in #menu_item_references
+ */
+static int menu_ref_count = 0;
+
+
+/** \brief  Add menu item reference to list of runtime references
+ *
+ * \param[in]   item_vice   menu item definition
+ * \param[in]   item_gtk3   Gtk menu item in the UI menu structure
+ * \param[in]   handler_id  ID of the 'activate' signal handler
+ * \param[in]   window_id   ID of the parent window:  PRIMARY_WINDOW or
+ *                          SECONDARY_WINDOW (x128 only, the VDC window)
+ *
+ * \note    Logs an error and triggers #archdep_vice_exit() when the table is
+ *          full.
+ */
+static void add_menu_item_ref(ui_menu_item_t *item_vice,
+                              GtkWidget *item_gtk3,
+                              gulong handler_id,
+                              gint window_id)
+{
+    if (menu_ref_count == MENU_REFERENCES_MAX) {
+        log_error(LOG_ERR,
+                  "%s: menu item references table is FULL",
+                  __func__);
+        archdep_vice_exit(1);
+    } else {
+        ui_menu_item_ref_t *ref = &menu_item_references[menu_ref_count];
+        ref->item_vice = item_vice;
+        ref->item_gtk3 = item_gtk3;
+        ref->handler_id = handler_id;
+        ref->window_id = window_id;
+        menu_ref_count++;
+        debug_gtk3("added item %d, action ID = %d, window ID = %d",
+                menu_ref_count, item_vice->action_id, window_id);
+    }
+}
+
+
+/** \brief  Get menu item references by action ID and window ID
+ *
+ * Look up runtime menu item reference by \a action_id and \a window_id.
+ * The window ID is required for x128 since each x128 GtkWindow has its own
+ * instance of a GtkMenuItem, though the same menu structure is used for
+ * both GtkWindows (a GtkWidget cannot have two parents, bleh).
+ *
+ * \param[in]   action_id   UI action ID
+ * \param[in]   window_id   window ID (PRIMARY_WINDOW or SECONDARY_WINDOW)
+ *
+ * \return  reference or `NULL` when not found
+ *
+ * \see src/arch/shared/uiactions.h for the IDs.
+ */
+ui_menu_item_ref_t *ui_menu_item_ref_by_action_id(gint action_id, gint window_id)
+{
+    if (action_id > ACTION_NONE && action_id < ACTION_ID_COUNT) {
+        int i = 0;
+        for (i = 0; i < menu_ref_count; i++) {
+            ui_menu_item_ref_t *ref = &menu_item_references[i];
+
+            if (ref->item_vice->action_id == action_id
+                    && ref->window_id == window_id) {
+                return ref;
+            }
+        }
+    }
+    return NULL;
+}
 
 
 /** \brief  Create an empty submenu and add it to a menu bar
@@ -165,12 +242,13 @@ static void handle_accelerator(GtkAccelGroup *accel_grp,
 
 /** \brief  Add menu \a items to \a menu
  *
- * \param[in,out]   menu    Gtk menu
- * \param[in]       items   menu items to add to \a menu
+ * \param[in,out]   menu        Gtk menu
+ * \param[in]       items       menu items to add to \a menu
+ * \param[in]       window_id   window ID (PRIMARY_WINDOW or SECONDARY_WINDOW)
  *
  * \return  \a menu
  */
-GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
+GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
 {
     size_t i = 0;
     GSList *group = NULL;
@@ -312,7 +390,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                 submenu = gtk_menu_new();
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
                 gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
-                ui_menu_add(submenu, (ui_menu_item_t *)items[i].data);
+                ui_menu_add(submenu, (ui_menu_item_t *)items[i].data, window_id);
                 break;
 
             default:
@@ -386,6 +464,12 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
             g_object_set_data(G_OBJECT(item),
                               "ResourceName",
                               items[i].resource);
+
+
+            /* add item to table of references */
+            if (items[i].action_id > ACTION_NONE) {
+                add_menu_item_ref(&items[i], item, handler_id, window_id);
+            }
         }
         i++;
     }

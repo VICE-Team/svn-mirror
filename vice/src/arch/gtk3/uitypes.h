@@ -199,4 +199,19 @@ typedef struct ui_vice_menu_iter_s {
 } ui_vice_menu_iter_t;
 
 
+/** \brief  Menu item runtime data
+ *
+ * Used for easier and faster access to runtime menu items and their associated
+ * data and handlers.
+ */
+typedef struct ui_menu_item_ref_s {
+    ui_menu_item_t *item_vice;      /**< reference to the initialization data */
+    GtkWidget *     item_gtk3;      /**< reference to the item in the Gtk menu
+                                         structure */
+    gulong          handler_id;     /**< ID of the 'activate' signal handler */
+    gint            window_id;      /**< index of the menu item's GtkWindow
+                                         in #ui_resources.window_widget[],
+                                         PRIMARY_WINDOW or SECONDARY_WINDOW */
+} ui_menu_item_ref_t;
+
 #endif
