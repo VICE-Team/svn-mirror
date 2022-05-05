@@ -1644,53 +1644,8 @@ gboolean ui_set_vice_menu_item_hotkey_by_action(int action,
  */
 GtkWidget *ui_get_gtk_menu_item_by_action(int action)
 {
-    GtkWidget *window;
-    GtkWidget *grid;
-    GtkWidget *menu_bar;
-    GList *node;
-    int index;
-
-    index = ui_get_main_window_index();
-    window = ui_get_main_window_by_index(index);
-
-    if (window == NULL) {
-        return NULL;
-    }
-#if 0
-    debug_gtk3("Window = %p (%s).", (void*)window, gtk_window_get_title(GTK_WINDOW(window)));
-#endif
-    grid = gtk_bin_get_child(GTK_BIN(window));
-    if (grid == NULL) {
-        return NULL;
-    }
-    menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    if (menu_bar == NULL) {
-        return NULL;
-    }
-#if 0
-    debug_gtk3("Got menu bar.");
-#endif
-    node = gtk_container_get_children(GTK_CONTAINER(menu_bar));
-#if 0
-    debug_gtk3("Iterating menu main bar children.");
-#endif
-    while (node != NULL) {
-        GtkWidget *item = node->data;
-        if (item != NULL && GTK_IS_CONTAINER(item)) {
-#if 0
-            debug_gtk3("Item != NULL, getting submenu.");
-#endif
-            GtkWidget *submenu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(item));
-            if (submenu != NULL) {
-                item = ui_get_gtk_submenu_item_by_action(submenu, action);
-                if (item != NULL) {
-                    return item;
-                }
-            }
-        }
-        node = node->next;
-    }
-    return NULL;
+    return ui_get_gtk_menu_item_by_action_for_window(action,
+                                                     ui_get_main_window_index());
 }
 
 
@@ -1705,48 +1660,13 @@ GtkWidget *ui_get_gtk_menu_item_by_action(int action)
  */
 GtkWidget *ui_get_gtk_menu_item_by_action_for_window(int action, int index)
 {
-    GtkWidget *window;
-    GtkWidget *grid;
-    GtkWidget *menu_bar;
-    GList *node;
+    ui_menu_item_ref_t *item_ref = ui_menu_item_ref_by_action_id(action, index);
 
-    window = ui_get_window_by_index(index);
-    if (window == NULL) {
-        return NULL;
-    }
-    debug_gtk3("Window = %p (%s).", (void*)window, gtk_window_get_title(GTK_WINDOW(window)));
-    grid = gtk_bin_get_child(GTK_BIN(window));
-    if (grid == NULL) {
-        return NULL;
-    }
-    menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    if (menu_bar == NULL) {
-        return NULL;
-    }
-
-    node = gtk_container_get_children(GTK_CONTAINER(menu_bar));
-#if 0
-    debug_gtk3("Iterating menu main bar children.");
-#endif
-    while (node != NULL) {
-        GtkWidget *item = node->data;
-        if (item != NULL && GTK_IS_CONTAINER(item)) {
-#if 0
-            debug_gtk3("Item != NULL, getting submenu.");
-#endif
-            GtkWidget *submenu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(item));
-            if (submenu != NULL) {
-                item = ui_get_gtk_submenu_item_by_action(submenu, action);
-                if (item != NULL) {
-                    return item;
-                }
-            }
-        }
-        node = node->next;
+    if (item_ref != NULL) {
+        return item_ref->item_gtk3;
     }
     return NULL;
 }
-
 
 
 /** \brief  Get (sub)menu item from the Gtk menu bar by hotkey
