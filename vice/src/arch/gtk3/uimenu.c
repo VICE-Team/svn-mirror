@@ -39,6 +39,7 @@
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
+#include "ui.h"
 #include "uiactions.h"
 #include "uiapi.h"
 #include "uiabout.h"
@@ -128,6 +129,10 @@ static void add_menu_item_ref(ui_menu_item_t *item_vice,
  */
 ui_menu_item_ref_t *ui_menu_item_ref_by_action_id(gint action_id, gint window_id)
 {
+    if (window_id != PRIMARY_WINDOW && window_id != SECONDARY_WINDOW) {
+        log_error(LOG_ERR, "Invalid window ID of %d.", window_id);
+        return NULL;
+    }
     if (action_id > ACTION_NONE && action_id < ACTION_ID_COUNT) {
         int i = 0;
         for (i = 0; i < menu_ref_count; i++) {

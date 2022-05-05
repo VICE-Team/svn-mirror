@@ -655,6 +655,21 @@ int ui_get_main_window_index(void)
 }
 
 
+/** \brief  Get active main window
+ *
+ * \param[in]   index   window index (PRIMARY WINDOW or SECONDARY_WINDOW)
+ *
+ * \return  window or `NULL` when \a index is out of bounds
+ */
+GtkWidget *ui_get_main_window_by_index(gint index)
+{
+    if (index == PRIMARY_WINDOW || index == SECONDARY_WINDOW) {
+        return ui_resources.window_widget[index];
+    }
+    return NULL;
+}
+
+
 /** \brief  Get a window's index
  *
  * \param[in]   widget      window to get the index of
