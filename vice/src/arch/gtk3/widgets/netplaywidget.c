@@ -77,10 +77,10 @@ static const char *netctrl_headers[] = { "", "server", "client" };
 /** \brief  Modes for the netplay status display
  */
 static const char *net_modes[] = {
-    "Idle",
-    "Server",
-    "Server connected",
-    "Client connected"
+    "Idle",             /* NETWORK_IDLE */
+    "Server",           /* NETWORK_SERVER */
+    "Server connected", /* NETWORK_SERVER_CONNECTED */
+    "Client connected"  /* NETWORK_CLIENT */
 };
 
 
@@ -89,14 +89,8 @@ static const char *net_modes[] = {
 /** \brief  Server address widget */
 static GtkWidget *server_address = NULL;
 
-/** \brief  Server enable widget */
-static GtkWidget *server_enable = NULL;
-
 /** \brief  Client address widget */
 static GtkWidget *client_address = NULL;
-
-/** \brief  Client enable widget */
-static GtkWidget *client_enable = NULL;
 
 /** \brief  Client and server port number */
 static GtkWidget *port_number = NULL;
@@ -107,6 +101,12 @@ static GtkWidget *netplay_status = NULL;
 /** \brief  Netplay controls widget */
 static GtkWidget *controls = NULL;
 
+/** \brief  Network mode combo box
+ */
+static GtkWidget *combo_netplay = NULL;
+
+/** \brief  Client enable widget */
+static GtkWidget *netplay_enable = NULL;
 
 /** \brief  Update display of the netplay status
  */
@@ -115,6 +115,7 @@ static void netplay_update_status(void)
     const char *text = NULL;
     char *temp;
     int mode = network_get_mode();
+    int server = (gtk_combo_box_get_active(GTK_COMBO_BOX(combo_netplay)) == 0);
 
     if (mode < 0 || mode >= (int)(sizeof net_modes / sizeof net_modes[0])) {
         text = "invalid";
@@ -122,11 +123,25 @@ static void netplay_update_status(void)
         text = net_modes[mode];
     }
 
+    debug_gtk3("netplay_update_status: %d (%s)\n", mode, text);
+
     temp = lib_msprintf("<b>%s</b>", text);
     gtk_label_set_markup(GTK_LABEL(netplay_status), temp);
     lib_free(temp);
-}
 
+    /* mode combobox cant be changed when network is active */
+    gtk_combo_box_set_button_sensitivity(GTK_COMBO_BOX(combo_netplay),
+        (mode == NETWORK_IDLE) ? GTK_SENSITIVITY_ON : GTK_SENSITIVITY_OFF);
+    /* port cant be changed when network is active */
+    gtk_widget_set_sensitive(port_number,
+        (mode == NETWORK_IDLE) ? TRUE : FALSE);
+    /* server address can only be changed when server is selected, and we are idle */
+    gtk_widget_set_sensitive(server_address,
+        ((mode == NETWORK_IDLE) && server) ? TRUE : FALSE);
+    /* client address can only be changed when client is selected, and we are idle */
+    gtk_widget_set_sensitive(client_address,
+        ((mode == NETWORK_IDLE) && !server) ? TRUE : FALSE);
+}
 
 /** \brief  Handler for the 'toggled' event of the NetworkControl checkboxes
  *
@@ -146,7 +161,7 @@ static void on_server_mask_toggled(GtkWidget *widget, gpointer data)
 
     /* do the actual work: flip a bit */
     newval = value ^ mask;
-#if 0
+#if 1
     debug_gtk3("State: %s, Mask: %02x, Value: %02x",
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
             ? "Enabled" : "Disabled",
@@ -158,71 +173,84 @@ static void on_server_mask_toggled(GtkWidget *widget, gpointer data)
     }
 }
 
-
-
-/** \brief  Handler for the 'notify::toggled' event of the server enable switch
- *
- * \param[in,out]   widget  server enable switch
- * \param[in]       data    extra event data (unused)
- */
-static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
-{
-    int state = gtk_switch_get_active(widget);
-#if 0
-    debug_gtk3("Server Enable = %s", state ? "True" : "False");
-#endif
-    /* connect or disconnect? */
-    if (state) {
-        /* check if we have a client active */
-        if (gtk_switch_get_active(GTK_SWITCH(client_enable))) {
-            gtk_switch_set_active(GTK_SWITCH(client_enable), FALSE);
-        }
-        /* attempt to start server */
-        if (network_start_server() != 0) {
-            log_error(LOG_ERR, "Failed to start netplay server.");
-        }
-    } else {
-        if (network_get_mode() != 0) {
-            network_disconnect();
-        }
-    }
-    netplay_update_status();
-}
-
-
 /** \brief  Handler for the 'notify::toggled' event of the client enable switch
  *
  * \param[in,out]   widget  client enable switch
  * \param[in]       data    extra event data (unused)
  */
-static void on_client_enable_toggled(GtkSwitch *widget, gpointer data)
+static void on_netplay_enable_toggled(GtkSwitch *widget, gpointer data)
 {
     int state = gtk_switch_get_active(widget);
+    int idx = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_netplay));
+
+    debug_gtk3("on_netplay_enable_toggled to %d\n", idx);
+
+    /* just disconnect, doing it always is what the SDL port does and its stable */
+    network_disconnect();
+    netplay_update_status();
 
     if (state) {
-        if (gtk_switch_get_active(GTK_SWITCH(server_enable))) {
-            gtk_switch_set_active(GTK_SWITCH(server_enable), FALSE);
-        }
-        if (network_start_server() != 0) {
-            log_error(LOG_ERR, "Failed to start netplay server.");
-        }
-        if (network_connect_client() != 0) {
-            log_error(LOG_ERR, "Failed to start client.");
-        }
-    } else {
-        if (network_get_mode() != 0) {
-            network_disconnect();
+        if (idx == 0) {
+            /* attempt to start server */
+            if (network_start_server() < 0) {
+                log_error(LOG_ERR, "Failed to start netplay server.");
+                gtk_switch_set_active(widget, 0);
+            }
+        } else {
+            /* start the client */
+            if (network_connect_client() < 0) {
+                log_error(LOG_ERR, "Failed to start client.");
+                gtk_switch_set_active(widget, 0);
+            }
         }
     }
     netplay_update_status();
 }
 
+/** \brief  Handler for the "changed" event of the network mode combo box
+ *
+ * \param[in]   combo       combo box
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
+{
+    int server = (gtk_combo_box_get_active(combo) == 0);
+    int mode = network_get_mode();
 
-/** \brief  Create server enable widget
+    /* server address can only be changed when server is selected, and we are idle */
+    gtk_widget_set_sensitive(server_address,
+        ((mode == NETWORK_IDLE) && server) ? TRUE : FALSE);
+    /* client address can only be changed when client is selected, and we are idle */
+    gtk_widget_set_sensitive(client_address,
+        ((mode == NETWORK_IDLE) && !server) ? TRUE : FALSE);
+}
+
+/** \brief  Create combo box with network modes
+ *
+ * \return  GtkComboBoxText
+ */
+static GtkWidget *create_combo_box(void)
+{
+    GtkWidget *combo;
+    int mode = network_get_mode();
+
+    combo = gtk_combo_box_text_new();
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
+            NULL, "This emulator is the server");
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
+            NULL, "This emulator is the client");
+
+    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), mode == NETWORK_CLIENT ? 1 : 0);
+
+    g_signal_connect(combo, "changed", G_CALLBACK(on_combo_changed), NULL);
+    return combo;
+}
+
+/** \brief  Create netplay switch
  *
  * \return  GtkSwitch
  */
-static GtkWidget *create_server_enable_widget(void)
+static GtkWidget *create_netplay_enable_widget(void)
 {
     GtkWidget *widget;
     int mode;
@@ -231,35 +259,12 @@ static GtkWidget *create_server_enable_widget(void)
     widget = gtk_switch_new();
 
     gtk_widget_set_halign(widget, GTK_ALIGN_START);
-    gtk_switch_set_active(GTK_SWITCH(widget),
-            mode == NETWORK_SERVER || mode == NETWORK_SERVER_CONNECTED);
+    gtk_switch_set_active(GTK_SWITCH(widget), mode != NETWORK_IDLE);
 
     g_signal_connect(widget, "notify::active",
-            G_CALLBACK(on_server_enable_toggled), NULL);
+            G_CALLBACK(on_netplay_enable_toggled), NULL);
     return widget;
 }
-
-
-/** \brief  Create client switch
- *
- * \return  GtkSwitch
- */
-static GtkWidget *create_client_enable_widget(void)
-{
-    GtkWidget *widget;
-    int mode;
-
-    mode = network_get_mode();
-    widget = gtk_switch_new();
-
-    gtk_widget_set_halign(widget, GTK_ALIGN_START);
-    gtk_switch_set_active(GTK_SWITCH(widget), mode == NETWORK_CLIENT);
-
-    g_signal_connect(widget, "notify::active",
-            G_CALLBACK(on_client_enable_toggled), NULL);
-    return widget;
-}
-
 
 /** \brief  Create controls checkboxes
  *
@@ -336,31 +341,33 @@ GtkWidget *netplay_widget_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Netplay settings", 4);
 
+    /* client or server? */
+    label = vice_gtk3_create_indented_label("Mode");
+    combo_netplay = create_combo_box();
+    netplay_enable = create_netplay_enable_widget();
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), combo_netplay, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), netplay_enable, 2, 1, 1, 1);
+
     /* Server widgets */
 
     /* label */
-    label = vice_gtk3_create_indented_label("Server");
+    label = vice_gtk3_create_indented_label("Server Address");
     /* address */
-    server_address = vice_gtk3_resource_entry_full_new("NetworkServerName");
-    /* enable */
-    server_enable = create_server_enable_widget();
+    server_address = vice_gtk3_resource_entry_full_new("NetworkServerBindAddress");
     gtk_widget_set_hexpand(server_address, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), server_address, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), server_enable, 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), server_address, 1, 2, 1, 1);
 
     /* Client widgets */
 
     /* label */
-    label = vice_gtk3_create_indented_label("Client");
+    label = vice_gtk3_create_indented_label("Remote Server");
     /* address */
-    client_address = vice_gtk3_resource_entry_full_new("NetworkServerBindAddress");
-    /* enable */
-    client_enable = create_client_enable_widget();
+    client_address = vice_gtk3_resource_entry_full_new("NetworkServerName");
     gtk_widget_set_hexpand(client_address, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), client_address, 1, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), client_enable, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), client_address, 1, 3, 1, 1);
 
     /* Port widgets */
 
@@ -371,8 +378,8 @@ GtkWidget *netplay_widget_create(GtkWidget *parent)
             1, 65535, 1);
     gtk_widget_set_hexpand(port_number, FALSE);
     gtk_widget_set_halign(port_number, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), port_number, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), port_number, 1, 4, 1, 1);
 
     /* Network status widgets */
 
@@ -382,15 +389,15 @@ GtkWidget *netplay_widget_create(GtkWidget *parent)
     netplay_status = gtk_label_new(NULL);
     gtk_widget_set_halign(netplay_status, GTK_ALIGN_START);
     gtk_widget_set_hexpand(netplay_status, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), netplay_status, 1, 4, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), netplay_status, 1, 5, 2, 1);
     /* update status text */
     netplay_update_status();
 
     controls = create_controls_widget();
     g_object_set(controls, "margin-top", 32, "margin-left", 0, NULL);
 
-    gtk_grid_attach(GTK_GRID(grid), create_controls_widget(), 0, 5, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_controls_widget(), 0, 6, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;
