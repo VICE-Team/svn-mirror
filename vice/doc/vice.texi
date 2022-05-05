@@ -8463,6 +8463,23 @@ Set the amount of automatic playback frames
 @c @node FIXME
 @section Network Play settings
 
+Note network play code is still experimental and unstable in some corners and
+can be a bit tricky to setup and made work:
+
+@itemize @bullet
+@item First make sure both client and server can actually use the port you want
+to use. This might require poking holes into your firewall. On the server side,
+this often requires configuring port forwarding.
+@item Choose a port you want to use. Usually the default (6502) is fine.
+@item Setup the server address, usually the default 127.0.0.1 is fine - if that
+does not work you might have to use the actual IP of your machine. Start the
+server and leave the settings before you continue.
+@item On the client setup the remote address of the server and connect to the server.
+@end itemize
+
+The experimental nature of this feature also means that you might require both
+involved parties to use the exact same version of VICE.
+
 @c @node FIXME
 @subsection Network Play resources
 
@@ -8470,21 +8487,58 @@ Set the amount of automatic playback frames
 
 @vindex NetworkServerName
 @item NetworkServerName
-String specifying the name of the remote server.
+String specifying the name of the remote server. The client specifies here to what
+remote machine it wants to connect.
 
 @vindex NetworkServerBindAddress
 @item NetworkServerBindAddress
-String specifying the IP of the remote server.
+String specifying the IP of the remote server. The server specifies here at what
+IP it listens. This can be 127.0.0.1 in common setups.
 
 @vindex NetworkServerPort
 @item NetworkServerPort
-Integer specifying the port used for network play.
-@c FIXME: is this correct?
+Integer specifying the port used for network play. This must be a number > 1023
+(non privileged) and must be the same on both server and client.
 
 @vindex NetworkControl
 @item NetworkControl
-Integer specifying whether the emulator is running as server or client (0: client,
-1: server)
+Integer containing a bitfield that specifies which resources are controlled by
+either the server or the client:
+@multitable @columnfractions .05 .2 .2
+@item Bit
+@tab Resource
+@tab controlled by
+@item 0
+@tab Keyboard
+@tab Server
+@item 1
+@tab Joystick port 1
+@tab Server
+@item 2
+@tab Joystick port 2
+@tab Server
+@item 3
+@tab Devices
+@tab Server
+@item 4
+@tab Resources
+@tab Server
+@item 5
+@tab Keyboard
+@tab Client
+@item 6
+@tab Joystick port 1
+@tab Client
+@item 7
+@tab Joystcik port 2
+@tab Client
+@item 8
+@tab Devices
+@tab Client
+@item 9
+@tab Resources
+@tab Client
+@end multitable
 
 @end table
 
@@ -8495,19 +8549,20 @@ Integer specifying whether the emulator is running as server or client (0: clien
 
 @findex -netplayserver
 @item -netplayserver <name>
-Set the name of the remote server.
+Set the name of the remote server (@code{NetworkServerName}).
 
 @findex -netplaybind
 @item -netplaybind <ip>
-Set the IP of the remote server.
+Set the IP of the remote server (@code{NetworkServerBindAddress}).
 
 @findex -netplayport
 @item -netplayport <port>
-Set the port used for network play.
+Set the port used for network play (@code{NetworkServerPort}).
 
 @findex -netplayctrl
 @item -netplayctrl <flag>
-Specify whether the emulator is running as server or client (0: client, 1: server)
+Specify what resources are controlled by the server or the client (see above)
+(@code{NetworkControl}).
 
 @end table
 
