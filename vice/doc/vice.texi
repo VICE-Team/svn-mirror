@@ -8471,10 +8471,11 @@ can be a bit tricky to setup and made work:
 to use. This might require poking holes into your firewall. On the server side,
 this often requires configuring port forwarding.
 @item Choose a port you want to use. Usually the default (6502) is fine.
-@item Setup the server address, usually the default 127.0.0.1 is fine - if that
+@item Setup the server address, usually you can leave it blank - if that
 does not work you might have to use the actual IP of your machine. Start the
 server and leave the settings before you continue.
-@item On the client setup the remote address of the server and connect to the server.
+@item On the client setup the remote address of the server (use 127.0.0.1 to
+connect to another VICE instance running on the same machine) and connect to the server.
 @end itemize
 
 The experimental nature of this feature also means that you might require both
@@ -8488,12 +8489,13 @@ involved parties to use the exact same version of VICE.
 @vindex NetworkServerName
 @item NetworkServerName
 String specifying the name of the remote server. The client specifies here to what
-remote machine it wants to connect.
+remote machine it wants to connect. To connect to another instance of VICE running
+on the same machine us 127.0.0.1.
 
 @vindex NetworkServerBindAddress
 @item NetworkServerBindAddress
 String specifying the IP of the remote server. The server specifies here at what
-IP it listens. This can be 127.0.0.1 in common setups.
+IP it listens. This can be blank in common setups.
 
 @vindex NetworkServerPort
 @item NetworkServerPort
