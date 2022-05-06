@@ -26,6 +26,8 @@
  *
  */
 
+/* #define EVENT_DEBUG */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -58,6 +60,11 @@
 #include "version.h"
 #include "vice-event.h"
 
+#ifdef EVENT_DEBUG
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 #define EVENT_START_SNAPSHOT "start.vsf"
 #define EVENT_END_SNAPSHOT "end.vsf"
@@ -325,7 +332,7 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
 {
     void *event_data = NULL;
 
-    /*log_debug("EVENT RECORD %i CLK %i", type, maincpu_clk);*/
+    DBG(("event_record_in_list type:%u size:%u clock:%lu", type, size, maincpu_clk));
 
     if (type == EVENT_RESETCPU) {
         next_timestamp_clk -= maincpu_clk;
@@ -351,17 +358,22 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
         case EVENT_KEYBOARD_CLEAR:
             break;
         default:
-            /*log_error(event_log, "Unknow event type %i.", type);*/
+            log_error(event_log, "Unknown event type %u.", type);
             return;
     }
 
-    list->current->type = type;
-    list->current->clk = maincpu_clk;
-    list->current->size = size;
-    list->current->data = event_data;
-    list->current->next = lib_calloc(1, sizeof(event_list_t));
-    list->current = list->current->next;
-    list->current->type = EVENT_LIST_END;
+    if (list && list->current) {
+        list->current->type = type;
+        list->current->clk = maincpu_clk;
+        list->current->size = size;
+        list->current->data = event_data;
+        list->current->next = lib_calloc(1, sizeof(event_list_t));
+        list->current = list->current->next;
+        list->current->type = EVENT_LIST_END;
+    } else {
+        log_error(event_log, "event_record_in_list: Could not append to event list (type:%u size:%u clock:%lu)",
+                  type, size, maincpu_clk);
+    }
 }
 
 void event_record(unsigned int type, void *data, unsigned int size)
