@@ -108,6 +108,9 @@ static GtkWidget *combo_netplay = NULL;
 /** \brief  Client enable widget */
 static GtkWidget *netplay_enable = NULL;
 
+/** \brief  last used setting was client or server? */
+static int netplay_mode = -1;
+
 /** \brief  Update display of the netplay status
  */
 static void netplay_update_status(void)
@@ -217,6 +220,8 @@ static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
     int server = (gtk_combo_box_get_active(combo) == 0);
     int mode = network_get_mode();
 
+    netplay_mode = gtk_combo_box_get_active(combo);
+
     /* server address can only be changed when server is selected, and we are idle */
     gtk_widget_set_sensitive(server_address,
         ((mode == NETWORK_IDLE) && server) ? TRUE : FALSE);
@@ -240,7 +245,10 @@ static GtkWidget *create_combo_box(void)
     gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
             NULL, "This emulator is the client");
 
-    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), mode == NETWORK_CLIENT ? 1 : 0);
+    if (netplay_mode < 0) {
+        netplay_mode = (mode == NETWORK_CLIENT ? 1 : 0);
+    }
+    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), netplay_mode);
 
     g_signal_connect(combo, "changed", G_CALLBACK(on_combo_changed), NULL);
     return combo;
