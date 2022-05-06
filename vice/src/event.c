@@ -371,7 +371,7 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
         list->current = list->current->next;
         list->current->type = EVENT_LIST_END;
     } else {
-        log_error(event_log, "event_record_in_list: Could not append to event list (type:%u size:%u clock:%lu)",
+        log_error(event_log, "event_record_in_list: Could not append to event list (type:%u size:%u clock:%"PRIX64")",
                   type, size, maincpu_clk);
     }
 }
@@ -472,8 +472,12 @@ static void event_alarm_handler(CLOCK offset, void *data)
 void event_playback_event_list(event_list_state_t *list)
 {
     event_list_t *current = list->base;
+    
+    DBG(("event_playback_event_list entry %p current: %p", list, current));
 
     while (current->type != EVENT_LIST_END) {
+        DBG(("event_playback_event_list current: %p type: %d size: %d data: %p",
+            current, current->type, current->size, current->data));
         switch (current->type) {
             case EVENT_SYNC_TEST:
                 break;
@@ -528,10 +532,12 @@ void event_playback_event_list(event_list_state_t *list)
         }
         current = current->next;
     }
+    DBG(("event_playback_event_list exit"));
 }
 
 void event_register_event_list(event_list_state_t *list)
 {
+    DBG(("event_register_event_list %p", list));
     list->base = lib_calloc(1, sizeof(event_list_t));
     list->current = list->base;
 }
@@ -583,6 +589,7 @@ void event_destroy_image_list(void)
 
 void event_clear_list(event_list_state_t *list)
 {
+    DBG(("event_clear_list %p", list));
     if (list != NULL && list->base != NULL) {
         cut_list(list->base);
     }

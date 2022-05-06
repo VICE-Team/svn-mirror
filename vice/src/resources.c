@@ -641,10 +641,14 @@ void resources_set_value_event(void *data, int size)
     name = data;
     valueptr = name + strlen(name) + 1;
     r = lookup(name);
-    if (r->type == RES_INTEGER) {
-        resources_set_value_internal(r, (resource_value_t) uint_to_void_ptr(*(uint32_t *)valueptr));
+    if (r == NULL) {
+        log_error(LOG_DEFAULT, "resources_set_value_event: resource '%s' does not exist.", name);
     } else {
-        resources_set_value_internal(r, (resource_value_t)valueptr);
+        if (r->type == RES_INTEGER) {
+            resources_set_value_internal(r, (resource_value_t) uint_to_void_ptr(*(uint32_t *)valueptr));
+        } else {
+            resources_set_value_internal(r, (resource_value_t)valueptr);
+        }
     }
 }
 
