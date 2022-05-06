@@ -340,7 +340,7 @@ static event_list_state_t *network_create_event_list(uint8_t *remote_event_buffe
 
     list = lib_malloc(sizeof(event_list_state_t));
     event_register_event_list(list);
-    
+
     if (bufptr == NULL) {
         log_error(LOG_DEFAULT, "network_create_event_list: got NULL pointer");
         event_record_in_list(list, EVENT_LIST_END, NULL, 0);

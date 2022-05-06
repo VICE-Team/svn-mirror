@@ -472,7 +472,7 @@ static void event_alarm_handler(CLOCK offset, void *data)
 void event_playback_event_list(event_list_state_t *list)
 {
     event_list_t *current = list->base;
-    
+
     DBG(("event_playback_event_list entry %p current: %p", list, current));
 
     while (current->type != EVENT_LIST_END) {
