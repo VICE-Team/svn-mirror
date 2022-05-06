@@ -8490,7 +8490,7 @@ involved parties to use the exact same version of VICE.
 @item NetworkServerName
 String specifying the name of the remote server. The client specifies here to what
 remote machine it wants to connect. To connect to another instance of VICE running
-on the same machine us 127.0.0.1.
+on the same machine use 127.0.0.1.
 
 @vindex NetworkServerBindAddress
 @item NetworkServerBindAddress
