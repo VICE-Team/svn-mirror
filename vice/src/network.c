@@ -333,22 +333,29 @@ static event_list_state_t *network_create_event_list(uint8_t *remote_event_buffe
 {
     event_list_state_t *list;
     unsigned int type, size;
-    uint8_t *data;
+    uint8_t *data = NULL;
     uint8_t *bufptr = remote_event_buffer;
 
-    DBGT(("network_create_event_list"));
+    DBGT(("network_create_event_list entry: %p", bufptr));
 
     list = lib_malloc(sizeof(event_list_state_t));
     event_register_event_list(list);
-
-    do {
-        type = util_le_buf_to_dword(&bufptr[0]);
-        /*  clk = util_le_buf_to_dword(&bufptr[4]); */
-        size = util_le_buf_to_dword(&bufptr[8]);
-        data = &bufptr[12];
-        bufptr += 12 + size;
-        event_record_in_list(list, type, data, size);
-    } while (type != EVENT_LIST_END);
+    
+    if (bufptr == NULL) {
+        log_error(LOG_DEFAULT, "network_create_event_list: got NULL pointer");
+        event_record_in_list(list, EVENT_LIST_END, NULL, 0);
+    } else {
+        do {
+            DBGT(("network_create_event_list: %p", bufptr));
+            type = util_le_buf_to_dword(&bufptr[0]);
+            /*  clk = util_le_buf_to_dword(&bufptr[4]); */
+            size = util_le_buf_to_dword(&bufptr[8]);
+            data = &bufptr[12];
+            bufptr += 12 + size;
+            event_record_in_list(list, type, data, size);
+        } while (type != EVENT_LIST_END);
+    }
+    DBGT(("network_create_event_list exit: %p", bufptr));
 
     return list;
 }
