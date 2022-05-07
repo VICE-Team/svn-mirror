@@ -94,7 +94,6 @@
 #include "uidatasette.h"
 #include "uidiskattach.h"
 #include "uifliplist.h"
-#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "userport/userport_joystick.h"

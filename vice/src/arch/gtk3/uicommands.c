@@ -56,7 +56,6 @@
 #include "vsync.h"
 #include "uiapi.h"
 #include "ui.h"
-#include "uimachinemenu.h"
 #include "uimachinewindow.h"
 #include "uisettings.h"
 #include "widgethelpers.h"

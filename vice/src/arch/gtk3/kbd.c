@@ -46,7 +46,6 @@
 #include "keyboard.h"
 #include "mainlock.h"
 #include "uiactions.h"
-#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uimedia.h"
 #include "uistatusbar.h"

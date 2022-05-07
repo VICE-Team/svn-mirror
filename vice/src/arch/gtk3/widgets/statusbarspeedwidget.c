@@ -48,7 +48,6 @@
 #include "ui.h"
 #include "uiactions.h"
 #include "uimenu.h"
-#include "uimachinemenu.h"
 #include "uistatusbar.h"
 #include "vsync.h"
 #include "vsyncapi.h"

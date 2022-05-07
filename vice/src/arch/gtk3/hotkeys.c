@@ -50,7 +50,6 @@
 #include "ui.h"
 #include "uiactions.h"
 #include "uimenu.h"
-#include "uimachinemenu.h"
 #include "util.h"
 #include "version.h"
 #ifdef USE_SVN_REVISION
