@@ -183,7 +183,10 @@ gboolean ui_action_toggle_mouse_grab(void)
     mouse = !mouse;
 
     if (mouse) {
-        ui_menu_item_t *item = ui_get_vice_menu_item_by_action(ACTION_MOUSE_GRAB_TOGGLE);
+        ui_menu_item_t *item;
+
+        item =  ui_get_vice_menu_item_by_action_for_window(ACTION_MOUSE_GRAB_TOGGLE,
+                                                           PRIMARY_WINDOW);
         gchar *name = gtk_accelerator_name(item->keysym, item->modifier);
         g_snprintf(title, sizeof(title),
                 "VICE (%s) (Use %s to disable mouse grab)",

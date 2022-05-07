@@ -47,7 +47,9 @@
 #include "machine.h"
 #include "resources.h"
 #include "sysfile.h"
+#include "ui.h"
 #include "uiactions.h"
+#include "uimenu.h"
 #include "uimachinemenu.h"
 #include "util.h"
 #include "version.h"
@@ -1591,9 +1593,7 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
 
     /* finally try to register the hotkey */
     action_id = ui_action_get_id(action_name);
-    if (!ui_set_vice_menu_item_hotkey_by_action(action_id,
-                                                gdk_keyval_name(keyval),
-                                                mask)) {
+    if (!ui_set_menu_item_hotkey_by_action(action_id, keyval, mask)) {
         log_message(hotkeys_log,
                     "Hotkeys: %s:%ld: failed to register hotkey.",
                     textfile_reader_filename(reader),
@@ -1682,17 +1682,18 @@ bool ui_hotkeys_parse(const char *path)
 
 /** \brief  Return a string describing the key+modifiers for \a action
  *
- * \param[in]   action  action IUD
+ * \param[in]   action_id   action ID
+ * \param[in]   window_id   window ID
  *
  * \return  string with key name and modifiers
  * \note    free the string after use with lib_free()
  */
-char *ui_hotkeys_get_hotkey_string_for_action(int action)
+char *ui_hotkeys_get_hotkey_string_for_action(gint action_id, gint window_id)
 {
     ui_menu_item_t *item;
     char *str = NULL;
 
-    item = ui_get_vice_menu_item_by_action(action);
+    item = ui_get_vice_menu_item_by_action_for_window(action_id, window_id);
     if (item != NULL) {
         str = gtk_accelerator_get_label(item->keysym, item->modifier);
         if (str != NULL) {
@@ -1789,7 +1790,8 @@ static bool export_header(FILE *fp)
 bool ui_hotkeys_export(const char *path)
 {
     FILE *fp;
-    ui_vice_menu_iter_t iter;
+    gint ref_index;
+    gint ref_count;
 
     log_message(hotkeys_log,
                 "Hotkeys: exporting current hotkeys to '%s'.", path);
@@ -1804,42 +1806,44 @@ bool ui_hotkeys_export(const char *path)
 
     export_header(fp);
 
-    ui_vice_menu_iter_init(&iter);
-    do {
-        GdkModifierType mask;
-        guint keysym;
-        ui_menu_item_type_t type;
-        int id;
-        const char *name;
+    ref_count = ui_menu_item_ref_count();
+    for (ref_index = 0; ref_index < ref_count; ref_index++) {
+        ui_menu_item_ref_t *ref;
+        ui_menu_item_t *item_vice;
+        GtkWidget *item_gtk3;
 
-        ui_vice_menu_iter_get_type(&iter, &type);
-        if (type == UI_MENU_TYPE_ITEM_ACTION || type == UI_MENU_TYPE_ITEM_CHECK) {
+        ref = ui_menu_item_ref_by_index(ref_index);
+        /* don't export the hotkeys twice in x128 */
+        if (ref->window_id != PRIMARY_WINDOW) {
+            continue;
+        }
+        item_vice = ref->item_vice;
+        item_gtk3 = ref->item_gtk3;
 
-            ui_vice_menu_iter_get_action_id(&iter, &id);
-            name = ui_action_get_name(id);
-            ui_vice_menu_iter_get_hotkey(&iter, &mask, &keysym);
-            if (keysym != 0 && name != NULL) {
-                char *accel;
-                int result;
+        if (item_vice->action_id > ACTION_NONE && ref->keysym != 0) {
+            gchar *accel;
+            int result;
 
-                accel = gtk_accelerator_name(keysym, mask);
-                if (accel != NULL) {
-                    /* replace 'Primary' with 'Command' or 'Control' */
-                    char *hotkey = parser_strsubst(accel, "Primary", PRIMARY_REPLACEMENT);
+            accel = gtk_accelerator_name(ref->keysym, ref->modifier);
+            if (accel != NULL) {
+                char *hotkey;
+                const char *name;
 
-                    g_free(accel);
-                    result = fprintf(fp, "%-30s  %s\n", name, hotkey);
-                    if (result < 0) {
-                        export_log_io_error();
-                        lib_free(hotkey);
-                        fclose(fp);
-                        return false;
-                    }
+                hotkey = parser_strsubst(accel, "Primary", PRIMARY_REPLACEMENT);
+                g_free(accel);
+                name = ui_action_get_name(item_vice->action_id);
+
+                result = fprintf(fp, "%-30s  %s\n", name, hotkey);
+                if (result < 0) {
+                    export_log_io_error();
                     lib_free(hotkey);
+                    fclose(fp);
+                    return false;
                 }
+                lib_free(hotkey);
             }
         }
-    } while (ui_vice_menu_iter_next(&iter));
+    }
 
     fclose(fp);
     return true;

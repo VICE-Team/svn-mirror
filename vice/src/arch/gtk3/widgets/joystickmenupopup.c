@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "uiactions.h"
 #include "uicommands.h"
+#include "uimenu.h"
 #include "uimachinemenu.h"
 #include "uisettings.h"
 #include "widgethelpers.h"
