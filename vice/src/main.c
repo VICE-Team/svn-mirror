@@ -230,7 +230,7 @@ int main_program(int argc, char **argv)
      * resources and cmdline options of the hotkeys are registered.
      */
     if (!help_requested) {
-        ui_hotkeys_init();
+//        ui_hotkeys_init();
     }
 
     if ((init_resources() < 0) || (init_cmdline_options() < 0)) {

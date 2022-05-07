@@ -155,16 +155,6 @@ typedef struct ui_menu_item_s {
 } ui_menu_item_t;
 
 
-/** \brief  Menu references for the hotkeys interface
- *
- * \note    Each menu can have submenus.
- */
-typedef struct ui_menu_ref_s {
-    char *          name;   /**< name of the top level menu, for debugging */
-    ui_menu_item_t *items;  /**< items of the menu, can be recursive */
-} ui_menu_ref_t;
-
-
 /** \brief  Terminator of a menu items list
  */
 #define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, 0, NULL, NULL, NULL, 0, 0 }
@@ -186,19 +176,6 @@ typedef struct ui_menu_ref_s {
 #endif
 
 
-/** \brief  Iterator for vice menu items
- *
- * Used to iterate over all VICE menu items, as opposed to Gtk menu items.
- *
- * \see ui_vice_menu_iter_init()
- * \see ui_vice_menu_iter_next()
- */
-typedef struct ui_vice_menu_iter_s {
-    size_t          menu_index; /**< index in menu_references[] */
-    ui_menu_item_t *menu_item;  /**< current item in menu */
-} ui_vice_menu_iter_t;
-
-
 /** \brief  Menu item runtime data
  *
  * Used for easier and faster access to runtime menu items and their associated
@@ -212,6 +189,8 @@ typedef struct ui_menu_item_ref_s {
     gint            window_id;      /**< index of the menu item's GtkWindow
                                          in #ui_resources.window_widget[],
                                          PRIMARY_WINDOW or SECONDARY_WINDOW */
+    guint           keysym;         /**< hotkey Gdk keysym */
+    GdkModifierType modifier;       /**< hotkey Gdk modifiers */
 } ui_menu_item_ref_t;
 
 #endif
