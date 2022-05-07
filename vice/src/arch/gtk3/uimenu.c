@@ -45,7 +45,6 @@
 #include "uiabout.h"
 #include "uistatusbar.h"
 #include "util.h"
-#include "uimachinemenu.h"
 
 #include "uimenu.h"
 

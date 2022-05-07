@@ -39,7 +39,6 @@
 #include "ui.h"
 #include "uiactions.h"
 #include "uiapi.h"
-#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uitypes.h"
 #include "util.h"

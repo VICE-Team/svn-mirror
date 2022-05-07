@@ -35,25 +35,16 @@
 
 #include "uitypes.h"
 
-
-
-
 /*
  * Public functions
  */
 
 GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
+
 GtkWidget * ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id);
-GtkWidget * ui_get_gtk_submenu_item_by_action(GtkWidget *submenu, int action);
-GtkWidget * ui_get_gtk_submenu_item_by_hotkey(GtkWidget *submenu,
-                                              GdkModifierType mask,
-                                              guint keyval);
+
 void        ui_set_gtk_check_menu_item_blocked(GtkWidget *item,
                                                gboolean state);
-#if 0
-void        ui_set_gtk_check_menu_item_blocked_by_resource(int action,
-                                                           const char *resource);
-#endif
 
 void        ui_set_gtk_check_menu_item_blocked_by_action(gint action_id,
                                                          gboolean state);
@@ -61,12 +52,12 @@ void        ui_set_gtk_check_menu_item_blocked_by_action_for_window(gint action_
                                                                     gint window_id,
                                                                     gboolean state);
 
-
-
-/* FIXME: is this still even used? */
 void        ui_menu_init_accelerators(GtkWidget *window);
 
+/* TODO: Remove and implement function to set via item ref */
 gboolean    ui_menu_remove_accel_via_vice_item(ui_menu_item_t *item);
+
+/* TODO: Remove and implement function to set via item ref */
 void        ui_menu_set_accel_via_vice_item(GtkWidget *item_gtk,
                                             ui_menu_item_t *item_vice);
 
@@ -127,8 +118,8 @@ ui_menu_item_t *ui_get_vice_menu_item_by_action(gint action_id);
 ui_menu_item_t *ui_get_vice_menu_item_by_action_for_window(gint action_id,
                                                            gint window_id);
 
-
 ui_menu_item_t *ui_get_vice_menu_item_by_name(const char *name);
 
 void ui_clear_vice_menu_item_hotkeys(void);
+
 #endif
