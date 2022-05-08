@@ -519,6 +519,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
     ui_menu_item_t *item_vice;
     GtkWidget *item_gtk;
     ui_menu_item_ref_t *ref;
+    GtkWidget *label;
 #ifdef HAVE_DEBUG_GTK3UI
     const char *action_name = ui_action_get_name(action_id);
 #endif
@@ -550,11 +551,18 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                                              PRIMARY_WINDOW);
 
             if (ref != NULL) {
+                /* TODO: refactor this a bit: */
                 item_vice = ref->item_vice;
+                item_gtk = ref->item_gtk3;
 
                 debug_gtk3("Removing old hotkey: label: %s, action: %s.", item_vice->label,
                         ui_action_get_name(item_vice->action_id));
+                /* remove accelerator from group */
                 ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
+                /* remove accelerator from item */
+                label = gtk_bin_get_child(GTK_BIN(item_gtk));
+                gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+                /* remove accelerator from table */
                 if (!remove_treeview_hotkey(accel)) {
                     /* since we found the menu item via the hotkey, the call
                      * shouldn't have failed */
@@ -576,8 +584,8 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 /* remove old accelerator */
                 ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
                 /* update vice menu item */
-                item_vice->keysym = hotkey_keysym;
-                item_vice->modifier = hotkey_mask & accepted_mods;
+  //              item_vice->keysym = hotkey_keysym;
+//                item_vice->modifier = hotkey_mask & accepted_mods;
                 ref->keysym = hotkey_keysym;
                 ref->modifier = hotkey_mask & accepted_mods;
                 /* now update the accelerator and closure with the updated
@@ -594,21 +602,22 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 
         case RESPONSE_CLEAR:
             debug_gtk3("Response ID %d: Clear '%s'", response_id, action_name);
-            item_vice = ui_get_vice_menu_item_by_action_for_window(action_id,
-                                                                   PRIMARY_WINDOW);
-            /* FIXME: also handle the x128 VDC window */
 
+            ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
+            /* FIXME: also handle the x128 VDC window */
 #if 0
             debug_gtk3("item_vice = %p, item_gtk = %p.",
                     (void*)item_vice, (void*)item_gtk);
 #endif
-            if (item_vice != NULL) {
-                debug_gtk3("Got vice item.");
+            if (ref != NULL) {
+                debug_gtk3("Got item ref.");
                 /* remove old accelerator */
-                ui_menu_remove_accel_via_vice_item(item_vice);
+                ui_menu_remove_accel_via_item_ref(ref);
                 /* update vice menu item */
-                item_vice->keysym = 0;
-                item_vice->modifier = 0;
+                ref->keysym = 0;
+                ref->modifier = 0;
+//                item_vice->keysym = 0;
+//                item_vice->modifier = 0;
                 /* update treeview */
                 update_treeview_hotkey(NULL);
             }
