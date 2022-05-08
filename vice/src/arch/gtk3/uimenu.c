@@ -673,10 +673,6 @@ gboolean ui_set_menu_item_hotkey_by_action_for_window(gint action_id,
 
     debug_gtk3("removing old accelerator from group");
     ui_menu_remove_accel(keysym, modifier);
-    /* TODO: remove later */
-    item_vice->keysym = keysym;
-    item_vice->modifier = modifier;
-
     ref->keysym = keysym;
     ref->modifier = modifier;
 
@@ -767,24 +763,17 @@ ui_menu_item_t* ui_get_vice_menu_item_by_hotkey(guint keysym,
 
 /** \brief  Clear hotkeys of all the menu items
  *
- * \todo:   Only clears the the menu declaration items' keysym and modifier,
- *          but doesn't remove any accelerators that might be active.
- *
- * Iterates all menu item declarations and sets `keysym` and `modifier` to 0.
+ * Iterates all menu item declarations and removes accelerators from both menu
+ * items and their references.
  */
 void ui_clear_vice_menu_item_hotkeys(void)
 {
     gint i = 0;
 
     for (i = 0; i < menu_ref_count; i++) {
-        ui_menu_item_ref_t *ref;
-        ui_menu_item_t *item_vice;
+        ui_menu_item_ref_t *ref = &menu_item_references[i];
 
-        ref = &menu_item_references[i];
-        item_vice = ref->item_vice;
-
-        item_vice->modifier = 0;
-        item_vice->keysym = 0;
+        ui_menu_remove_accel_via_item_ref(ref);
         ref->modifier = 0;
         ref->keysym = 0;
     }

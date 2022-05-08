@@ -583,9 +583,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 debug_gtk3("FOUND.");
                 /* remove old accelerator */
                 ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
-                /* update vice menu item */
-  //              item_vice->keysym = hotkey_keysym;
-//                item_vice->modifier = hotkey_mask & accepted_mods;
+                /* update item ref */
                 ref->keysym = hotkey_keysym;
                 ref->modifier = hotkey_mask & accepted_mods;
                 /* now update the accelerator and closure with the updated
@@ -613,11 +611,9 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 debug_gtk3("Got item ref.");
                 /* remove old accelerator */
                 ui_menu_remove_accel_via_item_ref(ref);
-                /* update vice menu item */
+                /* update menu item ref */
                 ref->keysym = 0;
                 ref->modifier = 0;
-//                item_vice->keysym = 0;
-//                item_vice->modifier = 0;
                 /* update treeview */
                 update_treeview_hotkey(NULL);
             }

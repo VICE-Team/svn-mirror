@@ -1372,6 +1372,8 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
  * \return  bool
  *
  * \note    errors are reported with log_message()
+ *
+ * \todo    Support two windows for x128
  */
 static bool parser_do_undef(const char *line, textfile_reader_t *reader)
 {
@@ -1379,7 +1381,7 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     const char *oldpos;
     GdkModifierType mask;
     guint keyval;
-    ui_menu_item_t *item;
+    ui_menu_item_ref_t *ref;
 
     s = skip_whitespace(line);
     if (*s == '\0') {
@@ -1408,17 +1410,18 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     }
 
     /* look up menu item by hotkey */
-    item = ui_get_vice_menu_item_by_hotkey(mask, keyval);
-    if (item != NULL) {
+    ref = ui_menu_item_ref_by_hotkey(mask, keyval, PRIMARY_WINDOW);
+    if (ref != NULL) {
         if (hotkeys_debug) {
             log_message(hotkeys_log,
                         "Hotkeys: %s:%ld: found menu item for hotkey: '%s'.",
                         textfile_reader_filename(reader),
                         textfile_reader_linenum(reader),
-                        item->label);
+                        ref->item_vice->label);
         }
-        item->keysym = 0;
-        item->modifier = 0;
+        ui_menu_remove_accel_via_item_ref(ref);
+        ref->keysym = 0;
+        ref->modifier = 0;
     } else {
         /* cannot use gtk_accelerator_name(): Gtk throws a fit about not having
          * a display and thus no GdkKeymap. :( */
@@ -1689,12 +1692,12 @@ bool ui_hotkeys_parse(const char *path)
  */
 char *ui_hotkeys_get_hotkey_string_for_action(gint action_id, gint window_id)
 {
-    ui_menu_item_t *item;
+    ui_menu_item_ref_t *ref;
     char *str = NULL;
 
-    item = ui_get_vice_menu_item_by_action_for_window(action_id, window_id);
-    if (item != NULL) {
-        str = gtk_accelerator_get_label(item->keysym, item->modifier);
+    ref = ui_menu_item_ref_by_action(action_id, window_id);
+    if (ref != NULL) {
+        str = gtk_accelerator_get_label(ref->keysym, ref->modifier);
         if (str != NULL) {
             /* make VICE take ownership */
             char *tmp = lib_strdup(str);

@@ -1656,16 +1656,17 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     /* set title */
     if (!mouse_grab) {
-        g_snprintf(title, 256, "VICE (%s)", machine_get_name());
+        g_snprintf(title, sizeof(title), "VICE (%s)", machine_get_name());
     } else {
-        ui_menu_item_t *item;
+        ui_menu_item_ref_t *ref;
 
-        item = ui_get_vice_menu_item_by_action_for_window(ACTION_MOUSE_GRAB_TOGGLE,
-                                                          PRIMARY_WINDOW);
-        gchar *name = gtk_accelerator_name(item->keysym, item->modifier);
+        ref = ui_menu_item_ref_by_action(ACTION_MOUSE_GRAB_TOGGLE,
+                                          PRIMARY_WINDOW);
+        gchar *name = gtk_accelerator_name(ref->keysym, ref->modifier);
 
-        g_snprintf(title, 256, "VICE (%s) (Use %s to disable mouse grab)",
-                machine_get_name(), name);
+        g_snprintf(title, sizeof(title),
+                   "VICE (%s) (Use %s to disable mouse grab)",
+                   machine_get_name(), name);
         g_free(name);
     }
 
