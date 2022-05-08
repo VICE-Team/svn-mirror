@@ -567,17 +567,19 @@ void ui_set_gtk_check_menu_item_blocked_by_action_for_window(gint action_id,
 }
 
 
-/** \brief  Remove accelerator from a menu item
+/** \brief  Remove accelerator from a menu item via item ref
  *
- * \param[in]   item    vice menu item
+ * \param[in]   ref     menu item reference
  *
- * \return  boolean
+ * \return  bool
  */
-gboolean ui_menu_remove_accel_via_vice_item(ui_menu_item_t *item)
+gboolean ui_menu_remove_accel_via_item_ref(ui_menu_item_ref_t *ref)
 {
-    return gtk_accel_group_disconnect_key(accel_group,
-                                          item->keysym,
-                                          item->modifier);
+    GtkWidget *label;
+
+    label = gtk_bin_get_child(GTK_BIN(ref->item_gtk3));
+    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+    return gtk_accel_group_disconnect_key(accel_group, ref->keysym, ref->modifier);
 }
 
 
@@ -596,6 +598,9 @@ gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier)
  * Using gtk_menu_item_add_accelerator() we lose the accelerators once we
  * hide the menu (fullscreen). With closures in an accelerator group we can
  * still trigger the handlers, even in fullscreen.
+ *
+ * \note    We can't use ref->item_gtk here since we also want to be able to
+ *          set an accelerator for popup menu items.
  *
  *
  * \param[in]   item_gtk3   Gtk menu item

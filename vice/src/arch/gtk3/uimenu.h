@@ -54,8 +54,7 @@ void        ui_set_gtk_check_menu_item_blocked_by_action_for_window(gint action_
 
 void        ui_menu_init_accelerators(GtkWidget *window);
 
-/* TODO: Remove and implement function to set via item ref */
-gboolean    ui_menu_remove_accel_via_vice_item(ui_menu_item_t *item);
+gboolean    ui_menu_remove_accel_via_item_ref(ui_menu_item_ref_t *ref);
 
 void        ui_menu_set_accel_via_item_ref(GtkWidget *item_gtk3,
                                            ui_menu_item_ref_t *ref);
