@@ -48,14 +48,6 @@
 
 #include "uimenu.h"
 
-
-/** \brief  Menu accelerator object
- */
-typedef struct ui_accel_data_s {
-    GtkWidget *widget;      /**< widget connected to the accelerator */
-    ui_menu_item_t *item;   /**< menu item connected to the accelerator */
-} ui_accel_data_t;
-
 /** \brief  Reference to the accelerator group
  */
 static GtkAccelGroup *accel_group = NULL;
@@ -249,50 +241,19 @@ GtkWidget *ui_menu_submenu_create(GtkWidget *bar, const char *label)
 }
 
 
-/** \brief  Constructor for accelerator data
- *
- * \param[in]   widget  widget for the accelerator data
- * \param[in]   item    menu item for the accelerator data
- *
- * \return  heap-allocated accelerator data (owned by VICE)
- */
-static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *item)
-{
-    ui_accel_data_t *accel_data = lib_malloc(sizeof(ui_accel_data_t));
-    accel_data->widget = widget;
-    accel_data->item = item;
-    return accel_data;
-}
-
-
-/** \brief  Destructor for accelerator data
- *
- * Triggered when disconnecting an accelerator from the accelerator group.
- *
- * \param[in,out]   data    accelerator data
- * \param[in]       closure closure (unused)
- */
-static void ui_accel_data_delete(gpointer data, GClosure *closure)
-{
-    if (data != NULL) {
-        lib_free(data);
-    }
-}
-
-
 /** \brief  Handler for the 'destroy' event of a menu item
  *
  * \param[in]       item        menu item
- * \param[in,out]   accel_data  accelator data (optional)
+ * \param[in,out]   unused      extra event data (unused)
  */
-static void on_menu_item_destroy(GtkWidget *item, gpointer accel_data)
+static void on_menu_item_destroy(GtkWidget *item, gpointer unused)
 {
     GtkAccelLabel *label;
-    guint keysym;
-    guint mask;
-
     label = GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(item)));
     if (label != NULL) {
+        guint keysym;
+        guint mask;
+
         gtk_accel_label_get_accel(label, &keysym, &mask);
         gtk_accel_group_disconnect_key(accel_group, keysym, mask);
     }
@@ -313,14 +274,16 @@ static void handle_accelerator(GtkAccelGroup *accel_grp,
                                GdkModifierType modifier,
                                gpointer user_data)
 {
-    ui_accel_data_t *accel_data = (ui_accel_data_t *)user_data;
+    ui_menu_item_ref_t *ref = user_data;
+    ui_menu_item_t *item_vice = ref->item_vice;
+    GtkWidget *item_gtk3 = ref->item_gtk3;
 
-    if (accel_data->item->type == UI_MENU_TYPE_ITEM_CHECK) {
+    if (item_vice->type == UI_MENU_TYPE_ITEM_CHECK) {
         /* check items get the 'resource' member as event data */
-        accel_data->item->callback(accel_data->widget, accel_data->item->resource);
+        item_vice->callback(item_gtk3, item_vice->resource);
     } else {
         /* other items get the 'data' member as event data */
-        accel_data->item->callback(accel_data->widget, accel_data->item->data);
+        item_vice->callback(item_gtk3, item_vice->data);
     }
 }
 
@@ -341,7 +304,6 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
     while (items[i].label != NULL || items[i].type >= 0) {
         GtkWidget *item = NULL;
         GtkWidget *submenu;
-        ui_accel_data_t *accel_data = NULL;
         gulong handler_id = 0;
 
         switch (items[i].type) {
@@ -484,48 +446,15 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
                 break;
         }
         if (item != NULL) {
-#if 0
-            if (items[i].keysym != 0 && items[i].callback != NULL) {
-
-                /* TODO: refactor to use ui_menu_set_accel_via_vice_item(),
-                 *       but copy the comments below to that function!!!
-                 */
-                GClosure *accel_closure;
-
-                /* Normally you would use gtk_widget_add_accelerator
-                 * here, but that will disable the accelerators if the
-                 * menu is hidden, which can be configured to happen
-                 * while in fullscreen. We instead create the closure
-                 * by hand, add it to the GtkAccelGroup, and update
-                 * the accelerator information. */
-                accel_data = ui_accel_data_new(item, &items[i]);
-                accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
-                                               accel_data,
-                                               ui_accel_data_delete);
-                if (items[i].unlocked) {
-                    gtk_accel_group_connect(accel_group, 0, 0,
-                                            GTK_ACCEL_MASK,
-                                            accel_closure);
-                } else {
-                    vice_locking_gtk_accel_group_connect(accel_group, 0, 0,
-                                                         GTK_ACCEL_MASK,
-                                                         accel_closure);
-                }
-                gtk_accel_label_set_accel(GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(item))),
-                                          items[i].keysym,
-                                          items[i].modifier);
-            }
-#endif
             gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-            /* the closure's callback doesn't trigger due to mysterious reasons,
-             * so we use the menu item to free the accelerator's data
-             *
-             * FIXME: This should no longer be required.
+
+            /* destroy handler to remove an accelerator from its accelerator
+             * group, should we decide to add/remove menu items during runtime.
              */
             g_signal_connect_unlocked(item,
                                       "destroy",
                                       G_CALLBACK(on_menu_item_destroy),
-                                      accel_data);
+                                      NULL);
 
             /* set signal handler ID of the 'activate' signal which we later
              * have to use to toggle the checkbox from the callback while
@@ -545,8 +474,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
                               "ResourceName",
                               items[i].resource);
 
-
-            /* add item to table of references */
+            /* add item to table of references if it triggers a UI action */
             if (items[i].action_id > ACTION_NONE) {
                 add_menu_item_ref(&items[i], item, handler_id, window_id);
             }
@@ -678,13 +606,9 @@ void ui_menu_set_accel_via_item_ref(GtkWidget *item_gtk3,
 {
     GtkWidget *child;
     GClosure *closure;
-    ui_accel_data_t *data;
     ui_menu_item_t *item_vice = ref->item_vice;
 
-    data = ui_accel_data_new(item_gtk3, item_vice);
-    closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
-                             data,
-                             ui_accel_data_delete);
+    closure = g_cclosure_new(G_CALLBACK(handle_accelerator), (gpointer)ref, NULL);
 
     if (item_vice->unlocked) {
         gtk_accel_group_connect(accel_group,
@@ -707,6 +631,18 @@ void ui_menu_set_accel_via_item_ref(GtkWidget *item_gtk3,
 }
 
 
+/** \brief  Set hotkey for item with a specific action ID and window ID
+ *
+ * Look up menu item for \a action_id and \a window_id and set up an accelerator
+ * with a GClosure to trigger the callback in fullscreen mode as well.
+ *
+ * \param[in]   action_id   action ID
+ * \param[in]   window_id   window ID (#PRIMARY_WINDOW or #SECONDARY_WINDOW)
+ * \param[in]   keysym      Gdk keysym
+ * \param[in]   modifier    Gdk modifier mask
+ *
+ * \return  `TRUE` on success
+ */
 gboolean ui_set_menu_item_hotkey_by_action_for_window(gint action_id,
                                                       gint window_id,
                                                       guint keysym,
@@ -717,7 +653,6 @@ gboolean ui_set_menu_item_hotkey_by_action_for_window(gint action_id,
     GtkWidget *item_gtk3;
     GtkWidget *child;
     GClosure *accel_closure;
-    ui_accel_data_t *accel_data;
 
     debug_gtk3("setting action %d for window %d, keysym %u, mods %u",
                 action_id, window_id, keysym, modifier);
@@ -742,10 +677,9 @@ gboolean ui_set_menu_item_hotkey_by_action_for_window(gint action_id,
 
     debug_gtk3("Setting new accelerator");
 
-    accel_data = ui_accel_data_new(item_gtk3, item_vice);
     accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
-                                   accel_data,
-                                   ui_accel_data_delete);
+                                   (gpointer)ref,
+                                   NULL);
 
     if (item_vice->unlocked) {
         gtk_accel_group_connect(accel_group,
@@ -768,6 +702,16 @@ gboolean ui_set_menu_item_hotkey_by_action_for_window(gint action_id,
 }
 
 
+/** \brief  Set hotkey for menu item with specific UI action ID
+ *
+ * Sets the hotkey for both windows in case of x128.
+ *
+ * \param[in]   action_id   action ID
+ * \param[in]   keysym      Gdk keysym
+ * \param[in]   modifier    Gdk modifier mask
+ *
+ * \return  `TRUE` on success
+ */
 gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
                                            guint keysym,
                                            GdkModifierType modifier)
