@@ -57,9 +57,8 @@ void        ui_menu_init_accelerators(GtkWidget *window);
 /* TODO: Remove and implement function to set via item ref */
 gboolean    ui_menu_remove_accel_via_vice_item(ui_menu_item_t *item);
 
-/* TODO: Remove and implement function to set via item ref */
-void        ui_menu_set_accel_via_vice_item(GtkWidget *item_gtk,
-                                            ui_menu_item_t *item_vice);
+void        ui_menu_set_accel_via_item_ref(GtkWidget *item_gtk3,
+                                           ui_menu_item_ref_t *ref);
 
 /*
  * New API for menu items/hotkeys

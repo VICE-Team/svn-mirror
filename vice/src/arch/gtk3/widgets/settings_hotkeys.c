@@ -582,7 +582,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 ref->modifier = hotkey_mask & accepted_mods;
                 /* now update the accelerator and closure with the updated
                  * vice menu item */
-                ui_menu_set_accel_via_vice_item(item_gtk, item_vice);
+                ui_menu_set_accel_via_item_ref(item_gtk, ref);
                 /* update treeview */
                 update_treeview_hotkey(accel);
             } else {

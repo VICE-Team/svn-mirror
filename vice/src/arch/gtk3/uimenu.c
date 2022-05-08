@@ -659,45 +659,51 @@ gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier)
 }
 
 
-/** \brief  Set accelerator on \a item_gtk using \a item_vice
+/** \brief  Set menu item accelerator via menu item reference
+ *
+ * Set a GtkMenuItem accelerator via an element of the menu item references
+ * table.
  *
  * Sets up a closure that triggers a menu item's handler.
  * Using gtk_menu_item_add_accelerator() we lose the accelerators once we
  * hide the menu (fullscreen). With closures in an accelerator group we can
  * still trigger the handlers, even in fullscreen.
  *
- * \param[in]   item_gtk    Gtk menu item
- * \param[in]   item_vice   VICE menu item
+ *
+ * \param[in]   item_gtk3   Gtk menu item
+ * \param[in]   ref         menu item reference
  */
-void ui_menu_set_accel_via_vice_item(GtkWidget *item_gtk,
-                                     ui_menu_item_t *item_vice)
+void ui_menu_set_accel_via_item_ref(GtkWidget *item_gtk3,
+                                    ui_menu_item_ref_t *ref)
 {
     GtkWidget *child;
-    GClosure *accel_closure;
-    ui_accel_data_t *accel_data;
+    GClosure *closure;
+    ui_accel_data_t *data;
+    ui_menu_item_t *item_vice = ref->item_vice;
 
-    accel_data = ui_accel_data_new(item_gtk, item_vice);
-    accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
-                                   accel_data,
-                                   ui_accel_data_delete);
+    data = ui_accel_data_new(item_gtk3, item_vice);
+    closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
+                             data,
+                             ui_accel_data_delete);
+
     if (item_vice->unlocked) {
         gtk_accel_group_connect(accel_group,
-                                item_vice->keysym,
-                                item_vice->modifier,
+                                ref->keysym,
+                                ref->modifier,
                                 GTK_ACCEL_MASK,
-                                accel_closure);
+                                closure);
     } else {
         vice_locking_gtk_accel_group_connect(accel_group,
-                                             item_vice->keysym,
-                                             item_vice->modifier,
+                                             ref->keysym,
+                                             ref->modifier,
                                              GTK_ACCEL_MASK,
-                                             accel_closure);
+                                             closure);
     }
 
-    child = gtk_bin_get_child(GTK_BIN(item_gtk));
+    child = gtk_bin_get_child(GTK_BIN(item_gtk3));
     gtk_accel_label_set_accel(GTK_ACCEL_LABEL(child),
-                              item_vice->keysym,
-                              item_vice->modifier);
+                              ref->keysym,
+                              ref->modifier);
 }
 
 
