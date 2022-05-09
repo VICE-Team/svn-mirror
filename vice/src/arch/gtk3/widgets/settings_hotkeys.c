@@ -515,19 +515,16 @@ static gboolean remove_treeview_hotkey(const gchar *accel)
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
     gchar *accel;
-    int action_id = GPOINTER_TO_INT(data);
-    ui_menu_item_t *item_vice;
-    GtkWidget *item_gtk;
-    ui_menu_item_ref_t *ref;
     GtkWidget *label;
-#ifdef HAVE_DEBUG_GTK3UI
-    const char *action_name = ui_action_get_name(action_id);
-#endif
+    ui_menu_item_ref_t *ref;
+    int action_id = GPOINTER_TO_INT(data);
 
     switch (response_id) {
 
         case GTK_RESPONSE_ACCEPT:
-            debug_gtk3("Response ID %d: Accept '%s'", response_id, action_name);
+            debug_gtk3("Response ID %d: Accept '%s'",
+                       response_id,
+                       ui_action_get_name(action_id));
 
             if (hotkey_keysym == 0) {
                 debug_gtk3("User clicked accepted/pressed enter without having set a hotkey.");
@@ -538,7 +535,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             debug_gtk3("Setting accelerator: %s.", accel);
 
             debug_gtk3("hotkey keysym: %04x, mask: %04x.",
-                    hotkey_keysym, hotkey_mask);
+                       hotkey_keysym, hotkey_mask);
 
             /* lookup item for new hotkey and remove the hotkey
              * from that action/menu item */
@@ -549,18 +546,15 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             ref = ui_menu_item_ref_by_hotkey(hotkey_mask & accepted_mods,
                                              hotkey_keysym,
                                              PRIMARY_WINDOW);
-
             if (ref != NULL) {
                 /* TODO: refactor this a bit: */
-                item_vice = ref->item_vice;
-                item_gtk = ref->item_gtk3;
-
-                debug_gtk3("Removing old hotkey: label: %s, action: %s.", item_vice->label,
-                        ui_action_get_name(item_vice->action_id));
+                debug_gtk3("Removing old hotkey: label: %s, action: %s.",
+                           ref->item_vice->label,
+                           ui_action_get_name(ref->item_vice->action_id));
                 /* remove accelerator from group */
                 ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
                 /* remove accelerator from item */
-                label = gtk_bin_get_child(GTK_BIN(item_gtk));
+                label = gtk_bin_get_child(GTK_BIN(ref->item_gtk3));
                 gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
                 /* remove accelerator from table */
                 if (!remove_treeview_hotkey(accel)) {
@@ -576,9 +570,6 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             debug_gtk3("Looking up action '%s'.", action_name);
             ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
             if (ref != NULL) {
-                item_vice = ref->item_vice;
-                item_gtk = ref->item_gtk3;
-
                 /* update vice item and gtk item */
                 debug_gtk3("FOUND.");
                 /* remove old accelerator */
@@ -588,7 +579,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 ref->modifier = hotkey_mask & accepted_mods;
                 /* now update the accelerator and closure with the updated
                  * vice menu item */
-                ui_menu_set_accel_via_item_ref(item_gtk, ref);
+                ui_menu_set_accel_via_item_ref(ref->item_gtk3, ref);
                 /* update treeview */
                 update_treeview_hotkey(accel);
             } else {
