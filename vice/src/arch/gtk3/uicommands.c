@@ -135,8 +135,8 @@ gboolean ui_action_toggle_controlport_swap(void)
 
     controlport_swapped = !controlport_swapped;
 
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
-                                                 controlport_swapped);
+    ui_set_check_menu_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
+                                             controlport_swapped);
     return TRUE;
 }
 
@@ -157,8 +157,8 @@ gboolean ui_action_toggle_keyset_joystick(void)
     resources_get_int("KeySetEnable", &enable);
     resources_set_int("KeySetEnable", !enable);
 
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_KEYSET_JOYSTICK_TOGGLE,
-                                                 !enable);
+    ui_set_check_menu_item_blocked_by_action(ACTION_KEYSET_JOYSTICK_TOGGLE,
+                                             !enable);
 
     return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }
@@ -201,7 +201,7 @@ gboolean ui_action_toggle_mouse_grab(void)
     window = ui_get_active_window();
     gtk_window_set_title(window, title);
 
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE, mouse);
+    ui_set_check_menu_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE, mouse);
 
     return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }
@@ -249,7 +249,7 @@ static void update_cpu_radio_buttons(void)
 #if 0
     debug_gtk3("Selecting action '%s'.", action);
 #endif
-    ui_set_gtk_check_menu_item_blocked_by_action(action, TRUE);
+    ui_set_check_menu_item_blocked_by_action(action, TRUE);
 }
 
 
@@ -280,7 +280,7 @@ static void update_fps_radio_buttons(void)
 #if 0
     debug_gtk3("Selecting action '%s'.", action);
 #endif
-    ui_set_gtk_check_menu_item_blocked_by_action(action, TRUE);
+    ui_set_check_menu_item_blocked_by_action(action, TRUE);
 }
 
 

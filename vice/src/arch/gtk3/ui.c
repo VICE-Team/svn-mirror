@@ -1025,8 +1025,7 @@ gboolean ui_action_toggle_fullscreen(void)
     enabled = ui_is_fullscreen();
     ui_set_fullscreen_enabled(!enabled);
 
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_TOGGLE,
-                                                 enabled);
+    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_TOGGLE, enabled);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -1039,8 +1038,8 @@ gboolean ui_action_toggle_fullscreen(void)
 gboolean ui_action_toggle_fullscreen_decorations(void)
 {
     fullscreen_has_decorations = !fullscreen_has_decorations;
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
-                                                 fullscreen_has_decorations);
+    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
+                                             fullscreen_has_decorations);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -1849,8 +1848,8 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* FIXME:   This is apparently too early in the boot sequence for -warp
      *          to take effect.
      */
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
-                                                 vsync_get_warp_mode());
+    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+                                             vsync_get_warp_mode());
 
     if (machine_class != VICE_MACHINE_VSID) {
 
@@ -2101,7 +2100,7 @@ int ui_init_finalize(void)
                        canvas->videoconfig->chip_name,
                        show_statusbar ? "ON" : "OFF");
             ui_statusbar_set_visible_for_window(window, show_statusbar);
-            ui_set_gtk_check_menu_item_blocked_by_action_for_window(
+            ui_set_check_menu_item_blocked_by_action_for_window(
                     ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, PRIMARY_WINDOW);
 
             /* if any of the following is INT_MIN it means we don't want to restore
@@ -2129,7 +2128,7 @@ int ui_init_finalize(void)
                            canvas->videoconfig->chip_name,
                            show_statusbar ? "ON" : "OFF");
                 ui_statusbar_set_visible_for_window(window, show_statusbar);
-                ui_set_gtk_check_menu_item_blocked_by_action_for_window(
+                ui_set_check_menu_item_blocked_by_action_for_window(
                         ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, SECONDARY_WINDOW);
 
                 if (!show_statusbar) {
@@ -2491,8 +2490,8 @@ void ui_pause_toggle(void)
 gboolean ui_action_toggle_pause(void)
 {
     ui_pause_toggle();
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
-                                                 (gboolean)ui_pause_active());
+    ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+                                             (gboolean)ui_pause_active());
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+P into the emu */
 }
@@ -2506,8 +2505,8 @@ gboolean ui_action_toggle_pause(void)
 gboolean ui_action_toggle_warp(void)
 {
     vsync_set_warp_mode(!vsync_get_warp_mode());
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
-                                                 (gboolean)vsync_get_warp_mode());
+    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+                                             (gboolean)vsync_get_warp_mode());
 
     return TRUE;
 }
@@ -2527,8 +2526,8 @@ gboolean ui_action_advance_frame(void)
         vsyncarch_advance_frame();
     } else {
         ui_pause_enable();
-        ui_set_gtk_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
-                                                     (gboolean)ui_pause_active());
+        ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+                                                 (gboolean)ui_pause_active());
     }
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */

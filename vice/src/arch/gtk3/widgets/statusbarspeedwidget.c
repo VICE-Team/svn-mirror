@@ -256,7 +256,7 @@ GtkWidget *speed_menu_popup_create(void)
 
     /* pause */
     item = gtk_check_menu_item_new_with_label("Pause emulation");
-    ui_set_gtk_menu_item_accel_label(item, ACTION_PAUSE_TOGGLE);
+    ui_set_menu_item_accel_label(item, ACTION_PAUSE_TOGGLE);
     if (ui_pause_active()) {
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     }
@@ -265,14 +265,14 @@ GtkWidget *speed_menu_popup_create(void)
 
     /* advance frame */
     item = gtk_menu_item_new_with_label("Advance frame");
-    ui_set_gtk_menu_item_accel_label(item, ACTION_ADVANCE_FRAME);
+    ui_set_menu_item_accel_label(item, ACTION_ADVANCE_FRAME);
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "activate", G_CALLBACK(on_advance_frame_activate),
             NULL);
 
     /* enable warp mode */
     item = gtk_check_menu_item_new_with_label("Warp mode");
-    ui_set_gtk_menu_item_accel_label(item, ACTION_WARP_MODE_TOGGLE);
+    ui_set_menu_item_accel_label(item, ACTION_WARP_MODE_TOGGLE);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)vsync_get_warp_mode());
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "toggled", G_CALLBACK(on_warp_toggled), NULL);
