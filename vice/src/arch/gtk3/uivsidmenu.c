@@ -113,11 +113,11 @@ static ui_menu_item_t reset_submenu[] = {
     { "Soft reset", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_RESET_SOFT,
       ui_machine_reset_callback, NULL, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
-      GDK_KEY_F9, VICE_MOD_MASK, true },
+      true },
     { "Hard reset", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_RESET_HARD,
       ui_machine_reset_callback, NULL, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
-      GDK_KEY_F12, VICE_MOD_MASK, true },
+      true },
 
     UI_MENU_TERMINATOR
 };
@@ -129,7 +129,7 @@ static ui_menu_item_t file_menu[] = {
     { "Load PSID file ...", UI_MENU_TYPE_ITEM_ACTION,
       0,
       uisidattach_show_dialog, NULL, NULL,
-      GDK_KEY_L, VICE_MOD_MASK, true },
+      true },
 
     UI_MENU_SEPARATOR,
 
@@ -139,12 +139,12 @@ static ui_menu_item_t file_menu[] = {
     { "Record sound file ...", UI_MENU_TYPE_ITEM_ACTION,
       0,
       ui_media_dialog_show, NULL, NULL,
-      GDK_KEY_R, VICE_MOD_MASK|GDK_SHIFT_MASK, false },
+      false },
 
     { "Stop sound recording", UI_MENU_TYPE_ITEM_ACTION,
       0,
       ui_media_stop_recording, NULL, NULL,
-      GDK_KEY_S, VICE_MOD_MASK|GDK_SHIFT_MASK, false },
+      false },
 
     UI_MENU_SEPARATOR,
 
@@ -152,12 +152,6 @@ static ui_menu_item_t file_menu[] = {
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
       0,
       ui_monitor_activate_callback, NULL, NULL,
-#ifdef MACOS_COMPILE
-      /* use Command-Option-M on Mac */
-      GDK_KEY_M, VICE_MOD_MASK|GDK_MOD1_MASK,
-#else
-      GDK_KEY_H, VICE_MOD_MASK,
-#endif
       false },
 
     UI_MENU_SEPARATOR,
@@ -165,14 +159,14 @@ static ui_menu_item_t file_menu[] = {
     { "Reset", UI_MENU_TYPE_SUBMENU,
       0,
       NULL, NULL, reset_submenu,
-      0, 0, false },
+      false },
 
     UI_MENU_SEPARATOR,
 
     { "Exit player", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_QUIT,
       ui_close_callback, NULL, NULL,
-      GDK_KEY_Q, VICE_MOD_MASK, true },
+      true },
 
     UI_MENU_TERMINATOR
 };
@@ -197,7 +191,7 @@ static ui_menu_item_t settings_menu[] = {
     { "Override PSID settings", UI_MENU_TYPE_ITEM_CHECK,
       0,
       ui_toggle_resource, (void*)"PSIDKeepEnv", NULL,
-      0, 0, false },
+      false },
 
     UI_MENU_TERMINATOR
 };
@@ -210,25 +204,25 @@ static ui_menu_item_t debug_menu[] = {
     { "Trace mode...", UI_MENU_TYPE_ITEM_ACTION,
       0,
       ui_debug_trace_mode_dialog_show, NULL, NULL,
-      0, 0, false },
+      false },
 
     UI_MENU_SEPARATOR,
 
     { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK,
       0,
       ui_toggle_resource, (void*)"MainCPU_TRACE", NULL,
-      0, 0, false },
+      false },
 
     UI_MENU_SEPARATOR,
 
     { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_DEBUG_AUTOPLAYBACK_FRAMES,
       ui_debug_playback_frames_dialog_show, NULL, NULL,
-      0, 0, false },
+      false },
     { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
       0,
       ui_toggle_resource, (void*)"DoCoreDump", NULL,
-      0, 0, false },
+      false },
 
     UI_MENU_TERMINATOR
 };
@@ -241,19 +235,19 @@ static ui_menu_item_t help_menu[] = {
     { "Browse manual", UI_MENU_TYPE_ITEM_ACTION,
       0,
       ui_open_manual_callback, NULL, NULL,
-      0, 0, true },
+      true },
     { "Command line options ...", UI_MENU_TYPE_ITEM_ACTION,
       0,
       uicmdline_dialog_show, NULL, NULL,
-      0, 0, true },
+      true },
     { "Compile time features ...", UI_MENU_TYPE_ITEM_ACTION,
       0,
       uicompiletimefeatures_dialog_show, NULL, NULL,
-      0, 0, true },
+      true },
     { "About VICE", UI_MENU_TYPE_ITEM_ACTION,
       0,
       ui_about_dialog_callback, NULL, NULL,
-      0, 0, true },
+      true },
 
     UI_MENU_TERMINATOR
 };
