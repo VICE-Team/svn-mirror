@@ -131,20 +131,6 @@ typedef struct ui_menu_item_s {
      */
     void *data;
 
-    /** \brief  Gdk accelerator keysym
-     *
-     * Gdk keysym value, set by the hotkeys code.
-     *
-     * \see     /usr/include/gtk-3.0/gdk/gdkkeysyms.h
-     */
-    guint keysym;
-
-    /** \brief  Gdk modifier mask
-     *
-     * Bitmask containing Gdk modifier masks, set by the hotkeys code.
-     */
-    GdkModifierType modifier;
-
     /** \brief  Hold VICE mainlock
      *
      * Determines whether the callback should be called while holding the VICE
@@ -157,12 +143,12 @@ typedef struct ui_menu_item_s {
 
 /** \brief  Terminator of a menu items list
  */
-#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, 0, NULL, NULL, NULL, 0, 0 }
+#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, 0, NULL, NULL, NULL, false }
 
 
 /** \brief  Menu items separator
  */
-#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, 0, NULL, NULL, NULL, 0, 0 }
+#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, 0, NULL, NULL, NULL, false }
 
 
 /** \brief  Platform-dependent accelerator key defines
