@@ -1812,7 +1812,6 @@ bool ui_hotkeys_export(const char *path)
     for (ref_index = 0; ref_index < ref_count; ref_index++) {
         ui_menu_item_ref_t *ref;
         ui_menu_item_t *item_vice;
-        GtkWidget *item_gtk3;
 
         ref = ui_menu_item_ref_by_index(ref_index);
         /* don't export the hotkeys twice in x128 */
@@ -1820,7 +1819,6 @@ bool ui_hotkeys_export(const char *path)
             continue;
         }
         item_vice = ref->item_vice;
-        item_gtk3 = ref->item_gtk3;
 
         if (item_vice->action_id > ACTION_NONE && ref->keysym != 0) {
             gchar *accel;
