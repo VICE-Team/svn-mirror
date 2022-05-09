@@ -567,7 +567,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             }
 
 
-            debug_gtk3("Looking up action '%s'.", action_name);
+            debug_gtk3("Looking up action '%s'.", ui_action_get_name(action_id));
             ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
             if (ref != NULL) {
                 /* update vice item and gtk item */
@@ -590,7 +590,8 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             break;
 
         case RESPONSE_CLEAR:
-            debug_gtk3("Response ID %d: Clear '%s'", response_id, action_name);
+            debug_gtk3("Response ID %d: Clear '%s'",
+                       response_id, ui_action_get_name(action_id));
 
             ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
             /* FIXME: also handle the x128 VDC window */
