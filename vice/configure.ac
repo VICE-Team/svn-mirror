@@ -244,6 +244,10 @@ dnl C++ warnings implied by other settings but explicitly disabled:
 dnl     -Waddress-of-packed-member  (novte warnings)
 dnl     -Wchar-subscripts           (novte warnings)
 dnl
+dnl -Wunused-but-set-variable is enabled by -Wall in GCC >= 4.6 but doesn't
+dnl exist in clang < 13.0. clang-tidy implements this check though, so our
+dnl Github code analysis runner should find these issues pre-clang 13.
+dnl
 m4_foreach([flag],
            [[-W],
             [-Wall],
@@ -264,7 +268,8 @@ m4_foreach([flag],
             [-fdiagnostics-absolute-paths],
             [-Wshorten-64-to-32],
             [-Wdiscarded-qualifiers],
-            [-Wno-unknown-pragmas]],
+            [-Wno-unknown-pragmas],
+            [-Wunused-but-set-variable]],
            [TEST_FLAG=flag
             VICE_CFLAG_REQUEST([$TEST_FLAG])
            ])
