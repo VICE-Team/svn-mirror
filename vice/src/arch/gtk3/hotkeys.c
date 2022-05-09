@@ -1214,7 +1214,7 @@ static bool parser_do_clear(const char *line, textfile_reader_t *reader)
                     textfile_reader_filename(reader),
                     textfile_reader_linenum(reader));
     }
-    ui_clear_vice_menu_item_hotkeys();
+    ui_clear_menu_hotkeys();
     return true;
 }
 
@@ -1410,14 +1410,14 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     }
 
     /* look up menu item by hotkey */
-    ref = ui_menu_item_ref_by_hotkey(mask, keyval, PRIMARY_WINDOW);
+    ref = ui_menu_item_ref_by_hotkey(PRIMARY_WINDOW, keyval, mask);
     if (ref != NULL) {
         if (hotkeys_debug) {
             log_message(hotkeys_log,
                         "Hotkeys: %s:%ld: found menu item for hotkey: '%s'.",
                         textfile_reader_filename(reader),
                         textfile_reader_linenum(reader),
-                        ref->item_vice->label);
+                        ref->decl->label);
         }
         ui_menu_remove_accel_via_item_ref(ref);
         ref->keysym = 0;
@@ -1811,16 +1811,16 @@ bool ui_hotkeys_export(const char *path)
     ref_count = ui_menu_item_ref_count();
     for (ref_index = 0; ref_index < ref_count; ref_index++) {
         ui_menu_item_ref_t *ref;
-        ui_menu_item_t *item_vice;
+        ui_menu_item_t *decl;
 
         ref = ui_menu_item_ref_by_index(ref_index);
         /* don't export the hotkeys twice in x128 */
         if (ref->window_id != PRIMARY_WINDOW) {
             continue;
         }
-        item_vice = ref->item_vice;
+        decl = ref->decl;
 
-        if (item_vice->action_id > ACTION_NONE && ref->keysym != 0) {
+        if (decl->action_id > ACTION_NONE && ref->keysym != 0) {
             gchar *accel;
             int result;
 
@@ -1831,7 +1831,7 @@ bool ui_hotkeys_export(const char *path)
 
                 hotkey = parser_strsubst(accel, "Primary", PRIMARY_REPLACEMENT);
                 g_free(accel);
-                name = ui_action_get_name(item_vice->action_id);
+                name = ui_action_get_name(decl->action_id);
 
                 result = fprintf(fp, "%-30s  %s\n", name, hotkey);
                 if (result < 0) {

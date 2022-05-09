@@ -168,15 +168,17 @@ typedef struct ui_menu_item_s {
  * data and handlers.
  */
 typedef struct ui_menu_item_ref_s {
-    ui_menu_item_t *item_vice;      /**< reference to the initialization data */
-    GtkWidget *     item_gtk3;      /**< reference to the item in the Gtk menu
-                                         structure */
-    gulong          handler_id;     /**< ID of the 'activate' signal handler */
-    gint            window_id;      /**< index of the menu item's GtkWindow
-                                         in #ui_resources.window_widget[],
-                                         PRIMARY_WINDOW or SECONDARY_WINDOW */
-    guint           keysym;         /**< hotkey Gdk keysym */
-    GdkModifierType modifier;       /**< hotkey Gdk modifiers */
+    ui_menu_item_t *decl;       /**< reference to menu item initialization
+                                     data */
+    GtkWidget *     item;       /**< reference to the runtime Gtk menu item */
+    gulong          handler_id; /**< ID of the 'activate' signal handler */
+    gint            window_id;  /**< index of the menu item's GtkWindow in
+                                     #ui_resources.window_widget[]
+                                     (#PRIMARY_WINDOW or #SECONDARY_WINDOW) */
+    guint           keysym;     /**< hotkey Gdk keysym
+                                     \see /usr/include/gtk-3.0/gdk/gdkkeysyms.h
+                                 */
+    GdkModifierType modifier;   /**< hotkey Gdk modifiers mask */
 } ui_menu_item_ref_t;
 
 #endif

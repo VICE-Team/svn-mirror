@@ -252,8 +252,8 @@ static GtkListStore *create_hotkeys_model(void)
         char *hotkey;
 
         /* is the action present in the current menu structure? */
-        item = ui_get_gtk_menu_item_by_action_for_window(action->id,
-                                                         PRIMARY_WINDOW);
+        item = ui_get_menu_item_by_action_for_window(action->id,
+                                                     PRIMARY_WINDOW);
         if (item != NULL) {
             /* FIXME:   We're always using the primary window, but if we decide
              *          to have separate hotkeys for the x128 windows, this must
@@ -543,18 +543,18 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
              *      flag, so we mask out any reserved bits:
              * TODO: Better do the masking out in the called function */
 
-            ref = ui_menu_item_ref_by_hotkey(hotkey_mask & accepted_mods,
+            ref = ui_menu_item_ref_by_hotkey(PRIMARY_WINDOW,
                                              hotkey_keysym,
-                                             PRIMARY_WINDOW);
+                                             hotkey_mask & accepted_mods);
             if (ref != NULL) {
                 /* TODO: refactor this a bit: */
                 debug_gtk3("Removing old hotkey: label: %s, action: %s.",
-                           ref->item_vice->label,
-                           ui_action_get_name(ref->item_vice->action_id));
+                           ref->decl->label,
+                           ui_action_get_name(ref->decl->action_id));
                 /* remove accelerator from group */
                 ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
                 /* remove accelerator from item */
-                label = gtk_bin_get_child(GTK_BIN(ref->item_gtk3));
+                label = gtk_bin_get_child(GTK_BIN(ref->item));
                 gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
                 /* remove accelerator from table */
                 if (!remove_treeview_hotkey(accel)) {
@@ -579,7 +579,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 ref->modifier = hotkey_mask & accepted_mods;
                 /* now update the accelerator and closure with the updated
                  * vice menu item */
-                ui_menu_set_accel_via_item_ref(ref->item_gtk3, ref);
+                ui_menu_set_accel_via_item_ref(ref->item, ref);
                 /* update treeview */
                 update_treeview_hotkey(accel);
             } else {
