@@ -38,7 +38,7 @@
  */
 #ifdef MACOS_COMPILE
 # define VHK_PREFIX         "gtk3-hotkeys-mac"
-# define VHK_PREFIX_VSDID   "gtk3-vsid-hotkeys-mac"
+# define VHK_PREFIX_VSID    "gtk3-vsid-hotkeys-mac"
 #else
 # define VHK_PREFIX         "gtk3-hotkeys"
 # define VHK_PREFIX_VSID    "gtk3-vsid-hotkeys"
