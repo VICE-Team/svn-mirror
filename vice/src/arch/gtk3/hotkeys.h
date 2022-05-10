@@ -37,9 +37,11 @@
 /** \brief  Name of Gtk3 main hotkeys files
  */
 #ifdef MACOS_COMPILE
-# define VHK_PREFIX "gtk3-hotkeys-mac"
+# define VHK_PREFIX         "gtk3-hotkeys-mac"
+# define VHK_PREFIX_VSDID   "gtk3-vsid-hotkeys-mac"
 #else
-# define VHK_PREFIX "gtk3-hotkeys"
+# define VHK_PREFIX         "gtk3-hotkeys"
+# define VHK_PREFIX_VSID    "gtk3-vsid-hotkeys"
 #endif
 
 /** \brief  Extension of Gtk3 hotkeys files
@@ -51,7 +53,11 @@
 
 /** \brief  Filename of default Gtk3 hotkeys files
  */
-#define VHK_DEFAULT_NAME    VHK_PREFIX VHK_EXT
+#define VHK_DEFAULT_NAME        VHK_PREFIX VHK_EXT
+
+/** \brief  Filename of default Gtk3 VSID hotkeys file
+ */
+#define VHK_DEFAULT_NAME_VSID   VHK_PREFIX_VSID VHK_EXT
 
 
 /** \brief  Accepted GDK modifiers for hotkeys

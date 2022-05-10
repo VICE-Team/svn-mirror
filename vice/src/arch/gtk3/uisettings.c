@@ -865,6 +865,9 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
     { "HVSC",
       "hvsc",
       hvsc_settings_widget_create, NULL },
+    { "Hotkeys",
+      "hotkeys",
+      settings_hotkeys_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };

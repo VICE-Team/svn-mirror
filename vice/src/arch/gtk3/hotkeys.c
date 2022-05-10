@@ -348,11 +348,23 @@ int ui_hotkeys_cmdline_options_init(void)
  */
 void ui_hotkeys_load_default(void)
 {
-    log_message(hotkeys_log, "Hotkeys: Parsing %s hotkeys file:", machine_name);
-    if (!ui_hotkeys_parse(VHK_DEFAULT_NAME)) {
-        log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
+    bool result;
+
+    /* kludge:  We use `machine_name` to determine where to load the default
+     *          hotkeys from, and `machine_name` is C64 for VSID, so we load
+     *          from ${DATADIR}/C64 for vsid.
+     */
+    if (machine_class == VICE_MACHINE_VSID) {
+        log_message(hotkeys_log, "Hotkeys: Parsing VSID hotkeys file:");
+        result = ui_hotkeys_parse(VHK_DEFAULT_NAME_VSID);
     } else {
+        log_message(hotkeys_log, "Hotkeys: Parsing %s hotkeys file:", machine_name);
+        result = ui_hotkeys_parse(VHK_DEFAULT_NAME);
+    }
+    if (result) {
         log_message(hotkeys_log, "Hotkeys: OK.");
+    } else {
+        log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
     }
 }
 

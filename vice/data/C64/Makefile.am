@@ -60,6 +60,8 @@ gtk3_keymaps = \
 gtk3_hotkeys = \
 	gtk3-hotkeys.vhk \
 	gtk3-hotkeys-mac.vhk \
+	gtk3-vsid-hotkeys.vhk \
+	gtk3-vsid-hotkeys-mac.vhk \
 	gtk3-winvice-legacy.vhk
 
 sdl_keymaps = \
