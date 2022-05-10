@@ -2676,6 +2676,42 @@ system/window manager. Mappings using @code{<Alt>} or
 @item 
 @code{pause-toggle}
  @tab Toggle Pause
+@item
+@code{psid-load}
+ @tab Load PSID file
+@item
+@code{psid-override-toggle}
+ @tab Override PSID settings
+@item
+@code{psid-subtune-1}
+ @tab Play PSID subtune #1
+@item
+@code{psid-subtune-2}
+ @tab Play PSID subtune #2
+@item
+@code{psid-subtune-3}
+ @tab Play PSID subtune #3
+@item
+@code{psid-subtune-4}
+ @tab Play PSID subtune #4
+@item
+@code{psid-subtune-5}
+ @tab Play PSID subtune #5
+@item
+@code{psid-subtune-6}
+ @tab Play PSID subtune #6
+@item
+@code{psid-subtune-7}
+ @tab Play PSID subtune #7
+@item
+@code{psid-subtune-8}
+ @tab Play PSID subtune #8
+@item
+@code{psid-subtune-9}
+ @tab Play PSID subtune #9
+@item
+@code{psid-subtune-10}
+ @tab Play PSID subtune #10
 @item 
 @code{quit}
  @tab Quit emulator

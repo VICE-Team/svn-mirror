@@ -127,7 +127,7 @@ static ui_menu_item_t reset_submenu[] = {
  */
 static ui_menu_item_t file_menu[] = {
     { "Load PSID file ...", UI_MENU_TYPE_ITEM_ACTION,
-      0,
+      ACTION_PSID_LOAD,
       uisidattach_show_dialog, NULL, NULL,
       true },
 
@@ -137,12 +137,12 @@ static ui_menu_item_t file_menu[] = {
      *      contains sound recording options
      */
     { "Record sound file ...", UI_MENU_TYPE_ITEM_ACTION,
-      0,
+      ACTION_MEDIA_RECORD,
       ui_media_dialog_show, NULL, NULL,
       false },
 
     { "Stop sound recording", UI_MENU_TYPE_ITEM_ACTION,
-      0,
+      ACTION_MEDIA_STOP,
       ui_media_stop_recording, NULL, NULL,
       false },
 
@@ -150,7 +150,7 @@ static ui_menu_item_t file_menu[] = {
 
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
-      0,
+      ACTION_MONITOR_OPEN,
       ui_monitor_activate_callback, NULL, NULL,
       false },
 
@@ -189,7 +189,7 @@ static ui_menu_item_t settings_menu[] = {
      *      added to the settings dialog
      */
     { "Override PSID settings", UI_MENU_TYPE_ITEM_CHECK,
-      0,
+      ACTION_PSID_OVERRIDE_TOGGLE,
       ui_toggle_resource, (void*)"PSIDKeepEnv", NULL,
       false },
 
