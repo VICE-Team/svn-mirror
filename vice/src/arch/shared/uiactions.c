@@ -42,24 +42,35 @@
 
 #include "uiactions.h"
 
+/* Enable debugging */
+#define DEBUG_ACTIONS
+
 
 /** \brief  Mapping of action names to descriptions and machine support
  *
  * The 'machine' members is a bitmask that indicates which machines support
  * the action.
  */
-typedef struct ui_action_info_internal_s {
+typedef struct ui_action_info_private_s {
     int         id;         /**< action ID */
     const char *name;       /**< action name */
     const char *desc;       /**< action description */
     uint32_t    machine;    /**< bitmask indicating which machines support the
                                  action */
-} ui_action_info_internal_t;
+} ui_action_info_private_t;
+
+
+typedef struct ui_action_map_private_s {
+    int action_id;
+    void (*handler)(void);
+    uint32_t mode;
+    uint32_t state;
+} ui_action_map_private_t;
 
 
 /** \brief  List of UI actions
  */
-static const ui_action_info_internal_t action_info_list[] = {
+static const ui_action_info_private_t action_info_list[] = {
     /* smart attach */
     { ACTION_SMART_ATTACH,      "smart-attach",         "Attach a medium to the emulator inspecting its type", VICE_MACHINE_ALL },
 
@@ -247,19 +258,19 @@ static const ui_action_info_internal_t action_info_list[] = {
  *
  * \return  bool
  */
-static bool is_current_machine_action(const ui_action_info_internal_t *action)
+static bool is_current_machine_action(const ui_action_info_private_t *action)
 {
     return (bool)(action->machine & machine_class);
 }
 
 
-/** \brief  Get "internal" info about a UI action
+/** \brief  Get "private" info about a UI action
  *
  * \param[in]   id  action ID
  *
  * \return  pointer to info or `NULL` on failure
  */
-static const ui_action_info_internal_t *get_info_internal(int id)
+static const ui_action_info_private_t *get_info_private(int id)
 {
     if (id > ACTION_NONE) {
         int i = 0;
@@ -309,7 +320,7 @@ int ui_action_get_id(const char *name)
  */
 const char *ui_action_get_name(int id)
 {
-    const ui_action_info_internal_t *action = get_info_internal(id);
+    const ui_action_info_private_t *action = get_info_private(id);
 
     return action != NULL ? action->name : NULL;
 }
@@ -325,7 +336,7 @@ const char *ui_action_get_name(int id)
  */
 const char *ui_action_get_desc(int id)
 {
-    const ui_action_info_internal_t *action = get_info_internal(id);
+    const ui_action_info_private_t *action = get_info_private(id);
 
     return action != NULL ? action->desc : NULL;
 }
@@ -341,7 +352,7 @@ const char *ui_action_get_desc(int id)
  */
 ui_action_info_t *ui_action_get_info_list(void)
 {
-    const ui_action_info_internal_t *action = action_info_list;
+    const ui_action_info_private_t *action = action_info_list;
     ui_action_info_t *list = NULL;
     size_t valid = 0;
     size_t index = 0;
@@ -372,4 +383,166 @@ ui_action_info_t *ui_action_get_info_list(void)
     list[index].desc = NULL;
 
     return list;
+}
+
+
+
+/** \brief  List of mappings of action IDs to handlers
+ *
+ * Will be allocated and reallocated when adding mappings.
+ */
+static ui_action_map_private_t *action_mappings;
+
+/** \brief  Size of the mappings array in elements
+ */
+static size_t action_mappings_size;
+
+/** \brief  Number of elements in the mappings array
+ */
+static size_t action_mappings_count;
+
+/** \brief  Flag indicating a dialog is active
+ *
+ * Used to avoid spawning multiple dialogs via UI actions, we don't want a
+ * user to map a controller button to "drive-attach-8:0" and then spam a ton of
+ * dialogs.
+ */
+static bool dialog_active = false;
+
+/** \brief  UI action dispatch handler
+ *
+ * Function to trigger the action handler on the proper thread in a UI.
+ */
+static void (*dispatch_handler)(void (*)(void)) = NULL;
+
+
+void ui_actions_init(void (*dispatch)(void (*)(void)))
+{
+    dispatch_handler = dispatch;
+    action_mappings_size = 16;
+    action_mappings_count = 0;
+    action_mappings = lib_malloc(sizeof *action_mappings * action_mappings_size);
+    printf("%s: allocated action mapping array of %zu elements\n",
+           __func__, action_mappings_size);
+}
+
+
+void ui_actions_shutdown(void)
+{
+    printf("%s: freeing action mapping array.\n", __func__);
+    if (action_mappings != NULL) {
+        lib_free(action_mappings);
+        action_mappings = NULL;
+    }
+}
+
+
+void ui_actions_add_mappings(const ui_action_map_t *mappings)
+{
+    const ui_action_map_t *map = mappings;
+
+    while (map->action_id > ACTION_NONE) {
+        /* do we need to reallocate the array? */
+        if (action_mappings_size == action_mappings_count - 1) {
+            /* yup, double its size */
+            action_mappings_size *= 2;
+            action_mappings = lib_realloc(action_mappings,
+                                          sizeof *action_mappings * action_mappings_size);
+        }
+
+        action_mappings[action_mappings_count].action_id = map->action_id;
+        action_mappings[action_mappings_count].handler = map->handler;
+        action_mappings[action_mappings_count].mode = map->mode;
+        action_mappings[action_mappings_count].state = 0;
+
+        action_mappings_count++;
+        map++;;
+    }
+    /* terminate list */
+    action_mappings[action_mappings_count].action_id = ACTION_NONE;
+    action_mappings[action_mappings_count].handler = NULL;
+    action_mappings[action_mappings_count].mode = 0;
+    action_mappings[action_mappings_count].state = 0;
+
+}
+
+
+/** \brief  Find action mapping by action ID
+ *
+ * \param[in]   action_id   action ID
+ *
+ * \return  action mapping or `NULL` when not found
+ */
+static ui_action_map_private_t *find_action_map_private(int action_id)
+{
+    ui_action_map_private_t *map = action_mappings;
+
+    if (action_id < ACTION_NONE || action_id >= ACTION_ID_COUNT) {
+        return NULL;
+    }
+
+    while (map->action_id > ACTION_NONE) {
+        if (map->action_id == action_id) {
+            return map;
+        }
+        map++;
+    }
+    return NULL;
+}
+
+
+/** \brief  Trigger a UI action
+ *
+ * \param[in]   action_id   ID of the action to trigger
+ *
+ * \see src/arch/shared/uiactions.h for IDs
+ */
+void ui_action_trigger(int action_id)
+{
+    ui_action_map_private_t *map;
+
+    map = find_action_map_private(action_id);
+    if (map != NULL) {
+       /* handle blocking actions */
+        if (map->mode & ACTION_MODE_BLOCKING) {
+            if (map->state & ACTION_STATE_BUSY) {
+                /* action is still busy, skip */
+                return;
+            }
+            /* mark action busy */
+            map->state |= ACTION_STATE_BUSY;
+        }
+
+        /* handle dialogs, only one can be active at a time */
+        if (map->mode & ACTION_MODE_DIALOG) {
+            if (dialog_active) {
+                return;
+            }
+            dialog_active = true;
+        }
+
+        /* dispatch to UI */
+        dispatch_handler(map->handler);
+    }
+}
+
+
+/** \brief  Mark a UI action as finished
+ *
+ * For actions that are blocking (ie dialogs) we need to notify the action
+ * handling system the action has finished and can be triggered again.
+ *
+ * \param[in]   action_id
+ */
+void ui_action_finish(int action_id)
+{
+    ui_action_map_private_t *map = find_action_map_private(action_id);
+    if (map != NULL) {
+        /* clear all state flags for the action */
+        map->state = 0;
+        /* clear global dialog flag */
+        if (map->mode & ACTION_MODE_DIALOG) {
+            dialog_active = false;
+        }
+    }
 }

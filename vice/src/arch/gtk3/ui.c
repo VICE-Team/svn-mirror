@@ -135,6 +135,10 @@ static int set_monitor_width(const gchar *width, void *window_index);
 static int set_monitor_height(const gchar *height, void *window_index);
 static int set_settings_node_path(const gchar *path, void *unused);
 
+#if 0
+static void ui_action_dispatch(void (*handler)(void));
+#endif
+
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
  ****************************************************************************/
@@ -2145,6 +2149,9 @@ int ui_init_finalize(void)
         }
     }
 
+#if 0
+    ui_actions_init(ui_action_dispatch);
+#endif
     ui_hotkeys_init();
     return 0;
 }
@@ -2259,6 +2266,9 @@ void ui_shutdown(void)
     uidata_shutdown();
     ui_statusbar_shutdown();
     ui_hotkeys_shutdown();
+#if 0
+    ui_actions_shutdown();
+#endif
 }
 
 
@@ -2688,3 +2698,33 @@ gboolean ui_fullscreen_has_decorations(void)
 {
     return fullscreen_has_decorations ? TRUE : FALSE;
 }
+
+
+/* Disabled for now, don't remove */
+#if 0
+/** \brief  GSourceFunc to call a UI action
+ *
+ * \param[in]   data    UI action function
+ *
+ * \return  `FALSE` to remove this timeout source
+ */
+static gboolean ui_action_dispatch_impl(gpointer data)
+{
+    void (*handler)(void) = data;
+    debug_gtk3("Called with handler %p", (void*)handler);
+    handler();
+    return FALSE;
+}
+
+
+/** \brief  Dispatcher for UI actions
+ *
+ * Executes \a handler on the the UI thread.
+ *
+ * \param[in]   handler handler to invoke
+ */
+static void ui_action_dispatch(void (*handler)(void))
+{
+    gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)handler);
+}
+#endif

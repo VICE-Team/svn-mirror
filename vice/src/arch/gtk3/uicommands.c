@@ -770,3 +770,13 @@ gboolean ui_popup_hotkeys_settings(GtkWidget *widget, gpointer data)
     ui_settings_dialog_create_and_activate_node("host/hotkeys");
     return TRUE;
 }
+
+
+/** \brief  Dispatcher for UI actions
+ *
+ * \param[in]   handler handler to invoke
+ */
+static void action_dispatch(void (*handler)(void))
+{
+}
+
