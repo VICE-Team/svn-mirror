@@ -36,7 +36,12 @@
 #include "machine.h"
 
 
-/** \brief  Mapping of action names to descriptions
+#define ACTION_MODE_BLOCKING    (1u<<1u)
+#define ACTION_MODE_DIALOG      (1u<<2u)
+
+#define ACTION_STATE_BUSY       (1u<<1u)
+
+/** \brief  Mapping of action IDs to names and descriptions
  */
 typedef struct ui_action_info_s {
     int id;             /**< action ID */
@@ -44,6 +49,39 @@ typedef struct ui_action_info_s {
     const char *desc;   /**< action description */
 } ui_action_info_t;
 
+
+/** \brief  Mapping of an action ID to a handler
+ */
+typedef struct ui_action_map_s {
+    int action_id;          /**< action ID */
+    void (*handler)(void);  /**< function handling the action */
+    unsigned int mode;      /**< mode flags for the action */
+} ui_action_map_t;
+
+
+
+void ui_actions_init(void (*dispatch)(void (*)(void)));
+void ui_actions_shutdown(void);
+
+void ui_actions_add_mappings(const ui_action_map_t *mappings);
+
+/** \brief  Trigger a UI action
+ *
+ * \param[in]   action_id   ID of the action to trigger
+ *
+ * \see src/arch/shared/uiactions.h for IDs
+ */
+void ui_action_trigger(int action_id);
+
+
+/** \brief  Mark a UI action as finished
+ *
+ * For actions that are blocking (ie dialogs) we need to notify the action
+ * handling system the action has finished and can be triggered again.
+ *
+ * \param[in]   action_id
+ */
+void ui_action_finish(int action_id);
 
 /** \brief  Check for valid action name character
  *

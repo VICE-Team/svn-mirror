@@ -132,27 +132,4 @@ GtkWidget *ui_get_main_window_by_index(gint index);
 
 gboolean ui_get_autostart_on_doubleclick(void);
 
-#if 0
-#define UI_DRAG_TARGETS_COUNT   3
-
-extern GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT];
-
-gboolean ui_on_drag_drop(
-        GtkWidget *widget,
-        GdkDragContext *context,
-        gint x,
-        gint y,
-        guint time,
-        gpointer data);
-
-void ui_on_drag_data_received(
-        GtkWidget *widget,
-        GdkDragContext *context,
-        int x,
-        int y,
-        GtkSelectionData *data,
-        guint info,
-        guint time);
-#endif
-
 #endif
