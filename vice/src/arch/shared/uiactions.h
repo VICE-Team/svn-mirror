@@ -58,31 +58,6 @@ typedef struct ui_action_map_s {
     unsigned int mode;      /**< mode flags for the action */
 } ui_action_map_t;
 
-
-
-void ui_actions_init(void (*dispatch)(void (*)(void)));
-void ui_actions_shutdown(void);
-
-void ui_actions_add_mappings(const ui_action_map_t *mappings);
-
-/** \brief  Trigger a UI action
- *
- * \param[in]   action_id   ID of the action to trigger
- *
- * \see src/arch/shared/uiactions.h for IDs
- */
-void ui_action_trigger(int action_id);
-
-
-/** \brief  Mark a UI action as finished
- *
- * For actions that are blocking (ie dialogs) we need to notify the action
- * handling system the action has finished and can be triggered again.
- *
- * \param[in]   action_id
- */
-void ui_action_finish(int action_id);
-
 /** \brief  Check for valid action name character
  *
  * Check if \a ch is a valid character in an action name.
@@ -245,6 +220,13 @@ int                 ui_action_get_id(const char *name);
 const char *        ui_action_get_name(int id);
 const char *        ui_action_get_desc(int id);
 ui_action_info_t *  ui_action_get_info_list(void);
+
+void ui_actions_init(void);
+void ui_actions_set_dispatch(void (*dispatch)(void (*)(void)));
+void ui_actions_shutdown(void);
+void ui_actions_add_mappings(const ui_action_map_t *mappings);
+void ui_action_trigger(int action_id);
+void ui_action_finish(int action_id);
 
 /* TODO: implement the following: */
 bool                ui_action_def(int id, const char *hotkey);

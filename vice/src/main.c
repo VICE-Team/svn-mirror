@@ -61,6 +61,7 @@
 #include "sysfile.h"
 #include "types.h"
 #include "uiapi.h"
+#include "uiactions.h"
 #include "util.h"
 #include "version.h"
 #include "video.h"
@@ -226,13 +227,6 @@ int main_program(int argc, char **argv)
     sysfile_init(machine_name);
 
 
-    /* hotkeys init needs to be called after sysfile_init() but before the
-     * resources and cmdline options of the hotkeys are registered.
-     */
-    if (!help_requested) {
-//        ui_hotkeys_init();
-    }
-
     if ((init_resources() < 0) || (init_cmdline_options() < 0)) {
         return -1;
     }
@@ -248,6 +242,12 @@ int main_program(int argc, char **argv)
     if (resources_set_defaults() < 0) {
         archdep_startup_log_error("Cannot set defaults.\n");
         return -1;
+    }
+
+    /* Initialize the UI actions system, this needs to happen before the UI
+     * init so the UI code can register handlers */
+    if (!console_mode && !help_requested) {
+        ui_actions_init();
     }
 
     /* Initialize the user interface.  `ui_init_with_args()' might need to handle the

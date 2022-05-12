@@ -37,7 +37,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "archdep.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 
 #include "uiactions.h"
@@ -416,24 +418,47 @@ static bool dialog_active = false;
 static void (*dispatch_handler)(void (*)(void)) = NULL;
 
 
-void ui_actions_init(void (*dispatch)(void (*)(void)))
+/** \brief  Initialize UI actions system
+ *
+ * \note    This needs is called from the shared init code, the UI needs to
+ *          subsequently call ui_actions_set_dispatch() to register the function
+ *          that actually executes the action handler function
+ */
+void ui_actions_init(void)
 {
-    dispatch_handler = dispatch;
+#if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
     action_mappings_size = 16;
     action_mappings_count = 0;
     action_mappings = lib_malloc(sizeof *action_mappings * action_mappings_size);
     printf("%s: allocated action mapping array of %zu elements\n",
            __func__, action_mappings_size);
+#endif
 }
 
 
+/** \brief  Set UI-specific function to dispatch UI action handlers
+ *
+ * \param[in]   dispatch    function to call with an action handler as its
+ *                          argument to have the UI actually invoke the handler
+ *                          on the proper thread
+ */
+void ui_actions_set_dispatch(void (*dispatch)(void (*)(void)))
+{
+    dispatch_handler = dispatch;
+}
+
+
+/** \brief  Free all resources used by the UI actions system
+ */
 void ui_actions_shutdown(void)
 {
+#if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
     printf("%s: freeing action mapping array.\n", __func__);
     if (action_mappings != NULL) {
         lib_free(action_mappings);
         action_mappings = NULL;
     }
+#endif
 }
 
 
@@ -500,6 +525,11 @@ static ui_action_map_private_t *find_action_map_private(int action_id)
 void ui_action_trigger(int action_id)
 {
     ui_action_map_private_t *map;
+
+    if (dispatch_handler == NULL) {
+        log_error(LOG_ERR, "action handler dispatcher not installed.");
+        return;
+    }
 
     map = find_action_map_private(action_id);
     if (map != NULL) {

@@ -135,9 +135,7 @@ static int set_monitor_width(const gchar *width, void *window_index);
 static int set_monitor_height(const gchar *height, void *window_index);
 static int set_settings_node_path(const gchar *path, void *unused);
 
-#if 0
 static void ui_action_dispatch(void (*handler)(void));
-#endif
 
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
@@ -2149,9 +2147,7 @@ int ui_init_finalize(void)
         }
     }
 
-#if 0
-    ui_actions_init(ui_action_dispatch);
-#endif
+    ui_actions_set_dispatch(ui_action_dispatch);
     ui_hotkeys_init();
     return 0;
 }
@@ -2700,8 +2696,6 @@ gboolean ui_fullscreen_has_decorations(void)
 }
 
 
-/* Disabled for now, don't remove */
-#if 0
 /** \brief  GSourceFunc to call a UI action
  *
  * \param[in]   data    UI action function
@@ -2727,4 +2721,3 @@ static void ui_action_dispatch(void (*handler)(void))
 {
     gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)handler);
 }
-#endif
