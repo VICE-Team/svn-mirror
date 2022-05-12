@@ -239,7 +239,7 @@ static void dump_destinations(void)
     int i, n;
     MMRESULT ret;
     MIDIOUTCAPS moc;
-    
+
     n = midiOutGetNumDevs();
     log_message(mididrv_log, "found %lu destinations", n);
     for (i = 0; i < n; ++i) {
@@ -270,7 +270,7 @@ int mididrv_in_open(void)
     if (handle_in) {
         mididrv_in_close();
     }
-    
+
     dump_sources();
 
     if (midi_in_dev_int != -1) {
