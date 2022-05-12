@@ -40,9 +40,12 @@
 #include <windows.h>
 #include <mmsystem.h>
 
+#include "archdep.h"
 #include "cmdline.h"
+#include "lib.h"
 #include "log.h"
 #include "mididrv.h"
+#include "util.h"
 
 #include "resources.h"
 
@@ -76,36 +79,50 @@ static volatile unsigned int in_wi = 0;
 static volatile unsigned int in_ri = 0;
 static BYTE in_buf[IN_BUF_LEN];
 
-static int midi_in_dev = 0;
-static int midi_out_dev = 0;
+static char *midi_in_dev;
+static char *midi_out_dev;
+static int midi_in_dev_int = 0;
+static int midi_out_dev_int = 0;
 
-static int set_midi_in_dev(int val, void *param)
+static int set_midi_in_dev(const char *val, void *param)
 {
-    midi_in_dev = val;
+    char realval[0x10];
+    if (val) {
+        midi_in_dev_int = atoi(val);
+    }
+    sprintf(realval, "%d", midi_in_dev_int);
+    util_string_set(&midi_in_dev, realval);
     return 0;
 }
 
-static int set_midi_out_dev(int val, void *param)
+static int set_midi_out_dev(const char *val, void *param)
 {
-    midi_out_dev = val;
+    char realval[0x10];
+    if (val) {
+        midi_out_dev_int = atoi(val);
+    }
+    sprintf(realval, "%d", midi_out_dev_int);
+    util_string_set(&midi_out_dev, realval);
     return 0;
 }
 
-static const resource_int_t resources_int[] = {
-    { "MIDIInDev", 0, RES_EVENT_NO, (resource_value_t)0,
+static const resource_string_t resources_string[] = {
+    { "MIDIInDev", ARCHDEP_MIDI_IN_DEV, RES_EVENT_NO, NULL,
       &midi_in_dev, set_midi_in_dev, NULL },
-    { "MIDIOutDev", 0, RES_EVENT_NO, (resource_value_t)0,
+    { "MIDIOutDev", ARCHDEP_MIDI_OUT_DEV, RES_EVENT_NO, NULL,
       &midi_out_dev, set_midi_out_dev, NULL },
-    RESOURCE_INT_LIST_END
+    RESOURCE_STRING_LIST_END
 };
 
 int mididrv_resources_init(void)
 {
-    return resources_register_int(resources_int);
+    return resources_register_string(resources_string);
 }
 
 void mididrv_resources_shutdown(void)
 {
+    lib_free(midi_in_dev);
+    lib_free(midi_out_dev);
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -202,6 +219,36 @@ static int message_len(BYTE msg)
     return len;
 }
 
+static void dump_sources(void)
+{
+    int i, n;
+    MMRESULT ret;
+    MIDIINCAPS mic;
+
+    n = midiInGetNumDevs();
+    log_message(mididrv_log,"found %lu sources", n);
+    for (i = 0 ; i < n; ++i) {
+        ret = midiInGetDevCaps(i, &mic, sizeof(MIDIINCAPS));
+        log_message(mididrv_log, "source #%d: %s",
+            i, (ret == MMSYSERR_NOERROR) ? mic.szPname : "Error getting name");
+    }
+}
+
+static void dump_destinations(void)
+{
+    int i, n;
+    MMRESULT ret;
+    MIDIOUTCAPS moc;
+    
+    n = midiOutGetNumDevs();
+    log_message(mididrv_log, "found %lu destinations", n);
+    for (i = 0; i < n; ++i) {
+        ret = midiOutGetDevCaps(i, &moc, sizeof(MIDIOUTCAPS));
+        log_message(mididrv_log, "destination #%d: %s",
+            i, (ret == MMSYSERR_NOERROR) ? moc.szPname : "Error getting name");
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
 void mididrv_init(void)
@@ -209,6 +256,9 @@ void mididrv_init(void)
     if (mididrv_log == LOG_ERR) {
         mididrv_log = log_open("MIDIdrv");
     }
+    log_message(mididrv_log, "init driver");
+    dump_sources();
+    dump_destinations();
 }
 
 /* opens a MIDI-In device, returns handle */
@@ -216,15 +266,17 @@ int mididrv_in_open(void)
 {
     MMRESULT ret;
 
-    log_message(mididrv_log, "Opening MIDI-In device #%d", midi_in_dev);
+    log_message(mididrv_log, "Opening MIDI-In device #%d", midi_in_dev_int);
     if (handle_in) {
         mididrv_in_close();
     }
+    
+    dump_sources();
 
-    if (midi_in_dev != -1) {
-        ret = midiInOpen(&handle_in, midi_in_dev, (DWORD_PTR)midi_callback, 0, CALLBACK_FUNCTION);
+    if (midi_in_dev_int != -1) {
+        ret = midiInOpen(&handle_in, midi_in_dev_int, (DWORD_PTR)midi_callback, 0, CALLBACK_FUNCTION);
         if (ret != MMSYSERR_NOERROR) {
-            log_error(mididrv_log, "Cannot open MIDI-In device #%d!", midi_in_dev);
+            log_error(mididrv_log, "Cannot open MIDI-In device #%d!", midi_in_dev_int);
             handle_in = 0;
             return -1;
         }
@@ -247,15 +299,17 @@ int mididrv_out_open(void)
 {
     MMRESULT ret;
 
-    log_message(mididrv_log, "Opening MIDI-Out device #%d", midi_out_dev);
+    log_message(mididrv_log, "Opening MIDI-Out device #%d", midi_out_dev_int);
     if (handle_out) {
         mididrv_out_close();
     }
 
-    if (midi_out_dev != -1) {
-        ret = midiOutOpen(&handle_out, midi_out_dev, 0, 0, CALLBACK_NULL);
+    dump_destinations();
+
+    if (midi_out_dev_int != -1) {
+        ret = midiOutOpen(&handle_out, midi_out_dev_int, 0, 0, CALLBACK_NULL);
         if (ret != MMSYSERR_NOERROR) {
-            log_error(mididrv_log, "Cannot open MIDI-Out device #%d!", midi_out_dev);
+            log_error(mididrv_log, "Cannot open MIDI-Out device #%d!", midi_out_dev_int);
             handle_out = 0;
             return -1;
         }
