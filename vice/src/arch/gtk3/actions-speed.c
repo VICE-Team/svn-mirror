@@ -345,7 +345,7 @@ static const ui_action_map_t mappings[] = {
         .action_id = ACTION_PAUSE_TOGGLE,
         .handler = pause_toggle_action
     },
-    { 
+    {
         .action_id = ACTION_WARP_MODE_TOGGLE,
         .handler = warp_mode_toggle_action
     },
