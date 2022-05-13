@@ -51,6 +51,7 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libarch.a libtoolarch.a
 
 libarch_a_SOURCES = \
+	actions-speed.c \
 	archdep.c \
 	c128ui.c \
 	c64dtvui.c \
@@ -124,6 +125,7 @@ libtoolarch_a_SOURCES = \
 
 EXTRA_DIST = \
 	Resources/VICE.icns \
+	actions-speed.h \
 	archdep.h \
 	debug_gtk3.h \
 	directx_renderer.h \
