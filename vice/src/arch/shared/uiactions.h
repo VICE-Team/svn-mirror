@@ -55,8 +55,12 @@ typedef struct ui_action_info_s {
 typedef struct ui_action_map_s {
     int action_id;          /**< action ID */
     void (*handler)(void);  /**< function handling the action */
-    unsigned int mode;      /**< mode flags for the action */
+    uint32_t mode;          /**< mode flags of the action */
+    uint32_t state;         /**< state flags of the action */
 } ui_action_map_t;
+
+#define UI_ACTION_MAP_TERMINATOR { ACTION_NONE, NULL, 0, 0 }
+
 
 /** \brief  Check for valid action name character
  *
@@ -222,7 +226,7 @@ const char *        ui_action_get_desc(int id);
 ui_action_info_t *  ui_action_get_info_list(void);
 
 void ui_actions_init(void);
-void ui_actions_set_dispatch(void (*dispatch)(void (*)(void)));
+void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *));
 void ui_actions_shutdown(void);
 void ui_actions_add_mappings(const ui_action_map_t *mappings);
 void ui_action_trigger(int action_id);

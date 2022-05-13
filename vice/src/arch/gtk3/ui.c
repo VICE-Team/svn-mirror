@@ -135,7 +135,7 @@ static int set_monitor_width(const gchar *width, void *window_index);
 static int set_monitor_height(const gchar *height, void *window_index);
 static int set_settings_node_path(const gchar *path, void *unused);
 
-static void ui_action_dispatch(void (*handler)(void));
+static void ui_action_dispatch(const ui_action_map_t *);
 
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
@@ -2717,7 +2717,7 @@ static gboolean ui_action_dispatch_impl(gpointer data)
  *
  * \param[in]   handler handler to invoke
  */
-static void ui_action_dispatch(void (*handler)(void))
+static void ui_action_dispatch(const ui_action_map_t *map)
 {
-    gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)handler);
+    gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)(map->handler));
 }

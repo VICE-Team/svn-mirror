@@ -336,8 +336,8 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
 
                 item = gtk_check_menu_item_new_with_mnemonic(items[i].label);
                 if (items[i].callback != NULL) {
-                   /* use `data` as the resource to determine the state of
-                     * the checkmark
+                    /* use the resource name, if present, to determine the state
+                     * of the checkmark
                      */
                     if (items[i].resource != NULL) {
                         int state;

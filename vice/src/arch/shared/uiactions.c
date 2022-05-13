@@ -62,14 +62,6 @@ typedef struct ui_action_info_private_s {
 } ui_action_info_private_t;
 
 
-typedef struct ui_action_map_private_s {
-    int action_id;
-    void (*handler)(void);
-    uint32_t mode;
-    uint32_t state;
-} ui_action_map_private_t;
-
-
 /** \brief  List of UI actions
  */
 static const ui_action_info_private_t action_info_list[] = {
@@ -393,7 +385,7 @@ ui_action_info_t *ui_action_get_info_list(void)
  *
  * Will be allocated and reallocated when adding mappings.
  */
-static ui_action_map_private_t *action_mappings;
+static ui_action_map_t *action_mappings;
 
 /** \brief  Size of the mappings array in elements
  */
@@ -415,7 +407,7 @@ static bool dialog_active = false;
  *
  * Function to trigger the action handler on the proper thread in a UI.
  */
-static void (*dispatch_handler)(void (*)(void)) = NULL;
+static void (*dispatch_handler)(const ui_action_map_t *) = NULL;
 
 
 /** \brief  Initialize UI actions system
@@ -442,7 +434,7 @@ void ui_actions_init(void)
  *                          argument to have the UI actually invoke the handler
  *                          on the proper thread
  */
-void ui_actions_set_dispatch(void (*dispatch)(void (*)(void)))
+void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *))
 {
     dispatch_handler = dispatch;
 }
@@ -498,9 +490,9 @@ void ui_actions_add_mappings(const ui_action_map_t *mappings)
  *
  * \return  action mapping or `NULL` when not found
  */
-static ui_action_map_private_t *find_action_map_private(int action_id)
+static ui_action_map_t *find_action_map(int action_id)
 {
-    ui_action_map_private_t *map = action_mappings;
+    ui_action_map_t *map = action_mappings;
 
     if (action_id < ACTION_NONE || action_id >= ACTION_ID_COUNT) {
         return NULL;
@@ -524,14 +516,14 @@ static ui_action_map_private_t *find_action_map_private(int action_id)
  */
 void ui_action_trigger(int action_id)
 {
-    ui_action_map_private_t *map;
+    ui_action_map_t *map;
 
     if (dispatch_handler == NULL) {
         log_error(LOG_ERR, "action handler dispatcher not installed.");
         return;
     }
 
-    map = find_action_map_private(action_id);
+    map = find_action_map(action_id);
     if (map != NULL) {
        /* handle blocking actions */
         if (map->mode & ACTION_MODE_BLOCKING) {
@@ -552,7 +544,7 @@ void ui_action_trigger(int action_id)
         }
 
         /* dispatch to UI */
-        dispatch_handler(map->handler);
+        dispatch_handler(map);
     }
 }
 
@@ -566,7 +558,7 @@ void ui_action_trigger(int action_id)
  */
 void ui_action_finish(int action_id)
 {
-    ui_action_map_private_t *map = find_action_map_private(action_id);
+    ui_action_map_t *map = find_action_map(action_id);
     if (map != NULL) {
         /* clear all state flags for the action */
         map->state = 0;
