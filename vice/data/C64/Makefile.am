@@ -68,6 +68,7 @@ sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
 	sdl_joymap_thec64.vjm \
 	sdl_pos.vkm \
+	sdl_pos_uk.vkm \
 	sdl_pos_ch.vkm \
 	sdl_pos_da.vkm \
 	sdl_pos_de.vkm \
@@ -79,6 +80,7 @@ sdl_keymaps = \
 	sdl_keyrah_retropie_de.vkm \
 	sdl_keyrah_combian.vkm \
 	sdl_sym.vkm \
+	sdl_sym_uk.vkm \
 	sdl_sym_de.vkm \
 	sdl_sym_nl.vkm \
 	sdl_sym_it.vkm \
