@@ -726,3 +726,377 @@ gboolean vice_gtk3_resource_combo_box_str_sync(GtkWidget *widget)
     }
     return vice_gtk3_resource_combo_box_str_set(widget, current);
 }
+
+
+
+/*
+ * GtkComboBoxText with free text entry
+ *
+ * Simple combo box with a text entry that allows entering a string not in the
+ * drop down list.
+ */
+
+static gboolean combo_with_entry_fix_index(GtkWidget *widget, const char *value);
+
+
+/** \brief  Handler for the 'destroy' event of the combo box with entry
+ *
+ * \param[in]   widget  resource combo box
+ * \param[in]   unused  extra event data (unused)
+ */
+static void on_combo_with_entry_destroy(GtkWidget *widget, gpointer unused)
+{
+    resource_widget_free_resource_name(widget);
+    resource_widget_free_string(widget, "ResourceOrig");
+}
+
+
+/** \brief  Handler for the 'changed' event of the combo box with entry
+ *
+ * Sets the resource to the new value, if it's a value in the drop down list.
+ *
+ * If the new value doesn't match an entry in the list we depend on the
+ * 'focus-out' event to set the resource since each character entered triggers
+ * this handler, which would result in setting the resource a lot with
+ * (presumably) incomplete text.
+ *
+ * XXX: Also of note is the fact that manually entering a string that matches
+ *      one of the values in the drop down list doesn't result in a valid
+ *      index, -1 is still returned.
+ *
+ * \param[in]   widget  resource combo box
+ * \param[in]   unused  extra event data (unused)
+ */
+static void on_combo_with_entry_changed(GtkWidget *widget, gpointer unused)
+{
+    gchar *text;
+    gint index;
+
+    text = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widget));
+    index = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
+#if 0
+    debug_gtk3("Index = %d, text = '%s'", index, text);
+#endif
+
+    if (index >= 0) {
+        /* an item from the list was selected, we can accept that */
+        const char *resource = resource_widget_get_resource_name(widget);
+        resources_set_string(resource, text);
+        combo_with_entry_fix_index(widget, text);
+    }
+
+    g_free(text);
+}
+
+
+/** \brief  Handler for the 'focus-out' event of the combo box' text entry
+ *
+ * To avoid setting the resource on each key press, we wait for the focus-out
+ * event and then update the resource.
+ *
+ * \note    We pass \a combo since gtk_widget_get_parent(entry) doesn't return
+ *          the combo box, although gtk_bin_get_child(combo) does return the
+ *          entry :)
+ *
+ * \param[in]   entry   entry widget of the combo box
+ * \param[in]   unused  event data (unused)
+ * \param[in]   combo   parent combo box
+ *
+ * \return  `FALSE` to propagate events further, Gtk 3.24.31 complains when we
+ *          return `TRUE` here (3.24.24 is fine with it)
+ */
+static gboolean on_combo_with_entry_focus_out_event(GtkEntry *entry,
+                                                    GdkEvent *unused,
+                                                    gpointer combo)
+{
+    const char *resource;
+    const char *text;
+
+    resource = resource_widget_get_resource_name(GTK_WIDGET(combo));
+    text = gtk_entry_get_text(entry);
+#if 0
+    debug_gtk3("focus-out: setting \"%s\" to '%s'", resource, text);
+#endif
+    resources_set_string(resource, text);
+    combo_with_entry_fix_index(GTK_WIDGET(combo), text);
+
+    return FALSE;   /* always let the event propagate */
+}
+
+
+/** \brief  Handler for the 'key-press' event of the combo box' text entry
+ *
+ * If the user presses Return or Enter we store the value in the resource.
+ *
+ * \param[in]   entry   text entry
+ * \param[in]   event   event data
+ * \param[in]   combo   combo box
+ *
+ * \return  `FALSE` to propagate event further
+ */
+static gboolean on_combo_with_entry_key_press_event(GtkEntry *entry,
+                                                    GdkEvent *event,
+                                                    gpointer combo)
+{
+    GdkEventKey *keyev = (GdkEventKey *)event;
+
+    if (keyev->type == GDK_KEY_PRESS &&
+            (keyev->keyval == GDK_KEY_Return ||
+             keyev->keyval == GDK_KEY_KP_Enter)) {
+        const char *resource;
+        const char *text;
+
+        resource =  resource_widget_get_resource_name(GTK_WIDGET(combo));
+        text = gtk_entry_get_text(entry);
+        resources_set_string(resource, text);
+        combo_with_entry_fix_index(GTK_WIDGET(combo), text);
+    }
+    return FALSE;
+}
+
+
+/** \brief  Fix combo box index to match value if its present in the list
+ *
+ * For some reason setting a string in the entry of the combo box that matches
+ * a string in the drop down list does not update the list index to match the
+ * string, so we brute force that here.
+ *
+ * \param[in]   widget  combo box with entry
+ * \param[in]   value   value to try to match to string in the drop down list
+ *
+ * \return  `TRUE` when \a value was found in the drop down list
+ */
+static gboolean combo_with_entry_fix_index(GtkWidget *widget, const char *value)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gulong handler_id;
+    int index = 0;
+    gboolean found = FALSE;
+
+    /* make sure we don't trigger the 'changed' event handler */
+    handler_id = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(widget),
+                                                     "ChangedHandlerID"));
+    /* when this function is called from the constructor the handler isn't
+     * connected yet so handler_id will be 0, which isn't valid for the
+     * block/unblock functions */
+    if (handler_id > 0) {
+        g_signal_handler_block(G_OBJECT(widget), handler_id);
+    }
+
+#if 0
+    debug_gtk3("Iterating model for value '%s'", value);
+#endif
+    model = gtk_combo_box_get_model(GTK_COMBO_BOX(widget));
+    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(model), &iter)) {
+        do {
+            char *text = NULL;
+
+            gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, 0, &text, -1);
+#if 0
+            debug_gtk3("Checking '%s'", text);
+#endif
+            if (text != NULL && strcmp(text, value) == 0) {
+#if 0
+                debug_gtk3("Found index %d", index);
+#endif
+                gtk_combo_box_set_active(GTK_COMBO_BOX(widget), index);
+                g_free(text);
+                found = TRUE;
+                break;
+            }
+            g_free(text);
+            index++;
+        } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(model), &iter));
+    }
+
+    if (handler_id > 0) {
+        g_signal_handler_unblock(G_OBJECT(widget), handler_id);
+    }
+    return found;
+}
+
+
+/** \brief  Create combo box with text entry
+ *
+ * Create a combo box where the user can enter a string not present in the
+ * list of \a values.
+ *
+ * \note    This combo box only works for string-type resources and doesn't
+ *          support (key,value) pairs.
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   entries     NULL-terminated list of strings
+ *
+ * \return  GtkComboBoxText
+ */
+GtkWidget *vice_gtk3_resource_combo_box_with_entry(const char *resource,
+                                                   const char **values)
+
+{
+    GtkWidget *combo;
+    GtkWidget *entry;
+    const char *orig = NULL;
+    gulong handler_id;
+
+    combo = gtk_combo_box_text_new_with_entry();
+    /* keep copy of resource name */
+    resource_widget_set_resource_name(combo, resource);
+    /* keep copy of resource value at instanciation */
+    resources_get_string(resource, &orig);
+    resource_widget_set_string(combo, "ResourceOrig", orig);
+
+    /* add entries to the combo box */
+    while (*values != NULL) {
+        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), NULL, *values);
+        values++;
+    }
+    /* set the resource's value */
+    entry = gtk_bin_get_child(GTK_BIN(combo));
+    gtk_entry_set_text(GTK_ENTRY(entry), orig);
+    /* fix up index */
+    combo_with_entry_fix_index(combo, orig);
+
+    /* now connect the event handlers */
+    g_signal_connect_unlocked(combo,
+                              "destroy",
+                              G_CALLBACK(on_combo_with_entry_destroy),
+                              NULL);
+    handler_id = g_signal_connect(combo,
+                                  "changed",
+                                  G_CALLBACK(on_combo_with_entry_changed),
+                                  NULL);
+    g_object_set_data(G_OBJECT(combo),
+                      "ChangedHandlerID",
+                      GULONG_TO_POINTER(handler_id));
+    /* focus-out must be connected to the child */
+    g_signal_connect(entry,
+                     "focus-out-event",
+                     G_CALLBACK(on_combo_with_entry_focus_out_event),
+                     (gpointer)combo);
+    /* return/kp-enter to accept text entry */
+    g_signal_connect(entry,
+                     "key-press-event",
+                     G_CALLBACK(on_combo_with_entry_key_press_event),
+                     (gpointer)combo);
+
+    return combo;
+}
+
+
+/** \brief  Set new value for the combo box, also setting the resource
+ *
+ * \param[in]   widget  combo box with entry
+ * \param[in]   value   new value for the combo box
+ *
+ * \return  `TRUE` when setting the resource succeeded
+ */
+gboolean vice_gtk3_resource_combo_box_with_entry_set(GtkWidget *widget,
+                                                     const char *value)
+{
+    GtkWidget *entry;
+    const char *resource;
+
+    entry = gtk_bin_get_child(GTK_BIN(widget));
+    resource = resource_widget_get_resource_name(widget);
+
+    gtk_entry_set_text(GTK_ENTRY(entry), value);
+    combo_with_entry_fix_index(widget, value);
+    return resources_set_string(resource, value) == 0 ? TRUE : FALSE;
+}
+
+
+/** \brief  Get text of the widget
+ *
+ * \param[in]   widget  combo box
+ * \param[out]  value   location to store pointer to text
+ *
+ * \note    The data returned in \a value must be freed with g_free()
+ *
+ * \return  TRUE if text isn't `NULL`
+ */
+gboolean vice_gtk3_resource_combo_box_with_entry_get(GtkWidget *widget,
+                                                     gchar **value)
+{
+    gchar *text = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widget));
+
+    *value = text;
+    return text != NULL ? TRUE : FALSE;
+}
+
+
+/** \brief  Set the combo box to the resource's factory value
+ *
+ * This sets the combo box to the factory value of the connected resource, to
+ * reset the combo box to the value the resource had when the combo box was
+ * created use vice_gtk3_resource_combo_box_with_entry_reset().
+ *
+ * \note    This also sets the resource to its factory value.
+ *
+ * \param[in]   widget  combo box with entry
+ *
+ * \return  `TRUE` on success
+ */
+gboolean vice_gtk3_resource_combo_box_with_entry_factory(GtkWidget *widget)
+{
+    const char *resource;
+    const char *factory;
+
+    resource = resource_widget_get_resource_name(widget);
+    if (resources_get_default_value(resource, &factory) == 0) {
+        return vice_gtk3_resource_combo_box_with_entry_set(widget, factory);
+    }
+    return FALSE;
+}
+
+
+/** \brief  Reset the combo box to its value at the combo box' creation
+ *
+ * This sets the combo box to the value of the connected resource at the time
+ * the combo box was created, to reset the resource to factory, use
+ * vice_gtk3_resource_combo_box_with_entry_factory().
+ *
+ * \note    This also sets the resource to its original value.
+ *
+ * \param[in]   widget  combo box with entry
+ *
+ * \return  `TRUE` on success
+ */
+gboolean vice_gtk3_resource_combo_box_with_entry_reset(GtkWidget *widget)
+{
+    const char *resource;
+    const char *orig;
+
+    resource = resource_widget_get_resource_name(widget);
+    orig = resource_widget_get_string(widget, "ResourceOrig");
+    return vice_gtk3_resource_combo_box_with_entry_set(widget, orig);
+}
+
+
+/** \brief  Synchronize the combo box with its resource value
+ *
+ * \param[in]   widget  combo box with entry
+ *
+ * \return  `TRUE` on success
+ */
+gboolean vice_gtk3_resource_combo_box_with_entry_sync(GtkWidget *widget)
+{
+    GtkWidget *entry;
+    const char *resource;
+    const char *value;
+    gulong handler_id;
+
+    resource = resource_widget_get_resource_name(widget);
+    if (resources_get_string(resource, &value) != 0) {
+        return FALSE;
+    }
+    /* make sure we don't trigger the changed event handler */
+    handler_id = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(widget),
+                                                     "ChangedHandlerID"));
+    g_signal_handler_block(G_OBJECT(widget), handler_id);
+    entry = gtk_bin_get_child(GTK_BIN(widget));
+    gtk_entry_set_text(GTK_ENTRY(entry), value);
+    combo_with_entry_fix_index(widget, value);
+    g_signal_handler_unblock(G_OBJECT(widget), handler_id);
+    return TRUE;
+}
