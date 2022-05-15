@@ -28,11 +28,17 @@
  *
  */
 
+/* #define DEBUG_MIDI */
+
 #include "vice.h"
 
 #if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
 
 #ifdef HAVE_MIDI
+
+#if !defined (USE_OSS) && !defined (USE_ALSA)
+#error "MIDI driver needs either OSS or ALSA"
+#endif
 
 #include <errno.h>
 #include <fcntl.h>
@@ -65,24 +71,42 @@
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef USE_ALSA
+static char *midi_name = NULL;
+#endif
+
+#ifdef USE_OSS
 static char *midi_in_dev = NULL;
 static char *midi_out_dev = NULL;
+#endif
+
 static int fd_in = -1;
 static int fd_out = -1;
 
+#if defined(USE_OSS) && defined(USE_ALSA)
 #define MIDI_DRIVER_OSS  0
 #define MIDI_DRIVER_ALSA 1
+#else
+#define MIDI_DRIVER_OSS  0
+#define MIDI_DRIVER_ALSA 0
+#endif
+
+#ifdef USE_ALSA
+static int midi_driver_num = MIDI_DRIVER_ALSA;
+#else
 static int midi_driver_num = MIDI_DRIVER_OSS;
+#endif
 
 static log_t mididrv_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 /* OSS driver */
 
+#ifdef USE_OSS
 /* opens a MIDI-In device, returns handle */
 static int mididrv_oss_in_open(void)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "oss_in_open");
 #endif
     if (fd_in >= 0) {
@@ -98,6 +122,7 @@ static int mididrv_oss_in_open(void)
         log_error(mididrv_log, "Cannot open file \"%s\": %s", midi_in_dev, strerror(errno));
         return -1;
     }
+    log_message(mididrv_log, "opened OSS device '%s'", midi_in_dev);
 
     return fd_in;
 }
@@ -105,7 +130,7 @@ static int mididrv_oss_in_open(void)
 /* opens a MIDI-Out device, returns handle */
 static int mididrv_oss_out_open(void)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "oss_out_open");
 #endif
     if (fd_out >= 0) {
@@ -121,6 +146,7 @@ static int mididrv_oss_out_open(void)
         log_error(mididrv_log, "Cannot open file \"%s\": %s", midi_out_dev, strerror(errno));
         return -1;
     }
+    log_message(mididrv_log, "opened OSS device '%s'", midi_out_dev);
 
     return fd_out;
 }
@@ -128,7 +154,7 @@ static int mididrv_oss_out_open(void)
 /* closes the MIDI-In device*/
 static void mididrv_oss_in_close(void)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "oss_in_close");
 #endif
     if (fd_in < 0) {
@@ -142,7 +168,7 @@ static void mididrv_oss_in_close(void)
 /* closes the MIDI-Out device*/
 static void mididrv_oss_out_close(void)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "oss_out_close");
 #endif
     if (fd_out < 0) {
@@ -158,7 +184,7 @@ static void mididrv_oss_out(uint8_t b)
 {
     ssize_t n;
 
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "oss_out %02x", b);
 #endif
     if (fd_out < 0) {
@@ -198,7 +224,7 @@ static int mididrv_oss_in(uint8_t *b)
     if (ret && (FD_ISSET(fd_in, &rdset))) {
         n = read(fd_in, b, 1);
         if (n) {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
             log_message(mididrv_log, "oss_in got %02x", *b);
 #endif
             return 1;
@@ -221,6 +247,7 @@ static void mididrv_oss_shutdown(void)
         mididrv_oss_out_close();
     }
 }
+#endif /* USE_OSS */
 
 /* ------------------------------------------------------------------------- */
 /* ALSA driver */
@@ -246,7 +273,7 @@ static snd_midi_event_t *midi_event_parser = NULL;
 */
 static int mididrv_alsa_out_open(void)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "alsa_out_open");
 #endif
     if (midi_event_parser) {
@@ -260,7 +287,7 @@ static int mididrv_alsa_out_open(void)
     MIDI. */
 static void mididrv_alsa_out_close(void)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "alsa_out_close");
 #endif
     /* clear output MIDI queue */
@@ -277,7 +304,7 @@ static void mididrv_alsa_out(uint8_t b)
 {
     snd_seq_event_t ev;
 
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "alsa_out %02x", b);
 #endif
 
@@ -313,7 +340,7 @@ static int eventSize = -1;        /* size of event in buf */
 */
 static int mididrv_alsa_in_open(void)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "alsa_in_open");
 #endif
     /* clear any old MIDI data not processed yet */
@@ -332,7 +359,7 @@ static int mididrv_alsa_in_open(void)
     MIDI. */
 static void mididrv_alsa_in_close(void)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "alsa_in_close");
 #endif
     fd_in = -1;
@@ -422,7 +449,7 @@ static int mididrv_alsa_in(uint8_t *b)
 /** a function to destroy ALSA MIDI objects */
 static void mididrv_alsa_shutdown(void)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "alsa_shutdown");
 #endif
 
@@ -449,7 +476,7 @@ static void mididrv_alsa_init(void)
 {
     int alsa_err;
 
-#ifdef DEBUG
+#ifdef DEBUG_MIDI
     log_message(mididrv_log, "alsa_init");
 #endif
 
@@ -466,16 +493,21 @@ static void mididrv_alsa_init(void)
     }
 
     /* set application name */
-    snd_seq_set_client_name(seq, "VICE");
+    snd_seq_set_client_name(seq, midi_name);
 
     /* create one MIDI port */
     port = snd_seq_create_simple_port(seq, "MIDI in/out",
-                                      SND_SEQ_PORT_CAP_WRITE | SND_SEQ_PORT_CAP_SUBS_WRITE | SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ,
-                                      SND_SEQ_PORT_TYPE_MIDI_GENERIC | SND_SEQ_PORT_TYPE_APPLICATION);
+                                      SND_SEQ_PORT_CAP_WRITE |
+                                      SND_SEQ_PORT_CAP_SUBS_WRITE |
+                                      SND_SEQ_PORT_CAP_READ |
+                                      SND_SEQ_PORT_CAP_SUBS_READ,
+                                      SND_SEQ_PORT_TYPE_MIDI_GENERIC |
+                                      SND_SEQ_PORT_TYPE_APPLICATION);
     if (port < 0) {
         log_error(mididrv_log, "could not create ALSA sequencer port");
         return;
     }
+    log_message(mididrv_log, "opened ALSA sequencer port '%s'", midi_name);
 
     /* create event parser */
     if ((alsa_err = snd_midi_event_new(RINGBUFFER_SIZE, &midi_event_parser)) < 0) {
@@ -502,6 +534,7 @@ typedef struct midi_driver_s {
 } midi_driver_t;
 
 static midi_driver_t midi_drivers[] = {
+#ifdef USE_OSS
     { /* OSS driver */
         mididrv_oss_init,
         mididrv_oss_shutdown,
@@ -512,6 +545,7 @@ static midi_driver_t midi_drivers[] = {
         mididrv_oss_out_open,
         mididrv_oss_out_close,
     },
+#endif
 #ifdef USE_ALSA
     { /* ALSA driver */
         mididrv_alsa_init,
@@ -569,27 +603,75 @@ void mididrv_out_close(void)
 /* ------------------------------------------------------------------------- */
 /* Resources and cmdline */
 
+static void driver_restart(void)
+{
+    int in_was_open, out_was_open;
+    /* shut down and restart new driver */
+    in_was_open = (fd_in >= 0) ? 1 : 0;
+    out_was_open = (fd_out >= 0) ? 1 : 0;
+
+    midi_drivers[midi_driver_num].shutdown();
+
+    midi_drivers[midi_driver_num].init();
+
+    if (in_was_open) {
+        midi_drivers[midi_driver_num].in_open();
+    }
+
+    if (out_was_open) {
+        midi_drivers[midi_driver_num].out_open();
+    }
+}
+
+#ifdef USE_ALSA
+static int set_midi_name(const char *val, void *param)
+{
+    if ((val != NULL) && (midi_name != NULL) && (strcmp(val, midi_name) == 0)) {
+        return 0;
+    }
+    util_string_set(&midi_name, val);
+    driver_restart();
+    return 0;
+}
+#endif
+
+#ifdef USE_OSS
 static int set_midi_in_dev(const char *val, void *param)
 {
+    if ((val != NULL) && (midi_in_dev != NULL) && (strcmp(val, midi_in_dev) == 0)) {
+        return 0;
+    }
     util_string_set(&midi_in_dev, val);
+    driver_restart();
     return 0;
 }
 
 static int set_midi_out_dev(const char *val, void *param)
 {
+    if ((val != NULL) && (midi_out_dev != NULL) && (strcmp(val, midi_out_dev) == 0)) {
+        return 0;
+    }
     util_string_set(&midi_out_dev, val);
+    driver_restart();
     return 0;
 }
+#endif
 
 static const resource_string_t resources_string[] = {
+#ifdef USE_ALSA
+    { "MIDIName", "VICE", RES_EVENT_NO, NULL,
+      &midi_name, set_midi_name, NULL },
+#endif
+#ifdef USE_OSS
     { "MIDIInDev", ARCHDEP_MIDI_IN_DEV, RES_EVENT_NO, NULL,
       &midi_in_dev, set_midi_in_dev, NULL },
     { "MIDIOutDev", ARCHDEP_MIDI_OUT_DEV, RES_EVENT_NO, NULL,
       &midi_out_dev, set_midi_out_dev, NULL },
+#endif
     RESOURCE_STRING_LIST_END
 };
 
-#ifdef USE_ALSA
+#if defined(USE_OSS) && defined(USE_ALSA)
 static int set_midi_driver(int val, void *param)
 {
     int in_was_open, out_was_open;
@@ -606,6 +688,7 @@ static int set_midi_driver(int val, void *param)
         return 0;
     }
 
+    /* shut down driver and start new driver */
     in_was_open = (fd_in >= 0) ? 1 : 0;
     out_was_open = (fd_out >= 0) ? 1 : 0;
 
@@ -626,8 +709,8 @@ static int set_midi_driver(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "MIDIDriver", MIDI_DRIVER_OSS,
-      RES_EVENT_SAME, (resource_value_t)MIDI_DRIVER_OSS,
+    { "MIDIDriver", MIDI_DRIVER_ALSA,
+      RES_EVENT_SAME, (resource_value_t)MIDI_DRIVER_ALSA,
       &midi_driver_num, set_midi_driver, NULL },
     RESOURCE_INT_LIST_END
 };
@@ -635,7 +718,7 @@ static const resource_int_t resources_int[] = {
 
 int mididrv_resources_init(void)
 {
-#ifdef USE_ALSA
+#if defined(USE_OSS) && defined(USE_ALSA)
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
@@ -649,19 +732,31 @@ void mididrv_resources_shutdown(void)
     /* TODO move somewhere else */
     midi_drivers[midi_driver_num].shutdown();
 
+#ifdef USE_OSS
     lib_free(midi_in_dev);
     lib_free(midi_out_dev);
+#endif
+#ifdef USE_ALSA
+    lib_free(midi_name);
+#endif
 }
 
 static const cmdline_option_t cmdline_options[] =
 {
+#ifdef USE_ALSA
+    { "-midiname", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
+      NULL, NULL, "MIDIName", NULL,
+      "<Name>", "Name of MIDI Client" },
+#endif
+#ifdef USE_OSS
     { "-midiin", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
       NULL, NULL, "MIDIInDev", NULL,
       "<Name>", "Specify MIDI-In device" },
     { "-midiout", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
       NULL, NULL, "MIDIOutDev", NULL,
       "<Name>", "Specify MIDI-Out device" },
-#ifdef USE_ALSA
+#endif
+#if defined(USE_OSS) && defined(USE_ALSA)
     { "-mididrv", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
       NULL, NULL, "MIDIDriver", NULL,
       "<Driver>", "Specify MIDI driver (0 = OSS, 1 = ALSA)" },
@@ -674,4 +769,4 @@ int mididrv_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 #endif /* HAVE_MIDI */
-#endif
+#endif /* UNIX_COMPILE && !MACOS_COMPILE */
