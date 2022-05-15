@@ -16745,15 +16745,20 @@ Only available if USB joystick support is available at compile time.
 
 @table @code
 
+@vindex MIDIName
+@item MIDIName
+String specifying the name of the MIDI client (default:"VICE")
+(ALSA and macOS only, x64, x64sc, xscpu64, x128 and xvic only).
+
 @vindex MIDIInDev
 @item MIDIInDev
-String specifying the MIDI input device
-(x64, x64sc, xscpu64, x128 and xvic only).
+String specifying the OSS MIDI input device
+(Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
 
 @vindex MIDIOutDev
 @item MIDIOutDev
-String specifying the MIDI output device
-(x64, x64sc, xscpu64, x128 and xvic only).
+String specifying the OSS MIDI output device
+(Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
 
 @end table
 
@@ -16764,7 +16769,7 @@ String specifying the MIDI output device
 @vindex MIDIDriver
 @item MIDIDriver
 Enum specifying the MIDI driver
-(x64, x64sc, xscpu64, x128 and xvic only).
+(Unix - x64, x64sc, xscpu64, x128 and xvic only).
 (0: OSS, 1: ALSA)
 
 @end table
@@ -16888,17 +16893,23 @@ Only available if USB joystick support is available at compile time.
 
 @table @code
 
+@findex -midiname
+@item -midiname <name>
+Specify the name of the MIDI client (default:"VICE")
+(@code{MIDIName})
+(ALSA and macOS only, x64, x64sc, xscpu64, x128 and xvic only).
+
 @findex -midiin
 @item -midiin <name>
-Specify MIDI-In device
+Specify OSS MIDI-In device
 (@code{MIDIInDev})
-(x64, x64sc, xscpu64, x128 and xvic only).
+(Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
 
 @findex -midiout
 @item -midiout <name>
-Specify MIDI-Out device
+Specify OSS MIDI-Out device
 (@code{MIDIOutDev})
-(x64, x64sc, xscpu64, x128 and xvic only).
+(Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
 
 @end table
 
@@ -16910,7 +16921,7 @@ Specify MIDI-Out device
 @item -mididrv <driver>
 Specify MIDI driver
 (@code{MIDIDriver})
-(x64, x64sc, xscpu64, x128 and xvic only).
+(Unix - x64, x64sc, xscpu64, x128 and xvic only).
 (0: OSS, 1: ALSA)
 
 @end table
