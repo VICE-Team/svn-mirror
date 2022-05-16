@@ -68,7 +68,7 @@
 static GtkWidget *midi_enable;
 /** \brief  MIDI mode combobox */
 static GtkWidget *midi_mode;
-#if defined (WINDOWS_COMPILE) || defined (USE_OSS)
+#if defined (MACOS_COMPILE) || defined (WINDOWS_COMPILE) || defined (USE_OSS)
 /** \brief  MIDI in device  */
 static GtkWidget *midi_in_entry;
 /** \brief  MIDI out device */
