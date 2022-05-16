@@ -27,7 +27,7 @@ the configure script first by doing:
 
 The stable tarball already has the configure script, so continue with:
 
-./configure --enable-sdlui2
+./configure --enable-sdl2ui
 make
 make install
 
