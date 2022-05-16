@@ -819,7 +819,7 @@ int video_resources_chip_init(const char *chipname,
         } else if (!strcmp(chipname, "TED")) {
             resources_chip_colors[0].factory_value = 1250; /* saturation */
         } else if (!strcmp(chipname, "Crtc")) {
-            resources_chip_colors[0].factory_value = 1750; /* saturation */
+            resources_chip_colors[0].factory_value = 1250; /* saturation */
             resources_chip_colors[1].factory_value = 1250; /* contrast */
         }
 
