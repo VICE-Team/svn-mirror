@@ -564,6 +564,7 @@ pet_lib = $(top_builddir)/src/pet/libpet.a
 petstubs_lib = $(top_builddir)/src/pet/libpetstubs.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 plus4cart_lib = $(top_builddir)/src/plus4/cart/libplus4cart.a
+plus4stubs_lib = $(top_builddir)/src/plus4/libplus4stubs.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 resid_lib = $(top_builddir)/src/resid/libresid.a
 resid_dtv_lib = $(top_builddir)/src/resid-dtv/libresiddtv.a
@@ -590,8 +591,10 @@ viciisc_lib = $(top_builddir)/src/viciisc/libviciisc.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 vsid_lib = $(top_builddir)/src/c64/libvsid.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
+xcbm2stubs_lib = $(top_builddir)/src/cbm2/libcbm2stubs.a
 cbm2cart_lib = $(top_builddir)/src/cbm2/cart/libcbm2cart.a
 xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
+xcbm5x0stubs_lib = $(top_builddir)/src/cbm2/libcbm5x0stubs.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
 resid_libs = @RESID_LIBS@
@@ -1020,6 +1023,7 @@ xplus4_libs =  \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
+	$(plus4stubs_lib) \
 	$(resid_libs) \
 	$(hvsc_lib)
 
@@ -1065,6 +1069,7 @@ xcbm2_libs = \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
+	$(xcbm2stubs_lib) \
 	$(resid_libs) \
 	$(rtc_lib) \
 	$(hvsc_lib)
@@ -1112,6 +1117,7 @@ xcbm5x0_libs = \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
+	$(xcbm5x0stubs_lib) \
 	$(resid_libs) \
 	$(hvsc_lib)
 
@@ -1267,9 +1273,15 @@ $(c64dtvstubs_lib):
 $(xcbm2_lib):
 	@echo "making libcbm2.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm2.a)
+$(xcbm2stubs_lib):
+	@echo "making libcbm2stubs.a in cbm2"
+	@(cd cbm2 && $(MAKE) libcbm2stubs.a)
 $(xcbm5x0_lib):
 	@echo "making libcbm5x0.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm5x0.a)
+$(xcbm5x0stubs_lib):
+	@echo "making libcbm5x0stubs.a in cbm2"
+	@(cd cbm2 && $(MAKE) libcbm5x0stubs.a)
 $(cbm2cart_lib):
 	@echo "making libcbm2cart in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm2cart)
@@ -1366,6 +1378,9 @@ $(plus4_lib):
 $(plus4cart_lib):
 	@echo "making libplus4cart.a in plus4/cart"
 	@(cd plus4/cart && $(MAKE) libplus4cart.a)
+$(plus4stubs_lib):
+	@echo "making libplus4stubs.a in plus4"
+	@(cd plus4 && $(MAKE) libplus4stubs.a)
 $(printerdrv_lib):
 	@echo "making all in printerdrv"
 	@(cd printerdrv && $(MAKE))

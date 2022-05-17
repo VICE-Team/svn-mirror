@@ -1251,13 +1251,3 @@ void cbm2io_init(void)
     tpi2_list_item = io_source_register(&tpi2_device);
 }
 
-/* FIXME: these should live in cbm2-stubs.c instead */
-void mididrv_ui_reset_device_list(int device)
-{
-}
-
-char *mididrv_ui_get_next_device_name(int device, int *id)
-{
-    return NULL;
-}
-
