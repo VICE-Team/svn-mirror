@@ -39,6 +39,7 @@ libcbm2_a_SOURCES = \
 	cbm2-resources.h \
 	cbm2-snapshot.c \
 	cbm2-snapshot.h \
+	cbm2-stubs.c \
 	cbm2.c \
 	cbm2.h \
 	cbm2acia.h \

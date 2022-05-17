@@ -1,8 +1,9 @@
+
 /*
- * cbm5x0-stubs.c
+ * pet-stubs.c - dummies for unneeded/unused functions
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,16 +27,28 @@
 
 #include "vice.h"
 
-#include <stdio.h>
+#include <stdlib.h>
 
-#include "types.h"
-#include "userport_io_sim.h"
+#include "cartridge.h"
+#include "mididrv.h"
 
+/* FIXME: remove these functions from the bottom of petmem.c */
+#if 0
+/* dummy function to satisfy the global cartridge system */
+int cartridge_attach_image(int type, const char *name)
+{
+    return -1;
+}
 
-void userport_io_sim_set_pbx_out_lines(uint8_t val)
+void cartridge_detach_image(int type)
 {
 }
 
+void cartridge_unset_default(void)
+{
+}
+
+/* dummy functions needed for the UI */
 void mididrv_ui_reset_device_list(int device)
 {
 }
@@ -44,3 +57,5 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 {
     return NULL;
 }
+
+#endif

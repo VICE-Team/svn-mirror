@@ -219,6 +219,55 @@ static int message_len(BYTE msg)
     return len;
 }
 
+static int num_in_devices, idx_in_device;
+static int num_out_devices, idx_out_device;
+
+void mididrv_ui_reset_device_list(int device)
+{
+    if (device == 0) {
+        num_in_devices = midiInGetNumDevs();
+        idx_in_device = 0;
+    } else {
+        num_out_devices = midiOutGetNumDevs();
+        idx_out_device = 0;
+    }
+}
+
+char *mididrv_ui_get_next_device_name(int device, int *id)
+{
+    MMRESULT ret;
+    static MIDIINCAPS mic;
+    static MIDIOUTCAPS moc;
+
+    if (device == 0) {
+        if (idx_in_device < num_in_devices) {
+            ret = midiInGetDevCaps(idx_in_device, &mic, sizeof(MIDIINCAPS));
+            if (ret == MMSYSERR_NOERROR) {
+                *id = idx_in_device;
+                idx_in_device++;
+                return mic.szPname;
+            } else {
+                return "unknown";
+            }
+        } else {
+            return NULL;
+        }
+    } else {
+        if (idx_out_device < num_out_devices) {
+            ret = midiOutGetDevCaps(idx_out_device, &moc, sizeof(MIDIOUTCAPS));
+            if (ret == MMSYSERR_NOERROR) {
+                *id = idx_out_device;
+                idx_out_device++;
+                return moc.szPname;
+            } else {
+                return "unknown";
+            }
+        } else {
+            return NULL;
+        }
+    }
+}
+
 static void dump_sources(void)
 {
     int i, n;

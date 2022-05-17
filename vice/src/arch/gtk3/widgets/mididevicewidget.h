@@ -1,9 +1,10 @@
+/** \file   mididevicewidget.h
+ * \brief   Widget to select a midi device - header
+ *
+ * \author  groepaz <groepaz@gmx.net>
+ */
+
 /*
- * cbm5x0-stubs.c
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,23 +25,12 @@
  *
  */
 
+#ifndef VICE_MIDIDEVICEWIDGET_H
+#define VICE_MIDIDEVICEWIDGET_H
+
 #include "vice.h"
+#include <gtk/gtk.h>
 
-#include <stdio.h>
+GtkWidget * midi_device_widget_create(int device);
 
-#include "types.h"
-#include "userport_io_sim.h"
-
-
-void userport_io_sim_set_pbx_out_lines(uint8_t val)
-{
-}
-
-void mididrv_ui_reset_device_list(int device)
-{
-}
-
-char *mididrv_ui_get_next_device_name(int device, int *id)
-{
-    return NULL;
-}
+#endif

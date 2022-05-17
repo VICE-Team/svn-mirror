@@ -42,6 +42,7 @@ libplus4_a_SOURCES = \
 	plus4-sidcart.c \
 	plus4-snapshot.c \
 	plus4-snapshot.h \
+	plus4-stubs.c \
 	plus4.c \
 	plus4.h \
 	plus4acia.c \

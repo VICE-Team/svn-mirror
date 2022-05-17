@@ -106,6 +106,7 @@ libwidgets_a_SOURCES = \
 	magicvoicewidget.c \
 	megacartwidget.c \
 	midiwidget.c \
+	mididevicewidget.c \
 	mixerwidget.c \
 	mmc64widget.c \
 	mmcrwidget.c \
@@ -269,6 +270,7 @@ EXTRA_DIST = \
 	magicvoicewidget.h \
 	megacartwidget.h \
 	midiwidget.h \
+	mididevicewidget.h \
 	mixerwidget.h \
 	mmc64widget.h \
 	mmcrwidget.h \
