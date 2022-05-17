@@ -31,8 +31,6 @@
 
 #include "mididrv.h"
 
-/* FIXME: remove these functions from the bottom of cbm2mem.c */
-#if 0
 void mididrv_ui_reset_device_list(int device)
 {
 }
@@ -41,4 +39,3 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 {
     return NULL;
 }
-#endif
