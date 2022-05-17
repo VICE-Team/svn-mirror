@@ -1188,7 +1188,6 @@ static const char *versionmessage =
 static int check_resource_file_version(const char *fname)
 {
     FILE *f;
-    int line_num;
     int err = 1;
 
     f = fopen(fname, MODE_READ_TEXT);
@@ -1197,7 +1196,7 @@ static int check_resource_file_version(const char *fname)
     }
 
     /* Find the version tag  */
-    for (line_num = 1;; line_num++) {
+    while(1) {
         char buf[1024];
 
         if (util_get_line(buf, 1024, f) < 0) {
@@ -1205,7 +1204,6 @@ static int check_resource_file_version(const char *fname)
         }
 
         if (check_emu_id(buf, "Version")) {
-            line_num++;
             err = 0;
             break;
         }
