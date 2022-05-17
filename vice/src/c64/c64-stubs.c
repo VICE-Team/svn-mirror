@@ -1,6 +1,5 @@
-
 /*
- * plus4-stubs.c - dummies for unneeded/unused functions
+ * c64-stubs.c - dummies for unneeded/unused functions
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -27,17 +26,4 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
-
-#include "mididrv.h"
-
-#ifdef WINDOWS_COMPILE
-void mididrv_ui_reset_device_list(int device)
-{
-}
-
-char *mididrv_ui_get_next_device_name(int device, int *id)
-{
-    return NULL;
-}
-#endif
+#include "c64.h"

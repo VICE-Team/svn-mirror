@@ -32,8 +32,6 @@
 #include "cartridge.h"
 #include "mididrv.h"
 
-/* FIXME: remove these functions from the bottom of petmem.c */
-
 /* dummy function to satisfy the global cartridge system */
 int cartridge_attach_image(int type, const char *name)
 {
@@ -49,6 +47,7 @@ void cartridge_unset_default(void)
 }
 
 /* dummy functions needed for the UI */
+#ifdef WINDOWS_COMPILE
 void mididrv_ui_reset_device_list(int device)
 {
 }
@@ -57,3 +56,4 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 {
     return NULL;
 }
+#endif

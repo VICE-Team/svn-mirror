@@ -79,6 +79,7 @@ int tapecart_attach_tcrt(const char *filename, void *unused)
     return -1;
 }
 
+#ifdef WINDOWS_COMPILE
 void mididrv_ui_reset_device_list(int device)
 {
 }
@@ -87,3 +88,4 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 {
     return NULL;
 }
+#endif

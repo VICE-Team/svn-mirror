@@ -36,6 +36,7 @@ void userport_io_sim_set_pbx_out_lines(uint8_t val)
 {
 }
 
+#ifdef WINDOWS_COMPILE
 void mididrv_ui_reset_device_list(int device)
 {
 }
@@ -44,3 +45,4 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 {
     return NULL;
 }
+#endif
