@@ -35,7 +35,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a libc64scpu64.a
+noinst_LIBRARIES = libvsid.a libvsidstubs.a libc64.a libc64stubs.a libc64sc.a libc64scstubs.a libc64c128.a libc64c64dtv.a libc64scpu64.a
+
+libvsidstubs_a_SOURCES = \
+	vsid-stubs.c
 
 libvsid_a_SOURCES = \
 	vsid-cmdline-options.c \
@@ -78,8 +81,10 @@ libvsid_a_SOURCES = \
 	vsidmeminit.c \
 	vsidmemsnapshot.c \
 	vsidpla.c \
-	vsidsound.c \
-	vsidstubs.c
+	vsidsound.c
+
+libc64stubs_a_SOURCES = \
+	c64-stubs.c
 
 libc64_a_SOURCES = \
 	c64-cmdline-options.c \
@@ -140,6 +145,9 @@ libc64_a_SOURCES = \
 	plus256k.h \
 	plus60k.c \
 	plus60k.h
+
+libc64scstubs_a_SOURCES = \
+	c64sc-stubs.c
 
 libc64sc_a_SOURCES = \
 	c64-cmdline-options.c \

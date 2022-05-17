@@ -521,9 +521,13 @@ arch_sdl_lib = $(top_builddir)/src/arch/sdl/libarch.a
 arch_headless_lib = $(top_builddir)/src/arch/headless/libarch.a
 archdep_lib = $(top_builddir)/src/arch/shared/libarchdep.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
+c128stubs_lib = $(top_builddir)/src/c128/libc128stubs.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
+c64stubs_lib = $(top_builddir)/src/c64/libc64stubs.a
 c64sc_lib = $(top_builddir)/src/c64/libc64sc.a
+c64scstubs_lib = $(top_builddir)/src/c64/libc64scstubs.a
 scpu64_lib = $(top_builddir)/src/scpu64/libscpu64.a
+scpu64stubs_lib = $(top_builddir)/src/scpu64/libscpu64stubs.a
 c64dtv_lib = $(top_builddir)/src/c64dtv/libc64dtv.a
 c64dtvstubs_lib = $(top_builddir)/src/c64dtv/libc64dtvstubs.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
@@ -584,12 +588,14 @@ userport_lib = $(top_builddir)/src/userport/libuserport.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
+vic20stubs_lib = $(top_builddir)/src/vic20/libvic20stubs.a
 vic20cart_lib = $(top_builddir)/src/vic20/cart/libvic20cart.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 viciidtv_lib = $(top_builddir)/src/vicii/libviciidtv.a
 viciisc_lib = $(top_builddir)/src/viciisc/libviciisc.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 vsid_lib = $(top_builddir)/src/c64/libvsid.a
+vsidstubs_lib = $(top_builddir)/src/c64/libvsidstubs.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 xcbm2stubs_lib = $(top_builddir)/src/cbm2/libcbm2stubs.a
 cbm2cart_lib = $(top_builddir)/src/cbm2/cart/libcbm2cart.a
@@ -640,7 +646,8 @@ vsid_libs =  \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
 	$(hvsc_lib) \
-	$(datasette_lib)
+	$(datasette_lib) \
+	$(vsidstubs_lib)
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ $(VSID_RES)
@@ -688,6 +695,7 @@ x64_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(c64stubs_lib) \
 	$(resid_libs) \
 	$(hvsc_lib)
 
@@ -736,6 +744,7 @@ x64sc_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(c64scstubs_lib) \
 	$(resid_libs) \
 	$(hvsc_lib)
 
@@ -809,6 +818,7 @@ xscpu64_libs =  \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
+	$(scpu64stubs_lib) \
 	$(c64scpu64_lib) \
 	$(datasette_lib) \
 	$(driveiec_lib) \
@@ -883,6 +893,7 @@ x128_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(c128stubs_lib) \
 	$(resid_libs) \
 	$(hvsc_lib)
 
@@ -929,6 +940,7 @@ xvic_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(vic20stubs_lib) \
 	$(resid_libs) \
 	$(hvsc_lib)
 
@@ -1237,15 +1249,27 @@ $(archdep_lib):
 $(c128_lib):
 	@echo "making all in c128"
 	@(cd c128 && $(MAKE))
+$(c128stubs_lib):
+	@echo "making libc128stubs.a in c128"
+	@(cd c128 && $(MAKE) libc128stubs.a)
 $(c64_lib):
 	@echo "making libc64.a in c64"
 	@(cd c64 && $(MAKE) libc64.a)
+$(c64stubs_lib):
+	@echo "making libc64stubs.a in c64"
+	@(cd c64 && $(MAKE) libc64stubs.a)
 $(scpu64_lib):
 	@echo "making libscpu64.a in scpu64"
 	@(cd scpu64 && $(MAKE) libscpu64.a)
+$(scpu64stubs_lib):
+	@echo "making libscpu64stubs.a in scpu64"
+	@(cd scpu64 && $(MAKE) libscpu64stubs.a)
 $(c64sc_lib):
 	@echo "making libc64sc.a in c64"
 	@(cd c64 && $(MAKE) libc64sc.a)
+$(c64scstubs_lib):
+	@echo "making libc64scstubs.a in c64"
+	@(cd c64 && $(MAKE) libc64scstubs.a)
 $(c64c128_lib):
 	@echo "making libc64c128.a in c64"
 	@(cd c64 && $(MAKE) libc64c128.a)
@@ -1438,6 +1462,9 @@ $(vdrive_lib):
 $(vic20_lib):
 	@echo "making all in vic20"
 	@(cd vic20 && $(MAKE) libvic20.a)
+$(vic20stubs_lib):
+	@echo "making libvic20stubs.a in vic20"
+	@(cd vic20 && $(MAKE) libvic20stubs.a)
 $(vic20cart_lib):
 	@echo "making libvic20cart.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libvic20cart.a)
@@ -1456,6 +1483,9 @@ $(video_lib):
 $(vsid_lib):
 	@echo "making libvsid.a in c64"
 	@(cd c64 && $(MAKE) psiddrv.h libvsid.a)
+$(vsidstubs_lib):
+	@echo "making libvsidstubs.a in c64"
+	@(cd c64 && $(MAKE) libvsidstubs.a)
 
 
 clean: clean-recursive
