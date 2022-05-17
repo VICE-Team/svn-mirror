@@ -1064,11 +1064,8 @@ gboolean vice_gtk3_resource_combo_box_with_entry_factory(GtkWidget *widget)
  */
 gboolean vice_gtk3_resource_combo_box_with_entry_reset(GtkWidget *widget)
 {
-    const char *resource;
-    const char *orig;
+    const char *orig = resource_widget_get_string(widget, "ResourceOrig");
 
-    resource = resource_widget_get_resource_name(widget);
-    orig = resource_widget_get_string(widget, "ResourceOrig");
     return vice_gtk3_resource_combo_box_with_entry_set(widget, orig);
 }
 
