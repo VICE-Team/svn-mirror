@@ -561,6 +561,7 @@ monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
+petstubs_lib = $(top_builddir)/src/pet/libpetstubs.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 plus4cart_lib = $(top_builddir)/src/plus4/cart/libplus4cart.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
@@ -969,6 +970,7 @@ xpet_libs =  \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
+	$(petstubs_lib) \
 	$(resid_libs) \
 	$(rtc_lib) \
 	$(hvsc_lib)
@@ -1355,6 +1357,9 @@ $(parallel_lib):
 $(pet_lib):
 	@echo "making all in pet"
 	@(cd pet && $(MAKE))
+$(petstubs_lib):
+	@echo "making libpetstubs.a in pet"
+	@(cd pet && $(MAKE) libpetstubs.a)
 $(plus4_lib):
 	@echo "making libplus4.a in plus4"
 	@(cd plus4 && $(MAKE) libplus4.a)

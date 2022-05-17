@@ -26,7 +26,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libpet.a
+noinst_LIBRARIES = libpet.a libpetstubs.a
+
+libpetstubs_a_SOURCES = \
+	pet-stubs.c
 
 libpet_a_SOURCES = \
 	6809.c \
@@ -40,7 +43,6 @@ libpet_a_SOURCES = \
 	pet-sidcart.c \
 	pet-snapshot.c \
 	pet-snapshot.h \
-	pet-stubs.c \
 	pet.c \
 	pet.h \
 	petacia.h \
