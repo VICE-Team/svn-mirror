@@ -1,8 +1,9 @@
+
 /*
- * cbm5x0-stubs.c
+ * plus4-stubs.c - dummies for unneeded/unused functions
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,16 +27,12 @@
 
 #include "vice.h"
 
-#include <stdio.h>
+#include <stdlib.h>
 
-#include "types.h"
-#include "userport_io_sim.h"
+#include "mididrv.h"
 
-
-void userport_io_sim_set_pbx_out_lines(uint8_t val)
-{
-}
-
+/* FIXME: remove these functions from the bottom of plus4mem.c */
+#if 0
 void mididrv_ui_reset_device_list(int device)
 {
 }
@@ -44,3 +41,4 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 {
     return NULL;
 }
+#endif

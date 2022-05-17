@@ -2097,6 +2097,8 @@ void petmem_check_info(petres_t *pi)
     }
 }
 
+/* FIXME: the following should live in pet-stubs.c instead */
+
 /* dummy function to satisfy the global cartridge system */
 int cartridge_attach_image(int type, const char *name)
 {
@@ -2109,5 +2111,15 @@ void cartridge_detach_image(int type)
 
 void cartridge_unset_default(void)
 {
+}
+
+/* dummy functions needed for the UI */
+void mididrv_ui_reset_device_list(int device)
+{
+}
+
+char *mididrv_ui_get_next_device_name(int device, int *id)
+{
+    return NULL;
 }
 

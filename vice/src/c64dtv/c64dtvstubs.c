@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "machine.h"
+#include "mididrv.h"
 #include "tapecart.h"
 #include "tapeport.h"
 
@@ -76,4 +77,13 @@ int tapecart_is_valid(const char *filename)
 int tapecart_attach_tcrt(const char *filename, void *unused)
 {
     return -1;
+}
+
+void mididrv_ui_reset_device_list(int device)
+{
+}
+
+char *mididrv_ui_get_next_device_name(int device, int *id)
+{
+    return NULL;
 }

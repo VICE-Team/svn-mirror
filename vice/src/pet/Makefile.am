@@ -40,6 +40,7 @@ libpet_a_SOURCES = \
 	pet-sidcart.c \
 	pet-snapshot.c \
 	pet-snapshot.h \
+	pet-stubs.c \
 	pet.c \
 	pet.h \
 	petacia.h \

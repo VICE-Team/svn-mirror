@@ -63,6 +63,10 @@
 
 #include "midiwidget.h"
 
+/* right now we only have a dropdown list on windows */
+#if defined (WINDOWS_COMPILE)
+#include "mididevicewidget.h"
+#endif
 
 /** \brief  MIDI enable checkbutton */
 static GtkWidget *midi_enable;
@@ -349,21 +353,19 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     row++;
 #endif
 
-    /* TODO: For Windows we need to use a dropdown box instead and query the
-     *       list of available devices. For now we use a Text Entry box where
-     *       the device number can be entered.
-     */
 #ifdef WINDOWS_COMPILE
+    /* A drop down list containing the available devices */
     label = gtk_label_new("MIDI In");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_in_entry = vice_gtk3_resource_entry_full_new("MIDIInDev");
+    midi_in_entry = midi_device_widget_create(0);
     gtk_widget_set_hexpand(midi_in_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_in_entry, 1, row, 1, 1);
 #endif
 
 #ifdef MACOS_COMPILE
+    /* A text entry field to input the port name */
     label = gtk_label_new("MIDI In Name");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -374,6 +376,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 #endif
 
 #if defined(USE_OSS)
+    /* A text enrty field+browse button to enter the device file */
     label = gtk_label_new("OSS MIDI In");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -390,21 +393,19 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 #endif
     row++;
 
-    /* TODO: For Windows we need to use a dropdown box instead and query the
-     *       list of available devices. For now we use a Text Entry box where
-     *       the device number can be entered.
-     */
 #ifdef WINDOWS_COMPILE
+    /* A drop down list containing the available devices */
     label = gtk_label_new("MIDI Out");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_out_entry = vice_gtk3_resource_entry_full_new("MIDIOutDev");
+    midi_out_entry = midi_device_widget_create(1);
     gtk_widget_set_hexpand(midi_out_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_out_entry, 1, row, 1, 1);
 #endif
 
 #ifdef MACOS_COMPILE
+    /* A text entry field to input the port name */
     label = gtk_label_new("MIDI Out Name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
@@ -415,6 +416,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 #endif
 
 #if defined(USE_OSS)
+    /* A text enrty field+browse button to enter the device file */
     label = gtk_label_new("OSS MIDI Out");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
