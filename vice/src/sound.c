@@ -1217,7 +1217,7 @@ void sound_reset(void)
 }
 
 /* flush all generated samples from buffer to sounddevice. */
-bool sound_flush()
+bool sound_flush(void)
 {
     int c, i, nr, space;
     char *state;
