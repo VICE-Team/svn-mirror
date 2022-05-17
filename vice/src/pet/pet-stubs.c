@@ -33,7 +33,7 @@
 #include "mididrv.h"
 
 /* FIXME: remove these functions from the bottom of petmem.c */
-#if 0
+
 /* dummy function to satisfy the global cartridge system */
 int cartridge_attach_image(int type, const char *name)
 {
@@ -57,5 +57,3 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
 {
     return NULL;
 }
-
-#endif
