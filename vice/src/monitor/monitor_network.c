@@ -389,7 +389,7 @@ int monitor_network_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
-vice_network_socket_t *monitor_get_connected_socket() {
+vice_network_socket_t *monitor_get_connected_socket(void) {
     return connected_socket;
 }
 
