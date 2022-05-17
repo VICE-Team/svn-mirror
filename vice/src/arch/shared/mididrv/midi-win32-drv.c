@@ -212,6 +212,7 @@ static int message_len(BYTE msg)
                 default:
                     break;
             }
+            break;
         default: /* running status */
             len = 2;
             break;
