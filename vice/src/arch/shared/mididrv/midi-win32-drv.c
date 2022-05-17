@@ -212,6 +212,7 @@ static int message_len(BYTE msg)
                 default:
                     break;
             }
+            break;
         default: /* running status */
             len = 2;
             break;
@@ -275,7 +276,7 @@ static void dump_sources(void)
     MIDIINCAPS mic;
 
     n = midiInGetNumDevs();
-    log_message(mididrv_log,"found %lu sources", n);
+    log_message(mididrv_log,"found %d sources", n);
     for (i = 0 ; i < n; ++i) {
         ret = midiInGetDevCaps(i, &mic, sizeof(MIDIINCAPS));
         log_message(mididrv_log, "source #%d: %s",
@@ -290,7 +291,7 @@ static void dump_destinations(void)
     MIDIOUTCAPS moc;
 
     n = midiOutGetNumDevs();
-    log_message(mididrv_log, "found %lu destinations", n);
+    log_message(mididrv_log, "found %d destinations", n);
     for (i = 0; i < n; ++i) {
         ret = midiOutGetDevCaps(i, &moc, sizeof(MIDIOUTCAPS));
         log_message(mididrv_log, "destination #%d: %s",
@@ -442,7 +443,7 @@ void mididrv_out(uint8_t b)
         out_index = 0;
         data = out_buf[0] | (out_buf[1] << 8) | (out_buf[2] << 16);
 #ifdef DEBUG
-        log_message(mididrv_log, "flushing out %06x", data);
+        log_message(mididrv_log, "flushing out %06lx", data);
 #endif
         ret = midiOutShortMsg(handle_out, data);
         if (ret != MMSYSERR_NOERROR) {
@@ -460,7 +461,7 @@ static void CALLBACK midi_callback(HMIDIIN handle, UINT uMsg, DWORD dwInstance, 
     switch (uMsg) {
         case MIM_DATA:
 #ifdef DEBUG
-            log_message(mididrv_log, "MIDI callback got %08x", dwParam1);
+            log_message(mididrv_log, "MIDI callback got %08lx", dwParam1);
 #endif
             len = message_len((BYTE)(dwParam1 & 0xff));
             for (i = 0; i < len; i++) {
