@@ -133,8 +133,6 @@
 # ins/del+shift (-> insert)
 # arrow left (-> underscore, ssharp, altgr+~)
 # arrow up+shift (-> altgr+m)
-# f1 (-> page up)
-# f7 (-> page down)
 # : (-> oe)
 # :+shift (-> OE, altgr+[)
 # ; (-> ae)
@@ -159,13 +157,9 @@ Left           7 2 1
 # f7
 F7             7 7 8
 F8             7 7 1
-# extra: pagedown -> f7
-Page_Down      7 7 8
 # f1
 F1             7 4 8
 F2             7 4 1
-# extra: pagedown -> f1
-Page_Up        7 4 8
 # f3
 F3             7 5 8
 F4             7 5 1
@@ -262,8 +256,10 @@ Adiaeresis     6 2 1
 bracketright   6 2 1
 # clr/home
 Home           6 7 8
-# extra: altgr+\ -> clr/home
+# extra: altgr+\ -> home
 backslash      6 7 8
+# extra: shift+altgr+\ -> clr/home
+questiondown   6 7 8
 # right shift
 # key is right shift
 Shift_R        6 4 4
@@ -381,7 +377,7 @@ z 1 4 8
 # Restore key mappings
 #
 F12 -3 0
-F12 -3 1
+Page_Up -3 1
 
 # Dead keys support
 dead_acute      6 0 8  # ' -> pound
