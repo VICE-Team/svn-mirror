@@ -3626,7 +3626,7 @@ String specifying the name of the user keymap file for positional mapping
 @item KeyboardMapping
 Integer specifying the keyboard layout of the host.
 (0: American 1: British 2: Danish 3: Dutch 4: Finnish 5: French 6: German 7: Italian
- 8: Norwegian 9: Spanish 10: Swedish 11: Swiss).
+ 8: Norwegian 9: Spanish 10: Swedish 11: Swiss 12: Turkish).
 
 @vindex KeyboardType
 @item KeyboardType
@@ -3662,7 +3662,8 @@ Specify filename of the positional user keymap file
 @item -keyboardmapping <number>
 Specifies the keyboard layout of the host
 (@code{KeyboardMapping}
-0: American 1: British 2: German 3: Danish 4: Norwegian 5: Finnish 6: Italian).
+(0: American 1: British 2: Danish 3: Dutch 4: Finnish 5: French 6: German 7: Italian
+ 8: Norwegian 9: Spanish 10: Swedish 11: Swiss 12: Turkish).
 
 @findex -keyboardtype
 @item -keyboardtype <number>

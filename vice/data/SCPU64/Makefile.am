@@ -41,6 +41,7 @@ gtk3_keymaps = \
 	gtk3_pos_it.vkm \
 	gtk3_pos_es.vkm \
 	gtk3_pos_uk.vkm \
+	gtk3_pos_tr.vkm \
 	gtk3_sym_de.vkm \
 	gtk3_sym_be.vkm \
 	gtk3_sym_da.vkm \
@@ -49,6 +50,7 @@ gtk3_keymaps = \
 	gtk3_sym_it.vkm \
 	gtk3_sym_fr.vkm \
 	gtk3_sym_uk.vkm \
+	gtk3_sym_tr.vkm \
 	gtk3_keyrah.vkm \
 	gtk3_keyrah_de.vkm \
 	gtk3_the64_de.vkm \
@@ -67,6 +69,7 @@ sdl_keymaps = \
 	sdl_pos_de.vkm \
 	sdl_pos_fi.vkm \
 	sdl_pos_no.vkm \
+	sdl_pos_tr.vkm \
 	sdl_sym.vkm \
 	sdl_sym_uk.vkm \
 	sdl_sym_de.vkm \
