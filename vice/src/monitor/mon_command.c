@@ -831,8 +831,8 @@ static int mon_command_lookup_index(const char *str)
     }
 
     do {
-        if ((strcasecmp(str, mon_cmd_array[num].str) == 0) ||
-            (strcasecmp(str, mon_cmd_array[num].abbrev) == 0)) {
+        if ((util_strcasecmp(str, mon_cmd_array[num].str) == 0) ||
+            (util_strcasecmp(str, mon_cmd_array[num].abbrev) == 0)) {
             return num;
         }
         num++;

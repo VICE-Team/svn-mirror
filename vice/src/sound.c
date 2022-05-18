@@ -935,7 +935,7 @@ int sound_open(void)
 
     /* find pdev */
     for (i = 0; (pdev = sound_devices[i]); i++) {
-        if (!playname || (pdev->name && !strcasecmp(playname, pdev->name))) {
+        if (!playname || (pdev->name && !util_strcasecmp(playname, pdev->name))) {
             break;
         }
     }
@@ -1033,7 +1033,7 @@ int sound_open(void)
     sound_state_changed = FALSE;
 
     for (i = 0; (rdev = sound_devices[i]); i++) {
-        if (recname && rdev->name && !strcasecmp(recname, rdev->name)) {
+        if (recname && rdev->name && !util_strcasecmp(recname, rdev->name)) {
             break;
         }
     }

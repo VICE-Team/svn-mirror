@@ -4710,9 +4710,9 @@ static int rename_cmd(int nargs, char **args)
  */
 static int show_cmd(int nargs, char **args)
 {
-    if (strcasecmp(args[1], "copying") == 0) {
+    if (util_strcasecmp(args[1], "copying") == 0) {
         printf("%s", info_license_text);
-    } else if (strcasecmp(args[1], "warranty") == 0) {
+    } else if (util_strcasecmp(args[1], "warranty") == 0) {
         printf("%s", info_warranty_text);
     } else {
         fprintf(stderr, "Use either `show copying' or `show warranty'\n");

@@ -207,6 +207,11 @@ dnl Make sure the compiler supports C99 at a minimum
 AC_PROG_CC_C99
 AS_IF([test x"$ac_cv_prog_cc_c99" = "xno"],
       [AC_MSG_ERROR([A C99-compliant compiler is required.])])
+dnl Force C99-compliance
+dnl     Currently breaks some code depending on POSIX/BSD functions, for that
+dnl     we'll have to pass -D_BSD_SOURCE or a similar define to the compiler,
+dnl     before #including any header. So for now this is disabled.
+dnl VICE_CFLAGS="$VICE_CFLAGS -std=c99"
 AC_PROG_CPP
 dnl C++ check, at least C++11
 AC_PROG_CXX([c++ g++ clang++])
