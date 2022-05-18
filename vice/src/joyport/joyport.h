@@ -113,6 +113,7 @@
 #define JOYSTICK_ADAPTER_ID_SPACEBALLS            5
 #define JOYSTICK_ADAPTER_ID_MULTIJOY              6
 #define JOYSTICK_ADAPTER_ID_INCEPTION             7
+#define JOYSTICK_ADAPTER_ID_SPT_JOYSTICK          8
 
 #define JOYPORT_DEVICE_TYPE_NONE          0
 #define JOYPORT_DEVICE_JOYSTICK           1
