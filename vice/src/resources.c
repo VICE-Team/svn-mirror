@@ -237,7 +237,7 @@ static resource_ram_t *lookup(const char *name)
     hashkey = resources_calc_hash_key(name);
     res = (hashTable[hashkey] >= 0) ? resources + hashTable[hashkey] : NULL;
     while (res != NULL) {
-        if (strcasecmp(res->name, name) == 0) {
+        if (util_strcasecmp(res->name, name) == 0) {
             return res;
         }
         res = (res->hash_next >= 0) ? resources + res->hash_next : NULL;

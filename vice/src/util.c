@@ -779,7 +779,7 @@ void util_add_extension(char **name, const char *extension)
 
     name_len = strlen(*name);
     if ((name_len > ext_len + 1)
-        && (strcasecmp(&((*name)[name_len - ext_len]), extension) == 0)) {
+        && (util_strcasecmp(&((*name)[name_len - ext_len]), extension) == 0)) {
         return;
     }
 
@@ -822,7 +822,7 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
     }
 
     if ((name_len > ext_len + 1)
-        && (strcasecmp(&((name)[name_len - ext_len]), extension) == 0)) {
+        && (util_strcasecmp(&((name)[name_len - ext_len]), extension) == 0)) {
         return;
     }
 
@@ -943,4 +943,79 @@ char *util_join_paths(const char *path, ...)
 
     va_end(ap);
     return result;
+}
+
+
+/** \brief  Compare strings, ignoring case
+ *
+ * \param[in]   s1  string to compare
+ * \param[in]   s2  string to compare
+ *
+ * \return  -1 if \a s1 \< \a s2, 0 if \a s1 == \a s2, 1 if \a s1 \> \a s2
+ *
+ * \note    Does naive case-folding, so don't rely on this for sorting strings
+ *          in non-ASCII encoding (for example when e-umlaut exists but E-umlaut
+ *          doesn't exist)
+ */
+int util_strcasecmp(const char *s1, const char *s2)
+{
+    while (*s1 != '\0' && *s2 != '\0') {
+        int c1 = tolower((int)*s1);
+        int c2 = tolower((int)*s2);
+
+        if (c1 < c2) {
+            return -1;
+        } else if (c1 > c2) {
+            return 1;
+        }
+
+        s1++;
+        s2++;
+    }
+
+    if (*s1 == '\0' && *s2 == '\0') {
+        return 0;
+    } else if (*s1 == '\0') {
+        return -1;
+    } else {
+        return 1;
+    }
+}
+
+
+/** \brief  Compare strings, ignoring case, comparing at most \a n chars
+ *
+ * \param[in]   s1  string to compare
+ * \param[in]   s2  string to compare
+ *
+ * \return  -1 if \a s1 \< \a s2, 0 if \a s1 == \a s2, 1 if \a s1 \> \a s2
+ *
+ * \note    Does naive case-folding, so don't rely on this for sorting strings
+ *          in non-ASCII encoding (for example when e-umlaut exists but E-umlaut
+ *          doesn't exist)
+ */
+int util_strncasecmp(const char *s1, const char *s2, size_t n)
+{
+    while (*s1 != '\0' && *s2 != '\0' && n > 0) {
+        int c1 = tolower((int)*s1);
+        int c2 = tolower((int)*s2);
+
+        if (c1 < c2) {
+            return -1;
+        } else if (c1 > c2) {
+            return 1;
+        }
+
+        s1++;
+        s2++;
+        n--;
+    }
+
+    if ((*s1 != '\0' && *s2 != '\0') || (*s1 == '\0' && *s2 == '\0')) {
+        return 0;
+    } else if (*s1 == '\0') {
+        return -1;
+    } else {
+        return 1;
+    }
 }

@@ -68,6 +68,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "mon_breakpoint.h"
+;
 #include "network.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -1875,7 +1876,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
                     n = 1;
                     break;
                 }
-                if ((n < 17) && (!strcasecmp((const char*)&finfo->name[n], ".prg"))) {
+                if ((n < 17) && (!util_strcasecmp((const char*)&finfo->name[n], ".prg"))) {
                     break;
                 }
                 tempname[n] = finfo->name[n];

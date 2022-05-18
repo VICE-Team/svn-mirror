@@ -1344,6 +1344,10 @@ static int parse_version(char *str)
     }
 
     for (i = 0; basic_list[i].version_select; ++i) {
+        /* FIXME:   Non-standard function
+         *          We can't use util_strcasecmp() here either since that'll
+         *          make petcat depend on a lot of other code.
+         */
         if (!strncasecmp(str, basic_list[i].version_select, strlen(basic_list[i].version_select))) {
             return i + 1;
         }

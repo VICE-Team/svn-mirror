@@ -118,8 +118,8 @@ static int file_is_gzip(const char *name)
 {
     size_t l = strlen(name);
 
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-        && (l < 3 || strcasecmp(name + l - 2, ".z"))
+    if ((l < 4 || util_strcasecmp(name + l - 3, ".gz"))
+        && (l < 3 || util_strcasecmp(name + l - 2, ".z"))
         && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.')) {
           return 0;
     }
@@ -289,7 +289,7 @@ static char *try_uncompress_with_bzip(const char *name)
     /* Check whether the name sounds like a bzipped file by checking the
        extension.  UNIX variants of bzip v2 use the extension
        '.bz2'.  bzip v1 is obsolete.  */
-    if (l < 5 || strcasecmp(name + l - 4, ".bz2") != 0) {
+    if (l < 5 || util_strcasecmp(name + l - 4, ".bz2") != 0) {
         return NULL;
     }
 
@@ -325,7 +325,7 @@ static char *try_uncompress_with_tzx(const char *name)
     char *argv[4];
 
     /* Check whether the name sounds like a tzx file. */
-    if (l < 4 || strcasecmp(name + l - 4, ".tzx") != 0) {
+    if (l < 4 || util_strcasecmp(name + l - 4, ".tzx") != 0) {
         return NULL;
     }
 
@@ -399,7 +399,7 @@ static int is_valid_extension(char *end, size_t l, int nameoffset)
         if (l < nameoffset + len) {
             continue;
         }
-        if (!strcasecmp(extensions[i], end + l - len)) {
+        if (!util_strcasecmp(extensions[i], end + l - len)) {
             return 1;
         }
     }
@@ -431,7 +431,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 
     /* Do we have correct extension?  */
     len = strlen(extension);
-    if (l <= len || strcasecmp(name + l - len, extension) != 0) {
+    if (l <= len || util_strcasecmp(name + l - len, extension) != 0) {
         return NULL;
     }
 
@@ -482,7 +482,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
         while (l > 0) {
             tmp[--l] = 0;
             if (((nameoffset == SIZE_MAX) || (nameoffset > 1024)) && l >= len
-                    && strcasecmp(tmp + l - len, search) == 0) {
+                    && util_strcasecmp(tmp + l - len, search) == 0) {
                 nameoffset = l - 4;
             }
             if (nameoffset <= 1024

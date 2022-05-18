@@ -32,10 +32,8 @@
 
 #include "vice.h"
 
-#ifdef WINDOWS_COMPILE
-# include <stdint.h>
+#include <stdint.h>
 
-void archdep_usleep(uint64_t waitTime);
+void archdep_usleep(uint64_t usec);
 
-# endif
 #endif

@@ -123,6 +123,7 @@ char *strdup(const char *string)
 }
 #endif
 
+#if 0
 /* this is POSIX only */
 #if !defined(HAVE_STRNCASECMP)
 static const unsigned char charmap[] = {
@@ -177,6 +178,7 @@ int strncasecmp(const char *s1, const char *s2, size_t n)
     }
     return 0;
 }
+#endif
 #endif
 
 /*****************************************************************************/
@@ -761,6 +763,10 @@ static int find_crtid_from_type(const cart_t *info, char *type)
     int i;
     for (i = 0; info[i].name != NULL; i++) {
         if (info[i].opt != NULL) {
+            /* FIXME:   Non-standard function
+             *          We can't use util_strcasecmp() here either since that'll
+             *          make cartconv depend on a lot of other code.
+             */
             if (!strcasecmp(info[i].opt, type)) {
                 return i; /* found */
             }

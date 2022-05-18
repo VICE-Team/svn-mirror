@@ -895,46 +895,6 @@ static char *parser_strsubst(const char *original,
 }
 
 
-/** \brief  Case-insensitive compare string \a s1 to string \a s2
- *
- * Compare two strings, \a s1 and \a s2, using at most \a n bytes of either
- * string, in a case-insenstive manner.
- *
- * \return  0 when equal, -1 when s1 < s2, +1 when s1 > s2
- */
-static int parser_strncasecmp(const char *s1, const char *s2, size_t n)
-{
-    size_t i;
-#if 0
-    debug_gtk3("compare (%s, %s).", s1, s2);
-#endif
-    for (i = 0; *s1 != '\0' && *s2 != '\0' && i < n; s1++, s2++, i++) {
-        int c1 = tolower((int)*s1);
-        int c2 = tolower((int)*s2);
-
-        if (c1 < c2) {
-            return -1;
-        } else if (c1 > c2) {
-            return 1;
-        }
-    }
-
-    if (*s1 != '\0' && *s2 != '\0') {
-        /* more data, but equal for the requested first n chars */
-        return 0;
-    } else if (*s1 == '\0' && *s2 == '\0') {
-        /* no more data, strings match */
-        return 0;
-    } else if (*s1 == '\0') {
-        /* s2 is longer */
-        return 1;
-    } else {
-        return -1;
-    }
-}
-
-
-
 /** \brief  Scan string for keyword
  *
  * Scan string \a name for a keyword and return keyword ID on match.
@@ -1249,9 +1209,9 @@ static bool parser_do_debug(const char *line, textfile_reader_t *reader)
 #endif
     arg = skip_whitespace(line);
     for (i = 0; i < ARRAY_LEN(debug_arglist); i++) {
-        if (parser_strncasecmp(debug_arglist[i].symbol,
-                               arg,
-                               strlen(debug_arglist[i].symbol)) == 0) {
+        if (util_strncasecmp(debug_arglist[i].symbol,
+                             arg,
+                             strlen(debug_arglist[i].symbol)) == 0) {
 #if 0
             debug_gtk3("Found '%s' -> '%s'.",
                        debug_arglist[i].symbol,

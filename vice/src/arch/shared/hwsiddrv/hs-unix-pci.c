@@ -46,6 +46,7 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 
+#include "archdep.h"
 #include "hardsid.h"
 #include "io-access.h"
 #include "log.h"
@@ -68,7 +69,7 @@ int hs_pci_read(uint16_t addr, int chipno)
 
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store(base1 + 4, (uint8_t)((chipno << 6) | (addr & 0x1f) | 0x20));
-        usleep(2);
+        archdep_usleep(2);
         io_access_store(base2 + 2, 0x20);
         ret = io_access_read(base1);
         io_access_store(base2 + 2, 0x80);
@@ -81,7 +82,7 @@ void hs_pci_store(uint16_t addr, uint8_t outval, int chipno)
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store(base1 + 3, outval);
         io_access_store(base1 + 4, (uint8_t)((chipno << 6) | (addr & 0x1f)));
-        usleep(2);
+        archdep_usleep(2);
     }
 }
 

@@ -352,7 +352,7 @@ int rs232dev_open(int device)
             break;
         }
 
-        if(!strncasecmp(rs232_devfile[device], "com", 3)) {
+        if(!util_strncasecmp(rs232_devfile[device], "com", 3)) {
             fds[i].type = T_TTY;
         } else {
             fds[i].type = T_FILE;
