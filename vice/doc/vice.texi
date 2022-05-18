@@ -16760,6 +16760,16 @@ String specifying the OSS MIDI input device
 String specifying the OSS MIDI output device
 (Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
 
+@vindex MIDIInName
+@item MIDIInName
+String specifying the name of the MIDI input port (default:"VICEInput")
+(macOS only, x64, x64sc, xscpu64, x128 and xvic only).
+
+@vindex MIDIOutName
+@item MIDIOutName
+String specifying the name of the MIDI output port (default:"VICEOutput")
+(macOS only, x64, x64sc, xscpu64, x128 and xvic only).
+
 @end table
 
 @b{The following resource is only available if MIDI support and ALSA support is available at compile time.}
@@ -16910,6 +16920,18 @@ Specify OSS MIDI-In device
 Specify OSS MIDI-Out device
 (@code{MIDIOutDev})
 (Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
+
+@findex -midiinname
+@item -midiinname <name>
+Specify the name of the MIDI input port (default:"VICEInput")
+(@code{MIDIInName})
+(macos, x64, x64sc, xscpu64, x128 and xvic only).
+
+@findex -midioutname
+@item -midioutname <name>
+Specify the name of the MIDI output port (default:"VICEOutput")
+(@code{MIDIOutName})
+(macos, x64, x64sc, xscpu64, x128 and xvic only).
 
 @end table
 
