@@ -1030,6 +1030,8 @@ The SpaceBalls joystick adapter ports 1, 2, 3, 4, 5, 6, 7 & 8 (x64/x64sc/xscpu64
 
 The Ninja SNES pad adapter ports 1, 2 & 3 (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4) are mapped to extra joystick devices #1, #2 & #3 respectively.
 
+The Stupid Pet Tricks joystick adapter port (x64/x64sc/xscpu64/x128/xcbm2/xpet/xvic) is mapped to port extra joystick device #3. 
+
 The ProtoPad SNES pad adapter port is mapped to the same port it is attached to.
 
 The Trap-Them SNES pad adapter port is mapped to the same port it is attached to.
@@ -7980,6 +7982,9 @@ Set the device attached to the userport (see table below):
 @item 23
 @tab Joystick Adapter (Spaceballs)
 @tab x64, x64sc, x128, xscpu64, xvic
+@item 24
+@tab Userport Stupid Pet Tricks joystick adapter
+@tab x64, x64sc, x128, xscpu64, xcbm2, xpet, xvic
 @end multitable
 
 @table @code
@@ -33274,7 +33279,8 @@ superpad64 support. Added multijoy joystick adapter support.
 Added inception joystick adapter support. Added protopad support.
 Added autofire support. Added plus4 Synergy 3-port joystick
 adapter support. Added userport I/O simulation device. Added
-Microflyte analog joystick support. And lots of other fixes and
+Microflyte analog joystick support. Added Stupid Pet Tricks
+joystick adapter support. And lots of other fixes and
 improvements.
 
 @item
