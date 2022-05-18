@@ -89,7 +89,7 @@ int archdep_kbd_get_host_mapping(void)
         MAKELANGID(LANG_SWEDISH,    SUBLANG_SWEDISH),
         MAKELANGID(LANG_GERMAN,     SUBLANG_GERMAN_SWISS),
         MAKELANGID(LANG_DUTCH,      SUBLANG_DUTCH_BELGIAN),    /* must come after regular dutch */
-        MAKELANGID(LANG_TURKISH,    SUBLANG_TURKISH),
+        MAKELANGID(LANG_TURKISH,    SUBLANG_TURKISH_TURKEY),
     };
 
     /* GetKeyboardLayout returns a pointer, but the first 16 bits of it return
