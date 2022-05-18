@@ -6,3 +6,6 @@ http://www.keyboard-layout-editor.com/#/gists/42e0528ec071613fda39b0a28c45e860
 
 C64 positional (DE):
 http://www.keyboard-layout-editor.com/#/gists/658f280e1c5e1644694dc9b4806c3602
+
+C64 symbolic (DE):
+http://www.keyboard-layout-editor.com/#/gists/12339f5dad4e6a5b6d31579671760b1e

@@ -972,9 +972,20 @@ ones), @pxref{Keymap files}.
 
 This mapping applies to the C64, SCPU, VIC20 and DTV emulators.
 
+In the symbolic mappings all keys are - as far as possible - mapped in a way that
+inside the emulation the symbol that is printed on the host key is produced. Note
+that while these mappings will allow easier typing if you are used to your host
+keymap, it might cause various problems in the emulation and not all emulated
+keys are accessible. If you encounter such problems, try the positional mapping.
+
 For the positional mappings first all keys are mapped at their exact positions,
 as far as possible, and then the remaining few (usually 2 or 3) will be mapped
-to other, yet unused, keys.
+to other, yet unused, keys. This is the recommended mapping for playing games or
+other programs that require keys+modifiers (shift/control/cbm) to work exactly
+like on the emulated machine.
+
+@subsubsection Symbolic (DE)
+@image{html/images/vice-c64-symbolic-keymap-de-small}
 
 @subsubsection Positional (US)
 @image{html/images/vice-c64-positional-keymap-us-small}

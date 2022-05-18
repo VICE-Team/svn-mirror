@@ -46,6 +46,8 @@ IMAGES_FILES = \
 	images/vice-logo-black.png \
 	images/vice-c64-positional-keymap-de-small.png \
 	images/vice-c64-positional-keymap-de.png \
+	images/vice-c64-symbolic-keymap-de-small.png \
+	images/vice-c64-symbolic-keymap-de.png \
 	images/vice-c64-positional-keymap-us-small.png \
 	images/vice-c64-positional-keymap-us.png
 
