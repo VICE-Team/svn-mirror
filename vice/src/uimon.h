@@ -52,5 +52,8 @@ extern int uimon_get_string(struct console_private_s *t, char* string, int strin
 
 /* Gtk3-specific, so far */
 extern bool uimon_set_font(void);
+extern bool uimon_set_foreground_color(const char *color);
+extern bool uimon_set_background_color(const char *color);
+
 
 #endif

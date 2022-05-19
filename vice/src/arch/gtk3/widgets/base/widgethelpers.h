@@ -33,13 +33,13 @@
 
 #include "basewidget_types.h"
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 
-/** \brief  Unicode text for the VICE_MOD_MASK (Command/⌘) modifier
+/** \brief  Unicode text for the VICE_MOD_MASK (Command) modifier
  */
-# define VICE_MOD_MASK_TEXT "⌘"
+# define VICE_MOD_MASK_TEXT "\u2318"
 
-/** \brief  HTML text for the VICE_MOD_MASK (Command/⌘) modifier
+/** \brief  HTML text for the VICE_MOD_MASK (Command) modifier
  */
 # define VICE_MOD_MASK_HTML "&#8984;"
 

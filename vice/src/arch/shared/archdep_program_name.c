@@ -47,12 +47,12 @@
 # include <unistd.h>
 #endif
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 # include <libproc.h>
 #endif
 
 /* for GetModuleFileName() */
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 # include "windows.h"
 #endif
 
@@ -70,7 +70,7 @@
 static char *program_name = NULL;
 
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 /** \brief  Helper function for Windows
  *
  * \param[in]   buf string to parse binary name from
@@ -106,7 +106,7 @@ static char *prg_name_win32(const char *buf)
 #endif
 
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
+#if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
 /** \brief  Helper function for Unix-ish systems
  *
  * \param[in]   buf string to parse binary name from
@@ -149,11 +149,11 @@ const char *archdep_program_name(void)
 
     execpath = archdep_program_path();
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
+#if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
     program_name = prg_name_unix(execpath);
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     program_name = prg_name_win32(execpath);
 #endif
 

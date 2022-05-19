@@ -44,7 +44,6 @@
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 #include "selectdirectorydialog.h"
-#include "tick.h"
 #include "basedialogs.h"
 #include "interrupt.h"
 #include "vsync.h"
@@ -92,7 +91,7 @@ static char *quicksnap_filename(void)
     /* construct the filename */
     g_snprintf(filename, sizeof(filename), "%s.vsf", machine_get_name());
 
-    return archdep_join_paths(archdep_user_config_path(), filename, NULL);
+    return util_join_paths(archdep_user_config_path(), filename, NULL);
 }
 
 
@@ -250,7 +249,7 @@ static void load_snapshot_trap(uint16_t addr, void *data)
 
     /* block until the operation is done */
     while (!ui_done) {
-        tick_sleep(tick_per_second() / 60);
+        mainlock_yield_and_sleep(tick_per_second() / 60);
     }
 }
 
@@ -293,7 +292,7 @@ static void save_snapshot_trap(uint16_t addr, void *data)
 
     /* block until the operation is done */
     while (!ui_done) {
-        tick_sleep(tick_per_second() / 60);
+        mainlock_yield_and_sleep(tick_per_second() / 60);
     }
 }
 

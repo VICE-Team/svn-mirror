@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "cmdline.h"
 #include "joyport.h"
@@ -118,6 +119,7 @@ void userport_port_register(userport_port_props_t *props)
     userport_props.set_flag = props->set_flag;
     userport_props.has_pc = props->has_pc;
     userport_props.has_sp12 = props->has_sp12;
+    userport_props.has_reset = props->has_reset;
 }
 
 /* register a device to be used in the userport system if possible */
@@ -143,6 +145,8 @@ int userport_device_register(int id, userport_device_t *device)
         userport_device[id].read_sp1 = device->read_sp1;
         userport_device[id].store_sp2 = device->store_sp2;
         userport_device[id].read_sp2 = device->read_sp2;
+        userport_device[id].reset = device->reset;
+        userport_device[id].powerup = device->powerup;
         userport_device[id].write_snapshot = device->write_snapshot;
         userport_device[id].read_snapshot = device->read_snapshot;
         return 0;
@@ -422,6 +426,30 @@ uint8_t read_userport_sp2(uint8_t orig)
     return retval;
 }
 
+void userport_powerup(void)
+{
+    if (userport_current_device != USERPORT_DEVICE_NONE) {
+        if (userport_device[userport_current_device].name) {
+            if (userport_device[userport_current_device].powerup) {
+                userport_device[userport_current_device].powerup();
+            }
+        }
+    }
+}
+
+void userport_reset(void)
+{
+    if (userport_props.has_reset) {
+        if (userport_current_device != USERPORT_DEVICE_NONE) {
+            if (userport_device[userport_current_device].name) {
+                if (userport_device[userport_current_device].reset) {
+                    userport_device[userport_current_device].reset();
+                }
+            }
+        }
+    }
+}
+
 /* ---------------------------------------------------------------------------------------------------------- */
 
 static int set_userport_device(int val, void *param)
@@ -454,89 +482,86 @@ struct userport_opt_s {
 };
 
 static const struct userport_opt_s id_match[] = {
-    { "0",                  USERPORT_DEVICE_NONE },
     { "none",               USERPORT_DEVICE_NONE },
-    { "1",                  USERPORT_DEVICE_PRINTER },
     { "printer",            USERPORT_DEVICE_PRINTER },
     { "plotter",            USERPORT_DEVICE_PRINTER },
-    { "2",                  USERPORT_DEVICE_RS232_MODEM },
     { "modem",              USERPORT_DEVICE_RS232_MODEM },
-    { "3",                  USERPORT_DEVICE_JOYSTICK_CGA },
     { "cga",                USERPORT_DEVICE_JOYSTICK_CGA },
     { "cgajoy",             USERPORT_DEVICE_JOYSTICK_CGA },
     { "cgajoystick",        USERPORT_DEVICE_JOYSTICK_CGA },
-    { "4",                  USERPORT_DEVICE_JOYSTICK_PET },
     { "pet",                USERPORT_DEVICE_JOYSTICK_PET },
     { "petjoy",             USERPORT_DEVICE_JOYSTICK_PET },
     { "petjoystick",        USERPORT_DEVICE_JOYSTICK_PET },
-    { "5",                  USERPORT_DEVICE_JOYSTICK_HUMMER },
     { "hummer",             USERPORT_DEVICE_JOYSTICK_HUMMER },
     { "hummerjoy",          USERPORT_DEVICE_JOYSTICK_HUMMER },
     { "hummerjoystick",     USERPORT_DEVICE_JOYSTICK_HUMMER },
-    { "6",                  USERPORT_DEVICE_JOYSTICK_OEM },
     { "oem",                USERPORT_DEVICE_JOYSTICK_OEM },
     { "oemjoy",             USERPORT_DEVICE_JOYSTICK_OEM },
     { "oemjoystick",        USERPORT_DEVICE_JOYSTICK_OEM },
-    { "7",                  USERPORT_DEVICE_JOYSTICK_HIT },
     { "hit",                USERPORT_DEVICE_JOYSTICK_HIT },
     { "dxs",                USERPORT_DEVICE_JOYSTICK_HIT },
     { "hitjoy",             USERPORT_DEVICE_JOYSTICK_HIT },
     { "dxsjoy",             USERPORT_DEVICE_JOYSTICK_HIT },
     { "hitjoystick",        USERPORT_DEVICE_JOYSTICK_HIT },
     { "dxsjoystick",        USERPORT_DEVICE_JOYSTICK_HIT },
-    { "8",                  USERPORT_DEVICE_JOYSTICK_KINGSOFT },
     { "kingsoft",           USERPORT_DEVICE_JOYSTICK_KINGSOFT },
     { "kingsoftjoy",        USERPORT_DEVICE_JOYSTICK_KINGSOFT },
     { "kingsoftjoystick",   USERPORT_DEVICE_JOYSTICK_KINGSOFT },
-    { "9",                  USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { "starbyte",           USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { "starbytejoy",        USERPORT_DEVICE_JOYSTICK_STARBYTE },
     { "starbytejoystick",   USERPORT_DEVICE_JOYSTICK_STARBYTE },
-    { "10",                 USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergy",            USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoy",         USERPORT_DEVICE_JOYSTICK_SYNERGY },
     { "synergyjoystick",    USERPORT_DEVICE_JOYSTICK_SYNERGY },
-    { "11",                 USERPORT_DEVICE_DAC },
     { "dac",                USERPORT_DEVICE_DAC },
-    { "12",                 USERPORT_DEVICE_DIGIMAX },
     { "digimax",            USERPORT_DEVICE_DIGIMAX },
-    { "13",                 USERPORT_DEVICE_4BIT_SAMPLER },
     { "4bitsampler",        USERPORT_DEVICE_4BIT_SAMPLER },
-    { "14",                 USERPORT_DEVICE_8BSS },
     { "8bss",               USERPORT_DEVICE_8BSS },
-    { "15",                 USERPORT_DEVICE_RTC_58321A },
     { "58321a",             USERPORT_DEVICE_RTC_58321A },
     { "58321artc",          USERPORT_DEVICE_RTC_58321A },
     { "58321rtc",           USERPORT_DEVICE_RTC_58321A },
     { "rtc58321a",          USERPORT_DEVICE_RTC_58321A },
     { "rtc58321",           USERPORT_DEVICE_RTC_58321A },
-    { "16",                 USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307",             USERPORT_DEVICE_RTC_DS1307 },
     { "ds1307rtc",          USERPORT_DEVICE_RTC_DS1307 },
     { "rtcds1307",          USERPORT_DEVICE_RTC_DS1307 },
     { "rtc1307",            USERPORT_DEVICE_RTC_DS1307 },
-    { "17",                 USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petscii",            USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnes",        USERPORT_DEVICE_PETSCII_SNESPAD },
     { "petsciisnespad",     USERPORT_DEVICE_PETSCII_SNESPAD },
-    { "18",                 USERPORT_DEVICE_SUPERPAD64 },
     { "superpad",           USERPORT_DEVICE_SUPERPAD64 },
     { "superpad64",         USERPORT_DEVICE_SUPERPAD64 },
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
-    { "19",                 USERPORT_DEVICE_DIAG_586220_HARNESS },
     { "diag",               USERPORT_DEVICE_DIAG_586220_HARNESS },
     { "diagharness",        USERPORT_DEVICE_DIAG_586220_HARNESS },
 #endif
-    { "20",                 USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "parcable",           USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "driveparcable",      USERPORT_DEVICE_DRIVE_PAR_CABLE },
     { "driveparallelcable", USERPORT_DEVICE_DRIVE_PAR_CABLE },
-    { "21",                 USERPORT_DEVICE_IO_SIMULATION },
     { "io",                 USERPORT_DEVICE_IO_SIMULATION },
     { "iosim",              USERPORT_DEVICE_IO_SIMULATION },
     { "iosimulation",       USERPORT_DEVICE_IO_SIMULATION },
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
+    { "wic",                USERPORT_DEVICE_WIC64 },
+    { "wic64",              USERPORT_DEVICE_WIC64 },
+#endif
+    { "space",              USERPORT_DEVICE_SPACEBALLS },
+    { "spaceballs",         USERPORT_DEVICE_SPACEBALLS },
     { NULL, -1 }
 };
+
+static int is_a_number(const char *str)
+{
+    size_t i;
+    size_t len = strlen(str);
+
+    for (i = 0; i < len; i++) {
+        if (!isdigit(str[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
 
 static int set_userport_cmdline_device(const char *param, void *extra_param)
 {
@@ -555,7 +580,10 @@ static int set_userport_cmdline_device(const char *param, void *extra_param)
     } while ((temp == -1) && (id_match[i].name != NULL));
 
     if (temp == -1) {
-        return -1;
+        if (!is_a_number(param)) {
+            return -1;
+        }
+        temp = atoi(param);
     }
 
     return set_userport_device(temp, NULL);
@@ -586,7 +614,7 @@ static char *build_userport_string(int something)
 static cmdline_option_t cmdline_options[] =
 {
     { "-userportdevice", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
-      set_userport_cmdline_device, NULL, NULL, NULL,
+      set_userport_cmdline_device, NULL, "UserportDevice", NULL,
       "<device>", NULL },
     CMDLINE_LIST_END
 };
@@ -625,7 +653,7 @@ int userport_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, DUMP_VER_MAJOR, DUMP_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

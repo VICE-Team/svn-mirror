@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "vice_gtk3.h"
+#include "lib.h"
 #include "machine.h"
 #include "ui.h"
 #include "uisidattach.h"
@@ -42,12 +43,13 @@
 #include "vsidcontrolwidget.h"
 #include "vsidtuneinfowidget.h"
 #include "vsidmainwidget.h"
-
 #include "hvsc.h"
 
 #include "vsidui.h"
 
 
+/** \brief  Video standard list for the model settings
+ */
 static const vice_gtk3_radiogroup_entry_t vsid_vicii_models[] = {
     { "PAL",            MACHINE_SYNC_PAL },
     { "NTSC",           MACHINE_SYNC_NTSC },
@@ -58,174 +60,11 @@ static const vice_gtk3_radiogroup_entry_t vsid_vicii_models[] = {
 
 
 
-
-
 void vsid_ui_close(void)
 {
     hvsc_exit();
     uisidattach_shutdown();
 }
-
-
-/** \brief  Display tune author in the UI
- *
- * \param[in]   author  author name
- */
-void vsid_ui_display_author(const char *author)
-{
-    vsid_tune_info_widget_set_author(author);
-}
-
-
-/** \brief  Display tune copyright info in the UI
- *
- * \param[in]   copright    copyright info
- */
-void vsid_ui_display_copyright(const char *copyright)
-{
-    vsid_tune_info_widget_set_copyright(copyright);
-}
-
-
-/** \brief  Set IRQ type for the UI
- *
- * \param[in]   irq IRQ type
- */
-void vsid_ui_display_irqtype(const char *irq)
-{
-    vsid_tune_info_widget_set_irq(irq);
-}
-
-
-/** \brief  Display tune name in the UI
- *
- * \param[in]   name    tune name
- */
-void vsid_ui_display_name(const char *name)
-{
-    vsid_tune_info_widget_set_name(name);
-}
-
-
-/** \brief  Set number of tunes for the UI
- *
- * \param[in]   count   number of tunes
- */
-void vsid_ui_display_nr_of_tunes(int count)
-{
-    vsid_main_widget_set_tune_count(count);
-}
-
-
-/** \brief  Set SID model for the UI
- *
- * \param[in]   model   SID model
- */
-void vsid_ui_display_sid_model(int model)
-{
-    vsid_tune_info_widget_set_model(model);
-}
-
-
-/** \brief  Set sync factor for the UI
- *
- * \param[in]   sync    sync factor
- */
-void vsid_ui_display_sync(int sync)
-{
-    vsid_tune_info_widget_set_sync(sync);
-}
-
-
-/** \brief  Set run time of tune in the UI
- *
- * \param[in]   sec seconds of play time
- */
-void vsid_ui_display_time(unsigned int dsec)
-{
-    vsid_tune_info_widget_set_time(dsec);
-}
-
-
-/** \brief  Set current tune number in the UI
- *
- * \param[in]   nr  tune number
- */
-void vsid_ui_display_tune_nr(int nr)
-{
-    vsid_main_widget_set_tune_current(nr);
-}
-
-
-/** \brief  Set driver info text for the UI
- *
- * \param[in]   driver_info_text    text with driver info (duh)
- */
-void vsid_ui_setdrv(char *driver_info_text)
-{
-    vsid_tune_info_widget_set_driver(driver_info_text);
-}
-
-
-/** \brief  Set default tune number in the UI
- *
- * \param[in]   nr  tune number
- */
-void vsid_ui_set_default_tune(int nr)
-{
-    vsid_main_widget_set_tune_default(nr);
-}
-
-
-/** \brief  Set driver address
- *
- * \param[in]   addr    driver address
- */
-void vsid_ui_set_driver_addr(uint16_t addr)
-{
-    vsid_tune_info_widget_set_driver_addr(addr);
-}
-
-
-/** \brief  Set load address
- *
- * \param[in]   addr    load address
- */
-void vsid_ui_set_load_addr(uint16_t addr)
-{
-    vsid_tune_info_widget_set_load_addr(addr);
-}
-
-
-/** \brief  Set init routine address
- *
- * \param[in]   addr    init routine address
- */
-void vsid_ui_set_init_addr(uint16_t addr)
-{
-    vsid_tune_info_widget_set_init_addr(addr);
-}
-
-
-/** \brief  Set play routine address
- *
- * \param[in]   addr    play routine address
- */
-void vsid_ui_set_play_addr(uint16_t addr)
-{
-    vsid_tune_info_widget_set_play_addr(addr);
-}
-
-
-/** \brief  Set size of SID on actual machine
- *
- * \param[in]   size    size of SID
- */
-void vsid_ui_set_data_size(uint16_t size)
-{
-    vsid_tune_info_widget_set_data_size(size);
-}
-
 
 
 /** \brief  Identify the canvas used to create a window
@@ -241,22 +80,23 @@ static int identify_canvas(video_canvas_t *canvas)
 }
 
 
+
 /** \brief  Initialize the VSID UI
  *
  * \return  0 on success, -1 on failure
  */
 int vsid_ui_init(void)
 {
-    video_canvas_t *canvas = vicii_get_canvas();
+    video_canvas_t *canvas;
+
+    canvas = vicii_get_canvas();
 
     video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(vsid_vicii_models);
 
-
     ui_vsid_window_init();
     ui_set_identify_canvas_func(identify_canvas);
-
     ui_create_main_window(canvas);
     ui_display_main_window(canvas->window_index);
 

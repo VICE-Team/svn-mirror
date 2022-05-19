@@ -60,20 +60,8 @@ static int trueaspect = 0;
 /** \brief  Prevent screen tearing */
 static int vsync = 1;
 
-/** \brief  Display depth in bits (8, 15, 16, 24, 32) */
-static int display_depth = 24;
-
 /** \brief  Display filter (0: nearest 1: bilinear) */
 static int display_filter = 1;
-
-/** \brief  Render Backend (0: Software 1: OpenGL) */
-static int render_backend = 1;
-
-
-/** \brief  Restore window geometry when booting emu
- */
-static int restore_window_geometry = 0;
-
 
 /** \brief  Set KeepAspectRatio resource (bool)
  *
@@ -124,23 +112,6 @@ static int set_vsync(int val, void *param)
     return 0;
 }
 
-
-/** \brief Set the display color depth.
- *  \param     val   new color depth
- *  \param[in] param extra parameter (unused).
- *  \return  Zero on success, nonzero on illegal argument
- *  \warning Neither Cairo nor GTK3's OpenGL system actually respect
- *           this value.
- */
-static int set_display_depth(int val, void *param)
-{
-    if (val != 0 && val != 8 && val != 15 && val != 16 && val != 24 && val != 32) {
-        return -1;
-    }
-    display_depth = val;
-    return 0;
-}
-
 /** \brief Set the display filter for scaling.
  *  \param     val   new filter (0: nearest, 1: bilinear)
  *  \param[in] param extra parameter (unused).
@@ -157,31 +128,6 @@ static int set_display_filter(int val, void *param)
     display_filter = val;
     return 0;
 }
-
-
-/** \brief Set the backend for rendering
- *  \param     val   new backend (0: software, 1: opengl)
- *  \param[in] param extra parameter (unused).
- *  \return  0
- */
-static int set_render_backend(int val, void *param)
-{
-#if 0
-    render_backend = val ? 1 : 0;
-#else
-    render_backend = 1; /* always dx / gl now */
-#endif
-    return 0;
-}
-
-
-static int set_window_restore_geometry(int val, void *param)
-{
-    restore_window_geometry = val ? 1 : 0;
-    return 0;
-}
-
-
 
 /** \brief  Command line options related to generic video output
  */
@@ -207,36 +153,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Disable vsync to allow screen tearing" },
     { "-gtkfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GTKFilter", NULL,
-      "<mode>", "Set filtering mode (0 = nearest, 1 = bilinear, 2 = cubic (Windows only))" },
-    { "-gtkbackend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "GTKBackend", NULL,
-      "<mode>", "Set rendering mode (0 = Software, 1 = OpenGL)" },
-    { "-restore-window-geometry", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "RestoreWindowGeometry", (resource_value_t)1,
-      NULL, "Restore window geometry from resources" },
-    { "+restore-window-geometry", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "RestoreWindowGeometry", (resource_value_t)0,
-      NULL, "Do not restore window geometry from resources" },
-
-
+      "<mode>", "Set filtering mode (0 = nearest, 1 = bilinear, 2 = cubic" },
     CMDLINE_LIST_END
 };
-
-
-/** \brief  Command line options related VSID
- */
-static const cmdline_option_t cmdline_options_vsid[] =
-{
-    { "-restore-window-geometry", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "RestoreWindowGeometry", (resource_value_t)1,
-      NULL, "Restore window geometry from resources" },
-    { "+restore-window-geometry", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "RestoreWindowGeometry", (resource_value_t)0,
-      NULL, "Do not restore window geometry from resources" },
-
-    CMDLINE_LIST_END
-};
-
 
 /** \brief  Integer/boolean resources related to video output
  */
@@ -247,26 +166,10 @@ static const resource_int_t resources_int[] = {
       &trueaspect, set_trueaspect, NULL },
     { "VSync", 1, RES_EVENT_NO, NULL,
       &vsync, set_vsync, NULL },
-    { "DisplayDepth", 0, RES_EVENT_NO, NULL,
-      &display_depth, set_display_depth, NULL },
     { "GTKFilter", 2, RES_EVENT_NO, NULL,
       &display_filter, set_display_filter, NULL },
-    { "GTKBackend", 1, RES_EVENT_NO, NULL,
-      &render_backend, set_render_backend, NULL },
-    { "RestoreWindowGeometry", 1, RES_EVENT_NO, NULL,
-      &restore_window_geometry, set_window_restore_geometry, NULL },
     RESOURCE_INT_LIST_END
 };
-
-
-/** \brief  Integer/boolean resources related to VSID
- */
-static const resource_int_t resources_int_vsid[] = {
-    { "RestoreWindowGeometry", 1, RES_EVENT_NO, NULL,
-      &restore_window_geometry, set_window_restore_geometry, NULL },
-    RESOURCE_INT_LIST_END
-};
-
 
 int video_arch_get_active_chip(void)
 {
@@ -290,6 +193,12 @@ int video_arch_get_active_chip(void)
  */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
+    pthread_mutexattr_t lock_attributes;
+
+    pthread_mutexattr_init(&lock_attributes);
+    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&canvas->lock, &lock_attributes);
+
     /*
      * the render output can always be read from in GTK3,
      * it's not a direct video memory buffer.
@@ -306,9 +215,8 @@ int video_arch_cmdline_options_init(void)
 {
     if (machine_class != VICE_MACHINE_VSID) {
         return cmdline_register_options(cmdline_options);
-    } else {
-        return cmdline_register_options(cmdline_options_vsid);
     }
+    return 0;
 }
 
 
@@ -320,9 +228,8 @@ int video_arch_resources_init(void)
 {
     if (machine_class != VICE_MACHINE_VSID) {
         return resources_register_int(resources_int);
-    } else {
-        return resources_register_int(resources_int_vsid);
     }
+    return 0;
 }
 
 /** \brief Clean up any memory held by arch-specific video resources. */
@@ -355,12 +262,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
 {
-    pthread_mutexattr_t lock_attributes;
-
-    pthread_mutexattr_init(&lock_attributes);
-    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&canvas->lock, &lock_attributes);
-
     canvas->renderer_context = NULL;
     canvas->blank_ptr = NULL;
     canvas->pen_ptr = NULL;
@@ -368,12 +269,16 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     canvas->pen_x = -1;
     canvas->pen_y = -1;
     canvas->pen_buttons = 0;
-    ui_create_main_window(canvas);
-    if (width && height && canvas->renderer_backend) {
-        canvas->renderer_backend->update_context(canvas, *width, *height);
-    }
 
-    ui_display_main_window(canvas->window_index);
+    if (!console_mode) {
+        ui_create_main_window(canvas);
+
+        if (width && height && canvas->renderer_backend) {
+            canvas->renderer_backend->update_context(canvas, *width, *height);
+        }
+
+        ui_display_main_window(canvas->window_index);
+    }
 
     canvas->created = 1;
     return canvas;
@@ -403,7 +308,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 }
 
 /** \brief Update the display on a video canvas to reflect the machine
- *         state. 
+ *         state.
  * \param canvas The canvas to update.
  * \param xs     A parameter to forward to video_canvas_render()
  * \param ys     A parameter to forward to video_canvas_render()

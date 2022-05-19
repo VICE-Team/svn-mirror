@@ -46,10 +46,12 @@
 #include <stdint.h>
 
 #include "gfxoutput.h"
+#include "lastdir.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "mainlock.h"
+#include "monitor.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "sound.h"
@@ -58,6 +60,8 @@
 #include "uiapi.h"
 #include "uistatusbar.h"
 #include "vice_gtk3.h"
+#include "videoarch.h"
+#include "vsync.h"
 
 #ifdef HAVE_FFMPEG
 #include "ffmpegwidget.h"
@@ -138,6 +142,17 @@ static int video_driver_index = 0;
 static int audio_driver_index = -1;
 
 
+/** \brief  Last used directory of the file chooser dialogs
+ *
+ * We only remember the directory, not the last filename, since we propose a
+ * filename with a timestamp in it to quickly save new media files without having
+ * to type a new name. Using last_file would mean the generated filename gets
+ * overwritten with the old one, so the convenience of the generated filenames
+ * would be lost.
+ */
+static gchar *media_last_dir = NULL;
+
+
 /** \brief  List of available audio recording drivers
  *
  * This list is dependent on compile-time options
@@ -212,6 +227,31 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix);
 static void save_screenshot_handler(GtkWidget *parent);
 static void save_audio_recording_handler(GtkWidget *parent);
 static void save_video_recording_handler(GtkWidget *parent);
+
+
+/** \brief  Screenshot filename for save_screenshot_vsync_callback()
+ *
+ * This gets allocated by the UI thread and freed by the VICE thread.
+ *
+ * If non-NULL the UI thread will not free and reallocate, it simply refuses
+ * to queue another screenshot. Queuing a second screenshot while the vsync
+ * handler hasn't processed the current one is an unlikely scenario, but could
+ * happen with a very low custom emulation speed and a quick user. Once the
+ * vsync handler has used the filename, it is deallocated and set to NULL to
+ * indicate to the UI another screenshot can be queued.
+ */
+static char *screenshot_filename = NULL;
+
+
+/** \brief  Screenshot driver name for save_screenshot_vsync_callback()
+ *
+ * When the dialog is closed the video drive list is also destroyed, so we
+ * cannot access the list in the vsync callback.
+ * The UI thread created a copy of the requested driver and the VICE thread
+ * then frees it in the vsync callback function.
+ */
+static char *screenshot_driver = NULL;
+
 
 
 /** \brief  Reference to the GtkStack containing the media types
@@ -385,7 +425,7 @@ static gchar *create_datetime_string(void)
     m = g_date_time_get_microsecond(d);
     s = g_date_time_format(d, "%Y%m%d%H%M%S");
     g_date_time_unref(d);
-    t = g_strdup_printf("%s%06d", s, m);
+    t = g_strdup_printf("%s%02d", s, m / 10000);
     g_free(s);
     return t;
 }
@@ -447,6 +487,52 @@ static char *create_proposed_audio_recording_name(const char *ext)
 }
 
 
+/** \brief  UI error message handler for saving screenshots
+ *
+ * \param[in]   data    filename of screenshot
+ *
+ * \return  G_SOURCE_REMOVE to make this a one-shot timer event
+ */
+static gboolean save_screenshot_error_impl(gpointer data)
+{
+    char *filename = data;
+
+    vice_gtk3_message_error("Screenshot error",
+                            "Failed to write screenshot file '%s.'",
+                            filename);
+    lib_free(filename);
+    return G_SOURCE_REMOVE;
+}
+
+
+/** \brief  Callback to make a screenshot on vsync to avoid tearing
+ *
+ * The `screenshot_filename` variable is allocated by the UI thread and freed
+ * and set to `NULL` by this function, thus indicating to the UI it is allowed
+ * to queue another screenshot on vsync.
+ *
+ * \param[in]   param   video canvas to take screenshot of
+ */
+static void save_screenshot_vsync_callback(void *param)
+{
+    video_canvas_t *canvas = param;
+
+    if (screenshot_save(screenshot_driver, screenshot_filename, canvas) < 0) {
+        char *filename_copy;
+
+        log_error(LOG_ERR, "Failed to write screenshot file '%s'.",
+                  screenshot_filename);
+        /* push error message handler onto the UI thread */
+        filename_copy = lib_strdup(screenshot_filename);
+        g_timeout_add(0, save_screenshot_error_impl, (gpointer)filename_copy);
+    }
+    lib_free(screenshot_filename);
+    lib_free(screenshot_driver);
+    screenshot_filename = NULL; /* signal UI it can queue another screenshot */
+    screenshot_driver = NULL;
+}
+
+
 /** \brief  Callback for the save-screenshot dialog
  *
  * \param[in,out]   dialog      dialog
@@ -457,18 +543,27 @@ static void on_save_screenshot_filename(GtkDialog *dialog,
                                         gchar *filename,
                                         gpointer data)
 {
-    const char *name;
-
-    name = video_driver_list[screenshot_driver_index].name;
-
     if (filename != NULL) {
 
         gchar *filename_locale = file_chooser_convert_to_locale(filename);
 
         /* TODO: add extension if not present? */
-        if (screenshot_save(name, filename_locale, ui_get_active_canvas()) < 0) {
-            vice_gtk3_message_error("VICE Error",
-                    "Failed to write screenshot file '%s'", filename);
+
+        /* check if a screenshot is pending */
+        if (screenshot_filename == NULL) {
+            /* update last dir/file */
+            lastdir_update(GTK_WIDGET(dialog), &media_last_dir, NULL);
+            /* no, queue screenshot on vsync */
+            screenshot_filename = lib_strdup(filename_locale);
+            screenshot_driver = lib_strdup(video_driver_list[screenshot_driver_index].name);
+
+            if (monitor_is_inside_monitor()) {
+                /* screenshot immediately if monitor is open */
+                save_screenshot_vsync_callback((void*)ui_get_active_canvas());
+            } else {
+                /* queue screenshot grab on vsync to avoid tearing */
+                vsync_on_vsync_do(save_screenshot_vsync_callback, (void *)ui_get_active_canvas());
+            }
         }
         g_free(filename);
         g_free(filename_locale);
@@ -477,7 +572,6 @@ static void on_save_screenshot_filename(GtkDialog *dialog,
     gtk_widget_destroy(GTK_WIDGET(dialog));
     mainlock_obtain();
 }
-
 
 
 /** \brief  Save a screenshot
@@ -506,6 +600,8 @@ static void save_screenshot_handler(GtkWidget *parent)
             title, proposed, TRUE, NULL,
             on_save_screenshot_filename,
             NULL);
+    lastdir_set(dialog, &media_last_dir, NULL);
+
     /* destroy parent dialog when the dialog is destroyed */
     g_signal_connect_swapped(
             dialog,
@@ -531,6 +627,8 @@ static void on_save_audio_filename(GtkDialog *dialog,
     gchar *filename_locale;
 
     if (filename != NULL) {
+        lastdir_update(GTK_WIDGET(dialog), &media_last_dir, NULL);
+
         filename_locale = file_chooser_convert_to_locale(filename);
         const char *name = audio_driver_list[audio_driver_index].name;
         /* XXX: setting resources doesn't exactly help with catching errors */
@@ -572,7 +670,7 @@ static void save_audio_recording_handler(GtkWidget *parent)
             title, proposed, TRUE, NULL,
             on_save_audio_filename,
             NULL);
-
+    lastdir_set(dialog, &media_last_dir, NULL);
     /* destroy parent dialog when the dialog is destroyed */
     g_signal_connect_swapped(
             dialog,
@@ -605,13 +703,13 @@ static void on_save_video_filename(GtkDialog *dialog,
         int vb;
         gchar *filename_locale;
 
+        lastdir_update(GTK_WIDGET(dialog), &media_last_dir, NULL);
+
         resources_get_string("FFMPEGFormat", &driver);
         resources_get_int("FFMPEGVideoCodec", &vc);
         resources_get_int("FFMPEGVideoBitrate", &vb);
         resources_get_int("FFMPEGAudioCodec", &ac);
         resources_get_int("FFMPEGAudioBitrate", &ab);
-
-        ui_pause_disable();
 
         filename_locale = file_chooser_convert_to_locale(filename);
 
@@ -659,6 +757,7 @@ static void save_video_recording_handler(GtkWidget *parent)
     dialog = vice_gtk3_save_file_dialog(
             title, proposed, TRUE, NULL,
             on_save_video_filename, NULL);
+    lastdir_set(dialog, &media_last_dir, NULL);
 
     /* destroy parent dialog when the dialog is destroyed */
     g_signal_connect_swapped(
@@ -1183,6 +1282,28 @@ gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
 }
 
 
+/** \brief  Callback for vsync_on_vsync_do()
+ *
+ * Create a screenshot on vsync to avoid tearing.
+ *
+ * This function is called on the VICE thread, so the canvas is retrieved in
+ * ui_media_auto_screenshot() on the UI thread and passed via \a param.
+ *
+ * \param[in]   param   video canvas
+ */
+static void auto_screenshot_vsync_callback(void *param)
+{
+    char *filename;
+    video_canvas_t *canvas = param;
+
+    /* no need for locale bullshit */
+    filename = create_proposed_screenshot_name("png");
+    if (screenshot_save("PNG", filename, canvas) < 0) {
+        log_error(LOG_ERR, "Failed to autosave screenshot.");
+    }
+}
+
+
 /** \brief  Create screenshot with autogenerated filename
  *
  * Creates a PNG screenshot with an autogenerated filename with an ISO-8601-ish
@@ -1191,24 +1312,21 @@ gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
  */
 void ui_media_auto_screenshot(void)
 {
-    char *filename;
-#if 0
-    /* remember pause state before entering the widget */
-    old_pause_state = ui_pause_active();
-
-    /* pause emulation */
-    ui_pause_enable();
-#endif
-
-    /* no need for locale bullshit */
-    filename = create_proposed_screenshot_name("png");
-    if (screenshot_save("PNG", filename, ui_get_active_canvas()) < 0) {
-        log_error(LOG_ERR, "Failed to autosave screenshot.");
+    if (monitor_is_inside_monitor()) {
+        /* screenshot immediately if monitor is open */
+        auto_screenshot_vsync_callback((void *)ui_get_active_canvas());
+    } else {
+        /* queue screenshot grab on vsync to avoid tearing */
+        vsync_on_vsync_do(auto_screenshot_vsync_callback, (void *)ui_get_active_canvas());
     }
+}
 
-#if 0
-    if (!old_pause_state) {
-        ui_pause_disable();
-    }
-#endif
+
+/** \brief  Clean up resources used
+ *
+ * Frees the last dir/file strings
+ */
+void ui_media_shutdown(void)
+{
+    lastdir_shutdown(&media_last_dir, NULL);
 }

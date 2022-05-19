@@ -277,12 +277,60 @@ x 2 7 8
 y 3 1 8
 z 1 4 8
 
+#
 # Restore key mappings
-Page_Up -3 0
-Prior -3 1
+#
+F12 -3 0
+F12 -3 1
 
-# unused </> key
-less            7 1 8  # A_LFT <-
+
+# extra: pagedown -> f7
+Page_Down      0 3 8
+
+# extra: pagedown -> f1
+Page_Up        0 4 8
+
+# extra: End -> arrow left (symbolic map for unused key)
+End            7 1 8
+
+# extra: <> (symbolic map for unused key)
+less            5 7 2064  #16 (deshift key) + 2048 (combined with cbm)
+greater         5 4 8
+
+# extra: * from KeynumPad (symbolic map for unused key)
+KP_Multiply     6 1 8
+
+# extra: - from KeynumPad (symbolic map for unused key)
+KP_Subtract     5 3 8
+
+# extra: - from KeynumPad (symbolic map for unused key)
+KP_Add          5 0 8
+
+# extra: / from KeynumPad (symbolic map for unused key)
+KP_Divide       6 7 8
+
+
+#
+# extra: KeynumPad mapped if user-defined keysets are disabled on Settings->Input devices->Joystick
+#
+# Use (Alt+Shift+J) to quickly enable (Joy_ON-KP_OFF) or disable (Joy_OFF-KP_ON)
+#
+# (symbolic map for unused keys)
+#
+
+KP_0            4 3 16
+KP_1            7 0 16
+KP_2            7 3 16
+KP_3            1 0 16
+KP_4            1 3 16
+KP_5            2 0 16
+KP_6            2 3 16
+KP_7            3 0 16
+KP_8            3 3 16
+KP_9            4 0 16
+KP_Decimal      5 7 16
+
+
 
 #
 # joyport attached keypad
@@ -307,3 +355,12 @@ KP_0        -5 16
 KP_Delete   -5 17
 KP_Enter    -5 18
 KP_Add      -5 19
+
+#
+# joystick keymap A
+#
+Up          -1 7
+Left        -1 4
+Right       -1 5
+Down        -1 2
+Control_R   -1 0

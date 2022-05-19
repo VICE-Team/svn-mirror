@@ -1,12 +1,6 @@
 ## Makefile.am for the native GTK3 version of `libarch.a'.
 
-if WIN32_COMPILE
-extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
-else
-extra_includes =
-endif
-
-SUBDIRS = data novte widgets
+SUBDIRS = data joystickdrv novte widgets
 
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
@@ -27,6 +21,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/arch/gtk3/widgets \
 	-I$(top_srcdir)/src/arch/gtk3/widgets/base \
 	-I$(top_srcdir)/src/arch/gtk3/novte \
+	-I$(top_srcdir)/src/arch/gtk3/joystickdrv \
 	-I$(top_builddir)/src/arch/gtk3/novte \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64dtv \
@@ -41,6 +36,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/tapeport \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/hvsc
 
 AM_CFLAGS = @VICE_CFLAGS@
@@ -55,6 +51,7 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libarch.a libtoolarch.a
 
 libarch_a_SOURCES = \
+	actions-speed.c \
 	archdep.c \
 	c128ui.c \
 	c64dtvui.c \
@@ -75,7 +72,6 @@ libarch_a_SOURCES = \
 	scpu64ui.c \
 	ui.c \
 	uiabout.c \
-	uiactions.c \
 	uicart.c \
 	uicmdline.c \
 	uicommands.c \
@@ -87,7 +83,6 @@ libarch_a_SOURCES = \
 	uidiskcreate.c \
 	uiedit.c \
 	uifliplist.c \
-	uihotkeys.c \
 	uimachinemenu.c \
 	uimachinewindow.c \
 	uimedia.c \
@@ -106,18 +101,19 @@ libarch_a_SOURCES = \
 	uivsidwindow.c \
 	vic20ui.c \
 	video.c \
+	vsidstate.c \
 	vsidui.c \
 	vsyncarch.c
 
-if NATIVE_GTK3_COMPILE
+if USE_GTK3UI
 libarch_a_SOURCES += vice_gtk3_locking.c
 endif
 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 libarch_a_SOURCES += directx_renderer.c directx_renderer_impl.cc
 else
 libarch_a_SOURCES += opengl_renderer.c
-if UNIX_MACOSX_COMPILE
+if MACOS_COMPILE
 libarch_a_SOURCES += opengl_renderer_macos.m
 else
 libarch_a_SOURCES += opengl_renderer_unix.c
@@ -129,6 +125,7 @@ libtoolarch_a_SOURCES = \
 
 EXTRA_DIST = \
 	Resources/VICE.icns \
+	actions-speed.h \
 	archdep.h \
 	debug_gtk3.h \
 	directx_renderer.h \
@@ -145,7 +142,6 @@ EXTRA_DIST = \
 	render_thread.h \
 	ui.h \
 	uiabout.h \
-	uiactions.h \
 	uicart.h \
 	uicmdline.h \
 	uicommands.h \
@@ -157,7 +153,6 @@ EXTRA_DIST = \
 	uidiskcreate.h \
 	uiedit.h \
 	uifliplist.h \
-	uihotkeys.h \
 	uimachinemenu.h \
 	uimachinewindow.h \
 	uimedia.h \
@@ -178,5 +173,6 @@ EXTRA_DIST = \
 	vice_gtk3_locking.h \
 	vice-launcher.sh \
 	videoarch.h \
+	vsidstate.h \
 	winjoy.h \
 	x11-launcher.sh

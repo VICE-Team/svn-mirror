@@ -32,12 +32,14 @@
 #include "archapi.h"
 #undef VICE_ARCHAPI_PRIVATE_API
 
-/* Filesystem dependant operators.  */
-#define FSDEVICE_DEFAULT_DIR "."
-#define FSDEV_DIR_SEP_STR    "\\"
-#define FSDEV_DIR_SEP_CHR    '\\'
-#define FSDEV_EXT_SEP_STR    "."
-#define FSDEV_EXT_SEP_CHR    '.'
+/* Default MIDI devices. */
+#define ARCHDEP_MIDI_IN_DEV  "0"    /**< MIDI input dev */
+#define ARCHDEP_MIDI_OUT_DEV "0"    /**< MIDI output dev */
+
+/* Filesystem-dependent constants  */
+#define ARCHDEP_FSDEVICE_DEFAULT_DIR "."
+#define ARCHDEP_DIR_SEP_STR "\\"
+#define ARCHDEP_DIR_SEP_CHR '\\'
 
 /* Path separator.  */
 #define ARCHDEP_FINDPATH_SEPARATOR_CHAR   ';'
@@ -65,12 +67,6 @@
 
 /* Default location of raw disk images.  */
 #define ARCHDEP_RAWDRIVE_DEFAULT "A:"
-
-/* Access types */
-#define ARCHDEP_R_OK 4
-#define ARCHDEP_W_OK 2
-#define ARCHDEP_X_OK 1
-#define ARCHDEP_F_OK 0
 
 /* Standard line delimiter.  */
 #define ARCHDEP_LINE_DELIMITER "\r\n"

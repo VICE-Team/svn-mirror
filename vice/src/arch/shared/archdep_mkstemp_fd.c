@@ -52,7 +52,7 @@
  * \note    The filename must be freed with lib_free().
  */
 
-#if defined(ARCHDEP_OS_BEOS)
+#if defined(BEOS_COMPILE)
 /*
  * Looks like this can be used as a fallback for some of the other functions
  */
@@ -76,7 +76,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 }
 
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {
@@ -115,17 +115,12 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     FILE *fd;
     char *tmpdir;
 
-#ifdef USE_EXE_RELATIVE_TMP
-    tmp = lib_msprintf("%s/tmp%s", archdep_boot_path(), template);
-#else
     tmpdir = getenv("TMPDIR");
-
     if (tmpdir != NULL) {
         tmp = util_concat(tmpdir, template, NULL);
     } else {
         tmp = util_concat("/tmp", template, NULL);
     }
-#endif
 
     fildes = mkstemp(tmp);
 

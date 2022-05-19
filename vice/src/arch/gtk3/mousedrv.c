@@ -27,10 +27,10 @@
 
 #include "vice.h"
 
-#if defined(MACOSX_SUPPORT)
+#if defined(MACOS_COMPILE)
 #import <CoreGraphics/CGRemoteOperation.h>
 #import <CoreGraphics/CGEvent.h>
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 #include <windows.h>
 #else
 #include <X11/Xlib.h>
@@ -51,7 +51,7 @@
 
 
 /** \brief The callbacks registered for mouse buttons being pressed or
- *         released. 
+ *         released.
  *  \sa mousedrv_resources_init which sets these values properly
  *  \sa mouse_button which uses them
  */
@@ -110,7 +110,7 @@ void mousedrv_mouse_changed(void)
 {
     /** \todo Tell UI level to capture mouse cursor if necessary and
      *        permitted */
-    log_message(LOG_DEFAULT, "GTK3MOUSE: Status changed: %d (%s)\n", 
+    log_message(LOG_DEFAULT, "GTK3MOUSE: Status changed: %d (%s)",
             _mouse_enabled, _mouse_enabled ? "enabled" : "disabled");
     if (_mouse_enabled) {
         ui_mouse_grab_pointer();
@@ -119,12 +119,9 @@ void mousedrv_mouse_changed(void)
     }
 }
 
-int mousedrv_resources_init(mouse_func_t *funcs)
+int mousedrv_resources_init(const mouse_func_t *funcs)
 {
-    mouse_funcs.mbl = funcs->mbl;
-    mouse_funcs.mbr = funcs->mbr;
-    mouse_funcs.mbm = funcs->mbm;
-    mouse_funcs.mbu = funcs->mbu;
-    mouse_funcs.mbd = funcs->mbd;
+    /* Copy entire 'mouse_func_t' structure. */
+    mouse_funcs = *funcs;
     return 0;
 }

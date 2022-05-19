@@ -39,8 +39,8 @@
  */
 int petui_init_early(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     return 0;
 }
 
@@ -51,8 +51,8 @@ int petui_init_early(void)
  */
 int petui_init(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     return 0;
 }
 
@@ -61,7 +61,7 @@ int petui_init(void)
  */
 void petui_shutdown(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     /* NOP */
 }

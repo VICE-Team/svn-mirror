@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "debug_gtk3.h"
 #include "info.h"
 #include "lib.h"
@@ -42,9 +43,9 @@
 #include "svnversion.h"
 #endif
 #include "uidata.h"
-#include "archdep_get_runtime_info.h"
 
 #include "uiabout.h"
+#include "vicedate.h"
 
 
 /** \brief  Maximum length of generated version string
@@ -156,7 +157,6 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     archdep_runtime_info_t runtime_info;
 
-
     /* set toplevel window, Gtk doesn't like dialogs without parents */
     gtk_window_set_transient_for(GTK_WINDOW(about), ui_get_active_window());
 
@@ -168,7 +168,7 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     /* set version string */
 #ifdef USE_SVN_REVISION
-    g_snprintf(version, VERSION_STRING_MAX,
+    g_snprintf(version, sizeof(version),
             "%s r%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cairo %s, Pango %s)",
             VERSION, VICE_SVN_REV_STRING,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
@@ -176,7 +176,7 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
             cairo_version_string(),
             pango_version_string());
 #else
-    g_snprintf(version, VERSION_STRING_MAX,
+    g_snprintf(version, sizeof(version),
             "%s\n(GTK3 %d.%d.%d, GLib %d.%d.%d, Cairo %s, Pango %s)",
             VERSION,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
@@ -184,7 +184,7 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
             cairo_version_string(),
             pango_version_string());
 #endif
-
+#undef VICE_VERSION_STRING
     if (archdep_get_runtime_info(&runtime_info)) {
         size_t v = strlen(version);
         g_snprintf(version + v, VERSION_STRING_MAX - v - 1UL,
@@ -221,12 +221,8 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     /* set list of current team members */
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about), (const gchar **)authors);
     /* set copyright string */
-    /*
-     * TODO:    Get the current year from [svn]version.h or something similar,
-     *          so altering this file by hand won't be required anymore.
-     */
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about),
-            "Copyright 1996-2020, VICE team");
+            "Copyright 1996-" VICEDATE_YEAR_STR ", VICE team");
 
     /* set logo */
     if (logo != NULL) {

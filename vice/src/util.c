@@ -39,6 +39,7 @@
 #include <assert.h>
 #include <ctype.h>
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,11 +51,11 @@
 #endif
 
 #include "archdep.h"
-#include "archdep_defs.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
+
 #include "util.h"
+
 
 /* #define DBGUTIL */
 
@@ -103,28 +104,6 @@ char *util_concat(const char *s, ...)
     *ptr = '\0';
     va_end(ap);
 
-    /* FIXME:   util_concat() is a generic function to join strings together,
-     *          so any Amiga-specific path handling should not be here at all.
-     *          If you need to build paths, use archdep_join_paths() --compyx
-     */
-#ifdef AMIGA_SUPPORT
-    /* util_concat is often used to build complete paths, but the AmigaOS paths
-     * are a little special as they should look like <device>:<directory>/<file>
-     * but VICE doesn't handle this and will add a slash "/" after the colon
-     * making VICE fail to open files. I know this isn't the place to fix this,
-     * but I'm lazy and don't feel like changing a lot of places right now.
-     *     An alternative would be to override the fopen commands to make it
-     * possible to make this change as needed when opening the file.
-     */
-#if 0
-    while ((ptr = strstr(newp, ":/")) != NULL) {
-        strcpy(ptr + 1, ptr + 2);
-    }
-#else
-    log_error(LOG_ERR, "%s(): Amiga-specific-hack removed.", __func__);
-#endif
-
-#endif
     DBG(("util_concat %p - %s\n", newp, newp));
     return newp;
 }
@@ -300,7 +279,7 @@ int util_check_filename_access(const char *filename)
             return -1;
         } else {
             fclose(file);
-            ioutil_remove(filename);
+            archdep_remove(filename);
             return 0;
         }
     } else {
@@ -359,26 +338,15 @@ char *util_subst(const char *s, const char *string, const char *replacement)
 
 /* ------------------------------------------------------------------------- */
 
-/* Return the length of an open file in bytes.  */
-off_t util_file_length(FILE *fd)
-{
-    off_t off, filesize;
-
-    off = ftello(fd);
-    fseeko(fd, 0, SEEK_END);
-    filesize = ftello(fd);
-    fseeko(fd, (long)off, SEEK_SET);
-    return filesize;
-}
-
 /* Load the first `size' bytes of file named `name' into `dest'.  Return 0 on
    success, -1 on failure.  */
 int util_file_load(const char *name, uint8_t *dest, size_t size,
                    unsigned int load_flag)
 {
     FILE *fd;
-    size_t length, r = 0;
+    size_t r = 0;
     long start = 0;
+    off_t length;
 
     if (util_check_null_string(name)) {
         log_error(LOG_ERR, "No file name given for util_file_load().");
@@ -391,14 +359,18 @@ int util_file_load(const char *name, uint8_t *dest, size_t size,
         return -1;
     }
 
-    length = util_file_length(fd);
+    length = archdep_file_size(fd);
+    if (length < 0) {
+        fclose(fd);
+        return -1;
+    }
 
     if ((load_flag & UTIL_FILE_LOAD_SKIP_ADDRESS) && (length & 2)) {
         start = 2;
         length -= 2;
     }
 
-    if (length != size) {
+    if ((size_t)length != size) {
         fclose(fd);
         return -1;
     }
@@ -418,17 +390,22 @@ int util_file_load(const char *name, uint8_t *dest, size_t size,
 int util_file_load_string(FILE *fd, char **dest)
 {
     char *buffer;
-    size_t size;
+    off_t size;
     size_t r;
 
-    size = util_file_length(fd);
-    buffer = lib_malloc(size + 1);
+    size = archdep_file_size(fd);
+    if (size < 0) {
+        return -1;
+    }
+    buffer = lib_malloc((size_t)size + 1);
 
-    r = fread(buffer, 1, size, fd);
+    r = fread(buffer, 1, (size_t)size, fd);
 
-    if (r < size) {
+    if (r < (size_t)size) {
         lib_free(buffer);
-        log_error(LOG_ERR, "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes", r, size);
+        log_error(LOG_ERR,
+                  "Could only load %"PRI_SIZE_T" of %"PRI_SIZE_T" bytes",
+                  r, (size_t)size);
         return -1;
     }
 
@@ -499,8 +476,9 @@ int util_get_line(char *buf, int bufsize, FILE *f)
         while ((len > 0) && (*(buf + len - 1) == ' ')) {
             len--;
         }
-        for (p = buf; *p == ' '; p++, len--) {
+        for (p = buf; *p == ' ' && len > 0; p++, len--) {
         }
+
         memmove(buf, p, len + 1);
         *(buf + len) = '\0';
     }
@@ -535,9 +513,9 @@ void util_fname_split(const char *path, char **directory_return,
     }
 
     /* get ptr to last dir seperator before the filename */
-    p = strrchr(path, FSDEV_DIR_SEP_CHR);
+    p = strrchr(path, ARCHDEP_DIR_SEP_CHR);
 
-#if (FSDEV_DIR_SEP_CHR == '\\')
+#if (ARCHDEP_DIR_SEP_CHR == '\\')
 # if 0
     printf("WE HAVE \\ AS A DIR SEPARATOR!\n");
 # endif
@@ -801,12 +779,12 @@ void util_add_extension(char **name, const char *extension)
 
     name_len = strlen(*name);
     if ((name_len > ext_len + 1)
-        && (strcasecmp(&((*name)[name_len - ext_len]), extension) == 0)) {
+        && (util_strcasecmp(&((*name)[name_len - ext_len]), extension) == 0)) {
         return;
     }
 
     *name = lib_realloc(*name, name_len + ext_len + 2);
-    (*name)[name_len] = FSDEV_EXT_SEP_CHR;
+    (*name)[name_len] = '.';
     memcpy(&((*name)[name_len + 1]), extension, ext_len + 1);
 }
 
@@ -844,11 +822,11 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
     }
 
     if ((name_len > ext_len + 1)
-        && (strcasecmp(&((name)[name_len - ext_len]), extension) == 0)) {
+        && (util_strcasecmp(&((name)[name_len - ext_len]), extension) == 0)) {
         return;
     }
 
-    name[name_len] = FSDEV_EXT_SEP_CHR;
+    name[name_len] = '.';
     memcpy(name + name_len + 1, extension, ext_len + 1);
 }
 
@@ -860,7 +838,7 @@ char *util_get_extension(const char *filename)
         return NULL;
     }
 
-    s = strrchr(filename, FSDEV_EXT_SEP_CHR);
+    s = strrchr(filename, '.');
     if (s) {
         return s + 1;
     } else {
@@ -893,7 +871,7 @@ char *util_gen_hex_address_list(int start, int stop, int step)
 
     temp1 = lib_strdup("");
     while (i < stop) {
-        temp2 = lib_msprintf("0x%X", i);
+        temp2 = lib_msprintf("0x%X", (unsigned int)i);
         temp3 = util_concat(temp1, temp2, NULL);
         lib_free(temp1);
         lib_free(temp2);
@@ -906,4 +884,138 @@ char *util_gen_hex_address_list(int start, int stop, int step)
         i += step;
     }
     return temp3;
+}
+
+
+/** \brief  Join multiple paths into a single path
+ *
+ * Joins a list of strings into a path for use with the current arch
+ *
+ * \param   [in]    path    list of paths to join, NULL-terminated
+ *
+ * \return  heap-allocated string, free with lib_free()
+ */
+char *util_join_paths(const char *path, ...)
+{
+    const char *arg;
+    char *result;
+    char *endptr;
+    size_t result_len;
+    size_t len;
+    va_list ap;
+#if 0
+    printf("%s: first argument: '%s'\n", __func__, path);
+#endif
+    /* silly way to use a varags function, but lets catch it anyway */
+    if (path == NULL) {
+        return NULL;
+    }
+
+    /* determine size of result string */
+    va_start(ap, path);
+    result_len = strlen(path);
+    while ((arg = va_arg(ap, const char *)) != NULL) {
+        result_len += (strlen(arg) + 1);
+    }
+    va_end(ap);
+#if 0
+    /* cannot use %zu here due to MS' garbage C lib */
+    printf("%s: result length: %"PRI_SIZE_T"\n", __func__, result_len);
+#endif
+    /* initialize result string */
+    result = lib_calloc(result_len + 1, 1);
+    strcpy(result, path);
+    endptr = result + (ptrdiff_t)strlen(path);
+
+    /* now concatenate arguments into a pathname */
+    va_start(ap, path);
+    while ((arg = va_arg(ap, const char *)) != NULL) {
+#if 0
+        printf("%s: adding '%s' to the result.", __func__, arg);
+#endif
+        len = strlen(arg);
+        if (*arg != ARCHDEP_DIR_SEP_CHR) {
+            *endptr++ = ARCHDEP_DIR_SEP_CHR;
+        }
+        memcpy(endptr, arg, len + 1);
+        endptr += (ptrdiff_t)len;
+    }
+
+    va_end(ap);
+    return result;
+}
+
+
+/** \brief  Compare strings, ignoring case
+ *
+ * \param[in]   s1  string to compare
+ * \param[in]   s2  string to compare
+ *
+ * \return  -1 if \a s1 \< \a s2, 0 if \a s1 == \a s2, 1 if \a s1 \> \a s2
+ *
+ * \note    Does naive case-folding, so don't rely on this for sorting strings
+ *          in non-ASCII encoding (for example when e-umlaut exists but E-umlaut
+ *          doesn't exist)
+ */
+int util_strcasecmp(const char *s1, const char *s2)
+{
+    while (*s1 != '\0' && *s2 != '\0') {
+        int c1 = tolower((int)*s1);
+        int c2 = tolower((int)*s2);
+
+        if (c1 < c2) {
+            return -1;
+        } else if (c1 > c2) {
+            return 1;
+        }
+
+        s1++;
+        s2++;
+    }
+
+    if (*s1 == '\0' && *s2 == '\0') {
+        return 0;
+    } else if (*s1 == '\0') {
+        return -1;
+    } else {
+        return 1;
+    }
+}
+
+
+/** \brief  Compare strings, ignoring case, comparing at most \a n chars
+ *
+ * \param[in]   s1  string to compare
+ * \param[in]   s2  string to compare
+ *
+ * \return  -1 if \a s1 \< \a s2, 0 if \a s1 == \a s2, 1 if \a s1 \> \a s2
+ *
+ * \note    Does naive case-folding, so don't rely on this for sorting strings
+ *          in non-ASCII encoding (for example when e-umlaut exists but E-umlaut
+ *          doesn't exist)
+ */
+int util_strncasecmp(const char *s1, const char *s2, size_t n)
+{
+    while (*s1 != '\0' && *s2 != '\0' && n > 0) {
+        int c1 = tolower((int)*s1);
+        int c2 = tolower((int)*s2);
+
+        if (c1 < c2) {
+            return -1;
+        } else if (c1 > c2) {
+            return 1;
+        }
+
+        s1++;
+        s2++;
+        n--;
+    }
+
+    if ((*s1 != '\0' && *s2 != '\0') || (*s1 == '\0' && *s2 == '\0')) {
+        return 0;
+    } else if (*s1 == '\0') {
+        return -1;
+    } else {
+        return 1;
+    }
 }

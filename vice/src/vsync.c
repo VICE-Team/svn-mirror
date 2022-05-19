@@ -49,7 +49,7 @@
 #include <limits.h>
 #endif
 
-#include "archdep_exit.h"
+#include "archdep.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "joystick.h"
@@ -66,14 +66,13 @@
 #include "resources.h"
 #include "sound.h"
 #include "types.h"
-#include "tick.h"
 #include "videoarch.h"
 #include "vsync.h"
 #include "vsyncapi.h"
 
 #include "ui.h"
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #include "macOS-util.h"
 #endif
 
@@ -94,37 +93,51 @@ static int    vsync_metric_warp_enabled;
 
 /* ------------------------------------------------------------------------- */
 
-static vsync_callback_t *vsync_callback_queue;
-static int vsync_callback_queue_size_max;
-static int vsync_callback_queue_size;
+typedef struct callback_queue_s {
+    vsync_callback_t *queue;
+    int size_max;
+    int size;
+} callback_queue_t;
+
+static callback_queue_t callback_queues[2];
+static callback_queue_t *callback_queue = callback_queues;
+static int callback_queue_index;
 
 /** \brief Call callback_func(callback_param) once at vsync time (or machine reset) */
 void vsync_on_vsync_do(vsync_callback_func_t callback_func, void *callback_param)
 {
-    mainlock_assert_lock_obtained();
-
     /* Grow the queue as needed */
-    if (vsync_callback_queue_size == vsync_callback_queue_size_max) {
-        vsync_callback_queue_size_max += 1;
-        vsync_callback_queue = lib_realloc(vsync_callback_queue, vsync_callback_queue_size_max * sizeof(vsync_callback_t));
+    if (callback_queue->size == callback_queue->size_max) {
+        callback_queue->size_max++;
+        callback_queue->queue = lib_realloc(callback_queue->queue, callback_queue->size_max * sizeof(vsync_callback_t));
     }
 
-    vsync_callback_queue[vsync_callback_queue_size].callback = callback_func;
-    vsync_callback_queue[vsync_callback_queue_size].param = callback_param;
+    callback_queue->queue[callback_queue->size].callback = callback_func;
+    callback_queue->queue[callback_queue->size].param = callback_param;
 
-    vsync_callback_queue_size++;
+    callback_queue->size++;
 }
 
+/** \brief Keep executing on_vsync_do callbacks until none are scheduled. */
 static void execute_vsync_callbacks(void)
 {
     int i;
+    callback_queue_t *executing_queue;
 
-    /* Execute each callback in turn. */
-    if (vsync_callback_queue_size) {
-        for (i = 0; i < vsync_callback_queue_size; i++) {
-            vsync_callback_queue[i].callback(vsync_callback_queue[i].param);
+    while (callback_queue->size) {
+
+        /* We'll iterate over this queue */
+        executing_queue = callback_queue;
+
+        /* Flip to the other queue to collect any new callbacks queued within these callbacks */
+        callback_queue_index = 1 - callback_queue_index;
+        callback_queue = &callback_queues[callback_queue_index];
+
+        for (i = 0; i < executing_queue->size; i++) {
+            executing_queue->queue[i].callback(executing_queue->queue[i].param);
         }
-        vsync_callback_queue_size = 0;
+
+        executing_queue->size = 0;
     }
 }
 
@@ -182,7 +195,7 @@ int vsync_get_warp_mode(void)
 static int set_initial_warp_mode_resource(int val, void *param)
 {
     initial_warp_mode_resource = val ? 1 : 0;
-    
+
     return 0;
 }
 
@@ -209,7 +222,7 @@ static int set_initial_warp_mode_cmdline(const char *param, void *extra_param)
      * We don't want -warp / +warp to end up in the config file,
      * so we don't use a resource.
      */
-    
+
     initial_warp_mode_cmdline = vice_ptr_to_int(extra_param) ? 1 : 0;
 
     return 0;
@@ -319,7 +332,7 @@ void vsync_init(void (*hook)(void))
     } else {
         vsync_set_warp_mode(initial_warp_mode_resource);
     }
-    
+
     /* Limit warp rendering to 10fps */
     warp_render_tick_interval = tick_per_second() / 10.0;
 
@@ -329,10 +342,13 @@ void vsync_init(void (*hook)(void))
 
 void vsync_shutdown(void)
 {
-    if (vsync_callback_queue)
-    {
-        lib_free(vsync_callback_queue);
-        vsync_callback_queue = NULL;
+    int i;
+
+    for (i = 0; i < 2; i++) {
+        if (callback_queues[i].queue) {
+            lib_free(callback_queues[i].queue);
+            callback_queues[i].queue = NULL;
+        }
     }
 }
 
@@ -396,7 +412,7 @@ static void reset_performance_metrics(tick_t frame_tick)
 
     measurement_count = 0;
     next_measurement_index = 0;
-    
+
     cumulative_tick_delta = 0;
     cumulative_clock_delta = 0;
 
@@ -493,7 +509,7 @@ void vsync_do_end_of_line(void)
      */
 
     if (archdep_is_exiting()) {
-        mainlock_yield_once();
+        mainlock_yield();
         return;
     }
 
@@ -523,10 +539,10 @@ void vsync_do_end_of_line(void)
     /* is it time to consider keyboard, joystick ? */
     if (tick_delta >= tick_between_sync) {
 
-        /* deal with user input */
-        joystick();
-        
-        if (!warp_enabled) {
+        if (warp_enabled) {
+            /* During warp we need to periodically allow the UI a chance with the mainlock */
+            mainlock_yield();
+        } else {
             /*
              * Compare the emulated time vs host time.
              *
@@ -540,7 +556,7 @@ void vsync_do_end_of_line(void)
 
             /* combine with leftover offset from last sync */
             sync_emulated_ticks += sync_emulated_ticks_offset;
-            
+
             /* calculate the ideal host tick representing the emulated tick */
             sync_target_tick += sync_emulated_ticks;
 
@@ -563,7 +579,7 @@ void vsync_do_end_of_line(void)
 
                 /* If we can't rely on the audio device for timing, slow down here. */
                 if (tick_based_sync_timing) {
-                    tick_sleep(ticks_until_target);
+                    mainlock_yield_and_sleep(ticks_until_target);
                 }
 
             } else if ((tick_t)0 - ticks_until_target > tick_per_second()) {
@@ -577,6 +593,9 @@ void vsync_do_end_of_line(void)
             }
         }
 
+        /* deal with pending user input */
+        joystick();
+
         last_sync_tick = tick_now;
         last_sync_clk = main_cpu_clock;
     }
@@ -585,9 +604,9 @@ void vsync_do_end_of_line(void)
     if (update_thread_priority) {
         update_thread_priority = 0;
 
-#if defined(MACOSX_SUPPORT)
+#if defined(MACOS_COMPILE)
         vice_macos_set_vice_thread_priority(warp_enabled);
-#elif defined(__linux__)
+#elif defined(LINUX_COMPILE)
         /* TODO: Linux thread prio stuff, need root or some 'capability' though */
 #else
         /* TODO: BSD thread prio stuff */
@@ -618,7 +637,7 @@ bool vsync_should_skip_frame(struct video_canvas_s *canvas)
         if (now < canvas->warp_next_render_tick) {
             if (now < canvas->warp_next_render_tick - warp_render_tick_interval) {
                 /* next render tick is further ahead than it should be */
-                canvas->warp_next_render_tick = now + warp_render_tick_interval;    
+                canvas->warp_next_render_tick = now + warp_render_tick_interval;
             }
             /* skip this frame */
             return true;
@@ -633,7 +652,7 @@ bool vsync_should_skip_frame(struct video_canvas_s *canvas)
             return false;
         }
     }
-    
+
     /* render this frame */
     return false;
 }

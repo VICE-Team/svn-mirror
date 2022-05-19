@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUGCART
+/* #define DEBUGCART */
 
 #include "vice.h"
 
@@ -44,6 +44,7 @@
 #include "megacart.h"
 #include "mem.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -54,7 +55,7 @@
 #include "zfile.h"
 
 #ifdef DEBUGCART
-#define DBG(x) printf x
+#define DBG(x) log_debug x
 #else
 #define DBG(x)
 #endif
@@ -327,15 +328,18 @@ static uint8_t megacart_io3_read(uint16_t addr)
 
 static uint8_t megacart_io3_peek(uint16_t addr)
 {
-    if ((addr & 0x180) == 0x080) { /* $9c80 */
+    if ((addr & 0x3ff) == 0x080) { /* $9c80 */
         return bank_high_reg;
     }
 
-    if ((addr & 0x180) == 0x100) { /* $9d00 */
+    if ((addr & 0x3ff) == 0x100) { /* $9d00 */
         return bank_low_reg;
     }
 
-    return cart_nvram[0x1c00 + (addr & 0x3ff)];
+    if (nvram_en_flop) {
+        return cart_nvram[0x1c00 + (addr & 0x3ff)];
+    }
+    return vic20_cpu_last_data;
 }
 
 /* store 0x9c00-0x9fff (nvram 0x1c00 - 0x1fff) */
@@ -368,40 +372,17 @@ static void megacart_io3_store(uint16_t addr, uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
-void megacart_init(void)
-{
-    if (megacart_log == LOG_ERR) {
-        megacart_log = log_open(CARTRIDGE_VIC20_NAME_MEGACART);
-    }
-
-    reset_mode = BUTTON_RESET;
-    oe_flop = 0;
-    nvram_en_flop = 0;
-}
-
-void megacart_reset(void)
-{
-    if (reset_mode == SOFTWARE_RESET) {
-        oe_flop = !oe_flop;
-    } else {
-        oe_flop = 0;
-    }
-    reset_mode = BUTTON_RESET;
-}
-
-void megacart_config_setup(uint8_t *rawcart)
-{
-}
-
 static int zfile_load(const char *filename, uint8_t *dest, size_t size)
 {
     FILE *fd;
+    off_t len;
 
     fd = zfile_fopen(filename, MODE_READ);
     if (!fd) {
         return -1;
     }
-    if (util_file_length(fd) != size) {
+    len = archdep_file_size(fd);
+    if (len < 0 || (size_t)len != size) {
         zfile_fclose(fd);
         return -1;
     }
@@ -415,15 +396,16 @@ static int zfile_load(const char *filename, uint8_t *dest, size_t size)
 
 static int try_nvram_load(const char *filename)
 {
+    DBG(("cart_nvram: %p filename: %s", cart_nvram, filename ? filename : "NULL"));
     if (cart_nvram && filename && *filename != '\0') {
         if (zfile_load(filename, cart_nvram, (size_t)CART_NVRAM_SIZE) < 0) {
             log_message(megacart_log, "Failed to read NvRAM image `%s'!", filename);
             return -1;
         } else {
             log_message(megacart_log, "Read NvRAM image `%s'.", filename);
+            return 1;
         }
     }
-
     return 0;
 }
 
@@ -451,11 +433,38 @@ static int try_nvram_save(const char *filename)
     return ret;
 }
 
-int megacart_crt_attach(FILE *fd, uint8_t *rawcart)
-{
-    crt_chip_header_t chip;
-    int idx = 0;
+/* ------------------------------------------------------------------------- */
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM nvramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+static void allocate_rom_ram(void)
+{
     if (!cart_ram) {
         cart_ram = lib_malloc(CART_RAM_SIZE);
     }
@@ -465,13 +474,62 @@ int megacart_crt_attach(FILE *fd, uint8_t *rawcart)
     if (!cart_rom) {
         cart_rom = lib_malloc(CART_ROM_SIZE);
     }
+}
+
+static void clear_ram(void)
+{
+    if (cart_ram) {
+        DBG(("clear_ram: cart_ram"));
+        ram_init_with_pattern(cart_ram, CART_RAM_SIZE, &ramparam);
+    }
+    if (cart_nvram) {
+        DBG(("clear_ram: cart_nvram"));
+        ram_init_with_pattern(cart_nvram, CART_NVRAM_SIZE, &nvramparam);
+    }
+}
+
+void megacart_init(void)
+{
+    if (megacart_log == LOG_ERR) {
+        megacart_log = log_open(CARTRIDGE_VIC20_NAME_MEGACART);
+    }
+}
+
+void megacart_reset(void)
+{
+    if (reset_mode == SOFTWARE_RESET) {
+        oe_flop = !oe_flop;
+    } else {
+        oe_flop = 0;
+    }
+    reset_mode = BUTTON_RESET;
+}
+
+void megacart_powerup(void)
+{
+    reset_mode = BUTTON_RESET;
+    oe_flop = 0;
+    nvram_en_flop = 1;
+}
+
+void megacart_config_setup(uint8_t *rawcart)
+{
+}
+
+int megacart_crt_attach(FILE *fd, uint8_t *rawcart)
+{
+    crt_chip_header_t chip;
+    int idx = 0;
+
+    allocate_rom_ram();
+    clear_ram();
 
     for (idx = 0; idx < 256; idx++) {
         if (crt_read_chip_header(&chip, fd)) {
             goto exiterror;
         }
 
-        DBG(("chip %d at %02x len %02x\n", idx, chip.start, chip.size));
+        DBG(("chip %d at %02x len %02x", idx, chip.start, chip.size));
         if (chip.size != 0x2000) {
             goto exiterror;
         }
@@ -507,15 +565,8 @@ exiterror:
 
 int megacart_bin_attach(const char *filename)
 {
-    if (!cart_ram) {
-        cart_ram = lib_malloc(CART_RAM_SIZE);
-    }
-    if (!cart_nvram) {
-        cart_nvram = lib_malloc(CART_NVRAM_SIZE);
-    }
-    if (!cart_rom) {
-        cart_rom = lib_malloc(CART_ROM_SIZE);
-    }
+    allocate_rom_ram();
+    clear_ram();
 
     if (zfile_load(filename, cart_rom, (size_t)CART_ROM_SIZE) < 0) {
         megacart_detach();

@@ -27,15 +27,12 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stddef.h>
 
 #include "archdep_get_vice_datadir.h"
-#include "archdep_join_paths.h"
-
 #include "lib.h"
 #include "machine.h"
+#include "util.h"
 
 #include "archdep_get_vice_machinedir.h"
 
@@ -50,7 +47,7 @@ char *archdep_get_vice_machinedir(void)
     char *machinedir;
 
     datadir = archdep_get_vice_datadir();
-    machinedir = archdep_join_paths(datadir, machine_name, NULL);
+    machinedir = util_join_paths(datadir, machine_name, NULL);
     lib_free(datadir);
     return machinedir;
 }

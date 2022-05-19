@@ -53,6 +53,7 @@
 #include "rotation.h"
 #include "snapshot.h"
 #include "types.h"
+#include "uiapi.h"
 
 
 #define DRIVE_CPU
@@ -60,7 +61,7 @@
 /* Global clock counters.  */
 CLOCK diskunit_clk[NUM_DISK_UNITS];
 
-static void drive_jam(diskunit_context_t *drv);
+static void drivecpu_jam(diskunit_context_t *drv);
 
 static void drivecpu_set_bank_base(void *context);
 
@@ -168,6 +169,7 @@ static void cpu_reset(diskunit_context_t *drv)
     preserve_monitor = drv->cpu->int_status->global_pending_int & IK_MONITOR;
 
     log_message(drv->log, "RESET.");
+    ui_display_reset(drv->mynumber + DRIVE_UNIT_MIN, 0);
 
     interrupt_cpu_status_reset(drv->cpu->int_status);
 
@@ -400,7 +402,7 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
 
 #define ALARM_CONTEXT (cpu->alarm_context)
 
-#define JAM() drive_jam(drv)
+#define JAM() drivecpu_jam(drv)
 
 #define ROM_TRAP_ALLOWED() 1
 
@@ -451,7 +453,7 @@ static void drivecpu_set_bank_base(void *context)
 }
 
 /* Inlining this fuction makes no sense and would only bloat the code.  */
-static void drive_jam(diskunit_context_t *drv)
+static void drivecpu_jam(diskunit_context_t *drv)
 {
     unsigned int tmp;
     char *dname = "  Drive";
@@ -510,7 +512,7 @@ static void drive_jam(diskunit_context_t *drv)
             break;
     }
 
-    tmp = machine_jam("%s (%d) CPU: JAM at $%04X  ", dname, drv->mynumber + 8, (int)reg_pc);
+    tmp = drive_jam(drv->mynumber, "%s (%d) CPU: JAM at $%04X  ", dname, drv->mynumber + 8, (unsigned int)reg_pc);
     switch (tmp) {
         case JAM_RESET:
             reg_pc = 0xeaa0;

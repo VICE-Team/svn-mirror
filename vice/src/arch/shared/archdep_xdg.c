@@ -29,11 +29,11 @@
 #include "vice.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "lib.h"
 
-#include "archdep_defs.h"
+/* #include "archdep_defs.h" */
 #include "archdep_home_path.h"
-#include "archdep_join_paths.h"
+#include "lib.h"
+#include "util.h"
 
 #include "archdep_xdg.h"
 
@@ -49,12 +49,12 @@ char *archdep_xdg_data_home(void)
     const char *path = getenv("XDG_DATA_HOME");
 
     if (path != NULL && *path != '\0') {
-        /* got env var, heap-allocate since the archdep_join_paths() function
+        /* got env var, heap-allocate since the util_join_paths() function
          * also returns a heap-allocated string.
          */
         return lib_strdup(path);
     }
-    return archdep_join_paths(archdep_home_path(), ".local", "share", NULL);
+    return util_join_paths(archdep_home_path(), ".local", "share", NULL);
 }
 
 
@@ -71,7 +71,7 @@ char *archdep_xdg_config_home(void)
     if (path != NULL && *path != '\0') {
         return lib_strdup(path);
     }
-    return archdep_join_paths(archdep_home_path(), ".config", NULL);
+    return util_join_paths(archdep_home_path(), ".config", NULL);
 }
 
 
@@ -88,6 +88,5 @@ char *archdep_xdg_cache_home(void)
     if (path != NULL && *path != '\0') {
         return lib_strdup(path);
     }
-    return archdep_join_paths(archdep_home_path(), ".cache", NULL);
+    return util_join_paths(archdep_home_path(), ".cache", NULL);
 }
-

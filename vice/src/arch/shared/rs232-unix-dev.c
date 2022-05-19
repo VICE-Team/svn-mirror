@@ -9,29 +9,29 @@
  * The characters captured are sent to a file or an attached process.
  * Characters sent from a process are sent back to the
  * chip emulations.
- * 
+ *
  * There are four RS232 "output" devices that can be defined, so you can switch between
- * them easily: rsdev1-4. Each device definition contains the output filename 
- * (see rsdev1-4 cmdline options resp. RsDevice1-4 resources in rs232drv.c), that 
- * determines the action when opening up a serial device. 
+ * them easily: rsdev1-4. Each device definition contains the output filename
+ * (see rsdev1-4 cmdline options resp. RsDevice1-4 resources in rs232drv.c), that
+ * determines the action when opening up a serial device.
  *
  * If that name starts with a pipe symbol "|", the remaining name is interpreted as program
  * to start and RS232 data from the emulation is piped to that program and vice versa.
  *
  * If that name is a Unix TTY device (and not a file), the emulator detects that and
- * sets up the device as serial device, using the baud rate from the -rsdev[1-4]baud 
+ * sets up the device as serial device, using the baud rate from the -rsdev[1-4]baud
  * command line option. So for example you can have the emulator talk to a serial port
  * on the host PC using /dev/ttyS0 (name depending on your Linux/Unix distribution)
  * and use the baud rate given in the -rsdev?baud for the external interface.
  *
  * If that name is a file, then just the RS232 output is written there.
- * 
+ *
  * Note: there seems to be some extension in rs232drv.c to use some network connection,
  * but I don't know how that works.
  *
  * To use the output device, you have to select one for each of the emulated RS232 device.
  * So, to use rsdev1 in the C64 userport RS232 emulation, you have to use the "-rsuser" to
- * enable the userport emulation and "-rsuserdev 0" to select rsdev1 (unfortunately there is 
+ * enable the userport emulation and "-rsuserdev 0" to select rsdev1 (unfortunately there is
  * an offset of one). And as the userport emulation can not detect the baud rate that is
  * used to shift the bits (as opposed to the ACIA emulation where the baud rate is set
  * in a register), you also have to use "-rsuserbaud 2400" to set this emulated baud rate.
@@ -51,7 +51,7 @@
  *   the first opened device is in slot fd[0], the second one in fd[1] etc). Maybe a bit
  *   oversophisticated, but you could use the same PROC device for multiple RS232 emulations,
  *   e.g. use rsdev1 for both userport and ACIA, as for each opening of the device, a new
- *   process is started. (not sure if that would work with a Unix pipe to have them talk to 
+ *   process is started. (not sure if that would work with a Unix pipe to have them talk to
  *   each other).
  */
 
@@ -259,7 +259,7 @@ static void set_tty(int i, int baud)
     int fd = fds[i].fd_r;
     struct termios buf;
 
-    log_message(rs232dev_log, "rs232: trying to set device %s to %d baud.", 
+    log_message(rs232dev_log, "rs232: trying to set device %s to %d baud.",
                 fds[i].file, baud);
 
     if (tcgetattr(fd, &fds[i].saved) < 0) {
@@ -328,7 +328,7 @@ int rs232dev_open(int device)
     }
 
 #ifdef DEBUG
-    log_message(rs232dev_log, "rs232dev_open(device '%s' as dev %d).", 
+    log_message(rs232dev_log, "rs232dev_open(device '%s' as dev %d).",
                 rs232_devfile[device], device);
 #endif
 
@@ -343,7 +343,7 @@ int rs232dev_open(int device)
     } else {
         fd = open(rs232_devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd < 0) {
-            log_error(rs232dev_log, "Cannot open file \"%s\": %s", 
+            log_error(rs232dev_log, "Cannot open file \"%s\": %s",
                       rs232_devfile[device], strerror(errno));
             return -1;
         }
@@ -459,7 +459,7 @@ int rs232dev_set_status(int fd, enum rs232handshake_out status)
 {
     if ((fd < 0) || (fd >= RS232_NUM_DEVICES)) {
         log_error(rs232dev_log, "Attempted to set status of invalid fd %d.", fd);
-    }    
+    }
     /*! \todo dummy */
     return -1;
 }
@@ -469,7 +469,7 @@ enum rs232handshake_in rs232dev_get_status(int fd)
 {
     if ((fd < 0) || (fd >= RS232_NUM_DEVICES)) {
         log_error(rs232dev_log, "Attempted to get status of invalid fd %d.", fd);
-    }    
+    }
     /*! \todo dummy */
     return RS232_HSI_CTS | RS232_HSI_DSR;
 }
@@ -479,7 +479,7 @@ void rs232dev_set_bps(int fd, unsigned int bps)
 {
     if ((fd < 0) || (fd >= RS232_NUM_DEVICES)) {
         log_error(rs232dev_log, "Attempted to set bps of invalid fd %d.", fd);
-    }    
+    }
     /*! \todo dummy */
 }
 

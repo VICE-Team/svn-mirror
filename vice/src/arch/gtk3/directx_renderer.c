@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 
 #include "directx_renderer.h"
 #include "directx_renderer_impl.h"
@@ -45,6 +45,7 @@
 #include "render_queue.h"
 #include "resources.h"
 #include "ui.h"
+#include "uistatusbar.h"
 
 #define CANVAS_LOCK() pthread_mutex_lock(&canvas->lock)
 #define CANVAS_UNLOCK() pthread_mutex_unlock(&canvas->lock)
@@ -222,7 +223,7 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
     context->viewport_height = allocation->height * gtk_scale;
 
     /* Set the background colour */
-    if (ui_is_fullscreen()) {
+    if (ui_is_fullscreen_from_canvas(canvas)) {
         context->render_bg_colour.r = 0.0f;
         context->render_bg_colour.g = 0.0f;
         context->render_bg_colour.b = 0.0f;
@@ -324,11 +325,11 @@ static void vice_directx_set_palette(video_canvas_t *canvas)
     int i;
     video_render_color_tables_t *color_tables = &canvas->videoconfig->color_tables;
     struct palette_s *palette = canvas ? canvas->palette : NULL;
-    
+
     if (!palette) {
         return;
     }
-    
+
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
         uint32_t color_code = color.red | (color.green << 8) | (color.blue << 16) | (0xffU << 24);

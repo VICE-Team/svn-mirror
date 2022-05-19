@@ -1092,7 +1092,7 @@ gboolean ui_cart_trigger_freeze(void)
 
 /** \brief  Detach all cartridge images
  *
- * TODO: The question about removing the default enabled cartridge doesn't 
+ * TODO: The question about removing the default enabled cartridge doesn't
  *       work for carts not on "slot 1", these seem to their own "enabled"
  *       resources and do not use the CartridgeType/CartridgeFile resources.
  *

@@ -71,7 +71,7 @@ static int set_border_mode(int val, void *param)
         default:
             return -1;
     }
-    
+
     next_border_mode = val;
     vsync_on_vsync_do(on_vsync_set_border_mode, NULL);
 
@@ -102,7 +102,7 @@ struct vicii_model_info_s {
     int luma;
 };
 
-static struct vicii_model_info_s vicii_info[] = {
+static const struct vicii_model_info_s vicii_info[] = {
     /* VICII_MODEL_6569: PAL, 63 cycle, 9 luma, "old" */
     { MACHINE_SYNC_PAL, 1 },
 
@@ -185,8 +185,6 @@ int vicii_resources_init(void)
     video_chip_cap.dsize_limit_width = 0;
     video_chip_cap.dsize_limit_height = 0;
     video_chip_cap.dscan_allowed = ARCHDEP_VICII_DSCAN;
-    video_chip_cap.hwscale_allowed = ARCHDEP_VICII_HWSCALE;
-    video_chip_cap.scale2x_allowed = ARCHDEP_VICII_DSIZE;
     video_chip_cap.external_palette_name = "pepto-pal";
     video_chip_cap.double_buffering_allowed = ARCHDEP_VICII_DBUF;
     video_chip_cap.single_mode.sizex = 1;

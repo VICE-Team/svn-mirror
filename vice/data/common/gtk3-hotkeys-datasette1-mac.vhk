@@ -1,0 +1,10 @@
+# VICE Gtk3 Hotkeys for datasette 1
+#
+# Author:   Bas Wassink
+# Updated:  2021-09-25
+#
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+tape-attach-1       <Command>t
+tape-detach-1       <Command><Shift>t
+; tape-create-1

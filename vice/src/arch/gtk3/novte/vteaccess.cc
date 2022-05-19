@@ -965,9 +965,9 @@ static gchar *vte_terminal_accessible_get_text_somewhere(AtkText *text,
                 }
             }
             start = offset;
-            /* If we're looking for the word end before this one, 
-             * keep searching by backing up to the previous word 
-             * character and then searching for the word-end 
+            /* If we're looking for the word end before this one,
+             * keep searching by backing up to the previous word
+             * character and then searching for the word-end
              * before that. */
             if (direction == direction_previous) {
                 while (offset > 0) {
@@ -1193,7 +1193,7 @@ static gboolean _pango_color_equal(const PangoColor *a, const PangoColor *b)
             a->blue  == b->blue;
 }
 
-static AtkAttributeSet *vte_terminal_accessible_get_run_attributes(AtkText *text, 
+static AtkAttributeSet *vte_terminal_accessible_get_run_attributes(AtkText *text,
                             gint offset, gint *start_offset, gint *end_offset)
 {
     VteTerminalAccessible *accessible = VTE_TERMINAL_ACCESSIBLE(text);

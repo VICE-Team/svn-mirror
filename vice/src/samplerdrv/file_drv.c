@@ -740,7 +740,7 @@ static int voc_handle_sound_2(int channels)
     }
     file_pointer += 5;
     size -= 2;
-    
+
     if (!voc_buffer1) {
         return -1;
     }
@@ -1016,7 +1016,7 @@ static int handle_voc_file(int channels)
     }
 
     if (file_buffer[20] != 0x1A || file_buffer[21] != 0) {
-        log_error(filedrv_log, "Incorrect voc file header length : %X", 
+        log_error(filedrv_log, "Incorrect voc file header length : %X",
                 (unsigned int)(file_buffer[21] << 8) | file_buffer[20]);
         return -1;
     }
@@ -1295,10 +1295,10 @@ static double float80tofloat64(unsigned char* bytes)
             f = HUGE_VAL;
         } else {
             expon -= 16383;
-            
-            expon -= 31;            
+
+            expon -= 31;
             f  = ldexp(U2F(hiMant), expon);
-            
+
             expon -= 32;
             f += ldexp(U2F(loMant), expon);
         }
@@ -1379,7 +1379,7 @@ static int aiff_handle_comm(void)
     file_pointer += 2;
 
     for (i = 0; i < 10; ++i) {
-        f80[i] = file_buffer[file_pointer + i];  
+        f80[i] = file_buffer[file_pointer + i];
     }
 
     f64 = float80tofloat64(f80);
@@ -1567,7 +1567,7 @@ static int aifc_handle_comm(void)
     size -= 2;
 
     for (i = 0; i < 10; ++i) {
-        f80[i] = file_buffer[file_pointer + i];  
+        f80[i] = file_buffer[file_pointer + i];
     }
 
     f64 = float80tofloat64(f80);
@@ -1911,7 +1911,7 @@ static int handle_flac_file(int channels)
     sound_audio_channels = flac_channels;
     sound_audio_rate = flac_sample_rate;
     sound_audio_bits = 16;
-    
+
     return convert_pcm_buffer(file_size, channels);
 }
 
@@ -2097,7 +2097,9 @@ static void file_load_sample(int channels)
     FILE *sample_file = NULL;
     int err = 0;
 
-    if (sample_name != NULL && *sample_name == '\0') {
+    current_channels = channels;
+
+    if (sample_name != NULL && *sample_name != '\0') {
         sample_file = fopen(sample_name, "rb");
         if (sample_file) {
             fseek(sample_file, 0, SEEK_END);
@@ -2114,7 +2116,7 @@ static void file_load_sample(int channels)
                 sound_cycles_per_frame = (unsigned int)machine_get_cycles_per_frame();
                 sound_frames_per_sec = (unsigned int)machine_get_cycles_per_second() / sound_cycles_per_frame;
                 sound_samples_per_frame = sound_audio_rate / sound_frames_per_sec;
-                current_channels = channels;
+                log_message(filedrv_log, "using %s as the sampler file", sample_name);
             } else {
                 lib_free(file_buffer);
                 file_buffer = NULL;
@@ -2157,11 +2159,11 @@ static int set_sample_name(const char *name, void *param)
 
     if (sample_buffer1) {
         file_free_sample();
-        util_string_set(&sample_name, name);
-        file_load_sample(current_channels);
-    } else {
-        util_string_set(&sample_name, name);
     }
+
+    util_string_set(&sample_name, name);
+
+    file_load_sample(current_channels);
 
     return 0;
 }

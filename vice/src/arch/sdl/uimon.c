@@ -206,8 +206,8 @@ int console_init(void)
     }
 #endif
     return native_console_init();
-}    
-    
+}
+
 int console_close_all(void)
 {
 #if 0
@@ -219,4 +219,4 @@ int console_close_all(void)
     native_console_close_all();
     console_log_local = NULL;
     return 0;
-}    
+}

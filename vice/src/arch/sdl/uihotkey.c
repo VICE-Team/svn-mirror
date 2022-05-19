@@ -47,19 +47,21 @@ static char* sdl_ui_hotkey_path_find(ui_menu_entry_t *action, ui_menu_entry_t *m
     char *p = NULL;
     char *q = NULL;
 
-    while (menu->string) {
-        if (menu == action) {
-            return util_concat(menu->string, NULL);
-        }
-        if ((menu->type) == MENU_ENTRY_SUBMENU) {
-            p = sdl_ui_hotkey_path_find(action, (ui_menu_entry_t *)menu->data);
-            if (p) {
-                q = util_concat(menu->string, SDL_UI_HOTKEY_DELIM, p, NULL);
-                lib_free(p);
-                return q;
+    if (menu) {
+        while (menu->string) {
+            if (menu == action) {
+                return util_concat(menu->string, NULL);
             }
+            if ((menu->type) == MENU_ENTRY_SUBMENU) {
+                p = sdl_ui_hotkey_path_find(action, (ui_menu_entry_t *)menu->data);
+                if (p) {
+                    q = util_concat(menu->string, SDL_UI_HOTKEY_DELIM, p, NULL);
+                    lib_free(p);
+                    return q;
+                }
+            }
+            ++menu;
         }
-        ++menu;
     }
     return NULL;
 }

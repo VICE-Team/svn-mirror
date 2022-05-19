@@ -48,6 +48,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <errno.h>
 #include <limits.h>
 #include <string.h>
 
@@ -59,12 +60,10 @@
 
 #include "version.h"
 
+#include "vicedate.h"
+
 #ifdef USE_SVN_REVISION
 # include "svnversion.h"
-#endif
-
-#ifdef HAVE_ERRNO_H
-#include <errno.h>
 #endif
 
 #ifdef HAVE_FCNTL_H
@@ -76,7 +75,6 @@
 #endif
 
 #include "archdep.h"
-#include "archdep_defs.h"
 #include "cbmdos.h"
 #include "cbmimage.h"
 #include "charset.h"
@@ -87,7 +85,6 @@
 #include "fsimage-check.h"
 #include "gcr.h"
 #include "imagecontents.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "serial.h"
@@ -105,7 +102,7 @@
 
 #include "lib/linenoise-ng/linenoise.h"
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 #include <unistd.h>
 #endif
 
@@ -125,6 +122,20 @@
  * Normally, on 80 character terminals, 16 bytes is a decent number.
  */
 #define BLOCK_CMD_WIDTH     16
+
+
+/** \brief  Track/Sector link object
+ *
+ * Used in the `chain` command to detect cyclic references. Could perhaps be
+ * reused for other commands, in which case it would make sense to add a
+ * `prev` node to be able to iterate both ways and print links in their proper
+ * order.
+ */
+typedef struct link_s {
+    unsigned int track;     /**< track number */
+    unsigned int sector;    /**< sector number */
+    struct link_s *next;    /**< next node in linked list */
+} link_t;
 
 
 /** \brief  CBM DOS file type strings
@@ -181,6 +192,7 @@ static int bpeek_cmd(int nargs, char **args);
 static int bpoke_cmd(int nargs, char **args);
 static int bread_cmd(int nargs, char **args);
 static int bwrite_cmd(int nargs, char **args);
+static int cd_cmd(int nargs, char **args);
 static int chain_cmd(int nargs, char **args);
 static int copy_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
@@ -322,6 +334,11 @@ const command_t command_list[] = {
       "file system",
       3, 4,
       bwrite_cmd },
+    { "cd",
+      "cd <hostdir>",
+      "Change current host directory path",
+      1, 1,
+      cd_cmd },
     { "chain",
       "chain <track> <sector> [<unit>] | <filename>",
       "Follow and print block chain starting at (<track>,<sector>)",
@@ -597,7 +614,7 @@ static int split_args(const char *line, int *nargs, char **args)
                 begin_of_arg = 0;
                 in_quote = !in_quote;
                 continue;
-#ifndef WIN32_COMPILE
+#ifndef WINDOWS_COMPILE
             case '\\':
                 begin_of_arg = 0;
                 *(d++) = *(++s);
@@ -708,10 +725,9 @@ static int arg_to_int(const char *arg, int *return_value)
             break;  /* base is already 10 */
     }
 
-
     *return_value = (int)strtol(arg, &tailptr, base);
 
-    if (ioutil_errno(IOUTIL_ERRNO_ERANGE)) {
+    if (errno == ERANGE) {
         return -1;
     }
 
@@ -979,6 +995,80 @@ static int is_valid_cbm_file_name(const char *name)
     /* Notice that ':' is the same on PETSCII and ASCII.  */
     return strchr(name, ':') == NULL;
 }
+
+
+/*
+ * Simple linked list to keep track of track/sector links, currently only
+ * used for the `chain` command to detect cyclic references.
+ */
+
+/** \brief  Add (\a track, \a sector) to links
+ *
+ * \param[in]   link    linked list with track/sector links
+ * \param[in]   track   track number
+ * \param[in]   sector  sector number
+ *
+ * \return  new head of the linked list
+ */
+static link_t *link_add(link_t *link, unsigned int track, unsigned int sector)
+{
+    link_t *node = lib_malloc(sizeof *node);
+
+    node->track = track;
+    node->sector = sector;
+    node->next = link;
+
+    return node;
+}
+
+/* unused at the moment, but useful for debugging */
+#if 0
+/** \brief  Dump \a link and its siblings on stdout
+ *
+ * \param[in]   link    linked list node
+ */
+static void link_print(link_t *link)
+{
+    while (link != NULL) {
+        printf("(%2u,%2u) -> ", link->track, link->sector);
+        link = link->next;
+    }
+}
+#endif
+
+/** \brief  Free linked list
+ *
+ * \param[in]   link    linked list node
+ */
+static void link_free(link_t *link)
+{
+    while (link != NULL) {
+        link_t *next = link->next;
+        lib_free(link);
+        link = next;
+    }
+}
+
+
+/** \brief  Find linked list node for (\a track, \a sector)
+ *
+ * \param[in]   link    linked list node to start looking
+ * \param[in]   track   track number
+ * \param[in]   sector  track sector
+ *
+ * \return  node when found or `NULL` when not found
+ */
+static link_t *link_find(link_t *link, unsigned int track, unsigned int sector)
+{
+    while (link != NULL) {
+        if (link-> track == track && link->sector == sector) {
+            break;
+        }
+        link = link->next;
+    }
+    return link;
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -1352,7 +1442,7 @@ static int bam_print_tracks(vdrive_t *vdrive,
  *
  * Display a bitmap of used/free sectors for each track in the image
  *
- * Syntax: 
+ * Syntax:
  *
  * \param[in]   nargs   argument count
  * \param[in]   args    argument list
@@ -2039,6 +2129,7 @@ static int bwrite_cmd(int nargs, char **args)
 }
 
 
+
 /** \brief  Follow and print a block chain
  *
  * \param[in]   nargs   number of arguments
@@ -2055,6 +2146,7 @@ static int chain_cmd(int nargs, char **args)
     unsigned int sector;
     vdrive_t *vdrive;
     int err;
+    link_t *link;
 
     if (nargs == 2) {
         /* assume filename, not (track,sector) */
@@ -2139,10 +2231,8 @@ static int chain_cmd(int nargs, char **args)
     }
 #endif
 
-    /* XXX: needs check for circular pattern, or perhaps some counter that
-     *      checks the number of blocks against the maximum block size of the
-     *      largest image type.
-     */
+    /* we keep a list of sectors visited so we can detect cyclic references */
+    link = link_add(NULL, track, sector);
     do {
         unsigned char buffer[RAW_BLOCK_SIZE];
 
@@ -2155,8 +2245,25 @@ static int chain_cmd(int nargs, char **args)
         }
         track = buffer[0];
         sector = buffer[1];
+
+        if (link_find(link, track, sector) != NULL) {
+            printf("cyclic reference found to (%u,%u)!\n", track, sector);
+            break;
+        }
+        link = link_add(link, track, sector);
+
     } while (track > 0);
-    printf("%u\n", sector);
+
+    if (track > 0) {
+        printf("%u\n", sector);
+    }
+#if 0
+    printf("Dumping links:\n");
+    link_print(link);
+    putchar('\n');
+#endif
+    /* free list of visited sectors */
+    link_free(link);
 
     return FD_OK;
 }
@@ -2285,7 +2392,7 @@ static int copy_cmd(int nargs, char **args)
                 *comma = '\0';
             }
 
-            newname = lib_msprintf("%s,L,%c", oldname, rel_record_length);
+            newname = lib_msprintf("%s,L,%c", oldname, (int)rel_record_length);
 
             if (comma) {
                 *comma = ',';
@@ -2613,7 +2720,7 @@ static int entry_cmd(int nargs, char **args)
 
         /* If this is a REL file, print the side sectors */
         if (show_side_sector &&
-            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL && 
+            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL &&
             slot[SLOT_SIDE_TRACK] != 0) {
             unsigned int super_track = bufferinfo->super_side_sector_track;
             unsigned int super_sector = bufferinfo->super_side_sector_sector;
@@ -2636,7 +2743,7 @@ static int entry_cmd(int nargs, char **args)
                 printf("Side sector groups:\n");
                 o = OFFSET_SUPER_POINTER;
                 for (side = 0; side < SIDE_SUPER_MAX; side++, o += 2) {
-                    track = bufferinfo->super_side_sector[o],
+                    track = bufferinfo->super_side_sector[o];
                     sector = bufferinfo->super_side_sector[o + 1];
 
                     if (track || sector) {
@@ -2648,7 +2755,7 @@ static int entry_cmd(int nargs, char **args)
 
                 o = OFFSET_SUPER_POINTER;
                 for (side = 0; side < SIDE_SUPER_MAX; side++, o += 2) {
-                    track = bufferinfo->super_side_sector[o],
+                    track = bufferinfo->super_side_sector[o];
                     sector = bufferinfo->super_side_sector[o + 1];
 
                     if (track != 0) {
@@ -2668,7 +2775,7 @@ static int entry_cmd(int nargs, char **args)
                                         &data_block_number);
             }
         } else if (!show_side_sector &&
-            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL && 
+            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL &&
             slot[SLOT_SIDE_TRACK] != 0) {
             printf("This file seems to have side sector(s). Use the +side option to show them.\n");
         }
@@ -2791,6 +2898,10 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     int dnr = 0;
     unsigned int track, sector;
     vdrive_t *floppy;
+    disk_image_t *disk_image;
+    unsigned int disk_type;
+    size_t disk_size;
+    size_t total_written;
     uint8_t *buf, *str;
     unsigned int channel = 2;
     char *p00_name = NULL;
@@ -2811,6 +2922,22 @@ static int extract_cmd_common(int nargs, char **args, int geos)
 
     floppy = drives[dnr];
 
+    /* determine size of image to guard against cyclic blocks later */
+    disk_image = floppy->image;
+    disk_type = disk_image->type;
+    disk_size = (size_t)fsimage_size(disk_image);
+    /* adjust size in case of Gxx/P64 images, assumes 42/84 track images are
+     * possible to avoid false positives in the guard */
+    switch (disk_type) {
+        case DISK_IMAGE_TYPE_G64:   /* fall through */
+        case DISK_IMAGE_TYPE_P64:
+            disk_size = D64_FILE_SIZE_35 + (7 * 17 * 256);    /* 42 tracks */
+            break;
+        case DISK_IMAGE_TYPE_G71:
+            disk_size = (D64_FILE_SIZE_35 + (7 * 17 * 256)) * 2;    /* 84 tracks */
+            break;
+    }
+
     if (vdrive_iec_open(floppy, (const uint8_t *)"#", 1, channel, NULL)) {
         fprintf(stderr, "cannot open buffer #%u in unit %d\n", channel,
                 dnr + DRIVE_UNIT_MIN);
@@ -2820,8 +2947,10 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     track = floppy->Dir_Track;
     sector = floppy->Dir_Sector;
 
+    total_written = 0;
     while (1) {
         int i, res;
+
 
         str = (uint8_t *)lib_msprintf("B-R:%u 0 %u %u", channel, track, sector);
         res = vdrive_command_execute(floppy, str, (unsigned int)strlen((char *)str));
@@ -2889,29 +3018,19 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 }
 
                 if (p00save[dnr]) {
-                    char cwd[4096];
+                    char cwd[ARCHDEP_PATH_MAX];
                     char *total;
                     long idx = 0;
 
                     p00_name = p00_filename_create((const char *)name,
                             file_type & 7);
-#ifdef ARCHDEP_OS_UNIX
-                    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+                    if (archdep_getcwd(cwd, sizeof(cwd)) == NULL) {
                         fprintf(stderr,
                                 "Couldn't get the cwd, all bets are off. "
                                 "Aborting to get a stack dump.\n");
                         abort();
                     }
-#else
-                    /* Assume crap */
-#ifdef ARCHDEP_OS_HAIKU
-                    getcwd(cwd, sizeof(cwd));
-#else
-                    _getcwd(cwd, sizeof(cwd));
-#endif
-#endif
-                    total = archdep_join_paths(cwd, p00_name, NULL);
-
+                    total = util_join_paths(cwd, p00_name, NULL);
 
                     printf("Trying filename '%s'\n", total);
                     while (archdep_file_exists(total) && idx < 100) {
@@ -2969,8 +3088,25 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                         }
                     }
                     do {
-                        status = vdrive_iec_read(floppy, &c, 0);
-                        fputc(c, fd);
+                        /* guard against cyclic blocks */
+                        if (total_written < disk_size) {
+                            status = vdrive_iec_read(floppy, &c, 0);
+                            fputc(c, fd);
+                            total_written++;
+                        } else {
+                            fprintf(stderr,
+                                    "Error: trying to extract more data than"
+                                    " image can contain (%zu), possibly a\n"
+                                    "       cyclic T/S chain in file '%s',"
+                                    " aborting.\n",
+                                    disk_size, name);
+                            fclose(fd);
+                            if (p00_name != NULL) {
+                                lib_free(p00_name);
+                            }
+                            vdrive_iec_close(floppy, channel);
+                            return FD_WRTERR;
+                        }
                     } while (status == SERIAL_OK);
                 }
                 if (p00_name != NULL) {
@@ -4574,9 +4710,9 @@ static int rename_cmd(int nargs, char **args)
  */
 static int show_cmd(int nargs, char **args)
 {
-    if (strcasecmp(args[1], "copying") == 0) {
+    if (util_strcasecmp(args[1], "copying") == 0) {
         printf("%s", info_license_text);
-    } else if (strcasecmp(args[1], "warranty") == 0) {
+    } else if (util_strcasecmp(args[1], "warranty") == 0) {
         printf("%s", info_warranty_text);
     } else {
         fprintf(stderr, "Use either `show copying' or `show warranty'\n");
@@ -5113,6 +5249,7 @@ static int write_cmd(int nargs, char **args)
     fileio_info_t *finfo;
     char *src_name;
     long rel_record_length = 0;
+    int result = FD_OK;
 
     if (nargs == 3) {
         /* write <source> <dest> */
@@ -5164,9 +5301,15 @@ static int write_cmd(int nargs, char **args)
 
     if (check_drive_index(dnr) < 0) {
         printf("check_drive_index() failed\n");
+        if (dest_name != NULL) {
+           lib_free(dest_name);
+        }
         return FD_BADDEV;
     }
     if (check_drive_ready(dnr) < 0) {
+        if (dest_name != NULL) {
+           lib_free(dest_name);
+        }
         return FD_NOTREADY;
     }
 
@@ -5181,6 +5324,9 @@ static int write_cmd(int nargs, char **args)
         fprintf(stderr, "cannot read file `%s': %s\n", args[1],
                 strerror(errno));
         lib_free(src_name);
+        if (dest_name != NULL) {
+           lib_free(dest_name);
+        }
         return FD_NOTRD;
     }
 
@@ -5218,6 +5364,7 @@ static int write_cmd(int nargs, char **args)
 
             if (vdrive_iec_write(drives[dnr], c, 1)) {
                 fprintf(stderr, "no space on image?\n");
+                result = FD_WRTERR;
                 break;
             }
         }
@@ -5268,6 +5415,7 @@ static int write_cmd(int nargs, char **args)
 
                 if ((err = vdrive_iec_write(drives[dnr], c, 1)) != SERIAL_OK) {
                     fprintf(stderr, "no space on image? (err %d)\n", err);
+                    result = FD_WRTERR;
                     break;
                 }
             }
@@ -5279,18 +5427,21 @@ static int write_cmd(int nargs, char **args)
 
     lib_free(dest_name);
     lib_free(src_name);
-    return FD_OK;
+    return result;
 }
 
 static int unzip_cmd(int nargs, char **args)
 {
+    char fname[ARCHDEP_PATH_MAX];
+    char dirname[ARCHDEP_PATH_MAX];
+    char oname[ARCHDEP_PATH_MAX];
     vdrive_t *vdrive = drives[drive_index];
     FILE *fsfd = NULL;
     unsigned int track, sector;
     unsigned int count;
-    char *p, *fname, *dirname, *oname;
     int singlefilemode = 0, err;
     uint8_t sector_data[256];
+    char *p;
 
     /* Open image or create a new one.  If the file exists, it must have
        valid header.  */
@@ -5298,10 +5449,7 @@ static int unzip_cmd(int nargs, char **args)
         return FD_BADIMAGE;
     }
 
-    fname = lib_malloc((size_t)ioutil_maxpathlen());
-    dirname = lib_malloc((size_t)ioutil_maxpathlen());
-
-    p = strrchr(args[2], FSDEV_DIR_SEP_CHR);
+    p = strrchr(args[2], ARCHDEP_DIR_SEP_CHR);
     if (p == NULL) {
         /* ignore '[0-4]!' if found */
         if (args[2][0] >= '1' && args[2][0] <= '4' && args[2][1] == '!') {
@@ -5318,8 +5466,6 @@ static int unzip_cmd(int nargs, char **args)
         len_path = (size_t)(p - args[2]);
         if (len_path == strlen(args[2]) - 1) {
             /* FIXME: Close image?  */
-            lib_free(fname);
-            lib_free(dirname);
             return FD_RDERR;
         }
         strncpy(dirname, args[2], len_path + 1);
@@ -5335,8 +5481,6 @@ static int unzip_cmd(int nargs, char **args)
         fname[0] = '0';
         fname[1] = '!';
     }
-
-    oname = lib_malloc((size_t)ioutil_maxpathlen());
 
     printf("copying blocks to image\n");
 
@@ -5371,9 +5515,6 @@ static int unzip_cmd(int nargs, char **args)
                     strcat(oname, fname);
                     if ((fsfd = fopen(oname, MODE_READ)) == NULL) {
                         fprintf(stderr, "cannot open `%s'\n", fname);
-                        lib_free(fname);
-                        lib_free(dirname);
-                        lib_free(oname);
                         return FD_NOTRD;
                     }
                     fseek(fsfd, (track == 1) ? 4 : 2, SEEK_SET);
@@ -5389,29 +5530,18 @@ static int unzip_cmd(int nargs, char **args)
                                       (char *)sector_data);
             if (err) {
                 fclose(fsfd);
-                lib_free(fname);
-                lib_free(dirname);
-                lib_free(oname);
                 return FD_BADIMAGE;
             }
             /* Write one block */
             if (vdrive_write_sector(vdrive, sector_data, track, sector) < 0) {
                 fclose(fsfd);
-                lib_free(fname);
-                lib_free(dirname);
-                lib_free(oname);
                 return FD_RDERR;
             }
         }
     }
 
     fclose(fsfd);
-
     vdrive_command_execute(vdrive, (uint8_t *)"I", 1);
-
-    lib_free(fname);
-    lib_free(dirname);
-    lib_free(oname);
 
     return FD_OK;
 }
@@ -5505,7 +5635,7 @@ int main(int argc, char **argv)
         /* TODO: Add completions on Windows, somehow, or perhaps not */
 
         version_cmd(0, NULL);
-        printf("Copyright 1995-2021 The VICE Development Team.\n"
+        printf("Copyright 1995-" VICEDATE_YEAR_STR " The VICE Development Team.\n"
                "C1541 is free software, covered by the GNU General Public License,"
                " and you are\n"
                "welcome to change it and/or distribute copies of it under certain"
@@ -5642,6 +5772,23 @@ static int p00save_cmd(int nargs, char **args)
 }
 
 
+/** \brief  Change current host directory path
+ *
+ * Syntax: cd \<hostdir>
+ *
+ * Where \a hostdir is the path to directory on the host
+ *
+ * \param[in]   nargs   number of arguments
+ * \param[in]   args    optional arguments (unused
+ *
+ * \return  0 on success, < 0 on failure
+ */
+static int cd_cmd(int nargs, char **args)
+{
+    return archdep_chdir(args[1]) == 0 ? FD_OK : FD_BADNAME;
+}
+
+
 /** \brief  Print current working directory
  *
  * \param[in]   nargs   number of arguments
@@ -5653,7 +5800,7 @@ static int pwd_cmd(int nargs, char **args)
 {
     char buffer[4096];
 
-    ioutil_getcwd(buffer, (int)(sizeof(buffer) - 1));
+    archdep_getcwd(buffer, sizeof(buffer));
     printf("%s\n", buffer);
     return FD_OK;
 }

@@ -51,7 +51,7 @@ typedef int cycle_count;
 typedef int sound_sample;
 
 enum sampling_method { SAMPLE_FAST, SAMPLE_INTERPOLATE,
-		       SAMPLE_RESAMPLE, SAMPLE_RESAMPLE_FASTMEM };
+                        SAMPLE_RESAMPLE, SAMPLE_RESAMPLE_FASTMEM };
 
 enum chip_model { DTVSID };
 

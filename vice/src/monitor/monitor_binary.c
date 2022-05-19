@@ -105,6 +105,10 @@ enum t_binary_command {
 
     e_MON_CMD_PALETTE_GET = 0x91,
 
+    e_MON_CMD_JOYPORT_SET = 0xa2,
+
+    e_MON_CMD_USERPORT_SET = 0xb2,
+
     e_MON_CMD_EXIT = 0xaa,
     e_MON_CMD_QUIT = 0xbb,
     e_MON_CMD_RESET = 0xcc,
@@ -113,6 +117,7 @@ enum t_binary_command {
 typedef enum t_binary_command BINARY_COMMAND;
 
 enum t_binary_response {
+    e_MON_RESPONSE_INVALID = 0x00,
     e_MON_RESPONSE_MEM_GET = 0x01,
     e_MON_RESPONSE_MEM_SET = 0x02,
 
@@ -147,6 +152,10 @@ enum t_binary_response {
     e_MON_RESPONSE_VICE_INFO = 0x85,
 
     e_MON_RESPONSE_PALETTE_GET = 0x91,
+
+    e_MON_RESPONSE_JOYPORT_SET = 0xa2,
+
+    e_MON_RESPONSE_USERPORT_SET = 0xb2,
 
     e_MON_RESPONSE_EXIT = 0xaa,
     e_MON_RESPONSE_QUIT = 0xbb,
@@ -466,8 +475,8 @@ void monitor_binary_event_closed(void) {
 void monitor_binary_response_checkpoint_info(uint32_t request_id, mon_checkpoint_t *checkpt, bool hit) {
     unsigned char response[23];
     MEMORY_OP op = (MEMORY_OP)(
-        (checkpt->check_store ? e_store : 0) 
-        | (checkpt->check_load ? e_load : 0) 
+        (checkpt->check_store ? e_store : 0)
+        | (checkpt->check_load ? e_load : 0)
         | (checkpt->check_exec ? e_exec : 0)
     );
 
@@ -600,7 +609,7 @@ static void monitor_binary_process_checkpoint_toggle(binary_command_t *command)
     uint32_t brknum = little_endian_to_uint32(command->body);
     uint8_t enable = !!command->body[4];
     mon_checkpoint_t *checkpt;
-    
+
     if (command->length < 5) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
         return;
@@ -879,7 +888,7 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
     uint32_t response_length;
     char *str_value;
     int int_value;
-    
+
     char *body = (char *)command->body;
     uint8_t resource_name_length = body[0];
     char *resource_name = &body[1];
@@ -1176,8 +1185,8 @@ static void monitor_binary_screenshot_line_data(screenshot_t *screenshot, uint8_
     memset(data, 0x00, true_offset_x * bytes);
     except_right_border_width = true_offset_x + screenshot->width;
     memset(
-        &data[(except_right_border_width) * bytes], 
-        0x00, 
+        &data[(except_right_border_width) * bytes],
+        0x00,
         (screenshot->debug_width - except_right_border_width) * bytes
     );
 }
@@ -1274,7 +1283,7 @@ static void monitor_binary_process_palette_get(binary_command_t *command)
     unsigned int i;
     uint32_t response_length;
     uint16_t num_entries;
-    uint8_t item_size = 4;
+    uint8_t item_size = 3;
     palette_entry_t *entry;
     uint8_t use_vic = !!command->body[0];
 
@@ -1295,7 +1304,7 @@ static void monitor_binary_process_palette_get(binary_command_t *command)
     }
 
     num_entries = screenshot.palette->num_entries;
-    response_length = 2 + num_entries * 5;
+    response_length = 2 + num_entries * (item_size + 1);
     response = lib_malloc(response_length);
     response_cursor = response;
 
@@ -1315,9 +1324,10 @@ static void monitor_binary_process_palette_get(binary_command_t *command)
 
         *response_cursor = entry->blue;
         ++response_cursor;
-
+#if 0
         *response_cursor = entry->dither;
         ++response_cursor;
+#endif
     }
 
     monitor_binary_response(response_length, e_MON_RESPONSE_PALETTE_GET, e_MON_ERR_OK, command->request_id, response);
@@ -1325,9 +1335,63 @@ static void monitor_binary_process_palette_get(binary_command_t *command)
     lib_free(response);
 }
 
+static void monitor_binary_process_joyport_set(binary_command_t *command)
+{
+    IO_SIM_RESULT ret;
+    unsigned char *body = command->body;
+    uint16_t port = little_endian_to_uint16(&body[0]);
+    uint16_t value = little_endian_to_uint16(&body[2]);
+
+    if (command->length < 4) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    ret = mon_joyport_set_output((int)port, (int)value);
+    if (ret != e_IO_SIM_RESULT_OK) {
+        if (ret == e_IO_SIM_RESULT_ILLEGAL_PORT) {
+            monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
+            return;
+        } else if (ret == e_IO_SIM_RESULT_ILLEGAL_VALUE) {
+            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            return;
+        } else {
+            monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
+            return;
+        }
+    }
+
+    monitor_binary_response(0, e_MON_RESPONSE_JOYPORT_SET, e_MON_ERR_OK, command->request_id, NULL);
+}
+
+static void monitor_binary_process_userport_set(binary_command_t *command)
+{
+    IO_SIM_RESULT ret;
+    unsigned char *body = command->body;
+    uint16_t value = little_endian_to_uint16(&body[0]);
+
+    if(command->length < 2) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    ret = mon_userport_set_output((int)value);
+    if(ret != e_IO_SIM_RESULT_OK) {
+        if (ret == e_IO_SIM_RESULT_ILLEGAL_VALUE) {
+            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            return;
+        } else {
+            monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
+            return;
+        }
+    }
+
+    monitor_binary_response(0, e_MON_RESPONSE_USERPORT_SET, e_MON_ERR_OK, command->request_id, NULL);
+}
+
 static void monitor_binary_process_vice_info(binary_command_t *command)
 {
-    unsigned char response[10] = { 
+    unsigned char response[10] = {
         4, VERSION_RC_NUMBER, /* this expands to something like 3,5,0,0 */
         4, 0, 0, 0, 0,
     };
@@ -1470,7 +1534,7 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
 {
     BINARY_COMMAND command_type;
     binary_command_t command;
-    
+
     command.api_version = (uint8_t)pbuffer[1];
 
     command.request_id = little_endian_to_uint32(&pbuffer[6]);
@@ -1533,14 +1597,14 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
     } else if (command_type == e_MON_CMD_EXECUTE_UNTIL_RETURN) {
         monitor_binary_process_execute_until_return(&command);
 
-    } else if (command_type == e_MON_CMD_EXIT) {
-        monitor_binary_process_exit(&command);
-    } else if (command_type == e_MON_CMD_QUIT) {
-        monitor_binary_process_quit(&command);
-    } else if (command_type == e_MON_CMD_RESET) {
-        monitor_binary_process_reset(&command);
-    } else if (command_type == e_MON_CMD_AUTOSTART) {
-        monitor_binary_process_autostart(&command);
+    } else if (command_type == e_MON_CMD_PALETTE_GET) {
+        monitor_binary_process_palette_get(&command);
+
+    } else if (command_type == e_MON_CMD_JOYPORT_SET) {
+        monitor_binary_process_joyport_set(&command);
+
+    } else if (command_type == e_MON_CMD_USERPORT_SET) {
+        monitor_binary_process_userport_set(&command);
 
     } else if (command_type == e_MON_CMD_BANKS_AVAILABLE) {
         monitor_binary_process_banks_available(&command);
@@ -1551,8 +1615,15 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
     } else if (command_type == e_MON_CMD_VICE_INFO) {
         monitor_binary_process_vice_info(&command);
 
-    } else if (command_type == e_MON_CMD_PALETTE_GET) {
-        monitor_binary_process_palette_get(&command);
+    } else if (command_type == e_MON_CMD_EXIT) {
+        monitor_binary_process_exit(&command);
+    } else if (command_type == e_MON_CMD_QUIT) {
+        monitor_binary_process_quit(&command);
+    } else if (command_type == e_MON_CMD_RESET) {
+        monitor_binary_process_reset(&command);
+    } else if (command_type == e_MON_CMD_AUTOSTART) {
+        monitor_binary_process_autostart(&command);
+
     } else {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_TYPE, command.request_id);
         log_message(LOG_DEFAULT,
@@ -1619,7 +1690,7 @@ int monitor_binary_get_command_line(void)
             monitor_binary_quit();
             return 0;
         }
-        
+
         if (buffer[0] != ASC_STX) {
             continue;
         }
@@ -1822,7 +1893,7 @@ int monitor_is_binary(void)
     return connected_socket != NULL;
 }
 
-vice_network_socket_t *monitor_binary_get_connected_socket() {
+vice_network_socket_t *monitor_binary_get_connected_socket(void) {
     return connected_socket;
 }
 

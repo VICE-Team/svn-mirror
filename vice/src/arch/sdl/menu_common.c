@@ -268,7 +268,7 @@ const char *sdl_ui_menu_int_helper(int activated, ui_callback_data_t param, cons
     return NULL;
 }
 
-#if (FSDEV_DIR_SEP_CHR == '\\')
+#if (ARCHDEP_DIR_SEP_CHR == '\\')
 char win32_path_buf[80];
 
 static char *sdl_ui_menu_file_translate_seperator(const char *text)
@@ -306,7 +306,7 @@ const char *sdl_ui_menu_file_string_helper(int activated, ui_callback_data_t par
             lib_free(value);
         }
     } else {
-#if (FSDEV_DIR_SEP_CHR == '\\')
+#if (ARCHDEP_DIR_SEP_CHR == '\\')
         if (previous != NULL && previous[0] != 0) {
             return (const char *)sdl_ui_menu_file_translate_seperator(previous);
         }

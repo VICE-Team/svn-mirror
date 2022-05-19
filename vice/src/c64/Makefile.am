@@ -3,11 +3,11 @@ SUBDIRS = cart
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
-	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/datasette \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/drive/iec/c64exp \
 	-I$(top_srcdir)/src/raster \
@@ -15,10 +15,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/viciisc \
-	-I$(top_srcdir)/src/viciivsid \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/video \
-	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/tapeport \
@@ -36,7 +35,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a libc64scpu64.a
+noinst_LIBRARIES = libvsid.a libvsidstubs.a libc64.a libc64stubs.a libc64sc.a libc64scstubs.a libc64c128.a libc64c64dtv.a libc64scpu64.a
+
+libvsidstubs_a_SOURCES = \
+	vsid-stubs.c
 
 libvsid_a_SOURCES = \
 	vsid-cmdline-options.c \
@@ -66,8 +68,6 @@ libvsid_a_SOURCES = \
 	vsid-debugcart.c \
 	vsid-debugcart.h \
 	musdrv.h \
-	patchrom.c \
-	patchrom.h \
 	psid.c \
 	psid.h \
 	psiddrv.a65 \
@@ -81,8 +81,10 @@ libvsid_a_SOURCES = \
 	vsidmeminit.c \
 	vsidmemsnapshot.c \
 	vsidpla.c \
-	vsidsound.c \
-	vsidstubs.c
+	vsidsound.c
+
+libc64stubs_a_SOURCES = \
+	c64-stubs.c
 
 libc64_a_SOURCES = \
 	c64-cmdline-options.c \
@@ -139,12 +141,13 @@ libc64_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	c64video.c \
-	patchrom.c \
-	patchrom.h \
 	plus256k.c \
 	plus256k.h \
 	plus60k.c \
 	plus60k.h
+
+libc64scstubs_a_SOURCES = \
+	c64sc-stubs.c
 
 libc64sc_a_SOURCES = \
 	c64-cmdline-options.c \
@@ -201,8 +204,6 @@ libc64sc_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	c64video.c \
-	patchrom.c \
-	patchrom.h \
 	plus256k.c \
 	plus256k.h \
 	plus60k.c \
@@ -222,9 +223,7 @@ libc64c64dtv_a_SOURCES = \
 	c64romset.c \
 	c64rsuser.c \
 	c64rsuser.h \
-	c64video.c \
-	patchrom.c \
-	patchrom.h
+	c64video.c
 
 libc64c128_a_SOURCES = \
 	c64bus.c \
@@ -251,9 +250,7 @@ libc64c128_a_SOURCES = \
 	c64parallel.h \
 	c64rsuser.c \
 	c64rsuser.h \
-	c64sound.c \
-	patchrom.c \
-	patchrom.h
+	c64sound.c
 
 libc64scpu64_a_SOURCES = \
 	c64bus.c \
@@ -281,9 +278,7 @@ libc64scpu64_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64sound.c \
-	c64video.c \
-	patchrom.c \
-	patchrom.h
+	c64video.c
 
 BUILT_SOURCES = psiddrv.h
 

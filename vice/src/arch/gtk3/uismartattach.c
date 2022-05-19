@@ -25,7 +25,7 @@
  */
 
 /*
- * $VICERES AttachDevice8Readonly   -vsid
+ * $VICERES AttachDevice8d0Readonly   -vsid
  */
 
 
@@ -42,6 +42,8 @@
 #include "debug_gtk3.h"
 #include "contentpreviewwidget.h"
 #include "diskcontents.h"
+#include "diskimage.h"
+#include "driveimage.h"
 #include "tapecontents.h"
 #include "machine.h"
 #include "mainlock.h"
@@ -52,6 +54,8 @@
 #include "lastdir.h"
 #include "initcmdline.h"
 #include "log.h"
+#include "tapecart.h"
+#include "tapeport.h"
 
 #include "uismartattach.h"
 
@@ -132,6 +136,92 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     g_free(filename_locale);
 }
 
+/** \brief  try attach a disk image, change drive type if needed
+ *
+ * \param[in]   unit_number
+ * \param[in]   drive_number
+ * \param[in]   filename_locale
+ */
+static int try_attach_disk(int unit_number, int drive_number, char *filename_locale)
+{
+
+    if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
+        /* failed */
+        return -1;
+    } else {
+        /* shitty code, we really need to extend the drive API to
+        * get at these sorts for things without breaking into core code
+        */
+        struct disk_image_s *diskimg = file_system_get_image(unit_number, drive_number);
+
+        if (diskimg == NULL) {
+            log_error(LOG_ERR, "Failed to get disk image for unit %d.", unit_number);
+            return -1;
+        } else {
+            int chk = drive_check_image_format(diskimg->type, 0);
+            log_message(LOG_DEFAULT, "mounted image is type: %u, %schanging drive.",
+                        diskimg->type, (chk < 0) ? "" : "not ");
+            /* change drive type only when image does not work in current drive */
+            if (chk < 0) {
+                if (resources_set_int_sprintf("Drive%dType", drive_image_type_to_drive_type(diskimg->type), unit_number) < 0) {
+                    log_error(LOG_ERR, "Failed to set drive type.");
+                }
+            }
+
+            /* detach disk before reattaching */
+            file_system_detach_disk(unit_number, drive_number);
+
+            if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
+                return -1;
+            }
+        }
+    }
+    return 0;
+}
+
+/** \brief  try attach a Tapecart image, change tape port device if needed
+ *
+ * \param[in]   filename
+ */
+static int try_attach_tapecart(char *filename)
+{
+    int tapedevice_temp = TAPEPORT_DEVICE_NONE;
+
+    /* check if file is a valid Tapecart */
+    if (!tapecart_is_valid(filename)) {
+        return -1;
+    }
+
+    /* get current tapeport device */
+    if (resources_get_int("TapePort1Device", &tapedevice_temp) < 0) {
+        log_error(LOG_ERR, "Failed to get tape port device.");
+        return -1;
+    }
+
+    /* first disable all devices, so we dont get any conflicts */
+    if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_NONE) < 0) {
+        log_error(LOG_ERR, "Failed to disable the tape port device.");
+        goto exiterror;
+    }
+
+    /* enable the tape cart */
+    if (resources_set_int("TapePort1Device", TAPEPORT_DEVICE_TAPECART) < 0) {
+        log_error(LOG_ERR, "Failed to enable the Tapecart.");
+        goto exiterror;
+    }
+
+    /* attach image and return on success */
+    if (tapecart_attach_tcrt(filename, NULL) == 0) {
+        return 0;
+    }
+
+exiterror:
+    /* restore tape port device */
+    if (resources_set_int("TapePort1Device", tapedevice_temp) < 0) {
+        log_error(LOG_ERR, "Failed to restore tape port device.");
+    }
+    return -1;
+}
 
 /** \brief  Do smart attach
  *
@@ -157,16 +247,17 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
             || (machine_class == VICE_MACHINE_SCPU64)
             || (machine_class == VICE_MACHINE_C128)
             || (machine_class == VICE_MACHINE_PLUS4)) {
-        if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+        if (try_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0
+                && try_attach_tapecart(filename_locale) < 0
                 && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
                 && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
             /* failed */
             log_error(LOG_ERR, "smart attach failed for '%s' failed", filename);
         }
     } else if (machine_class == VICE_MACHINE_VIC20) {
-        if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+        if (try_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0
                 /* && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0 */
@@ -178,7 +269,7 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
         /* Smart attach for other emulators: don't try to attach a file
             * as a cartidge, it'll result in false positives
             */
-        if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+        if (try_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0)
         {
@@ -261,7 +352,7 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    resources_set_int_sprintf("AttachDevice%dReadonly", state, DRIVE_UNIT_DEFAULT);
+    resources_set_int_sprintf("AttachDevice%dd0Readonly", state, DRIVE_UNIT_DEFAULT);
 }
 
 
@@ -271,7 +362,7 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
- * \param[in]   user_data   index in the preview widget
+ * \param[in]   user_data   unit number
  *
  * TODO:    proper (error) messages, which requires implementing ui_error() and
  *          ui_message() and moving them into gtk3/widgets to avoid circular
@@ -286,7 +377,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     resources_get_int("AutostartOnDoubleclick", &autostart);
 
     /* first, to make the following logic less funky, map some events to others,
-       depending on whether autostart-on-doubleclick is enabled or not, and 
+       depending on whether autostart-on-doubleclick is enabled or not, and
        depending on the event coming from the preview window or not. */
     switch (response_id) {
         /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
@@ -395,7 +486,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     g_signal_connect(readonly_check, "toggled", G_CALLBACK(on_readonly_toggled),
             (gpointer)(parent));
     gtk_grid_attach(GTK_GRID(grid), readonly_check, 1, 0, 1, 1);
-    resources_get_int_sprintf("AttachDevice%dReadonly", &readonly_state, DRIVE_UNIT_DEFAULT);
+    resources_get_int_sprintf("AttachDevice%dd0Readonly", &readonly_state, DRIVE_UNIT_DEFAULT);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(readonly_check), readonly_state);
 
     gtk_widget_show_all(grid);
@@ -487,7 +578,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             create_extra_widget(dialog));
 
     preview_widget = content_preview_widget_create(dialog,
-            read_contents_wrapper, on_response);
+            read_contents_wrapper, on_response, 0);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 

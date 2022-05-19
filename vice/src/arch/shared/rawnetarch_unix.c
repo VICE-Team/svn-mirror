@@ -182,7 +182,7 @@ static int rawnet_arch_pcap_enumadapter_close(void)
     return 1;
 }
 
-static int rawnet_pcap_open_adapter(const char *interface_name) 
+static int rawnet_pcap_open_adapter(const char *interface_name)
 {
     rawnet_pcap_fp = pcap_open_live((char*)interface_name, 1700, 1, 20, rawnet_pcap_errbuf);
     if ( rawnet_pcap_fp == NULL) {
@@ -516,7 +516,7 @@ static int rawnet_arch_pcap_receive(uint8_t *pbuffer, int *plen, int  *phashed,
          */
         *phashed =
         *phash_index =
-        *pbroadcast = 
+        *pbroadcast =
         *pcorrect_mac =
         *pcrc_error = 0;
 

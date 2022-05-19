@@ -26,49 +26,26 @@
 #
 
 # list of all VALID arch-dependent global defines
-ARCHDEFS+=" WIN32"
-ARCHDEFS+=" _WIN64"
-ARCHDEFS+=" __OS2__"
-ARCHDEFS+=" __BEOS__"
-ARCHDEFS+=" __MSDOS__"
-ARCHDEFS+=" AMIGA_SUPPORT"
-ARCHDEFS+=" AMIGA_AROS"
-ARCHDEFS+=" AMIGA_M68K"
-ARCHDEFS+=" AMIGA_MORPHOS"
+# if any of these is found in the common part of the source, it should ideally
+# be removed.
+# these symbols are defined by configure
 ARCHDEFS+=" USE_SDLUI"
-ARCHDEFS+=" USE_SDLUI2"
-ARCHDEFS+=" DINGOO_NATIVE"
-ARCHDEFS+=" DINGUX_SDL"
-ARCHDEFS+=" __XBOX__"
-ARCHDEFS+=" ANDROID_COMPILE"
-ARCHDEFS+=" ANDROID"
-ARCHDEFS+=" __INTERIX"
-ARCHDEFS+="SKYOS"
-ARCHDEFS+=" __sgi"
-ARCHDEFS+=" sgi"
-ARCHDEFS+=" __hpux"
-ARCHDEFS+=" _hpux"
-ARCHDEFS+=" sun"
-ARCHDEFS+=" __sun"
-ARCHDEFS+=" __SVR4"
-ARCHDEFS+=" __svr4__"
-ARCHDEFS+=" __QNX__"
-ARCHDEFS+=" __QNXNTO__"
-ARCHDEFS+=" __osf__"
-ARCHDEFS+=" __osf"
-ARCHDEFS+=" __APPLE__"
-ARCHDEFS+=" __MACH__"
-ARCHDEFS+=" __FreeBSD__"
-ARCHDEFS+=" __NetBSD__"
-ARCHDEFS+=" __DragonflyBSD__"
-ARCHDEFS+=" __HAIKU__"
-ARCHDEFS+=" __OpenBSD__"
-ARCHDEFS+=" __DragonFly__"
-ARCHDEFS+=" __bsdi__"
-ARCHDEFS+=" MINIXVMD"
-ARCHDEFS+=" MINIX_SUPPORT"
-ARCHDEFS+=" VMS"
-ARCHDEFS+=" __NeXT__"
+ARCHDEFS+=" USE_SDL2UI"
+ARCHDEFS+=" USE_GTK3UI"
+ARCHDEFS+=" USE_HEADLESSUI"
+
+ARCHDEFS+=" WINDOWS_COMPILE"
+ARCHDEFS+=" WIN64_COMPILE"
+ARCHDEFS+=" MACOS_COMPILE"
+ARCHDEFS+=" LINUX_COMPILE"
+ARCHDEFS+=" BEOS_COMPILE"
+ARCHDEFS+=" HAIKU_COMPILE"
+ARCHDEFS+=" UNIX_COMPILE"
+ARCHDEFS+=" BSD_COMPILE"
+ARCHDEFS+=" FREEBSD_COMPILE"
+ARCHDEFS+=" DRAGONFLYBSD_COMPILE"
+ARCHDEFS+=" NETBSD_COMPILE"
+ARCHDEFS+=" OPENBSD_COMPILE"
 
 # todo: seperated check for CPU defs
 ARCHDEFS+=" __i386__"
@@ -77,11 +54,32 @@ ARCHDEFS+=" __i586__"
 ARCHDEFS+=" __i686__"
 ARCHDEFS+=" __x86_64__"
 ARCHDEFS+=" __amd64__"
+ARCHDEFS+=" __PPC__"
+ARCHDEFS+=" __ppc"
+ARCHDEFS+=" __powerpc__"
+ARCHDEFS+=" __m68020__"
+ARCHDEFS+=" __m68030__"
+ARCHDEFS+=" __m68040__"
+ARCHDEFS+=" __m68060__"
+
+ARCHDEFS+=" WORDS_BIGENDIAN"
 
 # list of OBSOLETE global arch-dependent defines. whenever one gets removed or
 # even just renamed, add it here
+# if any of these is found _anywhere_ in the source, it should be removed
+OBSOLETEARCHDEFS+=" SDL_UI_SUPPORT"
+OBSOLETEARCHDEFS+=" SDL_COMPILE"
+OBSOLETEARCHDEFS+=" SDL2_COMPILE"
+OBSOLETEARCHDEFS+=" USE_SDLUI2"
+OBSOLETEARCHDEFS+=" HEADLESS_COMPILE"
 OBSOLETEARCHDEFS+=" MSDOS"
-OBSOLETEARCHDEFS+=" OS2"
+OBSOLETEARCHDEFS+=" __MSDOS__"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_WINDOWS"
+OBSOLETEARCHDEFS+=" WIN32"
+OBSOLETEARCHDEFS+=" WIN32_COMPILE"
+OBSOLETEARCHDEFS+=" _WIN64"
+OBSOLETEARCHDEFS+=" WINCE"
+OBSOLETEARCHDEFS+=" __XBOX__"
 OBSOLETEARCHDEFS+=" GP2X"
 OBSOLETEARCHDEFS+=" GP2X_SDL"
 OBSOLETEARCHDEFS+=" WIZ"
@@ -89,10 +87,19 @@ OBSOLETEARCHDEFS+=" riscos"
 OBSOLETEARCHDEFS+=" __riscos"
 OBSOLETEARCHDEFS+=" __riscos__"
 OBSOLETEARCHDEFS+=" __RISCOS__"
+OBSOLETEARCHDEFS+=" DARWIN_COMPILE"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_MACOS"
+OBSOLETEARCHDEFS+=" MACOSX_SUPPORT"
+OBSOLETEARCHDEFS+=" __APPLE__"
 OBSOLETEARCHDEFS+=" MACOSX_COCOA"
+OBSOLETEARCHDEFS+=" UNIX_MACOSX_COMPILE"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_LINUX"
+OBSOLETEARCHDEFS+=" __linux__"
+OBSOLETEARCHDEFS+=" __linux"
+OBSOLETEARCHDEFS+=" USE_NATIVE_GTK3"
+OBSOLETEARCHDEFS+=" NATIVE_GTK3_COMPILE"
 OBSOLETEARCHDEFS+=" USE_GNOMEUI"
 OBSOLETEARCHDEFS+=" USE_XAWUI"
-OBSOLETEARCHDEFS+=" USE_BEOS_UI"
 OBSOLETEARCHDEFS+=" USE_XF86_EXTENSIONS"
 OBSOLETEARCHDEFS+=" USE_XF86_VIDMODE_EXT"
 OBSOLETEARCHDEFS+=" USE_XAW3D"
@@ -100,9 +107,73 @@ OBSOLETEARCHDEFS+=" USE_MITSHM"
 OBSOLETEARCHDEFS+=" HAVE_XRANDR"
 OBSOLETEARCHDEFS+=" XSync"
 OBSOLETEARCHDEFS+=" UseXSync"
+OBSOLETEARCHDEFS+=" USE_BEOS_UI"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_BEOS"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_BEOS_R5"
+OBSOLETEARCHDEFS+=" __BEOS__"
+OBSOLETEARCHDEFS+=" __HAIKU__"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_HAIKU"
+OBSOLETEARCHDEFS+=" DINGOO_NATIVE"
+OBSOLETEARCHDEFS+=" DINGUX_SDL"
+OBSOLETEARCHDEFS+=" __MACH__"
+OBSOLETEARCHDEFS+=" __DragonFly__"
+OBSOLETEARCHDEFS+=" __DragonflyBSD__"
+OBSOLETEARCHDEFS+=" __bsdi__"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_BSD"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_BSD_DRAGON"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_BSD_FREE"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_BSD_NET"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_BSD_OPEN"
+OBSOLETEARCHDEFS+=" __FreeBSD__"
+OBSOLETEARCHDEFS+=" __NetBSD__"
+OBSOLETEARCHDEFS+=" __OpenBSD__"
+OBSOLETEARCHDEFS+=" OPENSTEP_COMPILE"
+OBSOLETEARCHDEFS+=" RHAPSODY_COMPILE"
+OBSOLETEARCHDEFS+=" NEXTSTEP_COMPILE"
+OBSOLETEARCHDEFS+=" __INTERIX"
+OBSOLETEARCHDEFS+=" __sortix__"
+OBSOLETEARCHDEFS+=" SKYOS"
+OBSOLETEARCHDEFS+=" MINIXVMD"
+OBSOLETEARCHDEFS+=" MINIX_SUPPORT"
+OBSOLETEARCHDEFS+=" __NeXT__"
+OBSOLETEARCHDEFS+=" __QNX__"
+OBSOLETEARCHDEFS+=" __QNXNTO__"
+OBSOLETEARCHDEFS+=" __OS2__"
+OBSOLETEARCHDEFS+=" OS2_COMPILE"
+OBSOLETEARCHDEFS+=" OS2"
+OBSOLETEARCHDEFS+=" _AIX"
+OBSOLETEARCHDEFS+=" __sgi"
+OBSOLETEARCHDEFS+=" sgi"
+OBSOLETEARCHDEFS+=" __hpux"
+OBSOLETEARCHDEFS+=" _hpux"
+OBSOLETEARCHDEFS+=" sun"
+OBSOLETEARCHDEFS+=" __sun"
+OBSOLETEARCHDEFS+=" SVR4"
+OBSOLETEARCHDEFS+=" __SVR4"
+OBSOLETEARCHDEFS+=" __svr4__"
+OBSOLETEARCHDEFS+=" __osf__"
+OBSOLETEARCHDEFS+=" __osf"
+OBSOLETEARCHDEFS+=" __sparc64__"
+OBSOLETEARCHDEFS+=" sparc64"
+OBSOLETEARCHDEFS+=" __sparc__"
+OBSOLETEARCHDEFS+=" sparc"
+OBSOLETEARCHDEFS+=" VMS"
+OBSOLETEARCHDEFS+=" ANDROID_COMPILE"
+OBSOLETEARCHDEFS+=" __ANDROID__"
+OBSOLETEARCHDEFS+=" AMIGA_SUPPORT"
+OBSOLETEARCHDEFS+=" AMIGA_AROS"
+OBSOLETEARCHDEFS+=" AMIGA_M68K"
+OBSOLETEARCHDEFS+=" AMIGA_MORPHOS"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_AMIGA"
+OBSOLETEARCHDEFS+=" HAVE_DEVICES_AHI_H"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_AMIGA"
+OBSOLETEARCHDEFS+=" ARCHDEP_OS_UNIX"
 
 # list of all valid compiler specific global defines
 CCARCHDEFS+=" __GNUC__"
+CCARCHDEFS+=" __STDC__"
+CCARCHDEFS+=" _POSIX_SOURCE"
+CCARCHDEFS+=" _INCLUDE_POSIX_SOURCE"
 CCARCHDEFS+=" _MSC_VER"
 CCARCHDEFS+=" WINVER"
 CCARCHDEFS+=" WATCOM_COMPILE"
@@ -187,43 +258,62 @@ OBSOLETERESOURCES+=" PALOddLineOffset"
 
 ################################################################################
 
-# find ifdef in portable code
+# find archdep ifdefs in portable code
 function findifdefs
 {
     echo "checking define: \"$1\""
-    find -wholename './vicefeatures.c' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
+    find -wholename './vicefeatures.c' -prune -o -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
+    find -wholename './vicefeatures.c' -prune -o -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
     echo " "
 }
 
-# find ifdef in all code
+# find archdep ifdefs in portable code
+function finddefsfiles
+{
+    FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
+    FILES+=`find -wholename './joystickdrv' -prune -o -wholename './iodrv' -prune -o -wholename './socketdrv' -prune -o -wholename './mididrv' -prune -o -wholename './hwsiddrv' -prune -o -wholename './sounddrv' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
+}
+
+# find obsolete/compiler ifdefs in all code
 function findifdefsfulltree
 {
     echo "checking define: \"$1\""
-    find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
+    find  -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
+    find  -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *elif' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
+    find  -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep -n '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
+    grep -Hn --color "$1[^a-zA-Z_]" ../configure.ac
+    grep -Hn --color "$1$" ../configure.ac
+    find .. -name "Makefile.am" -print | xargs grep -Hn --color "$1[^a-zA-Z_]"
+    find .. -name "Makefile.am" -print | xargs grep -Hn --color "$1$"
     echo " "
 }
 
-# find ifdef in all code
+# find obsolete/compiler ifdefs in all code
+function finddefsfilesfulltree
+{
+    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
+    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *elif' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
+    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print -o -name '*.cc' -print -o -name '*.hh' -print | xargs grep '# *define' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
+    FILES+=`grep -l "$1[^a-zA-Z_]" ../configure.ac`":"
+    FILES+=`grep -l "$1$" ../configure.ac`":"
+    FILES+=`find .. -name "Makefile.am" -print | xargs grep -l "$1[^a-zA-Z_]" | sed 's:\(.*\)$:\1\::g'`
+    FILES+=`find .. -name "Makefile.am" -print | xargs grep -l "$1$" | sed 's:\(.*\)$:\1\::g'`
+}
+
+# find non latin chars
 function findnonlatin
 {
     echo "-------------------------------------------------------------------------"
     echo "- files with non ASCII characters in them. usually this should only be"
     echo "- the case for files that have translation-related string tables in them."
     echo "-"
+    echo "- expected files with different encoding are: infocontrib.h"
+    echo "-"
+    echo "- all other files should be ASCII"
+    echo "-"
     echo "checking character encoding"
-    find -wholename './lib' -prune -o -name "*.[ch]" -exec file {} \; | grep -v "ASCII text" | grep -v "^./src/lib/"
+    find -wholename './lib' -prune -o -name "*.[ch]" -exec file {} \; | grep -v "ASCII text" | grep -v "CSV text"
     echo " "
-}
-
-
-function finddefsfiles
-{
-    FILES+=`find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
-}
-
-function finddefsfilesfulltree
-{
-    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
 }
 
 function findres
@@ -263,6 +353,7 @@ FILES=""
 
 echo "-------------------------------------------------------------------------"
 echo "- archdep defines found in portable code (eliminate if possible)"
+echo "- these are USE_xxxUI and xxx_COMPILE symbols defined by configure"
 echo "-" $ARCHDEFS
 echo " "
 
@@ -288,6 +379,11 @@ FILES=""
 echo "-------------------------------------------------------------------------"
 echo "- compiler specific defines (these should be avoided!):"
 echo "-" $CCARCHDEFS
+echo "-"
+echo "- we expect these in vice.h, besides that there shouldnt be any - except"
+echo "- in generated code (mon_parse.c, mon_lex.c) and 'external' code like"
+echo "- novte, mingw32-pcap."
+echo "-"
 echo " "
 
 for I in $CCARCHDEFS; do
@@ -310,7 +406,7 @@ function findobsolete
 FILES=""
 
 echo "-------------------------------------------------------------------------"
-echo "- obsolete defines (these should be fixed/removed!):"
+echo "- obsolete defines (these should be removed!):"
 echo "-" $OBSOLETEARCHDEFS
 echo " "
 
@@ -348,7 +444,7 @@ function usage
     echo "encoding  - find non ASCII characters"
     echo "archdep   - find arch dependant ifdefs in portable code"
     echo "ccarchdep - find compiler specific ifdefs"
-    echo "obsolete  - find obsolete ifdefs"
+    echo "obsolete  - find obsolete ifdefs in all code"
     echo "printf    - find printfs (which perhaps should go to the log instead)"
     echo "res       - find obsolete resources"
     echo "all       - all of the above"

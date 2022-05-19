@@ -43,7 +43,7 @@
  */
 char *archdep_quote_unzip(const char *name)
 {
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     char *a;
     char *b;
 

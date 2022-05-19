@@ -34,6 +34,8 @@
 
 #define RTS_OUT         0x02    /* PB1 */
 #define DTR_OUT         0x04    /* PB2 */
+#define OH_OUT          0x20    /* PB5 ON_HOOK output to some Commodore modems and clones */
+                                /* Used to 'pick'/'hang' the phone and pulse dial             */
 
 #define RI_IN           0x08    /* PB3 */
 #define DCD_IN          0x10    /* PB4 */
@@ -45,7 +47,5 @@ extern void rsuser_init(long cycles_per_sec, void (*start_bit_trigger)(void),
 extern void rsuser_change_timing(long cycles_per_sec);
 extern int rsuser_resources_init(void);
 extern int rsuser_cmdline_options_init(void);
-
-extern void rsuser_reset(void);
 
 #endif

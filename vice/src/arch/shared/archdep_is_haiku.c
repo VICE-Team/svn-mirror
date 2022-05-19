@@ -25,7 +25,7 @@
  *
  */
 
-#include "archdep_defs.h"
+#include "vice.h"
 
 #include "archdep_is_haiku.h"
 
@@ -41,16 +41,16 @@
  *          name contains *is*.
  */
 
-#ifdef ARCHDEP_OS_BEOS
+#ifdef BEOS_COMPILE
 #include <sys/utsname.h>
-#include <strings.h>
+#include "util.h"
 
 int archdep_is_haiku(void)
 {
     struct utsname name;
 
     uname(&name);
-    if (!strncasecmp(name.sysname, "Haiku", 5)) {
+    if (!util_strncasecmp(name.sysname, "Haiku", 5)) {
         return -1;
     }
     return 0;
@@ -63,4 +63,3 @@ int archdep_is_haiku(void)
     return -1;
 }
 #endif
-

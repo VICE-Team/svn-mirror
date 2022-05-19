@@ -65,13 +65,13 @@ static uint8_t userport_8bss_read_pbx(uint8_t orig);
 static void userport_8bss_store_pa3(uint8_t value);
 static int userport_8bss_write_snapshot_module(snapshot_t *s);
 static int userport_8bss_read_snapshot_module(snapshot_t *s);
-static int userport_8bss_enable(int value);
+static int userport_8bss_set_enabled(int enabled);
 
 static userport_device_t sampler_device = {
     "Userport 8bit stereo sampler",      /* device name */
     JOYSTICK_ADAPTER_ID_NONE,            /* NOT a joystick adapter */
     USERPORT_DEVICE_TYPE_SAMPLER,        /* device is a sampler */
-    userport_8bss_enable,                /* enable function */
+    userport_8bss_set_enabled,           /* enable/disable function */
     userport_8bss_read_pbx,              /* read pb0-pb7 function */
     NULL,                                /* NO store pb0-pb7 function */
     NULL,                                /* NO read pa2 pin function */
@@ -82,28 +82,33 @@ static userport_device_t sampler_device = {
     NULL,                                /* NO store sp1 pin function */
     NULL,                                /* NO read sp1 pin function */
     NULL,                                /* NO store sp2 pin function */
+    NULL,                                /* NO powerup function */
     NULL,                                /* NO read sp2 pin function */
+    NULL,                                /* NO reset function */
     userport_8bss_write_snapshot_module, /* snapshot write function */
     userport_8bss_read_snapshot_module   /* snapshot read function */
 };
 
 /* ------------------------------------------------------------------------- */
 
-static int userport_8bss_enable(int value)
+static int userport_8bss_set_enabled(int enabled)
 {
-    int val = value ? 1 : 0;
+    int new_state = enabled ? 1 : 0;
 
-    if (userport_8bss_enabled == val) {
+    if (userport_8bss_enabled == new_state) {
         return 0;
     }
 
-    if (val) {
+    if (new_state) {
+        /* enabled, start sampler module in stereo mode */
         sampler_start(SAMPLER_OPEN_STEREO, "8bit userport stereo sampler");
     } else {
+        /* disabled, stop sampler module */
         sampler_stop();
     }
 
-    userport_8bss_enabled = val;
+    /* set current state */
+    userport_8bss_enabled = new_state;
     return 0;
 }
 
@@ -116,6 +121,7 @@ int userport_8bss_resources_init(void)
 
 static void userport_8bss_store_pa3(uint8_t value)
 {
+    /* select the channel to use */
     userport_8bss_channel = value & 1;
 }
 
@@ -140,7 +146,7 @@ static uint8_t userport_8bss_read_pbx(uint8_t orig)
    BYTE  | channel | channel flag
  */
 
-static char snap_module_name[] = "UP8BSS";
+static const char snap_module_name[] = "UP8BSS";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
@@ -149,7 +155,7 @@ static int userport_8bss_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

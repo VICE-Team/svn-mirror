@@ -57,6 +57,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 #include "archdep.h"
 #include "lib.h"
@@ -64,7 +65,6 @@
 #include "util.h"
 #include "machine.h"
 #include "resources.h"
-#include "vsync.h"
 
 #include "vice_gtk3.h"
 
@@ -228,7 +228,7 @@ enum {
  * This is not how tall the dialog will actually become, that is determined by
  * the Gtk theme applied. But it's a rough estimate.
  */
-#define DIALOG_HEIGHT 560
+#define DIALOG_HEIGHT 500
 
 
 /** \brief  Maximum width the UI can be
@@ -865,6 +865,9 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
     { "HVSC",
       "hvsc",
       hvsc_settings_widget_create, NULL },
+    { "Hotkeys",
+      "hotkeys",
+      settings_hotkeys_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -1194,7 +1197,10 @@ static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
-    UI_SETTINGS_TERMINATOR
+    { "Userport devices",
+      "userport-devices",
+      userport_devices_widget_create, NULL },
+      UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1427,7 +1433,7 @@ static ui_settings_tree_node_t host_nodes_scpu64[] = {
 static ui_settings_tree_node_t machine_nodes_scpu64[] = {
     { "Model",
       "model",
-      settings_model_widget_create, NULL }, 
+      settings_model_widget_create, NULL },
     { "SCPU64",
       "scpu64",
       scpu64_settings_widget_create, NULL },
@@ -2341,6 +2347,17 @@ static int settings_old_pause_state;
 static GtkWidget *settings_window = NULL;
 
 
+/** \brief  Previous X position of settings dialog
+ */
+static gint settings_xpos = INT_MIN;
+
+
+/** \brief  Previous Y position of settings dialog
+ */
+static gint settings_ypos = INT_MIN;
+
+
+
 /** \brief  Reference to the 'content area' widget of the settings dialog
  */
 static GtkWidget *settings_grid = NULL;
@@ -2375,7 +2392,10 @@ static GtkTreePath *last_node_path = NULL;
 
 /** \brief  Handler for the "destroy" event of the main dialog
  *
- * \param[in]   widget      main dialog (unused)
+ * Stores the position of the dialog so it can be shown again at that
+ * position.
+ *
+ * \param[in]   widget      main dialog
  * \param[in]   data        extra event data (unused)
  */
 static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
@@ -2619,13 +2639,7 @@ static GtkTreeStore *populate_tree_model(void)
             for (c = 0; list[c].name != NULL; c++) {
                 char buffer[256];
 
-                /* mark items without callback with 'TODO' */
-                //if (list[c].callback != NULL) {
                 g_snprintf(buffer, 256, "%s", list[c].name);
-                //} else {
-                //    g_snprintf(buffer, 256, "TODO: %s", list[c].name);
-                //}
-
                 gtk_tree_store_append(model, &child, &iter);
                 gtk_tree_store_set(model, &child,
                         COLUMN_NAME, buffer,
@@ -2818,7 +2832,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(settings_tree);
 
-    gtk_widget_set_size_request(scrolled_window, 250, 500);
+    gtk_widget_set_size_request(scrolled_window, 250, 400);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));
@@ -2884,6 +2898,8 @@ static void response_callback(GtkWidget *widget,
 /** \brief  Respond to window size changes
  *
  * This allows for quickly seeing if specific dialog is getting too large.
+ * It's also used to store the dialog position so it can be restored when
+ * respawning.
  *
  * The DIALOG_WIDTH_MAX and DIALOG_HEIGHT_MAX I sucked out of my thumb, since
  * due to window managers using different themes, we can't use 'proper' values,
@@ -2899,12 +2915,19 @@ static gboolean on_dialog_configure_event(GtkWidget *widget,
                                           GdkEvent *event,
                                           gpointer data)
 {
-#if 0
     if (event->type == GDK_CONFIGURE) {
         GdkEventConfigure *cfg = (GdkEventConfigure *)event;
+#if 0
         int width = cfg->width;
         int height = cfg->height;
-
+#endif
+        /* Update dialog position, using gtk_window_get_position() doesn't
+         * work, it reports the position of the dialog when it was spawned,
+         * not the position if it has been moved afterwards. */
+        settings_xpos = cfg->x;
+        settings_ypos = cfg->y;
+    }
+#if 0
         /* debug_gtk3("width %d, height %d.", width, height); */
         if (width > DIALOG_WIDTH_MAX || height > DIALOG_HEIGHT_MAX) {
             /* uncomment the following to get some 'help' while building
@@ -2935,8 +2958,6 @@ static GtkWidget *dialog_create_helper(void)
     GtkWidget *dialog;
     GtkWidget *content;
     char title[256];
-
-    vsync_suspend_speed_eval();
 
     g_snprintf(title, sizeof(title), "%s Settings", machine_name);
 
@@ -3148,6 +3169,15 @@ static gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_d
     }
 
     gtk_widget_show_all(dialog);
+        /* XXX: Doesn't work on Wayland, which appears to be a bug since at least
+     *      2014 :)
+     */
+    if (settings_xpos > INT_MIN && settings_ypos > INT_MIN) {
+        /* restore previous position, if any */
+        debug_gtk3("Restoring previous position: (%d,%d).",
+                   settings_xpos, settings_ypos);
+        gtk_window_move(GTK_WINDOW(dialog), settings_xpos, settings_ypos);
+    }
 
     return FALSE;
 }

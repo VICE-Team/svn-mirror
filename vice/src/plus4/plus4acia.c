@@ -92,7 +92,7 @@ static io_source_t acia_device = {
     NULL,                 /* NO poke function */
     acia_read,            /* read function */
     acia_peek,            /* peek function */
-    NULL,                 /* TODO: device state information dump function */
+    acia_dump,            /* device state information dump function */
     IO_CART_ID_NONE,      /* not a cartridge */
     IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
     0                     /* insertion order, gets filled in by the registration function */

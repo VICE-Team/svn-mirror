@@ -6,7 +6,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018-2021  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2022  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@
  * was added. Set via the Makefile.
  */
 #ifndef HVSC_LIB_VERSION_MIN
-#define HVSC_LIB_VERSION_MIN    0
+#define HVSC_LIB_VERSION_MIN    1
 #endif
 
 /** \brief  Library version number revision

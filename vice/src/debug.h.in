@@ -63,7 +63,7 @@ typedef struct debug_s {
     int trace_mode;
 
      /*
-      * if this is set, the CPU will break into the monitor before executing the 
+      * if this is set, the CPU will break into the monitor before executing the
       * next statement. This is often handy for debugging.
       */
     int perform_break_into_monitor;

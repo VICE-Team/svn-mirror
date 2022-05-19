@@ -31,7 +31,18 @@
 
 /* #define WPCAP */
 
-#include "pcap.h"
+/*
+    To compile with PCAP support, the respective header files must be present.
+    These Headers are NOT in the VICE tree anymore, but have to be provided
+    when compiling. One easy way to do this is installing libpcap in msys2. The
+    more "correct" way would be downloading the SDK from the npcap website at
+    https://npcap.com/#download and point the CFLAGS at them when configuring.
+
+    To actually use the resulting binary with npcap, simple install it using
+    the installer from https://npcap.com/#download (select winpcap compatible
+    mode) and then run the emulator.
+*/
+#include <pcap.h>
 
 #include <assert.h>
 #include <stdio.h>
@@ -128,12 +139,12 @@ static void EthernetPcapFreeLibrary(void)
 
 /* since I don't like typing too much... */
 #define GET_PROC_ADDRESS_AND_TEST( _name_ )                              \
-    p_##_name_ = (_name_##_t) GetProcAddress(pcap_library, #_name_);     \
+    p_##_name_ = (_name_##_t)(void*)GetProcAddress(pcap_library, #_name_);     \
     if (!p_##_name_ ) {                                                  \
         log_message(rawnet_arch_log, "GetProcAddress " #_name_ " failed!"); \
         EthernetPcapFreeLibrary();                                            \
         return FALSE;                                                    \
-    } 
+    }
 
 static BOOL EthernetPcapLoadLibrary(void)
 {
@@ -238,7 +249,7 @@ int rawnet_arch_enumadapter_close(void)
     return 1;
 }
 
-static BOOL EthernetPcapOpenAdapter(const char *interface_name) 
+static BOOL EthernetPcapOpenAdapter(const char *interface_name)
 {
     pcap_if_t *EthernetPcapDevice = NULL;
 
@@ -393,8 +404,8 @@ static void EthernetPcapPacketHandler(u_char *param, const struct pcap_pkthdr *h
 {
     Ethernet_PCAP_internal_t *pinternal = (void*)param;
 
-    /* determine the count of bytes which has been returned, 
-     * but make sure not to overrun the buffer 
+    /* determine the count of bytes which has been returned,
+     * but make sure not to overrun the buffer
      */
     if (header->caplen < pinternal->len) {
         pinternal->len = header->caplen;
@@ -408,7 +419,7 @@ static void EthernetPcapPacketHandler(u_char *param, const struct pcap_pkthdr *h
    If there's none, it returns a -1.
    If there is one, it returns the length of the frame in bytes.
 
-   It copies the frame to *buffer and returns the number of copied 
+   It copies the frame to *buffer and returns the number of copied
    bytes as return value.
 
    At most 'len' bytes are copied.
@@ -474,7 +485,7 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
     cleared.
   - if the dest. address was accepted by the hash filter, *phash_index is
     set to the number of the rule leading to the acceptance
-  - if the receive was ok (good CRC and valid length), *prx_ok is set, 
+  - if the receive was ok (good CRC and valid length), *prx_ok is set,
     else cleared.
   - if the dest. address was accepted because it's exactly our MAC address
     (set by rawnet_arch_set_mac()), *pcorrect_mac is set, else cleared.
@@ -484,8 +495,8 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
 */
 
 /* uint8_t *pbuffer     - where to store a frame */
-/* int *plen         - IN: maximum length of frame to copy; 
-                       OUT: length of received frame 
+/* int *plen         - IN: maximum length of frame to copy;
+                       OUT: length of received frame
                             OUT can be bigger than IN if received frame was
                             longer than supplied buffer */
 /* int *phashed      - set if the dest. address is accepted by the hash filter */

@@ -113,9 +113,19 @@
 #   ESC 1!  2"  3#  4$  5%  6&  7'  8(  9)  0^  +   -   =/pi clr del
 #   CTRL  q   w   e   r   t   y   u   i   o   p   @   pound * ctrl
 #   r/s SL  a   s   d   f   g   h   j   k   l   :[  ;]  return
-#   CBM LS    z   x   c   v   b   n   m   ,<  .>  /?        up
+#   CBM LS    z   x   c   v   b   n   m   ,<  .>  /?  RS     up
 #                           space                        left right
 #                                                           down
+#   C116 keyboard layout:
+#
+#   F1/4 F2/5 F3/6 Help/F7              home/clr del/inst
+#
+#   ESC 1!  2"  3#  4$  5%  6&  7'  8(  9)  0^  +   -   *
+#   CTRL  q   w   e   r   t   y   u   i   o   p   @   return
+#   r/s £   a   s   d   f   g   h   j   k   l   :[  ;]  =/pi   up
+#   CBM LS    z   x   c   v   b   n   m   ,<  .>  /?  RS   left right
+#                           space                             down
+#
 
 !CLEAR
 !LSHIFT 1 7
@@ -300,11 +310,12 @@ z 1 4 8
 #Prior -3 1
 
 # Dead keys support for those using US-International keyboard layout.
-dead_circumflex 2 3 8  # &
-dead_tilde      7 1 8  # HOME
-dead_grave      7 1 8  # HOME
-dead_acute      6 2 8  # ;
-dead_diaeresis  6 2 8  # ]
+dead_circumflex  2 3 8  # &
+dead_tilde       7 1 8  # HOME
+dead_perispomeni 7 1 8  # HOME
+dead_grave       7 1 8  # HOME
+dead_acute       6 2 8  # ;
+dead_diaeresis   6 2 8  # ]
 
 #
 # joyport-attached keypad

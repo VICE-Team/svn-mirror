@@ -1,43 +1,29 @@
 .PHONY: libarch
 
 if DUMMY_COMPILE
-
-SUBDIRS = shared android
-
+SUBDIRS = shared
 endif
 
-if NATIVE_GTK3_COMPILE
-
+if USE_GTK3UI
 SUBDIRS = shared gtk3
-
 libarch:
 	(cd gtk3; $(MAKE) libarch.a)
+endif
 
-else
-
-if SDL_COMPILE
-
+if USE_SDLUI
 SUBDIRS = shared sdl
-
 libarch:
 	(cd sdl; $(MAKE) libarch.a)
+endif
 
-else
+if USE_SDL2UI
+SUBDIRS = shared sdl
+libarch:
+	(cd sdl; $(MAKE) libarch.a)
+endif
 
-if HEADLESS_COMPILE
-
+if USE_HEADLESSUI
 SUBDIRS = shared headless
-
 libarch:
 	(cd headless; $(MAKE) libarch.a)
-
-else
-
-if WIN32_COMPILE
-
-SUBDIRS = shared mingw32-pcap
-
-endif
-endif
-endif
 endif

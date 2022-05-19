@@ -61,7 +61,7 @@ void vicii_snapshot_prepare(void)
 
 */
 
-static char snap_module_name[] = "VIC-II";
+static const char snap_module_name[] = "VIC-II";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 3
 

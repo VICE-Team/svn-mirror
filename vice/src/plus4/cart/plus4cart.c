@@ -25,7 +25,7 @@
  *
  */
 
-#define DEBUGCART
+/* #define DEBUGCART */
 /* #define DEBUGCARTRW */
 
 #include "vice.h"
@@ -77,7 +77,7 @@ c2lo    exp. port (or internal) $8000-$bfff reserved / v364 speech software low
 c2hi    exp. port (or internal) $c000-$ffff reserved / v364 speech software high
 
 TED controls all banking. The cs0 and cs1 are active when the CPU is
-accessing $8000-$bfff and $c000-$ffff respectively, but can be “overridden”
+accessing $8000-$bfff and $c000-$ffff respectively, but can be "overridden"
 by writing anything to TED registers $3e and $3f. Writing anything to $FF3E
 will page in the currently configured ROMs to the upper memory area
 ($8000..$FFFF), and writing anything to $FF3F will page in RAM to the same
@@ -161,7 +161,7 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Attach 1MiB " CARTRIDGE_PLUS4_NAME_JACINT1MB " image" },
     { "-cartmagic", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_MAGIC, NULL, NULL,
-      "<Name>", "Attach 512kiB/1MiB/2MiB " CARTRIDGE_PLUS4_NAME_MAGIC " image" },
+      "<Name>", "Attach 128kiB/256kiB/512kiB/1MiB/2MiB " CARTRIDGE_PLUS4_NAME_MAGIC " image" },
     { "-cartmulti", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_MULTI, NULL, NULL,
       "<Name>", "Attach 1MiB/2MiB " CARTRIDGE_PLUS4_NAME_MULTI " image" },
@@ -398,6 +398,13 @@ void cartridge_reset(void)
     }
 }
 
+/*
+    called by plus4.c:machine_specific_powerup (calls XYZ_reset)
+*/
+void cartridge_powerup(void)
+{
+}
+
 static void cart_power_off(void)
 {
     if (plus4cartridge_reset) {
@@ -474,7 +481,7 @@ void cartridge_set_default(void)
 #if 0
             if (crt_getid(cartfile) > 0) {
                 type = CARTRIDGE_CRT;
-            } else 
+            } else
 #endif
             {
                 type = plus4cart_type;
@@ -508,13 +515,13 @@ int cartridge_detect(const char *filename)
 {
     int type = CARTRIDGE_NONE;
     FILE *fd;
-    size_t len;
+    off_t len;
 
     fd = fopen(filename, "rb");
     if (fd == NULL) {
         return CARTRIDGE_NONE;
     }
-    len = util_file_length(fd);
+    len = archdep_file_size(fd);
 
     if (len == 8192) {
         type = CARTRIDGE_PLUS4_GENERIC_C1LO;
@@ -747,7 +754,9 @@ exiterror:
 /* FIXME: todo */
 void cartridge_trigger_freeze(void)
 {
+#ifdef DEBUGCART
     int delay = lib_unsigned_rand(1, (unsigned int)machine_get_cycles_per_frame());
+#endif
 #if 0
     cart_freeze_alarm_time = maincpu_clk + delay;
     alarm_set(cartridge_freeze_alarm, cart_freeze_alarm_time);

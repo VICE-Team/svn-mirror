@@ -1,0 +1,264 @@
+name: Make Release
+on:
+  push:
+    tags:
+    - '[0-9]+\.[0-9]+\.[0-9]+' # any tag that looks like a release version, ex. 3.6.0
+concurrency: 
+  group: Release Build
+  cancel-in-progress: true
+
+jobs:
+  create_release:
+    name: Create Draft Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      release_id: ${{ steps.create_release.outputs.id }}
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: true
+
+  build_tarball:
+    name: Build Tarball
+    needs: create_release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - shell: bash
+        run: git config --global core.autocrlf input
+      
+      - name: Checkout Source
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix libpcap-dev
+          
+      - name: Build
+        id: build
+        shell: bash
+        run: |
+          cd vice
+          ./src/buildtools/genvicedate_h.sh
+          ./autogen.sh
+          ./configure --with-resid --disable-pdf-docs --enable-headlessui --without-pulse --without-alsa --without-png
+          make dist
+          echo ::set-output name=tarball_path::$(echo $(pwd)/vice-*.tar.gz)
+          echo ::set-output name=tarball_name::$(echo vice-*.tar.gz)
+
+      - name: Upload Artifact Tarball
+        uses: actions/upload-artifact@v2
+        with:
+          name: vice-tarball
+          path: ${{ steps.build.outputs.tarball_path }}
+          retention-days: 1
+
+      - name: Upload Release Tarball
+        id: upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.build.outputs.tarball_path }}
+          asset_name: ${{ steps.build.outputs.tarball_name }}
+          asset_content_type: application/gzip
+
+  build_doc:
+    name: Build Headless, Upload Documentation
+    needs: build_tarball
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download Tarball
+        uses: actions/download-artifact@v2
+        with:
+          name: vice-tarball
+      
+      - name: Unpack Source
+        shell: bash
+        run: |
+          tar xzvf vice-*.tar.gz
+          rm vice-*.tar.gz
+
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt-get install autoconf automake build-essential byacc flex xa65 dos2unix
+          sudo apt-get install texinfo texlive-fonts-recommended libpcap-dev
+          
+      - name: Build
+        id: build
+        shell: bash
+        run: |
+          cd vice-*/
+          ./src/buildtools/genvicedate_h.sh
+          ./autogen.sh
+          ./configure --enable-headlessui --enable-html-docs --without-pulse --without-alsa --without-png
+          make -j2
+          echo ::set-output name=pdf_path::$(echo $(pwd)/doc/vice.pdf)
+
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: vice-pdf
+          path: ${{ steps.build.outputs.pdf_path }}
+          retention-days: 1
+  
+  build:
+    name: Build
+    needs: [create_release, build_doc]
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+        - { msystem: MINGW64, arch: x86_64 }
+        - { msystem: MINGW32, arch: i686 }
+        ui: [ GTK3, SDL2 ]
+    steps:
+      - run: git config --global core.autocrlf input
+        shell: bash
+      
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      
+      - name: Extract Github Actions Build Script
+        shell: bash
+        run: |
+          mv vice/build/github-actions/build-msys2.sh .
+          ls -A1 | grep -v build-msys2.sh | xargs rm -rf
+      
+      - name: Download Documentation
+        uses: actions/download-artifact@v2
+        with:
+          name: vice-pdf
+
+      - name: Download Tarball
+        uses: actions/download-artifact@v2
+        with:
+          name: vice-tarball
+      
+      - name: Unpack Tarball Source
+        shell: bash
+        run: |
+          tar xzvf vice-*.tar.gz
+          rm vice-*.tar.gz
+          mv vice-* vice
+          mv vice.pdf vice/doc/
+          mkdir -p vice/build/github-actions/
+          mv build-msys2.sh vice/build/github-actions/
+
+      - name: Install GTK3 Dependencies if Applicable
+        if: ${{ matrix.ui == 'GTK3' }}
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.arch.msystem }}
+          update: true
+          install: >-
+            git
+            base-devel
+            autotools
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
+            zip
+            p7zip
+            subversion
+            git
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-ffmpeg
+            mingw-w64-${{ matrix.arch.arch }}-libpcap
+            mingw-w64-${{ matrix.arch.arch }}-gtk3
+      
+      - name: Install SDL2 Dependencies if Applicable
+        if: ${{ matrix.ui == 'SDL2' }}
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.arch.msystem }}
+          update: true
+          install: >-
+            git
+            base-devel
+            autotools
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
+            zip
+            p7zip
+            subversion
+            git
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-ffmpeg
+            mingw-w64-${{ matrix.arch.arch }}-libpcap
+            mingw-w64-${{ matrix.arch.arch }}-SDL2
+            mingw-w64-${{ matrix.arch.arch }}-SDL2_image
+
+      - name: Build
+        id: build
+        shell: msys2 {0}
+        run: |
+          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/github-actions/build-msys2.sh ${{ matrix.ui }} "release"
+          echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
+          echo ::set-output name=zip_name::$(basename vice/*.zip)
+          echo ::set-output name=seven_zip_path::$(cygpath -w -a vice/*.7z)
+          echo ::set-output name=seven_zip_name::$(basename vice/*.7z)
+
+      - name: Upload Zip
+        id: upload-zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.build.outputs.zip_path }}
+          asset_name: ${{ steps.build.outputs.zip_name }}
+          asset_content_type: application/zip
+      
+      - name: Upload 7Zip
+        id: upload-7zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.build.outputs.seven_zip_path }}
+          asset_name: ${{ steps.build.outputs.seven_zip_name }}
+          asset_content_type: application/x-7z-compressed
+  
+  publish_release:
+    name: Publish Release
+    needs: [create_release, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            await github.repos.updateRelease(
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: ${{ needs.create_release.outputs.release_id }},
+                draft: false
+              });

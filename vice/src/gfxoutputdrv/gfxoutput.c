@@ -47,17 +47,10 @@
 #include "pngdrv.h"
 #endif
 
-#ifdef HAVE_JPEG
-#include "jpegdrv.h"
-#endif
-
 #ifdef HAVE_FFMPEG
 #include "ffmpegdrv.h"
 #endif
 
-#ifdef HAVE_QUICKTIME
-#include "quicktimedrv.h"
-#endif
 
 struct gfxoutputdrv_list_s {
     struct gfxoutputdrv_s *drv;
@@ -113,9 +106,6 @@ int gfxoutput_early_init(int help)
 #ifdef HAVE_GIF
     gfxoutput_init_gif(help);
 #endif
-#ifdef HAVE_JPEG
-    gfxoutput_init_jpeg(help);
-#endif
     /* slightly less common image formats */
     gfxoutput_init_iff(help);
     gfxoutput_init_pcx(help);
@@ -123,9 +113,6 @@ int gfxoutput_early_init(int help)
     /* video related */
 #ifdef HAVE_FFMPEG
     gfxoutput_init_ffmpeg(help);
-#endif
-#ifdef HAVE_QUICKTIME
-    gfxoutput_init_quicktime(help);
 #endif
     /* C64 formats */
     gfxoutput_init_godot(help);

@@ -1,4 +1,4 @@
-/** \file   icon.c 
+/** \file   icon.c
  * \brief   SDL Window icon(s) support
  *
  * Sets application icon on Unix for SDL1.2 and SDL2 and on Windows for SDL1.2.
@@ -43,7 +43,7 @@
 #include "icon.h"
 
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 
 /** \brief  Set window icon
  *
@@ -90,7 +90,7 @@ void sdl_ui_set_window_icon(void *window)
     /* SDL1.2 docs say Win32 icons need to be 32x32. On Win7 using 256x256
      * also works fine, but let's do what the docs say anyway.
      */
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     path = archdep_app_icon_path_png(32);
 #else
     path = archdep_app_icon_path_png(256);

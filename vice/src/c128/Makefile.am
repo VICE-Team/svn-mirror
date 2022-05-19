@@ -1,11 +1,11 @@
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
-	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/raster \
@@ -16,7 +16,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/vdc \
-	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/tapeport \
@@ -30,7 +30,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libc128.a
+noinst_LIBRARIES = libc128.a libc128stubs.a
+
+libc128stubs_a_SOURCES = \
+	c128-stubs.c
 
 libc128_a_SOURCES = \
 	c128-cmdline-options.c \

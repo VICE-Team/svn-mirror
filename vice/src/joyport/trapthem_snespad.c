@@ -69,22 +69,25 @@ static uint8_t latch_line[JOYPORT_MAX_PORTS] = {0};
 
 static joyport_t joyport_snespad_device;
 
-static int joyport_snespad_enable(int port, int value)
+static int joyport_snespad_set_enabled(int port, int enabled)
 {
-    int val = value ? 1 : 0;
+    int new_state = enabled ? 1 : 0;
 
-    if (val == snespad_enabled[port]) {
+    if (new_state == snespad_enabled[port]) {
         return 0;
     }
 
-    if (val) {
+    if (new_state) {
+        /* enabled, set counter to 0 and enable snes mapping instead of joystick mapping */
         counter[port] = 0;
         joystick_set_snes_mapping(port);
     } else {
+        /* disabled, disable snes mapping */
         joyport_clear_mapping(port);
     }
 
-    snespad_enabled[port] = val;
+    /* set current state */
+    snespad_enabled[port] = new_state;
 
     return 0;
 }
@@ -166,6 +169,11 @@ static void snespad_store(int port, uint8_t val)
     clock_line[port] = new_clock;
 }
 
+static void snespad_powerup(int port)
+{
+    counter[port] = 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static int trapthem_snespad_write_snapshot(struct snapshot_s *s, int p);
@@ -179,11 +187,12 @@ static joyport_t joyport_snespad_device = {
     JOYSTICK_ADAPTER_ID_NONE,          /* device is NOT a joystick adapter */
     JOYPORT_DEVICE_SNES_ADAPTER,       /* device is a SNES adapter */
     0x1C,                              /* bits 4 and 3 are output bits */
-    joyport_snespad_enable,            /* device enable function */
+    joyport_snespad_set_enabled,       /* device enable/disable function */
     snespad_read,                      /* digital line read function */
     snespad_store,                     /* digital line store function */
     NULL,                              /* NO pot-x read function */
     NULL,                              /* NO pot-y read function */
+    snespad_powerup,                   /* powerup function */
     trapthem_snespad_write_snapshot,   /* device write snapshot function */
     trapthem_snespad_read_snapshot,    /* device read snapshot function */
     NULL,                              /* NO device hook function */
@@ -208,7 +217,7 @@ int joyport_trapthem_snespad_resources_init(void)
    BYTE  | CLOCK   | clock line state
  */
 
-static char snap_module_name[] = "TRAPTHEMSNESPAD";
+static const char snap_module_name[] = "TRAPTHEMSNESPAD";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
@@ -222,7 +231,7 @@ static int trapthem_snespad_write_snapshot(struct snapshot_s *s, int p)
         return -1;
     }
 
-    if (0 
+    if (0
         || SMW_B(m, counter[p]) < 0
         || SMW_B(m, latch_line[p]) < 0
         || SMW_B(m, clock_line[p]) < 0) {

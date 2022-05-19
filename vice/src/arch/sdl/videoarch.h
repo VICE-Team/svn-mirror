@@ -37,7 +37,7 @@
 
 #include "vice_sdl.h"
 
-#include "tick.h"
+#include "archdep.h"
 #include "viewport.h"
 #include "video.h"
 
@@ -49,7 +49,7 @@
 
 typedef void (*video_refresh_func_t)(struct video_canvas_s *, int, int, int, int, unsigned int, unsigned int);
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 /** \brief Everything needed to render textures to the screen in a window */
 struct video_container_s {
     /** \brief The SDL window associated with this renderer and texture. */
@@ -76,7 +76,7 @@ struct video_canvas_s {
     /** \brief Nonzero if it is safe to access other members of the
      *         structure. */
     unsigned int initialized;
-    
+
     /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
 
@@ -98,10 +98,10 @@ struct video_canvas_s {
     /** \brief Drawable surface. Main output for SDL1, SDL2 uses other members. */
     SDL_Surface* screen;
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     /** \brief The texture that can be rendered to for this window and renderer. */
     SDL_Texture* texture;
-    
+
     /** \brief Last frame's texture, used for interlaced modes. */
     SDL_Texture* previous_frame_texture;
 
@@ -121,11 +121,11 @@ struct video_canvas_s {
     struct fullscreenconfig_s *fullscreenconfig;
     video_refresh_func_t video_fullscreen_refresh_func;
 
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) && !defined(USE_SDL2UI)
     /* OpenGL context */
     SDL_Surface *hwscale_screen;
 #endif
-    
+
     /** \brief Used to limit frame rate under warp. */
     tick_t warp_next_render_tick;
 };
@@ -136,7 +136,7 @@ extern video_canvas_t *sdl_active_canvas;
 /* Resize window to stored real size */
 extern void sdl_video_restore_size(void);
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 /* special case handling for the SDL window resize event */
 extern void sdl2_video_resize_event(int canvas_id, unsigned int w, unsigned int h);
 #else
@@ -160,7 +160,7 @@ extern uint8_t *draw_buffer_vsid;
 #define SDL_LIMIT_MODE_MAX   1
 #define SDL_LIMIT_MODE_FIXED 2
 
-#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
+#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 /* Modes of fixed aspect ratio */
 #define SDL_ASPECT_MODE_OFF    0
 #define SDL_ASPECT_MODE_CUSTOM 1
@@ -173,7 +173,7 @@ extern uint8_t *draw_buffer_vsid;
 
 extern void sdl_ui_set_window_title(char *title);
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 extern void sdl2_show_second_window(void);
 extern void sdl2_hide_second_window(void);
 #endif

@@ -2,11 +2,11 @@
 # VICE Palette file
 #
 # Syntax:
-# Red Green Blue Dither
+# Red Green Blue
 #
 
 # Background
-00 00 00 0
+00 00 00
 
 # Foreground
-00 FF 00 F
+00 FF 00

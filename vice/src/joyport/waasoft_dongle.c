@@ -44,6 +44,8 @@
 
 #include "waasoft_dongle.h"
 
+#define SEQUENCE_LEN   15
+
 /* ------------------------------------------------------------------------- */
 
 static int joyport_waasoft_dongle_enabled[JOYPORT_MAX_PORTS] = {0};
@@ -53,15 +55,15 @@ static uint8_t counter[JOYPORT_MAX_PORTS] = {0};
 static uint8_t waasoft_reset_line[JOYPORT_MAX_PORTS] = {1};
 static uint8_t waasoft_clock_line[JOYPORT_MAX_PORTS] = {1};
 
-static uint8_t waasoft_values[15] = {
+static const uint8_t waasoft_values[SEQUENCE_LEN] = {
     0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00
 };
 
-static int joyport_waasoft_dongle_enable(int port, int value)
+static int joyport_waasoft_dongle_set_enabled(int port, int enabled)
 {
-    int val = value ? 1 : 0;
+    int new_state = enabled ? 1 : 0;
 
-    joyport_waasoft_dongle_enabled[port] = val;
+    joyport_waasoft_dongle_enabled[port] = new_state;
 
     return 0;
 }
@@ -78,22 +80,31 @@ static void waasoft_dongle_store_dig(int port, uint8_t val)
 
     if (clock != waasoft_clock_line[port]) {
         if (!clock) {
+            /* clock line asserted, increment counter */
             counter[port]++;
-            if (counter[port] == 15) {
+            if (counter[port] == SEQUENCE_LEN) {
+                /* reset counter if end of sequence is reached */
                 counter[port] = 0;
             }
         }
     }
 
+    /* set current clock line state */
     waasoft_clock_line[port] = clock;
 
     if (reset != waasoft_reset_line[port]) {
         if (!reset) {
+            /* reset line asserted, reset the counter */
             counter[port] = 0;
         }
     }
 
     waasoft_reset_line[port] = reset;
+}
+
+static void waasoft_powerup(int port)
+{
+    counter[port] = 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -102,22 +113,23 @@ static int waasoft_write_snapshot(struct snapshot_s *s, int p);
 static int waasoft_read_snapshot(struct snapshot_s *s, int p);
 
 static joyport_t joyport_waasoft_dongle_device = {
-    "Dongle (WaaSoft)",            /* name of the device */
-    JOYPORT_RES_ID_NONE,           /* device can be used in multiple ports at the same time */
-    JOYPORT_IS_NOT_LIGHTPEN,       /* device is NOT a lightpen */
-    JOYPORT_POT_REQUIRED,          /* device uses the potentiometer lines */
-    JOYSTICK_ADAPTER_ID_NONE,      /* device is NOT a joystick adapter */
-    JOYPORT_DEVICE_C64_DONGLE,     /* device is a C64 Dongle */
-    0x03,                          /* bits 1 and 0 are output bits */
-    joyport_waasoft_dongle_enable, /* device enable function */
-    NULL,                          /* NO digital line read function */
-    waasoft_dongle_store_dig,      /* digital line store function */
-    NULL,                          /* NO pot-x read function */
-    waasoft_dongle_read_poty,      /* pot-y read function */
-    waasoft_write_snapshot,        /* device write snapshot function */
-    waasoft_read_snapshot,         /* device read snapshot function */
-    NULL,                          /* NO device hook function */
-    0                              /* NO device hook function mask */
+    "Dongle (WaaSoft)",                 /* name of the device */
+    JOYPORT_RES_ID_NONE,                /* device can be used in multiple ports at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,            /* device is NOT a lightpen */
+    JOYPORT_POT_REQUIRED,               /* device uses the potentiometer lines */
+    JOYSTICK_ADAPTER_ID_NONE,           /* device is NOT a joystick adapter */
+    JOYPORT_DEVICE_C64_DONGLE,          /* device is a C64 Dongle */
+    0x03,                               /* bits 1 and 0 are output bits */
+    joyport_waasoft_dongle_set_enabled, /* device enable/disable function */
+    NULL,                               /* NO digital line read function */
+    waasoft_dongle_store_dig,           /* digital line store function */
+    NULL,                               /* NO pot-x read function */
+    waasoft_dongle_read_poty,           /* pot-y read function */
+    waasoft_powerup,                    /* powerup function */
+    waasoft_write_snapshot,             /* device write snapshot function */
+    waasoft_read_snapshot,              /* device read snapshot function */
+    NULL,                               /* NO device hook function */
+    0                                   /* NO device hook function mask */
 };
 
 /* ------------------------------------------------------------------------- */
@@ -138,7 +150,7 @@ int joyport_waasoft_dongle_resources_init(void)
    BYTE  | CLOCK   | clock line state
  */
 
-static char snap_module_name[] = "WAASOFT";
+static const char snap_module_name[] = "WAASOFT";
 #define SNAP_MAJOR   1
 #define SNAP_MINOR   0
 
@@ -152,7 +164,7 @@ static int waasoft_write_snapshot(struct snapshot_s *s, int port)
         return -1;
     }
 
-    if (0 
+    if (0
         || SMW_B(m, counter[port]) < 0
         || SMW_B(m, waasoft_reset_line[port]) < 0
         || SMW_B(m, waasoft_clock_line[port]) < 0) {

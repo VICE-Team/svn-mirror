@@ -261,6 +261,8 @@ static userport_device_t cga_device = {
     NULL,                                        /* NO read sp1 pin function */
     NULL,                                        /* NO store sp2 pin function */
     NULL,                                        /* NO read sp2 pin function */
+    NULL,                                        /* NO reset function */
+    NULL,                                        /* NO powerup function */
     userport_joystick_cga_write_snapshot_module, /* snapshot write function */
     userport_joystick_cga_read_snapshot_module   /* snapshot read function */
 };
@@ -281,6 +283,8 @@ static userport_device_t pet_device = {
     NULL,                                        /* NO read sp1 pin function */
     NULL,                                        /* NO store sp2 pin function */
     NULL,                                        /* NO read sp2 pin function */
+    NULL,                                        /* NO reset function */
+    NULL,                                        /* NO powerup function */
     userport_joystick_pet_write_snapshot_module, /* snapshot write function */
     userport_joystick_pet_read_snapshot_module   /* snapshot read function */
 };
@@ -301,6 +305,8 @@ static userport_device_t hummer_device = {
     NULL,                                           /* NO read sp1 pin function */
     NULL,                                           /* NO store sp2 pin function */
     NULL,                                           /* NO read sp2 pin function */
+    NULL,                                           /* NO reset function */
+    NULL,                                           /* NO powerup function */
     userport_joystick_hummer_write_snapshot_module, /* snapshot write function */
     userport_joystick_hummer_read_snapshot_module   /* snapshot read function */
 };
@@ -321,6 +327,8 @@ static userport_device_t oem_device = {
     NULL,                                        /* NO read sp1 pin function */
     NULL,                                        /* NO store sp2 pin function */
     NULL,                                        /* NO read sp2 pin function */
+    NULL,                                        /* NO reset function */
+    NULL,                                        /* NO powerup function */
     userport_joystick_oem_write_snapshot_module, /* snapshot write function */
     userport_joystick_oem_read_snapshot_module   /* snapshot read function */
 };
@@ -341,6 +349,8 @@ static userport_device_t hit_device = {
     NULL,                                        /* NO read sp1 pin function */
     NULL,                                        /* NO store sp2 pin function */
     userport_joystick_hit_read_sp2,              /* read sp2 pin function */
+    NULL,                                        /* NO reset function */
+    NULL,                                        /* NO powerup function */
     userport_joystick_hit_write_snapshot_module, /* snapshot write function */
     userport_joystick_hit_read_snapshot_module   /* snapshot read function */
 };
@@ -361,6 +371,8 @@ static userport_device_t kingsoft_device = {
     NULL,                                             /* NO read sp1 pin function */
     NULL,                                             /* NO store sp2 pin function */
     userport_joystick_kingsoft_read_sp2,              /* read sp2 pin function */
+    NULL,                                             /* NO reset function */
+    NULL,                                             /* NO powerup function */
     userport_joystick_kingsoft_write_snapshot_module, /* snapshot write function */
     userport_joystick_kingsoft_read_snapshot_module   /* snapshot read function */
 };
@@ -381,6 +393,8 @@ static userport_device_t starbyte_device = {
     NULL,                                             /* NO read sp1 pin function */
     NULL,                                             /* NO store sp2 pin function */
     userport_joystick_starbyte_read_sp2,              /* read sp2 pin function */
+    NULL,                                             /* NO reset function */
+    NULL,                                             /* NO powerup function */
     userport_joystick_starbyte_write_snapshot_module, /* snapshot write function */
     userport_joystick_starbyte_read_snapshot_module   /* snapshot read function */
 };
@@ -401,6 +415,8 @@ static userport_device_t synergy_device = {
     NULL,                                            /* NO read sp1 pin function */
     NULL,                                            /* NO store sp2 pin function */
     NULL,                                            /* NO read sp2 pin function */
+    NULL,                                            /* NO reset function */
+    NULL,                                            /* NO powerup function */
     userport_joystick_synergy_write_snapshot_module, /* snapshot write function */
     userport_joystick_synergy_read_snapshot_module   /* snapshot read function */
 };
@@ -990,7 +1006,7 @@ static void userport_joystick_synergy_store_pbx(uint8_t value, int pulse)
    BYTE  | select | joyport select
  */
 
-static char cga_module_name[] = "UPJOYCGA";
+static const char cga_module_name[] = "UPJOYCGA";
 #define CGA_VER_MAJOR   0
 #define CGA_VER_MINOR   1
 
@@ -999,7 +1015,7 @@ static int userport_joystick_cga_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, cga_module_name, CGA_VER_MAJOR, CGA_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
@@ -1106,7 +1122,7 @@ static int userport_joystick_oem_read_snapshot_module(snapshot_t *s)
    BYTE  | retval | current serial port brigde value
  */
 
-static char hit_module_name[] = "UPJOYHIT";
+static const char hit_module_name[] = "UPJOYHIT";
 #define HIT_VER_MAJOR   0
 #define HIT_VER_MINOR   1
 
@@ -1115,7 +1131,7 @@ static int userport_joystick_hit_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, hit_module_name, HIT_VER_MAJOR, HIT_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
@@ -1179,7 +1195,7 @@ fail:
  */
 
 /* FIXME */
-static char kingsoft_module_name[] = "UPJOYKINGSOFT";
+static const char kingsoft_module_name[] = "UPJOYKINGSOFT";
 #define KINGSOFT_VER_MAJOR   0
 #define KINGSOFT_VER_MINOR   1
 
@@ -1188,7 +1204,7 @@ static int userport_joystick_kingsoft_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, kingsoft_module_name, KINGSOFT_VER_MAJOR, KINGSOFT_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
@@ -1251,7 +1267,7 @@ fail:
    BYTE  | retval | current serial port bridge value
  */
 
-static char starbyte_module_name[] = "UPJOYSTARBYTE";
+static const char starbyte_module_name[] = "UPJOYSTARBYTE";
 #define STARBYTE_VER_MAJOR   0
 #define STARBYTE_VER_MINOR   1
 
@@ -1323,7 +1339,7 @@ fail:
    BYTE  | select | joyport select
  */
 
-static char synergy_module_name[] = "UPJOYSYNERGY";
+static const char synergy_module_name[] = "UPJOYSYNERGY";
 #define SYNERGY_VER_MAJOR   0
 #define SYNERGY_VER_MINOR   1
 
@@ -1332,7 +1348,7 @@ static int userport_joystick_synergy_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, synergy_module_name, SYNERGY_VER_MAJOR, SYNERGY_VER_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

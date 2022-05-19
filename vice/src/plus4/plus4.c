@@ -523,10 +523,6 @@ int machine_resources_init(void)
         init_resource_fail("joyport I/O simulation");
         return -1;
     }
-    if (gfxoutput_resources_init() < 0) {
-        init_resource_fail("gfxoutput");
-        return -1;
-    }
     if (sampler_resources_init() < 0) {
         init_resource_fail("samplerdrv");
         return -1;
@@ -587,16 +583,7 @@ int machine_resources_init(void)
         init_resource_fail("drive");
         return -1;
     }
-    /*
-     * This needs to be called before tapeport_resources_init(), otherwise
-     * the tapecart will fail to initialize due to the Datasette resource
-     * appearing after the Tapecart resources
-     */
-    if (datasette_resources_init() < 0) {
-        init_resource_fail("datasette");
-        return -1;
-    }
-    if (tapeport_resources_init() < 0) {
+    if (tapeport_resources_init(1) < 0) {
         init_resource_fail("tapeport");
         return -1;
     }
@@ -699,10 +686,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport");
         return -1;
     }
-    if (gfxoutput_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("gfxoutput");
-        return -1;
-    }
     if (sampler_cmdline_options_init() < 0) {
         init_cmdline_options_fail("samplerdrv");
         return -1;
@@ -759,10 +742,6 @@ int machine_cmdline_options_init(void)
     }
     if (tapeport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("tapeport");
-        return -1;
-    }
-    if (datasette_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("datasette");
         return -1;
     }
     if (debugcart_cmdline_options_init() < 0) {
@@ -929,6 +908,8 @@ void machine_specific_reset(void)
     plus4tcbm1_reset();
     plus4tcbm2_reset();
 
+    userport_reset();
+
     ted_reset();
 
     sid_reset();
@@ -946,12 +927,16 @@ void machine_specific_reset(void)
 
 void machine_specific_powerup(void)
 {
+    cartridge_powerup();
     ted_reset_registers();
+    userport_powerup();
+    tapeport_powerup();
+    joyport_powerup();
 }
 
 void machine_specific_shutdown(void)
 {
-    tape_image_detach_internal(1);
+    tape_image_detach_internal(TAPEPORT_PORT_1 + 1);
 
     ted_shutdown();
     speech_shutdown();
@@ -962,6 +947,8 @@ void machine_specific_shutdown(void)
 #ifdef HAVE_MOUSE
     mouse_shutdown();
 #endif
+
+    sidcart_cmdline_options_shutdown();
 
     if (!console_mode) {
         plus4ui_shutdown();
@@ -1045,7 +1032,7 @@ void machine_change_timing(int timeval, int border_mode)
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
     serial_iec_device_set_machine_parameter(machine_timing.cycles_per_sec);
 #ifdef HAVE_MOUSE
-    neos_mouse_set_machine_parameter(machine_timing.cycles_per_sec);
+    mouse_set_machine_parameter(machine_timing.cycles_per_sec);
 #endif
 
     ted_change_timing(&machine_timing, border_mode);
@@ -1124,12 +1111,12 @@ int machine_addr_in_ram(unsigned int addr)
     if (addr >= 0x8000) {
         return 0;
     }
-    
+
     if (addr >= 0x473 && addr <= 04E6) {
         /* bunch of ROM routines  */
         return 0;
     }
-    
+
     return 1;
 }
 
@@ -1145,7 +1132,8 @@ static userport_port_props_t userport_props = {
     0,    /* port does NOT have the pa3 pin */
     NULL, /* NO flag pin */
     0,    /* port does NOT have the pc pin */
-    0     /* port does NOT have the cnt1, cnt2 or sp pins */
+    0,    /* port does NOT have the cnt1, cnt2 or sp pins */
+    1     /* port has the reset pin */
 };
 
 int machine_register_userport(void)

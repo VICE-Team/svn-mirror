@@ -90,6 +90,8 @@ static userport_device_t digimax_device = {
     NULL,                                   /* NO read sp1 pin function */
     NULL,                                   /* NO store sp2 pin function */
     NULL,                                   /* NO read sp2 pin function */
+    NULL,                                   /* NO reset function */
+    NULL,                                   /* NO powerup function */
     userport_digimax_write_snapshot_module, /* snapshot write function */
     userport_digimax_read_snapshot_module   /* snapshot read function */
 };
@@ -173,7 +175,7 @@ int userport_digimax_resources_init(void)
    BYTE  | voice 3 | voice 3 data
  */
 
-static char snap_module_name[] = "UPDIGIMAX";
+static const char snap_module_name[] = "UPDIGIMAX";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
@@ -182,7 +184,7 @@ static int userport_digimax_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

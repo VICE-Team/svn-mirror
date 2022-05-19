@@ -47,6 +47,7 @@
 #define myacia_snapshot_write_module acia1_snapshot_write_module
 #define myacia_peek acia1_peek
 #define myacia_read acia1_read
+#define acia_dump acia1_dump
 #define myacia_reset acia1_reset
 #define myacia_store acia1_store
 

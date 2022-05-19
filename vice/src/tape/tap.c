@@ -42,6 +42,10 @@
 #include "util.h"
 #include "zfile.h"
 #include "machine.h"
+#include "resources.h"
+
+/* Logging goes here.  */
+static log_t tape_log = LOG_DEFAULT;
 
 #define TAP_DEBUG 0
 
@@ -77,22 +81,115 @@ static int tap_pulse_tt_short_max = 0x22;
 static int tap_pulse_tt_long_min = 0x23;
 static int tap_pulse_tt_long_max = 0x36;
 
+typedef struct {
+    int system;
+    int video;
+    int clock;
+} CLKLIST;
+
+static CLKLIST clklist[] = {
+    { TAP_HDR_SYSTEM_C64, TAP_HDR_VIDEO_PAL, 985248 },
+    { TAP_HDR_SYSTEM_C64, TAP_HDR_VIDEO_NTSC, 1022730 },
+    { TAP_HDR_SYSTEM_C64, TAP_HDR_VIDEO_NTSCOLD, 1022730 },
+    { TAP_HDR_SYSTEM_C64, TAP_HDR_VIDEO_PALN, 1023440 },
+    { TAP_HDR_SYSTEM_VIC20, TAP_HDR_VIDEO_PAL, 1108405 },
+    { TAP_HDR_SYSTEM_VIC20, TAP_HDR_VIDEO_NTSC, 1022727 },
+    /* CAUTION: C16 timers always run in slow mode */
+    { TAP_HDR_SYSTEM_C16, TAP_HDR_VIDEO_PAL, (1773447 + 1) / 2 },
+    { TAP_HDR_SYSTEM_C16, TAP_HDR_VIDEO_NTSC, (1789772 + 1) /2 },
+    { TAP_HDR_SYSTEM_PET, TAP_HDR_VIDEO_PAL, 1000000 },
+    { TAP_HDR_SYSTEM_PET, TAP_HDR_VIDEO_NTSC, 1000000 },
+    { TAP_HDR_SYSTEM_C500, TAP_HDR_VIDEO_PAL, 985248 },
+    { TAP_HDR_SYSTEM_C500, TAP_HDR_VIDEO_NTSC, 1022730 },
+    { TAP_HDR_SYSTEM_C600, TAP_HDR_VIDEO_PAL, 2000000 },
+    { TAP_HDR_SYSTEM_C600, TAP_HDR_VIDEO_NTSC, 2000000 },
+    { -1, -1, -1 }
+};
+
+static int tap_get_clockspeed(int system, int video)
+{
+    int n = 0;
+    while (clklist[n].system != -1) {
+        if ((clklist[n].system == system) && (clklist[n].video == video)) {
+            return clklist[n].clock;
+        }
+        n++;
+    }
+    return 985248; /* PAL C64 is default */
+}
 
 static int tap_header_read(tap_t *tap, FILE *fd)
 {
     uint8_t buf[TAP_HDR_SIZE];
+    uint8_t tagsystem = TAP_HDR_SYSTEM_C64;
+    int video;
 
     if (fread(buf, TAP_HDR_SIZE, 1, fd) != 1) {
         return -1;
     }
 
-    if (strncmp("C64-TAPE-RAW", (char *)&buf[TAP_HDR_MAGIC_OFFSET], 12)
-        && strncmp("C16-TAPE-RAW", (char *)&buf[TAP_HDR_MAGIC_OFFSET], 12)) {
+    if (!strncmp("C16-TAPE-RAW", (char *)&buf[TAP_HDR_MAGIC_OFFSET], 12)) {
+        tagsystem = TAP_HDR_SYSTEM_C16;
+    } else if (!strncmp("C64-TAPE-RAW", (char *)&buf[TAP_HDR_MAGIC_OFFSET], 12)) {
+        tagsystem = TAP_HDR_SYSTEM_C64;
+    } else {
         return -1;
     }
 
+    resources_get_int("MachineVideoStandard", &video);
+
     tap->version = buf[TAP_HDR_VERSION];
+    tap->video = buf[TAP_HDR_VIDEO];
     tap->system = buf[TAP_HDR_SYSTEM];
+
+    switch (tap->system) {
+        case TAP_HDR_SYSTEM_C16:
+            if (tagsystem != TAP_HDR_SYSTEM_C16) {
+                log_warning(tape_log, ".tap header vs tag mismatch (expected C16 in tag).");
+            }
+            break;
+        case TAP_HDR_SYSTEM_C64:   /* fall through */
+        case TAP_HDR_SYSTEM_VIC20: /* fall through */
+        case TAP_HDR_SYSTEM_C500:  /* fall through */
+        case TAP_HDR_SYSTEM_C600:  /* fall through */
+        case TAP_HDR_SYSTEM_PET:   /* fall through */
+        default:
+            if (tagsystem != TAP_HDR_SYSTEM_C64) {
+                log_warning(tape_log, ".tap header vs tag mismatch (expected C64 in tag).");
+            }
+            break;
+    }
+
+    if ((machine_class == VICE_MACHINE_PLUS4) && (tap->system != TAP_HDR_SYSTEM_C16)) {
+        log_error(tape_log, ".tap header system mismatch (expected C16/PLUS4).");
+    }
+
+    switch (video) {
+        case MACHINE_SYNC_NTSC:
+            if (tap->video != TAP_HDR_VIDEO_NTSC) {
+                log_warning(tape_log, ".tap header video system mismatch (expected NTSC).");
+            }
+            break;
+        case MACHINE_SYNC_NTSCOLD:
+            if (tap->video != TAP_HDR_VIDEO_NTSCOLD) {
+                log_warning(tape_log, ".tap header video system mismatch (expected NTSCOLD).");
+            }
+            break;
+        case MACHINE_SYNC_PALN:
+            if (tap->video != TAP_HDR_VIDEO_PALN) {
+                log_warning(tape_log, ".tap header video system mismatch (expected PALN).");
+            }
+            break;
+        case MACHINE_SYNC_PAL:      /* fall through */
+        default:
+            if (tap->video != TAP_HDR_VIDEO_PAL) {
+                log_warning(tape_log, ".tap header video system mismatch (expected PAL).");
+            }
+            break;
+    }
+
+    tap->tap_clock = tap_get_clockspeed(tap->system, tap->video);
+    log_message(tape_log, ".tap clock is %dHz", tap->tap_clock);
 
     memcpy(tap->name, &buf[TAP_HDR_MAGIC_OFFSET], 12);
 
@@ -150,7 +247,7 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
     new->fd = fd;
     new->read_only = *read_only;
 
-    new->size = (int)util_file_length(fd) - TAP_HDR_SIZE;
+    new->size = (int)archdep_file_size(fd) - TAP_HDR_SIZE;
 
     if (new->size < 3) {
         zfile_fclose(new->fd);
@@ -173,11 +270,11 @@ int tap_close(tap_t *tap)
     if (tap->fd != NULL) {
         /* write data size into header */
         if (tap->has_changed) {
-            size_t datasize = util_file_length(tap->fd) - TAP_HDR_SIZE;
             uint8_t buf[4];
+            off_t datasize = archdep_file_size(tap->fd) - TAP_HDR_SIZE;
             /* sanity check */
-            if (tap->size != datasize) {
-                log_warning(LOG_DEFAULT,
+            if (tap->size != (int)datasize) {
+                log_warning(tape_log,
                             "tap data size mismatch, expected: 0x%06lx is: 0x%06x",
                             (unsigned long)datasize, (unsigned)tap->size);
                 tap->size = (int)datasize;
@@ -205,6 +302,7 @@ int tap_create(const char *name)
 {
     FILE *fd;
     uint8_t block[256];
+    int video;
 
     memset(block, 0, sizeof(block));
 
@@ -215,9 +313,61 @@ int tap_create(const char *name)
     }
 
     /* create an empty tap */
-    strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C64-TAPE-RAW");
+#if 0   /* FIXME: saving v2 C16 format doesnt actually work */
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C16-TAPE-RAW");
+    } else
+#endif
+    {
+        strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C64-TAPE-RAW");
+    }
 
     block[TAP_HDR_VERSION] = 1;
+
+    switch (machine_class) {
+        case VICE_MACHINE_VIC20:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_VIC20;
+            break;
+        case VICE_MACHINE_PET:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_PET;
+            break;
+        case VICE_MACHINE_CBM5x0:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C500;
+            break;
+        case VICE_MACHINE_CBM6x0:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C600;
+            break;
+        case VICE_MACHINE_PLUS4:
+#if 0   /* FIXME: saving v2 C16 format doesnt actually work */
+            block[TAP_HDR_VERSION] = 2;
+#endif
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C16;
+            break;
+        case VICE_MACHINE_C64:  /* fall through */
+        case VICE_MACHINE_C64SC:  /* fall through */
+        case VICE_MACHINE_C128:  /* fall through */
+        default:
+            block[TAP_HDR_SYSTEM] = TAP_HDR_SYSTEM_C64;
+            break;
+    }
+
+    resources_get_int("MachineVideoStandard", &video);
+
+    switch (video) {
+        case MACHINE_SYNC_NTSC:
+            block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_NTSC;
+            break;
+        case MACHINE_SYNC_NTSCOLD:
+            block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_NTSCOLD;
+            break;
+        case MACHINE_SYNC_PALN:
+            block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_PALN;
+            break;
+        case MACHINE_SYNC_PAL:      /* fall through */
+        default:
+            block[TAP_HDR_VIDEO] = TAP_HDR_VIDEO_PAL;
+            break;
+    }
 
     util_dword_to_le_buf(&block[TAP_HDR_LEN], 4);
 
@@ -385,13 +535,12 @@ static int tap_cbm_read_byte(tap_t *tap)
 static int tap_cbm_skip_pilot(tap_t *tap)
 {
     int data, errors;
-    long fpos, counter;
+    long fpos;
     long fpos2;
     long current_filepos;
     int pos_advance;
 
     errors = 0;
-    counter = 0;
     current_filepos = ftell(tap->fd);
     while (1) {
         /*  Save file position */
@@ -416,7 +565,6 @@ static int tap_cbm_skip_pilot(tap_t *tap)
                 /* Start over after the L pulse */
                 fseek(tap->fd, fpos2, SEEK_SET);
                 current_filepos = fpos2;
-                counter = 0;
             } else {
                 /* success.  Go back to start of byte and return */
                 fseek(tap->fd, fpos, SEEK_SET);
@@ -425,11 +573,8 @@ static int tap_cbm_skip_pilot(tap_t *tap)
             }
         } else if (data < 0) {
             return -1; /* end-of-tape */
-        } else {
-            ++counter;
-            if (!TAP_PULSE_SHORT(data)) {
-                return 0;
-            }
+        } else if (!TAP_PULSE_SHORT(data)) {
+            return 0;
         }
     }
 
@@ -437,7 +582,7 @@ static int tap_cbm_skip_pilot(tap_t *tap)
 }
 
 
-#if TAP_DEBUG>0 
+#if TAP_DEBUG>0
 void tap_cbm_print_error(int ret)
 {
     switch (ret) {
@@ -1083,7 +1228,7 @@ static int tap_determine_pilot_type(tap_t *tap)
     int res;
 
     /* assuming we are located on a pilot, try to find out which type it is */
-    if (tap->system == 2) {
+    if (tap->system == TAP_HDR_SYSTEM_C16) {
         return PILOT_TYPE_CBM;
     }
     res = tap_tt_read_byte(tap);
@@ -1528,4 +1673,8 @@ void tap_init(const tape_init_t *init)
     tap_pulse_middle_max = init->pulse_middle_max / 8;
     tap_pulse_long_min = init->pulse_long_min / 8;
     tap_pulse_long_max = init->pulse_long_max / 8;
+
+    if (tape_log == LOG_DEFAULT) {
+        tape_log = log_open("TAP");
+    }
 }

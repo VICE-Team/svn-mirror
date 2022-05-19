@@ -46,7 +46,6 @@
 
 #include "alarm.h"
 #include "archdep.h"
-#include "archdep_kbd_get_host_mapping.h"
 #include "cmdline.h"
 #include "joystick.h"
 #include "kbd.h"
@@ -276,6 +275,7 @@ static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 /* CAPS (ASCII/DIN) key.  */
 static signed long key_ctrl_caps = -1;
 static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+static key_ctrl_get_caps_func_t key_ctrl_get_caps_func = NULL;
 
 /* joyport attached keypad. */
 static signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KBD_JOY_KEYPAD_COLS];
@@ -289,6 +289,26 @@ void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
 void keyboard_register_caps_key(key_ctrl_caps_func_t func)
 {
     key_ctrl_caps_func = func;
+}
+
+void keyboard_toggle_caps_key(void)
+{
+    if (key_ctrl_caps_func != NULL) {
+        key_ctrl_caps_func();
+    }
+}
+
+void keyboard_register_get_caps_key(key_ctrl_get_caps_func_t func)
+{
+    key_ctrl_get_caps_func = func;
+}
+
+int keyboard_get_caps_key(void)
+{
+    if (key_ctrl_get_caps_func != NULL) {
+        return key_ctrl_get_caps_func();
+    }
+    return 0;
 }
 
 void keyboard_register_joy_keypad(key_joy_keypad_func_t func)
@@ -989,6 +1009,7 @@ static void keyboard_key_clear_internal(void)
     keyboard_clear_keymatrix();
     clear_virtual_modifier_flags();
     joystick_clear_all();
+    left_cbm_down = left_ctrl_down =
     virtual_cbm_down = virtual_shift_down = virtual_deshift =
         left_shift_down = right_shift_down = keyboard_shiftlock = 0;
 #ifdef COMMON_JOYKEYS
@@ -1294,10 +1315,16 @@ static void keyboard_parse_keyword(char *buffer, int line, const char *filename)
     }
 }
 
-static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
+static int keyboard_parse_set_pos_row(signed long sym, int row, int col,
                                        int shift)
 {
     int i;
+
+    /* FIXME: we should check against the actual size of the emulated
+              keyboard here */
+    if ((row >= KBD_ROWS) || (col >= KBD_COLS)) {
+        return -1;
+    }
 
     for (i = 0; i < keyc_num; i++) {
         if (sym == keyconvmap[i].sym
@@ -1325,6 +1352,7 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
             keyconvmap[++keyc_num].sym = ARCHDEP_KEYBOARD_SYM_NONE;
         }
     }
+    return 0;
 }
 
 static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
@@ -1388,7 +1416,11 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                 }
 
                 if (row >= 0) {
-                    keyboard_parse_set_pos_row(sym, (int)row, col, shift);
+                    if (keyboard_parse_set_pos_row(sym, (int)row, col, shift) < 0) {
+                        log_error(keyboard_log,
+                                  "%s:%d: Bad row/column value (%ld/%d) for keysym `%s'.",
+                                  filename, line, row, col, key);
+                    }
                 } else {
                     if (keyboard_parse_set_neg_row(sym, (int)row, col) < 0) {
                         log_error(keyboard_log,
@@ -1540,7 +1572,7 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
 static int check_modifiers(const char *filename)
 {
     int n = 0;
-    char *ms[8] = {
+    static const char * const ms[8] = {
         "!LSHIFT ", "!RSHIFT ", "!VSHIFT! ", "!LCBM ", "!VCBM ", "!LCTRL ", "!VCTRL ", "!SHIFTL "
     };
 
@@ -2109,9 +2141,11 @@ int keyboard_get_num_mappings(void)
 }
 
 /* CAUTION: keep in sync with constants in keyboard.h and code in
-            arch/shared/archdep_kbd_get_host_mapping.c */
+            arch/shared/archdep_kbd_get_host_mapping.c and also with the
+            description of the KeyboardMapping resource in vice.texi */
 static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "American (us)", KBD_MAPPING_US, "" },    /* this must be first (=0) always */
+    { "Belgian (dutch) (be)", KBD_MAPPING_BE, "be" },
     { "British (uk)", KBD_MAPPING_UK, "uk" },
     { "Danish (da)", KBD_MAPPING_DA, "da" },
     { "Dutch (nl)", KBD_MAPPING_NL, "nl" },
@@ -2123,6 +2157,7 @@ static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "Spanish (es)", KBD_MAPPING_ES, "es" },
     { "Swedish (se)", KBD_MAPPING_SE, "se" },
     { "Swiss (ch)", KBD_MAPPING_CH, "ch" },
+    { "Turkish (tr)", KBD_MAPPING_TR, "tr" },
     { NULL, 0, 0 }
 };
 
@@ -2133,13 +2168,19 @@ mapping_info_t *keyboard_get_info_list(void)
 
 static char *keyboard_get_mapping_name(int mapping)
 {
-    return kbdinfo[mapping].mapping_name;
+    int n;
+    for (n = 0; n < KBD_MAPPING_NUM; n++) {
+        if (kbdinfo[n].mapping == mapping) {
+            return kbdinfo[n].mapping_name;
+        }
+    }
+    return kbdinfo[0].mapping_name;
 }
 
 static char *keyboard_get_keymap_name(int idx, int mapping, int type)
 {
-    char *sympos[2] = { "sym", "pos"};
-    char *mapname;
+    static const char * const sympos[2] = { "sym", "pos"};
+    const char *mapname;
     char *name = NULL, *tstr = NULL;
 
     DBG((">keyboard_get_keymap_name idx %d mapping %d type %d\n", idx, mapping, type));

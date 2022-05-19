@@ -34,11 +34,11 @@
 #include "archdep_defs.h"
 
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <unistd.h>
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
@@ -54,13 +54,13 @@
  */
 bool archdep_file_exists(const char *path)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     if (access(path, F_OK) == 0) {
         return true;
     }
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     /* Possible TODO: convert path from UTF-8 to UTF-16LE and use the
      * more consistent GetFileAttributesW call */
     if (GetFileAttributesA(path) != INVALID_FILE_ATTRIBUTES) {

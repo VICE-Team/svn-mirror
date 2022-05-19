@@ -25,6 +25,10 @@ $ make -j
 macOS Xcode
 --------------------------------------------------------------------------------
 
+First make sure that your active development directory points to Xcode. To do
+this, open Xcode preferences, and on the Locations tab make sure that "Command
+Line Tools" is set to Xcode x.y.
+
 $ cd vice
 $ ./autogen.sh
 $ ./configure --enable-cmake <whatever configure arguments>

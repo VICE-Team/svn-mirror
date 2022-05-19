@@ -44,9 +44,8 @@
 
 #include <gtk/gtk.h>
 
-#include "archdep_defs.h"
 #include "vice_gtk3.h"
-#include "debug_gtk3.h"
+#include "c64mem.h"
 #include "debug.h"
 #include "machine.h"
 #include "lib.h"
@@ -56,9 +55,12 @@
 #include "uicommands.h"
 #include "ui.h"
 #include "uisidattach.h"
+#include "vsidstate.h"
 #include "vsidtuneinfowidget.h"
+#include "vsync.h"
 
 #include "vsidcontrolwidget.h"
+
 
 /** \brief  Emulation speed during fast forward
  */
@@ -75,6 +77,7 @@ typedef struct vsid_ctrl_button_s {
 } vsid_ctrl_button_t;
 
 
+#if 0
 /** \brief  Number of subtunes in the SID */
 static int tune_count;
 
@@ -83,6 +86,8 @@ static int tune_current;
 
 /** \brief  Default subtune number */
 static int tune_default;
+#endif
+
 
 /** \brief  Progress bar */
 static GtkWidget *progress = NULL;
@@ -102,6 +107,29 @@ static void fake_callback(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Trigger play of current tune */
+static void play_current_tune(void)
+{
+    vsid_state_t *state = vsid_state_lock();
+    int current = state->tune_current;
+#ifdef HAVE_DEBUG_GTK3UI
+    int count = state->tune_count;
+    int def = state->tune_default;
+#endif
+
+    vsid_state_unlock();
+
+    debug_gtk3("current: %d, total: %d, default: %d.",
+                current, count, def);
+    debug_gtk3("calling machine_trigger_reset(SOFT).");
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    debug_gtk3("calling psid_init_driver().");
+    psid_init_driver();
+    debug_gtk3("calling machine_play_psid(%d).", current);
+    machine_play_psid(current);
+}
+
+
 /** \brief  Callback for 'next subtune'
  *
  * Select next subtune, or wrap around to the first subtune
@@ -111,15 +139,19 @@ static void fake_callback(GtkWidget *widget, gpointer data)
  */
 static void next_tune_callback(GtkWidget *widget, gpointer data)
 {
-    if (tune_current >= tune_count || tune_current <= 0 ) {
-        tune_current = 1;
-    } else {
-        tune_current++;
-    }
+    vsid_state_t *state = vsid_state_lock();
 
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-    psid_init_driver();
-    machine_play_psid(tune_current);
+    debug_gtk3("called.");
+
+
+    if (state->tune_current >= state->tune_count || state->tune_current < 1) {
+        state->tune_current = 1;
+    } else {
+        state->tune_current++;
+    }
+    vsid_state_unlock();
+
+    play_current_tune();
 }
 
 
@@ -132,15 +164,19 @@ static void next_tune_callback(GtkWidget *widget, gpointer data)
  */
 static void prev_tune_callback(GtkWidget *widget, gpointer data)
 {
-    if (tune_current == 1) {
-        tune_current = tune_count;
-    } else {
-        tune_current--;
-    }
+    vsid_state_t *state;
 
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-    psid_init_driver();
-    machine_play_psid(tune_current);
+    state = vsid_state_lock();
+
+    debug_gtk3("called.");
+    if (state->tune_current <= 1) {
+        state->tune_current = state->tune_count;
+    } else {
+        state->tune_current--;
+    }
+    vsid_state_unlock();
+
+    play_current_tune();
 }
 
 
@@ -177,17 +213,29 @@ static void ffwd_callback(GtkWidget *widget, gpointer data)
  */
 static void play_callback(GtkWidget *widget, gpointer data)
 {
-    ui_pause_disable();
+    vsid_state_t *state;
+    int current;
 
-    if (tune_current <= 0) {
-        tune_current = tune_default;
-        vsid_tune_info_widget_set_time(0);
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    state = vsid_state_lock();
+    current = state->tune_current;
+
+    if (current <= 0) {
+        /* restart previous tune if stopped before */
+        current = state->tune_current = state->tune_default;
+        vsid_state_unlock();
+
+        /* reload unloaded PSID file if loaded before */
+        if (state->psid_filename != NULL) {
+            psid_load_file(state->psid_filename);
+        }
+
         psid_init_driver();
-        /* psid_init_tune(1); */
-        machine_play_psid(tune_current);
+        machine_play_psid(current);
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        ui_pause_disable();
     } else {
         /* return emulation speed back to 100% */
+        vsid_state_unlock();
         resources_set_int("Speed", 100);
     }
 }
@@ -203,6 +251,18 @@ static void play_callback(GtkWidget *widget, gpointer data)
 static void pause_callback(GtkWidget *widget, gpointer data)
 {
     ui_pause_toggle();
+}
+
+
+static void stop_callback(GtkWidget *widget, gpointer data)
+{
+    vsid_state_t *state = vsid_state_lock();
+
+    state->tune_current = -1;
+    vsid_state_unlock();
+
+    machine_play_psid(-1);
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
 
 
@@ -226,10 +286,8 @@ static const vsid_ctrl_button_t buttons[] = {
         "Play tune" },
     { "media-playback-pause", pause_callback,
         "Pause playback" },
-#if 0
     { "media-playback-stop", stop_callback,
-        "Stop playback (slightly screwed up at the moment, so it doesn't work)"},
-#endif
+        "Stop playback" },
     { "media-seek-forward", ffwd_callback,
         "Fast forward" },
     { "media-skip-forward", next_tune_callback,
@@ -306,7 +364,10 @@ GtkWidget *vsid_control_widget_create(void)
  */
 void vsid_control_widget_set_tune_count(int n)
 {
-    tune_count = n;
+    vsid_state_t *state = vsid_state_lock();
+
+    state->tune_count = n;
+    vsid_state_unlock();
 }
 
 
@@ -316,7 +377,10 @@ void vsid_control_widget_set_tune_count(int n)
  */
 void vsid_control_widget_set_tune_current(int n)
 {
-    tune_current = n;
+    vsid_state_t *state = vsid_state_lock();
+
+    state->tune_current = n;
+    vsid_state_unlock();
 }
 
 
@@ -326,7 +390,11 @@ void vsid_control_widget_set_tune_current(int n)
  */
 void vsid_control_widget_set_tune_default(int n)
 {
-    tune_default = n;
+    vsid_state_t *state = vsid_state_lock();
+
+    state->tune_default = n;
+
+    vsid_state_unlock();
 }
 
 

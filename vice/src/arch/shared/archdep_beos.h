@@ -39,26 +39,19 @@
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE   1
 #define ARCHDEP_VICII_DSCAN   1
-#define ARCHDEP_VICII_HWSCALE 0
 #define ARCHDEP_VDC_DSIZE     1
 #define ARCHDEP_VDC_DSCAN     1
-#define ARCHDEP_VDC_HWSCALE   0
 #define ARCHDEP_VIC_DSIZE     1
 #define ARCHDEP_VIC_DSCAN     1
-#define ARCHDEP_VIC_HWSCALE   0
 #define ARCHDEP_CRTC_DSIZE    1
 #define ARCHDEP_CRTC_DSCAN    1
-#define ARCHDEP_CRTC_HWSCALE  0
 #define ARCHDEP_TED_DSIZE     1
 #define ARCHDEP_TED_DSCAN     1
-#define ARCHDEP_TED_HWSCALE   0
 
-/* Filesystem dependant operators.  */
-#define FSDEVICE_DEFAULT_DIR "."
-#define FSDEV_DIR_SEP_STR    "/"
-#define FSDEV_DIR_SEP_CHR    '/'
-#define FSDEV_EXT_SEP_STR    "."
-#define FSDEV_EXT_SEP_CHR    '.'
+/* Filesystem-dependent constants  */
+#define ARCHDEP_FSDEVICE_DEFAULT_DIR "."
+#define ARCHDEP_DIR_SEP_STR "/"
+#define ARCHDEP_DIR_SEP_CHR '/'
 
 /* Path separator.  */
 #define ARCHDEP_FINDPATH_SEPARATOR_CHAR   ':'
@@ -86,12 +79,6 @@
 
 /* Default location of raw disk images.  */
 #define ARCHDEP_RAWDRIVE_DEFAULT "/dev/disk/floppy/raw"
-
-/* Access types */
-#define ARCHDEP_R_OK R_OK
-#define ARCHDEP_W_OK W_OK
-#define ARCHDEP_X_OK X_OK
-#define ARCHDEP_F_OK F_OK
 
 /* Standard line delimiter.  */
 #define ARCHDEP_LINE_DELIMITER "\n"

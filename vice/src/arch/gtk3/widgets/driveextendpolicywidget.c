@@ -47,10 +47,10 @@
 
 /** \brief  List of (name,id) tuples for the radio buttons
  */
-static vice_gtk3_combo_entry_int_t policies[] = {
-    { "Never extend",       0 },
-    { "Ask on extend",      1 },
-    { "Extend on access",   2 },
+static const vice_gtk3_combo_entry_int_t policies[] = {
+    { "Never extend",       DRIVE_EXTEND_NEVER },
+    { "Ask on extend",      DRIVE_EXTEND_ASK },
+    { "Extend on access",   DRIVE_EXTEND_ACCESS },
     { NULL,                 -1 }
 };
 
@@ -63,20 +63,14 @@ static vice_gtk3_combo_entry_int_t policies[] = {
  */
 GtkWidget *drive_extend_policy_widget_create(int unit)
 {
-    GtkWidget *grid;
     GtkWidget *combo;
-
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "40-track policy", -1);
-    /* store unit number in "UnitNumber" property for later use */
-    g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
     combo = vice_gtk3_resource_combo_box_int_new_sprintf(
             "Drive%dExtendImagePolicy", policies, unit);
+    g_object_set_data(G_OBJECT(combo), "UnitNumber", GINT_TO_POINTER(unit));
     gtk_widget_set_hexpand(combo, TRUE);
-    g_object_set(combo, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
+    gtk_widget_show_all(combo);
+    return combo;
 }
 
 

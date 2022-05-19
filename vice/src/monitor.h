@@ -73,9 +73,9 @@ struct interrupt_cpu_status_s;
 struct monitor_cpu_type_s {
     CPU_TYPE_t cpu_type;
     unsigned int (*asm_addr_mode_get_size)(unsigned int mode, unsigned int p0,
-                                           unsigned int p1, unsigned int p2);
+                                           unsigned int p1, unsigned int p2, unsigned int p3);
     const struct asm_opcode_info_s *(*asm_opcode_info_get)(unsigned int p0, unsigned int p1,
-                                                           unsigned int p2);
+                                                           unsigned int p2, unsigned int p3);
     int (*mon_assemble_instr)(const char *opcode_name, asm_mode_addr_info_t operand);
     unsigned int (*mon_register_get_val)(int mem, int reg_id);
     void (*mon_register_set_val)(int mem, int reg_id, uint16_t val);
@@ -84,6 +84,16 @@ struct monitor_cpu_type_s {
     struct mon_reg_list_s *(*mon_register_list_get)(int mem);
 };
 typedef struct monitor_cpu_type_s monitor_cpu_type_t;
+
+
+struct supported_cpu_type_list_s {
+    monitor_cpu_type_t *monitor_cpu_type_p;
+    struct supported_cpu_type_list_s *next;
+};
+typedef struct supported_cpu_type_list_s supported_cpu_type_list_t;
+
+/* A linked list of supported monitor_cpu_types for each memspace */
+extern supported_cpu_type_list_t *monitor_cpu_type_supported[NUM_MEMSPACES];
 
 /* This is the standard interface through which the monitor accesses a
    certain CPU.  */
@@ -186,12 +196,7 @@ extern void monitor_interface_destroy(monitor_interface_t *monitor_interface);
 extern int monitor_diskspace_dnr(int mem);
 extern int monitor_diskspace_mem(int dnr);
 
-#ifdef __GNUC__
-extern int mon_out(const char *format, ...)
-    __attribute__((format(printf, 1, 2)));
-#else
-extern int mon_out(const char *format, ...);
-#endif
+extern int mon_out(const char *format, ...) VICE_ATTR_PRINTF;
 
 /** Breakpoint interface.  */
 

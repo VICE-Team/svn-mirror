@@ -1,7 +1,6 @@
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
-	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/raster \
@@ -38,6 +37,8 @@ libvideo_a_SOURCES = \
 	render2x2ntsc.h \
 	render2x2pal.c \
 	render2x2pal.h \
+	render2x2palu.c \
+	render2x2palu.h \
 	render2x4.c \
 	render2x4.h \
 	render2x4rgbi.c \
@@ -59,3 +60,5 @@ libvideo_a_SOURCES = \
 	video-sound.c \
 	video-sound.h \
 	video-viewport.c
+
+EXTRA_DIST = render-common.c

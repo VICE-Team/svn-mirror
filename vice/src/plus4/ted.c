@@ -266,9 +266,9 @@ static int ted_get_crt_type(void)
     switch (video) {
         case MACHINE_SYNC_PAL:
         case MACHINE_SYNC_PALN:
-            return 1; /* PAL */
+            return VIDEO_CRT_TYPE_PAL;
         default:
-            return 0; /* NTSC */
+            return VIDEO_CRT_TYPE_NTSC;
     }
 }
 
@@ -770,7 +770,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
         /*log_debug("Vsync %d %d",ted.tv_current_line, ted.ted_raster_counter);*/
 
         vsync_do_vsync(ted.raster.canvas);
-                      
+
         ted.tv_current_line = 0;
 
         /* FIXME increment at appropriate cycle */

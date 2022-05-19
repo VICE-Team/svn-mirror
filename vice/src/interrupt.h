@@ -94,16 +94,16 @@ struct interrupt_cpu_status_s {
 
     /* Various subsystems use this to call a function next cycle  */
     void (**trap_func)(uint16_t, void *data);
-    
+
     /* Data to pass to the trap_func when called. */
     void **trap_data;
-    
+
     /* Size of the trap funcs/datas array. */
     int traps_size;
-    
+
     /* Index of the next trap func to execute. */
     int traps_next;
-    
+
     /* How many pending trap funcs to call. */
     int traps_count;
 

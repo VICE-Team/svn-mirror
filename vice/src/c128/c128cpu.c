@@ -33,6 +33,7 @@
 #include "vicii.h"
 #include "viciitypes.h"
 #include "z80.h"
+#include "c128mmu.h"
 
 #ifdef FEATURE_CPUMEMHISTORY
 #include "monitor.h"
@@ -112,7 +113,6 @@ inline static void c128cpu_memory_refresh_alarm_handler(void)
 #define CPU_ADDITIONAL_RESET() c128cpu_memory_refresh_clk = 11
 
 #ifdef FEATURE_CPUMEMHISTORY
-#warning "CPUMEMHISTORY implementation for x128 is incomplete"
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     monitor_memmap_store(addr, MEMMAP_RAM_W);

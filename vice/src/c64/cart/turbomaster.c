@@ -507,7 +507,7 @@ static void set_write_item(int index, int config, void (*func)(WORD addr, BYTE v
     turbomaster_mem_write_tab[index][config] = func;
 }
 
-/* 
+/*
 config charen hiram loram $00-$9f $a0-$bf    $c0-cf $d0-$df   $e0-$ff
   0      0      0     0     RAM     RAM        RAM    RAM       RAM
   1      0      0     1     RAM     RAM        RAM  CHAR ROM    RAM

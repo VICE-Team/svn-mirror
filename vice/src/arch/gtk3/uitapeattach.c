@@ -41,7 +41,9 @@
 #include "lastdir.h"
 #include "resources.h"
 #include "tapecontents.h"
+#include "tapeport.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uimachinewindow.h"
 
 #include "uitapeattach.h"
@@ -119,36 +121,40 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 /** \brief  Trigger autostart
  *
  * \param[in]   widget      dialog
+ * \param[in]   port        tape port number (1 or 2)
  * \param[in]   index       file index in the directory preview
  * \param[in]   autostart   issue "RUN:" after loading
  */
-static void do_autostart(GtkWidget *widget, int index, int autostart)
+static void do_autostart(GtkWidget *widget, int port, int index, int autostart)
 {
     gchar *filename;
     gchar *filename_locale;
-
+#if 0
+    debug_gtk3("Got port %d, index %d, autostart %d.", port, index, autostart);
+#endif
     lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-
     filename_locale = file_chooser_convert_to_locale(filename);
     if (autostart_tape(
                 filename_locale,
                 NULL,   /* program name */
                 index,
-                autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
+                autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD,
+                port - 1    /* function uses 0/1 */) < 0) {
         /* oeps */
         log_error(LOG_ERR, "autostarting tape '%s' failed.", filename_locale);
+        ui_error("Autostarting tape '%s' failed.", filename_locale);
     }
     g_free(filename_locale);
 }
 
 
-/** \brief  attach image
+/** \brief  Attach image to datasette
  *
- * \param[in]   widget      dialog
- * \param[in]   user_data   file index in the directory preview
+ * \param[in]   widget  dialog
+ * \param[in]   port    datasette port (1 or 2 (xpet))
  */
-static void do_attach(GtkWidget *widget, gpointer user_data)
+static void do_attach(GtkWidget *widget, int port)
 {
     gchar *filename;
     gchar *filename_locale;
@@ -159,9 +165,12 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
 
     filename_locale = file_chooser_convert_to_locale(filename);
 
-    if (tape_image_attach(1, filename_locale) < 0) {
+    if (tape_image_attach(TAPEPORT_PORT_1 + port, filename_locale) < 0) {
         /* failed */
-        log_error(LOG_ERR, "attaching tape '%s' failed.", filename_locale);
+        log_error(LOG_ERR, "attaching tape '%s' to port #%d failed.",
+                 filename_locale, port);
+        ui_error("Attaching tape '%s' to port #%d failed.",
+                 filename_locale, port);
     }
     g_free(filename_locale);
 }
@@ -196,22 +205,23 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
  *
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
- * \param[in]   user_data   index in the preview widget
- *
- * TODO:    proper (error) messages, which requires implementing ui_error() and
- *          ui_message() and moving them into gtk3/widgets to avoid circular
- *          references
+ * \param[in]   user_data   unit number
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     int index = content_preview_widget_get_index(preview_widget);
     int autostart = 0;
+    int unit;
 
     resources_get_int("AutostartOnDoubleclick", &autostart);
-
+    unit = GPOINTER_TO_INT(user_data);
+#if 0
+    debug_gtk3("Got port %d.", port);
+    debug_gtk3("Index %d.", index);
+#endif
     /* first, to make the following logic less funky, map some events to others,
-       depending on whether autostart-on-doubleclick is enabled or not, and 
+       depending on whether autostart-on-doubleclick is enabled or not, and
        depending on the event coming from the preview window or not. */
     switch (response_id) {
         /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
@@ -253,7 +263,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     switch (response_id) {
         /* 'Open' button clicked when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_CUSTOM_OPEN:
-            do_attach(widget, user_data);
+            do_attach(widget, unit);
 
             gtk_widget_destroy(widget);
             break;
@@ -262,14 +272,14 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         case VICE_RESPONSE_AUTOSTART:
         /* double-click on file in the preview widget when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_AUTOSTART_INDEX:
-            do_autostart(widget, index + 1, 1);
+            do_autostart(widget, unit, index + 1, 1);
 
             gtk_widget_destroy(widget);
             break;
 
         /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
         case VICE_RESPONSE_AUTOLOAD_INDEX:
-            do_autostart(widget, index + 1, 0);
+            do_autostart(widget, unit, index + 1, 0);
 
             gtk_widget_destroy(widget);
             break;
@@ -320,24 +330,27 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
 }
 
 
-#ifndef SANDBOX_MODE
 /** \brief  Create the tape attach dialog
  *
- * \param[in]   parent  parent widget, used to get the top level window
+ * \param[in]   port    tape port (1 or 2 (xpet))
  *
  * \return  GtkFileChooserDialog
  */
-static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
+static GtkWidget *create_tape_attach_dialog(int port)
 {
     GtkWidget *dialog;
     size_t i;
     int autostart = 0;
-
+    char title[256];
+#if 0
+    debug_gtk3("Got port %d.", port);
+#endif
     resources_get_int("AutostartOnDoubleclick", &autostart);
+    g_snprintf(title, sizeof(title), "Attach a tape image to port #%d", port);
 
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
-            "Attach a tape image",
+            title,
             ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_OPEN,
             /* buttons */
@@ -377,8 +390,10 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
                                       create_extra_widget(dialog));
 
-    preview_widget = content_preview_widget_create(dialog, tapecontents_read,
-            on_response);
+    preview_widget = content_preview_widget_create(dialog,
+                                                   tapecontents_read,
+                                                   on_response,
+                                                   port);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 
@@ -390,63 +405,22 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
 
     /* connect "reponse" handler: the `user_data` argument gets filled in when
      * the "response" signal is emitted: a response ID */
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-    g_signal_connect(dialog, "update-preview", G_CALLBACK(on_update_preview),
-            NULL);
-    g_signal_connect_unlocked(dialog, "selection-changed",
-            G_CALLBACK(on_selection_changed), NULL);
+    g_signal_connect(dialog,
+                     "response",
+                     G_CALLBACK(on_response),
+                     GINT_TO_POINTER(port));
+    g_signal_connect(dialog,
+                     "update-preview",
+                     G_CALLBACK(on_update_preview),
+                     NULL);
+    g_signal_connect_unlocked(dialog,
+                              "selection-changed",
+                              G_CALLBACK(on_selection_changed),
+                              NULL);
 
     return dialog;
 
 }
-
-#else
-
-/** \brief  Create the tape attach dialog (sandbox version)
- *
- * \param[in]   parent  parent widget, used to get the top level window
- *
- * \return  GtkFileChooserNative
- */
-static GtkFileChooserNative *create_tape_attach_dialog_native(GtkWidget *parent)
-{
-    GtkFileChooserNative *dialog;
-
-    /* create new dialog */
-    dialog = gtk_file_chooser_native_new(
-            "Attach a tape image",
-            ui_get_active_window(),
-            GTK_FILE_CHOOSER_ACTION_OPEN,
-            /* buttons */
-            NULL, NULL);
-#if 0
-    /* set modal so mouse-grab doesn't get triggered */
-    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
-    /* set last directory */
-    lastdir_set(dialog, &last_dir);
-
-    /* add 'extra' widget: 'readonly' and 'show preview' checkboxes */
-    gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
-                                      create_extra_widget(dialog));
-
-    preview_widget = content_preview_widget_create(dialog, tapecontents_read,
-            on_response);
-    gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
-            preview_widget);
-
-    /* add filters */
-    for (i = 0; filters[i].name != NULL; i++) {
-        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
-                create_file_chooser_filter(filters[i], FALSE));
-    }
-#endif
-    /* connect "reponse" handler: the `user_data` argument gets filled in when
-     * the "response" signal is emitted: a response ID */
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response_native), NULL);
-
-    return dialog;
-}
-#endif
 
 
 /** \brief  Callback for the "attach tape image" menu items
@@ -454,21 +428,17 @@ static GtkFileChooserNative *create_tape_attach_dialog_native(GtkWidget *parent)
  * Creates the dialog and runs it.
  *
  * \param[in]   widget      menu item triggering the callback
- * \param[in]   user_data   ignored
+ * \param[in]   user_data   tape port (integer, 1 or 2)
  *
  * \return  TRUE (signal to Gtk the event was 'consumed')
  */
 gboolean ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
 {
-#ifndef SANDBOX_MODE
     GtkWidget *dialog;
-    dialog = create_tape_attach_dialog(widget);
+    int port = GPOINTER_TO_INT(user_data);
+
+    dialog = create_tape_attach_dialog(port);
     gtk_widget_show(dialog);
-#else
-    GtkFileChooserNative *dialog;
-    dialog = create_tape_attach_dialog_native(widget);
-    gtk_native_dialog_show(GTK_NATIVE_DIALOG(dialog));
-#endif
     return TRUE;
 }
 
@@ -479,13 +449,15 @@ gboolean ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
  * presented.
  *
  * \param[in]   widget      menu item triggering the callback
- * \param[in]   user_data   ignored
+ * \param[in]   user_data   tape port (integer, 1 or 2)
  *
  * \return  TRUE
  */
 gboolean ui_tape_detach_callback(GtkWidget *widget, gpointer user_data)
 {
-    tape_image_detach(1);
+    int port = GPOINTER_TO_INT(user_data);
+
+    tape_image_detach(port);
     return TRUE;
 }
 

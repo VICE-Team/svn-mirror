@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUG_SERIAL_IEC_BUS
+/* #define DEBUG_SERIAL_IEC_BUS */
 
 #include "vice.h"
 

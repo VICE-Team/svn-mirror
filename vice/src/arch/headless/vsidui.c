@@ -38,7 +38,7 @@
 
 void vsid_ui_close(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     hvsc_exit();
 }
@@ -50,7 +50,7 @@ void vsid_ui_close(void)
  */
 void vsid_ui_display_author(const char *author)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -60,7 +60,7 @@ void vsid_ui_display_author(const char *author)
  */
 void vsid_ui_display_copyright(const char *copyright)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -70,7 +70,7 @@ void vsid_ui_display_copyright(const char *copyright)
  */
 void vsid_ui_display_irqtype(const char *irq)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -80,7 +80,7 @@ void vsid_ui_display_irqtype(const char *irq)
  */
 void vsid_ui_display_name(const char *name)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -90,7 +90,7 @@ void vsid_ui_display_name(const char *name)
  */
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -100,7 +100,7 @@ void vsid_ui_display_nr_of_tunes(int count)
  */
 void vsid_ui_display_sid_model(int model)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -110,7 +110,7 @@ void vsid_ui_display_sid_model(int model)
  */
 void vsid_ui_display_sync(int sync)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -120,7 +120,7 @@ void vsid_ui_display_sync(int sync)
  */
 void vsid_ui_display_time(unsigned int dsec)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -130,7 +130,7 @@ void vsid_ui_display_time(unsigned int dsec)
  */
 void vsid_ui_display_tune_nr(int nr)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -140,7 +140,7 @@ void vsid_ui_display_tune_nr(int nr)
  */
 void vsid_ui_setdrv(char *driver_info_text)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -150,7 +150,7 @@ void vsid_ui_setdrv(char *driver_info_text)
  */
 void vsid_ui_set_default_tune(int nr)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -160,7 +160,7 @@ void vsid_ui_set_default_tune(int nr)
  */
 void vsid_ui_set_driver_addr(uint16_t addr)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -170,7 +170,7 @@ void vsid_ui_set_driver_addr(uint16_t addr)
  */
 void vsid_ui_set_load_addr(uint16_t addr)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -180,7 +180,7 @@ void vsid_ui_set_load_addr(uint16_t addr)
  */
 void vsid_ui_set_init_addr(uint16_t addr)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -190,7 +190,7 @@ void vsid_ui_set_init_addr(uint16_t addr)
  */
 void vsid_ui_set_play_addr(uint16_t addr)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -200,7 +200,7 @@ void vsid_ui_set_play_addr(uint16_t addr)
  */
 void vsid_ui_set_data_size(uint16_t size)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 
@@ -211,8 +211,8 @@ void vsid_ui_set_data_size(uint16_t size)
  */
 static int identify_canvas(video_canvas_t *canvas)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     if (canvas != vicii_get_canvas()) {
         return -1;
     }
@@ -227,7 +227,7 @@ static int identify_canvas(video_canvas_t *canvas)
  */
 int vsid_ui_init(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     return 0;
 }

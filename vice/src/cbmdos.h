@@ -154,6 +154,7 @@ struct cbmdos_cmd_parse_plus_s {
     unsigned int readmode; /* output */
     unsigned int filetype; /* output */
     unsigned int recordlength; /* output */
+    unsigned int colon; /* output, 0=no colon found, !0=colon found */
 };
 typedef struct cbmdos_cmd_parse_plus_s cbmdos_cmd_parse_plus_t;
 

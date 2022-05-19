@@ -86,6 +86,8 @@ static userport_device_t rtc_device = {
     NULL,                               /* NO read sp1 pin function */
     NULL,                               /* NO store sp2 pin function */
     NULL,                               /* NO read sp2 pin function */
+    NULL,                               /* NO reset function */
+    NULL,                               /* NO powerup function */
     userport_rtc_write_snapshot_module, /* snapshot write function */
     userport_rtc_read_snapshot_module   /* snapshot read function */
 };
@@ -199,7 +201,7 @@ static uint8_t userport_rtc_read_pbx(uint8_t orig)
    BYTE  | rtc save | save rtc offset upon detacht
  */
 
-static char snap_module_name[] = "UPRTCDS1307";
+static const char snap_module_name[] = "UPRTCDS1307";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
@@ -208,7 +210,7 @@ static int userport_rtc_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

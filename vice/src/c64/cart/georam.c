@@ -40,6 +40,7 @@
 #include "machine.h"
 #include "mem.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "georam.h"
 #include "snapshot.h"
@@ -230,6 +231,31 @@ static int georam_dump(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void georam_powerup(void)
+{
+    if ((georam_filename != NULL) && (*georam_filename != 0)) {
+        /* do not init ram if a file is used for ram content (like battery backup) */
+        return;
+    }
+    if (georam_ram) {
+        ram_init_with_pattern(georam_ram, georam_size, &ramparam);
+    }
+}
+
 static int georam_activate(void)
 {
     if (!georam_size) {
@@ -240,7 +266,9 @@ static int georam_activate(void)
 
     /* Clear newly allocated RAM.  */
     if (georam_size > old_georam_ram_size) {
-        memset(georam_ram, 0, (size_t)(georam_size - old_georam_ram_size));
+        /* memset(georam_ram, 0, (size_t)(georam_size - old_georam_ram_size)); */
+        ram_init_with_pattern(&georam_ram[old_georam_ram_size],
+                              (unsigned int)(georam_size - old_georam_ram_size), &ramparam);
     }
 
     old_georam_ram_size = georam_size;
@@ -547,13 +575,17 @@ void georam_config_setup(uint8_t *rawcart)
 int georam_bin_attach(const char *filename, uint8_t *rawcart)
 {
     FILE *fd;
-    size_t size;
+    off_t size;
 
     fd = fopen(filename, MODE_READ);
     if (fd == NULL) {
         return -1;
     }
-    size = util_file_length(fd);
+    size = archdep_file_size(fd);
+    if (size < 0) {
+        fclose(fd);
+        return -1;
+    }
     fclose(fd);
 
     if (set_georam_size((uint32_t)(size / 1024), NULL) < 0) {
@@ -564,7 +596,7 @@ int georam_bin_attach(const char *filename, uint8_t *rawcart)
         return -1;
     }
 
-    if (util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+    if (util_file_load(filename, rawcart, (size_t)size, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
 

@@ -147,12 +147,6 @@ static UI_MENU_CALLBACK(start_recording_callback)
 }
 
 static ui_menu_entry_t sound_output_driver_menu[] = {
-#ifdef HAVE_DEVICES_AHI_H
-    { "AHI",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"ahi" },
-#endif
 #ifdef USE_ALSA
     { "ALSA",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -179,7 +173,7 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"dummy" },
-#if defined(WIN32) && defined(USE_DXSOUND)
+#if defined(WINDOWS_COMPILE) && defined(USE_DXSOUND)
     { "DirectX",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
@@ -203,25 +197,26 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"sgi" },
 #endif
-#if defined(HAVE_SYS_AUDIOIO_H) && !defined(__NetBSD__) && !defined(__OpenBSD__)
+#if defined(HAVE_SYS_AUDIOIO_H) && !defined(OPENBSD_COMPILE)
+# if !defined(NETBSD_COMPILE)
     { "Sun audio",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"sun" },
-#endif
-#if defined(HAVE_SYS_AUDIOIO_H) && defined(__NetBSD__) && !defined(__OpenBSD__)
+# else
     { "NetBSD",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"netbsd" },
+# endif
 #endif
-#if defined(USE_OSS) && !defined(__FreeBSD__) && !defined(__bsdi__)
+#if defined(USE_OSS) && !defined(FREEBSD_COMPILE)
     { "OSS",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"uss" },
 #endif
-#ifdef WIN32
+#ifdef WINDOWS_COMPILE
     { "WMM",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,

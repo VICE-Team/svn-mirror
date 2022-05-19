@@ -36,30 +36,30 @@
 
 console_t *uimon_window_open(bool display_now)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     return uimon_window_resume();
 }
 
 console_t *uimon_window_resume(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     /* TODO: get actual values from the console the program runs in? */
     static console_t console_log = { 1024, 1024, 0, 0, NULL };
-    
+
     return &console_log;
 }
 
 void uimon_window_suspend(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 int uimon_out(const char *buffer)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     log_message(LOG_DEFAULT, "Monitor: %s", buffer);
 
     return 0;
@@ -67,22 +67,22 @@ int uimon_out(const char *buffer)
 
 void uimon_window_close(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 void uimon_notify_change(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 void uimon_set_interface(struct monitor_interface_s **interf, int i)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }
 
 char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     return NULL;
 }

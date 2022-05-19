@@ -100,7 +100,6 @@ syn match vhkActionName "\<snapshot-quickload\>"
 syn match vhkActionName "\<snapshot-quicksave\>"
 syn match vhkActionName "\<snapshot-save\>"
 syn match vhkActionName "\<swap-controlport-toggle\>"
-syn match vhkActionName "\<swap-userport-toggle\>"
 syn match vhkActionName "\<tape-attach-1\>"
 syn match vhkActionName "\<tape-attach-2\>"
 syn match vhkActionName "\<tape-create-1\>"
@@ -122,7 +121,9 @@ syn match vhkActionName "\<tape-rewind-2\>"
 syn match vhkActionName "\<tape-stop-1\>"
 syn match vhkActionName "\<tape-stop-2\>"
 syn match vhkActionName "\<warp-mode-toggle\>"
-
+syn match vhkActionName "\<psid-load\>"
+syn match vhkActionName "\<psid-override-toggle\>"
+syn match vhkActionName "\<psid-subtune-\([1-9]\|10\)\>"
 
 " Comments
 syn match vhkComment "[#;].*$" contains=vhkTodo

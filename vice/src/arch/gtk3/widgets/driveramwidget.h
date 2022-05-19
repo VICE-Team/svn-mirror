@@ -27,9 +27,9 @@
 #ifndef VICE_DRIVERAMWIDGET_H
 #define VICE_DRIVERAMWIDGET_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *drive_ram_widget_create(int unit);
+GtkWidget * drive_ram_widget_create(int unit);
+void        drive_ram_widget_update(GtkWidget *widget, int model);
 
 #endif

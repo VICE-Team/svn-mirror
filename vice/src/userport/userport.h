@@ -30,43 +30,38 @@
 #include "snapshot.h"
 #include "types.h"
 
-#define USERPORT_COLLISION_METHOD_DETACH_ALL    0
-#define USERPORT_COLLISION_METHOD_DETACH_LAST   1
-#define USERPORT_COLLISION_METHOD_AND_WIRES     2
-
 /* #define USERPORT_EXPERIMENTAL_DEVICES */
 
 #define USERPORT_NO_PULSE   0
 #define USERPORT_PULSE      1
 
-enum {
-    USERPORT_DEVICE_NONE = 0,
-    USERPORT_DEVICE_PRINTER,
-    USERPORT_DEVICE_RS232_MODEM,
-    USERPORT_DEVICE_JOYSTICK_CGA,
-    USERPORT_DEVICE_JOYSTICK_PET,
-    USERPORT_DEVICE_JOYSTICK_HUMMER,
-    USERPORT_DEVICE_JOYSTICK_OEM,
-    USERPORT_DEVICE_JOYSTICK_HIT,
-    USERPORT_DEVICE_JOYSTICK_KINGSOFT,
-    USERPORT_DEVICE_JOYSTICK_STARBYTE,
-    USERPORT_DEVICE_JOYSTICK_SYNERGY,
-    USERPORT_DEVICE_DAC,
-    USERPORT_DEVICE_DIGIMAX,
-    USERPORT_DEVICE_4BIT_SAMPLER,
-    USERPORT_DEVICE_8BSS,
-    USERPORT_DEVICE_RTC_58321A,
-    USERPORT_DEVICE_RTC_DS1307,
-    USERPORT_DEVICE_PETSCII_SNESPAD,
-    USERPORT_DEVICE_SPACEBALLS,
-    USERPORT_DEVICE_SUPERPAD64,
-#ifdef USERPORT_EXPERIMENTAL_DEVICES
-    USERPORT_DEVICE_DIAG_586220_HARNESS,
-#endif
-    USERPORT_DEVICE_DRIVE_PAR_CABLE,
-    USERPORT_DEVICE_IO_SIMULATION,
-    USERPORT_MAX_DEVICES
-};
+#define USERPORT_DEVICE_NONE                0
+#define USERPORT_DEVICE_PRINTER             1
+#define USERPORT_DEVICE_RS232_MODEM         2
+#define USERPORT_DEVICE_JOYSTICK_CGA        3
+#define USERPORT_DEVICE_JOYSTICK_PET        4
+#define USERPORT_DEVICE_JOYSTICK_HUMMER     5
+#define USERPORT_DEVICE_JOYSTICK_OEM        6
+#define USERPORT_DEVICE_JOYSTICK_HIT        7
+#define USERPORT_DEVICE_JOYSTICK_KINGSOFT   8
+#define USERPORT_DEVICE_JOYSTICK_STARBYTE   9
+#define USERPORT_DEVICE_JOYSTICK_SYNERGY    10
+#define USERPORT_DEVICE_DAC                 11
+#define USERPORT_DEVICE_DIGIMAX             12
+#define USERPORT_DEVICE_4BIT_SAMPLER        13
+#define USERPORT_DEVICE_8BSS                14
+#define USERPORT_DEVICE_RTC_58321A          15
+#define USERPORT_DEVICE_RTC_DS1307          16
+#define USERPORT_DEVICE_PETSCII_SNESPAD     17
+#define USERPORT_DEVICE_SUPERPAD64          18
+#define USERPORT_DEVICE_DIAG_586220_HARNESS 19
+#define USERPORT_DEVICE_DRIVE_PAR_CABLE     20
+#define USERPORT_DEVICE_IO_SIMULATION       21
+#define USERPORT_DEVICE_WIC64               22
+#define USERPORT_DEVICE_SPACEBALLS          23
+#define USERPORT_DEVICE_SPT_JOYSTICK        24
+
+#define USERPORT_MAX_DEVICES                25
 
 enum {
     USERPORT_DEVICE_TYPE_NONE = 0,
@@ -79,6 +74,7 @@ enum {
     USERPORT_DEVICE_TYPE_RTC,
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     USERPORT_DEVICE_TYPE_HARNESS,
+    USERPORT_DEVICE_TYPE_WIFI,
 #endif
     USERPORT_DEVICE_TYPE_IO_SIMULATION,
 };
@@ -130,6 +126,12 @@ typedef struct userport_device_s {
     /* Read sp2 pin */
     uint8_t (*read_sp2)(uint8_t orig);
 
+    /* device reset function, reset line on the userport */
+    void (*reset)(void);
+
+    /* device powerup function, gets called when a hard reset is done */
+    void (*powerup)(void);
+
     /* Snapshot write */
     int (*write_snapshot)(struct snapshot_s *s);
 
@@ -144,6 +146,7 @@ typedef struct userport_port_props_s {
     void (*set_flag)(uint8_t val); /* pointer to set flag function */
     int has_pc;                    /* port has the pc line */
     int has_sp12;                  /* port has the sp1 and sp2 lines */
+    int has_reset;                 /* port had the reset line */
 } userport_port_props_t;
 
 typedef struct userport_desc_s {
@@ -161,12 +164,16 @@ extern uint8_t read_userport_pa2(uint8_t orig);
 extern void store_userport_pa2(uint8_t val);
 extern uint8_t read_userport_pa3(uint8_t orig);
 extern void store_userport_pa3(uint8_t val);
-extern void set_userport_flag(uint8_t val);
 extern uint8_t read_userport_pc(uint8_t orig);
 extern uint8_t read_userport_sp1(uint8_t orig);
 extern void store_userport_sp1(uint8_t val);
 extern uint8_t read_userport_sp2(uint8_t orig);
 extern void store_userport_sp2(uint8_t val);
+extern void userport_reset(void);
+extern void userport_powerup(void);
+
+/* use this function from userport device code to set the userport flag */
+extern void set_userport_flag(uint8_t val);
 
 extern int userport_resources_init(void);
 extern int userport_cmdline_options_init(void);

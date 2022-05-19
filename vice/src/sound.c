@@ -52,7 +52,6 @@
 #include "resources.h"
 #include "sound.h"
 #include "types.h"
-#include "tick.h"
 #include "uiapi.h"
 #include "util.h"
 #include "vsync.h"
@@ -62,7 +61,7 @@
 
 static log_t sound_log = LOG_ERR;
 
-static void sounddev_close(sound_device_t **dev);
+static void sounddev_close(const sound_device_t **dev);
 
 /* ------------------------------------------------------------------------- */
 
@@ -77,13 +76,13 @@ static void sounddev_close(sound_device_t **dev);
 /* ------------------------------------------------------------------------- */
 
 typedef struct sound_register_devices_s {
-    char *name;
+    const char *name;
     int (*init)(void);
     int is_playback_device;
 } sound_register_devices_t;
 
 /* This table is used to specify the order of inits of the playback and recording devices */
-static sound_register_devices_t sound_register_devices[] = {
+static const sound_register_devices_t sound_register_devices[] = {
 
     /* the "native" platform specific drivers should come first, sorted by
        priority (most wanted first) */
@@ -102,35 +101,24 @@ static sound_register_devices_t sound_register_devices[] = {
 #endif
 
 /* Don't use the NetBSD/SUN sound driver for OpenBSD */
-#if defined(HAVE_SYS_AUDIOIO_H) && !defined(__OpenBSD__)
-#if defined(__NetBSD__)
+#if defined(HAVE_SYS_AUDIOIO_H) && !defined(OPENBSD_COMPILE)
+#if defined(NETBSD_COMPILE)
     { "netbsd", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
 #else
-    /* Really? */
     { "sun", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
-#endif /* __NetBSD__*/
+#endif /* NETBSD_COMPILE */
 #endif /* HAVE_SYS_AUDIOIO_H */
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #ifdef USE_DXSOUND
     { "dx", sound_init_dx_device, SOUND_PLAYBACK_DEVICE },
 #endif
-#if !defined(__XBOX__)
     { "wmm", sound_init_wmm_device, SOUND_PLAYBACK_DEVICE },
-#endif
-#endif
-
-#if defined(__OS2__) && !defined(USE_SDLUI)
-    { "dart", sound_init_dart_device, SOUND_PLAYBACK_DEVICE },
 #endif
 
 #ifdef BEOS_COMPILE
     { "beos", sound_init_beos_device, SOUND_PLAYBACK_DEVICE },
     { "bsp", sound_init_bsp_device, SOUND_PLAYBACK_DEVICE },
-#endif
-
-#if defined(AMIGA_SUPPORT) && defined(HAVE_DEVICES_AHI_H)
-    { "ahi", sound_init_ahi_device, SOUND_PLAYBACK_DEVICE },
 #endif
 
     /* SDL driver last, after all platform specific ones */
@@ -326,7 +314,7 @@ static int fragment_size;
 static int output_option;
 
 /* divisors for fragment size calculation */
-static int fragment_divisor[] = {
+static const int fragment_divisor[] = {
     32, /* 100ms / 32 = 0.625ms */
     16, /* 100ms / 16 = 1.25ms */
      8, /* 100ms / 8 = 2.5ms */
@@ -494,7 +482,7 @@ static const resource_int_t resources_int[] = {
       (void *)&sample_rate, set_sample_rate, NULL },
     { "SoundBufferSize", SOUND_SAMPLE_BUFFER_SIZE, RES_EVENT_NO, NULL,
       (void *)&buffer_size, set_buffer_size, NULL },
-    { "SoundFragmentSize", SOUND_FRAGMENT_MEDIUM, RES_EVENT_NO, NULL,
+    { "SoundFragmentSize", SOUND_FRAGMENT_SIZE, RES_EVENT_NO, NULL,
       (void *)&fragment_size, set_fragment_size, NULL },
     { "SoundVolume", 100, RES_EVENT_NO, NULL,
       (void *)&volume, set_volume, NULL },
@@ -672,10 +660,10 @@ typedef struct {
     int bufptr;
 
     /* pointer to playback device structure in use */
-    sound_device_t *playdev;
+    const sound_device_t *playdev;
 
     /* pointer to playback device structure in use */
-    sound_device_t *recdev;
+    const sound_device_t *recdev;
 
     /* number of samples in a fragment */
     int fragsize;
@@ -696,11 +684,11 @@ static snddata_t snddata;
 /* device registration code */
 #define MAX_SOUND_DEVICES 24
 
-static sound_device_t *sound_devices[MAX_SOUND_DEVICES];
+static const sound_device_t *sound_devices[MAX_SOUND_DEVICES];
 
 static int sound_device_count = 0;
 
-int sound_register_device(sound_device_t *pdevice)
+int sound_register_device(const sound_device_t *pdevice)
 {
     if (sound_device_count < MAX_SOUND_DEVICES) {
         sound_devices[sound_device_count] = pdevice;
@@ -726,19 +714,29 @@ const char *sound_device_name(unsigned int num)
 static int sound_error(const char *msg)
 {
     sound_close();
-    
+
     log_message(sound_log, "%s", msg);
 
     if (!console_mode && !video_disabled_mode) {
-        char *txt = lib_msprintf("Sound: %s", msg);
-        ui_error(txt);
-        lib_free(txt);
+        ui_error("Sound: %s", msg);
     }
 
     playback_enabled = 0;
 
     return 1;
 }
+
+#if 0
+/* close sid device and show error dialog */
+static int sound_error_log_only(const char *msg)
+{
+    sound_close();
+    log_message(sound_log, "%s", msg);
+    playback_enabled = 0;
+
+    return 1;
+}
+#endif
 
 static int16_t *temp_buffer = NULL;
 static int temp_buffer_size = 0;
@@ -806,7 +804,7 @@ static int sid_open(void)
             /* already open */
             continue;
         }
-        
+
         if (!(snddata.psid[c] = sound_machine_open(c))) {
             return sound_error("Cannot open SID engine");
         }
@@ -838,7 +836,7 @@ static int sid_init(void)
     snddata.fclk = SOUNDCLK_CONSTANT(maincpu_clk);
     snddata.wclk = maincpu_clk;
     snddata.lastclk = maincpu_clk;
-    
+
     for (c = 0; c < snddata.sound_chip_channels; c++) {
         if (!sound_machine_init(snddata.psid[c], speed, cycles_per_sec) || !playback_enabled) {
             return sound_error("Cannot initialize SID engine");
@@ -871,7 +869,7 @@ int sound_open(void)
     int c, i, j;
     int channels_cap;
     int channels;
-    sound_device_t *pdev, *rdev;
+    const sound_device_t *pdev, *rdev;
     char *playname, *recname;
     char *playparam, *recparam;
     char *err;
@@ -937,7 +935,7 @@ int sound_open(void)
 
     /* find pdev */
     for (i = 0; (pdev = sound_devices[i]); i++) {
-        if (!playname || (pdev->name && !strcasecmp(playname, pdev->name))) {
+        if (!playname || (pdev->name && !util_strcasecmp(playname, pdev->name))) {
             break;
         }
     }
@@ -965,13 +963,13 @@ int sound_open(void)
     fragnr = (int)((speed * bufsize + fragsize - 1) / fragsize);
 
     if (pdev) {
-        
+
         snddata.playdev = pdev;
         snddata.fragsize = fragsize;
         snddata.fragnr = fragnr;
         snddata.bufsize = fragsize * fragnr;
         snddata.bufptr = 0;
-        
+
         if (pdev->init) {
             channels_cap = channels;
             if (pdev->init(playparam, &speed, &fragsize, &fragnr, &channels_cap)) {
@@ -1035,7 +1033,7 @@ int sound_open(void)
     sound_state_changed = FALSE;
 
     for (i = 0; (rdev = sound_devices[i]); i++) {
-        if (recname && rdev->name && !strcasecmp(recname, rdev->name)) {
+        if (recname && rdev->name && !util_strcasecmp(recname, rdev->name)) {
             break;
         }
     }
@@ -1052,7 +1050,7 @@ int sound_open(void)
         }
 
         if (rdev->bufferspace != NULL) {
-            ui_error("Warning! Recording device %s seems to be a realtime device!");
+            ui_error("Warning! Recording device %s seems to be a realtime device!", recname);
         }
 
         if (rdev->init) {
@@ -1079,7 +1077,7 @@ int sound_open(void)
     return 0;
 }
 
-static void sounddev_close(sound_device_t **dev)
+static void sounddev_close(const sound_device_t **dev)
 {
     if (*dev) {
         log_message(sound_log, "Closing device `%s'", (*dev)->name);
@@ -1120,7 +1118,7 @@ void sound_close(void)
 /* run sid */
 static int sound_run_sound(void)
 {
-#if 0
+#if 1
     static int overflow_warning_count = 0;
 #endif
 
@@ -1150,10 +1148,11 @@ static int sound_run_sound(void)
                                              snddata.sound_output_channels,
                                              snddata.sound_chip_channels,
                                              &delta_t);
-        if (delta_t) {
-            sound_error("Sound buffer overflow (cycle based)");
-            return -1;
+        if (delta_t && !archdep_is_exiting()) {
 #if 0
+            sound_error_log_only("Sound buffer overflow (cycle based)");
+            return -1;
+#else
             if (overflow_warning_count < 25) {
                 log_warning(sound_log, "%s", "Sound buffer overflow (cycle based)");
                 overflow_warning_count++;
@@ -1218,12 +1217,11 @@ void sound_reset(void)
 }
 
 /* flush all generated samples from buffer to sounddevice. */
-bool sound_flush()
+bool sound_flush(void)
 {
     int c, i, nr, space;
     char *state;
-    bool slept = false;
-    
+
     if (!playback_enabled) {
         if (sdev_open) {
             sound_close();
@@ -1280,54 +1278,60 @@ bool sound_flush()
 
     /*
      * At this point we have to block until we have written at least one fragment.
-     * 
+     *
      * The 'push against the audio device' sync method depends on this.
      */
-    
+
     while (!warp_mode_enabled) {
 
         if (snddata.playdev->bufferspace) {
-            space = snddata.playdev->bufferspace();            
+            space = snddata.playdev->bufferspace();
         } else {
             /* We are using a blocking driver like simple pulse - write everything we have. */
             space = nr;
         }
 
         space -= space % snddata.fragsize;
-        
+
         if (space) {
             if (nr > space) {
                 /* Write as much as we can */
                 nr = space;
             }
-            
+
+            mainlock_yield_begin();
+
             /* Flush buffer, all channels are already mixed into it. */
             if (snddata.playdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
                 sound_error("write to sound device failed.");
+
+                mainlock_yield_end();
                 goto done;
             }
 
             if (snddata.recdev) {
                 if (snddata.recdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
                     sound_error("write to sound device failed.");
+
+                    mainlock_yield_end();
                     goto done;
                 }
             }
-            
+
             /* Successful write to audio device, exit loop. */
+            mainlock_yield_end();
             break;
         }
-        
+
         /* We can't write yet, try again after a minimal sleep. */
-        tick_sleep(tick_per_second() / 1000);
-        slept = true;
+        mainlock_yield_and_sleep(tick_per_second() / 1000);
     }
 
     snddata.bufptr -= nr;
 
     /*
      * Move any incomplete fragments back to the start of the sample buffer
-     */ 
+     */
 
     for (c = 0; c < snddata.sound_output_channels; c++) {
         snddata.lastsample[c] = snddata.buffer[(nr - 1) * snddata.sound_output_channels + c];
@@ -1336,18 +1340,14 @@ bool sound_flush()
                 snddata.buffer[(i + nr) * snddata.sound_output_channels + c];
         }
     }
-    
-done:
 
-    if (!slept) {
-        mainlock_yield_once();
-    }
+done:
 
     /*
      * If the sound device is not a timing source, then we need
      * the host to sleep to sync time with the emulator.
      */
-    
+
     return !sound_is_timing_source;
 }
 
@@ -1504,7 +1504,7 @@ void sound_set_relative_speed(int value)
 {
     double natural_fps;
     double new_percent;
-    
+
     if (value < 0) {
         natural_fps = (double)machine_get_cycles_per_second() / machine_get_cycles_per_frame();
         new_percent = 100.0 * (double)(0 - value) / natural_fps;

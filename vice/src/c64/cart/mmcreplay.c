@@ -47,6 +47,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "ser-eeprom.h"
 #include "snapshot.h"
@@ -2468,6 +2469,26 @@ void mmcreplay_reset(void)
     }
 }
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void mmcreplay_powerup(void)
+{
+    if (mmcr_ram) {
+        ram_init_with_pattern(mmcr_ram, MMCREPLAY_RAM_SIZE, &ramparam);
+    }
+}
 
 void mmcreplay_config_init(void)
 {
@@ -2509,6 +2530,7 @@ void mmcreplay_config_setup(uint8_t *rawcart)
     memcpy(flashrom_state->flash_data, rawcart, MMCREPLAY_FLASHROM_SIZE);
 
     mmcr_ram = lib_malloc(MMCREPLAY_RAM_SIZE);
+    ram_init_with_pattern(mmcr_ram, MMCREPLAY_RAM_SIZE, &ramparam);
 
     mmcreplay_set_stdcfg();
     mmcreplay_update_mapper(CMODE_READ, 0);

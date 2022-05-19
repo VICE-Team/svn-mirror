@@ -41,6 +41,7 @@
 #include "multimax.h"
 #include "export.h"
 #include "resources.h"
+#include "ram.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -54,13 +55,15 @@
 
     2K RAM
     - RAM is mapped to $0800
-    
+
     one register in the entire I/O1 space:
-    
-    bit 7       when set, the register is disabled and can only be 
+
+    bit 7       when set, the register is disabled and can only be
                 reenabled by reset
     bit 0-5     select ROM bank 0-63
 */
+
+#define CART_RAM_SIZE (2 * 1024)
 
 static uint8_t currbank = 0;
 static uint8_t reg_enabled = 1;
@@ -165,12 +168,31 @@ void multimax_config_setup(uint8_t *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void multimax_powerup(void)
+{
+    ram_init_with_pattern(export_ram0, CART_RAM_SIZE, &ramparam);
+}
+
 static int multimax_common_attach(void)
 {
     if (export_add(&export_res) < 0) {
         return -1;
     }
-    multimax_list_item = io_source_register(&multimax_device);    
+    multimax_list_item = io_source_register(&multimax_device);
     return 0;
 }
 
@@ -275,7 +297,7 @@ int multimax_snapshot_read_module(snapshot_t *s)
         || (SMR_BA(m, export_ram0, 0x0800) < 0)) {
         goto fail;
     }
-    
+
     snapshot_module_close(m);
 
     return multimax_common_attach();

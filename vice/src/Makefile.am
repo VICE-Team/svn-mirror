@@ -1,9 +1,8 @@
-# vim: set noet ts=8 sw=8 sts=8:
-
 # We have to override the automake default, because we need to use
 # $(CXX) instead of $(CC) when compiling with reSID.
 LINK = @LINKCC@ @VICE_CFLAGS@ @VICE_LDFLAGS@ $(LDFLAGS) -o $@
-CCLD = @LINKCC@
+# We shouldnt have to add the flags here, but without it doesn't add them
+CCLD = @LINKCC@ @VICE_LDFLAGS@ $(LDFLAGS)
 
 AM_CFLAGS = @VICE_CFLAGS@
 AM_CXXFLAGS = @VICE_CXXFLAGS@
@@ -12,10 +11,10 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 ARCH_LIBS = @ARCH_LIBS@
 
 
-# Windows .res files to be linked to each binary 
-if WIN32_COMPILE
+# Windows .res files to be linked to each binary
+if WINDOWS_COMPILE
 # .. but NOT in headless mode
-if !HEADLESS_COMPILE
+if !USE_HEADLESSUI
 X64_RES = $(top_builddir)/data/common/x64.res
 X64DTV_RES = $(top_builddir)/data/common/x64dtv.res
 X64SC_RES = $(top_builddir)/data/common/x64sc.res
@@ -39,14 +38,7 @@ else
 SUBDIRS = \
 	@RESID_DIR@ \
 	@RESID_DTV_DIR@ \
-	samplerdrv \
 	joyport \
-	joystickdrv \
-	sounddrv \
-	mididrv \
-	socketdrv \
-	hwsiddrv \
-	iodrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -61,16 +53,15 @@ SUBDIRS = \
 	raster \
 	vicii \
 	viciisc \
-	viciivsid \
 	vdc \
 	crtc \
 	gfxoutputdrv \
 	printerdrv \
 	rs232drv \
+	samplerdrv \
 	sid \
 	monitor \
 	core \
-	rtc \
 	userport \
 	tapeport \
 	diag \
@@ -91,14 +82,7 @@ SUBDIRS = \
 endif
 
 DIST_SUBDIRS = \
-	sounddrv \
-	mididrv \
-	socketdrv \
-	hwsiddrv \
-	iodrv \
-	samplerdrv \
 	joyport \
-	joystickdrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -113,16 +97,15 @@ DIST_SUBDIRS = \
 	raster \
 	vicii \
 	viciisc \
-	viciivsid \
 	vdc \
 	crtc \
 	gfxoutputdrv \
 	printerdrv \
 	rs232drv \
+	samplerdrv \
 	sid \
 	monitor \
 	core \
-	rtc \
 	diag \
 	userport \
 	tapeport \
@@ -146,12 +129,12 @@ DIST_SUBDIRS = \
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
-	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/fsdevice \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/plus4 \
@@ -161,12 +144,13 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/diag \
 	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/lib/ \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/joyport \
-	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/tape \
-	-I$(top_srcdir)/src/socketdrv \
+	-I$(top_srcdir)/src/arch/shared/socketdrv \
 	-I$(top_srcdir)/src/hvsc \
 	-I$(top_srcdir)/src/lib/linenoise-ng \
 	-I$(top_srcdir)/src/cart
@@ -175,7 +159,6 @@ noinst_HEADERS = \
 	6510core.h \
 	acia.h \
 	alarm.h \
-	archapi.h \
 	attach.h \
 	autostart.h \
 	autostart-prg.h \
@@ -221,7 +204,6 @@ noinst_HEADERS = \
 	init.h \
 	initcmdline.h \
 	interrupt.h \
-	ioutil.h \
 	kbdbuf.h \
 	keyboard.h \
 	lib.h \
@@ -247,7 +229,6 @@ noinst_HEADERS = \
 	mos6510.h \
 	mos6510dtv.h \
 	network.h \
-	opencbm.h \
 	opencbmlib.h \
 	palette.h \
 	parallel.h \
@@ -255,7 +236,6 @@ noinst_HEADERS = \
 	petui.h \
 	piacore.h \
 	plus4ui.h \
-	printer.h \
 	ps2mouse.h \
 	r65c02.h \
 	ram.h \
@@ -271,13 +251,12 @@ noinst_HEADERS = \
 	serial.h \
 	sidcart.h \
 	signals.h \
-	snespad.h
+	snespad.h \
 	sound.h \
 	ssi2001.h \
 	sysfile.h \
 	tap.h \
 	tape.h \
-	tick.h \
 	tpi.h \
 	traps.h \
 	types.h \
@@ -285,16 +264,14 @@ noinst_HEADERS = \
 	uicmdline.h \
 	uicolor.h \
 	uimon.h \
-	usleep.h \
 	util.h \
 	version.h.in \
 	version.h \
 	via.h \
 	vic20ui.h \
 	vice.h \
-	vice_sdl.h \
+	vicedate.h \
 	vice-event.h \
-	vicemaxpath.h \
 	vicesocket.h \
 	vicefeatures.h \
 	vicii.h \
@@ -331,7 +308,6 @@ base_sources = \
 	init.c \
 	initcmdline.c \
 	interrupt.c \
-	ioutil.c \
 	kbdbuf.c \
 	keyboard.c \
 	lib.c \
@@ -353,7 +329,6 @@ base_sources = \
 	socket.c \
 	sound.c \
 	sysfile.c \
-	tick.c \
 	traps.c \
 	util.c \
 	vicefeatures.c \
@@ -518,7 +493,7 @@ infocontrib.h: $(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.t
 		echo "ERROR: geninfocontrib_h.sh contains content that is not valid iso-8859-x" >&2; \
 		false; \
 	fi
-	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | LC_ALL=C sed -f $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi `grep "VICEDATE_YEAR " $(top_srcdir)/src/vicedate.h | cut -d " " -f 3` | LC_ALL=C sed -f $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
 	@if [ "`file --mime-encoding infocontrib.h`" != "infocontrib.h: iso-8859-1" ]; then \
 		echo "ERROR: generated infocontrib.h contains content that is not valid iso-8859-x" >&2; \
 		false; \
@@ -526,11 +501,11 @@ infocontrib.h: $(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.t
 
 # we need to replace \ and space by "regular" characters, else things break on some shells
 	@LC_ALL=C sed -e 's/\\/{/g' -e 's/ /}/g' <$(top_srcdir)/README >./README.tmp
-	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >README2.tmp
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README `grep "VICEDATE_YEAR " $(top_srcdir)/src/vicedate.h | cut -d " " -f 3` <README.tmp >README2.tmp
 	@LC_ALL=C sed -e 's/{/\\/g' -e 's/}/ /g' <README2.tmp >../README
 	@rm -f README*.tmp
 	@cp $(top_srcdir)/doc/html/index.html ./index.tmp
-	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml `grep "VICEDATE_YEAR " $(top_srcdir)/src/vicedate.h | cut -d " " -f 3` <index.tmp >../doc/html/index.html
 	@rm -f index.tmp
 	@rm -f team.tmp
 	@iconv -f ISO-8859-15 -t UTF-8 infocontrib.h > infocontrib.h.utf8 && mv infocontrib.h.utf8 infocontrib.h
@@ -541,14 +516,19 @@ arch_gtk3_lib = $(top_builddir)/src/arch/gtk3/libarch.a
 arch_gtk3_widgets_lib = $(top_builddir)/src/arch/gtk3/widgets/libwidgets.a
 arch_gtk3_base_widgets_lib = $(top_builddir)/src/arch/gtk3/widgets/base/libbasewidgets.a
 arch_gtk3_novte_lib = $(top_builddir)/src/arch/gtk3/novte/libnovte.a
+arch_gtk3_joystickdrv_lib = $(top_builddir)/src/arch/gtk3/joystickdrv/libjoystickdrv.a
 arch_sdl_lib = $(top_builddir)/src/arch/sdl/libarch.a
 arch_headless_lib = $(top_builddir)/src/arch/headless/libarch.a
 uiclient_lib = $(top_builddir)/src/arch/headless/uiclient/libuiclient.a
 archdep_lib = $(top_builddir)/src/arch/shared/libarchdep.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
+c128stubs_lib = $(top_builddir)/src/c128/libc128stubs.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
+c64stubs_lib = $(top_builddir)/src/c64/libc64stubs.a
 c64sc_lib = $(top_builddir)/src/c64/libc64sc.a
+c64scstubs_lib = $(top_builddir)/src/c64/libc64scstubs.a
 scpu64_lib = $(top_builddir)/src/scpu64/libscpu64.a
+scpu64stubs_lib = $(top_builddir)/src/scpu64/libscpu64stubs.a
 c64dtv_lib = $(top_builddir)/src/c64dtv/libc64dtv.a
 c64dtvstubs_lib = $(top_builddir)/src/c64dtv/libc64dtvstubs.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
@@ -573,34 +553,35 @@ drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 fileio_lib = $(top_builddir)/src/fileio/libfileio.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
-hwsiddrv_lib = $(top_builddir)/src/hwsiddrv/libhwsiddrv.a
+hwsiddrv_lib = $(top_builddir)/src/arch/shared/hwsiddrv/libhwsiddrv.a
 hvsc_lib = $(top_builddir)/src/hvsc/libhvsc.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
-iodrv_lib = $(top_builddir)/src/iodrv/libiodrv.a
+iodrv_lib = $(top_builddir)/src/arch/shared/iodrv/libiodrv.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
-joystickdrv_lib = $(top_builddir)/src/joystickdrv/libjoystickdrv.a
 linenoise_ng_lib = $(top_builddir)/src/lib/linenoise-ng/liblinenoiseng.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
-mididrv_lib = $(top_builddir)/src/mididrv/libmididrv.a
+mididrv_lib = $(top_builddir)/src/arch/shared/mididrv/libmididrv.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
+petstubs_lib = $(top_builddir)/src/pet/libpetstubs.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 plus4cart_lib = $(top_builddir)/src/plus4/cart/libplus4cart.a
+plus4stubs_lib = $(top_builddir)/src/plus4/libplus4stubs.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 resid_lib = $(top_builddir)/src/resid/libresid.a
 resid_dtv_lib = $(top_builddir)/src/resid-dtv/libresiddtv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
-rtc_lib = $(top_builddir)/src/rtc/librtc.a
+rtc_lib = $(top_builddir)/src/core/rtc/librtc.a
 samplerdrv_lib = $(top_builddir)/src/samplerdrv/libsamplerdrv.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sid_dtv_lib = $(top_builddir)/src/sid/libsid_dtv.a
-socketdrv_lib = $(top_builddir)/src/socketdrv/libsocketdrv.a
-sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+socketdrv_lib = $(top_builddir)/src/arch/shared/socketdrv/libsocketdrv.a
+sounddrv_lib = $(top_builddir)/src/arch/shared/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
 tapeport_lib = $(top_builddir)/src/tapeport/libtapeport.a
 toolarch_lib = $(ARCH_DIR)/libtoolarch.a
@@ -608,26 +589,28 @@ userport_lib = $(top_builddir)/src/userport/libuserport.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
+vic20stubs_lib = $(top_builddir)/src/vic20/libvic20stubs.a
 vic20cart_lib = $(top_builddir)/src/vic20/cart/libvic20cart.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 viciidtv_lib = $(top_builddir)/src/vicii/libviciidtv.a
 viciisc_lib = $(top_builddir)/src/viciisc/libviciisc.a
-viciivsid_lib = $(top_builddir)/src/viciivsid/libviciivsid.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 vsid_lib = $(top_builddir)/src/c64/libvsid.a
+vsidstubs_lib = $(top_builddir)/src/c64/libvsidstubs.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
+xcbm2stubs_lib = $(top_builddir)/src/cbm2/libcbm2stubs.a
 cbm2cart_lib = $(top_builddir)/src/cbm2/cart/libcbm2cart.a
 xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
+xcbm5x0stubs_lib = $(top_builddir)/src/cbm2/libcbm5x0stubs.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
 resid_libs = @RESID_LIBS@
 resid_dtv_libs = @RESID_DTV_LIBS@
-ffmpeg_libs = @FFMPEG_LIBS@
 
 # external libraries required for all emulators
 emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @ARCH_LIBS@ $(archdep_lib)
 
-driver_libs = $(joyport_lib) $(joystickdrv_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if SUPPORT_X64
 x64_bin = x64
@@ -657,16 +640,16 @@ vsid_libs =  \
 	$(iodrv_lib) \
 	$(serial_lib) \
 	$(core_lib) \
-	$(viciivsid_lib) \
+	$(vicii_lib) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
 	$(hvsc_lib) \
-	$(datasette_lib)
+	$(datasette_lib) \
+	$(vsidstubs_lib)
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ $(VSID_RES)
@@ -682,7 +665,6 @@ vsid-all:
 vsid-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	vsid$(EXEEXT)
 
 # x64
@@ -691,7 +673,6 @@ x64_libs =  \
 	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(c64_lib) \
-	$(tapeport_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
@@ -717,8 +698,8 @@ x64_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(c64stubs_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(hvsc_lib)
 
 x64_SOURCES = $(base_sources) $(midi_sources)
@@ -734,7 +715,6 @@ x64-all:
 x64-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	x64$(EXEEXT)
 
 # x64sc
@@ -743,7 +723,6 @@ x64sc_libs =  \
 	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(c64sc_lib) \
-	$(tapeport_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
@@ -769,8 +748,8 @@ x64sc_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(c64scstubs_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(hvsc_lib)
 
 x64sc_SOURCES = $(base_sources) $(midi_sources)
@@ -786,7 +765,6 @@ x64sc-all:
 x64sc-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	x64sc$(EXEEXT)
 
 # x64dtv
@@ -817,7 +795,6 @@ x64dtv_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_dtv_libs) \
-	$(ffmpeg_libs) \
 	$(c64dtvstubs_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
@@ -837,7 +814,6 @@ x64dtv-all:
 x64dtv-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DTV_DEP@ \
-	@FFMPEG_DEP@ \
 	x64dtv$(EXEEXT)
 
 # xscpu64
@@ -848,6 +824,7 @@ xscpu64_libs =  \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
+	$(scpu64stubs_lib) \
 	$(c64scpu64_lib) \
 	$(datasette_lib) \
 	$(driveiec_lib) \
@@ -872,7 +849,6 @@ xscpu64_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(hvsc_lib)
 
 xscpu64_SOURCES = $(base_sources) $(midi_sources)
@@ -888,7 +864,6 @@ xscpu64-all:
 xscpu64-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	xscpu64$(EXEEXT)
 
 # x128
@@ -897,7 +872,6 @@ x128_libs =  \
 	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(c128_lib) \
-	$(tapeport_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
@@ -926,8 +900,8 @@ x128_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(c128stubs_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(hvsc_lib)
 
 x128_SOURCES = $(base_sources) $(midi_sources)
@@ -943,7 +917,6 @@ x128-all:
 x128-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	x128$(EXEEXT)
 
 # xvic
@@ -975,8 +948,8 @@ xvic_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
+	$(vic20stubs_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(hvsc_lib)
 
 xvic_SOURCES = $(base_sources) $(midi_sources)
@@ -992,7 +965,6 @@ xvic-all:
 xvic-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	xvic$(EXEEXT)
 
 # xpet
@@ -1022,14 +994,14 @@ xpet_libs =  \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
+	$(petstubs_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(rtc_lib) \
 	$(hvsc_lib)
 
 xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ $(XPET_RES)
-xpet_DEPENDENCIES = $(xpet_libs) 
+xpet_DEPENDENCIES = $(xpet_libs)
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
 .PHONY: xpet-all xpet-program
@@ -1040,7 +1012,6 @@ xpet-all:
 xpet-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	xpet$(EXEEXT)
 
 # xplus4
@@ -1074,8 +1045,8 @@ xplus4_libs =  \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
+	$(plus4stubs_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(hvsc_lib)
 
 xplus4_SOURCES = $(base_sources)
@@ -1091,7 +1062,6 @@ xplus4-all:
 xplus4-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	xplus4$(EXEEXT)
 
 # xcbm2
@@ -1122,8 +1092,8 @@ xcbm2_libs = \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
+	$(xcbm2stubs_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(rtc_lib) \
 	$(hvsc_lib)
 
@@ -1140,7 +1110,6 @@ xcbm2-all:
 xcbm2-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	xcbm2$(EXEEXT)
 
 # xcbm5x0
@@ -1161,24 +1130,24 @@ xcbm5x0_libs = \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
+	$(xcbm5x0_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
-	$(userport_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(joystickdrv_lib) \
+	$(xcbm5x0stubs_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
 	$(hvsc_lib)
 
 xcbm5x0_SOURCES = $(base_sources)
 xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ $(XCBM5x0_RES)
-xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs) 
+xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs)
 xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
 
 .PHONY: xcbm5x0-all xcbm5x0-program
@@ -1189,7 +1158,6 @@ xcbm5x0-all:
 xcbm5x0-program: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@FFMPEG_DEP@ \
 	xcbm5x0$(EXEEXT)
 
 # c1541
@@ -1202,7 +1170,6 @@ c1541_SOURCES = \
 	gcr.c \
 	cbmimage.c \
 	info.c \
-	ioutil.c \
 	lib.c \
 	log.c \
 	opencbmlib.c \
@@ -1214,8 +1181,6 @@ c1541_SOURCES = \
 
 c1541_libs = \
 	$(toolarch_lib) \
-	$(archdep_lib) \
-	$(uiclient_lib) \
 	$(p64_lib) \
 	$(blockdev_lib) \
 	$(vdrive_lib) \
@@ -1225,7 +1190,8 @@ c1541_libs = \
 	$(tape_lib) \
 	$(serial_lib) \
 	$(socketdrv_lib) \
-	$(linenoise_ng_lib)
+	$(linenoise_ng_lib) \
+	$(archdep_lib)
 
 c1541_LDADD = \
 	$(c1541_libs) \
@@ -1233,7 +1199,7 @@ c1541_LDADD = \
 	@READLINE@ @READLINE_LIBS@ \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
 
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 c1541_LDFLAGS = -mconsole
 endif
 
@@ -1251,55 +1217,74 @@ c1541-program: \
 DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 
 # Special targets to build libraries in subdirectories.
-
-.PHONY: @RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
+.PHONY: @RESID_DEP@ @RESID_DTV_DEP@
 
 info.c: infocontrib.h
 
+
+# The following rules are not used during `make all`, but *are* used for single
+# target builds:
+
 $(arch_gtk3_widgets_lib):
-	@(echo "making libwidgets.a")
+	@echo "making libwidgets.a in arch/gtk3/widgets"
 	@(cd arch/gtk3/widgets && $(MAKE) libwidgets.a)
 $(arch_gtk3_base_widgets_lib):
-	@(echo "making libbasewidgets.a")
+	@echo "making all in arch/gtk3"
 	@(cd arch/gtk3/widgets/base && $(MAKE))
 $(arch_gtk3_novte_lib):
-	@(echo "making libnovte.a")
+	@echo "making all in arch/gtk3/novte"
 	@(cd arch/gtk3/novte && $(MAKE))
+$(arch_gtk3_joystickdrv_lib):
+	@echo "making all in arch/gtk3/joystickdrv"
+	@(cd arch/gtk3/joystickdrv && $(MAKE))
 $(arch_gtk3_lib):
-	@(echo "making libarch.a")
+	@echo "making libarch in arch"
 	@(cd arch && $(MAKE) libarch)
-	@(echo "making gtk3 data")
+	@echo "making all in arch/gtk3/data"
 	@(cd arch/gtk3/data && $(MAKE))
 $(arch_sdl_lib):
-	@(echo "making libarch.a")
+	@echo "making libarch in arch"
 	@(cd arch && $(MAKE) libarch)
-if WIN32_COMPILE
-	@(echo "making win32 res")
+if WINDOWS_COMPILE
+	@echo "making all in arch/gtk3/data/win32"
 	@(cd arch/gtk3/data/win32 && $(MAKE))
 endif
 $(arch_headless_lib):
-	@(echo "making libarch.a")
+	@echo "making libarch in arch"
 	@(cd arch && $(MAKE) libarch)
 $(uiclient_lib):
 	@(echo "making libuiclient.a")
 	@(cd arch/headless/uiclient && $(MAKE) libuiclient.a)
 $(toolarch_lib):
+	@echo "making libtoolarch.a in $(ARCHDIR)"
 	@(cd $(ARCH_DIR) && $(MAKE) libtoolarch.a)
-${archdep_lib}:
-	@(echo "making libarchdep.a")
+$(archdep_lib):
+	@echo "making all in arch/shared"
 	@(cd arch/shared && $(MAKE))
-${c128_lib}:
+$(c128_lib):
 	@echo "making all in c128"
 	@(cd c128 && $(MAKE))
+$(c128stubs_lib):
+	@echo "making libc128stubs.a in c128"
+	@(cd c128 && $(MAKE) libc128stubs.a)
 $(c64_lib):
 	@echo "making libc64.a in c64"
 	@(cd c64 && $(MAKE) libc64.a)
+$(c64stubs_lib):
+	@echo "making libc64stubs.a in c64"
+	@(cd c64 && $(MAKE) libc64stubs.a)
 $(scpu64_lib):
 	@echo "making libscpu64.a in scpu64"
 	@(cd scpu64 && $(MAKE) libscpu64.a)
+$(scpu64stubs_lib):
+	@echo "making libscpu64stubs.a in scpu64"
+	@(cd scpu64 && $(MAKE) libscpu64stubs.a)
 $(c64sc_lib):
 	@echo "making libc64sc.a in c64"
 	@(cd c64 && $(MAKE) libc64sc.a)
+$(c64scstubs_lib):
+	@echo "making libc64scstubs.a in c64"
+	@(cd c64 && $(MAKE) libc64scstubs.a)
 $(c64c128_lib):
 	@echo "making libc64c128.a in c64"
 	@(cd c64 && $(MAKE) libc64c128.a)
@@ -1327,9 +1312,15 @@ $(c64dtvstubs_lib):
 $(xcbm2_lib):
 	@echo "making libcbm2.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm2.a)
+$(xcbm2stubs_lib):
+	@echo "making libcbm2stubs.a in cbm2"
+	@(cd cbm2 && $(MAKE) libcbm2stubs.a)
 $(xcbm5x0_lib):
 	@echo "making libcbm5x0.a in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm5x0.a)
+$(xcbm5x0stubs_lib):
+	@echo "making libcbm5x0stubs.a in cbm2"
+	@(cd cbm2 && $(MAKE) libcbm5x0stubs.a)
 $(cbm2cart_lib):
 	@echo "making libcbm2cart in cbm2"
 	@(cd cbm2 && $(MAKE) libcbm2cart)
@@ -1349,40 +1340,32 @@ $(diskimage_lib):
 	@echo "making all in diskimage"
 	@(cd diskimage && $(MAKE))
 $(drive_lib):
-	@echo "making all in drive"
+	@echo "making libdrive.a in drive"
 	@(cd drive && $(MAKE) libdrive.a)
 $(p64_lib):
 	@echo "making libp64 in lib"
 	@(cd lib && $(MAKE) libp64)
 $(driveiec_lib):
+	@echo "making libdriveiec.a in drive/iec"
 	@(cd drive/iec && $(MAKE) libdriveiec.a)
 $(driveiec128dcr_lib):
+	@echo "making all in drive/iec128dcr"
 	@(cd drive/iec128dcr && $(MAKE))
 $(driveiecc64exp_lib):
+	@echo "making all in drive/iec/c64exp"
 	@(cd drive/iec/c64exp && $(MAKE))
 $(driveiecieee_lib):
+	@echo "making all in drive/iecieee"
 	@(cd drive/iecieee && $(MAKE))
 $(driveiecplus4exp_lib):
+	@echo "making all drive/iec/plus4exp"
 	@(cd drive/iec/plus4exp && $(MAKE))
 $(driveieee_lib):
+	@echo "making all in drive/ieee"
 	@(cd drive/ieee && $(MAKE))
 $(drivetcbm_lib):
+	@echo "making all in drive/tcbm"
 	@(cd drive/tcbm && $(MAKE))
-$(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a:
-	@echo "making libavformat.a"
-	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libavformat" VICEBUILD=1 install-libavformat-static)
-$(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a:
-	@echo "making libavcodec.a"
-	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libavcodec" VICEBUILD=1 install-libavcodec-static)
-$(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a:
-	@echo "making libavutil.a"
-	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libavutil" VICEBUILD=1 install-libavutil-static)
-$(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a:
-	@echo "making libswscale.a"
-	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libswscale" VICEBUILD=1 install-libswscale-static)
-$(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a:
-	@echo "making libswresample.a"
-	@(cd lib/libffmpeg && $(MAKE) prefix="$(top_builddir)/src/lib/libffmpeg/libswresample" VICEBUILD=1 install-libswresample-static)
 $(fileio_lib):
 	@echo "making all in fileio"
 	@(cd fileio && $(MAKE))
@@ -1396,8 +1379,8 @@ $(hvsc_lib):
 	@echo "making all in hvsc"
 	@(cd hvsc && $(MAKE))
 $(hwsiddrv_lib):
-	@echo "making all in hwsiddrv"
-	@(cd hwsiddrv && $(MAKE))
+	@echo "making all in arch/shared/hwsiddrv"
+	@(cd arch/shared/hwsiddrv && $(MAKE))
 $(iecbus_lib):
 	@echo "making all in iecbus"
 	@(cd iecbus && $(MAKE))
@@ -1405,17 +1388,17 @@ $(imagecontents_lib):
 	@echo "making all in imagecontents"
 	@(cd imagecontents && $(MAKE))
 $(iodrv_lib):
-	@echo "making all in iodrv"
-	@(cd iodrv && $(MAKE))
+	@echo "making all in arch/shared/iodrv"
+	@(cd arch/shared/iodrv && $(MAKE))
 $(linenoise_ng_lib):
-	@echo "making liblinenoise_ng.a in lib/linenoise-ng"
+	@echo "making all in lib/linenoise-ng"
 	@(cd lib/linenoise-ng && $(MAKE))
 $(mascuerade_lib):
 	@echo "making libmascuerade.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libmascuerade.a)
 $(mididrv_lib):
-	@echo "making libmididrv.a in mididrv"
-	@(cd mididrv && $(MAKE) libmididrv.a)
+	@echo "making libmididrv.a in arch/shared/mididrv"
+	@(cd arch/shared/mididrv && $(MAKE) libmididrv.a)
 $(monitor_lib):
 	@echo "making all in monitor"
 	@(cd monitor && $(MAKE))
@@ -1425,12 +1408,18 @@ $(parallel_lib):
 $(pet_lib):
 	@echo "making all in pet"
 	@(cd pet && $(MAKE))
+$(petstubs_lib):
+	@echo "making libpetstubs.a in pet"
+	@(cd pet && $(MAKE) libpetstubs.a)
 $(plus4_lib):
-	@echo "making all in plus4"
+	@echo "making libplus4.a in plus4"
 	@(cd plus4 && $(MAKE) libplus4.a)
 $(plus4cart_lib):
 	@echo "making libplus4cart.a in plus4/cart"
 	@(cd plus4/cart && $(MAKE) libplus4cart.a)
+$(plus4stubs_lib):
+	@echo "making libplus4stubs.a in plus4"
+	@(cd plus4 && $(MAKE) libplus4stubs.a)
 $(printerdrv_lib):
 	@echo "making all in printerdrv"
 	@(cd printerdrv && $(MAKE))
@@ -1441,8 +1430,8 @@ $(raster_lib):
 	@echo "making libraster.a in raster"
 	@(cd raster && $(MAKE) libraster.a)
 $(rtc_lib):
-	@echo "making librtc.a in rtc"
-	@(cd rtc && $(MAKE) librtc.a)
+	@echo "making librtc.a in core/rtc"
+	@(cd core/rtc && $(MAKE) librtc.a)
 $(resid_lib):
 	@echo "making all in resid"
 	@(cd resid && $(MAKE))
@@ -1455,9 +1444,6 @@ $(samplerdrv_lib):
 $(joyport_lib):
 	@echo "making all in joyport"
 	@(cd joyport && $(MAKE))
-$(joystickdrv_lib):
-	@echo "making all in joystickdrv"
-	@(cd joystickdrv && $(MAKE))
 $(serial_lib):
 	@echo "making all in serial"
 	@(cd serial && $(MAKE))
@@ -1468,11 +1454,11 @@ $(sid_dtv_lib):
 	@echo "making libsid_dtv.a in sid"
 	@(cd sid && $(MAKE) libsid_dtv.a)
 $(socketdrv_lib):
-	@echo "making libsocketdrv.a in socketdrv"
-	@(cd socketdrv && $(MAKE) libsocketdrv.a)
+	@echo "making libsocketdrv.a in arch/shared/socketdrv"
+	@(cd arch/shared/socketdrv && $(MAKE) libsocketdrv.a)
 $(sounddrv_lib):
-	@echo "making all in sounddrv"
-	@(cd sounddrv && $(MAKE))
+	@echo "making all in arch/shared/sounddrv"
+	@(cd arch/shared/sounddrv && $(MAKE))
 $(tape_lib):
 	@echo "making all in tape"
 	@(cd tape && $(MAKE))
@@ -1491,6 +1477,9 @@ $(vdrive_lib):
 $(vic20_lib):
 	@echo "making all in vic20"
 	@(cd vic20 && $(MAKE) libvic20.a)
+$(vic20stubs_lib):
+	@echo "making libvic20stubs.a in vic20"
+	@(cd vic20 && $(MAKE) libvic20stubs.a)
 $(vic20cart_lib):
 	@echo "making libvic20cart.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libvic20cart.a)
@@ -1503,36 +1492,15 @@ $(viciidtv_lib):
 $(viciisc_lib):
 	@echo "making libviciisc.a in viciisc"
 	@(cd viciisc && $(MAKE) libviciisc.a)
-$(viciivsid_lib):
-	@echo "making libviciivsid.a in viciivsid"
-	@(cd viciivsid && $(MAKE) libviciivsid.a)
 $(video_lib):
 	@echo "making all in video"
 	@(cd video && $(MAKE))
 $(vsid_lib):
 	@echo "making libvsid.a in c64"
 	@(cd c64 && $(MAKE) psiddrv.h libvsid.a)
+$(vsidstubs_lib):
+	@echo "making libvsidstubs.a in c64"
+	@(cd c64 && $(MAKE) libvsidstubs.a)
 
-if HAVE_SHARED_FFMPEG
-$(top_builddir)/src/libffmpeg.a: libffmpeg
-	touch dummy.c
-	$(CC) -o dummy.o -c dummy.c
-	$(AR) cru $(top_builddir)/src/libffmpeg.a dummy.o
-	$(RANLIB) $(top_builddir)/src/libffmpeg.a
-	rm dummy.o dummy.c
-endif
 
-clean-ffmpeg:
-	rm -f $(top_builddir)/src/libffmpeg.a
-
-if HAVE_SHARED_FFMPEG
-EXTRA_CLEAN = clean-ffmpeg
-else
-if HAVE_STATIC_FFMPEG
-EXTRA_CLEAN = clean-ffmpeg
-else
-EXTRA_CLEAN =
-endif
-endif
-
-clean: clean-recursive $(EXTRA_CLEAN)
+clean: clean-recursive

@@ -123,6 +123,7 @@ char *strdup(const char *string)
 }
 #endif
 
+#if 0
 /* this is POSIX only */
 #if !defined(HAVE_STRNCASECMP)
 static const unsigned char charmap[] = {
@@ -177,6 +178,7 @@ int strncasecmp(const char *s1, const char *s2, size_t n)
     }
     return 0;
 }
+#endif
 #endif
 
 /*****************************************************************************/
@@ -365,22 +367,22 @@ void bin2crt_ok(void)
             printf("Output file: %s\n", output_filename[i]);
         }
         if (machine_class == VICE_MACHINE_C64) {
-            printf("Conversion from binary format to C64 %s .crt successful.\n", 
+            printf("Conversion from binary format to C64 %s .crt successful.\n",
                 cart_info[(unsigned char)cart_type].name);
         } else if (machine_class == VICE_MACHINE_C128) {
-            printf("Conversion from binary format to C128 %s .crt successful.\n", 
+            printf("Conversion from binary format to C128 %s .crt successful.\n",
                 cart_info_c128[(unsigned char)cart_type].name);
 /*
         } else if (machine_class == VICE_MACHINE_CBM5x0 ||
                    machine_class == VICE_MACHINE_CBM6x0) {
-            printf("Conversion from binary format to CBM2 %s .crt successful.\n", 
+            printf("Conversion from binary format to CBM2 %s .crt successful.\n",
                 cart_info_cbm2[(unsigned char)cart_type].name);
 */
         } else if (machine_class == VICE_MACHINE_VIC20) {
-            printf("Conversion from binary format to VIC20 %s .crt successful.\n", 
+            printf("Conversion from binary format to VIC20 %s .crt successful.\n",
                 cart_info_vic20[(unsigned char)cart_type].name);
         } else if (machine_class == VICE_MACHINE_PLUS4) {
-            printf("Conversion from binary format to Plus4 %s .crt successful.\n", 
+            printf("Conversion from binary format to Plus4 %s .crt successful.\n",
                 cart_info_plus4[(unsigned char)cart_type].name);
         }
     }
@@ -761,6 +763,10 @@ static int find_crtid_from_type(const cart_t *info, char *type)
     int i;
     for (i = 0; info[i].name != NULL; i++) {
         if (info[i].opt != NULL) {
+            /* FIXME:   Non-standard function
+             *          We can't use util_strcasecmp() here either since that'll
+             *          make cartconv depend on a lot of other code.
+             */
             if (!strcasecmp(info[i].opt, type)) {
                 return i; /* found */
             }
@@ -1117,8 +1123,8 @@ static void print_types(int machine, const cart_t *info)
     /* output the sorted list */
     for (i = 0; i < amount; i++) {
         n = sorted_option_elements[i].insertion;
-        printf("%-8s %2d ", 
-               sorted_option_elements[i].opt, 
+        printf("%-8s %2d ",
+               sorted_option_elements[i].opt,
                sorted_option_elements[i].crt_id);
         if (verbose) {
             if (machine == VICE_MACHINE_C64) {
@@ -1135,7 +1141,7 @@ static void print_types(int machine, const cart_t *info)
                     printf("           ");
             }
         }
-        printf("%s .crt file%s\n", 
+        printf("%s .crt file%s\n",
                sorted_option_elements[i].name,
                n ? ", extra files can be inserted" : "");
     }
@@ -1493,7 +1499,7 @@ int main(int argc, char *argv[])
                 (input_filenames > 3)) {
                 too_many_inputs();
             }
-            if (((cart_type == CARTRIDGE_DELA_EP7x8) || (loadfile_cart_type == CARTRIDGE_DELA_EP7x8)) && 
+            if (((cart_type == CARTRIDGE_DELA_EP7x8) || (loadfile_cart_type == CARTRIDGE_DELA_EP7x8)) &&
                 (input_filenames > 8)) {
                 too_many_inputs();
             }

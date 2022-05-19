@@ -2,12 +2,6 @@
 
 SUBDIRS = uiclient
 
-if WIN32_COMPILE
-extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
-else
-extra_includes =
-endif
-
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
@@ -37,6 +31,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/tapeport \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/hvsc \
 	-I$(top_srcdir)/src/datasette
 
@@ -86,5 +81,5 @@ EXTRA_DIST = \
 	ui.h \
 	uiserver.h \
 	uistatusbar.h \
-	videoarch.h
-	
+	videoarch.h \
+	make-bindist_win32.sh

@@ -35,30 +35,75 @@
 
 #include "uitypes.h"
 
-
-
-
 /*
  * Public functions
  */
 
 GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
-GtkWidget * ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
-GtkWidget * ui_get_gtk_submenu_item_by_name(GtkWidget *submenu,
-                                            const char *name);
-GtkWidget * ui_get_gtk_submenu_item_by_hotkey(GtkWidget *submenu,
-                                              GdkModifierType mask,
-                                              guint keyval);
-void        ui_set_gtk_check_menu_item_blocked(GtkWidget *item,
-                                               gboolean state);
-void        ui_set_gtk_check_menu_item_blocked_by_name(const char *name,
-                                                       gboolean state);
-void        ui_set_gtk_check_menu_item_blocked_by_resource(const char *name,
-                                                           const char *resource);
+
+GtkWidget * ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id);
+
+void        ui_set_check_menu_item_blocked(GtkWidget *item,
+                                           gboolean state);
+void        ui_set_check_menu_item_blocked_by_action(gint action_id,
+                                                     gboolean state);
+void        ui_set_check_menu_item_blocked_by_action_for_window(gint action_id,
+                                                                gint window_id,
+                                                                gboolean state);
+
+void        ui_menu_init_accelerators(GtkWidget *window);
+
+gboolean    ui_menu_remove_accel_via_item_ref(ui_menu_item_ref_t *ref);
+
+void        ui_menu_set_accel_via_item_ref(GtkWidget *item_gtk3,
+                                           ui_menu_item_ref_t *ref);
+
+ui_menu_item_ref_t *ui_menu_item_ref_by_action(gint action_id,
+                                               gint window_id);
+ui_menu_item_ref_t *ui_menu_item_ref_by_hotkey(gint window_id,
+                                               guint keysym,
+                                               GdkModifierType modifier);
+ui_menu_item_ref_t *ui_menu_item_ref_by_index (gint index);
+gint                ui_menu_item_ref_count    (void);
 
 
+gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier);
 
-/* FIXME: is this still even used? */
-void ui_menu_init_accelerators(GtkWidget *window);
+
+gboolean ui_set_menu_item_hotkey_by_action_for_window(gint action_id,
+                                                      gint window_id,
+                                                      guint keysym,
+                                                      GdkModifierType modifier);
+
+gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
+                                           guint keysym,
+                                           GdkModifierType modifier);
+
+ui_menu_item_t *ui_get_menu_decl_by_hotkey(gint window_id,
+                                           guint keysym,
+                                           GdkModifierType modifier);
+
+gboolean ui_get_menu_item_hotkey_by_action(gint action_id,
+                                           guint *keysym,
+                                           GdkModifierType *modifier);
+gboolean ui_get_menu_item_hotkey_by_action_for_window(gint action_id,
+                                                      gint window_id,
+                                                      guint *keysym,
+                                                      GdkModifierType *modifier);
+
+GtkWidget *ui_get_menu_item_by_action_for_window(gint action_id,
+                                                 gint window_id);
+
+void ui_set_menu_item_accel_label(GtkWidget *item, gint action_id);
+
+GtkWidget *ui_get_menu_item_by_hotkey_for_window(gint window_id,
+                                                 guint keysym,
+                                                 GdkModifierType modifier);
+
+
+ui_menu_item_t *ui_get_menu_decl_by_action_for_window(gint action_id,
+                                                      gint window_id);
+
+void ui_clear_menu_hotkeys(void);
 
 #endif

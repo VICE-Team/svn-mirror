@@ -106,6 +106,7 @@
 #include "userport_petscii_snespad.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
+#include "userport_spt_joystick.h"
 #include "userport_superpad64.h"
 #include "vice-event.h"
 #include "video.h"
@@ -312,16 +313,7 @@ int machine_resources_init(void)
         init_resource_fail("drive");
         return -1;
     }
-    /*
-     * This needs to be called before tapeport_resources_init(), otherwise
-     * the tapecart will fail to initialize due to the Datasette resource
-     * appearing after the Tapecart resources
-     */
-    if (datasette_resources_init() < 0) {
-        init_resource_fail("datasette");
-        return -1;
-    }
-    if (tapeport_resources_init() < 0) {
+    if (tapeport_resources_init(1) < 0) {
         init_resource_fail("tapeport");
         return -1;
     }
@@ -371,10 +363,6 @@ int machine_resources_init(void)
     }
     if (sampler_resources_init() < 0) {
         init_resource_fail("samplerdrv");
-        return -1;
-    }
-    if (gfxoutput_resources_init() < 0) {
-        init_resource_fail("gfxoutput");
         return -1;
     }
     if (fliplist_resources_init() < 0) {
@@ -442,6 +430,10 @@ int machine_resources_init(void)
     }
     if (userport_joystick_synergy_resources_init() < 0) {
         init_resource_fail("userport synergy joystick");
+        return -1;
+    }
+    if (userport_spt_joystick_resources_init() < 0) {
+        init_resource_fail("userport stupid pet tricks joystick");
         return -1;
     }
     if (userport_dac_resources_init() < 0) {
@@ -541,10 +533,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("tapeport");
         return -1;
     }
-    if (datasette_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("datasette");
-        return -1;
-    }
     if (acia1_cmdline_options_init() < 0) {
         init_cmdline_options_fail("acia1");
         return -1;
@@ -575,10 +563,6 @@ int machine_cmdline_options_init(void)
     }
     if (userport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport");
-        return -1;
-    }
-    if (gfxoutput_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("gfxoutput");
         return -1;
     }
     if (sampler_cmdline_options_init() < 0) {
@@ -889,12 +873,15 @@ void machine_specific_reset(void)
 
 void machine_specific_powerup(void)
 {
+    userport_powerup();
+    tapeport_powerup();
+    joyport_powerup();
 }
 
 void machine_specific_shutdown(void)
 {
     /* and the tape */
-    tape_image_detach_internal(1);
+    tape_image_detach_internal(TAPEPORT_PORT_1 + 1);
 
     ciacore_shutdown(machine_context.cia1);
     tpicore_shutdown(machine_context.tpi1);
@@ -1076,20 +1063,20 @@ uint8_t machine_tape_behaviour(void)
 int machine_addr_in_ram(unsigned int addr)
 {
     /* FIXME: handle the banking */
-    
+
     if (addr >= 0x25a && addr <= 0x25d) {
         /* 'Pickup subroutine' */
         return 0;
     }
-    
+
     if (addr >= 0x8000 && addr < 0xc000) {
         return 0;
     }
-    
+
     if (addr > 0xe000) {
         return 0;
     }
-    
+
     return 1;
 }
 
@@ -1121,7 +1108,8 @@ static userport_port_props_t userport_props = {
     1,                      /* port has the pa3 pin */
     cbm2_userport_set_flag, /* port has the flag pin, set flag function */
     1,                      /* port has the pc pin */
-    0                       /* port does NOT have the cnt1, cnt2 or sp pins */
+    0,                      /* port does NOT have the cnt1, cnt2 or sp pins */
+    0                       /* port does NOT have the reset pin */
 };
 
 int machine_register_userport(void)

@@ -1036,7 +1036,7 @@ void VteTerminalPrivate::clear_below_current()
         rowdata = _vte_ring_index_writable(m_screen->row_data, i);
         /* Clean up Tab/CJK fragments. */
         if ((glong) _vte_row_data_length(rowdata) > m_screen->cursor.col) {
-            cleanup_fragments(m_screen->cursor.col, _vte_row_data_length(rowdata)); 
+            cleanup_fragments(m_screen->cursor.col, _vte_row_data_length(rowdata));
         }
         /* Clear everything to the right of the cursor. */
         if (rowdata) {
@@ -1433,7 +1433,7 @@ void VteTerminalPrivate::seq_insert_blank_characters(vte::parser::Params const& 
 /* REP: Repeat the last graphic character n times. */
 void VteTerminalPrivate::seq_repeat(vte::parser::Params const& params)
 {
-    auto val = std::min(params.number_or_default_at(0, 1), long(65535)); 
+    auto val = std::min(params.number_or_default_at(0, 1), long(65535));
     /* FIXMEchpe maybe limit more, to m_column_count - m_screen->cursor.col ? */
     for (auto i = 0; i < val; i++) {
         /* FIXMEchpe can't we move that check out of the loop? */
@@ -1818,7 +1818,7 @@ VteTerminalPrivate::parse_sgr_38_48_parameters(vte::parser::Params const& params
         }
 
         switch (param0) {
-            case 2: 
+            case 2:
             {
                 if (G_UNLIKELY(*index + 3 >= n_params)) {
                     return -1;
@@ -1841,7 +1841,7 @@ VteTerminalPrivate::parse_sgr_38_48_parameters(vte::parser::Params const& params
 
                 return VTE_RGB_COLOR(redbits, greenbits, bluebits, param1, param2, param3);
             }
-            case 5: 
+            case 5:
             {
                 long param1;
                 if (G_UNLIKELY(!params.number_at(*index + 1, param1))) {
@@ -1884,7 +1884,7 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
                         m_defaults.attr.set_underline(param1);
                     }
                     break;
-                case 38: 
+                case 38:
                 {
                     unsigned int index = 1;
                     auto color = parse_sgr_38_48_parameters<8, 8, 8>(subparams, &index, true);
@@ -1893,7 +1893,7 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
                     }
                     break;
                 }
-                case 48: 
+                case 48:
                 {
                     unsigned int index = 1;
                     auto color = parse_sgr_38_48_parameters<8, 8, 8>(subparams, &index, true);
@@ -1902,7 +1902,7 @@ void VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& par
                     }
                     break;
                 }
-                case 58: 
+                case 58:
                 {
                     unsigned int index = 1;
                     auto color = parse_sgr_38_48_parameters<4, 5, 4>(subparams, &index, true);

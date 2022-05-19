@@ -75,6 +75,8 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
+# Symbolic Mapping, US Layout, CBM2, SDL
+
 # note: For some reason SDL does not get keyboard events for "dead keys" at all,
 #       so a "nodeadkeys" layout must be used. CAUTION: apparently SDL generates
 #       some tables internally at startup - switching the host layout while
@@ -132,7 +134,7 @@
 #
 #   ESC 1!  2@  3#  4$  5%  6^  7&  8*  9(  0)  -   =+  arrow/pound del     ?   CE  *   /
 #    TAB q   w   e   r   t   y   u   i   o   p   [   ]   return             7   8   9   -
-#     SL  a   s   d   f   g   h   j   k   l   ;:  ,"  pi                    4   5   6   +
+#     SL  a   s   d   f   g   h   j   k   l   ;:  '"  pi                    4   5   6   +
 #      LS  z   x   c   v   b   n   m   ,<  .>  /?  RS   CBM                 1   2   3
 #       CTRL    SPACE                                                       0   .   00  enter
 
@@ -146,6 +148,8 @@
 !LCTRL 8 5
 !VCTRL LCTRL
 
+96 1 5 32       /*            ' -> '            */
+96 2 2 0x90     /*            ~ -> arrow left   */
 27 8 1 8        /*          ESC -> ESC          */
 49 9 1 8        /*            1 -> 1            */
 50 10 1 8       /*            2 -> 2            */
@@ -157,7 +161,9 @@
 56 15 1 8       /*            8 -> 8            */
 57 0 1 8        /*            9 -> 9            */
 48 1 1 8        /*            0 -> 0            */
-45 1 2 8        /*        Minus -> Minus        */
+92 2 2 8        /*    backslash -> left arrow   */
+45 1 2 0x20     /*        Minus -> Minus        */
+45 2 2 0x90     /*  shift+Minus -> left arrow   */
 61 2 1 8        /*        Equal -> Equal        */
 8 3 3 8         /*    Backspace -> Del          */
 9 8 2 8         /*          TAB -> TAB          */

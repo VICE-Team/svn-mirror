@@ -480,7 +480,7 @@ int vdrive_dir_filetype(const uint8_t *name, int length)
 
 
 /* convert CMD ASCII date format to a single value; see above */
-static unsigned int asciidate_to_int(const uint8_t *p, unsigned int def) {
+static unsigned int asciidate_to_int(const char *p, unsigned int def) {
 /* MM/DD/YY HH:MM xM - : or . */
 /* 01234567890123456 */
 /*           1111111 */
@@ -529,12 +529,16 @@ static unsigned int asciidate_to_int(const uint8_t *p, unsigned int def) {
 
 int vdrive_dir_next_directory(vdrive_t *vdrive, bufferinfo_t *b);
 
-int vdrive_dir_first_directory(vdrive_t *vdrive, const uint8_t *name,
-                               int length, int filetype, bufferinfo_t *p)
+int vdrive_dir_first_directory(vdrive_t *vdrive,
+                               cbmdos_cmd_parse_plus_t *cmd_parse,
+                               bufferinfo_t *p)
 {
     uint8_t *l;
-    const uint8_t *c, *limit;
+    char *c, *limit;
+    int filetype;
+    int length;
     int newlen;
+    char *name;
 
 #ifdef DEBUG_VDRIVE
     log_debug("DIR: %s name: '%s', length: %d, filetype: %d",
@@ -548,8 +552,16 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const uint8_t *name,
 
         filetype = CBMDOS_FT_DEL;
 
-        if (length < 1) {
-            name = (uint8_t*)"*";
+        if (cmd_parse->file && cmd_parse->filelength > 0) {
+            name = lib_strdup((const char *)cmd_parse->file);
+            length = cmd_parse->filelength;
+        } else if (cmd_parse->colon) {
+            /* handle "$:" situations */
+            name = lib_malloc(1);
+            name[0] = 0;
+            length = 1;
+        } else {
+            name = lib_msprintf("*");
             length = 1;
         }
 
@@ -561,7 +573,7 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const uint8_t *name,
             newlen = (int) (c - name);
         }
 
-        vdrive_dir_find_first_slot(vdrive, name, newlen, filetype, &p->dir);
+        vdrive_dir_find_first_slot(vdrive, (uint8_t *)name, newlen, filetype, &p->dir);
 
         if (c) {
             while (c < limit) {

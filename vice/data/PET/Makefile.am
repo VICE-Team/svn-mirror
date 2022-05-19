@@ -19,6 +19,7 @@ roms = \
 	edit-4-80-b-60Hz.901474-03.bin \
 	edit-4-b-noCRTC.901474-02.bin \
 	chargen.de \
+	characters-1.901447-08.bin \
 	characters-2.901447-10.bin \
 	characters.901640-01.bin \
 	waterloo-a000.901898-01.bin \
@@ -46,10 +47,12 @@ palettes = \
 	white.vpl
 
 gtk3_hotkeys = \
-	gtk3-hotkeys.vhk
+	gtk3-hotkeys.vhk \
+	gtk3-hotkeys-mac.vhk
 
 gtk3_keymaps = \
 	gtk3_sym.vkm \
+	gtk3_pos.vkm \
 	gtk3_bude_pos.vkm \
 	gtk3_bude_pos_de.vkm \
 	gtk3_bude_sym.vkm \
@@ -64,8 +67,8 @@ gtk3_keymaps = \
 	gtk3_buuk_sym_de.vkm
 
 sdl_keymaps = \
-	sdl_hotkeys.vkm \
 	sdl_sym.vkm \
+	sdl_pos.vkm \
 	sdl_buuk_sym.vkm \
 	sdl_buuk_sym_de.vkm \
 	sdl_buuk_pos.vkm \
@@ -75,12 +78,25 @@ sdl_keymaps = \
 	sdl_grus_pos.vkm \
 	sdl_grus_pos_de.vkm
 
-if SDL_COMPILE
-pet_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
+sdl_hotkeys = \
+	sdl-hotkeys.vhk
 
+if USE_SDLUI
+pet_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
 EXTRA_DIST = $(pet_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
-else
-pet_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
 
-EXTRA_DIST = $(pet_DATA) $(sdl_keymaps)
+if USE_SDL2UI
+pet_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
+EXTRA_DIST = $(pet_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
+
+if USE_GTK3UI
+pet_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys)
+EXTRA_DIST = $(pet_DATA) $(sdl_keymaps) $(sdl_hotkeys)
+endif
+
+if USE_HEADLESSUI
+pet_DATA = $(roms) $(romsets) $(palettes)
+EXTRA_DIST = $(pet_DATA) $(sdl_keymaps) $(sdl_hotkeys) $(gtk3_keymaps) $(gtk3_hotkeys)
 endif

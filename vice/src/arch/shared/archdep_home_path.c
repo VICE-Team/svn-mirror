@@ -47,16 +47,15 @@
 #include "lib.h"
 #include "log.h"
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <unistd.h>
 # include <sys/types.h>
 # include <pwd.h>
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
-# include "windows.h"
-/* for GetUserProfileDirectoryA() */
-# include "userenv.h"
+#ifdef WINDOWS_COMPILE
+# include <windows.h>
+# include <shlobj.h>
 #endif
 
 #include "archdep_defs.h"
@@ -81,20 +80,18 @@ static char *home_dir = NULL;
 const char *archdep_home_path(void)
 {
     /* stupid vice code rules, only declare vars at the top */
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     char *home;
-#elif defined(ARCHDEP_OS_WINDOWS)
-    HANDLE token_handle;
-    DWORD bufsize;
-    LPDWORD lpcchSize;
+#elif defined(WINDOWS_COMPILE)
     DWORD err;
+    char home[MAX_PATH];
 #endif
 
     if (home_dir != NULL) {
         return home_dir;
     }
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     home = getenv("HOME");
     if (home == NULL) {
         struct passwd *pwd;
@@ -107,33 +104,17 @@ const char *archdep_home_path(void)
         }
     }
     home_dir = lib_strdup(home);
-#elif defined(ARCHDEP_OS_WINDOWS)
-    bufsize = 4096;
-    lpcchSize = &bufsize;
-
-    /* get process token handle, whatever the hell that means */
-    if (!OpenProcessToken(GetCurrentProcess(),
-                          TOKEN_ALL_ACCESS,
-                          &token_handle)) {
+#elif defined(WINDOWS_COMPILE)
+    if (FAILED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, home))) {
+        /* error */
         err = GetLastError();
-        printf("failed to get process token: 0x%lx.\n", err);
-        home_dir = lib_strdup(".");
-    } else {
-
-        /* now get the user profile directory with more weird garbage */
-        home_dir = lib_calloc(bufsize, 1);
-        if (!GetUserProfileDirectoryA(token_handle,
-                                      home_dir,
-                                      lpcchSize)) {
-            /* error */
-            err = GetLastError();
-            printf("failed to get user profile root directory: 0x%lx.\n", err);
-            /* set home dir to "." */
-            home_dir[0] = '.';
-            home_dir[1] = '\0';
-        }
+        printf("failed to get user profile root directory: 0x%lx.\n", err);
+        /* set home dir to "." */
+        home[0] = '.';
+        home[1] = '\0';
     }
-#elif defined(ARCHDEP_OS_BEOS)
+    home_dir = lib_strdup(home);
+#elif defined(BEOS_COMPILE)
     /* Beos/Haiku is single-user */
     home_dir = lib_strdup("/boot/home");
 #else

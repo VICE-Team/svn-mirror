@@ -40,8 +40,8 @@
  */
 int c64scui_init_early(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     return 0;
 }
 
@@ -52,8 +52,8 @@ int c64scui_init_early(void)
  */
 int c64scui_init(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     return 0;
 }
 

@@ -73,11 +73,6 @@
 #define DBG(x)
 #endif
 
-#ifdef ANDROID_COMPILE 
-extern void keyboard_key_pressed(signed long key);
-#endif
-
-
 static int sdl_ui_ready = 0;
 
 
@@ -91,7 +86,7 @@ static void (*psid_play_func)(int) = NULL;
 /* Misc. SDL event handling */
 void ui_handle_misc_sdl_event(SDL_Event e)
 {
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     int capslock;
 
     if (e.type == SDL_WINDOWEVENT) {
@@ -100,7 +95,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
 
         switch (e.window.event) {
             case SDL_WINDOWEVENT_RESIZED:
-                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d)", 
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d)",
                      e.window.data1, e.window.data2));
                 sdl2_video_resize_event(canvas->index, (unsigned int)e.window.data1, (unsigned int)e.window.data2);
                 video_canvas_refresh_all(sdl_active_canvas);
@@ -134,7 +129,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             DBG(("ui_handle_misc_sdl_event: SDL_QUIT"));
             ui_sdl_quit();
             break;
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         case SDL_VIDEORESIZE:
             DBG(("ui_handle_misc_sdl_event: SDL_VIDEORESIZE (%d,%d)", (unsigned int)e.resize.w, (unsigned int)e.resize.h));
             sdl_video_resize_event((unsigned int)e.resize.w, (unsigned int)e.resize.h);
@@ -185,276 +180,13 @@ void ui_handle_misc_sdl_event(SDL_Event e)
     }
 }
 
-#ifdef ANDROID_COMPILE
-#include "loader.h"
-#include "keyboard.h"
-
-extern int loader_loadstate;
-extern int loader_savestate;
-extern int loader_turbo;
-extern int loader_showinfo;
-extern int loader_true_drive;
-extern char savestate_filename[256];
-extern void loader_save_snapshot(char *name);
-extern void loader_load_snapshot(char *name);
-extern void loader_set_warpmode(int on);
-extern void loader_set_statusbar(int val);
-extern void loader_set_drive_true_emulation(int val);
-static int oldx = 0, oldy = 0, down_x, down_y;
-int old_joy_direction = 0;
-extern int mouse_x, mouse_y;
-#endif
-
 /* Main event handler */
 ui_menu_action_t ui_dispatch_events(void)
 {
     SDL_Event e;
     ui_menu_action_t retval = MENU_ACTION_NONE;
+    int joynum;
 
-#ifdef ANDROID_COMPILE
-    struct locnet_al_event event1;
-
-    if (loader_showinfo) {
-        int value = loader_showinfo;
-
-        loader_showinfo = 0;
-        loader_set_statusbar((value == 1) ? 1 : 0);
-    }
-    if (loader_true_drive) {
-        int value = loader_true_drive;
-
-        loader_true_drive = 0;
-        loader_set_drive_true_emulation((value == 1) ? 1 : 0);
-    }
-    if (loader_turbo) {
-        int value = loader_turbo;
-
-        loader_turbo = 0;
-        loader_set_warpmode((value == 1) ? 1 : 0);
-    }
-    if (loadf->abort) {
-        loadf->abort = 0;
-        ui_pause_enable();
-        ui_sdl_quit();
-        ui_pause_disable(); /* does this even get called after ui_sdl_quit()? */
-        return MENU_ACTION_NONE;
-    } else if (loader_loadstate) {
-        loader_loadstate = 0;
-        loader_load_snapshot(savestate_filename);
-        ui_pause_disable();
-        return MENU_ACTION_NONE;
-    } else if (loader_savestate) {
-        loader_savestate = 0;
-        loader_save_snapshot(savestate_filename);
-        ui_pause_disable();
-        return MENU_ACTION_NONE;
-    }
-
-    int stopPoll = 0;
-
-    while ((!stopPoll) && Android_PollEvent(&event1)) {
-        struct locnet_al_event *event = &event1;
-
-        switch (event->eventType) {
-            case SDL_MOUSEMOTION:
-                {
-                    /* detect auto calibrate */
-                    if ((event->x == -2048) && (event->y == -2048)) {
-                        down_x = -1;
-                        down_y = -1;
-                        oldx = 0;
-                        oldy = 0;
-                        stopPoll = 1;
-                    /* detect pure relative move */
-                    } else if ((event->down_x == -1024) && (event->down_y == -1024)) {
-                        down_x = 0;
-                        down_y = 0;
-                        oldx = 0;
-                        oldy = 0;
-                    } else if ((down_x != event->down_x) || (down_y != event->down_y)) {
-                        down_x = event->down_x;
-                        down_y = event->down_y;
-                        oldx = down_x;
-                        oldy = down_y;
-                    }
-                    mouse_move((int)(event->x - oldx), (int)(event->y - oldy));
-                    oldx = event->x;
-                    oldy = event->y;
-                }
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                {
-                    if ((event->down_x >= 0) && (event->down_y >= 0)) {
-                        mouse_x = 640 * event->down_x / 1000.0f - 64;
-                        mouse_y = 400 * (1000 - event->down_y) / 1000.0f - 200;
-                    }
-                    if (event->keycode >= 0) {
-                        mouse_button((int)(event->keycode) ? SDL_BUTTON_RIGHT : SDL_BUTTON_LEFT, 1);
-                    }
-                    stopPoll = 1;
-                }
-                break;
-            case SDL_MOUSEBUTTONUP:
-                {
-                    if (event->keycode >= 0) {
-                        mouse_button((int)(event->keycode) ? SDL_BUTTON_RIGHT : SDL_BUTTON_LEFT, 0);
-                    }
-                    stopPoll = 1;
-                }
-                break;
-            case SDL_JOYAXISMOTION:
-                {
-                    float x = event->x / 256.0f;
-                    float y = event->y / 256.0f;
-                    int left = 0, top = 0, right = 0, bot = 0;
-                    int value;
-
-                    if (y < -DEAD_ZONE) {
-                        top = 1;
-                    }
-                    if (y > DEAD_ZONE) {
-                        bot = 1;
-                    }
-                    if (x < -DEAD_ZONE) {
-                        left = 1;
-                    }
-                    if (x > DEAD_ZONE) {
-                        right = 1;
-                    }
-
-                    value = 0;
-
-                    if (left) {
-                        value |= 4;
-                    }
-                    if (right) {
-                        value |= 8;
-                    }
-                    if (top) {
-                        value |= 1;
-                    }
-                    if (bot) {
-                        value |= 2;
-                    }
-                    retval = sdljoy_axis_event(0, 0, event->x / 256.0f * 32767);
-                    ui_menu_action_t retval2 = sdljoy_axis_event(0, 1, event->y / 256.0f * 32767);
-                    if (retval == MENU_ACTION_NONE) {
-                        retval = retval2;
-                    }
-                    old_joy_direction = value;
-                    stopPoll = 1;
-                }
-                break;
-            case SDL_JOYBUTTONDOWN:
-                {
-                    retval = sdljoy_button_event(0, event->keycode, 1);
-
-                    /* buffer overflow when autofire if stopPoll */
-                    if (!Android_HasRepeatEvent(SDL_JOYBUTTONDOWN, event->keycode)) {
-                        stopPoll = 1;
-                    }
-                }
-                break;
-            case SDL_JOYBUTTONUP:
-                {
-                    retval = sdljoy_button_event(0, event->keycode, 0);
-
-                    /* buffer overflow when autofire if stopPoll */
-                    if (!Android_HasRepeatEvent(SDL_JOYBUTTONUP, event->keycode)) {
-                        stopPoll = 1;
-                    }
-                }
-                break;
-            case SDL_KEYUP:
-            case SDL_KEYDOWN:
-                {
-                    static int ctrl_down = 0;
-                    static int alt_down = 0;
-                    static int shift_down = 0;
-
-                    int down = (event->eventType == SDL_KEYDOWN);
-                    unsigned long modifier = event->modifier;
-                    int ctrl = ((modifier & KEYBOARD_CTRL_FLAG) != 0);
-                    int alt = ((modifier & KEYBOARD_ALT_FLAG) != 0);
-                    int shift = ((modifier & KEYBOARD_SHIFT_FLAG) != 0);
-                    unsigned long kcode = (unsigned long)event->keycode;
-
-                    int kmod = 0;
-
-                    if (ctrl) {
-                        kmod |= KMOD_LCTRL;
-                    }
-                    if (alt) {
-                        kmod |= KMOD_LALT;
-                    }
-                    if (shift) {
-                        kmod |= KMOD_LSHIFT;
-                    }
-                    if (down) {
-                        if (ctrl || (kcode == SDLK_TAB)) {
-                            if (!ctrl_down) {
-                                keyboard_key_pressed((unsigned long)SDLK_TAB);
-                            }
-                            ctrl_down++;
-                        }
-                        if (alt || (kcode == SDLK_LCTRL)) {
-                            if (!alt_down) {
-                                keyboard_key_pressed((unsigned long)SDLK_LCTRL);
-                            }
-                            alt_down++;
-                        }
-                        if (shift || (kcode == SDLK_LSHIFT)) {
-                            if (!shift_down) {
-                                keyboard_key_pressed((unsigned long)SDLK_LSHIFT);
-                            }
-                            shift_down++;
-                        }
-                        ui_display_kbd_status(event);
-                        retval = sdlkbd_press(kcode, 0);
-                    } else {
-                        ui_display_kbd_status(event);
-                        retval = sdlkbd_release(kcode, 0);
-
-                        if (ctrl || (kcode == SDLK_TAB)) {
-                            if (kcode == SDLK_TAB) {
-                                ctrl_down = 0;
-                            }
-                            if (ctrl_down) {
-                                ctrl_down--;
-                            }
-                            if (!ctrl_down) {
-                                keyboard_key_released((unsigned long)SDLK_TAB);
-                            }
-                        }
-                        if (alt || (kcode == SDLK_LCTRL)) {
-                            if (kcode == SDLK_LCTRL) {
-                                alt_down = 0;
-                            }
-                            if (alt_down) {
-                                alt_down--;
-                            }
-                            if (!alt_down) {
-                                keyboard_key_released((unsigned long)SDLK_LCTRL);
-                            }
-                        }
-                        if (shift || (kcode == SDLK_LSHIFT)) {
-                            if (kcode == SDLK_LSHIFT) {
-                                shift_down = 0;
-                            }
-                            if (shift_down) {
-                                shift_down--;
-                            }
-                            if (!shift_down) {
-                                keyboard_key_released((unsigned long)SDLK_LSHIFT);
-                            }
-                        }
-                    }
-                    stopPoll = 1;
-                }
-                break;
-        }
-    }
-#else
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_KEYDOWN:
@@ -467,17 +199,35 @@ ui_menu_action_t ui_dispatch_events(void)
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
-                retval = sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
+                joynum = sdljoy_get_joynum_for_event(e.jaxis.which);
+                if (joynum != -1) {
+                    retval = sdljoy_axis_event(joynum, e.jaxis.axis, e.jaxis.value);
+                }
                 break;
             case SDL_JOYBUTTONDOWN:
-                retval = sdljoy_button_event(e.jbutton.which, e.jbutton.button, 1);
+                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+                if (joynum != -1) {
+                    retval = sdljoy_button_event(joynum, e.jbutton.button, 1);
+                }
                 break;
             case SDL_JOYBUTTONUP:
-                retval = sdljoy_button_event(e.jbutton.which, e.jbutton.button, 0);
+                joynum = sdljoy_get_joynum_for_event(e.jbutton.which);
+                if (joynum != -1) {
+                    retval = sdljoy_button_event(joynum, e.jbutton.button, 0);
+                }
                 break;
             case SDL_JOYHATMOTION:
-                retval = sdljoy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
+                joynum = sdljoy_get_joynum_for_event(e.jhat.which);
+                if (joynum != -1) {
+                    retval = sdljoy_hat_event(joynum, e.jhat.hat, e.jhat.value);
+                }
                 break;
+#ifdef USE_SDL2UI
+            case SDL_JOYDEVICEADDED:
+            case SDL_JOYDEVICEREMOVED:
+                retval = sdljoy_rescan();
+                break;
+#endif
 #endif
             case SDL_MOUSEMOTION:
                 sdl_ui_consume_mouse_event(&e);
@@ -503,7 +253,6 @@ ui_menu_action_t ui_dispatch_events(void)
             break;
         }
     }
-#endif
     return retval;
 }
 
@@ -513,7 +262,7 @@ ui_menu_action_t ui_dispatch_events(void)
  * TODO: and perhaps in windowed mode enable it when the mouse is moved.
  */
 
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
 static SDL_Cursor *arrow_cursor = NULL;
 static SDL_Cursor *crosshair_cursor = NULL;
 
@@ -541,7 +290,7 @@ void ui_check_mouse_cursor(void)
     if (_mouse_enabled && !lightpen_enabled && !sdl_menu_state) {
         /* mouse grabbed, not in menu. grab input but do not show a pointer */
         SDL_ShowCursor(SDL_DISABLE);
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         SDL_WM_GrabInput(SDL_GRAB_ON);
 #else
         set_arrow_cursor();
@@ -550,7 +299,7 @@ void ui_check_mouse_cursor(void)
     } else if (lightpen_enabled && !sdl_menu_state) {
         /* lightpen active, not in menu. show a pointer for the lightpen emulation */
         SDL_ShowCursor(SDL_ENABLE);
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
         set_crosshair_cursor();
@@ -560,7 +309,7 @@ void ui_check_mouse_cursor(void)
         if (sdl_active_canvas->fullscreenconfig->enable) {
             /* fullscreen, never show pointer (we really never need it) */
             SDL_ShowCursor(SDL_DISABLE);
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
             SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
             set_arrow_cursor();
@@ -569,7 +318,7 @@ void ui_check_mouse_cursor(void)
         } else {
             /* windowed */
             SDL_ShowCursor(mouse_pointer_hidden ? SDL_DISABLE : SDL_ENABLE);
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
             SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
             set_arrow_cursor();
@@ -579,28 +328,28 @@ void ui_check_mouse_cursor(void)
     }
 }
 
-#ifdef MACOSX_SUPPORT
-#define VICE_MOD_MASK_TEXT "Option"
-#else
-#define VICE_MOD_MASK_TEXT "Alt"
-#endif
-
 void ui_set_mouse_grab_window_title(int enabled)
 {
     char title[256];
     char name[32];
+    char *mouse_key = kbd_get_path_keyname("Machine settings&Mouse emulation&Grab mouse events");
 
     if (machine_class != VICE_MACHINE_C64SC) {
         strcpy(name, machine_get_name());
     } else {
         strcpy(name, "C64 (x64sc)");
     }
-    if (enabled) {
-        snprintf(title, 256, "VICE: %s%s Use %s+M to disable mouse grab.",
-            name, archdep_extra_title_text(), VICE_MOD_MASK_TEXT);
+    if (enabled && mouse_key != NULL) {
+        snprintf(title, sizeof(title), "VICE: %s%s Use %s to disable mouse grab.",
+            name, archdep_extra_title_text(), mouse_key);
     } else {
-        snprintf(title, 256, "VICE: %s%s", name, archdep_extra_title_text());
-    }        
+        snprintf(title, sizeof(title), "VICE: %s%s", name, archdep_extra_title_text());
+    }
+    title[sizeof(title) - 1] = '\0';
+
+    if (mouse_key != NULL) {
+        lib_free(mouse_key);
+    }
 
     sdl_ui_set_window_title(title);
 }
@@ -697,19 +446,16 @@ static int set_start_minimized(int val, void *param)
     return 0;
 }
 
-#ifdef __sortix__
-#define DEFAULT_MENU_KEY SDLK_END
-#endif
-
 #ifndef DEFAULT_MENU_KEY
-# ifdef MACOSX_SUPPORT
+# ifdef MACOS_COMPILE
 #  define DEFAULT_MENU_KEY SDLK_F10
 # else
 #  define DEFAULT_MENU_KEY SDLK_F12
 # endif
 #endif
 
-static const resource_int_t resources_int[] = {
+static resource_int_t resources_int[] = {
+    /* caution: position of menukeys is hardcoded below */
     { "MenuKey", DEFAULT_MENU_KEY, RES_EVENT_NO, NULL,
       &sdl_ui_menukeys[0], set_ui_menukey, (void *)MENU_ACTION_NONE },
     { "MenuKeyUp", SDLK_UP, RES_EVENT_NO, NULL,
@@ -756,14 +502,22 @@ void ui_sdl_quit(void)
             return;
         }
     }
-    
     archdep_vice_exit(0);
 }
 
 /* Initialization  */
 int ui_resources_init(void)
 {
+#ifdef USE_SDL2UI
+    int i;
+#endif
     DBG(("%s", __func__));
+#ifdef USE_SDL2UI
+    /* this converts the default keycodes as needed */
+    for (i = 0; i < 13; i++) {
+        resources_int[i].factory_value = SDL2x_to_SDL1x_Keys(resources_int[i].factory_value);
+    }
+#endif
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
@@ -900,7 +654,7 @@ int ui_init_finalize(void)
 
     if (!console_mode) {
         sdl_ui_init_finalize();
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         SDL_WM_SetCaption(sdl_active_canvas->viewport->title, "VICE");
 #endif
         sdl_ui_ready = 1;
@@ -911,7 +665,7 @@ int ui_init_finalize(void)
 void ui_shutdown(void)
 {
     DBG(("%s", __func__));
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     if (arrow_cursor) {
         SDL_FreeCursor(arrow_cursor);
         arrow_cursor = NULL;

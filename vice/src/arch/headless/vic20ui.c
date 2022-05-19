@@ -39,7 +39,7 @@
  */
 int vic20ui_init_early(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     return 0;
 }
@@ -51,7 +51,7 @@ int vic20ui_init_early(void)
  */
 int vic20ui_init(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     return 0;
 }
@@ -61,7 +61,7 @@ int vic20ui_init(void)
  */
 void vic20ui_shutdown(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     /* NOP */
 }

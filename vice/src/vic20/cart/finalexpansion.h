@@ -44,6 +44,7 @@ extern void finalexpansion_blk5_store(uint16_t addr, uint8_t value);
 
 extern void finalexpansion_init(void);
 extern void finalexpansion_reset(void);
+extern void finalexpansion_powerup(void);
 
 extern void finalexpansion_config_setup(uint8_t *rawcart);
 extern int finalexpansion_bin_attach(const char *filename);

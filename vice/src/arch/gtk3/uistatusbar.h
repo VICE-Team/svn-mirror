@@ -8,6 +8,7 @@
  * self-contained that means this header file is extremely sparse.
  *
  * \author  Michael C. Martin <mcmartin@gmail.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -42,15 +43,29 @@ void ui_statusbar_shutdown(void);
 
 GtkWidget *ui_statusbar_create(int window_identity);
 
+gboolean ui_statusbar_set_visible_for_window(GtkWidget *window, gboolean visible);
+
 void ui_display_statustext(const char *text, int fadeout);
 
 gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window);
 gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window);
 
 
+void ui_statusbar_set_kbd_debug_for_window(GtkWidget *window, gboolean state);
 void ui_statusbar_set_kbd_debug(gboolean state);
+void ui_statusbar_update_kbd_debug(GdkEvent *report);
 
 GtkWidget *ui_statusbar_get_recording_widget(void);
 
+int ui_statusbar_index_for_window(GtkWidget *window);
+
+void ui_update_vsid_statusbar(void);
+void ui_update_statusbars(void);
+
+void warp_led_set_active(int bar, gboolean active);
+void pause_led_set_active(int bar, gboolean active);
+void shiftlock_led_set_active(int bar, gboolean active);
+void mode4080_led_set_active(int bar, gboolean active);
+void capslock_led_set_active(int bar, gboolean active);
 
 #endif

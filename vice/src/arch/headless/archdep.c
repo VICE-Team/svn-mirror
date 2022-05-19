@@ -112,7 +112,7 @@ void archdep_shutdown(void)
         argv0 = NULL;
     }
 
-#ifndef ARCHDEP_OS_WINDOWS
+#ifndef WINDOWS_COMPILE
     archdep_network_shutdown();
 #endif
 }

@@ -27,14 +27,12 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 
-#include "sysfile.h"
-#include "archdep_join_paths.h"
 #include "machine.h"
 #include "lib.h"
+#include "sysfile.h"
 
 #include "archdep_icon_path.h"
 
@@ -49,7 +47,7 @@
  */
 char *archdep_app_icon_path_png(int size)
 {
-    char buffer[1024];
+    char buffer[256];
     char *path = NULL;
     const char *icon;
 
@@ -92,6 +90,7 @@ char *archdep_app_icon_path_png(int size)
     }
 
     snprintf(buffer, sizeof(buffer), "%s_%d.png", icon, size);
+    buffer[sizeof(buffer) - 1] = '\0';
     sysfile_locate(buffer, "common", &path);
     return path;
 }

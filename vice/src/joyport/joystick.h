@@ -71,8 +71,6 @@ extern void joystick_register_machine(joystick_machine_func_t func);
 /* the mapping of real devices to emulated joystick ports */
 extern int joystick_port_map[JOYPORT_MAX_PORTS];
 
-extern const uint8_t hat_map[9];
-
 extern void joystick_set_snes_mapping(int port);
 
 /** \brief  Use keypad as predefined keys for joystick emulation
@@ -150,8 +148,8 @@ extern void joystick_close(void);
 extern void joystick_ui_reset_device_list(void);
 extern const char *joystick_ui_get_next_device_name(int *id);
 
-#define JOYSTICK_DIRECTION_DOWN  1
-#define JOYSTICK_DIRECTION_UP    2
+#define JOYSTICK_DIRECTION_UP    1
+#define JOYSTICK_DIRECTION_DOWN  2
 #define JOYSTICK_DIRECTION_LEFT  4
 #define JOYSTICK_DIRECTION_RIGHT 8
 

@@ -39,6 +39,7 @@
 #include "cartridge.h"
 #include "maxbasic.h"
 #include "export.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -54,6 +55,8 @@
     2K RAM
     - RAM is mapped to $0800
 */
+
+#define CART_RAM_SIZE (2 * 1024)
 
 static const export_resource_t export_res = {
     CARTRIDGE_NAME_MAX_BASIC, 0, 1, NULL, NULL, CARTRIDGE_MAX_BASIC
@@ -111,6 +114,25 @@ void maxbasic_config_setup(uint8_t *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void maxbasic_powerup(void)
+{
+    ram_init_with_pattern(export_ram0, CART_RAM_SIZE, &ramparam);
+}
 
 static int maxbasic_common_attach(void)
 {

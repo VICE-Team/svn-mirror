@@ -40,6 +40,7 @@
 #include "export.h"
 #include "log.h"
 #include "monitor.h"
+#include "ram.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -88,6 +89,8 @@
     io2 (r/w)
         cart RAM (if enabled) or cart ROM
 */
+
+#define CART_RAM_SIZE (8 * 1024)
 
 /* Atomic Power RAM hack. */
 static int export_ram_at_a000 = 0;
@@ -186,11 +189,11 @@ static uint8_t atomicpower_io1_read(uint16_t addr)
     }
     /* since the r/w line is not decoded, a read still changes the register,
        to whatever was on the bus before */
-    value = vicii_read_phi1();    
+    value = vicii_read_phi1();
     atomicpower_io1_store(addr, value);
     log_warning(LOG_DEFAULT, "AP: reading IO1 area at 0xde%02x, this corrupts the register",
                 addr & 0xffu);
-    
+
     return value;
 }
 
@@ -327,6 +330,25 @@ void atomicpower_mmu_translate(unsigned int addr, uint8_t **base, int *start, in
 }
 
 /* ---------------------------------------------------------------------*/
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void atomicpower_powerup(void)
+{
+    ram_init_with_pattern(export_ram0, CART_RAM_SIZE, &ramparam);
+}
 
 void atomicpower_freeze(void)
 {

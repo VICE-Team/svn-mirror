@@ -33,11 +33,6 @@
 
 #include "vice.h"
 
-#if defined(__OS2__) && defined(IDE_COMPILE)
-#define _STDINT_H_INCLUDED
-#define _INTTYPES_H_INCLUDED
-#endif
-
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,10 +44,6 @@
 
 #ifdef HAVE_IO_H
 #include <io.h>
-#endif
-
-#ifdef AMIGA_MORPHOS
-#undef REG_PC
 #endif
 
 #include "lib.h"
@@ -201,6 +192,7 @@ HDIGIT  [0-9a-f]
         ii              { BEGIN(INITIAL);       return CMD_SCREENCODE_DISPLAY; }
         ignore          { BEGIN(INITIAL);       return CMD_IGNORE; }
         io              { BEGIN(INITIAL);       return CMD_IO; }
+        jpdb            { BEGIN(INITIAL);       return CMD_JPDB; }
         keybuf          { BEGIN(ROL);           return CMD_KEYBUF; }
         list            { BEGIN(INITIAL);       return CMD_LIST; }
         load|l          { BEGIN(FNAME);         return CMD_LOAD; }
@@ -244,6 +236,7 @@ HDIGIT  [0-9a-f]
         trace|tr        { BEGIN(INITIAL);       return CMD_TRACE; }
         until|un        { BEGIN(INITIAL);       return CMD_UNTIL; }
         undump          { BEGIN(FNAME);         return CMD_UNDUMP; }
+        updb            { BEGIN(INITIAL);       return CMD_UPDB; }
         verify|v        { BEGIN(FNAME);         return CMD_VERIFY; }
         watch|w         { BEGIN(INITIAL);       return CMD_WATCH; }
         warp            { BEGIN(INITIAL);       return CMD_WARP; }

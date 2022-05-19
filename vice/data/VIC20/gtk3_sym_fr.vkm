@@ -168,7 +168,7 @@ parenright      4 0 1
 #####################
 # |Bit 5|  +  |  P  |  L  | , < | . > | : [ |  @  |  -  |
 
-plus            5 0 0
+plus            5 0 16
 comma           5 3 0
 less            5 3 1
 period          5 4 16

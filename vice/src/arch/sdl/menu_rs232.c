@@ -218,6 +218,7 @@ UI_MENU_DEFINE_TOGGLE(RsUserRTSInv)
 UI_MENU_DEFINE_TOGGLE(RsUserCTSInv)
 UI_MENU_DEFINE_TOGGLE(RsUserDSRInv)
 UI_MENU_DEFINE_TOGGLE(RsUserDCDInv)
+UI_MENU_DEFINE_TOGGLE(RsUserDTRInv)
 
 UI_MENU_DEFINE_RADIO(RsUserBaud)
 
@@ -376,6 +377,10 @@ const ui_menu_entry_t rs232_c64_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RsUserDCDInv_callback,
       NULL },
+    { "invert DTR line",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RsUserDTRInv_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Host settings"),
     { "Device 1",
@@ -483,6 +488,10 @@ const ui_menu_entry_t rs232_c128_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RsUserDCDInv_callback,
       NULL },
+    { "invert DTR line",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RsUserDTRInv_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Host settings"),
     { "Device 1",
@@ -589,6 +598,10 @@ const ui_menu_entry_t rs232_vic20_menu[] = {
     { "invert DCD line",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RsUserDCDInv_callback,
+      NULL },
+    { "invert DTR line",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RsUserDTRInv_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Host settings"),

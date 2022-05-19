@@ -28,19 +28,18 @@
 /* #define DEBUG_ARCHDEP_RAWNET_CAPABILITY */
 
 #include "vice.h"
-#include "config.h"
 #include "archdep_defs.h"
 
 #include <stdbool.h>
 #include <stdio.h>
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <unistd.h>
 # include <sys/types.h>
 # ifdef HAVE_CAPABILITIES
 #  include <sys/capability.h>
 # endif
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 # include <windows.h>
 #endif
 
@@ -52,7 +51,7 @@
 #define DBG(x)
 #endif
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # ifdef HAVE_PCAP
 #  ifdef HAVE_CAPABILITIES
 static bool cap_check(cap_value_t cap_flag)
@@ -86,7 +85,7 @@ static bool cap_check(cap_value_t cap_flag)
  */
 bool archdep_rawnet_capability(void)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # ifdef HAVE_PCAP
     /* if we are root then rawnet works, regardless of capabilities */
     if (geteuid() == 0) {
@@ -102,7 +101,7 @@ bool archdep_rawnet_capability(void)
     }
 #  endif
 # endif
-#elif defined ARCHDEP_OS_WINDOWS
+#elif defined WINDOWS_COMPILE
     /* on windows always return true for the time being, perhaps we should also
        check permissions somehow? */
     return true;

@@ -57,8 +57,6 @@
 
 #include "socketimpl.h"
 
-#include "archdep_defs.h"
-
 /* Fix Windows' definition of 'INVALID_SOCKET (SOCKET)(~0)', which breaks the
  * code further down. Any 'normal' OS uses -1, but Microsft had to use an
  * unsigned int with INVALID_SOCKET being the largest value for that unsigned
@@ -66,7 +64,7 @@
  *
  * Since Windows only works on two's complement systems, this will work.
  */
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # undef INVALID_SOCKET
 # define INVALID_SOCKET -1
 #endif
@@ -439,12 +437,17 @@ vice_network_socket_t *vice_network_server(
 
     do {
         if (socket_init() < 0) {
+            log_error(LOG_DEFAULT,
+                "vice_network_server(): socket_init() failed");
             break;
         }
 
         sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
-
         if (sockfd == INVALID_SOCKET) {
+            int err = errno;
+            log_error(LOG_DEFAULT,
+                "vice_network_server(): socket() returned INVALID_SOCKET: %s",
+                strerror(err));
             break;
         }
 
@@ -459,11 +462,31 @@ vice_network_socket_t *vice_network_server(
 #else
         if ((server_address->domain == PF_INET)) {
 #endif
+#if defined(SO_REUSEPORT) || defined(SO_REUSEADDR) || defined(TCP_NODELAY)
+            const int so_setting = 1;
+#if defined(SO_REUSEPORT)
+            setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, (const void*)&so_setting, sizeof(so_setting));
+#elif defined(SO_REUSEADDR)
+            setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void*)&so_setting, sizeof(so_setting));
+#endif
+#if defined(TCP_NODELAY)
+            setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&so_setting, sizeof(so_setting));
+#endif
+#endif
         }
+
         if (bind(sockfd, &server_address->address.generic, server_address->len) < 0) {
+            int err = errno;
+            log_error(LOG_DEFAULT,
+                "vice_network_server(): bind() failed: %s",
+                strerror(err));
             break;
         }
         if (listen(sockfd, 2) < 0) {
+            int err = errno;
+            log_error(LOG_DEFAULT,
+                "vice_network_server(): listen() failed: %s",
+                strerror(err));
             break;
         }
         error = 0;
@@ -647,7 +670,7 @@ static int vice_network_address_generate_ipv4(
                     /* something weird happened... SHOULD NOT HAPPEN! */
                     log_message(LOG_DEFAULT,
                                 "gethostbyname() returned an IPv4 address, "
-                                "but the length is wrong: %d", 
+                                "but the length is wrong: %d",
                                 host_entry->h_length );
                     break;
                 }
@@ -1037,6 +1060,10 @@ int vice_network_send(vice_network_socket_t * sockfd, const void * buffer,
     size_t ret;
     signals_pipe_set();
     ret = send(sockfd->sockfd, buffer, buffer_length, flags);
+    if (ret > buffer_length) {
+        log_error(LOG_DEFAULT, "vice_network_send: internal error");
+        ret = -1; /* signal error */
+    }
     signals_pipe_unset();
     return (int)ret;
 }

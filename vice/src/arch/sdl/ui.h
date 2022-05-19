@@ -54,7 +54,7 @@ struct palette_s;
 extern void ui_handle_misc_sdl_event(SDL_Event e);
 extern ui_menu_action_t ui_dispatch_events(void);
 extern void ui_exit(void);
-extern void ui_message(const char *format, ...);
+extern void ui_message(const char *format, ...) VICE_ATTR_PRINTF;
 extern char *ui_select_file(const char *title, char *(*read_contents_func)(const char *, unsigned int unit), unsigned int unit,
                             unsigned int allow_autostart, const char *default_dir, const char *default_pattern,
                             ui_button_t *button_return, unsigned int show_preview, int *attach_wp);
@@ -92,6 +92,7 @@ void sdl_vsid_set_play_func(void (*func)(int));
  */
 int  ui_pause_active(void);
 void ui_pause_enable(void);
+bool ui_pause_loop_iteration(void);
 void ui_pause_disable(void);
 void ui_pause_toggle(void);
 

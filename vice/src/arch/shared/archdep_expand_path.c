@@ -32,12 +32,11 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "ioutil.h"
+#include "archdep_getcwd.h"
+#include "archdep_home_path.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
-#include "archdep_defs.h"
-#include "archdep_home_path.h"
 
 #include "archdep_expand_path.h"
 
@@ -58,24 +57,26 @@
  */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     if (*orig_name == '/') {
         *return_path = lib_strdup(orig_name);
-    } else if (*orig_name == '~' && *(orig_name +1) == '/') {
+    } else if ((orig_name[0] == '~') && (orig_name[1] == '/')) {
         *return_path = util_concat(archdep_home_path(), orig_name + 1, NULL);
     } else {
-        char *cwd;
+        char buffer[ARCHDEP_PATH_MAX];
 
-        cwd = ioutil_current_dir();
-        *return_path = util_concat(cwd, "/", orig_name, NULL);
-        lib_free(cwd);
+        if (archdep_getcwd(buffer, sizeof(buffer)) == NULL) {
+            *return_path = NULL;
+            return -1;
+        }
+        *return_path = util_concat(buffer, "/", orig_name, NULL);
     }
     return 0;
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     /* taken from the old WinVICE port (src/arch/win32/archdep.c): */
     *return_path = lib_strdup(orig_name);
-#elif defined(ARCHDEP_OS_BEOS)
+#elif defined(BEOS_COMPILE)
     /* taken from src/arch/sdl/archdep_beos.c: */
 
     /* XXX: Haiku uses a Unix-like approach, so we could use the Unix codepath

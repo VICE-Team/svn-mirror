@@ -123,7 +123,7 @@ static void browse_filename_callback(GtkDialog *dialog,
         gtk_entry_set_text(GTK_ENTRY(entry_widget), filename);
         g_free(filename);
     }
-
+    gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
 /** \brief  Handler for the "clicked" event of the "browse" button

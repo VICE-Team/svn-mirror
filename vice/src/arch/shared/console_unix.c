@@ -44,10 +44,6 @@
 #include <sys/ioctl.h>
 #endif
 
-#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-#include <sys/stat.h>
-#endif
-
 #include "lib.h"
 #include "log.h"
 #include "charset.h"

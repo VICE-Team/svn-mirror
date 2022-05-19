@@ -200,7 +200,7 @@ int se5_bin_attach(const char *filename, uint8_t *rawcart)
 int se5_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
-    int i, cnt = 0;
+    int i;
 
     for (i = 0; i <= 0x01; i++) {
         if (crt_read_chip_header(&chip, fd)) {
@@ -214,7 +214,6 @@ int se5_crt_attach(FILE *fd, uint8_t *rawcart)
         if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
-        cnt++;
     }
 
     return se5_common_attach();

@@ -35,9 +35,7 @@
 
 #include "archdep.h"
 #include "lib.h"
-#include "ioutil.h"
 #include "log.h"
-#include "snapshot.h"
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
 #endif
@@ -46,6 +44,9 @@
 #include "version.h"
 #include "vsync.h"
 #include "zfile.h"
+
+#include "snapshot.h"
+
 
 #ifdef DEBUG_SNAPSHOT
 #define DBG(x)  printf x
@@ -58,6 +59,7 @@ static char *current_module = NULL;
 static char read_name[SNAPSHOT_MACHINE_NAME_LEN];
 static char *current_machine_name = NULL;
 static char *current_filename = NULL;
+static size_t current_fpos = 0;
 
 static const char snapshot_magic_string[] = "VICE Snapshot File\032";
 static const char snapshot_version_magic_string[] = "VICE Version\032";
@@ -97,6 +99,7 @@ struct snapshot_s {
 
 static int snapshot_write_byte(FILE *f, uint8_t data)
 {
+    current_fpos = ftell(f);
     if (fputc(data, f) == EOF) {
         snapshot_error = SNAPSHOT_WRITE_EOF_ERROR;
         return -1;
@@ -107,6 +110,7 @@ static int snapshot_write_byte(FILE *f, uint8_t data)
 
 static int snapshot_write_word(FILE *f, uint16_t data)
 {
+    current_fpos = ftell(f);
     if (snapshot_write_byte(f, (uint8_t)(data & 0xff)) < 0
         || snapshot_write_byte(f, (uint8_t)(data >> 8)) < 0) {
         return -1;
@@ -117,6 +121,7 @@ static int snapshot_write_word(FILE *f, uint16_t data)
 
 static int snapshot_write_dword(FILE *f, uint32_t data)
 {
+    current_fpos = ftell(f);
     if (snapshot_write_word(f, (uint16_t)(data & 0xffff)) < 0
         || snapshot_write_word(f, (uint16_t)(data >> 16)) < 0) {
         return -1;
@@ -127,6 +132,7 @@ static int snapshot_write_dword(FILE *f, uint32_t data)
 
 static int snapshot_write_qword(FILE *f, uint64_t data)
 {
+    current_fpos = ftell(f);
     if (snapshot_write_dword(f, (uint32_t)(data & 0xffffffff)) < 0
         || snapshot_write_dword(f, (uint32_t)(data >> 32)) < 0) {
         return -1;
@@ -140,6 +146,7 @@ static int snapshot_write_double(FILE *f, double data)
     uint8_t *byte_data = (uint8_t *)&data;
     int i;
 
+    current_fpos = ftell(f);
     for (i = 0; i < sizeof(double); i++) {
         if (snapshot_write_byte(f, byte_data[i]) < 0) {
             return -1;
@@ -154,6 +161,7 @@ static int snapshot_write_padded_string(FILE *f, const char *s, uint8_t pad_char
     int i, found_zero;
     uint8_t c;
 
+    current_fpos = ftell(f);
     for (i = found_zero = 0; i < len; i++) {
         if (!found_zero && s[i] == 0) {
             found_zero = 1;
@@ -169,6 +177,7 @@ static int snapshot_write_padded_string(FILE *f, const char *s, uint8_t pad_char
 
 static int snapshot_write_byte_array(FILE *f, const uint8_t *data, unsigned int num)
 {
+    current_fpos = ftell(f);
     if (num > 0 && fwrite(data, (size_t)num, 1, f) < 1) {
         snapshot_error = SNAPSHOT_WRITE_BYTE_ARRAY_ERROR;
         return -1;
@@ -181,6 +190,7 @@ static int snapshot_write_word_array(FILE *f, const uint16_t *data, unsigned int
 {
     unsigned int i;
 
+    current_fpos = ftell(f);
     for (i = 0; i < num; i++) {
         if (snapshot_write_word(f, data[i]) < 0) {
             return -1;
@@ -194,6 +204,7 @@ static int snapshot_write_dword_array(FILE *f, const uint32_t *data, unsigned in
 {
     unsigned int i;
 
+    current_fpos = ftell(f);
     for (i = 0; i < num; i++) {
         if (snapshot_write_dword(f, data[i]) < 0) {
             return -1;
@@ -210,6 +221,7 @@ static int snapshot_write_string(FILE *f, const char *s)
 
     len = s ? (strlen(s) + 1) : 0;      /* length includes nullbyte */
 
+    current_fpos = ftell(f);
     if (snapshot_write_word(f, (uint16_t)len) < 0) {
         return -1;
     }
@@ -227,6 +239,7 @@ static int snapshot_read_byte(FILE *f, uint8_t *b_return)
 {
     int c;
 
+    current_fpos = ftell(f);
     c = fgetc(f);
     if (c == EOF) {
         snapshot_error = SNAPSHOT_READ_EOF_ERROR;
@@ -240,6 +253,7 @@ static int snapshot_read_word(FILE *f, uint16_t *w_return)
 {
     uint8_t lo, hi;
 
+    current_fpos = ftell(f);
     if (snapshot_read_byte(f, &lo) < 0 || snapshot_read_byte(f, &hi) < 0) {
         return -1;
     }
@@ -252,6 +266,7 @@ static int snapshot_read_dword(FILE *f, uint32_t *dw_return)
 {
     uint16_t lo, hi;
 
+    current_fpos = ftell(f);
     if (snapshot_read_word(f, &lo) < 0 || snapshot_read_word(f, &hi) < 0) {
         return -1;
     }
@@ -264,6 +279,7 @@ static int snapshot_read_qword(FILE *f, uint64_t *qw_return)
 {
     uint32_t lo, hi;
 
+    current_fpos = ftell(f);
     if (snapshot_read_dword(f, &lo) < 0 || snapshot_read_dword(f, &hi) < 0) {
         return -1;
     }
@@ -279,6 +295,7 @@ static int snapshot_read_double(FILE *f, double *d_return)
     double val;
     uint8_t *byte_val = (uint8_t *)&val;
 
+    current_fpos = ftell(f);
     for (i = 0; i < sizeof(double); i++) {
         c = fgetc(f);
         if (c == EOF) {
@@ -293,6 +310,7 @@ static int snapshot_read_double(FILE *f, double *d_return)
 
 static int snapshot_read_byte_array(FILE *f, uint8_t *b_return, unsigned int num)
 {
+    current_fpos = ftell(f);
     if (num > 0 && fread(b_return, (size_t)num, 1, f) < 1) {
         snapshot_error = SNAPSHOT_READ_BYTE_ARRAY_ERROR;
         return -1;
@@ -305,6 +323,7 @@ static int snapshot_read_word_array(FILE *f, uint16_t *w_return, unsigned int nu
 {
     unsigned int i;
 
+    current_fpos = ftell(f);
     for (i = 0; i < num; i++) {
         if (snapshot_read_word(f, w_return + i) < 0) {
             return -1;
@@ -318,6 +337,7 @@ static int snapshot_read_dword_array(FILE *f, uint32_t *dw_return, unsigned int 
 {
     unsigned int i;
 
+    current_fpos = ftell(f);
     for (i = 0; i < num; i++) {
         if (snapshot_read_dword(f, dw_return + i) < 0) {
             return -1;
@@ -337,6 +357,7 @@ static int snapshot_read_string(FILE *f, char **s)
     lib_free(*s);
     *s = NULL;      /* don't leave a bogus pointer */
 
+    current_fpos = ftell(f);
     if (snapshot_read_word(f, &w) < 0) {
         return -1;
     }
@@ -467,6 +488,7 @@ int snapshot_module_write_string(snapshot_module_t *m, const char *s)
 
 int snapshot_module_read_byte(snapshot_module_t *m, uint8_t *b_return)
 {
+    current_fpos = ftell(m->file);
     if (ftell(m->file) + sizeof(uint8_t) > m->offset + m->size) {
         snapshot_error = SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR;
         return -1;
@@ -477,6 +499,7 @@ int snapshot_module_read_byte(snapshot_module_t *m, uint8_t *b_return)
 
 int snapshot_module_read_word(snapshot_module_t *m, uint16_t *w_return)
 {
+    current_fpos = ftell(m->file);
     if (ftell(m->file) + sizeof(uint16_t) > m->offset + m->size) {
         snapshot_error = SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR;
         return -1;
@@ -487,6 +510,7 @@ int snapshot_module_read_word(snapshot_module_t *m, uint16_t *w_return)
 
 int snapshot_module_read_dword(snapshot_module_t *m, uint32_t *dw_return)
 {
+    current_fpos = ftell(m->file);
     if (ftell(m->file) + sizeof(uint32_t) > m->offset + m->size) {
         snapshot_error = SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR;
         return -1;
@@ -497,6 +521,7 @@ int snapshot_module_read_dword(snapshot_module_t *m, uint32_t *dw_return)
 
 int snapshot_module_read_qword(snapshot_module_t *m, uint64_t *qw_return)
 {
+    current_fpos = ftell(m->file);
     if (ftell(m->file) + sizeof(uint64_t) > m->offset + m->size) {
         snapshot_error = SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR;
         return -1;
@@ -507,6 +532,7 @@ int snapshot_module_read_qword(snapshot_module_t *m, uint64_t *qw_return)
 
 int snapshot_module_read_double(snapshot_module_t *m, double *db_return)
 {
+    current_fpos = ftell(m->file);
     if (ftell(m->file) + sizeof(double) > m->offset + m->size) {
         snapshot_error = SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR;
         return -1;
@@ -517,6 +543,7 @@ int snapshot_module_read_double(snapshot_module_t *m, double *db_return)
 
 int snapshot_module_read_byte_array(snapshot_module_t *m, uint8_t *b_return, unsigned int num)
 {
+    current_fpos = ftell(m->file);
     if ((long)(ftell(m->file) + num) > (long)(m->offset + m->size)) {
         snapshot_error = SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR;
         return -1;
@@ -537,6 +564,7 @@ int snapshot_module_read_word_array(snapshot_module_t *m, uint16_t *w_return, un
 
 int snapshot_module_read_dword_array(snapshot_module_t *m, uint32_t *dw_return, unsigned int num)
 {
+    current_fpos = ftell(m->file);
     if ((long)(ftell(m->file) + num * sizeof(uint32_t)) > (long)(m->offset + m->size)) {
         snapshot_error = SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR;
         return -1;
@@ -547,6 +575,7 @@ int snapshot_module_read_dword_array(snapshot_module_t *m, uint32_t *dw_return, 
 
 int snapshot_module_read_string(snapshot_module_t *m, char **charp_return)
 {
+    current_fpos = ftell(m->file);
     if (ftell(m->file) + sizeof(uint16_t) > m->offset + m->size) {
         snapshot_error = SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR;
         return -1;
@@ -830,7 +859,7 @@ snapshot_t *snapshot_create(const char *filename, uint8_t major_version, uint8_t
 
 fail:
     fclose(f);
-    ioutil_remove(filename);
+    archdep_remove(filename);
     return NULL;
 }
 
@@ -1033,7 +1062,8 @@ void snapshot_display_error(void)
             ui_error("Cannot find first module in snapshot %s", current_filename);
             break;
         case SNAPSHOT_MODULE_HEADER_READ_ERROR:
-            ui_error("Error while reading module header in snapshot %s", current_filename);
+            ui_error("Error while reading module header (after module '%s' at pos 0x%" PRI_SIZE_T ") in snapshot %s",
+                     current_module, current_fpos, current_filename);
             break;
         case SNAPSHOT_MODULE_NOT_FOUND_ERROR:
             ui_error("Cannot find module %s in snapshot %s", current_module, current_filename);
@@ -1090,6 +1120,10 @@ void snapshot_display_error(void)
         case SNAPSHOT_CANNOT_READ_SNAPSHOT:
             ui_error("Cannot read snapshot %s", current_filename);
             break;
+    }
+    if (snapshot_error != SNAPSHOT_NO_ERROR) {
+        log_error(LOG_DEFAULT, "snapshot error at position 0x%llx module '%s' in file '%s'",
+                  (unsigned long long)current_fpos, current_module, current_filename);
     }
 }
 

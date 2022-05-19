@@ -38,6 +38,9 @@
 
 #include "vice_sdl.h"
 
+/* FIXME: Ugly hack for preventing SDL crash using -help */
+int sdl_help_shutdown = 0;
+
 int main(int argc, char **argv)
 {
     return main_program(argc, argv);
@@ -45,10 +48,13 @@ int main(int argc, char **argv)
 
 void main_exit(void)
 {
-    /* log resources with non default values */
-    resources_log_active();
-    /* log the active config as commandline options */
-    cmdline_log_active();
+    /* FIXME: Ugly hack for preventing SDL crash using -help */
+    if (!sdl_help_shutdown) {
+        /* log resources with non default values */
+        resources_log_active();
+        /* log the active config as commandline options */
+        cmdline_log_active();
+    }
 
     log_message(LOG_DEFAULT, "\nExiting...");
 

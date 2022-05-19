@@ -39,8 +39,8 @@
  */
 int cbm2ui_init_early(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     return 0;
 }
 
@@ -51,8 +51,8 @@ int cbm2ui_init_early(void)
  */
 int cbm2ui_init(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     return 0;
 }
 
@@ -61,7 +61,7 @@ int cbm2ui_init(void)
  */
 void cbm2ui_shutdown(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     /* NOP */
 }

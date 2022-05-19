@@ -2,7 +2,7 @@
  * \brief   Widget to set the PET RAM9 area type - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- * \author  André Fachat <fachat@web.de>
+ * \author  Andre Fachat <fachat@web.de>
  */
 
 /*

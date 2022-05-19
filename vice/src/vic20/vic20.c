@@ -101,6 +101,7 @@
 #include "userport_petscii_snespad.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
+#include "userport_spt_joystick.h"
 #include "via.h"
 #include "vic.h"
 #include "vic-mem.h"
@@ -373,11 +374,17 @@ static uint8_t via1_via2_peek(uint16_t addr)
     return retval;
 }
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 static io_source_t vic_device = {
     "VIC",                 /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+#if 0
     0x9000, 0x90ff, 0x3f,  /* address range for the device, must include A5/A4 */
+#endif
+    0x9000, 0x90ff, 0xf03f,  /* address range for the device, must include A5/A4 */
     1,                     /* read is always valid */
     vic_via1_via2_store,   /* store function */
     NULL,                  /* NO poke function */
@@ -389,11 +396,17 @@ static io_source_t vic_device = {
     0                      /* insertion order, gets filled in by the registration function */
 };
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 static io_source_t via2_device = {
     "VIA2",                /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+#if 0
     0x9110, 0x93ff, 0x3f,  /* address range for the device, must include A5/A4 */
+#endif
+    0x9110, 0x93ff, 0xf03f,  /* address range for the device, must include A5/A4 */
     1,                     /* read is always valid */
     via1_via2_store,       /* store function */
     NULL,                  /* NO poke function */
@@ -405,11 +418,17 @@ static io_source_t via2_device = {
     0                      /* insertion order, gets filled in by the registration function */
 };
 
+/* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
+          this is done as a temporary HACK to keep mirrors working and still get the correct register size,
+          this needs to be fixed properly after the 3.6 release */
 static io_source_t via1_device = {
     "VIA1",                /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+#if 0
     0x9120, 0x93ff, 0x3f,  /* address range for the device, must include A5/A4 */
+#endif
+    0x9120, 0x93ff, 0xf03f,  /* address range for the device, must include A5/A4 */
     1,                     /* read is always valid */
     via1_via2_store,       /* store function */
     NULL,                  /* NO poke function */
@@ -656,10 +675,6 @@ int machine_resources_init(void)
         init_resource_fail("joystick");
         return -1;
     }
-    if (gfxoutput_resources_init() < 0) {
-        init_resource_fail("gfxoutput");
-        return -1;
-    }
     if (sampler_resources_init() < 0) {
         init_resource_fail("samplerdrv");
         return -1;
@@ -717,16 +732,7 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-    /*
-     * This needs to be called before tapeport_resources_init(), otherwise
-     * the tapecart will fail to initialize due to the Datasette resource
-     * appearing after the Tapecart resources
-     */
-    if (datasette_resources_init() < 0) {
-        init_resource_fail("datasette");
-        return -1;
-    }
-    if (tapeport_resources_init() < 0) {
+    if (tapeport_resources_init(1) < 0) {
         init_resource_fail("tapeport");
         return -1;
     }
@@ -762,6 +768,10 @@ int machine_resources_init(void)
     }
     if (userport_joystick_synergy_resources_init() < 0) {
         init_resource_fail("userport synergy joystick");
+        return -1;
+    }
+    if (userport_spt_joystick_resources_init() < 0) {
+        init_resource_fail("userport stupid pet tricks joystick");
         return -1;
     }
     if (userport_dac_resources_init() < 0) {
@@ -880,10 +890,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport");
         return -1;
     }
-    if (gfxoutput_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("gfxoutput");
-        return -1;
-    }
     if (sampler_cmdline_options_init() < 0) {
         init_cmdline_options_fail("samplerdrv");
         return -1;
@@ -940,10 +946,6 @@ int machine_cmdline_options_init(void)
     }
     if (tapeport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("tapeport");
-        return -1;
-    }
-    if (datasette_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("datasette");
         return -1;
     }
     if (cartridge_cmdline_options_init() < 0) {
@@ -1157,11 +1159,13 @@ void machine_specific_reset(void)
     vic_reset();
     sid_reset();
 
+    /* These calls must be before the VIA initialization */
+    rs232drv_reset();
+    userport_reset();
+
     viacore_reset(machine_context.ieeevia1);
     viacore_reset(machine_context.ieeevia2);
 
-    rs232drv_reset();
-    rsuser_reset();
 #ifdef HAVE_MIDI
     midi_reset();
 #endif
@@ -1175,14 +1179,19 @@ void machine_specific_reset(void)
     sampler_reset();
 }
 
+/* VIC20-specific powerup/hardreset  */
 void machine_specific_powerup(void)
 {
+    cartridge_powerup();
+    userport_powerup();
+    tapeport_powerup();
+    joyport_powerup();
 }
 
 void machine_specific_shutdown(void)
 {
     /* and the tape */
-    tape_image_detach_internal(1);
+    tape_image_detach_internal(TAPEPORT_PORT_1 + 1);
 
     /* and cartridge */
     cartridge_detach_image(-1);
@@ -1198,6 +1207,8 @@ void machine_specific_shutdown(void)
 
     /* close the video chip(s) */
     vic_shutdown();
+
+    sidcart_cmdline_options_shutdown();
 
     if (!console_mode) {
         vic20ui_shutdown();
@@ -1278,7 +1289,7 @@ void machine_change_timing(int timeval, int border_mode)
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
     serial_iec_device_set_machine_parameter(machine_timing.cycles_per_sec);
 #ifdef HAVE_MOUSE
-    neos_mouse_set_machine_parameter(machine_timing.cycles_per_sec);
+    mouse_set_machine_parameter(machine_timing.cycles_per_sec);
 #endif
 
     vic_change_timing(&machine_timing, border_mode);
@@ -1286,8 +1297,6 @@ void machine_change_timing(int timeval, int border_mode)
     fmopl_set_machine_parameter(machine_timing.cycles_per_sec);
 
     rsuser_change_timing(machine_timing.cycles_per_sec);
-
-    mem_patch_kernal();
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
@@ -1363,12 +1372,12 @@ int machine_addr_in_ram(unsigned int addr)
         /* CHRGET zero page routine */
         return 0;
     }
-    
+
     if (addr >= 0xc000) {
         /* ROM */
         return 0;
     }
-    
+
     return 1;
 }
 
@@ -1389,7 +1398,8 @@ static userport_port_props_t userport_props = {
     0,                       /* port does NOT have the pa3 pin */
     vic20_userport_set_flag, /* port has the flag pin, set flag function */
     0,                       /* port does NOT have the pc pin */
-    1                        /* port does have the cnt1, cnt2 and sp pins */
+    1,                       /* port does have the cnt1, cnt2 and sp pins */
+    1                        /* port has the reset pin */
 };
 
 int machine_register_userport(void)

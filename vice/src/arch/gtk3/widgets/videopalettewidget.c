@@ -8,7 +8,7 @@
  * FIXME:   Note sure x64dtv here:
  *
  * $VICERES CrtcPaletteFile         xpet xcbm2
- * $VICERES CrtcExternalPaelette    xpet xcbm2
+ * $VICERES CrtcExternalPalette     xpet xcbm2
  * $VICEREs TEDPaletteFile          xplus4
  * $VICERES TEDExternalPalette      xplu4
  * $VICERES VDCPaletteFile          x128

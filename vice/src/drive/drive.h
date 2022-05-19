@@ -30,7 +30,7 @@
 #define VICE_DRIVE_H
 
 #include "types.h"
-#include "rtc/ds1216e.h"
+#include "ds1216e.h"
 #include "p64.h"
 
 /** \brief  Number of supported disk units
@@ -158,6 +158,9 @@
 #define DRIVE_LED2_RED     0
 #define DRIVE_LED2_GREEN   2
 
+/* maximum number of LEDs per drive (not unit!) */
+#define DRIVE_LEDS_MAX  2
+
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
 #define DRIVE_ATTACH_DELAY           (3 * 600000)
@@ -174,8 +177,9 @@
 #define DRIVE_PC_STANDARD 1  /* speed-dos userport cable */
 #define DRIVE_PC_DD3      2  /* dolphin-dos 3 userport cable */
 #define DRIVE_PC_FORMEL64 3  /* formel 64 cartridge */
+#define DRIVE_PC_21SEC_BACKUP 4  /* 21 second backup userport cable */
 
-#define DRIVE_PC_NUM 4
+#define DRIVE_PC_NUM 5
 
 /* ------------------------------------------------------------------------- */
 
@@ -401,5 +405,9 @@ extern int drive_resources_type_init(unsigned int default_type);
 
 extern int drive_has_buttons(unsigned int dnr);
 extern void drive_cpu_trigger_reset_button(unsigned int dnr, unsigned int button);
+
+extern unsigned int drive_jam(int mynumber, const char *format, ...) VICE_ATTR_PRINTF2;
+extern bool drive_is_jammed(int mynumber);
+extern char *drive_jam_reason(int mynumber);
 
 #endif

@@ -197,11 +197,11 @@ void uikeyboard_update_index_menu(void)
 
     resources_get_int("KeyboardType", &type);
     resources_get_int("KeyboardMapping", &mapping);
-    
+
     if(settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data) {
         lib_free(settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data);
     }
-    
+
     entry = keymap_index_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (5));
     for (idx = 0; idx < 4; idx++) {
         if (!((idx < 2) && (keyboard_is_keymap_valid(idx, mapping, type) < 0))) {
@@ -237,7 +237,7 @@ void uikeyboard_update_mapping_menu(void)
     ui_menu_entry_t *entry;
 
     resources_get_int("KeyboardMapping", &mapping);
-    
+
     num = keyboard_get_num_mappings();
     entry = keyboard_mapping_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
     while(num) {

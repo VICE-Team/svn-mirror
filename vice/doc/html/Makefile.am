@@ -42,7 +42,14 @@ FONTS_FILES = \
 IMAGES_FILES = \
 	images/CIPS2008.png \
 	images/new.gif \
-	images/vice-logo.svg
+	images/vice-logo.svg \
+	images/vice-logo-black.png \
+	images/vice-c64-positional-keymap-de-small.png \
+	images/vice-c64-positional-keymap-de.png \
+	images/vice-c64-symbolic-keymap-de-small.png \
+	images/vice-c64-symbolic-keymap-de.png \
+	images/vice-c64-positional-keymap-us-small.png \
+	images/vice-c64-positional-keymap-us.png
 
 EXTRA_DIST = \
 	checklinks.sh \
@@ -87,17 +94,11 @@ CLEANFILES = \
 	$(COPIED_FILES)
 
 
-
-if ENABLE_HTML_DOCS
-html_DATA = $(HTML_FILES)
-fonts_DATA = $(FONTS_FILES)
-images_DATA = $(IMAGES_FILES)
-else
 noinst_DATA = \
 	$(HTML_FILES) \
 	$(FONTS_FILES) \
 	$(IMAGES_FILES)
-endif
+
 
 # It's awkward to make the following multi-output rule work properly
 # in parallel but it's the only intensive rule anyway so just
@@ -106,7 +107,11 @@ endif
 .NOTPARALLEL:
 
 if HAVE_PERL
-$(GEN_HTML): $(top_srcdir)/doc/vice.texi $(srcdir)/texi2html
+vice.texi: $(top_srcdir)/doc/vice.texi $(srcdir)/texi2html
+	@cp $(top_srcdir)/doc/vice.texi vice.texi
+	@$(top_srcdir)/doc/fixdates.sh vice.texi `grep "VICEDATE_YEAR " $(top_srcdir)/src/vicedate.h | cut -d " " -f 3`
+
+$(GEN_HTML): vice.texi $(srcdir)/texi2html
 	@echo "generating html documentation..."
 	$(PERL) "$(srcdir)"/texi2html -number -split_chapter -D$(PLATFORM_DOX_FLAGS) "$<"
 endif

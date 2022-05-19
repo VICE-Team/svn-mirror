@@ -123,12 +123,14 @@ CB2            - enable Cartridge (?)
 #include "machine.h"
 #include "magicformel.h"
 #include "mc6821core.h"
+#include "ram.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
 #include "crt.h"
 
 /* ---------------------------------------------------------------------*/
+#define CART_RAM_SIZE (8 * 1024)
 
 /* some prototypes are needed */
 static void magicformel_io1_store(uint16_t addr, uint8_t value);
@@ -510,6 +512,25 @@ int magicformel_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 }
 
 /****************************************************************************/
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void magicformel_powerup(void)
+{
+    ram_init_with_pattern(export_ram0, CART_RAM_SIZE, &ramparam);
+}
 
 /* ultimax, rom bank 1 */
 void magicformel_freeze(void)

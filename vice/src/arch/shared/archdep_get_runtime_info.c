@@ -35,9 +35,9 @@
 #include "archdep_defs.h"
 #include "log.h"
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <sys/utsname.h>
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 # include <windows.h>
 # include <versionhelpers.h>
 #endif
@@ -46,7 +46,7 @@
 #include "archdep_get_runtime_info.h"
 
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 
 /* The following might seem weird and convoluted, and it is: Windows does not
  * have a simple method to determine what arch a process is running on.
@@ -77,7 +77,7 @@ typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 static BOOL os_is_win64(void)
 {
     /* IsWow64Process() returns FALSE when both OS and process are 64-bit */
-#ifdef _WIN64
+#ifdef WIN64_COMPILE
     return TRUE;
 #else
     BOOL amd64 = FALSE;
@@ -107,10 +107,10 @@ static BOOL os_is_win64(void)
  */
 bool archdep_get_runtime_info(archdep_runtime_info_t *info)
 {
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     struct utsname buf;
 #endif
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     const char *name;
     OSVERSIONINFOA version;
 #endif
@@ -121,7 +121,7 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
     memset(info->os_release, 0, ARCHDEP_RUNTIME_STRMAX);
     memset(info->machine, 0, ARCHDEP_RUNTIME_STRMAX);
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
     if (uname(&buf) == 0) {
         /* OK */
         printf("sysname = '%s'\n", buf.sysname);
@@ -135,11 +135,15 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
         strncpy(info->machine, buf.machine, ARCHDEP_RUNTIME_STRMAX - 1U);
         return true;
     }
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 
-    GetVersionEx(&version);
+    version.dwOSVersionInfoSize = sizeof(version);
+    if (!GetVersionEx(&version)) {
+        return false;
+    }
 
-    name = "Who cares";
+    name = "Unknown";
+
     if (IsWindows10OrGreater()) {
         /* yes, not correct, fuck it */
         name = "10";
@@ -151,8 +155,6 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
         name = "7SP1";
     } else if (IsWindows7OrGreater()) {
         name = "7";
-    } else {
-        name = "Unknown";
     }
 
     snprintf(info->os_name, ARCHDEP_RUNTIME_STRMAX - 1U, "Windows %s", name);

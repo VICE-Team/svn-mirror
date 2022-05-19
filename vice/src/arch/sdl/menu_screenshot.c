@@ -489,12 +489,6 @@ const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"IFF" },
-#ifdef HAVE_JPEG
-    { "Save JPG screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"JPEG" },
-#endif
     { "Save PCX screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
@@ -563,12 +557,6 @@ const ui_menu_entry_t screenshot_ted_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"IFF" },
-#ifdef HAVE_JPEG
-    { "Save JPG screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"JPEG" },
-#endif
     { "Save PCX screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
@@ -637,12 +625,6 @@ const ui_menu_entry_t screenshot_crtc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"IFF" },
-#ifdef HAVE_JPEG
-    { "Save JPG screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"JPEG" },
-#endif
     { "Save PCX screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,

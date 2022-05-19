@@ -149,8 +149,14 @@ static void on_sidcart_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_sidcart_enable_widget(void)
 {
-    return vice_gtk3_resource_check_button_new(
-            "SidCart", "Enable SID cartridge");
+    const char *text;
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        text = "Enable SID cartridge";
+    } else {
+        text = "Enable SID expansion";
+    }
+    return vice_gtk3_resource_check_button_new("SidCart", text);
 }
 
 

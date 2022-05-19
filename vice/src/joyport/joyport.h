@@ -30,63 +30,50 @@
 #include "snapshot.h"
 #include "types.h"
 
-#define JOYPORT_ID_JOY1               -1
-#define JOYPORT_ID_JOY2               -2
-#define JOYPORT_ID_JOY3               -3
-#define JOYPORT_ID_JOY4               -4
-#define JOYPORT_ID_JOY5               -5
-#define JOYPORT_ID_JOY6               -6
-#define JOYPORT_ID_JOY7               -7
-#define JOYPORT_ID_JOY8               -8
-#define JOYPORT_ID_JOY9               -9
-#define JOYPORT_ID_JOY10              -10
-
 /* #define JOYPORT_EXPERIMENTAL_DEVICES */
 
-enum {
-    JOYPORT_ID_NONE = 0,
-    JOYPORT_ID_JOYSTICK,
-    JOYPORT_ID_PADDLES,
-    JOYPORT_ID_MOUSE_1351,
-    JOYPORT_ID_MOUSE_NEOS,
-    JOYPORT_ID_MOUSE_AMIGA,
-    JOYPORT_ID_MOUSE_CX22,
-    JOYPORT_ID_MOUSE_ST,
-    JOYPORT_ID_MOUSE_SMART,
-    JOYPORT_ID_MOUSE_MICROMYS,
-    JOYPORT_ID_KOALAPAD,
-    JOYPORT_ID_LIGHTPEN_U,
-    JOYPORT_ID_LIGHTPEN_L,
-    JOYPORT_ID_LIGHTPEN_DATEL,
-    JOYPORT_ID_LIGHTGUN_Y,
-    JOYPORT_ID_LIGHTGUN_L,
-    JOYPORT_ID_LIGHTPEN_INKWELL,
-#ifdef JOYPORT_EXPERIMENTAL_DEVICES
-    JOYPORT_ID_LIGHTGUN_GUNSTICK,
-#endif
-    JOYPORT_ID_SAMPLER_2BIT,
-    JOYPORT_ID_SAMPLER_4BIT,
-    JOYPORT_ID_BBRTC,
-    JOYPORT_ID_PAPERCLIP64,
-    JOYPORT_ID_COPLIN_KEYPAD,
-    JOYPORT_ID_CARDCO_KEYPAD,
-    JOYPORT_ID_CX85_KEYPAD,
-    JOYPORT_ID_RUSHWARE_KEYPAD,
-    JOYPORT_ID_CX21_KEYPAD,
-    JOYPORT_ID_SCRIPT64_DONGLE,
-    JOYPORT_ID_VIZAWRITE64_DONGLE,
-    JOYPORT_ID_WAASOFT_DONGLE,
-    JOYPORT_ID_TRAPTHEM_SNESPAD,
-    JOYPORT_ID_NINJA_SNESPAD,
-    JOYPORT_ID_SPACEBALLS,
-    JOYPORT_ID_INCEPTION,
-    JOYPORT_ID_MULTIJOY_JOYSTICKS,
-    JOYPORT_ID_MULTIJOY_CONTROL,
-    JOYPORT_ID_PROTOPAD,
-    JOYPORT_ID_IO_SIMULATION,
-    JOYPORT_ID_MF_JOYSTICK,
-    JOYPORT_MAX_DEVICES
-};
+#define JOYPORT_ID_UNKNOWN             -1   /* used with joyport_display_joyport() */
+#define JOYPORT_ID_NONE                0    /* CAUTION: some code relies on this being 0 */
+#define JOYPORT_ID_JOYSTICK            1
+#define JOYPORT_ID_PADDLES             2
+#define JOYPORT_ID_MOUSE_1351          3
+#define JOYPORT_ID_MOUSE_NEOS          4
+#define JOYPORT_ID_MOUSE_AMIGA         5
+#define JOYPORT_ID_MOUSE_CX22          6
+#define JOYPORT_ID_MOUSE_ST            7
+#define JOYPORT_ID_MOUSE_SMART         8
+#define JOYPORT_ID_MOUSE_MICROMYS      9
+#define JOYPORT_ID_KOALAPAD            10
+#define JOYPORT_ID_LIGHTPEN_U          11
+#define JOYPORT_ID_LIGHTPEN_L          12
+#define JOYPORT_ID_LIGHTPEN_DATEL      13
+#define JOYPORT_ID_LIGHTGUN_Y          14
+#define JOYPORT_ID_LIGHTGUN_L          15
+#define JOYPORT_ID_LIGHTPEN_INKWELL    16
+#define JOYPORT_ID_LIGHTGUN_GUNSTICK   17
+#define JOYPORT_ID_SAMPLER_2BIT        18
+#define JOYPORT_ID_SAMPLER_4BIT        19
+#define JOYPORT_ID_BBRTC               20
+#define JOYPORT_ID_PAPERCLIP64         21
+#define JOYPORT_ID_COPLIN_KEYPAD       22
+#define JOYPORT_ID_CARDCO_KEYPAD       23
+#define JOYPORT_ID_CX85_KEYPAD         24
+#define JOYPORT_ID_RUSHWARE_KEYPAD     25
+#define JOYPORT_ID_CX21_KEYPAD         26
+#define JOYPORT_ID_SCRIPT64_DONGLE     27
+#define JOYPORT_ID_VIZAWRITE64_DONGLE  28
+#define JOYPORT_ID_WAASOFT_DONGLE      29
+#define JOYPORT_ID_TRAPTHEM_SNESPAD    30
+#define JOYPORT_ID_NINJA_SNESPAD       31
+#define JOYPORT_ID_SPACEBALLS          32
+#define JOYPORT_ID_INCEPTION           33
+#define JOYPORT_ID_MULTIJOY_JOYSTICKS  34
+#define JOYPORT_ID_MULTIJOY_CONTROL    35
+#define JOYPORT_ID_PROTOPAD            36
+#define JOYPORT_ID_IO_SIMULATION       37
+#define JOYPORT_ID_MF_JOYSTICK         38
+
+#define JOYPORT_MAX_DEVICES            39
 
 #define JOYPORT_RES_ID_NONE        0
 #define JOYPORT_RES_ID_MOUSE       1
@@ -108,6 +95,8 @@ enum {
 #define JOYPORT_9   8
 #define JOYPORT_10  9
 
+#define JOYPORT_PLUS4_SIDCART JOYPORT_6
+
 #define JOYPORT_MAX_PORTS     10
 
 #define JOYPORT_IS_NOT_LIGHTPEN   0
@@ -124,6 +113,7 @@ enum {
 #define JOYSTICK_ADAPTER_ID_SPACEBALLS            5
 #define JOYSTICK_ADAPTER_ID_MULTIJOY              6
 #define JOYSTICK_ADAPTER_ID_INCEPTION             7
+#define JOYSTICK_ADAPTER_ID_SPT_JOYSTICK          8
 
 #define JOYPORT_DEVICE_TYPE_NONE          0
 #define JOYPORT_DEVICE_JOYSTICK           1
@@ -242,14 +232,15 @@ typedef struct joyport_s {
     int joystick_adapter_id;                               /* flag to indicate that the device is a joystick/pad adapter */
     int device_type;                                       /* device type */
     uint8_t output_bits;                                   /* flag to indicate which bits are output */
-    int (*enable)(int port, int val);                      /* pointer to the device enable function */
-    uint8_t (*read_digital)(int port);                     /* pointer to the device digital lines read function */
-    void (*store_digital)(int port, uint8_t val);          /* pointer to the device digital lines store function */
-    uint8_t (*read_potx)(int port);                        /* pointer to the device X potentiometer read function */
-    uint8_t (*read_poty)(int port);                        /* pointer to the device Y potentiometer read function */
-    int (*write_snapshot)(struct snapshot_s *s, int port); /* pointer to the device snapshot write function */
-    int (*read_snapshot)(struct snapshot_s *s, int port);  /* pointer to the device snapshot read function */
-    void (*hook)(int port, uint16_t state);                /* pointer to the device hook function for state changing buttons */
+    int (*set_enabled)(int port, int joyport_id);          /* device enable/disable function, passes JOYPORT_ID_NONE to disable */
+    uint8_t (*read_digital)(int port);                     /* device digital lines read function */
+    void (*store_digital)(int port, uint8_t val);          /* device digital lines store function */
+    uint8_t (*read_potx)(int port);                        /* device X potentiometer read function */
+    uint8_t (*read_poty)(int port);                        /* device Y potentiometer read function */
+    void (*powerup)(int port);                             /* device powerup function, called on hard reset */
+    int (*write_snapshot)(struct snapshot_s *s, int port); /* device snapshot write function */
+    int (*read_snapshot)(struct snapshot_s *s, int port);  /* device snapshot read function */
+    void (*hook)(int port, uint16_t state);                /* device hook function for state changing buttons */
     uint16_t hook_mask;                                    /* mask used for the device hook */
 } joyport_t;
 
@@ -274,20 +265,20 @@ extern int joyport_port_has_pot(int port);
 /* this structure is used for host joystick to emulated input device mappings */
 typedef struct joyport_mapping_s {
     char *name;   /* name of the device on the port */
-    char *pin0;   /* name for the mapping of pin 0 (UP) */
-    char *pin1;   /* name for the mapping of pin 1 (DOWN) */
-    char *pin2;   /* name for the mapping of pin 2 (LEFT) */
-    char *pin3;   /* name for the mapping of pin 3 (RIGHT) */
-    char *pin4;   /* name for the mapping of pin 4 (FIRE-1/SNES-A) */
-    char *pin5;   /* name for the mapping of pin 5 (FIRE-2/SNES-B) */
-    char *pin6;   /* name for the mapping of pin 6 (FIRE-3/SNES-X) */
-    char *pin7;   /* name for the mapping of pin 7 (SNES-Y) */
-    char *pin8;   /* name for the mapping of pin 8 (SNES-LB) */
-    char *pin9;   /* name for the mapping of pin 9 (SNES-RB) */
-    char *pin10;  /* name for the mapping of pin 10 (SNES-SELECT) */
-    char *pin11;  /* name for the mapping of pin 11 (SNES-START) */
-    char *pot1;   /* name for the mapping of pot 1 (POT-X) */
-    char *pot2;   /* name for the mapping of pot 2 (POT-Y) */
+    char *pin0;   /* name for the mapping of digital pin 0 (UP) */
+    char *pin1;   /* name for the mapping of digital pin 1 (DOWN) */
+    char *pin2;   /* name for the mapping of digital pin 2 (LEFT) */
+    char *pin3;   /* name for the mapping of digital pin 3 (RIGHT) */
+    char *pin4;   /* name for the mapping of digital pin 4 (FIRE-1/SNES-A) */
+    char *pin5;   /* name for the mapping of digital pin 5 (FIRE-2/SNES-B) */
+    char *pin6;   /* name for the mapping of digital pin 6 (FIRE-3/SNES-X) */
+    char *pin7;   /* name for the mapping of digital pin 7 (SNES-Y) */
+    char *pin8;   /* name for the mapping of digital pin 8 (SNES-LB) */
+    char *pin9;   /* name for the mapping of digital pin 9 (SNES-RB) */
+    char *pin10;  /* name for the mapping of digital pin 10 (SNES-SELECT) */
+    char *pin11;  /* name for the mapping of digital pin 11 (SNES-START) */
+    char *pot1;   /* name for the mapping of analog pot 1 (POT-X) */
+    char *pot2;   /* name for the mapping of analog pot 2 (POT-Y) */
 } joyport_mapping_t;
 
 extern void joyport_set_mapping(joyport_mapping_t *mapping, int port);
@@ -316,6 +307,8 @@ extern uint8_t read_joyport_poty(void);
 
 extern void set_joyport_pot_mask(int mask);
 
+extern void joyport_powerup(void);
+
 extern int joyport_resources_init(void);
 extern int joyport_cmdline_options_init(void);
 
@@ -323,7 +316,7 @@ extern int joyport_port_register(int port, joyport_port_props_t *props);
 
 extern joyport_desc_t *joyport_get_valid_devices(int port, int sort);
 
-extern void joyport_display_joyport(int id, uint16_t status);
+extern void joyport_display_joyport(int port, int id, uint16_t status);
 
 extern char *joyport_get_port_name(int port);
 

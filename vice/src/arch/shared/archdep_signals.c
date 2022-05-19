@@ -38,7 +38,7 @@
 
 #include "archdep_signals.h"
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 
 typedef void (*signal_handler_t)(int);
 
@@ -49,7 +49,7 @@ static signal_handler_t old_pipe_handler;
 
 static RETSIGTYPE break64(int sig)
 {
-    log_message(LOG_DEFAULT, "Received signal %d, exiting.", sig);
+    log_message(LOG_DEFAULT, "VICE Received signal %d, exiting.", sig);
     exit(1);
 }
 

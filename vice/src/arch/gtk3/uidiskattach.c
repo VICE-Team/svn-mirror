@@ -25,10 +25,14 @@
  */
 
 /*
- * $VICERES AttachDevice8Readonly   -vsid
- * $VICERES AttachDevice9Readonly   -vsid
- * $VICERES AttachDevice10Readonly  -vsid
- * $VICERES AttachDevice11Readonly  -vsid
+ * $VICERES AttachDevice8d0Readonly   -vsid
+ * $VICERES AttachDevice9d0Readonly   -vsid
+ * $VICERES AttachDevice10d0Readonly  -vsid
+ * $VICERES AttachDevice11d0Readonly  -vsid
+ * $VICERES AttachDevice8d1Readonly   -vsid
+ * $VICERES AttachDevice9d1Readonly   -vsid
+ * $VICERES AttachDevice10d1Readonly  -vsid
+ * $VICERES AttachDevice11d1Readonly  -vsid
  */
 
 #include "vice.h"
@@ -51,6 +55,7 @@
 #include "mainlock.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uistatusbar.h"
 #include "uimachinewindow.h"
 #include "lastdir.h"
@@ -129,7 +134,7 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    resources_set_int_sprintf("AttachDevice%dReadonly", state, unit_number);
+    resources_set_int_sprintf("AttachDevice%dd%dReadonly", state, unit_number, drive_number);
 }
 
 
@@ -201,8 +206,6 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     gchar *filename;
     gchar *filename_locale;
 
-    mainlock_assert_lock_obtained();
-
     lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     /* convert filename to current locale */
@@ -221,6 +224,7 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
                 autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
         /* oeps */
         log_error(LOG_ERR, "autostart disk attach failed.");
+        ui_error("Autostart disk attach failed.");
     }
     g_free(filename);
     g_free(filename_locale);
@@ -288,11 +292,7 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
  *
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
- * \param[in]   user_data   index in the preview widget
- *
- * TODO:    proper (error) messages, which requires implementing ui_error() and
- *          ui_message() and moving them into gtk3/widgets to avoid circular
- *          references
+ * \param[in]   user_data   unit number
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
@@ -303,7 +303,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     resources_get_int("AutostartOnDoubleclick", &autostart);
 
     /* first, to make the following logic less funky, map some events to others,
-       depending on whether autostart-on-doubleclick is enabled or not, and 
+       depending on whether autostart-on-doubleclick is enabled or not, and
        depending on the event coming from the preview window or not. */
     switch (response_id) {
         /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
@@ -417,7 +417,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     g_signal_connect(readonly_check, "toggled", G_CALLBACK(on_readonly_toggled),
             (gpointer)(parent));
     gtk_grid_attach(GTK_GRID(grid), readonly_check, 1, 0, 1, 1);
-    resources_get_int_sprintf("AttachDevice%dReadonly", &readonly_state, unit_number);
+    resources_get_int_sprintf("AttachDevice%dd%dReadonly", &readonly_state, unit_number, drive_number);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(readonly_check), readonly_state);
 
     /* second row, three cols wide */
@@ -500,7 +500,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
                                       create_extra_widget(dialog, unit));
 
     preview_widget = content_preview_widget_create(
-            dialog, diskcontents_filesystem_read, on_response);
+            dialog, diskcontents_filesystem_read, on_response, unit);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 

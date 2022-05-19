@@ -1,0 +1,88 @@
+# Gtk3 hotkeys file for C64SC
+#
+# This is a preliminary WIP definition that restores the old hotkeys
+# as used in WinVICE until 3.2
+#
+# This file will get reworked into a "patch" to the GTK hotkeys, once the !UNDEF
+# feature is implemented.
+
+#!include $VICEDIR/C64/gtk3-hotkeys.vhk
+
+!debug disable
+!clear
+
+# first the hand full hotkeys that were different in the Windows UI:
+
+#!UNDEF quit
+#!UNDEF reset-soft
+#!UNDEF reset-hard
+#!UNDEF fliplist-previous
+#!UNDEF monitor-open
+#!UNDEF snapshot-quickload
+#!UNDEF snapshot-quicksave
+#!UNDEF history-milestone-set
+#!UNDEF history-milestone-reset
+#!UNDEF media-record
+#!UNDEF mouse-grab-toggle
+#!UNDEF fliplist-clear
+#!UNDEF advance-frame
+
+quit                            <Alt>x
+reset-soft                      <Alt>r
+reset-hard                      <Control><Alt>r
+fliplist-previous               <Alt>b
+monitor-open                    <Alt>m
+snapshot-quickload              <Alt>l
+snapshot-quicksave              <Alt>s
+history-milestone-set           <Alt>g
+history-milestone-reset         <Alt>h
+media-record                    <Alt>c
+mouse-grab-toggle               <Alt>q
+fliplist-clear                  <Alt>a
+advance-frame                   <Alt>KP_Add
+
+# the following ones did not have a hotkey in the Windows UI
+
+#!UNDEF restore-display
+#!UNDEF fullscreen-decorations-toggle
+#!UNDEF snapshot-load
+#!UNDEF snapshot-save
+#!UNDEF cart-attach
+#!UNDEF smart-attach
+
+#restore-display                 <Alt>r
+#fullscreen-decorations-toggle   <Alt>b
+#snapshot-load                   <Alt>l
+#snapshot-save                   <Alt>s
+#cart-attach                     <Alt>c
+#smart-attach                    <Alt>a
+
+# The rest of the hotkeys were exactly the same as in the GTK port (all of the
+# following can be removed later)
+
+drive-attach-8:0                <Alt>8
+drive-attach-9:0                <Alt>9
+drive-attach-10:0               <Alt>0
+drive-attach-11:0               <Alt>1
+drive-detach-8:0                <Control><Alt>8
+drive-detach-9:0                <Control><Alt>9
+drive-detach-10:0               <Control><Alt>0
+drive-detach-11:0               <Control><Alt>1
+fliplist-add                    <Alt>i
+fliplist-remove                 <Alt>k
+fliplist-next                   <Alt>n
+tape-attach-1                   <Alt>t
+tape-detach-1                   <Shift><Alt>t
+cart-detach                     <Shift><Alt>c
+cart-freeze                     <Alt>z
+edit-copy                       <Alt>Delete
+edit-paste                      <Alt>Insert
+media-stop                      <Shift><Alt>s
+screenshot-quicksave            Pause
+fullscreen-toggle               <Alt>d
+warp-mode-toggle                <Alt>w
+pause-toggle                    <Alt>p
+swap-controlport-toggle         <Alt>j
+swap-userport-toggle            <Shift><Alt>j
+settings-dialog                 <Alt>o
+settings-default                <Shift><Alt>o

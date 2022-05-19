@@ -35,8 +35,6 @@
 #include "uiapi.h"
 #include "dynlib.h"
 
-#ifndef STATIC_FFMPEG
-
 /* define major version if its not already defined */
 #ifndef LIBAVCODEC_VERSION_MAJOR
 #define LIBAVCODEC_VERSION_MAJOR  51
@@ -503,14 +501,5 @@ void ffmpeglib_close(ffmpeglib_t *lib)
     free_avresample(lib);
 #endif
 }
-#else
-int ffmpeglib_open(ffmpeglib_t *lib)
-{
-    return 0;
-}
 
-void ffmpeglib_close(ffmpeglib_t *lib)
-{
-}
-#endif
 #endif /* #ifdef HAVE_FFMPEG */

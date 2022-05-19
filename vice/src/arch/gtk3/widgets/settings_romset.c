@@ -41,7 +41,6 @@
  * $VICERES Cart6Name           xcbm5x0 xcbm2
  * $VICERES EditorName          xpet
  * $VICERES Basic1              xpet
- * $VICERES Basic1Chars         xpet
  *
  * Drive ROMS:
  *
@@ -105,6 +104,7 @@
 #include "diskimage.h"
 #include "romset.h"
 #include "lib.h"
+#include "petrom.h"
 #include "ui.h"
 #include "romsetmanagerwidget.h"
 
@@ -610,7 +610,6 @@ static GtkWidget *create_pet_roms_widget(void)
     GtkWidget *button;
     GtkWidget *wrapper;
     GtkWidget *basic1;
-    GtkWidget *basic1_chars;
     GtkWidget *unload;
     GtkWidget *label;
     GtkWidget *browser;
@@ -628,18 +627,20 @@ static GtkWidget *create_pet_roms_widget(void)
     grid = create_roms_widget(pet_machine_roms, path);
     lib_free(path);
 
+    /* FIXME: what are those buttons about? why do they exist, and why only for
+     * the german charset? this should be something handled by the model switching */
     /* add original/German charset buttons */
     wrapper = gtk_grid_new();
     gtk_widget_set_hexpand(wrapper, TRUE);
     button = gtk_button_new_with_label("Load original charset");
     gtk_widget_set_hexpand(button, TRUE);
     g_signal_connect(button, "clicked", G_CALLBACK(on_pet_select_chargen),
-            (gpointer)("chargen"));
+            (gpointer)(PET_CHARGEN2_NAME));
     gtk_grid_attach(GTK_GRID(wrapper), button, 0, 0, 1, 1);
     button = gtk_button_new_with_label("Load German charset");
     gtk_widget_set_hexpand(button, TRUE);
     g_signal_connect(button, "clicked", G_CALLBACK(on_pet_select_chargen),
-            (gpointer)("chargen.de"));
+            (gpointer)(PET_CHARGEN_DE_NAME));
     gtk_grid_attach(GTK_GRID(wrapper), button, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 4, 1, 1);
 
@@ -647,10 +648,6 @@ static GtkWidget *create_pet_roms_widget(void)
             "Patch Kernal v1 to make the IEEE488 interface work");
     g_object_set(basic1, "margin-top", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), basic1, 0, 5, 2, 1);
-    basic1_chars = vice_gtk3_resource_check_button_new("Basic1Chars",
-            "Patch Chargen v1 to match newer PET models");
-    g_object_set(basic1_chars, "margin-top", 8, "margin-bottom", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), basic1_chars, 0, 6, 2, 1);
 
 
     for (i = 0; i < 3; i++) {
@@ -665,11 +662,11 @@ static GtkWidget *create_pet_roms_widget(void)
         g_signal_connect(unload, "clicked", G_CALLBACK(unload_pet_rom),
                 (gpointer)browser);
 
-        gtk_grid_attach(GTK_GRID(grid), label, 0, 7 + i, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 6 + i, 1, 1);
         wrapper = gtk_grid_new();
         gtk_grid_attach(GTK_GRID(wrapper), browser, 0, 0, 1, 1);
         gtk_grid_attach(GTK_GRID(wrapper), unload, 1, 0, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 7 + i, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 6 + i, 1, 1);
     }
 
     return grid;

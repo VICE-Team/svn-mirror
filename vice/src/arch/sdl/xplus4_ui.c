@@ -60,6 +60,7 @@
 #include "menu_video.h"
 #include "plus4memrom.h"
 #include "plus4ui.h"
+#include "plus4rom.h"
 #include "resources.h"
 #include "ui.h"
 #include "uifonts.h"
@@ -167,7 +168,7 @@ static ui_menu_entry_t xplus4_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)settings_manager_menu },
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     { "Edit",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -189,7 +190,7 @@ static ui_menu_entry_t xplus4_main_menu[] = {
 #endif
 static UI_MENU_CALLBACK(pause_callback_wrapper)
 {
-    xplus4_main_menu[MENU_ADVANCE_FRAME_IDX].status = 
+    xplus4_main_menu[MENU_ADVANCE_FRAME_IDX].status =
         sdl_pause_state || !sdl_menu_state ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     xplus4_main_menu[MENU_VIRTUAL_KEYBOARD_IDX].status =
         sdl_pause_state ? MENU_STATUS_INACTIVE : MENU_STATUS_ACTIVE;
@@ -243,7 +244,7 @@ int plus4ui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xplus4_main_menu);
-    sdl_ui_font_init("kernal", 0x1000, 0x1400, 0);
+    sdl_ui_font_init(PLUS4_KERNAL_PAL_REV5_NAME, 0x1000, 0x1400, 0);
     sdl_vkbd_set_vkbd(&vkbd_plus4);
 
 #ifdef HAVE_FFMPEG
@@ -261,6 +262,7 @@ void plus4ui_shutdown(void)
     uijoyport_menu_shutdown();
     uijoystick_menu_shutdown();
     uiuserport_menu_shutdown();
+    uitapeport_menu_shutdown();
     uimedia_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);

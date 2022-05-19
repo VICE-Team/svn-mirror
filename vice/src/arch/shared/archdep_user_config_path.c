@@ -37,33 +37,27 @@
  */
 
 #include "vice.h"
-
-#include <stddef.h>
-
 #include "archdep_defs.h"
 
-#include "archdep.h"
-
-#ifdef ARCHDEP_OS_WINDOWS
-# include "windows.h"
-# include "shlobj.h"
+#include <stddef.h>
+#ifdef WINDOWS_COMPILE
+# include <windows.h>
+# include <shlobj.h>
 #endif
 
-#include <stddef.h>
-
-#include "lib.h"
-
-#if !defined(ARCHDEP_OS_UNIX) && !defined(ARCHDEP_OS_WINDOWS) \
-    && !(defined(ARCHDEP_OS_BEOS))
+/* TODO: Haiku is a lot more POSIX-like than classic BeOS, so perhaps we should
+ *       test for classic BeOS or Haiku and act accordingly.
+ */
+#if !defined(UNIX_COMPILE) && !defined(WINDOWS_COMPILE) \
+    && !(defined(BEOS_COMPILE))
 # include "archdep_boot_path.h"
 #endif
-
-#ifdef ARCHDEP_OS_BEOS
+#ifdef BEOS_COMPILE
 # include "archdep_home_path.h"
 #endif
-
-#include "archdep_join_paths.h"
 #include "archdep_xdg.h"
+#include "lib.h"
+#include "util.h"
 
 #include "archdep_user_config_path.h"
 
@@ -94,7 +88,7 @@ static char *user_config_dir = NULL;
  */
 const char *archdep_user_config_path(void)
 {
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
     TCHAR szPath[MAX_PATH];
 #endif
     /* don't recalculate path if it's already known */
@@ -102,19 +96,19 @@ const char *archdep_user_config_path(void)
         return user_config_dir;
     }
 
-#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
+#if defined(UNIX_COMPILE) || defined(HAIKU_COMPILE)
     char *xdg_config = archdep_xdg_config_home();
-    user_config_dir = archdep_join_paths(xdg_config, "vice", NULL);
+    user_config_dir = util_join_paths(xdg_config, "vice", NULL);
     lib_free(xdg_config);
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
     /*
      * Use WinAPI to get %APPDATA% directory, hopefully more reliable than
      * hardcoding 'AppData/Roaming'. We can't use SHGetKnownFolderPath() here
      * since SDL should be able to run on Windows XP and perhaps even lower.
      */
     if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, szPath))) {
-        user_config_dir = archdep_join_paths(szPath, "vice", NULL);
+        user_config_dir = util_join_paths(szPath, "vice", NULL);
     } else {
         user_config_dir = NULL;
     }

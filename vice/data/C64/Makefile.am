@@ -1,14 +1,16 @@
 c64dir = $(VICE_DATADIR)/C64
 
 roms = \
-	basic \
-	chargen \
-	jpchrgen \
-	kernal \
-	sxkernal \
-	edkernal \
-	gskernal \
-	jpkernal
+	basic-901226-01.bin \
+	chargen-901225-01.bin \
+	chargen-906143-02.bin \
+	kernal-901227-01.bin \
+	kernal-901227-02.bin \
+	kernal-901227-03.bin \
+	kernal-251104-04.bin \
+	kernal-901246-01.bin \
+	kernal-390852-01.bin \
+	kernal-906145-02.bin
 
 romsets = \
 	default.vrs
@@ -41,9 +43,14 @@ gtk3_keymaps = \
 	gtk3_pos_se.vkm \
 	gtk3_pos_it.vkm \
 	gtk3_pos_es.vkm \
+	gtk3_pos_uk.vkm \
+	gtk3_pos_tr.vkm \
 	gtk3_sym_de.vkm \
+	gtk3_sym_be.vkm \
 	gtk3_sym_nl.vkm \
 	gtk3_sym_da.vkm \
+	gtk3_sym_uk.vkm \
+	gtk3_sym_tr.vkm \
 	gtk3_keyrah.vkm \
 	gtk3_keyrah_de.vkm \
 	gtk3_the64_de.vkm \
@@ -53,40 +60,59 @@ gtk3_keymaps = \
 	gtk3_pos_bmc64.vkm
 
 gtk3_hotkeys = \
-	gtk3-hotkeys.vhk
+	gtk3-hotkeys.vhk \
+	gtk3-hotkeys-mac.vhk \
+	gtk3-vsid-hotkeys.vhk \
+	gtk3-vsid-hotkeys-mac.vhk \
+	gtk3-winvice-legacy.vhk
 
 sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
 	sdl_joymap_thec64.vjm \
-	sdl_hotkeys.vkm \
-	sdl_hotkeys_vsid.vkm \
 	sdl_pos.vkm \
+	sdl_pos_uk.vkm \
 	sdl_pos_ch.vkm \
 	sdl_pos_da.vkm \
 	sdl_pos_de.vkm \
 	sdl_pos_fi.vkm \
 	sdl_pos_no.vkm \
+	sdl_pos_tr.vkm \
 	sdl_keyrah.vkm \
 	sdl_keyrah_de.vkm \
 	sdl_keyrah_retropie.vkm \
 	sdl_keyrah_retropie_de.vkm \
 	sdl_keyrah_combian.vkm \
 	sdl_sym.vkm \
+	sdl_sym_uk.vkm \
 	sdl_sym_de.vkm \
 	sdl_sym_nl.vkm \
 	sdl_sym_it.vkm \
 	sdl_sym_fr.vkm \
 	sdl_sym_da.vkm
 
+sdl_hotkeys = \
+	sdl-hotkeys.vhk \
+	sdl-hotkeys-vsid.vhk
+
 sym_file = \
 	c64mem.sym
 
-if SDL_COMPILE
-c64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
-
+if USE_SDLUI
+c64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file) $(sdl_hotkeys)
 EXTRA_DIST = $(c64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
-else
-c64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys) $(sym_file)
+endif
 
-EXTRA_DIST = $(c64_DATA) $(sdl_keymaps)
+if USE_SDL2UI
+c64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file) $(sdl_hotkeys)
+EXTRA_DIST = $(c64_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
+endif
+
+if USE_GTK3UI
+c64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(gtk3_hotkeys) $(sym_file)
+EXTRA_DIST = $(c64_DATA) $(sdl_keymaps) $(sdl_hotkeys)
+endif
+
+if USE_HEADLESSUI
+c64_DATA = $(roms) $(romsets) $(palettes) $(sym_file)
+EXTRA_DIST = $(c64_DATA) $(sdl_keymaps) $(sdl_hotkeys) $(gtk3_keymaps) $(gtk3_hotkeys)
 endif

@@ -44,10 +44,6 @@
 
 static int border_set_func(const char *value, void *extra_param)
 {
-    int video;
-
-    resources_get_int("MachineVideoStandard", &video);
-
     if (strcmp(value, "1") == 0 || strcmp(value, "full") == 0) {
         resources_set_int("VICIIBorderMode", 1);
     } else if (strcmp(value, "2") == 0 || strcmp(value, "debug") == 0) {
@@ -66,7 +62,7 @@ struct model_s {
     int model;
 };
 
-static struct model_s model_match[] = {
+static const struct model_s model_match[] = {
     /* PAL, 63 cycle, 9 luma, "old" */
     { "6569", VICII_MODEL_6569 },
     { "6569r3", VICII_MODEL_6569 },

@@ -7,7 +7,7 @@ EXTRA_DIST = \
 
 
 if UNIX_COMPILE
-if !UNIX_MACOSX_COMPILE
+if !MACOS_COMPILE
 
 if INSTALL_DESKTOP_FILES
 # Make .desktop files
@@ -205,7 +205,7 @@ uninstall-hook:
 
 # if INSTALL_DESKTOP_FILES
 endif
-# if !UNIX_MACOSX_COMPILE
+# if !MACOS_COMPILE
 endif
 
 endif

@@ -174,7 +174,7 @@ int sdl_ui_font_init(const char *name, int initial_offset, int asc_offset, char 
     sdl_ui_set_monitor_font(sdlfontmon, 8, 8);
     sdl_ui_set_image_font(sdlfontpet, 8, 8);
     sdl_ui_set_menu_font(sdlfontasc, 8, 8);
-    
+
     return 0;
 }
 

@@ -4,10 +4,10 @@
 
 
 # Make sure we use Windows' console mode since this is a command line tool
-if WIN32_COMPILE
+if WINDOWS_COMPILE
 cartconv_LDFLAGS = -mconsole
 else
-cartconv_LDFLAGS = 
+cartconv_LDFLAGS =
 endif
 
 if USE_SVN_REVISION
@@ -27,7 +27,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	-I$(top_builddir)/src
 
-LIBS = 
+LIBS =
 
 # Sources used cartconv
 cartconv_SOURCES = \

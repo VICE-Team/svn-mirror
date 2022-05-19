@@ -44,13 +44,10 @@ void mousedrv_mouse_changed(void)
     ui_check_mouse_cursor();
 }
 
-int mousedrv_resources_init(mouse_func_t *funcs)
+int mousedrv_resources_init(const mouse_func_t *funcs)
 {
-    mouse_funcs.mbl = funcs->mbl;
-    mouse_funcs.mbr = funcs->mbr;
-    mouse_funcs.mbm = funcs->mbm;
-    mouse_funcs.mbu = funcs->mbu;
-    mouse_funcs.mbd = funcs->mbd;
+    /* Copy entire 'mouse_func_t' structure. */
+    mouse_funcs = *funcs;
     return 0;
 }
 
@@ -82,7 +79,7 @@ void mouse_button(int bnumber, int state)
             mouse_funcs.mbr(state);
             break;
 /* FIXME: fix for SDL2 */
-#ifndef USE_SDLUI2
+#ifndef USE_SDL2UI
         case SDL_BUTTON_WHEELUP:
             mouse_funcs.mbu(state);
             break;

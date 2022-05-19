@@ -32,10 +32,8 @@
 #include <string.h>
 
 #include "archdep_get_vice_datadir.h"
-#include "archdep_join_paths.h"
-
 #include "lib.h"
-#include "machine.h"
+#include "util.h"
 
 #include "archdep_get_vice_drivesdir.h"
 
@@ -52,7 +50,7 @@ char *archdep_get_vice_drivesdir(void)
     char *drivesdir;
 
     datadir = archdep_get_vice_datadir();
-    drivesdir = archdep_join_paths(datadir, "DRIVES", NULL);
+    drivesdir = util_join_paths(datadir, "DRIVES", NULL);
     lib_free(datadir);
     return drivesdir;
 }

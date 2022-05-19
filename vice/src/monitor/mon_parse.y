@@ -30,35 +30,16 @@
 
 #include "vice.h"
 
-#if !defined(MACOS_COMPILE) && !(defined(__OS2__) && defined(IDE_COMPILE))
 #ifdef __GNUC__
 #undef alloca
-#ifndef ANDROID_COMPILE
 #define        alloca(n)       __builtin_alloca (n)
-#endif
-#else
+#else /* not __GNUC__ */
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
-#else  /* Not HAVE_ALLOCA_H.  */
-#if !defined(_AIX) && !defined(WINCE)
-#ifndef _MSC_VER
+#else  /* Not HAVE_ALLOCA_H  */
 extern char *alloca();
-#else
-#define alloca(n)   _alloca(n)
-#endif  /* MSVC */
-#endif /* Not AIX and not WINCE.  */
 #endif /* HAVE_ALLOCA_H.  */
-#endif /* GCC.  */
-#endif /* MACOS OS2 */
-
-/* SunOS 4.x specific stuff */
-#if defined(sun) || defined(__sun)
-#  if !defined(__SVR4) && !defined(__svr4__)
-#    ifdef __sparc__
-#      define YYFREE
-#    endif
-#  endif
-#endif
+#endif /* __GNUC__ */
 
 #include <assert.h>
 #include <stdio.h>
@@ -81,14 +62,11 @@ extern char *alloca();
 #include "mon_register.h"
 #include "mon_util.h"
 #include "montypes.h"
+#include "tapeport.h"
 #include "resources.h"
 #include "types.h"
 #include "uimon.h"
 #include "vsync.h"
-
-#ifdef AMIGA_MORPHOS
-#undef REG_PC
-#endif
 
 #define join_ints(x,y) (LO16_TO_HI16(x)|y)
 #define separate_int1(x) (HI16_TO_LO16(x))
@@ -99,10 +77,6 @@ static int temp;
 static int resolve_datatype(unsigned guess_type, const char *num);
 static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
                          const char *num);
-
-#ifdef __IBMC__
-static void __yy_memcpy (char *to, char *from, int count);
-#endif
 
 /* Defined in the lexer */
 extern int new_cmd, opt_asm;
@@ -165,7 +139,7 @@ extern int cur_len, last_len;
 %token CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU CMD_YYDEBUG
 %token CMD_BACKTRACE CMD_SCREENSHOT CMD_PWD CMD_DIR CMD_MKDIR CMD_RMDIR
 %token CMD_RESOURCE_GET CMD_RESOURCE_SET CMD_LOAD_RESOURCES CMD_SAVE_RESOURCES
-%token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_CARTFREEZE
+%token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_CARTFREEZE CMD_UPDB CMD_JPDB
 %token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
 %token CMD_COMMENT CMD_LIST CMD_STOPWATCH RESET
 %token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD CMD_MAINCPU_TRACE
@@ -598,9 +572,13 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                   | CMD_MON_RESET opt_sep expression end_cmd
                     { mon_reset_machine($3); }
                   | CMD_TAPECTRL opt_sep expression end_cmd
-                    { mon_tape_ctrl($3); }
+                    { mon_tape_ctrl(TAPEPORT_PORT_1, $3); }  /* FIXME: hardcoded to port 1 for now */
                   | CMD_CARTFREEZE end_cmd
                     { mon_cart_freeze(); }
+                  | CMD_UPDB number end_cmd
+                    { mon_userport_set_output($2); }
+                  | CMD_JPDB number number end_cmd
+                    { mon_joyport_set_output($2, $3); }
                   | CMD_COMMENT opt_rest_of_line end_cmd
                      { }
                   | CMD_STOPWATCH RESET end_cmd
@@ -1148,8 +1126,13 @@ int parse_and_execute_line(char *input)
    char *temp_buf;
    int i, rc;
 
-   /* Ensure drive CPU emulation is up to date with main cpu CLOCK. */
-   drive_cpu_execute_all(maincpu_clk);
+   if (default_memspace == e_comp_space) {
+       /*
+        * If the command is to be executed when the default address space is the main cpu,
+        * Ensure drive CPU emulation is up to date with main cpu CLOCK.
+        */
+       drive_cpu_execute_all(maincpu_clk);
+   }
 
    temp_buf = lib_malloc(strlen(input) + 3);
    strcpy(temp_buf,input);

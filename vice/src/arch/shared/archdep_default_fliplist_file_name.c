@@ -27,11 +27,10 @@
 
 #include "vice.h"
 
+#include "archdep_user_config_path.h"
 #include "lib.h"
 #include "machine.h"
 #include "util.h"
-#include "archdep_join_paths.h"
-#include "archdep_user_config_path.h"
 
 #include "archdep_default_fliplist_file_name.h"
 
@@ -49,7 +48,7 @@ char *archdep_default_fliplist_file_name(void)
     char *path;
 
     name = util_concat("fliplist-", machine_get_name(), ".vfl", NULL);
-    path = archdep_join_paths(archdep_user_config_path(), name, NULL);
+    path = util_join_paths(archdep_user_config_path(), name, NULL);
     lib_free(name);
 
     return path;

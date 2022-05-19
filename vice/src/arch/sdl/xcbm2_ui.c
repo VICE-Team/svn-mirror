@@ -33,6 +33,7 @@
 #include "debug.h"
 #include "cbm2.h"
 #include "cbm2mem.h"
+#include "cbm2rom.h"
 #include "cbm2ui.h"
 #include "lib.h"
 #include "machine.h"
@@ -167,7 +168,7 @@ static ui_menu_entry_t xcbm6x0_7x0_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)settings_manager_menu },
-#ifdef USE_SDLUI2
+#ifdef USE_SDL2UI
     { "Edit",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -189,7 +190,7 @@ static ui_menu_entry_t xcbm6x0_7x0_main_menu[] = {
 #endif
 static UI_MENU_CALLBACK(pause_callback_wrapper)
 {
-    xcbm6x0_7x0_main_menu[MENU_ADVANCE_FRAME_IDX].status = 
+    xcbm6x0_7x0_main_menu[MENU_ADVANCE_FRAME_IDX].status =
         sdl_pause_state || !sdl_menu_state ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     xcbm6x0_7x0_main_menu[MENU_VIRTUAL_KEYBOARD_IDX].status =
         sdl_pause_state ? MENU_STATUS_INACTIVE : MENU_STATUS_ACTIVE;
@@ -251,7 +252,7 @@ int cbm2ui_init(void)
 
     sdl_ui_set_menu_params = cbm2ui_set_menu_params;
     sdl_ui_set_main_menu(xcbm6x0_7x0_main_menu);
-    sdl_ui_font_init("chargen.600", 0x800, 0, 1);
+    sdl_ui_font_init(CBM2_CHARGEN600_NAME, 0x800, 0, 1);
 
     sdl_vkbd_set_vkbd(&vkbd_cbm2);
 
@@ -275,6 +276,7 @@ void cbm2ui_shutdown(void)
     uipalette_menu_shutdown();
     uisid_menu_shutdown();
     uijoyport_menu_shutdown();
+    uitapeport_menu_shutdown();
     uijoystick_menu_shutdown();
 
     sdl_ui_font_shutdown();

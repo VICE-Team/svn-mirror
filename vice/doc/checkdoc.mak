@@ -5,8 +5,8 @@
 VICESRC=../src
 
 PROGS= \
-	$(VICESRC)/petcat \
-	$(VICESRC)/cartconv \
+	$(VICESRC)/tools/petcat/petcat \
+	$(VICESRC)/tools/cartconv/cartconv \
 	$(VICESRC)/c1541 \
 	$(VICESRC)/vsid \
 	$(VICESRC)/x64 \
@@ -60,9 +60,9 @@ vice.opts.tmp: $(PROGS) checkdoc.mak
 	echo "[SCPU64]" >> vice.opts.tmp
 	LANGUAGE="en" $(VICESRC)/xscpu64 -help >> vice.opts.tmp
 	echo "[petcat]" >> vice.opts.tmp
-	-LANGUAGE="en" $(VICESRC)/petcat -help | tr '[]' '()' >> vice.opts.tmp
+	-LANGUAGE="en" $(VICESRC)/tools/petcat/petcat -help | tr '[]' '()' >> vice.opts.tmp
 	echo "[cartconv]" >> vice.opts.tmp
-	-LANGUAGE="en" $(VICESRC)/cartconv -help >> vice.opts.tmp
+	-LANGUAGE="en" $(VICESRC)/tools/cartconv/cartconv >> vice.opts.tmp
 
 vice.rc.tmp: $(PROGS) checkdoc.mak
 	echo "creating vice.rc.tmp"

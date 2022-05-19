@@ -39,8 +39,8 @@
  */
 int scpu64ui_init_early(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     return 0;
 }
 
@@ -51,8 +51,8 @@ int scpu64ui_init_early(void)
  */
 int scpu64ui_init(void)
 {
-    printf("%s\n", __func__);
-    
+    /* printf("%s\n", __func__); */
+
     return 0;
 }
 
@@ -61,5 +61,5 @@ int scpu64ui_init(void)
  */
 void scpu64ui_shutdown(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 }

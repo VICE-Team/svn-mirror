@@ -27,25 +27,22 @@
  */
 
 #include "vice.h"
-
-#include "archdep.h"
 #include "archdep_defs.h"
 
 #include <stdio.h>
 #include <errno.h>
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 #endif
 
-#include "ioutil.h"
 #include "lib.h"
 #include "util.h"
 
 #include "archdep_default_logger.h"
 
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 
 /** \brief  Write message to Windows debugger/logger
  *
@@ -78,7 +75,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
-#elif defined(ARCHDEP_OS_UNIX) || defined(ARCHEP_OS_BEOS)
+#elif defined(UNIX_COMPILE) || defined(ARCHEP_OS_BEOS)
 
 /** \brief  Write log message to stdout
  *

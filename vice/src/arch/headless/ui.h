@@ -52,6 +52,7 @@ void ui_dispatch_events(void);
  */
 int  ui_pause_active(void);
 void ui_pause_enable(void);
+bool ui_pause_loop_iteration(void);
 void ui_pause_disable(void);
 void ui_pause_toggle(void);
 

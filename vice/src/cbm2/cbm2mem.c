@@ -105,7 +105,7 @@ static int *mem_read_limit_tab_ptr;
 
 int cbm2_init_ok = 0;
 
-/* Current watchpoint state. 
+/* Current watchpoint state.
           0 = no watchpoints
     bit0; 1 = watchpoints active
     bit1; 2 = watchpoints trigger on dummy accesses
@@ -142,7 +142,7 @@ void cbm2mem_set_bank_exec(int val)
         _mem_write_tab_ptr = _mem_write_tab[cbm2mem_bank_exec];
         _mem_read_tab_ptr_dummy = _mem_read_tab[cbm2mem_bank_exec];
         _mem_write_tab_ptr_dummy = _mem_write_tab[cbm2mem_bank_exec];
-        
+
         _mem_read_base_tab_ptr = _mem_read_base_tab[cbm2mem_bank_exec];
         mem_read_limit_tab_ptr = mem_read_limit_tab[(cbm2mem_bank_exec < 15)
                                                     ? 0 : 1];
@@ -868,7 +868,7 @@ void mem_set_basic_text(uint16_t start, uint16_t end)
 }
 
 /* this function should always read from the screen currently used by the kernal
-   for output, normally this does just return system ram - except when the 
+   for output, normally this does just return system ram - except when the
    videoram is not memory mapped.
    used by autostart to "read" the kernal messages
 */
@@ -1105,7 +1105,7 @@ void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, i
 
 /* used by autostart to locate and "read" kernal output on the current screen
  * this function should return whatever the kernal currently uses, regardless
- * what is currently visible/active in the UI 
+ * what is currently visible/active in the UI
  */
 void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uint8_t *line_length, int *blinking)
 {
@@ -1195,7 +1195,7 @@ static io_source_t acia_device = {
     NULL,                  /* NO poke function */
     acia1_read,            /* read function */
     acia1_peek,            /* peek function */
-    NULL,                  /* TODO: chip state information dump function */
+    acia1_dump,            /* chip state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
     0                      /* insertion order, gets filled in by the registration function */
@@ -1250,3 +1250,4 @@ void cbm2io_init(void)
     tpi1_list_item = io_source_register(&tpi1_device);
     tpi2_list_item = io_source_register(&tpi2_device);
 }
+

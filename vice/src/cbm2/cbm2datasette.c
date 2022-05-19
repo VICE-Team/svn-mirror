@@ -34,6 +34,7 @@
 #include "cia.h"
 #include "datasette.h"
 #include "log.h"
+#include "tapeport.h"
 
 #ifdef DEBUG_TAPE
 #define DBG(x)  log_debug x
@@ -60,26 +61,34 @@ static void logit(int f, int n)
 #define logit(f, n)
 #endif
 
-void machine_trigger_flux_change(unsigned int on)
+void machine_trigger_flux_change(int port, unsigned int on)
 {
-    logit(0, on);
-    ciacore_set_flag(machine_context.cia1);
+    if (port == TAPEPORT_PORT_1) {
+        logit(0, on);
+        ciacore_set_flag(machine_context.cia1);
+    }
 }
 
-void machine_set_tape_sense(int sense)
+void machine_set_tape_sense(int port, int sense)
 {
-    logit(1, sense);
-    tpi1_set_tape_sense(sense);
+    if (port == TAPEPORT_PORT_1) {
+        logit(1, sense);
+        tpi1_set_tape_sense(sense);
+    }
 }
 
-void machine_set_tape_write_in(int val)
+void machine_set_tape_write_in(int port, int val)
 {
-    logit(2, val);
-    tpi1_set_tape_write_in(val);
+    if (port == TAPEPORT_PORT_1) {
+        logit(2, val);
+        tpi1_set_tape_write_in(val);
+    }
 }
 
-void machine_set_tape_motor_in(int val)
+void machine_set_tape_motor_in(int port, int val)
 {
-    logit(3, val);
-    tpi1_set_tape_motor_in(val);
+    if (port == TAPEPORT_PORT_1) {
+        logit(3, val);
+        tpi1_set_tape_motor_in(val);
+    }
 }

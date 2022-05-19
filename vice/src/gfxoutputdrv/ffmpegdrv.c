@@ -67,8 +67,8 @@ static gfxoutputdrv_codec_t avi_audio_codeclist[] = {
 };
 
 static gfxoutputdrv_codec_t mp4_audio_codeclist[] = {
-    { AV_CODEC_ID_MP3, "MP3" },
     { AV_CODEC_ID_AAC, "AAC" },
+    { AV_CODEC_ID_MP3, "MP3" },
     { AV_CODEC_ID_AC3, "AC3" },
     { 0, NULL }
 };
@@ -109,10 +109,10 @@ static gfxoutputdrv_codec_t none_codeclist[] = {
 gfxoutputdrv_format_t *ffmpegdrv_formatlist = NULL;
 gfxoutputdrv_format_t formats_to_test[] =
 {
-    { "avi", avi_audio_codeclist, avi_video_codeclist },
     { "mp4", mp4_audio_codeclist, mp4_video_codeclist },
-    { "matroska", mp4_audio_codeclist, mp4_video_codeclist },
     { "ogg", ogg_audio_codeclist, ogg_video_codeclist },
+    { "avi", avi_audio_codeclist, avi_video_codeclist },
+    { "matroska", mp4_audio_codeclist, mp4_video_codeclist },
     { "wav", NULL, NULL },
     { "mp3", NULL, none_codeclist }, /* formats expects png which fails in VICE */
     { "mp2", NULL, NULL },
@@ -172,12 +172,10 @@ static int set_container_format(const char *val, void *param)
 {
     int i;
 
-/* kludges to prevent crash at startup when using --help on the commandline */
-#ifndef STATIC_FFMPEG
+    /* kludge to prevent crash at startup when using --help on the commandline */
     if (ffmpegdrv_formatlist == NULL) {
         return 0;
     }
-#endif
 
     format_index = -1;
 
@@ -247,7 +245,7 @@ static int set_video_halve_framerate(int value, void *param)
 /*---------- Resources ------------------------------------------------*/
 
 static const resource_string_t resources_string[] = {
-    { "FFMPEGFormat", "avi", RES_EVENT_NO, NULL,
+    { "FFMPEGFormat", "mp4", RES_EVENT_NO, NULL,
       &ffmpeg_format, set_container_format, NULL },
     RESOURCE_STRING_LIST_END
 };
@@ -259,9 +257,9 @@ static const resource_int_t resources_int[] = {
     { "FFMPEGVideoBitrate", VICE_FFMPEG_VIDEO_RATE_DEFAULT,
       RES_EVENT_NO, NULL,
       &video_bitrate, set_video_bitrate, NULL },
-    { "FFMPEGAudioCodec", AV_CODEC_ID_MP3, RES_EVENT_NO, NULL,
+    { "FFMPEGAudioCodec", AV_CODEC_ID_AAC, RES_EVENT_NO, NULL,
       &audio_codec, set_audio_codec, NULL },
-    { "FFMPEGVideoCodec", AV_CODEC_ID_MPEG4, RES_EVENT_NO, NULL,
+    { "FFMPEGVideoCodec", AV_CODEC_ID_H264, RES_EVENT_NO, NULL,
       &video_codec, set_video_codec, NULL },
     { "FFMPEGVideoHalveFramerate", 0, RES_EVENT_NO, NULL,
       &video_halve_framerate, set_video_halve_framerate, NULL },
@@ -318,7 +316,7 @@ static void close_stream(OutputStream *ost)
 /* audio stream encoding */
 /*-----------------------*/
 
-static AVFrame *alloc_audio_frame(enum AVSampleFormat sample_fmt, 
+static AVFrame *alloc_audio_frame(enum AVSampleFormat sample_fmt,
     uint64_t channel_layout,
     int sample_rate, int nb_samples)
 {
@@ -740,10 +738,10 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     video_width = c->width = screenshot->width & ~0xf;
     video_height = c->height = screenshot->height & ~0xf;
     /* frames per second */
-    st->time_base = VICE_P_AV_D2Q(machine_get_cycles_per_frame() 
-                                    / (double)(video_halve_framerate ? 
+    st->time_base = VICE_P_AV_D2Q(machine_get_cycles_per_frame()
+                                    / (double)(video_halve_framerate ?
                                         machine_get_cycles_per_second() / 2 :
-                                        machine_get_cycles_per_second()), 
+                                        machine_get_cycles_per_second()),
                                   (1 << 16) - 1);
     c->time_base = st->time_base;
 
@@ -957,11 +955,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
 
         if (sws_ctx != NULL) {
             VICE_P_SWS_SCALE(sws_ctx,
-#if defined(STATIC_FFMPEG) || defined(SHARED_FFMPEG)
-                (const uint8_t * const *)video_st.tmp_frame->data,
-#else
                 video_st.tmp_frame->data,
-#endif
                 video_st.tmp_frame->linesize, 0, c->height,
                 video_st.frame->data, video_st.frame->linesize);
         }
@@ -1118,12 +1112,10 @@ static void ffmpeg_get_formats_and_codecs(void)
 
 void gfxoutput_init_ffmpeg(int help)
 {
-#ifndef STATIC_FFMPEG
     if (help) {
         gfxoutput_register(&ffmpeg_drv);
         return;
     }
-#endif
 
     if (ffmpeglib_open(&ffmpeglib) < 0) {
         return;

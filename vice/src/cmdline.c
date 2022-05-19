@@ -84,12 +84,12 @@ int cmdline_register_options(const cmdline_option_t *c)
     p = options + num_options;
     for (; c->name != NULL; c++, p++) {
         if (lookup_exact(c->name)) {
-            archdep_startup_log_error("CMDLINE: (%d) Duplicated option '%s'.\n", num_options, c->name);
+            archdep_startup_log_error("CMDLINE: (%u) Duplicated option '%s'.\n", num_options, c->name);
             return -1;
         }
 
         if (c->description == NULL) {
-            archdep_startup_log_error("CMDLINE: (%d) description id not used and description NULL for '%s'.\n", num_options, c->name);
+            archdep_startup_log_error("CMDLINE: (%u) description id not used and description NULL for '%s'.\n", num_options, c->name);
             return -1;
         }
 
@@ -379,6 +379,8 @@ int cmdline_get_num_options(void)
     return num_options;
 }
 
+/*#define DEBUG_OPTIONS_LOG*/
+
 void cmdline_log_active(void)
 {
     unsigned int i;
@@ -400,9 +402,17 @@ void cmdline_log_active(void)
             if (restype == RES_INTEGER) {
                 resources_get_int(resname, &resval_int);
                 resources_get_default_value(resname, &resval_int_default);
+#ifdef DEBUG_OPTIONS_LOG
+                printf("opt: %s res: %s val: %d default: %d\n",
+                       optname, resname, resval_int, resval_int_default);
+#endif
             } else if (restype == RES_STRING) {
                 resources_get_string(resname, &resval_str);
                 resources_get_default_value(resname, &resval_str_default);
+#ifdef DEBUG_OPTIONS_LOG
+                printf("opt: %s res: %s val: %s default: %s\n",
+                       optname, resname, resval_str, resval_str_default);
+#endif
             }
         }
         cmd = NULL;
@@ -412,12 +422,12 @@ void cmdline_log_active(void)
                 if (resval_int != resval_int_default) {
                     char tmp[32];
                     sprintf(tmp, "%d", resval_int);
-                    cmd = util_concat(optname, " ", tmp, NULL);
+                    cmd = util_concat(optname, " \"", tmp, "\"", NULL);
                 }
             } else if (restype == RES_STRING) {
                 if ((resval_str != NULL) && (resval_str_default != NULL)) {
                     if (strcmp(resval_str, resval_str_default)) {
-                        cmd = util_concat(optname, " ", resval_str, NULL);
+                        cmd = util_concat(optname, " \"", resval_str, "\"", NULL);
                     }
                 }
             }
@@ -448,7 +458,7 @@ void cmdline_log_active(void)
             lib_free(cmd); /* free old pointer */
         }
     }
-    log_message(LOG_DEFAULT, "reconstructed commandline options (might be incomplete):");
-    log_message(LOG_DEFAULT, "%s", cmdline);
+    log_message(LOG_DEFAULT, "\nreconstructed commandline options (might be incomplete):");
+    log_message(LOG_DEFAULT, "%s\n", cmdline);
     lib_free(cmdline);
 }

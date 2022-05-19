@@ -70,12 +70,13 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     GtkWidget *mode;
     GtkWidget *size;
     GtkWidget *cart_widget;
+    GtkWidget *rom_widget;
 
     /* use three columns for the label */
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAMLink settings", 2);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, CARTRIDGE_NAME_RAMLINK " settings", 2);
 
     /* create 'enable ramlink' checkbox */
-    enable = vice_gtk3_resource_check_button_new("RAMLINK", "Enable RAMLink");
+    enable = vice_gtk3_resource_check_button_new("RAMLINK", "Enable " CARTRIDGE_NAME_RAMLINK);
     g_object_set(enable, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 1, 1, 1);
 
@@ -109,16 +110,26 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     gtk_widget_set_hexpand(size, FALSE);
     gtk_widget_set_halign(size, GTK_ALIGN_START);
 
+    /* ROM image browser widget */
+    rom_widget = vice_gtk3_resource_browser_new(
+            "RAMLINKBIOSfilename",
+            NULL,
+            NULL,
+            "Select Ramlink ROM image",
+            CARTRIDGE_NAME_RAMLINK " ROM",
+            NULL);
+    gtk_grid_attach(GTK_GRID(grid), rom_widget, 0, 4, 4, 1);
+
     /* create RAMlink image browser */
     cart_widget = cart_image_widget_create(
             parent,
-            "RAMLink Image",
+            CARTRIDGE_NAME_RAMLINK " RAM Image",
             "RAMLINKfilename", "RAMLINKImageWrite",
             carthelpers_save_func, carthelpers_flush_func,
             carthelpers_can_save_func, carthelpers_can_flush_func,
             CARTRIDGE_NAME_RAMLINK, CARTRIDGE_RAMLINK);
 
-    gtk_grid_attach(GTK_GRID(grid), cart_widget, 0, 3, 4, 1);
+    gtk_grid_attach(GTK_GRID(grid), cart_widget, 0, 5, 4, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

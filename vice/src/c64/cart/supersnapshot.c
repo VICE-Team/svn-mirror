@@ -39,6 +39,7 @@
 #include "cmdline.h"
 #include "export.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "supersnapshot.h"
@@ -70,6 +71,8 @@
     bit 1    !ram enable (0: enabled, 1: disabled), !EXROM (0: high, 1: low)
     bit 0    GAME (0: low, 1: high)
 */
+
+#define CART_RAM_SIZE (32 * 1024)
 
 /* Super Snapshot configuration flags.  */
 static uint8_t romconfig = 9;
@@ -208,6 +211,25 @@ void supersnapshot_v5_mmu_translate(unsigned int addr, uint8_t **base, int *star
 }
 
 /* ---------------------------------------------------------------------*/
+
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void supersnapshot_v5_powerup(void)
+{
+    ram_init_with_pattern(export_ram0, CART_RAM_SIZE, &ramparam);
+}
 
 void supersnapshot_v5_freeze(void)
 {

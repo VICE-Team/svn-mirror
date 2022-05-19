@@ -305,15 +305,23 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
             }
             break;
         case 4:     /* ctrl-d, remove char at right of cursor */
-            if (len > 1 && pos < (len-1)) {
+        case 23:    /* ctrl-w, same, but don't trigger actual EOT
+                       (hack to disable exiting the monitor when pressing Delete
+                        on an empty line --compyx)
+                     */
+            if (len > 0 && pos < len) {
                 memmove(buf+pos, buf+pos+1, len-pos);
                 len--;
                 buf[len] = '\0';
                 refreshLine(term, prompt, buf, len, pos, cols);
             } else if (len == 0) {
-                history_len--;
-                free(history[history_len]);
-                return -1;
+                if (c == 4) {
+                    /* only exit on "true" CTRL+D, not the remapped
+                     * GDK_KEY_Delete/GKD_KEY_KP_Delete */
+                    history_len--;
+                    free(history[history_len]);
+                    return -1;
+                }
             }
             break;
         case 20:    /* ctrl-t */

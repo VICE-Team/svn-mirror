@@ -82,7 +82,6 @@
 #include "ninja_snespad.h"
 #include "paperclip64.h"
 #include "parallel.h"
-#include "patchrom.h"
 #include "printer.h"
 #include "protopad.h"
 #include "ps2mouse.h"
@@ -486,10 +485,6 @@ int machine_resources_init(void)
         init_resource_fail("joystick");
         return -1;
     }
-    if (gfxoutput_resources_init() < 0) {
-        init_resource_fail("gfxoutput");
-        return -1;
-    }
     if (sampler_resources_init() < 0) {
         init_resource_fail("samplerdrv");
         return -1;
@@ -638,10 +633,6 @@ int machine_cmdline_options_init(void)
     }
     if (userport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport");
-        return -1;
-    }
-    if (gfxoutput_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("gfxoutput");
         return -1;
     }
     if (sampler_cmdline_options_init() < 0) {
@@ -871,6 +862,8 @@ void machine_specific_reset(void)
 void machine_specific_powerup(void)
 {
     vicii_reset_registers();
+    userport_powerup();
+    joyport_powerup();
 }
 
 void machine_specific_shutdown(void)
@@ -886,6 +879,8 @@ void machine_specific_shutdown(void)
     vicii_shutdown();
 
     c64dtvmem_shutdown();
+
+    sid_cmdline_options_shutdown();
 
     if (!console_mode) {
         c64dtvui_shutdown();
@@ -1048,47 +1043,13 @@ uint8_t machine_tape_behaviour(void)
     return TAPE_BEHAVIOUR_NORMAL;
 }
 
-int machine_autodetect_psid(const char *name)
-{
-    return -1;
-}
-
-old_tapeport_device_list_t *old_tapeport_device_register(old_tapeport_device_t *device)
-{
-    return NULL;
-}
-
-void old_tapeport_device_unregister(old_tapeport_device_list_t *device)
-{
-}
-
-void old_tapeport_trigger_flux_change(unsigned int on, int id)
-{
-}
-
-void old_tapeport_set_tape_sense(int sense, int id)
-{
-}
-
-int tapecart_is_valid(const char *filename)
-{
-    return 0;   /* FALSE */
-}
-
-int tapecart_attach_tcrt(const char *filename, void *unused)
-{
-    return -1;
-}
-
-
-
 int machine_addr_in_ram(unsigned int addr)
 {
     /* Hack to make autostarting prg files work - the DTV splash screen runs from RAM */
     if (maincpu_clk <= 6817181 && addr >= 0x824 && addr <= 0x884) {
         return 0;
     }
-    
+
 #if 0
     /*
      * If autostart stops working on DTV, use this to check if the splash screen is
@@ -1123,7 +1084,8 @@ static userport_port_props_t userport_props = {
     0,    /* port does NOT have the pa3 pin */
     NULL, /* port does NOT have the flag pin */
     0,    /* port does NOT have the pc pin */
-    0     /* port does NOT have the cnt1, cnt2 or sp pins */
+    0,    /* port does NOT have the cnt1, cnt2 or sp pins */
+    0     /* port does NOT have the reset pin */
 };
 
 int machine_register_userport(void)

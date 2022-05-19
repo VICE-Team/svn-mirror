@@ -5,15 +5,15 @@
 
     -i4         indent 4 spaces
     -nut        Use spaces instead of tabs.
-    
+
     -cli4       indent case label 4 spaces
-    
+
     -bli0       no extra indent for braces
     -br         braces in same line as if
     -ce         cuddling else
-    
+
     -npsl       function name on same line as function type
-    
+
     -npcs       Do not put space after the function in function calls.
     -bad        blank line after a block of declarations and after each function body
 */

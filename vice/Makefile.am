@@ -31,10 +31,18 @@ EXTRA_DIST = $(COMMON_EXTRA_DIST)
 
 if SUPPORT_X64
   X64_INCLUDED = yes
+  X64_ENABLE = "--enable-x64"
 else
   X64_INCLUDED = no
+  X64_ENABLE = ""
 endif
 
+.PHONY: stylecheck
+stylecheck:
+	@echo "Doing some style checks..."
+	@cd $(top_srcdir) && $(SHELL) ./build/github-actions/check-lastline.sh
+	@cd $(top_srcdir) && $(SHELL) ./build/github-actions/check-spaces.sh
+	@cd $(top_srcdir) && $(SHELL) ./build/github-actions/check-tabs.sh
 
 .PHONY: vsid x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2 xcbm5x0 xscpu64 c1541 petcat cartconv
 
@@ -82,60 +90,63 @@ petcat:
 cartconv:
 	(cd src/tools/cartconv; $(MAKE))
 
-ffmpeglibs:
-	(cd src/lib; $(MAKE) ffmpeglibs)
-
-ffmpeglibs-install:
-	(cd src/lib; $(MAKE) ffmpeglibs-install)
-
-ffmpeglibs-clean:
-	(cd src/lib; $(MAKE) clean)
-
 install: installvice
 
 
 
 if MAKE_BINDIST
 
-if AMIGA_COMPILE
-if SDL_COMPILE
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_amiga.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir) $(SDL_VERSION) $(EXEEXT)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_amiga.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir) $(SDL_VERSION) $(EXEEXT)
-endif
-endif
-
 if BEOS_COMPILE
-if SDL_COMPILE
+
+if USE_SDLUI
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ nozip $(top_srcdir) $(SDL_VERSION)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ nozip $(top_srcdir) 1
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ zip $(XSCPU64_INCLUDED) $(top_srcdir) $(SDL_VERSION)
-endif
-endif
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ zip $(XSCPU64_INCLUDED) $(top_srcdir) 1
+endif USE_SDLUI
 
-if UNIX_MACOSX_COMPILE
-if NATIVE_GTK3_COMPILE
+if USE_SDL2UI
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ nozip $(top_srcdir) 2
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ zip $(XSCPU64_INCLUDED) $(top_srcdir) 2
+endif USE_SDL2UI
+endif BEOS_COMPILE
+
+
+if MACOS_COMPILE
+
+if USE_GTK3UI
 bindist:
 	/bin/bash @ARCH_SRC_DIR@/../gtk3/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip
 
 bindistzip:
 	/bin/bash @ARCH_SRC_DIR@/../gtk3/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip
-else
+endif USE_GTK3UI
+
+if USE_SDLUI
 bindist:
-	FW_DIR=@FW_DIR@ /bin/bash @ARCH_SRC_DIR@/../sdl/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(SDL_VERSION)
+	FW_DIR=@FW_DIR@ /bin/bash @ARCH_SRC_DIR@/../sdl/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip 1
 
 bindistzip:
-	FW_DIR=@FW_DIR@ /bin/bash @ARCH_SRC_DIR@/../sdl/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(SDL_VERSION)
-endif
-endif
+	FW_DIR=@FW_DIR@ /bin/bash @ARCH_SRC_DIR@/../sdl/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip 1
+endif USE_SDLUI
+
+if USE_SDL2UI
+bindist:
+	FW_DIR=@FW_DIR@ /bin/bash @ARCH_SRC_DIR@/../sdl/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip 2
+
+bindistzip:
+	FW_DIR=@FW_DIR@ /bin/bash @ARCH_SRC_DIR@/../sdl/make-bindist_osx.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip 2
+endif USE_SDL2UI
+
+endif MACOS_COMPILE
 
 
-if WIN32_COMPILE
-if NATIVE_GTK3_COMPILE
+if WINDOWS_COMPILE
+if USE_GTK3UI
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTMLDOCS)
 
@@ -144,59 +155,85 @@ bindistzip:
 
 bindist7zip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+endif USE_GTK3UI
 
-else
-if SDL_COMPILE
+if USE_SDLUI
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION) "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 1 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION) "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 1 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
 
 bindist7zip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION) "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 1 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+endif USE_SDLUI
 
+if USE_SDL2UI
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
 
-# New way of creating bindists for Windows (testing):
-bindist-new:
-	$(SHELL) $(top_srcdir)/src/arch/shared/make_bindist_win32.sh \
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+
+bindist7zip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) 2 "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
+endif USE_SDL2UI
+
+if USE_HEADLESSUI
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh \
 		--verbose \
-		--ui sdl2 \
-		--compiler $(CC) \
-		--cross $(CROSS) \
-		--cpu $(host_cpu) \
-		--enable-arch @ENABLE_ARCH@ \
-		--enable-x64 $(X64_INCLUDED) \
-		--html-docs $(HTML_DOCS) \
-		--objdump "$(objdump)" \
-		--sdl-config "$(SDLCONFIG)" \
-		--strip "$(STRIP)" \
-		--topbuilddir $(top_builddir) \
-		--topsrcdir $(top_srcdir) \
+		--compiler-exe $(CC) \
+		--objdump-exe $(objdump) \
+		--strip-exe $(STRIP) \
 		--vice-version $(VICE_VERSION) \
-		--zip-tool 7zip
+		--enable-arch @ENABLE_ARCH@ \
+		$(X64_ENABLE) \
+		--src-dir $(top_srcdir) \
+		--build-dir $(top_builddir) \
+		--cpu-type $(host_cpu)
 
-endif
-endif
-endif
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh \
+		--verbose \
+		--compiler-exe $(CC) \
+		--objdump-exe $(objdump) \
+		--strip-exe $(STRIP) \
+		--vice-version $(VICE_VERSION) \
+		--enable-arch @ENABLE_ARCH@ \
+		$(X64_ENABLE) \
+		--src-dir $(top_srcdir) \
+		--build-dir $(top_builddir) \
+		--cpu-type $(host_cpu) \
+		--zip-type zip
 
-else
+bindist7zip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh \
+		--verbose \
+		--compiler-exe $(CC) \
+		--objdump-exe $(objdump) \
+		--strip-exe $(STRIP) \
+		--vice-version $(VICE_VERSION) \
+		--enable-arch @ENABLE_ARCH@ \
+		$(X64_ENABLE) \
+		--src-dir $(top_srcdir) \
+		--build-dir $(top_builddir) \
+		--cpu-type $(host_cpu) \
+		--zip-type 7zip
+
+endif USE_HEADLESSUI
+
+
+endif WINDOWS_COMPILE
+
+else !MAKE_BINDIST
 bindist:
 	@echo this platform doesn\'t use \"make bindist\", use \"make install\" instead
-endif
+endif !MAKE_BINDIST
 
-if HAVE_SHARED_FFMPEG
-EXTRA_INSTALLS = ffmpeglibs-install
-EXTRA_CLEANS = ffmpeglibs-clean
-else
-if HAVE_STATIC_FFMPEG
-EXTRA_INSTALLS =
-EXTRA_CLEANS = ffmpeglibs-clean
-else
 EXTRA_INSTALLS =
 EXTRA_CLEANS =
-endif
-endif
+
 
 if MAKE_INSTALL
 installvice: install-recursive $(EXTRA_INSTALLS)
@@ -219,6 +256,5 @@ dist dist-all:
 	$(MAKE) distdir
 	$(AMTAR) chf - $(distdir) | gzip --best -c >$(distdir).tar.gz
 	$(am__remove_distdir)
-
 
 clean: $(EXTRA_CLEANS) clean-recursive

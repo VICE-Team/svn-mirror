@@ -134,7 +134,7 @@ static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t myoldpa,
     joy_bits = ((byte & 0x20) >> 1) | ((byte & 0x1c) >> 2);
     store_joyport_dig(JOYPORT_1, joy_bits, 0x17);
 
-    tapeport_set_sense_out(byte & 0x40 ? 1 : 0);
+    tapeport_set_sense_out(TAPEPORT_PORT_1, byte & 0x40 ? 1 : 0);
 }
 
 static void undump_prb(via_context_t *via_context, uint8_t byte)
@@ -174,7 +174,7 @@ static uint8_t store_pcr(via_context_t *via_context, uint8_t byte, uint16_t addr
             tmp |= 0x20;
         }
 
-        tapeport_set_motor(!(byte & 0x02));
+        tapeport_set_motor(TAPEPORT_PORT_1, !(byte & 0x02));
 
         store_userport_pa2((uint8_t)((byte & 0x20) >> 5));
     }

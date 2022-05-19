@@ -9,7 +9,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018i-2021  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018i-2022  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <inttypes.h>
 
 #include "hvsc.h"
@@ -234,10 +235,10 @@ static void psid_parse_header(hvsc_psid_t *handle)
  * \param[in]       path    path to PSID file
  * \param[in,out]   handle  PSID handle
  *
- * \return  bool
+ * \return  true on success
  * \ingroup psid
  */
-int hvsc_psid_open(const char *path, hvsc_psid_t *handle)
+bool hvsc_psid_open(const char *path, hvsc_psid_t *handle)
 {
     long size;
     uint8_t *data;
@@ -252,7 +253,7 @@ int hvsc_psid_open(const char *path, hvsc_psid_t *handle)
 #ifdef HVSC_DBG
         hvsc_perror("failed");
 #endif
-        return 0;
+        return false;
     }
 
     /* check size */
@@ -261,8 +262,8 @@ int hvsc_psid_open(const char *path, hvsc_psid_t *handle)
         hvsc_perror("failed");
 #endif
         hvsc_errno = HVSC_ERR_INVALID;
-        free(data);
-        return 0;
+        hvsc_free(data);
+        return false;
     }
     hvsc_dbg("OK, got %ld bytes\n", size);
 
@@ -270,8 +271,8 @@ int hvsc_psid_open(const char *path, hvsc_psid_t *handle)
     if (!psid_header_is_valid(data)) {
         hvsc_dbg("got invalid header magic\n");
         hvsc_errno = HVSC_ERR_INVALID;
-        free(data);
-        return 0;
+        hvsc_free(data);
+        return false;
     }
 
     /* set data and size */
@@ -279,13 +280,9 @@ int hvsc_psid_open(const char *path, hvsc_psid_t *handle)
     handle->size = (size_t)size;
     /* copy path */
     handle->path = hvsc_strdup(path);
-    if (handle->path == NULL) {
-        free(handle->data);
-        return 0;
-    }
 
     psid_parse_header(handle);
-    return 1;
+    return true;
 }
 
 
@@ -297,10 +294,10 @@ int hvsc_psid_open(const char *path, hvsc_psid_t *handle)
 void hvsc_psid_close(hvsc_psid_t *handle)
 {
     if (handle->data != NULL) {
-        free(handle->data);
+        hvsc_free(handle->data);
     }
     if (handle->path != NULL) {
-        free(handle->path);
+        hvsc_free(handle->path);
     }
     psid_handle_init(handle);
 }
@@ -469,7 +466,7 @@ void hvsc_psid_dump(const hvsc_psid_t *handle)
  *
  * \ingroup psid
  */
-int hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
+bool hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
 {
     FILE *fp;
     size_t size;
@@ -478,7 +475,7 @@ int hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
     fp = fopen(path, "wb");
     if (fp == NULL) {
         hvsc_errno = HVSC_ERR_IO;
-        return 0;
+        return false;
     }
 
     /* do we need to write a 2-byte start address? */
@@ -487,12 +484,12 @@ int hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
         if (fputc(handle->load_address & 0xff, fp) == EOF) {
             hvsc_errno = HVSC_ERR_IO;
             fclose(fp);
-            return 0;
+            return false;
         }
         if (fputc(handle->load_address >> 8, fp) == EOF) {
             hvsc_errno = HVSC_ERR_IO;
             fclose(fp);
-            return 0;
+            return false;
         }
     }
     /* write binary data */
@@ -503,9 +500,9 @@ int hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
     if (result != size) {
         hvsc_errno = HVSC_ERR_IO;
         fclose(fp);
-        return 0;
+        return false;
     }
 
     fclose(fp);
-    return 1;
+    return true;
 }

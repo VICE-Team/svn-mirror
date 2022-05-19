@@ -29,7 +29,7 @@
 
 #include "videoarch.h"
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 
 /** \brief A renderer that uses DirectX to render to a something or whatever.
  *
@@ -37,6 +37,6 @@
  */
 extern vice_renderer_backend_t vice_directx_backend;
 
-#endif /* #ifdef WIN32_COMPILE */
+#endif /* #ifdef WINDOWS_COMPILE */
 
 #endif /* #ifndef VICE_DIRECTX_RENDERER_H */

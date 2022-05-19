@@ -302,7 +302,7 @@ char *image_contents_file_to_string(image_contents_file_list_t *p,
     uint8_t *str;
 
     print_name = image_contents_get_filename(p);
-    str = (uint8_t *)lib_msprintf("%-5d %s %s", p->size, print_name, p->type);
+    str = (uint8_t *)lib_msprintf("%-5u %s %s", p->size, print_name, p->type);
 
     if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
         return (char *)str;

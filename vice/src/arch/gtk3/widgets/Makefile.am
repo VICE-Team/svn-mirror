@@ -9,6 +9,7 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \
@@ -28,6 +29,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/arch/gtk3/widgets \
 	-I$(top_srcdir)/src/arch/gtk3/widgets/base \
 	-I$(top_srcdir)/src/samplerdrv \
+	-I$(top_srcdir)/src/tapeport \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src/hvsc
 
 AM_CFLAGS = @VICE_CFLAGS@
@@ -103,6 +106,7 @@ libwidgets_a_SOURCES = \
 	magicvoicewidget.c \
 	megacartwidget.c \
 	midiwidget.c \
+	mididevicewidget.c \
 	mixerwidget.c \
 	mmc64widget.c \
 	mmcrwidget.c \
@@ -174,6 +178,7 @@ libwidgets_a_SOURCES = \
 	soundoutputmodewidget.c \
 	soundsampleratewidget.c \
 	speedwidget.c \
+	statusbarledwidget.c \
 	statusbarrecordingwidget.c \
 	statusbarspeedwidget.c \
 	superpetwidget.c \
@@ -265,6 +270,7 @@ EXTRA_DIST = \
 	magicvoicewidget.h \
 	megacartwidget.h \
 	midiwidget.h \
+	mididevicewidget.h \
 	mixerwidget.h \
 	mmc64widget.h \
 	mmcrwidget.h \
@@ -336,6 +342,7 @@ EXTRA_DIST = \
 	soundoutputmodewidget.h \
 	soundsampleratewidget.h \
 	speedwidget.h \
+	statusbarledwidget.h \
 	statusbarrecordingwidget.h \
 	statusbarspeedwidget.h \
 	superpetwidget.h \

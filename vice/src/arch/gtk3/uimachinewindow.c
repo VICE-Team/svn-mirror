@@ -36,26 +36,21 @@
 
 #include "vice.h"
 
+#include <string.h>
+
 #include <gtk/gtk.h>
-#if !defined(MACOSX_SUPPORT) && !defined(WIN32_COMPILE)
+#if !defined(MACOS_COMPILE) && !defined(WINDOWS_COMPILE)
 #include <gdk/gdkx.h>
 #endif
 
-#ifdef MACOSX_SUPPORT
-#import <objc/message.h>
+#ifdef MACOS_COMPILE
 #import <CoreGraphics/CGEvent.h>
 
-/* The proper way to use objc_msgSend is to cast it into the right shape each time */
-#define OBJC_MSGSEND(return_type, ...) ((return_type (*)(__VA_ARGS__))objc_msgSend)
-#define OBJC_MSGSEND_STRET(...) ((void (*)(__VA_ARGS__))objc_msgSend_stret)
-
-/* For some reason this isn't in the GDK quartz headers */
-id gdk_quartz_window_get_nswindow (GdkWindow *window);
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 #include <windows.h>
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 #include "directx_renderer.h"
 #else
 #include "opengl_renderer.h"
@@ -63,6 +58,7 @@ id gdk_quartz_window_get_nswindow (GdkWindow *window);
 
 #include "lightpen.h"
 #include "log.h"
+#include "machine.h"
 #include "mousedrv.h"
 #include "resources.h"
 #include "videoarch.h"
@@ -71,6 +67,10 @@ id gdk_quartz_window_get_nswindow (GdkWindow *window);
 #include "ui.h"
 #include "uimachinemenu.h"
 #include "uimachinewindow.h"
+
+#ifdef MACOS_COMPILE
+#include "macOS-util.h"
+#endif
 
 /* FIXME:   someone please add Doxygen docs for this, I can guess what it means
  *          but I'll probably get it wrong. --compyx
@@ -117,16 +117,20 @@ static int host_delta_origin_x = 0.0;
  */
 static int host_delta_origin_y = 0.0;
 
+/** \brief Number of frames the mouse didn't move, used for pointer hiding
+ */
+static int _mouse_still_frames = 0;
+
 /** \brief Mouse warp for each platform.
  */
 static void warp(int x, int y)
 {
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 
     CGWarpMouseCursorPosition(CGPointMake(x, y));
     CGAssociateMouseAndMouseCursorPosition(true);
 
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 
     SetCursorPos(x, y);
 
@@ -240,6 +244,8 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         return FALSE;
     }
 
+    pthread_mutex_lock(&canvas->lock);
+
     /* GDK_ENTER_NOTIFY isn't reliable on fullscreen transitions, so we reenable this here too */
     if (canvas->still_frame_callback_id == 0) {
         canvas->still_frame_callback_id =
@@ -259,14 +265,10 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         int widget_x, widget_y;
         gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &widget_x, &widget_y);
 
-#ifdef MACOSX_SUPPORT
-
-        void    *native_window  = gdk_quartz_window_get_nswindow(gtk_widget_get_window(widget));
-        id      content_view    = OBJC_MSGSEND(id, id, SEL)(native_window, sel_getUid("contentView"));
-
+#ifdef MACOS_COMPILE
         CGRect native_frame, content_rect;
-        OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
-        OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&content_rect, content_view,  sel_getUid("frame"));
+
+        vice_macos_get_widget_frame_and_content_rect(widget, &native_frame, &content_rect);
 
         /* macOS CoreGraphics coordinates origin is bottom-left of primary display */
         size_t main_display_height = CGDisplayPixelsHigh(CGMainDisplayID());
@@ -276,7 +278,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
             main_display_height - native_frame.origin.y - content_rect.size.height + widget_y + motion->y
             );
 
-#elif defined(WIN32_COMPILE)
+#elif defined(WINDOWS_COMPILE)
 
         int scale = gtk_widget_get_scale_factor(widget);
         mouse_host_moved(motion->x_root * scale, motion->y_root * scale);
@@ -290,6 +292,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
 
 #endif
 
+        pthread_mutex_unlock(&canvas->lock);
         return FALSE;
     }
 
@@ -314,6 +317,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         canvas->pen_y = pen_y;
     }
 
+    pthread_mutex_unlock(&canvas->lock);
     return FALSE;
 }
 
@@ -339,6 +343,8 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
 
     if (event->type == GDK_BUTTON_PRESS) {
         int button = ((GdkEventButton *)event)->button;
+
+        pthread_mutex_lock(&canvas->lock);
         if (button == 1) {
             /* Left mouse button */
             canvas->pen_buttons |= LP_HOST_BUTTON_1;
@@ -346,6 +352,7 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
             /* Right mouse button */
             canvas->pen_buttons |= LP_HOST_BUTTON_2;
         }
+        pthread_mutex_unlock(&canvas->lock);
 
         /* Don't send button events if the mouse isn't captured */
         if (_mouse_enabled) {
@@ -353,6 +360,8 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
         }
     } else if (event->type == GDK_BUTTON_RELEASE) {
         int button = ((GdkEventButton *)event)->button;
+
+        pthread_mutex_lock(&canvas->lock);
         if (button == 1) {
             /* Left mouse button */
             canvas->pen_buttons &= ~LP_HOST_BUTTON_1;
@@ -360,12 +369,14 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
             /* Right mouse button */
             canvas->pen_buttons &= ~LP_HOST_BUTTON_2;
         }
+        pthread_mutex_unlock(&canvas->lock);
 
         /* Don't send button events if the mouse isn't captured */
         if (_mouse_enabled) {
             mouse_button(button - 1, 0);
         }
     }
+
     /* Ignore all other mouse button events, though we'll be sent
      * things like double- and triple-click. */
     return FALSE;
@@ -572,9 +583,11 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
                 gtk_widget_remove_tick_callback(canvas->event_box, canvas->still_frame_callback_id);
                 canvas->still_frame_callback_id = 0;
             }
+            pthread_mutex_lock(&canvas->lock);
             canvas->pen_x = -1;
             canvas->pen_y = -1;
             canvas->pen_buttons = 0;
+            pthread_mutex_unlock(&canvas->lock);
         }
     }
 
@@ -601,12 +614,16 @@ static void machine_window_create(video_canvas_t *canvas)
 {
     GtkWidget *new_event_box;
     GtkWidget *menu_bar;
-    int backend = 0;
     char *backend_label;
+    unsigned w, h, vstretch = 0, hstretch = 0;
+    gint window_id = PRIMARY_WINDOW;
 
-    resources_get_int("GTKBackend", &backend);
+    /* hack to determine window index for use in UI action handling later */
+    if (strcmp(canvas->videoconfig->chip_name, "VDC") == 0) {
+        window_id = SECONDARY_WINDOW;
+    }
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
     canvas->renderer_backend = &vice_directx_backend;
     backend_label = "DirectX";
 #else
@@ -641,12 +658,80 @@ static void machine_window_create(video_canvas_t *canvas)
     /* I'm pretty sure when running x128 we get two menu instances, so this
      * should go somewhere else: call ui_menu_bar_create() once and attach the
      * result menu to each GtkWindow instance
+     *
+     *   Won't work since a GtkWidget cannot have two parents. I already tried
+     *   this, Gtk hade a huge fit. --compyx
      */
-    menu_bar = ui_machine_menu_bar_create();
+    menu_bar = ui_machine_menu_bar_create(window_id);
 
     gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
     gtk_container_add(GTK_CONTAINER(canvas->grid), new_event_box);
 
+    /* Crazy hack to make the initial window open at the right place of the screen. The Problem here is, that
+       if we don't explicitly set a window position (eg because we start with -default), then the window would
+       be initially created smaller than it will be when initialization finished. The window manager will take
+       that small size for determining the initial position, and if it then resizes after that, the window may
+       no more be centered, or even partially off screen.
+
+       To prevent this from happening, we try to set the correct final size here.
+
+       CAUTION: since the resources are not properly initialized yet, this is tricky and we must use some dirty
+       tricks and assumptions. the following also shows shortcomings / problems in other parts of the code.
+    */
+#if 1
+    printf("chip_name: %s\n", canvas->videoconfig->chip_name);
+    printf(" screen_size: %u x %u\n", canvas->geometry->screen_size.width, canvas->geometry->screen_size.height);
+    printf(" first/lastline: %u x %u\n", canvas->viewport->first_line, canvas->viewport->last_line);
+    printf(" gfx_size: %u x %u\n", canvas->geometry->gfx_size.width, canvas->geometry->gfx_size.height);
+    printf(" gfx_position: %u x %u\n", canvas->geometry->gfx_position.x, canvas->geometry->gfx_position.y);
+    printf(" first/last displayed line: %u x %u\n", canvas->geometry->first_displayed_line, canvas->geometry->last_displayed_line);
+    printf(" extra offscreen border left/right: %u x %u\n", canvas->geometry->extra_offscreen_border_left, canvas->geometry->extra_offscreen_border_right);
+    printf(" screen_display_wh: %f x %f\n", (float)canvas->screen_display_w, (float)canvas->screen_display_h);
+    printf(" canvas_physical_wh: %u x %u\n", canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_width);
+    printf(" scalexy: %d x %d\n", canvas->videoconfig->scalex, canvas->videoconfig->scaley);
+    printf(" sizexy: %u x %u\n", canvas->videoconfig->cap->single_mode.sizex, canvas->videoconfig->cap->single_mode.sizey);
+    printf(" rmode: %u\n", canvas->videoconfig->cap->single_mode.rmode);
+    printf(" aspect ratio: %f\n", (float)canvas->geometry->pixel_aspect_ratio);
+#endif
+    /* find out if we have a videochip that uses vertical stretching. since the resources are not
+       initialized, assume it always is stretched (this is the default) */
+    if (!strcmp("Crtc", canvas->videoconfig->chip_name)) {
+        /* resources_get_int("CrtcStretchVertical", &vstretch); */
+        if (machine_class == VICE_MACHINE_PET) {
+            vstretch = 1; /* HACK: doing it for xcbm2 gives wrong result */
+            hstretch = 1; /* HACK: compensate for missing scalex setup */
+        }
+    } else if (!strcmp("VDC", canvas->videoconfig->chip_name)) {
+        /* resources_get_int("VDCStretchVertical", &vstretch); */
+        /* vstretch = 1; */ /* HACK: for some reason that doesn't give the wanted result */
+    }
+#if 1
+    printf(" hstretch: %u\n", hstretch);
+    printf(" vstretch: %u\n", vstretch);
+#endif
+    /* calculate the initial size from the values we have
+       WARNING: terrible hacks coming up
+    */
+    w = (canvas->geometry->screen_size.width - canvas->geometry->gfx_position.x)
+        * canvas->videoconfig->scalex * (hstretch ? 2 : 1);
+    if (machine_class == VICE_MACHINE_VIC20) {
+        w = canvas->geometry->gfx_size.width
+            * canvas->videoconfig->scalex * (hstretch ? 2 : 1);
+    }
+
+    h = (canvas->geometry->last_displayed_line - canvas->geometry->first_displayed_line)
+        * canvas->videoconfig->scaley * (vstretch ? 2 : 1);
+    if (machine_class != VICE_MACHINE_PLUS4) {
+        h = (unsigned)(((double)h) * canvas->geometry->pixel_aspect_ratio);
+    }
+#if 1
+    printf(" initializing with width, height: %u x %u\n", w, h);
+#endif
+    /* finally set the size. use -1 for width and height to compensate for single pixel errors. this
+       will be corrected by the resize that will happen at the end of initialization */
+    gtk_widget_set_size_request (new_event_box, w - 1, h - 1);
+    /* finally trigger a resize of the window to adjust to smallest size */
+    gtk_window_resize(GTK_WINDOW(gtk_widget_get_parent(canvas->grid)), 1, 1);
     return;
 }
 
@@ -662,31 +747,27 @@ void ui_mouse_grab_pointer(void)
 {
     GtkWidget *window;
     float warp_x, warp_y;
-    
+
     if (!_mouse_enabled) {
         return;
     }
 
     window = ui_get_window_by_index(PRIMARY_WINDOW);
-    
+
     if (!window) {
         /* Probably mouse grab via config or command line, we'll grab it later via on_focus_in_event(). */
         return;
     }
-    
+
     /*
      * We warp the mouse to the center of the primary window and move it back there
      * each time we detect mouse movement.
      */
-        
-#ifdef MACOSX_SUPPORT
 
-    void *native_window = gdk_quartz_window_get_nswindow(gtk_widget_get_window(window));
-    id   content_view   = OBJC_MSGSEND(id, id, SEL)(native_window, sel_getUid("contentView"));
+#ifdef MACOS_COMPILE
 
     CGRect native_frame, content_rect;
-    OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
-    OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&content_rect, content_view,  sel_getUid("frame"));
+    vice_macos_get_widget_frame_and_content_rect(window, &native_frame, &content_rect);
 
     /* macOS CoreGraphics coordinates origin is bottom-left of primary display */
     size_t main_display_height = CGDisplayPixelsHigh(CGMainDisplayID());
@@ -696,7 +777,7 @@ void ui_mouse_grab_pointer(void)
 
 #else
 
-    /* First calculate destination relateive to window */
+    /* First calculate destination relative to window */
     int window_width, window_height;
     gtk_window_get_size(GTK_WINDOW(window), &window_width, &window_height);
 
@@ -705,7 +786,7 @@ void ui_mouse_grab_pointer(void)
     warp_x = (float)window_width  / 2.0f * scale;
     warp_y = (float)window_height / 2.0f * scale;
 
-#ifdef WIN32_COMPILE
+#ifdef WINDOWS_COMPILE
 
     /* Windows uses SetCursorPos, which needs screen co-ordinates */
     int window_x, window_y;

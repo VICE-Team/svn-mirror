@@ -24,7 +24,7 @@
  *
  */
 
-#define DEBUGCART
+/* #define DEBUGCART */
 
 #include "vice.h"
 
@@ -46,6 +46,7 @@
 #include "log.h"
 #include "mem.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -299,6 +300,12 @@ static uint8_t internal_read(uint16_t addr, int blk, uint16_t base, int sel)
             bank = register_a & REGA_BANK_MASK;
             break;
         case MODE_ROM_RAM:
+            if (sel) {
+                bank = 0;
+            } else {
+                bank = 1;
+            }
+            break;
         case MODE_RAM1:
             bank = 1;
             break;
@@ -396,10 +403,6 @@ static void internal_store(uint16_t addr, uint8_t value, int blk, uint16_t base,
             flash040core_store(&flash_state, faddr, value);
             break;
         case MODE_ROM_RAM:
-            if (sel) {
-                cart_ram[faddr] = value;
-            }
-            break;
         case MODE_START:
         case MODE_RAM1:
         case MODE_RAM2:
@@ -590,6 +593,27 @@ static void finalexpansion_io3_store(uint16_t addr, uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void finalexpansion_powerup(void)
+{
+    if (cart_ram) {
+        ram_init_with_pattern(cart_ram, CART_RAM_SIZE, &ramparam);
+    }
+}
+
 void finalexpansion_init(void)
 {
     if (fe_log == LOG_ERR) {
@@ -616,6 +640,7 @@ void finalexpansion_config_setup(uint8_t *rawcart)
 static int zfile_load(const char *filename, uint8_t *dest)
 {
     FILE *fd;
+    off_t tmpsize;
     size_t fsize;
 
     fd = zfile_fopen(filename, MODE_READ);
@@ -624,7 +649,13 @@ static int zfile_load(const char *filename, uint8_t *dest)
                     filename);
         return -1;
     }
-    fsize = util_file_length(fd);
+    tmpsize = archdep_file_size(fd);
+    if (tmpsize < 0) {
+        log_message(fe_log, "Failed to determine size of image '%s'!", filename);
+        zfile_fclose(fd);
+        return -1;
+    }
+    fsize = (size_t)tmpsize;
 
     if (fsize < 0x8000) {
         size_t tsize;
@@ -993,10 +1024,10 @@ static void finalexpansion_mon_dump_blk(int blk)
             acc_mode_w = ACC_RAM;
             break;
         case MODE_ROM_RAM:
-            bank_r = 1;
+            bank_r = sel ? 0 : 1;
             bank_w = sel ? 2 : 1;
             acc_mode_r = sel ? ACC_FLASH : ACC_RAM;
-            acc_mode_w = sel ? ACC_RAM : ACC_OFF;
+            acc_mode_w = ACC_RAM;
             break;
         case MODE_RAM1:
             bank_r = 1;

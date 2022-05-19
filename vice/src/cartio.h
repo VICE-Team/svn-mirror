@@ -203,7 +203,7 @@ extern void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
  * data to the read, in which case there will be a read-collision. The default action for a read-collision is to report the
  * user with the names of the devices and the address at which the collision happened, and then detach all devices causing
  * the read-collision. This default action can be changed to detach only the last inserted device involved in the
- * read-collision, or AND the returned bytes instead of detaching devices.  
+ * read-collision, or AND the returned bytes instead of detaching devices.
  *
  * The io_source_prio defines what to do with the returned byte of a device.
  *

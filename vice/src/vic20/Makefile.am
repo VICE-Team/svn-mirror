@@ -3,11 +3,11 @@ SUBDIRS = cart
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
-	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/raster \
@@ -19,7 +19,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/rs232drv \
-	-I$(top_srcdir)/src/core
+	-I$(top_srcdir)/src/core \
+	-I$(top_srcdir)/src/core/rtc
 
 AM_CFLAGS = @VICE_CFLAGS@
 
@@ -28,7 +29,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libvic20.a
+noinst_LIBRARIES = libvic20.a libvic20stubs.a
+
+libvic20stubs_a_SOURCES = \
+	vic20-stubs.c
 
 libvic20_a_SOURCES = \
 	vic-cmdline-options.c \

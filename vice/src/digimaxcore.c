@@ -48,7 +48,7 @@ static int digimax_sound_machine_channels(void)
 
 /* DigiMAX sound chip, as used in the IDE64-shortbus DigiMAX device, userport DigiMAX device and c64/c128 DigiMAX cartridge */
 static sound_chip_t digimax_sound_chip = {
-    NULL,                                    /* NO sound chip open function */ 
+    NULL,                                    /* NO sound chip open function */
     digimax_sound_machine_init,              /* sound chip init function */
     NULL,                                    /* NO sound chip close function */
     digimax_sound_machine_calculate_samples, /* sound chip calculate samples function */

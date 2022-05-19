@@ -186,7 +186,7 @@ to generate them:
 
 - text (doc/vice.txt)
   Makeinfo is used to convert from texi to text, and the included
-  doc/fixdox.sh shell script is used to 'post-fix' the text. Makeinfo needs to
+  doc/fixdates.sh shell script is used to 'post-fix' the text. Makeinfo needs to
   be installed to be able to generate the text documentation.
 
 - pdf (doc/vice.pdf)

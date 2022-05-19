@@ -43,7 +43,6 @@
 #include "debug_gtk3.h"
 #include "findpath.h"
 #include "hotkeys.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -87,7 +86,7 @@ int archdep_init(int *argc, char **argv)
     char *vice_ini;
     char *datadir;
     char *docsdir;
-# if defined(ARCHDEP_OS_LINUX) || defined(ARCHDEP_OS_BSD)
+# if defined(LINUX_COMPILE) || defined(BSD_COMPILE)
     char *xdg_cache;
     char *xdg_config;
     char *xdg_data;
@@ -123,7 +122,7 @@ int archdep_init(int *argc, char **argv)
     debug_gtk3("VICE docs path  = \"%s\"", docsdir);
     debug_gtk3("vice.ini path   = \"%s\"", vice_ini);
 
-# if defined(ARCHDEP_OS_LINUX) || defined(ARCHDEP_OS_BSD)
+# if defined(LINUX_COMPILE) || defined(BSD_COMPILE)
     xdg_cache = archdep_xdg_cache_home();
     xdg_config = archdep_xdg_config_home();
     xdg_data = archdep_xdg_data_home();
@@ -151,9 +150,6 @@ int archdep_init(int *argc, char **argv)
 #if 0
     debug_gtk3("MSYSTEM = '%s'", getenv("MSYSTEM"));
 #endif
-
-    /* initialize hotkeys *before* hotkeys cmdline/resources are set */
-    //ui_hotkeys_init();
 
     return 0;
 }
@@ -184,7 +180,7 @@ void archdep_shutdown(void)
         argv0 = NULL;
     }
 
-#ifndef ARCHDEP_OS_WINDOWS
+#ifndef WINDOWS_COMPILE
     archdep_network_shutdown();
 #endif
 }

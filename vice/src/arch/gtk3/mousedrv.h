@@ -33,7 +33,7 @@
 /** \brief Register callbacks for mouse button presses.
  *  \param funcs The callbacks to register.
  *  \return Zero on success, nonzero on failure. */
-int mousedrv_resources_init(mouse_func_t *funcs);
+int mousedrv_resources_init(const mouse_func_t *funcs);
 
 /** \brief Register and parse mouse-related command-line options.
  *  \return Zero on success, nonzero on failure. */

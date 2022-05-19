@@ -270,7 +270,6 @@ int autostart_prg_with_disk_image(int unit, int drive, const char *file_name,
         /* create empty image */
         if (vdrive_internal_create_format_disk_image(image_name, (char *)"AUTOSTART", disk_image_type) < 0) {
             log_error(log, "Error creating autostart disk image: %s", image_name);
-            printf("FOOFOOFOO!\n\n\n");
             ui_error("Error creating autostart disk image '%s'.\n"
                      "(%d: %s)\n"
                      "\n"
@@ -297,7 +296,7 @@ int autostart_prg_with_disk_image(int unit, int drive, const char *file_name,
             if (i == 16) {
                 break;
             }
-            if ((i < 16) && (!strcasecmp((const char*)&fh->name[i], ".prg"))) {
+            if ((i < 16) && (!util_strcasecmp((const char*)&fh->name[i], ".prg"))) {
                 break;
             }
             tempname[i] = fh->name[i];

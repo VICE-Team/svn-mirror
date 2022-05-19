@@ -36,8 +36,18 @@
 GtkWidget * drive_model_widget_create(int unit);
 void        drive_model_widget_update(GtkWidget *widget);
 
-void drive_model_widget_add_callback(GtkWidget *widget,
-                                     void (*cb_func)(GtkWidget *, gpointer),
-                                     gpointer cb_data);
+void        drive_model_widget_add_callback(GtkWidget *widget,
+                                            void (*cb_func)(GtkWidget *, gpointer),
+                                            gpointer cb_data);
+
+/* New combo box approach for the widget
+ *
+ * TODO: Once the drive settings have been changed to use the combo box the
+ *       _combo suffix of the functions can be removed
+ */
+
+GtkWidget * drive_model_widget_create_combo(int unit, gboolean show_all);
+gboolean    drive_model_widget_sync_combo(GtkWidget *widget);
+int         drive_model_widget_value_combo(GtkWidget *widget);
 
 #endif

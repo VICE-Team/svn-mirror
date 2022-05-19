@@ -112,7 +112,7 @@ function extract_make_var {
 	# by modifying a copy of the Makefile.
 	#
 
-	TMP_MAKEFILE=$(mktemp -t cmake_bootstrap_Makfile)
+	TMP_MAKEFILE=$(mktemp -t cmake_bootstrap_Makefile.XXXXXXXX)
 	cp Makefile $TMP_MAKEFILE
 
 	echo -e "\nextract_make_var:\n\t@echo \$($varname)" >> $TMP_MAKEFILE
@@ -305,6 +305,14 @@ function extract_headers {
 		| grep '\.\(h\|hh\|hpp\)$' \
 		| tr "\n" " " \
 		| sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+}
+
+function extract_macos_target_sdk_version {
+	extract_make_var VICE_CFLAGS \
+		| tr " " "\n" \
+		| grep -- '-mmacosx-version-min=' \
+		| head -n1 \
+		| sed -e 's/-mmacosx-version-min=//'
 }
 
 function project_relative_folder {
@@ -616,7 +624,8 @@ HEREDOC
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	cat <<-HEREDOC >> CMakeLists.txt
-		set(CMAKE_OSX_SYSROOT "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/")
+		set(CMAKE_OSX_SYSROOT "$(xcrun --show-sdk-path)")
+		set(CMAKE_OSX_DEPLOYMENT_TARGET "$(extract_macos_target_sdk_version)" CACHE STRING "Minimum OS X deployment version")
 		set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
 		set(CMAKE_CXX_STANDARD 11)
 

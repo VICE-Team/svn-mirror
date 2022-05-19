@@ -52,6 +52,7 @@ static int set_drive_parallel_cable(int val, void *param)
         case DRIVE_PC_STANDARD:
         case DRIVE_PC_DD3:
         case DRIVE_PC_FORMEL64:
+        case DRIVE_PC_21SEC_BACKUP:
             break;
         default:
             return -1;
@@ -147,7 +148,7 @@ static const resource_string_t resources_string[] =
 
 int c64exp_resources_init(void)
 {
-    unsigned int dnr;
+    int dnr;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];

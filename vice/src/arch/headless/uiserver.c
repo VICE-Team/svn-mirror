@@ -14,7 +14,6 @@
 #include "machine.h"
 #include "netexpect.h"
 #include "resources.h"
-#include "tick.h"
 #include "uiserver.h"
 #include "uiprotocol.h"
 #include "vicesocket.h"

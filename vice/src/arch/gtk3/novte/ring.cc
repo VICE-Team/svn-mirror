@@ -1494,7 +1494,7 @@ gboolean _vte_ring_write_contents (VteRing *ring, GOutputStream *stream,
                     return FALSE;
                 }
 
-                if (!g_output_stream_write_all (stream, buf, len, &bytes_written, 
+                if (!g_output_stream_write_all (stream, buf, len, &bytes_written,
                                                 cancellable, error)) {
                     return FALSE;
                 }

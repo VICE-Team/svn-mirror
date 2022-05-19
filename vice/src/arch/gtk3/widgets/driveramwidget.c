@@ -56,26 +56,38 @@
  */
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
-#include "resources.h"
-#include "drive.h"
 #include "drive-check.h"
+#include "drive.h"
 #include "machine.h"
+#include "resources.h"
+#include "vice_gtk3.h"
 
 #include "driveramwidget.h"
 
 
-/** \brief  Enum for RAM slabs
- */
-enum {
-    RAM2000_INDEX = 1,  /**< RAM at $2000 */
-    RAM4000_INDEX,      /**< RAM at $4000 */
-    RAM6000_INDEX,      /**< RAM at $6000 */
-    RAM8000_INDEX,      /**< RAM at $8000 */
-    RAMA000_INDEX       /**< RAM at $A000 */
+/** \brief  Data on placement and memory location of drive RAM expansions */
+typedef struct drive_ram_exp_s {
+    int      column;        /**< column */
+    int      row;           /**< row */
+    uint16_t base;          /**< memory location base */
+    int      (*valid)(int); /**< function checking if the expansion is valid
+                                 for the current drive model */
+} drive_ram_exp_t;
+
+
+/** \brief  Number of possibile RAM expansions */
+#define RAM_EXP_COUNT 5
+
+
+/** \brief  List of RAM expansions */
+static const drive_ram_exp_t expansions[RAM_EXP_COUNT] = {
+    { 0, 0, 0x2000, drive_check_expansion2000 },
+    { 0, 1, 0x4000, drive_check_expansion4000 },
+    { 0, 2, 0x6000, drive_check_expansion6000 },
+    { 1, 0, 0x8000, drive_check_expansion8000 },
+    { 1, 1, 0xa000, drive_check_expansionA000 }
 };
 
 
@@ -89,18 +101,20 @@ enum {
  */
 static GtkWidget *create_ram_check_button(int unit, unsigned int base)
 {
-    GtkWidget *check;
-    char label[256];
+    gchar label[256];
 
-    g_snprintf(label, 256, "$%04X-$%04X RAM", base, base + 0x1fff);
-    check = vice_gtk3_resource_check_button_new_sprintf("Drive%dRAM%04X", label,
-            unit, base);
-    g_object_set(check, "margin-left", 16, NULL);
-    return check;
+    g_snprintf(label, sizeof(label), "$%04X-$%04X", base, base + 0x1fff);
+    return vice_gtk3_resource_check_button_new_sprintf("Drive%dRAM%04X", label,
+                                                       unit, base);
 }
 
 
-/** \brief  Create extra drive RAM widget
+/** \brief  Create extra drive RAM expansions widget
+ *
+ * Create a group of check buttons to enable/disable RAM expansions in a drive.
+ *
+ * The check buttons that can be toggled is dependent on the drive type, see
+ * drive_ram_widget_update().
  *
  * \param[in]   unit    drive unit (8-11)
  *
@@ -109,23 +123,47 @@ static GtkWidget *create_ram_check_button(int unit, unsigned int base)
 GtkWidget *drive_ram_widget_create(int unit)
 {
     GtkWidget *grid;
-    unsigned int base;
-    int row;
     GtkWidget *label;
+    int type = 0;
 
+    /* create grid with header */
     grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "RAM expansions", 1);
     label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
     g_object_set(label, "margin-bottom", 8, NULL);
+    /* store unit number (is this actually used?) */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    row = 1;
-    for (base = 0x2000; base <= 0xa000; base += 0x2000) {
-        GtkWidget *check = create_ram_check_button(unit, base);
-        g_object_set(check, "margin-left", 16, NULL);
-        gtk_grid_attach(GTK_GRID(grid), check, 0, row, 1, 1);
-        row++;
+
+    /* add RAM check buttons */
+    for (int i = 0; i < RAM_EXP_COUNT; i++) {
+        GtkWidget *check = create_ram_check_button(unit, expansions[i].base);
+        gtk_grid_attach(GTK_GRID(grid), check,
+                        expansions[i].column, expansions[i].row + 1, 1, 1);
     }
+
+    /* set initial sensitivity of check buttons based on drive type */
+    resources_get_int_sprintf("Drive%dType", &type, unit);
+    drive_ram_widget_update(grid, type);
 
     gtk_widget_show_all(grid);
     return grid;
+}
+
+
+/** \brief  Update sensitivity of check buttons based on drive model
+ *
+ * \param[in]   widget  drive RAM expansions widget
+ * \param[in]   model   drive model ID
+ */
+void drive_ram_widget_update(GtkWidget *widget, int model)
+{
+    for (int i = 0; i < RAM_EXP_COUNT; i++) {
+        GtkWidget *check = gtk_grid_get_child_at(GTK_GRID(widget),
+                                                 expansions[i].column,
+                                                 expansions[i].row + 1);
+        if (check != NULL) {
+            gtk_widget_set_sensitive(check,
+                                     expansions[i].valid(model));
+        }
+    }
 }

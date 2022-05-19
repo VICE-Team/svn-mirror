@@ -132,7 +132,7 @@ This should result in a proper build system.
 $ cd ..
 $ mkdir gtk3-build
 $ cd gtk3-build
-$ ../vice/configure --enable-native-gtk3ui --host=x86_64-w64-mingw32 --enable-arch=no
+$ ../vice/configure --enable-gtk3ui --host=x86_64-w64-mingw32 --enable-arch=no
 ```
 
 
@@ -214,7 +214,7 @@ $ ./autogen.sh
 
 Try to configure a minimal build of the Gtk3 port:
 ```
-$ ./configure --enable-native-gtk3ui --enable-arch=no --disable-pdf-docs --host=x86_64-w64-mingw32 LDFLAGS="-lssp"
+$ ./configure --enable-gtk3ui --enable-arch=no --disable-pdf-docs --host=x86_64-w64-mingw32 LDFLAGS="-lssp"
 ```
 
 

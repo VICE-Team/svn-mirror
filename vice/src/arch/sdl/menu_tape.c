@@ -36,21 +36,97 @@
 #include "tapecart.h"
 #include "lib.h"
 #include "menu_common.h"
+#include "menu_tape.h"
 #include "tape.h"
+#include "tapeport.h"
 #include "ui.h"
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "uimsgbox.h"
 #include "util.h"
 
-static UI_MENU_CALLBACK(attach_tape_callback)
+UI_MENU_DEFINE_RADIO(TapePort1Device)
+UI_MENU_DEFINE_RADIO(TapePort2Device)
+
+static ui_menu_entry_t tapeport_dyn_menu[TAPEPORT_MAX_PORTS][TAPEPORT_MAX_DEVICES + 1];
+
+static int tapeport_dyn_menu_init[TAPEPORT_MAX_PORTS] = { 0 };
+
+static void sdl_menu_tapeport_free(int port)
+{
+    int i;
+
+    for (i = 0; tapeport_dyn_menu[port][i].string != NULL; i++) {
+        lib_free(tapeport_dyn_menu[port][i].string);
+    }
+}
+
+static UI_MENU_CALLBACK(TapePort1Device_dynmenu_callback)
+{
+    tapeport_desc_t *devices = tapeport_get_valid_devices(TAPEPORT_PORT_1, 1);
+    int i;
+
+    /* rebuild menu if it already exists. */
+    if (tapeport_dyn_menu_init[TAPEPORT_PORT_1] != 0) {
+        sdl_menu_tapeport_free(TAPEPORT_PORT_1);
+    } else {
+        tapeport_dyn_menu_init[TAPEPORT_PORT_1] = 1;
+    }
+
+    for (i = 0; devices[i].name; ++i) {
+        tapeport_dyn_menu[TAPEPORT_PORT_1][i].string = (char *)lib_strdup(devices[i].name);
+        tapeport_dyn_menu[TAPEPORT_PORT_1][i].type = MENU_ENTRY_RESOURCE_RADIO;
+        tapeport_dyn_menu[TAPEPORT_PORT_1][i].callback = radio_TapePort1Device_callback;
+        tapeport_dyn_menu[TAPEPORT_PORT_1][i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+    }
+
+    tapeport_dyn_menu[TAPEPORT_PORT_1][i].string = NULL;
+    tapeport_dyn_menu[TAPEPORT_PORT_1][i].type = 0;
+    tapeport_dyn_menu[TAPEPORT_PORT_1][i].callback = NULL;
+    tapeport_dyn_menu[TAPEPORT_PORT_1][i].data = NULL;
+
+    lib_free(devices);
+
+    return MENU_SUBMENU_STRING;
+}
+
+static UI_MENU_CALLBACK(TapePort2Device_dynmenu_callback)
+{
+    tapeport_desc_t *devices = tapeport_get_valid_devices(TAPEPORT_PORT_2, 1);
+    int i;
+
+    /* rebuild menu if it already exists. */
+    if (tapeport_dyn_menu_init[TAPEPORT_PORT_2] != 0) {
+        sdl_menu_tapeport_free(TAPEPORT_PORT_2);
+    } else {
+        tapeport_dyn_menu_init[TAPEPORT_PORT_2] = 1;
+    }
+
+    for (i = 0; devices[i].name; ++i) {
+        tapeport_dyn_menu[TAPEPORT_PORT_2][i].string = (char *)lib_strdup(devices[i].name);
+        tapeport_dyn_menu[TAPEPORT_PORT_2][i].type = MENU_ENTRY_RESOURCE_RADIO;
+        tapeport_dyn_menu[TAPEPORT_PORT_2][i].callback = radio_TapePort2Device_callback;
+        tapeport_dyn_menu[TAPEPORT_PORT_2][i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
+    }
+
+    tapeport_dyn_menu[TAPEPORT_PORT_2][i].string = NULL;
+    tapeport_dyn_menu[TAPEPORT_PORT_2][i].type = 0;
+    tapeport_dyn_menu[TAPEPORT_PORT_2][i].callback = NULL;
+    tapeport_dyn_menu[TAPEPORT_PORT_2][i].data = NULL;
+
+    lib_free(devices);
+
+    return MENU_SUBMENU_STRING;
+}
+
+static UI_MENU_CALLBACK(attach_tape1_callback)
 {
     char *name;
 
     if (activated) {
         name = sdl_ui_file_selection_dialog("Select tape image", FILEREQ_MODE_CHOOSE_FILE);
         if (name != NULL) {
-            if (tape_image_attach(1, name) < 0) {
+            if (tape_image_attach(TAPEPORT_PORT_1 + 1, name) < 0) {
                 ui_error("Cannot attach tape image.");
             }
             lib_free(name);
@@ -59,22 +135,53 @@ static UI_MENU_CALLBACK(attach_tape_callback)
     return NULL;
 }
 
-static UI_MENU_CALLBACK(detach_tape_callback)
+static UI_MENU_CALLBACK(attach_tape2_callback)
 {
+    char *name;
+
     if (activated) {
-        tape_image_detach(1);
+        name = sdl_ui_file_selection_dialog("Select tape image", FILEREQ_MODE_CHOOSE_FILE);
+        if (name != NULL) {
+            if (tape_image_attach(TAPEPORT_PORT_2 + 1, name) < 0) {
+                ui_error("Cannot attach tape image.");
+            }
+            lib_free(name);
+        }
     }
     return NULL;
 }
 
-static UI_MENU_CALLBACK(custom_datasette_control_callback)
+static UI_MENU_CALLBACK(detach_tape1_callback)
 {
     if (activated) {
-        datasette_control(vice_ptr_to_int(param));
+        tape_image_detach(TAPEPORT_PORT_1 + 1);
     }
     return NULL;
 }
 
+static UI_MENU_CALLBACK(detach_tape2_callback)
+{
+    if (activated) {
+        tape_image_detach(TAPEPORT_PORT_2 + 1);
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(custom_datasette_control1_callback)
+{
+    if (activated) {
+        datasette_control(TAPEPORT_PORT_1, vice_ptr_to_int(param));
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(custom_datasette_control2_callback)
+{
+    if (activated) {
+        datasette_control(TAPEPORT_PORT_2, vice_ptr_to_int(param));
+    }
+    return NULL;
+}
 
 
 static UI_MENU_CALLBACK(create_tape_image_callback)
@@ -110,44 +217,78 @@ UI_MENU_DEFINE_INT(DatasetteTapeAzimuthError)
 UI_MENU_DEFINE_TOGGLE(DatasetteSound)
 UI_MENU_DEFINE_TOGGLE(VirtualDevice1)
 
-const ui_menu_entry_t tape_menu[] = {
-    { "Attach tape image",
+const ui_menu_entry_t tape_pet_menu[] = {
+    { "Attach tape image to Datasette 1",
       MENU_ENTRY_DIALOG,
-      attach_tape_callback,
+      attach_tape1_callback,
       NULL },
-    { "Detach tape image",
+    { "Attach tape image to Datasette 2",
+      MENU_ENTRY_DIALOG,
+      attach_tape2_callback,
+      NULL },
+    { "Detach tape image from Datasette 1",
       MENU_ENTRY_OTHER,
-      detach_tape_callback,
+      detach_tape1_callback,
+      NULL },
+    { "Detach tape image from Datasette 2",
+      MENU_ENTRY_OTHER,
+      detach_tape2_callback,
       NULL },
     { "Create new tape image",
       MENU_ENTRY_DIALOG,
       create_tape_image_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Datasette control"),
+    SDL_MENU_ITEM_TITLE("Datasette 1 control"),
     { "Stop",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_STOP },
     { "Play",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_START },
     { "Forward",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_FORWARD },
     { "Rewind",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_REWIND },
     { "Record",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_RECORD },
     { "Reset",
       MENU_ENTRY_OTHER,
-      custom_datasette_control_callback,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_RESET },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Datasette 2 control"),
+    { "Stop",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_STOP },
+    { "Play",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_START },
+    { "Forward",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD },
+    { "Rewind",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_REWIND },
+    { "Record",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_RECORD },
+    { "Reset",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control2_callback,
       (ui_callback_data_t)DATASETTE_CONTROL_RESET },
     SDL_MENU_ITEM_SEPARATOR,
     { "Datasette speed tuning",
@@ -185,41 +326,84 @@ const ui_menu_entry_t tape_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(TapeLog)
-UI_MENU_DEFINE_RADIO(TapeLogDestination)
-UI_MENU_DEFINE_FILE_STRING(TapeLogfilename)
-
-const ui_menu_entry_t tapelog_device_menu[] = {
-    { "Tapelog device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TapeLog_callback,
+const ui_menu_entry_t tape_menu[] = {
+    { "Attach tape image",
+      MENU_ENTRY_DIALOG,
+      attach_tape1_callback,
+      NULL },
+    { "Detach tape image",
+      MENU_ENTRY_OTHER,
+      detach_tape1_callback,
+      NULL },
+    { "Create new tape image",
+      MENU_ENTRY_DIALOG,
+      create_tape_image_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("log messages destination"),
-    { "Generic emulator logfile",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TapeLogDestination_callback,
-      (ui_callback_data_t)0 },
-    { "User specified logfile",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TapeLogDestination_callback,
-      (ui_callback_data_t)1 },
+    SDL_MENU_ITEM_TITLE("Datasette control"),
+    { "Stop",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_STOP },
+    { "Play",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_START },
+    { "Forward",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD },
+    { "Rewind",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_REWIND },
+    { "Record",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_RECORD },
+    { "Reset",
+      MENU_ENTRY_OTHER,
+      custom_datasette_control1_callback,
+      (ui_callback_data_t)DATASETTE_CONTROL_RESET },
     SDL_MENU_ITEM_SEPARATOR,
-    { "User specified logfile",
-      MENU_ENTRY_DIALOG,
-      file_string_TapeLogfilename_callback,
-      (ui_callback_data_t)"Select logfile" },
+    { "Datasette speed tuning",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteSpeedTuning_callback,
+      (ui_callback_data_t)"Set datasette speed tuning" },
+    { "Datasette zero gap delay",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteZeroGapDelay_callback,
+      (ui_callback_data_t)"Set datasette zero gap delay" },
+    { "Datasette tape wobble frequency",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteTapeWobbleFrequency_callback,
+      (ui_callback_data_t)"Set datasette tape wobble frequency" },
+    { "Datasette tape wobble amplitude",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteTapeWobbleAmplitude_callback,
+      (ui_callback_data_t)"Set datasette tape wobble amplitude" },
+    { "Datasette tape alignment",
+      MENU_ENTRY_RESOURCE_INT,
+      int_DatasetteTapeAzimuthError_callback,
+      (ui_callback_data_t)"Set datasette alignment error" },
+    { "Reset Datasette on CPU Reset",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DatasetteResetWithCPU_callback,
+      NULL },
+    { "Enable Datasette sound",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DatasetteSound_callback,
+      NULL },
+    { "Enable virtual device (for t64)",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VirtualDevice1_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(CPClockF83)
 UI_MENU_DEFINE_TOGGLE(CPClockF83Save)
 
 const ui_menu_entry_t cpclockf83_device_menu[] = {
-    { "CP Clock F83 device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CPClockF83_callback,
-      NULL },
     { "Save CP Clock F83 RTC data when changed",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CPClockF83Save_callback,
@@ -231,7 +415,6 @@ const ui_menu_entry_t cpclockf83_device_menu[] = {
 /*
  * tapecart support (see https://github.com/ikorb/tapecart/)
  */
-UI_MENU_DEFINE_TOGGLE(TapecartEnabled)
 UI_MENU_DEFINE_TOGGLE(TapecartUpdateTCRT)
 UI_MENU_DEFINE_TOGGLE(TapecartOptimizeTCRT)
 UI_MENU_DEFINE_INT(TapecartLoglevel)
@@ -253,12 +436,7 @@ static UI_MENU_CALLBACK(tapecart_flush_callback)
     return NULL;
 }
 
-
 const ui_menu_entry_t tapecart_submenu[] = {
-    { "Enable tapecart",
-        MENU_ENTRY_RESOURCE_TOGGLE,
-        toggle_TapecartEnabled_callback,
-        NULL },
     { "Save tapecart data when changed",
         MENU_ENTRY_RESOURCE_TOGGLE,
         toggle_TapecartUpdateTCRT_callback,
@@ -282,35 +460,45 @@ const ui_menu_entry_t tapecart_submenu[] = {
     SDL_MENU_LIST_END
 };
 
-
-UI_MENU_DEFINE_TOGGLE(Datasette)
-UI_MENU_DEFINE_TOGGLE(TapeSenseDongle)
-UI_MENU_DEFINE_TOGGLE(DTLBasicDongle)
-
 const ui_menu_entry_t tapeport_devices_menu[] = {
-    { "Datasette device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Datasette_callback,
-      NULL },
-    { "Tape sense dongle device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TapeSenseDongle_callback,
-      NULL },
-    { "DTL Basic dongle device",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DTLBasicDongle_callback,
-      NULL },
-    { "Tape log device settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)tapelog_device_menu },
+    { "Tapeport devices",
+      MENU_ENTRY_DYNAMIC_SUBMENU,
+      TapePort1Device_dynmenu_callback,
+      (ui_callback_data_t)tapeport_dyn_menu[TAPEPORT_PORT_1] },
     { "CP Clock F83 device settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)cpclockf83_device_menu },
     { "tapecart device settings",
-        MENU_ENTRY_SUBMENU,
-        submenu_callback,
-        (ui_callback_data_t)tapecart_submenu },
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tapecart_submenu },
     SDL_MENU_LIST_END
 };
+
+const ui_menu_entry_t tapeport_pet_devices_menu[] = {
+    { "Tapeport 1 devices",
+      MENU_ENTRY_DYNAMIC_SUBMENU,
+      TapePort1Device_dynmenu_callback,
+      (ui_callback_data_t)tapeport_dyn_menu[TAPEPORT_PORT_1] },
+    { "Tapeport 2 devices",
+      MENU_ENTRY_DYNAMIC_SUBMENU,
+      TapePort2Device_dynmenu_callback,
+      (ui_callback_data_t)tapeport_dyn_menu[TAPEPORT_PORT_2] },
+    { "CP Clock F83 device settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)cpclockf83_device_menu },
+    SDL_MENU_LIST_END
+};
+
+void uitapeport_menu_shutdown(void)
+{
+    int i;
+
+    for (i = 0; i < TAPEPORT_MAX_PORTS; i++) {
+        if (tapeport_dyn_menu_init[i]) {
+            sdl_menu_tapeport_free(i);
+        }
+    }
+}

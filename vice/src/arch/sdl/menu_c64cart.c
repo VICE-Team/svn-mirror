@@ -1026,6 +1026,7 @@ UI_MENU_DEFINE_RADIO(RAMLINKmode)
 UI_MENU_DEFINE_TOGGLE(RAMLINKrtcsave)
 UI_MENU_DEFINE_RADIO(RAMLINKsize)
 UI_MENU_DEFINE_FILE_STRING(RAMLINKfilename)
+UI_MENU_DEFINE_FILE_STRING(RAMLINKBIOSfilename)
 UI_MENU_DEFINE_TOGGLE(RAMLINKImageWrite)
 
 static ui_menu_entry_t ramlink_menu[] = {
@@ -1116,6 +1117,12 @@ static ui_menu_entry_t ramlink_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RAMLINKsize_callback,
       (ui_callback_data_t)16 },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("ROM image"),
+    { "ROM image file",
+      MENU_ENTRY_DIALOG,
+      file_string_RAMLINKBIOSfilename_callback,
+      (ui_callback_data_t)"Select " CARTRIDGE_NAME_RAMLINK " ROM image" },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("RAM image"),
     { "Specify Image file and load",

@@ -74,6 +74,7 @@ static void set_ca2(via_context_t *via_context, int state)
 static void set_cb2(via_context_t *via_context, int state)
 {
     store_userport_pa2((uint8_t)state);
+    petsound_store_manual(state, *via_context->clk_ptr);
 }
 
 static void set_int(via_context_t *via_context, unsigned int int_num,
@@ -114,8 +115,10 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t myoldpb,
     parallel_cpu_set_nrfd((uint8_t)(!(byte & 0x02)));
     parallel_cpu_set_atn((uint8_t)(!(byte & 0x04)));
     if ((byte ^ myoldpb) & 0x8) {
-        tapeport_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte) & 0x8);
+        tapeport_toggle_write_bit(TAPEPORT_PORT_1, (~(via_context->via[VIA_DDRB]) | byte) & 0x8);
+        tapeport_toggle_write_bit(TAPEPORT_PORT_2, (~(via_context->via[VIA_DDRB]) | byte) & 0x8);
     }
+    tapeport_set_motor(TAPEPORT_PORT_2, ((~(via_context->via[VIA_DDRB]) | byte) & 0x10) ? 0 : 1);
 }
 
 static void undump_pcr(via_context_t *via_context, uint8_t byte)
@@ -132,7 +135,7 @@ static void undump_pcr(via_context_t *via_context, uint8_t byte)
     crtc_set_char(byte & 2); /* switching PET charrom with CA2 */
                              /* switching userport strobe with CB2 */
 #endif
-    petsound_store_manual((byte & 0xe0) == 0xe0);   /* Manual control of CB2 sound */
+    petsound_store_manual((byte & 0xe0) == 0xe0, *via_context->clk_ptr);   /* Manual control of CB2 sound */
 }
 
 static uint8_t store_pcr(via_context_t *via_context, uint8_t byte, uint16_t addr)
@@ -152,36 +155,44 @@ static uint8_t store_pcr(via_context_t *via_context, uint8_t byte, uint16_t addr
         store_userport_pa2((byte & 0x20) >> 5);
     }
 #endif
-    petsound_store_manual((byte & 0xe0) == 0xe0);   /* Manual control of CB2 sound */
     return byte;
 }
 
+static inline bool IS_SR_SHIFT_OUT_BY_T2(uint8_t acr)
+{
+    return (((acr) & VIA_ACR_SR_CONTROL) == VIA_ACR_SR_OUT_FREE_T2 ||
+            ((acr) & VIA_ACR_SR_CONTROL) == VIA_ACR_SR_OUT_T2);
+}
+
+static inline bool SOUND_ACTIVE(uint8_t acr, uint8_t t2ll)
+{
+    return !IS_SR_SHIFT_OUT_BY_T2(acr) || t2ll;
+}
+
+/*
+ * Help the sound to avoid background noise.
+ */
+
 static void undump_acr(via_context_t *via_context, uint8_t byte)
 {
-    petsound_store_onoff(via_context->via[VIA_T2LL]
-                         ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
+    petsound_store_onoff(SOUND_ACTIVE(byte,
+                                      via_context->via[VIA_T2LL]));
 }
 
 static void store_acr(via_context_t *via_context, uint8_t byte)
 {
-    petsound_store_onoff(via_context->via[VIA_T2LL]
-                         ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
+    petsound_store_onoff(SOUND_ACTIVE(byte,
+                                      via_context->via[VIA_T2LL]));
 }
 
 static void store_sr(via_context_t *via_context, uint8_t byte)
 {
-    petsound_store_waveform(byte);
 }
 
 static void store_t2l(via_context_t *via_context, uint8_t byte)
 {
-    petsound_store_rate(2 * byte + 4);
-    if (!byte) {
-        petsound_store_onoff(0);
-    } else {
-        petsound_store_onoff(((via_context->via[VIA_ACR] & 0x1c) == 0x10)
-                             ? 1 : 0);
-    }
+    petsound_store_onoff(SOUND_ACTIVE(via_context->via[VIA_ACR],
+                                      byte));
 }
 
 static void reset(via_context_t *via_context)

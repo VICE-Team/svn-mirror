@@ -41,17 +41,16 @@
 #include <sys/stat.h>
 # include <fcntl.h>
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 # include <sys/wait.h>
 #endif
 
-#ifdef ARCHDEP_OS_WINDOWS
+#ifdef WINDOWS_COMPILE
 # include <windows.h>
 # include <io.h>
 # include <process.h>
 #endif
 
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -61,20 +60,10 @@
 #include "archdep.h"
 #include "archdep_defs.h"
 
-/* WTF? */
-/* fix VICE userdir */
-#ifdef VICEUSERDIR
-# undef VICEUSERDIR
-#endif
-/** \brief  User directory inside ./config
- */
-#define VICEUSERDIR "vice"
-
-
 #include "archdep_spawn.h"
 
 
-#ifdef ARCHDEP_OS_UNIX
+#ifdef UNIX_COMPILE
 
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)
@@ -124,7 +113,7 @@ int archdep_spawn(const char *name, char **argv,
     }
 }
 
-#elif defined(ARCHDEP_OS_WINDOWS)
+#elif defined(WINDOWS_COMPILE)
 
 /** \brief  Spawn new process
  *
@@ -206,7 +195,7 @@ cleanup:
     return retval;
 }
 
-#elif defined(ARCHDEP_OS_BEOS)
+#elif defined(BEOS_COMPILE)
 
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)

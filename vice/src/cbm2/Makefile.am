@@ -3,7 +3,6 @@ SUBDIRS = cart
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
-	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/cbm2/cart \
@@ -12,16 +11,17 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/vicii \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/joyport \
-	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/tapeport \
-	-I$(top_srcdir)/src/datasette
+	-I$(top_srcdir)/src/datasette \
+	-I$(top_srcdir)/src/core/rtc
 
 AM_CFLAGS = @VICE_CFLAGS@
 
@@ -30,7 +30,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libcbm2.a libcbm5x0.a
+noinst_LIBRARIES = libcbm2.a libcbm2stubs.a libcbm5x0.a libcbm5x0stubs.a
+
+libcbm2stubs_a_SOURCES = \
+	cbm2-stubs.c
 
 libcbm2_a_SOURCES = \
 	cbm2-cmdline-options.c \
@@ -68,6 +71,9 @@ libcbm2_a_SOURCES = \
 	cbm2tpi2.c \
 	cbm2video.c
 
+libcbm5x0stubs_a_SOURCES = \
+	cbm5x0-stubs.c
+
 libcbm5x0_a_SOURCES = \
 	cbm2-cmdline-options.c \
 	cbm2-cmdline-options.h \
@@ -75,7 +81,6 @@ libcbm5x0_a_SOURCES = \
 	cbm2-resources.h \
 	cbm5x0-snapshot.c \
 	cbm2-snapshot.h \
-	cbm5x0-stubs.c \
 	cbm5x0.c \
 	cbm2.h \
 	cbm2acia.h \

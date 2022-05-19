@@ -39,7 +39,7 @@
 #include "archdep_extra_title_text.h"
 
 
-#ifdef SDL_UI_SUPPORT
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
 /** \brief  Extra text for the window title bar
  *
  * Heap-allocated by archdep_extra_title_text(), needs to be freed on emu exit
@@ -58,12 +58,15 @@ static char *extra_title_text = NULL;
  */
 const char *archdep_extra_title_text(void)
 {
-#ifdef SDL_UI_SUPPORT
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
     if (extra_title_text == NULL) {
+        char *menu_keyname = kbd_get_menu_keyname();
+
         extra_title_text = util_concat(", press \"",
-                                       kbd_get_menu_keyname(),
+                                       menu_keyname,
                                        "\" for the menu.",
                                        NULL);
+        lib_free(menu_keyname);
     }
     return extra_title_text;
 #else
@@ -78,7 +81,7 @@ const char *archdep_extra_title_text(void)
  */
 void archdep_extra_title_text_free(void)
 {
-#ifdef SDL_UI_SUPPORT
+#if defined(USE_SDLUI) || defined(USE_SDL2UI)
     if (extra_title_text != NULL) {
         lib_free(extra_title_text);
         extra_title_text = NULL;

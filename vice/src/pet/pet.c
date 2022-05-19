@@ -107,6 +107,7 @@
 #include "userport_petscii_snespad.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
+#include "userport_spt_joystick.h"
 #include "util.h"
 #include "via.h"
 #include "vice-event.h"
@@ -144,12 +145,12 @@ int machine_get_keyboard_type(void)
 
 char *machine_get_keyboard_type_name(int type)
 {
-    static char names[KBD_TYPE_NUM][5] = { 
+    static char names[KBD_TYPE_NUM][5] = {
         KBD_TYPE_STR_BUSINESS_UK,
-        KBD_TYPE_STR_BUSINESS_US, 
-        KBD_TYPE_STR_BUSINESS_DE, 
-        KBD_TYPE_STR_BUSINESS_JP, 
-        KBD_TYPE_STR_GRAPHICS_US 
+        KBD_TYPE_STR_BUSINESS_US,
+        KBD_TYPE_STR_BUSINESS_DE,
+        KBD_TYPE_STR_BUSINESS_JP,
+        KBD_TYPE_STR_GRAPHICS_US
     };
     return names[type]; /* return 0 if no different types exist */
 }
@@ -197,12 +198,25 @@ static joyport_port_props_t joy_adapter_control_port_2 =
     0                       /* port can be switched on/off */
 };
 
+static joyport_port_props_t joy_adapter_control_port_3 =
+{
+    "Joystick adapter port 3",
+    0,                      /* has NO potentiometer connected to this port */
+    0,                      /* has NO lightpen support on this port */
+    0,                      /* has NO joystick adapter on this port */
+    1,                      /* has output support on this port */
+    0                       /* port can be switched on/off */
+};
+
 static int init_joyport_ports(void)
 {
     if (joyport_port_register(JOYPORT_3, &joy_adapter_control_port_1) < 0) {
         return -1;
     }
-    return joyport_port_register(JOYPORT_4, &joy_adapter_control_port_2);
+    if (joyport_port_register(JOYPORT_4, &joy_adapter_control_port_2) < 0) {
+        return -1;
+    }
+    return joyport_port_register(JOYPORT_5, &joy_adapter_control_port_3);
 }
 
 /* PET-specific resource initialization.  This is called before initializing
@@ -245,20 +259,11 @@ int machine_resources_init(void)
         init_resource_fail("sidcart");
         return -1;
     }
-    /*
-     * This needs to be called before tapeport_resources_init(), otherwise
-     * the tapecart will fail to initialize due to the Datasette resource
-     * appearing after the Tapecart resources
-     */
     if (drive_resources_init() < 0) {
         init_resource_fail("drive");
         return -1;
     }
-    if (datasette_resources_init() < 0) {
-        init_resource_fail("datasette");
-        return -1;
-    }
-    if (tapeport_resources_init() < 0) {
+    if (tapeport_resources_init(2) < 0) {
         init_resource_fail("tapeport");
         return -1;
     }
@@ -304,10 +309,6 @@ int machine_resources_init(void)
     }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
-        return -1;
-    }
-    if (gfxoutput_resources_init() < 0) {
-        init_resource_fail("gfxoutput");
         return -1;
     }
     if (sampler_resources_init() < 0) {
@@ -379,6 +380,10 @@ int machine_resources_init(void)
     }
     if (userport_joystick_synergy_resources_init() < 0) {
         init_resource_fail("userport synergy joystick");
+        return -1;
+    }
+    if (userport_spt_joystick_resources_init() < 0) {
+        init_resource_fail("userport stupid pet tricks joystick");
         return -1;
     }
     if (userport_dac_resources_init() < 0) {
@@ -475,10 +480,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("tapeport");
         return -1;
     }
-    if (datasette_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("datasette");
-        return -1;
-    }
     if (acia1_cmdline_options_init() < 0) {
         init_cmdline_options_fail("acia1");
         return -1;
@@ -509,10 +510,6 @@ int machine_cmdline_options_init(void)
     }
     if (userport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport");
-        return -1;
-    }
-    if (gfxoutput_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("gfxoutput");
         return -1;
     }
     if (sampler_cmdline_options_init() < 0) {
@@ -749,6 +746,9 @@ void machine_specific_powerup(void)
 {
     petdww_powerup();
     pethre_powerup();
+    userport_powerup();
+    tapeport_powerup();
+    joyport_powerup();
 }
 
 /* PET-specific initialization.  */
@@ -773,8 +773,12 @@ void machine_specific_reset(void)
 
 void machine_specific_shutdown(void)
 {
+    int i;
+
     /* and the tape */
-    tape_image_detach_internal(1);
+    for (i = 0; i < TAPEPORT_MAX_PORTS; i++) {
+        tape_image_detach_internal(i + 1);
+    }
 
     viacore_shutdown(machine_context.via);
 
@@ -788,6 +792,8 @@ void machine_specific_shutdown(void)
 #ifdef HAVE_MOUSE
     mouse_shutdown();
 #endif
+
+    sidcart_cmdline_options_shutdown();
 
     if (!console_mode) {
         petui_shutdown();
@@ -1087,7 +1093,8 @@ static userport_port_props_t userport_props = {
     0,                     /* port does NOT have the pa3 pin */
     pet_userport_set_flag, /* port has the flag pin, set flag function */
     0,                     /* port does NOT have the pc pin */
-    0                      /* port does NOT have the cnt1, cnt2 or sp pins */
+    0,                     /* port does NOT have the cnt1, cnt2 or sp pins */
+    0                      /* port does NOT have the reset pin */
 };
 
 int machine_register_userport(void)

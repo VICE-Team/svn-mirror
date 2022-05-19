@@ -1,0 +1,29 @@
+# VICE Gtk3 Hotkeys for vsid - MacOS version
+#
+# Author:   Bas Wassink
+# Updated:  2022-05-10
+#
+# See doc/gtk3-hotkeys.md for documentation on the syntax of hotkeys files.
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+# Enable debugging
+!debug enable
+
+# Clear hotkeys
+!clear
+
+
+#
+# Hotkey mappings, in the order of the menu items.
+#
+psid-load               <Command>l
+media-record            <Shift><Command>r
+media-stop              <Shift><Command>s
+monitor-open            <Command>h
+reset-soft              <Command>F9
+reset-hard              <Command>F12
+quit                    <Command>q
+
+psid-override-toggle    <Command>x
+settings-dialog         <Command>o
+settings-default        <Shift><Command>o

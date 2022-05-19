@@ -330,16 +330,7 @@ int machine_resources_init(void)
         init_resource_fail("drive");
         return -1;
     }
-    /*
-     * This needs to be called before tapeport_resources_init(), otherwise
-     * the tapecart will fail to initialize due to the Datasette resource
-     * appearing after the Tapecart resources
-     */
-    if (datasette_resources_init() < 0) {
-        init_resource_fail("datasette");
-        return -1;
-    }
-    if (tapeport_resources_init() < 0) {
+    if (tapeport_resources_init(1) < 0) {
         init_resource_fail("tapeport");
         return -1;
     }
@@ -405,10 +396,6 @@ int machine_resources_init(void)
     }
     if (joystick_resources_init() < 0) {
         init_resource_fail("joystick");
-        return -1;
-    }
-    if (gfxoutput_resources_init() < 0) {
-        init_resource_fail("gfxoutput");
         return -1;
     }
     if (sampler_resources_init() < 0) {
@@ -527,10 +514,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("tapeport");
         return -1;
     }
-    if (datasette_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("datasette");
-        return -1;
-    }
     if (acia1_cmdline_options_init() < 0) {
         init_cmdline_options_fail("acia1");
         return -1;
@@ -557,10 +540,6 @@ int machine_cmdline_options_init(void)
     }
     if (joystick_cmdline_options_init() < 0) {
         init_cmdline_options_fail("joystick");
-        return -1;
-    }
-    if (gfxoutput_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("gfxoutput");
         return -1;
     }
     if (sampler_cmdline_options_init() < 0) {
@@ -896,12 +875,14 @@ void machine_specific_reset(void)
 
 void machine_specific_powerup(void)
 {
+    tapeport_powerup();
+    joyport_powerup();
 }
 
 void machine_specific_shutdown(void)
 {
     /* and the tape */
-    tape_image_detach_internal(1);
+    tape_image_detach_internal(TAPEPORT_PORT_1 + 1);
 
     ciacore_shutdown(machine_context.cia1);
     tpicore_shutdown(machine_context.tpi1);
@@ -994,9 +975,9 @@ void machine_change_timing(int timeval, int border_mode)
                                 machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
 #ifdef HAVE_MOUSE
-    neos_mouse_set_machine_parameter(machine_timing.cycles_per_sec);
+    mouse_set_machine_parameter(machine_timing.cycles_per_sec);
 #endif
-    
+
     vicii_change_timing(&machine_timing, border_mode);
     cia1_set_timing(machine_context.cia1,
                     (int)machine_timing.cycles_per_sec,
@@ -1097,20 +1078,20 @@ uint8_t machine_tape_behaviour(void)
 int machine_addr_in_ram(unsigned int addr)
 {
     /* FIXME: handle the banking */
-    
+
     if (addr >= 0x25a && addr <= 0x25d) {
         /* 'Pickup subroutine' */
         return 0;
     }
-    
+
     if (addr >= 0x8000 && addr < 0xc000) {
         return 0;
     }
-    
+
     if (addr > 0xe000) {
         return 0;
     }
-    
+
     return 1;
 }
 

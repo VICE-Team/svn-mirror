@@ -84,12 +84,11 @@ void ui_destroy_main_window(int index);
 void ui_dispatch_events(void);
 void ui_exit(void);
 
-void ui_update_statusbars(void);
-
-int  ui_is_fullscreen(void);
-void ui_trigger_resize(void);
-
-
+gboolean ui_is_fullscreen(void);
+gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas);
+void     ui_set_fullscreen_enabled(gboolean enabled);
+gboolean ui_fullscreen_has_decorations(void);
+void     ui_trigger_resize(void);
 
 GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
@@ -99,6 +98,7 @@ video_canvas_t *ui_get_active_canvas(void);
  */
 int  ui_pause_active(void);
 void ui_pause_enable(void);
+bool ui_pause_loop_iteration(void);
 void ui_pause_enter_monitor(void);
 void ui_pause_disable(void);
 void ui_pause_toggle(void);
@@ -111,7 +111,15 @@ gboolean ui_action_toggle_warp(void);
 gboolean ui_action_advance_frame(void);
 gboolean ui_action_toggle_fullscreen(void);
 gboolean ui_action_toggle_fullscreen_decorations(void);
+void     ui_action_set_speed(int speed);
+void     ui_action_set_fps(int fps);
 
+gboolean ui_action_toggle_show_statusbar(void);
+
+gboolean ui_speed_custom_toggled(GtkWidget *widget, gpointer data);
+gboolean ui_fps_custom_toggled(GtkWidget *widget, gpointer data);
+gboolean ui_cpu_speed_callback(GtkWidget *widget, gpointer data);
+gboolean ui_fps_callback(GtkWidget *widget, gpointer data);
 
 void ui_update_lightpen(void);
 void ui_enable_crt_controls(int enabled);
@@ -120,30 +128,8 @@ void ui_enable_mixer_controls(int enabled);
 GtkWidget *ui_get_window_by_index(int index);
 int ui_get_window_index(GtkWidget *widget);
 int ui_get_main_window_index(void);
+GtkWidget *ui_get_main_window_by_index(gint index);
 
 gboolean ui_get_autostart_on_doubleclick(void);
-
-#if 0
-#define UI_DRAG_TARGETS_COUNT   3
-
-extern GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT];
-
-gboolean ui_on_drag_drop(
-        GtkWidget *widget,
-        GdkDragContext *context,
-        gint x,
-        gint y,
-        guint time,
-        gpointer data);
-
-void ui_on_drag_data_received(
-        GtkWidget *widget,
-        GdkDragContext *context,
-        int x,
-        int y,
-        GtkSelectionData *data,
-        guint info,
-        guint time);
-#endif
 
 #endif

@@ -138,14 +138,14 @@ void video_canvas_render(video_canvas_t *canvas, uint8_t *trg, int width,
 }
 
 /** \brief Force refresh all tracked canvases.
- * 
+ *
  * Added to enable visible updates each time the monitor
  * prompts for input.
  */
 void video_canvas_refresh_all_tracked(void)
 {
     int i;
-    
+
     for (i = 0; i < TRACKED_CANVAS_MAX; i++) {
         if (tracked_canvas[i]) {
             video_canvas_refresh_all(tracked_canvas[i]);

@@ -27,7 +27,9 @@
 #ifndef VICE_DIRECTX_RENDERER_IMPL_H
 #define VICE_DIRECTX_RENDERER_IMPL_H
 
-#ifdef WIN32_COMPILE
+#include "vice.h"
+
+#ifdef WINDOWS_COMPILE
 
 #include <windows.h>
 
@@ -37,8 +39,8 @@
 #include <pthread.h>
 #include <stdbool.h>
 
-#ifdef __cplusplus  
-extern "C" { 
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 #include "render_thread.h"
@@ -78,7 +80,7 @@ typedef struct vice_directx_renderer_context_s {
     ID2D1Effect *d2d_effect_premultiply_alpha;
     ID2D1Effect *d2d_effect_combine;
     ID2D1Effect *d2d_effect_scale;
-    
+
     IDXGIAdapter *dxgi_adapter;
     IDXGIFactory2 *dxgi_factory;
     IDXGISwapChain1 *d3d_swap_chain;
@@ -90,7 +92,7 @@ typedef struct vice_directx_renderer_context_s {
 
     /** \brief size of the current gpu bitmap in pixels */
     unsigned int bitmap_width;
-    
+
     /** \brief size of the current gpu bitmap in pixels */
     unsigned int bitmap_height;
 
@@ -99,7 +101,7 @@ typedef struct vice_directx_renderer_context_s {
 
     /** \brief size of the current gpu bitmap in pixels */
     unsigned int previous_frame_bitmap_width;
-    
+
     /** \brief size of the current gpu bitmap in pixels */
     unsigned int previous_frame_bitmap_height;
 
@@ -111,13 +113,13 @@ typedef struct vice_directx_renderer_context_s {
 
     /** \brief location of the directx viewport in window pixels */
     unsigned int viewport_x;
-    
+
     /** \brief size of the directx viewport in window pixels */
     unsigned int viewport_y;
 
     /** \brief size of the directx viewport in window pixels */
     unsigned int viewport_width;
-    
+
     /** \brief size of the directx viewport in window pixels */
     unsigned int viewport_height;
 
@@ -129,7 +131,7 @@ typedef struct vice_directx_renderer_context_s {
 
     /** \brief size of the next emulated frame */
     unsigned int emulated_width_next;
-    
+
     /** \brief size of the NEXT emulated frame */
     unsigned int emulated_height_next;
 
@@ -150,10 +152,10 @@ void vice_directx_destroy_context_impl(vice_directx_renderer_context_t *context)
 
 void vice_directx_impl_async_render(void *pool_data, void *job_data);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 } /* extern "C" { */
-#endif 
+#endif
 
-#endif /* #ifdef WIN32_COMPILE */
+#endif /* #ifdef WINDOWS_COMPILE */
 
 #endif /* #ifndef VICE_DIRECTX_RENDERER_IMPL_H */

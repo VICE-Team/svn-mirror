@@ -50,6 +50,23 @@
 #define DBG(x)
 #endif
 
+/*
+"standard" (SpeedDOS) cable
+
+VIA#1   User port plug
+ 2, PA0     C, PB0
+ 3, PA1     D, PB1
+ 4, PA2     E, PB2
+ 5, PA3     F, PB3
+ 6, PA4     H, PB4
+ 7, PA5     J, PB5
+ 8, PA6     K, PB6
+ 9, PA7     L, PB7
+
+18, CB1     8, PC2      <- this one is NOT connected on the "21sec Backup" cable!
+39, CA2     B, FLAG2
+*/
+
 #define PC_PORT_STANDARD        0
 #define PC_PORT_FORMEL64        1
 
@@ -65,6 +82,7 @@ static const int portmap[DRIVE_PC_NUM] = {
     PC_PORT_STANDARD, /* DRIVE_PC_STANDARD */
     PC_PORT_STANDARD, /* DRIVE_PC_DD3 */
     PC_PORT_FORMEL64, /* DRIVE_PC_FORMEL64 */
+    PC_PORT_STANDARD, /* DRIVE_PC_21SEC_BACKUP */
 };
 
 static uint8_t parallel_cable_value(int type)
@@ -110,6 +128,8 @@ static userport_device_t par_cable_device = {
     NULL,                                 /* NO read sp1 pin function */
     NULL,                                 /* NO store sp2 pin function */
     NULL,                                 /* NO read sp2 pin function */
+    NULL,                                 /* NO reset pin function */
+    NULL,                                 /* NO power toggle function */
     NULL,                                 /* NO snapshot write function */
     NULL                                  /* NO snapshot read function */
 };
@@ -251,12 +271,16 @@ void parallel_cable_cpu_pulse(int type)
                 case DRIVE_PC_FORMEL64:
                     viacore_signal(unit->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
                     break;
+                case DRIVE_PC_21SEC_BACKUP:
+                    /* do nothing */
+                    break;
                 default:
                     if (unit->type == DRIVE_TYPE_1570 ||
                         unit->type == DRIVE_TYPE_1571 ||
                         unit->type == DRIVE_TYPE_1571CR) {
                         ciacore_set_flag(unit->cia1571);
                     } else {
+                        /* FIXME: don't do this for the 21.sec cable */
                         viacore_signal(unit->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
                     }
                     break;

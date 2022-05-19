@@ -49,6 +49,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -581,6 +582,27 @@ static void vic_um_io3_store(uint16_t addr, uint8_t value)
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: this still needs to be tweaked to match the hardware */
+static RAMINITPARAM ramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x100,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 0,
+};
+
+void vic_um_powerup(void)
+{
+    if (cart_ram) {
+        ram_init_with_pattern(cart_ram, (unsigned int)cart_ram_size, &ramparam);
+    }
+}
+
 void vic_um_init(void)
 {
     if (um_log == LOG_ERR) {
@@ -694,7 +716,7 @@ int vic_um_bin_attach(const char *filename)
         vic_um_detach();
         return -1;
     }
-    cart_rom_size = util_file_length(fd);
+    cart_rom_size = archdep_file_size(fd);
 
     switch (cart_rom_size) {
         case CART_ROM_SIZE_16M:
@@ -941,6 +963,9 @@ int vic_um_snapshot_read_module(snapshot_t *s)
                       VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
                       VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
+
+    io2_list_item = io_source_register(&ultimem_io2);
+    io3_list_item = io_source_register(&ultimem_io3);
 
     return 0;
 }

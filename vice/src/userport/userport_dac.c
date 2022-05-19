@@ -80,7 +80,7 @@ static int userport_dac_sound_machine_channels(void)
 
 /* Userport DAC device sound chip */
 static sound_chip_t userport_dac_sound_chip = {
-    NULL,                                         /* NO sound chip open function */ 
+    NULL,                                         /* NO sound chip open function */
     userport_dac_sound_machine_init,              /* sound chip init function */
     NULL,                                         /* NO sound chip close function */
     userport_dac_sound_machine_calculate_samples, /* sound chip calculate samples function */
@@ -105,13 +105,13 @@ void userport_dac_sound_chip_init(void)
 static void userport_dac_store_pbx(uint8_t value, int pulse);
 static int userport_dac_write_snapshot_module(snapshot_t *s);
 static int userport_dac_read_snapshot_module(snapshot_t *s);
-static int userport_dac_enable(int val);
+static int userport_dac_set_enabled(int enabled);
 
 static userport_device_t dac_device = {
     "Userport DAC",                     /* device name */
     JOYSTICK_ADAPTER_ID_NONE,           /* NOT a joystick adapter */
     USERPORT_DEVICE_TYPE_AUDIO_OUTPUT,  /* device is an audio output */
-    userport_dac_enable,                /* enable function */
+    userport_dac_set_enabled,           /* enable/disable function */
     NULL,                               /* NO read pb0-pb7 function */
     userport_dac_store_pbx,             /* store pb0-pb7 function */
     NULL,                               /* NO read pa2 pin function */
@@ -123,17 +123,19 @@ static userport_device_t dac_device = {
     NULL,                               /* NO read sp1 pin function */
     NULL,                               /* NO store sp2 pin function */
     NULL,                               /* NO read sp2 pin function */
+    NULL,                               /* NO reset function */
+    NULL,                               /* NO powerup function */
     userport_dac_write_snapshot_module, /* snapshot write function */
     userport_dac_read_snapshot_module   /* snapshot read function */
 };
 
 /* ------------------------------------------------------------------------- */
 
-static int userport_dac_enable(int value)
+static int userport_dac_set_enabled(int enabled)
 {
-    int val = (value) ? 1 : 0;
+    int new_state = (enabled) ? 1 : 0;
 
-    userport_dac_sound_chip.chip_enabled = val;
+    userport_dac_sound_chip.chip_enabled = new_state;
 
     return 0;
 }
@@ -150,6 +152,8 @@ static uint8_t userport_dac_sound_data;
 static void userport_dac_store_pbx(uint8_t value, int pulse)
 {
     userport_dac_sound_data = value;
+
+    /* call sound store function in order to update the sound output buffer */
     sound_store(userport_dac_sound_chip_offset, value, 0);
 }
 
@@ -161,6 +165,7 @@ static struct userport_dac_sound_s snd;
 
 static int userport_dac_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
 {
+    /* FIXME: make clear what is going on here */
     return sound_dac_calculate_samples(&userport_dac_dac, pbuf, (int)snd.voice0 * 128, nr, soc, (soc > 1) ? 3 : 1);
 }
 
@@ -198,7 +203,7 @@ static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk)
    BYTE  | voice      | voice
  */
 
-static char snap_module_name[] = "UPDAC";
+static const char snap_module_name[] = "UPDAC";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
@@ -207,7 +212,7 @@ static int userport_dac_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }

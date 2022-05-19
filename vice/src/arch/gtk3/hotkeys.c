@@ -35,6 +35,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <inttypes.h>
+#include <time.h>
+#include <sys/time.h>
 #include <errno.h>
 
 #include "archdep.h"
@@ -45,9 +47,14 @@
 #include "machine.h"
 #include "resources.h"
 #include "sysfile.h"
+#include "ui.h"
 #include "uiactions.h"
-#include "uimachinemenu.h"
+#include "uimenu.h"
 #include "util.h"
+#include "version.h"
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
 
 #include "hotkeys.h"
 
@@ -65,7 +72,7 @@ static int hotkeys_file_set(const char *val, void *param);
 #define ARRAY_LEN(arr)  (sizeof(arr) / sizeof(arr[0]))
 
 
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOS_COMPILE
 /** \brief  Replacement of 'Primary' for MacOS */
 #define PRIMARY_REPLACEMENT "Command"
 #else
@@ -76,7 +83,7 @@ static int hotkeys_file_set(const char *val, void *param);
 
 /** \brief  Initial size of the buffer of the textfile reader
  *
- * The buffer will be automatically doubled in size 
+ * The buffer will be automatically doubled in size
  */
 #define TEXTFILE_READER_BUFSIZE 1024
 
@@ -116,19 +123,6 @@ typedef enum hotkeys_keyword_id_e {
 } hotkeys_keyword_id_t;
 
 
-/** \brief  Modifier IDs
- */
-typedef enum hotkeys_modifier_id_e {
-    HOTKEYS_MOD_ID_ILLEGAL = -1,    /**< illegal modifier */
-    HOTKEYS_MOD_ID_NONE,            /**< no modifer */
-    HOTKEYS_MOD_ID_ALT,             /**< Alt */
-    HOTKEYS_MOD_ID_COMMAND,         /**< Command (MacOS) */
-    HOTKEYS_MOD_ID_CONTROL,         /**< Control */
-    HOTKEYS_MOD_ID_HYPER,           /**< Hyper (MacOS?) */
-    HOTKEYS_MOD_ID_OPTION,          /**< Option (MacOS) */
-    HOTKEYS_MOD_ID_SHIFT,           /**< Shift */
-    HOTKEYS_MOD_ID_SUPER            /**< Super ("Windows" key) */
-} hotkeys_modifier_id_t;
 
 
 
@@ -165,20 +159,6 @@ typedef struct hotkeys_keyword_s {
     const char *            syntax;     /**< syntax */
     const char *            desc;       /**< description */
 } hotkeys_keyword_t;
-
-
-/** \brief  Parser modifier data object
- *
- * The modifier IDs are there to allow dumping a hotkeys file with PC-specific
- * modifier names on Linux, BSD, Windows and MacOS-specific modifier names on
- * MacOS. So "<Control><Alt>X" would be dumped as "<Command><Option>X" on MacOS,
- * but the parser wouldn't care when reading back the file.
- */
-typedef struct hotkeys_modifier_s {
-    const char *            name;   /**< modifier name */
-    hotkeys_modifier_id_t   id;     /**< modifier ID */
-    GdkModifierType         mask;   /**< GDK modifier mask */
-} hotkeys_modifier_t;
 
 
 /** \brief  Object for apping of !DEBUG arguments to boolean
@@ -244,13 +224,14 @@ static const hotkeys_keyword_t hotkeys_keyword_list[] = {
  * \note    The array needs to stay in alphabetical order.
  */
 static const hotkeys_modifier_t hotkeys_modifier_list[] = {
-    { "Alt",        HOTKEYS_MOD_ID_ALT,     GDK_MOD1_MASK },
-    { "Command",    HOTKEYS_MOD_ID_COMMAND, GDK_CONTROL_MASK },
-    { "Control",    HOTKEYS_MOD_ID_CONTROL, GDK_CONTROL_MASK },
-    { "Hyper",      HOTKEYS_MOD_ID_HYPER,   GDK_HYPER_MASK },
-    { "Option",     HOTKEYS_MOD_ID_OPTION,  GDK_MOD1_MASK },
-    { "Shift",      HOTKEYS_MOD_ID_SHIFT,   GDK_SHIFT_MASK },
-    { "Super",      HOTKEYS_MOD_ID_SUPER,   GDK_SUPER_MASK }
+    { "Alt",        HOTKEYS_MOD_ID_ALT,     GDK_MOD1_MASK,      "MOD1",     "Alt" },
+    { "Command",    HOTKEYS_MOD_ID_COMMAND, GDK_META_MASK,      "META",     "Command \u2318" },
+    { "Control",    HOTKEYS_MOD_ID_CONTROL, GDK_CONTROL_MASK,   "CONTROL",  "Control \u2303" },
+    { "Hyper",      HOTKEYS_MOD_ID_HYPER,   GDK_HYPER_MASK,     "HYPER",    "Hyper" },
+    { "Option",     HOTKEYS_MOD_ID_OPTION,  GDK_MOD1_MASK,      "MOD1",     "Option \u2325" },
+    { "Shift",      HOTKEYS_MOD_ID_SHIFT,   GDK_SHIFT_MASK,     "SHIFT",    "Shift \u21e7" },
+    { "Super",      HOTKEYS_MOD_ID_SUPER,   GDK_SUPER_MASK,     "SUPER",    "Super" },
+    { NULL,         -1,                     0,                  NULL,       NULL }
 };
 
 
@@ -318,22 +299,19 @@ static const cmdline_option_t cmdline_options[] = {
  */
 static int hotkeys_file_set(const char *val, void *param)
 {
-    debug_gtk3("Got hotkey file '%s'", val);
-
     if (util_string_set(&hotkeys_file, val) != 0) {
         /* new value was the same as the old value, don't do anything */
         return 0;
     }
 
     /* process hotkeys */
+    if (help_requested) {
+        debug_gtk3("--help on command line, skip parsing.");
+        return 0;
+    }
+
     log_message(hotkeys_log, "Hotkeys: parsing '%s':", val);
     ui_hotkeys_parse(val);
-
-#if 0
-    debug_gtk3("Faking hotkeys loading: swapping Alt+H/Alt+M.");
-    ui_set_vice_menu_item_hotkey_by_name("monitor", "m", GDK_MOD1_MASK);
-    ui_set_vice_menu_item_hotkey_by_name("toggle-mouse-grab", "h", GDK_MOD1_MASK);
-#endif
     return 0;
 }
 /* }}} */
@@ -364,9 +342,36 @@ int ui_hotkeys_cmdline_options_init(void)
 }
 
 
+/** \brief  Load the default hotkeys
+ *
+ * Parse the VICE-provided hotkey files, clearing any user-defined hotkeys.
+ */
+void ui_hotkeys_load_default(void)
+{
+    bool result;
+
+    /* kludge:  We use `machine_name` to determine where to load the default
+     *          hotkeys from, and `machine_name` is C64 for VSID, so we load
+     *          from ${DATADIR}/C64 for vsid.
+     */
+    if (machine_class == VICE_MACHINE_VSID) {
+        log_message(hotkeys_log, "Hotkeys: Parsing VSID hotkeys file:");
+        result = ui_hotkeys_parse(VHK_DEFAULT_NAME_VSID);
+    } else {
+        log_message(hotkeys_log, "Hotkeys: Parsing %s hotkeys file:", machine_name);
+        result = ui_hotkeys_parse(VHK_DEFAULT_NAME);
+    }
+    if (result) {
+        log_message(hotkeys_log, "Hotkeys: OK.");
+    } else {
+        log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
+    }
+}
+
+
 /** \brief  Initialize hotkeys
  *
- * Initialize hotkey handling resources such as logs and objects.
+ * Initialize hotkey resources such as logs and objects; load default hotkeys.
  *
  * \note    Does *not* initialize command line options or vice resources, that
  *          is done separately in hotkeys_cmdline_options_init() and
@@ -376,13 +381,7 @@ void ui_hotkeys_init(void)
 {
     hotkeys_log = log_open("HOTKEYS");
     log_message(hotkeys_log, "Hotkeys: Initializing.");
-
-    log_message(hotkeys_log, "Hotkeys: Parsing %s hotkeys file:", machine_name);
-    if (!ui_hotkeys_parse("gtk3-hotkeys.vhk")) {
-        log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
-    } else {
-        log_message(hotkeys_log, "Hotkeys: OK.");
-    }
+    ui_hotkeys_load_default();
 }
 
 
@@ -403,6 +402,27 @@ void ui_hotkeys_shutdown(void)
 
     log_close(hotkeys_log);
 }
+
+
+/* This fails on msys2 and I don't want to spend too much time (heh) on this.
+ * Can be reenabled if required. */
+#if 0
+/** \brief  Log current time, including microseconds
+ */
+static void hotkeys_log_timestamp(void)
+{
+    struct timeval tv;
+
+    if (gettimeofday(&tv, NULL) == 0) {
+        const struct tm *tm;
+        char buffer[256];
+
+        tm = localtime(&(tv.tv_sec));
+        strftime(buffer, sizeof(buffer), "%H:%M.%S", tm);
+        log_message(hotkeys_log, "Hotkeys: timestamp: %s.%lld", buffer, (long long)tv.tv_usec);
+    }
+}
+#endif
 
 
 
@@ -487,7 +507,6 @@ static void textfile_reader_free(textfile_reader_t *reader)
 {
     lib_free(reader->buffer);
     if (reader->fp != NULL) {
-        //debug_gtk3("FCLOSE(%p)", (void*)(reader->fp));
         fclose(reader->fp);
         reader->fp = NULL;
     }
@@ -515,36 +534,26 @@ static bool textfile_reader_open(textfile_reader_t *reader, const char *path)
     textfile_entry_t *current;
     char *complete_path = NULL;
 
-    //debug_gtk3("new file '%s' to open.", path);
-
     /* get top of stack */
     current = reader->entries;
-
     if (current != NULL) {
 
-        //debug_gtk3("old file present, remembering position.");
         if (reader->fp == NULL) {
             debug_gtk3("ERROR: file entry on stack, but no open FP.");
         }
         /* remember position in current file */
         current->pos = ftell(reader->fp);
-        //debug_gtk3("FTELL(%p) = %ld", (void*)(reader->fp), current->pos);
         /* close current file */
-        //debug_gtk3("FCLOSE(%p)", (void*)(reader->fp));
         fclose(reader->fp);
         reader->fp = NULL;
     }
 
     /* try to open new file */
-    debug_gtk3("Opening new file '%s':", path);
     reader->fp = sysfile_open(path, machine_name, &complete_path, "rb");
-    //debug_gtk3("SYSFILE_OPEN() -> %p", (void*)(reader->fp));
     if (reader->fp == NULL) {
-        debug_gtk3("failed.");
         return false;
     } else {
         /* add new file to stack */
-        //debug_gtk3("OK, adding to stack.");
         textfile_entry_t *new = textfile_entry_new(complete_path);
         lib_free(complete_path);
         new->next = current;
@@ -570,9 +579,11 @@ static bool textfile_reader_close(textfile_reader_t *reader)
 
 
     if (reader->fp != NULL) {
-        //debug_gtk3("Current file getting closed: '%s'.", current->path);
-        //debug_gtk3("Closing reader->fp.");
-        //debug_gtk3("FCLOSE(%p)", (void*)(reader->fp));
+#if 0
+        debug_gtk3("Current file getting closed: '%s'.", current->path);
+        debug_gtk3("Closing reader->fp.");
+        debug_gtk3("FCLOSE(%p)", (void*)(reader->fp));
+#endif
         fclose(reader->fp);
         reader->fp = NULL;
     } else {
@@ -596,7 +607,6 @@ static bool textfile_reader_close(textfile_reader_t *reader)
                             current->path);
             }
             reader->fp = fopen(current->path, "rb");
-            //debug_gtk3("FOPEN() -> %p", (void*)(reader->fp));
             if (reader->fp == NULL) {
                 log_message(hotkeys_log,
                             "failed to open '%s'.",
@@ -606,7 +616,6 @@ static bool textfile_reader_close(textfile_reader_t *reader)
             /* reposition stream to the position it had when a new file was
              * opened */
 
-            //debug_gtk3("FSEEK(%p, %ld)", (void*)(reader->fp), current->pos);
             if (fseek(reader->fp, current->pos, SEEK_SET) != 0) {
                 debug_gtk3("FSEEK FAIL!");
                 return false;
@@ -632,8 +641,6 @@ static bool textfile_reader_close(textfile_reader_t *reader)
  */
 static const char *textfile_reader_read(textfile_reader_t *reader)
 {
-    // clearerr(reader->fp);
-
     reader->buflen = 0;
 
     if (reader->entries == NULL) {
@@ -644,8 +651,6 @@ static const char *textfile_reader_read(textfile_reader_t *reader)
         debug_gtk3("NO FP!");
         return NULL;
     }
-
-    //debug_gtk3("READING FROM %p", (void*)(reader->fp));
 
     while (true) {
         int ch = fgetc(reader->fp);
@@ -890,46 +895,6 @@ static char *parser_strsubst(const char *original,
 }
 
 
-/** \brief  Case-insensitive compare string \a s1 to string \a s2
- *
- * Compare two strings, \a s1 and \a s2, using at most \a n bytes of either
- * string, in a case-insenstive manner.
- *
- * \return  0 when equal, -1 when s1 < s2, +1 when s1 > s2
- */
-static int parser_strncasecmp(const char *s1, const char *s2, size_t n)
-{
-    size_t i;
-
-    debug_gtk3("compare (%s, %s).", s1, s2);
-
-    for (i = 0; *s1 != '\0' && *s2 != '\0' && i < n; s1++, s2++, i++) {
-        int c1 = tolower((int)*s1);
-        int c2 = tolower((int)*s2);
-
-        if (c1 < c2) {
-            return -1;
-        } else if (c1 > c2) {
-            return 1;
-        }
-    }
-
-    if (*s1 != '\0' && *s2 != '\0') {
-        /* more data, but equal for the requested first n chars */
-        return 0;
-    } else if (*s1 == '\0' && *s2 == '\0') {
-        /* no more data, strings match */
-        return 0;
-    } else if (*s1 == '\0') {
-        /* s2 is longer */
-        return 1;
-    } else {
-        return -1;
-    }
-}
-
-
-
 /** \brief  Scan string for keyword
  *
  * Scan string \a name for a keyword and return keyword ID on match.
@@ -1000,9 +965,9 @@ static hotkeys_keyword_id_t parser_get_keyword_id(const char *name)
 static hotkeys_modifier_id_t parser_get_modifier_id(const char *name,
                                                     const char **endptr)
 {
-    size_t i;
+    int i = 0;
 
-    for (i = 0; i < ARRAY_LEN(hotkeys_modifier_list); i++) {
+    while (hotkeys_modifier_list[i].name != NULL) {
         int k = 0;
         const hotkeys_modifier_t *mod = &(hotkeys_modifier_list[i]);
         const char *modname = mod->name;
@@ -1030,9 +995,10 @@ static hotkeys_modifier_id_t parser_get_modifier_id(const char *name,
             /* missing closing '>' */
             return HOTKEYS_MOD_ID_ILLEGAL;
         }
+        i++;
     }
 
-    return 0;
+    return HOTKEYS_MOD_ID_ILLEGAL;
 }
 
 
@@ -1044,12 +1010,13 @@ static hotkeys_modifier_id_t parser_get_modifier_id(const char *name,
  */
 static GdkModifierType parser_get_modifier_mask(hotkeys_modifier_id_t id)
 {
-    size_t i;
+    int i = 0;
 
-    for (i = 0; i < ARRAY_LEN(hotkeys_modifier_list); i++) {
+    while (hotkeys_modifier_list[i].name != NULL) {
         if (hotkeys_modifier_list[i].id == id) {
             return hotkeys_modifier_list[i].mask;
         }
+        i++;
     }
     return 0;
 }
@@ -1057,16 +1024,17 @@ static GdkModifierType parser_get_modifier_mask(hotkeys_modifier_id_t id)
 #if 0
 static hotkeys_modifier_id_t parser_get_modifier_id_for_mask(GdkModifierType mask)
 {
-    size_t i;
+    int i = 0;
 
     if (mask == 0) {
         return -1;
     }
 
-    for (i = 0; i < ARRAY_LEN(hotkeys_modifier_list); i++) {
+    while (hotkeys_modifier_list[i].name != NULL) {
         if (hotkeys_modifier_list[i].mask == mask) {
             return hotkeys_modifier_list[i].id;
         }
+        i++;
     }
     return -1;
 }
@@ -1081,12 +1049,13 @@ static hotkeys_modifier_id_t parser_get_modifier_id_for_mask(GdkModifierType mas
  */
 static const char *parser_get_modifier_name(hotkeys_modifier_id_t id)
 {
-    size_t i;
+    int i = 0;
 
-    for (i = 0; i < ARRAY_LEN(hotkeys_modifier_list); i++) {
+    while (hotkeys_modifier_list[i].name != NULL) {
         if (hotkeys_modifier_list[i].id == id) {
             return hotkeys_modifier_list[i].name;
         }
+        i++;
     }
     return NULL;
 }
@@ -1129,6 +1098,7 @@ static bool parser_get_gdk_mask_and_keyval(const char *line,
     while (*s != '\0') {
         const char *end = NULL;
         hotkeys_modifier_id_t id;
+
 #if 0
         debug_gtk3("Scanning '%s'", s);
 #endif
@@ -1216,7 +1186,7 @@ static bool parser_do_clear(const char *line, textfile_reader_t *reader)
                     textfile_reader_filename(reader),
                     textfile_reader_linenum(reader));
     }
-    ui_clear_vice_menu_item_hotkeys();
+    ui_clear_menu_hotkeys();
     return true;
 }
 
@@ -1234,17 +1204,19 @@ static bool parser_do_debug(const char *line, textfile_reader_t *reader)
 {
     const char *arg;
     size_t i;
-
+#if 0
     debug_gtk3("Found !DEBUG, check arg.");
-
+#endif
     arg = skip_whitespace(line);
     for (i = 0; i < ARRAY_LEN(debug_arglist); i++) {
-        if (parser_strncasecmp(debug_arglist[i].symbol,
-                               arg,
-                               strlen(debug_arglist[i].symbol)) == 0) {
+        if (util_strncasecmp(debug_arglist[i].symbol,
+                             arg,
+                             strlen(debug_arglist[i].symbol)) == 0) {
+#if 0
             debug_gtk3("Found '%s' -> '%s'.",
                        debug_arglist[i].symbol,
                        debug_arglist[i].value ? "True" : "False");
+#endif
             /* TODO: report debug on/off as part of debugging, but only
              *       mention 'off' if it was previously 'on': this way using
              *       '!debug off' at the start of a vhk file won't trigger a
@@ -1256,10 +1228,11 @@ static bool parser_do_debug(const char *line, textfile_reader_t *reader)
     }
     /* no match */
     log_message(hotkeys_log,
-                "Hotkeys: %s:%ld: syntax error: unknown argument to !DEBUG.",
+                "Hotkeys: %s:%ld: syntax error: unknown argument to !DEBUG, assuming False",
                 textfile_reader_filename(reader),
                 textfile_reader_linenum(reader));
-    return false;
+    hotkeys_debug = false;
+    return true;
 }
 
 
@@ -1283,11 +1256,7 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
     char *a;
     bool result;
 
-    debug_gtk3("called.");
-
     s = skip_whitespace(line);
-    debug_gtk3("!INCLUDE argument: '%s'.", s);
-
     if (*s == '\0') {
         /* missing argument */
         log_message(hotkeys_log,
@@ -1353,11 +1322,9 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
     userdir = archdep_xdg_data_home();
 
     path = parser_strsubst(arg, "$VICEDIR", vicedir);
-    //debug_gtk3("after subst of $VICEDIR: '%s'.", path);
     tmp = parser_strsubst(path, "$USERDIR", userdir);
     lib_free(path);
     path = tmp;
-    //debug_gtk3("after subst of $USERDIR: '%s'.", path);
 
     lib_free(arg);
     lib_free(vicedir);
@@ -1377,6 +1344,8 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
  * \return  bool
  *
  * \note    errors are reported with log_message()
+ *
+ * \todo    Support two windows for x128
  */
 static bool parser_do_undef(const char *line, textfile_reader_t *reader)
 {
@@ -1384,11 +1353,9 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     const char *oldpos;
     GdkModifierType mask;
     guint keyval;
-    ui_menu_item_t *item;
+    ui_menu_item_ref_t *ref;
 
     s = skip_whitespace(line);
-    debug_gtk3("!UNDEF argument: '%s'.", s);
-
     if (*s == '\0') {
         /* error: missing argument */
         log_message(hotkeys_log,
@@ -1415,17 +1382,18 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     }
 
     /* look up menu item by hotkey */
-    item = ui_get_vice_menu_item_by_hotkey(mask, keyval);
-    if (item != NULL) {
+    ref = ui_menu_item_ref_by_hotkey(PRIMARY_WINDOW, keyval, mask);
+    if (ref != NULL) {
         if (hotkeys_debug) {
             log_message(hotkeys_log,
                         "Hotkeys: %s:%ld: found menu item for hotkey: '%s'.",
                         textfile_reader_filename(reader),
                         textfile_reader_linenum(reader),
-                        item->label);
+                        ref->decl->label);
         }
-        item->keysym = 0;
-        item->modifier = 0;
+        ui_menu_remove_accel_via_item_ref(ref);
+        ref->keysym = 0;
+        ref->modifier = 0;
     } else {
         /* cannot use gtk_accelerator_name(): Gtk throws a fit about not having
          * a display and thus no GdkKeymap. :( */
@@ -1549,7 +1517,8 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
 {
     const char *s;
     const char *oldpos;
-    char action[256];
+    char action_name[256];
+    int action_id = ACTION_INVALID;
     guint keyval = 0;
     GdkModifierType mask = 0;
 
@@ -1570,7 +1539,7 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
                     textfile_reader_linenum(reader));
         return false;
     }
-    if (s - oldpos >= sizeof(action)) {
+    if (s - oldpos >= sizeof(action_name)) {
         log_message(hotkeys_log,
                     "Hotkeys: %s:%ld: error: action name is too long.",
                     textfile_reader_filename(reader),
@@ -1579,8 +1548,8 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     }
 
     /* make properly nul-terminated string of action name for lookups*/
-    memcpy(action, oldpos, s - oldpos);
-    action[s - oldpos] = '\0';
+    memcpy(action_name, oldpos, s - oldpos);
+    action_name[s - oldpos] = '\0';
 
     s = skip_whitespace(s);
 
@@ -1593,12 +1562,12 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     if (hotkeys_debug) {
         log_message(hotkeys_log,
                     "Hotkeys: mask: %04x, keyval: %08x, keyname: %s, action: %s",
-                    (unsigned int)mask, keyval, gdk_keyval_name(keyval), action);
+                    (unsigned int)mask, keyval, gdk_keyval_name(keyval), action_name);
     }
+
     /* finally try to register the hotkey */
-    if (!ui_set_vice_menu_item_hotkey_by_name(action,
-                                              gdk_keyval_name(keyval),
-                                              mask)) {
+    action_id = ui_action_get_id(action_name);
+    if (!ui_set_menu_item_hotkey_by_action(action_id, keyval, mask)) {
         log_message(hotkeys_log,
                     "Hotkeys: %s:%ld: failed to register hotkey.",
                     textfile_reader_filename(reader),
@@ -1622,7 +1591,9 @@ bool ui_hotkeys_parse(const char *path)
 
     /* disable debugging */
     hotkeys_debug = false;
-
+#if 0
+    hotkeys_log_timestamp();
+#endif
     /* initialize file stack and open the file */
     textfile_reader_init(&reader);
     if (textfile_reader_open(&reader, path)) {
@@ -1640,7 +1611,6 @@ bool ui_hotkeys_parse(const char *path)
                            textfile_reader_linenum(&reader),
                            line);
                 }
-                //printf("TRIMMED : '%s'\n", trimmed);
 
                 if (*trimmed == '\0'
                         || *trimmed == HOTKEYS_COMMENT
@@ -1675,7 +1645,9 @@ bool ui_hotkeys_parse(const char *path)
         status = false;
     }
     textfile_reader_free(&reader);
-
+#if 0
+    hotkeys_log_timestamp();
+#endif
     return status;
 }
 
@@ -1684,29 +1656,101 @@ bool ui_hotkeys_parse(const char *path)
 
 /** \brief  Return a string describing the key+modifiers for \a action
  *
- * \param[in]   action  action name
+ * \param[in]   action_id   action ID
+ * \param[in]   window_id   window ID
  *
  * \return  string with key name and modifiers
  * \note    free the string after use with lib_free()
  */
-char *ui_hotkeys_get_hotkey_string_for_action(const char *action)
+char *ui_hotkeys_get_hotkey_string_for_action(gint action_id, gint window_id)
 {
-    ui_menu_item_t *item;
+    ui_menu_item_ref_t *ref;
     char *str = NULL;
 
-    item = ui_get_vice_menu_item_by_name(action);
-    if (item != NULL) {
-        str = gtk_accelerator_name(item->keysym, item->modifier);
+    ref = ui_menu_item_ref_by_action(action_id, window_id);
+    if (ref != NULL) {
+        str = gtk_accelerator_get_label(ref->keysym, ref->modifier);
         if (str != NULL) {
-            char *tmp;
-
-            /* replace 'Primary' with 'Command' or 'Control' */
-            tmp = parser_strsubst(str, "Primary", PRIMARY_REPLACEMENT);
+            /* make VICE take ownership */
+            char *tmp = lib_strdup(str);
             g_free(str);
             str = tmp;
         }
     }
     return str;
+}
+
+
+/** \brief  Helper: log I/O error
+ *
+ * Logs libc I/O errors to the hotkeys log, including errno and description.
+ */
+static void export_log_io_error(void)
+{
+    log_error(hotkeys_log,
+              "Hotkeys: I/O error (%d: %s).",
+               errno, strerror(errno));
+}
+
+
+/** \brief  Output the header for an exported hotkeys file
+ *
+ * \param[in]   fp  file descriptor
+ *
+ * \return  true on success
+ */
+static bool export_header(FILE *fp)
+{
+    int result;
+    char buffer[1024];
+    time_t t;
+    const struct tm *tinfo;
+
+    result = fprintf(fp,
+"# Gtk3 hotkeys file for %s\n"
+"#\n"
+"# TODO: Add documentation of .vhk format\n"
+"\n", machine_get_name());
+    if (result < 0) {
+        export_log_io_error();
+        return false;
+    }
+
+    /* add current datetime */
+    t = time(NULL);
+    tinfo = localtime(&t);
+    if (tinfo != NULL) {
+        strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M%z", tinfo);
+        result = fprintf(fp, "# Generated on %s\n", buffer);
+        if (result < 0) {
+            export_log_io_error();
+            return false;
+        }
+    }
+
+    /* add ViCE version */
+#ifdef USE_SVN_REVISION
+    result = fprintf(fp, "# Generated by VICE %s r%s\n",
+                     VERSION, VICE_SVN_REV_STRING);
+#else
+    result = fprintf(fp, "# Generated by VICE %s\n", VERSION);
+#endif
+     if (result < 0) {
+        export_log_io_error();
+        return false;
+    }
+
+    result = fprintf(fp,
+"!debug disable\n"
+"!clear\n"
+"\n"
+"# User-defined hotkeys:\n"
+"\n");
+    if (result < 0) {
+        export_log_io_error();
+        return false;
+    }
+    return true;
 }
 
 
@@ -1719,8 +1763,67 @@ char *ui_hotkeys_get_hotkey_string_for_action(const char *action)
  */
 bool ui_hotkeys_export(const char *path)
 {
+    FILE *fp;
+    gint ref_index;
+    gint ref_count;
+
     log_message(hotkeys_log,
                 "Hotkeys: exporting current hotkeys to '%s'.", path);
+
+    fp = fopen(path, "wb");
+    if (fp == NULL) {
+        log_error(hotkeys_log,
+                  "Hotkeys: failed to open '%s' for writing (%d: %s).",
+                  path, errno, strerror(errno));
+        return false;
+    }
+
+    export_header(fp);
+
+    ref_count = ui_menu_item_ref_count();
+    for (ref_index = 0; ref_index < ref_count; ref_index++) {
+        ui_menu_item_ref_t *ref;
+        ui_menu_item_t *decl;
+
+        ref = ui_menu_item_ref_by_index(ref_index);
+        /* don't export the hotkeys twice in x128 */
+        if (ref->window_id != PRIMARY_WINDOW) {
+            continue;
+        }
+        decl = ref->decl;
+
+        if (decl->action_id > ACTION_NONE && ref->keysym != 0) {
+            gchar *accel;
+            int result;
+
+            accel = gtk_accelerator_name(ref->keysym, ref->modifier);
+            if (accel != NULL) {
+                char *hotkey;
+                const char *name;
+
+                hotkey = parser_strsubst(accel, "Primary", PRIMARY_REPLACEMENT);
+                g_free(accel);
+                name = ui_action_get_name(decl->action_id);
+
+                result = fprintf(fp, "%-30s  %s\n", name, hotkey);
+                if (result < 0) {
+                    export_log_io_error();
+                    lib_free(hotkey);
+                    fclose(fp);
+                    return false;
+                }
+                lib_free(hotkey);
+            }
+        }
+    }
+
+    fclose(fp);
     return true;
+}
+
+
+const hotkeys_modifier_t *ui_hotkeys_get_modifier_list(void)
+{
+    return hotkeys_modifier_list;
 }
 

@@ -28,6 +28,8 @@
 #ifndef VICE_ARCHDEP_UNIX_H
 #define VICE_ARCHDEP_UNIX_H
 
+#include "vice.h"
+
 #define VICE_ARCHAPI_PRIVATE_API
 #include "archapi.h"
 #undef VICE_ARCHAPI_PRIVATE_API
@@ -36,14 +38,11 @@
 #define ARCHDEP_MIDI_IN_DEV  "/dev/midi"    /**< MIDI input dev */
 #define ARCHDEP_MIDI_OUT_DEV "/dev/midi"    /**< MIDI output dev */
 
-/* Filesystem dependent operators.  */
-#define FSDEVICE_DEFAULT_DIR "."    /**< CWD */
-#define FSDEV_DIR_SEP_STR    "/"    /**< directory separator as a string */
-#define FSDEV_DIR_SEP_CHR    '/'    /**< directory separator as an integer */
-#define FSDEV_EXT_SEP_STR    "."    /**< file extension separator as a string
-                                         (doesn't exist on Unix) */
-#define FSDEV_EXT_SEP_CHR    '.'    /**< file extension separator as an integer
-                                         (doesn't exist on Unix) */
+
+/* Filesystem-dependent constants */
+#define ARCHDEP_FSDEVICE_DEFAULT_DIR "."    /**< CWD */
+#define ARCHDEP_DIR_SEP_STR "/"     /**< directory separator as a string */
+#define ARCHDEP_DIR_SEP_CHR '/'     /**< directory separator as an integer */
 
 /* Path separator.  */
 
@@ -87,20 +86,12 @@
 /* Default location of raw disk images.  */
 #define ARCHDEP_RAWDRIVE_DEFAULT "/dev/fd0"
 
-/* Access types */
-#define ARCHDEP_R_OK R_OK
-#define ARCHDEP_W_OK W_OK
-#define ARCHDEP_X_OK X_OK
-#define ARCHDEP_F_OK F_OK
-
 /* Standard line delimiter.  */
 #define ARCHDEP_LINE_DELIMITER "\n"
 
 /* Ethernet default device */
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE "eth0"
 
-
-#define VICEUSERDIR ".vice"
 
 /*
     these are used for socket send/recv. in this case we might
@@ -110,7 +101,7 @@ void archdep_signals_init(int do_core_dumps);
 void archdep_signals_pipe_set(void);
 void archdep_signals_pipe_unset(void);
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #define MAKE_SO_NAME_VERSION_PROTO(name, version)  "lib" #name "." #version ".dylib"
 #else
 #define MAKE_SO_NAME_VERSION_PROTO(name, version)  "lib" #name ".so." #version
@@ -119,7 +110,7 @@ void archdep_signals_pipe_unset(void);
 /* add second level macro to allow expansion and stringification */
 #define ARCHDEP_MAKE_SO_NAME_VERSION(n, v) MAKE_SO_NAME_VERSION_PROTO(n, v)
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOS_COMPILE
 #define ARCHDEP_OPENCBM_SO_NAME  "libopencbm.dylib"
 #define ARCHDEP_LAME_SO_NAME     "libmp3lame.dylib"
 #else

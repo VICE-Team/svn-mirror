@@ -25,12 +25,10 @@
  */
 
 #include "vice.h"
-#include "archdep_defs.h"
-
-#include <string.h>
-
+/* We need archdep.h here, not archdep_defs.h, for SDL_CHOOSE_DRIVES */
 #include "archdep.h"
-#include "ioutil.h"
+#include <string.h>
+#include "archdep_current_dir.h"
 
 #include "archdep_get_current_drive.h"
 
@@ -45,17 +43,13 @@
  * \note    free result after use with lib_free().
  */
 
-#ifdef ARCHDEP_OS_WINDOWS
-/* FIXME: is this needed* */
-# ifdef SDL_CHOOSE_DRIVES
-
+#if defined(WINDOWS_COMPILE) && defined(SDL_CHOOSE_DRIVES)
 char *archdep_get_current_drive(void)
 {
-    char *p = ioutil_current_dir();
+    char *p = archdep_current_dir();
     char *p2 = strchr(p, '\\');
     p2[0] = '/';
     p2[1] = '\0';
     return p;
 }
-# endif
 #endif

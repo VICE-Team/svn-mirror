@@ -1,10 +1,10 @@
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
-	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/core/rtc \
 	-I$(top_srcdir)/src
 
 AM_CFLAGS = @VICE_CFLAGS@

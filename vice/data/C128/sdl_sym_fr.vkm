@@ -264,7 +264,7 @@
 93 6 2 1               /*            ] -> ]            */
 278 6 3 8              /*         HOME -> CLR/HOME     */
 303 6 4 4              /*  Right Shift -> Right Shift  */
-47 6 7 0               /*            / -> /            */
+58 6 7 0               /*            / -> /            */
 63 6 7 1               /*            ? -> ?            */
 42 6 1 8               /*            * -> *            */  asterisk/pipe key (from nl symbolic keymap)
 36 6 0 8               /*            $ -> Pound        */  $ key (near enter without shift)

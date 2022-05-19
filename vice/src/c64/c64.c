@@ -96,7 +96,6 @@
 #include "ninja_snespad.h"
 #include "paperclip64.h"
 #include "parallel.h"
-#include "patchrom.h"
 #include "plus256k.h"
 #include "plus60k.h"
 #include "printer.h"
@@ -135,7 +134,9 @@
 #include "userport_petscii_snespad.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
+#include "userport_spt_joystick.h"
 #include "userport_superpad64.h"
+#include "userport_wic64.h"
 #include "vice-event.h"
 #include "vicii.h"
 #include "vicii-mem.h"
@@ -266,7 +267,7 @@ static io_source_t vicii_d100_device = {
     NULL,                         /* NO poke function */
     vicii_read,                   /* read function */
     vicii_peek,                   /* peek function */
-    vicii_dump,                   /* chip state information dump function */ 
+    vicii_dump,                   /* chip state information dump function */
     IO_CART_ID_NONE,              /* not a cartridge */
     IO_PRIO_HIGH,                 /* high priority, mirrors never involved in collisions */
     0,                            /* insertion order, gets filled in by the registration function */
@@ -286,7 +287,7 @@ static io_source_t vicii_d200_device = {
     NULL,                         /* NO poke function */
     vicii_read,                   /* read function */
     vicii_peek,                   /* peek function */
-    vicii_dump,                   /* chip state information dump function */ 
+    vicii_dump,                   /* chip state information dump function */
     IO_CART_ID_NONE,              /* not a cartridge */
     IO_PRIO_HIGH,                 /* high priority, mirrors never involved in collisions */
     0,                            /* insertion order, gets filled in by the registration function */
@@ -306,7 +307,7 @@ static io_source_t vicii_d300_device = {
     NULL,                         /* NO poke function */
     vicii_read,                   /* read function */
     vicii_peek,                   /* peek function */
-    vicii_dump,                   /* chip state information dump function */ 
+    vicii_dump,                   /* chip state information dump function */
     IO_CART_ID_NONE,              /* not a cartridge */
     IO_PRIO_HIGH,                 /* high priority, mirrors never involved in collisions */
     0,                            /* insertion order, gets filled in by the registration function */
@@ -751,10 +752,6 @@ int machine_resources_init(void)
         init_resource_fail("joystick");
         return -1;
     }
-    if (gfxoutput_resources_init() < 0) {
-        init_resource_fail("gfxoutput");
-        return -1;
-    }
     if (sampler_resources_init() < 0) {
         init_resource_fail("samplerdrv");
         return -1;
@@ -812,25 +809,10 @@ int machine_resources_init(void)
     }
 #endif
 #endif
-    /*
-     * This needs to be called before tapeport_resources_init(), otherwise
-     * the tapecart will fail to initialize due to the Datasette resource
-     * appearing after the Tapecart resources
-     */
-    if (datasette_resources_init() < 0) {
-        init_resource_fail("datasette");
-        return -1;
-    }
-    if (tapeport_resources_init() < 0) {
+    if (tapeport_resources_init(1) < 0) {
         init_resource_fail("tapeport");
         return -1;
     }
-#ifdef TAPEPORT_EXPERIMENTAL_DEVICES
-    if (tape_diag_586220_harness_resources_init() < 0) {
-        init_resource_fail("tape diag 586220 harness");
-        return -1;
-    }
-#endif
     if (c64_glue_resources_init() < 0) {
         init_resource_fail("c64 glue");
         return -1;
@@ -865,6 +847,10 @@ int machine_resources_init(void)
     }
     if (userport_joystick_synergy_resources_init() < 0) {
         init_resource_fail("userport synergy joystick");
+        return -1;
+    }
+    if (userport_spt_joystick_resources_init() < 0) {
+        init_resource_fail("userport stupid pet tricks joystick");
         return -1;
     }
     if (userport_dac_resources_init() < 0) {
@@ -902,6 +888,10 @@ int machine_resources_init(void)
 #ifdef USERPORT_EXPERIMENTAL_DEVICES
     if (userport_diag_586220_harness_resources_init() < 0) {
         init_resource_fail("userport diag 586220 harness");
+        return -1;
+    }
+    if (userport_wic64_resources_init() < 0) {
+        init_resource_fail("userport wic64");
         return -1;
     }
 #endif
@@ -1027,10 +1017,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport");
         return -1;
     }
-    if (gfxoutput_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("gfxoutput");
-        return -1;
-    }
     if (sampler_cmdline_options_init() < 0) {
         init_cmdline_options_fail("samplerdrv");
         return -1;
@@ -1087,16 +1073,6 @@ int machine_cmdline_options_init(void)
     }
     if (tapeport_cmdline_options_init() < 0) {
         init_cmdline_options_fail("tapeport");
-        return -1;
-    }
-#ifdef TAPEPORT_EXPERIMENTAL_DEVICES
-    if (tape_diag_586220_harness_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("tape diag 586220 harness");
-        return -1;
-    }
-#endif
-    if (datasette_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("datasette");
         return -1;
     }
     if (c64_glue_cmdline_options_init() < 0) {
@@ -1308,12 +1284,13 @@ void machine_specific_reset(void)
 
     serial_traps_reset();
 
+    /* These calls must be before the CIA initialization */
+    rs232drv_reset(); /* driver is used by both user- and expansion port ? */
+    userport_reset();
+
     ciacore_reset(machine_context.cia1);
     ciacore_reset(machine_context.cia2);
     sid_reset();
-
-    rs232drv_reset(); /* driver is used by both user- and expansion port ? */
-    rsuser_reset();
 
     printer_reset();
 
@@ -1340,13 +1317,16 @@ void machine_specific_reset(void)
 void machine_specific_powerup(void)
 {
     vicii_reset_registers();
+    cartridge_powerup();
+    userport_powerup();
+    tapeport_powerup();
+    joyport_powerup();
     reset_poweron = 1;
 }
 
 void machine_specific_shutdown(void)
 {
-    /* and the tape */
-    tape_image_detach_internal(1);
+    tape_image_detach_internal(TAPEPORT_PORT_1 + 1);
 
     /* and cartridge */
     cartridge_detach_image(-1);
@@ -1466,7 +1446,7 @@ void machine_change_timing(int timeval, int border_mode)
     serial_iec_device_set_machine_parameter(machine_timing.cycles_per_sec);
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
 #ifdef HAVE_MOUSE
-    neos_mouse_set_machine_parameter(machine_timing.cycles_per_sec);
+    mouse_set_machine_parameter(machine_timing.cycles_per_sec);
 #endif
 
     vicii_change_timing(&machine_timing, border_mode);
@@ -1568,12 +1548,8 @@ uint8_t machine_tape_behaviour(void)
 
 static int get_cart_emulation_state(void)
 {
-    int value;
-
-    if (resources_get_int("CartridgeType", &value) < 0) {
-        return CARTRIDGE_NONE;
-    }
-
+    /* FIXME: we should also check the other slots */
+    int value = cart_getid_slotmain();
     return value;
 }
 
@@ -1623,7 +1599,8 @@ static userport_port_props_t userport_props = {
     1,                     /* port has the pa3 pin */
     c64_userport_set_flag, /* port has the flag pin, set flag function */
     1,                     /* port has the pc pin */
-    1                      /* port has the cnt1, cnt2 and sp pins */
+    1,                     /* port has the cnt1, cnt2 and sp pins */
+    1                      /* port has the reset pin */
 };
 
 int machine_register_userport(void)

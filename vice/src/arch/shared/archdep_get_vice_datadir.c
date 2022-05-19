@@ -26,18 +26,15 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stddef.h>
 
 #include "archdep_boot_path.h"
-#include "archdep_defs.h"
 #include "archdep_is_macos_bindist.h"
-#include "archdep_join_paths.h"
 #include "archdep_user_config_path.h"
-
 #include "lib.h"
+#include "util.h"
 
 #include "archdep_get_vice_datadir.h"
 
@@ -52,19 +49,22 @@ char *archdep_get_vice_datadir(void)
 {
     char *path;
 
-#ifdef ARCHDEP_OS_WINDOWS
-# if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#ifdef WINDOWS_COMPILE
+# if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_HEADLESSUI)
     path = lib_strdup(archdep_boot_path());
+# elif defined(USE_GTK3UI)
+    path = util_join_paths(archdep_boot_path(), "..", NULL);
 # else
-    path = archdep_join_paths(archdep_boot_path(), "..", NULL);
+    /* any new UI should add code here to avoid build errors */
 # endif
-#elif defined(ARCHDEP_OS_MACOS)
+#elif defined(MACOS_COMPILE)
     if (archdep_is_macos_bindist()) {
-        path = archdep_join_paths(archdep_boot_path(), "..", "share", "vice", NULL);
+        path = util_join_paths(archdep_boot_path(), "..", "share", "vice", NULL);
     } else {
         path = lib_strdup(VICE_DATADIR);
     }
 #else
+    /* TODO: Add proper implementation for Haiku using /boot/[system|home]/packages/vice */
     path = lib_strdup(VICE_DATADIR);
 #endif
     return path;

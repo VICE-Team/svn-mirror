@@ -90,10 +90,6 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
     }
 
     /* TODO check if key/event is suitable */
-#ifdef ANDROID_COMPILE
-    e.type = SDL_USEREVENT;
-    polling = 0;
-#else
     while (polling) {
         while (polling && SDL_PollEvent(&e)) {
             switch (e.type) {
@@ -136,7 +132,6 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
             }
         }
     }
-#endif
 
     if (polling == 1) {
         e.type = SDL_USEREVENT;

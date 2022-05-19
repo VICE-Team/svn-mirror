@@ -94,13 +94,15 @@ static userport_device_t diag_586220_harness_device = {
     userport_diag_586220_harness_read_sp1,  /* read sp1 pin function */
     userport_diag_586220_harness_store_sp2, /* store sp2 pin function */
     userport_diag_586220_harness_read_sp2,  /* read sp2 pin function */
+    NULL,                                   /* NO reset function */
+    NULL,                                   /* NO powerup function */
     NULL,                                   /* NO snapshot write function */
     NULL                                    /* NO snapshot read function */
 };
 
 /* ------------------------------------------------------------------------- */
 
-static int set_userport_diag_586220_harness_enabled(int value, void *param)
+static int userport_diag_586220_harness_enable(int value)
 {
     int val = value ? 1 : 0;
 

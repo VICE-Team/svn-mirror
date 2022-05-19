@@ -58,6 +58,7 @@
 #define PSLOT_NAME            5
 
 struct vdrive_s;
+struct cbmdos_cmd_parse_plus_s;
 struct bufferinfo_s;
 
 typedef struct vdrive_dir_context_s {
@@ -74,7 +75,7 @@ typedef struct vdrive_dir_context_s {
 } vdrive_dir_context_t;
 
 extern void vdrive_dir_init(void);
-extern int vdrive_dir_first_directory(struct vdrive_s *vdrive, const uint8_t *name, int length, int filetype, struct bufferinfo_s *p);
+extern int vdrive_dir_first_directory(struct vdrive_s *vdrive, struct cbmdos_cmd_parse_plus_s *cmd_parse, struct bufferinfo_s *p);
 extern int vdrive_dir_next_directory(struct vdrive_s *vdrive, struct bufferinfo_s *b);
 extern void vdrive_dir_find_first_slot(struct vdrive_s *vdrive, const uint8_t *name, int length, unsigned int type, vdrive_dir_context_t *dir);
 extern uint8_t *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir);
