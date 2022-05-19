@@ -1382,7 +1382,7 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     }
 
     /* look up menu item by hotkey */
-    ref = ui_menu_item_ref_by_hotkey(PRIMARY_WINDOW, keyval, mask);
+    ref = ui_menu_item_ref_by_hotkey(keyval, mask);
     if (ref != NULL) {
         if (hotkeys_debug) {
             log_message(hotkeys_log,
@@ -1657,17 +1657,16 @@ bool ui_hotkeys_parse(const char *path)
 /** \brief  Return a string describing the key+modifiers for \a action
  *
  * \param[in]   action_id   action ID
- * \param[in]   window_id   window ID
  *
  * \return  string with key name and modifiers
  * \note    free the string after use with lib_free()
  */
-char *ui_hotkeys_get_hotkey_string_for_action(gint action_id, gint window_id)
+char *ui_hotkeys_get_hotkey_string_for_action(gint action_id)
 {
     ui_menu_item_ref_t *ref;
     char *str = NULL;
 
-    ref = ui_menu_item_ref_by_action(action_id, window_id);
+    ref = ui_menu_item_ref_by_action(action_id);
     if (ref != NULL) {
         str = gtk_accelerator_get_label(ref->keysym, ref->modifier);
         if (str != NULL) {
@@ -1786,10 +1785,6 @@ bool ui_hotkeys_export(const char *path)
         ui_menu_item_t *decl;
 
         ref = ui_menu_item_ref_by_index(ref_index);
-        /* don't export the hotkeys twice in x128 */
-        if (ref->window_id != PRIMARY_WINDOW) {
-            continue;
-        }
         decl = ref->decl;
 
         if (decl->action_id > ACTION_NONE && ref->keysym != 0) {

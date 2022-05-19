@@ -1661,8 +1661,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     } else {
         ui_menu_item_ref_t *ref;
 
-        ref = ui_menu_item_ref_by_action(ACTION_MOUSE_GRAB_TOGGLE,
-                                          PRIMARY_WINDOW);
+        ref = ui_menu_item_ref_by_action(ACTION_MOUSE_GRAB_TOGGLE);
         gchar *name = gtk_accelerator_name(ref->keysym, ref->modifier);
 
         g_snprintf(title, sizeof(title),
