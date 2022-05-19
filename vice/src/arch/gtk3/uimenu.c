@@ -489,7 +489,9 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
  */
 void ui_menu_init_accelerators(GtkWidget *window)
 {
-    accel_group = gtk_accel_group_new();
+    if (accel_group == NULL) {
+        accel_group = gtk_accel_group_new();
+    }
     gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
 }
 
@@ -632,7 +634,7 @@ void ui_menu_set_accel_via_item_ref(GtkWidget *item,
                               ref->modifier);
 }
 
-
+#if 0
 /** \brief  Set hotkey for item with a specific action ID and window ID
  *
  * Look up menu item for \a action_id and \a window_id and set up an accelerator
@@ -693,6 +695,7 @@ gboolean ui_set_menu_item_hotkey_by_action_for_window(gint action_id,
 
     return TRUE;
 }
+#endif
 
 
 /** \brief  Set hotkey for menu item with specific UI action ID
@@ -709,6 +712,69 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
                                            guint keysym,
                                            GdkModifierType modifier)
 {
+    ui_menu_item_ref_t *ref;
+    ui_menu_item_ref_t *ref_vdc = NULL; /* x128 VDC window menu item ref */
+    GtkWidget *child;
+    GClosure *accel_closure;
+
+    debug_gtk3("setting action %d: keysym %u, mods %u",
+                action_id, keysym, modifier);
+
+    ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
+    if (ref == NULL) {
+        debug_gtk3("failed to find item.");
+        return FALSE;
+    }
+    if (machine_class == VICE_MACHINE_C128) {
+        ref_vdc = ui_menu_item_ref_by_action(action_id, SECONDARY_WINDOW);
+    }
+
+    debug_gtk3("removing old accelerator from group");
+    ui_menu_remove_accel(keysym, modifier);
+    /* set new accel */
+    ref->keysym = keysym;
+    ref->modifier = modifier;
+    if (ref_vdc != NULL) {
+        /* TODO: Update the ui_menu_item_ref_t struct to contain references
+         *       to both the primary window's menu item and secondary window's
+         *       menu item (in case of x128), the rest of the data can be shared
+         *       between the windows.
+         */
+        ref_vdc->keysym = keysym;
+        ref_vdc->modifier = modifier;
+    }
+
+
+    debug_gtk3("Setting new accelerator");
+    accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
+                                   (gpointer)ref,
+                                   NULL);
+    if (ref->decl->unlocked) {
+        gtk_accel_group_connect(accel_group,
+                                keysym,
+                                modifier,
+                                GTK_ACCEL_MASK,
+                                accel_closure);
+    } else {
+        vice_locking_gtk_accel_group_connect(accel_group,
+                                             keysym,
+                                             modifier,
+                                             GTK_ACCEL_MASK,
+                                             accel_closure);
+    }
+
+    child = gtk_bin_get_child(GTK_BIN(ref->item));
+    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(child), keysym, modifier);
+    if (ref_vdc != NULL) {
+        /* add accelerator to the VDC window in case of x128 */
+        child = gtk_bin_get_child(GTK_BIN(ref_vdc->item));
+        gtk_accel_label_set_accel(GTK_ACCEL_LABEL(child), keysym, modifier);
+    }
+
+    return TRUE;
+
+
+#if 0
     if (!ui_set_menu_item_hotkey_by_action_for_window(action_id,
                                                       PRIMARY_WINDOW,
                                                       keysym,
@@ -722,6 +788,7 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
                                                             modifier);
     }
     return TRUE;
+#endif
 }
 
 

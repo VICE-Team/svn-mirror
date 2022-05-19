@@ -69,11 +69,12 @@ gint                ui_menu_item_ref_count    (void);
 
 gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier);
 
-
+#if 0
 gboolean ui_set_menu_item_hotkey_by_action_for_window(gint action_id,
                                                       gint window_id,
                                                       guint keysym,
                                                       GdkModifierType modifier);
+#endif
 
 gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
                                            guint keysym,
