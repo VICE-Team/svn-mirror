@@ -1485,3 +1485,4 @@ void plus4io_init(void)
     tcbm1_list_item = io_source_register(&tcbm1_device);
     tcbm2_list_item = io_source_register(&tcbm2_device);
 }
+

@@ -111,13 +111,13 @@
 #define IS_CA2_OUTPUT()          ((via_context->via[VIA_PCR] & 0x0c) == 0x0c)
 #define IS_CA2_INDINPUT()        ((via_context->via[VIA_PCR] & 0x0a) == 0x02)
 #define IS_CA2_HANDSHAKE()       ((via_context->via[VIA_PCR] & 0x0c) == 0x08)
-#define IS_CA2_PULSE_MODE()      ((via_context->via[VIA_PCR] & 0x0e) == 0x09)
+#define IS_CA2_PULSE_MODE()      ((via_context->via[VIA_PCR] & 0x0e) == 0x0A)
 #define IS_CA2_TOGGLE_MODE()     ((via_context->via[VIA_PCR] & 0x0e) == 0x08)
 
 #define IS_CB2_OUTPUT()          ((via_context->via[VIA_PCR] & 0xc0) == 0xc0)
 #define IS_CB2_INDINPUT()        ((via_context->via[VIA_PCR] & 0xa0) == 0x20)
 #define IS_CB2_HANDSHAKE()       ((via_context->via[VIA_PCR] & 0xc0) == 0x80)
-#define IS_CB2_PULSE_MODE()      ((via_context->via[VIA_PCR] & 0xe0) == 0x90)
+#define IS_CB2_PULSE_MODE()      ((via_context->via[VIA_PCR] & 0xe0) == 0xA0)
 #define IS_CB2_TOGGLE_MODE()     ((via_context->via[VIA_PCR] & 0xe0) == 0x80)
 
 #define IS_PA_INPUT_LATCH()      (via_context->via[VIA_ACR] & 0x01)
@@ -507,8 +507,13 @@ static CLOCK last_cpu_clock;
  *
  * The normal execution run uses "clk >= alarm...", but since we're running
  * this during CPU access, here we use "clk > ...".
+ *
+ * In some cases, clk here differs from the global clock by some offset
+ * (due to ->write_offset). The dispatch function needs the proper clock
+ * value to calculate the offset parameter to the alarm callbacks.
+ * So we need an offset here to re-calculate the correct clk.
  */
-inline static void run_pending_alarms(CLOCK clk, alarm_context_t *alarm_context)
+inline static void run_pending_alarms(CLOCK clk, int offset, alarm_context_t *alarm_context)
 {
     while (clk > alarm_context_next_pending_clk(alarm_context)) {
         VIALOG2("run_pending_alarms: %lu\n", clk);
@@ -516,7 +521,7 @@ inline static void run_pending_alarms(CLOCK clk, alarm_context_t *alarm_context)
         /* catch-up alarms don't count for checking which runs before which. */
         last_cpu_clock = 0;
 #endif
-        alarm_context_dispatch(alarm_context, clk);
+        alarm_context_dispatch(alarm_context, clk + offset);
 #if CHECK_CPU_VS_ALARM_CLOCKS
         last_alarm_clock = 0;
 #endif
@@ -652,7 +657,8 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
     addr &= 0xf;
 
     if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
-        run_pending_alarms(rclk, via_context->alarm_context);
+        run_pending_alarms(rclk, via_context->write_offset, via_context->alarm_context);
+        //run_pending_alarms(rclk, 0, via_context->alarm_context);
     }
 
     switch (addr) {
@@ -1049,7 +1055,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
 #endif
 
     if (addr == VIA_PRB || (addr >= VIA_T1CL && addr <= VIA_IER)) {
-        run_pending_alarms(rclk, via_context->alarm_context);
+        run_pending_alarms(rclk, 0, via_context->alarm_context);
     }
 
     switch (addr) {
@@ -1382,29 +1388,37 @@ void viacore_set_cb1(via_context_t *via_context, bool data) {
      * Is the shift register set to be under external control?
      * Is the CB1 input changing?
      */
-    if (via_context->cb1_is_input &&
-            data != via_context->cb1_in_state) {
-
-        /* Is this the right way to start shifting a byte? */
-        if (!data && via_context->shift_state == FINISHED_SHIFTING) {
-            via_context->shift_state = START_SHIFTING;
-        }
-
-        via_context->shift_state++;
-
-        /* Is it rising? */
-        if (data) {
-            /* Shift register */
-            via_context->via[VIA_SR] <<= 1;
-            via_context->via[VIA_SR] |= via_context->cb2_in_state;
-
-            if (via_context->shift_state == FINISHED_SHIFTING) {
-                viacore_set_sr(via_context, via_context->via[VIA_SR]);
+    if (data != via_context->cb1_in_state) {
+        if (via_context->cb1_is_input) {
+            /* Is this the right way to start shifting a byte? */
+            if (!data && via_context->shift_state == FINISHED_SHIFTING) {
                 via_context->shift_state = START_SHIFTING;
             }
-        }
-        via_context->cb1_in_state = (data != 0);
 
+            via_context->shift_state++;
+
+            /* Is it rising? */
+            if (data) {
+                /* Shift register */
+                via_context->via[VIA_SR] <<= 1;
+                via_context->via[VIA_SR] |= via_context->cb2_in_state;
+
+                if (via_context->shift_state == FINISHED_SHIFTING) {
+                    viacore_set_sr(via_context, via_context->via[VIA_SR]);
+                    via_context->shift_state = START_SHIFTING;
+                }
+            }
+        }
+
+        via_context->cb1_in_state = (data != 0);
+    }
+
+    /*
+     * Doing this unconditionally seems wrong, because then it doesn't
+     * actually detect edges.  But having it inside the condition that
+     * checks for a changed input breaks SpeedDOS+.
+     */
+    if (true) {
         const uint8_t pcr = via_context->via[VIA_PCR];
         bool edge = (pcr & VIA_PCR_CB1_CONTROL) == VIA_PCR_CB1_POS_ACTIVE_EDGE;
 
@@ -1848,7 +1862,7 @@ int viacore_snapshot_write_module(via_context_t *via_context, snapshot_t *s)
     CLOCK rclk = *(via_context->clk_ptr);
     uint8_t byte4;
 
-    run_pending_alarms(rclk, via_context->alarm_context);
+    run_pending_alarms(rclk, 0, via_context->alarm_context);
 
     m = snapshot_module_create(s, via_context->my_module_name, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
 

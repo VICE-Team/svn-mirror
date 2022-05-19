@@ -198,7 +198,7 @@ $ ./autogen.sh
 $ cd ..
 $ mkdir gtk3-win64-build
 $ cd gtk3-win64-build
-$ ../vice/configure --enable-native-gtk3ui --host=x86_64-w64-mingw32 --enable-arch=no
+$ ../vice/configure --enable-gtk3ui --host=x86_64-w64-mingw32 --enable-arch=no
 ```
 
 If this works, we're on the right track, so we'll run make next:
@@ -584,7 +584,7 @@ Run VICE's ./configure:
 
 ```sh
 $ cd ~/vice-trunk/vice
-$ ./configure --enable-native-gtk3ui --enable-debug-gtk3ui --enable-debug --host=x86_64-w64-mingw32
+$ ./configure --enable-gtk3ui --enable-debug-gtk3ui --enable-debug --host=x86_64-w64-mingw32
 $ grep -i 'flac' config.log
 ```
 

@@ -37,9 +37,11 @@
 /** \brief  Name of Gtk3 main hotkeys files
  */
 #ifdef MACOS_COMPILE
-# define VHK_PREFIX "gtk3-hotkeys-mac"
+# define VHK_PREFIX         "gtk3-hotkeys-mac"
+# define VHK_PREFIX_VSID    "gtk3-vsid-hotkeys-mac"
 #else
-# define VHK_PREFIX "gtk3-hotkeys"
+# define VHK_PREFIX         "gtk3-hotkeys"
+# define VHK_PREFIX_VSID    "gtk3-vsid-hotkeys"
 #endif
 
 /** \brief  Extension of Gtk3 hotkeys files
@@ -51,7 +53,11 @@
 
 /** \brief  Filename of default Gtk3 hotkeys files
  */
-#define VHK_DEFAULT_NAME    VHK_PREFIX VHK_EXT
+#define VHK_DEFAULT_NAME        VHK_PREFIX VHK_EXT
+
+/** \brief  Filename of default Gtk3 VSID hotkeys file
+ */
+#define VHK_DEFAULT_NAME_VSID   VHK_PREFIX_VSID VHK_EXT
 
 
 /** \brief  Accepted GDK modifiers for hotkeys
@@ -124,7 +130,7 @@ bool    ui_hotkeys_parse(const char *path);
 bool    ui_hotkeys_export(const char *path);
 void    ui_hotkeys_load_default(void);
 
-char *  ui_hotkeys_get_hotkey_string_for_action(int action);
+char *  ui_hotkeys_get_hotkey_string_for_action(gint action_id, gint window_id);
 const hotkeys_modifier_t *ui_hotkeys_get_modifier_list(void);
 
 #endif

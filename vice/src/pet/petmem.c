@@ -53,6 +53,7 @@
 #include "petmem.h"
 #include "petmodel.h"
 #include "petpia.h"
+#include "petrom.h"
 #include "pets.h"
 #include "petvia.h"
 #include "ram.h"
@@ -2095,18 +2096,3 @@ void petmem_check_info(petres_t *pi)
         pi->videoSize = 0x1000;
     }
 }
-
-/* dummy function to satisfy the global cartridge system */
-int cartridge_attach_image(int type, const char *name)
-{
-    return -1;
-}
-
-void cartridge_detach_image(int type)
-{
-}
-
-void cartridge_unset_default(void)
-{
-}
-

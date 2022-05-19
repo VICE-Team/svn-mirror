@@ -46,7 +46,6 @@
 #include "keyboard.h"
 #include "mainlock.h"
 #include "uiactions.h"
-#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uimedia.h"
 #include "uistatusbar.h"
@@ -420,9 +419,11 @@ static gboolean isresethotkey(GdkEvent *report)
     char *this_accel = gtk_accelerator_get_label(report->key.keyval,
                                                  report->key.state & VHK_ACCEPTED_MODIFIERS);
     for (i = 0; i < 2; i++) {
-        ui_menu_item_t *item = ui_get_vice_menu_item_by_action(checkaccel[i]);
-        if (item != NULL) {
-            char *accel = gtk_accelerator_get_label(item->keysym, item->modifier);
+        ui_menu_item_ref_t *ref;
+
+        ref = ui_menu_item_ref_by_action(checkaccel[i], PRIMARY_WINDOW);
+        if (ref != NULL) {
+            char *accel = gtk_accelerator_get_label(ref->keysym, ref->modifier);
             if (!strcmp(this_accel, accel)) {
                 i = 2;
                 res = TRUE;

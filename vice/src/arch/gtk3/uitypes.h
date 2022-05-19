@@ -131,20 +131,6 @@ typedef struct ui_menu_item_s {
      */
     void *data;
 
-    /** \brief  Gdk accelerator keysym
-     *
-     * Gdk keysym value, set by the hotkeys code.
-     *
-     * \see     /usr/include/gtk-3.0/gdk/gdkkeysyms.h
-     */
-    guint keysym;
-
-    /** \brief  Gdk modifier mask
-     *
-     * Bitmask containing Gdk modifier masks, set by the hotkeys code.
-     */
-    GdkModifierType modifier;
-
     /** \brief  Hold VICE mainlock
      *
      * Determines whether the callback should be called while holding the VICE
@@ -155,24 +141,14 @@ typedef struct ui_menu_item_s {
 } ui_menu_item_t;
 
 
-/** \brief  Menu references for the hotkeys interface
- *
- * \note    Each menu can have submenus.
- */
-typedef struct ui_menu_ref_s {
-    char *          name;   /**< name of the top level menu, for debugging */
-    ui_menu_item_t *items;  /**< items of the menu, can be recursive */
-} ui_menu_ref_t;
-
-
 /** \brief  Terminator of a menu items list
  */
-#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, 0, NULL, NULL, NULL, 0, 0 }
+#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, 0, NULL, NULL, NULL, false }
 
 
 /** \brief  Menu items separator
  */
-#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, 0, NULL, NULL, NULL, 0, 0 }
+#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, 0, NULL, NULL, NULL, false }
 
 
 /** \brief  Platform-dependent accelerator key defines
@@ -186,17 +162,23 @@ typedef struct ui_menu_ref_s {
 #endif
 
 
-/** \brief  Iterator for vice menu items
+/** \brief  Menu item runtime data
  *
- * Used to iterate over all VICE menu items, as opposed to Gtk menu items.
- *
- * \see ui_vice_menu_iter_init()
- * \see ui_vice_menu_iter_next()
+ * Used for easier and faster access to runtime menu items and their associated
+ * data and handlers.
  */
-typedef struct ui_vice_menu_iter_s {
-    size_t          menu_index; /**< index in menu_references[] */
-    ui_menu_item_t *menu_item;  /**< current item in menu */
-} ui_vice_menu_iter_t;
-
+typedef struct ui_menu_item_ref_s {
+    ui_menu_item_t *decl;       /**< reference to menu item initialization
+                                     data */
+    GtkWidget *     item;       /**< reference to the runtime Gtk menu item */
+    gulong          handler_id; /**< ID of the 'activate' signal handler */
+    gint            window_id;  /**< index of the menu item's GtkWindow in
+                                     #ui_resources.window_widget[]
+                                     (#PRIMARY_WINDOW or #SECONDARY_WINDOW) */
+    guint           keysym;     /**< hotkey Gdk keysym
+                                     \see /usr/include/gtk-3.0/gdk/gdkkeysyms.h
+                                 */
+    GdkModifierType modifier;   /**< hotkey Gdk modifiers mask */
+} ui_menu_item_ref_t;
 
 #endif

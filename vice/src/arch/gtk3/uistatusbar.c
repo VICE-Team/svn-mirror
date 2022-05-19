@@ -94,7 +94,6 @@
 #include "uidatasette.h"
 #include "uidiskattach.h"
 #include "uifliplist.h"
-#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "userport/userport_joystick.h"
@@ -971,7 +970,7 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
         if (tape_status != NULL && tape_menu != NULL) {
             GList *children;
             GList *child;
-            int action;
+            gint action_id;
 
             /* Set accelerators for attach/detach items
              *
@@ -980,12 +979,12 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
              */
             child = children = gtk_container_get_children(GTK_CONTAINER(tape_menu));
 
-            action = port == 1 ? ACTION_TAPE_ATTACH_1 : ACTION_TAPE_ATTACH_2;
-            ui_set_gtk_menu_item_accel_label(GTK_WIDGET(child->data), action);
+            action_id = port == 1 ? ACTION_TAPE_ATTACH_1 : ACTION_TAPE_ATTACH_2;
+            ui_set_menu_item_accel_label(GTK_WIDGET(child->data), action_id);
 
             child = child->next;
-            action = port == 1 ? ACTION_TAPE_DETACH_1 : ACTION_TAPE_DETACH_2;
-            ui_set_gtk_menu_item_accel_label(GTK_WIDGET(child->data), action);
+            action_id = port == 1 ? ACTION_TAPE_DETACH_1 : ACTION_TAPE_DETACH_2;
+            ui_set_menu_item_accel_label(GTK_WIDGET(child->data), action_id);
 
             g_list_free(children);
 
@@ -3730,8 +3729,8 @@ gboolean ui_action_toggle_show_statusbar(void)
         window = ui_get_active_window();
         ui_statusbar_set_visible_for_window(GTK_WIDGET(window), show);
         /* update menu item's toggled state! */
-        ui_set_gtk_check_menu_item_blocked_by_action(ACTION_SHOW_STATUSBAR_TOGGLE,
-                                                     show);
+        ui_set_check_menu_item_blocked_by_action(ACTION_SHOW_STATUSBAR_TOGGLE,
+                                                 show);
     }
     return TRUE;
 }

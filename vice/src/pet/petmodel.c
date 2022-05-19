@@ -33,6 +33,7 @@
 #include "pet-resources.h"
 #include "petmem.h"
 #include "petmodel.h"
+#include "petrom.h"
 #include "pets.h"
 #include "resources.h"
 #include "uiapi.h"
@@ -313,12 +314,12 @@ static const pet_table_t pet_table[] = {
         .memAname = NULL,
         .mem9name = NULL,
         .h6809romName = {
-            [0] = "waterloo-a000.901898-01.bin",
-            [1] = "waterloo-b000.901898-02.bin",
-            [2] = "waterloo-c000.901898-03.bin",
-            [3] = "waterloo-d000.901898-04.bin",
-            [4] = "waterloo-e000.901897-01.bin",
-            [5] = "waterloo-f000.901898-05.bin" } } },
+            [0] = SUPERPET_6809_A_NAME,
+            [1] = SUPERPET_6809_B_NAME,
+            [2] = SUPERPET_6809_C_NAME,
+            [3] = SUPERPET_6809_D_NAME,
+            [4] = SUPERPET_6809_E_NAME,
+            [5] = SUPERPET_6809_F_NAME } } },
     { NULL,
       { 0 }
     }

@@ -4,7 +4,10 @@
 
 set -o errexit
 set -o nounset
+source $(dirname $(readlink -f $0))/build-shared.sh
 cd "$(dirname $0)"/../..
+
+UI="$1"
 
 #
 # Build and install xa65. When this stops working, check
@@ -33,34 +36,10 @@ then
     popd
 fi
 
-ARGS="
-    --disable-arch \
-    --disable-pdf-docs \
-    --with-png \
-    --with-gif \
-    --with-vorbis \
-    --with-flac \
-    --enable-ethernet \
-    --enable-lame \
-    --enable-midi \
-    --enable-cpuhistory \
-    --enable-ffmpeg \
-    "
 
-case "$1" in
-GTK3)
-    ARGS="--enable-native-gtk3ui $ARGS"
-    ;;
+# Set proper configure options
+set_configure_options "$UI"
 
-SDL2)
-    ARGS="--enable-sdlui2 $ARGS"
-    ;;
-
-*)
-    echo "Bad UI: $1"
-    exit 1
-    ;;
-esac
 
 # Skip autogen.sh when building release from tarball
 if [ "$2" = "release" ]; then

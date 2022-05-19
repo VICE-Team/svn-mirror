@@ -30,7 +30,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libc128.a
+noinst_LIBRARIES = libc128.a libc128stubs.a
+
+libc128stubs_a_SOURCES = \
+	c128-stubs.c
 
 libc128_a_SOURCES = \
 	c128-cmdline-options.c \

@@ -1,0 +1,29 @@
+# VICE Gtk3 Hotkeys for vsid
+#
+# Author:   Bas Wassink
+# Updated:  2022-05-10
+#
+# See doc/gtk3-hotkeys.md for documentation on the syntax of hotkeys files.
+# See src/arch/gtk3/uiactions.h for a list of action names.
+
+# Enable debugging
+!debug enable
+
+# Clear hotkeys
+!clear
+
+
+#
+# Hotkey mappings, in the order of the menu items.
+#
+psid-load               <Alt>l
+media-record            <Shift><Alt>r
+media-stop              <Shift><Alt>s
+monitor-open            <Alt>h
+reset-soft              <Alt>F9
+reset-hard              <Alt>F12
+quit                    <Alt>q
+
+psid-override-toggle    <Alt>x
+settings-dialog         <Alt>o
+settings-default        <Shift><Alt>o

@@ -88,7 +88,7 @@ static const cmdline_option_t cmdline_options[] =
     CMDLINE_LIST_END
 };
 
-int romset_cmdline_options_init()
+int romset_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

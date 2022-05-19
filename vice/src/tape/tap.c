@@ -535,13 +535,12 @@ static int tap_cbm_read_byte(tap_t *tap)
 static int tap_cbm_skip_pilot(tap_t *tap)
 {
     int data, errors;
-    long fpos, counter;
+    long fpos;
     long fpos2;
     long current_filepos;
     int pos_advance;
 
     errors = 0;
-    counter = 0;
     current_filepos = ftell(tap->fd);
     while (1) {
         /*  Save file position */
@@ -566,7 +565,6 @@ static int tap_cbm_skip_pilot(tap_t *tap)
                 /* Start over after the L pulse */
                 fseek(tap->fd, fpos2, SEEK_SET);
                 current_filepos = fpos2;
-                counter = 0;
             } else {
                 /* success.  Go back to start of byte and return */
                 fseek(tap->fd, fpos, SEEK_SET);
@@ -575,11 +573,8 @@ static int tap_cbm_skip_pilot(tap_t *tap)
             }
         } else if (data < 0) {
             return -1; /* end-of-tape */
-        } else {
-            ++counter;
-            if (!TAP_PULSE_SHORT(data)) {
-                return 0;
-            }
+        } else if (!TAP_PULSE_SHORT(data)) {
+            return 0;
         }
     }
 

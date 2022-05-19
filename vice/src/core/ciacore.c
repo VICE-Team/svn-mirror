@@ -125,15 +125,20 @@ inline static CLOCK alarm_clk(alarm_t *alarm)
  * The normal execution run uses "clk >= alarm...", but since we're running
  * this during CPU access, here we use "clk > ...".
  *
+ * In some cases, clk here differs from the global clock by some offset
+ * (due to ->write_offset). The dispatch function needs the proper clock
+ * value to calculate the offset parameter to the alarm callbacks.
+ * So we need an offset here to re-calculate the correct clk.
+ *
  * NOTE: cia_update_ta() and _tb() actually run their own alarms including
  * those for the end of the current cycle.
  * Unlike those ad-hoc functions, this one runs the alarms in their correct
  * relative order.
  */
-inline static void run_pending_alarms(CLOCK clk, alarm_context_t *alarm_context)
+inline static void run_pending_alarms(CLOCK clk, int offset, alarm_context_t *alarm_context)
 {
     while (clk > alarm_context_next_pending_clk(alarm_context)) {
-        alarm_context_dispatch(alarm_context, clk);
+        alarm_context_dispatch(alarm_context, clk + offset);
     }
 }
 
@@ -421,6 +426,8 @@ static void ciacore_store_internal(cia_context_t *cia_context, uint16_t addr, ui
     /* stores have a one-cycle offset if CLK++ happens before store */
     rclk = *(cia_context->clk_ptr) - cia_context->write_offset;
 
+    run_pending_alarms(rclk, cia_context->write_offset, cia_context->tb_alarm->context);
+
 #ifdef CIA_TIMER_DEBUG
     if (cia_context->debugFlag) {
         log_message(cia_context->log, "store cia[%02x] %02x @ clk=%d",
@@ -706,8 +713,6 @@ static void ciacore_store_internal(cia_context_t *cia_context, uint16_t addr, ui
 
 void ciacore_store(cia_context_t *cia_context, uint16_t addr, uint8_t byte)
 {
-    run_pending_alarms(*cia_context->clk_ptr, cia_context->tb_alarm->context);
-
     if (cia_context->pre_store != NULL) {
         (cia_context->pre_store)();
     }
@@ -747,7 +752,7 @@ uint8_t cia_read_(cia_context_t *cia_context, uint16_t addr)
 
     addr &= 0xf;
 
-    run_pending_alarms(*cia_context->clk_ptr, cia_context->tb_alarm->context);
+    run_pending_alarms(*cia_context->clk_ptr, 0, cia_context->tb_alarm->context);
 
     if (cia_context->pre_read != NULL) {
         (cia_context->pre_read)();

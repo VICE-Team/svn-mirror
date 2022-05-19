@@ -69,7 +69,7 @@
 
 /* the mapping of the host ("KeyboardMapping")
 
-   CAUTION: keep in sync with constants in keyboard.h and code in
+   CAUTION: keep in sync with code in keyboard.c and code in
             arch/shared/archdep_kbd_get_host_mapping.c and also with the
             description of the KeyboardMapping resource in vice.texi
 
@@ -90,8 +90,9 @@
 #define KBD_MAPPING_SE    10    /* "se" */
 #define KBD_MAPPING_CH    11    /* "ch" */
 #define KBD_MAPPING_BE    12    /* "be" */
-#define KBD_MAPPING_LAST  12
-#define KBD_MAPPING_NUM   13
+#define KBD_MAPPING_TR    13    /* "tr" */
+#define KBD_MAPPING_LAST  13
+#define KBD_MAPPING_NUM   14
 extern int keyboard_get_num_mappings(void);
 
 /* mapping info for GUIs */

@@ -44,11 +44,13 @@ gtk3_keymaps = \
 	gtk3_pos_it.vkm \
 	gtk3_pos_es.vkm \
 	gtk3_pos_uk.vkm \
+	gtk3_pos_tr.vkm \
 	gtk3_sym_de.vkm \
 	gtk3_sym_be.vkm \
 	gtk3_sym_nl.vkm \
 	gtk3_sym_da.vkm \
 	gtk3_sym_uk.vkm \
+	gtk3_sym_tr.vkm \
 	gtk3_keyrah.vkm \
 	gtk3_keyrah_de.vkm \
 	gtk3_the64_de.vkm \
@@ -60,23 +62,28 @@ gtk3_keymaps = \
 gtk3_hotkeys = \
 	gtk3-hotkeys.vhk \
 	gtk3-hotkeys-mac.vhk \
+	gtk3-vsid-hotkeys.vhk \
+	gtk3-vsid-hotkeys-mac.vhk \
 	gtk3-winvice-legacy.vhk
 
 sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
 	sdl_joymap_thec64.vjm \
 	sdl_pos.vkm \
+	sdl_pos_uk.vkm \
 	sdl_pos_ch.vkm \
 	sdl_pos_da.vkm \
 	sdl_pos_de.vkm \
 	sdl_pos_fi.vkm \
 	sdl_pos_no.vkm \
+	sdl_pos_tr.vkm \
 	sdl_keyrah.vkm \
 	sdl_keyrah_de.vkm \
 	sdl_keyrah_retropie.vkm \
 	sdl_keyrah_retropie_de.vkm \
 	sdl_keyrah_combian.vkm \
 	sdl_sym.vkm \
+	sdl_sym_uk.vkm \
 	sdl_sym_de.vkm \
 	sdl_sym_nl.vkm \
 	sdl_sym_it.vkm \

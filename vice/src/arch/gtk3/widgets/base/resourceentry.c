@@ -330,7 +330,7 @@ static gboolean on_focus_out_event(
     if (resource_widget_get_auto_update(GTK_WIDGET(entry))) {
         resource_entry_full_update_resource(entry);
     }
-    return TRUE;
+    return FALSE;
 }
 
 

@@ -100,4 +100,8 @@ extern char *util_gen_hex_address_list(int start, int stop, int step);
 
 char *util_join_paths(const char *path, ...);
 
+int util_strcasecmp(const char *s1, const char *s2);
+int util_strncasecmp(const char *s1, const char *s2, size_t n);
+
+
 #endif

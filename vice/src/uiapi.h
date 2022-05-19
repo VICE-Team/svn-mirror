@@ -111,5 +111,4 @@ void ui_display_volume(int vol);
 /* Hotkeys */
 void ui_hotkeys_init(void);
 
-
 #endif

@@ -416,7 +416,7 @@ void ps2mouse_store(uint8_t value)
     return;
 }
 
-uint8_t ps2mouse_read()
+uint8_t ps2mouse_read(void)
 {
     return ps2mouse_out;
 }

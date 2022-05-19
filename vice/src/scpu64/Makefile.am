@@ -28,7 +28,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libscpu64.a
+noinst_LIBRARIES = libscpu64.a libscpu64stubs.a
+
+libscpu64stubs_a_SOURCES = \
+	scpu64-stubs.c
 
 libscpu64_a_SOURCES = \
 	scpu64-cmdline-options.c \
@@ -51,7 +54,6 @@ libscpu64_a_SOURCES = \
 	scpu64meminit.h \
 	scpu64model.c \
 	scpu64rom.c \
-	scpu64rom.h \
-	scpu64stubs.c
+	scpu64rom.h
 
 EXTRA_DIST =

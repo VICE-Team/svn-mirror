@@ -42,7 +42,14 @@ FONTS_FILES = \
 IMAGES_FILES = \
 	images/CIPS2008.png \
 	images/new.gif \
-	images/vice-logo.svg
+	images/vice-logo.svg \
+	images/vice-logo-black.png \
+	images/vice-c64-positional-keymap-de-small.png \
+	images/vice-c64-positional-keymap-de.png \
+	images/vice-c64-symbolic-keymap-de-small.png \
+	images/vice-c64-symbolic-keymap-de.png \
+	images/vice-c64-positional-keymap-us-small.png \
+	images/vice-c64-positional-keymap-us.png
 
 EXTRA_DIST = \
 	checklinks.sh \

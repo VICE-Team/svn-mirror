@@ -68,6 +68,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "mon_breakpoint.h"
+;
 #include "network.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -1647,7 +1648,7 @@ static void setup_for_disk_ready(int unit, int drive)
         unit, drive,
         get_true_drive_emulation_state(unit) ? "on" : "off",
         get_iec_device_state(unit) ? "on" : "off",
-        get_device_traps_state() ? "on" : "off",
+        get_device_traps_state(unit) ? "on" : "off",
         handle_drive_true_emulation_overridden ? "yes" : "no"
         ));
 }
@@ -1875,7 +1876,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
                     n = 1;
                     break;
                 }
-                if ((n < 17) && (!strcasecmp((const char*)&finfo->name[n], ".prg"))) {
+                if ((n < 17) && (!util_strcasecmp((const char*)&finfo->name[n], ".prg"))) {
                     break;
                 }
                 tempname[n] = finfo->name[n];
@@ -2136,6 +2137,8 @@ void autostart_reset(void)
 {
     int oldmode;
 
+    DBG(("autostart_reset (autostart_enabled:%d)", autostart_enabled));
+
     if (!autostart_enabled) {
         return;
     }
@@ -2146,6 +2149,7 @@ void autostart_reset(void)
         oldmode = autostartmode;
         autostartmode = AUTOSTART_NONE;
         if (oldmode != AUTOSTART_DONE) {
+            DBG(("autostart_reset oldmode != AUTOSTART_DONE"));
             disk_eof_callback();
         }
         autostartmode = AUTOSTART_NONE;

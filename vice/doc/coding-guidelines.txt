@@ -375,6 +375,15 @@ To keep the code tidy and easy to follow please read the following statements:
        NUM_ONE
    } numbers_t;
 
+- Properly document any fall through in switch/case constructs:
+
+    switch (foo) {
+        case 42:    /* fall through */
+        case 69:
+            hehe();
+            break;
+    }
+
 
 Symbols in ifdefs
 -----------------

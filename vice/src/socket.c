@@ -998,6 +998,10 @@ int vice_network_send(vice_network_socket_t * sockfd, const void * buffer,
     size_t ret;
     signals_pipe_set();
     ret = send(sockfd->sockfd, buffer, buffer_length, flags);
+    if (ret > buffer_length) {
+        log_error(LOG_DEFAULT, "vice_network_send: internal error");
+        ret = -1; /* signal error */
+    }
     signals_pipe_unset();
     return (int)ret;
 }

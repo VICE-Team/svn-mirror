@@ -29,7 +29,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libvic20.a
+noinst_LIBRARIES = libvic20.a libvic20stubs.a
+
+libvic20stubs_a_SOURCES = \
+	vic20-stubs.c
 
 libvic20_a_SOURCES = \
 	vic-cmdline-options.c \

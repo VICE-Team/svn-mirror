@@ -30,7 +30,10 @@ AM_CXXFLAGS = @VICE_CXXFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libplus4.a
+noinst_LIBRARIES = libplus4.a libplus4stubs.a
+
+libplus4stubs_a_SOURCES = \
+	plus4-stubs.c
 
 libplus4_a_SOURCES = \
 	digiblaster.c \

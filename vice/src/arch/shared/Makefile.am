@@ -64,6 +64,7 @@ libarchdep_a_SOURCES = \
 	archdep_file_size.c \
 	archdep_filename_parameter.c \
 	archdep_fix_permissions.c \
+	archdep_fix_streams.c \
 	archdep_fseeko.c \
 	archdep_ftello.c \
 	archdep_get_current_drive.c \
@@ -115,7 +116,8 @@ libarchdep_a_SOURCES = \
 	dynlib.c \
 	rawnetarch.c \
 	rs232dev.c \
-	signals.c
+	signals.c \
+	uiactions.c
 
 if UNIX_COMPILE
 libarchdep_a_SOURCES += \
@@ -167,6 +169,7 @@ EXTRA_DIST = \
 	archdep_file_size.h \
 	archdep_filename_parameter.h \
 	archdep_fix_permissions.h \
+	archdep_fix_streams.h \
 	archdep_fseeko.h \
 	archdep_ftello.h \
 	archdep_get_current_drive.h \
@@ -234,6 +237,7 @@ EXTRA_DIST = \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \
+	uiactions.h \
 	README-bindist.txt
 
 # FIXME: the Extra MacOS script stuff should live elsewhere

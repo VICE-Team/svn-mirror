@@ -116,10 +116,15 @@ notice identical to this one.
 
 @titlepage
 
-@title VICE, the Versatile Commodore Emulator
+@title The Versatile Commodore Emulator
 
-@c page
-@vskip 0pt plus 1filll
+@center @image{html/images/vice-logo-black}
+
+@end titlepage
+
+@page
+@c @vskip 0pt plus 1filll
+
 @c section used in file generation, keep to the format used.
 @c ---vice-core-team---
 Copyright @copyright{} 1999-__VICE_CURRENT_YEAR__ Martin Pottendorfer
@@ -180,7 +185,7 @@ manual under the conditions for verbatim copying, provided that the entire
 resulting derived work is distributed under the terms of a permission
 notice identical to this one.
 
-@end titlepage
+@c @end titlepage
 
 @c -----------------------------------------------------------------------------
 
@@ -663,6 +668,8 @@ be as good as the C64 or VIC20 one, as they are still under construction.
 
 @emph{Notice:} This documentation is written for the Unix release of VICE, but is slowly being made universal.
 
+@section Emulator features
+
 @menu
 * C64 emulator features::
 * C64DTV emulator features::
@@ -680,7 +687,7 @@ be as good as the C64 or VIC20 one, as they are still under construction.
 
 
 @node C64 emulator features, C64DTV emulator features, Preface, Preface
-@section C64 emulator features
+@subsection C64 emulator features
 
 As of version 2.3, two C64 emulators are provided: @samp{x64} (fast)
 and @samp{x64sc} (accurate). As of version 3.4 @samp{x64} will no more get
@@ -708,7 +715,7 @@ and cycle accurate.
 
 
 @node C64DTV emulator features, C128 emulator features, C64 emulator features, Preface
-@section C64DTV emulator features
+@subsection C64DTV emulator features
 
 The C64DTV emulator, called @samp{x64dtv}, features emulation of C64DTV
 revisions 2 and 3. The emulator is under construction, but most of the
@@ -721,7 +728,7 @@ and decreased performance.
 
 
 @node C128 emulator features, VIC20 emulator features, C64DTV emulator features, Preface
-@section C128 emulator features
+@subsection C128 emulator features
 
 The C128 emulator, called @samp{x128}, features a complete emulation of
 the internal MMU (@dfn{Memory Management Unit}), 80 column VDC screen, fast
@@ -730,7 +737,7 @@ C64 emulation.
 
 
 @node VIC20 emulator features, PET emulator features, C128 emulator features, Preface
-@section VIC20 emulator features
+@subsection VIC20 emulator features
 
 The VIC20 emulates all the internal hardware, including the VIA chips.
 The VIC-I video chip is fully emulated except NTSC interlace mode, so most
@@ -745,7 +752,7 @@ The IEEE-488 code is then started by @code{SYS45065}.
 
 
 @node PET emulator features, CBM-II emulator features, VIC20 emulator features, Preface
-@section PET emulator features
+@subsection PET emulator features
 
 The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
 SuperPET (MicroMainFrame 9000) models, covering the whole series.
@@ -812,7 +819,7 @@ described in @pxref{PET model}
 
 
 @node CBM-II emulator features, SCPU64 emulator features, PET emulator features, Preface
-@section CBM-II emulator features
+@subsection CBM-II emulator features
 
 The CBM-II emulator emulates several types of CBM-II models.  Those
 models are known under different names in the USA and Europe.  In the
@@ -855,7 +862,7 @@ emulated as well.
 The different settings are described in @pxref{CBM-II model}.
 
 @node SCPU64 emulator features, Keyboard emulation, CBM-II emulator features, Preface
-@section SCPU64 emulator features
+@subsection SCPU64 emulator features
 
 The XSCPU64 emulator is a simulation of a C64 equipped with a SuperCPU64 V2B. Features:
 
@@ -961,6 +968,30 @@ you can enable showing the keycodes in the status bar in the settings. For more
 information on making your own keymaps (or helping to fix/update the existing
 ones), @pxref{Keymap files}.
 
+@subsection C64 & VIC20 Keyboard Map
+
+This mapping applies to the C64, SCPU, VIC20 and DTV emulators.
+
+In the symbolic mappings all keys are - as far as possible - mapped in a way that
+inside the emulation the symbol that is printed on the host key is produced. Note
+that while these mappings will allow easier typing if you are used to your host
+keymap, it might cause various problems in the emulation and not all emulated
+keys are accessible. If you encounter such problems, try the positional mapping.
+
+For the positional mappings first all keys are mapped at their exact positions,
+as far as possible, and then the remaining few (usually 2 or 3) will be mapped
+to other, yet unused, keys. This is the recommended mapping for playing games or
+other programs that require keys+modifiers (shift/control/cbm) to work exactly
+like on the emulated machine.
+
+@subsubsection Symbolic (DE)
+@image{html/images/vice-c64-symbolic-keymap-de-small}
+
+@subsubsection Positional (US)
+@image{html/images/vice-c64-positional-keymap-us-small}
+@subsubsection Positional (DE)
+@image{html/images/vice-c64-positional-keymap-de-small}
+
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
 @section The joystick emulation
 
@@ -1010,6 +1041,8 @@ The SpaceBalls joystick adapter ports 1, 2, 3, 4, 5, 6, 7 & 8 (x64/x64sc/xscpu64
 
 The Ninja SNES pad adapter ports 1, 2 & 3 (x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4) are mapped to extra joystick devices #1, #2 & #3 respectively.
 
+The Stupid Pet Tricks joystick adapter port (x64/x64sc/xscpu64/x128/xcbm2/xpet/xvic) is mapped to port extra joystick device #3. 
+
 The ProtoPad SNES pad adapter port is mapped to the same port it is attached to.
 
 The Trap-Them SNES pad adapter port is mapped to the same port it is attached to.
@@ -1027,6 +1060,7 @@ Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050, 8250,
 and D9090/60 drives in one of the following ways:
 
 @itemize @bullet
+
 @item
 using disk images, i.e., files that contain a dump of all the blocks
 contained in a real floppy disk;
@@ -1037,6 +1071,13 @@ read and write files in the @code{P00} format.
 @item
 accessing a real device connected to the host machine. This works using the 
 OpenCBM library. You can get it from @uref{https://spiro.trikaliotis.net/opencbm}.
+Make sure to pick the right library (32 or 64bit) for your system. 
+@itemize @bullet
+@item To use it in the emulators, go to the drive tab in the settings and choose
+"IEC Device" and "Real Drive (OpenCBM)". Note that this will not work with all
+emulators right now.
+@item If you want to use OpenCBM with c1541, start it with c1541 /dev/cbm (on Linux).
+@end itemize
 
 @end itemize
 
@@ -1870,6 +1911,18 @@ The -23 ROM is a revised -19 ROM)
 (Commodore ROM image 901474-04-?)
 
 @item
+@file{characters-1.901447-08.bin}, the character generator ROM (2KiB)
+for the PET 2001.
+It has two sets with 128 chars each.
+The second (inverted) half of each set is computed from
+the first half by inverting it.  This is a PET hardware feature.
+Compared to the character ROMs for later models, it has the upper case
+and lower case letters swapped: to get lower case letters, you need to
+use the shift key (so the basic abbreviation for "LIST" looks like "Li",
+instead of "lI" for "list".
+(Commodore ROM image 901447-08)
+
+@item
 @file{characters-2.901447-10.bin}, the character generator ROM (2KiB).
 It has two sets
 with 128 chars each.  The second (inverted) half of each set is computed from
@@ -2636,6 +2689,42 @@ system/window manager. Mappings using @code{<Alt>} or
 @item 
 @code{pause-toggle}
  @tab Toggle Pause
+@item
+@code{psid-load}
+ @tab Load PSID file
+@item
+@code{psid-override-toggle}
+ @tab Override PSID settings
+@item
+@code{psid-subtune-1}
+ @tab Play PSID subtune #1
+@item
+@code{psid-subtune-2}
+ @tab Play PSID subtune #2
+@item
+@code{psid-subtune-3}
+ @tab Play PSID subtune #3
+@item
+@code{psid-subtune-4}
+ @tab Play PSID subtune #4
+@item
+@code{psid-subtune-5}
+ @tab Play PSID subtune #5
+@item
+@code{psid-subtune-6}
+ @tab Play PSID subtune #6
+@item
+@code{psid-subtune-7}
+ @tab Play PSID subtune #7
+@item
+@code{psid-subtune-8}
+ @tab Play PSID subtune #8
+@item
+@code{psid-subtune-9}
+ @tab Play PSID subtune #9
+@item
+@code{psid-subtune-10}
+ @tab Play PSID subtune #10
 @item 
 @code{quit}
  @tab Quit emulator
@@ -3537,7 +3626,7 @@ String specifying the name of the user keymap file for positional mapping
 @item KeyboardMapping
 Integer specifying the keyboard layout of the host.
 (0: American 1: British 2: Danish 3: Dutch 4: Finnish 5: French 6: German 7: Italian
- 8: Norwegian 9: Spanish 10: Swedish 11: Swiss).
+ 8: Norwegian 9: Spanish 10: Swedish 11: Swiss 12: Turkish).
 
 @vindex KeyboardType
 @item KeyboardType
@@ -3573,7 +3662,8 @@ Specify filename of the positional user keymap file
 @item -keyboardmapping <number>
 Specifies the keyboard layout of the host
 (@code{KeyboardMapping}
-0: American 1: British 2: German 3: Danish 4: Norwegian 5: Finnish 6: Italian).
+(0: American 1: British 2: Danish 3: Dutch 4: Finnish 5: French 6: German 7: Italian
+ 8: Norwegian 9: Spanish 10: Swedish 11: Swiss 12: Turkish).
 
 @findex -keyboardtype
 @item -keyboardtype <number>
@@ -7904,6 +7994,9 @@ Set the device attached to the userport (see table below):
 @item 23
 @tab Joystick Adapter (Spaceballs)
 @tab x64, x64sc, x128, xscpu64, xvic
+@item 24
+@tab Userport Stupid Pet Tricks joystick adapter
+@tab x64, x64sc, x128, xscpu64, xcbm2, xpet, xvic
 @end multitable
 
 @table @code
@@ -8423,6 +8516,24 @@ Set the amount of automatic playback frames
 @c @node FIXME
 @section Network Play settings
 
+Note network play code is still experimental and unstable in some corners and
+can be a bit tricky to setup and made work:
+
+@itemize @bullet
+@item First make sure both client and server can actually use the port you want
+to use. This might require poking holes into your firewall. On the server side,
+this often requires configuring port forwarding.
+@item Choose a port you want to use. Usually the default (6502) is fine.
+@item Setup the server address, usually you can leave it blank - if that
+does not work you might have to use the actual IP of your machine. Start the
+server and leave the settings before you continue.
+@item On the client setup the remote address of the server (use 127.0.0.1 to
+connect to another VICE instance running on the same machine) and connect to the server.
+@end itemize
+
+The experimental nature of this feature also means that you might require both
+involved parties to use the exact same version of VICE.
+
 @c @node FIXME
 @subsection Network Play resources
 
@@ -8430,21 +8541,59 @@ Set the amount of automatic playback frames
 
 @vindex NetworkServerName
 @item NetworkServerName
-String specifying the name of the remote server.
+String specifying the name of the remote server. The client specifies here to what
+remote machine it wants to connect. To connect to another instance of VICE running
+on the same machine use 127.0.0.1.
 
 @vindex NetworkServerBindAddress
 @item NetworkServerBindAddress
-String specifying the IP of the remote server.
+String specifying the IP of the remote server. The server specifies here at what
+IP it listens. This can be blank in common setups.
 
 @vindex NetworkServerPort
 @item NetworkServerPort
-Integer specifying the port used for network play.
-@c FIXME: is this correct?
+Integer specifying the port used for network play. This must be a number > 1023
+(non privileged) and must be the same on both server and client.
 
 @vindex NetworkControl
 @item NetworkControl
-Integer specifying whether the emulator is running as server or client (0: client,
-1: server)
+Integer containing a bitfield that specifies which resources are controlled by
+either the server or the client:
+@multitable @columnfractions .05 .2 .2
+@item Bit
+@tab Resource
+@tab controlled by
+@item 0
+@tab Keyboard
+@tab Server
+@item 1
+@tab Joystick port 1
+@tab Server
+@item 2
+@tab Joystick port 2
+@tab Server
+@item 3
+@tab Devices
+@tab Server
+@item 4
+@tab Resources
+@tab Server
+@item 5
+@tab Keyboard
+@tab Client
+@item 6
+@tab Joystick port 1
+@tab Client
+@item 7
+@tab Joystcik port 2
+@tab Client
+@item 8
+@tab Devices
+@tab Client
+@item 9
+@tab Resources
+@tab Client
+@end multitable
 
 @end table
 
@@ -8455,19 +8604,20 @@ Integer specifying whether the emulator is running as server or client (0: clien
 
 @findex -netplayserver
 @item -netplayserver <name>
-Set the name of the remote server.
+Set the name of the remote server (@code{NetworkServerName}).
 
 @findex -netplaybind
 @item -netplaybind <ip>
-Set the IP of the remote server.
+Set the IP of the remote server (@code{NetworkServerBindAddress}).
 
 @findex -netplayport
 @item -netplayport <port>
-Set the port used for network play.
+Set the port used for network play (@code{NetworkServerPort}).
 
 @findex -netplayctrl
 @item -netplayctrl <flag>
-Specify whether the emulator is running as server or client (0: client, 1: server)
+Specify what resources are controlled by the server or the client (see above)
+(@code{NetworkControl}).
 
 @end table
 
@@ -8700,6 +8850,8 @@ The following cartridges are emulated in this slot:
 
 @itemize @bullet
 @item
+CMD RAMlink
+@item
 IEEE-488 Interface 
 (@uref{http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin})
 @item
@@ -8841,8 +8993,6 @@ Ocean
 Pagefox
 @item
 Prophet64
-@item
-RAMLink
 @item
 REX 256KiB EPROM Cart
 @item
@@ -16601,15 +16751,30 @@ Only available if USB joystick support is available at compile time.
 
 @table @code
 
+@vindex MIDIName
+@item MIDIName
+String specifying the name of the MIDI client (default:"VICE")
+(ALSA and macOS only, x64, x64sc, xscpu64, x128 and xvic only).
+
 @vindex MIDIInDev
 @item MIDIInDev
-String specifying the MIDI input device
-(x64, x64sc, xscpu64, x128 and xvic only).
+String specifying the OSS MIDI input device
+(Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
 
 @vindex MIDIOutDev
 @item MIDIOutDev
-String specifying the MIDI output device
-(x64, x64sc, xscpu64, x128 and xvic only).
+String specifying the OSS MIDI output device
+(Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
+
+@vindex MIDIInName
+@item MIDIInName
+String specifying the name of the MIDI input port (default:"VICEInput")
+(macOS only, x64, x64sc, xscpu64, x128 and xvic only).
+
+@vindex MIDIOutName
+@item MIDIOutName
+String specifying the name of the MIDI output port (default:"VICEOutput")
+(macOS only, x64, x64sc, xscpu64, x128 and xvic only).
 
 @end table
 
@@ -16620,7 +16785,7 @@ String specifying the MIDI output device
 @vindex MIDIDriver
 @item MIDIDriver
 Enum specifying the MIDI driver
-(x64, x64sc, xscpu64, x128 and xvic only).
+(Unix - x64, x64sc, xscpu64, x128 and xvic only).
 (0: OSS, 1: ALSA)
 
 @end table
@@ -16744,17 +16909,35 @@ Only available if USB joystick support is available at compile time.
 
 @table @code
 
+@findex -midiname
+@item -midiname <name>
+Specify the name of the MIDI client (default:"VICE")
+(@code{MIDIName})
+(ALSA and macOS only, x64, x64sc, xscpu64, x128 and xvic only).
+
 @findex -midiin
 @item -midiin <name>
-Specify MIDI-In device
+Specify OSS MIDI-In device
 (@code{MIDIInDev})
-(x64, x64sc, xscpu64, x128 and xvic only).
+(Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
 
 @findex -midiout
 @item -midiout <name>
-Specify MIDI-Out device
+Specify OSS MIDI-Out device
 (@code{MIDIOutDev})
-(x64, x64sc, xscpu64, x128 and xvic only).
+(Windows and OSS, x64, x64sc, xscpu64, x128 and xvic only).
+
+@findex -midiinname
+@item -midiinname <name>
+Specify the name of the MIDI input port (default:"VICEInput")
+(@code{MIDIInName})
+(macos, x64, x64sc, xscpu64, x128 and xvic only).
+
+@findex -midioutname
+@item -midioutname <name>
+Specify the name of the MIDI output port (default:"VICEOutput")
+(@code{MIDIOutName})
+(macos, x64, x64sc, xscpu64, x128 and xvic only).
 
 @end table
 
@@ -16766,7 +16949,7 @@ Specify MIDI-Out device
 @item -mididrv <driver>
 Specify MIDI driver
 (@code{MIDIDriver})
-(x64, x64sc, xscpu64, x128 and xvic only).
+(Unix - x64, x64sc, xscpu64, x128 and xvic only).
 (0: OSS, 1: ALSA)
 
 @end table
@@ -33097,7 +33280,8 @@ superpad64 support. Added multijoy joystick adapter support.
 Added inception joystick adapter support. Added protopad support.
 Added autofire support. Added plus4 Synergy 3-port joystick
 adapter support. Added userport I/O simulation device. Added
-Microflyte analog joystick support. And lots of other fixes and
+Microflyte analog joystick support. Added Stupid Pet Tricks
+joystick adapter support. And lots of other fixes and
 improvements.
 
 @item
@@ -33164,12 +33348,11 @@ Fixed some gtk2/3 issues. Fixed t64 file handling. Fixed memory
 leaks. Added more doxygen documentation. Fixed c1541 issues.
 Updated the Linux-Native-Howto.txt file. Added autoconf, automake and
 yasm version checking. Fixed runtime linker path issues with *BSD. Fixed
-out-of-tree building. One of the driving forces behind the 'native' GTK3
-port.
+out-of-tree building. One of the driving forces behind the GTK3 port.
 
 @item
 @b{Michael C. Martin}
-One of the driving forces behind the 'native' GTK3 port.
+One of the driving forces behind the GTK3 port.
 
 @item
 @b{June Tate-Gans}

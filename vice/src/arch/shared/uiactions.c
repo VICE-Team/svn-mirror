@@ -1,11 +1,11 @@
 /** \file   uiactions.c
- * \brief   Gtk3 UI action names and descriptions
+ * \brief   UI action names and descriptions
  *
- * Provides names and descriptions for Gtk3 UI actions.
+ * Provides names and descriptions for UI actions.
  *
- * Used by menu namedescs and custom hotkeys. There will be no Doxygen docblocks
- * for most of the defines, since they're self-explanatory. And obviously I will
- * not bitch about keeping the text within 80 columns :D
+ * Used by menu structs, hotkeys and joystick mappings. There will be no Doxygen
+ * docblocks for most of the defines, since they're self-explanatory. And
+ * obviously I will not bitch about keeping the text within 80 columns here :D
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -35,22 +35,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 
+#include "archdep.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 
 #include "uiactions.h"
 
-
-
-/** \brief  Generate name, description and mask for an array element
- *
- * Generate '{ ACTION_FOO_ID, ACTION_FOO, ACTION_FOO_DESC, ACTION_FOO_MASK }'
- * for use in the UI actions array.
- *
- * \param[in]   x   action name define
- */
-#define mkinfo(x) { ACTION_##x##_ID, ACTION_##x, ACTION_##x##_DESC, ACTION_##x##_MASK }
+/* Enable debugging */
+#define DEBUG_ACTIONS
 
 
 /** \brief  Mapping of action names to descriptions and machine support
@@ -58,18 +53,18 @@
  * The 'machine' members is a bitmask that indicates which machines support
  * the action.
  */
-typedef struct ui_action_info_internal_s {
+typedef struct ui_action_info_private_s {
     int         id;         /**< action ID */
     const char *name;       /**< action name */
     const char *desc;       /**< action description */
     uint32_t    machine;    /**< bitmask indicating which machines support the
                                  action */
-} ui_action_info_internal_t;
+} ui_action_info_private_t;
 
 
 /** \brief  List of UI actions
  */
-static const ui_action_info_internal_t action_info_list[] = {
+static const ui_action_info_private_t action_info_list[] = {
     /* smart attach */
     { ACTION_SMART_ATTACH,      "smart-attach",         "Attach a medium to the emulator inspecting its type", VICE_MACHINE_ALL },
 
@@ -232,6 +227,21 @@ static const ui_action_info_internal_t action_info_list[] = {
     { ACTION_HELP_HOTKEYS,      "help-hotkeys",         "Show hotkeys",                 VICE_MACHINE_ALL },
     { ACTION_HELP_ABOUT,        "help-about",           "Show About dialog",            VICE_MACHINE_ALL },
 
+
+    /* VSID=specific items */
+    { ACTION_PSID_LOAD,                 "psid-load",            "Load PSID file",           VICE_MACHINE_VSID },
+    { ACTION_PSID_OVERRIDE_TOGGLE,      "psid-override-toggle", "Override PSID settings",   VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_1,            "psid-subtune-1",       "Play subtune #1",          VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_2,            "psid-subtune-2",       "Play subtune #2",          VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_3,            "psid-subtune-3",       "Play subtune #3",          VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_4,            "psid-subtune-4",       "Play subtune #4",          VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_5,            "psid-subtune-5",       "Play subtune #5",          VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_6,            "psid-subtune-6",       "Play subtune #6",          VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_7,            "psid-subtune-7",       "Play subtune #7",          VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_8,            "psid-subtune-8",       "Play subtune #8",          VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_9,            "psid-subtune-9",       "Play subtune #9",          VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_10,           "psid-subtune-10",      "Play subtune #10",         VICE_MACHINE_VSID },
+
     { ACTION_INVALID, NULL, NULL, 0 }
 };
 
@@ -242,14 +252,19 @@ static const ui_action_info_internal_t action_info_list[] = {
  *
  * \return  bool
  */
-static bool is_current_machine_action(const ui_action_info_internal_t *action)
+static bool is_current_machine_action(const ui_action_info_private_t *action)
 {
     return (bool)(action->machine & machine_class);
 }
 
 
-
-static const ui_action_info_internal_t *get_info_internal(int id)
+/** \brief  Get "private" info about a UI action
+ *
+ * \param[in]   id  action ID
+ *
+ * \return  pointer to info or `NULL` on failure
+ */
+static const ui_action_info_private_t *get_info_private(int id)
 {
     if (id > ACTION_NONE) {
         int i = 0;
@@ -263,7 +278,6 @@ static const ui_action_info_internal_t *get_info_internal(int id)
     }
     return NULL;
 }
-
 
 
 /** \brief  Get action ID by name
@@ -300,7 +314,7 @@ int ui_action_get_id(const char *name)
  */
 const char *ui_action_get_name(int id)
 {
-    const ui_action_info_internal_t *action = get_info_internal(id);
+    const ui_action_info_private_t *action = get_info_private(id);
 
     return action != NULL ? action->name : NULL;
 }
@@ -316,7 +330,7 @@ const char *ui_action_get_name(int id)
  */
 const char *ui_action_get_desc(int id)
 {
-    const ui_action_info_internal_t *action = get_info_internal(id);
+    const ui_action_info_private_t *action = get_info_private(id);
 
     return action != NULL ? action->desc : NULL;
 }
@@ -332,7 +346,7 @@ const char *ui_action_get_desc(int id)
  */
 ui_action_info_t *ui_action_get_info_list(void)
 {
-    const ui_action_info_internal_t *action = action_info_list;
+    const ui_action_info_private_t *action = action_info_list;
     ui_action_info_t *list = NULL;
     size_t valid = 0;
     size_t index = 0;
@@ -363,4 +377,194 @@ ui_action_info_t *ui_action_get_info_list(void)
     list[index].desc = NULL;
 
     return list;
+}
+
+
+
+/** \brief  List of mappings of action IDs to handlers
+ *
+ * Will be allocated and reallocated when adding mappings.
+ */
+static ui_action_map_t *action_mappings;
+
+/** \brief  Size of the mappings array in elements
+ */
+static size_t action_mappings_size;
+
+/** \brief  Number of elements in the mappings array
+ */
+static size_t action_mappings_count;
+
+/** \brief  Flag indicating a dialog is active
+ *
+ * Used to avoid spawning multiple dialogs via UI actions, we don't want a
+ * user to map a controller button to "drive-attach-8:0" and then spam a ton of
+ * dialogs.
+ */
+static bool dialog_active = false;
+
+/** \brief  UI action dispatch handler
+ *
+ * Function to trigger the action handler on the proper thread in a UI.
+ */
+static void (*dispatch_handler)(const ui_action_map_t *) = NULL;
+
+
+/** \brief  Initialize UI actions system
+ *
+ * \note    This needs is called from the shared init code, the UI needs to
+ *          subsequently call ui_actions_set_dispatch() to register the function
+ *          that actually executes the action handler function
+ */
+void ui_actions_init(void)
+{
+#if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
+    action_mappings_size = 16;
+    action_mappings_count = 0;
+    action_mappings = lib_malloc(sizeof *action_mappings * action_mappings_size);
+    printf("%s: allocated action mapping array of %zu elements\n",
+           __func__, action_mappings_size);
+#endif
+}
+
+
+/** \brief  Set UI-specific function to dispatch UI action handlers
+ *
+ * \param[in]   dispatch    function to call with an action handler as its
+ *                          argument to have the UI actually invoke the handler
+ *                          on the proper thread
+ */
+void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *))
+{
+    dispatch_handler = dispatch;
+}
+
+
+/** \brief  Free all resources used by the UI actions system
+ */
+void ui_actions_shutdown(void)
+{
+#if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
+    printf("%s: freeing action mapping array.\n", __func__);
+    if (action_mappings != NULL) {
+        lib_free(action_mappings);
+        action_mappings = NULL;
+    }
+#endif
+}
+
+
+void ui_actions_add_mappings(const ui_action_map_t *mappings)
+{
+    const ui_action_map_t *map = mappings;
+
+    while (map->action_id > ACTION_NONE) {
+        /* do we need to reallocate the array? */
+        if (action_mappings_size == action_mappings_count - 1) {
+            /* yup, double its size */
+            action_mappings_size *= 2;
+            action_mappings = lib_realloc(action_mappings,
+                                          sizeof *action_mappings * action_mappings_size);
+        }
+
+        action_mappings[action_mappings_count].action_id = map->action_id;
+        action_mappings[action_mappings_count].handler = map->handler;
+        action_mappings[action_mappings_count].mode = map->mode;
+        action_mappings[action_mappings_count].state = 0;
+
+        action_mappings_count++;
+        map++;;
+    }
+    /* terminate list */
+    action_mappings[action_mappings_count].action_id = ACTION_NONE;
+    action_mappings[action_mappings_count].handler = NULL;
+    action_mappings[action_mappings_count].mode = 0;
+    action_mappings[action_mappings_count].state = 0;
+
+}
+
+
+/** \brief  Find action mapping by action ID
+ *
+ * \param[in]   action_id   action ID
+ *
+ * \return  action mapping or `NULL` when not found
+ */
+static ui_action_map_t *find_action_map(int action_id)
+{
+    ui_action_map_t *map = action_mappings;
+
+    if (action_id < ACTION_NONE || action_id >= ACTION_ID_COUNT) {
+        return NULL;
+    }
+
+    while (map->action_id > ACTION_NONE) {
+        if (map->action_id == action_id) {
+            return map;
+        }
+        map++;
+    }
+    return NULL;
+}
+
+
+/** \brief  Trigger a UI action
+ *
+ * \param[in]   action_id   ID of the action to trigger
+ *
+ * \see src/arch/shared/uiactions.h for IDs
+ */
+void ui_action_trigger(int action_id)
+{
+    ui_action_map_t *map;
+
+    if (dispatch_handler == NULL) {
+        log_error(LOG_ERR, "action handler dispatcher not installed.");
+        return;
+    }
+
+    map = find_action_map(action_id);
+    if (map != NULL) {
+       /* handle blocking actions */
+        if (map->mode & ACTION_MODE_BLOCKING) {
+            if (map->state & ACTION_STATE_BUSY) {
+                /* action is still busy, skip */
+                return;
+            }
+            /* mark action busy */
+            map->state |= ACTION_STATE_BUSY;
+        }
+
+        /* handle dialogs, only one can be active at a time */
+        if (map->mode & ACTION_MODE_DIALOG) {
+            if (dialog_active) {
+                return;
+            }
+            dialog_active = true;
+        }
+
+        /* dispatch to UI */
+        dispatch_handler(map);
+    }
+}
+
+
+/** \brief  Mark a UI action as finished
+ *
+ * For actions that are blocking (ie dialogs) we need to notify the action
+ * handling system the action has finished and can be triggered again.
+ *
+ * \param[in]   action_id
+ */
+void ui_action_finish(int action_id)
+{
+    ui_action_map_t *map = find_action_map(action_id);
+    if (map != NULL) {
+        /* clear all state flags for the action */
+        map->state = 0;
+        /* clear global dialog flag */
+        if (map->mode & ACTION_MODE_DIALOG) {
+            dialog_active = false;
+        }
+    }
 }

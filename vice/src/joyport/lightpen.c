@@ -44,7 +44,7 @@
 
    cport | lightpen up         | I/O
    ---------------------------------
-     1   | button              |  I
+     1   | button         (up) |  I
      6   | light sensor        |  I
 
    Works on:
@@ -52,7 +52,7 @@
 
    cport | lightpen left       | I/O
    ---------------------------------
-     3   | button              |  I
+     3   | button       (left) |  I
      6   | light sensor        |  I
 
    Works on:
@@ -60,7 +60,7 @@
 
    cport | datel pen           | I/O
    ---------------------------------
-     3   | button              |  I
+     3   | button       (left) |  I
      6   | light sensor        |  I
 
    Works on:
@@ -69,14 +69,14 @@
    cport | magnum light phaser | I/O
    ---------------------------------
      6   | light sensor        |  I
-     9   | button              |  I
+     9   | button       (potx) |  I
 
    Works on:
    - native joystick port 1 (x64/x64sc/xscpu64/x128/xvic)
 
    cport | stack light rifle   | I/O
    ---------------------------------
-     3   | button              |  I
+     3   | button       (left) |  I
      6   | light sensor        |  I
 
    Works on:
@@ -84,9 +84,9 @@
 
    cport | inkwell lightpen    | I/O
    ---------------------------------
-     3   | button 1            |  I
+     3   | button 1     (left) |  I
      6   | light sensor        |  I
-     9   | button 2            |  I
+     9   | button 2     (potx) |  I
 
      not fully implemented:
 
@@ -95,8 +95,8 @@
 
    cport | Gun Stick           | I/O
    ---------------------------------
-     2   | light sensor        |  I
-     6   | button              |  I
+     2   | light sensor (down) |  I
+     6   | button       (lp)   |  I
 
      This gun is somewhat weird, in that it uses pin 2 (down) for the light
      sensor, and pin 6 (lp-trigger) for the trigger button. also the signal
@@ -291,9 +291,7 @@ static int joyport_lightpen_set_enabled(int port, int id)
 
 static uint8_t lightpen_digital_val(int port)
 {
-    uint16_t ui_bits = (uint16_t)~lightpen_value;
-
-    joyport_display_joyport(port, lightpen_type_to_joyport_id(lightpen_type), ui_bits);
+    joyport_display_joyport(port, lightpen_type_to_joyport_id(lightpen_type), lightpen_value);
 
     return (uint8_t)~lightpen_value;
 }

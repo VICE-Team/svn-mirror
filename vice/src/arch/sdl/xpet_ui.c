@@ -60,6 +60,7 @@
 #include "menu_userport.h"
 #include "menu_video.h"
 #include "petmem.h"
+#include "petrom.h"
 #include "pets.h"
 #include "petui.h"
 #include "pet-resources.h"
@@ -242,15 +243,6 @@ int petui_init_early(void)
     return 0;
 }
 
-/* KLUDGES: this needs to be updated when ROM files are being renamed */
-static const char *get_chargen_name(void)
-{
-    if (machine_class == VICE_MACHINE_PET) {
-        return PET_CHARGEN2_NAME;
-    }
-    return "chargen";
-}
-
 /** \brief  Initialize the UI
  *
  * \return  0 on success, -1 on failure
@@ -274,7 +266,7 @@ int petui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xpet_main_menu);
-    sdl_ui_font_init(get_chargen_name(), 0, 0x400, 0);
+    sdl_ui_font_init(PET_CHARGEN2_NAME, 0, 0x400, 0);
 
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();

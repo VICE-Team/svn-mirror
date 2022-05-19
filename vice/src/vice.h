@@ -143,4 +143,9 @@
 #define VICE_ATTR_RESPRINTF
 #endif
 
+/* M_PI is non-standard, so in order for -std=c99 to work we define it here */
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 #endif

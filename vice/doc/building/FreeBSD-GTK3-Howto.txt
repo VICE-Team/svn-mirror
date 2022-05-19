@@ -56,7 +56,7 @@ If you have those installed, do run autogen.sh inside the vice dir:
 that should complete without error (and generate the actual configure scripts)
 
 try configuring now:
-# ./configure --enable-native-gtk3ui --disable-pdf-docs
+# ./configure --enable-gtk3ui --disable-pdf-docs
 it should complete without error
 
 if you want to be able to generate the pdf docs you will need to install the
@@ -65,7 +65,7 @@ fairly big texlive, you can do this with
 # pkg install texlive-full
 
 and then try configure without --disable-pdf-docs
-# ./configure --enable-native-gtk3ui --disable-pdf-docs
+# ./configure --enable-gtk3ui --disable-pdf-docs
 it should complete without error
 
 lets try compiling it... we'll reconfigure again later and enable the options
@@ -92,7 +92,7 @@ Note: VICE expects ROM images at $PREFIX/share/vice, if you've not installed
 
 
 if pulseaudio is not working, try the configure again, but disable pulseaudio
-# ./configure --enable-native-gtk3ui --disable-pdf-docs --without-pulse
+# ./configure --enable-gtk3ui --disable-pdf-docs --without-pulse
 
 Finally, once one is satisfied with the compiler options etc:
 # gmake install

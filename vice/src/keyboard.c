@@ -2141,7 +2141,8 @@ int keyboard_get_num_mappings(void)
 }
 
 /* CAUTION: keep in sync with constants in keyboard.h and code in
-            arch/shared/archdep_kbd_get_host_mapping.c */
+            arch/shared/archdep_kbd_get_host_mapping.c and also with the
+            description of the KeyboardMapping resource in vice.texi */
 static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "American (us)", KBD_MAPPING_US, "" },    /* this must be first (=0) always */
     { "Belgian (dutch) (be)", KBD_MAPPING_BE, "be" },
@@ -2156,6 +2157,7 @@ static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "Spanish (es)", KBD_MAPPING_ES, "es" },
     { "Swedish (se)", KBD_MAPPING_SE, "se" },
     { "Swiss (ch)", KBD_MAPPING_CH, "ch" },
+    { "Turkish (tr)", KBD_MAPPING_TR, "tr" },
     { NULL, 0, 0 }
 };
 

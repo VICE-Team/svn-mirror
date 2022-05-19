@@ -28,9 +28,14 @@
 
 #include "vice.h"
 
+#include <stdint.h>
+
 #ifdef WINDOWS_COMPILE
 # include <windows.h>
-# include <stdint.h>
+#endif
+
+#ifdef UNIX_COMPILE
+# include <time.h>
 #endif
 
 #include "archdep_usleep.h"
@@ -38,7 +43,7 @@
 #ifdef WINDOWS_COMPILE
 
 /* Provide a usleep replacement */
-void archdep_usleep(uint64_t waitTime)
+void archdep_usleep(uint64_t usec)
 {
     uint64_t time1 = 0, time2 = 0, freq = 0;
 
@@ -47,7 +52,19 @@ void archdep_usleep(uint64_t waitTime)
 
     do {
         QueryPerformanceCounter((LARGE_INTEGER *) &time2);
-    } while((time2-time1) < waitTime);
+    } while((time2-time1) < usec);
+}
+
+#endif
+
+
+#ifdef UNIX_COMPILE
+
+void archdep_usleep(uint64_t usec)
+{
+    struct timespec req = { 0, (long)usec * 1000 };
+
+    nanosleep(&req, NULL);
 }
 
 #endif

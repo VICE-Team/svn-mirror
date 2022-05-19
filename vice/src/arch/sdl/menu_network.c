@@ -105,29 +105,35 @@ static const ui_menu_entry_t network_control_menu[] = {
     SDL_MENU_LIST_END
 };
 
+static void update_network_menu(void);
+
 static UI_MENU_CALLBACK(custom_connect_client_callback)
 {
     if (activated) {
+        network_disconnect();
         if (network_connect_client() < 0) {
             ui_error("Couldn't connect client.");
         } else {
+            update_network_menu();
             return sdl_menu_text_exit_ui;
         }
     }
-
+    update_network_menu();
     return NULL;
 }
 
 static UI_MENU_CALLBACK(custom_start_server_callback)
 {
     if (activated) {
+        network_disconnect();
         if (network_start_server() < 0) {
             ui_error("Couldn't start netplay server.");
         } else {
+            update_network_menu();
             return sdl_menu_text_exit_ui;
         }
     }
-
+    update_network_menu();
     return NULL;
 }
 
@@ -136,41 +142,66 @@ static UI_MENU_CALLBACK(custom_disconnect_callback)
     if (activated) {
         network_disconnect();
     }
-
+    update_network_menu();
     return NULL;
 }
 
-const ui_menu_entry_t network_menu[] = {
-    SDL_MENU_ITEM_TITLE("Netplay"),
-    { "Server name",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_NetworkServerName_callback,
-      (ui_callback_data_t)"Set network server name" },
-    { "Server port",
-      MENU_ENTRY_RESOURCE_INT,
-      int_NetworkServerPort_callback,
-      (ui_callback_data_t)"Set network server port" },
-    { "Bind address",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_NetworkServerBindAddress_callback,
-      (ui_callback_data_t)"Set network server bind address" },
-    { "Control",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)network_control_menu },
-    { "Start server",
-      MENU_ENTRY_OTHER,
-      custom_start_server_callback,
-      NULL },
-    { "Connect",
-      MENU_ENTRY_OTHER,
-      custom_connect_client_callback,
-      NULL },
-    { "Disconnect",
-      MENU_ENTRY_OTHER,
-      custom_disconnect_callback,
-      NULL },
-    SDL_MENU_LIST_END
+#define OFFS_SERVER_PORT    1
+#define OFFS_SERVER_ADDR    3
+#define OFFS_START_SERVER   4
+#define OFFS_REMOTE_ADDR    6
+#define OFFS_START_CLIENT   7
+#define OFFS_DISCONNECT     9
+#define OFFS_CONTROL        11
+
+ui_menu_entry_t network_menu[] = {
+      SDL_MENU_ITEM_TITLE("Netplay"),
+/* 1*/{ "Netplay port",
+        MENU_ENTRY_RESOURCE_INT,
+        int_NetworkServerPort_callback,
+        (ui_callback_data_t)"Set network server port" },
+      SDL_MENU_ITEM_SEPARATOR,
+/* 3*/{ "Server address",
+        MENU_ENTRY_RESOURCE_STRING,
+        string_NetworkServerBindAddress_callback,
+        (ui_callback_data_t)"Set network server bind address" },
+/* 4*/{ "Start server",
+        MENU_ENTRY_OTHER,
+        custom_start_server_callback,
+        NULL },
+      SDL_MENU_ITEM_SEPARATOR,
+/* 6*/{ "Remote Server",
+        MENU_ENTRY_RESOURCE_STRING,
+        string_NetworkServerName_callback,
+        (ui_callback_data_t)"Set remote server address" },
+/* 7*/{ "Connect client",
+        MENU_ENTRY_OTHER,
+        custom_connect_client_callback,
+        NULL },
+      SDL_MENU_ITEM_SEPARATOR,
+/* 9*/{ "Disconnect",
+        MENU_ENTRY_OTHER,
+        custom_disconnect_callback,
+        NULL },
+      SDL_MENU_ITEM_SEPARATOR,
+/*11*/{ "Control Settings",
+        MENU_ENTRY_SUBMENU,
+        submenu_callback,
+        (ui_callback_data_t)network_control_menu },
+      SDL_MENU_LIST_END
 };
+
+static void update_network_menu(void)
+{
+    int mode = network_get_mode();
+    network_menu[OFFS_START_SERVER].status = (mode == NETWORK_IDLE) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    network_menu[OFFS_START_CLIENT].status = (mode == NETWORK_IDLE) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    network_menu[OFFS_DISCONNECT].status = (mode != NETWORK_IDLE) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+
+    network_menu[OFFS_SERVER_PORT].status = (mode == NETWORK_IDLE) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    network_menu[OFFS_SERVER_ADDR].status = (mode == NETWORK_IDLE) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    network_menu[OFFS_REMOTE_ADDR].status = (mode == NETWORK_IDLE) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    network_menu[OFFS_CONTROL].status = (mode == NETWORK_IDLE) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+}
 
 #endif

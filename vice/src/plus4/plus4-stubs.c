@@ -1,10 +1,9 @@
 
 /*
- * c64dtvstubs.c - dummies for unneeded/unused functions
+ * plus4-stubs.c - dummies for unneeded/unused functions
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,50 +29,15 @@
 
 #include <stdlib.h>
 
-#include "machine.h"
-#include "tapecart.h"
-#include "tapeport.h"
+#include "mididrv.h"
 
+#ifdef WINDOWS_COMPILE
+void mididrv_ui_reset_device_list(int device)
+{
+}
 
-tapeport_desc_t *tapeport_get_valid_devices(int port, int sort)
+char *mididrv_ui_get_next_device_name(int device, int *id)
 {
     return NULL;
 }
-
-const char *tapeport_get_device_type_desc(int type)
-{
-    return NULL;
-}
-
-int tapeport_valid_port(int port)
-{
-    return 0;
-}
-
-int machine_autodetect_psid(const char *name)
-{
-    return -1;
-}
-
-int tapeport_device_register(int id, tapeport_device_t *device)
-{
-    return 0;
-}
-
-void tapeport_trigger_flux_change(unsigned int on, int port)
-{
-}
-
-void tapeport_set_tape_sense(int sense, int port)
-{
-}
-
-int tapecart_is_valid(const char *filename)
-{
-    return 0;   /* FALSE */
-}
-
-int tapecart_attach_tcrt(const char *filename, void *unused)
-{
-    return -1;
-}
+#endif

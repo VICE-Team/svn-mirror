@@ -417,13 +417,13 @@ static void detect_ide64_image(struct drive_s *drive)
     drive->type = ATA_DRIVE_CF;
     ext = util_get_extension(drive->filename);
     if (ext) {
-        if (!strcasecmp(ext, "cfa")) {
+        if (!util_strcasecmp(ext, "cfa")) {
             drive->type = ATA_DRIVE_CF;
-        } else if (!strcasecmp(ext, "hdd")) {
+        } else if (!util_strcasecmp(ext, "hdd")) {
             drive->type = ATA_DRIVE_HDD;
-        } else if (!strcasecmp(ext, "fdd")) {
+        } else if (!util_strcasecmp(ext, "fdd")) {
             drive->type = ATA_DRIVE_FDD;
-        } else if (!strcasecmp(ext, "iso")) {
+        } else if (!util_strcasecmp(ext, "iso")) {
             drive->type = ATA_DRIVE_CD;
         }
     }

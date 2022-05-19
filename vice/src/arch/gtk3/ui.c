@@ -135,6 +135,8 @@ static int set_monitor_width(const gchar *width, void *window_index);
 static int set_monitor_height(const gchar *height, void *window_index);
 static int set_settings_node_path(const gchar *path, void *unused);
 
+static void ui_action_dispatch(const ui_action_map_t *);
+
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
  ****************************************************************************/
@@ -655,6 +657,21 @@ int ui_get_main_window_index(void)
 }
 
 
+/** \brief  Get active main window
+ *
+ * \param[in]   index   window index (PRIMARY WINDOW or SECONDARY_WINDOW)
+ *
+ * \return  window or `NULL` when \a index is out of bounds
+ */
+GtkWidget *ui_get_main_window_by_index(gint index)
+{
+    if (index == PRIMARY_WINDOW || index == SECONDARY_WINDOW) {
+        return ui_resources.window_widget[index];
+    }
+    return NULL;
+}
+
+
 /** \brief  Get a window's index
  *
  * \param[in]   widget      window to get the index of
@@ -1010,8 +1027,7 @@ gboolean ui_action_toggle_fullscreen(void)
     enabled = ui_is_fullscreen();
     ui_set_fullscreen_enabled(!enabled);
 
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_TOGGLE,
-                                                 enabled);
+    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_TOGGLE, enabled);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -1024,8 +1040,8 @@ gboolean ui_action_toggle_fullscreen(void)
 gboolean ui_action_toggle_fullscreen_decorations(void)
 {
     fullscreen_has_decorations = !fullscreen_has_decorations;
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
-                                                 fullscreen_has_decorations);
+    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
+                                             fullscreen_has_decorations);
     ui_update_fullscreen_decorations();
     return TRUE;
 }
@@ -1641,13 +1657,17 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     /* set title */
     if (!mouse_grab) {
-        g_snprintf(title, 256, "VICE (%s)", machine_get_name());
+        g_snprintf(title, sizeof(title), "VICE (%s)", machine_get_name());
     } else {
-        ui_menu_item_t *item = ui_get_vice_menu_item_by_action(ACTION_MOUSE_GRAB_TOGGLE);
-        gchar *name = gtk_accelerator_name(item->keysym, item->modifier);
+        ui_menu_item_ref_t *ref;
 
-        g_snprintf(title, 256, "VICE (%s) (Use %s to disable mouse grab)",
-                machine_get_name(), name);
+        ref = ui_menu_item_ref_by_action(ACTION_MOUSE_GRAB_TOGGLE,
+                                          PRIMARY_WINDOW);
+        gchar *name = gtk_accelerator_name(ref->keysym, ref->modifier);
+
+        g_snprintf(title, sizeof(title),
+                   "VICE (%s) (Use %s to disable mouse grab)",
+                   machine_get_name(), name);
         g_free(name);
     }
 
@@ -1699,6 +1719,7 @@ void ui_create_main_window(video_canvas_t *canvas)
         }
     }
 
+    mixer_controls = NULL;
     if (machine_class != VICE_MACHINE_VSID) {
 
         /* add sound mixer controls */
@@ -1811,8 +1832,12 @@ void ui_create_main_window(video_canvas_t *canvas)
 
                 menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
                 gtk_widget_hide(menu_bar);
-                gtk_widget_hide(crt_controls);
-                gtk_widget_hide(mixer_controls);
+                if (crt_controls != NULL) {
+                    gtk_widget_hide(crt_controls);
+                }
+                if (mixer_controls != NULL) {
+                    gtk_widget_hide(mixer_controls);
+                }
                 gtk_widget_hide(status_bar);
             }
         } else {
@@ -1825,8 +1850,8 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* FIXME:   This is apparently too early in the boot sequence for -warp
      *          to take effect.
      */
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
-                                                 vsync_get_warp_mode());
+    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+                                             vsync_get_warp_mode());
 
     if (machine_class != VICE_MACHINE_VSID) {
 
@@ -2068,56 +2093,62 @@ int ui_init_finalize(void)
 
         window = ui_resources.window_widget[PRIMARY_WINDOW];
         canvas = ui_resources.canvas[PRIMARY_WINDOW];
-        resources_get_int_sprintf("%sShowStatusbar",
-                                  &show_statusbar,
-                                  canvas->videoconfig->chip_name);
-        debug_gtk3("Setting primary window %sShowStatusbar toggle to %s.",\
-                   canvas->videoconfig->chip_name,
-                   show_statusbar ? "ON" : "OFF");
-        ui_statusbar_set_visible_for_window(window, show_statusbar);
-        ui_set_gtk_check_menu_item_blocked_by_action_for_window(
-                ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, PRIMARY_WINDOW);
-
-        /* if any of the following is INT_MIN it means we don't want to restore
-         * window position and size, and thus can use the resize(1,1) trick to
-         * get rid of any extra space added by the hidden statusbar */
-        if (!show_statusbar) {
-            resources_get_int_sprintf("Window%dXpos", &xpos, PRIMARY_WINDOW);
-            resources_get_int_sprintf("Window%dYpos", &ypos, PRIMARY_WINDOW);
-            resources_get_int_sprintf("Window%dwidth", &width, PRIMARY_WINDOW);
-            resources_get_int_sprintf("Window%dheight", &height, PRIMARY_WINDOW);
-            if (xpos == INT_MIN || ypos == INT_MIN ||
-                    width == INT_MIN || height == INT_MIN) {
-                gtk_window_resize(GTK_WINDOW(window), 1, 1);
-            }
-        }
-
-        if (machine_class == VICE_MACHINE_C128) {
-            /* set the secondary (VDC) window's menu toggle button */
-            window = ui_resources.window_widget[SECONDARY_WINDOW];
-            canvas = ui_resources.canvas[SECONDARY_WINDOW];
+        /* guard against NULL in case of -console */
+        if (canvas != NULL && window != NULL) {
             resources_get_int_sprintf("%sShowStatusbar",
                                       &show_statusbar,
                                       canvas->videoconfig->chip_name);
-            debug_gtk3("Setting secondart window %sShowStatusbar toggle to %s.",\
+            debug_gtk3("Setting primary window %sShowStatusbar toggle to %s.",\
                        canvas->videoconfig->chip_name,
                        show_statusbar ? "ON" : "OFF");
             ui_statusbar_set_visible_for_window(window, show_statusbar);
-            ui_set_gtk_check_menu_item_blocked_by_action_for_window(
-                    ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, SECONDARY_WINDOW);
+            ui_set_check_menu_item_blocked_by_action_for_window(
+                    ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, PRIMARY_WINDOW);
 
+            /* if any of the following is INT_MIN it means we don't want to restore
+             * window position and size, and thus can use the resize(1,1) trick to
+             * get rid of any extra space added by the hidden statusbar */
             if (!show_statusbar) {
-                resources_get_int_sprintf("Window%dXpos", &xpos, SECONDARY_WINDOW);
-                resources_get_int_sprintf("Window%dYpos", &ypos, SECONDARY_WINDOW);
-                resources_get_int_sprintf("Window%dwidth", &width, SECONDARY_WINDOW);
-                resources_get_int_sprintf("Window%dheight", &height, SECONDARY_WINDOW);
+                resources_get_int_sprintf("Window%dXpos", &xpos, PRIMARY_WINDOW);
+                resources_get_int_sprintf("Window%dYpos", &ypos, PRIMARY_WINDOW);
+                resources_get_int_sprintf("Window%dwidth", &width, PRIMARY_WINDOW);
+                resources_get_int_sprintf("Window%dheight", &height, PRIMARY_WINDOW);
                 if (xpos == INT_MIN || ypos == INT_MIN ||
                         width == INT_MIN || height == INT_MIN) {
                     gtk_window_resize(GTK_WINDOW(window), 1, 1);
                 }
             }
+
+            if (machine_class == VICE_MACHINE_C128) {
+                /* set the secondary (VDC) window's menu toggle button */
+                window = ui_resources.window_widget[SECONDARY_WINDOW];
+                canvas = ui_resources.canvas[SECONDARY_WINDOW];
+                resources_get_int_sprintf("%sShowStatusbar",
+                                          &show_statusbar,
+                                          canvas->videoconfig->chip_name);
+                debug_gtk3("Setting secondart window %sShowStatusbar toggle to %s.",\
+                           canvas->videoconfig->chip_name,
+                           show_statusbar ? "ON" : "OFF");
+                ui_statusbar_set_visible_for_window(window, show_statusbar);
+                ui_set_check_menu_item_blocked_by_action_for_window(
+                        ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, SECONDARY_WINDOW);
+
+                if (!show_statusbar) {
+                    resources_get_int_sprintf("Window%dXpos", &xpos, SECONDARY_WINDOW);
+                    resources_get_int_sprintf("Window%dYpos", &ypos, SECONDARY_WINDOW);
+                    resources_get_int_sprintf("Window%dwidth", &width, SECONDARY_WINDOW);
+                    resources_get_int_sprintf("Window%dheight", &height, SECONDARY_WINDOW);
+                    if (xpos == INT_MIN || ypos == INT_MIN ||
+                            width == INT_MIN || height == INT_MIN) {
+                        gtk_window_resize(GTK_WINDOW(window), 1, 1);
+                    }
+                }
+            }
         }
     }
+
+    ui_actions_set_dispatch(ui_action_dispatch);
+    ui_hotkeys_init();
     return 0;
 }
 
@@ -2231,6 +2262,9 @@ void ui_shutdown(void)
     uidata_shutdown();
     ui_statusbar_shutdown();
     ui_hotkeys_shutdown();
+#if 0
+    ui_actions_shutdown();
+#endif
 }
 
 
@@ -2457,8 +2491,8 @@ void ui_pause_toggle(void)
 gboolean ui_action_toggle_pause(void)
 {
     ui_pause_toggle();
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
-                                                 (gboolean)ui_pause_active());
+    ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+                                             (gboolean)ui_pause_active());
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+P into the emu */
 }
@@ -2472,8 +2506,8 @@ gboolean ui_action_toggle_pause(void)
 gboolean ui_action_toggle_warp(void)
 {
     vsync_set_warp_mode(!vsync_get_warp_mode());
-    ui_set_gtk_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
-                                                 (gboolean)vsync_get_warp_mode());
+    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+                                             (gboolean)vsync_get_warp_mode());
 
     return TRUE;
 }
@@ -2493,8 +2527,8 @@ gboolean ui_action_advance_frame(void)
         vsyncarch_advance_frame();
     } else {
         ui_pause_enable();
-        ui_set_gtk_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
-                                                     (gboolean)ui_pause_active());
+        ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+                                                 (gboolean)ui_pause_active());
     }
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */
@@ -2654,4 +2688,31 @@ GtkWidget *ui_get_window_by_index(int index)
 gboolean ui_fullscreen_has_decorations(void)
 {
     return fullscreen_has_decorations ? TRUE : FALSE;
+}
+
+
+/** \brief  GSourceFunc to call a UI action
+ *
+ * \param[in]   data    UI action function
+ *
+ * \return  `FALSE` to remove this timeout source
+ */
+static gboolean ui_action_dispatch_impl(gpointer data)
+{
+    void (*handler)(void) = data;
+    debug_gtk3("Called with handler %p", (void*)handler);
+    handler();
+    return FALSE;
+}
+
+
+/** \brief  Dispatcher for UI actions
+ *
+ * Executes \a handler on the the UI thread.
+ *
+ * \param[in]   handler handler to invoke
+ */
+static void ui_action_dispatch(const ui_action_map_t *map)
+{
+    gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)(map->handler));
 }

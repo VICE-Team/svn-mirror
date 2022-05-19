@@ -39,7 +39,6 @@
 #include "ui.h"
 #include "uiactions.h"
 #include "uiapi.h"
-#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uitypes.h"
 #include "util.h"
@@ -253,9 +252,13 @@ static GtkListStore *create_hotkeys_model(void)
         char *hotkey;
 
         /* is the action present in the current menu structure? */
-        item = ui_get_gtk_menu_item_by_action(action->id);
+        item = ui_get_menu_item_by_action_for_window(action->id,
+                                                     PRIMARY_WINDOW);
         if (item != NULL) {
-            hotkey = ui_hotkeys_get_hotkey_string_for_action(action->id);
+            /* FIXME:   We're always using the primary window, but if we decide
+             *          to have separate hotkeys for the x128 windows, this must
+             *          be updated: */
+            hotkey = ui_hotkeys_get_hotkey_string_for_action(action->id, PRIMARY_WINDOW);
             gtk_list_store_append(model, &iter);
             gtk_list_store_set(model,
                                &iter,
@@ -512,17 +515,16 @@ static gboolean remove_treeview_hotkey(const gchar *accel)
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
     gchar *accel;
+    GtkWidget *label;
+    ui_menu_item_ref_t *ref;
     int action_id = GPOINTER_TO_INT(data);
-    ui_menu_item_t *item_vice;
-    GtkWidget *item_gtk;
-#ifdef HAVE_DEBUG_GTK3UI
-    const char *action_name = ui_action_get_name(action_id);
-#endif
 
     switch (response_id) {
 
         case GTK_RESPONSE_ACCEPT:
-            debug_gtk3("Response ID %d: Accept '%s'", response_id, action_name);
+            debug_gtk3("Response ID %d: Accept '%s'",
+                       response_id,
+                       ui_action_get_name(action_id));
 
             if (hotkey_keysym == 0) {
                 debug_gtk3("User clicked accepted/pressed enter without having set a hotkey.");
@@ -533,44 +535,51 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             debug_gtk3("Setting accelerator: %s.", accel);
 
             debug_gtk3("hotkey keysym: %04x, mask: %04x.",
-                    hotkey_keysym, hotkey_mask);
+                       hotkey_keysym, hotkey_mask);
 
             /* lookup item for new hotkey and remove the hotkey
              * from that action/menu item */
             /* XXX: somehow the mask gets OR'ed with $2000, which is a reserved
              *      flag, so we mask out any reserved bits:
              * TODO: Better do the masking out in the called function */
-            item_vice = ui_get_vice_menu_item_by_hotkey(hotkey_mask & accepted_mods,
-                                                        hotkey_keysym);
-            if (item_vice != NULL) {
-                debug_gtk3("Removing old hotkey: label: %s, action: %s.", item_vice->label,
-                        ui_action_get_name(item_vice->action_id));
-                ui_menu_remove_accel_via_vice_item(item_vice);
+
+            ref = ui_menu_item_ref_by_hotkey(PRIMARY_WINDOW,
+                                             hotkey_keysym,
+                                             hotkey_mask & accepted_mods);
+            if (ref != NULL) {
+                /* TODO: refactor this a bit: */
+                debug_gtk3("Removing old hotkey: label: %s, action: %s.",
+                           ref->decl->label,
+                           ui_action_get_name(ref->decl->action_id));
+                /* remove accelerator from group */
+                ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
+                /* remove accelerator from item */
+                label = gtk_bin_get_child(GTK_BIN(ref->item));
+                gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+                /* remove accelerator from table */
                 if (!remove_treeview_hotkey(accel)) {
                     /* since we found the menu item via the hotkey, the call
                      * shouldn't have failed */
                     debug_gtk3("Failed to remove hotkey from table!");
                 }
-                item_vice->keysym = 0;
-                item_vice->modifier = 0;
+                ref->keysym = 0;
+                ref->modifier = 0;
             }
 
 
-            debug_gtk3("Looking up action '%s'.", action_name);
-            item_vice = ui_get_vice_menu_item_by_action(action_id);
-            item_gtk = ui_get_gtk_menu_item_by_action(action_id);
-
-            /* update vice item and gtk item */
-            if (item_vice != NULL && item_gtk != NULL) {
+            debug_gtk3("Looking up action '%s'.", ui_action_get_name(action_id));
+            ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
+            if (ref != NULL) {
+                /* update vice item and gtk item */
                 debug_gtk3("FOUND.");
                 /* remove old accelerator */
-                ui_menu_remove_accel_via_vice_item(item_vice);
-                /* update vice menu item */
-                item_vice->keysym = hotkey_keysym;
-                item_vice->modifier = hotkey_mask;
+                ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
+                /* update item ref */
+                ref->keysym = hotkey_keysym;
+                ref->modifier = hotkey_mask & accepted_mods;
                 /* now update the accelerator and closure with the updated
                  * vice menu item */
-                ui_menu_set_accel_via_vice_item(item_gtk, item_vice);
+                ui_menu_set_accel_via_item_ref(ref->item, ref);
                 /* update treeview */
                 update_treeview_hotkey(accel);
             } else {
@@ -581,20 +590,22 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             break;
 
         case RESPONSE_CLEAR:
-            debug_gtk3("Response ID %d: Clear '%s'", response_id, action_name);
-            item_vice = ui_get_vice_menu_item_by_action(action_id);
+            debug_gtk3("Response ID %d: Clear '%s'",
+                       response_id, ui_action_get_name(action_id));
 
+            ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
+            /* FIXME: also handle the x128 VDC window */
 #if 0
             debug_gtk3("item_vice = %p, item_gtk = %p.",
                     (void*)item_vice, (void*)item_gtk);
 #endif
-            if (item_vice != NULL) {
-                debug_gtk3("Got vice item.");
+            if (ref != NULL) {
+                debug_gtk3("Got item ref.");
                 /* remove old accelerator */
-                ui_menu_remove_accel_via_vice_item(item_vice);
-                /* update vice menu item */
-                item_vice->keysym = 0;
-                item_vice->modifier = 0;
+                ui_menu_remove_accel_via_item_ref(ref);
+                /* update menu item ref */
+                ref->keysym = 0;
+                ref->modifier = 0;
                 /* update treeview */
                 update_treeview_hotkey(NULL);
             }

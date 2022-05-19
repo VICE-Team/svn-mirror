@@ -36,6 +36,7 @@ dist_doc_DATA = $(MISC_DOX) $(VICE_DOX)
 
 EXTRA_DIST = $(DOC_TOOLS) $(TEXI_TOOLS) $(STYLE_TOOLS)
 
+
 if MACOS_COMPILE
 # Use brew supplied texi2dvi over buggy Apple version
 export PATH := /usr/local/opt/texinfo/bin:$(PATH)
@@ -60,7 +61,12 @@ if ENABLE_PDF_DOCS
 $(builddir)/vice.pdf:	.vice-texi-charset-ok
 	@LC_ALL=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
 	@$(srcdir)/fixdates.sh vicepdf.texi `grep "VICEDATE_YEAR " $(top_srcdir)/src/vicedate.h | cut -d " " -f 3`
-	@LC_ALL=C $(TEXI2DVI) -I $(srcdir) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi
+	@if $(AM_V_P); then \
+		LC_ALL=C $(TEXI2DVI) -I $(srcdir) -V --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi; \
+	else \
+		LC_ALL=C $(TEXI2DVI) -I $(srcdir) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi; \
+	fi
+
 	@rm -f vicepdf.texi
 endif
 

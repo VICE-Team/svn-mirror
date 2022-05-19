@@ -208,6 +208,7 @@ static int message_len(uint8_t msg)
                 default:
                     break;
             }
+            break;
         default: /* running status */
             len = 2;
             break;

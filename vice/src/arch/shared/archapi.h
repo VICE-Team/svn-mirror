@@ -70,6 +70,7 @@
 #include "archdep_file_size.h"
 #include "archdep_filename_parameter.h"
 #include "archdep_fix_permissions.h"
+#include "archdep_fix_streams.h"
 #include "archdep_fseeko.h"
 #include "archdep_ftello.h"
 #include "archdep_get_current_drive.h"

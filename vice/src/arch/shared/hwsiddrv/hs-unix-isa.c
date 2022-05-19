@@ -50,6 +50,7 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 
+#include "archdep.h"
 #include "hardsid.h"
 #include "io-access.h"
 #include "types.h"
@@ -76,7 +77,7 @@ int hs_isa_read(uint16_t addr, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f) | 0x20);
-        usleep(2);
+        archdep_usleep(2);
         return io_access_read(HARDSID_BASE);
     }
     return 0;

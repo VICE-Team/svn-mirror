@@ -1,11 +1,5 @@
 /** \file   uiactions.h
- * \brief   Gtk3 UI action names and descriptions - header
- *
- * Provides names and descriptions for Gtk3 UI actions.
- *
- * Used by menu items and custom hotkeys. There will be no Doxygen docblocks
- * for most of the defines, since they're self-explanatory. And obviously I will
- * not bitch about keeping the text within 80 columns :D
+ * \brief   UI action names and descriptions - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -33,6 +27,8 @@
 #ifndef VICE_UIACTIONS_H
 #define VICE_UIACTIONS_H
 
+#include <stdbool.h>
+#include <stddef.h>
 /* this header is required if the macro IS_ACTION_NAME_CHAR() is used: */
 #include <ctype.h>
 
@@ -40,13 +36,30 @@
 #include "machine.h"
 
 
-/** \brief  Mapping of action names to descriptions
+#define ACTION_MODE_BLOCKING    (1u<<1u)
+#define ACTION_MODE_DIALOG      (1u<<2u)
+
+#define ACTION_STATE_BUSY       (1u<<1u)
+
+/** \brief  Mapping of action IDs to names and descriptions
  */
 typedef struct ui_action_info_s {
     int id;             /**< action ID */
     const char *name;   /**< action name */
     const char *desc;   /**< action description */
 } ui_action_info_t;
+
+
+/** \brief  Mapping of an action ID to a handler
+ */
+typedef struct ui_action_map_s {
+    int action_id;          /**< action ID */
+    void (*handler)(void);  /**< function handling the action */
+    uint32_t mode;          /**< mode flags of the action */
+    uint32_t state;         /**< state flags of the action */
+} ui_action_map_t;
+
+#define UI_ACTION_MAP_TERMINATOR { ACTION_NONE, NULL, 0, 0 }
 
 
 /** \brief  Check for valid action name character
@@ -187,7 +200,23 @@ enum {
     ACTION_TAPE_REWIND_2,
     ACTION_TAPE_STOP_1,
     ACTION_TAPE_STOP_2,
-    ACTION_WARP_MODE_TOGGLE
+    ACTION_WARP_MODE_TOGGLE,
+
+    /* VSID actions */
+    ACTION_PSID_LOAD,
+    ACTION_PSID_OVERRIDE_TOGGLE,
+    ACTION_PSID_SUBTUNE_1,
+    ACTION_PSID_SUBTUNE_2,
+    ACTION_PSID_SUBTUNE_3,
+    ACTION_PSID_SUBTUNE_4,
+    ACTION_PSID_SUBTUNE_5,
+    ACTION_PSID_SUBTUNE_6,
+    ACTION_PSID_SUBTUNE_7,
+    ACTION_PSID_SUBTUNE_8,
+    ACTION_PSID_SUBTUNE_9,
+    ACTION_PSID_SUBTUNE_10,
+
+    ACTION_ID_COUNT     /**< number of action IDs */
 };
 
 
@@ -195,6 +224,13 @@ int                 ui_action_get_id(const char *name);
 const char *        ui_action_get_name(int id);
 const char *        ui_action_get_desc(int id);
 ui_action_info_t *  ui_action_get_info_list(void);
+
+void ui_actions_init(void);
+void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *));
+void ui_actions_shutdown(void);
+void ui_actions_add_mappings(const ui_action_map_t *mappings);
+void ui_action_trigger(int action_id);
+void ui_action_finish(int action_id);
 
 /* TODO: implement the following: */
 bool                ui_action_def(int id, const char *hotkey);

@@ -237,7 +237,7 @@ static resource_ram_t *lookup(const char *name)
     hashkey = resources_calc_hash_key(name);
     res = (hashTable[hashkey] >= 0) ? resources + hashTable[hashkey] : NULL;
     while (res != NULL) {
-        if (strcasecmp(res->name, name) == 0) {
+        if (util_strcasecmp(res->name, name) == 0) {
             return res;
         }
         res = (res->hash_next >= 0) ? resources + res->hash_next : NULL;
@@ -641,10 +641,14 @@ void resources_set_value_event(void *data, int size)
     name = data;
     valueptr = name + strlen(name) + 1;
     r = lookup(name);
-    if (r->type == RES_INTEGER) {
-        resources_set_value_internal(r, (resource_value_t) uint_to_void_ptr(*(uint32_t *)valueptr));
+    if (r == NULL) {
+        log_error(LOG_DEFAULT, "resources_set_value_event: resource '%s' does not exist.", name);
     } else {
-        resources_set_value_internal(r, (resource_value_t)valueptr);
+        if (r->type == RES_INTEGER) {
+            resources_set_value_internal(r, (resource_value_t) uint_to_void_ptr(*(uint32_t *)valueptr));
+        } else {
+            resources_set_value_internal(r, (resource_value_t)valueptr);
+        }
     }
 }
 
@@ -1184,7 +1188,6 @@ static const char *versionmessage =
 static int check_resource_file_version(const char *fname)
 {
     FILE *f;
-    int line_num;
     int err = 1;
 
     f = fopen(fname, MODE_READ_TEXT);
@@ -1193,7 +1196,7 @@ static int check_resource_file_version(const char *fname)
     }
 
     /* Find the version tag  */
-    for (line_num = 1;; line_num++) {
+    while(1) {
         char buf[1024];
 
         if (util_get_line(buf, 1024, f) < 0) {
@@ -1201,7 +1204,6 @@ static int check_resource_file_version(const char *fname)
         }
 
         if (check_emu_id(buf, "Version")) {
-            line_num++;
             err = 0;
             break;
         }

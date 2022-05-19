@@ -32,6 +32,10 @@
 #include "archapi.h"
 #undef VICE_ARCHAPI_PRIVATE_API
 
+/* Default MIDI devices. */
+#define ARCHDEP_MIDI_IN_DEV  "0"    /**< MIDI input dev */
+#define ARCHDEP_MIDI_OUT_DEV "0"    /**< MIDI output dev */
+
 /* Filesystem-dependent constants  */
 #define ARCHDEP_FSDEVICE_DEFAULT_DIR "."
 #define ARCHDEP_DIR_SEP_STR "\\"

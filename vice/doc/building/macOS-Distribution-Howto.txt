@@ -32,13 +32,13 @@ dependencies. MacPorts can be configured to compile for older versions of macOS.
 
    SDL2:
    $ <path to VICE source>/configure \
-       --enable-sdlui2 \
+       --enable-sdl2ui \
        --enable-lame \
        --enable-arch=no
-   
+
    Gtk3:
    $ <path to VICE source>/configure \
-       --enable-native-gtk3ui \
+       --enable-gtk3ui \
        --enable-lame \
        --enable-arch=no
 
@@ -46,7 +46,7 @@ dependencies. MacPorts can be configured to compile for older versions of macOS.
    $ make -j
    $ make bindistzip
 
-   At some point soon it would be good to build with --enable-external-ffmpeg,
+   At some point soon it would be good to build with --enable-ffmpeg,
    but without including the dylibs in the bindary distribution and rely on
    locally installed version of ffmpeg. This works, however the app currently
    segfaults if it doesn't find the libs somewhere.

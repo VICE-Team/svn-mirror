@@ -1893,7 +1893,7 @@ int monitor_is_binary(void)
     return connected_socket != NULL;
 }
 
-vice_network_socket_t *monitor_binary_get_connected_socket() {
+vice_network_socket_t *monitor_binary_get_connected_socket(void) {
     return connected_socket;
 }
 
