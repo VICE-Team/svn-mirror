@@ -78,28 +78,61 @@ static gint menu_ref_count = 0;
  * \param[in]   window_id   ID of the parent window:  PRIMARY_WINDOW or
  *                          SECONDARY_WINDOW (x128 only, the VDC window)
  *
+ * \return  pointer to the new item or `NULL` on failure
  * \note    Logs an error and triggers #archdep_vice_exit() when the table is
  *          full.
+ *
+ *
  */
-static void add_menu_item_ref(ui_menu_item_t *decl,
-                              GtkWidget *item,
-                              gulong handler_id,
-                              gint window_id)
+static ui_menu_item_ref_t *add_menu_item_ref(ui_menu_item_t *decl,
+                                             GtkWidget *item,
+                                             gulong handler_id,
+                                             gint window_id)
 {
     if (menu_ref_count == MENU_REFERENCES_MAX) {
         log_error(LOG_ERR,
                   "%s: menu item references table is FULL",
                   __func__);
         archdep_vice_exit(1);
+        return NULL;
     } else {
-        ui_menu_item_ref_t *ref = &menu_item_references[menu_ref_count];
-        ref->decl = decl;
-        ref->item = item;
-        ref->handler_id = handler_id;
-        ref->window_id = window_id;
-        menu_ref_count++;
-        debug_gtk3("added item %d, action ID = %d, window ID = %d",
-                menu_ref_count, decl->action_id, window_id);
+        ui_menu_item_ref_t *ref = NULL;
+
+        /* If we have an item for the secondary window we look up the corresponding
+         * item of the primary window */
+        if (window_id == SECONDARY_WINDOW) {
+            gint index;
+
+            for (index = 0; index < menu_ref_count; index++) {
+                ref = &menu_item_references[index];
+                if (ref->decl == decl) {
+                    ref->item[SECONDARY_WINDOW] = item;
+                    ref->handler_id[SECONDARY_WINDOW] = handler_id;
+                    debug_gtk3("updated item %d, action ID = %d, window ID = %d",
+                               index, decl->action_id, window_id);
+                    return ref;
+                }
+            }
+            log_error(LOG_ERR,
+                      "%s: failed to find corresponding primary window item for"
+                      " secondary window item.",
+                      __func__);
+            return NULL;
+
+        } else {
+            ref = &menu_item_references[menu_ref_count];
+            ref->decl = decl;
+            ref->item[PRIMARY_WINDOW] = item;
+            ref->item[SECONDARY_WINDOW] = NULL;
+            ref->handler_id[PRIMARY_WINDOW] = handler_id;
+            ref->handler_id[SECONDARY_WINDOW] = 0;
+            menu_ref_count++;
+            debug_gtk3("added item %d, action ID = %d, window ID = %d",
+                    menu_ref_count, decl->action_id, window_id);
+
+
+        }
+        return ref;
     }
 }
 
@@ -122,33 +155,24 @@ static gboolean valid_window_id(gint window_id)
 }
 
 
-/** \brief  Get menu item references by action ID and window ID
+/** \brief  Get menu item references by action ID
  *
- * Look up runtime menu item reference by \a action_id and \a window_id.
- * The window ID is required for x128 since each x128 GtkWindow has its own
- * instance of a GtkMenuItem, though the same menu structure is used for
- * both GtkWindows (a GtkWidget cannot have two parents, bleh).
+ * Look up runtime menu item reference by \a action_id.
  *
  * \param[in]   action_id   UI action ID
- * \param[in]   window_id   window ID (PRIMARY_WINDOW or SECONDARY_WINDOW)
  *
  * \return  reference or `NULL` when not found
  *
  * \see src/arch/shared/uiactions.h for the IDs.
  */
-ui_menu_item_ref_t *ui_menu_item_ref_by_action(gint action_id, gint window_id)
+ui_menu_item_ref_t *ui_menu_item_ref_by_action(gint action_id)
 {
-    if (!valid_window_id(window_id)) {
-        return NULL;
-    }
-
     if (action_id > ACTION_NONE && action_id < ACTION_ID_COUNT) {
         gint i = 0;
         for (i = 0; i < menu_ref_count; i++) {
             ui_menu_item_ref_t *ref = &menu_item_references[i];
 
-            if (ref->decl->action_id == action_id
-                    && ref->window_id == window_id) {
+            if (ref->decl->action_id == action_id) {
                 return ref;
             }
         }
@@ -183,21 +207,15 @@ gint ui_menu_item_ref_count(void)
 
 /** \brief  Get item reference by hotkey mask and keysym
  *
- * \param[in]   window_id   window ID (#PRIMARY_WINDOW or #SECONDARY_WINDOW)
  * \param[in]   keysym      Gdk keysym
  * \param[in]   modifier    Gdk modifier mask
  *
  * \return  item or `NULL` when not found
  */
-ui_menu_item_ref_t *ui_menu_item_ref_by_hotkey(gint window_id,
-                                               guint keysym,
+ui_menu_item_ref_t *ui_menu_item_ref_by_hotkey(guint keysym,
                                                GdkModifierType modifier)
 {
     gint i;
-
-    if (!valid_window_id(window_id)) {
-        return NULL;
-    }
 
     for (i = 0; i < menu_ref_count; i++) {
         GtkAccelLabel *label;
@@ -206,12 +224,10 @@ ui_menu_item_ref_t *ui_menu_item_ref_by_hotkey(gint window_id,
         ui_menu_item_ref_t *ref;
 
         ref = &menu_item_references[i];
-        if (ref->window_id == window_id) {
-            label = GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(ref->item)));
-            gtk_accel_label_get_accel(label, &item_keysym, &item_modifier);
-            if (item_keysym == keysym && item_modifier == modifier) {
-                return ref;
-            }
+        label = GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(ref->item)));
+        gtk_accel_label_get_accel(label, &item_keysym, &item_modifier);
+        if (item_keysym == keysym && item_modifier == modifier) {
+            return ref;
         }
     }
     return NULL;
@@ -272,9 +288,12 @@ static void handle_accelerator(GtkAccelGroup *accel_grp,
                                GdkModifierType modifier,
                                gpointer user_data)
 {
+    GtkWidget *item;
     ui_menu_item_ref_t *ref = user_data;
     ui_menu_item_t *decl = ref->decl;
-    GtkWidget *item = ref->item;
+    gint window_index = ui_get_main_window_index();
+
+    item = ref->item[window_index];
 
     if (decl->type == UI_MENU_TYPE_ITEM_CHECK) {
         /* check items get the 'resource' member as event data */
@@ -569,20 +588,36 @@ void ui_set_check_menu_item_blocked_by_action_for_window(gint action_id,
 
 /** \brief  Remove accelerator from a menu item via item ref
  *
+ * Removes accelerators from menu items via \a ref from the primary and
+ * secondary (x128 only) window.
+ *
  * \param[in]   ref     menu item reference
  *
- * \return  bool
+ * \return  `TRUE` on success
  */
 gboolean ui_menu_remove_accel_via_item_ref(ui_menu_item_ref_t *ref)
 {
     GtkWidget *label;
 
-    label = gtk_bin_get_child(GTK_BIN(ref->item));
-    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+    if (ref->item[PRIMARY_WINDOW] != NULL) {
+        label = gtk_bin_get_child(GTK_BIN(ref->item[PRIMARY_WINDOW]));
+        gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+    }
+    if (ref->item[SECONDARY_WINDOW] != NULL) {
+        label = gtk_bin_get_child(GTK_BIN(ref->item[SECONDARY_WINDOW]));
+        gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+    }
     return gtk_accel_group_disconnect_key(accel_group, ref->keysym, ref->modifier);
 }
 
 
+/** \brief  Remove accelerator from global accelerator group
+ *
+ * \param[in]   keysym      Gdk keysym
+ * \param[in]   modifier    Gdk modifier mask
+ *
+ * \return  `TRUE` on success
+ */
 gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier)
 {
     return gtk_accel_group_disconnect_key(accel_group, keysym, modifier);
@@ -599,7 +634,7 @@ gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier)
  * hide the menu (fullscreen). With closures in an accelerator group we can
  * still trigger the handlers, even in fullscreen.
  *
- * \note    We can't use ref->item_gtk here since we also want to be able to
+ * \note    We can't use ref->item[] here since we also want to be able to
  *          set an accelerator for popup menu items.
  *
  *
@@ -712,21 +747,17 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
                                            guint keysym,
                                            GdkModifierType modifier)
 {
-    ui_menu_item_ref_t *ref;
-    ui_menu_item_ref_t *ref_vdc = NULL; /* x128 VDC window menu item ref */
     GtkWidget *child;
     GClosure *accel_closure;
+    ui_menu_item_ref_t *ref;
 
     debug_gtk3("setting action %d: keysym %u, mods %u",
                 action_id, keysym, modifier);
 
-    ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
+    ref = ui_menu_item_ref_by_action(action_id);
     if (ref == NULL) {
         debug_gtk3("failed to find item.");
         return FALSE;
-    }
-    if (machine_class == VICE_MACHINE_C128) {
-        ref_vdc = ui_menu_item_ref_by_action(action_id, SECONDARY_WINDOW);
     }
 
     debug_gtk3("removing old accelerator from group");
@@ -734,16 +765,6 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
     /* set new accel */
     ref->keysym = keysym;
     ref->modifier = modifier;
-    if (ref_vdc != NULL) {
-        /* TODO: Update the ui_menu_item_ref_t struct to contain references
-         *       to both the primary window's menu item and secondary window's
-         *       menu item (in case of x128), the rest of the data can be shared
-         *       between the windows.
-         */
-        ref_vdc->keysym = keysym;
-        ref_vdc->modifier = modifier;
-    }
-
 
     debug_gtk3("Setting new accelerator");
     accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
@@ -763,32 +784,15 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
                                              accel_closure);
     }
 
-    child = gtk_bin_get_child(GTK_BIN(ref->item));
+    child = gtk_bin_get_child(GTK_BIN(ref->item[PRIMARY_WINDOW]));
     gtk_accel_label_set_accel(GTK_ACCEL_LABEL(child), keysym, modifier);
-    if (ref_vdc != NULL) {
-        /* add accelerator to the VDC window in case of x128 */
-        child = gtk_bin_get_child(GTK_BIN(ref_vdc->item));
+    if (ref->item[SECONDARY_WINDOW] != NULL) {
+        /* add accelerator to the VDC window  */
+        child = gtk_bin_get_child(GTK_BIN(ref->item[SECONDARY_WINDOW]));
         gtk_accel_label_set_accel(GTK_ACCEL_LABEL(child), keysym, modifier);
     }
 
     return TRUE;
-
-
-#if 0
-    if (!ui_set_menu_item_hotkey_by_action_for_window(action_id,
-                                                      PRIMARY_WINDOW,
-                                                      keysym,
-                                                      modifier)) {
-        return FALSE;
-    }
-    if (machine_class == VICE_MACHINE_C128) {
-        return ui_set_menu_item_hotkey_by_action_for_window(action_id,
-                                                            SECONDARY_WINDOW,
-                                                            keysym,
-                                                            modifier);
-    }
-    return TRUE;
-#endif
 }
 
 
@@ -800,13 +804,10 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
  *
  * \return  pointer to menu item or `NULL` when not found
  */
-ui_menu_item_t *ui_get_menu_decl_by_hotkey(gint window_id,
-                                           guint keysym,
+ui_menu_item_t *ui_get_menu_decl_by_hotkey(guint keysym,
                                            GdkModifierType modifier)
 {
-    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_hotkey(window_id,
-                                                         keysym,
-                                                         modifier);
+    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_hotkey(keysym, modifier);
     return ref != NULL ? ref->decl : NULL;
 }
 
@@ -832,19 +833,17 @@ void ui_clear_menu_hotkeys(void)
 /** \brief  Get hotkey for action of the given window
  *
  * \param[in]   action_id   action ID
- * \param[in]   window_id   window ID
  * \param[out]  keysym      Gdk keysym
  * \param[out]  modifier    Gdk modifier mask
  *
  * \return  TRUE on success
  */
-gboolean ui_get_menu_item_hotkey_by_action_for_window(gint action_id,
-                                                      gint window_id,
-                                                      guint *keysym,
-                                                      GdkModifierType *modifier)
+gboolean ui_get_menu_item_hotkey_by_action(gint action_id,
+                                           guint *keysym,
+                                           GdkModifierType *modifier)
 {
 
-    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id, window_id);
+    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id);
 
     if (ref != NULL) {
         *keysym = ref->keysym;
@@ -857,27 +856,6 @@ gboolean ui_get_menu_item_hotkey_by_action_for_window(gint action_id,
     }
 }
 
-/** \brief  Get hotkey for action of the current window
- *
- * \param[in]   action_id   action ID
- * \param[out]  keysym      Gdk keysym
- * \param[out]  modifier    Gdk modifier mask
- *
- * \return  TRUE on success
- */
-gboolean ui_get_menu_item_hotkey_by_action(gint action_id,
-                                           guint *keysym,
-                                           GdkModifierType *modifier)
-{
-
-    gint window_id = ui_get_main_window_index();
-
-    return ui_get_menu_item_hotkey_by_action_for_window(action_id,
-                                                        window_id,
-                                                        keysym,
-                                                        modifier);
-}
-
 
 /** \brief  Get menu item declaration for action ID
  *
@@ -885,10 +863,9 @@ gboolean ui_get_menu_item_hotkey_by_action(gint action_id,
  *
  * \return  pointer to menu item declaration or `NULL` when not found
  */
-ui_menu_item_t *ui_get_menu_decl_by_action_for_window(gint action_id,
-                                                      gint window_id)
+ui_menu_item_t *ui_get_menu_decl_by_action(gint action_id)
 {
-    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id, window_id);
+    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id);
     return ref != NULL ? ref->decl : NULL;
 }
 
@@ -905,8 +882,14 @@ ui_menu_item_t *ui_get_menu_decl_by_action_for_window(gint action_id,
 GtkWidget *ui_get_menu_item_by_action_for_window(gint action_id,
                                                  gint window_id)
 {
-    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id, window_id);
-    return ref != NULL ? ref->item : NULL;
+
+    if (valid_window_id(window_id)) {
+        ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id);
+        if (ref != NULL) {
+            return ref->item[window_id];
+        }
+    }
+    return NULL;
 }
 
 
@@ -922,10 +905,13 @@ GtkWidget *ui_get_menu_item_by_hotkey_for_window(gint window_id,
                                                  guint keysym,
                                                  GdkModifierType modifier)
 {
-    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_hotkey(window_id,
-                                                         keysym,
-                                                         modifier);
-    return ref != NULL ? ref->item : NULL;
+    if (valid_window_id(window_id)) {
+        ui_menu_item_ref_t *ref = ui_menu_item_ref_by_hotkey(keysym, modifier);
+        if (ref != NULL) {
+            return ref->item[window_id];
+        }
+    }
+    return NULL;
 }
 
 

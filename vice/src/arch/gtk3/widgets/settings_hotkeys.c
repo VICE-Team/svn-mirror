@@ -252,13 +252,12 @@ static GtkListStore *create_hotkeys_model(void)
         char *hotkey;
 
         /* is the action present in the current menu structure? */
-        item = ui_get_menu_item_by_action_for_window(action->id,
-                                                     PRIMARY_WINDOW);
+        item = ui_get_menu_item_by_action_for_window(action->id, PRIMARY_WINDOW);
         if (item != NULL) {
             /* FIXME:   We're always using the primary window, but if we decide
              *          to have separate hotkeys for the x128 windows, this must
              *          be updated: */
-            hotkey = ui_hotkeys_get_hotkey_string_for_action(action->id, PRIMARY_WINDOW);
+            hotkey = ui_hotkeys_get_hotkey_string_for_action(action->id);
             gtk_list_store_append(model, &iter);
             gtk_list_store_set(model,
                                &iter,
@@ -543,8 +542,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
              *      flag, so we mask out any reserved bits:
              * TODO: Better do the masking out in the called function */
 
-            ref = ui_menu_item_ref_by_hotkey(PRIMARY_WINDOW,
-                                             hotkey_keysym,
+            ref = ui_menu_item_ref_by_hotkey(hotkey_keysym,
                                              hotkey_mask & accepted_mods);
             if (ref != NULL) {
                 /* TODO: refactor this a bit: */
@@ -553,9 +551,13 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                            ui_action_get_name(ref->decl->action_id));
                 /* remove accelerator from group */
                 ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
-                /* remove accelerator from item */
-                label = gtk_bin_get_child(GTK_BIN(ref->item));
+                /* remove accelerator from item(s) */
+                label = gtk_bin_get_child(GTK_BIN(ref->item[PRIMARY_WINDOW]));
                 gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+                if (ref->item[SECONDARY_WINDOW] != NULL) {
+                    label = gtk_bin_get_child(GTK_BIN(ref->item[SECONDARY_WINDOW]));
+                    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+                }
                 /* remove accelerator from table */
                 if (!remove_treeview_hotkey(accel)) {
                     /* since we found the menu item via the hotkey, the call
@@ -568,7 +570,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 
 
             debug_gtk3("Looking up action '%s'.", ui_action_get_name(action_id));
-            ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
+            ref = ui_menu_item_ref_by_action(action_id);
             if (ref != NULL) {
                 /* update vice item and gtk item */
                 debug_gtk3("FOUND.");
@@ -579,7 +581,10 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 ref->modifier = hotkey_mask & accepted_mods;
                 /* now update the accelerator and closure with the updated
                  * vice menu item */
-                ui_menu_set_accel_via_item_ref(ref->item, ref);
+                ui_menu_set_accel_via_item_ref(ref->item[PRIMARY_WINDOW], ref);
+                if (ref->item[SECONDARY_WINDOW] != NULL) {
+                    ui_menu_set_accel_via_item_ref(ref->item[SECONDARY_WINDOW], ref);
+                }
                 /* update treeview */
                 update_treeview_hotkey(accel);
             } else {
@@ -593,8 +598,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             debug_gtk3("Response ID %d: Clear '%s'",
                        response_id, ui_action_get_name(action_id));
 
-            ref = ui_menu_item_ref_by_action(action_id, PRIMARY_WINDOW);
-            /* FIXME: also handle the x128 VDC window */
+            ref = ui_menu_item_ref_by_action(action_id);
 #if 0
             debug_gtk3("item_vice = %p, item_gtk = %p.",
                     (void*)item_vice, (void*)item_gtk);

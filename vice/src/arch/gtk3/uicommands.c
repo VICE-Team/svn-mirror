@@ -173,7 +173,7 @@ gboolean ui_action_toggle_keyset_joystick(void)
  */
 gboolean ui_action_toggle_mouse_grab(void)
 {
-    GtkWindow *window;
+    GtkWidget *window;
     int mouse;
     gchar title[256];
 
@@ -185,8 +185,7 @@ gboolean ui_action_toggle_mouse_grab(void)
         ui_menu_item_ref_t *ref;
         gchar *name;
 
-        ref =  ui_menu_item_ref_by_action(ACTION_MOUSE_GRAB_TOGGLE,
-                                          PRIMARY_WINDOW);
+        ref =  ui_menu_item_ref_by_action(ACTION_MOUSE_GRAB_TOGGLE);
         name = gtk_accelerator_name(ref->keysym, ref->modifier);
         g_snprintf(title, sizeof(title),
                 "VICE (%s) (Use %s to disable mouse grab)",
@@ -198,8 +197,14 @@ gboolean ui_action_toggle_mouse_grab(void)
                 machine_get_name());
     }
 
-    window = ui_get_active_window();
-    gtk_window_set_title(window, title);
+    window = ui_get_main_window_by_index(PRIMARY_WINDOW);
+    if (window != NULL) {
+        gtk_window_set_title(GTK_WINDOW(window), title);
+    }
+    window = ui_get_main_window_by_index(SECONDARY_WINDOW);
+    if (window != NULL) {
+        gtk_window_set_title(GTK_WINDOW(window), title);
+    }
 
     ui_set_check_menu_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE, mouse);
 
