@@ -75,6 +75,7 @@ sdl_keymaps = \
 	sdl_sym_de.vkm \
 	sdl_sym_nl.vkm \
 	sdl_sym_fr.vkm \
+	sdl_sym_tr.vkm \
 	sdl_sym_da.vkm
 
 sdl_hotkeys = \
