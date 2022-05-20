@@ -514,7 +514,6 @@ static gboolean remove_treeview_hotkey(const gchar *accel)
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
     gchar *accel;
-    GtkWidget *label;
     ui_menu_item_ref_t *ref;
     int action_id = GPOINTER_TO_INT(data);
 
@@ -540,8 +539,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
              * from that action/menu item */
             /* XXX: somehow the mask gets OR'ed with $2000, which is a reserved
              *      flag, so we mask out any reserved bits:
-             * TODO: Better do the masking out in the called function */
-
+             */
             ref = ui_menu_item_ref_by_hotkey(hotkey_keysym,
                                              hotkey_mask & accepted_mods);
             if (ref != NULL) {
@@ -549,49 +547,35 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 debug_gtk3("Removing old hotkey: label: %s, action: %s.",
                            ref->decl->label,
                            ui_action_get_name(ref->decl->action_id));
-                /* remove accelerator from group */
-                ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
-                /* remove accelerator from item(s) */
-                label = gtk_bin_get_child(GTK_BIN(ref->item[PRIMARY_WINDOW]));
-                gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
-                if (ref->item[SECONDARY_WINDOW] != NULL) {
-                    label = gtk_bin_get_child(GTK_BIN(ref->item[SECONDARY_WINDOW]));
-                    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
-                }
+                /* remove accelerator from group and menu item(s) */
+                ui_menu_remove_accel_via_item_ref(ref);
                 /* remove accelerator from table */
                 if (!remove_treeview_hotkey(accel)) {
                     /* since we found the menu item via the hotkey, the call
                      * shouldn't have failed */
                     debug_gtk3("Failed to remove hotkey from table!");
                 }
-                ref->keysym = 0;
-                ref->modifier = 0;
             }
 
 
             debug_gtk3("Looking up action '%s'.", ui_action_get_name(action_id));
             ref = ui_menu_item_ref_by_action(action_id);
             if (ref != NULL) {
-                /* update vice item and gtk item */
                 debug_gtk3("FOUND.");
-                /* remove old accelerator */
-                ui_menu_remove_accel(hotkey_keysym, hotkey_mask & accepted_mods);
-                /* update item ref */
-                ref->keysym = hotkey_keysym;
-                ref->modifier = hotkey_mask & accepted_mods;
-                /* now update the accelerator and closure with the updated
-                 * vice menu item */
-                ui_menu_set_accel_via_item_ref(ref->item[PRIMARY_WINDOW], ref);
-                if (ref->item[SECONDARY_WINDOW] != NULL) {
-                    ui_menu_set_accel_via_item_ref(ref->item[SECONDARY_WINDOW], ref);
-                }
+                /* remove old accelerator(s), set new accelerator(s) and connect
+                 * closure(s) */
+                ui_menu_update_accel_via_item_ref(ref,
+                                                  hotkey_keysym,
+                                                  hotkey_mask & accepted_mods);
                 /* update treeview */
                 update_treeview_hotkey(accel);
             } else {
                 debug_gtk3("NOT FOUND.");
             }
 
-            g_free(accel);
+            if (accel != NULL) {
+                g_free(accel);
+            }
             break;
 
         case RESPONSE_CLEAR:
@@ -607,9 +591,6 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 debug_gtk3("Got item ref.");
                 /* remove old accelerator */
                 ui_menu_remove_accel_via_item_ref(ref);
-                /* update menu item ref */
-                ref->keysym = 0;
-                ref->modifier = 0;
                 /* update treeview */
                 update_treeview_hotkey(NULL);
             }
