@@ -70,12 +70,6 @@ void        ui_menu_set_accel_via_item_ref(GtkWidget *item_gtk3,
 
 gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier);
 
-#if 0
-gboolean ui_set_menu_item_hotkey_by_action_for_window(gint action_id,
-                                                      gint window_id,
-                                                      guint keysym,
-                                                      GdkModifierType modifier);
-#endif
 
 gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
                                            guint keysym,
@@ -97,7 +91,6 @@ void ui_set_menu_item_accel_label(GtkWidget *item, gint action_id);
 GtkWidget *ui_get_menu_item_by_hotkey_for_window(gint window_id,
                                                  guint keysym,
                                                  GdkModifierType modifier);
-
 
 
 void ui_clear_menu_hotkeys(void);
