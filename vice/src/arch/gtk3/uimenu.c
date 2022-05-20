@@ -218,15 +218,9 @@ ui_menu_item_ref_t *ui_menu_item_ref_by_hotkey(guint keysym,
     gint i;
 
     for (i = 0; i < menu_ref_count; i++) {
-        GtkAccelLabel *label;
-        guint item_keysym;
-        guint item_modifier;
-        ui_menu_item_ref_t *ref;
+        ui_menu_item_ref_t *ref = &menu_item_references[i];
 
-        ref = &menu_item_references[i];
-        label = GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(ref->item)));
-        gtk_accel_label_get_accel(label, &item_keysym, &item_modifier);
-        if (item_keysym == keysym && item_modifier == modifier) {
+        if (ref->keysym == keysym && ref->modifier == modifier) {
             return ref;
         }
     }
