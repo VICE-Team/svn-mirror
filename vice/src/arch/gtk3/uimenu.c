@@ -576,10 +576,24 @@ void ui_set_check_menu_item_blocked_by_action_for_window(gint action_id,
 }
 
 
-/** \brief  Remove accelerator from a menu item via item ref
+/** \brief  Remove accelerator from global accelerator group
+ *
+ * \param[in]   keysym      Gdk keysym
+ * \param[in]   modifier    Gdk modifier mask
+ *
+ * \return  `TRUE` on success
+ */
+gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier)
+{
+    return gtk_accel_group_disconnect_key(accel_group, keysym, modifier);
+}
+
+
+/** \brief  Remove accelerator from menu items and ref via item ref
  *
  * Removes accelerators from menu items via \a ref from the primary and
- * secondary (x128 only) window.
+ * secondary (x128 only) window and from the accelerator group, and clears the
+ * modifier + keysym in \a ref.
  *
  * \param[in]   ref     menu item reference
  *
@@ -597,20 +611,30 @@ gboolean ui_menu_remove_accel_via_item_ref(ui_menu_item_ref_t *ref)
         label = gtk_bin_get_child(GTK_BIN(ref->item[SECONDARY_WINDOW]));
         gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
     }
+    ref->keysym = 0;
+    ref->modifier = 0;
     return gtk_accel_group_disconnect_key(accel_group, ref->keysym, ref->modifier);
 }
 
 
-/** \brief  Remove accelerator from global accelerator group
- *
- * \param[in]   keysym      Gdk keysym
- * \param[in]   modifier    Gdk modifier mask
- *
- * \return  `TRUE` on success
- */
-gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier)
+/** \brief  Update accelerator of menu items and ref via item ref
+*/
+void ui_menu_update_accel_via_item_ref(ui_menu_item_ref_t *ref,
+                                       guint keysym,
+                                       GdkModifierType modifier)
 {
-    return gtk_accel_group_disconnect_key(accel_group, keysym, modifier);
+    /* remove old accel and disconnect from group, if any */
+    ui_menu_remove_accel_via_item_ref(ref);
+
+    /* set new hotkey data */
+    ref->keysym = keysym;
+    ref->modifier = modifier;
+
+    /* set menu item(s)' accelerators and connect closure(s) */
+    ui_menu_set_accel_via_item_ref(ref->item[PRIMARY_WINDOW], ref);
+    if (ref->item[SECONDARY_WINDOW] != NULL) {
+        ui_menu_set_accel_via_item_ref(ref->item[SECONDARY_WINDOW], ref);
+    }
 }
 
 
