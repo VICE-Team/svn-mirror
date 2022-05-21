@@ -125,8 +125,6 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
             parent,
             CARTRIDGE_NAME_RAMLINK " RAM Image",
             "RAMLINKfilename", "RAMLINKImageWrite",
-            carthelpers_save_func, carthelpers_flush_func,
-            carthelpers_can_save_func, carthelpers_can_flush_func,
             CARTRIDGE_NAME_RAMLINK, CARTRIDGE_RAMLINK);
 
     gtk_grid_attach(GTK_GRID(grid), cart_widget, 0, 5, 4, 1);

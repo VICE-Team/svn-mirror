@@ -229,30 +229,6 @@ static gchar *last_dir = NULL;
 static gchar *last_file = NULL;
 
 
-/* list of cartridge handling functions (to avoid vsid link errors) */
-
-/** \brief  Machine-specific cart type detection function pointer */
-static int  (*crt_detect_func)(const char *filename) = NULL;
-
-/** \brief  Machine-specific cart attach function pointer */
-static int  (*crt_attach_func)(int type, const char *filename) = NULL;
-
-/** \brief  Machine-specific cart freeze function pointer */
-static void (*crt_freeze_func)(void) = NULL;
-
-/** \brief  Machine-specific cart detach function pointer */
-static void (*crt_detach_func)(int type) = NULL;
-
-/** \brief  Machine-specific cart info retrieval function pointer */
-static cartridge_info_t *(*crt_list_func)(void) = NULL;
-
-/** \brief  Machine-specific cart set-default function pointer */
-static void (*crt_set_default_func)(void) = NULL;
-
-/** \brief  Machine-specific cart unset-default function pointer */
-static void (*crt_unset_default_func)(void) = NULL;
-
-
 /* References to widgets used in various event handlers */
 
 /** \brief  Reference to the cart dialog */
@@ -319,7 +295,7 @@ static void (*extra_attach_callback)(void) = NULL;
 static void uicart_confirm_detach_callback(GtkDialog *dialog, gboolean result)
 {
     if (result) {
-        crt_unset_default_func();
+        cartridge_unset_default();
     }
 }
 
@@ -667,14 +643,14 @@ static int attach_cart_image(int type, int id, const char *path)
             break;
     }
     /* printf("id:%d path:%s\n", id, path); */
-    if ((crt_attach_func(id, path) == 0)) {
+    if ((cartridge_attach_image(id, path) == 0)) {
         /* check 'set default' */
         if ((cart_set_default_widget != NULL)
                 & (gtk_toggle_button_get_active(
                         GTK_TOGGLE_BUTTON(cart_set_default_widget)))) {
             /* set cart as default, there's no return value, so let's assume
              * this works */
-            crt_set_default_func();
+            cartridge_set_default();
         }
         return 1;
     }
@@ -743,14 +719,10 @@ static GtkListStore *create_cart_id_model(unsigned int flags)
     int i;
 
     model = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_UINT);
-
-    if (crt_list_func != NULL) {
-        list = crt_list_func();
-    } else {
+    list = cartridge_get_info_list();
+    if (list == NULL) {
         return model;
     }
-
-
     for (i = 0; list[i].name != NULL; i++) {
         if (list[i].flags & flags) {
             gtk_list_store_append(model, &iter);
@@ -1001,91 +973,13 @@ static void  update_preview(GtkFileChooser *file_chooser, gpointer data)
 }
 
 
-/** \brief  Set function to get a list of cartridges
- *
- * \param[in]   func    list function
- */
-void ui_cart_set_list_func(cartridge_info_t *(*func)(void))
-{
-    crt_list_func = func;
-}
-
-
-
-
-/** \brief  Set function to detect a cartridge's type
- *
- * Appears to be CBM2/Plus4 only
- *
- * \param[in]   func    detect function
- */
-void ui_cart_set_detect_func(int (*func)(const char *))
-{
-    crt_detect_func = func;
-}
-
-
-/** \brief  Set function to attach a cartridge image
- *
- * \param[in]   func    attach function
- */
-void ui_cart_set_attach_func(int (*func)(int, const char *))
-{
-    crt_attach_func = func;
-}
-
-
-/** \brief  Set function to trigger a cartridge freeze-button click
- *
- * \param[in]   func    freeze function
- */
-void ui_cart_set_freeze_func(void (*func)(void))
-{
-    crt_freeze_func = func;
-}
-
-
-/** \brief  Set function to detach a/all cartridges
- *
- * \param[in]   func    freeze function
- */
-void ui_cart_set_detach_func(void (*func)(int))
-{
-    crt_detach_func = func;
-}
-
-
-/** \brief  Set function to set active cart as default
- *
- * \param[in]   func    default func
- */
-void ui_cart_set_set_default_func(void (*func)(void))
-{
-    crt_set_default_func = func;
-}
-
-/** \brief  Set function to set active cart as default
- *
- * \param[in]   func    default func
- */
-void ui_cart_set_unset_default_func(void (*func)(void))
-{
-    crt_unset_default_func = func;
-}
-
-
 /** \brief  Trigger cartridge freeze
- *
- * Called from the menu
- *
  *
  * \return  TRUE
  */
 gboolean ui_cart_trigger_freeze(void)
 {
-    if (crt_freeze_func != NULL) {
-        crt_freeze_func();
-    }
+    cartridge_trigger_freeze();
     return TRUE;
 }
 
@@ -1102,44 +996,25 @@ gboolean ui_cart_detach(void)
 {
     int cartid = CARTRIDGE_NONE;
 
-    if (crt_detach_func != NULL) {
+    /* determine if one of the attached cartridges is set as default
+       cartridge, and if so ask if it should be removed from default also */
 
-        /* determine if one of the attached cartridges is set as default
-           cartridge, and if so ask if it should be removed from default also */
-
-        /* first check if the set_default and unset_default functions exist. some
-           emulators do not have this feature, in this case we just use detach */
-        if (crt_set_default_func != NULL) {
-            if (crt_unset_default_func != NULL) {
-                /* when both functions exist, check if the default is actually set */
-                /* FIXME: perhaps we should have a dedicated function for getting the,
-                          id of slot1 default cart, however this will work for a start */
-                resources_get_int("CartridgeType", &cartid);
-                if (cartid != CARTRIDGE_NONE) {
-                    /* default is set, ask to remove it */
-                    vice_gtk3_message_confirm(
-                            uicart_confirm_detach_callback,
-                            "Detach cartridge",
-                            "You're detaching the default cartridge.\n\n"
-                            "Would you also like to unregister this cartridge"
-                            " as the default cartridge?");
-#if 0
-                    if (result) {
-                        crt_unset_default_func();
-                    }
-#endif
-                }
-                /* FIXME: the above will only check/ask for "slot1" cartridges. other
-                          cartridges have seperate "enable" resources which would
-                          have to be checked individually. perhaps make a dedicated
-                          function for this later */
-            } else {
-                log_message(LOG_DEFAULT, "FIXME: cartridge_set_default exists, but cartridge_unset_default is not implemented");
-            }
-        }
-
-        crt_detach_func(-1);    /* detach all cartridges */
+    resources_get_int("CartridgeType", &cartid);
+    if (cartid != CARTRIDGE_NONE) {
+        /* default is set, ask to remove it */
+        vice_gtk3_message_confirm(
+                uicart_confirm_detach_callback,
+                "Detach cartridge",
+                "You're detaching the default cartridge.\n\n"
+                "Would you also like to unregister this cartridge"
+                " as the default cartridge?");
     }
+    /* FIXME: the above will only check/ask for "slot1" cartridges. other
+              cartridges have seperate "enable" resources which would
+              have to be checked individually. perhaps make a dedicated
+              function for this later */
+
+    cartridge_detach_image(-1);    /* detach all cartridges */
     return TRUE;
 }
 

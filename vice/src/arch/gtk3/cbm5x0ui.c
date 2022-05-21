@@ -33,7 +33,6 @@
 #include "debug_gtk3.h"
 #include "cbm2model.h"
 #include "cartridge.h"
-#include "carthelpers.h"
 #include "crtcontrolwidget.h"
 #include "machine.h"
 #include "machinemodelwidget.h"
@@ -122,27 +121,6 @@ int cbm5x0ui_init(void)
     video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(cbm5x0_vicii_models);
-
-    /* I/O extension function pointers */
-    carthelpers_set_functions(
-            NULL, /* cartridge_save_image */
-            NULL, /* cartridge_flush_image */
-            NULL, /* cartridge_type_enabled */
-            NULL, /* cartridge_enable */
-            NULL, /* cartridge_disable */
-            NULL, /* cartridge_can_save_image */
-            NULL, /* cartridge_can_flush_image */
-            NULL,
-            NULL,
-            NULL);
-
-    /* ui_cart_set_detect_func(cartridge_detect); only cbm2/plus4 */
-    /*ui_cart_set_list_func(cartridge_get_info_list);*/
-    ui_cart_set_attach_func(cartridge_attach_image);
-    /*ui_cart_set_freeze_func(cartridge_trigger_freeze);*/
-    ui_cart_set_detach_func(cartridge_detach_image);
-    /*ui_cart_set_set_default_func(cartridge_set_default);*/
-    /*ui_cart_set_unset_default_func(cartridge_unset_default);*/
 
     settings_model_widget_set_model_func(cbm2model_get);
     return 0;

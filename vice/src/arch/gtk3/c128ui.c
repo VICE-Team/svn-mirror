@@ -48,21 +48,6 @@
 #include "clockport.h"
 
 #include "cartridge.h"
-#include "reu.h"
-#include "reuwidget.h"
-#include "ramcartwidget.h"
-#include "dqbbwidget.h"
-#include "expertwidget.h"
-#include "isepicwidget.h"
-#include "gmod2widget.h"
-#include "gmod3widget.h"
-#include "mmcrwidget.h"
-#include "mmc64widget.h"
-#include "retroreplaywidget.h"
-#include "easyflashwidget.h"
-#include "rrnetmk3widget.h"
-#include "uicart.h"
-#include "carthelpers.h"
 #include "tapecart.h"
 #include "tapeportdeviceswidget.h"
 #include "c128model.h"
@@ -163,27 +148,6 @@ int c128ui_init(void)
     video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(c128_vicii_models);
-
-    /* I/O extension function pointers */
-    carthelpers_set_functions(
-            cartridge_save_image,
-            cartridge_flush_image,
-            cartridge_type_enabled,
-            cartridge_enable,
-            cartridge_disable,
-            cartridge_can_save_image,
-            cartridge_can_flush_image,
-            cartridge_set_default,
-            cartridge_unset_default,
-            cartridge_get_info_list);
-
-    /* ui_cart_set_detect_func(cartridge_detect); only cbm2/plus4 */
-    ui_cart_set_list_func(cartridge_get_info_list);
-    ui_cart_set_attach_func(cartridge_attach_image);
-    ui_cart_set_freeze_func(cartridge_trigger_freeze);
-    ui_cart_set_detach_func(cartridge_detach_image);
-    ui_cart_set_set_default_func(cartridge_set_default);
-    ui_cart_set_unset_default_func(cartridge_unset_default);
 
     /* set model getter for the model settings dialog */
     settings_model_widget_set_model_func(c128model_get);

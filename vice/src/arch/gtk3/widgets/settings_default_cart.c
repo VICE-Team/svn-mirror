@@ -174,13 +174,11 @@ static void attach_callback(void)
  */
 static void on_set_default_clicked(GtkWidget *widget, gpointer data)
 {
-     if (carthelpers_set_default_func != NULL) {
-        debug_gtk3("Setting current cart as default cart.");
-        carthelpers_set_default_func();
-        update_cart_file_widget();
-        update_cart_type_widget();
-        update_buttons();
-    }
+    debug_gtk3("Setting current cart as default cart.");
+    cartridge_set_default();
+    update_cart_file_widget();
+    update_cart_type_widget();
+    update_buttons();
 }
 
 
@@ -224,12 +222,10 @@ static void on_attach_clicked(GtkWidget *widget, gpointer data)
  */
 static void on_remove_clicked(GtkWidget *widget, gpointer data)
 {
-    if (carthelpers_unset_default_func != NULL) {
-        carthelpers_unset_default_func();
-        update_cart_file_widget();
-        update_cart_type_widget();
-        update_buttons();
-    }
+    cartridge_unset_default();
+    update_cart_file_widget();
+    update_cart_type_widget();
+    update_buttons();
 }
 
 
@@ -285,9 +281,7 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
             4);
 
     if (cart_info_list == NULL) {
-        if (carthelpers_info_list_func != NULL) {
-            cart_info_list = carthelpers_info_list_func();
-        }
+        cart_info_list = cartridge_get_info_list();
     }
 
     /* add some spacing between the title and the widgets */
