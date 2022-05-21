@@ -52,6 +52,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "savefiledialog.h"
+#include "tapecart.h"
 #include "tapeport.h"
 #include "ui.h"
 #include "widgethelpers.h"
@@ -141,12 +142,6 @@ static GtkWidget *tapecart_browse = NULL;
 
 /** \brief  Tapecart flush button */
 static GtkWidget *tapecart_flush = NULL;
-
-/** \brief  Tapecart flush function pointer
- *
- * Required to work around VSID linking issues.
- */
-static int (*tapecart_flush_func)(void) = NULL;
 
 
 /** \brief  Set Datasette widget active/inactive
@@ -262,7 +257,7 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_tapecart_flush_clicked(GtkWidget *widget, gpointer data)
 {
-    tapecart_flush_func();
+    tapecart_flush_tcrt();
 }
 
 
@@ -737,16 +732,4 @@ GtkWidget *tapeport_devices_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set the tapecart flush function
- *
- * This is required to work around vsid not linking against tapecart.
- *
- * \param[in]   func    tapecart flush function
- */
-void tapeport_devices_widget_set_tapecart_flush_func(int (*func)(void))
-{
-    tapecart_flush_func = func;
 }
