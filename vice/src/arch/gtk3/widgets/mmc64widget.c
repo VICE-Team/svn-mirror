@@ -197,18 +197,18 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 
     /* TODO: this requires proper logging or error dialogs, not debug_gtk3() */
     if (state && bios != NULL && *bios != '\0') {
-        if (carthelpers_enable_func(CARTRIDGE_MMC64) < 0) {
+        if (cartridge_enable(CARTRIDGE_MMC64) < 0) {
             /* failed to set resource */
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
             log_error(LOG_ERR, "failed to activate MMC64, please set BIOS file.");
         }
         /* doesn't work, attaching for example a KCS Power Cart will still
          * return 37 (MMC64) */
-        if (!carthelpers_is_enabled_func(CARTRIDGE_MMC64)) {
+        if (!cartridge_type_enabled(CARTRIDGE_MMC64)) {
             debug_gtk3("failed to attach MMC64.");
         }
     } else if (!state) {
-        if (carthelpers_disable_func(CARTRIDGE_MMC64) < 0) {
+        if (cartridge_disable(CARTRIDGE_MMC64) < 0) {
             log_error(LOG_ERR, "failed to disable cartridge.");
         }
     }
@@ -226,7 +226,7 @@ static void save_filename_callback(GtkDialog *dialog,
                                    gpointer data)
 {
     if (filename != NULL) {
-        if (carthelpers_save_func(CARTRIDGE_MMC64, filename) < 0) {
+        if (cartridge_save_image(CARTRIDGE_MMC64, filename) < 0) {
             vice_gtk3_message_error("Saving failed",
                     "Failed to save cartridge image '%s'",
                     filename);
@@ -258,7 +258,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (carthelpers_flush_func(CARTRIDGE_MMC64) < 0) {
+    if (cartridge_flush_image(CARTRIDGE_MMC64) < 0) {
         vice_gtk3_message_error("Flushing failed",
                     "Failed to fush cartridge image");
     }
@@ -276,7 +276,7 @@ static GtkWidget *create_mmc64_enable_widget(void)
     check = gtk_check_button_new_with_label("Enable MMC64");
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
-            carthelpers_is_enabled_func(CARTRIDGE_MMC64));
+            cartridge_type_enabled(CARTRIDGE_MMC64));
 
     g_signal_connect(check, "toggled", G_CALLBACK(on_enable_toggled), NULL);
     return check;

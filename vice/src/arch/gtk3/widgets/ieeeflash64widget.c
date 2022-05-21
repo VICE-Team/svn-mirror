@@ -81,11 +81,11 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
     }
 
     if (state) {
-        if (carthelpers_enable_func(CARTRIDGE_IEEEFLASH64) < 0) {
+        if (cartridge_enable(CARTRIDGE_IEEEFLASH64) < 0) {
             log_error(LOG_ERR, "failed to enable IEEE Flash! 64 cartridge.");
         }
     } else {
-        if (carthelpers_disable_func(CARTRIDGE_IEEEFLASH64) < 0) {
+        if (cartridge_disable(CARTRIDGE_IEEEFLASH64) < 0) {
             log_error(LOG_ERR, "failed to disable IEEE Flash! 64 cartridge.");
         }
     }
@@ -198,7 +198,7 @@ GtkWidget *ieeeflash64_widget_create(GtkWidget *parent)
     if (resources_get_string("IEEEFlash64Image", &image) < 0) {
         image = NULL;
     }
-    enable_state = carthelpers_is_enabled_func(CARTRIDGE_IEEEFLASH64);
+    enable_state = cartridge_type_enabled(CARTRIDGE_IEEEFLASH64);
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 

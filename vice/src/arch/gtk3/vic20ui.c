@@ -41,10 +41,7 @@
 #include "vic20model.h"
 #include "videomodelwidget.h"
 #include "widgethelpers.h"
-
 #include "cartridge.h"
-#include "carthelpers.h"
-#include "uicart.h"
 
 #include "vic20ui.h"
 
@@ -121,29 +118,6 @@ int vic20ui_init(void)
     video_model_widget_set_title("VIC model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(vic20_vic_models);
-
-    /* I/O extension function pointers */
-    carthelpers_set_functions(
-            cartridge_save_image,
-            cartridge_flush_image,
-            cartridge_type_enabled,
-            NULL, /* cartridge_enable */
-            NULL, /* cartridge_disable */
-            cartridge_can_save_image,
-            cartridge_can_flush_image,
-            cartridge_set_default,
-            cartridge_unset_default,
-            /* FIXME: xvic should also have a cartridge_get_info_list()
-             *        function at some point */
-            NULL);
-
-    /* ui_cart_set_detect_func(cartridge_detect); only cbm2/plus4 */
-/*    ui_cart_set_list_func(cartridge_get_info_list); */
-    ui_cart_set_attach_func(cartridge_attach_image);
-/*    ui_cart_set_freeze_func(cartridge_trigger_freeze); */
-    ui_cart_set_detach_func(cartridge_detach_image);
-    ui_cart_set_set_default_func(cartridge_set_default);
-    ui_cart_set_unset_default_func(cartridge_unset_default);
 
     return 0;
 }

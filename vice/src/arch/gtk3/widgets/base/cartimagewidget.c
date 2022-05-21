@@ -42,12 +42,6 @@
 #include "cartimagewidget.h"
 
 
-/** \brief  Cartridge save function pointer */
-static int (*save_func)(int, const char *) = NULL;
-
-/** \brief  Cartridge flush function pointer */
-static int (*flush_func)(int) = NULL;
-
 /** \brief  Cartridge name
  *
  * Used in messages.
@@ -125,15 +119,9 @@ static void save_filename_callback(GtkDialog *dialog,
         debug_gtk3("writing %s file image as '%s'.", crt_name, new_filename);
 #endif
         /* write file */
-        if (save_func != NULL) {
-            if (save_func(crt_id, filename) < 0) {
-                /* oops */
-                vice_gtk3_message_error("I/O error",
-                        "Failed to save '%s'", filename);
-            }
-        } else {
-            vice_gtk3_message_error("Core error",
-                    "%s save handler not specified", crt_name);
+        if (cartridge_save_image(crt_id, filename) < 0) {
+            /* oops */
+            vice_gtk3_message_error("I/O error", "Failed to save '%s'", filename);
         }
         g_free(filename);
     }
@@ -186,13 +174,8 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (flush_func != NULL) {
-        if (flush_func(crt_id) < 0) {
-            vice_gtk3_message_error("I/O error", "Failed to flush image");
-        }
-    } else {
-        vice_gtk3_message_error("Core error",
-                "%s flush handler not specified", crt_name);
+    if (cartridge_flush_image(crt_id) < 0) {
+        vice_gtk3_message_error("I/O error", "Failed to flush image");
     }
 }
 
@@ -203,10 +186,6 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  * \param[in]   title           widget title
  * \param[in]   resource_fname  resource for the image file name
  * \param[in]   resource_write  resource controlling flush-on-exit/detach
- * \param[in]   func_save       function to save the image via dialog
- * \param[in]   func_flush      function to flush current image to host
- * \param[in]   func_can_save   function to check if the cart can be saved
- * \param[in]   func_can_flush  function to check if the cart cam be flushed
  * \param[in]   cart_name       cartridge name to use in dialogs
  * \param[in]   cart_id         cartridge ID to use in save/flush callbacks
  *
@@ -214,14 +193,12 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *cart_image_widget_create(
-        GtkWidget *parent, const char *title,
-        const char *resource_fname, const char *resource_write,
-        int (*func_save)(int, const char *),
-        int (*func_flush)(int),
-        int (*func_can_save)(int),
-        int (*func_can_flush)(int),
-        const char *cart_name, int cart_id)
+GtkWidget *cart_image_widget_create(GtkWidget *parent,
+                                    const char *title,
+                                    const char *resource_fname,
+                                    const char *resource_write,
+                                    const char *cart_name,
+                                    int cart_id)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -232,8 +209,6 @@ GtkWidget *cart_image_widget_create(
 
     res_fname = resource_fname;
     res_write = resource_write;
-    save_func = func_save;
-    flush_func = func_flush;
     crt_name = cart_name;
     crt_id = cart_id;
 
@@ -261,13 +236,14 @@ GtkWidget *cart_image_widget_create(
 
     flush_button = gtk_button_new_with_label("Save image");
     gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 3, 1, 1);
-    gtk_widget_set_sensitive(flush_button, (gboolean)(func_can_flush(cart_id)));
-    gtk_widget_set_sensitive(save_button, (gboolean)(func_can_save(cart_id)));
+    gtk_widget_set_sensitive(flush_button,
+                             (gboolean)(cartridge_can_flush_image(cart_id)));
+    gtk_widget_set_sensitive(save_button,
+                             (gboolean)(cartridge_can_save_image(cart_id)));
 
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
     g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked), NULL);
-    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
-            NULL);
+    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked), NULL);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -82,11 +82,11 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
     }
 
     if (state) {
-        if (carthelpers_enable_func(CARTRIDGE_IEEE488) < 0) {
+        if (cartridge_enable(CARTRIDGE_IEEE488) < 0) {
             log_error(LOG_ERR, "failed to enable IEEE488 cartridge.");
         }
     } else {
-        if (carthelpers_disable_func(CARTRIDGE_IEEE488) < 0) {
+        if (cartridge_disable(CARTRIDGE_IEEE488) < 0) {
             log_error(LOG_ERR, "failed to disable IEEE488 cartridge.");
         }
     }
@@ -158,7 +158,7 @@ GtkWidget *ieee488_widget_create(GtkWidget *parent)
     if (resources_get_string("IEEE488Image", &image) < 0) {
         image = NULL;
     }
-    enable_state = carthelpers_is_enabled_func(CARTRIDGE_IEEE488);
+    enable_state = cartridge_type_enabled(CARTRIDGE_IEEE488);
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
