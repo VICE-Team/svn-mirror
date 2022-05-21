@@ -27,8 +27,9 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
+#include <stddef.h>
 
+#include "c64/cart/clockport.h"
 #include "mididrv.h"
 
 #ifdef WINDOWS_COMPILE
@@ -41,3 +42,9 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
     return NULL;
 }
 #endif
+
+/*******************************************************************************
+    clockport
+*******************************************************************************/
+
+clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };

@@ -151,9 +151,6 @@ int c64scui_init(void)
     video_model_widget_set_resource("VICIIModel");
     video_model_widget_set_models(c64sc_vicii_models);
 
-    /* work around VSID again */
-    clockport_device_widget_set_devices((void *)clockport_supported_devices);
-
     /* I/O extension function pointers */
     carthelpers_set_functions(
             cartridge_save_image,

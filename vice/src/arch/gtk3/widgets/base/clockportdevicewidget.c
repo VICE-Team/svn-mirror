@@ -29,6 +29,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "clockport.h"
 #include "machine.h"
 #include "resources.h"
 #include "basewidgets.h"
@@ -36,22 +37,6 @@
 #include "resourcehelpers.h"
 
 #include "clockportdevicewidget.h"
-
-
-/** Struct to re-cast to `clockport_supported_devices_t` without actually
- *  using clockport.h"
- */
-typedef struct clockport_dev_s {
-    int id;         /**< clockport device ID */
-    char *name;     /**< clockport device name */
-} clockport_dev_t;
-
-
-/** \brief  Pointer to `clockport_supported_devices` in clockport.c
- *
- * VSID doesn't link against clockport.o, so this hack is required
- */
-static clockport_dev_t *clockport_devices;
 
 
 /** \brief  Handler for the 'destroy' event of the widget
@@ -109,10 +94,10 @@ GtkWidget *clockport_device_widget_create(const char *resource)
     /* make a copy of the resource name */
     resource_widget_set_resource_name(combo, resource);
 
-    for (i = 0; clockport_devices[i].id >= 0; i++) {
+    for (i = 0; clockport_supported_devices[i].id >= 0; i++) {
         char id_str[80];
-        int id = clockport_devices[i].id;
-        char *name = clockport_devices[i].name;
+        int id = clockport_supported_devices[i].id;
+        char *name = clockport_supported_devices[i].name;
 
         /* combo boxes have a string ID */
         g_snprintf(id_str, sizeof(id_str), "%d", id);
@@ -131,18 +116,3 @@ GtkWidget *clockport_device_widget_create(const char *resource)
     gtk_widget_show_all(combo);
     return combo;
 }
-
-
-/** \brief  Set pointer to list of supported clockport devices
- *
- * Unfortunately this is required since VSID doesn't like against clockport.o,
- * so I need to pass pointers around to access a list that is known at compile
- * time.
- *
- * \param[in]   devices pointer to clockport_supported_devices
- */
-void clockport_device_widget_set_devices(void *devices)
-{
-    clockport_devices = (clockport_dev_t *)devices;
-}
-
