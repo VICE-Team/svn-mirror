@@ -171,9 +171,6 @@ int c64ui_init(void)
     ui_cart_set_set_default_func(cartridge_set_default);
     ui_cart_set_unset_default_func(cartridge_unset_default);
 
-    /* set tapecart flush function */
-    tapeport_devices_widget_set_tapecart_flush_func(tapecart_flush_tcrt);
-
     /* set C64 model_get function */
     settings_model_widget_set_model_func(c64model_get);
 

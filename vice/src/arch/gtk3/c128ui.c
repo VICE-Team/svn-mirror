@@ -185,9 +185,6 @@ int c128ui_init(void)
     ui_cart_set_set_default_func(cartridge_set_default);
     ui_cart_set_unset_default_func(cartridge_unset_default);
 
-    /* set tapecart flush function */
-    tapeport_devices_widget_set_tapecart_flush_func(tapecart_flush_tcrt);
-
     /* set model getter for the model settings dialog */
     settings_model_widget_set_model_func(c128model_get);
 

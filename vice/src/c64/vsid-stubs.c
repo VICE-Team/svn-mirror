@@ -470,6 +470,11 @@ int tapecart_attach_tcrt(const char *filename, void *unused)
     return -1;
 }
 
+int tapecart_flush_tcrt(void)
+{
+    return -1;
+}
+
 /*******************************************************************************
     imagecontents
 *******************************************************************************/
