@@ -30,6 +30,7 @@
 
 #include <stdlib.h>
 
+#include "cart/clockport.h"
 #include "machine.h"
 #include "mididrv.h"
 #include "tapecart.h"
@@ -89,3 +90,9 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
     return NULL;
 }
 #endif
+
+/*******************************************************************************
+    clockport
+*******************************************************************************/
+
+clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };

@@ -26,4 +26,13 @@
 
 #include "vice.h"
 
+#include <stddef.h>
+
+#include "c64/cart/clockport.h"
 #include "vic20.h"
+
+/*******************************************************************************
+    clockport
+*******************************************************************************/
+
+clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };

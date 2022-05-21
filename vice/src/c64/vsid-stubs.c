@@ -39,6 +39,7 @@
 #include "cartridge.h"
 #include "cbmdos.h"
 #include "cia.h"
+#include "clockport.h"
 #include "diskcontents.h"
 #include "diskcontents-block.h"
 #include "diskimage.h"
@@ -213,6 +214,14 @@ void cartridge_unset_default(void)
 midi_interface_t midi_interface[] = {
     MIDI_INFERFACE_LIST_END
 };
+
+
+/*******************************************************************************
+    clockport
+*******************************************************************************/
+
+clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
+
 
 /*******************************************************************************
     gfxoutput drivers
@@ -1040,9 +1049,9 @@ void userport_io_sim_set_pbx_out_lines(uint8_t val)
     return;
 }
 
-/******************************************************************************
- *   sampler                                                                  *
- *****************************************************************************/
+/*******************************************************************************
+    Sampler
+*******************************************************************************/
 
 sampler_device_t *sampler_get_devices(void)
 {
