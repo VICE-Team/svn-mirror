@@ -37,7 +37,6 @@
 #include "sampler.h"
 #include "ui.h"
 #include "uimachinewindow.h"
-#include "settings_sampler.h"
 #include "vicii.h"
 #include "videomodelwidget.h"
 #include "widgethelpers.h"
@@ -152,7 +151,6 @@ int c64scui_init(void)
     video_model_widget_set_resource("VICIIModel");
     video_model_widget_set_models(c64sc_vicii_models);
 
-    settings_sampler_set_devices_getter(sampler_get_devices);
     /* work around VSID again */
     clockport_device_widget_set_devices((void *)clockport_supported_devices);
 

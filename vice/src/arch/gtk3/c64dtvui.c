@@ -36,7 +36,6 @@
 #include "machinemodelwidget.h"
 #include "ui.h"
 #include "uimachinewindow.h"
-#include "settings_sampler.h"
 #include "vicii.h"
 #include "videomodelwidget.h"
 #include "c64dtvmodel.h"
@@ -122,8 +121,6 @@ int c64dtvui_init(void)
     video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(c64dtv_vicii_models);
-
-    settings_sampler_set_devices_getter(sampler_get_devices);
 
     settings_model_widget_set_model_func(dtvmodel_get);
     return 0;

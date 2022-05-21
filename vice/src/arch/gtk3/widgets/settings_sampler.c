@@ -45,11 +45,6 @@
 #include "settings_sampler.h"
 
 
-/** \brief  Function to retrieve the list of sampler input devices
- */
-static sampler_device_t *(*devices_getter)(void) = NULL;
-
-
 /** \brief  Reference to the text entry
  *
  * Used by the "browse" button callback to set the new file name and trigger
@@ -160,11 +155,14 @@ static GtkWidget *create_device_widget(void)
     resources_get_int("SamplerDevice", &current);
 
     combo = gtk_combo_box_text_new();
+#if 0
     if (devices_getter != NULL) {
         devices = devices_getter();
     } else {
         return combo;
     }
+#endif
+    devices = sampler_get_devices();
     for (i = 0; devices[i].name != NULL; i++) {
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
                 devices[i].name, devices[i].name);
@@ -246,16 +244,6 @@ static GtkWidget *create_input_button(void)
     button = gtk_button_new_with_label("Browse ...");
     g_signal_connect(button, "clicked", G_CALLBACK(on_browse_clicked), NULL);
     return button;
-}
-
-
-/** \brief  Set the function to retrieve the input devices list
- *
- * \param[in]   func    pointer to function to retrieve devices list
- */
-void settings_sampler_set_devices_getter(sampler_device_t *(*func)(void))
-{
-    devices_getter = func;
 }
 
 

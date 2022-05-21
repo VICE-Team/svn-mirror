@@ -39,7 +39,6 @@
 #include "sampler.h"
 #include "ui.h"
 #include "uimachinewindow.h"
-#include "settings_sampler.h"
 #include "settings_model.h"
 
 #include "petui.h"
@@ -113,8 +112,6 @@ int petui_init(void)
 
     pet_keyboard_type_widget_set_keyboard_num_get(machine_get_num_keyboard_types);
     pet_keyboard_type_widget_set_keyboard_list_get(machine_get_keyboard_info_list);
-
-    settings_sampler_set_devices_getter(sampler_get_devices);
 
     settings_model_widget_set_model_func(petmodel_get);
     return 0;

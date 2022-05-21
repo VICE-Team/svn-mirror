@@ -41,7 +41,6 @@
 #include "ui.h"
 #include "uicart.h"
 #include "uimachinewindow.h"
-#include "settings_sampler.h"
 #include "vicii.h"
 #include "videomodelwidget.h"
 #include "widgethelpers.h"
@@ -123,8 +122,6 @@ int cbm5x0ui_init(void)
     video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(cbm5x0_vicii_models);
-
-    settings_sampler_set_devices_getter(sampler_get_devices);
 
     /* I/O extension function pointers */
     carthelpers_set_functions(
