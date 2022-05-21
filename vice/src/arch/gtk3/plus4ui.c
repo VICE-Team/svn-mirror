@@ -44,7 +44,6 @@
 #include "uicart.h"
 #include "uimachinewindow.h"
 #include "settings_model.h"
-#include "settings_sampler.h"
 #include "videomodelwidget.h"
 #include "widgethelpers.h"
 
@@ -129,8 +128,6 @@ int plus4ui_init(void)
     video_model_widget_set_title("TED model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(plus4_ted_models);
-
-    settings_sampler_set_devices_getter(sampler_get_devices);
 
     /* I/O extension function pointers */
     carthelpers_set_functions(

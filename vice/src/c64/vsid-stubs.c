@@ -59,6 +59,7 @@
 #include "machine-drive.h"
 #include "machine-printer.h"
 #include "printer.h"
+#include "sampler.h"
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
@@ -1037,4 +1038,13 @@ const char *tapeport_get_device_type_desc(int type)
 void userport_io_sim_set_pbx_out_lines(uint8_t val)
 {
     return;
+}
+
+/******************************************************************************
+ *   sampler                                                                  *
+ *****************************************************************************/
+
+sampler_device_t *sampler_get_devices(void)
+{
+    return NULL;
 }

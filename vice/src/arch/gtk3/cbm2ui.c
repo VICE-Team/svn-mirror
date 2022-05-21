@@ -43,7 +43,6 @@
 #include "machine.h"
 #include "uimachinewindow.h"
 #include "videomodelwidget.h"
-#include "settings_sampler.h"
 #include "settings_model.h"
 
 #include "cbm2ui.h"
@@ -125,8 +124,6 @@ int cbm2ui_init(void)
     video_model_widget_set_title("CRTC model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(cbm2_crtc_models);
-
-    settings_sampler_set_devices_getter(sampler_get_devices);
 
     /* I/O extension function pointers */
     carthelpers_set_functions(

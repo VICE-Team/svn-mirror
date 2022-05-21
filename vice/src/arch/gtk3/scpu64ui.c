@@ -40,7 +40,6 @@
 #include "sampler.h"
 #include "ui.h"
 #include "uimachinewindow.h"
-#include "settings_sampler.h"
 
 #include "clockportdevicewidget.h"
 #include "clockport.h"
@@ -150,7 +149,6 @@ int scpu64ui_init(void)
     video_model_widget_set_resource("VICIIModel");
     video_model_widget_set_models(c64scpu_vicii_models);
 
-    settings_sampler_set_devices_getter(sampler_get_devices);
     clockport_device_widget_set_devices((void *)clockport_supported_devices);
 
     /* I/O extension function pointers */
