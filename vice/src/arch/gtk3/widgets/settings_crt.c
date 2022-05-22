@@ -87,15 +87,28 @@ GtkWidget *settings_crt_widget_create(GtkWidget *parent)
             break;
     }
 
-    /* add VIC/VICII/TED/CRTC */
-    if (chip1 != NULL) {
+    if (machine_class == VICE_MACHINE_C128) {
+        /* pack the VICII and VDC sliders into a tabbed widget to space
+         * vertical space: */
+        GtkWidget *stack;
+        GtkWidget *switcher;
+
+        stack = gtk_stack_new();
+        gtk_stack_set_transition_type(GTK_STACK(stack),
+                                      GTK_STACK_TRANSITION_TYPE_NONE);
+        gtk_stack_add_titled(GTK_STACK(stack), chip1, "VICII", "VICIIe");
+        gtk_stack_add_titled(GTK_STACK(stack), chip2, "VDC", "VDC");
+
+        switcher = gtk_stack_switcher_new();
+        gtk_stack_switcher_set_stack(GTK_STACK_SWITCHER(switcher),
+                                     GTK_STACK(stack));
+
+        gtk_grid_attach(GTK_GRID(grid), switcher, 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), stack, 0, 1, 1, 1);
+    } else {
+        /* add VIC/VICII/TED/CRTC */
         gtk_grid_attach(GTK_GRID(grid), chip1, 0, 0, 1, 1);
     }
-    /* add VDC in case of c128 */
-    if (chip2 != NULL) {
-        gtk_grid_attach(GTK_GRID(grid), chip2, 0, 1, 1, 1);
-    }
-
     gtk_widget_show_all(grid);
     return grid;
 }
