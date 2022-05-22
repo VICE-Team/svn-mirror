@@ -178,11 +178,6 @@ int c128ui_init(void)
         }
     }
 
-    /* crt preview widget functions */
-    crt_preview_widget_set_open_func(crt_open);
-    crt_preview_widget_set_chip_func(crt_read_chip_header);
-
-
     return 0;
 }
 

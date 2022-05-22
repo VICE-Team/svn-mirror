@@ -30,14 +30,7 @@
 
 #include <gtk/gtk.h>
 
-#include <stdio.h>
-#include "crt.h"
-#include "cartridge.h"
-
 GtkWidget *crt_preview_widget_create(void);
-void crt_preview_widget_set_open_func(FILE *(*func)(const char *, crt_header_t *));
-void crt_preview_widget_set_chip_func(int (*func)(crt_chip_header_t *, FILE *));
 void crt_preview_widget_update(const gchar *path);
 
 #endif
-
