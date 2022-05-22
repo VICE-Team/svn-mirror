@@ -952,7 +952,7 @@ darwin*)
     [AC_HELP_STRING([--enable-macos-target-sdk-version[[=version]]],
       [compile for a specific sdk version such as 10.10 or 11.0 [default=no]])],
     [],
-    [enable_macos_target_sdk_version=`otool -l /bin/ls | grep sdk | awk '{ print $2 }'`])
+    [enable_macos_target_sdk_version=`echo "int main(int argc, char** argv) { return 0; }" | cc -x c - ; otool -l a.out | grep sdk | awk '{ print $2 }' ; rm a.out`])
   
   VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
   VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
