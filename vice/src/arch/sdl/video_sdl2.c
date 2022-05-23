@@ -687,7 +687,7 @@ static video_container_t* sdl_container_create(int canvas_idx)
         window_height = sdl_initial_height[canvas_idx];
     }
 
-    container->window = SDL_CreateWindow(canvas->viewport->title,
+    container->window = SDL_CreateWindow("",
                                          SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                          window_width, window_height,
                                          flags);

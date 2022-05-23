@@ -540,8 +540,6 @@ raster_t *crtc_init(void)
 
     crtc_update_window();
 
-    raster_set_title(raster, machine_name);
-
     if (raster_realize(raster) < 0) {
         return NULL;
     }
