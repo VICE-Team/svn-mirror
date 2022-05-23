@@ -602,6 +602,7 @@ gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier)
 gboolean ui_menu_remove_accel_via_item_ref(ui_menu_item_ref_t *ref)
 {
     GtkWidget *label;
+    gboolean result;
 
     if (ref->item[PRIMARY_WINDOW] != NULL) {
         label = gtk_bin_get_child(GTK_BIN(ref->item[PRIMARY_WINDOW]));
@@ -611,9 +612,27 @@ gboolean ui_menu_remove_accel_via_item_ref(ui_menu_item_ref_t *ref)
         label = gtk_bin_get_child(GTK_BIN(ref->item[SECONDARY_WINDOW]));
         gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
     }
+    result = gtk_accel_group_disconnect_key(accel_group, ref->keysym, ref->modifier);
     ref->keysym = 0;
     ref->modifier = 0;
-    return gtk_accel_group_disconnect_key(accel_group, ref->keysym, ref->modifier);
+    return result;
+}
+
+
+/** \brief  Remove accelerators from item(s) associated with an action
+ *
+ * \param[in]   action_id   UI action ID
+ *
+ * \return  `TRUE` on success
+ */
+gboolean ui_menu_remove_accel_via_action(gint action_id)
+{
+    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id);
+
+    if (ref == NULL) {
+        return FALSE;
+    }
+    return ui_menu_remove_accel_via_item_ref(ref);
 }
 
 
