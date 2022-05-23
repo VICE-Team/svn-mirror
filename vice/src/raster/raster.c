@@ -506,21 +506,6 @@ void raster_force_repaint(raster_t *raster)
     raster->num_cached_lines = 0;
 }
 
-void raster_set_title(raster_t *raster, const char *name)
-{
-    char *title;
-    const char *extra_title_text = archdep_extra_title_text();
-
-    if (extra_title_text) {
-        title = util_concat("VICE: ", name, extra_title_text, NULL);
-    } else {
-        title = util_concat("VICE: ", name, NULL);
-    }
-    video_viewport_title_set(raster->canvas, title);
-
-    lib_free(title);
-}
-
 void raster_enable_cache(raster_t *raster, int enable)
 {
 #if 0 /* disabled cache hack */

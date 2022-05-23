@@ -273,9 +273,6 @@ extern void video_viewport_get(struct video_canvas_s *canvas,
                                struct viewport_s **viewport,
                                struct geometry_s **geometry);
 extern void video_viewport_resize(struct video_canvas_s *canvas, char resize_canvas);
-extern void video_viewport_title_set(struct video_canvas_s *canvas,
-                                     const char *title);
-extern void video_viewport_title_free(struct viewport_s *viewport);
 
 struct raster_s;
 
