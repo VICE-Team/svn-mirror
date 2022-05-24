@@ -49,6 +49,7 @@ typedef struct client_s {
 
 /* Represents a single video output, such as VICII or VDC. */
 typedef struct screen_s {
+    int index;
     char *chip_name;
     video_canvas_t *canvas;
     client_t **subscribed_clients;
@@ -81,7 +82,8 @@ static void disconnect_client(client_t *client);
 static void remove_disconnected_clients(void);
 static void remove_screen_subscription(client_t *client, screen_t *screen);
 
-static screen_t *find_screen(char *chip_name);
+static screen_t *find_screen_by_canvas(video_canvas_t *canvas);
+static screen_t *find_screen_by_name(char *chip_name);
 
 static void send_byte(client_t *client, uint8_t byte);
 static void send_string(client_t *client, char *str);
@@ -147,11 +149,11 @@ void uiserver_add_screen(video_canvas_t *canvas)
 
     log_message(LOG_DEFAULT, "UI Server: Adding screen for %s", canvas->videoconfig->chip_name);
     
-    new_screen_index = screen_count;
-    screen_count++;
+    new_screen_index = screen_count++;
 
     screens = lib_realloc(screens, screen_count * sizeof(screen_t));
 
+    screens[new_screen_index].index                         = new_screen_index;
     screens[new_screen_index].chip_name                     = lib_strdup(canvas->videoconfig->chip_name);
     screens[new_screen_index].canvas                        = canvas;
     screens[new_screen_index].subscribed_clients            = NULL;
@@ -305,14 +307,31 @@ void uiserver_poll(void)
 
 void uiserver_on_new_backbuffer(video_canvas_t *canvas)
 {
+    screen_t *screen;
     backbuffer_t *backbuffer;
+    int i;
+    client_t *client;
     
     /* log_message(LOG_DEFAULT, "UI Server: New backbuffer for %s", canvas->videoconfig->chip_name); */
+
+    screen = find_screen_by_canvas(canvas);
+    if (!screen) {
+        log_error(LOG_ERR, "UI Server: New backbuffer recieved for unregistered chip %s", canvas->videoconfig->chip_name);
+        return;
+    }
     
     backbuffer = render_queue_dequeue_for_display(canvas->render_queue);
     if (!backbuffer) {
         log_error(LOG_ERR, "UI Server: New backbuffer for %s is missing?|", canvas->videoconfig->chip_name);
         return;
+    }
+
+    for (i = 0; i < screen->subscribed_client_count; i++) {
+        client = screen->subscribed_clients[i];
+        send_byte(client, UI_PROTOCOL_V1_SCREEN_UPDATED);
+        send_byte(client, (uint8_t)screen->index);
+
+        /* TODO: send the backbuffer data to the client */
     }
 
     render_queue_return_to_pool(canvas->render_queue, backbuffer);
@@ -480,6 +499,7 @@ static void send_string(client_t *client, char *str)
 static void advertise_screen(client_t *client, int screen_index)
 {
     send_byte(client, UI_PROTOCOL_V1_SCREEN_IS_AVAILABLE);
+    send_byte(client, (uint8_t)screen_index);
     send_string(client, screens[screen_index].chip_name);
 }
 
@@ -492,7 +512,20 @@ static void advertise_all_screens(client_t *client)
     }
 }
 
-static screen_t *find_screen(char *chip_name)
+static screen_t *find_screen_by_canvas(video_canvas_t *canvas)
+{
+    int i;
+    
+    for (i = 0; i < screen_count; i++) {
+        if (screens[i].canvas == canvas) {
+            return &screens[i];
+        }
+    }
+    
+    return NULL;
+}
+
+static screen_t *find_screen_by_name(char *chip_name)
 {
     int i;
     
@@ -546,7 +579,7 @@ static void handle_subscribe_screen(void *context)
     
     netexpect_u8(client->netexpect, &client->recieved_message, handle_post_hello_message, client);
     
-    screen = find_screen(client->recieved_string);
+    screen = find_screen_by_name(client->recieved_string);
     if (!screen) {
         log_error(LOG_DEFAULT, "Client %d attempting to subscribe to invalid screen: %s", client->id, client->recieved_string);
         return;
@@ -600,7 +633,7 @@ static void handle_unsubscribe_screen(void *context)
     
     netexpect_u8(client->netexpect, &client->recieved_message, handle_post_hello_message, client);
     
-    screen = find_screen(client->recieved_string);
+    screen = find_screen_by_name(client->recieved_string);
     if (!screen) {
         log_error(LOG_DEFAULT, "Client %d attempting to unsubscribe from invalid screen: %s", client->id, client->recieved_string);
         return;

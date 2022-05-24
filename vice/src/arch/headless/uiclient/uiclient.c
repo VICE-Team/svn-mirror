@@ -37,7 +37,23 @@ static int socket_available(void *context);
 static void send_byte(uiclient_t *uiclient, uint8_t byte);
 static void send_string(uiclient_t *uiclient, char *str);
 
-typedef void (*recv_message_t)(uiclient_t *uiclient, void *recieved_buffer);
+typedef void (*recv_message_t)(uiclient_t *uiclient, void *received_buffer);
+
+typedef union scalar_u {
+    uint8_t  u8;
+    uint16_t u16;
+    uint32_t u32;
+    uint64_t u64;
+    int8_t   s8;
+    int16_t  s16;
+    int32_t  s32;
+    int64_t  s64;
+} scalar_t;
+
+typedef struct string16_s {
+    uint16_t u16;
+    char bytes[UI_PROTOCOL_V1_STRING_MAX + 1];
+} string16_t;
 
 typedef struct uiclient_s {
     uiclient_on_disconnected_t on_disconnected;
@@ -50,9 +66,9 @@ typedef struct uiclient_s {
     uiprotocol_server_hello_t server_hello;
     uiprotocol_client_hello_t client_hello;
     
-    uint8_t recieved_message;
-    uint16_t recieved_string_size;
-    char recieved_string[UI_PROTOCOL_V1_STRING_MAX + 1];
+    uint8_t r_message;
+    scalar_t r_scalar_0;
+    string16_t r_string_0;
 } uiclient_t;
 
 static void build_client_hello(uiclient_t *uiclient, uint32_t protocol);
@@ -248,6 +264,16 @@ static int socket_available(void *context)
     return (int)uiclient_network_available_bytes(sock);
 }
 
+static void expect_post_hello_message(uiclient_t *uiclient)
+{
+    netexpect_u8(uiclient->netexpect, &uiclient->r_message, handle_post_hello_message, uiclient);
+}
+
+static void expect_server_message(uiclient_t *uiclient)
+{
+    netexpect_u8(uiclient->netexpect, &uiclient->r_message, handle_server_message, uiclient);
+}
+
 static void handle_server_hello(void *context)
 {
     uiclient_t *uiclient = (uiclient_t*)context;
@@ -291,19 +317,19 @@ static void handle_server_hello(void *context)
     uiclient_network_send(uiclient->socket, &uiclient->client_hello, sizeof(uiclient->client_hello));
     
     /* Move to the post-hello pre-ready phase */
-    netexpect_u8(uiclient->netexpect, &uiclient->recieved_message, handle_post_hello_message, uiclient);
+    expect_post_hello_message(uiclient);
 }
 
 static void handle_screen_available(void *context)
 {
     uiclient_t *uiclient = (uiclient_t*)context;
     
-    INFO("Screen available: %s", uiclient->recieved_string);
+    INFO("Screen %d available: %s", uiclient->r_scalar_0.u8, uiclient->r_string_0.bytes);
     
     /* Notify the client application */
-    uiclient->on_screen_available(uiclient, uiclient->recieved_string);
+    uiclient->on_screen_available(uiclient, uiclient->r_string_0.bytes);
     
-    netexpect_u8(uiclient->netexpect, &uiclient->recieved_message, handle_post_hello_message, uiclient);
+    expect_post_hello_message(uiclient);
 }
 
 static void handle_post_hello_message(void *context)
@@ -311,15 +337,18 @@ static void handle_post_hello_message(void *context)
     uiclient_t *uiclient = (uiclient_t*)context;
     
     /*
-     * The server should advertise each available screen and finish up with a
+     * The server will advertise each available screen and finish up with a
      * server ready message when done.
      */
     
-    switch (uiclient->recieved_message) {
+    switch (uiclient->r_message) {
         case UI_PROTOCOL_V1_SCREEN_IS_AVAILABLE:
+            /* chip index */
+            netexpect_u8(uiclient->netexpect, &uiclient->r_scalar_0.u8, NULL, NULL);
+            /* chip name */
             netexpect_u16_prefixed_string(uiclient->netexpect,
-                                          uiclient->recieved_string,
-                                          &uiclient->recieved_string_size,
+                                          uiclient->r_string_0.bytes,
+                                          &uiclient->r_string_0.u16,
                                           handle_screen_available,
                                           uiclient);
             break;
@@ -335,11 +364,11 @@ static void handle_post_hello_message(void *context)
             uiclient->on_connected(uiclient, uiclient->server_hello.emulator);
 
             /* Move to the post-ready phase */
-            netexpect_u8(uiclient->netexpect, &uiclient->recieved_message, handle_server_message, uiclient);
+            expect_server_message(uiclient);
             break;
 
         default:
-            ERR("Did not understand server message %d, disconnecting", uiclient->recieved_message);
+            ERR("Did not understand server message %d, disconnecting", uiclient->r_message);
             uiclient->on_disconnected(uiclient);
             return;
     }
@@ -351,6 +380,15 @@ void uiclient_ready(uiclient_t *uiclient)
     send_byte(uiclient, UI_PROTOCOL_V1_CLIENT_IS_READY);
 }
 
+static void handle_screen_updated(void *context)
+{
+    uiclient_t *uiclient = (uiclient_t*)context;
+    
+    INFO("Screen %d updated", uiclient->r_scalar_0.u8);
+    
+    expect_server_message(uiclient);
+}
+
 static void handle_server_message(void *context)
 {
     uiclient_t *uiclient = (uiclient_t*)context;
@@ -360,9 +398,14 @@ static void handle_server_message(void *context)
      * receiving screen updates etc.
      */
     
-    switch (uiclient->recieved_message) {
+    switch (uiclient->r_message) {
+        case UI_PROTOCOL_V1_SCREEN_UPDATED:
+            /* chip index */
+            netexpect_u8(uiclient->netexpect, &uiclient->r_scalar_0.u8, handle_screen_updated, uiclient);
+            break;
+
         default:
-            ERR("Did not understand server message %d, disconnecting", uiclient->recieved_message);
+            ERR("Did not understand server message %d, disconnecting", uiclient->r_message);
             uiclient->on_disconnected(uiclient);
             return;
     }

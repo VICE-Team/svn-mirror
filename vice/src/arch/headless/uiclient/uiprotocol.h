@@ -77,7 +77,9 @@ typedef struct uiprotocol_client_hello_s {
 } __attribute__((packed)) uiprotocol_client_hello_t;
 
 /*
- * Strings are sent as a uin16_t size followed by string bytes.
+ * Strings are sent as a uint16_t size followed by string bytes.
+ * A string length of 65,536 is invalid, as one byte is reserved
+ * for null termination.
  */
 
 #define UI_PROTOCOL_V1_STRING_MAX ((1<<16)-1)
@@ -114,11 +116,19 @@ typedef struct uiprotocol_client_hello_s {
 /*
  * A screen is available for a client to subscribe to
  *
+ * int: chip_index
  * string: chip_name
  */
 #define UI_PROTOCOL_V1_SCREEN_IS_AVAILABLE  0
 
 /* The server is ready to resume emulation */
 #define UI_PROTOCOL_V1_SERVER_IS_READY      1
+
+/*
+ * A screen should be rendered
+ *
+ * int: chip_index
+ */
+#define UI_PROTOCOL_V1_SCREEN_UPDATED       2
 
 #endif /* #ifndef UI_PROTOCOL_H */
