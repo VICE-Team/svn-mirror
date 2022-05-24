@@ -421,7 +421,7 @@ static gboolean isresethotkey(GdkEvent *report)
     for (i = 0; i < 2; i++) {
         ui_menu_item_ref_t *ref;
 
-        ref = ui_menu_item_ref_by_action(checkaccel[i], PRIMARY_WINDOW);
+        ref = ui_menu_item_ref_by_action(checkaccel[i]);
         if (ref != NULL) {
             char *accel = gtk_accelerator_get_label(ref->keysym, ref->modifier);
             if (!strcmp(this_accel, accel)) {

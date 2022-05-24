@@ -31,7 +31,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * clockport_device_widget_create(const char *resource);
-void        clockport_device_widget_set_devices(void *devices);
+GtkWidget *clockport_device_widget_create(const char *resource);
 
 #endif

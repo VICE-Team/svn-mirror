@@ -329,8 +329,6 @@ static int init_raster(void)
         return -1;
     }
 
-    raster_set_title(raster, machine_name);
-
     if (raster_realize(raster) < 0) {
         return -1;
     }

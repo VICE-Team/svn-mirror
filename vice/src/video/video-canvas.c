@@ -121,7 +121,6 @@ void video_canvas_shutdown(video_canvas_t *canvas)
             raster_draw_buffer_shutdown(canvas->draw_buffer_vsid);
             lib_free(canvas->draw_buffer_vsid);
         }
-        video_viewport_title_free(canvas->viewport);
         lib_free(canvas->viewport);
         lib_free(canvas->geometry);
         lib_free(canvas);

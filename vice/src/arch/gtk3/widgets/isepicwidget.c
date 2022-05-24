@@ -107,8 +107,6 @@ static GtkWidget *create_isepic_image_widget(void)
     return cart_image_widget_create(
             NULL, "ISEPIC image",
             "Isepicfilename", "IsepicImageWrite",
-            carthelpers_save_func, carthelpers_flush_func,
-            carthelpers_can_save_func, carthelpers_can_flush_func,
             CARTRIDGE_NAME_ISEPIC, CARTRIDGE_ISEPIC);
 }
 

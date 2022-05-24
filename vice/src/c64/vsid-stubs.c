@@ -39,6 +39,7 @@
 #include "cartridge.h"
 #include "cbmdos.h"
 #include "cia.h"
+#include "clockport.h"
 #include "diskcontents.h"
 #include "diskcontents-block.h"
 #include "diskimage.h"
@@ -59,6 +60,7 @@
 #include "machine-drive.h"
 #include "machine-printer.h"
 #include "printer.h"
+#include "sampler.h"
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
@@ -205,13 +207,69 @@ uint8_t *ultimax_romh_phi2_ptr(uint16_t addr)
     return mem_phi;
 }
 
+int cartridge_save_image(int type, const char *filename)
+{
+    return -1;
+}
+
+int cartridge_flush_image(int type)
+{
+    return -1;
+}
+
+int cartridge_can_save_image(int crtid)
+{
+    return 0;
+}
+
+int cartridge_can_flush_image(int crtid)
+{
+    return 0;
+}
+
+int cartridge_enable(int crtid)
+{
+    return -1;
+}
+
+int cartridge_disable(int crtid)
+{
+    return -1;
+}
+
+int cartridge_type_enabled(int crtid)
+{
+    return 0;
+}
+
+void cartridge_set_default(void)
+{
+}
+
 void cartridge_unset_default(void)
+{
+}
+
+cartridge_info_t *cartridge_get_info_list(void)
+{
+    return NULL;
+}
+
+void cartridge_trigger_freeze(void)
 {
 }
 
 midi_interface_t midi_interface[] = {
     MIDI_INFERFACE_LIST_END
 };
+
+
+/*******************************************************************************
+    clockport
+*******************************************************************************/
+
+clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
+
 
 /*******************************************************************************
     gfxoutput drivers
@@ -456,6 +514,11 @@ int tapecart_is_valid(const char *filename)
 }
 
 int tapecart_attach_tcrt(const char *filename, void *unused)
+{
+    return -1;
+}
+
+int tapecart_flush_tcrt(void)
 {
     return -1;
 }
@@ -1037,4 +1100,13 @@ const char *tapeport_get_device_type_desc(int type)
 void userport_io_sim_set_pbx_out_lines(uint8_t val)
 {
     return;
+}
+
+/*******************************************************************************
+    Sampler
+*******************************************************************************/
+
+sampler_device_t *sampler_get_devices(void)
+{
+    return NULL;
 }

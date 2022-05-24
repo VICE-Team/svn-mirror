@@ -141,18 +141,3 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     viewport->y_offset = (unsigned int)y_offset;
     viewport->last_line = viewport->first_line + (unsigned int)displayed_height - 1;
 }
-
-void video_viewport_title_set(video_canvas_t *canvas, const char *title)
-{
-    viewport_t *viewport;
-
-    viewport = canvas->viewport;
-
-    lib_free(viewport->title);
-    viewport->title = lib_strdup(title);
-}
-
-void video_viewport_title_free(viewport_t *viewport)
-{
-    lib_free(viewport->title);
-}

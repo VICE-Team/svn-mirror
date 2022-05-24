@@ -694,10 +694,10 @@ static sdl_window_t* sdl_window_create(int canvas_idx)
     }
 
     sdl_window = lib_calloc(1, sizeof(*sdl_window));
-    sdl_window->window = SDL_CreateWindow(canvas->viewport->title,
-                                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                         window_width, window_height,
-                                         flags);
+    sdl_window->window = SDL_CreateWindow("",
+                                          SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                          window_width, window_height,
+                                          flags);
     if (sdl_window->window == NULL) {
         sdl_window_destroy(sdl_window);
         log_error(sdlvideo_log, "SDL_CreateWindow() failed: %s\n", SDL_GetError());

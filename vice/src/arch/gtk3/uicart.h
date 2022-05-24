@@ -33,20 +33,11 @@
 
 #include "cartridge.h"
 
-void ui_cart_set_list_func(cartridge_info_t *(*func)(void));
-void ui_cart_set_detect_func(int (*func)(const char *));
-void ui_cart_set_attach_func(int (*func)(int, const char *));
-void ui_cart_set_freeze_func(void (*func)(void));
-void ui_cart_set_detach_func(void (*func)(int));
-void ui_cart_set_set_default_func(void (*func)(void));
-void ui_cart_set_unset_default_func(void (*func)(void));
-
 gboolean ui_cart_trigger_freeze(void);
 gboolean ui_cart_detach(void);
 
 gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data);
 void ui_cart_default_attach(GtkWidget *widget, void (*callback)(void));
-
 
 void ui_cart_shutdown(void);
 

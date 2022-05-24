@@ -104,8 +104,6 @@ static GtkWidget *create_reu_image_widget(void)
     return cart_image_widget_create(
             NULL, "REU image",
             "REUfilename", "REUImageWrite",
-            carthelpers_save_func, carthelpers_flush_func,
-            carthelpers_can_save_func, carthelpers_can_flush_func,
             CARTRIDGE_NAME_REU, CARTRIDGE_REU);
 }
 

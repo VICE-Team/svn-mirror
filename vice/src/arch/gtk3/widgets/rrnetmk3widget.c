@@ -57,7 +57,7 @@ static void save_filename_callback(GtkDialog *dialog,
                                   gpointer data)
 {
     if (filename != NULL) {
-        if (carthelpers_save_func(CARTRIDGE_RRNETMK3, filename) < 0) {
+        if (cartridge_save_image(CARTRIDGE_RRNETMK3, filename) < 0) {
             vice_gtk3_message_error("Saving failed",
                     "Failed to save cartridge image '%s'",
                     filename);
@@ -89,7 +89,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (carthelpers_flush_func(CARTRIDGE_RRNETMK3) < 0) {
+    if (cartridge_flush_image(CARTRIDGE_RRNETMK3) < 0) {
         vice_gtk3_message_error("VICE core",
                 "Failed to flush RR-Net Mk3 image.");
     }

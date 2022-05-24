@@ -41,6 +41,8 @@ find . -type f -name 'cmake_install.cmake' -exec rm {} \;
 find . -type d -name 'CMakeFiles' | xargs -IQQQ rm -rf "QQQ"
 find . -type d -name '.cmake_bootstrap_cache' | xargs -IQQQ rm -rf "QQQ"
 
+BUILDING_UICLIENTTEST=false
+
 function cleanup {
     # Get rid of our cached extract_make_var results
 	find . -type d -name '.cmake_bootstrap_cache' | xargs -IQQQ rm -rf "QQQ"
@@ -447,6 +449,10 @@ function external_lib_label {
 function generate_executable_target {
 	local executable=$1
 
+	if [ "$executable" = "uiclienttest" ]; then
+		BUILDING_UICLIENTTEST=true
+	fi
+
 	#
 	# Each executable has its own list of external libs to be linked with.
 	#
@@ -571,11 +577,17 @@ PARALLEL_JOBS=""
 for executable in $EMULATORS
 do
 	if $USE_PARALLEL; then
-		PARALLEL_JOBS="${PARALLEL_JOBS}cd $(pwd); >&2 echo \"Emulator: ${executable}\"; generate_executable_target ${executable}; echo \"add_dependencies(${executable} uiclienttest)\";\n"
+		JOB="cd $(pwd); >&2 echo \"Emulator: ${executable}\"; generate_executable_target ${executable};"
+		if $BUILDING_UICLIENTTEST; then
+			JOB="${JOB} echo \"add_dependencies(${executable} uiclienttest)\";"
+		fi
+		PARALLEL_JOBS="${PARALLEL_JOBS}${JOB}\n"
 	else
 		echo "Emulator: $executable"
 		generate_executable_target $executable >> CMakeLists.txt
-		echo "add_dependencies(${executable} uiclienttest)" >> CMakeLists.txt
+		if $BUILDING_UICLIENTTEST; then
+			echo "add_dependencies(${executable} uiclienttest)" >> CMakeLists.txt
+		fi
 	fi
 done
 

@@ -30,8 +30,13 @@
 
 #include <stdlib.h>
 
+#include "cart/clockport.h"
+#include "cartridge.h"
+#include "c64cart.h"
+#include "c64/cart/c64cartmem.h"
 #include "machine.h"
 #include "mididrv.h"
+#include "snapshot.h"
 #include "tapecart.h"
 #include "tapeport.h"
 
@@ -79,6 +84,11 @@ int tapecart_attach_tcrt(const char *filename, void *unused)
     return -1;
 }
 
+int tapecart_flush_tcrt(void)
+{
+    return -1;
+}
+
 #ifdef WINDOWS_COMPILE
 void mididrv_ui_reset_device_list(int device)
 {
@@ -89,3 +99,88 @@ char *mididrv_ui_get_next_device_name(int device, int *id)
     return NULL;
 }
 #endif
+
+/*******************************************************************************
+    clockport
+*******************************************************************************/
+
+clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
+
+/*******************************************************************************
+    cartridge
+*******************************************************************************/
+
+/* Expansion port signals. */
+export_t export = { 0, 0, 0, 0};
+
+static uint8_t romh_banks[1]; /* dummy */
+
+uint8_t *ultimax_romh_phi1_ptr(uint16_t addr)
+{
+    return romh_banks;
+}
+
+uint8_t *ultimax_romh_phi2_ptr(uint16_t addr)
+{
+    return romh_banks;
+}
+
+int cartridge_attach_image(int type, const char *filename)
+{
+    return -1;
+}
+
+void cartridge_detach_image(int type)
+{
+}
+
+int cartridge_save_image(int type, const char *filename)
+{
+    return -1;
+}
+
+int cartridge_flush_image(int type)
+{
+    return -1;
+}
+int cartridge_can_save_image(int crtid)
+{
+    return 0;
+}
+
+int cartridge_can_flush_image(int crtid)
+{
+    return 0;
+}
+
+int cartridge_enable(int crtid)
+{
+    return -1;
+}
+
+int cartridge_disable(int crtid)
+{
+    return -1;
+}
+
+int cartridge_type_enabled(int crtid)
+{
+    return 0;
+}
+
+void cartridge_set_default(void)
+{
+}
+
+void cartridge_unset_default(void)
+{
+}
+
+cartridge_info_t *cartridge_get_info_list(void)
+{
+    return NULL;
+}
+
+void cartridge_trigger_freeze(void)
+{
+}

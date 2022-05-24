@@ -30,6 +30,7 @@
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
+#include "tapecart.h"
 #include "tapeport.h"
 #include "tape-snapshot.h"
 
@@ -182,4 +183,9 @@ const char *tapeport_get_device_type_desc(int type)
 int tapeport_valid_port(int port)
 {
     return 0;
+}
+
+int tapecart_flush_tcrt(void)
+{
+    return -1;
 }

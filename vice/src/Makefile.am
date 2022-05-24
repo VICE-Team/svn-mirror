@@ -625,6 +625,11 @@ endif
 bin_PROGRAMS = vsid $(x64_bin) x64sc x64dtv xscpu64 x128 xvic xpet xplus4 \
 	       xcbm2 xcbm5x0 c1541
 
+# The monolithic builds don't use uiclient_lib
+if !USE_HEADLESSUI
+uiclient_lib = 
+endif
+
 EXTRA_PROGRAMS =
 
 # vsid

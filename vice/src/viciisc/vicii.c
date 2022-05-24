@@ -221,17 +221,6 @@ static int init_raster(void)
         return -1;
     }
 
-#if 0
-    raster_set_title(raster, machine_name);
-#else
-    /* hack */
-    if (machine_class != VICE_MACHINE_C64SC) {
-        raster_set_title(raster, machine_name);
-    } else {
-        raster_set_title(raster, "C64 (x64sc)");
-    }
-#endif
-
     if (raster_realize(raster) < 0) {
         return -1;
     }

@@ -38,42 +38,7 @@
 
 #include "carthelpers.h"
 
-/*
- * Function pointers, used by various other source files. These need to remain
- * public.
- */
-
-/** \brief  Cartridge save function pointer */
-int (*carthelpers_save_func)(int type, const char *filename);
-
-/** \brief  Cartridge flush function pointer */
-int (*carthelpers_flush_func)(int type);
-
-/** \brief  Cartridge is-enabled function pointer */
-int (*carthelpers_is_enabled_func)(int type);
-
-/** \brief  Cartridge enable function pointer */
-int (*carthelpers_enable_func)(int type);
-
-/** \brief  Cartridge disable function pointer */
-int (*carthelpers_disable_func)(int type);
-
-/** \brief  Cartridge can-save function pointer */
-int (*carthelpers_can_save_func)(int type);
-
-/** \brief  Cartridge can-flush function pointer */
-int (*carthelpers_can_flush_func)(int type);
-
-/** \brief  Cartridge set-default function pointer */
-void (*carthelpers_set_default_func)(void);
-
-/** \brief  Cartridge unset-default function pointer */
-void (*carthelpers_unset_default_func)(void);
-
-/** \brief  Cartridge info-list function pointer */
-cartridge_info_t * (*carthelpers_info_list_func)(void);
-
-
+#if 0
 /** \brief  Set cartridge helper functions
  *
  * This function helps to avoid the problems with VSID wrt cartridge code:
@@ -122,7 +87,7 @@ void carthelpers_set_functions(
     carthelpers_unset_default_func = unset_default_func;
     carthelpers_info_list_func = info_list_func;
 }
-
+#endif
 
 /** \brief  Handler for the "destroy" event of a cart enable check button
  *
@@ -161,11 +126,11 @@ static void on_cart_enable_check_button_toggled(GtkCheckButton *check,
     id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(check), "CartridgeId"));
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
     if (state) {
-        if (carthelpers_enable_func(id) < 0) {
+        if (cartridge_enable(id) < 0) {
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
         }
     } else {
-        if (carthelpers_disable_func(id) < 0) {
+        if (cartridge_disable(id) < 0) {
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
         }
     }
@@ -194,14 +159,13 @@ GtkWidget *carthelpers_create_enable_check_button(const char *cart_name,
                                                   int cart_id)
 {
     GtkWidget *check;
-    char *title;
-    gchar *name;
+    char title[256];
+    char *name;
 
-    title = lib_msprintf("Enable %s cartridge", cart_name);
+    g_snprintf(title, sizeof(title), "Enable %s cartridge", cart_name);
     check = gtk_check_button_new_with_label(title);
-    lib_free(title);    /* Gtk3 makes a copy of the title */
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
-            carthelpers_is_enabled_func(cart_id));
+                                 (gboolean)cartridge_type_enabled(cart_id));
 
     name = lib_strdup(cart_name);
     g_object_set_data(G_OBJECT(check), "CartridgeName", (gpointer)name);

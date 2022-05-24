@@ -26,4 +26,37 @@
 
 #include "vice.h"
 
+#include <stddef.h>
+
+#include "c64/cart/clockport.h"
+#include "cartridge.h"
 #include "vic20.h"
+
+/*******************************************************************************
+    clockport
+*******************************************************************************/
+
+clockport_supported_devices_t clockport_supported_devices[] = { { 0, NULL } };
+
+/*******************************************************************************
+    cartridge
+*******************************************************************************/
+
+int cartridge_enable(int crtid)
+{
+    return -1;
+}
+
+int cartridge_disable(int crtid)
+{
+    return -1;
+}
+
+cartridge_info_t *cartridge_get_info_list(void)
+{
+    return NULL;
+}
+
+void cartridge_trigger_freeze(void)
+{
+}

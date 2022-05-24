@@ -59,7 +59,7 @@ static void save_filename_callback(GtkDialog *dialog,
                                    gpointer data)
 {
     if (filename != NULL) {
-        if (carthelpers_save_func(CARTRIDGE_EASYFLASH, filename) < 0) {
+        if (cartridge_save_image(CARTRIDGE_EASYFLASH, filename) < 0) {
             vice_gtk3_message_error("VICE core",
                     "Failed to save '%s'", filename);
         }
@@ -90,7 +90,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (carthelpers_flush_func(CARTRIDGE_EASYFLASH) < 0) {
+    if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
         vice_gtk3_message_error("VICE core",
                 "Failed to flush the EasyFlash image");
     }
@@ -132,7 +132,7 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
             NULL);
 
     gtk_widget_set_sensitive(save_button,
-            (gboolean)(carthelpers_can_save_func(CARTRIDGE_EASYFLASH)));
+            (gboolean)(cartridge_can_save_image(CARTRIDGE_EASYFLASH)));
 
     /* Flush image now */
     flush_button = gtk_button_new_with_label("Save image");
@@ -140,7 +140,7 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
             NULL);
 
-    if (carthelpers_can_flush_func(CARTRIDGE_EASYFLASH)) {
+    if (cartridge_can_flush_image(CARTRIDGE_EASYFLASH)) {
         gtk_widget_set_sensitive(flush_button, TRUE);
     } else {
         gtk_widget_set_sensitive(flush_button, FALSE);

@@ -75,7 +75,7 @@ static void save_filename_callback(GtkDialog *dialog,
                                    gpointer data)
 {
     if (filename != NULL) {
-        if (carthelpers_save_func(CARTRIDGE_RETRO_REPLAY, filename) < 0) {
+        if (cartridge_save_image(CARTRIDGE_RETRO_REPLAY, filename) < 0) {
             vice_gtk3_message_error("VICE core",
                     "Failed to save Retro Replay image '%s'.", filename);
         }
@@ -107,7 +107,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (carthelpers_flush_func(CARTRIDGE_RETRO_REPLAY) < 0) {
+    if (cartridge_flush_image(CARTRIDGE_RETRO_REPLAY) < 0) {
         vice_gtk3_message_error("VICE core",
                 "Failed to flush current Retro Replay image.");
     }
