@@ -852,7 +852,7 @@ static int set_enabled(int value, void *param)
         rl_enabled = 0;
         cart_port_config_changed_slot0();
     } else if ((val) && (!rl_enabled)) {
-        /* activate mmc64 */
+        /* activate ramlink */
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
             LOG1(("RAMLINK: set_enabled(1) '%s'", rl_bios_filename));
@@ -1490,15 +1490,17 @@ int ramlink_romh_read(uint16_t addr, uint8_t *value)
         ramlink_off();
     }
 
-    /* get from ram based on $1 */
-    if (rl_mapped && ((~pport.dir | pport.data) & 2)) {
+    /* It seems that rl_on has higher priority over $1 */
+    if (rl_mapped) {
         /* other wise pull from one of the ROMS */
         if (!rl_enabled) {
             return CART_READ_THROUGH;
         } else if (rl_on) {
             *value = rl_rom[rl_kernbase | (addr & 0x1fff)];
-        } else {
+        } else if ((~pport.dir | pport.data) & 2) {
             *value = rl_rom[rl_kernbase | 0x2000 | (addr & 0x1fff)];
+        } else {
+            return CART_READ_THROUGH;
         }
         MDBG((LOG, "RAMLINK: romh_read %04x = %02x pport=%02x",
             (int)addr, (int)*value, (int)(~pport.dir | pport.data)));
@@ -1552,11 +1554,14 @@ int ramlink_peek_mem(uint16_t addr, uint8_t *value)
             *value = rl_rom[rl_rombase | (addr & 0x3fff)];
             return CART_READ_VALID;
         }
-    } else if (addr >= 0xe000 && ((~pport.dir | pport.data) & 2)) {
+    /* It seems that rl_on has higher priority over $1 */
+    } else if (addr >= 0xe000) {
         if (rl_on) {
             *value = rl_rom[rl_kernbase | (addr & 0x1fff)];
-        } else {
+        } else if ((~pport.dir | pport.data) & 2) {
             *value = rl_rom[rl_kernbase | 0x2000 | (addr & 0x1fff)];
+        } else {
+            return CART_READ_THROUGH;
         }
         return CART_READ_VALID;
     }
@@ -1590,11 +1595,14 @@ int ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *li
             *limit = 0xbffd;
             return CART_READ_VALID;
         }
-    } else if (addr >= 0xe000 && ((~pport.dir | pport.data) & 2)) {
+    /* It seems that rl_on has higher priority over $1 */
+    } else if (addr >= 0xe000) {
         if (rl_on) {
             *base = rl_rom + rl_kernbase - 0xe000;
-        } else {
+        } else if ((~pport.dir | pport.data) & 2) {
             *base = rl_rom + rl_kernbase + 0x2000 - 0xe000;
+        } else {
+            return CART_READ_THROUGH;
         }
         *start = 0xe000;
         *limit = 0xfffd;
