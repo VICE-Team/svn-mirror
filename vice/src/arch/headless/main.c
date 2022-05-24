@@ -92,5 +92,7 @@ void main_exit(void)
     /* log the active config as commandline options */
     cmdline_log_active();
 
+    vice_thread_shutdown();
+
     machine_shutdown();
 }
