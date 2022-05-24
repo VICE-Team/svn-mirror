@@ -172,9 +172,10 @@ void uiserver_add_screen(video_canvas_t *canvas)
 void uiserver_await_ready(void)
 {
     const char *ui_path;
+    char ui_filename_buffer[PATH_MAX];
+    char *ui_filename;
     pid_t child_pid;
-    char server_port_str[6];
-    char ui_filename[PATH_MAX];
+    char server_port_str[6];    
 
     resources_get_string("UiFilepath", &ui_path);
 
@@ -187,6 +188,9 @@ void uiserver_await_ready(void)
         return;
     }
 
+    strncpy(ui_filename_buffer, ui_path, PATH_MAX - 1);
+    ui_filename = basename(ui_filename_buffer);
+
     child_pid = fork();
     if (child_pid == -1) {
         log_error(LOG_DEFAULT, "Failed to fork for ui process: %s", strerror(errno));
@@ -195,7 +199,6 @@ void uiserver_await_ready(void)
 
     if (child_pid == 0) {
         /* Child process. Execute the ui executable, passing the server port number */
-        basename_r(ui_path, ui_filename);
         snprintf(server_port_str, 6, "%hu", vice_network_get_ipv4_port(server_socket));
 
         execlp(ui_path, ui_filename, server_port_str, NULL);
