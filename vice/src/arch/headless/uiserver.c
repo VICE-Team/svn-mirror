@@ -13,6 +13,7 @@
 #include "log.h"
 #include "machine.h"
 #include "netexpect.h"
+#include "render-queue.h"
 #include "resources.h"
 #include "uiserver.h"
 #include "uiprotocol.h"
@@ -300,6 +301,21 @@ void uiserver_poll(void)
         log_error(LOG_DEFAULT, "UI Server: server socket error");
         archdep_vice_exit(1);
     }
+}
+
+void uiserver_on_new_backbuffer(video_canvas_t *canvas)
+{
+    backbuffer_t *backbuffer;
+    
+    /* log_message(LOG_DEFAULT, "UI Server: New backbuffer for %s", canvas->videoconfig->chip_name); */
+    
+    backbuffer = render_queue_dequeue_for_display(canvas->render_queue);
+    if (!backbuffer) {
+        log_error(LOG_ERR, "UI Server: New backbuffer for %s is missing?|", canvas->videoconfig->chip_name);
+        return;
+    }
+
+    render_queue_return_to_pool(canvas->render_queue, backbuffer);
 }
 
 void uiserver_shutdown(void)

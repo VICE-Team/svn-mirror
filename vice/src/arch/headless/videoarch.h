@@ -34,34 +34,36 @@
 #include "archdep.h"
 #include "video.h"
 
+typedef void (*video_refresh_func_t)(struct video_canvas_s *, int, int, int, int, unsigned int, unsigned int);
+
 typedef struct video_canvas_s {
+    /** \brief Nonzero if it is safe to access other members of the
+     *         structure. */
+    unsigned int initialized;
 
     /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
 
-    /** \brief Rendering configuration as seen by the emulator
-     *         core. */
+    /** \brief Index of the canvas, needed for x128 and xcbm2 */
+    int index;
+    
+    /** \brief Used to coordinate vice thread access */
+    void *lock;
+    
+    /** \brief A queue of rendered backbuffers ready to be displayed */
+    void *render_queue;
+
     struct video_render_config_s *videoconfig;
-
-    /** \brief Tracks color encoding changes */
     int crt_type;
-
-    /** \brief Drawing buffer as seen by the emulator core. */
     struct draw_buffer_s *draw_buffer;
-
-    /** \brief Display window as seen by the emulator core. */
+    struct draw_buffer_s *draw_buffer_vsid;
     struct viewport_s *viewport;
-
-    /** \brief Machine screen geometry as seen by the emulator
-     *         core. */
     struct geometry_s *geometry;
-
-    /** \brief Color palette for translating display results into
-     *         window colors. */
     struct palette_s *palette;
+    struct raster_s *parent_raster;
 
-    /** \brief Used to limit frame rate under warp. */
-    tick_t warp_next_render_tick;
+    struct fullscreenconfig_s *fullscreenconfig;
+    video_refresh_func_t video_fullscreen_refresh_func;
 } video_canvas_t;
 
 typedef struct vice_renderer_backend_s {

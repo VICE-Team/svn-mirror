@@ -57,10 +57,10 @@
 #include "macOS-util.h"
 #endif
 
-#define CANVAS_LOCK() pthread_mutex_lock(&canvas->lock)
-#define CANVAS_UNLOCK() pthread_mutex_unlock(&canvas->lock)
-#define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
-#define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
+#define CANVAS_LOCK() archdep_mutex_lock(canvas->lock)
+#define CANVAS_UNLOCK() archdep_mutex_unlock(canvas->lock)
+#define RENDER_LOCK() archdep_mutex_lock(context->render_lock)
+#define RENDER_UNLOCK() archdep_mutex_unlock(context->render_lock)
 
 typedef vice_opengl_renderer_context_t context_t;
 
@@ -101,7 +101,7 @@ static void vice_opengl_initialise_canvas(video_canvas_t *canvas)
     context->cached_vsync_resource = -1;
 
     context->canvas_lock = canvas->lock;
-    pthread_mutex_init(&context->render_lock, NULL);
+    archdep_mutex_create(&context->render_lock);
     context->render_queue = render_queue_create();
 
     canvas->renderer_context = context;
@@ -123,7 +123,7 @@ static void vice_opengl_destroy_context(video_canvas_t *canvas)
     render_queue_destroy(context->render_queue);
     context->render_queue = NULL;
 
-    pthread_mutex_destroy(&context->render_lock);
+    archdep_mutex_destroy(context->render_lock);
 
     lib_free(context);
 

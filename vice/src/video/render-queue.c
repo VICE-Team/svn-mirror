@@ -26,20 +26,22 @@
  */
 
 #include "vice.h"
-#include "render_queue.h"
+
+#define RENDER_QUEUE_MAX_BACKBUFFERS 2
 
 #include <assert.h>
-#include <pthread.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "lib.h"
+#include "render-queue.h"
 #include "vsyncapi.h"
 
-#define LOCK() pthread_mutex_lock(&rq->lock)
-#define UNLOCK() pthread_mutex_unlock(&rq->lock)
+#define LOCK() archdep_mutex_lock(rq->lock)
+#define UNLOCK() archdep_mutex_unlock(rq->lock)
 
 typedef struct vice_render_queue_s {
-    pthread_mutex_t lock;
+    void *lock;
 
     /** Holds all currently unused backbuffers */
     backbuffer_t *backbuffer_stack[RENDER_QUEUE_MAX_BACKBUFFERS];
@@ -61,7 +63,10 @@ typedef struct vice_render_queue_s {
 } render_queue_t;
 
 static void free_backbuffer(backbuffer_t *backbuffer) {
+#ifdef MANAGED_PIXEL_DATA_BUFFER
     lib_free(backbuffer->pixel_data);
+#endif
+    lib_free(backbuffer->screen_data_padded);
     lib_free(backbuffer);
 }
 
@@ -74,17 +79,16 @@ void *render_queue_create(void)
     backbuffer_t *bb;
 
     rq = lib_calloc(1, sizeof(render_queue_t));
-    pthread_mutex_init(&rq->lock, NULL);
+    archdep_mutex_create(&rq->lock);
 
     /* Seed the pool with the maximum number of backbuffers */
     for (int i = 0; i < RENDER_QUEUE_MAX_BACKBUFFERS; i++) {
 
-        bb = lib_malloc(sizeof(backbuffer_t));
-        bb->pixel_data = lib_malloc(0);
-        bb->pixel_data_size_bytes = 0;
-        bb->width = 0;
-        bb->height = 0;
-        bb->pixel_aspect_ratio = 0.0f;
+        bb = lib_calloc(1, sizeof(backbuffer_t));
+#ifdef MANAGED_PIXEL_DATA_BUFFER
+        bb->pixel_data          = lib_malloc(0);
+#endif
+        bb->screen_data_padded  = lib_malloc(0);
 
         rq->backbuffer_stack[rq->backbuffer_stack_size++] = bb;
     }
@@ -109,14 +113,14 @@ void render_queue_destroy(void *render_queue)
         rq->render_queue_next = rq->render_queue_next % RENDER_QUEUE_MAX_BACKBUFFERS;
     }
 
-    pthread_mutex_destroy(&rq->lock);
+    archdep_mutex_destroy(rq->lock);
     lib_free(render_queue);
 }
 
 /****/
 
 /** Obtain unused backbuffer for offscreen rendering, or NULL if none available */
-backbuffer_t *render_queue_get_from_pool(void *render_queue, int pixel_data_size_bytes)
+backbuffer_t *render_queue_get_from_pool(void *render_queue, int screen_data_size_bytes, int pixel_data_size_bytes)
 {
     render_queue_t *rq = (render_queue_t *)render_queue;
     backbuffer_t *bb;
@@ -134,16 +138,25 @@ backbuffer_t *render_queue_get_from_pool(void *render_queue, int pixel_data_size
 
     UNLOCK();
 
-    /* Make sure there's at least the requested size in bytes */
-    if (bb->pixel_data_size_bytes < pixel_data_size_bytes) {
-        lib_free(bb->pixel_data);
-        bb->pixel_data = lib_malloc(pixel_data_size_bytes);
-        bb->pixel_data_size_bytes = pixel_data_size_bytes;
-    }
+    /*
+     * Make sure the buffers are at least the requested size in bytes
+     */
 
-    bb->width = 0;
-    bb->height = 0;
-    bb->pixel_aspect_ratio = 0.0f;
+    if (bb->screen_data_allocated_size_bytes < screen_data_size_bytes) {
+        lib_free(bb->screen_data_padded);
+        bb->screen_data_padded                  = lib_malloc(screen_data_size_bytes);
+        bb->screen_data_allocated_size_bytes    = screen_data_size_bytes;
+    }
+    bb->screen_data_used_size_bytes = screen_data_size_bytes;
+    
+#ifdef MANAGED_PIXEL_DATA_BUFFER
+    if (bb->pixel_data_allocated_size_bytes < pixel_data_size_bytes) {
+        lib_free(bb->pixel_data);
+        bb->pixel_data                      = lib_malloc(pixel_data_size_bytes);
+        bb->pixel_data_allocated_size_bytes = pixel_data_size_bytes;
+    }
+    bb->pixel_data_used_size_bytes = pixel_data_size_bytes;
+#endif
 
     return bb;
 }
@@ -210,6 +223,20 @@ void render_queue_return_to_pool(void *render_queue, backbuffer_t *backbuffer)
 
     rq->backbuffer_stack[rq->backbuffer_stack_size] = backbuffer;
     rq->backbuffer_stack_size++;
+
+    UNLOCK();
+}
+
+void render_queue_reset_queue(void *render_queue)
+{
+    render_queue_t *rq = (render_queue_t *)render_queue;
+    backbuffer_t *backbuffer;
+
+    LOCK();
+
+    while ((backbuffer = render_queue_dequeue_for_display(render_queue))) {
+        render_queue_return_to_pool(render_queue, backbuffer);
+    }
 
     UNLOCK();
 }

@@ -12,9 +12,9 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <pthread.h>
 #include "lib.h"
 
+#include "archdep.h"
 #include "vsidstate.h"
 
 
@@ -27,7 +27,7 @@ vsid_state_t vsid_state_hands_off;
 
 /** \brief  Mutex to handle UI update requests from the VICE thread.
  */
-static pthread_mutex_t vsid_lock = PTHREAD_MUTEX_INITIALIZER;
+static void *vsid_lock;
 
 
 
@@ -37,7 +37,7 @@ static pthread_mutex_t vsid_lock = PTHREAD_MUTEX_INITIALIZER;
  */
 vsid_state_t *vsid_state_lock(void)
 {
-    pthread_mutex_lock(&vsid_lock);
+    archdep_mutex_lock(vsid_lock);
     return &vsid_state_hands_off;
 }
 
@@ -46,7 +46,7 @@ vsid_state_t *vsid_state_lock(void)
  */
 void vsid_state_unlock(void)
 {
-    pthread_mutex_unlock(&vsid_lock);
+    archdep_mutex_unlock(vsid_lock);
 }
 
 
@@ -54,6 +54,8 @@ void vsid_state_unlock(void)
  */
 void vsid_state_init(void)
 {
+    archdep_mutex_create(&vsid_lock);
+
     /* during setup we can use the object directly */
     vsid_state_t *state = &vsid_state_hands_off;
 
@@ -120,4 +122,6 @@ void vsid_state_shutdown(void)
     }
 
     vsid_state_unlock();
+
+    archdep_mutex_destroy(vsid_lock);
 }

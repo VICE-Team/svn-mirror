@@ -585,6 +585,7 @@ sounddrv_lib = $(top_builddir)/src/arch/shared/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
 tapeport_lib = $(top_builddir)/src/tapeport/libtapeport.a
 toolarch_lib = $(ARCH_DIR)/libtoolarch.a
+toolarchdep_lib = $(top_builddir)/src/arch/shared/libtoolarchdep.a
 userport_lib = $(top_builddir)/src/userport/libuserport.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
@@ -1181,6 +1182,7 @@ c1541_SOURCES = \
 
 c1541_libs = \
 	$(toolarch_lib) \
+	$(toolarchdep_lib) \
 	$(p64_lib) \
 	$(blockdev_lib) \
 	$(vdrive_lib) \
@@ -1258,6 +1260,9 @@ $(uiclient_lib):
 $(toolarch_lib):
 	@echo "making libtoolarch.a in $(ARCHDIR)"
 	@(cd $(ARCH_DIR) && $(MAKE) libtoolarch.a)
+$(toolarchdep_lib):
+	@echo "making libtoolarchdep.a in arch/shared"
+	@(cd arch/shared && $(MAKE) libtoolarchdep.a)
 $(archdep_lib):
 	@echo "making all in arch/shared"
 	@(cd arch/shared && $(MAKE))

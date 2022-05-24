@@ -193,12 +193,6 @@ int video_arch_get_active_chip(void)
  */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    pthread_mutexattr_t lock_attributes;
-
-    pthread_mutexattr_init(&lock_attributes);
-    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&canvas->lock, &lock_attributes);
-
     /*
      * the render output can always be read from in GTK3,
      * it's not a direct video memory buffer.
@@ -235,15 +229,6 @@ int video_arch_resources_init(void)
 /** \brief Clean up any memory held by arch-specific video resources. */
 void video_arch_resources_shutdown(void)
 {
-}
-
-/** \brief Query whether a canvas is resizable.
- *  \param canvas The canvas to query
- *  \return TRUE if the canvas can be resized.
- */
-char video_canvas_can_resize(video_canvas_t *canvas)
-{
-    return 1;
 }
 
 /** \brief  Create a new video_canvas_s.
@@ -302,25 +287,14 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
             g_object_unref(G_OBJECT(canvas->pen_ptr));
             canvas->pen_ptr = NULL;
         }
-
-        pthread_mutex_destroy(&canvas->lock);
     }
 }
 
 /** \brief Update the display on a video canvas to reflect the machine
  *         state.
  * \param canvas The canvas to update.
- * \param xs     A parameter to forward to video_canvas_render()
- * \param ys     A parameter to forward to video_canvas_render()
- * \param xi     X coordinate of the leftmost pixel to update
- * \param yi     Y coordinate of the topmost pixel to update
- * \param w      Width of the rectangle to update
- * \param h      Height of the rectangle to update
  */
-void video_canvas_refresh(struct video_canvas_s *canvas,
-                          unsigned int xs, unsigned int ys,
-                          unsigned int xi, unsigned int yi,
-                          unsigned int w, unsigned int h)
+void video_canvas_refresh(struct video_canvas_s *canvas)
 {
     if (console_mode || video_disabled_mode || !canvas) {
         return;

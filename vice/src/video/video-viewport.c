@@ -66,22 +66,8 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     gfx_size = &geometry->gfx_size;
     gfx_position = &geometry->gfx_position;
 
-    if (resize_canvas && video_canvas_can_resize(canvas)) {
-        /* The emulated screen has changed:
-           the size of the emulator's screen changes in order to adapt to it */
-        canvas->draw_buffer->canvas_width = canvas->draw_buffer->visible_width;
-        canvas->draw_buffer->canvas_height = canvas->draw_buffer->visible_height;
-        canvas->draw_buffer->canvas_physical_width = canvas->draw_buffer->canvas_width * canvas->videoconfig->scalex;
-        canvas->draw_buffer->canvas_physical_height = canvas->draw_buffer->canvas_height * canvas->videoconfig->scaley;
-    } else {
-        /* The emulator's screen has been resized,
-           or he emulated screen has changed but the emulator's screen is unable to adapt:
-           in any case, the size of the emulator screen won't change now */
-        canvas->draw_buffer->canvas_width = canvas->draw_buffer->canvas_physical_width / canvas->videoconfig->scalex;
-        canvas->draw_buffer->canvas_height = canvas->draw_buffer->canvas_physical_height / canvas->videoconfig->scaley;
-    }
-    width = canvas->draw_buffer->canvas_width;
-    height = canvas->draw_buffer->canvas_height;
+    width = canvas->draw_buffer->visible_width;
+    height = canvas->draw_buffer->visible_height;
 
     /* Horizontal alignment strategy (from small to big):
      * 1. cut off left border, cut as much as needed from the right side of gfx
@@ -154,12 +140,6 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     viewport->first_line = (unsigned int)first_line;
     viewport->y_offset = (unsigned int)y_offset;
     viewport->last_line = viewport->first_line + (unsigned int)displayed_height - 1;
-
-    if (!video_disabled_mode) {
-        video_canvas_resize(canvas, (char)(resize_canvas && video_canvas_can_resize(canvas)));
-    }
-
-    video_canvas_refresh_all(canvas);
 }
 
 void video_viewport_title_set(video_canvas_t *canvas, const char *title)

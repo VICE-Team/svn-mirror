@@ -60,6 +60,7 @@ struct raster_changes_all_s;
 struct raster_modes_s;
 struct raster_resource_chip_s;
 struct raster_sprite_status_s;
+struct draw_buffer_s;
 
 struct raster_s {
     struct viewport_s *viewport;
@@ -222,5 +223,10 @@ extern void raster_line_changes_init(raster_t *raster);
 extern void raster_line_changes_sprite_init(raster_t *raster);
 extern void raster_calculate_padding_size(unsigned int fb_width, unsigned int fb_height,
                                           unsigned int *padded_size, unsigned int *unpadded_offset);
+extern int raster_draw_buffer_init(struct draw_buffer_s *draw_buffer,
+                             unsigned int fb_width,
+                             unsigned int fb_height,
+                             bool interlace_allowed);
+extern void raster_draw_buffer_shutdown(struct draw_buffer_s *draw_buffer);
 
 #endif

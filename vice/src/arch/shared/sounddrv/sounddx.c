@@ -47,7 +47,7 @@
 #define DIRECTSOUND_VERSION 0x0500
 #include <dsound.h>
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 #define INCLUDE_SDL_SYSWM_H
 #include "vice_sdl.h"
 #endif
@@ -58,17 +58,20 @@
 #include "sound.h"
 #include "types.h"
 #include "uiapi.h"
+#include "videoarch.h"
 
 /* FIXME: each of the following should probably get moved to archdep */
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+
+#ifdef USE_SDL2UI
 
 static HWND ui_get_main_hwnd(void)
 {
     SDL_SysWMinfo info;
 
-    SDL_GetWMInfo(&info);
+    SDL_VERSION(&info.version);
+    SDL_GetWindowWMInfo(sdl_active_canvas->container->window, &info);
 
-    return info.window;
+    return info.info.win.window;
 }
 
 #elif defined(USE_GTK3UI)

@@ -163,14 +163,7 @@ static const feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) /* (optional only in sdl1) */
-    { "HAVE_HWSCALE", "Enable arbitrary window scaling",
-#ifndef HAVE_HWSCALE
-        0 },
-#else
-        1 },
-#endif
-#endif
+
 /* (all) */
     { "HAVE_IPV6", "Define if ipv6 can be used",
 #ifndef HAVE_IPV6
@@ -290,7 +283,7 @@ static const feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#if defined(USE_SDLUI) || defined(USE_SDL2UI) /* (sdl) */
+#ifdef USE_SDL2UI /* (sdl) */
     { "HAVE_SDL_NUMJOYSTICKS", "Define to 1 if you have the `SDL_NumJoysticks' function.",
 #ifndef HAVE_SDL_NUMJOYSTICKS
         0 },
@@ -462,16 +455,6 @@ static const feature_list_t featurelist[] = {
         0 },
 #else
         1 },
-#endif
-#if 0
-# ifdef UNIX_COMPILE /* (unix) */
-    { "USE_UI_THREADS", "Enable multithreaded UI.",
-#  ifndef USE_UI_THREADS
-        0 },
-#  else
-        1 },
-#  endif
-# endif
 #endif
 
 /*

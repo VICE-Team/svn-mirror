@@ -329,7 +329,7 @@ char *uimon_in(const char *prompt)
                 }
             }
 
-            ui_dispatch_events();
+            /* ui_dispatch_events(); */
         } else {
 #endif
             /* make sure to flush the output buffer */

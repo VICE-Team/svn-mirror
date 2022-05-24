@@ -2319,11 +2319,6 @@ int ui_extend_image_dialog(void)
     return extendimage_dialog_result;
 }
 
-/** \brief  Not used */
-void ui_dispatch_events(void)
-{
-}
-
 
 /** \brief  Error dialog handler for the threaded UI
  *
@@ -2569,16 +2564,16 @@ void ui_update_lightpen(void)
         /* According to lightpen.c, x128 flips primary and secondary
          * windows compared to what the GTK3 backend expects. */
         if (canvas) {
-            pthread_mutex_lock(&canvas->lock);
+            archdep_mutex_lock(canvas->lock);
             lightpen_update(1, canvas->pen_x, canvas->pen_y, canvas->pen_buttons);
-            pthread_mutex_unlock(&canvas->lock);
+            archdep_mutex_unlock(canvas->lock);
         }
         canvas = ui_resources.canvas[SECONDARY_WINDOW];
     }
     if (canvas) {
-        pthread_mutex_lock(&canvas->lock);
+        archdep_mutex_lock(canvas->lock);
         lightpen_update(0, canvas->pen_x, canvas->pen_y, canvas->pen_buttons);
-        pthread_mutex_unlock(&canvas->lock);
+        archdep_mutex_unlock(canvas->lock);
     }
 }
 

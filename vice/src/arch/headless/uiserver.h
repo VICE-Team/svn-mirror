@@ -34,6 +34,7 @@ int uiserver_init(void);
 void uiserver_add_screen(video_canvas_t *canvas);
 void uiserver_await_ready(void);
 void uiserver_poll(void);
+void uiserver_on_new_backbuffer(video_canvas_t *canvas);
 void uiserver_shutdown(void);
 
 #endif /* #ifndef UI_SERVER_H */

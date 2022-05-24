@@ -203,7 +203,7 @@ int monitor_network_get_command_line(char **prompt)
             bufferpos = 0;
         }
 
-        ui_dispatch_events();
+        /* ui_dispatch_events(); */
     } while (1);
 
     return 1;

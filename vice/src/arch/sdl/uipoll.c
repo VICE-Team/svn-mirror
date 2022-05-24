@@ -33,9 +33,18 @@
 #include "joy.h"
 #include "kbd.h"
 #include "lib.h"
+#include "log.h"
+#include "mainlock.h"
 #include "ui.h"
 #include "uimenu.h"
 #include "uipoll.h"
+
+static void *queue_lock;
+static SDL_Event *queue;
+static int queue_length;
+static int queue_alloc_size;
+static int queue_write_index;
+static int queue_read_index;
 
 /* ------------------------------------------------------------------ */
 /* static functions */
@@ -62,10 +71,91 @@ static void sdl_poll_print_timeout(int x, int y, int time)
     lib_free(timestr);
 }
 
+static void increase_max_queue_size(void)
+{
+    int new_alloc_size;
+    SDL_Event *resized_queue;
+    
+    new_alloc_size = queue_alloc_size + 1;
+    resized_queue = lib_malloc(new_alloc_size * sizeof(SDL_Event));
+    
+    log_message(LOG_DEFAULT, "Increasing SDL message queue size to %d", new_alloc_size);
+    
+    /* Copy events to the start of the new queue */
+    queue_write_index = 0;
+    while(queue_length--) {
+        resized_queue[queue_write_index++] = queue[queue_read_index++];
+        if (queue_read_index == queue_alloc_size) {
+            queue_read_index = 0;
+        }
+    }
+    
+    queue_length = queue_write_index;
+    queue_read_index = 0;
+    
+    lib_free(queue);
+    queue = resized_queue;
+    queue_alloc_size = new_alloc_size;
+}
+
 /* ------------------------------------------------------------------ */
 /* External interface */
 
-SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, int timeout)
+void sdl_ui_poll_init(void)
+{
+    archdep_mutex_create(&queue_lock);
+    
+    queue_alloc_size    = 1;
+    queue               = lib_malloc(queue_alloc_size * sizeof(SDL_Event));
+}
+
+void sdl_ui_poll_shutdown(void)
+{
+    archdep_mutex_destroy(queue_lock);
+    lib_free(queue);
+}
+
+int sdl_ui_poll_pop_event(SDL_Event *e)
+{
+    archdep_mutex_lock(queue_lock);
+    
+    if (queue_length == 0) {
+        archdep_mutex_unlock(queue_lock);
+        return 0;
+    }
+    
+    *e = queue[queue_read_index++];
+    queue_length--;
+    
+    if (queue_read_index == queue_alloc_size) {
+        queue_read_index = 0;
+    }
+    
+    archdep_mutex_unlock(queue_lock);
+    
+    return 1;
+}
+
+void sdl_ui_poll_push_event(SDL_Event *e)
+{
+    archdep_mutex_lock(queue_lock);
+    
+    if (queue_length == queue_alloc_size) {
+        increase_max_queue_size();
+    }
+    
+    queue[queue_write_index++] = *e;
+    queue_length++;
+    
+    if (queue_write_index == queue_alloc_size) {
+        queue_write_index = 0;
+    }
+    
+    archdep_mutex_unlock(queue_lock);
+}
+
+
+SDL_Event sdl_ui_poll_specific_event(const char *what, const char *target, int options, int timeout)
 {
     SDL_Event e;
 
@@ -91,7 +181,7 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
 
     /* TODO check if key/event is suitable */
     while (polling) {
-        while (polling && SDL_PollEvent(&e)) {
+        while (polling && sdl_ui_poll_pop_event(&e)) {
             switch (e.type) {
                 case SDL_KEYDOWN:
                     if (allow_keyboard && (allow_modifier || is_not_modifier(e.key.keysym.sym))) {
@@ -120,7 +210,7 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
                     break;
             }
         }
-        SDL_Delay(20);
+        mainlock_yield_and_sleep(tick_per_second() / 60);
 
         if ((timeout > 0) && (++count == 1000 / 20)) {
             count = 0;

@@ -135,7 +135,7 @@
 /*
  * Determine if we compile against SDL
  */
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 # define ARCHDEP_USE_SDL
 #endif
 

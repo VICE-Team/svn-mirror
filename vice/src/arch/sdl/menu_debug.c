@@ -35,6 +35,7 @@
 #include "vice_sdl.h"
 
 #include "lib.h"
+#include "mainlock.h"
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "resources.h"
@@ -136,7 +137,7 @@ static UI_MENU_CALLBACK(show_font_callback)
                         uppercase = MENU_FONT_MONITOR;
                         break;
                     default:
-                        SDL_Delay(20);
+                        mainlock_yield_and_sleep(tick_per_second() / 60);
                         break;
                 }
             }

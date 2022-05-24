@@ -36,7 +36,6 @@
 #include <d3d11_1.h>
 #include <d2d1_1.h>
 #include <glib.h>
-#include <pthread.h>
 #include <stdbool.h>
 
 #ifdef __cplusplus
@@ -49,10 +48,10 @@ extern "C" {
  *  \sa video_canvas_s::renderer_context */
 typedef struct vice_directx_renderer_context_s {
     /** \brief needed to coordinate access to the context between vice and main threads */
-    pthread_mutex_t canvas_lock;
+    void *canvas_lock;
 
     /** \brief used to coordinate access to native rendering resources */
-    pthread_mutex_t render_lock;
+    void *render_lock;
 
     /** \brief A 'pool' of one thread used to render backbuffers via directx */
     render_thread_t render_thread;

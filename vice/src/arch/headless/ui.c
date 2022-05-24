@@ -114,7 +114,7 @@ static int is_paused = 0;
  */
 void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     return;
 }
@@ -126,7 +126,7 @@ void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
  */
 int ui_cmdline_options_init(void)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     return cmdline_register_options(cmdline_options_common);
 }
@@ -145,7 +145,7 @@ int ui_cmdline_options_init(void)
  */
 char *ui_get_file(const char *format, ...)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     /*
      * Also not called when trying to play back events, at least, I've never
@@ -209,7 +209,7 @@ int ui_init_finalize(void)
  */
 ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
-    printf("%s\n", __func__);
+    /* printf("%s\n", __func__); */
 
     va_list args;
     char *buffer;
@@ -265,13 +265,6 @@ void ui_shutdown(void)
     uiserver_shutdown();
 }
 
-
-/** \brief  Dispatch events pending in the GLib main context loop
- */
-void ui_dispatch_events(void)
-{
-    printf("%s\n", __func__);
-}
 
 /** \brief  Display the "Do you want to extend the disk image to
  *          40-track format?" dialog
@@ -334,10 +327,10 @@ void ui_message(const char *format, ...)
 bool ui_pause_loop_iteration(void)
 {
     /* printf("%s\n", __func__); */
-    /*
-    ui_dispatch_next_event();
-    g_usleep(10000);
-    */
+    
+    tick_sleep(tick_per_second() / 500);
+    uiserver_poll();
+
     return is_paused;
 }
 
@@ -349,13 +342,12 @@ bool ui_pause_loop_iteration(void)
  */
 static void pause_trap(uint16_t addr, void *data)
 {
-    printf("%s\n", __func__);
-/*
+    /* printf("%s\n", __func__); */
+
     vsync_suspend_speed_eval();
     sound_suspend();
 
     while (ui_pause_loop_iteration());
-*/
 }
 
 
@@ -408,4 +400,9 @@ void ui_update_lightpen(void)
 void ui_hotkeys_init(void)
 {
     /* NOP */
+}
+
+void archdep_thread_run_on_main(main_thread_function_t callback, void *data)
+{
+    callback(data);
 }

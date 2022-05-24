@@ -33,7 +33,6 @@
 
 #include <assert.h>
 #include <math.h>
-#include <pthread.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -46,10 +45,10 @@ extern "C"
 #include "videoarch.h"
 }
 
-#define CANVAS_LOCK() pthread_mutex_lock(&context->canvas_lock)
-#define CANVAS_UNLOCK() pthread_mutex_unlock(&context->canvas_lock)
-#define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
-#define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
+#define CANVAS_LOCK() archdep_mutex_lock(context->canvas_lock)
+#define CANVAS_UNLOCK() archdep_mutex_unlock(context->canvas_lock)
+#define RENDER_LOCK() archdep_mutex_lock(context->render_lock)
+#define RENDER_UNLOCK() archdep_mutex_unlock(context->render_lock)
 
 #define DX_RELEASE(x) if (x) { (x)->Release(); (x) = NULL; }
 

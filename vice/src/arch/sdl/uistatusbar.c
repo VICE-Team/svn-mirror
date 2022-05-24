@@ -502,22 +502,17 @@ void ui_display_kbd_status(SDL_Event *e)
          * and SDLKey arguments. We could cast the arguments to fix the -Wformat
          * warnings, but that might bite us in the arse in the future.
          * So I use conditional compiling to make the issue clear.  -- compyx
+         * And then SDl1 was removed -- dqh
          */
-#ifdef USE_SDL2UI
+
         sprintf(p, "%c%03d>%03d %c%04x    ",
-#else
-        sprintf(p, "%c%03u>%03u %c%04x    ",
-#endif
                 (e->type == SDL_KEYUP) ? 'U' : 'D',
                 e->key.keysym.sym & 0xffff,
                 SDL2x_to_SDL1x_Keys(e->key.keysym.sym),
                 ((e->key.keysym.sym & 0xffff0000) == 0x40000000) ? 'M' : ((e->key.keysym.sym & 0xffff0000) != 0x00000000) ? 'E' : ' ',
                 e->key.keysym.mod);
-#ifdef USE_SDL2UI
+
         log_message(LOG_DEFAULT, "%s %03d>%03d %c%04x",
-#else
-        log_message(LOG_DEFAULT, "%s %03u>%03u %c%04x",
-#endif
                 (e->type == SDL_KEYUP) ? "release" : "press  ",
                 e->key.keysym.sym & 0xffff,
                 SDL2x_to_SDL1x_Keys(e->key.keysym.sym),

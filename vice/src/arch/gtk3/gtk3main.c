@@ -54,6 +54,8 @@
  */
 int main(int argc, char **argv)
 {
+    int init_result;
+
     /*
      * Ugly hack to make the VTE-based monitor behave on 32-bit Windows.
      *
@@ -70,20 +72,7 @@ int main(int argc, char **argv)
     _putenv("LANG=C");
 #endif
 
-    /*
-     * Each thread in VICE, including main, needs to call this before anything
-     * else. Basically this is for init COM on Windows.
-     */
-    archdep_thread_init();
-
-    /*
-     * The exit code needs to know what thread is the main thread, so that if
-     * archdep_vice_exit() is called from any other thread, it knows it needs
-     * to asynchronously call exit() on the main thread.
-     */
-    archdep_set_main_thread();
-
-    int init_result = main_program(argc, argv);
+    init_result = main_program_init(argc, argv);
     if (init_result) {
         return init_result;
     }
@@ -102,6 +91,14 @@ int main(int argc, char **argv)
  */
 void main_exit(void)
 {
+    log_message(LOG_DEFAULT, "\nExiting...");
+    
+    /* log resources with non default values */
+    resources_log_active();
+    
+    /* log the active config as commandline options */
+    cmdline_log_active();
+
     /*
      * The render thread MUST be joined before the platform exit() is called
      * otherwise gl calls can deadlock

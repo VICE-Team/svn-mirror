@@ -38,7 +38,7 @@
 # ALT+C
 1123 Cartridge&Attach CRT image
 # ALT+D
-1124 Video settings&VICII size settings&Fullscreen
+1124 Video settings&Callback: Fullscreen toggle
 # ALT+E
 1125 Snapshot&Set recording milestone
 # ALT+H
@@ -59,6 +59,8 @@
 1136 Pause
 # ALT+Q
 1137 Quit emulator
+# ALT+R
+1138 Video settings&Restore window size
 # ALT+S
 1139 Snapshot&Save snapshot image
 # ALT+T

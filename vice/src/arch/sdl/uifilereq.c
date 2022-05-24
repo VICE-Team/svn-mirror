@@ -33,10 +33,11 @@
 
 #include "archdep.h"
 #include "lib.h"
+#include "mainlock.h"
+#include "menu_common.h"
 #include "ui.h"
 #include "uimenu.h"
 #include "util.h"
-#include "menu_common.h"
 
 #include "uifilereq.h"
 
@@ -600,7 +601,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                 break;
 
             default:
-                SDL_Delay(10);
+                mainlock_yield_and_sleep(tick_per_second() / 120);
                 break;
         }
     }
@@ -770,7 +771,7 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
                 active = 0;
                 break;
             default:
-                SDL_Delay(10);
+                mainlock_yield_and_sleep(tick_per_second() / 120);
                 break;
         }
     }

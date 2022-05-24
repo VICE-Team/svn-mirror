@@ -54,6 +54,42 @@
           design elsewhere
  */
 
+
+void archdep_mutex_create(void **mutex)
+{
+
+}
+
+void archdep_mutex_destroy(void *mutex)
+{
+
+}
+
+void archdep_mutex_lock(void *mutex)
+{
+
+}
+
+void archdep_mutex_unlock(void *mutex)
+{
+
+}
+
+void archdep_thread_set_main(void)
+{
+
+}
+
+void archdep_thread_run_on_main(main_thread_function_t callback, void *data)
+{
+    callback(data);
+}
+
+bool archdep_thread_current_is_main(void)
+{
+    return true;
+}
+
 /* called from resources_set_defaults() */
 void cartridge_detach_image(int type)
 {
@@ -104,17 +140,14 @@ void main_exit(void)
 
 }
 
-#ifdef USE_VICE_THREAD
 bool mainlock_is_vice_thread(void)
 {
-
     return false;
 }
 
 void mainlock_initiate_shutdown(void)
 {
 }
-#endif
 
 #if 0
 void enable_text(void)
@@ -295,7 +328,7 @@ uint8_t machine_tape_behaviour(void)
     return TAPE_BEHAVIOUR_NORMAL;
 }
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 char *kbd_get_menu_keyname(void)
 {
     return NULL;

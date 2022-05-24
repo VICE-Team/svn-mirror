@@ -58,9 +58,6 @@
 # endif
 #endif
 
-#define LIB_DEBUG_LOCK()
-#define LIB_DEBUG_UNLOCK()
-
 #ifdef LIB_DEBUG
 #define LIB_DEBUG_SIZE  0x10000
 #define LIB_DEBUG_GUARD 0x1000
@@ -90,14 +87,9 @@ static char *lib_debug_guard_base[LIB_DEBUG_SIZE];
 static unsigned int lib_debug_guard_size[LIB_DEBUG_SIZE];
 #endif
 
-#ifdef USE_VICE_THREAD
-#include <pthread.h>
-static pthread_mutex_t lib_debug_lock = PTHREAD_MUTEX_INITIALIZER;
-#undef LIB_DEBUG_LOCK
-#undef LIB_DEBUG_UNLOCK
-#define LIB_DEBUG_LOCK() pthread_mutex_lock(&lib_debug_lock)
-#define LIB_DEBUG_UNLOCK() pthread_mutex_unlock(&lib_debug_lock)
-#endif
+static void *lib_debug_lock;
+#define LIB_DEBUG_LOCK() archdep_mutex_lock(lib_debug_lock)
+#define LIB_DEBUG_UNLOCK() archdep_mutex_unlock(lib_debug_lock)
 
 
 #ifdef DEBUG
@@ -407,6 +399,10 @@ static void *lib_debug_libc_realloc(void *ptr, size_t size)
     return realloc(ptr, size);
 #endif
 }
+
+#else
+#define LIB_DEBUG_LOCK()
+#define LIB_DEBUG_UNLOCK()
 #endif
 
 /*----------------------------------------------------------------------------*/
@@ -977,15 +973,7 @@ void lib_rand_seed(uint64_t seed)
 void lib_init(void)
 {
 #ifdef DEBUG
-
-#ifdef USE_VICE_THREAD
-    {
-        pthread_mutexattr_t lock_attributes;
-        pthread_mutexattr_init(&lock_attributes);
-        pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
-        pthread_mutex_init(&lib_debug_lock, &lock_attributes);
-    }
-#endif
+    archdep_mutex_create(&lib_debug_lock);
 
     lib_debug_init();
 #endif
