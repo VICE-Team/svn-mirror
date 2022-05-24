@@ -511,6 +511,7 @@ function generate_executable_target {
 		    PRIVATE
 		    	$LIB_LIST
 		    )
+	
 	HEREDOC
 }
 
@@ -570,10 +571,11 @@ PARALLEL_JOBS=""
 for executable in $EMULATORS
 do
 	if $USE_PARALLEL; then
-		PARALLEL_JOBS="${PARALLEL_JOBS}cd $(pwd); >&2 echo \"Emulator: ${executable}\"; generate_executable_target ${executable}\n"
+		PARALLEL_JOBS="${PARALLEL_JOBS}cd $(pwd); >&2 echo \"Emulator: ${executable}\"; generate_executable_target ${executable}; echo \"add_dependencies(${executable} uiclienttest)\";\n"
 	else
 		echo "Emulator: $executable"
 		generate_executable_target $executable >> CMakeLists.txt
+		echo "add_dependencies(${executable} uiclienttest)" >> CMakeLists.txt
 	fi
 done
 
