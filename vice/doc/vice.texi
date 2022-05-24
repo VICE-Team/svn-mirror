@@ -9172,9 +9172,8 @@ This "backup" support can be emulated through the use of images.
 Initially it will "format" the memory so each has their own native parition
 on drive 16.
 Paritions and the device number can be changed with the CMD "RAM-tools".
-The latest RAMLink firmware (2.01) can not handle REU sizes other than 128
-and 512 KiB, or GEORAM sizes beyond 2 MiB in VICE, as the firmware will hang
-on size detection.
+The latest RAMLink firmware (2.01) can not handle REU sizes greater than 8 MiB,
+or GEORAM sizes beyond 2 MiB, as the firmware will hang on size detection.
 
 The RAMLink also features a parallel port (similar to IEEE-488 interface)
 which allows faster transfers to the CMD HD series drives.
@@ -31903,14 +31902,16 @@ Although RAMLink has 2 pass-thru ports, they are not complete shorts to
 the cartridge bus, some of the control lines are altered based on the state
 of the device.
 Initially, RAMLink is disabled, the trap kernal is active and only one of its
-registers is visisble:
+registers is visible:
 
 @example
     $DF7E    = Enable RAMLink registers and switch to shadow kernal
 @end example
 
 Once a write is done to $DF7E, all the other registers become active. The
-shadow kernal also switches in.
+shadow kernal also switches in. This happens regardless of the state of the
+microprocessor IO port ($1). Even if the kernal ROM is mapped out, the shadow
+kernal will appear.
 
 @example
     $DF20     = NMI Trap Enable? (not certain as to its function)
