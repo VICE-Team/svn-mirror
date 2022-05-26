@@ -80,6 +80,7 @@ static const char *autostart_diskimage;
     "label {\n" \
     "  font-family: \"C64 Pro Mono\";\n" \
     "  font-size: 16px;\n" \
+    "  min-height: 16px;\n" \
     "  letter-spacing: 0;\n" \
     "  margin: -2px;\n" \
     "  border: 0px;\n" \
@@ -90,6 +91,7 @@ static const char *autostart_diskimage;
  */
 #define MENUITEM_CSS \
     "menuitem {\n" \
+    "  min-height: 16px;\n" \
     "  margin: 0px;\n" \
     "  border: 0px;\n" \
     "  padding: 0px;\n" \
