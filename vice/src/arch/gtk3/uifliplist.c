@@ -3,6 +3,9 @@
  *
  * \author  Michael C. Martin <mcmartin@gmail.com>
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \todo    Refactor to use UI actions, remove code (re)implemented in
+ *          actions-drive.c.
  */
 
 /*
@@ -35,6 +38,7 @@
 #include "util.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uistatusbar.h"
 
 #include "uifliplist.h"
@@ -42,86 +46,6 @@
 /** \brief  Size of message buffer
  */
 #define MSGBUF_SIZE 1024
-
-
-/** \brief  Callback to add current image to the fliplist
- *
- * \param[in]   widget  widget triggering the event (unused)
- * \param[in]   data    drive unit
- *
- * \return  TRUE to indicate the event has been handled
- */
-gboolean ui_fliplist_add_current_cb(GtkWidget *widget, gpointer data)
-{
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-
-    if (fliplist_add_image(unit)) {
-
-        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): added '%s'",
-                unit, fliplist_get_head((unsigned int)unit));
-        ui_display_statustext(buffer, 10);
-    } else {
-        /* Display proper error message once we have a decent
-         * get_image_filename(unit) function which returns NULL on non-attached
-         * images.
-         */
-        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): oops", unit);
-        ui_display_statustext(buffer, 10);
-    }
-    return TRUE;
-}
-
-
-/** \brief  Remove current image from fliplist
- *
- * \param[in]   widget  unused
- * \param[in]   data    unit number
- *
- * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
- *          in the emulated machine
- */
-gboolean ui_fliplist_remove_current_cb(GtkWidget *widget, gpointer data)
-{
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-    const char *image;
-
-    /* get image filename before removing image */
-    image = fliplist_get_head((unsigned int)unit);
-
-    if (image != NULL) {
-        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): Removed '%s'",
-                unit, image);
-    } else {
-        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): Nothing to remove",
-                unit);
-    }
-
-    fliplist_remove(unit, NULL);
-    ui_display_statustext(buffer, 10);
-    return TRUE;
-}
-
-/** \brief  Remove all images from fliplist
- *
- * \param[in]   widget  unused
- * \param[in]   data    unit number
- *
- * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
- *          in the emulated machine
- */
-gboolean ui_fliplist_clear_cb(GtkWidget *widget, gpointer data)
-{
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-
-    g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d) cleared.", unit);
-
-    fliplist_clear_list(unit);
-    ui_display_statustext(buffer, 10);
-    return TRUE;
-}
 
 
 /** \brief  Select next image in the fliplist
@@ -177,7 +101,6 @@ gboolean ui_fliplist_prev_cb(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 
-
 /** \brief  Handler for attaching an image from the fliplist
  *
  * \param[in]   widget  widget triggering the event
@@ -198,6 +121,7 @@ static void ui_fliplist_select_cb(GtkWidget *widget, gpointer data)
         }
     }
 }
+
 
 /** \brief Fill in a menu with controls for fliplist control.
  *
@@ -336,6 +260,7 @@ static void fliplist_load_response(GtkWidget *widget,
         ui_display_statustext(buffer, 10);
     }
     gtk_widget_destroy(widget);
+    ui_action_finish(ACTION_FLIPLIST_LOAD);
 }
 
 
@@ -398,6 +323,7 @@ static void fliplist_save_response(GtkWidget *widget,
 
     }
     gtk_widget_destroy(widget);
+    ui_action_finish(ACTION_FLIPLIST_SAVE);
 }
 
 

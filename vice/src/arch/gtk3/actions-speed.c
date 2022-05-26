@@ -160,6 +160,7 @@ static void set_speed_resource(int speed)
 
     resources_get_int("Speed", &oldval);
     if (oldval != speed) {
+        resources_set_int("Speed", speed);
         update_cpu_radio_buttons();
         update_fps_radio_buttons();
     }
@@ -170,6 +171,7 @@ static void set_speed_resource(int speed)
  */
 static void speed_cpu_200_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(200);
 }
 
@@ -177,6 +179,7 @@ static void speed_cpu_200_action(void)
  */
 static void speed_cpu_100_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(100);
 }
 
@@ -184,6 +187,7 @@ static void speed_cpu_100_action(void)
  */
 static void speed_cpu_50_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(50);
 }
 
@@ -191,6 +195,7 @@ static void speed_cpu_50_action(void)
  */
 static void speed_cpu_20_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(20);
 }
 
@@ -198,6 +203,7 @@ static void speed_cpu_20_action(void)
  */
 static void speed_cpu_10_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(10);
 }
 
@@ -240,7 +246,7 @@ static void speed_cpu_custom_action(void)
     widget = ui_get_menu_item_by_action_for_window(ACTION_SPEED_CPU_CUSTOM,
                                                    ui_get_main_window_index());
     if (widget != NULL) {
-        if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+//        if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
             int curval = 0;
 
             resources_get_int("Speed", &curval);
@@ -251,7 +257,7 @@ static void speed_cpu_custom_action(void)
                     "Enter a new custom emulation speed",
                     curval,
                     1, 100000);
-        }
+        //}
     } else {
         debug_gtk3("Failed to get menu item for action %d (%s).",
                    ACTION_SPEED_CPU_CUSTOM,
@@ -340,56 +346,58 @@ static void speed_fps_custom_action(void)
 
 /** \brief  Speed-related UI action mappings
  */
-static const ui_action_map_t mappings[] = {
+static const ui_action_map_t speed_actions[] = {
     {
-        .action_id = ACTION_PAUSE_TOGGLE,
+        .action = ACTION_PAUSE_TOGGLE,
         .handler = pause_toggle_action
     },
     {
-        .action_id = ACTION_WARP_MODE_TOGGLE,
+        .action = ACTION_WARP_MODE_TOGGLE,
         .handler = warp_mode_toggle_action
     },
     {
-        .action_id = ACTION_SPEED_CPU_200,
+        .action = ACTION_SPEED_CPU_200,
         .handler = speed_cpu_200_action
     },
     {
-        .action_id = ACTION_SPEED_CPU_100,
+        .action = ACTION_SPEED_CPU_100,
         .handler = speed_cpu_100_action
     },
     {
-        .action_id = ACTION_SPEED_CPU_50,
+        .action = ACTION_SPEED_CPU_50,
         .handler = speed_cpu_50_action
     },
     {
-        .action_id = ACTION_SPEED_CPU_20,
+        .action = ACTION_SPEED_CPU_20,
         .handler = speed_cpu_20_action
     },
     {
-        .action_id = ACTION_SPEED_CPU_10,
+        .action = ACTION_SPEED_CPU_10,
         .handler = speed_cpu_10_action
     },
     {
-        .action_id = ACTION_SPEED_CPU_CUSTOM,
+        .action = ACTION_SPEED_CPU_CUSTOM,
         .handler = speed_cpu_custom_action,
-        .mode = ACTION_MODE_BLOCKING|ACTION_MODE_DIALOG
+        .blocks = true,
+        .dialog = true
     },
     {
-        .action_id = ACTION_SPEED_FPS_REAL,
+        .action = ACTION_SPEED_FPS_REAL,
         .handler = speed_fps_real_action
     },
     {
-        .action_id = ACTION_SPEED_FPS_50,
+        .action = ACTION_SPEED_FPS_50,
         .handler = speed_fps_50_action
     },
     {
-        .action_id = ACTION_SPEED_FPS_60,
+        .action = ACTION_SPEED_FPS_60,
         .handler = speed_fps_60_action
     },
     {
-        .action_id = ACTION_SPEED_FPS_CUSTOM,
+        .action = ACTION_SPEED_FPS_CUSTOM,
         .handler = speed_fps_custom_action,
-        .mode = ACTION_MODE_BLOCKING|ACTION_MODE_DIALOG
+        .blocks = true,
+        .dialog = true
     },
 
     UI_ACTION_MAP_TERMINATOR
@@ -400,5 +408,5 @@ static const ui_action_map_t mappings[] = {
  */
 void actions_speed_register(void)
 {
-    ui_actions_add_mappings(mappings);
+    ui_actions_register(speed_actions);
 }

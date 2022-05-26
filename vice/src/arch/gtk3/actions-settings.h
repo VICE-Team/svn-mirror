@@ -1,5 +1,5 @@
-/** \file   uicart.h
- * \brief   Widget to attach carts - header
+/** \file   actions-settings.h
+ * \brief   UI action implementations for settings management - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,16 +25,10 @@
  *
  */
 
-#ifndef VICE_UICART_H
-#define VICE_UICART_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
+#ifndef VICE_ACTIONS_SETTINGS_H
+#define VICE_ACTIONS_SETTINGS_H
 
-#include "cartridge.h"
-
-void ui_cart_show_dialog(void);
-void ui_cart_default_attach(GtkWidget *widget, void (*callback)(void));
-void ui_cart_shutdown(void);
+void actions_settings_register(void);
 
 #endif

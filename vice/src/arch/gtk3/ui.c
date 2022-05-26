@@ -102,6 +102,12 @@
 #include "archdep.h"
 #include "widgethelpers.h"
 
+#include "actions-cartridge.h"
+#include "actions-drive.h"
+#include "actions-machine.h"
+#include "actions-settings.h"
+#include "actions-speed.h"
+
 /* for the fullscreen_capability() stub */
 #include "fullscreen.h"
 
@@ -2146,8 +2152,15 @@ int ui_init_finalize(void)
         }
     }
 
+    /* ui_actions_init() is called in src/main.c */
     ui_actions_set_dispatch(ui_action_dispatch);
     ui_hotkeys_init();
+
+    actions_cartridge_register();
+    actions_drive_register();
+    actions_machine_register();
+    actions_settings_register();
+    actions_speed_register();
     return 0;
 }
 

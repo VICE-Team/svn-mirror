@@ -36,11 +36,6 @@
 #include "machine.h"
 
 
-#define ACTION_MODE_BLOCKING    (1u<<1u)
-#define ACTION_MODE_DIALOG      (1u<<2u)
-
-#define ACTION_STATE_BUSY       (1u<<1u)
-
 /** \brief  Mapping of action IDs to names and descriptions
  */
 typedef struct ui_action_info_s {
@@ -53,13 +48,20 @@ typedef struct ui_action_info_s {
 /** \brief  Mapping of an action ID to a handler
  */
 typedef struct ui_action_map_s {
-    int action_id;          /**< action ID */
+    int action;             /**< action ID */
     void (*handler)(void);  /**< function handling the action */
-    uint32_t mode;          /**< mode flags of the action */
-    uint32_t state;         /**< state flags of the action */
+
+    /* modes */
+    bool blocks;            /**< action blocks (the same action cannot be
+                                 triggered again until it finishes) */
+    bool dialog;            /**< action pops up a dialog (only one dialog action
+                                 is allowed at a time) */
+
+    /* state */
+    bool is_busy;           /**< action is busy */
 } ui_action_map_t;
 
-#define UI_ACTION_MAP_TERMINATOR { ACTION_NONE, NULL, 0, 0 }
+#define UI_ACTION_MAP_TERMINATOR { .action = ACTION_NONE, .handler = NULL }
 
 
 /** \brief  Check for valid action name character
@@ -221,20 +223,20 @@ enum {
 
 
 int                 ui_action_get_id(const char *name);
-const char *        ui_action_get_name(int id);
-const char *        ui_action_get_desc(int id);
+const char *        ui_action_get_name(int action);
+const char *        ui_action_get_desc(int action);
 ui_action_info_t *  ui_action_get_info_list(void);
 
 void ui_actions_init(void);
 void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *));
 void ui_actions_shutdown(void);
-void ui_actions_add_mappings(const ui_action_map_t *mappings);
-void ui_action_trigger(int action_id);
-void ui_action_finish(int action_id);
+void ui_actions_register(const ui_action_map_t *mappings);
+void ui_action_trigger(int action);
+void ui_action_finish(int action);
 
 /* TODO: implement the following: */
-bool                ui_action_def(int id, const char *hotkey);
-bool                ui_action_undef(int id);
-bool                ui_action_redef(int id, const char *hotkey);
+bool                ui_action_def(int action, const char *hotkey);
+bool                ui_action_undef(int action);
+bool                ui_action_redef(int action, const char *hotkey);
 
 #endif

@@ -1782,7 +1782,7 @@ bool ui_hotkeys_export(const char *path)
     ref_count = ui_menu_item_ref_count();
     for (ref_index = 0; ref_index < ref_count; ref_index++) {
         ui_menu_item_ref_t *ref;
-        ui_menu_item_t *decl;
+        const ui_menu_item_t *decl;
 
         ref = ui_menu_item_ref_by_index(ref_index);
         decl = ref->decl;

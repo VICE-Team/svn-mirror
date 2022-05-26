@@ -84,7 +84,7 @@ static gint menu_ref_count = 0;
  *
  *
  */
-static ui_menu_item_ref_t *add_menu_item_ref(ui_menu_item_t *decl,
+static ui_menu_item_ref_t *add_menu_item_ref(const ui_menu_item_t *decl,
                                              GtkWidget *item,
                                              gulong handler_id,
                                              gint window_id)
@@ -274,29 +274,52 @@ static void on_menu_item_destroy(GtkWidget *item, gpointer unused)
  * \param[in]       acceleratable   ? (unused)
  * \param[in]       keyval          GDK keyval (unused)
  * \param[in]       modifier        GDK key modifier(s) (unused)
- * \param[in,out]   user_data       accelerator data
+ * \param[in]       action_id       UI action ID
  */
 static void handle_accelerator(GtkAccelGroup *accel_grp,
                                GObject *acceleratable,
                                guint keyval,
                                GdkModifierType modifier,
-                               gpointer user_data)
+                               gpointer action_id)
 {
-    GtkWidget *item;
-    ui_menu_item_ref_t *ref = user_data;
-    ui_menu_item_t *decl = ref->decl;
-    gint window_index = ui_get_main_window_index();
+    debug_gtk3("Called with action ID %d", GPOINTER_TO_INT(action_id));
+    ui_action_trigger(GPOINTER_TO_INT(action_id));
+}
 
-    item = ref->item[window_index];
 
-    if (decl->type == UI_MENU_TYPE_ITEM_CHECK) {
-        /* check items get the 'resource' member as event data */
-        decl->callback(item, decl->resource);
-    } else {
-        /* other items get the 'data' member as event data */
-        decl->callback(item, decl->data);
+/** \brief  Handler for the 'activate' event of a menu item
+ *
+ * Used for non-radio button items.
+ *
+ * \param[in]   item        menu item
+ * \param[in]   action_id   UI action ID
+ */
+static void on_menu_item_activate(GtkWidget *item, gpointer action_id)
+{
+    debug_gtk3("Called with action ID %d", GPOINTER_TO_INT(action_id));
+    ui_action_trigger(GPOINTER_TO_INT(action_id));
+}
+
+
+/** \brief  Handler for the 'toggled' event of a menu item
+ *
+ * Used for radio button items.
+ *
+ * \param[in]   item        menu item
+ * \param[in]   action_id   UI action ID
+ */
+static void on_menu_item_toggled(GtkWidget *item, gpointer action_id)
+{
+    gint id = GPOINTER_TO_INT(action_id);
+
+    debug_gtk3("Called with action ID %d (%s)", id, ui_action_get_name(id));
+    /* only trigger the associated action when the radio button is on */
+    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item))) {
+        debug_gtk3("Item is active");
+        ui_action_trigger(id);
     }
 }
+
 
 
 /** \brief  Add menu \a items to \a menu
@@ -307,7 +330,7 @@ static void handle_accelerator(GtkAccelGroup *accel_grp,
  *
  * \return  \a menu
  */
-GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
+GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window_id)
 {
     size_t i = 0;
     GSList *group = NULL;
@@ -321,119 +344,20 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
             case UI_MENU_TYPE_ITEM_ACTION:
                 /* normal callback item */
                 group = NULL;   /* terminate radio button group */
-
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
-                if (items[i].callback != NULL) {
-                    if (items[i].unlocked) {
-                        g_signal_connect_unlocked(
-                            item,
-                            "activate",
-                            G_CALLBACK(items[i].callback),
-                            (gpointer)(items[i].data));
-                    } else {
-                        g_signal_connect(
-                            item,
-                            "activate",
-                            G_CALLBACK(items[i].callback),
-                            (gpointer)(items[i].data));
-                    }
-                } else {
-                    /* no callback: 'grey-out'/'ghost' the item */
-                    gtk_widget_set_sensitive(item, FALSE);
-                }
                 break;
 
             case UI_MENU_TYPE_ITEM_CHECK:
                 /* check mark item */
                 group = NULL;   /* terminate radio button group */
-
                 item = gtk_check_menu_item_new_with_mnemonic(items[i].label);
-                if (items[i].callback != NULL) {
-                    /* use the resource name, if present, to determine the state
-                     * of the checkmark
-                     */
-                    if (items[i].resource != NULL) {
-                        int state;
-
-                        resources_get_int((const char *)items[i].resource, &state);
-                        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
-                                                       (gboolean)state);
-                    }
-                    /* connect signal handler AFTER setting the state, otherwise
-                     * the callback gets triggered, leading to odd results */
-                    if (items[i].unlocked) {
-                        handler_id = g_signal_connect_unlocked(
-                            item,
-                            "activate",
-                            G_CALLBACK(items[i].callback),
-                            items[i].resource);
-                    } else {
-                        handler_id = g_signal_connect(
-                            item,
-                            "activate",
-                            G_CALLBACK(items[i].callback),
-                            items[i].resource);
-                    }
-                } else {
-                    /* grey out */
-                    gtk_widget_set_sensitive(item, FALSE);
-                }
                 break;
 
             case UI_MENU_TYPE_ITEM_RADIO_INT:   /* fall through */
             case UI_MENU_TYPE_ITEM_RADIO_STR:
                 /* radio button item */
-
                 item = gtk_radio_menu_item_new_with_label(group, items[i].label);
                 group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(item));
-
-                if (items[i].callback != NULL) {
-                    /* use `data` and the resource to determine the state of
-                     * the checkmark
-                     */
-                    if (items[i].resource != NULL) {
-                        bool active = false;
-
-                        if (items[i].type == UI_MENU_TYPE_ITEM_RADIO_INT) {
-                            int res_val = 0;
-                            int item_val = GPOINTER_TO_INT(items[i].data);
-
-                            resources_get_int(items[i].resource, &res_val);
-                            active = (bool)(res_val == item_val);
-                        } else {
-                            const char *res_val = NULL;
-                            const char *item_val = items[i].data;
-
-                            resources_get_string(items[i].resource, &res_val);
-                            if (res_val != NULL && item_val != NULL) {
-                                active = (bool)(strcmp(res_val, item_val) == 0);
-                            } else if (res_val == NULL && item_val == NULL) {
-                                active = true;
-                            }
-                        }
-                        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
-                                                       active);
-                    }
-
-                    /* connect signal handler AFTER setting the state, otherwise
-                     * the callback gets triggered, leading to odd results */
-                    if (items[i].unlocked) {
-                        handler_id = g_signal_connect_unlocked(
-                            item,
-                            "toggled",
-                            G_CALLBACK(items[i].callback),
-                            items[i].data);
-                    } else {
-                        handler_id = g_signal_connect(
-                            item,
-                            "toggled",
-                            G_CALLBACK(items[i].callback),
-                            items[i].data);
-                    }
-                } else {
-                    /* grey out */
-                    gtk_widget_set_sensitive(item, FALSE);
-                }
                 break;
 
             case UI_MENU_TYPE_SEPARATOR:
@@ -448,7 +372,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
                 submenu = gtk_menu_new();
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
                 gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
-                ui_menu_add(submenu, (ui_menu_item_t *)items[i].data, window_id);
+                ui_menu_add(submenu, items[i].submenu, window_id);
                 break;
 
             default:
@@ -456,6 +380,37 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
                 item = NULL;
                 break;
         }
+
+        if (items[i].action_id > ACTION_NONE) {
+            /* radio buttons use the "toggled" event */
+            if (items[i].type == UI_MENU_TYPE_ITEM_RADIO_INT ||
+                    items[i].type == UI_MENU_TYPE_ITEM_RADIO_STR) {
+                if (items[i].unlocked) {
+                    handler_id = g_signal_connect_unlocked(
+                            item, "toggled",
+                            G_CALLBACK(on_menu_item_toggled),
+                            GINT_TO_POINTER(items[i].action_id));
+                } else {
+                    handler_id = g_signal_connect(
+                            item, "toggled",
+                            G_CALLBACK(on_menu_item_toggled),
+                            GINT_TO_POINTER(items[i].action_id));
+                }
+            } else {
+                if (items[i].unlocked) {
+                    handler_id = g_signal_connect_unlocked(
+                            item, "activate",
+                            G_CALLBACK(on_menu_item_activate),
+                            GINT_TO_POINTER(items[i].action_id));
+                } else {
+                    handler_id = g_signal_connect(
+                            item, "activate",
+                            G_CALLBACK(on_menu_item_activate),
+                            GINT_TO_POINTER(items[i].action_id));
+                }
+            }
+        }
+
         if (item != NULL) {
             gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
@@ -480,10 +435,6 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id)
             g_object_set_data(G_OBJECT(item),
                               "ActionID",
                               GINT_TO_POINTER(items[i].action_id));
-            /* set resource name */
-            g_object_set_data(G_OBJECT(item),
-                              "ResourceName",
-                              items[i].resource);
 
             /* add item to table of references if it triggers a UI action */
             if (items[i].action_id > ACTION_NONE) {
@@ -680,7 +631,9 @@ void ui_menu_set_accel_via_item_ref(GtkWidget *item,
     GtkWidget *child;
     GClosure *closure;
 
-    closure = g_cclosure_new(G_CALLBACK(handle_accelerator), (gpointer)ref, NULL);
+    closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
+                             GINT_TO_POINTER(ref->decl->action_id),
+                             NULL);
 
     if (ref->decl->unlocked) {
         gtk_accel_group_connect(accel_group,
@@ -738,7 +691,7 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
 
     debug_gtk3("Setting new accelerator");
     accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
-                                   (gpointer)ref,
+                                   GINT_TO_POINTER(action_id),
                                    NULL);
     if (ref->decl->unlocked) {
         gtk_accel_group_connect(accel_group,
@@ -774,8 +727,8 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
  *
  * \return  pointer to menu item or `NULL` when not found
  */
-ui_menu_item_t *ui_get_menu_decl_by_hotkey(guint keysym,
-                                           GdkModifierType modifier)
+const ui_menu_item_t *ui_get_menu_decl_by_hotkey(guint keysym,
+                                                 GdkModifierType modifier)
 {
     ui_menu_item_ref_t *ref = ui_menu_item_ref_by_hotkey(keysym, modifier);
     return ref != NULL ? ref->decl : NULL;
@@ -833,7 +786,7 @@ gboolean ui_get_menu_item_hotkey_by_action(gint action_id,
  *
  * \return  pointer to menu item declaration or `NULL` when not found
  */
-ui_menu_item_t *ui_get_menu_decl_by_action(gint action_id)
+const ui_menu_item_t *ui_get_menu_decl_by_action(gint action_id)
 {
     ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id);
     return ref != NULL ? ref->decl : NULL;

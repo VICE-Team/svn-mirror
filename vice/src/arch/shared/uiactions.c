@@ -389,11 +389,11 @@ static ui_action_map_t *action_mappings;
 
 /** \brief  Size of the mappings array in elements
  */
-static size_t action_mappings_size;
+static size_t action_mappings_size = 0;
 
 /** \brief  Number of elements in the mappings array
  */
-static size_t action_mappings_count;
+static size_t action_mappings_count = 0;
 
 /** \brief  Flag indicating a dialog is active
  *
@@ -454,52 +454,53 @@ void ui_actions_shutdown(void)
 }
 
 
-void ui_actions_add_mappings(const ui_action_map_t *mappings)
+void ui_actions_register(const ui_action_map_t *mappings)
 {
     const ui_action_map_t *map = mappings;
 
-    while (map->action_id > ACTION_NONE) {
-        /* do we need to reallocate the array? */
-        if (action_mappings_size == action_mappings_count - 1) {
+    while (map->action > ACTION_NONE) {
+        ui_action_map_t *entry;
+
+        /* do we need to reallocate the array? (-1 for the terminator) */
+        if ((action_mappings_size - 1) == action_mappings_count) {
             /* yup, double its size */
             action_mappings_size *= 2;
             action_mappings = lib_realloc(action_mappings,
                                           sizeof *action_mappings * action_mappings_size);
         }
 
-        action_mappings[action_mappings_count].action_id = map->action_id;
-        action_mappings[action_mappings_count].handler = map->handler;
-        action_mappings[action_mappings_count].mode = map->mode;
-        action_mappings[action_mappings_count].state = 0;
+        entry = &action_mappings[action_mappings_count];
+        entry->action  = map->action;
+        entry->handler = map->handler;
+        entry->blocks  = map->blocks;
+        entry->dialog  = map->dialog;
+        entry->is_busy = false;
 
         action_mappings_count++;
         map++;;
     }
     /* terminate list */
-    action_mappings[action_mappings_count].action_id = ACTION_NONE;
+    action_mappings[action_mappings_count].action  = ACTION_NONE;
     action_mappings[action_mappings_count].handler = NULL;
-    action_mappings[action_mappings_count].mode = 0;
-    action_mappings[action_mappings_count].state = 0;
-
 }
 
 
 /** \brief  Find action mapping by action ID
  *
- * \param[in]   action_id   action ID
+ * \param[in]   action  action ID
  *
  * \return  action mapping or `NULL` when not found
  */
-static ui_action_map_t *find_action_map(int action_id)
+static ui_action_map_t *find_action_map(int action)
 {
     ui_action_map_t *map = action_mappings;
 
-    if (action_id < ACTION_NONE || action_id >= ACTION_ID_COUNT) {
+    if (action < ACTION_NONE || action >= ACTION_ID_COUNT) {
         return NULL;
     }
 
-    while (map->action_id > ACTION_NONE) {
-        if (map->action_id == action_id) {
+    while (map->action > ACTION_NONE) {
+        if (map->action == action) {
             return map;
         }
         map++;
@@ -510,11 +511,11 @@ static ui_action_map_t *find_action_map(int action_id)
 
 /** \brief  Trigger a UI action
  *
- * \param[in]   action_id   ID of the action to trigger
+ * \param[in]   action  action ID
  *
  * \see src/arch/shared/uiactions.h for IDs
  */
-void ui_action_trigger(int action_id)
+void ui_action_trigger(int action)
 {
     ui_action_map_t *map;
 
@@ -523,20 +524,20 @@ void ui_action_trigger(int action_id)
         return;
     }
 
-    map = find_action_map(action_id);
+    map = find_action_map(action);
     if (map != NULL) {
        /* handle blocking actions */
-        if (map->mode & ACTION_MODE_BLOCKING) {
-            if (map->state & ACTION_STATE_BUSY) {
+        if (map->blocks) {
+            if (map->is_busy) {
                 /* action is still busy, skip */
                 return;
             }
             /* mark action busy */
-            map->state |= ACTION_STATE_BUSY;
+            map->is_busy = true;
         }
 
         /* handle dialogs, only one can be active at a time */
-        if (map->mode & ACTION_MODE_DIALOG) {
+        if (map->dialog) {
             if (dialog_active) {
                 return;
             }
@@ -545,6 +546,8 @@ void ui_action_trigger(int action_id)
 
         /* dispatch to UI */
         dispatch_handler(map);
+    } else {
+        printf("?OUT OF DATA  ERROR (no handler for action %d)\n", action);
     }
 }
 
@@ -556,14 +559,20 @@ void ui_action_trigger(int action_id)
  *
  * \param[in]   action_id
  */
-void ui_action_finish(int action_id)
+void ui_action_finish(int action)
 {
-    ui_action_map_t *map = find_action_map(action_id);
+    ui_action_map_t *map = find_action_map(action);
+
+    printf("%s(): called for %d (%s).\n",
+           __func__, action, ui_action_get_name(action));
+
     if (map != NULL) {
         /* clear all state flags for the action */
-        map->state = 0;
+        printf("%s(): clearing state flags.\n", __func__);
+        map->is_busy = false;
         /* clear global dialog flag */
-        if (map->mode & ACTION_MODE_DIALOG) {
+        if (map->dialog) {
+            printf("%s(): clearing global dialog-active flag.\n", __func__);
             dialog_active = false;
         }
     }

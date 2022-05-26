@@ -49,6 +49,7 @@
 #include "mainlock.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uimachinewindow.h"
 #include "lastdir.h"
@@ -517,9 +518,14 @@ static image_contents_t *read_contents_wrapper(const char *path)
 }
 
 
+
+static void on_destroy(GtkWidget *self, gpointer data)
+{
+    ui_action_finish(ACTION_SMART_ATTACH);
+}
+
+
 /** \brief  Create the smart-attach dialog
- *
- * \param[in]   parent  parent widget, used to get the top level window
  *
  * \return  GtkFileChooserDialog
  *
@@ -527,7 +533,7 @@ static image_contents_t *read_contents_wrapper(const char *path)
  *          file/image has been selected. And when I do, make sure it's somehow
  *          reusable for other 'open file' dialogs'.
  */
-static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
+static GtkWidget *create_smart_attach_dialog(void)
 {
     GtkWidget *dialog;
     size_t i;
@@ -595,6 +601,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             G_CALLBACK(on_update_preview), NULL);
     g_signal_connect_unlocked(dialog, "selection-changed",
             G_CALLBACK(on_selection_changed), NULL);
+    g_signal_connect(dialog, "destroy", G_CALLBACK(on_destroy), NULL);
 
     return dialog;
 
@@ -610,14 +617,10 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
  *
  * \return  TRUE
  */
-gboolean ui_smart_attach_dialog_show(GtkWidget *widget, gpointer user_data)
+void ui_smart_attach_dialog_show(void)
 {
-    GtkWidget *dialog;
-
-    dialog = create_smart_attach_dialog(widget);
+    GtkWidget *dialog = create_smart_attach_dialog();
     gtk_widget_show(dialog);
-    return TRUE;
-
 }
 
 
