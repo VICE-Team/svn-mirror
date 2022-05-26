@@ -2036,6 +2036,11 @@ int ultimax_romh_phi1_read(uint16_t addr, uint8_t *value)
             return 1;
         }
     }
+    if (ramlink_cart_enabled()) {
+        if ((res = ramlink_romh_phi1_read(addr, value)) == CART_READ_VALID) {
+            return 1;
+        }
+    }
 
     switch (res) {
         case CART_READ_C64MEM:
@@ -2144,6 +2149,11 @@ int ultimax_romh_phi2_read(uint16_t addr, uint8_t *value)
     }
     if (ieeeflash64_cart_enabled()) {
         if ((res = ieeeflash64_romh_phi2_read(addr, value)) == CART_READ_VALID) {
+            return 1;
+        }
+    }
+    if (ramlink_cart_enabled()) {
+        if ((res = ramlink_romh_phi2_read(addr, value)) == CART_READ_VALID) {
             return 1;
         }
     }
