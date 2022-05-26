@@ -1119,7 +1119,8 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                 return mem_read(addr);
             }
             /* we must check for which bank is currently active */
-            if (c64meminit_io_config[mem_config]) {
+            /* don't include ultimax here, check later */
+            if (c64meminit_io_config[mem_config] == 1) {
                 if ((addr >= 0xd000) && (addr < 0xe000)) {
                     return peek_bank_io(addr);
                 }
