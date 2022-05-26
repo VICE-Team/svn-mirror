@@ -90,7 +90,7 @@ static const char *autostart_diskimage;
  */
 #define MENUITEM_CSS \
     "menuitem {\n" \
-    "  margin: 0;\n" \
+    "  margin: -1px;\n" \
     "  border: 0;\n" \
     "  padding: 0;\n" \
     "}"
@@ -300,11 +300,11 @@ GtkWidget *dir_menu_popup_create(
             gtk_container_add(GTK_CONTAINER(menu), item);
             lib_free(tmp);
             lib_free(utf8);
-
+#if 0
             /* add separator */
             item = gtk_separator_menu_item_new();
             gtk_container_add(GTK_CONTAINER(menu), item);
-
+#endif
             /* add files */
             index = 0;
             for (entry = contents->file_list; entry != NULL;
