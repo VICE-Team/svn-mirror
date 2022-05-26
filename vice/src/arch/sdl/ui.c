@@ -660,9 +660,6 @@ int ui_init_finalize(void)
 
     if (!console_mode) {
         sdl_ui_init_finalize();
-#ifndef USE_SDL2UI
-	sdl_ui_set_window_title("VICE");
-#endif
         sdl_ui_ready = 1;
     }
     return 0;
