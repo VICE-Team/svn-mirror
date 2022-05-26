@@ -30,6 +30,10 @@
 
 #include "vice.h"
 
+#include <gtk/gtk.h>
+#include <stddef.h>
+#include <stdbool.h>
+
 #include "attach.h"
 #include "debug_gtk3.h"
 #include "drive.h"

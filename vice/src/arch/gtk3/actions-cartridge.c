@@ -28,6 +28,12 @@
  *
  */
 
+#include "vice.h"
+
+#include <gtk/gtk.h>
+#include <stddef.h>
+#include <stdbool.h>
+
 #include "basedialogs.h"
 #include "cartridge.h"
 #include "resources.h"

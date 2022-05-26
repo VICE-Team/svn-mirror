@@ -52,6 +52,7 @@ noinst_LIBRARIES = libarch.a libtoolarch.a
 
 libarch_a_SOURCES = \
 	actions-cartridge.c \
+	actions-datasette.c \
 	actions-drive.c \
 	actions-machine.c \
 	actions-settings.c \
@@ -130,6 +131,7 @@ libtoolarch_a_SOURCES = \
 EXTRA_DIST = \
 	Resources/VICE.icns \
 	actions-cartridge.h \
+	actions-datasette.h \
 	actions-drive.h \
 	actions-machine.h \
 	actions-settings.h \

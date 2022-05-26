@@ -28,11 +28,7 @@
 #ifndef VICE_UITAPEATTACH_H
 #define VICE_UITAPEATTACH_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-gboolean ui_tape_attach_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_tape_detach_callback(GtkWidget *widget, gpointer user_data);
+void ui_tape_attach_show_dialog(int port);
 void ui_tape_attach_shutdown(void);
 
 #endif

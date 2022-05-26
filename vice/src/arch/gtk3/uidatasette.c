@@ -33,11 +33,53 @@
 #include "machine.h"
 #include "resources.h"
 #include "tapeport.h"
+#include "uiactions.h"
 #include "uisettings.h"
 #include "uitapeattach.h"
 #include "vice_gtk3.h"
 
 #include "uidatasette.h"
+
+
+/** \brief  Table of UI action codes for datasette control codes and port
+ */
+static const int action_ids[][2] = {
+    /* DATASETTE_CONTROL_STOP */
+    { ACTION_TAPE_STOP_1,           ACTION_TAPE_STOP_2 },
+    /* DATASETTE_CONTROL_START */
+    { ACTION_TAPE_PLAY_1,           ACTION_TAPE_PLAY_2 },
+    /* DATASETTE_CONTROL_FORWARD */
+    { ACTION_TAPE_FFWD_1,           ACTION_TAPE_FFWD_2 },
+    /* DATASETTE_CONTROL_REWIND */
+    { ACTION_TAPE_REWIND_1,         ACTION_TAPE_REWIND_2 },
+    /* DATASETTE_CONTROL_RECORD */
+    { ACTION_TAPE_RECORD_1,         ACTION_TAPE_RECORD_2 },
+    /* DATASETTE_CONTROL_RESET */
+    { ACTION_TAPE_RESET_1,          ACTION_TAPE_RESET_2 },
+    /* DATASETTE_CONTROL_RESET_COUNTER */
+    { ACTION_TAPE_RESET_COUNTER_1,  ACTION_TAPE_RESET_COUNTER_2 }
+};
+
+
+/** \brief  Translate datasette command codes to UI action IDs
+ *
+ * \param[in]   command datasette command code
+ * \param[in]   port    port number (1 or 2)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a control or \a port values
+ *
+ * \see src/datasette/datasette.h for the command codes
+ */
+int ui_datasette_command_to_action(int port, int command)
+{
+    if (command < DATASETTE_CONTROL_STOP || command > DATASETTE_CONTROL_RESET_COUNTER) {
+        return ACTION_NONE;
+    }
+    if (port < 1 || port > 2) {
+        return ACTION_NONE;
+    }
+    return action_ids[command][port - 1];
+}
 
 
 /** \brief  Handler for the 'activate' event of the "Configure" menu item
@@ -54,28 +96,15 @@ static void on_configure_activate(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Datasette UI action callback
+/** \brief  Handler for the 'activate' event of a menu item
  *
- * \param[in]   widget  parent widget (unused)
- * \param[in]   data    action value and datasette port (1 or 2)
+ * Trigger a UI action.
  *
- * \return  TRUE to indicate the UI event was handled
+ * \param[in]   action  UI action ID
  */
-gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
+static void trigger_ui_action(GtkWidget *item, gpointer action)
 {
-    int val = GPOINTER_TO_INT(data) & 0xff;
-    int index = (GPOINTER_TO_INT(data) >> 8) - 1;
-
-    if (val >= DATASETTE_CONTROL_STOP && val <= DATASETTE_CONTROL_RESET_COUNTER) {
-        datasette_control(index, val);
-    } else {
-        log_error(LOG_ERR,
-                  "Got an impossible Datasette Control action, code %ld (valid range %d-%d)\n",
-                  (long)val,
-                  DATASETTE_CONTROL_STOP,
-                  DATASETTE_CONTROL_RESET_COUNTER);
-    }
-    return TRUE;
+    ui_action_trigger(GPOINTER_TO_INT(action));
 }
 
 
@@ -92,9 +121,12 @@ GtkWidget *ui_create_datasette_control_menu(int port)
     GtkWidget *menu, *item, *menu_items[DATASETTE_CONTROL_RESET_COUNTER+1];
     int i;
     gchar buffer[256];
+    int action_id;
 
     menu = gtk_menu_new();
 
+    /* Attach */
+    action_id = port == 1 ? ACTION_TAPE_ATTACH_1 : ACTION_TAPE_ATTACH_2;
     if (machine_class == VICE_MACHINE_PET) {
         g_snprintf(buffer, sizeof(buffer), "Attach tape #%d image ...", port);
         item = gtk_menu_item_new_with_label(buffer);
@@ -104,8 +136,11 @@ GtkWidget *ui_create_datasette_control_menu(int port)
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect_unlocked(item,
                               "activate",
-                              G_CALLBACK(ui_tape_attach_callback),
-                              GINT_TO_POINTER(port));
+                              G_CALLBACK(trigger_ui_action),
+                              GINT_TO_POINTER(action_id));
+
+    /* Detach */
+    action_id = port == 1 ? ACTION_TAPE_DETACH_1 : ACTION_TAPE_DETACH_2;
     if (machine_class == VICE_MACHINE_PET) {
         g_snprintf(buffer, sizeof(buffer), "Detach tape #%d image", port);
         item = gtk_menu_item_new_with_label(buffer);
@@ -115,9 +150,12 @@ GtkWidget *ui_create_datasette_control_menu(int port)
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item,
                      "activate",
-                     G_CALLBACK(ui_tape_detach_callback),
-                     GINT_TO_POINTER(port));
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(action_id));
+
     gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
+
+    /* Datasette control items */
     menu_items[0] = gtk_menu_item_new_with_label("Stop");
     menu_items[1] = gtk_menu_item_new_with_label("Play");
     menu_items[2] = gtk_menu_item_new_with_label("Forward");
@@ -126,18 +164,21 @@ GtkWidget *ui_create_datasette_control_menu(int port)
     menu_items[5] = gtk_menu_item_new_with_label("Reset");
     menu_items[6] = gtk_menu_item_new_with_label("Reset Counter");
     for (i = 0; i <= DATASETTE_CONTROL_RESET_COUNTER; ++i) {
+        action_id = ui_datasette_command_to_action(port, i);
         gtk_container_add(GTK_CONTAINER(menu), menu_items[i]);
         g_signal_connect(menu_items[i],
                          "activate",
-                         G_CALLBACK(ui_datasette_tape_action_cb),
-                         GINT_TO_POINTER(i | (port << 8)));    /* port #1 */
+                         G_CALLBACK(trigger_ui_action),
+                         GINT_TO_POINTER(action_id));
     }
 
     /* add "configure tapeport devices" */
     gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
     item = gtk_menu_item_new_with_label("Configure tapeport devices ...");
-    g_signal_connect(item, "activate", G_CALLBACK(on_configure_activate),
-            NULL);
+    g_signal_connect(item,
+                     "activate",
+                     G_CALLBACK(on_configure_activate),
+                     NULL);
     gtk_container_add(GTK_CONTAINER(menu), item);
 
     gtk_widget_show_all(menu);
