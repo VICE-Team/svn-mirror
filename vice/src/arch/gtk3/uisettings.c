@@ -62,6 +62,7 @@
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
+#include "uiactions.h"
 #include "util.h"
 #include "machine.h"
 #include "resources.h"
@@ -2401,6 +2402,7 @@ static GtkTreePath *last_node_path = NULL;
 static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
 {
     settings_window = NULL;
+    ui_action_finish(ACTION_SETTINGS_DIALOG);
 }
 
 
@@ -2994,31 +2996,6 @@ static GtkWidget *dialog_create_helper(void)
 
     return dialog;
 }
-
-
-#if 0
-/** \brief  Callback to create the main settings dialog from the menu
- *
- * \param[in]   widget      (direct) parent widget, the menu item
- * \param[in]   user_data   data for the event (unused)
- *
- * \note    The appearance of minimize/maximize buttons seems to depend on
- *          which Window Manager is active:
- *
- *          On MATE (marco, a Metacity fork) both buttons are hidden.
- *          On KDE (KWin) the maximize button is still visible but inactive
- *          On OpenBox both min/max are visible with only minimize working
- *
- * \return  TRUE (avoids the key press getting passed to the emulated machine)
- */
-static gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
-{
-
-    ui_settings_dialog_create_and_activate_node(NULL);
-
-    return TRUE;
-}
-#endif
 
 
 /** \brief  Clean up resources used on emu exit

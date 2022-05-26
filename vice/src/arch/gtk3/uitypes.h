@@ -89,47 +89,12 @@ typedef struct ui_menu_item_s {
      */
     int action_id;
 
-    /** \brief  Menu item callback function
+    /** \brief  Submenu
      *
-     * The return value determines whether or not the keypress was 'consumed'
-     * by the UI.
-     *
-     * Normally you'd return TRUE here.
-     *
-     * The \a widget argument is the menu item and the \a user_data argument is
-     * the data member for anything except check buttons; check buttons get the
-     * resource name as their \a user_data argument.
-     *
-     * If `NULL`, there is no callback (for separators and placeholders for
-     * not-yet-implemented items).
+     * In case the item is of type `UI_MENU_TYPE_SUBMENU`, this member points
+     * to the submenu to add.
      */
-    gboolean (*callback)(GtkWidget *widget, gpointer user_data);
-
-    /** \brief  Resource name
-     *
-     * Resource name for check buttons and radio buttons.
-     *
-     * For check buttons the resource is read and interpreted as boolean to
-     * set the check button state.
-     * For radio buttons the resource is read and its value compared against the
-     * data member to set the radio button state. For string types strcmp(3) is
-     * used, meaning the data member must match the case of the expected resource
-     * value. (radio groups really shouldn't use strings as IDs anyway)
-     */
-    char *resource;
-
-    /** \brief  Callback data
-     *
-     * The callback data is used when triggering the callback.
-     *
-     *  - UI_MENU_TYPE_ITEM_ACTION: 'variant', optional
-     *  - UI_MENU_TYPE_SUBMENU: array of submenu items
-     *  - UI_MENU_TYPE_ITEM_CHECK: ignored
-     *  - UI_MENU_TYPE_ITEM_RADIO_INT: integer value
-     *  - UI_MENU_TYPE_ITEM_RADIO_STRING: string value
-     *  - UI_MENU_TYPE_SEPARATOR: ignored
-     */
-    void *data;
+    const struct ui_menu_item_s *submenu;
 
     /** \brief  Hold VICE mainlock
      *
@@ -143,12 +108,12 @@ typedef struct ui_menu_item_s {
 
 /** \brief  Terminator of a menu items list
  */
-#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, 0, NULL, NULL, NULL, false }
+#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, 0, NULL, false }
 
 
 /** \brief  Menu items separator
  */
-#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, 0, NULL, NULL, NULL, false }
+#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, 0, NULL, false }
 
 
 /** \brief  Platform-dependent accelerator key defines
@@ -168,16 +133,28 @@ typedef struct ui_menu_item_s {
  * data and handlers.
  */
 typedef struct ui_menu_item_ref_s {
-    ui_menu_item_t *decl;       /**< reference to menu item initialization
-                                     data */
-    GtkWidget *     item[2];    /**< reference to the runtime Gtk menu item
-                                         (primary and secondary window) */
-    gulong          handler_id[2];  /**< ID of the 'activate' signal handler
-                                         (primary and secondary window) */
-    guint           keysym;     /**< hotkey Gdk keysym
-                                     \see /usr/include/gtk-3.0/gdk/gdkkeysyms.h
-                                 */
-    GdkModifierType modifier;   /**< hotkey Gdk modifiers mask */
+    /** \brief  Menu item initialization data */
+    const ui_menu_item_t *decl;
+
+    /** \brief  Runtime menu item */
+    GtkWidget *item[2];
+
+    /** \brief  ID of the 'activate' signal handler of a menu item
+     *
+     * This ID is used to temporarily block the activate event of a check or
+     * radio button when updating their state, to avoid triggering cascading
+     * events.
+     */
+    gulong handler_id[2];
+
+    /** \brief  Gdk keysym of the accelerator
+     *
+     * \see /usr/include/gtk-3.0/gdk/gdkkeysyms.h
+     */
+    guint keysym;
+
+    /** \brief  Gdk modifier mask */
+    GdkModifierType modifier;
 } ui_menu_item_ref_t;
 
 #endif

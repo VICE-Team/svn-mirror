@@ -48,7 +48,9 @@ gint                ui_menu_item_ref_count    (void);
 
 GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
 
-GtkWidget * ui_menu_add(GtkWidget *menu, ui_menu_item_t *items, gint window_id);
+GtkWidget * ui_menu_add(GtkWidget *menu,
+                        const ui_menu_item_t *items,
+                        gint window_id);
 
 void        ui_set_check_menu_item_blocked(GtkWidget *item,
                                            gboolean state);
@@ -73,9 +75,9 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
                                            guint keysym,
                                            GdkModifierType modifier);
 
-ui_menu_item_t *ui_get_menu_decl_by_hotkey(guint keysym,
+const ui_menu_item_t *ui_get_menu_decl_by_hotkey(guint keysym,
                                            GdkModifierType modifier);
-ui_menu_item_t *ui_get_menu_decl_by_action(gint action_id);
+const ui_menu_item_t *ui_get_menu_decl_by_action(gint action_id);
 
 gboolean ui_get_menu_item_hotkey_by_action(gint action_id,
                                            guint *keysym,

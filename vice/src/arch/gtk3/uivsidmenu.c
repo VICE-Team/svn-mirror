@@ -109,15 +109,13 @@ static GSList *tune_submenu_group = NULL;
 
 /** \brief  File->Reset submenu
  */
-static ui_menu_item_t reset_submenu[] = {
+static const ui_menu_item_t reset_submenu[] = {
     { "Soft reset", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_RESET_SOFT,
-      ui_machine_reset_callback, NULL, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
-      true },
+      NULL, true },
     { "Hard reset", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_RESET_HARD,
-      ui_machine_reset_callback, NULL, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
-      true },
+      NULL, true },
 
     UI_MENU_TERMINATOR
 };
@@ -125,11 +123,10 @@ static ui_menu_item_t reset_submenu[] = {
 
 /** \brief  'File' menu
  */
-static ui_menu_item_t file_menu[] = {
+static const ui_menu_item_t file_menu[] = {
     { "Load PSID file ...", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_PSID_LOAD,
-      uisidattach_show_dialog, NULL, NULL,
-      true },
+      NULL, true },
 
     UI_MENU_SEPARATOR,
 
@@ -138,35 +135,30 @@ static ui_menu_item_t file_menu[] = {
      */
     { "Record sound file ...", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_MEDIA_RECORD,
-      ui_media_dialog_show, NULL, NULL,
-      false },
+      NULL, false },
 
     { "Stop sound recording", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_MEDIA_STOP,
-      ui_media_stop_recording, NULL, NULL,
-      false },
+      NULL, false },
 
     UI_MENU_SEPARATOR,
 
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_MONITOR_OPEN,
-      ui_monitor_activate_callback, NULL, NULL,
-      false },
+      NULL, false },
 
     UI_MENU_SEPARATOR,
 
     { "Reset", UI_MENU_TYPE_SUBMENU,
       0,
-      NULL, NULL, reset_submenu,
-      false },
+      reset_submenu, false },
 
     UI_MENU_SEPARATOR,
 
     { "Exit player", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_QUIT,
-      ui_close_callback, NULL, NULL,
-      true },
+      NULL, true },
 
     UI_MENU_TERMINATOR
 };
@@ -184,14 +176,13 @@ static ui_menu_item_t tune_menu[] = {
 
 /** \brief  'Settings' menu
  */
-static ui_menu_item_t settings_menu[] = {
+static const ui_menu_item_t settings_menu[] = {
     /* XXX: this item should perhaps be removed and its functionality
      *      added to the settings dialog
      */
     { "Override PSID settings", UI_MENU_TYPE_ITEM_CHECK,
       ACTION_PSID_OVERRIDE_TOGGLE,
-      ui_toggle_resource, (void*)"PSIDKeepEnv", NULL,
-      false },
+      NULL, false },
 
     UI_MENU_TERMINATOR
 };
@@ -200,29 +191,25 @@ static ui_menu_item_t settings_menu[] = {
 /** \brief  'Debug' menu items
  */
 #ifdef DEBUG
-static ui_menu_item_t debug_menu[] = {
+static const ui_menu_item_t debug_menu[] = {
     { "Trace mode...", UI_MENU_TYPE_ITEM_ACTION,
-      0,
-      ui_debug_trace_mode_dialog_show, NULL, NULL,
-      false },
+      ACTION_DEBUG_TRACE_MODE,
+      NULL, false },
 
     UI_MENU_SEPARATOR,
 
     { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-      0,
-      ui_toggle_resource, (void*)"MainCPU_TRACE", NULL,
-      false },
+      ACTION_DEBUG_TRACE_CPU_TOGGLE,
+      NULL, false },
 
     UI_MENU_SEPARATOR,
 
     { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
       ACTION_DEBUG_AUTOPLAYBACK_FRAMES,
-      ui_debug_playback_frames_dialog_show, NULL, NULL,
-      false },
+      NULL, false },
     { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
-      0,
-      ui_toggle_resource, (void*)"DoCoreDump", NULL,
-      false },
+      ACTION_DEBUG_CORE_DUMP_TOGGLE,
+      NULL, false },
 
     UI_MENU_TERMINATOR
 };
@@ -231,23 +218,19 @@ static ui_menu_item_t debug_menu[] = {
 
 /** \brief  'Help' menu items
  */
-static ui_menu_item_t help_menu[] = {
+static const ui_menu_item_t help_menu[] = {
     { "Browse manual", UI_MENU_TYPE_ITEM_ACTION,
-      0,
-      ui_open_manual_callback, NULL, NULL,
-      true },
+      ACTION_HELP_MANUAL,
+      NULL, true },
     { "Command line options ...", UI_MENU_TYPE_ITEM_ACTION,
-      0,
-      uicmdline_dialog_show, NULL, NULL,
-      true },
+      ACTION_HELP_COMMAND_LINE,
+      NULL, true },
     { "Compile time features ...", UI_MENU_TYPE_ITEM_ACTION,
-      0,
-      uicompiletimefeatures_dialog_show, NULL, NULL,
-      true },
+      ACTION_HELP_COMPILE_TIME,
+      NULL, true },
     { "About VICE", UI_MENU_TYPE_ITEM_ACTION,
-      0,
-      ui_about_dialog_callback, NULL, NULL,
-      true },
+      ACTION_HELP_ABOUT,
+      NULL, true },
 
     UI_MENU_TERMINATOR
 };

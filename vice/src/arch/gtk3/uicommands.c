@@ -65,7 +65,7 @@
 
 static gboolean controlport_swapped = FALSE;
 
-
+#if 0
 /** \brief  Callback for the confirm-on-exit dialog
  *
  * Exit VICE if \a result is TRUE.
@@ -81,7 +81,7 @@ static void confirm_exit_callback(GtkDialog *dialog, gboolean result)
         mainlock_obtain();
     }
 }
-
+#endif
 
 /** \brief  Determine if control ports 1 & 2 are currently swapped.
  *
@@ -215,6 +215,9 @@ gboolean ui_action_toggle_mouse_grab(void)
 /******************************************************************************
  *    Event handlers, callbacks and helpers for CPU speed and FPS targets     *
  *****************************************************************************/
+
+/* TODO: Remove these functions and reimplement the cpu/fps popup menu to
+ *       use UI actions instead */
 
 /** \brief  Update main menu CPU speed radio buttons based on "Speed" resource
  */
@@ -454,75 +457,6 @@ gboolean ui_fps_custom_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-
-/** \brief  Callback for the soft/hard reset items
- *
- * \param[in]   widget      menu item triggering the event (unused)
- * \param[in]   user_data   MACHINE_RESET_MODE_SOFT/MACHINE_RESET_MODE_HARD
- *
- * \return  TRUE to indicate the event has been handled
- */
-gboolean ui_machine_reset_callback(GtkWidget *widget, gpointer user_data)
-{
-    machine_trigger_reset(GPOINTER_TO_INT(user_data));
-    ui_pause_disable();
-    return TRUE;
-}
-
-
-/** \brief  Callback for the drive reset items
- *
- * \param[in]   widget      menu item triggering the event (unused)
- * \param[in]   user_data   drive unit number (8-11) (int)
- *
- * \return  TRUE
- */
-gboolean ui_drive_reset_callback(GtkWidget *widget, gpointer user_data)
-{
-    vsync_suspend_speed_eval();
-    drive_cpu_trigger_reset(GPOINTER_TO_INT(user_data) - 8);
-    return TRUE;
-}
-
-
-/** \brief  Ask the user to confirm to exit the emulator if ConfirmOnExit is set
- *
- * \return  TRUE if the emulator should be exited, FALSE if not
- */
-static gboolean confirm_exit(void)
-{
-    int confirm = FALSE;
-
-    resources_get_int("ConfirmOnExit", &confirm);
-    if (!confirm) {
-        return TRUE;
-    }
-
-    vice_gtk3_message_confirm(
-            confirm_exit_callback,
-            "Exit VICE",
-            "Do you really wish to exit VICE?");
-
-    return FALSE;
-}
-
-
-/** \brief  Callback for the File->Exit menu item
- *
- * \param[in]   widget      menu item triggering the event (unused)
- * \param[in]   user_data   unused
- *
- * \return  TRUE
- */
-gboolean ui_close_callback(GtkWidget *widget, gpointer user_data)
-{
-    if (confirm_exit()) {
-        archdep_vice_exit(0);
-    }
-    return TRUE;
-}
-
-
 /** \brief  Handler for the 'delete-event' of a main window
  *
  * \param[in]   widget      window triggering the event (unused)
@@ -535,10 +469,7 @@ gboolean ui_main_window_delete_event(GtkWidget *widget,
                                      GdkEvent *event,
                                      gpointer user_data)
 {
-    if (confirm_exit()) {
-        /* if we reach this point, the function doesn't return */
-        archdep_vice_exit(0);
-    }
+    ui_action_trigger(ACTION_QUIT);
     return TRUE;
 }
 
@@ -720,47 +651,6 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 
-
-/** \brief  Callback for the confirmation dialog to restore settings
- *
- * Restore settings to their factory values if \a result is TRUE.
- *
- * \param[in]   dialog  confirm-dialog reference
- * \param[in]   result  result
- */
-static void restore_default_callback(GtkDialog *dialog, gboolean result)
-{
-    if (result) {
-        mainlock_obtain();
-        ui_hotkeys_load_default();
-        resources_set_defaults();
-        mainlock_release();
-    }
-    gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-
-/** \brief  Restore default settings
- *
- * Resets settings to their defaults, asking the user to confirm.
- *
- * \param[in]   widget  widget triggering event (ignored)
- * \param[in]   data    extra event data
- *
- * \return  TRUE (UI 'consumed' the keypress so it doesn't end up in the emu)
- */
-gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data)
-{
-    vice_gtk3_message_confirm(
-            restore_default_callback,
-            "Reset all settings to default",
-            "Are you sure you wish to reset all settings to their default"
-            " values?\n\n"
-            "The new settings will not be saved until using the 'Save"
-            " settings' menu item, or having 'Save on exit' enabled and"
-            " exiting VICE.");
-    return TRUE;
-}
 
 
 /** \brief  Show settings dialog with hotkeys node activated
