@@ -25,6 +25,12 @@
  *
  */
 
+#include "vice.h"
+
+#include <gtk/gtk.h>
+#include <stddef.h>
+#include <stdbool.h>
+
 #include "archdep.h"
 #include "basedialogs.h"
 #include "hotkeys.h"
@@ -285,6 +291,7 @@ static const ui_action_map_t settings_actions[] = {
 
     UI_ACTION_MAP_TERMINATOR
 };
+
 
 /** \brief  Register settings-related actions */
 void actions_settings_register(void)

@@ -33,6 +33,10 @@
 
 #include "vice.h"
 
+#include <gtk/gtk.h>
+#include <stddef.h>
+#include <stdbool.h>
+
 #include "basedialogs.h"
 #include "debug_gtk3.h"
 #include "resources.h"

@@ -27,9 +27,6 @@
 #ifndef VICE_UITAPECREATE_H
 #define VICE_UITAPECREATE_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-gboolean ui_tape_create_dialog_show(GtkWidget *parent, gpointer data);
+void ui_tape_create_dialog_show(int port);
 
 #endif

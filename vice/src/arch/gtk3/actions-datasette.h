@@ -1,7 +1,7 @@
-/** \file   uidatasette.h
- * \brief   Independent datasette control widgets - header
+/** \file   actions-datasette.h
+ * \brief   UI action implementations for datasette-related dialogs and settings - header
  *
- * \author  Michael C. Martin <mcmartin@gmail.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -25,13 +25,10 @@
  *
  */
 
-#ifndef VICE_UIDATASETTE_H
-#define VICE_UIDATASETTE_H
 
-#include <gtk/gtk.h>
+#ifndef VICE_ACTIONS_DATASETTE_H
+#define VICE_ACTIONS_DATASETTE_H
 
-int         ui_datasette_command_to_action(int port, int command);
-GtkWidget * ui_create_datasette_control_menu(int port);
-void        ui_datasette_update_sensitive(GtkWidget *menu, int port);
+void actions_datasette_register(void);
 
 #endif

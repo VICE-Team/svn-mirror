@@ -25,6 +25,12 @@
  *
  */
 
+#include "vice.h"
+
+#include <gtk/gtk.h>
+#include <stddef.h>
+#include <stdbool.h>
+
 #include "archdep.h"
 #include "basedialogs.h"
 #include "machine.h"
