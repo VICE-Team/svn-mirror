@@ -82,17 +82,17 @@ static const char *autostart_diskimage;
     "  font-size: 16px;\n" \
     "  letter-spacing: 0;\n" \
     "  margin: -2px;\n" \
-    "  border: 0;\n" \
-    "  padding: 0;\n" \
+    "  border: 0px;\n" \
+    "  padding: 0px;\n" \
     "}"
 
 /** \brief  CSS style string to remove padding from menu items
  */
 #define MENUITEM_CSS \
     "menuitem {\n" \
-    "  margin: -1px;\n" \
-    "  border: 0;\n" \
-    "  padding: 0;\n" \
+    "  margin: 0px;\n" \
+    "  border: 0px;\n" \
+    "  padding: 0px;\n" \
     "}"
 
 
