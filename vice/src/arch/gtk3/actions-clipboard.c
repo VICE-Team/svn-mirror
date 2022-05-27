@@ -1,7 +1,7 @@
-/** \file   uiedit.c
- * \brief   "Edit" submenu (copy / paste) for GTK3
+/** \file   actions-clipboard.c
+ * \brief   UI action implementations for clipboard handling
  *
- * \author  groepaz <groepaz@gmx.net>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -22,22 +22,40 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ */
+
+/* Resources altered by this file:
  *
  */
 
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <string.h>
+#include <stddef.h>
+#include <stdbool.h>
 
 #include "charset.h"
 #include "clipboard.h"
-#include "uiedit.h"
-#include "lib.h"
 #include "kbdbuf.h"
+#include "lib.h"
+#include "uiactions.h"
+
+#include "actions-clipboard.h"
 
 
-/** \brief  Event handler for the 'paste' event
+/** \brief  Copy emulated screen content to clipboard */
+static void edit_copy_action(void)
+{
+    char *text = clipboard_read_screen_output("\n");
+
+    if (text != NULL) {
+        gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
+                               text, (gint)strlen(text));
+    }
+}
+
+
+/** \brief  GtkClipboardTextReceivedTextFunc callback for the paste action
  *
  * Pastes \a text into the emulated machine via the machine's keyboard buffer.
  *
@@ -62,38 +80,34 @@ static void paste_callback(GtkClipboard *clipboard,
 }
 
 
-/** \brief  Callback for the edit->copy menu item
+/** \brief  Paste clipboard content into the emulated machine
  *
- * Copies the screen of the emulated machine into the host clipboard
- *
- * \param[in]   widget      widget (unused)
- * \param[in]   user_data   extra data (unused)
- *
- * \return  TRUE so the key pressed doesn't go to the emulated machine
+ * Paste clipboard content into the emulated machine by translating the text to
+ * PETSCII and feeding it to the keyboard buffer.
  */
-gboolean ui_copy_callback(GtkWidget *widget, gpointer user_data)
+static void edit_paste_action(void)
 {
-    char * text = clipboard_read_screen_output("\n");
-
-    if (text != NULL) {
-        gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
-                text, (gint)strlen(text));
-    }
-    return TRUE;
+    gtk_clipboard_request_text(gtk_clipboard_get(GDK_NONE), paste_callback, NULL);
 }
 
 
-/** \brief  Callback for the edit->paste menu item
- *
- * Copies the host clipboard into the emulated machine's screen
- *
- * \param[in]   widget      widget (unused)
- * \param[in]   user_data   extra data (unused)
- *
- * \return  TRUE so the key pressed doesn't go to the emulated machine
- */
-gboolean ui_paste_callback(GtkWidget *widget, gpointer user_data)
+/** \brief  List of clipboard actions */
+static const ui_action_map_t clipboard_actions[] = {
+    {
+        .action = ACTION_EDIT_COPY,
+        .handler = edit_copy_action
+    },
+    {
+        .action = ACTION_EDIT_PASTE,
+        .handler = edit_paste_action
+    },
+
+    UI_ACTION_MAP_TERMINATOR
+};
+
+
+/** \brief  Register clipboard actions */
+void actions_clipboard_register(void)
 {
-    gtk_clipboard_request_text(gtk_clipboard_get(GDK_NONE), paste_callback, NULL);
-    return TRUE;
+    ui_actions_register(clipboard_actions);
 }

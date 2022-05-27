@@ -103,6 +103,7 @@
 #include "widgethelpers.h"
 
 #include "actions-cartridge.h"
+#include "actions-clipboard.h"
 #include "actions-datasette.h"
 #include "actions-drive.h"
 #include "actions-machine.h"
@@ -2160,6 +2161,7 @@ int ui_init_finalize(void)
     actions_cartridge_register();
     actions_datasette_register();
     actions_drive_register();
+    actions_clipboard_register();
     actions_machine_register();
     actions_settings_register();
     actions_speed_register();

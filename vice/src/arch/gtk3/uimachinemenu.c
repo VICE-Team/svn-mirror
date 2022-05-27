@@ -73,7 +73,6 @@
 #include "uidebug.h"
 #include "uidiskattach.h"
 #include "uidiskcreate.h"
-#include "uiedit.h"
 #include "uifliplist.h"
 #include "uimedia.h"
 #include "uimenu.h"

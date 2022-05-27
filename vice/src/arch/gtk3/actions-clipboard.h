@@ -1,7 +1,7 @@
-/** \file   uiedit.h
- * \brief   Edit menu handlers - header
+/** \file   actions-clipboard.h
+ * \brief   UI action implementations for clipboard handling - header
  *
- * \author  groepaz <groepaz@gmx.net>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -24,13 +24,9 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_UIEDIT_H
-#define VICE_UIEDIT_H
+#ifndef VICE_ACTIONS_CLIPBOARD_H
+#define VICE_ACTIONS_CLIPBOARD_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-gboolean ui_copy_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_paste_callback(GtkWidget *widget, gpointer user_data);
+void actions_clipboard_register(void);
 
 #endif
