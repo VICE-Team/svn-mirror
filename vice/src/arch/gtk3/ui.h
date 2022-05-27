@@ -65,6 +65,16 @@ enum {
 };
 
 
+/** \brief  Encode unit and drive number for an attach/detach callback argument
+ *
+ * Encodes unit and drive number into a value to be used as a data argument
+ * for event handlers.
+ *
+ * \param[in]   U   unit number (8-11)
+ * \param[in]   D   drive number (0 or 1)
+ */
+#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
+
 
 extern GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT];
 

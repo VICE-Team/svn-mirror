@@ -188,14 +188,6 @@ enum {
 };
 
 
-/** \brief  Fold unit \a U and drive \a D into int and cast to pointer
- *
- * \param[in]   U   unit number
- * \param[in]   D   drive number
- */
-#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
-
-
 /** \brief  CSS for the drive widgets
  *
  * The negative margins look weird, but otherwise we have a lot of padding, and

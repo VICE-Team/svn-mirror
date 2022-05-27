@@ -6,24 +6,6 @@
  */
 
 /*
- * $VICERES KeySetEnable    -vsid
- * $VICERES Mouse           -vsid
- * $VICERES DtvBlitterLog   x64dtv
- * $VICERES DtvDMALog       x64dtv
- * $VICERES DtvFlashLog     x64dtv
- *
- * These resources are only available with --enable-debug
- *
- * $VICERES MainCPU_TRACE   all
- * $VICERES IEC_TRACE       -vsid
- * $VICERES IEEE_TRACE      -vsid
- * $VICERES Drive0CPU_TRACE -vsid
- * $VICERES Drive1CPU_TRACE -vsid
- * $VICERES Drive2CPU_TRACE -vsid
- * $VICERES Drive3CPU_TRACE -vsid
- */
-
-/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -47,43 +29,15 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
-#include <string.h>
 #include <gtk/gtk.h>
-#include "vice_gtk3.h"
+#include <stdbool.h>
+#include <stddef.h>
 
 #include "archdep.h"
-#include "archdep_defs.h"
-#include "datasette.h"
 #include "debug.h"
-#include "debug_gtk3.h"
-#include "lib.h"
 #include "machine.h"
-#include "mainlock.h"
-#include "resources.h"
-#include "tapeport.h"
-#include "ui.h"
-#include "uiabout.h"
 #include "uiactions.h"
-#include "uicart.h"
-#include "uicmdline.h"
-#include "uicommands.h"
-#include "uicompiletimefeatures.h"
-#include "uidatasette.h"
-#include "uidebug.h"
-#include "uidiskattach.h"
-#include "uidiskcreate.h"
-#include "uifliplist.h"
-#include "uimedia.h"
 #include "uimenu.h"
-#include "uimonarch.h"
-#include "uisettings.h"
-#include "uismartattach.h"
-#include "uisnapshot.h"
-#include "uitapeattach.h"
-#include "uitapecreate.h"
-#include "util.h"
-#include "vsync.h"
 
 #include "uimachinemenu.h"
 
@@ -99,17 +53,6 @@
  * This one lives until ui_exit() or thereabouts
  */
 static GtkWidget *main_menu_bar = NULL;
-
-
-/** \brief  Encode unit and drive number for an attach/detach callback argument
- *
- * Encodes unit and drive number into a value to be used as a data argument
- * for event handlers.
- *
- * \param[in]   U   unit number (8-11)
- * \param[in]   D   drive number (0 or 1)
- */
-#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
 
 
 /* {{{ disk_detach_submenu[] */
