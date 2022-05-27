@@ -498,7 +498,7 @@ void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data)
     }
 }
 
-
+#if 0
 /** \brief  Toggle boolean resource from the menu
  *
  * Toggles \a resource when a valid.
@@ -523,7 +523,7 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
     }
     return FALSE;
 }
-
+#endif
 
 /** \brief  Open the Manual
  *
@@ -620,37 +620,6 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 
     return res;
 }
-
-
-/** \brief  Attempt to restore the active window's size to its "natural" size
- *
- * Also unmaximizes and unfullscreens the window.
- *
- * \param[in]   widget  widget triggering the event (ignored)
- * \param[in]   data    extra event data (unused)
- *
- * \return  TRUE to signal the event was handled
- */
-gboolean ui_restore_display(GtkWidget *widget, gpointer data)
-{
-    GtkWindow *window = ui_get_active_window();
-
-    if (window != NULL) {
-        /* disable fullscreen if active */
-        if (ui_is_fullscreen()) {
-            ui_action_toggle_fullscreen();
-        }
-        /* unmaximize */
-        gtk_window_unmaximize(window);
-        /* requesting a 1x1 window forces the window to resize to its natural
-         * size, ie the minimal size required to display the window's
-         * decorations and contents without wasting space
-         */
-        gtk_window_resize(window, 1, 1);
-    }
-    return TRUE;
-}
-
 
 
 /** \brief  Show settings dialog with hotkeys node activated

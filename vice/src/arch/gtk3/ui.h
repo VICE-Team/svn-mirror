@@ -99,6 +99,7 @@ gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas);
 void     ui_set_fullscreen_enabled(gboolean enabled);
 gboolean ui_fullscreen_has_decorations(void);
 void     ui_trigger_resize(void);
+void     ui_update_fullscreen_decorations(void);
 
 GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
@@ -119,8 +120,6 @@ void ui_pause_toggle(void);
 gboolean ui_action_toggle_pause(void);
 gboolean ui_action_toggle_warp(void);
 gboolean ui_action_advance_frame(void);
-gboolean ui_action_toggle_fullscreen(void);
-gboolean ui_action_toggle_fullscreen_decorations(void);
 void     ui_action_set_speed(int speed);
 void     ui_action_set_fps(int fps);
 

@@ -31,8 +31,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource);
-
 gboolean ui_machine_reset_callback(GtkWidget *widget, gpointer user_data);
 gboolean ui_drive_reset_callback(GtkWidget *widget, gpointer user_data);
 gboolean ui_close_callback(GtkWidget *widget, gpointer user_data);
@@ -42,8 +40,6 @@ gboolean ui_main_window_delete_event(GtkWidget *widget, GdkEvent *event,
 void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 
 gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data);
-
-gboolean ui_restore_display(GtkWidget *widget, gpointer data);
 
 gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data);
 
