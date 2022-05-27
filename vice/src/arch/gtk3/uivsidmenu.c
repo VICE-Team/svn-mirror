@@ -6,12 +6,6 @@
  */
 
 /*
- * $VICERES PSIDKeepEnv     vsid
- * $VICERES MainCPU_TRACE   vsid
- * $VICERES DoCoreDump      vsid
- */
-
-/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -35,28 +29,18 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
 #include <gtk/gtk.h>
+#include <stdbool.h>
+#include <stddef.h>
 
-#include "debug_gtk3.h"
 #include "debug.h"
-#include "lib.h"
+#include "debug_gtk3.h"
 #include "machine.h"
 #include "psid.h"
-#include "ui.h"
-#include "uiabout.h"
 #include "uiactions.h"
-#include "uicmdline.h"
-#include "uicommands.h"
-#include "uicompiletimefeatures.h"
-#include "uidebug.h"
 #include "uimachinemenu.h"
-#include "uimedia.h"
 #include "uimenu.h"
-#include "uimonarch.h"
-#include "uisettings.h"
-#include "uisidattach.h"
-#include "uismartattach.h"
+
 #include "uivsidmenu.h"
 
 
