@@ -2074,7 +2074,7 @@ int ui_init_finalize(void)
                        show_statusbar ? "ON" : "OFF");
             ui_statusbar_set_visible_for_window(window, show_statusbar);
             ui_set_check_menu_item_blocked_by_action_for_window(
-                    ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, PRIMARY_WINDOW);
+                    ACTION_SHOW_STATUSBAR_TOGGLE, PRIMARY_WINDOW, show_statusbar);
 
             /* if any of the following is INT_MIN it means we don't want to restore
              * window position and size, and thus can use the resize(1,1) trick to
@@ -2097,12 +2097,12 @@ int ui_init_finalize(void)
                 resources_get_int_sprintf("%sShowStatusbar",
                                           &show_statusbar,
                                           canvas->videoconfig->chip_name);
-                debug_gtk3("Setting secondart window %sShowStatusbar toggle to %s.",\
+                debug_gtk3("Setting secondary window %sShowStatusbar toggle to %s.",\
                            canvas->videoconfig->chip_name,
                            show_statusbar ? "ON" : "OFF");
                 ui_statusbar_set_visible_for_window(window, show_statusbar);
                 ui_set_check_menu_item_blocked_by_action_for_window(
-                        ACTION_SHOW_STATUSBAR_TOGGLE, show_statusbar, SECONDARY_WINDOW);
+                        ACTION_SHOW_STATUSBAR_TOGGLE, SECONDARY_WINDOW, show_statusbar);
 
                 if (!show_statusbar) {
                     resources_get_int_sprintf("Window%dXpos", &xpos, SECONDARY_WINDOW);
