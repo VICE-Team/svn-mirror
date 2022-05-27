@@ -105,6 +105,7 @@
 #include "actions-cartridge.h"
 #include "actions-clipboard.h"
 #include "actions-datasette.h"
+#include "actions-display.h"
 #include "actions-drive.h"
 #include "actions-machine.h"
 #include "actions-settings.h"
@@ -798,7 +799,7 @@ static GdkPixbuf *get_default_icon(void)
 
 /** \brief Show or hide the decorations of the active main window as needed
  */
-static void ui_update_fullscreen_decorations(void)
+void ui_update_fullscreen_decorations(void)
 {
     GtkWidget *window;
     GtkWidget *grid;
@@ -1016,43 +1017,6 @@ void ui_trigger_resize(void)
     }
 }
 
-
-/** \brief  Toggles fullscreen mode in reaction to user request
- *
- * If fullscreen is enabled and there are no window decorations requested for
- * fullscreen mode, the mouse pointer is hidden until fullscreen is disabled.
- *
- * \return  TRUE
- */
-gboolean ui_action_toggle_fullscreen(void)
-{
-    gboolean enabled = FALSE;
-
-    if (active_win_index < 0) {
-        return FALSE;
-    }
-
-    enabled = ui_is_fullscreen();
-    ui_set_fullscreen_enabled(!enabled);
-
-    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_TOGGLE, enabled);
-    ui_update_fullscreen_decorations();
-    return TRUE;
-}
-
-
-/** \brief Toggles fullscreen window decorations in response to user request
- *
- * \return  TRUE
- */
-gboolean ui_action_toggle_fullscreen_decorations(void)
-{
-    fullscreen_has_decorations = !fullscreen_has_decorations;
-    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
-                                             fullscreen_has_decorations);
-    ui_update_fullscreen_decorations();
-    return TRUE;
-}
 
 
 /** \brief  Get a window-spec array index from \a param
@@ -1591,7 +1555,7 @@ static gboolean rendering_area_event_handler(GtkWidget *canvas,
          * a lightpen isn't active */
         resources_get_int("Mouse", &mouse);
         if (!mouse && !lightpen_enabled) {
-            ui_action_toggle_fullscreen();
+            ui_action_trigger(ACTION_FULLSCREEN_TOGGLE);
         }
         /* signal event handled */
         return TRUE;
@@ -2160,6 +2124,7 @@ int ui_init_finalize(void)
 
     actions_cartridge_register();
     actions_datasette_register();
+    actions_display_register();
     actions_drive_register();
     actions_clipboard_register();
     actions_machine_register();
