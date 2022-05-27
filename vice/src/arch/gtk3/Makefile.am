@@ -52,6 +52,7 @@ noinst_LIBRARIES = libarch.a libtoolarch.a
 
 libarch_a_SOURCES = \
 	actions-cartridge.c \
+	actions-clipboard.c \
 	actions-datasette.c \
 	actions-drive.c \
 	actions-machine.c \
@@ -86,7 +87,6 @@ libarch_a_SOURCES = \
 	uidebug.c \
 	uidiskattach.c \
 	uidiskcreate.c \
-	uiedit.c \
 	uifliplist.c \
 	uimachinemenu.c \
 	uimachinewindow.c \
@@ -131,6 +131,7 @@ libtoolarch_a_SOURCES = \
 EXTRA_DIST = \
 	Resources/VICE.icns \
 	actions-cartridge.h \
+	actions-clipboard.h \
 	actions-datasette.h \
 	actions-drive.h \
 	actions-machine.h \
@@ -161,7 +162,6 @@ EXTRA_DIST = \
 	uidebug.h \
 	uidiskattach.h \
 	uidiskcreate.h \
-	uiedit.h \
 	uifliplist.h \
 	uimachinemenu.h \
 	uimachinewindow.h \
