@@ -521,6 +521,10 @@ void ui_set_check_menu_item_blocked_by_action_for_window(gint action_id,
     if (valid_window_id(window_id)) {
         ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id);
         if (ref != NULL && ref->item[window_id] != NULL) {
+            debug_gtk3("Setting check item '%s' to %s for window %d",
+                       ui_action_get_name(action_id),
+                       state ? "ON" : "OFF",
+                       window_id);
             ui_set_check_menu_item_blocked(ref->item[window_id], state);
         }
     }

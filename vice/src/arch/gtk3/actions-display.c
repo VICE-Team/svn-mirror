@@ -25,6 +25,21 @@
  *
  */
 
+/* The following resources are manipulated here:
+ *
+ * $VICERES FullscreenDecorations   -vsid
+ * $VICERES CrtcFullscreen          xcbm2 xpet
+ * $VICERES TEDFullscreen           xplus4
+ * $VICERES VDCFullscreen           x128
+ * $VICERES VICFullscreen           xvic
+ * $VICERES VICIIFullscreen         x64 x64dtv x64sc x128 xcbm5x0 xscpu64
+ * $VICERES CrtcShowStatusbar       xcbm2 xpet
+ * $VICERES TEDShowStatusbar        xplus4
+ * $VICERES VDCShowStatusbar        x128
+ * $VICERES VICShowStatusbar        xvic
+ * $VICERES VICIIShowStatusbar      x64 x64dtv x64sc x128 xcbm5x0 xscpu64
+ */
+
 #include "vice.h"
 
 #include <gtk/gtk.h>
@@ -36,6 +51,8 @@
 #include "ui.h"
 #include "uiactions.h"
 #include "uimenu.h"
+#include "uistatusbar.h"
+#include "video.h"
 
 #include "actions-display.h"
 
@@ -62,7 +79,8 @@ static void fullscreen_toggle_action(void)
     enabled = !ui_is_fullscreen();
     ui_set_fullscreen_enabled(enabled);
 
-    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_TOGGLE, enabled);
+    ui_set_check_menu_item_blocked_by_action_for_window(
+            ACTION_FULLSCREEN_TOGGLE, index, enabled);
     ui_update_fullscreen_decorations();
 }
 
@@ -103,6 +121,35 @@ static void restore_display_action(void)
     }
 }
 
+/** \brief  Toggle status bar visibility for the active window */
+static void show_statusbar_toggle_action(void)
+{
+    video_canvas_t *canvas = ui_get_active_canvas();
+    if (canvas != NULL) {
+        GtkWindow *window;
+        int show = 0;
+        const char *chip_name = canvas->videoconfig->chip_name;
+
+        resources_get_int_sprintf("%sShowStatusbar", &show, chip_name);
+        show = !show;
+        resources_set_int_sprintf("%sShowStatusbar", show, chip_name);
+        debug_gtk3("%sShowStatusbar => %s.", chip_name, show ? "True" : "False");
+
+        window = ui_get_active_window();
+        ui_statusbar_set_visible_for_window(GTK_WIDGET(window), show);
+        /* update menu item's toggled state */
+        if (machine_class == VICE_MACHINE_C128) {
+            /* x128 is special since it has two windows and thus two status bars */
+            ui_set_check_menu_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
+                                                                canvas->window_index,
+                                                                show);
+        } else {
+            ui_set_check_menu_item_blocked_by_action(ACTION_SHOW_STATUSBAR_TOGGLE,
+                                                     show);
+        }
+    }
+}
+
 
 /** \brief  List of display-related actions */
 static const ui_action_map_t display_actions[] = {
@@ -117,6 +164,10 @@ static const ui_action_map_t display_actions[] = {
     {
         .action = ACTION_RESTORE_DISPLAY,
         .handler = restore_display_action
+    },
+    {
+        .action = ACTION_SHOW_STATUSBAR_TOGGLE,
+        .handler = show_statusbar_toggle_action
     },
 
     UI_ACTION_MAP_TERMINATOR
