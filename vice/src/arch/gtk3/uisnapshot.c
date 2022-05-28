@@ -52,6 +52,7 @@
 #include "vice-event.h"
 #include "uistatusbar.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uiapi.h"
 
 #include "uisnapshot.h"
@@ -113,6 +114,8 @@ static char *create_proposed_snapshot_name(void)
 
 
 /** \brief  Show dialog to save a snapshot
+ *
+ * FIXME:   Why isn't this dialog non-blocking?
  */
 static void save_snapshot_dialog(void)
 {
@@ -176,6 +179,7 @@ static void save_snapshot_dialog(void)
         }
     }
     gtk_widget_destroy(dialog);
+    ui_action_finish(ACTION_SNAPSHOT_SAVE);
 }
 
 
@@ -207,6 +211,7 @@ static void load_snapshot_filename_callback(GtkDialog *dialog,
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
     ui_done = true;
+    ui_action_finish(ACTION_SNAPSHOT_LOAD);
 }
 
 
@@ -341,155 +346,42 @@ static void quicksave_snapshot_trap(uint16_t addr, void *data)
 
 
 /** \brief  Display UI to load a snapshot file
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
  */
-gboolean ui_snapshot_open_file(GtkWidget *parent, gpointer user_data)
+void ui_snapshot_load_snapshot(void)
 {
     if (!ui_pause_active()) {
         interrupt_maincpu_trigger_trap(load_snapshot_trap, NULL);
     } else {
         load_snapshot_trap_impl(NULL);
     }
-    return TRUE;
 }
 
 
 /** \brief  Display UI to save a snapshot file
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
  */
-gboolean ui_snapshot_save_file(GtkWidget *parent, gpointer user_data)
+void ui_snapshot_save_snapshot(void)
 {
     if (!ui_pause_active()) {
         interrupt_maincpu_trigger_trap(save_snapshot_trap, NULL);
     } else {
         save_snapshot_trap_impl(NULL);
     }
-    return TRUE;
 }
 
 
-/** \brief  Gtk event handler for the QuickLoad menu item
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
- */
-gboolean ui_snapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data)
+/** \brief  Quicksave snapshot */
+void ui_snapshot_quickload_snapshot(void)
 {
     char *fname = quicksnap_filename();
 
     interrupt_maincpu_trigger_trap(quickload_snapshot_trap, (void *)fname);
-    return TRUE;
 }
 
 
-/** \brief  Gtk event handler for the QuickSave menu item
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
- */
-gboolean ui_snapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data)
+/** \brief  Quicksave snapshot */
+void ui_snapshot_quicksave_snapshot(void)
 {
     char *fname = quicksnap_filename();
 
     interrupt_maincpu_trigger_trap(quicksave_snapshot_trap, (void *)fname);
-    return TRUE;
-}
-
-
-/** \brief  Gtk event handler for the "Start recording events" menu item
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
- */
-gboolean ui_snapshot_history_record_start(GtkWidget *parent, gpointer user_data)
-{
-    event_record_start();
-    ui_display_recording(1);
-    return TRUE;
-}
-
-
-/** \brief  Gtk event handler for the "Stop recording events" menu item
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
- */
-gboolean ui_snapshot_history_record_stop(GtkWidget *parent, gpointer user_data)
-{
-    event_record_stop();
-    ui_display_recording(0);
-    return TRUE;
-}
-
-
-/** \brief  Gtk event handler for the "Start playing back events" menu item
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
- */
-gboolean ui_snapshot_history_playback_start(GtkWidget *parent, gpointer user_data)
-{
-    event_playback_start();
-    return TRUE;
-}
-
-
-
-/** \brief  Gtk event handler for the "Stop playing back events" menu item
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
- */
-gboolean ui_snapshot_history_playback_stop(GtkWidget *parent, gpointer user_data)
-{
-    event_playback_stop();
-    return TRUE;
-}
-
-
-/** \brief  Gtk event handler for the "Set recording milestone" menu item
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
- */
-gboolean ui_snapshot_history_milestone_set(GtkWidget *parent, gpointer user_data)
-{
-    event_record_set_milestone();
-    return TRUE;
-}
-
-
-/** \brief  Gtk event handler for the "Return to milestone" menu item
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- *
- * \return  TRUE
- */
-gboolean ui_snapshot_history_milestone_reset(GtkWidget *parent, gpointer user_data)
-{
-    event_record_reset_milestone();
-    return TRUE;
 }
