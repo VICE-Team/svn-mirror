@@ -410,6 +410,30 @@ static bool dialog_active = false;
 static void (*dispatch_handler)(const ui_action_map_t *) = NULL;
 
 
+/** \brief  Find action mapping by action ID
+ *
+ * \param[in]   action  action ID
+ *
+ * \return  action mapping or `NULL` when not found
+ */
+static ui_action_map_t *find_action_map(int action)
+{
+    ui_action_map_t *map = action_mappings;
+
+    if (action < ACTION_NONE || action >= ACTION_ID_COUNT) {
+        return NULL;
+    }
+
+    while (map->action > ACTION_NONE) {
+        if (map->action == action) {
+            return map;
+        }
+        map++;
+    }
+    return NULL;
+}
+
+
 /** \brief  Initialize UI actions system
  *
  * \note    This needs is called from the shared init code, the UI needs to
@@ -419,7 +443,7 @@ static void (*dispatch_handler)(const ui_action_map_t *) = NULL;
 void ui_actions_init(void)
 {
 #if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
-    action_mappings_size = 16;
+    action_mappings_size = 64;
     action_mappings_count = 0;
     action_mappings = lib_malloc(sizeof *action_mappings * action_mappings_size);
     printf("%s: allocated action mapping array of %zu elements\n",
@@ -461,6 +485,15 @@ void ui_actions_register(const ui_action_map_t *mappings)
     while (map->action > ACTION_NONE) {
         ui_action_map_t *entry;
 
+        /* first check if the action is already registered */
+        if (find_action_map(map->action) != NULL) {
+            log_error(LOG_ERR,
+                      "Handler for action %d (%s) already present, skipping.",
+                      map->action, ui_action_get_name(map->action));
+            map++;
+            continue;
+        }
+
         /* do we need to reallocate the array? (-1 for the terminator) */
         if ((action_mappings_size - 1) == action_mappings_count) {
             /* yup, double its size */
@@ -484,29 +517,6 @@ void ui_actions_register(const ui_action_map_t *mappings)
     action_mappings[action_mappings_count].handler = NULL;
 }
 
-
-/** \brief  Find action mapping by action ID
- *
- * \param[in]   action  action ID
- *
- * \return  action mapping or `NULL` when not found
- */
-static ui_action_map_t *find_action_map(int action)
-{
-    ui_action_map_t *map = action_mappings;
-
-    if (action < ACTION_NONE || action >= ACTION_ID_COUNT) {
-        return NULL;
-    }
-
-    while (map->action > ACTION_NONE) {
-        if (map->action == action) {
-            return map;
-        }
-        map++;
-    }
-    return NULL;
-}
 
 
 /** \brief  Trigger a UI action

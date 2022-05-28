@@ -108,8 +108,10 @@ static ui_menu_item_ref_t *add_menu_item_ref(const ui_menu_item_t *decl,
                 if (ref->decl == decl) {
                     ref->item[SECONDARY_WINDOW] = item;
                     ref->handler_id[SECONDARY_WINDOW] = handler_id;
+#if 0
                     debug_gtk3("updated item %d, action ID = %d, window ID = %d",
                                index, decl->action_id, window_id);
+#endif
                     return ref;
                 }
             }
@@ -127,9 +129,10 @@ static ui_menu_item_ref_t *add_menu_item_ref(const ui_menu_item_t *decl,
             ref->handler_id[PRIMARY_WINDOW] = handler_id;
             ref->handler_id[SECONDARY_WINDOW] = 0;
             menu_ref_count++;
+#if 0
             debug_gtk3("added item %d, action ID = %d, window ID = %d",
                     menu_ref_count, decl->action_id, window_id);
-
+#endif
 
         }
         return ref;
@@ -311,11 +314,14 @@ static void on_menu_item_activate(GtkWidget *item, gpointer action_id)
 static void on_menu_item_toggled(GtkWidget *item, gpointer action_id)
 {
     gint id = GPOINTER_TO_INT(action_id);
-
+#if 0
     debug_gtk3("Called with action ID %d (%s)", id, ui_action_get_name(id));
+#endif
     /* only trigger the associated action when the radio button is on */
     if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item))) {
+#if 0
         debug_gtk3("Item is active");
+#endif
         ui_action_trigger(id);
     }
 }
@@ -521,10 +527,12 @@ void ui_set_check_menu_item_blocked_by_action_for_window(gint action_id,
     if (valid_window_id(window_id)) {
         ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action_id);
         if (ref != NULL && ref->item[window_id] != NULL) {
+#if 0
             debug_gtk3("Setting check item '%s' to %s for window %d",
                        ui_action_get_name(action_id),
                        state ? "ON" : "OFF",
                        window_id);
+#endif
             ui_set_check_menu_item_blocked(ref->item[window_id], state);
         }
     }
@@ -678,22 +686,27 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
     GClosure *accel_closure;
     ui_menu_item_ref_t *ref;
 
+#if 0
     debug_gtk3("setting action %d: keysym %u, mods %u",
                 action_id, keysym, modifier);
-
+#endif
     ref = ui_menu_item_ref_by_action(action_id);
     if (ref == NULL) {
         debug_gtk3("failed to find item.");
         return FALSE;
     }
 
+#if 0
     debug_gtk3("removing old accelerator from group");
+#endif
     ui_menu_remove_accel(keysym, modifier);
     /* set new accel */
     ref->keysym = keysym;
     ref->modifier = modifier;
 
+#if 0
     debug_gtk3("Setting new accelerator");
+#endif
     accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
                                    GINT_TO_POINTER(action_id),
                                    NULL);
