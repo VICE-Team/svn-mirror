@@ -109,6 +109,7 @@
 #include "actions-drive.h"
 #include "actions-machine.h"
 #include "actions-settings.h"
+#include "actions-snapshot.h"
 #include "actions-speed.h"
 
 /* for the fullscreen_capability() stub */
@@ -2129,6 +2130,7 @@ int ui_init_finalize(void)
     actions_clipboard_register();
     actions_machine_register();
     actions_settings_register();
+    actions_snapshot_register();
     actions_speed_register();
     return 0;
 }

@@ -58,6 +58,7 @@ libarch_a_SOURCES = \
 	actions-drive.c \
 	actions-machine.c \
 	actions-settings.c \
+	actions-snapshot.c \
 	actions-speed.c \
 	archdep.c \
 	c128ui.c \
@@ -138,6 +139,7 @@ EXTRA_DIST = \
 	actions-drive.h \
 	actions-machine.h \
 	actions-settings.h \
+	actions-snapshot.h \
 	actions-speed.h \
 	archdep.h \
 	debug_gtk3.h \

@@ -1,5 +1,5 @@
-/** \file   uisnapshot.h
- * \brief   Snapshot dialogs and menu item handlers - header
+/** \file   actions-snapshot.h
+ * \brief   UI action implementations for snapshots and event recording - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,19 +22,11 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_UISNAPSHOT_H
-#define VICE_UISNAPSHOT_H
+#ifndef VICE_ACTIONS_SNAPSHOT_H
+#define VICE_ACTIONS_SNAPSHOT_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-
-void ui_snapshot_load_snapshot(void);
-void ui_snapshot_save_snapshot(void);
-void ui_snapshot_quickload_snapshot(void);
-void ui_snapshot_quicksave_snapshot(void);
+void actions_snapshot_register(void);
 
 #endif
