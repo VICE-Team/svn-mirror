@@ -56,6 +56,7 @@ libarch_a_SOURCES = \
 	actions-datasette.c \
 	actions-display.c \
 	actions-drive.c \
+	actions-joystick.c \
 	actions-machine.c \
 	actions-media.c \
 	actions-settings.c \
@@ -138,6 +139,7 @@ EXTRA_DIST = \
 	actions-datasette.h \
 	actions-display.h \
 	actions-drive.h \
+	actions-joystick.h \
 	actions-machine.h \
 	actions-media.h \
 	actions-settings.h \

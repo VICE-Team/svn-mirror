@@ -1,5 +1,5 @@
-/** \file   uicommands.h
- * \brief   Simple commands triggered from the menu - header
+/** \file   actions-joystick.h
+ * \brief   UI action implementations for joysticks and mouse - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,27 +22,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_UICOMMANDS_H
-#define VICE_UICOMMANDS_H
+#ifndef VICE_ACTIONS_JOYSTICK_H
+#define VICE_ACTIONS_JOYSTICK_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
+#include <stdbool.h>
 
-gboolean ui_machine_reset_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_drive_reset_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_close_callback(GtkWidget *widget, gpointer user_data);
-
-gboolean ui_main_window_delete_event(GtkWidget *widget, GdkEvent *event,
-                                     gpointer user_data);
-void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data);
-
-gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data);
-
-gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data);
-
-gboolean ui_popup_hotkeys_settings(GtkWidget *widget, gpointer data);
+bool ui_get_controlport_swapped(void);
+void actions_joystick_register(void);
 
 #endif

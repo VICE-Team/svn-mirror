@@ -53,6 +53,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "actions-joystick.h"
 #include "debug_gtk3.h"
 #include "joyport.h"
 #include "joystick.h"
@@ -62,6 +63,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uicommands.h"
 #include "vice_gtk3.h"
 
@@ -144,7 +146,7 @@ static void on_swap_joysticks_toggled(GtkWidget *button, gpointer data)
     int joy1 = -1;
     int joy2 = -1;
 
-    ui_action_toggle_controlport_swap();
+    ui_action_trigger(ACTION_SWAP_CONTROLPORT_TOGGLE);
 
     /* make sure to set the correct state, swapping might fail due to certain
      * devices not being allowed on certain ports */

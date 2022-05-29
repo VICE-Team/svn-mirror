@@ -6,14 +6,6 @@
  */
 
 /*
- * $VICERES JoyDevice1      -vsid
- * $VICERES JoyDevice2      -vsid
- * $VICERES JoyDevice3      -vsid
- * $VICERES JoyDevice4      -vsid
- * $VICERES Mouse           -vsid
- */
-
-/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -61,155 +53,6 @@
 #include "widgethelpers.h"
 
 #include "uicommands.h"
-
-
-static gboolean controlport_swapped = FALSE;
-
-#if 0
-/** \brief  Callback for the confirm-on-exit dialog
- *
- * Exit VICE if \a result is TRUE.
- *
- * \param[in]   dialog  dialog reference (unused)
- * \param[in]   result  dialog result
- */
-static void confirm_exit_callback(GtkDialog *dialog, gboolean result)
-{
-    if (result) {
-        mainlock_release();
-        archdep_vice_exit(0);
-        mainlock_obtain();
-    }
-}
-#endif
-
-/** \brief  Determine if control ports 1 & 2 are currently swapped.
- *
- * \return  bool
- */
-gboolean ui_get_controlport_swapped(void)
-{
-    return controlport_swapped;
-}
-
-
-
-/** \brief  Swap controlport devices 1 & 2
- *
- * \return  TRUE
- */
-gboolean ui_action_toggle_controlport_swap(void)
-{
-    int joy1 = -1;
-    int joy2 = -1;
-    int type1 = -1;
-    int type2 = -1;
-
-    resources_get_int("JoyPort1Device", &type1);
-    resources_get_int("JoyPort2Device", &type2);
-
-    /* unset both resources first to avoid assigning for example the mouse to
-     * two ports. here might be dragons!
-     */
-    resources_set_int("JoyPort1Device", 0);
-    resources_set_int("JoyPort2Device", 0);
-
-    /* try setting port #2 first, some devices only work in port #1 */
-    if (resources_set_int("JoyPort2Device", type1) < 0) {
-        /* restore config */
-        resources_set_int("JoyPort1Device", type1);
-        resources_set_int("JoyPort2Device", type2);
-        return TRUE;
-    }
-    if (resources_set_int("JoyPort1Device", type2) < 0) {
-        /* restore config */
-        resources_set_int("JoyPort1Device", type1);
-        resources_set_int("JoyPort2Device", type2);
-        return TRUE;
-    }
-
-    resources_get_int("JoyDevice1", &joy1);
-    resources_get_int("JoyDevice2", &joy2);
-    resources_set_int("JoyDevice1", joy2);
-    resources_set_int("JoyDevice2", joy1);
-
-    controlport_swapped = !controlport_swapped;
-
-    ui_set_check_menu_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
-                                             controlport_swapped);
-    return TRUE;
-}
-
-
-
-/** \brief  Toggle resource 'KeySetEnable'
- *
- * \param[in]   widget
- * \param[in]   data    (unused?)
- *
- * \return  TRUE (so the UI eats the event)
- *
- */
-gboolean ui_action_toggle_keyset_joystick(void)
-{
-    int enable;
-
-    resources_get_int("KeySetEnable", &enable);
-    resources_set_int("KeySetEnable", !enable);
-
-    ui_set_check_menu_item_blocked_by_action(ACTION_KEYSET_JOYSTICK_TOGGLE,
-                                             !enable);
-
-    return TRUE;    /* don't let any shortcut key end up in the emulated machine */
-}
-
-
-/** \brief  Toggle resource 'Mouse' (mouse-grab)
- *
- * \param[in]   widget  menu item triggering the event (unused)
- * \param[in]   data    extra event data (unused)
- *
- * \return  TRUE (so the UI eats the event)
- */
-gboolean ui_action_toggle_mouse_grab(void)
-{
-    GtkWidget *window;
-    int mouse;
-    gchar title[256];
-
-    resources_get_int("Mouse", &mouse);
-    resources_set_int("Mouse", !mouse);
-    mouse = !mouse;
-
-    if (mouse) {
-        ui_menu_item_ref_t *ref;
-        gchar *name;
-
-        ref =  ui_menu_item_ref_by_action(ACTION_MOUSE_GRAB_TOGGLE);
-        name = gtk_accelerator_name(ref->keysym, ref->modifier);
-        g_snprintf(title, sizeof(title),
-                "VICE (%s) (Use %s to disable mouse grab)",
-                machine_get_name(), name);
-        g_free(name);
-    } else {
-       g_snprintf(title, sizeof(title),
-                "VICE (%s)",
-                machine_get_name());
-    }
-
-    window = ui_get_main_window_by_index(PRIMARY_WINDOW);
-    if (window != NULL) {
-        gtk_window_set_title(GTK_WINDOW(window), title);
-    }
-    window = ui_get_main_window_by_index(SECONDARY_WINDOW);
-    if (window != NULL) {
-        gtk_window_set_title(GTK_WINDOW(window), title);
-    }
-
-    ui_set_check_menu_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE, mouse);
-
-    return TRUE;    /* don't let any shortcut key end up in the emulated machine */
-}
 
 
 /******************************************************************************
@@ -498,32 +341,6 @@ void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data)
     }
 }
 
-#if 0
-/** \brief  Toggle boolean resource from the menu
- *
- * Toggles \a resource when a valid.
- *
- * \param[in]   widget      menu item triggering the event
- * \param[in]   resource    resource name
- *
- * \return  TRUE if succesful, FALSE otherwise
- */
-gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
-{
-    const char *res = (const char *)resource;
-
-    if (res != NULL) {
-        int new_state;
-
-        /* attempt to toggle resource */
-        if (resources_toggle(res, &new_state) < 0) {
-            return FALSE;
-        }
-        return TRUE;
-    }
-    return FALSE;
-}
-#endif
 
 /** \brief  Open the Manual
  *
