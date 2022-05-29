@@ -2008,7 +2008,7 @@ static GtkWidget *ui_volume_button_create(void)
 static void warp_led_callback(GtkWidget *widget, gboolean active)
 {
     /* this updates warp state throughout the UI */
-    ui_action_toggle_warp();
+    ui_action_trigger(ACTION_WARP_MODE_TOGGLE);
 }
 
 
@@ -2053,7 +2053,7 @@ void warp_led_set_active(int bar, gboolean active)
 static void pause_led_callback(GtkWidget *widget, gboolean active)
 {
     /* this updates pause state throughout the UI */
-    ui_action_toggle_pause();
+    ui_action_trigger(ACTION_PAUSE_TOGGLE);
 }
 
 

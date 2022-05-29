@@ -44,6 +44,7 @@
 #include "uiactions.h"
 #include "uimenu.h"
 #include "vsync.h"
+#include "vsyncapi.h"
 
 #include "actions-speed.h"
 
@@ -58,6 +59,19 @@ static void pause_toggle_action(void)
     ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
                                              (gboolean)ui_pause_active());
     /* the pause LED gets updated in in the status bar update code */
+}
+
+
+/** \brief  Advance emulation a single frame if paused, pause otherwise */
+static void advance_frame_action(void)
+{
+    if (ui_pause_active()) {
+        vsyncarch_advance_frame();
+    } else {
+        ui_pause_enable();
+        ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+                                                 (gboolean)ui_pause_active());
+    }
 }
 
 
@@ -356,9 +370,15 @@ static const ui_action_map_t speed_actions[] = {
         .handler = pause_toggle_action
     },
     {
+        .action = ACTION_ADVANCE_FRAME,
+        .handler = advance_frame_action
+    },
+    {
         .action = ACTION_WARP_MODE_TOGGLE,
         .handler = warp_mode_toggle_action
     },
+
+    /* CPU speed actions */
     {
         .action = ACTION_SPEED_CPU_200,
         .handler = speed_cpu_200_action
@@ -385,6 +405,8 @@ static const ui_action_map_t speed_actions[] = {
         .blocks = true,
         .dialog = true
     },
+
+    /* FPS actions */
     {
         .action = ACTION_SPEED_FPS_REAL,
         .handler = speed_fps_real_action

@@ -2474,7 +2474,7 @@ void ui_pause_toggle(void)
     }
 }
 
-
+#if 0
 /** \brief  Pause toggle action
  *
  * \return  TRUE (indicates the Alt+P got consumed by Gtk, so it won't be
@@ -2525,6 +2525,7 @@ gboolean ui_action_advance_frame(void)
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */
 }
+#endif
 
 
 /** \brief  Destroy UI resources (but NOT vice 'resources')
