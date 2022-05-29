@@ -1,5 +1,5 @@
-/** \file   uimedia.h
- * \brief   Media recording dialog - header
+/** \file   actions-media.h
+ * \brief   UI action implementations for media recording/screenshots - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -24,12 +24,9 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_UIMEDIA_H
-#define VICE_UIMEDIA_H
+#ifndef VICE_ACTIONS_MEDIA_H
+#define VICE_ACTIONS_MEDIA_H
 
-void ui_media_dialog_show(void);
-void ui_media_stop_recording(void);
-void ui_media_auto_screenshot(void);
-void ui_media_shutdown(void);
+void actions_media_register(void);
 
 #endif

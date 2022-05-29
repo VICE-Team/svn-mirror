@@ -108,6 +108,7 @@
 #include "actions-display.h"
 #include "actions-drive.h"
 #include "actions-machine.h"
+#include "actions-media.h"
 #include "actions-settings.h"
 #include "actions-snapshot.h"
 #include "actions-speed.h"
@@ -2124,11 +2125,12 @@ int ui_init_finalize(void)
     ui_hotkeys_init();
 
     actions_cartridge_register();
+    actions_clipboard_register();
     actions_datasette_register();
     actions_display_register();
     actions_drive_register();
-    actions_clipboard_register();
     actions_machine_register();
+    actions_media_register();
     actions_settings_register();
     actions_snapshot_register();
     actions_speed_register();

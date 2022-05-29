@@ -57,6 +57,7 @@
 #include "sound.h"
 #include "statusbarrecordingwidget.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uistatusbar.h"
 #include "vice_gtk3.h"
@@ -303,6 +304,7 @@ static void on_dialog_destroy(GtkWidget *widget, gpointer data)
     if (!old_pause_state) {
         ui_pause_disable();
     }
+    ui_action_finish(ACTION_MEDIA_RECORD);
 }
 
 
@@ -1206,13 +1208,8 @@ static GtkWidget *create_content_widget(void)
 
 
 /** \brief  Show dialog to save screenshot, record sound and/or video
- *
- * \param[in]   parent  parent widget (unused)
- * \param[in]   data    extra data (unused)
- *
- * \return  TRUE
  */
-gboolean ui_media_dialog_show(GtkWidget *parent, gpointer data)
+void ui_media_dialog_show(void)
 {
     GtkWidget *dialog;
     GtkWidget *content;
@@ -1253,18 +1250,12 @@ gboolean ui_media_dialog_show(GtkWidget *parent, gpointer data)
     g_signal_connect_unlocked(dialog, "destroy", G_CALLBACK(on_dialog_destroy), NULL);
 
     gtk_widget_show_all(dialog);
-    return TRUE;
 }
 
 
 /** \brief  Stop audio or video recording, if active
- *
- * \param[in]   parent      parent widget (unused)
- * \param[in]   data        extra event data (unused)
- *
- * \return  TRUE, so the emulated machine doesn't get the shortcut key
  */
-gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
+void ui_media_stop_recording(void)
 {
     /* stop sound recording, if active */
     if (sound_is_recording()) {
@@ -1277,8 +1268,6 @@ gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
 
     ui_display_recording(0);
     statusbar_recording_widget_hide_all(ui_statusbar_get_recording_widget(), 10);
-
-    return TRUE;
 }
 
 
