@@ -140,10 +140,10 @@
 #   40/80 Display (-> keypad divide soft toggle)
 #   NO SCROLL (-> keypad multiply)
 # (row0)
-#   arrow left (-> underscore)
+#   arrow left (-> tilde ~)
 #   pound ( -> backslash)
 # (row1)
-#   arrow up (-> tilde ~ AND circumflex accent ^)
+#   arrow up (-> circumflex accent ^)
 #   restore (-> page up)
 # (row2)
 #   run/stop (-> escape)
@@ -164,7 +164,7 @@
 # INST/DEL (all 3 below)
 BackSpace       0 0 8
 Delete          0 0 8
-Insert          0 0 16
+Insert          0 0 1
 Return          0 1 8
 Right           0 2 264
 Left            0 2 257
@@ -216,6 +216,8 @@ period          5 4 0
 greater         5 4 1
 colon           5 5 16
 bracketleft     5 5 1
+# underscore -> CBM+@
+underscore      5 6 0x810
 at              5 6 16
 comma           5 7 0
 less            5 7 1
@@ -235,9 +237,6 @@ equal           6 5 0
 
 # Shift-6 on us keyboard > A_UP
 asciicircum     6 6 16
-asciitilde      6 6 16
-# Page down -> Arrow Up  ?????????????? FIXME Page_Down is already mapped to 'LINE FEED'
-#Page_Down       6 6 8
 slash           6 7 0
 question        6 7 1
 
@@ -245,8 +244,8 @@ question        6 7 1
 # |Bit 7| 1 ! |A_LFT| CTRL| 2 " |SPACE|  C= |  Q  | R/S |
 
 exclam          7 0 1
-# underscore -> arrow left
-underscore      7 1 0
+# tilde -> arrow left
+asciitilde      7 1 16
 Control_L       7 2 16384 /* Control_L = CTRL */
 quotedbl        7 3 1
 space           7 4 8
@@ -386,5 +385,5 @@ dead_acute       3 0 1  # '
 dead_grave       3 0 1  # '
 dead_circumflex  6 6 16 # A_UP
 dead_tilde       6 6 16 # A_UP
-dead_perispomeni 6 6 16 # A_UP
+dead_perispomeni 7 1 16 # A_UP
 dead_diaeresis   7 3 1  # "

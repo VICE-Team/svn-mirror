@@ -173,9 +173,8 @@
 39 3 0 33              /*            ' -> '            */
 39 7 3 129             /*            " -> "            */
 96 3 0 33              /*            ` -> `            */
-96 6 6 129             /*            ~ -> Pi           */
-92 6 0 32              /*            \ -> Lira         */
-92 5 3 129             /*            | -> |            */
+96 7 1 129             /*            ~ -> Arrow Left   */
+92 6 0 32              /*            \ -> Pound        */
 304 1 7 2              /*   Left Shift -> Left Shift   */
 301 1 7 64             /*    Caps Lock -> Shift Lock   */
 122 1 4 8              /*            Z -> Z            */
@@ -205,7 +204,8 @@
 274 0 7 8              /*         Down -> CRSR DOWN    */
 277 0 0 1              /*       Insert -> INS          */
 127 0 0 8              /*       Delete -> DEL          */
-279 7 1 8              /*         End -> Left Arrow   */
+279 7 1 8              /*          End -> Left Arrow   */
+281 6 6 8              /*    Page Down -> Arrow up      */
 
 # Restore key mappings
 280 -3 0
