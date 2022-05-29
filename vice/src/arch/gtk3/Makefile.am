@@ -57,6 +57,7 @@ libarch_a_SOURCES = \
 	actions-display.c \
 	actions-drive.c \
 	actions-machine.c \
+	actions-media.c \
 	actions-settings.c \
 	actions-snapshot.c \
 	actions-speed.c \
@@ -138,6 +139,7 @@ EXTRA_DIST = \
 	actions-display.h \
 	actions-drive.h \
 	actions-machine.h \
+	actions-media.h \
 	actions-settings.h \
 	actions-snapshot.h \
 	actions-speed.h \
