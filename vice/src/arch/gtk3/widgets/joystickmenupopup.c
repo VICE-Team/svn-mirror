@@ -32,6 +32,7 @@
 
 #include <gtk/gtk.h>
 
+#include "actions-joystick.h"
 #include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
@@ -89,36 +90,14 @@ static void on_configure_activate(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Toggle the KeySetEnable resource
+/** \brief  Trigger a UI action
  *
- * \param[in]   widget  widget triggering the event (unused)
- * \param[in]   data    extra event data (unused)
+ * \param[in]   item    menu item (unused)
+ * \param[in]   action  UI action ID
  */
-static void on_keyset_toggled(GtkWidget *widget, gpointer data)
+static void trigger_ui_action(GtkWidget *item, gpointer action)
 {
-    (void)ui_action_toggle_keyset_joystick();
-}
-
-
-/** \brief  Toggle the Mouse resource
- *
- * \param[in]   widget  widget triggering the event
- * \param[in]   data    extra event data
- */
-static void on_mousegrab_toggled(GtkWidget *widget, gpointer data)
-{
-    ui_action_toggle_mouse_grab();
-}
-
-
-/** \brief  Handler for the 'activate' event of "Swap controlport joysticks"
- *
- * \param[in]   widget  widget triggering the event (unused)
- * \param[in]   data    extra event data (unused)
- */
-static void on_swap_controlport_toggled(GtkWidget *widget, gpointer data)
-{
-    ui_action_toggle_controlport_swap();
+    ui_action_trigger(GPOINTER_TO_INT(action));
 }
 
 
@@ -141,9 +120,11 @@ GtkWidget *joystick_menu_popup_create(void)
         ui_set_menu_item_accel_label(item, ACTION_SWAP_CONTROLPORT_TOGGLE);
         gtk_container_add(GTK_CONTAINER(menu), item);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
-                                       ui_get_controlport_swapped());
-        g_signal_connect(item, "activate",
-                G_CALLBACK(on_swap_controlport_toggled), NULL);
+                                       (gboolean)ui_get_controlport_swapped());
+        g_signal_connect(item,
+                         "activate",
+                         G_CALLBACK(trigger_ui_action),
+                         GINT_TO_POINTER(ACTION_SWAP_CONTROLPORT_TOGGLE));
     }
 
     /* Enable keyset joysticks */
@@ -152,7 +133,10 @@ GtkWidget *joystick_menu_popup_create(void)
     resources_get_int("KeySetEnable", &keyset);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)keyset);
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "toggled", G_CALLBACK(on_keyset_toggled), NULL);
+    g_signal_connect(item,
+                     "toggled",
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ACTION_KEYSET_JOYSTICK_TOGGLE));
 
     /* Enable mouse grab */
     item = gtk_check_menu_item_new_with_label("Enable mouse grab");
@@ -160,15 +144,20 @@ GtkWidget *joystick_menu_popup_create(void)
     resources_get_int("Mouse", &mouse);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)mouse);
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "toggled", G_CALLBACK(on_mousegrab_toggled), NULL);
+    g_signal_connect(item,
+                     "toggled",
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ACTION_MOUSE_GRAB_TOGGLE));
 
     item = gtk_separator_menu_item_new();
     gtk_container_add(GTK_CONTAINER(menu), item);
 
     item = gtk_menu_item_new_with_label("Configure joysticks ...");
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "activate", G_CALLBACK(on_configure_activate),
-            NULL);
+    g_signal_connect(item,
+                     "activate",
+                     G_CALLBACK(on_configure_activate),
+                    NULL);
 
     gtk_widget_show_all(menu);
     return menu;

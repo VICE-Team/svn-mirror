@@ -107,6 +107,7 @@
 #include "actions-datasette.h"
 #include "actions-display.h"
 #include "actions-drive.h"
+#include "actions-joystick.h"
 #include "actions-machine.h"
 #include "actions-media.h"
 #include "actions-settings.h"
@@ -2129,6 +2130,7 @@ int ui_init_finalize(void)
     actions_datasette_register();
     actions_display_register();
     actions_drive_register();
+    actions_joystick_register();
     actions_machine_register();
     actions_media_register();
     actions_settings_register();
