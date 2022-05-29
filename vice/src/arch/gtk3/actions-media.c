@@ -77,7 +77,7 @@ static const ui_action_map_t media_actions[] = {
 };
 
 
-/** \brief  Register media acrions */
+/** \brief  Register media actions */
 void actions_media_register(void)
 {
     ui_actions_register(media_actions);
