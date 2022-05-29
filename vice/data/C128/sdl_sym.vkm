@@ -129,9 +129,9 @@
 !LCTRL 7 2
 !VCTRL LCTRL
 
-# keys that can't be mapped positionally are:
-# (row0) pound (-> </>), clr/home (-> home)
-# (row1) arrow up (-> end), restore (-> page up)
+# keys that can't be mapped symbolically are:
+# (row0) arrow left (-> tilde), clr/home (-> home)
+# (row1) restore (-> page up)
 # (row2) run/stop (-> escape)
 # (row3) commodore (-> control)
 
@@ -139,29 +139,9 @@
 # clr/home (-> pos1)
 # ins/del (-> delete)
 # ins/del+shift (-> insert)
-# arrow up (-> end)
-# arrow up+shift (-> end+shift)
-
-
-# keys that can't be mapped symbolically are:
-# (row0) arrow left (-> end), pound (-> ß), clr/home (-> home)
-# (row1) restore (-> page up)
-# (row2) run/stop (-> escape)
-# (row3) commodore (-> control)
-
-# extra keys are:
-# ins/del (-> delete)
-# ins/del+shift (-> insert)
-# arrow left (-> underscore, ssharp, altgr+~)
-# arrow up+shift (-> altgr+m)
-# f1 (-> page up)
-# f7 (-> page down)
-# : (-> oe)
-# :+shift (-> OE, altgr+[)
-# ; (-> ae)
-# ;+shift (-> AE, altgr+])
-# @ (-> ue, altgr+Q)
-# @+shift (-> UE)
+# restore (-> page up)
+# line feed (-> page down)
+# help (-> End)
 
 #####################
 # Special cases where a key code is duplicated because SDL does not supply a
@@ -175,7 +155,7 @@
 39 7 3 129             /*            " -> "            */
 # SPECIAL CASE - _
 45 5 3 32              /*            - -> -            */
-45 7 1 144             /*            _ -> Left Arrow   */
+45 5 6 0x890           /*            _ -> CBM+@        */
 # SPECIAL CASE 2 @
 50 7 3 32              /*            2 -> 2            */
 50 5 6 144             /*            @ -> @            */
@@ -202,7 +182,7 @@
 61 5 0 144             /*            + -> +            */
 # SPECIAL CASE ` ~
 96 3 0 33              /*            ` -> `            */
-96 6 6 129             /*            ~ -> Pi           */
+96 7 1 129             /*            ~ -> Arrow Left   */
 
 #####################
 # |Bit 0| DEL |Retrn|C_L/R|  F7 |  F1 |  F3 |  F5 |C_U/D|

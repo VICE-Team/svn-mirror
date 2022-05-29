@@ -125,8 +125,8 @@
 # |Bit 0| 1 ! |A_LFT| CTRL| R/S |SPACE|  C= |  Q  | 2 " |
 
 exclam          0 0 1
-# underscore = arrow left
-underscore      0 1 0
+# Tilde -> Arrow Left
+asciitilde      0 1 16
 End             0 1 8
 # Tab = CBM
 Tab             0 5 8200
@@ -175,6 +175,8 @@ period          5 4 0
 greater         5 4 1
 colon           5 5 16
 bracketleft     5 5 1
+# underscore = CBM+@
+underscore      5 6 0x810
 at              5 6 16
 minus           5 7 0
 
@@ -193,7 +195,6 @@ Shift_R         6 4 4
 equal           6 5 0
 # Page down -> Arrow Up
 asciicircum     6 6 16
-asciitilde      6 6 16
 Page_Down       6 6 8
 Home            6 7 8
 Find            6 7 8
@@ -203,7 +204,7 @@ Find            6 7 8
 
 BackSpace       7 0 8
 Delete          7 0 8
-Insert          7 0 16
+Insert          7 0 1
 Return          7 1 8
 Linefeed        7 1 1
 Right           7 2 8
@@ -299,7 +300,7 @@ dead_acute       3 0 1  # '
 dead_grave       3 0 1  # '
 dead_circumflex  6 6 16 # A_UP
 dead_tilde       6 6 16 # A_UP
-dead_perispomeni 6 6 16 # A_UP
+dead_perispomeni 0 1 16 # Arrow Left
 dead_diaeresis   0 7 1  # "
 
 #
