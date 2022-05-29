@@ -3,6 +3,8 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * TODO:    Delete this file once all UI actions are implemented and all
+ *          function in this file are deprecated.
  */
 
 /*
@@ -33,24 +35,14 @@
 #include <gtk/gtk.h>
 
 #include "archdep.h"
-#include "resources.h"
-#include "debug_gtk3.h"
 #include "basedialogs.h"
-#include "drive.h"
+#include "debug_gtk3.h"
+#include "lib.h"
 #include "log.h"
-#include "hotkeys.h"
-#include "machine.h"
-#include "mainlock.h"
 #include "uiactions.h"
-#include "uimenu.h"
 #include "util.h"
 #include "uiactions.h"
-#include "vsync.h"
-#include "uiapi.h"
-#include "ui.h"
-#include "uimachinewindow.h"
 #include "uisettings.h"
-#include "widgethelpers.h"
 
 #include "uicommands.h"
 
@@ -58,247 +50,6 @@
 /******************************************************************************
  *    Event handlers, callbacks and helpers for CPU speed and FPS targets     *
  *****************************************************************************/
-
-/* TODO: Remove these functions and reimplement the cpu/fps popup menu to
- *       use UI actions instead */
-
-/** \brief  Update main menu CPU speed radio buttons based on "Speed" resource
- */
-static void update_cpu_radio_buttons(void)
-{
-    int action;
-    int speed = 0;
-
-    resources_get_int("Speed", &speed);
-#if 0
-    debug_gtk3("Speed = %d.", speed);
-#endif
-    /* Update main menu radio buttons */
-    switch (speed) {
-        case 200:
-            action = ACTION_SPEED_CPU_200;
-            break;
-        case 100:
-            action = ACTION_SPEED_CPU_100;
-            break;
-        case 50:
-            action = ACTION_SPEED_CPU_50;
-            break;
-        case 20:
-            action = ACTION_SPEED_CPU_20;
-            break;
-        case 10:
-            action = ACTION_SPEED_CPU_10;
-            break;
-        default:
-            action = ACTION_SPEED_CPU_CUSTOM;
-            break;
-    }
-
-    /* the radio group takes care of disabling the other radio buttons, so we
-     * only need to set the new active item */
-#if 0
-    debug_gtk3("Selecting action '%s'.", action);
-#endif
-    ui_set_check_menu_item_blocked_by_action(action, TRUE);
-}
-
-
-/** \brief  Update main menu FPS radio buttons based on "Speed" resource
- */
-static void update_fps_radio_buttons(void)
-{
-    int action;
-    int speed = 0;
-
-    resources_get_int("Speed", &speed);
-#if 0
-    debug_gtk3("Speed = %d.", speed);
-#endif
-    switch (speed) {
-        case 100:
-            action = ACTION_SPEED_FPS_REAL;
-            break;
-        case -50:
-            action = ACTION_SPEED_FPS_50;
-            break;
-        case -60:
-            action = ACTION_SPEED_FPS_60;
-            break;
-        default:
-            action = ACTION_SPEED_FPS_CUSTOM;
-    }
-#if 0
-    debug_gtk3("Selecting action '%s'.", action);
-#endif
-    ui_set_check_menu_item_blocked_by_action(action, TRUE);
-}
-
-
-/** \brief  Set new CPU speed
- *
- * Set new CPU speed and update the menu items to reflect this.
- *
- * \param[in]   speed   CPU speed in percentage points (100 == 100%)
- */
-void ui_action_set_speed(int speed)
-{
-    int old;
-
-    resources_get_int("Speed", &old);
-    if (old != speed) {
-        resources_set_int("Speed", speed);
-        update_cpu_radio_buttons();
-        update_fps_radio_buttons();
-    }
-}
-
-
-/** \brief  Callback for the main and popup menu 'custom speed' items
- *
- * \param[in]   widget  menu item
- * \param[in]   data    speed
- *
- * \return  FALSE to not let event propagate further
- */
-gboolean ui_cpu_speed_callback(GtkWidget *widget, gpointer data)
-{
-    int speed = GPOINTER_TO_INT(data);
-
-    /* don't trigger on radio/check buttons getting deselected */
-    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-        ui_action_set_speed(speed);
-    }
-
-    return TRUE;    /* don't let any shortcut key end up in the emulated machine */
-}
-
-
-/** \brief  Set FPS
- *
- * \param[in]   fps     frames per second, 0 to use realthing timing
- */
-void ui_action_set_fps(int fps)
-{
-    int old;
-
-    resources_get_int("Speed", &old);
-    if (0 - fps != old) {
-        resources_set_int("Speed", 0 - fps);
-        update_cpu_radio_buttons();
-        update_fps_radio_buttons();
-    }
-}
-
-
-/** \brief  Handler for the 'activate' event of an FPS target menu item
- *
- * \param[in]   widget  radio button menu item
- * \param[in]   data    FPS target (negative value)
- *
- * \return  TRUE to not let a hotkey end up in the emulator
- */
-gboolean ui_fps_callback(GtkWidget *widget, gpointer data)
-{
-    int fps = GPOINTER_TO_INT(data);
-
-    debug_gtk3("Triggered with %d FPS.", fps);
-    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-        debug_gtk3("Item is active.");
-        ui_action_set_fps(fps);
-    }
-    return TRUE;    /* don't let any shortcut key end up in the emulated machine */
-}
-
-
-/** \brief  Callback for custom speed
- *
- * \param[in]   dialog  integer-dialog reference
- * \param[in]   result  result from the dialog
- * \param[in]   valid   \a result is valid
- */
-static void speed_custom_callback(GtkDialog *dialog, int result, gboolean valid)
-{
-    if (valid) {
-        ui_action_set_speed(result);
-    }
-}
-
-
-/** \brief  Handler for the "toggled" event of the "custom speed" menu item
- *
- * Pops up a dialog to set a custom emulation speed.
- *
- * \param[in]   widget  menu item
- * \param[in]   data    extra event data (unused)
- *
- * \return  TRUE to
- */
-gboolean ui_speed_custom_toggled(GtkWidget *widget, gpointer data)
-{
-    /* only show the dialog when the radio/check button is toggled ON */
-    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-        int old_value;
-
-        resources_get_int("Speed", &old_value);
-
-        vice_gtk3_integer_input_box(
-                speed_custom_callback,
-                "Set new emulation speed",
-                "Enter a new custom emulation speed",
-                old_value,
-                1, 100000);
-    }
-    return TRUE;
-}
-
-
-/** \brief  Callback for custom FPS target
- *
- * \param[in]   dialog  integer-dialog reference
- * \param[in]   result  result from the dialog
- * \param[in]   valid   \a result is valid
- */
-static void fps_custom_callback(GtkDialog *dialog, int result, gboolean valid)
-{
-    if (valid) {
-        ui_action_set_fps(result);
-    }
-}
-
-
-/** \brief  Handler for the "toggled" event of the "custom fps" menu item
- *
- * Pops up a dialog to set a custom emulation speed.
- *
- * \param[in]   widget  menu item
- * \param[in]   data    extra event data (unused)
- *
- * \return  TRUE to
- */
-gboolean ui_fps_custom_toggled(GtkWidget *widget, gpointer data)
-{
-    /* only show the dialog when the radio/check button is toggled ON */
-    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-        int old_value;
-
-        resources_get_int("Speed", &old_value);
-        if (old_value > 0) {
-            old_value = 50;
-        } else {
-            old_value = 0 - old_value;
-        }
-
-        vice_gtk3_integer_input_box(
-                fps_custom_callback,
-                "Set new FPS target",
-                "Enter a new custom FPS target",
-                old_value,
-                1, 100000);
-    }
-    return TRUE;
-}
-
 
 /** \brief  Handler for the 'delete-event' of a main window
  *

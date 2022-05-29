@@ -57,22 +57,23 @@
 
 /** \brief  Predefined emulation speeds (taken from vice.texi)
  */
-static int emu_speeds[] = { 200, 100, 50, 20, 10, 0 };
+static int emu_speeds[][2] = {
+    { 200, ACTION_SPEED_CPU_200 },
+    { 100, ACTION_SPEED_CPU_100 },
+    {  50, ACTION_SPEED_CPU_50 },
+    {  20, ACTION_SPEED_CPU_20 },
+    {  10, ACTION_SPEED_CPU_10 },
+    {   0, ACTION_NONE }
+};
+
 
 /** \brief  Predefined emulation speed fps targets
  */
-static int emu_fps_targets[] = { 60, 50, 0 };
-
-
-/** \brief  Handler for the "activate" event of the "Advance frame" menu item
- *
- * \param[in]   widget  menu item (unused)
- * \param[in]   data    extra event data (unused
- */
-static void on_advance_frame_activate(GtkWidget *widget, gpointer data)
-{
-    ui_action_advance_frame();
-}
+static int emu_fps_targets[][2] = {
+    { 60, ACTION_SPEED_FPS_60 },
+    { 50, ACTION_SPEED_FPS_50 },
+    {  0, ACTION_NONE }
+};
 
 
 /** \brief  Add separator to \a menu
@@ -88,55 +89,10 @@ static void add_separator(GtkWidget *menu)
 }
 
 
-/** \brief  Handler for the "toggled" event of the Enable warp menu item
- *
- * \param[in]   widget  menu item (unused)
- * \param[in]   data    extra event data (unused)
- */
-static void on_warp_toggled(GtkWidget *widget, gpointer data)
+static void trigger_ui_action(GtkWidget *item, gpointer action)
 {
-    ui_action_toggle_warp();
+    ui_action_trigger(GPOINTER_TO_INT(action));
 }
-
-
-/** \brief  Handler for the "toggled" event of the Pause menu item
- *
- * \param[in]   widget  menu item (unused)
- * \param[in]   data    extra even data (unused)
- */
-static void on_pause_toggled(GtkWidget *widget, gpointer data)
-{
-    ui_action_toggle_pause();
-}
-
-
-#if 0
-/** \brief  Handler for the toggled event of a emulation speed submenu item
- *
- * \param[in]   widget  emulation speed submenu item
- * \param[in]   data    new emulation speed
- */
-static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
-{
-    int speed = GPOINTER_TO_INT(data);
-
-    ui_action_set_speed(speed);
-}
-#endif
-
-#if 0
-/** \brief  Handler for the toggled event of an FPS submenu item
- *
- * \param[in]   widget  emulation speed submenu item
- * \param[in]   data    new emulation speed
- */
-static void on_fps_toggled(GtkWidget *widget, gpointer data)
-{
-    int fps = 0 - GPOINTER_TO_INT(data);
-
-    ui_action_set_fps(fps);
-}
-#endif
 
 
 /** \brief  Create emulation speed submenu
@@ -157,23 +113,24 @@ static GtkWidget *emulation_speed_submenu_create(void)
     menu = gtk_menu_new();
 
     /* cpu speed values */
-    for (i = 0; emu_speeds[i] != 0; i++) {
-        g_snprintf(buffer, 256, "%d%%", emu_speeds[i]);
+    for (i = 0; emu_speeds[i][0] != 0; i++) {
+        g_snprintf(buffer, 256, "%d%%", emu_speeds[i][0]);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
-        if (curr_speed == emu_speeds[i]) {
+        if (curr_speed == emu_speeds[i][0]) {
             gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
             found = TRUE;
         }
         gtk_container_add(GTK_CONTAINER(menu), item);
 
-        g_signal_connect(item, "toggled",
-                G_CALLBACK(ui_cpu_speed_callback),
-                GINT_TO_POINTER(emu_speeds[i]));
+        g_signal_connect(item,
+                         "toggled",
+                         G_CALLBACK(trigger_ui_action),
+                         GINT_TO_POINTER(emu_speeds[i][1]));
     }
 
     /* custom speed */
-    if (!found && curr_speed > 0) {
+    if (!found) {
         g_snprintf(buffer, 256, "Custom CPU speed (%d%%) ...", curr_speed);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
@@ -182,8 +139,10 @@ static GtkWidget *emulation_speed_submenu_create(void)
     }
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "toggled",
-            G_CALLBACK(ui_speed_custom_toggled), GINT_TO_POINTER(curr_speed));
+    g_signal_connect(item,
+                     "toggled",
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ACTION_SPEED_CPU_CUSTOM));
 
     /* fps targets */
 
@@ -196,24 +155,27 @@ static GtkWidget *emulation_speed_submenu_create(void)
     if (curr_speed == 100) {
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     }
-    g_signal_connect(item, "toggled",
-                     G_CALLBACK(ui_cpu_speed_callback), GINT_TO_POINTER(100));
+    g_signal_connect(item,
+                     "toggled",
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ACTION_SPEED_CPU_100));
     gtk_container_add(GTK_CONTAINER(menu), item);
 
     /* predefined fps targets */
-    for (i = 0; emu_fps_targets[i] != 0; i++) {
-        g_snprintf(buffer, 256, "%d FPS", emu_fps_targets[i]);
+    for (i = 0; emu_fps_targets[i][0] != 0; i++) {
+        g_snprintf(buffer, 256, "%d FPS", emu_fps_targets[i][0]);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
-        if (curr_speed == 0 - emu_fps_targets[i]) {
+        if (curr_speed == 0 - emu_fps_targets[i][0]) {
             gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
             found = TRUE;
         }
         gtk_container_add(GTK_CONTAINER(menu), item);
 
-        g_signal_connect(item, "toggled",
-                G_CALLBACK(ui_fps_callback),
-                GINT_TO_POINTER(emu_fps_targets[i]));
+        g_signal_connect(item,
+                         "toggled",
+                         G_CALLBACK(trigger_ui_action),
+                         GINT_TO_POINTER(emu_fps_targets[i][1]));
     }
 
     /* custom fps target */
@@ -226,8 +188,10 @@ static GtkWidget *emulation_speed_submenu_create(void)
     }
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "toggled",
-            G_CALLBACK(ui_fps_custom_toggled), GINT_TO_POINTER(curr_speed));
+    g_signal_connect(item,
+                     "toggled",
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ACTION_SPEED_FPS_CUSTOM));
 
     gtk_widget_show_all(menu);
     return menu;
@@ -261,21 +225,29 @@ GtkWidget *speed_menu_popup_create(void)
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     }
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "toggled", G_CALLBACK(on_pause_toggled), NULL);
+    g_signal_connect(item,
+                     "toggled",
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ACTION_PAUSE_TOGGLE));
 
     /* advance frame */
     item = gtk_menu_item_new_with_label("Advance frame");
     ui_set_menu_item_accel_label(item, ACTION_ADVANCE_FRAME);
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "activate", G_CALLBACK(on_advance_frame_activate),
-            NULL);
+    g_signal_connect(item,
+                     "activate",
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ACTION_ADVANCE_FRAME));
 
     /* enable warp mode */
     item = gtk_check_menu_item_new_with_label("Warp mode");
     ui_set_menu_item_accel_label(item, ACTION_WARP_MODE_TOGGLE);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)vsync_get_warp_mode());
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "toggled", G_CALLBACK(on_warp_toggled), NULL);
+    g_signal_connect(item,
+                     "toggled",
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ACTION_WARP_MODE_TOGGLE));
 
     gtk_widget_show_all(menu);
     return menu;

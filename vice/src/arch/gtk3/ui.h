@@ -114,21 +114,7 @@ void ui_pause_enter_monitor(void);
 void ui_pause_disable(void);
 void ui_pause_toggle(void);
 
-/*
- * UI 'actions' for the custom hotkeys, perhaps move to uicommands.c/uiactions.c?
- */
-gboolean ui_action_toggle_pause(void);
-gboolean ui_action_toggle_warp(void);
-gboolean ui_action_advance_frame(void);
-void     ui_action_set_speed(int speed);
-void     ui_action_set_fps(int fps);
-
 gboolean ui_action_toggle_show_statusbar(void);
-
-gboolean ui_speed_custom_toggled(GtkWidget *widget, gpointer data);
-gboolean ui_fps_custom_toggled(GtkWidget *widget, gpointer data);
-gboolean ui_cpu_speed_callback(GtkWidget *widget, gpointer data);
-gboolean ui_fps_callback(GtkWidget *widget, gpointer data);
 
 void ui_update_lightpen(void);
 void ui_enable_crt_controls(int enabled);
