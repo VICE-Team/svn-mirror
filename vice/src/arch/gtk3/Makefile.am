@@ -54,6 +54,7 @@ libarch_a_SOURCES = \
 	actions-cartridge.c \
 	actions-clipboard.c \
 	actions-datasette.c \
+	actions-debug.c \
 	actions-display.c \
 	actions-drive.c \
 	actions-joystick.c \
@@ -137,6 +138,7 @@ EXTRA_DIST = \
 	actions-cartridge.h \
 	actions-clipboard.h \
 	actions-datasette.h \
+	actions-debug.h \
 	actions-display.h \
 	actions-drive.h \
 	actions-joystick.h \

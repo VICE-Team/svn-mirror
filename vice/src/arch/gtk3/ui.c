@@ -62,6 +62,7 @@
 
 #include "autostart.h"
 #include "cmdline.h"
+#include "debug.h"
 #include "drive.h"
 #include "interrupt.h"
 #include "kbd.h"
@@ -105,6 +106,9 @@
 #include "actions-cartridge.h"
 #include "actions-clipboard.h"
 #include "actions-datasette.h"
+#ifdef DEBUG
+# include "actions-debug.h"
+#endif
 #include "actions-display.h"
 #include "actions-drive.h"
 #include "actions-joystick.h"
@@ -2128,6 +2132,9 @@ int ui_init_finalize(void)
     actions_cartridge_register();
     actions_clipboard_register();
     actions_datasette_register();
+#ifdef DEBUG
+    actions_debug_register();
+#endif
     actions_display_register();
     actions_drive_register();
     actions_joystick_register();

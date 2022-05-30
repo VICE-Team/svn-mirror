@@ -1,5 +1,5 @@
-/** \file   uidebug.h
- * \brief   Debug menu dialogs - header
+/** \file   actions-debug.h
+ * \brief   UI action implementations for debug-related dialogs and settings - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,17 +22,15 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_UIDEBUG_H
-#define VICE_UIDEBUG_H
+#ifndef VICE_ACTIONS_DEBUG_H
+#define VICE_ACTIONS_DEBUG_H
 
 #include "debug.h"
 
-#ifdef DEBUG
-void ui_debug_trace_mode_dialog_show(void);
-void ui_debug_playback_frames_dialog_show(void);
-#endif
+# ifdef DEBUG
+void actions_debug_register(void);
+# endif
 
 #endif
