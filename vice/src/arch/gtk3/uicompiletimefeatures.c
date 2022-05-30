@@ -34,6 +34,7 @@
 #include "machine.h"
 #include "vicefeatures.h"
 #include "ui.h"
+#include "uiactions.h"
 
 #include "uicompiletimefeatures.h"
 
@@ -46,6 +47,16 @@ enum {
     COL_ISDEFINED   /**< Symbol is defined */
 };
 
+
+/** \brief  Handler for the 'destroy' event of the dialog
+ *
+ * \param[in]   dialog  dialog triggering the event
+ * \param[in]   unused  extra event data (unused)
+ */
+static void on_destroy(GtkDialog *dialog, gpointer unused)
+{
+    ui_action_finish(ACTION_HELP_COMPILE_TIME);
+}
 
 
 /** \brief  Handler for the 'response' event of the dialog
@@ -193,13 +204,8 @@ static GtkWidget *create_content_widget(void)
 
 
 /** \brief  Show list of compile time features
- *
- * \param[in]   widget      parent widget
- * \param[in]   user_data   extra data (unused)
- *
- * \return  TRUE;
  */
-gboolean uicompiletimefeatures_dialog_show(GtkWidget *widget, gpointer user_data)
+void uicompiletimefeatures_dialog_show(void)
 {
     GtkWidget *dialog;
     GtkWidget *content;
@@ -217,7 +223,13 @@ gboolean uicompiletimefeatures_dialog_show(GtkWidget *widget, gpointer user_data
     gtk_box_pack_start(GTK_BOX(content), create_content_widget(),
             TRUE, TRUE, 0);
 
-    g_signal_connect_unlocked(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect_unlocked(dialog,
+                              "response",
+                              G_CALLBACK(on_response),
+                              NULL);
+    g_signal_connect(dialog,
+                     "destroy",
+                     G_CALLBACK(on_destroy),
+                     NULL);
     gtk_widget_show_all(dialog);
-    return TRUE;
 }

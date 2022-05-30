@@ -1,5 +1,5 @@
-/** \file   uicmdline.h
- * \brief   Dialog to display command line options - header
+/** \file   actions-help.h
+ * \brief   UI action implementations for help-related dialogs - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,12 +22,11 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_UICMDLINE_H
-#define VICE_UICMDLINE_H
+#ifndef VICE_ACTIONS_HELP_H
+#define VICE_ACTIONS_HELP_H
 
-void uicmdline_dialog_show(void);
+void actions_help_register(void);
 
 #endif

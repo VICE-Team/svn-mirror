@@ -28,21 +28,11 @@
 #ifndef VICE_UICOMMANDS_H
 #define VICE_UICOMMANDS_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-gboolean ui_machine_reset_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_drive_reset_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_close_callback(GtkWidget *widget, gpointer user_data);
-
-gboolean ui_main_window_delete_event(GtkWidget *widget, GdkEvent *event,
+gboolean ui_main_window_delete_event(GtkWidget *widget,
+                                     GdkEvent *event,
                                      gpointer user_data);
 void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data);
-
-gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data);
-
-gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data);
-
-gboolean ui_popup_hotkeys_settings(GtkWidget *widget, gpointer data);
 
 #endif
