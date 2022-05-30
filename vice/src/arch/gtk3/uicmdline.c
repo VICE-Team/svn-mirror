@@ -34,8 +34,20 @@
 #include "machine.h"
 #include "cmdline.h"
 #include "ui.h"
+#include "uiactions.h"
 
 #include "uicmdline.h"
+
+
+/** \brief  Handler for the 'destroy' event of the dialog
+ *
+ * \param[in]   dialog  dialog triggering the event
+ * \param[in]   unused  extra event data (unused)
+ */
+static void on_destroy(GtkWidget *dialog, gpointer unused)
+{
+    ui_action_finish(ACTION_HELP_COMMAND_LINE);
+}
 
 
 /** \brief  Handler for the 'response' event of the dialog
@@ -137,13 +149,8 @@ static GtkWidget *create_content_widget(void)
 
 
 /** \brief  Show list of command line options
- *
- * \param[in]   widget      parent widget (unused)
- * \param[in]   user_data   extra data (unused)
- *
- * \return  TRUE
  */
-gboolean uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
+void uicmdline_dialog_show(void)
 {
     GtkWidget *dialog;
     GtkWidget *content;
@@ -161,7 +168,13 @@ gboolean uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
     gtk_box_pack_start(GTK_BOX(content), create_content_widget(),
             TRUE, TRUE, 0);
 
-    g_signal_connect_unlocked(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect_unlocked(dialog,
+                              "response",
+                              G_CALLBACK(on_response),
+                              NULL);
+    g_signal_connect(dialog,
+                     "destroy",
+                     G_CALLBACK(on_destroy),
+                     NULL);
     gtk_widget_show_all(dialog);
-    return TRUE;
 }
