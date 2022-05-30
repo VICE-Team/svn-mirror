@@ -34,6 +34,9 @@
  * $VICERES Drive2CPU_TRACE -vsid
  * $VICERES Drive3CPU_TRACE -vsid
  * $VICERES DoCoreDump      -vsid
+ * $VICERES DtvBlitterLog   x64dtv
+ * $VICERES DtvDMALog       x64dtv
+ * $VICERES DtvFlashLog     x64dtv
  */
 
 #include "vice.h"
@@ -45,6 +48,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#include "machine.h"
 #include "resources.h"
 #include "uiactions.h"
 #include "uidebug.h"
@@ -136,8 +140,29 @@ static void debug_core_dump_toggle_action(void)
                                     ACTION_DEBUG_CORE_DUMP_TOGGLE);
 }
 
+/** \brief  Toggle DTV blitter log */
+static void debug_blitter_log_toggle_action(void)
+{
+    toggle_resource_and_update_menu("DtvBlitterLog",
+                                    ACTION_DEBUG_BLITTER_LOG_TOGGLE);
+}
 
-/** \brief  List of cartridge-related actions */
+/** \brief  Toggle DTV DMA log */
+static void debug_dma_log_toggle_action(void)
+{
+    toggle_resource_and_update_menu("DtvDMALog",
+                                    ACTION_DEBUG_DMA_LOG_TOGGLE);
+}
+
+/** \brief  Toggle DTV flash log */
+static void debug_flash_log_toggle_action(void)
+{
+    toggle_resource_and_update_menu("DtvFlashLog",
+                                    ACTION_DEBUG_FLASH_LOG_TOGGLE);
+}
+
+
+/** \brief  List of debugging-related actions */
 static const ui_action_map_t debug_actions[] = {
     {
         .action = ACTION_DEBUG_TRACE_MODE,
@@ -188,10 +213,33 @@ static const ui_action_map_t debug_actions[] = {
 };
 
 
+/** \brief  List of debugging-related actions (C64DTV only) */
+static const ui_action_map_t debug_actions_dtv[] = {
+    /* DTV-specific actions */
+    {
+        .action = ACTION_DEBUG_BLITTER_LOG_TOGGLE,
+        .handler = debug_blitter_log_toggle_action
+    },
+    {
+        .action = ACTION_DEBUG_DMA_LOG_TOGGLE,
+        .handler = debug_dma_log_toggle_action
+    },
+    {
+        .action = ACTION_DEBUG_FLASH_LOG_TOGGLE,
+        .handler = debug_flash_log_toggle_action
+    },
+
+    UI_ACTION_MAP_TERMINATOR
+};
+
+
 /** \brief  Register debugging actions */
 void actions_debug_register(void)
 {
     ui_actions_register(debug_actions);
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        ui_actions_register(debug_actions_dtv);
+    }
 }
 
 #endif
