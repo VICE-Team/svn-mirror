@@ -25,27 +25,25 @@
  *  02111-1307  USA.
  */
 
-
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "archdep.h"
 #include "debug_gtk3.h"
 #include "info.h"
 #include "lib.h"
-#include "ui.h"
-#include "version.h"
 #ifdef USE_SVN_REVISION
-#include "svnversion.h"
+# include "svnversion.h"
 #endif
+#include "ui.h"
+#include "uiactions.h"
 #include "uidata.h"
+#include "version.h"
+#include "vicedate.h"
 
 #include "uiabout.h"
-#include "vicedate.h"
 
 
 /** \brief  Maximum length of generated version string
@@ -104,6 +102,7 @@ static GdkPixbuf *get_vice_logo(void)
     return uidata_get_pixbuf("vice-logo-black.svg");
 }
 
+
 /** \brief  Handler for the "destroy" event
  *
  * \param[in,out]   widget      widget triggering the event (unused)
@@ -112,6 +111,7 @@ static GdkPixbuf *get_vice_logo(void)
 static void about_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
     destroy_current_team_list(authors);
+    ui_action_finish(ACTION_HELP_ABOUT);
 }
 
 
@@ -142,14 +142,9 @@ static void about_response_callback(GtkWidget *widget, gint response_id,
 }
 
 
-/** \brief  Callback to show the 'About' dialog
- *
- * \param[in,out]   widget      widget triggering the event
- * \param[in]       user_data   data for the event (unused)
- *
- * \return  TRUE
+/** \brief  Show the about dialog
  */
-gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
+void ui_about_dialog_show(void)
 {
     char version[VERSION_STRING_MAX];
     GtkWidget *about = gtk_about_dialog_new();
@@ -196,28 +191,18 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
                 runtime_info.os_version,
                 runtime_info.machine);
     }
-
-#ifdef FREE_MR_AMMO
-    gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(about), "FREE MR AMMO");
-#endif
-
-
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about), version);
 
     /* Describe the program */
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about),
-#ifndef FREE_MR_AMMO
-            "Emulates an 8-bit Commodore computer.");
-#else
-            "Free's Mr. Ammo");
-#endif
+                                  "Emulates 8-bit Commodore computers.");
     /* set license */
     gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(about), GTK_LICENSE_GPL_2_0);
     /* set website link and title */
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about),
-            "http://vice-emu.sourceforge.net/");
+                                 "http://vice-emu.sourceforge.net/");
     gtk_about_dialog_set_website_label(GTK_ABOUT_DIALOG(about),
-            "http://vice-emu.sourceforge.net/");
+                                       "http://vice-emu.sourceforge.net/");
     /* set list of current team members */
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about), (const gchar **)authors);
     /* set copyright string */
@@ -236,18 +221,21 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     /* destroy callback, called when the dialog is closed through the 'X',
      * but NOT when clicking 'Close' */
-    g_signal_connect_unlocked(about, "destroy", G_CALLBACK(about_destroy_callback),
-            NULL);
+    g_signal_connect_unlocked(about,
+                              "destroy",
+                              G_CALLBACK(about_destroy_callback),
+                              NULL);
 
     /* set up a generic handler for various buttons, this makes sure the
      * 'Close' button is handled properly */
-    g_signal_connect_unlocked(about, "response", G_CALLBACK(about_response_callback),
-            NULL);
+    g_signal_connect_unlocked(about,
+                              "response",
+                              G_CALLBACK(about_response_callback),
+                              NULL);
 
     /* make the about dialog modal */
     gtk_window_set_modal(GTK_WINDOW(about), TRUE);
 
     /* ... and show the dialog finally */
     gtk_widget_show(about);
-    return TRUE;
 }
