@@ -446,8 +446,6 @@ void ui_actions_init(void)
     action_mappings_size = 64;
     action_mappings_count = 0;
     action_mappings = lib_malloc(sizeof *action_mappings * action_mappings_size);
-    printf("%s: allocated action mapping array of %zu elements\n",
-           __func__, action_mappings_size);
 #endif
 }
 
@@ -469,7 +467,6 @@ void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *))
 void ui_actions_shutdown(void)
 {
 #if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
-    printf("%s: freeing action mapping array.\n", __func__);
     if (action_mappings != NULL) {
         lib_free(action_mappings);
         action_mappings = NULL;
@@ -573,7 +570,7 @@ void ui_action_trigger(int action)
             map->handler();
         }
     } else {
-        printf("?OUT OF DATA  ERROR (no handler for action %d)\n", action);
+        log_error(LOG_ERR, "no handler for action %d\n", action);
     }
 }
 
@@ -587,20 +584,25 @@ void ui_action_trigger(int action)
  */
 void ui_action_finish(int action)
 {
-    const char *name;
     ui_action_map_t *map = find_action_map(action);
+#ifdef DEBUG_ACTIONS
+    const char *name = ui_action_get_name(action);
 
-    name = ui_action_get_name(action);
     printf("%s(): called for %d (%s).\n",
            __func__, action, name != NULL ? name : "<no name>");
+#endif
 
     if (map != NULL) {
         /* clear all state flags for the action */
+#ifdef DEBUG_ACTIONS
         printf("%s(): clearing state flags.\n", __func__);
+#endif
         map->is_busy = false;
         /* clear global dialog flag */
         if (map->dialog) {
+#ifdef DEBUG_ACTIONS
             printf("%s(): clearing global dialog-active flag.\n", __func__);
+#endif
             dialog_active = false;
         }
     }
