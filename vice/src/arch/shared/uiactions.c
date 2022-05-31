@@ -587,10 +587,12 @@ void ui_action_trigger(int action)
  */
 void ui_action_finish(int action)
 {
+    const char *name;
     ui_action_map_t *map = find_action_map(action);
 
+    name = ui_action_get_name(action);
     printf("%s(): called for %d (%s).\n",
-           __func__, action, ui_action_get_name(action));
+           __func__, action, name != NULL ? name : "<no name>");
 
     if (map != NULL) {
         /* clear all state flags for the action */
