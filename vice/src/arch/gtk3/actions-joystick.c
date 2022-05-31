@@ -160,19 +160,19 @@ static void mouse_grab_toggle_action(void)
 /** \brief  List of joystick/mouse avtions */
 static const ui_action_map_t joystick_actions[] = {
     {
-        /* Needs UI thread for menu item update */
         .action = ACTION_SWAP_CONTROLPORT_TOGGLE,
-        .handler = swap_controlport_toggle_action
+        .handler = swap_controlport_toggle_action,
+        .uithread = true
     },
     {
-        /* Needs UI thread for menu item update */
         .action = ACTION_KEYSET_JOYSTICK_TOGGLE,
-        .handler = keyset_joystick_toggle_action
+        .handler = keyset_joystick_toggle_action,
+        .uithread = true
     },
     {
-        /* Needs UI thread for menu item update and window title update */
         .action = ACTION_MOUSE_GRAB_TOGGLE,
-        .handler = mouse_grab_toggle_action
+        .handler = mouse_grab_toggle_action,
+        .uithread = true
     },
 
     UI_ACTION_MAP_TERMINATOR

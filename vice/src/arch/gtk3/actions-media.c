@@ -65,12 +65,14 @@ static const ui_action_map_t media_actions[] = {
     {
         /* Needs to run on the UI thread */
         .action = ACTION_MEDIA_STOP,
-        .handler = media_stop_action
+        .handler = media_stop_action,
+        .uithread = true
     },
     {
         /* Needs to run on the UI thread (calls ui_get_active_canvas()) */
         .action = ACTION_SCREENSHOT_QUICKSAVE,
-        .handler = screenshot_quicksave_action
+        .handler = screenshot_quicksave_action,
+        .uithread = true
     },
 
     UI_ACTION_MAP_TERMINATOR

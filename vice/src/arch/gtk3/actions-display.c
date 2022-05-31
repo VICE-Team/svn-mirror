@@ -156,18 +156,22 @@ static const ui_action_map_t display_actions[] = {
     {
         .action = ACTION_FULLSCREEN_TOGGLE,
         .handler = fullscreen_toggle_action,
+        .uithread = true
     },
     {
         .action = ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
-        .handler = fullscreen_decorations_toggle_action
+        .handler = fullscreen_decorations_toggle_action,
+        .uithread = true
     },
     {
         .action = ACTION_RESTORE_DISPLAY,
-        .handler = restore_display_action
+        .handler = restore_display_action,
+        .uithread = true
     },
     {
         .action = ACTION_SHOW_STATUSBAR_TOGGLE,
-        .handler = show_statusbar_toggle_action
+        .handler = show_statusbar_toggle_action,
+        .uithread = true
     },
 
     UI_ACTION_MAP_TERMINATOR

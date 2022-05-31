@@ -132,7 +132,8 @@ static const ui_action_map_t machine_actions[] = {
     },
     {
         .action = ACTION_MONITOR_OPEN,
-        .handler = monitor_open_action
+        .handler = monitor_open_action,
+        .uithread = true
     },
     {
         .action = ACTION_RESET_SOFT,
