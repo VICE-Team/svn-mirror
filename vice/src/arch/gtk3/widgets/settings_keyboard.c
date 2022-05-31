@@ -40,6 +40,7 @@
 #include "kbdlayoutwidget.h"
 #include "kbdmappingwidget.h"
 #include "keyboard.h"
+#include "keymap.h"
 #include "lib.h"
 #include "resources.h"
 #include "settings_keyboard.h"
