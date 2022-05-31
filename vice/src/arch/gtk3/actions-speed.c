@@ -69,8 +69,7 @@ static void advance_frame_action(void)
         vsyncarch_advance_frame();
     } else {
         ui_pause_enable();
-        ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
-                                                 (gboolean)ui_pause_active());
+        ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE, TRUE);
     }
 }
 
@@ -367,37 +366,46 @@ static void speed_fps_custom_action(void)
 static const ui_action_map_t speed_actions[] = {
     {
         .action = ACTION_PAUSE_TOGGLE,
-        .handler = pause_toggle_action
+        .handler = pause_toggle_action,
+        .uithread = true
+
     },
     {
         .action = ACTION_ADVANCE_FRAME,
-        .handler = advance_frame_action
+        .handler = advance_frame_action,
+        .uithread = true
     },
     {
         .action = ACTION_WARP_MODE_TOGGLE,
-        .handler = warp_mode_toggle_action
+        .handler = warp_mode_toggle_action,
+        .uithread = true
     },
 
     /* CPU speed actions */
     {
         .action = ACTION_SPEED_CPU_200,
-        .handler = speed_cpu_200_action
+        .handler = speed_cpu_200_action,
+        .uithread = true
     },
     {
         .action = ACTION_SPEED_CPU_100,
-        .handler = speed_cpu_100_action
+        .handler = speed_cpu_100_action,
+        .uithread = true
     },
     {
         .action = ACTION_SPEED_CPU_50,
-        .handler = speed_cpu_50_action
+        .handler = speed_cpu_50_action,
+        .uithread = true
     },
     {
         .action = ACTION_SPEED_CPU_20,
-        .handler = speed_cpu_20_action
+        .handler = speed_cpu_20_action,
+        .uithread = true
     },
     {
         .action = ACTION_SPEED_CPU_10,
-        .handler = speed_cpu_10_action
+        .handler = speed_cpu_10_action,
+        .uithread = true
     },
     {
         .action = ACTION_SPEED_CPU_CUSTOM,
@@ -409,15 +417,18 @@ static const ui_action_map_t speed_actions[] = {
     /* FPS actions */
     {
         .action = ACTION_SPEED_FPS_REAL,
-        .handler = speed_fps_real_action
+        .handler = speed_fps_real_action,
+        .uithread = true
     },
     {
         .action = ACTION_SPEED_FPS_50,
-        .handler = speed_fps_50_action
+        .handler = speed_fps_50_action,
+        .uithread = true
     },
     {
         .action = ACTION_SPEED_FPS_60,
-        .handler = speed_fps_60_action
+        .handler = speed_fps_60_action,
+        .uithread = true
     },
     {
         .action = ACTION_SPEED_FPS_CUSTOM,

@@ -55,7 +55,9 @@ typedef struct ui_action_map_s {
     bool blocks;            /**< action blocks (the same action cannot be
                                  triggered again until it finishes) */
     bool dialog;            /**< action pops up a dialog (only one dialog action
-                                 is allowed at a time) */
+                                 is allowed at a time), this implies using the
+                                 UI thread */
+    bool uithread;          /**< must run on the UI thread */
 
     /* state */
     bool is_busy;           /**< action is busy */

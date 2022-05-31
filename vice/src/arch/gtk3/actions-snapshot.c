@@ -127,42 +127,40 @@ static const ui_action_map_t snapshot_actions[] = {
         .dialog = true
     },
     {
-        /* TODO: doesn't need to run on the UI thread */
         .action = ACTION_SNAPSHOT_QUICKLOAD,
         .handler = snapshot_quickload_action
     },
     {
-        /* TODO: doesn't need to run on the UI thread */
         .action = ACTION_SNAPSHOT_QUICKSAVE,
         .handler = snapshot_quicksave_action
     },
 
     /* History actions */
     {
-        /* Appears to require UI thread for statusbar update */
         .action = ACTION_HISTORY_RECORD_START,
-        .handler = history_record_start_action
+        .handler = history_record_start_action,
+        .uithread = true
     },
     {
-        /* Appears to require UI thread for statusbar update */
         .action = ACTION_HISTORY_RECORD_STOP,
-        .handler = history_record_stop_action
+        .handler = history_record_stop_action,
+        .uithread = true
     },
     {
         .action = ACTION_HISTORY_PLAYBACK_START,
-        .handler = history_playback_start_action
+        .handler = history_playback_start_action,
+        .uithread = true
     },
     {
         .action = ACTION_HISTORY_PLAYBACK_STOP,
-        .handler = history_playback_stop_action
+        .handler = history_playback_stop_action,
+        .uithread = true
     },
     {
-        /* TODO: doesn't need to run on the UI thread */
         .action = ACTION_HISTORY_MILESTONE_SET,
         .handler = history_milestone_set_action
     },
     {
-        /* TODO: doesn't need to run on the UI thread */
         .action = ACTION_HISTORY_MILESTONE_RESET,
         .handler = history_milestone_reset_action
     },

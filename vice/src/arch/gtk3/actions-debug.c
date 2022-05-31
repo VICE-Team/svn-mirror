@@ -172,31 +172,38 @@ static const ui_action_map_t debug_actions[] = {
     },
     {
         .action = ACTION_DEBUG_TRACE_CPU_TOGGLE,
-        .handler = debug_trace_cpu_toggle_action
+        .handler = debug_trace_cpu_toggle_action,
+        .uithread = true
     },
     {
         .action = ACTION_DEBUG_TRACE_IEC_TOGGLE,
-        .handler = debug_trace_iec_toggle_action
+        .handler = debug_trace_iec_toggle_action,
+        .uithread = true
     },
     {
         .action = ACTION_DEBUG_TRACE_IEEE488_TOGGLE,
-        .handler = debug_trace_ieee488_toggle_action
+        .handler = debug_trace_ieee488_toggle_action,
+        .uithread = true
     },
     {
         .action = ACTION_DEBUG_TRACE_DRIVE_8_TOGGLE,
-        .handler = debug_trace_drive_8_toggle_action
+        .handler = debug_trace_drive_8_toggle_action,
+        .uithread = true
     },
     {
         .action = ACTION_DEBUG_TRACE_DRIVE_9_TOGGLE,
-        .handler = debug_trace_drive_9_toggle_action
+        .handler = debug_trace_drive_9_toggle_action,
+        .uithread = true
     },
     {
         .action = ACTION_DEBUG_TRACE_DRIVE_10_TOGGLE,
-        .handler = debug_trace_drive_10_toggle_action
+        .handler = debug_trace_drive_10_toggle_action,
+        .uithread = true
     },
     {
         .action = ACTION_DEBUG_TRACE_DRIVE_11_TOGGLE,
-        .handler = debug_trace_drive_11_toggle_action
+        .handler = debug_trace_drive_11_toggle_action,
+        .uithread = true
     },
     {
         .action = ACTION_DEBUG_AUTOPLAYBACK_FRAMES,
@@ -206,7 +213,8 @@ static const ui_action_map_t debug_actions[] = {
     },
     {
         .action = ACTION_DEBUG_CORE_DUMP_TOGGLE,
-        .handler = debug_core_dump_toggle_action
+        .handler = debug_core_dump_toggle_action,
+        .uithread = true
     },
 
     UI_ACTION_MAP_TERMINATOR

@@ -156,7 +156,8 @@ static const ui_action_map_t help_actions[] = {
     {
         .action = ACTION_HELP_MANUAL,
         .handler = help_manual_action,
-        .blocks = true
+        .blocks = true,
+        .uithread = true
     },
     {
         .action = ACTION_HELP_COMMAND_LINE,

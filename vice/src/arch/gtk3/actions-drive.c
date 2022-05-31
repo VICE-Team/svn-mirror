@@ -411,7 +411,13 @@ static const ui_action_map_t drive_actions[] = {
         .handler = reset_drive_11_action
     },
 
-    /* Fliplist actions */
+    /* Fliplist actions
+     *
+     * Although the non-dialog actions display a message on the status bar,
+     * they do not require to be run on the UI thread: the function
+     * `ui_display_statustext()` can be called from any thread since the status
+     * bar code has its own locking mechanism.
+     */
     {
         .action = ACTION_FLIPLIST_ADD,
         .handler = fliplist_add_action

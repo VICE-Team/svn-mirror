@@ -95,11 +95,13 @@ static void edit_paste_action(void)
 static const ui_action_map_t clipboard_actions[] = {
     {
         .action = ACTION_EDIT_COPY,
-        .handler = edit_copy_action
+        .handler = edit_copy_action,
+        .uithread = true
     },
     {
         .action = ACTION_EDIT_PASTE,
-        .handler = edit_paste_action
+        .handler = edit_paste_action,
+        .uithread = true
     },
 
     UI_ACTION_MAP_TERMINATOR
