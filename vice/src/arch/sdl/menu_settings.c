@@ -33,6 +33,7 @@
 #include "joy.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "keymap.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_common.h"

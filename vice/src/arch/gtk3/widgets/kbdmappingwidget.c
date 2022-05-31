@@ -39,6 +39,7 @@
 #include "basewidgets.h"
 #include "debug_gtk3.h"
 #include "keyboard.h"
+#include "keymap.h"
 #include "lib.h"
 #include "openfiledialog.h"
 #include "resources.h"

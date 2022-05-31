@@ -41,6 +41,7 @@
 #endif
 
 #include "keyboard.h"
+#include "keymap.h"
 
 #include "archdep_kbd_get_host_mapping.h"
 

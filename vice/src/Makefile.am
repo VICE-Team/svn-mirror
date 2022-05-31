@@ -206,6 +206,7 @@ noinst_HEADERS = \
 	interrupt.h \
 	kbdbuf.h \
 	keyboard.h \
+	keymap.h \
 	lib.h \
 	log.h \
 	machine-bus.h \
@@ -310,6 +311,7 @@ base_sources = \
 	interrupt.c \
 	kbdbuf.c \
 	keyboard.c \
+	keymap.c \
 	lib.c \
 	log.c \
 	machine-bus.c \
