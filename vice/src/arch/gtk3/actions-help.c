@@ -35,6 +35,7 @@
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "log.h"
+#include "uiabout.h"
 #include "uiactions.h"
 #include "uicmdline.h"
 #include "uicompiletimefeatures.h"
@@ -143,6 +144,12 @@ static void help_hotkeys_action(void)
     ui_settings_dialog_create_and_activate_node("host/hotkeys");
 }
 
+/** \brief  Pop up About dialog */
+static void help_about_action(void)
+{
+    ui_about_dialog_show();
+}
+
 
 /** \brief  List of help-related actions */
 static const ui_action_map_t help_actions[] = {
@@ -178,6 +185,12 @@ static const ui_action_map_t help_actions[] = {
         .blocks = true,
         .dialog = true
         */
+    },
+    {
+        .action = ACTION_HELP_ABOUT,
+        .handler = help_about_action,
+        .blocks = true,
+        .dialog = true
     },
 
     UI_ACTION_MAP_TERMINATOR
