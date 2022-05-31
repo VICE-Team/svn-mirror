@@ -42,6 +42,7 @@
 
 
 #include "keyboard.h"
+#include "keymap.h"
 #include "kbd.h"
 
 
