@@ -276,13 +276,13 @@ static void fliplist_clear_action(void)
 /** \brief  Load fliplist from file */
 static void fliplist_load_action(void)
 {
-    ui_fliplist_load_callback(NULL, GINT_TO_POINTER(8));
+    ui_fliplist_load_dialog_show(8);
 }
 
 /** \brief  Save fliplist to file */
 static void fliplist_save_action(void)
 {
-    ui_fliplist_save_callback(NULL, GINT_TO_POINTER(8));
+    ui_fliplist_save_dialog_show(8);
 }
 /* }}} */
 
