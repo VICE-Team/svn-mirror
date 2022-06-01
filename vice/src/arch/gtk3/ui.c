@@ -1927,7 +1927,7 @@ void ui_create_main_window(video_canvas_t *canvas)
      * -settings-node command line option
      */
     if (settings_node_path != NULL) {
-        ui_settings_dialog_create_and_activate_node(settings_node_path);
+        ui_settings_dialog_show(settings_node_path);
         settings_node_path = NULL;
     }
 }

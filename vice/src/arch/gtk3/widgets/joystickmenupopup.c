@@ -85,7 +85,7 @@ static gboolean joystick_swap_possible(void)
  */
 static void on_configure_activate(GtkWidget *widget, gpointer user_data)
 {
-    ui_settings_dialog_create_and_activate_node("input/joystick");
+    ui_settings_dialog_show("input/joystick");
 }
 
 
