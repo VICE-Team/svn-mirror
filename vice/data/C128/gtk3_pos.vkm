@@ -186,8 +186,10 @@ Home 6 3 8
 Insert 6 0 8
 
 Return 0 1 8
-Shift_L 1 7 2
 Shift_R 6 4 4
+Shift_L         1 7 2
+# shift lock
+Caps_Lock       1 7 64
 
 # Up in c64 mode mapped to Shift_R + CRSR U/D
 Up 0 7 257
