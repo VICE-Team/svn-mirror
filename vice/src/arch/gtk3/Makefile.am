@@ -178,7 +178,6 @@ EXTRA_DIST = \
 	uimedia.h \
 	uimenu.h \
 	uimon-fallback.h \
-	uimonarch.h \
 	uisettings.h \
 	uisidattach.h \
 	uismartattach.h \

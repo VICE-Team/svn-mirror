@@ -70,7 +70,6 @@
 #include "ui.h"
 #include "linenoise.h"
 #include "uimon.h"
-#include "uimonarch.h"
 #include "uimon-fallback.h"
 #include "mon_command.h"
 #include "vsync.h"
