@@ -56,7 +56,7 @@
  * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
  *          in the emulated machine
  */
-gboolean ui_fliplist_next_cb(GtkWidget *widget, gpointer data)
+static gboolean ui_fliplist_next_cb(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data);
     char buffer[MSGBUF_SIZE];
@@ -83,7 +83,7 @@ gboolean ui_fliplist_next_cb(GtkWidget *widget, gpointer data)
  * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
  *          in the emulated machine
  */
-gboolean ui_fliplist_prev_cb(GtkWidget *widget, gpointer data)
+static gboolean ui_fliplist_prev_cb(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data);
     char buffer[MSGBUF_SIZE];
@@ -264,39 +264,39 @@ static void fliplist_load_response(GtkWidget *widget,
 }
 
 
-/** \brief   Create and show the "load fliplist" dialog.
+/** \brief   Create and show the "load fliplist" dialog
  *
- *  \param   parent     Widget that sent the event
- *  \param   data       Drive to load fliplist to, or FLIPLIST_ALL_UNITS
- *
- *  \return TRUE
+ *  \param[in]  unit    Disk unit to load fliplist to, or `FLIPLIST_ALL_UNITS`
  */
-gboolean ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
+void ui_fliplist_load_dialog_show(int unit)
 {
     GtkWidget *dialog;
-    unsigned int unit = (unsigned int)GPOINTER_TO_INT(data);
+
     if (unit != FLIPLIST_ALL_UNITS &&
             (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX)) {
-        return TRUE;
+        return;
     }
-    dialog = gtk_file_chooser_dialog_new(
-        "Select flip list file",
-        ui_get_active_window(),
-        GTK_FILE_CHOOSER_ACTION_OPEN,
-        /* buttons */
-        "Open", GTK_RESPONSE_ACCEPT,
-        "Cancel", GTK_RESPONSE_REJECT,
-        NULL, NULL);
+
+    dialog = gtk_file_chooser_dialog_new("Select flip list file",
+                                         ui_get_active_window(),
+                                         GTK_FILE_CHOOSER_ACTION_OPEN,
+                                         /* buttons */
+                                         "Open", GTK_RESPONSE_ACCEPT,
+                                         "Cancel", GTK_RESPONSE_REJECT,
+                                         NULL, NULL);
     /* TODO: add a separate "extra widget" that will let the user
      * select autoattach */
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_fliplist, FALSE));
-     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_all, FALSE));
 
-    g_signal_connect(dialog, "response", G_CALLBACK(fliplist_load_response), data);
+    g_signal_connect(dialog,
+                     "response",
+                     G_CALLBACK(fliplist_load_response),
+                     GINT_TO_POINTER(unit));
+
     gtk_widget_show_all(dialog);
-    return TRUE;
 }
 
 
@@ -327,34 +327,34 @@ static void fliplist_save_response(GtkWidget *widget,
 }
 
 
-/** \brief   Create and show the "save fliplist" dialog.
+/** \brief   Create and show the "save fliplist" dialog
  *
- *  \param   parent     Widget that sent the event
- *  \param   data       Drive to save fliplist from, or FLIPLIST_ALL_UNITS
- *
- *  \return TRUE
+ *  \param[in]  unit    Drive unit to save fliplist from, or `FLIPLIST_ALL_UNITS`
  */
-gboolean ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
+void ui_fliplist_save_dialog_show(int unit)
 {
     GtkWidget *dialog;
-    unsigned int unit = (unsigned int)GPOINTER_TO_INT(data);
+
     if (unit != FLIPLIST_ALL_UNITS &&
             (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX)) {
         return TRUE;
     }
-    dialog = gtk_file_chooser_dialog_new(
-        "Select flip list file",
-        ui_get_active_window(),
-        GTK_FILE_CHOOSER_ACTION_SAVE,
-        /* buttons */
-        "Save", GTK_RESPONSE_ACCEPT,
-        "Cancel", GTK_RESPONSE_REJECT,
-        NULL, NULL);
+
+    dialog = gtk_file_chooser_dialog_new("Select flip list file",
+                                         ui_get_active_window(),
+                                         GTK_FILE_CHOOSER_ACTION_SAVE,
+                                         /* buttons */
+                                         "Save", GTK_RESPONSE_ACCEPT,
+                                         "Cancel", GTK_RESPONSE_REJECT,
+                                         NULL, NULL);
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_fliplist, FALSE));
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
-    g_signal_connect(dialog, "response", G_CALLBACK(fliplist_save_response), data);
-    gtk_widget_show_all(dialog);
 
-    return TRUE;
+    g_signal_connect(dialog,
+                     "response",
+                     G_CALLBACK(fliplist_save_response),
+                     GINT_TO_POINTER(unit));
+
+    gtk_widget_show_all(dialog);
 }
