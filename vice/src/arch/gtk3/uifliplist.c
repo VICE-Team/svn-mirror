@@ -337,7 +337,7 @@ void ui_fliplist_save_dialog_show(int unit)
 
     if (unit != FLIPLIST_ALL_UNITS &&
             (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX)) {
-        return TRUE;
+        return;
     }
 
     dialog = gtk_file_chooser_dialog_new("Select flip list file",
