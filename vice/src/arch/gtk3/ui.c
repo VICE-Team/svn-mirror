@@ -36,73 +36,68 @@
 
 #include "vice.h"
 
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
-#include <gtk/gtk.h>
-
 #ifdef UNIX_COMPILE
-#include <unistd.h>
+# include <unistd.h>
 #endif
-
 #ifdef MACOS_COMPILE
-#include <objc/runtime.h>
-#include <objc/message.h>
-#include <CoreFoundation/CFString.h>
-#include <CoreGraphics/CGGeometry.h>
+# include <objc/runtime.h>
+# include <objc/message.h>
+# include <CoreFoundation/CFString.h>
+# include <CoreGraphics/CGGeometry.h>
 
 /* The proper way to use objc_msgSend is to cast it into the right shape each time */
-#define OBJC_MSGSEND(return_type, ...) ((return_type (*)(__VA_ARGS__))objc_msgSend)
-#define OBJC_MSGSEND_STRET(...) ((void (*)(__VA_ARGS__))objc_msgSend_stret)
+# define OBJC_MSGSEND(return_type, ...) ((return_type (*)(__VA_ARGS__))objc_msgSend)
+# define OBJC_MSGSEND_STRET(...) ((void (*)(__VA_ARGS__))objc_msgSend_stret)
 #endif
 
-#include "debug_gtk3.h"
-
 #include "archdep.h"
-
 #include "autostart.h"
+#include "basedialogs.h"
 #include "cmdline.h"
 #include "debug.h"
+#include "debug_gtk3.h"
 #include "drive.h"
+#include "extendimagedialog.h"
+/* for the fullscreen_capability() stub */
+#include "fullscreen.h"
+#include "hotkeys.h"
 #include "interrupt.h"
+#include "jamdialog.h"
 #include "kbd.h"
 #include "lib.h"
+#include "lightpen.h"
 #include "log.h"
-#include "hotkeys.h"
 #include "machine.h"
 #include "mainlock.h"
+#include "mixerwidget.h"
 #include "monitor.h"
-#include "lightpen.h"
 #include "resources.h"
 #include "types.h"
-#include "util.h"
-#include "videoarch.h"
-#include "vsync.h"
-#include "vsyncapi.h"
-
-#include "basedialogs.h"
 #include "uiactions.h"
 #include "uiapi.h"
-#include "uicommands.h"
+#include "uicart.h"
+#include "uidata.h"
+#include "uidiskattach.h"
 #include "uimachinemenu.h"
+#include "uimachinewindow.h"
 #include "uimedia.h"
 #include "uimenu.h"
 #include "uimon.h"
 #include "uisettings.h"
-#include "uistatusbar.h"
-#include "jamdialog.h"
-#include "extendimagedialog.h"
-#include "uicart.h"
-#include "uidiskattach.h"
 #include "uismartattach.h"
+#include "uistatusbar.h"
 #include "uitapeattach.h"
-#include "uimachinewindow.h"
-#include "uimedia.h"
-#include "mixerwidget.h"
-#include "uidata.h"
-#include "archdep.h"
+#include "util.h"
+#include "videoarch.h"
+#include "vsync.h"
+#include "vsyncapi.h"
 #include "widgethelpers.h"
 
+/* UI action implementations */
 #include "actions-cartridge.h"
 #include "actions-clipboard.h"
 #include "actions-datasette.h"
@@ -119,10 +114,8 @@
 #include "actions-snapshot.h"
 #include "actions-speed.h"
 
-/* for the fullscreen_capability() stub */
-#include "fullscreen.h"
-
 #include "ui.h"
+
 
 /* Forward declarations of static functions
  *
@@ -151,13 +144,13 @@ static int set_monitor_ypos(const gchar *ypos, void *window_index);
 static int set_monitor_width(const gchar *width, void *window_index);
 static int set_monitor_height(const gchar *height, void *window_index);
 static int set_settings_node_path(const gchar *path, void *unused);
-
+static int window_index_from_param(void *param);
 static void ui_action_dispatch(const ui_action_map_t *);
+
 
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
  ****************************************************************************/
-
 
 /** \brief  List of drag targets for the drag-n-drop event handler
  *
@@ -446,149 +439,10 @@ static int (*identify_canvas_func)(video_canvas_t *) = NULL;
 static GtkWidget *(*create_controls_widget_func)(int) = NULL;
 
 
+
 /******************************************************************************
- *                              Event handlers                                *
+ *                              Resource setters                              *
  *****************************************************************************/
-
-
-/** \brief  Handler for the 'drag-drop' event of the GtkWindow(s)
- *
- * Can be used to filter certain drop targets or altering the data before
- * triggering the 'drag-drop-received' event. Currently just returns TRUE
- *
- * \param[in]   widget  widget triggering the event
- * \param[in]   context gtk drag context
- * \param[in]   x       x position of drag event
- * \param[in]   y       y position of drag event
- * \param[in]   time    (I don't have a clue)
- * \param[in]   data    extra event data (unused)
- *
- * \return  TRUE
- */
-static gboolean ui_on_drag_drop(
-        GtkWidget *widget,
-        GdkDragContext *context,
-        gint x,
-        gint y,
-        guint time,
-        gpointer data)
-{
-    return TRUE;
-}
-
-
-/** \brief  Handler for the 'drag-data-received' event
- *
- * Autostarts an image/prg when valid. Please note that VSID now has its own
- * drag-n-drop handlers.
- *
- * \param[in]   widget      widget triggering the event (unused)
- * \param[in]   context     drag context (unused)
- * \param[in]   x           probably X-coordinate in the drop target?
- * \param[in]   y           probablt Y-coordinate in the drop target?
- * \param[in]   data        dragged data
- * \param[in]   info        int declared in the targets array (unclear)
- * \param[in]   time        no idea
- */
-static void ui_on_drag_data_received(
-        GtkWidget *widget,
-        GdkDragContext *context,
-        int x,
-        int y,
-        GtkSelectionData *data,
-        guint info,
-        guint time)
-{
-    gchar **uris;
-    gchar *filename = NULL;
-    gchar **files = NULL;
-    guchar *text = NULL;
-
-    switch (info) {
-
-        case DT_URI_LIST:
-            /*
-             * This branch appears to be taken on both Windows and macOS.
-             */
-
-            /* got possible list of URI's */
-            uris = gtk_selection_data_get_uris(data);
-            if (uris != NULL) {
-                /* keep this debugging output, drag'n'drop is pretty flaky */
-#if 0
-                /* dump URI's on stdout */
-                debug_gtk3("got URI's:");
-                for (i = 0; uris[i] != NULL; i++) {
-
-                    debug_gtk3("URI: '%s'\n", uris[i]);
-                    filename = g_filename_from_uri(uris[i], NULL, NULL);
-                    debug_gtk3("filename: '%s'.", filename);
-                    if (filename != NULL) {
-                        g_free(filename);
-                    }
-                }
-#endif
-
-                /* use the first/only entry as the autostart file
-                 *
-                 * XXX: perhaps add any additional files to the fliplist
-                 *      if Dxx?
-                 */
-                if (uris[0] != NULL) {
-                    filename = g_filename_from_uri(uris[0], NULL, NULL);
-                } else {
-                    filename = NULL;
-                }
-
-                g_strfreev(uris);
-            }
-            break;
-
-        case DT_TEXT:
-            /*
-             * this branch appears to be taken on both Gtk and Qt based WM's
-             * on Linux
-             */
-
-
-            /* text will contain a newline separated list of 'file://' URIs,
-             * and a trailing newline */
-            text = gtk_selection_data_get_text(data);
-            /* remove trailing whitespace */
-            g_strchomp((gchar *)text);
-
-            files = g_strsplit((const gchar *)text, "\n", -1);
-            g_free(text);
-
-#if 0
-# ifdef HAVE_DEBUG_GTK3UI
-            for (i = 0; files[i] != NULL; i++) {
-                /* keep this as well */
-                gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
-                debug_gtk3("URI: '%s', filename: '%s'.",
-                        files[i], tmp);
-            }
-# endif
-#endif
-            /* now grab the first file */
-            filename = g_filename_from_uri(files[0], NULL, NULL);
-            g_strfreev(files);
-            break;
-
-        default:
-            filename = NULL;
-            break;
-    }
-
-    /* can we attempt autostart? */
-    if (filename != NULL) {
-        if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
-            /* TODO: add proper UI error */
-        }
-        g_free(filename);
-    }
-}
-
 
 /** \brief  Resource setter for "FullscreenDecorations"
  *
@@ -602,449 +456,6 @@ static int set_fullscreen_decorations(gboolean fullscreen_decorations, void *unu
     fullscreen_has_decorations = fullscreen_decorations;
     return 0;
 }
-
-
-/** \brief  Get the most recently focused toplevel window
- *
- * \return  pointer to a toplevel window, or NULL
- *
- * \note    Not an event handler, needs to be moved
- */
-GtkWindow *ui_get_active_window(void)
-{
-    GtkWindow *window = NULL;
-    GList *tlist = gtk_window_list_toplevels();
-    GList *list = tlist;
-
-    /* Find the window that has the toplevel focus. */
-    while (list != NULL) {
-        if (gtk_window_has_toplevel_focus(list->data)) {
-            window = list->data;
-            break;
-        }
-        list = list->next;
-    }
-    g_list_free(tlist);
-
-    /* If no window has the toplevel focus, then fall back
-     * to the most recently focused main window.
-     */
-    if (window == NULL
-            && active_win_index >= 0 && active_win_index < NUM_WINDOWS) {
-        window = GTK_WINDOW(ui_resources.window_widget[active_win_index]);
-    }
-
-    /* If "window" still is NULL, it probably means
-     * that no windows have been created yet.
-     */
-    return window;
-}
-
-
-/** \brief  Get video canvas of active window
- *
- * \return  current active video canvas, or NULL
- */
-video_canvas_t *ui_get_active_canvas(void)
-{
-    video_canvas_t *canvas;
-
-    if (active_win_index < 0) {
-        /* If we end up here it probably means no main window has
-         * been created yet. */
-        return NULL;
-    }
-
-    canvas = ui_resources.canvas[active_win_index];
-    if (canvas == NULL) {
-        log_error(LOG_ERR, "No canvas for window %d!", active_win_index);
-    }
-    return canvas;
-}
-
-
-/** \brief  Get the active main window's index
- *
- * \return  index of a main emulator window
- */
-int ui_get_main_window_index(void)
-{
-    /* SOMETHING CHANGED */
-    return active_win_index;
-}
-
-
-/** \brief  Get active main window
- *
- * \param[in]   index   window index (PRIMARY WINDOW or SECONDARY_WINDOW)
- *
- * \return  window or `NULL` when \a index is out of bounds
- */
-GtkWidget *ui_get_main_window_by_index(gint index)
-{
-    if (index == PRIMARY_WINDOW || index == SECONDARY_WINDOW) {
-        return ui_resources.window_widget[index];
-    }
-    return NULL;
-}
-
-
-/** \brief  Get a window's index
- *
- * \param[in]   widget      window to get the index of
- *
- * \return  window index, or -1 if not a main window
- */
-int ui_get_window_index(GtkWidget *widget)
-{
-    if (widget == NULL) {
-        return -1;
-    } else if (widget == ui_resources.window_widget[PRIMARY_WINDOW]) {
-        return PRIMARY_WINDOW;
-    } else if (widget == ui_resources.window_widget[SECONDARY_WINDOW]) {
-        return SECONDARY_WINDOW;
-    } else {
-        return -1;
-    }
-}
-
-/** \brief  Handler for the "focus-in-event" of a main window
- *
- * \param[in]   widget      window triggering the event
- * \param[in]   event       window focus details
- * \param[in]   user_data   extra data for the event (ignored)
- *
- * \return  FALSE to continue processing
- *
- * \note    We only use this for canvas-window-specific stuff like
- *          fullscreen mode.
- */
-static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
-                                  gpointer user_data)
-{
-    int index = ui_get_window_index(widget);
-
-    /* printf("ui.c:on_focus_in_event\n"); */
-
-    ui_set_ignore_mouse_hide(FALSE);
-
-    ui_mouse_grab_pointer();
-
-    if (index < 0) {
-        /* We should never end up here. */
-        log_error(LOG_ERR, "focus-in-event: window not found\n");
-        archdep_vice_exit(1);
-    }
-
-    if (event->in == TRUE) {
-        /* fprintf(stderr, "window %d: focus-in\n", index); */
-        active_win_index = index;
-    }
-
-    return FALSE;
-}
-
-/** \brief  Handler for the "focus-out-event" of a main window
- *
- * \param[in]   widget      window triggering the event
- * \param[in]   event       window focus details
- * \param[in]   user_data   extra data for the event (ignored)
- *
- * \return  FALSE to continue processing
- *
- * \note    We only use this for canvas-window-specific stuff like
- *          fullscreen mode.
- */
-static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
-                                  gpointer user_data)
-{
-    /* printf("ui.c:on_focus_out_event\n"); */
-
-    ui_set_ignore_mouse_hide(TRUE);
-
-    ui_mouse_ungrab_pointer();
-
-    return FALSE;
-}
-
-
-/** \brief  Create an icon by loading it from the vice.gresource file
- *
- * \return  App icon for the current machine
- *
- * \todo    Refactor to use arch/shared/archdep_icon_path.c
- */
-static GdkPixbuf *get_default_icon(void)
-{
-    char buffer[256];
-
-
-    /* machine_name for VSID is 'C64' to be able to load ROMs from data/C64 */
-    if (machine_class == VICE_MACHINE_VSID) {
-        strncpy(buffer, "SID.svg", sizeof(buffer) - 1);
-        buffer[sizeof(buffer) - 1] = '\0';
-    } else {
-        g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
-    }
-
-#ifdef MACOS_COMPILE
-    /* The icon is SVG, so lets try to figure out the right size to render */
-    id application;
-    id dock_tile;
-    CGSize dock_tile_size;
-
-    application    = OBJC_MSGSEND(id, id, SEL)((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
-    dock_tile      = OBJC_MSGSEND(id, id, SEL)(application, sel_getUid("dockTile"));
-    dock_tile_size = OBJC_MSGSEND(CGSize, id, SEL)(dock_tile, sel_getUid("size"));
-
-    return uidata_get_pixbuf_at_scale(buffer, dock_tile_size.width, dock_tile_size.height, true);
-#else
-    /* TODO: Can we figure out the right icon size on Windows, Linux? */
-    return uidata_get_pixbuf(buffer);
-#endif
-}
-
-
-/** \brief Show or hide the decorations of the active main window as needed
- */
-void ui_update_fullscreen_decorations(void)
-{
-    GtkWidget *window;
-    GtkWidget *grid;
-    GtkWidget *menu_bar;
-    GtkWidget *crt_grid;
-    GtkWidget *mixer_grid;
-    GtkWidget *status_bar;
-    video_canvas_t *canvas;
-    int has_decorations;
-    gboolean is_fullscreen;
-
-    /* FIXME: this function does not work properly for vsid and should never
-     * get called by it, but at least on Macs it can get called if the user
-     * clicks the fullscreen button in the main vsid window.
-     */
-    if (active_win_index < 0 || machine_class == VICE_MACHINE_VSID) {
-        debug_gtk3("Error: active_win_index < 0");
-        return;
-    }
-
-    /* determine fullscreen state */
-    canvas = ui_get_active_canvas();
-    if (canvas == NULL) {
-        debug_gtk3("failed: canvas == NULL.");
-        return;
-    }
-
-    is_fullscreen = ui_is_fullscreen();
-    has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
-    debug_gtk3("Has decorations = %d (is_fullscreen = %d, fullscreen_has_decorations = %d)",
-            has_decorations, is_fullscreen, fullscreen_has_decorations);
-    window = ui_resources.window_widget[active_win_index];
-    grid = gtk_bin_get_child(GTK_BIN(window));
-    menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MENU_BAR);
-    crt_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_CRT_CONTROLS);
-    mixer_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MIXER_CONTROLS);
-    status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_STATUS_BAR);
-
-    if (has_decorations) {
-        int show_statusbar;
-
-        resources_get_int_sprintf("%sShowStatusbar",
-                                  &show_statusbar,
-                                  canvas->videoconfig->chip_name);
-        gtk_widget_show(menu_bar);
-        if (ui_statusbar_crt_controls_enabled(window)) {
-            gtk_widget_show(crt_grid);
-        }
-        if (ui_statusbar_mixer_controls_enabled(window)) {
-            gtk_widget_show(mixer_grid);
-        }
-        if (show_statusbar) {
-            gtk_widget_show(status_bar);
-        } else {
-            gtk_widget_hide(status_bar);
-        }
-    } else {
-        gtk_widget_hide(menu_bar);
-        gtk_widget_hide(crt_grid);
-        gtk_widget_hide(mixer_grid);
-        gtk_widget_hide(status_bar);
-    }
-}
-
-/** \brief  Handler for the "window-state-event" of a main window
- *
- * \param[in]   widget      window triggering the event
- * \param[in]   event       window state details
- * \param[in]   user_data   extra data for the event (ignored)
- *
- * \return  FALSE to continue processing
- */
-static gboolean on_window_state_event(GtkWidget *widget,
-                                      GdkEventWindowState *event,
-                                      gpointer user_data)
-{
-    GdkWindowState win_state = event->new_window_state;
-    int index = ui_get_window_index(widget);
-    gboolean is_fullscreen = ui_is_fullscreen();
-
-    if (index < 0) {
-        /* We should never end up here. */
-        log_error(LOG_ERR, "window-state-event: window not found\n");
-        archdep_vice_exit(1);
-    }
-
-    if (win_state & GDK_WINDOW_STATE_FULLSCREEN) {
-        if (!is_fullscreen) {
-            ui_set_fullscreen_enabled(TRUE);
-            ui_update_fullscreen_decorations();
-        }
-    } else {
-        if (is_fullscreen) {
-            ui_set_fullscreen_enabled(FALSE);
-            ui_update_fullscreen_decorations();
-        }
-    }
-
-    return FALSE;
-}
-
-
-
-/** \brief  Stub to satisfy the various $videochip-resources.c files
- *
- * \param[in]   cap_fullscreen  unused
- */
-void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
-{
-    /*
-     * A NOP for the Gtk3 UI, since we don't support custom fullscreen modes.
-     */
-    return;
-}
-
-
-/** \brief  Determine fullscreen state via canvas
- *
- * Work around situations where ui_is_fullscreen() cannot be used.
- *
- *  \param[in]   canvas  video canvas reference
- *
- *  \return non-0 if fullscreen is enabled
- */
-gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
-{
-    gchar resource[32];
-    int is_fullscreen;
-
-    /* Using resources_get_int_sprintf() is relatively expensive since it uses
-     * malloc()/free(): */
-    g_snprintf(resource, sizeof(resource), "%sFullscreen", canvas->videoconfig->chip_name);
-    resources_get_int(resource, &is_fullscreen);
-    return is_fullscreen ? TRUE : FALSE;
-}
-
-
-/** \brief  Checks if we're in fullscreen mode
- *
- * Determines fullscreen state by inspecting the "${CHIP}Fullscreen" resource
- * for the active canvas.
- *
- * \return  nonzero if we're in fullscreen mode
- */
-gboolean ui_is_fullscreen(void)
-{
-    video_canvas_t *canvas;
-    const char *chip_name;
-    int is_fullscreen = 0;
-
-    /* FIXME:   During emu boot the array ui_resources.canvas[] will not be
-     *          properly initialized yet, so when the opengl renderer calls
-     *          this function during a realize() call the references will still
-     *          be NULL and we cannot access the chip name, and thus not access
-     *          CHIPFullscreen.
-     */
-    canvas = ui_get_active_canvas();
-    if (canvas == NULL) {
-        debug_gtk3("error: canvas is NULL.");
-        return FALSE;
-    }
-    chip_name = canvas->videoconfig->chip_name;
-    resources_get_int_sprintf("%sFullscreen", &is_fullscreen, chip_name);
-
-    return is_fullscreen ? TRUE : FALSE;
-}
-
-
-/** \brief  Enable/disable fullscreen for current canvas
- *
- * Set the "${CHIP}Fullscreen" resource and enables or disables fullscreen
- * mode for the main window of the current canvas.
- *
- * \param[in]   enabled enable fullscreen
- */
-void ui_set_fullscreen_enabled(gboolean enabled)
-{
-    GtkWindow *window;
-    video_canvas_t *canvas;
-    const char *chip_name;
-
-    window = ui_get_active_window();
-    if (window == NULL) {
-        debug_gtk3("error: window is NULL.");
-        return;
-    }
-    canvas = ui_get_active_canvas();
-    if (canvas == NULL) {
-        debug_gtk3("error: canvas is NULL.");
-        return;
-    }
-    chip_name = canvas->videoconfig->chip_name;
-    resources_set_int_sprintf("%sFullscreen", enabled, chip_name);
-    if (enabled) {
-        gtk_window_fullscreen(window);
-    } else {
-        gtk_window_unfullscreen(window);
-    }
-}
-
-
-/** \brief  Updates UI in response to the simulated machine screen
- *          changing its dimensions or aspect ratio
- */
-void ui_trigger_resize(void)
-{
-    int i;
-    for (i = 0; i < NUM_WINDOWS; ++i) {
-        if (ui_resources.canvas[i]) {
-            video_canvas_adjust_aspect_ratio(ui_resources.canvas[i]);
-        }
-        if (ui_resources.window_widget[i]) {
-            gtk_widget_queue_resize(ui_resources.window_widget[i]);
-        }
-    }
-}
-
-
-
-/** \brief  Get a window-spec array index from \a param
- *
- * Also performs a bounds check and returns -1 on boundary violation.
- *
- * \param[in]   param   extra param passed to a setter
- *
- * \return  index in array or -1 on error
- */
-static int window_index_from_param(void *param)
-{
-    int index = vice_ptr_to_int(param);
-    return (index >= 0 && index < NUM_WINDOWS) ? index : -1;
-}
-
-
-/*
- * Resource getters/setters
- */
 
 /** \brief  Set SaveResourcesOnExit resource
  *
@@ -1332,6 +743,338 @@ static int set_monitor_height(const gchar *height, void *window_index)
     return set_window_height((gint)result, window_index);
 }
 
+
+
+/******************************************************************************
+ *                      Main window event handlers                            *
+ *****************************************************************************/
+
+/** \brief  Handler for the 'drag-drop' event of the GtkWindow(s)
+ *
+ * Can be used to filter certain drop targets or altering the data before
+ * triggering the 'drag-drop-received' event. Currently just returns TRUE
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   context gtk drag context
+ * \param[in]   x       x position of drag event
+ * \param[in]   y       y position of drag event
+ * \param[in]   time    (I don't have a clue)
+ * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE
+ */
+static gboolean on_drag_drop(GtkWidget *widget,
+                             GdkDragContext *context,
+                             gint x,
+                             gint y,
+                             guint time,
+                             gpointer data)
+{
+    return TRUE;
+}
+
+/** \brief  Handler for the 'drag-data-received' event
+ *
+ * Autostarts an image/prg when valid. Please note that VSID now has its own
+ * drag-n-drop handlers.
+ *
+ * \param[in]   widget      widget triggering the event (unused)
+ * \param[in]   context     drag context (unused)
+ * \param[in]   x           probably X-coordinate in the drop target?
+ * \param[in]   y           probablt Y-coordinate in the drop target?
+ * \param[in]   data        dragged data
+ * \param[in]   info        int declared in the targets array (unclear)
+ * \param[in]   time        no idea
+ */
+static void on_drag_data_received(GtkWidget *widget,
+                                  GdkDragContext *context,
+                                  gint x,
+                                  gint y,
+                                  GtkSelectionData *data,
+                                  guint info,
+                                  guint time)
+{
+    gchar **uris;
+    gchar *filename = NULL;
+    gchar **files = NULL;
+    guchar *text = NULL;
+
+    switch (info) {
+
+        case DT_URI_LIST:
+            /*
+             * This branch appears to be taken on both Windows and macOS.
+             */
+
+            /* got possible list of URI's */
+            uris = gtk_selection_data_get_uris(data);
+            if (uris != NULL) {
+                /* keep this debugging output, drag'n'drop is pretty flaky */
+#if 0
+                /* dump URI's on stdout */
+                debug_gtk3("got URI's:");
+                for (i = 0; uris[i] != NULL; i++) {
+
+                    debug_gtk3("URI: '%s'\n", uris[i]);
+                    filename = g_filename_from_uri(uris[i], NULL, NULL);
+                    debug_gtk3("filename: '%s'.", filename);
+                    if (filename != NULL) {
+                        g_free(filename);
+                    }
+                }
+#endif
+
+                /* use the first/only entry as the autostart file
+                 *
+                 * XXX: perhaps add any additional files to the fliplist
+                 *      if Dxx?
+                 */
+                if (uris[0] != NULL) {
+                    filename = g_filename_from_uri(uris[0], NULL, NULL);
+                } else {
+                    filename = NULL;
+                }
+
+                g_strfreev(uris);
+            }
+            break;
+
+        case DT_TEXT:
+            /*
+             * this branch appears to be taken on both Gtk and Qt based WM's
+             * on Linux
+             */
+
+
+            /* text will contain a newline separated list of 'file://' URIs,
+             * and a trailing newline */
+            text = gtk_selection_data_get_text(data);
+            /* remove trailing whitespace */
+            g_strchomp((gchar *)text);
+
+            files = g_strsplit((const gchar *)text, "\n", -1);
+            g_free(text);
+
+#if 0
+# ifdef HAVE_DEBUG_GTK3UI
+            for (i = 0; files[i] != NULL; i++) {
+                /* keep this as well */
+                gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
+                debug_gtk3("URI: '%s', filename: '%s'.",
+                        files[i], tmp);
+            }
+# endif
+#endif
+            /* now grab the first file */
+            filename = g_filename_from_uri(files[0], NULL, NULL);
+            g_strfreev(files);
+            break;
+
+        default:
+            filename = NULL;
+            break;
+    }
+
+    /* can we attempt autostart? */
+    if (filename != NULL) {
+        if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
+            /* TODO: add proper UI error */
+        }
+        g_free(filename);
+    }
+}
+
+/** \brief  Handler for the 'delete-event' of a main window
+ *
+ * \param[in]   widget      window triggering the event (unused)
+ * \param[in]   event       event details (unused)
+ * \param[in]   user_data   extra data for the event (unused)
+ *
+ * \return  TRUE, if the function returns at all
+ */
+static gboolean on_delete_event(GtkWidget *widget,
+                                GdkEvent *event,
+                                gpointer user_data)
+{
+    ui_action_trigger(ACTION_QUIT);
+    return TRUE;
+}
+
+/** \brief  Callback for the 'destroy' event of a main window
+ *
+ * \param[in]   widget      widget triggering the event
+ * \param[in]   user_data   extra data for the callback (unused)
+ */
+static void on_destroy(GtkWidget *widget, gpointer user_data)
+{
+    GtkWidget *grid;
+
+    /*
+     * This should not be needed, destroying a GtkWindow should trigger
+     * destruction of all widgets it contains.
+     */
+    debug_gtk3("Manually calling destroy() on the CRT widgets. This should not"
+            " be necesarry, but right now it is.");
+    grid = gtk_bin_get_child(GTK_BIN(widget));
+    if (grid != NULL) {
+        GtkWidget *crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+        if (crt != NULL) {
+            gtk_widget_destroy(crt);
+        }
+    }
+}
+
+/** \brief  Handler for the "focus-in-event" of a main window
+ *
+ * \param[in]   widget      window triggering the event
+ * \param[in]   event       window focus details
+ * \param[in]   user_data   extra data for the event (ignored)
+ *
+ * \return  FALSE to continue processing
+ *
+ * \note    We only use this for canvas-window-specific stuff like
+ *          fullscreen mode.
+ */
+static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
+                                  gpointer user_data)
+{
+    int index = ui_get_window_index(widget);
+
+    /* printf("ui.c:on_focus_in_event\n"); */
+
+    ui_set_ignore_mouse_hide(FALSE);
+
+    ui_mouse_grab_pointer();
+
+    if (index < 0) {
+        /* We should never end up here. */
+        log_error(LOG_ERR, "focus-in-event: window not found\n");
+        archdep_vice_exit(1);
+    }
+
+    if (event->in == TRUE) {
+        /* fprintf(stderr, "window %d: focus-in\n", index); */
+        active_win_index = index;
+    }
+
+    return FALSE;
+}
+
+/** \brief  Handler for the "focus-out-event" of a main window
+ *
+ * \param[in]   widget      window triggering the event
+ * \param[in]   event       window focus details
+ * \param[in]   user_data   extra data for the event (ignored)
+ *
+ * \return  FALSE to continue processing
+ *
+ * \note    We only use this for canvas-window-specific stuff like
+ *          fullscreen mode.
+ */
+static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
+                                  gpointer user_data)
+{
+    /* printf("ui.c:on_focus_out_event\n"); */
+
+    ui_set_ignore_mouse_hide(TRUE);
+
+    ui_mouse_ungrab_pointer();
+
+    return FALSE;
+}
+
+/** \brief  Handler for the "window-state-event" of a main window
+ *
+ * \param[in]   widget      window triggering the event
+ * \param[in]   event       window state details
+ * \param[in]   user_data   extra data for the event (ignored)
+ *
+ * \return  FALSE to continue processing
+ */
+static gboolean on_window_state_event(GtkWidget *widget,
+                                      GdkEventWindowState *event,
+                                      gpointer user_data)
+{
+    GdkWindowState win_state = event->new_window_state;
+    int index = ui_get_window_index(widget);
+    gboolean is_fullscreen = ui_is_fullscreen();
+
+    if (index < 0) {
+        /* We should never end up here. */
+        log_error(LOG_ERR, "window-state-event: window not found\n");
+        archdep_vice_exit(1);
+    }
+
+    if (win_state & GDK_WINDOW_STATE_FULLSCREEN) {
+        if (!is_fullscreen) {
+            ui_set_fullscreen_enabled(TRUE);
+            ui_update_fullscreen_decorations();
+        }
+    } else {
+        if (is_fullscreen) {
+            ui_set_fullscreen_enabled(FALSE);
+            ui_update_fullscreen_decorations();
+        }
+    }
+
+    return FALSE;
+}
+
+
+/******************************************************************************
+ *                          Other static functions                            *
+ *****************************************************************************/
+
+/** \brief  Create an icon by loading it from the vice.gresource file
+ *
+ * \return  App icon for the current machine
+ *
+ * \todo    Refactor to use arch/shared/archdep_icon_path.c
+ */
+static GdkPixbuf *get_default_icon(void)
+{
+    char buffer[256];
+
+
+    /* machine_name for VSID is 'C64' to be able to load ROMs from data/C64 */
+    if (machine_class == VICE_MACHINE_VSID) {
+        strncpy(buffer, "SID.svg", sizeof(buffer) - 1);
+        buffer[sizeof(buffer) - 1] = '\0';
+    } else {
+        g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
+    }
+
+#ifdef MACOS_COMPILE
+    /* The icon is SVG, so lets try to figure out the right size to render */
+    id application;
+    id dock_tile;
+    CGSize dock_tile_size;
+
+    application    = OBJC_MSGSEND(id, id, SEL)((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
+    dock_tile      = OBJC_MSGSEND(id, id, SEL)(application, sel_getUid("dockTile"));
+    dock_tile_size = OBJC_MSGSEND(CGSize, id, SEL)(dock_tile, sel_getUid("size"));
+
+    return uidata_get_pixbuf_at_scale(buffer, dock_tile_size.width, dock_tile_size.height, true);
+#else
+    /* TODO: Can we figure out the right icon size on Windows, Linux? */
+    return uidata_get_pixbuf(buffer);
+#endif
+}
+
+/** \brief  Get a window-spec array index from \a param
+ *
+ * Also performs a bounds check and returns -1 on boundary violation.
+ *
+ * \param[in]   param   extra param passed to a setter
+ *
+ * \return  index in array or -1 on error
+ */
+static int window_index_from_param(void *param)
+{
+    int index = vice_ptr_to_int(param);
+    return (index >= 0 && index < NUM_WINDOWS) ? index : -1;
+}
+
 /** \brief  Set settings node path to activate on UI startup
  *
  * Triggers opening the settings dialog at node \a path once when starting VICE.
@@ -1353,6 +1096,332 @@ static int set_settings_node_path(const gchar *path, void *param)
     settings_node_path = path;
     return 0;   /* we won't know if the path is valid until later */
 }
+
+
+/* Dispatch function and its helper for the UI actions */
+
+/** \brief  GSourceFunc to call a UI action
+ *
+ * \param[in]   data    UI action function
+ *
+ * \return  `FALSE` to remove this timeout source
+ */
+static gboolean ui_action_dispatch_impl(gpointer data)
+{
+    void (*handler)(void) = data;
+    debug_gtk3("Called with handler %p", (void*)handler);
+    handler();
+    return FALSE;
+}
+
+/** \brief  Dispatcher for UI actions
+ *
+ * Executes \a handler on the the UI thread.
+ *
+ * \param[in]   handler handler to invoke
+ */
+static void ui_action_dispatch(const ui_action_map_t *map)
+{
+    gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)(map->handler));
+}
+
+
+
+/******************************************************************************
+ *                              Public functions                              *
+ *****************************************************************************/
+
+/** \brief  Get the most recently focused toplevel window
+ *
+ * \return  pointer to a toplevel window, or NULL
+ *
+ * \note    Not an event handler, needs to be moved
+ */
+GtkWindow *ui_get_active_window(void)
+{
+    GtkWindow *window = NULL;
+    GList *tlist = gtk_window_list_toplevels();
+    GList *list = tlist;
+
+    /* Find the window that has the toplevel focus. */
+    while (list != NULL) {
+        if (gtk_window_has_toplevel_focus(list->data)) {
+            window = list->data;
+            break;
+        }
+        list = list->next;
+    }
+    g_list_free(tlist);
+
+    /* If no window has the toplevel focus, then fall back
+     * to the most recently focused main window.
+     */
+    if (window == NULL
+            && active_win_index >= 0 && active_win_index < NUM_WINDOWS) {
+        window = GTK_WINDOW(ui_resources.window_widget[active_win_index]);
+    }
+
+    /* If "window" still is NULL, it probably means
+     * that no windows have been created yet.
+     */
+    return window;
+}
+
+
+/** \brief  Get video canvas of active window
+ *
+ * \return  current active video canvas, or NULL
+ */
+video_canvas_t *ui_get_active_canvas(void)
+{
+    video_canvas_t *canvas;
+
+    if (active_win_index < 0) {
+        /* If we end up here it probably means no main window has
+         * been created yet. */
+        return NULL;
+    }
+
+    canvas = ui_resources.canvas[active_win_index];
+    if (canvas == NULL) {
+        log_error(LOG_ERR, "No canvas for window %d!", active_win_index);
+    }
+    return canvas;
+}
+
+
+/** \brief  Get the active main window's index
+ *
+ * \return  index of a main emulator window
+ */
+int ui_get_main_window_index(void)
+{
+    /* SOMETHING CHANGED */
+    return active_win_index;
+}
+
+
+/** \brief  Get active main window
+ *
+ * \param[in]   index   window index (PRIMARY WINDOW or SECONDARY_WINDOW)
+ *
+ * \return  window or `NULL` when \a index is out of bounds
+ */
+GtkWidget *ui_get_main_window_by_index(gint index)
+{
+    if (index == PRIMARY_WINDOW || index == SECONDARY_WINDOW) {
+        return ui_resources.window_widget[index];
+    }
+    return NULL;
+}
+
+
+/** \brief  Get a window's index
+ *
+ * \param[in]   widget      window to get the index of
+ *
+ * \return  window index, or -1 if not a main window
+ */
+int ui_get_window_index(GtkWidget *widget)
+{
+    if (widget == NULL) {
+        return -1;
+    } else if (widget == ui_resources.window_widget[PRIMARY_WINDOW]) {
+        return PRIMARY_WINDOW;
+    } else if (widget == ui_resources.window_widget[SECONDARY_WINDOW]) {
+        return SECONDARY_WINDOW;
+    } else {
+        return -1;
+    }
+}
+
+
+/** \brief Show or hide the decorations of the active main window as needed
+ */
+void ui_update_fullscreen_decorations(void)
+{
+    GtkWidget *window;
+    GtkWidget *grid;
+    GtkWidget *menu_bar;
+    GtkWidget *crt_grid;
+    GtkWidget *mixer_grid;
+    GtkWidget *status_bar;
+    video_canvas_t *canvas;
+    int has_decorations;
+    gboolean is_fullscreen;
+
+    /* FIXME: this function does not work properly for vsid and should never
+     * get called by it, but at least on Macs it can get called if the user
+     * clicks the fullscreen button in the main vsid window.
+     */
+    if (active_win_index < 0 || machine_class == VICE_MACHINE_VSID) {
+        debug_gtk3("Error: active_win_index < 0");
+        return;
+    }
+
+    /* determine fullscreen state */
+    canvas = ui_get_active_canvas();
+    if (canvas == NULL) {
+        debug_gtk3("failed: canvas == NULL.");
+        return;
+    }
+
+    is_fullscreen = ui_is_fullscreen();
+    has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
+    debug_gtk3("Has decorations = %d (is_fullscreen = %d, fullscreen_has_decorations = %d)",
+            has_decorations, is_fullscreen, fullscreen_has_decorations);
+    window = ui_resources.window_widget[active_win_index];
+    grid = gtk_bin_get_child(GTK_BIN(window));
+    menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MENU_BAR);
+    crt_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_CRT_CONTROLS);
+    mixer_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MIXER_CONTROLS);
+    status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_STATUS_BAR);
+
+    if (has_decorations) {
+        int show_statusbar;
+
+        resources_get_int_sprintf("%sShowStatusbar",
+                                  &show_statusbar,
+                                  canvas->videoconfig->chip_name);
+        gtk_widget_show(menu_bar);
+        if (ui_statusbar_crt_controls_enabled(window)) {
+            gtk_widget_show(crt_grid);
+        }
+        if (ui_statusbar_mixer_controls_enabled(window)) {
+            gtk_widget_show(mixer_grid);
+        }
+        if (show_statusbar) {
+            gtk_widget_show(status_bar);
+        } else {
+            gtk_widget_hide(status_bar);
+        }
+    } else {
+        gtk_widget_hide(menu_bar);
+        gtk_widget_hide(crt_grid);
+        gtk_widget_hide(mixer_grid);
+        gtk_widget_hide(status_bar);
+    }
+}
+
+
+/** \brief  Stub to satisfy the various $videochip-resources.c files
+ *
+ * \param[in]   cap_fullscreen  unused
+ */
+void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
+{
+    /*
+     * A NOP for the Gtk3 UI, since we don't support custom fullscreen modes.
+     */
+    return;
+}
+
+
+/** \brief  Determine fullscreen state via canvas
+ *
+ * Work around situations where ui_is_fullscreen() cannot be used.
+ *
+ *  \param[in]   canvas  video canvas reference
+ *
+ *  \return non-0 if fullscreen is enabled
+ */
+gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
+{
+    gchar resource[32];
+    int is_fullscreen;
+
+    /* Using resources_get_int_sprintf() is relatively expensive since it uses
+     * malloc()/free(): */
+    g_snprintf(resource, sizeof(resource), "%sFullscreen", canvas->videoconfig->chip_name);
+    resources_get_int(resource, &is_fullscreen);
+    return is_fullscreen ? TRUE : FALSE;
+}
+
+
+/** \brief  Checks if we're in fullscreen mode
+ *
+ * Determines fullscreen state by inspecting the "${CHIP}Fullscreen" resource
+ * for the active canvas.
+ *
+ * \return  nonzero if we're in fullscreen mode
+ */
+gboolean ui_is_fullscreen(void)
+{
+    video_canvas_t *canvas;
+    const char *chip_name;
+    int is_fullscreen = 0;
+
+    /* FIXME:   During emu boot the array ui_resources.canvas[] will not be
+     *          properly initialized yet, so when the opengl renderer calls
+     *          this function during a realize() call the references will still
+     *          be NULL and we cannot access the chip name, and thus not access
+     *          CHIPFullscreen.
+     */
+    canvas = ui_get_active_canvas();
+    if (canvas == NULL) {
+        debug_gtk3("error: canvas is NULL.");
+        return FALSE;
+    }
+    chip_name = canvas->videoconfig->chip_name;
+    resources_get_int_sprintf("%sFullscreen", &is_fullscreen, chip_name);
+
+    return is_fullscreen ? TRUE : FALSE;
+}
+
+
+/** \brief  Enable/disable fullscreen for current canvas
+ *
+ * Set the "${CHIP}Fullscreen" resource and enables or disables fullscreen
+ * mode for the main window of the current canvas.
+ *
+ * \param[in]   enabled enable fullscreen
+ */
+void ui_set_fullscreen_enabled(gboolean enabled)
+{
+    GtkWindow *window;
+    video_canvas_t *canvas;
+    const char *chip_name;
+
+    window = ui_get_active_window();
+    if (window == NULL) {
+        debug_gtk3("error: window is NULL.");
+        return;
+    }
+    canvas = ui_get_active_canvas();
+    if (canvas == NULL) {
+        debug_gtk3("error: canvas is NULL.");
+        return;
+    }
+    chip_name = canvas->videoconfig->chip_name;
+    resources_set_int_sprintf("%sFullscreen", enabled, chip_name);
+    if (enabled) {
+        gtk_window_fullscreen(window);
+    } else {
+        gtk_window_unfullscreen(window);
+    }
+}
+
+
+/** \brief  Updates UI in response to the simulated machine screen
+ *          changing its dimensions or aspect ratio
+ */
+void ui_trigger_resize(void)
+{
+    int i;
+    for (i = 0; i < NUM_WINDOWS; ++i) {
+        if (ui_resources.canvas[i]) {
+            video_canvas_adjust_aspect_ratio(ui_resources.canvas[i]);
+        }
+        if (ui_resources.window_widget[i]) {
+            gtk_widget_queue_resize(ui_resources.window_widget[i]);
+        }
+    }
+}
+
+
+
+
+
 
 
 /*
@@ -1716,10 +1785,9 @@ void ui_create_main_window(video_canvas_t *canvas)
                      G_CALLBACK(on_window_state_event), NULL);
     /* This event never returns so must not hold the vice lock */
     g_signal_connect_unlocked(new_window, "delete-event",
-                     G_CALLBACK(ui_main_window_delete_event), NULL);
+                     G_CALLBACK(on_delete_event), NULL);
     g_signal_connect(new_window, "destroy",
-                     G_CALLBACK(ui_main_window_destroy_callback), NULL);
-    /* can probably use the `user_data` to pass window index */
+                     G_CALLBACK(on_destroy), NULL);
     g_signal_connect_unlocked(new_window, "configure-event",
                      G_CALLBACK(on_window_configure_event),
                      GINT_TO_POINTER(target_window));
@@ -1729,16 +1797,19 @@ void ui_create_main_window(video_canvas_t *canvas)
     if (machine_class != VICE_MACHINE_VSID) {
         /* VSID has its own drag-n-drop handlers */
 
-        gtk_drag_dest_set(
-                new_window,
-                GTK_DEST_DEFAULT_ALL,
-                ui_drag_targets,
-                UI_DRAG_TARGETS_COUNT,
-                GDK_ACTION_COPY);
-        g_signal_connect(new_window, "drag-data-received",
-                         G_CALLBACK(ui_on_drag_data_received), NULL);
-        g_signal_connect(new_window, "drag-drop",
-                         G_CALLBACK(ui_on_drag_drop), NULL);
+        gtk_drag_dest_set(new_window,
+                          GTK_DEST_DEFAULT_ALL,
+                          ui_drag_targets,
+                          UI_DRAG_TARGETS_COUNT,
+                          GDK_ACTION_COPY);
+        g_signal_connect(new_window,
+                         "drag-data-received",
+                         G_CALLBACK(on_drag_data_received),
+                         NULL);
+        g_signal_connect(new_window,
+                         "drag-drop",
+                         G_CALLBACK(on_drag_drop),
+                         NULL);
         if (ui_resources.start_minimized) {
             gtk_window_iconify(GTK_WINDOW(new_window));
         }
@@ -2693,28 +2764,4 @@ gboolean ui_fullscreen_has_decorations(void)
 }
 
 
-/** \brief  GSourceFunc to call a UI action
- *
- * \param[in]   data    UI action function
- *
- * \return  `FALSE` to remove this timeout source
- */
-static gboolean ui_action_dispatch_impl(gpointer data)
-{
-    void (*handler)(void) = data;
-    debug_gtk3("Called with handler %p", (void*)handler);
-    handler();
-    return FALSE;
-}
 
-
-/** \brief  Dispatcher for UI actions
- *
- * Executes \a handler on the the UI thread.
- *
- * \param[in]   handler handler to invoke
- */
-static void ui_action_dispatch(const ui_action_map_t *map)
-{
-    gdk_threads_add_timeout(0, ui_action_dispatch_impl, (gpointer)(map->handler));
-}
