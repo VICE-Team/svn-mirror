@@ -41,27 +41,26 @@
 
 #include "attach.h"
 #include "autostart.h"
-#include "drive.h"
-#include "log.h"
-#include "tape.h"
-#include "debug_gtk3.h"
 #include "basedialogs.h"
 #include "contentpreviewwidget.h"
-#include "imagecontents.h"
+#include "debug_gtk3.h"
 #include "diskcontents.h"
-#include "filechooserhelpers.h"
-#include "driveunitwidget.h"
+#include "drive.h"
 #include "drivenowidget.h"
+#include "driveunitwidget.h"
+#include "filechooserhelpers.h"
+#include "imagecontents.h"
+#include "lastdir.h"
+#include "log.h"
 #include "mainlock.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
 #include "uiapi.h"
 #include "uistatusbar.h"
-#include "uimachinewindow.h"
-#include "lastdir.h"
 
 #include "uidiskattach.h"
+
 
 /** \brief  File type filters for the dialog
  */
@@ -253,11 +252,13 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
         * through file types is 'smart', but hell, it works */
     if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
         /* failed */
-        g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
-                unit_number, filename);
+        g_snprintf(buffer, sizeof(buffer),
+                   "Unit #%d: failed to attach '%s'",
+                   unit_number, filename);
     } else {
-        g_snprintf(buffer, 1024, "Unit #%d: attached '%s'",
-                unit_number, filename);
+        g_snprintf(buffer, sizeof(buffer),
+                   "Unit #%d: attached '%s'",
+                   unit_number, filename);
     }
     ui_display_statustext(buffer, 1);
     g_free(filename_locale);
