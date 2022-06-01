@@ -701,7 +701,7 @@ static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
  */
 static void on_drive_configure_activate(GtkWidget *widget, gpointer data)
 {
-    ui_settings_dialog_create_and_activate_node("peripheral/drive");
+    ui_settings_dialog_show("peripheral/drive");
 }
 
 

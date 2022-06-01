@@ -91,8 +91,7 @@ int ui_datasette_command_to_action(int port, int command)
  */
 static void on_configure_activate(GtkWidget *widget, gpointer data)
 {
-    ui_settings_dialog_create_and_activate_node(
-            "peripheral/tapeport-devices");
+    ui_settings_dialog_show("peripheral/tapeport-devices");
 }
 
 

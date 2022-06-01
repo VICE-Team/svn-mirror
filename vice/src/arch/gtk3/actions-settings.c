@@ -109,7 +109,7 @@ static void settings_default_action(void)
 /** \brief  Show settings dialog */
 static void settings_dialog_action(void)
 {
-    ui_settings_dialog_create_and_activate_node_callback(NULL, NULL);
+    ui_settings_dialog_show(NULL);
 }
 
 /* Reload settings from current settings file */

@@ -141,7 +141,7 @@ static void help_compile_time_action(void)
 /** \brief  Pop up setting dialog and activate the hotkeys editor */
 static void help_hotkeys_action(void)
 {
-    ui_settings_dialog_create_and_activate_node("host/hotkeys");
+    ui_settings_dialog_show("host/hotkeys");
 }
 
 /** \brief  Pop up About dialog */

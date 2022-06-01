@@ -3026,7 +3026,7 @@ void ui_settings_shutdown(void)
  *
  * \return  bool
  */
-gboolean ui_settings_dialog_activate_node(const char *path)
+static gboolean ui_settings_dialog_activate_node(const char *path)
 {
     GtkTreeIter iter;
     gchar **parts;
@@ -3132,7 +3132,7 @@ gboolean ui_settings_dialog_activate_node(const char *path)
  *
  * \return  FALSE
  */
-static gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_data)
+static gboolean ui_settings_dialog_show_impl(gpointer user_data)
 {
     const char *path = (const char *)user_data;
     GtkWidget *dialog;
@@ -3159,7 +3159,7 @@ static gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_d
     return FALSE;
 }
 
-
+#if 0
 /** \brief  Show settings main dialog and activate a node
  *
  * \param[in]   path    NULL or path to name ("foo/bar/blah")
@@ -3173,23 +3173,20 @@ gboolean ui_settings_dialog_create_and_activate_node(const char *path)
 
     return TRUE;
 }
+#endif
 
 
 /** \brief  Menu callback for the settings dialog
  *
- * Opens the main settings dialog and activates the previously activate node,
- * if any.
+ * Opens the main settings dialog and activates a node, if any.
  *
- * \param[in]   widget      unused
- * \param[in]   user_data   path to previously active node
+ * \param[in]   path   path to node
  *
  * \return  TRUE
  */
-gboolean ui_settings_dialog_create_and_activate_node_callback(
-        GtkWidget *widget,
-        gpointer user_data)
+void ui_settings_dialog_show(const char *path)
 {
-    int pause_on_settings;
+    int pause_on_settings = 0;
 
     settings_old_pause_state = ui_pause_active();
 
@@ -3197,7 +3194,7 @@ gboolean ui_settings_dialog_create_and_activate_node_callback(
     if (pause_on_settings) {
         ui_pause_enable();
     }
-    ui_settings_dialog_create_and_activate_node((const char *)user_data);
 
-    return TRUE;
+    /* call from ui thread without locking - creating the settings dialog is heavy */
+    gdk_threads_add_timeout(0, ui_settings_dialog_show_impl, (gpointer)path);
 }
