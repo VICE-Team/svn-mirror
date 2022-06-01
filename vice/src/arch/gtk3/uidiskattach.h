@@ -27,7 +27,6 @@
 #ifndef VICE_UIDISKATTACH_H
 #define VICE_UIDISKATTACH_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
 void ui_disk_attach_dialog_show(gint unit, gint drive);
