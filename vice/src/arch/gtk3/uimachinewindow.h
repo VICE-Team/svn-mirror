@@ -1,5 +1,4 @@
-/**
- * \file    uimachinewindow.h
+/** \file   uimachinewindow.h
  * \brief   Native GTK3 main emulator window code
  *
  * \author  Marcus Sutton <loggedoubt@gmail.com>
@@ -32,18 +31,12 @@
 #ifndef VICE_UIMACHINEWINDOW_H
 #define VICE_UIMACHINEWINDOW_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-/** \brief Set up any resources needed to create new machine
- *         windows. */
+
 void ui_machine_window_init(void);
-
-/** \brief tell the ui code to grab mouse pointer events */
 void ui_mouse_grab_pointer(void);
-/** \brief tell the ui code to ungrab mouse pointer events */
 void ui_mouse_ungrab_pointer(void);
-
 void ui_set_ignore_mouse_hide(gboolean state);
 
 #endif /* VICE_UIMACHINEWINDOW_H */
