@@ -28,23 +28,23 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-#include "basewidgets.h"
-#include "basedialogs.h"
-#include "widgethelpers.h"
-#include "driveunitwidget.h"
-#include "drivenowidget.h"
-#include "drive.h"
-#include "diskimage.h"
-#include "filechooserhelpers.h"
-#include "util.h"
-#include "lib.h"
-#include "charset.h"
 #include "attach.h"
-#include "vdrive/vdrive-internal.h"
+#include "basedialogs.h"
+#include "basewidgets.h"
+#include "charset.h"
+#include "diskimage.h"
+#include "drive.h"
+#include "drivenowidget.h"
+#include "driveunitwidget.h"
+#include "filechooserhelpers.h"
 #include "imagecontents.h"
+#include "lib.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
+#include "util.h"
+#include "vdrive/vdrive-internal.h"
+#include "widgethelpers.h"
 
 #include "uidiskcreate.h"
 
@@ -292,16 +292,17 @@ static gboolean create_disk_image(const char *filename)
 static GtkListStore *create_disk_image_type_model(void)
 {
     GtkListStore *model;
-    GtkTreeIter iter;
     int i;
 
     model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
     for (i = 0; disk_image_types[i].name != NULL; i++) {
+        GtkTreeIter iter;
+
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model, &iter,
-                0, disk_image_types[i].name,
-                1, disk_image_types[i].id,
-                -1);
+                           0, disk_image_types[i].name,
+                           1, disk_image_types[i].id,
+                           -1);
     }
     return model;
 }
