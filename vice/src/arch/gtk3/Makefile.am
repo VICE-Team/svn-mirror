@@ -86,7 +86,6 @@ libarch_a_SOURCES = \
 	uiabout.c \
 	uicart.c \
 	uicmdline.c \
-	uicommands.c \
 	uicompiletimefeatures.c \
 	uidata.c \
 	uidatasette.c \
@@ -167,7 +166,6 @@ EXTRA_DIST = \
 	uiabout.h \
 	uicart.h \
 	uicmdline.h \
-	uicommands.h \
 	uicompiletimefeatures.h \
 	uidata.h \
 	uidatasette.h \

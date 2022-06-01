@@ -64,7 +64,6 @@
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
-#include "uicommands.h"
 #include "vice_gtk3.h"
 
 #include "settings_joystick.h"
