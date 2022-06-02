@@ -1043,7 +1043,9 @@ static int keyboard_custom_key_func_by_keysym(int keysym, int pressed)
     int n, newstate;
     DBGKEY(("keyboard_custom_key_func_by_keysym %d pressed: %d", keysym, pressed));
     for (n = 0; n < KBD_CUSTOM_NUM; n++) {
-        if ((*key_custom_info[n].keysym == keysym) &&
+        if ((key_custom_info[n].keysym != NULL) &&
+            (key_custom_info[n].keyflags != NULL) &&
+            (*key_custom_info[n].keysym == keysym) &&
             (key_custom_info[n].func != NULL)) {
             int lockedkey = ((*key_custom_info[n].keyflags & KEYFLG_NO_LOCK) == 0) ? 1 : 0;
             DBGKEY(("keyboard_custom_key_func_by_keysym lockedkey:%d shift:%04x",
