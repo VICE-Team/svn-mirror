@@ -124,13 +124,63 @@ enum {
     ACTION_DRIVE_DETACH_ALL,
     ACTION_EDIT_COPY,
     ACTION_EDIT_PASTE,
-    ACTION_FLIPLIST_ADD,
-    ACTION_FLIPLIST_CLEAR,
-    ACTION_FLIPLIST_LOAD,
-    ACTION_FLIPLIST_NEXT,
-    ACTION_FLIPLIST_PREVIOUS,
-    ACTION_FLIPLIST_REMOVE,
-    ACTION_FLIPLIST_SAVE,
+    ACTION_FLIPLIST_ADD_8_0,
+    ACTION_FLIPLIST_CLEAR_8_0,
+    ACTION_FLIPLIST_LOAD_8_0,
+    ACTION_FLIPLIST_NEXT_8_0,
+    ACTION_FLIPLIST_PREVIOUS_8_0,
+    ACTION_FLIPLIST_REMOVE_8_0,
+    ACTION_FLIPLIST_SAVE_8_0,
+    ACTION_FLIPLIST_ADD_8_1,
+    ACTION_FLIPLIST_CLEAR_8_1,
+    ACTION_FLIPLIST_LOAD_8_1,
+    ACTION_FLIPLIST_NEXT_8_1,
+    ACTION_FLIPLIST_PREVIOUS_8_1,
+    ACTION_FLIPLIST_REMOVE_8_1,
+    ACTION_FLIPLIST_SAVE_8_1,
+    ACTION_FLIPLIST_ADD_9_0,
+    ACTION_FLIPLIST_CLEAR_9_0,
+    ACTION_FLIPLIST_LOAD_9_0,
+    ACTION_FLIPLIST_NEXT_9_0,
+    ACTION_FLIPLIST_PREVIOUS_9_0,
+    ACTION_FLIPLIST_REMOVE_9_0,
+    ACTION_FLIPLIST_SAVE_9_0,
+    ACTION_FLIPLIST_ADD_9_1,
+    ACTION_FLIPLIST_CLEAR_9_1,
+    ACTION_FLIPLIST_LOAD_9_1,
+    ACTION_FLIPLIST_NEXT_9_1,
+    ACTION_FLIPLIST_PREVIOUS_9_1,
+    ACTION_FLIPLIST_REMOVE_9_1,
+    ACTION_FLIPLIST_SAVE_9_1,
+
+    ACTION_FLIPLIST_ADD_10_0,
+    ACTION_FLIPLIST_CLEAR_10_0,
+    ACTION_FLIPLIST_LOAD_10_0,
+    ACTION_FLIPLIST_NEXT_10_0,
+    ACTION_FLIPLIST_PREVIOUS_10_0,
+    ACTION_FLIPLIST_REMOVE_10_0,
+    ACTION_FLIPLIST_SAVE_10_0,
+    ACTION_FLIPLIST_ADD_10_1,
+    ACTION_FLIPLIST_CLEAR_10_1,
+    ACTION_FLIPLIST_LOAD_10_1,
+    ACTION_FLIPLIST_NEXT_10_1,
+    ACTION_FLIPLIST_PREVIOUS_10_1,
+    ACTION_FLIPLIST_REMOVE_10_1,
+    ACTION_FLIPLIST_SAVE_10_1,
+    ACTION_FLIPLIST_ADD_11_0,
+    ACTION_FLIPLIST_CLEAR_11_0,
+    ACTION_FLIPLIST_LOAD_11_0,
+    ACTION_FLIPLIST_NEXT_11_0,
+    ACTION_FLIPLIST_PREVIOUS_11_0,
+    ACTION_FLIPLIST_REMOVE_11_0,
+    ACTION_FLIPLIST_SAVE_11_0,
+    ACTION_FLIPLIST_ADD_11_1,
+    ACTION_FLIPLIST_CLEAR_11_1,
+    ACTION_FLIPLIST_LOAD_11_1,
+    ACTION_FLIPLIST_NEXT_11_1,
+    ACTION_FLIPLIST_PREVIOUS_11_1,
+    ACTION_FLIPLIST_REMOVE_11_1,
+    ACTION_FLIPLIST_SAVE_11_1,
     ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
     ACTION_FULLSCREEN_TOGGLE,
     ACTION_HELP_ABOUT,
@@ -229,6 +279,16 @@ const char *        ui_action_get_name(int action);
 const char *        ui_action_get_desc(int action);
 ui_action_info_t *  ui_action_get_info_list(void);
 
+/* Get action IDs for fliplist actions */
+int ui_action_id_fliplist_add(int unit, int drive);
+int ui_action_id_fliplist_remove(int unit, int drive);
+int ui_action_id_fliplist_next(int unit, int drive);
+int ui_action_id_fliplist_previous(int unit, int drive);
+int ui_action_id_fliplist_clear(int unit, int drive);
+int ui_action_id_fliplist_load(int unit, int drive);
+int ui_action_id_fliplist_save(int unit, int drive);
+
+/* Main API */
 void ui_actions_init(void);
 void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *));
 void ui_actions_shutdown(void);

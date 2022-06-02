@@ -48,58 +48,18 @@
 #define MSGBUF_SIZE 1024
 
 
-/** \brief  Select next image in the fliplist
+/** \brief  Handler for the 'activate' event of menu items
  *
- * \param[in]   widget  unused
- * \param[in]   data    unit number
+ * Triggers UI action \a action.
  *
- * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
- *          in the emulated machine
+ * \param[in]   item    menu item (unused)
+ * \param[in]   action  UI action ID
  */
-static gboolean ui_fliplist_next_cb(GtkWidget *widget, gpointer data)
+static void trigger_ui_action(GtkWidget *item, gpointer action)
 {
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-
-    if (fliplist_attach_head(unit, 1)) {
-        g_snprintf(buffer, MSGBUF_SIZE,
-                "Fliplist (#%d): attached next image: '%s'",
-                unit, fliplist_get_head((unsigned int)unit));
-    } else {
-        g_snprintf(buffer, MSGBUF_SIZE,
-                "Fliplist (#%d): failed to attach next image",
-                unit);
-    }
-    ui_display_statustext(buffer, 10);
-    return TRUE;
+    ui_action_trigger(GPOINTER_TO_INT(action));
 }
 
-
-/** \brief  Select next previous in the fliplist
- *
- * \param[in]   widget  unused
- * \param[in]   data    unit number
- *
- * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
- *          in the emulated machine
- */
-static gboolean ui_fliplist_prev_cb(GtkWidget *widget, gpointer data)
-{
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-
-    if (fliplist_attach_head(unit, 0)) {
-        g_snprintf(buffer, MSGBUF_SIZE,
-                "Fliplist (#%d): attached previous image: '%s'",
-                unit, fliplist_get_head((unsigned int)unit));
-    } else {
-        g_snprintf(buffer, MSGBUF_SIZE,
-                "Fliplist (#%d): failed to attach previous image",
-                unit);
-    }
-    ui_display_statustext(buffer, 10);
-    return TRUE;
-}
 
 /** \brief  Handler for attaching an image from the fliplist
  *
@@ -111,6 +71,8 @@ static void ui_fliplist_select_cb(GtkWidget *widget, gpointer data)
     int unit = GPOINTER_TO_INT(data) & 0xff;
     int index = (GPOINTER_TO_INT(data) >> 8) & 0xff;
     int i;
+    char buffer[MSGBUF_SIZE];
+
     if (index == 0) {
         fliplist_t list = fliplist_init_iterate(unit);
         const char *image = fliplist_get_image(list);
@@ -120,6 +82,11 @@ static void ui_fliplist_select_cb(GtkWidget *widget, gpointer data)
             fliplist_attach_head(unit, 1);
         }
     }
+
+    g_snprintf(buffer, sizeof(buffer),
+               "Fliplist: attached image to drive %d, unit %d: %s",
+               unit, 0, fliplist_get_head(unit));
+    ui_display_statustext(buffer, 1);
 }
 
 
@@ -159,9 +126,12 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
      * the fliplist isn't empty for this drive. */
     /* TODO: Add/Remove current image to/from fliplist should really
      * be here too. */
+
+    /* Next item in fliplist, if any */
     fliplist_string = fliplist_get_next(unit);
     if (fliplist_string) {
-        char buf[128];
+
+        char buf[256];
         char *basename = NULL;
         fliplist_t fliplist_iterator;
         int index;
@@ -177,15 +147,17 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
         } else {
             utf8 = file_chooser_convert_from_locale(fliplist_string);
         }
-
-        snprintf(buf, 128, "Next: %s", utf8);
+        g_snprintf(buf, sizeof(buf), "Next: %s", utf8);
         g_free(utf8);
 
-        buf[127] = 0;
         menu_item = gtk_menu_item_new_with_label(buf);
-        g_signal_connect(menu_item, "activate",
-                G_CALLBACK(ui_fliplist_next_cb), GINT_TO_POINTER(unit));
+        g_signal_connect(menu_item,
+                         "activate",
+                         G_CALLBACK(trigger_ui_action),
+                         GINT_TO_POINTER(ui_action_id_fliplist_next(unit, 0)));
         gtk_container_add(GTK_CONTAINER(menu), menu_item);
+
+        /* Previous item in fliplist, if any */
         fliplist_string = fliplist_get_prev(unit);
         if (fliplist_string) {
             util_fname_split(fliplist_string, NULL, &basename);
@@ -198,13 +170,14 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
                 utf8 = file_chooser_convert_from_locale(fliplist_string);
             }
 
-            snprintf(buf, 128, "Previous: %s", utf8);
+            g_snprintf(buf, sizeof(buf), "Previous: %s", utf8);
             g_free(utf8);
 
-            buf[127] = 0;
             menu_item = gtk_menu_item_new_with_label(buf);
-            g_signal_connect(menu_item, "activate",
-                    G_CALLBACK(ui_fliplist_prev_cb), GINT_TO_POINTER(unit));
+            g_signal_connect(menu_item,
+                             "activate",
+                             G_CALLBACK(trigger_ui_action),
+                             GINT_TO_POINTER(ui_action_id_fliplist_previous(unit, 0)));
             gtk_container_add(GTK_CONTAINER(menu), menu_item);
         }
         gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
@@ -260,7 +233,7 @@ static void fliplist_load_response(GtkWidget *widget,
         ui_display_statustext(buffer, 10);
     }
     gtk_widget_destroy(widget);
-    ui_action_finish(ACTION_FLIPLIST_LOAD);
+    ui_action_finish(ui_action_id_fliplist_load(unit, 0));
 }
 
 
@@ -323,7 +296,7 @@ static void fliplist_save_response(GtkWidget *widget,
 
     }
     gtk_widget_destroy(widget);
-    ui_action_finish(ACTION_FLIPLIST_SAVE);
+    ui_action_finish(ui_action_id_fliplist_save(unit, 0));
 }
 
 
