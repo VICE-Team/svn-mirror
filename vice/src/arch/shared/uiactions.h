@@ -288,6 +288,9 @@ int ui_action_id_fliplist_clear(int unit, int drive);
 int ui_action_id_fliplist_load(int unit, int drive);
 int ui_action_id_fliplist_save(int unit, int drive);
 
+int ui_action_id_drive_attach(int unit, int drive);
+int ui_action_id_drive_detach(int unit, int drive);
+
 /* Main API */
 void ui_actions_init(void);
 void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *));

@@ -494,8 +494,24 @@ static const int fliplist_save_ids[4][2] = {
     { ACTION_FLIPLIST_SAVE_11_0,    ACTION_FLIPLIST_SAVE_11_1 }
 };
 
+/** \brief  Action IDs for drive-attach-[unit]:[drive] */
+static const int drive_attach_ids[4][2] = {
+    { ACTION_DRIVE_ATTACH_8_0,  ACTION_DRIVE_ATTACH_8_1 },
+    { ACTION_DRIVE_ATTACH_9_0,  ACTION_DRIVE_ATTACH_9_1 },
+    { ACTION_DRIVE_ATTACH_10_0, ACTION_DRIVE_ATTACH_10_1 },
+    { ACTION_DRIVE_ATTACH_11_0, ACTION_DRIVE_ATTACH_11_1 }
+};
 
-/** \brief  Get action ID for fliplist action for unit and drive
+/** \brief  Action IDs for drive-detach-[unit]:[drive] */
+static const int drive_detach_ids[4][2] = {
+    { ACTION_DRIVE_DETACH_8_0,  ACTION_DRIVE_DETACH_8_1 },
+    { ACTION_DRIVE_DETACH_9_0,  ACTION_DRIVE_DETACH_9_1 },
+    { ACTION_DRIVE_DETACH_10_0, ACTION_DRIVE_DETACH_10_1 },
+    { ACTION_DRIVE_DETACH_11_0, ACTION_DRIVE_DETACH_11_1 }
+};
+
+
+/** \brief  Get action ID for a drive action
  *
  * \param[in]   ids     array with action IDs for \a unit and \a drive
  * \param[in]   unit    unit number (8-11)
@@ -503,7 +519,7 @@ static const int fliplist_save_ids[4][2] = {
  *
  * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
  */
-static int get_fliplist_action_id(const int ids[4][2], int unit, int drive)
+static int get_drive_action_id(const int ids[4][2], int unit, int drive)
 {
     if (unit < 8 || unit > 11 || drive < 0 || drive > 1) {
         return ACTION_NONE;
@@ -521,7 +537,7 @@ static int get_fliplist_action_id(const int ids[4][2], int unit, int drive)
  */
 int ui_action_id_fliplist_add(int unit, int drive)
 {
-    return get_fliplist_action_id(fliplist_add_ids, unit, drive);
+    return get_drive_action_id(fliplist_add_ids, unit, drive);
 }
 
 
@@ -534,7 +550,7 @@ int ui_action_id_fliplist_add(int unit, int drive)
  */
 int ui_action_id_fliplist_remove(int unit, int drive)
 {
-    return get_fliplist_action_id(fliplist_remove_ids, unit, drive);
+    return get_drive_action_id(fliplist_remove_ids, unit, drive);
 }
 
 
@@ -547,7 +563,7 @@ int ui_action_id_fliplist_remove(int unit, int drive)
  */
 int ui_action_id_fliplist_next(int unit, int drive)
 {
-    return get_fliplist_action_id(fliplist_next_ids, unit, drive);
+    return get_drive_action_id(fliplist_next_ids, unit, drive);
 }
 
 
@@ -560,7 +576,7 @@ int ui_action_id_fliplist_next(int unit, int drive)
  */
 int ui_action_id_fliplist_previous(int unit, int drive)
 {
-    return get_fliplist_action_id(fliplist_previous_ids, unit, drive);
+    return get_drive_action_id(fliplist_previous_ids, unit, drive);
 }
 
 
@@ -573,7 +589,7 @@ int ui_action_id_fliplist_previous(int unit, int drive)
  */
 int ui_action_id_fliplist_clear(int unit, int drive)
 {
-    return get_fliplist_action_id(fliplist_clear_ids, unit, drive);
+    return get_drive_action_id(fliplist_clear_ids, unit, drive);
 }
 
 /** \brief  Get fliplist-load action ID for unit and drive
@@ -585,7 +601,7 @@ int ui_action_id_fliplist_clear(int unit, int drive)
  */
 int ui_action_id_fliplist_load(int unit, int drive)
 {
-    return get_fliplist_action_id(fliplist_load_ids, unit, drive);
+    return get_drive_action_id(fliplist_load_ids, unit, drive);
 }
 
 
@@ -598,10 +614,34 @@ int ui_action_id_fliplist_load(int unit, int drive)
  */
 int ui_action_id_fliplist_save(int unit, int drive)
 {
-    return get_fliplist_action_id(fliplist_save_ids, unit, drive);
+    return get_drive_action_id(fliplist_save_ids, unit, drive);
 }
 
 
+/** \brief  Get drive-attach action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_drive_attach(int unit, int drive)
+{
+    return get_drive_action_id(drive_attach_ids, unit, drive);
+}
+
+
+/** \brief  Get drive-detach action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_drive_detach(int unit, int drive)
+{
+    return get_drive_action_id(drive_detach_ids, unit, drive);
+}
 
 
 /** \brief  List of mappings of action IDs to handlers

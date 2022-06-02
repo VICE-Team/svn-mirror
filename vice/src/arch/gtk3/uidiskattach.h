@@ -27,11 +27,7 @@
 #ifndef VICE_UIDISKATTACH_H
 #define VICE_UIDISKATTACH_H
 
-#include <gtk/gtk.h>
-
-void ui_disk_attach_dialog_show(gint unit, gint drive);
-gint ui_disk_attach_get_action_id(gint unit, gint drive);
-gint ui_disk_detach_get_action_id(gint unit, gint drive);
+void ui_disk_attach_dialog_show(int unit, int drive);
 void ui_disk_attach_shutdown(void);
 
 #endif
