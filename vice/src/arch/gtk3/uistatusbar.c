@@ -1079,7 +1079,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     drive_menu_item = gtk_menu_item_new_with_label("Add current image to fliplist");
     g_signal_connect(drive_menu_item, "activate",
                      G_CALLBACK(trigger_ui_action),
-                     GINT_TO_POINTER(ACTION_FLIPLIST_ADD));
+                     GINT_TO_POINTER(ui_action_id_fliplist_add(i + DRIVE_UNIT_MIN, 0)));
     gtk_widget_set_sensitive(drive_menu_item,
                              file_system_get_image(i + DRIVE_UNIT_MIN, 0) != NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
@@ -1089,7 +1089,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     g_signal_connect(drive_menu_item,
                      "activate",
                      G_CALLBACK(trigger_ui_action),
-                     GINT_TO_POINTER(ACTION_FLIPLIST_CLEAR));
+                     GINT_TO_POINTER(ui_action_id_fliplist_clear(i + DRIVE_UNIT_MIN, 0)));
     gtk_widget_set_sensitive(drive_menu_item,
                              fliplist_init_iterate(i + DRIVE_UNIT_MIN) != NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);

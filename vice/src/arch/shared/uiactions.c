@@ -92,13 +92,71 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_DRIVE_DETACH_11_1, "drive-detach-11:1",    "Detach disk from unit 11, drive 1",    VICE_MACHINE_ALL },
 
     /* fliplist */
-    { ACTION_FLIPLIST_ADD,      "fliplist-add",         "Add current disk to fliplist",         VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_REMOVE,   "fliplist-remove",      "Remove current disk from fliplist",    VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_NEXT,     "fliplist-next",        "Attach next disk in fliplist",         VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_PREVIOUS, "fliplist-previous",    "Attach previous disk in fliplist",     VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_LOAD,     "fliplist-load",        "Load fliplist",                        VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_SAVE,     "fliplist-save",        "Save fliplist",                        VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_CLEAR,    "fliplist-clear",       "Clear fliplist",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_ADD_8_0,          "fliplist-add-8:0",         "Add current disk in unit 8, drive 0 to fliplist",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_8_0,       "fliplist-remove-8:0",      "Remove current disk in unit 8, drive 0 from fliplist",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_8_0,         "fliplist-next-8:0",        "Attach next disk in fliplist to unit 8, drive 0",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_8_0,     "fliplist-previous-8:0",    "Attach previous disk in fliplist to unit 8, drive 0",      VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_8_0,         "fliplist-load-8:0",        "Load fliplist for unit 8, drive 0",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_8_0,         "fliplist-save-8:0",        "Save fliplist of unit 8, drive 0",                         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_8_0,        "fliplist-clear-8:0",       "Clear fliplist of unit 8, drive 0",                        VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_8_1,          "fliplist-add-8:1",         "Add current disk in unit 8, drive 1 to fliplist",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_8_1,       "fliplist-remove-8:1",      "Remove current disk in unit 8, drive 1 from fliplist",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_8_1,         "fliplist-next-8:1",        "Attach next disk in fliplist to unit 8, drive 1",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_8_1,     "fliplist-previous-8:1",    "Attach previous disk in fliplist to unit 8, drive 1",      VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_8_1,         "fliplist-load-8:1",        "Load fliplist for unit 8, drive 1",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_8_1,         "fliplist-save-8:1",        "Save fliplist of unit 8, drive 1",                         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_8_1,        "fliplist-clear-8:1",       "Clear fliplist of unit 8, drive 1",                        VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_9_0,          "fliplist-add-9:0",         "Add current disk in unit 9, drive 0 to fliplist",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_9_0,       "fliplist-remove-9:0",      "Remove current disk in unit 9, drive 0 from fliplist",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_9_0,         "fliplist-next-9:0",        "Attach next disk in fliplist to unit 9, drive 0",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_9_0,     "fliplist-previous-9:0",    "Attach previous disk in fliplist to unit 9, drive 0",      VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_9_0,         "fliplist-load-9:0",        "Load fliplist for unit 9, drive 0",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_9_0,         "fliplist-save-9:0",        "Save fliplist of unit 9, drive 0",                         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_9_0,        "fliplist-clear-9:0",       "Clear fliplist of unit 9, drive 0",                        VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_9_1,          "fliplist-add-9:1",         "Add current disk in unit 9, drive 1 to fliplist",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_9_1,       "fliplist-remove-9:1",      "Remove current disk in unit 9, drive 1 from fliplist",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_9_1,         "fliplist-next-9:1",        "Attach next disk in fliplist to unit 9, drive 1",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_9_1,     "fliplist-previous-9:1",    "Attach previous disk in fliplist to unit 9, drive 1",      VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_9_1,         "fliplist-load-9:1",        "Load fliplist for unit 9, drive 1",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_9_1,         "fliplist-save-9:1",        "Save fliplist of unit 9, drive 1",                         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_9_1,        "fliplist-clear-9:1",       "Clear fliplist of unit 9, drive 1",                        VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_10_0,         "fliplist-add-10:0",        "Add current disk in unit 10, drive 0 to fliplist",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_10_0,      "fliplist-remove-10:0",     "Remove current disk in unit 10, drive 0 from fliplist",    VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_10_0,        "fliplist-next-10:0",       "Attach next disk in fliplist to unit 10, drive 0",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_10_0,    "fliplist-previous-10:0",   "Attach previous disk in fliplist to unit 10, drive 0",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_10_0,        "fliplist-load-10:0",       "Load fliplist for unit 10, drive 0",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_10_0,        "fliplist-save-10:0",       "Save fliplist of unit 10, drive 0",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_10_0,       "fliplist-clear-10:0",      "Clear fliplist of unit 10, drive 0",                       VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_10_1,         "fliplist-add-10:1",        "Add current disk in unit 10, drive 1 to fliplist",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_10_1,      "fliplist-remove-10:1",     "Remove current disk in unit 10, drive 1 from fliplist",    VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_10_1,        "fliplist-next-10:1",       "Attach next disk in fliplist to unit 10, drive 1",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_10_1,    "fliplist-previous-10:1",   "Attach previous disk in fliplist to unit 10, drive 1",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_10_1,        "fliplist-load-10:1",       "Load fliplist for unit 10, drive 1",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_10_1,        "fliplist-save-10:1",       "Save fliplist of unit 10, drive 1",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_10_1,       "fliplist-clear-10:1",      "Clear fliplist of unit 10, drive 1",                       VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_11_0,         "fliplist-add-11:0",        "Add current disk in unit 11, drive 0 to fliplist",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_11_0,      "fliplist-remove-11:0",     "Remove current disk in unit 11, drive 0 from fliplist",    VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_11_0,        "fliplist-next-11:0",       "Attach next disk in fliplist to unit 11, drive 0",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_11_0,    "fliplist-previous-11:0",   "Attach previous disk in fliplist to unit 11, drive 0",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_11_0,        "fliplist-load-11:0",       "Load fliplist for unit 11, drive 0",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_11_0,        "fliplist-save-11:0",       "Save fliplist of unit 11, drive 0",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_11_0,       "fliplist-clear-11:0",      "Clear fliplist of unit 11, drive 0",                       VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_11_1,         "fliplist-add-11:1",        "Add current disk in unit 11, drive 1 to fliplist",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_11_1,      "fliplist-remove-11:1",     "Remove current disk in unit 11, drive 1 from fliplist",    VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_11_1,        "fliplist-next-11:1",       "Attach next disk in fliplist to unit 11, drive 1",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_11_1,    "fliplist-previous-11:1",   "Attach previous disk in fliplist to unit 11, drive 1",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_11_1,        "fliplist-load-11:1",       "Load fliplist for unit 11, drive 1",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_11_1,        "fliplist-save-11:1",       "Save fliplist of unit 11, drive 1",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_11_1,       "fliplist-clear-11:1",      "Clear fliplist of unit 11, drive 1",                       VICE_MACHINE_ALL },
+
+
 
     /* datasette image */
     { ACTION_TAPE_ATTACH_1,     "tape-attach-1",        "Attach tape to datasette 1",           (VICE_MACHINE_ALL^VICE_MACHINE_C64DTV^VICE_MACHINE_SCPU64) },
@@ -378,6 +436,171 @@ ui_action_info_t *ui_action_get_info_list(void)
 
     return list;
 }
+
+
+/** \brief  Action IDs for fliplist-add-[unit]:[drive] */
+static const int fliplist_add_ids[4][2] = {
+    { ACTION_FLIPLIST_ADD_8_0,      ACTION_FLIPLIST_ADD_8_1 },
+    { ACTION_FLIPLIST_ADD_9_0,      ACTION_FLIPLIST_ADD_9_1 },
+    { ACTION_FLIPLIST_ADD_10_0,     ACTION_FLIPLIST_ADD_10_1 },
+    { ACTION_FLIPLIST_ADD_11_0,     ACTION_FLIPLIST_ADD_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-remove-[unit]:[drive] */
+static const int fliplist_remove_ids[4][2] = {
+    { ACTION_FLIPLIST_REMOVE_8_0,   ACTION_FLIPLIST_REMOVE_8_1 },
+    { ACTION_FLIPLIST_REMOVE_9_0,   ACTION_FLIPLIST_REMOVE_9_1 },
+    { ACTION_FLIPLIST_REMOVE_10_0,  ACTION_FLIPLIST_REMOVE_10_1 },
+    { ACTION_FLIPLIST_REMOVE_11_0,  ACTION_FLIPLIST_REMOVE_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-next-[unit]:[drive] */
+static const int fliplist_next_ids[4][2] = {
+    { ACTION_FLIPLIST_NEXT_8_0,     ACTION_FLIPLIST_NEXT_8_1 },
+    { ACTION_FLIPLIST_NEXT_9_0,     ACTION_FLIPLIST_NEXT_9_1 },
+    { ACTION_FLIPLIST_NEXT_10_0,    ACTION_FLIPLIST_NEXT_10_1 },
+    { ACTION_FLIPLIST_NEXT_11_0,    ACTION_FLIPLIST_NEXT_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-previous-[unit]:[drive] */
+static const int fliplist_previous_ids[4][2] = {
+    { ACTION_FLIPLIST_PREVIOUS_8_0,     ACTION_FLIPLIST_PREVIOUS_8_1 },
+    { ACTION_FLIPLIST_PREVIOUS_9_0,     ACTION_FLIPLIST_PREVIOUS_9_1 },
+    { ACTION_FLIPLIST_PREVIOUS_10_0,    ACTION_FLIPLIST_PREVIOUS_10_1 },
+    { ACTION_FLIPLIST_PREVIOUS_11_0,    ACTION_FLIPLIST_PREVIOUS_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-clear-[unit]:[drive] */
+static const int fliplist_clear_ids[4][2] = {
+    { ACTION_FLIPLIST_CLEAR_8_0,    ACTION_FLIPLIST_CLEAR_8_1 },
+    { ACTION_FLIPLIST_CLEAR_9_0,    ACTION_FLIPLIST_CLEAR_9_1 },
+    { ACTION_FLIPLIST_CLEAR_10_0,   ACTION_FLIPLIST_CLEAR_10_1 },
+    { ACTION_FLIPLIST_CLEAR_11_0,   ACTION_FLIPLIST_CLEAR_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-load-[unit]:[drive] */
+static const int fliplist_load_ids[4][2] = {
+    { ACTION_FLIPLIST_LOAD_8_0,     ACTION_FLIPLIST_LOAD_8_1 },
+    { ACTION_FLIPLIST_LOAD_9_0,     ACTION_FLIPLIST_LOAD_9_1 },
+    { ACTION_FLIPLIST_LOAD_10_0,    ACTION_FLIPLIST_LOAD_10_1 },
+    { ACTION_FLIPLIST_LOAD_11_0,    ACTION_FLIPLIST_LOAD_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-save-[unit]:[drive] */
+static const int fliplist_save_ids[4][2] = {
+    { ACTION_FLIPLIST_SAVE_8_0,     ACTION_FLIPLIST_SAVE_8_1 },
+    { ACTION_FLIPLIST_SAVE_9_0,     ACTION_FLIPLIST_SAVE_9_1 },
+    { ACTION_FLIPLIST_SAVE_10_0,    ACTION_FLIPLIST_SAVE_10_1 },
+    { ACTION_FLIPLIST_SAVE_11_0,    ACTION_FLIPLIST_SAVE_11_1 }
+};
+
+
+/** \brief  Get action ID for fliplist action for unit and drive
+ *
+ * \param[in]   ids     array with action IDs for \a unit and \a drive
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+static int get_fliplist_action_id(const int ids[4][2], int unit, int drive)
+{
+    if (unit < 8 || unit > 11 || drive < 0 || drive > 1) {
+        return ACTION_NONE;
+    }
+    return ids[unit - 8][drive];
+}
+
+
+/** \brief  Get fliplist-add action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_add(int unit, int drive)
+{
+    return get_fliplist_action_id(fliplist_add_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-remove action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_remove(int unit, int drive)
+{
+    return get_fliplist_action_id(fliplist_remove_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-next action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_next(int unit, int drive)
+{
+    return get_fliplist_action_id(fliplist_next_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-previous action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_previous(int unit, int drive)
+{
+    return get_fliplist_action_id(fliplist_previous_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-clear action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_clear(int unit, int drive)
+{
+    return get_fliplist_action_id(fliplist_clear_ids, unit, drive);
+}
+
+/** \brief  Get fliplist-load action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_load(int unit, int drive)
+{
+    return get_fliplist_action_id(fliplist_load_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-save action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_save(int unit, int drive)
+{
+    return get_fliplist_action_id(fliplist_save_ids, unit, drive);
+}
+
 
 
 

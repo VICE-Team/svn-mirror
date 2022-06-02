@@ -202,88 +202,289 @@ static void reset_drive_11_action(void)
 /** \brief  Size of buffer used for status bar messages */
 #define MSGBUF_SIZE 1024
 
-/** \brief  Add image in unit 8 to fliplist */
-static void fliplist_add_action(void)
+/** \brief  Add current image to fliplist
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0-1)
+ */
+static void fliplist_add_helper(int unit, int drive)
 {
     char buffer[MSGBUF_SIZE];
 
-    if (fliplist_add_image(8)) {
+    if (fliplist_add_image(unit)) {
         g_snprintf(buffer, sizeof(buffer),
-                   "Fliplist: added '%s'.",
-                   fliplist_get_head(8));
+                   "Fliplist: added image to unit %d, drive %d: %s.",
+                   unit, drive, fliplist_get_head(unit));
         ui_display_statustext(buffer, 1);
     } else {
         /* Display proper error message once we have a decent
          * get_image_filename(unit) function which returns NULL on non-attached
          * images.
          */
-        ui_display_statustext("Fliplist: failed to add image.", 1);
+        g_snprintf(buffer, sizeof(buffer),
+                   "Fliplist: failed to add image to unit %d, drive %d.",
+                   unit, drive);
+        ui_display_statustext(buffer, 1);
     }
 }
 
-/** \brief  Remove current image in the fliplist from the fliplist */
-static void fliplist_remove_action(void)
+/** \brief  Add image in unit 8, drive 0 to fliplist */
+static void fliplist_add_8_0_action(void)
 {
-    const char *image = fliplist_get_head(8);
+    fliplist_add_helper(8, 0);
+}
+
+/** \brief  Add image in unit 9, drive 0 to fliplist */
+static void fliplist_add_9_0_action(void)
+{
+    fliplist_add_helper(9, 0);
+}
+
+/** \brief  Add image in unit 10, drive 0 to fliplist */
+static void fliplist_add_10_0_action(void)
+{
+    fliplist_add_helper(10, 0);
+}
+
+/** \brief  Add image in unit 11, drive 0 to fliplist */
+static void fliplist_add_11_0_action(void)
+{
+    fliplist_add_helper(11, 0);
+}
+
+
+/** \brief  Remove current image from fliplist
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0-1)
+ */
+static void fliplist_remove_helper(int unit, int drive)
+{
+    const char *image = fliplist_get_head(unit);
     if (image != NULL) {
         char buffer[MSGBUF_SIZE];
 
-        fliplist_remove(8, NULL);
-        g_snprintf(buffer, sizeof(buffer), "Fliplist: removed '%s'.", image);
+        fliplist_remove(unit, NULL);
+        g_snprintf(buffer, sizeof(buffer),
+                   "Fliplist: removed image from unit %d, drive %d: %s.",
+                   unit, drive, image);
         ui_display_statustext(buffer, 1);
     } else {
         ui_display_statustext("Fliplist: nothing to remove.", 1);
     }
 }
 
-/** \brief  Attach next image in fliplist to unit 8 */
-static void fliplist_next_action(void)
+/** \brief  Remove current image in unit 8, drive 0 from the fliplist */
+static void fliplist_remove_8_0_action(void)
 {
-    if (fliplist_attach_head(8, 1)) {
-        char buffer[MSGBUF_SIZE];
+    fliplist_remove_helper(8, 0);
+}
+
+/** \brief  Remove current image in unit 9, drive 0 from the fliplist */
+static void fliplist_remove_9_0_action(void)
+{
+    fliplist_remove_helper(9, 0);
+}
+
+/** \brief  Remove current image in unit 10, drive 0 from the fliplist */
+static void fliplist_remove_10_0_action(void)
+{
+    fliplist_remove_helper(10, 0);
+}
+
+/** \brief  Remove current image in unit 11, drive 0 from the fliplist */
+static void fliplist_remove_11_0_action(void)
+{
+    fliplist_remove_helper(11, 0);
+}
+
+
+/** \brief  Attach next image in fliplist
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0-1)
+ */
+static void fliplist_next_helper(int unit, int drive)
+{
+    char buffer[MSGBUF_SIZE];
+
+    if (fliplist_attach_head(unit, 1)) {
 
         g_snprintf(buffer, sizeof(buffer),
-                   "Fliplist: attached next image: '%s'.",
-                   fliplist_get_head(8));
+                   "Fliplist: attached next image to unit %d, drive %d: %s.",
+                   unit, drive, fliplist_get_head(unit));
         ui_display_statustext(buffer, 1);
     } else {
-        ui_display_statustext("Fliplist: failed to attach next image.", 1);
+        g_snprintf(buffer, sizeof(buffer),
+                   "Fliplist: failed to attach next image to unit %d, drive %d.",
+                   unit, drive);
+        ui_display_statustext(buffer, 1);
+    }
+}
+
+/** \brief  Attach next image in fliplist to unit 8 */
+static void fliplist_next_8_0_action(void)
+{
+    fliplist_next_helper(8, 0);
+}
+
+/** \brief  Attach next image in fliplist to unit 9 */
+static void fliplist_next_9_0_action(void)
+{
+    fliplist_next_helper(9, 0);
+}
+
+/** \brief  Attach next image in fliplist to unit 10 */
+static void fliplist_next_10_0_action(void)
+{
+    fliplist_next_helper(10, 0);
+}
+
+/** \brief  Attach next image in fliplist to unit 11 */
+static void fliplist_next_11_0_action(void)
+{
+    fliplist_next_helper(11, 0);
+}
+
+
+/** \brief  Attach next image in fliplist
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0-1)
+ */
+static void fliplist_previous_helper(int unit, int drive)
+{
+    char buffer[MSGBUF_SIZE];
+
+    if (fliplist_attach_head(unit, 0)) {
+
+        g_snprintf(buffer, sizeof(buffer),
+                   "Fliplist: attached previous image to unit %d, drive %d: %s.",
+                   unit, drive, fliplist_get_head(unit));
+        ui_display_statustext(buffer, 1);
+    } else {
+        g_snprintf(buffer, sizeof(buffer),
+                  "Fliplist: failed to attach previous image to unit %d, drive %d.",
+                  unit, drive);
+        ui_display_statustext(buffer, 1);
     }
 }
 
 /** \brief  Attach previous image in fliplist to unit 8 */
-static void fliplist_previous_action(void)
+static void fliplist_previous_8_0_action(void)
 {
-    if (fliplist_attach_head(8, 0)) {
-        char buffer[MSGBUF_SIZE];
+    fliplist_previous_helper(8, 0);
+}
 
-        g_snprintf(buffer, sizeof(buffer),
-                   "Fliplist: attached previous image: '%s'.",
-                   fliplist_get_head(8));
-        ui_display_statustext(buffer, 1);
-    } else {
-        ui_display_statustext("Fliplist: failed to attach previous image.", 1);
-    }
+/** \brief  Attach previous image in fliplist to unit 9 */
+static void fliplist_previous_9_0_action(void)
+{
+    fliplist_previous_helper(9, 0);
+}
+
+/** \brief  Attach previous image in fliplist to unit 10 */
+static void fliplist_previous_10_0_action(void)
+{
+    fliplist_previous_helper(10, 0);
+}
+
+/** \brief  Attach previous image in fliplist to unit 11 */
+static void fliplist_previous_11_0_action(void)
+{
+    fliplist_previous_helper(11, 0);
+}
+
+
+/** \brief  Clear fliplist
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0-1)
+ */
+static void fliplist_clear_helper(int unit, int drive)
+{
+    char buffer[MSGBUF_SIZE];
+
+    fliplist_clear_list(unit);
+    g_snprintf(buffer, sizeof(buffer),
+              "Fliplist: Cleared for unit %d, drive %d.",
+              unit, drive);
+    ui_display_statustext(buffer, 1);
 }
 
 /** \brief  Clear fliplist of unit 8 */
-static void fliplist_clear_action(void)
+static void fliplist_clear_8_0_action(void)
 {
-    fliplist_clear_list(8);
-    ui_display_statustext("Fliplist: cleared.", 1);
+    fliplist_clear_helper(8, 0);
 }
 
-/** \brief  Load fliplist from file */
-static void fliplist_load_action(void)
+/** \brief  Clear fliplist of unit 9 */
+static void fliplist_clear_9_0_action(void)
+{
+    fliplist_clear_helper(9, 0);
+}
+
+/** \brief  Clear fliplist of unit 10 */
+static void fliplist_clear_10_0_action(void)
+{
+    fliplist_clear_helper(10, 0);
+}
+
+/** \brief  Clear fliplist of unit 11 */
+static void fliplist_clear_11_0_action(void)
+{
+    fliplist_clear_helper(11, 0);
+}
+
+
+/** \brief  Load fliplist from file for unit 8 */
+static void fliplist_load_8_0_action(void)
 {
     ui_fliplist_load_dialog_show(8);
 }
 
-/** \brief  Save fliplist to file */
-static void fliplist_save_action(void)
+/** \brief  Load fliplist from file for unit 9*/
+static void fliplist_load_9_0_action(void)
+{
+    ui_fliplist_load_dialog_show(9);
+}
+
+/** \brief  Load fliplist from file for unit 10 */
+static void fliplist_load_10_0_action(void)
+{
+    ui_fliplist_load_dialog_show(10);
+}
+
+/** \brief  Load fliplist from file for unit 11 */
+static void fliplist_load_11_0_action(void)
+{
+    ui_fliplist_load_dialog_show(11);
+}
+
+
+/** \brief  Save fliplist to file for unit 8 */
+static void fliplist_save_8_0_action(void)
 {
     ui_fliplist_save_dialog_show(8);
 }
+
+/** \brief  Save fliplist to file for unit 9 */
+static void fliplist_save_9_0_action(void)
+{
+    ui_fliplist_save_dialog_show(9);
+}
+
+/** \brief  Save fliplist to file for unit 10 */
+static void fliplist_save_10_0_action(void)
+{
+    ui_fliplist_save_dialog_show(10);
+}
+
+/** \brief  Save fliplist to file for unit 11 */
+static void fliplist_save_11_0_action(void)
+{
+    ui_fliplist_save_dialog_show(11);
+}
+
 /* }}} */
 
 
@@ -419,34 +620,134 @@ static const ui_action_map_t drive_actions[] = {
      * bar code has its own locking mechanism.
      */
     {
-        .action = ACTION_FLIPLIST_ADD,
-        .handler = fliplist_add_action
+        .action = ACTION_FLIPLIST_ADD_8_0,
+        .handler = fliplist_add_8_0_action
     },
     {
-        .action = ACTION_FLIPLIST_REMOVE,
-        .handler = fliplist_remove_action
+        .action = ACTION_FLIPLIST_ADD_9_0,
+        .handler = fliplist_add_9_0_action
     },
     {
-        .action = ACTION_FLIPLIST_NEXT,
-        .handler = fliplist_next_action
+        .action = ACTION_FLIPLIST_ADD_10_0,
+        .handler = fliplist_add_10_0_action
     },
     {
-        .action = ACTION_FLIPLIST_PREVIOUS,
-        .handler = fliplist_previous_action
+        .action = ACTION_FLIPLIST_ADD_11_0,
+        .handler = fliplist_add_11_0_action
     },
     {
-        .action = ACTION_FLIPLIST_CLEAR,
-        .handler = fliplist_clear_action
+        .action = ACTION_FLIPLIST_REMOVE_8_0,
+        .handler = fliplist_remove_8_0_action
     },
     {
-        .action = ACTION_FLIPLIST_LOAD,
-        .handler = fliplist_load_action,
+        .action = ACTION_FLIPLIST_REMOVE_9_0,
+        .handler = fliplist_remove_9_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_REMOVE_10_0,
+        .handler = fliplist_remove_10_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_REMOVE_11_0,
+        .handler = fliplist_remove_11_0_action
+    },
+
+    {
+        .action = ACTION_FLIPLIST_NEXT_8_0,
+        .handler = fliplist_next_8_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_NEXT_9_0,
+        .handler = fliplist_next_9_0_action
+    },
+     {
+        .action = ACTION_FLIPLIST_NEXT_10_0,
+        .handler = fliplist_next_10_0_action
+    },
+     {
+        .action = ACTION_FLIPLIST_NEXT_11_0,
+        .handler = fliplist_next_11_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_PREVIOUS_8_0,
+        .handler = fliplist_previous_8_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_PREVIOUS_9_0,
+        .handler = fliplist_previous_9_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_PREVIOUS_10_0,
+        .handler = fliplist_previous_10_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_PREVIOUS_11_0,
+        .handler = fliplist_previous_11_0_action
+    },
+
+    {
+        .action = ACTION_FLIPLIST_CLEAR_8_0,
+        .handler = fliplist_clear_8_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_CLEAR_9_0,
+        .handler = fliplist_clear_9_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_CLEAR_10_0,
+        .handler = fliplist_clear_10_0_action
+    },
+    {
+        .action = ACTION_FLIPLIST_CLEAR_11_0,
+        .handler = fliplist_clear_11_0_action
+    },
+
+    {
+        .action = ACTION_FLIPLIST_LOAD_8_0,
+        .handler = fliplist_load_8_0_action,
         .blocks = true,
         .dialog = true
     },
     {
-        .action = ACTION_FLIPLIST_SAVE,
-        .handler = fliplist_save_action,
+        .action = ACTION_FLIPLIST_LOAD_9_0,
+        .handler = fliplist_load_9_0_action,
+        .blocks = true,
+        .dialog = true
+    },
+    {
+        .action = ACTION_FLIPLIST_LOAD_10_0,
+        .handler = fliplist_load_10_0_action,
+        .blocks = true,
+        .dialog = true
+    },
+    {
+        .action = ACTION_FLIPLIST_LOAD_11_0,
+        .handler = fliplist_load_11_0_action,
+        .blocks = true,
+        .dialog = true
+    },
+
+    {
+        .action = ACTION_FLIPLIST_SAVE_8_0,
+        .handler = fliplist_save_8_0_action,
+        .blocks = true,
+        .dialog = true
+    },
+    {
+        .action = ACTION_FLIPLIST_SAVE_9_0,
+        .handler = fliplist_save_9_0_action,
+        .blocks = true,
+        .dialog = true
+    },
+    {
+        .action = ACTION_FLIPLIST_SAVE_10_0,
+        .handler = fliplist_save_10_0_action,
+        .blocks = true,
+        .dialog = true
+    },
+    {
+        .action = ACTION_FLIPLIST_SAVE_11_0,
+        .handler = fliplist_save_11_0_action,
         .blocks = true,
         .dialog = true
     },

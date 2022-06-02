@@ -2611,28 +2611,175 @@ system/window manager. Mappings using @code{<Alt>} or
 @item 
 @code{edit-paste}
  @tab Paste clipboard content into machine
-@item 
-@code{fliplist-add}
- @tab Add current disk to fliplist
-@item 
-@code{fliplist-clear}
- @tab Clear fliplist
-@item 
-@code{fliplist-load}
- @tab Load fliplist
-@item 
-@code{fliplist-next}
- @tab Attach next disk in fliplist
-@item 
-@code{fliplist-previous}
- @tab Attach previous disk in fliplist
-@item 
-@code{fliplist-remove}
- @tab Remove current disk from fliplist
-@item 
-@code{fliplist-save}
- @tab Save fliplist
-@item 
+@item
+@code{fliplist-add-8:0}
+ @tab Add current disk to fliplist of unit 8, drive 0
+@item
+@code{fliplist-add-8:1}
+ @tab Add current disk to fliplist of unit 8, drive 1
+@item
+@code{fliplist-add-9:0}
+ @tab Add current disk to fliplist of unit 9, drive 0
+@item
+@code{fliplist-add-9:1}
+ @tab Add current disk to fliplist of unit 9, drive 1
+@item
+@code{fliplist-add-10:0}
+ @tab Add current disk to fliplist of unit 10, drive 0
+@item
+@code{fliplist-add-10:1}
+ @tab Add current disk to fliplist of unit 10, drive 1
+@item
+@code{fliplist-add-11:0}
+ @tab Add current disk to fliplist of unit 11, drive 0
+@item
+@code{fliplist-add-11:1}
+ @tab Add current disk to fliplist of unit 11, drive 1
+@item
+@code{fliplist-clear-8:0}
+ @tab Clear fliplist of unit 8, drive 0
+@item
+@code{fliplist-clear-8:1}
+ @tab Clear fliplist of unit 8, drive 1
+@item
+@code{fliplist-clear-9:0}
+ @tab Clear fliplist of unit 9, drive 0
+@item
+@code{fliplist-clear-9:1}
+ @tab Clear fliplist of unit 9, drive 1
+@item
+@code{fliplist-clear-10:0}
+ @tab Clear fliplist of unit 10, drive 0
+@item
+@code{fliplist-clear-10:1}
+ @tab Clear fliplist of unit 10, drive 1
+@item
+@code{fliplist-clear-11:0}
+ @tab Clear fliplist of unit 11, drive 0
+@item
+@code{fliplist-clear-11:1}
+ @tab Clear fliplist of unit 11, drive 1
+@item
+@code{fliplist-load-8:0}
+ @tab Load fliplist for unit 8, drive 0
+@item
+@code{fliplist-load-8:1}
+ @tab Load fliplist for unit 8, drive 1
+@item
+@code{fliplist-load-9:0}
+ @tab Load fliplist for unit 9, drive 0
+@item
+@code{fliplist-load-9:1}
+ @tab Load fliplist for unit 9, drive 1
+@item
+@code{fliplist-load-10:0}
+ @tab Load fliplist for unit 10, drive 0
+@item
+@code{fliplist-load-10:1}
+ @tab Load fliplist for unit 10, drive 1
+@item
+@code{fliplist-load-11:0}
+ @tab Load fliplist for unit 11, drive 0
+@item
+@code{fliplist-load-11:1}
+ @tab Load fliplist for unit 11, drive 1
+@item
+@code{fliplist-next-8:0}
+ @tab Attach next disk in fliplist of unit 8, drive 0
+@item
+@code{fliplist-next-8:1}
+ @tab Attach next disk in fliplist of unit 8, drive 1
+@item
+@code{fliplist-next-9:0}
+ @tab Attach next disk in fliplist of unit 9, drive 0
+@item
+@code{fliplist-next-9:1}
+ @tab Attach next disk in fliplist of unit 9, drive 1
+@item
+@code{fliplist-next-10:0}
+ @tab Attach next disk in fliplist of unit 10, drive 0
+@item
+@code{fliplist-next-10:1}
+ @tab Attach next disk in fliplist of unit 10, drive 1
+@item
+@code{fliplist-next-11:0}
+ @tab Attach next disk in fliplist of unit 11, drive 0
+@item
+@code{fliplist-next-11:1}
+ @tab Attach next disk in fliplist of unit 11, drive 1
+@item
+@code{fliplist-previous-8:0}
+ @tab Attach previous disk in fliplist of unit 8, drive 0
+@item
+@code{fliplist-previous-8:1}
+ @tab Attach previous disk in fliplist of unit 8, drive 1
+@item
+@code{fliplist-previous-9:0}
+ @tab Attach previous disk in fliplist of unit 9, drive 0
+@item
+@code{fliplist-previous-9:1}
+ @tab Attach previous disk in fliplist of unit 9, drive 1
+@item
+@code{fliplist-previous-10:0}
+ @tab Attach previous disk in fliplist of unit 10, drive 0
+@item
+@code{fliplist-previous-10:1}
+ @tab Attach previous disk in fliplist of unit 10, drive 1
+@item
+@code{fliplist-previous-11:0}
+ @tab Attach previous disk in fliplist of unit 11, drive 0
+@item
+@code{fliplist-previous-11:1}
+ @tab Attach previous disk in fliplist of unit 11, drive 1
+@item
+@code{fliplist-remove-8:0}
+ @tab Remove current disk from fliplist of unit 8, drive 0
+@item
+@code{fliplist-remove-8:1}
+ @tab Remove current disk from fliplist of unit 8, drive 1
+@item
+@code{fliplist-remove-9:0}
+ @tab Remove current disk from fliplist of unit 9, drive 0
+@item
+@code{fliplist-remove-9:1}
+ @tab Remove current disk from fliplist of unit 9, drive 1
+@item
+@code{fliplist-remove-10:0}
+ @tab Remove current disk from fliplist of unit 10, drive 0
+@item
+@code{fliplist-remove-10:1}
+ @tab Remove current disk from fliplist of unit 10, drive 1
+@item
+@code{fliplist-remove-11:0}
+ @tab Remove current disk from fliplist of unit 11, drive 0
+@item
+@code{fliplist-remove-11:1}
+ @tab Remove current disk from fliplist of unit 11, drive 1
+@item
+@code{fliplist-save-8:0}
+ @tab Save fliplist of unit 8, drive 0
+@item
+@code{fliplist-save-8:1}
+ @tab Save fliplist of unit 8, drive 1
+@item
+@code{fliplist-save-9:0}
+ @tab Save fliplist of unit 9, drive 0
+@item
+@code{fliplist-save-9:1}
+ @tab Save fliplist of unit 9, drive 1
+@item
+@code{fliplist-save-10:0}
+ @tab Save fliplist of unit 10, drive 0
+@item
+@code{fliplist-save-10:1}
+ @tab Save fliplist of unit 10, drive 1
+@item
+@code{fliplist-save-11:0}
+ @tab Save fliplist of unit 11, drive 0
+@item
+@code{fliplist-save-11:1}
+ @tab Save fliplist of unit 11, drive 1
+@item
 @code{fullscreen-decorations-toggle}
  @tab Show menu/status in fullscreen
 @item 
