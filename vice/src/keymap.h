@@ -104,7 +104,10 @@ enum shift_type {
     LEFT_CBM         = (1 << 13), /* Key is CBM on the emulated machine */
     LEFT_CTRL        = (1 << 14), /* Key is CTRL on the emulated machine */
 
-    IS_PRESSED       = (1 << 15)  /* is pressed, used in keyboard emulation code */
+    KEYFLG_NO_LOCK   = (1 << 15), /* do NOT emulate a "locked" key for this key */
+
+    /* used in keyboard emulation code, not in keymaps */
+    IS_PRESSED       = (1 << 30)  /* is pressed */
 };
 
 struct keyboard_conv_s {
@@ -149,13 +152,15 @@ extern int key_ctrl_vctrl;   /* virtual ctrl */
 extern int key_ctrl_shiftl;   /* shift-lock */
 
 /* Two possible restore keys.  */
-extern signed long key_ctrl_restore1;
-extern signed long key_ctrl_restore2;
+extern int key_ctrl_restore1;
+extern int key_ctrl_restore2;
 
 /* 40/80 column key.  */
-extern signed long key_ctrl_column4080;
+extern int key_ctrl_column4080;
+extern int key_flags_column4080;
 /* CAPS (ASCII/DIN) key.  */
-extern signed long key_ctrl_caps;
+extern int key_ctrl_caps;
+extern int key_flags_caps;
 
 /* joyport attached keypad. */
 extern signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KBD_JOY_KEYPAD_COLS]; /*FIXME*/

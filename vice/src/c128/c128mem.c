@@ -52,6 +52,7 @@
 #include "functionrom.h"
 #include "georam.h"
 #include "keyboard.h"
+#include "keymap.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -72,11 +73,18 @@
 #include "video.h"
 
 /* #define DEBUG_MMU */
+/* #define DEBUG_KEYS */
 
 #ifdef DEBUG_MMU
-#define DEBUG_PRINT(x) printf x
+#define DEBUG_PRINT(x) log_debug x
 #else
 #define DEBUG_PRINT(x)
+#endif
+
+#ifdef DEBUG_KEYS
+#define DBGKEY(x) log_debug x
+#else
+#define DBGKEY(x)
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -151,6 +159,9 @@ static log_t c128_mem_log = LOG_DEFAULT;
 
 /* Status of the CAPS key (ASCII/DIN).  */
 static int caps_sense = 1;
+
+/* called when CAPS was pressed or released */
+static int mem_caps_key_event(int enabled);
 
 /* ------------------------------------------------------------------------- */
 
@@ -473,7 +484,7 @@ void mem_update_config(int config)
 void mem_set_machine_type(unsigned type)
 {
     mem_machine_type = type;
-    caps_sense = 1;
+    mem_caps_key_event(0); /* disable the CAPS key */
     mem_pla_config_changed();
 }
 
@@ -537,16 +548,20 @@ void mem_pla_config_changed(void)
     }
 }
 
-static void mem_toggle_caps_key(void)
+/* called when CAPS was pressed or released */
+static int mem_caps_key_event(int pressed)
 {
-    caps_sense = (caps_sense) ? 0 : 1;
+    DBGKEY(("mem_caps_key_event pressed:%d", pressed));
+    keyboard_custom_key_set(KBD_CUSTOM_CAPS, pressed);
+    pressed = keyboard_custom_key_get(KBD_CUSTOM_CAPS);
+    if (pressed != 1) {
+        pressed = 0;
+    }
+    /* caution, the resource value is 1 when the key is not pressed (enabled = 0) */
+    caps_sense = pressed ? 0 : 1;
     mem_pla_config_changed();
-    log_message(c128_mem_log, "CAPS key (ASCII/DIN) %s.", (caps_sense) ? "released" : "pressed");
-}
-
-static int mem_get_caps_key(void)
-{
-    return caps_sense;
+    DBGKEY(("mem_caps_key_event CAPS key (ASCII/DIN) %s.", (caps_sense) ? "released" : "pressed"));
+    return pressed;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1124,8 +1139,8 @@ void mem_initialize_memory(void)
 
     mmu_reset();
 
-    keyboard_register_caps_key(mem_toggle_caps_key);
-    keyboard_register_get_caps_key(mem_get_caps_key);
+    keyboard_register_custom_key(KBD_CUSTOM_CAPS, mem_caps_key_event, "CAPS (ASCII/DIN)",
+                                 &key_ctrl_caps, &key_flags_caps);
 
     top_shared_limit = 0xffff;
     bottom_shared_limit = 0x0000;

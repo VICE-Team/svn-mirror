@@ -2132,7 +2132,7 @@ void shiftlock_led_set_active(int bar, gboolean active)
  */
 static void mode4080_led_callback(GtkWidget *widget, gboolean active)
 {
-    resources_set_int("C128ColumnKey", (active ^ 1) & 1);
+    keyboard_custom_key_toggle(KBD_CUSTOM_4080);
 }
 
 /** \brief  Create status bar LED for 40/80 key
@@ -2175,7 +2175,7 @@ void mode4080_led_set_active(int bar, gboolean active)
  */
 static void capslock_led_callback(GtkWidget *widget, gboolean active)
 {
-    keyboard_toggle_caps_key();
+    keyboard_custom_key_toggle(KBD_CUSTOM_CAPS);
 }
 
 /** \brief  Create status bar LED for capslock key
@@ -2207,7 +2207,7 @@ void capslock_led_set_active(int bar, gboolean active)
 #endif
     led = allocated_bars[bar].capslock_led;
     if (led != NULL) {
-        statusbar_led_widget_set_active(led, active ^ 1);
+        statusbar_led_widget_set_active(led, active);
     }
 }
 

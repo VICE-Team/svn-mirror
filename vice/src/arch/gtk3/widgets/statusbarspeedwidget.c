@@ -544,12 +544,11 @@ void statusbar_speed_widget_update(GtkWidget *widget,
     bool is_paused = ui_pause_active();
     bool is_shiftlock = keyboard_get_shiftlock();
     bool is_mode4080 = 0;
-    bool is_capslock = keyboard_get_caps_key();
+    bool is_capslock = 0;
 
     if (machine_class == VICE_MACHINE_C128) {
-        int n = 0;
-        resources_get_int("C128ColumnKey", &n);
-        is_mode4080 = (n & 1) ^ 1;
+        is_mode4080 = keyboard_custom_key_get(KBD_CUSTOM_4080);
+        is_capslock = keyboard_custom_key_get(KBD_CUSTOM_CAPS);
     }
 
     if (state->last_cpu_int != this_cpu_int ||

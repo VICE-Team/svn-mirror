@@ -109,13 +109,15 @@ int key_ctrl_vctrl  = KEY_NONE;   /* virtual ctrl */
 int key_ctrl_shiftl = KEY_NONE;   /* shift-lock */
 
 /* Two possible restore keys.  */
-signed long key_ctrl_restore1 = -1;
-signed long key_ctrl_restore2 = -1;
+int key_ctrl_restore1 = -1;
+int key_ctrl_restore2 = -1;
 
 /* 40/80 column key.  */
-signed long key_ctrl_column4080 = -1;
+int key_ctrl_column4080 = -1;
+int key_flags_column4080 = 0;
 /* CAPS (ASCII/DIN) key.  */
-signed long key_ctrl_caps = -1;
+int key_ctrl_caps = -1;
+int key_flags_caps = 0;
 
 /*-----------------------------------------------------------------------*/
 
@@ -280,14 +282,17 @@ static void keyboard_keyword_clear(void)
 
     keyconvmap_num_keys = 0;
     keyconvmap[0].sym = ARCHDEP_KEYBOARD_SYM_NONE;
+
     key_ctrl_restore1 = -1;
     key_ctrl_restore2 = -1;
     key_ctrl_caps = -1;
     key_ctrl_column4080 = -1;
-    key_ctrl_vshift = KEY_NONE;
+
     key_ctrl_shiftl = KEY_NONE;
+    key_ctrl_vshift = KEY_NONE;
     key_ctrl_vcbm = KEY_NONE;
     key_ctrl_vctrl = KEY_NONE;
+
     kbd_lshiftrow = -1;
     kbd_lshiftcol = -1;
     kbd_rshiftrow = -1;
@@ -420,7 +425,7 @@ static int keyboard_parse_set_pos_row(signed long sym, int row, int col,
     return 0;
 }
 
-static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
+static int keyboard_parse_set_neg_row(signed long sym, int row, int col, int shift)
 {
     if ((row == KBD_ROW_JOY_KEYMAP_A) &&
         (col >= 0) && (col < JOYSTICK_KEYSET_NUM_KEYS)) {
@@ -438,8 +443,10 @@ static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
         key_ctrl_restore2 = sym;
     } else if ((row == KBD_ROW_4080COLUMN) && (col == KBD_COL_4080COLUMN)) {
         key_ctrl_column4080 = sym;
+        key_flags_column4080 = shift;
     } else if ((row == KBD_ROW_CAPSLOCK) && (col == KBD_COL_CAPSLOCK)) {
         key_ctrl_caps = sym;
+        key_flags_caps = shift;
     } else if ((row == KBD_ROW_JOY_KEYPAD) &&
         (col >= 0) && (col < KBD_JOY_KEYPAD_NUMKEYS)) {
         key_joy_keypad[col / KBD_JOY_KEYPAD_COLS][col % KBD_JOY_KEYPAD_COLS] = sym;
@@ -487,7 +494,7 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                                   filename, line, row, col, key);
                     }
                 } else {
-                    if (keyboard_parse_set_neg_row(sym, (int)row, col) < 0) {
+                    if (keyboard_parse_set_neg_row(sym, (int)row, col, shift) < 0) {
                         log_error(keyboard_log,
                                   "%s:%d: Bad row/column value (%ld/%d) for keysym `%s'.",
                                   filename, line, row, col, key);
@@ -774,7 +781,7 @@ void keyboard_set_map_any(signed long sym, int row, int col, int shift)
     if (row >= 0) {
         keyboard_parse_set_pos_row(sym, row, col, shift);
     } else {
-        keyboard_parse_set_neg_row(sym, row, col);
+        keyboard_parse_set_neg_row(sym, row, col, shift);
     }
 }
 
@@ -840,14 +847,15 @@ int keyboard_keymap_dump(const char *filename)
             "# 0x1000   4096  key is combined with ctrl for this keysym/scancode\n"
             "# 0x2000   8192  key is (left) cbm on emulated machine\n"
             "# 0x4000  16384  key is (left) ctrl on emulated machine\n"
+            "# 0x8000  32768  do NOT emulate toggle switch for this key\n"
             "#\n"
             "# Negative row values:\n"
             "# 'keysym -1 n' joystick keymap A, direction n\n"
             "# 'keysym -2 n' joystick keymap B, direction n\n"
             "# 'keysym -3 0' first RESTORE key\n"
             "# 'keysym -3 1' second RESTORE key\n"
-            "# 'keysym -4 0' 40/80 column key (x128)\n"
-            "# 'keysym -4 1' CAPS (ASCII/DIN) key (x128)\n"
+            "# 'keysym -4 0 <flags>' 40/80 column key (x128)\n"
+            "# 'keysym -4 1 <flags>' CAPS (ASCII/DIN) key (x128)\n"
             "# 'keysym -5 n' joyport keypad, key n (not supported in x128)\n"
             "#\n"
             "# Joystick direction values:\n"
@@ -932,8 +940,8 @@ int keyboard_keymap_dump(const char *filename)
         fprintf(fp, "#\n"
                 "# 40/80 column key mapping\n"
                 "#\n");
-        fprintf(fp, "%s -4 0\n",
-                kbd_arch_keynum_to_keyname(key_ctrl_column4080));
+        fprintf(fp, "%s -4 0 0x%04x\n",
+                kbd_arch_keynum_to_keyname(key_ctrl_column4080), (unsigned)key_flags_column4080);
         fprintf(fp, "\n");
     }
 
@@ -941,8 +949,8 @@ int keyboard_keymap_dump(const char *filename)
         fprintf(fp, "#\n"
                 "# CAPS (ASCII/DIN) key mapping\n"
                 "#\n");
-        fprintf(fp, "%s -4 1\n",
-                kbd_arch_keynum_to_keyname(key_ctrl_caps));
+        fprintf(fp, "%s -4 1 0x%04x\n",
+                kbd_arch_keynum_to_keyname(key_ctrl_caps), (unsigned)key_flags_caps);
         fprintf(fp, "\n");
     }
 
@@ -1449,12 +1457,14 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
+    /* CAUTION: first mapping, then index. (Host) Mapping can always be changed
+       and may block/adjust the index depending on available keymaps */
+    { "KeyboardMapping", 0, RES_EVENT_NO, NULL,
+      &machine_keyboard_mapping, keyboard_set_keyboard_mapping, NULL },
     { "KeymapIndex", KBD_INDEX_SYM, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },
     { "KeyboardType", 0, RES_EVENT_NO, NULL,
       &machine_keyboard_type, keyboard_set_keyboard_type, NULL },
-    { "KeyboardMapping", 0, RES_EVENT_NO, NULL,
-      &machine_keyboard_mapping, keyboard_set_keyboard_mapping, NULL },
     RESOURCE_INT_LIST_END
 };
 

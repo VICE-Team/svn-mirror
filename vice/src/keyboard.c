@@ -111,6 +111,7 @@ static int keyboard_shiftlock = 0;
 
 static alarm_t *keyboard_alarm = NULL;
 
+/* machine specific utility function that is called after the keyboard was latched */
 static keyboard_machine_func_t keyboard_machine_func = NULL;
 
 static CLOCK keyboard_delay = 0; /* event playback */
@@ -138,15 +139,9 @@ static int virtual_modifier_flags[KBD_ROWS][KBD_COLS];
 /* the last timestamp/delay goes here */
 static CLOCK keyboard_latch_timestamp = 0;
 
-/* 40/80 column key.  */
-static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
-/* CAPS (ASCII/DIN) key.  */
-static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
-static key_ctrl_get_caps_func_t key_ctrl_get_caps_func = NULL;
 /* joyport attached keypad. */
 static key_joy_keypad_func_t key_joy_keypad_func = NULL;
-
-signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KBD_JOY_KEYPAD_COLS]; /*FIXME*/
+signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KBD_JOY_KEYPAD_COLS]; /* FIXME */
 
 /** \brief  Resource value for KdbStatusbar
  *
@@ -175,9 +170,17 @@ static void keyboard_restore_released(void);
 
 static void keyboard_event_record(void);
 
+/* custom keys */
+static int keyboard_custom_key_func_by_keysym(int keysym, int pressed);
+
+static void keyboard_key_clear_internal(void);
+
+/* keyboard alarm handler, this consumes the host keyboard queue */
+static void keyboard_alarm_handler(CLOCK offset, void *data);
+
 /******************************************************************************/
 
-/* FIXME: the SDL port uss this directly */
+/* FIXME: the SDL port uses this directly */
 void keyboard_clear_keymatrix(void)
 {
     memset(keyarr, 0, sizeof(keyarr));
@@ -187,6 +190,7 @@ void keyboard_clear_keymatrix(void)
     keyboard_shiftlock = 0;
 }
 
+/* register a machine specific utility function that is called after the keyboard was latched */
 void keyboard_register_machine(keyboard_machine_func_t func)
 {
     keyboard_machine_func = func;
@@ -212,11 +216,45 @@ void keyboard_register_clear(void)
 */
 static CLOCK kbd_make_event_timestap(CLOCK offset, int num)
 {
-    do {
-        offset += 1 + (KEYBOARD_RAND() / (num + 1));
-    } while (offset <= keyboard_latch_timestamp);
+    int maxdiff = machine_get_cycles_per_frame() * 2;
+
+    if (offset < maincpu_clk) {
+        offset = maincpu_clk;
+    }
+    if (offset < keyboard_latch_timestamp) {
+        offset = keyboard_latch_timestamp;
+    }
+    /* add a small constant amount of cycles */
+    offset += 1000;
+
+    /* add a random amount of cycles, at most one frame */
+    if (num == 0) { num = 1; }
+    offset += (KEYBOARD_RAND() / num);
+
+    /* limit to at most two frames */
+    if (offset > (maincpu_clk + maxdiff)) {
+        offset = maincpu_clk + maxdiff;
+    }
+
     keyboard_latch_timestamp = offset;
     return offset;
+}
+
+static void kbd_limit_pointers(void)
+{
+#if 0
+    kbd_queue_read &= (KBD_QUEUE_MAX - 1);
+    kbd_queue_write &= (KBD_QUEUE_MAX - 1);
+#endif
+    if ((kbd_queue_read < 0) ||
+        (kbd_queue_write < 0) ||
+        (kbd_queue_read > (KBD_QUEUE_MAX - 1)) ||
+        (kbd_queue_write > (KBD_QUEUE_MAX - 1))) {
+        log_error(keyboard_log, "kbd_limit_pointers wth?");
+        kbd_queue_read = kbd_queue_write = 0;
+        keyboard_key_clear_internal();
+        alarm_set(keyboard_alarm, kbd_make_event_timestap(maincpu_clk, 0));
+    }
 }
 
 static void kbd_retrigger_alarm(void)
@@ -224,6 +262,7 @@ static void kbd_retrigger_alarm(void)
     int queue_num;
     alarm_unset(keyboard_alarm);
     queue_num = 0;
+    kbd_limit_pointers();
     if (kbd_queue_write > kbd_queue_read) {
         queue_num = kbd_queue_write - kbd_queue_read;
     } else if (kbd_queue_write < kbd_queue_read) {
@@ -240,15 +279,23 @@ static int kbd_queue_pushkey(int key, int mod, int pressed)
     if ((key != last_key) ||
         (mod != last_mod) ||
         (pressed != last_pressed)) {
+        kbd_limit_pointers();
         if (((kbd_queue_write + 1) & (KBD_QUEUE_MAX - 1)) != kbd_queue_read) {
+            /* printf("kbd_queue_pushkey: %d key %d\n", kbd_queue_write, key); */
             kbd_queue[kbd_queue_write].key = last_key = key;
             kbd_queue[kbd_queue_write].mod = last_mod = mod;
             kbd_queue[kbd_queue_write].pressed = last_pressed = pressed;
-            kbd_queue_write++;
-            kbd_queue_write &= KBD_QUEUE_MAX - 1;
+            kbd_queue_write = (kbd_queue_write + 1) & (KBD_QUEUE_MAX - 1);
             return 1;
         } else {
-            DBGKEY(("kbd_queue_pushkey buffer full!\n"));
+            DBGKEY(("kbd_queue_pushkey buffer full!"));
+#if 0
+            keyboard_key_clear_internal();
+            kbd_queue_read = kbd_queue_write;
+            /* trigger alarm right now, to make room in the queue asap */
+            keyboard_alarm_handler(maincpu_clk, NULL);
+#endif
+            kbd_retrigger_alarm();
         }
     }
     return 0;
@@ -258,12 +305,12 @@ static int kbd_queue_pushkey(int key, int mod, int pressed)
    returns 0 on error (queue full) or 1 on success */
 static int kbd_queue_popkey(int *key, int *mod, int *pressed)
 {
+    kbd_limit_pointers();
     if (kbd_queue_write != kbd_queue_read) {
         *key = kbd_queue[kbd_queue_read].key;
         *mod = kbd_queue[kbd_queue_read].mod;
         *pressed = kbd_queue[kbd_queue_read].pressed;
-        kbd_queue_read++;
-        kbd_queue_read &= KBD_QUEUE_MAX - 1;
+        kbd_queue_read = (kbd_queue_read + 1) & (KBD_QUEUE_MAX - 1);
         return 1;
     }
     return 0;
@@ -574,13 +621,13 @@ static int keyboard_key_matrix_pressed(int row, int column, int shift, int press
 
 /******************************************************************************/
 
-static int keyb_find_in_keyconvtab(int key, int mod)
+static int keyb_find_in_keyconvtab(int sym, int mod)
 {
     int found = -1;
     int i;
 
     for (i = 0; i < keyconvmap_num_keys; ++i) {
-        if (key == keyconvmap[i].sym) {
+        if (sym == keyconvmap[i].sym) {
             /* skip keys from alternative keyset */
             if ((keyconvmap[i].shift & ALT_MAP) && !key_alternative) {
                 continue;
@@ -665,12 +712,13 @@ static void keyboard_alarm_handler(CLOCK offset, void *data)
     alarm_context_update_next_pending(keyboard_alarm->context);
 
     if(kbd_queue_popkey(&key, &mod, &pressed) == 0) {
-        DBGKEY(("keyboard_alarm_handler: [no more keys]"));
+        DBGKEY(("keyboard_alarm_handler: [no more keys] maincpu_clk: %12lu offset: %12lu",
+                maincpu_clk, offset));
         /*kbd_retrigger_alarm();*/
     } else {
-        DBGKEY(("keyboard_alarm_handler: [left:%d]       maincpu_clk: %12lu key:%3d mod:0x%04x pressed:%d",
-               1 + (kbd_queue_read > kbd_queue_write ? kbd_queue_read - kbd_queue_write : kbd_queue_write - kbd_queue_read),
-               maincpu_clk, key, (unsigned)mod, pressed));
+        DBGKEY(("keyboard_alarm_handler: [left:%d]       maincpu_clk: %12lu offset: %12lu key:%3d mod:0x%04x pressed:%d",
+               1 + ((kbd_queue_read > kbd_queue_write) ? (kbd_queue_read - kbd_queue_write) : (kbd_queue_write - kbd_queue_read)),
+               maincpu_clk, offset, key, (unsigned)mod, pressed));
         /* HACK: For each host key event, look back in the keyboard queue if we
            find another key-press event for this host key. if so, unpress the
            earlier host key first. This fixes the situation where we for some
@@ -713,35 +761,28 @@ void keyboard_key_pressed(signed long key, int mod)
 {
     int i, j;
 
-    DBGKEY(("keyboard_key_pressed:   [PRESSED]                                key:%3ld mod:0x%04x", key, (unsigned)mod));
+    DBGKEY(("keyboard_key_pressed:   [PRESSED]      maincpu_clk: %12lu key:%3ld mod:0x%04x",
+            maincpu_clk, key, (unsigned)mod));
 
     if (event_playback_active()) {
         return;
     }
 
     /* Restore */
-    if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
-        && machine_has_restore_key()) {
-        keyboard_restore_pressed();
-        return;
-    }
-
-    /* c128 40/80 column key */
-    if (key == key_ctrl_column4080) {
-        if (key_ctrl_column4080_func != NULL) {
-            key_ctrl_column4080_func();
+    if (machine_has_restore_key()) {
+        if ((key == key_ctrl_restore1) ||
+            (key == key_ctrl_restore2)) {
+            keyboard_restore_pressed();
+            return;
         }
+    }
+
+    /* extra custom keys */
+    if (keyboard_custom_key_func_by_keysym(key, 1)) {
         return;
     }
 
-    /* c128 caps lock key */
-    if (key == key_ctrl_caps) {
-        if (key_ctrl_caps_func != NULL) {
-            key_ctrl_caps_func();
-        }
-        return;
-    }
-
+    /* keypad at the joystick port */
     if (key_joy_keypad_func != NULL) {
         for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
             for (j = 0; j < KBD_JOY_KEYPAD_COLS; ++j) {
@@ -777,35 +818,31 @@ void keyboard_key_released(signed long key, int mod)
 {
     int i, j;
 
-    DBGKEY(("keyboard_key_released:  [RELEASED]                               key:%3ld mod:0x%04x", key, (unsigned)mod));
+#ifdef DBGKBD_KEYS
+    int idx = keyb_find_in_keyconvtab(key, 0 /* modifier */);
+#endif
+    DBGKEY(("keyboard_key_released:  [RELEASED]     maincpu_clk: %12lu key:%3ld mod:0x%04x idx:%d",
+            maincpu_clk, key, (unsigned)mod, idx));
 
     if (event_playback_active()) {
         return;
     }
 
     /* Restore */
-    if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
-        && machine_has_restore_key()) {
-        keyboard_restore_released();
-        return;
-    }
-#if 0
-    /* c128 40/80 column key */
-    if (key == key_ctrl_column4080) {
-        if (key_ctrl_column4080_func != NULL) {
-            key_ctrl_column4080_func();
+    if (machine_has_restore_key()) {
+        if ((key == key_ctrl_restore1) ||
+            (key == key_ctrl_restore2)) {
+            keyboard_restore_released();
+            return;
         }
+    }
+
+    /* extra custom keys */
+    if (keyboard_custom_key_func_by_keysym(key, 0)) {
         return;
     }
 
-    /* c128 caps lock key */
-    if (key == key_ctrl_caps) {
-        if (key_ctrl_caps_func != NULL) {
-            key_ctrl_caps_func();
-        }
-        return;
-    }
-#endif
+    /* keypad at the joystick port */
     if (key_joy_keypad_func != NULL) {
         for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
             for (j = 0; j < KBD_JOY_KEYPAD_COLS; ++j) {
@@ -957,6 +994,14 @@ static void keyboard_restore_released(void)
 
 /*-----------------------------------------------------------------------*/
 
+/* joyport attached keypad. */
+void keyboard_register_joy_keypad(key_joy_keypad_func_t func)
+{
+    key_joy_keypad_func = func;
+}
+
+/*-----------------------------------------------------------------------*/
+
 /* return emulated shift lock state to the UI */
 int keyboard_get_shiftlock(void)
 {
@@ -979,43 +1024,90 @@ void keyboard_set_shiftlock(int state)
     }
 }
 
-/* 40/80 column key.  */
-void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
+/*****************************************************************************/
+
+static key_custom_info_t key_custom_info[KBD_CUSTOM_NUM];
+
+void keyboard_register_custom_key(int id, key_custom_func_t func, char *name, int *keysym, int *keyflags)
 {
-    key_ctrl_column4080_func = func;
+    key_custom_info[id].id = id;
+    key_custom_info[id].func = func;
+    key_custom_info[id].name = name;
+    key_custom_info[id].keysym = keysym;
+    key_custom_info[id].keyflags = keyflags;
 }
 
-/* CAPS (ASCII/DIN) key.  */
-void keyboard_register_caps_key(key_ctrl_caps_func_t func)
+/* called when custom key was pressed or released */
+static int keyboard_custom_key_func_by_keysym(int keysym, int pressed)
 {
-    key_ctrl_caps_func = func;
-}
+    int n, newstate;
+    DBGKEY(("keyboard_custom_key_func_by_keysym %d pressed: %d", keysym, pressed));
+    for (n = 0; n < KBD_CUSTOM_NUM; n++) {
+        if ((*key_custom_info[n].keysym == keysym) &&
+            (key_custom_info[n].func != NULL)) {
+            int lockedkey = ((*key_custom_info[n].keyflags & KEYFLG_NO_LOCK) == 0) ? 1 : 0;
+            DBGKEY(("keyboard_custom_key_func_by_keysym lockedkey:%d shift:%04x",
+                    lockedkey, keyconvmap[n].shift));
+            if (lockedkey) {
+                /* "toggle" logic, the button is a locked switch */
+                newstate = key_custom_info[n].state;
+                if (pressed != key_custom_info[n].pressed) {
+                    if (pressed) {
+                        /* 0->1 */
+                        newstate ^= 1;
+                    }
+                }
+            } else {
+                /* the key is a regular button */
+                newstate = pressed;
+            }
 
-void keyboard_toggle_caps_key(void)
-{
-    if (key_ctrl_caps_func != NULL) {
-        key_ctrl_caps_func();
-    }
-}
+            /* remember new pressed state */
+            key_custom_info[n].pressed = pressed;
 
-void keyboard_register_get_caps_key(key_ctrl_get_caps_func_t func)
-{
-    key_ctrl_get_caps_func = func;
-}
-
-int keyboard_get_caps_key(void)
-{
-    if (key_ctrl_get_caps_func != NULL) {
-        return key_ctrl_get_caps_func();
+            /* call the custom function only if the state changed */
+            if (newstate != key_custom_info[n].oldstate) {
+                key_custom_info[n].oldstate = key_custom_info[n].state;
+                key_custom_info[n].state = newstate;
+                log_message(keyboard_log, "%s %s: now %s",
+                            key_custom_info[n].name,
+                            pressed ? "down" : " up ",
+                            key_custom_info[n].state ? "locked" : "released");
+                key_custom_info[n].state = key_custom_info[n].func(key_custom_info[n].state);
+            }
+            return 1;
+        }
     }
     return 0;
 }
 
-
-/* joyport attached keypad. */
-void keyboard_register_joy_keypad(key_joy_keypad_func_t func)
+int keyboard_custom_key_get(int id)
 {
-    key_joy_keypad_func = func;
+    return key_custom_info[id].state;
+}
+
+int keyboard_custom_key_set(int id, int state)
+{
+    key_custom_info[id].oldstate = key_custom_info[id].state;
+    if (key_custom_info[id].state != state) {
+        if (key_custom_info[id].func != NULL) {
+            key_custom_info[id].state = key_custom_info[id].func(state);
+        } else {
+            key_custom_info[id].state = state;
+        }
+        return 0;
+    }
+    return -1;
+}
+
+int keyboard_custom_key_toggle(int id)
+{
+    key_custom_info[id].oldstate = key_custom_info[id].state ? 1 : 0;
+    key_custom_info[id].state = key_custom_info[id].state ? 0 : 1;
+    if (key_custom_info[id].func != NULL) {
+        key_custom_info[id].state = key_custom_info[id].func(key_custom_info[id].state);
+    }
+    return 0;
 }
 
 /*-----------------------------------------------------------------------*/
