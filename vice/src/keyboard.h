@@ -43,16 +43,18 @@
 /* negative rows/columns for extra keys */
 #define KBD_ROW_JOY_KEYMAP_A    -1
 #define KBD_ROW_JOY_KEYMAP_B    -2
+
 #define KBD_ROW_RESTORE_1       -3
 #define KBD_ROW_RESTORE_2       -3
-#define KBD_ROW_4080COLUMN      -4
-#define KBD_ROW_CAPSLOCK        -4
-#define KBD_ROW_JOY_KEYPAD      -5
-
 #define KBD_COL_RESTORE_1        0
 #define KBD_COL_RESTORE_2        1
+
+#define KBD_ROW_4080COLUMN      -4
+#define KBD_ROW_CAPSLOCK        -4
 #define KBD_COL_4080COLUMN       0
 #define KBD_COL_CAPSLOCK         1
+
+#define KBD_ROW_JOY_KEYPAD      -5
 
 /* joystick port attached keypad */
 #define KBD_JOY_KEYPAD_ROWS      4
@@ -69,6 +71,28 @@
 #define KBD_MOD_SHIFTLOCK   (1 << 6)
 
 struct snapshot_s;
+
+/* custom keys for individual emulators (mostly c128)
+    the function is called with "pressed" indicating what state we want to set
+    the key to (pressed or released). the function returns the value the key was
+    actually set to.
+*/
+typedef int (*key_custom_func_t)(int pressed);
+
+typedef struct {
+    char *name;
+    key_custom_func_t func;     /* pointer to key handling function */
+    int id;                     /* ID (see below) */
+    int pressed;                /* is the key currently pressed? */
+    int oldstate;               /* previous state of the (toggle) switch */
+    int state;                  /* current state of the (toggle) switch */
+    int *keysym;                /* pointer to variable keeping the host key symbol */
+    int *keyflags;              /* pointer to variable keeping the host key flags */
+} key_custom_info_t;
+
+#define KBD_CUSTOM_CAPS     0
+#define KBD_CUSTOM_4080     1
+#define KBD_CUSTOM_NUM      2
 
 extern void keyboard_init(void);
 extern void keyboard_shutdown(void);
@@ -94,30 +118,30 @@ extern void keyboard_register_clear(void);
 extern void keyboard_key_pressed(signed long key, int mod);
 extern void keyboard_key_released(signed long key, int mod);
 extern void keyboard_key_clear(void);
+
+/* shift/lock handling, the emulation may also call this */
 extern void keyboard_set_shiftlock(int state);
-/* the emulation may also call this */
 extern int keyboard_get_shiftlock(void);
 
-typedef void (*key_ctrl_column4080_func_t)(void);
-extern void keyboard_register_column4080_key(key_ctrl_column4080_func_t func);
+/* extra custom keys (see above) */
+extern void keyboard_register_custom_key(int id, key_custom_func_t func, char *name,
+                                         int *keysym, int *keyflags);
+extern int keyboard_custom_key_get(int id);
+extern int keyboard_custom_key_set(int id, int pressed);
+extern int keyboard_custom_key_toggle(int id);
 
-typedef void (*key_ctrl_caps_func_t)(void);
-extern void keyboard_register_caps_key(key_ctrl_caps_func_t func);
-extern void keyboard_toggle_caps_key(void);
-typedef int (*key_ctrl_get_caps_func_t)(void);
-extern void keyboard_register_get_caps_key(key_ctrl_get_caps_func_t func);
-extern int keyboard_get_caps_key(void);
-
+/* extra handler for keypad on the joystick port */
 typedef void (*key_joy_keypad_func_t)(int row, int col, int pressed);
 extern void keyboard_register_joy_keypad(key_joy_keypad_func_t func);
 
+/* machine specific utility function that is called after the keyboard was latched */
 typedef void (*keyboard_machine_func_t)(int *);
 extern void keyboard_register_machine(keyboard_machine_func_t func);
 
 /* switch to alternative set (x128) */
 extern void keyboard_alternative_set(int alternative);
 
-/* FIXME: These ugly externs will should away sooner or later.
+/* FIXME: These ugly externs should go away sooner or later.
    currently these two arrays are the interface to the emulation (eg CIA core) */
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
