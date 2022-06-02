@@ -438,14 +438,14 @@ static int keyboard_parse_set_neg_row(signed long sym, int row, int col, int shi
         joykeys[JOYSTICK_KEYSET_IDX_B][col] = (int)sym;
 #endif
     } else if ((row == KBD_ROW_RESTORE_1) && (col == KBD_COL_RESTORE_1)) {
-        key_ctrl_restore1 = sym;
+        key_ctrl_restore1 = (int)sym;
     } else if ((row == KBD_ROW_RESTORE_2) && (col == KBD_COL_RESTORE_2)) {
-        key_ctrl_restore2 = sym;
+        key_ctrl_restore2 = (int)sym;
     } else if ((row == KBD_ROW_4080COLUMN) && (col == KBD_COL_4080COLUMN)) {
-        key_ctrl_column4080 = sym;
+        key_ctrl_column4080 = (int)sym;
         key_flags_column4080 = shift;
     } else if ((row == KBD_ROW_CAPSLOCK) && (col == KBD_COL_CAPSLOCK)) {
-        key_ctrl_caps = sym;
+        key_ctrl_caps = (int)sym;
         key_flags_caps = shift;
     } else if ((row == KBD_ROW_JOY_KEYPAD) &&
         (col >= 0) && (col < KBD_JOY_KEYPAD_NUMKEYS)) {
