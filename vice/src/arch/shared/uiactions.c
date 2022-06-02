@@ -738,6 +738,12 @@ void ui_actions_shutdown(void)
 }
 
 
+/** \brief  Register UI action implementations
+ *
+ * Add action handlers in \a mappings to the runtime action mappings.
+ *
+ * \param[in]   mappings    list of action IDs mapped to action handlers
+ */
 void ui_actions_register(const ui_action_map_t *mappings)
 {
     const ui_action_map_t *map = mappings;
