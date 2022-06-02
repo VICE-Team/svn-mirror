@@ -156,16 +156,20 @@ static UI_MENU_CALLBACK(save_keymap_callback)
     return NULL;
 }
 
+/* update mapping type ("KeymapIndex") */
 static UI_MENU_CALLBACK(radio_KeymapIndex_callback)
 {
     const char *res = sdl_ui_menu_radio_helper(activated, param, "KeymapIndex");
     if (activated) {
         /* FIXME: update keyboard type menu (PET/C128) */
-        uikeyboard_update_mapping_menu();
+        resources_touch("KeyboardMapping");
+        uikeyboard_update_mapping_menu();   /* host layout */
+        uikeyboard_update_index_menu();     /* mapping type (self) */
     }
     return res;
 }
 
+/* mapping type ("KeymapIndex") */
 static ui_menu_entry_t *keymap_index_submenu;
 
 static const ui_menu_entry_t keymap_index_submenu_entries[] = {
@@ -188,9 +192,11 @@ static const ui_menu_entry_t keymap_index_submenu_entries[] = {
     SDL_MENU_LIST_END
 };
 
-#define SETTINGS_ACTIVE_KEYMAP_IDX      10
-#define SETTINGS_KEYBOARD_MAPPING_IDX   11
+/* offset in settings_manager_menu[] */
+#define SETTINGS_KEYBOARD_MAPPING_IDX   10
+#define SETTINGS_ACTIVE_KEYMAP_IDX      11
 
+/* update of mapping types ("KeymapIndex") */
 void uikeyboard_update_index_menu(void)
 {
     int idx, type, mapping;
@@ -214,30 +220,32 @@ void uikeyboard_update_index_menu(void)
     settings_manager_menu[SETTINGS_ACTIVE_KEYMAP_IDX].data = keymap_index_submenu;
 }
 
+/* select type of host mapping ("KeyboardMapping") */
 static UI_MENU_CALLBACK(radio_KeyboardMapping_callback)
 {
     const char *res = sdl_ui_menu_radio_helper(activated, param, "KeyboardMapping");
     if (activated) {
         /* FIXME: update keyboard type menu (PET/C128) */
-        uikeyboard_update_index_menu();
+        resources_touch("KeymapIndex");
+        uikeyboard_update_index_menu();     /* mapping type (self) */
+        uikeyboard_update_mapping_menu();   /* host layout */
     }
     return res;
 }
 
+/* host language/layout */
 static ui_menu_entry_t *keyboard_mapping_submenu;
-
 ui_menu_entry_t ui_keyboard_mapping_entry = {
     NULL, MENU_ENTRY_RESOURCE_RADIO, (ui_callback_t)radio_KeyboardMapping_callback,
     (ui_callback_data_t)0
 };
 
+/* update keymap selection (host language/layout, "KeyboardMapping") */
 void uikeyboard_update_mapping_menu(void)
 {
-    int num, mapping;
+    int num;
     mapping_info_t *kbdlist = keyboard_get_info_list();
     ui_menu_entry_t *entry;
-
-    resources_get_int("KeyboardMapping", &mapping);
 
     num = keyboard_get_num_mappings();
     entry = keyboard_mapping_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
@@ -257,8 +265,8 @@ void uikeyboard_update_mapping_menu(void)
 
 void uikeyboard_menu_create(void)
 {
-    uikeyboard_update_mapping_menu();
-    uikeyboard_update_index_menu();
+    uikeyboard_update_mapping_menu();   /* host layout */
+    uikeyboard_update_index_menu();     /* mapping type */
 }
 
 void uikeyboard_menu_shutdown(void)
@@ -586,12 +594,12 @@ ui_menu_entry_t settings_manager_menu[] = {
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     /* CAUTION: the position of this item is hardcoded above */
-    { "Active keymap",
+    { "Keyboard mapping",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)NULL },
     /* CAUTION: the position of this item is hardcoded above */
-    { "Keyboard mapping",
+    { "Active keymap",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)NULL },
