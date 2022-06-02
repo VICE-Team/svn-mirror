@@ -1893,12 +1893,10 @@ static gboolean on_disk_attach(GtkWidget *item, gpointer data)
 {
     gint unit;
     gint drive;
-    gint action_id;
 
     unit = GPOINTER_TO_INT(data) >> 8;
     drive = GPOINTER_TO_INT(data) & 0xff;
-    action_id = ui_disk_attach_get_action_id(unit, drive);
-    ui_action_trigger(action_id);
+    ui_action_trigger(ui_action_id_drive_attach(unit, drive));
     return TRUE;
 }
 
@@ -1917,12 +1915,10 @@ static gboolean on_disk_detach(GtkWidget *item, gpointer data)
 {
     gint unit;
     gint drive;
-    gint action_id;
 
     unit = GPOINTER_TO_INT(data) >> 8;
     drive = GPOINTER_TO_INT(data) & 0xff;
-    action_id = ui_disk_detach_get_action_id(unit, drive);
-    ui_action_trigger(action_id);
+    ui_action_trigger(ui_action_id_drive_detach(unit, drive));
     return TRUE;
 }
 

@@ -286,71 +286,6 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
     }
 }
 
-
-/** \brief  UI action IDs for attach
- */
-static const gint attach_ids[] = {
-    ACTION_DRIVE_ATTACH_8_0,
-    ACTION_DRIVE_ATTACH_8_1,
-    ACTION_DRIVE_ATTACH_9_0,
-    ACTION_DRIVE_ATTACH_9_1,
-    ACTION_DRIVE_ATTACH_10_0,
-    ACTION_DRIVE_ATTACH_10_1,
-    ACTION_DRIVE_ATTACH_11_0,
-    ACTION_DRIVE_ATTACH_11_1
-};
-
-
-/** \brief  UI action IDs for detach
- */
-static const gint detach_ids[] = {
-    ACTION_DRIVE_DETACH_8_0,
-    ACTION_DRIVE_DETACH_8_1,
-    ACTION_DRIVE_DETACH_9_0,
-    ACTION_DRIVE_DETACH_9_1,
-    ACTION_DRIVE_DETACH_10_0,
-    ACTION_DRIVE_DETACH_10_1,
-    ACTION_DRIVE_DETACH_11_0,
-    ACTION_DRIVE_DETACH_11_1
-};
-
-
-/** \brief  Translate unit and drive number to attach UI action ID
- *
- * \param[in]   unit    unit number (8-11)
- * \param[in]   drive   drive number (0 or 1)
- *
- * \return  action ID
- */
-gint ui_disk_attach_get_action_id(gint unit, gint drive)
-{
-    gint index = (unit - DRIVE_UNIT_MIN) * 2 + drive;
-    if (index >= 0 &&
-            index < (gint)(sizeof attach_ids / sizeof attach_ids[0])) {
-        return attach_ids[index];
-    }
-    return ACTION_INVALID;
-}
-
-
-/** \brief  Translate unit and drive number to detach UI action ID
- *
- * \param[in]   unit    unit number (8-11)
- * \param[in]   drive   drive number (0 or 1)
- *
- * \return  action ID
- */
-gint ui_disk_detach_get_action_id(gint unit, gint drive)
-{
-    gint index = (unit - DRIVE_UNIT_MIN) * 2 + drive;
-    if (index >= 0 &&
-            index < (gint)(sizeof detach_ids / sizeof detach_ids[0])) {
-        return detach_ids[index];
-    }
-    return ACTION_INVALID;
-}
-
-
 /** \brief  Handler for the 'destroy' event of the dialog
  *
  * \param[in]   self    dialog
@@ -358,27 +293,10 @@ gint ui_disk_detach_get_action_id(gint unit, gint drive)
  */
 static void on_destroy(GtkWidget *self, gpointer data)
 {
-    gint action_id[] = {
-        ACTION_DRIVE_ATTACH_8_0,
-        ACTION_DRIVE_ATTACH_8_1,
-        ACTION_DRIVE_ATTACH_9_0,
-        ACTION_DRIVE_ATTACH_9_1,
-        ACTION_DRIVE_ATTACH_10_0,
-        ACTION_DRIVE_ATTACH_10_1,
-        ACTION_DRIVE_ATTACH_11_0,
-        ACTION_DRIVE_ATTACH_11_1
-    };
+    int unit = GPOINTER_TO_INT(data) >> 8;
+    int drive = GPOINTER_TO_INT(data) & 0xff;
 
-    gint unit;
-    gint drive;
-    gint index;
-
-    unit = GPOINTER_TO_INT(data) >> 8;
-    drive = GPOINTER_TO_INT(data) & 0xff;
-    index = (unit - DRIVE_UNIT_MIN) * 2 + drive;
-    if (index >= 0 && index < (gint)(sizeof action_id / sizeof action_id[0])) {
-        ui_action_finish(action_id[index]);
-    }
+    ui_action_finish(ui_action_id_drive_attach(unit, drive));
 }
 
 
@@ -495,7 +413,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
  *
  * TODO: 'grey-out'/disable units without a proper drive attached
  */
-static GtkWidget *create_extra_widget(GtkWidget *parent, gint unit, gint drive)
+static GtkWidget *create_extra_widget(GtkWidget *parent, int unit, int drive)
 {
     GtkWidget *grid;
     GtkWidget *hidden_check;
@@ -626,7 +544,7 @@ static GtkWidget *create_disk_attach_dialog(gint unit, gint drive)
  * \param[in]   unit        integer from 8-11 for the default drive
  * \param[in]   drive       drive number (0 or 1)
  */
-void ui_disk_attach_dialog_show(gint unit, gint drive)
+void ui_disk_attach_dialog_show(int unit, int drive)
 {
     GtkWidget *dialog = create_disk_attach_dialog(unit, drive);
     gtk_widget_show(dialog);
