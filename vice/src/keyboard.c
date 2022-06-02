@@ -216,7 +216,7 @@ void keyboard_register_clear(void)
 */
 static CLOCK kbd_make_event_timestap(CLOCK offset, int num)
 {
-    int maxdiff = machine_get_cycles_per_frame() * 2;
+    int maxdiff = (int)machine_get_cycles_per_frame() * 2;
 
     if (offset < maincpu_clk) {
         offset = maincpu_clk;
@@ -307,8 +307,8 @@ static int kbd_queue_popkey(int *key, int *mod, int *pressed)
 {
     kbd_limit_pointers();
     if (kbd_queue_write != kbd_queue_read) {
-        *key = kbd_queue[kbd_queue_read].key;
-        *mod = kbd_queue[kbd_queue_read].mod;
+        *key = (int)kbd_queue[kbd_queue_read].key;
+        *mod = (int)kbd_queue[kbd_queue_read].mod;
         *pressed = kbd_queue[kbd_queue_read].pressed;
         kbd_queue_read = (kbd_queue_read + 1) & (KBD_QUEUE_MAX - 1);
         return 1;
@@ -668,7 +668,7 @@ static void kbd_key_pressed(signed long key, int mod, int pressed)
         return;
     }
 
-    keynum = keyb_find_in_keyconvtab(key, mod);
+    keynum = keyb_find_in_keyconvtab((int)key, mod);
     if (keynum == -1) {
         DBGKEY(("kbd_key_pressed [unmapped]  %s key:%3ld pressed:%d",
                 pressed ? "D" : "U",
@@ -778,7 +778,7 @@ void keyboard_key_pressed(signed long key, int mod)
     }
 
     /* extra custom keys */
-    if (keyboard_custom_key_func_by_keysym(key, 1)) {
+    if (keyboard_custom_key_func_by_keysym((int)key, 1)) {
         return;
     }
 
@@ -807,7 +807,7 @@ void keyboard_key_pressed(signed long key, int mod)
 #endif
 
     /* push key to the keyboard emulation queue */
-    if (kbd_queue_pushkey(key, mod, 1) != 0) {
+    if (kbd_queue_pushkey((int)key, mod, 1) != 0) {
         /* generate an alarm at a random time in the future */
         kbd_retrigger_alarm();
     }
@@ -838,7 +838,7 @@ void keyboard_key_released(signed long key, int mod)
     }
 
     /* extra custom keys */
-    if (keyboard_custom_key_func_by_keysym(key, 0)) {
+    if (keyboard_custom_key_func_by_keysym((int)key, 0)) {
         return;
     }
 
@@ -866,7 +866,7 @@ void keyboard_key_released(signed long key, int mod)
     }
 #endif
     /* push key to processing queue */
-    if (kbd_queue_pushkey(key, mod, 0) != 0) {
+    if (kbd_queue_pushkey((int)key, mod, 0) != 0) {
         /* generate an alarm at a random time in the future */
         kbd_retrigger_alarm();
     }
