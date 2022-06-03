@@ -279,7 +279,7 @@ static void on_menu_item_destroy(GtkWidget *item, gpointer unused)
  * \param[in]       modifier        GDK key modifier(s) (unused)
  * \param[in]       action_id       UI action ID
  */
-static void handle_accelerator(GtkAccelGroup *accel_grp,
+static gboolean handle_accelerator(GtkAccelGroup *accel_grp,
                                GObject *acceleratable,
                                guint keyval,
                                GdkModifierType modifier,
@@ -287,6 +287,7 @@ static void handle_accelerator(GtkAccelGroup *accel_grp,
 {
     debug_gtk3("Called with action ID %d", GPOINTER_TO_INT(action_id));
     ui_action_trigger(GPOINTER_TO_INT(action_id));
+    return TRUE;
 }
 
 
