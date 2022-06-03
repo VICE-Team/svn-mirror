@@ -84,15 +84,17 @@ typedef struct {
     key_custom_func_t func;     /* pointer to key handling function */
     int id;                     /* ID (see below) */
     int pressed;                /* is the key currently pressed? */
-    int oldstate;               /* previous state of the (toggle) switch */
     int state;                  /* current state of the (toggle) switch */
     int *keysym;                /* pointer to variable keeping the host key symbol */
     int *keyflags;              /* pointer to variable keeping the host key flags */
 } key_custom_info_t;
 
-#define KBD_CUSTOM_CAPS     0
-#define KBD_CUSTOM_4080     1
-#define KBD_CUSTOM_NUM      2
+#define KBD_CUSTOM_NONE     0
+#define KBD_CUSTOM_RESTORE1 1
+#define KBD_CUSTOM_RESTORE2 2
+#define KBD_CUSTOM_CAPS     3
+#define KBD_CUSTOM_4080     4
+#define KBD_CUSTOM_NUM      5
 
 extern void keyboard_init(void);
 extern void keyboard_shutdown(void);
