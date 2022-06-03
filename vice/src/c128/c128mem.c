@@ -154,9 +154,6 @@ static int watchpoints_active = 0;
 /* Current machine type.  */
 static unsigned int mem_machine_type;
 
-/* Logging goes here.  */
-static log_t c128_mem_log = LOG_DEFAULT;
-
 /* Status of the CAPS key (ASCII/DIN).  */
 static int caps_sense = 1;
 

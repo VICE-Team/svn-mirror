@@ -2299,7 +2299,7 @@ For example this is is from the SDL C64 symbolic DE mapping:
 
 @subsubsection Special Rows
 
- Besides the keyboard matrix of the emulated keyboard, there are a bunch of
+Besides the keyboard matrix of the emulated keyboard, there are a bunch of
 special keys available in the negative rows as below:
 
 @multitable @columnfractions .1 .1 .8
@@ -2329,8 +2329,15 @@ special keys available in the negative rows as below:
 @tab Joyport keypad, key n (not supported in x128)
 @end multitable
 
+For example, a lot of (GTK) keymaps would map RESTORE like this:
 
- Joystick keymap direction column values for rows -1 and -2:
+@example
+# Restore key mapping
+F12     -3 0
+Page_Up -3 1
+@end example
+
+Joystick keymap direction column values for rows -1 and -2:
 
 @multitable @columnfractions .2 .2 .2
 @item @b{6} (N/W)

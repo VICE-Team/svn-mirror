@@ -153,7 +153,9 @@ extern int key_ctrl_shiftl;   /* shift-lock */
 
 /* Two possible restore keys.  */
 extern int key_ctrl_restore1;
+extern int key_flags_restore1;
 extern int key_ctrl_restore2;
+extern int key_flags_restore2;
 
 /* 40/80 column key.  */
 extern int key_ctrl_column4080;

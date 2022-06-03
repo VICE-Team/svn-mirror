@@ -110,14 +110,16 @@ int key_ctrl_shiftl = KEY_NONE;   /* shift-lock */
 
 /* Two possible restore keys.  */
 int key_ctrl_restore1 = -1;
+int key_flags_restore1 = KEYFLG_NO_LOCK;
 int key_ctrl_restore2 = -1;
+int key_flags_restore2 = KEYFLG_NO_LOCK;
 
 /* 40/80 column key.  */
 int key_ctrl_column4080 = -1;
-int key_flags_column4080 = 0;
+int key_flags_column4080 = 0;   /* default is locked! */
 /* CAPS (ASCII/DIN) key.  */
 int key_ctrl_caps = -1;
-int key_flags_caps = 0;
+int key_flags_caps = 0;   /* default is locked! */
 
 /*-----------------------------------------------------------------------*/
 
@@ -288,6 +290,11 @@ static void keyboard_keyword_clear(void)
     key_ctrl_caps = -1;
     key_ctrl_column4080 = -1;
 
+    key_flags_restore1 = KEYFLG_NO_LOCK;
+    key_flags_restore2 = KEYFLG_NO_LOCK;
+    key_flags_caps = 0;
+    key_flags_column4080 = 0;
+
     key_ctrl_shiftl = KEY_NONE;
     key_ctrl_vshift = KEY_NONE;
     key_ctrl_vcbm = KEY_NONE;
@@ -439,8 +446,10 @@ static int keyboard_parse_set_neg_row(signed long sym, int row, int col, int shi
 #endif
     } else if ((row == KBD_ROW_RESTORE_1) && (col == KBD_COL_RESTORE_1)) {
         key_ctrl_restore1 = (int)sym;
+        key_flags_restore1 = shift | KEYFLG_NO_LOCK;
     } else if ((row == KBD_ROW_RESTORE_2) && (col == KBD_COL_RESTORE_2)) {
         key_ctrl_restore2 = (int)sym;
+        key_flags_restore2 = shift | KEYFLG_NO_LOCK;
     } else if ((row == KBD_ROW_4080COLUMN) && (col == KBD_COL_4080COLUMN)) {
         key_ctrl_column4080 = (int)sym;
         key_flags_column4080 = shift;

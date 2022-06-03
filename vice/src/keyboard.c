@@ -165,8 +165,8 @@ static int restore_delayed = 0;
 static int restore_quick_release = 0;
 static alarm_t *restore_alarm = NULL; /* restore key alarm context */
 
-static void keyboard_restore_pressed(void);
-static void keyboard_restore_released(void);
+static int keyboard_restore_pressed(void);
+static int keyboard_restore_released(void);
 
 static void keyboard_event_record(void);
 
@@ -768,16 +768,7 @@ void keyboard_key_pressed(signed long key, int mod)
         return;
     }
 
-    /* Restore */
-    if (machine_has_restore_key()) {
-        if ((key == key_ctrl_restore1) ||
-            (key == key_ctrl_restore2)) {
-            keyboard_restore_pressed();
-            return;
-        }
-    }
-
-    /* extra custom keys */
+    /* RESTORE, extra custom keys */
     if (keyboard_custom_key_func_by_keysym((int)key, 1)) {
         return;
     }
@@ -828,16 +819,7 @@ void keyboard_key_released(signed long key, int mod)
         return;
     }
 
-    /* Restore */
-    if (machine_has_restore_key()) {
-        if ((key == key_ctrl_restore1) ||
-            (key == key_ctrl_restore2)) {
-            keyboard_restore_released();
-            return;
-        }
-    }
-
-    /* extra custom keys */
+    /* RESTORE, extra custom keys */
     if (keyboard_custom_key_func_by_keysym((int)key, 0)) {
         return;
     }
@@ -908,6 +890,7 @@ void keyboard_set_keyarr_any(int row, int col, int value)
     DBGKEY(("keyboard_set_keyarr_any val:%3d row:%d col:%d\n", value, row, col));
 
     if (row < 0) {
+        /* handle special negative row values */
         if ((row == KBD_ROW_RESTORE_1) && (col == KBD_COL_RESTORE_1)) {
             sym = key_ctrl_restore1;
         } else if ((row == KBD_ROW_RESTORE_2) && (col == KBD_COL_RESTORE_2)) {
@@ -944,52 +927,110 @@ void keyboard_set_keyarr_any(int row, int col, int value)
 
 static void restore_alarm_triggered(CLOCK offset, void *data)
 {
-    uint32_t event_data;
+    static uint32_t event_data;
     alarm_unset(restore_alarm);
-
     event_data = (uint32_t)restore_delayed;
+
+    DBGKEY(("restore_alarm_triggered pressed:%d maincpu_clk:%12lu", restore_delayed, maincpu_clk));
+
     machine_set_restore_key(restore_delayed);
     event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(uint32_t));
-    restore_delayed = 0;
 
-    if (restore_quick_release) {
+    if (restore_delayed && !restore_quick_release) {
+        /* we pressed restore */
+        restore_delayed = 0;
+        /* next alarm will release */
+        alarm_set(restore_alarm, kbd_make_event_timestap(maincpu_clk, 0));
+    } else {
+        /* we released restore */
+        if (restore_quick_release) {
+            restore_delayed = 0;
+            /* next alarm will release (quick) */
+            alarm_set(restore_alarm, kbd_make_event_timestap(maincpu_clk, 16));
+        }
         restore_quick_release = 0;
-        alarm_set(restore_alarm, maincpu_clk + KEYBOARD_RAND());
     }
 }
 
-static void keyboard_restore_pressed(void)
+static int keyboard_restore_pressed(void)
 {
-    uint32_t event_data;
+    static uint32_t event_data;
     event_data = (uint32_t)1;
+
+    DBGKEY(("keyboard_restore_pressed"));
+
     if (network_connected()) {
         network_event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(uint32_t));
     } else {
         if (restore_raw == 0) {
+            /* on a 0->1 transition start an alarm */
             restore_delayed = 1;
             restore_quick_release = 0;
-            alarm_set(restore_alarm, maincpu_clk + KEYBOARD_RAND());
+            /* next alarm will press */
+            alarm_set(restore_alarm, kbd_make_event_timestap(maincpu_clk, 0));
         }
     }
-    restore_raw = 1;
+    restore_raw = 1;    /* set = 1 */
+    return 1;
 }
 
-static void keyboard_restore_released(void)
+static int keyboard_restore_released(void)
 {
-    uint32_t event_data;
+    static uint32_t event_data;
     event_data = (uint32_t)0;
+
+    DBGKEY(("keyboard_restore_released"));
+
     if (network_connected()) {
         network_event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(uint32_t));
     } else {
         if (restore_raw == 1) {
+            /* on a 1->0 transition start an alarm */
             if (restore_delayed) {
                 restore_quick_release = 1;
+                restore_delayed = 0;
+                /* next alarm will release (quick) */
+                alarm_set(restore_alarm, kbd_make_event_timestap(maincpu_clk, 16));
             } else {
-                alarm_set(restore_alarm, maincpu_clk + KEYBOARD_RAND());
+                /* next alarm will release */
+                alarm_set(restore_alarm, kbd_make_event_timestap(maincpu_clk, 0));
             }
         }
     }
-    restore_raw = 0;
+    restore_raw = 0;    /* set = 0 */
+    return 0;
+}
+
+static int key_restore1_pressed(int pressed)
+{
+    static int oldpressed = -1;
+    DBGKEY(("key_restore1_pressed: %d", pressed));
+    if (machine_has_restore_key()) {
+        if (pressed != oldpressed) {
+            oldpressed = pressed;
+            if (pressed) {
+                return keyboard_restore_pressed();
+            }
+            return keyboard_restore_released();
+        }
+    }
+    return pressed;
+}
+
+static int key_restore2_pressed(int pressed)
+{
+    static int oldpressed = -1;
+    DBGKEY(("key_restore2_pressed: %d", pressed));
+    if (machine_has_restore_key()) {
+        if (pressed != oldpressed) {
+            oldpressed = pressed;
+            if (pressed) {
+                return keyboard_restore_pressed();
+            }
+            return keyboard_restore_released();
+        }
+    }
+    return pressed;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -1026,7 +1067,11 @@ void keyboard_set_shiftlock(int state)
 
 /*****************************************************************************/
 
-static key_custom_info_t key_custom_info[KBD_CUSTOM_NUM];
+static key_custom_info_t key_custom_info[KBD_CUSTOM_NUM] = {
+    { "NONE"    , NULL                , KBD_CUSTOM_NONE    , 0, 0, NULL              , NULL                },
+    { "RESTORE1", key_restore1_pressed, KBD_CUSTOM_RESTORE1, 0, 0, &key_ctrl_restore1, &key_flags_restore1 },
+    { "RESTORE2", key_restore2_pressed, KBD_CUSTOM_RESTORE2, 0, 0, &key_ctrl_restore2, &key_flags_restore2 },
+};
 
 void keyboard_register_custom_key(int id, key_custom_func_t func, char *name, int *keysym, int *keyflags)
 {
@@ -1068,8 +1113,7 @@ static int keyboard_custom_key_func_by_keysym(int keysym, int pressed)
             key_custom_info[n].pressed = pressed;
 
             /* call the custom function only if the state changed */
-            if (newstate != key_custom_info[n].oldstate) {
-                key_custom_info[n].oldstate = key_custom_info[n].state;
+            if (newstate != key_custom_info[n].state) {
                 key_custom_info[n].state = newstate;
                 log_message(keyboard_log, "%s %s: now %s",
                             key_custom_info[n].name,
@@ -1090,7 +1134,6 @@ int keyboard_custom_key_get(int id)
 
 int keyboard_custom_key_set(int id, int state)
 {
-    key_custom_info[id].oldstate = key_custom_info[id].state;
     if (key_custom_info[id].state != state) {
         if (key_custom_info[id].func != NULL) {
             key_custom_info[id].state = key_custom_info[id].func(state);
@@ -1104,7 +1147,6 @@ int keyboard_custom_key_set(int id, int state)
 
 int keyboard_custom_key_toggle(int id)
 {
-    key_custom_info[id].oldstate = key_custom_info[id].state ? 1 : 0;
     key_custom_info[id].state = key_custom_info[id].state ? 0 : 1;
     if (key_custom_info[id].func != NULL) {
         key_custom_info[id].state = key_custom_info[id].func(key_custom_info[id].state);
