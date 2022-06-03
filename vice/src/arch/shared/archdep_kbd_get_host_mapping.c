@@ -113,23 +113,8 @@ int archdep_kbd_get_host_mapping(void)
     }
     return KBD_MAPPING_US;
 }
-#else
 
-/* Beos */
-#if defined(BEOS_COMPILE)
-
-/* returns host keyboard mapping. used to initialize the keyboard map when
-   starting with a blank (default) config, so an educated guess works good
-   enough most of the time :)
-
-   FIXME: add more languages/actual detection (right :))
-*/
-int archdep_kbd_get_host_mapping(void)
-{
-    return KBD_MAPPING_US;
-}
-
-#else
+#elif defined(UNIX_COMPILE)
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a blank (default) config, so an educated guess works good
@@ -168,5 +153,20 @@ int archdep_kbd_get_host_mapping(void)
     }
     return KBD_MAPPING_US;
 }
-#endif
+
+#else
+
+/* Amiga, Beos, etc... */
+
+/* returns host keyboard mapping. used to initialize the keyboard map when
+   starting with a blank (default) config, so an educated guess works good
+   enough most of the time :)
+
+   FIXME: add more languages/actual detection (right :))
+*/
+int archdep_kbd_get_host_mapping(void)
+{
+    return KBD_MAPPING_US;
+}
+
 #endif
