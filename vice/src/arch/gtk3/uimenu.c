@@ -677,11 +677,11 @@ void ui_menu_set_accel_via_item_ref(GtkWidget *item,
  * \param[in]   keysym      Gdk keysym
  * \param[in]   modifier    Gdk modifier mask
  *
- * \return  `TRUE` on success
+ * \return  menu ref on success, `NULL` on failure
  */
-gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
-                                           guint keysym,
-                                           GdkModifierType modifier)
+ui_menu_item_ref_t *ui_set_menu_item_hotkey_by_action(gint action_id,
+                                                      guint keysym,
+                                                      GdkModifierType modifier)
 {
     GtkWidget *child;
     GClosure *accel_closure;
@@ -694,7 +694,7 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
     ref = ui_menu_item_ref_by_action(action_id);
     if (ref == NULL) {
         debug_gtk3("failed to find item.");
-        return FALSE;
+        return NULL;
     }
 
 #if 0
@@ -733,7 +733,7 @@ gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
         gtk_accel_label_set_accel(GTK_ACCEL_LABEL(child), keysym, modifier);
     }
 
-    return TRUE;
+    return ref;
 }
 
 

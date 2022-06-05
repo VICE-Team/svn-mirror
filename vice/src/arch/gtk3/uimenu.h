@@ -71,9 +71,9 @@ void        ui_menu_update_accel_via_item_ref(ui_menu_item_ref_t *ref,
 void        ui_menu_set_accel_via_item_ref(GtkWidget *item,
                                            ui_menu_item_ref_t *ref);
 
-gboolean ui_set_menu_item_hotkey_by_action(gint action_id,
-                                           guint keysym,
-                                           GdkModifierType modifier);
+ui_menu_item_ref_t *ui_set_menu_item_hotkey_by_action(gint action_id,
+                                                      guint keysym,
+                                                      GdkModifierType modifier);
 
 const ui_menu_item_t *ui_get_menu_decl_by_hotkey(guint keysym,
                                            GdkModifierType modifier);

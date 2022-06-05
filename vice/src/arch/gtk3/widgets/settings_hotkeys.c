@@ -32,6 +32,7 @@
 #include "vice_gtk3.h"
 
 #include "archdep.h"
+#include "hotkeymap.h"
 #include "hotkeys.h"
 #include "lib.h"
 #include "log.h"
@@ -246,9 +247,6 @@ static GtkWidget *create_browse_widget(void)
 /** \brief  Create model for the hotkeys table
  *
  * \return  new list store
- *
- * \todo    Implement proper Gtk menu items iterator so we can avoid having to
- *          look up each action in the menus to test if it's actually available.
  */
 static GtkListStore *create_hotkeys_model(void)
 {
@@ -266,27 +264,25 @@ static GtkListStore *create_hotkeys_model(void)
     list = ui_action_get_info_list();
     for (action = list; action->id > ACTION_NONE; action++) {
         GtkTreeIter iter;
-        GtkWidget *item;
-        char *hotkey;
+        hotkey_map_t *map;
+        gchar *hotkey = NULL;
 
-        /* is the action present in the current menu structure? */
-        item = ui_get_menu_item_by_action_for_window(action->id, PRIMARY_WINDOW);
-        if (item != NULL) {
-            /* FIXME:   We're always using the primary window, but if we decide
-             *          to have separate hotkeys for the x128 windows, this must
-             *          be updated: */
-            hotkey = ui_hotkeys_get_hotkey_string_for_action(action->id);
-            gtk_list_store_append(model, &iter);
-            gtk_list_store_set(model,
-                               &iter,
-                               COL_ACTION_ID, action->id,
-                               COL_ACTION_NAME, action->name,
-                               COL_ACTION_DESC, action->desc,
-                               COL_HOTKEY, hotkey,
-                               -1);
-            if (hotkey != NULL) {
-                lib_free(hotkey);
-            }
+        /* Is there a hotkey defined for the current action? */
+        map = hotkey_map_get_by_action(action->id);
+        if (map != NULL) {
+            hotkey = hotkey_map_get_accel_label(map);
+        }
+
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model,
+                           &iter,
+                           COL_ACTION_ID, action->id,
+                           COL_ACTION_NAME, action->name,
+                           COL_ACTION_DESC, action->desc,
+                           COL_HOTKEY, hotkey,
+                           -1);
+        if (hotkey != NULL) {
+            g_free(hotkey);
         }
     }
     lib_free(list);
