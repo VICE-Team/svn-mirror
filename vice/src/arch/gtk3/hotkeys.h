@@ -120,6 +120,7 @@ typedef struct hotkeys_modifier_s {
 } hotkeys_modifier_t;
 
 
+
 int     ui_hotkeys_resources_init(void);
 int     ui_hotkeys_cmdline_options_init(void);
 
