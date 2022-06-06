@@ -33,6 +33,7 @@
 #include "uiactions.h"
 #include "uimenu.h"
 #include "uitypes.h"
+#include "vice_gtk3.h"
 
 #include "hotkeymap.h"
 
@@ -284,6 +285,31 @@ gchar *hotkey_map_get_accel_label(const hotkey_map_t *map)
 }
 
 
+/** \brief  Get accelerator label for UI action, if any
+ *
+ * \param[in]   action  UI action ID
+ *
+ * \return  accelerator label or `NULL when \a action not found or no hotkey
+ *          exists for the \a action
+ */
+gchar *hotkey_map_get_accel_label_for_action(int action)
+{
+    hotkey_map_t *map = hotkey_map_get_by_action(action);
+    if (map != NULL) {
+        return hotkey_map_get_accel_label(map);
+    }
+    return NULL;
+}
+
+
+/** \brief  Get runtime menu item for hotkey and window
+ *
+ * \param[in]   window_id   window ID (`PRIMARY_WINDOW` or `SECONDARY_WINDOW`)
+ * \param[in]   keysym      Gdk keysym
+ * \param[in]   modifier    Gdk modifier mask
+ *
+ * \return  menu item or `NULL` when not found
+ */
 GtkWidget *hotkey_map_get_menu_item_by_hotkey_for_window(gint window_id,
                                                          guint keysym,
                                                          GdkModifierType modifier)
@@ -474,7 +500,7 @@ GtkWidget *ui_get_menu_item_by_action_for_window(gint action, gint window_id)
  * \param[in]   item    runtime menu item
  * \param[in]   action  UI action ID
  */
-void ui_set_menu_item_accel_label(GtkWidget *item, int action)
+void ui_set_menu_item_accel_label(GtkWidget *item, gint action)
 {
     const hotkey_map_t *map;
     GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
@@ -486,5 +512,71 @@ void ui_set_menu_item_accel_label(GtkWidget *item, int action)
                                   map->modifier);
     } else {
         gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+    }
+}
+
+
+/** \brief  Check/uncheck check menu item while blocking its handler
+ *
+ * Set a checkbox menu item's state while blocking the 'activate' handler so
+ * the handler won't recursively call itself.
+ *
+ * \param[in]   item    GtkCheckMenuItem instance
+ * \param[in]   checked new check button state
+ */
+void ui_set_check_menu_item_blocked(GtkWidget *item, gboolean checked)
+{
+    gulong handler_id = GPOINTER_TO_ULONG(g_object_get_data(G_OBJECT(item),
+                                                            "HandlerID"));
+    g_signal_handler_block(item, handler_id);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), checked);
+    g_signal_handler_unblock(item, handler_id);
+}
+
+
+/** \brief  Check/uncheck check menu item(s) mapped to UI action
+ *
+ * Set menu item or items (x128) that are registered for UI \a action to
+ * \a checked.
+ *
+ * \note    This will usually suffice for most items, but in cases where x128
+ *          can have different states for a menu item per window (status bar
+ *          enable/disable, fullscreen, fulllscreen-decorations) the function
+ *          ui_set_check_menu_item_blocked_by_action_for_window() is available.
+ *
+ * \param[in]   action  UI action ID
+ * \param[in]   checked new checked state for menu item(s)
+ */
+void ui_set_check_menu_item_blocked_by_action(gint action, gboolean checked)
+{
+    hotkey_map_t *map = hotkey_map_get_by_action(action);
+    if (map != NULL) {
+        if (map->item[PRIMARY_WINDOW] != NULL) {
+            ui_set_check_menu_item_blocked(map->item[PRIMARY_WINDOW], checked);
+        }
+        if (map->item[SECONDARY_WINDOW] != NULL) {
+            ui_set_check_menu_item_blocked(map->item[SECONDARY_WINDOW], checked);
+        }
+    }
+}
+
+/** \brief  Check/uncheck check menu item mapped to UI action for a window
+ *
+ * Set menu item for a main window that is registered for UI \a action to
+ * \a checked.
+ *
+ * \param[in]   action      UI action ID
+ * \param[in]   window_id   window ID (`PRIMARY_WINDOW` or `SECONDARY_WINDOW`)
+ * \param[in]   checked     new checked state for menu item(s)
+ */
+void ui_set_check_menu_item_blocked_by_action_for_window(gint action,
+                                                         gint window_id,
+                                                         gboolean checked)
+{
+    if (valid_window_id(window_id)) {
+        hotkey_map_t *map = hotkey_map_get_by_action(action);
+        if (map != NULL) {
+            ui_set_check_menu_item_blocked(map->item[window_id], checked);
+        }
     }
 }

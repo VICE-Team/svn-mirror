@@ -48,6 +48,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#include "hotkeymap.h"
 #include "machine.h"
 #include "resources.h"
 #include "uiactions.h"

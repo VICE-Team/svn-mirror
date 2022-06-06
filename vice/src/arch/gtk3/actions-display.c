@@ -47,6 +47,7 @@
 #include <stddef.h>
 
 #include "debug_gtk3.h"
+#include "hotkeymap.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"

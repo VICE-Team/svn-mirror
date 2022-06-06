@@ -1691,12 +1691,11 @@ bool ui_hotkeys_parse(const char *path)
  */
 char *ui_hotkeys_get_hotkey_string_for_action(gint action_id)
 {
-    ui_menu_item_ref_t *ref;
     char *str = NULL;
+    hotkey_map_t *map = hotkey_map_get_by_action(action_id);
 
-    ref = ui_menu_item_ref_by_action(action_id);
-    if (ref != NULL) {
-        str = gtk_accelerator_get_label(ref->keysym, ref->modifier);
+    if (map != NULL) {
+        str = gtk_accelerator_get_label(map->keysym, map->modifier);
         if (str != NULL) {
             /* make VICE take ownership */
             char *tmp = lib_strdup(str);
@@ -1805,15 +1804,7 @@ bool ui_hotkeys_export(const char *path)
     }
 
     export_header(fp);
-#if 0
-    ref_count = ui_menu_item_ref_count();
-    for (ref_index = 0; ref_index < ref_count; ref_index++) {
-        ui_menu_item_ref_t *ref;
-        const ui_menu_item_t *decl;
 
-        ref = ui_menu_item_ref_by_index(ref_index);
-        decl = ref->decl;
-#endif
     for (map = hotkey_map_get_head(); map != NULL; map = map->next) {
         if (map->keysym > 0) {
             gchar *accel;
