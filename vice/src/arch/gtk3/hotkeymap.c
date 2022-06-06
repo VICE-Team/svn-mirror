@@ -425,3 +425,20 @@ gboolean hotkey_map_update_hotkey(hotkey_map_t *map,
 
     return hotkey_map_setup_hotkey(map);
 }
+
+
+/** \brief  Clear all hotkeys
+ *
+ * This removes all registered hotkeys, those for menu items and those without
+ * menu items.
+ */
+void ui_clear_hotkeys(void)
+{
+    hotkey_map_t *node;
+
+    for (node = maps_head; node != NULL; node = node->next) {
+        if (node->keysym != 0) {
+            hotkey_map_clear_hotkey(node);
+        }
+    }
+}

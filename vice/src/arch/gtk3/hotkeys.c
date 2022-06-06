@@ -1192,7 +1192,7 @@ static bool parser_do_clear(const char *line, textfile_reader_t *reader)
                     textfile_reader_filename(reader),
                     textfile_reader_linenum(reader));
     }
-    ui_clear_menu_hotkeys();
+    ui_clear_hotkeys();
     return true;
 }
 
@@ -1359,7 +1359,7 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     const char *oldpos;
     GdkModifierType mask;
     guint keyval;
-    ui_menu_item_ref_t *ref;
+    hotkey_map_t *map;
 
     s = skip_whitespace(line);
     if (*s == '\0') {
@@ -1387,19 +1387,18 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
                     gdk_keyval_name(keyval));
     }
 
-    /* look up menu item by hotkey */
-    ref = ui_menu_item_ref_by_hotkey(keyval, mask);
-    if (ref != NULL) {
+    /* lookup map for hotkey */
+    map = hotkey_map_get_by_hotkey(keyval, mask);
+    if (map != NULL) {
         if (hotkeys_debug) {
             log_message(hotkeys_log,
-                        "Hotkeys: %s:%ld: found menu item for hotkey: '%s'.",
+                        "Hotkeys: %s:%ld: found hotkey defined for action %d (%s),"
+                        " clearing.",
                         textfile_reader_filename(reader),
                         textfile_reader_linenum(reader),
-                        ref->decl->label);
+                        map->action, ui_action_get_name(map->action));
         }
-        ui_menu_remove_accel_via_item_ref(ref);
-        ref->keysym = 0;
-        ref->modifier = 0;
+        hotkey_map_clear_hotkey(map);
     } else {
         /* cannot use gtk_accelerator_name(): Gtk throws a fit about not having
          * a display and thus no GdkKeymap. :( */
@@ -1603,9 +1602,6 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
 
     /* set hotkey for menu item, if it exists */
     hotkey_map_setup_hotkey(map);
-#if 0
-    ui_set_menu_item_hotkey_by_action(action_id, keysym, mask);
-#endif
    return true;
 }
 
