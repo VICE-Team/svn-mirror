@@ -34,6 +34,7 @@
 #include "archdep.h"
 #include "debug_gtk3.h"
 #include "vice_gtk3.h"
+#include "hotkeymap.h"
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"
@@ -445,6 +446,30 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
 
             /* add item to table of references if it triggers a UI action */
             if (items[i].action_id > ACTION_NONE) {
+
+                hotkey_map_t *map;
+
+                /* add to hotkey maps or update */
+                if (window_id == PRIMARY_WINDOW) {
+                    map = hotkey_map_new();
+                    map->action = items[i].action_id;
+                    map->decl = &items[i];
+                    hotkey_map_append(map);
+                } else {
+                    map = hotkey_map_get_by_action(items[i].action_id);
+                    if (map == NULL) {
+                        /* this shouldn't happen! */
+                        debug_gtk3("Failed to locate hotkey mapping object"
+                                   "for action %d (%s).",
+                                   items[i].action_id,
+                                   ui_action_get_name(items[i].action_id));
+                    }
+                }
+                if (map != NULL) {
+                    map->item[window_id] = item;
+                    map->handler[window_id] = handler_id;
+                }
+
                 add_menu_item_ref(&items[i], item, handler_id, window_id);
             }
         }
@@ -621,6 +646,42 @@ void ui_menu_update_accel_via_item_ref(ui_menu_item_ref_t *ref,
 }
 
 
+/** \brief  Set up a closure to trigger UI action for a hotkey
+ *
+ * Create a closure to trigger UI \a action for \a keysym and \a modifier.
+ * This way hotkeys will work in fullscreen and also when there's no menu item
+ * associated with \a action.
+ *
+ * \param[in]   action      UI action ID
+ * \param[in]   keysym      Gdk keysym
+ * \param[in]   modifier    Gdk modifier mask
+ * \param[in]   unlocked    connect accelator non-lockeding
+ */
+void ui_menu_connect_accelerator(int action,
+                                 guint keysym,
+                                 GdkModifierType modifier,
+                                 bool unlocked)
+{
+    GClosure *closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
+                                       GINT_TO_POINTER(action),
+                                       NULL);
+
+    if (unlocked) {
+        gtk_accel_group_connect(accel_group,
+                                keysym,
+                                modifier,
+                                GTK_ACCEL_MASK,
+                                closure);
+    } else {
+        vice_locking_gtk_accel_group_connect(accel_group,
+                                             keysym,
+                                             modifier,
+                                             GTK_ACCEL_MASK,
+                                             closure);
+    }
+}
+
+
 /** \brief  Set menu item accelerator via menu item reference
  *
  * Set a GtkMenuItem accelerator via an element of the menu item references
@@ -641,31 +702,16 @@ void ui_menu_update_accel_via_item_ref(ui_menu_item_ref_t *ref,
 void ui_menu_set_accel_via_item_ref(GtkWidget *item,
                                     ui_menu_item_ref_t *ref)
 {
-    GtkWidget *child;
-    GClosure *closure;
-
-    closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
-                             GINT_TO_POINTER(ref->decl->action_id),
-                             NULL);
-
-    if (ref->decl->unlocked) {
-        gtk_accel_group_connect(accel_group,
+    ui_menu_connect_accelerator(ref->decl->action_id,
                                 ref->keysym,
                                 ref->modifier,
-                                GTK_ACCEL_MASK,
-                                closure);
-    } else {
-        vice_locking_gtk_accel_group_connect(accel_group,
-                                             ref->keysym,
-                                             ref->modifier,
-                                             GTK_ACCEL_MASK,
-                                             closure);
+                                ref->decl->unlocked);
+    if (item != NULL) {
+        GtkWidget *child = gtk_bin_get_child(GTK_BIN(item));
+        gtk_accel_label_set_accel(GTK_ACCEL_LABEL(child),
+                                  ref->keysym,
+                                  ref->modifier);
     }
-
-    child = gtk_bin_get_child(GTK_BIN(item));
-    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(child),
-                              ref->keysym,
-                              ref->modifier);
 }
 
 
@@ -684,7 +730,6 @@ ui_menu_item_ref_t *ui_set_menu_item_hotkey_by_action(gint action_id,
                                                       GdkModifierType modifier)
 {
     GtkWidget *child;
-    GClosure *accel_closure;
     ui_menu_item_ref_t *ref;
 
 #if 0
@@ -708,22 +753,7 @@ ui_menu_item_ref_t *ui_set_menu_item_hotkey_by_action(gint action_id,
 #if 0
     debug_gtk3("Setting new accelerator");
 #endif
-    accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
-                                   GINT_TO_POINTER(action_id),
-                                   NULL);
-    if (ref->decl->unlocked) {
-        gtk_accel_group_connect(accel_group,
-                                keysym,
-                                modifier,
-                                GTK_ACCEL_MASK,
-                                accel_closure);
-    } else {
-        vice_locking_gtk_accel_group_connect(accel_group,
-                                             keysym,
-                                             modifier,
-                                             GTK_ACCEL_MASK,
-                                             accel_closure);
-    }
+    ui_menu_connect_accelerator(action_id, keysym, modifier, ref->decl->unlocked);
 
     child = gtk_bin_get_child(GTK_BIN(ref->item[PRIMARY_WINDOW]));
     gtk_accel_label_set_accel(GTK_ACCEL_LABEL(child), keysym, modifier);

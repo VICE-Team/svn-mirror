@@ -38,12 +38,13 @@
 /*
  * Public functions
  */
-
+/* TODO: Remove... */
 ui_menu_item_ref_t *ui_menu_item_ref_by_action(gint action_id);
 ui_menu_item_ref_t *ui_menu_item_ref_by_hotkey(guint keysym,
                                                GdkModifierType modifier);
 ui_menu_item_ref_t *ui_menu_item_ref_by_index (gint index);
 gint                ui_menu_item_ref_count    (void);
+/* ... until here */
 
 
 GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
@@ -52,6 +53,7 @@ GtkWidget * ui_menu_add(GtkWidget *menu,
                         const ui_menu_item_t *items,
                         gint window_id);
 
+/* TODO: Reimplement in hotkeymap.c: */
 void        ui_set_check_menu_item_blocked(GtkWidget *item,
                                            gboolean state);
 void        ui_set_check_menu_item_blocked_by_action(gint action_id,
@@ -59,10 +61,12 @@ void        ui_set_check_menu_item_blocked_by_action(gint action_id,
 void        ui_set_check_menu_item_blocked_by_action_for_window(gint action_id,
                                                                 gint window_id,
                                                                 gboolean state);
+/* ... until here */
 
 void        ui_menu_init_accelerators(GtkWidget *window);
 
 gboolean    ui_menu_remove_accel(guint keysym, GdkModifierType modifier);
+/* TODO: Remove or reimplement in hotkeymap.c: */
 gboolean    ui_menu_remove_accel_via_action(gint action_id);
 gboolean    ui_menu_remove_accel_via_item_ref(ui_menu_item_ref_t *ref);
 void        ui_menu_update_accel_via_item_ref(ui_menu_item_ref_t *ref,
@@ -70,7 +74,9 @@ void        ui_menu_update_accel_via_item_ref(ui_menu_item_ref_t *ref,
                                               GdkModifierType modifier);
 void        ui_menu_set_accel_via_item_ref(GtkWidget *item,
                                            ui_menu_item_ref_t *ref);
+/* ... until here */
 
+/* TODO: The following should be reimplented in hotkeymap.c: */
 ui_menu_item_ref_t *ui_set_menu_item_hotkey_by_action(gint action_id,
                                                       guint keysym,
                                                       GdkModifierType modifier);
@@ -91,8 +97,13 @@ void ui_set_menu_item_accel_label(GtkWidget *item, gint action_id);
 GtkWidget *ui_get_menu_item_by_hotkey_for_window(gint window_id,
                                                  guint keysym,
                                                  GdkModifierType modifier);
+/* ... until here ;) */
 
-
+/* TODO: Reimplement using the hotkey_map_t list */
 void ui_clear_menu_hotkeys(void);
 
+void ui_menu_connect_accelerator(int action,
+                                 guint keysym,
+                                 GdkModifierType modifier,
+                                 bool unlocked);
 #endif

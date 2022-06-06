@@ -29,6 +29,9 @@
 
 #include <gtk/gtk.h>
 
+#include "uitypes.h"
+
+
 /** \brief  Object mapping hotkeys to UI actions and menu items
  *
  * We might be able to use this as well for storing all the menu item
@@ -39,7 +42,10 @@ typedef struct hotkey_map_s {
     guint                   keysym;     /**< Gdk keysym */
     GdkModifierType         modifier;   /**< Gdk modifier mask */
     int                     action;     /**< UI action ID */
-    GtkWidget *             item[2];    /**< menu item references */
+    GtkWidget *             item[2];    /**< runtime menu item references */
+    gulong                  handler[2]; /**< event handler ID for the runtime
+                                             items' activate/toggled events */
+    const ui_menu_item_t *  decl;       /**< menu item declaration */
     struct hotkey_map_s *   next;       /**< next node in linked list */
     struct hotkey_map_s *   prev;       /**< previous node in linked list */
 } hotkey_map_t;
@@ -59,4 +65,19 @@ hotkey_map_t *  hotkey_map_get_by_action(int action);
 hotkey_map_t *  hotkey_map_get_by_hotkey(guint keysym, GdkModifierType modifier);
 gchar *         hotkey_map_get_accel_label(const hotkey_map_t *map);
 
+GtkWidget *     hotkey_map_get_menu_item_by_hotkey_for_window(gint window_id,
+                                                              guint keysym,
+                                                              GdkModifierType modifier);
+
+gboolean        hotkey_map_setup_hotkey(hotkey_map_t *map);
+gboolean        hotkey_map_update_hotkey(hotkey_map_t *map,
+                                         guint keysym,
+                                         GdkModifierType modifier);
+gboolean        hotkey_map_clear_hotkey(hotkey_map_t *map);
+gboolean        hotkey_map_clear_hotkey_by_action(int action);
+
+/* TODO: API that replaces the uimenu.h stuff dealing with menu items refs,
+ *       for example setting check items while blocking event handlers or
+ *       looking up a hotkey for a UI action to display in a popup menu.
+ */
 #endif

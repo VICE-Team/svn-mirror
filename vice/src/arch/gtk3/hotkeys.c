@@ -1527,7 +1527,6 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     int action_id = ACTION_INVALID;
     guint keysym = 0;
     GdkModifierType mask = 0;
-    ui_menu_item_ref_t *ref;
     hotkey_map_t *map;
 
     s = line;
@@ -1585,19 +1584,29 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
         return true;
     }
 
-    /* register mapping */
-    map = hotkey_map_new();
-    map->action = action_id;
-    map->keysym = keysym;
-    map->modifier = mask;
-    /* set hotkey for menu item, if it exists */
-    ref =  ui_set_menu_item_hotkey_by_action(action_id, keysym, mask);
-    if (ref != NULL) {
-        map->item[PRIMARY_WINDOW] = ref->item[PRIMARY_WINDOW];
-        map->item[SECONDARY_WINDOW] = ref->item[SECONDARY_WINDOW];
+    /* register mapping, first try looking up the item */
+    map = hotkey_map_get_by_action(action_id);
+    if (map != NULL) {
+        debug_gtk3("Got mapping for action %d, updating with hotkey data.",
+                    action_id);
+        map->keysym = keysym;
+        map->modifier = mask;
+    } else {
+        debug_gtk3("Couldn't find mapping for action %d, allocating new mapping.",
+                    action_id);
+        map = hotkey_map_new();
+        map->action = action_id;
+        map->keysym = keysym;
+        map->modifier = mask;
+        hotkey_map_append(map);
     }
-    hotkey_map_append(map);
-    return true;
+
+    /* set hotkey for menu item, if it exists */
+    hotkey_map_setup_hotkey(map);
+#if 0
+    ui_set_menu_item_hotkey_by_action(action_id, keysym, mask);
+#endif
+   return true;
 }
 
 
