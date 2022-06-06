@@ -73,6 +73,7 @@
 #include "drive.h"
 #include "drivetypes.h"
 #include "fliplist.h"
+#include "hotkeymap.h"
 #include "joyport.h"
 #include "joystickmenupopup.h"
 #include "kbddebugwidget.h"

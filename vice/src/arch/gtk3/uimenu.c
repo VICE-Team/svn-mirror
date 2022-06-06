@@ -613,7 +613,7 @@ void ui_menu_connect_accelerator(int action,
     }
 }
 
-
+#if 0
 /** \brief  Get hotkey for action of the given window
  *
  * \param[in]   action_id   action ID
@@ -639,8 +639,8 @@ gboolean ui_get_menu_item_hotkey_by_action(gint action_id,
         return FALSE;
     }
 }
-
-
+#endif
+#if 0
 /** \brief  Get menu item from the Gtk menu bar by action and window index
  *
  * Try to look up a menu item for \a action_id in a window.
@@ -662,8 +662,8 @@ GtkWidget *ui_get_menu_item_by_action_for_window(gint action_id,
     }
     return NULL;
 }
-
-
+#endif
+#if 0
 /** \brief  Look up menu item by hotkey (modifiers + keysym)
  *
  * \param[in]   modifier    Gdk modifier mask
@@ -684,8 +684,8 @@ GtkWidget *ui_get_menu_item_by_hotkey_for_window(gint window_id,
     }
     return NULL;
 }
-
-
+#endif
+#if 0
 /** \brief  Set accelator label according to the related main menu item
  *
  * Doesn't actually add an active accelerator, just the formatted label, the
@@ -710,3 +710,4 @@ void ui_set_menu_item_accel_label(GtkWidget *item, gint action_id)
         gtk_accel_label_set_accel(GTK_ACCEL_LABEL(accel_label), keysym, modifier);
     }
 }
+#endif

@@ -442,3 +442,49 @@ void ui_clear_hotkeys(void)
         }
     }
 }
+
+
+/** \brief  Get runtime menu item for UI action and main window
+ *
+ * \param[in]   action      UI action ID
+ * \param[in]   window_id   window ID (`PRIMARY_WINDOW` or `SECONDARY_WINDOW`)
+ *
+ * \return  menu item or `NULL` when not found
+ */
+GtkWidget *ui_get_menu_item_by_action_for_window(gint action, gint window_id)
+{
+    if (valid_window_id(window_id)) {
+        hotkey_map_t *map = hotkey_map_get_by_action(action);
+        if (map != NULL) {
+            return map->item[window_id];
+        }
+    }
+    return NULL;
+}
+
+
+/** \brief  Set accelerator label to the hotkey associated with UI action
+ *
+ * Look up \a action and if found set the accelerator label of \a item to the
+ * hotkey defined for \a action, if the action is not found the accelerator
+ * label will be cleared.
+ * This allows context menus to display an accelerator next to an item. Only
+ * sets the label of a menu item, no action handler is set for the item.
+ *
+ * \param[in]   item    runtime menu item
+ * \param[in]   action  UI action ID
+ */
+void ui_set_menu_item_accel_label(GtkWidget *item, int action)
+{
+    const hotkey_map_t *map;
+    GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
+
+    map = hotkey_map_get_by_action(action);
+    if (map != NULL) {
+        gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label),
+                                  map->keysym,
+                                  map->modifier);
+    } else {
+        gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+    }
+}

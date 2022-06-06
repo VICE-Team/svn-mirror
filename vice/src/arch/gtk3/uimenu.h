@@ -69,18 +69,27 @@ gboolean    ui_menu_remove_accel(guint keysym, GdkModifierType modifier);
 
 
 /* TODO: The following should be reimplented in hotkeymap.c: */
+#if 0
 gboolean ui_get_menu_item_hotkey_by_action(gint action_id,
                                            guint *keysym,
                                            GdkModifierType *modifier);
+#endif
+#if 0
 GtkWidget *ui_get_menu_item_by_action_for_window(gint action_id,
                                                  gint window_id);
+#endif
+#if 0
 GtkWidget *ui_get_menu_item_by_action(gint action_id);
+#endif
 
+#if 0
 void ui_set_menu_item_accel_label(GtkWidget *item, gint action_id);
-
+#endif
+#if 0
 GtkWidget *ui_get_menu_item_by_hotkey_for_window(gint window_id,
                                                  guint keysym,
                                                  GdkModifierType modifier);
+#endif
 /* ... until here ;) */
 
 
