@@ -28,8 +28,11 @@
 
 #include <gtk/gtk.h>
 #include "lib.h"
+#include "log.h"
 #include "ui.h"
 #include "uiactions.h"
+#include "uimenu.h"
+#include "uitypes.h"
 
 #include "hotkeymap.h"
 
@@ -44,6 +47,22 @@ static hotkey_map_t *maps_tail = NULL;
 static int maps_count = 0;
 
 
+/** \brief  Check if window ID is valid
+ *
+ * Check if \a window_id is either #PRIMARY_WINDOW or #SECONDARY_WINDOW.
+ *
+ * Logs an error if \a window_id is invalid.
+ *
+ * \param[in]   window_id   window ID
+ */
+static gboolean valid_window_id(gint window_id)
+{
+    if (window_id != PRIMARY_WINDOW && window_id != SECONDARY_WINDOW) {
+        log_error(LOG_ERR, "Invalid window ID of %d.", window_id);
+        return FALSE;
+    }
+    return TRUE;
+}
 
 /** \brief  Free memory used by all hotkey maps */
 void hotkey_map_shutdown(void)
@@ -101,6 +120,7 @@ void hotkey_map_clear(hotkey_map_t *map)
     map->action = ACTION_NONE;
     map->item[PRIMARY_WINDOW] = NULL;
     map->item[SECONDARY_WINDOW] = NULL;
+    map->decl = NULL;
     map->next = NULL;
     map->prev = NULL;
 }
@@ -261,4 +281,147 @@ gchar *hotkey_map_get_accel_label(const hotkey_map_t *map)
         return gtk_accelerator_get_label(map->keysym, map->modifier);
     }
     return NULL;
+}
+
+
+GtkWidget *hotkey_map_get_menu_item_by_hotkey_for_window(gint window_id,
+                                                         guint keysym,
+                                                         GdkModifierType modifier)
+{
+    if (valid_window_id(window_id)) {
+        hotkey_map_t *map = hotkey_map_get_by_hotkey(keysym, modifier);
+        if (map != NULL) {
+            return map->item[window_id];
+        }
+    }
+    return NULL;
+}
+
+
+/** \brief  Clear accelerator from runtime menu item
+ *
+ * \param[in]   item    runtime menu item
+ */
+static void clear_menu_item_accel(GtkWidget *item)
+{
+    GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
+    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), 0, 0);
+}
+
+
+/** \brief  Clear hotkey from map and its associated actions and or items
+ *
+ * \param[in]   map hotkey map
+ *
+ * \return  `TRUE` on success
+ */
+gboolean hotkey_map_clear_hotkey(hotkey_map_t *map)
+{
+    gboolean result;
+
+    if (map->keysym == 0) {
+        /* No hotkey to remove */
+        return FALSE;
+    }
+    if (map->item[PRIMARY_WINDOW] != NULL) {
+        clear_menu_item_accel(map->item[PRIMARY_WINDOW]);
+    }
+    if (map->item[SECONDARY_WINDOW] != NULL) {
+        clear_menu_item_accel(map->item[SECONDARY_WINDOW]);
+    }
+    result = ui_menu_remove_accel(map->keysym, map->modifier);
+    map->keysym = 0;
+    map->modifier = 0;
+    return result;
+}
+
+/** \brief  Clear hotkey from map and its associated actions and or items,
+ *          using action ID to look up the map
+ *
+ * \param[in]   action  UI action ID
+ *
+ * \return  `TRUE` on success
+ */
+gboolean hotkey_map_clear_hotkey_by_action(int action)
+{
+    hotkey_map_t *map = hotkey_map_get_by_action(action);
+
+    if (map != NULL) {
+        return hotkey_map_clear_hotkey(map);
+    } else {
+        return FALSE;
+    }
+}
+
+
+/** \brief  Set accelerator for menu item
+ *
+ * \param[in]   item    runtime menu item
+ * \param[in]   map     hotkey map
+ *
+ * \note    This only sets the \a item's accelerator, it does not connect any
+ *          handler, the handler is set up during menu creation in uimenu.c.
+ */
+static void set_menu_item_accel_via_map(GtkWidget *item, hotkey_map_t *map)
+{
+    GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
+    gtk_accel_label_set_accel(GTK_ACCEL_LABEL(label), map->keysym, map->modifier);
+}
+
+
+/** \brief  Set up handler for the hotkey and menu item accelerators if needed
+ *
+ * Sets up a closure to trigger a UI action for the hotkey and sets the menu
+ * item(s) accelerators if there are any menu items associated with the action.
+ *
+ * \param[in]   map hotkey map
+ *
+ * \return  `TRUE` on success
+ */
+gboolean hotkey_map_setup_hotkey(hotkey_map_t *map)
+{
+    gboolean result = FALSE;
+
+    /* disconnect accelerator for hotkey, if any */
+    ui_menu_remove_accel(map->keysym, map->modifier);
+
+    /* setup gclosure to handle accelerator */
+    ui_menu_connect_accelerator(map->action,
+                                map->keysym,
+                                map->modifier,
+                                map->decl->unlocked);
+
+    /* set accelerator label for primary window */
+    if (map->item[PRIMARY_WINDOW] != NULL) {
+        set_menu_item_accel_via_map(map->item[PRIMARY_WINDOW], map);
+        result = TRUE;
+    }
+    /* set accelerator label for secondary window */
+    if (map->item[SECONDARY_WINDOW] != NULL) {
+        set_menu_item_accel_via_map(map->item[SECONDARY_WINDOW], map);
+    }
+    return result;
+}
+
+
+/** \brief  Remove old hotkey and set new hotkey
+ *
+ * \param[in]   map         hotkey map
+ * \param[in]   keysym      Gdk keysym
+ * \param[in]   modifier    Gdk modifier mask
+ *
+ * \return  `TRUE` on success
+ */
+gboolean hotkey_map_update_hotkey(hotkey_map_t *map,
+                                  guint keysym,
+                                  GdkModifierType modifier)
+{
+    /* remove old accelerator */
+    ui_menu_remove_accel(map->keysym, map->modifier);
+
+    /* set new accelerator */
+    map->keysym = keysym;
+    map->modifier = modifier;
+
+    return hotkey_map_setup_hotkey(map);
 }

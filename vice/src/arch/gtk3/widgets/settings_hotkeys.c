@@ -517,6 +517,118 @@ static gboolean remove_treeview_hotkey(const gchar *accel)
 }
 
 
+/** \brief  Set/update hotkey in accelerator group, connect to item(s), if any
+ *
+ * \param[in]   action  UI action ID
+ */
+static void dialog_accept_handler(int action)
+{
+    gchar *accel;
+
+    accel = gtk_accelerator_get_label(hotkey_keysym, hotkey_mask);
+    debug_gtk3("Setting accelerator: %s (keysym: %04x, mask: %04x).",
+               accel, hotkey_keysym, hotkey_mask);
+
+    /* Look up item for new hotkey and remove the hotkey from that
+     * action/menu item.
+     *
+     * TODO:    Refactor to use hotkey_map_t.
+     *
+     * XXX: somehow the mask gets OR'ed with $2000, which is a reserved
+     *      flag, so we mask out any reserved bits:
+     */
+#if 0
+    ref = ui_menu_item_ref_by_hotkey(hotkey_keysym,
+                                     hotkey_mask & accepted_mods);
+    if (ref != NULL) {
+        /* TODO: refactor this a bit: */
+        debug_gtk3("Removing old hotkey: label: %s, action: %s.",
+                   ref->decl->label,
+                   ui_action_get_name(ref->decl->action_id));
+        /* remove accelerator from group and menu item(s) */
+        ui_menu_remove_accel_via_item_ref(ref);
+        /* remove accelerator from table */
+        if (!remove_treeview_hotkey(accel)) {
+            /* since we found the menu item via the hotkey, the call
+             * shouldn't have failed */
+            debug_gtk3("Failed to remove hotkey from table!");
+        }
+    }
+#endif
+    /* Look for action that already uses the new hotkey, if present */
+    hotkey_map_t *map = hotkey_map_get_by_hotkey(hotkey_keysym,
+                                                 hotkey_mask & accepted_mods);
+    if (map == NULL) {
+        debug_gtk3("No previously registered action for hotkey %s. OK.", accel);
+    } else if (map->keysym != 0) {
+        debug_gtk3("Removing old accelerator: %s from action %d (%s)",
+                   accel, map->action, ui_action_get_name(map->action));
+        hotkey_map_clear_hotkey(map);
+        remove_treeview_hotkey(accel);
+    }
+
+    map = hotkey_map_get_by_action(action);
+    if (map == NULL) {
+        debug_gtk3("Error: Couldn't find hotkey map for action %d!", action);
+        g_free(accel);
+        return;
+    }
+    debug_gtk3("Setting new accelerator %s for action %d (%s)",
+               accel, action, ui_action_get_name(action));
+    if (!hotkey_map_update_hotkey(map, hotkey_keysym, hotkey_mask & accepted_mods)) {
+        debug_gtk3("Error: Failed to update hotkey!");
+    } else {
+        update_treeview_hotkey(accel);
+    }
+    g_free(accel);
+
+#if 0
+    debug_gtk3("Looking up action '%s'.", ui_action_get_name(action));
+    ref = ui_menu_item_ref_by_action(action);
+    if (ref != NULL) {
+        debug_gtk3("FOUND.");
+        /* remove old accelerator(s), set new accelerator(s) and connect
+         * closure(s) */
+        ui_menu_update_accel_via_item_ref(ref,
+                                          hotkey_keysym,
+                                          hotkey_mask & accepted_mods);
+        /* update treeview */
+        update_treeview_hotkey(accel);
+    } else {
+        debug_gtk3("NOT FOUND.");
+    }
+
+    if (accel != NULL) {
+        g_free(accel);
+    }
+#endif
+}
+
+
+/** \brief  Clear hotkey from accelerator group and item(s), if any
+ *
+ * \param[in]   action  UI action ID
+ */
+static void dialog_clear_handler(int action)
+{
+    if (hotkey_map_clear_hotkey_by_action(action)) {
+        update_treeview_hotkey(NULL);
+    }
+
+#if 0
+    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action);
+    if (ref != NULL) {
+        debug_gtk3("Got item ref.");
+        /* remove old accelerator */
+        ui_menu_remove_accel_via_item_ref(ref);
+        /* update treeview */
+        update_treeview_hotkey(NULL);
+    }
+#endif
+}
+
+
+
 /** \brief  Handler for the 'response' event of the dialog
  *
  * \param[in]   dialog      hotkey dialog
@@ -525,88 +637,26 @@ static gboolean remove_treeview_hotkey(const gchar *accel)
  */
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
-    gchar *accel;
-    ui_menu_item_ref_t *ref;
-    int action_id = GPOINTER_TO_INT(data);
+    int action = GPOINTER_TO_INT(data);
 
     switch (response_id) {
 
         case GTK_RESPONSE_ACCEPT:
             debug_gtk3("Response ID %d: Accept '%s'",
                        response_id,
-                       ui_action_get_name(action_id));
+                       ui_action_get_name(action));
 
             if (hotkey_keysym == 0) {
                 debug_gtk3("User clicked accepted/pressed enter without having set a hotkey.");
                 break;
             }
-
-            accel = gtk_accelerator_get_label(hotkey_keysym, hotkey_mask);
-            debug_gtk3("Setting accelerator: %s.", accel);
-
-            debug_gtk3("hotkey keysym: %04x, mask: %04x.",
-                       hotkey_keysym, hotkey_mask);
-
-            /* lookup item for new hotkey and remove the hotkey
-             * from that action/menu item */
-            /* XXX: somehow the mask gets OR'ed with $2000, which is a reserved
-             *      flag, so we mask out any reserved bits:
-             */
-            ref = ui_menu_item_ref_by_hotkey(hotkey_keysym,
-                                             hotkey_mask & accepted_mods);
-            if (ref != NULL) {
-                /* TODO: refactor this a bit: */
-                debug_gtk3("Removing old hotkey: label: %s, action: %s.",
-                           ref->decl->label,
-                           ui_action_get_name(ref->decl->action_id));
-                /* remove accelerator from group and menu item(s) */
-                ui_menu_remove_accel_via_item_ref(ref);
-                /* remove accelerator from table */
-                if (!remove_treeview_hotkey(accel)) {
-                    /* since we found the menu item via the hotkey, the call
-                     * shouldn't have failed */
-                    debug_gtk3("Failed to remove hotkey from table!");
-                }
-            }
-
-
-            debug_gtk3("Looking up action '%s'.", ui_action_get_name(action_id));
-            ref = ui_menu_item_ref_by_action(action_id);
-            if (ref != NULL) {
-                debug_gtk3("FOUND.");
-                /* remove old accelerator(s), set new accelerator(s) and connect
-                 * closure(s) */
-                ui_menu_update_accel_via_item_ref(ref,
-                                                  hotkey_keysym,
-                                                  hotkey_mask & accepted_mods);
-                /* update treeview */
-                update_treeview_hotkey(accel);
-            } else {
-                debug_gtk3("NOT FOUND.");
-            }
-
-            if (accel != NULL) {
-                g_free(accel);
-            }
+            dialog_accept_handler(action);
             break;
 
         case RESPONSE_CLEAR:
             debug_gtk3("Response ID %d: Clear '%s'",
-                       response_id, ui_action_get_name(action_id));
-
-            ref = ui_menu_item_ref_by_action(action_id);
-#if 0
-            debug_gtk3("item_vice = %p, item_gtk = %p.",
-                    (void*)item_vice, (void*)item_gtk);
-#endif
-            if (ref != NULL) {
-                debug_gtk3("Got item ref.");
-                /* remove old accelerator */
-                ui_menu_remove_accel_via_item_ref(ref);
-                /* update treeview */
-                update_treeview_hotkey(NULL);
-            }
-
+                       response_id, ui_action_get_name(action));
+            dialog_clear_handler(action);
             break;
 
         case GTK_RESPONSE_CANCEL:       /* fall through */
