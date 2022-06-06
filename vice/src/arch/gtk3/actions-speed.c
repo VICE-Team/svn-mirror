@@ -39,6 +39,7 @@
 
 #include "basedialogs.h"
 #include "debug_gtk3.h"
+#include "hotkeymap.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
@@ -251,30 +252,19 @@ static void speed_cpu_custom_action(void)
 {
     GtkWidget *widget;
 
-    /* TODO: The following check should be moved into the wrapper function[1]
-     *       that triggers an action from a menu item. If we trigger this
-     *       action from elsewhere in the code the item's check state will
-     *       probably be false and the dialog won't show.
-     *
-     * [1] That function is currently a TODO as well =)
-     */
-
-    /* only show the dialog when the radio/check button is toggled ON */
     widget = ui_get_menu_item_by_action_for_window(ACTION_SPEED_CPU_CUSTOM,
                                                    ui_get_main_window_index());
     if (widget != NULL) {
-//        if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-            int curval = 0;
+        int curval = 0;
 
-            resources_get_int("Speed", &curval);
+        resources_get_int("Speed", &curval);
 
-            vice_gtk3_integer_input_box(
-                    speed_cpu_custom_callback,
-                    "Set new emulation speed",
-                    "Enter a new custom emulation speed",
-                    curval,
-                    1, 100000);
-        //}
+        vice_gtk3_integer_input_box(
+                speed_cpu_custom_callback,
+                "Set new emulation speed",
+                "Enter a new custom emulation speed",
+                curval,
+                1, 100000);
     } else {
         debug_gtk3("Failed to get menu item for action %d (%s).",
                    ACTION_SPEED_CPU_CUSTOM,

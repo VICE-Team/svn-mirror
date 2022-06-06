@@ -39,6 +39,7 @@
 #include "vice_gtk3.h"
 #include "basedialogs.h"
 #include "drive.h"
+#include "hotkeymap.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "machine.h"
