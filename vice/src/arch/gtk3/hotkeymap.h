@@ -76,6 +76,8 @@ gboolean        hotkey_map_update_hotkey(hotkey_map_t *map,
 gboolean        hotkey_map_clear_hotkey(hotkey_map_t *map);
 gboolean        hotkey_map_clear_hotkey_by_action(int action);
 
+void ui_clear_hotkeys(void);
+
 /* TODO: API that replaces the uimenu.h stuff dealing with menu items refs,
  *       for example setting check items while blocking event handlers or
  *       looking up a hotkey for a UI action to display in a popup menu.

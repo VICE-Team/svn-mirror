@@ -149,14 +149,14 @@ static GtkWidget *accepted_mods_grid;
 #endif
 
 
-/** \brief  Clear all hotkeys from the menus and the view
+/** \brief  Clear all hotkeys and update the view
  */
 static void clear_all_hotkeys(void)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
 
-    ui_clear_menu_hotkeys();
+    ui_clear_hotkeys();
 
     model = gtk_tree_view_get_model(GTK_TREE_VIEW(hotkeys_view));
     if (gtk_tree_model_get_iter_first(model, &iter)) {
@@ -1145,7 +1145,7 @@ static void on_context_clear_activate(GtkWidget *unused, gpointer treepath)
         gint action_id;
 
         gtk_tree_model_get(model, &iter, COL_ACTION_ID, &action_id, -1);
-        if (ui_menu_remove_accel_via_action(action_id)) {
+        if (hotkey_map_clear_hotkey_by_action(action_id)) {
             update_treeview_hotkey(NULL);   /* clear hotkey of selected row */
         }
     }
