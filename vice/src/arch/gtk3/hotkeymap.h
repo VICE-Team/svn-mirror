@@ -64,7 +64,7 @@ void            hotkey_map_delete_by_hotkey(guint keysym, GdkModifierType modifi
 hotkey_map_t *  hotkey_map_get_by_action(int action);
 hotkey_map_t *  hotkey_map_get_by_hotkey(guint keysym, GdkModifierType modifier);
 gchar *         hotkey_map_get_accel_label(const hotkey_map_t *map);
-
+gchar *         hotkey_map_get_accel_label_for_action(int action);
 GtkWidget *     hotkey_map_get_menu_item_by_hotkey_for_window(gint window_id,
                                                               guint keysym,
                                                               GdkModifierType modifier);
@@ -84,8 +84,15 @@ void ui_clear_hotkeys(void);
  *       looking up a hotkey for a UI action to display in a popup menu.
  */
 
-GtkWidget *     ui_get_menu_item_by_action_for_window(gint action,
+GtkWidget * ui_get_menu_item_by_action_for_window(gint action,
                                                       gint window_id);
-void            ui_set_menu_item_accel_label(GtkWidget *item, int action);
+void        ui_set_menu_item_accel_label(GtkWidget *item, gint action);
 
+void        ui_set_check_menu_item_blocked(GtkWidget *item,
+                                           gboolean state);
+void        ui_set_check_menu_item_blocked_by_action(gint action_id,
+                                                     gboolean state);
+void        ui_set_check_menu_item_blocked_by_action_for_window(gint action_id,
+                                                                gint window_id,
+                                                                gboolean state);
 #endif

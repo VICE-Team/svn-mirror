@@ -532,30 +532,9 @@ static void dialog_accept_handler(int action)
     /* Look up item for new hotkey and remove the hotkey from that
      * action/menu item.
      *
-     * TODO:    Refactor to use hotkey_map_t.
-     *
      * XXX: somehow the mask gets OR'ed with $2000, which is a reserved
      *      flag, so we mask out any reserved bits:
      */
-#if 0
-    ref = ui_menu_item_ref_by_hotkey(hotkey_keysym,
-                                     hotkey_mask & accepted_mods);
-    if (ref != NULL) {
-        /* TODO: refactor this a bit: */
-        debug_gtk3("Removing old hotkey: label: %s, action: %s.",
-                   ref->decl->label,
-                   ui_action_get_name(ref->decl->action_id));
-        /* remove accelerator from group and menu item(s) */
-        ui_menu_remove_accel_via_item_ref(ref);
-        /* remove accelerator from table */
-        if (!remove_treeview_hotkey(accel)) {
-            /* since we found the menu item via the hotkey, the call
-             * shouldn't have failed */
-            debug_gtk3("Failed to remove hotkey from table!");
-        }
-    }
-#endif
-    /* Look for action that already uses the new hotkey, if present */
     hotkey_map_t *map = hotkey_map_get_by_hotkey(hotkey_keysym,
                                                  hotkey_mask & accepted_mods);
     if (map == NULL) {
@@ -581,29 +560,7 @@ static void dialog_accept_handler(int action)
         update_treeview_hotkey(accel);
     }
     g_free(accel);
-
-#if 0
-    debug_gtk3("Looking up action '%s'.", ui_action_get_name(action));
-    ref = ui_menu_item_ref_by_action(action);
-    if (ref != NULL) {
-        debug_gtk3("FOUND.");
-        /* remove old accelerator(s), set new accelerator(s) and connect
-         * closure(s) */
-        ui_menu_update_accel_via_item_ref(ref,
-                                          hotkey_keysym,
-                                          hotkey_mask & accepted_mods);
-        /* update treeview */
-        update_treeview_hotkey(accel);
-    } else {
-        debug_gtk3("NOT FOUND.");
-    }
-
-    if (accel != NULL) {
-        g_free(accel);
-    }
-#endif
 }
-
 
 /** \brief  Clear hotkey from accelerator group and item(s), if any
  *
@@ -614,20 +571,7 @@ static void dialog_clear_handler(int action)
     if (hotkey_map_clear_hotkey_by_action(action)) {
         update_treeview_hotkey(NULL);
     }
-
-#if 0
-    ui_menu_item_ref_t *ref = ui_menu_item_ref_by_action(action);
-    if (ref != NULL) {
-        debug_gtk3("Got item ref.");
-        /* remove old accelerator */
-        ui_menu_remove_accel_via_item_ref(ref);
-        /* update treeview */
-        update_treeview_hotkey(NULL);
-    }
-#endif
 }
-
-
 
 /** \brief  Handler for the 'response' event of the dialog
  *

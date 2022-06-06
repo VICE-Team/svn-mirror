@@ -40,6 +40,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#include "hotkeymap.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
@@ -129,19 +130,13 @@ static void mouse_grab_toggle_action(void)
     mouse = !mouse;
 
     if (mouse) {
-        ui_menu_item_ref_t *ref;
-        gchar *name;
-
-        ref =  ui_menu_item_ref_by_action(ACTION_MOUSE_GRAB_TOGGLE);
-        name = gtk_accelerator_get_label(ref->keysym, ref->modifier);
+        gchar *name = hotkey_map_get_accel_label_for_action(ACTION_MOUSE_GRAB_TOGGLE);
         g_snprintf(title, sizeof(title),
-                "VICE (%s) (Use %s to disable mouse grab)",
-                machine_get_name(), name);
+                   "VICE (%s) (Use %s to disable mouse grab)",
+                   machine_get_name(), name);
         g_free(name);
     } else {
-       g_snprintf(title, sizeof(title),
-                "VICE (%s)",
-                machine_get_name());
+       g_snprintf(title, sizeof(title), "VICE (%s)", machine_get_name());
     }
 
     window = ui_get_main_window_by_index(PRIMARY_WINDOW);

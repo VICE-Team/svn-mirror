@@ -36,6 +36,9 @@
 
 #include "vice.h"
 
+#include <gtk/gtk.h>
+#include <stdbool.h>
+
 /** \brief  Menu item types
  *
  * The submenu types needs special handling, no more callbacks to create the

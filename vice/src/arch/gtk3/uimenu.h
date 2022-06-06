@@ -38,14 +38,6 @@
 /*
  * Public functions
  */
-/* TODO: Remove... */
-ui_menu_item_ref_t *ui_menu_item_ref_by_action(gint action_id);
-ui_menu_item_ref_t *ui_menu_item_ref_by_hotkey(guint keysym,
-                                               GdkModifierType modifier);
-ui_menu_item_ref_t *ui_menu_item_ref_by_index (gint index);
-gint                ui_menu_item_ref_count    (void);
-/* ... until here */
-
 
 GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
 
@@ -53,16 +45,15 @@ GtkWidget * ui_menu_add(GtkWidget *menu,
                         const ui_menu_item_t *items,
                         gint window_id);
 
-/* TODO: Reimplement in hotkeymap.c: */
-void        ui_set_check_menu_item_blocked(GtkWidget *item,
-                                           gboolean state);
-void        ui_set_check_menu_item_blocked_by_action(gint action_id,
-                                                     gboolean state);
-void        ui_set_check_menu_item_blocked_by_action_for_window(gint action_id,
-                                                                gint window_id,
-                                                                gboolean state);
-/* ... until here */
-
+/* TODO: Move to hotkeymap.{c,h}
+ *
+ * Since we're manipulating the accelerators and their group in hotkeymap.c,
+ * it makes sense to move the global accelerator group and its handlers and
+ * closures to hotkeymap.c as well.
+ *
+ * Should lead to no more interdependencies between uimenu and hotkeymap,
+ * hopefully ;)
+ */
 
 void        ui_menu_init_accelerators(GtkWidget *window);
 gboolean    ui_menu_remove_accel(guint keysym, GdkModifierType modifier);
