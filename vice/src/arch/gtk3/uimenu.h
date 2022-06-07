@@ -31,34 +31,12 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 #include "uitypes.h"
 
-/*
- * Public functions
- */
+GtkWidget *ui_menu_submenu_create(GtkWidget *bar, const char *label);
+GtkWidget *ui_menu_add(GtkWidget *menu,
+                       const ui_menu_item_t *items,
+                       gint window_id);
 
-GtkWidget * ui_menu_submenu_create(GtkWidget *bar, const char *label);
-
-GtkWidget * ui_menu_add(GtkWidget *menu,
-                        const ui_menu_item_t *items,
-                        gint window_id);
-
-/* TODO: Move to hotkeymap.{c,h}
- *
- * Since we're manipulating the accelerators and their group in hotkeymap.c,
- * it makes sense to move the global accelerator group and its handlers and
- * closures to hotkeymap.c as well.
- *
- * Should lead to no more interdependencies between uimenu and hotkeymap,
- * hopefully ;)
- */
-
-void        ui_menu_init_accelerators(GtkWidget *window);
-gboolean    ui_menu_remove_accel(guint keysym, GdkModifierType modifier);
-void        ui_menu_connect_accelerator(int action,
-                                        guint keysym,
-                                        GdkModifierType modifier,
-                                        bool unlocked);
 #endif

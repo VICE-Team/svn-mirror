@@ -28,15 +28,10 @@
 #define VICE_HOTKEYMAP_H
 
 #include <gtk/gtk.h>
-
 #include "uitypes.h"
 
 
-/** \brief  Object mapping hotkeys to UI actions and menu items
- *
- * We might be able to use this as well for storing all the menu item
- * references so we won't need #ui_menu_item_ref_t anymore, right now we have
- * a bit of duplication.
+/** \brief  Object mapping UI actions to hotkeys and menu items
  */
 typedef struct hotkey_map_s {
     guint                   keysym;     /**< Gdk keysym */
@@ -68,7 +63,6 @@ gchar *         hotkey_map_get_accel_label_for_action(int action);
 GtkWidget *     hotkey_map_get_menu_item_by_hotkey_for_window(gint window_id,
                                                               guint keysym,
                                                               GdkModifierType modifier);
-
 gboolean        hotkey_map_setup_hotkey(hotkey_map_t *map);
 gboolean        hotkey_map_update_hotkey(hotkey_map_t *map,
                                          guint keysym,
@@ -76,13 +70,6 @@ gboolean        hotkey_map_update_hotkey(hotkey_map_t *map,
 gboolean        hotkey_map_clear_hotkey(hotkey_map_t *map);
 gboolean        hotkey_map_clear_hotkey_by_action(int action);
 
-
-void ui_clear_hotkeys(void);
-
-/* TODO: API that replaces the uimenu.h stuff dealing with menu items refs,
- *       for example setting check items while blocking event handlers or
- *       looking up a hotkey for a UI action to display in a popup menu.
- */
 
 GtkWidget * ui_get_menu_item_by_action_for_window(gint action,
                                                       gint window_id);
@@ -95,4 +82,10 @@ void        ui_set_check_menu_item_blocked_by_action(gint action_id,
 void        ui_set_check_menu_item_blocked_by_action_for_window(gint action_id,
                                                                 gint window_id,
                                                                 gboolean state);
+
+void        ui_init_accelerators(GtkWidget *window);
+gboolean    ui_remove_accelerator(guint keysym, GdkModifierType modifier);
+
+void        ui_clear_hotkeys(void);
+
 #endif
