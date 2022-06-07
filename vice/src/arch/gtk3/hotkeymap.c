@@ -31,12 +31,17 @@
 #include "log.h"
 #include "ui.h"
 #include "uiactions.h"
-#include "uimenu.h"
 #include "uitypes.h"
 #include "vice_gtk3.h"
 
 #include "hotkeymap.h"
 
+
+/** \brief  Reference to the accelerator group
+ *
+ * Global accelerator group used for all accelerators in UI.
+ */
+static GtkAccelGroup *accel_group = NULL;
 
 /** \brief  Mappings list head */
 static hotkey_map_t *maps_head = NULL;
@@ -64,6 +69,89 @@ static gboolean valid_window_id(gint window_id)
     }
     return TRUE;
 }
+
+
+/** \brief  Callback that forwards accelerator codes
+ *
+ * \param[in]       accel_grp       accelerator group (unused)
+ * \param[in]       acceleratable   ? (unused)
+ * \param[in]       keyval          GDK keyval (unused)
+ * \param[in]       modifier        GDK key modifier(s) (unused)
+ * \param[in]       action_id       UI action ID
+ */
+static gboolean handle_accelerator(GtkAccelGroup *accel_grp,
+                               GObject *acceleratable,
+                               guint keyval,
+                               GdkModifierType modifier,
+                               gpointer action_id)
+{
+    debug_gtk3("Called with action ID %d", GPOINTER_TO_INT(action_id));
+    ui_action_trigger(GPOINTER_TO_INT(action_id));
+    return TRUE;
+}
+
+/** \brief  Set up a closure to trigger UI action for a hotkey
+ *
+ * Create a closure to trigger UI \a action for \a keysym and \a modifier.
+ * This way hotkeys will work in fullscreen and also when there's no menu item
+ * associated with \a action.
+ *
+ * \param[in]   action      UI action ID
+ * \param[in]   keysym      Gdk keysym
+ * \param[in]   modifier    Gdk modifier mask
+ * \param[in]   unlocked    connect accelator non-lockeding
+ */
+static void connect_accelerator(int action,
+                                guint keysym,
+                                GdkModifierType modifier,
+                                bool unlocked)
+{
+    GClosure *closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
+                                       GINT_TO_POINTER(action),
+                                       NULL);
+
+    if (unlocked) {
+        gtk_accel_group_connect(accel_group,
+                                keysym,
+                                modifier,
+                                GTK_ACCEL_MASK,
+                                closure);
+    } else {
+        vice_locking_gtk_accel_group_connect(accel_group,
+                                             keysym,
+                                             modifier,
+                                             GTK_ACCEL_MASK,
+                                             closure);
+    }
+}
+
+
+/** \brief  Remove accelerator from global accelerator group
+ *
+ * \param[in]   keysym      Gdk keysym
+ * \param[in]   modifier    Gdk modifier mask
+ *
+ * \return  `TRUE` on success
+ */
+gboolean ui_remove_accelerator(guint keysym, GdkModifierType modifier)
+{
+    return gtk_accel_group_disconnect_key(accel_group, keysym, modifier);
+}
+
+
+/** \brief  Create accelerator group and add it to \a window
+ *
+ * \param[in]       window  top level window
+ */
+void ui_init_accelerators(GtkWidget *window)
+{
+    if (accel_group == NULL) {
+        accel_group = gtk_accel_group_new();
+    }
+    gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
+}
+
+
 
 /** \brief  Free memory used by all hotkey maps */
 void hotkey_map_shutdown(void)
@@ -355,7 +443,7 @@ gboolean hotkey_map_clear_hotkey(hotkey_map_t *map)
     if (map->item[SECONDARY_WINDOW] != NULL) {
         clear_menu_item_accel(map->item[SECONDARY_WINDOW]);
     }
-    result = ui_menu_remove_accel(map->keysym, map->modifier);
+    result = ui_remove_accelerator(map->keysym, map->modifier);
     map->keysym = 0;
     map->modifier = 0;
     return result;
@@ -409,13 +497,13 @@ gboolean hotkey_map_setup_hotkey(hotkey_map_t *map)
     gboolean result = FALSE;
 
     /* disconnect accelerator for hotkey, if any */
-    ui_menu_remove_accel(map->keysym, map->modifier);
+    ui_remove_accelerator(map->keysym, map->modifier);
 
     /* setup gclosure to handle accelerator */
-    ui_menu_connect_accelerator(map->action,
-                                map->keysym,
-                                map->modifier,
-                                map->decl->unlocked);
+    connect_accelerator(map->action,
+                        map->keysym,
+                        map->modifier,
+                        map->decl->unlocked);
 
     /* set accelerator label for primary window */
     if (map->item[PRIMARY_WINDOW] != NULL) {
@@ -443,7 +531,7 @@ gboolean hotkey_map_update_hotkey(hotkey_map_t *map,
                                   GdkModifierType modifier)
 {
     /* remove old accelerator */
-    ui_menu_remove_accel(map->keysym, map->modifier);
+    ui_remove_accelerator(map->keysym, map->modifier);
 
     /* set new accelerator */
     map->keysym = keysym;
@@ -468,6 +556,7 @@ void ui_clear_hotkeys(void)
         }
     }
 }
+
 
 
 /** \brief  Get runtime menu item for UI action and main window
@@ -580,3 +669,6 @@ void ui_set_check_menu_item_blocked_by_action_for_window(gint action,
         }
     }
 }
+
+
+

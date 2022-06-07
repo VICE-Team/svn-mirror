@@ -49,10 +49,6 @@
 
 #include "uimenu.h"
 
-/** \brief  Reference to the accelerator group
- */
-static GtkAccelGroup *accel_group = NULL;
-
 
 /** \brief  Create an empty submenu and add it to a menu bar
  *
@@ -89,30 +85,9 @@ static void on_menu_item_destroy(GtkWidget *item, gpointer unused)
         guint mask;
 
         gtk_accel_label_get_accel(label, &keysym, &mask);
-        gtk_accel_group_disconnect_key(accel_group, keysym, mask);
+        ui_remove_accelerator(keysym, mask);
     }
 }
-
-
-/** \brief  Callback that forwards accelerator codes
- *
- * \param[in]       accel_grp       accelerator group (unused)
- * \param[in]       acceleratable   ? (unused)
- * \param[in]       keyval          GDK keyval (unused)
- * \param[in]       modifier        GDK key modifier(s) (unused)
- * \param[in]       action_id       UI action ID
- */
-static gboolean handle_accelerator(GtkAccelGroup *accel_grp,
-                               GObject *acceleratable,
-                               guint keyval,
-                               GdkModifierType modifier,
-                               gpointer action_id)
-{
-    debug_gtk3("Called with action ID %d", GPOINTER_TO_INT(action_id));
-    ui_action_trigger(GPOINTER_TO_INT(action_id));
-    return TRUE;
-}
-
 
 /** \brief  Handler for the 'activate' event of a menu item
  *
@@ -126,7 +101,6 @@ static void on_menu_item_activate(GtkWidget *item, gpointer action_id)
     debug_gtk3("Called with action ID %d", GPOINTER_TO_INT(action_id));
     ui_action_trigger(GPOINTER_TO_INT(action_id));
 }
-
 
 /** \brief  Handler for the 'toggled' event of a menu item
  *
@@ -149,7 +123,6 @@ static void on_menu_item_toggled(GtkWidget *item, gpointer action_id)
         ui_action_trigger(id);
     }
 }
-
 
 
 /** \brief  Add menu \a items to \a menu
@@ -299,63 +272,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, const ui_menu_item_t *items, gint window
 }
 
 
-/** \brief  Create accelerator group and add it to \a window
- *
- * \param[in]       window  top level window
- */
-void ui_menu_init_accelerators(GtkWidget *window)
-{
-    if (accel_group == NULL) {
-        accel_group = gtk_accel_group_new();
-    }
-    gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
-}
 
 
-/** \brief  Remove accelerator from global accelerator group
- *
- * \param[in]   keysym      Gdk keysym
- * \param[in]   modifier    Gdk modifier mask
- *
- * \return  `TRUE` on success
- */
-gboolean ui_menu_remove_accel(guint keysym, GdkModifierType modifier)
-{
-    return gtk_accel_group_disconnect_key(accel_group, keysym, modifier);
-}
 
 
-/** \brief  Set up a closure to trigger UI action for a hotkey
- *
- * Create a closure to trigger UI \a action for \a keysym and \a modifier.
- * This way hotkeys will work in fullscreen and also when there's no menu item
- * associated with \a action.
- *
- * \param[in]   action      UI action ID
- * \param[in]   keysym      Gdk keysym
- * \param[in]   modifier    Gdk modifier mask
- * \param[in]   unlocked    connect accelator non-lockeding
- */
-void ui_menu_connect_accelerator(int action,
-                                 guint keysym,
-                                 GdkModifierType modifier,
-                                 bool unlocked)
-{
-    GClosure *closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
-                                       GINT_TO_POINTER(action),
-                                       NULL);
-
-    if (unlocked) {
-        gtk_accel_group_connect(accel_group,
-                                keysym,
-                                modifier,
-                                GTK_ACCEL_MASK,
-                                closure);
-    } else {
-        vice_locking_gtk_accel_group_connect(accel_group,
-                                             keysym,
-                                             modifier,
-                                             GTK_ACCEL_MASK,
-                                             closure);
-    }
-}

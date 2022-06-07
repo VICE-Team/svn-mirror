@@ -1698,7 +1698,7 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
-    ui_menu_init_accelerators(new_window);
+    ui_init_accelerators(new_window);
 
     /* set the dock / taskbar icon */
     icon = get_default_icon();
