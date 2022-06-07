@@ -969,6 +969,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     gchar buffer[256];
     GList *children;
     GList *child;
+    int action;
     int i = GPOINTER_TO_INT(data) & 0xff;
     int drive = GPOINTER_TO_INT(data) >> 8;
 
@@ -1003,8 +1004,11 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                        "Attach disk to drive #%d...",
                        i + DRIVE_UNIT_MIN);
         }
-        debug_gtk3("Setting top item text to '%s'.", buffer);
         gtk_label_set_text(GTK_LABEL(label), buffer);
+
+        /* set hotkey, if any */
+        action = ui_action_id_drive_attach(i + DRIVE_UNIT_MIN, drive);
+        ui_set_menu_item_accel_label(drive_menu_item, action);
     }
 
     /* set "Detach" item label based on dual-drive status */
@@ -1023,8 +1027,11 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                        "Detach disk from drive #%d...",
                        i + DRIVE_UNIT_MIN);
         }
-        debug_gtk3("Setting next item text to '%s'.", buffer);
         gtk_label_set_text(GTK_LABEL(label), buffer);
+
+        /* set hotkey, if any */
+        action = ui_action_id_drive_detach(i + DRIVE_UNIT_MIN, drive);
+        ui_set_menu_item_accel_label(drive_menu_item, action);
     }
 
     g_list_free(children);
@@ -1050,6 +1057,8 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                      G_CALLBACK(trigger_ui_action),
                      GINT_TO_POINTER(reset_ids[i]));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+    /* Set hotkey, if any */
+    ui_set_menu_item_accel_label(drive_menu_item, reset_ids[i]);
 
     /* Add reset to configuration mode for CMD HDs */
     if ((drive_has_buttons(i) & 1) == 1) {
