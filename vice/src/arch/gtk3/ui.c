@@ -2202,7 +2202,6 @@ int ui_init_finalize(void)
 
     /* ui_actions_init() is called in src/main.c */
     ui_actions_set_dispatch(ui_action_dispatch);
-    ui_hotkeys_init();
 
     actions_cartridge_register();
     actions_clipboard_register();
@@ -2219,6 +2218,8 @@ int ui_init_finalize(void)
     actions_settings_register();
     actions_snapshot_register();
     actions_speed_register();
+
+    ui_hotkeys_init();
     return 0;
 }
 
