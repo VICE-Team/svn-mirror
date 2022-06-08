@@ -52,6 +52,7 @@ extern const char *file_chooser_pattern_program[];
 extern const char *file_chooser_pattern_archive[];
 extern const char *file_chooser_pattern_compressed[];
 extern const char *file_chooser_pattern_snapshot[];
+extern const char *file_chooser_pattern_hotkeys[];
 
 extern const ui_file_filter_t file_chooser_filter_all;
 extern const ui_file_filter_t file_chooser_filter_cart;
@@ -63,6 +64,7 @@ extern const ui_file_filter_t file_chooser_filter_program;
 extern const ui_file_filter_t file_chooser_filter_archive;
 extern const ui_file_filter_t file_chooser_filter_compressed;
 extern const ui_file_filter_t file_chooser_filter_snapshot;
+extern const ui_file_filter_t file_chooser_filter_hotkeys;
 
 GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter,
                                           gboolean show_globs);
