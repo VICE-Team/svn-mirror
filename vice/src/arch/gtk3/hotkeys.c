@@ -237,15 +237,11 @@ static const hotkeys_modifier_t hotkeys_modifier_list[] = {
 
 
 
-
-
-
 /** \brief  Path to current hotkey file
  *
  * \note    Free with hotkeys_shutdown() on emulator shutdown.
  */
 static char *hotkeys_file = NULL;
-
 
 /** \brief  Default hotkeys file name
  *
@@ -253,6 +249,22 @@ static char *hotkeys_file = NULL;
  */
 static char *hotkeys_file_default = NULL;
 
+/** \brief  A .vhk file is pending
+ *
+ * When the 'HotkeyFile' resource is initially set the UI hasn't finished
+ * building the menu and registering actions, so trying to parse a hotkeys
+ * file and adding hotkeys for actions will fail. This flag is used to
+ * indicate a hotkey file is pending to be parsed.
+ */
+static bool hotkeys_file_pending = false;
+
+/** \brief  The hotkeys system is initialized
+ *
+ * This flag is used to determine if a new HotkeyFile resource value can be
+ * used to parse a hotkeys file, or if it needs to be marked as pending,
+ * waiting for the UI to be fully initialized.
+ */
+static bool hotkeys_init_done = false;
 
 /** \brief  Log instance for hotkeys
  */
@@ -269,13 +281,9 @@ static bool hotkeys_debug = false;
 /* {{{ VICE resources, command line options and their handlers */
 
 /** \brief  String type resources
- *
- * \note    Make sure "HotkeyFile" remains the first element in the list, the
- *          init code sets the factory value during runtime, using array index
- *          0.
  */
 static resource_string_t resources_string[] = {
-    { "HotkeyFile", NULL, RES_EVENT_NO, NULL,
+    { "HotkeyFile", "", RES_EVENT_NO, NULL,
       &hotkeys_file, hotkeys_file_set, NULL },
     RESOURCE_STRING_LIST_END
 };
@@ -311,8 +319,18 @@ static int hotkeys_file_set(const char *val, void *param)
         return 0;
     }
 
-    log_message(hotkeys_log, "Hotkeys: parsing '%s':", val);
-    ui_hotkeys_parse(val);
+    if (val != NULL && *val != '\0') {
+        if (hotkeys_init_done) {
+            /* UI is properly initialized, directly parse the hotkeys file */
+            log_message(hotkeys_log, "Hotkeys: parsing '%s':", val);
+            ui_hotkeys_parse(val);
+            hotkeys_file_pending = false;
+        } else {
+            /* UI is not yet fully initialized, mark parsing of hotkeys file
+             * pending */
+            hotkeys_file_pending = true;
+        }
+    }
     return 0;
 }
 /* }}} */
@@ -329,11 +347,6 @@ static int hotkeys_file_set(const char *val, void *param)
  */
 int ui_hotkeys_resources_init(void)
 {
-    /* set the default filename */
-    hotkeys_file_default = archdep_default_hotkey_file_name();
-    resources_string[0].factory_value = hotkeys_file_default;
-
-    /* register the resources */
     return resources_register_string(resources_string);
 }
 
@@ -387,7 +400,18 @@ void ui_hotkeys_init(void)
 {
     hotkeys_log = log_open("HOTKEYS");
     log_message(hotkeys_log, "Hotkeys: Initializing.");
-    ui_hotkeys_load_default();
+    /* When we get to there the UI has been initialized */
+    hotkeys_init_done = true;
+
+    if (hotkeys_file == NULL || *hotkeys_file == '\0') {
+        ui_hotkeys_load_default();
+    } else {
+        if (hotkeys_file_pending) {
+            /* We have a peding hotkeys file to parse */
+            ui_hotkeys_parse(hotkeys_file);
+            hotkeys_file_pending = false;
+        }
+    }
 }
 
 
