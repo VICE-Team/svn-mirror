@@ -1,5 +1,5 @@
-/** \file   basewidgets.h
- * \brief   Header file for the base widgets
+/** \file   uiactionbutton.h
+ * \brief   Simple push button to trigger a UI action - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,24 +25,11 @@
  *
  */
 
-#ifndef VICE_BASEWIDGETS_H
-#define VICE_BASEWIDGETS_H
+#ifndef VICE_UIACTIONBUTTON_H
+#define VICE_UIACTIONBUTTON_H
 
-#include "vice_gtk3_settings.h"
-#include "basewidget_types.h"
-#include "cartimagewidget.h"
-#include "carthelpers.h"
-#include "clockportdevicewidget.h"
-#include "csshelpers.h"
-#include "resourcecheckbutton.h"
-#include "resourcecombobox.h"
-#include "resourceentry.h"
-#include "resourcenumericstring.h"
-#include "resourceradiogroup.h"
-#include "resourcescale.h"
-#include "resourcespinbutton.h"
-#include "resourcebrowser.h"
-#include "resourceswitch.h"
-#include "uiactionbutton.h"
+#include <gtk/gtk.h>
+
+GtkWidget *ui_action_button_new(int action, const char *label);
 
 #endif
