@@ -108,6 +108,7 @@
 #include "actions-display.h"
 #include "actions-drive.h"
 #include "actions-help.h"
+#include "actions-hotkeys.h"
 #include "actions-joystick.h"
 #include "actions-machine.h"
 #include "actions-media.h"
@@ -2212,12 +2213,16 @@ int ui_init_finalize(void)
     actions_display_register();
     actions_drive_register();
     actions_help_register();
+    actions_hotkeys_register();
     actions_joystick_register();
     actions_machine_register();
     actions_media_register();
     actions_settings_register();
     actions_snapshot_register();
     actions_speed_register();
+
+    /* Add any actions that weren't already registered during menu creation */
+    hotkey_map_add_actions();
 
     ui_hotkeys_init();
     return 0;

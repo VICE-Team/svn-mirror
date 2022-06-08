@@ -37,15 +37,18 @@ typedef struct hotkey_map_s {
     guint                   keysym;     /**< Gdk keysym */
     GdkModifierType         modifier;   /**< Gdk modifier mask */
     int                     action;     /**< UI action ID */
-    GtkWidget *             item[2];    /**< runtime menu item references */
+    GtkWidget *             item[2];    /**< runtime menu item references,
+                                             can be `NULL` */
     gulong                  handler[2]; /**< event handler ID for the runtime
-                                             items' activate/toggled events */
-    const ui_menu_item_t *  decl;       /**< menu item declaration */
+                                             items' activate/toggled events,
+                                             can be 0 */
+    const ui_menu_item_t *  decl;       /**< menu item declaration, can be
+                                             `NULL` */
     struct hotkey_map_s *   next;       /**< next node in linked list */
     struct hotkey_map_s *   prev;       /**< previous node in linked list */
 } hotkey_map_t;
 
-
+void            hotkey_map_add_actions(void);
 void            hotkey_map_shutdown(void);
 int             hotkey_map_count(void);
 hotkey_map_t *  hotkey_map_get_head(void);

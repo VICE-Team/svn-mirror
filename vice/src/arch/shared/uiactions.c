@@ -329,13 +329,13 @@ static bool is_current_machine_action(const ui_action_info_private_t *action)
  *
  * \return  pointer to info or `NULL` on failure
  */
-static const ui_action_info_private_t *get_info_private(int id)
+static const ui_action_info_private_t *get_info_private(int action)
 {
-    if (id > ACTION_NONE) {
+    if (action > ACTION_NONE) {
         int i = 0;
 
         while (action_info_list[i].id > ACTION_NONE) {
-            if (action_info_list[i].id == id) {
+            if (action_info_list[i].id == action) {
                 return &action_info_list[i];
             }
             i++;
@@ -371,33 +371,50 @@ int ui_action_get_id(const char *name)
 
 /** \brief  Get action name by ID
  *
- * \param[in]   id  action ID
+ * \param[in]   action  UI action ID
  *
  * \return  action name or NULL when not found
  *
  * \note    Also returns NULL for NONE and INVALID
  */
-const char *ui_action_get_name(int id)
+const char *ui_action_get_name(int action)
 {
-    const ui_action_info_private_t *action = get_info_private(id);
+    const ui_action_info_private_t *info = get_info_private(action);
 
-    return action != NULL ? action->name : NULL;
+    return info != NULL ? info->name : NULL;
 }
 
 
 /** \brief  Get description of an action
  *
- * Looks up the description for action \a id.
+ * Looks up the description for \a action.
  *
- * \param[in]   name    action name
+ * \param[in]   action   UI action ID
  *
- * \return  description or `NULL` when \a id not found
+ * \return  description or `NULL` when \a action not found
  */
-const char *ui_action_get_desc(int id)
+const char *ui_action_get_desc(int action)
 {
-    const ui_action_info_private_t *action = get_info_private(id);
+    const ui_action_info_private_t *info = get_info_private(action);
 
-    return action != NULL ? action->desc : NULL;
+    return info != NULL ? info->desc : NULL;
+}
+
+
+/** \brief  Determine if action is valid for the current machine
+ *
+ * \param[in]   action  UI action ID
+ *
+ * \return  `true` when valid for current machine
+ */
+bool ui_action_is_valid(int action)
+{
+    const ui_action_info_private_t *info = get_info_private(action);
+
+    if (info != NULL && is_current_machine_action(info)) {
+        return true;
+    }
+    return false;
 }
 
 
@@ -744,6 +761,10 @@ void ui_actions_shutdown(void)
 #endif
 }
 
+const ui_action_map_t *ui_actions_get_registered(void)
+{
+    return action_mappings;
+}
 
 /** \brief  Register UI action implementations
  *

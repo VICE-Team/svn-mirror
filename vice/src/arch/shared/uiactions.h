@@ -284,6 +284,7 @@ int                 ui_action_get_id(const char *name);
 const char *        ui_action_get_name(int action);
 const char *        ui_action_get_desc(int action);
 ui_action_info_t *  ui_action_get_info_list(void);
+bool                ui_action_is_valid(int action);
 
 /* Get action IDs for fliplist actions */
 int ui_action_id_fliplist_add(int unit, int drive);
@@ -301,10 +302,10 @@ int ui_action_id_drive_detach(int unit, int drive);
 void ui_actions_init(void);
 void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *));
 void ui_actions_shutdown(void);
+const ui_action_map_t *ui_actions_get_registered(void);
 void ui_actions_register(const ui_action_map_t *mappings);
 void ui_action_trigger(int action);
 void ui_action_finish(int action);
-
 /* TODO: implement the following: */
 bool                ui_action_def(int action, const char *hotkey);
 bool                ui_action_undef(int action);
