@@ -136,6 +136,12 @@ const char *file_chooser_pattern_compressed[] = {
 };
 
 
+/** \brief  Patterns for hotkeys files */
+const char *file_chooser_pattern_hotkeys[] = {
+    "*.vhk", NULL
+};
+
+
 /** \brief  Patterns for snapshot files
  */
 const char *file_chooser_pattern_snapshot [] = {
@@ -206,7 +212,11 @@ const ui_file_filter_t file_chooser_filter_snapshot = {
     file_chooser_pattern_snapshot
 };
 
-
+/** \brief  Filter for hotkeys files */
+const ui_file_filter_t file_chooser_filter_hotkeys = {
+    "Hotkeys files",
+    file_chooser_pattern_hotkeys
+};
 
 /** \brief  Create a GtkFileFilter instance from \a filter
  *

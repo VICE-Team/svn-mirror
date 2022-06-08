@@ -167,6 +167,8 @@ static void clear_all_hotkeys(void)
 }
 
 
+/* Will be replaced with UI actions */
+#if 0
 /** \brief  Callback for the 'Export' button
  *
  * Save current hotkeys to \a filename and close \a dialog.
@@ -242,6 +244,7 @@ static GtkWidget *create_browse_widget(void)
                                             NULL);
     return widget;
 }
+#endif
 
 
 /** \brief  Create model for the hotkeys table
@@ -1336,9 +1339,14 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *scroll;
+#if 0
     GtkWidget *browse;
     GtkWidget *export;
+#endif
+    GtkWidget *defaults;
     GtkWidget *clear;
+    GtkWidget *reload;
+    GtkWidget *load;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -1353,17 +1361,32 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
     gtk_container_add(GTK_CONTAINER(scroll), hotkeys_view);
     gtk_widget_show_all(scroll);
     gtk_grid_attach(GTK_GRID(grid), scroll, 0, 0, 2, 1);
-
+#if 0
     browse = create_browse_widget();
     gtk_grid_attach(GTK_GRID(grid), browse, 0, 1, 2, 1);
-
-    export = gtk_button_new_with_label("Save current hotkeys to file");
+    export = gtk_button_new_with_label("Save hotkeys...");
     g_signal_connect(export, "clicked", G_CALLBACK(on_export_clicked), NULL);
     gtk_grid_attach(GTK_GRID(grid), export, 0, 2, 1, 1);
+#endif
+    /* need to regenerate the view after this action is triggered */
+    defaults = ui_action_button_new(ACTION_HOTKEYS_DEFAULT, "Reset to default");
+    gtk_grid_attach(GTK_GRID(grid), defaults, 0, 2, 1 ,1);
 
+    /* this one pops up a confirmation dialog, so we don't use an action ID */
     clear = gtk_button_new_with_label("Clear all hotkeys");
     g_signal_connect(clear, "clicked", G_CALLBACK(on_clear_clicked), NULL);
     gtk_grid_attach(GTK_GRID(grid), clear, 1, 2, 1 ,1);
+
+    /* can't reliably use actions here either, we need to regenerate the view
+     * after loading :( */
+
+    reload = ui_action_button_new(ACTION_HOTKEYS_LOAD, "Reload hotkeys");
+    gtk_grid_attach(GTK_GRID(grid), reload, 0, 3, 1, 1);
+
+    load = ui_action_button_new(ACTION_HOTKEYS_LOAD_FROM, "Load hotkeys from...");
+    gtk_grid_attach(GTK_GRID(grid), load, 1, 3, 1, 1);
+
+    /* TODO: Save and Save-To */
 
     gtk_widget_show_all(grid);
     return grid;

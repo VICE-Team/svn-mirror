@@ -36,6 +36,7 @@
 #include "hotkeys.h"
 #include "resources.h"
 #include "uiactions.h"
+#include "uihotkeysload.h"
 #include "uistatusbar.h"
 
 #include "actions-hotkeys.h"
@@ -75,6 +76,19 @@ static void hotkeys_load_action(void)
     }
 }
 
+static void hotkeys_load_from_action(void)
+{
+    ui_hotkeys_load_dialog_show();
+}
+#if 0
+static void hotkeys_save_action(void)
+{
+}
+
+static void hotkeys_save_to_action(void)
+{
+}
+#endif
 
 /** \brief  List of actions for hotkeys management */
 static const ui_action_map_t hotkeys_actions[] = {
@@ -91,6 +105,13 @@ static const ui_action_map_t hotkeys_actions[] = {
     {
         .action = ACTION_HOTKEYS_LOAD,
         .handler = hotkeys_load_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_HOTKEYS_LOAD_FROM,
+        .handler = hotkeys_load_from_action,
+        .blocks = true,
+        .dialog = true,
         .uithread = true
     },
 
