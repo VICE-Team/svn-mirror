@@ -285,8 +285,15 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_HELP_HOTKEYS,      "help-hotkeys",         "Show hotkeys",                 VICE_MACHINE_ALL },
     { ACTION_HELP_ABOUT,        "help-about",           "Show About dialog",            VICE_MACHINE_ALL },
 
+    /* Hotkeys items */
+    { ACTION_HOTKEYS_CLEAR,     "hotkeys-clear",        "Clear all hotkeys",                VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_DEFAULT,   "hotkeys-default",      "Load default hotkeys",             VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_LOAD,      "hotkeys-load",         "Load hotkeys from current file",   VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_LOAD_FROM, "hotkeys-load-from",    "Load hotkeys from custom file",    VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_SAVE,      "hotkeys-save",         "Save hotkeys to current file",     VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_SAVE_TO,   "hotkeys-save-to",      "Save hotkeys to custom file",      VICE_MACHINE_ALL|VICE_MACHINE_VSID },
 
-    /* VSID=specific items */
+    /* VSID-specific items */
     { ACTION_PSID_LOAD,                 "psid-load",            "Load PSID file",           VICE_MACHINE_VSID },
     { ACTION_PSID_OVERRIDE_TOGGLE,      "psid-override-toggle", "Override PSID settings",   VICE_MACHINE_VSID },
     { ACTION_PSID_SUBTUNE_1,            "psid-subtune-1",       "Play subtune #1",          VICE_MACHINE_VSID },

@@ -3101,6 +3101,24 @@ system/window manager. Mappings using @code{<Alt>} or
 @code{pause-toggle}
  @tab Toggle Pause
 @item
+@code{hotkeys-clear}
+ @tab Clear all hotkeys
+@item
+@code{hotkeys-default}
+ @tab Load default hotkeys
+@item
+@code{hotkeys-load}
+ @tab Load hotkeys from current file
+@item
+@code{hotkeys-load-from}
+ @tab Load hotkeys from custom file
+@item
+@code{hotkeys-save}
+ @tab Save hotkeys to current file
+@item
+@code{hotkeys-save-to}
+ @tab Save hotkeys to custom file
+@item
 @code{psid-load}
  @tab Load PSID file
 @item
