@@ -152,6 +152,34 @@ void ui_init_accelerators(GtkWidget *window)
 }
 
 
+/** \brief  Add actions that don't have a corresponding menu item
+ *
+ * Since setting up the menu happens during window creation (ie early in the
+ * UI init process), we add any actions that aren't already in the mappings
+ * list here.
+ */
+void hotkey_map_add_actions(void)
+{
+    const ui_action_map_t *action = ui_actions_get_registered();
+
+    while (action->action > ACTION_NONE) {
+        if (!hotkey_map_get_by_action(action->action)) {
+            /* action not yet registered, is it valid for the current machine? */
+            if (ui_action_is_valid(action->action)) {
+                hotkey_map_t *map;
+
+                debug_gtk3("action %d (%s) not yet registered, appending.",
+                           action->action, ui_action_get_name(action->action));
+
+                map = hotkey_map_new();
+                map->action = action->action;
+                hotkey_map_append(map);
+            }
+        }
+        action++;
+    }
+}
+
 
 /** \brief  Free memory used by all hotkey maps */
 void hotkey_map_shutdown(void)
@@ -503,7 +531,7 @@ gboolean hotkey_map_setup_hotkey(hotkey_map_t *map)
     connect_accelerator(map->action,
                         map->keysym,
                         map->modifier,
-                        map->decl->unlocked);
+                        map->decl != NULL ? map->decl->unlocked : false);
 
     /* set accelerator label for primary window */
     if (map->item[PRIMARY_WINDOW] != NULL) {

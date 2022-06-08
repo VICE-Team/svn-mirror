@@ -1,0 +1,105 @@
+/** \file   actions-hotkeys.c
+ * \brief   UI action implementations for hotkey management
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+
+#include <gtk/gtk.h>
+#include <stddef.h>
+#include <stdbool.h>
+
+#include "basedialogs.h"
+#include "hotkeymap.h"
+#include "hotkeys.h"
+#include "resources.h"
+#include "uiactions.h"
+#include "uistatusbar.h"
+
+#include "actions-hotkeys.h"
+
+
+/** \brief  Clear all hotkeys */
+static void hotkeys_clear_action(void)
+{
+    ui_display_statustext("Clearing all hotkeys.", 1);
+    ui_clear_hotkeys();
+}
+
+/** \brief  Load default hotkeys */
+static void hotkeys_default_action(void)
+{
+    ui_display_statustext("Loading default hotkeys.", 1);
+    ui_hotkeys_load_default();
+}
+
+/** \brief  Reload current hotkeys file
+ *
+ * Either load the file in "HotkeyFile" or load the default hotkeys.
+ */
+static void hotkeys_load_action(void)
+{
+    const char *hotkeys_file = NULL;
+
+    ui_display_statustext("Reloading current hotkeys.", 1);
+    ui_clear_hotkeys();
+
+    resources_get_string("HotkeyFile", &hotkeys_file);
+    if (hotkeys_file != NULL && *hotkeys_file != '\0') {
+        /* parse the custom hotkeys file */
+        ui_hotkeys_parse(hotkeys_file);
+    } else {
+        ui_hotkeys_load_default();
+    }
+}
+
+
+/** \brief  List of actions for hotkeys management */
+static const ui_action_map_t hotkeys_actions[] = {
+    {
+        .action = ACTION_HOTKEYS_CLEAR,
+        .handler = hotkeys_clear_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_HOTKEYS_DEFAULT,
+        .handler = hotkeys_default_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_HOTKEYS_LOAD,
+        .handler = hotkeys_load_action,
+        .uithread = true
+    },
+
+    UI_ACTION_MAP_TERMINATOR
+};
+
+
+/** \brief  Register hotkeys-related actions */
+void actions_hotkeys_register(void)
+{
+    ui_actions_register(hotkeys_actions);
+}

@@ -526,8 +526,9 @@ static void dialog_accept_handler(int action)
     gchar *accel;
 
     accel = gtk_accelerator_get_label(hotkey_keysym, hotkey_mask);
-    debug_gtk3("Setting accelerator: %s (keysym: %04x, mask: %04x).",
-               accel, hotkey_keysym, hotkey_mask);
+    debug_gtk3("Setting accelerator: %s (keysym: %04x, mask: %04x)"
+               " for action %d (%s).",
+               accel, hotkey_keysym, hotkey_mask, action, ui_action_get_name(action));
 
     /* Look up item for new hotkey and remove the hotkey from that
      * action/menu item.
