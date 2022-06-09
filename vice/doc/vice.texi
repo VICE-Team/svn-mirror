@@ -903,36 +903,39 @@ frequency drifts.
 @node Keyboard emulation, Joystick emulation, SCPU64 emulator features, Preface
 @section The keyboard emulation
 
-There are two ways of emulating the keyboard in VICE.
+There are two fundamentally different ways of emulating the keyboard in VICE,
+both of which have their individual shortcomings and strengths:
 
-The default way (@dfn{symbolic mapping}) is to map every key
-combination to the corresponding key combination on the real machine:
-for example, if you press @key{*}, which is bound to @kbd{Shift-8} on a
+@b{Symbolic Mapping}
+
+The default way (@dfn{symbolic mapping}) is to map every key - as far as possible -
+ in a way that inside the emulation the symbol that is printed on the host key is
+ produced.
+For example, if you press @key{*}, which is bound to @kbd{Shift-8} on a
 U.S. keyboard, in the C64 emulator, the emulated machine will have just
 the @emph{unshifted} @key{*} key pressed (as @key{*} is unshifted on the
 C64 keyboard).  Likewise, pressing @key{'} on the same U.S. keyboard
 without any shift key will cause the combination @kbd{Shift-7} to be
 pressed in the emulated C64.  This way, it becomes quite obvious what
 keys should be typed to obtain all the symbols. @dfn{The key printed on the 
-host keyboard will be pressed in the emulator}.
+host keyboard will be pressed in the emulator}. 
+ 
+ Note that while these mappings will allow easier typing if you are used
+ to your host keymap, it might cause various problems in the emulation and not all
+ emulated keys are accessible. If you encounter such problems, try the positional
+ mapping.
 
-There is, however, one problem with symbolic mapping: some keys really
+@itemize
+@item
+Some keys really
 need to be mapped specially regardless (those that do not exist on a PC
 keyboard).  Some examples are the @key{Commodore} key, @key{RUN/STOP}, 
 @key{Clear/Home}. The exact mapping depends on your host layout, but should
-be easy to find out by try and error :) If in doubt, you can read the keyboard
+follow mostly the layouts shown below. If in doubt, you can read the keyboard
 mapping files.
 
-The second way (@dfn{positional mapping}) is to map every key on the
-host keyboard to the key which has the same position on the keyboard
-of the emulated machine.  This way the keyboard is more comfortable to use 
-in those programs (such as some games) that require the keys to be in the 
-correct positions. On the other hand it can be quite confusing if you are not
-very familiar with the original emulated keyboards. Also not all keys can be
-mapped exactly this way either, which means some of them still need to be
-mapped to other keys (see above).
-
-@strong{Warning:} If you have symbolic keyboard mapping enabled, the emulator has
+@item
+the emulator has
 to "de-shift" (remove the shift modifier) from some keys. For example, if you
 want to get a ":" on a german keyboard, you have to press "." and shift simulaneously.
 Then, the emulator sees the events "shift pressed" and ":" pressed. At the moment
@@ -942,6 +945,7 @@ so it has to deliver this state to the keyboard matrix. If you press ".", then s
 to achive a ":", the emulator has to take back the shift key although it is still
 pressed, as the ":" is an unshifted key in the c64/c128 keyboard matrix.
 
+@item
 A similar problem exists when you press a key that is unshifted on the host keyboard,
 and the emulator must "shift" (add the shift modifier) for the emulated keyboard. For
 example on a US keyboard the brackets ([,]) are such a case. Unlike what would happen
@@ -951,8 +955,56 @@ should work fine, but some keyboard routines are quite picky (eg x128 in CP/M mo
 recognize the shift key because of this. For instance, @kbd{F6} (which on the
 real C64 is obtained with @kbd{Shift + F5}) could be recognized as @kbd{F5}.
 In that case, use the shift key manually (i.e., type @kbd{Shift + F5} in the example).
+@end itemize
 
-Yes, we know this is a bug. As a workaround, please use a positional keymap.
+Yes, we know this is a bug. Unfortunately it is less than trivial to fix 100%. If
+you encounter any problems, please use a positional keymap as a workaround - that
+should always work as expected.
+
+PROs:
+@itemize @bullet
+@item Mostly intuitive typing if your muscle memory is conditioned strong to your host keyboard.
+@end itemize
+CONs:
+@itemize @bullet
+@item Does not preserve the position of the keys.
+@item Due to how the key mapping may add or remove the SHIFT flag from individual
+keys, strange side effects may occur (see above).
+@item SHIFT/LOCK is added to the emulated keys - which may give unexpected results
+depending on your host OS and keymap (It is really emulating the SHIFT-LOCK key and
+not working as a CAPS-LOCK like in your host OS anymore).
+@end itemize
+
+@b{Positional Mapping}
+
+For the @dfn{positional mapping}s first all keys are mapped at their exact positions,
+as far as possible, and then the remaining few (usually 2 or 3) will be mapped
+to other, yet unused, keys. @b{This is the recommended mapping for playing games or
+other programs that require keys+modifiers (shift/control/cbm) to work exactly
+like on the emulated machine.} This way the keyboard is more comfortable to use 
+in those programs (such as some games) that require the keys to be in the 
+correct positions. On the other hand it can be quite confusing if you are not
+very familiar with the original emulated keyboards. Also not all keys can be
+mapped exactly this way either, which means some of them still need to be
+mapped to other keys (see further down).
+
+Like with symbolic mapping, some keys really need to be mapped specially
+regardless (eg @key{RUN/STOP}). The exact mapping depends on your host layout,
+but should follow mostly the layouts shown below. If in doubt, you can read the
+keyboard mapping files.
+
+PROs:
+@itemize @bullet
+@item Mostly intuitive typing if your muscle memory is conditioned strong to your (eg) C64 keyboard.
+@item Does preserve the position of (most of) the keys.
+@item Natural SHIFT and SHIFT/LOCK behaviour
+@end itemize
+CONs:
+@itemize @bullet
+@item Weird to use if you are not familiar with the emulated (eg) C64 keyboard.
+@end itemize
+
+@b{Notes}
 
 We depend a lot on your support to improve the keyboard maps, as we can not
 test all emulators in all possible configurations and using all host keyboard
@@ -960,37 +1012,45 @@ mappings. Please report any problems to us so we can fix them!
 
 If you experience problems with 'accent' keys such as acute, grave, tilde, 
 circumflex, diaresis (and possibly more/other, depending on your host keyboard
-layout) try switching to a "no deadkeys" layout in your OS. In any case, please
+layout) try switching to a "no deadkeys" layout in your OS. Note that @b{currently
+SDL requires using a "no deadkeys" keyboard layout!} In any case, please
 also report these problems so we can fix them!
 
-To find out the keycodes to use, incase you want to edit the keymaps yourself,
-you can enable showing the keycodes in the status bar in the settings. For more
-information on making your own keymaps (or helping to fix/update the existing
-ones), @pxref{Keymap files}.
+For more information on making your own keymaps (or helping to fix/update the
+existing ones), see @pxref{Keymap files}.
 
 @subsection C64 & VIC20 Keyboard Map
 
+@image{html/images/c64-layout-small}
+
 This mapping applies to the C64, SCPU, VIC20 and DTV emulators.
 
-In the symbolic mappings all keys are - as far as possible - mapped in a way that
-inside the emulation the symbol that is printed on the host key is produced. Note
-that while these mappings will allow easier typing if you are used to your host
-keymap, it might cause various problems in the emulation and not all emulated
-keys are accessible. If you encounter such problems, try the positional mapping.
-
-For the positional mappings first all keys are mapped at their exact positions,
-as far as possible, and then the remaining few (usually 2 or 3) will be mapped
-to other, yet unused, keys. This is the recommended mapping for playing games or
-other programs that require keys+modifiers (shift/control/cbm) to work exactly
-like on the emulated machine.
+@subsubsection Symbolic (US)
+@image{html/images/vice-c64-symbolic-keymap-us-small}
+@subsubsection Positional (US)
+@image{html/images/vice-c64-positional-keymap-us-small}
 
 @subsubsection Symbolic (DE)
 @image{html/images/vice-c64-symbolic-keymap-de-small}
-
-@subsubsection Positional (US)
-@image{html/images/vice-c64-positional-keymap-us-small}
 @subsubsection Positional (DE)
 @image{html/images/vice-c64-positional-keymap-de-small}
+
+@subsection C128 Keyboard Map
+
+@image{html/images/c128-layout-small}
+
+This mapping applies to the C128 emulator. It is for a large part identical with
+the respective C64 mapping, plus the added function- and extra keys.
+
+@subsubsection Symbolic (US)
+@image{html/images/vice-c128-symbolic-keymap-us-small}
+@subsubsection Positional (US)
+@image{html/images/vice-c128-positional-keymap-us-small}
+
+@subsubsection Symbolic (DE)
+@image{html/images/vice-c128-symbolic-keymap-de-small}
+@subsubsection Positional (DE)
+@image{html/images/vice-c128-positional-keymap-de-small}
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
 @section The joystick emulation
@@ -2037,7 +2097,10 @@ keyboard.
 
 VICE keymap files have the @file{.vkm} default extension, and every
 emulator comes with a default positional mapping and a default symbolic
-mapping, see @pxref{Keyboard emulation}.
+mapping, @pxref{Keyboard emulation}.
+
+To find out the keycodes to use, incase you want to edit the keymaps yourself,
+you can enable showing the keycodes in the status bar in the settings.
 
 @subsection Comments
 
@@ -2205,29 +2268,35 @@ A key mapping is found when the key symbol matches
 @item
 and when none of the following reject conditions apply:
 
-@multitable @columnfractions .1 .1 .8
+@multitable @columnfractions .1 .1 .4 .4
 @item @b{Value}
 @tab @b{Hex}
 @tab @b{Description}
+@tab @b{Action}
 @item @code{0}
 @tab @code{0x0000}
-@tab The key is never shifted. If any SHIFT modifiers pressed, then reject it.
+@tab The key is never shifted.
+@tab If any SHIFT modifiers pressed, then reject key.
 @item @code{8}
 @tab @code{0x0008}
-@tab The key can be (optionally) shifted by the user. If any SHIFT modifiers pressed
-on the host, and this flag @b{is not} set, then reject it.
+@tab The key can be (optionally) shifted by the user.
+@tab If any SHIFT modifiers pressed on the host, and this flag @b{is not} set, then reject key.
 @item @code{128}
 @tab @code{0x0080}
-@tab SHIFT modifier required on host. If SHIFT modifier(s) @b{not} pressed on the
-host, and this flag @b{is} set, then reject it.
+@tab SHIFT modifier required on host.
+@tab If SHIFT modifier(s) @b{not} pressed on the host, and this flag @b{is} set, then reject key.
+@item @code{256}
+@tab @code{0x0100}
+@tab Key is used for an alternative keyboard mapping
+@tab if no alternative mapping is enabled (eg C64 mode in x128), reject key.
 @item @code{512}
 @tab @code{0x0200}
-@tab ALT-R (ALT-GR) modifier required on host. If ALT-R modifier @b{not} pressed on the
-host, and this flag @b{is} set, then reject it.
+@tab ALT-R (ALT-GR) modifier required on host.
+@tab If ALT-R modifier @b{not} pressed on the host, and this flag @b{is} set, then reject key.
 @item @code{1024}
 @tab @code{0x0400}
-@tab CTRL modifier required on host. If CTRL modifier @b{not} pressed on the
-host, and this flag @b{is} set, then reject it.
+@tab CTRL modifier required on host.
+@tab If CTRL modifier @b{not} pressed on the host, and this flag @b{is} set, then reject key.
 @end multitable
 
 @item
@@ -2236,35 +2305,38 @@ will be found, this is the one that will be used. We may or may not look for
 another match, depending on:
 
 @multitable @columnfractions .1 .1 .8
+@item @b{Value}
+@tab @b{Hex}
+@tab @b{Description}
 @item @code{32}
 @tab @code{0x0020}
-@tab Another definition for this keysym/scancode follows later in the file. If
-this flag @b{is not} set, stop looking for another match.
+@tab Another definition for this keysym/scancode follows later in the file. If this flag @b{is not} set, stop looking for another match.
 @end multitable
 
 @item
 Once a match was found, the virtual modifiers are applied:
 
-@multitable @columnfractions .1 .1 .8
+@multitable @columnfractions .1 .1 .4 .4
 @item @b{Value}
 @tab @b{Hex}
 @tab @b{Description}
+@tab @b{Action}
 @item @code{1}
 @tab @code{0x0001}
-@tab The key is shifted on the emulated keyboard, virtual shift will be used when
- it is not shifted on the host keyboard.
+@tab The key is shifted on the emulated keyboard
+@tab virtual shift will be used when it is not shifted on the host keyboard.
 @item @code{16}
 @tab @code{0x0010}
-@tab Deshift key for this keysym/scancode. That means when the key is pressed with
- shift on the host keyboard, shift will @b{not} be used on the emulated keyboard.
+@tab Deshift key for this keysym/scancode.
+@tab When the key is pressed with shift on the host keyboard, shift will @b{not} be used on the emulated keyboard.
 @item @code{2048}
 @tab @code{0x0800}
-@tab Key is combined with CBM for this keysym/scancode, virtual CBM will be used
- when it is not combined with CBM via another mapped key.
+@tab Key is combined with CBM for this keysym/scancode
+@tab virtual CBM will be used when it is not combined with CBM via another mapped key.
 @item @code{4096}
 @tab @code{0x1000}
-@tab Key is combined with CTRL for this keysym/scancode, virtual CTRL will be used
- when it is not combined with CTRL via another mapped key.
+@tab Key is combined with CTRL for this keysym/scancode
+@tab virtual CTRL will be used when it is not combined with CTRL via another mapped key.
 @end multitable
 
 @item
@@ -2274,14 +2346,9 @@ and last not least these are the flags left:
 @item @b{Value}
 @tab @b{Hex}
 @tab @b{Description}
-@item @code{256}
-@tab @code{0x0100}
-@tab Key is used for an alternative keyboard mapping, e.g. C64 mode in x128.
 @item @code{32768}
 @tab @code{0x8000}
-@tab Do @b{not} emulate a "locked" switch for this key. This can be useful when
-your host keyboard provides physical locking by itself. (currently works only
-for the C128 40/80 and CAPS-lock keys)
+@tab Do @b{not} emulate a "locked" switch for this key. This can be useful when your host keyboard provides physical locking by itself. (currently works only for the C128 40/80 and CAPS-lock keys)
 @end multitable
 
 @end itemize
@@ -2340,6 +2407,9 @@ Page_Up -3 1
 Joystick keymap direction column values for rows -1 and -2:
 
 @multitable @columnfractions .2 .2 .2
+@item
+@tab
+@tab
 @item @b{6} (N/W)
 @tab  @b{7} (North)
 @tab  @b{8} (N/E)
@@ -2355,6 +2425,11 @@ Joystick keymap direction column values for rows -1 and -2:
 Joyport keypad direction column values for row -5:
 
 @multitable @columnfractions .1 .1 .1 .1 .1
+@item
+@tab
+@tab
+@tab
+@tab
 @item @b{0}
 @tab  @b{1}
 @tab  @b{2}
@@ -2381,8 +2456,7 @@ When a bigger spaced key is used, it uses the upper left most column value.
 
 @subsubsection Modifier Flags
 
-The @code{SHIFTFLAG} can have one of the following values. Flags can be combined
- by simply ORing (or adding) them together:
+The @code{SHIFTFLAG} can have one of the following values. Flags can be combined by simply ORing (or adding) them together:
 
 @multitable @columnfractions .1 .1 .8
 @item @b{Value}
@@ -2393,35 +2467,31 @@ The @code{SHIFTFLAG} can have one of the following values. Flags can be combined
 @tab The key is never shifted.
 @item @code{1}
 @tab @code{0x0001}
-@tab The key is shifted on the emulated keyboard, virtual shift will be used when
- it is not shifted on the host keyboard.
+@tab The key is shifted on the emulated keyboard, virtual shift will be used when  it is not shifted on the host keyboard.
 @item @code{2}
 @tab @code{0x0002}
 @tab The key is the left shift key.
 @item @code{4}
 @tab @code{0x0004}
-@tab The key is the right shift key. Use only this flag for emulated keyboards
-that have only one shift key.
+@tab The key is the right shift key. Use only this flag for emulated keyboards that have only one shift key.
 @item @code{8}
 @tab @code{0x0008}
 @tab The key can be (optionally) shifted by the user.
 @item @code{16}
 @tab @code{0x0010}
-@tab Deshift key for this keysym/scancode. That means when the key is pressed with
- shift on the host keyboard, shift will @b{not} be used on the emulated keyboard.
+@tab Deshift key for this keysym/scancode. That means when the key is pressed with shift on the host keyboard, shift will @b{not} be used on the emulated keyboard.
 @item @code{32}
 @tab @code{0x0020}
 @tab Another definition for this keysym/scancode follows later in the file
 @item @code{64}
 @tab @code{0x0040}
-@tab Key is SHIFT-lock on the emulated machine. Usually you'd use this for the CAPS
- lock key on the host keyboard.
+@tab Key is SHIFT-lock on the emulated machine. Usually you'd use this for the CAPS lock key on the host keyboard.
 @item @code{128}
 @tab @code{0x0080}
 @tab SHIFT modifier required on host.
 @item @code{256}
 @tab @code{0x0100}
-@tab Key is used for an alternative keyboard mapping, e.g. C64 mode in x128.
+@tab Key is used for an alternative keyboard mapping (e.g. C64 mode in x128). Note that @b{any alternative mappings must occur before the normal mappings for the same key/symbol in the file}.
 @item @code{512}
 @tab @code{0x0200}
 @tab ALT-R (ALT-GR) modifier required on host.
@@ -2442,9 +2512,7 @@ that have only one shift key.
 @tab Key is (left) CTRL on emulated machine.
 @item @code{32768}
 @tab @code{0x8000}
-@tab Do @b{not} emulate a "locked" switch for this key. This can be useful when
-your host keyboard provides physical locking by itself. (currently works only
-for the C128 40/80 and CAPS-lock keys)
+@tab Do @b{not} emulate a "locked" switch for this key. This can be useful when your host keyboard provides physical locking by itself. (currently works only for the C128 40/80 and CAPS-lock keys)
 @end multitable
 
 The @code{SHIFTFLAG} can be used to control various aspects of how the host key
