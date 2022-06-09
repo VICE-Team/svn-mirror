@@ -1507,7 +1507,8 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
     button = ui_action_button_new(ACTION_HOTKEYS_SAVE, "Save hotkeys");
     gtk_grid_attach(GTK_GRID(grid), button, 0, 4, 1, 1);
 
-    /* TODO: Save hotkeys to... */
+    button = ui_action_button_new(ACTION_HOTKEYS_SAVE_TO, "Save hotkeys to...");
+    gtk_grid_attach(GTK_GRID(grid), button, 1, 4, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
