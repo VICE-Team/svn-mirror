@@ -81,15 +81,38 @@ static void hotkeys_load_action(void)
     }
 }
 
+/** \brief  Pop up dialog to load hotkeys from a specific file */
 static void hotkeys_load_from_action(void)
 {
     ui_hotkeys_load_dialog_show(NULL);
 }
-#if 0
+
+/** \brief  Save hotkeys to current hotkeys file
+ *
+ * If the default hotkeys are loaded, don't save anything
+ */
 static void hotkeys_save_action(void)
 {
+    const char *hotkeyfile = NULL;
+
+    resources_get_string("HotkeyFile", &hotkeyfile);
+    if (hotkeyfile != NULL && *hotkeyfile != '\0') {
+        char buffer[1024];
+
+        if (ui_hotkeys_export(hotkeyfile)) {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Succesfully wrote hotkeys to %s", hotkeyfile);
+        } else {
+            g_snprintf(buffer, sizeof(buffer),
+                       "Failed to write hotkeys to %s", hotkeyfile);
+        }
+        ui_display_statustext(buffer, 1);
+    } else {
+        ui_display_statustext("Writing hotkeys to default file is not allowed", 1);
+    }
 }
 
+#if 0
 static void hotkeys_save_to_action(void)
 {
 }
@@ -117,6 +140,11 @@ static const ui_action_map_t hotkeys_actions[] = {
         .handler = hotkeys_load_from_action,
         .blocks = true,
         .dialog = true,
+        .uithread = true
+    },
+    {
+        .action = ACTION_HOTKEYS_SAVE,
+        .handler = hotkeys_save_action,
         .uithread = true
     },
 
