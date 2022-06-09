@@ -44,12 +44,26 @@ IMAGES_FILES = \
 	images/new.gif \
 	images/vice-logo.svg \
 	images/vice-logo-black.png \
-	images/vice-c64-positional-keymap-de-small.png \
-	images/vice-c64-positional-keymap-de.png \
+	images/c64-layout.png \
+	images/c64-layout-small.png \
+	images/c128-layout.png \
+	images/c128-layout-small.png \
+	images/vice-c64-symbolic-keymap-us-small.png \
+	images/vice-c64-symbolic-keymap-us.png \
+	images/vice-c64-positional-keymap-us-small.png \
+	images/vice-c64-positional-keymap-us.png \
 	images/vice-c64-symbolic-keymap-de-small.png \
 	images/vice-c64-symbolic-keymap-de.png \
-	images/vice-c64-positional-keymap-us-small.png \
-	images/vice-c64-positional-keymap-us.png
+	images/vice-c64-positional-keymap-de-small.png \
+	images/vice-c64-positional-keymap-de.png \
+	images/vice-c128-symbolic-keymap-us-small.png \
+	images/vice-c128-symbolic-keymap-us.png \
+	images/vice-c128-positional-keymap-us-small.png \
+	images/vice-c128-positional-keymap-us.png \
+	images/vice-c128-symbolic-keymap-de-small.png \
+	images/vice-c128-symbolic-keymap-de.png \
+	images/vice-c128-positional-keymap-de-small.png \
+	images/vice-c128-positional-keymap-de.png
 
 EXTRA_DIST = \
 	checklinks.sh \

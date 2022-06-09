@@ -1,11 +1,52 @@
 The pictures (and json) of the keymaps have been created using the editor at
 http://www.keyboard-layout-editor.com
 
+
+C64, VIC20, DTV
+---------------
+
+C64 layout:
+http://www.keyboard-layout-editor.com/#/gists/122119f260d1c0cd1976a9b794165cc1
+
+C64 symbolic (US):
+
+http://www.keyboard-layout-editor.com/#/gists/021a6c322ea844e85db246c8ff4a265b
+
+C64 symbolic (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/12339f5dad4e6a5b6d31579671760b1e
+
 C64 positional (US):
+
 http://www.keyboard-layout-editor.com/#/gists/42e0528ec071613fda39b0a28c45e860
 
 C64 positional (DE):
+
 http://www.keyboard-layout-editor.com/#/gists/658f280e1c5e1644694dc9b4806c3602
 
-C64 symbolic (DE):
-http://www.keyboard-layout-editor.com/#/gists/12339f5dad4e6a5b6d31579671760b1e
+
+C128:
+-----
+
+The C128 keymaps are based on their respective C64 counterpart, plus the
+additional C128 keys.
+
+C128 layout:
+http://www.keyboard-layout-editor.com/#/gists/0aacef17ee0217ef95406b4c5e812dfc
+
+C128 symbolic (US):
+
+http://www.keyboard-layout-editor.com/#/gists/370229c503b1acffcfb779e2a2542ef7
+
+C128 symbolic (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/eb502c25794bf52ed82e5dd29109c36b
+
+C128 positional (US):
+
+http://www.keyboard-layout-editor.com/#/gists/83bf340aec7cda542ed5060bead9dfcb
+
+C128 positional (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/d9e3cc72b27d674e94e50067c5cf367b
+
