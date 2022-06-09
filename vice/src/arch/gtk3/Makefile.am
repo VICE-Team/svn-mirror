@@ -96,6 +96,7 @@ libarch_a_SOURCES = \
 	uidiskcreate.c \
 	uifliplist.c \
 	uihotkeysload.c \
+	uihotkeyssave.c \
 	uimachinemenu.c \
 	uimachinewindow.c \
 	uimedia.c \
@@ -179,6 +180,7 @@ EXTRA_DIST = \
 	uidiskcreate.h \
 	uifliplist.h \
 	uihotkeysload.h \
+	uihotkeyssave.h \
 	uimachinemenu.h \
 	uimachinewindow.h \
 	uimedia.h \
