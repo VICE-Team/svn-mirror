@@ -25,6 +25,11 @@
  *
  */
 
+/* Resources manipulated in this file:
+ *
+ * $VICERES HotkeyFile all
+ */
+
 #include "vice.h"
 #include <gtk/gtk.h>
 #include <time.h>
@@ -40,6 +45,7 @@
 #include "ui.h"
 #include "uiactions.h"
 #include "uiapi.h"
+#include "uihotkeysload.h"
 #include "uimenu.h"
 #include "uitypes.h"
 #include "util.h"
@@ -245,6 +251,8 @@ static GtkWidget *create_browse_widget(void)
     return widget;
 }
 #endif
+
+
 
 
 /** \brief  Create model for the hotkeys table
@@ -481,6 +489,16 @@ static gboolean update_treeview_hotkey(const gchar *accel)
     }
     return FALSE;
 }
+
+/** \brief  Update treeview by regenerating model with current hotkeys
+ */
+static void update_treeview_full(void)
+{
+    GtkListStore *model = create_hotkeys_model();
+
+    gtk_tree_view_set_model(GTK_TREE_VIEW(hotkeys_view), GTK_TREE_MODEL(model));
+}
+
 
 
 /** \brief  Remove the accelerator label \a accel from the model
@@ -1261,17 +1279,6 @@ static gboolean on_button_press_event(GtkWidget *view,
 }
 
 
-/** \brief  Handler for the 'clicked' event handler of the 'clear all' button
- *
- * \param[in]   button  clear all button (unused)
- * \param[in]   unused  extra event data (unused)
- */
-static void on_clear_clicked(GtkWidget *button, gpointer unused)
-{
-    show_clear_all_confirm_dialog();
-}
-
-
 /** \brief  Create the table view of the hotkeys
  *
  * Create a table with 'action', 'description' and 'hotkey' columns.
@@ -1328,6 +1335,65 @@ static GtkWidget *create_hotkeys_view(void)
 }
 
 
+/** \brief  Handler for the 'clicked' event handler of the 'clear all' button
+ *
+ * \param[in]   button  clear all button (unused)
+ * \param[in]   unused  extra event data (unused)
+ */
+static void on_clear_clicked(GtkWidget *button, gpointer unused)
+{
+    show_clear_all_confirm_dialog();
+}
+
+/** \brief  Handler for the 'clicked' event handler of the 'Reset to default' button
+ *
+ * \param[in]   button  clear all button (unused)
+ * \param[in]   unused  extra event data (unused)
+ */
+static void on_defaults_clicked(GtkButton *button, gpointer unused)
+{
+    ui_hotkeys_load_default();
+    update_treeview_full();
+}
+
+/** \brief  Handler for the 'clicked' event handler of the 'Reload hotkeys'
+ *          button
+ *
+ * \param[in]   button  clear all button (unused)
+ * \param[in]   unused  extra event data (unused)
+ */
+static void on_load_clicked(GtkButton *button, gpointer unused)
+{
+    /* We can trigger an action here since we're on the UI thread: the action's
+     * handler will not be pused onto a thread or timeout but simply execute
+     * in this thread */
+    ui_action_trigger(ACTION_HOTKEYS_LOAD);
+    update_treeview_full();
+}
+
+/** \brief  Callback for the hotkeys load dialog
+ *
+ * \param[in]   result  user loaded a file
+ */
+static void load_from_callback(gboolean result)
+{
+    if (result) {
+        update_treeview_full();
+    }
+}
+
+/** \brief  Handler for the 'clicked' event handler of the 'Load hotkeys from...'
+ *          button
+ *
+ * \param[in]   button  clear all button (unused)
+ * \param[in]   unused  extra event data (unused)
+ */
+
+static void on_load_from_clicked(GtkButton *button, gpointer unused)
+{
+    ui_hotkeys_load_dialog_show(load_from_callback);
+}
+
 
 /** \brief  Create main widget
  *
@@ -1345,8 +1411,8 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
 #endif
     GtkWidget *defaults;
     GtkWidget *clear;
-    GtkWidget *reload;
     GtkWidget *load;
+    GtkWidget *load_from;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -1369,7 +1435,8 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), export, 0, 2, 1, 1);
 #endif
     /* need to regenerate the view after this action is triggered */
-    defaults = ui_action_button_new(ACTION_HOTKEYS_DEFAULT, "Reset to default");
+    defaults = gtk_button_new_with_label("Reset to default");
+    g_signal_connect(defaults, "clicked", G_CALLBACK(on_defaults_clicked), NULL);
     gtk_grid_attach(GTK_GRID(grid), defaults, 0, 2, 1 ,1);
 
     /* this one pops up a confirmation dialog, so we don't use an action ID */
@@ -1377,14 +1444,13 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
     g_signal_connect(clear, "clicked", G_CALLBACK(on_clear_clicked), NULL);
     gtk_grid_attach(GTK_GRID(grid), clear, 1, 2, 1 ,1);
 
-    /* can't reliably use actions here either, we need to regenerate the view
-     * after loading :( */
+    load = gtk_button_new_with_label("Reload hotkeys");
+    g_signal_connect(load, "clicked", G_CALLBACK(on_load_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), load, 0, 3, 1, 1);
 
-    reload = ui_action_button_new(ACTION_HOTKEYS_LOAD, "Reload hotkeys");
-    gtk_grid_attach(GTK_GRID(grid), reload, 0, 3, 1, 1);
-
-    load = ui_action_button_new(ACTION_HOTKEYS_LOAD_FROM, "Load hotkeys from...");
-    gtk_grid_attach(GTK_GRID(grid), load, 1, 3, 1, 1);
+    load_from = gtk_button_new_with_label("Load hotkeys from...");
+    g_signal_connect(load_from, "clicked", G_CALLBACK(on_load_from_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), load_from, 1, 3, 1, 1);
 
     /* TODO: Save and Save-To */
 

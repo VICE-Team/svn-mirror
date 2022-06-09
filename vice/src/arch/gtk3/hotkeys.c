@@ -26,6 +26,11 @@
  *  02111-1307  USA.
  */
 
+/* Resources manipulated in this file:
+ *
+ * $VICERES HotkeyFile all
+ */
+
 #include "vice.h"
 
 #include <gtk/gtk.h>
@@ -364,6 +369,7 @@ int ui_hotkeys_cmdline_options_init(void)
 /** \brief  Load the default hotkeys
  *
  * Parse the VICE-provided hotkey files, clearing any user-defined hotkeys.
+ * Also set the "HotkeyFile" resource to "".
  */
 void ui_hotkeys_load_default(void)
 {
@@ -382,6 +388,8 @@ void ui_hotkeys_load_default(void)
     }
     if (result) {
         log_message(hotkeys_log, "Hotkeys: OK.");
+        /* clear the custom hotkeys file resource */
+        resources_set_string("HotkeyFile", "");
     } else {
         log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
     }
