@@ -123,6 +123,8 @@ static const mod_mask_t mod_mask_list[] = {
  */
 static GtkWidget *hotkeys_view;
 
+static GtkWidget *hotkeys_path;
+
 #ifdef DEBUG_HOTKEYS
 static GtkWidget *modifiers_grid;
 static GtkWidget *modifiers_string;
@@ -171,6 +173,33 @@ static void clear_all_hotkeys(void)
         } while (gtk_tree_model_iter_next(model, &iter));
     }
 }
+
+
+/** \brief  Update hotkeys path widget */
+static void update_hotkeys_path(void)
+{
+    const char *hotkeyfile = NULL;
+
+    resources_get_string("HotkeyFile", &hotkeyfile);
+    if (hotkeyfile != NULL && *hotkeyfile != '\0') {
+        gtk_entry_set_text(GTK_ENTRY(hotkeys_path), hotkeyfile);
+    } else {
+        /* default location */
+        char *path;
+        char *datadir = archdep_get_vice_datadir();
+
+        if (machine_class == VICE_MACHINE_VSID) {
+            path = util_join_paths(datadir, machine_name, VHK_DEFAULT_NAME_VSID, NULL);
+        } else {
+            path = util_join_paths(datadir, machine_name, VHK_DEFAULT_NAME, NULL);
+        }
+        lib_free(datadir);
+
+        gtk_entry_set_text(GTK_ENTRY(hotkeys_path), path);
+        lib_free(path);
+    }
+}
+
 
 
 /* Will be replaced with UI actions */
@@ -1354,6 +1383,7 @@ static void on_defaults_clicked(GtkButton *button, gpointer unused)
 {
     ui_hotkeys_load_default();
     update_treeview_full();
+    update_hotkeys_path();
 }
 
 /** \brief  Handler for the 'clicked' event handler of the 'Reload hotkeys'
@@ -1369,6 +1399,7 @@ static void on_load_clicked(GtkButton *button, gpointer unused)
      * in this thread */
     ui_action_trigger(ACTION_HOTKEYS_LOAD);
     update_treeview_full();
+    update_hotkeys_path();
 }
 
 /** \brief  Callback for the hotkeys load dialog
@@ -1379,6 +1410,7 @@ static void load_from_callback(gboolean result)
 {
     if (result) {
         update_treeview_full();
+        update_hotkeys_path();
     }
 }
 
@@ -1409,10 +1441,9 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
     GtkWidget *browse;
     GtkWidget *export;
 #endif
-    GtkWidget *defaults;
-    GtkWidget *clear;
-    GtkWidget *load;
-    GtkWidget *load_from;
+    GtkWidget *button;
+    GtkWidget *wrapper;
+    GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -1434,23 +1465,43 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
     g_signal_connect(export, "clicked", G_CALLBACK(on_export_clicked), NULL);
     gtk_grid_attach(GTK_GRID(grid), export, 0, 2, 1, 1);
 #endif
+
+    /* add widget to show path to current hotkeys file */
+    wrapper = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
+
+    label = gtk_label_new("Current hotkeys file:");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(label, FALSE);
+    gtk_grid_attach(GTK_GRID(wrapper), label, 0, 0, 1, 1);
+
+    hotkeys_path = gtk_entry_new();
+    gtk_widget_set_hexpand(hotkeys_path, TRUE);
+    gtk_editable_set_editable(GTK_EDITABLE(hotkeys_path), FALSE);
+    gtk_widget_set_can_focus(hotkeys_path, FALSE);
+    gtk_grid_attach(GTK_GRID(wrapper), hotkeys_path, 1, 0, 1, 1);
+    update_hotkeys_path();
+
+    g_object_set(G_OBJECT(wrapper), "margin-top", 8, "margin-bottom", 8, NULL);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 1, 2, 1);
+
     /* need to regenerate the view after this action is triggered */
-    defaults = gtk_button_new_with_label("Reset to default");
-    g_signal_connect(defaults, "clicked", G_CALLBACK(on_defaults_clicked), NULL);
-    gtk_grid_attach(GTK_GRID(grid), defaults, 0, 2, 1 ,1);
+    button = gtk_button_new_with_label("Reset to default");
+    g_signal_connect(button, "clicked", G_CALLBACK(on_defaults_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), button, 0, 2, 1 ,1);
 
     /* this one pops up a confirmation dialog, so we don't use an action ID */
-    clear = gtk_button_new_with_label("Clear all hotkeys");
-    g_signal_connect(clear, "clicked", G_CALLBACK(on_clear_clicked), NULL);
-    gtk_grid_attach(GTK_GRID(grid), clear, 1, 2, 1 ,1);
+    button = gtk_button_new_with_label("Clear all hotkeys");
+    g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), button, 1, 2, 1 ,1);
 
-    load = gtk_button_new_with_label("Reload hotkeys");
-    g_signal_connect(load, "clicked", G_CALLBACK(on_load_clicked), NULL);
-    gtk_grid_attach(GTK_GRID(grid), load, 0, 3, 1, 1);
+    button = gtk_button_new_with_label("Reload hotkeys");
+    g_signal_connect(button, "clicked", G_CALLBACK(on_load_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), button, 0, 3, 1, 1);
 
-    load_from = gtk_button_new_with_label("Load hotkeys from...");
-    g_signal_connect(load_from, "clicked", G_CALLBACK(on_load_from_clicked), NULL);
-    gtk_grid_attach(GTK_GRID(grid), load_from, 1, 3, 1, 1);
+    button = gtk_button_new_with_label("Load hotkeys from...");
+    g_signal_connect(button, "clicked", G_CALLBACK(on_load_from_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), button, 1, 3, 1, 1);
 
     /* TODO: Save and Save-To */
 
