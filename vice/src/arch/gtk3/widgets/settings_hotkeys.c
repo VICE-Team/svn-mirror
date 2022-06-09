@@ -1364,9 +1364,10 @@ static GtkWidget *create_hotkeys_view(void)
 }
 
 
-/** \brief  Handler for the 'clicked' event handler of the 'clear all' button
+/** \brief  Handler for the 'clicked' event handler of the 'Clear all hotkeys'
+ *          button
  *
- * \param[in]   button  clear all button (unused)
+ * \param[in]   button  button (unused)
  * \param[in]   unused  extra event data (unused)
  */
 static void on_clear_clicked(GtkWidget *button, gpointer unused)
@@ -1374,9 +1375,10 @@ static void on_clear_clicked(GtkWidget *button, gpointer unused)
     show_clear_all_confirm_dialog();
 }
 
-/** \brief  Handler for the 'clicked' event handler of the 'Reset to default' button
+/** \brief  Handler for the 'clicked' event handler of the 'Reset to default'
+ *          button
  *
- * \param[in]   button  clear all button (unused)
+ * \param[in]   button  button (unused)
  * \param[in]   unused  extra event data (unused)
  */
 static void on_defaults_clicked(GtkButton *button, gpointer unused)
@@ -1389,7 +1391,7 @@ static void on_defaults_clicked(GtkButton *button, gpointer unused)
 /** \brief  Handler for the 'clicked' event handler of the 'Reload hotkeys'
  *          button
  *
- * \param[in]   button  clear all button (unused)
+ * \param[in]   button  button (unused)
  * \param[in]   unused  extra event data (unused)
  */
 static void on_load_clicked(GtkButton *button, gpointer unused)
@@ -1417,10 +1419,9 @@ static void load_from_callback(gboolean result)
 /** \brief  Handler for the 'clicked' event handler of the 'Load hotkeys from...'
  *          button
  *
- * \param[in]   button  clear all button (unused)
+ * \param[in]   button  button (unused)
  * \param[in]   unused  extra event data (unused)
  */
-
 static void on_load_from_clicked(GtkButton *button, gpointer unused)
 {
     ui_hotkeys_load_dialog_show(load_from_callback);
@@ -1503,7 +1504,10 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
     g_signal_connect(button, "clicked", G_CALLBACK(on_load_from_clicked), NULL);
     gtk_grid_attach(GTK_GRID(grid), button, 1, 3, 1, 1);
 
-    /* TODO: Save and Save-To */
+    button = ui_action_button_new(ACTION_HOTKEYS_SAVE, "Save hotkeys");
+    gtk_grid_attach(GTK_GRID(grid), button, 0, 4, 1, 1);
+
+    /* TODO: Save hotkeys to... */
 
     gtk_widget_show_all(grid);
     return grid;
