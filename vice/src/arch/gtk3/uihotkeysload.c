@@ -42,6 +42,9 @@
 #include "uihotkeysload.h"
 
 
+static void (*extra_callback)(gboolean) = NULL;
+
+
 /** \brief  Handler for the 'destroy' event of the dialog
  *
  * \param[in]   dialog  dialog (unused)
@@ -63,21 +66,34 @@ static void on_destroy(GtkDialog *self, gpointer unused)
  */
 static void load_callback(GtkDialog *self, gchar *filename, gpointer data)
 {
+    gboolean result = FALSE;
+
     if (filename != NULL) {
         debug_gtk3("Got filename '%s'", filename);
         resources_set_string("HotkeyFile", filename);
         g_free(filename);
+        result = TRUE;
     }
     gtk_widget_destroy(GTK_WIDGET(self));
+    if (extra_callback != NULL) {
+        extra_callback(result);
+    }
 }
 
 
 /** \brief  Show dialog to load hotkeys file
+ *
+ * Show file dialog to load hotkeysfile. If \a callback is set it will be called
+ * with a boolean parameter that's `TRUE` when the user clicked 'Open'.
+ *
+ * \param[in]   callback    function to call on response (optional)
  */
-void ui_hotkeys_load_dialog_show(void)
+void ui_hotkeys_load_dialog_show(void (*callback)(gboolean))
 {
     GtkWidget *dialog;
     const char *hotkeyfile = NULL;
+
+    extra_callback = callback;
 
     resources_get_string("HotkeyFile", &hotkeyfile);
 

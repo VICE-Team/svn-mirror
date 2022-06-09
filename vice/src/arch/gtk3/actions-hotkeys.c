@@ -25,6 +25,11 @@
  *
  */
 
+/* Resources manipulated in this file:
+ *
+ * $VICERES HotkeyFile all
+ */
+
 #include "vice.h"
 
 #include <gtk/gtk.h>
@@ -78,7 +83,7 @@ static void hotkeys_load_action(void)
 
 static void hotkeys_load_from_action(void)
 {
-    ui_hotkeys_load_dialog_show();
+    ui_hotkeys_load_dialog_show(NULL);
 }
 #if 0
 static void hotkeys_save_action(void)

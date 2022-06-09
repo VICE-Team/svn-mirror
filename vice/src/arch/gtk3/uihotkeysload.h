@@ -27,6 +27,8 @@
 #ifndef VICE_UIHOTKEYSLOADDIALOG_H
 #define VICE_UIHOTKEYSLOADDIALOG_H
 
-void ui_hotkeys_load_dialog_show(void);
+#include <gtk/gtk.h>
+
+void ui_hotkeys_load_dialog_show(void (*callback)(gboolean));
 
 #endif
