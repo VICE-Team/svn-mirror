@@ -5,6 +5,7 @@
 .autoheader.out
 .automake.out
 .deps
+.opendiff-*
 CMakeFiles
 CMakeLists.txt
 Makefile

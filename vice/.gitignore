@@ -1,6 +1,7 @@
 _sdl2
 _sdl
 _gtk3
+_headless
 aclocal.m4
 autom4te.cache/
 compile
