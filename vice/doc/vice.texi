@@ -903,36 +903,39 @@ frequency drifts.
 @node Keyboard emulation, Joystick emulation, SCPU64 emulator features, Preface
 @section The keyboard emulation
 
-There are two ways of emulating the keyboard in VICE.
+There are two fundamentally different ways of emulating the keyboard in VICE,
+both of which have their individual shortcomings and strengths:
 
-The default way (@dfn{symbolic mapping}) is to map every key
-combination to the corresponding key combination on the real machine:
-for example, if you press @key{*}, which is bound to @kbd{Shift-8} on a
+@b{Symbolic Mapping}
+
+The default way (@dfn{symbolic mapping}) is to map every key - as far as possible -
+ in a way that inside the emulation the symbol that is printed on the host key is
+ produced.
+For example, if you press @key{*}, which is bound to @kbd{Shift-8} on a
 U.S. keyboard, in the C64 emulator, the emulated machine will have just
 the @emph{unshifted} @key{*} key pressed (as @key{*} is unshifted on the
 C64 keyboard).  Likewise, pressing @key{'} on the same U.S. keyboard
 without any shift key will cause the combination @kbd{Shift-7} to be
 pressed in the emulated C64.  This way, it becomes quite obvious what
 keys should be typed to obtain all the symbols. @dfn{The key printed on the 
-host keyboard will be pressed in the emulator}.
+host keyboard will be pressed in the emulator}. 
+ 
+ Note that while these mappings will allow easier typing if you are used
+ to your host keymap, it might cause various problems in the emulation and not all
+ emulated keys are accessible. If you encounter such problems, try the positional
+ mapping.
 
-There is, however, one problem with symbolic mapping: some keys really
+@itemize
+@item
+Some keys really
 need to be mapped specially regardless (those that do not exist on a PC
 keyboard).  Some examples are the @key{Commodore} key, @key{RUN/STOP}, 
 @key{Clear/Home}. The exact mapping depends on your host layout, but should
-be easy to find out by try and error :) If in doubt, you can read the keyboard
+follow mostly the layouts shown below. If in doubt, you can read the keyboard
 mapping files.
 
-The second way (@dfn{positional mapping}) is to map every key on the
-host keyboard to the key which has the same position on the keyboard
-of the emulated machine.  This way the keyboard is more comfortable to use 
-in those programs (such as some games) that require the keys to be in the 
-correct positions. On the other hand it can be quite confusing if you are not
-very familiar with the original emulated keyboards. Also not all keys can be
-mapped exactly this way either, which means some of them still need to be
-mapped to other keys (see above).
-
-@strong{Warning:} If you have symbolic keyboard mapping enabled, the emulator has
+@item
+the emulator has
 to "de-shift" (remove the shift modifier) from some keys. For example, if you
 want to get a ":" on a german keyboard, you have to press "." and shift simulaneously.
 Then, the emulator sees the events "shift pressed" and ":" pressed. At the moment
@@ -942,6 +945,7 @@ so it has to deliver this state to the keyboard matrix. If you press ".", then s
 to achive a ":", the emulator has to take back the shift key although it is still
 pressed, as the ":" is an unshifted key in the c64/c128 keyboard matrix.
 
+@item
 A similar problem exists when you press a key that is unshifted on the host keyboard,
 and the emulator must "shift" (add the shift modifier) for the emulated keyboard. For
 example on a US keyboard the brackets ([,]) are such a case. Unlike what would happen
@@ -951,8 +955,56 @@ should work fine, but some keyboard routines are quite picky (eg x128 in CP/M mo
 recognize the shift key because of this. For instance, @kbd{F6} (which on the
 real C64 is obtained with @kbd{Shift + F5}) could be recognized as @kbd{F5}.
 In that case, use the shift key manually (i.e., type @kbd{Shift + F5} in the example).
+@end itemize
 
-Yes, we know this is a bug. As a workaround, please use a positional keymap.
+Yes, we know this is a bug. Unfortunately it is less than trivial to fix 100%. If
+you encounter any problems, please use a positional keymap as a workaround - that
+should always work as expected.
+
+PROs:
+@itemize @bullet
+@item Mostly intuitive typing if your muscle memory is conditioned strong to your host keyboard.
+@end itemize
+CONs:
+@itemize @bullet
+@item Does not preserve the position of the keys.
+@item Due to how the key mapping may add or remove the SHIFT flag from individual
+keys, strange side effects may occur (see above).
+@item SHIFT/LOCK is added to the emulated keys - which may give unexpected results
+depending on your host OS and keymap (It is really emulating the SHIFT-LOCK key and
+not working as a CAPS-LOCK like in your host OS anymore).
+@end itemize
+
+@b{Positional Mapping}
+
+For the @dfn{positional mapping}s first all keys are mapped at their exact positions,
+as far as possible, and then the remaining few (usually 2 or 3) will be mapped
+to other, yet unused, keys. @b{This is the recommended mapping for playing games or
+other programs that require keys+modifiers (shift/control/cbm) to work exactly
+like on the emulated machine.} This way the keyboard is more comfortable to use 
+in those programs (such as some games) that require the keys to be in the 
+correct positions. On the other hand it can be quite confusing if you are not
+very familiar with the original emulated keyboards. Also not all keys can be
+mapped exactly this way either, which means some of them still need to be
+mapped to other keys (see further down).
+
+Like with symbolic mapping, some keys really need to be mapped specially
+regardless (eg @key{RUN/STOP}). The exact mapping depends on your host layout,
+but should follow mostly the layouts shown below. If in doubt, you can read the
+keyboard mapping files.
+
+PROs:
+@itemize @bullet
+@item Mostly intuitive typing if your muscle memory is conditioned strong to your (eg) C64 keyboard.
+@item Does preserve the position of (most of) the keys.
+@item Natural SHIFT and SHIFT/LOCK behaviour
+@end itemize
+CONs:
+@itemize @bullet
+@item Weird to use if you are not familiar with the emulated (eg) C64 keyboard.
+@end itemize
+
+@b{Notes}
 
 We depend a lot on your support to improve the keyboard maps, as we can not
 test all emulators in all possible configurations and using all host keyboard
@@ -960,37 +1012,45 @@ mappings. Please report any problems to us so we can fix them!
 
 If you experience problems with 'accent' keys such as acute, grave, tilde, 
 circumflex, diaresis (and possibly more/other, depending on your host keyboard
-layout) try switching to a "no deadkeys" layout in your OS. In any case, please
+layout) try switching to a "no deadkeys" layout in your OS. Note that @b{currently
+SDL requires using a "no deadkeys" keyboard layout!} In any case, please
 also report these problems so we can fix them!
 
-To find out the keycodes to use, incase you want to edit the keymaps yourself,
-you can enable showing the keycodes in the status bar in the settings. For more
-information on making your own keymaps (or helping to fix/update the existing
-ones), @pxref{Keymap files}.
+For more information on making your own keymaps (or helping to fix/update the
+existing ones), see @pxref{Keymap files}.
 
 @subsection C64 & VIC20 Keyboard Map
 
+@image{html/images/c64-layout-small}
+
 This mapping applies to the C64, SCPU, VIC20 and DTV emulators.
 
-In the symbolic mappings all keys are - as far as possible - mapped in a way that
-inside the emulation the symbol that is printed on the host key is produced. Note
-that while these mappings will allow easier typing if you are used to your host
-keymap, it might cause various problems in the emulation and not all emulated
-keys are accessible. If you encounter such problems, try the positional mapping.
-
-For the positional mappings first all keys are mapped at their exact positions,
-as far as possible, and then the remaining few (usually 2 or 3) will be mapped
-to other, yet unused, keys. This is the recommended mapping for playing games or
-other programs that require keys+modifiers (shift/control/cbm) to work exactly
-like on the emulated machine.
+@subsubsection Symbolic (US)
+@image{html/images/vice-c64-symbolic-keymap-us-small}
+@subsubsection Positional (US)
+@image{html/images/vice-c64-positional-keymap-us-small}
 
 @subsubsection Symbolic (DE)
 @image{html/images/vice-c64-symbolic-keymap-de-small}
-
-@subsubsection Positional (US)
-@image{html/images/vice-c64-positional-keymap-us-small}
 @subsubsection Positional (DE)
 @image{html/images/vice-c64-positional-keymap-de-small}
+
+@subsection C128 Keyboard Map
+
+@image{html/images/c128-layout-small}
+
+This mapping applies to the C128 emulator. It is for a large part identical with
+the respective C64 mapping, plus the added function- and extra keys.
+
+@subsubsection Symbolic (US)
+@image{html/images/vice-c128-symbolic-keymap-us-small}
+@subsubsection Positional (US)
+@image{html/images/vice-c128-positional-keymap-us-small}
+
+@subsubsection Symbolic (DE)
+@image{html/images/vice-c128-symbolic-keymap-de-small}
+@subsubsection Positional (DE)
+@image{html/images/vice-c128-positional-keymap-de-small}
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
 @section The joystick emulation
@@ -2020,6 +2080,7 @@ The SCPU64 needs the following files:
 
 @end itemize
 
+
 @node Keymap files, Palette files, ROM files, System files
 @section Keymap files
 
@@ -2034,106 +2095,39 @@ to that key.  The emulator then looks up that keysym in an internal
 table that tells it which key(s) to press or release on the emulated
 keyboard.
 
-This table is described by the keymap file, which is made up of lines
-like the following:
+VICE keymap files have the @file{.vkm} default extension, and every
+emulator comes with a default positional mapping and a default symbolic
+mapping, @pxref{Keyboard emulation}.
 
-@example
-KEYSYM ROW COLUMN SHIFTFLAG
-@end example
+To find out the keycodes to use, incase you want to edit the keymaps yourself,
+you can enable showing the keycodes in the status bar in the settings.
 
-Where:
+@subsection Comments
 
 @itemize @bullet
 
 @item
-@code{KEYSYM} is a string (GTK) or number (SDL) identifying the keysym: you can 
-use the "show keycodes in statusbar" feature to see what keysym is bound to any key.
-
+Any line starting with the @code{#} sign, is completely ignored.
 @item
-@code{ROW} and @code{COLUMN} refer to the row and column of the emulated key on the
-emulated keyboard - all existing keymaps have the respective keyboard matrix in
-them in comments, have a look.
-
-@item
-@code{SHIFTFLAG} can have one of the following values. Flags can be combined by
- simply ORing (or adding) them together:
-
-@multitable @columnfractions .1 .1 .8
-@item @b{Value}
-@tab @b{Hex}
-@tab @b{Description}
-@item @code{0}
-@tab @code{0x0000}
-@tab the key is never shifted
-@item @code{1}
-@tab @code{0x0001}
-@tab the key is shifted on the emulated keyboard, virtual shift will be used when
- it is not shifted on the host keyboard
-@item @code{2}
-@tab @code{0x0002}
-@tab the key is the left shift key
-@item @code{4}
-@tab @code{0x0004}
-@tab the key is the right shift key. Use only this flag for emulated keyboards
-that have only one shift key.
-@item @code{8}
-@tab @code{0x0008}
-@tab the key can be (optionally) shifted by the user.
-@item @code{16}
-@tab @code{0x0010}
-@tab deshift key for this keysym/scancode. That means when the key is pressed with
- shift on the host keyboard, shift will @b{not} be used on the emulated keyboard.
-@item @code{32}
-@tab @code{0x0020}
-@tab another definition for this keysym/scancode follows later in the file
-@item @code{64}
-@tab @code{0x0040}
-@tab key is shift-lock on the emulated machine. Usually you'd use this for the caps
- lock key on the host keyboard.
-@item @code{128}
-@tab @code{0x0080}
-@tab shift modifier required on host
-@item @code{256}
-@tab @code{0x0100}
-@tab key is used for an alternative keyboard mapping, e.g. C64 mode in x128
-@item @code{512}
-@tab @code{0x0200}
-@tab alt-r (alt-gr) modifier required on host
-@item @code{1024}
-@tab @code{0x0400}
-@tab ctrl modifier required on host
-@item @code{2048}
-@tab @code{0x0800}
-@tab key is combined with cbm for this keysym/scancode
-@item @code{4096}
-@tab @code{0x1000}
-@tab key is combined with ctrl for this keysym/scancode
-@item @code{8192}
-@tab @code{0x2000}
-@tab key is (left) cbm on emulated machine
-@item @code{16384}
-@tab @code{0x4000}
-@tab key is (left) ctrl on emulated machine
-@end multitable
+Any characters in "C-style" comments is ignored (/* this is a comment */).
 
 @end itemize
 
-The @code{SHIFTFLAG} is useful if you want certain keys to be
-``artificially'' shifted by the emulator, and not by the user.  For
-example, @key{F2} is shifted on the C64 keyboard, but you might want it
-to be mapped to the unshifted @key{F2} key on the PC keyboard.  To do
-so, you just have to use a line like the following:
+When creating new keymaps, please copy over the usual set of leading comments
+(have a look at the default US keymaps).
+
+In particular each file at the very least should contain a line indicating what
+type of mapping it is supposed to be, for what host layout, what emulator, and
+which UI, like this:
 
 @example
-F2 0 4 1
+# Symbolic Mapping, US Layout, C64, GTK
 @end example
 
-where @code{0} and @code{4} identify the key (row 0, column 4 on the
-keyboard matrix), and @code{1} specifies that every time the user presses
-@key{F2} the shift key on the C64 keyboard must be pressed.
+@subsection Control commands
 
-There are also some special commands you can put into the keyboard file, these
- usually appear at the beginning of the file, before any actual keycode definitions;
+There are some special commands you can put into the keyboard file, these usually
+appear at the beginning of the file, before any actual keycode definitions;
 they are recognized because they start with an exclamation mark:
 
 @itemize @bullet
@@ -2149,7 +2143,7 @@ when adding local mappings to an otherwise generic file (so you dont have to
 copy the while file, but just add/modify a few keys).
 
 @item
-@code{!UNDEF} keysym'        remove keysym from table
+@code{!UNDEF} followed by keysym removes keysym from mapping table.
 @end itemize
 
 @itemize @bullet
@@ -2176,7 +2170,6 @@ be used as a virtual shift-lock key; for example, C64 default keymaps will speci
 @end example
 @end itemize
 
-
 For emulated keyboards that have only one shift key, set both @code{!LSHIFT} and @code{!RSHIFT}
  to the same row/col and use RSHIFT for @code{!VSHIFT} and @code{!SHIFTL}.
 
@@ -2199,13 +2192,352 @@ be used as a virtual CBM key.
 
 @end itemize
 
-Any line starting with the @code{#} sign, instead, is completely
-ignored.  This is useful for adding comments within the keymap file.
+For example, a C64 keymap would usually start with this block:
 
-VICE keymap files have the @file{.vkm} default extension, and every
-emulator comes with a default positional mapping and a default symbolic
-mapping, @pxref{Keyboard emulation}.
+@example
+!CLEAR
+!LSHIFT 1 7
+!RSHIFT 6 4
+!VSHIFT RSHIFT
+!SHIFTL LSHIFT
+!LCBM 7 5
+!VCBM LCBM
+!LCTRL 7 2
+!VCTRL LCTRL
+@end example
 
+When creating new keymaps, make sure to create the respective set of commands
+first and make sure the row/column values are correct.
+
+Before you fix the rest of your mapping, make sure to create mappings for all
+modifier keys that relate to the used row/column pairs and update their
+@code{SHIFTFLAG} accordingly. Getting those right is the key to making more
+complex mappings possible later.
+
+For a example a typical GTK C64 symbolic mapping would contain something like this:
+
+@example
+Shift_R         6 4 0x0004    /* right SHIFT -> right SHIFT */
+Shift_L         1 7 0x0002    /* left SHIFT  -> left SHIFT */
+Caps_Lock       1 7 0x0040    /* CAPS lock   -> SHIFT lock */
+Tab             7 5 0x2008    /* TAB         -> CBM (can be combined with SHIFT) */
+Control_L       7 2 0x4008    /* left CTRL   -> CTRL (can be combined with SHIFT) */
+@end example
+
+@subsection Key mappings
+
+This table is described by the keymap file, which is made up of lines
+like the following:
+
+@example
+KEYSYM ROW COLUMN SHIFTFLAG /* COMMENT */
+@end example
+
+Where:
+
+@itemize @bullet
+
+@item
+@code{KEYSYM} identifying the keysym: In (GTK) it is a literal keyboard symbol
+as a string (for example "space"), in (SDL) it is a numeric keycode (for example
+"32").
+
+You can use the "show keycodes in statusbar" feature to see what keysym is bound
+to any key.
+
+@item
+@code{ROW} and @code{COLUMN} refer to the row and column of the emulated key on the
+emulated keyboard - all existing keymaps have the respective keyboard matrix in
+them in comments, have a look.
+
+@item
+The @code{SHIFTFLAG} controls various aspects of how a host key is mapped to the
+emulated keyboard. For example you may want to artificially add or remove certain
+modifiers to/from the emulated keypress.
+
+@end itemize
+
+A keymap is parsed line by line. More complex mappings can be created by mapping
+the same key with different @code{SHIFTFLAG} to different emulated keys in multiple lines:
+
+@itemize @bullet
+
+@item
+A key mapping is found when the key symbol matches
+
+@item
+and when none of the following reject conditions apply:
+
+@multitable @columnfractions .1 .1 .4 .4
+@item @b{Value}
+@tab @b{Hex}
+@tab @b{Description}
+@tab @b{Action}
+@item @code{0}
+@tab @code{0x0000}
+@tab The key is never shifted.
+@tab If any SHIFT modifiers pressed, then reject key.
+@item @code{8}
+@tab @code{0x0008}
+@tab The key can be (optionally) shifted by the user.
+@tab If any SHIFT modifiers pressed on the host, and this flag @b{is not} set, then reject key.
+@item @code{128}
+@tab @code{0x0080}
+@tab SHIFT modifier required on host.
+@tab If SHIFT modifier(s) @b{not} pressed on the host, and this flag @b{is} set, then reject key.
+@item @code{256}
+@tab @code{0x0100}
+@tab Key is used for an alternative keyboard mapping
+@tab if no alternative mapping is enabled (eg C64 mode in x128), reject key.
+@item @code{512}
+@tab @code{0x0200}
+@tab ALT-R (ALT-GR) modifier required on host.
+@tab If ALT-R modifier @b{not} pressed on the host, and this flag @b{is} set, then reject key.
+@item @code{1024}
+@tab @code{0x0400}
+@tab CTRL modifier required on host.
+@tab If CTRL modifier @b{not} pressed on the host, and this flag @b{is} set, then reject key.
+@end multitable
+
+@item
+If no reject condition was true then we found a possible match. If no other mapping
+will be found, this is the one that will be used. We may or may not look for
+another match, depending on:
+
+@multitable @columnfractions .1 .1 .8
+@item @b{Value}
+@tab @b{Hex}
+@tab @b{Description}
+@item @code{32}
+@tab @code{0x0020}
+@tab Another definition for this keysym/scancode follows later in the file. If this flag @b{is not} set, stop looking for another match.
+@end multitable
+
+@item
+Once a match was found, the virtual modifiers are applied:
+
+@multitable @columnfractions .1 .1 .4 .4
+@item @b{Value}
+@tab @b{Hex}
+@tab @b{Description}
+@tab @b{Action}
+@item @code{1}
+@tab @code{0x0001}
+@tab The key is shifted on the emulated keyboard
+@tab virtual shift will be used when it is not shifted on the host keyboard.
+@item @code{16}
+@tab @code{0x0010}
+@tab Deshift key for this keysym/scancode.
+@tab When the key is pressed with shift on the host keyboard, shift will @b{not} be used on the emulated keyboard.
+@item @code{2048}
+@tab @code{0x0800}
+@tab Key is combined with CBM for this keysym/scancode
+@tab virtual CBM will be used when it is not combined with CBM via another mapped key.
+@item @code{4096}
+@tab @code{0x1000}
+@tab Key is combined with CTRL for this keysym/scancode
+@tab virtual CTRL will be used when it is not combined with CTRL via another mapped key.
+@end multitable
+
+@item
+and last not least these are the flags left:
+
+@multitable @columnfractions .1 .1 .8
+@item @b{Value}
+@tab @b{Hex}
+@tab @b{Description}
+@item @code{32768}
+@tab @code{0x8000}
+@tab Do @b{not} emulate a "locked" switch for this key. This can be useful when your host keyboard provides physical locking by itself. (currently works only for the C128 40/80 and CAPS-lock keys)
+@end multitable
+
+@end itemize
+
+For example this is is from the SDL C64 symbolic DE mapping:
+
+@example
+# 32+1 not shifted on host, shifted on c64
+60 5 7 0x0021          /*             < -> <            */
+# 32+128 shifted on host, shifted on c64
+60 5 4 0x00a0          /*             > -> >            */
+# 512+16 alt-gr on host, deshift for c64
+60 6 0 0x0210          /*        altr+< -> pound        */
+@end example
+
+@subsubsection Special Rows
+
+Besides the keyboard matrix of the emulated keyboard, there are a bunch of
+special keys available in the negative rows as below:
+
+@multitable @columnfractions .1 .1 .8
+@item @b{Row}
+@tab @b{Column}
+@tab @b{Description}
+@item @code{-1}
+@tab @code{n}
+@tab Joystick keymap A, direction n
+@item @code{-2}
+@tab @code{n}
+@tab Joystick keymap B, direction n
+@item @code{-3}
+@tab @code{0}
+@tab First RESTORE key
+@item @code{-3}
+@tab @code{1}
+@tab Second RESTORE key
+@item @code{-4}
+@tab @code{0}
+@tab 40/80 column key (x128)
+@item @code{-4}
+@tab @code{1}
+@tab CAPS (ASCII/DIN) key (x128)
+@item @code{-5}
+@tab @code{n}
+@tab Joyport keypad, key n (not supported in x128)
+@end multitable
+
+For example, a lot of (GTK) keymaps would map RESTORE like this:
+
+@example
+# Restore key mapping
+F12     -3 0
+Page_Up -3 1
+@end example
+
+Joystick keymap direction column values for rows -1 and -2:
+
+@multitable @columnfractions .2 .2 .2
+@item
+@tab
+@tab
+@item @b{6} (N/W)
+@tab  @b{7} (North)
+@tab  @b{8} (N/E)
+@item @b{4} (West)
+@tab  @b{0} (Fire)
+@tab  @b{5} (East)
+@item @b{1} (S/W)
+@tab  @b{2} (South)
+@tab  @b{3} (S/E)
+@end multitable
+
+
+Joyport keypad direction column values for row -5:
+
+@multitable @columnfractions .1 .1 .1 .1 .1
+@item
+@tab
+@tab
+@tab
+@tab
+@item @b{0}
+@tab  @b{1}
+@tab  @b{2}
+@tab  @b{3}
+@tab  @b{4}
+@item @b{5}
+@tab  @b{6}
+@tab  @b{7}
+@tab  @b{8}
+@tab  @b{9}
+@item @b{10}
+@tab  @b{11}
+@tab  @b{12}
+@tab  @b{13}
+@tab  @b{14}
+@item @b{15}
+@tab  @b{16}
+@tab  @b{17}
+@tab  @b{18}
+@tab  @b{19}
+@end multitable
+
+When a bigger spaced key is used, it uses the upper left most column value.
+
+@subsubsection Modifier Flags
+
+The @code{SHIFTFLAG} can have one of the following values. Flags can be combined by simply ORing (or adding) them together:
+
+@multitable @columnfractions .1 .1 .8
+@item @b{Value}
+@tab @b{Hex}
+@tab @b{Description}
+@item @code{0}
+@tab @code{0x0000}
+@tab The key is never shifted.
+@item @code{1}
+@tab @code{0x0001}
+@tab The key is shifted on the emulated keyboard, virtual shift will be used when  it is not shifted on the host keyboard.
+@item @code{2}
+@tab @code{0x0002}
+@tab The key is the left shift key.
+@item @code{4}
+@tab @code{0x0004}
+@tab The key is the right shift key. Use only this flag for emulated keyboards that have only one shift key.
+@item @code{8}
+@tab @code{0x0008}
+@tab The key can be (optionally) shifted by the user.
+@item @code{16}
+@tab @code{0x0010}
+@tab Deshift key for this keysym/scancode. That means when the key is pressed with shift on the host keyboard, shift will @b{not} be used on the emulated keyboard.
+@item @code{32}
+@tab @code{0x0020}
+@tab Another definition for this keysym/scancode follows later in the file
+@item @code{64}
+@tab @code{0x0040}
+@tab Key is SHIFT-lock on the emulated machine. Usually you'd use this for the CAPS lock key on the host keyboard.
+@item @code{128}
+@tab @code{0x0080}
+@tab SHIFT modifier required on host.
+@item @code{256}
+@tab @code{0x0100}
+@tab Key is used for an alternative keyboard mapping (e.g. C64 mode in x128). Note that @b{any alternative mappings must occur before the normal mappings for the same key/symbol in the file}.
+@item @code{512}
+@tab @code{0x0200}
+@tab ALT-R (ALT-GR) modifier required on host.
+@item @code{1024}
+@tab @code{0x0400}
+@tab CTRL modifier required on host.
+@item @code{2048}
+@tab @code{0x0800}
+@tab Key is combined with CBM for this keysym/scancode.
+@item @code{4096}
+@tab @code{0x1000}
+@tab Key is combined with CTRL for this keysym/scancode.
+@item @code{8192}
+@tab @code{0x2000}
+@tab Key is (left) CBM on emulated machine.
+@item @code{16384}
+@tab @code{0x4000}
+@tab Key is (left) CTRL on emulated machine.
+@item @code{32768}
+@tab @code{0x8000}
+@tab Do @b{not} emulate a "locked" switch for this key. This can be useful when your host keyboard provides physical locking by itself. (currently works only for the C128 40/80 and CAPS-lock keys)
+@end multitable
+
+The @code{SHIFTFLAG} can be used to control various aspects of how the host key
+will map to the emulated keyboard. For example it is useful if you want certain
+keys to be ``artificially'' shifted by the emulator, and not by the user. Or the
+other way around, a key can be ``deshifted''.
+
+For example, @key{F2} is shifted on the C64 keyboard, but you might want it
+to be mapped to the unshifted @key{F2} key on the PC keyboard. For example, a
+typical C64 keymap would contain the following:
+
+@example
+F1 0 4 8        /* F1 -> F1 (+SHIFT allowed) */
+F2 0 4 1        /* F2 -> F1 + SHIFT */
+F3 0 5 8        /* F3 -> F3 (+SHIFT allowed) */
+F4 0 5 1        /* F4 -> F3 + SHIFT */
+F5 0 6 8        /* F5 -> F5 (+SHIFT allowed) */
+F6 0 6 1        /* F6 -> F5 + SHIFT */
+F7 0 3 8        /* F7 -> F7 (+SHIFT allowed) */
+F8 0 3 1        /* F8 -> F7 + SHIFT */
+@end example
+
+where @code{0} and @code{4} identify the key (row 0, column 4 on the
+keyboard matrix), and @code{1} specifies that every time the user presses
+@key{F2} the shift key on the C64 keyboard must be pressed.
 
 
 @node Palette files, Romset files, Keymap files, System files
@@ -2611,28 +2943,175 @@ system/window manager. Mappings using @code{<Alt>} or
 @item 
 @code{edit-paste}
  @tab Paste clipboard content into machine
-@item 
-@code{fliplist-add}
- @tab Add current disk to fliplist
-@item 
-@code{fliplist-clear}
- @tab Clear fliplist
-@item 
-@code{fliplist-load}
- @tab Load fliplist
-@item 
-@code{fliplist-next}
- @tab Attach next disk in fliplist
-@item 
-@code{fliplist-previous}
- @tab Attach previous disk in fliplist
-@item 
-@code{fliplist-remove}
- @tab Remove current disk from fliplist
-@item 
-@code{fliplist-save}
- @tab Save fliplist
-@item 
+@item
+@code{fliplist-add-8:0}
+ @tab Add current disk to fliplist of unit 8, drive 0
+@item
+@code{fliplist-add-8:1}
+ @tab Add current disk to fliplist of unit 8, drive 1
+@item
+@code{fliplist-add-9:0}
+ @tab Add current disk to fliplist of unit 9, drive 0
+@item
+@code{fliplist-add-9:1}
+ @tab Add current disk to fliplist of unit 9, drive 1
+@item
+@code{fliplist-add-10:0}
+ @tab Add current disk to fliplist of unit 10, drive 0
+@item
+@code{fliplist-add-10:1}
+ @tab Add current disk to fliplist of unit 10, drive 1
+@item
+@code{fliplist-add-11:0}
+ @tab Add current disk to fliplist of unit 11, drive 0
+@item
+@code{fliplist-add-11:1}
+ @tab Add current disk to fliplist of unit 11, drive 1
+@item
+@code{fliplist-clear-8:0}
+ @tab Clear fliplist of unit 8, drive 0
+@item
+@code{fliplist-clear-8:1}
+ @tab Clear fliplist of unit 8, drive 1
+@item
+@code{fliplist-clear-9:0}
+ @tab Clear fliplist of unit 9, drive 0
+@item
+@code{fliplist-clear-9:1}
+ @tab Clear fliplist of unit 9, drive 1
+@item
+@code{fliplist-clear-10:0}
+ @tab Clear fliplist of unit 10, drive 0
+@item
+@code{fliplist-clear-10:1}
+ @tab Clear fliplist of unit 10, drive 1
+@item
+@code{fliplist-clear-11:0}
+ @tab Clear fliplist of unit 11, drive 0
+@item
+@code{fliplist-clear-11:1}
+ @tab Clear fliplist of unit 11, drive 1
+@item
+@code{fliplist-load-8:0}
+ @tab Load fliplist for unit 8, drive 0
+@item
+@code{fliplist-load-8:1}
+ @tab Load fliplist for unit 8, drive 1
+@item
+@code{fliplist-load-9:0}
+ @tab Load fliplist for unit 9, drive 0
+@item
+@code{fliplist-load-9:1}
+ @tab Load fliplist for unit 9, drive 1
+@item
+@code{fliplist-load-10:0}
+ @tab Load fliplist for unit 10, drive 0
+@item
+@code{fliplist-load-10:1}
+ @tab Load fliplist for unit 10, drive 1
+@item
+@code{fliplist-load-11:0}
+ @tab Load fliplist for unit 11, drive 0
+@item
+@code{fliplist-load-11:1}
+ @tab Load fliplist for unit 11, drive 1
+@item
+@code{fliplist-next-8:0}
+ @tab Attach next disk in fliplist of unit 8, drive 0
+@item
+@code{fliplist-next-8:1}
+ @tab Attach next disk in fliplist of unit 8, drive 1
+@item
+@code{fliplist-next-9:0}
+ @tab Attach next disk in fliplist of unit 9, drive 0
+@item
+@code{fliplist-next-9:1}
+ @tab Attach next disk in fliplist of unit 9, drive 1
+@item
+@code{fliplist-next-10:0}
+ @tab Attach next disk in fliplist of unit 10, drive 0
+@item
+@code{fliplist-next-10:1}
+ @tab Attach next disk in fliplist of unit 10, drive 1
+@item
+@code{fliplist-next-11:0}
+ @tab Attach next disk in fliplist of unit 11, drive 0
+@item
+@code{fliplist-next-11:1}
+ @tab Attach next disk in fliplist of unit 11, drive 1
+@item
+@code{fliplist-previous-8:0}
+ @tab Attach previous disk in fliplist of unit 8, drive 0
+@item
+@code{fliplist-previous-8:1}
+ @tab Attach previous disk in fliplist of unit 8, drive 1
+@item
+@code{fliplist-previous-9:0}
+ @tab Attach previous disk in fliplist of unit 9, drive 0
+@item
+@code{fliplist-previous-9:1}
+ @tab Attach previous disk in fliplist of unit 9, drive 1
+@item
+@code{fliplist-previous-10:0}
+ @tab Attach previous disk in fliplist of unit 10, drive 0
+@item
+@code{fliplist-previous-10:1}
+ @tab Attach previous disk in fliplist of unit 10, drive 1
+@item
+@code{fliplist-previous-11:0}
+ @tab Attach previous disk in fliplist of unit 11, drive 0
+@item
+@code{fliplist-previous-11:1}
+ @tab Attach previous disk in fliplist of unit 11, drive 1
+@item
+@code{fliplist-remove-8:0}
+ @tab Remove current disk from fliplist of unit 8, drive 0
+@item
+@code{fliplist-remove-8:1}
+ @tab Remove current disk from fliplist of unit 8, drive 1
+@item
+@code{fliplist-remove-9:0}
+ @tab Remove current disk from fliplist of unit 9, drive 0
+@item
+@code{fliplist-remove-9:1}
+ @tab Remove current disk from fliplist of unit 9, drive 1
+@item
+@code{fliplist-remove-10:0}
+ @tab Remove current disk from fliplist of unit 10, drive 0
+@item
+@code{fliplist-remove-10:1}
+ @tab Remove current disk from fliplist of unit 10, drive 1
+@item
+@code{fliplist-remove-11:0}
+ @tab Remove current disk from fliplist of unit 11, drive 0
+@item
+@code{fliplist-remove-11:1}
+ @tab Remove current disk from fliplist of unit 11, drive 1
+@item
+@code{fliplist-save-8:0}
+ @tab Save fliplist of unit 8, drive 0
+@item
+@code{fliplist-save-8:1}
+ @tab Save fliplist of unit 8, drive 1
+@item
+@code{fliplist-save-9:0}
+ @tab Save fliplist of unit 9, drive 0
+@item
+@code{fliplist-save-9:1}
+ @tab Save fliplist of unit 9, drive 1
+@item
+@code{fliplist-save-10:0}
+ @tab Save fliplist of unit 10, drive 0
+@item
+@code{fliplist-save-10:1}
+ @tab Save fliplist of unit 10, drive 1
+@item
+@code{fliplist-save-11:0}
+ @tab Save fliplist of unit 11, drive 0
+@item
+@code{fliplist-save-11:1}
+ @tab Save fliplist of unit 11, drive 1
+@item
 @code{fullscreen-decorations-toggle}
  @tab Show menu/status in fullscreen
 @item 
@@ -2689,6 +3168,24 @@ system/window manager. Mappings using @code{<Alt>} or
 @item 
 @code{pause-toggle}
  @tab Toggle Pause
+@item
+@code{hotkeys-clear}
+ @tab Clear all hotkeys
+@item
+@code{hotkeys-default}
+ @tab Load default hotkeys
+@item
+@code{hotkeys-load}
+ @tab Load hotkeys from current file
+@item
+@code{hotkeys-load-from}
+ @tab Load hotkeys from custom file
+@item
+@code{hotkeys-save}
+ @tab Save hotkeys to current file
+@item
+@code{hotkeys-save-to}
+ @tab Save hotkeys to custom file
 @item
 @code{psid-load}
  @tab Load PSID file

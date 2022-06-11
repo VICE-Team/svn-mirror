@@ -28,9 +28,6 @@
 #ifndef VICE_UICOMPILETIMEFEATURES_H
 #define VICE_UICOMPILETIMEFEATURES_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-gboolean uicompiletimefeatures_dialog_show(GtkWidget *widget, gpointer user_data);
+void uicompiletimefeatures_dialog_show(void);
 
 #endif

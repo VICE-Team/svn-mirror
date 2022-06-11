@@ -37,6 +37,7 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
+#include "util.h"
 #include "widgethelpers.h"
 
 #include "contentpreviewwidget.h"
@@ -132,6 +133,7 @@ static GtkListStore *create_model(const char *path)
     image_contents_t *contents;
     image_contents_file_list_t *entry;
     char *tmp;
+    char *sep;
     char *utf8;
     int row;
     int blocks;
@@ -165,7 +167,23 @@ static GtkListStore *create_model(const char *path)
 
     /* disk name & ID */
     tmp = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
-    utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, true, false);
+    /* only the disk name and id itself should be reverse, not the line number and space before that */
+    sep = strstr(tmp, "\""); /* find start of disk name */
+    if (sep) {
+        /* if we found the disk name, produce seperate strings for line number and name/id,
+            reverse only name/od and then concat them */
+        char *utf8a, *utf8b;
+        *sep = 0;
+        utf8a = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0, false);
+        *sep = '"';
+        utf8b = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)sep, 1, false);
+        utf8 = util_concat(utf8a, utf8b, NULL);
+        lib_free(utf8a);
+        lib_free(utf8b);
+    } else {
+        /* if start of disk name was not found use the entire string */
+        utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 1, false);
+    }
     gtk_list_store_append(model, &iter);
     gtk_list_store_set(model, &iter, 0, utf8, 1, row, -1);
     row++;
@@ -224,9 +242,33 @@ static GtkWidget *create_view(const char *path)
     view = GTK_TREE_VIEW(gtk_tree_view_new_with_model(GTK_TREE_MODEL(model)));
     g_object_unref(model);
     renderer = gtk_cell_renderer_text_new();
-    g_object_set(renderer, "font", "C64 Pro Mono 10", NULL);
-    column = gtk_tree_view_column_new_with_attributes("Contents", renderer,
-            "text", 0, NULL);
+
+    /* try to remove all padding between cell rows, this still does not work 100%.
+       careful with removing any of the following, some things may have no effect
+       in one theme, but on another it does. */
+    g_object_set(renderer,
+                 /* GtkCellRendererText */
+                 "font", "C64 Pro Mono 10",
+                 "scale-set", TRUE,
+                 "scale", 1.0,
+                 /*"attributes", attrlist,*/ /* how does this work? we want to change ypad of the font */
+                 /* GtkCellRenderer */
+                 "height", 10,
+                 "ypad", 0,
+                 "yalign", 0.0,
+                 NULL);
+    /* this takes the size from ypad of the font */
+    /* gtk_cell_renderer_text_set_fixed_height_from_font(GTK_CELL_RENDERER_TEXT(renderer), numrows); */
+    gtk_cell_renderer_set_padding (renderer, 0, 0);
+    gtk_cell_renderer_set_fixed_size(renderer, -1, 10);
+
+    column = gtk_tree_view_column_new_with_attributes(
+            /* GtkTreeViewColumn */
+            "Contents", renderer,
+            "text", 0,
+            NULL);
+    gtk_tree_view_column_set_spacing (column, 0);
+
     gtk_tree_view_append_column(view, column);
 
     gtk_tree_view_set_headers_clickable(view, FALSE);

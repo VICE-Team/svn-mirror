@@ -41,6 +41,7 @@
 #include "tape.h"
 #include "ui.h"
 #include "uiapi.h"
+#include "uiactions.h"
 
 #include "uitapecreate.h"
 
@@ -52,6 +53,17 @@ static gboolean create_tape_image(const char *filename, int port);
 /** \brief  Reference to the 'auto-attach' check button
  */
 static GtkWidget *auto_attach = NULL;
+
+
+/** \brief  Handler for the 'destroy' event of the dialog
+ *
+ * \param[in]   dialog  dialog (unused)
+ * \param[in]   port    port number
+ */
+static void on_destroy(GtkWidget *dialog, gpointer port)
+{
+    ui_action_finish(GPOINTER_TO_INT(port));
+}
 
 
 /** \brief  Handler for 'response' event of the dialog
@@ -152,12 +164,11 @@ static GtkWidget *create_extra_widget(void)
 
 /** \brief  Create and show 'attach new tape image' dialog
  *
- * \param[in]   parent  parent widget (ignored)
- * \param[in]   data    port number (integer, 1 or 2)
+ * \param[in]   port    port number (1 or 2)
  *
  * \return  TRUE
  */
-gboolean ui_tape_create_dialog_show(GtkWidget *parent, gpointer data)
+void ui_tape_create_dialog_show(int port)
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;
@@ -182,8 +193,14 @@ gboolean ui_tape_create_dialog_show(GtkWidget *parent, gpointer data)
     gtk_file_filter_add_pattern(filter, "*.tap");
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), data);
+    g_signal_connect(dialog,
+                     "response",
+                     G_CALLBACK(on_response),
+                     GINT_TO_POINTER(port));
+    g_signal_connect(dialog,
+                     "destroy",
+                     G_CALLBACK(on_destroy),
+                     GINT_TO_POINTER(port));
 
     gtk_widget_show(dialog);
-    return TRUE;
 }

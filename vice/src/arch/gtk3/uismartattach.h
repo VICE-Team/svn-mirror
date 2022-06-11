@@ -30,7 +30,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-gboolean    ui_smart_attach_dialog_show(GtkWidget *widget, gpointer user_data);
-void        ui_smart_attach_shutdown(void);
+void ui_smart_attach_dialog_show(void);
+void ui_smart_attach_shutdown(void);
 
 #endif

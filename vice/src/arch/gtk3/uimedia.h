@@ -27,13 +27,9 @@
 #ifndef VICE_UIMEDIA_H
 #define VICE_UIMEDIA_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-
-gboolean ui_media_dialog_show(GtkWidget *parent, gpointer user_data);
-gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data);
-void     ui_media_auto_screenshot(void);
-void     ui_media_shutdown(void);
+void ui_media_dialog_show(void);
+void ui_media_stop_recording(void);
+void ui_media_auto_screenshot(void);
+void ui_media_shutdown(void);
 
 #endif

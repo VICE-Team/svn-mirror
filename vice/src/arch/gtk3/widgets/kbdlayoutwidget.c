@@ -35,6 +35,7 @@
 
 #include "basewidgets.h"
 #include "keyboard.h"
+#include "keymap.h"
 #include "lib.h"
 #include "resources.h"
 #include "widgethelpers.h"

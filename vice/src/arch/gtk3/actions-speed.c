@@ -33,13 +33,19 @@
 
 #include "vice.h"
 
+#include <gtk/gtk.h>
+#include <stddef.h>
+#include <stdbool.h>
+
 #include "basedialogs.h"
 #include "debug_gtk3.h"
+#include "hotkeymap.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
 #include "uimenu.h"
 #include "vsync.h"
+#include "vsyncapi.h"
 
 #include "actions-speed.h"
 
@@ -54,6 +60,18 @@ static void pause_toggle_action(void)
     ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
                                              (gboolean)ui_pause_active());
     /* the pause LED gets updated in in the status bar update code */
+}
+
+
+/** \brief  Advance emulation a single frame if paused, pause otherwise */
+static void advance_frame_action(void)
+{
+    if (ui_pause_active()) {
+        vsyncarch_advance_frame();
+    } else {
+        ui_pause_enable();
+        ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE, TRUE);
+    }
 }
 
 
@@ -160,6 +178,7 @@ static void set_speed_resource(int speed)
 
     resources_get_int("Speed", &oldval);
     if (oldval != speed) {
+        resources_set_int("Speed", speed);
         update_cpu_radio_buttons();
         update_fps_radio_buttons();
     }
@@ -170,6 +189,7 @@ static void set_speed_resource(int speed)
  */
 static void speed_cpu_200_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(200);
 }
 
@@ -177,6 +197,7 @@ static void speed_cpu_200_action(void)
  */
 static void speed_cpu_100_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(100);
 }
 
@@ -184,6 +205,7 @@ static void speed_cpu_100_action(void)
  */
 static void speed_cpu_50_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(50);
 }
 
@@ -191,6 +213,7 @@ static void speed_cpu_50_action(void)
  */
 static void speed_cpu_20_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(20);
 }
 
@@ -198,6 +221,7 @@ static void speed_cpu_20_action(void)
  */
 static void speed_cpu_10_action(void)
 {
+    debug_gtk3("called");
     set_speed_resource(10);
 }
 
@@ -228,30 +252,19 @@ static void speed_cpu_custom_action(void)
 {
     GtkWidget *widget;
 
-    /* TODO: The following check should be moved into the wrapper function[1]
-     *       that triggers an action from a menu item. If we trigger this
-     *       action from elsewhere in the code the item's check state will
-     *       probably be false and the dialog won't show.
-     *
-     * [1] That function is currently a TODO as well =)
-     */
-
-    /* only show the dialog when the radio/check button is toggled ON */
     widget = ui_get_menu_item_by_action_for_window(ACTION_SPEED_CPU_CUSTOM,
                                                    ui_get_main_window_index());
     if (widget != NULL) {
-        if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-            int curval = 0;
+        int curval = 0;
 
-            resources_get_int("Speed", &curval);
+        resources_get_int("Speed", &curval);
 
-            vice_gtk3_integer_input_box(
-                    speed_cpu_custom_callback,
-                    "Set new emulation speed",
-                    "Enter a new custom emulation speed",
-                    curval,
-                    1, 100000);
-        }
+        vice_gtk3_integer_input_box(
+                speed_cpu_custom_callback,
+                "Set new emulation speed",
+                "Enter a new custom emulation speed",
+                curval,
+                1, 100000);
     } else {
         debug_gtk3("Failed to get menu item for action %d (%s).",
                    ACTION_SPEED_CPU_CUSTOM,
@@ -340,56 +353,78 @@ static void speed_fps_custom_action(void)
 
 /** \brief  Speed-related UI action mappings
  */
-static const ui_action_map_t mappings[] = {
+static const ui_action_map_t speed_actions[] = {
     {
-        .action_id = ACTION_PAUSE_TOGGLE,
-        .handler = pause_toggle_action
+        .action = ACTION_PAUSE_TOGGLE,
+        .handler = pause_toggle_action,
+        .uithread = true
+
     },
     {
-        .action_id = ACTION_WARP_MODE_TOGGLE,
-        .handler = warp_mode_toggle_action
+        .action = ACTION_ADVANCE_FRAME,
+        .handler = advance_frame_action,
+        .uithread = true
     },
     {
-        .action_id = ACTION_SPEED_CPU_200,
-        .handler = speed_cpu_200_action
+        .action = ACTION_WARP_MODE_TOGGLE,
+        .handler = warp_mode_toggle_action,
+        .uithread = true
+    },
+
+    /* CPU speed actions */
+    {
+        .action = ACTION_SPEED_CPU_200,
+        .handler = speed_cpu_200_action,
+        .uithread = true
     },
     {
-        .action_id = ACTION_SPEED_CPU_100,
-        .handler = speed_cpu_100_action
+        .action = ACTION_SPEED_CPU_100,
+        .handler = speed_cpu_100_action,
+        .uithread = true
     },
     {
-        .action_id = ACTION_SPEED_CPU_50,
-        .handler = speed_cpu_50_action
+        .action = ACTION_SPEED_CPU_50,
+        .handler = speed_cpu_50_action,
+        .uithread = true
     },
     {
-        .action_id = ACTION_SPEED_CPU_20,
-        .handler = speed_cpu_20_action
+        .action = ACTION_SPEED_CPU_20,
+        .handler = speed_cpu_20_action,
+        .uithread = true
     },
     {
-        .action_id = ACTION_SPEED_CPU_10,
-        .handler = speed_cpu_10_action
+        .action = ACTION_SPEED_CPU_10,
+        .handler = speed_cpu_10_action,
+        .uithread = true
     },
     {
-        .action_id = ACTION_SPEED_CPU_CUSTOM,
+        .action = ACTION_SPEED_CPU_CUSTOM,
         .handler = speed_cpu_custom_action,
-        .mode = ACTION_MODE_BLOCKING|ACTION_MODE_DIALOG
+        .blocks = true,
+        .dialog = true
+    },
+
+    /* FPS actions */
+    {
+        .action = ACTION_SPEED_FPS_REAL,
+        .handler = speed_fps_real_action,
+        .uithread = true
     },
     {
-        .action_id = ACTION_SPEED_FPS_REAL,
-        .handler = speed_fps_real_action
+        .action = ACTION_SPEED_FPS_50,
+        .handler = speed_fps_50_action,
+        .uithread = true
     },
     {
-        .action_id = ACTION_SPEED_FPS_50,
-        .handler = speed_fps_50_action
+        .action = ACTION_SPEED_FPS_60,
+        .handler = speed_fps_60_action,
+        .uithread = true
     },
     {
-        .action_id = ACTION_SPEED_FPS_60,
-        .handler = speed_fps_60_action
-    },
-    {
-        .action_id = ACTION_SPEED_FPS_CUSTOM,
+        .action = ACTION_SPEED_FPS_CUSTOM,
         .handler = speed_fps_custom_action,
-        .mode = ACTION_MODE_BLOCKING|ACTION_MODE_DIALOG
+        .blocks = true,
+        .dialog = true
     },
 
     UI_ACTION_MAP_TERMINATOR
@@ -400,5 +435,5 @@ static const ui_action_map_t mappings[] = {
  */
 void actions_speed_register(void)
 {
-    ui_actions_add_mappings(mappings);
+    ui_actions_register(speed_actions);
 }

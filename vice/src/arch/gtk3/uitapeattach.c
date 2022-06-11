@@ -43,6 +43,7 @@
 #include "tapecontents.h"
 #include "tapeport.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uimachinewindow.h"
 
@@ -197,6 +198,22 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
     }
 }
 
+
+/** \brief  Handler for the 'destroy' event of the dialog
+ *
+ * Marks the appropriate UI action as finished.
+ *
+ * \param[in]   dialog  dialog (unused)
+ * \param[in]   port    port number
+ */
+static void on_destroy(GtkWidget *dialog, gpointer port)
+{
+    if (GPOINTER_TO_INT(port) == 1) {
+        ui_action_finish(ACTION_TAPE_ATTACH_1);
+    } else {
+        ui_action_finish(ACTION_TAPE_ATTACH_2);
+    }
+}
 
 
 /** \brief  Handler for 'response' event of the dialog
@@ -417,48 +434,26 @@ static GtkWidget *create_tape_attach_dialog(int port)
                               "selection-changed",
                               G_CALLBACK(on_selection_changed),
                               NULL);
+    g_signal_connect(dialog,
+                     "destroy",
+                     G_CALLBACK(on_destroy),
+                     GINT_TO_POINTER(port));
 
     return dialog;
 
 }
 
 
-/** \brief  Callback for the "attach tape image" menu items
+/** \brief  Show dialog to attach a tape image to a datasette
  *
- * Creates the dialog and runs it.
- *
- * \param[in]   widget      menu item triggering the callback
- * \param[in]   user_data   tape port (integer, 1 or 2)
+ * \param[in]   port    tape port (1 or 2)
  *
  * \return  TRUE (signal to Gtk the event was 'consumed')
  */
-gboolean ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
+void ui_tape_attach_show_dialog(int port)
 {
-    GtkWidget *dialog;
-    int port = GPOINTER_TO_INT(user_data);
-
-    dialog = create_tape_attach_dialog(port);
+    GtkWidget *dialog = create_tape_attach_dialog(port);
     gtk_widget_show(dialog);
-    return TRUE;
-}
-
-
-/** \brief  Callback for "detach tape image" menu items
- *
- * Removes any tape from the specified drive. No additional UI is
- * presented.
- *
- * \param[in]   widget      menu item triggering the callback
- * \param[in]   user_data   tape port (integer, 1 or 2)
- *
- * \return  TRUE
- */
-gboolean ui_tape_detach_callback(GtkWidget *widget, gpointer user_data)
-{
-    int port = GPOINTER_TO_INT(user_data);
-
-    tape_image_detach(port);
-    return TRUE;
 }
 
 

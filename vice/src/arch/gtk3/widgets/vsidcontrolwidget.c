@@ -44,7 +44,6 @@
 
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
 #include "c64mem.h"
 #include "debug.h"
 #include "machine.h"
@@ -52,9 +51,9 @@
 #include "log.h"
 #include "resources.h"
 #include "psid.h"
-#include "uicommands.h"
 #include "ui.h"
 #include "uisidattach.h"
+#include "vice_gtk3.h"
 #include "vsidstate.h"
 #include "vsidtuneinfowidget.h"
 #include "vsync.h"

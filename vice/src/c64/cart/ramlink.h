@@ -44,6 +44,8 @@ extern int ramlink_roml_read(uint16_t addr, uint8_t *value);
 extern int ramlink_romh_read(uint16_t addr, uint8_t *value);
 extern int ramlink_a000_bfff_read(uint16_t addr, uint8_t *value);
 extern int ramlink_peek_mem(uint16_t addr, uint8_t *value);
+extern int ramlink_romh_phi1_read(uint16_t addr, uint8_t *value);
+extern int ramlink_romh_phi2_read(uint16_t addr, uint8_t *value);
 extern int ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
 extern void ramlink_passthrough_changed(export_t *ex);
 extern int ramlink_cart_mode(void);

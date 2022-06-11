@@ -34,6 +34,7 @@
 #include "joy.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "keymap.h"
 #include "menu_common.h"
 #include "types.h"
 #include "ui.h"

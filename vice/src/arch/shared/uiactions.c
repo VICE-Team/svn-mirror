@@ -92,13 +92,71 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_DRIVE_DETACH_11_1, "drive-detach-11:1",    "Detach disk from unit 11, drive 1",    VICE_MACHINE_ALL },
 
     /* fliplist */
-    { ACTION_FLIPLIST_ADD,      "fliplist-add",         "Add current disk to fliplist",         VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_REMOVE,   "fliplist-remove",      "Remove current disk from fliplist",    VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_NEXT,     "fliplist-next",        "Attach next disk in fliplist",         VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_PREVIOUS, "fliplist-previous",    "Attach previous disk in fliplist",     VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_LOAD,     "fliplist-load",        "Load fliplist",                        VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_SAVE,     "fliplist-save",        "Save fliplist",                        VICE_MACHINE_ALL },
-    { ACTION_FLIPLIST_CLEAR,    "fliplist-clear",       "Clear fliplist",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_ADD_8_0,          "fliplist-add-8:0",         "Add current disk in unit 8, drive 0 to fliplist",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_8_0,       "fliplist-remove-8:0",      "Remove current disk in unit 8, drive 0 from fliplist",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_8_0,         "fliplist-next-8:0",        "Attach next disk in fliplist to unit 8, drive 0",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_8_0,     "fliplist-previous-8:0",    "Attach previous disk in fliplist to unit 8, drive 0",      VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_8_0,         "fliplist-load-8:0",        "Load fliplist for unit 8, drive 0",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_8_0,         "fliplist-save-8:0",        "Save fliplist of unit 8, drive 0",                         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_8_0,        "fliplist-clear-8:0",       "Clear fliplist of unit 8, drive 0",                        VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_8_1,          "fliplist-add-8:1",         "Add current disk in unit 8, drive 1 to fliplist",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_8_1,       "fliplist-remove-8:1",      "Remove current disk in unit 8, drive 1 from fliplist",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_8_1,         "fliplist-next-8:1",        "Attach next disk in fliplist to unit 8, drive 1",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_8_1,     "fliplist-previous-8:1",    "Attach previous disk in fliplist to unit 8, drive 1",      VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_8_1,         "fliplist-load-8:1",        "Load fliplist for unit 8, drive 1",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_8_1,         "fliplist-save-8:1",        "Save fliplist of unit 8, drive 1",                         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_8_1,        "fliplist-clear-8:1",       "Clear fliplist of unit 8, drive 1",                        VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_9_0,          "fliplist-add-9:0",         "Add current disk in unit 9, drive 0 to fliplist",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_9_0,       "fliplist-remove-9:0",      "Remove current disk in unit 9, drive 0 from fliplist",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_9_0,         "fliplist-next-9:0",        "Attach next disk in fliplist to unit 9, drive 0",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_9_0,     "fliplist-previous-9:0",    "Attach previous disk in fliplist to unit 9, drive 0",      VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_9_0,         "fliplist-load-9:0",        "Load fliplist for unit 9, drive 0",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_9_0,         "fliplist-save-9:0",        "Save fliplist of unit 9, drive 0",                         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_9_0,        "fliplist-clear-9:0",       "Clear fliplist of unit 9, drive 0",                        VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_9_1,          "fliplist-add-9:1",         "Add current disk in unit 9, drive 1 to fliplist",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_9_1,       "fliplist-remove-9:1",      "Remove current disk in unit 9, drive 1 from fliplist",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_9_1,         "fliplist-next-9:1",        "Attach next disk in fliplist to unit 9, drive 1",          VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_9_1,     "fliplist-previous-9:1",    "Attach previous disk in fliplist to unit 9, drive 1",      VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_9_1,         "fliplist-load-9:1",        "Load fliplist for unit 9, drive 1",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_9_1,         "fliplist-save-9:1",        "Save fliplist of unit 9, drive 1",                         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_9_1,        "fliplist-clear-9:1",       "Clear fliplist of unit 9, drive 1",                        VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_10_0,         "fliplist-add-10:0",        "Add current disk in unit 10, drive 0 to fliplist",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_10_0,      "fliplist-remove-10:0",     "Remove current disk in unit 10, drive 0 from fliplist",    VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_10_0,        "fliplist-next-10:0",       "Attach next disk in fliplist to unit 10, drive 0",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_10_0,    "fliplist-previous-10:0",   "Attach previous disk in fliplist to unit 10, drive 0",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_10_0,        "fliplist-load-10:0",       "Load fliplist for unit 10, drive 0",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_10_0,        "fliplist-save-10:0",       "Save fliplist of unit 10, drive 0",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_10_0,       "fliplist-clear-10:0",      "Clear fliplist of unit 10, drive 0",                       VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_10_1,         "fliplist-add-10:1",        "Add current disk in unit 10, drive 1 to fliplist",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_10_1,      "fliplist-remove-10:1",     "Remove current disk in unit 10, drive 1 from fliplist",    VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_10_1,        "fliplist-next-10:1",       "Attach next disk in fliplist to unit 10, drive 1",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_10_1,    "fliplist-previous-10:1",   "Attach previous disk in fliplist to unit 10, drive 1",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_10_1,        "fliplist-load-10:1",       "Load fliplist for unit 10, drive 1",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_10_1,        "fliplist-save-10:1",       "Save fliplist of unit 10, drive 1",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_10_1,       "fliplist-clear-10:1",      "Clear fliplist of unit 10, drive 1",                       VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_11_0,         "fliplist-add-11:0",        "Add current disk in unit 11, drive 0 to fliplist",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_11_0,      "fliplist-remove-11:0",     "Remove current disk in unit 11, drive 0 from fliplist",    VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_11_0,        "fliplist-next-11:0",       "Attach next disk in fliplist to unit 11, drive 0",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_11_0,    "fliplist-previous-11:0",   "Attach previous disk in fliplist to unit 11, drive 0",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_11_0,        "fliplist-load-11:0",       "Load fliplist for unit 11, drive 0",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_11_0,        "fliplist-save-11:0",       "Save fliplist of unit 11, drive 0",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_11_0,       "fliplist-clear-11:0",      "Clear fliplist of unit 11, drive 0",                       VICE_MACHINE_ALL },
+
+    { ACTION_FLIPLIST_ADD_11_1,         "fliplist-add-11:1",        "Add current disk in unit 11, drive 1 to fliplist",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_REMOVE_11_1,      "fliplist-remove-11:1",     "Remove current disk in unit 11, drive 1 from fliplist",    VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_NEXT_11_1,        "fliplist-next-11:1",       "Attach next disk in fliplist to unit 11, drive 1",         VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_PREVIOUS_11_1,    "fliplist-previous-11:1",   "Attach previous disk in fliplist to unit 11, drive 1",     VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_LOAD_11_1,        "fliplist-load-11:1",       "Load fliplist for unit 11, drive 1",                       VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_SAVE_11_1,        "fliplist-save-11:1",       "Save fliplist of unit 11, drive 1",                        VICE_MACHINE_ALL },
+    { ACTION_FLIPLIST_CLEAR_11_1,       "fliplist-clear-11:1",      "Clear fliplist of unit 11, drive 1",                       VICE_MACHINE_ALL },
+
+
 
     /* datasette image */
     { ACTION_TAPE_ATTACH_1,     "tape-attach-1",        "Attach tape to datasette 1",           (VICE_MACHINE_ALL^VICE_MACHINE_C64DTV^VICE_MACHINE_SCPU64) },
@@ -227,8 +285,15 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_HELP_HOTKEYS,      "help-hotkeys",         "Show hotkeys",                 VICE_MACHINE_ALL },
     { ACTION_HELP_ABOUT,        "help-about",           "Show About dialog",            VICE_MACHINE_ALL },
 
+    /* Hotkeys items */
+    { ACTION_HOTKEYS_CLEAR,     "hotkeys-clear",        "Clear all hotkeys",                VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_DEFAULT,   "hotkeys-default",      "Load default hotkeys",             VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_LOAD,      "hotkeys-load",         "Load hotkeys from current file",   VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_LOAD_FROM, "hotkeys-load-from",    "Load hotkeys from custom file",    VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_SAVE,      "hotkeys-save",         "Save hotkeys to current file",     VICE_MACHINE_ALL|VICE_MACHINE_VSID },
+    { ACTION_HOTKEYS_SAVE_TO,   "hotkeys-save-to",      "Save hotkeys to custom file",      VICE_MACHINE_ALL|VICE_MACHINE_VSID },
 
-    /* VSID=specific items */
+    /* VSID-specific items */
     { ACTION_PSID_LOAD,                 "psid-load",            "Load PSID file",           VICE_MACHINE_VSID },
     { ACTION_PSID_OVERRIDE_TOGGLE,      "psid-override-toggle", "Override PSID settings",   VICE_MACHINE_VSID },
     { ACTION_PSID_SUBTUNE_1,            "psid-subtune-1",       "Play subtune #1",          VICE_MACHINE_VSID },
@@ -264,13 +329,13 @@ static bool is_current_machine_action(const ui_action_info_private_t *action)
  *
  * \return  pointer to info or `NULL` on failure
  */
-static const ui_action_info_private_t *get_info_private(int id)
+static const ui_action_info_private_t *get_info_private(int action)
 {
-    if (id > ACTION_NONE) {
+    if (action > ACTION_NONE) {
         int i = 0;
 
         while (action_info_list[i].id > ACTION_NONE) {
-            if (action_info_list[i].id == id) {
+            if (action_info_list[i].id == action) {
                 return &action_info_list[i];
             }
             i++;
@@ -306,33 +371,50 @@ int ui_action_get_id(const char *name)
 
 /** \brief  Get action name by ID
  *
- * \param[in]   id  action ID
+ * \param[in]   action  UI action ID
  *
  * \return  action name or NULL when not found
  *
  * \note    Also returns NULL for NONE and INVALID
  */
-const char *ui_action_get_name(int id)
+const char *ui_action_get_name(int action)
 {
-    const ui_action_info_private_t *action = get_info_private(id);
+    const ui_action_info_private_t *info = get_info_private(action);
 
-    return action != NULL ? action->name : NULL;
+    return info != NULL ? info->name : NULL;
 }
 
 
 /** \brief  Get description of an action
  *
- * Looks up the description for action \a id.
+ * Looks up the description for \a action.
  *
- * \param[in]   name    action name
+ * \param[in]   action   UI action ID
  *
- * \return  description or `NULL` when \a id not found
+ * \return  description or `NULL` when \a action not found
  */
-const char *ui_action_get_desc(int id)
+const char *ui_action_get_desc(int action)
 {
-    const ui_action_info_private_t *action = get_info_private(id);
+    const ui_action_info_private_t *info = get_info_private(action);
 
-    return action != NULL ? action->desc : NULL;
+    return info != NULL ? info->desc : NULL;
+}
+
+
+/** \brief  Determine if action is valid for the current machine
+ *
+ * \param[in]   action  UI action ID
+ *
+ * \return  `true` when valid for current machine
+ */
+bool ui_action_is_valid(int action)
+{
+    const ui_action_info_private_t *info = get_info_private(action);
+
+    if (info != NULL && is_current_machine_action(info)) {
+        return true;
+    }
+    return false;
 }
 
 
@@ -380,6 +462,211 @@ ui_action_info_t *ui_action_get_info_list(void)
 }
 
 
+/** \brief  Action IDs for fliplist-add-[unit]:[drive] */
+static const int fliplist_add_ids[4][2] = {
+    { ACTION_FLIPLIST_ADD_8_0,      ACTION_FLIPLIST_ADD_8_1 },
+    { ACTION_FLIPLIST_ADD_9_0,      ACTION_FLIPLIST_ADD_9_1 },
+    { ACTION_FLIPLIST_ADD_10_0,     ACTION_FLIPLIST_ADD_10_1 },
+    { ACTION_FLIPLIST_ADD_11_0,     ACTION_FLIPLIST_ADD_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-remove-[unit]:[drive] */
+static const int fliplist_remove_ids[4][2] = {
+    { ACTION_FLIPLIST_REMOVE_8_0,   ACTION_FLIPLIST_REMOVE_8_1 },
+    { ACTION_FLIPLIST_REMOVE_9_0,   ACTION_FLIPLIST_REMOVE_9_1 },
+    { ACTION_FLIPLIST_REMOVE_10_0,  ACTION_FLIPLIST_REMOVE_10_1 },
+    { ACTION_FLIPLIST_REMOVE_11_0,  ACTION_FLIPLIST_REMOVE_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-next-[unit]:[drive] */
+static const int fliplist_next_ids[4][2] = {
+    { ACTION_FLIPLIST_NEXT_8_0,     ACTION_FLIPLIST_NEXT_8_1 },
+    { ACTION_FLIPLIST_NEXT_9_0,     ACTION_FLIPLIST_NEXT_9_1 },
+    { ACTION_FLIPLIST_NEXT_10_0,    ACTION_FLIPLIST_NEXT_10_1 },
+    { ACTION_FLIPLIST_NEXT_11_0,    ACTION_FLIPLIST_NEXT_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-previous-[unit]:[drive] */
+static const int fliplist_previous_ids[4][2] = {
+    { ACTION_FLIPLIST_PREVIOUS_8_0,     ACTION_FLIPLIST_PREVIOUS_8_1 },
+    { ACTION_FLIPLIST_PREVIOUS_9_0,     ACTION_FLIPLIST_PREVIOUS_9_1 },
+    { ACTION_FLIPLIST_PREVIOUS_10_0,    ACTION_FLIPLIST_PREVIOUS_10_1 },
+    { ACTION_FLIPLIST_PREVIOUS_11_0,    ACTION_FLIPLIST_PREVIOUS_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-clear-[unit]:[drive] */
+static const int fliplist_clear_ids[4][2] = {
+    { ACTION_FLIPLIST_CLEAR_8_0,    ACTION_FLIPLIST_CLEAR_8_1 },
+    { ACTION_FLIPLIST_CLEAR_9_0,    ACTION_FLIPLIST_CLEAR_9_1 },
+    { ACTION_FLIPLIST_CLEAR_10_0,   ACTION_FLIPLIST_CLEAR_10_1 },
+    { ACTION_FLIPLIST_CLEAR_11_0,   ACTION_FLIPLIST_CLEAR_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-load-[unit]:[drive] */
+static const int fliplist_load_ids[4][2] = {
+    { ACTION_FLIPLIST_LOAD_8_0,     ACTION_FLIPLIST_LOAD_8_1 },
+    { ACTION_FLIPLIST_LOAD_9_0,     ACTION_FLIPLIST_LOAD_9_1 },
+    { ACTION_FLIPLIST_LOAD_10_0,    ACTION_FLIPLIST_LOAD_10_1 },
+    { ACTION_FLIPLIST_LOAD_11_0,    ACTION_FLIPLIST_LOAD_11_1 }
+};
+
+/** \brief  Action IDs for fliplist-save-[unit]:[drive] */
+static const int fliplist_save_ids[4][2] = {
+    { ACTION_FLIPLIST_SAVE_8_0,     ACTION_FLIPLIST_SAVE_8_1 },
+    { ACTION_FLIPLIST_SAVE_9_0,     ACTION_FLIPLIST_SAVE_9_1 },
+    { ACTION_FLIPLIST_SAVE_10_0,    ACTION_FLIPLIST_SAVE_10_1 },
+    { ACTION_FLIPLIST_SAVE_11_0,    ACTION_FLIPLIST_SAVE_11_1 }
+};
+
+/** \brief  Action IDs for drive-attach-[unit]:[drive] */
+static const int drive_attach_ids[4][2] = {
+    { ACTION_DRIVE_ATTACH_8_0,  ACTION_DRIVE_ATTACH_8_1 },
+    { ACTION_DRIVE_ATTACH_9_0,  ACTION_DRIVE_ATTACH_9_1 },
+    { ACTION_DRIVE_ATTACH_10_0, ACTION_DRIVE_ATTACH_10_1 },
+    { ACTION_DRIVE_ATTACH_11_0, ACTION_DRIVE_ATTACH_11_1 }
+};
+
+/** \brief  Action IDs for drive-detach-[unit]:[drive] */
+static const int drive_detach_ids[4][2] = {
+    { ACTION_DRIVE_DETACH_8_0,  ACTION_DRIVE_DETACH_8_1 },
+    { ACTION_DRIVE_DETACH_9_0,  ACTION_DRIVE_DETACH_9_1 },
+    { ACTION_DRIVE_DETACH_10_0, ACTION_DRIVE_DETACH_10_1 },
+    { ACTION_DRIVE_DETACH_11_0, ACTION_DRIVE_DETACH_11_1 }
+};
+
+
+/** \brief  Get action ID for a drive action
+ *
+ * \param[in]   ids     array with action IDs for \a unit and \a drive
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+static int get_drive_action_id(const int ids[4][2], int unit, int drive)
+{
+    if (unit < 8 || unit > 11 || drive < 0 || drive > 1) {
+        return ACTION_NONE;
+    }
+    return ids[unit - 8][drive];
+}
+
+
+/** \brief  Get fliplist-add action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_add(int unit, int drive)
+{
+    return get_drive_action_id(fliplist_add_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-remove action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_remove(int unit, int drive)
+{
+    return get_drive_action_id(fliplist_remove_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-next action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_next(int unit, int drive)
+{
+    return get_drive_action_id(fliplist_next_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-previous action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_previous(int unit, int drive)
+{
+    return get_drive_action_id(fliplist_previous_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-clear action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_clear(int unit, int drive)
+{
+    return get_drive_action_id(fliplist_clear_ids, unit, drive);
+}
+
+/** \brief  Get fliplist-load action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_load(int unit, int drive)
+{
+    return get_drive_action_id(fliplist_load_ids, unit, drive);
+}
+
+
+/** \brief  Get fliplist-save action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_fliplist_save(int unit, int drive)
+{
+    return get_drive_action_id(fliplist_save_ids, unit, drive);
+}
+
+
+/** \brief  Get drive-attach action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_drive_attach(int unit, int drive)
+{
+    return get_drive_action_id(drive_attach_ids, unit, drive);
+}
+
+
+/** \brief  Get drive-detach action ID for unit and drive
+ *
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   drive   drive number (0 or 1)
+ *
+ * \return  action ID or `ACTION_NONE` for invalid \a unit or \a drive
+ */
+int ui_action_id_drive_detach(int unit, int drive)
+{
+    return get_drive_action_id(drive_detach_ids, unit, drive);
+}
+
 
 /** \brief  List of mappings of action IDs to handlers
  *
@@ -389,11 +676,11 @@ static ui_action_map_t *action_mappings;
 
 /** \brief  Size of the mappings array in elements
  */
-static size_t action_mappings_size;
+static size_t action_mappings_size = 0;
 
 /** \brief  Number of elements in the mappings array
  */
-static size_t action_mappings_count;
+static size_t action_mappings_count = 0;
 
 /** \brief  Flag indicating a dialog is active
  *
@@ -410,6 +697,30 @@ static bool dialog_active = false;
 static void (*dispatch_handler)(const ui_action_map_t *) = NULL;
 
 
+/** \brief  Find action mapping by action ID
+ *
+ * \param[in]   action  action ID
+ *
+ * \return  action mapping or `NULL` when not found
+ */
+static ui_action_map_t *find_action_map(int action)
+{
+    ui_action_map_t *map = action_mappings;
+
+    if (action < ACTION_NONE || action >= ACTION_ID_COUNT) {
+        return NULL;
+    }
+
+    while (map->action > ACTION_NONE) {
+        if (map->action == action) {
+            return map;
+        }
+        map++;
+    }
+    return NULL;
+}
+
+
 /** \brief  Initialize UI actions system
  *
  * \note    This needs is called from the shared init code, the UI needs to
@@ -419,11 +730,9 @@ static void (*dispatch_handler)(const ui_action_map_t *) = NULL;
 void ui_actions_init(void)
 {
 #if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
-    action_mappings_size = 16;
+    action_mappings_size = 64;
     action_mappings_count = 0;
     action_mappings = lib_malloc(sizeof *action_mappings * action_mappings_size);
-    printf("%s: allocated action mapping array of %zu elements\n",
-           __func__, action_mappings_size);
 #endif
 }
 
@@ -445,7 +754,6 @@ void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *))
 void ui_actions_shutdown(void)
 {
 #if defined(USE_GTK3UI) || defined(USE_SDL1UI) || defined(USE_SDL2UI)
-    printf("%s: freeing action mapping array.\n", __func__);
     if (action_mappings != NULL) {
         lib_free(action_mappings);
         action_mappings = NULL;
@@ -453,68 +761,75 @@ void ui_actions_shutdown(void)
 #endif
 }
 
+const ui_action_map_t *ui_actions_get_registered(void)
+{
+    return action_mappings;
+}
 
-void ui_actions_add_mappings(const ui_action_map_t *mappings)
+/** \brief  Register UI action implementations
+ *
+ * Add action handlers in \a mappings to the runtime action mappings.
+ *
+ * \param[in]   mappings    list of action IDs mapped to action handlers
+ */
+void ui_actions_register(const ui_action_map_t *mappings)
 {
     const ui_action_map_t *map = mappings;
 
-    while (map->action_id > ACTION_NONE) {
-        /* do we need to reallocate the array? */
-        if (action_mappings_size == action_mappings_count - 1) {
+    while (map->action > ACTION_NONE) {
+        ui_action_map_t *entry;
+
+        /* first check if the action is already registered */
+        if (find_action_map(map->action) != NULL) {
+            log_error(LOG_ERR,
+                      "Handler for action %d (%s) already present, skipping.",
+                      map->action, ui_action_get_name(map->action));
+            map++;
+            continue;
+        }
+
+        /* do we need to reallocate the array? (-1 for the terminator) */
+        if ((action_mappings_size - 1) == action_mappings_count) {
             /* yup, double its size */
             action_mappings_size *= 2;
             action_mappings = lib_realloc(action_mappings,
                                           sizeof *action_mappings * action_mappings_size);
         }
 
-        action_mappings[action_mappings_count].action_id = map->action_id;
-        action_mappings[action_mappings_count].handler = map->handler;
-        action_mappings[action_mappings_count].mode = map->mode;
-        action_mappings[action_mappings_count].state = 0;
+        entry = &action_mappings[action_mappings_count];
+        entry->action  = map->action;
+        entry->handler = map->handler;
+        entry->blocks  = map->blocks;
+        entry->dialog  = map->dialog;
+        entry->is_busy = false;
 
         action_mappings_count++;
         map++;;
     }
     /* terminate list */
-    action_mappings[action_mappings_count].action_id = ACTION_NONE;
+    action_mappings[action_mappings_count].action  = ACTION_NONE;
     action_mappings[action_mappings_count].handler = NULL;
-    action_mappings[action_mappings_count].mode = 0;
-    action_mappings[action_mappings_count].state = 0;
-
 }
 
-
-/** \brief  Find action mapping by action ID
- *
- * \param[in]   action_id   action ID
- *
- * \return  action mapping or `NULL` when not found
- */
-static ui_action_map_t *find_action_map(int action_id)
-{
-    ui_action_map_t *map = action_mappings;
-
-    if (action_id < ACTION_NONE || action_id >= ACTION_ID_COUNT) {
-        return NULL;
-    }
-
-    while (map->action_id > ACTION_NONE) {
-        if (map->action_id == action_id) {
-            return map;
-        }
-        map++;
-    }
-    return NULL;
-}
 
 
 /** \brief  Trigger a UI action
  *
- * \param[in]   action_id   ID of the action to trigger
+ * Calls the action's handler if conditions are met.
+ *
+ * If an action is marked as a dialog then it will only be triggered when there
+ * is no other dialog active. If an action is marked as blocking i will only be
+ * triggered when it isn't marked as busy. If an action is either marked as a
+ * dialog or as an action that needs the UI thread then it will be dispatched
+ * to the UI's dispatcher to push the handler onto the UI thread, if not the
+ * action is executed directly, meaning it runs on the thread that invoked this
+ * function.
+ *
+ * \param[in]   action  action ID
  *
  * \see src/arch/shared/uiactions.h for IDs
  */
-void ui_action_trigger(int action_id)
+void ui_action_trigger(int action)
 {
     ui_action_map_t *map;
 
@@ -523,28 +838,36 @@ void ui_action_trigger(int action_id)
         return;
     }
 
-    map = find_action_map(action_id);
+    map = find_action_map(action);
     if (map != NULL) {
        /* handle blocking actions */
-        if (map->mode & ACTION_MODE_BLOCKING) {
-            if (map->state & ACTION_STATE_BUSY) {
+        if (map->blocks) {
+            if (map->is_busy) {
                 /* action is still busy, skip */
                 return;
             }
             /* mark action busy */
-            map->state |= ACTION_STATE_BUSY;
+            map->is_busy = true;
         }
 
         /* handle dialogs, only one can be active at a time */
-        if (map->mode & ACTION_MODE_DIALOG) {
+        if (map->dialog) {
             if (dialog_active) {
                 return;
             }
             dialog_active = true;
         }
 
-        /* dispatch to UI */
-        dispatch_handler(map);
+        /* dispatch to UI? */
+        if (map->uithread || map->dialog) {
+            /* yes, call the UI-specific dispatcher */
+            dispatch_handler(map);
+        } else {
+            /* no, call directly without pushing onto the UI thread */
+            map->handler();
+        }
+    } else {
+        log_error(LOG_ERR, "no handler for action %d\n", action);
     }
 }
 
@@ -556,14 +879,27 @@ void ui_action_trigger(int action_id)
  *
  * \param[in]   action_id
  */
-void ui_action_finish(int action_id)
+void ui_action_finish(int action)
 {
-    ui_action_map_t *map = find_action_map(action_id);
+    ui_action_map_t *map = find_action_map(action);
+#ifdef DEBUG_ACTIONS
+    const char *name = ui_action_get_name(action);
+
+    printf("%s(): called for %d (%s).\n",
+           __func__, action, name != NULL ? name : "<no name>");
+#endif
+
     if (map != NULL) {
         /* clear all state flags for the action */
-        map->state = 0;
+#ifdef DEBUG_ACTIONS
+        printf("%s(): clearing state flags.\n", __func__);
+#endif
+        map->is_busy = false;
         /* clear global dialog flag */
-        if (map->mode & ACTION_MODE_DIALOG) {
+        if (map->dialog) {
+#ifdef DEBUG_ACTIONS
+            printf("%s(): clearing global dialog-active flag.\n", __func__);
+#endif
             dialog_active = false;
         }
     }

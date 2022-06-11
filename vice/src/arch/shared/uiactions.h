@@ -36,11 +36,6 @@
 #include "machine.h"
 
 
-#define ACTION_MODE_BLOCKING    (1u<<1u)
-#define ACTION_MODE_DIALOG      (1u<<2u)
-
-#define ACTION_STATE_BUSY       (1u<<1u)
-
 /** \brief  Mapping of action IDs to names and descriptions
  */
 typedef struct ui_action_info_s {
@@ -53,13 +48,22 @@ typedef struct ui_action_info_s {
 /** \brief  Mapping of an action ID to a handler
  */
 typedef struct ui_action_map_s {
-    int action_id;          /**< action ID */
+    int action;             /**< action ID */
     void (*handler)(void);  /**< function handling the action */
-    uint32_t mode;          /**< mode flags of the action */
-    uint32_t state;         /**< state flags of the action */
+
+    /* modes */
+    bool blocks;            /**< action blocks (the same action cannot be
+                                 triggered again until it finishes) */
+    bool dialog;            /**< action pops up a dialog (only one dialog action
+                                 is allowed at a time), this implies using the
+                                 UI thread */
+    bool uithread;          /**< must run on the UI thread */
+
+    /* state */
+    bool is_busy;           /**< action is busy */
 } ui_action_map_t;
 
-#define UI_ACTION_MAP_TERMINATOR { ACTION_NONE, NULL, 0, 0 }
+#define UI_ACTION_MAP_TERMINATOR { .action = ACTION_NONE, .handler = NULL }
 
 
 /** \brief  Check for valid action name character
@@ -120,13 +124,63 @@ enum {
     ACTION_DRIVE_DETACH_ALL,
     ACTION_EDIT_COPY,
     ACTION_EDIT_PASTE,
-    ACTION_FLIPLIST_ADD,
-    ACTION_FLIPLIST_CLEAR,
-    ACTION_FLIPLIST_LOAD,
-    ACTION_FLIPLIST_NEXT,
-    ACTION_FLIPLIST_PREVIOUS,
-    ACTION_FLIPLIST_REMOVE,
-    ACTION_FLIPLIST_SAVE,
+    ACTION_FLIPLIST_ADD_8_0,
+    ACTION_FLIPLIST_CLEAR_8_0,
+    ACTION_FLIPLIST_LOAD_8_0,
+    ACTION_FLIPLIST_NEXT_8_0,
+    ACTION_FLIPLIST_PREVIOUS_8_0,
+    ACTION_FLIPLIST_REMOVE_8_0,
+    ACTION_FLIPLIST_SAVE_8_0,
+    ACTION_FLIPLIST_ADD_8_1,
+    ACTION_FLIPLIST_CLEAR_8_1,
+    ACTION_FLIPLIST_LOAD_8_1,
+    ACTION_FLIPLIST_NEXT_8_1,
+    ACTION_FLIPLIST_PREVIOUS_8_1,
+    ACTION_FLIPLIST_REMOVE_8_1,
+    ACTION_FLIPLIST_SAVE_8_1,
+    ACTION_FLIPLIST_ADD_9_0,
+    ACTION_FLIPLIST_CLEAR_9_0,
+    ACTION_FLIPLIST_LOAD_9_0,
+    ACTION_FLIPLIST_NEXT_9_0,
+    ACTION_FLIPLIST_PREVIOUS_9_0,
+    ACTION_FLIPLIST_REMOVE_9_0,
+    ACTION_FLIPLIST_SAVE_9_0,
+    ACTION_FLIPLIST_ADD_9_1,
+    ACTION_FLIPLIST_CLEAR_9_1,
+    ACTION_FLIPLIST_LOAD_9_1,
+    ACTION_FLIPLIST_NEXT_9_1,
+    ACTION_FLIPLIST_PREVIOUS_9_1,
+    ACTION_FLIPLIST_REMOVE_9_1,
+    ACTION_FLIPLIST_SAVE_9_1,
+
+    ACTION_FLIPLIST_ADD_10_0,
+    ACTION_FLIPLIST_CLEAR_10_0,
+    ACTION_FLIPLIST_LOAD_10_0,
+    ACTION_FLIPLIST_NEXT_10_0,
+    ACTION_FLIPLIST_PREVIOUS_10_0,
+    ACTION_FLIPLIST_REMOVE_10_0,
+    ACTION_FLIPLIST_SAVE_10_0,
+    ACTION_FLIPLIST_ADD_10_1,
+    ACTION_FLIPLIST_CLEAR_10_1,
+    ACTION_FLIPLIST_LOAD_10_1,
+    ACTION_FLIPLIST_NEXT_10_1,
+    ACTION_FLIPLIST_PREVIOUS_10_1,
+    ACTION_FLIPLIST_REMOVE_10_1,
+    ACTION_FLIPLIST_SAVE_10_1,
+    ACTION_FLIPLIST_ADD_11_0,
+    ACTION_FLIPLIST_CLEAR_11_0,
+    ACTION_FLIPLIST_LOAD_11_0,
+    ACTION_FLIPLIST_NEXT_11_0,
+    ACTION_FLIPLIST_PREVIOUS_11_0,
+    ACTION_FLIPLIST_REMOVE_11_0,
+    ACTION_FLIPLIST_SAVE_11_0,
+    ACTION_FLIPLIST_ADD_11_1,
+    ACTION_FLIPLIST_CLEAR_11_1,
+    ACTION_FLIPLIST_LOAD_11_1,
+    ACTION_FLIPLIST_NEXT_11_1,
+    ACTION_FLIPLIST_PREVIOUS_11_1,
+    ACTION_FLIPLIST_REMOVE_11_1,
+    ACTION_FLIPLIST_SAVE_11_1,
     ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
     ACTION_FULLSCREEN_TOGGLE,
     ACTION_HELP_ABOUT,
@@ -140,6 +194,12 @@ enum {
     ACTION_HISTORY_PLAYBACK_STOP,
     ACTION_HISTORY_RECORD_START,
     ACTION_HISTORY_RECORD_STOP,
+    ACTION_HOTKEYS_CLEAR,
+    ACTION_HOTKEYS_DEFAULT,
+    ACTION_HOTKEYS_LOAD,
+    ACTION_HOTKEYS_LOAD_FROM,
+    ACTION_HOTKEYS_SAVE,
+    ACTION_HOTKEYS_SAVE_TO,
     ACTION_KEYSET_JOYSTICK_TOGGLE,
     ACTION_MEDIA_RECORD,
     ACTION_MEDIA_STOP,
@@ -221,20 +281,34 @@ enum {
 
 
 int                 ui_action_get_id(const char *name);
-const char *        ui_action_get_name(int id);
-const char *        ui_action_get_desc(int id);
+const char *        ui_action_get_name(int action);
+const char *        ui_action_get_desc(int action);
 ui_action_info_t *  ui_action_get_info_list(void);
+bool                ui_action_is_valid(int action);
 
+/* Get action IDs for fliplist actions */
+int ui_action_id_fliplist_add(int unit, int drive);
+int ui_action_id_fliplist_remove(int unit, int drive);
+int ui_action_id_fliplist_next(int unit, int drive);
+int ui_action_id_fliplist_previous(int unit, int drive);
+int ui_action_id_fliplist_clear(int unit, int drive);
+int ui_action_id_fliplist_load(int unit, int drive);
+int ui_action_id_fliplist_save(int unit, int drive);
+
+int ui_action_id_drive_attach(int unit, int drive);
+int ui_action_id_drive_detach(int unit, int drive);
+
+/* Main API */
 void ui_actions_init(void);
 void ui_actions_set_dispatch(void (*dispatch)(const ui_action_map_t *));
 void ui_actions_shutdown(void);
-void ui_actions_add_mappings(const ui_action_map_t *mappings);
-void ui_action_trigger(int action_id);
-void ui_action_finish(int action_id);
-
+const ui_action_map_t *ui_actions_get_registered(void);
+void ui_actions_register(const ui_action_map_t *mappings);
+void ui_action_trigger(int action);
+void ui_action_finish(int action);
 /* TODO: implement the following: */
-bool                ui_action_def(int id, const char *hotkey);
-bool                ui_action_undef(int id);
-bool                ui_action_redef(int id, const char *hotkey);
+bool                ui_action_def(int action, const char *hotkey);
+bool                ui_action_undef(int action);
+bool                ui_action_redef(int action, const char *hotkey);
 
 #endif

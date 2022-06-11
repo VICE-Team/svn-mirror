@@ -28,10 +28,11 @@
 #ifndef VICE_UIDEBUG_H
 #define VICE_UIDEBUG_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
+#include "debug.h"
 
-gboolean ui_debug_trace_mode_dialog_show(GtkWidget *widget, gpointer user_data);
-gboolean ui_debug_playback_frames_dialog_show(GtkWidget *widget, gpointer user_data);
+#ifdef DEBUG
+void ui_debug_trace_mode_dialog_show(void);
+void ui_debug_playback_frames_dialog_show(void);
+#endif
 
 #endif

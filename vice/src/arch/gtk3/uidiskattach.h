@@ -27,13 +27,7 @@
 #ifndef VICE_UIDISKATTACH_H
 #define VICE_UIDISKATTACH_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-gboolean ui_disk_attach_dialog_show(GtkWidget *widget, gpointer user_data);
-gboolean ui_disk_detach_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_disk_detach_all_callback(GtkWidget *widget, gpointer data);
-
+void ui_disk_attach_dialog_show(int unit, int drive);
 void ui_disk_attach_shutdown(void);
 
 #endif

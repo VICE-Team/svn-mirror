@@ -28,9 +28,6 @@
 #ifndef VICE_UICMDLINE_H
 #define VICE_UICMDLINE_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
-
-gboolean uicmdline_dialog_show(GtkWidget *widget, gpointer user_data);
+void uicmdline_dialog_show(void);
 
 #endif

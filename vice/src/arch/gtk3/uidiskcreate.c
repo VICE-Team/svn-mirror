@@ -28,22 +28,23 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-#include "basewidgets.h"
-#include "basedialogs.h"
-#include "widgethelpers.h"
-#include "driveunitwidget.h"
-#include "drivenowidget.h"
-#include "drive.h"
-#include "diskimage.h"
-#include "filechooserhelpers.h"
-#include "util.h"
-#include "lib.h"
-#include "charset.h"
 #include "attach.h"
-#include "vdrive/vdrive-internal.h"
+#include "basedialogs.h"
+#include "basewidgets.h"
+#include "charset.h"
+#include "diskimage.h"
+#include "drive.h"
+#include "drivenowidget.h"
+#include "driveunitwidget.h"
+#include "filechooserhelpers.h"
 #include "imagecontents.h"
+#include "lib.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiactions.h"
+#include "util.h"
+#include "vdrive/vdrive-internal.h"
+#include "widgethelpers.h"
 
 #include "uidiskcreate.h"
 
@@ -102,6 +103,17 @@ static GtkWidget *disk_name;
 static GtkWidget *disk_id;
 /** \brief  Set drive type when attaching */
 static GtkWidget *set_drive_type;
+
+
+/** \brief  Handler for the 'destroy' event of the dialog
+ *
+ * \param[in]   self    dialog (unused)
+ * \param[in]   unused  extra event data (unused)
+ */
+static void on_destroy(GtkWidget *self, gpointer unused)
+{
+    ui_action_finish(ACTION_DRIVE_CREATE);
+}
 
 
 /** \brief  Handler for 'response' event of the dialog
@@ -273,8 +285,6 @@ static gboolean create_disk_image(const char *filename)
 }
 
 
-
-
 /** \brief  Create model for the image type combo box
  *
  * \return  model
@@ -282,16 +292,17 @@ static gboolean create_disk_image(const char *filename)
 static GtkListStore *create_disk_image_type_model(void)
 {
     GtkListStore *model;
-    GtkTreeIter iter;
     int i;
 
     model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
     for (i = 0; disk_image_types[i].name != NULL; i++) {
+        GtkTreeIter iter;
+
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model, &iter,
-                0, disk_image_types[i].name,
-                1, disk_image_types[i].id,
-                -1);
+                           0, disk_image_types[i].name,
+                           1, disk_image_types[i].id,
+                           -1);
     }
     return model;
 }
@@ -387,18 +398,13 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
 
 /** \brief  Create and show 'attach new disk image' dialog
  *
- *  \param[in]  parent  parent widget
- *  \param[in]  data    disk unit
- *
- * \return  TRUE;
+ *  \param[in]  unit    unit number (8-11)
  */
-gboolean ui_disk_create_dialog_show(GtkWidget *parent, gpointer data)
+void ui_disk_create_dialog_show(gint unit)
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;
-    int unit;
 
-    unit = GPOINTER_TO_INT(data);
     if (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX) {
         unit = DRIVE_UNIT_DEFAULT;
     }
@@ -414,15 +420,15 @@ gboolean ui_disk_create_dialog_show(GtkWidget *parent, gpointer data)
             NULL, NULL);
 
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
-            create_extra_widget(dialog, unit));
+                                      create_extra_widget(dialog, unit));
 
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
-            TRUE);
+                                                   TRUE);
 
     filter = create_file_chooser_filter(file_chooser_filter_disk, FALSE);
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect(dialog, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show(dialog);
-    return TRUE;
 }

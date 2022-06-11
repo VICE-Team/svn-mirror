@@ -3,6 +3,9 @@
  *
  * \author  Michael C. Martin <mcmartin@gmail.com>
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \todo    Refactor to use UI actions, remove code (re)implemented in
+ *          actions-drive.c.
  */
 
 /*
@@ -35,6 +38,7 @@
 #include "util.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uistatusbar.h"
 
 #include "uifliplist.h"
@@ -44,137 +48,16 @@
 #define MSGBUF_SIZE 1024
 
 
-/** \brief  Callback to add current image to the fliplist
+/** \brief  Handler for the 'activate' event of menu items
  *
- * \param[in]   widget  widget triggering the event (unused)
- * \param[in]   data    drive unit
+ * Triggers UI action \a action.
  *
- * \return  TRUE to indicate the event has been handled
+ * \param[in]   item    menu item (unused)
+ * \param[in]   action  UI action ID
  */
-gboolean ui_fliplist_add_current_cb(GtkWidget *widget, gpointer data)
+static void trigger_ui_action(GtkWidget *item, gpointer action)
 {
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-
-    if (fliplist_add_image(unit)) {
-
-        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): added '%s'",
-                unit, fliplist_get_head((unsigned int)unit));
-        ui_display_statustext(buffer, 10);
-    } else {
-        /* Display proper error message once we have a decent
-         * get_image_filename(unit) function which returns NULL on non-attached
-         * images.
-         */
-        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): oops", unit);
-        ui_display_statustext(buffer, 10);
-    }
-    return TRUE;
-}
-
-
-/** \brief  Remove current image from fliplist
- *
- * \param[in]   widget  unused
- * \param[in]   data    unit number
- *
- * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
- *          in the emulated machine
- */
-gboolean ui_fliplist_remove_current_cb(GtkWidget *widget, gpointer data)
-{
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-    const char *image;
-
-    /* get image filename before removing image */
-    image = fliplist_get_head((unsigned int)unit);
-
-    if (image != NULL) {
-        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): Removed '%s'",
-                unit, image);
-    } else {
-        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): Nothing to remove",
-                unit);
-    }
-
-    fliplist_remove(unit, NULL);
-    ui_display_statustext(buffer, 10);
-    return TRUE;
-}
-
-/** \brief  Remove all images from fliplist
- *
- * \param[in]   widget  unused
- * \param[in]   data    unit number
- *
- * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
- *          in the emulated machine
- */
-gboolean ui_fliplist_clear_cb(GtkWidget *widget, gpointer data)
-{
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-
-    g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d) cleared.", unit);
-
-    fliplist_clear_list(unit);
-    ui_display_statustext(buffer, 10);
-    return TRUE;
-}
-
-
-/** \brief  Select next image in the fliplist
- *
- * \param[in]   widget  unused
- * \param[in]   data    unit number
- *
- * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
- *          in the emulated machine
- */
-gboolean ui_fliplist_next_cb(GtkWidget *widget, gpointer data)
-{
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-
-    if (fliplist_attach_head(unit, 1)) {
-        g_snprintf(buffer, MSGBUF_SIZE,
-                "Fliplist (#%d): attached next image: '%s'",
-                unit, fliplist_get_head((unsigned int)unit));
-    } else {
-        g_snprintf(buffer, MSGBUF_SIZE,
-                "Fliplist (#%d): failed to attach next image",
-                unit);
-    }
-    ui_display_statustext(buffer, 10);
-    return TRUE;
-}
-
-
-/** \brief  Select next previous in the fliplist
- *
- * \param[in]   widget  unused
- * \param[in]   data    unit number
- *
- * \return  TRUE (make sure GLib 'consumes' the key event so it doesn't end up
- *          in the emulated machine
- */
-gboolean ui_fliplist_prev_cb(GtkWidget *widget, gpointer data)
-{
-    int unit = GPOINTER_TO_INT(data);
-    char buffer[MSGBUF_SIZE];
-
-    if (fliplist_attach_head(unit, 0)) {
-        g_snprintf(buffer, MSGBUF_SIZE,
-                "Fliplist (#%d): attached previous image: '%s'",
-                unit, fliplist_get_head((unsigned int)unit));
-    } else {
-        g_snprintf(buffer, MSGBUF_SIZE,
-                "Fliplist (#%d): failed to attach previous image",
-                unit);
-    }
-    ui_display_statustext(buffer, 10);
-    return TRUE;
+    ui_action_trigger(GPOINTER_TO_INT(action));
 }
 
 
@@ -188,6 +71,8 @@ static void ui_fliplist_select_cb(GtkWidget *widget, gpointer data)
     int unit = GPOINTER_TO_INT(data) & 0xff;
     int index = (GPOINTER_TO_INT(data) >> 8) & 0xff;
     int i;
+    char buffer[MSGBUF_SIZE];
+
     if (index == 0) {
         fliplist_t list = fliplist_init_iterate(unit);
         const char *image = fliplist_get_image(list);
@@ -197,7 +82,13 @@ static void ui_fliplist_select_cb(GtkWidget *widget, gpointer data)
             fliplist_attach_head(unit, 1);
         }
     }
+
+    g_snprintf(buffer, sizeof(buffer),
+               "Fliplist: attached image to drive %d, unit %d: %s",
+               unit, 0, fliplist_get_head(unit));
+    ui_display_statustext(buffer, 1);
 }
+
 
 /** \brief Fill in a menu with controls for fliplist control.
  *
@@ -235,9 +126,12 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
      * the fliplist isn't empty for this drive. */
     /* TODO: Add/Remove current image to/from fliplist should really
      * be here too. */
+
+    /* Next item in fliplist, if any */
     fliplist_string = fliplist_get_next(unit);
     if (fliplist_string) {
-        char buf[128];
+
+        char buf[256];
         char *basename = NULL;
         fliplist_t fliplist_iterator;
         int index;
@@ -253,15 +147,17 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
         } else {
             utf8 = file_chooser_convert_from_locale(fliplist_string);
         }
-
-        snprintf(buf, 128, "Next: %s", utf8);
+        g_snprintf(buf, sizeof(buf), "Next: %s", utf8);
         g_free(utf8);
 
-        buf[127] = 0;
         menu_item = gtk_menu_item_new_with_label(buf);
-        g_signal_connect(menu_item, "activate",
-                G_CALLBACK(ui_fliplist_next_cb), GINT_TO_POINTER(unit));
+        g_signal_connect(menu_item,
+                         "activate",
+                         G_CALLBACK(trigger_ui_action),
+                         GINT_TO_POINTER(ui_action_id_fliplist_next(unit, 0)));
         gtk_container_add(GTK_CONTAINER(menu), menu_item);
+
+        /* Previous item in fliplist, if any */
         fliplist_string = fliplist_get_prev(unit);
         if (fliplist_string) {
             util_fname_split(fliplist_string, NULL, &basename);
@@ -274,13 +170,14 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
                 utf8 = file_chooser_convert_from_locale(fliplist_string);
             }
 
-            snprintf(buf, 128, "Previous: %s", utf8);
+            g_snprintf(buf, sizeof(buf), "Previous: %s", utf8);
             g_free(utf8);
 
-            buf[127] = 0;
             menu_item = gtk_menu_item_new_with_label(buf);
-            g_signal_connect(menu_item, "activate",
-                    G_CALLBACK(ui_fliplist_prev_cb), GINT_TO_POINTER(unit));
+            g_signal_connect(menu_item,
+                             "activate",
+                             G_CALLBACK(trigger_ui_action),
+                             GINT_TO_POINTER(ui_action_id_fliplist_previous(unit, 0)));
             gtk_container_add(GTK_CONTAINER(menu), menu_item);
         }
         gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
@@ -336,42 +233,43 @@ static void fliplist_load_response(GtkWidget *widget,
         ui_display_statustext(buffer, 10);
     }
     gtk_widget_destroy(widget);
+    ui_action_finish(ui_action_id_fliplist_load(unit, 0));
 }
 
 
-/** \brief   Create and show the "load fliplist" dialog.
+/** \brief   Create and show the "load fliplist" dialog
  *
- *  \param   parent     Widget that sent the event
- *  \param   data       Drive to load fliplist to, or FLIPLIST_ALL_UNITS
- *
- *  \return TRUE
+ *  \param[in]  unit    Disk unit to load fliplist to, or `FLIPLIST_ALL_UNITS`
  */
-gboolean ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
+void ui_fliplist_load_dialog_show(int unit)
 {
     GtkWidget *dialog;
-    unsigned int unit = (unsigned int)GPOINTER_TO_INT(data);
+
     if (unit != FLIPLIST_ALL_UNITS &&
             (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX)) {
-        return TRUE;
+        return;
     }
-    dialog = gtk_file_chooser_dialog_new(
-        "Select flip list file",
-        ui_get_active_window(),
-        GTK_FILE_CHOOSER_ACTION_OPEN,
-        /* buttons */
-        "Open", GTK_RESPONSE_ACCEPT,
-        "Cancel", GTK_RESPONSE_REJECT,
-        NULL, NULL);
+
+    dialog = gtk_file_chooser_dialog_new("Select flip list file",
+                                         ui_get_active_window(),
+                                         GTK_FILE_CHOOSER_ACTION_OPEN,
+                                         /* buttons */
+                                         "Open", GTK_RESPONSE_ACCEPT,
+                                         "Cancel", GTK_RESPONSE_REJECT,
+                                         NULL, NULL);
     /* TODO: add a separate "extra widget" that will let the user
      * select autoattach */
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_fliplist, FALSE));
-     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_all, FALSE));
 
-    g_signal_connect(dialog, "response", G_CALLBACK(fliplist_load_response), data);
+    g_signal_connect(dialog,
+                     "response",
+                     G_CALLBACK(fliplist_load_response),
+                     GINT_TO_POINTER(unit));
+
     gtk_widget_show_all(dialog);
-    return TRUE;
 }
 
 
@@ -398,37 +296,38 @@ static void fliplist_save_response(GtkWidget *widget,
 
     }
     gtk_widget_destroy(widget);
+    ui_action_finish(ui_action_id_fliplist_save(unit, 0));
 }
 
 
-/** \brief   Create and show the "save fliplist" dialog.
+/** \brief   Create and show the "save fliplist" dialog
  *
- *  \param   parent     Widget that sent the event
- *  \param   data       Drive to save fliplist from, or FLIPLIST_ALL_UNITS
- *
- *  \return TRUE
+ *  \param[in]  unit    Drive unit to save fliplist from, or `FLIPLIST_ALL_UNITS`
  */
-gboolean ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
+void ui_fliplist_save_dialog_show(int unit)
 {
     GtkWidget *dialog;
-    unsigned int unit = (unsigned int)GPOINTER_TO_INT(data);
+
     if (unit != FLIPLIST_ALL_UNITS &&
             (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX)) {
-        return TRUE;
+        return;
     }
-    dialog = gtk_file_chooser_dialog_new(
-        "Select flip list file",
-        ui_get_active_window(),
-        GTK_FILE_CHOOSER_ACTION_SAVE,
-        /* buttons */
-        "Save", GTK_RESPONSE_ACCEPT,
-        "Cancel", GTK_RESPONSE_REJECT,
-        NULL, NULL);
+
+    dialog = gtk_file_chooser_dialog_new("Select flip list file",
+                                         ui_get_active_window(),
+                                         GTK_FILE_CHOOSER_ACTION_SAVE,
+                                         /* buttons */
+                                         "Save", GTK_RESPONSE_ACCEPT,
+                                         "Cancel", GTK_RESPONSE_REJECT,
+                                         NULL, NULL);
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_fliplist, FALSE));
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
-    g_signal_connect(dialog, "response", G_CALLBACK(fliplist_save_response), data);
-    gtk_widget_show_all(dialog);
 
-    return TRUE;
+    g_signal_connect(dialog,
+                     "response",
+                     G_CALLBACK(fliplist_save_response),
+                     GINT_TO_POINTER(unit));
+
+    gtk_widget_show_all(dialog);
 }

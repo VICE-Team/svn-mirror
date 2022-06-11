@@ -347,10 +347,8 @@ inline static int ciapb_forcelow(int row, uint8_t mask)
     uint8_t v;
 
     if (c64keyboard_active) {
-        /* Check for shift lock.
-           FIXME: keyboard_shiftlock state may be inconsistent
-                  with the (rev_)keyarr state. */
-        if ((row == 1) && keyboard_shiftlock) {
+        /* Check for shift lock. */
+        if ((row == 1) && keyboard_get_shiftlock()) {
             return 1;
         }
 

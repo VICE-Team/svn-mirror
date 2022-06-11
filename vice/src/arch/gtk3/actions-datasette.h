@@ -1,7 +1,7 @@
-/** \file   uimonarch.h
- * \brief   GTK3 Monitor - header
+/** \file   actions-datasette.h
+ * \brief   UI action implementations for datasette-related dialogs and settings - header
  *
- * \author  groepaz <groepaz@gmx.net>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -22,15 +22,13 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_UIMONARCH_H
-#define VICE_UIMONARCH_H
 
-#include "vice.h"
+#ifndef VICE_ACTIONS_DATASETTE_H
+#define VICE_ACTIONS_DATASETTE_H
 
-#include <gtk/gtk.h>
-
-gboolean ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data);
+void actions_datasette_register(void);
 
 #endif

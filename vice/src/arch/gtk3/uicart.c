@@ -44,6 +44,7 @@
 #include "cartridge.h"
 #include "vsync.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uimachinewindow.h"
 #include "crtpreviewwidget.h"
 
@@ -284,19 +285,14 @@ static GtkListStore *create_cart_id_model_vic20(void);
 static void (*extra_attach_callback)(void) = NULL;
 
 
-
-/** \brief  Callback for the detach confirm dialog
+/** \brief  Handler for the 'destroy' event of the dialog
  *
- * If \a result is TRUE, detach all carts.
- *
- * \param[in]   dialog  dialog reference (unused)
- * \param[in]   result  dialog result
+ * \param[in]   dialog  dialog
+ * \param[in]   data    extra event data (unused)
  */
-static void uicart_confirm_detach_callback(GtkDialog *dialog, gboolean result)
+static void on_destroy(GtkWidget *dialog, gpointer data)
 {
-    if (result) {
-        cartridge_unset_default();
-    }
+    ui_action_finish(ACTION_CART_ATTACH);
 }
 
 
@@ -333,8 +329,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
                 }
                 g_free(filename);
                 g_free(filename_locale);
-
-           }
+            }
             gtk_widget_destroy(dialog);
             break;
     }
@@ -458,7 +453,6 @@ static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
 }
 
 
-
 /** \brief  Get the ID of the model for the 'cart type' combo box
  *
  * \return  ID or -1 on error
@@ -480,7 +474,6 @@ static int get_cart_type(void)
     }
     return crt_type;
 }
-
 
 
 /** \brief  Get the ID of the model for the 'cart ID' combo box
@@ -656,7 +649,6 @@ static int attach_cart_image(int type, int id, const char *path)
     }
     return 0;
 }
-
 
 
 /** \brief  Create model for the 'cart type' combo box
@@ -973,63 +965,14 @@ static void  update_preview(GtkFileChooser *file_chooser, gpointer data)
 }
 
 
-/** \brief  Trigger cartridge freeze
- *
- * \return  TRUE
- */
-gboolean ui_cart_trigger_freeze(void)
-{
-    cartridge_trigger_freeze();
-    return TRUE;
-}
-
-
-/** \brief  Detach all cartridge images
- *
- * TODO: The question about removing the default enabled cartridge doesn't
- *       work for carts not on "slot 1", these seem to their own "enabled"
- *       resources and do not use the CartridgeType/CartridgeFile resources.
- *
- * \return  TRUE
- */
-gboolean ui_cart_detach(void)
-{
-    int cartid = CARTRIDGE_NONE;
-
-    /* determine if one of the attached cartridges is set as default
-       cartridge, and if so ask if it should be removed from default also */
-
-    resources_get_int("CartridgeType", &cartid);
-    if (cartid != CARTRIDGE_NONE) {
-        /* default is set, ask to remove it */
-        vice_gtk3_message_confirm(
-                uicart_confirm_detach_callback,
-                "Detach cartridge",
-                "You're detaching the default cartridge.\n\n"
-                "Would you also like to unregister this cartridge"
-                " as the default cartridge?");
-    }
-    /* FIXME: the above will only check/ask for "slot1" cartridges. other
-              cartridges have seperate "enable" resources which would
-              have to be checked individually. perhaps make a dedicated
-              function for this later */
-
-    cartridge_detach_image(-1);    /* detach all cartridges */
-    return TRUE;
-}
-
-
-
 /** \brief  Create attach dialog
  *
- * \param[in]   widget          parent widget
  * \param[in]   set_as_default  initial state of the 'set as default' checkbox
  * \param[in]   callback        extra callback when attach succeeds
  *
  * \return  GtkDialog
  */
-static GtkWidget *cart_dialog_internal(GtkWidget *widget,
-                                       gboolean set_as_default,
+static GtkWidget *cart_dialog_internal(gboolean set_as_default,
                                        void (*callback)(void))
 {
     GtkWidget *dialog;
@@ -1089,6 +1032,7 @@ static GtkWidget *cart_dialog_internal(GtkWidget *widget,
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
     g_signal_connect(dialog, "update-preview", G_CALLBACK(update_preview), NULL);
+    g_signal_connect(dialog, "destroy", G_CALLBACK(on_destroy), NULL);
 
     /* those should be hidden by default */
     if (cart_id_label) {
@@ -1102,21 +1046,13 @@ static GtkWidget *cart_dialog_internal(GtkWidget *widget,
 }
 
 
-/** \brief  Pop up the cart-attach dialog
- *
- * \param[in]   widget  parent widget (unused)
- * \param[in]   data    initial state of the 'set as default' checkbox
- *
- * \return  TRUE
- */
-gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
+/** \brief  Pop up the cart-attach dialog */
+void ui_cart_show_dialog(void)
 {
     GtkWidget *dialog;
 
-    dialog = cart_dialog_internal(widget, GPOINTER_TO_INT(data), NULL);
-
+    dialog = cart_dialog_internal(0, NULL);
     gtk_widget_show(dialog);
-    return TRUE;
 }
 
 
@@ -1130,7 +1066,7 @@ void ui_cart_default_attach(GtkWidget *widget, void (*callback)(void))
 {
     GtkWidget *dialog;
 
-    dialog = cart_dialog_internal(widget, GPOINTER_TO_INT(1), callback);
+    dialog = cart_dialog_internal(GPOINTER_TO_INT(1), callback);
     gtk_widget_show(dialog);
 }
 

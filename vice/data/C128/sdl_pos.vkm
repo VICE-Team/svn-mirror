@@ -149,6 +149,7 @@
 45 5 0 8                /*        Minus -> Plus         */
 61 5 3 8                /*        Equal -> Minus        */
 8 0 0 8                 /*    Backspace -> Del          */
+
 9 7 2 16384             /*          TAB -> Ctrl         */
 113 7 6 8               /*            Q -> Q            */
 119 1 1 8               /*            W -> W            */
@@ -163,6 +164,7 @@
 91 5 6 8                /*            [ -> @            */
 93 6 1 8                /*            ] -> *            */
 13 0 1 8                /*       Return -> Return       */
+
 306 7 5 8192            /*    Left Ctrl -> CBM          */
 97 1 2 8                /*            A -> A            */
 115 1 5 8               /*            S -> S            */
@@ -175,7 +177,8 @@
 108 5 2 8               /*            L -> L            */
 59 5 5 8                /*            ; -> :            */
 39 6 2 8                /*            ' -> ;            */
-92 6 5 8                /*            \ -> =            */
+92 6 6 8                /*            \ -> arrow up     */
+
 304 1 7 2               /*   Left Shift -> Left Shift   */
 122 1 4 8               /*            Z -> Z            */
 120 2 7 8               /*            X -> X            */
@@ -188,33 +191,32 @@
 46 5 4 8                /*            . -> .            */
 47 6 7 8                /*            / -> /            */
 303 6 4 4               /*  Right Shift -> Right Shift  */
+
 32 7 4 8                /*        Space -> Space        */
-282 0 4 8               /*           F1 -> F1           */
-283 0 5 8               /*           F2 -> F3           */
-284 0 6 8               /*           F3 -> F5           */
-285 0 3 8               /*           F4 -> F7           */
-286 10 3 8              /*           F5 -> UP           */
-287 10 4 8              /*           F6 -> DOWN         */
-288 10 5 8              /*           F7 -> LEFT         */
-289 10 6 8              /*           F8 -> RIGHT        */
-290 9 0 8               /*           F9 -> ESC          */
-291 8 3 8               /*          F10 -> TAB          */
-292 -4 1                /*          F11 -> CAPS         */
+
+/* alternative set (c64 mode) */
+273 0 7 0x101          /*           Up -> CRSR UP      */
+274 0 7 0x108          /*         Down -> CRSR DOWN    */
+275 0 2 0x108          /*        Right -> CRSR RIGHT   */
+276 0 2 0x101          /*         Left -> CRSR LEFT    */
+/* normal set (c128 mode) */
+273 10 3 0x008         /*           Up -> A.UP         */
+274 10 4 0x008         /*         Down -> A.DOWN       */
+275 10 6 0x008         /*        Right -> A.RIGHT      */
+276 10 5 0x008         /*         Left -> A.LEFT       */
+
+# Restore key mappings
 280 -3 0                /*         PgUp -> RESTORE      */
-281 8 0 8               /*       PgDown -> HELP         */
-19 9 3 8                /*  Pause/Break -> LINE FEED    */
-268 10 7 8              /*     Numpad * -> NO SCROLL    */
-274 0 7 8               /*  Cursor Down -> Cursor Down  */
-276 0 2 1               /*  Cursor Left -> Cursor Left  */
-275 0 2 8               /* Cursor Right -> Cursor Right */
-273 0 7 1               /*    Cursor Up -> Cursor Up    */
+
+127 0 0 8               /*          Ins -> Ins          */
+277 0 0 1               /*          Del -> Del          */
 278 6 3 8               /*         Home -> CLR/HOME     */
-277 6 0 8               /*          Ins -> Pound        */
-127 6 6 8               /*          Del -> Up Arrow     */
+279 6 0 8               /*          End -> Pound        */
+
+# Numeric keypad
 263 8 6 8               /*     Numpad 7 -> Numpad 7     */
 264 8 1 8               /*     Numpad 8 -> Numpad 8     */
 265 9 6 8               /*     Numpad 9 -> Numpad 9     */
-267 -4 0                /*     Numpad / -> 40/80COL     */
 269 9 1 8               /*     Numpad - -> Numpad +     */
 260 8 5 8               /*     Numpad 4 -> Numpad 4     */
 261 8 2 8               /*     Numpad 5 -> Numpad 5     */
@@ -227,3 +229,21 @@
 266 10 2 8              /*     Numpad . -> Numpad .     */
 271 9 4 8               /* Numpad Enter -> Numpad Enter */
 
+/* top row */
+282 0 4 8              /*           F1 -> F1           */
+283 0 5 8              /*           F2 -> F3           */
+284 0 6 8              /*           F3 -> F5           */
+285 0 3 8              /*           F4 -> F7           */
+
+286 8 0 8              /*           F5 -> Help         */
+287 9 3 8              /*           F6 -> Linefeed     */
+288 -4 0               /*           F7 -> 40/80        */
+289 10 7 0             /*           F8 -> No scroll    */
+
+290 9 0 8              /*           F9 -> ESC          */
+291 8 3 8              /*          F10 -> TAB          */
+292 10 0 8             /*          F11 -> ALT          */
+# CAPS (ASCII/DIN) key - We can't map this to F12 because F12 is SDL MENU key
+#293 -4 1 0             /*          F12 -> CAPS         */
+# So mapped to pause/break key for now until some better idea comes along
+19 -4 1                /*  Pause/Break -> CAPS         */

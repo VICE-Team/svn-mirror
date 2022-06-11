@@ -41,6 +41,7 @@
 #include "functionrom.h"
 #include "interrupt.h"
 #include "keyboard.h"
+#include "keymap.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -55,6 +56,13 @@
 #include "z80mem.h"
 
 /* #define MMU_DEBUG */
+/* #define DEBUG_KEYS */
+
+#ifdef DEBUG_KEYS
+#define DBGKEY(x) log_debug x
+#else
+#define DBGKEY(x)
+#endif
 
 /* MMU register.  */
 static uint8_t mmu[12];
@@ -62,8 +70,8 @@ static uint8_t mmu[12];
 /* latches for P0H and P1H */
 static uint8_t p0h_latch, p1h_latch;
 
-/* State of the 40/80 column key.  */
-static int mmu_column4080_key = 1;
+/* State of the 40/80 column key (Resource value)  */
+static int mmu_column4080_key = -1;
 
 static int force_c64_mode_res = 0;
 static int force_c64_mode = 0;
@@ -75,9 +83,25 @@ static log_t mmu_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
+/* resource handler for "C128ColumnKey"
+    = 1 : 40 colums     (key released: 0)
+    = 0 : 80 colums     (key pressed: 1)
+*/
 static int set_column4080_key(int val, void *param)
 {
-    mmu_column4080_key = val ? 1 : 0;
+    DBGKEY(("set_column4080_key %d", val));
+    if (mmu_column4080_key != val) {
+        /* caution, the resource value is 1 when the key is not pressed (val = 0) */
+        keyboard_custom_key_set(KBD_CUSTOM_4080, val ? 0 : 1);
+        val = keyboard_custom_key_get(KBD_CUSTOM_4080);
+        if (val != 1) {
+            val = 0;
+        }
+        /* caution, the resource value is 1 when the key is not pressed (val = 0) */
+        mmu_column4080_key = val ^ 1;
+        DBGKEY(("set_column4080_key mmu_column4080_key:%d 40/80 column key: %s.",
+            mmu_column4080_key, mmu_column4080_key ? "40cols" : "80cols"));
+    }
 
 #ifdef HAS_SINGLE_CANVAS
     vdc_set_canvas_refresh(mmu_column4080_key ? 0 : 1);
@@ -201,11 +225,21 @@ static uint8_t mmu_is_valid_ram(uint8_t page, uint8_t bank, uint8_t current_bank
     return 0;
 }
 
-static void mmu_toggle_column4080_key(void)
+/* custom key handler, called when key either pressed or released */
+static int mmu_4080_key_event(int pressed)
 {
-    mmu_column4080_key = !mmu_column4080_key;
-    resources_set_int("C128ColumnKey", mmu_column4080_key);
-    log_message(mmu_log, "40/80 column key %s.", (mmu_column4080_key) ? "released" : "pressed");
+    DBGKEY(("mmu_4080_key_event pressed:%d", pressed));
+    keyboard_custom_key_set(KBD_CUSTOM_4080, pressed);
+    pressed = keyboard_custom_key_get(KBD_CUSTOM_4080);
+    if (pressed != 1) {
+        pressed = 0;
+    }
+    /* caution, the resource value is 1 when the key is not pressed (enabled = 0) */
+    mmu_column4080_key = pressed ? 0 : 1;
+    mem_pla_config_changed();
+    DBGKEY(("mmu_4080_key_event mmu_column4080_key:%d 40/80 column key: %s.",
+            mmu_column4080_key, mmu_column4080_key ? "40cols" : "80cols"));
+    return pressed;
 }
 
 static void mmu_switch_cpu(int value)
@@ -587,7 +621,7 @@ int mmu_dump(void *context, uint16_t addr)
 void mmu_init(void)
 {
     mmu_log = log_open("MMU");
-
+    DBGKEY(("mmu_init mmu_column4080_key:%d", mmu_column4080_key));
     set_column4080_key(mmu_column4080_key, NULL);
 
     mmu[5] = 0;
@@ -603,7 +637,8 @@ void mmu_reset(void)
     mmu[9] = 1;
     mmu_update_page01_pointers();
 
-    keyboard_register_column4080_key(mmu_toggle_column4080_key);
+    keyboard_register_custom_key(KBD_CUSTOM_4080, mmu_4080_key_event, "40/80 column key",
+                                 &key_ctrl_column4080, &key_flags_column4080);
 
     force_c64_mode = force_c64_mode_res;
 }

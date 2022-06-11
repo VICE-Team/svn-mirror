@@ -41,26 +41,26 @@
 
 #include "attach.h"
 #include "autostart.h"
-#include "drive.h"
-#include "log.h"
-#include "tape.h"
-#include "debug_gtk3.h"
 #include "basedialogs.h"
 #include "contentpreviewwidget.h"
-#include "imagecontents.h"
+#include "debug_gtk3.h"
 #include "diskcontents.h"
-#include "filechooserhelpers.h"
-#include "driveunitwidget.h"
+#include "drive.h"
 #include "drivenowidget.h"
+#include "driveunitwidget.h"
+#include "filechooserhelpers.h"
+#include "imagecontents.h"
+#include "lastdir.h"
+#include "log.h"
 #include "mainlock.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uistatusbar.h"
-#include "uimachinewindow.h"
-#include "lastdir.h"
 
 #include "uidiskattach.h"
+
 
 /** \brief  File type filters for the dialog
  */
@@ -252,11 +252,13 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
         * through file types is 'smart', but hell, it works */
     if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
         /* failed */
-        g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
-                unit_number, filename);
+        g_snprintf(buffer, sizeof(buffer),
+                   "Unit #%d: failed to attach '%s'",
+                   unit_number, filename);
     } else {
-        g_snprintf(buffer, 1024, "Unit #%d: attached '%s'",
-                unit_number, filename);
+        g_snprintf(buffer, sizeof(buffer),
+                   "Unit #%d: attached '%s'",
+                   unit_number, filename);
     }
     ui_display_statustext(buffer, 1);
     g_free(filename_locale);
@@ -284,6 +286,18 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
     }
 }
 
+/** \brief  Handler for the 'destroy' event of the dialog
+ *
+ * \param[in]   self    dialog
+ * \param[in]   data    extra event data (unit+drive)
+ */
+static void on_destroy(GtkWidget *self, gpointer data)
+{
+    int unit = GPOINTER_TO_INT(data) >> 8;
+    int drive = GPOINTER_TO_INT(data) & 0xff;
+
+    ui_action_finish(ui_action_id_drive_attach(unit, drive));
+}
 
 
 /** \brief  Handler for 'response' event of the dialog
@@ -393,12 +407,13 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
  *
  * \param[in]   parent  parent widget
  * \param[in]   unit    unit number
+ * \param[in]   drive   drive number
  *
  * \return  GtkGrid
  *
  * TODO: 'grey-out'/disable units without a proper drive attached
  */
-static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
+static GtkWidget *create_extra_widget(GtkWidget *parent, int unit, int drive)
 {
     GtkWidget *grid;
     GtkWidget *hidden_check;
@@ -426,12 +441,10 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
             0, 1, 3, 1);
 
     /* add drive number widget */
-    driveno_widget = drive_no_widget_create(0, &drive_number, on_drive_num_changed);
+    driveno_widget = drive_no_widget_create(drive, &drive_number, on_drive_num_changed);
     gtk_widget_set_sensitive(driveno_widget, drive_is_dualdrive_by_devnr(unit));
 
-    gtk_grid_attach(GTK_GRID(grid),
-            driveno_widget,
-            3, 1, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), driveno_widget, 3, 1, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -446,7 +459,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
  *
  * \return  GtkFileChooserDialog
  */
-static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
+static GtkWidget *create_disk_attach_dialog(gint unit, gint drive)
 {
     GtkWidget *dialog;
     size_t i;
@@ -497,7 +510,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
         unit = DRIVE_UNIT_DEFAULT;
     }
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
-                                      create_extra_widget(dialog, unit));
+                                      create_extra_widget(dialog, unit, drive));
 
     preview_widget = content_preview_widget_create(
             dialog, diskcontents_filesystem_read, on_response, unit);
@@ -519,73 +532,22 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             G_CALLBACK(on_update_preview), NULL);
     g_signal_connect_unlocked(dialog, "selection-changed",
             G_CALLBACK(on_selection_changed), NULL);
+    g_signal_connect(dialog, "destroy",
+            G_CALLBACK(on_destroy),
+            GINT_TO_POINTER((unit << 8) | (drive)));
     return dialog;
-
 }
 
 
-/** \brief  Callback for the "smart-attach" and "attach to #%d" menu items
+/** \brief  Create and show disk attach dialog.
  *
- * Creates the smart-dialog and runs it.
- *
- * \param[in]   widget      menu item triggering the callback
- * \param[in]   user_data   integer from 8-11 for the default drive to attach
- *                          (for some reason auto-attach always ultra uses #8)
- *
- * \return  TRUE
+ * \param[in]   unit        integer from 8-11 for the default drive
+ * \param[in]   drive       drive number (0 or 1)
  */
-gboolean ui_disk_attach_dialog_show(GtkWidget *widget, gpointer user_data)
+void ui_disk_attach_dialog_show(int unit, int drive)
 {
-    GtkWidget *dialog;
-
-    dialog = create_disk_attach_dialog(widget, GPOINTER_TO_INT(user_data));
+    GtkWidget *dialog = create_disk_attach_dialog(unit, drive);
     gtk_widget_show(dialog);
-    return TRUE;
-}
-
-
-/** \brief  Callback for "detach from #%d" menu items
- *
- * Removes any disk from the specified drive. No additional UI is
- * presented.
- *
- * \param[in]   widget      menu item triggering the callback
- * \param[in]   user_data   integer from 8-11 for the drive to
- *                          close, or -1 to detach all disks
- *
- * \return  TRUE
- */
-gboolean ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
-{
-    /* This function does its own interpretation and input validation,
-     * so we can simply forward the call directly. */
-    int unit;
-    int drive;
-
-    unit = GPOINTER_TO_INT(user_data) >> 8;
-    drive = GPOINTER_TO_INT(user_data) & 0xff;
-
-    file_system_detach_disk(unit, drive);
-    return TRUE;
-}
-
-
-/** \brief  Detach all disks
- *
- * \param[in]   widget  widget (unused)
- * \param[in]   data    extra event data (unused)
- *
- * \return  TRUE
- */
-gboolean ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
-{
-    int unit;
-
-    for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
-        file_system_detach_disk(unit, 0);
-        file_system_detach_disk(unit, 1);
-    }
-    return TRUE;
 }
 
 

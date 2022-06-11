@@ -38,6 +38,7 @@
 #include <string.h>
 #include "debug_gtk3.h"
 
+#include "hotkeymap.h"
 #include "hotkeys.h"
 #include "lib.h"
 #include "log.h"
@@ -419,17 +420,13 @@ static gboolean isresethotkey(GdkEvent *report)
     char *this_accel = gtk_accelerator_get_label(report->key.keyval,
                                                  report->key.state & VHK_ACCEPTED_MODIFIERS);
     for (i = 0; i < 2; i++) {
-        ui_menu_item_ref_t *ref;
+        gchar *accel = hotkey_map_get_accel_label_for_action(checkaccel[i]);
 
-        ref = ui_menu_item_ref_by_action(checkaccel[i]);
-        if (ref != NULL) {
-            char *accel = gtk_accelerator_get_label(ref->keysym, ref->modifier);
-            if (!strcmp(this_accel, accel)) {
-                i = 2;
-                res = TRUE;
-            }
-            g_free(accel);
+        if (accel != NULL && strcmp(this_accel, accel) == 0) {
+            i = 2;
+            res = TRUE;
         }
+        g_free(accel);
     }
     g_free(this_accel);
     return res;

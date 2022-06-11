@@ -28,9 +28,7 @@
 #ifndef VICE_UIMACHINEMENU_H
 #define VICE_UIMACHINEMENU_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
-#include "uitypes.h"
 
 GtkWidget * ui_machine_menu_bar_create(gint window_id);
 void        ui_machine_menu_bar_vsid_patch(GtkWidget *menu, gint window_id);

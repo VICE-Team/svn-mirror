@@ -27,6 +27,6 @@
 #ifndef VICE_UIABOUT_H
 #define VICE_UIABOUT_H
 
-gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data);
+void ui_about_dialog_show(void);
 
 #endif

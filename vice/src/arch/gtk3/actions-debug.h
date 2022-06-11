@@ -1,7 +1,7 @@
-/** \file   uiedit.h
- * \brief   Edit menu handlers - header
+/** \file   actions-debug.h
+ * \brief   UI action implementations for debug-related dialogs and settings - header
  *
- * \author  groepaz <groepaz@gmx.net>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -24,13 +24,13 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_UIEDIT_H
-#define VICE_UIEDIT_H
+#ifndef VICE_ACTIONS_DEBUG_H
+#define VICE_ACTIONS_DEBUG_H
 
-#include "vice.h"
-#include <gtk/gtk.h>
+#include "debug.h"
 
-gboolean ui_copy_callback(GtkWidget *widget, gpointer user_data);
-gboolean ui_paste_callback(GtkWidget *widget, gpointer user_data);
+# ifdef DEBUG
+void actions_debug_register(void);
+# endif
 
 #endif

@@ -26,6 +26,11 @@
  *  02111-1307  USA.
  */
 
+/* Resources manipulated in this file:
+ *
+ * $VICERES HotkeyFile all
+ */
+
 #include "vice.h"
 
 #include <gtk/gtk.h>
@@ -42,6 +47,7 @@
 #include "archdep.h"
 #include "debug_gtk3.h"
 #include "cmdline.h"
+#include "hotkeymap.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -236,15 +242,11 @@ static const hotkeys_modifier_t hotkeys_modifier_list[] = {
 
 
 
-
-
-
 /** \brief  Path to current hotkey file
  *
  * \note    Free with hotkeys_shutdown() on emulator shutdown.
  */
 static char *hotkeys_file = NULL;
-
 
 /** \brief  Default hotkeys file name
  *
@@ -252,6 +254,22 @@ static char *hotkeys_file = NULL;
  */
 static char *hotkeys_file_default = NULL;
 
+/** \brief  A .vhk file is pending
+ *
+ * When the 'HotkeyFile' resource is initially set the UI hasn't finished
+ * building the menu and registering actions, so trying to parse a hotkeys
+ * file and adding hotkeys for actions will fail. This flag is used to
+ * indicate a hotkey file is pending to be parsed.
+ */
+static bool hotkeys_file_pending = false;
+
+/** \brief  The hotkeys system is initialized
+ *
+ * This flag is used to determine if a new HotkeyFile resource value can be
+ * used to parse a hotkeys file, or if it needs to be marked as pending,
+ * waiting for the UI to be fully initialized.
+ */
+static bool hotkeys_init_done = false;
 
 /** \brief  Log instance for hotkeys
  */
@@ -268,13 +286,9 @@ static bool hotkeys_debug = false;
 /* {{{ VICE resources, command line options and their handlers */
 
 /** \brief  String type resources
- *
- * \note    Make sure "HotkeyFile" remains the first element in the list, the
- *          init code sets the factory value during runtime, using array index
- *          0.
  */
 static resource_string_t resources_string[] = {
-    { "HotkeyFile", NULL, RES_EVENT_NO, NULL,
+    { "HotkeyFile", "", RES_EVENT_NO, NULL,
       &hotkeys_file, hotkeys_file_set, NULL },
     RESOURCE_STRING_LIST_END
 };
@@ -310,11 +324,26 @@ static int hotkeys_file_set(const char *val, void *param)
         return 0;
     }
 
-    log_message(hotkeys_log, "Hotkeys: parsing '%s':", val);
-    ui_hotkeys_parse(val);
+    if (val != NULL && *val != '\0') {
+        if (hotkeys_init_done) {
+            /* UI is properly initialized, directly parse the hotkeys file */
+            log_message(hotkeys_log, "Hotkeys: parsing '%s':", val);
+            ui_hotkeys_parse(val);
+            hotkeys_file_pending = false;
+        } else {
+            /* UI is not yet fully initialized, mark parsing of hotkeys file
+             * pending */
+            hotkeys_file_pending = true;
+        }
+    }
     return 0;
 }
 /* }}} */
+
+
+/*
+ * Hotkey mappings data and functions
+ */
 
 
 /** \brief  Initialize resources used by the custom hotkeys
@@ -323,11 +352,6 @@ static int hotkeys_file_set(const char *val, void *param)
  */
 int ui_hotkeys_resources_init(void)
 {
-    /* set the default filename */
-    hotkeys_file_default = archdep_default_hotkey_file_name();
-    resources_string[0].factory_value = hotkeys_file_default;
-
-    /* register the resources */
     return resources_register_string(resources_string);
 }
 
@@ -345,6 +369,7 @@ int ui_hotkeys_cmdline_options_init(void)
 /** \brief  Load the default hotkeys
  *
  * Parse the VICE-provided hotkey files, clearing any user-defined hotkeys.
+ * Also set the "HotkeyFile" resource to "".
  */
 void ui_hotkeys_load_default(void)
 {
@@ -363,6 +388,8 @@ void ui_hotkeys_load_default(void)
     }
     if (result) {
         log_message(hotkeys_log, "Hotkeys: OK.");
+        /* clear the custom hotkeys file resource */
+        resources_set_string("HotkeyFile", "");
     } else {
         log_message(hotkeys_log, "Hotkeys: Failed, continuing anyway.");
     }
@@ -381,7 +408,18 @@ void ui_hotkeys_init(void)
 {
     hotkeys_log = log_open("HOTKEYS");
     log_message(hotkeys_log, "Hotkeys: Initializing.");
-    ui_hotkeys_load_default();
+    /* When we get to there the UI has been initialized */
+    hotkeys_init_done = true;
+
+    if (hotkeys_file == NULL || *hotkeys_file == '\0') {
+        ui_hotkeys_load_default();
+    } else {
+        if (hotkeys_file_pending) {
+            /* We have a peding hotkeys file to parse */
+            ui_hotkeys_parse(hotkeys_file);
+            hotkeys_file_pending = false;
+        }
+    }
 }
 
 
@@ -399,7 +437,7 @@ void ui_hotkeys_shutdown(void)
         lib_free(hotkeys_file_default);
         hotkeys_file_default = NULL;
     }
-
+    hotkey_map_shutdown();
     log_close(hotkeys_log);
 }
 
@@ -1186,7 +1224,7 @@ static bool parser_do_clear(const char *line, textfile_reader_t *reader)
                     textfile_reader_filename(reader),
                     textfile_reader_linenum(reader));
     }
-    ui_clear_menu_hotkeys();
+    ui_clear_hotkeys();
     return true;
 }
 
@@ -1353,7 +1391,7 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     const char *oldpos;
     GdkModifierType mask;
     guint keyval;
-    ui_menu_item_ref_t *ref;
+    hotkey_map_t *map;
 
     s = skip_whitespace(line);
     if (*s == '\0') {
@@ -1381,19 +1419,18 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
                     gdk_keyval_name(keyval));
     }
 
-    /* look up menu item by hotkey */
-    ref = ui_menu_item_ref_by_hotkey(keyval, mask);
-    if (ref != NULL) {
+    /* lookup map for hotkey */
+    map = hotkey_map_get_by_hotkey(keyval, mask);
+    if (map != NULL) {
         if (hotkeys_debug) {
             log_message(hotkeys_log,
-                        "Hotkeys: %s:%ld: found menu item for hotkey: '%s'.",
+                        "Hotkeys: %s:%ld: found hotkey defined for action %d (%s),"
+                        " clearing.",
                         textfile_reader_filename(reader),
                         textfile_reader_linenum(reader),
-                        ref->decl->label);
+                        map->action, ui_action_get_name(map->action));
         }
-        ui_menu_remove_accel_via_item_ref(ref);
-        ref->keysym = 0;
-        ref->modifier = 0;
+        hotkey_map_clear_hotkey(map);
     } else {
         /* cannot use gtk_accelerator_name(): Gtk throws a fit about not having
          * a display and thus no GdkKeymap. :( */
@@ -1519,8 +1556,9 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     const char *oldpos;
     char action_name[256];
     int action_id = ACTION_INVALID;
-    guint keyval = 0;
+    guint keysym = 0;
     GdkModifierType mask = 0;
+    hotkey_map_t *map;
 
     s = line;
 
@@ -1554,27 +1592,49 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     s = skip_whitespace(s);
 
     /* get combined modifier masks and keyval */
-    if (!parser_get_gdk_mask_and_keyval(s, &s, reader, &mask, &keyval)) {
+    if (!parser_get_gdk_mask_and_keyval(s, &s, reader, &mask, &keysym)) {
         /* error already logged */
         return false;
     }
 
     if (hotkeys_debug) {
         log_message(hotkeys_log,
-                    "Hotkeys: mask: %04x, keyval: %08x, keyname: %s, action: %s",
-                    (unsigned int)mask, keyval, gdk_keyval_name(keyval), action_name);
+                    "Hotkeys: mask: %04x, keysym: %08x, keyname: %s, action: %s",
+                    (unsigned int)mask, keysym, gdk_keyval_name(keysym), action_name);
     }
 
     /* finally try to register the hotkey */
     action_id = ui_action_get_id(action_name);
-    if (!ui_set_menu_item_hotkey_by_action(action_id, keyval, mask)) {
+    if (action_id <= ACTION_NONE) {
         log_message(hotkeys_log,
-                    "Hotkeys: %s:%ld: failed to register hotkey.",
+                    "Hotkeys: %s:%ld: error: unknown action '%s'.",
                     textfile_reader_filename(reader),
-                    textfile_reader_linenum(reader));
-        return false;
+                    textfile_reader_linenum(reader),
+                    action_name);
+        /* allow parsing to continue */
+        return true;
     }
-    return true;
+
+    /* register mapping, first try looking up the item */
+    map = hotkey_map_get_by_action(action_id);
+    if (map != NULL) {
+        debug_gtk3("Got mapping for action %d, updating with hotkey data.",
+                    action_id);
+        map->keysym = keysym;
+        map->modifier = mask;
+    } else {
+        debug_gtk3("Couldn't find mapping for action %d, allocating new mapping.",
+                    action_id);
+        map = hotkey_map_new();
+        map->action = action_id;
+        map->keysym = keysym;
+        map->modifier = mask;
+        hotkey_map_append(map);
+    }
+
+    /* set hotkey for menu item, if it exists */
+    hotkey_map_setup_hotkey(map);
+   return true;
 }
 
 
@@ -1663,12 +1723,11 @@ bool ui_hotkeys_parse(const char *path)
  */
 char *ui_hotkeys_get_hotkey_string_for_action(gint action_id)
 {
-    ui_menu_item_ref_t *ref;
     char *str = NULL;
+    hotkey_map_t *map = hotkey_map_get_by_action(action_id);
 
-    ref = ui_menu_item_ref_by_action(action_id);
-    if (ref != NULL) {
-        str = gtk_accelerator_get_label(ref->keysym, ref->modifier);
+    if (map != NULL) {
+        str = gtk_accelerator_get_label(map->keysym, map->modifier);
         if (str != NULL) {
             /* make VICE take ownership */
             char *tmp = lib_strdup(str);
@@ -1763,8 +1822,7 @@ static bool export_header(FILE *fp)
 bool ui_hotkeys_export(const char *path)
 {
     FILE *fp;
-    gint ref_index;
-    gint ref_count;
+    hotkey_map_t *map;
 
     log_message(hotkeys_log,
                 "Hotkeys: exporting current hotkeys to '%s'.", path);
@@ -1779,26 +1837,19 @@ bool ui_hotkeys_export(const char *path)
 
     export_header(fp);
 
-    ref_count = ui_menu_item_ref_count();
-    for (ref_index = 0; ref_index < ref_count; ref_index++) {
-        ui_menu_item_ref_t *ref;
-        ui_menu_item_t *decl;
-
-        ref = ui_menu_item_ref_by_index(ref_index);
-        decl = ref->decl;
-
-        if (decl->action_id > ACTION_NONE && ref->keysym != 0) {
+    for (map = hotkey_map_get_head(); map != NULL; map = map->next) {
+        if (map->keysym > 0) {
             gchar *accel;
             int result;
 
-            accel = gtk_accelerator_name(ref->keysym, ref->modifier);
+            accel = gtk_accelerator_name(map->keysym, map->modifier);
             if (accel != NULL) {
                 char *hotkey;
                 const char *name;
 
                 hotkey = parser_strsubst(accel, "Primary", PRIMARY_REPLACEMENT);
                 g_free(accel);
-                name = ui_action_get_name(decl->action_id);
+                name = ui_action_get_name(map->action);
 
                 result = fprintf(fp, "%-30s  %s\n", name, hotkey);
                 if (result < 0) {

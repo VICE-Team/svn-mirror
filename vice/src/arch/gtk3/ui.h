@@ -65,6 +65,16 @@ enum {
 };
 
 
+/** \brief  Encode unit and drive number for an attach/detach callback argument
+ *
+ * Encodes unit and drive number into a value to be used as a data argument
+ * for event handlers.
+ *
+ * \param[in]   U   unit number (8-11)
+ * \param[in]   D   drive number (0 or 1)
+ */
+#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
+
 
 extern GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT];
 
@@ -88,6 +98,7 @@ gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas);
 void     ui_set_fullscreen_enabled(gboolean enabled);
 gboolean ui_fullscreen_has_decorations(void);
 void     ui_trigger_resize(void);
+void     ui_update_fullscreen_decorations(void);
 
 GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
@@ -102,23 +113,7 @@ void ui_pause_enter_monitor(void);
 void ui_pause_disable(void);
 void ui_pause_toggle(void);
 
-/*
- * UI 'actions' for the custom hotkeys, perhaps move to uicommands.c/uiactions.c?
- */
-gboolean ui_action_toggle_pause(void);
-gboolean ui_action_toggle_warp(void);
-gboolean ui_action_advance_frame(void);
-gboolean ui_action_toggle_fullscreen(void);
-gboolean ui_action_toggle_fullscreen_decorations(void);
-void     ui_action_set_speed(int speed);
-void     ui_action_set_fps(int fps);
-
 gboolean ui_action_toggle_show_statusbar(void);
-
-gboolean ui_speed_custom_toggled(GtkWidget *widget, gpointer data);
-gboolean ui_fps_custom_toggled(GtkWidget *widget, gpointer data);
-gboolean ui_cpu_speed_callback(GtkWidget *widget, gpointer data);
-gboolean ui_fps_callback(GtkWidget *widget, gpointer data);
 
 void ui_update_lightpen(void);
 void ui_enable_crt_controls(int enabled);

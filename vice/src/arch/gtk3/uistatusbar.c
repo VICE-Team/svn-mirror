@@ -73,6 +73,7 @@
 #include "drive.h"
 #include "drivetypes.h"
 #include "fliplist.h"
+#include "hotkeymap.h"
 #include "joyport.h"
 #include "joystickmenupopup.h"
 #include "kbddebugwidget.h"
@@ -186,14 +187,6 @@ enum {
     DRIVE_STATUS_HEAD,      /**< label containing position of the head */
     DRIVE_STATUS_LED        /**< led custom widget */
 };
-
-
-/** \brief  Fold unit \a U and drive \a D into int and cast to pointer
- *
- * \param[in]   U   unit number
- * \param[in]   D   drive number
- */
-#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
 
 
 /** \brief  CSS for the drive widgets
@@ -720,20 +713,7 @@ static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
  */
 static void on_drive_configure_activate(GtkWidget *widget, gpointer data)
 {
-    ui_settings_dialog_create_and_activate_node("peripheral/drive");
-}
-
-
-/** \brief  Handler for the 'activate' event of the 'Reset drive \#X' item
- *
- * Triggers a reset for drive ((int)data + 8)
- *
- * \param[in]   widget  menu item triggering the event (unused)
- * \param[in]   data    drive number (0-3)
- */
-static void on_drive_reset_clicked(GtkWidget *widget, gpointer data)
-{
-    drive_cpu_trigger_reset(GPOINTER_TO_INT(data));
+    ui_settings_dialog_show("peripheral/drive");
 }
 
 
@@ -755,47 +735,15 @@ static void on_drive_reset_config_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-
-/** \brief  Handler for the 'activate' event of 'Add image to fliplist'
+/** \brief  Handler for the 'activate' event of popup menus to trigger a UI action
  *
- * Adds the currently attached image of a drive to the fliplist.
- *
- * \param[in]   widget  menu item (unused)
- * \param[in]   data    unit number (int: 8-11)
- *
- * \todo    Support dual-drive units.
+ * \param[in]   item    menu item (unused)
+ * \param[in]   data    UI action ID
  */
-static void on_drive_fliplist_add_activate(GtkWidget *widget, gpointer data)
+static void trigger_ui_action(GtkWidget *item, gpointer data)
 {
-    const struct disk_image_s *image;
-    int unit = GPOINTER_TO_INT(data);
-
-    image = file_system_get_image(unit, 0);
-    if (image != NULL) {
-        debug_gtk3("Adding '%s' to fliplist for unit #%d",
-                   image->media.fsimage->name, unit);
-        fliplist_add_image((unsigned int)unit);
-    }
+    ui_action_trigger(GPOINTER_TO_INT(data));
 }
-
-
-/** \brief  Handler for the 'activate' event of 'Clear fliplist'
- *
- * Clear the fliplist of a drive.
- *
- * \param[in]   widget  menu item (unused)
- * \param[in]   data    unit number (int: 8-11)
- *
- * \todo    Support dual-drive units.
- */
-static void on_drive_fliplist_clear_activate(GtkWidget *widget, gpointer data)
-{
-    int unit = GPOINTER_TO_INT(data);
-
-    debug_gtk3("Clearing fliplist of unit #%d", unit);
-    fliplist_clear_list((unsigned int)unit);
-}
-
 
 
 /** \brief Draw the LED associated with some drive's LED state.
@@ -1032,8 +980,16 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     gchar buffer[256];
     GList *children;
     GList *child;
+    int action;
     int i = GPOINTER_TO_INT(data) & 0xff;
     int drive = GPOINTER_TO_INT(data) >> 8;
+
+    gint reset_ids[] = {
+        ACTION_RESET_DRIVE_8,
+        ACTION_RESET_DRIVE_9,
+        ACTION_RESET_DRIVE_10,
+        ACTION_RESET_DRIVE_11
+    };
 
 
     mainlock_assert_is_not_vice_thread();
@@ -1059,8 +1015,11 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                        "Attach disk to drive #%d...",
                        i + DRIVE_UNIT_MIN);
         }
-        debug_gtk3("Setting top item text to '%s'.", buffer);
         gtk_label_set_text(GTK_LABEL(label), buffer);
+
+        /* set hotkey, if any */
+        action = ui_action_id_drive_attach(i + DRIVE_UNIT_MIN, drive);
+        ui_set_menu_item_accel_label(drive_menu_item, action);
     }
 
     /* set "Detach" item label based on dual-drive status */
@@ -1079,8 +1038,11 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                        "Detach disk from drive #%d...",
                        i + DRIVE_UNIT_MIN);
         }
-        debug_gtk3("Setting next item text to '%s'.", buffer);
         gtk_label_set_text(GTK_LABEL(label), buffer);
+
+        /* set hotkey, if any */
+        action = ui_action_id_drive_detach(i + DRIVE_UNIT_MIN, drive);
+        ui_set_menu_item_accel_label(drive_menu_item, action);
     }
 
     g_list_free(children);
@@ -1090,10 +1052,11 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
      *      should probably refactor this a bit
      */
     gtk_container_add(GTK_CONTAINER(drive_menu),
-            gtk_separator_menu_item_new());
+                      gtk_separator_menu_item_new());
+
     drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
     g_signal_connect(drive_menu_item, "activate",
-            G_CALLBACK(on_drive_configure_activate), NULL);
+                     G_CALLBACK(on_drive_configure_activate), NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     /*
@@ -1102,27 +1065,33 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     g_snprintf(buffer, sizeof(buffer), "Reset drive #%d", i + DRIVE_UNIT_MIN);
     drive_menu_item = gtk_menu_item_new_with_label(buffer);
     g_signal_connect(drive_menu_item, "activate",
-            G_CALLBACK(on_drive_reset_clicked), GINT_TO_POINTER(i));
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(reset_ids[i]));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+    /* Set hotkey, if any */
+    ui_set_menu_item_accel_label(drive_menu_item, reset_ids[i]);
 
     /* Add reset to configuration mode for CMD HDs */
     if ((drive_has_buttons(i) & 1) == 1) {
         g_snprintf(buffer, sizeof(buffer),
-                "Reset drive #%d to Configuration Mode", i + DRIVE_UNIT_MIN);
+                   "Reset drive #%d to Configuration Mode",
+                   i + DRIVE_UNIT_MIN);
         drive_menu_item = gtk_menu_item_new_with_label(buffer);
         g_signal_connect(drive_menu_item, "activate",
-               G_CALLBACK(on_drive_reset_config_clicked),
-               GINT_TO_POINTER((i << 4) + 1));
+                         G_CALLBACK(on_drive_reset_config_clicked),
+                         GINT_TO_POINTER((i << 4) + 1));
         gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     }
+
     /* Add reset to installation mode for CMD HDs */
     if ((drive_has_buttons(i) & 6) == 6) {
         g_snprintf(buffer, sizeof(buffer),
-                "Reset drive #%d to Installation Mode", i + DRIVE_UNIT_MIN);
+                   "Reset drive #%d to Installation Mode",
+                   i + DRIVE_UNIT_MIN);
         drive_menu_item = gtk_menu_item_new_with_label(buffer);
         g_signal_connect(drive_menu_item, "activate",
-               G_CALLBACK(on_drive_reset_config_clicked),
-               GINT_TO_POINTER((i << 4) + 6));
+                         G_CALLBACK(on_drive_reset_config_clicked),
+                         GINT_TO_POINTER((i << 4) + 6));
         gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     }
 
@@ -1130,22 +1099,18 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     gtk_container_add(GTK_CONTAINER(drive_menu), gtk_separator_menu_item_new());
     drive_menu_item = gtk_menu_item_new_with_label("Add current image to fliplist");
     g_signal_connect(drive_menu_item, "activate",
-            G_CALLBACK(on_drive_fliplist_add_activate),
-            GINT_TO_POINTER(i + DRIVE_UNIT_MIN));
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ui_action_id_fliplist_add(i + DRIVE_UNIT_MIN, 0)));
     gtk_widget_set_sensitive(drive_menu_item,
-                            file_system_get_image(i + DRIVE_UNIT_MIN, 0) != NULL);
+                             file_system_get_image(i + DRIVE_UNIT_MIN, 0) != NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     /* Add 'clear fliplist' */
-    g_snprintf(buffer,
-               sizeof(buffer),
-               "Clear drive #%d fliplist",
-               i + DRIVE_UNIT_MIN);
-    drive_menu_item = gtk_menu_item_new_with_label(buffer);
+    drive_menu_item = gtk_menu_item_new_with_label("Clear fliplist");
     g_signal_connect(drive_menu_item,
                      "activate",
-                     G_CALLBACK(on_drive_fliplist_clear_activate),
-                     GINT_TO_POINTER(i + DRIVE_UNIT_MIN));
+                     G_CALLBACK(trigger_ui_action),
+                     GINT_TO_POINTER(ui_action_id_fliplist_clear(i + DRIVE_UNIT_MIN, 0)));
     gtk_widget_set_sensitive(drive_menu_item,
                              fliplist_init_iterate(i + DRIVE_UNIT_MIN) != NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
@@ -1936,13 +1901,57 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
 }
 
 
+/** \brief  Callback for the 'attach' disk popup menu item
+ *
+ * Trigger the proper 'attach' UI action for the given unit and drive.
+ *
+ * \param[in]   item    menu item (unused)
+ * \param[in]   data    unit and drive number
+ *
+ * \return  `TRUE`
+ */
+static gboolean on_disk_attach(GtkWidget *item, gpointer data)
+{
+    gint unit;
+    gint drive;
+
+    unit = GPOINTER_TO_INT(data) >> 8;
+    drive = GPOINTER_TO_INT(data) & 0xff;
+    ui_action_trigger(ui_action_id_drive_attach(unit, drive));
+    return TRUE;
+}
+
+
+/** \brief  Callback for the 'attach' disk popup menu item
+ *
+ * Trigger the proper 'detach' UI action for the given unit and drive.
+ *
+ * \param[in]   item    menu item (unused)
+ * \param[in]   data    unit and drive number
+ *
+ * \return  `TRUE`
+ */
+
+static gboolean on_disk_detach(GtkWidget *item, gpointer data)
+{
+    gint unit;
+    gint drive;
+
+    unit = GPOINTER_TO_INT(data) >> 8;
+    drive = GPOINTER_TO_INT(data) & 0xff;
+    ui_action_trigger(ui_action_id_drive_detach(unit, drive));
+    return TRUE;
+}
+
+
 /** \brief Create a popup menu to attach to a disk drive widget.
  *
- *  \param unit The index of the drive, 0-3 for drives 8-11.
+ *  \param[in]  unit    unit number (8-11)
+ *  \param[in]  drive   drive number (0 or 1)
  *
  *  \return The GtkMenu for use as a popup, as a floating reference.
  */
-static GtkWidget *ui_drive_menu_create(int unit, int drive)
+static GtkWidget *ui_drive_menu_create(gint unit, gint drive)
 {
     GtkWidget *drive_menu;
     GtkWidget *drive_menu_item;
@@ -1952,20 +1961,20 @@ static GtkWidget *ui_drive_menu_create(int unit, int drive)
     drive_menu = gtk_menu_new();
     drive_menu_item = gtk_menu_item_new_with_label("Attach <fill-in-details>");
     g_signal_connect(drive_menu_item, "activate",
-            G_CALLBACK(ui_disk_attach_dialog_show),
-            GINT_TO_POINTER(unit + DRIVE_UNIT_MIN));
+            G_CALLBACK(on_disk_attach),
+            UNIT_DRIVE_TO_PTR(unit, drive));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     drive_menu_item = gtk_menu_item_new_with_label("Detach <fill-in-details>");
     g_signal_connect(drive_menu_item, "activate",
-                     G_CALLBACK(ui_disk_detach_callback),
-                     UNIT_DRIVE_TO_PTR(unit + DRIVE_UNIT_MIN, drive));
+                     G_CALLBACK(on_disk_detach),
+                     UNIT_DRIVE_TO_PTR(unit, drive));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     /* GTK2/GNOME UI put TDE and Read-only checkboxes here, but that
      * seems excessive or possibly too fine-grained, so skip that for
      * now. Also: make fliplist usable for drive 1. */
-    ui_populate_fliplist_menu(drive_menu, unit + DRIVE_UNIT_MIN, drive);
+    ui_populate_fliplist_menu(drive_menu, unit, drive);
     gtk_container_add(GTK_CONTAINER(drive_menu),
             gtk_separator_menu_item_new());
 
@@ -2016,7 +2025,7 @@ static GtkWidget *ui_volume_button_create(void)
 static void warp_led_callback(GtkWidget *widget, gboolean active)
 {
     /* this updates warp state throughout the UI */
-    ui_action_toggle_warp();
+    ui_action_trigger(ACTION_WARP_MODE_TOGGLE);
 }
 
 
@@ -2061,7 +2070,7 @@ void warp_led_set_active(int bar, gboolean active)
 static void pause_led_callback(GtkWidget *widget, gboolean active)
 {
     /* this updates pause state throughout the UI */
-    ui_action_toggle_pause();
+    ui_action_trigger(ACTION_PAUSE_TOGGLE);
 }
 
 
@@ -2140,7 +2149,7 @@ void shiftlock_led_set_active(int bar, gboolean active)
  */
 static void mode4080_led_callback(GtkWidget *widget, gboolean active)
 {
-    resources_set_int("C128ColumnKey", (active ^ 1) & 1);
+    keyboard_custom_key_toggle(KBD_CUSTOM_4080);
 }
 
 /** \brief  Create status bar LED for 40/80 key
@@ -2183,7 +2192,7 @@ void mode4080_led_set_active(int bar, gboolean active)
  */
 static void capslock_led_callback(GtkWidget *widget, gboolean active)
 {
-    keyboard_toggle_caps_key();
+    keyboard_custom_key_toggle(KBD_CUSTOM_CAPS);
 }
 
 /** \brief  Create status bar LED for capslock key
@@ -2215,7 +2224,7 @@ void capslock_led_set_active(int bar, gboolean active)
 #endif
     led = allocated_bars[bar].capslock_led;
     if (led != NULL) {
-        statusbar_led_widget_set_active(led, active ^ 1);
+        statusbar_led_widget_set_active(led, active);
     }
 }
 
@@ -2697,7 +2706,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
             gtk_widget_set_hexpand(drive_unit, FALSE);
             allocated_bars[i].drive_unit[j] = drive_unit;
             for (drive_num = 0; drive_num < DRIVE_UNIT_DRIVE_MAX; drive_num++) {
-                drive_menu = ui_drive_menu_create(j, drive_num);
+                drive_menu = ui_drive_menu_create(j + DRIVE_UNIT_MIN, drive_num);
                 allocated_bars[i].drive_menu[j][drive_num] = drive_menu;
             }
             gtk_grid_attach(GTK_GRID(drive_units), drive_unit, unit_cols[j], unit_rows[j], 1, 1);

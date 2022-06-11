@@ -55,17 +55,14 @@
  * and a low-pass filter is applied on that.
  */
 #define LOWPASS_CB2     1
+#define HIGHPASS        0       /* Experimental so far; default off */
 
 #define MAX_SAMPLE      4095
 
-/* Low-pass filter over the averaged CB2 */
-#define TOTAL_WEIGHT    4096
-#define THIS_WEIGHT       48    /* 48 sounds nice */
-#define PREV_WEIGHT     (TOTAL_WEIGHT - THIS_WEIGHT)
-
 /*
- * Low-pass filter over CB2 directly.
+ * Low-pass filter.
  */
+#define ALPHA_SCALE     65536
 #define LP_SCALE        65536
 #define LP_TABLESZ        256   /* At 8000 Hz we have 1 000 000/8 000 = 125
                                    clocks per sample. Doubling that for this
@@ -185,13 +182,20 @@ struct pet_sound_s {
     int end_of_sample_frac;
 #define FRAC_BITS 16
 #define FRAC_MASK ((1 << FRAC_BITS) - 1)
-    int prev_sample;
+    int lowpass_prev;           /* lowpass filter, prev sample */
 #define NSAMPLES 256            /* 5 is usually enough... */
     big_sample_t samples[NSAMPLES];
 #if LOWPASS_CB2
     /* Increasing weights for the newer sample as time goes on */
     big_sample_t exponential_moving_average[LP_TABLESZ];
+#else
+    int alpha;
 #endif /* LOWPASS_CB2 */
+#if HIGHPASS
+    int highpass_alpha;
+    int highpass_prev;          /* highpass filter, prev sample;
+                                   keep separate from lowpass_prev */
+#endif
 };
 
 static struct pet_sound_s snd = {
@@ -204,26 +208,26 @@ static struct pet_sound_s snd = {
 
 static inline big_sample_t lowpass(big_sample_t alpha, big_sample_t prev, big_sample_t next)
 {
-    prev += ((big_sample_diff_t)alpha * ((big_sample_diff_t)next - (big_sample_diff_t)prev)) / LP_SCALE;
+    prev += ((big_sample_diff_t)alpha * ((big_sample_diff_t)next - (big_sample_diff_t)prev)) / ALPHA_SCALE;
     return prev;
 
     /*
-       return ((LP_SCALE - alpha) * (big_samples_t)prev +
-                            alpha * (big_samples_t)next) / LP_SCALE;
+       return ((ALPHA_SCALE - alpha) * (big_samples_t)prev +
+                              alpha  * (big_samples_t)next) / ALPHA_SCALE;
      *
-     * prev = ((LP_SCALE - alpha) * prev + alpha * next) / LP_SCALE;
-     * prev = (LP_SCALE*prev - alpha*prev + alpha * next) / LP_SCALE;
-     * prev = prev + (- alpha * prev + alpha * next) / LP_SCALE;
-     * prev = prev + (alpha * next - alpha * prev) / LP_SCALE;
-     * prev = prev + (alpha * (next - prev)) / LP_SCALE;
-     * prev += (alpha * (next - prev)) / LP_SCALE;
+     * prev = ((ALPHA_SCALE - alpha) * prev + alpha * next) / ALPHA_SCALE;
+     * prev = (ALPHA_SCALE*prev - alpha*prev + alpha * next) / ALPHA_SCALE;
+     * prev = prev + (- alpha * prev + alpha * next) / ALPHA_SCALE;
+     * prev = prev + (alpha * next - alpha * prev) / ALPHA_SCALE;
+     * prev = prev + (alpha * (next - prev)) / ALPHA_SCALE;
+     * prev += (alpha * (next - prev)) / ALPHA_SCALE;
      */
 }
 
 static inline double dlowpass(big_sample_t alpha, double prev, double next)
 {
-    return ((LP_SCALE - alpha) * prev +
-                        alpha  * next) / LP_SCALE;
+    return ((ALPHA_SCALE - alpha) * prev +
+                           alpha  * next) / ALPHA_SCALE;
 }
 
 static void init_lowpass_table(int alpha)
@@ -292,24 +296,47 @@ static sample_t pet_makesample(void)
         snd.first_sample_index++;
         snd.first_sample_index %= NSAMPLES;
 
+#if HIGHPASS
+        /* The highpass value is scaled with the same factor
+         * as the sample. */
+        snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
+                             / ALPHA_SCALE;
+#endif /* HIGHPASS */
 #if LOWPASS_CB2
         /*
          * Reduce the range from [0, LP_SCALE> to [0, MAX_SAMPLE].
          */
+# if HIGHPASS
+        /* Subtract highpass value here, so it gets scaled with the
+         * already low-passed sample. */
+        sample -= snd.highpass_prev;
+# endif /* HIGHPASS */
         sample = sample * (MAX_SAMPLE+1) / LP_SCALE;
-#else
+        snd.lowpass_prev = sample;      /* Only used when samples run out */
+#else /* LOWPASS_CB2 */
         /* Low-pass filtering on the averaged CB2 signal */
-        sample = (PREV_WEIGHT * snd.prev_sample + THIS_WEIGHT * sample) /
-                 TOTAL_WEIGHT;
-#endif
+        snd.lowpass_prev += (snd.alpha * (sample - snd.lowpass_prev))
+                            / ALPHA_SCALE;
+        sample = snd.lowpass_prev;
+# if HIGHPASS
+        /* Now that the sample has been low-passed, subtract the
+         * high-pass value */
+        sample -= snd.highpass_prev;
+# endif /* HIGHPASS */
+#endif /* LOWPASS_CB2 */
 
-        snd.prev_sample = sample;
         return sample;
     }
 
     /* No more samples available... */
     DBG("*");
-    return snd.prev_sample;
+#if HIGHPASS
+    if (snd.lowpass_prev != 0) {
+        snd.lowpass_prev += (snd.highpass_alpha * (0 - snd.lowpass_prev))
+                           / ALPHA_SCALE;
+    }
+#endif /* HIGHPASS */
+    return snd.lowpass_prev;
 }
 
 static int pet_sound_machine_calculate_samples(sound_t **psid, sample_t *pbuf, int nr, int soc, int scc, CLOCK *delta_t)
@@ -438,6 +465,21 @@ void petsound_store_manual(bool value, CLOCK rclk)
     snd.manual = value;
 }
 
+/*
+ * Calculate the alpha parameter for the low-pass filter.
+ * Multiply it with scale_factor to make it more precise, in fixed-point
+ * (the samples themselves can use a different fixed-point offset).
+ */
+static int calculate_alpha(int sample_freq, int limit_freq, int scale_factor)
+{
+    double delta_t = 1.0 / sample_freq;
+    double tau = 1.0 / (2.0 * 3.141592654 * limit_freq);
+    double falpha = delta_t / (delta_t + tau);
+    int alpha = falpha * scale_factor + 0.5;
+
+    return alpha;
+}
+
 static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     DBG("### pet_sound_machine_init: speed %d cycles_per_sec %d\n", speed, cycles_per_sec);
@@ -456,20 +498,24 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     snd.end_of_sample_frac = snd.fracs_per_sample;
 
     DBG("### pet_sound_machine_init: clocks_per_sample %d %d\n", snd.clocks_per_sample, snd.fracs_per_sample);
-#if LOWPASS_CB2
     /*
      * Calculate the value of ALPHA for the given CB2Lowpass which is
      * the knee frequency or the 3dB-down-frequency (depending on source).
      */
     int cb2_lowpass_freq;
     resources_get_int("CB2Lowpass", &cb2_lowpass_freq);
-    double delta_t = 1.0 / cycles_per_sec;
-    double tau = 1.0 / (2.0 * 3.141592654 * cb2_lowpass_freq);
-    double falpha = delta_t / (delta_t + tau);
-    int alpha = falpha * LP_SCALE + 0.5;
+#if LOWPASS_CB2
+    int alpha = calculate_alpha(cycles_per_sec, cb2_lowpass_freq, ALPHA_SCALE);
     DBG("### pet_sound_machine_init: alpha = %d\n", alpha);
     init_lowpass_table(alpha);
+#else
+    snd.alpha = calculate_alpha(speed, cb2_lowpass_freq, ALPHA_SCALE);
 #endif /* LOWPASS_CB2 */
+#if HIGHPASS
+    snd.highpass_alpha = calculate_alpha(speed, 160, ALPHA_SCALE);
+    snd.highpass_prev = 0;
+    DBG("### pet_sound_machine_init: highpass alpha = %d\n", snd.highpass_alpha);
+#endif
 
     pet_sound_chip.chip_enabled = true;
 

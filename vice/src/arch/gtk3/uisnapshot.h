@@ -32,20 +32,9 @@
 #include <gtk/gtk.h>
 
 
-gboolean ui_snapshot_open_file(GtkWidget *parent, gpointer user_data);
-gboolean ui_snapshot_save_file(GtkWidget *parent, gpointer user_data);
-
-gboolean ui_snapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data);
-gboolean ui_snapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data);
-
-#if 0
-gboolean ui_snapshot_history_select_dir(GtkWidget *parent, gpointer user_data);
-#endif
-gboolean ui_snapshot_history_record_start(GtkWidget *parent, gpointer user_data);
-gboolean ui_snapshot_history_record_stop(GtkWidget *parent, gpointer user_data);
-gboolean ui_snapshot_history_playback_start(GtkWidget *parent, gpointer user_data);
-gboolean ui_snapshot_history_playback_stop(GtkWidget *parent, gpointer user_data);
-gboolean ui_snapshot_history_milestone_set(GtkWidget *parent, gpointer user_data);
-gboolean ui_snapshot_history_milestone_reset(GtkWidget *parent, gpointer user_data);
+void ui_snapshot_load_snapshot(void);
+void ui_snapshot_save_snapshot(void);
+void ui_snapshot_quickload_snapshot(void);
+void ui_snapshot_quicksave_snapshot(void);
 
 #endif

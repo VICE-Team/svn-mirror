@@ -30,18 +30,19 @@
 
 #include "vice.h"
 
-#include <gtk/gtk.h>
+#include "console.h"
+#include "monitor.h"
 
 int consolefb_close_all(void);
 int consolefb_init(void);
 int consolefb_out(console_t *log, const char *format, ...) VICE_ATTR_PRINTF2;
 console_t *uimonfb_window_open(void);
 void uimonfb_window_close(void);
-void uimonfb_window_suspend( void );
+void uimonfb_window_suspend(void);
 console_t *uimonfb_window_resume(void);
 int uimonfb_out(const char *buffer);
 char *uimonfb_get_in(char **ppchCommandLine, const char *prompt);
-void uimonfb_notify_change( void );
+void uimonfb_notify_change(void);
 void uimonfb_set_interface(struct monitor_interface_s **monitor_interface_init, int count);
 
 #endif

@@ -27,9 +27,8 @@
 #ifndef VICE_UIDISKCREATE_H
 #define VICE_UIDISKCREATE_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-gboolean ui_disk_create_dialog_show(GtkWidget *parent, gpointer data);
+void ui_disk_create_dialog_show(gint unit);
 
 #endif

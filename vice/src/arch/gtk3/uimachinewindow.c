@@ -36,16 +36,13 @@
 
 #include "vice.h"
 
-#include <string.h>
-
 #include <gtk/gtk.h>
 #if !defined(MACOS_COMPILE) && !defined(WINDOWS_COMPILE)
 #include <gdk/gdkx.h>
 #endif
-
+#include <string.h>
 #ifdef MACOS_COMPILE
 #import <CoreGraphics/CGEvent.h>
-
 #elif defined(WINDOWS_COMPILE)
 #include <windows.h>
 #endif
@@ -59,18 +56,18 @@
 #include "lightpen.h"
 #include "log.h"
 #include "machine.h"
-#include "mousedrv.h"
-#include "resources.h"
-#include "videoarch.h"
-#include "vsyncapi.h"
-
-#include "ui.h"
-#include "uimachinemenu.h"
-#include "uimachinewindow.h"
-
 #ifdef MACOS_COMPILE
 #include "macOS-util.h"
 #endif
+#include "mousedrv.h"
+#include "resources.h"
+#include "ui.h"
+#include "uimachinemenu.h"
+#include "videoarch.h"
+#include "vsyncapi.h"
+
+#include "uimachinewindow.h"
+
 
 /* FIXME:   someone please add Doxygen docs for this, I can guess what it means
  *          but I'll probably get it wrong. --compyx
@@ -81,7 +78,9 @@
 #define VICE_EMPTY_POINTER  canvas->blank_ptr
 #endif
 
-static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *clock, gpointer user_data);
+static gboolean event_box_stillness_tick_cb(GtkWidget *widget,
+                                            GdkFrameClock *clock,
+                                            gpointer user_data);
 
 /** \brief  Ignore the hide-mouse-cursor event handlers
  *
@@ -735,14 +734,16 @@ static void machine_window_create(video_canvas_t *canvas)
     return;
 }
 
+
+/** \brief  Set up any resources needed to create new machine windows */
 void ui_machine_window_init(void)
 {
     ui_set_create_window_func(machine_window_create);
     return;
 }
 
-/** \brief grab the mouse pointer when mouse emulation is enabled
- */
+
+/** \brief  Grab the mouse pointer when mouse emulation is enabled */
 void ui_mouse_grab_pointer(void)
 {
     GtkWidget *window;
@@ -801,8 +802,7 @@ void ui_mouse_grab_pointer(void)
     mouse_host_capture(warp_x, warp_y);
 }
 
-/** \brief ungrab the mouse pointer when it was grabbed before
- */
+/** \brief  Ungrab the mouse pointer when it was grabbed before */
 void ui_mouse_ungrab_pointer(void)
 {
     mouse_host_uncapture();

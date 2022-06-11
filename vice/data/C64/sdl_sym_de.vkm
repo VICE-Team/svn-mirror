@@ -183,7 +183,7 @@
 
 # 32+1 not shifted on host, shifted on c64
 60 5 7 33              /*             < -> <            */
-# 128 shifted on host, shifted on c64
+# 32+128 shifted on host, shifted on c64
 60 5 4 160             /*             > -> >            */
 60 6 0 0x210           /*        altr+< -> pound        */
 

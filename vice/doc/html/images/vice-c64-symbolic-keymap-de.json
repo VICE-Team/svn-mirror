@@ -81,10 +81,15 @@
       "fa": [
         0,
         0,
-        2
+        2,
+        0,
+        0,
+        0,
+        0,
+        1
       ]
     },
-    "?\n←\nCLR",
+    "?\n←\nCLR\n\n\n\n\nHOME",
     "£\n\n\n\n\n\n\n\n\n\n<i class='petscii petscii-halftone-bottom'></i> <i class='petscii petscii-diag-bottom-top-filled'></i>",
     {
       "w": 1.5,
@@ -250,30 +255,26 @@
     },
     "CTRL",
     {
-      "a": 5,
+      "a": 7,
       "f": 3,
       "w": 1.25
     },
-    "<i class='petscii petscii-halftone-left'></i> <i class='petscii petscii-bar-vert-4'></i>",
+    "",
     {
-      "a": 4,
       "w": 1.25
     },
-    "<i class='petscii petscii-bar-bottom-right'></i>\n\n\n\n\n\n\n\n\n\n<i class='petscii petscii-halftone'></i> <i class='petscii petscii-cross'></i>",
+    "",
     {
-      "a": 7,
       "f": 4,
       "w": 6.25
     },
     "SPACE",
     {
-      "a": 5,
       "f": 3,
       "w": 1.25
     },
-    "\n<i class='petscii petscii-diag-top-bottom-filled'></i> <i class='petscii petscii-bar-horz-4'></i>",
+    "",
     {
-      "a": 7,
       "w": 1.25
     },
     "",

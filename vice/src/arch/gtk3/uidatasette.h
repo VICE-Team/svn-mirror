@@ -28,12 +28,10 @@
 #ifndef VICE_UIDATASETTE_H
 #define VICE_UIDATASETTE_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *ui_create_datasette_control_menu(int port);
-
-gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data);
-void     ui_datasette_update_sensitive(GtkWidget *menu, int port);
+int         ui_datasette_command_to_action(int port, int command);
+GtkWidget * ui_create_datasette_control_menu(int port);
+void        ui_datasette_update_sensitive(GtkWidget *menu, int port);
 
 #endif
