@@ -181,7 +181,7 @@ GtkWidget *drive_fsdevice_widget_create(int unit)
 
     label = gtk_label_new("Directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(label, 8);
     entry = create_fsdir_entry_widget(unit);
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_fsdir_browse_clicked),
@@ -191,7 +191,8 @@ GtkWidget *drive_fsdevice_widget_create(int unit)
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
     p00 = create_p00_widget(unit);
-    g_object_set(p00, "margin-left", 16, "margin-top", 8, NULL);
+    gtk_widget_set_margin_start(p00, 16);
+    gtk_widget_set_margin_end(p00, 16);
     gtk_grid_attach(GTK_GRID(grid), p00, 0, 2, 3, 1);
 
     gtk_widget_show_all(grid);

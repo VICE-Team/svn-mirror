@@ -274,7 +274,6 @@ static GtkWidget *create_datasette_widget(void)
     GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-/*    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL); */
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Datasette C2N</b>");
@@ -283,28 +282,28 @@ static GtkWidget *create_datasette_widget(void)
 
     ds_traps1 = vice_gtk3_resource_check_button_new("VirtualDevice1",
             "Enable Virtual Device #1 (required for t64)");
-    g_object_set(ds_traps1, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(ds_traps1, 16);
     gtk_grid_attach(GTK_GRID(grid), ds_traps1, 0, 1, 4, 1);
 
     if (machine_class == VICE_MACHINE_PET) {
         ds_traps2 = vice_gtk3_resource_check_button_new("VirtualDevice2",
                 "Enable Virtual Device #2 (required for t64)");
-        g_object_set(ds_traps2, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(ds_traps2, 16);
         gtk_grid_attach(GTK_GRID(grid), ds_traps2, 2, 1, 4, 1);
     }
 
     ds_reset = vice_gtk3_resource_check_button_new("DatasetteResetWithCPU",
             "Reset datasette with CPU");
-    g_object_set(ds_reset, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(ds_reset, 16);
     gtk_grid_attach(GTK_GRID(grid), ds_reset, 0, 2, 4, 1);
 
     ds_sound = vice_gtk3_resource_check_button_new("DatasetteSound",
             "Enable datasette sound");
-    g_object_set(ds_sound, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(ds_sound, 16);
     gtk_grid_attach(GTK_GRID(grid), ds_sound, 0, 3, 4, 1);
 
     label = gtk_label_new("Zero gap delay:");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_zerogap = vice_gtk3_resource_spin_int_new("DatasetteZeroGapDelay",
             0, 50000, 100);
@@ -312,7 +311,7 @@ static GtkWidget *create_datasette_widget(void)
     gtk_grid_attach(GTK_GRID(grid), ds_zerogap, 1, 4, 1, 1);
 
     label = gtk_label_new("TAP v0 gap speed tuning:");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_speed = vice_gtk3_resource_spin_int_new("DatasetteSpeedTuning",
             0, 50, 1);
@@ -320,7 +319,7 @@ static GtkWidget *create_datasette_widget(void)
     gtk_grid_attach(GTK_GRID(grid), ds_speed, 3, 4, 1, 1);
 
     label = gtk_label_new("Tape wobble frequency:");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_wobblefreq = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleFrequency",
             0, 5000, 10);
@@ -328,7 +327,7 @@ static GtkWidget *create_datasette_widget(void)
     gtk_grid_attach(GTK_GRID(grid), ds_wobblefreq, 1, 5, 1, 1);
 
     label = gtk_label_new("Tape wobble amplitude:");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_wobbleamp = vice_gtk3_resource_spin_int_new("DatasetteTapeWobbleAmplitude",
             0, 5000, 10);
@@ -336,7 +335,7 @@ static GtkWidget *create_datasette_widget(void)
     gtk_grid_attach(GTK_GRID(grid), ds_wobbleamp, 3, 5, 1, 1);
 
     label = gtk_label_new("Tape alignment error");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_align = vice_gtk3_resource_spin_int_new("DatasetteTapeAzimuthError",
             0, 25000, 100);
@@ -365,7 +364,7 @@ static GtkWidget *create_f83_widget(void)
 
     f83_rtc = vice_gtk3_resource_check_button_new("CPClockF83Save",
             "Save RTC data when changed");
-    g_object_set(f83_rtc, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(f83_rtc, 16);
     gtk_grid_attach(GTK_GRID(grid), f83_rtc, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -399,36 +398,36 @@ static GtkWidget *create_tapecart_widget(void)
     /* TapecartUpdateTCRT */
     tapecart_update = vice_gtk3_resource_check_button_new(
             "TapecartUpdateTCRT", "Save data when changed");
-    g_object_set(tapecart_update, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(tapecart_update, 16);
     gtk_grid_attach(GTK_GRID(wrapper), tapecart_update, 0, 0, 1, 1);
 
     /* TapecartOptimizeTCRT */
     tapecart_optimize = vice_gtk3_resource_check_button_new(
             "TapecartOptimizeTCRT", "Optimize data when changed");
-    g_object_set(tapecart_optimize, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(tapecart_optimize, 16);
     gtk_grid_attach(GTK_GRID(wrapper), tapecart_optimize, 1, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, row, 4, 1);
     row++;
 
     label = gtk_label_new("Log level:");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     tapecart_loglevel = vice_gtk3_resource_combo_box_int_new(
             "TapecartLogLevel", tcrt_loglevels);
-    g_object_set(tapecart_loglevel, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(tapecart_loglevel, 16);
     gtk_grid_attach(GTK_GRID(grid), tapecart_loglevel, 1, row, 3, 1);
     row++;
 
     /* TapecartTCRTFilename */
     label = gtk_label_new("TCRT Filename:");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     tapecart_filename = vice_gtk3_resource_entry_full_new(
             "TapecartTCRTFilename");
-    g_object_set(tapecart_filename, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(tapecart_filename, 16);
     gtk_widget_set_hexpand(tapecart_filename, TRUE);
     gtk_grid_attach(GTK_GRID(grid), tapecart_filename, 1, row, 1, 1);
 
@@ -668,7 +667,7 @@ static GtkWidget *create_device_types_widget(void)
     label = gtk_label_new("Tape port #1:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, FALSE);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     port1_type = create_device_combobox(TAPEPORT_UNIT_1);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), port1_type, 1, 1, 1, 1);
@@ -678,7 +677,7 @@ static GtkWidget *create_device_types_widget(void)
         label = gtk_label_new("Tape port #2:");
         gtk_widget_set_halign(label, GTK_ALIGN_START);
         gtk_widget_set_hexpand(label, FALSE);
-        g_object_set(label, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(label, 16);
         port2_type = create_device_combobox(TAPEPORT_UNIT_2);
         gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), port2_type, 1, 2, 1, 1);

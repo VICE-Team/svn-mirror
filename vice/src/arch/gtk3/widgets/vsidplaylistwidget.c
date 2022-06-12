@@ -844,7 +844,7 @@ GtkWidget *vsid_playlist_widget_create(void)
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Playlist:</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_bottom(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     title_widget = label;
 
@@ -949,4 +949,3 @@ void vsid_playlist_widget_remove_file(int row)
     }
     /* TODO: actually remove item :) */
 }
-

@@ -107,7 +107,7 @@ GtkWidget *printer_driver_widget_create(int device)
         radio_ascii = gtk_radio_button_new_with_label(group, "ASCII");
         g_object_set_data(G_OBJECT(radio_ascii), "DeviceNumber",
                 GINT_TO_POINTER(device));
-        g_object_set(radio_ascii, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(radio_ascii, 16);
         gtk_grid_attach(GTK_GRID(grid), radio_ascii, 0, 1, 1, 1);
 
         /* MPS803 */
@@ -116,7 +116,7 @@ GtkWidget *printer_driver_widget_create(int device)
                 GTK_RADIO_BUTTON(radio_ascii));
         g_object_set_data(G_OBJECT(radio_mps803), "DeviceNumber",
                 GINT_TO_POINTER(device));
-        g_object_set(radio_mps803, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(radio_mps803, 16);
         gtk_grid_attach(GTK_GRID(grid), radio_mps803, 0, 2, 1, 1);
 
         /* NL10 */
@@ -125,7 +125,7 @@ GtkWidget *printer_driver_widget_create(int device)
                 GTK_RADIO_BUTTON(radio_mps803));
         g_object_set_data(G_OBJECT(radio_nl10), "DeviceNumber",
                 GINT_TO_POINTER(device));
-        g_object_set(radio_nl10, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(radio_nl10, 16);
         gtk_grid_attach(GTK_GRID(grid), radio_nl10, 0, 3, 1, 1);
 
         /* RAW */
@@ -134,7 +134,7 @@ GtkWidget *printer_driver_widget_create(int device)
                 GTK_RADIO_BUTTON(radio_nl10));
         g_object_set_data(G_OBJECT(radio_raw), "DeviceNumber",
                 GINT_TO_POINTER(device));
-        g_object_set(radio_raw, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(radio_raw, 16);
         gtk_grid_attach(GTK_GRID(grid), radio_raw, 0, 4, 1, 1);
     } else if (device == 6) {
         /* plotter */
@@ -143,7 +143,7 @@ GtkWidget *printer_driver_widget_create(int device)
         radio_1520 = gtk_radio_button_new_with_label(group, "1520");
         g_object_set_data(G_OBJECT(radio_1520), "DeviceNumber",
                 GINT_TO_POINTER(device));
-        g_object_set(radio_1520, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(radio_1520, 16);
         gtk_grid_attach(GTK_GRID(grid), radio_1520, 0, 1, 1, 1);
 
         /* RAW */
@@ -152,7 +152,7 @@ GtkWidget *printer_driver_widget_create(int device)
                 GTK_RADIO_BUTTON(radio_1520));
         g_object_set_data(G_OBJECT(radio_raw), "DeviceNumber",
                 GINT_TO_POINTER(device));
-        g_object_set(radio_raw, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(radio_raw, 16);
         gtk_grid_attach(GTK_GRID(grid), radio_raw, 0, 2, 1, 1);
     } else {
         fprintf(stderr, "%s:%d:%s(): invalid device #%d\n",

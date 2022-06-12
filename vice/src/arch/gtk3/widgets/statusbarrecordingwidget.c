@@ -193,7 +193,6 @@ GtkWidget *statusbar_recording_widget_create(void)
     grid = vice_gtk3_grid_new_spaced(8, 0);
     gtk_widget_set_hexpand(grid, FALSE);
     gtk_widget_set_vexpand(grid, FALSE);
-    g_object_set(grid, "margin-top", 0, "margin-bottom", 0, NULL);
 
     g_object_set_data(G_OBJECT(grid), "Seconds", GINT_TO_POINTER(0));
     g_object_set_data(G_OBJECT(grid), "Status", GINT_TO_POINTER(0));

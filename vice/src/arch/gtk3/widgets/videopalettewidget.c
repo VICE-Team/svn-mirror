@@ -233,11 +233,10 @@ GtkWidget *video_palette_widget_create(const char *chip)
             "Palette settings", 4);
 
     radio_internal = gtk_radio_button_new_with_label(group, "Internal");
-    g_object_set(radio_internal, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_internal, 16);
     radio_external = gtk_radio_button_new_with_label(group, "External");
-    gtk_radio_button_join_group(
-            GTK_RADIO_BUTTON(radio_external),
-            GTK_RADIO_BUTTON(radio_internal));
+    gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_external),
+                                GTK_RADIO_BUTTON(radio_internal));
 
     combo_external = create_combo_box();
     gtk_widget_set_hexpand(combo_external, TRUE);

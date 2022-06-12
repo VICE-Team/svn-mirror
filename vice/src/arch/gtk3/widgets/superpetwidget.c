@@ -177,7 +177,7 @@ static GtkWidget *create_superpet_cpu_widget(void)
             "CPUswitch",
             cpu_types,
             GTK_ORIENTATION_VERTICAL);
-    g_object_set(G_OBJECT(group), "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(group, 16);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -208,7 +208,7 @@ static GtkWidget *create_superpet_rom_widget(void)
         /* assumes ASCII, should be safe, except for old IBM main frames */
         g_snprintf(buffer, sizeof(buffer), "$%cxxx", bank + 'A');
         label = gtk_label_new(buffer);
-        g_object_set(label, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(label, 16);
 
         entry = gtk_entry_new();
         gtk_widget_set_hexpand(entry, TRUE);

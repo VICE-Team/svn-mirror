@@ -71,7 +71,7 @@ GtkWidget *video_render_filter_widget_create(const char *chip)
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Render filter", 1);
     render_widget = vice_gtk3_resource_radiogroup_new_sprintf(
             "%sFilter", filters, GTK_ORIENTATION_VERTICAL, chip);
-    g_object_set(render_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(render_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), render_widget, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);

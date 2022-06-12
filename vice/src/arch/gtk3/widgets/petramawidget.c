@@ -85,7 +85,7 @@ GtkWidget *pet_rama_widget_create(void)
     group = vice_gtk3_resource_radiogroup_new("RamA", area_types,
             GTK_ORIENTATION_VERTICAL);
     vice_gtk3_resource_radiogroup_add_callback(group, on_rama_changed);
-    g_object_set(group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(group, 16);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);

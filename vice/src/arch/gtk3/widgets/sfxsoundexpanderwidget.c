@@ -96,7 +96,7 @@ static GtkWidget *create_sfx_chip_widget(void)
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     label = gtk_label_new("YM chip model");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
@@ -131,7 +131,7 @@ GtkWidget *sfx_sound_expander_widget_create(GtkWidget *parent)
     if (machine_class == VICE_MACHINE_VIC20) {
         io_swap = vice_gtk3_resource_check_button_new(
                 "SFXSoundExpanderIOSwap", "Enable MasC=uerade I/O swap");
-        g_object_set(io_swap, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(io_swap, 16);
         gtk_grid_attach(GTK_GRID(grid), io_swap, 0, 2, 1, 1);
     }
 

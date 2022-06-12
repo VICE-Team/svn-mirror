@@ -71,15 +71,13 @@ GtkWidget *cbm2_hardwired_switches_widget_create(void)
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             -1, -1, "Hardwired switches", 1);
-    g_object_set(grid,
-            "margin-left",  8,
-            "margin-top",   8,
-            NULL);
+    gtk_widget_set_margin_start(grid, 8);
+    gtk_widget_set_margin_end(grid, 8);
 
     radio_group = vice_gtk3_resource_radiogroup_new("ModelLine",
             machine_class == VICE_MACHINE_CBM5x0 ? models_cbm5x0 : models_cbm6x0,
             GTK_ORIENTATION_VERTICAL);
-    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_group, 16);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

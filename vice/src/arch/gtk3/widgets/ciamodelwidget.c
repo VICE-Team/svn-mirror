@@ -94,14 +94,14 @@ static GtkWidget *create_cia_widget(int num)
     GtkWidget *grid;
     GtkWidget *radio_group;
     GtkWidget *label;
-    char buffer[256];
+    char buffer[64];
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
-    g_snprintf(buffer, 256, "CIA%d", num);
+    g_snprintf(buffer, sizeof(buffer), "CIA%d", num);
     label = gtk_label_new(buffer);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     radio_group = vice_gtk3_resource_radiogroup_new_sprintf(
@@ -139,7 +139,7 @@ GtkWidget *cia_model_widget_create(int count)
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "CIA model", 1);
     title = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    g_object_set(title, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_bottom(title, 8);
 
     cia1_widget = create_cia_widget(1);
     gtk_grid_attach(GTK_GRID(grid), cia1_widget, 0, 1, 1, 1);

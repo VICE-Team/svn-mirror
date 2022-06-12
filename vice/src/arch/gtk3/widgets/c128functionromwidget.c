@@ -115,7 +115,7 @@ static GtkWidget *create_rom_widget(const char *prefix)
     /* row 1: ROM type */
     label = gtk_label_new("ROM type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     type = create_rom_type_widget(prefix);
     gtk_grid_attach(GTK_GRID(grid), type, 1, 1, 1, 1);
@@ -123,13 +123,13 @@ static GtkWidget *create_rom_widget(const char *prefix)
     /* row 2: ROM image browser */
     label = gtk_label_new("ROM file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_rom_file_widget(prefix), 1, 2, 1, 1);
 
     rtc = vice_gtk3_resource_check_button_new_sprintf("%sFunctionROMRTCSave",
             "Save RTC data", prefix);
-    g_object_set(rtc, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(rtc, 16);
     gtk_grid_attach(GTK_GRID(grid), rtc, 0, 3, 2, 1);
 
     gtk_widget_show_all(grid);

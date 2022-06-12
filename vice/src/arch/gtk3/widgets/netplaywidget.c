@@ -284,7 +284,8 @@ static GtkWidget *create_controls_widget(void)
     int status;
 
     grid = vice_gtk3_grid_new_spaced_with_label(32, 8, "Controls", 3);
-    g_object_set(grid, "margin-left", 16, "margin-top", 32, NULL);
+    gtk_widget_set_margin_top(grid, 32);
+    gtk_widget_set_margin_start(grid, 16);
 
     resources_get_int("NetworkControl", &status);
 
@@ -304,7 +305,7 @@ static GtkWidget *create_controls_widget(void)
         /* name of the thing */
         label = gtk_label_new(data.text);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-        g_object_set(label, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(label, 16);
         gtk_grid_attach(GTK_GRID(grid), label, 0, i + 2, 1, 1);
 
         /* checkbutton to toggle the server side */
@@ -403,7 +404,7 @@ GtkWidget *netplay_widget_create(GtkWidget *parent)
     netplay_update_status();
 
     controls = create_controls_widget();
-    g_object_set(controls, "margin-top", 32, "margin-left", 0, NULL);
+    gtk_widget_set_margin_top(controls, 32);
 
     gtk_grid_attach(GTK_GRID(grid), create_controls_widget(), 0, 6, 3, 1);
 

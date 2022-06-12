@@ -273,7 +273,7 @@ GtkWidget *vsid_mixer_widget_create(void)
     resources_get_int("SidEngine", &engine);
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
-    g_object_set(G_OBJECT(grid), "margin-right", 16, NULL);
+    gtk_widget_set_margin_end(grid, 16);
     gtk_widget_set_hexpand(grid, TRUE);
 
 #ifdef HAVE_RESID

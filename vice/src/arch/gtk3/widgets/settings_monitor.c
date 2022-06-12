@@ -185,7 +185,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
             "Enable remote monitor");
     label = gtk_label_new("Server address");
     /* align with the rest, more or less */
-    g_object_set(label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(label, 8);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     server_address = vice_gtk3_resource_entry_full_new(
             "MonitorServerAddress");
@@ -195,7 +195,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
             "Enable binary remote monitor");
     binary_label = gtk_label_new("Server address");
     /* align with the rest, more or less */
-    g_object_set(binary_label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(binary_label, 8);
     gtk_widget_set_halign(binary_label, GTK_ALIGN_START);
     binary_server_address = vice_gtk3_resource_entry_full_new(
             "BinaryMonitorServerAddress");
@@ -205,7 +205,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
             "Enable logging to a file");
     log_label = gtk_label_new("Logfile name");
     /* align with the rest, more or less */
-    g_object_set(log_label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(log_label, 8);
     gtk_widget_set_halign(log_label, GTK_ALIGN_START);
     log_name = vice_gtk3_resource_browser_save_new(
             "MonitorLogFileName",
@@ -216,14 +216,14 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gtk_widget_set_hexpand(log_name, TRUE);
 
     scroll_label = gtk_label_new("Number of lines in scrollback buffer\n(-1 for no limit)");
-    g_object_set(scroll_label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(scroll_label, 8);
     gtk_widget_set_halign(scroll_label, GTK_ALIGN_START);
     scroll_lines = vice_gtk3_resource_spin_int_new(
             "MonitorScrollbackLines", -1, 0x0fffffff, 1);
 
 #ifdef FEATURE_CPUMEMHISTORY
     chis_label = gtk_label_new("Number of lines in CPU History");
-    g_object_set(chis_label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(chis_label, 8);
     gtk_widget_set_halign(chis_label, GTK_ALIGN_START);
     chis_lines = vice_gtk3_resource_spin_int_new(
             "MonitorChisLines", 10, 0x0fffffff, 1);
@@ -234,7 +234,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 
     /* font selection label and button */
     font_label = gtk_label_new("Monitor font");
-    g_object_set(font_label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(font_label, 8);
     gtk_widget_set_halign(font_label, GTK_ALIGN_START);
 
     /* create button that pops up a font selector */
@@ -251,7 +251,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gdk_rgba_parse(&color, color_res);
     bg_button = gtk_color_button_new_with_rgba(&color);
     bg_label = gtk_label_new("Monitor background");
-    g_object_set(bg_label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(bg_label, 8);
     gtk_widget_set_halign(bg_label, GTK_ALIGN_START);
     g_signal_connect(bg_button, "color-set", G_CALLBACK(on_bg_color_set), NULL);
 
@@ -261,7 +261,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gdk_rgba_parse(&color, color_res);
     fg_button = gtk_color_button_new_with_rgba(&color);
     fg_label = gtk_label_new("Monitor foreground");
-    g_object_set(fg_label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(fg_label, 8);
     gtk_widget_set_halign(fg_label, GTK_ALIGN_START);
     g_signal_connect(fg_button, "color-set", G_CALLBACK(on_fg_color_set), NULL);
 

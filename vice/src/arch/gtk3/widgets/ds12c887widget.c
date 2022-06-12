@@ -136,15 +136,15 @@ GtkWidget *ds12c887_widget_create(GtkWidget *parent)
 
     oscil_widget = vice_gtk3_resource_check_button_new("DS12C887RTCRunMode",
             "Start with running oscillator");
-    g_object_set(oscil_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(oscil_widget, 16);
     rtc_widget = vice_gtk3_resource_check_button_new("DS12C887RTCSave",
             "Enable RTC Saving");
-    g_object_set(rtc_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(rtc_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), oscil_widget, 0, 1, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), rtc_widget, 0, 2, 2, 1);
 
     label = gtk_label_new("Base address");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     base_widget = create_base_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);

@@ -410,17 +410,17 @@ static GtkWidget *create_resid_sampling_widget(void)
     GtkWidget *radio_group;
 
     grid = gtk_grid_new();
-    g_object_set(grid, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(grid, 8);
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID sampling method</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_bottom(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     radio_group = vice_gtk3_resource_radiogroup_new("SidResidSampling",
             resid_sampling_modes, GTK_ORIENTATION_VERTICAL);
-    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_group, 16);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -449,7 +449,7 @@ static GtkWidget *create_num_sids_widget(void)
 
     /* create spinbutton for the 'SidStereo' resource */
     spin = vice_gtk3_resource_spin_int_new("SidStereo", 0, max_sids - 1, 1);
-    g_object_set(G_OBJECT(spin), "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(spin, 16);
     gtk_widget_set_halign(spin, GTK_ALIGN_START);
     gtk_widget_set_hexpand(spin, FALSE);
     g_signal_connect(spin, "value-changed", G_CALLBACK(on_sid_count_changed),
@@ -575,7 +575,7 @@ static GtkWidget *create_resource_reset_button(
     button = gtk_button_new_with_label("Reset");
     gtk_widget_set_valign(button, GTK_ALIGN_END);
     gtk_widget_set_hexpand(button, FALSE);
-    g_object_set(button, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(button, 16);
 
     g_signal_connect(button, "clicked", G_CALLBACK(callback), NULL);
 
@@ -642,11 +642,9 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 
         sid_addresses = vice_gtk3_grid_new_spaced_with_label(
                 16, 8, "SID I/O addresses", 3);
-        g_object_set(sid_addresses,
-                "margin-left", 16,
-                "margin-top", 16,
-                "margin-bottom", 16,
-                NULL);
+        gtk_widget_set_margin_top(sid_addresses, 16);
+        gtk_widget_set_margin_start(sid_addresses, 16);
+        gtk_widget_set_margin_bottom(sid_addresses, 16);
 
         /* lay out address widgets in a grid of four columns max, skip the
          * first SID
@@ -687,8 +685,6 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 
     resid_6581_grid = gtk_grid_new();
     resid_8580_grid = gtk_grid_new();
-    g_object_set(resid_6581_grid, "margin", 0, NULL);
-    g_object_set(resid_8580_grid, "margin", 0, NULL);
 
     /* 8580 */
 
@@ -700,7 +696,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     /* 8580 passband */
     label = gtk_label_new("8580 passband");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     resid_8580_passband = create_resid_8580_passband_widget();
     resid_8580_passband_button = create_resource_reset_button(
             on_resid_8580_passband_default_clicked);
@@ -717,7 +713,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     /* 8580 gain */
     label = gtk_label_new("8580 gain");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     resid_8580_gain = create_resid_8580_gain_widget();
     resid_8580_gain_button = create_resource_reset_button(
             on_resid_8580_gain_default_clicked);
@@ -729,7 +725,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     /* 8580 bias */
     label = gtk_label_new("8580 filter bias");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     resid_8580_bias = create_resid_8580_bias_widget();
     resid_8580_bias_button = create_resource_reset_button(
             on_resid_8580_bias_default_clicked);
@@ -748,7 +744,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     /* 6581 passband */
     label = gtk_label_new("6581 passband");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     resid_6581_passband = create_resid_6581_passband_widget();
     resid_6581_passband_button = create_resource_reset_button(
             on_resid_6581_passband_default_clicked);
@@ -760,7 +756,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     /* 6581 gain */
     label = gtk_label_new("6581 gain");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     resid_6581_gain = create_resid_6581_gain_widget();
     resid_6581_gain_button = create_resource_reset_button(
             on_resid_6581_gain_default_clicked);
@@ -772,7 +768,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     /* 6581 bias */
     label = gtk_label_new("6581 filter bias");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     resid_6581_bias = create_resid_6581_bias_widget();
     resid_6581_bias_button = create_resource_reset_button(
             on_resid_6581_bias_default_clicked);

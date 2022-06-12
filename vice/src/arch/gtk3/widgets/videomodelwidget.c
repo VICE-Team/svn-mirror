@@ -158,13 +158,13 @@ GtkWidget *video_model_widget_create(GtkWidget *machine)
             VICE_GTK3_DEFAULT, 0,
             widget_title, 1);
     title = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    g_object_set(title, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_bottom(title, 8);
 
     if (model_list != NULL) {
         for (i = 0; model_list[i].name != NULL; i++) {
             radio = gtk_radio_button_new_with_label(group, model_list[i].name);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
-            g_object_set(radio, "margin-left", 16, NULL);
+            gtk_widget_set_margin_start(radio, 16);
             gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
             last = GTK_RADIO_BUTTON(radio);
         }
@@ -174,7 +174,6 @@ GtkWidget *video_model_widget_create(GtkWidget *machine)
     }
 
     g_object_set_data(G_OBJECT(grid), "ExtraCallback", NULL);
-
 
     gtk_widget_show_all(grid);
     return grid;
@@ -239,4 +238,3 @@ void video_model_widget_set_callback(GtkWidget *widget, void (*callback)(int))
 {
     g_object_set_data(G_OBJECT(widget), "ExtraCallback", (gpointer)callback);
 }
-

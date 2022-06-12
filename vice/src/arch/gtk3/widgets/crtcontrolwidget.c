@@ -677,7 +677,8 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
     data = create_control_data(chip);
 
     grid = vice_gtk3_grid_new_spaced(16, 0);
-    g_object_set(grid, "margin-left", 8, "margin-right", 8, NULL);
+    gtk_widget_set_margin_start(grid, 8);
+    gtk_widget_set_margin_end(grid, 8);
     if (minimal) {
         g_snprintf(buffer, 256, "<small><b>CRT settings (%s)</b></small>", chip);
     } else {

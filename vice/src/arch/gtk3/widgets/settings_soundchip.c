@@ -51,8 +51,10 @@ GtkWidget *settings_soundchip_widget_create(GtkWidget *parent)
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
-    g_object_set(layout, "margin", 16, NULL);
-
+    gtk_widget_set_margin_top(layout, 16);
+    gtk_widget_set_margin_start(layout, 16);
+    gtk_widget_set_margin_end(layout, 16);
+    gtk_widget_set_margin_bottom(layout, 16);
     sid_widget = sid_sound_widget_create(layout);
 
     gtk_grid_attach(GTK_GRID(layout), sid_widget, 0, 0, 1, 1);

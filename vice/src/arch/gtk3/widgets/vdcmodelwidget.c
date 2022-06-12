@@ -103,7 +103,7 @@ static GtkWidget *create_64kb_widget(void)
 
     check = vice_gtk3_resource_check_button_new(
             "VDC64KB", "Enable 64KiB video ram");
-    g_object_set(check, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(check, 16);
     return check;
 }
 
@@ -146,18 +146,18 @@ GtkWidget *vdc_model_widget_create(void)
             "VDC settings", 1);
 
     extra_ram = create_64kb_widget();
+    gtk_widget_set_margin_start(extra_ram, 16);
     g_signal_connect(extra_ram, "toggled", G_CALLBACK(on_64kb_ram_toggled),
             NULL);
     group = vice_gtk3_resource_radiogroup_new("VDCRevision",
             vdc_revs, GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(group, 16);
+
     /* connect extra handlers */
     vdc_model_widget_connect_signals(group);
 
-    g_object_set(extra_ram, "margin-left", 16, NULL);
-    g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), extra_ram, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 2, 1, 1);
-
     gtk_widget_show_all(grid);
     return grid;
 }

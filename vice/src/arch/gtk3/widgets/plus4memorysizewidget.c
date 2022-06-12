@@ -65,8 +65,8 @@ GtkWidget *plus4_memory_size_widget_create(void)
             "RamSize",
             ram_sizes,
             GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_margin_start(memory_size_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), memory_size_widget, 0, 1, 1, 1);
-    g_object_set(memory_size_widget, "margin-left", 16, NULL);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -61,7 +61,19 @@
  * Probably will require some testing/tweaking to get this to look acceptable
  * with various themes (and OSes).
  */
-#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; } scale { margin-top: -8px; margin-bottom: -8px; } scale value { min-width: 4em; }"
+#define SLIDER_CSS \
+    "scale slider {\n" \
+    "    min-width: 10px;\n" \
+    "    min-height: 10px;\n" \
+    "    margin: -3px;\n" \
+    "}\n" \
+    "scale {\n" \
+    "    margin-top: -8px;\n" \
+    "    margin-bottom: -8px;\n" \
+    "}\n" \
+    "scale value {\n" \
+    "    min-width: 4em;\n" \
+    "}\n"
 
 
 /** \brief  CSS for the labels
@@ -70,7 +82,12 @@
  *
  * Here Be Dragons!
  */
-#define LABEL_CSS "label { font-size: 80%; margin-top: -2px; margin-bottom: -2px; }"
+#define LABEL_CSS \
+    "label {\n" \
+    "    font-size: 80%;\n" \
+    "    margin-top: -2px;\n" \
+    "    margin-bottom: -2px;\n" \
+    "}\n"
 
 
 /** \brief  Main volume slider */
@@ -490,7 +507,8 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
 #endif
 
     grid = vice_gtk3_grid_new_spaced(16, 0);
-    g_object_set(G_OBJECT(grid), "margin-left", 8, "margin-right", 8, NULL);
+    gtk_widget_set_margin_start(grid, 8);
+    gtk_widget_set_margin_end(grid, 8);
     gtk_widget_set_hexpand(grid, TRUE);
 
     /* create reusable CSS providers */

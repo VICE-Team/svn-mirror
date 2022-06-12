@@ -105,13 +105,13 @@ GtkWidget *printer_output_mode_widget_create(int device)
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Output mode", 1);
 
-    g_snprintf(resource, 256, "Printer%dOutput", device);
+    g_snprintf(resource, sizeof(resource), "Printer%dOutput", device);
     resource_widget_set_resource_name(grid, resource);
 
     radio_text = gtk_radio_button_new_with_label(group, "Text");
-    g_object_set(radio_text, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_text, 16);
     radio_gfx = gtk_radio_button_new_with_label(group, "Graphics");
-    g_object_set(radio_gfx, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_gfx, 16);
     gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_gfx),
             GTK_RADIO_BUTTON(radio_text));
 

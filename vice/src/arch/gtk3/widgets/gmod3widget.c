@@ -107,7 +107,7 @@ static GtkWidget *create_cart_image_widget(void)
 
     write_back = vice_gtk3_resource_check_button_new("GMod3FlashWrite",
                 "Save image when changed");
-    g_object_set(write_back, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(write_back, 16);
     gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
 
     save_button = gtk_button_new_with_label("Save image as ...");

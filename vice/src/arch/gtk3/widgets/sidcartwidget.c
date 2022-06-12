@@ -260,7 +260,7 @@ GtkWidget *sidcart_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), sidcart_enable, 0, 0, 3, 1);
 
     sid_model = sid_model_widget_create(NULL);
-    g_object_set(sid_model, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(sid_model, 16);
     gtk_grid_attach(GTK_GRID(grid), sid_model, 0, 1, 1, 1);
 
     sid_address = create_sidcart_address_widget();
@@ -271,7 +271,7 @@ GtkWidget *sidcart_widget_create(GtkWidget *parent)
 
     if (machine_class == VICE_MACHINE_PLUS4) {
         sid_joy = create_sidcart_joy_widget();
-        g_object_set(sid_joy, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(sid_joy, 16);
         gtk_grid_attach(GTK_GRID(grid), sid_joy, 0, 2, 3, 1);
     }
 

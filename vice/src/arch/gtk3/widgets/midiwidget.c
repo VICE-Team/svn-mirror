@@ -118,6 +118,19 @@ static const vice_gtk3_combo_entry_int_t midi_drivers[]= {
 };
 #endif
 
+/** \brief  Create left-aligned and 16 pixels left-indented label
+ *
+ * \param[in]   text    text for the label
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *label_helper(const gchar *text)
+{
+    GtkWidget *label = gtk_label_new(text);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_margin_start(label, 16);
+    return label;
+}
 
 /** \brief  Extra handler for the "toggled" event of the "Enable" check button
  *
@@ -316,9 +329,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), midi_enable, 0, 0, 3, 1);
 
     if (machine_class != VICE_MACHINE_VIC20) {
-        label = gtk_label_new("MIDI mode");
-        gtk_widget_set_halign(label, GTK_ALIGN_START);
-        g_object_set(label, "margin-left", 16, NULL);
+        label = label_helper("MIDI mode");
         gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
         midi_mode = create_midi_mode_widget();
         gtk_grid_attach(GTK_GRID(grid), midi_mode, 1, 1, 1, 1);
@@ -328,9 +339,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 
 #if defined (USE_OSS) && defined (USE_ALSA)
     /* Unix only, use ALSA or OSS? */
-    label = gtk_label_new("MIDI driver");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    label = label_helper("MIDI driver");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     midi_driver = create_midi_driver_widget();
     gtk_grid_attach(GTK_GRID(grid), midi_driver, 1, row, 1, 1);
@@ -340,12 +349,10 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 #if defined (MACOS_COMPILE) || defined (USE_ALSA)
     /* macOS, Linux (ALSA) - name of the MIDI client */
 #if defined (MACOS_COMPILE)
-    label = gtk_label_new("MIDI Client Name");
+    label = label_helper("MIDI Client Name");
 #else
-    label = gtk_label_new("ALSA Client Name");
+    label = label_helper("ALSA Client Name");
 #endif
-    g_object_set(label, "margin-left", 16, NULL);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     midi_name_entry = vice_gtk3_resource_entry_full_new("MIDIName");
     gtk_widget_set_hexpand(midi_name_entry, TRUE);
@@ -355,9 +362,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 
 #ifdef WINDOWS_COMPILE
     /* A drop down list containing the available devices */
-    label = gtk_label_new("MIDI In");
-    g_object_set(label, "margin-left", 16, NULL);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    label = label_helper("MIDI In");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     midi_in_entry = midi_device_widget_create(0);
     gtk_widget_set_hexpand(midi_in_entry, TRUE);
@@ -366,9 +371,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 
 #ifdef MACOS_COMPILE
     /* A text entry field to input the port name */
-    label = gtk_label_new("MIDI In Name");
-    g_object_set(label, "margin-left", 16, NULL);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    label = label_helper("MIDI In Name");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     midi_in_entry = vice_gtk3_resource_entry_full_new("MIDIInName");
     gtk_widget_set_hexpand(midi_in_entry, TRUE);
@@ -377,9 +380,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 
 #if defined(USE_OSS)
     /* A text enrty field+browse button to enter the device file */
-    label = gtk_label_new("OSS MIDI In");
-    g_object_set(label, "margin-left", 16, NULL);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    label = label_helper("OSS MIDI In");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     midi_in_entry = vice_gtk3_resource_entry_full_new("MIDIInDev");
     gtk_widget_set_hexpand(midi_in_entry, TRUE);
@@ -395,9 +396,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 
 #ifdef WINDOWS_COMPILE
     /* A drop down list containing the available devices */
-    label = gtk_label_new("MIDI Out");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    label = label_helper("MIDI Out");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     midi_out_entry = midi_device_widget_create(1);
     gtk_widget_set_hexpand(midi_out_entry, TRUE);
@@ -406,9 +405,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 
 #ifdef MACOS_COMPILE
     /* A text entry field to input the port name */
-    label = gtk_label_new("MIDI Out Name");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    label = label_helper("MIDI Out Name");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     midi_out_entry = vice_gtk3_resource_entry_full_new("MIDIOutName");
     gtk_widget_set_hexpand(midi_out_entry, TRUE);
@@ -417,9 +414,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 
 #if defined(USE_OSS)
     /* A text enrty field+browse button to enter the device file */
-    label = gtk_label_new("OSS MIDI Out");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    label = label_helper("OSS MIDI Out");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     midi_out_entry = vice_gtk3_resource_entry_full_new("MIDIOutDev");
     gtk_widget_set_hexpand(midi_out_entry, TRUE);

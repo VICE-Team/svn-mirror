@@ -102,7 +102,7 @@ GtkWidget *kbd_debug_widget_create(void)
     }
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-    g_object_set(grid, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(grid, 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 1);
 
     label = gtk_label_new("KBD debug:");

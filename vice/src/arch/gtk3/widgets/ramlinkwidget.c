@@ -77,12 +77,12 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
 
     /* create 'enable ramlink' checkbox */
     enable = vice_gtk3_resource_check_button_new("RAMLINK", "Enable " CARTRIDGE_NAME_RAMLINK);
-    g_object_set(enable, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(enable, 16);
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 1, 1, 1);
 
     /* create 'RTC Save' checkbox */
     rtc_save = vice_gtk3_resource_check_button_new("RAMLINKRTCSave", "RTC Save");
-    g_object_set(rtc_save, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(rtc_save, 16);
     gtk_grid_attach(GTK_GRID(grid), rtc_save, 0, 2, 1, 1);
 
     /* create mode widget */
@@ -93,7 +93,7 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     /* create mode label */
     label = gtk_label_new("Mode");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), mode, 3, 2, 1, 1);
 
@@ -103,7 +103,7 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
             0, 16, 1);
     label = gtk_label_new("Size (MiB)");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), size, 3, 1, 1, 1);
     /* fix size of the spin button */

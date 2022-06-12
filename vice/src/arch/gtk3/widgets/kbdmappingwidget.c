@@ -195,7 +195,7 @@ GtkWidget *kbdmapping_widget_create(GtkWidget *parent)
             mappings,
             GTK_ORIENTATION_VERTICAL);
     gtk_grid_set_row_homogeneous(GTK_GRID(radio_group), TRUE);
-    g_object_set(G_OBJECT(radio_group), "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_group, 16);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
     browser_sym = create_symbolic_keymap_browser();

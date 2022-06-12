@@ -377,7 +377,8 @@ GtkWidget *vice_gtk3_integer_input_box(
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
-    g_object_set(G_OBJECT(grid), "margin-left", 16, "margin-right", 16, NULL);
+    gtk_widget_set_margin_start(grid, 16);
+    gtk_widget_set_margin_end(grid, 16);
 
     /* add body message text */
     label = gtk_label_new(message);

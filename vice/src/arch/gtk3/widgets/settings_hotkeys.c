@@ -853,8 +853,7 @@ static GtkWidget *create_accepted_mods_widget(void)
     gtk_widget_set_halign(accepted_mods_string, GTK_ALIGN_START);
     gtk_label_set_markup(GTK_LABEL(accepted_mods_string), text);
     gtk_grid_attach(GTK_GRID(wrapper), accepted_mods_string, 1, 0, 1, 1);
-
-    g_object_set(wrapper, "margin-top", 8, NULL);
+    gtk_widget_set_margin_top(wrapper, 8);
     gtk_widget_show_all(wrapper);
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, maxrow + 1, 2, 1);
@@ -883,7 +882,8 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     int row = 0;
 
     grid = vice_gtk3_grid_new_spaced(16, 0);
-    g_object_set(grid, "margin-left", 16, "margin-right", 16, NULL);
+    gtk_widget_set_margin_start(grid, 16);
+    gtk_widget_set_margin_end(grid, 16);
 
     label = gtk_label_new(NULL);
     g_snprintf(text,
@@ -904,19 +904,20 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     gtk_label_set_markup(GTK_LABEL(label), text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, FALSE);
-    g_object_set(G_OBJECT(label), "margin-bottom", 32, NULL);
+    gtk_widget_set_margin_bottom(label, 32);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 #ifdef DEBUG_HOTKEYS
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Reported modifiers:</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-top", 32, NULL);
+    gtk_widget_set_margin_top(label, 32);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
     modifiers_grid = create_modifier_list();
-    g_object_set(modifiers_grid, "margin-top", 8, "margin-bottom", 16, NULL);
+    gtk_widget_set_margin_top(modifiers_grid, 8);
+    gtk_widget_set_margin_bottom(modifiers_grid, 16);
     gtk_grid_attach(GTK_GRID(grid), modifiers_grid, 0, row, 2, 1);
     row++;
 
@@ -990,7 +991,8 @@ static GtkWidget *create_content_widget(const gchar *action, const gchar *hotkey
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Accepted GDK modifier masks:</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-top", 24, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_top(label, 24);
+    gtk_widget_set_margin_bottom(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
@@ -1483,7 +1485,8 @@ GtkWidget *settings_hotkeys_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(wrapper), hotkeys_path, 1, 0, 1, 1);
     update_hotkeys_path();
 
-    g_object_set(G_OBJECT(wrapper), "margin-top", 8, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_top(wrapper, 8);
+    gtk_widget_set_margin_bottom(wrapper, 8);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 1, 2, 1);
 
     /* need to regenerate the view after this action is triggered */

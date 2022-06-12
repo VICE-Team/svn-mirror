@@ -122,7 +122,7 @@ GtkWidget *settings_snapshot_widget_create(GtkWidget *parent)
 
     label = gtk_label_new("History directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
 
     histdir_entry = vice_gtk3_resource_entry_full_new("EventSnapshotDir");
     gtk_widget_set_hexpand(histdir_entry, TRUE);
@@ -138,7 +138,7 @@ GtkWidget *settings_snapshot_widget_create(GtkWidget *parent)
     label = gtk_label_new("Recording start mode");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
 
     recmode_widget = vice_gtk3_resource_radiogroup_new("EventStartMode",
             recstart_modes, GTK_ORIENTATION_VERTICAL);
