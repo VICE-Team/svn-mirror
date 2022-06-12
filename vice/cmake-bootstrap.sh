@@ -469,7 +469,9 @@ function generate_executable_target {
 	
 	cat <<-HEREDOC
 
+		set(CMAKE_XCODE_GENERATE_SCHEME ON)
 		add_executable($executable)
+		set(CMAKE_XCODE_GENERATE_SCHEME OFF)
 
 		target_compile_definitions(
 		    $executable
