@@ -130,7 +130,7 @@ static GtkWidget *create_virtual_device_widget(int device)
 
     check = vice_gtk3_resource_check_button_new_sprintf("VirtualDevice%d",
             "Enable Virtual Device", device);
-    g_object_set(check, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(check, 16);
     return check;
 }
 
@@ -146,7 +146,7 @@ static GtkWidget *create_iec_widget(int device)
 
     check = vice_gtk3_resource_check_button_new_sprintf("IECDevice%d",
             "Enable IEC device", device);
-    g_object_set(check, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(check, 16);
     return check;
 }
 
@@ -164,7 +164,7 @@ static GtkWidget *create_real_device7_checkbox(void)
     int value;
 
     check = gtk_check_button_new_with_label("Real device access");
-    g_object_set(check, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(check, 16);
     resources_get_int("Printer7", &value);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), value);
     g_signal_connect(check, "toggled", G_CALLBACK(on_real_device7_toggled),
@@ -219,7 +219,7 @@ static GtkWidget *create_printer_widget(int device)
     GtkWidget *grid;
     char title[256];
 
-    g_snprintf(title, 256, "Printer #%d settings", device);
+    g_snprintf(title, sizeof(title), "Printer #%d settings", device);
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, title, 4);
 
@@ -323,11 +323,11 @@ static GtkWidget *create_printer_text_devices_widget(void)
         const char *text;
         gchar title[64];
 
-        g_snprintf(title, 64, "#%d", i + 1);
+        g_snprintf(title, sizeof(title), "#%d", i + 1);
 
         label= gtk_label_new(title);
         if (i == 0) {
-            g_object_set(label, "margin-left", 16, NULL);
+            gtk_widget_set_margin_start(label, 16);
         }
         gtk_grid_attach(GTK_GRID(grid), label, i * 2, 1, 1, 1);
         entry = gtk_entry_new();

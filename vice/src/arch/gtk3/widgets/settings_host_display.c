@@ -84,7 +84,8 @@ static GtkWidget *create_sync_widget(void)
     vsync = vice_gtk3_resource_check_button_new("VSync", "VSync");
     gtk_widget_set_sensitive(vsync, TRUE);
     gtk_grid_attach(GTK_GRID(grid), vsync, 0, 2, 1, 1);
-    g_object_set(vsync, "margin-left", 16, "margin-top", 8, NULL);
+    gtk_widget_set_margin_top(vsync, 8);
+    gtk_widget_set_margin_start(vsync, 16);
 
     return grid;
 }
@@ -119,7 +120,7 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
         sync_widget = create_sync_widget();
 
         gtk_grid_attach(GTK_GRID(grid), filter_widget, col++, 1, 2, 1);
-        g_object_set(filter_widget, "margin-left",8, NULL);
+        gtk_widget_set_margin_start(filter_widget, 8);
 
         gtk_grid_attach(GTK_GRID(grid), sync_widget, col++, 1, 2, 1);
 

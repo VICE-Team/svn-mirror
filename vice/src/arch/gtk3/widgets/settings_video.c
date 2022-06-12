@@ -384,7 +384,7 @@ static GtkWidget *create_render_widget(int index, const char *chip)
     g_object_set_data(G_OBJECT(double_size_widget[index]),
                                "ChipIndex",
                                GINT_TO_POINTER(index));
-    g_object_set(double_size_widget[index], "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(double_size_widget[index], 16);
 
     double_scan_widget = create_double_scan_widget(index);
 
@@ -421,21 +421,21 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Miscellaneous", 1);
 
     audio_leak_widget = create_audio_leak_widget(index);
-    g_object_set(audio_leak_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(audio_leak_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), audio_leak_widget, 0, 1, 1, 1);
 
     if (uivideo_chip_has_sprites(chip)) {
         sprite_sprite_widget = create_sprite_sprite_widget(index);
         sprite_background_widget = create_sprite_background_widget(index);
-        g_object_set(sprite_sprite_widget, "margin-left", 16, NULL);
-        g_object_set(sprite_background_widget, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(sprite_sprite_widget, 16);
+        gtk_widget_set_margin_start(sprite_background_widget, 16);
         gtk_grid_attach(GTK_GRID(grid), sprite_sprite_widget, 0, 2, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), sprite_background_widget, 0, 3, 1, 1);
         row = 4;
     }
     if (uivideo_chip_has_vsp_bug(chip)) {
         vsp_bug_widget = create_vsp_bug_widget(index);
-        g_object_set(vsp_bug_widget, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(vsp_bug_widget, 16);
         gtk_grid_attach(GTK_GRID(grid), vsp_bug_widget, 0, row, 1, 1);
 
     }
@@ -459,7 +459,7 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Scaling and fullscreen", 3);
 
     keep_aspect_widget[index] = create_keep_aspect_widget(index);
-    g_object_set(keep_aspect_widget[index], "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(keep_aspect_widget[index], 16);
     /* until per-chip KeepAspectRatio is implemented, connect the VICII and
      * VDC KeepAspectRatio checkboxes, so toggling the VICII checkbox also
      * updates the VDC checkbox, and vice-versa */

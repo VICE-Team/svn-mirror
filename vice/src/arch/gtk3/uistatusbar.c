@@ -1667,7 +1667,7 @@ static GtkWidget *ui_tape_widget_create(int port, int bar)
     }
     gtk_widget_set_hexpand(header, FALSE);
     gtk_widget_set_halign(header, GTK_ALIGN_START);
-    g_object_set(header, "margin-right", 8, NULL);
+    gtk_widget_set_margin_end(header, 8);
 
     counter = gtk_label_new("?");
 
@@ -1784,7 +1784,7 @@ static GtkWidget *ui_joystick_widget_create(void)
     label = gtk_label_new("Joysticks:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, FALSE);
-    g_object_set(label, "margin-right", 8, NULL);
+    gtk_widget_set_margin_end(label, 8);
     gtk_container_add(GTK_CONTAINER(grid), label);
     /* Create all possible joystick displays */
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
@@ -2493,10 +2493,8 @@ GtkWidget *ui_statusbar_create(int window_identity)
     gtk_widget_set_hexpand(message, TRUE);
     gtk_widget_set_halign(message, GTK_ALIGN_START);
     gtk_label_set_ellipsize(GTK_LABEL(message), PANGO_ELLIPSIZE_END);
-    g_object_set(G_OBJECT(message),
-                 "margin-left", 8,
-                 "margin-right", 8,
-                 NULL);
+    gtk_widget_set_margin_start(message, 8);
+    gtk_widget_set_margin_end(message, 8);
     allocated_bars[i].msg = message;
     gtk_grid_attach(GTK_GRID(sb),
                     message,
@@ -2521,7 +2519,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /* Warp mode */
     warp_led = warp_led_create();
     /* add a little margin */
-    g_object_set(G_OBJECT(warp_led), "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(warp_led, 8);
     allocated_bars[i].warp_led = warp_led;
     statusbar_append_led(i, warp_led, FALSE);
 
@@ -2559,7 +2557,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     /* CPU/FPS - No FPS on VDC Window for now */
     speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
-    g_object_set(speed, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(speed, 8);
     allocated_bars[i].speed = speed;
 
     /* CRT and Mixer controls */

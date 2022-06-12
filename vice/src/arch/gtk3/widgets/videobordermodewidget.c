@@ -75,7 +75,7 @@ GtkWidget *video_border_mode_widget_create(const char *chip)
             "Border mode", 1);
     mode_widget = vice_gtk3_resource_radiogroup_new_sprintf(
             "%sBorderMode", modes, GTK_ORIENTATION_VERTICAL, chip);
-    g_object_set(mode_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(mode_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), mode_widget, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

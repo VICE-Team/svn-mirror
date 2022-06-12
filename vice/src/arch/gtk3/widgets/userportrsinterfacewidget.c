@@ -169,20 +169,20 @@ GtkWidget *userport_rsinterface_widget_create(void)
                NULL, list[i].name);
     }
     gtk_widget_set_hexpand(combo, TRUE);
-    g_object_set(combo, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(combo, 16);
     label = gtk_label_new("RS-232 Interface type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 1, 2, 1);
 
     label = gtk_label_new("Control lines");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     rsuser_rtsinv_widget = vice_gtk3_resource_check_button_new(
             "RsUserRTSInv", "Invert RTS");
     gtk_widget_set_halign(rsuser_rtsinv_widget, GTK_ALIGN_START);
-    g_object_set(rsuser_rtsinv_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(rsuser_rtsinv_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rsuser_rtsinv_widget, 1, 2, 1, 1);
     g_signal_connect(rsuser_rtsinv_widget, "toggled", G_CALLBACK(on_control_toggled), NULL);
@@ -190,27 +190,27 @@ GtkWidget *userport_rsinterface_widget_create(void)
     rsuser_ctsinv_widget = vice_gtk3_resource_check_button_new(
             "RsUserCTSInv", "Invert CTS");
     gtk_widget_set_halign(rsuser_ctsinv_widget, GTK_ALIGN_START);
-    g_object_set(rsuser_ctsinv_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(rsuser_ctsinv_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), rsuser_ctsinv_widget, 2, 2, 1, 1);
     g_signal_connect(rsuser_ctsinv_widget, "toggled", G_CALLBACK(on_control_toggled), NULL);
 
     rsuser_dsrinv_widget = vice_gtk3_resource_check_button_new(
             "RsUserDSRInv", "Invert DSR");
     gtk_widget_set_halign(rsuser_dsrinv_widget, GTK_ALIGN_START);
-    g_object_set(rsuser_dsrinv_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(rsuser_dsrinv_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), rsuser_dsrinv_widget, 1, 3, 1, 1);
     g_signal_connect(rsuser_dsrinv_widget, "toggled", G_CALLBACK(on_control_toggled), NULL);
 
     rsuser_dcdinv_widget = vice_gtk3_resource_check_button_new(
             "RsUserDCDInv", "Invert DCD");
     gtk_widget_set_halign(rsuser_dcdinv_widget, GTK_ALIGN_START);
-    g_object_set(rsuser_dcdinv_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(rsuser_dcdinv_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), rsuser_dcdinv_widget, 2, 3, 1, 1);
 
     rsuser_dtrinv_widget = vice_gtk3_resource_check_button_new(
             "RsUserDTRInv", "Invert DTR");
     gtk_widget_set_halign(rsuser_dtrinv_widget, GTK_ALIGN_START);
-    g_object_set(rsuser_dtrinv_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(rsuser_dtrinv_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), rsuser_dtrinv_widget, 1, 4, 1, 1);
     g_signal_connect(rsuser_dtrinv_widget, "toggled", G_CALLBACK(on_control_toggled), NULL);
 

@@ -159,11 +159,11 @@ GtkWidget *pet_misc_widget_create(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     crtc_widget = gtk_check_button_new_with_label("CRTC chip enable");
-    g_object_set(crtc_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(crtc_widget, 16);
     blank_widget = gtk_check_button_new_with_label("2001 quirk: EOI blanks screen");
-    g_object_set(blank_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(blank_widget, 16);
     screen2001_widget = gtk_check_button_new_with_label("2001 quirk: extra screen mirrors");
-    g_object_set(screen2001_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(screen2001_widget, 16);
 
     gtk_grid_attach(GTK_GRID(grid), crtc_widget, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), blank_widget, 0, 2, 1, 1);

@@ -308,7 +308,7 @@ static GtkWidget *create_indented_label(const gchar *text)
 {
     GtkWidget *label = gtk_label_new(text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     return label;
 }
 
@@ -566,7 +566,7 @@ GtkWidget *ffmpeg_widget_create(void)
     fps = vice_gtk3_resource_check_button_new("FFMPEGVideoHalveFramerate",
             "Half framerate (25/30 FPS)");
     gtk_widget_set_halign(fps, GTK_ALIGN_START);
-    g_object_set(fps, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(fps, 16);
     gtk_grid_attach(GTK_GRID(grid), fps, 0, 3, 4, 1);
 
     update_format_combo_box(current_format);

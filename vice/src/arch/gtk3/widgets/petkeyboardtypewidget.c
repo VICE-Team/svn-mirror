@@ -130,7 +130,7 @@ GtkWidget * pet_keyboard_type_widget_create(void)
 
         for (i = 0; i < num; i++) {
             radio = gtk_radio_button_new_with_label(group, list[i].name);
-            g_object_set(radio, "margin-left", 16, NULL);
+            gtk_widget_set_margin_start(radio, 16);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
             if (active == i) {
                 gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);

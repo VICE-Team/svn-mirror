@@ -187,7 +187,7 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
         case VICE_MACHINE_SCPU64:
             mode_widget = create_cartridge_mode_widget();
             mode_label = gtk_label_new("Ethernet Cartridge mode");
-            g_object_set(mode_label, "margin-left", 16, NULL);
+            gtk_widget_set_margin_start(mode_label, 16);
             gtk_widget_set_halign(mode_label, GTK_ALIGN_START);
             gtk_grid_attach(GTK_GRID(grid), mode_label, 0, row, 1, 1);
             gtk_grid_attach(GTK_GRID(grid), mode_widget, 1, row, 1, 1);
@@ -202,7 +202,7 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
 
     base_label = gtk_label_new("Cartridge I/O base");
     gtk_widget_set_halign(base_label, GTK_ALIGN_START);
-    g_object_set(base_label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(base_label, 16);
 
     gtk_grid_attach(GTK_GRID(grid), base_label, 0, row, 1,1);
     base_widget = create_cartridge_base_widget();

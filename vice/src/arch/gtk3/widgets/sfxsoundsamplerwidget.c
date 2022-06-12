@@ -82,7 +82,7 @@ GtkWidget *sfx_sound_sampler_widget_create(GtkWidget *parent)
     if (machine_class == VICE_MACHINE_VIC20) {
         io_swap = vice_gtk3_resource_check_button_new(
                 "SFXSoundSamplerIOSwap", "Enable MasC=uerade I/O swap");
-        g_object_set(io_swap, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(io_swap, 16);
         gtk_grid_attach(GTK_GRID(grid), io_swap, 0, 1, 1, 1);
 
         g_signal_connect(enable, "toggled", G_CALLBACK(on_enable_toggled), NULL);

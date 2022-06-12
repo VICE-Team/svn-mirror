@@ -363,11 +363,11 @@ static GtkWidget *create_bios_image_widget(void)
     label = gtk_label_new("file name");
     bios_filename_widget = vice_gtk3_resource_entry_full_new("MMC64BIOSfilename");
     gtk_widget_set_hexpand(bios_filename_widget, TRUE);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     bios_browse_widget = gtk_button_new_with_label("Browse ...");
     bios_write_widget = vice_gtk3_resource_check_button_new(
             "MMC64_bios_write", "Enable BIOS image writes");
-    g_object_set(bios_write_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(bios_write_widget, 16);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bios_filename_widget, 1, 1, 1, 1);
@@ -399,7 +399,7 @@ static GtkWidget *create_card_image_widget(void)
 
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
 
     card_filename_entry = vice_gtk3_resource_entry_full_new("MMC64Imagefilename");
@@ -411,7 +411,8 @@ static GtkWidget *create_card_image_widget(void)
 
     card_writes = vice_gtk3_resource_check_button_new("MMC64_RO",
             "Enable SD/MMC card read-only");
-    g_object_set(card_writes, "margin-left", 16, "margin-top", 8, NULL);
+    gtk_widget_set_margin_top(card_writes, 8);
+    gtk_widget_set_margin_start(card_writes, 16);
     gtk_grid_attach(GTK_GRID(grid), card_writes, 0, 2, 3, 1);
 
     g_signal_connect(browse, "clicked", G_CALLBACK(on_card_browse_clicked),
@@ -435,7 +436,7 @@ static GtkWidget *create_card_type_widget(void)
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     label = gtk_label_new("Card type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     radio_group = vice_gtk3_resource_radiogroup_new("MMC64_sd_type",
@@ -463,9 +464,6 @@ static GtkWidget *create_clockport_widget(void)
 
     label = gtk_label_new("ClockPort device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-#if 0
-    g_object_set(label, "margin-left", 16, NULL);
-#endif
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid),
@@ -500,10 +498,8 @@ GtkWidget *mmc64_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), card_widget, 0, 2, 2, 1);
 
     card_type_widget = create_card_type_widget();
-    g_object_set(card_type_widget,
-            "margin-left", 16,
-            "margin-bottom", 16,
-            NULL);
+    gtk_widget_set_margin_start(card_type_widget, 16);
+    gtk_widget_set_margin_bottom(card_type_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), card_type_widget, 0, 3, 2, 1);
 
     jumper_widget = create_mmc64_jumper_widget();

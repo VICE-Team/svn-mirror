@@ -113,7 +113,7 @@ GtkWidget *drive_model_widget_create(int unit)
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "Drive type", 2);
     child = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    g_object_set(child, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_bottom(child, 8);
     /* store unit number as a property in the widget */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
@@ -128,16 +128,19 @@ GtkWidget *drive_model_widget_create(int unit)
         GtkWidget *radio = gtk_radio_button_new_with_label(group, list[i].name);
 
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
-        g_object_set(radio, "margin-left", 16, NULL);
-        g_object_set_data(G_OBJECT(radio), "ModelID",
-                GINT_TO_POINTER(list[i].id));
+        gtk_widget_set_margin_start(radio, 16);
+        g_object_set_data(G_OBJECT(radio),
+                          "ModelID",
+                          GINT_TO_POINTER(list[i].id));
 
         if (list[i].id == type) {
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
         }
 
-        g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
-                GINT_TO_POINTER(list[i].id));
+        g_signal_connect(radio,
+                         "toggled",
+                         G_CALLBACK(on_radio_toggled),
+                         GINT_TO_POINTER(list[i].id));
 
         gtk_grid_attach(GTK_GRID(grid), radio, 0, (gint)(i + 1), 1, 1);
         last = GTK_RADIO_BUTTON(radio);
@@ -149,15 +152,18 @@ GtkWidget *drive_model_widget_create(int unit)
         GtkWidget *radio = gtk_radio_button_new_with_label(group, list[i].name);
 
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
-        g_object_set(radio, "margin-left", 16, NULL);
-        g_object_set_data(G_OBJECT(radio), "ModelID",
-                GINT_TO_POINTER(list[i].id));
+        gtk_widget_set_margin_start(radio, 16);
+        g_object_set_data(G_OBJECT(radio),
+                          "ModelID",
+                          GINT_TO_POINTER(list[i].id));
         if (list[i].id == type) {
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
         }
 
-        g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
-                GINT_TO_POINTER(list[i].id));
+        g_signal_connect(radio,
+                         "toggled",
+                         G_CALLBACK(on_radio_toggled),
+                         GINT_TO_POINTER(list[i].id));
 
         gtk_grid_attach(GTK_GRID(grid), radio, 1, row, 1, 1);
         row++;

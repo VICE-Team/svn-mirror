@@ -248,7 +248,7 @@ static GtkWidget *create_cart_image_widget(void)
 
     write_back = vice_gtk3_resource_check_button_new("MMCRImageWrite",
                 "Save image when changed");
-    g_object_set(write_back, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(write_back, 16);
     gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
 
     save_button = gtk_button_new_with_label("Save image as ...");
@@ -283,7 +283,7 @@ static GtkWidget *create_eeprom_image_widget(void)
 
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
 
     eeprom_entry = vice_gtk3_resource_entry_full_new("MMCREEPROMImage");
     gtk_widget_set_hexpand(eeprom_entry, TRUE);
@@ -299,7 +299,7 @@ static GtkWidget *create_eeprom_image_widget(void)
 
     /* add RW widget */
     readwrite = create_eeprom_rw_widget();
-    g_object_set(readwrite, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(readwrite, 16);
     gtk_grid_attach(GTK_GRID(grid), readwrite, 0, 3, 2, 1);
 
     gtk_widget_show_all(grid);
@@ -324,7 +324,7 @@ static GtkWidget *create_card_image_widget(void)
 
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
 
     entry = vice_gtk3_resource_entry_full_new("MMCRCardImage");
@@ -336,7 +336,8 @@ static GtkWidget *create_card_image_widget(void)
 
     card_writes = vice_gtk3_resource_check_button_new("MMCRCardRW",
             "Enable SD/MMC card writes");
-    g_object_set(card_writes, "margin-left", 16, "margin-top", 8, NULL);
+    gtk_widget_set_margin_top(card_writes, 8);
+    gtk_widget_set_margin_start(card_writes, 16);
     gtk_grid_attach(GTK_GRID(grid), card_writes, 0, 2, 3, 1);
 
     g_signal_connect(browse, "clicked", G_CALLBACK(on_card_browse_clicked),
@@ -362,7 +363,7 @@ static GtkWidget *create_card_type_widget(void)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
     label = gtk_label_new("Card type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     radio_group = vice_gtk3_resource_radiogroup_new("MMCRSDType", card_types,
@@ -392,7 +393,7 @@ GtkWidget *mmcr_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), create_rescue_mode_widget(), 0, 0, 1, 1);
     label = gtk_label_new("ClockPort device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 1, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), create_clockport_widget(), 2, 0, 1, 1);

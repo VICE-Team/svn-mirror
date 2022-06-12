@@ -219,7 +219,7 @@ static void on_common_config_changed(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-static GtkWidget * vic20_common_config_widget_create(void)
+static GtkWidget *vic20_common_config_widget_create(void)
 {
     GtkWidget *grid;
     int i;
@@ -229,13 +229,17 @@ static GtkWidget * vic20_common_config_widget_create(void)
             "Common configurations",
             1);
     configs_combo = gtk_combo_box_text_new();
-    g_object_set(configs_combo, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(configs_combo, 16);
+
     for (i = 0; common_configs[i].text != NULL; i++) {
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(configs_combo),
-               NULL, common_configs[i].text);
+                                  NULL, common_configs[i].text);
     }
-    g_signal_connect(configs_combo, "changed",
-            G_CALLBACK(on_common_config_changed), NULL);
+
+    g_signal_connect(configs_combo,
+                     "changed",
+                     G_CALLBACK(on_common_config_changed),
+                     NULL);
 
     gtk_grid_attach(GTK_GRID(grid), configs_combo, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
@@ -247,7 +251,7 @@ static GtkWidget * vic20_common_config_widget_create(void)
  *
  * \return  GtkGrid
  */
-static GtkWidget * vic20_ram_blocks_widget_create(void)
+static GtkWidget *vic20_ram_blocks_widget_create(void)
 {
     GtkWidget *grid;
     int i;
@@ -263,7 +267,7 @@ static GtkWidget * vic20_ram_blocks_widget_create(void)
         int active;
 
         resources_get_int_sprintf("RamBlock%d", &active, ram_blocks[i].id);
-        g_object_set(check, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(check, 16);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), active);
         g_signal_connect(check, "toggled", G_CALLBACK(on_ram_block_toggled),
                 GINT_TO_POINTER(ram_blocks[i].id));
@@ -294,11 +298,11 @@ GtkWidget *vic20_memory_expansion_widget_create(void)
             1);
 
     common = vic20_common_config_widget_create();
-    g_object_set(common, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(common, 16);
     gtk_grid_attach(GTK_GRID(grid), common, 0, 1, 1, 1);
 
     blocks_widget = vic20_ram_blocks_widget_create();
-    g_object_set(blocks_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(blocks_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), blocks_widget, 0, 2, 1, 1);
 
     /* set proper 'common configs' combobox index */
@@ -308,4 +312,3 @@ GtkWidget *vic20_memory_expansion_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-

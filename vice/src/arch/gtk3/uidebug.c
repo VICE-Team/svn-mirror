@@ -98,12 +98,10 @@ static GtkWidget *create_trace_widget(void)
             1);
     group = vice_gtk3_resource_radiogroup_new("TraceMode", trace_modes,
             GTK_ORIENTATION_VERTICAL);
-    g_object_set(group,
-            "margin-left", 16,
-            "margin-right", 16,
-            "margin-top", 16,
-            "margin-bottom", 16,
-            NULL);
+    gtk_widget_set_margin_top(group, 16);
+    gtk_widget_set_margin_start(group, 16);
+    gtk_widget_set_margin_end(group, 16);
+    gtk_widget_set_margin_bottom(group, 16);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -126,12 +124,10 @@ static GtkWidget *create_trace_mode_dialog(void)
             NULL);
 
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-    g_object_set(content,
-            "margin-left", 16,
-            "margin-right", 16,
-            "margin-top", 16,
-            "margin-bottom", 16,
-            NULL);
+    gtk_widget_set_margin_top(content, 16);
+    gtk_widget_set_margin_start(content, 16);
+    gtk_widget_set_margin_end(content, 16);
+    gtk_widget_set_margin_bottom(content, 16);
 
     gtk_container_add(GTK_CONTAINER(content), create_trace_widget());
 

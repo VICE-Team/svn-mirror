@@ -95,7 +95,7 @@ static GtkWidget *create_port_number_widget(void)
 
     /* create spin button */
     spin = vice_gtk3_resource_spin_int_new("LTKport", 0, 15, 1);
-    g_object_set(G_OBJECT(spin), "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(spin, 16);
     gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);
 
     return grid;
@@ -118,7 +118,7 @@ static GtkWidget *create_io_address_widget(void)
     group = vice_gtk3_resource_radiogroup_new("LTKio",
                                               io_entries,
                                               GTK_ORIENTATION_HORIZONTAL);
-    g_object_set(G_OBJECT(group), "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(group, 16);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     return grid;
 }
@@ -216,7 +216,7 @@ static GtkWidget *create_serial_number_widget(void)
     /* create text entry box */
     entry = gtk_entry_new();
     gtk_entry_set_max_length(GTK_ENTRY(entry), 8);
-    g_object_set(G_OBJECT(entry), "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(entry, 16);
     resources_get_string("LTKserial", &value);
     gtk_entry_set_text(GTK_ENTRY(entry), value);
     gtk_grid_attach(GTK_GRID(grid), entry, 0, 1, 1, 1);
@@ -273,7 +273,7 @@ static GtkWidget *create_hd_images_widget(void)
                 title,
                 label,
                 NULL);
-        g_object_set(G_OBJECT(browser), "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(browser, 16);
         gtk_grid_attach(GTK_GRID(grid), browser, 0, i + 1, 1, 1);
     }
     return grid;

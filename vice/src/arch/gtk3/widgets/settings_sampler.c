@@ -188,7 +188,7 @@ static GtkWidget *create_gain_widget(void)
     int i;
 
     label = gtk_label_new("Sampler gain");
-    g_object_set(label, "margin-left",16, NULL);
+    gtk_widget_set_margin_start(label, 16);
 
     scale = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL,
             0.0, 200.0, 25.0);
@@ -267,7 +267,7 @@ GtkWidget *settings_sampler_widget_create(GtkWidget *parent)
     /* sampler device list */
     label = gtk_label_new("Sampler device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     combo = create_device_widget();
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 1, 2, 1);
@@ -275,14 +275,14 @@ GtkWidget *settings_sampler_widget_create(GtkWidget *parent)
     /* sampler gain */
     label = gtk_label_new("Sampler gain");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_gain_widget(), 1, 2, 2, 1);
 
     /* sampler input file text entry and browse button */
     label = gtk_label_new("Sampler media file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     entry_widget = create_input_entry();
     gtk_widget_set_hexpand(entry_widget, TRUE);

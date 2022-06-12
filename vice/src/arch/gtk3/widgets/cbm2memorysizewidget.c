@@ -81,11 +81,10 @@ GtkWidget *cbm2_memory_size_widget_create(void)
     }
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM size", 1);
-    /* FIXME: either CSS or set margin in the above call */
-    g_object_set(grid, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(grid, 8);
     radio_group = vice_gtk3_resource_radiogroup_new("RamSize", ram_sizes,
             GTK_ORIENTATION_VERTICAL);
-    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_group, 16);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
@@ -119,4 +118,3 @@ void cbm2_memory_size_widget_update(GtkWidget *widget)
         vice_gtk3_resource_radiogroup_sync(group);
     }
 }
-

@@ -1041,7 +1041,7 @@ static GtkWidget *create_c64_glue_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     label = gtk_label_new("Glue logic");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     c64_discrete_radio = gtk_radio_button_new_with_label(group, "Discrete");
@@ -1078,7 +1078,7 @@ static GtkWidget *create_c64_misc_widget(void)
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Miscellaneous", 1);
     iec_widget = create_reset_with_iec_widget();
-    g_object_set(iec_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(iec_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 1, 1, 1);
 
     /*
@@ -1117,7 +1117,7 @@ static GtkWidget *create_c128_misc_widget(void)
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Miscellaneous", 1);
 
     go64_widget = create_go64_widget();
-    g_object_set(go64_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(go64_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), go64_widget, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -1138,7 +1138,7 @@ static GtkWidget *create_c64dtv_revision_widget(void)
     GtkWidget *label;
 
     grid = vice_gtk3_grid_new_spaced(8, 8);
-    g_object_set(G_OBJECT(grid), "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(grid, 8);
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>DTV Revision</b>");
@@ -1147,7 +1147,7 @@ static GtkWidget *create_c64dtv_revision_widget(void)
     group = vice_gtk3_resource_radiogroup_new("DtvRevision",
             c64dtv_revisions, GTK_ORIENTATION_VERTICAL);
     vice_gtk3_resource_radiogroup_add_callback(group, dtv_revision_callback);
-    g_object_set(group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(group, 16);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
@@ -1195,7 +1195,10 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
 
     /* C64 misc. model settings */
     misc_widget = create_c64_misc_widget();
-    g_object_set(misc_widget, "margin", 8, NULL);
+    gtk_widget_set_margin_top(misc_widget, 8);
+    gtk_widget_set_margin_start(misc_widget, 8);
+    gtk_widget_set_margin_end(misc_widget, 8);
+    gtk_widget_set_margin_bottom(misc_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), misc_widget, 2, 1, 1, 1);
 
     return grid;
@@ -1239,7 +1242,7 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     vdc_model_widget_set_revision_callback(vdc_revision_callback);
     vdc_model_widget_set_ram_callback(vdc_ram_callback);
     /* align with other widgets */
-    g_object_set(vdc_widget, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(vdc_widget, 8);
     gtk_grid_attach(GTK_GRID(col2_wrapper), vdc_widget, 0, 1, 1, 1);
 
     /* CIA1 & CIA2 widget */
@@ -1255,7 +1258,10 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
 
     /* Misc widget */
     misc_widget = create_c128_misc_widget();
-    g_object_set(misc_widget, "margin", 8, NULL);
+    gtk_widget_set_margin_top(misc_widget, 8);
+    gtk_widget_set_margin_start(misc_widget, 8);
+    gtk_widget_set_margin_end(misc_widget, 8);
+    gtk_widget_set_margin_bottom(misc_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), misc_widget, 0, 1, 3, 1);
     return grid;
 }
@@ -1287,13 +1293,14 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
     sid_model_widget_set_callback(sid_widget, sid_model_callback);
-    g_object_set(G_OBJECT(sid_widget), "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(sid_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 0, 2, 1, 1);
 
     /* Luma fix widget */
     luma_widget = vice_gtk3_resource_check_button_new("VICIINewLuminances",
             "Enable LumaFix (use new VICII luminances)");
-    g_object_set(G_OBJECT(luma_widget), "margin-left", 8, "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(luma_widget, 16);
+    gtk_widget_set_margin_start(luma_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), luma_widget, 0, 3, 2, 1);
 
     /* Hummer ADC widget */
@@ -1302,11 +1309,8 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
             "Enable Hummer ADC");
     vice_gtk3_resource_check_button_add_callback(c64dtv_hummer_adc_widget,
                                                  c64dtv_hummer_adc_callback);
-    g_object_set(
-            c64dtv_hummer_adc_widget,
-            "margin-left", 8,
-            "margin-top", 8,
-            NULL);
+    gtk_widget_set_margin_top(c64dtv_hummer_adc_widget, 8);
+    gtk_widget_set_margin_start(c64dtv_hummer_adc_widget, 8);
     gtk_grid_attach(GTK_GRID(grid), c64dtv_hummer_adc_widget, 0, 4, 2, 1);
 
     return grid;

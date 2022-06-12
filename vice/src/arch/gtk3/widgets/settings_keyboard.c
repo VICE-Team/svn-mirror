@@ -140,23 +140,23 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
     gtk_grid_attach(GTK_GRID(layout), mapping_widget, 0, 0, 1, 1);
 
     layout_widget = kbdlayout_widget_create();
-    g_object_set(G_OBJECT(layout_widget), "margin-top", 32, NULL);
+    gtk_widget_set_margin_top(layout_widget, 32);
 
     gtk_grid_attach(GTK_GRID(layout), layout_widget, 0, 1, 1, 1);
 
     /* Add button to save current (perhaps altered) keymap */
     custom_button = gtk_button_new_with_label("Save current keymap");
+    gtk_widget_set_margin_top(custom_button, 16);
     g_signal_connect(custom_button, "clicked",
             G_CALLBACK(on_save_custom_keymap_clicked), NULL);
     gtk_grid_attach(GTK_GRID(layout), custom_button, 0, 2, 1, 1);
-    g_object_set(custom_button, "margin-top", 16, NULL);
 
     kbdstatusbar = vice_gtk3_resource_check_button_new("KbdStatusbar",
             "Enable keyboard debugging on statusbar");
+    gtk_widget_set_margin_top(kbdstatusbar, 16);
     gtk_grid_attach(GTK_GRID(layout), kbdstatusbar, 0, 3, 1, 1);
     g_signal_connect(kbdstatusbar, "toggled", G_CALLBACK(on_kbd_debug_toggled),
             NULL);
-    g_object_set(kbdstatusbar, "margin-top", 16, NULL);
     gtk_widget_show_all(layout);
 
     /* update widget so sym/pos is greyed out correctly */

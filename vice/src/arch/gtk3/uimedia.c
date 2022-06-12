@@ -864,7 +864,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
 
     if (!koala && !artstudio && !minipaint) {
         label = gtk_label_new("No parameters required");
-        g_object_set(label, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(label, 16);
         gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
         gtk_widget_show_all(grid);
         return grid;
@@ -872,7 +872,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
 
     /* ${FORMAT}OversizeHandling */
     label = gtk_label_new("Oversize handling");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     oversize_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
             "%sOversizeHandling", oversize_modes, prefix);
@@ -881,7 +881,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
 
     /* ${FORMAT}UndersizeHandling */
     label = gtk_label_new("Undersize handling");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     undersize_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
             "%sUndersizeHandling", undersize_modes, prefix);
@@ -895,7 +895,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     /* OCPMultiColorHandling */
     if (artstudio) {
         label = gtk_label_new("Multi color handling");
-        g_object_set(label, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(label, 16);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
         multicolor_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
                 "%sMultiColorHandling", multicolor_modes, prefix);
@@ -907,7 +907,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     /* ${FORMAT}TEDLumaHandling */
     if (machine_class == VICE_MACHINE_PLUS4) {
         label = gtk_label_new("TED luma handling");
-        g_object_set(label, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(label, 16);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
         ted_luma_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
                 "%sTEDLumHandling", ted_luma_modes, prefix);
@@ -944,10 +944,11 @@ static GtkWidget *create_screenshot_widget(void)
 
     /* grid without extra row spacing */
     drv_grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "Driver", 1);
-    g_object_set(drv_grid, "margin-top", 8, "margin-left", 16, NULL);
+    gtk_widget_set_margin_top(drv_grid, 8);
+    gtk_widget_set_margin_start(drv_grid, 16);
     /* add some padding to the label */
     label = gtk_grid_get_child_at(GTK_GRID(drv_grid), 0, 0);
-    g_object_set(label, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_bottom(label, 8);
 
     /* add drivers */
     grid_index = 1;
@@ -958,7 +959,7 @@ static GtkWidget *create_screenshot_widget(void)
 
         if (!driver_is_video(name)) {
             radio = gtk_radio_button_new_with_label(group, display);
-            g_object_set(radio, "margin-left", 8, NULL);
+            gtk_widget_set_margin_start(radio, 8);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
                     GTK_RADIO_BUTTON(last));
             gtk_grid_attach(GTK_GRID(drv_grid), radio, 0, grid_index, 1, 1);
@@ -999,8 +1000,8 @@ static GtkWidget *create_screenshot_widget(void)
      * Koala or Artstudio) */
     screenshot_options_grid = vice_gtk3_grid_new_spaced_with_label(
             -1, -1, "Driver options", 1);
-    g_object_set(screenshot_options_grid,
-                 "margin-top", 8, "margin-left", 16, NULL);
+    gtk_widget_set_margin_top(screenshot_options_grid, 8);
+    gtk_widget_set_margin_start(screenshot_options_grid, 16);
     gtk_grid_attach(GTK_GRID(grid), drv_grid, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), screenshot_options_grid, 1, 0, 1, 1);
 
@@ -1030,18 +1031,19 @@ static GtkWidget *create_sound_widget(void)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     drv_grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "Driver", 1);
+    gtk_widget_set_margin_start(drv_grid, 16);
+    gtk_widget_set_margin_top(drv_grid, 8);
     label = gtk_grid_get_child_at(GTK_GRID(drv_grid), 0, 0);
-    g_object_set(label, "margin-bottom", 8, NULL);
-    g_object_set(drv_grid, "margin-top", 8, "margin-left", 16, NULL);
+    gtk_widget_set_margin_bottom(label, 8);
 
     last = NULL;
     for (index = 0; audio_driver_list[index].name != NULL; index++) {
         const char *display = audio_driver_list[index].display;
 
         radio = gtk_radio_button_new_with_label(group, display);
-        g_object_set(radio, "margin-left", 8, NULL);
+        gtk_widget_set_margin_start(radio, 8);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
-                GTK_RADIO_BUTTON(last));
+                                    GTK_RADIO_BUTTON(last));
         gtk_grid_attach(GTK_GRID(drv_grid), radio, 0, index + 1, 1, 1);
 
         /*
@@ -1092,7 +1094,7 @@ static GtkWidget *create_video_widget(void)
 
 #ifdef HAVE_FFMPEG
     label = gtk_label_new("Video driver");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
 
     combo = gtk_combo_box_text_new();
     for (index = 0; video_driver_list[index].name != NULL; index++) {
@@ -1116,9 +1118,10 @@ static GtkWidget *create_video_widget(void)
     gtk_widget_set_hexpand(combo, TRUE);
     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 
-    selection_grid = vice_gtk3_grid_new_spaced_with_label
-        (-1, -1, "Driver selection", 2);
-    g_object_set(selection_grid, "margin-top", 8, "margin-left", 16, NULL);
+    selection_grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "Driver selection", 2);
+    gtk_widget_set_margin_top(selection_grid, 8);
+    gtk_widget_set_margin_start(selection_grid, 16);
     gtk_grid_set_column_spacing(GTK_GRID(selection_grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(selection_grid), 8);
     gtk_grid_attach(GTK_GRID(selection_grid), label, 0, 1, 1, 1);
@@ -1130,7 +1133,8 @@ static GtkWidget *create_video_widget(void)
     /* grid around ffmpeg */
     options_grid = vice_gtk3_grid_new_spaced_with_label(
             -1, -1, "Driver options", 1);
-    g_object_set(options_grid, "margin-top", 8, "margin-left", 16, NULL);
+    gtk_widget_set_margin_top(options_grid, 8);
+    gtk_widget_set_margin_start(options_grid, 16);
     gtk_grid_set_column_spacing(GTK_GRID(options_grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(options_grid), 8);
 
@@ -1141,10 +1145,10 @@ static GtkWidget *create_video_widget(void)
 #else
     label = gtk_label_new(NULL);
     gtk_label_set_line_wrap_mode(GTK_LABEL(label), PANGO_WRAP_WORD);
-    g_object_set(G_OBJECT(label),
-            "margin-left", 16,
-            "margin-right", 16,
-            "margin-top", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_end(label, 16);
+    gtk_widget_set_margin_top(label, 16);
+    gtk_widget_set_margin_bottom(label, 16);
     gtk_label_set_markup(GTK_LABEL(label),
             "Video recording is unavailable due to VICE having being compiled"
             " without FFMPEG support.\nPlease recompile with either"

@@ -122,7 +122,7 @@ static GtkWidget *create_userport_emulation_widget(void)
     }
 
     check = gtk_check_button_new_with_label("Enable userport printer emulation");
-    g_object_set(check, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(check, 16);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
                                 device == USERPORT_DEVICE_PRINTER);
     g_signal_connect(check,
@@ -156,21 +156,21 @@ static GtkWidget *create_driver_widget(void)
 
     /* ASCII */
     radio_ascii = gtk_radio_button_new_with_label(group, "ASCII");
-    g_object_set(radio_ascii, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_ascii, 16);
     gtk_grid_attach(GTK_GRID(grid), radio_ascii, 0, 1, 1, 1);
 
     /* NL10 */
     radio_nl10 = gtk_radio_button_new_with_label(group, "NL10");
     gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_nl10),
             GTK_RADIO_BUTTON(radio_ascii));
-    g_object_set(radio_nl10, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_nl10, 16);
     gtk_grid_attach(GTK_GRID(grid), radio_nl10, 0, 3, 1, 1);
 
     /* RAW */
     radio_raw = gtk_radio_button_new_with_label(group, "RAW");
     gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_raw),
             GTK_RADIO_BUTTON(radio_nl10));
-    g_object_set(radio_raw, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_raw, 16);
     gtk_grid_attach(GTK_GRID(grid), radio_raw, 0, 4, 1, 1);
 
     /* set current driver from resource */
@@ -204,11 +204,11 @@ static GtkWidget *create_output_mode_widget(void)
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Output mode", 1);
 
     radio_text = gtk_radio_button_new_with_label(group, "Text");
-    g_object_set(radio_text, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_text, 16);
     gtk_grid_attach(GTK_GRID(grid), radio_text, 0, 1, 1, 1);
 
     radio_gfx = gtk_radio_button_new_with_label(group, "Graphics");
-    g_object_set(radio_gfx, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_gfx, 16);
     gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_gfx),
             GTK_RADIO_BUTTON(radio_text));
     gtk_grid_attach(GTK_GRID(grid), radio_gfx, 0, 2, 1, 1);
@@ -238,7 +238,7 @@ static GtkWidget *create_text_device_widget(void)
             "PrinterUserPortTextDevice",
             text_devices,
             GTK_ORIENTATION_VERTICAL);
-    g_object_set(group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(group, 16);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

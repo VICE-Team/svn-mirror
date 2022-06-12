@@ -327,10 +327,10 @@ static GtkWidget *create_content_widget(void)
 
     /* setup grid with all buttons the same size */
     grid = vice_gtk3_grid_new_spaced(16, 16);
-    g_object_set(G_OBJECT(grid),
-            "margin-left", 16, "margin-right", 16,
-            "margin-top", 16, "margin-bottom", 16,
-            NULL);
+    gtk_widget_set_margin_top(grid, 16);
+    gtk_widget_set_margin_start(grid, 16);
+    gtk_widget_set_margin_end(grid, 16);
+    gtk_widget_set_margin_bottom(grid, 16);
     gtk_grid_set_column_homogeneous(GTK_GRID(grid), TRUE);
     gtk_grid_set_row_homogeneous(GTK_GRID(grid), TRUE);
 

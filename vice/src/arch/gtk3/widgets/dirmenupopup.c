@@ -146,7 +146,8 @@ static void dir_item_apply_style(GtkWidget *item)
 {
     GtkWidget *label;
 
-    g_object_set(item, "margin-top", 0, "margin-bottom", 0, NULL);
+    gtk_widget_set_margin_top(item, 0);
+    gtk_widget_set_margin_bottom(item, 0);
     label = gtk_bin_get_child(GTK_BIN(item));
     vice_gtk3_css_provider_add(label, menulabel_css_provider);
     vice_gtk3_css_provider_add(item, menuitem_css_provider);

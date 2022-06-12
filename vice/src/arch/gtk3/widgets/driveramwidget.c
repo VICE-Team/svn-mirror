@@ -129,7 +129,7 @@ GtkWidget *drive_ram_widget_create(int unit)
     /* create grid with header */
     grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "RAM expansions", 1);
     label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    g_object_set(label, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_bottom(label, 8);
     /* store unit number (is this actually used?) */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 

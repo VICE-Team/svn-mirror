@@ -101,7 +101,7 @@ GtkWidget *kbdlayout_widget_create(void)
      * free this */
     lib_free(kbd_layouts);
 
-    g_object_set(combo, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(combo, 16);
     gtk_widget_set_hexpand(combo, TRUE);
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
     g_signal_connect(combo, "changed", G_CALLBACK(on_changed), NULL);

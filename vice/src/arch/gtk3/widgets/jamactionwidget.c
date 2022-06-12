@@ -70,7 +70,7 @@ GtkWidget *jam_action_widget_create(GtkWidget *parent)
 
     selection = vice_gtk3_resource_radiogroup_new("JAMAction", actions,
             GTK_ORIENTATION_VERTICAL);
-    g_object_set(selection, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(selection, 16);
     gtk_grid_attach(GTK_GRID(grid), selection, 0, 1, 1,1);
 
     gtk_widget_show_all(grid);

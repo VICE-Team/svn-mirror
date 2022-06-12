@@ -73,8 +73,7 @@ GtkWidget *plus4_memory_expansion_widget_create(void)
             expansions,
             GTK_ORIENTATION_VERTICAL);
     gtk_grid_attach(GTK_GRID(grid), memory_exp_widget, 0, 1, 1, 1);
-    g_object_set(memory_exp_widget, "margin-left", 16, NULL);
-
+    gtk_widget_set_margin_start(memory_exp_widget, 16);
     gtk_widget_show_all(grid);
     return grid;
 }

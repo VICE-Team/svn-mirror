@@ -67,7 +67,7 @@ static GtkWidget *create_dos_check_button(int unit,
 
     check = vice_gtk3_resource_check_button_new_sprintf(
             "Drive%d%s", label, unit, dos);
-    g_object_set(check, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(check, 16);
     return check;
 }
 
