@@ -1151,9 +1151,8 @@ static GtkWidget *create_video_widget(void)
     gtk_widget_set_margin_bottom(label, 16);
     gtk_label_set_markup(GTK_LABEL(label),
             "Video recording is unavailable due to VICE having being compiled"
-            " without FFMPEG support.\nPlease recompile with either"
-            " <tt>--enable-static-ffmpeg</tt> or"
-            " <tt>--enable-external-ffmpeg</tt>.\n\n"
+            " without FFMPEG support.\nPlease recompile with"
+            " <tt>--enable-ffmpeg</tt>.\n\n"
             "If you didn't compile VICE yourself, ask your provider.");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
