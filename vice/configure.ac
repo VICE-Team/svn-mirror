@@ -3741,15 +3741,23 @@ echo "Architecture       : $show_arch"
 echo "GUI                : $show_gui"
 echo "Multithreaded UI   : $show_multithreaded"
 echo "OpenMP             : $have_openmp"
-echo ""
+if test x"$program_prefix" = "xNONE"; then
+    echo "Program prefix     : (none) (--program-prefix)"
+else
+    echo "Program prefix     : $program_prefix (--program-prefix)"
+fi
+if test x"$program_suffix" = "xNONE"; then
+    echo "Program suffix     : (none) (--program-suffix)"
+else
+    echo "Program suffix     : $program_suffix (--program-suffix)"
+fi
 
+echo ""
 echo "SCREEN/UI"
 echo "---------"
-
 if test x"$real_arch" != "xBeOS"; then
     echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
 fi
-
 
 echo ""
 echo "SOUND"
@@ -3757,7 +3765,6 @@ echo "-----"
 echo "FastSID support              : $HAVE_FASTSID_SUPPORT (--with/without-fastsid)"
 echo "ReSID support                : $HAVE_RESID_SUPPORT (--with/without-resid)"
 echo "New 8580 filter support      : $USE_NEW_8580_FILTER (--enable/disable-new8580filter)"
-
 echo "PortAudio sound input support: $USE_PORTAUDIO_SUPPORT (--enable/disable-portaudio)"
 
 if test x"$real_arch" = "xUnix"; then
