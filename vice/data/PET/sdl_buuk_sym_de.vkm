@@ -162,85 +162,9 @@
 #!LCTRL 0 0
 #!VCTRL LCTRL
 
-# dead keys
-94 1 5 8        /*            ^ -> Up Arrow     */
-180 1 2 1       /*            ´ -> shift+7      */
-
-301 6 0 64      /*    caps lock -> shift lock   */
 304 6 0 2       /*   Left Shift -> Left Shift   */
 303 6 6 4       /*  Right Shift -> Right Shift  */
-
-27 2 0 8        /*          ESC -> ESC          */
-305 7 6 8       /*   Right Ctrl -> RPT          */
-9 4 0 8         /*          TAB -> TAB          */
-306 8 0 8       /*    Left Ctrl -> RVS          */
-277 9 4 8       /*          Ins -> STOP         */
-
-32 8 2 8        /*        Space -> Space        */
-13 3 4 8        /*       Return -> Return       */
-8 4 7 8         /*    Backspace -> Del          */
-
-273 5 4 1       /*           Up -> CRSR UP      */
-276 0 5 1       /*         Left -> CRSR LEFT    */
-275 0 5 8       /*        Right -> CRSR RIGHT   */
-274 5 4 8       /*         Down -> CRSR DOWN    */
-
-278 8 4 8       /*         Home -> CLR/HOME     */
-
-46 6 3 32       /*            . -> .            */
-46 9 5 144      /* shift+.    : -> :            */
-44 7 3 32       /*            , -> ,            */
-44 2 6 144      /* shift+,    ; -> ;            */
-
-45 0 3 32       /*            - -> -            */
-45 9 0 144      /* shift+-    _ -> left arrow   */
-
-60 7 3 33       /*            < -> <  shift+,   */
-60 6 3 128      /* shift+<    > -> >  shift+.   */
-
-35 9 1 33       /*            # -> #  shift+3   */
-35 1 2 128      /* shift+#    ' -> '  shift+7   */
-
-43 2 6 33       /*            + -> +  shift+;   */
-43 9 5 128      /* shift++    * -> *  shift+:   */
-
-223 8 6 33      /* shift+ß    ? -> ?  shift+/   */
-223 4 4 520     /* altgr+ß    \ -> \            */
-
-263 1 4 8       /*     Numpad 7 -> Numpad 7     */
-264 0 4 8       /*     Numpad 8 -> Numpad 8     */
-265 1 7 8       /*     Numpad 9 -> Numpad 9     */
-260 5 7 8       /*     Numpad 4 -> Numpad 4     */
-261 2 7 8       /*     Numpad 5 -> Numpad 5     */
-262 3 7 8       /*     Numpad 6 -> Numpad 6     */
-257 8 7 8       /*     Numpad 1 -> Numpad 1     */
-258 7 7 8       /*     Numpad 2 -> Numpad 2     */
-259 6 7 8       /*     Numpad 3 -> Numpad 3     */
-256 7 4 8       /*     Numpad 0 -> Numpad 0     */
-266 6 4 8       /*     Numpad . -> Numpad .     */
-271 3 4 8       /* Numpad Enter -> Return       */
-
-267 8 6 0       /*     Numpad / -> /            */
-268 9 5 1       /*     Numpad * -> *  shift+:   */
-269 0 3 0       /*     Numpad - -> -            */
-270 2 6 1       /*     Numpad + -> +  shift+;   */
-
-49 1 0 8        /*            1 -> 1            */
-50 0 0 8        /*            2 -> 2            */
-51 9 1 8        /*            3 -> 3            */
-52 1 1 8        /*            4 -> 4            */
-53 0 1 8        /*            5 -> 5            */
-54 9 2 8        /*            6 -> 6            */
-55 1 2 32       /*            7 -> 7            */
-56 0 2 40       /*            8 -> 8            */
-57 9 3 40       /*            9 -> 9            */
-48 1 3 32       /*            0 -> 0            */
-
-55 8 6 144      /* shift+7    / -> /            */
-48 0 3 128      /* shift+0    = -> =   shift+-  */
-
-56 5 6 520      /* altgr+8    [ -> [            */
-57 2 4 520      /* altgr+9    ] -> ]            */
+301 6 0 64      /*    caps lock -> shift lock   */
 
 97 3 0 8        /*            A -> A            */
 98 6 2 8        /*            B -> B            */
@@ -269,4 +193,102 @@
 121 4 3 8       /*            Y -> Y            */
 122 7 0 8       /*            Z -> Z            */
 
+32 8 2 8        /*        Space -> Space        */
+13 3 4 8        /*       Return -> Return       */
+
+27 9 4 8        /*          ESC -> Run/Stop     */
+
+282 2 0 8       /*           F1 -> ESC          */
+283 8 0 8       /*           F2 -> RVS OFF      */
+
+# 1st row
+49 1 0 8        /*            1 -> 1            */
+50 0 0 8        /*            2 -> 2            */
+51 9 1 8        /*            3 -> 3            */
+52 1 1 8        /*            4 -> 4            */
+53 0 1 8        /*            5 -> 5            */
+54 9 2 8        /*            6 -> 6            */
+55 1 2 32       /*            7 -> 7            */
+56 0 2 40       /*            8 -> 8            */
+57 9 3 40       /*            9 -> 9            */
+48 1 3 32       /*            0 -> 0            */
+
+223 9 0 0x020   /*            ß -> Arrow left   */
+223 8 6 0x0a1   /* shift+ß    ? -> ?  shift+/   */
+223 4 4 0x208   /* altgr+ß    \ -> \            */
+
+55 8 6 144      /* shift+7    / -> /            */
+48 0 3 128      /* shift+0    = -> =   shift+-  */
+
+56 5 6 520      /* altgr+8    [ -> [            */
+57 2 4 520      /* altgr+9    ] -> ]            */
+
+# dead keys
+94 1 5 8        /*            ^ -> Up Arrow     */
+180 1 2 1       /*            ´ -> shift+7      */
+
+8 4 7 8         /*    Backspace -> Del          */
+
+# 2nd row
+9 4 0 8         /*          TAB -> TAB          */
+
 113 3 6 520     /* altgr+q    @ -> @            */
+
+252 3 6 8       /*            Ü -> @            */
+
+43 2 6 0x21     /*            + -> +  shift+;   */
+43 9 5 0xa1     /* shift++    * -> *  shift+:   */
+43 9 0 0x208    /* altgr++    ~ -> arrow left   */
+
+# 3rd row
+246 5 6 8       /*            ö -> [            */
+228 2 4 8       /*            ä -> ]            */
+
+35 9 1 33       /*            # -> #  shift+3   */
+35 1 2 128      /* shift+#    ' -> '  shift+7   */
+
+# 4th row
+60 7 3 33       /*            < -> <  shift+,   */
+60 6 3 128      /* shift+<    > -> >  shift+.   */
+
+46 6 3 32       /*            . -> .            */
+46 9 5 144      /* shift+.    : -> :            */
+44 7 3 32       /*            , -> ,            */
+44 2 6 144      /* shift+,    ; -> ;            */
+
+45 0 3 32       /*            - -> -            */
+45 9 0 144      /* shift+-    _ -> left arrow   */
+
+#305 7 6 8       /*   Right Ctrl -> RPT          */
+#306 8 0 8       /*    Left Ctrl -> RVS          */
+
+278 8 4 8       /*         Home -> CLR/HOME     */
+277 4 7 1       /*          Ins -> Insert       */
+127 4 7 8       /*          Del -> Delete       */
+279 9 0 8       /*          End -> Arrow Left   */
+280 8 0 8       /*      Page Up -> Reverse Off  */
+281 7 6 8       /*    Page Down -> RPT          */
+
+273 5 4 1       /*           Up -> CRSR UP      */
+276 0 5 1       /*         Left -> CRSR LEFT    */
+275 0 5 8       /*        Right -> CRSR RIGHT   */
+274 5 4 8       /*         Down -> CRSR DOWN    */
+
+263 1 4 8       /*     Numpad 7 -> Numpad 7     */
+264 0 4 8       /*     Numpad 8 -> Numpad 8     */
+265 1 7 8       /*     Numpad 9 -> Numpad 9     */
+260 5 7 8       /*     Numpad 4 -> Numpad 4     */
+261 2 7 8       /*     Numpad 5 -> Numpad 5     */
+262 3 7 8       /*     Numpad 6 -> Numpad 6     */
+257 8 7 8       /*     Numpad 1 -> Numpad 1     */
+258 7 7 8       /*     Numpad 2 -> Numpad 2     */
+259 6 7 8       /*     Numpad 3 -> Numpad 3     */
+256 7 4 8       /*     Numpad 0 -> Numpad 0     */
+266 6 4 8       /*     Numpad . -> Numpad .     */
+271 3 4 8       /* Numpad Enter -> Return       */
+
+267 8 6 0       /*     Numpad / -> /            */
+268 9 5 1       /*     Numpad * -> *  shift+:   */
+269 0 3 0       /*     Numpad - -> -            */
+270 2 6 1       /*     Numpad + -> +  shift+;   */
+

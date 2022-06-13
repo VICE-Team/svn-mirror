@@ -50,3 +50,51 @@ C128 positional (DE):
 
 http://www.keyboard-layout-editor.com/#/gists/d9e3cc72b27d674e94e50067c5cf367b
 
+
+PET:
+----
+
+PET chiclet layout:
+http://www.keyboard-layout-editor.com/#/gists/93cec823046d9d6a7712c30030c10cfb
+
+PET graphical layout:
+http://www.keyboard-layout-editor.com/#/gists/b19cd42ac09ed310e335eacbbcfcab7b
+
+
+PET symbolic (US):
+
+http://www.keyboard-layout-editor.com/#/gists/d1a6d04d198c0c22d58c093373cbe139
+
+PET symbolic (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/ad20b3fdd6fb2acdcc10385387163d31
+
+PET positional (US):
+
+http://www.keyboard-layout-editor.com/#/gists/e2d595841f67f7a6c7e2b03c3d7fc16f
+
+PET positional (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/d454a5f2e2049cb78e978079697b54d7
+
+
+PET business-uk layout:
+
+http://www.keyboard-layout-editor.com/#/gists/0eabca73814428202f201a78014a46f6
+
+
+PET symbolic (US):
+
+http://www.keyboard-layout-editor.com/#/gists/8ce2df35c879612dd37f3f3812c09e6e
+
+PET symbolic (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/c25719c89a7941958a4c101ddd5e13e3
+
+PET positional (US):
+
+http://www.keyboard-layout-editor.com/#/gists/ec37b6fc4cbda159fba1e80573023878
+
+PET positional (DE):
+
+http://www.keyboard-layout-editor.com/#/gists/0ef82f590c48dacfde441ffae18b0976

@@ -157,6 +157,14 @@
 #!LCTRL 0 0
 #!VCTRL LCTRL
 
+Shift_L     6 0 2
+Shift_R     6 6 4
+Control_L   9 4 8
+
+# shift lock
+# key is (left) shift-lock
+Caps_Lock   6 0 64
+
 0 1 3 0
 1 1 0 0
 2 0 0 0
@@ -168,50 +176,6 @@
 8 0 2 0
 9 9 3 0
 
-Control_L 9 4 8
-Home 8 4 8
-Right 0 5 8
-Down 5 4 8
-Delete 4 7 0
-BackSpace 4 7 8
-Shift_L 6 0 2
-Shift_R 6 6 4
-Return 3 4 8
-Escape 2 0 8
-# RVS
-Page_Down 8 0 8
-# RPT
-Control_R 7 6 8
-Tab 4 0 8
-ISO_Left_Tab 4 0 1
-KP_0 7 4 8
-KP_1 8 7 8
-KP_2 7 7 8
-KP_3 6 7 8
-KP_4 5 7 8
-KP_5 2 7 8
-KP_6 3 7 8
-KP_7 1 4 8
-KP_8 0 4 8
-KP_9 1 7 8
-KP_Separator 7 3 0
-KP_Multiply 9 5 1
-KP_Divide 8 6 0
-KP_Add 2 6 1
-KP_Subtract 0 3 0
-KP_Enter 3 4 8
-KP_Decimal 6 4 0
-period 6 3 0
-minus 0 3 0
-space 8 2 8
-colon 9 5 16
-underscore 9 0 0
-comma 7 3 0
-slash 8 6 0
-backslash 4 4 0
-bar 4 4 1		# shift \ for SuperPET
-semicolon 2 6 0
-at 3 6 0
 a 3 0 0
 b 6 2 0
 c 6 1 0
@@ -238,16 +202,7 @@ w 4 1 0
 x 8 1 0
 y 4 3 0
 z 7 0 0
-asciicircum 1 5 0
-grave 1 2 1		# '
-asciitilde 9 0 16	# arrow left
-bracketleft 5 6 0	# [
-braceleft 5 6 1		# shift [, { for SuperPET
-bracketright 2 4 0	# ]
-braceright 2 4 1	# shift ], } for SuperPET
-Insert 4 7 1
-Left 0 5 1
-Up 5 4 1
+
 A 3 0 1
 B 6 2 1
 C 6 1 1
@@ -274,21 +229,114 @@ W 4 1 1
 X 8 1 1
 Y 4 3 1
 Z 7 0 1
-exclam 1 0 1
-quotedbl 0 0 1
-numbersign 9 1 1
-dollar 1 1 1
-percent 0 1 1
-ampersand 9 2 1
-apostrophe 1 2 1
-parenleft 0 2 1
-parenright 9 3 1
-asterisk 9 5 1
-plus 2 6 1
-less 7 3 1
-equal 0 3 1
-greater 6 3 1
-question 8 6 1
+
+space           8 2 8
+Return          3 4 8
+
+#Escape              2 0 8       # ESC
+Escape          9 4 8       # run/stop
+
+F1              2 0 8   # ESC
+F2              8 0 8   # revers off
+
+# first row
+
+grave           1 2 1   # '
+asciitilde      9 0 16  # arrow left
+
+exclam          1 0 1   # 1 !
+at              3 6 0   # 2 @
+numbersign      9 1 1   # 3 #
+dollar          1 1 1   # 4 $
+percent         0 1 1   # 5 %
+asciicircum     1 5 0   # 6 ^
+ampersand       9 2 1   # 7 &
+asterisk        9 5 1   # 8 *
+parenleft       0 2 1   # 9 (
+parenright      9 3 1   # 0 )
+
+minus           0 3 0   # -
+underscore      3 6 1   # shift+@
+
+equal           0 3 0   # =
+plus            2 6 1   # +
+
+BackSpace       4 7 8
+
+# second row
+Tab             4 0 8
+ISO_Left_Tab    4 0 1
+
+bracketleft     5 6 0   # [
+braceleft       5 6 1   # shift [, { for SuperPET
+
+bracketright    2 4 0   # ]
+braceright      2 4 1   # shift ], } for SuperPET
+
+backslash       4 4 0
+bar             4 4 1   # shift \ for SuperPET
+
+# third row
+
+colon           9 5 16
+semicolon       2 6 0
+
+quotedbl        0 0 1
+apostrophe      1 2 1
+
+# fourth row
+
+comma           7 3 0
+less            7 3 1
+
+period          6 3 0
+greater         6 3 1
+
+slash           8 6 0
+question        8 6 1
+
+# Dead keys support for those using US-International keyboard layout.
+dead_grave       1 2 1   # '
+dead_perispomeni 9 0 16  # arrow left
+dead_tilde       9 0 16  # arrow left
+dead_circumflex  1 5 0   # ^
+dead_diaeresis   0 0 1   # "
+dead_acute       1 2 1
+
+Delete          4 7 0
+Insert          4 7 1
+Home            8 4 8
+#End
+Page_up         8 0 8   # revers off
+Page_Down       7 6 8   # repeat
+
+# cursor keys
+
+Left    0 5 1
+Right   0 5 8
+Up      5 4 1
+Down    5 4 8
+
+# keypad
+
+KP_0            7 4 8
+KP_1            8 7 8
+KP_2            7 7 8
+KP_3            6 7 8
+KP_4            5 7 8
+KP_5            2 7 8
+KP_6            3 7 8
+KP_7            1 4 8
+KP_8            0 4 8
+KP_9            1 7 8
+KP_Separator    7 3 0
+KP_Multiply     9 5 1
+KP_Divide       8 6 0
+KP_Add          2 6 1
+KP_Subtract     0 3 0
+KP_Enter        3 4 8
+KP_Decimal      6 4 0
+
 #
 # Joystick 2
 #
@@ -301,11 +349,3 @@ x -2 1
 c -2 2
 v -2 3
 space -2 0
-
-# Dead keys support for those using US-International keyboard layout.
-dead_grave       1 2 1   # '
-dead_perispomeni 9 0 16  # arrow left
-dead_tilde       9 0 16  # arrow left
-dead_circumflex  1 5 0   # ^
-dead_diaeresis   0 0 1   # "
-dead_acute       1 2 1

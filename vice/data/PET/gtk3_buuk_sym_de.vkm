@@ -79,16 +79,18 @@
 #
 # Changes to US mapping
 #
-ssharp     1 5 0
-udiaeresis 2 4 0
-adiaeresis 5 6 0
-odiaeresis 4 4 0
-Udiaeresis 2 4 1
-Adiaeresis 5 6 1
-Odiaeresis 4 4 1
+ssharp     9 0 0
+udiaeresis 3 6 0
+Udiaeresis 3 6 1
+odiaeresis 5 6 0
+Odiaeresis 5 6 1
+adiaeresis 2 4 0
+Adiaeresis 2 4 1
 
 semicolon   2 6 16
 slash       8 6 16
 colon       9 5 16
-degree      1 5 8
-section     9 1 8
+
+degree      1 5 1   # 6 ^ +shift -> pi
+section     9 1 8   # 3 # +shift
+acute       1 2 1   # '

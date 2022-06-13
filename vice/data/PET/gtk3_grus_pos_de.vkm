@@ -91,29 +91,28 @@ parenright 0 4 8
 # )
 equal 1 4 8
 0 1 4 8
-# <-  TODO
+# <-
+ssharp      0 5 8
+question    0 5 8
 # [
-ssharp      9 1 8
-question    9 1 8
-# ]
-acute       8 2 0
-grave       8 2 0
-dead_acute  8 2 0
-dead_grave  8 2 0
-grave       8 2 0
+acute       9 1 0
+grave       9 1 0
+dead_acute  9 1 0
+dead_grave  9 1 0
+grave       9 1 0
 #
 # RVS/OFF
 Tab         9 0 8
 # a-z stay the same
-# ^
-numbersign  2 5 0
-apostrophe  2 5 8
-# <
-udiaeresis  9 3 8
-Udiaeresis  9 3 8
 # >
-plus        8 4 8
-asterisk    8 4 8
+numbersign  8 4 0
+apostrophe  8 4 8
+# ^
+udiaeresis  2 5 8
+Udiaeresis  2 5 8
+# <
+plus        9 3 8
+asterisk    9 3 8
 #
 y 6 0 0
 Y 6 0 1
@@ -128,4 +127,4 @@ underscore 7 4 8
 odiaeresis 5 4 8
 Odiaeresis 5 4 8
 KP_Separator 9 6 8
-KP_Enter 9 7 0
+
