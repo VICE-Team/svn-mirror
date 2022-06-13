@@ -201,11 +201,15 @@ KP_Home      2 6 1  # 7 + SHIFT
 KP_Up        3 6 1  # 8 + SHIFT
 KP_Page_Up   2 7 1  # 9 + SHIFT
 
-KP_Multiply  5 7 8  #
-KP_Divide    3 7 8  #
+# Note: Num Lock can be mapped, but still the OS will change the meaning of the
+# numblock depending on numblock state, so its not very useful
+Num_Lock     0 6 8  # clr+home
+KP_Multiply  0 7 8  #   crsr left/right
+KP_Divide    1 6 8  #   crsr up/down
+KP_Subtract  1 7 8  #   inst/del
+
 KP_Add       7 7 8  #
-KP_Subtract  8 7 8  #
-KP_Enter     6 5 8  #
+KP_Enter     9 7 8  # KP =
 KP_Decimal   9 6 8  #
 
 grave        8 1 0  # `
@@ -237,8 +241,9 @@ parenright   1 4 1
 underscore   0 5 1  # _
 plus         9 7 1
 
-End          9 3 8  # <
-Page_Down    8 4 8  # >
+End          8 7 8  # -
+Page_Up      3 7 8  # /
+Page_Down    5 7 8  # *
 
 backslash    8 4 0  # >
 bar          2 5 1  # pi
@@ -262,8 +267,8 @@ space        9 2 8
 
 comma        7 3 0
 period       6 4 0
-less         7 3 1
-greater      6 4 1
+#less         7 3 1
+#greater      6 4 1
 
 Up           1 6 1
 Left         0 7 1
