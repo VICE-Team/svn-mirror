@@ -195,7 +195,7 @@ void ui_about_dialog_show(void)
 
     /* Describe the program */
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about),
-                                  "Emulates 8-bit Commodore computers.");
+                                  "Emulates an 8-bit Commodore computer.");
     /* set license */
     gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(about), GTK_LICENSE_GPL_2_0);
     /* set website link and title */
