@@ -987,6 +987,10 @@ int sound_open(void)
                 snddata.sound_output_channels = channels;
             }
         }
+        if (snddata.buffer) {
+            lib_free(snddata.buffer);
+            snddata.buffer = NULL;
+        }
         snddata.buffer = lib_malloc(snddata.bufsize * snddata.sound_output_channels * sizeof(int16_t));
         snddata.issuspended = 0;
 
