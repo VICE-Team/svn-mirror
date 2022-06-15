@@ -43,6 +43,7 @@ libbasewidgets_a_SOURCES = \
 	filechooserhelpers.c \
 	lastdir.c \
 	openfiledialog.c \
+	popupmenu.c \
 	resourcebrowser.c \
 	resourcecheckbutton.c \
 	resourcecombobox.c \
@@ -69,6 +70,7 @@ EXTRA_DIST = \
 	filechooserhelpers.h \
 	lastdir.h \
 	openfiledialog.h \
+	popupmenu.h \
 	resourcebrowser.h \
 	resourcecheckbutton.h \
 	resourcecombobox.h \
