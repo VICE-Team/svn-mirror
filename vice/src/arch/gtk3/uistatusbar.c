@@ -723,7 +723,7 @@ static void on_drive_reset_config_clicked(GtkWidget *widget, gpointer data)
        GPOINTER_TO_INT(data) & 15 );
 }
 
-
+#if 0
 /** \brief  Handler for the 'activate' event of popup menus to trigger a UI action
  *
  * \param[in]   item    menu item (unused)
@@ -733,7 +733,7 @@ static void trigger_ui_action(GtkWidget *item, gpointer data)
 {
     ui_action_trigger(GPOINTER_TO_INT(data));
 }
-
+#endif
 
 /** \brief Draw the LED associated with some drive's LED state.
  *
@@ -1040,8 +1040,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     /* XXX: this code is a duplicate of the drive_menu creation code, so we
      *      should probably refactor this a bit
      */
-    gtk_container_add(GTK_CONTAINER(drive_menu),
-                      gtk_separator_menu_item_new());
+    popup_menu_add_separator(drive_menu);
 
     drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
     g_signal_connect(drive_menu_item, "activate",
@@ -1052,6 +1051,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
      * Add drive reset item
      */
     g_snprintf(buffer, sizeof(buffer), "Reset drive #%d", i + DRIVE_UNIT_MIN);
+#if 0
     drive_menu_item = gtk_menu_item_new_with_label(buffer);
     g_signal_connect(drive_menu_item, "activate",
                      G_CALLBACK(trigger_ui_action),
@@ -1059,6 +1059,9 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     /* Set hotkey, if any */
     ui_set_menu_item_accel_label(drive_menu_item, reset_ids[i]);
+#endif
+    drive_menu_item = popup_menu_item_action_new(buffer, reset_ids[i]);
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     /* Add reset to configuration mode for CMD HDs */
     if ((drive_has_buttons(i) & 1) == 1) {
@@ -1086,20 +1089,31 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
 
     /* Add 'add image to fliplist' */
     gtk_container_add(GTK_CONTAINER(drive_menu), gtk_separator_menu_item_new());
+
+#if 0
     drive_menu_item = gtk_menu_item_new_with_label("Add current image to fliplist");
     g_signal_connect(drive_menu_item, "activate",
                      G_CALLBACK(trigger_ui_action),
                      GINT_TO_POINTER(ui_action_id_fliplist_add(i + DRIVE_UNIT_MIN, 0)));
+#endif
+    drive_menu_item = popup_menu_item_action_new(
+            "Add current image to fliplist",
+            ui_action_id_fliplist_add(i + DRIVE_UNIT_MIN, 0));
     gtk_widget_set_sensitive(drive_menu_item,
                              file_system_get_image(i + DRIVE_UNIT_MIN, 0) != NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     /* Add 'clear fliplist' */
+#if 0
     drive_menu_item = gtk_menu_item_new_with_label("Clear fliplist");
     g_signal_connect(drive_menu_item,
                      "activate",
                      G_CALLBACK(trigger_ui_action),
                      GINT_TO_POINTER(ui_action_id_fliplist_clear(i + DRIVE_UNIT_MIN, 0)));
+#endif
+    drive_menu_item = popup_menu_item_action_new(
+            "Clear fliplist",
+            ui_action_id_fliplist_clear(i + DRIVE_UNIT_MIN, 0));
     gtk_widget_set_sensitive(drive_menu_item,
                              fliplist_init_iterate(i + DRIVE_UNIT_MIN) != NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
