@@ -30,5 +30,6 @@
 #define VICE_ACTIONS_DISPLAY_H
 
 void actions_display_register(void);
+void actions_display_setup_ui(void);
 
 #endif
