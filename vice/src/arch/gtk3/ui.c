@@ -2232,13 +2232,13 @@ int ui_init_finalize(void)
     ui_hotkeys_init();
 
     /* Set proper radio buttons, check buttons and menu item labels */
+#ifdef DEBUG
+    actions_debug_setup_ui();
+#endif
     actions_display_setup_ui();
     actions_joystick_setup_ui();
     actions_speed_setup_ui();
 
-
-    /* TODO: More ui setup: fullscreen, fullscreen-decorations, statusbar-show,
-     *       warp, pause, keyset-joy, swap-joy etc */
     return 0;
 }
 
