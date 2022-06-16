@@ -83,18 +83,24 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
 
 - (void)update
 {
+    CANVAS_LOCK();
+    /* Disable rendering until any pending resize is handled */
+    context->render_skip = true;
+    CANVAS_UNLOCK();
+    
     RENDER_LOCK();
-
     [super update];
-
     RENDER_UNLOCK();
 
+    CANVAS_LOCK();
     /* glViewport co-ordinates use the backing layer resolution, which can change on drag between screens */
     NSSize backing_layer_size = [self convertSizeToBacking: CGSizeMake(context->native_view_width, context->native_view_height)];
 
-    CANVAS_LOCK();
     context->gl_backing_layer_width = backing_layer_size.width;
     context->gl_backing_layer_height = backing_layer_size.height;
+    
+    /* Re-enable rendering */
+    context->render_skip = false;
     CANVAS_UNLOCK();
 }
 
