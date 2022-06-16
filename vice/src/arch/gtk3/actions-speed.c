@@ -40,6 +40,7 @@
 #include "basedialogs.h"
 #include "debug_gtk3.h"
 #include "hotkeymap.h"
+#include "machine.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
@@ -277,7 +278,7 @@ static void speed_cpu_custom_action(void)
  */
 static void speed_fps_real_action(void)
 {
-    set_speed_resource(0);
+    set_speed_resource(100);
 }
 
 
@@ -432,4 +433,32 @@ static const ui_action_map_t speed_actions[] = {
 void actions_speed_register(void)
 {
     ui_actions_register(speed_actions);
+}
+
+
+/** \brief  Set the correct radio buttons and set "${EMU} FPS" label
+ */
+void actions_speed_setup_ui(void)
+{
+    GtkWidget *item;
+    char buffer[256];
+
+    /* set '$MACHINE FPS' label */
+    g_snprintf(buffer, sizeof(buffer), "%s FPS", machine_get_name());
+    item = ui_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_REAL,
+                                                 PRIMARY_WINDOW);
+    if (item != NULL) {
+        gtk_menu_item_set_label(GTK_MENU_ITEM(item), buffer);
+    }
+    if (machine_class == VICE_MACHINE_C128) {
+        item = ui_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_REAL,
+                                                     SECONDARY_WINDOW);
+        if (item != NULL) {
+            gtk_menu_item_set_label(GTK_MENU_ITEM(item), buffer);
+        }
+    }
+
+    /* activate correct radio buttons */
+    update_cpu_radio_buttons();
+    update_fps_radio_buttons();
 }

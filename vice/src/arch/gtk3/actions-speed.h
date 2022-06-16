@@ -30,5 +30,6 @@
 #define VICE_ACTIONS_SPEED_H
 
 void actions_speed_register(void);
+void actions_speed_setup_ui(void);
 
 #endif
