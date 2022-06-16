@@ -190,7 +190,6 @@ static void set_speed_resource(int speed)
  */
 static void speed_cpu_200_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(200);
 }
 
@@ -198,7 +197,6 @@ static void speed_cpu_200_action(void)
  */
 static void speed_cpu_100_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(100);
 }
 
@@ -206,7 +204,6 @@ static void speed_cpu_100_action(void)
  */
 static void speed_cpu_50_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(50);
 }
 
@@ -214,7 +211,6 @@ static void speed_cpu_50_action(void)
  */
 static void speed_cpu_20_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(20);
 }
 
@@ -222,7 +218,6 @@ static void speed_cpu_20_action(void)
  */
 static void speed_cpu_10_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(10);
 }
 
@@ -461,4 +456,13 @@ void actions_speed_setup_ui(void)
     /* activate correct radio buttons */
     update_cpu_radio_buttons();
     update_fps_radio_buttons();
+
+    /* pause */
+    ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+                                             (gboolean)ui_pause_active());
+
+    /* warp */
+    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+                                             (gboolean)vsync_get_warp_mode());
+
 }
