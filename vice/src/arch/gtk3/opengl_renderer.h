@@ -55,6 +55,9 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief used to coordinate access to native rendering resources */
     pthread_mutex_t render_lock;
+    
+    /** \brief While true, render jobs will be skipped. Used during resize on macOS. */
+    bool render_skip;
 
     /** \brief A 'pool' of one thread used to render backbuffers */
     render_thread_t render_thread;
