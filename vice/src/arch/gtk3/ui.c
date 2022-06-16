@@ -2225,6 +2225,12 @@ int ui_init_finalize(void)
     hotkey_map_add_actions();
 
     ui_hotkeys_init();
+
+    /* Set proper radio buttons, check buttons and menu item labels */
+    actions_speed_setup_ui();
+
+    /* TODO: More ui setup: fullscreen, fullscreen-decorations, statusbar-show,
+     *       warp, pause, keyset-joy, swap-joy etc */
     return 0;
 }
 
