@@ -87,7 +87,7 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
     /* Disable rendering until any pending resize is handled */
     context->render_skip = true;
     CANVAS_UNLOCK();
-    
+
     RENDER_LOCK();
     [super update];
     RENDER_UNLOCK();
@@ -98,7 +98,7 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
 
     context->gl_backing_layer_width = backing_layer_size.width;
     context->gl_backing_layer_height = backing_layer_size.height;
-    
+
     /* Re-enable rendering */
     context->render_skip = false;
     CANVAS_UNLOCK();
