@@ -179,3 +179,29 @@ void actions_joystick_register(void)
 {
     ui_actions_register(joystick_actions);
 }
+
+
+/** \brief  Set joystick/mouse-related check buttons
+ *
+ * Set check buttons for 'controlport-swapped', mouse-grab' and 'keyset-joystick'.
+ */
+void actions_joystick_setup_ui(void)
+{
+    int enabled;
+
+    /* mouse grab */
+    resources_get_int("Mouse", &enabled);
+    ui_set_check_menu_item_blocked_by_action(ACTION_MOUSE_GRAB_TOGGLE,
+                                             (gboolean)enabled);
+
+    /* swap joysticks */
+    if (ui_action_is_valid(ACTION_SWAP_CONTROLPORT_TOGGLE)) {
+        ui_set_check_menu_item_blocked_by_action(ACTION_SWAP_CONTROLPORT_TOGGLE,
+                                                 (gboolean)controlport_swapped);
+    }
+
+    /* keyset joysticks */
+    resources_get_int("KeySetEnable", &enabled);
+    ui_set_check_menu_item_blocked_by_action(ACTION_KEYSET_JOYSTICK_TOGGLE,
+                                             (gboolean)enabled);
+}

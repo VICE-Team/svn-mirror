@@ -2233,6 +2233,7 @@ int ui_init_finalize(void)
 
     /* Set proper radio buttons, check buttons and menu item labels */
     actions_display_setup_ui();
+    actions_joystick_setup_ui();
     actions_speed_setup_ui();
 
 

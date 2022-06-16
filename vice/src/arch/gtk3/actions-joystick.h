@@ -31,5 +31,6 @@
 
 bool ui_get_controlport_swapped(void);
 void actions_joystick_register(void);
+void actions_joystick_setup_ui(void);
 
 #endif
