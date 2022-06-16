@@ -31,6 +31,7 @@
 
 # ifdef DEBUG
 void actions_debug_register(void);
+void actions_debug_setup_ui(void);
 # endif
 
 #endif
