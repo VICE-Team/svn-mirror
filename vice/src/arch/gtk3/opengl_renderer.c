@@ -675,7 +675,7 @@ static void render(void *job_data, void *pool_data)
 
     CANVAS_LOCK();
     backbuffer = render_queue_dequeue_for_display(context->render_queue);
-    
+
     if (context->render_skip) {
         if (backbuffer) {
             render_queue_return_to_pool(context->render_queue, backbuffer);
@@ -683,7 +683,7 @@ static void render(void *job_data, void *pool_data)
         CANVAS_UNLOCK();
         return;
     }
-    
+
     RENDER_LOCK();
 
     vice_opengl_renderer_make_current(context);
