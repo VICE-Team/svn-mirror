@@ -103,6 +103,7 @@ void     ui_update_fullscreen_decorations(void);
 
 GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
+video_canvas_t *ui_get_canvas_for_window(int index);
 
 /*
  * New pause 'API'

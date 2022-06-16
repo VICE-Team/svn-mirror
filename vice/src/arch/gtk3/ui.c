@@ -1198,6 +1198,21 @@ video_canvas_t *ui_get_active_canvas(void)
 }
 
 
+/** \brief  Get canvas by main window index
+ *
+ * \param[in]   index   window index (`PRIMARY_WINDOW` or `SECONDARY_WINDOW`)
+ *
+ * \return  video canvas or `NULL` on error
+ */
+video_canvas_t *ui_get_canvas_for_window(int index)
+{
+    if (index < PRIMARY_WINDOW || index > SECONDARY_WINDOW) {
+        return NULL;
+    }
+    return ui_resources.canvas[index];
+}
+
+
 /** \brief  Get the active main window's index
  *
  * \return  index of a main emulator window
@@ -2152,12 +2167,7 @@ int ui_init_finalize(void)
             resources_get_int_sprintf("%sShowStatusbar",
                                       &show_statusbar,
                                       canvas->videoconfig->chip_name);
-            debug_gtk3("Setting primary window %sShowStatusbar toggle to %s.",\
-                       canvas->videoconfig->chip_name,
-                       show_statusbar ? "ON" : "OFF");
             ui_statusbar_set_visible_for_window(window, show_statusbar);
-            ui_set_check_menu_item_blocked_by_action_for_window(
-                    ACTION_SHOW_STATUSBAR_TOGGLE, PRIMARY_WINDOW, show_statusbar);
 
             /* if any of the following is INT_MIN it means we don't want to restore
              * window position and size, and thus can use the resize(1,1) trick to
@@ -2180,12 +2190,7 @@ int ui_init_finalize(void)
                 resources_get_int_sprintf("%sShowStatusbar",
                                           &show_statusbar,
                                           canvas->videoconfig->chip_name);
-                debug_gtk3("Setting secondary window %sShowStatusbar toggle to %s.",\
-                           canvas->videoconfig->chip_name,
-                           show_statusbar ? "ON" : "OFF");
                 ui_statusbar_set_visible_for_window(window, show_statusbar);
-                ui_set_check_menu_item_blocked_by_action_for_window(
-                        ACTION_SHOW_STATUSBAR_TOGGLE, SECONDARY_WINDOW, show_statusbar);
 
                 if (!show_statusbar) {
                     resources_get_int_sprintf("Window%dXpos", &xpos, SECONDARY_WINDOW);
@@ -2227,7 +2232,9 @@ int ui_init_finalize(void)
     ui_hotkeys_init();
 
     /* Set proper radio buttons, check buttons and menu item labels */
+    actions_display_setup_ui();
     actions_speed_setup_ui();
+
 
     /* TODO: More ui setup: fullscreen, fullscreen-decorations, statusbar-show,
      *       warp, pause, keyset-joy, swap-joy etc */
