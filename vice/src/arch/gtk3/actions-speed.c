@@ -324,25 +324,21 @@ static void speed_fps_custom_action(void)
     widget = ui_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_CUSTOM,
                                                    ui_get_main_window_index());
     if (widget != NULL) {
+        int curval = 0;
 
-        /* only show the dialog when the radio/check button is toggled ON */
-        if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-            int curval = 0;
-
-            resources_get_int("Speed", &curval);
-            if (curval > 0) {
-                curval = 50;
-            } else {
-                curval = 0 - curval;
-            }
-
-            vice_gtk3_integer_input_box(
-                    fps_custom_callback,
-                    "Set new FPS target",
-                    "Enter a new custom FPS target",
-                    curval,
-                    1, 100000);
+        resources_get_int("Speed", &curval);
+        if (curval > 0) {
+            curval = 50;
+        } else {
+            curval = 0 - curval;
         }
+
+        vice_gtk3_integer_input_box(
+                fps_custom_callback,
+                "Set new FPS target",
+                "Enter a new custom FPS target",
+                curval,
+                1, 100000);
     } else {
         debug_gtk3("Failed to get menu item for action %d (%s).",
                    ACTION_SPEED_FPS_CUSTOM,
