@@ -463,9 +463,13 @@ function generate_executable_target {
 	
 	cat <<-HEREDOC
 
-		set(CMAKE_XCODE_GENERATE_SCHEME ON)
-		add_executable($executable)
-		set(CMAKE_XCODE_GENERATE_SCHEME OFF)
+		if(FIRST_RUN)
+		    set(CMAKE_XCODE_GENERATE_SCHEME ON)
+		    add_executable($executable)
+		    set(CMAKE_XCODE_GENERATE_SCHEME OFF)
+		else()
+		    add_executable($executable)
+		endif()
 
 		target_compile_definitions(
 		    $executable
@@ -620,23 +624,25 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	cat <<-HEREDOC >> CMakeLists.txt
 		set(CMAKE_OSX_SYSROOT "$(xcrun --show-sdk-path)")
 		set(CMAKE_OSX_DEPLOYMENT_TARGET "$(extract_macos_target_sdk_version)" CACHE STRING "Minimum OS X deployment version")
-		set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
-		set(CMAKE_CXX_STANDARD 11)
-
-		project(VICE C CXX OBJC)
-		set(CMAKE_STATIC_LIBRARY_PREFIX "")
-
-		add_subdirectory(src)
 	HEREDOC
+	LANGUAGES="C CXX OBJC"
 else
-	cat <<-HEREDOC >> CMakeLists.txt
-		set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
-		set(CMAKE_CXX_STANDARD 11)
-
-		project(VICE C CXX)
-		set(CMAKE_STATIC_LIBRARY_PREFIX "")
-
-		add_subdirectory(src)
-	HEREDOC
+	LANGUAGES="C CXX"
 fi
+
+cat <<-HEREDOC >> CMakeLists.txt
+	set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
+	set(CMAKE_CXX_STANDARD 11)
+
+	if(NOT FIRST_RUN_COMPLETE)
+	    set(FIRST_RUN true)
+	endif()
+
+	project(VICE $LANGUAGES)
+	set(CMAKE_STATIC_LIBRARY_PREFIX "")
+
+	add_subdirectory(src)
+
+	set(FIRST_RUN_COMPLETE true CACHE INTERNAL "Used to detect first run")
+HEREDOC
 
