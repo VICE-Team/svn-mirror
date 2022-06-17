@@ -342,7 +342,7 @@ static int layout_add_sidcard_port(GtkGrid *layout, int row)
 static int layout_add_swap_button(GtkGrid *layout, int row)
 {
     GtkWidget *button = create_swap_joysticks_button();
-    g_object_set(button, "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(button, 16);
     gtk_grid_attach(GTK_GRID(layout), button, 0, row, 1, 1);
     return row + 1;
 }
@@ -539,15 +539,16 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
 
     /* add buttons to activate keyset dialog */
     keyset_1_button = gtk_button_new_with_label("Configure keyset A");
+    gtk_widget_set_margin_top(keyset_1_button, 16);
     gtk_grid_attach(GTK_GRID(layout), keyset_1_button, 0, row, 1, 1);
     g_signal_connect(keyset_1_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(1));
-    g_object_set(keyset_1_button, "margin-top", 16, NULL);
+
     keyset_2_button = gtk_button_new_with_label("Configure keyset B");
+    gtk_widget_set_margin_top(keyset_2_button, 16);
     gtk_grid_attach(GTK_GRID(layout), keyset_2_button, 1, row, 1, 1);
     g_signal_connect(keyset_2_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(2));
-    g_object_set(keyset_2_button, "margin-top", 16, NULL);
     row++;
 
     gtk_widget_show_all(layout);

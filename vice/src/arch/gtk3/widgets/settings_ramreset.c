@@ -130,7 +130,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM reset pattern", 2);
 
     label = gtk_label_new("Value of first byte");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     start_value_widget = vice_gtk3_resource_spin_int_new(
             "RAMInitStartValue", 0, 255, 1);
@@ -138,7 +138,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), start_value_widget, 1, 1, 1, 1);
 
     label = gtk_label_new("First byte offset");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     value_offset_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitValueOffset", powers_of_two);
@@ -146,7 +146,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), value_offset_widget, 1, 2, 1, 1);
 
     label = gtk_label_new("Invert first byte every");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     value_invert_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitValueInvert", powers_of_two);
@@ -154,7 +154,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), value_invert_widget, 1, 3, 1, 1);
 
     label = gtk_label_new("Value of second byte");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     pattern_invert_value_widget = vice_gtk3_resource_spin_int_new(
             "RAMInitPatternInvertValue", 0, 255, 1);
@@ -162,7 +162,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), pattern_invert_value_widget, 1, 4, 1, 1);
 
     label = gtk_label_new("Invert with second byte every");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     pattern_invert_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitPatternInvert", powers_of_two);
@@ -170,7 +170,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), pattern_invert_widget, 1, 5, 1, 1);
 
     label = gtk_label_new("Length of random pattern");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     start_random_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitStartRandom", powers_of_two);
@@ -178,7 +178,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), start_random_widget, 1, 6, 1, 1);
 
     label = gtk_label_new("Repeat random pattern every");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     repeat_random_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitRepeatRandom", powers_of_two);
@@ -186,7 +186,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), repeat_random_widget, 1, 7, 1, 1);
 
     label = gtk_label_new("Global random chance");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     chance_random_widget = vice_gtk3_resource_spin_int_new(
             "RAMInitRandomChance", 0, 0xfff, 1);
@@ -194,7 +194,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), chance_random_widget, 1, 8, 1, 1);
 
     label = gtk_label_new("Preview");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 9, 2, 1);
 
@@ -217,7 +217,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
      */
     gtk_widget_set_size_request(scrolled, 550, 300);
     gtk_container_add(GTK_CONTAINER(scrolled), view);
-    g_object_set(scrolled, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(scrolled, 16);
     gtk_grid_attach(GTK_GRID(grid), scrolled, 0, 10, 2, 1);
 
     g_signal_connect(start_value_widget, "value-changed",

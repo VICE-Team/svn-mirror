@@ -142,7 +142,7 @@ GtkWidget *pet_dww_widget_create(GtkWidget *parent)
             "Select DWW image file",
             "DWW image file",
             NULL);
-    g_object_set(browser, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(browser, 16);
     gtk_grid_attach(GTK_GRID(grid), browser, 0, 1, 1, 1);
 
     /* set initial sensitive state of widgets */

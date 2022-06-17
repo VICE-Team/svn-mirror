@@ -128,7 +128,8 @@ GtkWidget *sid_engine_model_widget_create(void)
 #endif
 
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 8, "margin-bottom", 8, NULL);
+    gtk_widget_set_margin_start(label, 8);
+    gtk_widget_set_margin_bottom(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     list = sid_get_engine_model_list();
@@ -137,8 +138,7 @@ GtkWidget *sid_engine_model_widget_create(void)
 
         radio = gtk_radio_button_new_with_label(group, list[i]->name);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
-
-        g_object_set(radio, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(radio, 16);
         if (list[i]->value == current) {
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
         }

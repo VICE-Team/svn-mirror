@@ -646,7 +646,7 @@ static GtkWidget *create_pet_roms_widget(void)
 
     basic1 = vice_gtk3_resource_check_button_new("Basic1",
             "Patch Kernal v1 to make the IEEE488 interface work");
-    g_object_set(basic1, "margin-top", 8, NULL);
+    gtk_widget_set_margin_top(basic1, 8);
     gtk_grid_attach(GTK_GRID(grid), basic1, 0, 5, 2, 1);
 
 

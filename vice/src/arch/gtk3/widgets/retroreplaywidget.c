@@ -146,7 +146,7 @@ GtkWidget *retroreplay_widget_create(GtkWidget *parent)
 
     /* RRrevision */
     label = gtk_label_new("Revision");
-    g_object_set(label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 1, 0, 1, 1);
     rev_combo = vice_gtk3_resource_combo_box_int_new("RRrevision",
@@ -155,7 +155,7 @@ GtkWidget *retroreplay_widget_create(GtkWidget *parent)
 
     /* RRClockPort */
     label = gtk_label_new("Clockport device");
-    g_object_set(label, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 1, 1, 1, 1);
     cp_combo = clockport_device_widget_create("RRClockPort");

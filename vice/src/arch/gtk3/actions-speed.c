@@ -40,6 +40,7 @@
 #include "basedialogs.h"
 #include "debug_gtk3.h"
 #include "hotkeymap.h"
+#include "machine.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
@@ -189,7 +190,6 @@ static void set_speed_resource(int speed)
  */
 static void speed_cpu_200_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(200);
 }
 
@@ -197,7 +197,6 @@ static void speed_cpu_200_action(void)
  */
 static void speed_cpu_100_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(100);
 }
 
@@ -205,7 +204,6 @@ static void speed_cpu_100_action(void)
  */
 static void speed_cpu_50_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(50);
 }
 
@@ -213,7 +211,6 @@ static void speed_cpu_50_action(void)
  */
 static void speed_cpu_20_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(20);
 }
 
@@ -221,7 +218,6 @@ static void speed_cpu_20_action(void)
  */
 static void speed_cpu_10_action(void)
 {
-    debug_gtk3("called");
     set_speed_resource(10);
 }
 
@@ -277,7 +273,7 @@ static void speed_cpu_custom_action(void)
  */
 static void speed_fps_real_action(void)
 {
-    set_speed_resource(0);
+    set_speed_resource(100);
 }
 
 
@@ -324,25 +320,21 @@ static void speed_fps_custom_action(void)
     widget = ui_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_CUSTOM,
                                                    ui_get_main_window_index());
     if (widget != NULL) {
+        int curval = 0;
 
-        /* only show the dialog when the radio/check button is toggled ON */
-        if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-            int curval = 0;
-
-            resources_get_int("Speed", &curval);
-            if (curval > 0) {
-                curval = 50;
-            } else {
-                curval = 0 - curval;
-            }
-
-            vice_gtk3_integer_input_box(
-                    fps_custom_callback,
-                    "Set new FPS target",
-                    "Enter a new custom FPS target",
-                    curval,
-                    1, 100000);
+        resources_get_int("Speed", &curval);
+        if (curval > 0) {
+            curval = 50;
+        } else {
+            curval = 0 - curval;
         }
+
+        vice_gtk3_integer_input_box(
+                fps_custom_callback,
+                "Set new FPS target",
+                "Enter a new custom FPS target",
+                curval,
+                1, 100000);
     } else {
         debug_gtk3("Failed to get menu item for action %d (%s).",
                    ACTION_SPEED_FPS_CUSTOM,
@@ -436,4 +428,41 @@ static const ui_action_map_t speed_actions[] = {
 void actions_speed_register(void)
 {
     ui_actions_register(speed_actions);
+}
+
+
+/** \brief  Set the correct radio buttons and set "${EMU} FPS" label
+ */
+void actions_speed_setup_ui(void)
+{
+    GtkWidget *item;
+    char buffer[256];
+
+    /* set '$MACHINE FPS' label */
+    g_snprintf(buffer, sizeof(buffer), "%s FPS", machine_get_name());
+    item = ui_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_REAL,
+                                                 PRIMARY_WINDOW);
+    if (item != NULL) {
+        gtk_menu_item_set_label(GTK_MENU_ITEM(item), buffer);
+    }
+    if (machine_class == VICE_MACHINE_C128) {
+        item = ui_get_menu_item_by_action_for_window(ACTION_SPEED_FPS_REAL,
+                                                     SECONDARY_WINDOW);
+        if (item != NULL) {
+            gtk_menu_item_set_label(GTK_MENU_ITEM(item), buffer);
+        }
+    }
+
+    /* activate correct radio buttons */
+    update_cpu_radio_buttons();
+    update_fps_radio_buttons();
+
+    /* pause */
+    ui_set_check_menu_item_blocked_by_action(ACTION_PAUSE_TOGGLE,
+                                             (gboolean)ui_pause_active());
+
+    /* warp */
+    ui_set_check_menu_item_blocked_by_action(ACTION_WARP_MODE_TOGGLE,
+                                             (gboolean)vsync_get_warp_mode());
+
 }

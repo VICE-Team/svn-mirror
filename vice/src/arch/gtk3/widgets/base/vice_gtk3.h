@@ -38,6 +38,7 @@
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
 #include "filechooserhelpers.h"
+#include "popupmenu.h"
 #include "resourcehelpers.h"
 #include "widgethelpers.h"
 

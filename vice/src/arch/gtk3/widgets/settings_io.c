@@ -73,7 +73,7 @@ static GtkWidget *create_collision_widget(const char *desc)
 
     label = gtk_label_new("I/O collision handling");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     group = vice_gtk3_resource_radiogroup_new("IOCollisionHandling",
@@ -86,7 +86,7 @@ static GtkWidget *create_collision_widget(const char *desc)
     gtk_label_set_markup(GTK_LABEL(label), buffer);
 
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -104,7 +104,7 @@ static GtkWidget *create_cart_reset_widget(void)
 
     check = vice_gtk3_resource_check_button_new("CartridgeReset",
             "Reset machine on cartridge change");
-    g_object_set(check, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(check, 16);
     return check;
 }
 

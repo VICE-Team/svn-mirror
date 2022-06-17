@@ -734,7 +734,7 @@ static void on_drive_reset_config_clicked(GtkWidget *widget, gpointer data)
        GPOINTER_TO_INT(data) & 15 );
 }
 
-
+#if 0
 /** \brief  Handler for the 'activate' event of popup menus to trigger a UI action
  *
  * \param[in]   item    menu item (unused)
@@ -744,7 +744,7 @@ static void trigger_ui_action(GtkWidget *item, gpointer data)
 {
     ui_action_trigger(GPOINTER_TO_INT(data));
 }
-
+#endif
 
 /** \brief Draw the LED associated with some drive's LED state.
  *
@@ -1051,8 +1051,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     /* XXX: this code is a duplicate of the drive_menu creation code, so we
      *      should probably refactor this a bit
      */
-    gtk_container_add(GTK_CONTAINER(drive_menu),
-                      gtk_separator_menu_item_new());
+    popup_menu_add_separator(drive_menu);
 
     drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
     g_signal_connect(drive_menu_item, "activate",
@@ -1063,6 +1062,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
      * Add drive reset item
      */
     g_snprintf(buffer, sizeof(buffer), "Reset drive #%d", i + DRIVE_UNIT_MIN);
+#if 0
     drive_menu_item = gtk_menu_item_new_with_label(buffer);
     g_signal_connect(drive_menu_item, "activate",
                      G_CALLBACK(trigger_ui_action),
@@ -1070,6 +1070,9 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     /* Set hotkey, if any */
     ui_set_menu_item_accel_label(drive_menu_item, reset_ids[i]);
+#endif
+    drive_menu_item = popup_menu_item_action_new(buffer, reset_ids[i]);
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     /* Add reset to configuration mode for CMD HDs */
     if ((drive_has_buttons(i) & 1) == 1) {
@@ -1097,20 +1100,31 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
 
     /* Add 'add image to fliplist' */
     gtk_container_add(GTK_CONTAINER(drive_menu), gtk_separator_menu_item_new());
+
+#if 0
     drive_menu_item = gtk_menu_item_new_with_label("Add current image to fliplist");
     g_signal_connect(drive_menu_item, "activate",
                      G_CALLBACK(trigger_ui_action),
                      GINT_TO_POINTER(ui_action_id_fliplist_add(i + DRIVE_UNIT_MIN, 0)));
+#endif
+    drive_menu_item = popup_menu_item_action_new(
+            "Add current image to fliplist",
+            ui_action_id_fliplist_add(i + DRIVE_UNIT_MIN, 0));
     gtk_widget_set_sensitive(drive_menu_item,
                              file_system_get_image(i + DRIVE_UNIT_MIN, 0) != NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     /* Add 'clear fliplist' */
+#if 0
     drive_menu_item = gtk_menu_item_new_with_label("Clear fliplist");
     g_signal_connect(drive_menu_item,
                      "activate",
                      G_CALLBACK(trigger_ui_action),
                      GINT_TO_POINTER(ui_action_id_fliplist_clear(i + DRIVE_UNIT_MIN, 0)));
+#endif
+    drive_menu_item = popup_menu_item_action_new(
+            "Clear fliplist",
+            ui_action_id_fliplist_clear(i + DRIVE_UNIT_MIN, 0));
     gtk_widget_set_sensitive(drive_menu_item,
                              fliplist_init_iterate(i + DRIVE_UNIT_MIN) != NULL);
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
@@ -1678,7 +1692,7 @@ static GtkWidget *ui_tape_widget_create(int port, int bar)
     }
     gtk_widget_set_hexpand(header, FALSE);
     gtk_widget_set_halign(header, GTK_ALIGN_START);
-    g_object_set(header, "margin-right", 8, NULL);
+    gtk_widget_set_margin_end(header, 8);
 
     counter = gtk_label_new("?");
 
@@ -1795,7 +1809,7 @@ static GtkWidget *ui_joystick_widget_create(void)
     label = gtk_label_new("Joysticks:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, FALSE);
-    g_object_set(label, "margin-right", 8, NULL);
+    gtk_widget_set_margin_end(label, 8);
     gtk_container_add(GTK_CONTAINER(grid), label);
     /* Create all possible joystick displays */
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
@@ -2509,10 +2523,8 @@ GtkWidget *ui_statusbar_create(int window_identity)
     gtk_widget_set_hexpand(message, TRUE);
     gtk_widget_set_halign(message, GTK_ALIGN_START);
     gtk_label_set_ellipsize(GTK_LABEL(message), PANGO_ELLIPSIZE_END);
-    g_object_set(G_OBJECT(message),
-                 "margin-left", 8,
-                 "margin-right", 8,
-                 NULL);
+    gtk_widget_set_margin_start(message, 8);
+    gtk_widget_set_margin_end(message, 8);
     allocated_bars[i].msg = message;
     gtk_grid_attach(GTK_GRID(sb),
                     message,
@@ -2537,7 +2549,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     /* Warp mode */
     warp_led = warp_led_create();
     /* add a little margin */
-    g_object_set(G_OBJECT(warp_led), "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(warp_led, 8);
     allocated_bars[i].warp_led = warp_led;
     statusbar_append_led(i, warp_led, FALSE);
 
@@ -2575,7 +2587,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     /* CPU/FPS - No FPS on VDC Window for now */
     speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
-    g_object_set(speed, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(speed, 8);
     allocated_bars[i].speed = speed;
 
     /* CRT and Mixer controls */

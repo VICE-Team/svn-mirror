@@ -71,7 +71,7 @@ GtkWidget *sound_fragment_size_widget_create(void)
             "Fragment size", SOUND_FRAGMENT_SMALL);
     group = vice_gtk3_resource_radiogroup_new(
             "SoundFragmentSize", fragment_sizes, GTK_ORIENTATION_VERTICAL);
-    g_object_set(group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(group, 16);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     gtk_widget_show_all(grid);

@@ -122,7 +122,11 @@ GtkWidget *settings_sound_create(GtkWidget *widget)
      * the state of the 'sound enabled' checkbox */
     inner = create_inner_grid();
     gtk_grid_set_column_spacing(GTK_GRID(inner), 8);
-    g_object_set(inner, "margin", 8, NULL);
+    gtk_widget_set_margin_top(inner, 8);
+    gtk_widget_set_margin_start(inner, 8);
+    gtk_widget_set_margin_end(inner, 8);
+    gtk_widget_set_margin_bottom(inner, 8);
+
     gtk_grid_attach(GTK_GRID(outer), inner, 0, 1, 1, 1);
 
     gtk_widget_show_all(outer);

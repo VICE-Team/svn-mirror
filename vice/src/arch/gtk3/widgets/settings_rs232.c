@@ -240,7 +240,7 @@ static GtkWidget *create_indented_label(const char *text)
 {
     GtkWidget *label = gtk_label_new(text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     return label;
 }
 
@@ -427,7 +427,7 @@ static GtkWidget *create_acia_widget(void)
     /* Acia1Enable */
     acia_enable_widget = create_acia_enable_widget();
     if (acia_enable_widget != NULL) {
-        g_object_set(acia_enable_widget, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(acia_enable_widget, 16);
         gtk_grid_attach(GTK_GRID(grid), acia_enable_widget, 0, row, 2, 1);
         row++;
     }
@@ -545,7 +545,7 @@ static GtkWidget *create_userport_widget(void)
 
     rsuser_enable_widget = create_userport_enable_widget();
     gtk_widget_set_halign(rsuser_enable_widget, GTK_ALIGN_START);
-    g_object_set(rsuser_enable_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(rsuser_enable_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), rsuser_enable_widget, 0, 1, 4, 1);
 
     /* RS-232 Interface Widget */

@@ -349,7 +349,8 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
 
     /* create a grid with some spacing and margins */
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-    g_object_set(grid, "margin-left", 16, "margin-right", 16, NULL);
+    gtk_widget_set_margin_start(grid, 16);
+    gtk_widget_set_margin_end(grid, 16);
 
     /* add unit selection widget */
     unit_widget = drive_unit_widget_create(unit, &unit_number, NULL);

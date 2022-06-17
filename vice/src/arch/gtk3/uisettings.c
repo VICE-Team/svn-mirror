@@ -2742,7 +2742,10 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
     }
     gtk_paned_pack2(GTK_PANED(paned_widget), widget, TRUE, FALSE);
     /* add a little space around the widget */
-    g_object_set(widget, "margin", 16, NULL);
+    gtk_widget_set_margin_top(widget, 16);
+    gtk_widget_set_margin_start(widget, 16);
+    gtk_widget_set_margin_end(widget, 16);
+    gtk_widget_set_margin_bottom(widget, 16);
 }
 
 
@@ -2819,7 +2822,10 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     extra = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(extra), 8);
     gtk_grid_set_row_spacing(GTK_GRID(extra), 8);
-    g_object_set(extra, "margin", 16, NULL);
+    gtk_widget_set_margin_top(extra, 16);
+    gtk_widget_set_margin_start(extra, 16);
+    gtk_widget_set_margin_end(extra, 16);
+    gtk_widget_set_margin_bottom(extra, 16);
 
     gtk_grid_attach(GTK_GRID(extra), create_save_on_exit_checkbox(),
             0, 0, 1, 1);

@@ -932,7 +932,7 @@ static GtkWidget *create_preview_widget(void)
         gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
         label = gtk_label_new("Error: groepaz was here!");
-        g_object_set(label, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(label, 16);
         gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
 
         gtk_widget_show_all(grid);

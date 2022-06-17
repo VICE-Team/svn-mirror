@@ -338,26 +338,26 @@ GtkWidget *romset_manager_widget_create(
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Predefined ROM sets</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
     romset_predefs = create_predef_romsets_widget(predefs);
-    g_object_set(romset_predefs, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(romset_predefs, 16);
     gtk_grid_attach(GTK_GRID(grid), romset_predefs, 0, row, 2, 1);
     row++;
 
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>ROM set listing</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
     romset_listing = create_listing_widget();
     gtk_widget_set_size_request(romset_listing, -1, 150);
     gtk_widget_set_hexpand(romset_listing, TRUE);
-    g_object_set(romset_listing, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(romset_listing, 16);
 
     gtk_grid_attach(GTK_GRID(grid), romset_listing, 0, row, 1, 1);
 
@@ -375,13 +375,13 @@ GtkWidget *romset_manager_widget_create(
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>ROM set management</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
     /* pack the tree view into a GtkScrolledWindow */
     scroll = gtk_scrolled_window_new(NULL, NULL);
-    g_object_set(scroll, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(scroll, 16);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
             GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_widget_set_hexpand(scroll, TRUE);

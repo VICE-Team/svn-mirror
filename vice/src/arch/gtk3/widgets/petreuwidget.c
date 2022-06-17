@@ -107,7 +107,7 @@ GtkWidget *pet_reu_widget_create(GtkWidget *parent)
     /* REU size */
     label = gtk_label_new("REU size");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     group = vice_gtk3_resource_radiogroup_new("PETREUsize", reu_sizes,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
@@ -120,7 +120,7 @@ GtkWidget *pet_reu_widget_create(GtkWidget *parent)
      * properly align with the previous widgets */
     label = gtk_label_new("REU image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
 
     browser = vice_gtk3_resource_browser_new(

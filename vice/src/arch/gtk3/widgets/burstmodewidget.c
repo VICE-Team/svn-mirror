@@ -69,7 +69,7 @@ GtkWidget *burst_mode_widget_create(GtkWidget *parent)
             -1, -1, "Burst Mode Modification", 1);
     group = vice_gtk3_resource_radiogroup_new("BurstMod", burst_modes,
             GTK_ORIENTATION_VERTICAL);
-    g_object_set(group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(group, 16);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);

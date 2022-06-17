@@ -58,6 +58,15 @@
 #include "actions-debug.h"
 
 
+/** \brief  Object mapping action IDs to resource names
+ */
+typedef struct action_resource_s {
+    int action;
+    const char *resource;
+} action_resource_t;
+
+
+
 /** \brief  Toggle boolean resource and update its check menu item
  *
  * \param[in]   resource    resource name
@@ -248,6 +257,41 @@ void actions_debug_register(void)
     ui_actions_register(debug_actions);
     if (machine_class == VICE_MACHINE_C64DTV) {
         ui_actions_register(debug_actions_dtv);
+    }
+}
+
+
+/** \brief  List of actions and resources to set up check buttons
+ */
+static const action_resource_t actions_list[] = {
+    { ACTION_DEBUG_TRACE_CPU_TOGGLE,        "MainCPU_TRACE" },
+    { ACTION_DEBUG_TRACE_IEC_TOGGLE,        "IEC_TRACE" },
+    { ACTION_DEBUG_TRACE_IEEE488_TOGGLE,    "IEEE_TRACE" },
+    { ACTION_DEBUG_TRACE_DRIVE_8_TOGGLE,    "Drive0CPU_TRACE" },
+    { ACTION_DEBUG_TRACE_DRIVE_9_TOGGLE,    "Drive1CPU_TRACE" },
+    { ACTION_DEBUG_TRACE_DRIVE_10_TOGGLE,   "Drive2CPU_TRACE" },
+    { ACTION_DEBUG_TRACE_DRIVE_11_TOGGLE,   "Drive3CPU_TRACE" },
+    { ACTION_DEBUG_CORE_DUMP_TOGGLE,        "DoCoreDump" },
+    { ACTION_DEBUG_BLITTER_LOG_TOGGLE,      "DtvBlitterLog" },
+    { ACTION_DEBUG_DMA_LOG_TOGGLE,          "DtvDMALog" },
+    { ACTION_DEBUG_FLASH_LOG_TOGGLE,        "DtvFlashLog" }
+};
+
+
+/** \brief  Set debug-related check menu items
+ */
+void actions_debug_setup_ui(void)
+{
+    size_t i;
+
+    for (i = 0; i < sizeof actions_list / sizeof actions_list[0]; i++) {
+        if (ui_action_is_valid(actions_list[i].action)) {
+            int enabled;
+
+            resources_get_int(actions_list[i].resource, &enabled);
+            ui_set_check_menu_item_blocked_by_action(actions_list[i].action,
+                                                     (gboolean)enabled);
+        }
     }
 }
 

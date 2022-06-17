@@ -81,7 +81,7 @@ static GtkWidget *create_isepic_switch_widget(void)
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    g_object_set(grid, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(grid, 16);
 
     label = gtk_label_new("Isepic switch");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);

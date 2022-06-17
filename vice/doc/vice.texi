@@ -1052,6 +1052,57 @@ the respective C64 mapping, plus the added function- and extra keys.
 @subsubsection Positional (DE)
 @image{html/images/vice-c128-positional-keymap-de-small}
 
+@subsection C16 & Plus4 Keyboard Map
+
+TODO
+
+@subsection PET Graphics Keyboard Map
+
+The PET2001 uses the original graphics keyboard made from "chiclet" keys:
+
+@image{html/images/pet-chiclet-layout-small}
+
+The 3032 and 4032 use "real" graphics keyboard, which is based on the same keyboard
+matrix and looks like this:
+
+@image{html/images/pet-graphical-layout-small}
+
+For practical reasons, there is no extra keymap for the chiclet keyboard - any
+attempt to somehow reproduce that would end up too similar to what we are using
+now for the graphics keyboard anyway:
+
+@subsubsection Symbolic (US)
+@image{html/images/vice-pet-graphical-symbolic-keymap-us-small}
+@subsubsection Positional (US)
+@image{html/images/vice-pet-graphical-positional-keymap-us-small}
+
+@subsubsection Symbolic (DE)
+@image{html/images/vice-pet-graphical-symbolic-keymap-de-small}
+@subsubsection Positional (DE)
+@image{html/images/vice-pet-graphical-positional-keymap-de-small}
+
+@subsection PET Business Keyboard Map
+
+This Layout is used for the "big" PET models, like the 8032. The matrix is not
+compatible to the graphics keyboard:
+
+@image{html/images/pet-business-uk-layout-small}
+
+@subsubsection Symbolic (US)
+@image{html/images/vice-pet-business-uk-symbolic-keymap-us-small}
+@subsubsection Positional (US)
+@image{html/images/vice-pet-business-uk-positional-keymap-us-small}
+
+@subsubsection Symbolic (DE)
+@image{html/images/vice-pet-business-uk-symbolic-keymap-de-small}
+@subsubsection Positional (DE)
+@image{html/images/vice-pet-business-uk-positional-keymap-de-small}
+
+@subsection CBM2 Keyboard Map
+
+TODO
+
+
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
 @section The joystick emulation
 

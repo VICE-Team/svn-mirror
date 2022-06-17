@@ -170,7 +170,7 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             VICE_GTK3_DEFAULT, "SID model", 1);
     group = vice_gtk3_resource_radiogroup_new(
             "SidModel", models, GTK_ORIENTATION_VERTICAL);
-    g_object_set(group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(group, 16);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     vice_gtk3_resource_radiogroup_add_callback(group, on_sid_model_toggled);
 
@@ -195,7 +195,10 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
     /*
      * Fix layout issues
      */
-    g_object_set(G_OBJECT(grid), "margin", 8, NULL);
+    gtk_widget_set_margin_top(grid, 8);
+    gtk_widget_set_margin_start(grid, 8);
+    gtk_widget_set_margin_end(grid, 8);
+    gtk_widget_set_margin_bottom(grid, 8);
 
     return grid;
 }

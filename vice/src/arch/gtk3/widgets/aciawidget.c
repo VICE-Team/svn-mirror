@@ -243,7 +243,7 @@ static GtkWidget *create_acia_serial_device_widget(int num)
 
     entry = gtk_entry_new();
     gtk_widget_set_hexpand(entry, TRUE);
-    g_object_set(entry, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(entry, 16);
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
             GINT_TO_POINTER(num));
@@ -254,7 +254,7 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     gtk_grid_attach(GTK_GRID(grid), browse, 1, 1, 1, 1);
 
     label = gtk_label_new("Baud rate");
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
     g_snprintf(buffer, 256, "RsDevice%dBaud", num);
@@ -302,7 +302,7 @@ GtkWidget *acia_widget_create(int *baud)
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "ACIA settings", 3);
 
     device_widget = create_acia_device_widget();
-    g_object_set(device_widget, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(device_widget, 16);
     gtk_grid_attach(GTK_GRID(grid), device_widget, 0, 1, 1, 1);
 
     serial1_widget = create_acia_serial_device_widget(1);

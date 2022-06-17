@@ -54,6 +54,7 @@
 #include "uimenu.h"
 #include "uistatusbar.h"
 #include "video.h"
+#include "videoarch.h"
 
 #include "actions-display.h"
 
@@ -183,4 +184,52 @@ static const ui_action_map_t display_actions[] = {
 void actions_display_register(void)
 {
     ui_actions_register(display_actions);
+}
+
+
+/** \brief  Set correct check button states
+ *
+ * Set check buttons for fullscreen, fullscreen-decorations and show-statusbar.
+ */
+void actions_display_setup_ui(void)
+{
+    video_canvas_t *canvas;
+    const char *chip;
+    int enabled;
+
+    canvas = ui_get_canvas_for_window(PRIMARY_WINDOW);
+    chip = canvas->videoconfig->chip_name;
+
+    /* set fullscreen check button for primary window */
+    resources_get_int_sprintf("%sFullscreen", &enabled, chip);
+    ui_set_check_menu_item_blocked_by_action_for_window(ACTION_FULLSCREEN_TOGGLE,
+                                                        PRIMARY_WINDOW,
+                                                        (gboolean)enabled);
+
+    /* set fullscreen check button for secondary window (x128 VDC) */
+    if (machine_class == VICE_MACHINE_C128) {
+        resources_get_int("VDCFullscreen", &enabled);
+        ui_set_check_menu_item_blocked_by_action_for_window(ACTION_FULLSCREEN_TOGGLE,
+                                                            SECONDARY_WINDOW,
+                                                            (gboolean)enabled);
+    }
+
+    /* fullscreen decorations is currently a single resource for all chips
+     * and thus windows */
+    resources_get_int("FullscreenDecorations", &enabled);
+    ui_set_check_menu_item_blocked_by_action(ACTION_FULLSCREEN_DECORATIONS_TOGGLE,
+                                             (gboolean)enabled);
+
+    /* set check buttons for show-statusbar */
+    resources_get_int_sprintf("%sShowStatusbar", &enabled, chip);
+    ui_set_check_menu_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
+                                                        PRIMARY_WINDOW,
+                                                        enabled);
+    if (machine_class == VICE_MACHINE_C128) {
+        resources_get_int("VDChowStatusbar", &enabled);
+        ui_set_check_menu_item_blocked_by_action_for_window(ACTION_SHOW_STATUSBAR_TOGGLE,
+                                                            SECONDARY_WINDOW,
+                                                            enabled);
+    }
+
 }

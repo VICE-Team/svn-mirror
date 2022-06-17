@@ -126,7 +126,10 @@ GtkWidget *cwd_widget_create(GtkWidget *parent)
             1);
 
     wrapper = gtk_grid_new();
-    g_object_set(wrapper, "margin", 8, NULL);
+    gtk_widget_set_margin_top(wrapper, 8);
+    gtk_widget_set_margin_start(wrapper, 8);
+    gtk_widget_set_margin_end(wrapper, 8);
+    gtk_widget_set_margin_bottom(wrapper, 8);
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 8);
 
     entry = gtk_entry_new();

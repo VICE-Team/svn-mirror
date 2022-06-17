@@ -72,22 +72,23 @@ static const ram_mapping_t mappings[] = {
 GtkWidget *cbm2_ram_mapping_widget_create(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
     int i;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             -1, 0, "Map RAM into bank 15", 1);
-    g_object_set(grid, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(grid, 8);
 
     /*update margins of the label */
-    GtkWidget *label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    g_object_set(label, "margin-bottom", 8, NULL);
+    label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    gtk_widget_set_margin_bottom(label, 8);
 
     for (i = 0; mappings[i].text != NULL; i++) {
         GtkWidget *check;
 
         check = vice_gtk3_resource_check_button_new(mappings[i].resource,
                 mappings[i].text);
-        g_object_set(check, "margin-left", 16, NULL);
+        gtk_widget_set_margin_start(check, 8);
         gtk_grid_attach(GTK_GRID(grid), check, 0, i + 1, 1, 1);
     }
 

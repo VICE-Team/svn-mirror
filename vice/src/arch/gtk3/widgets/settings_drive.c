@@ -473,8 +473,8 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
     label = create_left_aligned_label("<b>Drive model</b>");
     /* only show currently available models */
     drive_model[index] = drive_model_widget_create_combo(unit, FALSE);
-    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
-    g_object_set(G_OBJECT(drive_model[index]), "margin-bottom", 16, NULL);
+    gtk_widget_set_margin_bottom(label, 16);
+    gtk_widget_set_margin_bottom(drive_model[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 1, row, 1, 1);
     row++;
@@ -519,7 +519,7 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
 
     /* Drive RAM */
     drive_ram[index] = drive_ram_widget_create(unit);
-    g_object_set(G_OBJECT(drive_ram[index]), "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(drive_ram[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), drive_ram[index], 0, row, 2, 1);
 
     /* add wrapper to main grid */
@@ -546,7 +546,7 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
 
     /* wrapper row 2, RPM settings */
     drive_rpm[index] = drive_rpm_widget_create(unit);
-    g_object_set(G_OBJECT(drive_rpm[index]), "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(drive_rpm[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), drive_rpm[index], 0, row, 2, 1);
 
     gtk_widget_show_all(wrapper);
@@ -579,8 +579,8 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     label = create_left_aligned_label("<b>Drive model</b>");
     /* only show currently available models */
     drive_model[index] = drive_model_widget_create_combo(unit, FALSE);
-    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
-    g_object_set(G_OBJECT(drive_model[index]), "margin-bottom", 16, NULL);
+    gtk_widget_set_margin_bottom(label, 16);
+    gtk_widget_set_margin_bottom(drive_model[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 1, row, 1, 1);
     row++;
@@ -629,7 +629,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 
     /* Drive RAM */
     drive_ram[index] = drive_ram_widget_create(unit);
-    g_object_set(G_OBJECT(drive_ram[index]), "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(drive_ram[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), drive_ram[index], 0, row, 2, 1);
 
     /* add wrapper to main grid */
@@ -670,7 +670,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 
     /* wrapper row 4: RPM settings */
     drive_rpm[index] = drive_rpm_widget_create(unit);
-    g_object_set(G_OBJECT(drive_rpm[index]), "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(drive_rpm[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), drive_rpm[index], 0, row, 2, 1);
 
     gtk_widget_show_all(wrapper);
@@ -703,8 +703,8 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
     label = create_left_aligned_label("<b>Drive model</b>");
     /* only show currently available models */
     drive_model[index] = drive_model_widget_create_combo(unit, FALSE);
-    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
-    g_object_set(G_OBJECT(drive_model[index]), "margin-bottom", 16, NULL);
+    gtk_widget_set_margin_bottom(label, 16);
+    gtk_widget_set_margin_bottom(drive_model[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 1, row, 1, 1);
     row++;
@@ -746,7 +746,7 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
 
     /* Drive RAM */
     drive_ram[index] = drive_ram_widget_create(unit);
-    g_object_set(G_OBJECT(drive_ram[index]), "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(drive_ram[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), drive_ram[index], 0, row, 2, 1);
 
     /* add wrapper to main grid */
@@ -789,7 +789,7 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
 
     /* wrapper row 2/3: RPM settings */
     drive_rpm[index] = drive_rpm_widget_create(unit);
-    g_object_set(G_OBJECT(drive_rpm[index]), "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(drive_rpm[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), drive_rpm[index], 0, row, 2, 1);
 
     gtk_widget_show_all(wrapper);
@@ -822,8 +822,8 @@ static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
     label = create_left_aligned_label("<b>Drive model</b>");
     /* only show currently available models */
     drive_model[index] = drive_model_widget_create_combo(unit, FALSE);
-    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
-    g_object_set(G_OBJECT(drive_model[index]), "margin-bottom", 16, NULL);
+    gtk_widget_set_margin_bottom(label, 16);
+    gtk_widget_set_margin_bottom(drive_model[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), drive_model[index], 1, row, 1, 1);
     row++;
@@ -877,7 +877,7 @@ static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
 
     /* wrapper row 2, RPM settings */
     drive_rpm[index] = drive_rpm_widget_create(unit);
-    g_object_set(G_OBJECT(drive_rpm[index]), "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(drive_rpm[index], 16);
     gtk_grid_attach(GTK_GRID(wrapper), drive_rpm[index], 0, row, 2, 1);
 
     gtk_widget_show_all(wrapper);
@@ -903,7 +903,7 @@ static GtkWidget *create_stack_child_widget(int unit)
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 32);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-    g_object_set(grid, "margin-left", 8, NULL);
+    gtk_widget_set_margin_start(grid, 8);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
     switch (machine_class) {
@@ -956,7 +956,7 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     layout = vice_gtk3_grid_new_spaced(16, 16);
 
     wrapper = gtk_grid_new();
-    g_object_set(wrapper, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(wrapper, 16);
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
 
     sound = vice_gtk3_resource_check_button_new("DriveSoundEmulation",
@@ -966,7 +966,7 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     volume_wrapper = gtk_grid_new();
     label = gtk_label_new("Drive volume:");
     volume = create_drive_volume_widget();
-    g_object_set(volume, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(volume, 16);
     gtk_grid_attach(GTK_GRID(volume_wrapper), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(volume_wrapper), volume, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), volume_wrapper, 1, 0, 1, 1);

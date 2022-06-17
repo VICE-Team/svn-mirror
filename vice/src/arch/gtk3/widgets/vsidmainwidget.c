@@ -336,12 +336,10 @@ GtkWidget *vsid_main_widget_create(void)
 #endif
 
     grid = vice_gtk3_grid_new_spaced(32, 32);
-    g_object_set(G_OBJECT(grid),
-            "margin-left", 16,
-            "margin-right", 16,
-            "margin-top", 16,
-            "margin-bottom", 16,
-            NULL);
+    gtk_widget_set_margin_top(grid, 16);
+    gtk_widget_set_margin_start(grid, 16);
+    gtk_widget_set_margin_end(grid, 16);
+    gtk_widget_set_margin_bottom(grid, 16);
 
     /* left pane: info, playback controls, mixer */
     left_pane = vice_gtk3_grid_new_spaced(0, 16);

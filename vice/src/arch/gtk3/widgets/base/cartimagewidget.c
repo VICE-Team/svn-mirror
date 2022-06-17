@@ -213,10 +213,10 @@ GtkWidget *cart_image_widget_create(GtkWidget *parent,
     crt_id = cart_id;
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, title, 3);
-    g_object_set(grid, "margin-top", 8, NULL);
+    gtk_widget_set_margin_top(grid, 8);
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     filename_entry = vice_gtk3_resource_entry_full_new(resource_fname);
     gtk_widget_set_hexpand(filename_entry, TRUE);
     /* gtk_widget_set_sensitive(entry, FALSE); */
@@ -228,7 +228,7 @@ GtkWidget *cart_image_widget_create(GtkWidget *parent,
 
     auto_save = vice_gtk3_resource_check_button_new(resource_write,
             "Write image on image detach/emulator quit");
-    g_object_set(auto_save, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(auto_save, 16);
     gtk_grid_attach(GTK_GRID(grid), auto_save, 0, 2, 2, 1);
 
     save_button = gtk_button_new_with_label("Save as ...");

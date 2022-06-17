@@ -319,15 +319,15 @@ static GtkWidget *create_ide64_device_widget(int device)
     char buffer[256];
     char resource[256];
 
-    g_snprintf(buffer, 256, "Device %d settings", device);
+    g_snprintf(buffer, sizeof(buffer), "Device %d settings", device);
 
     grid = vice_gtk3_grid_new_spaced_with_label(16, 8, buffer, 3);
 
     label = gtk_label_new("Image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
 
-    g_snprintf(resource, 256, "IDE64image%d", device);
+    g_snprintf(resource, sizeof(resource), "IDE64image%d", device);
     image_entry[device - 1] = vice_gtk3_resource_entry_full_new(resource);
     gtk_widget_set_hexpand(image_entry[device - 1], TRUE);
 
@@ -341,7 +341,7 @@ static GtkWidget *create_ide64_device_widget(int device)
 
     autosize = vice_gtk3_resource_check_button_new_sprintf(
             "IDE64AutodetectSize%d", "Autodetect image size", device);
-    g_object_set(autosize, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(autosize, 16);
     gtk_grid_attach(GTK_GRID(grid), autosize, 0, 2, 3, 1);
 
     /* create grid for the geomerty spin buttons */
@@ -352,7 +352,7 @@ static GtkWidget *create_ide64_device_widget(int device)
 
     label = gtk_label_new("Cylinders");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(geometry), label, 0, 0, 1, 1);
 
     cylinders = vice_gtk3_resource_spin_int_new_sprintf("IDE64cylinders%d",
@@ -362,7 +362,7 @@ static GtkWidget *create_ide64_device_widget(int device)
 
     label = gtk_label_new("Heads");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(geometry), label, 0, 1, 1, 1);
 
     heads = vice_gtk3_resource_spin_int_new_sprintf(
@@ -372,7 +372,7 @@ static GtkWidget *create_ide64_device_widget(int device)
 
     label = gtk_label_new("Sectors");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(label, 16);
     gtk_grid_attach(GTK_GRID(geometry), label, 0, 2, 1, 1);
 
     sectors = vice_gtk3_resource_spin_int_new_sprintf(
@@ -418,7 +418,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
 
     digimax_enable = vice_gtk3_resource_check_button_new("SBDIGIMAX",
             "Enable DigiMAX");
-    g_object_set(digimax_enable, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(digimax_enable, GTK_ALIGN_END);
     digimax_label = gtk_label_new("DigMAX base address");
     gtk_widget_set_halign(digimax_label, GTK_ALIGN_END);
     digimax_address = vice_gtk3_resource_combo_box_int_new("SBDIGIMAXbase",
@@ -436,7 +436,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
 #ifdef HAVE_RAWNET
     etfe_enable = vice_gtk3_resource_check_button_new("SBETFE",
             "Enable ETFE");
-    g_object_set(etfe_enable, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(etfe_enable, 16);
     etfe_label = gtk_label_new("ETFE base address");
     gtk_widget_set_halign(etfe_label, GTK_ALIGN_END);
     etfe_address = vice_gtk3_resource_combo_box_int_new("SBETFEbase",
@@ -498,7 +498,7 @@ GtkWidget *ide64_widget_create(GtkWidget *parent)
     for (d = 1; d <= 4; d++) {
         char buffer[256];
 
-        g_snprintf(buffer, 256, "Device %d", d);
+        g_snprintf(buffer, sizeof(buffer), "Device %d", d);
         gtk_stack_add_titled(GTK_STACK(stack), create_ide64_device_widget(d),
                 buffer, buffer);
     }

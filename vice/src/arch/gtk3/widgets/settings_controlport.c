@@ -207,7 +207,7 @@ static GtkWidget *create_joyport_widget(int port, const char *title)
             "JoyPort%dDevice",
             joyport_combo_lists[port],
             port + 1);
-    g_object_set(combo, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(combo, 16);
     gtk_widget_set_hexpand(combo, TRUE);
 
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
@@ -421,7 +421,7 @@ static int layout_add_bbrtc_widget(GtkGrid *layout, int row)
 
     check = vice_gtk3_resource_check_button_new("BBRTCSave",
             "Save battery-backed real time clock data when changed");
-    g_object_set(check, "margin-top", 16, NULL);
+    gtk_widget_set_margin_top(check, 16);
     gtk_grid_attach(layout, check, 0, row, 2, 1);
     gtk_widget_show(check);
 

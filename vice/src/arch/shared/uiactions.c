@@ -231,7 +231,7 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_RESTORE_DISPLAY,               "restore-display",                  "Resize application window to fit content", VICE_MACHINE_ALL },
 
     /* joystick, mouse etc */
-    { ACTION_SWAP_CONTROLPORT_TOGGLE,   "swap-controlport-toggle",  "Swap controlport joysticks",   (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_C64DTV|VICE_MACHINE_SCPU64|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM5x0) },
+    { ACTION_SWAP_CONTROLPORT_TOGGLE,   "swap-controlport-toggle",  "Swap controlport joysticks",   (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_C64DTV|VICE_MACHINE_SCPU64|VICE_MACHINE_C128|VICE_MACHINE_PLUS4|VICE_MACHINE_CBM5x0) },
     { ACTION_MOUSE_GRAB_TOGGLE,         "mouse-grab-toggle",        "Toggle Mouse Grab",            VICE_MACHINE_ALL },
     { ACTION_KEYSET_JOYSTICK_TOGGLE,    "keyset-joystick-toggle",   "Allow keyset joysticks",       VICE_MACHINE_ALL },
 

@@ -74,7 +74,7 @@ GtkWidget *printer_emulation_type_widget_create(int device)
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Emulation type", 1);
     radio_group = vice_gtk3_resource_radiogroup_new_sprintf(
             "Printer%d", emu_types, GTK_ORIENTATION_VERTICAL, device);
-    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(radio_group, 16);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);

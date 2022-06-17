@@ -122,7 +122,7 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, title, 1);
 
     combo = gtk_combo_box_text_new();
-    g_object_set(combo, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(combo, 16);
     gtk_widget_set_hexpand(combo, TRUE);
     /* add predefined standard devices */
     for (i1 = 0; predefined_device_list[i1].name != NULL; i1++) {

@@ -286,20 +286,14 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
 
     /* add some spacing between the title and the widgets */
     label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    g_object_set(label, "margin-bottom", 16, NULL);
+    gtk_widget_set_margin_bottom(label, 16);
 
     /* resource CartridgeFile */
     label = gtk_label_new("File");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label,
-            "margin-left", 16,
-            "margin-right", 16,
-            NULL);
-#if 0
-    cart_file_widget = gtk_entry_new();
-    g_object_set(cart_file_widget, "editable", FALSE, NULL);
-    gtk_widget_set_hexpand(cart_file_widget, TRUE);
-#endif
+    gtk_widget_set_margin_start(label, 16);
+    gtk_widget_set_margin_end(label, 16);
+
     cart_file_widget = create_cart_file_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), cart_file_widget, 1, 1, 1, 1);
@@ -319,10 +313,8 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     /* resource CartridgeType */
     if (cart_info_list != NULL) {
         label = gtk_label_new("Type");
-        g_object_set(label,
-                "margin-left", 16,
-                "margin-right", 16,
-                NULL);
+        gtk_widget_set_margin_start(label, 16);
+        gtk_widget_set_margin_end(label, 16);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
         cart_type_widget = create_cart_type_widget();
         gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
@@ -337,10 +329,8 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(set_default_button, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), set_default_button, 0, 3, 2, 1);
     /* make some space */
-    g_object_set(set_default_button,
-            "margin-left", 16,
-            "margin-top", 32,
-            NULL);
+    gtk_widget_set_margin_top(set_default_button, 32);
+    gtk_widget_set_margin_start(set_default_button, 16);
 
     /* set sensitivity of buttons (ie grey-out or not) */
     update_buttons();

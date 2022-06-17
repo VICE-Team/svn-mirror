@@ -527,7 +527,7 @@ GtkWidget *vsid_tune_info_widget_create(void)
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>SID file info:</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
+    gtk_widget_set_margin_bottom(label, 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 

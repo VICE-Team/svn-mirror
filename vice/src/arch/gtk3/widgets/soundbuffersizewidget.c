@@ -83,7 +83,7 @@ GtkWidget *sound_buffer_size_widget_create(void)
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
             "Buffer size", 1);
     spin = create_spinbutton();
-    g_object_set(spin, "margin-left", 16, NULL);
+    gtk_widget_set_margin_start(spin, 16);
     gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), gtk_label_new("msec."), 1, 1, 1, 1);
 
