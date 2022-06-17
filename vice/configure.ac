@@ -181,7 +181,7 @@ dnl AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK($cmdl
 VICE_ARG_LIST_CHECK($cmdline_options, $enable_option_checking)
 
 dnl check for conflicting options
-VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui2 --enable-gtk3ui --enable-headlessui], [UI])
+VICE_ARG_LIST_AT_MOST_ONE([--enable-sdl2ui --enable-gtk3ui --enable-headlessui], [UI])
 AS_IF([test x"$enable_gtk3ui" = "xno" -a x"$enable_sdl2ui" = "xno" -a x"$enable_headlessui" = "xno"],
       [AC_MSG_ERROR([You cannot disable all GUIs])])
 
@@ -1397,7 +1397,7 @@ fi
 if test x"$enable_headlessui" = "xyes"; then
   AC_DEFINE(USE_HEADLESSUI,,[Enable Headless UI support.])
   enable_gtk3ui=no
-  enable_sdlui2=no
+  enable_sdl2ui=no
   found_gui=headless
 fi
 
@@ -1424,7 +1424,7 @@ VICE_CFLAGS="$VICE_CFLAGS -pthread"
 VICE_CXXFLAGS="$VICE_CXXFLAGS -pthread"
 VICE_LDFLAGS="$VICE_LDFLAGS -pthread"
 
-if test x"$enable_gtk3ui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
+if test x"$enable_gtk3ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
   if test x"$is_unix_x11" = x"yes" -a x"$is_unix_macosx" != x"yes"; then
     LIBS="$LIBS -lX11"
   fi
@@ -3460,6 +3460,7 @@ else
     echo "Program suffix     : $program_suffix (--program-suffix)"
 fi
 
+echo ""
 echo "SOUND"
 echo "-----"
 echo "FastSID support              : $HAVE_FASTSID_SUPPORT (--with/without-fastsid)"
