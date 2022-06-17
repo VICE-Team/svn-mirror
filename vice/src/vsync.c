@@ -570,31 +570,21 @@ void vsync_do_end_of_line(void)
             ticks_until_target = sync_target_tick - tick_now;
 
             if (ticks_until_target < tick_per_second()) {
-
-                /*
-                 * Emulation timing / sync is OK.
-                 */
+                /* Emulation timing / sync is OK. */
 
                 /* If we can't rely on the audio device for timing, slow down here. */
                 if (tick_based_sync_timing) {
                     mainlock_yield_and_sleep(ticks_until_target);
                 }
-
             } else if ((tick_t)0 - ticks_until_target > tick_per_second()) {
+                /* We are more than a second behind, reset sync and accept that we're not running at full speed. */
 
-                /*
-                 * We are more than a second behind, reset sync and accept that we're not running at full speed.
-                 */
-                
                 mainlock_yield();
 
                 log_warning(LOG_DEFAULT, "Sync is %.3f ms behind", (double)TICK_TO_MICRO((tick_t)0 - ticks_until_target) / 1000);
                 sync_reset = true;
             } else {
-
-                /*
-                 * We are running slow - make sure we still yield to the UI thread if it's waiting
-                 */
+                /* We are running slow - make sure we still yield to the UI thread if it's waiting */
 
                 mainlock_yield();
             }
