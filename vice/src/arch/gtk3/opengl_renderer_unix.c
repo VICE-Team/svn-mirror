@@ -36,7 +36,7 @@
 #include <gdk/gdkx.h>
 
 #include "log.h"
-#include "render_queue.h"
+#include "render-queue.h"
 
 #define CANVAS_LOCK() archdep_mutex_lock(context->canvas_lock)
 #define CANVAS_UNLOCK() archdep_mutex_unlock(context->canvas_lock)
