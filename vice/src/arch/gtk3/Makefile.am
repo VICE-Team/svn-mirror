@@ -31,6 +31,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/scpu64 \
 	-I$(top_srcdir)/src/vic20 \
+	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/imagecontents \
@@ -66,6 +67,7 @@ libarch_a_SOURCES = \
 	actions-snapshot.c \
 	actions-speed.c \
 	archdep.c \
+	archdep-thread.c \
 	c128ui.c \
 	c64dtvui.c \
 	c64scui.c \

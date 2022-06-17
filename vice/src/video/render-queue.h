@@ -1,5 +1,5 @@
 /**
- * \file render_queue.h
+ * \file render-queue.h
  * \brief Manage a pool of backbuffers for emu rendering and host display.
  *
  * \author David Hogan <david.q.hogan@gmail.com>
@@ -32,8 +32,12 @@
 #include "video.h"
 #include "viewport.h"
 
-/* Some platforms use the managed backbuffer_t->pixel_data buffer, some do not */
-#ifdef WINDOWS_COMPILE
+/*
+ * SDL2 builds render directly to an SDL2 managed texture memory area,
+ * and headless builds don't render within this process at all.
+ */
+
+#ifdef USE_GTK3UI
 #define MANAGED_PIXEL_DATA_BUFFER
 #endif
 

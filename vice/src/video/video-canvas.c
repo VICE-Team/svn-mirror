@@ -248,7 +248,10 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
     xi = canvas->videoconfig->scalex * viewport->x_offset;
     yi = canvas->videoconfig->scaley * viewport->y_offset;
     w  = canvas->videoconfig->scalex * MIN(draw_buffer->visible_width, geometry->screen_size.width - viewport->first_x);
-    h  = canvas->videoconfig->scaley * MIN(draw_buffer->visible_height, viewport->last_line - viewport->first_line + 1);
+    h  = canvas->videoconfig->scaley * MIN(draw_buffer->visible_height, viewport->last_line + 1 - viewport->first_line);
+
+    video_sound_update(canvas->videoconfig, draw_buffer->draw_buffer,
+                       w, h, xs, ys, draw_buffer->width, canvas->viewport);
     
     /*
      * If there is no unused render buffer, we can't render a new frame.
@@ -258,6 +261,8 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
     if (backbuffer == NULL) {
         return;
     }
+
+    video_canvas_new_frame_hook(canvas);
 
     backbuffer->xs                  = xs;
     backbuffer->ys                  = ys;
@@ -272,11 +277,6 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
     backbuffer->screen_data_width   = draw_buffer->width;
     backbuffer->screen_data_height  = draw_buffer->height;
     backbuffer->screen_data_offset  = draw_buffer->padded_allocations_offset;
-    
-    video_sound_update(canvas->videoconfig, draw_buffer->draw_buffer,
-                       w, h, xs, ys, draw_buffer->width, canvas->viewport);
-    
-    video_canvas_new_frame_hook(canvas);
     
     /* Copy the drawbuffer to be rendered off-thread */
     video_canvas_prepare_backbuffer(canvas, draw_buffer, backbuffer);

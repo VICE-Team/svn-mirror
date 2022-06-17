@@ -35,8 +35,12 @@
 #include <stdlib.h>
 
 #include "archdep_thread.h"
+#include "archdep_tick.h"
 #include "lib.h"
 #include "log.h"
+
+#define DEBUG_MUTEX_LONG_BLOCK 0
+#define DEBUG_MUTEX_LONG_HOLD  0
 
 static pthread_t main_thread;
 
@@ -45,6 +49,15 @@ typedef struct thread_internal_s {
     jmp_buf exit_jmp;
     thread_function_t function;
 } thread_internal_t;
+
+typedef struct mutex_internal_s {
+    pthread_mutex_t mutex;
+#if DEBUG_MUTEX_LONG_HOLD
+    bool ignore_long_hold;
+    tick_t lock_tick;
+    int lock_level;
+#endif
+} mutex_internal_t;
 
 
 void archdep_thread_set_main(void)
@@ -122,40 +135,79 @@ void archdep_thread_join(void **thread)
 
 void archdep_mutex_create(void **mutex)
 {
+    /* can't use lib_malloc HERE, as lib_malloc calls archdep_mutex_lock in debug builds */
+    mutex_internal_t *mutex_internal = malloc(sizeof(mutex_internal_t));
+    pthread_mutexattr_t lock_attributes;
+
     /*
      * SDL mutex are always recursive, so set up pthread mutex the same way to
      * avoid arch specific locking bugs
      */
 
-    pthread_mutexattr_t lock_attributes;
-
     pthread_mutexattr_init(&lock_attributes);
     pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
-
-    /* can't use lib_malloc HERE, as lib_malloc calls archdep_mutex_lock in debug builds */
-    *mutex = malloc(sizeof(pthread_mutex_t));
-    pthread_mutex_init(*mutex, &lock_attributes);
-
+    pthread_mutex_init(&mutex_internal->mutex, &lock_attributes);
     pthread_mutexattr_destroy(&lock_attributes);
+
+#if DEBUG_MUTEX_LONG_HOLD
+    mutex_internal->ignore_long_hold = false;
+#endif
+
+    *mutex = mutex_internal;
 }
 
 
 void archdep_mutex_destroy(void *mutex)
 {
-    pthread_mutex_destroy(mutex);
+    mutex_internal_t *mutex_internal = (mutex_internal_t*)mutex;
+
+    pthread_mutex_destroy(&mutex_internal->mutex);
+
     free(mutex);
 }
 
 
 void archdep_mutex_lock(void *mutex)
 {
-    pthread_mutex_lock(mutex);
+    mutex_internal_t *mutex_internal = (mutex_internal_t*)mutex;
+
+#if DEBUG_MUTEX_LONG_BLOCK
+    tick_t before = tick_now();
+
+    pthread_mutex_lock(&mutex_internal->mutex);
+
+    uint32_t deltaMs = TICK_TO_MILLI(tick_now_delta(before));
+
+    if (deltaMs >= 10) {
+        printf("long block %u ms on mutex\n", deltaMs);
+    }
+#else
+    pthread_mutex_lock(&mutex_internal->mutex);
+#endif
+
+#if DEBUG_MUTEX_LONG_HOLD
+    if (++mutex_internal->lock_level == 1) {
+        mutex_internal->lock_tick = tick_now();
+    }
+#endif
 }
 
 
 void archdep_mutex_unlock(void *mutex)
 {
-    pthread_mutex_unlock(mutex);
+    mutex_internal_t *mutex_internal = (mutex_internal_t*)mutex;
+
+#if DEBUG_MUTEX_LONG_HOLD
+    if (--mutex_internal->lock_level == 0 && !mutex_internal->ignore_long_hold)
+    {
+        uint32_t deltaMs = TICK_TO_MILLI(tick_now_delta(mutex_internal->lock_tick));
+        if (deltaMs >= 40) {
+            printf("long hold %u ms on mutex\n", deltaMs);
+        }
+    }
+#endif
+
+    pthread_mutex_unlock(&mutex_internal->mutex);
 }
 
 

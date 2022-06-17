@@ -52,6 +52,11 @@ extern vice_renderer_backend_t vice_opengl_backend;
 typedef struct vice_opengl_renderer_context_s {
     /** \brief needed to coordinate access to the context between vice and main threads */
     void *canvas_lock;
+    
+    video_canvas_t *canvas;
+
+    /** \brief A queue of backbuffers ready for painting to the widget */
+    void *canvas_render_queue;
 
     /** \brief used to coordinate access to native rendering resources */
     void *render_lock;
@@ -61,9 +66,6 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief A 'pool' of one thread used to render backbuffers */
     render_thread_t render_thread;
-
-    /** \brief A queue of backbuffers ready for painting to the widget */
-    void *render_queue;
 
 #ifdef MACOS_COMPILE
     /** \brief native child window for OpenGL to draw on */
@@ -107,6 +109,12 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief minimum size for the drawing area, based on emu and aspect ratio settings */
     unsigned int native_view_min_height;
+    
+    /** \brief the most recent native_view_min_width we asked GTK for  */
+    unsigned int applied_native_view_min_width;
+
+    /** \brief the most recent native_view_min_height we asked GTK for */
+    unsigned int applied_native_view_min_height;
 
     /** \brief background colour for the native view */
     float native_view_bg_r;
@@ -147,15 +155,6 @@ typedef struct vice_opengl_renderer_context_s {
     GLuint previous_frame_texture;
     unsigned int previous_frame_width;
     unsigned int previous_frame_height;
-
-    /** \brief size of the next frame to be emulated */
-    unsigned int emulated_width_next;
-
-    /** \brief size of the next frame to be emulated */
-    unsigned int emulated_height_next;
-
-    /** \brief pixel aspect ratio of the next frame to be emulated */
-    float pixel_aspect_ratio_next;
 
     /** \brief when the last frame was rendered */
     unsigned long last_render_time;

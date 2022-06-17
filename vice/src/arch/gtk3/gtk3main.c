@@ -33,11 +33,13 @@
 #include <gtk/gtk.h>
 
 #include "archdep.h"
+#include "cmdline.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
 #include "mainlock.h"
 #include "render_thread.h"
+#include "resources.h"
 #include "ui.h"
 #include "video.h"
 

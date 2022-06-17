@@ -193,11 +193,6 @@ int video_arch_get_active_chip(void)
  */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    /*
-     * the render output can always be read from in GTK3,
-     * it's not a direct video memory buffer.
-     */
-    canvas->videoconfig->readable = 1;
 }
 
 
@@ -257,16 +252,20 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 
     if (!console_mode) {
         ui_create_main_window(canvas);
-
-        if (width && height && canvas->renderer_backend) {
-            canvas->renderer_backend->update_context(canvas, *width, *height);
-        }
-
         ui_display_main_window(canvas->window_index);
     }
 
     canvas->created = 1;
     return canvas;
+}
+
+void video_canvas_new_frame_hook(struct video_canvas_s *canvas)
+{
+}
+
+void video_canvas_on_new_backbuffer(video_canvas_t *canvas)
+{
+    canvas->renderer_backend->on_new_backbuffer(canvas);
 }
 
 /** \brief Free a previously created video canvas and all its
@@ -290,59 +289,6 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     }
 }
 
-/** \brief Update the display on a video canvas to reflect the machine
- *         state.
- * \param canvas The canvas to update.
- */
-void video_canvas_refresh(struct video_canvas_s *canvas)
-{
-    if (console_mode || video_disabled_mode || !canvas) {
-        return;
-    }
-
-    xi *= canvas->videoconfig->scalex;
-    w *= canvas->videoconfig->scalex;
-
-    yi *= canvas->videoconfig->scaley;
-    h *= canvas->videoconfig->scaley;
-
-    if (canvas->renderer_backend) {
-        canvas->renderer_backend->refresh_rect(canvas, xs, ys, xi, yi, w, h);
-    }
-}
-
-/** \brief Update canvas size to match the draw buffer size requested
- *         by the emulation core.
- * \param canvas The video canvas to update.
- * \param resize_canvas Ignored - the canvas will always resize.
- */
-
-void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
-{
-    if (!canvas || !canvas->event_box) {
-        return;
-    } else {
-        int new_width = canvas->draw_buffer->canvas_physical_width;
-        int new_height = canvas->draw_buffer->canvas_physical_height;
-
-        if (new_width <= 0 || new_height <= 0) {
-            /* Ignore impossible dimensions, but complain about it */
-            fprintf(stderr, "%s:%d: warning: function %s called with impossible dimensions\n", __FILE__, __LINE__, __func__);
-            return;
-        }
-
-        if (canvas->renderer_backend) {
-            canvas->renderer_backend->update_context(canvas, new_width, new_height);
-        }
-
-        /* Set the palette */
-        if (video_canvas_set_palette(canvas, canvas->palette) < 0) {
-            fprintf(stderr, "Setting palette for this mode failed. (Try 16/24/32 bpp.)");
-            archdep_vice_exit(-1);
-        }
-    }
-}
-
 /** \brief React to changes of aspect ratio in the physical system.
  *
  *  For GTK3 this means we need to compute a new minimum size for our
@@ -352,8 +298,8 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
  */
 void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas)
 {
-    int width = canvas->draw_buffer->canvas_physical_width;
-    int height = canvas->draw_buffer->canvas_physical_height;
+    int width = canvas->draw_buffer->visible_width;
+    int height = canvas->draw_buffer->visible_height;
     if (keepaspect && trueaspect) {
         width *= canvas->geometry->pixel_aspect_ratio;
     }

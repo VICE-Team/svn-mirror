@@ -111,6 +111,8 @@ int main_program_init(int argc, char **argv)
     size_t name_len;
     int reserr;
     char *cmdline;
+    
+    tick_init();
 
     /*
      * Each thread in VICE, including main, needs to call this before anything
@@ -217,7 +219,6 @@ int main_program_init(int argc, char **argv)
         return -1;
     }
 
-    tick_init();
     maincpu_early_init();
     machine_setup_context();
     drive_setup_context();

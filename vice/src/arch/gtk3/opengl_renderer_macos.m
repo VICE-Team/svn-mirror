@@ -34,8 +34,6 @@
 #import <gtk/gtk.h>
 #import <gdk/gdkquartz.h>
 
-#import "render_queue.h"
-
 #define CANVAS_LOCK() archdep_mutex_lock(context->canvas_lock)
 #define CANVAS_UNLOCK() archdep_mutex_unlock(context->canvas_lock)
 #define RENDER_LOCK() archdep_mutex_lock(context->render_lock)
@@ -67,7 +65,7 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
     self->context = _context;
 
     /* Request OpenGL 3.2 */
-    NSOpenGLPixelFormatAttribute pixel_format_attributes[] = { NSOpenGLPFADepthSize, 24, NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core, 0 };
+    NSOpenGLPixelFormatAttribute pixel_format_attributes[] = { NSOpenGLPFADoubleBuffer, NSOpenGLPFADepthSize, 24, NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core, 0};
     NSOpenGLPixelFormat *pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes: pixel_format_attributes];
     NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat: pixel_format shareContext: nil];
 
@@ -130,6 +128,9 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
 
 void vice_opengl_renderer_present_backbuffer(vice_opengl_renderer_context_t *context)
 {
+    ViceOpenGLView *opengl_view = context->native_view;
+    
+    [[opengl_view openGLContext] flushBuffer];
 }
 
 void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context)

@@ -44,7 +44,7 @@
 #include "machine.h"
 #include "monitor.h"
 #include "palette.h"
-#include "render_queue.h"
+#include "render-queue.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "ui.h"
@@ -101,9 +101,10 @@ static void vice_opengl_initialise_canvas(video_canvas_t *canvas)
     context->cached_vsync_resource = -1;
 
     context->canvas_lock = canvas->lock;
+    context->canvas_render_queue = canvas->render_queue;
     archdep_mutex_create(&context->render_lock);
-    context->render_queue = render_queue_create();
 
+    context->canvas = canvas;
     canvas->renderer_context = context;
 
     g_signal_connect(canvas->event_box, "realize", G_CALLBACK (on_widget_realized), canvas);
@@ -118,10 +119,6 @@ static void vice_opengl_destroy_context(video_canvas_t *canvas)
     CANVAS_LOCK();
 
     context = canvas->renderer_context;
-
-    /* Release all backbuffers on the render queue and delloc it */
-    render_queue_destroy(context->render_queue);
-    context->render_queue = NULL;
 
     archdep_mutex_destroy(context->render_lock);
 
@@ -270,69 +267,19 @@ static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
     on_widget_resized(canvas->event_box, &allocation, canvas);
 }
 
-/******/
-
-/** \brief The emulated screen size or aspect ratio has changed */
-static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int width, unsigned int height)
-{
-    context_t *context;
-
-    CANVAS_LOCK();
-
-    context = canvas->renderer_context;
-
-    context->emulated_width_next = width;
-    context->emulated_height_next = height;
-    context->pixel_aspect_ratio_next = canvas->geometry->pixel_aspect_ratio;
-
-    CANVAS_UNLOCK();
-}
 
 /** \brief It's time to draw a complete emulated frame */
-static void vice_opengl_refresh_rect(video_canvas_t *canvas,
-                                     unsigned int xs, unsigned int ys,
-                                     unsigned int xi, unsigned int yi,
-                                     unsigned int w, unsigned int h)
+static void vice_opengl_on_new_backbuffer(video_canvas_t *canvas)
 {
     context_t *context;
-    backbuffer_t *backbuffer;
-    int pixel_data_size_bytes;
 
     CANVAS_LOCK();
 
     context = canvas->renderer_context;
-    if (!context || !context->render_queue) {
-        CANVAS_UNLOCK();
-        return;
-    }
-
-    /* Obtain an unused backbuffer to render to */
-    pixel_data_size_bytes = context->emulated_width_next * context->emulated_height_next * 4;
-    backbuffer = render_queue_get_from_pool(context->render_queue, pixel_data_size_bytes);
-
-    if (!backbuffer) {
-        CANVAS_UNLOCK();
-        return;
-    }
-
-    backbuffer->width = context->emulated_width_next;
-    backbuffer->height = context->emulated_height_next;
-    backbuffer->pixel_aspect_ratio = context->pixel_aspect_ratio_next;
-    backbuffer->interlaced = canvas->videoconfig->interlaced;
-    backbuffer->interlace_field = canvas->videoconfig->interlace_field;
-
-    CANVAS_UNLOCK();
-
-    video_canvas_render(canvas, backbuffer->pixel_data, w, h, xs, ys, xi, yi, backbuffer->width * 4);
-
-    CANVAS_LOCK();
-    if (context->render_thread) {
-        render_queue_enqueue_for_display(context->render_queue, backbuffer);
+    if (context && context->render_thread) {
         render_thread_push_job(context->render_thread, render_thread_render);
-    } else {
-        /* Thread no longer running, probably shutting down */
-        render_queue_return_to_pool(context->render_queue, backbuffer);
     }
+
     CANVAS_UNLOCK();
 }
 
@@ -414,11 +361,8 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 
     ui_update_statusbars();
 
-    CANVAS_LOCK();
-
-    /* TODO we really shouldn't be setting this every frame! */
-    gtk_widget_set_size_request(canvas->event_box, context->native_view_min_width, context->native_view_min_height);
-
+    //CANVAS_LOCK();
+    
     /*
      * Sometimes the OS wants to redraw part of the window. Haven't been able to
      * reliably detect those events in some linux environments so we don't trigger
@@ -434,7 +378,9 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
      */
 
     if (ui_pause_active() || monitor_is_inside_monitor() || machine_is_jammed()) {
+        CANVAS_LOCK();
         render_thread_push_job(context->render_thread, render_thread_render);
+        CANVAS_UNLOCK();
     }
 
 #ifdef MACOS_COMPILE
@@ -448,8 +394,18 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 #endif
 }
 
-static void update_frame_textures(context_t *context, backbuffer_t *backbuffer)
+static void update_minimum_window_size(gpointer data)
 {
+    context_t *context = (context_t*) data;
+    video_canvas_t *canvas = context->canvas;
+    
+    CANVAS_LOCK();
+    gtk_widget_set_size_request(canvas->event_box, context->native_view_min_width, context->native_view_min_height);
+    CANVAS_UNLOCK();
+}
+
+static void update_texture(context_t *context, backbuffer_t *backbuffer)
+{    
     /*
      * Update the OpenGL texture with the new backbuffer bitmap
      */
@@ -463,9 +419,14 @@ static void update_frame_textures(context_t *context, backbuffer_t *backbuffer)
         context->current_frame_texture      = swap_texture;
         context->current_interlace_field    = backbuffer->interlace_field;
     }
-
-    context->current_frame_width    = backbuffer->width;
-    context->current_frame_height   = backbuffer->height;
+    
+    if (   backbuffer->width  != context->current_frame_width
+        || backbuffer->height != context->current_frame_height) {
+    
+        context->current_frame_width    = backbuffer->width;
+        context->current_frame_height   = backbuffer->height;
+    }
+    
     context->interlaced             = backbuffer->interlaced;
     context->pixel_aspect_ratio     = backbuffer->pixel_aspect_ratio;
 
@@ -674,15 +635,17 @@ static void render(void *job_data, void *pool_data)
     }
 
     CANVAS_LOCK();
-    backbuffer = render_queue_dequeue_for_display(context->render_queue);
+    backbuffer = render_queue_dequeue_for_display(context->canvas_render_queue);
 
     if (context->render_skip) {
         if (backbuffer) {
-            render_queue_return_to_pool(context->render_queue, backbuffer);
+            render_queue_return_to_pool(context->canvas_render_queue, backbuffer);
         }
         CANVAS_UNLOCK();
         return;
     }
+    
+    video_canvas_render_backbuffer(backbuffer, backbuffer->pixel_data, backbuffer->width * 4);
 
     RENDER_LOCK();
 
@@ -690,8 +653,8 @@ static void render(void *job_data, void *pool_data)
 
     if (backbuffer) {
         /* Upload the frame(s) to the GPU and then return it */
-        update_frame_textures(context, backbuffer);
-        render_queue_return_to_pool(context->render_queue, backbuffer);
+        update_texture(context, backbuffer);
+        render_queue_return_to_pool(context->canvas_render_queue, backbuffer);
     }
 
     /*
@@ -734,7 +697,16 @@ static void render(void *job_data, void *pool_data)
         context->native_view_min_width  = context->current_frame_width;
         context->native_view_min_height = context->current_frame_height;
     }
-
+    
+    /* Update the minimum window size if needed */
+    if (   context->applied_native_view_min_width  != context->native_view_min_width
+        || context->applied_native_view_min_height != context->native_view_min_height
+        ) {
+        archdep_thread_run_on_main(update_minimum_window_size, context);
+        context->applied_native_view_min_width  = context->native_view_min_width;
+        context->applied_native_view_min_height = context->native_view_min_height;
+    }
+    
     context->last_render_time = tick_now();
 
     CANVAS_UNLOCK();
@@ -760,9 +732,7 @@ static void render(void *job_data, void *pool_data)
         modern_render(context, scale_x, scale_y);
     }
 
-    vice_opengl_renderer_present_backbuffer(context);
-    glFinish();
-
+    vice_opengl_renderer_present_backbuffer(context);    
     vice_opengl_renderer_clear_current(context);
 
     RENDER_UNLOCK();
@@ -781,7 +751,7 @@ static void vice_opengl_set_palette(video_canvas_t *canvas)
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
         uint32_t color_code = color.red | (color.green << 8) | (color.blue << 16) | (0xffU << 24);
-        video_render_setphysicalcolor(canvas->videoconfig, i, color_code, 32);
+        video_render_setphysicalcolor(canvas->videoconfig, i, color_code);
     }
 
 #ifdef WORDS_BIGENDIAN
@@ -928,9 +898,9 @@ static GLuint create_shader_program(char *vertex_shader_filename, char *fragment
 
 vice_renderer_backend_t vice_opengl_backend = {
     vice_opengl_initialise_canvas,
-    vice_opengl_update_context,
+    NULL, /* vice_opengl_update_context, */
     vice_opengl_destroy_context,
-    vice_opengl_refresh_rect,
+    vice_opengl_on_new_backbuffer,
     vice_opengl_on_ui_frame_clock,
     vice_opengl_set_palette
 };

@@ -193,7 +193,7 @@ static void on_widget_unrealized(GtkWidget *widget, gpointer data)
         context->window = NULL;
     }
 
-    render_queue_destroy(context->render_queue);
+    render_queue_destroy(context->render_queue); BROKEN - migrate to canvas->render_queue
     context->render_queue = NULL;
 
     CANVAS_UNLOCK();
@@ -264,10 +264,7 @@ static void vice_directx_update_context(video_canvas_t *canvas, unsigned int wid
 }
 
 /** \brief It's time to draw a complete emulated frame */
-static void vice_directx_refresh_rect(video_canvas_t *canvas,
-                                     unsigned int xs, unsigned int ys,
-                                     unsigned int xi, unsigned int yi,
-                                     unsigned int w, unsigned int h)
+static void vice_directx_on_new_backbuffer(video_canvas_t *canvas)
 {
     context_t *context;
     backbuffer_t *backbuffer;
@@ -347,7 +344,7 @@ vice_renderer_backend_t vice_directx_backend = {
     vice_directx_initialise_canvas,
     vice_directx_update_context,
     vice_directx_destroy_context,
-    vice_directx_refresh_rect,
+    vice_directx_on_new_backbuffer,
     vice_directx_on_ui_frame_clock,
     vice_directx_set_palette
 };

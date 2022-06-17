@@ -686,7 +686,7 @@ static void machine_window_create(video_canvas_t *canvas)
     printf(" first/last displayed line: %u x %u\n", canvas->geometry->first_displayed_line, canvas->geometry->last_displayed_line);
     printf(" extra offscreen border left/right: %u x %u\n", canvas->geometry->extra_offscreen_border_left, canvas->geometry->extra_offscreen_border_right);
     printf(" screen_display_wh: %f x %f\n", (float)canvas->screen_display_w, (float)canvas->screen_display_h);
-    printf(" canvas_physical_wh: %u x %u\n", canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_width);
+    printf(" canvas_visible_wh: %u x %u\n", canvas->draw_buffer->visible_width, canvas->draw_buffer->visible_height);
     printf(" scalexy: %d x %d\n", canvas->videoconfig->scalex, canvas->videoconfig->scaley);
     printf(" sizexy: %u x %u\n", canvas->videoconfig->cap->single_mode.sizex, canvas->videoconfig->cap->single_mode.sizey);
     printf(" rmode: %u\n", canvas->videoconfig->cap->single_mode.rmode);
