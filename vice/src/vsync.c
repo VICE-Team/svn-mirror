@@ -585,9 +585,18 @@ void vsync_do_end_of_line(void)
                 /*
                  * We are more than a second behind, reset sync and accept that we're not running at full speed.
                  */
+                
+                mainlock_yield();
 
                 log_warning(LOG_DEFAULT, "Sync is %.3f ms behind", (double)TICK_TO_MICRO((tick_t)0 - ticks_until_target) / 1000);
                 sync_reset = true;
+            } else {
+
+                /*
+                 * We are running slow - make sure we still yield to the UI thread if it's waiting
+                 */
+
+                mainlock_yield();
             }
         }
 
