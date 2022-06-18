@@ -645,7 +645,9 @@ static void render(void *job_data, void *pool_data)
         return;
     }
     
-    video_canvas_render_backbuffer(backbuffer, backbuffer->pixel_data, backbuffer->width * 4);
+    if (backbuffer) {
+        video_canvas_render_backbuffer(backbuffer, backbuffer->pixel_data, backbuffer->width * 4);
+    }
 
     RENDER_LOCK();
 
