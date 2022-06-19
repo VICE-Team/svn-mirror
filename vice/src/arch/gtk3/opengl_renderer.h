@@ -80,6 +80,12 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief OpenGL graphics context */
     GLXContext gl_context;
+
+    /** \brief TODO: consider removing this */
+    unsigned int gl_backing_layer_width;
+
+    /** \brief TODO: consider removing this */
+    unsigned int gl_backing_layer_height;
 #endif
     /** \brief Less than OpenGL 3.2 uses the legacy renderer */
     bool gl_context_is_legacy;
