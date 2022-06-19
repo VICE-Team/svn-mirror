@@ -67,7 +67,7 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
     self->context = _context;
 
     /* Request OpenGL 3.2 */
-    NSOpenGLPixelFormatAttribute pixel_format_attributes[] = { NSOpenGLPFADepthSize, 24, NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core, 0 };
+    NSOpenGLPixelFormatAttribute pixel_format_attributes[] = { NSOpenGLPFADoubleBuffer, NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core, 0 };
     NSOpenGLPixelFormat *pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes: pixel_format_attributes];
     NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat: pixel_format shareContext: nil];
 
@@ -93,12 +93,6 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
     RENDER_UNLOCK();
 
     CANVAS_LOCK();
-    /* glViewport co-ordinates use the backing layer resolution, which can change on drag between screens */
-    NSSize backing_layer_size = [self convertSizeToBacking: CGSizeMake(context->native_view_width, context->native_view_height)];
-
-    context->gl_backing_layer_width = backing_layer_size.width;
-    context->gl_backing_layer_height = backing_layer_size.height;
-
     /* Re-enable rendering */
     context->render_skip = false;
     CANVAS_UNLOCK();
@@ -117,7 +111,6 @@ void vice_opengl_renderer_make_current(vice_opengl_renderer_context_t *context)
 
 void vice_opengl_renderer_set_viewport(vice_opengl_renderer_context_t *context)
 {
-    glViewport(0, 0, context->gl_backing_layer_width, context->gl_backing_layer_height);
 }
 
 void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, bool enable_vsync)
@@ -130,6 +123,9 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
 
 void vice_opengl_renderer_present_backbuffer(vice_opengl_renderer_context_t *context)
 {
+    ViceOpenGLView *opengl_view = context->native_view;
+    
+    [[opengl_view openGLContext] flushBuffer];
 }
 
 void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context)
