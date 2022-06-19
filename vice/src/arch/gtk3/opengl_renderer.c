@@ -761,6 +761,8 @@ static void render(void *job_data, void *pool_data)
     }
 
     vice_opengl_renderer_present_backbuffer(context);
+    glFinish();
+
     vice_opengl_renderer_clear_current(context);
 
     RENDER_UNLOCK();
