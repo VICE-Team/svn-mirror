@@ -109,12 +109,6 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief minimum size for the drawing area, based on emu and aspect ratio settings */
     unsigned int native_view_min_height;
-    
-    /** \brief the most recent native_view_min_width we asked GTK for  */
-    unsigned int applied_native_view_min_width;
-
-    /** \brief the most recent native_view_min_height we asked GTK for */
-    unsigned int applied_native_view_min_height;
 
     /** \brief background colour for the native view */
     float native_view_bg_r;
@@ -143,25 +137,21 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief The vertex array object that gives structure to our vertex data. */
     GLuint vao;
 
-    /** \brief The texture identifier for the GPU's copy of our  machine display. */
+    /** \brief The texture identifier for the GPU's copy of our machine display. */
     GLuint current_frame_texture;
+    
     unsigned int current_frame_width;
     unsigned int current_frame_height;
-    bool interlaced;
-    int current_interlace_field;
-    float pixel_aspect_ratio;
-
-    /** \brief The texture identifier for the GPU's copy of our  machine display. */
-    GLuint previous_frame_texture;
-    unsigned int previous_frame_width;
-    unsigned int previous_frame_height;
-
-    /** \brief when the last frame was rendered */
-    unsigned long last_render_time;
-
+    float current_pixel_aspect_ratio;
+    
     /** \brief cached value of the vsync resource to avoid setting it each frame */
-    unsigned long cached_vsync_resource;
+    unsigned long current_vsync_value;
+    
+    /** \brief Tracks the even/odd field during interlaced rendering */
+    int current_interlace_field;
 
+    /** \brief The texture identifier for the GPU's copy of our machine display. */
+    GLuint previous_frame_texture;
 } vice_opengl_renderer_context_t;
 
 void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context);
