@@ -119,7 +119,7 @@
 
 # keys that can't be mapped positionally are:
 # (row0) pound (-> </>), clr/home (-> home)
-# (row1) arrow up (-> end), restore (-> F12)
+# (row1) arrow up (-> end), restore (-> F12 & PageUp)
 # (row2) run/stop (-> escape)
 # (row3) commodore (-> control)
 
@@ -129,8 +129,6 @@
 # ins/del+shift (-> insert)
 # arrow up (-> altgr+~)
 # arrow up+shift (-> altgr+m)
-# f1 (-> page up)
-# f7 (-> page down)
 # :+shift (-> altgr+[)
 # ;+shift (-> altgr+])
 # @ (-> altgr+Q)
@@ -152,13 +150,9 @@ Left             0 2 1
 # f7
 F7               0 3 8
 F8               0 3 1
-# extra: pagedown -> f7
-Page_Down        0 3 8
 # f1
 F1               0 4 8
 F2               0 4 1
-# extra: pagedown -> f1
-Page_Up          0 4 8
 # f3
 F3               0 5 8
 F4               0 5 1
@@ -175,8 +169,8 @@ Down             0 7 8
 # shift+3
 numbersign       1 0 8
 # shift+4
-EuroSign         1 3 8
-currency         1 3 8
+EuroSign         1 3 8  # Mac
+currency         1 3 8  # PC
 # left shift
 # key is left shift
 Shift_L          1 7 2
@@ -205,8 +199,7 @@ parenleft        3 3 8
 
 # shift+9
 parenright       4 0 8
-# shift+0
-equal            4 3 8
+
 #####################
 # |Bit 5|  +  |  P  |  L  |  -  | . > | : [ |  @  | , < |
 
@@ -241,6 +234,7 @@ less             6 0 8
 greater          6 0 1
 bar              6 0 8
 brokenbar        6 0 8
+Page_Down        6 0 8
 # *
 #plus             6 1 8
 #asterisk         6 1 1
@@ -363,11 +357,12 @@ y 3 1 8
 # Restore key mappings
 #
 F12 -3 0
+Page_Up -3 0
 F12 -3 1
 
 # Dead keys support
-dead_acute      5 3 8  # ' -> pound
-dead_grave      5 3 8  # ` -> shift+pound
+dead_acute      5 3 8  # ' -> minus
+dead_grave      5 3 8  # ` -> shift+minus
 dead_diaeresis  6 1 8  # ¨ -> asterisk
 dead_circumflex 6 1 8  # ^ -> shift+asterisk
 
