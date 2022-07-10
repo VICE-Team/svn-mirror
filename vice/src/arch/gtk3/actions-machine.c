@@ -71,9 +71,7 @@ static void quit_action(void)
     resources_get_int("ConfirmOnExit", &confirm);
     if (!confirm) {
         ui_action_finish(ACTION_QUIT);
-        mainlock_release();
         archdep_vice_exit(0);
-        mainlock_obtain();
         return;
     }
 
