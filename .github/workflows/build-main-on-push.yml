@@ -24,7 +24,7 @@ jobs:
             pip3 install scan-build
             brew install autoconf automake pkg-config dos2unix
             brew install sdl2 sdl2_image
-            brew install gtk+3 librsvg adwaita-icon-theme
+            brew install gtk+3 librsvg adwaita-icon-theme glib-utils
             brew install ffmpeg@4 glew xa lame libvorbis flac
 
         - name: Checkout Source
