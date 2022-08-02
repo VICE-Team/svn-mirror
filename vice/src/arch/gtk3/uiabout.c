@@ -197,6 +197,7 @@ void ui_about_dialog_show(void)
 
     /* Describe the program */
     switch (machine_class) {
+        default:                    /* fall through */ /* fix warning */
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_VSID:
@@ -227,7 +228,7 @@ void ui_about_dialog_show(void)
             model = "Commodore CBM-II 6x0 and 7x0";
             break;
     }
-    g_snprintf(buffer, sizeof(buffer), "Emulates a %s", model);
+    g_snprintf(buffer, sizeof(buffer), "A %s Emulator", model);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about), buffer);
 
     /* set license */
