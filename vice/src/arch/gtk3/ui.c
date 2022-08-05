@@ -2206,39 +2206,41 @@ int ui_init_finalize(void)
         }
     }
 
-    /* ui_actions_init() is called in src/main.c */
-    ui_actions_set_dispatch(ui_action_dispatch);
 
-    actions_cartridge_register();
-    actions_clipboard_register();
-    actions_datasette_register();
+    if (!console_mode) {
+        /* ui_actions_init() is called in src/main.c */
+        ui_actions_set_dispatch(ui_action_dispatch);
+
+        actions_cartridge_register();
+        actions_clipboard_register();
+        actions_datasette_register();
 #ifdef DEBUG
-    actions_debug_register();
+        actions_debug_register();
 #endif
-    actions_display_register();
-    actions_drive_register();
-    actions_help_register();
-    actions_hotkeys_register();
-    actions_joystick_register();
-    actions_machine_register();
-    actions_media_register();
-    actions_settings_register();
-    actions_snapshot_register();
-    actions_speed_register();
+        actions_display_register();
+        actions_drive_register();
+        actions_help_register();
+        actions_hotkeys_register();
+        actions_joystick_register();
+        actions_machine_register();
+        actions_media_register();
+        actions_settings_register();
+        actions_snapshot_register();
+        actions_speed_register();
 
-    /* Add any actions that weren't already registered during menu creation */
-    hotkey_map_add_actions();
+        /* Add any actions that weren't already registered during menu creation */
+        hotkey_map_add_actions();
 
-    ui_hotkeys_init();
+        ui_hotkeys_init();
 
-    /* Set proper radio buttons, check buttons and menu item labels */
+        /* Set proper radio buttons, check buttons and menu item labels */
 #ifdef DEBUG
-    actions_debug_setup_ui();
+        actions_debug_setup_ui();
 #endif
-    actions_display_setup_ui();
-    actions_joystick_setup_ui();
-    actions_speed_setup_ui();
-
+        actions_display_setup_ui();
+        actions_joystick_setup_ui();
+        actions_speed_setup_ui();
+    }
     return 0;
 }
 
