@@ -1116,7 +1116,7 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
             }
             return _mem_read_tab[15][addr >> 8](addr);
         default:
-            if (bank >= 0 && bank < 15) {
+            if (bank >= 0 && bank <= 15) {
                 return read_ram_tab[bank](addr);
             }
     }
