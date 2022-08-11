@@ -1487,6 +1487,9 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
     mon_memmap_init();
 
+    /* set the current bank to the CPU bank. we need to do this here since this may not be bank 0 */
+    mon_interfaces[e_comp_space]->current_bank = mon_interfaces[e_comp_space]->mem_bank_from_name("cpu");
+
     if (init_break_mode == ON_EXECUTE) {
         /* Create the -initbreak execute address breakpoint */
         if (init_break_address >= 0 && init_break_address < 65536) {
