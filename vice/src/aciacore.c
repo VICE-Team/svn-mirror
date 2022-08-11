@@ -160,9 +160,9 @@ typedef struct acia_struct {
     /*! \brief The handshake lines as currently seen by the ACIA */
     enum rs232handshake_out rs232_status_lines;
 
-    /*! \brief The connection mode of the DSR and DCD lines 
+    /*! \brief The connection mode of the DSR and DCD lines
       Normal connection (ACIA_CTRL_NORMAL), swapped DCD and DSR lines
-      (ACIA_CTRL_SWAP) or DCD connected to DSR (ACIA_CTRL_DSR) */ 
+      (ACIA_CTRL_SWAP) or DCD connected to DSR (ACIA_CTRL_DSR) */
     int ctrlmode;
 
 } acia_type;
@@ -614,7 +614,7 @@ static int acia_get_status(void)
         case ACIA_CTRL_SWAP:
             acia.status |= ACIA_SR_BITS_DCD;
             break;
-        
+
         default:
             break;
         }

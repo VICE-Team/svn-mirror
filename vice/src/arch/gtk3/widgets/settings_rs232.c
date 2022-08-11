@@ -485,7 +485,7 @@ static GtkWidget *create_acia_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), acia_ctrl_widget, 1, row, 1, 1);
     row++;
-    
+
 
     gtk_widget_show_all(grid);
     return grid;
