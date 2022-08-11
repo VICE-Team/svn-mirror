@@ -8004,6 +8004,12 @@ Integer specifying the type of emulated RS232 interface (x64, x64sc, xscpu64, xv
 Integer specifying which interrupt to use (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
 (0 = none, 1 = NMI, 2 = IRQ)
 
+@vindex Acia1Ctrl
+@item AciaCtrl
+Integer specifying which way the DCD and DSR lines are connected to the ACIA  (all emulators except x64dtv and vsid, and only if RS232 support is enabled and supported at compile time).
+(0: Normal, 1: Swapped, 2: DCD = DSR)
+
+
 @end table
 
 @table @code
@@ -8119,6 +8125,12 @@ Enable/Disable the $DE** ACIA RS232 interface emulation
 @item -myaciadev <0-3>
 Specify RS232 device the ACIA should work on
 (all emulators except x64dtv and vsid, and only if RS232 support is enabled and supported at compile time)
+
+
+@findex -myaciactrl
+@item -myaciactrl <mode>
+Specify the way the DCD and DSR lines are connected to the ACIA (0: Normal, 1: Swapped, 2: DCD = DSR) (all emulators except x64dtv and vsid, and only if RS232 support is enabled and supported at compile time)
+
 
 @findex -acia1base
 @item -acia1base <Base address>

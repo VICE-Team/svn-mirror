@@ -7,13 +7,14 @@
 /*
  * $VICERES Acia1Enable     x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Dev        x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES Acia1Ctrl       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES Acia1Base       x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Irq        x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Mode       x64 x64sc xscpu64 x128 xvic
  * $VICERES UserportDevice  x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserBaud      x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserDev       x64 x64sc xscpu64 x128 xvic
- * $VICERES RsUserUP9600     x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserUP9600    x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserRTSInv    x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserCTSInv    x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserDSRInv    x64 x64sc xscpu64 x128 xvic
@@ -75,6 +76,15 @@ static const vice_gtk3_combo_entry_int_t acia_devices[] = {
     { "Serial 2", 1 },
     { "Serial 3", 2 },
     { "Serial 4", 3 },
+    { NULL, -1 }
+};
+
+/** \brief  List of ACIA ctrl lines modes
+ */
+static const vice_gtk3_combo_entry_int_t acia_ctrlmodes[] = {
+    { "Normal", 0 },
+    { "Swap DCD <-> DSR", 1 },
+    { "DCD = DSR", 2 },
     { NULL, -1 }
 };
 
@@ -416,6 +426,7 @@ static GtkWidget *create_acia_widget(void)
     GtkWidget *acia_base_widget;
     GtkWidget *acia_irq_widget;
     GtkWidget *acia_mode_widget;
+    GtkWidget *acia_ctrl_widget;
     int row = 1;    /* header label is always present */
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
@@ -466,6 +477,15 @@ static GtkWidget *create_acia_widget(void)
         gtk_grid_attach(GTK_GRID(grid), acia_mode_widget, 1, row, 1, 1);
         row++;
     }
+
+    /* Acia1 Control lines mode */
+    acia_ctrl_widget = vice_gtk3_resource_combo_box_int_new(
+            "Acia1Ctrl", acia_ctrlmodes);
+    label = create_indented_label("Control lines");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), acia_ctrl_widget, 1, row, 1, 1);
+    row++;
+    
 
     gtk_widget_show_all(grid);
     return grid;
