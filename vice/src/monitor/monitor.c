@@ -1488,7 +1488,11 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     mon_memmap_init();
 
     /* set the current bank to the CPU bank. we need to do this here since this may not be bank 0 */
-    mon_interfaces[e_comp_space]->current_bank = mon_interfaces[e_comp_space]->mem_bank_from_name("cpu");
+    if (mon_interfaces[e_comp_space]->mem_bank_from_name != NULL) {
+        mon_interfaces[e_comp_space]->current_bank = mon_interfaces[e_comp_space]->mem_bank_from_name("cpu");
+    } else {
+        mon_interfaces[e_comp_space]->current_bank = 0;
+    }
 
     if (init_break_mode == ON_EXECUTE) {
         /* Create the -initbreak execute address breakpoint */
@@ -2995,7 +2999,12 @@ static void monitor_open(void)
     /* disassemble at monitor entry, for single stepping */
     if (disassemble_on_entry) {
         int monbank = mon_interfaces[default_memspace]->current_bank;
-        mon_interfaces[default_memspace]->current_bank = mon_interfaces[default_memspace]->mem_bank_from_name("cpu"); /* always disassemble using CPU bank */
+        /* always disassemble using CPU bank */
+        if (mon_interfaces[default_memspace]->mem_bank_from_name != NULL) {
+            mon_interfaces[default_memspace]->current_bank = mon_interfaces[default_memspace]->mem_bank_from_name("cpu");
+        } else {
+            mon_interfaces[default_memspace]->current_bank = 0;
+        }
         mon_disassemble_with_regdump(default_memspace, dot_addr[default_memspace]);
         mon_interfaces[default_memspace]->current_bank = monbank; /* restore value used in monitor */
         disassemble_on_entry = 0;
