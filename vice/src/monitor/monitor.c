@@ -2992,7 +2992,7 @@ static void monitor_open(void)
     /* disassemble at monitor entry, for single stepping */
     if (disassemble_on_entry) {
         int monbank = mon_interfaces[default_memspace]->current_bank;
-        mon_interfaces[default_memspace]->current_bank = 0; /* always disassemble using CPU bank */
+        mon_interfaces[default_memspace]->current_bank = mon_interfaces[default_memspace]->mem_bank_from_name("cpu"); /* always disassemble using CPU bank */
         mon_disassemble_with_regdump(default_memspace, dot_addr[default_memspace]);
         mon_interfaces[default_memspace]->current_bank = monbank; /* restore value used in monitor */
         disassemble_on_entry = 0;
