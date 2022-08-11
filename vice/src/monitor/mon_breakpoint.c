@@ -609,7 +609,14 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
             } else {
                 mon_out("\n");
             }
-            mon_interfaces[mem]->current_bank = mon_interfaces[mem]->mem_bank_from_name("cpu"); /* always disassemble using CPU bank */
+
+            /* always disassemble using CPU bank */
+            if (mon_interfaces[mem]->mem_bank_from_name != NULL) {
+                mon_interfaces[mem]->current_bank = mon_interfaces[mem]->mem_bank_from_name("cpu");
+            } else {
+                mon_interfaces[mem]->current_bank = 0;
+            }
+
             if (is_loadstore) {
                 mon_disassemble_with_regdump(mem, loadstorepc);
             } else if (!is_loadstore || cp->stop) {
