@@ -160,18 +160,13 @@ typedef struct acia_struct {
     /*! \brief The handshake lines as currently seen by the ACIA */
     enum rs232handshake_out rs232_status_lines;
 
-    /*! \brief The connection mode of the DSR and DCD lines
-      Normal connection (ACIA_CTRL_NORMAL), swapped DCD and DSR lines
-      (ACIA_CTRL_SWAP) or DCD connected to DSR (ACIA_CTRL_DSR) */
-    int ctrlmode;
-
 } acia_type;
 
 /******************************************************************/
 
 static acia_type acia = { NULL, NULL, 0, 0, 0, (enum acia_tx_state)0,
                           0, 0, 0, 0, 0, 0, 0, 0xff, 0, 0, 0, 0, 0, 0, 0,
-                          (enum cpu_int)0, 0, 0, (enum rs232handshake_out)0, 0 };
+                          (enum cpu_int)0, 0, 0, (enum rs232handshake_out)0 };
 
 static void acia_preinit(void)
 {
@@ -258,32 +253,6 @@ static int acia_set_device(int val, void *param)
     return 0;
 }
 
-
-/*! \internal \brief Change the control lines mode for this ACIA
-
- \param val
-   The control lines mode
-
- \param param
-   Unused
-
- \return
-   0 on success, -1 on error.
-
- \remark
-   This function is called whenever the resource
-   MYACIA "Ctrl" is changed.
-*/
-static int acia_set_ctrl(int val, void *param)
-{
-    if (val < 0 || val > 2) {
-        return -1;
-    }
-
-
-    acia.ctrlmode = val;
-    return 0;
-}
 
 /*! \internal \brief Generate an ACIA interrupt
 
@@ -504,8 +473,6 @@ static int acia_set_mode(int new_mode, void *param)
 static const resource_int_t resources_int[] = {
     { MYACIA "Dev", MyDevice, RES_EVENT_NO, NULL,
       &acia.device, acia_set_device, NULL },
-    { MYACIA "Ctrl", 0, RES_EVENT_NO, NULL,
-      &acia.ctrlmode, acia_set_ctrl, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -534,9 +501,6 @@ static const cmdline_option_t cmdline_options[] =
     { "-myaciadev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, MYACIA "Dev", NULL,
       "<0-3>", "Specify RS232 device this ACIA should work on" },
-    { "-myaciactrl", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, MYACIA "Ctrl", NULL,
-      "<mode>", "Set the behaviour of the ACIA control lines: (0: Normal, 1: Swap DCD <-> DSR, 2: DCD = DSR)" },
     CMDLINE_LIST_END
 };
 
@@ -589,36 +553,22 @@ static int acia_get_status(void)
     }
 #endif
     if (!(modem_status & RS232_HSI_DCD)) {
-        switch (acia.ctrlmode)
-        {
-        case ACIA_CTRL_NORMAL:
-            acia.status |= ACIA_SR_BITS_DCD;
+        /* DCD mirrors DSR for C64/128 machines */
+        switch (machine_class) {
+            case VICE_MACHINE_C64:      /* fall through */
+            case VICE_MACHINE_C64SC:    /* fall through */
+            case VICE_MACHINE_SCPU64:   /* fall through */
+            case VICE_MACHINE_C128:     /* fall through */
+                acia.status |= ACIA_SR_BITS_DSR;
             break;
-        case ACIA_CTRL_DSR:
-        /* FALL THROUGH */
-        case ACIA_CTRL_SWAP:
-            acia.status |= ACIA_SR_BITS_DSR;
-        default:
-            break;
+        /* Real DCD for other machines */
+            default:
+                acia.status |= ACIA_SR_BITS_DCD;
         }
     }
 
     if (!(modem_status & RS232_HSI_DSR)) {
-        switch (acia.ctrlmode)
-        {
-        case ACIA_CTRL_DSR:
-        /* FALL THROUGH */
-        case ACIA_CTRL_NORMAL:
-            acia.status |= ACIA_SR_BITS_DSR;
-            break;
-        case ACIA_CTRL_SWAP:
-            acia.status |= ACIA_SR_BITS_DCD;
-            break;
-
-        default:
-            break;
-        }
-        acia.status |= ACIA_SR_BITS_DCD;    // DSR!!!!
+        acia.status |= ACIA_SR_BITS_DSR;
     }
 
 
@@ -1311,9 +1261,6 @@ static void int_acia_rx(CLOCK offset, void *data)
 
         acia.status |= ACIA_SR_BITS_RECEIVE_DR_FULL;
     } while (0);
-
-    /* Check DSR and DCD for changes and generate an IRQ if one hasn't been triggered yet */
-    // acia_get_status();
 
     if (acia.alarm_active_rx == 1) {
         acia.alarm_clk_rx = myclk + acia.ticks;

@@ -79,15 +79,6 @@ static const vice_gtk3_combo_entry_int_t acia_devices[] = {
     { NULL, -1 }
 };
 
-/** \brief  List of ACIA ctrl lines modes
- */
-static const vice_gtk3_combo_entry_int_t acia_ctrlmodes[] = {
-    { "Normal", 0 },
-    { "Swap DCD <-> DSR", 1 },
-    { "DCD = DSR", 2 },
-    { NULL, -1 }
-};
-
 
 /** \brief  List of base addresses for the emulated chip (x64/x64sc/xscpu64)
  */
@@ -426,7 +417,6 @@ static GtkWidget *create_acia_widget(void)
     GtkWidget *acia_base_widget;
     GtkWidget *acia_irq_widget;
     GtkWidget *acia_mode_widget;
-    GtkWidget *acia_ctrl_widget;
     int row = 1;    /* header label is always present */
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
@@ -477,15 +467,6 @@ static GtkWidget *create_acia_widget(void)
         gtk_grid_attach(GTK_GRID(grid), acia_mode_widget, 1, row, 1, 1);
         row++;
     }
-
-    /* Acia1 Control lines mode */
-    acia_ctrl_widget = vice_gtk3_resource_combo_box_int_new(
-            "Acia1Ctrl", acia_ctrlmodes);
-    label = create_indented_label("Control lines");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), acia_ctrl_widget, 1, row, 1, 1);
-    row++;
-
 
     gtk_widget_show_all(grid);
     return grid;

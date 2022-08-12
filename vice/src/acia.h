@@ -127,11 +127,6 @@ enum {
                                  and enhanced baud rate register */
 #define ACIA_MODE_LOWEST ACIA_MODE_NORMAL
 
-
-#define ACIA_CTRL_NORMAL    0  /* Normal DSR and DCD lines connection */
-#define ACIA_CTRL_SWAP      1  /* DSR and DCD lines are swapped */
-#define ACIA_CTRL_DSR       2  /* DCD is connected to DSR */
-
 int acia_dump(void);
 
 #endif
