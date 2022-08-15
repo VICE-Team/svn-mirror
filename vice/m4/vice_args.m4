@@ -123,10 +123,10 @@ AC_DEFUN([VICE_ARG_LIST_CHECK],
 dnl --enable-*, --disable-*, --with-* and --without-* sanity checks
 for argcheck in $1
 do
+  argcheck=`echo "$argcheck" | sed 's/=.*//'`
   argvalid=yes
   AS_CASE([[$]argcheck],
       [--enable-option-checking], [argvalid=yes],
-      [--enable-arch=*], [argvalid=yes],
       [--enable-*], [
         argvalid=no
         for i in [$]vice_arg_enable_list
