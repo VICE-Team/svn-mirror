@@ -311,3 +311,8 @@ int crt_getid(const char *filename)
 void ui_hotkeys_init(void)
 {
 }
+
+int drive_get_disk_drive_type(int dnr)
+{
+    return DRIVE_TYPE_NONE;
+}
