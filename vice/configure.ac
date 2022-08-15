@@ -179,12 +179,6 @@ fi
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
 
-dnl check for invalid options
-dnl echo "option checking is $enable_option_checking"
-dnl AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK($cmdline_options)])
-
-VICE_ARG_LIST_CHECK($cmdline_options, $enable_option_checking)
-
 dnl check for conflicting options
 VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-gtk3ui --enable-headlessui], [UI])
 AS_IF([test x"$enable_gtk3ui" = "xno" -a x"$enable_sdl1ui" = "xno" -a x"$enable_sdl2ui" = "xno" -a x"$enable_headlessui" = "xno"],
@@ -947,16 +941,36 @@ darwin*)
   RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
   AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
 
+  dnl
   dnl Support targeting a specific macOS version
-  AC_ARG_ENABLE([macos-target-sdk-version],
-    [AC_HELP_STRING([--enable-macos-target-sdk-version[[=version]]],
-      [compile for a specific sdk version such as 10.10 or 11.0 [default=no]])],
-    [],
-    [enable_macos_target_sdk_version=`echo "int main(int argc, char** argv) { return 0; }" | cc -x c - ; otool -l a.out | grep sdk | awk '{ print $2 }' ; rm a.out`])
-  
-  VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
-  VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
-  VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
+  dnl
+
+  VICE_ARG_ENABLE_LIST(
+    macos-minimum-version,
+    AS_HELP_STRING(
+      [--enable-macos-minimum-version=version],
+      [compile for a specific macOS version such as 10.10 or 11.0])
+    )
+  if test x"$enable_macos_minimum_version" = "x"; then
+    AC_MSG_CHECKING([default macOS minimum version (use --enable-macos-minimum-version to override)])
+    enable_macos_minimum_version=`echo "int main(int argc, char** argv) { return 0; }" | cc -x c - ; otool -l a.out | grep minos | awk '{ print $2 }' ; rm a.out`
+    AC_MSG_RESULT($enable_macos_minimum_version)
+  else
+    AC_MSG_CHECKING([if the compiler supports -mmacosx-version-min=$enable_macos_minimum_version])
+    ORIG_CFLAGS="$CFLAGS"
+    CFLAGS="$VICE_CFLAGS -mmacosx-version-min=$enable_macos_minimum_version"
+    AC_TRY_COMPILE([],
+                  [int test;],
+                  [ AC_MSG_RESULT(yes)
+                    CFLAGS="$ORIG_CFLAGS"],
+                  [ AC_MSG_RESULT(no)
+                    AC_MSG_ERROR([Requested macOS minimum version $enable_macos_minimum_version not supported])
+                    ])
+  fi
+
+  VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=$enable_macos_minimum_version"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=$enable_macos_minimum_version"
+  VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=$enable_macos_minimum_version"
 
   dnl
   dnl Yeah, OpenGL and other stuff is deprecated, we don't need to be warned about it.
