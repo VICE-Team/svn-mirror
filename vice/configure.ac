@@ -953,7 +953,12 @@ darwin*)
     )
   if test x"$enable_macos_minimum_version" = "x"; then
     AC_MSG_CHECKING([default macOS minimum version (use --enable-macos-minimum-version to override)])
-    enable_macos_minimum_version=`echo "int main(int argc, char** argv) { return 0; }" | cc -x c - ; otool -l a.out | grep minos | awk '{ print $2 }' ; rm a.out`
+    enable_macos_minimum_version=`echo "int main(int argc, char** argv) { return 0; }" | cc -x c - ;
+                                  otool -l a.out | awk '/LC_VERSION_MIN_MACOSX/ { f_old=1 }
+                                                        /LC_BUILD_VERSION/ { f_new=1 }
+                                                        f_old && /version/ { print $2; exit; }
+                                                        f_new && /minos/ { print $2; exit; }' ;
+                                  rm a.out`
     AC_MSG_RESULT($enable_macos_minimum_version)
   else
     AC_MSG_CHECKING([if the compiler supports -mmacosx-version-min=$enable_macos_minimum_version])
@@ -3697,7 +3702,7 @@ else
         real_arch="BeOS"
     fi
     if test x"$is_unix_macosx" = "xyes"; then
-        show_arch="Mac OS X"
+        show_arch="macOS $enable_macos_minimum_version"
         real_arch="OSX"
     fi
     if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
