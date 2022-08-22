@@ -228,7 +228,7 @@ void ui_about_dialog_show(void)
             model = "Commodore CBM-II 6x0 and 7x0";
             break;
     }
-    g_snprintf(buffer, sizeof(buffer), "The %s Emulator", model);
+    g_snprintf(buffer, sizeof(buffer), "A %s Emulator", model);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about), buffer);
 
     /* set license */
