@@ -2341,6 +2341,9 @@ void cartridge_reset(void)
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_reset();
             break;
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            se5_reset();
+            break;
         case CARTRIDGE_WARPSPEED:
             zippcode48_reset();
             break;
