@@ -273,6 +273,15 @@ static void mmu_set_ram_bank(uint8_t value)
 #endif
 }
 
+static void mmu_set_dma_bank(uint8_t value)
+{
+    if (c128_full_banks) {
+        dma_bank = mem_ram + (((long)value & 0xc0) << 10);
+    } else {
+        dma_bank = mem_ram + (((long)value & 0x40) << 10);
+    }
+}
+
 static void mmu_update_page01_pointers(void)
 {
     /* update pointers for page 0/1 in case they or the shared RAM settings changed */
@@ -469,6 +478,7 @@ void mmu_store(uint16_t address, uint8_t value)
                 c128fastiec_fast_cpu_direction(value & 8);
                 break;
             case 6: /* RAM configuration register (RCR).  */
+                mmu_set_dma_bank(value);
                 mem_set_ram_config(value);
                 break;
             case 8:

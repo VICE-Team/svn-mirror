@@ -1252,7 +1252,7 @@ static void reu_dma_host_to_reu(uint16_t host_addr, unsigned int reu_addr, int h
     while (len) {
         nonsc_reu_clk_inc_pre();
         machine_handle_pending_alarms(0);
-        value = mem_read(host_addr);
+        value = mem_dma_read(host_addr);
         reu_clk_inc_post_read();
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Transferring byte: %x from main $%04X to ext $%05X.", value, host_addr, reu_addr));
 
@@ -1300,7 +1300,7 @@ static void reu_dma_reu_to_host(uint16_t host_addr, unsigned int reu_addr, int h
         /* after a transfer from REU to host, the last (pre)fetched value from valid
            REU RAM stays in the latch that drives the bus. see comment below. */
         floating_bus_value = value = read_from_reu(reu_addr);
-        mem_store(host_addr, value);
+        mem_dma_store(host_addr, value);
         reu_clk_inc_post_write();
         machine_handle_pending_alarms(0);
         host_addr = (host_addr + host_step) & 0xffff;
@@ -1352,11 +1352,11 @@ static void reu_dma_swap(uint16_t host_addr, unsigned int reu_addr, int host_ste
         value_from_reu = read_from_reu(reu_addr);
         nonsc_reu_clk_inc_pre();
         machine_handle_pending_alarms(0);
-        value_from_c64 = mem_read(host_addr);
+        value_from_c64 = mem_dma_read(host_addr);
         reu_clk_inc_post_read();
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Exchanging bytes: %x from main $%04X with %x from ext $%05X.", value_from_c64, host_addr, value_from_reu, reu_addr));
         store_to_reu(reu_addr, value_from_c64);
-        mem_store(host_addr, value_from_reu);
+        mem_dma_store(host_addr, value_from_reu);
         nonsc_reu_clk_inc_pre();
         reu_clk_inc_post_write();
         machine_handle_pending_alarms(0);
@@ -1412,7 +1412,7 @@ static void reu_dma_compare(uint16_t host_addr, unsigned int reu_addr, int host_
         nonsc_reu_clk_inc_pre();
         machine_handle_pending_alarms(0);
         value_from_reu = read_from_reu(reu_addr);
-        value_from_c64 = mem_read(host_addr);
+        value_from_c64 = mem_dma_read(host_addr);
         reu_clk_inc_post_read();
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Comparing bytes: %x from main $%04X with %x from ext $%05X.", value_from_c64, host_addr, value_from_reu, reu_addr));
         reu_addr = increment_reu_with_wrap_around(reu_addr, reu_step);
@@ -1452,7 +1452,7 @@ static void reu_dma_compare(uint16_t host_addr, unsigned int reu_addr, int host_
          */
 
         value_from_reu = read_from_reu(reu_addr);
-        value_from_c64 = mem_read(host_addr);
+        value_from_c64 = mem_dma_read(host_addr);
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Comparing bytes after verify error: %x from main $%04X with %x from ext $%05X.",
                                                    value_from_c64, host_addr, value_from_reu, reu_addr));
         if (value_from_reu == value_from_c64) {

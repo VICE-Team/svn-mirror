@@ -106,6 +106,12 @@ uint8_t *mem_chargen_rom_ptr;
 /* Currently selected RAM bank.  */
 uint8_t *ram_bank;
 
+/* Currently selected DMA bank.  */
+uint8_t *dma_bank;
+
+/* Current mem_read/mem_store is DMA */
+static int mem_dma_rw = 0;
+
 /* Shared memory.  */
 static uint16_t top_shared_limit, bottom_shared_limit;
 
@@ -504,7 +510,7 @@ void mem_set_ram_config(uint8_t value)
     DEBUG_PRINT(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
 
     if ((value & 0x3) == 0) {
-        shared_size = 1024;
+        shared_size = 0x1000;
     } else {
         shared_size = 0x1000 << ((value & 0x3) - 1);
     }
@@ -609,11 +615,16 @@ uint8_t zero_read(uint16_t addr)
             }
             break;
         default:
-            retval = c128_mem_mmu_wrap_read_zero(addr);
-            if (retval == 0x100) {
-                vicii.last_cpu_val = mem_page_zero[addr];
+            if (mem_dma_rw) {
+                /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 0 translation. */
+                vicii.last_cpu_val = dma_bank[addr];
             } else {
-                vicii.last_cpu_val = (uint8_t)retval;
+                retval = c128_mem_mmu_wrap_read_zero(addr);
+                if (retval == 0x100) {
+                    vicii.last_cpu_val = mem_page_zero[addr];
+                } else {
+                    vicii.last_cpu_val = (uint8_t)retval;
+                }
             }
     }
 
@@ -667,7 +678,10 @@ void zero_store(uint16_t addr, uint8_t value)
             }
             break;
         default:
-            if (c128_mem_mmu_wrap_store(addr, value)) {
+            if (mem_dma_rw) {
+                /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 0 translation. */
+                dma_bank[addr] = value;
+            } else if (c128_mem_mmu_wrap_store(addr, value)) {
                 mem_page_zero[addr] = value;
             }
     }
@@ -677,17 +691,26 @@ void zero_store(uint16_t addr, uint8_t value)
 
 uint8_t one_read(uint16_t addr)
 {
-    uint16_t retval = c128_mem_mmu_wrap_read(addr);
+    uint16_t retval = 0;
 
-    if (retval == 0x100) {
-        return mem_page_one[addr - 0x100];
+    if (mem_dma_rw) {
+        /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 1 translation. */
+        retval = dma_bank[addr];
+    } else {
+        retval = c128_mem_mmu_wrap_read(addr);
+        if (retval == 0x100) {
+            return mem_page_one[addr - 0x100];
+        }
     }
     return (uint8_t)retval;
 }
 
 void one_store(uint16_t addr, uint8_t value)
 {
-    if (c128_mem_mmu_wrap_store(addr, value)) {
+    if (mem_dma_rw) {
+        /* FIXME: it is assumed that DMA transfers do NOT follow the MMU page 1 translation. */
+        dma_bank[addr] = value;
+    } else if (c128_mem_mmu_wrap_store(addr, value)) {
         mem_page_one[addr - 0x100] = value;
     }
 }
@@ -707,6 +730,28 @@ void chargen_store(uint16_t addr, uint8_t value)
     vicii.last_cpu_val = value;
     mem_chargen_rom_ptr[addr & 0x0fff] = value;
 }
+
+/* ------------------------------------------------------------------------- */
+
+/* DMA memory access.  */
+
+void mem_dma_store(uint16_t addr, uint8_t value)
+{
+    mem_dma_rw = 1;
+    _mem_write_tab_ptr[addr >> 8](addr, value);
+    mem_dma_rw = 0;
+}
+
+uint8_t mem_dma_read(uint16_t addr)
+{
+    uint8_t retval = 0;
+
+    mem_dma_rw = 1;
+    retval = _mem_read_tab_ptr[addr >> 8](addr);
+    mem_dma_rw = 0;
+    return retval;
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -777,14 +822,19 @@ void mem_store_without_romlh(uint16_t addr, uint8_t value)
 /* $0200 - $3FFF: RAM (normal or shared).  */
 uint8_t lo_read(uint16_t addr)
 {
-    uint16_t retval = c128_mem_mmu_wrap_read(addr);
+    uint16_t retval = 0;
 
-    if (retval == 0x100) {
-        vicii.last_cpu_val = READ_BOTTOM_SHARED(addr);
+    if (mem_dma_rw) {
+        /* FIXME: it is assumed that DMA transfers do NOT follow the MMU shared ram translation. */
+        retval = dma_bank[addr];
     } else {
-        vicii.last_cpu_val = (uint8_t)retval;
+        retval = c128_mem_mmu_wrap_read(addr);
+        if (retval == 0x100) {
+            vicii.last_cpu_val = READ_BOTTOM_SHARED(addr);
+        } else {
+            vicii.last_cpu_val = (uint8_t)retval;
+        }
     }
-
     return vicii.last_cpu_val;
 }
 
@@ -792,21 +842,29 @@ void lo_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
-    if (c128_mem_mmu_wrap_store(addr, value)) {
+    if (mem_dma_rw) {
+        /* FIXME: it is assumed that DMA transfers do NOT follow the MMU shared ram translation. */
+        dma_bank[addr] = value;
+    } else if (c128_mem_mmu_wrap_store(addr, value)) {
         STORE_BOTTOM_SHARED(addr, value);
     }
 }
 
 uint8_t ram_read(uint16_t addr)
 {
-    uint16_t retval = c128_mem_mmu_wrap_read(addr);
+    uint16_t retval = 0;
 
-    if (retval == 0x100) {
-        vicii.last_cpu_val = ram_bank[addr];
+    if (mem_dma_rw) {
+        vicii.last_cpu_val = dma_bank[addr];
     } else {
-        vicii.last_cpu_val = (uint8_t)retval;
-    }
+        retval = c128_mem_mmu_wrap_read(addr);
 
+        if (retval == 0x100) {
+            vicii.last_cpu_val = ram_bank[addr];
+        } else {
+            vicii.last_cpu_val = (uint8_t)retval;
+        }
+    }
     return vicii.last_cpu_val;
 }
 
@@ -814,7 +872,9 @@ void ram_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
-    if (c128_mem_mmu_wrap_store(addr, value)) {
+    if (mem_dma_rw) {
+        dma_bank[addr] = value;
+    } else if (c128_mem_mmu_wrap_store(addr, value)) {
         ram_bank[addr] = value;
     }
 }
@@ -823,13 +883,15 @@ void ram_hi_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
-    if (vbank == 3) {
+    if (mem_dma_rw) {
+        dma_bank[addr] = value;
+    } else if (vbank == 3) {
         vicii_mem_vbank_3fxx_store(addr, value);
     } else {
         ram_bank[addr] = value;
     }
 
-    if (addr == 0xff00) {
+    if (addr == 0xff00 && !mem_dma_rw) {
         reu_dma(-1);
     }
 }
@@ -846,7 +908,11 @@ void basic_lo_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
-    ram_bank[addr] = value;
+    if (mem_dma_rw) {
+        dma_bank[addr] = value;
+    } else {
+        ram_bank[addr] = value;
+    }
 }
 
 /* $8000 - $BFFF: RAM or high BASIC ROM.  */
@@ -859,7 +925,12 @@ uint8_t basic_hi_read(uint16_t addr)
 void basic_hi_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
-    ram_bank[addr] = value;
+
+    if (mem_dma_rw) {
+        dma_bank[addr] = value;
+    } else {
+        ram_bank[addr] = value;
+    }
 }
 
 /* $C000 - $CFFF: RAM (normal or shared) or Editor ROM.  */
@@ -947,17 +1018,27 @@ uint8_t hi_read(uint16_t addr)
 void hi_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
-    STORE_TOP_SHARED(addr, value);
+
+    if (mem_dma_rw) {
+        dma_bank[addr] = value;
+    } else {
+        STORE_TOP_SHARED(addr, value);
+    }
 }
 
 uint8_t top_shared_read(uint16_t addr)
 {
-    uint16_t retval = c128_mem_mmu_wrap_read(addr);
+    uint16_t retval = 0;
 
-    if (retval == 0x100) {
-        vicii.last_cpu_val = READ_TOP_SHARED(addr);
+    if (mem_dma_rw) {
+        vicii.last_cpu_val = dma_bank[addr];
     } else {
-        vicii.last_cpu_val = (uint8_t)retval;
+        retval = c128_mem_mmu_wrap_read(addr);
+        if (retval == 0x100) {
+            vicii.last_cpu_val = READ_TOP_SHARED(addr);
+        } else {
+            vicii.last_cpu_val = (uint8_t)retval;
+        }
     }
 
     return vicii.last_cpu_val;
@@ -967,7 +1048,9 @@ void top_shared_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
 
-    if (c128_mem_mmu_wrap_store(addr, value)) {
+    if (mem_dma_rw) {
+        vicii.last_cpu_val = dma_bank[addr];
+    } else if (c128_mem_mmu_wrap_store(addr, value)) {
         STORE_TOP_SHARED(addr, value);
     }
 }

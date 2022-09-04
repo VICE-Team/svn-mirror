@@ -103,6 +103,7 @@ extern uint8_t basic_hi_read(uint16_t addr);
 extern void basic_hi_store(uint16_t addr, uint8_t value);
 
 extern uint8_t *ram_bank;
+extern uint8_t *dma_bank;
 
 extern uint8_t mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 
