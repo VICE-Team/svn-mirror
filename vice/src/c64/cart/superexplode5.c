@@ -98,7 +98,7 @@
 
 /* #define SE5_DEBUG */
 /* #define SE5_DEBUG_RW */
-/* #define DBGSE5CC */
+/* #define SE5_DEBUG_CHARGE */
 
 #ifdef SE5_DEBUG
 #define DBG(x)  printf x
@@ -110,6 +110,12 @@
 #define DBGRW(x)  printf x
 #else
 #define DBGRW(x)
+#endif
+
+#ifdef SE5_DEBUG_CHARGE
+#define DBGCH(x)  printf x
+#else
+#define DBGCH(x)
 #endif
 
 #define SE5_CART_SIZE (2 * 0x2000)
@@ -125,13 +131,10 @@ struct alarm_s *se5_alarm;
 static CLOCK se5_alarm_time;
 static CLOCK se5_charge_time;
 
-#define CHARGEMAX           90
+#define CHARGEMAX           (90 * 3)            /* ~ 300ms */
+#define DECHARGESTEPS       3                   /* should discharge in ~90 steps */
 #define LOWTHRESHOLD        5
 #define HIGHTHRESHOLD       (CHARGEMAX - 5)
-
-#ifdef DBGSE5CC
-static int dbglast = 0;
-#endif
 
 static void flipflop(void)
 {
@@ -150,7 +153,7 @@ static void flipflop(void)
     cart_config_changed_slotmain(mode, mode, CMODE_READ);
 #ifdef SE5_DEBUG
     if (old != se5_rom_enabled) {
-        DBG(("SE5: flipflop (rom:%d charge:%d)\n", se5_rom_enabled, se5_cap_charge));
+        DBG(("%08lx SE5: flipflop (rom:%d charge:%d)\n", maincpu_clk, se5_rom_enabled, se5_cap_charge));
     }
 #endif
 }
@@ -164,12 +167,7 @@ static void cap_trigger_access(void)
         se5_alarm_time = maincpu_clk + 1;
         alarm_set(se5_alarm, se5_alarm_time);
     }
-#ifdef DBGSE5CC
-    else if (dbglast != 4) {
-        DBG(("SE5: charged (idle) (rom:%d charge:%d)\n", se5_rom_enabled, se5_cap_charge));
-        dbglast = 4;
-    }
-#endif
+    DBGCH(("%08lx SE5: is fully charged (idle) (rom:%d charge:%d)\n", maincpu_clk, se5_rom_enabled, se5_cap_charge));
 }
 
 static void se5_alarm_handler(CLOCK offset, void *data)
@@ -180,28 +178,20 @@ static void se5_alarm_handler(CLOCK offset, void *data)
             se5_cap_charge = CHARGEMAX;
         }
     }
-#ifdef DBGSE5CC
-    else if (dbglast != 1) {
-        DBG(("SE5: charge idle (rom:%d charge:%d)\n", se5_rom_enabled, se5_cap_charge));
-        dbglast = 1;
-    }
-#endif
+    DBGCH(("%08lx SE5: charge idle (rom:%d charge:%d)\n", maincpu_clk, se5_rom_enabled, se5_cap_charge));
     flipflop();
     cap_trigger_access();
 }
 
 static void cap_discharge(void)
 {
-    se5_cap_charge--;
+    se5_cap_charge -= DECHARGESTEPS;
     if (se5_cap_charge < 0) {
         se5_cap_charge = 0;
     }
-#ifdef DBGSE5CC
-    else if (dbglast != 3) {
-        DBG(("SE5: discharge (rom:%d charge:%d)\n", se5_rom_enabled, se5_cap_charge));
-        dbglast = 3;
-    }
-#endif
+    DBGCH(("%08lx SE5: discharge (rom:%d charge:%d)\n", maincpu_clk , se5_rom_enabled, se5_cap_charge));
+    /* put first alarm a few cycles ahead, so we dont have to fiddle with alternating
+       charge/discharge while the discharge loop is executed */
     se5_charge_time = maincpu_clk + 10;
     flipflop();
     cap_trigger_access();
