@@ -184,11 +184,6 @@ VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-gtk3ui --enab
 AS_IF([test x"$enable_gtk3ui" = "xno" -a x"$enable_sdl1ui" = "xno" -a x"$enable_sdl2ui" = "xno" -a x"$enable_headlessui" = "xno"],
       [AC_MSG_ERROR([You cannot disable all GUIs])])
 
-dnl cmake only works for in-tree configured source
-if test x"$enable_cmake" = x"yes" ; then
-  AC_CHECK_FILE(cmake-bootstrap.sh, [], [AC_MSG_ERROR([Out of source tree configure not supported with cmake])])
-fi
-
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
 
@@ -3684,7 +3679,7 @@ AC_OUTPUT([Makefile
            ])
 
 if test x"$enable_cmake" = x"yes" ; then
-  ./cmake-bootstrap.sh
+  "$srcdir/cmake-bootstrap.sh"
 fi
 
 dnl Local Variables:
