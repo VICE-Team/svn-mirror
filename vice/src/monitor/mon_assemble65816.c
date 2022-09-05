@@ -186,7 +186,6 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
     len = (monitor_cpu_for_memspace[mem]->asm_addr_mode_get_size)
           ((unsigned int)(operand_mode), 0, 0, 0, 0);
 
-    /* EP 98.08.23 use correct memspace for assembling.  */
     mon_set_mem_val(mem, loc, opcode);
     if (len >= 2) {
         mon_set_mem_val(mem, (uint16_t)(loc + 1), (uint8_t)(operand_value & 0xff));
