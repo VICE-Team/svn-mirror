@@ -1721,14 +1721,14 @@ void register_joystick_driver(
         /* CAUTION: this does not work correctly with the current windows joystick code */
         if (num_axes >= 6) {
             /* next two axes (eg second analog stick on ps3/ps4 pads) */
-            new_joystick_device->axis_mapping[3].positive_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[3].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
-            new_joystick_device->axis_mapping[3].negative_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[3].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
             new_joystick_device->axis_mapping[4].positive_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[4].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
+            new_joystick_device->axis_mapping[4].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_RIGHT;
             new_joystick_device->axis_mapping[4].negative_direction.action = JOYSTICK;
-            new_joystick_device->axis_mapping[4].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
+            new_joystick_device->axis_mapping[4].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_LEFT;
+            new_joystick_device->axis_mapping[5].positive_direction.action = JOYSTICK;
+            new_joystick_device->axis_mapping[5].positive_direction.value.joy_pin = JOYSTICK_DIRECTION_DOWN;
+            new_joystick_device->axis_mapping[5].negative_direction.action = JOYSTICK;
+            new_joystick_device->axis_mapping[5].negative_direction.value.joy_pin = JOYSTICK_DIRECTION_UP;
         }
         if (num_axes >= 8) {
             /* next two axes (dpad on ps5 pad) */
