@@ -8924,7 +8924,7 @@ Set the length of the memory block when inverting the base pattern
 
 @findex -raminitpatterninvertvalue
 @item -raminitpatterninvertvalue <value>
-Set the length of the memory block when inverting the base pattern
+Set the value to invert the base pattern with
 (@code{RAMInitPatternInvertValue})
 (all emulators except vsid).
 
