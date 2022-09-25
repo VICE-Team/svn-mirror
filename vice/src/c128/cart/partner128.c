@@ -258,3 +258,9 @@ void partner128_detach(void)
     /*partner128_io2_list_item = NULL;*/
     export_remove(&export_res);
 }
+
+void partner128_reset(void)
+{
+    DBG(("partner128_reset\n"));
+    rambank = 0;
+}

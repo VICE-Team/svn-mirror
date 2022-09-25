@@ -129,13 +129,15 @@ static void c128comal80_io1_store(uint16_t addr, uint8_t value)
         2,  // 0x8000,
         4,  // 0x10000
     };
+    int bank;
 
     comal80_register = value & 0xf0;    /* upper 4 bit go into the register latch */
 
-    ext_function_rom_bank = romoffset[(((value >> 5) & 1) << 1) | ((value >> 6) & 1)];
-    ext_function_rom_bank |= ((value >> 4) & 1);
+    bank = romoffset[(((value >> 5) & 1) << 1) | ((value >> 6) & 1)];
+    bank |= ((value >> 4) & 1);
+    external_function_rom_set_bank(bank);
 
-    DBG(("c128comal80_io1_store value:%02x bank: %d\n", value, ext_function_rom_bank));
+    DBG(("c128comal80_io1_store value:%02x bank: %d\n", value, bank));
 }
 
 static uint8_t c128comal80_io1_read(uint16_t addr)
@@ -253,4 +255,10 @@ void c128comal80_detach(void)
         c128comal80_io2_list_item = NULL;
     }
     export_remove(&export_res);
+}
+
+void c128comal80_reset(void)
+{
+    DBG(("c128comal80_reset\n"));
+    external_function_rom_set_bank(0);
 }

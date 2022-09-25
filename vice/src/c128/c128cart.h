@@ -38,14 +38,10 @@ extern void c128cartridge_setup_interface(void);
 #define EXTERNAL_FUNCTION_ROM_SIZE  0x8000
 #define EXTERNAL_FUNCTION_ROM_BANKS 8       /* max: comal80 has 6 */
 extern uint8_t ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE * EXTERNAL_FUNCTION_ROM_BANKS];
-extern uint8_t ext_function_rom_bank;
+extern void external_function_rom_set_bank(int value);
 
 extern uint8_t external_function_rom_read(uint16_t addr);
 extern void external_function_rom_store(uint16_t addr, uint8_t value);
 extern void external_function_top_shared_store(uint16_t addr, uint8_t value);
-
-// /* FIXME: get rid of these */
-// #define EXT_FUNCTION_NONE   0
-// #define EXT_FUNCTION_ROM    1
 
 #endif
