@@ -1,3 +1,5 @@
+SUBDIRS = cart
+
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
@@ -8,6 +10,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/printerdrv \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64/cart \
+	-I$(top_srcdir)/src/c128 \
+	-I$(top_srcdir)/src/c128/cart \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/tape \
@@ -73,3 +77,10 @@ libc128_a_SOURCES = \
 	z80.h \
 	z80mem.c \
 	z80mem.h
+	
+EXTRA_DIST =
+
+.PHONY: libc128cartsystem
+
+libc128cartsystem:
+	(cd cart; $(MAKE))

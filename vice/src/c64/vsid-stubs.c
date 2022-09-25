@@ -255,6 +255,19 @@ cartridge_info_t *cartridge_get_info_list(void)
     return NULL;
 }
 
+/* return cartridge type of main slot
+   returns 0 (CARTRIDGE_CRT) if crt file */
+int cartridge_get_id(int slot)
+{
+    return CARTRIDGE_NONE;
+}
+
+/* FIXME: terrible name, we already have cartridge_get_file_name */
+char *cartridge_get_filename(int slot)
+{
+    return NULL;
+}
+
 void cartridge_trigger_freeze(void)
 {
 }

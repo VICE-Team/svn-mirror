@@ -60,6 +60,16 @@ extern int cartridge_disable(int type);
 /* detaches/disables the cartridge with the associated id. pass -1 to detach all */
 extern void cartridge_detach_image(int type);
 
+/* FIXME: slot arg is ignored right now.
+   this should return a valid cartridge ID for a given slot, or CARTRIDGE_NONE
+*/
+extern int cartridge_get_id(int slot);
+
+/* FIXME: slot arg is ignored right now.
+   this should return a pointer to a filename, or NULL
+*/
+extern char *cartridge_get_filename(int slot);
+
 /* FIXME: this should also be made a generic function that takes the type */
 /* set current "Main Slot" cart as default */
 extern void cartridge_set_default(void);
@@ -362,9 +372,30 @@ extern void cartridge_sound_chip_init(void);
  * C128 cartridge system
  */
 
-#define CARTRIDGE_C128_WARPSPEED128 1
-#define CARTRIDGE_C128_LAST 1
+/* #define CARTRIDGE_NONE               -1 */
+/* #define CARTRIDGE_CRT                 0 */
 
+/* first unique number after the C64 cartridges */
+#define CARTRIDGE_C128_FIRST_UNIQUE     (CARTRIDGE_LAST + 1)
+
+/* since the C128 cartridge system must coexist with the C64 cartridge
+   system, we add a constant offset using the following macros */
+#define CARTRIDGE_C128_MAKEID(x)        ((x) + CARTRIDGE_C128_FIRST_UNIQUE)
+#define CARTRIDGE_C128_ISID(x)          ((x) >= CARTRIDGE_C128_FIRST_UNIQUE)
+
+/* the following must match the CRT IDs */
+#define CARTRIDGE_C128_GENERIC 0        /* external function rom */
+#define CARTRIDGE_C128_WARPSPEED128 1
+#define CARTRIDGE_C128_PARTNER128 2
+#define CARTRIDGE_C128_COMAL80 3
+#define CARTRIDGE_C128_LAST 3
+
+#define CARTRIDGE_C128_NAME_GENERIC       "generic function ROM"
+#define CARTRIDGE_C128_NAME_GENERIC_16KB  "generic 16KiB function ROM"
+#define CARTRIDGE_C128_NAME_GENERIC_32KB  "generic 32KiB function ROM"
+
+#define CARTRIDGE_C128_NAME_COMAL80       "Comal 80 (C128)"
+#define CARTRIDGE_C128_NAME_PARTNER128    "Partner 128"
 #define CARTRIDGE_C128_NAME_WARPSPEED128  "Warp Speed 128"
 
 /*

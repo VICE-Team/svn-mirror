@@ -32,6 +32,7 @@
 #include "c128meminit.h"
 #include "c128memrom.h"
 #include "c128mmu.h"
+#include "c128cart.h"
 #include "c64cia.h"
 #include "cartio.h"
 #include "functionrom.h"

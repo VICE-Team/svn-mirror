@@ -47,10 +47,21 @@
  *
  * Read-only GtkEntry
  */
-static GtkWidget *cart_file_widget = NULL;
-
+static GtkWidget *cart_default_file_widget = NULL;
 
 /** \brief  Default cartridge type widget
+ *
+ * Read-only GtkEntry
+ */
+static GtkWidget *cart_default_type_widget = NULL;
+
+/** \brief  Current cartridge file widget
+ *
+ * Read-only GtkEntry
+ */
+static GtkWidget *cart_file_widget = NULL;
+
+/** \brief  Current cartridge type widget
  *
  * Read-only GtkEntry
  */
@@ -89,6 +100,7 @@ static const char *get_cart_name_by_id(int id)
     int i;
 
     for (i = 0; cart_info_list[i].name != NULL; i++) {
+        /*printf("%d:%d:%s\n",id,cart_info_list[i].crtid,cart_info_list[i].name);*/
         if (cart_info_list[i].crtid == id) {
             return cart_info_list[i].name;
         }
@@ -100,15 +112,15 @@ static const char *get_cart_name_by_id(int id)
 /** \brief  Update the file widget by inspecting the CartridgeFile resource
  *
  */
-static void update_cart_file_widget(void)
+static void update_cart_default_file_widget(void)
 {
     const char *filename;
 
     if (resources_get_string("CartridgeFile", &filename) >= 0) {
 #if 0
-        gtk_label_set_text(GTK_LABEL(cart_file_widget), filename);
+        gtk_label_set_text(GTK_LABEL(cart_default_file_widget), filename);
 #else
-        gtk_entry_set_text(GTK_ENTRY(cart_file_widget), filename);
+        gtk_entry_set_text(GTK_ENTRY(cart_default_file_widget), filename);
 #endif
     }
 }
@@ -117,13 +129,45 @@ static void update_cart_file_widget(void)
 /** \brief  Update the type widget by inspecting the CartridgeType resource
  *
  */
-static void update_cart_type_widget(void)
+static void update_cart_default_type_widget(void)
 {
     if (cart_info_list != NULL) {
         int type;
 
         if (resources_get_int("CartridgeType", &type) >= 0) {
             const char *name = "CRT";
+            /*printf("CartridgeType: %d\n", type);*/
+            if (type != 0) {
+                name = get_cart_name_by_id(type);
+            }
+            gtk_entry_set_text(GTK_ENTRY(cart_default_type_widget), name);
+        }
+    }
+}
+
+static void update_cart_file_widget(void)
+{
+    const char *filename = cartridge_get_filename(0 /* FIXME: slot */);
+
+    if (filename != NULL) {
+#if 0
+        gtk_label_set_text(GTK_LABEL(cart_file_widget), filename);
+#else
+        gtk_entry_set_text(GTK_ENTRY(cart_file_widget), filename);
+#endif
+    }
+}
+
+static void update_cart_type_widget(void)
+{
+    if (cart_info_list != NULL) {
+        int type;
+
+        printf("update_cart_type_widget\n");
+        type = cartridge_get_id(0 /* FIXME: slot */);
+        {
+            const char *name = "CRT";
+            /*printf("CartridgeType: %d\n", type);*/
             if (type != 0) {
                 name = get_cart_name_by_id(type);
             }
@@ -160,8 +204,10 @@ static void attach_callback(void)
 {
     debug_gtk3("Called!");
 
-    update_cart_file_widget();
+    update_cart_default_file_widget();
+    update_cart_default_type_widget();
     update_cart_type_widget();
+    update_cart_file_widget();
     update_buttons();
 }
 
@@ -176,8 +222,10 @@ static void on_set_default_clicked(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("Setting current cart as default cart.");
     cartridge_set_default();
-    update_cart_file_widget();
+    update_cart_default_file_widget();
+    update_cart_default_type_widget();
     update_cart_type_widget();
+    update_cart_file_widget();
     update_buttons();
 }
 
@@ -193,8 +241,8 @@ static void on_unset_default_clicked(GtkWidget *widget, gpointer data)
     if (carthelpers_unset_default_func != NULL) {
         debug_gtk3("Unsetting default cart.");
         carthelpers_unset_default_func();
-        update_cart_file_widget();
-        update_cart_type_widget();
+        update_cart_default_file_widget();
+        update_cart_default_type_widget();
         update_buttons();
     }
 }
@@ -223,13 +271,48 @@ static void on_attach_clicked(GtkWidget *widget, gpointer data)
 static void on_remove_clicked(GtkWidget *widget, gpointer data)
 {
     cartridge_unset_default();
-    update_cart_file_widget();
+    update_cart_default_file_widget();
+    update_cart_default_type_widget();
     update_cart_type_widget();
+    update_cart_file_widget();
     update_buttons();
 }
 
 
-/** \brief  Create cart file entry
+/** \brief  Create default cart file entry
+ *
+ * \return  GtkEntry
+ */
+static GtkWidget *create_cart_default_file_widget(void)
+{
+    GtkWidget *widget;
+#if 0
+    widget = gtk_label_new(NULL);
+#endif
+    widget = gtk_entry_new();
+    gtk_widget_set_hexpand(widget, TRUE);
+    gtk_widget_set_sensitive(widget, FALSE);
+    g_object_set(widget, "editable", FALSE, NULL);
+    return widget;
+}
+
+
+/** \brief  Create default cart type entry
+ *
+ * \return  GtkEntry
+ */
+static GtkWidget *create_cart_default_type_widget(void)
+{
+    GtkWidget *widget;
+
+    widget = gtk_entry_new();
+    gtk_widget_set_hexpand(widget, TRUE);
+    gtk_widget_set_sensitive(widget, FALSE);
+    g_object_set(widget, "editable", FALSE, NULL);
+    return widget;
+}
+
+/** \brief  Create default cart file entry
  *
  * \return  GtkEntry
  */
@@ -245,7 +328,6 @@ static GtkWidget *create_cart_file_widget(void)
     g_object_set(widget, "editable", FALSE, NULL);
     return widget;
 }
-
 
 /** \brief  Create cart type entry
  *
@@ -294,10 +376,10 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
     gtk_widget_set_margin_start(label, 16);
     gtk_widget_set_margin_end(label, 16);
 
-    cart_file_widget = create_cart_file_widget();
+    cart_default_file_widget = create_cart_default_file_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), cart_file_widget, 1, 1, 1, 1);
-    update_cart_file_widget();
+    gtk_grid_attach(GTK_GRID(grid), cart_default_file_widget, 1, 1, 1, 1);
+    update_cart_default_file_widget();
 
     attach_button = gtk_button_new_with_label("Attach");
     g_signal_connect(attach_button, "clicked",
@@ -316,21 +398,46 @@ GtkWidget *settings_default_cart_widget_create(GtkWidget *parent)
         gtk_widget_set_margin_start(label, 16);
         gtk_widget_set_margin_end(label, 16);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-        cart_type_widget = create_cart_type_widget();
+        cart_default_type_widget = create_cart_default_type_widget();
         gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), cart_type_widget, 1, 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), cart_default_type_widget, 1, 2, 1, 1);
+        update_cart_default_type_widget();
+
+        label = gtk_label_new("Current Cartridge");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        gtk_widget_set_margin_start(label, 0);
+        gtk_widget_set_margin_end(label, 16);
+
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 2, 1);
+
+        label = gtk_label_new("File");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        gtk_widget_set_margin_start(label, 16);
+        gtk_widget_set_margin_end(label, 16);
+
+        cart_file_widget = create_cart_file_widget();
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), cart_file_widget, 1, 4, 1, 1);
+        update_cart_file_widget();
+
+        label = gtk_label_new("Type");
+        gtk_widget_set_margin_start(label, 16);
+        gtk_widget_set_margin_end(label, 16);
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        cart_type_widget = create_cart_type_widget();
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), cart_type_widget, 1, 5, 1, 1);
         update_cart_type_widget();
+
     }
 
 
     /* buttons */
-    set_default_button = gtk_button_new_with_label("Set cartridge as default");
-    gtk_widget_set_hexpand(set_default_button, FALSE);
-    gtk_widget_set_halign(set_default_button, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), set_default_button, 0, 3, 2, 1);
-    /* make some space */
-    gtk_widget_set_margin_top(set_default_button, 32);
+    set_default_button = gtk_button_new_with_label("Set as default");
     gtk_widget_set_margin_start(set_default_button, 16);
+    gtk_widget_set_margin_end(set_default_button, 16);
+    gtk_widget_set_halign(set_default_button, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), set_default_button, 0, 6, 2, 1);
 
     /* set sensitivity of buttons (ie grey-out or not) */
     update_buttons();

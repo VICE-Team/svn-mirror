@@ -9779,7 +9779,7 @@ Boolean specifying whether the machine should be reset when a cartridge is chang
 
 @vindex CartridgeType
 @item CartridgeType
-Integer specifying the type of cartridge emulated in the "main" slot.
+Integer specifying the type of the default cartridge.
 
 The following cartridge types are valid:
 
@@ -12687,6 +12687,60 @@ Enable/disable the CP/M cartridge
 @section C128-specific commands and settings
 
 @c @node FIXME
+@subsection C128 cartridge settings
+
+x128 reuses the cartridge system from the C64 emulation, so all options listed
+there apply as well. The following only lists what is different and/or additional.
+
+@c @node FIXME
+@subsubsection C128 cartridge resources
+
+@table @code
+
+@vindex CartridgeType
+@item CartridgeType
+Integer specifying the type of the default cartridge.
+
+Additional to the C64 types, the following types are valid C128 CRT ID:
+
+@itemize @bullet
+@item
+1: Warpspeed 128
+@item
+2: Partner 128
+@item
+3: Comal 80
+@end itemize
+
+Note: The actual value will be this ID added to the highest C64 CRT ID, so both
+can coexist.
+
+@end table
+
+@c @node FIXME
+@subsubsection C128 cartridge command-line options
+
+@table @code
+
+@findex -cartfrom
+@item -cartfrom <name>
+Attach generic external function ROM cartridge image.
+
+@findex -cartcomal128
+@item -cartcomal128 <name>
+Attach 96k Comal 80 cartridge image.
+
+@findex -cartpartner128
+@item -cartpartner128 <name>
+Attach 16KiB Partner 128 cartridge image.
+
+@findex -cartws128
+@item -cartws128 <name>
+Attach 16KiB Warpspeed 128 cartridge image.
+
+@end table
+
+@c @node FIXME
 @subsection VDC settings
 
 @c @node FIXME
@@ -12998,19 +13052,6 @@ String specifying the filename of the ROM image for the internal function ROM.
 @item InternalFunctionROMRTCSave
 Boolean to enable/disable the saving of the Internal Function RTC data when changed.
 
-@vindex ExternalFunctionROM
-@item ExternalFunctionROM
-Integer specifying the external function ROM type
-(0: None, 1: ROM, 2: RAM, 3: RTC)
-
-@vindex ExternalFunctionName
-@item ExternalFunctionName
-String specifying the filename of the ROM image for the external function ROM.
-
-@vindex ExternalFunctionROMRTCSave
-@item ExternalFunctionROMRTCSave
-Boolean to enable/disable the saving of the External Function RTC data when changed.
-
 @end table
 
 @c @node FIXME
@@ -13124,23 +13165,6 @@ Specify name of internal Function ROM image
 @itemx +intfuncrtcsave
 Enable/disable the saving of the Internal Function RTC data when changed
 (@code{InternalFunctionROMRTCSave=1}, @code{InternalFunctionROMRTCSave=0}).
-
-@findex -extfunc
-@item -extfunc <type>
-Set the external Function ROM type
-(@code{ExternalFunctionROM}).
-(0: None, 1: ROM, 2: RAM, 3: RTC)
-
-@findex -extfrom
-@item -extfrom <name>
-Specify name of external Function ROM image
-(@code{ExternalFunctionName}).
-
-@findex -extfuncrtcsave, +extfuncrtcsave
-@item -extfuncrtcsave
-@itemx +extfuncrtcsave
-Enable/disable the saving of the External Function RTC data when changed
-(@code{ExternalFunctionROMRTCSave=1}, @code{ExternalFunctionROMRTCSave=0}).
 
 @end table
 
@@ -13784,7 +13808,7 @@ changed.
 
 @vindex CartridgeType
 @item CartridgeType
-Integer specifying the type of cartridge emulated.
+Integer specifying the type of the default cartridge.
 
 The following cartridge types are valid:
 
@@ -14701,7 +14725,7 @@ Boolean specifying whether the machine should be reset when a cartridge is chang
 
 @vindex CartridgeType
 @item CartridgeType
-Integer specifying the type of cartridge emulated.
+Integer specifying the type of the default cartridge.
 
 The following cartridge types are valid:
 
@@ -22066,6 +22090,10 @@ ZIPP-CODE 48 .crt file
 @table @code
 @item c128
 generic C128 cartridge ("external function ROM")
+@item comal128
+Comal 80
+@item partner128
+Partner 128
 @item was128
 Warpspeed128
 @end table
@@ -32681,10 +32709,14 @@ a CRT-ID in the C128 list and "C128 Cartridge" header type.
 @tab generic cartridge
 @item 1
 @tab Warpspeed128
+@item 2
+@tab Partner 128
+@item 3
+@tab Comal 80
 @end multitable
 
 @c @node FIXME
-@subsubsection 0 - generic cartridge
+@subsubsection 0 - generic (external Function ROM)
 
 generic cartridges contain one or two 8KiB or 16KiB CHIP packets, one for ROML
 and one for ROML. ROML is always mapped to $8000 and ROMH is always mapped to $c000.
@@ -32696,6 +32728,8 @@ cartridges exist.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8KiB
+@item Load address
+@tab $8000-$BFFF
 @end multitable
 
 @example
@@ -32717,6 +32751,8 @@ cartridges exist.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16KiB
+@item Load address
+@tab $8000-$BFFF
 @end multitable
 
 @example
@@ -32738,6 +32774,8 @@ cartridges exist.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32KiB
+@item Load address
+@tab $8000-$BFFF
 @end multitable
 
 @example
@@ -32760,6 +32798,8 @@ cartridges exist.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16KiB
+@item Load address
+@tab $8000-$BFFF
 @end multitable
 
 @example
@@ -32778,6 +32818,62 @@ cartridges exist.
 
 This is a 16KiB ROM starting at $8000. The part at $9e00-$9fff is mirrored
 to $de00-$dfff in I/O space.
+
+@c @node FIXME
+@subsubsection 2 - Partner 128
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB ROM, 8KiB RAM
+@item Load address
+@tab $8000-$BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 31 32 38 20 43 41 52 54 52 49 44 47 45 20 20  C128 CARTRIDGE  
+0010: 00 00 00 40 02 00 00 02 00 00 00 00 00 00 00 00  ...@............
+0020: 50 61 72 74 6e 65 72 20 31 32 38 00 00 00 00 00  Partner 128.....
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050: 4c 5a 87 4c 5a 87 02 43 42 4d 85 1a 84 1b a0 00  LZ.LZ..CBM......
+@dots{}
+4030: 22 20 4b f2 8a 0a 0a 0a 0a 0a 85 c2 ad 00 1c 29  " K............)
+4040: 9f 05 c2 8d 00 1c 60 8d 03 ff 91 ae 8d 04 ff 60  ......`........`
+@end example
+
+$8000-$9fff contains the ROM
+$de00-$de7f contains 128 bytes ram
+$de80-$deff contains a mirror of $9e80-$9eff
+Writing to $de80 selects which one of 64 blocks of 128 byte ram is visible in $de00-$de7f.
+
+@c @node FIXME
+@subsubsection 3 - Comal 80
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 96KiB (6 banks of 16KiB)
+@item Load address
+@tab $C000-$FFFF
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+000000: 43 31 32 38 20 43 41 52 54 52 49 44 47 45 20 20  C128 CARTRIDGE  
+000010: 00 00 00 40 02 00 00 03 00 00 00 00 00 00 00 00  ...@............
+000020: 43 6f 6d 61 6c 20 38 30 20 28 43 31 32 38 29 00  Comal 80 (C128).
+000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+000040: 43 48 49 50 00 00 40 10 00 00 00 00 c0 00 40 00  CHIP..@.......@.
+000050: 4c 8c c9 4c 85 1f 01 43 42 4d 4c 5d d2 4c b9 cd  L..L...CBML].L..
+@dots{}
+018080: 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20                  
+018090: 20 20 20 20 20 20 20 20 20 20 05 ff 3d ff 17 ff            ..=...
+@end example
+
+This cartridge contains 3 32KiB ROMs, each containing two 16KiB banks, which are
+mapped to $C000 (ROMH). Bankswitching is done via one register at $DE00.
 
 @c @node FIXME
 @subsection VIC20 Cartridge Specifics

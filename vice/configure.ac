@@ -3620,6 +3620,7 @@ AC_OUTPUT([Makefile
            src/arch/shared/sounddrv/Makefile
            src/buildtools/Makefile
            src/c128/Makefile
+           src/c128/cart/Makefile
            src/c64/Makefile
            src/c64/cart/Makefile
            src/c64dtv/Makefile
