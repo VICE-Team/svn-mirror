@@ -301,6 +301,14 @@ static void c128cartridge_detach_image(int type)
     external_function_rom_enabled = EXT_FUNCTION_NONE;
 }
 
+static void c128cartridge_reset(void)
+{
+    c128generic_reset();
+    c128comal80_reset();
+    partner128_reset();
+    warpspeed128_reset();
+}
+
 void c128cartridge_setup_interface(void)
 {
     DBG(("c128cartridge_setup_interface\n"));
@@ -310,6 +318,7 @@ void c128cartridge_setup_interface(void)
     c128interface.detach_image = c128cartridge_detach_image;
     c128interface.config_setup = c128cartridge_config_setup;
     c128interface.get_info_list = c128cartridge_get_info_list;
+    c128interface.reset = c128cartridge_reset;
     c128cartridge = &c128interface;
 }
 
@@ -369,6 +378,11 @@ uint8_t external_function_rom_read(uint16_t addr)
 {
     vicii.last_cpu_val = ext_function_rom[(addr & (EXTERNAL_FUNCTION_ROM_SIZE - 1)) + (ext_function_rom_bank * EXTERNAL_FUNCTION_ROM_SIZE)];
     return vicii.last_cpu_val;
+}
+
+void external_function_rom_set_bank(int value)
+{
+    ext_function_rom_bank = value;
 }
 
 void external_function_rom_store(uint16_t addr, uint8_t value)

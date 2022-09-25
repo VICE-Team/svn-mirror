@@ -211,3 +211,8 @@ void warpspeed128_detach(void)
     }
     export_remove(&export_res);
 }
+
+void warpspeed128_reset(void)
+{
+    DBG(("warpspeed128_reset\n"));
+}

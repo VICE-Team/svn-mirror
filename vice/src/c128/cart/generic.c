@@ -138,3 +138,8 @@ void c128generic_detach(void)
     c128generic_io2_list_item = NULL; */
     export_remove(&export_res);
 }
+
+void c128generic_reset(void)
+{
+    DBG(("c128generic_reset\n"));
+}

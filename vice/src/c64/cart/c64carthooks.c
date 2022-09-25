@@ -2389,6 +2389,10 @@ void cartridge_reset(void)
     if (cpmcart_cart_enabled()) {
         cpmcart_reset();
     }
+
+    if (machine_class == VICE_MACHINE_C128) {
+        c128cartridge->reset();
+    }
 }
 
 /*

@@ -90,6 +90,7 @@ struct c128cartridge_interface_s {
     int (*bin_attach)(int type, const char *filename, uint8_t *rawcart);
     void (*config_setup)(int type, uint8_t *rawcart);
     void (*detach_image)(int type);
+    void (*reset)(void);
     cartridge_info_t* (*get_info_list)(void);
 };
 typedef struct c128cartridge_interface_s c128cartridge_interface_t;
