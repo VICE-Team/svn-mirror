@@ -75,7 +75,6 @@ uint8_t ext_function_rom_bank = 0;
 
 /* FIXME: get rid of this */
 /* Flag: Do we enable the external function ROM?  */
-/* New meaning: 0=no, 1=yes (rom), 2=yes (ram), 3=yes (rtc) */
 static int external_function_rom_enabled = EXT_FUNCTION_NONE;
 
 /* CAUTION: keep in sync with the list in c64/c64cart.c */
