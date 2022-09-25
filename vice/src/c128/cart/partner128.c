@@ -1,3 +1,28 @@
+/*
+ * partner128.c -- "Partner 128" cartridge emulation
+ *
+ * Written by
+ *  groepaz <groepaz@gmx.net>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 #include "vice.h"
 
@@ -27,15 +52,18 @@
 
 /*
 
+Partner 128
+
 $8000-$9fff contains the ROM
 $de00-$de7f contains 128 bytes ram
 $de80-$deff contains a mirror of $9e80-$9eff
+
 Writing to $de80 selects which one of 64 blocks of 128 byte ram is visible in $de00-$de7f.
 
-Beyond that, it has a button which for all I can tell generates an nmi,
-and it has a cable which has to be connected to joystick port 2, and from a
+- it has a button which probably generates an NMI
+- it has a cable which has to be connected to joystick port 2, and from a
 rough looking at the code it seems to simply be used to tell the nmi handler
-the button is the source of the nmi. 
+the button is the source of the nmi.
 
 */
 
@@ -60,36 +88,36 @@ static int partner128_dump(void);
 
 static io_source_t partner128_io1_device = {
     CARTRIDGE_C128_NAME_PARTNER128, /* name of the device */
-    IO_DETACH_CART,               /* use cartridge ID to detach the device when involved in a read-collision */
-    IO_DETACH_NO_RESOURCE,        /* does not use a resource for detach */
-    0xde00, 0xdeff, 0xff,         /* range for the device, address is ignored by the write functions, reg:$de00, mirrors:$de01-$deff */
-    1,                            /* read is never valid */
-    partner128_io1_store,       /* store function */
-    NULL,                         /* NO poke function */
-    partner128_io1_read,        /* read function */
-    partner128_io1_peek,        /* peek function */
-    partner128_dump,            /* device state information dump function */
-    CARTRIDGE_C128_PARTNER128,  /* cartridge ID */
-    IO_PRIO_NORMAL,               /* normal priority, device read needs to be checked for collisions */
-    0                             /* insertion order, gets filled in by the registration function */
+    IO_DETACH_CART,                 /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,          /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,           /* range for the device, address is ignored by the write functions, reg:$de00, mirrors:$de01-$deff */
+    1,                              /* read is never valid */
+    partner128_io1_store,           /* store function */
+    NULL,                           /* NO poke function */
+    partner128_io1_read,            /* read function */
+    partner128_io1_peek,            /* peek function */
+    partner128_dump,                /* device state information dump function */
+    CARTRIDGE_C128_PARTNER128,      /* cartridge ID */
+    IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
+    0                               /* insertion order, gets filled in by the registration function */
 };
 static io_source_list_t *partner128_io1_list_item = NULL;
 
 #if 0
 static io_source_t partner128_io2_device = {
     CARTRIDGE_C128_NAME_PARTNER128, /* name of the device */
-    IO_DETACH_CART,               /* use cartridge ID to detach the device when involved in a read-collision */
-    IO_DETACH_NO_RESOURCE,        /* does not use a resource for detach */
-    0xdf00, 0xdfff, 0xff,         /* range for the device, address is ignored by the read/write functions, reg:$df00, mirrors:$df01-$dfff */
-    1,                            /* validity of the read is determined by the cartridge at read time */
-    partner128_io2_store,       /* store function */
-    NULL,                         /* NO poke function */
-    partner128_io2_read,        /* read function */
-    partner128_io2_peek,        /* peek function */
-    partner128_dump,            /* device state information dump function */
-    CARTRIDGE_C128_PARTNER128,  /* cartridge ID */
-    IO_PRIO_NORMAL,               /* normal priority, device read needs to be checked for collisions */
-    0                             /* insertion order, gets filled in by the registration function */
+    IO_DETACH_CART,                 /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,          /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,           /* range for the device, address is ignored by the read/write functions, reg:$df00, mirrors:$df01-$dfff */
+    1,                              /* validity of the read is determined by the cartridge at read time */
+    partner128_io2_store,           /* store function */
+    NULL,                           /* NO poke function */
+    partner128_io2_read,            /* read function */
+    partner128_io2_peek,            /* peek function */
+    partner128_dump,                /* device state information dump function */
+    CARTRIDGE_C128_PARTNER128,      /* cartridge ID */
+    IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
+    0                               /* insertion order, gets filled in by the registration function */
 };
 static io_source_list_t *partner128_io2_list_item = NULL;
 #endif
