@@ -1063,6 +1063,15 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
 void cart_attach(int type, uint8_t *rawcart)
 {
     cart_detach_conflicting(type);
+
+    if ((machine_class == VICE_MACHINE_C128) && CARTRIDGE_C128_ISID(type)) {
+        c128cartridge->config_setup(type, rawcart);
+        return;
+    }
+
+    /* FIXME: cartridges that work in both c64 and c128 mode must explicitly
+              call c128cartridge->config_setup() below */
+
     switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_IEEE488:

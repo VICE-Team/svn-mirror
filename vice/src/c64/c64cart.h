@@ -81,4 +81,22 @@ extern export_t export;
 #include "cart/expert.h"    /* provide defines for ExpertCartridgeMode resource */
 #undef CARTRIDGE_INCLUDE_PUBLIC_API
 
+/* the following is used to hook up the c128 mode in x128 */
+#include <stdio.h>
+#include "cartridge.h"
+
+struct c128cartridge_interface_s {
+    int (*attach_crt)(int type, FILE *fd, uint8_t *rawcart);
+    int (*bin_attach)(int type, const char *filename, uint8_t *rawcart);
+    void (*config_setup)(int type, uint8_t *rawcart);
+    void (*detach_image)(int type);
+    cartridge_info_t* (*get_info_list)(void);
+};
+typedef struct c128cartridge_interface_s c128cartridge_interface_t;
+
+extern c128cartridge_interface_t *c128cartridge; /* lives in c64cart.c */
+
+/* only x128 actually implements this function */
+extern void c128cartridge_setup_interface(void);
+
 #endif

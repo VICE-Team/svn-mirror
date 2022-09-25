@@ -40,6 +40,7 @@
 #include "c128-resources.h"
 #include "c128-snapshot.h"
 #include "c128.h"
+#include "c128cart.h"
 #include "c128fastiec.h"
 #include "c128mem.h"
 #include "c128memrom.h"
@@ -660,6 +661,8 @@ static int init_joyport_ports(void)
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
+    c128cartridge_setup_interface();
+
     if (traps_resources_init() < 0) {
         init_resource_fail("traps");
         return -1;
@@ -843,6 +846,10 @@ int machine_resources_init(void)
     }
     if (cartridge_resources_init() < 0) {
         init_resource_fail("cartridge");
+        return -1;
+    }
+    if (c128cartridge_resources_init() < 0) {
+        init_resource_fail("c128 cartridge");
         return -1;
     }
     if (mmu_resources_init() < 0) {
@@ -1095,6 +1102,10 @@ int machine_cmdline_options_init(void)
     }
     if (cartridge_cmdline_options_init() < 0) {
         init_cmdline_options_fail("cartridge");
+        return -1;
+    }
+    if (c128cartridge_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("c128 cartridge");
         return -1;
     }
     if (mmu_cmdline_options_init() < 0) {

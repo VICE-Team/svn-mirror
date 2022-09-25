@@ -67,6 +67,9 @@ typedef enum ui_cart_type_e {
     UICART_C64_GAME,
     UICART_C64_UTIL,
 
+    /* C128 cart types */
+    UICART_C128_FUNCROM,
+
     /* VIC20 cart types */
     UICART_VIC20_SMART,
     UICART_VIC20_BEHRBONZ,
@@ -126,6 +129,23 @@ typedef struct cart_type_list_s {
  */
 static const cart_type_list_t c64_cart_types[] = {
     { "Smart-attach",   UICART_C64_SMART },
+    { "Raw 8KiB",       UICART_C64_8KB },
+    { "Raw 16iKB",      UICART_C64_16KB },
+    { "Raw Ultimax",    UICART_C64_ULTIMAX },
+    { "Freezer",        UICART_C64_FREEZER },
+    { "Games",          UICART_C64_GAME },
+    { "Utilities",      UICART_C64_UTIL },
+    { NULL,             -1 }
+};
+
+/** \brief  Available C128 cart types
+ *
+ * When the 'type' is freezer, games or utilities, a second combo box will
+ * be populated with cartridges which fall in that category.
+ */
+static const cart_type_list_t c128_cart_types[] = {
+    { "Smart-attach",   UICART_C64_SMART },
+    { "Function ROM",   UICART_C128_FUNCROM },
     { "Raw 8KiB",       UICART_C64_8KB },
     { "Raw 16iKB",      UICART_C64_16KB },
     { "Raw Ultimax",    UICART_C64_ULTIMAX },
@@ -522,6 +542,9 @@ static int attach_cart_image(int type, int id, const char *path)
                 case UICART_C64_SMART:
                     id = CARTRIDGE_CRT;
                     break;
+                case UICART_C128_FUNCROM:
+                    id = CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC);
+                    break;
                 case UICART_C64_FREEZER:    /* fall through */
                 case UICART_C64_GAME:       /* fall through */
                 case UICART_C64_UTIL:
@@ -635,7 +658,7 @@ static int attach_cart_image(int type, int id, const char *path)
             return 0;
             break;
     }
-    /* printf("id:%d path:%s\n", id, path); */
+    /* printf("call cartridge_attach_image(id:%d path:%s)\n", id, path); */
     if ((cartridge_attach_image(id, path) == 0)) {
         /* check 'set default' */
         if ((cart_set_default_widget != NULL)
@@ -669,9 +692,11 @@ static GtkListStore *create_cart_type_model(void)
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_SCPU64:
             types = c64_cart_types;
+            break;
+        case VICE_MACHINE_C128:
+            types = c128_cart_types;
             break;
         case VICE_MACHINE_VIC20:
             types = vic20_cart_types;

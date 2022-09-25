@@ -8,9 +8,6 @@
  * $VICERES InternalFunctionROM         x128
  * $VICERES InternalFunctionName        x128
  * $VICERES InternalFunctionROMRTCSave  x128
- * $VICERES ExternalFunctionROM         x128
- * $VICERES ExternalFunctionName        x128
- * $VICERES ExternalFunctionROMRTCSave  x128
  */
 
 /*
@@ -147,14 +144,11 @@ GtkWidget *c128_function_rom_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *internal_widget;
-    GtkWidget *external_widget;
 
     grid = vice_gtk3_grid_new_spaced(16, 32);
 
     internal_widget = create_rom_widget("Internal");
     gtk_grid_attach(GTK_GRID(grid), internal_widget, 0, 0, 1, 1);
-    external_widget = create_rom_widget("External");
-    gtk_grid_attach(GTK_GRID(grid), external_widget, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

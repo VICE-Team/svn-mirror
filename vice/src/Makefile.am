@@ -524,6 +524,7 @@ arch_headless_lib = $(top_builddir)/src/arch/headless/libarch.a
 archdep_lib = $(top_builddir)/src/arch/shared/libarchdep.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c128stubs_lib = $(top_builddir)/src/c128/libc128stubs.a
+c128cartsystem_lib = $(top_builddir)/src/c128/cart/libc128cartsystem.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64stubs_lib = $(top_builddir)/src/c64/libc64stubs.a
 c64sc_lib = $(top_builddir)/src/c64/libc64sc.a
@@ -868,6 +869,7 @@ x128_libs =  \
 	$(tapeport_lib) \
 	$(c128_lib) \
 	$(c64cartsystem_lib) \
+	$(c128cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64commoncart_lib) \
 	$(c64c128_lib) \
@@ -1254,6 +1256,9 @@ $(c128_lib):
 $(c128stubs_lib):
 	@echo "making libc128stubs.a in c128"
 	@(cd c128 && $(MAKE) libc128stubs.a)
+$(c128cartsystem_lib):
+	@echo "making libc128cartsystem in c128"
+	@(cd c128 && $(MAKE) libc128cartsystem)
 $(c64_lib):
 	@echo "making libc64.a in c64"
 	@(cd c64 && $(MAKE) libc64.a)

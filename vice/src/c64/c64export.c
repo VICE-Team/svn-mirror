@@ -57,6 +57,7 @@ export_list_t *export_query_list(export_list_t *item)
     }
 }
 
+/* assigned to monitor interface in src/c64/cart/c64cart.c */
 void export_dump(void)
 {
     export_list_t *current = NULL;

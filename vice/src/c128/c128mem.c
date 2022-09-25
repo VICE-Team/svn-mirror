@@ -42,6 +42,7 @@
 #include "c128memrom.h"
 #include "c128mmu.h"
 #include "c64cart.h"
+#include "c128cart.h"
 #include "c64cia.h"
 #include "c64meminit.h"
 #include "c64memrom.h"
