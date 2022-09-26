@@ -52,7 +52,7 @@
 
 /*
 
-Partner 128
+"Partner 128" (c)1984 Timeworks Inc.
 
 $8000-$9fff contains the ROM
 $de00-$de7f contains 128 bytes ram
@@ -64,6 +64,12 @@ Writing to $de80 selects which one of 64 blocks of 128 byte ram is visible in $d
 - it has a cable which has to be connected to joystick port 2, and from a
 rough looking at the code it seems to simply be used to tell the nmi handler
 the button is the source of the nmi.
+- with cable in port 1 hold CTRL when pressing the button(?)
+
+- it looks like only the VDC displays the cartridge menus!
+
+NOTE: the only circulating dump is either broken, or there is something odd
+      going on (see code at $8180)
 
 */
 
@@ -136,7 +142,7 @@ static void partner128_io1_store(uint16_t addr, uint8_t value)
         rambanks[(rambank * 128) + addr] = value;
     } else if (addr >= 0x80) {
         rambank = value & 0x3f;
-        DBG(("partner128 bank:%02x\n", rambank));
+        /*DBG(("partner128 bank:%02x\n", rambank));*/
     }
 }
 
@@ -152,7 +158,7 @@ static uint8_t partner128_io1_read(uint16_t addr)
         /* value = rambanks[(rambank * 128) + addr]; */
         /* value = rambank; */
     }
-    /* DBG(("partner128_io1_read %04x %02x\n", addr, value)); */
+    /*DBG(("partner128_io1_read %04x %02x\n", addr, value));*/
     return value;
 }
 
@@ -164,7 +170,9 @@ static uint8_t partner128_io1_peek(uint16_t addr)
         /* RAM */
         value = rambanks[(rambank * 128) + addr];
     } else {
-        value = rambank;
+        value = ext_function_rom[0x1e80 + (addr & 0x7f)];
+        /* value = rambanks[(rambank * 128) + addr]; */
+        /* value = rambank; */
     }
     /*DBG(("partner128_io1_read %04x %02x\n", addr, value));*/
     return value;
@@ -264,3 +272,19 @@ void partner128_reset(void)
     DBG(("partner128_reset\n"));
     rambank = 0;
 }
+
+void partner128_freeze(void)
+{
+    DBG(("partner128_freeze\n"));
+}
+
+void partner128_powerup(void)
+{
+    DBG(("partner128_powerup\n"));
+    memset(rambanks, 0xff, PARTNER_RAM_SIZE);
+#if 0
+    rambanks[0x17] = 0x00;  /* install load vector */
+    rambanks[0x18] = 0xaa;  /* skip long init */
+#endif
+}
+
