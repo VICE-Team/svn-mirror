@@ -2411,6 +2411,10 @@ void cartridge_powerup(void)
         reu_powerup();
     }
 
+    if (machine_class == VICE_MACHINE_C128) {
+        c128cartridge->powerup();
+    }
+
     /* "Main Slot" */
     memset(export_ram0, 0xff, C64CART_RAM_LIMIT);
 
@@ -2558,6 +2562,9 @@ static void cart_freeze(int type)
             supersnapshot_v5_freeze();
             break;
     }
+    if (machine_class == VICE_MACHINE_C128) {
+        c128cartridge->freeze();
+    }
 }
 
 /* called by cart_nmi_alarm_triggered */
@@ -2624,6 +2631,13 @@ int cart_freeze_allowed(void)
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
             return 1;
     }
+
+    if (machine_class == VICE_MACHINE_C128) {
+        if (c128cartridge->freeze_allowed() == 1) {
+            return 1;
+        }
+    }
+
     /* "I/O Slot" (no freezer carts) */
     return 0;
 }

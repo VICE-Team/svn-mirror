@@ -309,6 +309,42 @@ static void c128cartridge_reset(void)
     warpspeed128_reset();
 }
 
+static int c128cartridge_freeze_allowed(void)
+{
+    switch(cartridge_get_id(0)) {
+        /*case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):*/
+        /*case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):*/
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        /*case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):*/
+            return 1;
+    }
+    return 0;
+}
+
+static void c128cartridge_freeze(void)
+{
+    switch(cartridge_get_id(0)) {
+        /*case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):*/
+        /*case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):*/
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+            partner128_freeze();
+            break;
+        /*case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):*/
+    }
+}
+
+static void c128cartridge_powerup(void)
+{
+    switch(cartridge_get_id(0)) {
+        /*case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):*/
+        /*case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):*/
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+            partner128_powerup();
+            break;
+        /*case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):*/
+    }
+}
+
 void c128cartridge_setup_interface(void)
 {
     DBG(("c128cartridge_setup_interface\n"));
@@ -319,6 +355,9 @@ void c128cartridge_setup_interface(void)
     c128interface.config_setup = c128cartridge_config_setup;
     c128interface.get_info_list = c128cartridge_get_info_list;
     c128interface.reset = c128cartridge_reset;
+    c128interface.freeze_allowed = c128cartridge_freeze_allowed;
+    c128interface.freeze = c128cartridge_freeze;
+    c128interface.powerup = c128cartridge_powerup;
     c128cartridge = &c128interface;
 }
 

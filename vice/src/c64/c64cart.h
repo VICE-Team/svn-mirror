@@ -91,6 +91,9 @@ struct c128cartridge_interface_s {
     void (*config_setup)(int type, uint8_t *rawcart);
     void (*detach_image)(int type);
     void (*reset)(void);
+    int (*freeze_allowed)(void);
+    void (*freeze)(void);
+    void (*powerup)(void);
     cartridge_info_t* (*get_info_list)(void);
 };
 typedef struct c128cartridge_interface_s c128cartridge_interface_t;
