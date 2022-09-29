@@ -40,10 +40,10 @@
 #include "c64cart.h"  /* FIXME: for C64CART_IMAGE_LIMIT */
 #include "util.h"
 
-#define DEBUGCRT
+/* #define DEBUGCRT */
 
 #ifdef DEBUGCRT
-#define DBG(x)  printf x
+#define DBG(x)  log_debug x
 #else
 #define DBG(x)
 #endif
@@ -51,6 +51,8 @@
 /*
  * CRT image "strings".
  */
+
+                                      //1234567890123456
 static const char CRT_HEADER_C64[]   = "C64 CARTRIDGE   ";
 static const char CRT_HEADER_C128[]  = "C128 CARTRIDGE  ";
 static const char CRT_HEADER_VIC20[] = "VIC20 CARTRIDGE ";
@@ -59,7 +61,9 @@ static const char CRT_HEADER_PLUS4[] = "PLUS4 CARTRIDGE ";
 static const char CHIP_HEADER[] = "CHIP";
 
 /*
-    Open a crt file and read header, return NULL on fault, fd otherwise
+    Open a crt file and read header
+
+    return NULL on fault, fd otherwise
 */
 FILE *crt_open(const char *filename, crt_header_t *header)
 {
@@ -83,6 +87,8 @@ FILE *crt_open(const char *filename, crt_header_t *header)
         /*printf("CRT TAG:'%s'\n", crt_header);*/
 
         if (memcmp(crt_header, CRT_HEADER_C64, 16) == 0) {
+            DBG(("Found header: '%s'\n", CRT_HEADER_C64));
+            header->machine = VICE_MACHINE_C64;
             if (!(machine_class == VICE_MACHINE_C64 ||
                   machine_class == VICE_MACHINE_C64SC ||
                   machine_class == VICE_MACHINE_C128 ||
@@ -90,27 +96,32 @@ FILE *crt_open(const char *filename, crt_header_t *header)
                 log_error(LOG_DEFAULT, "CRT header invalid (expected:%s).", CRT_HEADER_C64);
                 break;
             }
-            header->machine = VICE_MACHINE_C64;
         } else if (memcmp(crt_header, CRT_HEADER_C128, 16) == 0) {
+            DBG(("Found header: '%s'\n", CRT_HEADER_C128));
+            header->machine = VICE_MACHINE_C128;
             if (!(machine_class == VICE_MACHINE_C128)) {
                 log_error(LOG_DEFAULT, "CRT header invalid (expected:%s).", CRT_HEADER_C128);
                 break;
             }
-            header->machine = VICE_MACHINE_C128;
         } else if (memcmp(crt_header, CRT_HEADER_VIC20, 16) == 0) {
+            DBG(("Found header: '%s'\n", CRT_HEADER_VIC20));
+            header->machine = VICE_MACHINE_VIC20;
             if (!(machine_class == VICE_MACHINE_VIC20)) {
                 log_error(LOG_DEFAULT, "CRT header invalid (expected:%s).", CRT_HEADER_VIC20);
                 break;
             }
-            header->machine = VICE_MACHINE_VIC20;
         } else if (memcmp(crt_header, CRT_HEADER_PLUS4, 16) == 0) {
+            DBG(("Found header: '%s'\n", CRT_HEADER_PLUS4));
+            header->machine = VICE_MACHINE_PLUS4;
             if (!(machine_class == VICE_MACHINE_PLUS4)) {
                 log_error(LOG_DEFAULT, "CRT header invalid (expected:%s).", CRT_HEADER_PLUS4);
                 break;
             }
-            header->machine = VICE_MACHINE_PLUS4;
+        } else {
+            log_error(LOG_DEFAULT, "no CRT header found.");
+            break;
         }
-        /*printf("CRT Machine:'%d'\n", header->machine);*/
+        DBG(("CRT Machine:'%d'", header->machine));
 
         skip = util_be_buf_to_dword(&crt_header[0x10]);
 
