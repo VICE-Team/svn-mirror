@@ -1185,8 +1185,8 @@ void mem_initialize_memory(void)
             mem_set_write_hook(128 + j, 0xd4, c128_c64io_d400_store);
             mem_read_tab[128 + j][0xd5] = c128_d5xx_read;
             mem_set_write_hook(128 + j, 0xd5, c128_d5xx_store);
-            mem_read_tab[128 + j][0xd6] = c128_vdc_read;
-            mem_set_write_hook(128 + j, 0xd6, c128_vdc_store);
+            mem_read_tab[128 + j][0xd6] = c128_c64io_d600_read;
+            mem_set_write_hook(128 + j, 0xd6, c128_c64io_d600_store);
             mem_read_tab[128 + j][0xd7] = c128_c64io_d700_read;
             mem_set_write_hook(128 + j, 0xd7, c128_c64io_d700_store);
             mem_read_tab[128 + j][0xd8] = c128_colorram_read;
@@ -1410,7 +1410,7 @@ void store_bank_io(uint16_t addr, uint8_t byte)
             mmu_store(addr, byte);
             break;
         case 0xd600:
-            vdc_store(addr, byte);
+            c64io_d600_store(addr, byte);
             break;
         case 0xd700:
             c64io_d700_store(addr, byte);
@@ -1453,7 +1453,7 @@ uint8_t read_bank_io(uint16_t addr)
         case 0xd500:
             return mmu_read(addr);
         case 0xd600:
-            return vdc_read(addr);
+            return c64io_d600_read(addr);
         case 0xd700:
             return c64io_d700_read(addr);
         case 0xd800:
@@ -1489,7 +1489,7 @@ static uint8_t peek_bank_io(uint16_t addr)
         case 0xd500:
             return mmu_peek(addr);
         case 0xd600:
-            return vdc_peek(addr);
+            return c64io_d600_peek(addr);
         case 0xd700:
             return c64io_d700_peek(addr);
         case 0xd800:
@@ -1988,7 +1988,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     io_source_ioreg_add_list(&mem_ioreg_list);  /* VIC-IIe, SID first so it's in address order */
 
     mon_ioreg_add_list(&mem_ioreg_list, "MMU", 0xd500, 0xd50b, mmu_dump, NULL, IO_MIRROR_NONE);
-    mon_ioreg_add_list(&mem_ioreg_list, "VDC", 0xd600, 0xd601, vdc_dump, NULL, IO_MIRROR_NONE);
+    /*mon_ioreg_add_list(&mem_ioreg_list, "VDC", 0xd600, 0xd601, vdc_dump, NULL, IO_MIRROR_NONE);*/
     mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io, NULL, IO_MIRROR_NONE);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f, mem_dump_io, NULL, IO_MIRROR_NONE);
 
@@ -2196,18 +2196,18 @@ void c128_d5xx_store(uint16_t addr, uint8_t value)
     d5xx_store(addr, value);
 }
 
-uint8_t c128_vdc_read(uint16_t addr)
+uint8_t c128_c64io_d600_read(uint16_t addr)
 {
-    vicii.last_cpu_val = vdc_read(addr);
+    vicii.last_cpu_val = c64io_d600_read(addr);
     vicii_clock_read_stretch();
     return vicii.last_cpu_val;
 }
 
-void c128_vdc_store(uint16_t addr, uint8_t value)
+void c128_c64io_d600_store(uint16_t addr, uint8_t value)
 {
     vicii.last_cpu_val = value;
     vicii_clock_write_stretch();
-    vdc_store(addr, value);
+    c64io_d600_store(addr, value);
 }
 
 uint8_t c128_c64io_d700_read(uint16_t addr)
