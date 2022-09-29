@@ -48,6 +48,7 @@
 
 #include "generic.h"
 #include "comal80.h"
+#include "magicdesk128.h"
 #include "partner128.h"
 #include "warpspeed128.h"
 
@@ -132,6 +133,9 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_LT_KERNAL,           CARTRIDGE_LT_KERNAL,           CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_MACH5,               CARTRIDGE_MACH5,               CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_MAGIC_DESK,          CARTRIDGE_MAGIC_DESK,          CARTRIDGE_GROUP_UTIL },
+
+    { CARTRIDGE_C128_NAME_MAGICDESK128,   CARTRIDGE_C128_MAGICDESK128,   CARTRIDGE_GROUP_UTIL },
+
     { CARTRIDGE_NAME_MAGIC_FORMEL,        CARTRIDGE_MAGIC_FORMEL,        CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_MAGIC_VOICE,         CARTRIDGE_MAGIC_VOICE,         CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_MAX_BASIC,           CARTRIDGE_MAX_BASIC,           CARTRIDGE_GROUP_UTIL },
@@ -199,6 +203,9 @@ static void c128cartridge_config_setup(int type, uint8_t *rawcart)
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
             c128comal80_config_setup(rawcart);
             break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+            magicdesk128_config_setup(rawcart);
+            break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
             partner128_config_setup(rawcart);
             break;
@@ -220,6 +227,9 @@ static int c128cartridge_attach_crt(int type, FILE *fd, uint8_t *rawcart)
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
             res = c128comal80_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+            res = magicdesk128_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
             res = partner128_crt_attach(fd, rawcart);
@@ -245,6 +255,9 @@ static int c128cartridge_bin_attach(int type, const char *filename, uint8_t *raw
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
             res = c128comal80_bin_attach(filename, rawcart);
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+            res = magicdesk128_bin_attach(filename, rawcart);
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
             res = partner128_bin_attach(filename, rawcart);
@@ -283,6 +296,9 @@ static void c128cartridge_detach_image(int type)
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
             c128comal80_detach();
             break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+            magicdesk128_detach();
+            break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
             partner128_detach();
             break;
@@ -292,6 +308,7 @@ static void c128cartridge_detach_image(int type)
         case -1:
             c128generic_detach();
             c128comal80_detach();
+            magicdesk128_detach();
             partner128_detach();
             warpspeed128_detach();
             break;
@@ -305,6 +322,7 @@ static void c128cartridge_reset(void)
 {
     c128generic_reset();
     c128comal80_reset();
+    magicdesk128_reset();
     partner128_reset();
     warpspeed128_reset();
 }
@@ -381,6 +399,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartcomal128", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80), NULL, NULL,
       "<Name>", "Attach 96k " CARTRIDGE_C128_NAME_COMAL80 " cartridge image" },
+    { "-cartmd128", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128), NULL, NULL,
+      "<Name>", "Attach 16/32/64/128/256/512k/1M " CARTRIDGE_C128_NAME_MAGICDESK128 " cartridge image" },
     { "-cartpartner128", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128), NULL, NULL,
       "<Name>", "Attach 16k " CARTRIDGE_C128_NAME_PARTNER128 " cartridge image" },
