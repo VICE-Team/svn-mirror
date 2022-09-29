@@ -511,8 +511,9 @@ void mem_set_ram_config(uint8_t value)
     DEBUG_PRINT(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
 
     if ((value & 0x3) == 0) {
-        shared_size = 0x1000;
+        shared_size = 1024; /* 1k */
     } else {
+        /* 4k, 8k, 16k */
         shared_size = 0x1000 << ((value & 0x3) - 1);
     }
 
