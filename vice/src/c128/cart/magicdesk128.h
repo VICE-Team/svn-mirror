@@ -1,5 +1,6 @@
+
 /*
- * c128cart.h -- c128 cartridge memory interface.
+ * magicdesk128.h -- "Magic Desk 128" cartridge emulation
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -24,24 +25,14 @@
  *
  */
 
-#ifndef VICE_C128CART_H
-#define VICE_C128CART_H
+#ifndef C128_MAGICDESK128_H_
+#define C128_MAGICDESK128_H_
 
-extern int c128cartridge_cmdline_options_init(void);
-extern int c128cartridge_resources_init(void);
-extern void c128cartridge_resources_shutdown(void);
+extern int magicdesk128_bin_attach(const char *filename, uint8_t *rawcart);
+extern int magicdesk128_crt_attach(FILE *fd, uint8_t *rawcart);
+extern void magicdesk128_detach(void);
+extern void magicdesk128_reset(void);
 
-/* only x128 actually implements this function */
-extern void c128cartridge_setup_interface(void);
-
-/* Image of the external function ROM.  */
-#define EXTERNAL_FUNCTION_ROM_SIZE  0x8000
-#define EXTERNAL_FUNCTION_ROM_BANKS 0x40    /* max: "Magic Desk 128" has 64 */
-extern uint8_t ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE * EXTERNAL_FUNCTION_ROM_BANKS];
-extern void external_function_rom_set_bank(int value);
-
-extern uint8_t external_function_rom_read(uint16_t addr);
-extern void external_function_rom_store(uint16_t addr, uint8_t value);
-extern void external_function_top_shared_store(uint16_t addr, uint8_t value);
+extern void magicdesk128_config_setup(uint8_t *rawcart);
 
 #endif

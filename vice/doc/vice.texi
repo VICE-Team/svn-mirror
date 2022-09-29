@@ -12710,6 +12710,8 @@ Additional to the C64 types, the following types are valid C128 CRT ID:
 2: Partner 128
 @item
 3: Comal 80
+@item
+4: Magic Desk 128
 @end itemize
 
 Note: The actual value will be this ID added to the highest C64 CRT ID, so both
@@ -12729,6 +12731,10 @@ Attach generic external function ROM cartridge image.
 @findex -cartcomal128
 @item -cartcomal128 <name>
 Attach 96k Comal 80 cartridge image.
+
+@findex -cartmd128
+@item -cartmd128 <name>
+Attach 16/32/64/128/256/512k/1M Magic Desk 128 cartridge image.
 
 @findex -cartpartner128
 @item -cartpartner128 <name>
@@ -32713,6 +32719,8 @@ a CRT-ID in the C128 list and "C128 Cartridge" header type.
 @tab Partner 128
 @item 3
 @tab Comal 80
+@item 4
+@tab Magic Desk 128
 @end multitable
 
 @c @node FIXME
@@ -32874,6 +32882,44 @@ Writing to $de80 selects which one of 64 blocks of 128 byte ram is visible in $d
 
 This cartridge contains 3 32KiB ROMs, each containing two 16KiB banks, which are
 mapped to $C000 (ROMH). Bankswitching is done via one register at $DE00.
+
+@c @node FIXME
+@subsubsection 4 - Magic Desk 128
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB ROM, up to 64 banks (=1MiB)
+@item Load address
+@tab $8000-$BFFF
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+000000: 43 31 32 38 20 43 41 52 54 52 49 44 47 45 20 20  C128 CARTRIDGE  
+000010: 00 00 00 40 02 00 00 04 00 00 00 00 00 00 00 00  ...@............
+000020: 4d 61 67 69 63 20 44 65 73 6b 20 31 32 38 00 00  Magic Desk 128..
+000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+000040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+000050: 4c 0a 80 4c 12 81 01 43 42 4d d8 a9 3a 8d 00 ff  L..L...CBM..:...
+@dots{}
+040120: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+040130: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+@end example
+
+This cartridge contains two ROM sockets with 19 address lines (A0..A18) each.
+A19 selects which of the two ROM sockets is selected.
+
+D0..D5 of the register at $de00 go to A14..A19.
+D6/D7 of the register are not used
+
+That means:
+D0..D4 select the ROM bank
+D5     selects the ROM socket
+
+The common use-case would be to fill the first ROM first (with 512KiB), and only
+then add a second ROM. This way you can use linear values in the register to
+select the respective banks.
 
 @c @node FIXME
 @subsection VIC20 Cartridge Specifics

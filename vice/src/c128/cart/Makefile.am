@@ -28,6 +28,8 @@ libc128cartsystem_a_SOURCES = \
 	comal80.h \
 	generic.c \
 	generic.h \
+	magicdesk128.c \
+	magicdesk128.h \
 	partner128.c \
 	partner128.h \
 	warpspeed128.c \
