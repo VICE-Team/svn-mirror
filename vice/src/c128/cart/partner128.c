@@ -34,6 +34,10 @@
 #include "cartio.h"
 #include "util.h"
 
+#include "maincpu.h"
+#include "monitor.h"
+#include "c128memrom.h"
+
 #include "c64cart.h"
 #include "export.h"
 #include "c128cart.h"
@@ -58,26 +62,37 @@ $8000-$9fff contains the ROM
 $de00-$de7f contains 128 bytes ram
 $de80-$deff contains a mirror of $9e80-$9eff
 
-Writing to $de80 selects which one of 64 blocks of 128 byte ram is visible in $de00-$de7f.
+Writing to $de80-$deff writes to a single registers:
 
-- it has a button which probably generates an NMI
-- it has a cable which has to be connected to joystick port 2, and from a
-rough looking at the code it seems to simply be used to tell the nmi handler
-the button is the source of the nmi.
-- with cable in port 1 hold CTRL when pressing the button(?)
+ bit 0..5   selects which one of 64 blocks of 128 byte ram is visible in $de00-$de7f.
+ bit 6      "unfreeze" when set
+ bit 7      not used
 
-- it looks like only the VDC displays the cartridge menus!
+- it has a button which generates an NMI
+  - when freeze was pressed, it waits for the bus to show $fffa and then puts
+    $de on the bus
+- there is a cable, which has to be connected to joystick port 2. This connects
+  to CIA1 PB2, which lets the cartridge "see" the roughly 60Hz pulses caused
+  by the keyboard scanner. This pulse will then reset the freeze logic.
 
-NOTE: the only circulating dump is either broken, or there is something odd
-      going on (see code at $8180)
+Note that the cartridge menus are displayed on the VDC!
+
+FIXME: apparently the first 16 bytes of RAM are also mapped to d600..d60f, but
+       "silently write only" - ie VDC writes would end up in the RAM.
+
+NOTE: There is an apparently bad dump circulating (crc32: e165bdb6)
 
 */
 
 #define PARTNER_ROM_SIZE  0x4000
 #define PARTNER_RAM_SIZE  (64 * 128)    /* 64 * 128bytes */
 
+static uint8_t regvalue = 0;
 static uint8_t rambank = 0;
+static uint8_t isdefreezing = 0;
+
 static uint8_t rambanks[PARTNER_RAM_SIZE];
+static uint8_t nmivector[2] = { 0, 0 };
 
 /* ---------------------------------------------------------------------*/
 
@@ -86,9 +101,7 @@ static uint8_t partner128_io1_peek(uint16_t addr);
 static uint8_t partner128_io1_read(uint16_t addr);
 static void partner128_io1_store(uint16_t addr, uint8_t value);
 
-/*static uint8_t partner128_io2_read(uint16_t addr);
-static uint8_t partner128_io2_peek(uint16_t addr);
-static void partner128_io2_store(uint16_t addr, uint8_t value);*/
+static void partner128_iod6_store(uint16_t addr, uint8_t value);
 
 static int partner128_dump(void);
 
@@ -109,28 +122,60 @@ static io_source_t partner128_io1_device = {
 };
 static io_source_list_t *partner128_io1_list_item = NULL;
 
-#if 0
-static io_source_t partner128_io2_device = {
+static io_source_t partner128_iod6_device = {
     CARTRIDGE_C128_NAME_PARTNER128, /* name of the device */
     IO_DETACH_CART,                 /* use cartridge ID to detach the device when involved in a read-collision */
     IO_DETACH_NO_RESOURCE,          /* does not use a resource for detach */
-    0xdf00, 0xdfff, 0xff,           /* range for the device, address is ignored by the read/write functions, reg:$df00, mirrors:$df01-$dfff */
-    1,                              /* validity of the read is determined by the cartridge at read time */
-    partner128_io2_store,           /* store function */
+    0xd600, 0xd6ff, 0xff,           /* range for the device, address is ignored by the write functions, reg:$de00, mirrors:$de01-$deff */
+    1,                              /* read is never valid */
+    partner128_iod6_store,           /* store function */
     NULL,                           /* NO poke function */
-    partner128_io2_read,            /* read function */
-    partner128_io2_peek,            /* peek function */
+    NULL,            /* NO read function */
+    NULL,            /* NO peek function */
     partner128_dump,                /* device state information dump function */
     CARTRIDGE_C128_PARTNER128,      /* cartridge ID */
-    IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
+    IO_PRIO_LOW,                 /* normal priority, device read needs to be checked for collisions */
     0                               /* insertion order, gets filled in by the registration function */
 };
-static io_source_list_t *partner128_io2_list_item = NULL;
-#endif
+static io_source_list_t *partner128_iod6_list_item = NULL;
 
 static const export_resource_t export_res = {
     CARTRIDGE_C128_NAME_PARTNER128, 1, 1, &partner128_io1_device, NULL, CARTRIDGE_C128_PARTNER128
 };
+
+/* ---------------------------------------------------------------------*/
+
+/* this is kind of ugly. the real cartridge "listens" to the right address on
+   the bus and then forces the respective data lines to 0xde. we cant do this
+   in a sane way in the current implementation, so we change the actual rom
+   forth and back */
+
+static void nmivector_save(void)
+{
+    if ((c128memrom_kernal_rom[0x1ffa] == 0xde) &&
+        (c128memrom_kernal_rom[0x1ffb] == 0xde)) {
+        return;
+    }
+    nmivector[0] = c128memrom_kernal_rom[0x1ffa];
+    nmivector[1] = c128memrom_kernal_rom[0x1ffb];
+}
+
+static void nmivector_patch(void)
+{
+    c128memrom_kernal_rom[0x1ffa] = 0xde;
+    c128memrom_kernal_rom[0x1ffb] = 0xde;
+}
+
+static void nmivector_restore(void)
+{
+    if ((nmivector[0] == 0) &&
+        (nmivector[1] == 0)) {
+        return;
+    }
+    c128memrom_kernal_rom[0x1ffa] = nmivector[0];
+    c128memrom_kernal_rom[0x1ffb] = nmivector[1];
+    nmivector[0] = nmivector[1] = 0;
+}
 
 /* ---------------------------------------------------------------------*/
 
@@ -141,7 +186,15 @@ static void partner128_io1_store(uint16_t addr, uint8_t value)
         /* RAM */
         rambanks[(rambank * 128) + addr] = value;
     } else if (addr >= 0x80) {
+        regvalue = value & 0x7f;
         rambank = value & 0x3f;
+        isdefreezing = value & 0x40;
+        if (isdefreezing) {
+            DBG(("partner128_io1_store release freeze\n"));
+            nmivector_restore();
+            cartridge_release_freeze();
+        }
+
         /*DBG(("partner128 bank:%02x\n", rambank));*/
     }
 }
@@ -155,8 +208,6 @@ static uint8_t partner128_io1_read(uint16_t addr)
         value = rambanks[(rambank * 128) + addr];
     } else {
         value = ext_function_rom[0x1e80 + (addr & 0x7f)];
-        /* value = rambanks[(rambank * 128) + addr]; */
-        /* value = rambank; */
     }
     /*DBG(("partner128_io1_read %04x %02x\n", addr, value));*/
     return value;
@@ -171,36 +222,27 @@ static uint8_t partner128_io1_peek(uint16_t addr)
         value = rambanks[(rambank * 128) + addr];
     } else {
         value = ext_function_rom[0x1e80 + (addr & 0x7f)];
-        /* value = rambanks[(rambank * 128) + addr]; */
-        /* value = rambank; */
     }
     /*DBG(("partner128_io1_read %04x %02x\n", addr, value));*/
     return value;
 }
 
-#if 0
-static uint8_t partner128_io2_read(uint16_t addr)
+static void partner128_iod6_store(uint16_t addr, uint8_t value)
 {
-    uint8_t value;
-
-    value = ext_function_rom[0x1f00 + (addr & 0xff)];
-    DBG(("partner128_io2_read %04x %02x\n", addr, value));
-    return value;
+    DBG(("partner128_iod6_store %04x %02x\n", addr, value));
+    if (addr < 0x10) {
+        /* RAM */
+        rambanks[(rambank * 128) + addr] = value;
+    }
 }
-
-static uint8_t partner128_io2_peek(uint16_t addr)
-{
-    return ext_function_rom[0x1f00 + (addr & 0xff)];
-}
-
-static void partner128_io2_store(uint16_t addr, uint8_t value)
-{
-    DBG(("partner128_io2_store %04x %02x\n", addr, value));
-}
-#endif
 
 static int partner128_dump(void)
 {
+    mon_out("Register: $%02x\n", regvalue);
+    mon_out("RAM bank: %d/64\n", rambank);
+    mon_out("is de-freezing: %s\n", isdefreezing ? "yes" : "no");
+    mon_out("vectors forced: %s\n",
+        ((c128memrom_kernal_rom[0x1ffa] == 0xde) && (c128memrom_kernal_rom[0x1ffb] == 0xde)) ? "yes" : "no");
     return 0;
 }
 
@@ -219,7 +261,7 @@ static int partner128_common_attach(void)
         return -1;
     }
     partner128_io1_list_item = io_source_register(&partner128_io1_device);
-    /* partner128_io2_list_item = io_source_register(&partner128_io2_device); */
+    partner128_iod6_list_item = io_source_register(&partner128_iod6_device);
 
     return 0;
 }
@@ -262,29 +304,36 @@ void partner128_detach(void)
         io_source_unregister(partner128_io1_list_item);
         partner128_io1_list_item = NULL;
     }
-    /*io_source_unregister(partner128_io2_list_item);*/
-    /*partner128_io2_list_item = NULL;*/
+    if (partner128_iod6_list_item) {
+        io_source_unregister(partner128_iod6_list_item);
+        partner128_iod6_list_item = NULL;
+    }
     export_remove(&export_res);
+    nmivector_restore();
 }
 
 void partner128_reset(void)
 {
     DBG(("partner128_reset\n"));
+    regvalue = 0;
     rambank = 0;
+    isdefreezing = 0;
+    nmivector_restore();
 }
 
 void partner128_freeze(void)
 {
     DBG(("partner128_freeze\n"));
+    nmivector_save();
+    nmivector_patch();
 }
 
 void partner128_powerup(void)
 {
     DBG(("partner128_powerup\n"));
+    regvalue = 0;
+    rambank = 0;
+    isdefreezing = 0;
+    nmivector_restore();
     memset(rambanks, 0xff, PARTNER_RAM_SIZE);
-#if 0
-    rambanks[0x17] = 0x00;  /* install load vector */
-    rambanks[0x18] = 0xaa;  /* skip long init */
-#endif
 }
-
