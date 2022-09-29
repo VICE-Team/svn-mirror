@@ -46,9 +46,9 @@
 #include "crt.h"
 #include "partner128.h"
 
-#define DBGWS
+#define DBGPARTNER
 
-#ifdef DBGWS
+#ifdef DBGPARTNER
 #define DBG(x) printf x
 #else
 #define DBG(x)
@@ -101,6 +101,7 @@ static uint8_t partner128_io1_peek(uint16_t addr);
 static uint8_t partner128_io1_read(uint16_t addr);
 static void partner128_io1_store(uint16_t addr, uint8_t value);
 
+static uint8_t partner128_iod6_peek(uint16_t addr);
 static void partner128_iod6_store(uint16_t addr, uint8_t value);
 
 static int partner128_dump(void);
@@ -126,15 +127,15 @@ static io_source_t partner128_iod6_device = {
     CARTRIDGE_C128_NAME_PARTNER128, /* name of the device */
     IO_DETACH_CART,                 /* use cartridge ID to detach the device when involved in a read-collision */
     IO_DETACH_NO_RESOURCE,          /* does not use a resource for detach */
-    0xd600, 0xd6ff, 0xff,           /* range for the device, address is ignored by the write functions, reg:$de00, mirrors:$de01-$deff */
-    1,                              /* read is never valid */
-    partner128_iod6_store,           /* store function */
+    0xd600, 0xd60f, 0x0f,           /* range for the device, address is ignored by the write functions, reg:$de00, mirrors:$de01-$deff */
+    0,                              /* read is never valid */
+    partner128_iod6_store,          /* store function */
     NULL,                           /* NO poke function */
-    NULL,            /* NO read function */
-    NULL,            /* NO peek function */
+    NULL,                           /* NO read function */
+    partner128_iod6_peek,           /* peek function */
     partner128_dump,                /* device state information dump function */
     CARTRIDGE_C128_PARTNER128,      /* cartridge ID */
-    IO_PRIO_LOW,                 /* normal priority, device read needs to be checked for collisions */
+    IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
     0                               /* insertion order, gets filled in by the registration function */
 };
 static io_source_list_t *partner128_iod6_list_item = NULL;
@@ -229,11 +230,23 @@ static uint8_t partner128_io1_peek(uint16_t addr)
 
 static void partner128_iod6_store(uint16_t addr, uint8_t value)
 {
-    DBG(("partner128_iod6_store %04x %02x\n", addr, value));
+    /* DBG(("partner128_iod6_store %04x %02x\n", addr, value)); */
     if (addr < 0x10) {
         /* RAM */
         rambanks[(rambank * 128) + addr] = value;
     }
+}
+
+static uint8_t partner128_iod6_peek(uint16_t addr)
+{
+    uint8_t value = 0;
+
+    if (addr < 0x10) {
+        /* RAM */
+        value = rambanks[(rambank * 128) + addr];
+    }
+    /*DBG(("partner128_io1_read %04x %02x\n", addr, value));*/
+    return value;
 }
 
 static int partner128_dump(void)
