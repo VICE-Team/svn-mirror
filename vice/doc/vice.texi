@@ -12712,10 +12712,24 @@ Additional to the C64 types, the following types are valid C128 CRT ID:
 3: Comal 80
 @item
 4: Magic Desk 128
+@item
+5: Gmod2-C128
 @end itemize
 
 Note: The actual value will be this ID added to the highest C64 CRT ID, so both
 can coexist.
+
+@vindex GMod128EEPROMImage
+@item GMod128EEPROMImage
+String that specifies the name of the raw GMod2-C128 EEPROM image.
+
+@vindex GMod128FlashWrite
+@item GMod128FlashWrite
+Boolean that specifies wether writes to GMod2-C128 EEPROM image are enabled.
+
+@vindex GMod128EEPROMRW
+@item GMod128EEPROMRW
+Boolean that specifies wether the GMod2-C128 ROM is saved at exit
 
 @end table
 
@@ -12732,6 +12746,10 @@ Attach generic external function ROM cartridge image.
 @item -cartcomal128 <name>
 Attach 96k Comal 80 cartridge image.
 
+@findex -cartgmod128
+@item -cartgmod128 <name>
+Attach 512k Gmod2-C128 cartridge image.
+
 @findex -cartmd128
 @item -cartmd128 <name>
 Attach 16/32/64/128/256/512k/1M Magic Desk 128 cartridge image.
@@ -12743,6 +12761,20 @@ Attach 16KiB Partner 128 cartridge image.
 @findex -cartws128
 @item -cartws128 <name>
 Attach 16KiB Warpspeed 128 cartridge image.
+
+@findex -gmod128eepromimage
+@item -gmod128eepromimage <filename>
+Specify Gmod2-C128 EEPROM image filename (@code{GMod128EEPROMImage}).
+
+@findex -gmod128eepromrw, +gmod128eepromrw
+@item -gmod128eepromrw
+@itemx +gmod128eepromrw
+Enable/Disable writes to Gmod2-C128 EEPROM image (@code{GMod128EEPROMRW=1}, @code{GMod128EEPROMRW=0}).
+
+@findex -gmod128flashwrite, +gmod128flashwrite
+@item -gmod128flashwrite
+@itemx +gmod128flashwrite
+Enable/Disable saving of the Gmod2-C128 ROM at exit (@code{GMod128FlashWrite=1}, @code{GMod128FlashWrite=0}).
 
 @end table
 
@@ -22098,6 +22130,8 @@ ZIPP-CODE 48 .crt file
 generic C128 cartridge ("external function ROM")
 @item comal128
 Comal 80
+@item gmod128
+Gmod2-C128
 @item md128
 Magic Desk 128
 @item partner128
@@ -32922,6 +32956,35 @@ D5     selects the ROM socket
 The common use-case would be to fill the first ROM first (with 512KiB), and only
 then add a second ROM. This way you can use linear values in the register to
 select the respective banks.
+
+@c @node FIXME
+@subsubsection 5 - Gmod2-C128
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB ROM, up to 32 banks (=512KiB)
+@item Load address
+@tab $8000-$BFFF
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+000000: 43 31 32 38 20 43 41 52 54 52 49 44 47 45 20 20  C128 CARTRIDGE  
+000010: 00 00 00 40 02 00 00 05 00 00 00 00 00 00 00 00  ...@............
+000020: 47 6d 6f 64 32 2d 43 31 32 38 00 00 00 00 00 00  Gmod2-C128......
+000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+000040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+000050: 4c 0a 80 4c 0a 80 02 43 42 4d 78 a9 0a 8d 00 ff  L..L...CBMx.....
+@dots{}
+080220: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+080230: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+@end example
+
+This is similar to the C64 Gmod2 Cartridge. The differences are:
+- Banks are 16KiB instead of 8. Because of that one bit less in the register
+is used for banking
+- The ROM is always mapped to ROML area
 
 @c @node FIXME
 @subsection VIC20 Cartridge Specifics

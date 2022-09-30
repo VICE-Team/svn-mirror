@@ -336,10 +336,11 @@ cartridge_info_t *cartridge_get_info_list(void)
     return &cartlist[0];
 }
 
+/* FIXME: this only works in slot 0 right now */
 int cartridge_get_id(int slot)
 {
     int type = cart_getid_slotmain();
-    DBG(("cartridge_get_id(slot:%d): type:%d\n", slot, type));
+    /*DBG(("cartridge_get_id(slot:%d): type:%d\n", slot, type));*/
     return type;
 }
 
@@ -714,7 +715,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
 
     if ((machine_class == VICE_MACHINE_C128) && (header.machine == VICE_MACHINE_C128)) {
         DBG(("attaching as C128 cartridge id: %d\n", new_crttype));
-        rc = c128cartridge->attach_crt(new_crttype, fd, rawcart);
+        rc = c128cartridge->attach_crt(new_crttype, fd, filename, rawcart);
     } else {
 
         switch (new_crttype) {

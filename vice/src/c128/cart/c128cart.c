@@ -31,11 +31,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bq4830y.h"
 #include "c128mem.h"
 #include "cmdline.h"
 #include "lib.h"
+#include "log.h"
 #include "viciitypes.h"
+#include "vicii-phi1.h"
 
 #include "cartridge.h"
 #include "export.h"
@@ -48,6 +49,7 @@
 
 #include "generic.h"
 #include "comal80.h"
+#include "gmod2c128.h"
 #include "magicdesk128.h"
 #include "partner128.h"
 #include "warpspeed128.h"
@@ -122,6 +124,9 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_FUNPLAY,             CARTRIDGE_FUNPLAY,             CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_GAME_KILLER,         CARTRIDGE_GAME_KILLER,         CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_GMOD2,               CARTRIDGE_GMOD2,               CARTRIDGE_GROUP_GAME },
+
+    { CARTRIDGE_C128_NAME_GMOD2C128,               CARTRIDGE_C128_GMOD2C128,               CARTRIDGE_GROUP_GAME },
+
     { CARTRIDGE_NAME_GMOD3,               CARTRIDGE_GMOD3,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_GS,                  CARTRIDGE_GS,                  CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_DREAN,               CARTRIDGE_DREAN,               CARTRIDGE_GROUP_GAME },
@@ -191,6 +196,23 @@ static cartridge_info_t *c128cartridge_get_info_list(void)
     return &cartlist[0];
 }
 
+static void c128cartridge_config_init(int type)
+{
+    DBG(("c128cartridge_config_init()\n"));
+
+    switch (type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            c128gmod2_config_init();
+            break;
+    }
+}
+
 /* copy data from rawcart into actually used ROM array(s). (called from c64carthooks:cart_attach()) */
 static void c128cartridge_config_setup(int type, uint8_t *rawcart)
 {
@@ -202,6 +224,9 @@ static void c128cartridge_config_setup(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
             c128comal80_config_setup(rawcart);
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            c128gmod2_config_setup(rawcart);
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
             magicdesk128_config_setup(rawcart);
@@ -215,7 +240,7 @@ static void c128cartridge_config_setup(int type, uint8_t *rawcart)
     }
 }
 
-static int c128cartridge_attach_crt(int type, FILE *fd, uint8_t *rawcart)
+static int c128cartridge_attach_crt(int type, FILE *fd, const char *filename, uint8_t *rawcart)
 {
     int res = -1;
 
@@ -227,6 +252,9 @@ static int c128cartridge_attach_crt(int type, FILE *fd, uint8_t *rawcart)
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
             res = c128comal80_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            res = c128gmod2_crt_attach(fd, rawcart, filename);
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
             res = magicdesk128_crt_attach(fd, rawcart);
@@ -256,6 +284,9 @@ static int c128cartridge_bin_attach(int type, const char *filename, uint8_t *raw
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
             res = c128comal80_bin_attach(filename, rawcart);
             break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            res = c128gmod2_bin_attach(filename, rawcart);
+            break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
             res = magicdesk128_bin_attach(filename, rawcart);
             break;
@@ -273,6 +304,56 @@ static int c128cartridge_bin_attach(int type, const char *filename, uint8_t *raw
     return res;
 }
 
+static int c128cartridge_bin_save(int type, const char *filename)
+{
+    DBG(("c128cartridge_bin_save name: %s\n", filename));
+    switch (type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return c128gmod2_bin_save(filename);
+    }
+    log_error(LOG_ERR, "Failed saving binary cartridge image for cartridge ID %d.\n", type);
+    return -1;
+}
+
+static int c128cartridge_crt_save(int type, const char *filename)
+{
+    DBG(("c128cartridge_crt_save name: %s\n", filename));
+    switch (type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return c128gmod2_crt_save(filename);
+    }
+    log_error(LOG_ERR, "Failed saving .crt cartridge image for cartridge ID %d.\n", type);
+    return -1;
+}
+
+static int c128cartridge_flush_image(int type)
+{
+    switch (type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            return c128gmod2_flush_image();
+    }
+    log_error(LOG_ERR, "Failed flushing cartridge image for cartridge ID %d.\n", type);
+    return -1;
+}
+
 /*
     detach a cartridge.
     - carts that are not "main" cartridges can be disabled individually
@@ -287,7 +368,7 @@ static void c128cartridge_detach_image(int type)
     DBG(("c128cartridge_detach_image type: %d\n", type));
     if (type == 0) {
         type = cartridge_get_id(0);
-    DBG(("c128cartridge_detach_image  got type: %d\n", type));
+        DBG(("c128cartridge_detach_image  got type: %d\n", type));
     }
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
@@ -295,6 +376,9 @@ static void c128cartridge_detach_image(int type)
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
             c128comal80_detach();
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            c128gmod2_detach();
             break;
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
             magicdesk128_detach();
@@ -308,6 +392,7 @@ static void c128cartridge_detach_image(int type)
         case -1:
             c128generic_detach();
             c128comal80_detach();
+            c128gmod2_detach();
             magicdesk128_detach();
             partner128_detach();
             warpspeed128_detach();
@@ -321,6 +406,7 @@ static void c128cartridge_detach_image(int type)
 static void c128cartridge_reset(void)
 {
     c128generic_reset();
+    c128gmod2_reset();
     c128comal80_reset();
     magicdesk128_reset();
     partner128_reset();
@@ -369,7 +455,11 @@ void c128cartridge_setup_interface(void)
     /* assign the function pointers for the interface that is used in the c64 cartridge system */
     c128interface.attach_crt = c128cartridge_attach_crt;
     c128interface.bin_attach = c128cartridge_bin_attach;
+    c128interface.bin_save = c128cartridge_bin_save;
+    c128interface.crt_save = c128cartridge_crt_save;
+    c128interface.flush_image = c128cartridge_flush_image;
     c128interface.detach_image = c128cartridge_detach_image;
+    c128interface.config_init = c128cartridge_config_init;
     c128interface.config_setup = c128cartridge_config_setup;
     c128interface.get_info_list = c128cartridge_get_info_list;
     c128interface.reset = c128cartridge_reset;
@@ -381,11 +471,15 @@ void c128cartridge_setup_interface(void)
 
 int c128cartridge_resources_init(void)
 {
+    if (c128gmod2_resources_init() < 0) {
+        return -1;
+    }
     return 0;
 }
 
 void c128cartridge_resources_shutdown(void)
 {
+    c128gmod2_resources_shutdown();
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -399,6 +493,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartcomal128", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80), NULL, NULL,
       "<Name>", "Attach 96k " CARTRIDGE_C128_NAME_COMAL80 " cartridge image" },
+    { "-cartgmod128", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128), NULL, NULL,
+      "<Name>", "Attach 516k " CARTRIDGE_C128_NAME_GMOD2C128 " cartridge image" },
     { "-cartmd128", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128), NULL, NULL,
       "<Name>", "Attach 16/32/64/128/256/512k/1M " CARTRIDGE_C128_NAME_MAGICDESK128 " cartridge image" },
@@ -431,22 +528,63 @@ int c128cartridge_cmdline_options_init(void)
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
     mon_cart_cmd.export_dump = c128cartridge_export_dump;
 
-    return cmdline_register_options(cmdline_options);
+    if (cmdline_register_options(cmdline_options) < 0) {
+        return -1;
+    }
+    if (c128gmod2_cmdline_options_init() < 0) {
+        return -1;
+    }
+    return 0;
 }
 
-uint8_t external_function_rom_read(uint16_t addr)
-{
-    vicii.last_cpu_val = ext_function_rom[(addr & (EXTERNAL_FUNCTION_ROM_SIZE - 1)) + (ext_function_rom_bank * EXTERNAL_FUNCTION_ROM_SIZE)];
-    return vicii.last_cpu_val;
-}
+/*****************************************************************************/
 
+/* set the bank for generic function rom access */
 void external_function_rom_set_bank(int value)
 {
     ext_function_rom_bank = value;
 }
 
+/* ROML and ROMH reads at the cartridge port */
+uint8_t external_function_rom_read(uint16_t addr)
+{
+    int type = cartridge_get_id(0);
+    uint8_t val;
+    switch(type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            val = c128gmod2_roml_read(addr);
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+            val = ext_function_rom[(addr & (EXTERNAL_FUNCTION_ROM_SIZE - 1)) + (ext_function_rom_bank * EXTERNAL_FUNCTION_ROM_SIZE)];
+            break;
+        default:
+            val = vicii_read_phi1();
+            break;
+    }
+    vicii.last_cpu_val = val;
+    return vicii.last_cpu_val;
+}
+
+/* ROML and ROMH stores at the cartridge port */
 void external_function_rom_store(uint16_t addr, uint8_t value)
 {
+    int type = cartridge_get_id(0);
+    switch(type) {
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128):
+            c128gmod2_roml_store(addr, value);
+            break;
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_COMAL80):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_MAGICDESK128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_PARTNER128):
+        case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_WARPSPEED128):
+        default:
+            break;
+    }
     vicii.last_cpu_val = value;
     ram_store(addr, value);
 }

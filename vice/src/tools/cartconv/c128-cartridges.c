@@ -28,5 +28,6 @@ const cart_t cart_info_c128[] = {
            CARTRIDGE_SIZE_256KB |
            CARTRIDGE_SIZE_512KB |
            CARTRIDGE_SIZE_1MB,     0x4000, 0x8000,   0, CRT_CHIP_ROM, CARTRIDGE_C128_NAME_MAGICDESK128,     "md128", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_512KB,   0x4000, 0x8000,  32, CRT_CHIP_ROM, CARTRIDGE_C128_NAME_GMOD2C128,      "gmod128", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
