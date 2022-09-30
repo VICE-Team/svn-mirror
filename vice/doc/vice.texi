@@ -22098,9 +22098,11 @@ ZIPP-CODE 48 .crt file
 generic C128 cartridge ("external function ROM")
 @item comal128
 Comal 80
+@item md128
+Magic Desk 128
 @item partner128
 Partner 128
-@item was128
+@item ws128
 Warpspeed128
 @end table
 
