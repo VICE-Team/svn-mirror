@@ -86,8 +86,12 @@ extern export_t export;
 #include "cartridge.h"
 
 struct c128cartridge_interface_s {
-    int (*attach_crt)(int type, FILE *fd, uint8_t *rawcart);
+    int (*attach_crt)(int type, FILE *fd, const char *filename, uint8_t *rawcart);
     int (*bin_attach)(int type, const char *filename, uint8_t *rawcart);
+    int (*bin_save)(int type, const char *filename);
+    int (*crt_save)(int type, const char *filename);
+    int (*flush_image)(int type);
+    void (*config_init)(int type);
     void (*config_setup)(int type, uint8_t *rawcart);
     void (*detach_image)(int type);
     void (*reset)(void);

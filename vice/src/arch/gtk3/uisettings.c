@@ -81,6 +81,7 @@
 #include "expertwidget.h"
 #include "georamwidget.h"
 #include "gmod2widget.h"
+#include "gmod2c128widget.h"
 #include "gmod3widget.h"
 #include "ide64widget.h"
 #include "isepicwidget.h"
@@ -578,6 +579,9 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "GMod2",
       "gmod2",
       gmod2_widget_create, NULL },
+    { "GMod2-C128",
+      "gmod2c128",
+      gmod2c128_widget_create, NULL },
     { "GMod3",
       "gmod3",
       gmod3_widget_create, NULL },
