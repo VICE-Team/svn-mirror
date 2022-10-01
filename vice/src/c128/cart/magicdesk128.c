@@ -124,8 +124,8 @@ static void magicdesk128_io1_store(uint16_t addr, uint8_t value)
 static uint8_t magicdesk128_io1_read(uint16_t addr)
 {
     uint8_t value = vicii_read_phi1();
-    /* FIXME: if the schematic is correct, reading IO1 would actually write random
-     * values into the register */
+    /* since r/w is not decoded for accesses to the register latch, reading IO1
+       would actually write random values into the register */
     rombank = value & bankmask;
     external_function_rom_set_bank(rombank);
     log_warning(LOG_DEFAULT, "md128: read from $de%02x sets ROM bank to $%02x.\n", addr, rombank);
@@ -154,11 +154,6 @@ void magicdesk128_config_setup(uint8_t *rawcart)
     /* copy loaded cartridge data into actually used ROM array */
     for (int i = 0; i < MD128_ROM_BANKS; i++) {
         memcpy(ext_function_rom + (0x8000 * i), rawcart + (0x4000 * i), 0x4000);
-#if 0
-        /* the schematic says there is nothing mapped for ROMH, but the description on
-           github says the same ROM is mapped to both */
-        memcpy(ext_function_rom + 0x4000 + (0x8000 * i), rawcart + (0x4000 * i), 0x4000);
-#endif
     }
 }
 
