@@ -13815,6 +13815,9 @@ two files), that need to be loaded separately at different addresses.
 In that case, you have to know the addresses (which are usually
 specified in the file name) and use the ``attach'' command twice.
 
+Also notice that surprisingly often it is required for the user to start VIC20
+cartridges manually by typing a BASIC "SYS" command.
+
 A special kind of cartridge file is where the two files mentioned
 above are concatenated (with removing the two byte load address of
 the second image) into one 16KiB image. Vice can attach such concatenated files 
@@ -32746,7 +32749,7 @@ the second half to ROMH ($E000-$FFFF).
 @c @node FIXME
 @subsection C128 Cartridge Specifics
 
-Cartridges that work on both C64 and C128 get "C64 Cartridge" type and get a
+Note: Cartridges that work on both C64 and C128 get "C64 Cartridge" type and get a
 CRT-ID in the C64 list! @b{ONLY} Cartridges that exclusively work in C128 mode get
 a CRT-ID in the C128 list and "C128 Cartridge" header type.
 
@@ -32763,13 +32766,20 @@ a CRT-ID in the C128 list and "C128 Cartridge" header type.
 @tab Comal 80
 @item 4
 @tab Magic Desk 128
+@item 5
+@tab Gmod2-C128
 @end multitable
 
 @c @node FIXME
 @subsubsection 0 - generic (external Function ROM)
 
-generic cartridges contain one or two 8KiB or 16KiB CHIP packets, one for ROML
-and one for ROML. ROML is always mapped to $8000 and ROMH is always mapped to $c000.
+Generic cartridges for the C128 can use two 16KiB ROM blocks named ROML and ROMH,
+which are mapped to $8000-$BFFF and $C000-$FFFF respectively.
+
+Commonly such cartridges contain one or two 8KiB or 16KiB CHIP packets, one for ROML
+and one for ROMH. When a block uses a ROM smaller than the block (like 8KiB ROM), then
+mirrors should be created within that ROM block.
+
 Typical cartridges are 32KiB (ROML+ROMH) or 16KiB (ROML only), although smaller
 cartridges exist.
 
@@ -33015,7 +33025,44 @@ is used for banking
 @c @node FIXME
 @subsubsection 0 - generic cartridge
 
-@b{TODO}
+Generic VIC20 cartridges are a bit more complex than the ones from the other
+machines. Since the VIC20 has so little internal memory, most of it is available
+to be used for ROM and/or RAM at the expansion port:
+
+@multitable @columnfractions .1 .4 .4 .1
+@item @b{Block}
+@tab @b{Start}
+@tab @b{End}
+@tab @b{Size}
+@item 0
+@tab $0400
+@tab $0FFF
+@tab 3k
+@item 1
+@tab $2000
+@tab $3FFF
+@tab 8k
+@item 2
+@tab $4000
+@tab $5FFF
+@tab 8k
+@item 3
+@tab $6000
+@tab $7FFF
+@tab 8k
+@item 5
+@tab $A000
+@tab $BFFF
+@tab 8k
+@end multitable
+
+Common start addresses for cartridge ROMs are $2000, $4000, $6000, $7000, $A000, $B000.
+Also common, for 16KiB cartridges, is a combination of block 1 or 3 with block 5.
+
+Generic VIC20 .crt files may contain one or more CHIP packets fitting into the
+above blocks. If only the beginning of a block is used for ROM, then the reminder
+should be filled with mirrors (as it would happen on the real hardware when using
+a smaller rom and not decoding the unused lines).
 
 @c @node FIXME
 @subsubsection 1 - Mega-Cart
