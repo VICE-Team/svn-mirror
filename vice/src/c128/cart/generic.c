@@ -76,9 +76,10 @@ int c128generic_bin_attach(const char *filename, uint8_t *rawcart)
     while(len >= 0x400) {
         if (util_file_load(filename, rawcart, len, UTIL_FILE_LOAD_SKIP_ADDRESS) == 0) {
             DBG(("c128generic_bin_attach loaded 0x%04x bytes\n", len));
-            if (len <= 0x4000) {
-                memcpy(rawcart + 0x4000, rawcart, 0x4000);
-                /*memset(rawcart, 0, 0x4000);*/
+            /* create mirrors */
+            while (len < EXTERNAL_FUNCTION_ROM_SIZE) {
+                memcpy(rawcart + len, rawcart, len);
+                len *= 2;
             }
             return c128generic_common_attach();
         }
