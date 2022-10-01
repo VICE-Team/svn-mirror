@@ -21917,6 +21917,12 @@ file.
 @item -f "input name"
 This parameter is optional, and is meant to output information about the
 named file. It can't be used in conjuction with any of the other parameters.
+@findex -c
+@item -c "input name"
+@findex --check
+@item --check "input name"
+Works similar to -f, but does not output anything except on errors. On errors it
+will also make cartconv exit with an exitcode of -1.
 @findex -r
 @item -r
 This parameter is optional, it enables repair mode (accept broken input files)

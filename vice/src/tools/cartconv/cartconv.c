@@ -293,12 +293,14 @@ static int load_all_banks_from_crt(void)
 {
     unsigned int length, datasize, loadsize, pad;
 
-    if (loadfile_cart_type == CARTRIDGE_EASYFLASH) {
-        return load_easyflash_crt();
-    }
-
-    if (loadfile_cart_type == CARTRIDGE_PLUS4_MULTI) {
-        return load_multicart_crt();
+    if (machine_class == VICE_MACHINE_C64) {
+        if (loadfile_cart_type == CARTRIDGE_EASYFLASH) {
+            return load_easyflash_crt();
+        }
+    } else if (machine_class == VICE_MACHINE_PLUS4) {
+        if (loadfile_cart_type == CARTRIDGE_PLUS4_MULTI) {
+            return load_multicart_crt();
+        }
     }
 
     while (1) {
@@ -806,7 +808,7 @@ const cart_t *find_cartinfo_from_crtid(int crtid, int machine)
     return NULL;
 }
 
-static void printbanks(char *name)
+static unsigned long printbanks(char *name, int silent)
 {
     FILE *f;
     unsigned char b[0x10];
@@ -825,7 +827,9 @@ static void printbanks(char *name)
     if (f) {
         fseek(f, CRT_HEADER_LEN, SEEK_SET); /* skip crt header */
         pos = CRT_HEADER_LEN;
-        printf("\noffset  sig  type  bank start size  chunklen\n");
+        if (!silent) {
+            printf("\noffset  sig  type  bank start size  chunklen\n");
+        }
         while (!feof(f)) {
             fseek(f, pos, SEEK_SET);
             /* get chip header */
@@ -840,14 +844,20 @@ static void printbanks(char *name)
             if (type > CRT_CHIP_TYPES_MAX) {
                 type = CRT_CHIP_TYPES_MAX + 1; /* invalid */
             }
-            printf("$%06lx %-1c%-1c%-1c%-1c %-5s #%03u $%04x $%04x $%04lx\n",
-                    (unsigned long)pos, b[0], b[1], b[2], b[3],
-                    typestr[type], bank, start, size, (unsigned long)len);
+            if (!silent) {
+                printf("$%06lx %-1c%-1c%-1c%-1c %-5s #%03u $%04x $%04x $%04lx\n",
+                        (unsigned long)pos, b[0], b[1], b[2], b[3],
+                        typestr[type], bank, start, size, (unsigned long)len);
+            }
             if ((size + 0x10) > len) {
-                printf("  Error: data size exceeds chunk length\n");
+                if (!silent) {
+                    printf("  Error: data size exceeds chunk length\n");
+                }
             }
             if (len > (filelen - pos)) {
-                printf("  Error: data size exceeds end of file\n");
+                if (!silent) {
+                    printf("  Error: data size exceeds end of file\n");
+                }
                 break;
             }
             pos += len;
@@ -855,7 +865,43 @@ static void printbanks(char *name)
             tsize += size;
         }
         fclose(f);
-        printf("\ntotal banks: %u size: $%06lx\n", numbanks, tsize);
+        if (!silent) {
+            printf("\ntotal banks: %u size: $%06lx\n", numbanks, tsize);
+        }
+    }
+    return tsize;
+}
+
+/* check if game/exrom fields in the header are correctly set, handling some
+   of the odd exceptions */
+static void checkgameexrom(char *name, int crtid, char **game, char **exrom)
+{
+    if (crtid < 0) {
+        return;
+    }
+
+    if (crtid == 0) {
+        /* for generic cartridge having both zero is broken */
+        if ((headerbuffer[0x18] == 0x01) && (headerbuffer[0x19] == 0x01)) {
+            *exrom = "Warning: exrom in crt image set incorrectly.\n";
+            *game = "Warning: game in crt image set incorrectly.\n";
+        }
+    } else if ((crtid == CARTRIDGE_OCEAN) &&
+                (printbanks(name, 1) == CARTRIDGE_SIZE_512KB)) {
+        /* 512k Ocean uses a different startup config than whats in the table */
+        if (headerbuffer[0x18] != 0x00) {
+            *exrom = "Warning: exrom in crt image set incorrectly";
+        }
+        if (headerbuffer[0x19] != 0x01) {
+            *game = "Warning: game in crt image set incorrectly";
+        }
+    } else {
+        if (headerbuffer[0x18] != cart_info[crtid].exrom) {
+            *exrom = "Warning: exrom in crt image set incorrectly";
+        }
+        if (headerbuffer[0x19] != cart_info[crtid].game) {
+            *game = "Warning: game in crt image set incorrectly";
+        }
     }
 }
 
@@ -870,7 +916,7 @@ static void printinfo(char *name)
     char *game_warning = NULL;
 
     if (detect_input_file(name) < 0) {
-        printf("Error: can not detect file type.\n\n");
+        fprintf(stderr, "Error: can not detect file type.\n");
     }
 
     if (loadfile_is_crt == 1) {
@@ -894,12 +940,8 @@ static void printinfo(char *name)
                 } else {
                     modename = "?";
                 }
-                if (crtid && headerbuffer[0x18] != cart_info[crtid].exrom) {
-                    exrom_warning = "Warning: exrom in crt image set incorrectly.\n";
-                }
-                if (crtid && headerbuffer[0x19] != cart_info[crtid].game) {
-                    game_warning = "Warning: game in crt image set incorrectly.\n";
-                }
+
+                checkgameexrom(name, crtid, &game_warning, &exrom_warning);
             break;
             case VICE_MACHINE_C128:
                 if ((crtid >= 0) && (crtid <= CARTRIDGE_C128_LAST)) {
@@ -939,21 +981,96 @@ static void printinfo(char *name)
         if (machine_class == VICE_MACHINE_C64) {
             printf("Mode: exrom: %d game: %d (%s)\n", headerbuffer[0x18], headerbuffer[0x19], modename);
             if (exrom_warning) {
-                printf("%s", exrom_warning);
+                printf("%s.\n", exrom_warning);
             }
             if (game_warning) {
-                printf("%s", game_warning);
+                printf("%s.\n", game_warning);
             }
         }
 
         if (load_input_file(name) < 0) {
             printf("Error: this file seems broken.\n\n");
         }
-        printbanks(name);
+        printbanks(name, 0);
     }
 
     exit (0);
 }
+
+static void check_file(char *name)
+{
+    int crtid;
+    char *errormsg = NULL;
+
+    if (detect_input_file(name) < 0) {
+        errormsg = "can not detect file type";
+    } else {
+
+        if (loadfile_is_crt == 1) {
+            crtid = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
+            if (headerbuffer[0x17] & 0x80) {
+                /* handle our negative test IDs */
+                crtid -= 0x10000;
+            }
+
+            switch (machine_class) {
+                case VICE_MACHINE_C64:
+                    if ((crtid >= 0) && (crtid <= CARTRIDGE_LAST)) {
+                        /* crt id is valid */
+                    } else {
+                        errormsg = "invalid CRT ID";
+                    }
+                    checkgameexrom(name, crtid, &errormsg, &errormsg);
+                break;
+                case VICE_MACHINE_C128:
+                    if ((crtid >= 0) && (crtid <= CARTRIDGE_C128_LAST)) {
+                        /* crt id is valid */
+                    } else {
+                        errormsg = "invalid CRT ID";
+                    }
+                break;
+#if 0
+                case VICE_MACHINE_CBM5x0:
+                case VICE_MACHINE_CBM6x0:
+                    if ((crtid >= 0) && (crtid <= CARTRIDGE_CBM2_LAST)) {
+                        /* crt id is valid */
+                    } else {
+                        errormsg = "invalid CRT ID";
+                    }
+                break;
+#endif
+                case VICE_MACHINE_VIC20:
+                    if ((crtid >= 0) && (crtid <= CARTRIDGE_VIC20_LAST)) {
+                        /* crt id is valid */
+                    } else {
+                        errormsg = "invalid CRT ID";
+                    }
+                break;
+                case VICE_MACHINE_PLUS4:
+                    if ((crtid >= 0) && (crtid <= CARTRIDGE_PLUS4_LAST)) {
+                        /* crt id is valid */
+                    } else {
+                        errormsg = "invalid CRT ID";
+                    }
+                break;
+            }
+
+            if (load_input_file(name) < 0) {
+                errormsg = "this file seems broken";
+            }
+        } else {
+            /* TODO: check .bin/.prg */
+        }
+    }
+
+    if (errormsg) {
+        fprintf(stderr, "Error: %s.\n", errormsg);
+        exit (-1);
+    }
+
+    exit (0);
+}
+
 
 static void printoptions(char *inputname, char *optionsname)
 {
@@ -1188,23 +1305,25 @@ static void usage_types(void)
 static void usage(void)
 {
     cleanup();
-    printf("convert:    cartconv [-r] [-q|-v] [-t cart type] [-s cart revision] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
-    printf("print info: cartconv [-r] [-q|-v] -f \"input name\"\n\n");
-    printf("-f <name>                   print info on file\n");
-    printf("-r                          repair mode (accept broken/invalid input files)\n");
-    printf("-p                          accept non padded binaries as input\n");
-    printf("-b                          output all banks (do not optimize the .crt file)\n");
-    printf("-t <type> or <crtid>        output cart type\n");
-    printf("-s <rev>                    output cart revision/subtype\n");
-    printf("-i <name>                   input filename\n");
-    printf("-o <name>                   output filename\n");
-    printf("-n <name>                   crt cart name\n");
-    printf("-l <addr>                   load address\n");
-    printf("-q                          quiet\n");
-    printf("-v --verbose                verbose\n");
-    printf("--types                     show the supported cart types\n");
-    printf("--version                   print cartconv version\n");
-    printf("--options-file <filename>   write options for reverting the conversion into a file (for test script)\n");
+    printf( "convert:    cartconv [-r] [-q|-v] [-t cart type] [-s cart revision] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n"
+            "print info: cartconv [-r] [-q|-v] -f \"input name\"\n\n"
+            "check file: cartconv [-r] [-q|-v] -c \"input name\"\n\n"
+            "-f <name>                   print info on file\n"
+            "-c --check <name>           check file\n"
+            "-r                          repair mode (accept broken/invalid input files)\n"
+            "-p                          accept non padded binaries as input\n"
+            "-b                          output all banks (do not optimize the .crt file)\n"
+            "-t <type> or <crtid>        output cart type\n"
+            "-s <rev>                    output cart revision/subtype\n"
+            "-i <name>                   input filename\n"
+            "-o <name>                   output filename\n"
+            "-n <name>                   crt cart name\n"
+            "-l <addr>                   load address\n"
+            "-q                          quiet\n"
+            "-v --verbose                verbose\n"
+            "--types                     show the supported cart types\n"
+            "--version                   print cartconv version\n"
+            "--options-file <filename>   write options for reverting the conversion into a file (for test script)\n");
     exit(1);
 }
 
@@ -1239,6 +1358,10 @@ static int checkflag(char *flg, char *arg)
         switch (flg[1]) {
             case 'f':
                 printinfo(arg);
+                return 2;
+            case 'c':
+                checkarg(arg);
+                check_file(arg);
                 return 2;
             case 'r':
                 repair_mode = 1;
@@ -1414,6 +1537,10 @@ static int checkflag(char *flg, char *arg)
         } else if(strcmp(flg, "--types") == 0) {
             usage_types();
             return 1;
+        } else if(strcmp(flg, "--check") == 0) {
+            checkarg(arg);
+            check_file(arg);
+            return 2;
         } else if(strcmp(flg, "--verbose") == 0) {
             verbose = 1;
             return 1;
