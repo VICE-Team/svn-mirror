@@ -32,6 +32,7 @@
 
 #include "cartridge.h"
 #include "util.h"
+#include "log.h"
 
 #include "c64cart.h"
 #include "export.h"
@@ -94,6 +95,7 @@ int c128generic_bin_attach(const char *filename, uint8_t *rawcart)
 int c128generic_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
+    unsigned int len;
 
     if (crt_read_chip_header(&chip, fd)) {
         return -1;
@@ -104,10 +106,25 @@ int c128generic_crt_attach(FILE *fd, uint8_t *rawcart)
         if (crt_read_chip(rawcart, 0, &chip, fd)) {
             return -1;
         }
+        /* create mirrors */
+        len = chip.size;
+        while (len < 0x4000) {
+            memcpy(rawcart + len, rawcart, len);
+            len *= 2;
+        }
     } else if (chip.start == 0xc000 && chip.size > 0 && chip.size <= 0x4000) {
         if (crt_read_chip(rawcart + 0x4000, 0, &chip, fd)) {
             return -1;
         }
+        /* create mirrors */
+        len = chip.size;
+        while (len < 0x4000) {
+            memcpy(rawcart + 0x4000 + len, rawcart + 0x4000, len);
+            len *= 2;
+        }
+    } else {
+        log_error(LOG_DEFAULT, "invalid CRT CHIP address: $%04x", chip.start);
+        return -1;
     }
 
     if (crt_read_chip_header(&chip, fd)) {
@@ -122,10 +139,25 @@ int c128generic_crt_attach(FILE *fd, uint8_t *rawcart)
         if (crt_read_chip(rawcart, 0, &chip, fd)) {
             return -1;
         }
+        /* create mirrors */
+        len = chip.size;
+        while (len < 0x4000) {
+            memcpy(rawcart + len, rawcart, len);
+            len *= 2;
+        }
     } else if (chip.start == 0xc000 && chip.size > 0 && chip.size <= 0x4000) {
         if (crt_read_chip(rawcart + 0x4000, 0, &chip, fd)) {
             return -1;
         }
+        /* create mirrors */
+        len = chip.size;
+        while (len < 0x4000) {
+            memcpy(rawcart + 0x4000 + len, rawcart + 0x4000, len);
+            len *= 2;
+        }
+    } else {
+        log_error(LOG_DEFAULT, "invalid CRT CHIP address: $%04x", chip.start);
+        return -1;
     }
     c128generic_common_attach();
     return CARTRIDGE_C128_GENERIC;
