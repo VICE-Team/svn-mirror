@@ -1,5 +1,5 @@
-/** \file   uisidattach.h
- * \brief   Gtk3 SID-attach dialog - header
+/** \file   actions-vsid.h
+ * \brief   UI action implementations VSID - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -22,12 +22,13 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_UISIDATTACH_H
-#define VICE_UISIDATTACH_H
 
-void uisidattach_show_dialog(void);
-void uisidattach_shutdown(void);
+#ifndef VICE_ACTIONS_VSID_H
+#define VICE_ACTIONS_VSID_H
+
+void actions_vsid_register(void);
 
 #endif

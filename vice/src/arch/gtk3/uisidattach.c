@@ -34,8 +34,10 @@
 #include "filechooserhelpers.h"
 #include "lastdir.h"
 #include "lib.h"
+#include "psid.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiactions.h"
 #include "uiapi.h"
 #include "uivsidwindow.h"
 
@@ -151,6 +153,8 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         default:
             break;
     }
+
+    ui_action_finish(ACTION_PSID_LOAD);
 }
 
 
@@ -180,11 +184,9 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
 
 /** \brief  Create the SID attach dialog
  *
- * \param[in]   parent  parent widget (unused)
- *
  * \return  GtkFileChooserDialog
  */
-static GtkWidget *create_sid_attach_dialog(GtkWidget *parent)
+static GtkWidget *create_sid_attach_dialog(void)
 {
     GtkWidget *dialog;
     size_t i;
@@ -256,13 +258,12 @@ static GtkWidget *create_sid_attach_dialog(GtkWidget *parent)
  *
  * \return  TRUE
  */
-gboolean uisidattach_show_dialog(GtkWidget *widget, gpointer data)
+void uisidattach_show_dialog(void)
 {
     GtkWidget *dialog;
 
-    dialog = create_sid_attach_dialog(widget);
+    dialog = create_sid_attach_dialog();
     gtk_widget_show(dialog);
-    return TRUE;
 }
 
 

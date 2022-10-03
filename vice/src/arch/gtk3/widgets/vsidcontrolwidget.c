@@ -52,7 +52,7 @@
 #include "resources.h"
 #include "psid.h"
 #include "ui.h"
-#include "uisidattach.h"
+#include "uiactions.h"
 #include "vice_gtk3.h"
 #include "vsidstate.h"
 #include "vsidtuneinfowidget.h"
@@ -272,7 +272,7 @@ static void stop_callback(GtkWidget *widget, gpointer data)
  */
 static void sid_attach_wrapper(GtkWidget *widget, gpointer data)
 {
-    uisidattach_show_dialog(widget, data);
+    ui_action_trigger(ACTION_PSID_LOAD);
 }
 
 

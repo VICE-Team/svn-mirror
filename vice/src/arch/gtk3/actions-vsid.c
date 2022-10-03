@@ -1,5 +1,5 @@
-/** \file   uisidattach.h
- * \brief   Gtk3 SID-attach dialog - header
+/** \file   actions-vsid.c
+ * \brief   UI action implementations for VSID
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -24,10 +24,46 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_UISIDATTACH_H
-#define VICE_UISIDATTACH_H
+/* Resources altered by this file:
+ *
+ */
 
-void uisidattach_show_dialog(void);
-void uisidattach_shutdown(void);
+#include "vice.h"
 
-#endif
+#include <gtk/gtk.h>
+#include <stddef.h>
+#include <stdbool.h>
+
+#include "resources.h"
+#include "uiactions.h"
+#include "uisidattach.h"
+
+#include "actions-vsid.h"
+
+
+/** \brief  Show PSID load dialog */
+static void psid_load_action(void)
+{
+    /* FIXME: This triggers massive linker errors =) */
+/*    uisidattach_show_dialog(); */
+}
+
+
+/** \brief  List of VSID-specific actions */
+static const ui_action_map_t vsid_actions[] = {
+    {
+        .action = ACTION_PSID_LOAD,
+        .handler = psid_load_action,
+        .blocks = true,
+        .dialog = true
+    },
+
+    UI_ACTION_MAP_TERMINATOR
+};
+
+
+/** \brief  Register VSID-specific actions */
+void actions_vsid_register(void)
+{
+    ui_actions_register(vsid_actions);
+}
