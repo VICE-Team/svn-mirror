@@ -9948,6 +9948,8 @@ The following cartridge types are valid:
 76: Turtle Graphics II
 @item
 77: Freeze Frame MK2
+@item
+78: Partner 64
 @end itemize
 
 @vindex CartridgeFile
@@ -11038,6 +11040,10 @@ Attach raw 256KiB Prophet 64 cartridge image.
 @findex -cartpf
 @item -cartpf <name>
 Attach raw 64KiB Pagefox cartridge image.
+
+@findex -cartpartner64
+@item -cartpartner64 <name>
+Attach raw 16KiB Partner 64 cartridge image.
 
 @findex -cartramcart
 @item -cartramcart <name>
@@ -22080,6 +22086,8 @@ Ocean .crt file
 Prophet64 .crt file
 @item pf
 Pagefox .crt file
+@item partner64
+Partner 64 .crt file
 @item rep256
 REX 256KiB EPROM Cart .crt file, extra files can be inserted (1)(2)(3)
 @item rgcd
@@ -28755,6 +28763,8 @@ $0010- xxxx - ROM data
 @tab Turtle Graphics II
 @item 77
 @tab Freeze Frame MK2
+@item 78
+@tab Partner 64
 @end multitable
 
 (*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3, Shadow of the Beast,
@@ -32745,6 +32755,44 @@ disabled.
 
 When a freeze happens the first half of the ROM is mapped to ROML ($8000-$9FFF) and
 the second half to ROMH ($E000-$FFFF).
+
+@c @node FIXME
+@subsubsection 78 - Partner 64
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16KiB
+@item EXROM
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $8000-$9FFF (ROML), $E000-$FFFF (ROMH)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 4e 01 00 00 00 00 00 00 00  ...@...N........
+0020: 50 61 72 74 6e 65 72 20 36 34 00 00 00 00 00 00  Partner 64......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+0050: 78 48 a5 00 48 a5 01 48 a9 2f 85 00 a9 37 85 01  xH..H..H./...7..
+@dots{}
+4040: 00 00 00 00 00 00 00 00 00 00 01 00 eb 06 c7 06  ................
+4050: ff ff ff ff ff ff ff 4c 5d ea 00 80 12 84 e0 84  .......L].......
+
+@end example
+
+Warning, the following information is based on guess-work and might be
+incorrect, any further information and/or corrections are appreciated.
+
+This cartridge has 16KiB of ROM and 8KiB of RAM. It starts in ultimax mode with
+ROML at $8000, ROMH at $e000 and the extra RAM at $a000.
+
+Oh notable weird feature of this cartridge is that it connects to joystick port 2
+and uses the 60Hz pulses of the Keyboard scanner to reset the freezer/NMI logic.
 
 @c @node FIXME
 @subsection C128 Cartridge Specifics

@@ -122,6 +122,7 @@
 #include "sfx_soundsampler.h"
 #include "ocean.h"
 #include "pagefox.h"
+#include "partner64.h"
 #include "prophet64.h"
 #include "ramcart.h"
 #include "ramlink.h"
@@ -386,6 +387,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartp64", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_P64, NULL, NULL,
       "<Name>", "Attach raw 256KiB Prophet 64 cartridge image" },
+    { "-cartpartner64", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_PARTNER64, NULL, NULL,
+      "<Name>", "Attach raw 16KiB " CARTRIDGE_NAME_PARTNER64 " cartridge image" },
     { "-cartramcart", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_RAMCART, NULL, NULL,
       "<Name>", "Attach raw RamCart cartridge image" },
@@ -1003,6 +1007,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return p64_bin_attach(filename, rawcart);
         case CARTRIDGE_PAGEFOX:
             return pagefox_bin_attach(filename, rawcart);
+        case CARTRIDGE_PARTNER64:
+            return partner64_bin_attach(filename, rawcart);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_attach(filename, rawcart);
         case CARTRIDGE_REX:
@@ -1259,6 +1265,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_PAGEFOX:
             pagefox_config_setup(rawcart);
+            break;
+        case CARTRIDGE_PARTNER64:
+            partner64_config_setup(rawcart);
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_config_setup(rawcart);
@@ -1847,6 +1856,9 @@ void cart_detach(int type)
         case CARTRIDGE_PAGEFOX:
             pagefox_detach();
             break;
+        case CARTRIDGE_PARTNER64:
+            partner64_detach();
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_detach();
             break;
@@ -2135,6 +2147,9 @@ void cartridge_init_config(void)
             case CARTRIDGE_PAGEFOX:
                 pagefox_config_init();
                 break;
+            case CARTRIDGE_PARTNER64:
+                partner64_config_init();
+                break;
             case CARTRIDGE_RETRO_REPLAY:
                 retroreplay_config_init();
                 break;
@@ -2340,6 +2355,9 @@ void cartridge_reset(void)
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_reset();
             break;
+        case CARTRIDGE_PARTNER64:
+            partner64_reset();
+            break;
         case CARTRIDGE_REX_RAMFLOPPY:
             rexramfloppy_reset();
             break;
@@ -2456,6 +2474,9 @@ void cartridge_powerup(void)
         case CARTRIDGE_PAGEFOX:
             pagefox_powerup();
             break;
+        case CARTRIDGE_PARTNER64:
+            partner64_powerup();
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_powerup();
             break;
@@ -2553,6 +2574,9 @@ static void cart_freeze(int type)
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_freeze();
             break;
+        case CARTRIDGE_PARTNER64:
+            partner64_freeze();
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_freeze();
             break;
@@ -2625,6 +2649,8 @@ int cart_freeze_allowed(void)
                 return 1;
             }
             break;
+        case CARTRIDGE_PARTNER64:
+            return 1;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_freeze_allowed()) {
                 return 1;
@@ -3355,6 +3381,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_PARTNER64:
+                if (partner64_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_RETRO_REPLAY:
                 if (retroreplay_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3923,6 +3954,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_PAGEFOX:
                 if (pagefox_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_PARTNER64:
+                if (partner64_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

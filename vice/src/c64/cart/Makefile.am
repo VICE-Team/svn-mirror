@@ -156,6 +156,8 @@ libc64cart_a_SOURCES = \
 	ocean.h \
 	pagefox.c \
 	pagefox.h \
+	partner64.c \
+	partner64.h \
 	prophet64.c \
 	prophet64.h \
 	ramcart.c \
