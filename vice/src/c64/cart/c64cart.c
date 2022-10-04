@@ -111,6 +111,7 @@
 #include "multimax.h"
 #include "ocean.h"
 #include "pagefox.h"
+#include "partner64.h"
 #include "prophet64.h"
 #include "ramlink.h"
 #include "retroreplay.h"
@@ -292,6 +293,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_OCEAN,               CARTRIDGE_OCEAN,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_P64,                 CARTRIDGE_P64,                 CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_PAGEFOX,             CARTRIDGE_PAGEFOX,             CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_NAME_PARTNER64,           CARTRIDGE_PARTNER64,           CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_RAMLINK,             CARTRIDGE_RAMLINK,             CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_RETRO_REPLAY,        CARTRIDGE_RETRO_REPLAY,        CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_REX,                 CARTRIDGE_REX,                 CARTRIDGE_GROUP_UTIL },
@@ -450,6 +452,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_OCEAN:
         case CARTRIDGE_P64:
         case CARTRIDGE_PAGEFOX:
+        case CARTRIDGE_PARTNER64:
         case CARTRIDGE_RAMLINK:
         case CARTRIDGE_RETRO_REPLAY:
         case CARTRIDGE_REX:
@@ -886,6 +889,9 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
                 break;
             case CARTRIDGE_PAGEFOX:
                 rc = pagefox_crt_attach(fd, rawcart);
+                break;
+            case CARTRIDGE_PARTNER64:
+                rc = partner64_crt_attach(fd, rawcart);
                 break;
             case CARTRIDGE_RAMLINK:
                 rc = ramlink_crt_attach(fd, rawcart);

@@ -247,7 +247,8 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_IEEEFLASH64          75 /* ieeeflash64.c */
 #define CARTRIDGE_TURTLE_GRAPHICS_II   76 /* turtlegraphics.c */
 #define CARTRIDGE_FREEZE_FRAME_MK2     77 /* freezeframe2.c */
-#define CARTRIDGE_LAST                 77 /* cartconv: last cartridge in list */
+#define CARTRIDGE_PARTNER64            78 /* partner64.c */
+#define CARTRIDGE_LAST                 78 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -332,6 +333,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_NORDIC_REPLAY      "Nordic Replay" /* "Retro Replay v2" see manual */
 #define CARTRIDGE_NAME_OCEAN              "Ocean"
 #define CARTRIDGE_NAME_PAGEFOX            "Pagefox"
+#define CARTRIDGE_NAME_PARTNER64          "Partner 64"
 #define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
 #define CARTRIDGE_NAME_RAMCART            "RamCart" /* see cc65 driver */
 #define CARTRIDGE_NAME_RAMLINK            "RAMLink"
