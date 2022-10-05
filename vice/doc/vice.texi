@@ -32791,9 +32791,6 @@ incorrect, any further information and/or corrections are appreciated.
 This cartridge has 16KiB of ROM and 8KiB of RAM. It starts in ultimax mode with
 ROML at $8000, ROMH at $e000 and the extra RAM at $a000.
 
-Oh notable weird feature of this cartridge is that it connects to joystick port 2
-and uses the 60Hz pulses of the Keyboard scanner to reset the freezer/NMI logic.
-
 @c @node FIXME
 @subsection C128 Cartridge Specifics
 

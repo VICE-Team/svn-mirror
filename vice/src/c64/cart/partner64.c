@@ -70,9 +70,6 @@
     $def1    - enable cart
     $deff    - acknowledge freeze
 
-    Like the C128 version, this cartridge is kindof weird in how it requires the
-    user to connect a cable from the cartridge to the joystick port.
-
 */
 
 #define CART_RAM_SIZE   0x2000
