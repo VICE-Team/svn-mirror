@@ -382,7 +382,7 @@ static video_cbm_color_t vicii_colors_6569r1[VICII_NUM_COLORS] =
     { 0.763 * 256.0,           0.00        , 0.000 * 256.0,  0, "Light Grey"  }
 };
 
-static video_cbm_color_t vicii_colors_6569r1_odd[VICII_NUM_COLORS] =
+static video_cbm_color_t vicii_colors_6569r1_even[VICII_NUM_COLORS] =
 {
     { 0.000 * 256.0,           0.00        , 0.000 * 256.0, -0, "Black"       },
     { 1.000 * 256.0,           0.00        , 0.000 * 256.0,  0, "White"       },
@@ -402,7 +402,7 @@ static video_cbm_color_t vicii_colors_6569r1_odd[VICII_NUM_COLORS] =
     { 0.763 * 256.0,           0.00        , 0.000 * 256.0, -0, "Light Grey"  }
 };
 
-static video_cbm_color_t vicii_colors_6569r1_even[VICII_NUM_COLORS] =
+static video_cbm_color_t vicii_colors_6569r1_odd[VICII_NUM_COLORS] =
 {
     { 0.000 * 256.0,           0.00        , 0.000 * 256.0, -0, "Black"       },
     { 1.000 * 256.0,           0.00        , 0.000 * 256.0,  0, "White"       },
@@ -456,7 +456,7 @@ static video_cbm_color_t vicii_colors_6569r5[VICII_NUM_COLORS] =
     { 0.639 * 256.0,           0.00        , 0.000 * 256.0,  0, "Light Grey"  }
 };
 
-static video_cbm_color_t vicii_colors_6569r5_odd[VICII_NUM_COLORS] =
+static video_cbm_color_t vicii_colors_6569r5_even[VICII_NUM_COLORS] =
 {
     { 0.000 * 256.0,           0.00        , 0.000 * 256.0, -0, "Black"       },
     { 1.000 * 256.0,           0.00        , 0.000 * 256.0,  0, "White"       },
@@ -476,7 +476,7 @@ static video_cbm_color_t vicii_colors_6569r5_odd[VICII_NUM_COLORS] =
     { 0.639 * 256.0,           0.00        , 0.000 * 256.0, -0, "Light Grey"  }
 };
 
-static video_cbm_color_t vicii_colors_6569r5_even[VICII_NUM_COLORS] =
+static video_cbm_color_t vicii_colors_6569r5_odd[VICII_NUM_COLORS] =
 {
     { 0.000 * 256.0,           0.00        , 0.000 * 256.0, -0, "Black"       },
     { 1.000 * 256.0,           0.00        , 0.000 * 256.0,  0, "White"       },
@@ -530,7 +530,7 @@ static video_cbm_color_t vicii_colors_8565r2[VICII_NUM_COLORS] =
     { 0.639 * 256.0,           0.00        , 0.000 * 256.0,  0, "Light Grey"  }
 };
 
-static video_cbm_color_t vicii_colors_8565r2_odd[VICII_NUM_COLORS] =
+static video_cbm_color_t vicii_colors_8565r2_even[VICII_NUM_COLORS] =
 {
     { 0.000 * 256.0,           0.00        , 0.000 * 256.0, -0, "Black"       },
     { 1.000 * 256.0,           0.00        , 0.000 * 256.0,  0, "White"       },
@@ -550,7 +550,7 @@ static video_cbm_color_t vicii_colors_8565r2_odd[VICII_NUM_COLORS] =
     { 0.639 * 256.0,           0.00        , 0.000 * 256.0, -0, "Light Grey"  }
 };
 
-static video_cbm_color_t vicii_colors_8565r2_even[VICII_NUM_COLORS] =
+static video_cbm_color_t vicii_colors_8565r2_odd[VICII_NUM_COLORS] =
 {
     { 0.000 * 256.0,           0.00        , 0.000 * 256.0, -0, "Black"       },
     { 1.000 * 256.0,           0.00        , 0.000 * 256.0,  0, "White"       },
