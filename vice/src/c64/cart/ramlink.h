@@ -34,7 +34,7 @@ extern void ramlink_config_init(export_t *ex);
 extern void ramlink_config_setup(uint8_t *rawcart);
 extern int ramlink_bin_attach(const char *filename, uint8_t *rawcart);
 extern void ramlink_detach(void);
-extern int ramlink_crt_attach(FILE *fd, uint8_t *rawcart);
+extern int ramlink_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
 extern int ramlink_flush_image(void); /* FIXME: API reserved for primary/ROM image */
 extern const char *ramlink_get_file_name(void); /* FIXME: API reserved for primary/ROM image */
 extern int ramlink_cart_enabled(void);
