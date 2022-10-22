@@ -876,7 +876,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
                 rc = mikroass_crt_attach(fd, rawcart);
                 break;
             case CARTRIDGE_MMC64:
-                rc = mmc64_crt_attach(fd, rawcart);
+                rc = mmc64_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_MMC_REPLAY:
                 rc = mmcreplay_crt_attach(fd, rawcart, filename);
