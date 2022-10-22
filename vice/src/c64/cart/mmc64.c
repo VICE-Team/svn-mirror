@@ -450,7 +450,9 @@ static int set_mmc64_enabled(int value, void *param)
             LOG(("MMC64: set_enabled(1) '%s'", mmc64_bios_filename));
             if (mmc64_bios_filename) {
                 if (*mmc64_bios_filename) {
-                    if (cartridge_attach_image(CARTRIDGE_MMC64, mmc64_bios_filename) < 0) {
+                    /* try .crt first */
+                    if ((cartridge_attach_image(CARTRIDGE_CRT, mmc64_bios_filename) < 0) &&
+                        (cartridge_attach_image(CARTRIDGE_MMC64, mmc64_bios_filename) < 0)) {
                         LOG(("MMC64: set_enabled(1) did not register"));
                         return -1;
                     }
@@ -1354,10 +1356,11 @@ int mmc64_bin_attach(const char *filename, uint8_t *rawcart)
 
     mmc64_bios_offset = amount_read & 3;
     mmc64_bios_type = CARTRIDGE_FILETYPE_BIN;
+    set_mmc64_bios_filename(filename, NULL); /* set the resource */
     return mmc64_common_attach();
 }
 
-int mmc64_crt_attach(FILE *fd, uint8_t *rawcart)
+int mmc64_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     crt_chip_header_t chip;
 
@@ -1375,6 +1378,7 @@ int mmc64_crt_attach(FILE *fd, uint8_t *rawcart)
 
     mmc64_bios_offset = 0;
     mmc64_bios_type = CARTRIDGE_FILETYPE_CRT;
+    set_mmc64_bios_filename(filename, NULL); /* set the resource */
     return mmc64_common_attach();
 }
 
