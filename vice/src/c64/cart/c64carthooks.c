@@ -876,6 +876,9 @@ void cartridge_setup_context(machine_context_t *context)
 
 /* ------------------------------------------------------------------------- */
 
+/* attach a binary image. note that for carts not in the main slot, the image
+   name is usually kept in a resource, and the cartridge is enabled via another
+   resource - the function called from here must also do this */
 int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
 {
     switch (type) {

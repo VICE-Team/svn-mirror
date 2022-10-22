@@ -716,6 +716,9 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
 
     cartridge_detach_image(new_crttype);
 
+    /* now attach a crt image. note that for carts not in the main slot, the image
+       name is usually kept in a resource, and the cartridge is enabled via another
+       resource - the function called from here must also do this */
     if ((machine_class == VICE_MACHINE_C128) && (header.machine == VICE_MACHINE_C128)) {
         DBG(("attaching as C128 cartridge id: %d\n", new_crttype));
         rc = c128cartridge->attach_crt(new_crttype, fd, filename, rawcart);
@@ -837,7 +840,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
                 rc = ide64_crt_attach(fd, rawcart);
                 break;
             case CARTRIDGE_IEEE488:
-                rc = tpi_crt_attach(fd, rawcart);
+                rc = tpi_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_IEEEFLASH64:
                 rc = ieeeflash64_crt_attach(fd, rawcart);
