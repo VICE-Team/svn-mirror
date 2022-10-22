@@ -897,7 +897,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
                 rc = partner64_crt_attach(fd, rawcart);
                 break;
             case CARTRIDGE_RAMLINK:
-                rc = ramlink_crt_attach(fd, rawcart);
+                rc = ramlink_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_RETRO_REPLAY:
                 rc = retroreplay_crt_attach(fd, rawcart, filename, header.subtype);

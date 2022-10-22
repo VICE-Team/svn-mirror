@@ -858,7 +858,9 @@ static int set_enabled(int value, void *param)
             LOG1(("RAMLINK: set_enabled(1) '%s'", rl_bios_filename));
             if (rl_bios_filename) {
                 if (*rl_bios_filename) {
-                    if (cartridge_attach_image(CARTRIDGE_RAMLINK, rl_bios_filename) < 0) {
+                    /* try .crt image first */
+                    if ((cartridge_attach_image(CARTRIDGE_CRT, rl_bios_filename) < 0) &&
+                        (cartridge_attach_image(CARTRIDGE_RAMLINK, rl_bios_filename) < 0)) {
                         LOG1(("RAMLINK: set_enabled(1) did not register"));
                         return -1;
                     }
@@ -1717,7 +1719,7 @@ static int ramlink_common_attach(void)
     return 0;
 }
 
-int ramlink_crt_attach(FILE *fd, uint8_t *rawcart)
+int ramlink_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     crt_chip_header_t chip;
     int i;
@@ -1735,7 +1737,7 @@ int ramlink_crt_attach(FILE *fd, uint8_t *rawcart)
             return -1;
         }
     }
-
+    set_bios_filename(filename, NULL); /* set the resource */
     return ramlink_common_attach();
 }
 
@@ -1749,6 +1751,7 @@ int ramlink_bin_attach(const char *filename, uint8_t *rawcart)
         return -1;
     }
 
+    set_bios_filename(filename, NULL); /* set the resource */
     return ramlink_common_attach();
 }
 
