@@ -1096,7 +1096,8 @@ static int set_magicvoice_enabled(int value, void *param)
             /* if the param is != NULL, then we should load the default image file */
             if (magicvoice_filename) {
                 if (*magicvoice_filename) {
-                    if (cartridge_attach_image(CARTRIDGE_MAGIC_VOICE, magicvoice_filename) < 0) {
+                    if ((cartridge_attach_image(CARTRIDGE_CRT, magicvoice_filename) < 0) &&
+                        (cartridge_attach_image(CARTRIDGE_MAGIC_VOICE, magicvoice_filename) < 0)) {
                         DBG(("MV: set_enabled did not register\n"));
                         return -1;
                     }
@@ -1364,6 +1365,7 @@ int magicvoice_bin_attach(const char *filename, uint8_t *rawcart)
     if (util_file_load(filename, rawcart, MV_ROM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
+    set_magicvoice_filename(filename, NULL); /* set the resource */
     return magicvoice_common_attach();
 }
 
@@ -1388,7 +1390,7 @@ int magicvoice_bin_attach(const char *filename, uint8_t *rawcart)
  * $000040 CHIP ROM   #000 $8000 $4000 $4010
  *
  */
-int magicvoice_crt_attach(FILE *fd, uint8_t *rawcart)
+int magicvoice_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     int i;
     crt_chip_header_t chip;
@@ -1414,6 +1416,7 @@ int magicvoice_crt_attach(FILE *fd, uint8_t *rawcart)
     if (i != 1 && i != 2) {
         return -1;
     }
+    set_magicvoice_filename(filename, NULL); /* set the resource */
     return magicvoice_common_attach();
 }
 
