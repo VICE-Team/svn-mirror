@@ -843,7 +843,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
                 rc = tpi_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_IEEEFLASH64:
-                rc = ieeeflash64_crt_attach(fd, rawcart);
+                rc = ieeeflash64_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_ISEPIC:
                 rc = isepic_crt_attach(fd, rawcart, filename);
