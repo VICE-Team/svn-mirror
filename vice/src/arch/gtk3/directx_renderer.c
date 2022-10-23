@@ -102,7 +102,7 @@ static void vice_directx_initialise_canvas(video_canvas_t *canvas)
     /* First create the context_t that we'll need everywhere */
     context = lib_calloc(1, sizeof(context_t));
 
-    context->canvas_lock = canvas->lock;
+    context->canvas_lock_ptr = &canvas->lock;
     pthread_mutex_init(&context->render_lock, NULL);
     canvas->renderer_context = context;
 

@@ -49,7 +49,7 @@ extern "C" {
  *  \sa video_canvas_s::renderer_context */
 typedef struct vice_directx_renderer_context_s {
     /** \brief needed to coordinate access to the context between vice and main threads */
-    pthread_mutex_t canvas_lock;
+    pthread_mutex_t *canvas_lock_ptr;
 
     /** \brief used to coordinate access to native rendering resources */
     pthread_mutex_t render_lock;

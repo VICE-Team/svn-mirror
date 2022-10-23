@@ -36,8 +36,8 @@
 
 #import "render_queue.h"
 
-#define CANVAS_LOCK() pthread_mutex_lock(&context->canvas_lock)
-#define CANVAS_UNLOCK() pthread_mutex_unlock(&context->canvas_lock)
+#define CANVAS_LOCK() pthread_mutex_lock(context->canvas_lock_ptr)
+#define CANVAS_UNLOCK() pthread_mutex_unlock(context->canvas_lock_ptr)
 #define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
 #define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
 
