@@ -9346,15 +9346,13 @@ and thus are not present in the other emulators.
 
 @subsection Using cartridges
 
-The cartridge system is organized in "Slots" to allow more than one cartridge
-connected at a time, like it can be done using an expansion port expander on
-a real C64 (see below).
-
 Generally a cartridge can be enabled by attaching its respective cartridge
 image, or using the respective menu option for cartridges that do not
 require an image.
 
-x64, x64sc and x128 allow you to attach the following kinds of images:
+@dfn{Cartridge images} are like disk images, but contain the contents of
+cartridge ROM and/or RAM images instead of disk images. Two kinds of cartridge
+images are supported:
 
 @itemize @bullet
 @item
@@ -9363,12 +9361,12 @@ x64, x64sc and x128 allow you to attach the following kinds of images:
 raw @file{.bin} images, with or without load address
 @end itemize
 
-@dfn{Cartridge images} are like disk images, but contain the contents of
-cartridge ROM and/or RAM images instead of disk images.
+Use cartconv to convert .bin images to .crt format.
 
 To attach cartridges, use the ``Attach a cartridge image'' submenu. When using
 @file{.crt} images, this will work for every cartridge which is supported. For
-raw @file{.bin} images you might have to use command line options.
+raw @file{.bin} images you will have to select the correct type of cartridge first,
+or use command line options.
 
 When you have successfully attached a cartridge image,
 you should then reset the machine to make sure the cartridge initializes
@@ -9380,6 +9378,10 @@ cartridge image (``Detach cartridge image'').
 If you are using a freezer cart like an Action Replay cartridge, you can
 emulate the cartridge's freeze button with the ``Cartridge freeze''
 command.
+
+The cartridge system is organized in "Slots" to allow more than one cartridge
+connected at a time, like it can be done using an expansion port expander on
+a real C64 (see below).
 
 The imaginary expansion port expander is organized in 4 slots, the
 cartridges are associated with them like this:
