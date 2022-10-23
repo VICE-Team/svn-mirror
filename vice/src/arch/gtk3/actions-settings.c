@@ -153,6 +153,7 @@ static void settings_load_filename_callback(GtkDialog *dialog,
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
+    ui_action_finish(ACTION_SETTINGS_LOAD_FROM);
 }
 
 
