@@ -782,6 +782,11 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             case CARTRIDGE_DINAMIC:
                 rc = dinamic_crt_attach(fd, rawcart);
                 break;
+#if 0
+            case CARTRIDGE_DQBB: /* slot 1 */
+                rc = dqbb_crt_attach(fd, rawcart, filename);
+                break;
+#endif
             case CARTRIDGE_EASYCALC:
                 rc = easycalc_crt_attach(fd, rawcart);
                 break;
@@ -794,7 +799,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             case CARTRIDGE_EXOS:
                 rc = exos_crt_attach(fd, rawcart);
                 break;
-            case CARTRIDGE_EXPERT:
+            case CARTRIDGE_EXPERT: /* slot 1 */
                 rc = expert_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_FINAL_I:
@@ -839,13 +844,13 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             case CARTRIDGE_IDE64:
                 rc = ide64_crt_attach(fd, rawcart);
                 break;
-            case CARTRIDGE_IEEE488:
+            case CARTRIDGE_IEEE488: /* slot 0 */
                 rc = tpi_crt_attach(fd, rawcart, filename);
                 break;
-            case CARTRIDGE_IEEEFLASH64:
+            case CARTRIDGE_IEEEFLASH64: /* slot 0 */
                 rc = ieeeflash64_crt_attach(fd, rawcart, filename);
                 break;
-            case CARTRIDGE_ISEPIC:
+            case CARTRIDGE_ISEPIC: /* slot 1 */
                 rc = isepic_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_KCS_POWER:
@@ -866,7 +871,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             case CARTRIDGE_MAGIC_FORMEL:
                 rc = magicformel_crt_attach(fd, rawcart);
                 break;
-            case CARTRIDGE_MAGIC_VOICE:
+            case CARTRIDGE_MAGIC_VOICE: /* slot 0 */
                 rc = magicvoice_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_MAX_BASIC:
@@ -875,7 +880,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             case CARTRIDGE_MIKRO_ASSEMBLER:
                 rc = mikroass_crt_attach(fd, rawcart);
                 break;
-            case CARTRIDGE_MMC64:
+            case CARTRIDGE_MMC64: /* slot 0 */
                 rc = mmc64_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_MMC_REPLAY:
@@ -896,7 +901,12 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             case CARTRIDGE_PARTNER64:
                 rc = partner64_crt_attach(fd, rawcart);
                 break;
-            case CARTRIDGE_RAMLINK:
+#if 0
+            case CARTRIDGE_RAMCART: /* slot 1 */
+                rc = ramcart_crt_attach(fd, rawcart, filename);
+                break;
+#endif
+            case CARTRIDGE_RAMLINK: /* slot 0 */
                 rc = ramlink_crt_attach(fd, rawcart, filename);
                 break;
             case CARTRIDGE_RETRO_REPLAY:
@@ -914,11 +924,11 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             case CARTRIDGE_RGCD:
                 rc = rgcd_crt_attach(fd, rawcart, header.subtype);
                 break;
-    #ifdef HAVE_RAWNET
+#ifdef HAVE_RAWNET
             case CARTRIDGE_RRNETMK3:
                 rc = rrnetmk3_crt_attach(fd, rawcart, filename);
                 break;
-    #endif
+#endif
             case CARTRIDGE_ROSS:
                 rc = ross_crt_attach(fd, rawcart);
                 break;
