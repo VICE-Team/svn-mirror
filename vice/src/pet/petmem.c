@@ -1494,22 +1494,28 @@ void mem_initialize_memory_6809(void)
     }
 }
 
+/*
+ * The memory mapping is probably reset even if FIRQ is disabled
+ * (see http://mikenaberezny.com/wp-content/uploads/2009/11/superos9-mmu-schematic-r2.jpg )
+ * but since a missing FIRQ basically halts the 6809, there is little
+ * difference in practice.
+ */
 int superpet_sync(void)
 {
+    spet_flat_mode = 0;
+    mem_initialize_memory_6809_banked();
+    /* mon_bank(e_default_space, "6809");
+       extern WORD PC;
+       printf("next opcode: %04X: banked %02X, flat %02X\n",
+               PC,
+               mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
+               mem_ram[EXT_RAM + PC]
+          ); */
+
     if (spet_firq_disabled) {
         log_error(pet_mem_log, "SuperPET: SYNC encountered, but no FIRQ possible!");
         return 1;
     } else {
-        spet_flat_mode = 0;
-        mem_initialize_memory_6809_banked();
-        /* mon_bank(e_default_space, "6809");
-           extern WORD PC;
-           printf("next opcode: %04X: banked %02X, flat %02X\n",
-                   PC,
-                   mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
-                   mem_ram[EXT_RAM + PC]
-              ); */
-
         return 0;
     }
 }
