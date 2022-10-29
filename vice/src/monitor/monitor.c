@@ -2540,10 +2540,10 @@ int mon_evaluate_conditional(cond_node_t *cnode)
             case e_LTE:
                 cnode->value = (value_1 <= value_2);
                 break;
-            case e_AND:
+            case e_LOGICAL_AND:
                 cnode->value = (value_1 && value_2);
                 break;
-            case e_OR:
+            case e_LOGICAL_OR:
                 cnode->value = (value_1 || value_2);
                 break;
             case e_ADD:
@@ -2563,10 +2563,10 @@ int mon_evaluate_conditional(cond_node_t *cnode)
                 cnode->value = (value_1 / value_2);
                 break;
             case e_BINARY_AND:
-                cnode->value = (value_1 && value_2);
+                cnode->value = (value_1 & value_2);
                 break;
             case e_BINARY_OR:
-                cnode->value = (value_1 || value_2);
+                cnode->value = (value_1 | value_2);
                 break;
             default:
                 log_error(LOG_ERR, "Unexpected conditional operator: %d\n",
