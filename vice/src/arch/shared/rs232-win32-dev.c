@@ -66,6 +66,7 @@
 
 /* resource handling */
 
+/* baudrate of physical RS232 device (unused with pipes and sockets) */
 static int devbaud[RS232_NUM_DEVICES];
 
 static int is_baud_valid(int baud)
