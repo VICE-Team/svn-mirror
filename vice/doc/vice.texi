@@ -7890,7 +7890,7 @@ Emulation can be achieved by either:
 
 @itemize @bullet
 @item
-connecting a real UNIX serial device;
+connecting a real serial device;
 @item
 dumping to a file;
 @item
@@ -7935,7 +7935,7 @@ device 3, whose default value is @code{127.0.0.1:25232};
 device 4, whose default value is @code{|nc 127.0.0.1:25232}.
 @end itemize
 
-You can change the baudrate the tty device is set to by specifying it on the 
+(Only) when using physical RS232 ports, you'll also have to specify it on the
 commandline or in the menu.
 
 @c @menu
@@ -8041,7 +8041,9 @@ Boolean specifying if the user-port RS232 Data Terminal Ready (DTR) control line
 @vindex RsUserBaud
 @item RsUserBaud
 Integer specifying the baudrate of the user-port RS232 interface
-(C64, C128 and VIC20).
+(C64, C128 and VIC20). This must match the baudrate the emulated user port is
+being used with, and needs to be set up by the user because automatically detecting
+it can not be done easily (like when using ACIA)
 
 @vindex RsUserDev
 @item RsUserDev
@@ -8063,7 +8065,8 @@ the user-port interface is using (C64, C128 and VIC20).
 @itemx RsDevice3Baud
 @itemx RsDevice4Baud
 Integers specifying the RS232 baudrate devices if the device file points
-to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings})
+to a special device (like @file{/dev/ttyS0}, ie the serial device is a physical
+RS232 port of the host computer; @pxref{RS232 settings})
 (all emulators except vsid).
 
 @end table
@@ -8178,7 +8181,8 @@ Enable or disable inversion of the userport RS232 emulation Data Terminal Ready 
 
 @findex -rsuserbaud
 @item -rsuserbaud <baud>
-Set the baud rate of the RS232 userport emulation.
+Set the baud rate of the RS232 userport emulation. This must match the baudrate the emulated userport
+is being used at.
 
 @findex -rsuserdev
 @item -rsuserdev <0-3>
@@ -8199,8 +8203,7 @@ C64, C128 and VIC20).
 @itemx -rsdev3baud <baudrate>
 @findex -rsdev4baud
 @itemx -rsdev4baud <baudrate>
-Specify <baudrate> as baudrate for the RS232 devices if the device name
-specifies a special device (like @file{/dev/ttyS0} for example,
+If the serial device is a physical RS232 port, specify <baudrate> as baudrate,
 @pxref{RS232 settings};
 @code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and
 @code{RsDevice4Baud})
