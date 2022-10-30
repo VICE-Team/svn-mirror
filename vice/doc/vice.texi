@@ -7890,7 +7890,7 @@ Emulation can be achieved by either:
 
 @itemize @bullet
 @item
-connecting a real serial device;
+connecting a real serial device/port;
 @item
 dumping to a file;
 @item
@@ -7899,12 +7899,12 @@ piping through a process.
 connect through a network socket.
 @end itemize
 
-It is possible to define up to four UNIX serial devices, and then decide
+It is possible to define up to four serial devices, and then decide
 which interface should be connected to which device.  This is done by
 so-called @dfn{rs232 device file names}; an rs232 device file name can
 be either a simple path, a network address, or a command name preceeded 
 by a pipe symbol @samp{|}.  
-If the path specifies a special device (e.g. @file{/dev/ttyS0}) it
+If the path specifies a special device (e.g. @file{/dev/ttyS0} or @file{com1}) it
 is recognized by VICE and the emulator can set the baudrate.
 
 For example, rs232 device @samp{filename} will cause the output to be
@@ -7959,6 +7959,10 @@ commandline or in the menu.
 @itemx RsDevice4
 Strings specifying the RS232 devices (@pxref{RS232 settings}).
 
+The windows driver understands various options passed in the so called "mode string"
+after a colon after the ports name: @code{COMx[:]} @code{[baud=b]} @code{[parity=p]}
+@code{[data=d]} @code{[stop=s]} @code{[to={on|off}]} @code{[xon={on|off}]} @code{[odsr={on|off}]}
+@code{[octs={on|off}]} @code{[dtr={on|off|hs}]} @code{[rts={on|off|hs|tg}]} @code{[idsr={on|off}]}
 @end table
 
 @table @code
@@ -8065,7 +8069,7 @@ the user-port interface is using (C64, C128 and VIC20).
 @itemx RsDevice3Baud
 @itemx RsDevice4Baud
 Integers specifying the RS232 baudrate devices if the device file points
-to a special device (like @file{/dev/ttyS0}, ie the serial device is a physical
+to a special device (like @file{/dev/ttyS0 or @file{com1}, ie the serial device is a physical
 RS232 port of the host computer; @pxref{RS232 settings})
 (all emulators except vsid).
 
@@ -8087,6 +8091,10 @@ RS232 port of the host computer; @pxref{RS232 settings})
 Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
 (@code{RsDevice1}, @code{RsDevice2} @code{RsDevice3} and @code{RsDevice4}).
 
+The windows driver understands various options passed in the so called "mode string"
+after a colon after the ports name: @code{COMx[:]} @code{[baud=b]} @code{[parity=p]}
+@code{[data=d]} @code{[stop=s]} @code{[to={on|off}]} @code{[xon={on|off}]} @code{[odsr={on|off}]}
+@code{[octs={on|off}]} @code{[dtr={on|off|hs}]} @code{[rts={on|off|hs|tg}]} @code{[idsr={on|off}]}
 @end table
 
 @table @code
