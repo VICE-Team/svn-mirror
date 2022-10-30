@@ -7883,7 +7883,7 @@ have.  The C64, C128 and VIC20 emulators emulate the userport RS232
 interface from 300 to 57600 baud.  The C64 can also use the UP9600 interface by Daniel Dallmann, using the shift registers of the two
 CIA 6526 chips.  The PET can have a 6551 ACIA RS232 interface when
 running as a SuperPET, and the CBM-II has such an ACIA by default.  The
-C64 and C128 emulators can emulate an ACIA 6551 (also known as Swithlink, Datapump
+C64 and C128 emulators can emulate an ACIA 6551 (also known as Swiftlink, Datapump
 or Turbo232 for example) as extension at @code{$de**}, @code{$df**} or @code{$d7**} (C128 only).
 
 Emulation can be achieved by either:
@@ -9638,7 +9638,7 @@ There is an exception to this rule: the cartridge in the "Main Slot" must be
 explicitly set as default before it gets saved to the config file.
 
 @code{+cart} should disable ALL cartridges, including eventually activated REU,
-Swithlink and all similar expansionport devices.
+Swiftlink and all similar expansionport devices.
 
 @code{-cartXYZ} options should generally attach AND activate a cart of type XYZ.
 As a consequence, attaching carts this way which are NOT in the "Main Slot" will
