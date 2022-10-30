@@ -8069,7 +8069,7 @@ the user-port interface is using (C64, C128 and VIC20).
 @itemx RsDevice3Baud
 @itemx RsDevice4Baud
 Integers specifying the RS232 baudrate devices if the device file points
-to a special device (like @file{/dev/ttyS0 or @file{com1}, ie the serial device is a physical
+to a special device (like @file{/dev/ttyS0} or @file{com1}, ie the serial device is a physical
 RS232 port of the host computer; @pxref{RS232 settings})
 (all emulators except vsid).
 
