@@ -45,7 +45,7 @@
 #include "uiactions.h"
 
 /* Enable debugging */
-#define DEBUG_ACTIONS
+/* #define DEBUG_ACTIONS */
 
 
 /** \brief  Mapping of action names to descriptions and machine support
