@@ -146,11 +146,13 @@ static void about_response_callback(GtkWidget *widget, gint response_id,
  */
 void ui_about_dialog_show(void)
 {
+    archdep_runtime_info_t runtime_info;
     char version[VERSION_STRING_MAX];
+    const char *model;
+    char buffer[256];
     GtkWidget *about = gtk_about_dialog_new();
     GdkPixbuf *logo = get_vice_logo();
 
-    archdep_runtime_info_t runtime_info;
 
     /* set toplevel window, Gtk doesn't like dialogs without parents */
     gtk_window_set_transient_for(GTK_WINDOW(about), ui_get_active_window());
@@ -194,8 +196,40 @@ void ui_about_dialog_show(void)
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about), version);
 
     /* Describe the program */
-    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about),
-                                  "Emulates an 8-bit Commodore computer");
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_VSID:
+            model = "Commodore 64";
+            break;
+        case VICE_MACHINE_C64DTV:
+            model = "C64 DTV";
+            break;
+        case VICE_MACHINE_C128:
+            model = "Commodore 128";
+            break;
+        case VICE_MACHINE_SCPU64:
+            model = "Commodore 64 with SuperCPU";
+            break;
+        case VICE_MACHINE_VIC20:
+            model = "Commodore VIC-20";
+            break;
+        case VICE_MACHINE_PLUS4:
+            model = "Commodore 16/116 and Plus/4";
+            break;
+        case VICE_MACHINE_PET:
+            model = "Commodore PET and SuperPET";
+            break;
+        case VICE_MACHINE_CBM5x0:
+            model = "Commodore CBM-II 510 (P500)";
+            break;
+        case VICE_MACHINE_CBM6x0:
+            model = "Commodore CBM-II 6x0 and 7x0";
+            break;
+    }
+    g_snprintf(buffer, sizeof(buffer), "Emulates a %s", model);
+    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about), buffer);
+
     /* set license */
     gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(about), GTK_LICENSE_GPL_2_0);
     /* set website link and title */

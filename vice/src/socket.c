@@ -429,9 +429,13 @@ vice_network_socket_t *vice_network_server(
         const char *service_name,
         const vice_network_socket_address_t * server_address)
 {
+#if defined(SO_REUSEADDR) || defined(TCP_NODELAY)
+    const int so_setting = 1;
+#endif
     vice_network_socket_t *server_socket;
     int sockfd = INVALID_SOCKET;
     int error = 1;
+    int err;
 
     assert(server_address != NULL);
 
@@ -444,7 +448,7 @@ vice_network_socket_t *vice_network_server(
 
         sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
         if (sockfd == INVALID_SOCKET) {
-            int err = errno;
+            err = errno;
             log_error(LOG_DEFAULT,
                 "vice_network_server(): socket() returned INVALID_SOCKET: %s",
                 strerror(err));
@@ -462,28 +466,23 @@ vice_network_socket_t *vice_network_server(
 #else
         if ((server_address->domain == PF_INET)) {
 #endif
-#if defined(SO_REUSEPORT) || defined(SO_REUSEADDR) || defined(TCP_NODELAY)
-            const int so_setting = 1;
-#if defined(SO_REUSEPORT)
-            setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, (const void*)&so_setting, sizeof(so_setting));
-#elif defined(SO_REUSEADDR)
+#if defined(SO_REUSEADDR)
             setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void*)&so_setting, sizeof(so_setting));
 #endif
 #if defined(TCP_NODELAY)
             setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&so_setting, sizeof(so_setting));
 #endif
-#endif
         }
 
         if (bind(sockfd, &server_address->address.generic, server_address->len) < 0) {
-            int err = errno;
+            err = errno;
             log_error(LOG_DEFAULT,
                 "vice_network_server(): bind() failed: %s",
                 strerror(err));
             break;
         }
         if (listen(sockfd, 2) < 0) {
-            int err = errno;
+            err = errno;
             log_error(LOG_DEFAULT,
                 "vice_network_server(): listen() failed: %s",
                 strerror(err));
@@ -569,15 +568,8 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
         }
         sockfd = INVALID_SOCKET;
     }
-    
-    if (sockfd == INVALID_SOCKET) {
-        return NULL;
-    }
-    
-    peer_socket = vice_network_alloc_new_socket(sockfd);
-    update_peer_address(peer_socket, server_address);
 
-    return peer_socket;
+    return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
 }
 
 /*! \internal \brief Generate an IPv4 socket address
