@@ -450,7 +450,7 @@ static gboolean key_press_event (GtkWidget   *widget,
         /*printf("keyval: %04x state:%04x\n", event->keyval, state);fflush(stdout);*/
 #ifdef WINDOWS_COMPILE
         /* extra check for ALT-GR */
-        if (state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) {
+        if ((state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) == (GDK_CONTROL_MASK | GDK_MOD1_MASK)) {
             retval = plain_key_pressed(&fixed.input_buffer, event->keyval);
             goto done;
         }
