@@ -2098,7 +2098,8 @@ int mon_playback_commands(const char *filename, bool interrupt_current_playback)
     }
 
     if (fp == NULL) {
-        log_error(LOG_ERR, "Failed to open playback file: %s", filename);
+        log_error(LOG_ERR, "Failed to open playback file: '%s'", filename);
+        mon_out("Cannot open '%s'.\n", filename);
         return -1;
     }
 
