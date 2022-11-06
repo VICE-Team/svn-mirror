@@ -96,11 +96,13 @@ static void vice_opengl_initialise_canvas(video_canvas_t *canvas)
 {
     context_t *context;
 
+    CANVAS_LOCK();
+
     /* First initialise the context_t that we'll need everywhere */
     context = lib_calloc(1, sizeof(context_t));
     context->current_vsync_value = -1;
 
-    context->canvas_lock = canvas->lock;
+    context->canvas_lock_ptr = &canvas->lock;
     context->canvas_render_queue = canvas->render_queue;
     archdep_mutex_create(&context->render_lock);
 
@@ -110,6 +112,8 @@ static void vice_opengl_initialise_canvas(video_canvas_t *canvas)
     g_signal_connect(canvas->event_box, "realize", G_CALLBACK (on_widget_realized), canvas);
     g_signal_connect(canvas->event_box, "unrealize", G_CALLBACK (on_widget_unrealized), canvas);
     g_signal_connect_unlocked(canvas->event_box, "size-allocate", G_CALLBACK(on_widget_resized), canvas);
+
+    CANVAS_UNLOCK();
 }
 
 static void vice_opengl_destroy_context(video_canvas_t *canvas)

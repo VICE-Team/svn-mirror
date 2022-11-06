@@ -154,12 +154,12 @@ static uint8_t joyport_mouse_value(int port)
     uint8_t retval = 0xff;
 
     if (_mouse_enabled) {
-        retval = mouse_digital_val;
+        retval = ~mouse_digital_val;
     }
 
     joyport_display_joyport(port, JOYPORT_ID_MOUSE_1351, (uint16_t)(~retval));
 
-    return ~retval;
+    return retval;
 }
 
 static int mouse_1351_set_enabled(int port, int joyportid)

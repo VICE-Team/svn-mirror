@@ -124,6 +124,22 @@ cartridge_info_t *cartridge_get_info_list(void)
     return &cartlist[0];
 }
 
+/* return cartridge type of main slot
+   returns 0 (CARTRIDGE_CRT) if crt file */
+int cartridge_get_id(int slot)
+{
+    int type = plus4cart_type;
+    DBG(("cartridge_get_id(slot:%d): type:%d\n", slot, type));
+    return type;
+}
+
+/* FIXME: terrible name, we already have cartridge_get_file_name */
+char *cartridge_get_filename(int slot)
+{
+    DBG(("cartridge_get_filename(slot:%d)\n", slot));
+    return cartfile;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static int cart_attach_cmdline(const char *param, void *extra_param)

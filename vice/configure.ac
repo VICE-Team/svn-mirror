@@ -94,7 +94,7 @@ VICE_ARG_ENABLE_LIST(catweasel,         [  --enable-catweasel      enables CatWe
 VICE_ARG_ENABLE_LIST(hardsid,           [  --disable-hardsid       disables HardSID support])
 VICE_ARG_ENABLE_LIST(lame,              [  --enable-lame           Enable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(midi,              [  --enable-midi           enable MIDI support])
-VICE_ARG_ENABLE_LIST(new8580filter,     [  --disable-new8580filter  disable new 8580 filters])
+VICE_ARG_ENABLE_LIST(new8580filter,     [  --disable-new8580filter disable new 8580 filters])
 VICE_ARG_ENABLE_LIST(parsid,            [  --enable-parsid         enables ParSID support])
 VICE_ARG_ENABLE_LIST(portaudio,         [  --disable-portaudio     disables PortAudio support])
 VICE_ARG_ENABLE_LIST(ssi2001,           [  --enable-ssi2001        enables SSI2001 (ISA SID card) support])
@@ -113,7 +113,7 @@ dnl Misc build options
 dnl
 VICE_ARG_WITH_LIST(readline,            [  --without-readline      do not try to use the system readline library])
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
-VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]  enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
+VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(cpuhistory,        [  --disable-cpuhistory    disable the 65xx cpu history feature])
 VICE_ARG_ENABLE_LIST(ethernet,          [  --enable-ethernet       enables The Final Ethernet emulation])
 VICE_ARG_ENABLE_LIST(ipv6,              [  --disable-ipv6          disables the checking for IPv6 compatibility])
@@ -174,21 +174,10 @@ fi
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
 
-dnl check for invalid options
-dnl echo "option checking is $enable_option_checking"
-dnl AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK($cmdline_options)])
-
-VICE_ARG_LIST_CHECK($cmdline_options, $enable_option_checking)
-
 dnl check for conflicting options
 VICE_ARG_LIST_AT_MOST_ONE([--enable-sdl2ui --enable-gtk3ui --enable-headlessui], [UI])
 AS_IF([test x"$enable_gtk3ui" = "xno" -a x"$enable_sdl2ui" = "xno" -a x"$enable_headlessui" = "xno"],
       [AC_MSG_ERROR([You cannot disable all GUIs])])
-
-dnl cmake only works for in-tree configured source
-if test x"$enable_cmake" = x"yes" ; then
-  AC_CHECK_FILE(cmake-bootstrap.sh, [], [AC_MSG_ERROR([Out of source tree configure not supported with cmake])])
-fi
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
@@ -941,16 +930,41 @@ darwin*)
   RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
   AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
 
+  dnl
   dnl Support targeting a specific macOS version
-  AC_ARG_ENABLE([macos-target-sdk-version],
-    [AC_HELP_STRING([--enable-macos-target-sdk-version[[=version]]],
-      [compile for a specific sdk version such as 10.10 or 11.0 [default=no]])],
-    [],
-    [enable_macos_target_sdk_version=`echo "int main(int argc, char** argv) { return 0; }" | cc -x c - ; otool -l a.out | grep sdk | awk '{ print $2 }' ; rm a.out`])
-  
-  VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
-  VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
-  VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=$enable_macos_target_sdk_version"
+  dnl
+
+  VICE_ARG_ENABLE_LIST(
+    macos-minimum-version,
+    AS_HELP_STRING(
+      [--enable-macos-minimum-version=version],
+      [compile for a specific macOS version such as 10.10 or 11.0])
+    )
+  if test x"$enable_macos_minimum_version" = "x"; then
+    AC_MSG_CHECKING([default macOS minimum version (use --enable-macos-minimum-version to override)])
+    enable_macos_minimum_version=`echo "int main(int argc, char** argv) { return 0; }" | cc -x c - ;
+                                  otool -l a.out | awk '/LC_VERSION_MIN_MACOSX/ { f_old=1 }
+                                                        /LC_BUILD_VERSION/ { f_new=1 }
+                                                        f_old && /version/ { print $2; exit; }
+                                                        f_new && /minos/ { print $2; exit; }' ;
+                                  rm a.out`
+    AC_MSG_RESULT($enable_macos_minimum_version)
+  else
+    AC_MSG_CHECKING([if the compiler supports -mmacosx-version-min=$enable_macos_minimum_version])
+    ORIG_CFLAGS="$CFLAGS"
+    CFLAGS="$VICE_CFLAGS -mmacosx-version-min=$enable_macos_minimum_version"
+    AC_TRY_COMPILE([],
+                  [int test;],
+                  [ AC_MSG_RESULT(yes)
+                    CFLAGS="$ORIG_CFLAGS"],
+                  [ AC_MSG_RESULT(no)
+                    AC_MSG_ERROR([Requested macOS minimum version $enable_macos_minimum_version not supported])
+                    ])
+  fi
+
+  VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=$enable_macos_minimum_version"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=$enable_macos_minimum_version"
+  VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=$enable_macos_minimum_version"
 
   dnl
   dnl Yeah, OpenGL and other stuff is deprecated, we don't need to be warned about it.
@@ -3318,6 +3332,7 @@ AC_OUTPUT([Makefile
            src/arch/shared/sounddrv/Makefile
            src/buildtools/Makefile
            src/c128/Makefile
+           src/c128/cart/Makefile
            src/c64/Makefile
            src/c64/cart/Makefile
            src/c64dtv/Makefile
@@ -3377,7 +3392,7 @@ AC_OUTPUT([Makefile
            ])
 
 if test x"$enable_cmake" = x"yes" ; then
-  ./cmake-bootstrap.sh
+  "$srcdir/cmake-bootstrap.sh"
 fi
 
 dnl Local Variables:
@@ -3395,7 +3410,7 @@ else
         real_arch="BeOS"
     fi
     if test x"$is_unix_macosx" = "xyes"; then
-        show_arch="Mac OS X"
+        show_arch="macOS $enable_macos_minimum_version"
         real_arch="OSX"
     fi
     if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then

@@ -103,6 +103,7 @@ extern uint8_t basic_hi_read(uint16_t addr);
 extern void basic_hi_store(uint16_t addr, uint8_t value);
 
 extern uint8_t *ram_bank;
+extern uint8_t *dma_bank;
 
 extern uint8_t mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 
@@ -120,8 +121,8 @@ extern uint8_t c128_d5xx_read(uint16_t addr);
 extern void c128_d5xx_store(uint16_t addr, uint8_t value);
 extern uint8_t c128_mmu_read(uint16_t addr);
 extern void c128_mmu_store(uint16_t addr, uint8_t value);
-extern uint8_t c128_vdc_read(uint16_t addr);
-extern void c128_vdc_store(uint16_t addr, uint8_t value);
+extern uint8_t c128_c64io_d600_read(uint16_t addr);
+extern void c128_c64io_d600_store(uint16_t addr, uint8_t value);
 extern uint8_t c128_c64io_d700_read(uint16_t addr);
 extern void c128_c64io_d700_store(uint16_t addr, uint8_t value);
 extern uint8_t c128_colorram_read(uint16_t addr);

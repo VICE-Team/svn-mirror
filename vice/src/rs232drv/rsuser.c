@@ -156,7 +156,7 @@ static int rsuser_ctsinv = 0;           /* CTS invert flag - 0 = Normal Kernal l
 static int rsuser_dsrinv = 0;           /* DSR invert flag - 0 = Normal Kernal level, 1 = Inverted level */
 static int rsuser_dcdinv = 0;           /* DCD invert flag - 0 = Normal Kernal level, 1 = Inverted level */
 static int rsuser_dtrinv = 0;           /* DTR invert flag - 0 = Normal Kernal level, 1 = Inverted level */
-static int rsuser_baudrate = 300;       /* saves the baud rate given */
+static int rsuser_baudrate = 300;       /* baudrate the emulated userport is sampled with */
 static int char_clk_ticks = 0;          /* clk ticks per character */
 static int bit_clk_ticks = 0;           /* clk ticks per bit */
 

@@ -417,6 +417,39 @@ static inline void strange_extra_sdr_flags(cia_context_t *cia_context, CLOCK rcl
     }
 }
 
+static inline void ciacore_update_papb(cia_context_t *cia_context, CLOCK rclk)
+{
+    uint8_t byte;
+    byte = cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]);
+    if ((cia_context->c_cia[CIA_CRA]
+            | cia_context->c_cia[CIA_CRB]) & CIA_CR_PBON) {
+        if (cia_context->c_cia[CIA_CRA] & CIA_CR_PBON) {
+            cia_update_ta(cia_context, rclk);
+            byte &= 0xbf;
+            if ((cia_context->c_cia[CIA_CRA] & CIA_CR_OUTMODE_TOGGLE)
+                        ? cia_context->tat
+                        : ciat_is_underflow_clk(cia_context->ta, rclk)) {
+                byte |= 0x40;   /* PB6 for timer A */
+            }
+        }
+        if (cia_context->c_cia[CIA_CRB] & CIA_CR_PBON) {
+            cia_update_tb(cia_context, rclk);
+            byte &= 0x7f;
+            if (((cia_context->c_cia[CIA_CRB] & CIA_CR_OUTMODE_TOGGLE)
+                        ? cia_context->tbt
+                        : ciat_is_underflow_clk(cia_context->tb, rclk))) {
+                byte |= 0x80;   /* PB7 for timer B */
+            }
+        }
+    }
+    if (byte != cia_context->old_pb) {
+        (cia_context->store_ciapb)(cia_context,
+                                    *(cia_context->clk_ptr),
+                                    byte);
+        cia_context->old_pb = byte;
+    }
+}
+
 static void ciacore_store_internal(cia_context_t *cia_context, uint16_t addr, uint8_t byte)
 {
     CLOCK rclk;
@@ -450,34 +483,8 @@ static void ciacore_store_internal(cia_context_t *cia_context, uint16_t addr, ui
         case CIA_PRB:           /* port B */
         case CIA_DDRB:
             cia_context->c_cia[addr] = byte;
-            byte = cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]);
-            if ((cia_context->c_cia[CIA_CRA]
-                 | cia_context->c_cia[CIA_CRB]) & CIA_CR_PBON) {
-                if (cia_context->c_cia[CIA_CRA] & CIA_CR_PBON) {
-                    cia_update_ta(cia_context, rclk);
-                    byte &= 0xbf;
-                    if ((cia_context->c_cia[CIA_CRA] & CIA_CR_OUTMODE_TOGGLE)
-                              ? cia_context->tat
-                              : ciat_is_underflow_clk(cia_context->ta, rclk)) {
-                        byte |= 0x40;   /* PB6 for timer A */
-                    }
-                }
-                if (cia_context->c_cia[CIA_CRB] & CIA_CR_PBON) {
-                    cia_update_tb(cia_context, rclk);
-                    byte &= 0x7f;
-                    if (((cia_context->c_cia[CIA_CRB] & CIA_CR_OUTMODE_TOGGLE)
-                              ? cia_context->tbt
-                              : ciat_is_underflow_clk(cia_context->tb, rclk))) {
-                        byte |= 0x80;   /* PB7 for timer B */
-                    }
-                }
-            }
-            if (byte != cia_context->old_pb) {
-                (cia_context->store_ciapb)(cia_context,
-                                           *(cia_context->clk_ptr),
-                                           byte);
-                cia_context->old_pb = byte;
-            }
+            ciacore_update_papb(cia_context, rclk);
+
             if (addr == CIA_PRB) {
                 (cia_context->pulse_ciapc)(cia_context, rclk);
             }
@@ -668,6 +675,7 @@ static void ciacore_store_internal(cia_context_t *cia_context, uint16_t addr, ui
 #endif
             cia_context->c_cia[addr] = byte & 0xef;    /* remove strobe */
 
+            ciacore_update_papb(cia_context, rclk);
             break;
 
         case CIA_CRB:           /* control register B */
@@ -704,6 +712,8 @@ static void ciacore_store_internal(cia_context_t *cia_context, uint16_t addr, ui
             /* bit 5 & 6 timer count mode */
 
             cia_context->c_cia[addr] = byte & 0xef;    /* remove strobe */
+
+            ciacore_update_papb(cia_context, rclk);
             break;
 
         default:

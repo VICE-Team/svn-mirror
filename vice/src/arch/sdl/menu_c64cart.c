@@ -871,6 +871,39 @@ static ui_menu_entry_t gmod2_cart_menu[] = {
     SDL_MENU_LIST_END
 };
 
+/* GMod2-C128 */
+
+UI_MENU_DEFINE_FILE_STRING(GMod128EEPROMImage)
+UI_MENU_DEFINE_TOGGLE(GMOD128EEPROMRW)
+UI_MENU_DEFINE_TOGGLE(GMod128FlashWrite)
+
+static ui_menu_entry_t gmod2c128_cart_menu[] = {
+    SDL_MENU_ITEM_TITLE("EEPROM image"),
+    { "EEPROM image file",
+      MENU_ENTRY_DIALOG,
+      file_string_GMod128EEPROMImage_callback,
+      (ui_callback_data_t)"Select " CARTRIDGE_C128_NAME_GMOD2C128 " EEPROM image" },
+    { "Enable writes to EEPROM image",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_GMOD128EEPROMRW_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Flash image"),
+    { "Enable writes to flash image",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_GMod128FlashWrite_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_C128_GMOD2C128 },
+    { "Save image as",
+      MENU_ENTRY_OTHER,
+      c64_cart_save_callback,
+      (ui_callback_data_t)CARTRIDGE_C128_GMOD2C128 },
+    SDL_MENU_LIST_END
+};
+
 /* GMod3 */
 
 UI_MENU_DEFINE_TOGGLE(GMod3FlashWrite)
@@ -1293,6 +1326,7 @@ static void cartmenu_update_flush(void)
     ramlink_menu[28].status = cartridge_can_flush_image(CARTRIDGE_RAMLINK) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     retroreplay_cart_menu[4].status = cartridge_can_flush_image(CARTRIDGE_RETRO_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod2_cart_menu[6].status = cartridge_can_flush_image(CARTRIDGE_GMOD2) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    gmod2c128_cart_menu[6].status = cartridge_can_flush_image(CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128)) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod3_cart_menu[1].status = cartridge_can_flush_image(CARTRIDGE_GMOD3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     rrnet_mk3_cart_menu[2].status = cartridge_can_flush_image(CARTRIDGE_RRNETMK3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     rexramfloppy_menu[3].status = cartridge_can_flush_image(CARTRIDGE_REX_RAMFLOPPY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
@@ -1312,6 +1346,7 @@ static void cartmenu_update_save(void)
     ramlink_menu[29].status = cartridge_can_save_image(CARTRIDGE_RAMLINK) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     retroreplay_cart_menu[5].status = cartridge_can_save_image(CARTRIDGE_RETRO_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod2_cart_menu[7].status = cartridge_can_save_image(CARTRIDGE_GMOD2) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    gmod2c128_cart_menu[7].status = cartridge_can_save_image(CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GMOD2C128)) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod3_cart_menu[2].status = cartridge_can_save_image(CARTRIDGE_GMOD3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     rrnet_mk3_cart_menu[3].status = cartridge_can_save_image(CARTRIDGE_RRNETMK3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     rexramfloppy_menu[4].status = cartridge_can_save_image(CARTRIDGE_REX_RAMFLOPPY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
@@ -1549,6 +1584,10 @@ ui_menu_entry_t c128cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)gmod2_cart_menu },
+    { CARTRIDGE_C128_NAME_GMOD2C128,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)gmod2c128_cart_menu },
     { CARTRIDGE_NAME_GMOD3,
       MENU_ENTRY_SUBMENU,
       submenu_callback,

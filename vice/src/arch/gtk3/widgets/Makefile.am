@@ -84,6 +84,7 @@ libwidgets_a_SOURCES = \
 	finalexpansionwidget.c \
 	georamwidget.c \
 	gmod2widget.c \
+	gmod2c128widget.c \
 	gmod3widget.c \
 	hvscsettingswidget.c \
 	hvscstilwidget.c \
@@ -248,6 +249,7 @@ EXTRA_DIST = \
 	finalexpansionwidget.h \
 	georamwidget.h \
 	gmod2widget.h \
+	gmod2c128widget.h \
 	gmod3widget.h \
 	hvscsettingswidget.h \
 	hvscstilwidget.h \

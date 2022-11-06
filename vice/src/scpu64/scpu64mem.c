@@ -377,6 +377,21 @@ uint8_t scpu64rom_scpu64_read(uint16_t addr)
 
 /* ------------------------------------------------------------------------- */
 
+/* DMA memory access, on c64 this is the same as generic memory access.  */
+
+void mem_dma_store(uint16_t addr, uint8_t value)
+{
+    _mem_write_tab_ptr[addr >> 8](addr, value);
+}
+
+uint8_t mem_dma_read(uint16_t addr)
+{
+    return _mem_read_tab_ptr[addr >> 8](addr);
+}
+
+
+/* ------------------------------------------------------------------------- */
+
 /* Generic memory access.  */
 
 void mem_store(uint16_t addr, uint8_t value)

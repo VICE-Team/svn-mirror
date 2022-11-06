@@ -20,11 +20,10 @@ extern char loadfile_is_crt;
 
 extern int convert_to_c2;
 
-static int save_generic_c128_bank(unsigned int length, unsigned int banks, unsigned int address, unsigned int isc2)
+static int save_generic_c128_bank(unsigned int length, unsigned int banks, unsigned int address)
 {
     unsigned int i;
     unsigned int real_banks = banks;
-    unsigned int chipbank = isc2 ? 1 : 0; /* in generic cart, C2 uses bank 1 */
     if (real_banks == 0) {
         /* handle the case when a chip of half/4th the regular size
            is used on an otherwise identical hardware (eg 2k/4k
@@ -39,11 +38,7 @@ static int save_generic_c128_bank(unsigned int length, unsigned int banks, unsig
     }
 
     for (i = 0; i < real_banks; i++) {
-        if (chipbank > 1) {
-            fprintf(stderr, "Error: too many banks\n");
-            return -1;
-        }
-        if (write_chip_package(length, chipbank, address, CRT_CHIP_ROM) < 0) {
+        if (write_chip_package(length, 0, address, CRT_CHIP_ROM) < 0) {
             return -1;
         }
         switch (address) {
@@ -52,7 +47,6 @@ static int save_generic_c128_bank(unsigned int length, unsigned int banks, unsig
                 break;
             case 0xc000:    /* hi */
                 address = 0x8000;
-                chipbank++;
                 break;
             default:
                 if ((i + 1) < real_banks) {
@@ -65,19 +59,19 @@ static int save_generic_c128_bank(unsigned int length, unsigned int banks, unsig
     return 0;
 }
 
-static void save_generic_c128(unsigned int length, unsigned int banks, unsigned int address, unsigned int isc2, unsigned char game, unsigned char exrom)
+static void save_generic_c128(unsigned int length, unsigned int banks, unsigned int address, unsigned char game, unsigned char exrom)
 {
     unsigned int i;
 /*
-    printf("save_generic_c128  loadfile_size: %x cart length:%x banks:%u load@:%02x isc2:%u\n",
-            loadfile_size, length, banks, address, isc2);
+    printf("save_generic_c128  loadfile_size: %x cart length:%x banks:%u load@:%02x\n",
+            loadfile_size, length, banks, address);
 */
     if (write_crt_header(0, 0) < 0) {
         cleanup();
         exit(1);
     }
 
-    if (save_generic_c128_bank(length, banks, address, isc2) < 0) {
+    if (save_generic_c128_bank(length, banks, address) < 0) {
         goto exiterror;
     }
 
@@ -92,7 +86,7 @@ static void save_generic_c128(unsigned int length, unsigned int banks, unsigned 
                 fprintf(stderr, "Error: extra file must be a binary\n");
                 goto exiterror;
             }
-            if (save_generic_c128_bank(length, banks, load_address, isc2) < 0) {
+            if (save_generic_c128_bank(length, banks, load_address) < 0) {
                 goto exiterror;
             }
         }
@@ -108,24 +102,28 @@ exiterror:
 void save_generic_c128_crt(unsigned int length, unsigned int banks, unsigned int address, unsigned int type, unsigned char game, unsigned char exrom)
 {
     printf("save_generic_c128_crt size:%04x addr:%04x\n", loadfile_size, (unsigned)load_address);
+    if (load_address == 0) {
+        fprintf(stderr, "warning: load_address is 0, using $8000 instead\n");
+        load_address = 0x8000;
+    }
     switch (loadfile_size) {
         case CARTRIDGE_SIZE_2KB:
-            save_generic_c128(0x0800, 0, load_address, convert_to_c2, 0, 0);
+            save_generic_c128(0x0800, 0, load_address, 0, 0);
             break;
         case CARTRIDGE_SIZE_4KB:
-            save_generic_c128(0x1000, 0, load_address, convert_to_c2, 0, 0);
+            save_generic_c128(0x1000, 0, load_address, 0, 0);
             break;
         case CARTRIDGE_SIZE_8KB:
-            save_generic_c128(0x2000, 1, load_address, convert_to_c2, 0, 0);
+            save_generic_c128(0x2000, 1, load_address, 0, 0);
             break;
         case CARTRIDGE_SIZE_16KB:
-            save_generic_c128(0x4000, 1, load_address, convert_to_c2, 0, 0);
+            save_generic_c128(0x4000, 1, load_address, 0, 0);
             break;
         case CARTRIDGE_SIZE_32KB:
-            save_generic_c128(0x4000, 2, load_address, convert_to_c2, 0, 0);
+            save_generic_c128(0x4000, 2, load_address, 0, 0);
             break;
         default:
-            fprintf(stderr, "Error: invalid size for generic PLUS4 cartridge\n");
+            fprintf(stderr, "Error: invalid size for generic C128 cartridge\n");
             cleanup();
             exit(1);
             break;

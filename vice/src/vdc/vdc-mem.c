@@ -628,7 +628,7 @@ void vdc_ram_store(uint16_t addr, uint8_t value)
 }
 
 
-int vdc_dump(void *context, uint16_t addr)
+int vdc_dump(void)
 {
     unsigned int r, c, regnum=0, location, size;
 

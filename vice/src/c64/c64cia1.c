@@ -51,26 +51,25 @@
 #include "userport.h"
 #include "vicii.h"
 
-#ifdef HAVE_MOUSE
-#include "mouse.h"
-#endif
-
 /* #define DEBUG_KBD */
 
 #ifdef DEBUG_KBD
+#define DBG(x) printf x
 #define DBGA(x) printf x
 #define DBGB(x) printf x
 #else
+#define DBG(x)
 #define DBGA(x)
 #define DBGB(x)
 #endif
 
-static uint8_t cia1_cra = 0;
+static uint8_t cia1_cra = 0;    /* last value written to control register A */
 
 void cia1_store(uint16_t addr, uint8_t data)
 {
     if ((addr & 0xf) == CIA_CRA) {
         cia1_cra = data;
+        DBG(("cia1_store cra: %02x\n", data));
     }
 
     ciacore_store(machine_context.cia1, addr, data);
@@ -414,6 +413,7 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
        handles the case when port b is used for both input and output
      */
     msk = cia_context->old_pb & read_joyport_dig(JOYPORT_1);
+    DBGB((" oldpb: %02x msk: %02x", cia_context->old_pb, msk));
     if (c64keyboard_active) {
         for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
             if (!(msk & m)) {
@@ -421,6 +421,7 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
             }
         }
     }
+
     DBGB((" val:%02x", val));
 
     byte = val & (cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]));
@@ -445,11 +446,13 @@ static void read_sdr(cia_context_t *cia_context)
         drive_cpu_execute_all(maincpu_clk);
     }
     cia_context->c_cia[CIA_SDR] = read_userport_sp1(cia_context->c_cia[CIA_SDR]);
+    DBG(("read_sdr sp1: %02x\n", cia_context->c_cia[CIA_SDR]));
 }
 
 static void store_sdr(cia_context_t *cia_context, uint8_t byte)
 {
     if ((cia1_cra & 0x49) == 0x41) {
+        DBG(("store_sdr sp1: %02x\n", byte));
         store_userport_sp1(byte);
     }
 

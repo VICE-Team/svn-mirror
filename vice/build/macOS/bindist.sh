@@ -85,8 +85,8 @@ function notarise {
 #
 
 BUILD_FLAGS="\
+    --enable-option-checking \
     --disable-arch \
-    --with-jpeg \
     --with-png \
     --with-gif \
     --with-vorbis \
@@ -95,15 +95,14 @@ BUILD_FLAGS="\
     --enable-new8580filter \
     --enable-lame \
     --enable-midi \
-    --enable-cpuhistory \
-    --enable-external-ffmpeg \
+    --enable-ffmpeg \
     "
 
 if [ "$(uname -m)" == "x86_64" ]; then
-    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-target-sdk-version=10.10"
+    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-minimum-version=10.10"
 else
     # First Apple silicon shipped with macOS 11
-    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-target-sdk-version=11.0"
+    BUILD_FLAGS="$BUILD_FLAGS --enable-macos-minimum-version=11.0"
 fi
 
 THREADS=$(sysctl -n hw.ncpu)
@@ -115,7 +114,7 @@ THREADS=$(sysctl -n hw.ncpu)
 mkdir gtk3
 cd gtk3
 
-"$SOURCE/configure" --enable-native-gtk3ui $BUILD_FLAGS
+"$SOURCE/configure" --enable-gtk3ui $BUILD_FLAGS
 
 make -j $THREADS
 make bindistzip
@@ -130,7 +129,7 @@ cd ..
 mkdir sdl2
 cd sdl2
 
-"$SOURCE/configure" --enable-sdlui2 $BUILD_FLAGS
+"$SOURCE/configure" --enable-sdl2ui $BUILD_FLAGS
 
 make -j $THREADS
 make bindistzip

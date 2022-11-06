@@ -38,10 +38,10 @@
 #include "log.h"
 #include "render-queue.h"
 
-#define CANVAS_LOCK() archdep_mutex_lock(context->canvas_lock)
-#define CANVAS_UNLOCK() archdep_mutex_unlock(context->canvas_lock)
-#define RENDER_LOCK() archdep_mutex_lock(context->render_lock)
-#define RENDER_UNLOCK() archdep_mutex_unlock(context->render_lock)
+#define CANVAS_LOCK() pthread_mutex_lock(context->canvas_lock_ptr)
+#define CANVAS_UNLOCK() pthread_mutex_unlock(context->canvas_lock_ptr)
+#define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
+#define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
 
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display *, GLXFBConfig, GLXContext, Bool, const int *);
 

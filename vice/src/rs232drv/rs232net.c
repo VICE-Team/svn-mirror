@@ -311,6 +311,11 @@ int rs232net_getc(int fd, uint8_t * b)
 {
     int ret = -1;
 
+    if (fd < 0 || fd >= RS232_NUM_DEVICES) {
+        log_error(rs232net_log, "Attempt to read from invalid fd %d.", fd);
+        return -1;
+    }
+
 tryagain:
 
     ret = _rs232net_getc(fd, b);

@@ -159,6 +159,7 @@ typedef struct acia_struct {
 
     /*! \brief The handshake lines as currently seen by the ACIA */
     enum rs232handshake_out rs232_status_lines;
+
 } acia_type;
 
 /******************************************************************/
@@ -251,6 +252,7 @@ static int acia_set_device(int val, void *param)
     acia.device = val;
     return 0;
 }
+
 
 /*! \internal \brief Generate an ACIA interrupt
 
@@ -551,12 +553,24 @@ static int acia_get_status(void)
     }
 #endif
     if (!(modem_status & RS232_HSI_DCD)) {
-        acia.status |= ACIA_SR_BITS_DCD;
+        /* DCD mirrors DSR for C64/128 machines */
+        switch (machine_class) {
+            case VICE_MACHINE_C64:      /* fall through */
+            case VICE_MACHINE_C64SC:    /* fall through */
+            case VICE_MACHINE_SCPU64:   /* fall through */
+            case VICE_MACHINE_C128:     /* fall through */
+                acia.status |= ACIA_SR_BITS_DSR;
+            break;
+        /* Real DCD for other machines */
+            default:
+                acia.status |= ACIA_SR_BITS_DCD;
+        }
     }
 
     if (!(modem_status & RS232_HSI_DSR)) {
         acia.status |= ACIA_SR_BITS_DSR;
     }
+
 
 #ifdef LOG_MODEM_STATUS
     if (acia.status != oldstatus) {
@@ -590,8 +604,12 @@ static void acia_set_handshake_lines(void)
             acia.rs232_status_lines &= ~RS232_HSO_RTS;
             if (acia.alarm_active_rx) {
                 /* disable RX alarm */
+                /* receiver gets disabled after current character is completed */
                 acia.alarm_active_rx = 0;
-                /*alarm_unset(acia.alarm_rx)*/;
+                /* disable and unset TX alarm */
+                /* transmitter is disabled immediately */
+                acia.alarm_active_tx = 0;
+                alarm_unset(acia.alarm_tx);
             }
             break;
 
@@ -672,8 +690,8 @@ void myacia_reset(void)
     set_acia_ticks();
 
     /* ACIA Status Register after HW reset = 0xx10000 */
-    acia.status &= ACIA_SR_BITS_DCD | ACIA_SR_BITS_DSR;
-    acia.status |= ACIA_SR_DEFAULT_AFTER_HW_RESET;
+    acia.status &= ACIA_SR_BITS_DSR;    /* Keep DSR from emulated modem */
+    acia.status |= ACIA_SR_BITS_DCD | ACIA_SR_DEFAULT_AFTER_HW_RESET; /* But disable DCD, closing the rs232drv will bring it up anyways */
 
     acia.in_tx = ACIA_TX_STATE_NO_TRANSMIT;
 

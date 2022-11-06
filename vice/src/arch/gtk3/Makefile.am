@@ -66,6 +66,7 @@ libarch_a_SOURCES = \
 	actions-settings.c \
 	actions-snapshot.c \
 	actions-speed.c \
+	actions-vsid.c \
 	archdep.c \
 	archdep-thread.c \
 	c128ui.c \
@@ -154,6 +155,7 @@ EXTRA_DIST = \
 	actions-settings.h \
 	actions-snapshot.h \
 	actions-speed.h \
+	actions-vsid.h \
 	archdep.h \
 	debug_gtk3.h \
 	directx_renderer.h \

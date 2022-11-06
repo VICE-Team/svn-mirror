@@ -281,10 +281,10 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
     rc = fileio_scratch(realarg, fsdevice_get_path(vdrive->unit), format);
 
     switch (rc) {
-        case FILEIO_FILE_NOT_FOUND:
-            return CBMDOS_IPE_NOT_FOUND;
         case FILEIO_FILE_PERMISSION:
             return CBMDOS_IPE_PERMISSION;
+        case FILEIO_FILE_NOT_FOUND: /* fall through */
+            /* return "files scratched" even when no files were scratched */
         case FILEIO_FILE_SCRATCHED:
             return CBMDOS_IPE_DELETED;
     }

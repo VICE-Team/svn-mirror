@@ -38,7 +38,13 @@ else
   fi
 fi
 
+day=`date +"%-d"`
+daystr=`date +"%d"`
 year=`date +"%Y"`
+month=`date +"%-m"`
+monthstr=`date +"%m"`
+monthshort=`date +"%b"`
+monthlong=`date +"%B"`
 
 exec > src/vicedate.h
 
@@ -72,6 +78,14 @@ $ECHO " */"
 $ECHO ""
 $ECHO "#ifndef VICEDATE_H"
 $ECHO "#define VICEDATE_H"
+$ECHO ""
+$ECHO "#define VICEDATE_DAY $day"
+$ECHO "#define VICEDATE_DAY_STR \"$daystr\""
+$ECHO ""
+$ECHO "#define VICEDATE_MONTH $month"
+$ECHO "#define VICEDATE_MONTH_STR \"$monthstr\""
+$ECHO "#define VICEDATE_MONTH_SHORT \"$monthshort\""
+$ECHO "#define VICEDATE_MONTH_LONG \"$monthlong\""
 $ECHO ""
 $ECHO "#define VICEDATE_YEAR $year"
 $ECHO "#define VICEDATE_YEAR_STR \"$year\""

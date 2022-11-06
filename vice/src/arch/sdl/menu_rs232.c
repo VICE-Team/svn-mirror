@@ -65,15 +65,15 @@ UI_MENU_DEFINE_RADIO(RsDevice4Baud)
           MENU_ENTRY_RESOURCE_RADIO,                    \
           radio_RsDevice##x##Baud_callback,             \
           (ui_callback_data_t)19200 },                  \
-        { "38400 (Swiftlink/Turbo232 only)",            \
+        { "38400",                                      \
           MENU_ENTRY_RESOURCE_RADIO,                    \
           radio_RsDevice##x##Baud_callback,             \
           (ui_callback_data_t)38400 },                  \
-        { "57600 (Turbo232 only)",                      \
+        { "57600",                                      \
           MENU_ENTRY_RESOURCE_RADIO,                    \
           radio_RsDevice##x##Baud_callback,             \
           (ui_callback_data_t)57600 },                  \
-        { "115200 (Turbo232 only)",                     \
+        { "115200",                                     \
           MENU_ENTRY_RESOURCE_RADIO,                    \
           radio_RsDevice##x##Baud_callback,             \
           (ui_callback_data_t)115200 },                 \

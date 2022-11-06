@@ -51,7 +51,7 @@ extern vice_renderer_backend_t vice_opengl_backend;
  *  \sa video_canvas_s::renderer_context */
 typedef struct vice_opengl_renderer_context_s {
     /** \brief needed to coordinate access to the context between vice and main threads */
-    void *canvas_lock;
+    pthread_mutex_t *canvas_lock_ptr;
     
     video_canvas_t *canvas;
 

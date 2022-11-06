@@ -7,13 +7,14 @@
 /*
  * $VICERES Acia1Enable     x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Dev        x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES Acia1Ctrl       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES Acia1Base       x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Irq        x64 x64sc xscpu64 x128 xvic
  * $VICERES Acia1Mode       x64 x64sc xscpu64 x128 xvic
  * $VICERES UserportDevice  x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserBaud      x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserDev       x64 x64sc xscpu64 x128 xvic
- * $VICERES RsUserUP9600     x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserUP9600    x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserRTSInv    x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserCTSInv    x64 x64sc xscpu64 x128 xvic
  * $VICERES RsUserDSRInv    x64 x64sc xscpu64 x128 xvic
@@ -28,6 +29,8 @@
  * $VICERES RsDevice4ip232  x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES RsDevice1Baud   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES RsDevice2Baud   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice3Baud   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice4Baud   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  */
 
 /*
@@ -150,9 +153,9 @@ static const vice_gtk3_combo_entry_int_t serial_baud_rates_c64[] = {
     { "2400",   2400 },
     { "9600",   9600 },
     { "19200",  19200 },
-    { "38400 (Swiftlink/Turbo232)", 38400 },
-    { "57600 (Turbo232)",  57600 },
-    { "115200 (Turbo232)", 115200 },
+    { "38400",  38400 },
+    { "57600",  57600 },
+    { "115200", 115200 },
     { NULL, -1 }
 };
 
@@ -192,28 +195,28 @@ static void on_rsinterface_changed(GtkWidget *widget)
     resources_get_int("RsUserUP9600", &up9600);
     baud = rsuser_baud_widget;
     grid = gtk_widget_get_parent(widget);
-    rts = gtk_grid_get_child_at((GtkGrid*)grid, 1, 2);
-    cts = gtk_grid_get_child_at((GtkGrid*)grid, 2, 2);
-    dsr = gtk_grid_get_child_at((GtkGrid*)grid, 1, 3);
-    dcd = gtk_grid_get_child_at((GtkGrid*)grid, 2, 3);
-    dtr = gtk_grid_get_child_at((GtkGrid*)grid, 1, 4);
+    rts = gtk_grid_get_child_at(GTK_GRID(grid), 1, 2);
+    cts = gtk_grid_get_child_at(GTK_GRID(grid), 2, 2);
+    dsr = gtk_grid_get_child_at(GTK_GRID(grid), 1, 3);
+    dcd = gtk_grid_get_child_at(GTK_GRID(grid), 2, 3);
+    dtr = gtk_grid_get_child_at(GTK_GRID(grid), 1, 4);
 
     if (rts != NULL && cts != NULL && dcd != NULL && dsr != NULL && dtr != NULL) {
         switch (index) {
             case USERPORT_RS_NONINVERTED:
-                vice_gtk3_resource_check_button_set(rts, false);
-                vice_gtk3_resource_check_button_set(cts, false);
-                /*vice_gtk3_resource_check_button_set(dcd, false);*/
-                vice_gtk3_resource_check_button_set(dsr, false);
-                vice_gtk3_resource_check_button_set(dtr, false);
+                vice_gtk3_resource_check_button_set(rts, FALSE);
+                vice_gtk3_resource_check_button_set(cts, FALSE);
+                /*vice_gtk3_resource_check_button_set(dcd, FALSE);*/
+                vice_gtk3_resource_check_button_set(dsr, FALSE);
+                vice_gtk3_resource_check_button_set(dtr, FALSE);
                 resources_set_int("RsUserUP9600", 0);
                 break;
             case USERPORT_RS_INVERTED:
-                vice_gtk3_resource_check_button_set(rts, true);
-                vice_gtk3_resource_check_button_set(cts, true);
-                /*vice_gtk3_resource_check_button_set(dcd, true);*/
-                vice_gtk3_resource_check_button_set(dsr, true);
-                vice_gtk3_resource_check_button_set(dtr, true);
+                vice_gtk3_resource_check_button_set(rts, TRUE);
+                vice_gtk3_resource_check_button_set(cts, TRUE);
+                /*vice_gtk3_resource_check_button_set(dcd, TRUE);*/
+                vice_gtk3_resource_check_button_set(dsr, TRUE);
+                vice_gtk3_resource_check_button_set(dtr, TRUE);
                 resources_set_int("RsUserUP9600", 0);
                 break;
             case USERPORT_RS_UP9600:
@@ -565,7 +568,8 @@ static GtkWidget *create_userport_widget(void)
     resources_get_int("RsUserUP9600", &up9600);
 
     gtk_widget_show_all(grid);
-    userport_rsinterface_widget_add_callback((GtkGrid*)rsuser_rsinterface_widget, on_rsinterface_changed);
+    userport_rsinterface_widget_add_callback(GTK_GRID(rsuser_rsinterface_widget),
+                                             on_rsinterface_changed);
     return grid;
 }
 
