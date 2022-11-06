@@ -1223,7 +1223,7 @@ static int yyerror(char *s)
 static int resolve_datatype(unsigned guess_type, const char *num)
 {
     int binary = 1, hex = 0, octal = 0, decimal = 1;
-    char *c;
+    const char *c;
 
     /* FIXME: Handle cases when default type is non-numerical */
     if (default_radix == e_hexadecimal) {
