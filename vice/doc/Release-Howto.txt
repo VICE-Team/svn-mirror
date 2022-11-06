@@ -25,7 +25,7 @@ $ make -f checkdoc.mak full
   vice.texi contains the author list twice, once under "@c
   ---vice-core-team---", and once under "@node Copyright"
 
-- run the vicedate.h update script to upated the current year.
+- run the vicedate.h update script to upate the current year.
 - make sure to 'touch' vice.texi so that the current year will be put into all
   needed files.
 
@@ -40,22 +40,30 @@ $ svn commit -m "preparing release"
 
 - ANNOUNCE A CODE FREEZE ;)
 
-- make sure the version in configure.ac is updated:
+- make sure the version in configure.ac is updated, and make sure to remove the
+"dev" label:
 
     m4_define(vice_version_major, 3)
     m4_define(vice_version_minor, 6)
     m4_define(vice_version_build, 0)
     m4_define(vice_version_label, )
 
-- make sure the version is updated in other files (html/index.html).
+- propagate the updated version into the documentation:
 
-These actually update the user-visible version in the binary/docs, so it should
-happen only immediately before the release.
+$ touch doc/vice.texi
+$ make all
+
+This will update the user-visible version in the binary/docs (README, index.html
+etc), so it should happen only immediately before the release.
 
 while at it, also check the following:
 
 - are the "banners" on various sourceforge pages (tickets) still up to date?
 - are the "readmes" in the files areas still up to date?
+
+Make sure everything is fine, and commit the release
+
+$ svn commit -m "this is the 3.6.0 release - merry xmas"
 
 ****************************************
  Tarball and Windows Builds - Automated
@@ -132,6 +140,26 @@ create a tagged branch on the svn
   eg
 
   $ svn cp --username=gpz -r <revision of release> svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/trunk/ svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/tags/v3.4/
+
+switch svn head back into dev mode
+----------------------------------
+
+when the release is tagged in svn and no more changes will be done to the release,
+switch the tree into dev mode again:
+
+- update the devmode flag in configure.ac:
+
+    m4_define(vice_version_major, 3)
+    m4_define(vice_version_minor, 6)
+    m4_define(vice_version_build, 0)
+    m4_define(vice_version_label, dev)
+
+- propagate the updated version into the documentation:
+
+$ touch doc/vice.texi
+$ make all
+
+$ svn commit -m "switching to dev mode again"
 
 
 publish the release

@@ -8,6 +8,7 @@
 
 README=README
 CONFIG=configure.ac
+VICEDATE=src/vicedate.h
 
 if [ "x$1" = "x" ]; then
 echo Filename for readme not defined, using: $README
@@ -15,20 +16,28 @@ else
 README=$1
 fi
 
-if [ "x$1" = "x" ]; then
+if [ "x$2" = "x" ]; then
 echo Filename for configure.ac not defined, using: $CONFIG
 else
 CONFIG=$2
 fi
 
+if [ "x$3" = "x" ]; then
+echo Filename for vicedate.h not defined, using: $VICEDATE
+else
+VICEDATE=$3
+fi
+
 if [ "x$VERBOSE" = "x1" ]; then
 echo readme:$README
 echo config:$CONFIG
+echo vicedate:$VICEDATE
 fi
 
 VMAJOR=`grep "m4_define.*(.*vice_version_major" $CONFIG | sed "s:m4_define.*(.*vice_version_major.*, \([0-9]*\)):\1:g"`
 VMINOR=`grep "m4_define.*(.*vice_version_minor" $CONFIG | sed "s:m4_define.*(.*vice_version_minor.*, \([0-9]*\)):\1:g"`
 VBUILD=`grep "m4_define.*(.*vice_version_build" $CONFIG | sed "s:m4_define.*(.*vice_version_build.*, \([0-9]*\)):\1:g"`
+VDEV=`grep "m4_define.*(.*vice_version_label" $CONFIG | sed "s:m4_define.*(.*vice_version_label.*, \([a-z]*\)):\1:g"`
 
 #VMINOR=0
 #VMINOR=14
@@ -39,13 +48,19 @@ if [ "x$VERBOSE" = "x1" ]; then
 echo major: $VMAJOR
 echo minor: $VMINOR
 echo build: $VBUILD
+echo dev: $VBUILD
 fi
 
-MONTH=`LANG=C date +%b`
-YEAR=`LANG=C date +%Y`
+if [ "x$VDEV" = "xdev" ]; then
+    echo "release date/version in README is not updated in dev versions"
+    exit 0
+fi
+
+MONTH=`grep "VICEDATE_MONTH_SHORT " $VICEDATE | cut -d '"' -f 2`
+YEAR=`grep "VICEDATE_YEAR " $VICEDATE | cut -d " " -f 3`
 
 if [ "x$VERBOSE" = "x1" ]; then
-echo month $MONTH
+echo month: $MONTH
 echo year: $YEAR
 fi
 
