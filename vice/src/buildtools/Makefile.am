@@ -5,6 +5,7 @@ EXTRA_DIST = \
 	gensvnversion.sh \
 	genvicedate_h.sh \
 	updatereadme.sh \
+	updateindex.sh \
 	infocontrib.sed \
 	od2c.sh \
 	palette2c.sh

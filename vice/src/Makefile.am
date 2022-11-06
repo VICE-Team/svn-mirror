@@ -514,7 +514,10 @@ infocontrib.h: $(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.t
 
 # also update the version/date in the readme
 # FIXME: this is not the exact right place for this
-	@$(SHELL) $(srcdir)/buildtools/updatereadme.sh $(top_srcdir)/README $(top_srcdir)/configure.ac
+	@$(SHELL) $(srcdir)/buildtools/updatereadme.sh $(top_srcdir)/README $(top_srcdir)/configure.ac $(top_srcdir)/src/vicedate.h
+# also update the version/date in the index.html
+# FIXME: this is not the exact right place for this
+	@$(SHELL) $(srcdir)/buildtools/updateindex.sh $(top_srcdir)/doc/html/index.html $(top_srcdir)/configure.ac $(top_srcdir)/src/vicedate.h
 
 arch_gtk3_lib = $(top_builddir)/src/arch/gtk3/libarch.a
 arch_gtk3_widgets_lib = $(top_builddir)/src/arch/gtk3/widgets/libwidgets.a
