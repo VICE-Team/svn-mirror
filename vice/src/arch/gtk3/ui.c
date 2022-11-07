@@ -2236,7 +2236,6 @@ int ui_init_finalize(void)
 #endif
             actions_display_register();
             actions_drive_register();
-            actions_help_register();
             actions_hotkeys_register();
             actions_joystick_register();
             actions_machine_register();
@@ -2265,6 +2264,8 @@ int ui_init_finalize(void)
 #ifdef DEBUG
         actions_debug_setup_ui();
 #endif
+        actions_help_register();
+
         if (machine_class != VICE_MACHINE_VSID) {
             actions_display_setup_ui();
             actions_joystick_setup_ui();
