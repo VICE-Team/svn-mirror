@@ -39,6 +39,7 @@
 #include "vicii.h"
 #include "resources.h"
 
+#include "actions-vsid.h"
 #include "videomodelwidget.h"
 #include "vsidcontrolwidget.h"
 #include "vsidtuneinfowidget.h"
@@ -100,5 +101,8 @@ int vsid_ui_init(void)
     ui_create_main_window(canvas);
     ui_display_main_window(canvas->window_index);
 
+    /* We cannot call this from the generic ui.c due to linker errors, so we
+     * call it here and hope for the best =) */
+    actions_vsid_register();
     return 0;
 }

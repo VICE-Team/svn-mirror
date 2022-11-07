@@ -2,6 +2,10 @@
  * \brief   UI action implementations for VSID
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \@note   This file cannot be used from ui.c since that causes massive
+ *          linker errors due to the way vsid is linked. Currently registering
+ *          the actions happens in vsidui.c, which magically does work.
  */
 
 /*
@@ -45,7 +49,7 @@
 static void psid_load_action(void)
 {
     /* FIXME: This triggers massive linker errors =) */
-/*    uisidattach_show_dialog(); */
+    uisidattach_show_dialog();
 }
 
 
