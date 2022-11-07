@@ -115,7 +115,6 @@
 #include "actions-settings.h"
 #include "actions-snapshot.h"
 #include "actions-speed.h"
-#include "actions-vsid.h"
 
 #include "ui.h"
 
@@ -2233,7 +2232,7 @@ int ui_init_finalize(void)
         } else {
             /* VSID-specific actions */
             actions_machine_register(); /* reset, monitor & quit */
-            actions_vsid_register();
+            /* actions_vsid_register(); */
         }
 
         /* Add any actions that weren't already registered during menu creation */
