@@ -104,5 +104,8 @@ int vsid_ui_init(void)
     /* We cannot call this from the generic ui.c due to linker errors, so we
      * call it here and hope for the best =) */
     actions_vsid_register();
+
+    /* Set initial state of checkboxes */
+    actions_vsid_setup_ui();
     return 0;
 }

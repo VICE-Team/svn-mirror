@@ -38,6 +38,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#include "hotkeymap.h"
 #include "resources.h"
 #include "uiactions.h"
 #include "uisidattach.h"
@@ -52,6 +53,17 @@ static void psid_load_action(void)
     uisidattach_show_dialog();
 }
 
+/** \brief  Toggle override of PSID file settings */
+static void psid_override_toggle_action(void)
+{
+    int enabled = 0;
+
+    resources_get_int("PSIDKeepEnv", &enabled);
+    enabled = !enabled;
+    resources_set_int("PSIDKeepEnv", enabled);
+    ui_set_check_menu_item_blocked_by_action(ACTION_PSID_OVERRIDE_TOGGLE, enabled);
+}
+
 
 /** \brief  List of VSID-specific actions */
 static const ui_action_map_t vsid_actions[] = {
@@ -60,6 +72,11 @@ static const ui_action_map_t vsid_actions[] = {
         .handler = psid_load_action,
         .blocks = true,
         .dialog = true
+    },
+    {
+        .action = ACTION_PSID_OVERRIDE_TOGGLE,
+        .handler = psid_override_toggle_action,
+        .uithread = true,
     },
 
     UI_ACTION_MAP_TERMINATOR
@@ -70,4 +87,16 @@ static const ui_action_map_t vsid_actions[] = {
 void actions_vsid_register(void)
 {
     ui_actions_register(vsid_actions);
+}
+
+
+/** \brief  Set initial UI element states for VSID
+ */
+void actions_vsid_setup_ui(void)
+{
+    int enabled = 0;
+
+    /* Override PSID settings */
+    resources_get_int("PSIDKeepEnv", &enabled);
+    ui_set_check_menu_item_blocked_by_action(ACTION_PSID_OVERRIDE_TOGGLE, enabled);
 }
