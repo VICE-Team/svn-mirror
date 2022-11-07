@@ -1353,6 +1353,10 @@ gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
     gchar resource[32];
     int is_fullscreen;
 
+    if (machine_class == VICE_MACHINE_VSID) {
+        return FALSE;   /* VSID doesn't have fullscreen mode nor the resource */
+    }
+
     /* Using resources_get_int_sprintf() is relatively expensive since it uses
      * malloc()/free(): */
     g_snprintf(resource, sizeof(resource), "%sFullscreen", canvas->videoconfig->chip_name);
@@ -1373,6 +1377,10 @@ gboolean ui_is_fullscreen(void)
     video_canvas_t *canvas;
     const char *chip_name;
     int is_fullscreen = 0;
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        return FALSE;   /* VSID doesn't have fullscreen mode nor the resource */
+    }
 
     /* FIXME:   During emu boot the array ui_resources.canvas[] will not be
      *          properly initialized yet, so when the opengl renderer calls
