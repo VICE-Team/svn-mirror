@@ -141,7 +141,11 @@ static void help_compile_time_action(void)
 /** \brief  Pop up setting dialog and activate the hotkeys editor */
 static void help_hotkeys_action(void)
 {
-    ui_settings_dialog_show("host/hotkeys");
+    if (machine_class != VICE_MACHINE_VSID) {
+        ui_settings_dialog_show("host/hotkeys");
+    } else {
+        ui_settings_dialog_show("hotkeys");
+    }
 }
 
 /** \brief  Pop up About dialog */
