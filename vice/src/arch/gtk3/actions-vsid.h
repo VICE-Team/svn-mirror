@@ -30,5 +30,6 @@
 #define VICE_ACTIONS_VSID_H
 
 void actions_vsid_register(void);
+void actions_vsid_setup_ui(void);
 
 #endif

@@ -115,7 +115,6 @@
 #include "actions-settings.h"
 #include "actions-snapshot.h"
 #include "actions-speed.h"
-#include "actions-vsid.h"
 
 #include "ui.h"
 
@@ -993,6 +992,9 @@ static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
  * \param[in]   user_data   extra data for the event (ignored)
  *
  * \return  FALSE to continue processing
+ *
+ * \note    This handler is not used on VSID since we have neither fullscreen
+ *          nor fullscreen decorations in VSID
  */
 static gboolean on_window_state_event(GtkWidget *widget,
                                       GdkEventWindowState *event,
@@ -1354,6 +1356,10 @@ gboolean ui_is_fullscreen_from_canvas(const video_canvas_t *canvas)
     gchar resource[32];
     int is_fullscreen;
 
+    if (machine_class == VICE_MACHINE_VSID) {
+        return FALSE;   /* VSID doesn't have fullscreen mode nor the resource */
+    }
+
     /* Using resources_get_int_sprintf() is relatively expensive since it uses
      * malloc()/free(): */
     g_snprintf(resource, sizeof(resource), "%sFullscreen", canvas->videoconfig->chip_name);
@@ -1374,6 +1380,10 @@ gboolean ui_is_fullscreen(void)
     video_canvas_t *canvas;
     const char *chip_name;
     int is_fullscreen = 0;
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        return FALSE;   /* VSID doesn't have fullscreen mode nor the resource */
+    }
 
     /* FIXME:   During emu boot the array ui_resources.canvas[] will not be
      *          properly initialized yet, so when the opengl renderer calls
@@ -1801,8 +1811,10 @@ void ui_create_main_window(video_canvas_t *canvas)
                      G_CALLBACK(on_focus_in_event), NULL);
     g_signal_connect_unlocked(new_window, "focus-out-event",
                      G_CALLBACK(on_focus_out_event), NULL);
-    g_signal_connect_unlocked(new_window, "window-state-event",
-                     G_CALLBACK(on_window_state_event), NULL);
+    if (machine_class != VICE_MACHINE_VSID) {
+        g_signal_connect_unlocked(new_window, "window-state-event",
+                                  G_CALLBACK(on_window_state_event), NULL);
+    }
     /* This event never returns so must not hold the vice lock */
     g_signal_connect(new_window, "delete-event",
                      G_CALLBACK(on_delete_event), NULL);
@@ -1978,7 +1990,9 @@ void ui_display_main_window(int index)
      * disabled secondary displays in the status bar code with
      * gtk_widget_set_no_show_all(). */
     gtk_widget_show_all(window);
-    ui_update_fullscreen_decorations();
+    if (machine_class != VICE_MACHINE_VSID) {
+        ui_update_fullscreen_decorations();
+    }
 
 #ifdef MACOS_COMPILE
     macos_activate_application_workaround();
@@ -2206,7 +2220,6 @@ int ui_init_finalize(void)
 #endif
             actions_display_register();
             actions_drive_register();
-            actions_help_register();
             actions_hotkeys_register();
             actions_joystick_register();
             actions_machine_register();
@@ -2217,7 +2230,12 @@ int ui_init_finalize(void)
         } else {
             /* VSID-specific actions */
             actions_machine_register(); /* reset, monitor & quit */
-            actions_vsid_register();
+            actions_settings_register();
+#ifdef DEBUG
+            actions_debug_register();
+#endif
+            /* Triggers linker errors, we register these in vsidui.c: */
+            /* actions_vsid_register(); */
         }
 
         /* Add any actions that weren't already registered during menu creation */
@@ -2225,10 +2243,13 @@ int ui_init_finalize(void)
 
         ui_hotkeys_init();
 
-        /* Set proper radio buttons, check buttons and menu item labels */
+        /* Set proper radio buttons, check buttons and menu item labels
+         * (All emus including VSID) */
 #ifdef DEBUG
         actions_debug_setup_ui();
 #endif
+        actions_help_register();
+
         if (machine_class != VICE_MACHINE_VSID) {
             actions_display_setup_ui();
             actions_joystick_setup_ui();

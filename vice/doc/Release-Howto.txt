@@ -25,7 +25,7 @@ $ make -f checkdoc.mak full
   vice.texi contains the author list twice, once under "@c
   ---vice-core-team---", and once under "@node Copyright"
 
-- run the vicedate.h update script to upate the current year.
+- run the vicedate.h update script to update the current year.
 - make sure to 'touch' vice.texi so that the current year will be put into all
   needed files.
 
@@ -107,7 +107,7 @@ $ svn commit -m "this is the 3.6.0 release - merry xmas"
 
   (make sure dos2unix is installed)
 
-  first update and clean your sourcetree
+  first update and clean your source tree
 
   $ svn up
   $ make distclean
@@ -137,7 +137,7 @@ create a tagged branch on the svn
 
   $ svn cp <url of svn trunk> <url of svn tag>
 
-  eg
+  e.g.
 
   $ svn cp --username=gpz -r <revision of release> svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/trunk/ svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/tags/v3.4/
 
