@@ -535,7 +535,7 @@ vice_network_socket_t *vice_network_server(
 */
 vice_network_socket_t * vice_network_client(const vice_network_socket_address_t * server_address)
 {
-    vice_network_socket_t *peer_socket;
+//    vice_network_socket_t *peer_socket;
     int sockfd = INVALID_SOCKET;
     int error = 1;
 
