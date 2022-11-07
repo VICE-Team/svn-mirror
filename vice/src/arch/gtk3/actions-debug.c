@@ -250,13 +250,48 @@ static const ui_action_map_t debug_actions_dtv[] = {
     UI_ACTION_MAP_TERMINATOR
 };
 
+static const ui_action_map_t debug_actions_vsid[] = {
+    {
+        .action = ACTION_DEBUG_TRACE_MODE,
+        .handler = debug_trace_mode_action,
+        .blocks = true,
+        .dialog = true
+    },
+    {
+        .action = ACTION_DEBUG_TRACE_CPU_TOGGLE,
+        .handler = debug_trace_cpu_toggle_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_DEBUG_AUTOPLAYBACK_FRAMES,
+        .handler = debug_autoplayback_frames_action,
+        .blocks = true,
+        .dialog = true
+    },
+    {
+        .action = ACTION_DEBUG_CORE_DUMP_TOGGLE,
+        .handler = debug_core_dump_toggle_action,
+        .uithread = true
+    },
+
+    UI_ACTION_MAP_TERMINATOR
+};
+
+
 
 /** \brief  Register debugging actions */
 void actions_debug_register(void)
 {
-    ui_actions_register(debug_actions);
-    if (machine_class == VICE_MACHINE_C64DTV) {
-        ui_actions_register(debug_actions_dtv);
+    if (machine_class == VICE_MACHINE_VSID) {
+        /* VSID */
+        ui_actions_register(debug_actions_vsid);
+    } else {
+        /* non-VSID */
+        ui_actions_register(debug_actions);
+        /* C64DTV-specific */
+        if (machine_class == VICE_MACHINE_C64DTV) {
+            ui_actions_register(debug_actions_dtv);
+        }
     }
 }
 

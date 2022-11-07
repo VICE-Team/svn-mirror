@@ -2248,6 +2248,10 @@ int ui_init_finalize(void)
             /* VSID-specific actions */
             actions_machine_register(); /* reset, monitor & quit */
             actions_settings_register();
+#ifdef DEBUG
+            actions_debug_register();
+#endif
+            /* Triggers linker errors, we register these in vsidui.c: */
             /* actions_vsid_register(); */
         }
 
@@ -2256,7 +2260,8 @@ int ui_init_finalize(void)
 
         ui_hotkeys_init();
 
-        /* Set proper radio buttons, check buttons and menu item labels */
+        /* Set proper radio buttons, check buttons and menu item labels
+         * (All emus including VSID) */
 #ifdef DEBUG
         actions_debug_setup_ui();
 #endif
