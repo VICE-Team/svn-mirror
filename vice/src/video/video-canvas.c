@@ -206,12 +206,12 @@ void video_canvas_refresh_all_tracked(void)
 
     for (i = 0; i < TRACKED_CANVAS_MAX; i++) {
         if (tracked_canvas[i]) {
-            video_canvas_refresh_all(tracked_canvas[i]);
+            video_canvas_refresh_all(tracked_canvas[i], true);
         }
     }
 }
 
-void video_canvas_refresh_all(video_canvas_t *canvas)
+void video_canvas_refresh_all(video_canvas_t *canvas, bool highPriority)
 {
     unsigned int xs; /* A parameter to forward to video_canvas_render() */
     unsigned int ys; /* A parameter to forward to video_canvas_render() */
@@ -257,7 +257,7 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
      * If there is no unused render buffer, we can't render a new frame.
      */
     
-    backbuffer = render_queue_get_from_pool(canvas->render_queue, draw_buffer->padded_allocations_size_bytes, 4 * w * h);
+    backbuffer = render_queue_get_from_pool(canvas->render_queue, draw_buffer->padded_allocations_size_bytes, 4 * w * h, highPriority);
     if (backbuffer == NULL) {
         return;
     }

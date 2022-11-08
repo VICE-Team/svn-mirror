@@ -44,6 +44,8 @@
 
 #include "vice_sdl.h"
 
+static int deferred_render_count[MAX_CANVAS_NUM];
+static int total_outstanding_renders = 0;
 
 /*
  * HACK: Enables redraw of the SDL window during a resize.
@@ -116,14 +118,63 @@ static void process_sdl_event(SDL_Event *e)
     }
 }
 
+void sdl2_render_deferred(bool flush)
+{
+    video_canvas_t *canvas;
+    int i;
+
+    /*
+     * If we're flushing - remove all but one backbuffer from each render queue
+     * so that the next render shows the latest frame.
+     *
+     * This is needed for sdl_ui_readline_input_impl to ensure that all rendering
+     * has been performed before blocking on user input.
+     */
+
+    if (flush) {
+        total_outstanding_renders = 0;
+
+        for (i = 0; i < MAX_CANVAS_NUM; i++) {
+            if (deferred_render_count[i] > 1) {
+                canvas = video_canvas_get(i);
+                do {
+                    render_queue_return_to_pool(canvas->render_queue, render_queue_dequeue_for_display(canvas->render_queue));
+                } while (--deferred_render_count[i] > 1);
+            }
+
+            total_outstanding_renders += deferred_render_count[i];
+        }
+    }
+
+    /*
+     * Perform zero or one deferred rendering per canvas, prioritising the active canvas
+     */
+
+    if (total_outstanding_renders) {
+        if (deferred_render_count[sdl_active_canvas->index]) {
+            video_canvas_display_backbuffer(sdl_active_canvas);
+            deferred_render_count[sdl_active_canvas->index]--;
+            total_outstanding_renders--;
+        }
+
+        for (i = 0; i < MAX_CANVAS_NUM; i++) {
+            if (i != sdl_active_canvas->index) {
+                if (deferred_render_count[i]) {
+                    video_canvas_display_backbuffer(video_canvas_get(i));
+                    deferred_render_count[i]--;
+                    total_outstanding_renders--;
+                }
+            }
+        }
+    }
+}
+
 int main(int argc, char **argv)
 {
     int init_result;
     SDL_Event e;
     video_canvas_t *canvas;
     int i;
-    int deferred_render_count[MAX_CANVAS_NUM];
-    int total_outstanding_renders = 0;
 
     init_result = main_program_init(argc, argv);
     if (init_result) {
@@ -143,27 +194,7 @@ int main(int argc, char **argv)
 
     for (;;) {
 
-        /*
-         * Perform zero or one deferred rendering per canvas, prioritising the active canvas
-         */
-
-        if (total_outstanding_renders) {
-            if (deferred_render_count[sdl_active_canvas->index]) {
-                video_canvas_display_backbuffer(sdl_active_canvas);
-                deferred_render_count[sdl_active_canvas->index]--;
-                total_outstanding_renders--;
-            }
-            
-            for (i = 0; i < MAX_CANVAS_NUM; i++) {
-                if (i != sdl_active_canvas->index) {
-                    if (deferred_render_count[i]) {
-                        video_canvas_display_backbuffer(video_canvas_get(i));
-                        deferred_render_count[i]--;
-                        total_outstanding_renders--;
-                    }
-                }
-            }
-        }
+        sdl2_render_deferred(false);
         
         if (total_outstanding_renders) {
             /* We still have another render to perform, so don't block on SDL events */

@@ -1051,6 +1051,8 @@ void sdl_ui_readline_input_impl(void)
     do {
         action = MENU_ACTION_NONE;
 
+        sdl2_render_deferred(false);
+
         SDL_WaitEvent(&e);
 
         switch (e.type) {
@@ -1356,7 +1358,7 @@ void sdl_ui_activate_post_action(void)
     sdl_ui_restore_draw_buffer_backup();
 
     /* Force a video refresh */
-    video_canvas_refresh_all(sdl_active_canvas);
+    video_canvas_refresh_all(sdl_active_canvas, true);
     /* SDL mode: prevent core dump - pressing menu key in -console mode causes parent_raster to be NULL */
     if (sdl_active_canvas->parent_raster) {
         raster_force_repaint(sdl_active_canvas->parent_raster);
@@ -1753,7 +1755,7 @@ ui_menu_entry_t *sdl_ui_get_main_menu(void)
 
 void sdl_ui_refresh(void)
 {
-    video_canvas_refresh_all(sdl_active_canvas);
+    video_canvas_refresh_all(sdl_active_canvas, true);
 }
 
 void sdl_ui_scroll_screen_up(void)

@@ -75,7 +75,7 @@ typedef struct backbuffer_s {
 void *render_queue_create(void);
 void render_queue_destroy(void *render_queue);
 
-backbuffer_t *render_queue_get_from_pool(void *render_queue, int screen_data_size_bytes, int pixel_data_size_bytes);
+backbuffer_t *render_queue_get_from_pool(void *render_queue, int screen_data_size_bytes, int pixel_data_size_bytes, bool reuseEnqueued);
 void render_queue_enqueue_for_display(void *render_queue, backbuffer_t *backbuffer);
 unsigned int render_queue_length(void *render_queue);
 backbuffer_t *render_queue_dequeue_for_display(void *render_queue);

@@ -162,7 +162,7 @@ static int set_double_scan_enabled(int double_scan, void *canvas)
     cv->videoconfig->doublescan = double_scan ? 1 : 0;
     cv->videoconfig->color_tables.updated = 0;
 
-    video_canvas_refresh_all(cv);
+    video_canvas_refresh_all(cv, true);
 
     return 0;
 }
@@ -234,7 +234,7 @@ static int set_chip_rendermode(int filter, void *canvas)
     }
 
     lib_free(dsize);
-    video_canvas_refresh_all(cv);
+    video_canvas_refresh_all(cv, true);
     return 0;
 }
 

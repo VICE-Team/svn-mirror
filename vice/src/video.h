@@ -260,7 +260,7 @@ extern void video_canvas_render_backbuffer(struct backbuffer_s *backbuffer, void
 extern void video_canvas_render(struct video_canvas_s *canvas, uint8_t *trg,
                                 int width, int height, int xs, int ys,
                                 int xt, int yt, int pitcht);
-extern void video_canvas_refresh_all(struct video_canvas_s *canvas);
+extern void video_canvas_refresh_all(struct video_canvas_s *canvas, bool highPriority);
 extern void video_viewport_get(struct video_canvas_s *canvas,
                                struct viewport_s **viewport,
                                struct geometry_s **geometry);

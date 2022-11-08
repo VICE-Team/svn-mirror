@@ -105,7 +105,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
                 break;
             case SDL_WINDOWEVENT_EXPOSED:
                 DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_EXPOSED"));
-                video_canvas_refresh_all(sdl_active_canvas);
+                video_canvas_refresh_all(sdl_active_canvas, true);
                 break;
             case SDL_WINDOWEVENT_FOCUS_LOST:
                 DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_FOCUS_LOST"));

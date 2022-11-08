@@ -56,7 +56,8 @@ void raster_canvas_handle_end_of_frame(raster_t *raster)
         return;
     }
 
-    video_canvas_refresh_all(raster->canvas);
+    /* Low priority refresh - allow previously queued frames to remain in queue */
+    video_canvas_refresh_all(raster->canvas, false);
 
     /* potentially swap the draw buffer pointers */
     draw_buffer->draw_buffer = draw_buffer->padded_allocations[raster->canvas->videoconfig->interlace_field] + draw_buffer->padded_allocations_offset;

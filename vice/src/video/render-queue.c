@@ -120,12 +120,20 @@ void render_queue_destroy(void *render_queue)
 /****/
 
 /** Obtain unused backbuffer for offscreen rendering, or NULL if none available */
-backbuffer_t *render_queue_get_from_pool(void *render_queue, int screen_data_size_bytes, int pixel_data_size_bytes)
+backbuffer_t *render_queue_get_from_pool(void *render_queue, int screen_data_size_bytes, int pixel_data_size_bytes, bool highPriority)
 {
     render_queue_t *rq = (render_queue_t *)render_queue;
     backbuffer_t *bb;
 
     LOCK();
+
+    /*
+     * If it's a high priority render, return any queued backbuffers to the pool.
+     */
+
+    if (highPriority) {
+        render_queue_reset_queue(render_queue);
+    }
 
     if (!rq->backbuffer_stack_size) {
         /* no buffers available, skip this frame */

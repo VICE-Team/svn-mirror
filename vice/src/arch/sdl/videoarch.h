@@ -152,6 +152,9 @@ extern Uint32 sdl_event_readline_result;
 /* execute a callback on the main thread */
 extern Uint32 sdl_event_run_on_main_thread;
 
+/* Render up to one frame on each canvas, flush to drop all but most recent frames */
+void sdl2_render_deferred(bool flush);
+
 /* _impl versions of functions are asynchronously called from the main thread. */
 
 /* Resize window to stored real size */

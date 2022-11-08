@@ -1150,18 +1150,18 @@ void sdl_video_canvas_switch(int index)
         return;
     }
 
-    /* Clear out any queued frames, and trigger a rebuild of all SDL video resources */
+    /* Trigger a rebuild of all SDL video resources */
     for (i = 0; i < MAX_CANVAS_NUM; i++) {
         canvas = sdl_canvaslist[i];
         if (!canvas) {
             continue;
         }
-
-        render_queue_reset_queue(canvas->render_queue);
         
         /* Recreate the renderer via a repaint */
         canvas->sdl_window->recreate_resources = 1;
-        video_canvas_refresh_all(canvas);
+
+        /* Use a high priorty refresh to return all queued buffers to the pool */
+        video_canvas_refresh_all(canvas, true);
     }
 
     sdl_active_canvas_num = index;

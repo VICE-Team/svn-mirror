@@ -281,7 +281,7 @@ static void vice_directx_on_new_backbuffer(video_canvas_t *canvas)
 
     /* Obtain an unused backbuffer to render to */
     pixel_data_size_bytes = context->emulated_width_next * context->emulated_height_next * 4;
-    backbuffer = render_queue_get_from_pool(context->render_queue, pixel_data_size_bytes);
+    backbuffer = render_queue_get_from_pool(context->render_queue, pixel_data_size_bytes, false);
 
     if (!backbuffer) {
         CANVAS_UNLOCK();
