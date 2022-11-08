@@ -66,26 +66,14 @@
 #define FFWD_SPEED  500
 
 
-
-/** \brief  Object containing icon and callback
+/** \brief  Object containing icon, action ID and tooltip
  */
 typedef struct vsid_ctrl_button_s {
-    const char *icon_name;                      /**< icon name */
-    void (*callback)(GtkWidget *, gpointer);    /**< callback */
-    const char *tooltip;                        /**< tool tip */
+    const char *icon_name;  /**< icon name */
+    int action;             /**< UI action ID */
+    const char *tooltip;    /**< tool tip */
 } vsid_ctrl_button_t;
 
-
-#if 0
-/** \brief  Number of subtunes in the SID */
-static int tune_count;
-
-/** \brief  Current subtune number */
-static int tune_current;
-
-/** \brief  Default subtune number */
-static int tune_default;
-#endif
 
 
 /** \brief  Progress bar */
@@ -95,207 +83,56 @@ static GtkWidget *progress = NULL;
 static GtkWidget *repeat = NULL;
 
 
-/** \brief  Temporary callback for the media buttons
+/** \brief  Event handler for buttons
  *
- * \param[in]   widget  widget
- * \param[in]   data    icon name
+ * Trigger UI \a action.
+ *
+ * \param[in]   widget  button
+ * \param[in]   action  action ID
  */
-static void fake_callback(GtkWidget *widget, gpointer data)
+static void action_callback(GtkWidget *widget, gpointer action)
 {
-    debug_gtk3("Unsupported callback for '%s'.", (const char *)data);
-}
+    int id = GPOINTER_TO_INT(action);
 
-
-/** \brief  Trigger play of current tune */
-static void play_current_tune(void)
-{
-    vsid_state_t *state = vsid_state_lock();
-    int current = state->tune_current;
-#ifdef HAVE_DEBUG_GTK3UI
-    int count = state->tune_count;
-    int def = state->tune_default;
-#endif
-
-    vsid_state_unlock();
-
-    debug_gtk3("current: %d, total: %d, default: %d.",
-                current, count, def);
-    debug_gtk3("calling machine_trigger_reset(SOFT).");
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-    debug_gtk3("calling psid_init_driver().");
-    psid_init_driver();
-    debug_gtk3("calling machine_play_psid(%d).", current);
-    machine_play_psid(current);
-}
-
-
-/** \brief  Callback for 'next subtune'
- *
- * Select next subtune, or wrap around to the first subtune
- *
- * \param[in]   widget  widget
- * \param[in]   data    icon name
- */
-static void next_tune_callback(GtkWidget *widget, gpointer data)
-{
-    vsid_state_t *state = vsid_state_lock();
-
-    debug_gtk3("called.");
-
-
-    if (state->tune_current >= state->tune_count || state->tune_current < 1) {
-        state->tune_current = 1;
-    } else {
-        state->tune_current++;
+    if (id > 0) {
+        debug_gtk3("calling action '%s' (%d).", ui_action_get_name(id), id);
+        ui_action_trigger(id);
     }
-    vsid_state_unlock();
-
-    play_current_tune();
-}
-
-
-/** \brief  Callback for 'previous subtune'
- *
- * Select previous subtune, or wrap aroun to the last subtune
- *
- * \param[in]   widget  widget
- * \param[in]   data    icon name
- */
-static void prev_tune_callback(GtkWidget *widget, gpointer data)
-{
-    vsid_state_t *state;
-
-    state = vsid_state_lock();
-
-    debug_gtk3("called.");
-    if (state->tune_current <= 1) {
-        state->tune_current = state->tune_count;
-    } else {
-        state->tune_current--;
-    }
-    vsid_state_unlock();
-
-    play_current_tune();
-}
-
-
-/** \brief  Callback for 'fast forward'
- *
- * Fast forward using Speed resource (toggled)
- *
- * \param[in]   widget  widget
- * \param[in]   data    icon name
- */
-static void ffwd_callback(GtkWidget *widget, gpointer data)
-{
-    int speed;
-
-    if (resources_get_int("Speed", &speed) < 0) {
-        /* error, shouldn't happen */
-        return;
-    }
-
-    if (speed == 100) {
-        resources_set_int("Speed", FFWD_SPEED);
-    } else {
-        resources_set_int("Speed", 100);
-    }
-}
-
-
-/** \brief  Callback for 'play'
- *
- * Continue playback by using the emulator's pause feature.
- *
- * \param[in]   widget  widget
- * \param[in]   data    icon name
- */
-static void play_callback(GtkWidget *widget, gpointer data)
-{
-    vsid_state_t *state;
-    int current;
-
-    state = vsid_state_lock();
-    current = state->tune_current;
-
-    if (current <= 0) {
-        /* restart previous tune if stopped before */
-        current = state->tune_current = state->tune_default;
-        vsid_state_unlock();
-
-        /* reload unloaded PSID file if loaded before */
-        if (state->psid_filename != NULL) {
-            psid_load_file(state->psid_filename);
-        }
-
-        psid_init_driver();
-        machine_play_psid(current);
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-        ui_pause_disable();
-    } else {
-        /* return emulation speed back to 100% */
-        vsid_state_unlock();
-        resources_set_int("Speed", 100);
-    }
-}
-
-
-/** \brief  Callback for 'pause'
- *
- * Pause playback by using the emulator's pause feature.
- *
- * \param[in]   widget  widget
- * \param[in]   data    icon name
- */
-static void pause_callback(GtkWidget *widget, gpointer data)
-{
-    ui_pause_toggle();
-}
-
-
-static void stop_callback(GtkWidget *widget, gpointer data)
-{
-    vsid_state_t *state = vsid_state_lock();
-
-    state->tune_current = -1;
-    vsid_state_unlock();
-
-    machine_play_psid(-1);
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-}
-
-
-/** \brief  Wrapper for the attach callback
- *
- * \param[in,out]   widget  control button
- * \param[in]       data    icon name
- */
-static void sid_attach_wrapper(GtkWidget *widget, gpointer data)
-{
-    ui_action_trigger(ACTION_PSID_LOAD);
 }
 
 
 /** \brief  List of media control buttons
+ *
+ * \todo    Some of these buttons would be better as stateful buttons, ie
+ *          GtkToggleButtons.
  */
 static const vsid_ctrl_button_t buttons[] = {
-    { "media-skip-backward", prev_tune_callback,
-        "Go to previous subtune" },
-    { "media-playback-start", play_callback,
-        "Play tune" },
-    { "media-playback-pause", pause_callback,
-        "Pause playback" },
-    { "media-playback-stop", stop_callback,
-        "Stop playback" },
-    { "media-seek-forward", ffwd_callback,
-        "Fast forward" },
-    { "media-skip-forward", next_tune_callback,
-        "Go to next subtune" },   /* select next tune */
-    { "media-eject", sid_attach_wrapper,
-        "Load PSID file" },   /* active file-open dialog */
+    { "media-skip-backward",
+      ACTION_PSID_SUBTUNE_PREVIOUS,
+      "Select previous subtune" },
+    { "media-playback-start",
+      ACTION_PSID_PLAY,
+      "Play tune" },
+    { "media-playback-pause",
+      ACTION_PSID_PAUSE,
+      "Pause playback" },
+    { "media-playback-stop",
+      ACTION_PSID_STOP,
+      "Stop playback" },
+    { "media-seek-forward",
+      ACTION_PSID_FFWD,
+      "Fast forward" },
+    { "media-skip-forward",
+      ACTION_PSID_SUBTUNE_NEXT,
+      "Select next subtune", },   /* select next tune */
+    { "media-eject",
+      ACTION_PSID_LOAD,
+      "Load PSID file" },   /* active file-open dialog */
+#if 0
     { "media-record", fake_callback,
         "Record media" },  /* start recording with current settings*/
-    { NULL, NULL, NULL }
+#endif
+    { NULL, 0, NULL }
 };
 
 
@@ -317,8 +154,7 @@ GtkWidget *vsid_control_widget_create(void)
 
         g_snprintf(buf, sizeof(buf), "%s-symbolic", buttons[i].icon_name);
 
-        button = gtk_button_new_from_icon_name(buf,
-                GTK_ICON_SIZE_LARGE_TOOLBAR);
+        button = gtk_button_new_from_icon_name(buf, GTK_ICON_SIZE_LARGE_TOOLBAR);
         /* always show the image, the button would useless without an image */
         gtk_button_set_always_show_image(GTK_BUTTON(button), TRUE);
         /* don't initialy focus on a button */
@@ -328,11 +164,10 @@ GtkWidget *vsid_control_widget_create(void)
         gtk_widget_set_focus_on_click(button, FALSE);
 #endif
         gtk_grid_attach(GTK_GRID(grid), button, i, 0, 1,1);
-        if (buttons[i].callback != NULL) {
-            g_signal_connect(button, "clicked",
-                    G_CALLBACK(buttons[i].callback),
-                    (gpointer)(buttons[i].icon_name));
-        }
+        g_signal_connect(button,
+                         "clicked",
+                         G_CALLBACK(action_callback),
+                         GINT_TO_POINTER(buttons[i].action));
         if (buttons[i].tooltip != NULL) {
             gtk_widget_set_tooltip_text(button, buttons[i].tooltip);
         }
@@ -392,7 +227,6 @@ void vsid_control_widget_set_tune_default(int n)
     vsid_state_t *state = vsid_state_lock();
 
     state->tune_default = n;
-
     vsid_state_unlock();
 }
 
@@ -411,7 +245,7 @@ void vsid_control_widget_set_progress(gdouble fraction)
  */
 void vsid_control_widget_next_tune(void)
 {
-    next_tune_callback(NULL, NULL);
+    ui_action_trigger(ACTION_PSID_SUBTUNE_NEXT);
 }
 
 

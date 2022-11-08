@@ -294,18 +294,25 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_HOTKEYS_SAVE_TO,   "hotkeys-save-to",      "Save hotkeys to custom file",      VICE_MACHINE_ALL|VICE_MACHINE_VSID },
 
     /* VSID-specific items */
-    { ACTION_PSID_LOAD,                 "psid-load",            "Load PSID file",           VICE_MACHINE_VSID },
-    { ACTION_PSID_OVERRIDE_TOGGLE,      "psid-override-toggle", "Override PSID settings",   VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_1,            "psid-subtune-1",       "Play subtune #1",          VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_2,            "psid-subtune-2",       "Play subtune #2",          VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_3,            "psid-subtune-3",       "Play subtune #3",          VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_4,            "psid-subtune-4",       "Play subtune #4",          VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_5,            "psid-subtune-5",       "Play subtune #5",          VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_6,            "psid-subtune-6",       "Play subtune #6",          VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_7,            "psid-subtune-7",       "Play subtune #7",          VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_8,            "psid-subtune-8",       "Play subtune #8",          VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_9,            "psid-subtune-9",       "Play subtune #9",          VICE_MACHINE_VSID },
-    { ACTION_PSID_SUBTUNE_10,           "psid-subtune-10",      "Play subtune #10",         VICE_MACHINE_VSID },
+    { ACTION_PSID_LOAD,                 "psid-load",                "Load PSID file",           VICE_MACHINE_VSID },
+    { ACTION_PSID_OVERRIDE_TOGGLE,      "psid-override-toggle",     "Override PSID settings",   VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_1,            "psid-subtune-1",           "Select subtune #1",        VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_2,            "psid-subtune-2",           "Select subtune #2",        VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_3,            "psid-subtune-3",           "Select subtune #3",        VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_4,            "psid-subtune-4",           "Select subtune #4",        VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_5,            "psid-subtune-5",           "Select subtune #5",        VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_6,            "psid-subtune-6",           "Select subtune #6",        VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_7,            "psid-subtune-7",           "Select subtune #7",        VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_8,            "psid-subtune-8",           "Select subtune #8",        VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_9,            "psid-subtune-9",           "Select subtune #9",        VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_10,           "psid-subtune-10",          "Select subtune #10",       VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_NEXT,         "psid-subtune-next",        "Select next subtune",      VICE_MACHINE_VSID },
+    { ACTION_PSID_SUBTUNE_PREVIOUS,     "psid-subtune-previous",    "Select previous subtune",  VICE_MACHINE_VSID },
+
+    { ACTION_PSID_PLAY,                 "psid-play",                "Play",                     VICE_MACHINE_VSID },
+    { ACTION_PSID_PAUSE,                "psid-play",                "Pause playback",           VICE_MACHINE_VSID },
+    { ACTION_PSID_STOP,                 "psid-stop",                "Stop playback",            VICE_MACHINE_VSID },
+    { ACTION_PSID_FFWD,                 "psid-ffwd",                "Fast forward",             VICE_MACHINE_VSID },
 
     { ACTION_INVALID, NULL, NULL, 0 }
 };
