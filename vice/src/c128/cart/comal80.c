@@ -225,7 +225,7 @@ int c128comal80_crt_attach(FILE *fd, uint8_t *rawcart)
     crt_chip_header_t chip;
     int n;
 
-    DBG(("c128comal80_crt_attach ptr:%p\n", rawcart));
+    DBG(("c128comal80_crt_attach ptr:%p\n", (void*)rawcart));
 
     for (n = 0; n < 6; n++) {
         if (crt_read_chip_header(&chip, fd)) {

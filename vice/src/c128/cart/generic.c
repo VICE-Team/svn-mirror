@@ -56,7 +56,7 @@ static const export_resource_t export_res = {
 
 void c128generic_config_setup(uint8_t *rawcart)
 {
-    DBG(("c128generic_config_setup(ptr:%p)\n", rawcart));
+    DBG(("c128generic_config_setup(ptr:%p)\n", (void*)rawcart));
     /* copy loaded cartridge data into actually used ROM array */
     memcpy(&ext_function_rom[0], rawcart, EXTERNAL_FUNCTION_ROM_SIZE);
 }

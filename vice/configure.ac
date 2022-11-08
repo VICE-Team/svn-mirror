@@ -5,8 +5,8 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 dnl Set VICE version number
-m4_define(vice_version_major, 4)
-m4_define(vice_version_minor, 0)
+m4_define(vice_version_major, 3)
+m4_define(vice_version_minor, 7)
 m4_define(vice_version_build, 0)
 m4_define(vice_version_label, dev)
 
