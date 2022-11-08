@@ -217,7 +217,7 @@ static void c128cartridge_config_init(int type)
 /* copy data from rawcart into actually used ROM array(s). (called from c64carthooks:cart_attach()) */
 static void c128cartridge_config_setup(int type, uint8_t *rawcart)
 {
-    DBG(("c128cartridge_config_setup(ptr: 0x%p)\n", rawcart));
+    DBG(("c128cartridge_config_setup(ptr: 0x%p)\n", (void*)rawcart));
 
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
@@ -245,7 +245,7 @@ static int c128cartridge_attach_crt(int type, FILE *fd, const char *filename, ui
 {
     int res = -1;
 
-    DBG(("c128cartridge_attach_crt type: %d fd: %p ptr:%p\n", type, fd, rawcart));
+    DBG(("c128cartridge_attach_crt type: %d fd: %p ptr:%p\n", type, (void*)fd, (void*)rawcart));
 
     switch (type) {
         case CARTRIDGE_C128_MAKEID(CARTRIDGE_C128_GENERIC):
