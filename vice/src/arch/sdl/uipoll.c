@@ -39,6 +39,9 @@
 #include "uimenu.h"
 #include "uipoll.h"
 
+#define QUEUE_INITIAL_SIZE 5
+#define QUEUE_GROW_SIZE 3
+
 static void *queue_lock;
 static SDL_Event *queue;
 static int queue_length;
@@ -76,7 +79,7 @@ static void increase_max_queue_size(void)
     int new_alloc_size;
     SDL_Event *resized_queue;
     
-    new_alloc_size = queue_alloc_size + 1;
+    new_alloc_size = queue_alloc_size + QUEUE_GROW_SIZE;
     resized_queue = lib_malloc(new_alloc_size * sizeof(SDL_Event));
     
     log_message(LOG_DEFAULT, "Increasing SDL message queue size to %d", new_alloc_size);
@@ -105,7 +108,7 @@ void sdl_ui_poll_init(void)
 {
     archdep_mutex_create(&queue_lock);
     
-    queue_alloc_size    = 1;
+    queue_alloc_size    = QUEUE_INITIAL_SIZE;
     queue               = lib_malloc(queue_alloc_size * sizeof(SDL_Event));
 }
 
