@@ -38,7 +38,6 @@
 #include "video.h"
 
 #include <gtk/gtk.h>
-#include <pthread.h>
 
 
 /** \brief  Enum for rendering backends for the Gtk3 port
@@ -70,7 +69,10 @@ typedef struct video_canvas_s {
     unsigned int created;
 
     /** \brief Used to coordinate vice thread access */
-    pthread_mutex_t lock;
+    void *lock;
+
+    /** \brief A queue of rendered backbuffers ready to be displayed */
+    void *render_queue;
 
     /** \brief Top-level widget that contains the full contents of the
      *         machine window. */
@@ -135,6 +137,9 @@ typedef struct video_canvas_s {
     /** \brief Drawing buffer as seen by the emulator core. */
     struct draw_buffer_s *draw_buffer;
 
+    /** \brief Drawing buffer as seen by the emulator core. */
+    struct draw_buffer_s *draw_buffer_vsid;
+
     /** \brief Display window as seen by the emulator core. */
     struct viewport_s *viewport;
 
@@ -193,22 +198,11 @@ typedef struct vice_renderer_backend_s {
      *                deleted
      */
     void (*destroy_context)(video_canvas_t *canvas);
-    /** \brief Render pixels in the specified rectangle.
-     *
-     * This asks the emulator core to update the renderer context.
+    /** \brief A new frame is available for the specified canvase.
      *
      * \param canvas The canvas being rendered to
-     * \param xs     A parameter to forward to video_canvas_render()
-     * \param ys     A parameter to forward to video_canvas_render()
-     * \param xi     X coordinate of the leftmost pixel to update
-     * \param yi     Y coordinate of the topmost pixel to update
-     * \param w      Width of the rectangle to update
-     * \param h      Height of the rectangle to update
      */
-    void (*refresh_rect)(video_canvas_t *canvas,
-                         unsigned int xs, unsigned int ys,
-                         unsigned int xi, unsigned int yi,
-                         unsigned int w, unsigned int h);
+    void (*on_new_backbuffer)(video_canvas_t *canvas);
     /** \brief Queue a redraw operation from the UI thread
      *
      * \param clock The window GtkFrameClock generating the event

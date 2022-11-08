@@ -100,21 +100,17 @@ VICE_ARG_ENABLE_LIST(portaudio,         [  --disable-portaudio     disables Port
 VICE_ARG_ENABLE_LIST(ssi2001,           [  --enable-ssi2001        enables SSI2001 (ISA SID card) support])
 VICE_ARG_ENABLE_LIST(static-lame,       [  --enable-static-lame    enable static LAME linking])
 
-
 dnl
 dnl Graphics options
 dnl
 VICE_ARG_WITH_LIST(gif,                 [  --with-gif              use GIF screenshot system])
 VICE_ARG_WITH_LIST(png,                 [  --without-png           do not use the PNG screenshot system])
 VICE_ARG_ENABLE_LIST(ffmpeg,            [  --enable-ffmpeg         enable FFmpeg support])
-dnl Only supported for SDL1
-VICE_ARG_ENABLE_LIST(hwscale,           [  --disable-hwscale       disables GPU scaling of emulated screen (SDL1 UI only)])
 
 
 dnl
 dnl Misc build options
 dnl
-
 VICE_ARG_WITH_LIST(readline,            [  --without-readline      do not try to use the system readline library])
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
 VICE_ARG_ENABLE_LIST(arch,              [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
@@ -147,7 +143,6 @@ dnl
 dnl UI options
 dnl
 VICE_ARG_ENABLE_LIST(headlessui,        [  --enable-headlessui     enables building without a UI])
-VICE_ARG_ENABLE_LIST(sdl1ui,            [  --enable-sdl1ui         enables SDL 1.2 UI support])
 VICE_ARG_ENABLE_LIST(sdl2ui,            [  --enable-sdl2ui         enables SDL 2.x UI support])
 VICE_ARG_ENABLE_LIST(gtk3ui,            [  --enable-gtk3ui         enables GTK3 UI support])
 
@@ -180,8 +175,8 @@ AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
 
 dnl check for conflicting options
-VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-gtk3ui --enable-headlessui], [UI])
-AS_IF([test x"$enable_gtk3ui" = "xno" -a x"$enable_sdl1ui" = "xno" -a x"$enable_sdl2ui" = "xno" -a x"$enable_headlessui" = "xno"],
+VICE_ARG_LIST_AT_MOST_ONE([--enable-sdl2ui --enable-gtk3ui --enable-headlessui], [UI])
+AS_IF([test x"$enable_gtk3ui" = "xno" -a x"$enable_sdl2ui" = "xno" -a x"$enable_headlessui" = "xno"],
       [AC_MSG_ERROR([You cannot disable all GUIs])])
 
 dnl Try to find out which system we are on...
@@ -439,7 +434,6 @@ HAVE_FFMPEG_SWSCALE_SUPPORT="no "
 HAVE_FONTCONFIG_SUPPORT="no "
 HAVE_GIF_SUPPORT="no "
 HAVE_HARDSID_SUPPORT="no "
-HAVE_HWSCALE_SUPPORT="no "
 HAVE_IOSID_SUPPORT="no "
 HAVE_IPV6_SUPPORT="no "
 HAVE_LIBIEEE1284_SUPPORT="no "
@@ -525,7 +519,7 @@ PKG_PROG_PKG_CONFIG
 SOUND_DRIVERS=""
 
 dnl Check if a GUI order check needs to be done
-AS_IF([test x"$enable_gtk3ui" != "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"],
+AS_IF([test x"$enable_gtk3ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"],
       [check_guis=yes])
 
 dnl Check if gtk3 ui should be checked
@@ -1106,24 +1100,28 @@ if test x"$enable_openmp" != "xno"; then
   dnl It's probably there on Windows and Linux, probably not on macOS.
   dnl
 
-  TEST_OPENMP_C=" int thread_count = 0;
-                  #pragma omp parallel reduction(+:thread_count)
-                  thread_count += 1;
-                  if (thread_count > 1)
-                    return 0;
-                  return 1;"
+  TEST_OPENMP_C=" #include <omp.h>
+                  int main(int argc, char **argv)
+                  {
+                    int thread_count = 0;
+                    #pragma omp parallel reduction(+:thread_count)
+                    thread_count += 1;
+                    if (thread_count > 1)
+                      return 0;
+                    return omp_get_num_threads();
+                  }"
 
   AC_MSG_CHECKING([for native OpenMP])
   ORIG_CFLAGS="$CFLAGS"
   CFLAGS="$CFLAGS -fopenmp"
-  AC_TRY_LINK([ #include <omp.h> ],
-              [ $TEST_OPENMP_C ],
+  AC_TRY_RUN( [ $TEST_OPENMP_C ],
               [ AC_MSG_RESULT(yes)
                 have_openmp="yes"
                 VICE_CFLAGS="$VICE_CFLAGS -fopenmp"
                 VICE_CXXFLAGS="$VICE_CXXFLAGS -fopenmp"
                 VICE_LDFLAGS="$VICE_LDFLAGS -fopenmp" ],
-              [ AC_MSG_RESULT(no) ])
+              [ AC_MSG_RESULT(no) ],
+              [ AC_MSG_RESULT(no - TODO: cross compile OpenMP link check)])
   CFLAGS=$ORIG_CFLAGS
 
   if test x"$have_openmp" = "xno"; then
@@ -1135,16 +1133,13 @@ if test x"$enable_openmp" != "xno"; then
       AC_MSG_CHECKING([for MacPorts / Homebrew OpenMP])
       ORIG_CFLAGS="$CFLAGS"
       CFLAGS="$CFLAGS -Xpreprocessor -fopenmp -lomp"
-      AC_TRY_LINK([ #include <omp.h> ],
-                  [ $TEST_OPENMP_C ],
+      AC_TRY_RUN( [ $TEST_OPENMP_C ],
                   [ AC_MSG_RESULT(yes)
                     have_openmp="yes"
                     VICE_CFLAGS="$VICE_CFLAGS -Xpreprocessor -fopenmp"
                     VICE_CXXFLAGS="$VICE_CXXFLAGS -Xpreprocessor -fopenmp"
-                    LIBS="$LIBS -lomp"
-                    ],
-                  [ AC_MSG_RESULT(no)
-                    CFLAGS=$ORIG_CFLAGS ])
+                    VICE_LDFLAGS="$VICE_LDFLAGS -lomp" ],
+                  [ AC_MSG_RESULT(no) ])
       CFLAGS=$ORIG_CFLAGS
 
       if test x"$have_openmp" = "xno"; then
@@ -1154,6 +1149,11 @@ if test x"$enable_openmp" != "xno"; then
       echo "warning: OpenMP acceleration enabled, but not available"
     fi
   fi
+fi
+
+if test x"$have_openmp" = "xyes"; then
+  HAVE_OPENMP_SUPPORT="yes"
+  AC_DEFINE(HAVE_OPENMP,,[The compilation environment supports OpenMP.])
 fi
 
 
@@ -1287,15 +1287,9 @@ if test x"$check_gtk3" = "xyes"; then
 
     dnl now that the GTK3 UI support has been detected, define enable_gtk3ui and undefine the others to prevent checks
     enable_gtk3ui=yes
-    enable_sdl1ui=no
     enable_sdl2ui=no
     enable_headlessui=no
     found_gui=gtk3
-
-
-    dnl Gtk3 always has HW scaling
-    AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
-    HAVE_HWSCALE_SUPPORT="yes"
   fi
 fi
 
@@ -1309,11 +1303,10 @@ else
     check_sdl2=yes
   fi
 fi
-if test x"$with_sdlsound" = "xyes" -a x"$enable_sdl1ui" != "xyes"; then
+if test x"$with_sdlsound" = "xyes"; then
   check_sdl2=yes
   if test x"$enable_headlessui" = "xyes" -o x"$enable_gtk3ui" = "xyes"; then
     check_sdlaudio_only=yes
-    enable_sdl1ui=no
     enable_sdl2ui=no
   fi
 fi
@@ -1382,8 +1375,6 @@ if test x"$check_sdl2" = "xyes"; then
       AC_DEFINE(USE_SDL2UI,,[Enable SDL 2.x UI support.])
       AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
       HAVE_FULLSCREEN_SUPPORT="yes"
-      AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
-      HAVE_HWSCALE_SUPPORT="yes"
 
       AC_CHECK_FUNCS(SDL_NumJoysticks)
 
@@ -1392,7 +1383,6 @@ if test x"$check_sdl2" = "xyes"; then
 
       if test x"$check_sdlaudio_only" != "xyes"; then
         enable_gtk3ui=no
-        enable_sdl1ui=no
         enable_sdl2ui=yes
         enable_headlessui=no
         found_gui=sdl2
@@ -1418,247 +1408,9 @@ if test x"$check_sdl2" = "xyes"; then
   fi
 fi
 
-dnl Check if sdl ui should be checked
-if test x"$check_guis" = "xyes"; then
-  if test x"$enable_sdl1ui" != "xno"; then
-    check_sdl1=yes
-  fi
-else
-  if test x"$enable_sdl1ui" = "xyes"; then
-    check_sdl1=yes
-  fi
-fi
-if test x"$with_sdlsound" = "xyes"; then
-  check_sdl1=yes
-fi
-
-
-dnl Check and setup SDL 1.2 compilation.
-if test x"$check_sdl1" = "xyes"; then
-
-  dnl check for the 2 cases where audio needs to be checked
-  check_sdlaudio=no
-  if test x"$ac_cv_lib_SDL2_SDL_OpenAudio" != "xyes"; then
-    if test x"$enable_sdl1ui" = "xno"; then
-      if test x"$with_sdlsound" = "xyes"; then
-        check_sdlaudio=yes
-      fi
-    else
-      check_sdlaudio=yes
-    fi
-  fi
-
-  dnl fail if SDL ui was requested
-  if test x"$sdl_config" = "xno" -a x"$enable_sdl1ui" = "xyes"; then
-    AC_MSG_ERROR([SDL UI requested, but sdl-config is missing])
-  fi
-
-  dnl only continue if sdl-config was found
-  if test x"$sdl_config" != "xno"; then
-    user_cflags="$CFLAGS"
-    user_cxxflags="$CXXFLAGS"
-    old_libs=$LIBS
-
-    CFLAGS="$VICE_CFLAGS `$sdl_config --cflags`"
-    CXXFLAGS="$VICE_CXXFLAGS `$sdl_config --cflags`"
-    LIBS="$LIBS `$sdl_config --libs`"
-
-    dnl only do if audio needs to be checked
-    if test x"$check_sdlaudio" = "xyes"; then
-      AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
-                       [use_sdl_prefix=yes;
-                        USE_SDL_AUDIO_SUPPORT="yes";
-                        AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
-                        AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
-                       [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                       [CFLAGS="$user_cflags"; CXXFLAGS="$old_cxxflags"; LIBS=$old_libs; break])
-
-      if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
-        unset ac_cv_lib_SDL_SDL_OpenAudio
-        AC_CHECK_HEADERS(SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
-                         [use_sdl_prefix=no;
-                          USE_SDL_AUDIO_SUPPORT="yes";
-                          AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
-                         [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                         [CFLAGS="$old_cflags"; CXXFLAGS="$old_cxxflags"; LIBS=$old_libs; break])
-      fi
-
-      dnl fail if --with-sdlsound was given
-      if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
-        if test x"$with_sdlsound" = "xyes"; then
-          AC_MSG_ERROR([SDL sound support missing])
-        fi
-      else
-        SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
-      fi
-    fi
-
-    dnl only check if SDL 1.2 ui is needed
-    if test x"$enable_sdl1ui" != "xno"; then
-      AC_CHECK_HEADERS(SDL/SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
-                         [use_sdl_prefix=yes;
-                          AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
-                          AC_DEFINE(USE_SDLUI,,[Enable SDL 1.2 UI support.])],
-                         [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                         [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break])
-
-        if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes"; then
-          unset ac_cv_lib_SDL_SDL_SetVideoMode
-          AC_CHECK_HEADERS(SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
-                           [use_sdl_prefix=no;
-                            AC_DEFINE(USE_SDLUI,,[Enable SDL 1.2 UI support.])],
-                           [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                           [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
-        fi
-
-        dnl fail if SDL 1.2 ui was requested
-        if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes" -a x"$enable_sdl1ui" = "xyes"; then
-          AC_MSG_ERROR([SDL 1.2 headers and/or libraries missing])
-        fi
-
-      dnl only continue if SDL headers/libs are present
-      if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" = "xyes"; then
-        AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
-        HAVE_FULLSCREEN_SUPPORT="yes"
-
-        AC_CHECK_FUNCS(SDL_NumJoysticks)
-
-        if test x"$enable_hwscale" != "xno"; then
-          if test x"$is_unix_macosx" = "xyes" -o x"$is_win32" = "xyes"; then
-            AC_MSG_CHECKING(whether we can use the OpenGL Framework)
-            old_LIBS="$LIBS"
-            if test x"$is_unix_macosx" = "xyes"; then
-              LIBS="$LIBS -framework OpenGL"
-            else
-              LIBS="$LIBS -lopengl32"
-            fi
-            if test x"$use_sdl_prefix" = "xyes"; then
-              AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
-                          [glViewport(1,2,3,4)],
-                          [AC_MSG_RESULT(yes);
-                           have_opengl_lib=yes],
-                          [AC_MSG_RESULT(no);
-                           LIBS="$old_LIBS"])
-            else
-              AC_TRY_LINK([#include <SDL_opengl.h>],
-                          [glViewport(1,2,3,4)],
-                          [AC_MSG_RESULT(yes);
-                           have_opengl_lib=yes],
-                          [AC_MSG_RESULT(no);
-                           LIBS="$old_LIBS"])
-            fi
-          else
-            AC_SEARCH_LIBS(glViewport, [GL], [have_opengl_lib=yes], [have_opengl_lib=no])
-          fi
-
-          if test x"$have_opengl_lib" != "xyes"; then
-            AC_MSG_ERROR(The SDL 1.2 UI requires OpenGL for hardware scaling. Install OpenGL development headers or set --disable-hwscale to disable scaling.)
-          fi
-        fi
-
-        if test x"$enable_hwscale" != "xno"; then
-          AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
-          HAVE_HWSCALE_SUPPORT="yes"
-        fi
-
-        dnl check for the SDL_main.h header
-        if test x"$use_sdl_prefix" = "xyes"; then
-          AC_CHECK_HEADERS(SDL/SDL_main.h)
-        else
-          AC_CHECK_HEADERS(SDL_main.h)
-        fi
-
-        AC_MSG_CHECKING(whether we can use the SDLmain library)
-        old_LIBS="$LIBS"
-        LIBS="$LIBS -lSDLmain -lSDL $EXTRA_SDL_LIBS"
-        if test x"$use_sdl_prefix" = "xyes"; then
-          AC_TRY_LINK([#include <SDL/SDL_main.h>
-                       int main(int argc, char *argv[])
-                       { return 0; }
-                       #undef main
-                       #define main something_else],
-                      [return 0;],
-                      [AC_MSG_RESULT(yes);
-                       have_sdlmain=yes],
-                      [AC_MSG_RESULT(no);
-                       LIBS="$old_LIBS"])
-        else
-          AC_TRY_LINK([#include <SDL_main.h>
-                       int main(int argc, char *argv[])
-                       { return 0; }
-                       #undef main
-                       #define main something_else],
-                      [return 0;],
-                      [AC_MSG_RESULT(yes);
-                       have_sdlmain=yes],
-                      [AC_MSG_RESULT(no);
-                       LIBS="$old_LIBS"])
-        fi
-
-        if test x"$have_sdlmain" != "xyes"; then
-          AC_MSG_CHECKING(whether we can use the SDLmain library when adding -lmingw32)
-          old_LIBS="$LIBS"
-          LIBS="$LIBS -lmingw32 -lSDLmain -lSDL"
-          if test x"$use_sdl_prefix" = "xyes"; then
-            AC_TRY_LINK([#include <SDL/SDL_main.h>
-                         int main(int argc, char *argv[])
-                         { return 0; }
-                         #undef main
-                         #define main something_else],
-                        [return 0;],
-                        [AC_MSG_RESULT(yes);
-                         have_sdlmain=yes],
-                        [AC_MSG_RESULT(no);
-                         LIBS="$old_LIBS"])
-          else
-            AC_TRY_LINK([#include <SDL_main.h>
-                         int main(int argc, char *argv[])
-                         { return 0; }
-                         #undef main
-                         #define main something_else],
-                        [return 0;],
-                        [AC_MSG_RESULT(yes);
-                         have_sdlmain=yes],
-                        [AC_MSG_RESULT(no);
-                         LIBS="$old_LIBS"])
-          fi
-        fi
-
-        if test x"$have_sdlmain" = "xyes"; then
-          AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
-        fi
-
-        dnl Require SDL_image
-        dnl The version number I sucked out of my thumb, on my Debian the
-        dnl version is 1.2.12
-        dnl
-        PKG_CHECK_MODULES(SDL_IMAGE,
-                          [SDL_image >= 1.2.0],
-                          [have_sdl_image=yes],
-                          [have_sdl_image=no; AC_MSG_RESULT([no])])
-        if test x"$have_sdl_image" = "xyes"; then
-          LIBS="$LIBS -lSDL_image"
-        else
-          AC_MSG_ERROR([SDL_image1.2-dev is required.])
-        fi
-
-        dnl now that the SDL1 UI support has been detected, define enable_sdl1ui and undefine the others to prevent checks
-        if test x"$check_sdlaudio_only" != "xyes"; then
-          enable_gtk3ui=no
-          enable_sdl1ui=yes
-          enable_sdl2ui=no
-          enable_headlessui=no
-          found_gui=sdl1
-        fi
-      fi
-    fi
-  fi
-fi
-
 if test x"$enable_headlessui" = "xyes"; then
   AC_DEFINE(USE_HEADLESSUI,,[Enable Headless UI support.])
   enable_gtk3ui=no
-  enable_sdl1ui=no
   enable_sdl2ui=no
   found_gui=headless
 fi
@@ -1674,20 +1426,6 @@ if test x"$enable_debug_gtk3ui" = "xyes" -a x"$enable_gtk3ui" != "xyes"; then
     AC_MSG_ERROR([Requested Gtk3 UI debugging, but the requested UI isn't Gtk3.])
 fi
 
-
-dnl Check if --disable-hwscale was requested for the Gtk3 UI
-if test x"$enable_gtk3ui" = "xyes" -a x"$enable_hwscale" = "xno"; then
-  AC_MSG_ERROR([The option `--disable-hwscale` is illegal for the Gtk3 UI. Please remove the option and make sure the OpenGL development headers are installed.])
-fi
-
-
-dnl Check if --disable-hwscale was requested for the Gtk3 UI
-if test x"$enable_sdl2ui" = "xyes" -a x"$enable_hwscale" = "xno"; then
-  AC_MSG_ERROR([The option `--disable-hwscale` is illegal for the SDL2 UI.])
-fi
-
-
-
 dnl check if sdl sound was requested but not found
 if test x"$with_sdlsound" = "xyes"; then
   if test x"$USE_SDL_AUDIO_SUPPORT" != "xyes"; then
@@ -1695,24 +1433,18 @@ if test x"$with_sdlsound" = "xyes"; then
   fi
 fi
 
-dnl are we putting emu into a background thread (requires UI code support)
-if test x"$enable_gtk3ui" = "xyes"; then
-  AC_DEFINE(USE_VICE_THREAD,,[UI and emu each on different threads])
-  VICE_CFLAGS="$VICE_CFLAGS -pthread"
-  VICE_CXXFLAGS="$VICE_CXXFLAGS -pthread"
-  VICE_LDFLAGS="$VICE_LDFLAGS -pthread"
-  show_multithreaded="yes"
+dnl we are putting emu into a background thread
+VICE_CFLAGS="$VICE_CFLAGS -pthread"
+VICE_CXXFLAGS="$VICE_CXXFLAGS -pthread"
+VICE_LDFLAGS="$VICE_LDFLAGS -pthread"
 
+if test x"$enable_gtk3ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
   if test x"$is_unix_x11" = x"yes" -a x"$is_unix_macosx" != x"yes"; then
-    dnl xlib is used for adding a native child window for opengl rendering
     LIBS="$LIBS -lX11"
   fi
-
-else
-  show_multithreaded="no"
 fi
 
-if test x"$is_win32" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
+if test x"$is_win32" = "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
   dinput_header_no_lib="no"
 
   AC_CHECK_HEADER(dinput.h,
@@ -2043,7 +1775,7 @@ AC_SUBST(DYNLIB_LIBS)
 
 dnl ----- Joystick support -----
 JOY_LIBS=
-if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
+if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [
                    AC_CHECK_DECL(JS_VERSION,[
@@ -2112,7 +1844,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl
   fi
 fi
 
-if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
+if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdl2ui" != "xyes" -a x"$enable_headlessui" != "xyes"; then
   dnl --- Mac joystick support ---
 
   dnl check for HID Manager
@@ -2697,49 +2429,34 @@ fi
 dsound_header_no_lib="no"
 
 if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
-    if test x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes"; then
-        SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
-        AC_MSG_CHECKING(whether we can use directx sound)
-        AC_CHECK_HEADER(dsound.h,
-              [ AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.])
-                USE_DXSOUND_SUPPORT="yes" ]
-              [ SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o" ]
-              [ AC_MSG_CHECKING(for -ldsound) ]
-              [ old_LIBS="$LIBS" ]
-              [ LIBS="$LIBS -ldsound" ]
-              [ AC_LINK_IFELSE([
-                               AC_LANG_PROGRAM(
-                                               [#define DIRECTSOUND_VERSION 0x500
-                                                #include <dsound.h>],
-                                               [LPDIRECTSOUNDBUFFER buffer=NULL;
-                                                IDirectSoundBuffer_Restore(buffer);]
-                                              )
-                               ],
-                            [ AC_DEFINE(HAVE_DSOUND_LIB, [], [dsound.lib or libdsound.a are present]) ]
-                            [ AC_MSG_RESULT(yes) ]
-                            [ SOUND_LIBS="$SOUND_LIBS -ldsound" ],
-                            [ AC_MSG_RESULT(no) ]
-                            [ dsound_header_no_lib="yes" ]
-              )]
-              [ LIBS="$old_LIBS" ]
-        )
+    SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
+    AC_MSG_CHECKING(whether we can use directx sound)
+    AC_CHECK_HEADER(dsound.h,
+          [ AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.])
+            USE_DXSOUND_SUPPORT="yes" ]
+          [ SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o" ]
+          [ AC_MSG_CHECKING(for -ldsound) ]
+          [ old_LIBS="$LIBS" ]
+          [ LIBS="$LIBS -ldsound" ]
+          [ AC_LINK_IFELSE([
+                            AC_LANG_PROGRAM(
+                                            [#define DIRECTSOUND_VERSION 0x500
+                                            #include <dsound.h>],
+                                            [LPDIRECTSOUNDBUFFER buffer=NULL;
+                                            IDirectSoundBuffer_Restore(buffer);]
+                                          )
+                            ],
+                        [ AC_DEFINE(HAVE_DSOUND_LIB, [], [dsound.lib or libdsound.a are present]) ]
+                        [ AC_MSG_RESULT(yes) ]
+                        [ SOUND_LIBS="$SOUND_LIBS -ldsound" ],
+                        [ AC_MSG_RESULT(no) ]
+                        [ dsound_header_no_lib="yes" ]
+          )]
+          [ LIBS="$old_LIBS" ]
+    )
 
-        if test x"$dsound_header_no_lib" = "xyes" -o x"$dinput_header_no_lib" = "xyes"; then
-              AC_MSG_CHECKING(if CoInitialize can be linked)
-              LIBS="$LIBS -lole32"
-              AC_LINK_IFELSE([
-                               AC_LANG_PROGRAM(
-                                               [#include <objbase.h>],
-                                               [CoInitialize(NULL);]
-                                              )
-                               ],
-                               [ AC_MSG_RESULT(yes) ],
-                               [ AC_MSG_ERROR(no) ]
-                              )
-        fi
-    else
-        SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
-    fi
+    dnl Needed for CoInitialize
+    LIBS="$LIBS -lole32"
 fi
 
 dnl Do not remove (yet), for some reason these things are required even for
@@ -3122,7 +2839,7 @@ if test x"$is_unix_x11" = "xyes"; then
               [-lcurses],)
     fi
 
-    if test x"$enable_sdl1ui" != "xno" -o x"$enable_sdl2ui" != "xno"; then
+    if test x"$enable_sdl2ui" != "xno"; then
       READLINE=""
     fi
 
@@ -3133,7 +2850,7 @@ if test x"$is_unix_x11" = "xyes"; then
     fi
     LIBS="${old_LIBS}"
   else
-    if test x"$enable_sdl1ui" != "xyes" -a x"$enable_sdl2ui" != "xyes"; then
+    if test x"$enable_sdl2ui" != "xyes"; then
       READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
     fi
   fi
@@ -3326,9 +3043,8 @@ fi
 
 
 dnl Setup the system-specific object files.
-AM_CONDITIONAL(USE_SDLUI, false)
 AM_CONDITIONAL(USE_SDL2UI, false)
-if test x"$enable_sdl1ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
+if test x"$enable_sdl2ui" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/sdl"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/sdl"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
@@ -3341,13 +3057,8 @@ if test x"$enable_sdl1ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
 
-  if test x"$enable_sdl2ui" = "xyes"; then
-    AM_CONDITIONAL(USE_SDL2UI, true)
-    SDLCONFIG="$sdl2_config"
-  else
-    AM_CONDITIONAL(USE_SDLUI, true)
-    SDLCONFIG="$sdl_config"
-  fi
+  AM_CONDITIONAL(USE_SDL2UI, true)
+  SDLCONFIG="$sdl2_config"
   AC_SUBST(SDLCONFIG)
 fi
 
@@ -3463,7 +3174,7 @@ if test x"$is_unix" = "xyes"; then
 elif test x"$is_win32" = "xyes"; then
   AC_DEFINE(WINDOWS_COMPILE,,[Are we compiling for win32?])
 
-  if test x"$enable_sdl1ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
+  if test x"$enable_sdl2ui" = "xyes"; then
     if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
       SDL_EXTRA_LIBS="$UI_LIBS -lwinmm -lws2_32"
     else
@@ -3508,7 +3219,7 @@ AC_SUBST(WINDRES_LIB)
 
 PLATFORM_DOX_FLAGS=""
 if test x"$enable_platformdox" = "xyes"; then
-  if test x"$enable_sdl1ui" = "xyes" -o x"$enable_sdl2ui" = "xyes"; then
+  if test x"$enable_sdl2ui" = "xyes"; then
     PLATFORM_DOX_FLAGS="platformsdl"
   fi
   if test x"$enable_gtk3ui" = "xyes"; then
@@ -3612,6 +3323,7 @@ AC_OUTPUT([Makefile
            src/arch/gtk3/widgets/base/Makefile
            src/arch/sdl/Makefile
            src/arch/headless/Makefile
+           src/arch/headless/uiclient/Makefile
            src/arch/shared/Makefile
            src/arch/shared/hwsiddrv/Makefile
            src/arch/shared/iodrv/Makefile
@@ -3713,9 +3425,6 @@ fi
 
 dnl construct show_gui
 show_gui="Unknown"
-if test x"$enable_sdl1ui" = "xyes"; then
-    show_gui="SDL 1.2"
-fi
 
 if test x"$enable_sdl2ui" = "xyes"; then
     show_gui="SDL 2.x"
@@ -3754,7 +3463,6 @@ echo ""
 echo "Platform canonical : $ac_cv_host"
 echo "Architecture       : $show_arch"
 echo "GUI                : $show_gui"
-echo "Multithreaded UI   : $show_multithreaded"
 echo "OpenMP             : $have_openmp"
 if test x"$program_prefix" = "xNONE"; then
     echo "Program prefix     : (none) (--program-prefix)"
@@ -3765,13 +3473,6 @@ if test x"$program_suffix" = "xNONE"; then
     echo "Program suffix     : (none) (--program-suffix)"
 else
     echo "Program suffix     : $program_suffix (--program-suffix)"
-fi
-
-echo ""
-echo "SCREEN/UI"
-echo "---------"
-if test x"$real_arch" != "xBeOS"; then
-    echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
 fi
 
 echo ""

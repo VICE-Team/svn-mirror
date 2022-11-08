@@ -30,13 +30,15 @@
 #ifndef VICE_SOCKET_H
 #define VICE_SOCKET_H
 
+#include <stddef.h>
+
 #include "types.h"
 
 typedef struct vice_network_socket_s vice_network_socket_t;
 
 typedef struct vice_network_socket_address_s vice_network_socket_address_t;
 
-vice_network_socket_t * vice_network_server(const vice_network_socket_address_t * server_address);
+vice_network_socket_t * vice_network_server(const char *service_name, const vice_network_socket_address_t * server_address);
 vice_network_socket_t * vice_network_client(const vice_network_socket_address_t * server_address);
 
 vice_network_socket_address_t * vice_network_address_generate(const char * address, unsigned short port);
@@ -48,9 +50,13 @@ int vice_network_socket_close(vice_network_socket_t * sockfd);
 
 int vice_network_send(vice_network_socket_t * sockfd, const void * buffer, size_t buffer_length, int flags);
 int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t buffer_length, int flags);
+int vice_network_available_bytes(vice_network_socket_t * sockfd);
 
 int vice_network_select_poll_one(vice_network_socket_t * readsockfd);
 int vice_network_select_multiple(vice_network_socket_t ** readsockfd);
+
+int vice_network_get_socket(vice_network_socket_t *socket);
+unsigned short vice_network_get_ipv4_port(vice_network_socket_t *address);
 
 int vice_network_get_errorcode(void);
 

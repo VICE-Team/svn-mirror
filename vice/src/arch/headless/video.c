@@ -33,6 +33,7 @@
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
+#include "uiserver.h"
 #include "videoarch.h"
 #include "video.h"
 
@@ -70,7 +71,7 @@ int video_arch_get_active_chip(void)
  */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 
@@ -80,7 +81,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
  */
 int video_arch_cmdline_options_init(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     if (machine_class != VICE_MACHINE_VSID) {
         return cmdline_register_options(cmdline_options);
@@ -95,7 +96,7 @@ int video_arch_cmdline_options_init(void)
  */
 int video_arch_resources_init(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     if (machine_class != VICE_MACHINE_VSID) {
         return resources_register_int(resources_int);
@@ -106,18 +107,7 @@ int video_arch_resources_init(void)
 /** \brief Clean up any memory held by arch-specific video resources. */
 void video_arch_resources_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
-}
-
-/** \brief Query whether a canvas is resizable.
- *  \param canvas The canvas to query
- *  \return TRUE if the canvas can be resized.
- */
-char video_canvas_can_resize(video_canvas_t *canvas)
-{
-    /* printf("%s\n", __func__); */
-
-    return 0;
+    printf("%s\n", __func__);
 }
 
 /** \brief Create a new video_canvas_s.
@@ -134,7 +124,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
+
+    uiserver_add_screen(canvas);
 
     canvas->created = 1;
 
@@ -147,36 +139,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
  */
 void video_canvas_destroy(struct video_canvas_s *canvas)
 {
-    /* printf("%s\n", __func__); */
-}
-
-/** \brief Update the display on a video canvas to reflect the machine
- *         state.
- * \param canvas The canvas to update.
- * \param xs     A parameter to forward to video_canvas_render()
- * \param ys     A parameter to forward to video_canvas_render()
- * \param xi     X coordinate of the leftmost pixel to update
- * \param yi     Y coordinate of the topmost pixel to update
- * \param w      Width of the rectangle to update
- * \param h      Height of the rectangle to update
- */
-void video_canvas_refresh(struct video_canvas_s *canvas,
-                          unsigned int xs, unsigned int ys,
-                          unsigned int xi, unsigned int yi,
-                          unsigned int w, unsigned int h)
-{
-    /* printf("%s\n", __func__); */
-}
-
-/** \brief Update canvas size to match the draw buffer size requested
- *         by the emulation core.
- * \param canvas The video canvas to update.
- * \param resize_canvas Ignored - the canvas will always resize.
- */
-
-void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
-{
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }
 
 /** \brief Assign a palette to the canvas.
@@ -187,7 +150,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 int video_canvas_set_palette(struct video_canvas_s *canvas,
                              struct palette_s *palette)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     canvas->palette = palette;
 
@@ -199,7 +162,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
  */
 int video_init(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     return 0;
 }
@@ -207,5 +170,17 @@ int video_init(void)
 /** \brief Perform any frontend-specific uninitialization. */
 void video_shutdown(void)
 {
+    printf("%s\n", __func__);
+}
+
+void video_canvas_new_frame_hook(struct video_canvas_s *canvas)
+{
     /* printf("%s\n", __func__); */
+}
+
+void video_canvas_on_new_backbuffer(video_canvas_t *canvas)
+{
+    /* printf("%s\n", __func__); */
+
+    uiserver_on_new_backbuffer(canvas);
 }

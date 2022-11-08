@@ -38,6 +38,7 @@
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "menu_common.h"
 #include "raster.h"
 #include "resources.h"
@@ -47,6 +48,7 @@
 #include "ui.h"
 #include "uihotkey.h"
 #include "uimenu.h"
+#include "uipoll.h"
 #include "util.h"
 #include "video.h"
 #include "videoarch.h"
@@ -64,6 +66,13 @@
 #else
 #define DBG(x)
 #endif
+
+typedef struct readline_result_s {
+    int got_key;
+    SDLKey key;
+    SDLMod mod;
+    Uint16 c_uni;
+} readline_result_t;
 
 int sdl_menu_state = 0;
 int sdl_pause_state = 0;
@@ -381,7 +390,7 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
     const char *itemdata;
     uint8_t oldbg = 0, oldfg = 1;
 
-    if ((item->string == NULL) || (item->string[0] == 0)) {
+    if (item->string == NULL || item->string[0] == 0 || item->type == MENU_ENTRY_HIDDEN) {
         return -1;
     }
 
@@ -484,36 +493,63 @@ dispitemexit:
 static void sdl_ui_menu_redraw(ui_menu_entry_t *menu, const char *title, int offset, int *value_offsets, int cur_offset)
 {
     int i = 0;
+    int y_pos = 0;
+    ui_menu_entry_t *item;
 
     sdl_ui_init_draw_params();
     sdl_ui_clear();
     sdl_ui_display_title(title);
 
     while ((menu[i + offset].string != NULL) && (i <= (menu_draw.max_text_y - MENU_FIRST_Y))) {
-        sdl_ui_display_item(&(menu[i + offset]), i, value_offsets[i + offset], (i == cur_offset));
+        item = &(menu[i + offset]);
+        if (item->type != MENU_ENTRY_HIDDEN) {
+            sdl_ui_display_item(item, y_pos++, value_offsets[i + offset], (i == cur_offset));
+        }
         ++i;
     }
 }
 
 static void sdl_ui_menu_redraw_cursor(ui_menu_entry_t *menu, int offset, int *value_offsets, int cur_offset, int old_offset)
 {
-    int i = 0, n;
+    int i = 0;
+    int y_pos = 0;
+    int n;
+    ui_menu_entry_t *item;
 
     while ((menu[i + offset].string != NULL) && (i <= (menu_draw.max_text_y - MENU_FIRST_Y))) {
+        item = &(menu[i + offset]);
         if (i == cur_offset) {
-            sdl_ui_display_item(&(menu[i + offset]), i, value_offsets[i + offset], 1);
+            if (item->type != MENU_ENTRY_HIDDEN) {
+                sdl_ui_display_item(item, y_pos, value_offsets[i + offset], 1);
+            }
         } else if (i == old_offset) {
-            n = sdl_ui_display_item(&(menu[i + offset]), i, value_offsets[i + offset], 0);
-            sdl_ui_print_eol(MENU_FIRST_X + n, MENU_FIRST_Y + i);
+            if (item->type != MENU_ENTRY_HIDDEN) {
+                n = sdl_ui_display_item(item, y_pos, value_offsets[i + offset], 0);
+                sdl_ui_print_eol(MENU_FIRST_X + n, MENU_FIRST_Y + y_pos);
+            }
+        }
+        if (item->type != MENU_ENTRY_HIDDEN) {
+            y_pos++;
         }
         ++i;
     }
+}
+
+static bool menu_entry_is_navigable(ui_menu_entry_t *menu)
+{
+    if (menu->type == MENU_ENTRY_TEXT || menu->type == MENU_ENTRY_HIDDEN) {
+        return false;
+    }
+
+    return true;
 }
 
 static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *title, int allow_mapping)
 {
     static int last_cur = -1, last_cur_offset = -1;
     int num_items = 0, cur = 0, cur_old = -1, cur_offset = 0, in_menu = 1, redraw = 1;
+    int first_navigable;
+    int last_navigable;
     int *value_offsets = NULL;
     ui_menu_retval_t menu_retval = MENU_RETVAL_DEFAULT;
     int i;
@@ -533,10 +569,22 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
 
     value_offsets = sdl_ui_menu_get_offsets(menu, num_items);
 
-    /* If a subtitle is at the top of the menu, then start at the next line. */
-    if (menu[0].type == MENU_ENTRY_TEXT) {
-        cur = 1;
+    /* Start cursor at the first navigable entry. */
+    while (!menu_entry_is_navigable(&menu[cur])) {
+        cur++;
     }
+    first_navigable = cur;
+    last_navigable = cur;
+    /* Find the last navigable entry */
+    while (menu[++cur].string) {
+        if (menu_entry_is_navigable(&menu[cur])) {
+            last_navigable = cur;
+        }
+    }
+    
+    /* Default to the first navigable entry */
+    cur = first_navigable;
+    
     /* restore last position in main menu */
     if (menu == main_menu) {
         if ((last_cur >= 0) && (last_cur_offset >= 0)) {
@@ -558,24 +606,14 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
         switch (sdl_ui_menu_poll_input()) {
             case MENU_ACTION_HOME:
                 cur_old = cur;
-                /* If a subtitle is at the top of the menu, then start at the next line. */
-                if (menu[0].type == MENU_ENTRY_TEXT) {
-                    cur = 1;
-                } else {
-                    cur = 0;
-                }
+                cur = first_navigable;
                 cur_offset = 0;
                 redraw = 1;
                 break;
             case MENU_ACTION_END:
-                redraw = 1;
-                cur_offset = num_items - (menu_draw.max_text_y - MENU_FIRST_Y);
-                cur = (menu_draw.max_text_y - MENU_FIRST_Y) - 1;
-                if (cur_offset < 0) {
-                    cur += cur_offset;
-                    cur_offset = 0;
-                }
-                break;
+                cur = 0;
+                cur_offset = 0;
+                /* Falls through */
             case MENU_ACTION_UP:
                 cur_old = cur;
                 do {
@@ -594,8 +632,8 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                         }
                         redraw = 1;
                     }
-                /* Skip subtitles and blank lines. */
-                } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                /* Skip subtitles, hidden items, and blank lines. */
+                } while (!menu_entry_is_navigable(&menu[cur + cur_offset]));
                 break;
             case MENU_ACTION_PAGEUP:
                 cur_old = cur;
@@ -606,10 +644,12 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                         } else {
                             if (cur_offset > 0) {
                                 --cur_offset;
+                            } else {
+                                cur = first_navigable;
                             }
                         }
-                    /* Skip subtitles and blank lines. */
-                    } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                    /* Skip subtitles, hidden items, and blank lines. */
+                    } while (!menu_entry_is_navigable(&menu[cur + cur_offset]));
                 }
                 redraw = 1;
                 break;
@@ -626,22 +666,22 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                         cur = cur_offset = 0;
                         redraw = 1;
                     }
-
-                /* Skip subtitles and blank lines. */
-                } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                /* Skip subtitles, hidden items, and blank lines. */
+                } while (!menu_entry_is_navigable(&menu[cur + cur_offset]));
                 break;
             case MENU_ACTION_PAGEDOWN:
                 cur_old = cur;
                 for (i = 0; i < (menu_draw.max_text_y - MENU_FIRST_Y - 1); i++) {
                     do {
-                        if ((cur + cur_offset) < (num_items - 1)) {
+                        //if ((cur + cur_offset) < (num_items - 1)) {
+                        if ((cur + cur_offset) < (last_navigable)) {
                             if (++cur == (menu_draw.max_text_y - MENU_FIRST_Y)) {
                                 --cur;
                                 ++cur_offset;
                             }
                         }
-                    /* Skip subtitles and blank lines. */
-                    } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                    /* Skip subtitles, hidden items, and blank lines. */
+                    } while (!menu_entry_is_navigable(&menu[cur + cur_offset]));
                 }
                 redraw = 1;
                 break;
@@ -671,7 +711,7 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                 }
                 break;
             default:
-                SDL_Delay(10);
+                mainlock_yield_and_sleep(tick_per_second() / 120);
                 break;
         }
     }
@@ -695,6 +735,7 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
     }
 
     switch (item->type) {
+        case MENU_ENTRY_HIDDEN:
         case MENU_ENTRY_OTHER:
         case MENU_ENTRY_OTHER_TOGGLE:
         case MENU_ENTRY_DIALOG:
@@ -722,8 +763,8 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
 /* make a backup of the current emulator screen contents */
 void sdl_ui_create_draw_buffer_backup(void)
 {
-    unsigned int width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-    unsigned int height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    unsigned int width = sdl_active_canvas->draw_buffer->width;
+    unsigned int height = sdl_active_canvas->draw_buffer->height;
 
     draw_buffer_backup = lib_malloc(width * height);
     memcpy(draw_buffer_backup, sdl_active_canvas->draw_buffer->draw_buffer, width * height);
@@ -734,8 +775,8 @@ void sdl_ui_create_draw_buffer_backup(void)
 /* copy the backup of the emulator output back to the canvas */
 void sdl_ui_restore_draw_buffer_backup(void)
 {
-    unsigned int width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-    unsigned int height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    unsigned int width = sdl_active_canvas->draw_buffer->width;
+    unsigned int height = sdl_active_canvas->draw_buffer->height;
 
     if (draw_buffer_backup && draw_buffer_backup_width == width && draw_buffer_backup_height == height) {
         memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
@@ -759,8 +800,8 @@ static void sdl_ui_trap(uint16_t addr, void *data)
 
     DBG(("sdl_ui_trap start\n"));
 
-    width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-    height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    width = sdl_active_canvas->draw_buffer->width;
+    height = sdl_active_canvas->draw_buffer->height;
 
     sdl_ui_create_draw_buffer_backup();
 
@@ -947,56 +988,97 @@ static int sdl_ui_readline_vkbd_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
 static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 {
+    readline_result_t *data;
+    SDL_Event out_event;
+    SDL_Event in_event;
+    int got_key;
+    
+    /*
+     * Text input needs to happen on the main thread
+     */
+        
+    out_event.type = sdl_event_readline_request;
+    SDL_PushEvent(&out_event);
+    
+    /*
+     * Now wait for the result
+     */
+    
+    for (;;) {
+        if (sdl_ui_poll_pop_event(&in_event)) {
+            if (in_event.type == sdl_event_readline_result) {
+
+                /*
+                 * Copy the result key data sent from the main thread
+                 */
+
+                data = in_event.user.data1;
+                
+                *key = data->key;
+                *mod = data->mod;
+                *c_uni = data->c_uni;
+                got_key = data->got_key;
+                
+                lib_free(data);
+                
+                return got_key;
+            }
+        } else {
+            mainlock_yield_and_sleep(tick_per_second() / 60);
+        }
+    }
+}
+
+void sdl_ui_readline_input_impl(void)
+{
+    readline_result_t *result;
     SDL_Event e;
-    int got_key = 0;
+    SDL_Event return_event;
     ui_menu_action_t action = MENU_ACTION_NONE;
     int joynum;
-#ifdef USE_SDL2UI
     int i;
-#endif
+    
+    assert(archdep_thread_current_is_main());
+    
+    result = lib_malloc(sizeof(readline_result_t));
+    result->got_key = 0;
+    result->key = 0;
+    result->mod = KMOD_NONE;
+    result->c_uni = 0;
 
-    *mod = KMOD_NONE;
-    *c_uni = 0;
-
-#ifdef USE_SDL2UI
     SDL_StartTextInput();
-#endif
 
     do {
         action = MENU_ACTION_NONE;
+
+        sdl2_render_deferred(false);
 
         SDL_WaitEvent(&e);
 
         switch (e.type) {
             case SDL_KEYDOWN:
-                *key = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
-                *mod = e.key.keysym.mod;
-#ifdef USE_SDL2UI
+                result->key = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
+                result->mod = e.key.keysym.mod;
+
                 /* For SDL2x only get 'special' keys from keydown event. */
                 for (i = 0; keytable_pc_special[i] != -1; ++i) {
                     SDLKey special = SDL2x_to_SDL1x_Keys(e.key.keysym.sym);
                     if (special == keytable_pc_special[i]) {
-                        *c_uni = special;
-                        got_key = 1;
+                        result->c_uni = special;
+                        result->got_key = 1;
                     }
                 }
-#else
-                *c_uni = e.key.keysym.unicode;
-                got_key = 1;
-#endif
                 break;
 
-#ifdef USE_SDL2UI
             case SDL_TEXTINPUT:
                 if (e.text.text[0] != 0) {
-                    *key = e.text.text[0];
-                    *c_uni = (Uint16)e.text.text[0];
+                    result->key = e.text.text[0];
+                    result->c_uni = (Uint16)e.text.text[0];
                     SDL_StopTextInput();
                     SDL_StartTextInput();
-                    got_key = 1;
+                    result->got_key = 1;
                 }
                 break;
-#endif
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
@@ -1025,21 +1107,21 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
         switch (action) {
             case MENU_ACTION_LEFT:
-                *key = VICE_SDLK_LEFT;
-                got_key = 1;
+                result->key = VICE_SDLK_LEFT;
+                result->got_key = 1;
                 break;
             case MENU_ACTION_RIGHT:
-                *key = VICE_SDLK_RIGHT;
-                got_key = 1;
+                result->key = VICE_SDLK_RIGHT;
+                result->got_key = 1;
                 break;
             case MENU_ACTION_SELECT:
-                *key = VICE_SDLK_RETURN;
-                got_key = 1;
+                result->key = VICE_SDLK_RETURN;
+                result->got_key = 1;
                 break;
             case MENU_ACTION_CANCEL:
             case MENU_ACTION_MAP:
-                *key = PC_VKBD_ACTIVATE;
-                got_key = 1;
+                result->key = PC_VKBD_ACTIVATE;
+                result->got_key = 1;
                 break;
             case MENU_ACTION_UP:
             case MENU_ACTION_DOWN:
@@ -1047,13 +1129,14 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
                 break;
         }
 
-    } while (!got_key);
+    } while (!result->got_key);
 
-#ifdef USE_SDL2UI
     SDL_StopTextInput();
-#endif
-
-    return got_key;
+    
+    /* Pass the result to the VICE thread */
+    return_event.type = sdl_event_readline_result;
+    return_event.user.data1 = result;
+    sdl_ui_poll_push_event(&return_event);
 }
 
 /*
@@ -1250,9 +1333,6 @@ void sdl_ui_activate_pre_action(void)
         sdl_vsid_close();
     }
 
-#ifndef USE_SDL2UI
-    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-#endif
     sdl_menu_state = 1;
     ui_check_mouse_cursor();
     DBG(("sdl_ui_activate_pre_action end\n"));
@@ -1265,9 +1345,6 @@ void sdl_ui_activate_post_action(void)
 
     sdl_menu_state = 0;
     ui_check_mouse_cursor();
-#ifndef USE_SDL2UI
-    SDL_EnableKeyRepeat(0, 0);
-#endif
 
     /* Do not resume sound if in warp mode */
     if (!vsync_get_warp_mode()) {
@@ -1281,7 +1358,7 @@ void sdl_ui_activate_post_action(void)
     sdl_ui_restore_draw_buffer_backup();
 
     /* Force a video refresh */
-    video_canvas_refresh_all(sdl_active_canvas);
+    video_canvas_refresh_all(sdl_active_canvas, true);
     /* SDL mode: prevent core dump - pressing menu key in -console mode causes parent_raster to be NULL */
     if (sdl_active_canvas->parent_raster) {
         raster_force_repaint(sdl_active_canvas->parent_raster);
@@ -1302,7 +1379,7 @@ void sdl_ui_init_draw_params(void)
         sdl_ui_set_menu_params(sdl_active_canvas->index, &menu_draw);
     }
 
-    menu_draw.pitch = sdl_active_canvas->draw_buffer->draw_buffer_pitch;
+    menu_draw.pitch = sdl_active_canvas->draw_buffer->width;
     menu_draw.offset = sdl_active_canvas->geometry->gfx_position.x + menu_draw.extra_x
                        + (sdl_active_canvas->geometry->gfx_position.y + menu_draw.extra_y) * menu_draw.pitch
                        + sdl_active_canvas->geometry->extra_offscreen_border_left;
@@ -1322,7 +1399,7 @@ ui_menu_action_t sdl_ui_menu_poll_input(void)
     ui_menu_action_t retval = MENU_ACTION_NONE;
 
     do {
-        SDL_Delay(20);
+        mainlock_yield_and_sleep(tick_per_second() / 60);
         retval = ui_dispatch_events();
 #ifdef HAVE_SDL_NUMJOYSTICKS
         if (retval == MENU_ACTION_NONE || retval == MENU_ACTION_NONE_RELEASE) {
@@ -1469,6 +1546,7 @@ int sdl_ui_hotkey(ui_menu_entry_t *item)
     }
 
     switch (item->type) {
+        case MENU_ENTRY_HIDDEN:
         case MENU_ENTRY_OTHER:
         case MENU_ENTRY_OTHER_TOGGLE:
         case MENU_ENTRY_RESOURCE_TOGGLE:
@@ -1531,10 +1609,6 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
 
     /* draw previous string (if any), initialize size and cursor position */
     size = i = sdl_ui_print_wrap(new_string, pos_x, &pos_y);
-
-#ifndef USE_SDL2UI
-    SDL_EnableUNICODE(1);
-#endif
 
     do {
         if (i != prev) {
@@ -1649,10 +1723,6 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
         }
     } while (!done);
 
-#ifndef USE_SDL2UI
-    SDL_EnableUNICODE(0);
-#endif
-
     if ((!string_changed && previous) || escaped) {
         lib_free(new_string);
         new_string = NULL;
@@ -1685,7 +1755,7 @@ ui_menu_entry_t *sdl_ui_get_main_menu(void)
 
 void sdl_ui_refresh(void)
 {
-    video_canvas_refresh_all(sdl_active_canvas);
+    video_canvas_refresh_all(sdl_active_canvas, true);
 }
 
 void sdl_ui_scroll_screen_up(void)

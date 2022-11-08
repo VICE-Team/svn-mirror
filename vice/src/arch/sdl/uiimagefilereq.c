@@ -36,6 +36,7 @@
 #include "tapecontents.h"
 #include "imagecontents.h"
 #include "lib.h"
+#include "mainlock.h"
 #include "ui.h"
 #include "uimenu.h"
 #include "uifilereq.h"
@@ -251,7 +252,7 @@ int sdl_ui_image_file_selection_dialog(const char* filename, ui_menu_filereq_mod
                 break;
 
             default:
-                SDL_Delay(10);
+                mainlock_yield_and_sleep(tick_per_second() / 120);
                 break;
         }
     }

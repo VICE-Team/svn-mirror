@@ -47,10 +47,10 @@
 #include "ui.h"
 #include "uistatusbar.h"
 
-#define CANVAS_LOCK() pthread_mutex_lock(&canvas->lock)
-#define CANVAS_UNLOCK() pthread_mutex_unlock(&canvas->lock)
-#define RENDER_LOCK() pthread_mutex_lock(&context->render_lock)
-#define RENDER_UNLOCK() pthread_mutex_unlock(&context->render_lock)
+#define CANVAS_LOCK() archdep_mutex_lock(canvas->lock)
+#define CANVAS_UNLOCK() archdep_mutex_unlock(canvas->lock)
+#define RENDER_LOCK() archdep_mutex_lock(context->render_lock)
+#define RENDER_UNLOCK() archdep_mutex_unlock(context->render_lock)
 
 typedef vice_directx_renderer_context_t context_t;
 
@@ -103,7 +103,8 @@ static void vice_directx_initialise_canvas(video_canvas_t *canvas)
     context = lib_calloc(1, sizeof(context_t));
 
     context->canvas_lock_ptr = &canvas->lock;
-    pthread_mutex_init(&context->render_lock, NULL);
+    archdep_mutex_create(&context->render_lock);
+
     canvas->renderer_context = context;
 
     g_signal_connect (canvas->event_box, "realize", G_CALLBACK (on_widget_realized), canvas);
@@ -120,7 +121,7 @@ static void vice_directx_destroy_context(video_canvas_t *canvas)
     context = canvas->renderer_context;
 
     if (context) {
-        pthread_mutex_destroy(&context->render_lock);
+        archdep_mutex_destroy(context->render_lock);
         lib_free(context);
         canvas->renderer_context = NULL;
     }
@@ -193,7 +194,7 @@ static void on_widget_unrealized(GtkWidget *widget, gpointer data)
         context->window = NULL;
     }
 
-    render_queue_destroy(context->render_queue);
+    render_queue_destroy(context->render_queue); BROKEN - migrate to canvas->render_queue
     context->render_queue = NULL;
 
     CANVAS_UNLOCK();
@@ -264,10 +265,7 @@ static void vice_directx_update_context(video_canvas_t *canvas, unsigned int wid
 }
 
 /** \brief It's time to draw a complete emulated frame */
-static void vice_directx_refresh_rect(video_canvas_t *canvas,
-                                     unsigned int xs, unsigned int ys,
-                                     unsigned int xi, unsigned int yi,
-                                     unsigned int w, unsigned int h)
+static void vice_directx_on_new_backbuffer(video_canvas_t *canvas)
 {
     context_t *context;
     backbuffer_t *backbuffer;
@@ -283,7 +281,7 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
 
     /* Obtain an unused backbuffer to render to */
     pixel_data_size_bytes = context->emulated_width_next * context->emulated_height_next * 4;
-    backbuffer = render_queue_get_from_pool(context->render_queue, pixel_data_size_bytes);
+    backbuffer = render_queue_get_from_pool(context->render_queue, pixel_data_size_bytes, false);
 
     if (!backbuffer) {
         CANVAS_UNLOCK();
@@ -347,7 +345,7 @@ vice_renderer_backend_t vice_directx_backend = {
     vice_directx_initialise_canvas,
     vice_directx_update_context,
     vice_directx_destroy_context,
-    vice_directx_refresh_rect,
+    vice_directx_on_new_backbuffer,
     vice_directx_on_ui_frame_clock,
     vice_directx_set_palette
 };

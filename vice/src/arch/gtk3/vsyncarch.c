@@ -38,6 +38,10 @@ static int pause_pending = 0;
 
 /* ------------------------------------------------------------------------- */
 
+void vsyncarch_timing_sync(void)
+{
+}
+
 void vsyncarch_presync(void)
 {
     ui_update_lightpen();

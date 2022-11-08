@@ -61,6 +61,7 @@
 #include "vsyncapi.h"
 
 #include "uiapi.h"
+#include "uiserver.h"
 #include "uistatusbar.h"
 #include "archdep.h"
 
@@ -69,11 +70,35 @@
 
 #include "ui.h"
 
+/** \brief  Filename of ui executable to launch for each screen */
+static char *ui_filepath;
+
+
+static int set_ui_filepath(const char *val, void *param)
+{
+    util_string_set(&ui_filepath, val);
+    return 0;
+}
+
+
+/** \brief  String type resources list
+ */
+static const resource_string_t resources_string[] = {
+    { "UiFilepath", "", RES_EVENT_NO, NULL,
+        &ui_filepath, set_ui_filepath, NULL },
+
+    RESOURCE_STRING_LIST_END
+};
+
 
 /** \brief  Command line options shared between emu's, include VSID
  */
 static const cmdline_option_t cmdline_options_common[] =
 {
+    { "-ui", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+        set_ui_filepath, NULL, "UiFilepath", NULL,
+        "ui_filepath", "Set ui executable to launch for each screen" },
+
     CMDLINE_LIST_END
 };
 
@@ -150,22 +175,8 @@ void ui_init_with_args(int *argc, char **argv)
 int ui_init(void)
 {
     printf("Initialising headless ui\n");
-
-    return 0;
-}
-
-
-/** \brief  Finish initialization after loading the resources
- *
- * \note    This function exists for compatibility with other UIs.
- *
- * \return  0 on success, -1 on failure
- *
- * \sa      ui_init_finalize()
- */
-int ui_init_finish(void)
-{
-    /* printf("%s\n", __func__); */
+    
+    uiserver_init();
 
     return 0;
 }
@@ -173,17 +184,18 @@ int ui_init_finish(void)
 
 /** \brief  Finalize initialization after creating the main window(s)
  *
- * \note    This function exists for compatibility with other UIs,
- *          but could perhaps be used to activate fullscreen from the
- *          command-line or saved settings file (as it is in WinVICE.)
- *
  * \return  0 on success, -1 on failure
- *
- * \sa      ui_init_finish()
  */
 int ui_init_finalize(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
+    
+    /*
+     * Machine initialisation is complete, block until each launched ui
+     * child process has connected and signalled that it is ready.
+     */
+    
+    uiserver_await_ready();
 
     return 0;
 }
@@ -223,7 +235,12 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
  */
 int ui_resources_init(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
+
+    /* initialize string resources */
+    if (resources_register_string(resources_string) < 0) {
+        return -1;
+    }
 
     return 0;
 }
@@ -233,23 +250,21 @@ int ui_resources_init(void)
  */
 void ui_resources_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
+
+    lib_free(ui_filepath);
+    ui_filepath = NULL;
 }
 
 /** \brief Clean up memory used by the UI system itself
  */
 void ui_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
+    
+    uiserver_shutdown();
 }
 
-
-/** \brief  Dispatch events pending in the GLib main context loop
- */
-void ui_dispatch_events(void)
-{
-    /* printf("%s\n", __func__); */
-}
 
 /** \brief  Display the "Do you want to extend the disk image to
  *          40-track format?" dialog
@@ -261,7 +276,7 @@ void ui_dispatch_events(void)
  */
 int ui_extend_image_dialog(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     /* FIXME: this dialog needs to be implemented. */
     NOT_IMPLEMENTED();
@@ -275,7 +290,7 @@ int ui_extend_image_dialog(void)
  */
 void ui_error(const char *format, ...)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     char *buffer;
     va_list ap;
@@ -295,7 +310,7 @@ void ui_error(const char *format, ...)
  */
 void ui_message(const char *format, ...)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     char *buffer;
     va_list ap;
@@ -312,10 +327,10 @@ void ui_message(const char *format, ...)
 bool ui_pause_loop_iteration(void)
 {
     /* printf("%s\n", __func__); */
-    /*
-    ui_dispatch_next_event();
-    g_usleep(10000);
-    */
+    
+    tick_sleep(tick_per_second() / 500);
+    uiserver_poll();
+
     return is_paused;
 }
 
@@ -328,12 +343,11 @@ bool ui_pause_loop_iteration(void)
 static void pause_trap(uint16_t addr, void *data)
 {
     /* printf("%s\n", __func__); */
-/*
+
     vsync_suspend_speed_eval();
     sound_suspend();
 
     while (ui_pause_loop_iteration());
-*/
 }
 
 
@@ -343,7 +357,7 @@ static void pause_trap(uint16_t addr, void *data)
  */
 int ui_pause_active(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     return is_paused;
 }
@@ -353,7 +367,7 @@ int ui_pause_active(void)
  */
 void ui_pause_enable(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     if (!ui_pause_active()) {
         is_paused = 1;
@@ -366,7 +380,7 @@ void ui_pause_enable(void)
  */
 void ui_pause_disable(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 
     if (ui_pause_active()) {
         is_paused = 0;
@@ -386,4 +400,9 @@ void ui_update_lightpen(void)
 void ui_hotkeys_init(void)
 {
     /* NOP */
+}
+
+void archdep_thread_run_on_main(main_thread_function_t callback, void *data)
+{
+    callback(data);
 }

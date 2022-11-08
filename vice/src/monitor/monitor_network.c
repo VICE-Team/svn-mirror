@@ -203,7 +203,7 @@ int monitor_network_get_command_line(char **prompt)
             bufferpos = 0;
         }
 
-        ui_dispatch_events();
+        /* ui_dispatch_events(); */
     } while (1);
 
     return 1;
@@ -228,7 +228,7 @@ static int monitor_network_activate(void)
             break;
         }
 
-        listen_socket = vice_network_server(server_addr);
+        listen_socket = vice_network_server("Monitor", server_addr);
         if (!listen_socket) {
             log_error(LOG_DEFAULT,
                 "monitor_network_activate(): could not initialize listening socket");

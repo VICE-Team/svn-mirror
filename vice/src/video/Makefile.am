@@ -17,6 +17,8 @@ noinst_LIBRARIES = libvideo.a
 
 libvideo_a_SOURCES = \
 	render-common.h \
+	render-queue.c \
+	render-queue.h \
 	render1x1.c \
 	render1x1.h \
 	render1x1rgbi.c \

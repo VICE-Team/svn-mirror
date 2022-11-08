@@ -10,12 +10,6 @@ libarch:
 	(cd gtk3; $(MAKE) libarch.a)
 endif
 
-if USE_SDLUI
-SUBDIRS = shared sdl
-libarch:
-	(cd sdl; $(MAKE) libarch.a)
-endif
-
 if USE_SDL2UI
 SUBDIRS = shared sdl
 libarch:

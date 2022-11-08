@@ -103,7 +103,7 @@ static int set_double_size_enabled(int double_size, void *canvas)
 
     if (cap_render->sizex > 1
         && (video_chip_cap->dsize_limit_width == 0
-            || (cv->draw_buffer->canvas_width
+            || (cv->draw_buffer->width
                 <= video_chip_cap->dsize_limit_width))
         ) {
         cv->videoconfig->scalex = cap_render->sizex;
@@ -113,7 +113,7 @@ static int set_double_size_enabled(int double_size, void *canvas)
 
     if (cap_render->sizey > 1
         && (video_chip_cap->dsize_limit_height == 0
-            || (cv->draw_buffer->canvas_height
+            || (cv->draw_buffer->height
                 <= video_chip_cap->dsize_limit_height))
         ) {
         cv->videoconfig->scaley = cap_render->sizey;
@@ -123,8 +123,8 @@ static int set_double_size_enabled(int double_size, void *canvas)
 
 
     DBG(("set_double_size_enabled sizex:%d sizey:%d scalex:%d scaley:%d rendermode:%d",
-                cap_render->sizex, cap_render->sizey, canvas->videoconfig->scalex,
-                canvas->videoconfig->scaley, canvas->videoconfig->rendermode));
+                cap_render->sizex, cap_render->sizey, ((video_canvas_t*)canvas)->videoconfig->scalex,
+                ((video_canvas_t*)canvas)->videoconfig->scaley, ((video_canvas_t*)canvas)->videoconfig->rendermode));
 
     cv->videoconfig->color_tables.updated = 0;
     if ((cv->videoconfig->double_size_enabled != val
@@ -162,7 +162,7 @@ static int set_double_scan_enabled(int double_scan, void *canvas)
     cv->videoconfig->doublescan = double_scan ? 1 : 0;
     cv->videoconfig->color_tables.updated = 0;
 
-    video_canvas_refresh_all(cv);
+    video_canvas_refresh_all(cv, true);
 
     return 0;
 }
@@ -209,7 +209,7 @@ static int set_chip_rendermode(int filter, void *canvas)
     old = cv->videoconfig->filter;
     chip = cv->videoconfig->chip_name;
 
-    DBG(("set_chip_rendermode %s (canvas:%p) (%d->%d)", chip, cv, old, filter));
+    DBG(("set_chip_rendermode %s (canvas:%p) (%d->%d)", chip, (void*)cv, old, filter));
 
     dsize = util_concat(chip, "DoubleSize", NULL);
 
@@ -234,7 +234,7 @@ static int set_chip_rendermode(int filter, void *canvas)
     }
 
     lib_free(dsize);
-    video_canvas_refresh_all(cv);
+    video_canvas_refresh_all(cv, true);
     return 0;
 }
 
@@ -247,8 +247,7 @@ static resource_int_t resources_chip_rendermode[] =
     RESOURCE_INT_LIST_END
 };
 
-
-#if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
+#ifndef USE_HEADLESSUI
 /** \brief  Setter for the boolean resource "CHIPFullscreen"
  *
  * \param[in]   enabled full screen enabled (bool)
@@ -282,9 +281,7 @@ static resource_int_t resources_chip_fullscreen_int[] =
 };
 #endif
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
-/* TODO:    Remove `device` from the API: turn fullscreen_mode[] into an integer etc.
- */
+#ifdef USE_SDL2UI
 static int set_fullscreen_mode(int val, void *param)
 {
     video_resource_chip_mode_t *video_resource_chip_mode = (video_resource_chip_mode_t *)param;
@@ -603,7 +600,7 @@ static resource_int_t resources_chip_show_statusbar[] =
 static video_resource_chip_mode_t *resource_chip_modes[RES_CHIP_MODE_MAX];
 static int resource_chip_modes_num = 0;
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 static video_resource_chip_mode_t *get_resource_chip_mode(void)
 {
     video_resource_chip_mode_t *p;
@@ -632,13 +629,13 @@ int video_resources_chip_init(const char *chipname,
                               struct video_canvas_s **canvas,
                               video_chip_cap_t *video_chip_cap)
 {
-#if defined (USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
     video_resource_chip_mode_t *resource_chip_mode;
 #endif
     unsigned int i;
     int result;
 
-    DBG(("video_resources_chip_init (%s) (canvas:%p) (cap:%p)", chipname, *canvas, video_chip_cap));
+    DBG(("video_resources_chip_init (%s) (canvas:%p) (cap:%p)", chipname, (void*)*canvas, (void*)video_chip_cap));
 
     video_render_initconfig((*canvas)->videoconfig);
     (*canvas)->videoconfig->cap = video_chip_cap;
@@ -694,7 +691,7 @@ int video_resources_chip_init(const char *chipname,
     }
 
     /* fullscreen options */
-#if defined(USE_SDLUI) || defined(USE_SDL2UI) || defined(USE_GTK3UI)
+#ifndef USE_HEADLESSUI
 
     if (machine_class != VICE_MACHINE_VSID) {
         /* ${CHIP}Fullscreen */
@@ -714,7 +711,7 @@ int video_resources_chip_init(const char *chipname,
     }
 #endif
 
-#if defined(USE_SDLUI) || defined(USE_SDL2UI)
+#ifdef USE_SDL2UI
 
     resource_chip_mode = get_resource_chip_mode();
     resource_chip_mode->resource_chip = *canvas;

@@ -62,5 +62,5 @@ int c64scui_init(void)
  */
 void c64scui_shutdown(void)
 {
-    /* printf("%s\n", __func__); */
+    printf("%s\n", __func__);
 }

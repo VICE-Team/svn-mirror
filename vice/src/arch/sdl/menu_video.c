@@ -38,6 +38,7 @@
 #include "ui.h"
 #include "uifilereq.h"
 #include "uimenu.h"
+#include "util.h"
 #include "vic.h"
 #include "vicii.h"
 #include "videoarch.h"
@@ -300,9 +301,6 @@ static const ui_menu_entry_t crtc_color_controls_menu[] = {
 
 UI_MENU_DEFINE_INT(SDLCustomWidth)
 UI_MENU_DEFINE_INT(SDLCustomHeight)
-#ifndef USE_SDL2UI
-UI_MENU_DEFINE_RADIO(SDLLimitMode)
-#endif
 UI_MENU_DEFINE_INT(Window0Width)
 UI_MENU_DEFINE_INT(Window0Height)
 
@@ -348,25 +346,6 @@ UI_MENU_DEFINE_INT(Window0Height)
       MENU_ENTRY_RESOURCE_INT,                      \
       int_SDLCustomHeight_callback,                 \
       (ui_callback_data_t)"Set height" },
-#ifndef USE_SDL2UI
-#define VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)        \
-    SDL_MENU_ITEM_SEPARATOR,                        \
-    SDL_MENU_ITEM_TITLE("Resolution limit mode"),   \
-    { "Off",                                        \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_SDLLimitMode_callback,                  \
-      (ui_callback_data_t)SDL_LIMIT_MODE_OFF },     \
-    { "Max",                                        \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_SDLLimitMode_callback,                  \
-      (ui_callback_data_t)SDL_LIMIT_MODE_MAX },     \
-    { "Fixed",                                      \
-      MENU_ENTRY_RESOURCE_RADIO,                    \
-      radio_SDLLimitMode_callback,                  \
-      (ui_callback_data_t)SDL_LIMIT_MODE_FIXED },
-#else
-#define VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)
-#endif
 #define VICE_SDL_SIZE_MENU_ITEMS_LATER_SHARED(chip) \
     SDL_MENU_ITEM_SEPARATOR,                        \
     SDL_MENU_ITEM_TITLE("Initial resolution"),      \
@@ -381,10 +360,7 @@ UI_MENU_DEFINE_INT(Window0Height)
 
 #define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
 VICE_SDL_SIZE_MENU_ITEMS_SHARED(chip)               \
-VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)                \
 VICE_SDL_SIZE_MENU_ITEMS_LATER_SHARED(chip)
-
-#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
 
 UI_MENU_DEFINE_RADIO(SDLGLAspectMode)
 
@@ -422,7 +398,6 @@ UI_MENU_DEFINE_STRING(AspectRatio)
 UI_MENU_DEFINE_TOGGLE(SDLGLFlipX)
 UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
 
-#ifndef USE_SDL2UI
 #define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)               \
     SDL_MENU_ITEM_SEPARATOR,                                \
     SDL_MENU_ITEM_TITLE("OpenGL"),                          \
@@ -446,33 +421,6 @@ UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
       MENU_ENTRY_RESOURCE_TOGGLE,                           \
       toggle_SDLGLFlipY_callback,                           \
       NULL },
-#else
-#define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)               \
-    SDL_MENU_ITEM_SEPARATOR,                                \
-    SDL_MENU_ITEM_TITLE("OpenGL"),                          \
-    { "Fixed aspect ratio",                                 \
-      MENU_ENTRY_SUBMENU,                                   \
-      submenu_radio_callback,                               \
-      (ui_callback_data_t)aspect_menu },                    \
-    { "Custom aspect ratio",                                \
-      MENU_ENTRY_RESOURCE_STRING,                           \
-      string_AspectRatio_callback,                          \
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" }, \
-    { "Filter",                                             \
-      MENU_ENTRY_SUBMENU,                                   \
-      submenu_radio_callback,                               \
-      (ui_callback_data_t)filter_menu },                    \
-    { "Flip X",                                             \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_SDLGLFlipX_callback,                           \
-      NULL },                                               \
-    { "Flip Y",                                             \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      toggle_SDLGLFlipY_callback,                           \
-      NULL },
-#endif
-#endif
-
 
 /* VICII size menu */
 
@@ -484,9 +432,7 @@ UI_MENU_DEFINE_RADIO(VICIIFullscreenMode)
 static const ui_menu_entry_t vicii_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(VICII)
     VICE_SDL_SIZE_MENU_ITEMS(VICII)
-#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VICII)
-#endif
     SDL_MENU_LIST_END
 };
 
@@ -503,9 +449,7 @@ static const ui_menu_entry_t vdc_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(VDC)
     VICE_SDL_SIZE_MENU_STRETCHVERTICAL(VDC)
     VICE_SDL_SIZE_MENU_ITEMS(VDC)
-#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VDC)
-#endif
     SDL_MENU_LIST_END
 };
 
@@ -522,9 +466,7 @@ static const ui_menu_entry_t crtc_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(Crtc)
     VICE_SDL_SIZE_MENU_STRETCHVERTICAL(Crtc)
     VICE_SDL_SIZE_MENU_ITEMS(Crtc)
-#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(Crtc)
-#endif
     SDL_MENU_LIST_END
 };
 
@@ -539,9 +481,7 @@ UI_MENU_DEFINE_RADIO(TEDFullscreenMode)
 static const ui_menu_entry_t ted_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(TED)
     VICE_SDL_SIZE_MENU_ITEMS(TED)
-#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(TED)
-#endif
     SDL_MENU_LIST_END
 };
 
@@ -556,9 +496,7 @@ UI_MENU_DEFINE_RADIO(VICFullscreenMode)
 static const ui_menu_entry_t vic_size_menu[] = {
     VICE_SDL_SIZE_MENU_DOUBLESIZE(VIC)
     VICE_SDL_SIZE_MENU_ITEMS(VIC)
-#if defined(HAVE_HWSCALE) || defined(USE_SDL2UI)
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VIC)
-#endif
     SDL_MENU_LIST_END
 };
 
@@ -632,7 +570,7 @@ UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
 static UI_MENU_CALLBACK(restore_size_callback)
 {
     if (activated) {
-        sdl_video_restore_size();
+        sdl2_video_restore_size();
     }
     return NULL;
 }
@@ -645,21 +583,6 @@ UI_MENU_DEFINE_FILE_STRING(VICPaletteFile)
 
 
 /* C128 video menu */
-#ifndef USE_SDL2UI
-static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
-{
-    int value = vice_ptr_to_int(param);
-
-    if (activated) {
-        sdl_video_canvas_switch(value);
-    } else {
-        if (value == sdl_active_canvas->index) {
-            return sdl_menu_text_tick;
-        }
-    }
-    return NULL;
-}
-#else
 static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
 {
     int value = vice_ptr_to_int(param);
@@ -687,7 +610,20 @@ static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
     }
     return NULL;
 }
-#endif /* USE_SDL2UI */
+
+static UI_MENU_CALLBACK(active_chip_fullscreen_callback)
+{
+    char *fullscreen_resource_name;
+    int new_resource_value;
+
+    if (activated) {
+        /* Toggle the fullscreen resouce for the current active canvas, useful for x128 */
+        fullscreen_resource_name = util_concat(sdl_active_canvas->videoconfig->chip_name, "Fullscreen", NULL);
+        resources_toggle(fullscreen_resource_name, &new_resource_value);
+        lib_free(fullscreen_resource_name);
+    }
+    return NULL;
+}
 
 const ui_menu_entry_t c128_video_menu[] = {
     SDL_MENU_ITEM_TITLE("Video output"),
@@ -699,12 +635,10 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VideoOutput_c128_callback,
       (ui_callback_data_t)1 },
-#ifdef USE_SDL2UI
     { "Dual Windows",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VideoOutput_c128_callback,
       (ui_callback_data_t)2 },
-#endif
     SDL_MENU_ITEM_SEPARATOR,
     { "VICII size settings",
       MENU_ENTRY_SUBMENU,
@@ -787,6 +721,10 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIICheckSbColl_callback,
       NULL },
+    { "Callback: Fullscreen toggle",
+      MENU_ENTRY_HIDDEN,
+      active_chip_fullscreen_callback,
+      (ui_callback_data_t)0 },
     SDL_MENU_LIST_END
 };
 

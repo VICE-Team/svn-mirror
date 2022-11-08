@@ -1,5 +1,5 @@
 /** \file   vsyncarch.c
- * \brief   End-of-frame handling for native GTK3 UI
+ * \brief   End-of-frame handling
  *
  * \note    This is altered and trimmed down to fit into the GTK3-native
  *          world, but it's still heavily reliant on UNIX internals.
@@ -30,36 +30,21 @@
 
 #include "vice.h"
 
-#include "kbdbuf.h"
-#include "mainlock.h"
-#include "ui.h"
 #include "vsyncapi.h"
-#include "videoarch.h"
 
 #include "joystick.h"
-
-#ifdef WINDOWS_COMPILE
-#   include "windows.h"
-#elif defined(HAVE_NANOSLEEP)
-#   include <time.h>
-#else
-#   include <unistd.h>
-#   include <errno.h>
-#   include <sys/time.h>
-#endif
-
-#ifdef MACOS_COMPILE
-#   include <mach/mach.h>
-#   include <mach/mach_time.h>
-#endif
-
-#ifndef MIN
-#define MIN(a, b)  (((a) < (b)) ? (a) : (b))
-#endif
+#include "ui.h"
+#include "uiserver.h"
 
 static int pause_pending = 0;
 
 /* ------------------------------------------------------------------------- */
+
+void vsyncarch_timing_sync(void)
+{
+    /* give the ui server a chance to handle network IO */
+    uiserver_poll();
+}
 
 void vsyncarch_presync(void)
 {

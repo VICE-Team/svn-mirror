@@ -371,7 +371,7 @@ typedef struct ui_sb_state_s {
 
 
 /** \brief Used to safely access sb_state between threads. */
-static pthread_mutex_t sb_state_lock = PTHREAD_MUTEX_INITIALIZER;
+static void *sb_state_lock;
 
 
 /** \brief The current state of the status bars across the UI.
@@ -558,14 +558,25 @@ static void redraw_widget_on_ui_thread(GtkWidget *widget)
 /** \brief Get a locked reference to sb_state */
 static ui_sb_state_t *lock_sb_state(void)
 {
-    pthread_mutex_lock(&sb_state_lock);
+    /*
+     * This lock is obtained during setting of resource defaults -
+     * before the init() function for this file has been called.
+     * Because this will reliably happen, and happen from the single
+     * UI thread during early init, it's safe to lazy create the lock here.
+     */
+
+    if (!sb_state_lock) {
+        archdep_mutex_create(&sb_state_lock);
+    }
+
+    archdep_mutex_lock(sb_state_lock);
     return &sb_state_do_not_use_directly;
 }
 
 /** \brief Release a locked reference to sb_state_do_not_use_directly */
 static void unlock_sb_state(void)
 {
-    pthread_mutex_unlock(&sb_state_lock);
+    archdep_mutex_unlock(sb_state_lock);
 }
 
 /*****************************************************************************
@@ -2372,6 +2383,9 @@ void ui_statusbar_init(void)
     int i;
     ui_sb_state_t *sb_state;
 
+    /* This lock should have been created during resource init */
+    assert(sb_state_lock);
+
     /* Most things need initialisation to zero and allocated_bars is
      * static, so not much to do here. */
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
@@ -2409,6 +2423,8 @@ void ui_statusbar_init(void)
  *         destroyed. */
 void ui_statusbar_shutdown(void)
 {
+    archdep_mutex_destroy(sb_state_lock);
+
     mainlock_assert_is_not_vice_thread();
 }
 

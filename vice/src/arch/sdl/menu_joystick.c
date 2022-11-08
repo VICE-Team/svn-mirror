@@ -348,7 +348,6 @@ static UI_MENU_CALLBACK(custom_swap_ports_callback)
     return sdljoy_get_swap_ports() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
 }
 
-#ifdef USE_SDL2UI
 static UI_MENU_CALLBACK(custom_rescan_joy_callback)
 {
     if (activated) {
@@ -356,7 +355,6 @@ static UI_MENU_CALLBACK(custom_rescan_joy_callback)
     }
     return NULL;
 }
-#endif
 
 static UI_MENU_CALLBACK(custom_keyset_callback)
 {
@@ -368,7 +366,7 @@ static UI_MENU_CALLBACK(custom_keyset_callback)
     }
 
     if (activated) {
-        e = sdl_ui_poll_event("key", (const char *)param, SDL_POLL_KEYBOARD | SDL_POLL_MODIFIER, 5);
+        e = sdl_ui_poll_specific_event("key", (const char *)param, SDL_POLL_KEYBOARD | SDL_POLL_MODIFIER, 5);
 
         if (e.type == SDL_KEYDOWN) {
             resources_set_int((const char *)param, (int)SDL2x_to_SDL1x_Keys(e.key.keysym.sym));
@@ -499,7 +497,7 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
 
     if (activated) {
         target = lib_msprintf("Port %i %s (press del to clear)", port + 1, joy_pin[port][pin]);
-        e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
+        e = sdl_ui_poll_specific_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
         lib_free(target);
 
         switch (e.type) {
@@ -549,7 +547,7 @@ static UI_MENU_CALLBACK(custom_joymap_axis_callback)
 
     if (activated) {
         target = lib_msprintf("Port %i %s (del clears mappings)", port + 1, joy_pot[pot]);
-        e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
+        e = sdl_ui_poll_specific_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
         lib_free(target);
 
         switch (e.type) {
@@ -586,7 +584,7 @@ static UI_MENU_CALLBACK(custom_joy_misc_callback)
 
     if (activated) {
         target = lib_msprintf("%s (del clears mappings)", type ? "Map" : "Menu activate");
-        e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
+        e = sdl_ui_poll_specific_event("joystick", target, SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
         lib_free(target);
 
         switch (e.type) {
@@ -888,12 +886,10 @@ const ui_menu_entry_t joystick_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
-#ifdef USE_SDL2UI
     { "Rescan host joysticks",
       MENU_ENTRY_OTHER,
       custom_rescan_joy_callback,
       NULL },
-#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -970,12 +966,10 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
-#ifdef USE_SDL2UI
     { "Rescan host joysticks",
       MENU_ENTRY_OTHER,
       custom_rescan_joy_callback,
       NULL },
-#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1052,12 +1046,10 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
-#ifdef USE_SDL2UI
     { "Rescan host joysticks",
       MENU_ENTRY_OTHER,
       custom_rescan_joy_callback,
       NULL },
-#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1125,12 +1117,10 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
-#ifdef USE_SDL2UI
     { "Rescan host joysticks",
       MENU_ENTRY_OTHER,
       custom_rescan_joy_callback,
       NULL },
-#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1199,12 +1189,10 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
-#ifdef USE_SDL2UI
     { "Rescan host joysticks",
       MENU_ENTRY_OTHER,
       custom_rescan_joy_callback,
       NULL },
-#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1249,12 +1237,10 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
-#ifdef USE_SDL2UI
     { "Rescan host joysticks",
       MENU_ENTRY_OTHER,
       custom_rescan_joy_callback,
       NULL },
-#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1319,12 +1305,10 @@ const ui_menu_entry_t joystick_userport_cbm2_menu[] = {
       MENU_ENTRY_SUBMENU,
       joystick_host_mapping_dynmenu_callback,
       (ui_callback_data_t)joystick_host_mapping_dyn_menu },
-#ifdef USE_SDL2UI
     { "Rescan host joysticks",
       MENU_ENTRY_OTHER,
       custom_rescan_joy_callback,
       NULL },
-#endif
     { "Extra joystick options",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

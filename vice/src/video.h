@@ -67,6 +67,7 @@ struct video_cbm_palette_s;
 struct viewport_s;
 struct geometry_s;
 struct palette_s;
+struct backbuffer_s;
 
 struct canvas_refresh_s {
     uint8_t *draw_buffer;
@@ -78,28 +79,17 @@ typedef struct canvas_refresh_s canvas_refresh_t;
 
 struct draw_buffer_s {
     /* The real drawing buffers, with padding bytes on either side to workaround CRT and Scale2x bugs */
-    uint8_t *draw_buffer_padded_allocations[2];
-    /* Pointers into the non padded buffers within the padded buffers */
-    uint8_t *draw_buffer_non_padded[2];
+    uint8_t *padded_allocations[2];
+    /* Size of above */
+    unsigned int padded_allocations_size_bytes;
+    /* Offset into padded allocations used to calculate the draw buffer to be used */
+    unsigned int padded_allocations_offset;
     /* The memory buffer where the screen of the emulated machine is drawn. Palettized, 1 byte per pixel */
     uint8_t *draw_buffer;
     /* Width of draw_buffer in pixels */
-    unsigned int draw_buffer_width;
+    unsigned int width;
     /* Height of draw_buffer in pixels. Typically same as geometry->screen_size.height */
-    unsigned int draw_buffer_height;
-    unsigned int draw_buffer_pitch;
-    /* Width of emulator screen (physical screen on the machine where the emulator runs) in pixels */
-    unsigned int canvas_physical_width;
-    /* Height of emulator screen (physical screen on the machine where the emulator runs) in pixels */
-    unsigned int canvas_physical_height;
-    /* Maximum theoretical width of draw_buffer that would fit in the emulator screen.
-    Typically, it is the same as canvas_physical_width if no horizontal stretch is used (videoconfig->scalex == 1) and smaller if it is used.
-    TODO do we really need it? */
-    unsigned int canvas_width;
-    /* Maximum theoretical height of draw_buffer that would fit in the emulator screen.
-    Typically, it is the same as canvas_physical_width if no vertical stretch is used (videoconfig->scaley == 1) and smaller if it is used.
-    TODO do we really need it? */
-    unsigned int canvas_height;
+    unsigned int height;
     /* Width of the visible subset of draw_buffer, in pixels. Typically same as geometry->screen_size.width */
     unsigned int visible_width;
     /* Height of the visible subset of draw_buffer, in pixels */
@@ -215,7 +205,6 @@ struct video_render_config_s {
     int external_palette;          /* Use an external palette?  */
     char *external_palette_name;   /* Name of the external palette.  */
     int double_buffer;             /* Double buffering enabled? */
-    int readable;                  /* reading of frame buffer is safe and fast */
     int interlaced;                /* Is the output currently interlaced? */
     int interlace_field;           /* Which of the two interlaced frames is current? */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
@@ -229,7 +218,7 @@ typedef struct video_render_config_s video_render_config_t;
 
 extern void video_render_initconfig(video_render_config_t *config);
 extern void video_render_setphysicalcolor(video_render_config_t *config,
-                                          int index, uint32_t color, int depth);
+                                          int index, uint32_t color);
 extern void video_render_setrawrgb(video_render_color_tables_t *color_tab, unsigned int index,
                                    uint32_t r, uint32_t g, uint32_t b);
 extern void video_render_setrawalpha(video_render_color_tables_t *color_tab, uint32_t a);
@@ -249,11 +238,11 @@ extern void video_arch_canvas_init(struct video_canvas_s *canvas);
 extern int video_arch_get_active_chip(void);
 extern void video_canvas_shutdown(struct video_canvas_s *canvas);
 extern struct video_canvas_s *video_canvas_init(void);
+extern struct video_canvas_s *video_canvas_get(int canvas_index);
 extern void video_canvas_refresh_all_tracked(void);
-extern void video_canvas_refresh(struct video_canvas_s *canvas,
-                                 unsigned int xs, unsigned int ys,
-                                 unsigned int xi, unsigned int yi,
-                                 unsigned int w, unsigned int h);
+extern void video_canvas_new_frame_hook(struct video_canvas_s *canvas);
+extern void video_canvas_on_new_backbuffer(struct video_canvas_s *canvas);
+extern void video_canvas_display_backbuffer(struct video_canvas_s *canvas);
 extern int video_canvas_set_palette(struct video_canvas_s *canvas,
                                     struct palette_s *palette);
 /* This will go away.  */
@@ -263,12 +252,15 @@ extern void video_canvas_create_set(struct video_canvas_s *canvas);
 extern void video_canvas_destroy(struct video_canvas_s *canvas);
 extern void video_canvas_map(struct video_canvas_s *canvas);
 extern void video_canvas_unmap(struct video_canvas_s *canvas);
-extern void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas);
+/* Called from VICE thread */
+extern void video_canvas_prepare_backbuffer(struct video_canvas_s *canvas, struct draw_buffer_s *draw_buffer, struct backbuffer_s *backbuffer);
+/* Called from render thread (GTK) or ui thread (SDL) to finalise the render */
+extern void video_canvas_render_backbuffer(struct backbuffer_s *backbuffer, void *destination, int pitch);
+/* old style  all-in-one render */
 extern void video_canvas_render(struct video_canvas_s *canvas, uint8_t *trg,
                                 int width, int height, int xs, int ys,
                                 int xt, int yt, int pitcht);
-extern void video_canvas_refresh_all(struct video_canvas_s *canvas);
-extern char video_canvas_can_resize(struct video_canvas_s *canvas);
+extern void video_canvas_refresh_all(struct video_canvas_s *canvas, bool highPriority);
 extern void video_viewport_get(struct video_canvas_s *canvas,
                                struct viewport_s **viewport,
                                struct geometry_s **geometry);

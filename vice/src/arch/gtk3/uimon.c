@@ -30,7 +30,6 @@
 
 #include "vice.h"
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -87,7 +86,7 @@ static gboolean uimon_window_resume_impl(gpointer user_data);
  * Again, guess work. Someone, not me, should have documented this.
  */
 static struct console_private_s {
-    pthread_mutex_t lock;
+    void *lock;
 
     GtkWidget *window;  /**< windows */
     GtkWidget *term;    /**< could be a VTE instance? */
@@ -117,7 +116,7 @@ static int native_monitor(void)
 
 static gboolean write_to_terminal(gpointer _)
 {
-    pthread_mutex_lock(&fixed.lock);
+    archdep_mutex_lock(fixed.lock);
 
     if (!fixed.term) {
         /* Terminal hasn't been created yet, queue up the write for now. */
@@ -134,7 +133,7 @@ static gboolean write_to_terminal(gpointer _)
     }
 
 done:
-    pthread_mutex_unlock(&fixed.lock);
+    archdep_mutex_unlock(fixed.lock);
 
     return FALSE;
 }
@@ -146,7 +145,7 @@ void uimon_write_to_terminal(struct console_private_s *t,
     size_t output_buffer_required_size;
     bool write_scheduled = false;
 
-    pthread_mutex_lock(&fixed.lock);
+    archdep_mutex_lock(fixed.lock);
 
     /*
      * If the output buffer exists, we've already scheduled a write
@@ -176,7 +175,7 @@ void uimon_write_to_terminal(struct console_private_s *t,
         gdk_threads_add_timeout(0, write_to_terminal, NULL);
     }
 
-    pthread_mutex_unlock(&fixed.lock);
+    archdep_mutex_unlock(fixed.lock);
 }
 
 int uimon_out(const char *buffer)
@@ -444,7 +443,7 @@ static gboolean key_press_event (GtkWidget   *widget,
 
     gdk_event_get_state((GdkEvent*)event, &state);
 
-    pthread_mutex_lock(&fixed.lock);
+    archdep_mutex_lock(fixed.lock);
 
     if (event->type == GDK_KEY_PRESS) {
         /*printf("keyval: %04x state:%04x\n", event->keyval, state);fflush(stdout);*/
@@ -470,7 +469,7 @@ static gboolean key_press_event (GtkWidget   *widget,
     }
 
 done:
-    pthread_mutex_unlock(&fixed.lock);
+    archdep_mutex_unlock(fixed.lock);
 
     return retval;
 }
@@ -487,21 +486,21 @@ static gboolean button_press_event(GtkWidget *widget,
         return FALSE;
     }
 
-    pthread_mutex_lock(&fixed.lock);
+    archdep_mutex_lock(fixed.lock);
     fixed.input_buffer = append_string_to_input_buffer(fixed.input_buffer, widget, GDK_SELECTION_PRIMARY);
-    pthread_mutex_unlock(&fixed.lock);
+    archdep_mutex_unlock(fixed.lock);
 
     return TRUE;
 }
 
 static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
-    pthread_mutex_lock(&fixed.lock);
+    archdep_mutex_lock(fixed.lock);
 
     lib_free(fixed.input_buffer);
     fixed.input_buffer = NULL;
 
-    pthread_mutex_unlock(&fixed.lock);
+    archdep_mutex_unlock(fixed.lock);
 
     return gtk_widget_hide_on_delete(widget);
 }
@@ -513,17 +512,17 @@ int uimon_get_string(struct console_private_s *t, char* string, int string_len)
     while(retval<string_len) {
         int i;
 
-        pthread_mutex_lock(&t->lock);
+        archdep_mutex_lock(t->lock);
 
         if (!t->input_buffer) {
             /* TODO: Not sure if this check makes sense anymore, needs testing without */
-            pthread_mutex_unlock(&t->lock);
+            archdep_mutex_unlock(t->lock);
             return -1;
         }
 
         if (strlen(t->input_buffer) == 0) {
             /* There's no input yet, so have a little sleep and look again. */
-            pthread_mutex_unlock(&t->lock);
+            archdep_mutex_unlock(t->lock);
             mainlock_yield_and_sleep(tick_per_second() / 60);
             continue;
         }
@@ -532,7 +531,7 @@ int uimon_get_string(struct console_private_s *t, char* string, int string_len)
             string[retval]=t->input_buffer[i];
         }
         memmove(t->input_buffer, t->input_buffer + i, strlen(t->input_buffer) + 1 - i);
-        pthread_mutex_unlock(&t->lock);
+        archdep_mutex_unlock(t->lock);
     }
     return retval;
 }
@@ -737,7 +736,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     int width = -1;
     int height = -1;
 
-    pthread_mutex_lock(&fixed.lock);
+    archdep_mutex_lock(fixed.lock);
 
     resources_get_int("MonitorScrollbackLines", &sblines);
     resources_get_int("MonitorXPos", &xpos);
@@ -831,7 +830,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
     }
 
-    pthread_mutex_unlock(&fixed.lock);
+    archdep_mutex_unlock(fixed.lock);
 
     if (display_now) {
         uimon_window_resume_impl(NULL);
@@ -1076,11 +1075,11 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         return uimonfb_get_in(ppchCommandLine, prompt);
     }
 
-    pthread_mutex_lock(&fixed.lock);
+    archdep_mutex_lock(fixed.lock);
     if (!fixed.input_buffer) {
         fixed.input_buffer = lib_strdup("");
     }
-    pthread_mutex_unlock(&fixed.lock);
+    archdep_mutex_unlock(fixed.lock);
 
     vte_linenoiseSetCompletionCallback(monitor_completions);
     p = vte_linenoise(prompt, &fixed);
@@ -1103,12 +1102,8 @@ int console_init(void)
     char *full_name;
     char *short_name;
     int takes_filename_as_arg;
-    pthread_mutexattr_t lock_attributes;
 
-    /* our console lock needs to be recursive */
-    pthread_mutexattr_init(&lock_attributes);
-    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&fixed.lock, &lock_attributes);
+    archdep_mutex_create(&fixed.lock);
 
     if (native_monitor()) {
         return consolefb_init();
@@ -1138,7 +1133,7 @@ int console_close_all(void)
 {
     int i;
 
-    pthread_mutex_lock(&fixed.lock);
+    archdep_mutex_lock(fixed.lock);
 
     if (fixed.input_buffer) {
         /* This happens if the application exits with the monitor open, as the VICE thread
@@ -1148,7 +1143,7 @@ int console_close_all(void)
         fixed.input_buffer = NULL;
     }
 
-    pthread_mutex_unlock(&fixed.lock);
+    archdep_mutex_unlock(fixed.lock);
 
     if (native_monitor()) {
         return consolefb_close_all();
@@ -1160,6 +1155,8 @@ int console_close_all(void)
     for(i = 0; i < need_filename_lc.len; i++) {
         free(need_filename_lc.cvec[i]);
     }
+
+    archdep_mutex_destroy(fixed.lock);
 
     return 0;
 }

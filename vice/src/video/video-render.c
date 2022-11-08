@@ -53,19 +53,8 @@ void video_render_initconfig(video_render_config_t *config)
 
 /* called from archdep code */
 void video_render_setphysicalcolor(video_render_config_t *config, int index,
-                                   uint32_t color, int depth)
+                                   uint32_t color)
 {
-    /* duplicated colours are used by the double size 8/16 bpp renderers. */
-    switch (depth) {
-        case 8:
-            color &= 0x000000FF;
-            color = color | (color << 8);
-            break;
-        case 16:
-            color &= 0x0000FFFF;
-            color = color | (color << 16);
-            break;
-    }
     config->color_tables.physical_colors[index] = color;
 }
 
@@ -85,8 +74,6 @@ void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg
     if (width <= 0) {
         return; /* some render routines don't like invalid width */
     }
-
-    video_sound_update(config, src, width, height, xs, ys, pitchs, viewport);
 
     rendermode = config->rendermode;
 

@@ -70,11 +70,6 @@ sdl_keymaps = \
 sdl_hotkeys = \
 	sdl-hotkeys.vhk
 
-if USE_SDLUI
-c128_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
-EXTRA_DIST = $(c128_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)
-endif
-
 if USE_SDL2UI
 c128_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sdl_hotkeys)
 EXTRA_DIST = $(c128_DATA) $(gtk3_keymaps) $(gtk3_hotkeys)

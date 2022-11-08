@@ -1,9 +1,12 @@
 ## Makefile.am for the native headless version of `libarch.a'.
 
+SUBDIRS = uiclient
+
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
 	-I$(top_srcdir)/src/arch/shared \
+	-I$(top_srcdir)/src/arch/headless/uiclient \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
@@ -23,6 +26,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/scpu64 \
 	-I$(top_srcdir)/src/vic20 \
+	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/imagecontents \
@@ -63,7 +67,8 @@ libarch_a_SOURCES = \
 	plus4ui.c \
 	cbm2ui.c \
 	cbm5x0ui.c \
-	c64ui.c
+	c64ui.c \
+	uiserver.c
 
 libtoolarch_a_SOURCES = \
 	archdep.c
@@ -75,6 +80,7 @@ EXTRA_DIST = \
 	kbd.h \
 	mousedrv.h \
 	ui.h \
+	uiserver.h \
 	uistatusbar.h \
 	videoarch.h \
 	make-bindist_win32.sh

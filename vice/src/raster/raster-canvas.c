@@ -39,74 +39,11 @@
 #include "viewport.h"
 #include "vsync.h"
 
-inline static void refresh_canvas(raster_t *raster)
-{
-    raster_canvas_area_t *update_area;
-    viewport_t *viewport;
-    int x, y, xx, yy;
-    int w, h;
-
-    update_area = raster->update_area;
-    viewport = raster->canvas->viewport;
-
-    if (update_area->is_null) {
-        return;
-    }
-
-    x = update_area->xs;
-    y = update_area->ys;
-    xx = update_area->xs - viewport->first_x;
-    yy = update_area->ys - viewport->first_line;
-    w = update_area->xe - update_area->xs + 1;
-    h = update_area->ye - update_area->ys + 1;
-
-    if (raster->canvas->videoconfig->filter == VIDEO_FILTER_CRT) {
-        /* if pal emu is activated, more pixels have to be updated: around,
-         * above and below, because of blurring and scanline effects.
-         *
-         * 1 line above and 1 lines below are required because the update on
-         * any line affects the scanlines both above and below, so both must
-         * be included in the full update rectangle.
-         *
-         * These coordinates are also passed to the graphics driver as the
-         * updated region, so the area here must be at least as large as the
-         * updated region. */
-        x -= 4;
-        xx -= 4;
-        w += 8;
-        y--;
-        yy--;
-        h += 2;
-    }
-
-    if (xx < 0) {
-        x -= xx;
-        w += xx;
-        xx = 0;
-    }
-
-    if (yy < 0) {
-        y -= yy;
-        h += yy;
-        yy = 0;
-    }
-    x += raster->canvas->geometry->extra_offscreen_border_left;
-
-    xx += viewport->x_offset;
-    yy += viewport->y_offset;
-
-    if ((int)(raster->canvas->draw_buffer->canvas_height) >= yy
-        && (int)(raster->canvas->draw_buffer->canvas_width) >= xx) {
-        video_canvas_refresh(raster->canvas, x, y, xx, yy,
-                             MIN(w, (int)(raster->canvas->draw_buffer->canvas_width - xx)),
-                             MIN(h, (int)(raster->canvas->draw_buffer->canvas_height - yy)));
-    }
-
-    update_area->is_null = 1;
-}
 
 void raster_canvas_handle_end_of_frame(raster_t *raster)
 {
+    draw_buffer_t *draw_buffer = raster->canvas->draw_buffer;
+    
     if (video_disabled_mode) {
         return;
     }
@@ -119,18 +56,11 @@ void raster_canvas_handle_end_of_frame(raster_t *raster)
         return;
     }
 
-    if (raster->dont_cache) {
-        video_canvas_refresh_all(raster->canvas);
-    } else {
-        refresh_canvas(raster);
-    }
+    /* Low priority refresh - allow previously queued frames to remain in queue */
+    video_canvas_refresh_all(raster->canvas, false);
 
-    if (raster->canvas->videoconfig->interlaced) {
-        /* swap the draw buffer pointers */
-        raster->canvas->draw_buffer->draw_buffer = raster->canvas->draw_buffer->draw_buffer_non_padded[raster->canvas->videoconfig->interlace_field];
-    } else {
-        raster->canvas->draw_buffer->draw_buffer = raster->canvas->draw_buffer->draw_buffer_non_padded[0];
-    }
+    /* potentially swap the draw buffer pointers */
+    draw_buffer->draw_buffer = draw_buffer->padded_allocations[raster->canvas->videoconfig->interlace_field] + draw_buffer->padded_allocations_offset;
 }
 
 void raster_canvas_init(raster_t *raster)

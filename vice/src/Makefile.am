@@ -526,6 +526,7 @@ arch_gtk3_novte_lib = $(top_builddir)/src/arch/gtk3/novte/libnovte.a
 arch_gtk3_joystickdrv_lib = $(top_builddir)/src/arch/gtk3/joystickdrv/libjoystickdrv.a
 arch_sdl_lib = $(top_builddir)/src/arch/sdl/libarch.a
 arch_headless_lib = $(top_builddir)/src/arch/headless/libarch.a
+uiclient_lib = $(top_builddir)/src/arch/headless/uiclient/libuiclient.a
 archdep_lib = $(top_builddir)/src/arch/shared/libarchdep.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c128stubs_lib = $(top_builddir)/src/c128/libc128stubs.a
@@ -592,6 +593,7 @@ sounddrv_lib = $(top_builddir)/src/arch/shared/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
 tapeport_lib = $(top_builddir)/src/tapeport/libtapeport.a
 toolarch_lib = $(ARCH_DIR)/libtoolarch.a
+toolarchdep_lib = $(top_builddir)/src/arch/shared/libtoolarchdep.a
 userport_lib = $(top_builddir)/src/userport/libuserport.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
@@ -631,11 +633,17 @@ endif
 bin_PROGRAMS = vsid $(x64_bin) x64sc x64dtv xscpu64 x128 xvic xpet xplus4 \
 	       xcbm2 xcbm5x0 c1541
 
+# The monolithic builds don't use uiclient_lib
+if !USE_HEADLESSUI
+uiclient_lib = 
+endif
+
 EXTRA_PROGRAMS =
 
 # vsid
 vsid_libs =  \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(vsid_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \
@@ -676,6 +684,7 @@ vsid-program: \
 # x64
 x64_libs =  \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(c64_lib) \
 	$(c64cartsystem_lib) \
@@ -725,6 +734,7 @@ x64-program: \
 # x64sc
 x64sc_libs =  \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(c64sc_lib) \
 	$(c64cartsystem_lib) \
@@ -774,6 +784,7 @@ x64sc-program: \
 # x64dtv
 x64dtv_libs =  \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(c64dtv_lib) \
 	$(c64c64dtv_lib) \
 	$(datasette_lib) \
@@ -822,6 +833,7 @@ x64dtv-program: \
 # xscpu64
 xscpu64_libs =  \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(scpu64_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
@@ -871,6 +883,7 @@ xscpu64-program: \
 # x128
 x128_libs =  \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(c128_lib) \
 	$(c64cartsystem_lib) \
@@ -924,6 +937,7 @@ x128-program: \
 # xvic
 xvic_libs =  \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(datasette_lib) \
 	$(vic20cart_lib) \
@@ -971,6 +985,7 @@ xvic-program: \
 # xpet
 xpet_libs =  \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(datasette_lib) \
 	$(pet_lib) \
@@ -1017,6 +1032,7 @@ xpet-program: \
 # xplus4
 xplus4_libs =  \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(datasette_lib) \
 	$(plus4_lib) \
@@ -1066,6 +1082,7 @@ xplus4-program: \
 # xcbm2
 xcbm2_libs = \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(datasette_lib) \
 	$(xcbm2_lib) \
@@ -1113,6 +1130,7 @@ xcbm2-program: \
 # xcbm5x0
 xcbm5x0_libs = \
 	$(archdep_lib) \
+	$(uiclient_lib) \
 	$(tapeport_lib) \
 	$(xcbm5x0_lib) \
 	$(cbm2cart_lib) \
@@ -1178,6 +1196,7 @@ c1541_SOURCES = \
 
 c1541_libs = \
 	$(toolarch_lib) \
+	$(toolarchdep_lib) \
 	$(p64_lib) \
 	$(blockdev_lib) \
 	$(vdrive_lib) \
@@ -1249,9 +1268,15 @@ endif
 $(arch_headless_lib):
 	@echo "making libarch in arch"
 	@(cd arch && $(MAKE) libarch)
+$(uiclient_lib):
+	@(echo "making libuiclient.a")
+	@(cd arch/headless/uiclient && $(MAKE) libuiclient.a)
 $(toolarch_lib):
 	@echo "making libtoolarch.a in $(ARCHDIR)"
 	@(cd $(ARCH_DIR) && $(MAKE) libtoolarch.a)
+$(toolarchdep_lib):
+	@echo "making libtoolarchdep.a in arch/shared"
+	@(cd arch/shared && $(MAKE) libtoolarchdep.a)
 $(archdep_lib):
 	@echo "making all in arch/shared"
 	@(cd arch/shared && $(MAKE))

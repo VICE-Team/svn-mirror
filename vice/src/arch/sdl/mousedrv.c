@@ -78,15 +78,7 @@ void mouse_button(int bnumber, int state)
         case SDL_BUTTON_RIGHT:
             mouse_funcs.mbr(state);
             break;
-/* FIXME: fix for SDL2 */
-#ifndef USE_SDL2UI
-        case SDL_BUTTON_WHEELUP:
-            mouse_funcs.mbu(state);
-            break;
-        case SDL_BUTTON_WHEELDOWN:
-            mouse_funcs.mbd(state);
-            break;
-#endif
+/* FIXME: fix mouse wheel for SDL2 */
         default:
             break;
     }

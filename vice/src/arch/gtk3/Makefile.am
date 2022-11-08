@@ -31,6 +31,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/scpu64 \
 	-I$(top_srcdir)/src/vic20 \
+	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/imagecontents \
@@ -67,6 +68,7 @@ libarch_a_SOURCES = \
 	actions-speed.c \
 	actions-vsid.c \
 	archdep.c \
+	archdep-thread.c \
 	c128ui.c \
 	c64dtvui.c \
 	c64scui.c \
@@ -82,7 +84,6 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	petui.c \
 	plus4ui.c \
-	render_queue.c \
 	render_thread.c \
 	scpu64ui.c \
 	ui.c \
@@ -168,7 +169,6 @@ EXTRA_DIST = \
 	make-bindist_win32.sh \
 	mousedrv.h \
 	opengl_renderer.h \
-	render_queue.h \
 	render_thread.h \
 	ui.h \
 	uiabout.h \

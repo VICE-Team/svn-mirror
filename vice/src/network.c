@@ -720,7 +720,7 @@ int network_start_server(void)
             break;
         }
 
-        listen_socket = vice_network_server(server_addr);
+        listen_socket = vice_network_server("Netplay", server_addr);
         if (!listen_socket) {
             DBG(("vice_network_address_generate failed, can not start server."));
             break;

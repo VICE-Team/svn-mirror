@@ -71,7 +71,10 @@ typedef enum {
     MENU_ENTRY_OTHER,
 
     /* Other: no UI needed */
-    MENU_ENTRY_OTHER_TOGGLE
+    MENU_ENTRY_OTHER_TOGGLE,
+
+    /* Callback: a hidden menu item for hotkeys not tied to a visible menu item */
+    MENU_ENTRY_HIDDEN
 } ui_menu_entry_type_t;
 
 typedef enum {
@@ -88,7 +91,7 @@ typedef struct ui_menu_entry_s {
     ui_menu_status_type_t status;
 } ui_menu_entry_t;
 
-#define SDL_MENU_LIST_END { NULL, MENU_ENTRY_TEXT, NULL, NULL }
+#define SDL_MENU_LIST_END { NULL, MENU_ENTRY_TEXT, NULL, NULL, MENU_STATUS_NA }
 
 typedef enum {
     MENU_RETVAL_DEFAULT,
@@ -174,6 +177,7 @@ extern void sdl_ui_init_draw_params(void);
 extern void sdl_ui_reverse_colors(void);
 extern void sdl_ui_refresh(void);
 extern ui_menu_action_t sdl_ui_menu_poll_input(void);
+extern void sdl_ui_readline_input_impl(void);
 extern void sdl_ui_display_cursor(int pos, int old_pos);
 extern int sdl_ui_print(const char *text, int pos_x, int pos_y);
 extern int sdl_ui_print_center(const char *text, int pos_y);

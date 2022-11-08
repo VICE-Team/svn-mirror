@@ -32,7 +32,7 @@ AM_OBJCFLAGS = @VICE_OBJCFLAGS@
 AM_LDFLAGS = @VICE_LDFLAGS@
 
 
-noinst_LIBRARIES = libarchdep.a
+noinst_LIBRARIES = libarchdep.a libtoolarchdep.a
 
 libarchdep_a_SOURCES = \
 	archdep_access.c \
@@ -129,6 +129,13 @@ if MACOS_COMPILE
 libarchdep_a_SOURCES += macOS-util.m
 endif
 
+if !USE_SDL2UI
+libarchdep_a_SOURCES += archdep_thread.c
+endif
+
+libtoolarchdep_a_SOURCES = \
+	archdep_thread.c
+
 EXTRA_DIST = \
 	archapi.h \
 	archdep_access.h \
@@ -204,6 +211,7 @@ EXTRA_DIST = \
 	archdep_spawn.h \
 	archdep_startup_log_error.h \
 	archdep_stat.h \
+	archdep_thread.h \
 	archdep_tick.h \
 	archdep_tmpnam.h \
 	archdep_unix.h \

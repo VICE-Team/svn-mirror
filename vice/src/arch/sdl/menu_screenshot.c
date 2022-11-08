@@ -65,8 +65,8 @@ static UI_MENU_CALLBACK(save_screenshot_callback)
         sprintf(title, "Choose %s file", (char *)param);
         name = sdl_ui_file_selection_dialog(title, FILEREQ_MODE_SAVE_FILE);
         if (name != NULL) {
-            width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-            height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+            width = sdl_active_canvas->draw_buffer->width;
+            height = sdl_active_canvas->draw_buffer->height;
             memcpy(sdl_active_canvas->draw_buffer->draw_buffer, sdl_ui_get_draw_buffer(), width * height);
             selected_driver = gfxoutput_get_driver((char *)param);
             util_add_extension(&name, selected_driver->default_extension);

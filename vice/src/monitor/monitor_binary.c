@@ -1650,7 +1650,7 @@ static int monitor_binary_activate(void)
             break;
         }
 
-        listen_socket = vice_network_server(server_addr);
+        listen_socket = vice_network_server("Binary monitor server", server_addr);
         if (!listen_socket) {
             log_error(LOG_DEFAULT,
                 "monitor_binary_activate(): could not initialize listening socket");

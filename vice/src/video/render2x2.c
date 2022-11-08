@@ -109,7 +109,6 @@ void render_32_2x2_non_interlaced(const video_render_color_tables_t *color_tab,
 {
     const uint32_t *colortab = color_tab->physical_colors;
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, yys;
-    int readable = config->readable;
     yys = (ys << 1) | (yt & 1);
     wfirst = xt & 1;
     width -= wfirst;
@@ -148,7 +147,7 @@ void render_32_2x2_non_interlaced(const video_render_color_tables_t *color_tab,
         tmptrg = (uint32_t *)((trg + pitcht * yt + (xt << 2)) + (y - yys) * pitcht);
 
         if (!(y & 1) || doublescan) {
-            if ((y & 1) && readable && y > yys) { /* copy previous line */
+            if ((y & 1) && y > yys) { /* copy previous line */
                 memcpy(tmptrg, (uint8_t *)tmptrg - pitcht, ((width << 1) + wfirst + wlast) << 2);
             } else {
                 if (wfirst) {

@@ -157,6 +157,9 @@ static char *ln_strdup(const char *s)
     return (char*)memcpy (result, s, len);
 }
 
+#ifdef strcasecmp
+#undef strcasecmp
+#endif
 #define strcasecmp ln_strcasecmp
 #define strdup ln_strdup
 #define isatty _isatty

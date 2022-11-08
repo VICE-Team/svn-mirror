@@ -638,7 +638,7 @@ static void usbserver_activate(int mode)
         return;
     }
 
-    usbserver_socket = vice_network_server(server_addr);
+    usbserver_socket = vice_network_server("USB server", server_addr);
     vice_network_address_close(server_addr);
 }
 

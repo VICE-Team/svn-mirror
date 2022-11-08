@@ -1,0 +1,14 @@
+.cmake_bootstrap_makefile_hash
+_sdl2
+_sdl
+_gtk3
+_headless
+aclocal.m4
+autom4te.cache/
+compile
+config.log
+config.status
+configure
+depcomp
+missing
+ylwrap

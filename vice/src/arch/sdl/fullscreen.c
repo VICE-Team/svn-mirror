@@ -39,7 +39,9 @@
 #include "fullscreenarch.h"
 #include "kbd.h"
 #include "log.h"
+#include "mainlock.h"
 #include "ui.h"
+#include "uipoll.h"
 #include "video.h"
 #include "videoarch.h"
 
@@ -49,6 +51,9 @@
 #define DBG(x)
 #endif
 
+#define CANVAS_LOCK() archdep_mutex_lock(canvas->lock)
+#define CANVAS_UNLOCK() archdep_mutex_unlock(canvas->lock)
+
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
     SDL_Event e;
@@ -56,13 +61,20 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 
     DBG(("%s: %i", __func__, enable));
 
-    canvas->fullscreenconfig->enable = enable;
+    CANVAS_LOCK();
 
-    ui_check_mouse_cursor();
+    canvas->fullscreenconfig->enable = enable;
+    
+    if (canvas->sdl_window) {
+        
+    }
 
     if (canvas->initialized) {
+        
         /* resize window back to normal when leaving fullscreen */
         video_viewport_resize(canvas, 1);
+        
+        canvas->sdl_window->recreate_resources = true;
 
         /* HACK: when switching from/to fullscreen using hotkey (alt+d), some
                  spurious keyup/keydown events fire for the keys being held
@@ -71,7 +83,7 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 
         */
         count = 10; while (count--) {
-            while (SDL_PollEvent(&e)) {
+            while (sdl_ui_poll_pop_event(&e)) {
                 switch (e.type) {
                     case SDL_KEYDOWN:
                     case SDL_KEYUP:
@@ -79,9 +91,12 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
                         break;
                 }
             }
-            SDL_Delay(20);
+            mainlock_yield_and_sleep(tick_per_second() / 60);
         }
     }
+
+    CANVAS_UNLOCK();
+    
     return 0;
 }
 

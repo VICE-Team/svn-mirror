@@ -37,26 +37,19 @@
 
 int raster_snapshot_write(snapshot_module_t *m, raster_t *raster)
 {
-    unsigned int padded_size;
-    unsigned int unpadded_offset;
     struct draw_buffer_s *draw_buffer = raster->canvas->draw_buffer;
 
     if (0
         || SMW_DW(m, raster->current_line) < 0
-        || SMW_DW(m, draw_buffer->draw_buffer_width) < 0
-        || SMW_DW(m, draw_buffer->draw_buffer_height) < 0
-        || SMW_DW(m, draw_buffer->draw_buffer_pitch) < 0
+        || SMW_DW(m, draw_buffer->width) < 0
+        || SMW_DW(m, draw_buffer->height) < 0
+        || SMW_DW(m, draw_buffer->width) < 0    /* was pitch, but that was removed, put in width for compatibility */
         ) {
         return -1;
     }
 
-    raster_calculate_padding_size(draw_buffer->draw_buffer_width,
-                                  draw_buffer->draw_buffer_height,
-                                  &padded_size,
-                                  &unpadded_offset);
-
     if (0
-        || SMW_BA(m, draw_buffer->draw_buffer_padded_allocations[0], padded_size) < 0
+        || SMW_BA(m, draw_buffer->padded_allocations[0], draw_buffer->padded_allocations_size_bytes) < 0
         ) {
         return -1;
     }
@@ -65,7 +58,7 @@ int raster_snapshot_write(snapshot_module_t *m, raster_t *raster)
 
     if (raster->canvas->videoconfig->cap->interlace_allowed) {
         if (0
-            || SMW_BA(m, draw_buffer->draw_buffer_padded_allocations[1], padded_size) < 0
+            || SMW_BA(m, draw_buffer->padded_allocations[1], draw_buffer->padded_allocations_size_bytes) < 0
             || SMW_DW(m, raster->canvas->videoconfig->interlace_field) < 0
             ) {
             return -1;
@@ -77,30 +70,28 @@ int raster_snapshot_write(snapshot_module_t *m, raster_t *raster)
 
 int raster_snapshot_read(snapshot_module_t *m, raster_t *raster)
 {
-    unsigned int padded_size;
-    unsigned int unpadded_offset;
+    unsigned int unused_value;
     struct draw_buffer_s *draw_buffer = raster->canvas->draw_buffer;
 
     if (0
         || SMR_DW(m, &raster->current_line) < 0
-        || SMR_DW(m, &draw_buffer->draw_buffer_width) < 0
-        || SMR_DW(m, &draw_buffer->draw_buffer_height) < 0
-        || SMR_DW(m, &draw_buffer->draw_buffer_pitch) < 0
+        || SMR_DW(m, &draw_buffer->width) < 0
+        || SMR_DW(m, &draw_buffer->height) < 0
+        || SMR_DW(m, &unused_value) < 0 /* was pitch, value no longer used */
         ) {
         return -1;
     }
 
-    raster_calculate_padding_size(draw_buffer->draw_buffer_width,
-                                  draw_buffer->draw_buffer_height,
-                                  &padded_size,
-                                  &unpadded_offset);
+    raster_calculate_padding_size(draw_buffer->width,
+                                  draw_buffer->height,
+                                  &draw_buffer->padded_allocations_size_bytes,
+                                  &draw_buffer->padded_allocations_offset);
 
-    draw_buffer->draw_buffer_padded_allocations[0] = lib_realloc(draw_buffer->draw_buffer_padded_allocations[0], padded_size);
-    draw_buffer->draw_buffer_non_padded[0] = draw_buffer->draw_buffer_padded_allocations[0] + unpadded_offset;
-    draw_buffer->draw_buffer = draw_buffer->draw_buffer_non_padded[0];
+    draw_buffer->padded_allocations[0] = lib_realloc(draw_buffer->padded_allocations[0], draw_buffer->padded_allocations_size_bytes);
+    draw_buffer->draw_buffer = draw_buffer->padded_allocations[0] + draw_buffer->padded_allocations_offset;
 
     if (0
-        || SMR_BA(m, draw_buffer->draw_buffer_padded_allocations[0], padded_size) < 0
+        || SMR_BA(m, draw_buffer->padded_allocations[0], draw_buffer->padded_allocations_size_bytes) < 0
         ) {
         return -1;
     }
@@ -110,18 +101,17 @@ int raster_snapshot_read(snapshot_module_t *m, raster_t *raster)
      */
 
     if (raster->canvas->videoconfig->cap->interlace_allowed) {
-        draw_buffer->draw_buffer_padded_allocations[1] = lib_realloc(draw_buffer->draw_buffer_padded_allocations[1], padded_size);
-        draw_buffer->draw_buffer_non_padded[1] = draw_buffer->draw_buffer_padded_allocations[1] + unpadded_offset;
+        draw_buffer->padded_allocations[1] = lib_realloc(draw_buffer->padded_allocations[1], draw_buffer->padded_allocations_size_bytes);
 
         if (0
-            || SMR_BA(m, draw_buffer->draw_buffer_padded_allocations[1], padded_size) < 0
+            || SMR_BA(m, draw_buffer->padded_allocations[1], draw_buffer->padded_allocations_size_bytes) < 0
             || SMR_DW_INT(m, &raster->canvas->videoconfig->interlace_field) < 0
             ) {
             return -1;
         }
 
         /* Update the current draw buffer based on the interlace field */
-        draw_buffer->draw_buffer = draw_buffer->draw_buffer_non_padded[raster->canvas->videoconfig->interlace_field & 1];
+        draw_buffer->draw_buffer = draw_buffer->padded_allocations[raster->canvas->videoconfig->interlace_field & 1] + draw_buffer->padded_allocations_offset;
     }
 
     return 0;

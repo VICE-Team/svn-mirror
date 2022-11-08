@@ -33,6 +33,8 @@ set -o errexit
 set -o nounset
 set -o allexport
 
+BUILDING_UICLIENTTEST=false
+
 function hash_all_makefiles() {
 	echo -n "$(find . -name Makefile -exec cat {} \; | openssl dgst -md5 -binary | xxd -p)"
 }
@@ -63,14 +65,14 @@ then
 	fi
 fi
 
+echo -n "$MAKEFILE_HASH" > .cmake_bootstrap_makefile_hash
+
 # Remove any previous run
 find . -type f -name 'CMakeLists.txt' -exec rm {} \;
 find . -type f -name 'CMakeCache.txt' -exec rm {} \;
 find . -type f -name 'cmake_install.cmake' -exec rm {} \;
 find . -type d -name 'CMakeFiles' | xargs -IQQQ rm -rf "QQQ"
 find . -type d -name '.cmake_bootstrap_cache' | xargs -IQQQ rm -rf "QQQ"
-
-echo -n "$MAKEFILE_HASH" > .cmake_bootstrap_makefile_hash
 
 # Extracting values out of makefiles is a heavy operation, so we use a filesystem
 # cache to optimise the process. At the end of this script, remove the cache.
@@ -531,6 +533,10 @@ function external_lib_label {
 function generate_executable_target {
 	local executable=$1
 
+	if [ "$executable" = "uiclienttest" ]; then
+		BUILDING_UICLIENTTEST=true
+	fi
+
 	#
 	# Each executable has its own list of external libs to be linked with.
 	#
@@ -604,6 +610,7 @@ function generate_executable_target {
 		    PRIVATE
 		    	$LIB_LIST
 		    )
+	
 	HEREDOC
 }
 
@@ -663,10 +670,17 @@ PARALLEL_JOBS=""
 for executable in $EMULATORS
 do
 	if $USE_PARALLEL; then
-		PARALLEL_JOBS="${PARALLEL_JOBS}cd $(pwd); >&2 echo \"Emulator: ${executable}\"; generate_executable_target ${executable}\n"
+		JOB="cd $(pwd); >&2 echo \"Emulator: ${executable}\"; generate_executable_target ${executable};"
+		if $BUILDING_UICLIENTTEST; then
+			JOB="${JOB} echo \"add_dependencies(${executable} uiclienttest)\";"
+		fi
+		PARALLEL_JOBS="${PARALLEL_JOBS}${JOB}\n"
 	else
 		echo "Emulator: $executable"
 		generate_executable_target $executable >> CMakeLists.txt
+		if $BUILDING_UICLIENTTEST; then
+			echo "add_dependencies(${executable} uiclienttest)" >> CMakeLists.txt
+		fi
 	fi
 done
 
@@ -694,6 +708,14 @@ if $USE_PARALLEL; then
 	echo -e "$PARALLEL_JOBS" | parallel -j $HOW_PARALLEL --no-run-if-empty >> CMakeLists.txt
 fi
 
+popdq
+
+#
+# Test program for uiclient
+#
+
+pushdq src/arch/headless/uiclient
+generate_executable_target uiclienttest >> CMakeLists.txt
 popdq
 
 #

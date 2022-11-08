@@ -243,7 +243,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         return FALSE;
     }
 
-    pthread_mutex_lock(&canvas->lock);
+    archdep_mutex_lock(canvas->lock);
 
     /* GDK_ENTER_NOTIFY isn't reliable on fullscreen transitions, so we reenable this here too */
     if (canvas->still_frame_callback_id == 0) {
@@ -291,7 +291,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
 
 #endif
 
-        pthread_mutex_unlock(&canvas->lock);
+        archdep_mutex_unlock(canvas->lock);
         return FALSE;
     }
 
@@ -316,7 +316,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         canvas->pen_y = pen_y;
     }
 
-    pthread_mutex_unlock(&canvas->lock);
+    archdep_mutex_unlock(canvas->lock);
     return FALSE;
 }
 
@@ -343,7 +343,7 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
     if (event->type == GDK_BUTTON_PRESS) {
         int button = ((GdkEventButton *)event)->button;
 
-        pthread_mutex_lock(&canvas->lock);
+        archdep_mutex_lock(canvas->lock);
         if (button == 1) {
             /* Left mouse button */
             canvas->pen_buttons |= LP_HOST_BUTTON_1;
@@ -351,7 +351,7 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
             /* Right mouse button */
             canvas->pen_buttons |= LP_HOST_BUTTON_2;
         }
-        pthread_mutex_unlock(&canvas->lock);
+        archdep_mutex_unlock(canvas->lock);
 
         /* Don't send button events if the mouse isn't captured */
         if (_mouse_enabled) {
@@ -360,7 +360,7 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
     } else if (event->type == GDK_BUTTON_RELEASE) {
         int button = ((GdkEventButton *)event)->button;
 
-        pthread_mutex_lock(&canvas->lock);
+        archdep_mutex_lock(canvas->lock);
         if (button == 1) {
             /* Left mouse button */
             canvas->pen_buttons &= ~LP_HOST_BUTTON_1;
@@ -368,7 +368,7 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
             /* Right mouse button */
             canvas->pen_buttons &= ~LP_HOST_BUTTON_2;
         }
-        pthread_mutex_unlock(&canvas->lock);
+        archdep_mutex_unlock(canvas->lock);
 
         /* Don't send button events if the mouse isn't captured */
         if (_mouse_enabled) {
@@ -582,11 +582,11 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
                 gtk_widget_remove_tick_callback(canvas->event_box, canvas->still_frame_callback_id);
                 canvas->still_frame_callback_id = 0;
             }
-            pthread_mutex_lock(&canvas->lock);
+            archdep_mutex_lock(canvas->lock);
             canvas->pen_x = -1;
             canvas->pen_y = -1;
             canvas->pen_buttons = 0;
-            pthread_mutex_unlock(&canvas->lock);
+            archdep_mutex_unlock(canvas->lock);
         }
     }
 
@@ -686,7 +686,7 @@ static void machine_window_create(video_canvas_t *canvas)
     printf(" first/last displayed line: %u x %u\n", canvas->geometry->first_displayed_line, canvas->geometry->last_displayed_line);
     printf(" extra offscreen border left/right: %u x %u\n", canvas->geometry->extra_offscreen_border_left, canvas->geometry->extra_offscreen_border_right);
     printf(" screen_display_wh: %f x %f\n", (float)canvas->screen_display_w, (float)canvas->screen_display_h);
-    printf(" canvas_physical_wh: %u x %u\n", canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_width);
+    printf(" canvas_visible_wh: %u x %u\n", canvas->draw_buffer->visible_width, canvas->draw_buffer->visible_height);
     printf(" scalexy: %d x %d\n", canvas->videoconfig->scalex, canvas->videoconfig->scaley);
     printf(" sizexy: %u x %u\n", canvas->videoconfig->cap->single_mode.sizex, canvas->videoconfig->cap->single_mode.sizey);
     printf(" rmode: %u\n", canvas->videoconfig->cap->single_mode.rmode);

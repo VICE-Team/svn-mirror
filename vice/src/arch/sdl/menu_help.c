@@ -34,6 +34,7 @@
 #include "cmdline.h"
 #include "info.h"
 #include "lib.h"
+#include "mainlock.h"
 #include "menu_common.h"
 #include "menu_help.h"
 #include "ui.h"
@@ -374,7 +375,7 @@ static void show_text(const char *text)
                     }
                     break;
                 default:
-                    SDL_Delay(10);
+                    mainlock_yield_and_sleep(tick_per_second() / 60);
                     break;
             }
         }
@@ -400,11 +401,7 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("Version " VERSION, i);
 #endif
         i++;
-#ifdef USE_SDL2UI
         sdl_ui_print_center("SDL2", i++);
-#else
-        sdl_ui_print_center("SDL", i++);
-#endif
         i++;
         sdl_ui_print_center("The VICE Team", i++);
         for (j = 0; core_team[j].name; j++) {
@@ -422,7 +419,7 @@ static UI_MENU_CALLBACK(about_callback)
                     active = 0;
                     break;
                 default:
-                    SDL_Delay(10);
+                    mainlock_yield_and_sleep(tick_per_second() / 120);
                     break;
             }
         }
