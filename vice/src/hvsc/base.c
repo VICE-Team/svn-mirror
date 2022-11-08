@@ -566,10 +566,12 @@ void hvsc_free_paths(void)
 char *hvsc_path_strip_root(const char *path)
 {
     size_t plen = strlen(path);             /* length of path */
-    size_t rlen = strlen(hvsc_root_path);   /* length of HSVC root path */
+    size_t rlen = (hvsc_root_path == NULL) ? 0 : strlen(hvsc_root_path);   /* length of HSVC root path */
     char *result;
 
-    if (plen <= rlen) {
+    if (rlen == 0) {
+        result = hvsc_strdup(path);
+    } else if (plen <= rlen) {
         result = hvsc_strdup(path);
     } else if (memcmp(path, hvsc_root_path, rlen) == 0) {
         /* got HSVC root path */
