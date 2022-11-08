@@ -174,16 +174,16 @@ int main(int argc, char **argv)
         } else {
             /* Everything up to date, wait for the next event */
             if (SDL_WaitEvent(&e) == 0) {
-                log_error(LOG_DEFAULT, "Error in SDL_WaitEvent(): %s", SDL_GetError());
 #ifdef MACOS_COMPILE
                 if (!strcmp(SDL_GetError(), "Unknown touch device id -1, cannot reset")) {
                     /*
-                     * HACK: This appearst to be an unfixed, nonfatil, intermittent bug in SDL2.
+                     * HACK: This appears to be an unfixed, nonfatal, intermittent bug in SDL2.
                      * To replicate, open F10 menu and change sound buffer ms, then exit menu
                      */
                     continue;
                 }
 #endif
+                log_error(LOG_DEFAULT, "Error in SDL_WaitEvent(): %s", SDL_GetError());
                 archdep_vice_exit(1);
             }
         }
