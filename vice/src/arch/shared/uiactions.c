@@ -314,9 +314,10 @@ static const ui_action_info_private_t action_info_list[] = {
     { ACTION_PSID_SUBTUNE_PREVIOUS,     "psid-subtune-previous",    "Select previous subtune",  VICE_MACHINE_VSID },
 
     { ACTION_PSID_PLAY,                 "psid-play",                "Play",                     VICE_MACHINE_VSID },
-    { ACTION_PSID_PAUSE,                "psid-play",                "Pause playback",           VICE_MACHINE_VSID },
+    { ACTION_PSID_PAUSE,                "psid-pause",               "Pause playback",           VICE_MACHINE_VSID },
     { ACTION_PSID_STOP,                 "psid-stop",                "Stop playback",            VICE_MACHINE_VSID },
     { ACTION_PSID_FFWD,                 "psid-ffwd",                "Fast forward",             VICE_MACHINE_VSID },
+    { ACTION_PSID_LOOP_TOGGLE,          "psid-loop-toggle",         "Toggle looping",           VICE_MACHINE_VSID },
 
     { ACTION_INVALID, NULL, NULL, 0 }
 };

@@ -282,6 +282,7 @@ enum {
     ACTION_PSID_PAUSE,
     ACTION_PSID_STOP,
     ACTION_PSID_FFWD,
+    ACTION_PSID_LOOP_TOGGLE,
 
     /* TODO: VSID playlist controls */
 
