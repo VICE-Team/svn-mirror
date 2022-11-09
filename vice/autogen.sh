@@ -27,12 +27,6 @@
 #  02111-1307  USA.
 #
 
-# VICE version, used generate configure.ac from configure.proto
-VICE_VERSION_MAJOR=3
-VICE_VERSION_MINOR=4
-VICE_VERSION_REV=0
-
-
 # minimum autoconf version required
 ACONF_VERSION_REQ_MAJ=2
 ACONF_VERSION_REQ_MIN=60
