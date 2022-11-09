@@ -27,3 +27,12 @@ quit                    <Alt>q
 psid-override-toggle    <Alt>x
 settings-dialog         <Alt>o
 settings-default        <Shift><Alt>o
+
+# (Sub)tune controls
+psid-play               r       # r for Run?
+psid-pause              h       # h for Halt? Space cannot be used
+psid-stop               s
+psid-ffwd               f
+psid-subtune-next       n
+psid-subtune-previous   p
+psid-loop-toggle        l

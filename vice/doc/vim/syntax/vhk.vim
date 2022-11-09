@@ -124,7 +124,9 @@ syn match vhkActionName "\<warp-mode-toggle\>"
 syn match vhkActionName "\<hotkeys-\(clear\|default\|load\(-from\)\?\|save\(-to\)\?\)\>"
 syn match vhkActionName "\<psid-load\>"
 syn match vhkActionName "\<psid-override-toggle\>"
-syn match vhkActionName "\<psid-subtune-\([1-9]\|10\)\>"
+syn match vhkActionName "\<psid-subtune-\([1-9]\|10\|next\|previous\)\>"
+syn match vhkActionName "\<psid-\(play\|pause\|stop\|ffwd\)\>"
+syn match vhkActionName "\<psid-loop-toggle\>"
 
 " Comments
 syn match vhkComment "[#;].*$" contains=vhkTodo
