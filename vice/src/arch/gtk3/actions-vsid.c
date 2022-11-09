@@ -81,6 +81,29 @@ static void play_current_tune(void)
     machine_play_psid(current);
 }
 
+
+/** \brief  Play subtune
+ *
+ * \param[in]   tune    subtune number
+ */
+static void play_subtune(int tune)
+{
+    vsid_state_t *state = vsid_state_lock();
+    int count = state->tune_count;
+
+    if (tune < 1) {
+        tune = 1;
+    } else if (tune > count) {
+        tune = count;
+    }
+    state->tune_current = tune;
+    vsid_state_unlock();
+
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    psid_init_driver();
+    machine_play_psid(tune);
+}
+
 /** \brief  Show PSID load dialog */
 static void psid_load_action(void)
 {
@@ -160,6 +183,9 @@ static void psid_ffwd_action(void)
     }
 }
 
+/** \brief  Play next subtune
+ *  \note   Wraps around to the first tune if the current tune is the last.
+ */
 static void psid_subtune_next_action(void)
 {
     vsid_state_t *state = vsid_state_lock();
@@ -174,6 +200,9 @@ static void psid_subtune_next_action(void)
     play_current_tune();
 }
 
+/** \brief  Play previous subtune
+ *  \note   Wraps around to the last tune if the current tune is the first.
+ */
 static void psid_subtune_previous_action(void)
 {
     vsid_state_t *state = vsid_state_lock();
@@ -184,8 +213,67 @@ static void psid_subtune_previous_action(void)
         state->tune_current--;
     }
     vsid_state_unlock();
-
     play_current_tune();
+}
+
+/** \brief  Play subtune 1 */
+static void psid_subtune_1_action(void)
+{
+    play_subtune(1);
+}
+
+/** \brief  Play subtune 2 */
+static void psid_subtune_2_action(void)
+{
+    play_subtune(2);
+}
+
+/** \brief  Play subtune 3 */
+static void psid_subtune_3_action(void)
+{
+    play_subtune(3);
+}
+
+/** \brief  Play subtune 4 */
+static void psid_subtune_4_action(void)
+{
+    play_subtune(4);
+}
+
+/** \brief  Play subtune 5 */
+static void psid_subtune_5_action(void)
+{
+    play_subtune(5);
+}
+
+/** \brief  Play subtune 6 */
+static void psid_subtune_6_action(void)
+{
+    play_subtune(6);
+}
+
+/** \brief  Play subtune 7 */
+static void psid_subtune_7_action(void)
+{
+    play_subtune(7);
+}
+
+/** \brief  Play subtune 8 */
+static void psid_subtune_8_action(void)
+{
+    play_subtune(8);
+}
+
+/** \brief  Play subtune 9 */
+static void psid_subtune_9_action(void)
+{
+    play_subtune(9);
+}
+
+/** \brief  Play subtune 10 */
+static void psid_subtune_10_action(void)
+{
+    play_subtune(10);
 }
 
 
@@ -231,6 +319,57 @@ static const ui_action_map_t vsid_actions[] = {
     {
         .action = ACTION_PSID_SUBTUNE_PREVIOUS,
         .handler = psid_subtune_previous_action,
+        .uithread = true
+    },
+
+    {
+        .action = ACTION_PSID_SUBTUNE_1,
+        .handler = psid_subtune_1_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_2,
+        .handler = psid_subtune_2_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_3,
+        .handler = psid_subtune_3_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_4,
+        .handler = psid_subtune_4_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_5,
+        .handler = psid_subtune_5_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_6,
+        .handler = psid_subtune_6_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_7,
+        .handler = psid_subtune_7_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_8,
+        .handler = psid_subtune_8_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_9,
+        .handler = psid_subtune_9_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_10,
+        .handler = psid_subtune_10_action,
         .uithread = true
     },
 
