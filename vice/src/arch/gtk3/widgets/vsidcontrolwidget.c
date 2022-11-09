@@ -65,32 +65,65 @@
  */
 #define FFWD_SPEED  500
 
+/** \brief  Columns of the buttons
+ */
+enum {
+    COL_SUBTUNE_PREVIOUS,   /**< psid-subtune-previous */
+    COL_PLAY,               /**< psid-play */
+    COL_PAUSE,              /**< psid-pause */
+    COL_STOP,               /**< psid-stop */
+    COL_FFWD,               /**< psid-ffwd */
+    COL_NEXT,               /**< psid-subtune-next */
+    COL_EJECT,              /**< psid-load */
+    COL_REPEAT,             /**< psid-loop-toggle */
+
+    NUM_BUTTONS             /**< number of buttons */
+};
+
+
+/* Button types */
+enum {
+    BUTTON_PUSH,    /**< normal push button (GtkButton) */
+    BUTTON_TOGGLE   /**< toggle button (GtkToggleButton) */
+};
+
 
 /** \brief  Object containing icon, action ID and tooltip
  */
 typedef struct vsid_ctrl_button_s {
     const char *icon_name;  /**< icon name */
     int action;             /**< UI action ID */
+    int button_type;        /**< button type */
     const char *tooltip;    /**< tool tip */
 } vsid_ctrl_button_t;
 
+
+/** \brief  Signal handler IDs for the buttons */
+static gulong button_handler_ids[NUM_BUTTONS];
+
+/** \brief  Push/toggle button widget references */
+static GtkWidget *button_widgets[NUM_BUTTONS];
 
 
 /** \brief  Progress bar */
 static GtkWidget *progress = NULL;
 
-/** \brief  Repeat toggle button */
-static GtkWidget *repeat = NULL;
+/** \brief  Internal repeat state
+ *
+ * Since we toggle this state via a UI action that can be triggered both from
+ * the toggle button and a hotkey we keep track of the state here.
+ */
+static gboolean repeat = FALSE;
 
 
-/** \brief  Event handler for buttons
+/** \brief  Handler for 'clicked' event of push buttons
  *
  * Trigger UI \a action.
  *
- * \param[in]   widget  button
+ * \param[in]   button  push button
  * \param[in]   action  action ID
  */
-static void action_callback(GtkWidget *widget, gpointer action)
+static void push_button_callback(GtkWidget *button, gpointer action)
 {
     int id = GPOINTER_TO_INT(action);
 
@@ -101,38 +134,63 @@ static void action_callback(GtkWidget *widget, gpointer action)
 }
 
 
+/** \brief  Handler for 'toggled' event of toggle buttons
+ *
+ * Trigger UI \a action.
+ *
+ * \param[in]   button  push button
+ * \param[in]   action  action ID
+ */
+static void toggle_button_callback(GtkWidget *button, gpointer action)
+{
+
+    int id = GPOINTER_TO_INT(action);
+    if (id > 0) {
+        debug_gtk3("calling action '%s' (%d).", ui_action_get_name(id), id);
+        ui_action_trigger(id);
+    }
+}
+
+
 /** \brief  List of media control buttons
  *
- * \todo    Some of these buttons would be better as stateful buttons, ie
- *          GtkToggleButtons.
+ * \note    Keep this array and the COL_* enum synchronized!
  */
 static const vsid_ctrl_button_t buttons[] = {
     { "media-skip-backward",
       ACTION_PSID_SUBTUNE_PREVIOUS,
+      BUTTON_PUSH,
       "Select previous subtune" },
     { "media-playback-start",
       ACTION_PSID_PLAY,
+      BUTTON_PUSH,
       "Play tune" },
     { "media-playback-pause",
       ACTION_PSID_PAUSE,
+      BUTTON_PUSH,
       "Pause playback" },
-    { "media-playback-stop",
+    { "media-playback-pause",
       ACTION_PSID_STOP,
+      BUTTON_PUSH,
       "Stop playback" },
     { "media-seek-forward",
       ACTION_PSID_FFWD,
+      BUTTON_PUSH,
       "Fast forward" },
     { "media-skip-forward",
       ACTION_PSID_SUBTUNE_NEXT,
-      "Select next subtune", },   /* select next tune */
+      BUTTON_PUSH,
+      "Select next subtune" },   /* select next tune */
     { "media-eject",
       ACTION_PSID_LOAD,
+      BUTTON_PUSH,
       "Load PSID file" },   /* active file-open dialog */
-#if 0
-    { "media-record", fake_callback,
-        "Record media" },  /* start recording with current settings*/
-#endif
-    { NULL, 0, NULL }
+    { "media-playlist-repeat",
+      ACTION_PSID_LOOP_TOGGLE,
+      BUTTON_TOGGLE,
+      "Loop current subtune" },
+
+    { NULL, 0, 0, NULL }
 };
 
 
@@ -150,13 +208,40 @@ GtkWidget *vsid_control_widget_create(void)
 
     for (i = 0; buttons[i].icon_name != NULL; i++) {
         GtkWidget *button;
+        GtkWidget *image;
         gchar buf[1024];
+        gulong handler_id;
 
         g_snprintf(buf, sizeof(buf), "%s-symbolic", buttons[i].icon_name);
 
-        button = gtk_button_new_from_icon_name(buf, GTK_ICON_SIZE_LARGE_TOOLBAR);
-        /* always show the image, the button would useless without an image */
-        gtk_button_set_always_show_image(GTK_BUTTON(button), TRUE);
+        switch (buttons[i].button_type) {
+            case BUTTON_PUSH:
+                button = gtk_button_new_from_icon_name(buf, GTK_ICON_SIZE_LARGE_TOOLBAR);
+                /* always show the image, the button would useless without an image */
+                gtk_button_set_always_show_image(GTK_BUTTON(button), TRUE);
+                handler_id = g_signal_connect(button,
+                                              "clicked",
+                                              G_CALLBACK(push_button_callback),
+                                              GINT_TO_POINTER(buttons[i].action));
+                break;
+            case BUTTON_TOGGLE:
+                button = gtk_toggle_button_new();
+                image = gtk_image_new_from_icon_name(buf, GTK_ICON_SIZE_LARGE_TOOLBAR);
+                gtk_container_add(GTK_CONTAINER(button), image);
+                handler_id = g_signal_connect(button,
+                                              "toggled",
+                                              G_CALLBACK(toggle_button_callback),
+                                              GINT_TO_POINTER(buttons[i].action));
+                break;
+            default:
+                /* shouldn't get here */
+                button = NULL;
+                continue;
+        }
+
+        button_handler_ids[i] = handler_id;
+        button_widgets[i] = button;
+
         /* don't initialy focus on a button */
         gtk_widget_set_can_focus(button, FALSE);
 #if 0
@@ -164,10 +249,7 @@ GtkWidget *vsid_control_widget_create(void)
         gtk_widget_set_focus_on_click(button, FALSE);
 #endif
         gtk_grid_attach(GTK_GRID(grid), button, i, 0, 1,1);
-        g_signal_connect(button,
-                         "clicked",
-                         G_CALLBACK(action_callback),
-                         GINT_TO_POINTER(buttons[i].action));
+
         if (buttons[i].tooltip != NULL) {
             gtk_widget_set_tooltip_text(button, buttons[i].tooltip);
         }
@@ -176,16 +258,6 @@ GtkWidget *vsid_control_widget_create(void)
     /* add progress bar */
     progress = gtk_progress_bar_new();
     gtk_grid_attach(GTK_GRID(grid), progress, 0, 1, i, 1);
-
-    /* Add loop check button
-     *
-     * I'm pretty sure there's a loop icon, so perhaps add that to the control
-     * buttons in stead of using this check button.
-     */
-    repeat = gtk_check_button_new_with_label("Loop current song");
-    gtk_grid_attach(GTK_GRID(grid), repeat, 0, 2, i, 1);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(repeat), TRUE);
-    gtk_widget_set_can_focus(repeat, FALSE);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -249,11 +321,29 @@ void vsid_control_widget_next_tune(void)
 }
 
 
+/** \brief  Set repeat of psid
+ *
+ * Set internal repeat state and toggle button state
+ *
+ * \param[in]   enabled repeat current psid
+ */
+void vsid_control_widget_set_repeat(gboolean enabled)
+{
+    GtkWidget *button = button_widgets[COL_REPEAT];
+    gulong handler_id = button_handler_ids[COL_REPEAT];
+
+    repeat = !repeat;
+    g_signal_handler_block(button, handler_id);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), repeat);
+    g_signal_handler_unblock(button, handler_id);
+}
+
+
 /** \brief  Get repeat/loop widget state
  *
  * \return  loop state
  */
 gboolean vsid_control_widget_get_repeat(void)
 {
-    return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(repeat));
+    return repeat;
 }

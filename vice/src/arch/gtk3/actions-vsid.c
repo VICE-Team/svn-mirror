@@ -46,6 +46,7 @@
 #include "ui.h"
 #include "uiactions.h"
 #include "uisidattach.h"
+#include "vsidcontrolwidget.h"
 #include "vsidstate.h"
 
 #include "actions-vsid.h"
@@ -276,6 +277,14 @@ static void psid_subtune_10_action(void)
     play_subtune(10);
 }
 
+static void psid_loop_toggle_action(void)
+{
+    gboolean enabled = vsid_control_widget_get_repeat();
+
+    vsid_control_widget_set_repeat(!enabled);
+}
+
+
 
 /** \brief  List of VSID-specific actions */
 static const ui_action_map_t vsid_actions[] = {
@@ -370,6 +379,12 @@ static const ui_action_map_t vsid_actions[] = {
     {
         .action = ACTION_PSID_SUBTUNE_10,
         .handler = psid_subtune_10_action,
+        .uithread = true
+    },
+
+    {
+        .action = ACTION_PSID_LOOP_TOGGLE,
+        .handler = psid_loop_toggle_action,
         .uithread = true
     },
 
