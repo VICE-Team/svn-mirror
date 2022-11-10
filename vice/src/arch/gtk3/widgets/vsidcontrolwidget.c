@@ -167,15 +167,15 @@ static const vsid_ctrl_button_t buttons[] = {
       "Play tune" },
     { "media-playback-pause",
       ACTION_PSID_PAUSE,
-      BUTTON_PUSH,
+      BUTTON_TOGGLE,
       "Pause playback" },
-    { "media-playback-pause",
+    { "media-playback-stop",
       ACTION_PSID_STOP,
       BUTTON_PUSH,
       "Stop playback" },
     { "media-seek-forward",
       ACTION_PSID_FFWD,
-      BUTTON_PUSH,
+      BUTTON_TOGGLE,
       "Fast forward" },
     { "media-skip-forward",
       ACTION_PSID_SUBTUNE_NEXT,
@@ -346,4 +346,33 @@ void vsid_control_widget_set_repeat(gboolean enabled)
 gboolean vsid_control_widget_get_repeat(void)
 {
     return repeat;
+}
+
+
+/** \brief  Sync pause button with pause state
+ */
+void vsid_control_widget_sync_pause(void)
+{
+    GtkWidget *button = button_widgets[COL_PAUSE];
+    gulong handler_id = button_handler_ids[COL_PAUSE];
+
+    g_signal_handler_block(button, handler_id);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), ui_pause_active());
+    g_signal_handler_unblock(button, handler_id);
+}
+
+
+/** \brief  Sync fast forward button with fast forward state
+ */
+void vsid_control_widget_sync_ffwd(void)
+{
+    GtkWidget *button = button_widgets[COL_FFWD];
+    gulong handler_id = button_handler_ids[COL_FFWD];
+    int speed = 0;
+
+    resources_get_int("Speed", &speed);
+
+    g_signal_handler_block(button, handler_id);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), speed > 100);
+    g_signal_handler_unblock(button, handler_id);
 }
