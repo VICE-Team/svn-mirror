@@ -151,12 +151,14 @@ static void psid_play_action(void)
         resources_set_int("Speed", 100);
     }
     ui_pause_disable();
+    vsid_control_widget_sync_pause();
 }
 
 /** \brief  Toggle pause */
 static void psid_pause_action(void)
 {
     ui_pause_toggle();
+    vsid_control_widget_sync_pause();
 }
 
 /** \brief  Stop playback */
@@ -182,6 +184,7 @@ static void psid_ffwd_action(void)
     } else {
         resources_set_int("Speed", 100);
     }
+    vsid_control_widget_sync_ffwd();
 }
 
 /** \brief  Play next subtune

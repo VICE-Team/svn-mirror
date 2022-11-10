@@ -40,5 +40,7 @@ void vsid_control_widget_set_progress(gdouble fraction);
 void vsid_control_widget_next_tune(void);
 void vsid_control_widget_set_repeat(gboolean enabled);
 gboolean vsid_control_widget_get_repeat(void);
+void vsid_control_widget_sync_pause(void);
+void vsid_control_widget_sync_ffwd(void);
 
 #endif
