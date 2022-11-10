@@ -31,8 +31,16 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *vsid_control_widget_create(void);
+/** \brief  VSID player status */
+typedef enum vsid_control_e {
+    VSID_ERROR = -1,    /**< player encountered error */
+    VSID_STOPPED = 0,   /**< player is stopped */
+    VSID_PLAYING,       /**< player is playing normally */
+    VSID_PAUSED,        /**< player is paused */
+    VSID_FORWARDING     /**< player is fast-forwarding */
+} vsid_control_t;
 
+GtkWidget *vsid_control_widget_create(void);
 void vsid_control_widget_set_tune_count(int nr);
 void vsid_control_widget_set_tune_current(int nr);
 void vsid_control_widget_set_tune_default(int nr);
@@ -40,7 +48,6 @@ void vsid_control_widget_set_progress(gdouble fraction);
 void vsid_control_widget_next_tune(void);
 void vsid_control_widget_set_repeat(gboolean enabled);
 gboolean vsid_control_widget_get_repeat(void);
-void vsid_control_widget_sync_pause(void);
-void vsid_control_widget_sync_ffwd(void);
+void vsid_control_widget_set_state(vsid_control_t state);
 
 #endif

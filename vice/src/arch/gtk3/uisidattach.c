@@ -40,6 +40,7 @@
 #include "uiactions.h"
 #include "uiapi.h"
 #include "uivsidwindow.h"
+#include "vsidcontrolwidget.h"
 
 #include "uisidattach.h"
 
@@ -144,6 +145,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             g_free(filename);
             lib_free(text);
             gtk_widget_destroy(widget);
+            vsid_control_widget_set_state(VSID_PLAYING);
             break;
 
         /* 'Close'/'X' button */
