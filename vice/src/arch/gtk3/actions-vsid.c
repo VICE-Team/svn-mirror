@@ -80,6 +80,8 @@ static void play_current_tune(void)
     psid_init_driver();
     debug_gtk3("calling machine_play_psid(%d).", current);
     machine_play_psid(current);
+    ui_pause_disable();
+    vsid_control_widget_set_state(VSID_PLAYING);
 }
 
 
@@ -103,12 +105,13 @@ static void play_subtune(int tune)
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     psid_init_driver();
     machine_play_psid(tune);
+    ui_pause_disable();
+    vsid_control_widget_set_state(VSID_PLAYING);
 }
 
 /** \brief  Show PSID load dialog */
 static void psid_load_action(void)
 {
-    /* FIXME: This triggers massive linker errors =) */
     uisidattach_show_dialog();
 }
 
@@ -151,14 +154,14 @@ static void psid_play_action(void)
         resources_set_int("Speed", 100);
     }
     ui_pause_disable();
-    vsid_control_widget_sync_pause();
+    vsid_control_widget_set_state(VSID_PLAYING);
 }
 
 /** \brief  Toggle pause */
 static void psid_pause_action(void)
 {
     ui_pause_toggle();
-    vsid_control_widget_sync_pause();
+    vsid_control_widget_set_state(VSID_PAUSED);
 }
 
 /** \brief  Stop playback */
@@ -171,6 +174,7 @@ static void psid_stop_action(void)
 
     machine_play_psid(-1);
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    vsid_control_widget_set_state(VSID_STOPPED);
 }
 
 /** \brief  Toggle fast forward */
@@ -181,10 +185,11 @@ static void psid_ffwd_action(void)
     resources_get_int("Speed", &speed);
     if (speed == 100) {
         resources_set_int("Speed", FFWD_SPEED);
+        vsid_control_widget_set_state(VSID_FORWARDING);
     } else {
         resources_set_int("Speed", 100);
+        vsid_control_widget_set_state(VSID_PLAYING);
     }
-    vsid_control_widget_sync_ffwd();
 }
 
 /** \brief  Play next subtune
@@ -200,7 +205,6 @@ static void psid_subtune_next_action(void)
         state->tune_current++;
     }
     vsid_state_unlock();
-
     play_current_tune();
 }
 

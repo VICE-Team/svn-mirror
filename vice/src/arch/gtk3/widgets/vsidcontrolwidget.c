@@ -88,6 +88,7 @@ enum {
 };
 
 
+
 /** \brief  Object containing icon, action ID and tooltip
  */
 typedef struct vsid_ctrl_button_s {
@@ -104,7 +105,6 @@ static gulong button_handler_ids[NUM_BUTTONS];
 /** \brief  Push/toggle button widget references */
 static GtkWidget *button_widgets[NUM_BUTTONS];
 
-
 /** \brief  Progress bar */
 static GtkWidget *progress = NULL;
 
@@ -114,6 +114,7 @@ static GtkWidget *progress = NULL;
  * the toggle button and a hotkey we keep track of the state here.
  */
 static gboolean repeat = FALSE;
+
 
 
 /** \brief  Handler for 'clicked' event of push buttons
@@ -163,7 +164,7 @@ static const vsid_ctrl_button_t buttons[] = {
       "Select previous subtune" },
     { "media-playback-start",
       ACTION_PSID_PLAY,
-      BUTTON_PUSH,
+      BUTTON_TOGGLE,
       "Play tune" },
     { "media-playback-pause",
       ACTION_PSID_PAUSE,
@@ -349,30 +350,65 @@ gboolean vsid_control_widget_get_repeat(void)
 }
 
 
-/** \brief  Sync pause button with pause state
+/** \brief  Update control buttons toggled state
+ *
+ * \param[in]   state   player state
  */
-void vsid_control_widget_sync_pause(void)
+void vsid_control_widget_set_state(vsid_control_t state)
 {
-    GtkWidget *button = button_widgets[COL_PAUSE];
-    gulong handler_id = button_handler_ids[COL_PAUSE];
+    GtkToggleButton *play;
+    GtkToggleButton *pause;
+    GtkToggleButton *ffwd;
+    gulong play_handler;
+    gulong pause_handler;
+    gulong ffwd_handler;
 
-    g_signal_handler_block(button, handler_id);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), ui_pause_active());
-    g_signal_handler_unblock(button, handler_id);
-}
+    if (state < VSID_STOPPED || state > VSID_FORWARDING) {
+        state = VSID_ERROR;
+    }
 
+    play = GTK_TOGGLE_BUTTON(button_widgets[COL_PLAY]);
+    pause = GTK_TOGGLE_BUTTON(button_widgets[COL_PAUSE]);
+    ffwd = GTK_TOGGLE_BUTTON(button_widgets[COL_FFWD]);
+    play_handler = button_handler_ids[COL_PLAY];
+    pause_handler = button_handler_ids[COL_PAUSE];
+    ffwd_handler = button_handler_ids[COL_FFWD];
 
-/** \brief  Sync fast forward button with fast forward state
- */
-void vsid_control_widget_sync_ffwd(void)
-{
-    GtkWidget *button = button_widgets[COL_FFWD];
-    gulong handler_id = button_handler_ids[COL_FFWD];
-    int speed = 0;
+    /* block all signal handler before toggling buttons */
+    g_signal_handler_block(play, play_handler);
+    g_signal_handler_block(pause, pause_handler);
+    g_signal_handler_block(ffwd, ffwd_handler);
 
-    resources_get_int("Speed", &speed);
+    switch (state) {
+        case VSID_PLAYING:
+            gtk_toggle_button_set_active(play, TRUE);
+            gtk_toggle_button_set_active(pause, FALSE);
+            gtk_toggle_button_set_active(ffwd, FALSE);
+            break;
+        case VSID_PAUSED:
+            gtk_toggle_button_set_active(play, FALSE);
+            gtk_toggle_button_set_active(pause, TRUE);
+            gtk_toggle_button_set_active(ffwd, FALSE);
+            break;
+        case VSID_STOPPED:
+            gtk_toggle_button_set_active(play, FALSE);
+            gtk_toggle_button_set_active(pause, FALSE);
+            gtk_toggle_button_set_active(ffwd, FALSE);
+            break;
+        case VSID_FORWARDING:
+            gtk_toggle_button_set_active(play, FALSE);
+            gtk_toggle_button_set_active(pause, FALSE);
+            gtk_toggle_button_set_active(ffwd, TRUE);
+            break;
+        default:
+            gtk_toggle_button_set_active(play, FALSE);
+            gtk_toggle_button_set_active(pause, FALSE);
+            gtk_toggle_button_set_active(ffwd, FALSE);
+            break;
+    }
 
-    g_signal_handler_block(button, handler_id);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), speed > 100);
-    g_signal_handler_unblock(button, handler_id);
+    /* unblock signal handlers */
+    g_signal_handler_unblock(play, play_handler);
+    g_signal_handler_unblock(pause, pause_handler);
+    g_signal_handler_unblock(ffwd, ffwd_handler);
 }
