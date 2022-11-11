@@ -51,9 +51,7 @@
 #include "videomodelwidget.h"
 #include "vsidcontrolwidget.h"
 #include "vsidmainwidget.h"
-#include "vsidmainwidget.h"
 #include "vsidstate.h"
-#include "vsidtuneinfowidget.h"
 #include "vsidtuneinfowidget.h"
 #include "vsidui.h"
 #include "vsync.h"
@@ -234,6 +232,8 @@ static void vsid_window_create(video_canvas_t *canvas)
  * \param[in]   filename    file to play
  *
  * \return  0 on success, -1 on failure
+ *
+ * \note    sets player UI state to either `VSID_PLAYING` or `VSID_ERROR`
  */
 int ui_vsid_window_load_psid(const char *filename)
 {
@@ -242,6 +242,7 @@ int ui_vsid_window_load_psid(const char *filename)
     vsync_suspend_speed_eval();
 
     if (machine_autodetect_psid(filename) < 0) {
+        vsid_control_widget_set_state(VSID_ERROR);
         ui_error("'%s' is not a valid PSID file.", filename);
         return -1;
     }
@@ -259,6 +260,7 @@ int ui_vsid_window_load_psid(const char *filename)
     vsid_tune_info_widget_set_song_lengths(filename);
     hvsc_stil_widget_set_psid(filename);
     ui_pause_disable();
+    vsid_control_widget_set_state(VSID_PLAYING);
 
     return 0;
 }
