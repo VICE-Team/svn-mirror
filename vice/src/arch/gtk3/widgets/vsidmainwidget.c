@@ -335,7 +335,7 @@ GtkWidget *vsid_main_widget_create(void)
     GtkWidget *view;
 #endif
 
-    grid = vice_gtk3_grid_new_spaced(32, 32);
+    grid = vice_gtk3_grid_new_spaced(32, 8);
     gtk_widget_set_margin_top(grid, 16);
     gtk_widget_set_margin_start(grid, 16);
     gtk_widget_set_margin_end(grid, 16);
@@ -351,21 +351,24 @@ GtkWidget *vsid_main_widget_create(void)
     gtk_grid_attach(GTK_GRID(left_pane), control_widget, 0, 1, 1, 1);
 
     mixer_widget = vsid_mixer_widget_create();
+    gtk_widget_set_valign(mixer_widget, GTK_ALIGN_END);
     gtk_grid_attach(GTK_GRID(left_pane), mixer_widget, 0, 2, 1, 1);
 
     gtk_widget_set_hexpand(left_pane, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), left_pane, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), left_pane, 0, 0, 1, 2);
 
-    /* middle pane: STIL widget */
+    /* right top pane: STIL widget */
     stil_widget = hvsc_stil_widget_create();
-    gtk_widget_set_vexpand(stil_widget, TRUE);
+    //gtk_widget_set_vexpand(stil_widget, TRUE);
     gtk_widget_set_hexpand(stil_widget, FALSE);
     gtk_grid_attach(GTK_GRID(grid), stil_widget, 1, 0, 1, 1);
 
-    /* right pane: playlist */
+    /* right bottom pane: playlist */
     playlist_widget = vsid_playlist_widget_create();
-    gtk_grid_attach(GTK_GRID(grid), playlist_widget, 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), playlist_widget, 1, 1, 1, 1);
 
+
+    gtk_widget_set_vexpand(grid, TRUE);
 
     /*
      * Set up drag-n-drop handlers

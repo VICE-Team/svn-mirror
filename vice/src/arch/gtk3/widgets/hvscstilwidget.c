@@ -147,13 +147,13 @@ GtkWidget *hvsc_stil_widget_create(void)
     GtkWidget *scroll;
 
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 8);
 
     /* add title label */
     label = gtk_label_new(NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_label_set_markup(GTK_LABEL(label), "<b>STIL entry:</b>");
-    gtk_widget_set_margin_bottom(label, 16);
+    //gtk_widget_set_margin_bottom(label, 8);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
@@ -164,13 +164,15 @@ GtkWidget *hvsc_stil_widget_create(void)
 
     scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_set_vexpand(scroll, TRUE);
-    gtk_widget_set_size_request(scroll, 400, 400);
+//    gtk_widget_set_size_request(scroll, 400, 100);
     gtk_widget_set_hexpand(scroll, TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
             GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scroll), stil_view);
     gtk_grid_attach(GTK_GRID(grid), scroll, 0, 1, 1, 1);
-    gtk_widget_set_vexpand(grid, TRUE);
+    //gtk_widget_set_vexpand(grid, FALSE);
+    gtk_widget_set_size_request(grid, 600, 120);
+    gtk_widget_set_hexpand(scroll, TRUE);
     gtk_widget_show_all(grid);
     return grid;
 }

@@ -212,7 +212,7 @@ static void vsid_window_create(video_canvas_t *canvas)
     canvas->event_box = NULL;
 
     main_widget = vsid_main_widget_create();
-    gtk_widget_set_size_request(main_widget, 400, 300);
+    //gtk_widget_set_size_request(main_widget, 400, 300);
     gtk_widget_set_hexpand(main_widget, TRUE);
     gtk_widget_set_vexpand(main_widget, TRUE);
     gtk_widget_show(main_widget);

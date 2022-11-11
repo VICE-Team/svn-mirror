@@ -844,12 +844,12 @@ GtkWidget *vsid_playlist_widget_create(void)
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Playlist:</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_margin_bottom(label, 8);
+    gtk_widget_set_margin_top(label, 8);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     title_widget = label;
 
     scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_widget_set_size_request(scroll, 400, 500);
+    gtk_widget_set_size_request(scroll, 600, 180);
     gtk_widget_set_hexpand(scroll, TRUE);
     gtk_widget_set_vexpand(scroll, TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
