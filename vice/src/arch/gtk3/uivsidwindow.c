@@ -109,7 +109,7 @@ static void vsid_ui_update(void)
     }
     /* current tune number */
     if (state->tune_current_pending) {
-        vsid_main_widget_set_tune_current(state->tune_current);
+        vsid_tune_info_widget_set_tune_current(state->tune_current);
         state->tune_current_pending = false;
     }
     /* default tune number */
