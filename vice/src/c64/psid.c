@@ -536,7 +536,7 @@ void psid_init_tune(int install_driver_hook)
             vsid_ui_set_init_addr(psid->init_addr);
             vsid_ui_set_play_addr(psid->play_addr);
             vsid_ui_set_data_size(psid->data_size);
-            vsid_ui_set_default_tune(start_song);
+            vsid_ui_set_default_tune(psid->start_song);
             vsid_ui_display_name((char *)(psid->name));
             vsid_ui_display_author((char *)(psid->author));
             vsid_ui_display_copyright((char *)(psid->copyright));
