@@ -47,6 +47,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
+#include "archdep_get_hvsc_dir.h"
 #include "vice_gtk3.h"
 #include "lib.h"
 #include "hvsc.h"
@@ -59,11 +60,18 @@
 #include "vsidplaylistwidget.h"
 
 
-/** \brief  Control button types
- */
+/* \brief  Control button types */
 enum {
     CTRL_ACTION,    /**< action button: simple push button */
     CTRL_TOGGLE     /**< toggle button: for 'repeat' and 'shuffle' */
+};
+
+/* Playlist column indexes */
+enum {
+    COL_TITLE,      /**< title */
+    COL_AUTHOR,     /**< author */
+    COL_FULLPATH,   /**< full path to psid file */
+    COL_DISPPATH    /**< displayed path (HVSC stripped if possible) */
 };
 
 
@@ -121,8 +129,6 @@ typedef struct vsid_hotkey_s {
 /*
  * Forward declarations
  */
-
-
 static gboolean delete_all_rows(GtkWidget *widget, gpointer data);
 static gboolean delete_selected_rows(GtkWidget *widget, gpointer data);
 static gboolean open_add_dialog(GtkWidget *widget, gpointer data);
@@ -211,6 +217,33 @@ static GtkWidget *playlist_view;
  * Gets updated with the number of tunes in the list.
  */
 static GtkWidget *title_widget;
+
+
+/** \brief  Strip HVSC base dir from \a path
+ *
+ * Try to strip the HVSC base directory from \a path, otherwise return the
+ * full \a path.
+ *
+ * \param[in]   path    full path to psid file
+ *
+ * \return  stripped path
+ * \note    Free with g_free()
+ */
+static gchar *strip_hvsc_base(const gchar *path)
+{
+    const char *hvsc_base = archdep_get_hvsc_dir();
+
+    if (hvsc_base != NULL && *hvsc_base != '\0' &&
+            g_str_has_prefix(path, hvsc_base)) {
+        /* skip base */
+        path += strlen(hvsc_base);
+        /* skip directory separator if present */
+        if (*path == '/' || *path == '\\') {
+            path++;
+        }
+    }
+    return g_strdup(path);
+}
 
 
 /** \brief  Initialize playlist \a state object
@@ -431,7 +464,10 @@ static void on_row_activated(GtkTreeView *view,
         return;
     }
 
-    gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model), &iter, 2, &value);
+    gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model),
+                             &iter,
+                             COL_FULLPATH,
+                             &value);
     filename = g_value_get_string(&value);
 
     if (ui_vsid_window_load_psid(filename) < 0) {
@@ -497,7 +533,8 @@ static void on_playlist_first_clicked(GtkWidget *widget, gpointer data)
 
             gtk_tree_selection_select_iter(state.selection, &(state.iter));
             gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
-                    &(state.iter), 2, &value);
+                                     &(state.iter),
+                                     COL_FULLPATH, &value);
             filename = g_value_get_string(&value);
 
             /* TODO: check result */
@@ -534,7 +571,9 @@ static void on_playlist_last_clicked(GtkWidget *widget, gpointer data)
 
         gtk_tree_selection_select_iter(state.selection, &temp);
         gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
-                &(temp), 2, &value);
+                                 &(temp),
+                                 COL_FULLPATH,
+                                 &value);
         filename = g_value_get_string(&value);
         ui_vsid_window_load_psid(filename);
 
@@ -574,7 +613,9 @@ static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
             gtk_tree_selection_select_iter(state.selection, &(state.iter));
 
             gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
-                    &(state.iter), 2, &value);
+                                     &(state.iter),
+                                     COL_FULLPATH,
+                                     &value);
             filename = g_value_get_string(&value);
             ui_vsid_window_load_psid(filename);
 
@@ -604,7 +645,9 @@ static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data)
             gtk_tree_selection_select_iter(state.selection, &(state.iter));
 
             gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
-                    &(state.iter), 2, &value);
+                                     &(state.iter),
+                                     COL_FULLPATH,
+                                     &value);
             filename = g_value_get_string(&value);
             ui_vsid_window_load_psid(filename);
 
@@ -655,7 +698,6 @@ static GtkWidget *create_context_menu(void)
     gtk_widget_show_all(menu);
     return menu;
 }
-
 
 
 /** \brief  Event handler for button press events on the playlist
@@ -718,14 +760,15 @@ static gboolean on_key_press_event(GtkWidget *view,
 }
 
 
-
-
 /** \brief  Create playlist model
  */
 static void vsid_playlist_model_create(void)
 {
-    playlist_model = gtk_list_store_new(
-            3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    playlist_model = gtk_list_store_new(4,
+                                        G_TYPE_STRING,      /* title */
+                                        G_TYPE_STRING,      /* author */
+                                        G_TYPE_STRING,      /* full path */
+                                        G_TYPE_STRING);     /* stripped path */
 }
 
 
@@ -744,15 +787,15 @@ static void vsid_playlist_view_create(void)
     column = gtk_tree_view_column_new_with_attributes(
             "Title",
             renderer,
-            "text", 0,
+            "text", COL_TITLE,
             NULL);
     gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
 
     column = gtk_tree_view_column_new_with_attributes(
-            "Composer",
+            "Author",
             renderer,
-            "text", 1,
+            "text", COL_AUTHOR,
             NULL);
     gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
@@ -760,7 +803,7 @@ static void vsid_playlist_view_create(void)
     column = gtk_tree_view_column_new_with_attributes(
             "Path",
             renderer,
-            "text", 2,
+            "text", COL_DISPPATH,
             NULL);
     gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
@@ -900,13 +943,14 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
          */
         gtk_list_store_append(playlist_model, &iter);
         gtk_list_store_set(playlist_model, &iter,
-                0, "n/a",
-                1, "n/a",
-                2, path,
+                COL_TITLE, "n/a",
+                COL_AUTHOR, "n/a",
+                COL_FULLPATH, path,
+                COL_DISPPATH, path,
                 -1);
 
-
     } else {
+        gchar *display_path;
 
         /* get SID name and author */
         memcpy(name, psid.name, HVSC_PSID_TEXT_LEN);
@@ -916,18 +960,21 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
 
         name_utf8 = convert_to_utf8(name);
         author_utf8 = convert_to_utf8(author);
+        display_path = strip_hvsc_base(path);
 
         /* append SID to playlist */
         gtk_list_store_append(playlist_model, &iter);
         gtk_list_store_set(playlist_model, &iter,
-                0, name_utf8,
-                1, author_utf8,
-                2, path,
+                COL_TITLE, name_utf8,
+                COL_AUTHOR, author_utf8,
+                COL_FULLPATH, path,
+                COL_DISPPATH, display_path,
                 -1);
 
         /* clean up */
         g_free(name_utf8);
         g_free(author_utf8);
+        g_free(display_path);
         hvsc_psid_close(&psid);
     }
 
