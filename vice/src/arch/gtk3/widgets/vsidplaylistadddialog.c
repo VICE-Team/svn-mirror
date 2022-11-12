@@ -31,6 +31,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "archdep_get_hvsc_dir.h"
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
 #include "filechooserhelpers.h"
@@ -122,13 +123,8 @@ static GtkWidget *vsid_playlist_add_dialog_create(void)
      * remove the main menu item once the playlist works properly.
      */
     if (last_used_dir == NULL) {
-        const char *hvsc_root;
+        const char *hvsc_root = archdep_get_hvsc_dir();
 
-        resources_get_string("HVSCRoot", &hvsc_root);
-        if (hvsc_root == NULL || *hvsc_root == '\0') {
-            /* try env var */
-            hvsc_root = getenv("HVSC_BASE");
-        }
         if (hvsc_root != NULL && *hvsc_root != '\0') {
             /*
              * The last_dir.c code uses GLib memory management, so use
@@ -138,7 +134,6 @@ static GtkWidget *vsid_playlist_add_dialog_create(void)
             last_used_dir = g_strdup(hvsc_root);
         }
     }
-
     lastdir_set(dialog, &last_used_dir, &last_used_file);
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
