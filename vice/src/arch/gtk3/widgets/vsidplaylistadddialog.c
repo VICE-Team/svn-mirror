@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <stdlib.h>
 
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
@@ -113,8 +114,8 @@ static GtkWidget *vsid_playlist_add_dialog_create(void)
     gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(dialog), TRUE);
 
     /*
-     * If this the first time adding a SID and HVSCRoot it set, use that for
-     * the default directory.
+     * If this the first time adding a SID and HVSCRoot is set (or the env var
+     * HVSC_BASE) use that for the default directory.
      *
      * Unfortunately attaching SIDs via the main menu and this playlist each use
      * their own `last_dir`, so perhaps I should merge them, or perhaps even
@@ -123,15 +124,18 @@ static GtkWidget *vsid_playlist_add_dialog_create(void)
     if (last_used_dir == NULL) {
         const char *hvsc_root;
 
-        if (resources_get_string("HVSCRoot", &hvsc_root) >= 0) {
-            if (hvsc_root != NULL && *hvsc_root != '\0') {
-                /*
-                 * The last_dir.c code uses GLib memory management, so use
-                 * g_strdup() here and not lib_strdup(). I did, and it produced
-                 * a nice segfault, and I actually wrote the lastdir code ;)
-                 */
-                last_used_dir = g_strdup(hvsc_root);
-            }
+        resources_get_string("HVSCRoot", &hvsc_root);
+        if (hvsc_root == NULL || *hvsc_root == '\0') {
+            /* try env var */
+            hvsc_root = getenv("HVSC_BASE");
+        }
+        if (hvsc_root != NULL && *hvsc_root != '\0') {
+            /*
+             * The last_dir.c code uses GLib memory management, so use
+             * g_strdup() here and not lib_strdup(). I did, and it produced
+             * a nice segfault, and I actually wrote the lastdir code ;)
+             */
+            last_used_dir = g_strdup(hvsc_root);
         }
     }
 
