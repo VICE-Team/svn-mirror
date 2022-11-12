@@ -68,8 +68,9 @@ void vsid_state_init(void)
     state->irq = NULL;
     state->tune_count = 0;
     state->tune_count_pending = false;
-    state->tune_current = 0;
+    state->tune_current = -1;
     state->tune_current_pending = false;
+    state->tune_previous = -1;
     state->tune_default = 0;
     state->tune_default_pending = false;
     state->model = 0;

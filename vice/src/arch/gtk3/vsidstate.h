@@ -61,6 +61,12 @@ typedef struct vsid_state_s {
     /** \brief  Current tune number needs to be updated the UI */
     bool tune_current_pending;
 
+    /** \brief  Previously played tune
+     *
+     * Required to restart playback after stopping playback with tune -1.
+     */
+    int tune_previous;
+
     /** \brief  Default tune number */
     int  tune_default;
     /** \brief  Default tune number needs to be updated in the UI */
