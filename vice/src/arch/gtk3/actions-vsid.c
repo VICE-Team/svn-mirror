@@ -63,27 +63,44 @@
  */
 static void play_current_tune(void)
 {
-    vsid_state_t *state = vsid_state_lock();
-    int current = state->tune_current;
+    vsid_state_t *state;
+    int current;
+    const char *filename;
+
+    state = vsid_state_lock();
+    current = state->tune_current;
+    filename = state->psid_filename;
+
+    if (state->tune_current < 0) {
+        if (state->tune_previous < 0) {
+            state->tune_previous = state->tune_default;
+        }
+        current = state->tune_current = state->tune_default;
+    }
 #ifdef HAVE_DEBUG_GTK3UI
     int count = state->tune_count;
     int def = state->tune_default;
+    int prev = state->tune_previous;
 #endif
-
     vsid_state_unlock();
 
-    debug_gtk3("current: %d, total: %d, default: %d.",
-                current, count, def);
-    debug_gtk3("calling machine_trigger_reset(SOFT).");
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    /* reload unloaded PSID file if loaded before */
+    if (filename != NULL) {
+        psid_load_file(filename);
+    }
+
+    resources_set_int("Speed", 100);
+    debug_gtk3("current: %d, previous: %d  (total: %d, default: %d)",
+                current, prev, count, def);
     debug_gtk3("calling psid_init_driver().");
     psid_init_driver();
     debug_gtk3("calling machine_play_psid(%d).", current);
     machine_play_psid(current);
+    debug_gtk3("calling machine_trigger_reset(SOFT).");
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     ui_pause_disable();
     vsid_control_widget_set_state(VSID_PLAYING);
 }
-
 
 /** \brief  Play subtune
  *
@@ -99,14 +116,11 @@ static void play_subtune(int tune)
     } else if (tune > count) {
         tune = count;
     }
+    state->tune_previous = state->tune_current;
     state->tune_current = tune;
     vsid_state_unlock();
 
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-    psid_init_driver();
-    machine_play_psid(tune);
-    ui_pause_disable();
-    vsid_control_widget_set_state(VSID_PLAYING);
+    play_current_tune();
 }
 
 /** \brief  Show PSID load dialog */
@@ -131,18 +145,25 @@ static void psid_play_action(void)
 {
     vsid_state_t *state;
     int current;
+    const char *filename;
 
     state = vsid_state_lock();
     current = state->tune_current;
+    filename = state->psid_filename;
 
-    if (current <= 0) {
+    if (current < 0) {
         /* restart previous tune if stopped before */
-        current = state->tune_current = state->tune_default;
+        if (state->tune_previous >= 1) {
+            current = state->tune_current = state->tune_previous;
+        } else {
+            /* haven't stopped before resuming, use default tune */
+            current = state->tune_current = state->tune_default;
+        }
         vsid_state_unlock();
 
         /* reload unloaded PSID file if loaded before */
-        if (state->psid_filename != NULL) {
-            psid_load_file(state->psid_filename);
+        if (filename != NULL) {
+            psid_load_file(filename);
         }
 
         psid_init_driver();
@@ -161,7 +182,7 @@ static void psid_play_action(void)
 static void psid_pause_action(void)
 {
     ui_pause_toggle();
-    vsid_control_widget_set_state(VSID_PAUSED);
+    vsid_control_widget_set_state(ui_pause_active() ? VSID_PAUSED : VSID_PLAYING);
 }
 
 /** \brief  Stop playback */
@@ -169,9 +190,12 @@ static void psid_stop_action(void)
 {
     vsid_state_t *state = vsid_state_lock();
 
+    /* remember which tune we were playing so we can resume later */
+    state->tune_previous = state->tune_current;
     state->tune_current = -1;
     vsid_state_unlock();
 
+    psid_init_driver();
     machine_play_psid(-1);
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     vsid_control_widget_set_state(VSID_STOPPED);
@@ -190,6 +214,7 @@ static void psid_ffwd_action(void)
         resources_set_int("Speed", 100);
         vsid_control_widget_set_state(VSID_PLAYING);
     }
+    ui_pause_disable();
 }
 
 /** \brief  Play next subtune
@@ -198,6 +223,10 @@ static void psid_ffwd_action(void)
 static void psid_subtune_next_action(void)
 {
     vsid_state_t *state = vsid_state_lock();
+
+    if (state->tune_current < 0) {
+        state->tune_current = state->tune_previous;
+    }
 
     if (state->tune_current >= state->tune_count || state->tune_current < 1) {
         state->tune_current = 1;
@@ -215,12 +244,17 @@ static void psid_subtune_previous_action(void)
 {
     vsid_state_t *state = vsid_state_lock();
 
+    if (state->tune_current < 0) {
+        state->tune_current = state->tune_previous;
+    }
+
     if (state->tune_current <= 1) {
         state->tune_current = state->tune_count;
     } else {
         state->tune_current--;
     }
     vsid_state_unlock();
+    ui_pause_disable();
     play_current_tune();
 }
 
@@ -292,7 +326,6 @@ static void psid_loop_toggle_action(void)
 }
 
 
-
 /** \brief  List of VSID-specific actions */
 static const ui_action_map_t vsid_actions[] = {
     {
@@ -306,7 +339,6 @@ static const ui_action_map_t vsid_actions[] = {
         .handler = psid_override_toggle_action,
         .uithread = true,
     },
-
     {
         .action = ACTION_PSID_PLAY,
         .handler = psid_play_action,
@@ -388,7 +420,6 @@ static const ui_action_map_t vsid_actions[] = {
         .handler = psid_subtune_10_action,
         .uithread = true
     },
-
     {
         .action = ACTION_PSID_LOOP_TOGGLE,
         .handler = psid_loop_toggle_action,
