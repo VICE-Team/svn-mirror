@@ -68,6 +68,7 @@ libarchdep_a_SOURCES = \
 	archdep_fseeko.c \
 	archdep_ftello.c \
 	archdep_get_current_drive.c \
+	archdep_get_hvsc_dir.c \
 	archdep_get_runtime_info.c \
 	archdep_get_vice_datadir.c \
 	archdep_get_vice_docsdir.c \
@@ -166,6 +167,7 @@ EXTRA_DIST = \
 	archdep_fseeko.h \
 	archdep_ftello.h \
 	archdep_get_current_drive.h \
+	archdep_get_hvsc_dir.h \
 	archdep_get_runtime_info.h \
 	archdep_get_vice_datadir.h \
 	archdep_get_vice_docsdir.h \

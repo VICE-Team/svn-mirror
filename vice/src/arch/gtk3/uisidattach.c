@@ -29,6 +29,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "archdep_get_hvsc_dir.h"
 #include "debug_gtk3.h"
 #include "basedialogs.h"
 #include "filechooserhelpers.h"
@@ -212,25 +213,17 @@ static GtkWidget *create_sid_attach_dialog(void)
 */
     /* set last used directory, if present, otherwise use HVSCRoot if set */
     if (last_dir == NULL) {
-        const char *hvsc_root;
+        const char *hvsc_root = archdep_get_hvsc_dir();
 
-        if (resources_get_string("HVSCRoot", &hvsc_root) == 0) {
-            if (hvsc_root == NULL || *hvsc_root == '\0') {
-                /* try the environment variable HVSC_BASE: */
-                hvsc_root = getenv("HVSC_BASE");
-            }
-            if (hvsc_root != NULL && *hvsc_root != '\0') {
-                /*
-                 * The last_dir.c code uses GLib memory management, so use
-                 * g_strdup() here and not lib_strdup(). I did, and it produced
-                 * a nice segfault, and I actually wrote the lastdir code ;)
-                 */
-                last_dir = g_strdup(hvsc_root);
-            }
+        if (hvsc_root != NULL && *hvsc_root != '\0') {
+            /*
+             * The last_dir.c code uses GLib memory management, so use
+             * g_strdup() here and not lib_strdup(). I did, and it produced
+             * a nice segfault, and I actually wrote the lastdir code ;)
+             */
+            last_dir = g_strdup(hvsc_root);
         }
     }
-
-
     lastdir_set(dialog, &last_dir, &last_file);
 
     /* add filters */
