@@ -34,8 +34,4 @@
 GtkWidget *vsid_main_widget_create(void);
 void vsid_main_widget_update(void);
 
-void vsid_main_widget_set_tune_count(int n);
-void vsid_main_widget_set_tune_current(int n);
-void vsid_main_widget_set_tune_default(int n);
-
 #endif
