@@ -62,8 +62,8 @@
 
 /* \brief  Control button types */
 enum {
-    CTRL_ACTION,    /**< action button: simple push button */
-    CTRL_TOGGLE     /**< toggle button: for 'repeat' and 'shuffle' */
+    BUTTON_PUSH,    /**< action button: simple push button */
+    BUTTON_TOGGLE     /**< toggle button: for 'repeat' and 'shuffle' */
 };
 
 /* Playlist column indexes */
@@ -71,9 +71,10 @@ enum {
     COL_TITLE,      /**< title */
     COL_AUTHOR,     /**< author */
     COL_FULLPATH,   /**< full path to psid file */
-    COL_DISPPATH    /**< displayed path (HVSC stripped if possible) */
-};
+    COL_DISPPATH,   /**< displayed path (HVSC stripped if possible) */
 
+    NUM_COLUMNS     /**< number of columns in the model */
+};
 
 /** \brief  Playlist control button struct
  */
@@ -91,13 +92,12 @@ typedef struct plist_ctrl_button_s {
  * some of the boilerplate hell of Gtk's tree/list models/views
  */
 typedef struct plist_state_s {
-    GtkTreeModel *      model;
-    GtkTreeSelection *  selection;
-    GtkTreeIter         iter;
-    GtkTreePath *       path;
-    gchar *             path_str;
+    GtkTreeModel *      model;      /**< playlist model */
+    GtkTreeSelection *  selection;  /**< model selection */
+    GtkTreeIter         iter;       /**< model iterator */
+    GtkTreePath *       path;       /**< path to current selection */
+    gchar *             path_str;   /**< path as string */
 } plist_state_t;
-
 
 /** \brief  Type of context menu item types
  */
@@ -105,7 +105,6 @@ typedef enum {
     CTX_MENU_ACTION,    /**< action */
     CTX_MENU_SEP        /**< menu separator */
 } ctx_menu_item_type_t;
-
 
 /** \brief  Context menu item object
  */
@@ -124,84 +123,6 @@ typedef struct vsid_hotkey_s {
     guint modifiers;                                /**< GDK modifiers */
     gboolean (*callback)(GtkWidget *, gpointer);    /**< hotkey callback */
 } vsid_hotkey_t;
-
-
-/*
- * Forward declarations
- */
-static gboolean delete_all_rows(GtkWidget *widget, gpointer data);
-static gboolean delete_selected_rows(GtkWidget *widget, gpointer data);
-static gboolean open_add_dialog(GtkWidget *widget, gpointer data);
-
-static void on_playlist_append_clicked(GtkWidget *widget, gpointer data);
-static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data);
-static void on_playlist_next_clicked(GtkWidget *widget, gpointer data);
-static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data);
-static void on_playlist_first_clicked(GtkWidget *widget, gpointer data);
-static void on_playlist_last_clicked(GtkWidget *widget, gpointer data);
-static void on_playlist_clear_clicked(GtkWidget *widget, gpointer data);
-
-
-/** \brief  List of playlist controls
- */
-static const plist_ctrl_button_t controls[] = {
-    { "media-skip-backward", CTRL_ACTION,
-        on_playlist_first_clicked,
-        "Go to start of playlist" },
-    { "media-seek-backward", CTRL_ACTION,
-        on_playlist_prev_clicked,
-        "Go to previous tune" },
-    { "media-seek-forward", CTRL_ACTION,
-        on_playlist_next_clicked,
-        "Go to next tune" },
-    { "media-skip-forward", CTRL_ACTION,
-        on_playlist_last_clicked,
-        "Go to end of playlist" },
-    { "media-playlist-repeat", CTRL_TOGGLE,
-        NULL,
-        "Repeat playlist" },
-    { "media-playlist-shuffle", CTRL_TOGGLE,
-        NULL,
-        "Shuffle playlist" },
-    { "list-add", CTRL_ACTION,
-        on_playlist_append_clicked,
-        "Add tune to playlist" },
-    { "list-remove", CTRL_ACTION,
-        on_playlist_remove_clicked,
-        "Remove selected tune from playlist" },
-    { "document-open", CTRL_ACTION,
-        NULL,
-        "Open playlist file" },
-    { "document-save", CTRL_ACTION,
-        NULL,
-        "Save playlist file" },
-    { "edit-clear-all", CTRL_ACTION,
-        on_playlist_clear_clicked,
-        "Clear playlist" },
-    { NULL, 0, NULL, NULL }
-};
-
-
-/** \brief  Playlist context menu items
- */
-static const ctx_menu_item_t cmenu_items[] = {
-    { "Play", NULL, CTX_MENU_ACTION },
-    { "Delete selected item(s)", delete_selected_rows, CTX_MENU_ACTION },
-    { "---", NULL, CTX_MENU_SEP },
-    { "Export binary", NULL, CTX_MENU_ACTION },
-    { NULL, NULL, -1 }
-};
-
-
-/** \brief  Playlist hotkeys
- */
-static const vsid_hotkey_t hotkeys[] = {
-    { GDK_KEY_Insert,   0,              open_add_dialog },
-    { GDK_KEY_Delete,   0,              delete_selected_rows },
-    { GDK_KEY_Delete,   GDK_SHIFT_MASK, delete_all_rows },
-    { 0, 0, NULL }
-};
-
 
 
 /** \brief  Reference to the playlist model
@@ -245,7 +166,6 @@ static gchar *strip_hvsc_base(const gchar *path)
     return g_strdup(path);
 }
 
-
 /** \brief  Initialize playlist \a state object
  *
  * Initializes \a state to an invalid/empty state
@@ -262,7 +182,6 @@ static void playlist_state_init(plist_state_t *state)
     state->path = NULL;
     state->path_str = NULL;
 }
-
 
 /** \brief  Get current playlist state
  *
@@ -289,7 +208,6 @@ static gboolean playlist_state_get(plist_state_t *state)
     return FALSE;
 }
 
-
 /** \brief  Free members of \a state and reset \a state for next use
  *
  * \param[in,out]   state   playlist state object
@@ -307,7 +225,6 @@ static void playlist_state_free(plist_state_t *state)
     playlist_state_init(state);
 }
 
-
 /** \brief  Add SID files to the playlist
  *
  * \param[in,out]   files   List of selected files
@@ -319,18 +236,15 @@ static void add_files_callback(GSList *files)
 {
     GSList *pos = files;
 
-    if (files == NULL) {
-        return;
+    if (files != NULL) {
+        do {
+            const char *path = (const char *)(pos->data);
+            vsid_playlist_widget_append_file(path);
+            pos = g_slist_next(pos);
+        } while (pos != NULL);
+        g_slist_free(files);
     }
-
-    do {
-        const char *path = (const char *)(pos->data);
-        vsid_playlist_widget_append_file(path);
-        pos = g_slist_next(pos);
-    } while (pos != NULL);
-    g_slist_free(files);
 }
-
 
 /** \brief  Delete selected rows
  *
@@ -351,12 +265,9 @@ static gboolean delete_selected_rows(GtkWidget *widget, gpointer data)
      */
     model = GTK_TREE_MODEL(playlist_model);
     /* get current selection */
-    selection = gtk_tree_view_get_selection(
-            GTK_TREE_VIEW(playlist_view));
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
     /* get rows in the selection, which is a GList of GtkTreePath *'s */
-    rows = gtk_tree_selection_get_selected_rows(
-            selection,
-            &model);
+    rows = gtk_tree_selection_get_selected_rows(selection, &model);
 
     /* iterate the list of rows in reverse order to avoid
      * invalidating the GtkTreePath*'s in the list
@@ -367,10 +278,9 @@ static gboolean delete_selected_rows(GtkWidget *widget, gpointer data)
 
         /* delete row */
         path = elem->data;
-        if (gtk_tree_model_get_iter(
-                    GTK_TREE_MODEL(playlist_model),
-                    &iter,
-                    path)) {
+        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(playlist_model),
+                                    &iter,
+                                    path)) {
             gtk_list_store_remove(playlist_model, &iter);
         } else {
             return FALSE;
@@ -379,7 +289,6 @@ static gboolean delete_selected_rows(GtkWidget *widget, gpointer data)
     g_list_free(rows);
     return TRUE;
 }
-
 
 /** \brief  Delete the entire playlist
  *
@@ -394,7 +303,6 @@ static gboolean delete_all_rows(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 
-
 /** \brief  Callback for the Insert hotkey
  *
  * \param[in]   widget  widget triggering the callback (unused)
@@ -408,8 +316,6 @@ static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 
-
-
 /** \brief  Update title of the widget with number of entries in the list
  */
 static void update_title(void)
@@ -420,7 +326,7 @@ static void update_title(void)
     /* get number of top level items by using NULL as an iter */
     rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
 
-    g_snprintf(buffer, 256, "<b>Playlist (%d)</b>", rows);
+    g_snprintf(buffer, sizeof(buffer), "<b>Playlist (%d)</b>", rows);
     gtk_label_set_markup(GTK_LABEL(title_widget), buffer);
 }
 
@@ -428,7 +334,6 @@ static void update_title(void)
 /*
  * Event handlers
  */
-
 
 /** \brief  Event handler for the 'destroy' event of the playlist widget
  *
@@ -534,19 +439,18 @@ static void on_playlist_first_clicked(GtkWidget *widget, gpointer data)
             gtk_tree_selection_select_iter(state.selection, &(state.iter));
             gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
                                      &(state.iter),
-                                     COL_FULLPATH, &value);
+                                     COL_FULLPATH,
+                                     &value);
             filename = g_value_get_string(&value);
 
             /* TODO: check result */
             ui_vsid_window_load_psid(filename);
 
             g_value_unset(&value);
-
             playlist_state_free(&state);
         }
     }
 }
-
 
 /** \brief  Event handler for the 'last' button
  *
@@ -578,11 +482,9 @@ static void on_playlist_last_clicked(GtkWidget *widget, gpointer data)
         ui_vsid_window_load_psid(filename);
 
         g_value_unset(&value);
-
         playlist_state_free(&state);
     }
 }
-
 
 /** \brief  Event handler for the 'clear' button
  *
@@ -593,7 +495,6 @@ static void on_playlist_clear_clicked(GtkWidget *widget, gpointer data)
 {
     delete_all_rows(NULL, NULL);
 }
-
 
 /** \brief  Event handler for the 'next' button
  *
@@ -626,7 +527,6 @@ static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
     }
 }
 
-
 /** \brief  Go to previous entry in the playlist
  *
  * \param[in]   widget  button triggering the event (unused)
@@ -652,18 +552,29 @@ static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data)
             ui_vsid_window_load_psid(filename);
 
             g_value_unset(&value);
-
             playlist_state_free(&state);
         }
     }
 }
 
 
-#if 0
-static void on_playlist_open_clicked(GtkWidget *widget, gpointer data)
-{
-}
-#endif
+/** \brief  Playlist context menu items
+ */
+static const ctx_menu_item_t cmenu_items[] = {
+    { "Play",
+      NULL,
+      CTX_MENU_ACTION },
+    { "Delete selected item(s)",
+      delete_selected_rows,
+      CTX_MENU_ACTION },
+
+    { "---", NULL, CTX_MENU_SEP },
+
+    { "Export binary",
+      NULL,
+      CTX_MENU_ACTION },
+    { NULL, NULL, -1 }
+};
 
 
 /** \brief  Create context menu for the playlist
@@ -699,14 +610,13 @@ static GtkWidget *create_context_menu(void)
     return menu;
 }
 
-
 /** \brief  Event handler for button press events on the playlist
  *
  * Pops up a context menu on the playlist.
  *
- * \param[in,out]   view    playlist view widget
- * \param[in]       event   event reference
- * \param[in]       data    extra even data
+ * \param[in]   view    playlist view widget (unused)
+ * \param[in]   event   event reference
+ * \param[in]   data    extra even data (unused)
  *
  * \return  TRUE when event consumed and no further propagation is needed
  */
@@ -716,19 +626,24 @@ static gboolean on_button_press_event(GtkWidget *view,
 {
 
     if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
-        GtkWidget *menu = create_context_menu();
-
-        gtk_menu_popup_at_pointer(GTK_MENU(menu), event);
+        gtk_menu_popup_at_pointer(GTK_MENU(create_context_menu()), event);
         return TRUE;
-    } else {
-        return FALSE;
     }
+    return FALSE;
 }
 
 
+/** \brief  Playlist hotkeys
+ */
+static const vsid_hotkey_t hotkeys[] = {
+    { GDK_KEY_Insert,   0,              open_add_dialog },
+    { GDK_KEY_Delete,   0,              delete_selected_rows },
+    { GDK_KEY_Delete,   GDK_SHIFT_MASK, delete_all_rows },
+    { 0, 0, NULL }
+};
+
+
 /** \brief  Event handler for key press events on the playlist
- *
- * Delete:  Delete selected rows
  *
  * \param[in,out]   view    playlist view widget
  * \param[in]       event   event reference
@@ -749,28 +664,25 @@ static gboolean on_key_press_event(GtkWidget *view,
 
         for (i = 0; hotkeys[i].keyval != 0; i++) {
             if (hotkeys[i].keyval == keyval
-                    && hotkeys[i].modifiers == modifiers) {
-                if (hotkeys[i].callback != NULL) {
-                    return hotkeys[i].callback(view, event);
-                }
+                    && hotkeys[i].modifiers == modifiers
+                    && hotkeys[i].callback != NULL) {
+                return hotkeys[i].callback(view, event);
             }
         }
     }
     return FALSE;
 }
 
-
 /** \brief  Create playlist model
  */
 static void vsid_playlist_model_create(void)
 {
-    playlist_model = gtk_list_store_new(4,
+    playlist_model = gtk_list_store_new(NUM_COLUMNS,
                                         G_TYPE_STRING,      /* title */
                                         G_TYPE_STRING,      /* author */
                                         G_TYPE_STRING,      /* full path */
                                         G_TYPE_STRING);     /* stripped path */
 }
-
 
 /** \brief  Create playlist view widget
  *
@@ -817,16 +729,72 @@ static void vsid_playlist_view_create(void)
      */
 
     /* Enter/double-click */
-    g_signal_connect(playlist_view, "row-activated",
-            G_CALLBACK(on_row_activated), NULL);
+    g_signal_connect(playlist_view,
+                     "row-activated",
+                     G_CALLBACK(on_row_activated),
+                     NULL);
     /* context menu (right-click, or left-click) */
-    g_signal_connect(playlist_view, "button-press-event",
-            G_CALLBACK(on_button_press_event), playlist_view);
+    g_signal_connect(playlist_view,
+                     "button-press-event",
+                     G_CALLBACK(on_button_press_event),
+                     playlist_view);
     /* special keys (Del for now) */
-    g_signal_connect(playlist_view, "key-press-event",
-            G_CALLBACK(on_key_press_event), playlist_view);
+    g_signal_connect(playlist_view,
+                     "key-press-event",
+                     G_CALLBACK(on_key_press_event),
+                     playlist_view);
 }
 
+
+/** \brief  List of playlist controls
+ */
+static const plist_ctrl_button_t controls[] = {
+    { "media-skip-backward",
+      BUTTON_PUSH,
+      on_playlist_first_clicked,
+      "Go to start of playlist" },
+    { "media-seek-backward",
+      BUTTON_PUSH,
+      on_playlist_prev_clicked,
+      "Go to previous tune" },
+    { "media-seek-forward",
+      BUTTON_PUSH,
+      on_playlist_next_clicked,
+      "Go to next tune" },
+    { "media-skip-forward",
+      BUTTON_PUSH,
+      on_playlist_last_clicked,
+      "Go to end of playlist" },
+    { "media-playlist-repeat",
+      BUTTON_TOGGLE,
+      NULL,
+      "Repeat playlist" },
+    { "media-playlist-shuffle",
+      BUTTON_TOGGLE,
+      NULL,
+      "Shuffle playlist" },
+    { "list-add",
+      BUTTON_PUSH,
+      on_playlist_append_clicked,
+      "Add tune to playlist" },
+    { "list-remove",
+      BUTTON_PUSH,
+      on_playlist_remove_clicked,
+      "Remove selected tune from playlist" },
+    { "document-open",
+      BUTTON_PUSH,
+      NULL,
+      "Open playlist file" },
+    { "document-save",
+      BUTTON_PUSH,
+      NULL,
+      "Save playlist file" },
+    { "edit-clear-all",
+      BUTTON_PUSH,
+      on_playlist_clear_clicked,
+      "Clear playlist" },
+    { NULL, 0, NULL, NULL }
+};
 
 /** \brief  Create a grid with a list of buttons to control the playlist
  *
@@ -846,19 +814,17 @@ static GtkWidget *vsid_playlist_controls_create(void)
         gchar buff[1024];
 
         g_snprintf(buff, sizeof(buff), "%s-symbolic", controls[i].icon_name);
-        button = gtk_button_new_from_icon_name(
-                buff,
-                GTK_ICON_SIZE_LARGE_TOOLBAR);
+        button = gtk_button_new_from_icon_name(buff, GTK_ICON_SIZE_LARGE_TOOLBAR);
         /* always show icon and don't grab focus on click/tab */
         gtk_button_set_always_show_image(GTK_BUTTON(button), TRUE);
         gtk_widget_set_can_focus(button, FALSE);
 
         gtk_grid_attach(GTK_GRID(grid), button, i, 0, 1, 1);
         if (controls[i].callback != NULL) {
-            g_signal_connect(
-                    button, "clicked",
-                    G_CALLBACK(controls[i].callback),
-                    (gpointer)(controls[i].icon_name));
+            g_signal_connect(button,
+                             "clicked",
+                             G_CALLBACK(controls[i].callback),
+                             (gpointer)(controls[i].icon_name));
         }
         if (controls[i].tooltip != NULL) {
             gtk_widget_set_tooltip_text(button, controls[i].tooltip);
@@ -866,7 +832,6 @@ static GtkWidget *vsid_playlist_controls_create(void)
     }
     return grid;
 }
-
 
 
 /** \brief  Create main playlist widget
@@ -896,17 +861,18 @@ GtkWidget *vsid_playlist_widget_create(void)
     gtk_widget_set_hexpand(scroll, TRUE);
     gtk_widget_set_vexpand(scroll, TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
-            GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
+                                   GTK_POLICY_AUTOMATIC,
+                                   GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scroll), playlist_view);
-
     gtk_grid_attach(GTK_GRID(grid), scroll, 0, 1, 1, 1);
-
     gtk_grid_attach(GTK_GRID(grid),
                     vsid_playlist_controls_create(),
                     0, 2, 1, 1);
 
-    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(grid,
+                              "destroy",
+                              G_CALLBACK(on_destroy),
+                              NULL);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -942,12 +908,13 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
          *       which is pretty much impossible.
          */
         gtk_list_store_append(playlist_model, &iter);
-        gtk_list_store_set(playlist_model, &iter,
-                COL_TITLE, "n/a",
-                COL_AUTHOR, "n/a",
-                COL_FULLPATH, path,
-                COL_DISPPATH, path,
-                -1);
+        gtk_list_store_set(playlist_model,
+                           &iter,
+                           COL_TITLE, "n/a",
+                           COL_AUTHOR, "n/a",
+                           COL_FULLPATH, path,
+                           COL_DISPPATH, path,
+                           -1);
 
     } else {
         gchar *display_path;
@@ -964,12 +931,13 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
 
         /* append SID to playlist */
         gtk_list_store_append(playlist_model, &iter);
-        gtk_list_store_set(playlist_model, &iter,
-                COL_TITLE, name_utf8,
-                COL_AUTHOR, author_utf8,
-                COL_FULLPATH, path,
-                COL_DISPPATH, display_path,
-                -1);
+        gtk_list_store_set(playlist_model,
+                           &iter,
+                           COL_TITLE, name_utf8,
+                           COL_AUTHOR, author_utf8,
+                           COL_FULLPATH, path,
+                           COL_DISPPATH, display_path,
+                          -1);
 
         /* clean up */
         g_free(name_utf8);
