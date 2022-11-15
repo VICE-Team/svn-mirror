@@ -318,6 +318,125 @@ static void psid_subtune_10_action(void)
     play_subtune(10);
 }
 
+/** \brief  Play subtune 11 */
+static void psid_subtune_11_action(void)
+{
+    play_subtune(11);
+}
+
+/** \brief  Play subtune 12 */
+static void psid_subtune_12_action(void)
+{
+    play_subtune(12);
+}
+
+/** \brief  Play subtune 13 */
+static void psid_subtune_13_action(void)
+{
+    play_subtune(13);
+}
+
+/** \brief  Play subtune 14 */
+static void psid_subtune_14_action(void)
+{
+    play_subtune(14);
+}
+
+/** \brief  Play subtune 15 */
+static void psid_subtune_15_action(void)
+{
+    play_subtune(15);
+}
+
+/** \brief  Play subtune 16 */
+static void psid_subtune_16_action(void)
+{
+    play_subtune(16);
+}
+
+/** \brief  Play subtune 17 */
+static void psid_subtune_17_action(void)
+{
+    play_subtune(17);
+}
+
+/** \brief  Play subtune 18 */
+static void psid_subtune_18_action(void)
+{
+    play_subtune(18);
+}
+
+/** \brief  Play subtune 19 */
+static void psid_subtune_19_action(void)
+{
+    play_subtune(19);
+}
+
+/** \brief  Play subtune 20 */
+static void psid_subtune_20_action(void)
+{
+    play_subtune(20);
+}
+/** \brief  Play subtune 21 */
+static void psid_subtune_21_action(void)
+{
+    play_subtune(21);
+}
+
+/** \brief  Play subtune 22 */
+static void psid_subtune_22_action(void)
+{
+    play_subtune(22);
+}
+
+/** \brief  Play subtune 23 */
+static void psid_subtune_23_action(void)
+{
+    play_subtune(23);
+}
+
+/** \brief  Play subtune 24 */
+static void psid_subtune_24_action(void)
+{
+    play_subtune(24);
+}
+
+/** \brief  Play subtune 25 */
+static void psid_subtune_25_action(void)
+{
+    play_subtune(25);
+}
+
+/** \brief  Play subtune 26 */
+static void psid_subtune_26_action(void)
+{
+    play_subtune(26);
+}
+
+/** \brief  Play subtune 27 */
+static void psid_subtune_27_action(void)
+{
+    play_subtune(27);
+}
+
+/** \brief  Play subtune 28 */
+static void psid_subtune_28_action(void)
+{
+    play_subtune(28);
+}
+
+/** \brief  Play subtune 29 */
+static void psid_subtune_29_action(void)
+{
+    play_subtune(29);
+}
+
+/** \brief  Play subtune 30 */
+static void psid_subtune_30_action(void)
+{
+    play_subtune(30);
+}
+
 static void psid_loop_toggle_action(void)
 {
     gboolean enabled = vsid_control_widget_get_repeat();
@@ -420,6 +539,107 @@ static const ui_action_map_t vsid_actions[] = {
         .handler = psid_subtune_10_action,
         .uithread = true
     },
+    {
+        .action = ACTION_PSID_SUBTUNE_11,
+        .handler = psid_subtune_11_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_12,
+        .handler = psid_subtune_12_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_13,
+        .handler = psid_subtune_13_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_14,
+        .handler = psid_subtune_14_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_15,
+        .handler = psid_subtune_15_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_16,
+        .handler = psid_subtune_16_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_17,
+        .handler = psid_subtune_17_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_18,
+        .handler = psid_subtune_18_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_19,
+        .handler = psid_subtune_19_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_20,
+        .handler = psid_subtune_20_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_21,
+        .handler = psid_subtune_21_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_22,
+        .handler = psid_subtune_22_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_23,
+        .handler = psid_subtune_23_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_24,
+        .handler = psid_subtune_24_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_25,
+        .handler = psid_subtune_25_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_26,
+        .handler = psid_subtune_26_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_27,
+        .handler = psid_subtune_27_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_28,
+        .handler = psid_subtune_28_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_29,
+        .handler = psid_subtune_29_action,
+        .uithread = true
+    },
+    {
+        .action = ACTION_PSID_SUBTUNE_30,
+        .handler = psid_subtune_30_action,
+        .uithread = true
+    },
+
     {
         .action = ACTION_PSID_LOOP_TOGGLE,
         .handler = psid_loop_toggle_action,
