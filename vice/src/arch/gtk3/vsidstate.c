@@ -126,7 +126,6 @@ void vsid_state_shutdown(void)
 }
 
 
-
 /** \brief  Set subtune played flag
  *
  * \param[in]   tune    tune number (1-255)
@@ -190,6 +189,7 @@ void vsid_state_clear_tunes_played(void)
     vsid_state_t *state = vsid_state_lock();
 
     memset(state->tunes_played, 0, sizeof(state->tunes_played));
+    vsid_state_unlock();
 }
 
 
