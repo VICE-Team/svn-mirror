@@ -12,6 +12,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 #include <pthread.h>
 #include "lib.h"
 
@@ -73,6 +74,7 @@ void vsid_state_init(void)
     state->tune_previous = -1;
     state->tune_default = 0;
     state->tune_default_pending = false;
+    memset(state->tunes_played, 0, sizeof(state->tunes_played));
     state->model = 0;
     state->model_pending = false;
     state->sync = 0;
@@ -121,4 +123,93 @@ void vsid_state_shutdown(void)
     }
 
     vsid_state_unlock();
+}
+
+
+
+/** \brief  Set subtune played flag
+ *
+ * \param[in]   tune    tune number (1-255)
+ */
+void vsid_state_set_tune_played(int tune)
+{
+    vsid_state_t *state;
+
+    if (tune < 1 || tune > 255) {
+        return;
+    }
+    state = vsid_state_lock();
+    state->tunes_played[(tune - 1) >> 3] |= (1 << ((tune - 1) & 7));
+    vsid_state_unlock();
+}
+
+
+/** \brief  Determine if a subtune has been played
+ *
+ * \param[in]   tune    subtune number (1-255)
+ *
+ * \return  `true` if subtune has been played
+ * \note    returns `false` when tune is out of range
+ */
+bool vsid_state_get_tune_played(int tune)
+{
+    vsid_state_t *state;
+    bool played;
+
+    if (tune < 1 || tune > 255) {
+        return false;
+    }
+    state = vsid_state_lock();
+    played = (bool)(state->tunes_played[(tune - 1) >> 3] & (1 << ((tune - 1) & 7)));
+    vsid_state_unlock();
+    return played;
+}
+
+
+/** \brief  Clear subtune played flag
+ *
+ * \param[in]   tune    tune number (1-255)
+ */
+void vsid_state_unset_tune_played(int tune)
+{
+    vsid_state_t *state;
+
+    if (tune < 1 || tune > 255) {
+        return;
+    }
+    state = vsid_state_lock();
+    state->tunes_played[(tune - 1) >> 3] &= ~(1 << ((tune - 1) & 7));
+    vsid_state_unlock();
+}
+
+
+/** \brief  Clear all subtunes' played flags
+ */
+void vsid_state_clear_tunes_played(void)
+{
+    vsid_state_t *state = vsid_state_lock();
+
+    memset(state->tunes_played, 0, sizeof(state->tunes_played));
+}
+
+
+/** \brief  Determine if all subtunes have been played
+ *
+ * \return  `true` if all subtunes have been played
+ */
+bool vsid_state_get_all_tunes_played(void)
+{
+    vsid_state_t *state = vsid_state_lock();
+    int t = 0;
+    bool all = true;
+
+    while (t < state->tune_count && t < (int)sizeof(state->tunes_played) * 8) {
+        if ((state->tunes_played[t >> 3] & (1 << (t & 7))) == 0) {
+            all = false;
+            break;
+        }
+        t++;
+    }
+    vsid_state_unlock();
+    return all;
 }

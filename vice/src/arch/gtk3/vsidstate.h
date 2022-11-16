@@ -67,6 +67,15 @@ typedef struct vsid_state_s {
      */
     int tune_previous;
 
+    /** \brief  Bitmap of played subtunes
+     *
+     * Keeps track of played subtunes so the player can advance to the next
+     * tune in the playlist when all (selected?) subtunes have been played.
+     *
+     * The lowest bit is tune 1, the highest bit is tune 256.
+     */
+    uint8_t tunes_played[256 / 8];
+
     /** \brief  Default tune number */
     int  tune_default;
     /** \brief  Default tune number needs to be updated in the UI */
@@ -133,5 +142,11 @@ vsid_state_t *  vsid_state_lock    (void);
 void            vsid_state_unlock  (void);
 void            vsid_state_init    (void);
 void            vsid_state_shutdown(void);
+
+void vsid_state_set_tune_played(int tune);
+bool vsid_state_get_tune_played(int tune);
+void vsid_state_unset_tune_played(int tune);
+void vsid_state_clear_tunes_played(void);
+bool vsid_state_get_all_tunes_played(void);
 
 #endif
