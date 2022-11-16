@@ -1316,7 +1316,7 @@ static cmdline_option_t const cmdline_options[] =
     /* disable keyboard debugging display in the statusbar */
     { "+kbdstatusbar", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "KbdStatusbar", (resource_value_t)0,
-        NULL, "Enable keyboard-status bar" },
+        NULL, "Disable keyboard-status bar" },
 
     CMDLINE_LIST_END
 };
