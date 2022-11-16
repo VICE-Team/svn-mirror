@@ -48,14 +48,13 @@
 #include <string.h>
 
 #include "archdep_get_hvsc_dir.h"
-#include "vice_gtk3.h"
-#include "lib.h"
 #include "hvsc.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "uivsidwindow.h"
-#include "vsidtuneinfowidget.h"
+#include "vice_gtk3.h"
 #include "vsidplaylistadddialog.h"
+#include "vsidtuneinfowidget.h"
 
 #include "vsidplaylistwidget.h"
 
@@ -68,12 +67,12 @@ enum {
 
 /* Playlist column indexes */
 enum {
-    COL_TITLE,      /**< title */
-    COL_AUTHOR,     /**< author */
-    COL_FULLPATH,   /**< full path to psid file */
-    COL_DISPPATH,   /**< displayed path (HVSC stripped if possible) */
+    COL_TITLE,          /**< title */
+    COL_AUTHOR,         /**< author */
+    COL_FULL_PATH,      /**< full path to psid file */
+    COL_DISPLAY_PATH,   /**< displayed path (HVSC stripped if possible) */
 
-    NUM_COLUMNS     /**< number of columns in the model */
+    NUM_COLUMNS         /**< number of columns in the model */
 };
 
 /** \brief  Playlist control button struct
@@ -84,20 +83,6 @@ typedef struct plist_ctrl_button_s {
     void        (*callback)(GtkWidget *, gpointer); /**< callback function */
     const char *tooltip;    /**< tooltip text */
 } plist_ctrl_button_t;
-
-
-/** \brief  Playlist state object
- *
- * This can be used to get the current playlist state without going through
- * some of the boilerplate hell of Gtk's tree/list models/views
- */
-typedef struct plist_state_s {
-    GtkTreeModel *      model;      /**< playlist model */
-    GtkTreeSelection *  selection;  /**< model selection */
-    GtkTreeIter         iter;       /**< model iterator */
-    GtkTreePath *       path;       /**< path to current selection */
-    gchar *             path_str;   /**< path as string */
-} plist_state_t;
 
 /** \brief  Type of context menu item types
  */
@@ -114,7 +99,6 @@ typedef struct ctx_menu_item_s {
     gboolean                (*callback)(GtkWidget *, gpointer);
     ctx_menu_item_type_t    type;   /**< menu item type, \see ctx_menu_item_type_t */
 } ctx_menu_item_t;
-
 
 /** \brief  VSID Hotkey info object
  */
@@ -166,64 +150,26 @@ static gchar *strip_hvsc_base(const gchar *path)
     return g_strdup(path);
 }
 
-/** \brief  Initialize playlist \a state object
+/** \brief  Scroll view so the selected row is visible
  *
- * Initializes \a state to an invalid/empty state
+ * \param[in]   iter    tree view iter
  *
- * \param[out]  state   playlist state object
+ * \note    This function assumes the iter is valid since there's no quick
+ *          way to check if the iter is valid
  */
-static void playlist_state_init(plist_state_t *state)
+static void scroll_to_iter(GtkTreeIter *iter)
 {
-    state->selection = NULL;
-    state->model = NULL;
+    GtkTreePath *path;
 
-    /* TODO: init iter to some initial state */
-
-    state->path = NULL;
-    state->path_str = NULL;
+    path = gtk_tree_model_get_path(GTK_TREE_MODEL(playlist_model), iter);
+    gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(playlist_view),
+                                 path,
+                                 NULL,      /* no column since we provide path */
+                                 FALSE,     /* don't align, just do the minimum */
+                                 0.0, 0.0); /* alignments, ignored */
+    gtk_tree_path_free(path);
 }
 
-/** \brief  Get current playlist state
- *
- * Get the Gtk tree model, selection, iterator, path and all that jazz of the
- * playlist.
- *
- * \param[out]  state   playlist state
- *
- * \return  TRUE if valid iterator and thus state.
- */
-static gboolean playlist_state_get(plist_state_t *state)
-{
-    playlist_state_init(state);
-
-    state->selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
-    if (gtk_tree_selection_get_selected(state->selection,
-                                        &(state->model),
-                                        &(state->iter))) {
-            /* got proper iter */
-            state->path = gtk_tree_model_get_path(state->model, &(state->iter));
-            state->path_str = gtk_tree_path_to_string(state->path);
-            return TRUE;
-    }
-    return FALSE;
-}
-
-/** \brief  Free members of \a state and reset \a state for next use
- *
- * \param[in,out]   state   playlist state object
- */
-static void playlist_state_free(plist_state_t *state)
-{
-    if (state->path != NULL) {
-        gtk_tree_path_free(state->path);
-    }
-    if (state->path_str != NULL) {
-        g_free(state->path_str);
-    }
-
-    /* reset for future use */
-    playlist_state_init(state);
-}
 
 /** \brief  Add SID files to the playlist
  *
@@ -361,8 +307,8 @@ static void on_row_activated(GtkTreeView *view,
                              gpointer data)
 {
     GtkTreeIter iter;
-    GValue value = G_VALUE_INIT;
     const gchar *filename;
+    GValue value = G_VALUE_INIT;
 
     if (!gtk_tree_model_get_iter(GTK_TREE_MODEL(playlist_model), &iter, path)) {
         debug_gtk3("error: failed to get tree iter.");
@@ -371,19 +317,17 @@ static void on_row_activated(GtkTreeView *view,
 
     gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model),
                              &iter,
-                             COL_FULLPATH,
+                             COL_FULL_PATH,
                              &value);
     filename = g_value_get_string(&value);
 
     if (ui_vsid_window_load_psid(filename) < 0) {
-
         /* looks like adding files to the playlist already checks the files
          * being added, so this may not be neccesarry */
-        char *msg;
+        char msg[1024];
 
-        msg = lib_msprintf("'%s' is not a valid PSID file", filename);
+        g_snprintf(msg, sizeof(msg), "'%s' is not a valid PSID file", filename);
         ui_display_statustext(msg, 10);
-        lib_free(msg);
     }
 
     g_value_unset(&value);
@@ -428,27 +372,28 @@ static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data)
  */
 static void on_playlist_first_clicked(GtkWidget *widget, gpointer data)
 {
-    plist_state_t state;
+    GtkTreeIter iter;
 
-    if (playlist_state_get(&state)) {
-        if (gtk_tree_model_get_iter_first(state.model, &(state.iter))) {
+    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(playlist_model), &iter)) {
+        const gchar *filename;
+        GtkTreeSelection *selection;
+        GValue value = G_VALUE_INIT;
 
-            GValue value = G_VALUE_INIT;
-            const gchar *filename;
+        /* get selection object, unselect all rows and select the first row */
+        selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+        gtk_tree_selection_unselect_all(selection);
+        gtk_tree_selection_select_iter(selection, &iter);
+        /* scroll row into view */
+        scroll_to_iter(&iter);
+        gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model),
+                                 &iter,
+                                 COL_FULL_PATH,
+                                 &value);
+        filename = g_value_get_string(&value);
 
-            gtk_tree_selection_select_iter(state.selection, &(state.iter));
-            gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
-                                     &(state.iter),
-                                     COL_FULLPATH,
-                                     &value);
-            filename = g_value_get_string(&value);
-
-            /* TODO: check result */
-            ui_vsid_window_load_psid(filename);
-
-            g_value_unset(&value);
-            playlist_state_free(&state);
-        }
+        /* TODO: check result */
+        ui_vsid_window_load_psid(filename);
+        g_value_unset(&value);
     }
 }
 
@@ -459,30 +404,38 @@ static void on_playlist_first_clicked(GtkWidget *widget, gpointer data)
  */
 static void on_playlist_last_clicked(GtkWidget *widget, gpointer data)
 {
-    plist_state_t state;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
 
-    if (playlist_state_get(&state)) {
+    /* get selection object and deselect all rows */
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    gtk_tree_selection_unselect_all(selection);
 
-        GValue value = G_VALUE_INIT;
+    /* There is no gtk_tree_model_get_iter_last(), so: */
+    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(playlist_model), &iter)) {
+        GtkTreeIter prev;
         const gchar *filename;
-        GtkTreeIter temp;
+        GValue value = G_VALUE_INIT;
 
-        /* This is complete bollocks, there is no gtk_tree_model_iter_last() */
-        temp = state.iter;
-        while (gtk_tree_model_iter_next(state.model, &(state.iter))) {
-            temp = state.iter;
+        /* move to last row */
+        prev = iter;
+        while (gtk_tree_model_iter_next(GTK_TREE_MODEL(playlist_model), &iter)) {
+            prev = iter;
         }
+        iter = prev;
+        gtk_tree_selection_select_iter(selection, &iter);
+        /* scroll row into view */
+        scroll_to_iter(&iter);
 
-        gtk_tree_selection_select_iter(state.selection, &temp);
-        gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
-                                 &(temp),
-                                 COL_FULLPATH,
+        /* now get the sid filename and load it */
+        gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model),
+                                 &iter,
+                                 COL_FULL_PATH,
                                  &value);
         filename = g_value_get_string(&value);
         ui_vsid_window_load_psid(filename);
 
         g_value_unset(&value);
-        playlist_state_free(&state);
     }
 }
 
@@ -503,28 +456,37 @@ static void on_playlist_clear_clicked(GtkWidget *widget, gpointer data)
  */
 static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
 {
-    plist_state_t state;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
 
-    if (playlist_state_get(&state)) {
-        if (gtk_tree_model_iter_next(state.model, &(state.iter))) {
-
-            GValue value = G_VALUE_INIT;
+    /* we can't take the address of GTK_TREE_MODEL(x) so we need this: */
+    model = GTK_TREE_MODEL(playlist_model);
+    /* get selection object and temporarily set mode to single-selection so
+     * we can get an iter (this will keep the 'anchor' selected: the first
+     * row clicked when selecting multiple rows) */
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+    if (gtk_tree_selection_get_selected(selection,
+                                        &model,
+                                        &iter)) {
+        if (gtk_tree_model_iter_next(model, &iter)) {
             const gchar *filename;
+            GValue value = G_VALUE_INIT;
 
-            gtk_tree_selection_select_iter(state.selection, &(state.iter));
-
-            gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
-                                     &(state.iter),
-                                     COL_FULLPATH,
+            gtk_tree_selection_select_iter(selection, &iter);
+            scroll_to_iter(&iter);
+            gtk_tree_model_get_value(model,
+                                     &iter,
+                                     COL_FULL_PATH,
                                      &value);
             filename = g_value_get_string(&value);
             ui_vsid_window_load_psid(filename);
-
             g_value_unset(&value);
-
-            playlist_state_free(&state);
         }
     }
+    /* restore multi-select */
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
 }
 
 /** \brief  Go to previous entry in the playlist
@@ -534,27 +496,37 @@ static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
  */
 static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data)
 {
-    plist_state_t state;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
 
-    if (playlist_state_get(&state)) {
-        if (gtk_tree_model_iter_previous(state.model, &(state.iter))) {
-
-            GValue value = G_VALUE_INIT;
+    /* we can't take the address of GTK_TREE_MODEL(x) so we need this: */
+    model = GTK_TREE_MODEL(playlist_model);
+    /* get selection object and temporarily set mode to single-selection so
+     * we can get an iter (this will keep the 'anchor' selected: the first
+     * row clicked when selecting multiple rows) */
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+    if (gtk_tree_selection_get_selected(selection,
+                                        &model,
+                                        &iter)) {
+        if (gtk_tree_model_iter_previous(model, &iter)) {
             const gchar *filename;
+            GValue value = G_VALUE_INIT;
 
-            gtk_tree_selection_select_iter(state.selection, &(state.iter));
-
-            gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
-                                     &(state.iter),
-                                     COL_FULLPATH,
+            gtk_tree_selection_select_iter(selection, &iter);
+            scroll_to_iter(&iter);
+            gtk_tree_model_get_value(model,
+                                     &iter,
+                                     COL_FULL_PATH,
                                      &value);
             filename = g_value_get_string(&value);
             ui_vsid_window_load_psid(filename);
-
             g_value_unset(&value);
-            playlist_state_free(&state);
         }
     }
+    /* restore multi-select */
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
 }
 
 
@@ -715,7 +687,7 @@ static void vsid_playlist_view_create(void)
     column = gtk_tree_view_column_new_with_attributes(
             "Path",
             renderer,
-            "text", COL_DISPPATH,
+            "text", COL_DISPLAY_PATH,
             NULL);
     gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
@@ -912,8 +884,8 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
                            &iter,
                            COL_TITLE, "n/a",
                            COL_AUTHOR, "n/a",
-                           COL_FULLPATH, path,
-                           COL_DISPPATH, path,
+                           COL_FULL_PATH, path,
+                           COL_DISPLAY_PATH, path,
                            -1);
 
     } else {
@@ -935,8 +907,8 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
                            &iter,
                            COL_TITLE, name_utf8,
                            COL_AUTHOR, author_utf8,
-                           COL_FULLPATH, path,
-                           COL_DISPPATH, display_path,
+                           COL_FULL_PATH, path,
+                           COL_DISPLAY_PATH, display_path,
                           -1);
 
         /* clean up */
