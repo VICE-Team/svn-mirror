@@ -49,6 +49,7 @@
 
 #include "archdep_get_hvsc_dir.h"
 #include "hvsc.h"
+#include "lib.h"
 #include "m3u.h"
 #include "resources.h"
 #include "uiapi.h"
@@ -125,6 +126,13 @@ static GtkWidget *playlist_view;
  * Gets updated with the number of tunes in the list.
  */
 static GtkWidget *title_widget;
+
+/** \brief  Playlist title
+ *
+ * Set when loading an m3u file with the "\#PLAYLIST:" directive.
+ * Freed when the main widget is destroyed.
+ */
+static char *playlist_title;
 
 
 /** \brief  Strip HVSC base dir from \a path
@@ -301,12 +309,20 @@ static bool playlist_entry_handler(const char *text, size_t len)
  */
 static bool playlist_directive_handler(m3u_ext_id_t id, const char *text, size_t len)
 {
+    const char *title;
+
     switch (id) {
         case M3U_EXTM3U:
             debug_gtk3("HEADER: Valid M3Uext 1.1 file");
             break;
         case M3U_PLAYLIST:
-            debug_gtk3("TITLE: '%s'", text);
+            /* make copy of title, the text pointer is invalidated on the
+             * next line the parser reads */
+            title = util_skip_whitespace(text);
+            /* only set title when not empty and not previously set */
+            if (*title != '\0' && playlist_title == NULL) {
+                playlist_title = lib_strdup(title);
+            }
             break;
         default:
             break;
@@ -333,6 +349,11 @@ static void playlist_load_callback(GtkDialog *dialog,
         if (m3u_open(filename, playlist_entry_handler, playlist_directive_handler)) {
             /* clear playlist now */
             gtk_list_store_clear(playlist_model);
+            /* clear title */
+            if (playlist_title != NULL) {
+                lib_free(playlist_title);
+                playlist_title = NULL;
+            }
 
             /* run the parser to populate the playlist */
             if (!m3u_parse()) {
@@ -367,13 +388,17 @@ static void on_playlist_load_clicked(GtkWidget *widget, gpointer data)
  */
 static void update_title(void)
 {
-    gchar buffer[256];
+    gchar buffer[1024];
     gint rows;
 
     /* get number of top level items by using NULL as an iter */
     rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
 
-    g_snprintf(buffer, sizeof(buffer), "<b>Playlist (%d)</b>", rows);
+    if (playlist_title == NULL) {
+        g_snprintf(buffer, sizeof(buffer), "<b>Playlist (%d)</b>", rows);
+    } else {
+        g_snprintf(buffer, sizeof(buffer), "<b>%s (%d)</b>", playlist_title, rows);
+    }
     gtk_label_set_markup(GTK_LABEL(title_widget), buffer);
 }
 
@@ -390,6 +415,10 @@ static void update_title(void)
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
     vsid_playlist_add_dialog_free();
+    if (playlist_title != NULL) {
+        lib_free(playlist_title);
+        playlist_title = NULL;
+    }
 }
 
 
