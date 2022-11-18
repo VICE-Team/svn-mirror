@@ -94,6 +94,12 @@ const char *file_chooser_pattern_fliplist[] = {
     "*.[vV][fF][lL]", "*.[lL][sS][tT]", NULL
 };
 
+/** \brief  Patterns for playlists
+ */
+const char *file_chooser_pattern_playlist[] = {
+    "*.[mM]3[uU]", "*.[mM]3[uU]8", NULL
+};
+
 /** \brief  Patterns for program files
  */
 const char *file_chooser_pattern_program[] = {
@@ -186,6 +192,12 @@ const ui_file_filter_t file_chooser_filter_sid = {
 const ui_file_filter_t file_chooser_filter_fliplist = {
     "Flip lists",
     file_chooser_pattern_fliplist
+};
+
+/** \brief  Filter for playlist files */
+const ui_file_filter_t file_chooser_filter_playlist = {
+    "Playlists",
+    file_chooser_pattern_playlist
 };
 
 /** \brief  Filter for program files */

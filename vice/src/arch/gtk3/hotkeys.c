@@ -774,52 +774,6 @@ static const char *textfile_reader_filename(const textfile_reader_t *reader)
 
 /* {{{ Parser methods and helpers */
 
-/** \brief  Skip leading whitespace in string
- *
- * \param[in]   s   string
- *
- * \return  pointer to first non-whitespace character or terminating nul
- */
-static const char *skip_whitespace(const char *s)
-{
-    while (*s != '\0' && isspace((int)*s)) {
-        s++;
-    }
-    return s;
-}
-
-
-/** \brief  Skip trailing whitespace in string
- *
- * \param[in]   s   string
- *
- * \return  pointer to first non-whitespace character or terminating nul,
- *          starting from the end of the string
- */
-static const char *skip_whitespace_trailing(const char *s)
-{
-    const char *p;
-
-    if (*s == '\0') {
-        /* empty string */
-        return s;
-    }
-
-    /* last character in the string */
-    p = s + strlen(s) - 1;
-
-    while (*p != '\0' && isspace((int)*p)) {
-        p--;
-    }
-    if (p < s) {
-        /* entire string contained whitespace */
-        return s;
-    } else {
-        return p;
-    }
-}
-
-
 /** \brief  Strip leading and trailing whitespace
  *
  * Remove leading and trailing whitespace from string \a s.
@@ -835,14 +789,14 @@ static char *parser_strtrim(const char *s)
 {
     char *t;
 
-    s = skip_whitespace(s);
+    s = util_skip_whitespace(s);
 
     if (*s == '\0') {
         /* empty string */
         t = lib_calloc(1, 1);
     } else {
         /* trim trailing whitespace */
-        const char *p = skip_whitespace_trailing(s);
+        const char *p = util_skip_whitespace_trailing(s);
         p++;
         /* add 1 for the terminating nul char */
         t = lib_malloc(p - s + 1);
@@ -1245,7 +1199,7 @@ static bool parser_do_debug(const char *line, textfile_reader_t *reader)
 #if 0
     debug_gtk3("Found !DEBUG, check arg.");
 #endif
-    arg = skip_whitespace(line);
+    arg = util_skip_whitespace(line);
     for (i = 0; i < ARRAY_LEN(debug_arglist); i++) {
         if (util_strncasecmp(debug_arglist[i].symbol,
                              arg,
@@ -1294,7 +1248,7 @@ static bool parser_do_include(const char *line, textfile_reader_t *reader)
     char *a;
     bool result;
 
-    s = skip_whitespace(line);
+    s = util_skip_whitespace(line);
     if (*s == '\0') {
         /* missing argument */
         log_message(hotkeys_log,
@@ -1393,7 +1347,7 @@ static bool parser_do_undef(const char *line, textfile_reader_t *reader)
     guint keyval;
     hotkey_map_t *map;
 
-    s = skip_whitespace(line);
+    s = util_skip_whitespace(line);
     if (*s == '\0') {
         /* error: missing argument */
         log_message(hotkeys_log,
@@ -1589,7 +1543,7 @@ static bool parser_handle_mapping(const char *line, textfile_reader_t* reader)
     memcpy(action_name, oldpos, s - oldpos);
     action_name[s - oldpos] = '\0';
 
-    s = skip_whitespace(s);
+    s = util_skip_whitespace(s);
 
     /* get combined modifier masks and keyval */
     if (!parser_get_gdk_mask_and_keyval(s, &s, reader, &mask, &keysym)) {

@@ -95,6 +95,8 @@ extern char *util_find_next_line(const char *pos);
 
 extern char util_tolower(char c);
 extern char util_toupper(char c);
+const char *util_skip_whitespace(const char *s);
+const char *util_skip_whitespace_trailing(const char *s);
 
 extern char *util_gen_hex_address_list(int start, int stop, int step);
 
