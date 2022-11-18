@@ -3,7 +3,7 @@ on:
   push:
     tags:
     - 'r[0-9]+' # any tag name that looks like an svn commit
-concurrency: 
+concurrency:
   group: Snapshot Build
   cancel-in-progress: true
 
@@ -16,7 +16,7 @@ jobs:
         fail-fast: false
         matrix:
           ui: [ GTK3, SDL2 ]
-      
+
       steps:
         - name: Install Dependencies
           shell: bash
@@ -28,10 +28,10 @@ jobs:
             brew install ffmpeg@4 glew xa lame libvorbis flac
 
         - name: Checkout Source
-          uses: actions/checkout@v2
-        
+          uses: actions/checkout@v3
+
         - name: Checkout Pages
-          uses: actions/checkout@v2
+          uses: actions/checkout@v3
           with:
             ref: 'gh-pages'
             path: 'gh-pages'
@@ -45,7 +45,7 @@ jobs:
           shell: bash
           run: |
             cd gh-pages
-            
+
             git add .
             git commit -m "Updated $UI static analysis output"
 
@@ -74,7 +74,7 @@ jobs:
                   repo: context.repo.repo
                 }))
                 .sort((a,b) => b.created_at.localeCompare(a.created_at));
-            
+
             let releaseCount = 0;
             let releasesToDelete = [];
 
@@ -92,17 +92,17 @@ jobs:
                 releasesToDelete.push(release.id);
                 continue;
               }
-              
+
               // Keep at least 10, no matter how old
               if (++releaseCount <= 10)
                 continue;
-              
+
               // We have more than 10 releases - delete those more than 30 days old
               let daysAgo = Math.floor((new Date() - Date.parse(release.created_at)) / 1000 / 60 / 60 / 24);
 
               if (daysAgo <= 30)
                 continue;
-              
+
               console.log("Will delete old prerelease: " + release.tag_name);
               releasesToDelete.push(release.id);
             }
@@ -121,7 +121,7 @@ jobs:
                       release_id: id
                     }));
               }
-              
+
               console.log("Waiting for deletions to complete");
               await Promise.all(promises);
             }
@@ -151,13 +151,13 @@ jobs:
     name: Style check, Test Headless, Build Documentation
     needs: create_release
     runs-on: ubuntu-latest
-    
+
     steps:
       - shell: bash
         run: git config --global core.autocrlf input
-      
+
       - name: Checkout Source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Dependencies
         shell: bash
@@ -183,7 +183,7 @@ jobs:
           name: vice-pdf
           path: vice/doc/vice.pdf
           retention-days: 1
-  
+
   build:
     name: Build
     needs: [create_release, build_doc]
@@ -200,7 +200,7 @@ jobs:
         shell: bash
 
       - name: Checkout Source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download Documentation
         uses: actions/download-artifact@v2
@@ -234,7 +234,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-ffmpeg
             mingw-w64-${{ matrix.arch.arch }}-libpcap
             mingw-w64-${{ matrix.arch.arch }}-gtk3
-      
+
       - name: Install SDL2 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL2' }}
         uses: msys2/setup-msys2@v2
@@ -283,7 +283,7 @@ jobs:
           asset_path: ${{ steps.build.outputs.zip_path }}
           asset_name: ${{ steps.build.outputs.zip_name }}
           asset_content_type: application/zip
-      
+
       - name: Upload 7Zip
         id: upload-7zip
         uses: actions/upload-release-asset@v1
@@ -311,7 +311,7 @@ jobs:
                 release_id: ${{ needs.create_release.outputs.release_id }},
                 draft: false
               });
-            
+
   build_error_notify:
     name: IRC Notification of Build Errors
     needs: [static_analysis, cleanup_previous_builds, create_release, build_doc, build, publish_release]
@@ -320,9 +320,9 @@ jobs:
     steps:
       - shell: bash
         run: git config --global core.autocrlf input
-      
+
       - name: Checkout Source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Notify IRC of Build Failure
         env:
