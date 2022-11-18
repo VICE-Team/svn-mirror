@@ -8,55 +8,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  static_analysis:
-      name: Static Analysis
-      runs-on: macos-10.15
-      needs: build_doc
-      strategy:
-        fail-fast: false
-        matrix:
-          ui: [ GTK3, SDL2 ]
-
-      steps:
-        - name: Install Dependencies
-          shell: bash
-          run: |
-            pip3 install scan-build
-            brew install autoconf automake pkg-config dos2unix
-            brew install sdl2 sdl2_image
-            brew install gtk+3 librsvg adwaita-icon-theme glib-utils
-            brew install ffmpeg@4 glew xa lame libvorbis flac
-
-        - name: Checkout Source
-          uses: actions/checkout@v3
-
-        - name: Checkout Pages
-          uses: actions/checkout@v3
-          with:
-            ref: 'gh-pages'
-            path: 'gh-pages'
-
-        - name: Analyse
-          shell: bash
-          run: |
-            ./vice/build/github-actions/build-macos.sh analyse "${{ matrix.ui }}" "$(echo "${{ github.ref }}" | sed 's,.*/,,')"
-
-        - name: Publish Results
-          shell: bash
-          run: |
-            cd gh-pages
-
-            git add .
-            git commit -m "Updated $UI static analysis output"
-
-            # Try to avoid the race condition between the the two analysis runs
-            for i in $(seq 1 3)
-            do
-              git pull --rebase
-              git push && break
-              sleep 15
-            done
-
   cleanup_previous_builds: # Delete unfinished draft prereleases, and prereleases older than 30 days (but keep at least 10)
     name: Cleanup Previous Builds
     runs-on: ubuntu-latest
@@ -314,7 +265,7 @@ jobs:
 
   build_error_notify:
     name: IRC Notification of Build Errors
-    needs: [static_analysis, cleanup_previous_builds, create_release, build_doc, build, publish_release]
+    needs: [cleanup_previous_builds, create_release, build_doc, build, publish_release]
     runs-on: ubuntu-latest
     if: ${{ failure() }}
     steps:
