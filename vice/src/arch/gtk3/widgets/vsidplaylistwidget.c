@@ -49,9 +49,11 @@
 
 #include "archdep_get_hvsc_dir.h"
 #include "hvsc.h"
+#include "m3u.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "uivsidwindow.h"
+#include "util.h"
 #include "vice_gtk3.h"
 #include "vsidplaylistadddialog.h"
 #include "vsidtuneinfowidget.h"
@@ -107,6 +109,7 @@ typedef struct vsid_hotkey_s {
     guint modifiers;                                /**< GDK modifiers */
     gboolean (*callback)(GtkWidget *, gpointer);    /**< hotkey callback */
 } vsid_hotkey_t;
+
 
 
 /** \brief  Reference to the playlist model
@@ -261,6 +264,104 @@ static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
     vsid_playlist_add_dialog_exec(add_files_callback);
     return TRUE;
 }
+
+
+
+/*
+ * Playlist loading
+ */
+
+/** \brief  M3U entry handler
+ *
+ * Called by the m3u parser when encountering a normal entry.
+ *
+ * \param[in]   text    entry text
+ * \param[in]   len     length of \a text
+ *
+ * \return  `false` to stop the parser on an error
+ */
+static bool playlist_entry_handler(const char *text, size_t len)
+{
+    const char *s = util_skip_whitespace(text);
+
+    debug_gtk3("Got string: '%s' (%zu)", s, len - (s - text));
+    vsid_playlist_widget_append_file(text);
+    return true;
+}
+
+/** \brief  M3U directive handler
+ *
+ * Called by the m3u parser when encountering an extended m3u directive.
+ *
+ * \param[in]   id      directive ID
+ * \param[in]   text    text following the directive
+ * \param[in]   len     length of \a text
+ *
+ * \return  `false` to stop the parser on an error
+ */
+static bool playlist_directive_handler(m3u_ext_id_t id, const char *text, size_t len)
+{
+    switch (id) {
+        case M3U_EXTM3U:
+            debug_gtk3("HEADER: Valid M3Uext 1.1 file");
+            break;
+        case M3U_PLAYLIST:
+            debug_gtk3("TITLE: '%s'", text);
+            break;
+        default:
+            break;
+    }
+    return true;
+}
+
+/** \brief  Callback for the load-playlist dialog
+ *
+ * \param[in]   dialog      load-playlist dialog
+ * \param[in]   filename    filename or `NULL` when canceled
+ * \param[in]   data        extra callback data (ignored)
+ */
+static void playlist_load_callback(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
+{
+    if (filename != NULL) {
+        char buf[1024];
+
+        g_snprintf(buf, sizeof buf, "Loading playlist %s", filename);
+        ui_display_statustext(buf, 0);
+
+        if (m3u_open(filename, playlist_entry_handler, playlist_directive_handler)) {
+            /* clear playlist now */
+            gtk_list_store_clear(playlist_model);
+
+            /* run the parser to populate the playlist */
+            if (!m3u_parse()) {
+                g_snprintf(buf, sizeof buf, "Error parsing %s.", filename);
+                ui_display_statustext(buf, 0);
+            }
+            m3u_close();
+        }
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+static void on_playlist_load_clicked(GtkWidget *widget, gpointer data)
+{
+    GtkWidget *dialog;
+    const char *path;
+
+    /* default to HVSC dir for now */
+    path = archdep_get_hvsc_dir();
+    dialog = vice_gtk3_open_file_dialog("Load playlist",
+                                        "Playlist files",
+                                        file_chooser_pattern_playlist,
+                                        path,
+                                        playlist_load_callback,
+                                        NULL);
+    gtk_widget_show(dialog);
+}
+
 
 /** \brief  Update title of the widget with number of entries in the list
  */
@@ -755,7 +856,7 @@ static const plist_ctrl_button_t controls[] = {
       "Remove selected tune from playlist" },
     { "document-open",
       BUTTON_PUSH,
-      NULL,
+      on_playlist_load_clicked,
       "Open playlist file" },
     { "document-save",
       BUTTON_PUSH,
@@ -936,3 +1037,6 @@ void vsid_playlist_widget_remove_file(int row)
     }
     /* TODO: actually remove item :) */
 }
+
+
+

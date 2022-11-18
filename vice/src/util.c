@@ -447,6 +447,10 @@ int util_file_save(const char *name, uint8_t *src, int size)
     return 0;
 }
 
+
+
+
+
 /* Input one line from the file descriptor `f'.  FIXME: we need something
    better, like GNU `getline()'.  */
 int util_get_line(char *buf, int bufsize, FILE *f)
@@ -862,6 +866,50 @@ char util_toupper(char c)
     return (char)toupper((int)c);
 }
 
+/** \brief  Skip leading whitespace in string
+ *
+ * \param[in]   s   string
+ *
+ * \return  pointer to first non-whitespace character or terminating nul
+ */
+const char *util_skip_whitespace(const char *s)
+{
+    while (*s != '\0' && isspace((int)*s)) {
+        s++;
+    }
+    return s;
+}
+
+/** \brief  Skip trailing whitespace in string
+ *
+ * \param[in]   s   string
+ *
+ * \return  pointer to first non-whitespace character or terminating nul,
+ *          starting from the end of the string
+ */
+const char *util_skip_whitespace_trailing(const char *s)
+{
+    const char *p;
+
+    if (*s == '\0') {
+        /* empty string */
+        return s;
+    }
+
+    /* last character in the string */
+    p = s + strlen(s) - 1;
+
+    while (*p != '\0' && isspace((int)*p)) {
+        p--;
+    }
+    if (p < s) {
+        /* entire string contained whitespace */
+        return s;
+    } else {
+        return p;
+    }
+}
+
 /* generate a list in the form "%X/%X/.../%X" */
 char *util_gen_hex_address_list(int start, int stop, int step)
 {
@@ -1011,7 +1059,7 @@ int util_strncasecmp(const char *s1, const char *s2, size_t n)
         n--;
     }
 
-    if ((*s1 != '\0' && *s2 != '\0') || (*s1 == '\0' && *s2 == '\0')) {
+    if ((n == 0) || (*s1 != '\0' && *s2 != '\0') || (*s1 == '\0' && *s2 == '\0')) {
         return 0;
     } else if (*s1 == '\0') {
         return -1;

@@ -229,6 +229,7 @@ noinst_HEADERS = \
 	monitor.h \
 	mos6510.h \
 	mos6510dtv.h \
+	m3u.h \
 	network.h \
 	opencbmlib.h \
 	palette.h \
@@ -318,6 +319,7 @@ base_sources = \
 	machine.c \
 	main.c \
 	mainlock.c \
+	m3u.c \
 	network.c \
 	opencbmlib.c \
 	palette.c \
